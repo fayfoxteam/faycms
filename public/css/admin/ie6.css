@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+.menu li.sel a.menu-head:hover {
+	background-color: #777777;
+	color:#FFFFFF;
+}
+.menuback{
+	background:none;
+}
+.menushadow{
+	background:none;
+}
+.btn-1{
+	border:0 none;
+}
+input.btn-1{
+	padding:5px 3px 3px;
+}
+.ffhelp-link-wrap{
+	margin-right:8px;
+}

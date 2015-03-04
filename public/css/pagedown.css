@@ -1,0 +1,34 @@
+#wmd-button-bar{padding:7px 5px;}
+#wmd-input{border:0;outline:0 none;padding:0.5%;}
+#wmd-input:focus{box-shadow:none;}
+.wmd-preview{background-color:#fff;width:48.7%;padding:0.5%;overflow:auto;float:right;}
+.wmd-button-row{position:relative;height:20px;}
+.wmd-spacer{width:1px; height:20px; margin-left:14px;position:absolute;background-color:Silver;display:inline-block; list-style:none;}
+.wmd-button{width:20px;height:20px;padding-left:2px;padding-right:3px;position:absolute;display:inline-block;list-style:none;cursor:pointer;}
+.wmd-button > span{background-image:url(wmd-buttons.png);background-repeat:no-repeat;background-position:0px 0px;width:20px;height:20px;display:inline-block;}
+.wmd-spacer1{left:50px;}
+.wmd-spacer2{left:175px;}
+.wmd-spacer3{left:300px;}
+.wmd-prompt-background{background-color:Black;}
+.wmd-prompt-dialog{border:1px solid #999999;background-color:#F5F5F5;}
+.wmd-prompt-dialog > div{font-size:0.8em;font-family:arial, helvetica, sans-serif;}
+.wmd-prompt-dialog > form > input[type="text"]{border:1px solid #999999;color:black;}
+.wmd-prompt-dialog > form > input[type="button"]{border:1px solid #888888;font-family:trebuchet MS, helvetica, sans-serif;font-size:0.8em;font-weight:bold;}
+.wmd-preview table{border:1px solid black;border-collapse:collapse;}
+.wmd-preview table td{border:1px solid black;padding:5px;}
+
+#wmd-model-links{position:relative;z-index:2;float:right;}
+#wmd-model-links a{background:url(admin/images/cut-off-line.png) no-repeat scroll right 2px transparent;padding:0 9px 0 5px;}
+#wmd-model-links a:last-child{background:0 none;}
+
+.wmd-preview h1{padding:12px 0;}
+.wmd-preview h2{padding:10px 0;}
+.wmd-preview h3{padding:8px 0;}
+.wmd-preview p{margin-bottom:10px;}
+.wmd-preview ul,#wmd-preview ol{padding-left:20px;margin-bottom:10px;}
+.wmd-preview ol{padding-left:40px;}
+.wmd-preview ul > li{list-style-type:disc;}
+.wmd-preview ul > li > ul > li{list-style-type:square;}
+.wmd-preview ol li{list-style-type:decimal;}
+.wmd-preview blockquote{padding:9px 11px;margin-bottom:18px;border-left:5px solid #eeeeee;}
+.wmd-preview blockquote p:last-child,blockquote ul:last-child,blockquote ol:last-child{margin-bottom:0;}

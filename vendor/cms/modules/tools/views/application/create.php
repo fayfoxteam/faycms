@@ -9,7 +9,7 @@ use fay\helpers\Html;
 				<?php echo Html::inputText('name', '', array(
 					'data-required'=>'required',
 					'data-rule'=>'string',
-					'data-params'=>'{format:"alias"}',
+					'data-params'=>'{format:\'alias\'}',
 					'data-label'=>'项目名称',
 					'data-ajax'=>$this->url('tools/application/is-app-not-exist'),
 					'class'=>'w300',

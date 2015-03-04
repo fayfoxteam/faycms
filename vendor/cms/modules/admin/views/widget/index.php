@@ -44,7 +44,7 @@ use fay\helpers\Html;
 					<?php echo Html::inputText('alias', '', array(
 						'data-rule'=>'string',
 						'data-label'=>'别名',
-						'data-params'=>'{max:255,format:"alias"}',
+						'data-params'=>'{max:255,format:\'alias\'}',
 						'data-ajax'=>$this->url('admin/widget/is-alias-not-exist'),
 						'class'=>'w400',
 					))?>

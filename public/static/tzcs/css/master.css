@@ -20,6 +20,7 @@
 .sidebar .title{ background:url(../images/left_title.jpg) no-repeat; height:40px; line-height:40px; color:#FFF; font-size:15px; text-indent:2em;}
 .sidebar ul.menu li{ background:url(../images/menu_li_bg.jpg) no-repeat; height:43px; line-height:43px; padding-left:30px; font-size:14px; color:#82846f; margin-top:10px;}
 .sidebar .contact_nr{ background:url(../images/left_lx_bg.jpg) repeat-x; height:174px; padding:8px 15px; line-height:2.4em; font-size:13px;}
+.sidebar ul.menu a:hover{color:#289cc7;}
 
 .t1{ border-bottom:2px solid #aaa; position:relative; height:40px; line-height:40px;font-size:15px; font-weight:bold}
 .t1 a{ float:right;}

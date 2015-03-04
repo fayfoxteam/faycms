@@ -5,14 +5,8 @@
 
 	<!--左侧-->
 	<div class="sidebar fleft">
-    	<div class="title">服务项目 Service</div>
-        <ul class="menu">
-        	<li>拆旧、敲墙、酒店、商场</li>
-            <li>宾馆拆旧工程</li>
-            <li>建筑工地废旧厂房拆酒店</li>
-            <li>娱乐场所</li>
-            <li>建筑工地及家庭</li>
-        </ul>
+    	 <?php F::app()->widget->load('friendly_links')?>
+    	 
          <div class="title mt10"><?php echo $contact['title']?></div>
         <div class="contact_nr">
         	<?php echo $contact['content']?>

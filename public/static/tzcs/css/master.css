@@ -65,6 +65,7 @@
 .main_right ul.text_list{ padding:15px 0;}
 .main_right ul.text_list li { height:40px; line-height:40px; font-size:15px; border-bottom:1px dotted #C9C9C9; color:#0061aa; letter-spacing:1px;}
 .main_right ul.text_list li span{ float:right; color:#b1b1b1; font-size:12px;}
+.main_right ul.text_list li a:hover{margin-left:5px;color: #289cc7;}
 
 /*分页*/
 .page{ text-align:center; font-size:14px; letter-spacing:1px; color:#666; margin:30px 0;}

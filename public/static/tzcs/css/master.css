@@ -2,6 +2,7 @@
 /* CSS Document */
 
 .head .logo{ height:55px; padding:20px 0;}
+.logo .fright .tright a:hover{color:#289cc7;}
 
 .nav{ background:url(../images/nav_bj.jpg) repeat-x; height:40px; line-height:40px;}
 .nav ul li{ float:left}

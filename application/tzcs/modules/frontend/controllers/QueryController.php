@@ -8,6 +8,6 @@ class QueryController extends FrontController{
     }
     
     public function index(){
-        
+        echo '页面正在开发中...';
     }
 }

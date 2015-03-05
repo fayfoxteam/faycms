@@ -48,7 +48,7 @@ class ExcelController extends AdminController{
             $count = $excel->sheets[0]['numRows'];
             $realcount = $count-1;
             
-            echo $excel->sheets[0]['cells'][2][8];exit();
+//             echo $excel->sheets[0]['cells'][2][8];exit();//调试方法
             error_reporting(0);
             echo "<button style='width:200px;height:80px;' onclick='window.history.back();'>点击返回</button>";
             $array = $this->config->getFile('array');

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 4.0.10.8
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: 2015-03-04 13:49:38
--- 服务器版本： 5.6.21
--- PHP Version: 5.5.19
+-- 主机: localhost
+-- 生成日期: 2015-03-05 17:07:32
+-- 服务器版本: 5.1.73
+-- PHP 版本: 5.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `fay_tzcs`
+-- 数据库: `fay_tzcs`
 --
 
 -- --------------------------------------------------------
@@ -27,14 +27,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `fay_actionlogs` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `note` varchar(255) NOT NULL DEFAULT '',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `refer` int(10) unsigned NOT NULL DEFAULT '0',
-  `ip_int` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+  `ip_int` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=51 ;
 
 --
 -- 转存表中的数据 `fay_actionlogs`
@@ -76,7 +77,21 @@ INSERT INTO `fay_actionlogs` (`id`, `user_id`, `type`, `note`, `create_time`, `r
 (33, 10000, 16, '编辑文章', 1425470952, 510, 0),
 (34, 10000, 28, '创建了一个小工具实例', 1425471844, 3, 0),
 (35, 10000, 6, '移除分类及其所有子分类', 1425472425, 10003, 0),
-(36, 10000, 16, '编辑文章', 1425472969, 510, 0);
+(36, 10000, 16, '编辑文章', 1425472969, 510, 0),
+(37, 10000, 28, '创建了一个小工具实例', 1425474854, 4, 0),
+(38, 10000, 28, '删除了一个小工具实例', 1425475009, 4, 0),
+(39, 10000, 28, '创建了一个小工具实例', 1425475033, 5, 0),
+(40, 10000, 10, '添加友情链接', 1425475414, 1, 0),
+(41, 10000, 10, '添加友情链接', 1425475465, 2, 0),
+(42, 10000, 17, '编辑页面', 1425475889, 1000, 0),
+(43, 10000, 10, '添加友情链接', 1425477416, 3, 0),
+(44, 10000, 16, '添加文章', 1425478295, 511, 0),
+(45, 10000, 17, '编辑页面', 1425529986, 1000, 2062170520),
+(46, 10000, 10, '添加友情链接', 1425530074, 4, 2062170520),
+(47, 10000, 14, '添加了一个管理员', 1425530813, 10001, 0),
+(48, 10000, 21, '添加了一个角色', 1425531564, 102, 2062170520),
+(49, 10000, 4, '编辑了管理员信息', 1425531577, 10000, 2062170520),
+(50, 10000, 21, '编辑了一个角色', 1425531646, 102, 2062170520);
 
 -- --------------------------------------------------------
 
@@ -85,13 +100,14 @@ INSERT INTO `fay_actionlogs` (`id`, `user_id`, `type`, `note`, `create_time`, `r
 --
 
 CREATE TABLE IF NOT EXISTS `fay_actions` (
-`id` smallint(5) unsigned NOT NULL,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `router` varchar(255) NOT NULL DEFAULT '',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `is_public` tinyint(1) NOT NULL DEFAULT '0',
-  `parent` smallint(5) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+  `parent` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102 ;
 
 --
 -- 转存表中的数据 `fay_actions`
@@ -207,7 +223,7 @@ INSERT INTO `fay_actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `pare
 --
 
 CREATE TABLE IF NOT EXISTS `fay_analyst_caches` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL DEFAULT '0000-00-00',
   `hour` tinyint(3) NOT NULL DEFAULT '-1',
   `site` smallint(5) unsigned NOT NULL DEFAULT '0',
@@ -215,8 +231,9 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_caches` (
   `uv` smallint(5) unsigned NOT NULL DEFAULT '0',
   `ip` smallint(5) unsigned NOT NULL DEFAULT '0',
   `new_visitors` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00'
-) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+  `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
 
 --
 -- 转存表中的数据 `fay_analyst_caches`
@@ -263,7 +280,29 @@ INSERT INTO `fay_analyst_caches` (`id`, `date`, `hour`, `site`, `pv`, `uv`, `ip`
 (38, '2015-03-03', 21, 0, 0, 0, 0, 0, '0.00'),
 (39, '2015-03-03', 22, 0, 0, 0, 0, 0, '0.00'),
 (40, '2015-03-03', 23, 0, 0, 0, 0, 0, '0.00'),
-(41, '2015-03-03', -1, 0, 0, 0, 0, 0, '0.00');
+(41, '2015-03-03', -1, 0, 0, 0, 0, 0, '0.00'),
+(42, '2015-03-04', 16, 0, 2, 1, 1, 1, '100.00'),
+(43, '2015-03-04', 17, 0, 0, 0, 0, 0, '0.00'),
+(44, '2015-03-04', 18, 0, 0, 0, 0, 0, '0.00'),
+(45, '2015-03-04', 19, 0, 0, 0, 0, 0, '0.00'),
+(46, '2015-03-04', 20, 0, 0, 0, 0, 0, '0.00'),
+(47, '2015-03-04', 21, 0, 0, 0, 0, 0, '0.00'),
+(48, '2015-03-05', 0, 0, 0, 0, 0, 0, '0.00'),
+(49, '2015-03-05', 1, 0, 0, 0, 0, 0, '0.00'),
+(50, '2015-03-05', 2, 0, 0, 0, 0, 0, '0.00'),
+(51, '2015-03-05', 3, 0, 0, 0, 0, 0, '0.00'),
+(52, '2015-03-05', 4, 0, 0, 0, 0, 0, '0.00'),
+(53, '2015-03-05', 5, 0, 0, 0, 0, 0, '0.00'),
+(54, '2015-03-05', 6, 0, 0, 0, 0, 0, '0.00'),
+(55, '2015-03-05', 7, 0, 0, 0, 0, 0, '0.00'),
+(56, '2015-03-04', 22, 0, 0, 0, 0, 0, '0.00'),
+(57, '2015-03-04', 23, 0, 0, 0, 0, 0, '0.00'),
+(58, '2015-03-04', -1, 0, 2, 1, 1, 1, '100.00'),
+(59, '2015-03-05', 8, 0, 0, 0, 0, 0, '0.00'),
+(60, '2015-03-05', 9, 0, 0, 0, 0, 0, '0.00'),
+(61, '2015-03-05', 10, 0, 0, 0, 0, 0, '0.00'),
+(62, '2015-03-05', 11, 0, 0, 0, 0, 0, '0.00'),
+(63, '2015-03-05', 12, 0, 5, 2, 2, 2, '50.00');
 
 -- --------------------------------------------------------
 
@@ -272,7 +311,7 @@ INSERT INTO `fay_analyst_caches` (`id`, `date`, `hour`, `site`, `pv`, `uv`, `ip`
 --
 
 CREATE TABLE IF NOT EXISTS `fay_analyst_macs` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_agent` varchar(255) NOT NULL DEFAULT '',
   `browser` varchar(30) NOT NULL DEFAULT '',
   `browser_version` varchar(30) NOT NULL DEFAULT '',
@@ -291,15 +330,20 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_macs` (
   `create_date` date NOT NULL DEFAULT '0000-00-00',
   `hour` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `trackid` varchar(30) NOT NULL DEFAULT '',
-  `site` smallint(5) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `site` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `hash` (`hash`),
+  KEY `date` (`create_date`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- 转存表中的数据 `fay_analyst_macs`
 --
 
 INSERT INTO `fay_analyst_macs` (`id`, `user_agent`, `browser`, `browser_version`, `shell`, `shell_version`, `os`, `ip_int`, `screen_width`, `screen_height`, `url`, `refer`, `se`, `keywords`, `hash`, `create_time`, `create_date`, `hour`, `trackid`, `site`) VALUES
-(1, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36', 'Chrome', '40.0.2214.111', '', '', 'win8.1', 0, 1366, 768, 'http://localhost/faycms/a', 'http://localhost/faycms/install/index/settings', '', '', '354183d94cb0fd2189f8603caa55add6', 1425457737, '2015-03-04', 16, '', 1);
+(1, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36', 'Chrome', '40.0.2214.111', '', '', 'win8.1', 0, 1366, 768, 'http://localhost/faycms/a', 'http://localhost/faycms/install/index/settings', '', '', '354183d94cb0fd2189f8603caa55add6', 1425457737, '2015-03-04', 16, '', 1),
+(2, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36', 'Chrome', '40.0.2214.111', '', '', 'win8.1', 2062170520, 1366, 768, 'http://tzcs.wwhis.com/a', '', '', '', 'f701d8e87798ab38351adfb503c45ed1', 1425529924, '2015-03-05', 12, '', 1),
+(3, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36', 'Chrome', '40.0.2214.111', '', '', 'win8.1', 0, 1366, 768, 'http://localhost/faycms/a', '', '', '', 'e03fa17614877ef799a536b5509223ff', 1425530710, '2015-03-05', 12, '', 1);
 
 -- --------------------------------------------------------
 
@@ -308,11 +352,12 @@ INSERT INTO `fay_analyst_macs` (`id`, `user_agent`, `browser`, `browser_version`
 --
 
 CREATE TABLE IF NOT EXISTS `fay_analyst_sites` (
-`id` smallint(5) unsigned NOT NULL,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- 转存表中的数据 `fay_analyst_sites`
@@ -328,7 +373,7 @@ INSERT INTO `fay_analyst_sites` (`id`, `title`, `description`, `deleted`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `fay_analyst_visits` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `mac` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0',
   `refer` varchar(255) NOT NULL DEFAULT '',
@@ -343,15 +388,21 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_visits` (
   `views` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `HTTP_CLIENT_IP` varchar(255) NOT NULL DEFAULT '',
   `HTTP_X_FORWARDED_FOR` varchar(255) NOT NULL DEFAULT '',
-  `REMOTE_ADDR` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `REMOTE_ADDR` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `pv` (`mac`,`short_url`,`create_time`),
+  KEY `date` (`create_date`,`hour`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- 转存表中的数据 `fay_analyst_visits`
 --
 
 INSERT INTO `fay_analyst_visits` (`id`, `mac`, `ip_int`, `refer`, `url`, `short_url`, `trackid`, `user_id`, `create_time`, `create_date`, `hour`, `site`, `views`, `HTTP_CLIENT_IP`, `HTTP_X_FORWARDED_FOR`, `REMOTE_ADDR`) VALUES
-(1, 1, 0, 'http://localhost/faycms/install/index/settings', 'http://localhost/faycms/a', 'ie8b0b', '', 0, 1425457737, '2015-03-04', 16, 1, 2, '', '', '::1');
+(1, 1, 0, 'http://localhost/faycms/install/index/settings', 'http://localhost/faycms/a', 'ie8b0b', '', 0, 1425457737, '2015-03-04', 16, 1, 2, '', '', '::1'),
+(2, 2, 2062170520, '', 'http://tzcs.wwhis.com/a', 'WTb0ny', '', 0, 1425529924, '2015-03-05', 12, 1, 2, '', '', '122.234.57.152'),
+(3, 3, 0, '', 'http://localhost/faycms/a', 'ie8b0b', '', 0, 1425530710, '2015-03-05', 12, 1, 1, '', '', '::1'),
+(4, 2, 2062170520, 'http://tzcs.wwhis.com/admin/operator/edit/id/10001', 'http://tzcs.wwhis.com/admin/login/index', 'XrCKnu', '', 0, 1425531582, '2015-03-05', 12, 1, 2, '', '', '122.234.57.152');
 
 -- --------------------------------------------------------
 
@@ -360,7 +411,7 @@ INSERT INTO `fay_analyst_visits` (`id`, `mac`, `ip_int`, `refer`, `url`, `short_
 --
 
 CREATE TABLE IF NOT EXISTS `fay_categories` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
   `parent` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -373,8 +424,11 @@ CREATE TABLE IF NOT EXISTS `fay_categories` (
   `is_system` tinyint(1) NOT NULL DEFAULT '0',
   `seo_title` varchar(255) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
-  `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=10006 DEFAULT CHARSET=utf8;
+  `seo_description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `alias` (`alias`),
+  KEY `left_right_value` (`left_value`,`right_value`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10006 ;
 
 --
 -- 转存表中的数据 `fay_categories`
@@ -422,7 +476,7 @@ INSERT INTO `fay_categories` (`id`, `title`, `alias`, `parent`, `file_id`, `sort
 --
 
 CREATE TABLE IF NOT EXISTS `fay_cat_props` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `required` tinyint(1) NOT NULL DEFAULT '0',
@@ -430,8 +484,9 @@ CREATE TABLE IF NOT EXISTS `fay_cat_props` (
   `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0',
   `is_input_prop` tinyint(1) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '50'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '50',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -440,13 +495,14 @@ CREATE TABLE IF NOT EXISTS `fay_cat_props` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_cat_prop_values` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -455,13 +511,14 @@ CREATE TABLE IF NOT EXISTS `fay_cat_prop_values` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_cities` (
-`id` smallint(5) unsigned NOT NULL,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `city` varchar(255) NOT NULL DEFAULT '',
   `parent` smallint(5) NOT NULL DEFAULT '0',
   `spelling` varchar(50) NOT NULL DEFAULT '',
   `abbr` varchar(30) NOT NULL DEFAULT '',
-  `short` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=503 DEFAULT CHARSET=utf8;
+  `short` varchar(30) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=503 ;
 
 --
 -- 转存表中的数据 `fay_cities`
@@ -978,7 +1035,7 @@ INSERT INTO `fay_cities` (`id`, `city`, `parent`, `spelling`, `abbr`, `short`) V
 --
 
 CREATE TABLE IF NOT EXISTS `fay_contacts` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `realname` varchar(50) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL DEFAULT '',
   `phone` varchar(50) NOT NULL DEFAULT '',
@@ -986,8 +1043,9 @@ CREATE TABLE IF NOT EXISTS `fay_contacts` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0',
   `parent` int(10) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -996,12 +1054,14 @@ CREATE TABLE IF NOT EXISTS `fay_contacts` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_exam_answers` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `question_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `answer` text NOT NULL,
   `is_right_answer` tinyint(1) NOT NULL DEFAULT '0',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
+  PRIMARY KEY (`id`),
+  KEY `question` (`question_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1010,15 +1070,16 @@ CREATE TABLE IF NOT EXISTS `fay_exam_answers` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_exam_exams` (
-`id` mediumint(10) unsigned NOT NULL,
+  `id` mediumint(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `paper_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `start_time` int(10) unsigned NOT NULL DEFAULT '0',
   `end_time` int(10) unsigned NOT NULL,
   `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
   `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
-  `rand` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `rand` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1027,12 +1088,13 @@ CREATE TABLE IF NOT EXISTS `fay_exam_exams` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_exam_exam_questions` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `exam_id` mediumint(8) unsigned NOT NULL,
   `question_id` mediumint(8) unsigned NOT NULL,
   `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
-  `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1042,7 +1104,8 @@ CREATE TABLE IF NOT EXISTS `fay_exam_exam_questions` (
 
 CREATE TABLE IF NOT EXISTS `fay_exam_exam_question_answers_int` (
   `exam_question_id` int(10) unsigned NOT NULL,
-  `user_answer_id` mediumint(8) unsigned NOT NULL
+  `user_answer_id` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`exam_question_id`,`user_answer_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1053,7 +1116,8 @@ CREATE TABLE IF NOT EXISTS `fay_exam_exam_question_answers_int` (
 
 CREATE TABLE IF NOT EXISTS `fay_exam_exam_question_answer_text` (
   `exam_question_id` int(11) NOT NULL,
-  `user_answer` text
+  `user_answer` text,
+  PRIMARY KEY (`exam_question_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1063,7 +1127,7 @@ CREATE TABLE IF NOT EXISTS `fay_exam_exam_question_answer_text` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_exam_papers` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -1075,8 +1139,9 @@ CREATE TABLE IF NOT EXISTS `fay_exam_papers` (
   `repeatedly` tinyint(1) NOT NULL DEFAULT '1',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1088,7 +1153,9 @@ CREATE TABLE IF NOT EXISTS `fay_exam_paper_questions` (
   `paper_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `question_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `score` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100'
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
+  PRIMARY KEY (`paper_id`,`question_id`),
+  KEY `question` (`question_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1098,7 +1165,7 @@ CREATE TABLE IF NOT EXISTS `fay_exam_paper_questions` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_exam_questions` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `question` text NOT NULL,
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
@@ -1107,8 +1174,9 @@ CREATE TABLE IF NOT EXISTS `fay_exam_questions` (
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `rand` tinyint(1) NOT NULL DEFAULT '0',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1119,7 +1187,8 @@ CREATE TABLE IF NOT EXISTS `fay_exam_questions` (
 CREATE TABLE IF NOT EXISTS `fay_favourites` (
   `user_id` int(10) unsigned NOT NULL,
   `post_id` int(10) unsigned NOT NULL,
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0'
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1129,7 +1198,7 @@ CREATE TABLE IF NOT EXISTS `fay_favourites` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_files` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `raw_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `file_ext` varchar(10) NOT NULL DEFAULT '',
   `file_size` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1143,8 +1212,10 @@ CREATE TABLE IF NOT EXISTS `fay_files` (
   `user_id` int(10) unsigned NOT NULL,
   `downloads` smallint(5) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `qiniu` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=1017 DEFAULT CHARSET=utf8;
+  `qiniu` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `raw_name` (`raw_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1017 ;
 
 --
 -- 转存表中的数据 `fay_files`
@@ -1178,7 +1249,8 @@ INSERT INTO `fay_files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`,
 CREATE TABLE IF NOT EXISTS `fay_followers` (
   `user_id` int(10) unsigned NOT NULL,
   `follower` int(10) unsigned NOT NULL,
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0'
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`follower`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1188,7 +1260,7 @@ CREATE TABLE IF NOT EXISTS `fay_followers` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_goods` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1209,8 +1281,9 @@ CREATE TABLE IF NOT EXISTS `fay_goods` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
   `seo_title` varchar(255) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
-  `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `seo_description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1219,13 +1292,14 @@ CREATE TABLE IF NOT EXISTS `fay_goods` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_goods_files` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `goods_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0',
   `desc` varchar(255) NOT NULL DEFAULT '',
   `position` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1234,12 +1308,13 @@ CREATE TABLE IF NOT EXISTS `fay_goods_files` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_goods_prop_values` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `goods_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `prop_value_alias` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `prop_value_alias` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1248,13 +1323,14 @@ CREATE TABLE IF NOT EXISTS `fay_goods_prop_values` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_goods_skus` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `goods_id` int(10) unsigned NOT NULL,
   `prop_value_ids` varchar(255) NOT NULL DEFAULT '',
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00',
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `tsces` varchar(50) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `tsces` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1263,7 +1339,7 @@ CREATE TABLE IF NOT EXISTS `fay_goods_skus` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_item_props` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `is_input_prop` tinyint(1) NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -1275,8 +1351,9 @@ CREATE TABLE IF NOT EXISTS `fay_item_props` (
   `is_color_prop` tinyint(1) NOT NULL DEFAULT '0',
   `is_enum_prop` tinyint(1) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `multi` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `multi` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1285,15 +1362,16 @@ CREATE TABLE IF NOT EXISTS `fay_item_props` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_item_prop_values` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `title_alias` varchar(255) NOT NULL DEFAULT '',
   `is_terminal` tinyint(1) NOT NULL DEFAULT '1',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1302,10 +1380,11 @@ CREATE TABLE IF NOT EXISTS `fay_item_prop_values` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_keywords` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `keyword` varchar(50) NOT NULL DEFAULT '',
-  `link` varchar(500) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `link` varchar(500) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1316,7 +1395,8 @@ CREATE TABLE IF NOT EXISTS `fay_keywords` (
 CREATE TABLE IF NOT EXISTS `fay_likes` (
   `post_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0'
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`post_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1326,7 +1406,7 @@ CREATE TABLE IF NOT EXISTS `fay_likes` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_links` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
   `url` varchar(255) NOT NULL DEFAULT '',
@@ -1337,8 +1417,19 @@ CREATE TABLE IF NOT EXISTS `fay_links` (
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
   `logo` int(10) unsigned NOT NULL DEFAULT '0',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- 转存表中的数据 `fay_links`
+--
+
+INSERT INTO `fay_links` (`id`, `title`, `description`, `url`, `visiable`, `user_id`, `target`, `create_time`, `last_modified_time`, `sort`, `logo`, `cat_id`) VALUES
+(1, '元培学院', '', 'http://www.ypcol.com/', 1, 10000, '_blank', 1425475414, 1425475414, 100, 0, 0),
+(2, '绍兴文理学院', '', 'http://www.zscas.edu.cn/', 1, 10000, '_blank', 1425475465, 1425475465, 100, 0, 0),
+(3, '元培学院教务处', '', 'http://kyw.ypcol.com/', 1, 10000, '_blank', 1425477416, 1425477416, 100, 0, 0),
+(4, '学生体质健康网', '', 'http://www.csh.edu.cn/', 1, 10000, '_blank', 1425530074, 1425530074, 100, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1347,7 +1438,7 @@ CREATE TABLE IF NOT EXISTS `fay_links` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_logs` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `code` varchar(255) NOT NULL DEFAULT '',
@@ -1355,8 +1446,10 @@ CREATE TABLE IF NOT EXISTS `fay_logs` (
   `create_date` date NOT NULL DEFAULT '0000-00-00',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0',
-  `user_agent` varchar(255) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `user_agent` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- 转存表中的数据 `fay_logs`
@@ -1364,7 +1457,14 @@ CREATE TABLE IF NOT EXISTS `fay_logs` (
 
 INSERT INTO `fay_logs` (`id`, `user_id`, `type`, `code`, `data`, `create_date`, `create_time`, `ip_int`, `user_agent`) VALUES
 (1, 0, 0, 'admin:action:login.success', '{"fmac":"354183d94cb0fd2189f8603caa55add6"}', '2015-03-04', 1425457739, 0, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
-(2, 0, 0, 'admin:action:login.success', '{"fmac":"354183d94cb0fd2189f8603caa55add6"}', '2015-03-04', 1425458306, 0, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36');
+(2, 0, 0, 'admin:action:login.success', '{"fmac":"354183d94cb0fd2189f8603caa55add6"}', '2015-03-04', 1425458306, 0, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
+(3, 0, 0, 'admin:action:login.success', '{"fmac":""}', '2015-03-04', 1425478279, 0, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
+(4, 0, 0, 'admin:action:login.success', '{"fmac":""}', '2015-03-05', 1425514010, 2062170520, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
+(5, 0, 0, 'admin:action:login.success', '{"fmac":"f701d8e87798ab38351adfb503c45ed1"}', '2015-03-05', 1425529929, 2062170520, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
+(6, 0, 0, 'admin:action:login.success', '{"fmac":"e03fa17614877ef799a536b5509223ff"}', '2015-03-05', 1425530712, 0, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
+(7, 0, 0, 'admin:action:login.success', '{"fmac":"f701d8e87798ab38351adfb503c45ed1"}', '2015-03-05', 1425531492, 2062170520, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
+(8, 0, 0, 'admin:action:login.success', '{"fmac":"f701d8e87798ab38351adfb503c45ed1"}', '2015-03-05', 1425531586, 2062170520, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36'),
+(9, 0, 0, 'admin:action:login.success', '{"fmac":"f701d8e87798ab38351adfb503c45ed1"}', '2015-03-05', 1425531625, 2062170520, 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36');
 
 -- --------------------------------------------------------
 
@@ -1373,7 +1473,7 @@ INSERT INTO `fay_logs` (`id`, `user_id`, `type`, `code`, `data`, `create_date`, 
 --
 
 CREATE TABLE IF NOT EXISTS `fay_menus` (
-`id` smallint(5) unsigned NOT NULL,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
   `left_value` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -1382,8 +1482,10 @@ CREATE TABLE IF NOT EXISTS `fay_menus` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `sub_title` varchar(255) NOT NULL DEFAULT '',
   `link` varchar(255) NOT NULL DEFAULT '',
-  `target` varchar(30) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
+  `target` varchar(30) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `alias` (`alias`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000 ;
 
 -- --------------------------------------------------------
 
@@ -1392,7 +1494,7 @@ CREATE TABLE IF NOT EXISTS `fay_menus` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_messages` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `target` int(10) unsigned NOT NULL DEFAULT '0',
   `content` text NOT NULL,
@@ -1402,8 +1504,10 @@ CREATE TABLE IF NOT EXISTS `fay_messages` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `is_terminal` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `is_terminal` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `root` (`root`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1412,7 +1516,7 @@ CREATE TABLE IF NOT EXISTS `fay_messages` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_notifications` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `from` mediumint(9) unsigned NOT NULL DEFAULT '0',
@@ -1420,8 +1524,9 @@ CREATE TABLE IF NOT EXISTS `fay_notifications` (
   `active_key` varchar(32) NOT NULL DEFAULT '',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `validity_time` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `validity_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1430,30 +1535,32 @@ CREATE TABLE IF NOT EXISTS `fay_notifications` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_options` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `option_name` varchar(255) NOT NULL,
   `option_value` text NOT NULL,
   `description` varchar(500) NOT NULL DEFAULT '',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `is_system` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  `is_system` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `option_name` (`option_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- 转存表中的数据 `fay_options`
 --
 
 INSERT INTO `fay_options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES
-(1, 'sitename', '绍兴文理学院元培学院体育部', '', 1425457736, 1425457802, 0),
-(2, 'copyright', '版权所有：绍兴文理学院元培学院·体育部 | Compyright 2015', '', 1425457802, 0, 0),
-(3, 'beian', '', '', 1425457802, 0, 0),
-(4, 'phone', '联系电话：0575－88345840 | E-mail:g21china@hotmail.com', '', 1425457802, 0, 0),
-(5, 'fax', '', '', 1425457802, 0, 0),
-(6, 'email', '', '', 1425457802, 0, 0),
-(7, 'address', '', '', 1425457802, 0, 0),
-(8, 'seo_index_title', '', '', 1425457802, 0, 0),
-(9, 'seo_index_keywords', '', '', 1425457802, 0, 0),
-(10, 'seo_index_description', '', '', 1425457802, 0, 0);
+(1, 'sitename', '绍兴文理学院元培学院体育教研室', '', 1425457736, 1425530015, 0),
+(2, 'copyright', '版权所有：绍兴文理学院元培学院·体育教研室 | Copyright 2015', '', 1425457802, 1425530015, 0),
+(3, 'beian', '', '', 1425457802, 1425530015, 0),
+(4, 'phone', '联系电话：0575－88345840 | E-mail:g21china@hotmail.com', '', 1425457802, 1425530015, 0),
+(5, 'fax', '', '', 1425457802, 1425530015, 0),
+(6, 'email', '', '', 1425457802, 1425530015, 0),
+(7, 'address', '', '', 1425457802, 1425530015, 0),
+(8, 'seo_index_title', '绍兴文理学院元培学院体育教研室', '', 1425457802, 1425530015, 0),
+(9, 'seo_index_keywords', '绍兴文理学院元培学院体育教研室', '', 1425457802, 1425530015, 0),
+(10, 'seo_index_description', '绍兴文理学院元培学院体育教研室', '', 1425457802, 1425530015, 0);
 
 -- --------------------------------------------------------
 
@@ -1462,7 +1569,7 @@ INSERT INTO `fay_options` (`id`, `option_name`, `option_value`, `description`, `
 --
 
 CREATE TABLE IF NOT EXISTS `fay_pages` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(500) NOT NULL,
   `alias` varchar(255) NOT NULL DEFAULT '',
   `content` text NOT NULL,
@@ -1478,15 +1585,16 @@ CREATE TABLE IF NOT EXISTS `fay_pages` (
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT '',
-  `abstract` varchar(500) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+  `abstract` varchar(500) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1002 ;
 
 --
 -- 转存表中的数据 `fay_pages`
 --
 
 INSERT INTO `fay_pages` (`id`, `title`, `alias`, `content`, `author`, `create_time`, `last_modified_time`, `status`, `deleted`, `thumbnail`, `comments`, `views`, `sort`, `seo_title`, `seo_keywords`, `seo_description`, `abstract`) VALUES
-(1000, '联系我们Contact', 'contact', '<p><strong>基础课部： &nbsp;&nbsp;</strong>88345840</p>\r\n\r\n<p><strong>数学教研室：</strong>88345072</p>\r\n\r\n<p><strong>体育教研室：</strong>88345851</p>\r\n\r\n<p><strong>社科教研室：</strong>88345851</p>\r\n', 10000, 1425466418, 1425470154, 1, 0, 0, 0, 0, 100, '', '', '', ''),
+(1000, '联系我们 Contact', 'contact', '<p><strong>基础课部： &nbsp;&nbsp;</strong>88345840</p>\r\n\r\n<p><strong>体育教研室：</strong>88345851</p>\r\n', 10000, 1425466418, 1425529986, 1, 0, 0, 0, 0, 100, '', '', '', ''),
 (1001, '部门简介', 'about', '<p>&nbsp; &nbsp; 体育部隶属于学生会，是学院开展体育活动的主要组织部门。体育部下属单位有院男、女子篮球队，院男子足球队。体育部是个锻炼人、培养人的部门，体育部一对工作负责的态度服务同学。在学院领导下，体育部成功举办了多届院运会，多次组织了各种球类比赛。院代表队在校运会、校足球赛、校乒乓球赛中都取得了好成绩。体育部有效的组织的体育活动，给同学门更大的课余活动时间，丰富了同学们的课余生活，提高了同学们参加体育锻炼的积极性。 体育部选拔人才的要求：对体育有一定的了解，热爱体育，有负责心，对工作要认真负责。</p>\r\n', 10000, 1425468156, 1425468352, 1, 0, 0, 0, 0, 100, '', '', '', '');
 
 -- --------------------------------------------------------
@@ -1497,7 +1605,8 @@ INSERT INTO `fay_pages` (`id`, `title`, `alias`, `content`, `author`, `create_ti
 
 CREATE TABLE IF NOT EXISTS `fay_page_categories` (
   `page_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0'
+  `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`page_id`,`cat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1507,7 +1616,7 @@ CREATE TABLE IF NOT EXISTS `fay_page_categories` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_posts` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `title` varchar(500) NOT NULL DEFAULT '',
   `alias` varchar(50) NOT NULL DEFAULT '',
@@ -1530,8 +1639,9 @@ CREATE TABLE IF NOT EXISTS `fay_posts` (
   `likes` smallint(5) unsigned NOT NULL DEFAULT '0',
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
-  `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=511 DEFAULT CHARSET=utf8;
+  `seo_description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=512 ;
 
 --
 -- 转存表中的数据 `fay_posts`
@@ -1685,21 +1795,21 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 (145, 10000, '成都白云区', '', 'Ut sit dolorem qui dolor sunt culpa ut. Laudantium dolor impedit iure illum aut corporis aspernatur. Quia accusamus cum hic expedita vel voluptatem sit.', 0, 1425460228, 1425461228, '2015-03-04', 1425461228, 26, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (146, 10000, '长沙翔安区', '', 'Ea omnis saepe aliquid et recusandae. Dolor omnis vel similique doloribus. Illo aut quis molestiae et.', 0, 1425460228, 1425461228, '2015-03-04', 1425461228, 74, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (147, 10004, '乌鲁木齐沙湾区', '', 'Iusto quam inventore et odio dolores voluptatibus magnam repellendus. A ipsa ex voluptatibus et voluptas quod perferendis. Mollitia voluptatem aperiam est eum eos.', 0, 1425460228, 1425461228, '2015-03-04', 1425461228, 72, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(148, 10001, '哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区', '', '<p>Eos iste nobis sed. Nobis voluptatem aliquid qui ipsa repellendus velit. Molestiae debitis veritatis enim dolor nulla similique.</p>\r\n', 0, 1425460229, 1425467343, '2015-03-04', 1425461229, 1425473006, 10000, 0, 1, 0, 0, '', 0, 100, 10, 0, '', '', ''),
-(149, 10000, '济南六枝特区', '', 'Et voluptatem inventore facere quia laborum vero. Et nisi libero saepe sed esse libero enim. Voluptatem temporibus sint et saepe a exercitationem.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425464741, 10000, 0, 1, 0, 0, '', 0, 100, 5, 0, '', '', ''),
+(148, 10001, '哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区哈尔滨长寿区', '', '<p>Eos iste nobis sed. Nobis voluptatem aliquid qui ipsa repellendus velit. Molestiae debitis veritatis enim dolor nulla similique.</p>\r\n', 0, 1425460229, 1425467343, '2015-03-04', 1425461229, 1425514362, 10000, 0, 1, 0, 0, '', 0, 100, 16, 0, '', '', ''),
+(149, 10000, '济南六枝特区', '', 'Et voluptatem inventore facere quia laborum vero. Et nisi libero saepe sed esse libero enim. Voluptatem temporibus sint et saepe a exercitationem.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425478257, 10000, 0, 1, 0, 0, '', 0, 100, 6, 0, '', '', ''),
 (150, 10003, '香港花溪区', '', 'Aut consequatur cupiditate totam. Aut veniam ducimus sint hic. Reprehenderit omnis rem atque atque alias earum sunt. Occaecati temporibus inventore dolores voluptate cupiditate.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425462893, 10000, 0, 1, 0, 0, '', 0, 100, 5, 0, '', '', ''),
-(151, 10002, '西安沈河区', '', 'Ab commodi blanditiis porro quo. Et itaque et aut ea. Perferendis ab unde assumenda vero neque sint. Nemo dolorem qui esse nesciunt voluptatem.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 77, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
+(151, 10002, '西安沈河区', '', 'Ab commodi blanditiis porro quo. Et itaque et aut ea. Perferendis ab unde assumenda vero neque sint. Nemo dolorem qui esse nesciunt voluptatem.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425513991, 10000, 0, 1, 0, 0, '', 0, 100, 3, 0, '', '', ''),
 (152, 10000, '沈阳南长区', '', 'Voluptates deleniti cupiditate dignissimos ullam consectetur totam id. Delectus nisi tempora quo dolorem. Omnis optio exercitationem nulla et rerum.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 59, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(153, 10000, '福州六枝特区', '', 'Est ipsum atque corporis debitis optio iusto. Ipsum deserunt inventore et soluta. Iste enim sed suscipit debitis harum fuga. Est ut deleniti tempora molestias aspernatur.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425469148, 10000, 0, 1, 0, 0, '', 0, 100, 1, 0, '', '', ''),
-(154, 10004, '福州华龙区', '', 'Voluptas blanditiis velit eos iusto ipsum nesciunt. Et fuga debitis culpa in dolore numquam minus ut. Facere et similique impedit enim. Ea minus et delectus molestias enim eius repudiandae veritatis.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425462012, 10000, 0, 1, 0, 0, '', 0, 100, 5, 0, '', '', ''),
+(153, 10000, '福州六枝特区', '', 'Est ipsum atque corporis debitis optio iusto. Ipsum deserunt inventore et soluta. Iste enim sed suscipit debitis harum fuga. Est ut deleniti tempora molestias aspernatur.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425512707, 10000, 0, 1, 0, 0, '', 0, 100, 2, 0, '', '', ''),
+(154, 10004, '福州华龙区', '', 'Voluptas blanditiis velit eos iusto ipsum nesciunt. Et fuga debitis culpa in dolore numquam minus ut. Facere et similique impedit enim. Ea minus et delectus molestias enim eius repudiandae veritatis.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425479617, 10000, 0, 1, 0, 0, '', 0, 100, 6, 0, '', '', ''),
 (155, 10002, '广州新城区', '', 'Eveniet dolores voluptas incidunt quibusdam. Similique ut magnam necessitatibus dolor et quam nam debitis. Ut repellat dolor qui beatae aut sunt. Eveniet nihil dolorem ipsum omnis.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 24, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (156, 10003, '银川高明区', '', 'Inventore cupiditate laboriosam illo aperiam non. Officia adipisci quasi sit.\nConsequatur corrupti ea provident occaecati ullam. Et qui cum ea ullam. Aut distinctio minus minus ipsum.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 57, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (157, 10003, '沈阳城东区', '', 'Vel voluptatem magnam corrupti dolor veritatis ut facilis. Ad alias facilis et qui blanditiis odit. Neque vero dignissimos sed voluptas aut. Non aut ea sunt et.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 38, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (158, 10000, '杭州滨城区', '', 'Quas et ut voluptate et quas. Excepturi nisi velit natus dignissimos corrupti ad nulla. Inventore esse voluptatem aut ut recusandae esse. Voluptatem reiciendis beatae ea suscipit asperiores nemo.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 10, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (159, 10003, '长春秀英区', '', 'Quidem labore quasi eius aut accusantium. Ut minima at nemo iusto. Enim harum vel reiciendis doloremque quos. Et ipsa excepturi est atque.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 89, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (160, 10004, '香港东丽区', '', 'Tempore quia et laboriosam libero. Et libero repellat beatae natus. Vel voluptates est et quas. Tempore et sit possimus sed.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 42, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(161, 10000, '兰州牧野区', '', 'Ipsam praesentium tempora cum impedit ut tenetur repudiandae. Saepe ipsa aut impedit aut quibusdam officia.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 52, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(162, 10002, '呼和浩特海陵区', '', 'Beatae beatae maiores temporibus laborum saepe sit quas perspiciatis. Quia voluptas fugiat beatae qui qui. Eveniet voluptate accusamus laboriosam corporis sapiente ipsa.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 3, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
+(161, 10000, '兰州牧野区', '', 'Ipsam praesentium tempora cum impedit ut tenetur repudiandae. Saepe ipsa aut impedit aut quibusdam officia.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425478253, 10000, 0, 1, 0, 0, '', 0, 100, 1, 0, '', '', ''),
+(162, 10002, '呼和浩特海陵区', '', 'Beatae beatae maiores temporibus laborum saepe sit quas perspiciatis. Quia voluptas fugiat beatae qui qui. Eveniet voluptate accusamus laboriosam corporis sapiente ipsa.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425512496, 10000, 0, 1, 0, 0, '', 0, 100, 1, 0, '', '', ''),
 (163, 10004, '成都涪城区', '', 'Corrupti omnis excepturi sit iste. In at eos asperiores quam. Ut sit optio rerum minima.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 48, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (164, 10002, '长春华龙区', '', 'Inventore voluptatem rerum ut iure pariatur. Sit et veritatis voluptate delectus officia omnis at. Maiores necessitatibus dolor adipisci quia.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425464800, 10000, 0, 1, 0, 0, '', 0, 100, 2, 0, '', '', ''),
 (165, 10003, '呼和浩特翔安区', '', 'Illum aut nihil optio dolores animi autem. Nam et molestias est odit illum facere. Delectus quod illum aut ut.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 48, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
@@ -1713,7 +1823,7 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 (172, 10002, '南昌淄川区', '', 'Nisi voluptatibus culpa et unde eius molestias. Quam corporis vero beatae aut. Doloribus blanditiis iusto et odit architecto ea fugit.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 66, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (173, 10002, '武汉海港区', '', 'Voluptatum eius esse numquam. Fuga blanditiis voluptatem perferendis nulla ut ut. Dolores dignissimos impedit ipsa quas.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 79, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (174, 10002, '福州涪城区', '', 'Numquam dolore quis animi dolorem qui maxime possimus. Velit ut est consequatur aliquam temporibus voluptas. Dolorum ut incidunt harum.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 78, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(175, 10004, '海口翔安区', '', 'Eos doloribus distinctio non illum accusantium. In et nisi mollitia assumenda dolor quam qui. Et dolorem fugit alias cumque aspernatur iure ducimus.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 30, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
+(175, 10004, '海口翔安区', '', 'Eos doloribus distinctio non illum accusantium. In et nisi mollitia assumenda dolor quam qui. Et dolorem fugit alias cumque aspernatur iure ducimus.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425478218, 10000, 0, 1, 0, 0, '', 0, 100, 1, 0, '', '', ''),
 (176, 10002, '南昌花溪区', '', 'In ex nam iure dolores et. Ullam nihil ea officia laudantium iure vero eligendi. Quia facere aut quia nihil architecto impedit.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 47, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (177, 10002, '海口海陵区', '', 'Nesciunt earum vero nihil eaque dicta. Debitis vero odit et impedit. Architecto sapiente eveniet optio omnis.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 66, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (178, 10000, '兰州高港区', '', 'Veniam occaecati aut quos. Voluptas totam et non qui illum a. Molestiae delectus est consequatur exercitationem accusamus. Veritatis suscipit quisquam dolorum dolores unde ut.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 19, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
@@ -1728,7 +1838,7 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 (187, 10000, '哈尔滨城北区', '', 'Eligendi quidem eum sed voluptatem deserunt saepe hic ipsam. Et voluptate quasi maiores qui asperiores. Accusamus assumenda tempore cum expedita et esse.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 49, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (188, 10003, '成都沙湾区', '', 'Alias asperiores libero voluptatibus doloribus magni deleniti. Exercitationem ut illum aut dolores voluptate. Accusamus sunt molestiae velit laboriosam occaecati omnis et occaecati.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 62, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (189, 10003, '北京兴山区', '', 'Et consequatur officiis quae quis eius. Alias et soluta est autem harum et. Quibusdam reiciendis molestias nihil necessitatibus hic aliquid harum quam. Consequatur qui dolor corporis autem eos.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 9, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(190, 10001, '哈尔滨孝南区', '', 'Ut sint quia distinctio non nihil placeat. Eius cum mollitia accusantium quia minus nobis sunt est. Id nisi animi aut reprehenderit.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 36, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
+(190, 10001, '哈尔滨孝南区', '', 'Ut sint quia distinctio non nihil placeat. Eius cum mollitia accusantium quia minus nobis sunt est. Id nisi animi aut reprehenderit.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 1425481330, 10000, 0, 1, 0, 0, '', 0, 100, 1, 0, '', '', ''),
 (191, 10002, '拉萨花溪区', '', 'Corrupti facere quibusdam error impedit quaerat earum. Voluptates voluptatem veritatis est exercitationem qui. Dolor voluptatem qui eaque eaque ut.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 58, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (192, 10003, '银川西峰区', '', 'Odio distinctio ut nihil officia aut sit repellat dolores. Libero facilis fugit ratione voluptatum quia autem. Deserunt vero laudantium repellat accusamus similique.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 40, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (193, 10000, '贵阳兴山区', '', 'Veritatis provident numquam tenetur quae omnis. Vel praesentium et odio nam ut eum debitis. Consequuntur odio nulla nam vero quisquam.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 67, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
@@ -2040,17 +2150,18 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 (498, 10001, '郑州滨城区', '', 'Maxime sed molestiae autem et vitae. Vel porro omnis consequatur illum veniam voluptatem ullam.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 20, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (499, 10001, '武汉南湖区', '', 'Assumenda facilis enim molestias cupiditate dignissimos laborum. Tempora nostrum cumque aliquid ipsum. Velit voluptatibus id quam ab.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 33, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (500, 10000, '重庆白云区', '', 'Quidem suscipit corrupti eveniet asperiores fuga. Quia quia et praesentium.\nDolorum in cupiditate eos quia possimus eligendi illo. Et odit maiores nesciunt officiis optio ipsam a.', 0, 1425460229, 1425461229, '2015-03-04', 1425461229, 11, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(501, 10001, '111', '', '<p>111</p>\r\n', 0, 1425468429, 1425468429, '2015-03-04', 1425468429, 0, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', '');
+(501, 10001, '111', '', '<p>111</p>\r\n', 0, 1425468429, 1425468429, '2015-03-04', 1425468429, 1425531398, 10000, 0, 1, 0, 0, '', 0, 100, 2, 0, '', '', '');
 INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_type`, `create_time`, `last_modified_time`, `publish_date`, `publish_time`, `last_view_time`, `user_id`, `is_top`, `status`, `deleted`, `thumbnail`, `abstract`, `comments`, `sort`, `views`, `likes`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
 (502, 10000, '侦测法功', '', '<div style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; text-indent: 24pt;"><span style="line-height: 24px; font-size: 12pt;">为进一步推动学生阳光体育运动，针对大学生体质有所下降的情况，提高大学生体质健康素质和促进全面发展，省教育厅办公室日前下发通知，要求对我省高校学生体质健康进行全省统一抽测部分主要指标，并向社会公布抽测结果。</span></div>\r\n\r\n<div style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; text-indent: 24pt;"><span style="line-height: 24px; font-size: 12pt;">今年的抽测先在全省56所普通本科院校(包括独立学院)中进行，2015年起覆盖所有高校。我院已于5月21日圆满完成了省厅对2011级部分同学的体质抽测工作。测试项目包括：50米、立定跳远、坐位体前屈、1分钟仰卧起坐（女）、引体向上（男）、800米（女）、1000米（男）。</span></div>\r\n\r\n<div style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; text-indent: 24pt;"><span style="line-height: 24px; font-size: 12pt;">据悉，省教育厅将结合教育部复核、省级抽查情况，将每年的高校学生体质状况抽测结果排序，并向社会通报。抽测结果列入省高等教育质量评估指标体系，与对高校的年度考核工作挂钩。</span></div>\r\n\r\n<div style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; text-indent: 24pt;"><span style="line-height: 24px; font-size: 12pt;">我院自接到通知之日起，就认真部署落实该工作。在学院领导的带领和各部门的配合下，基础课部周密安排、精心组织做好该项工作。分2个阶段进行：第一阶段，对全体11级学生的全面训练。基础课部给每个系配备一个体育老师，在学工部的配合下，展开训练。第二阶段，抽测名单出来后的重点训练。在各系配合的基础上，加强管理和训练。测试现已圆满结束，抽测结果省厅将马上公布。</span></div>\r\n', 0, 1425469007, 1425469007, '2015-03-04', 1425469007, 1425469062, 10000, 0, 1, 0, 0, '', 0, 100, 5, 0, '', '', ''),
-(503, 10002, '资料下载', '', '<p><span style="font-family: 微软雅黑; font-size: 13px; line-height: 25px; background-color: rgb(255, 255, 255);">拆旧 各种砸墙、砸地砖 铲墙皮、旧房改造，拆隔墙门窗等 清理垃圾 建筑垃圾 垃圾清理 敲墙 敲墙、改结构 酒店、商场,宾馆拆旧工程： 室内结构包括（拆吊顶、拆电缆电线、拆通风系统、拆隔间、拆地板、砸墙、砸地平,室外结构包括：拆广告牌、拆霓虹灯、拆铝合金门窗等。 建筑工地： 拆活动房、拆配电房、拆建筑废料、拆电线电缆、拆水暖器件、拆钢管扣件及门窗材料等拆旧 各种砸墙、砸地砖 铲墙皮、旧房改造，拆隔墙门窗等 清理垃圾 建筑垃圾 垃圾清理 敲墙 敲墙、改结构 酒店、商场,宾馆拆旧工程： 室内结构包括（拆吊顶、拆电缆电线、拆通风系统、拆隔间、拆地板、砸墙、砸地平,室外结构包括：拆广告牌、拆霓虹灯、拆铝合金门窗等。 建筑工地： 拆活动房、拆配电房、拆建筑废料、拆电线电缆、拆水暖器件、拆钢管扣件及门窗材料等拆旧 各种砸墙、砸地砖 铲墙皮、旧房改造，拆隔墙门窗等 清理垃圾 建筑垃圾 垃圾清理 敲墙 敲墙、改结构 酒店、商场,宾馆拆旧工程： 室内结构包括（拆吊顶、拆电缆电线、拆通风系统、拆隔间、拆地板、砸墙、砸地平,室外结构包括：拆广告牌、拆霓虹灯、拆铝合金门窗等。 建筑工地： 拆活动房、拆配电房、拆建筑废料、拆电线电缆、拆水暖器件、拆钢管扣件及门窗材料等</span></p>\r\n', 0, 1425469197, 1425469197, '2015-03-04', 1425469197, 1425469540, 10000, 0, 1, 0, 0, '', 0, 100, 13, 0, '', '', ''),
+(503, 10002, '资料下载', '', '<p><span style="font-family: 微软雅黑; font-size: 13px; line-height: 25px; background-color: rgb(255, 255, 255);">拆旧 各种砸墙、砸地砖 铲墙皮、旧房改造，拆隔墙门窗等 清理垃圾 建筑垃圾 垃圾清理 敲墙 敲墙、改结构 酒店、商场,宾馆拆旧工程： 室内结构包括（拆吊顶、拆电缆电线、拆通风系统、拆隔间、拆地板、砸墙、砸地平,室外结构包括：拆广告牌、拆霓虹灯、拆铝合金门窗等。 建筑工地： 拆活动房、拆配电房、拆建筑废料、拆电线电缆、拆水暖器件、拆钢管扣件及门窗材料等拆旧 各种砸墙、砸地砖 铲墙皮、旧房改造，拆隔墙门窗等 清理垃圾 建筑垃圾 垃圾清理 敲墙 敲墙、改结构 酒店、商场,宾馆拆旧工程： 室内结构包括（拆吊顶、拆电缆电线、拆通风系统、拆隔间、拆地板、砸墙、砸地平,室外结构包括：拆广告牌、拆霓虹灯、拆铝合金门窗等。 建筑工地： 拆活动房、拆配电房、拆建筑废料、拆电线电缆、拆水暖器件、拆钢管扣件及门窗材料等拆旧 各种砸墙、砸地砖 铲墙皮、旧房改造，拆隔墙门窗等 清理垃圾 建筑垃圾 垃圾清理 敲墙 敲墙、改结构 酒店、商场,宾馆拆旧工程： 室内结构包括（拆吊顶、拆电缆电线、拆通风系统、拆隔间、拆地板、砸墙、砸地平,室外结构包括：拆广告牌、拆霓虹灯、拆铝合金门窗等。 建筑工地： 拆活动房、拆配电房、拆建筑废料、拆电线电缆、拆水暖器件、拆钢管扣件及门窗材料等</span></p>\r\n', 0, 1425469197, 1425469197, '2015-03-04', 1425469197, 1425514366, 10000, 0, 1, 0, 0, '', 0, 100, 19, 0, '', '', ''),
 (504, 10005, '111', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/gvQWP.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470741, 1425470741, '2015-03-04', 1425470741, 0, 10000, 0, 1, 0, 1002, '', 0, 100, 0, 0, '', '', ''),
-(505, 10005, '222', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/xjgNV.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470756, 1425470756, '2015-03-04', 1425470756, 0, 10000, 0, 1, 0, 1005, '', 0, 100, 0, 0, '', '', ''),
+(505, 10005, '222', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/xjgNV.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470756, 1425470756, '2015-03-04', 1425470756, 1425478375, 10000, 0, 1, 0, 1005, '', 0, 100, 1, 0, '', '', ''),
 (506, 10005, '333', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/jA73H.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470761, 1425470775, '2015-03-04', 1425470761, 0, 10000, 0, 1, 0, 1007, '', 0, 100, 0, 0, '', '', ''),
-(507, 10005, '444', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/sYSP1.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470797, 1425470797, '2015-03-04', 1425470797, 1425471624, 10000, 0, 1, 0, 1010, '', 0, 100, 2, 0, '', '', ''),
+(507, 10005, '444', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/sYSP1.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470797, 1425470797, '2015-03-04', 1425470797, 1425481319, 10000, 0, 1, 0, 1010, '', 0, 100, 3, 0, '', '', ''),
 (508, 10005, '555', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/0l9Fh.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470810, 1425470810, '2015-03-04', 1425470810, 0, 10000, 0, 1, 0, 1012, '', 0, 100, 0, 0, '', '', ''),
 (509, 10005, '666', '', '<p><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/eS83J.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470822, 1425470822, '2015-03-04', 1425470822, 1425472987, 10000, 0, 1, 0, 1014, '', 0, 100, 2, 0, '', '', ''),
-(510, 10005, '777', '', '<p style="text-align: center;"><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/EZEB4.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470834, 1425472969, '2015-03-04', 1425470834, 1425472986, 10000, 0, 1, 0, 1016, '', 0, 100, 2, 0, '', '', '');
+(510, 10005, '777', '', '<p style="text-align: center;"><img alt="" src="http://localhost/faycms/uploads/posts/2015/03/EZEB4.jpg" style="width: 200px; height: 140px;" /></p>\r\n', 0, 1425470834, 1425472969, '2015-03-04', 1425470834, 1425472986, 10000, 0, 1, 0, 1016, '', 0, 100, 2, 0, '', '', ''),
+(511, 10002, '111', '', '<p>111</p>\r\n', 0, 1425478295, 1425478295, '2015-03-04', 1425478295, 1425514644, 10000, 0, 1, 0, 0, '', 0, 100, 8, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2060,7 +2171,8 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 
 CREATE TABLE IF NOT EXISTS `fay_posts_tags` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `tag_id` int(10) unsigned NOT NULL DEFAULT '0'
+  `tag_id` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`post_id`,`tag_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2071,7 +2183,8 @@ CREATE TABLE IF NOT EXISTS `fay_posts_tags` (
 
 CREATE TABLE IF NOT EXISTS `fay_post_categories` (
   `post_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0'
+  `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`post_id`,`cat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2085,7 +2198,8 @@ CREATE TABLE IF NOT EXISTS `fay_post_files` (
   `file_id` int(10) unsigned NOT NULL DEFAULT '0',
   `description` varchar(255) NOT NULL DEFAULT '',
   `is_image` tinyint(1) NOT NULL DEFAULT '1',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100'
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
+  PRIMARY KEY (`post_id`,`file_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -2105,7 +2219,8 @@ INSERT INTO `fay_post_files` (`post_id`, `file_id`, `description`, `is_image`, `
 CREATE TABLE IF NOT EXISTS `fay_post_prop_int` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0',
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `content` int(10) unsigned NOT NULL DEFAULT '0'
+  `content` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`post_id`,`prop_id`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2117,7 +2232,8 @@ CREATE TABLE IF NOT EXISTS `fay_post_prop_int` (
 CREATE TABLE IF NOT EXISTS `fay_post_prop_text` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0',
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `content` text NOT NULL
+  `content` text NOT NULL,
+  PRIMARY KEY (`post_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2129,7 +2245,8 @@ CREATE TABLE IF NOT EXISTS `fay_post_prop_text` (
 CREATE TABLE IF NOT EXISTS `fay_post_prop_varchar` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0',
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `content` varchar(255) NOT NULL DEFAULT ''
+  `content` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`post_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2141,7 +2258,8 @@ CREATE TABLE IF NOT EXISTS `fay_post_prop_varchar` (
 CREATE TABLE IF NOT EXISTS `fay_profile_int` (
   `user_id` int(8) unsigned NOT NULL DEFAULT '0',
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `content` int(10) unsigned NOT NULL DEFAULT '0'
+  `content` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`prop_id`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2153,7 +2271,8 @@ CREATE TABLE IF NOT EXISTS `fay_profile_int` (
 CREATE TABLE IF NOT EXISTS `fay_profile_text` (
   `user_id` int(8) unsigned NOT NULL DEFAULT '0',
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `content` text NOT NULL
+  `content` text NOT NULL,
+  PRIMARY KEY (`user_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2165,7 +2284,8 @@ CREATE TABLE IF NOT EXISTS `fay_profile_text` (
 CREATE TABLE IF NOT EXISTS `fay_profile_varchar` (
   `user_id` int(8) unsigned NOT NULL DEFAULT '0',
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `content` varchar(255) NOT NULL DEFAULT ''
+  `content` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`user_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2175,7 +2295,7 @@ CREATE TABLE IF NOT EXISTS `fay_profile_varchar` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_props` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `refer` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -2185,8 +2305,9 @@ CREATE TABLE IF NOT EXISTS `fay_props` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `is_show` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `is_show` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2195,14 +2316,15 @@ CREATE TABLE IF NOT EXISTS `fay_props` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_prop_values` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `refer` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `default` tinyint(1) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2211,11 +2333,14 @@ CREATE TABLE IF NOT EXISTS `fay_prop_values` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_regions` (
-`id` smallint(5) unsigned NOT NULL,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `name` varchar(120) NOT NULL DEFAULT '',
-  `type` tinyint(1) NOT NULL DEFAULT '2'
-) ENGINE=MyISAM AUTO_INCREMENT=3409 DEFAULT CHARSET=utf8;
+  `type` tinyint(1) NOT NULL DEFAULT '2',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `region_type` (`type`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3409 ;
 
 --
 -- 转存表中的数据 `fay_regions`
@@ -5639,12 +5764,13 @@ INSERT INTO `fay_regions` (`id`, `parent_id`, `name`, `type`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `fay_roles` (
-`id` smallint(5) unsigned NOT NULL,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `is_show` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+  `is_show` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=103 ;
 
 --
 -- 转存表中的数据 `fay_roles`
@@ -5653,7 +5779,8 @@ CREATE TABLE IF NOT EXISTS `fay_roles` (
 INSERT INTO `fay_roles` (`id`, `title`, `description`, `deleted`, `is_show`) VALUES
 (1, '普通用户', '', 0, 1),
 (100, '系统', '', 0, 0),
-(101, '超级管理员', '', 0, 0);
+(101, '超级管理员', '', 0, 0),
+(102, '老师', '老师使用帐号', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -5662,10 +5789,70 @@ INSERT INTO `fay_roles` (`id`, `title`, `description`, `deleted`, `is_show`) VAL
 --
 
 CREATE TABLE IF NOT EXISTS `fay_role_actions` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `role_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `action_id` smallint(5) unsigned NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `action_id` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=60 ;
+
+--
+-- 转存表中的数据 `fay_role_actions`
+--
+
+INSERT INTO `fay_role_actions` (`id`, `role_id`, `action_id`) VALUES
+(1, 102, 1),
+(2, 102, 2),
+(3, 102, 3),
+(4, 102, 4),
+(5, 102, 5),
+(6, 102, 6),
+(7, 102, 7),
+(8, 102, 8),
+(9, 102, 9),
+(10, 102, 10),
+(11, 102, 11),
+(12, 102, 12),
+(13, 102, 13),
+(14, 102, 14),
+(15, 102, 15),
+(16, 102, 16),
+(17, 102, 17),
+(18, 102, 18),
+(19, 102, 19),
+(20, 102, 20),
+(21, 102, 21),
+(22, 102, 22),
+(23, 102, 23),
+(24, 102, 33),
+(25, 102, 34),
+(26, 102, 35),
+(27, 102, 36),
+(28, 102, 37),
+(29, 102, 38),
+(30, 102, 39),
+(31, 102, 40),
+(32, 102, 41),
+(33, 102, 42),
+(34, 102, 43),
+(35, 102, 44),
+(36, 102, 45),
+(37, 102, 46),
+(38, 102, 47),
+(39, 102, 53),
+(40, 102, 54),
+(41, 102, 55),
+(42, 102, 56),
+(43, 102, 61),
+(44, 102, 62),
+(45, 102, 63),
+(46, 102, 64),
+(47, 102, 65),
+(54, 102, 96),
+(55, 102, 97),
+(56, 102, 98),
+(57, 102, 99),
+(58, 102, 100),
+(59, 102, 101);
 
 -- --------------------------------------------------------
 
@@ -5674,13 +5861,14 @@ CREATE TABLE IF NOT EXISTS `fay_role_actions` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_spider_logs` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `spider` varchar(50) NOT NULL DEFAULT '',
   `user_agent` varchar(255) NOT NULL DEFAULT '',
   `ip_int` int(11) NOT NULL DEFAULT '0',
   `url` varchar(255) NOT NULL DEFAULT '',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -5689,14 +5877,15 @@ CREATE TABLE IF NOT EXISTS `fay_spider_logs` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_tags` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `count` smallint(5) unsigned NOT NULL DEFAULT '0',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
   `seo_title` varchar(255) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
-  `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `seo_description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -5705,7 +5894,7 @@ CREATE TABLE IF NOT EXISTS `fay_tags` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_templates` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(500) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
@@ -5713,8 +5902,41 @@ CREATE TABLE IF NOT EXISTS `fay_templates` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `description` text NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `alias` varchar(50) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `alias` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fay_tzcs_students`
+--
+
+CREATE TABLE IF NOT EXISTS `fay_tzcs_students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `data` text NOT NULL,
+  `realName` varchar(24) NOT NULL,
+  `idNum` varchar(64) NOT NULL,
+  `searchTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+--
+-- 转存表中的数据 `fay_tzcs_students`
+--
+
+INSERT INTO `fay_tzcs_students` (`id`, `data`, `realName`, `idNum`, `searchTime`) VALUES
+(1, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101090108","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u9ec4\\u99a8\\u84312","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"33091","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6d59\\u6c5f","\\u8eab\\u9ad8":"165","\\u4f53\\u91cd":"47","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"2337","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"64","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u53ca\\u683c","50\\u7c73\\u8dd1":"8","50\\u7c73\\u8dd1\\u8bc4\\u5206":"80","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u826f\\u597d","\\u7acb\\u5b9a\\u8df3\\u8fdc":"183","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"80","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u826f\\u597d","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"6","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"50","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","800\\u7c73\\u8dd1":"3\\u20324","800\\u7c73\\u8dd1\\u8bc4\\u5206":"80","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u826f\\u597d","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"42","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"74","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"77","\\u603b\\u5206":"77","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '黄馨萱2', '0101090108', '2015-03-05 07:41:48'),
+(2, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110101","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u9c8d\\u6653\\u7434","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"33870","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6c5f\\u82cf","\\u8eab\\u9ad8":"161","\\u4f53\\u91cd":"55","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"2633","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"70","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u53ca\\u683c","50\\u7c73\\u8dd1":"8.2","50\\u7c73\\u8dd1\\u8bc4\\u5206":"80","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u826f\\u597d","\\u7acb\\u5b9a\\u8df3\\u8fdc":"174","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"74","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"13","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"70","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1":"3\\u203234","800\\u7c73\\u8dd1\\u8bc4\\u5206":"85","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u826f\\u597d","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"32","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"64","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"79.3","\\u603b\\u5206":"79.3","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '鲍晓琴', '0101110101', '2015-03-05 07:36:01'),
+(3, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110102","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u8521\\u6653\\u742a","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"33849","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6d59\\u6c5f","\\u8eab\\u9ad8":"153","\\u4f53\\u91cd":"45","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"2935","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"76","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u53ca\\u683c","50\\u7c73\\u8dd1":"8.9","50\\u7c73\\u8dd1\\u8bc4\\u5206":"72","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u7acb\\u5b9a\\u8df3\\u8fdc":"158","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"64","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"7","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"60","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1":"3\\u203252","800\\u7c73\\u8dd1\\u8bc4\\u5206":"76","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"40","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"72","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"75.6","\\u603b\\u5206":"75.6","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '蔡晓琪', '0101110102', '2015-03-05 07:36:01'),
+(4, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110103","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u9648\\u7476","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"33853","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6d59\\u6c5f","\\u8eab\\u9ad8":"165","\\u4f53\\u91cd":"50","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"1330","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"10","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","50\\u7c73\\u8dd1":"8.9","50\\u7c73\\u8dd1\\u8bc4\\u5206":"72","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u7acb\\u5b9a\\u8df3\\u8fdc":"158","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"64","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"20","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"80","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u826f\\u597d","800\\u7c73\\u8dd1":"4\\u20320","800\\u7c73\\u8dd1\\u8bc4\\u5206":"72","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"39","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"72","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"66.9","\\u603b\\u5206":"66.9","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '陈瑶', '0101110103', '2015-03-05 07:36:01'),
+(5, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110104","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u8c0c\\u5b50\\u8f69","\\u6027\\u522b":"1","\\u51fa\\u751f\\u65e5\\u671f":"34062","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6c5f\\u82cf","\\u8eab\\u9ad8":"174","\\u4f53\\u91cd":"62","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"4352","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"78","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u53ca\\u683c","50\\u7c73\\u8dd1":"6.8","50\\u7c73\\u8dd1\\u8bc4\\u5206":"90","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u4f18\\u79c0","\\u7acb\\u5b9a\\u8df3\\u8fdc":"223","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"66","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"3","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"40","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","800\\u7c73\\u8dd1":null,"800\\u7c73\\u8dd1\\u8bc4\\u5206":null,"800\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":"4\\u203233","1000\\u7c73\\u8dd1\\u8bc4\\u5206":"50","1000\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":"7","\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":"20","\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"67.3","\\u603b\\u5206":"67.3","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '谌子轩', '0101110104', '2015-03-05 07:36:01'),
+(6, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110105","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u4e01\\u5170\\u6d01","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"34264","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u7518\\u8083","\\u8eab\\u9ad8":"165","\\u4f53\\u91cd":"55","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"3257","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"85","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u826f\\u597d","50\\u7c73\\u8dd1":"9.4","50\\u7c73\\u8dd1\\u8bc4\\u5206":"68","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u7acb\\u5b9a\\u8df3\\u8fdc":"165","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"68","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"17","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"76","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1":"3\\u203247","800\\u7c73\\u8dd1\\u8bc4\\u5206":"78","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"28","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"60","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"77.4","\\u603b\\u5206":"77.4","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '丁兰洁', '0101110105', '2015-03-05 07:36:02'),
+(7, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110106","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u65b9\\u946b","\\u6027\\u522b":"1","\\u51fa\\u751f\\u65e5\\u671f":"33721","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6d59\\u6c5f","\\u8eab\\u9ad8":"173","\\u4f53\\u91cd":"55","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"5274","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"100","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u4f18\\u79c0","50\\u7c73\\u8dd1":"6.8","50\\u7c73\\u8dd1\\u8bc4\\u5206":"90","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u4f18\\u79c0","\\u7acb\\u5b9a\\u8df3\\u8fdc":"225","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"66","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"7","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"64","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1":null,"800\\u7c73\\u8dd1\\u8bc4\\u5206":null,"800\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":"4\\u203214","1000\\u7c73\\u8dd1\\u8bc4\\u5206":"66","1000\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":"5","\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":"10","\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"75.2","\\u603b\\u5206":"75.2","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '方鑫', '0101110106', '2015-03-05 07:36:02'),
+(8, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110107","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u9ad8\\u79cb\\u5fc6","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"34195","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6d59\\u6c5f","\\u8eab\\u9ad8":"155","\\u4f53\\u91cd":"42","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"2987","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"78","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u53ca\\u683c","50\\u7c73\\u8dd1":"9.4","50\\u7c73\\u8dd1\\u8bc4\\u5206":"68","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u7acb\\u5b9a\\u8df3\\u8fdc":"158","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"64","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"11","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"66","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1":"4\\u203213","800\\u7c73\\u8dd1\\u8bc4\\u5206":"66","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"40","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"72","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"73.7","\\u603b\\u5206":"73.7","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '高秋忆', '0101110107', '2015-03-05 07:36:02'),
+(9, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110108","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u9f9a\\u5f90\\u4e39","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"33970","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6d59\\u6c5f","\\u8eab\\u9ad8":"162","\\u4f53\\u91cd":"60","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"3475","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"100","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u4f18\\u79c0","50\\u7c73\\u8dd1":"10.2","50\\u7c73\\u8dd1\\u8bc4\\u5206":"60","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u7acb\\u5b9a\\u8df3\\u8fdc":"170","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"72","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"21","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"85","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u826f\\u597d","800\\u7c73\\u8dd1":"4\\u203209","800\\u7c73\\u8dd1\\u8bc4\\u5206":"68","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"30","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"62","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"77.5","\\u603b\\u5206":"77.5","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '龚徐丹', '0101110108', '2015-03-05 07:36:02'),
+(10, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110109","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u90ed\\u96e8\\u6668","\\u6027\\u522b":"2","\\u51fa\\u751f\\u65e5\\u671f":"34250","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u6d59\\u6c5f","\\u8eab\\u9ad8":"156","\\u4f53\\u91cd":"47","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"2637","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"70","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u53ca\\u683c","50\\u7c73\\u8dd1":"8.1","50\\u7c73\\u8dd1\\u8bc4\\u5206":"80","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u826f\\u597d","\\u7acb\\u5b9a\\u8df3\\u8fdc":"173","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"74","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"16","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"74","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1":"4\\u203202","800\\u7c73\\u8dd1\\u8bc4\\u5206":"72","800\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u53ca\\u683c","800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":null,"1000\\u7c73\\u8dd1\\u8bc4\\u5206":null,"1000\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":"30","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":"62","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":null,"\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"76.9","\\u603b\\u5206":"76.9","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '郭雨晨', '0101110109', '2015-03-05 07:36:02'),
+(11, '{"data":{"\\u5e74\\u7ea7\\u7f16\\u53f7":"44","\\u73ed\\u7ea7\\u7f16\\u53f7":"01011101","\\u73ed\\u7ea7\\u540d\\u79f0":"\\u6c49\\u8bed\\u8a001101","\\u5b66\\u7c4d\\u53f7":"0101110110","\\u540d\\u65cf\\u4ee3\\u7801":"1","\\u59d3\\u540d":"\\u90dd\\u94ce","\\u6027\\u522b":"1","\\u51fa\\u751f\\u65e5\\u671f":"33005","\\u5bb6\\u5ead\\u4f4f\\u5740":"\\u7518\\u8083","\\u8eab\\u9ad8":"175","\\u4f53\\u91cd":"65","\\u4f53\\u91cd\\u8bc4\\u5206":"100","\\u4f53\\u91cd\\u7b49\\u7ea7":"\\u6b63\\u5e38","\\u80ba\\u6d3b\\u91cf":"4525","\\u80ba\\u6d3b\\u91cf\\u8bc4\\u5206":"80","\\u80ba\\u6d3b\\u91cf\\u7b49\\u7ea7":"\\u826f\\u597d","50\\u7c73\\u8dd1":"6.7","50\\u7c73\\u8dd1\\u8bc4\\u5206":"95","50\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u4f18\\u79c0","\\u7acb\\u5b9a\\u8df3\\u8fdc":"225","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u8bc4\\u5206":"66","\\u7acb\\u5b9a\\u8df3\\u8fdc\\u7b49\\u7ea7":"\\u53ca\\u683c","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48":"-1","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u8bc4\\u5206":"10","\\u5750\\u4f4d\\u4f53\\u524d\\u5c48\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","800\\u7c73\\u8dd1":null,"800\\u7c73\\u8dd1\\u8bc4\\u5206":null,"800\\u7c73\\u8dd1\\u7b49\\u7ea7":null,"800\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"1000\\u7c73\\u8dd1":"3\\u203228","1000\\u7c73\\u8dd1\\u8bc4\\u5206":"85","1000\\u7c73\\u8dd1\\u7b49\\u7ea7":"\\u826f\\u597d","1000\\u7c73\\u8dd1\\u9644\\u52a0\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u8bc4\\u5206":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u7b49\\u7ea7":null,"\\u4e00\\u5206\\u949f\\u4ef0\\u5367\\u8d77\\u5750\\u9644\\u52a0\\u5206":null,"\\u5f15\\u4f53\\u5411\\u4e0a":"3","\\u5f15\\u4f53\\u5411\\u4e0a\\u8bc4\\u5206":"10","\\u5f15\\u4f53\\u5411\\u4e0a\\u7b49\\u7ea7":"\\u4e0d\\u53ca\\u683c","\\u5f15\\u4f53\\u5411\\u4e0a\\u9644\\u52a0\\u5206":null,"\\u6807\\u51c6\\u5206":"71.6","\\u603b\\u5206":"71.6","\\u603b\\u5206\\u7b49\\u7ea7":"\\u53ca\\u683c"}}', '郝铎', '0101110110', '2015-03-05 07:36:02');
 
 -- --------------------------------------------------------
 
@@ -5723,7 +5945,7 @@ CREATE TABLE IF NOT EXISTS `fay_templates` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_users` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL DEFAULT '',
   `cellphone` varchar(30) NOT NULL DEFAULT '',
@@ -5750,8 +5972,10 @@ CREATE TABLE IF NOT EXISTS `fay_users` (
   `trackid` varchar(50) NOT NULL DEFAULT '',
   `refer` varchar(255) NOT NULL DEFAULT '',
   `se` varchar(30) NOT NULL DEFAULT '',
-  `keywords` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8;
+  `keywords` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10002 ;
 
 --
 -- 转存表中的数据 `fay_users`
@@ -5761,7 +5985,8 @@ INSERT INTO `fay_users` (`id`, `username`, `email`, `cellphone`, `password`, `sa
 (1, '系统', '', '', '', '', '系统', '系统', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (2, '用户留言收件人', '', '', '', '', '用户留言收件人', '用户留言收件人', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (3, '系统消息', '', '', '', '', '系统消息', '系统消息', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
-(10000, '123', '', '', '8ca29f87d9e1b29752460b090020b950', 'Nis55', '', '', 0, 1425457736, 0, 2, 1425458306, 0, 1425473364, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
+(10000, '123', '', '', '8ca29f87d9e1b29752460b090020b950', 'Nis55', '', '', 0, 1425457736, 0, 8, 1425531625, 2062170520, 1425546436, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', ''),
+(10001, 'admin', '', '', '1af1f4e4c33999ddb38567b90d6e60b1', 'gaYVc', 'admin', 'admin', 0, 1425530813, 0, 1, 1425531586, 2062170520, 1425531618, 3, 0, 102, 0, '', 0, '', 0, 0, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5770,15 +5995,16 @@ INSERT INTO `fay_users` (`id`, `username`, `email`, `cellphone`, `password`, `sa
 --
 
 CREATE TABLE IF NOT EXISTS `fay_user_notifications` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `to` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `notification_id` int(10) unsigned NOT NULL DEFAULT '0',
   `read` tinyint(1) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `processed` tinyint(1) NOT NULL DEFAULT '0',
   `ignored` tinyint(1) NOT NULL DEFAULT '0',
-  `option` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `option` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -5787,18 +6013,21 @@ CREATE TABLE IF NOT EXISTS `fay_user_notifications` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_user_settings` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `setting_key` varchar(255) NOT NULL DEFAULT '',
-  `setting_value` text NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `setting_value` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- 转存表中的数据 `fay_user_settings`
 --
 
 INSERT INTO `fay_user_settings` (`id`, `user_id`, `setting_key`, `setting_value`) VALUES
-(1, 10000, 'admin_post_box_sort', '{"side":["publish-time","thumbnail","main-category","views","likes","alias","props","gather"],"normal":["files","abstract","tags","seo","category"]}');
+(1, 10000, 'admin_post_box_sort', '{"side":["publish-time","thumbnail","main-category","views","likes","alias","props","gather"],"normal":["files","abstract","tags","seo","category"]}'),
+(2, 10000, 'admin_dashboard_boxes', '{"boxes":["cms\\/change_app","cms\\/tongji_chart","cms\\/tongji","cms\\/ip_statistics","cms\\/user_info","cms\\/check_system","cms\\/admins_online"]}'),
+(3, 10001, 'admin_chat_index', '{"display_name":"realname","page_size":20}');
 
 -- --------------------------------------------------------
 
@@ -5807,7 +6036,7 @@ INSERT INTO `fay_user_settings` (`id`, `user_id`, `setting_key`, `setting_value`
 --
 
 CREATE TABLE IF NOT EXISTS `fay_vouchers` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `sn` varchar(30) NOT NULL DEFAULT '',
   `amount` decimal(6,2) unsigned NOT NULL DEFAULT '0.00',
@@ -5817,8 +6046,9 @@ CREATE TABLE IF NOT EXISTS `fay_vouchers` (
   `type` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
-  `counts` smallint(5) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `counts` smallint(5) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -5827,13 +6057,15 @@ CREATE TABLE IF NOT EXISTS `fay_vouchers` (
 --
 
 CREATE TABLE IF NOT EXISTS `fay_widgets` (
-`id` mediumint(8) unsigned NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `alias` varchar(255) NOT NULL DEFAULT '',
   `options` text NOT NULL,
   `widget_name` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
-  `enabled` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`alias`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- 转存表中的数据 `fay_widgets`
@@ -5842,607 +6074,9 @@ CREATE TABLE IF NOT EXISTS `fay_widgets` (
 INSERT INTO `fay_widgets` (`id`, `alias`, `options`, `widget_name`, `description`, `enabled`) VALUES
 (1, 'index-box-new', '{"title":"\\u6d4b\\u8bd5\\u901a\\u77e5","top":10001,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/index-box-new"}', 'fay/category_post', '显示主要通知', 1),
 (2, 'index-box-gallery', '{"title":"\\u56fe\\u7247\\u5c55\\u793a","top":10005,"subclassification":1,"number":7,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/index-box-gallery"}', 'fay/category_post', '显示主页图片展示', 1),
-(3, 'index-box-download', '{"title":"\\u8d44\\u6599\\u4e0b\\u8f7d","top":10002,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/index-box-download"}', 'fay/category_post', '显示主页资料下载', 1);
+(3, 'index-box-download', '{"title":"\\u8d44\\u6599\\u4e0b\\u8f7d","top":10002,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/index-box-download"}', 'fay/category_post', '显示主页资料下载', 1),
+(5, 'friendly_links', '{"title":"\\u53cb\\u60c5\\u94fe\\u63a5","number":5,"template":"frontend\\/widget\\/friendly_links"}', 'fay/friendlinks', '友情链接', 1);
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `fay_actionlogs`
---
-ALTER TABLE `fay_actionlogs`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_actions`
---
-ALTER TABLE `fay_actions`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_analyst_caches`
---
-ALTER TABLE `fay_analyst_caches`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_analyst_macs`
---
-ALTER TABLE `fay_analyst_macs`
- ADD PRIMARY KEY (`id`), ADD KEY `hash` (`hash`), ADD KEY `date` (`create_date`);
-
---
--- Indexes for table `fay_analyst_sites`
---
-ALTER TABLE `fay_analyst_sites`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_analyst_visits`
---
-ALTER TABLE `fay_analyst_visits`
- ADD PRIMARY KEY (`id`), ADD KEY `pv` (`mac`,`short_url`,`create_time`), ADD KEY `date` (`create_date`,`hour`);
-
---
--- Indexes for table `fay_categories`
---
-ALTER TABLE `fay_categories`
- ADD PRIMARY KEY (`id`), ADD KEY `alias` (`alias`), ADD KEY `left_right_value` (`left_value`,`right_value`);
-
---
--- Indexes for table `fay_cat_props`
---
-ALTER TABLE `fay_cat_props`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_cat_prop_values`
---
-ALTER TABLE `fay_cat_prop_values`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_cities`
---
-ALTER TABLE `fay_cities`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_contacts`
---
-ALTER TABLE `fay_contacts`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_exam_answers`
---
-ALTER TABLE `fay_exam_answers`
- ADD PRIMARY KEY (`id`), ADD KEY `question` (`question_id`);
-
---
--- Indexes for table `fay_exam_exams`
---
-ALTER TABLE `fay_exam_exams`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_exam_exam_questions`
---
-ALTER TABLE `fay_exam_exam_questions`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_exam_exam_question_answers_int`
---
-ALTER TABLE `fay_exam_exam_question_answers_int`
- ADD PRIMARY KEY (`exam_question_id`,`user_answer_id`);
-
---
--- Indexes for table `fay_exam_exam_question_answer_text`
---
-ALTER TABLE `fay_exam_exam_question_answer_text`
- ADD PRIMARY KEY (`exam_question_id`);
-
---
--- Indexes for table `fay_exam_papers`
---
-ALTER TABLE `fay_exam_papers`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_exam_paper_questions`
---
-ALTER TABLE `fay_exam_paper_questions`
- ADD PRIMARY KEY (`paper_id`,`question_id`), ADD KEY `question` (`question_id`);
-
---
--- Indexes for table `fay_exam_questions`
---
-ALTER TABLE `fay_exam_questions`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_favourites`
---
-ALTER TABLE `fay_favourites`
- ADD PRIMARY KEY (`user_id`,`post_id`);
-
---
--- Indexes for table `fay_files`
---
-ALTER TABLE `fay_files`
- ADD PRIMARY KEY (`id`), ADD KEY `raw_name` (`raw_name`);
-
---
--- Indexes for table `fay_followers`
---
-ALTER TABLE `fay_followers`
- ADD PRIMARY KEY (`user_id`,`follower`);
-
---
--- Indexes for table `fay_goods`
---
-ALTER TABLE `fay_goods`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_goods_files`
---
-ALTER TABLE `fay_goods_files`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_goods_prop_values`
---
-ALTER TABLE `fay_goods_prop_values`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_goods_skus`
---
-ALTER TABLE `fay_goods_skus`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_item_props`
---
-ALTER TABLE `fay_item_props`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_item_prop_values`
---
-ALTER TABLE `fay_item_prop_values`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_keywords`
---
-ALTER TABLE `fay_keywords`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_likes`
---
-ALTER TABLE `fay_likes`
- ADD PRIMARY KEY (`post_id`,`user_id`);
-
---
--- Indexes for table `fay_links`
---
-ALTER TABLE `fay_links`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_logs`
---
-ALTER TABLE `fay_logs`
- ADD PRIMARY KEY (`id`), ADD KEY `type` (`type`);
-
---
--- Indexes for table `fay_menus`
---
-ALTER TABLE `fay_menus`
- ADD PRIMARY KEY (`id`), ADD KEY `alias` (`alias`);
-
---
--- Indexes for table `fay_messages`
---
-ALTER TABLE `fay_messages`
- ADD PRIMARY KEY (`id`), ADD KEY `root` (`root`);
-
---
--- Indexes for table `fay_notifications`
---
-ALTER TABLE `fay_notifications`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_options`
---
-ALTER TABLE `fay_options`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `option_name` (`option_name`);
-
---
--- Indexes for table `fay_pages`
---
-ALTER TABLE `fay_pages`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_page_categories`
---
-ALTER TABLE `fay_page_categories`
- ADD PRIMARY KEY (`page_id`,`cat_id`);
-
---
--- Indexes for table `fay_posts`
---
-ALTER TABLE `fay_posts`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_posts_tags`
---
-ALTER TABLE `fay_posts_tags`
- ADD PRIMARY KEY (`post_id`,`tag_id`);
-
---
--- Indexes for table `fay_post_categories`
---
-ALTER TABLE `fay_post_categories`
- ADD PRIMARY KEY (`post_id`,`cat_id`);
-
---
--- Indexes for table `fay_post_files`
---
-ALTER TABLE `fay_post_files`
- ADD PRIMARY KEY (`post_id`,`file_id`);
-
---
--- Indexes for table `fay_post_prop_int`
---
-ALTER TABLE `fay_post_prop_int`
- ADD PRIMARY KEY (`post_id`,`prop_id`,`content`);
-
---
--- Indexes for table `fay_post_prop_text`
---
-ALTER TABLE `fay_post_prop_text`
- ADD PRIMARY KEY (`post_id`,`prop_id`);
-
---
--- Indexes for table `fay_post_prop_varchar`
---
-ALTER TABLE `fay_post_prop_varchar`
- ADD PRIMARY KEY (`post_id`,`prop_id`);
-
---
--- Indexes for table `fay_profile_int`
---
-ALTER TABLE `fay_profile_int`
- ADD PRIMARY KEY (`user_id`,`prop_id`,`content`);
-
---
--- Indexes for table `fay_profile_text`
---
-ALTER TABLE `fay_profile_text`
- ADD PRIMARY KEY (`user_id`,`prop_id`);
-
---
--- Indexes for table `fay_profile_varchar`
---
-ALTER TABLE `fay_profile_varchar`
- ADD PRIMARY KEY (`user_id`,`prop_id`);
-
---
--- Indexes for table `fay_props`
---
-ALTER TABLE `fay_props`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_prop_values`
---
-ALTER TABLE `fay_prop_values`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_regions`
---
-ALTER TABLE `fay_regions`
- ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`), ADD KEY `region_type` (`type`);
-
---
--- Indexes for table `fay_roles`
---
-ALTER TABLE `fay_roles`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_role_actions`
---
-ALTER TABLE `fay_role_actions`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_spider_logs`
---
-ALTER TABLE `fay_spider_logs`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_tags`
---
-ALTER TABLE `fay_tags`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_templates`
---
-ALTER TABLE `fay_templates`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_users`
---
-ALTER TABLE `fay_users`
- ADD PRIMARY KEY (`id`), ADD KEY `username` (`username`);
-
---
--- Indexes for table `fay_user_notifications`
---
-ALTER TABLE `fay_user_notifications`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_user_settings`
---
-ALTER TABLE `fay_user_settings`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_vouchers`
---
-ALTER TABLE `fay_vouchers`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fay_widgets`
---
-ALTER TABLE `fay_widgets`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `alias` (`alias`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `fay_actionlogs`
---
-ALTER TABLE `fay_actionlogs`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
---
--- AUTO_INCREMENT for table `fay_actions`
---
-ALTER TABLE `fay_actions`
-MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=102;
---
--- AUTO_INCREMENT for table `fay_analyst_caches`
---
-ALTER TABLE `fay_analyst_caches`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
---
--- AUTO_INCREMENT for table `fay_analyst_macs`
---
-ALTER TABLE `fay_analyst_macs`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `fay_analyst_sites`
---
-ALTER TABLE `fay_analyst_sites`
-MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `fay_analyst_visits`
---
-ALTER TABLE `fay_analyst_visits`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `fay_categories`
---
-ALTER TABLE `fay_categories`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10006;
---
--- AUTO_INCREMENT for table `fay_cat_props`
---
-ALTER TABLE `fay_cat_props`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_cat_prop_values`
---
-ALTER TABLE `fay_cat_prop_values`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_cities`
---
-ALTER TABLE `fay_cities`
-MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=503;
---
--- AUTO_INCREMENT for table `fay_contacts`
---
-ALTER TABLE `fay_contacts`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_exam_answers`
---
-ALTER TABLE `fay_exam_answers`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_exam_exams`
---
-ALTER TABLE `fay_exam_exams`
-MODIFY `id` mediumint(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_exam_exam_questions`
---
-ALTER TABLE `fay_exam_exam_questions`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_exam_papers`
---
-ALTER TABLE `fay_exam_papers`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_exam_questions`
---
-ALTER TABLE `fay_exam_questions`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_files`
---
-ALTER TABLE `fay_files`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1017;
---
--- AUTO_INCREMENT for table `fay_goods`
---
-ALTER TABLE `fay_goods`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_goods_files`
---
-ALTER TABLE `fay_goods_files`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_goods_prop_values`
---
-ALTER TABLE `fay_goods_prop_values`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_goods_skus`
---
-ALTER TABLE `fay_goods_skus`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_item_props`
---
-ALTER TABLE `fay_item_props`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_item_prop_values`
---
-ALTER TABLE `fay_item_prop_values`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_keywords`
---
-ALTER TABLE `fay_keywords`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_links`
---
-ALTER TABLE `fay_links`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_logs`
---
-ALTER TABLE `fay_logs`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `fay_menus`
---
-ALTER TABLE `fay_menus`
-MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000;
---
--- AUTO_INCREMENT for table `fay_messages`
---
-ALTER TABLE `fay_messages`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_notifications`
---
-ALTER TABLE `fay_notifications`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_options`
---
-ALTER TABLE `fay_options`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT for table `fay_pages`
---
-ALTER TABLE `fay_pages`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
---
--- AUTO_INCREMENT for table `fay_posts`
---
-ALTER TABLE `fay_posts`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=511;
---
--- AUTO_INCREMENT for table `fay_props`
---
-ALTER TABLE `fay_props`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_prop_values`
---
-ALTER TABLE `fay_prop_values`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_regions`
---
-ALTER TABLE `fay_regions`
-MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3409;
---
--- AUTO_INCREMENT for table `fay_roles`
---
-ALTER TABLE `fay_roles`
-MODIFY `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=102;
---
--- AUTO_INCREMENT for table `fay_role_actions`
---
-ALTER TABLE `fay_role_actions`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_spider_logs`
---
-ALTER TABLE `fay_spider_logs`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_tags`
---
-ALTER TABLE `fay_tags`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_templates`
---
-ALTER TABLE `fay_templates`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_users`
---
-ALTER TABLE `fay_users`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10001;
---
--- AUTO_INCREMENT for table `fay_user_notifications`
---
-ALTER TABLE `fay_user_notifications`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_user_settings`
---
-ALTER TABLE `fay_user_settings`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `fay_vouchers`
---
-ALTER TABLE `fay_vouchers`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `fay_widgets`
---
-ALTER TABLE `fay_widgets`
-MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

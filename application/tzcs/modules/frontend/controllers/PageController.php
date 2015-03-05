@@ -13,10 +13,10 @@ class PageController extends FrontController{
         }else{
             $content = Page::model()->getByAlias($id);
         }
+        
         if (empty($content)){
             Response::showError('页面不存在！');
         }
-        
         $this->view->content = $content;
         
         $this->view->render();

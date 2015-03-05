@@ -171,7 +171,7 @@ class Db extends FBase{
 	}
 	
 	public function update($table, $data, $condition = false){
-		if(!is_array($data) || empty($data)){
+		if(empty($data)){
 			throw new Exception('Db::update语句更新数据不能为空');
 		}
 		

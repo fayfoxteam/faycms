@@ -6,7 +6,7 @@ use fay\helpers\Html;
 
 	<!--logo-->
     <div class="logo block clearfix">
-    	<a href="/" class="fleft"><img src="<?php echo $this->staticFile('images/logo.gif');?>"></a>
+    	<a href="/" class="fleft"><img src="<?php echo $this->staticFile('images/logo.gif');?>" height="75px" width="380px"></a><span class="logo_h">大学生体质测试中心</span>
         <div class="fright">
         	<p class="tright"><a target="__blank" href="http://www.ypcol.com/">元培首页</a> | <a href="<?php echo $this->url('page/contact')?>">联系我们</a> | <a onclick="SetHome(window.location)" href="javascript:void(0)">设为首页</a> | <a onclick="AddFavorite(window.location,document.title)" href="javascript:void(0)">加入收藏</a></p>
             <br>

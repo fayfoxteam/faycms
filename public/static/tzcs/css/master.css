@@ -3,6 +3,7 @@
 
 .head .logo{ height:55px; padding:20px 0;}
 .logo .fright .tright a:hover{color:#289cc7;}
+.logo_h{float:left;font-size:25px;margin:20px;font-family:sans-serif;}
 
 .nav{ background:url(../images/nav_bj.jpg) repeat-x; height:40px; line-height:40px;}
 .nav ul li{ float:left}
@@ -105,4 +106,12 @@ overflow: hidden; }
 .newsnr .down .fleft p{ height:30px; line-height:30px;color:#375e85 }
 .newsnr .down .fleft p a{color:#375e85;}
 .newsnr .down .fright{ padding-top:20px; width:180px;}
+
+
+/* 成绩查询登录框 */
+.login{margin:20px 5px;font-size: 14px;}
+.login input{height:25px;}
+.btn{width:80px;height:25px;}
+
+
 

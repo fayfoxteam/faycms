@@ -7,7 +7,7 @@ class IndexController extends FrontController{
     public function __construct(){
         parent::__construct();
         
-        $this->layout->title = '首页';
+        $this->layout->title = '';
         $this->layout->keywords = '';
     	$this->layout->description = '';
     }

@@ -1,5 +1,6 @@
 <?php 
 
+use fay\core\Session;
 ?>
 <div class="main clearfix ofHidden block yh">
 
@@ -26,7 +27,8 @@
             <input type="submit" class="btn" value="查询" />
             </form>
     	</div>
-    	
+     
+    	<div class="message"><?php echo Session::getInstance()->getFlash('error_message') ?></div>
     </div>
 
 

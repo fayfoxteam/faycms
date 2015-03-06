@@ -113,6 +113,7 @@ overflow: hidden; }
 .login{margin:20px 5px;font-size: 14px;}
 .login input{height:25px;}
 .btn{width:80px;height:25px;}
+.message{color:red;}
 
 
 

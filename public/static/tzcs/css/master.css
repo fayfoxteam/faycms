@@ -39,6 +39,7 @@
 .news ul li a:hover{margin-left:5px;color:#289cc7}
 
 .cs .t1{width:380px;}
+.cs ul li{width:340px;}
 
 .cp_show{}
 .cp_show .title{ background:url(../images/cp_title_bg.jpg) no-repeat center;color:#005598; border-bottom:none}

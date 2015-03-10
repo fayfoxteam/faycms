@@ -352,7 +352,7 @@ class Html extends FBase{
 					return '';
 				}
 			}
-			$uri = \F::app()->view->url($uri[0],
+			$uri = \F::app()->view->url(empty($uri[0]) ? null : $uri[0],
 				empty($uri[1]) ? array() : $uri[1],
 				isset($uri[2]) && $uri[2] === false ? false : true);
 		}

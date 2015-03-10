@@ -29,7 +29,7 @@ use fay\helpers\Html;
 <script>
 $(function(){
 	$(".jq-camera").camera({
-		'height':'<?php echo $data['height']?>px',
+		'height':'<?php echo is_numeric($data['height']) ? $data['height'].'px' : $data['height']?>',
 		'easing':'swing',
 		'loader':'none',
 		'pagination':false,

@@ -482,7 +482,6 @@ class Tree extends Model{
 	 * @param string $model
 	 */
 	public function sort($model, $node, $sort){
-		$sort > 255 && $sort = 255;
 		$sort < 0 && $sort = 0;
 		//获取被移动的节点
 		if(is_numeric($node)){
@@ -518,7 +517,7 @@ class Tree extends Model{
 				),
 			),
 		), 'id,sort', 'sort, id ASC');
-		$ori_right_node_sort = isset($ori_right_node['sort']) ? $ori_right_node['sort'] : 256;
+		$ori_right_node_sort = isset($ori_right_node['sort']) ? $ori_right_node['sort'] : PHP_INT_MAX;
 		if($sort < $ori_left_node_sort || ($sort == $ori_left_node_sort && $node['id'] < $ori_left_node['id'])){//节点左移
 			//新位置的右节点
 			$right_node = \F::model($model)->fetchRow(array(

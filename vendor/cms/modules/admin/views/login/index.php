@@ -120,7 +120,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 	}?>">
 		<div class="login-form-container">
 			<form method="post" id="login-form">
-				<fieldset class="logo">Fayfox</fieldset>
+				<fieldset class="logo">Faycms</fieldset>
 				<div class="error-msg"><?php if(isset($error))echo $error;?></div>
 				<fieldset class="input-container username">
 					<?php echo F::form()->inputText('username', array(

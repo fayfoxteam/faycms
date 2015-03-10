@@ -145,7 +145,7 @@ class Post extends Model{
 		if(in_array('nav', $fields)){
 			//previous post
 			//此处上一篇是比当前文章新一点的那篇
-			$sql->from('posts', 'p', 'id,title')
+			$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 				->where(array(
 					'p.deleted = 0',
 					'p.publish_time < '.\F::app()->current_time,
@@ -156,12 +156,26 @@ class Post extends Model{
 					"p.id != {$post['id']}",
 				))
 				->order('is_top, sort DESC, publish_time')
-				->limit(1);
-			
-			$post['nav']['prev'] = $sql->fetchRow();
+				->fetchRow();
+			if($prev_post['publish_time'] == $post['publish_time'] && $prev_post['sort'] == $post['sort']){
+				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
+				$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
+					->where(array(
+						'p.deleted = 0',
+						'p.publish_time < '.\F::app()->current_time,
+						'p.status = '.Posts::STATUS_PUBLISH,
+						'p.cat_id = '.$post['cat_id'],
+						"p.publish_time = {$post['publish_time']}",
+						"p.sort = {$post['sort']}",
+						"p.id > {$post['id']}",
+					))
+					->order('id ASC')
+					->fetchRow();
+			}
+			$post['nav']['prev'] = $prev_post;
 				
 			//next post
-			$sql->from('posts', 'p', 'id,title')
+			$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 				->where(array(
 					'p.deleted = 0',
 					'p.publish_time < '.\F::app()->current_time,
@@ -172,8 +186,22 @@ class Post extends Model{
 					"p.id != {$post['id']}",
 				))
 				->order('is_top DESC, sort, publish_time DESC')
-				->limit(1);
-			$post['nav']['next'] = $sql->fetchRow();
+				->fetchRow();
+			if($next_post['publish_time'] == $post['publish_time'] && $next_post['sort'] == $post['sort']){
+				$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
+					->where(array(
+						'p.deleted = 0',
+						'p.publish_time < '.\F::app()->current_time,
+						'p.status = '.Posts::STATUS_PUBLISH,
+						'p.cat_id = '.$post['cat_id'],
+						"p.publish_time = {$post['publish_time']}",
+						"p.sort = {$post['sort']}",
+						"p.id < {$post['id']}",
+					))
+					->order('id DESC')
+					->fetchRow();
+			}
+			$post['nav']['next'] = $next_post;
 		}
 		
 		//files

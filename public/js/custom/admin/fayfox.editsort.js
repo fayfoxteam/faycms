@@ -41,7 +41,7 @@ jQuery.fn.extend({
 									}else{
 										$(o).val(resp.sort)
 											.next("img").attr("src", system.url() + "images/exclamation.png")
-											.attr('title', '排序字段取值为0-255之间');;
+											.attr('title', '排序字段取值为0-65535之间');;
 									}
 								}else{
 									$(o).next("img").attr("src", system.url() + "images/cross-circle.png")

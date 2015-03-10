@@ -36,10 +36,10 @@ F::form('edit')->setModel(Categories::model());
 					<tr>
 						<th class="adaption">排序</th>
 						<td>
-							<?php echo Html::inputText('sort', '100', array(
+							<?php echo Html::inputText('sort', '1000', array(
 								'class'=>'w100',
 							))?>
-							<span class="color-grey">0-255之间，数值越小，排序越靠前</span>
+							<span class="color-grey">0-65535之间，数值越小，排序越靠前</span>
 						</td>
 					</tr>
 					<tr>
@@ -138,10 +138,10 @@ F::form('edit')->setModel(Categories::model());
 					<tr>
 						<th class="adaption">排序</th>
 						<td>
-							<?php echo Html::inputText('sort', '100', array(
+							<?php echo Html::inputText('sort', '1000', array(
 								'class'=>'w100',
 							))?>
-							<span class="color-grey">0-255之间，数值越小，排序越靠前</span>
+							<span class="color-grey">0-65535之间，数值越小，排序越靠前</span>
 						</td>
 					</tr>
 					<tr>

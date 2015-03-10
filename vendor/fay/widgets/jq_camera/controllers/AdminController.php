@@ -45,7 +45,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array('links', 'url'),
-			array(array('height', 'transPeriod', 'time'), 'int'),
+			array(array('transPeriod', 'time'), 'int'),
 		);
 	}
 	
@@ -60,7 +60,7 @@ class AdminController extends Widget{
 	
 	public function filters(){
 		return array(
-			'height'=>'intval',
+			'height'=>'trim',
 			'transPeriod'=>'intval',
 			'time'=>'intval',
 			'fx'=>'trim',

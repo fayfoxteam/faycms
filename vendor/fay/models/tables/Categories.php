@@ -17,7 +17,7 @@ class Categories extends Table{
 		return array(
 			array(array('file_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('id', 'parent', 'left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
 			array(array('description'), 'string', array('max'=>500)),
 			array(array('is_nav', 'is_system'), 'range', array('range'=>array('0', '1'))),

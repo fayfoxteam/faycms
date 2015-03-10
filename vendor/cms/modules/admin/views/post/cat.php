@@ -10,10 +10,8 @@ function showCats($cats, $dep = 0){?>
 					<?php if(F::app()->checkPermission('admin/post/cat-sort')){?>
 					<span class="w100 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
-						'size'=>3,
-						'maxlength'=>3,
 						'data-id'=>$c['id'],
-						'class'=>"edit-sort w30 cat-{$c['id']}-sort",
+						'class'=>"edit-sort w35 cat-{$c['id']}-sort",
 					))?>
 					</span>
 					<?php }?>

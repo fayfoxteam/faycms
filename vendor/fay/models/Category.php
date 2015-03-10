@@ -26,9 +26,9 @@ class Category extends Model{
 	 * @param string $alias
 	 * @param string $fields
 	 * @param int|string|array $root 若指定root，则只搜索root下的分类
-	 *     若为数字，视为分类ID
-	 *     若为字符串，视为分类别名
-	 *     若为数组，则必须包含left_value和right_value
+	 *  - 若为数字，视为分类ID
+	 *  - 若为字符串，视为分类别名
+	 *  - 若为数组，则必须包含left_value和right_value
 	 */
 	public function getByAlias($alias, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
@@ -54,9 +54,9 @@ class Category extends Model{
 	 * @param string $alias
 	 * @param string $fields
 	 * @param int|string|array $root 若指定root，则只搜索root下的分类
-	 *     若为数字，视为分类ID
-	 *     若为字符串，视为分类别名
-	 *     若为数组，则必须包含left_value和right_value
+	 *  - 若为数字，视为分类ID
+	 *  - 若为字符串，视为分类别名
+	 *  - 若为数组，则必须包含left_value和right_value
 	 */
 	public function getById($id, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
@@ -78,22 +78,41 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 根据父节点别名，获取其所有子节点，返回二维数组（非树形）<br>
+	 * 根据父节点，获取其所有子节点，返回二维数组（非树形）<br>
+	 * 若不指定别名，返回整张表
+	 * @param int|string $parent 父节点ID或别名
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
+	 * @param string $fields
+	 * @return array
+	 */
+	public function getAll($parent = null, $fields = 'id,parent,alias,title,sort', $order = 'sort'){
+		if($parent === null){
+			return Categories::model()->fetchAll(array(), $fields, $order);
+		}else if(is_numeric($parent)){
+			return $this->getAllByParentId($parent, $fields, $order);
+		}else{
+			return $this->getAllByAlias($parent, $fields, $order);
+		}
+	}
+	
+	/**
+	 * 根据父节点别名，获取其所有子节点，返回二维数组（非树形）
 	 * 若不指定别名，返回整张表
 	 * @param string $alias
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAll($alias = null, $fields = 'id,parent,alias,title,sort'){
+	public function getAllByAlias($alias = null, $fields = 'id,parent,alias,title,sort', $order = 'sort'){
 		if($alias === null){
-			return Categories::model()->fetchAll(array(), $fields, 'sort');
+			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else{
 			$node = $this->getByAlias($alias, 'left_value,right_value');
 			if($node){
 				return Categories::model()->fetchAll(array(
 					'left_value > '.$node['left_value'],
 					'right_value < '.$node['right_value'],
-				), $fields, 'sort');
+				), $fields, $order);
 			}else{
 				return array();
 			}
@@ -101,22 +120,22 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 根据父节点ID，获取其所有子节点，返回二维数组（非树形）<br>
+	 * 根据父节点ID，获取其所有子节点，返回二维数组（非树形）
 	 * 若不指定别名，返回整张表
 	 * @param string $alias
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAllByParentId($id = 0, $fields = 'id,parent,alias,title,sort'){
+	public function getAllByParentId($id = 0, $fields = 'id,parent,alias,title,sort', $order = 'sort'){
 		if($id == 0){
-			return Categories::model()->fetchAll(array(), $fields, 'sort');
+			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else{
 			$node = $this->get($id, 'left_value,right_value');
 			if($node){
 				return Categories::model()->fetchAll(array(
 					'left_value > '.$node['left_value'],
 					'right_value < '.$node['right_value'],
-				), $fields, 'sort');
+				), $fields, $order);
 			}else{
 				return array();
 			}
@@ -126,13 +145,30 @@ class Category extends Model{
 	/**
 	 * 根据父节点别名，获取所有子节点的ID，以一维数组方式返回
 	 * 若不指定别名，返回整张表
-	 * @param string $alias
+	 * @param int|string $parent
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
 	 */
-	public function getAllIds($alias = null){
-		if($alias === null){
+	public function getAllIds($parent = null){
+		if($parent === null){
+			return Categories::model()->fetchCol('id');
+		}else if(is_numeric($parent)){
+			return $this->getAllIdsByParentId($parent);
+		}else{
+			return $this->getAllIdsByParentAlias($parent);
+		}
+	}
+	
+	/**
+	 * 根据父节点别名，获取所有子节点的ID，以一维数组方式返回
+	 * 若不指定别名，返回整张表
+	 * @param string $parent_alias 父节点别名
+	 */
+	public function getAllIdsByParentAlias($parent_alias = null){
+		if($parent_alias === null){
 			return Categories::model()->fetchCol('id');
 		}else{
-			$node = $this->getByAlias($alias, 'left_value,right_value');
+			$node = $this->getByAlias($parent_alias, 'left_value,right_value');
 			if($node){
 				return Categories::model()->fetchCol('id', array(
 					'left_value > '.$node['left_value'],
@@ -146,7 +182,7 @@ class Category extends Model{
 	
 	/**
 	 * 根据父节点ID，获取所有子节点的ID，以一维数组方式返回
-	 * @param int $parent_id
+	 * @param int $parent_id 父节点ID
 	 * @return array
 	 */
 	public function getAllIdsByParentId($parent_id){
@@ -162,12 +198,30 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 根据父节点别名，获取分类树<br>
+	 * 根据父节点，获取分类树
+	 * 若不指定$parent或指定为null，返回整张表
+	 * @param int|string $parent 父节点ID或别名
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
+	 * @return array
+	 */
+	public function getTree($parent = null){
+		if($parent === null){
+			return Tree::model()->getTree('fay\models\tables\Categories');
+		}else if(is_numeric($parent)){
+			return $this->getTreeByParentId($parent);
+		}else{
+			return $this->getTreeByParentAlias($parent);
+		}
+	}
+	
+	/**
+	 * 根据父节点别名，获取分类树
 	 * 若不指定别名，返回整张表
 	 * @param string $alias
 	 * @return array
 	 */
-	public function getTree($alias = null){
+	public function getTreeByParentAlias($alias = null){
 		if($alias === null){
 			return Tree::model()->getTree('fay\models\tables\Categories');
 		}else{
@@ -182,6 +236,7 @@ class Category extends Model{
 	
 	/**
 	 * 根据父节点ID，获取分类树
+	 * 若不指定$id或$id为0，返回整张表
 	 * @param int $id
 	 * @param string $fields 返回的字段
 	 * @return array
@@ -191,12 +246,28 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 根据父节点别名，获取其下一级节点
-	 * @param string $alias
-	 * @param string $fields
-	 * @param string $order
+	 * 根据父节点，获取其下一级节点
+	 * @param int|string $parent 父节点ID或别名
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
+	 * @param string $fields 返回字段
+	 * @param string $order 排序规则
 	 */
-	public function getNextLevel($alias, $fields = '*', $order = 'sort, id'){
+	public function getNextLevel($parent, $fields = '*', $order = 'sort, id'){
+		if(is_numeric($parent)){
+			return $this->getNextLevelByParentId($parent, $fields, $order);
+		}else{
+			return $this->getNextLevelByParentAlias($parent, $fields, $order);
+		}
+	}
+	
+	/**
+	 * 根据父节点别名，获取其下一级节点
+	 * @param string $alias 父节点别名
+	 * @param string $fields 返回字段
+	 * @param string $order 排序规则
+	 */
+	public function getNextLevelByParentAlias($alias, $fields = '*', $order = 'sort, id'){
 		$node = $this->getByAlias($alias, 'id');
 		if($node){
 			return Categories::model()->fetchAll(array(
@@ -209,9 +280,9 @@ class Category extends Model{
 	
 	/**
 	 * 根据父节点ID，获取其下一级节点
-	 * @param int $id
-	 * @param string $fields
-	 * @param string $order
+	 * @param int $id 父节点ID
+	 * @param string $fields 返回字段
+	 * @param string $order 排序规则
 	 */
 	public function getNextLevelByParentId($id, $fields = '*', $order = 'sort, id'){
 		return Categories::model()->fetchAll(array(
@@ -222,14 +293,14 @@ class Category extends Model{
 	/**
 	 * 获取一个或多个分类。
 	 * @param int|string|array $cats
-	 *     若为数字，视为分类ID获取分类；
-	 *     若为字符串，视为分类别名获取分类；
-	 *     若是数组，循环调用自己获取多个分类；
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
+	 *  - 若是数组，循环调用自己获取多个分类；
 	 * @param string $fields
 	 * @param int|string|array $root 若指定root，则只搜索root下的分类
-	 *     若为数字，视为分类ID
-	 *     若为字符串，视为分类别名
-	 *     若为数组，则必须包含left_value和right_value
+	 *  - 若为数字，视为分类ID
+	 *  - 若为字符串，视为分类别名
+	 *  - 若为数组，则必须包含left_value和right_value
 	 */
 	public function get($cats, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
@@ -301,8 +372,14 @@ class Category extends Model{
 	
 	/**
 	 * 判断$cat1是否为$cat2的子节点
-	 * @param int|array $cat1 可以是cat_id或者数组，若为数组则必须传入left_value和right_value
-	 * @param int|array $cat2
+	 * @param int|string|array $cat1
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
+	 *  - 若是数组，必须包含left_value和right_value
+	 * @param int|string|string|array $cat2
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
+	 *  - 若是数组，必须包含left_value和right_value
 	 */
 	public function isChild($cat1, $cat2){
 		if(!is_array($cat1)){
@@ -323,9 +400,9 @@ class Category extends Model{
 	 * 获取族谱
 	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
 	 * cat和root都可以是：{
-	 *     数字:代表分类ID;
-	 *     字符串:分类别名;
-	 *     数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
+	 *  - 数字:代表分类ID;
+	 *  - 字符串:分类别名;
+	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
 	 * } 
 	 * @param int|string|array $cat
 	 * @param int|string|array $root

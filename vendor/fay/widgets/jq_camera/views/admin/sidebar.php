@@ -8,10 +8,7 @@
 			<?php echo F::form('widget')->inputText('height', array(
 				'class'=>'w100',
 			), 450)?>
-			<span class="color-grey">（单位：像素）</span>
-			<div class="color-grey">
-				<p>高度</p>
-			</div>
+			<p class="color-grey">若不写单位，默认为像素（px）</p>
 		</div>
 		<div class="form-field pb0">
 			<label class="title pb0">过渡动画时长（transPeriod）</label>

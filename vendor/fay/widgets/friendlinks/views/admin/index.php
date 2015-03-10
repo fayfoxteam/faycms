@@ -26,10 +26,10 @@ use fay\models\tables\Users;
 					'class'=>'wp90 h200',
 				))?>
 				<p class="color-grey">
-					若模版内容符合正则<span class="color-orange">/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</span>，
-					即类似<span class="color-orange">frontend<span class="color-green">/</span>widget<span class="color-green">/</span>template</span><br />
+					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
+					即类似<code>frontend/widget/template</code><br />
 					则会调用当前application下符合该相对路径的view文件。<br />
-					否则视为php代码eval执行。若留空，会调用默认模版。
+					否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
 				</p>
 			</div>
 		</div>

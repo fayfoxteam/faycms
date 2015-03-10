@@ -122,6 +122,10 @@ class Form extends FBase{
 	 * @return \fay\core\Form
 	 */
 	public function setData($data, $cover = false){
+		if(!is_array($data)){
+			//数据格式非法，直接返回
+			throw new Exception('fay\core\Form::setData第一个参数必须是数组', '<code>'.var_export($data, true).'</code>');
+		}
 		if($this->_data === null){
 			$this->_data = array();
 		}

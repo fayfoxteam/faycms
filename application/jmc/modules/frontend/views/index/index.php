@@ -49,21 +49,7 @@ use fay\helpers\String;
 								  <?php echo $teacher['abstract']?>
 							     <div class="button"><span><a href="<?php echo $this->url('page/'.$teacher['id'])?>">查看更多>></a></span></div>
 							</div>
-							<div class="grid_1_of_3 images_1_of_3">
-								  <h3>OUR SERVICES</h3>
-								  <ul>
-								  	<li><a href="#">Lorem ipsum dolor sit amet</a></li>
-								  	<li><a href="#">Conse ctetur adipisicing</a></li>
-								  	<li><a href="#">Elit sed do eiusmod tempor</a></li>
-								  	<li><a href="#">Incididunt ut labore</a></li>
-								  	<li><a href="#">Et dolore magna aliqua</a></li>
-								  	<li><a href="#">Ut enim ad minim veniam</a></li>
-								  	<li><a href="#">Quis nostrud exercitation</a></li>
-								  	<li><a href="#">Ullamco laboris nisi</a></li>
-								  	<li><a href="#">Ut aliquip ex ea commodo</a></li>
-								  </ul>
-							     <div class="button"><span><a href="#">Read More</a></span></div>
-							</div>
+							<?php F::widget()->load('friendly-links')?>
 						</div>
 					</div>
 					</div>

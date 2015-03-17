@@ -9,5 +9,10 @@
   <?php F::widget()->load('right-sider')?>
         </div>
         <div class="clear"></div>
+        
     </div>
 </div>
+
+
+
+<div class="clear-30"></div>

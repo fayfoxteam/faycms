@@ -260,7 +260,7 @@ body{
 .images_1_of_3 ul li{
 	border-bottom: 1px dashed rgba(192, 192, 192, 0.33);
 	background: url(../images/marker02.png) 0 19px no-repeat;
-	padding: 9px 10px 8px 18px;
+	padding: 14px 10px 4px 18px;
 }
 .images_1_of_3 ul li:hover{
 	background: url(../images/marker020.png) 0 19px no-repeat;
@@ -733,7 +733,7 @@ body{
 .services-sidebar ul li {
 	border-bottom: 1px dashed rgba(192, 192, 192, 0.33);
 	background: url(../images/marker02.png) 0 19px no-repeat;
-	padding: 9px 10px 8px 18px;
+	padding: 14px 10px 4px 18px;
 }
 .services-sidebar ul li:hover{
 	background: url(../images/marker020.png) 0 19px no-repeat;
@@ -1006,3 +1006,6 @@ body{
 	}
 }
 
+
+.page-numbers { margin-left: 5px; color:#007DAD; }
+.crt { color: #000; background: #fff; }

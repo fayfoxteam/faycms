@@ -35,7 +35,7 @@ class CatController extends FrontendController
                 'p.publish_time < '.$this->current_time,
             ));
         $this->view->listview = new ListView($sql, array(
-            'pageSize' => 12,
+            'pageSize' => 9,
             'reload'   => $this->view->url('cat/'.$cat['id']),
         ));
         

@@ -8,9 +8,9 @@
 								  <h3><?php echo $data['title']?></h3>
 								  <ul>
 								  <?php foreach ($links as $link){?>
-								  	<li><a href="<?php echo $link['url']?>"><?php echo $link['title']?></a></li>
+								  	<li><a href="<?php echo $link['url']?>" target="<?php echo $link['target']?>"><?php echo $link['title']?></a></li>
 								
 								  	<?php }?>
 								  </ul>
-							     <div class="button"><span><a href="#">Read More</a></span></div>
+<!-- 							     <div class="button"><span><a href="#">Read More</a></span></div -->
 							</div>

@@ -45,17 +45,9 @@ use fay\helpers\String;
 							     <div class="button"><span><a href="<?php echo $this->url('page/'.$about['id'])?>">查看更多>></a></span></div>
 							</div>
 							<div class="grid_1_of_3 images_1_of_3">
-								  <h3>ABOUT US</h3>
-								  <span>Lorem ipsum dolor sit amet conse ctetur adipisicing elit,</span>
-								  <p>in voluptate Lorem ipsum, in voluptate velit esse cillum dolore eu fugiat amet conse ctetur adipisicing elit nulla pariatur.</p>
-								  <span>Lorem ipsum dolor sit, fugiat nulla pariatur</span>
-								  <p>fugiat nulla Lorem ipsum dolor sit amet, consectetur adipisicing elitamet conse ctetur adipisicing elit, fugiat nulla pariatur.</p>
-								  <span>Lorem ipsum dolor sit amet cons,</span>
-								  <p>consectetur Lorem ipsum dolor sit amet, consectetur adipisicing elit, in voluptate velit esse cillu.</p>
-								  <span>Lorem ipsum dolor sit amet conse ctetur adipisicing elit,</span>
-								  <p>Lorem ipsum dolor sit amet, consectetur adipisorem ipsum dolor sit amet, consectetur adipiicing elit, in voluptate.</p>
-								  
-							     <div class="button"><span><a href="#">Read More</a></span></div>
+								  <h3><?php echo $teacher['title'] ?></h3>
+								  <?php echo $teacher['abstract']?>
+							     <div class="button"><span><a href="<?php echo $this->url('page/'.$teacher['id'])?>">查看更多>></a></span></div>
 							</div>
 							<div class="grid_1_of_3 images_1_of_3">
 								  <h3>OUR SERVICES</h3>

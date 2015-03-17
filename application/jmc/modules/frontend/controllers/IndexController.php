@@ -19,6 +19,8 @@ class IndexController extends FrontendController
     {
         $this->layout->page = 1;
         
+        $this->view->teacher = Page::model()->getByAlias('teacher');
+        
         $this->view->about = Page::model()->getByAlias('about');
         
         $this->view->render();

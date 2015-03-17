@@ -1,0 +1,80 @@
+<?php 
+
+use fay\helpers\Html;
+use fay\helpers\String;
+
+?>	
+	<!---start-wrap---->
+		
+
+			<!---start-images-slider---->
+			<div class="image-slider">
+						<!-- Slideshow 1 -->
+					    <ul class="rslides rslides1" id="slider1" style="max-width: 2500px;">
+					 
+					      <li id="rslides1_s1" class="" style="float: none; position: absolute; opacity: 0; z-index: 1; display: list-item; -webkit-transition: opacity 600ms ease-in-out; transition: opacity 600ms ease-in-out;">
+					      <img src="<?php echo $this->staticFile('images/slider2.png')?>" width="100%" height="420"  alt="">
+					      	<div class="slider-info">
+					      		<p>绍兴文理元培</p>
+					      		
+					      		<a href="<?php echo $this->url('page/about')?>">更多>></a>
+					      	</div>
+					      </li>
+					      <li id="rslides1_s2" class="rslides1_on" style="float: left; position: relative; opacity: 1; z-index: 2; display: list-item; -webkit-transition: opacity 600ms ease-in-out; transition: opacity 600ms ease-in-out;">
+					      <img src="<?php echo $this->staticFile('images/slider2.png')?>" width="100%" height="420" alt="">
+					      	<div class="slider-info">
+					      		<p>绍兴文理元培</p>
+					      		
+					      		<a href="<?php echo $this->url('page/about')?>">更多>></a>
+					      	</div>
+					      </li>
+					    </ul>
+						 <!-- Slideshow 2 -->
+					</div>
+			<!---End-images-slider---->
+			<!----start-content----->
+			<div class="content">
+
+				<div class="clear"> </div>
+				<div class="boxs">
+					<div class="wrap">
+						<div class="section group">
+							<div class="grid_1_of_3 images_1_of_3">
+								  <h3><?php echo Html::encode($about['title'])?></h3>
+								  <?php echo String::niceShort($about['content'], 180)?>
+							     <div class="button"><span><a href="<?php echo $this->url('page/'.$about['id'])?>">查看更多>></a></span></div>
+							</div>
+							<div class="grid_1_of_3 images_1_of_3">
+								  <h3>ABOUT US</h3>
+								  <span>Lorem ipsum dolor sit amet conse ctetur adipisicing elit,</span>
+								  <p>in voluptate Lorem ipsum, in voluptate velit esse cillum dolore eu fugiat amet conse ctetur adipisicing elit nulla pariatur.</p>
+								  <span>Lorem ipsum dolor sit, fugiat nulla pariatur</span>
+								  <p>fugiat nulla Lorem ipsum dolor sit amet, consectetur adipisicing elitamet conse ctetur adipisicing elit, fugiat nulla pariatur.</p>
+								  <span>Lorem ipsum dolor sit amet cons,</span>
+								  <p>consectetur Lorem ipsum dolor sit amet, consectetur adipisicing elit, in voluptate velit esse cillu.</p>
+								  <span>Lorem ipsum dolor sit amet conse ctetur adipisicing elit,</span>
+								  <p>Lorem ipsum dolor sit amet, consectetur adipisorem ipsum dolor sit amet, consectetur adipiicing elit, in voluptate.</p>
+								  
+							     <div class="button"><span><a href="#">Read More</a></span></div>
+							</div>
+							<div class="grid_1_of_3 images_1_of_3">
+								  <h3>OUR SERVICES</h3>
+								  <ul>
+								  	<li><a href="#">Lorem ipsum dolor sit amet</a></li>
+								  	<li><a href="#">Conse ctetur adipisicing</a></li>
+								  	<li><a href="#">Elit sed do eiusmod tempor</a></li>
+								  	<li><a href="#">Incididunt ut labore</a></li>
+								  	<li><a href="#">Et dolore magna aliqua</a></li>
+								  	<li><a href="#">Ut enim ad minim veniam</a></li>
+								  	<li><a href="#">Quis nostrud exercitation</a></li>
+								  	<li><a href="#">Ullamco laboris nisi</a></li>
+								  	<li><a href="#">Ut aliquip ex ea commodo</a></li>
+								  </ul>
+							     <div class="button"><span><a href="#">Read More</a></span></div>
+							</div>
+						</div>
+					</div>
+					</div>
+			<!----End-content----->
+		</div>
+		<!---End-wrap---->

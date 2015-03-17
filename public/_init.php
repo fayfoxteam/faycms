@@ -28,7 +28,7 @@ $error_handler->register();
  * @param boolean $encode 若此参数为true，则会对数组内容进行html实体转换
  * @param boolean $return 若此参数为true，则不直接输出数组，而是以变量的方式返回
  */
-function pr($arr, $encode = false, $return = false){
+function dump($arr, $encode = false, $return = false){
 	if($encode){
 		$arr = F::input()->filterR('fay\helpers\Html::encode', $arr);
 	}

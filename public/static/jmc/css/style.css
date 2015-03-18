@@ -733,7 +733,7 @@ body{
 .services-sidebar ul li {
 	border-bottom: 1px dashed rgba(192, 192, 192, 0.33);
 	background: url(../images/marker02.png) 0 19px no-repeat;
-	padding: 14px 10px 4px 18px;
+	padding: 13px 10px 4px 18px;
 }
 .services-sidebar ul li:hover{
 	background: url(../images/marker020.png) 0 19px no-repeat;

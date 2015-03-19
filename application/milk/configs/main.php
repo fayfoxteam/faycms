@@ -1,12 +1,12 @@
 <?php
 return array(
     'db'=>array(
-        'host'=>'db',					//数据库服务器
-        'user'=>'root',							//用户名
-        'password'=>'12345',							//密码
-//         'host'=>'114.215.134.73',					//数据库服务器
-//         'user'=>'whis',							//用户名
-//         'password'=>'chen19921012',							//密码
+//         'host'=>'db',					//数据库服务器
+//         'user'=>'root',							//用户名
+//         'password'=>'12345',							//密码
+        'host'=>'114.215.134.73',					//数据库服务器
+        'user'=>'whis',							//用户名
+        'password'=>'chen19921012',							//密码
         
         'port'=>3306,							//端口
         'dbname'=>'fay_milk',				//数据库名

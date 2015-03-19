@@ -15,6 +15,7 @@ class CatController extends FrontendController
         $cat = Category::model()->get($this->input->get('id','intval'));
         
         $this->layout->title = $cat['title'];
+        
         if (!$cat)
         {
             Response::showError('您访问的页面不存在！', 404, '404');

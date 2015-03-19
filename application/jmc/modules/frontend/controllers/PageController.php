@@ -24,6 +24,8 @@ class PageController extends FrontendController
             Response::showError('页面不存在！', 404, '404');
         }
         
+        $this->layout->title = $content['title'];
+        
         $this->view->content = $content;
             
         $this->view->render();

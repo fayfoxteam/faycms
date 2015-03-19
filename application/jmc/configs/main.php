@@ -1,9 +1,9 @@
 <?php
 return array(
     'db'=>array(
-//         'host'=>'db',					//数据库服务器
-//         'user'=>'root',							//用户名
-//         'password'=>'12345',							//密码
+        // 'host'=>'db',					//数据库服务器
+        // 'user'=>'root',							//用户名
+        // 'password'=>'',							//密码
         'host'=>'114.215.134.73',					//数据库服务器
         'user'=>'whis',							//用户名
         'password'=>'chen19921012',							//密码
@@ -23,7 +23,7 @@ return array(
      * 默认url后缀
     * 可通过config/ext.php配置文件对单独的url再做设置
     */
-    'url_suffix'=>'',
+    'url_suffix'=>'.shtml',
     
     /*
      * 运行环境，设为development则开启所有报错，设为production则关闭所有报错

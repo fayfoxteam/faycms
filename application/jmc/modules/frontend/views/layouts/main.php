@@ -21,7 +21,7 @@ use fay\helpers\Html;
 										echo Html::encode($keywords);
 									}else{
 										echo Option::get('seo_index_keywords');
-									}?>" " />
+									}?>"/>
 		<link href="<?php echo $this->staticFile('css/style.css')?>" rel="stylesheet" type="text/css"  media="all" />
 		<link rel="stylesheet" href="<?php echo $this->staticFile('css/responsiveslides.css')?>">
 		<script src="<?php echo $this->staticFile('js/jquery-1.8.3.min.js')?>"></script>

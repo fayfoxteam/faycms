@@ -1,11 +1,36 @@
+<?php 
+use fay\helpers\Html;
+use fay\models\Option;
+
+?>
+
 <!DOCTYPE html>
 <html>
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
     <meta charset="utf-8">
 
-    <title>Home</title>
-    <meta name="description" content="">
+    <title>
+    <?php 
+        if (!empty($title)){
+            echo $title . ' - ';
+        }
+        echo Option::get('sitename');
+    ?>
+    </title>
+    <meta name="description" content="<?php if ($description !== ''){
+                                                echo Html::encode($description);
+                                                }else {
+                                                    echo Option::get('seo_index_description');
+                                                }      
+                                            ?>">
+    <meta name="keywords" content="<?php 
+									if($keywords !== ''){
+										echo Html::encode($keywords);
+									}else{
+										echo Option::get('seo_index_keywords');
+									}?>"/>
+
     <meta name="viewport" content="width=device-width">
 
     <link rel="shortcut icon" href="favicon.ico">

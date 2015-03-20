@@ -114,14 +114,10 @@ body {
 .container_12 .pull_10 {left: -840px;}
 .container_12 .pull_11 {left: -924px;}
 
-.clear {
-	clear: both;
-	display: block;
-	overflow: hidden;
-	visibility: hidden;
-	width: 0;
-	height: 0;
-}
+.clear { clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0; }
+.clear-10 { clear: both; height: 10px; font-size: 0px; float: none; overflow: hidden; }
+.clear-20 { clear: both; height: 20px; font-size: 0px; float: none; overflow: hidden; }
+
 .clearfix:before,
 .clearfix:after {
 	content: "\0020";

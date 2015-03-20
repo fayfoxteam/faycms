@@ -2,6 +2,8 @@
 use fay\helpers\String;
 ?>
 
+
+
   <div id="slider_body">
         <ul id="slider">
             <li>
@@ -41,6 +43,31 @@ use fay\helpers\String;
 
     <section id="main" class="home">
         <div class="container_12">
+        
+          <div id="content_bottom">
+                
+                <div class="grid_4">
+                    <div class="bottom_block" id="lists">
+                        <?php F::widget()->load('index-lists')?>
+                    </div><!-- .about_as -->
+                </div><!-- .grid_4 -->
+                
+                <div class="grid_4">
+                    <div class="bottom_block about_as">
+                        <h3><?php echo $about['title']?></h3>
+                        <?php echo String::niceShort($about['content'], 1450)?>
+                        <a href="<?php echo $this->url('page/'.$about['id'])?>">more</a>
+                    </div><!-- .about_as -->
+                </div><!-- .grid_4 -->
+
+                <div class="grid_4">
+                    <div class="bottom_block news">
+                       <?php F::widget()->load('new-news')?>
+                </div><!-- .grid_4 -->
+                <div class="clear"></div>
+            </div><!-- #content_bottom -->
+            
+            <div class="clear-20"></div>
             <div id="content">
                 <div class="grid_12">
                     <h2 class="product-title">Featured Products</h2>
@@ -272,19 +299,6 @@ use fay\helpers\String;
                 </div><!-- .brands_list -->
             </div><!-- #brands -->
 
-            <div id="content_bottom">
-                <div class="grid_6">
-                    <div class="bottom_block about_as">
-                        <h3><?php echo $about['title']?></h3>
-                        <?php echo String::niceShort($about['content'], 2000)?>
-                    </div><!-- .about_as -->
-                </div><!-- .grid_6 -->
-
-                <div class="grid_6">
-                    <div class="bottom_block news">
-                       <?php F::widget()->load('new-news')?>
-                </div><!-- .grid_6 -->
-                <div class="clear"></div>
-            </div><!-- #content_bottom -->
+          
         </div><!-- .container_12 -->
     </section><!-- #main.home -->

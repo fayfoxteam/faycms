@@ -22,7 +22,7 @@
 
                 <nav class="primary">
                     <ul>
-                        <li class="curent"><a href="index.html">Home</a></li>
+                        <li class="curent"><a href="<?php echo $this->url()?>">Home</a></li>
                         <li><a href="catalog_grid.html">Solids</a></li>
                         <li><a href="catalog_grid.html">Liquids</a></li>
                         <li class="parent">

@@ -12,7 +12,12 @@ class FrontendController extends Controller
 
     public function __construct()
     {
+        
         parent::__construct();
+        
+        $this->layout->title ='';
+        $this->layout->description = '';
+        $this->layout->keywords = '';
         
         //设置当前用户
         $this->current_user = $this->session->get('id', 0);

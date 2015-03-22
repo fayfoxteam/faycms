@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-13 05:27:09
+-- Generation Time: 2015-03-13 06:32:51
 -- 服务器版本： 5.5.41-MariaDB
 -- PHP Version: 5.4.16
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `fay_actionlogs` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `refer` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_actionlogs`
@@ -112,7 +112,18 @@ INSERT INTO `fay_actionlogs` (`id`, `user_id`, `type`, `note`, `create_time`, `r
 (69, 10000, 28, '创建了一个小工具实例', 1427029019, 10, 2130706433),
 (70, 10000, 16, '编辑文章', 1427029564, 1023, 2130706433),
 (71, 10000, 16, '添加文章', 1427029621, 1024, 2130706433),
-(72, 10000, 28, '创建了一个小工具实例', 1427029710, 11, 2130706433);
+(72, 10000, 28, '创建了一个小工具实例', 1427029710, 11, 2130706433),
+(73, 10000, 6, '添加分类', 1427033301, 10009, 2130706433),
+(74, 10000, 6, '修改分类', 1427033318, 10008, 2130706433),
+(75, 10000, 6, '修改分类', 1427033324, 10007, 2130706433),
+(76, 10000, 6, '修改分类', 1427033329, 10006, 2130706433),
+(77, 10000, 6, '添加分类', 1427033632, 10010, 2130706433),
+(78, 10000, 6, '添加分类', 1427033703, 10011, 2130706433),
+(79, 10000, 6, '移除分类及其所有子分类', 1427033737, 10010, 2130706433),
+(80, 10000, 6, '移除分类及其所有子分类', 1427033739, 10011, 2130706433),
+(81, 10000, 17, '添加页面', 1427034115, 1004, 2130706433),
+(82, 10000, 17, '添加页面', 1427034152, 1005, 2130706433),
+(83, 10000, 17, '添加页面', 1427034198, 1006, 2130706433);
 
 -- --------------------------------------------------------
 
@@ -252,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_caches` (
   `ip` smallint(5) unsigned NOT NULL DEFAULT '0',
   `new_visitors` smallint(5) unsigned NOT NULL DEFAULT '0',
   `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00'
-) ENGINE=MyISAM AUTO_INCREMENT=167 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=168 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_analyst_caches`
@@ -424,7 +435,8 @@ INSERT INTO `fay_analyst_caches` (`id`, `date`, `hour`, `site`, `pv`, `uv`, `ip`
 (163, '2015-03-22', 16, 0, 0, 0, 0, 0, 0.00),
 (164, '2015-03-22', 17, 0, 0, 0, 0, 0, 0.00),
 (165, '2015-03-22', 18, 0, 0, 0, 0, 0, 0.00),
-(166, '2015-03-22', 19, 0, 0, 0, 0, 0, 0.00);
+(166, '2015-03-22', 19, 0, 0, 0, 0, 0, 0.00),
+(167, '2015-03-22', 20, 0, 0, 0, 0, 0, 0.00);
 
 -- --------------------------------------------------------
 
@@ -541,46 +553,47 @@ CREATE TABLE IF NOT EXISTS `fay_categories` (
   `seo_title` varchar(255) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=10009 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10012 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_categories`
 --
 
 INSERT INTO `fay_categories` (`id`, `title`, `alias`, `parent`, `file_id`, `sort`, `description`, `is_nav`, `left_value`, `right_value`, `is_system`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
-(1, '未分类', '_system_post', 0, 0, 100, '文章分类根目录', 0, 2, 11, 1, '', '', ''),
-(2, '页面分类', '_system_page', 0, 0, 100, '', 0, 12, 13, 1, '', '', ''),
-(3, '权限', '_system_action', 0, 0, 100, '', 0, 14, 49, 1, '', '', ''),
-(4, '系统消息', '_system_notification', 0, 0, 100, '', 0, 50, 51, 1, '', '', ''),
-(5, '用户留言', '_system_messages', 0, 0, 100, '', 0, 52, 53, 1, '', '', ''),
-(6, '商品分类', '_system_goods', 0, 0, 100, '', 0, 54, 57, 1, '', '', ''),
-(7, '优惠卷', '_system_voucher', 0, 0, 100, '', 0, 58, 59, 1, '', '', ''),
-(8, '考试', '_system_exam', 0, 0, 100, '', 0, 60, 65, 1, '', '', ''),
-(9, '试题', '_system_exam_question', 8, 0, 100, '', 0, 61, 62, 1, '', '', ''),
-(10, '试卷', '_system_exam_paper', 8, 0, 100, '', 0, 63, 64, 1, '', '', ''),
-(11, '友情链接', '_system_link', 0, 0, 100, '', 0, 66, 67, 1, '', '', ''),
-(101, '友情链接', '_role_youqinglianjie', 3, 0, 100, '', 0, 15, 16, 1, '', '', ''),
-(102, '文件', '_role_wenjian', 3, 0, 100, '', 0, 17, 18, 1, '', '', ''),
-(103, '文章', '_role_wenzhang', 3, 0, 100, '', 0, 19, 20, 1, '', '', ''),
-(104, '提醒', '_role_tixing', 3, 0, 100, '', 0, 21, 22, 1, '', '', ''),
-(105, '用户留言', '_role_yonghuliuyan', 3, 0, 100, '', 0, 23, 24, 1, '', '', ''),
-(106, '管理员', '_role_guanliyuan', 3, 0, 100, '', 0, 25, 26, 1, '', '', ''),
-(107, '页面', '_role_jingtaiyemian', 3, 0, 100, '', 0, 27, 28, 1, '', '', ''),
-(108, '商品', '_role_shangpinguanli', 3, 0, 100, '', 0, 29, 30, 1, '', '', ''),
-(109, '用户', '_role_yonghuguanli', 3, 0, 100, '', 0, 31, 32, 1, '', '', ''),
-(110, '文章评论', '_role_wenzhangpinglun', 3, 0, 100, '', 0, 33, 34, 1, '', '', ''),
-(111, '站点', '_role_zhandian', 3, 0, 100, '', 0, 35, 36, 1, '', '', ''),
-(112, '角色', '_role_juese', 3, 0, 100, '', 0, 37, 38, 1, '', '', ''),
-(113, '访问统计', '_role_fangwentongji', 3, 0, 100, '', 0, 39, 40, 1, '', '', ''),
-(114, '导航栏', '_role_daohanglan', 3, 0, 100, '', 0, 41, 42, 1, '', '', ''),
-(115, '会话', '_role_huihua', 3, 0, 100, '', 0, 43, 44, 1, '', '', ''),
-(116, '试题', '_role_shiti', 3, 0, 100, '', 0, 45, 46, 1, '', '', ''),
-(117, '试卷', '_role_shijuan', 3, 0, 100, '', 0, 47, 48, 1, '', '', ''),
-(10008, '奶茶3', 'naicha3', 1, 0, 255, '', 1, 9, 10, 0, '', '', ''),
-(10007, '奶茶2', 'naicha2', 1, 0, 255, '', 1, 7, 8, 0, '', '', ''),
-(10006, '奶茶1', 'naicha1', 1, 0, 255, '', 1, 5, 6, 0, '', '', ''),
+(1, '未分类', '_system_post', 0, 0, 100, '文章分类根目录', 0, 2, 13, 1, '', '', ''),
+(2, '页面分类', '_system_page', 0, 0, 100, '', 0, 14, 15, 1, '', '', ''),
+(3, '权限', '_system_action', 0, 0, 100, '', 0, 16, 51, 1, '', '', ''),
+(4, '系统消息', '_system_notification', 0, 0, 100, '', 0, 52, 53, 1, '', '', ''),
+(5, '用户留言', '_system_messages', 0, 0, 100, '', 0, 54, 55, 1, '', '', ''),
+(6, '商品分类', '_system_goods', 0, 0, 100, '', 0, 56, 59, 1, '', '', ''),
+(7, '优惠卷', '_system_voucher', 0, 0, 100, '', 0, 60, 61, 1, '', '', ''),
+(8, '考试', '_system_exam', 0, 0, 100, '', 0, 62, 67, 1, '', '', ''),
+(9, '试题', '_system_exam_question', 8, 0, 100, '', 0, 63, 64, 1, '', '', ''),
+(10, '试卷', '_system_exam_paper', 8, 0, 100, '', 0, 65, 66, 1, '', '', ''),
+(11, '友情链接', '_system_link', 0, 0, 100, '', 0, 68, 69, 1, '', '', ''),
+(101, '友情链接', '_role_youqinglianjie', 3, 0, 100, '', 0, 17, 18, 1, '', '', ''),
+(102, '文件', '_role_wenjian', 3, 0, 100, '', 0, 19, 20, 1, '', '', ''),
+(103, '文章', '_role_wenzhang', 3, 0, 100, '', 0, 21, 22, 1, '', '', ''),
+(104, '提醒', '_role_tixing', 3, 0, 100, '', 0, 23, 24, 1, '', '', ''),
+(105, '用户留言', '_role_yonghuliuyan', 3, 0, 100, '', 0, 25, 26, 1, '', '', ''),
+(106, '管理员', '_role_guanliyuan', 3, 0, 100, '', 0, 27, 28, 1, '', '', ''),
+(107, '页面', '_role_jingtaiyemian', 3, 0, 100, '', 0, 29, 30, 1, '', '', ''),
+(108, '商品', '_role_shangpinguanli', 3, 0, 100, '', 0, 31, 32, 1, '', '', ''),
+(109, '用户', '_role_yonghuguanli', 3, 0, 100, '', 0, 33, 34, 1, '', '', ''),
+(110, '文章评论', '_role_wenzhangpinglun', 3, 0, 100, '', 0, 35, 36, 1, '', '', ''),
+(111, '站点', '_role_zhandian', 3, 0, 100, '', 0, 37, 38, 1, '', '', ''),
+(112, '角色', '_role_juese', 3, 0, 100, '', 0, 39, 40, 1, '', '', ''),
+(113, '访问统计', '_role_fangwentongji', 3, 0, 100, '', 0, 41, 42, 1, '', '', ''),
+(114, '导航栏', '_role_daohanglan', 3, 0, 100, '', 0, 43, 44, 1, '', '', ''),
+(115, '会话', '_role_huihua', 3, 0, 100, '', 0, 45, 46, 1, '', '', ''),
+(116, '试题', '_role_shiti', 3, 0, 100, '', 0, 47, 48, 1, '', '', ''),
+(117, '试卷', '_role_shijuan', 3, 0, 100, '', 0, 49, 50, 1, '', '', ''),
+(10008, '奶茶3', 'naicha3', 10009, 0, 255, '', 1, 10, 11, 0, '', '', ''),
+(10007, '奶茶2', 'naicha2', 10009, 0, 255, '', 1, 8, 9, 0, '', '', ''),
+(10006, '奶茶1', 'naicha1', 10009, 0, 255, '', 1, 6, 7, 0, '', '', ''),
 (10005, '最新资讯', 'zuixinzixun', 1, 0, 255, '', 0, 3, 4, 0, '', '', ''),
-(10004, '奶茶', 'naicha', 6, 0, 255, '', 1, 55, 56, 0, '', '', '');
+(10004, '奶茶', 'naicha', 6, 0, 255, '', 1, 57, 58, 0, '', '', ''),
+(10009, '产品分类', 'chanpinfenlei', 1, 0, 255, '', 1, 5, 12, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1659,14 +1672,17 @@ CREATE TABLE IF NOT EXISTS `fay_pages` (
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT '',
   `abstract` varchar(500) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1007 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_pages`
 --
 
 INSERT INTO `fay_pages` (`id`, `title`, `alias`, `content`, `author`, `create_time`, `last_modified_time`, `status`, `deleted`, `thumbnail`, `comments`, `views`, `sort`, `seo_title`, `seo_keywords`, `seo_description`, `abstract`) VALUES
-(1003, '关于我们', 'about', '<p style="margin-top: 8px; margin-bottom: 0px; list-style-type: none; line-height: 22.2000007629395px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">深圳市性习新天然餐饮管理有限公司（Shenzhen new natural restaurant management co., ltd.）是一家专业的<strong style="list-style-type: none;">珍珠奶茶、咖啡、休闲饮品、小吃的原料供应商</strong>，集<strong style="list-style-type: none;">原料批发</strong>，<strong style="list-style-type: none;">技术培训</strong>，<strong style="list-style-type: none;">开店辅导，品牌策划，</strong>于一体的全资民营企业。公司秉承&ldquo;以质量求生存，以品种图发展&rdquo;的方针，不断提高产品质量，完善产品品种，满足市场需求。现我们企业已经有包括：<strong style="list-style-type: none;">珍珠</strong>，<strong style="list-style-type: none;">植脂末</strong>，<strong style="list-style-type: none;">果糖</strong>，<strong style="list-style-type: none;">果粉</strong>，<strong style="list-style-type: none;">果汁</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">果酱</strong><strong style="list-style-type: none;">，果泥，果粒，果露，水果茶，</strong><strong style="list-style-type: none;">咖啡</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">红茶</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">绿茶</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">乌龙茶</strong><strong style="list-style-type: none;">，台湾小吃，珍</strong><strong style="list-style-type: none;">珠奶茶设，小吃设备，奶茶器皿</strong>等千余种产品。</p>\r\n\r\n<p style="margin-top: 8px; margin-bottom: 0px; list-style-type: none; line-height: 22.2000007629395px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; 深圳市性习新天然餐饮管理有限公司成立于2010年,前身为新天然食品经营部，经过几年不断发展，现已从单一的销售网点，发展到业务区域分布全国，产品从珍珠奶茶到休闲饮品小吃等全方位发展，产品在国内市场上享有良好的信誉，深受客户青睐，我们始终与客户保持着良好的合作伙伴关系。本公司最大特点是满足客户的所有需求，以珍珠奶茶原料，珍珠奶茶设备，珍珠奶茶技术培训相结合，并且提供最专业的餐饮企业管理服务，企业策划服务，信息咨询等特色服务，让客户无任何后顾之忧。我们还拥有强大的专业技术团队和市场调研组合更是保证了公司一直处于饮品市场领先地位。 深厚的文化底蕴是新天然人创业的坚实基础，品质至尊、专业精湛、服务至上是新天然人崇尚的经营理念。</p>\r\n\r\n<p style="margin-top: 8px; margin-bottom: 0px; list-style-type: none; line-height: 22.2000007629395px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;新天然，天然的好滋味将以纯正的口感、四海咸宜的品位成为业内饮品的代名词。&ldquo;新天然&rdquo;人以&ldquo;诚信为本，质量创优、精益求精&rdquo;的发展宗旨。致力于打造出一流的好喝的<strong style="list-style-type: none;">珍珠奶茶</strong>，提供最优质的珍珠奶茶原料、最好的珍珠奶茶设备、最专业的珍珠奶茶技术培训、最完善的餐饮企业管理服务，不断迈上新的台阶。</p>\r\n', 10000, 1426778531, 0, 1, 0, 0, 0, 0, 100, '', '', '', '');
+(1003, '关于我们', 'about', '<p style="margin-top: 8px; margin-bottom: 0px; list-style-type: none; line-height: 22.2000007629395px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">深圳市性习新天然餐饮管理有限公司（Shenzhen new natural restaurant management co., ltd.）是一家专业的<strong style="list-style-type: none;">珍珠奶茶、咖啡、休闲饮品、小吃的原料供应商</strong>，集<strong style="list-style-type: none;">原料批发</strong>，<strong style="list-style-type: none;">技术培训</strong>，<strong style="list-style-type: none;">开店辅导，品牌策划，</strong>于一体的全资民营企业。公司秉承&ldquo;以质量求生存，以品种图发展&rdquo;的方针，不断提高产品质量，完善产品品种，满足市场需求。现我们企业已经有包括：<strong style="list-style-type: none;">珍珠</strong>，<strong style="list-style-type: none;">植脂末</strong>，<strong style="list-style-type: none;">果糖</strong>，<strong style="list-style-type: none;">果粉</strong>，<strong style="list-style-type: none;">果汁</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">果酱</strong><strong style="list-style-type: none;">，果泥，果粒，果露，水果茶，</strong><strong style="list-style-type: none;">咖啡</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">红茶</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">绿茶</strong><strong style="list-style-type: none;">，</strong><strong style="list-style-type: none;">乌龙茶</strong><strong style="list-style-type: none;">，台湾小吃，珍</strong><strong style="list-style-type: none;">珠奶茶设，小吃设备，奶茶器皿</strong>等千余种产品。</p>\r\n\r\n<p style="margin-top: 8px; margin-bottom: 0px; list-style-type: none; line-height: 22.2000007629395px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; 深圳市性习新天然餐饮管理有限公司成立于2010年,前身为新天然食品经营部，经过几年不断发展，现已从单一的销售网点，发展到业务区域分布全国，产品从珍珠奶茶到休闲饮品小吃等全方位发展，产品在国内市场上享有良好的信誉，深受客户青睐，我们始终与客户保持着良好的合作伙伴关系。本公司最大特点是满足客户的所有需求，以珍珠奶茶原料，珍珠奶茶设备，珍珠奶茶技术培训相结合，并且提供最专业的餐饮企业管理服务，企业策划服务，信息咨询等特色服务，让客户无任何后顾之忧。我们还拥有强大的专业技术团队和市场调研组合更是保证了公司一直处于饮品市场领先地位。 深厚的文化底蕴是新天然人创业的坚实基础，品质至尊、专业精湛、服务至上是新天然人崇尚的经营理念。</p>\r\n\r\n<p style="margin-top: 8px; margin-bottom: 0px; list-style-type: none; line-height: 22.2000007629395px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;新天然，天然的好滋味将以纯正的口感、四海咸宜的品位成为业内饮品的代名词。&ldquo;新天然&rdquo;人以&ldquo;诚信为本，质量创优、精益求精&rdquo;的发展宗旨。致力于打造出一流的好喝的<strong style="list-style-type: none;">珍珠奶茶</strong>，提供最优质的珍珠奶茶原料、最好的珍珠奶茶设备、最专业的珍珠奶茶技术培训、最完善的餐饮企业管理服务，不断迈上新的台阶。</p>\r\n', 10000, 1426778531, 0, 1, 0, 0, 0, 0, 100, '', '', '', ''),
+(1004, '技术培训', 'train', '<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: center; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: large;"><strong style="list-style-type: none;">珍珠奶茶培训</strong></span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: medium;">一、<strong style="list-style-type: none;">珍珠奶茶介绍</strong></span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="list-style-type: none; font-size: small;"><strong style="list-style-type: none;">&nbsp;珍珠奶茶店</strong>是目前最流行的创业项目之一。通常以<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">奶茶</a>作为主打，加上水果花茶、雪泡、沙冰、刨冰、奶昔等系列，组合出丰富多彩的茶品种。奶茶最早在台湾和广东流行，一经推出即风靡大陆各地。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="list-style-type: none;">奶茶店加盟</strong>蓬勃发展的原因，除了拥有庞大的顾客群外，还有一个非常重要的原因就是行业进入门槛低，奶茶做法简单且利润丰厚。另外，该项目具有前期投入小、利润高、回本快、适合发展<strong style="list-style-type: none;">连锁加盟</strong>等特点，所以近年来奶茶店得以快速扩张。<strong style="list-style-type: none;">奶茶培训</strong>行业也得以发展。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 投资一家奶茶店，通常的投资额在3万至10万元人民币左右。此外，奶茶是饮料，相对于其他行业，现金流很快，风险较小，其主要风险来自店铺位置、品种、季节三方面。除去材料成本、租金、人工工资、水电费等，如果消费群体稳定，营业额将相当可观。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 然而，过于快速的扩张往往会导致无序竞争。奶茶店进入门槛低，所以奶茶店遍地开花。但能否坚持下来成为奶茶店面临的最严峻的问题。高质量的饮品和长期以来建立的稳定的客户群是奶茶店竞争力的根本。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我们专注于奶茶店的开店辅导，传授目前市场主流奶茶品牌的产品制作技术，确保你学到最新的奶茶技术。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">奶茶培训</a>针对开店全过程，从产品制作、设备配置、原材料选择和购买、店铺租赁、装修设计、VI制作等各方面给予辅导，让您放心开店。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 参与我们的培训，你就能掌握全套开店技术，无需加盟费，开出有竞争力的奶茶店。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;"><strong style="list-style-type: none;">特点</strong>：根据客户量身打造，根据客户所需要制定最适合技术方案，以及后期技术支持。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;"><strong style="list-style-type: none;">技术</strong>：我们公司有专业技术研发团队，技术非常过硬。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;"><strong style="list-style-type: none;">追求</strong>：为我们客户打造最美口感的<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">珍珠奶茶</a>。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;"><strong style="list-style-type: none;">二</strong>、<strong style="list-style-type: none;">珍珠奶茶培训费用</strong></span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;"><strong style="list-style-type: none;">根据菜单订制不同培训费用有所不同，详细情况请电话咨询！</strong></span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">不限制学习时间，随到随学，学会为止，包教包会。一般4-5天左右，根据个人掌握情况而定</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><strong style="list-style-type: none;"><span style="list-style-type: none; font-size: small;">三</span><span style="list-style-type: none; font-size: small;">、&nbsp;设备配置</span></strong><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">序号 名称 规格 单价（元） 用途&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">1 电磁炉 个 100-400 煮茶、煮珍珠用&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">2&nbsp;<a href="http://www.5ufood.com/product.php?name=jzc" style="list-style-type: none; color: rgb(77, 139, 17);">电子称</a>&nbsp;台 100-300元 计量&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">3&nbsp;<a href="http://www.5ufood.com/product.php?name=yffkj" style="list-style-type: none; color: rgb(77, 139, 17);">封口机</a>&nbsp;台 220-480 封奶茶杯&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">4 冰柜 台 1200-2500 放冰块、冰水&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">5 饮水机 台 300-800 供应开水&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">6 不锈铁奶茶桶（22） 个 30 大批量泡茶、装茶&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">7 不锈钢奶茶桶（22） 个 68 大批量泡茶、装茶&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">8 量勺 个 3/5 量取<a href="http://www.5ufood.com/category/qizimo/" style="list-style-type: none; color: rgb(77, 139, 17);">奶精</a>粉等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">9 吧匙（小/大） 个 8/10 搅拌、量取<a href="http://www.5ufood.com/category/gouji/" style="list-style-type: none; color: rgb(77, 139, 17);">果汁</a>用&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">10&nbsp;<a href="http://www.5ufood.com/product.php?name=xkb" style="list-style-type: none; color: rgb(77, 139, 17);">雪克杯</a>（250/300/500） 个 15/20/25 制作花式冰奶茶</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<strong style="list-style-type: none;"><span style="list-style-type: none; font-size: small;">四、 性习新天然培训优势</span></strong><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">1 品质取胜：性习新天然培训中心的奶茶以完美而百喝不腻的口感赢得市场，我们力争学员开一家成功一家，所有来学习的学员均可以先品尝口味，再选择学习。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">2 加盟的品质，培训的价格：性习新天然培训中心的培训以一流的品质低廉的价格，响应政府的号召扶持中小创业者，帮助学员成功创业。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">3 学习过程理论结合实践：性习新天然培训中心的培训项目以实践为主，以学好为准。所学项目都要经过实际操作考核。直到学会为止。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">4 开店指导：学习完毕，免费指导设计菜单、店内装修和招牌设计。传授宣传和销售绝招，成本控制方法，财务管理技巧，星级服务标准和店内员工的管理规划。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">5 免费技术升级：我们有强大的技术开发队伍，所有技术都会随着市场的变化而不断改进升级，培训学员在学习后的3年内免费享受技术升级。</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">6 材料设备：学习期间珍珠奶茶材料，珍珠<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">奶茶设备</a>，珍珠奶茶器血由我们公司提供，不需要自己购买。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<strong style="list-style-type: none;"><span style="list-style-type: none; font-size: small;">五、奶茶技术培训内容</span></strong><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">1 基础</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">奶茶 奶茶制作的工具和必备原材，奶茶制作秘决，茶水煮法，珍珠煮法，西米煮法，布丁煮法。原味奶茶制作，果味奶茶制作，珍珠奶茶制作。&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">2 特色</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">时尚</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">奶茶 招牌奶茶●丝袜奶茶●香港奶茶●伯爵奶茶●手摇功夫奶茶●<a href="http://www.5ufood.com/category/kafei/" style="list-style-type: none; color: rgb(77, 139, 17);">咖啡</a>奶茶●鸳鸯奶茶●麦片奶茶●皇家奶茶●双拼奶茶●抹茶拿铁●抹茶奶绿●普洱奶茶●黑糖奶茶●焦糖布丁奶茶●姜片奶茶●美禄可可●QQ玄米冰奶茶●仙草奶茶●玄米可可●太妃奶茶●桂圆红枣奶茶●鸡蛋布丁奶茶●仙草奶茶●龟苓膏奶茶●小麦胚芽奶茶●福尔摩斯奶茶●乌龙奶茶●阿萨姆奶茶●巧克力奶茶●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp;3</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 十二星座奶茶</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 水瓶座-自由向往●双鱼座-罗曼蒂克●牧羊座-紧张大师●金牛座-刻苦耐劳●双子座-天生赢家●巨蟹座-温柔婉约●狮子座-领袖魅力●处女座-魔力塑身●天称座-青春活力●天蝎座-神秘达人●射手座-乐知天命●魔羯座-悠闲浪漫&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">4&nbsp; 花式奶茶冰</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 椰香果肉奶茶冰●威尼斯海岸奶茶冰●爱尔兰奶茶冰●欧式奶茶冰●摩卡可可奶茶冰●皇室奶茶冰●红衣少女奶茶冰●绿野仙踪奶茶冰●情缘奶茶冰●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">5 特色</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">茶饮 ●柠檬红茶●柠檬绿茶●蜂蜜红茶●百香果红茶●芦荟果粒茶●手摇泡沫红茶●手摇泡沫绿茶●波霸红茶●薄荷绿茶●柳橙红茶●QQ红茶●玫瑰元气茶●蜂蜜柚子茶●王牌玫瑰红茶●芒果果粒茶●清火菊花茶●阿萨姆红茶●冰爽玄米茶●一千零一夜●清香茉莉茶●香浓芒果红茶●红粉佳人●立顿茶饮●普洱茶●疯狂黑加仑等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">6</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 特色鲜茶爽</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 柳橙茶爽●香浓芒果茶爽●柠檬茶爽●梦露茶爽●水蜜桃茶爽●QQ玄米茶爽●菠萝茶爽●柚子茶爽●薄荷茶爽●百香果茶爽●草莓茶爽●情人果茶爽●葡萄茶爽●青苹果茶爽●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">7</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 果缤纷系列</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 柳橙果缤纷●凤梨果缤纷●蓝莓果缤纷●草莓果缤纷●暖身生姜茶●薄荷芦荟果缤纷●双果果缤纷●柚子果缤纷●乌梅果缤纷●情人果缤纷●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">8</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 柠檬优V系列</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">&nbsp; 冰柠茶●冰柠乐●冰柠七●冰柠宾●冰爽柠檬水●冰金桔茶●蜂蜜金桔红茶●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">9 西米露系列 ●芒果西米露●什果西米露●荔枝西米露●龟苓膏西米露●青苹果西米露●椰子西米露●香芋西米露●哈密瓜西米露●木瓜西米露●鲜果西米露●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">10 果冻</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">布丁 果味果冻●果味布丁●烧仙草●红豆双皮奶●<a href="http://www.5ufood.com/category/yeguo/" style="list-style-type: none; color: rgb(77, 139, 17);">椰果</a>双皮奶●芒果龟苓膏●红豆龟苓膏●酸奶龟苓膏●草莓双皮奶●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">11 水果捞 ●芒果西米捞●椰果西米捞●芒果珍珠捞●杂果凉粉捞●哈密瓜水果捞●什锦水果捞●西瓜水果捞●布丁烧水果捞●珍珠西米杂果捞●等&nbsp;</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">12 咖啡</span><br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<span style="list-style-type: none; font-size: small;">系列 咖啡文化、咖啡豆的选用、咖啡器具使用，现磨咖啡、蓝山咖啡、焦糖玛奇朵、珍珠拿铁冰咖啡、牛奶冰咖啡、卡布基诺冰咖啡、啤酒咖啡等制作</span></p>\r\n', 10000, 1427034115, 0, 1, 0, 0, 0, 0, 100, '', '', '', ''),
+(1005, '人才招聘', 'employ', '<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">&nbsp; &nbsp; &nbsp; 深圳市性习新天然餐饮管理有限公司，因业力扩大需要，诚招各类人才。欢迎广大朋友来加盟我公司。现招聘如下职务：</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">客服：包吃住，工资面议</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">要求：20岁以上，男女不限，普通话流利，形象气质佳，责任心强，懂办公软件，沟通能力佳，具有亲和力，做事主动有责任感，有相关工作经验者优先</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">司机：包吃住，工资面议</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">要求：25-40岁，男性，最少1年驾驶经验，具有深户担保；身体健康，勤快能吃苦，有良好的职业道德和敬业精神；熟悉深圳路况。</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">仓库理货员：包吃住，工资面议</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">要求：对数字敏感，思维敏捷，有高度责任感；工作细心，吃苦耐劳，认真负责，有较好的沟通能力；具有较强的团队合作意识</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">送货跟车员：包吃住，工资面议</span></p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-size: small;">要求：主要负责短途跟车，路上保证货物安全，确保货物及时、安全、准确送到客户手中，对好单据，收取账款，并及时回公司交回。身体健康，有责任心，能吃苦耐劳，反应灵活，无不良记录。</span></p>\r\n', 10000, 1427034152, 0, 1, 0, 0, 0, 0, 100, '', '', '', ''),
+(1006, '联系我们', 'contact', '<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><strong style="list-style-type: none;">地址</strong>：深圳市龙岗区坂田街道布龙路445号格泰隆工业园Ｂ栋一楼<br style="margin: 0px; padding: 0px; list-style-type: none;" />\r\n<strong style="list-style-type: none;">咨询电话</strong>：0755-25920268&nbsp; 25920118</p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);"><strong style="list-style-type: none;">联系人</strong>：江建友（销售代表）：&nbsp;&nbsp;&nbsp;手机：13316868268&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卢&nbsp; 丹（销售代表）&nbsp;：&nbsp; 手机：13316811296&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;伍培华（销售代表）：&nbsp; 手机：18923863408&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 黄 炜（网络客服）&nbsp;&nbsp;： 手机：18938666181&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QQ:13316884611&nbsp; 旺旺：lmsh6868</p>\r\n\r\n<p style="margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px; list-style-type: none; font-size: 14px; line-height: 26.6000003814697px; text-align: justify; color: rgb(51, 51, 51); font-family: Verdana, Arial, Helvetica, sans-serif; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 微信公众号：sz_xxxtr &nbsp;</p>\r\n', 10000, 1427034198, 0, 1, 0, 0, 0, 0, 100, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1741,7 +1757,7 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 (1021, 10006, '你在醋啊额', '', '<p>你的经适房腐败</p>\r\n', 0, 1427004985, 1427004985, '2015-03-22', 1427004985, 0, 10000, 0, 1, 0, 1008, '', 0, 100, 0, 0, '', '', ''),
 (1022, 10006, '打击你啊的奶茶', '', '<p>啊打算阿迪</p>\r\n', 0, 1427004996, 1427004996, '2015-03-22', 1427004996, 0, 10000, 0, 1, 0, 1009, '', 0, 100, 0, 0, '', '', ''),
 (1023, 10006, 'jbj', '', '<p>vuuy</p>\r\n', 0, 1427006840, 1427029564, '2015-03-22', 1427006840, 1427007459, 10000, 0, 1, 0, 1010, '', 0, 100, 8, 0, '', '', ''),
-(1024, 10006, '不错的奶茶', '', '<p><img alt="" src="http://milk/uploads/posts/2015/03/F421m.jpg" style="width: 500px; height: 331px;" /></p>\r\n', 0, 1427029621, 1427029621, '2015-03-22', 1427029621, 1427030286, 10000, 0, 1, 0, 1012, '', 0, 100, 13, 0, '', '', '');
+(1024, 10006, '不错的奶茶', '', '<p><img alt="" src="http://milk/uploads/posts/2015/03/F421m.jpg" style="width: 500px; height: 331px;" /></p>\r\n', 0, 1427029621, 1427029621, '2015-03-22', 1427029621, 1427033152, 10000, 0, 1, 0, 1012, '', 0, 100, 23, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5444,7 +5460,7 @@ INSERT INTO `fay_users` (`id`, `username`, `email`, `cellphone`, `password`, `sa
 (1, '系统', '', '', '', '', '系统', '系统', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (2, '用户留言收件人', '', '', '', '', '用户留言收件人', '用户留言收件人', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (3, '系统消息', '', '', '', '', '系统消息', '系统消息', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
-(10000, '123', '', '', '6a29cac3d10e3fc1b40dc2eb1554f17b', 'a1xDp', '', '', 0, 1426437489, 0, 11, 1427027966, 2130706433, 1427030630, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
+(10000, '123', '', '', '6a29cac3d10e3fc1b40dc2eb1554f17b', 'a1xDp', '', '', 0, 1426437489, 0, 11, 1427027966, 2130706433, 1427034566, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5516,11 +5532,11 @@ CREATE TABLE IF NOT EXISTS `fay_widgets` (
 --
 
 INSERT INTO `fay_widgets` (`id`, `alias`, `options`, `widget_name`, `description`, `enabled`) VALUES
-(8, 'index-lists', '{"hierarchical":0,"top":1,"title":"\\u4ea7\\u54c1\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/index-lists"}', 'fay/categories', 'index-lists', 1),
-(9, 'hot-products', '{"title":"\\u70ed\\u95e8\\u4ea7\\u54c1","top":1,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/hot-products"}', 'fay/category_post', 'hot-products', 1),
-(10, 'product-list', '{"hierarchical":0,"top":1,"title":"\\u4ea7\\u54c1\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/product-list"}', 'fay/categories', '内页产品分类', 1),
+(8, 'index-lists', '{"hierarchical":0,"top":10009,"title":"\\u4ea7\\u54c1\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/index-lists"}', 'fay/categories', 'index-lists', 1),
+(9, 'hot-products', '{"title":"\\u70ed\\u95e8\\u4ea7\\u54c1","top":10009,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/hot-products"}', 'fay/category_post', 'hot-products', 1),
+(10, 'product-list', '{"hierarchical":0,"top":10009,"title":"\\u4ea7\\u54c1\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/product-list"}', 'fay/categories', '内页产品分类', 1),
 (7, 'new-news', '{"title":"\\u6700\\u65b0\\u8d44\\u8baf","top":10005,"subclassification":1,"number":5,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/new-news"}', 'fay/category_post', 'new-news', 1),
-(11, 'hot-products-inside', '{"title":"\\u70ed\\u95e8\\u4ea7\\u54c1","top":1,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/hot-products-inside"}', 'fay/category_post', '内页热门产品', 1);
+(11, 'hot-products-inside', '{"title":"\\u70ed\\u95e8\\u4ea7\\u54c1","top":10009,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/hot-products-inside"}', 'fay/category_post', '内页热门产品', 1);
 
 --
 -- Indexes for dumped tables
@@ -5900,7 +5916,7 @@ ALTER TABLE `fay_widgets`
 -- AUTO_INCREMENT for table `fay_actionlogs`
 --
 ALTER TABLE `fay_actionlogs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=73;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=84;
 --
 -- AUTO_INCREMENT for table `fay_actions`
 --
@@ -5910,7 +5926,7 @@ ALTER TABLE `fay_actions`
 -- AUTO_INCREMENT for table `fay_analyst_caches`
 --
 ALTER TABLE `fay_analyst_caches`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=167;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=168;
 --
 -- AUTO_INCREMENT for table `fay_analyst_macs`
 --
@@ -5930,7 +5946,7 @@ ALTER TABLE `fay_analyst_visits`
 -- AUTO_INCREMENT for table `fay_categories`
 --
 ALTER TABLE `fay_categories`
-  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10009;
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10012;
 --
 -- AUTO_INCREMENT for table `fay_cat_props`
 --
@@ -6050,7 +6066,7 @@ ALTER TABLE `fay_options`
 -- AUTO_INCREMENT for table `fay_pages`
 --
 ALTER TABLE `fay_pages`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1004;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1007;
 --
 -- AUTO_INCREMENT for table `fay_posts`
 --

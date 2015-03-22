@@ -13,9 +13,9 @@ use fay\helpers\Html;
 		    <nav class="right_menu">
 			<ul>
 			<?php foreach ($cats as $key => $cat){?>
-			<?php if ($cat['id'] != 10005){?>
+		
 			    <li><a href="<?php echo $this->url('cat/'.$cat['id'])?>"><?php echo Html::encode($cat['title']) ?></a></li>
-			    <?php }}?>
+			    <?php }?>
 
 			</ul>
 		    </nav><!-- .right_menu -->

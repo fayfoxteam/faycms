@@ -22,38 +22,21 @@
 
                 <nav class="primary">
                     <ul>
-                        <li class="curent"><a href="<?php echo $this->url()?>">Home</a></li>
-                        <li><a href="catalog_grid.html">Solids</a></li>
-                        <li><a href="catalog_grid.html">Liquids</a></li>
-                        <li class="parent">
-                            <a href="catalog_grid.html">Spray</a>
-                            <ul class="sub">
-                                <li><a href="catalog_grid.html">For home</a></li>
-                                <li><a href="catalog_grid.html">For Garden</a></li>
-                                <li><a href="catalog_grid.html">For Car</a></li>
-                                <li><a href="catalog_grid.html">Other spray</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="catalog_grid.html">Electric</a></li>
-                        <li><a href="catalog_grid.html">For cars</a></li>
-                        <li class="parent">
-                            <a href="#">All pages</a>
-                            <ul class="sub">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="typography_page.html">Typography and basic styles</a></li>
-                                <li><a href="catalog_grid.html">Catalog (grid view)</a></li>
-                                <li><a href="catalog_list.html">Catalog (list type view)</a></li>
-                                <li><a href="product_page.html">Product view</a></li>
-                                <li><a href="shopping_cart.html">Shoping cart</a></li>
-                                <li><a href="checkout.html">Proceed to checkout</a></li>
-                                <li><a href="compare.html">Products comparison</a></li>
-                                <li><a href="login.html">Login</a></li>
-                                <li><a href="contact_us.html">Contact us</a></li>
-                                <li><a href="404.html">404</a></li>
-                                <li><a href="blog.html">Blog posts</a></li>
-                                <li><a href="blog_post.html">Blog post view</a></li>
-                            </ul>
-                        </li>
+                        <li class="<?php if ($section == 'index'){echo 'curent';}?>"><a href="<?php echo $this->url()?>">网站首页</a></li>
+                        <li class="<?php if ($section == 'about'){echo 'curent';}?>"><a href="<?php echo $this->url('page/about')?>">公司介绍</a></li>
+                        <li class="<?php if ($section == 'train'){echo 'curent';}?>"><a href="<?php echo $this->url('page/train')?>">技术培训</a></li>
+<!--                         <li class="parent"> -->
+<!--                             <a href="catalog_grid.html">Spray</a> -->
+<!--                             <ul class="sub"> -->
+<!--                                 <li><a href="catalog_grid.html">For home</a></li> -->
+<!--                                 <li><a href="catalog_grid.html">For Garden</a></li> -->
+<!--                                 <li><a href="catalog_grid.html">For Car</a></li> -->
+<!--                                 <li><a href="catalog_grid.html">Other spray</a></li> -->
+<!--                             </ul> -->
+<!--                         </li> -->
+                        <li class="<?php if ($section == 'employ'){echo 'curent';}?>"><a href="<?php echo $this->url('page/employ')?>">人才招聘</a></li>
+                        <li class="<?php if ($section == 'contact'){echo 'curent';}?>"><a href="<?php echo $this->url('page/contact')?>">联系我们</a></li>
+                
                     </ul>
                 </nav><!-- .primary -->
             </div><!-- .grid_9 -->

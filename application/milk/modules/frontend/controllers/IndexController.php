@@ -9,10 +9,6 @@ class IndexController extends FrontendController
     public function __construct()
     {
         parent::__construct();
-        
-        $this->layout->title = '';
-        $this->layout->description = '';
-        $this->layout->keywords = '';
     } 
     
     public function index()
@@ -20,6 +16,8 @@ class IndexController extends FrontendController
 //         dump(Post::model()->getByCatId(10006));
        
         $this->view->about = Page::model()->getByAlias('about');
+        
+        $this->layout->section = 'index';
         
         $this->view->render();
     }

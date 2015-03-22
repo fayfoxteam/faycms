@@ -27,9 +27,9 @@ class PageController extends FrontendController
         }
         
         $this->layout->title = $page['title'];
-        
+        $this->layout->section = $page['alias'];//向layout进行输出以确定导航current
         $this->view->page = $page;
-        
+
         $this->view->render();
         
     }

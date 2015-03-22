@@ -2,7 +2,7 @@
         <div class="container_12">
             <div class="grid_3">
                 <hgroup>
-                    <h1 id="site_logo"><a href="index.html" title=""><img src="<?php echo $this->staticFile('img/logo.png')?>" alt="Tea and milk"></a></h1>
+                    <h1 id="site_logo"><a href="<?php echo $this->url()?>" title=""><img src="<?php echo $this->staticFile('img/logo.png')?>" alt="Tea and milk"></a></h1>
                     <h2 id="site_description">Tea and milk</h2>
                 </hgroup>
             </div><!-- .grid_3 -->
@@ -10,7 +10,7 @@
             <div class="grid_9">
                 <div class="top_header">
                     <div class="welcome">
-                        Welcome visitor you can like me.
+                        免费送奶茶，不要问我为什么，有钱，任性！<span style="color: red;">店址：绍兴市城南大道900号。</span>
                     </div><!-- .welcome -->
 
               

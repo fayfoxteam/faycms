@@ -10,7 +10,7 @@ use fay\models\tables\Posts;
 
 class CatController extends FrontendController
 {
-        public function index()
+    public function index()
     {
                 $cat = Category::model()->get($this->input->get('id','intval'));
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-13 03:41:22
+-- Generation Time: 2015-03-13 05:27:09
 -- 服务器版本： 5.5.41-MariaDB
 -- PHP Version: 5.4.16
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `fay_actionlogs` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `refer` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_actionlogs`
@@ -107,7 +107,12 @@ INSERT INTO `fay_actionlogs` (`id`, `user_id`, `type`, `note`, `create_time`, `r
 (64, 10000, 16, '添加文章', 1427004969, 1020, 2130706433),
 (65, 10000, 16, '添加文章', 1427004985, 1021, 2130706433),
 (66, 10000, 16, '添加文章', 1427004996, 1022, 2130706433),
-(67, 10000, 16, '添加文章', 1427006840, 1023, 2130706433);
+(67, 10000, 16, '添加文章', 1427006840, 1023, 2130706433),
+(68, 10000, 28, '创建了一个小工具实例', 1427027999, 9, 2130706433),
+(69, 10000, 28, '创建了一个小工具实例', 1427029019, 10, 2130706433),
+(70, 10000, 16, '编辑文章', 1427029564, 1023, 2130706433),
+(71, 10000, 16, '添加文章', 1427029621, 1024, 2130706433),
+(72, 10000, 28, '创建了一个小工具实例', 1427029710, 11, 2130706433);
 
 -- --------------------------------------------------------
 
@@ -247,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_caches` (
   `ip` smallint(5) unsigned NOT NULL DEFAULT '0',
   `new_visitors` smallint(5) unsigned NOT NULL DEFAULT '0',
   `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00'
-) ENGINE=MyISAM AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=167 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_analyst_caches`
@@ -413,7 +418,13 @@ INSERT INTO `fay_analyst_caches` (`id`, `date`, `hour`, `site`, `pv`, `uv`, `ip`
 (157, '2015-03-21', 21, 0, 0, 0, 0, 0, 0.00),
 (158, '2015-03-21', 22, 0, 0, 0, 0, 0, 0.00),
 (159, '2015-03-21', 23, 0, 0, 0, 0, 0, 0.00),
-(160, '2015-03-21', -1, 0, 0, 0, 0, 0, 0.00);
+(160, '2015-03-21', -1, 0, 0, 0, 0, 0, 0.00),
+(161, '2015-03-22', 14, 0, 2, 1, 1, 0, 100.00),
+(162, '2015-03-22', 15, 0, 0, 0, 0, 0, 0.00),
+(163, '2015-03-22', 16, 0, 0, 0, 0, 0, 0.00),
+(164, '2015-03-22', 17, 0, 0, 0, 0, 0, 0.00),
+(165, '2015-03-22', 18, 0, 0, 0, 0, 0, 0.00),
+(166, '2015-03-22', 19, 0, 0, 0, 0, 0, 0.00);
 
 -- --------------------------------------------------------
 
@@ -507,7 +518,7 @@ INSERT INTO `fay_analyst_visits` (`id`, `mac`, `ip_int`, `refer`, `url`, `short_
 (2, 1, 2130706433, '', 'http://jmc/a', 'WjmK9j', '', 0, 1426555633, '2015-03-17', 9, 1, 5, '', '', '127.0.0.1'),
 (3, 2, 2130706433, '', 'http://jmc/a', 'WjmK9j', '', 0, 1426775091, '2015-03-19', 22, 1, 1, '', '', '127.0.0.1'),
 (4, 3, 2130706433, '', 'http://milk/a', '51r4va', '', 0, 1426777216, '2015-03-19', 23, 1, 1, '', '', '127.0.0.1'),
-(5, 3, 2130706433, '', 'http://milk/a', '51r4va', '', 0, 1427004875, '2015-03-22', 14, 1, 1, '', '', '127.0.0.1');
+(5, 3, 2130706433, '', 'http://milk/a', '51r4va', '', 0, 1427004875, '2015-03-22', 14, 1, 2, '', '', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -1300,7 +1311,7 @@ CREATE TABLE IF NOT EXISTS `fay_files` (
   `downloads` smallint(5) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `qiniu` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=1010 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1013 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_files`
@@ -1316,7 +1327,10 @@ INSERT INTO `fay_files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`,
 (1006, '1yRek', '.png', 49850, 'image/png', './uploads/posts/2015/03/', 'product1.png', 1, 378, 378, 1427004956, 10000, 0, 1, 0),
 (1007, 'NwVUT', '.png', 58103, 'image/png', './uploads/posts/2015/03/', 'product2.png', 1, 378, 378, 1427004968, 10000, 0, 1, 0),
 (1008, '44rmd', '.png', 89569, 'image/png', './uploads/posts/2015/03/', 'product4.png', 1, 378, 378, 1427004985, 10000, 0, 1, 0),
-(1009, 'yW1D5', '.png', 73875, 'image/png', './uploads/posts/2015/03/', 'product6.png', 1, 378, 378, 1427004996, 10000, 0, 1, 0);
+(1009, 'yW1D5', '.png', 73875, 'image/png', './uploads/posts/2015/03/', 'product6.png', 1, 378, 378, 1427004996, 10000, 0, 1, 0),
+(1010, 'Qi5fv', '.jpg', 25040, 'image/jpeg', './uploads/posts/2015/03/', '2013062910273077.jpg', 1, 500, 329, 1427029563, 10000, 0, 1, 0),
+(1011, 'F421m', '.jpg', 44415, 'image/jpeg', './uploads/posts/2015/03/', '20130309134540337.jpg', 1, 500, 331, 1427029615, 10000, 0, 1, 0),
+(1012, 'tFTiF', '.jpg', 66235, 'image/jpeg', './uploads/posts/2015/03/', '20130309134547825.jpg', 1, 500, 330, 1427029621, 10000, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1513,7 +1527,7 @@ CREATE TABLE IF NOT EXISTS `fay_logs` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0',
   `user_agent` varchar(255) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_logs`
@@ -1529,7 +1543,8 @@ INSERT INTO `fay_logs` (`id`, `user_id`, `type`, `code`, `data`, `create_date`, 
 (7, 0, 0, 'admin:action:login.success', '{"fmac":"a51c5fa11c6de014e60a87026cbfcc4d"}', '2015-03-17', 1426604907, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36'),
 (8, 0, 0, 'admin:action:login.success', '{"fmac":"6181fdee1fc9b33344a827709aa9171e"}', '2015-03-19', 1426775093, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'),
 (9, 0, 0, 'admin:action:login.success', '{"fmac":"fd675612f11abe2d85d1e5e329132989"}', '2015-03-19', 1426777221, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'),
-(10, 0, 0, 'admin:action:login.success', '{"fmac":"fd675612f11abe2d85d1e5e329132989"}', '2015-03-22', 1427004877, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36');
+(10, 0, 0, 'admin:action:login.success', '{"fmac":"fd675612f11abe2d85d1e5e329132989"}', '2015-03-22', 1427004877, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'),
+(11, 0, 0, 'admin:action:login.success', '{"fmac":"fd675612f11abe2d85d1e5e329132989"}', '2015-03-22', 1427027966, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36');
 
 -- --------------------------------------------------------
 
@@ -1695,7 +1710,7 @@ CREATE TABLE IF NOT EXISTS `fay_posts` (
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=1024 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1025 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_posts`
@@ -1721,11 +1736,12 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 (1016, 10006, 'uigyug', '', '<p>guhiu</p>\r\n', 0, 1427004922, 1427004922, '2015-03-22', 1427004922, 0, 10000, 0, 1, 0, 1003, '', 0, 100, 0, 0, '', '', ''),
 (1017, 10006, 'safbiuchsifu', '', '<p>dsiugfusnsjdfv是的愤怒sndfiu</p>\r\n', 0, 1427004934, 1427004934, '2015-03-22', 1427004934, 1427006288, 10000, 0, 1, 0, 1004, '', 0, 100, 1, 0, '', '', ''),
 (1018, 10006, '发错阿城我的钱', '', '<p>东方擦封测</p>\r\n', 0, 1427004944, 1427004944, '2015-03-22', 1427004944, 1427010750, 10000, 0, 1, 0, 1005, '', 0, 100, 2, 0, '', '', ''),
-(1019, 10006, '阿迪', '', '<p>大阿斯顿</p>\r\n', 0, 1427004957, 1427004957, '2015-03-22', 1427004957, 1427006290, 10000, 0, 1, 0, 1006, '', 0, 100, 2, 0, '', '', ''),
+(1019, 10006, '阿迪', '', '<p>大阿斯顿</p>\r\n', 0, 1427004957, 1427004957, '2015-03-22', 1427004957, 1427028942, 10000, 0, 1, 0, 1006, '', 0, 100, 3, 0, '', '', ''),
 (1020, 10006, '奋斗擦', '', '<p>阿飞擦擦</p>\r\n', 0, 1427004969, 1427004969, '2015-03-22', 1427004969, 1427006279, 10000, 0, 1, 0, 1007, '', 0, 100, 1, 0, '', '', ''),
 (1021, 10006, '你在醋啊额', '', '<p>你的经适房腐败</p>\r\n', 0, 1427004985, 1427004985, '2015-03-22', 1427004985, 0, 10000, 0, 1, 0, 1008, '', 0, 100, 0, 0, '', '', ''),
 (1022, 10006, '打击你啊的奶茶', '', '<p>啊打算阿迪</p>\r\n', 0, 1427004996, 1427004996, '2015-03-22', 1427004996, 0, 10000, 0, 1, 0, 1009, '', 0, 100, 0, 0, '', '', ''),
-(1023, 10006, 'jbj', '', '<p>vuuy</p>\r\n', 0, 1427006840, 1427006840, '2015-03-22', 1427006840, 1427007459, 10000, 0, 1, 0, 0, '', 0, 100, 8, 0, '', '', '');
+(1023, 10006, 'jbj', '', '<p>vuuy</p>\r\n', 0, 1427006840, 1427029564, '2015-03-22', 1427006840, 1427007459, 10000, 0, 1, 0, 1010, '', 0, 100, 8, 0, '', '', ''),
+(1024, 10006, '不错的奶茶', '', '<p><img alt="" src="http://milk/uploads/posts/2015/03/F421m.jpg" style="width: 500px; height: 331px;" /></p>\r\n', 0, 1427029621, 1427029621, '2015-03-22', 1427029621, 1427030286, 10000, 0, 1, 0, 1012, '', 0, 100, 13, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5428,7 +5444,7 @@ INSERT INTO `fay_users` (`id`, `username`, `email`, `cellphone`, `password`, `sa
 (1, '系统', '', '', '', '', '系统', '系统', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (2, '用户留言收件人', '', '', '', '', '用户留言收件人', '用户留言收件人', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (3, '系统消息', '', '', '', '', '系统消息', '系统消息', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
-(10000, '123', '', '', '6a29cac3d10e3fc1b40dc2eb1554f17b', 'a1xDp', '', '', 0, 1426437489, 0, 10, 1427004877, 2130706433, 1427008843, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
+(10000, '123', '', '', '6a29cac3d10e3fc1b40dc2eb1554f17b', 'a1xDp', '', '', 0, 1426437489, 0, 11, 1427027966, 2130706433, 1427030630, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5493,7 +5509,7 @@ CREATE TABLE IF NOT EXISTS `fay_widgets` (
   `widget_name` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_widgets`
@@ -5501,7 +5517,10 @@ CREATE TABLE IF NOT EXISTS `fay_widgets` (
 
 INSERT INTO `fay_widgets` (`id`, `alias`, `options`, `widget_name`, `description`, `enabled`) VALUES
 (8, 'index-lists', '{"hierarchical":0,"top":1,"title":"\\u4ea7\\u54c1\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/index-lists"}', 'fay/categories', 'index-lists', 1),
-(7, 'new-news', '{"title":"\\u6700\\u65b0\\u8d44\\u8baf","top":10005,"subclassification":1,"number":5,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/new-news"}', 'fay/category_post', 'new-news', 1);
+(9, 'hot-products', '{"title":"\\u70ed\\u95e8\\u4ea7\\u54c1","top":1,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/hot-products"}', 'fay/category_post', 'hot-products', 1),
+(10, 'product-list', '{"hierarchical":0,"top":1,"title":"\\u4ea7\\u54c1\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/product-list"}', 'fay/categories', '内页产品分类', 1),
+(7, 'new-news', '{"title":"\\u6700\\u65b0\\u8d44\\u8baf","top":10005,"subclassification":1,"number":5,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/new-news"}', 'fay/category_post', 'new-news', 1),
+(11, 'hot-products-inside', '{"title":"\\u70ed\\u95e8\\u4ea7\\u54c1","top":1,"subclassification":1,"number":8,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/hot-products-inside"}', 'fay/category_post', '内页热门产品', 1);
 
 --
 -- Indexes for dumped tables
@@ -5881,7 +5900,7 @@ ALTER TABLE `fay_widgets`
 -- AUTO_INCREMENT for table `fay_actionlogs`
 --
 ALTER TABLE `fay_actionlogs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=73;
 --
 -- AUTO_INCREMENT for table `fay_actions`
 --
@@ -5891,7 +5910,7 @@ ALTER TABLE `fay_actions`
 -- AUTO_INCREMENT for table `fay_analyst_caches`
 --
 ALTER TABLE `fay_analyst_caches`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=161;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=167;
 --
 -- AUTO_INCREMENT for table `fay_analyst_macs`
 --
@@ -5961,7 +5980,7 @@ ALTER TABLE `fay_exam_questions`
 -- AUTO_INCREMENT for table `fay_files`
 --
 ALTER TABLE `fay_files`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1010;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1013;
 --
 -- AUTO_INCREMENT for table `fay_goods`
 --
@@ -6006,7 +6025,7 @@ ALTER TABLE `fay_links`
 -- AUTO_INCREMENT for table `fay_logs`
 --
 ALTER TABLE `fay_logs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `fay_menus`
 --
@@ -6036,7 +6055,7 @@ ALTER TABLE `fay_pages`
 -- AUTO_INCREMENT for table `fay_posts`
 --
 ALTER TABLE `fay_posts`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1024;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1025;
 --
 -- AUTO_INCREMENT for table `fay_props`
 --
@@ -6101,7 +6120,7 @@ ALTER TABLE `fay_vouchers`
 -- AUTO_INCREMENT for table `fay_widgets`
 --
 ALTER TABLE `fay_widgets`
-  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

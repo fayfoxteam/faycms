@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-12 23:55:34
+-- Generation Time: 2015-03-13 03:41:22
 -- 服务器版本： 5.5.41-MariaDB
 -- PHP Version: 5.4.16
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `fay_actionlogs` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `refer` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_actionlogs`
@@ -89,7 +89,25 @@ INSERT INTO `fay_actionlogs` (`id`, `user_id`, `type`, `note`, `create_time`, `r
 (46, 10000, 6, '添加分类', 1426778936, 10005, 2130706433),
 (47, 10000, 16, '添加文章', 1426778958, 1012, 2130706433),
 (48, 10000, 28, '创建了一个小工具实例', 1426779064, 7, 2130706433),
-(49, 10000, 16, '添加文章', 1426779312, 1013, 2130706433);
+(49, 10000, 16, '添加文章', 1426779312, 1013, 2130706433),
+(50, 10000, 6, '添加分类', 1426864516, 10006, 2130706433),
+(51, 10000, 6, '添加分类', 1426864520, 10007, 2130706433),
+(52, 10000, 6, '添加分类', 1426864524, 10008, 2130706433),
+(53, 10000, 28, '删除了一个小工具实例', 1426864565, 6, 2130706433),
+(54, 10000, 28, '删除了一个小工具实例', 1426864567, 5, 2130706433),
+(55, 10000, 28, '删除了一个小工具实例', 1426864568, 3, 2130706433),
+(56, 10000, 28, '删除了一个小工具实例', 1426864569, 1, 2130706433),
+(57, 10000, 28, '创建了一个小工具实例', 1426864580, 8, 2130706433),
+(58, 10000, 16, '添加文章', 1426864815, 1014, 2130706433),
+(59, 10000, 16, '添加文章', 1427004910, 1015, 2130706433),
+(60, 10000, 16, '添加文章', 1427004922, 1016, 2130706433),
+(61, 10000, 16, '添加文章', 1427004934, 1017, 2130706433),
+(62, 10000, 16, '添加文章', 1427004944, 1018, 2130706433),
+(63, 10000, 16, '添加文章', 1427004957, 1019, 2130706433),
+(64, 10000, 16, '添加文章', 1427004969, 1020, 2130706433),
+(65, 10000, 16, '添加文章', 1427004985, 1021, 2130706433),
+(66, 10000, 16, '添加文章', 1427004996, 1022, 2130706433),
+(67, 10000, 16, '添加文章', 1427006840, 1023, 2130706433);
 
 -- --------------------------------------------------------
 
@@ -229,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_caches` (
   `ip` smallint(5) unsigned NOT NULL DEFAULT '0',
   `new_visitors` smallint(5) unsigned NOT NULL DEFAULT '0',
   `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00'
-) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_analyst_caches`
@@ -356,7 +374,46 @@ INSERT INTO `fay_analyst_caches` (`id`, `date`, `hour`, `site`, `pv`, `uv`, `ip`
 (118, '2015-03-18', 22, 0, 0, 0, 0, 0, 0.00),
 (119, '2015-03-18', 23, 0, 0, 0, 0, 0, 0.00),
 (120, '2015-03-18', -1, 0, 0, 0, 0, 0, 0.00),
-(121, '2015-03-19', 22, 0, 1, 1, 1, 1, 100.00);
+(121, '2015-03-19', 22, 0, 1, 1, 1, 1, 100.00),
+(122, '2015-03-22', 0, 0, 0, 0, 0, 0, 0.00),
+(123, '2015-03-22', 1, 0, 0, 0, 0, 0, 0.00),
+(124, '2015-03-22', 2, 0, 0, 0, 0, 0, 0.00),
+(125, '2015-03-22', 3, 0, 0, 0, 0, 0, 0.00),
+(126, '2015-03-22', 4, 0, 0, 0, 0, 0, 0.00),
+(127, '2015-03-22', 5, 0, 0, 0, 0, 0, 0.00),
+(128, '2015-03-22', 6, 0, 0, 0, 0, 0, 0.00),
+(129, '2015-03-22', 7, 0, 0, 0, 0, 0, 0.00),
+(130, '2015-03-22', 8, 0, 0, 0, 0, 0, 0.00),
+(131, '2015-03-22', 9, 0, 0, 0, 0, 0, 0.00),
+(132, '2015-03-22', 10, 0, 0, 0, 0, 0, 0.00),
+(133, '2015-03-22', 11, 0, 0, 0, 0, 0, 0.00),
+(134, '2015-03-22', 12, 0, 0, 0, 0, 0, 0.00),
+(135, '2015-03-22', 13, 0, 0, 0, 0, 0, 0.00),
+(136, '2015-03-21', 0, 0, 0, 0, 0, 0, 0.00),
+(137, '2015-03-21', 1, 0, 0, 0, 0, 0, 0.00),
+(138, '2015-03-21', 2, 0, 0, 0, 0, 0, 0.00),
+(139, '2015-03-21', 3, 0, 0, 0, 0, 0, 0.00),
+(140, '2015-03-21', 4, 0, 0, 0, 0, 0, 0.00),
+(141, '2015-03-21', 5, 0, 0, 0, 0, 0, 0.00),
+(142, '2015-03-21', 6, 0, 0, 0, 0, 0, 0.00),
+(143, '2015-03-21', 7, 0, 0, 0, 0, 0, 0.00),
+(144, '2015-03-21', 8, 0, 0, 0, 0, 0, 0.00),
+(145, '2015-03-21', 9, 0, 0, 0, 0, 0, 0.00),
+(146, '2015-03-21', 10, 0, 0, 0, 0, 0, 0.00),
+(147, '2015-03-21', 11, 0, 0, 0, 0, 0, 0.00),
+(148, '2015-03-21', 12, 0, 0, 0, 0, 0, 0.00),
+(149, '2015-03-21', 13, 0, 0, 0, 0, 0, 0.00),
+(150, '2015-03-21', 14, 0, 0, 0, 0, 0, 0.00),
+(151, '2015-03-21', 15, 0, 0, 0, 0, 0, 0.00),
+(152, '2015-03-21', 16, 0, 0, 0, 0, 0, 0.00),
+(153, '2015-03-21', 17, 0, 0, 0, 0, 0, 0.00),
+(154, '2015-03-21', 18, 0, 0, 0, 0, 0, 0.00),
+(155, '2015-03-21', 19, 0, 0, 0, 0, 0, 0.00),
+(156, '2015-03-21', 20, 0, 0, 0, 0, 0, 0.00),
+(157, '2015-03-21', 21, 0, 0, 0, 0, 0, 0.00),
+(158, '2015-03-21', 22, 0, 0, 0, 0, 0, 0.00),
+(159, '2015-03-21', 23, 0, 0, 0, 0, 0, 0.00),
+(160, '2015-03-21', -1, 0, 0, 0, 0, 0, 0.00);
 
 -- --------------------------------------------------------
 
@@ -439,7 +496,7 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_visits` (
   `HTTP_CLIENT_IP` varchar(255) NOT NULL DEFAULT '',
   `HTTP_X_FORWARDED_FOR` varchar(255) NOT NULL DEFAULT '',
   `REMOTE_ADDR` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_analyst_visits`
@@ -449,7 +506,8 @@ INSERT INTO `fay_analyst_visits` (`id`, `mac`, `ip_int`, `refer`, `url`, `short_
 (1, 1, 2130706433, 'http://jmc/install/index/settings', 'http://jmc/a', 'WjmK9j', '', 0, 1426437489, '2015-03-16', 0, 1, 2, '', '', '127.0.0.1'),
 (2, 1, 2130706433, '', 'http://jmc/a', 'WjmK9j', '', 0, 1426555633, '2015-03-17', 9, 1, 5, '', '', '127.0.0.1'),
 (3, 2, 2130706433, '', 'http://jmc/a', 'WjmK9j', '', 0, 1426775091, '2015-03-19', 22, 1, 1, '', '', '127.0.0.1'),
-(4, 3, 2130706433, '', 'http://milk/a', '51r4va', '', 0, 1426777216, '2015-03-19', 23, 1, 1, '', '', '127.0.0.1');
+(4, 3, 2130706433, '', 'http://milk/a', '51r4va', '', 0, 1426777216, '2015-03-19', 23, 1, 1, '', '', '127.0.0.1'),
+(5, 3, 2130706433, '', 'http://milk/a', '51r4va', '', 0, 1427004875, '2015-03-22', 14, 1, 1, '', '', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -472,43 +530,46 @@ CREATE TABLE IF NOT EXISTS `fay_categories` (
   `seo_title` varchar(255) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=10006 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10009 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_categories`
 --
 
 INSERT INTO `fay_categories` (`id`, `title`, `alias`, `parent`, `file_id`, `sort`, `description`, `is_nav`, `left_value`, `right_value`, `is_system`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
-(1, '未分类', '_system_post', 0, 0, 100, '文章分类根目录', 0, 2, 5, 1, '', '', ''),
-(2, '页面分类', '_system_page', 0, 0, 100, '', 0, 6, 7, 1, '', '', ''),
-(3, '权限', '_system_action', 0, 0, 100, '', 0, 8, 43, 1, '', '', ''),
-(4, '系统消息', '_system_notification', 0, 0, 100, '', 0, 44, 45, 1, '', '', ''),
-(5, '用户留言', '_system_messages', 0, 0, 100, '', 0, 46, 47, 1, '', '', ''),
-(6, '商品分类', '_system_goods', 0, 0, 100, '', 0, 48, 51, 1, '', '', ''),
-(7, '优惠卷', '_system_voucher', 0, 0, 100, '', 0, 52, 53, 1, '', '', ''),
-(8, '考试', '_system_exam', 0, 0, 100, '', 0, 54, 59, 1, '', '', ''),
-(9, '试题', '_system_exam_question', 8, 0, 100, '', 0, 55, 56, 1, '', '', ''),
-(10, '试卷', '_system_exam_paper', 8, 0, 100, '', 0, 57, 58, 1, '', '', ''),
-(11, '友情链接', '_system_link', 0, 0, 100, '', 0, 60, 61, 1, '', '', ''),
-(101, '友情链接', '_role_youqinglianjie', 3, 0, 100, '', 0, 9, 10, 1, '', '', ''),
-(102, '文件', '_role_wenjian', 3, 0, 100, '', 0, 11, 12, 1, '', '', ''),
-(103, '文章', '_role_wenzhang', 3, 0, 100, '', 0, 13, 14, 1, '', '', ''),
-(104, '提醒', '_role_tixing', 3, 0, 100, '', 0, 15, 16, 1, '', '', ''),
-(105, '用户留言', '_role_yonghuliuyan', 3, 0, 100, '', 0, 17, 18, 1, '', '', ''),
-(106, '管理员', '_role_guanliyuan', 3, 0, 100, '', 0, 19, 20, 1, '', '', ''),
-(107, '页面', '_role_jingtaiyemian', 3, 0, 100, '', 0, 21, 22, 1, '', '', ''),
-(108, '商品', '_role_shangpinguanli', 3, 0, 100, '', 0, 23, 24, 1, '', '', ''),
-(109, '用户', '_role_yonghuguanli', 3, 0, 100, '', 0, 25, 26, 1, '', '', ''),
-(110, '文章评论', '_role_wenzhangpinglun', 3, 0, 100, '', 0, 27, 28, 1, '', '', ''),
-(111, '站点', '_role_zhandian', 3, 0, 100, '', 0, 29, 30, 1, '', '', ''),
-(112, '角色', '_role_juese', 3, 0, 100, '', 0, 31, 32, 1, '', '', ''),
-(113, '访问统计', '_role_fangwentongji', 3, 0, 100, '', 0, 33, 34, 1, '', '', ''),
-(114, '导航栏', '_role_daohanglan', 3, 0, 100, '', 0, 35, 36, 1, '', '', ''),
-(115, '会话', '_role_huihua', 3, 0, 100, '', 0, 37, 38, 1, '', '', ''),
-(116, '试题', '_role_shiti', 3, 0, 100, '', 0, 39, 40, 1, '', '', ''),
-(117, '试卷', '_role_shijuan', 3, 0, 100, '', 0, 41, 42, 1, '', '', ''),
+(1, '未分类', '_system_post', 0, 0, 100, '文章分类根目录', 0, 2, 11, 1, '', '', ''),
+(2, '页面分类', '_system_page', 0, 0, 100, '', 0, 12, 13, 1, '', '', ''),
+(3, '权限', '_system_action', 0, 0, 100, '', 0, 14, 49, 1, '', '', ''),
+(4, '系统消息', '_system_notification', 0, 0, 100, '', 0, 50, 51, 1, '', '', ''),
+(5, '用户留言', '_system_messages', 0, 0, 100, '', 0, 52, 53, 1, '', '', ''),
+(6, '商品分类', '_system_goods', 0, 0, 100, '', 0, 54, 57, 1, '', '', ''),
+(7, '优惠卷', '_system_voucher', 0, 0, 100, '', 0, 58, 59, 1, '', '', ''),
+(8, '考试', '_system_exam', 0, 0, 100, '', 0, 60, 65, 1, '', '', ''),
+(9, '试题', '_system_exam_question', 8, 0, 100, '', 0, 61, 62, 1, '', '', ''),
+(10, '试卷', '_system_exam_paper', 8, 0, 100, '', 0, 63, 64, 1, '', '', ''),
+(11, '友情链接', '_system_link', 0, 0, 100, '', 0, 66, 67, 1, '', '', ''),
+(101, '友情链接', '_role_youqinglianjie', 3, 0, 100, '', 0, 15, 16, 1, '', '', ''),
+(102, '文件', '_role_wenjian', 3, 0, 100, '', 0, 17, 18, 1, '', '', ''),
+(103, '文章', '_role_wenzhang', 3, 0, 100, '', 0, 19, 20, 1, '', '', ''),
+(104, '提醒', '_role_tixing', 3, 0, 100, '', 0, 21, 22, 1, '', '', ''),
+(105, '用户留言', '_role_yonghuliuyan', 3, 0, 100, '', 0, 23, 24, 1, '', '', ''),
+(106, '管理员', '_role_guanliyuan', 3, 0, 100, '', 0, 25, 26, 1, '', '', ''),
+(107, '页面', '_role_jingtaiyemian', 3, 0, 100, '', 0, 27, 28, 1, '', '', ''),
+(108, '商品', '_role_shangpinguanli', 3, 0, 100, '', 0, 29, 30, 1, '', '', ''),
+(109, '用户', '_role_yonghuguanli', 3, 0, 100, '', 0, 31, 32, 1, '', '', ''),
+(110, '文章评论', '_role_wenzhangpinglun', 3, 0, 100, '', 0, 33, 34, 1, '', '', ''),
+(111, '站点', '_role_zhandian', 3, 0, 100, '', 0, 35, 36, 1, '', '', ''),
+(112, '角色', '_role_juese', 3, 0, 100, '', 0, 37, 38, 1, '', '', ''),
+(113, '访问统计', '_role_fangwentongji', 3, 0, 100, '', 0, 39, 40, 1, '', '', ''),
+(114, '导航栏', '_role_daohanglan', 3, 0, 100, '', 0, 41, 42, 1, '', '', ''),
+(115, '会话', '_role_huihua', 3, 0, 100, '', 0, 43, 44, 1, '', '', ''),
+(116, '试题', '_role_shiti', 3, 0, 100, '', 0, 45, 46, 1, '', '', ''),
+(117, '试卷', '_role_shijuan', 3, 0, 100, '', 0, 47, 48, 1, '', '', ''),
+(10008, '奶茶3', 'naicha3', 1, 0, 255, '', 1, 9, 10, 0, '', '', ''),
+(10007, '奶茶2', 'naicha2', 1, 0, 255, '', 1, 7, 8, 0, '', '', ''),
+(10006, '奶茶1', 'naicha1', 1, 0, 255, '', 1, 5, 6, 0, '', '', ''),
 (10005, '最新资讯', 'zuixinzixun', 1, 0, 255, '', 0, 3, 4, 0, '', '', ''),
-(10004, '奶茶', 'naicha', 6, 0, 255, '', 1, 49, 50, 0, '', '', '');
+(10004, '奶茶', 'naicha', 6, 0, 255, '', 1, 55, 56, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1239,7 +1300,23 @@ CREATE TABLE IF NOT EXISTS `fay_files` (
   `downloads` smallint(5) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `qiniu` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1010 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `fay_files`
+--
+
+INSERT INTO `fay_files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`, `downloads`, `type`, `qiniu`) VALUES
+(1000, '4Cr42', '.png', 23624, 'image/png', './uploads/posts/2015/03/', 'img-right.png', 1, 228, 218, 1426864800, 10000, 0, 1, 0),
+(1001, 'CUVC3', '.png', 76330, 'image/png', './uploads/posts/2015/03/', 'product5.png', 1, 378, 378, 1426864812, 10000, 0, 1, 0),
+(1002, 'MR0ss', '.png', 76330, 'image/png', './uploads/posts/2015/03/', 'product5.png', 1, 378, 378, 1427004909, 10000, 0, 1, 0),
+(1003, 'A0Ats', '.png', 58103, 'image/png', './uploads/posts/2015/03/', 'product2.png', 1, 378, 378, 1427004919, 10000, 0, 1, 0),
+(1004, 'XlC06', '.png', 59447, 'image/png', './uploads/posts/2015/03/', 'product9.png', 1, 378, 378, 1427004933, 10000, 0, 1, 0),
+(1005, 'z94AD', '.png', 69458, 'image/png', './uploads/posts/2015/03/', 'product8.png', 1, 378, 378, 1427004944, 10000, 0, 1, 0),
+(1006, '1yRek', '.png', 49850, 'image/png', './uploads/posts/2015/03/', 'product1.png', 1, 378, 378, 1427004956, 10000, 0, 1, 0),
+(1007, 'NwVUT', '.png', 58103, 'image/png', './uploads/posts/2015/03/', 'product2.png', 1, 378, 378, 1427004968, 10000, 0, 1, 0),
+(1008, '44rmd', '.png', 89569, 'image/png', './uploads/posts/2015/03/', 'product4.png', 1, 378, 378, 1427004985, 10000, 0, 1, 0),
+(1009, 'yW1D5', '.png', 73875, 'image/png', './uploads/posts/2015/03/', 'product6.png', 1, 378, 378, 1427004996, 10000, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1436,7 +1513,7 @@ CREATE TABLE IF NOT EXISTS `fay_logs` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0',
   `user_agent` varchar(255) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_logs`
@@ -1451,7 +1528,8 @@ INSERT INTO `fay_logs` (`id`, `user_id`, `type`, `code`, `data`, `create_date`, 
 (6, 0, 0, 'admin:action:login.success', '{"fmac":"a51c5fa11c6de014e60a87026cbfcc4d"}', '2015-03-17', 1426598613, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36'),
 (7, 0, 0, 'admin:action:login.success', '{"fmac":"a51c5fa11c6de014e60a87026cbfcc4d"}', '2015-03-17', 1426604907, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36'),
 (8, 0, 0, 'admin:action:login.success', '{"fmac":"6181fdee1fc9b33344a827709aa9171e"}', '2015-03-19', 1426775093, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'),
-(9, 0, 0, 'admin:action:login.success', '{"fmac":"fd675612f11abe2d85d1e5e329132989"}', '2015-03-19', 1426777221, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36');
+(9, 0, 0, 'admin:action:login.success', '{"fmac":"fd675612f11abe2d85d1e5e329132989"}', '2015-03-19', 1426777221, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'),
+(10, 0, 0, 'admin:action:login.success', '{"fmac":"fd675612f11abe2d85d1e5e329132989"}', '2015-03-22', 1427004877, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36');
 
 -- --------------------------------------------------------
 
@@ -1531,16 +1609,16 @@ CREATE TABLE IF NOT EXISTS `fay_options` (
 --
 
 INSERT INTO `fay_options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES
-(1, 'sitename', 'Tea and Milk', '', 1426437489, 1426779520, 0),
-(2, 'copyright', '', '', 1426512932, 1426779520, 0),
-(3, 'beian', '', '', 1426512932, 1426779520, 0),
-(4, 'phone', '0575-88888888', '', 1426512932, 1426779520, 0),
-(5, 'fax', '', '', 1426512932, 1426779520, 0),
-(6, 'email', '18888888888@qq.com', '', 1426512932, 1426779520, 0),
-(7, 'address', '浙江省绍兴市城南大道900号', '', 1426512932, 1426779520, 0),
-(8, 'seo_index_title', 'Tea and Milk', '', 1426512932, 1426779520, 0),
-(9, 'seo_index_keywords', 'Tea and Milk', '', 1426512932, 1426779520, 0),
-(10, 'seo_index_description', 'Tea and Milk', '', 1426512932, 1426779520, 0);
+(1, 'sitename', 'Tea and Milk', '', 1426437489, 1426866732, 0),
+(2, 'copyright', '', '', 1426512932, 1426866732, 0),
+(3, 'beian', '', '', 1426512932, 1426866732, 0),
+(4, 'phone', '0575-88888888', '', 1426512932, 1426866732, 0),
+(5, 'fax', '', '', 1426512932, 1426866732, 0),
+(6, 'email', '18888888888@qq.com', '', 1426512932, 1426866732, 0),
+(7, 'address', '浙江省绍兴市城南大道900号', '', 1426512932, 1426866732, 0),
+(8, 'seo_index_title', 'Tea and Milk', '', 1426512932, 1426866732, 0),
+(9, 'seo_index_keywords', 'Tea and Milk', '', 1426512932, 1426866732, 0),
+(10, 'seo_index_description', 'Tea and Milk', '', 1426512932, 1426866732, 0);
 
 -- --------------------------------------------------------
 
@@ -1617,7 +1695,7 @@ CREATE TABLE IF NOT EXISTS `fay_posts` (
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=1014 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1024 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_posts`
@@ -1637,7 +1715,17 @@ INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_t
 (1010, 10000, '从不恶报', '', '<p>多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈多少分 个阿四弟哦快点发你好热你哈是的你还哦符合非双方将份额为方便额外个办法是的那就看你份额无奈</p>\r\n', 0, 1426605030, 1426605030, '2015-03-17', 1426605030, 0, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (1011, 10000, '奋斗姐夫呢', '', '<p>发jewbfuief</p>\r\n', 0, 1426605037, 1426605037, '2015-03-17', 1426605037, 0, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
 (1012, 10005, '通知', '', '<p>奶茶卖疯了</p>\r\n', 0, 1426778958, 1426778958, '2015-03-19', 1426778958, 0, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', ''),
-(1013, 10005, '开奶茶店需要多少钱?', '', '<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">很多准备开奶店或刚开奶店的朋友都会在网上搜索&ldquo;<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">奶茶加盟</a>需要多少钱?&rdquo;，&ldquo;<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">开奶茶店需要多少钱</a>?&rdquo;，&ldquo;开<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">奶茶</a>装修要多少钱?&rdquo;等等一系列相关问题，下在我们性习新天然根据我们自己在奶茶行业从业多年的经验，一起帮大家客观的问题一下这个问题。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: center; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);"><img alt="" border="0" height="317" hspace="0" src="http://www.xxxtr.cn/include/ueditor/php/upload/83911425644674.jpg" style="margin: 0px; padding: 0px; list-style-type: none; text-align: left; width: 400px; height: 317px;" title="dm.jpg" width="400" /></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">首先每一个加盟商的地理位置，还有面积都不一样，所以不能有统一的回答，今天就以这一家奶茶店为例，让大家参考一下</span><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">如：店面宽</span><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">2.5米，深度10米，在一校园内; 吧台在门口是肯定的，由于店面宽度比较小，深度相多过剩，可以考虑门内5米左右设吧台。但是灯光效果要到位，不要让人有种拥挤的感觉。尽量不要开台，</span><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">这个面积最多开3张，除了拥挤还是拥挤，而且学生容易因为争台子吵闹。装修要以粉色为主，带有时代感的曲线与字体，这样比较醒目而且受年轻人欢迎。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">以外买为主，人多时叫号供应。口味尽量多，价钱要从低价到高价都能胜任。学生喜欢个性化，可以考虑自定义口味的奶茶选择，按价加料。甚至可以办会员卡，会员可以来电提前准备好货，可以避免放学时过多人排队浪费时间等等。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">每星期或者每天随机或者规律循环指定某口味特价，这样可以让低层消费者可以品尝多种口味，产生广告效应。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">如果人流大，这样买奶茶的人可能会堵塞门口。如果人流一般，这样的设计可行。但是2.5米的内厅左右墙壁都安装吧台，坐满了非常拥挤。如果让我设计，我会只安装一边。虽然位置少了点，但是至少有走动的空间。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">不管是恋之味奶茶加盟店，台吧是不可少的一部分，房屋装修及大小，可以根据实际情况再定做，一般情况下，面积不到十平米的加盟店，以外卖的形式经营;而二十到三十平米的加盟店，以小吧形式经营，可以设置简单的桌椅;而三十平米以上的。</span></p>\r\n', 0, 1426779312, 1426779312, '2015-03-19', 1426779312, 0, 10000, 0, 1, 0, 0, '', 0, 100, 0, 0, '', '', '');
+(1013, 10005, '开奶茶店需要多少钱?', '', '<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">很多准备开奶店或刚开奶店的朋友都会在网上搜索&ldquo;<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">奶茶加盟</a>需要多少钱?&rdquo;，&ldquo;<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">开奶茶店需要多少钱</a>?&rdquo;，&ldquo;开<a href="http://www.5ufood.com/" style="list-style-type: none; color: rgb(77, 139, 17);">奶茶</a>装修要多少钱?&rdquo;等等一系列相关问题，下在我们性习新天然根据我们自己在奶茶行业从业多年的经验，一起帮大家客观的问题一下这个问题。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: center; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);"><img alt="" border="0" height="317" hspace="0" src="http://www.xxxtr.cn/include/ueditor/php/upload/83911425644674.jpg" style="margin: 0px; padding: 0px; list-style-type: none; text-align: left; width: 400px; height: 317px;" title="dm.jpg" width="400" /></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">首先每一个加盟商的地理位置，还有面积都不一样，所以不能有统一的回答，今天就以这一家奶茶店为例，让大家参考一下</span><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">如：店面宽</span><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">2.5米，深度10米，在一校园内; 吧台在门口是肯定的，由于店面宽度比较小，深度相多过剩，可以考虑门内5米左右设吧台。但是灯光效果要到位，不要让人有种拥挤的感觉。尽量不要开台，</span><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">这个面积最多开3张，除了拥挤还是拥挤，而且学生容易因为争台子吵闹。装修要以粉色为主，带有时代感的曲线与字体，这样比较醒目而且受年轻人欢迎。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">以外买为主，人多时叫号供应。口味尽量多，价钱要从低价到高价都能胜任。学生喜欢个性化，可以考虑自定义口味的奶茶选择，按价加料。甚至可以办会员卡，会员可以来电提前准备好货，可以避免放学时过多人排队浪费时间等等。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">每星期或者每天随机或者规律循环指定某口味特价，这样可以让低层消费者可以品尝多种口味，产生广告效应。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">如果人流大，这样买奶茶的人可能会堵塞门口。如果人流一般，这样的设计可行。但是2.5米的内厅左右墙壁都安装吧台，坐满了非常拥挤。如果让我设计，我会只安装一边。虽然位置少了点，但是至少有走动的空间。</span></p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 24px; text-align: justify; font-family: ''Microsoft YaHei''; background-color: rgb(255, 255, 255);">&nbsp;</p>\r\n\r\n<p style="margin-bottom: 0px; list-style-type: none; font-size: 14px; line-height: 2em; font-family: ''Microsoft YaHei''; text-indent: 2em; background-color: rgb(255, 255, 255);"><span style="list-style-type: none; font-family: 微软雅黑, ''Microsoft YaHei'';">不管是恋之味奶茶加盟店，台吧是不可少的一部分，房屋装修及大小，可以根据实际情况再定做，一般情况下，面积不到十平米的加盟店，以外卖的形式经营;而二十到三十平米的加盟店，以小吧形式经营，可以设置简单的桌椅;而三十平米以上的。</span></p>\r\n', 0, 1426779312, 1426779312, '2015-03-19', 1426779312, 1427007466, 10000, 0, 1, 0, 0, '', 0, 100, 1, 0, '', '', ''),
+(1014, 10006, '奶茶1', '', '<p>奶茶1</p>\r\n\r\n<p><img alt="" src="http://milk/uploads/posts/2015/03/CUVC3.png" style="width: 378px; height: 378px;" /></p>\r\n', 0, 1426864815, 1426864815, '2015-03-20', 1426864815, 0, 10000, 0, 1, 0, 1000, '', 0, 100, 0, 0, '', '', ''),
+(1015, 10006, 'naicha1', '', '<p>你的家吃饭纳斯哦那是付出是的烦恼可是当你覅是你</p>\r\n', 0, 1427004910, 1427004910, '2015-03-22', 1427004910, 0, 10000, 0, 1, 0, 1002, '', 0, 100, 0, 0, '', '', ''),
+(1016, 10006, 'uigyug', '', '<p>guhiu</p>\r\n', 0, 1427004922, 1427004922, '2015-03-22', 1427004922, 0, 10000, 0, 1, 0, 1003, '', 0, 100, 0, 0, '', '', ''),
+(1017, 10006, 'safbiuchsifu', '', '<p>dsiugfusnsjdfv是的愤怒sndfiu</p>\r\n', 0, 1427004934, 1427004934, '2015-03-22', 1427004934, 1427006288, 10000, 0, 1, 0, 1004, '', 0, 100, 1, 0, '', '', ''),
+(1018, 10006, '发错阿城我的钱', '', '<p>东方擦封测</p>\r\n', 0, 1427004944, 1427004944, '2015-03-22', 1427004944, 1427010750, 10000, 0, 1, 0, 1005, '', 0, 100, 2, 0, '', '', ''),
+(1019, 10006, '阿迪', '', '<p>大阿斯顿</p>\r\n', 0, 1427004957, 1427004957, '2015-03-22', 1427004957, 1427006290, 10000, 0, 1, 0, 1006, '', 0, 100, 2, 0, '', '', ''),
+(1020, 10006, '奋斗擦', '', '<p>阿飞擦擦</p>\r\n', 0, 1427004969, 1427004969, '2015-03-22', 1427004969, 1427006279, 10000, 0, 1, 0, 1007, '', 0, 100, 1, 0, '', '', ''),
+(1021, 10006, '你在醋啊额', '', '<p>你的经适房腐败</p>\r\n', 0, 1427004985, 1427004985, '2015-03-22', 1427004985, 0, 10000, 0, 1, 0, 1008, '', 0, 100, 0, 0, '', '', ''),
+(1022, 10006, '打击你啊的奶茶', '', '<p>啊打算阿迪</p>\r\n', 0, 1427004996, 1427004996, '2015-03-22', 1427004996, 0, 10000, 0, 1, 0, 1009, '', 0, 100, 0, 0, '', '', ''),
+(1023, 10006, 'jbj', '', '<p>vuuy</p>\r\n', 0, 1427006840, 1427006840, '2015-03-22', 1427006840, 1427007459, 10000, 0, 1, 0, 0, '', 0, 100, 8, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5340,7 +5428,7 @@ INSERT INTO `fay_users` (`id`, `username`, `email`, `cellphone`, `password`, `sa
 (1, '系统', '', '', '', '', '系统', '系统', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (2, '用户留言收件人', '', '', '', '', '用户留言收件人', '用户留言收件人', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (3, '系统消息', '', '', '', '', '系统消息', '系统消息', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
-(10000, '123', '', '', '6a29cac3d10e3fc1b40dc2eb1554f17b', 'a1xDp', '', '', 0, 1426437489, 0, 9, 1426777221, 2130706433, 1426780546, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
+(10000, '123', '', '', '6a29cac3d10e3fc1b40dc2eb1554f17b', 'a1xDp', '', '', 0, 1426437489, 0, 10, 1427004877, 2130706433, 1427008843, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5405,17 +5493,14 @@ CREATE TABLE IF NOT EXISTS `fay_widgets` (
   `widget_name` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_widgets`
 --
 
 INSERT INTO `fay_widgets` (`id`, `alias`, `options`, `widget_name`, `description`, `enabled`) VALUES
-(1, 'right-sider', '{"hierarchical":0,"top":1,"title":"\\u6587\\u7ae0\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/right-sider"}', 'fay/categories', 'right-sider', 1),
-(3, 'new-articles', '{"title":"\\u6700\\u65b0\\u53d1\\u5e03","top":1,"subclassification":1,"number":5,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/new-articles"}', 'fay/category_post', 'new-articles', 1),
-(5, 'friendly-links', '{"title":"\\u53cb\\u60c5\\u94fe\\u63a5","number":5,"template":"frontend\\/widget\\/friendly-links"}', 'fay/friendlinks', 'frinedly', 1),
-(6, '11', '', 'fay/friendlinks', '1', 1),
+(8, 'index-lists', '{"hierarchical":0,"top":1,"title":"\\u4ea7\\u54c1\\u5206\\u7c7b","uri":"cat\\/{$id}","template":"frontend\\/widget\\/index-lists"}', 'fay/categories', 'index-lists', 1),
 (7, 'new-news', '{"title":"\\u6700\\u65b0\\u8d44\\u8baf","top":10005,"subclassification":1,"number":5,"thumbnail":0,"order":"hand","last_view_time":0,"date_format":"","uri":"post\\/{$id}","other_uri":"","template":"frontend\\/widget\\/new-news"}', 'fay/category_post', 'new-news', 1);
 
 --
@@ -5796,7 +5881,7 @@ ALTER TABLE `fay_widgets`
 -- AUTO_INCREMENT for table `fay_actionlogs`
 --
 ALTER TABLE `fay_actionlogs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT for table `fay_actions`
 --
@@ -5806,7 +5891,7 @@ ALTER TABLE `fay_actions`
 -- AUTO_INCREMENT for table `fay_analyst_caches`
 --
 ALTER TABLE `fay_analyst_caches`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=122;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=161;
 --
 -- AUTO_INCREMENT for table `fay_analyst_macs`
 --
@@ -5821,12 +5906,12 @@ ALTER TABLE `fay_analyst_sites`
 -- AUTO_INCREMENT for table `fay_analyst_visits`
 --
 ALTER TABLE `fay_analyst_visits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `fay_categories`
 --
 ALTER TABLE `fay_categories`
-  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10006;
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10009;
 --
 -- AUTO_INCREMENT for table `fay_cat_props`
 --
@@ -5876,7 +5961,7 @@ ALTER TABLE `fay_exam_questions`
 -- AUTO_INCREMENT for table `fay_files`
 --
 ALTER TABLE `fay_files`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1010;
 --
 -- AUTO_INCREMENT for table `fay_goods`
 --
@@ -5921,7 +6006,7 @@ ALTER TABLE `fay_links`
 -- AUTO_INCREMENT for table `fay_logs`
 --
 ALTER TABLE `fay_logs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `fay_menus`
 --
@@ -5951,7 +6036,7 @@ ALTER TABLE `fay_pages`
 -- AUTO_INCREMENT for table `fay_posts`
 --
 ALTER TABLE `fay_posts`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1014;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1024;
 --
 -- AUTO_INCREMENT for table `fay_props`
 --
@@ -6016,7 +6101,7 @@ ALTER TABLE `fay_vouchers`
 -- AUTO_INCREMENT for table `fay_widgets`
 --
 ALTER TABLE `fay_widgets`
-  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

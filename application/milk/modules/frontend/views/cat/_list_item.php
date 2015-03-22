@@ -1,4 +1,6 @@
 <?php
+use fay\helpers\Html;
+use fay\models\File;
 // dump($data);
 ?>
 
@@ -6,7 +8,7 @@
                     <article class="grid_3 article">
                         <img class="sale" src="<?php echo $this->staticFile('img/sale.png')?>" alt="Sale">
                         <div class="prev">
-                            <a href="<?php echo $this->url('post/'.$data['id'])?>"><img src="img/content/product1.png" alt="Product 1" title=""></a>
+                            <a href="<?php echo $this->url('post/'.$data['id'])?>"><?php echo Html::img($data['thumbnail'], File::PIC_ZOOM, array('alt' => Html::encode($data['title'])))?></a>
                         </div><!-- .prev -->
                         
                         <h3 class="title"><?php echo $data['title']?></h3>

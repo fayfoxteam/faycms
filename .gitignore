@@ -3,4 +3,6 @@
 .project
 .settings/
 runtimes/
+/public/uploads/
 /uploads/
+/applictaion/milk/configs/main.php

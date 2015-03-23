@@ -84,7 +84,6 @@ $col_left_count = floor($action_cat_count / 2);
 			<?php }?>
 			</div>
 		</div>
-		<div class="clear"></div>
 	</div>
 <?php echo F::form()->close()?>
 <script>

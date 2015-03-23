@@ -49,7 +49,7 @@ class Sql extends FBase{
 		return $this;
 	}
 	
-	public function distinct($flag){
+	public function distinct($flag = true){
 		$this->distinct = $flag;
 		return $this;
 	}

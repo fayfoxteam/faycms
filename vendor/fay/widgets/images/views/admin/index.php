@@ -45,8 +45,7 @@ use fay\models\tables\Users;
 <?php }?>
 <?php }?>
 </div>
-<?php if(F::app()->session->get('role') == Users::ROLE_SUPERADMIN){?>
-<div class="box">
+<div class="box <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'closed';?>">
 	<div class="box-title">
 		<a class="tools toggle" title="点击以切换"></a>
 		<h4>渲染模版</h4>
@@ -63,7 +62,6 @@ use fay\models\tables\Users;
 		</p>
 	</div>
 </div>
-<?php }?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
 <script type="text/javascript">
 var jq_camera = {

@@ -1,7 +1,7 @@
 <?php
 use fay\models\tables\Templates;
 
-echo F::form()->open(null, array(), 'post', array('id'=>'form'));
+echo F::form()->open(null, 'post', array('id'=>'form'));
 ?>
 	<div class="col-2-2">
 		<div class="col-2-2-body-sidebar" id="side">

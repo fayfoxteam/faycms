@@ -70,7 +70,7 @@ use cms\helpers\ListTableHelper;
 			))?>">最近30天</a>
 		</li>
 	</ul>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 	<table border="0" cellpadding="0" cellspacing="0" class="list-table">
 		<thead>
 			<tr> 
@@ -94,5 +94,5 @@ use cms\helpers\ListTableHelper;
 		<?php $listview->showData();?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>

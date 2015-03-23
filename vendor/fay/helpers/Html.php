@@ -278,7 +278,7 @@ class Html extends FBase{
 						$src = File::model()->getThumbnailUrl($file);
 					}
 				break;
-				case File::PIC_CUT:
+				case File::PIC_CROP:
 					if(isset($html_options['x'])){
 						$img_params['x'] = $html_options['x'];
 						unset($html_options['x']);
@@ -307,7 +307,7 @@ class Html extends FBase{
 					$img_params['f'] = $id;
 					$src = \F::app()->view->url('file/pic', $img_params);
 				break;
-				case File::PIC_ZOOM:
+				case File::PIC_RESIZE:
 					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
 						//若开启了七牛云存储，且文件已上传，则利用七牛进行裁剪输出
 						$src = Qiniu::model()->getUrl($file, array(
@@ -355,6 +355,8 @@ class Html extends FBase{
 			$uri = \F::app()->view->url(empty($uri[0]) ? null : $uri[0],
 				empty($uri[1]) ? array() : $uri[1],
 				isset($uri[2]) && $uri[2] === false ? false : true);
+		}else if($uri === null){
+			$uri = \F::app()->view->url();
 		}
 		
 		$html_options['href'] = $uri;

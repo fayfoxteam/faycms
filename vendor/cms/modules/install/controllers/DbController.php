@@ -4,6 +4,7 @@ namespace cms\modules\install\controllers;
 use cms\library\InstallController;
 use fay\models\Category;
 use fay\core\Db;
+use fay\models\Menu;
 
 class DbController extends InstallController{
 	public function __construct(){
@@ -94,10 +95,11 @@ class DbController extends InstallController{
 	}
 	
 	/**
-	 * 对categories表进行索引
+	 * 对categories表和menus表进行索引
 	 */
 	public function indexCats(){
 		Category::model()->buildIndex();
+		Menu::model()->buildIndex();
 		echo json_encode(array(
 			'status'=>1,
 		));

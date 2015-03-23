@@ -56,7 +56,7 @@ $cols = F::form('setting')->getData('cols');
 				'class'=>'btn-3 ml5',
 			));
 		?></div>
-		<?php $listview->showPage();?>
+		<?php $listview->showPager();?>
 		<table class="list-table">
 			<thead>
 				<tr>
@@ -141,7 +141,7 @@ $cols = F::form('setting')->getData('cols');
 			));
 		?></div>
 	</form>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 	<div class="clear"></div>
 </div>
 <script>

@@ -45,7 +45,7 @@ $settings = F::form('setting')->getAllData();
 		</div>
 		<div class="ci-footer">
 			<a href="#chat-dialog" class="ci-reply-link" data-id="<?php echo $data['id']?>">
-				<i class="icon-reply"></i>
+				<i class="fa fa-reply"></i>
 				<span>回复</span>(<em><?php echo Message::model()->getReplyCount($data['id'])?></em>)&nbsp;
 			</a>
 			<span class="ci-options"><?php

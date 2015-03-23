@@ -59,13 +59,13 @@ class FileController extends Controller{
 		switch ($t) {
 			case File::PIC_ORIGINAL:
 				//直接输出图片
-				$this->view_pic($file);
+				$this->_pic($file);
 				break;
 			case File::PIC_THUMBNAIL:
 				//输出图片的缩略图
-				$this->view_thumbnail($file);
+				$this->_thumbnail($file);
 				break;
-			case File::PIC_CUT:
+			case File::PIC_CROP:
 				/**
 				 * 根据起始坐标，宽度及宽高比裁剪后输出图片
 				 * @param $_GET['x'] 起始点x坐标
@@ -75,9 +75,9 @@ class FileController extends Controller{
 				 * @param $_GET['w'] 截图图片的宽度
 				 * @param $_GET['h'] 截图图片的高度
 				 */
-				$this->view_cut($file);
+				$this->_crop($file);
 				break;
-			case File::PIC_ZOOM:
+			case File::PIC_RESIZE:
 				/**
 				 * 根据给定的宽高对图片进行裁剪后输出图片
 				 * @param $_GET['dw'] 输出图像宽度
@@ -85,7 +85,7 @@ class FileController extends Controller{
 				 * 若仅指定高度或者宽度，则会按比例缩放
 				 * 若均不指定，则默认为200*200
 				 */
-				$this->view_zoom($file);
+				$this->_resize($file);
 				break;
 		
 			default:
@@ -94,7 +94,7 @@ class FileController extends Controller{
 		}
 	}
 	
-	private function view_pic($file){
+	private function _pic($file){
 		if($file !== false){
 			if(file_exists((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext'])){
 				header('Content-type: '.$file['file_type']);
@@ -109,7 +109,7 @@ class FileController extends Controller{
 		}
 	}
 	
-	private function view_thumbnail($file){
+	private function _thumbnail($file){
 		if($file !== false){
 			header('Content-type: '.$file['file_type']);
 			readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
@@ -122,7 +122,7 @@ class FileController extends Controller{
 		}
 	}
 	
-	private function view_cut($file){
+	private function _crop($file){
 		//x坐标位置
 		$x = $this->input->get('x', 'intval', 0);
 		//y坐标
@@ -147,8 +147,8 @@ class FileController extends Controller{
 			if($dh == 0){
 				$dh = $h;
 			}
-			$img = Image::cut($img, $x, $y, $w, $h);
-			$img = Image::zoom($img, $dw, $dh);
+			$img = Image::crop($img, $x, $y, $w, $h);
+			$img = Image::resize($img, $dw, $dh);
 		
 			header('Content-type: '.$file['file_type']);
 			switch ($file['file_type']) {
@@ -171,7 +171,7 @@ class FileController extends Controller{
 		}
 	}
 	
-	private function view_zoom($file){
+	private function _resize($file){
 		$spares = $this->config->get('spares');
 		$spare = $spares[$this->input->get('s', null, 'default')];
 		//输出宽度
@@ -190,9 +190,9 @@ class FileController extends Controller{
 		
 		if($file !== false){
 			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-		
-			$img = Image::zoom($img, $dw, $dh);
-		
+			
+			$img = Image::resize($img, $dw, $dh);
+			
 			header('Content-type: '.$file['file_type']);
 			switch ($file['file_type']) {
 				case 'image/gif':
@@ -200,7 +200,7 @@ class FileController extends Controller{
 					break;
 				case 'image/jpeg':
 				case 'image/jpg':
-					imagejpeg($img);
+					imagejpeg($img, null, $this->input->get('q', 'intval', 75));
 					break;
 				case 'image/png':
 					imagepng($img);
@@ -212,7 +212,7 @@ class FileController extends Controller{
 		}else{
 			$img = Image::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::zoom($img, $dw, $dh);
+			$img = Image::resize($img, $dw, $dh);
 			imagejpeg($img);
 		}
 	}

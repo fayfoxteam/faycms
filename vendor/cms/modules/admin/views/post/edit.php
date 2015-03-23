@@ -1,6 +1,4 @@
 <?php
-use fay\helpers\Html;
-use fay\models\Post;
 use fay\models\tables\Posts;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
@@ -22,8 +20,17 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					</div>
 					<div class="misc-pub-section">
 						<strong>状态</strong>
-						<?php echo F::form()->inputRadio('status', Posts::STATUS_PUBLISH, array('label'=>'发布'))?>
-						<?php echo F::form()->inputRadio('status', Posts::STATUS_DRAFT, array('label'=>'草稿'))?>
+						<?php
+							if(!F::app()->post_review || F::app()->checkPermission('admin/post/review') || $post['status'] == Posts::STATUS_PUBLISH){
+								//未开启审核，或者有审核权限，或者文章处于已发布状态，显示发布按钮
+								echo F::form()->inputRadio('status', Posts::STATUS_PUBLISH, array('label'=>'立即发布'));
+							}
+							if(F::app()->post_review){
+								//开启审核，显示待审核选项
+								echo F::form()->inputRadio('status', Posts::STATUS_PENDING, array('label'=>'待审核'));
+							}
+							echo F::form()->inputRadio('status', Posts::STATUS_DRAFT, array('label'=>'草稿'));
+						?>
 					</div>
 					<div class="misc-pub-section mt0">
 						<strong>是否置顶？</strong>
@@ -55,7 +62,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						'class'=>'bigtxt',
 					))?>
 				</div>
-				<div class="postarea clearfix"><?php $this->renderPartial('_content', array(
+				<div class="postarea cf"><?php $this->renderPartial('_content', array(
 					'post'=>$post,
 				))?></div>
 				<div class="mt20 dragsort" id="normal">

@@ -81,7 +81,6 @@
 				<?php if(in_array('mcrypt', $extensions)){
 					echo '<span class="color-green">支持</span>';
 				}else{
-					$error_flag = true;
 					echo '<span class="color-orange">不支持</span>';
 				}?>
 			</p>

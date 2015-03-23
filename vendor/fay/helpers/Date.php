@@ -1,20 +1,23 @@
 <?php
 namespace fay\helpers;
 
-
+/**
+ * 时间相关帮助方法
+ * 此方法全面支持时间伪造，即通过修改F::app()->current_time修改系统当前时间，方便某些特殊场景的测试等需求。
+ */
 class Date{
 	/**
 	 * 返回今天零点的时间戳
 	 */
 	public static function today(){
-		return strtotime('today');
+		return mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time), date('Y', \F::app()->current_time));
 	}
 	
 	/**
 	 * 返回明天零点的时间戳
 	 */
 	public static function tomorrow(){
-		return strtotime('tomorrow');
+		return mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time) + 1, date('Y', \F::app()->current_time));
 	}
 	
 	/**
@@ -22,14 +25,14 @@ class Date{
 	 * @param int $n 天数
 	 */
 	public static function daysLater($n){
-		return mktime(0, 0, 0, date('m'), date('d') + $n, date('Y'));
+		return mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time) + $n, date('Y', \F::app()->current_time));
 	}
 
 	/**
 	 * 返回昨天零点的时间戳
 	 */
 	public static function yesterday(){
-		return strtotime('yesterday');
+		return mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time) - 1, date('Y', \F::app()->current_time));
 	}
 	
 	/**
@@ -37,15 +40,15 @@ class Date{
 	 * @param int $n 天数
 	 */
 	public static function daysbefore($n){
-		return mktime(0, 0, 0, date('m'), date('d') - $n, date('Y'));
+		return mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time) - $n, date('Y', \F::app()->current_time));
 	}
 	
 	/**
 	 * 返回本周第一天的零点和最后一天的23点59分59秒的时间戳
 	 */
 	public static function thisWeek(){
-		$result['first_day'] = mktime(0, 0, 0, date('m'), date('d') - date('N') + 1, date('Y'));
-		$result['last_day'] = mktime(23, 59, 59, date('m'), date('d') - date('N') + 7, date('Y'));
+		$result['first_day'] = mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time) - date('N', \F::app()->current_time) + 1, date('Y', \F::app()->current_time));
+		$result['last_day'] = mktime(23, 59, 59, date('m', \F::app()->current_time), date('d', \F::app()->current_time) - date('N', \F::app()->current_time) + 7, date('Y', \F::app()->current_time));
 		return $result;
 	}
 	
@@ -53,8 +56,8 @@ class Date{
 	 * 返回本月第一天的零点和最后一天的23点59分59秒的时间戳
 	 */
 	public static function thisMonth(){
-		$result['first_day'] = mktime(0, 0, 0, date('m'), 1, date('y'));
-		$result['last_day'] = mktime(23, 59, 59, date('m')+1, 0, date('y'));
+		$result['first_day'] = mktime(0, 0, 0, date('m', \F::app()->current_time), 1, date('y', \F::app()->current_time));
+		$result['last_day'] = mktime(23, 59, 59, date('m', \F::app()->current_time)+1, 0, date('y', \F::app()->current_time));
 		return $result;
 	}
 	
@@ -65,7 +68,7 @@ class Date{
 	 * @param int $year 年份，若为null，视为今年（默认为null）
 	 */
 	public static function month($month, $year = null){
-		$year || $year = date('y');
+		$year || $year = date('y', \F::app()->current_time);
 		$result['first_day'] = mktime(0, 0, 0, $month, 1, $year);
 		$result['last_day'] = mktime(23, 59, 59, $month+1, 0, $year);
 		return $result;
@@ -77,7 +80,7 @@ class Date{
 	 * @param string $timestamp Unix时间戳
 	 */
 	public static function isToday($timestamp) {
-		return date('Y-m-d', $timestamp) == date('Y-m-d', time());
+		return date('Ymd', $timestamp) == date('Ymd', \F::app()->current_time);
 	}
 	
 	/**
@@ -85,7 +88,7 @@ class Date{
 	 * @param string $timestamp Unix时间戳
 	 */
 	public static function isThisMonth($timestamp) {
-		return date('m Y', $timestamp) == date('m Y', time());
+		return date('mY', $timestamp) == date('mY', \F::app()->current_time);
 	}
 	
 	/**
@@ -93,7 +96,7 @@ class Date{
 	 * @param string $timestamp Unix时间戳
 	 */
 	public static function isThisYear($timestamp) {
-		return date('Y', $timestamp) == date('Y', time());
+		return date('Y', $timestamp) == date('Y', \F::app()->current_time);
 	}
 	
 	/**
@@ -101,7 +104,7 @@ class Date{
 	 * @param string $timestamp Unix时间戳
 	 */
 	public static function isYesterday($timestamp) {
-		return date('Y-m-d', $timestamp) == date('Y-m-d', strtotime('yesterday'));
+		return date('Ymd', $timestamp) == date('Ymd', self::yesterday());
 	}
 
 

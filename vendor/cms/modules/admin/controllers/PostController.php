@@ -21,8 +21,17 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\Hook;
 use fay\core\HttpException;
+use fay\models\Option;
 
 class PostController extends AdminController{
+	/**
+	 * 是否启用文章审核功能
+	 */
+	public $post_review = true;
+	
+	/**
+	 * box列表
+	 */
 	public $boxes = array(
 		array('name'=>'alias', 'title'=>'别名'),
 		array('name'=>'views', 'title'=>'阅读数'),
@@ -54,6 +63,7 @@ class PostController extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'post';
+		$this->post_review = !!(Option::get('system.post_review'));
 	}
 	
 	public function create(){
@@ -344,15 +354,17 @@ class PostController extends AdminController{
 				//更新posts表
 				$data = $this->form()->getFilteredData();
 				$data['last_modified_time'] = $this->current_time;
-				if(in_array('publish_time', $enabled_boxes) && empty($data['publish_time'])){
-					$data['publish_time'] = $this->current_time;
-					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
-					$this->form()->setData(array(
-						'publish_time'=>date('Y-m-d H:i:s', $data['publish_time']),
-					));
-				}else{
-					$data['publish_time'] = strtotime($data['publish_time']);
-					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+				if(in_array('publish-time', $enabled_boxes)){
+					if(empty($data['publish_time'])){
+						$data['publish_time'] = $this->current_time;
+						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+						$this->form()->setData(array(
+							'publish_time'=>date('Y-m-d H:i:s', $data['publish_time']),
+						));
+					}else{
+						$data['publish_time'] = strtotime($data['publish_time']);
+						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+					}
 				}
 				Posts::model()->update($data, $post_id);
 				
@@ -620,7 +632,7 @@ class PostController extends AdminController{
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加文章分类',
-				'htmlOptions'=>array(
+				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'文章',
 					'data-id'=>$root_cat['id'],
@@ -732,6 +744,47 @@ class PostController extends AdminController{
 
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.count($ids).'篇文章被永久删除');
 				Response::output('success', count($ids).'篇文章被永久删除');
+			break;
+			case 'review':
+				if(!$this->checkPermission('admin/post/review')){
+					Response::output('error', array(
+						'message'=>'权限不允许',
+						'error_code'=>'permission-denied',
+					));
+				}
+				
+				$affected_rows = Posts::model()->update(array(
+					'status'=>Posts::STATUS_PUBLISH,
+				), array(
+					'id IN (?)'=>$ids,
+					'status = '.Posts::STATUS_PENDING,
+				));
+				
+				//刷新tags的count值
+				Tag::model()->refreshCountByPostId($ids);
+				
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章通过审核');
+				Response::output('success', $affected_rows.'篇文章通过审核');
+			break;
+			case 'pending':
+				if(!$this->checkPermission('admin/post/edit')){
+					Response::output('error', array(
+						'message'=>'权限不允许',
+						'error_code'=>'permission-denied',
+					));
+				}
+				
+				$affected_rows = Posts::model()->update(array(
+					'status'=>Posts::STATUS_PENDING,
+				), array(
+					'id IN (?)'=>$ids,
+				));
+				
+				//刷新tags的count值
+				Tag::model()->refreshCountByPostId($ids);
+				
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为待审核');
+				Response::output('success', $affected_rows.'篇文章被标记为待审核');
 			break;
 		}
 	}

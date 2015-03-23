@@ -22,10 +22,10 @@ use fay\models\tables\Logs;
 							<li>
 								<i class="<?php switch($l['type']){
 									case Logs::TYPE_ERROR:
-										echo 'icon-bolt bg-red';
+										echo 'fa fa-bolt bg-red';
 									break;
 									case Logs::TYPE_WARMING:
-										echo 'icon-bell bg-yellow';
+										echo 'fa fa-bell-o bg-yellow';
 									break;
 								}?>"></i>
 								<span class="fr date" title="<?php echo Date::format($l['create_time'])?>"><?php echo Date::niceShort($l['create_time'])?></span>

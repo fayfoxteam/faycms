@@ -5,8 +5,6 @@ use fay\core\Widget;
 use fay\models\Category;
 
 class IndexController extends Widget{
-	public $eval_cat_uri = '';
-	
 	public function index($data){
 		//root node
 		if(empty($data['top'])){
@@ -37,7 +35,7 @@ class IndexController extends Widget{
 		}
 		
 		if(empty($data['template'])){
-			$this->render('template', array(
+			$this->view->render('template', array(
 				'cats'=>$cats,
 				'data'=>$data,
 				'alias'=>$this->alias,

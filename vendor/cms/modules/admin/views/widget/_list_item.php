@@ -15,7 +15,7 @@ $widget = F::app()->widget->get($data['widget_name'], true);
 			echo Html::link('删除', array('admin/widget/remove-instance', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'color-red',
+				'class'=>'color-red remove-link',
 			), true);
 		?>
 		</div>

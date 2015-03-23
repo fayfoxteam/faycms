@@ -13,7 +13,7 @@ use fay\models\File;
 		<?php 
 			echo F::form()->inputHidden('thumbnail', array('id'=>'thumbnail-id'));
 			if(!empty($page['thumbnail'])){
-				echo Html::link(Html::img($page['thumbnail'], File::PIC_ZOOM, array(
+				echo Html::link(Html::img($page['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>257,
 				)), File::model()->getUrl($page['thumbnail']), array(
 					'encode'=>false,

@@ -30,7 +30,7 @@ $cols = F::form('setting')->getData('cols', array());
 			<a href="javascript:;" class="btn-3" id="search-form-submit">查询</a>
 		</div>
 	</form>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 	<table class="list-table">
 		<thead>
 			<tr><?php 
@@ -94,5 +94,5 @@ $cols = F::form('setting')->getData('cols', array());
 		));?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>

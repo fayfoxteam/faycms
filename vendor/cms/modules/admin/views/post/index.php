@@ -58,6 +58,11 @@ $cols = F::form('setting')->getData('cols', array());
 			<span class="color-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISH)?>)</span>
 			|
 		</li>
+		<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+			<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
+			<span class="color-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PENDING)?>)</span>
+			|
+		</li>
 		<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 			<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
 			<span class="color-grey">(<?php echo Post::model()->getCount(Posts::STATUS_DRAFT)?>)</span>
@@ -83,6 +88,8 @@ $cols = F::form('setting')->getData('cols', array());
 					'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
 					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
+					'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
+					'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
 				));
 			}
 			echo Html::link('提交', 'javascript:;', array(
@@ -90,7 +97,7 @@ $cols = F::form('setting')->getData('cols', array());
 				'class'=>'btn-3 ml5',
 			));
 		?></div>
-		<?php $listview->showPage();?>
+		<?php $listview->showPager();?>
 		<br class="clear" />
 		<table class="list-table">
 			<thead>
@@ -194,6 +201,8 @@ $cols = F::form('setting')->getData('cols', array());
 					'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
 					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
+					'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
+					'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
 				));
 			}
 			echo Html::link('提交', 'javascript:;', array(
@@ -201,7 +210,7 @@ $cols = F::form('setting')->getData('cols', array());
 				'class'=>'btn-3 ml5',
 			));
 		?></div>
-		<?php $listview->showPage();?>
+		<?php $listview->showPager();?>
 	</form>
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>

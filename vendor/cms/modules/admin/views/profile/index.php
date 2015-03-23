@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\models\File;
 
-echo F::form()->open(null, array(), 'post', array('id'=>'form'));
+echo F::form()->open(null, 'post', array('id'=>'form'));
 ?>
 <div class="col-2-1">
 	<div class="col-left">
@@ -44,7 +44,7 @@ echo F::form()->open(null, array(), 'post', array('id'=>'form'));
 				<?php 
 				echo F::form()->inputHidden('avatar', array('id'=>'avatar-id'));
 				if(!empty($user['avatar'])){
-					echo Html::link(Html::img($user['avatar'], File::PIC_ZOOM, array(
+					echo Html::link(Html::img($user['avatar'], File::PIC_RESIZE, array(
 						'dw'=>178,
 						'dh'=>178,
 						'id'=>'avatar-img',
@@ -83,9 +83,6 @@ echo F::form()->open(null, array(), 'post', array('id'=>'form'));
 				?>
 			</div>
 		</div>
-		<div class="form-field">
-			<a href="javascript:;" class="btn-1" id="form-submit">保存</a>
-		</div>
 	</div>
 	<div class="col-right" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(
@@ -93,6 +90,9 @@ echo F::form()->open(null, array(), 'post', array('id'=>'form'));
 			'data'=>$user['props'],
 		))?>
 	</div>
+</div>
+<div class="form-field">
+	<a href="javascript:;" class="btn-1" id="form-submit">保存</a>
 </div>
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>

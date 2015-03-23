@@ -14,13 +14,13 @@ use fay\helpers\Html;
 				<td class="<?php echo in_array($t, $right_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
 					<span class="fr row-actions pt0"><?php
 						if(in_array($t, $right_tables)){
-							echo Html::link('<i class="icon-exchange"></i>', array('tools/db-compare/table', array(
+							echo Html::link('<i class="fa fa-exchange"></i>', array('tools/db-compare/table', array(
 								'name'=>$t,
 							)), array(
 								'title'=>'Table Compare',
 								'encode'=>false,
 							));
-							echo Html::link('<i class="icon-arrow-right"></i>', '#data-transfer-dialog', array(
+							echo Html::link('<i class="fa fa-arrow-right"></i>', '#data-transfer-dialog', array(
 								'data-name'=>$t,
 								'data-db'=>'left',
 								'class'=>'data-transfer',
@@ -28,7 +28,7 @@ use fay\helpers\Html;
 								'encode'=>false,
 							));
 						}
-						echo Html::link('<i class="icon-eye"></i>', '#ddl-dialog', array(
+						echo Html::link('<i class="fa fa-eye"></i>', '#ddl-dialog', array(
 							'data-name'=>$t,
 							'data-db'=>'left',
 							'class'=>'show-ddl',
@@ -58,13 +58,13 @@ use fay\helpers\Html;
 					<td class="<?php echo in_array($t, $left_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
 						<span class="fr row-actions pt0"><?php
 							if(in_array($t, $left_tables)){
-								echo Html::link('<i class="icon-exchange"></i>', array('tools/db-compare/table', array(
+								echo Html::link('<i class="fa fa-exchange"></i>', array('tools/db-compare/table', array(
 									'name'=>$t,
 								)), array(
 									'title'=>'Table Compare',
 									'encode'=>false,
 								));
-								echo Html::link('<i class="icon-arrow-left"></i>', '#data-transfer-dialog', array(
+								echo Html::link('<i class="fa fa-arrow-left"></i>', '#data-transfer-dialog', array(
 									'data-name'=>$t,
 									'data-db'=>'right',
 									'class'=>'data-transfer',
@@ -72,7 +72,7 @@ use fay\helpers\Html;
 									'encode'=>false,
 								));
 							}
-							echo Html::link('<i class="icon-eye"></i>', '#ddl-dialog', array(
+							echo Html::link('<i class="fa fa-eye"></i>', '#ddl-dialog', array(
 								'data-name'=>$t,
 								'data-db'=>'right',
 								'class'=>'show-ddl',

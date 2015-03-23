@@ -51,7 +51,7 @@ echo F::form()->open()?>
 				<?php 
 				echo F::form()->inputHidden('avatar', array('id'=>'avatar-id'));
 				if(!empty($user['avatar'])){
-					echo Html::link(Html::img($user['avatar'], File::PIC_ZOOM, array(
+					echo Html::link(Html::img($user['avatar'], File::PIC_RESIZE, array(
 						'dw'=>178,
 						'dh'=>178,
 						'id'=>'avatar-img',
@@ -90,11 +90,6 @@ echo F::form()->open()?>
 				?>
 			</div>
 		</div>
-		<div class="form-field">
-			<?php echo F::form()->submitLink('保存', array(
-				'class'=>'btn-1',
-			))?>
-		</div>
 	</div>
 	<div class="col-right" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(
@@ -102,6 +97,11 @@ echo F::form()->open()?>
 			'data'=>$user['props'],
 		))?>
 	</div>
+</div>
+<div class="form-field">
+	<?php echo F::form()->submitLink('保存', array(
+		'class'=>'btn-1',
+	))?>
 </div>
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>

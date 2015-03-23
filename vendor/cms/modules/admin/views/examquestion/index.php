@@ -48,7 +48,7 @@ use fay\helpers\Html;
 				'class'=>'btn-3 ml5',
 			));
 		?></div>
-		<?php $listview->showPage();?>
+		<?php $listview->showPager();?>
 		<div class="clear"></div>
 		<table border="0" cellpadding="0" cellspacing="0" class="list-table">
 			<thead>
@@ -87,6 +87,6 @@ use fay\helpers\Html;
 				'class'=>'btn-3 ml5',
 			));
 		?></div>
-		<?php $listview->showPage();?>
+		<?php $listview->showPager();?>
 	</form>
 </div>

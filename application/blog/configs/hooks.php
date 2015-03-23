@@ -16,7 +16,7 @@ return array(
 							array('label'=>'账单','router'=>'admin/bill/index',),
 							array('label'=>'分类','router'=>'admin/bill/cat',),
 						),
-						'icon'=>'icon-rmb',
+						'icon'=>'fa fa-rmb',
 					));
 				}
 			},

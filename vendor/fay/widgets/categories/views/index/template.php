@@ -13,7 +13,7 @@ function renderCats($cats, $uri, $dep = 0){
 			$c['id'], $c['alias'],
 		), $uri)));
 		if(!empty($c['children'])){
-			$html .= $this->renderCats($c['children'], $uri, ++$dep);
+			$html .= renderCats($c['children'], $uri, ++$dep);
 		}
 		$html .= '</li>';
 	}

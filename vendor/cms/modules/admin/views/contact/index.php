@@ -60,7 +60,7 @@ $cols = F::form('setting')->getData('cols');
 				));?>
 			</tbody>
 		</table>
-		<?php echo $listview->showPage()?>
+		<?php echo $listview->showPager()?>
 		<div class="batch-container mt5">
 			<?php echo Html::select('action', array(
 				''=>'--批处理--',

@@ -9,16 +9,16 @@ $settings = F::form('setting')->getAllData();
 			'setting'=>$settings,
 		));?>
 	</ul>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>
 <div class="hide">
 	<div id="chat-dialog" class="common-dialog w650">
 		<div class="">
-			<div class="clearfix cd-header">
+			<div class="cf cd-header">
 				<img src="<?php echo $this->url()?>images/avatar.png" class="circle cd-avatar" />
 				<div class="cd-meta">
 					<span class="cd-user"></span>
-					<i class="icon-share"></i>
+					<i class="fa fa-share"></i>
 					<span class="cd-to"></span>
 					<div>
 						<span class="cd-time"></span>

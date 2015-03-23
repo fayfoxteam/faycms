@@ -16,7 +16,7 @@ class AdminController extends Widget{
 	}
 	
 	public function onPost(){
-		$keys = $this->input->post('keys');
+		$keys = $this->input->post('keys', null, array());
 		$values = $this->input->post('values');
 		$data = array(
 			'data'=>array(),

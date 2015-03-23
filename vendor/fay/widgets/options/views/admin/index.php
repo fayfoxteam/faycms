@@ -3,7 +3,9 @@ use fay\helpers\Html;
 ?>
 <style>
 #widget-attr-list li{background:url("<?php echo $this->url()?>css/admin/images/move.png") no-repeat scroll 3px center #FFFFFF;padding-left:25px;border-left:2px solid #35AA47;margin-bottom:5px;}
-.widget-attr-list li{height:66px;}
+.widget-attr-list li{zoom:1;clear:left;}
+.widget-attr-list li:before, .widget-attr-list li:after{content:"";display:table;}
+.widget-attr-list li:after{clear: both;}
 .widget-attr-list li .golden-left,.widget-attr-list li .golden-right{display:block;padding:5px 1% 0 0;}
 .widget-attr-list li .golden-left{width:38%;float:left;}
 .widget-attr-list li .golden-right{margin-left:40%;}
@@ -36,7 +38,7 @@ use fay\helpers\Html;
 					))?>
 				</span>
 				<span class="golden-right"><?php echo Html::textarea('values[]', $d['value'], array(
-					'class'=>'full-width',
+					'class'=>'full-width autosize',
 				))?></span>
 			</li>
 				<?php }
@@ -68,7 +70,7 @@ use fay\helpers\Html;
 					<span id="widget-add-attr-msg"></span>
 				</span>
 				<span class="golden-right"><?php echo Html::textarea('', '', array(
-					'class'=>'full-width',
+					'class'=>'full-width autosize',
 					'id'=>'widget-add-attr-value',
 				))?></span>
 			</li>
@@ -82,7 +84,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
-			'class'=>'full-width',
+			'class'=>'full-width autosize',
 		))?>
 		<p class="color-grey">
 			<span class="color-orange">{$key}</span>代表“名称”，

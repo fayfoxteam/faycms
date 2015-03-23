@@ -46,6 +46,6 @@ use fay\models\tables\Vouchers;
 				<?php $listview->showData();?>
 			</tbody>
 		</table>
-		<?php echo $listview->showPage()?>
+		<?php echo $listview->showPager()?>
 	</form>
 </div>

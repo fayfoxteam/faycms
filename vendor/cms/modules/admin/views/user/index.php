@@ -40,7 +40,7 @@ $cols = F::form('setting')->getData('cols');
 			))?>
 		</div>
 	<?php echo F::form('search')->close()?>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 	<table class="list-table users">
 		<thead>
 			<tr>
@@ -141,5 +141,5 @@ $cols = F::form('setting')->getData('cols');
 	?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>

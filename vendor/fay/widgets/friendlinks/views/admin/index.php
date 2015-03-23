@@ -23,7 +23,7 @@ use fay\models\tables\Users;
 			<div class="form-field">
 				<label class="title">渲染模版<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
-					'class'=>'wp90 h200',
+					'class'=>'wp90 h200 autosize',
 				))?>
 				<p class="color-grey">
 					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，

@@ -6,6 +6,7 @@ use fay\models\Menu;
 use fay\models\tables\Menus;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
+use fay\models\tables\Users;
 
 class MenuController extends AdminController{
 	public function __construct(){
@@ -15,15 +16,15 @@ class MenuController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '导航栏';
-		$this->view->menus = Menu::model()->getTree(null, false);
-		if(\F::app()->checkPermission('admin/menu/create')){
+		$this->view->menus = Menu::model()->getTree('_user_menu', false, false);
+		if($this->checkPermission('admin/menu/create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加菜单集',
-				'htmlOptions'=>array(
+				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'菜单集',
-					'data-id'=>0,
+					'data-id'=>Menus::ITEM_USER_MENU,
 				),
 			);
 		}
@@ -141,6 +142,36 @@ class MenuController extends AdminController{
 	 */
 	public function reindex(){
 		Menu::model()->buildIndex();
+	}
+	
+	/**
+	 * 设置启用状态
+	 */
+	public function setEnabled(){
+		Menu::model()->update($this->input->get('id', 'intval'), array(
+			'enabled'=>$this->input->get('enabled', 'intval', 0),
+		));
+		
+		$menu = Menus::model()->find($this->input->get('id', 'intval'), 'enabled');
+		Response::output('success', array(
+			'enabled'=>$menu['enabled'],
+		));
+	}
+	
+	public function admin(){
+		$this->layout->subtitle = '后台导航栏';
+		$this->view->menus = Menu::model()->getTree('_admin_menu', false, false);
+		if($this->session->get('role') == Users::ROLE_SUPERADMIN){
+			$this->layout->sublink = array(
+				'uri'=>'#create-cat-dialog',
+				'text'=>'添加菜单集',
+				'html_options'=>array(
+					'class'=>'create-cat-link',
+					'data-title'=>'后台菜单集',
+					'data-id'=>Menus::ITEM_ADMIN_MENU,
+				),
+			);
+		}
 		$this->view->render();
 	}
 }

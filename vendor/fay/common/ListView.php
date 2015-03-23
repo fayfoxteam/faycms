@@ -86,7 +86,7 @@ class ListView extends FBase{
 		return $this->db->fetchAll($sql, $this->params);
 	}
 	
-	public function showPage($view_data = array()){
+	public function showPager($view_data = array()){
 		if($this->totalRecords === null){
 			$this->init();
 		}
@@ -94,7 +94,7 @@ class ListView extends FBase{
 		\F::app()->view->renderPartial($this->viewPartial, $view_data);
 	}
 	
-	public function getPage(){
+	public function getPager(){
 		if($this->totalRecords === null){
 			$this->init();
 		}

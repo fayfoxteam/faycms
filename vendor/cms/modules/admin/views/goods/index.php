@@ -71,7 +71,7 @@ use fay\models\tables\Goods;
 			<?php $listview->showData();?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 	<div class="clear"></div>
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>

@@ -22,4 +22,4 @@ use cms\helpers\ListTableHelper;
 ?>
 	</tbody>
 </table>
-<?php $listview->showPage();?>
+<?php $listview->showPager();?>

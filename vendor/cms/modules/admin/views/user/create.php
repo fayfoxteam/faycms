@@ -69,17 +69,17 @@ echo F::form()->open();
 			?>
 			</div>
 		</div>
-		<div class="form-field">
-			<?php echo F::form()->submitLink('添加用户', array(
-				'class'=>'btn-1',
-			))?>
-		</div>
 	</div>
 	<div class="col-right" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(
 			'props'=>$role['props'],
 		))?>
 	</div>
+</div>
+<div class="form-field">
+	<?php echo F::form()->submitLink('添加用户', array(
+		'class'=>'btn-1',
+	))?>
 </div>
 <?php echo F::form()->close()?>
 

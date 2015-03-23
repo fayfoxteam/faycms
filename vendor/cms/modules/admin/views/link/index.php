@@ -27,7 +27,7 @@ use cms\helpers\ListTableHelper;
 	?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>
 
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>

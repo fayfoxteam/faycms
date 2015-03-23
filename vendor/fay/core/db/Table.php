@@ -3,6 +3,7 @@ namespace fay\core\db;
 
 use fay\core\Model;
 use fay\core\Sql;
+use fay\helpers\ArrayHelper;
 
 class Table extends Model{
 	protected $_name = '';
@@ -163,11 +164,7 @@ class Table extends Model{
 	public function fetchCol($col, $conditions = array(), $order = false, $count = false, $offset = false){
 		$result = $this->fetchAll($conditions, $col, $order, $count, $offset);
 		
-		$return = array();
-		foreach($result as $r){
-			$return[] = $r[$col];
-		}
-		return $return;
+		return ArrayHelper::column($result, $col);
 	}
 	
 	/**

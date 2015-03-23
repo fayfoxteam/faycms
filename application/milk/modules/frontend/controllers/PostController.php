@@ -26,7 +26,7 @@ class PostController extends FrontendController
         
         $this->layout->title = $content['title'];
         
-        $this->view->content = $content;
+        $this->view->post = $content;
         
         $this->view->render();
     }

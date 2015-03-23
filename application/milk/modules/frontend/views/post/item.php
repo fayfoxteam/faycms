@@ -1,13 +1,13 @@
 <?php 
 use fay\models\Category;
 
-$cat = Category::model()->get($content['cat_id']);
+$cat = Category::model()->get($post['cat_id']);
 // dump($cat);
 ?>
     <div class="breadcrumbs">
         <div class="container_12">
             <div class="grid_12">
-                 <a href="<?php echo $this->url()?>">主页</a><span></span><a href="<?php echo $this->url('cat/'.$cat['id'])?>"><?php echo $cat['title'];?></a><span></span><span class="current"><?php echo $content['title']?></span>
+                 <a href="<?php echo $this->url()?>">主页</a><span></span><a href="<?php echo $this->url('cat/'.$cat['id'])?>"><?php echo $cat['title'];?></a><span></span><span class="current"><?php echo $post['title']?></span>
             </div><!-- .grid_12 -->
         </div><!-- .container_12 -->
     </div><!-- .breadcrumbs -->
@@ -16,7 +16,7 @@ $cat = Category::model()->get($content['cat_id']);
         <div class="container_12">
             <div id="content" class="grid_12">
                 <header>
-                    <h1 class="page_title"><?php echo $content['title']?></h1>
+                    <h1 class="page_title"><?php echo $post['title']?></h1>
                 </header>
                     
                 <article class="product_page">
@@ -27,7 +27,7 @@ $cat = Category::model()->get($content['cat_id']);
 			    <div class="clear"></div>
 
 			    <div class="tab1 tab_body">
-                                <?php echo $content['content']?>
+                                <?php echo $post['content']?>
                                 <div class="clear"></div>
 			    </div><!-- .tab1 .tab_body -->
 

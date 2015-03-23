@@ -76,33 +76,13 @@ class Response extends FBase{
 	);
 	
 	/**
-	 * 当Exception不好用的时候，用此函数显示错误
-	 * @param string $message
-	 * @param int $status_code http状态码
-	 * @param string $heading
-	 */
-	public static function showError($message, $status_code = 500, $heading = '出错啦'){
-		self::setStatusHeader($status_code);
-		$app = \F::app();
-		$app || $app = new Controller();
-		$app->view->assign(array(
-			'message'=>$message,
-			'status_code'=>$status_code,
-			'heading'=>$heading,
-		));
-		$app->view->_backtrace = debug_backtrace(false);
-		$app->view->renderPartial('errors/general');
-		die;
-	}
-	
-	/**
 	 * 发送一个http头
 	 * @param int $code
 	 * @param string $text
 	 */
 	public static function setStatusHeader($code = 200, $text = ''){
 		if ($code == '' OR ! is_numeric($code)){
-			self::showError('Status codes must be numeric', 500);
+			throw new HttpException('Status codes must be numeric', 500);
 		}
 	
 		if (isset(self::$httpStatuses[$code]) AND $text == ''){
@@ -110,7 +90,7 @@ class Response extends FBase{
 		}
 	
 		if ($text == ''){
-			self::showError('No status text available.  Please check your status code number or supply your own message text.', 500);
+			throw new HttpException('No status text available.  Please check your status code number or supply your own message text.', 500);
 		}
 	
 		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
@@ -191,5 +171,24 @@ class Response extends FBase{
 				die;
 			}
 		}
+	}
+	
+	/**
+	 * 用一个单页来做信息提示，并在$delay时间后跳转
+	 * @param unknown $message 信息
+	 * @param number $delay 停留时间
+	 * @param string $redirect 跳转的url，默认为回到上一页
+	 */
+	public static function jump($message, $status = 'success', $redirect = false, $delay = 3){
+		if(!$redirect && !empty($_SERVER['HTTP_REFERER'])){
+			$redirect = $_SERVER['HTTP_REFERER'];
+		}
+		\F::app()->view->renderPartial('common/jump', array(
+			'redirect'=>$redirect,
+			'status'=>$status,
+			'message'=>$message,
+			'delay'=>$delay,
+		));
+		die;
 	}
 }

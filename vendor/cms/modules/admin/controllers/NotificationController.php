@@ -118,7 +118,7 @@ class NotificationController extends AdminController{
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加消息分类',
-				'htmlOptions'=>array(
+				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'消息分类',
 					'data-id'=>$root_node['id'],

@@ -12,6 +12,7 @@ use fay\models\Option;
 
 <!--[if (!IE)|(gte IE 8)]><!-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-metro.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/font-awesome.min.css" />
 <!--<![endif]-->
 
 <!--[if lt IE 8]>
@@ -28,7 +29,7 @@ system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.min.js"></script>
 <title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
 </head>
 <body class="<?php $admin_body_class = Setting::model()->get('admin_body_class');echo $admin_body_class['class']?>" id="faycms">
@@ -59,14 +60,14 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 		<ul class="adminbar-right">
 			<li class="toggle-hover header-notification">
 				<a href="<?php echo $this->url('admin/notification/my')?>" class="item">
-					<i class="icon-comment"></i>
+					<i class="fa fa-comment"></i>
 					系统通知（<span id="header-notification-count">0</span>）
 				</a>
 				<div class="clear"></div>
 				<div class="sub-wrapper header-notification-list"></div>
 			</li>
 			<li class="toggle-hover">
-				<a href="javascript:;" class="item"><i class="icon-user"></i>你好，<?php echo F::app()->session->get('username')?></a>
+				<a href="javascript:;" class="item"><i class="fa fa-user"></i>你好，<?php echo F::app()->session->get('username')?></a>
 				<div class="clear"></div>
 				<div class="sub-wrapper profile">
 					<ul>
@@ -108,14 +109,14 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				<h2 class="sub-title">
 					<?php echo isset($subtitle) ? $subtitle : '';?>
 					<?php if(isset($sublink)){
-						$htmlOptions = isset($sublink['htmlOptions']) ? $sublink['htmlOptions'] : array();
-						if(isset($htmlOptions['class'])){
-							$htmlOptions['class'] .= ' sub-link';
+						$html_options = isset($sublink['html_options']) ? $sublink['html_options'] : array();
+						if(isset($html_options['class'])){
+							$html_options['class'] .= ' sub-link';
 						}else{
-							$htmlOptions['class'] = ' sub-link';
+							$html_options['class'] = ' sub-link';
 						}
 
-						echo Html::link($sublink['text'], $sublink['uri'], $htmlOptions);
+						echo Html::link($sublink['text'], $sublink['uri'], $html_options);
 					}?>
 				</h2>
 				<div class="notification-wrap">

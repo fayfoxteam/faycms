@@ -5,6 +5,7 @@ use doc\library\FrontController;
 use fay\models\Category;
 use fay\core\HttpException;
 use fay\models\Post;
+use fay\models\Option;
 
 class GuideController extends FrontController{
 	public function index(){
@@ -16,7 +17,7 @@ class GuideController extends FrontController{
 		}
 		
 		$this->layout->page_title = $cat['description'] ? "{$cat['title']}（{$cat['description']}）" : $cat['title'];
-		$this->layout->title = $cat['title'].' - Fayfox开发文档  - 1.0';
+		$this->layout->title = $cat['title'].' - '.Option::get('sitename');
 
 		$breadcrumb = array();
 		$parent_path = Category::model()->getParentPath($cat, 'fayfox');

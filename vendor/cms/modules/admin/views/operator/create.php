@@ -63,11 +63,6 @@ echo F::form()->open();
 			?>
 			</div>
 		</div>
-		<div class="form-field">
-			<?php echo F::form()->submitLink('添加', array(
-				'class'=>'btn-1',
-			))?>
-		</div>
 	</div>
 	<div class="col-right" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(
@@ -75,6 +70,12 @@ echo F::form()->open();
 			'data'=>array(),
 		))?>
 	</div>
+	<div class="clear"></div>
+</div>
+<div class="form-field">
+	<?php echo F::form()->submitLink('添加', array(
+		'class'=>'btn-1',
+	))?>
 </div>
 <?php echo F::form()->close()?>
 

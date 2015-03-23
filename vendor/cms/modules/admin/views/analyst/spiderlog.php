@@ -37,7 +37,7 @@
 			<a href="" class="btn-3" id="user-index-form-submit">查询</a>
 		</div>
 	</form>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 	<table border="0" cellpadding="0" cellspacing="0" class="list-table">
 		<thead>
 			<tr>
@@ -61,5 +61,5 @@
 		<?php $listview->showData();?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>

@@ -21,8 +21,17 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					</div>
 					<div class="misc-pub-section">
 						<strong>状态</strong>
-						<?php echo F::form()->inputRadio('status', Posts::STATUS_PUBLISH, array('label'=>'发布'), true)?>
-						<?php echo F::form()->inputRadio('status', Posts::STATUS_DRAFT, array('label'=>'草稿'))?>
+						<?php
+							if(!F::app()->post_review || F::app()->checkPermission('admin/post/review')){
+								//未开启审核，或者有审核权限，显示发布按钮，并默认为“立即发布”
+								echo F::form()->inputRadio('status', Posts::STATUS_PUBLISH, array('label'=>'发布'), true);
+							}
+							if(F::app()->post_review){
+								//开启审核，显示待审核选项。若没有审核权限，默认为待审核
+								echo F::form()->inputRadio('status', Posts::STATUS_PENDING, array('label'=>'待审核'), F::app()->checkPermission('admin/post/review') ? false : true);
+							}
+							echo F::form()->inputRadio('status', Posts::STATUS_DRAFT, array('label'=>'草稿'));
+						?>
 					</div>
 					<div class="misc-pub-section mt0">
 						<strong>是否置顶？</strong>
@@ -54,7 +63,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						'class'=>'bigtxt',
 					))?>
 				</div>
-				<div class="postarea clearfix"><?php $this->renderPartial('_content')?></div>
+				<div class="postarea cf"><?php $this->renderPartial('_content')?></div>
 				<div class="mt20 dragsort" id="normal">
 				<?php 
 					if(isset($_box_sort_settings['normal'])){

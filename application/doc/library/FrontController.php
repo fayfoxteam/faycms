@@ -4,6 +4,7 @@ namespace doc\library;
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogs;
+use fay\models\Option;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
@@ -25,7 +26,7 @@ class FrontController extends Controller{
 			));
 		}
 		
-		$this->layout->keywords = 'Fayfox,Fayfox文档,Fayfox手册,Fayfox二次开发,文档中心,在线手册,phpfayfox,类库参考,开发框架,php框架,PHP开发框架';
-		$this->layout->description = 'Fayfox是一款基于PHP5.3+，自带轻量级MVC框架的CMS系统。完全免费、开源、提供详细技术文档。轻量、高效、架构清晰、易扩展。';
+		$this->layout->keywords = Option::get('seo_index_keywords');
+		$this->layout->description = Option::get('seo_index_description');
 	}
 }

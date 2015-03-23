@@ -35,4 +35,4 @@ use fay\helpers\Html;
 ?>
 	</tbody>
 </table>
-<?php $listview->showPage();?>
+<?php $listview->showPager();?>

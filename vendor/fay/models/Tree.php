@@ -5,6 +5,9 @@ use fay\core\Model;
 use fay\core\db\Intact;
 use fay\core\Exception;
 
+/**
+ * 基于左右值的树操作
+ */
 class Tree extends Model{
 	/**
 	 * @return Tree
@@ -168,7 +171,16 @@ class Tree extends Model{
 			 * 将树枝挂载过去
 			 */
 			//获取父节点
-			$parent_node = \F::model($model)->find($parent, 'left_value,right_value');
+			if($parent != 0){
+				$parent_node = \F::model($model)->find($parent, 'left_value,right_value');
+			}else{
+				//移到根节点
+				$max_right = \F::model($model)->fetchRow(array(), 'MAX(right_value) AS max');
+				$parent_node = array(
+					'left_value'=>0,
+					'right_value'=>$max_right['max'] + 1,
+				);
+			}
 			if($parent_node['right_value'] - $parent_node['left_value'] == 1){
 				//叶子节点，直接挂
 				//所有后续节点加上差值

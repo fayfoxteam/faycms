@@ -67,7 +67,7 @@ class Post extends Model{
 	 * 返回一篇文章信息（返回字段已做去转义处理）
 	 * @param int $id
 	 * @param string $fields tags,messages,nav,files,props,user,categories
-	 * @param int $cat_id 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），<br>
+	 * @param int $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），<br>
 	 * 	则只会在此分类极其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
 	 * @param null|bool $publish 若为true，则只在已发布的文章里搜索
@@ -102,6 +102,11 @@ class Post extends Model{
 				$cat = Category::model()->get($cat);
 			}else{
 				$cat = Category::model()->getByAlias($cat);
+			}
+			
+			if(!$cat){
+				//指定分类不存在，一般来说是Controller调用错误
+				return false;
 			}
 			$sql->where(array(
 				'c.left_value >= '.$cat['left_value'],
@@ -246,10 +251,35 @@ class Post extends Model{
 	}
 	
 	/**
+	 * 根据分类信息获取对应文章<br>
+	 * @param int|string|array $cat 父节点ID或别名
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若为字符串，视为分类别名获取分类；
+	 *  - 若为数组，至少需要包括id,left_value,right_value信息；
+	 * @param number $limit 显示文章数若为0，则不限制
+	 * @param string $field 字段
+	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
+	 * @param string $order 排序字段
+	 * @param mixed $conditions 附加条件
+	 */
+	public function getByCat($cat, $limit = 10, $field = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+		if(is_array($cat)){
+			//分类数组
+			return $this->getByCatArray($cat, $limit, $field, $children, $order, $conditions);
+		}else if(is_numeric($cat)){
+			//分类ID
+			return $this->getByCatId($cat, $limit, $field, $children, $order, $conditions);
+		}else{
+			//分类别名
+			return $this->getByCatAlias($cat, $limit, $field, $children, $order, $conditions);
+		}
+	}
+	
+	/**
 	 * 根据分类别名获取对应的文章<br>
-	 * @param string $alias
-	 * @param number $limit
-	 * @param string $field
+	 * @param string $alias 分类别名
+	 * @param number $limit 显示文章数若为0，则不限制
+	 * @param string $field 字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
@@ -259,34 +289,34 @@ class Post extends Model{
 			'alias = ?'=>$alias
 		), 'id,left_value,right_value');
 		
-		return $this->getByCat($cat, $limit, $fields, $children, $order, $conditions);
+		return $this->getByCatArray($cat, $limit, $fields, $children, $order, $conditions);
 	}
 	
 	/**
 	 * 根据分类ID获取对应的文章<br>
-	 * @param string $id
-	 * @param number $limit
-	 * @param string $field
-	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
-	 * @param string $order 排序字段
-	 * @param mixed $conditions 附加条件
-	 */
-	public function getByCatId($cat_id, $limit = 10, $fields = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
-		$cat = Categories::model()->find($cat_id, 'id,left_value,right_value');
-		return $this->getByCat($cat, $limit, $fields, $children, $order, $conditions);
-	}
-	
-	/**
-	 * 根据分类信息获取对应文章<br>
-	 * 事实上是getByCatAlias和getByCatId方法的公共部分
-	 * @param string $cat 至少需要包括id,left_value,right_value信息
+	 * @param string $cat_id 分类ID
 	 * @param number $limit 显示文章数若为0，则不限制
 	 * @param string $field 字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
 	 */
-	public function getByCat($cat, $limit = 10, $field = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+	public function getByCatId($cat_id, $limit = 10, $fields = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+		$cat = Categories::model()->find($cat_id, 'id,left_value,right_value');
+		return $this->getByCatArray($cat, $limit, $fields, $children, $order, $conditions);
+	}
+
+
+	/**
+	 * 根据分类数组获取对应的文章<br>
+	 * @param array $cat 分类数组，至少需要包括id,left_value,right_value信息
+	 * @param number $limit 显示文章数若为0，则不限制
+	 * @param string $field 字段
+	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
+	 * @param string $order 排序字段
+	 * @param mixed $conditions 附加条件
+	 */
+	public function getByCatArray($cat, $limit = 10, $field = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$sql = new Sql();
 		$sql->from('posts', 'p', $field)
 			->joinLeft('post_categories', 'pc', 'p.id = pc.post_id')

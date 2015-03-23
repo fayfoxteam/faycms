@@ -145,6 +145,7 @@ class View extends FBase{
 			}
 		}
 		if(isset($layout_path)){
+			extract($this->getViewData());
 			extract(\F::app()->layout->getLayoutData());
 			ob_start();
 			include $layout_path;

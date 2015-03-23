@@ -4,11 +4,12 @@ namespace doc\modules\frontend\controllers;
 use doc\library\FrontController;
 use fay\core\Sql;
 use fay\models\Post;
+use fay\models\Option;
 
 class IndexController extends FrontController{
 	public function index(){
-		$this->layout->title = 'Fayfox开发文档  - 1.0';
-		$this->layout->page_title = 'Fayfox开发文档';
+		$this->layout->title = Option::get('sitename');
+		$this->layout->page_title = Option::get('sitename');
 		
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'cat_id')

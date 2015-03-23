@@ -174,6 +174,7 @@ class WidgetController extends AdminController{
 			->order('id DESC');
 		$this->view->listview = new ListView($sql, array(
 			'pageSize'=>$this->form('setting')->getData('page_size', 20),
+			'emptyText'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		
 		$this->view->render();

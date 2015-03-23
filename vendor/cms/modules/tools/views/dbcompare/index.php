@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
 ?>
-<div class="col-2-1">
-	<form method="post" action="" id="form" class="validform">
+<form method="post" action="" id="form" class="validform">
+	<div class="col-2-1">
 		<div class="col-left">
 			<div class="form-field">
 				<?php echo Html::inputRadio('left[from]', 'local', true, array(
@@ -48,9 +48,6 @@ use fay\helpers\Html;
 						'class'=>'w300',
 					))?>
 				</div>
-			</div>
-			<div class="form-field">
-				<a href="javascript:;" class="btn-1" id="form-submit">Submit</a>
 			</div>
 		</div>
 		<div class="col-right">
@@ -100,7 +97,10 @@ use fay\helpers\Html;
 				</div>
 			</div>
 		</div>
-	</form>
+	</div>
+</form>
+<div class="form-field">
+	<a href="javascript:;" class="btn-1" id="form-submit">Submit</a>
 </div>
 <script>
 $(function(){

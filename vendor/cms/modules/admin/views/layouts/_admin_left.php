@@ -18,7 +18,7 @@ function showAdminLeftMenu($menu, $actions, $role, $current_directory = ''){
 			<li <?php if($current_directory == $m['directory']) echo 'class="sel"';?>>
 				<a class="menu-head <?php if($current_directory == $m['directory']) echo 'open';?>" href="javascript:;">
 					<?php if(empty($m['icon'])){
-						echo '<i class="icon-cog"></i>';
+						echo '<i class="fa fa-cog"></i>';
 					}else{
 						echo '<i class="'.$m['icon'].'"></i>';
 					}?>

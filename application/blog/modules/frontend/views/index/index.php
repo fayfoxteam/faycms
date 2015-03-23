@@ -5,7 +5,7 @@
 	<?php }?>
 		<?php $listview->showData()?>
 	</section>
-	<?php echo $listview->showPage()?>
+	<?php echo $listview->showPager()?>
 </div>
 <div class="col-side">
 	<?php echo F::app()->widget->render('profile')?>

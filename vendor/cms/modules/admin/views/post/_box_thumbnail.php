@@ -15,7 +15,7 @@ use fay\models\File;
 		<?php 
 			echo F::form()->inputHidden('thumbnail', array('id'=>'thumbnail-id'));
 			if(!empty($post['thumbnail'])){
-				echo Html::link(Html::img($post['thumbnail'], File::PIC_ZOOM, array(
+				echo Html::link(Html::img($post['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>257,
 				)), File::model()->getUrl($post['thumbnail']), array(
 					'encode'=>false,

@@ -27,7 +27,7 @@ class IndexController extends Widget{
 		}
 		
 		if(empty($data['template'])){
-			$this->render('template', array(
+			$this->view->render('template', array(
 				'links'=>$links,
 				'data'=>$data,
 				'alias'=>$this->alias,

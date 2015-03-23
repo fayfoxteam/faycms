@@ -20,6 +20,13 @@ F::form('edit')->setModel(Menus::model());
 						</td>
 					</tr>
 					<tr>
+						<th class="adaption">别名</th>
+						<td>
+							<?php echo Html::inputText('alias')?>
+							<span class="color-grey">别名用于特殊调用，不可重复，可为空</span>
+						</td>
+					</tr>
+					<tr>
 						<th class="adaption">二级标题</th>
 						<td>
 							<?php echo Html::inputText('sub_title')?>
@@ -27,11 +34,22 @@ F::form('edit')->setModel(Menus::model());
 						</td>
 					</tr>
 					<tr>
-						<th class="adaption">别名</th>
+						<th class="adaption">class</th>
 						<td>
-							<?php echo Html::inputText('alias')?>
-							<span class="color-grey">别名用于特殊调用，不可重复，可为空</span>
+							<?php echo Html::inputText('css_class')?>
+							<span class="color-grey">该字段效果视主题而定</span>
 						</td>
+					</tr>
+					<tr>
+						<th class="adaption">是否启用</th>
+						<td><?php
+							echo Html::inputRadio('enabled', 1, false, array(
+								'label'=>'是',
+							));
+							echo Html::inputRadio('enabled', 0, false, array(
+								'label'=>'否',
+							));
+						?></td>
 					</tr>
 					<tr>
 						<th valign="top" class="adaption">链接地址</th>
@@ -66,7 +84,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">父节点</th>
 						<td>
-							<?php echo Html::select('parent', array(''=>'根节点')+Html::getSelectOptions($menus, 'id', 'title'))?>
+							<?php echo Html::select('parent', array('2'=>'根节点')+Html::getSelectOptions($menus, 'id', 'title'))?>
 						</td>
 					</tr>
 					<tr>
@@ -98,6 +116,13 @@ F::form('edit')->setModel(Menus::model());
 						</td>
 					</tr>
 					<tr>
+						<th class="adaption">别名</th>
+						<td>
+							<?php echo Html::inputText('alias')?>
+							<span class="color-grey">别名用于特殊调用，不可重复，可为空</span>
+						</td>
+					</tr>
+					<tr>
 						<th class="adaption">二级标题</th>
 						<td>
 							<?php echo Html::inputText('sub_title')?>
@@ -105,11 +130,22 @@ F::form('edit')->setModel(Menus::model());
 						</td>
 					</tr>
 					<tr>
-						<th class="adaption">别名</th>
+						<th class="adaption">css class</th>
 						<td>
-							<?php echo Html::inputText('alias')?>
-							<span class="color-grey">别名用于特殊调用，不可重复，可为空</span>
+							<?php echo Html::inputText('css_class')?>
+							<span class="color-grey">该字段效果视主题而定</span>
 						</td>
+					</tr>
+					<tr>
+						<th class="adaption">是否启用</th>
+						<td><?php
+							echo Html::inputRadio('enabled', 1, true, array(
+								'label'=>'是',
+							));
+							echo Html::inputRadio('enabled', 0, false, array(
+								'label'=>'否',
+							));
+						?></td>
 					</tr>
 					<tr>
 						<th valign="top" class="adaption">链接地址</th>
@@ -179,7 +215,7 @@ var cat = {
 				$(".edit-cat-link").fancybox({
 					'padding':0,
 					'titleShow':false,
-					'centerOnScroll':true,
+					'centerOnScroll':false,
 					'onComplete':function(o){
 						$("#edit-cat-form").find(".submit-loading").remove();
 						$("#edit-cat-dialog").block({
@@ -198,6 +234,8 @@ var cat = {
 									$("#edit-cat-dialog input[name='id']").val(resp.data.id);
 									$("#edit-cat-dialog input[name='title']").val(resp.data.title);
 									$("#edit-cat-dialog input[name='sub_title']").val(resp.data.sub_title);
+									$("#edit-cat-dialog input[name='css_class']").val(resp.data.css_class);
+									$("#edit-cat-dialog input[name='enabled'][value='"+resp.data.enabled+"']").attr('checked', 'checked');
 									$("#edit-cat-dialog input[name='alias']").val(resp.data.alias);
 									$("#edit-cat-dialog input[name='sort']").val(resp.data.sort);
 									$("#edit-cat-dialog input[name='link']").val(resp.data.link);
@@ -231,7 +269,7 @@ var cat = {
 				$(".create-cat-link").fancybox({
 					'padding':0,
 					'titleShow':false,
-					'centerOnScroll':true,
+					'centerOnScroll':false,
 					'onStart':function(o){
 						$("#create-cat-parent").text($(o).attr("data-title"));
 						$("#create-cat-dialog  input[name='parent']").val($(o).attr("data-id"));
@@ -245,10 +283,39 @@ var cat = {
 			});
 		});
 	},
+	'enabled':function(){
+		$('.cat-list-container').on('click', '.enabled-link', function(){
+			var o = this;
+			$(this).find('span').hide().after('<img src="'+system.url()+'images/throbber.gif" />');
+			$.ajax({
+				type: "GET",
+				url: system.url("admin/menu/set-enabled"),
+				data: {
+					"id":$(this).attr("data-id"),
+					"enabled":$(this).find('span').hasClass("tick-circle") ? 0 : 1
+				},
+				dataType: "json",
+				cache: false,
+				success: function(resp){
+					if(resp.status){
+						$(o).find('span').removeClass("tick-circle")
+							.removeClass("cross-circle")
+							.addClass(resp.enabled == 1 ? "tick-circle" : "cross-circle")
+							.show()
+							.next("img").remove();
+					}else{
+						alert(resp.message);
+					}
+				}
+			});
+			return false;
+		});
+	},
 	'init':function(){
 		this.events();
 		this.editCat();
 		this.createCat();
+		this.enabled();
 	}
 };
 $(function(){

@@ -37,10 +37,10 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 <div class="wrapper">
 	<div class="adminbar">
 		<ul class="adminbar-left">
-			<li class="toggle-hover"><a href="<?php echo $this->url()?>" class="item" target="_blank"><i class="icon-home"></i>站点首页</a></li>
-			<li class="toggle-hover"><a href="<?php echo $this->url('admin/index/index')?>" class="item"><i class="icon-dashboard"></i>控制台</a></li>
+			<li class="toggle-hover"><a href="<?php echo $this->url()?>" class="item" target="_blank"><i class="fa fa-home"></i>站点首页</a></li>
+			<li class="toggle-hover"><a href="<?php echo $this->url('admin/index/index')?>" class="item"><i class="fa fa-dashboard"></i>控制台</a></li>
 			<?php if(F::app()->session->get('role') == Users::ROLE_SUPERADMIN){?>
-			<li class="toggle-hover"><a href="<?php echo $this->url('tools')?>" class="item"><i class="icon-wrench"></i>Tools</a></li>
+			<li class="toggle-hover"><a href="<?php echo $this->url('tools')?>" class="item"><i class="fa fa-wrench"></i>Tools</a></li>
 			<?php }?>
 		</ul>
 	</div>

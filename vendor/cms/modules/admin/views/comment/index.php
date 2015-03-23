@@ -53,5 +53,5 @@ use fay\models\tables\Messages;
 			<?php $listview->showData();?>
 		</tbody>
 	</table>
-	<?php echo $listview->showPage()?>
+	<?php echo $listview->showPager()?>
 </div>

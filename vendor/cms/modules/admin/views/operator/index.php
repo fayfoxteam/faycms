@@ -119,5 +119,5 @@ $cols = F::form('setting')->getData('cols');
 	?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>

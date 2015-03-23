@@ -33,7 +33,7 @@ class AdminController extends Controller{
 				array('label'=>'所有权限','router'=>'admin/action/index',),
 				array('label'=>'权限分类','router'=>'admin/category/action',),
 			),
-			'icon'=>'icon-gavel',
+			'icon'=>'fa fa-gavel',
 		),
 		array(
 			'label'=>'用户管理',
@@ -44,17 +44,7 @@ class AdminController extends Controller{
 				array('label'=>'所有管理员','router'=>'admin/operator/index',),
 				array('label'=>'添加管理员','router'=>'admin/operator/create',),
 			),
-			'icon'=>'icon-users',
-		),
-		array(
-			'label'=>'留言',
-			'directory'=>'message',
-			'sub'=>array(
-				array('label'=>'文章评论','router'=>'admin/comment/index',),
-				array('label'=>'联系我们','router'=>'admin/contact/index',),
-				array('label'=>'会话','router'=>'admin/chat/index',),
-			),
-			'icon'=>'icon-comments',
+			'icon'=>'fa fa-users',
 		),
 		array(
 			'label'=>'文章',
@@ -65,7 +55,7 @@ class AdminController extends Controller{
 				array('label'=>'标签','router'=>'admin/tag/index',),
 				array('label'=>'关键词','router'=>'admin/keyword/index',),
 			),
-			'icon'=>'icon-edit',
+			'icon'=>'fa fa-edit',
 		),
 		array(
 			'label'=>'页面',
@@ -75,7 +65,17 @@ class AdminController extends Controller{
 				array('label'=>'添加页面','router'=>'admin/page/create',),
 				array('label'=>'分类','router'=>'admin/page/cat',),
 			),
-			'icon'=>'icon-bookmark',
+			'icon'=>'fa fa-bookmark',
+		),
+		array(
+			'label'=>'留言',
+			'directory'=>'message',
+			'sub'=>array(
+				array('label'=>'文章评论','router'=>'admin/comment/index',),
+				array('label'=>'联系我们','router'=>'admin/contact/index',),
+				array('label'=>'会话','router'=>'admin/chat/index',),
+			),
+			'icon'=>'fa fa-comments-o',
 		),
 		array(
 			'label'=>'导航栏',
@@ -83,25 +83,7 @@ class AdminController extends Controller{
 			'sub'=>array(
 				array('label'=>'自定义导航','router'=>'admin/menu/index',),
 			),
-			'icon'=>'icon-map-marker',
-		),
-		array(
-			'label'=>'商品',
-			'directory'=>'goods',
-			'sub'=>array(
-				array('label'=>'所有商品','router'=>'admin/goods/index',),
-				array('label'=>'分类（发布）','router'=>'admin/category/goods',),
-			),
-			'icon'=>'icon-shopping-cart',
-		),
-		array(
-			'label'=>'优惠卷',
-			'directory'=>'voucher',
-			'sub'=>array(
-				array('label'=>'所有优惠卷','router'=>'admin/voucher/index',),
-				array('label'=>'添加优惠卷','router'=>'admin/voucher/create',),
-			),
-			'icon'=>'icon-gift',
+			'icon'=>'fa fa-map-marker',
 		),
 		array(
 			'label'=>'友情链接',
@@ -111,7 +93,7 @@ class AdminController extends Controller{
 				array('label'=>'添加友链','router'=>'admin/link/create',),
 				array('label'=>'分类','router'=>'admin/link/cat',),
 			),
-			'icon'=>'icon-chain',
+			'icon'=>'fa fa-unlink',
 		),
 		array(
 			'label'=>'分类',
@@ -119,7 +101,7 @@ class AdminController extends Controller{
 			'sub'=>array(
 				array('label'=>'所有分类','router'=>'admin/category/index',),
 			),
-			'icon'=>'icon-sitemap',
+			'icon'=>'fa fa-sitemap',
 		),
 		array(
 			'label'=>'站点',
@@ -131,7 +113,7 @@ class AdminController extends Controller{
 				array('label'=>'小工具','router'=>'admin/widget/instances',),
 				array('label'=>'所有小工具','router'=>'admin/widget/index',),
 			),
-			'icon'=>'icon-cog',
+			'icon'=>'fa fa-cog',
 		),
 		array(
 			'label'=>'访问统计',
@@ -143,7 +125,7 @@ class AdminController extends Controller{
 				array('label'=>'站点管理','router'=>'admin/analyst-site/index',),
 				array('label'=>'蜘蛛爬行记录','router'=>'admin/analyst/spiderlog',),
 			),
-			'icon'=>'icon-chart',
+			'icon'=>'fa fa-bar-chart-o',
 		),
 		array(
 			'label'=>'文件',
@@ -152,7 +134,7 @@ class AdminController extends Controller{
 				array('label'=>'所有文件','router'=>'admin/file/index',),
 				array('label'=>'上传文件','router'=>'admin/file/do-upload',),
 			),
-			'icon'=>'icon-files',
+			'icon'=>'fa fa-files-o',
 		),
 		array(
 			'label'=>'系统通知',
@@ -162,16 +144,16 @@ class AdminController extends Controller{
 				array('label'=>'发送消息','router'=>'admin/notification/create',),
 				array('label'=>'消息分类','router'=>'admin/notification/cat',),
 			),
-			'icon'=>'icon-comment',
+			'icon'=>'fa fa-comment',
 		),
 		array(
-			'label'=>'提醒',
+			'label'=>'模版',
 			'directory'=>'template',
 			'sub'=>array(
 				array('label'=>'添加模版','router'=>'admin/template/create',),
 				array('label'=>'模版管理','router'=>'admin/template/index',),
 			),
-			'icon'=>'icon-envelope',
+			'icon'=>'fa fa-envelope-o',
 		),
 		array(
 			'label'=>'试题',
@@ -181,7 +163,7 @@ class AdminController extends Controller{
 				array('label'=>'添加试题','router'=>'admin/exam-question/create',),
 				array('label'=>'试题分类','router'=>'admin/exam-question/cat',),
 			),
-			'icon'=>'icon-book',
+			'icon'=>'fa fa-book',
 		),
 		array(
 			'label'=>'试卷',
@@ -192,25 +174,43 @@ class AdminController extends Controller{
 				array('label'=>'阅卷','router'=>'admin/exam-exam/index',),
 				array('label'=>'试卷分类','router'=>'admin/exam-paper/cat',),
 			),
-			'icon'=>'icon-edit',
+			'icon'=>'fa fa-edit',
+		),
+		array(
+			'label'=>'商品',
+			'directory'=>'goods',
+			'sub'=>array(
+				array('label'=>'所有商品','router'=>'admin/goods/index',),
+				array('label'=>'分类（发布）','router'=>'admin/category/goods',),
+			),
+			'icon'=>'fa fa-shopping-cart',
+		),
+		array(
+			'label'=>'优惠卷',
+			'directory'=>'voucher',
+			'sub'=>array(
+				array('label'=>'所有优惠卷','router'=>'admin/voucher/index',),
+				array('label'=>'添加优惠卷','router'=>'admin/voucher/create',),
+			),
+			'icon'=>'fa fa-gift',
 		),
 	);
 	
 	public $_top_nav = array(
 		array(
 			'label'=>'站点首页',
-			'icon'=>'icon-home',
+			'icon'=>'fa fa-home',
 			'router'=>null,
 			'target'=>'_blank',
 		),
 		array(
 			'label'=>'控制台',
-			'icon'=>'icon-dashboard',
+			'icon'=>'fa fa-dashboard',
 			'router'=>'admin/index/index',
 		),
 		array(
 			'label'=>'Tools',
-			'icon'=>'icon-wrench',
+			'icon'=>'fa fa-wrench',
 			'router'=>'tools',
 			'role'=>Users::ROLE_SUPERADMIN,
 		),
@@ -301,8 +301,11 @@ class AdminController extends Controller{
 	
 	/**
 	 * 在已有的菜单组中添加一个菜单项
+	 * @param array $sub_menu
+	 * @param string $directory 菜单组别名
+	 * @param int $offset 偏移，从0开始，若为负数，则从末尾倒数
 	 */
-	public function addMenuItem($sub_menu, $directory, $offset){
+	public function addMenuItem($sub_menu, $directory, $offset = -1){
 		foreach($this->_left_menu as $k => &$menu){
 			if($menu['directory'] == $directory){
 				array_splice($menu['sub'], $offset, 0, array($sub_menu));

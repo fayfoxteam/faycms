@@ -37,7 +37,7 @@ use fay\helpers\Html;
 					<?php echo Html::inputText('height', isset($data['height']) ? $data['height'] : '', array(
 						'class'=>'w30',
 					))?>
-					<a href="javascript:;" title="原始尺寸" id="refresh-size"><i class="icon-refresh"></i></a>
+					<a href="javascript:;" title="原始尺寸" id="refresh-size"><i class="fa fa-refresh"></i></a>
 				</td>
 			</tr>
 		</table>

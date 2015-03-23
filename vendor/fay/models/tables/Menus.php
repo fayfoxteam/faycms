@@ -5,6 +5,16 @@ use fay\core\db\Table;
 
 class Menus extends Table{
 	protected $_name = 'menus';
+
+	/**
+	 * 后台菜单集合
+	 */
+	const ITEM_ADMIN_MENU = 1;
+
+	/**
+	 * 用户自定义菜单集合
+	 */
+	const ITEM_USER_MENU = 2;
 	
 	/**
 	 * @return Menus
@@ -17,8 +27,10 @@ class Menus extends Table{
 		return array(
 			array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('enabled'), 'range', array('range'=>array(0, 1))),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
+			array(array('css_class'), 'string', array('max'=>50, 'format'=>'alias_space')),
 			array(array('title', 'sub_title', 'link'), 'string', array('max'=>255)),
 			array(array('target'), 'string', array('max'=>30)),
 			
@@ -36,6 +48,8 @@ class Menus extends Table{
 			'alias'=>'别名',
 			'title'=>'标题',
 			'sub_title'=>'二级标题',
+			'css_class'=>'CSS Class',
+			'enabled'=>'是否启用',
 			'link'=>'连接地址',
 			'target'=>'打开方式',
 		);
@@ -50,6 +64,8 @@ class Menus extends Table{
 			'alias'=>'trim',
 			'title'=>'trim',
 			'sub_title'=>'trim',
+			'css_class'=>'trim',
+			'enabled'=>'intval',
 			'link'=>'trim',
 			'target'=>'trim',
 		);

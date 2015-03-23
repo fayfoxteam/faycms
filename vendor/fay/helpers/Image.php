@@ -83,10 +83,10 @@ class Image{
 	 * @return resource 新图片资源
 	 */
 	public static function scalesc($src_img, $percent){
-		$dst_img_width = imagesx($src_img) * $percent;
-		$dst_img_height = imagesy($src_img) * $percent;
+		$dst_img_width = ceil(imagesx($src_img) * $percent);
+		$dst_img_height = ceil(imagesy($src_img) * $percent);
 		$dst_img = imagecreatetruecolor($dst_img_width, $dst_img_height);
-		imagecopyresized($dst_img, $src_img, 0, 0, 0, 0, $dst_img_width, $dst_img_height, imagesx($src_img), imagesy($src_img));
+		imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $dst_img_width, $dst_img_height, imagesx($src_img), imagesy($src_img));
 		
 		return $dst_img;
 	}
@@ -100,7 +100,7 @@ class Image{
 	 * @param int $height
 	 * @return resource
 	 */
-	public static function cut($src_img, $x, $y, $width, $height){
+	public static function crop($src_img, $x, $y, $width, $height){
 		$dst_img = ImageCreateTrueColor($width, $height);
 		imagecopyresampled($dst_img, $src_img, 0, 0, $x, $y, $width, $height, $width, $height);
 		return $dst_img;
@@ -146,22 +146,23 @@ class Image{
 	 * @param int $height
 	 * @return resource
 	 */
-	public static function zoom($src_img, $width, $height){
+	public static function resize($src_img, $width, $height){
 		$src_img_width = imagesx($src_img);
 		$src_img_height = imagesy($src_img);
 		
-		if($width/$height < $src_img_width/$src_img_height){
-			$percent = $height/$src_img_height;
-			$src_img = self::scalesc($src_img, $percent);
-			$dst_img = imagecreatetruecolor($width, $height);
-			imagecopyresized($dst_img, $src_img, 0, 0, (imagesx($src_img)-$width)/2, 0, $width, $height, $width, $height);
+		//原图与目标尺寸的宽高比
+		$width_ratio = $src_img_width / $width;
+		$height_ratio = $src_img_height / $height;
+
+		$dst_img = imagecreatetruecolor($width, $height);
+		if($width_ratio < $height_ratio){
+			//取比例小的作为缩放比
+			//图太长
+			imagecopyresampled($dst_img, $src_img, 0, 0, ceil(($src_img_width - $width * $width_ratio)/2), ($src_img_height - $height * $width_ratio)/2, $width, $height, $width * $width_ratio, $height * $width_ratio);
 		}else{
-			$percent = $width/$src_img_width;
-			$src_img = self::scalesc($src_img, $percent);
-			$dst_img = imagecreatetruecolor($width, $height);
-			imagecopyresized($dst_img, $src_img, 0, 0, 0, (imagesy($src_img)-$height)/2, $width, $height, $width, $height);
+			//图太宽
+			imagecopyresampled($dst_img, $src_img, 0, 0, ($src_img_width - $width * $height_ratio)/2, ceil(($src_img_height - $height * $height_ratio)/2), $width, $height, $width * $height_ratio, $height * $height_ratio);
 		}
-		
 		return $dst_img;
 	}
 	

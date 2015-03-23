@@ -68,7 +68,7 @@ class Menu extends Model{
 	}
 	
 	/**
-	 * 根据别名获取一个分类信息
+	 * 根据别名获取一个菜单项
 	 * @param string $alias
 	 * @param string $fields
 	 * @return array
@@ -80,25 +80,86 @@ class Menu extends Model{
 	}
 	
 	/**
-	 * 根据父节点别名，获取其所有子节点，返回二维数组<br>
-	 * 若不指定别名，返回整张表
+	 * 根据父节点，返回导航树
+	 * 若不指定父节点或指定为null，返回用户自定义菜单
+	 * @param int|string|null $parent 父节点ID或别名
+	 *  - 若为数字，视为ID获取菜单；
+	 *  - 若为字符串，视为别名获取菜单；
+	 * @return array
 	 */
-	public function getTree($alias = null, $real_link = true){
-		if($alias === null){
-			return Tree::model()->getTree('fay\models\tables\Menus');
+	public function getTree($parent = null, $real_link = true, $enabled = true){
+		if($parent === null){
+			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
+		}else if(is_numeric($parent)){
+			return $this->getTreeByParentId($parent);
 		}else{
-			$node = $this->getByAlias($alias, 'id');
-			if($node){
-				$menu = Tree::model()->getTree('fay\models\tables\Menus', $node['id']);
-				if($real_link){
-					return $this->renderLink($menu);
-				}else{
-					return $menu;
-				}
+			return $this->getTreeByParentAlias($parent);
+		}
+	}
+	
+	/**
+	 * 根据父节点别名，返回导航树
+	 * 若不指定别名，返回用户自定义菜单
+	 */
+	public function getTreeByParentAlias($alias = null, $real_link = true, $enabled = true){
+		if($alias === null){
+			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
+		}else{
+			$root = $this->getByAlias($alias, 'id');
+			if($root){
+				return $this->getTreeByParentId($root['id'], $real_link, $enabled);
 			}else{
 				return array();
 			}
 		}
+	}
+	
+	/**
+	 * 根据父节点ID，返回导航树
+	 * 若不指定ID，返回用户自定义菜单
+	 */
+	public function getTreeByParentId($id = null, $real_link = true, $enabled = true){
+		if($id == null){
+			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
+		}
+		
+		$menu = Tree::model()->getTree('fay\models\tables\Menus', $id);
+		
+		//无法在搜索树的时候就删除关闭的菜单，在这里再循环移除
+		if($enabled){
+			$menu = $this->removeDisabledItems($menu);
+		}
+		
+		if($real_link){
+			return $this->renderLink($menu);
+		}else{
+			return $menu;
+		}
+	}
+	
+	/**
+	 * 递归移除未启用的菜单项（若父节点未启用，其子节点会一并被移除）
+	 * @param array $menu
+	 * @return array
+	 */
+	public function removeDisabledItems(&$menu){
+		foreach($menu as $k => &$m){
+			if(!$m['enabled']){
+				unset($menu[$k]);
+			}else{
+				if(!empty($m['children'])){
+					//子节点
+					$children = $this->removeDisabledItems($m['children']);
+					if($children){
+						$m['children'] = $children;
+					}else{
+						//子节点全部不启用，删除children项
+						unset($m['children']);
+					}
+				}
+			}
+		}
+		return $menu;
 	}
 	
 	/**

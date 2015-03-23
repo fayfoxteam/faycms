@@ -46,7 +46,7 @@ use fay\models\tables\Logs;
 	?>
 		</tbody>
 	</table>
-	<?php $listview->showPage();?>
+	<?php $listview->showPager();?>
 </div>
 <div class="hide">
 	<div id="log-detail-dialog" class="common-dialog">

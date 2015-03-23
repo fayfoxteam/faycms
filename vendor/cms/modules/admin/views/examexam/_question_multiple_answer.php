@@ -6,7 +6,7 @@ $answers = ExamAnswers::model()->fetchAll('question_id = '.$exam_question['quest
 $user_answers = ExamExamQuestionAnswersInt::model()->fetchCol('user_answer_id', 'exam_question_id = '.$exam_question['id']);
 ?>
 <div class="bd" id="question-<?php echo $exam_question['id']?>">
-	<div class="clearfix exam-question-item">
+	<div class="cf exam-question-item">
 		<span><?php echo $index+1?>、</span>
 		<span><?php echo $exam_question['question']?></span>
 		<span>

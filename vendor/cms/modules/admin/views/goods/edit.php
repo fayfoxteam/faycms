@@ -3,7 +3,7 @@ use fay\helpers\Html;
 use fay\models\tables\Goods;
 use fay\models\tables\CatProps;
 
-echo F::form()->open(null, array(), 'post', array('id'=>'create-goods-form'));
+echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 ?>
 <input type="hidden" name="status" id="status" />
 <div class="col-2-2">

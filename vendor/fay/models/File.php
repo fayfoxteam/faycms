@@ -24,12 +24,12 @@ class File extends Model{
 	/**
 	 * 裁剪
 	 */
-	const PIC_CUT = 3;
+	const PIC_CROP = 3;
 	
 	/**
 	 * 缩放
 	 */
-	const PIC_ZOOM = 4;
+	const PIC_RESIZE = 4;
 	
 	/**
 	 * @return File
@@ -149,11 +149,11 @@ class File extends Model{
 		
 		if($private){
 			$upload_config = array(
-				'upload_path'=>'./../uploads/' . $target . date('Y/m/'),
+				'upload_path'=>'./../uploads/' . APPLICATION . '/' . $target . date('Y/m/'),
 			);
 		}else{
 			$upload_config = array(
-				'upload_path'=>'./uploads/' . $target . date('Y/m/'),
+				'upload_path'=>'./uploads/' . APPLICATION . '/' . $target . date('Y/m/'),
 			);
 		}
 		$result = self::createFolder($upload_config['upload_path']);
@@ -177,7 +177,7 @@ class File extends Model{
 				);
 				$data['id'] = Files::model()->insert($data);
 				$src_img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-				$img = Image::zoom($src_img, 100, 100);
+				$img = Image::resize($src_img, 100, 100);
 				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
 				$data['error'] = 0;
 				if($private){

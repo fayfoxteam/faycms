@@ -26,7 +26,7 @@
 	      
                 <div class="pagination">
                 
-                <?php $listview->showPage();?>
+                <?php $listview->showPager();?>
 		 
                 </div><!-- .pagination -->
                 

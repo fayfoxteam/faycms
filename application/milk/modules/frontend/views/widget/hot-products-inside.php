@@ -25,7 +25,7 @@ use fay\helpers\Html;
                                         <img class="sale" src="<?php echo $this->staticFile('img/sale.png')?>" alt="Sale">
                                         <div class="prev">
                                             <a href="<?php echo $this->url('post/'.$post['id'])?>">
-                                            <?php echo Html::img($post['thumbnail'], File::PIC_ZOOM, array(
+                                            <?php echo Html::img($post['thumbnail'], File::PIC_RESIZE, array(
                                                                                     'dw' => 210, 
                                                                                     'dh' => 210, 
                                                                                     'alt' => Html::encode($post['title']), 

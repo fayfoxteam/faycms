@@ -9,7 +9,7 @@ use fay\models\File;
                         <img class="sale" src="<?php echo $this->staticFile('img/sale.png')?>" alt="Sale">
                         <div class="prev">
                             <a href="<?php echo $this->url('post/'.$data['id'])?>">
-                            <?php echo Html::img($data['thumbnail'], File::PIC_ZOOM, array(
+                            <?php echo Html::img($data['thumbnail'], File::PIC_RESIZE, array(
                                                                                     'dw' => 210, 
                                                                                     'dh' => 210, 
                                                                                     'alt' => Html::encode($data['title']),

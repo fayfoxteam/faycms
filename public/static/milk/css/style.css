@@ -104,7 +104,7 @@
 *******************************************************************************/
 header{
 	background: url(../img/bg_header.png) repeat center top;
-	height:170px;
+	height:150px;
 	margin: 0px 0 0 0;
 	overflow: visible;
 	width: 100%;
@@ -697,7 +697,7 @@ form.search:hover .search_button{
   Main
 *******************************************************************************/
 #main{
-	margin: 70px 0;
+	margin: 40px 0;
 }
 #main.page-login{
 	margin: 43px 0 70px;
@@ -3367,6 +3367,24 @@ ul.f_contact li+li+li{
 }
 .go-top .uc-2vm-pop .title-2wm{font-size: 14px; margin: 10px 20px;}
 .go-top .uc-2vm-pop .logo-2wm-box{position: relative;}
+
+
+/* banner-box */
+.banner-box{min-width:1210px;height:360px;position:relative;overflow:hidden;}
+.banner-box .bd{ width:100% !important;}
+.banner-box .bd li .m-width {width:1210px;margin:0 auto;overflow:hidden;}
+.banner-box .bd li{width:100% !important;height:360px;}
+.banner-box .bd li a{display:block;background-size:auto;}
+
+.banner-btn{width:1210px;position:absolute;top:120px;left:50%;margin-left:-605px;}
+.banner-btn a{display:block;width:49px;height:104px;position:absolute;top:0;filter:alpha(opacity=40);-moz-opacity:0.4;-khtml-opacity:0.4;opacity:0.4;}
+.banner-btn a.prev{left:20px;background:url(../img/foot.png) no-repeat 0 0;} 
+.banner-btn a.next{right:20px;background:url(../img/foot.png) no-repeat -49px 0;}
+
+.banner-box .hd {position:absolute;top:210px;left:50%;margin-left: -94px;}
+.banner-box .hd ul li{width:12px;height:12px;border-radius :50%;text-indent:-9999px;margin-right:20px;background:#ccc;float:left;cursor:pointer;}
+.banner-box .hd ul li.on{background:#DA324D;}
+
 
 #lists ul li { margin: 0 0 5px 0; list-style: lower-roman;}
 a:hover { text-decoration: none; color: #C728A3; }

@@ -38,7 +38,7 @@ use fay\models\Option;
     <link rel="stylesheet" href="<?php echo $this->staticFile('css/grid.css')?>">
     <link rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>">
     <link rel="stylesheet" href="<?php echo $this->staticFile('css/normalize.css')?>">
-
+<?php echo $this->getCss()?>
     <script src="<?php echo $this->staticFile('js/jquery.min.js')?>"></script>
     <script>window.jQuery || document.write('<script src="<?php echo $this->staticFile('js/jquery-1.8.3.min.js')?>"><\/script>')</script>
     <script src="<?php echo $this->staticFile('js/html5.js')?>"></script>

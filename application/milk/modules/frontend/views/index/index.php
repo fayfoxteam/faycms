@@ -2,45 +2,62 @@
 use fay\helpers\String;
 ?>
 
+<script src="<?php echo $this->staticFile('js/jquery.SuperSlide.2.1.1.js')?>"></script>
 
-
-  <div id="slider_body">
-        <ul id="slider">
-            <li>
-                <div class="slid_content">
-                    <h2 style="color:#6f566f;">Engagement Rings</h2>
-                    <p style="color:#6f566f;">The hardest part is over – you’ve found the love of<br>
-                    your life. Now is the time to find the perfect diamond<br>
-                    engagement ring and plan a beautiful proposal.</p>
-                    <a class="buy_now" href="#">Buy now</a>
-                </div><!-- .slid_content -->
-                <img src="<?php echo $this->staticFile('img/content/slid-1.png') ?>" alt="Slid 1" title="">
+  <div class="banner-box">
+	<div class="bd">
+        <ul>          	    
+            <li style="background:#F3E5D8;">
+                <div class="m-width">
+                <a href="javascript:void(0);"><img src="<?php echo $this->staticFile('img/content/img1.jp') ?>" /></a>
+                </div>
             </li>
-
-            <li>
-                <div class="slid_content">
-                    <h2 style="color:#744747;">Precious Metals</h2>
-                    <p style="color:#744747;">There’s no gift quite like diamond jewelry. Whether<br>
-                    you’re looking for a diamond ring, bracelet,<br>
-                    earrings or necklace, we’ll give you tips.</p>
-                    <a class="buy_now" href="#">Buy now</a>
-                </div><!-- .slid_content -->
-                <img src="<?php echo $this->staticFile('img/content/slid-2.png') ?>" alt="Slid 2" title="">
+            <li style="background:#B01415">
+                <div class="m-width">
+                <a href="javascript:void(0);"><img src="<?php echo $this->staticFile('img/img2.jp') ?>" /></a>
+                </div>
             </li>
-
-            <li>
-                <div class="slid_content">
-                    <h2 style="color:#6d5956;">Handmade jewelry</h2>
-                    <p style="color:#6d5956;">Congratulations on your engagement. As you<br>
-                    begin to plan the many details of your wedding<br>
-                    day, don’t forget the rings!</p>
-                    <a class="buy_now" href="#">Buy now</a>
-                </div><!-- .slid_content -->
-                <img src="<?php echo $this->staticFile('img/content/slid-3.png') ?>" alt="Slid 3" title="">
+            <li style="background:#C49803;">
+                <div class="m-width">
+                <a href="javascript:void(0);"><img src="<?php echo $this->staticFile('img/img3.jp') ?>" /></a>
+                </div>
             </li>
+            <li style="background:#FDFDF5">
+                <div class="m-width">
+                <a href="javascript:void(0);"><img src="<?php echo $this->staticFile('img/img4.jg') ?>" /></a>
+                </div>
+            </li>  
+         
         </ul>
-    </div><!-- #slider_body -->
+    </div>
+    <div class="banner-btn">
+        <a class="prev" href="javascript:void(0);"></a>
+        <a class="next" href="javascript:void(0);"></a>
+        <div class="hd"><ul></ul></div>
+    </div>
+</div><!-- #slider_body -->
+<script type="text/javascript">
+$(document).ready(function(){
 
+	$(".prev,.next").hover(function(){
+		$(this).stop(true,false).fadeTo("show",0.9);
+	},function(){
+		$(this).stop(true,false).fadeTo("show",0.4);
+	});
+	
+	$(".banner-box").slide({
+		titCell:".hd ul",
+		mainCell:".bd ul",
+		effect:"fold",
+		interTime:3500,
+		delayTime:500,
+		autoPlay:true,
+		autoPage:true, 
+		trigger:"click" 
+	});
+
+});
+</script>
     <section id="main" class="home">
         <div class="container_12">
         

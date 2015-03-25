@@ -3370,9 +3370,9 @@ ul.f_contact li+li+li{
 
 
 /* banner-box */
-.banner-box{min-width:1210px;height:360px;position:relative;overflow:hidden;}
+.banner-box{min-width:100%;height:360px;position:relative;overflow:hidden;}
 .banner-box .bd{ width:100% !important;}
-.banner-box .bd li .m-width {width:1210px;margin:0 auto;overflow:hidden;}
+.banner-box .bd li .m-width {width:100%;margin:0 auto;overflow:hidden;}
 .banner-box .bd li{width:100% !important;height:360px;}
 .banner-box .bd li a{display:block;background-size:auto;}
 

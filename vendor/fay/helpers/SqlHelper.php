@@ -17,7 +17,7 @@ class SqlHelper{
 		foreach($keywords as $k){
 			$pattern[] = "/({$k} )/i";
 		}
-		$sql = preg_replace($pattern, '<span class="color-blue">$1</span>', $sql);
+		$sql = preg_replace($pattern, '<span class="fc-blue">$1</span>', $sql);
 		
 		$sql = preg_replace(array(
 			'/^SELECT(.*)/i',
@@ -25,10 +25,10 @@ class SqlHelper{
 			'/^DELETE(.*)/i',
 			'/^UPDATE(.*)/i',
 		), array(
-			'<span class="color-blue">SELECT</span>$1',
-			'<span class="color-green">INSERT</span>$1',
-			'<span class="color-red">DELETE</span>$1',
-			'<span class="color-orange">UPDATE</span>$1',
+			'<span class="fc-blue">SELECT</span>$1',
+			'<span class="fc-green">INSERT</span>$1',
+			'<span class="fc-red">DELETE</span>$1',
+			'<span class="fc-orange">UPDATE</span>$1',
 		), $sql);
 		
 		if(!empty($params)){

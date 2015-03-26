@@ -6,7 +6,7 @@ echo F::form()->open();
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="titlediv">
+			<div class="post-title-env">
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',
 					'class'=>'form-control bigtxt',
@@ -48,7 +48,7 @@ echo F::form()->open();
 					<?php echo F::form()->inputText('alias', array(
 						'class'=>'form-control',
 					))?>
-					<div class="color-grey">别名不可包含特殊字符，可留空。</div>
+					<div class="fc-grey">别名不可包含特殊字符，可留空。</div>
 					<div class="clear"></div>
 				</div>
 			</div>

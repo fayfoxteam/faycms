@@ -10,14 +10,16 @@ use fay\models\Option;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
-<?php echo $this->getCss()?>
 
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-metro.css" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-responsive.css" />
+<?php echo $this->getCss()?>
 
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<!--[if lt IE 9]>
+	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+<![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
@@ -66,6 +68,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				</div>
 			</div>
 		</div>
+		<?php echo F::app()->flash->get();?>
 		<?php echo $content?>
 	</div>
 </div>

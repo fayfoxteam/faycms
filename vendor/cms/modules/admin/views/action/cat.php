@@ -31,7 +31,7 @@ function showCats($cats, $dep = 0){?>
 					echo Html::link('删除', array('admin/category/remove', array(
 						'id'=>$c['id'],
 					)), array(
-						'class'=>'remove-link color-red',
+						'class'=>'remove-link fc-red',
 					));
 					?>
 				</span>
@@ -45,7 +45,7 @@ function showCats($cats, $dep = 0){?>
 						<strong><?php echo Html::encode($c['title'])?></strong>
 					<?php }?>
 					<?php if($c['alias']){?>
-						<em class="color-grey">[ <?php echo $c['alias']?> ]</em>
+						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
 				</span>
 			</div>

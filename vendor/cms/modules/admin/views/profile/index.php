@@ -78,7 +78,7 @@ echo F::form()->open(null, 'post', array('id'=>'form'));
 				}
 				echo Html::link('上传头像', 'javascript:;', array(
 					'id'=>'upload-avatar',
-					'class'=>'btn-2',
+					'class'=>'btn btn-grey',
 				));
 				?>
 			</div>

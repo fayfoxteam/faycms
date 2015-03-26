@@ -63,27 +63,27 @@ $cols = F::form('setting')->getData('cols', array());
 		<ul class="subsubsub fl">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index')?>">全部</a>
-				<span class="color-grey">(<?php echo Post::model()->getCount()?>)</span>
+				<span class="fc-grey">(<?php echo Post::model()->getCount()?>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PUBLISH && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PUBLISH))?>">已发布</a>
-				<span class="color-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISH)?>)</span>
+				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISH)?>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
-				<span class="color-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PENDING)?>)</span>
+				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PENDING)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
-				<span class="color-grey">(<?php echo Post::model()->getCount(Posts::STATUS_DRAFT)?>)</span>
+				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_DRAFT)?>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('deleted'=>1))?>">回收站</a>
-				<span class="color-grey">(<?php echo Post::model()->getDeletedCount()?>)</span>
+				<span class="fc-grey">(<?php echo Post::model()->getDeletedCount()?>)</span>
 			</li>
 		</ul>
 	</div>

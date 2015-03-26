@@ -24,21 +24,21 @@ use fay\models\tables\Users;
 				echo Html::link('删除', array('admin/role/delete', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'color-red remove-link',
+					'class'=>'fc-red remove-link',
 				), true);
 			}
 		?>
 		</div>
 	</td>
 	<td><?php if($data['id'] < Users::ROLE_SYSTEM){
-		echo '<span class="color-green">用户</span>';
+		echo '<span class="fc-green">用户</span>';
 	}else{
 		echo '管理员';
 	}?></td>
 	<td><?php if($data['is_show']){
-		echo '<span class="color-green">是</span>';
+		echo '<span class="fc-green">是</span>';
 	}else{
-		echo '<span class="color-red abbr" title="此类角色用户在用户列表中不会显示出来">否</span>';
+		echo '<span class="fc-red abbr" title="此类角色用户在用户列表中不会显示出来">否</span>';
 	}?></td>
 	<td><?php echo Html::encode($data['description'])?></td>
 </tr>

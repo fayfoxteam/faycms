@@ -21,7 +21,7 @@ use fay\helpers\Date;
  				echo Html::link('标记为已读', array('admin/contact/set-read', array('id'=>$data['id'])));
  			}
 			echo Html::link('删除', array('admin/contact/remove', array('id'=>$data['id'])), array(
-				'class'=>'color-red remove-link',
+				'class'=>'fc-red remove-link',
 			))?>
 		</div>
 	</td>

@@ -4,6 +4,9 @@ use fay\helpers\Html;
 <?php echo F::form('widget')->open()?>
 <div class="poststuff">
 	<div class="post-body">
+		<div class="post-body-content">
+			<?php echo $widget_admin->index($widget_data);?>
+		</div>
 		<div class="postbox-container-1">
 			<div class="box">
 				<div class="box-title">
@@ -18,7 +21,7 @@ use fay\helpers\Html;
 						<strong>是否启用？</strong>
 						<?php echo Html::inputRadio('f_widget_enabled', 1, ($widget['enabled']) ? true : false, array('label'=>'是'))?>
 						<?php echo Html::inputRadio('f_widget_enabled', 0, ($widget['enabled']) ? false : true, array('label'=>'否'))?>
-						<p class="color-grey">停用后不再显示，但会保留设置</p>
+						<p class="fc-grey">停用后不再显示，但会保留设置</p>
 					</div>
 				</div>
 			</div>
@@ -37,7 +40,7 @@ use fay\helpers\Html;
 							'data-ajax'=>$this->url('admin/widget/is-alias-not-exist', array('id'=>$widget['id'])),
 							'class'=>'form-control',
 						))?>
-						<p class="color-grey">
+						<p class="fc-grey">
 							唯一的识别一个widget实例
 						</p>
 					</div>
@@ -52,9 +55,6 @@ use fay\helpers\Html;
 			<?php if(method_exists($widget_admin, 'sidebar')){
 				$widget_admin->sidebar($widget_data);
 			}?>
-		</div>
-		<div class="postbox-container-2">
-			<?php echo $widget_admin->index($widget_data);?>
 		</div>
 	</div>
 </div>

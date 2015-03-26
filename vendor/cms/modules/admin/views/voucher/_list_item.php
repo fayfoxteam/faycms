@@ -10,7 +10,7 @@ use fay\helpers\Date;
 			<?php echo Html::link('永久删除', array('admin/voucher/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'color-red remove-link',
+				'class'=>'fc-red remove-link',
 			));?>
 		</div>	
 	</td>

@@ -26,7 +26,7 @@ use fay\models\tables\CatProps;
 				<p class="description">
 					销售属性参与SKU计算，即与库存和售价有关
 					<br />
-					所有销售属性均为<span class="color-red">必选</span>，<span class="color-red">多选</span>属性
+					所有销售属性均为<span class="fc-red">必选</span>，<span class="fc-red">多选</span>属性
 				</p>
 			</div>
 			<div class="form-field">
@@ -66,8 +66,8 @@ use fay\models\tables\CatProps;
 				<?php echo F::form()->inputText('', array(
 					'id'=>'prop-title',
 				))?>
-				<a href="javascript:;" class="btn-4" id="add-prop-value-link">添加</a>
-				<span class="color-grey">（添加后可拖拽排序）</span>
+				<a href="javascript:;" class="btn btn-grey btn-sm" id="add-prop-value-link">添加</a>
+				<span class="fc-grey">（添加后可拖拽排序）</span>
 				<div class="dragsort-list" id="prop-list">
 				<?php foreach($prop_values as $pv){?>
 					<div class="dragsort-item">

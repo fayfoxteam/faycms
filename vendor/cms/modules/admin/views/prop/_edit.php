@@ -7,7 +7,7 @@ use fay\models\tables\Props;
 		<label class="title">
 			<?php echo Html::encode($p['title']);?>
 			<?php if($p['required']){?>
-				<em class="color-red">(必选)</em>
+				<em class="fc-red">(必选)</em>
 			<?php }?>
 		</label>
 		<?php 

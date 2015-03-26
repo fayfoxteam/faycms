@@ -8,21 +8,21 @@
 			<?php echo F::form('widget')->inputText('height', array(
 				'class'=>'form-control',
 			), 450)?>
-			<p class="color-grey">若不写单位，默认为像素（px）</p>
+			<p class="fc-grey">若不写单位，默认为像素（px）</p>
 		</div>
 		<div class="form-field pb0">
 			<label class="title pb0">过渡动画时长（transPeriod）</label>
 			<?php echo F::form('widget')->inputText('transPeriod', array(
 				'class'=>'form-control',
 			), 800)?>
-			<span class="color-grey">（单位：毫秒）</span>
+			<span class="fc-grey">（单位：毫秒）</span>
 		</div>
 		<div class="form-field pb0">
 			<label class="title pb0">播放间隔时长（time）</label>
 			<?php echo F::form('widget')->inputText('time', array(
 				'class'=>'form-control',
 			), 5000)?>
-			<span class="color-grey">（单位：毫秒）</span>
+			<span class="fc-grey">（单位：毫秒）</span>
 		</div>
 		<div class="form-field pb0">
 			<label class="title pb0">切换效果（fx）</label>

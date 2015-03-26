@@ -57,7 +57,7 @@ use fay\helpers\Html;
 		'class'=>'form-control w200 ib',
 	))?>
 	<a href="javascript:;" class="btn btn-sm btn-grey" id="add-prop-value-link">添加</a>
-	<span class="color-grey">（添加后可拖拽排序）</span>
+	<span class="fc-grey">（添加后可拖拽排序）</span>
 	<div class="dragsort-list" id="prop-list">
 	<?php if(isset($prop['values']) && is_array($prop['values'])){?>
 		<?php foreach($prop['values'] as $pv){?>

@@ -21,18 +21,18 @@ use fay\helpers\Date;
 					'read'=>0,
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'set-read-link color-orange',
+					'class'=>'set-read-link fc-orange',
 				));
 			}else{
 				echo Html::link('标记为已读', array('admin/notification/set-read', array(
 					'read'=>1,
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'set-read-link color-green',
+					'class'=>'set-read-link fc-green',
 				));
 			}
 			echo Html::link('删除', array('admin/notification/delete', array('id'=>$data['id'])), array(
-				'class'=>'delete-notification color-red',
+				'class'=>'delete-notification fc-red',
 			));?>
 		</div>
 	</td>

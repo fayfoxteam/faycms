@@ -68,8 +68,8 @@ use fay\models\tables\Props;
 	<?php echo F::form()->inputText('', array(
 		'id'=>'prop-title',
 	))?>
-	<a href="javascript:;" class="btn-4" id="add-prop-value-link">添加</a>
-	<span class="color-grey">（添加后可拖拽排序）</span>
+	<a href="javascript:;" class="btn btn-grey btn-sm" id="add-prop-value-link">添加</a>
+	<span class="fc-grey">（添加后可拖拽排序）</span>
 	<div class="dragsort-list" id="prop-list">
 	<?php if(isset($prop['values']) && is_array($prop['values'])){?>
 		<?php foreach($prop['values'] as $pv){?>

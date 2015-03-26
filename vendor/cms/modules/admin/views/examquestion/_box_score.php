@@ -6,6 +6,6 @@
 		<?php echo F::form()->inputText('score', array(
 			'class'=>'form-control',
 		), '10.00')?>
-		<p class="color-grey">组卷的时候可以重新设定这个值</p>
+		<p class="fc-grey">组卷的时候可以重新设定这个值</p>
 	</div>
 </div>

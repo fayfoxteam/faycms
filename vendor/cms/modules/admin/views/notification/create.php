@@ -25,7 +25,7 @@ use fay\helpers\Html;
 					<?php echo F::form()->inputText('publish_time', array(
 						'class'=>'form-control timepicker',
 					))?>
-					<div class="color-grey">默认为当前时间</div>
+					<div class="fc-grey">默认为当前时间</div>
 				</div>
 			</div>
 			<div class="box">
@@ -40,7 +40,7 @@ use fay\helpers\Html;
 			</div>
 		</div>
 		<div class="postbox-container-2">
-			<div class="titlediv">
+			<div class="post-title-env">
 				<label class="title-prompt-text" for="title">在此键入标题</label>
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',

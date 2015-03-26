@@ -6,56 +6,62 @@ use cms\helpers\ListTableHelper;
 ?>
 <div class="row">
 	<div class="col-12">
-		<form method="get" class="validform" id="post-form">
+		<?php echo F::form('search')->open(null, 'get', array(
+			'class'=>'form-inline',
+		))?>
 			<div class="mb5">
-				<?php echo F::form()->select('keyword_field', array(
+				<?php echo F::form('search')->select('keyword_field', array(
 					'title'=>'标题',
 					'alias'=>'别名',
+				), array(
+					'class'=>'form-control'
 				));?>
-				<?php echo F::form()->inputText('keywords' ,array(
-					'class'=>'w200',
+				<?php echo F::form('search')->inputText('keywords' ,array(
+					'class'=>'form-control w200',
 				));?>
 				|
-				<?php echo F::form()->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'))?>
+				<?php echo F::form('search')->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'), array(
+					'class'=>'form-control'
+				))?>
 			</div>
 			<div>
-				<?php echo F::form()->select('time_field', array(
+				<?php echo F::form('search')->select('time_field', array(
 					'create_time'=>'创建时间',
 					'last_modified_time'=>'最后修改时间',
+				), array(
+					'class'=>'form-control'
 				));?>
-				<?php echo F::form()->inputText('start_time', array(
-					'data-rule'=>'datetime',
-					'data-label'=>'时间',
-					'class'=>'datetimepicker',
+				<?php echo F::form('search')->inputText('start_time', array(
+					'class'=>'form-control datetimepicker',
 				));?>
 				-
-				<?php echo F::form()->inputText('end_time', array(
-					'data-rule'=>'datetime',
-					'data-label'=>'时间',
-					'class'=>'datetimepicker',
+				<?php echo F::form('search')->inputText('end_time', array(
+					'class'=>'form-control datetimepicker',
 				));?>
-				<a href="javascript:;" class="btn btn-sm" id="post-form-submit">查询</a>
+				<?php echo F::form('search')->submitLink('查询', array(
+					'class'=>'btn btn-sm',
+				))?>
 			</div>
-		</form>
+		<?php echo F::form('search')->close()?>
 		<ul class="subsubsub">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index')?>">全部</a>
-				<span class="color-grey">(<?php echo Page::model()->getPageCount()?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getPageCount()?>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Pages::STATUS_PUBLISH && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index', array('status'=>Pages::STATUS_PUBLISH))?>">已发布</a>
-				<span class="color-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_PUBLISH)?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_PUBLISH)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Pages::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index', array('status'=>Pages::STATUS_DRAFT))?>">草稿</a>
-				<span class="color-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_DRAFT)?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_DRAFT)?>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index', array('deleted'=>1))?>">回收站</a>
-				<span class="color-grey">(<?php echo Page::model()->getDeletedPageCount()?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getDeletedPageCount()?>)</span>
 			</li>
 		</ul>
 		<table class="list-table">

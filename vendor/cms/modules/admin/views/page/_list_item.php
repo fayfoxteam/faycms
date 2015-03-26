@@ -20,7 +20,7 @@ use fay\helpers\Date;
 			echo Html::link('移入回收站', array('admin/page/delete', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'delete-page color-red',
+				'class'=>'delete-page fc-red',
 			), true);
 			echo Html::link('查看', array('page/item', array(
 				'id'=>$data['id'],
@@ -34,7 +34,7 @@ use fay\helpers\Date;
 			echo Html::link('永久删除', array('admin/page/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'delete-page color-red remove-link',
+				'class'=>'delete-page fc-red remove-link',
 			), true);
 		}?>
 		</div>

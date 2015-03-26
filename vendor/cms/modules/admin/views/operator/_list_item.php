@@ -60,9 +60,9 @@ use fay\models\File;
 	
 	<?php if(in_array('block', $cols)){?>
 	<td><?php if($data['block']){
-		echo '<span class="color-red">阻塞</span>';
+		echo '<span class="fc-red">阻塞</span>';
 	}else{
-		echo '<span class="color-green">正常</span>';
+		echo '<span class="fc-green">正常</span>';
 	}?></td>
 	<?php }?>
 	

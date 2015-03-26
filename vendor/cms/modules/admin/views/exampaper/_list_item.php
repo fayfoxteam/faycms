@@ -15,7 +15,7 @@ use fay\helpers\String;
 				echo Html::link('删除', array('admin/exam-paper/delete', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'color-red remove-link',
+					'class'=>'fc-red remove-link',
 				), true);
 			?>
 		</div>
@@ -23,10 +23,10 @@ use fay\helpers\String;
 	<td><?php echo Html::encode($data['cat_title']);?></td>
 	<td><?php switch($data['status']){
 		case ExamPapers::STATUS_ENABLED:
-			echo '<span class="color-green">启用</span>';
+			echo '<span class="fc-green">启用</span>';
 			break;
 		case ExamPapers::STATUS_DISABLED:
-			echo '<span class="color-red">禁用</span>';
+			echo '<span class="fc-red">禁用</span>';
 			break;
 	}?></td>
 	<td><?php echo String::money($data['score'])?></td>

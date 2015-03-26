@@ -29,7 +29,7 @@
 							<?php echo Html::link('Delete', array('tools/memcache/delete', array(
 								'key'=>$key,
 							)), array(
-								'class'=>'color-red',
+								'class'=>'fc-red',
 							))?>
 						</div>
 					</td>

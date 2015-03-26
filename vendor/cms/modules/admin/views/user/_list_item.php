@@ -63,24 +63,24 @@ use fay\models\File;
 	<?php if(in_array('status', $cols)){?>
 	<td>
 		<?php if($data['status'] == Users::STATUS_PENDING){?>
-			<span class="color-orange">未审核</span>
+			<span class="fc-orange">未审核</span>
 		<?php }else if($data['status'] == Users::STATUS_VERIFIED){?>
-			<span class="color-green">通过审核</span>
+			<span class="fc-green">通过审核</span>
 		<?php }else if($data['status'] == Users::STATUS_VERIFY_FAILED){?>
-			<span class="color-red">未通过审核</span>
+			<span class="fc-red">未通过审核</span>
 		<?php }else if($data['status'] == Users::STATUS_UNCOMPLETED){?>
-			<span class="color-orange">信息不完整</span>
+			<span class="fc-orange">信息不完整</span>
 		<?php }else if($data['status'] == Users::STATUS_NOT_VERIFIED){?>
-			<span class="color-orange">未验证邮箱</span>
+			<span class="fc-orange">未验证邮箱</span>
 		<?php }?>
 	</td>
 	<?php }?>
 	
 	<?php if(in_array('block', $cols)){?>
 	<td><?php if($data['block']){
-		echo '<span class="color-red">阻塞</span>';
+		echo '<span class="fc-red">阻塞</span>';
 	}else{
-		echo '<span class="color-green">正常</span>';
+		echo '<span class="fc-green">正常</span>';
 	}?></td>
 	<?php }?>
 	

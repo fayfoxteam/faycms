@@ -33,13 +33,13 @@ function showCats($tree, $dep = 0){?>
 							echo Html::link('删除', array('admin/menu/remove', array(
 								'id'=>$node['id'],
 							)), array(
-								'class'=>'remove-link color-red',
+								'class'=>'remove-link fc-red',
 								'title'=>'删除该节点，其子节点将被挂载到其父节点',
 							));
 							echo Html::link('删除全部', array('admin/menu/remove-all', array(
 								'id'=>$node['id'],
 							)), array(
-								'class'=>'remove-link color-red',
+								'class'=>'remove-link fc-red',
 								'title'=>'删除该节点及其所有子节点',
 							));
 						}
@@ -70,9 +70,9 @@ function showCats($tree, $dep = 0){?>
 						}
 					?>
 					<?php if($node['alias']){?>
-						<em class="color-grey">[ <?php echo $node['alias']?> ]</em>
+						<em class="fc-grey">[ <?php echo $node['alias']?> ]</em>
 					<?php }?>
-					<em class="color-grey"><?php echo $node['link']?></em>
+					<em class="fc-grey"><?php echo $node['link']?></em>
 				</span>
 			</div>
 			<?php if(!empty($node['children'])){

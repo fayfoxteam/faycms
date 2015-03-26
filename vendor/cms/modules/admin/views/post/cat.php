@@ -50,12 +50,12 @@ function showCats($cats, $dep = 0){?>
 							echo Html::link('删除', array('admin/category/remove', array(
 								'id'=>$c['id'],
 							)), array(
-								'class'=>'remove-link color-red',
+								'class'=>'remove-link fc-red',
 							));
 							echo Html::link('删除全部', array('admin/category/remove-all', array(
 								'id'=>$c['id'],
 							)), array(
-								'class'=>'remove-link color-red',
+								'class'=>'remove-link fc-red',
 							));
 						}
 					?>
@@ -70,12 +70,12 @@ function showCats($cats, $dep = 0){?>
 						<strong><?php echo Html::encode($c['title'])?></strong>
 					<?php }?>
 					<?php if($c['alias']){?>
-						<em class="color-grey">[ <?php echo $c['alias']?> ]</em>
+						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
 					<?php echo Html::link('发布文章', array('admin/post/create', array(
 						'cat_id'=>$c['id'],
 					)), array(
-						'class'=>'color-green hover-link',
+						'class'=>'fc-green hover-link',
 						'prepend'=>'<i class="fa fa-pencil"></i>',
 					), true)?>
 				</span>

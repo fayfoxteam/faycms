@@ -13,7 +13,7 @@ use fay\helpers\Date;
 				echo Html::link('永久删除', array('admin/exam-exam/remove', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'color-red remove-link',
+					'class'=>'fc-red remove-link',
 				), true);
 			?>
 		</div>

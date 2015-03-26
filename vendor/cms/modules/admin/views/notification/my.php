@@ -4,7 +4,7 @@ use fay\helpers\Html;
 <div class="row">
 	<div class="col-12">
 		<form id="batch-form" method="post" action="<?php echo $this->url('admin/notification/batch')?>" class="form-inline">
-			<div class="fl mt5"><?php
+			<div class="mb5"><?php
 				echo Html::select('batch_action', array(
 					''=>'批量操作',
 					'set-read'=>'标记为已读',
@@ -40,7 +40,7 @@ use fay\helpers\Html;
 				</tfoot>
 				<tbody><?php $listview->showData();?></tbody>
 			</table>
-			<div class="fl mt5"><?php
+			<div class="mt5"><?php
 				echo Html::select('batch_action_2', array(
 					''=>'批量操作',
 					'set-read'=>'标记为已读',

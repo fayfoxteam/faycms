@@ -313,6 +313,10 @@ class Form extends FBase{
 		return Html::inputHidden($name, $this->getData($name, $default), $html_options);
 	}
 	
+	public function inputNumber($name, $html_options = array(), $default = ''){
+		return Html::inputNumber($name, $this->getData($name, $default), $html_options);
+	}
+	
 	public function inputCheckbox($name, $value, $html_options = array(), $default = false){
 		$name1 = rtrim($name, '[]');
 		$checked = false;

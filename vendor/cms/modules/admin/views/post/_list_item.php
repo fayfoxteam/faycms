@@ -22,7 +22,7 @@ use cms\helpers\PostHelper;
 			echo Html::link('移入回收站', array('admin/post/delete', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'color-red',
+				'class'=>'fc-red',
 			), true);
 		}else{
 			echo Html::link('还原', array('admin/post/undelete', array(
@@ -33,7 +33,7 @@ use cms\helpers\PostHelper;
 			echo Html::link('永久删除', array('admin/post/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'delete-post color-red remove-link',
+				'class'=>'delete-post fc-red remove-link',
 			), true);
 		}?>
 		</div>

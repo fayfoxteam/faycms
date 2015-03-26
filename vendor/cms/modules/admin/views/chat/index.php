@@ -38,7 +38,7 @@ $settings = F::form('setting')->getAllData();
 					<input type="hidden" name="target" />
 					<textarea name="content" class="p5"></textarea>
 					<a href="javascript:;" id="reply-form-submit" class="btn fr mt5 mr10">回复</a>
-					<a href="javascript:;" class="btn-2 fr fancybox-close mt5 mr10">取消</a>
+					<a href="javascript:;" class="btn btn-grey fr fancybox-close mt5 mr10">取消</a>
 				</form>
 				<br class="clear" />
 			</div>
@@ -48,9 +48,9 @@ $settings = F::form('setting')->getAllData();
 <script src="<?php echo $this->url()?>js/custom/admin/chat.js"></script>
 <script>
 chat.status = {
-	'<?php echo Messages::STATUS_APPROVED?>':'<span class="color-green">已通过</span>',
-	'<?php echo Messages::STATUS_UNAPPROVED?>':'<span class="color-red">已驳回</span>',
-	'<?php echo Messages::STATUS_PENDING?>':'<span class="color-orange">待审</span>',
+	'<?php echo Messages::STATUS_APPROVED?>':'<span class="fc-green">已通过</span>',
+	'<?php echo Messages::STATUS_UNAPPROVED?>':'<span class="fc-red">已驳回</span>',
+	'<?php echo Messages::STATUS_PENDING?>':'<span class="fc-orange">待审</span>',
 	'approved':'<?php echo Messages::STATUS_APPROVED?>',
 	'unapproved':'<?php echo Messages::STATUS_UNAPPROVED?>',
 	'pending':'<?php echo Messages::STATUS_PENDING?>'

@@ -17,7 +17,7 @@ class PostHelper{
 				return '<span class="color-blue">草稿</span>';
 				break;
 			case Posts::STATUS_PENDING:
-				return '<span class="color-orange">待审核</span>';
+				return '<span class="fc-orange">待审核</span>';
 				break;
 		}
 	}

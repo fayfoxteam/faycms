@@ -78,7 +78,7 @@ class TestController extends AdminController{
 // 			'before'=>array(
 // 				'tag'=>'em',
 // 				'text'=>'*',
-// 				'class'=>'color-red',
+// 				'class'=>'fc-red',
 // 			),
 // 			'append'=>'---',
 // 			'prepend'=>array(
@@ -137,7 +137,7 @@ class TestController extends AdminController{
 // 						'text'=>'名称',
 // 						'append'=>array(
 // 							'tag'=>'em',
-// 							'class'=>'color-red',
+// 							'class'=>'fc-red',
 // 							'text'=>'*',
 // 						)
 // 					),

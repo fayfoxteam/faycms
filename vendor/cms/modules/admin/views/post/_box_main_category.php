@@ -10,6 +10,6 @@ use fay\helpers\Html;
 		<?php echo F::form()->select('cat_id', Html::getSelectOptions($cats), array(
             'class'=>'form-control',
         ))?>
-		<p class="color-grey">修改文章主分类可能会影响附加属性（这取决于您是否设置有附加属性）</p>
+		<p class="fc-grey">修改文章主分类可能会影响附加属性（这取决于您是否设置有附加属性）</p>
 	</div>
 </div>

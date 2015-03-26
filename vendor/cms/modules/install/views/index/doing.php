@@ -1,4 +1,4 @@
-<p>正在进行安装，<span class="color-red">请勿关闭或刷新页面</span>...</p>
+<p>正在进行安装，<span class="fc-red">请勿关闭或刷新页面</span>...</p>
 <ol id="install-panel"></ol>
 <script>
 var install = {
@@ -11,10 +11,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					install.setCities();
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
@@ -28,10 +28,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					install.setRegions();
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
@@ -45,10 +45,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					install.setCats();
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
@@ -62,10 +62,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					install.setActions();
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
@@ -79,10 +79,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					install.setSystem();
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
@@ -96,10 +96,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					install.setCustom();
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
@@ -113,10 +113,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					install.indexCats();
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
@@ -130,10 +130,10 @@ var install = {
 			cache: false,
 			success: function(resp){
 				if(resp.status){
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-green">[完成]</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					window.location.href = system.url('install/index/settings');
 				}else{
-					$("#install-panel li:last .throbber").replaceWith('<span class="color-red">[失败：'+resp.message+']</span>')
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});

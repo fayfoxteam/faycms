@@ -18,7 +18,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 					<a href="javascript:;" class="btn" id="create-goods-form-submit">更新</a>
 					<?php echo Html::link('查看', array('goods/item', array('id'=>$goods['id'])), array(
 						'target'=>'_blank',
-						'class'=>'btn-2',
+						'class'=>'btn btn-grey',
 					))?>
 				</div>
 				<div class="misc-pub-section">
@@ -45,7 +45,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 						'id'=>'sku-price',
 						'class'=>'text-short',
 					))?>
-					<span class="color-grey">单位：元</span>
+					<span class="fc-grey">单位：元</span>
 				</div>
 				<div class="misc-pub-section">
 					<label for="sku-total-num"><strong>库存</strong></label>
@@ -74,7 +74,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 					<?php echo F::form()->inputText('sort', array(
 						'class'=>'text-short',
 					), 100)?>
-					<span class="color-grey">数字越小越靠前</span>
+					<span class="fc-grey">数字越小越靠前</span>
 				</div>
 				<div class="misc-pub-section">
 					<strong>推荐</strong>
@@ -100,14 +100,14 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 					<?php echo F::form()->inputText('weight', array(
 						'class'=>'text-short',
 					))?>
-					<span class="color-grey">单位：kg</span>
+					<span class="fc-grey">单位：kg</span>
 				</div>
 				<div class="misc-pub-section">
 					<strong>体积</strong>
 					<?php echo F::form()->inputText('size', array(
 						'class'=>'text-short',
 					))?>
-					<span class="color-grey">单位：立方米</span>
+					<span class="fc-grey">单位：立方米</span>
 				</div>
 			</div>
 		</div>
@@ -120,7 +120,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 			</div>
 			<div class="box-content">
 				<?php echo F::form()->inputText('publish_time', array('class'=>'timepicker'))?>
-				<div class="color-grey">默认为当前时间</div>
+				<div class="fc-grey">默认为当前时间</div>
 			</div>
 		</div>
 		<?php }?>
@@ -150,18 +150,18 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 			</div>
 			<div class="box-content">
 				<label for="seo-title">标题（title）</label>
-				<?php echo F::form()->inputText('seo_title', array('id'=>'seo-title', 'class'=>'full-width'))?>
+				<?php echo F::form()->inputText('seo_title', array('id'=>'seo-title', 'class'=>'form-control'))?>
 				<label for="seo-keyword">关键词（keywords）</label>
-				<?php echo F::form()->inputText('seo_keywords', array('id'=>'seo-keywords', 'class'=>'full-width'))?>
+				<?php echo F::form()->inputText('seo_keywords', array('id'=>'seo-keywords', 'class'=>'form-control'))?>
 				<label for="seo-description">描述（description）</label>
-				<?php echo F::form()->textarea('seo_description', array('id'=>'seo-description', 'class'=>'full-width'))?>
+				<?php echo F::form()->textarea('seo_description', array('id'=>'seo-description', 'class'=>'form-control'))?>
 			</div>
 		</div>
 		<?php }?>
 	</div>
 	<div class="col-2-2-body">
 		<div class="col-2-2-body-content">
-			<div class="titlediv">
+			<div class="post-title-env">
 				<label class="title-prompt-text" for="title">在此键入标题</label>
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',
@@ -186,7 +186,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 								<label class="title">
 									<?php echo Html::encode($p['title'])?>
 									<?php if($p['required']){?>
-										<em class="color-red">(必选)</em>
+										<em class="fc-red">(必选)</em>
 									<?php }?>
 								</label>
 								<?php if($p['type'] == CatProps::TYPE_CHECK){//多选?>

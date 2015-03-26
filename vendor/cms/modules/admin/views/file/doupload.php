@@ -5,7 +5,7 @@
 				<p class="drag_drop_info">将文件拖拽至此</p>
 				<p>或</p>
 				<p class="drag_drop_buttons">
-					<a class="plupload_browse_button btn-2" id="plupload_browse_button">选择文件</a>
+					<a class="plupload_browse_button btn btn-grey btn-sm" id="plupload_browse_button">选择文件</a>
 				</p>
 			</div>
 		</div>
@@ -49,19 +49,19 @@ uploader.bind('FileUploaded', function(up, file, response) {
 	html += '	<table width="620" style="padding:4px;">';
 	html += '		<tr>';
 	html += '			<td>文件名</td>';
-	html += '			<td><input type="text" class="full-width" name="media['+rps.id+'][url]" value="'+rps.client_name+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][url]" value="'+rps.client_name+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '		<tr>';
 	html += '			<td>类型</td>';
-	html += '			<td><input type="text" class="full-width" name="media['+rps.id+'][file_type]" value="'+rps.file_type+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][file_type]" value="'+rps.file_type+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '		<tr>';
 	html += '			<td>大小</td>';
-	html += '			<td><input type="text" class="full-width" name="media['+rps.id+'][url]" value="'+rps.image_width+" X "+rps.image_height+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][url]" value="'+rps.image_width+" X "+rps.image_height+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '		<tr>';
 	html += '			<td>URL</td>';
-	html += '			<td><input type="text" class="full-width" name="media['+rps.id+'][url]" value="'+rps.url+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][url]" value="'+rps.url+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '	</table>';
 	html += '	<a href="javascript:;" class="delete_file" fid="'+rps.id+'">永久删除</a>';

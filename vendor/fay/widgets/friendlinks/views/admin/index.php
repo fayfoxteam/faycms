@@ -25,11 +25,11 @@ use fay\models\tables\Users;
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">渲染模版<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
 					'class'=>'form-control h200 autosize',
 				))?>
-				<p class="fc-grey">
+				<p class="fc-grey mt5">
 					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
 					即类似<code>frontend/widget/template</code><br />
 					则会调用当前application下符合该相对路径的view文件。<br />

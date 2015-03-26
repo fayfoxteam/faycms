@@ -12,22 +12,22 @@ use fay\helpers\Html;
 						<strong>
 							审核状态：
 							<?php if($user['status'] == Users::STATUS_PENDING){?>
-								<span class="color-orange">未审核</span>
+								<span class="fc-orange">未审核</span>
 							<?php }else if($user['status'] == Users::STATUS_VERIFIED){?>
-								<span class="color-green">通过审核</span>
+								<span class="fc-green">通过审核</span>
 							<?php }else if($user['status'] == Users::STATUS_VERIFY_FAILED){?>
-								<span class="color-red">未通过审核</span>
+								<span class="fc-red">未通过审核</span>
 							<?php }else if($user['status'] == Users::STATUS_UNCOMPLETED){?>
-								<span class="color-orange">用户信息不完整</span>
+								<span class="fc-orange">用户信息不完整</span>
 							<?php }?>
 						</strong>
 						|
 						<strong>
 							登陆状态：
 							<?php if($user['block']){?>
-								<span class="color-red">限制登陆</span>
+								<span class="fc-red">限制登陆</span>
 							<?php }else{?>
-								<span class="color-green">正常登陆</span>
+								<span class="fc-green">正常登陆</span>
 							<?php }?>
 						</strong>
 					</div>
@@ -121,33 +121,33 @@ use fay\helpers\Html;
 				<?php echo Html::inputHidden('id', $user['id'])?>
 				<div class="form-field">
 					<label class="title">用户状态</label>
-					<label class="color-orange">
+					<label class="fc-orange">
 						<?php echo Html::inputRadio('status', Users::STATUS_PENDING, $user['status'] == Users::STATUS_PENDING)?>
 						待审核
 					</label>
-					<label class="color-green">
+					<label class="fc-green">
 						<?php echo Html::inputRadio('status', Users::STATUS_VERIFIED, $user['status'] == Users::STATUS_VERIFIED)?>
 						通过审核
 					</label>
-					<label class="color-red">
+					<label class="fc-red">
 						<?php echo Html::inputRadio('status', Users::STATUS_VERIFY_FAILED, $user['status'] == Users::STATUS_VERIFY_FAILED)?>
 						未通过审核
 					</label>
 				</div>
 				<div class="form-field">
-					<label class="title">登陆状态<span class="color-grey normal"> (设置为限制登陆的用户将无法登陆系统)</span></label>
-					<label class="color-green">
+					<label class="title">登陆状态<span class="fc-grey normal"> (设置为限制登陆的用户将无法登陆系统)</span></label>
+					<label class="fc-green">
 						<?php echo Html::inputRadio('block', 0, !$user['block'])?>
 						正常
 					</label>
-					<label class="color-red">
+					<label class="fc-red">
 						<?php echo Html::inputRadio('block', 1, $user['block'])?>
 						限制登录
 					</label>
 				</div>
 				<div class="form-field">
 					<a href="javascript:;" class="btn" id="set-status-form-submit">提交修改</a>
-					<a href="javascript:;" class="btn-2 fancybox-close">取消</a>
+					<a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
 				</div>
 			</form>
 		</div>

@@ -48,19 +48,19 @@ use fay\helpers\Html;
 						'data-label'=>'别名',
 						'data-params'=>'{max:255,format:\'alias\'}',
 						'data-ajax'=>$this->url('admin/widget/is-alias-not-exist'),
-						'class'=>'w400',
+						'class'=>'form-control w400',
 					))?>
 					<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个</p>
 				</div>
 				<div class="form-field">
 					<label class="title">描述</label>
 					<?php echo Html::textarea('description', '', array(
-						'class'=>'w400',
+						'class'=>'form-control w400',
 					))?>
 				</div>
 				<div class="form-field">
 					<a href="javascript:;" class="btn" id="create-instance-form-submit">创建</a>
-					<a href="javascript:;" class="btn-2 fancybox-close">取消</a>
+					<a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
 				</div>
 			</form>
 		</div>

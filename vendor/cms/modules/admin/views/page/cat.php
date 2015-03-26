@@ -18,7 +18,7 @@ function showCats($cats, $dep = 0){?>
 					<?php echo Html::link('添加页面', array('admin/page/create', array(
 						'cat_id'=>$c['id'],
 					)), array(
-						'class'=>'color-green',
+						'class'=>'fc-green',
 					), true);
 					echo Html::link('查看该分类', array('admin/page/index', array(
 						'cat_id'=>$c['id'],
@@ -40,7 +40,7 @@ function showCats($cats, $dep = 0){?>
 						echo Html::link('删除', array('admin/category/remove', array(
 							'id'=>$c['id'],
 						)), array(
-							'class'=>'remove-link color-red',
+							'class'=>'remove-link fc-red',
 						));
 					}?>
 				</span>
@@ -54,7 +54,7 @@ function showCats($cats, $dep = 0){?>
 						<strong><?php echo Html::encode($c['title'])?></strong>
 					<?php }?>
 					<?php if($c['alias']){?>
-						<em class="color-grey">[ <?php echo $c['alias']?> ]</em>
+						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
 				</span>
 			</div>

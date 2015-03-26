@@ -71,9 +71,9 @@
 				<th>读写权限</th>
 				<td><?php foreach($writable as $k=>$w){?>
 					<p><label class="w150 fl block"><?php echo $k?></label><?php if($w){
-						echo '<span class="color-green">可写</span>';
+						echo '<span class="fc-green">可写</span>';
 					}else{
-						echo '<span class="color-orange">不可写</span>';
+						echo '<span class="fc-orange">不可写</span>';
 					}?></p>
 				<?php }?></td>
 			</tr>
@@ -83,49 +83,49 @@
 					<p>
 						<label class="w150 fl block">gd</label>
 						<?php if(in_array('gd', $extensions)){
-							echo '<span class="color-green">支持</span>';
+							echo '<span class="fc-green">支持</span>';
 						}else{
-							echo '<span class="color-red">不支持</span>';
+							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
 					<p>
 						<label class="w150 fl block">curl</label>
 						<?php if(in_array('curl', $extensions)){
-							echo '<span class="color-green">支持</span>';
+							echo '<span class="fc-green">支持</span>';
 						}else{
-							echo '<span class="color-red">不支持</span>';
+							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
 					<p>
 						<label class="w150 fl block">mbstring</label>
 						<?php if(in_array('mbstring', $extensions)){
-							echo '<span class="color-green">支持</span>';
+							echo '<span class="fc-green">支持</span>';
 						}else{
-							echo '<span class="color-red">不支持</span>';
+							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
 					<p>
 						<label class="w150 fl block">PDO</label>
 						<?php if(in_array('PDO', $extensions)){
-							echo '<span class="color-green">支持</span>';
+							echo '<span class="fc-green">支持</span>';
 						}else{
-							echo '<span class="color-red">不支持</span>';
+							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
 					<p>
 						<label class="w150 fl block">mcrypt</label>
 						<?php if(in_array('mcrypt', $extensions)){
-							echo '<span class="color-green">支持</span>';
+							echo '<span class="fc-green">支持</span>';
 						}else{
-							echo '<span class="color-red">不支持</span>';
+							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
 					<p>
 						<label class="w150 fl block">memcache</label>
 						<?php if(in_array('memcache', $extensions)){
-							echo '<span class="color-green">支持</span>';
+							echo '<span class="fc-green">支持</span>';
 						}else{
-							echo '<span class="color-red">不支持</span>';
+							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
 				</td>
@@ -134,14 +134,14 @@
 				<th>Memcache</th>
 				<td><?php 
 					if(!in_array('memcache', $extensions)){
-						echo '<span class="color-red">扩展未开启</span>';
+						echo '<span class="fc-red">扩展未开启</span>';
 					}else{
 						$memcache = new Memcache();
 						$connect = @$memcache->connect(F::app()->config->get('memcache.host', 'memcache'), F::app()->config->get('memcache.port', 'memcache'));
 						if($connect){
 							echo '版本:', $memcache->getVersion();
 						}else{
-							echo '<span class="color-red">连接失败</span>';
+							echo '<span class="fc-red">连接失败</span>';
 						}
 					}
 				?></td>

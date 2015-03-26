@@ -10,22 +10,6 @@ $cols = F::form('setting')->getData('cols');
 			'class'=>'form-inline',
 		))?>
 			<div class="mb5">
-				<?php echo F::form('search')->select('select-by', array(
-					'username'=>'登陆名',
-					'realname'=>'真名',
-					'cellphone'=>'手机号',
-					'email'=>'邮箱',
-					'id'=>'用户ID',
-				), array(
-					'class'=>'form-control',
-				))?>
-				<?php echo F::form('search')->inputText('keywords', array('class'=>'form-control w200'))?>
-				|
-				<?php echo F::form('search')->select('role', array(''=>'--角色--')+Html::getSelectOptions($roles), array(
-					'class'=>'form-control',
-				));?>
-			</div>
-			<div class="mb5">
 				<?php echo F::form('search')->select('time_field', array(
 					'reg_time' =>'注册时间',
 					'last_login_time' =>'最后登陆时间',
@@ -44,6 +28,20 @@ $cols = F::form('setting')->getData('cols');
 				));?>
 			</div>
 			<div class="mb5">
+				<?php echo F::form('search')->select('select-by', array(
+					'username'=>'登陆名',
+					'realname'=>'真名',
+					'cellphone'=>'手机号',
+					'email'=>'邮箱',
+					'id'=>'用户ID',
+				), array(
+					'class'=>'form-control',
+				))?>
+				<?php echo F::form('search')->inputText('keywords', array('class'=>'form-control w200'))?>
+				|
+				<?php echo F::form('search')->select('role', array(''=>'--角色--')+Html::getSelectOptions($roles), array(
+					'class'=>'form-control',
+				));?>
 				<?php echo F::form('search')->submitLink('查询', array(
 					'class'=>'btn btn-sm',
 				))?>

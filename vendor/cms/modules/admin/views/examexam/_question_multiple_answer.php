@@ -20,10 +20,10 @@ $user_answers = ExamExamQuestionAnswersInt::model()->fetchCol('user_answer_id', 
 		<li><?php 
 			echo $a['answer'];
 			if($a['is_right_answer']){
-				echo '<span class="color-green pl10">[正确答案]</span>';
+				echo '<span class="fc-green pl10">[正确答案]</span>';
 			}
 			if(in_array($a['id'], $user_answers)){
-				echo '<span class="color-orange pl10">[用户选择]</span>';
+				echo '<span class="fc-orange pl10">[用户选择]</span>';
 			}
 		?></li>
 	<?php }?>

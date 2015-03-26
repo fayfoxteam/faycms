@@ -7,7 +7,7 @@ echo F::form()->open();
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="titlediv"><?php echo F::form()->inputText('title', array(
+			<div class="post-title-env"><?php echo F::form()->inputText('title', array(
 				'class'=>'form-control bigtxt',
 				'placeholder'=>'试卷名称',
 			))?></div>

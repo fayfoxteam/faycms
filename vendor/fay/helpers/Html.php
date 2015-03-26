@@ -70,6 +70,17 @@ class Html extends FBase{
 	}
 	
 	/**
+	 * 生成一个数字框
+	 * @param string $name name属性
+	 * @param string $value value属性
+	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
+	 * @return string
+	 */
+	public static function inputNumber($name, $value = '', $html_options = array()){
+		return self::input($name, $value, 'number', $html_options);
+	}
+	
+	/**
 	 * 生成一个文本域
 	 * @param string $name name属性
 	 * @param string $value value属性

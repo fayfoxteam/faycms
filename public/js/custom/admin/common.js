@@ -46,7 +46,7 @@ var common = {
 				'afterAjaxSubmit':function(resp){
 					if(resp.status){
 						$('#setting-form-submit').nextAll('img,span,a').remove();
-						$('#setting-form-submit').after('<span class="color-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
+						$('#setting-form-submit').after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
 					}else{
 						alert(resp.message);
 					}

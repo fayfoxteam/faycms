@@ -9,7 +9,7 @@ use fay\helpers\Date;
 		<?php if($data['user_id']){
 			echo Html::encode($data['realname']),
 				'<br />',
-				"<em class='color-grey' title='用户名'>({$data['username']})</em>";
+				"<em class='fc-grey' title='用户名'>({$data['username']})</em>";
 			
 		}else{
 			echo '匿名';
@@ -23,24 +23,24 @@ use fay\helpers\Date;
 					echo Html::link('批准', array('admin/message/approve', array(
 						'id'=>$data['id'],
 					)), array(
-						'class'=>'color-green',
+						'class'=>'fc-green',
 					));
 					echo Html::link('驳回', array('admin/message/unapprove', array(
 						'id'=>$data['id'],
 					)), array(
-						'class'=>'color-orange',
+						'class'=>'fc-orange',
 					));
 				}else if($data['status'] == Messages::STATUS_APPROVED){
 					echo Html::link('驳回', array('admin/message/unapprove', array(
 							'id'=>$data['id'],
 					)), array(
-							'class'=>'color-orange',
+							'class'=>'fc-orange',
 					));
 				}else if($data['status'] == Messages::STATUS_UNAPPROVED){
 					echo Html::link('批准', array('admin/message/approve', array(
 						'id'=>$data['id'],
 					)), array(
-						'class'=>'color-green',
+						'class'=>'fc-green',
 					));
 				}
 			}
@@ -49,19 +49,19 @@ use fay\helpers\Date;
 				echo Html::link('还原', array('admin/message/undelete', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'color-green',
+					'class'=>'fc-green',
 				));
 			}else{
 				echo Html::link('回收站', array('admin/message/delete', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'color-red',
+					'class'=>'fc-red',
 				));
 			}
 			echo Html::link('永久删除', array('admin/message/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'remove-link color-red',
+				'class'=>'remove-link fc-red',
 			))?>
 		</div>	
 	</td>
@@ -71,11 +71,11 @@ use fay\helpers\Date;
 		))?>
 	</td>
 	<td><?php if($data['status'] == Messages::STATUS_APPROVED){
-		echo '<span class="color-green">通过</span>';
+		echo '<span class="fc-green">通过</span>';
 	}else if($data['status'] == Messages::STATUS_UNAPPROVED){
-		echo '<span class="color-red">驳回</span>';
+		echo '<span class="fc-red">驳回</span>';
 	}else if($data['status'] == Messages::STATUS_PENDING){
-		echo '<span class="color-orange">待审</span>';
+		echo '<span class="fc-orange">待审</span>';
 	}?></td>
 	<td>
 		<span class="abbr" title="<?php echo Date::format($data['create_time'])?>">

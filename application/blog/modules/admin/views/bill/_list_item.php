@@ -4,9 +4,9 @@ use fay\helpers\Date;
 ?><tr>
 	<td><?php echo $data['realname']?></td>
 	<td><?php if($data['type'] == Bills::TYPE_IN){
-		echo '<span class="color-green">进账<span>';
+		echo '<span class="fc-green">进账<span>';
 	}else{
-		echo '<span class="color-red">支出<span>';
+		echo '<span class="fc-red">支出<span>';
 	}?></td>
 	<td><?php echo $data['cat_title']?></td>
 	<td><?php echo $data['amount']?></td>

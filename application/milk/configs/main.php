@@ -1,12 +1,9 @@
 <?php
 return array(
     'db'=>array(
-//         'host'=>'db',					//数据库服务器
-//         'user'=>'root',							//用户名
-//         'password'=>'12345',							//密码
-        'host'=>'114.215.134.73',					//数据库服务器
-        'user'=>'whis',							//用户名
-        'password'=>'chen19921012',							//密码
+        'host'=>'db',					//数据库服务器
+        'user'=>'wwhis',							//用户名
+        'password'=>'ejsFPe4SLPx5wC1W',							//密码
         
         'port'=>3306,							//端口
         'dbname'=>'fay_milk',				//数据库名
@@ -28,7 +25,7 @@ return array(
     /*
      * 运行环境，设为development则开启所有报错，设为production则关闭所有报错
     */
-    'environment'=>'development',
+    'environment'=>'production',
     
     /*
      * 若为true，则页面地步会列出所有被执行的sql语句等信息

@@ -7,6 +7,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
+use fay\core\HttpException;
 
 class CatController extends FrontendController
 {
@@ -20,7 +21,7 @@ class CatController extends FrontendController
         
         if (!$cat)
         {
-            Response::showError('您访问的页面不存在！', 404, '404');
+            throw new  HttpException('分类不存在', 404);
         }
         
         $this->view->cat = $cat;

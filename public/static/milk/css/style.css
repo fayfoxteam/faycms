@@ -3140,7 +3140,7 @@ a:hover.button_block{
 .news ul li{
 	font:normal 13px/20px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, Arial, Verdana, sans-serif;
 	list-style: none;
-	margin: 0 0 15px 0;
+	margin-bottom: 5px;
 }
 .news ul li a{
 	color: #587fae;

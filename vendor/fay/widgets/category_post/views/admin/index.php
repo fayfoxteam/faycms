@@ -9,12 +9,16 @@ use fay\models\tables\Users;
 	<div class="box-content">
 		<div class="form-field">
 			<label class="title">标题</label>
-			<?php echo F::form('widget')->inputText('title')?>
+			<?php echo F::form('widget')->inputText('title', array(
+				'class'=>'form-control mw400',
+			))?>
 			<p class="color-grey">若为空，则显示顶级分类的标题</p>
 		</div>
 		<div class="form-field">
 			<label class="title">分类</label>
-			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats))?>
+			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats), array(
+				'class'=>'form-control mw400',
+			))?>
 		</div>
 		<div class="form-field">
 			<label class="title">是否包含子分类下的文章</label>
@@ -28,7 +32,7 @@ use fay\models\tables\Users;
 		<div class="form-field">
 			<label class="title">显示文章数</label>
 			<?php echo F::form('widget')->inputText('number', array(
-				'class'=>'w100',
+				'class'=>'form-control mw150',
 			), 5)?>
 		</div>
 		<div class="form-field">
@@ -81,7 +85,7 @@ use fay\models\tables\Users;
 			<div class="form-field">
 				<label class="title">最近访问</label>
 				<p><?php echo F::form('widget')->inputText('last_view_time', array(
-					'class'=>'w100',
+					'class'=>'form-control mw150',
 				), 0);?>
 				<span class="color-grey">（单位：天。若为<em class="color-orange">0</em>，则不限制</span>）</p>
 				<p class="color-grey">
@@ -91,7 +95,9 @@ use fay\models\tables\Users;
 			</div>
 			<div class="form-field">
 				<label class="title">发布时间格式</label>
-				<?php echo F::form('widget')->inputText('date_format')?>
+				<?php echo F::form('widget')->inputText('date_format', array(
+					'class'=>'form-control mw150',
+				))?>
 				<p class="color-grey">若为空，则不显示时间</p>
 			</div>
 			<div class="form-field">
@@ -110,7 +116,9 @@ use fay\models\tables\Users;
 					));
 					echo Html::inputText('other_uri', isset($data['uri']) && !in_array($data['uri'], array(
 						'post/{$id}', 'post-{$id}',
-					)) ? $data['uri'] : '');
+					)) ? $data['uri'] : '', array(
+						'class'=>'form-control mw150 ib',
+					));
 				?>
 				<p class="color-grey">
 					<code>{$id}</code>代表“文章ID”。
@@ -120,7 +128,7 @@ use fay\models\tables\Users;
 			<div class="form-field">
 				<label class="title">渲染模版<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo F::form('widget')->textarea('template', array(
-					'class'=>'wp90 h90 autosize',
+					'class'=>'form-control h90 autosize',
 				))?>
 				<p class="color-grey">
 					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，

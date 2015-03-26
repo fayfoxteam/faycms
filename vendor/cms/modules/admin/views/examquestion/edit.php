@@ -53,7 +53,7 @@ use fay\models\Exam;
 									<div class="dragsort-item-container mr10">
 									<?php
 										echo Html::textarea("selector_answers[{$a['id']}]", $a['answer'], array(
-											'class'=>'full-width autosize',
+											'class'=>'form-control autosize',
 										));
 										if(F::form()->getData('type') == ExamQuestions::TYPE_MULTIPLE_ANSWERS){
 											echo Html::inputCheckbox('selector_right_answers[]', $a['id'], $a['is_right_answer'] ? true : false, array(
@@ -72,7 +72,7 @@ use fay\models\Exam;
 						</div>
 						<div id="input-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestions::TYPE_INPUT)echo 'class="hide"';?>>
 						<?php echo Html::textarea('input_answer', !empty($answers[0]['answer']) ? $answers[0]['answer'] : '', array(
-							'class'=>'full-width h90 autosize',
+							'class'=>'form-control h90 autosize',
 						))?>
 						</div>
 						<div id="true-or-false-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestions::TYPE_TRUE_OR_FALSE)echo 'class="hide"';?>>

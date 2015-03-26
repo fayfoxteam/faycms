@@ -522,7 +522,8 @@ var common = {
 					if(common.filebrowserFlashUploadUrl){
 						config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
 					}
-					if($('#visual-editor').hasClass('visual-simple')){
+					if($('#visual-editor').hasClass('visual-simple') || parseInt($(window).width()) < 743){
+						//简化模式
 						config.toolbar = [
 					  		['Source'],
 							['TextColor','BGColor'],

@@ -39,7 +39,7 @@ use fay\models\tables\ExamQuestions;
 								}?></span>
 								|
 								<label>分值：<?php echo Html::inputText('score[]', $q['score'], array(
-									'class'=>'w100',
+									'class'=>'form-control mw100 ib',
 								))?></label>
 							</p>
 						</div>

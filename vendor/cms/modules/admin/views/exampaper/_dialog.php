@@ -6,12 +6,18 @@ use fay\models\tables\ExamQuestions;
 	<div id="question-dialog" class="common-dialog">
 		<div class="common-dialog-content" style="min-width:750px;">
 			<h4>添加试题</h4>
-			<form method="get" id="search-form">
+			<?php echo F::form('search')->open(null, 'get', array(
+				'class'=>'form-inline',
+			))?>
 				<div class="mb5">
 					试题
-					<?php echo F::form('search')->inputText('keywords', array('class'=>'w200'))?>
+					<?php echo F::form('search')->inputText('keywords', array(
+						'class'=>'form-control w200',
+					))?>
 					|
-					<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($question_cats));?>
+					<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($question_cats), array(
+						'class'=>'form-control',
+					));?>
 					|
 					<?php echo F::form('search')->select('type', array(
 						''=>'--类型--',
@@ -19,24 +25,22 @@ use fay\models\tables\ExamQuestions;
 						ExamQuestions::TYPE_SINGLE_ANSWER=>'单选题',
 						ExamQuestions::TYPE_INPUT=>'输入题',
 						ExamQuestions::TYPE_MULTIPLE_ANSWERS=>'多选题',
+					), array(
+						'class'=>'form-control',
 					))?>
 				</div>
 				<div class="mb5">
 					创建时间
 					<?php echo F::form('search')->inputText('start_time', array(
-						'data-rule'=>'datetime',
-						'data-label'=>'时间',
-						'class'=>'datetimepicker',
+						'class'=>'form-control datetimepicker',
 					));?>
 					-
 					<?php echo F::form('search')->inputText('end_time', array(
-						'data-rule'=>'datetime',
-						'data-label'=>'时间',
-						'class'=>'datetimepicker',
+						'class'=>'form-control datetimepicker',
 					));?>
 					<a href="javascript:;" class="btn btn-sm" id="search-form-ajax-submit">查询</a>
 				</div>
-			</form>
+			<?php echo F::form('search')->close()?>
 			<table class="inbox-table">
 				<thead>
 					<tr>
@@ -51,7 +55,7 @@ use fay\models\tables\ExamQuestions;
 			</table>
 			<div id="questions-list-pager" class="pager"></div>
 			<a href="javascript:;" id="select-questions" class="btn mt5">添加选中试题</a>
-			<a href="javascript:;" class="btn-2 mt5 fancybox-close">完成选题</a>
+			<a href="javascript:;" class="btn btn-grey mt5 fancybox-close">完成选题</a>
 			<div class="clear"></div>
 		</div>
 	</div>

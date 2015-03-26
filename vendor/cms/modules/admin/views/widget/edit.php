@@ -2,8 +2,9 @@
 use fay\helpers\Html;
 ?>
 <?php echo F::form('widget')->open()?>
-	<div class="col-2-2">
-		<div class="col-2-2-body-sidebar" id="side">
+<div class="poststuff">
+	<div class="post-body">
+		<div class="postbox-container-1">
 			<div class="box">
 				<div class="box-title">
 					<a class="tools toggle" title="点击以切换"></a>
@@ -34,6 +35,7 @@ use fay\helpers\Html;
 							'data-label'=>'别名',
 							'data-params'=>'{max:255,format:\'alias\'}',
 							'data-ajax'=>$this->url('admin/widget/is-alias-not-exist', array('id'=>$widget['id'])),
+							'class'=>'form-control',
 						))?>
 						<p class="color-grey">
 							唯一的识别一个widget实例
@@ -42,7 +44,7 @@ use fay\helpers\Html;
 					<div class="form-field pb0">
 						<label class="title pb0">描述</label>
 						<?php echo Html::textarea('f_widget_description', $widget['description'], array(
-							'class'=>'full-width',
+							'class'=>'form-control autosize',
 						))?>
 					</div>
 				</div>
@@ -51,13 +53,11 @@ use fay\helpers\Html;
 				$widget_admin->sidebar($widget_data);
 			}?>
 		</div>
-		<div class="col-2-2-body">
-			<div class="col-2-2-body-content">
-				<?php echo $widget_admin->index($widget_data);?>
-			</div>
-			<div class="clear"></div>
+		<div class="postbox-container-2">
+			<?php echo $widget_admin->index($widget_data);?>
 		</div>
 	</div>
+</div>
 <?php echo F::form('widget')->close()?>
 <script>
 $(function(){

@@ -42,6 +42,7 @@ label{display:inline-block}
 .w150{width:150px !important}
 .w200{width:200px !important}
 .w600{width:600px !important}
+.mw100{max-width:100px !important}
 .mw150{max-width:150px !important}
 .mw200{max-width:200px !important}
 .mw400{max-width:400px !important}
@@ -126,7 +127,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 /* box */
 .box{background-color:#fff;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);border:1px solid #DFDFDF;margin-bottom:30px;position:relative}
 .box-title{border-bottom:1px solid #EEEEEE;text-shadow:0 1px 0 #fff;padding:3px 12px}
-.box-title h4{font-size:15px;height:32px;line-height:32px}
+.box-title h4,.box-title h3{font-size:15px;height:32px;line-height:32px}
 .box-title .tools{cursor:pointer;float:right;height:32px;width:19px;line-height:32px;color:#B7B7B7;text-align:center;font-family:FontAwesome}
 .box-title:hover .toggle:before{content:"\f0d7"}
 .box-title:hover .remove:before{content:"×"}
@@ -279,6 +280,17 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .dragsort-list .dragsort-item .dragsort-rm{float:right;color:grey;margin-top:-6px;z-index:100;}
 .dragsort-list .dragsort-item .dragsort-rm:before{content:"×";font-family:FontAwesome;}
 .dragsort-list .dragsort-item-container{margin:0 22px 0 31px;}
+
+/* 文章编辑框架 */
+.poststuff .post-body{margin-right:310px}
+.poststuff .post-body-content{margin-bottom:30px;width:100%;min-width:463px;float:left}
+.poststuff .postbox-container-1{float:right;margin-right:-310px;width:280px}
+.poststuff .postbox-container-2{float:left;width:100%}
+@media screen and (max-width:1140px){
+    .poststuff .post-body{margin-right:0}
+    .poststuff .post-body-content{min-width:0}
+    .poststuff .postbox-container-1{margin-right:0;width:100%}
+}
 
 /* 杂项 */
 .ajax-status-img{vertical-align:middle;margin-left:5px}

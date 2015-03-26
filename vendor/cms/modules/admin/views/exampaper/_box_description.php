@@ -4,7 +4,7 @@
 	</div>
 	<div class="box-content">
 		<?php echo F::form()->textarea('description', array(
-			'class'=>'full-width h200 visual-simple',
+			'class'=>'from-control h200 visual-simple',
 			'id'=>'visual-editor',
 		))?>
 	</div>

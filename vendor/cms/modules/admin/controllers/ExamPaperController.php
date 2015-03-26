@@ -118,7 +118,7 @@ class ExamPaperController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_exam_paper');
 		$this->view->question_cats = Category::model()->getTree('_system_exam_question');
 		
-		$this->view->render();
+		$this->view->render('edit');
 	}
 	
 	public function edit(){

@@ -5,63 +5,14 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
 ?>
 <?php echo F::form()->open()?>
-	<div class="col-2-2">
-		<div class="col-2-2-body-sidebar dragsort" id="side">
-			<div class="box" id="box-operation">
-				<div class="box-title">
-					<a class="tools toggle" title="点击以切换"></a>
-					<h4>操作</h4>
-				</div>
-				<div class="box-content">
-					<div>
-						<?php echo F::form()->submitLink('更新', array(
-							'class'=>'btn-1',
-						))?>
-					</div>
-					<div class="misc-pub-section">
-						<strong>状态</strong>
-						<?php
-							if(!F::app()->post_review || F::app()->checkPermission('admin/post/review') || $post['status'] == Posts::STATUS_PUBLISH){
-								//未开启审核，或者有审核权限，或者文章处于已发布状态，显示发布按钮
-								echo F::form()->inputRadio('status', Posts::STATUS_PUBLISH, array('label'=>'立即发布'));
-							}
-							if(F::app()->post_review){
-								//开启审核，显示待审核选项
-								echo F::form()->inputRadio('status', Posts::STATUS_PENDING, array('label'=>'待审核'));
-							}
-							echo F::form()->inputRadio('status', Posts::STATUS_DRAFT, array('label'=>'草稿'));
-						?>
-					</div>
-					<div class="misc-pub-section mt0">
-						<strong>是否置顶？</strong>
-						<?php echo F::form()->inputRadio('is_top', 1, array('label'=>'是'))?>
-						<?php echo F::form()->inputRadio('is_top', 0, array('label'=>'否'))?>
-					</div>
-				</div>
-			</div>
-			<?php if(isset($_box_sort_settings['side'])){
-				foreach($_box_sort_settings['side'] as $box){
-					$k = array_search($box, $boxes_cp);
-					if($k !== false){
-						if(isset(F::app()->boxes[$k]['view'])){
-							$this->renderPartial(F::app()->boxes[$k]['view']);
-						}else{
-							$this->renderPartial('_box_'.str_replace('-', '_', $box));
-						}
-						unset($boxes_cp[$k]);
-					}
-				}
-			}?>
-		</div>
-		<div class="col-2-2-body">
+	<div class="row">
+		<div class="col-9">
 			<div class="col-2-2-body-content">
-				<div class="titlediv">
-					<label class="title-prompt-text" for="title">在此键入标题</label>
-					<?php echo F::form()->inputText('title', array(
-						'id'=>'title',
-						'class'=>'bigtxt',
-					))?>
-				</div>
+				<div class="titlediv"><?php echo F::form()->inputText('title', array(
+					'id'=>'title',
+					'class'=>'bigtxt form-control',
+					'placeholder'=>'在此键入标题',
+				));?></div>
 				<div class="postarea cf"><?php $this->renderPartial('_content', array(
 					'post'=>$post,
 				))?></div>
@@ -80,7 +31,58 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							}
 						}
 					}
-					
+				?>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="col-3 dragsort" id="side">
+			<div class="box" id="box-operation">
+				<div class="box-title">
+					<a class="tools toggle" title="点击以切换"></a>
+					<h4>操作</h4>
+				</div>
+				<div class="box-content">
+					<div>
+						<?php echo F::form()->submitLink('更新', array(
+							'class'=>'btn',
+						))?>
+					</div>
+					<div class="misc-pub-section">
+						<strong>状态</strong>
+						<?php
+							if(!F::app()->post_review || F::app()->checkPermission('admin/post/review') || $post['status'] == Posts::STATUS_PUBLISH){
+								//未开启审核，或者有审核权限，或者文章处于已发布状态，显示发布按钮
+								echo F::form()->inputRadio('status', Posts::STATUS_PUBLISH, array('label'=>'发布'));
+							}
+							if(F::app()->post_review){
+								//开启审核，显示待审核选项
+								echo F::form()->inputRadio('status', Posts::STATUS_PENDING, array('label'=>'待审核'));
+							}
+							echo F::form()->inputRadio('status', Posts::STATUS_DRAFT, array('label'=>'草稿'));
+						?>
+					</div>
+					<div class="misc-pub-section mt0">
+						<strong>是否置顶？</strong>
+						<?php echo F::form()->inputRadio('is_top', 1, array('label'=>'是'))?>
+						<?php echo F::form()->inputRadio('is_top', 0, array('label'=>'否'))?>
+					</div>
+				</div>
+			</div>
+			<?php
+				if(isset($_box_sort_settings['side'])){
+					foreach($_box_sort_settings['side'] as $box){
+						$k = array_search($box, $boxes_cp);
+						if($k !== false){
+							if(isset(F::app()->boxes[$k]['view'])){
+								$this->renderPartial(F::app()->boxes[$k]['view']);
+							}else{
+								$this->renderPartial('_box_'.str_replace('-', '_', $box));
+							}
+							unset($boxes_cp[$k]);
+						}
+					}
+
 					//最后多出来的都放最后面
 					foreach($boxes_cp as $box){
 						if(isset(F::app()->boxes[$k]['view'])){
@@ -89,10 +91,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							$this->renderPartial('_box_'.str_replace('-', '_', $box));
 						}
 					}
-				?>
-				</div>
-			</div>
-			<div class="clear"></div>
+				}
+			?>
 		</div>
 	</div>
 <?php echo F::form()->close()?>

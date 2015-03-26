@@ -2,16 +2,16 @@
 use fay\helpers\Html;
 
 function showCats($cats, $dep = 0){?>
-	<ul class="cat-list">
+	<ul class="tree">
 	<?php foreach($cats as $k=>$c){?>
-		<li class="cat-item <?php if(!$k)echo 'first';?>">
-			<div class="cat-item-container">
+		<li class="leaf-container <?php if(!$k)echo 'first';?>">
+			<div class="leaf">
 				<span class="fr options">
 					<?php if(F::app()->checkPermission('admin/post/cat-sort')){?>
-					<span class="w100 block fl">
+					<span class="w115 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
 						'data-id'=>$c['id'],
-						'class'=>"edit-sort w35 cat-{$c['id']}-sort",
+						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
 					<?php }?>
@@ -60,7 +60,7 @@ function showCats($cats, $dep = 0){?>
 						}
 					?>
 				</span>
-				<span class="cat-item-title cat-<?php echo $c['id']?> <?php if(empty($c['children']))
+				<span class="leaf-title cat-<?php echo $c['id']?> <?php if(empty($c['children']))
 						echo 'terminal';
 					else
 						echo 'parent';?>">
@@ -87,11 +87,11 @@ function showCats($cats, $dep = 0){?>
 	<?php }?>
 	</ul>
 <?php }?>
-<div class="col-1">
-	<div class="cat-list-container">
-		<?php showCats($cats)?>
+<div class="row">
+	<div class="col-12">
+		<div class="form-inline tree-container">
+			<?php showCats($cats)?>
+		</div>
 	</div>
-	<div class="clear"></div>
 </div>
-
 <?php $this->renderPartial('category/_common');?>

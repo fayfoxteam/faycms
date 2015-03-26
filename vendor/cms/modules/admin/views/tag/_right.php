@@ -1,7 +1,7 @@
 <?php
 use cms\helpers\ListTableHelper;
 ?>
-<table border="0" cellpadding="0" cellspacing="0" class="list-table tags">
+<table class="list-table tags">
 	<thead>
 		<tr>
 			<th>名称</th>

@@ -4,145 +4,152 @@ use fay\models\tables\Files;
 
 $cols = F::form('setting')->getData('cols');
 ?>
-<div class="col-1">
-	<?php echo F::form('search')->open(null, 'get')?>
-		<div class="mb5">
-		文件名：<?php echo F::form('search')->inputText('keywords', array(
-			'class'=>'w200',
-		));?>
-		|
-		<?php echo F::form('search')->select('type', array(
-			''=>'--用于--',
-			Files::TYPE_POST => '文章',
-			Files::TYPE_PAGE => '静态页',
-			Files::TYPE_GOODS => '商品',
-			Files::TYPE_CAT => '分类插图',
-			Files::TYPE_WIDGET => '小工具',
-			Files::TYPE_EXAM => '考试系统',
+<div class="row">
+	<div class="col-12">
+		<?php echo F::form('search')->open(null, 'get', array(
+			'class'=>'form-inline',
 		))?>
-		|
-		<?php echo F::form('search')->select('qiniu', array(
-			''=>'--七牛--',
-			'1'=>'已上传至七牛',
-			'0'=>'未上传至七牛',
-		))?>
-		</div>
-		<div>
-		上传时间：
-		<?php echo F::form('search')->inputText('start_time', array(
-			'data-rule'=>'datetime',
-			'data-label'=>'时间',
-			'class'=>'datetimepicker',
-		));?>
-		-
-		<?php echo F::form('search')->inputText('end_time', array(
-			'data-rule'=>'datetime',
-			'data-label'=>'时间',
-			'class'=>'datetimepicker',
-		));?>
-			<a href="javascript:;" class="btn-3" id="search-form-submit">查询</a>
-		</div>
-	<?php echo F::form('search')->close()?>
-	<form method="post" action="<?php echo $this->url('admin/file/batch')?>" id="batch-form">
-		<div class="fl mt5"><?php
-			echo Html::select('batch_action', array(
-				''=>'批量操作',
-				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
-				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
-				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-			));
-			echo Html::link('提交', 'javascript:;', array(
-				'id'=>'batch-form-submit',
-				'class'=>'btn-3 ml5',
-			));
-		?></div>
+			<div class="mb5">
+			文件名：<?php echo F::form('search')->inputText('keywords', array(
+				'class'=>'form-control w200',
+			));?>
+			|
+			<?php echo F::form('search')->select('type', array(
+				''=>'--用于--',
+				Files::TYPE_POST => '文章',
+				Files::TYPE_PAGE => '静态页',
+				Files::TYPE_GOODS => '商品',
+				Files::TYPE_CAT => '分类插图',
+				Files::TYPE_WIDGET => '小工具',
+				Files::TYPE_EXAM => '考试系统',
+			), array(
+				'class'=>'form-control',
+			))?>
+			|
+			<?php echo F::form('search')->select('qiniu', array(
+				''=>'--七牛--',
+				'1'=>'已上传至七牛',
+				'0'=>'未上传至七牛',
+			), array(
+				'class'=>'form-control',
+			))?>
+			</div>
+			<div>
+			上传时间：
+			<?php echo F::form('search')->inputText('start_time', array(
+				'class'=>'datetimepicker form-control',
+			));?>
+			-
+			<?php echo F::form('search')->inputText('end_time', array(
+				'class'=>'datetimepicker form-control',
+			));?>
+				<a href="javascript:;" class="btn btn-sm" id="search-form-submit">查询</a>
+			</div>
+		<?php echo F::form('search')->close()?>
+		<form method="post" action="<?php echo $this->url('admin/file/batch')?>" id="batch-form" class="form-inline">
+			<div class="fl mt5"><?php
+				echo Html::select('batch_action', array(
+					''=>'批量操作',
+					'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
+					'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
+					'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
+				), '', array(
+					'class'=>'form-control',
+				));
+				echo Html::link('提交', 'javascript:;', array(
+					'id'=>'batch-form-submit',
+					'class'=>'btn btn-sm ml5',
+				));
+			?></div>
+			<?php $listview->showPager();?>
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
+						<th width="62"></th>
+						<th>文件</th>
+						<?php if(in_array('qiniu', $cols)){?>
+						<th class="w100">七牛</th>
+						<?php }?>
+						<?php if(in_array('file_type', $cols)){?>
+						<th>文件类型</th>
+						<?php }?>
+						<?php if(in_array('file_path', $cols)){?>
+						<th>存储路径</th>
+						<?php }?>
+						<?php if(in_array('file_size', $cols)){?>
+						<th>大小</th>
+						<?php }?>
+						<?php if(in_array('user', $cols)){?>
+						<th>用户</th>
+						<?php }?>
+						<?php if(in_array('type', $cols)){?>
+						<th>用于</th>
+						<?php }?>
+						<?php if(in_array('downloads', $cols)){?>
+						<th>下载次数</th>
+						<?php }?>
+						<?php if(in_array('upload_time', $cols)){?>
+						<th>上传时间</th>
+						<?php }?>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th><input type="checkbox" class="batch-ids-all" /></th>
+						<th></th>
+						<th>文件</th>
+						<?php if(in_array('qiniu', $cols)){?>
+						<th>七牛</th>
+						<?php }?>
+						<?php if(in_array('file_type', $cols)){?>
+						<th>文件类型</th>
+						<?php }?>
+						<?php if(in_array('file_path', $cols)){?>
+						<th>存储路径</th>
+						<?php }?>
+						<?php if(in_array('file_size', $cols)){?>
+						<th>大小</th>
+						<?php }?>
+						<?php if(in_array('user', $cols)){?>
+						<th>用户</th>
+						<?php }?>
+						<?php if(in_array('type', $cols)){?>
+						<th>用于</th>
+						<?php }?>
+						<?php if(in_array('downloads', $cols)){?>
+						<th>下载次数</th>
+						<?php }?>
+						<?php if(in_array('upload_time', $cols)){?>
+						<th>上传时间</th>
+						<?php }?>
+					</tr>
+				</tfoot>
+				<tbody>
+					<?php $listview->showData(array(
+						'cols'=>$cols,
+						'display_name'=>F::form('setting')->getData('display_name'),
+						'display_time'=>F::form('setting')->getData('display_time'),
+					));?>
+				</tbody>
+			</table>
+			<div class="fl mt5"><?php
+				echo Html::select('batch_action_2', array(
+					''=>'批量操作',
+					'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
+					'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
+					'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
+				), '', array(
+					'class'=>'form-control',
+				));
+				echo Html::link('提交', 'javascript:;', array(
+					'id'=>'batch-form-submit-2',
+					'class'=>'btn btn-sm ml5',
+				));
+			?></div>
+		</form>
 		<?php $listview->showPager();?>
-		<table class="list-table">
-			<thead>
-				<tr>
-					<th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
-					<th width="62"></th>
-					<th>文件</th>
-					<?php if(in_array('qiniu', $cols)){?>
-					<th class="w100">七牛</th>
-					<?php }?>
-					<?php if(in_array('file_type', $cols)){?>
-					<th>文件类型</th>
-					<?php }?>
-					<?php if(in_array('file_path', $cols)){?>
-					<th>存储路径</th>
-					<?php }?>
-					<?php if(in_array('file_size', $cols)){?>
-					<th>大小</th>
-					<?php }?>
-					<?php if(in_array('user', $cols)){?>
-					<th>用户</th>
-					<?php }?>
-					<?php if(in_array('type', $cols)){?>
-					<th>用于</th>
-					<?php }?>
-					<?php if(in_array('downloads', $cols)){?>
-					<th>下载次数</th>
-					<?php }?>
-					<?php if(in_array('upload_time', $cols)){?>
-					<th>上传时间</th>
-					<?php }?>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<th><input type="checkbox" class="batch-ids-all" /></th>
-					<th></th>
-					<th>文件</th>
-					<?php if(in_array('qiniu', $cols)){?>
-					<th>七牛</th>
-					<?php }?>
-					<?php if(in_array('file_type', $cols)){?>
-					<th>文件类型</th>
-					<?php }?>
-					<?php if(in_array('file_path', $cols)){?>
-					<th>存储路径</th>
-					<?php }?>
-					<?php if(in_array('file_size', $cols)){?>
-					<th>大小</th>
-					<?php }?>
-					<?php if(in_array('user', $cols)){?>
-					<th>用户</th>
-					<?php }?>
-					<?php if(in_array('type', $cols)){?>
-					<th>用于</th>
-					<?php }?>
-					<?php if(in_array('downloads', $cols)){?>
-					<th>下载次数</th>
-					<?php }?>
-					<?php if(in_array('upload_time', $cols)){?>
-					<th>上传时间</th>
-					<?php }?>
-				</tr>
-			</tfoot>
-			<tbody>
-				<?php $listview->showData(array(
-					'cols'=>$cols,
-					'display_name'=>F::form('setting')->getData('display_name'),
-					'display_time'=>F::form('setting')->getData('display_time'),
-				));?>
-			</tbody>
-		</table>
-		<div class="fl mt5"><?php
-			echo Html::select('batch_action_2', array(
-				''=>'批量操作',
-				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
-				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
-				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-			));
-			echo Html::link('提交', 'javascript:;', array(
-				'id'=>'batch-form-submit-2',
-				'class'=>'btn-3 ml5',
-			));
-		?></div>
-	</form>
-	<?php $listview->showPager();?>
-	<div class="clear"></div>
+	</div>
 </div>
 <script>
 var file = {

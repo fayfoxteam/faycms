@@ -6,7 +6,9 @@
 		<h4>点赞数</h4>
 	</div>
 	<div class="box-content">
-		<?php echo F::form()->inputText('likes')?>
+		<?php echo F::form()->inputText('likes', array(
+			'class'=>'form-control mw150',
+		))?>
 		<p class="color-grey">设定初始值，后续会按实际情况增减。</p>
 	</div>
 </div>

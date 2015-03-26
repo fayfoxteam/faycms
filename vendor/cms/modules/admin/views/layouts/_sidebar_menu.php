@@ -5,7 +5,7 @@ use fay\helpers\Html;
 
 $menus = Menu::model()->getTree('_admin_main');
 ?>
-<aside class="sidebar-menu">
+<div class="sidebar-menu">
 	<div class="sidebar-menu-inner">
 		<header class="logo-env">
 			<div class="logo">
@@ -27,4 +27,4 @@ $menus = Menu::model()->getTree('_admin_main');
 		</header>
 		<?php MenuHelper::render($menus, isset($current_directory) ? $current_directory : '')?>
 	</div>
-</aside>
+</div>

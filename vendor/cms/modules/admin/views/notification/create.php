@@ -11,7 +11,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="box-content">
 					<div>
-						<a href="javascript:;" class="btn-1" id="create-post-form-submit">发布</a>
+						<a href="javascript:;" class="btn" id="create-post-form-submit">发布</a>
 					</div>
 				</div>
 			</div>

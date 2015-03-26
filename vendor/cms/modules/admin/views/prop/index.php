@@ -2,11 +2,11 @@
 use fay\helpers\Html;
 use fay\models\tables\CatProps;
 ?>
-<div class="col-2-3">
-	<div class="col-right">
+<div class="row">
+	<div class="col-6">
 		<?php include '_right.php'?>
 	</div>
-	<div class="col-left">
+	<div class="col-6">
 		<form id="add-prop-form" action="<?php echo $this->url('admin/prop/create')?>" method="post" class="validform">
 			<?php echo Html::inputHidden('cat_id', $cat['id'])?>
 			<div class="form-field">
@@ -67,7 +67,7 @@ use fay\models\tables\CatProps;
 				<div class="dragsort-list" id="prop-list"></div>
 			</div>
 			<div class="form-field">
-				<a href="javascript:;" class="btn-1" id="add-prop-form-submit">添加属性</a>
+				<a href="javascript:;" class="btn" id="add-prop-form-submit">添加属性</a>
 			</div>
 		</form>
 	</div>

@@ -3,13 +3,15 @@ use fay\models\tables\Messages;
 
 $settings = F::form('setting')->getAllData();
 ?>
-<div class="col-1">
-	<ul class="chats-list">
-		<?php $listview->showData(array(
-			'setting'=>$settings,
-		));?>
-	</ul>
-	<?php $listview->showPager();?>
+<div class="row">
+	<div class="col-12">
+		<ul class="chats-list">
+			<?php $listview->showData(array(
+				'setting'=>$settings,
+			));?>
+		</ul>
+		<?php $listview->showPager();?>
+	</div>
 </div>
 <div class="hide">
 	<div id="chat-dialog" class="common-dialog w650">
@@ -35,7 +37,7 @@ $settings = F::form('setting')->getAllData();
 					<input type="hidden" name="parent" />
 					<input type="hidden" name="target" />
 					<textarea name="content" class="p5"></textarea>
-					<a href="javascript:;" id="reply-form-submit" class="btn-1 fr mt5 mr10">回复</a>
+					<a href="javascript:;" id="reply-form-submit" class="btn fr mt5 mr10">回复</a>
 					<a href="javascript:;" class="btn-2 fr fancybox-close mt5 mr10">取消</a>
 				</form>
 				<br class="clear" />

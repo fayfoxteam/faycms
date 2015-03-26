@@ -4,8 +4,8 @@ use fay\models\File;
 
 echo F::form()->open(null, 'post', array('id'=>'form'));
 ?>
-<div class="col-2-1">
-	<div class="col-left">
+<div class="row">
+	<div class="col-6">
 		<div class="form-field">
 			<label class="title">登录名</label>
 			<?php echo F::form()->inputText('username', array(
@@ -84,7 +84,7 @@ echo F::form()->open(null, 'post', array('id'=>'form'));
 			</div>
 		</div>
 	</div>
-	<div class="col-right" id="prop-panel">
+	<div class="col-6" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(
 			'props'=>$role['props'],
 			'data'=>$user['props'],
@@ -92,7 +92,7 @@ echo F::form()->open(null, 'post', array('id'=>'form'));
 	</div>
 </div>
 <div class="form-field">
-	<a href="javascript:;" class="btn-1" id="form-submit">保存</a>
+	<a href="javascript:;" class="btn" id="form-submit">保存</a>
 </div>
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>

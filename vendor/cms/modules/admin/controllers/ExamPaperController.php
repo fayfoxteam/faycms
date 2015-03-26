@@ -58,7 +58,9 @@ class ExamPaperController extends AdminController{
 			));
 		}
 		
-		$this->view->listview = new ListView($sql);
+		$this->view->listview = new ListView($sql, array(
+			'emptyText'=>'<tr><td colspan="6" align="center">无相关记录！</td></tr>',
+		));
 
 		//分类树
 		$this->view->cats = Category::model()->getTree('_system_exam_paper');

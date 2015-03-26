@@ -15,7 +15,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 			</div>
 			<div class="box-content">
 				<div>
-					<a href="javascript:;" class="btn-1" id="create-goods-form-submit">更新</a>
+					<a href="javascript:;" class="btn" id="create-goods-form-submit">更新</a>
 					<?php echo Html::link('查看', array('goods/item', array('id'=>$goods['id'])), array(
 						'target'=>'_blank',
 						'class'=>'btn-2',
@@ -306,7 +306,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 					</div>
 					<div class="box-content">
 						<div id="upload-photo-container">
-							<a href="javascript:;" id="upload-photo-link" class="btn-1">上传图片</a>
+							<a href="javascript:;" id="upload-photo-link" class="btn">上传图片</a>
 						</div>
 						<div class="photo-list">
 						<?php foreach($goods['files'] as $p){?>

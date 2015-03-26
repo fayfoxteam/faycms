@@ -84,7 +84,7 @@ use cms\helpers\PostHelper;
 	<td><?php echo $data['comments']?></td>
 	<?php }?>
 	<?php if(in_array('publish_time', $cols)){?>
-	<td class="col-date">
+	<td>
 		<span class="time abbr" title="<?php echo Date::format($data['publish_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['publish_time']);
@@ -95,7 +95,7 @@ use cms\helpers\PostHelper;
 	</td>
 	<?php }?>
 	<?php if(in_array('last_view_time', $cols)){?>
-	<td class="col-date">
+	<td>
 		<span class="time abbr" title="<?php echo Date::format($data['last_view_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['last_view_time']);
@@ -106,7 +106,7 @@ use cms\helpers\PostHelper;
 	</td>
 	<?php }?>
 	<?php if(in_array('last_modified_time', $cols)){?>
-	<td class="col-date">
+	<td>
 		<span class="time abbr" title="<?php echo Date::format($data['last_modified_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['last_modified_time']);
@@ -117,14 +117,14 @@ use cms\helpers\PostHelper;
 	</td>
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
-	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+	<td>
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['create_time']);
 			}else{
 				echo Date::format($data['create_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('sort', $cols)){?>
@@ -132,7 +132,7 @@ use cms\helpers\PostHelper;
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'post-sort w30',
+		'class'=>'form-control w50 post-sort',
 	))?></td>
 	<?php }?>
 </tr>

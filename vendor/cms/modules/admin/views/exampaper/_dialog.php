@@ -34,7 +34,7 @@ use fay\models\tables\ExamQuestions;
 						'data-label'=>'时间',
 						'class'=>'datetimepicker',
 					));?>
-					<a href="javascript:;" class="btn-3" id="search-form-ajax-submit">查询</a>
+					<a href="javascript:;" class="btn btn-sm" id="search-form-ajax-submit">查询</a>
 				</div>
 			</form>
 			<table class="inbox-table">
@@ -50,7 +50,7 @@ use fay\models\tables\ExamQuestions;
 				<tbody></tbody>
 			</table>
 			<div id="questions-list-pager" class="pager"></div>
-			<a href="javascript:;" id="select-questions" class="btn-1 mt5">添加选中试题</a>
+			<a href="javascript:;" id="select-questions" class="btn mt5">添加选中试题</a>
 			<a href="javascript:;" class="btn-2 mt5 fancybox-close">完成选题</a>
 			<div class="clear"></div>
 		</div>

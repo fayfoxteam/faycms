@@ -11,7 +11,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="box-content">
 					<div><?php echo F::form('widget')->submitLink('保存', array(
-						'class'=>'btn-1',
+						'class'=>'btn',
 					))?></div>
 					<div class="misc-pub-section">
 						<strong>是否启用？</strong>

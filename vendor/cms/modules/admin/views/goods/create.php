@@ -15,7 +15,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 			</div>
 			<div class="box-content">
 				<div>
-					<a href="javascript:;" class="btn-1" id="create-goods-form-submit">发布</a>
+					<a href="javascript:;" class="btn" id="create-goods-form-submit">发布</a>
 				</div>
 				<div class="misc-pub-section">
 					<strong>状态</strong>
@@ -290,7 +290,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 					</div>
 					<div class="box-content">
 						<div id="upload-photo-container">
-							<a href="javascript:;" id="upload-photo-link" class="btn-1">上传图片</a>
+							<a href="javascript:;" id="upload-photo-link" class="btn">上传图片</a>
 						</div>
 						<div class="photo-list"></div>
 						<div class="clear"></div>

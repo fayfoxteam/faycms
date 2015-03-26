@@ -1,37 +1,39 @@
 <?php
 use fay\helpers\Html;
 ?>
-<div class="col-1">
-	<table border="0" cellpadding="0" cellspacing="0" class="list-table posts">
-		<thead>
-			<tr>
-				<th>名称</th>
-				<th>引用名</th>
-				<th>描述</th>
-				<th>操作</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<th>名称</th>
-				<th>引用名</th>
-				<th>描述</th>
-				<th>操作</th>
-			</tr>
-		</tfoot>
-		<tbody>
-		<?php foreach($widgets as $w){?>
-			<tr>
-				<td><strong><?php echo $w->title?></strong></td>
-				<td><?php echo $w->name?></td>
-				<td><?php echo $w->description?></td>
-				<td><?php if(method_exists($w, 'index')){?>
-					<a href="#create-instance-dialog" title="<?php echo $w->title?>" class="create-instance-link" data-name="<?php echo $w->name?>">创建实例</a>
-				<?php }?></td>
-			</tr>
-		<?php }?>
-		</tbody>
-	</table>
+<div class="row">
+	<div class="col-12">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>引用名</th>
+					<th>描述</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>名称</th>
+					<th>引用名</th>
+					<th>描述</th>
+					<th>操作</th>
+				</tr>
+			</tfoot>
+			<tbody>
+			<?php foreach($widgets as $w){?>
+				<tr>
+					<td><strong><?php echo $w->title?></strong></td>
+					<td><?php echo $w->name?></td>
+					<td><?php echo $w->description?></td>
+					<td><?php if(method_exists($w, 'index')){?>
+						<a href="#create-instance-dialog" title="<?php echo $w->title?>" class="create-instance-link" data-name="<?php echo $w->name?>">创建实例</a>
+					<?php }?></td>
+				</tr>
+			<?php }?>
+			</tbody>
+		</table>
+	</div>
 </div>
 <div class="hide">
 	<div id="create-instance-dialog" class="common-dialog">
@@ -57,7 +59,7 @@ use fay\helpers\Html;
 					))?>
 				</div>
 				<div class="form-field">
-					<a href="javascript:;" class="btn-1" id="create-instance-form-submit">创建</a>
+					<a href="javascript:;" class="btn" id="create-instance-form-submit">创建</a>
 					<a href="javascript:;" class="btn-2 fancybox-close">取消</a>
 				</div>
 			</form>

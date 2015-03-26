@@ -2,11 +2,11 @@
 use fay\helpers\Html;
 use fay\models\tables\CatProps;
 ?>
-<div class="col-2-3">
-	<div class="col-right">
+<div class="row">
+	<div class="col-6">
 		<?php include '_right.php'?>
 	</div>
-	<div class="col-left">
+	<div class="col-6">
 		<form id="edit-prop-form" action="" method="post" class="validform">
 			<?php echo F::form()->inputHidden('cat_id')?>
 			<div class="form-field">
@@ -87,7 +87,7 @@ use fay\models\tables\CatProps;
 				</div>
 			</div>
 			<div class="form-field">
-				<a href="javascript:;" class="btn-1" id="edit-prop-form-submit">编辑属性</a>
+				<a href="javascript:;" class="btn" id="edit-prop-form-submit">编辑属性</a>
 			</div>
 		</form>
 	</div>

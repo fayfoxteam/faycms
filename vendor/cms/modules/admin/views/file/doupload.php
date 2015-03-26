@@ -1,16 +1,18 @@
-<div class="col-1">
-	<div class="drag_drop_area" id="drag_drop_area">
-		<div class="drag_drop_inside">
-			<p class="drag_drop_info">将文件拖拽至此</p>
-			<p>或</p>
-			<p class="drag_drop_buttons">
-				<a class="plupload_browse_button btn-2" id="plupload_browse_button">选择文件</a>
-			</p>
+<div class="row">
+	<div class="col-12">
+		<div class="drag_drop_area" id="drag_drop_area">
+			<div class="drag_drop_inside">
+				<p class="drag_drop_info">将文件拖拽至此</p>
+				<p>或</p>
+				<p class="drag_drop_buttons">
+					<a class="plupload_browse_button btn-2" id="plupload_browse_button">选择文件</a>
+				</p>
+			</div>
 		</div>
+		<form class="edit_form">
+			<div class="media_list"></div>
+		</form>
 	</div>
-	<form class="edit_form">
-		<div class="media_list"></div>
-	</form>
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
 <script type="text/javascript">

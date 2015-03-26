@@ -6,7 +6,7 @@
 		<h4>发布时间</h4>
 	</div>
 	<div class="box-content">
-		<?php echo F::form()->inputText('publish_time', array('class'=>'timepicker'))?>
+		<?php echo F::form()->inputText('publish_time', array('class'=>'form-control timepicker'))?>
 		<div class="color-grey">默认为当前时间</div>
 	</div>
 </div>

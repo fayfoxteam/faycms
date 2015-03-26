@@ -18,8 +18,8 @@ $labels = array(
 	'username'=>'用户名',
 );
 ?>
-<div class="col-2-1">
-	<div class="col-left">
+<div class="row">
+	<div class="col-6">
 		<h3>Form 1</h3>
 		<form id="test-form" class="form-1-3" action="<?php echo $this->url('tools/input/get')?>">
 			<h3>输入框(username)</h3>
@@ -77,7 +77,7 @@ $labels = array(
 			<div><input type="submit" /></div>
 		</form>
 	</div>
-	<div class="col-right">
+	<div class="col-6">
 		<h3>Form 2</h3>
 		<form id="test-form2">
 			<h3>输入框(username2)</h3>

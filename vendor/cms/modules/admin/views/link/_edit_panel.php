@@ -2,22 +2,24 @@
 use fay\helpers\Html;
 ?>
 <div class="form-field">
-	<label class="title">名称<em class="color-red">*</em></label>
+	<label class="title">名称<em class="required">*</em></label>
 	<?php echo F::form()->inputText('title', array(
-		'class'=>'w300',
+		'class'=>'form-control mw400',
 	))?>
 	<p class="description">例如：百度</p>
 </div>
 <div class="form-field">
-	<label class="title">网址<em class="color-red">*</em></label>
+	<label class="title">网址<em class="required">*</em></label>
 	<?php echo F::form()->inputText('url', array(
-		'class'=>'w300',
+		'class'=>'form-control mw400',
 	))?>
 	<p class="description">例子：http://www.fayfox.com/ —— 不要忘了 http://</p>
 </div>
 <div class="form-field">
 	<label class="title">描述</label>
-	<?php echo F::form()->textarea('description', array('class'=>'w550 h90 autosize'))?>
+	<?php echo F::form()->textarea('description', array(
+		'class'=>'form-control mw500 h90 autosize',
+	))?>
 	<p class="description">通常，当访客将鼠标光标悬停在链接表链接的上方时，它会显示出来。根据主题的不同，也可能显示在链接下方。</p>
 </div>
 <div class="form-field">
@@ -45,14 +47,15 @@ use fay\helpers\Html;
 <div class="form-field">
 	<label class="title">排序</label>
 	<?php echo F::form()->inputText('sort', array(
-		'data-rule'=>'int',
-		'data-params'=>'{max:255}',
+		'class'=>'form-control mw200',
 	), 100)?>
 	<p class="description"></p>
 </div>
 <div class="form-field">
 	<label class="title">分类</label>
-	<?php echo F::form()->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'));?>
+	<?php echo F::form()->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'), array(
+		'class'=>'form-control mw200',
+	));?>
 	<p class="description">分类效果视主题而定，可留空</p>
 </div>
 <div class="form-field">

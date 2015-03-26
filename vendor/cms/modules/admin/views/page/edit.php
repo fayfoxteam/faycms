@@ -16,7 +16,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				<div class="box-content">
 					<div>
 						<?php echo F::form()->submitLink('更新', array(
-							'class'=>'btn-1',
+							'class'=>'btn',
 						))?>
 					</div>
 					<div class="misc-pub-section">

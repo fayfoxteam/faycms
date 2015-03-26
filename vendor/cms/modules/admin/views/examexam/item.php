@@ -3,69 +3,71 @@ use fay\helpers\Date;
 use fay\helpers\Html;
 use fay\models\tables\ExamQuestions;
 ?>
-<div class="col-1">
-	<div class="detail-panel">
-		<div class="bd">
-			<table class="form-table col4">
-				<tbody>
-					<tr>
-						<th>试卷名称</th>
-						<td colspan=3"><?php echo Html::encode($paper['title'])?></td>
-					</tr>
-					<tr>
-						<th>考试时间</th>
-						<td colspan=3"><?php echo Date::diff($exam['start_time'], $exam['end_time']), ' ( ',
-							Date::format($exam['start_time']), ' 至 ',
-							Date::format($exam['end_time']), ' )'?></td>
-					</tr>
-					<tr>
-						<th>得分</th>
-						<td>
-							<em id="exam-score"><?php echo $exam['score']?></em>
-							/
-							<em id="exam-total-score"><?php echo $exam['total_score']?></em>
-						</td>
-						<th>答题方式</th>
-						<td><?php echo $exam['rand'] ? '随机题序' : '顺序答题'?></td>
-					</tr>
-					<tr>
-						<th>用户名</th>
-						<td><?php echo Html::encode($user['username'])?></td>
-						<th>用户昵称</th>
-						<td><?php echo Html::encode($user['nickname'])?></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="exam-question-list">
-		<?php foreach($exam_questions as $index => $eq){
-			switch($eq['type']){
-				case ExamQuestions::TYPE_SINGLE_ANSWER:
-					$this->renderPartial('_question_single_answer', array(
-						'index'=>$index,
-						'exam_question'=>$eq,
-					));
-				break;
-				case ExamQuestions::TYPE_TRUE_OR_FALSE:
-					$this->renderPartial('_question_true_or_false', array(
-						'index'=>$index,
-						'exam_question'=>$eq,
-					));
-				break;
-				case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
-					$this->renderPartial('_question_multiple_answer', array(
-						'index'=>$index,
-						'exam_question'=>$eq,
-					));
-				break;
-				case ExamQuestions::TYPE_INPUT:
-					$this->renderPartial('_question_input', array(
-						'index'=>$index,
-						'exam_question'=>$eq,
-					));
-				break;
-			}
-		}?>
+<div class="row">
+	<div class="col-12">
+		<div class="detail-panel">
+			<div class="bd">
+				<table class="form-table col4">
+					<tbody>
+						<tr>
+							<th>试卷名称</th>
+							<td colspan=3"><?php echo Html::encode($paper['title'])?></td>
+						</tr>
+						<tr>
+							<th>考试时间</th>
+							<td colspan=3"><?php echo Date::diff($exam['start_time'], $exam['end_time']), ' ( ',
+								Date::format($exam['start_time']), ' 至 ',
+								Date::format($exam['end_time']), ' )'?></td>
+						</tr>
+						<tr>
+							<th>得分</th>
+							<td>
+								<em id="exam-score"><?php echo $exam['score']?></em>
+								/
+								<em id="exam-total-score"><?php echo $exam['total_score']?></em>
+							</td>
+							<th>答题方式</th>
+							<td><?php echo $exam['rand'] ? '随机题序' : '顺序答题'?></td>
+						</tr>
+						<tr>
+							<th>用户名</th>
+							<td><?php echo Html::encode($user['username'])?></td>
+							<th>用户昵称</th>
+							<td><?php echo Html::encode($user['nickname'])?></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="exam-question-list">
+			<?php foreach($exam_questions as $index => $eq){
+				switch($eq['type']){
+					case ExamQuestions::TYPE_SINGLE_ANSWER:
+						$this->renderPartial('_question_single_answer', array(
+							'index'=>$index,
+							'exam_question'=>$eq,
+						));
+					break;
+					case ExamQuestions::TYPE_TRUE_OR_FALSE:
+						$this->renderPartial('_question_true_or_false', array(
+							'index'=>$index,
+							'exam_question'=>$eq,
+						));
+					break;
+					case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
+						$this->renderPartial('_question_multiple_answer', array(
+							'index'=>$index,
+							'exam_question'=>$eq,
+						));
+					break;
+					case ExamQuestions::TYPE_INPUT:
+						$this->renderPartial('_question_input', array(
+							'index'=>$index,
+							'exam_question'=>$eq,
+						));
+					break;
+				}
+			}?>
+			</div>
 		</div>
 	</div>
 </div>
@@ -77,7 +79,7 @@ $(function(){
 			var score = $('#question-'+id).find('.score').text();
 			$(this).after(['<span class="set-score-panel">',
 				'<input type="text" class="w50" value="', score, '" />',
-				'<a href="javascript:;" class="btn-3 set-score-submit">提交</a>',
+				'<a href="javascript:;" class="btn btn-sm set-score-submit">提交</a>',
 				'<a href="javascript:;" class="btn-4 set-score-cancel">取消</a>',
 			'</span>'].join(''));
 		}

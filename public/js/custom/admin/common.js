@@ -157,61 +157,58 @@ var common = {
 		});
 	},
 	'menu':function(){
-		//左侧菜单条的打开关闭
-		$(document).on('click', '.menu-head', function(){
-			//菜单被折叠或菜单属于当前tab的时候，无效果
-			if(!$('body').hasClass('folded') && !$(this).parent().hasClass('sel')){
-				$(this).toggleClass('open');
-				if($(this).hasClass('open')){
-					$(this).next('ul').slideDown();
-				}else{
-					$(this).next('ul').slideUp('normal', function(){
-						$(this).css('display', '');
-					});
-				}
-			}
-		});
-		//左侧菜单条的显示隐藏
-		$(document).on('click', '#collapse-menu', function(){
-			$('body').toggleClass('folded');
-			$.ajax({
-				type: 'POST',
-				url: system.url('admin/system/setting'),
-				data: {
-					'_key':'admin_body_class',
-					'class':$('body').hasClass('folded') ? 'folded' : ''
-				}
-			});
-		});
-	},
-	'screenMeta':function(){
-		$('.screen-meta-links').on('click', 'a', function(){
-			$(this).toggleClass('active');
-			if($(this).hasClass('active')){
-				$($(this).attr('href')).slideDown();
-				$(this).parent()
-					.css({
-						'margin-top':'-1px'
-					})
-					.siblings()
-					.css({
-						'visibility':'hidden'
-					})//隐藏其他设置项
-					.find('a').removeClass('active');
-					
+		$('#main-menu').on('click', '.has-sub > a', function(){
+			var slideElapse = 300;//滑动效果持续
+			$li = $(this).parent();//父级li
+			$ul = $(this).next('ul');//子菜单的ul
+			$_li = $ul.children('li');//子菜单的li
+			if($li.hasClass('expanded')){
+				//关闭
+				$ul.slideUp(slideElapse);
+				$li.removeClass('expanded');
 			}else{
-				$($(this).attr('href')).slideUp();
-				$(this).parent()
-					.css({
-						'margin-top':''
-					})
-					.siblings()
-					.css({
-						'visibility':''
-					});
+				//打开
+				$ul.slideDown(slideElapse);
+				$li.addClass('expanded');
+				$_li.addClass('is-hidden');
+				setTimeout((function($li){
+					return function(){
+						$li.addClass('is-shown');
+					}
+				})($_li), 0);
+				setTimeout((function($li){
+					return function(){
+						$li.removeClass('is-hidden is-shown');
+					}
+				})($_li), 500);
+				
+				//关闭其它打开的同辈元素
+				$li.siblings('.expanded').removeClass('expanded').children('ul').slideUp(slideElapse);
 			}
 			return false;
 		});
+
+        $('.toggle-mobile-menu').on('click', function(){
+            $('#main-menu').toggleClass('mobile-is-visible');
+        });
+	},
+	'screenMeta':function(){
+		if($('.screen-meta-links a').length){
+            system.getCss(system.url('css/jquery.fancybox-1.3.4.css'));
+            system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+                $('.screen-meta-links a').fancybox({
+                    'padding':0,
+                    'centerOnScroll':true,
+                    'titleShow':false,
+                    'onClosed':function(o){
+                        $($(o).attr('href')).find('input,select,textarea').each(function(){
+                            $(this).poshytip('hide');
+                        });
+                    },
+                    'type' : 'inline'
+                });
+            });
+		}
 	},
 	'dragsort':function(){
 		//box的拖拽
@@ -536,7 +533,6 @@ var common = {
 						config.enterMode = CKEDITOR.ENTER_BR;
 						config.shiftEnterMode = CKEDITOR.ENTER_P;
 					}
-					//console.log(config);
 					common.editorObj = CKEDITOR.replace('visual-editor', config);
 				});
 			}

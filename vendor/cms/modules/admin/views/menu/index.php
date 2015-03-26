@@ -2,17 +2,17 @@
 use fay\helpers\Html;
 
 function showCats($tree, $dep = 0){?>
-	<ul class="cat-list">
+	<ul class="tree">
 	<?php foreach($tree as $k=>$node){?>
-		<li class="cat-item <?php if(!$k)echo 'first';?>">
-			<div class="cat-item-container">
+		<li class="leaf-container <?php if(!$k)echo 'first';?>">
+			<div class="leaf">
 				<span class="fr options">
-					<span class="w100 block fl">
+					<span class="w115 block fl">
 					排序：<?php echo Html::inputText('sort[]', $node['sort'], array(
 						'size'=>3,
 						'maxlength'=>3,
 						'data-id'=>$node['id'],
-						'class'=>"edit-sort w30 node-sort-{$node['id']}",
+						'class'=>"form-control w50 edit-sort node-sort-{$node['id']}",
 					))?>
 					</span>
 					<?php
@@ -45,7 +45,7 @@ function showCats($tree, $dep = 0){?>
 						}
 					?>
 				</span>
-				<span class="cat-item-title node-<?php echo $node['id']?> <?php if(empty($node['children']))
+				<span class="leaf-title node-<?php echo $node['id']?> <?php if(empty($node['children']))
 						echo 'terminal';
 					else
 						echo 'parent';?>">
@@ -82,11 +82,11 @@ function showCats($tree, $dep = 0){?>
 	<?php }?>
 	</ul>
 <?php }?>
-<div class="col-1">
-	<div class="cat-list-container">
-		<?php showCats($menus)?>
+<div class="row">
+	<div class="col-12">
+		<div class="form-inline tree-container">
+			<?php showCats($menus)?>
+		</div>
 	</div>
-	<div class="clear"></div>
 </div>
-
 <?php include '_common.php';?>

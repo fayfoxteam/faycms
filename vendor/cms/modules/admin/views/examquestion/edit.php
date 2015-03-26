@@ -12,7 +12,7 @@ use fay\models\Exam;
 				</div>
 				<div class="box-content">
 					<div>
-						<a href="javascript:;" class="btn-1" id="form-submit">编辑</a>
+						<a href="javascript:;" class="btn" id="form-submit">编辑</a>
 					</div>
 					<div class="misc-pub-section">
 						<strong>状态</strong>
@@ -35,7 +35,7 @@ use fay\models\Exam;
 					</div>
 					<div class="box-content" id="answer-container">
 						<div id="selector-panel" <?php if(isset($question['type']) && $question['type'] != ExamQuestions::TYPE_SINGLE_ANSWER && $question['type'] != ExamQuestions::TYPE_MULTIPLE_ANSWERS)echo 'class="hide"';?>>
-							<a href="javascript:;" id="create-answer-link" class="btn-1">添加答案</a>
+							<a href="javascript:;" id="create-answer-link" class="btn">添加答案</a>
 							<label>
 								<?php echo F::form()->inputCheckbox('rand', 1)?>
 								随机排序

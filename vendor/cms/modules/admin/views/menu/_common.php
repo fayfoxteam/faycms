@@ -13,7 +13,7 @@ F::form('edit')->setModel(Menus::model());
 				<?php echo Html::inputHidden('id')?>
 				<table class="form-table">
 					<tr>
-						<th class="adaption">标题<em class="color-red">*</em></th>
+						<th class="adaption">标题<em class="required">*</em></th>
 						<td>
 							<?php echo Html::inputText('title')?>
 							<span class="color-grey">主显标题</span>
@@ -91,7 +91,7 @@ F::form('edit')->setModel(Menus::model());
 						<th class="adaption"></th>
 						<td>
 							<?php echo F::form('edit')->submitLink('编辑菜单', array(
-								'class'=>'btn-1',
+								'class'=>'btn',
 							))?>
 							<a href="javascript:;" class="btn-2 fancybox-close">取消</a>
 						</td>
@@ -109,7 +109,7 @@ F::form('edit')->setModel(Menus::model());
 				<?php echo Html::inputHidden('parent')?>
 				<table class="form-table">
 					<tr>
-						<th class="adaption">标题<em class="color-red">*</em></th>
+						<th class="adaption">标题<em class="required">*</em></th>
 						<td>
 							<?php echo Html::inputText('title')?>
 							<span class="color-grey">主显标题</span>
@@ -181,7 +181,7 @@ F::form('edit')->setModel(Menus::model());
 						<th class="adaption"></th>
 						<td>
 							<?php echo F::form('create')->submitLink('添加新菜单', array(
-								'class'=>'btn-1',
+								'class'=>'btn',
 							))?>
 							<a href="javascript:;" class="btn-2 fancybox-close">取消</a>
 						</td>
@@ -195,7 +195,7 @@ F::form('edit')->setModel(Menus::model());
 <script>
 var cat = {
 	'events':function(){
-		$(".cat-list-container").delegate('.cat-item-title.parent', 'click', function(){
+		$(".tree-container").delegate('.leaf-title.parent', 'click', function(){
 			if($(this).hasClass("close")){
 				$(this).removeClass("close")
 					.parent().siblings("ul").slideDown();
@@ -284,7 +284,7 @@ var cat = {
 		});
 	},
 	'enabled':function(){
-		$('.cat-list-container').on('click', '.enabled-link', function(){
+		$('.tree-container').on('click', '.enabled-link', function(){
 			var o = this;
 			$(this).find('span').hide().after('<img src="'+system.url()+'images/throbber.gif" />');
 			$.ajax({

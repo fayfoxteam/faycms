@@ -48,6 +48,6 @@ use fay\models\tables\Props;
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'edit-sort w30',
+		'class'=>'form-control w50 ib edit-sort',
 	))?></td>
 </tr>

@@ -46,6 +46,7 @@ class ContactController extends AdminController{
 		
 		$this->view->listview = new ListView($sql, array(
 			'pageSize'=>$this->form('setting')->getData('page_size', 10),
+			'emptyText'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
 		));
 		
 		//引入IP地址库

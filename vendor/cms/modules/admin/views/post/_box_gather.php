@@ -7,7 +7,7 @@ use fay\helpers\Html;
 		<h4>采集器</h4>
 	</div>
 	<div class="box-content">
-		<a href="#gather-dialog" class="btn-1 fancybox-inline">采集页面</a>
+		<a href="#gather-dialog" class="btn fancybox-inline">采集页面</a>
 		<div class="color-grey">利用jquery选择器，进行单页面采集</div>
 	</div>
 </div>
@@ -33,7 +33,7 @@ use fay\helpers\Html;
 					<p class="description">例子：$("<span class="color-red">.post-content</span>").html()，如红色部分的选择器。</p>
 				</div>
 				<div class="form-field">
-					<a href="javascript:;" class="btn-1" id="gather-form-submit-ajax">采集</a>
+					<a href="javascript:;" class="btn" id="gather-form-submit-ajax">采集</a>
 					<a href="javascript:;" class="btn-2 fancybox-close">取消</a>
 				</div>
 			</div>

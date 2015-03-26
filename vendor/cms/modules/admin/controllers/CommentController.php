@@ -38,6 +38,7 @@ class CommentController extends AdminController{
 		
 		$listview = new ListView($sql, array(
 			'pageSize'=>30,
+			'emptyText'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		$this->view->listview = $listview;			
 		

@@ -11,7 +11,7 @@ use fay\models\File;
 		<p class="color-grey">附件的用途视主题而定，一般用于画廊效果</p>
 		<div id="upload-file-container">
 			<?php echo Html::link('上传附件', 'javascript:;', array(
-				'class'=>'btn-1',
+				'class'=>'btn',
 				'id'=>'upload-file-link',
 			))?>
 		</div>

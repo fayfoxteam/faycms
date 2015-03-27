@@ -313,7 +313,18 @@ class Form extends FBase{
 		return Html::inputHidden($name, $this->getData($name, $default), $html_options);
 	}
 	
+	/**
+	 * 生成一个数字输入框。
+	 * 若定义了验证规则，会自动设置max和min属性
+	 * @param string $name name属性
+	 * @param array $html_options html属性
+	 * @param string $default 默认值
+	 * @return string
+	 */
 	public function inputNumber($name, $html_options = array(), $default = ''){
+		if($rule = $this->getRule('page_size', 'int')){
+			$html_options = array_merge($html_options, $rule);
+		}
 		return Html::inputNumber($name, $this->getData($name, $default), $html_options);
 	}
 	
@@ -425,6 +436,44 @@ class Form extends FBase{
 		}else{
 			$this->_errors = $check;
 			return false;
+		}
+	}
+	
+	/**
+	 * 获取一个元素的一条或多条验证规则
+	 * @param string $element
+	 * @param string $validator
+	 *   - 若指定验证器，返回一条验证规则
+	 *   - 若不指定，返回所有该元素的验证规则
+	 */
+	public function getRule($element, $validator = null){
+		$rules = array();
+		foreach($this->_rules as $r){
+			if($validator && $r[1] != $validator){
+				//指定验证器，但所指定的验证器不匹配当前规则，跳过
+				continue;
+			}
+			if(is_array($r[0])){
+				foreach($r[0] as $e){
+					if($r[0] == $e){
+						if($validator){
+							return $r[2];
+						}else{
+							$rules[$r[1]] = $r[2];
+						}
+					}
+				}
+			}else{
+				if($r[0] == $element){
+					if($validator){
+						return $r[2];
+					}else{
+						$rules[$r[1]] = $r[2];
+					}
+				}
+			}
+			
+			return $rules;
 		}
 	}
 }

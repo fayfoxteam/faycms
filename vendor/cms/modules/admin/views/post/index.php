@@ -217,7 +217,7 @@ $cols = F::form('setting')->getData('cols', array());
 	</div>
 	<div class="row">
 		<div class="col-5">
-			<div class="mt5"><?php
+			<div><?php
 				if(F::app()->input->get('deleted')){
 					echo Html::select('batch_action_2', array(
 						''=>'批量操作',

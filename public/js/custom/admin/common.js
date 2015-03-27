@@ -334,6 +334,19 @@ var common = {
 		$(document).on('click', '.remove-link', function(){
 			return confirm('确实要永久删除此记录吗？');
 		});
+		
+		//分页条页面跳转
+		//若要自定义ajax分页，可以把事件绑定到其它元素后return false防止页面跳转
+		$(document).on('keydown', '.pager .pager-input', function(event){
+			if(event.keyCode == 13 || event.keyCode == 108){
+				var link = window.location.href;
+				if(link.indexOf('?') > 0){
+					window.location.href = link+'&'+$(this).attr('name')+'='+$(this).val();
+				}else{
+					window.location.href = link+'?'+$(this).attr('name')+'='+$(this).val();
+				}
+			}
+		});
 	},
 	'validform':function(){
 		if($('form.validform').length){

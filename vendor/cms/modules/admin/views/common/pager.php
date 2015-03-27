@@ -43,12 +43,12 @@ if($listview->totalPages > 1){
 		));
 	}
 	
-	echo Html::inputNumber('page', $listview->currentPage, array(
+	echo Html::inputNumber($page_param, $listview->currentPage, array(
 		'class'=>'form-control pager-input',
 		'before'=>' 第 ',
 		'after'=>' 页，共'.$listview->totalPages.'页 ',
 		'min'=>1,
-		'max'=>'99999',
+		'max'=>$listview->totalPages,
 	));
 	
 	//下一页
@@ -66,6 +66,7 @@ if($listview->totalPages > 1){
 		'title'=>'末页',
 		'encode'=>false,
 	));
+	
 	?>
 <?php }else{?>
 	<span class="summary"><?php echo $listview->totalRecords?>条记录</span>

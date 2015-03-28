@@ -2,6 +2,7 @@
 use fay\models\Setting;
 use fay\helpers\Html;
 use fay\models\Option;
+use fay\models\File;
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,10 +29,47 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
 <title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
 </head>
-<body class="<?php $admin_body_class = Setting::model()->get('admin_body_class');echo $admin_body_class['class']?>" id="faycms">
+<body id="faycms">
 <div class="wrapper">
 	<?php include '_sidebar_menu.php'?>
 	<div class="container main-content">
+		<nav class="user-info-navbar">
+			<ul class="user-info-menu fl">
+				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
+				<li class="hover-line"><a href="<?php echo $this->url()?>" title="网站首页" target="_blank"><i class="fa fa-home"></i></a></li>
+			</ul>
+			<ul class="user-info-menu fr">
+				<li class="dropdown-container user-profile">
+					<a href="#user-profile-menu" class="dropdown"><?php 
+						echo Html::img(F::session()->get('avatar'), File::PIC_THUMBNAIL, array(
+							'class'=>'circle',
+							'width'=>28,
+							'spare'=>'avatar',
+						))
+					?><span><?php echo F::session()->get('username')?><i class="fa fa-angle-down"></i></span></a>
+					<ul class="dropdown-menu" id="user-profile-menu">
+						<li><?php
+							echo Html::link('我的个人信息', array('admin/profile/index'), array(
+								'prepend'=>array(
+									'tag'=>'i',
+									'class'=>'fa fa-user',
+									'text'=>'',
+								),
+							));
+						?></li>
+						<li class="last"><?php
+							echo Html::link('退出', array('admin/login/logout'), array(
+								'prepend'=>array(
+									'tag'=>'i',
+									'class'=>'fa fa-lock',
+									'text'=>'',
+								),
+							));
+						?></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
 		<div class="page-title">
 			<div class="title-env">
 				<h1 class="title"><?php

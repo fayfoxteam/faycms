@@ -70,7 +70,7 @@ function showCats($cats, $dep = 0){?>
 						<strong><?php echo Html::encode($c['title'])?></strong>
 					<?php }?>
 					<?php if($c['alias']){?>
-						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
+						<em class="fc-grey hidden-not-lg">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
 					<?php echo Html::link('发布文章', array('admin/post/create', array(
 						'cat_id'=>$c['id'],

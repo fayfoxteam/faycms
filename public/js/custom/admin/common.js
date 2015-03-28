@@ -158,38 +158,62 @@ var common = {
 	},
 	'menu':function(){
 		$('#main-menu').on('click', '.has-sub > a', function(){
-			var slideElapse = 300;//滑动效果持续
-			$li = $(this).parent();//父级li
-			$ul = $(this).next('ul');//子菜单的ul
-			$_li = $ul.children('li');//子菜单的li
-			if($li.hasClass('expanded')){
-				//关闭
-				$ul.slideUp(slideElapse);
-				$li.removeClass('expanded');
-			}else{
-				//打开
-				$ul.slideDown(slideElapse);
-				$li.addClass('expanded');
-				$_li.addClass('is-hidden');
-				setTimeout((function($li){
-					return function(){
-						$li.addClass('is-shown');
-					}
-				})($_li), 0);
-				setTimeout((function($li){
-					return function(){
-						$li.removeClass('is-hidden is-shown');
-					}
-				})($_li), 500);
-				
-				//关闭其它打开的同辈元素
-				$li.siblings('.expanded').removeClass('expanded').children('ul').slideUp(slideElapse);
+			//非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
+			if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
+				var slideElapse = 300;//滑动效果持续
+				$li = $(this).parent();//父级li
+				$ul = $(this).next('ul');//子菜单的ul
+				$_li = $ul.children('li');//子菜单的li
+				if($li.hasClass('expanded')){
+					//关闭
+					$ul.slideUp(slideElapse, function(){
+						$li.removeClass('expanded').removeClass('opened');
+						$(this).removeAttr('style');
+					});
+				}else{
+					//打开
+					$ul.slideDown(slideElapse, function(){
+						$(this).removeAttr('style');
+					});
+					$li.addClass('expanded');
+					$_li.addClass('is-hidden');
+					setTimeout((function($li){
+						return function(){
+							$li.addClass('is-shown');
+						}
+					})($_li), 0);
+					setTimeout((function($li){
+						return function(){
+							$li.removeClass('is-hidden is-shown');
+						}
+					})($_li), 500);
+					
+					//关闭其它打开的同辈元素
+					$li.siblings('.expanded').children('ul').slideUp(slideElapse, function(){
+						$li.siblings('.expanded').removeClass('expanded').removeClass('opened');
+						$(this).removeAttr('style');
+					});
+				}
+				return false;
 			}
-			return false;
 		});
-
+		
+		//小屏幕下打开关闭上面的菜单
         $('.toggle-mobile-menu').on('click', function(){
             $('#main-menu').toggleClass('mobile-is-visible');
+        });
+        
+        //打开缩起左侧菜单
+        $('.toggle-sidebar').on('click', function(){
+        	$('#sidebar-menu').toggleClass('collapsed');
+        	$.ajax({
+				type: 'POST',
+				url: system.url('admin/system/setting'),
+				data: {
+					'_key':'admin_sidebar_class',
+					'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
+				}
+			});
         });
 	},
 	'screenMeta':function(){
@@ -793,6 +817,19 @@ var common = {
 			});
 		}
 	},
+	'dropdown':function(){
+		$(document).on('click', 'a.dropdown', function(){
+			$(this).parent().toggleClass('open');
+			return false;
+		});
+		$(document).on('click', function(){
+			$('.dropdown-container').each(function(){
+				if($(this).hasClass('open')){
+					$(this).removeClass('open');
+				}
+			});
+		});
+	},
 	'init':function(){
 		this.fancybox();
 		this.notification();
@@ -811,5 +848,6 @@ var common = {
 		this.batch();
 		this.dragsortList();
 		this.textAutosize();
+		this.dropdown();
 	}
 };

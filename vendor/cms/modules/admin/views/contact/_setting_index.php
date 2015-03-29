@@ -36,8 +36,10 @@
 	</div>
 	<div class="form-field">
 		<label class="title">分页大小</label>
-		<?php echo F::form('setting')->inputText('page_size', array(
+		<?php echo F::form('setting')->inputNumber('page_size', array(
 			'class'=>'form-control w50',
+			'min'=>1,
+			'max'=>999,
 		))?>
 	</div>
 	<div class="form-field">

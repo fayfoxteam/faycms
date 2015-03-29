@@ -41,7 +41,7 @@
 					}, params);
 					
 					//单个数字
-					if(!/^\d+$/.test(value)){
+					if(!/^-?[1-9]\d*$/.test(value)){
 						return $.validform._renderMsg(settings.message, {
 							'max':settings.max,
 							'min':settings.min,

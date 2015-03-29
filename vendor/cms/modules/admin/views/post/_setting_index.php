@@ -77,6 +77,7 @@
 		<?php echo F::form('setting')->inputNumber('page_size', array(
 			'class'=>'form-control w50',
 			'min'=>1,
+			'max'=>999,
 		))?>
 	</div>
 	<div class="form-field">

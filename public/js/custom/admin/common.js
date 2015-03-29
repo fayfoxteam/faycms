@@ -726,52 +726,31 @@ var common = {
 		});
 	},
 	'showPager':function(id, pager){
-		var html = ['<ul>'];
-		html.push('<li class="summary">共&nbsp;', pager.totalRecords, '&nbsp;条记录，当前第&nbsp;', pager.startRecord, '&nbsp;到&nbsp;', pager.endRecord, '&nbsp;条</li>');
-		//上一页
-		if(pager.currentPage == 1 && pager.totalRecords != 0){
-			html.push('<li><a class="prev disabled" href="javascript:;">«</a></li>');
-		}else if(pager.totalRecords != 0){
-			html.push('<li><a class="prev" href="javascript:;" data-page="'+(pager.currentPage - 1)+'">«</a></li>');
-		}
-		//是否显示第一页
-		if(pager.currentPage > pager.adjacents + 1){
-			html.push('<li><a class="prev" href="javascript:;" data-page="1">1</a></li>');
-		}
-		//显示间隔
-		if(pager.currentPage > pager.adjacents + 2){
-			html.push('<li><a href="javascript:;">...</a></li>');
-		}
-		//显示页码条
-		var pmin = pager.currentPage > pager.adjacents ? pager.currentPage - pager.adjacents : 1;
-		var pmax = pager.currentPage < pager.totalPages - pager.adjacents ? pager.currentPage + pager.adjacents : pager.totalPages;
-		
-		for(var i = pmin; i <= pmax; i++){
-			if(i == pager.currentPage){
-				html.push('<li><a href="javascript:;" class="page action">'+i+'</a></li>');
-			}else if(i == 1) {
-				html.push('<li><a href="javascript:;" data-page="1">1</a></li>');
+		if(pager.totalPages > 1){
+			var html = ['<span class="summary">', pager.totalRecords, '条记录</span>'];
+			//向前导航
+			if(pager.currentPage == 1){
+				html.push('<a href="javascript:;" title="首页" class="page-numbers first disabled">&laquo;</a>');
+				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev disabled">&lsaquo;</a>');
 			}else{
-				html.push('<li><a href="javascript:;" class="page" data-page="'+i+'">'+i+'</a></li>');
+				html.push('<a href="javascript:;" title="首页" class="page-numbers first" data-page="1">&laquo;</a>');
+				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev" data-page="' + (pager.currentPage - 1) + '">&lsaquo;</a>');
 			}
+			
+			//页码输入框
+			html.push(' 第 <input type="number" value="' + pager.currentPage + '" class="form-control pager-input" min="1" max="' + pager.totalPages + '" /> 页，共' + pager.totalPages + '页');
+			
+			//向后导航
+			if(pager.currentPage == pager.totalPages){
+				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev disabled">&rsaquo;</a>');
+				html.push('<a href="javascript:;" title="末页" class="page-numbers first disabled">&raquo;</a>');
+			}else{
+				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev" data-page="' + (pager.currentPage + 1) + '">&rsaquo;</a>');
+				html.push('<a href="javascript:;" title="末页" class="page-numbers first" data-page="' + pager.totalPages + '">&raquo;</a>');
+			}
+		}else{
+			var html = ['<span class="summary">', pager.totalRecords, '条记录</span>'];
 		}
-		//显示间隔
-		if(pager.currentPage<(pager.totalPages-pager.adjacents-1)) {
-			html.push('<li><a href="javascript:;">...</a></li>');
-		}
-		
-		//显示最后一页
-		if(pager.currentPage < pager.totalPages - pager.adjacents) {
-			html.push('<li><a href="javascript:;" data-page="'+pager.totalPages+'">'+pager.totalPages+'</a></li>');
-		}
-		//下一页
-		if(pager.currentPage < pager.totalPages) {
-			html.push('<li><a class="next" href="javascript:;" title="下一页" data-page="'+(pager.currentPage + 1)+'">»</a></li>');
-		}else if(pager.totalRecords != 0){
-			html.push('<li><a class="next disabled" href="javascript:;">»</a></li>');
-		}
-		
-		html.push('</ul>');
 		$('#'+id).html(html.join(''));
 	},
 	'batch':function(){

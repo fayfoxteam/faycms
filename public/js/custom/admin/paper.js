@@ -138,13 +138,21 @@ var paper = {
 		});
 		
 		//分页条
-		$('#questions-list-pager').on('click', 'li a', function(){
+		$('#questions-list-pager').on('click', 'a.page-numbers', function(){
 			var page = $(this).attr('data-page');
 			if(page){
 				$('#question-dialog').block({
 					'zindex':1200
 				});
-				paper.getQuestions(page);
+				paper.getQuestions($(this).attr('data-page'));
+			}
+		}).on('keydown', '.pager-input', function(event){
+			if(event.keyCode == 13 || event.keyCode == 108){
+				$('#question-dialog').block({
+					'zindex':1200
+				});
+				paper.getQuestions($('#questions-list-pager .pager-input').val());
+				return false;
 			}
 		});
 		

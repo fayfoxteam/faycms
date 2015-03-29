@@ -33,7 +33,7 @@ if($listview->totalPages > 1){
 			'title'=>'上一页',
 			'encode'=>false,
 		));
-	}else if($listview->currentPage > 2){
+	}else{
 		echo Html::link('&lsaquo;', array(F::app()->uri->router, $gets + array(
 			$page_param=>$listview->currentPage - 1,
 		)), array(

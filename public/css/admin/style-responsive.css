@@ -121,6 +121,8 @@ table{border-spacing:0}
 .dropdown-container .dropdown-menu li a{color:#979898;padding-bottom:15px;border-bottom:1px solid #f0f0f0;display:block}
 .dropdown-container .dropdown-menu li a:hover{color:#606161}
 .dropdown-container .dropdown-menu li a i{margin-right:5px}
+.dropdown-container > a > span > i{transition:all 0.2s linear 0s}
+.dropdown-container.open > a > span > i.fa{transform:rotate(-180deg)}
 .dropdown-container.open > .dropdown-menu{display:block}
 
 /* 按钮 */
@@ -194,7 +196,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .common-dialog-form-table tr th{text-align:right}
 
 /* 带细线边框的表格 */
-.inbox-table{width:100%;border-spacing:0;border-color:#F0F0EE;border-style:solid;border-width:1px 1px 0 0}
+.inbox-table{width:100%;margin:3px 0;border-color:#f0f0ee;border-style:solid;border-width:1px 1px 0 0}
 .inbox-table td,.inbox-table th{padding:8px;border-color:#F0F0EE;border-style:solid;border-width:0 0 1px 1px}
 .inbox-table th{text-align:left}
 

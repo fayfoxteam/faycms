@@ -431,6 +431,10 @@ class Html extends FBase{
 		$html = "<{$tag}";
 		foreach($html_options as $name => $value){
 			if($value === false)continue;
+			//一般是用于class这类可能有多个的属性
+			if(is_array($value)){
+				$value = implode(' ', $value);
+			}
 			$html .= ' ' . $name . '="' . $value . '"';
 		}
 		

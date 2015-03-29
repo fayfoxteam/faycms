@@ -219,12 +219,15 @@ var cat = {
 		});
 		
 		$(".tree-container").on('click', '.leaf-title.parent', function(){
-			if($(this).hasClass("close")){
-				$(this).removeClass("close")
-					.parent().siblings("ul").slideDown();
+			$li = $(this).parent().parent();
+			if($li.hasClass("close")){
+				$li.children('ul').slideDown(function(){
+					$li.removeClass("close");
+				});
 			}else{
-				$(this).addClass("close")
-					.parent().siblings("ul").slideUp();
+				$li.children('ul').slideUp(function(){
+					$li.addClass("close");
+				});
 			}
 		});
 		

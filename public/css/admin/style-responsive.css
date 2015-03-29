@@ -359,7 +359,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .tree .leaf-container .options{padding-right:10px;margin-left:150px}
 .leaf-title{padding-left:22px;cursor:pointer;display:inline-block}
 .leaf-title.parent{background:url("images/tree/M1.gif") repeat-y scroll -1px 5px transparent}
-.leaf-title.parent.close{background:url("images/tree/P1.gif") repeat-y scroll -1px 5px transparent}
+.tree .leaf-container.close >.leaf > .leaf-title.parent{background:url("images/tree/P1.gif") repeat-y scroll -1px 5px transparent}
+.tree .leaf-container.close > ul.tree{display:none}
 .leaf-title.terminal{background:url("images/tree/L1.gif") repeat-y scroll 0 8px transparent}
 .leaf-title i.fa{margin-right:4px}
 .leaf:hover{background-color:#f1f1f1}
@@ -417,6 +418,9 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 #avatar-container img{vertical-align:bottom;margin-right:10px;}
 #avatar-container #avatar-img{width:178px;height:178px;}
 #avatar-container #avatar-img-circle{width:70px;height:70px;border-radius:50%;}
+.tick-circle,.cross-circle{width:16px;height:16px;display:inline-block;vertical-align:middle;margin-top:-3px;}
+.tick-circle{background:url("images/tick-circle.png") no-repeat !important;}
+.cross-circle{background:url("images/cross-circle.png") no-repeat !important;}
 
 /* 插件式样修正 */
 #faycms #fancybox-wrap{box-sizing:content-box}

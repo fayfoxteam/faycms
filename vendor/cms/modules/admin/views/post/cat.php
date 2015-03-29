@@ -1,10 +1,10 @@
 <?php
 use fay\helpers\Html;
 
-function showCats($cats, $dep = 0){?>
+function showCats($cats, $dep = 0, $open_dep = 2){?>
 	<ul class="tree">
 	<?php foreach($cats as $k=>$c){?>
-		<li class="leaf-container <?php if(!$k)echo 'first';?>">
+		<li class="leaf-container <?php if(!$k)echo 'first';?> <?php echo 'dep-'.$dep?> <?php if($dep + 2 > $open_dep) echo 'close'?>">
 			<div class="leaf">
 				<span class="fr options">
 					<?php if(F::app()->checkPermission('admin/post/cat-sort')){?>
@@ -81,7 +81,7 @@ function showCats($cats, $dep = 0){?>
 				</span>
 			</div>
 			<?php if(!empty($c['children'])){
-				showCats($c['children'], $dep + 1);
+				showCats($c['children'], $dep + 1, $open_dep);
 			}?>
 		</li>
 	<?php }?>
@@ -90,7 +90,7 @@ function showCats($cats, $dep = 0){?>
 <div class="row">
 	<div class="col-12">
 		<div class="form-inline tree-container">
-			<?php showCats($cats)?>
+			<?php showCats($cats, 0, F::form('setting')->getData('default_dep', 2))?>
 		</div>
 	</div>
 </div>

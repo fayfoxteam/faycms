@@ -130,12 +130,12 @@ $full_file_path = File::model()->getUrl($data);
 	<td><?php echo $data['downloads']?></td>
 	<?php }?>
 	<?php if(in_array('upload_time', $cols)){?>
-	<td><span class="time abbr" title="<?php echo Date::format($data['upload_time'])?>">
+	<td><abbr class="time" title="<?php echo Date::format($data['upload_time'])?>">
 		<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 			echo Date::niceShort($data['upload_time']);
 		}else{
 			echo Date::format($data['upload_time']);
 		}?>
-	</span></td>
+	</abbr></td>
 	<?php }?>
 </tr>

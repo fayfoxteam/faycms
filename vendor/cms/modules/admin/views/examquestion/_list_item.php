@@ -46,7 +46,7 @@ use fay\helpers\Date;
 			echo '<span class="fc-red">禁用</span>';
 			break;
 	}?></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+	<td><abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 		<?php echo Date::niceShort($data['create_time'])?>
-	</span></td>
+	</abbr></td>
 </tr>

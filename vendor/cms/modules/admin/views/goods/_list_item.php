@@ -65,5 +65,5 @@ use fay\helpers\Date;
 		'data-id'=>$data['id'],
 		'class'=>'edit-sort w30',
 	))?></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['create_time'])?>"><?php echo Date::niceShort($data['create_time'])?></span></td>
+	<td><abbr class="time" title="<?php echo Date::format($data['create_time'])?>"><?php echo Date::niceShort($data['create_time'])?></abbr></td>
 </tr>

@@ -63,16 +63,16 @@ use fay\helpers\Date;
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('last_modified_time', $_settings['cols'])){?>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['last_modified_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
 			<?php echo Date::niceShort($data['last_modified_time'])?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('create_time', $_settings['cols'])){?>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php echo Date::niceShort($data['create_time'])?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('sort', $_settings['cols'])){?>

@@ -62,6 +62,18 @@ class MenuHelper{
 					$item['class'][] = 'active';
 				}
 				
+				//如果有孩子节点被打开，则父节点也被打开
+				if(!in_array('active', $item['class']) && is_array($item['text'][1])){
+					foreach($item['text'][1]['text'] as $i){
+						if(in_array('active', $i['class'])){
+							$item['class'][] = 'opened';
+							$item['class'][] = 'expanded';
+							$item['class'][] = 'active';
+							break;
+						}
+					}
+				}
+				
 				$text[] = $item;
 			}
 		}
@@ -81,41 +93,5 @@ class MenuHelper{
 				'id'=>'main-menu',
 			), $text);
 		}
-		
-		
-		
-// 		//@todo 还要做权限判断
-// 		if($dep){
-// 			echo '<ul>';
-// 		}else{
-// 			echo '<ul class="main-menu" id="main-menu">';
-// 		}
-// 		foreach($menus as $m){
-// 			$class = array();
-// 			if(!empty($m['children'])){
-// 				$class[] = 'has-sub';
-// 			}
-// 			if(($current_directory && $current_directory == $m['alias']) || \F::app()->uri->router == $m['link']){
-// 				$class[] = 'opened';
-// 				$class[] = 'expanded';
-// 				$class[] = 'active';
-// 			}
-// 			echo '<li class="'.implode(' ', $class).'">';
-// 			echo Html::link('<span class="title">'.$m['title'].'</span>', $m['link'] == 'javascript:;' ? 'javascript:;' : array($m['link']), array(
-// 				'encode'=>false,
-// 				'title'=>false,
-// 				'prepend'=>$m['css_class'] ? array(
-// 					'tag'=>'i',
-// 					'text'=>'',
-// 					'class'=>$m['css_class'],
-// 				) : false,
-// 			));
-// 			if(!empty($m['children'])){
-// 				self::render($m['children'], $current_directory, $dep + 1);
-// 			}
-// 			echo '</li>';
-// 		}
-		
-// 		echo '</ul>';
 	}
 }

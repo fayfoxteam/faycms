@@ -78,8 +78,8 @@ use fay\helpers\Date;
 		echo '<span class="fc-orange">待审</span>';
 	}?></td>
 	<td>
-		<span class="abbr" title="<?php echo Date::format($data['create_time'])?>">
+		<abbr title="<?php echo Date::format($data['create_time'])?>">
 			<?php echo Date::niceShort($data['create_time'])?>
-		</span>
+		</abbr>
 	</td>
 </tr>

@@ -27,9 +27,9 @@ $settings = F::form('setting')->getAllData();
 			留言给<span class="ci-to"><?php
 				echo Html::encode($data['target_'.$settings['display_name']]);
 			?></span>
-			<span class="ci-time abbr" title="<?php echo Date::format($data['create_time'])?>"><?php
+			<abbr class="ci-time" title="<?php echo Date::format($data['create_time'])?>"><?php
 				echo Date::niceShort($data['create_time']);
-			?></span>
+			?></abbr>
 		</div>
 		<div class="ci-meta">
 			<span class="ci-status"><?php if($data['status'] == Messages::STATUS_APPROVED){

@@ -13,7 +13,7 @@ html,body{height:100%}
 a{color:#21759b;text-decoration:none;transition:all 0.2s linear 0s}
 a:hover{color:#d54e21;text-decoration:none}
 select{font-family:sans-serif}
-abbr[title]{border-bottom:1px dotted}
+abbr[title],.abbr{border-bottom:1px dotted}
 mark{background:#ff0;color:#000}
 pre{overflow:auto}
 code,pre{font-family:monospace,monospace;font-size:1em}
@@ -44,7 +44,9 @@ table{border-spacing:0}
 
 
 /* 宽高类 */
+.w20{width:20px !important}
 .w50{width:50px !important}
+.w70{width:70px !important}
 .w90{width:90px !important}
 .w100{width:100px !important}
 .w115{width:115px !important}

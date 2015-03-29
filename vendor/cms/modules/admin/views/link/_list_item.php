@@ -28,8 +28,8 @@ use fay\helpers\Date;
 		'class'=>'edit-sort w30',
 	))?></td>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['last_modified_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
 			<?php echo Date::niceShort($data['last_modified_time'])?>
-		</span>
+		</abbr>
 	</td>
 </tr>

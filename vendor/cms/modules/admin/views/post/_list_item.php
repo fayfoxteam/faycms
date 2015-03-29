@@ -85,35 +85,35 @@ use cms\helpers\PostHelper;
 	<?php }?>
 	<?php if(in_array('publish_time', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['publish_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['publish_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['publish_time']);
 			}else{
 				echo Date::format($data['publish_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('last_view_time', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['last_view_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['last_view_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['last_view_time']);
 			}else{
 				echo Date::format($data['last_view_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('last_modified_time', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['last_modified_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['last_modified_time']);
 			}else{
 				echo Date::format($data['last_modified_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>

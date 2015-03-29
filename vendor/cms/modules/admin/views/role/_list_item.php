@@ -38,7 +38,7 @@ use fay\models\tables\Users;
 	<td><?php if($data['is_show']){
 		echo '<span class="fc-green">是</span>';
 	}else{
-		echo '<span class="fc-red abbr" title="此类角色用户在用户列表中不会显示出来">否</span>';
+		echo '<abbr class="fc-red" title="此类角色用户在用户列表中不会显示出来">否</abbr>';
 	}?></td>
 	<td><?php echo Html::encode($data['description'])?></td>
 </tr>

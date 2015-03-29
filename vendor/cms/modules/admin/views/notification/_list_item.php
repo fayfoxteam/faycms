@@ -39,8 +39,8 @@ use fay\helpers\Date;
 	<td class="wp15"><?php echo $data['cat_title'] ? $data['cat_title'] : '系统消息'?></td>
 	<td class="wp15"><?php echo $data['username']?></td>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['publish_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['publish_time'])?>">
 			<?php echo Date::niceShort($data['publish_time'])?>
-		</span>
+		</abbr>
 	</td>
 </tr>

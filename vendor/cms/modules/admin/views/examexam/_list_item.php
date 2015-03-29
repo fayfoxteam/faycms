@@ -20,10 +20,10 @@ use fay\helpers\Date;
 	</td>
 	<td><?php echo Html::encode($data[$display_name]);?></td>
 	<td><?php echo $data['score'], ' / ', $data['total_score']?></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['start_time']), ' - ', Date::format($data['end_time'])?>">
+	<td><abbr class="time" title="<?php echo Date::format($data['start_time']), ' - ', Date::format($data['end_time'])?>">
 		<?php echo Date::diff($data['start_time'], $data['end_time'])?>
-	</span></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['start_time'])?>">
+	</abbr></td>
+	<td><abbr class="time" title="<?php echo Date::format($data['start_time'])?>">
 		<?php echo Date::niceShort($data['start_time'])?>
-	</span></td>
+	</abbr></td>
 </tr>

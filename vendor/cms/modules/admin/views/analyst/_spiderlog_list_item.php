@@ -10,5 +10,5 @@ use fay\helpers\Html;
 	), false))?></td>
 	<td><abbr title="<?php echo $data['user_agent']?>"><?php echo String::niceShort($data['user_agent'], 50)?></abbr></td>
 	<td><abbr title="<?php echo long2ip($data['ip_int'])?>"><?php echo $iplocation->getCountry(long2ip($data['ip_int']))?></abbr></td>
-	<td class="col-time"><span class="abbr" title="<?php echo Date::format($data['create_time'])?>"><?php echo Date::format($data['create_time'])?></span></td>
+	<td class="col-time"><abbr title="<?php echo Date::format($data['create_time'])?>"><?php echo Date::format($data['create_time'])?></abbr></td>
 </tr>

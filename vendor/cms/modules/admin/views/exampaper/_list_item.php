@@ -30,10 +30,10 @@ use fay\helpers\String;
 			break;
 	}?></td>
 	<td><?php echo String::money($data['score'])?></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+	<td><abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 		<?php echo Date::niceShort($data['create_time'])?>
-	</span></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['last_modified_time'])?>">
+	</abbr></td>
+	<td><abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
 		<?php echo Date::niceShort($data['last_modified_time'])?>
-	</span></td>
+	</abbr></td>
 </tr>

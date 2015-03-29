@@ -38,17 +38,17 @@ use fay\helpers\Date;
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['create_time']);
 			}else{
 				echo Date::format($data['create_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('area', $cols)){?>
-	<td><span class="abbr" title="<?php echo long2ip($data['ip_int'])?>"><?php echo $iplocation->getCountry(long2ip($data['ip_int']))?></span></td>
+	<td><abbr title="<?php echo long2ip($data['ip_int'])?>"><?php echo $iplocation->getCountry(long2ip($data['ip_int']))?></abbr></td>
 	<?php }?>
 	<?php if(in_array('ip', $cols)){?>
 	<td><?php echo long2ip($data['ip_int'])?></td>

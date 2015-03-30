@@ -25,7 +25,7 @@ class LogController extends AdminController{
 				'l.code LIKE ?'=>$this->input->get('code').'%',
 			));
 		}
-		if($this->input->get('type')){
+		if($this->input->get('type') !== null){
 			$sql->where(array(
 				'l.type = ?'=>$this->input->get('type', 'intval'),
 			));

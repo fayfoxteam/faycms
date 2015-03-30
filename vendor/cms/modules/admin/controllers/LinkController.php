@@ -58,6 +58,13 @@ class LinkController extends AdminController{
 		if($link = Links::model()->find($id)){
 			$this->form()->setData($link);
 			
+			$this->layout->sublink = array(
+				'uri'=>array('admin/link/create', array(
+					'cat_id'=>$link['cat_id'],
+				)),
+				'text'=>'同分类下新增链接',
+			);
+			
 			$this->view->cats = Category::model()->getTree('_system_link', 'id,title');
 			$this->view->render();
 		}

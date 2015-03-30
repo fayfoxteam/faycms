@@ -3,7 +3,7 @@
  * APACHE环境，当伪静态未开启时，该文件能让系统正常运行。
  * 但**强烈建议**开启伪静态功能以达到良好的性能和美观的URL
  * 
- * NGINX环境无效
+ * NGINX环境默认不支持pathinfo，配置pathinfo的复杂度甚至高于配置url重写，不建议采用这种方式
  */
 $folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
 $request = substr($_SERVER['REQUEST_URI'], strlen($folder.'/index.php/'));

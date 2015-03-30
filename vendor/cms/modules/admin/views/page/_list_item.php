@@ -22,11 +22,6 @@ use fay\helpers\Date;
 			)), array(
 				'class'=>'delete-page color-red',
 			), true);
-			echo Html::link('查看', array('page/item', array(
-				'id'=>$data['id'],
-			)), array(
-				'target'=>'_blank',
-			), true);
 		}else{
 			echo Html::link('还原', array('admin/page/undelete', array(
 				'id'=>$data['id'],

@@ -47,6 +47,12 @@ function showCats($cats, $dep = 0){?>
 					<?php if($c['alias']){?>
 						<em class="color-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
+					<?php echo Html::link('增加链接', array('admin/link/create', array(
+						'cat_id'=>$c['id'],
+					)), array(
+						'class'=>'color-green hover-link',
+						'prepend'=>'<i class="fa fa-pencil"></i>',
+					), true)?>
 				</span>
 			</div>
 			<?php if(!empty($c['children'])){

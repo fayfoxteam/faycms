@@ -136,19 +136,19 @@ class View extends FBase{
 			}
 			if(isset($layout_relative_path)){
 				if(file_exists(APPLICATION_PATH.$layout_relative_path)){
-					$layout_path = APPLICATION_PATH.$layout_relative_path;
+					$__layout_path = APPLICATION_PATH.$layout_relative_path;
 				}else if(file_exists(BACKEND_PATH.$layout_relative_path)){
-					$layout_path = BACKEND_PATH.$layout_relative_path;
+					$__layout_path = BACKEND_PATH.$layout_relative_path;
 				}else{
 					throw new Exception("Layout file \"{$layout_relative_path}\" not found");
 				}
 			}
 		}
-		if(isset($layout_path)){
-			extract($this->getViewData());
-			extract(\F::app()->layout->getLayoutData());
+		if(isset($__layout_path)){
+			extract($this->getViewData(), EXTR_PREFIX_SAME, 'view');
+			extract(\F::app()->layout->getLayoutData(), EXTR_PREFIX_SAME, 'view');
 			ob_start();
-			include $layout_path;
+			include $__layout_path;
 			$content = ob_get_contents();
 			ob_end_clean();
 		}

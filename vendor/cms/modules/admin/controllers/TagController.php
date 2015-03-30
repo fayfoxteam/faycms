@@ -142,6 +142,7 @@ class TagController extends AdminController{
 		
 		$this->view->listview = new ListView($sql, array(
 			'pageSize' => 15,
+			'emptyText'=>'<tr><td colspan="3" align="center">无相关记录！</td></tr>',
 		));
 	}
 	

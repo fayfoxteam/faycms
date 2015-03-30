@@ -35,13 +35,13 @@ class Log extends Model{
 	public static function getType($type){
 		switch($type){
 			case Logs::TYPE_ERROR:
-				return '<span class="color-red">错误</span>';
+				return '<span class="fc-red">错误</span>';
 			break;
 			case Logs::TYPE_NORMAL:
 				return '<span>正常</span>';
 			break;
 			case Logs::TYPE_WARMING:
-				return '<span class="color-orange">警告</span>';
+				return '<span class="fc-orange">警告</span>';
 			break;
 		}
 	}

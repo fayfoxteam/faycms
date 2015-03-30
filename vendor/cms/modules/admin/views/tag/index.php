@@ -1,17 +1,17 @@
 <?php
 ?>
-<div class="col-2-3">
-	<div class="col-right">
-		<?php $this->renderPartial('_right');?>
-	</div>
-	<div class="col-left">
+<div class="row">
+	<div class="col-5">
 		<form id="form" class="validform" action="<?php echo $this->url('admin/tag/create')?>" method="post">
 			<?php $this->renderPartial('_edit_panel');?>
 			<div class="form-field">
-				<a href="javascript:;" class="btn-1" id="form-submit">添加新标签</a>
+				<a href="javascript:;" class="btn" id="form-submit">添加新标签</a>
 			</div>
 		</form>
 	</div>
+    <div class="col-7">
+        <?php $this->renderPartial('_right');?>
+    </div>
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
 <script>

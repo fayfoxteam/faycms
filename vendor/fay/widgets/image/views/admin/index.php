@@ -6,17 +6,15 @@ use fay\helpers\Html;
 #file-preview img{max-width:100%;}
 </style>
 <div class="box">
-	<div class="box-content">
-		<div id="file-preview">
-			<?php echo Html::img($data['file_id'])?>
-		</div>
+	<div class="box-content" id="file-preview" <?php if(!$data['file_id'])echo 'style="display:none;"'?>>
+		<?php echo Html::img($data['file_id'])?>
 	</div>
 </div>
 <input type="hidden" value="<?php echo intval($data['file_id'])?>" name="file_id" id="file_id" />
 <div class="margin-top-20">
-	<a href="javascript:;" class="btn-2" id="widget-form-upload">上传</a>
+	<a href="javascript:;" class="btn btn-grey" id="widget-form-upload">上传</a>
 </div>
-<div class="color-grey">提示：点击侧边栏“提交”后，修改才会生效</div>
+<div class="fc-grey">提示：点击侧边栏“提交”后，修改才会生效</div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -37,7 +35,7 @@ $(function(){
 	uploader.init();
 	
 	uploader.bind('FilesAdded', function(up, files) {
-		$("#file-preview").html('<img src="'+system.url('images/loading.gif')+'" />');
+		$("#file-preview").html('<img src="'+system.url('images/loading.gif')+'" />').show();
 		uploader.start();
 	});
 	

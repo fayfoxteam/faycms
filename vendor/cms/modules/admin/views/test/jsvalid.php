@@ -16,8 +16,8 @@ $labels = array(
 	'username'=>'用户名',
 );
 ?>
-<div class="col-2-1">
-	<div class="col-left">
+<div class="row">
+	<div class="col-6">
 		<form id="test-form">
 			<h3>输入框(username)</h3>
 			<input type="text" name="username" />
@@ -72,7 +72,7 @@ $labels = array(
 			<div><input type="submit" /></div>
 		</form>
 	</div>
-	<div class="col-right"><?php pr($js_rules)?></div>
+	<div class="col-6"><?php pr($js_rules)?></div>
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.validform.js"></script>
 <script>

@@ -5,7 +5,7 @@ use fay\helpers\Html;
 	<form method="post" action="" id="form" class="validform">
 		<div class="col-left">
 			<div class="form-field">
-				<label class="title">项目名称<em class="color-red">*</em></label>
+				<label class="title">项目名称<em class="fc-red">*</em></label>
 				<?php echo Html::inputText('name', '', array(
 					'data-required'=>'required',
 					'data-rule'=>'string',
@@ -16,7 +16,7 @@ use fay\helpers\Html;
 				))?>
 			</div>
 			<div class="form-field">
-				<label class="title">主机<em class="color-red">*</em></label>
+				<label class="title">主机<em class="fc-red">*</em></label>
 				<?php echo Html::inputText('host', 'localhost', array(
 					'data-required'=>'required',
 					'data-label'=>"主机",
@@ -24,7 +24,7 @@ use fay\helpers\Html;
 				))?>
 			</div>
 			<div class="form-field">
-				<label class="title">用户名<em class="color-red">*</em></label>
+				<label class="title">用户名<em class="fc-red">*</em></label>
 				<?php echo Html::inputText('user', 'root', array(
 					'data-required'=>'required',
 					'data-label'=>'用户名',
@@ -46,7 +46,7 @@ use fay\helpers\Html;
 				))?>
 			</div>
 			<div class="form-field">
-				<label class="title">数据库名<em class="color-red">*</em></label>
+				<label class="title">数据库名<em class="fc-red">*</em></label>
 				<?php echo Html::inputText('dbname', '', array(
 					'data-required'=>'required',
 					'data-label'=>'数据库名',
@@ -69,11 +69,11 @@ use fay\helpers\Html;
 						'label'=>'以后创建',
 					));
 				?>
-				<p class="color-grey">若不创建，后期可以通过install创建</p>
+				<p class="fc-grey">若不创建，后期可以通过install创建</p>
 			</div>
 			<div id="install-db">
 				<div class="form-field">
-					<label class="title">站点名称<em class="color-red">*</em></label>
+					<label class="title">站点名称<em class="fc-red">*</em></label>
 					<?php echo Html::inputText('sitename', '', array(
 						'data-required'=>'required',
 						'data-label'=>'站点名称',
@@ -81,7 +81,7 @@ use fay\helpers\Html;
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">超级管理员:用户名<em class="color-red">*</em></label>
+					<label class="title">超级管理员:用户名<em class="fc-red">*</em></label>
 					<?php echo Html::inputText('user_username', '', array(
 						'data-required'=>'required',
 						'data-label'=>'用户名',
@@ -89,7 +89,7 @@ use fay\helpers\Html;
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">超级管理员:密码<em class="color-red">*</em></label>
+					<label class="title">超级管理员:密码<em class="fc-red">*</em></label>
 					<?php echo Html::inputText('user_password', '', array(
 						'data-required'=>'required',
 						'data-label'=>'密码',

@@ -10,7 +10,7 @@ use fay\helpers\Date;
 			<?php echo Html::link('永久删除', array('admin/voucher/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'color-red remove-link',
+				'class'=>'fc-red remove-link',
 			));?>
 		</div>	
 	</td>
@@ -32,18 +32,18 @@ use fay\helpers\Date;
 	</td>
 	<td class="col-date">
 	<?php if($data['start_time']){?>
-		<span class="time abbr" title="<?php echo Date::format($data['start_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['start_time'])?>">
 			<?php echo date('Y-m-d', $data['start_time'])?>
-		</span>
+		</abbr>
 	<?php }else{?>
 		<span>无</span>
 	<?php }?>
 	</td>
 	<td class="col-date">
 	<?php if($data['end_time']){?>
-		<span class="time abbr" title="<?php echo Date::format($data['end_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['end_time'])?>">
 			<?php echo date('Y-m-d', $data['end_time'])?>
-		</span>
+		</abbr>
 	<?php }else{?>
 		<span>永久有效</span>
 	<?php }?>
@@ -60,8 +60,8 @@ use fay\helpers\Date;
 		}?>
 	</td>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php echo Date::niceShort($data['create_time'])?>
-		</span>
+		</abbr>
 	</td>
 </tr>

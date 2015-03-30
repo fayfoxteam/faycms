@@ -19,26 +19,26 @@ use fay\helpers\Html;
 	<div class="form-field">
 		<label class="title">金额/折扣</label>
 		<?php echo F::form()->inputText('amount')?>
-		<p class="color-grey p5">抵价金额或折扣</p>
+		<p class="fc-grey p5">抵价金额或折扣</p>
 	</div>
 	<div class="form-field">
 		<label class="title">使用次数限制</label>
 		<?php echo F::form()->inputText('counts', array(), 1)?>
-		<p class="color-grey p5">-1为不限制使用次数</p>
+		<p class="fc-grey p5">-1为不限制使用次数</p>
 	</div>
 	<div class="form-field">
 		<label class="title" >开始时间</label>
 		<?php echo F::form()->inputText('start_time', array(
 			'id'=>'start_time',
 		))?>
-		<p class="color-grey p5">若为空，则只要不过期，就能使用</p>
+		<p class="fc-grey p5">若为空，则只要不过期，就能使用</p>
 	</div>
 	<div class="form-field">
 		<label class="title">结束时间</label>
 		<?php echo F::form()->inputText('end_time', array(
 			'id'=>'end_time',
 		))?>
-		<p class="color-grey p5">若为空，则永久有效</p>
+		<p class="fc-grey p5">若为空，则永久有效</p>
 	</div>
 	<div class="form-field">
 		<label class="title">数量</label>
@@ -46,6 +46,6 @@ use fay\helpers\Html;
 		个
 	</div>
 	<div class="form-field">
-		<a href="javascript:;" class="btn-1" id="form-submit">生成</a>
+		<a href="javascript:;" class="btn" id="form-submit">生成</a>
 	</div>
 </form>

@@ -41,6 +41,11 @@ class LinkController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑链接';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/link/create'),
+			'text'=>'添加链接',
+		);
+		
 		$this->form()->setModel(Links::model());
 		$id = $this->input->get('id', 'intval');
 		

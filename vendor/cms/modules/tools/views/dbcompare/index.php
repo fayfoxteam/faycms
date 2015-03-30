@@ -16,14 +16,14 @@ use fay\helpers\Html;
 			</div>
 			<div id="left-db" class="hide">
 				<div class="form-field">
-					<label class="title">Host<em class="color-red">*</em></label>
+					<label class="title">Host<em class="fc-red">*</em></label>
 					<?php echo F::form()->inputText('left[host]', array(
 						'data-required'=>"Host can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">User<em class="color-red">*</em></label>
+					<label class="title">User<em class="fc-red">*</em></label>
 					<?php echo F::form()->inputText('left[user]', array(
 						'data-required'=>"User can't be empty",
 						'class'=>'w300',
@@ -36,7 +36,7 @@ use fay\helpers\Html;
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">Db Name<em class="color-red">*</em></label>
+					<label class="title">Db Name<em class="fc-red">*</em></label>
 					<?php echo F::form()->inputText('left[dbname]', array(
 						'data-required'=>"Db Name can't be empty",
 						'class'=>'w300',
@@ -63,14 +63,14 @@ use fay\helpers\Html;
 			</div>
 			<div id="right-db">
 				<div class="form-field">
-					<label class="title">Host<em class="color-red">*</em></label>
+					<label class="title">Host<em class="fc-red">*</em></label>
 					<?php echo F::form()->inputText('right[host]', array(
 						'data-required'=>"Host can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">User<em class="color-red">*</em></label>
+					<label class="title">User<em class="fc-red">*</em></label>
 					<?php echo F::form()->inputText('right[user]', array(
 						'data-required'=>"User can't be empty",
 						'class'=>'w300',
@@ -83,7 +83,7 @@ use fay\helpers\Html;
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">Db Name<em class="color-red">*</em></label>
+					<label class="title">Db Name<em class="fc-red">*</em></label>
 					<?php echo F::form()->inputText('right[dbname]', array(
 						'data-required'=>"Db Name can't be empty",
 						'class'=>'w300',

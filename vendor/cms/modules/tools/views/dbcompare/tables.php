@@ -147,7 +147,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="mb5">
 					<a href="javascript:;" id="start-transfer" class="btn-1">Start Transfer</a>
-					<span class="color-red">This process may be longer, please do not close the browser or jump page.</span>
+					<span class="fc-red">This process may be longer, please do not close the browser or jump page.</span>
 				</div>
 			</form>
 		</div>

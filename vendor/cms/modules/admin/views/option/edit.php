@@ -1,28 +1,17 @@
 <?php
 ?>
-<div class="col-2-3">
-	<div class="col-right">
-		<?php $this->renderPartial('_right');?>
-	</div>
-	<div class="col-left">
+<div class="row">
+	<div class="col-5">
 		<?php echo F::form()->open(array('admin/option/edit', F::app()->input->get()))?>
-			<div class="form-field">
-				<label class="title">键<em class="color-red">*</em></label>
-				<?php echo F::form()->inputText('option_name', array('class'=>'full-width'))?>
-			</div>
-			<div class="form-field">
-				<label class="title">值</label>
-				<?php echo F::form()->textarea('option_value', array('class'=>'full-width', 'rows'=>5))?>
-			</div>
-			<div class="form-field">
-				<label class="title">描述</label>
-				<?php echo F::form()->textarea('description', array('class'=>'full-width', 'rows'=>5))?>
-			</div>
+			<?php $this->renderPartial('_edit_panel')?>
 			<div class="form-field">
 				<?php echo F::form()->submitLink('更新参数', array(
-					'class'=>'btn-1',
+					'class'=>'btn',
 				))?>
 			</div>
 		<?php echo F::form()->close()?>
+	</div>
+	<div class="col-7">
+		<?php $this->renderPartial('_right');?>
 	</div>
 </div>

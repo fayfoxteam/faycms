@@ -15,7 +15,7 @@ use fay\models\tables\Props;
 			<?php echo Html::link('删除', array('admin/role-prop/delete', array(
 				'id'=>$data['id'],
 			) + F::input()->get()), array(
-				'class'=>'remove-link color-red',
+				'class'=>'remove-link fc-red',
 			))?>
 		</div>
 	</td>
@@ -37,7 +37,7 @@ use fay\models\tables\Props;
 		break;
 	}?></td>
 	<td><?php echo $data['required'] ? '是' : '否';?></td>
-	<td><?php echo $data['is_show'] ? '<span class="color-green">是</span>' : '否';?></td>
+	<td><?php echo $data['is_show'] ? '<span class="fc-green">是</span>' : '否';?></td>
 	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,

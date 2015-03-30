@@ -73,6 +73,7 @@ class AnalystController extends AdminController{
 		$this->view->listview = new ListView($sql, array(
 			'pageSize'=>$this->form('setting')->getData('page_size', 20),
 			'itemView'=>'_visit_list_item',
+			'emptyText'=>'<tr><td colspan="'.count($this->form('setting')->getData('cols')).'" align="center">无相关记录！</td></tr>',
 		));
 		
 		//所有站点
@@ -139,6 +140,7 @@ class AnalystController extends AdminController{
 		$this->view->listview = new ListView($sql, array(
 			'pageSize'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
 			'itemView'=>'_views_list_item',
+			'emptyText'=>'<tr><td colspan="'.count($this->form('setting')->getData('cols')).'" align="center">无相关记录！</td></tr>',
 		));
 
 		//所有站点

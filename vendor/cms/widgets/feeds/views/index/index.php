@@ -2,6 +2,11 @@
 use fay\helpers\Date;
 use fay\models\tables\Logs;
 ?>
+<style>
+.feeds li{background-color:#fafafa;margin-bottom:7px;line-height:28px;height:28px;}
+.feeds li .date{margin-right:15px;color:#c1cbd0;}
+.feeds li i{width:28px;line-height:28px;display:inline-block;text-align:center;}
+</style>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
 		<a class="tools remove" title="隐藏"></a>

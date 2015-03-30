@@ -2,23 +2,23 @@
 use fay\helpers\Html;
 
 function showCats($cats, $dep = 0){?>
-	<ul class="cat-list">
+	<ul class="tree">
 	<?php foreach($cats as $k=>$c){?>
-		<li class="cat-item <?php if(!$k)echo 'first';?>">
-			<div class="cat-item-container">
+		<li class="leaf-container <?php if(!$k)echo 'first';?>">
+			<div class="leaf">
 				<span class="fr options">
-					<span class="w100 block fl">
+					<span class="w115 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
 						'size'=>3,
 						'maxlength'=>3,
 						'data-id'=>$c['id'],
-						'class'=>"edit-sort w30 cat-{$c['id']}-sort",
+						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
 					<?php echo Html::link('添加页面', array('admin/page/create', array(
 						'cat_id'=>$c['id'],
 					)), array(
-						'class'=>'color-green',
+						'class'=>'fc-green',
 					), true);
 					echo Html::link('查看该分类', array('admin/page/index', array(
 						'cat_id'=>$c['id'],
@@ -40,11 +40,11 @@ function showCats($cats, $dep = 0){?>
 						echo Html::link('删除', array('admin/category/remove', array(
 							'id'=>$c['id'],
 						)), array(
-							'class'=>'remove-link color-red',
+							'class'=>'remove-link fc-red',
 						));
 					}?>
 				</span>
-				<span class="cat-item-title cat-<?php echo $c['id']?> <?php if(empty($c['children']))
+				<span class="leaf-title cat-<?php echo $c['id']?> <?php if(empty($c['children']))
 						echo 'terminal';
 					else
 						echo 'parent';?>">
@@ -54,7 +54,7 @@ function showCats($cats, $dep = 0){?>
 						<strong><?php echo Html::encode($c['title'])?></strong>
 					<?php }?>
 					<?php if($c['alias']){?>
-						<em class="color-grey">[ <?php echo $c['alias']?> ]</em>
+						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
 				</span>
 			</div>
@@ -65,11 +65,12 @@ function showCats($cats, $dep = 0){?>
 	<?php }?>
 	</ul>
 <?php }?>
-<div class="col-1">
-	<div class="cat-list-container">
-		<?php showCats($cats)?>
+<div class="row">
+	<div class="col-12">
+		<div class="form-inline tree-container">
+			<?php showCats($cats)?>
+		</div>
 	</div>
-	<div class="clear"></div>
 </div>
 
 <?php $this->renderPartial('category/_common');?>

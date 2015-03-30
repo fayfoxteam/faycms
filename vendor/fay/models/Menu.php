@@ -85,15 +85,17 @@ class Menu extends Model{
 	 * @param int|string|null $parent 父节点ID或别名
 	 *  - 若为数字，视为ID获取菜单；
 	 *  - 若为字符串，视为别名获取菜单；
+	 * @param $real_link 返回渲染后的真实url
+	 * @param $only_enabled 若为true，仅返回启用的菜单集
 	 * @return array
 	 */
-	public function getTree($parent = null, $real_link = true, $enabled = true){
+	public function getTree($parent = null, $real_link = true, $only_enabled = true){
 		if($parent === null){
 			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
 		}else if(is_numeric($parent)){
-			return $this->getTreeByParentId($parent);
+			return $this->getTreeByParentId($parent, $real_link, $only_enabled);
 		}else{
-			return $this->getTreeByParentAlias($parent);
+			return $this->getTreeByParentAlias($parent, $real_link, $only_enabled);
 		}
 	}
 	
@@ -101,13 +103,13 @@ class Menu extends Model{
 	 * 根据父节点别名，返回导航树
 	 * 若不指定别名，返回用户自定义菜单
 	 */
-	public function getTreeByParentAlias($alias = null, $real_link = true, $enabled = true){
+	public function getTreeByParentAlias($alias = null, $real_link = true, $only_enabled = true){
 		if($alias === null){
 			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
 		}else{
 			$root = $this->getByAlias($alias, 'id');
 			if($root){
-				return $this->getTreeByParentId($root['id'], $real_link, $enabled);
+				return $this->getTreeByParentId($root['id'], $real_link, $only_enabled);
 			}else{
 				return array();
 			}
@@ -118,7 +120,7 @@ class Menu extends Model{
 	 * 根据父节点ID，返回导航树
 	 * 若不指定ID，返回用户自定义菜单
 	 */
-	public function getTreeByParentId($id = null, $real_link = true, $enabled = true){
+	public function getTreeByParentId($id = null, $real_link = true, $only_enabled = true){
 		if($id == null){
 			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
 		}
@@ -126,7 +128,7 @@ class Menu extends Model{
 		$menu = Tree::model()->getTree('fay\models\tables\Menus', $id);
 		
 		//无法在搜索树的时候就删除关闭的菜单，在这里再循环移除
-		if($enabled){
+		if($only_enabled){
 			$menu = $this->removeDisabledItems($menu);
 		}
 		

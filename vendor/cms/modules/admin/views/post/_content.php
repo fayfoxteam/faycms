@@ -9,7 +9,7 @@ if(isset($post['content_type'])){
 }
 if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 	echo F::form()->textarea('content', array(
-		'class'=>'h350 wp99 autosize',
+		'class'=>'h350 form-control autosize',
 	));
 }else if($editor == Posts::CONTENT_TYPE_MARKDOWN){
 	echo F::form()->textarea('content', array(

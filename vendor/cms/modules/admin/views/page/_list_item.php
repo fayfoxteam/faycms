@@ -20,7 +20,7 @@ use fay\helpers\Date;
 			echo Html::link('移入回收站', array('admin/page/delete', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'delete-page color-red',
+				'class'=>'delete-page fc-red',
 			), true);
 		}else{
 			echo Html::link('还原', array('admin/page/undelete', array(
@@ -29,7 +29,7 @@ use fay\helpers\Date;
 			echo Html::link('永久删除', array('admin/page/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'delete-page color-red remove-link',
+				'class'=>'delete-page fc-red remove-link',
 			), true);
 		}?>
 		</div>
@@ -58,16 +58,16 @@ use fay\helpers\Date;
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('last_modified_time', $_settings['cols'])){?>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['last_modified_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
 			<?php echo Date::niceShort($data['last_modified_time'])?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('create_time', $_settings['cols'])){?>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php echo Date::niceShort($data['create_time'])?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('sort', $_settings['cols'])){?>

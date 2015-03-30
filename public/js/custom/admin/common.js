@@ -46,7 +46,7 @@ var common = {
 				'afterAjaxSubmit':function(resp){
 					if(resp.status){
 						$('#setting-form-submit').nextAll('img,span,a').remove();
-						$('#setting-form-submit').after('<span class="color-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
+						$('#setting-form-submit').after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
 					}else{
 						alert(resp.message);
 					}
@@ -157,61 +157,82 @@ var common = {
 		});
 	},
 	'menu':function(){
-		//左侧菜单条的打开关闭
-		$(document).on('click', '.menu-head', function(){
-			//菜单被折叠或菜单属于当前tab的时候，无效果
-			if(!$('body').hasClass('folded') && !$(this).parent().hasClass('sel')){
-				$(this).toggleClass('open');
-				if($(this).hasClass('open')){
-					$(this).next('ul').slideDown();
+		$('#main-menu').on('click', '.has-sub > a', function(){
+			//非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
+			if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
+				var slideElapse = 300;//滑动效果持续
+				$li = $(this).parent();//父级li
+				$ul = $(this).next('ul');//子菜单的ul
+				$_li = $ul.children('li');//子菜单的li
+				if($li.hasClass('expanded')){
+					//关闭
+					$ul.slideUp(slideElapse, function(){
+						$li.removeClass('expanded').removeClass('opened');
+						$(this).removeAttr('style');
+					});
 				}else{
-					$(this).next('ul').slideUp('normal', function(){
-						$(this).css('display', '');
+					//打开
+					$ul.slideDown(slideElapse, function(){
+						$(this).removeAttr('style');
+					});
+					$li.addClass('expanded');
+					$_li.addClass('is-hidden');
+					setTimeout((function($li){
+						return function(){
+							$li.addClass('is-shown');
+						}
+					})($_li), 0);
+					setTimeout((function($li){
+						return function(){
+							$li.removeClass('is-hidden is-shown');
+						}
+					})($_li), 500);
+					
+					//关闭其它打开的同辈元素
+					$li.siblings('.expanded').children('ul').slideUp(slideElapse, function(){
+						$li.siblings('.expanded').removeClass('expanded').removeClass('opened');
+						$(this).removeAttr('style');
 					});
 				}
+				return false;
 			}
 		});
-		//左侧菜单条的显示隐藏
-		$(document).on('click', '#collapse-menu', function(){
-			$('body').toggleClass('folded');
-			$.ajax({
+		
+		//小屏幕下打开关闭上面的菜单
+        $('.toggle-mobile-menu').on('click', function(){
+            $('#main-menu').toggleClass('mobile-is-visible');
+        });
+        
+        //打开缩起左侧菜单
+        $('.toggle-sidebar').on('click', function(){
+        	$('#sidebar-menu').toggleClass('collapsed');
+        	$.ajax({
 				type: 'POST',
 				url: system.url('admin/system/setting'),
 				data: {
-					'_key':'admin_body_class',
-					'class':$('body').hasClass('folded') ? 'folded' : ''
+					'_key':'admin_sidebar_class',
+					'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
 				}
 			});
-		});
+        });
 	},
 	'screenMeta':function(){
-		$('.screen-meta-links').on('click', 'a', function(){
-			$(this).toggleClass('active');
-			if($(this).hasClass('active')){
-				$($(this).attr('href')).slideDown();
-				$(this).parent()
-					.css({
-						'margin-top':'-1px'
-					})
-					.siblings()
-					.css({
-						'visibility':'hidden'
-					})//隐藏其他设置项
-					.find('a').removeClass('active');
-					
-			}else{
-				$($(this).attr('href')).slideUp();
-				$(this).parent()
-					.css({
-						'margin-top':''
-					})
-					.siblings()
-					.css({
-						'visibility':''
-					});
-			}
-			return false;
-		});
+		if($('.screen-meta-links a').length){
+            system.getCss(system.url('css/jquery.fancybox-1.3.4.css'));
+            system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+                $('.screen-meta-links a').fancybox({
+                    'padding':0,
+                    'centerOnScroll':true,
+                    'titleShow':false,
+                    'onClosed':function(o){
+                        $($(o).attr('href')).find('input,select,textarea').each(function(){
+                            $(this).poshytip('hide');
+                        });
+                    },
+                    'type' : 'inline'
+                });
+            });
+		}
 	},
 	'dragsort':function(){
 		//box的拖拽
@@ -336,6 +357,19 @@ var common = {
 		//永久删除的确认
 		$(document).on('click', '.remove-link', function(){
 			return confirm('确实要永久删除此记录吗？');
+		});
+		
+		//分页条页面跳转
+		//若要自定义ajax分页，可以把事件绑定到其它元素后return false防止页面跳转
+		$(document).on('keydown', '.pager .pager-input', function(event){
+			if(event.keyCode == 13 || event.keyCode == 108){
+				var link = window.location.href;
+				if(link.indexOf('?') > 0){
+					window.location.href = link+'&'+$(this).attr('name')+'='+$(this).val();
+				}else{
+					window.location.href = link+'?'+$(this).attr('name')+'='+$(this).val();
+				}
+			}
 		});
 	},
 	'validform':function(){
@@ -525,7 +559,8 @@ var common = {
 					if(common.filebrowserFlashUploadUrl){
 						config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
 					}
-					if($('#visual-editor').hasClass('visual-simple')){
+					if($('#visual-editor').hasClass('visual-simple') || parseInt($(window).width()) < 743){
+						//简化模式
 						config.toolbar = [
 					  		['Source'],
 							['TextColor','BGColor'],
@@ -536,7 +571,6 @@ var common = {
 						config.enterMode = CKEDITOR.ENTER_BR;
 						config.shiftEnterMode = CKEDITOR.ENTER_P;
 					}
-					//console.log(config);
 					common.editorObj = CKEDITOR.replace('visual-editor', config);
 				});
 			}
@@ -692,52 +726,31 @@ var common = {
 		});
 	},
 	'showPager':function(id, pager){
-		var html = ['<ul>'];
-		html.push('<li class="summary">共&nbsp;', pager.totalRecords, '&nbsp;条记录，当前第&nbsp;', pager.startRecord, '&nbsp;到&nbsp;', pager.endRecord, '&nbsp;条</li>');
-		//上一页
-		if(pager.currentPage == 1 && pager.totalRecords != 0){
-			html.push('<li><a class="prev disabled" href="javascript:;">«</a></li>');
-		}else if(pager.totalRecords != 0){
-			html.push('<li><a class="prev" href="javascript:;" data-page="'+(pager.currentPage - 1)+'">«</a></li>');
-		}
-		//是否显示第一页
-		if(pager.currentPage > pager.adjacents + 1){
-			html.push('<li><a class="prev" href="javascript:;" data-page="1">1</a></li>');
-		}
-		//显示间隔
-		if(pager.currentPage > pager.adjacents + 2){
-			html.push('<li><a href="javascript:;">...</a></li>');
-		}
-		//显示页码条
-		var pmin = pager.currentPage > pager.adjacents ? pager.currentPage - pager.adjacents : 1;
-		var pmax = pager.currentPage < pager.totalPages - pager.adjacents ? pager.currentPage + pager.adjacents : pager.totalPages;
-		
-		for(var i = pmin; i <= pmax; i++){
-			if(i == pager.currentPage){
-				html.push('<li><a href="javascript:;" class="page action">'+i+'</a></li>');
-			}else if(i == 1) {
-				html.push('<li><a href="javascript:;" data-page="1">1</a></li>');
+		if(pager.totalPages > 1){
+			var html = ['<span class="summary">', pager.totalRecords, '条记录</span>'];
+			//向前导航
+			if(pager.currentPage == 1){
+				html.push('<a href="javascript:;" title="首页" class="page-numbers first disabled">&laquo;</a>');
+				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev disabled">&lsaquo;</a>');
 			}else{
-				html.push('<li><a href="javascript:;" class="page" data-page="'+i+'">'+i+'</a></li>');
+				html.push('<a href="javascript:;" title="首页" class="page-numbers first" data-page="1">&laquo;</a>');
+				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev" data-page="' + (pager.currentPage - 1) + '">&lsaquo;</a>');
 			}
+			
+			//页码输入框
+			html.push(' 第 <input type="number" value="' + pager.currentPage + '" class="form-control pager-input" min="1" max="' + pager.totalPages + '" /> 页，共' + pager.totalPages + '页');
+			
+			//向后导航
+			if(pager.currentPage == pager.totalPages){
+				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev disabled">&rsaquo;</a>');
+				html.push('<a href="javascript:;" title="末页" class="page-numbers first disabled">&raquo;</a>');
+			}else{
+				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev" data-page="' + (pager.currentPage + 1) + '">&rsaquo;</a>');
+				html.push('<a href="javascript:;" title="末页" class="page-numbers first" data-page="' + pager.totalPages + '">&raquo;</a>');
+			}
+		}else{
+			var html = ['<span class="summary">', pager.totalRecords, '条记录</span>'];
 		}
-		//显示间隔
-		if(pager.currentPage<(pager.totalPages-pager.adjacents-1)) {
-			html.push('<li><a href="javascript:;">...</a></li>');
-		}
-		
-		//显示最后一页
-		if(pager.currentPage < pager.totalPages - pager.adjacents) {
-			html.push('<li><a href="javascript:;" data-page="'+pager.totalPages+'">'+pager.totalPages+'</a></li>');
-		}
-		//下一页
-		if(pager.currentPage < pager.totalPages) {
-			html.push('<li><a class="next" href="javascript:;" title="下一页" data-page="'+(pager.currentPage + 1)+'">»</a></li>');
-		}else if(pager.totalRecords != 0){
-			html.push('<li><a class="next disabled" href="javascript:;">»</a></li>');
-		}
-		
-		html.push('</ul>');
 		$('#'+id).html(html.join(''));
 	},
 	'batch':function(){
@@ -783,6 +796,19 @@ var common = {
 			});
 		}
 	},
+	'dropdown':function(){
+		$(document).on('click', 'a.dropdown', function(){
+			$(this).parent().toggleClass('open');
+			return false;
+		});
+		$(document).on('click', function(){
+			$('.dropdown-container').each(function(){
+				if($(this).hasClass('open')){
+					$(this).removeClass('open');
+				}
+			});
+		});
+	},
 	'init':function(){
 		this.fancybox();
 		this.notification();
@@ -801,5 +827,6 @@ var common = {
 		this.batch();
 		this.dragsortList();
 		this.textAutosize();
+		this.dropdown();
 	}
 };

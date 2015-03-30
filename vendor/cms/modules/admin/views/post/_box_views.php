@@ -6,7 +6,9 @@
 		<h4>阅读数</h4>
 	</div>
 	<div class="box-content">
-		<?php echo F::form()->inputText('views')?>
-		<p class="color-grey">设定初始值，后续会按实际PV自动增加。</p>
+		<?php echo F::form()->inputText('views', array(
+			'class'=>'form-control mw150',
+		))?>
+		<p class="fc-grey">设定初始值，后续会按实际PV自动增加。</p>
 	</div>
 </div>

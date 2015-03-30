@@ -18,11 +18,11 @@ jQuery.fn.extend({
 				
 				clearTimeout($.feditsort_timeout);
 				$(this).next('img').remove();
-				$(this).after('<img src="'+system.url()+'images/throbber.gif" />');
+				$(this).after('<img src="'+system.url()+'images/throbber.gif" class="ajax-status-img" />');
 				$.feditsort_timeout = setTimeout((function(o){
 					return function(){
 						$(o).next('img').remove();
-						$(o).after('<img src="'+system.url()+'images/throbber.gif" />');
+						$(o).after('<img src="'+system.url()+'images/throbber.gif" class="ajax-status-img" />');
 						$.ajax({
 							type: "GET",
 							url: defaults.url,

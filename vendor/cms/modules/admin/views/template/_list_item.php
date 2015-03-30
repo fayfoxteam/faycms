@@ -8,7 +8,7 @@ use fay\models\Template;
 		<div class="row-actions">
 			<?php echo Html::link('编辑', array('admin/template/edit', array('id'=>$data['id'])))?>
 			<?php echo Html::link('删除', array('admin/template/delete', array('id'=>$data['id'])), array(
-				'class'=>'color-red remove-link',
+				'class'=>'fc-red remove-link',
 			))?>
 		</div>
 	</td>

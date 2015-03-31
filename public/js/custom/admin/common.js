@@ -12,7 +12,7 @@ var common = {
 				},
 				'showAllErrors':true,
 				'beforeSubmit':function(){
-					$('.wrapper').block();
+					$('body').block();
 				},
 				'onError':function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();

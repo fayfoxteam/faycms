@@ -6,7 +6,7 @@ use fay\models\tables\Props;
 	<td>
 		<strong><?php echo Html::encode($data['title'])?></strong>
 		<?php if($data['alias']){?>
-		<em class="color-grey">[ <?php echo $data['alias']?> ]</em>
+		<em class="fc-grey">[ <?php echo $data['alias']?> ]</em>
 		<?php }?>
 		<?php if($data['refer'] != $refer){?>
 		<sup class="bg-yellow title-sup" title="继承自父节点">继承</sup>
@@ -21,7 +21,7 @@ use fay\models\tables\Props;
 			<?php echo Html::link('删除', array('admin/post-prop/delete', array(
 				'id'=>$data['id'],
 			) + F::input()->get()), array(
-				'class'=>'remove-link color-red',
+				'class'=>'remove-link fc-red',
 			))?>
 		</div>
 		<?php }?>
@@ -48,6 +48,6 @@ use fay\models\tables\Props;
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'edit-sort w30',
+		'class'=>'form-control w50 ib edit-sort',
 	))?></td>
 </tr>

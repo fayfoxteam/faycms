@@ -42,7 +42,7 @@ $full_file_path = File::model()->getUrl($data);
 			echo Html::link('物理删除', array('admin/file/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'delete-file color-red',
+				'class'=>'delete-file fc-red',
 				'data-id'=>$data['id'],
 			));
 			echo Html::link('下载', array('admin/file/download', array(
@@ -56,7 +56,7 @@ $full_file_path = File::model()->getUrl($data);
 	<?php if(in_array('qiniu', $cols)){?>
 	<td>
 		<div class="qiniu-status qiniu-uploaded <?php if(!$data['qiniu']){echo 'hide';}?>">
-			<span class="color-green">已上传</span>
+			<span class="fc-green">已上传</span>
 			<div class="row-actions"><?php
 				echo Html::link('查看', Qiniu::model()->getUrl($data), array(
 					'target'=>'_blank',
@@ -66,13 +66,13 @@ $full_file_path = File::model()->getUrl($data);
 					'id'=>$data['id'],
 				)), array(
 					'data-id'=>$data['id'],
-					'class'=>'qiniu-delete color-red',
+					'class'=>'qiniu-delete fc-red',
 					'title'=>'从七牛删除，本地图片会保留',
 				));
 			?></div>
 		</div>
 		<div class="qiniu-status qiniu-not-upload <?php if($data['qiniu']){echo 'hide';}?>">
-			<span class="color-orange">未上传</span>
+			<span class="fc-orange">未上传</span>
 			<div class="row-actions"><?php
 				echo Html::link('上传', array('admin/qiniu/put', array(
 					'id'=>$data['id'],
@@ -130,12 +130,12 @@ $full_file_path = File::model()->getUrl($data);
 	<td><?php echo $data['downloads']?></td>
 	<?php }?>
 	<?php if(in_array('upload_time', $cols)){?>
-	<td><span class="time abbr" title="<?php echo Date::format($data['upload_time'])?>">
+	<td><abbr class="time" title="<?php echo Date::format($data['upload_time'])?>">
 		<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 			echo Date::niceShort($data['upload_time']);
 		}else{
 			echo Date::format($data['upload_time']);
 		}?>
-	</span></td>
+	</abbr></td>
 	<?php }?>
 </tr>

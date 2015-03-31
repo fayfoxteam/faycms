@@ -12,7 +12,7 @@ use fay\helpers\Html;
 			echo Html::link('永久删除', array('admin/analyst-site/delete', array(
 				'id'=>$data['id'],
 			) + F::input()->get()), array(
-				'class'=>'color-red remove-link',
+				'class'=>'fc-red remove-link',
 			), true);
 			?>
 		</div>

@@ -60,49 +60,49 @@ use fay\models\File;
 	
 	<?php if(in_array('block', $cols)){?>
 	<td><?php if($data['block']){
-		echo '<span class="color-red">阻塞</span>';
+		echo '<span class="fc-red">阻塞</span>';
 	}else{
-		echo '<span class="color-green">正常</span>';
+		echo '<span class="fc-green">正常</span>';
 	}?></td>
 	<?php }?>
 	
 	<?php if(in_array('reg_time', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['reg_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['reg_time'])?>">
 			<?php echo Date::niceShort($data['reg_time'])?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	
 	<?php if(in_array('reg_ip', $cols)){?>
 	<td>
-		<span class="ip abbr" title="<?php echo long2ip($data['reg_ip'])?>">
+		<abbr class="ip" title="<?php echo long2ip($data['reg_ip'])?>">
 			<?php echo $iplocation->getCountryAndArea(long2ip($data['reg_ip']))?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	
 	<?php if(in_array('last_login_time', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['last_login_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['last_login_time'])?>">
 			<?php echo Date::niceShort($data['last_login_time'])?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	
 	<?php if(in_array('last_login_ip', $cols)){?>
 	<td>
-		<span class="ip abbr" title="<?php echo long2ip($data['last_login_ip'])?>">
+		<abbr class="ip" title="<?php echo long2ip($data['last_login_ip'])?>">
 			<?php echo $iplocation->getCountryAndArea(long2ip($data['last_login_ip']))?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	
 	<?php if(in_array('last_time_online', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['last_time_online'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['last_time_online'])?>">
 			<?php echo Date::niceShort($data['last_time_online'])?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	

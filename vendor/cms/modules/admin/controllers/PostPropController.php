@@ -156,7 +156,7 @@ class PostPropController extends AdminController{
 			->order('sort, id DESC');
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>15,
+			'page_size'=>15,
 		));
 	}
 }

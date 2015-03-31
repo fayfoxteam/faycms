@@ -7,7 +7,7 @@ var question = {
 				'<a class="dragsort-rm" href="javascript:;"></a>',
 				'<a class="dragsort-item-selector"></a>',
 				'<div class="dragsort-item-container mr10">',
-					'<textarea class="full-width" name="selector_answers[new', rand, ']"></textarea>',
+					'<textarea class="form-control" name="selector_answers[new', rand, ']"></textarea>',
 					'<label>',
 					function(rand){
 						if($('[name="type"]:checked').val() == question.type.single_answer){

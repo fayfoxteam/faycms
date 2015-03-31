@@ -17,7 +17,7 @@ use fay\helpers\Date;
 				echo Html::link('删除', array('admin/exam-question/delete', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'color-red remove-link',
+					'class'=>'fc-red remove-link',
 				), true);
 			?>
 		</div>
@@ -40,13 +40,13 @@ use fay\helpers\Date;
 	}?></td>
 	<td><?php switch($data['status']){
 		case ExamQuestions::STATUS_ENABLED:
-			echo '<span class="color-green">启用</span>';
+			echo '<span class="fc-green">启用</span>';
 			break;
 		case ExamQuestions::STATUS_DISABLED:
-			echo '<span class="color-red">禁用</span>';
+			echo '<span class="fc-red">禁用</span>';
 			break;
 	}?></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+	<td><abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 		<?php echo Date::niceShort($data['create_time'])?>
-	</span></td>
+	</abbr></td>
 </tr>

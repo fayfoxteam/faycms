@@ -4,9 +4,9 @@ use fay\helpers\String;
 ?>
 <tr>
 	<td><a href="<?php echo $data['url']?>" target="_blank">
-		<span class="abbr" title="<?php echo urldecode(Html::encode($data['url']))?>">
+		<abbr title="<?php echo urldecode(Html::encode($data['url']))?>">
 			<?php echo String::niceShort(urldecode(Html::encode($data['url'])), 100)?>
-		</span>
+		</abbr>
 	</a></td>
 	<td><?php echo $data['pv']?></td>
 	<td><?php echo $data['uv']?></td>

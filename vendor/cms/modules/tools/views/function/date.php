@@ -2,23 +2,48 @@
 use fay\helpers\Date;
 ?>
 <form method="post" id="form">
-	<?php echo F::form()->textarea('key', array(
-		'class'=>'wp90 h200 autosize',
-	));?>
-	<div class="mt20">
-		<p>当前时间戳：<em><?php echo F::app()->current_time?></em></p>
-		<p>当前时间：<?php echo Date::format(F::app()->current_time)?></p>
+	<div class="row">
+		<div class="col-12">
+			<div class="box">
+				<div class="box-content">
+					<p><strong>Current Timestamp</strong>: <em><?php echo F::app()->current_time?></em></p>
+					<p><strong>Current Time</strong>: <?php echo Date::format(F::app()->current_time)?></p>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="mt20">
-		<a href="javascript:;" id="form-submit" class="btn-1">提交</a>
+	<div class="row">
+		<div class="col-6">
+			<div class="box">
+				<div class="box-title"><h3>Timestamp</h3></div>
+				<div class="box-content">
+					<?php echo F::form()->textarea('key', array(
+						'class'=>'form-control h200 autosize',
+					));?>
+					<a href="javascript:;" id="form-submit" class="btn mt5">提交</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="box">
+				<div class="box-title"><h3>Result</h3></div>
+				<div class="box-content">
+					<div style="min-height:200px"><?php if(F::app()->input->post('key')){
+						$timestamps = explode("\r\n", F::app()->input->post('key'));
+						foreach($timestamps as $t){
+							echo date('Y-m-d H:i:s', intval($t)), '<br />';
+						}
+					}?></div>
+				</div>
+			</div>
+		</div>
 	</div>
 </form>
-<div class="mt20">
-	<h3>执行结果</h3>
-	<?php if(F::app()->input->post('key')){
-		$timestamps = explode("\r\n", F::app()->input->post('key'));
-		foreach($timestamps as $t){
-			echo date('Y-m-d H:i:s', intval($t)), '<br />';
-		}
-	}?>
-</div>
+<script>
+$("[name='key']").keydown(function(event){
+	if((event.keyCode == 82 || event.keyCode == 83) && event.ctrlKey){
+		$("#form").submit();
+		return false;
+	}
+});
+</script>

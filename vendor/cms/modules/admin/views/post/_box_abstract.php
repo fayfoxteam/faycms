@@ -7,7 +7,7 @@
 	</div>
 	<div class="box-content">
 		<?php echo F::form()->textarea('abstract', array(
-			'class'=>'full-width h90 autosize',
+			'class'=>'form-control h90 autosize',
 		))?>
 	</div>
 </div>

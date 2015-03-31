@@ -28,7 +28,7 @@ jQuery.fn.extend({
 				var html = $('<div class="fblock">').css({
 					'width':parseInt(width) + parseInt(padding_left) + parseInt(padding_right),
 					'height':parseInt(height) + parseInt(padding_top) + parseInt(padding_bottom),
-					'position':'absolute',
+					'position':$(this).context.tagName == 'BODY' ? 'fixed' : 'absolute',
 					'left':parseInt(offset.left) + parseInt(border_left),
 					'top':parseInt(offset.top) + parseInt(border_top),
 					'z-index':typeof(options.zindex) == 'undefined' ? 500 : options.zindex

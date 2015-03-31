@@ -15,6 +15,8 @@ class LoginController extends Controller{
 	}
 	
 	public function index(){
+		$this->config->set('debug', false);
+		
 		if($this->input->post()){
 			//获得用户名对应的密码后缀字母
 			$result = User::model()->adminLogin($this->input->post('username'), $this->input->post('password'));

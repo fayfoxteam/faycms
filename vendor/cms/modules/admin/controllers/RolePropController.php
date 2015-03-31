@@ -153,7 +153,7 @@ class RolePropController extends AdminController{
 			->order('sort');
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize' => 15,
+			'page_size' => 15,
 		));
 	}
 }

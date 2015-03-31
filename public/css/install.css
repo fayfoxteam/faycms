@@ -17,10 +17,10 @@ html{background-color:#f1f1f1;font-size:14px;color:#444;line-height:1.5em;}
 .btn-1:hover{background-color:#1E87EF;border-color:#1B607F;box-shadow:0 1px 0 rgba(120,200,230,0.6) inset;color:#FFFFFF;}
 
 .desc{padding-left:10px;font-size:12px;color:grey;}
-.color-red{color:red !important;}
-.color-green{color:green !important;}
-.color-orange{color:orange !important;}
-.color-grey{color:grey !important;}
+.fc-red{color:red !important;}
+.fc-green{color:green !important;}
+.fc-orange{color:orange !important;}
+.fc-grey{color:grey !important;}
 .throbber{padding-left:5px;}
 .throbber img{vertical-align:sub;}
 

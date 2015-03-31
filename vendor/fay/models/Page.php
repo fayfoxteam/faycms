@@ -96,22 +96,34 @@ class Page extends Model{
 	}
 	
 	/**
-	 * 根据别名获取页面
+	 * 根据别名获取单页
 	 * @param string $alias
 	 */
 	public function getByAlias($alias){
-		$page = Pages::model()->fetchRow(array(
+		return Pages::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		));
-		return $page;
 	}
 	
 	/**
-	 * 根据ID获取页面
-	 * @param unknown $id
+	 * 根据ID获取单页
+	 * @param int $id
 	 */
-	public function get($id){
-		$page = Pages::model()->find($id);
-		return $page;
+	public function getById($id){
+		return Pages::model()->find($id);
+	}
+	
+	/**
+	 * 获取单页
+	 * @param int|string $page
+	 *  - 若为数字，视为单页ID获取；
+	 *  - 若为字符串，视为单页别名获取；
+	 */
+	public function get($page){
+		if(is_numeric($page)){
+			return $this->getById($page);
+		}else{
+			return $this->getByAlias($page);
+		}
 	}
 }

@@ -1,18 +1,22 @@
 <?php
 use fay\helpers\Html;
 ?>
-<form id="search-form" method="get">
+<?php echo F::form('search')->open(null, 'get', array(
+	'class'=>'form-inline',
+))?>
 	<div class="mb5">
-		<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($cats, 'id', 'title'))?>
+		<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($cats, 'id', 'title'), array(
+			'class'=>'form-control',
+		))?>
 		<?php /**
 		//需要配置才能允许url中出现%2F，还是不要提供搜索比较好
 		路由：
 		<?php echo F::form()->inputText('router')?>
 		*/?>
-		<a href="javascript:;" class="btn-3" id="search-form-submit">搜索</a>
+		<a href="javascript:;" class="btn btn-sm" id="search-form-submit">搜索</a>
 	</div>
-</form>
-<table border="0" cellpadding="0" cellspacing="0" class="list-table">
+<?php echo F::form('search')->close()?>
+<table class="list-table">
 	<thead>
 		<tr>
 			<th>描述</th>

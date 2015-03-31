@@ -63,15 +63,13 @@ var _fa = {
 		}
 		var b, s;
 		
-		if(s = ua.match(/MicroMessenger\/([\.\w]+)$/i)){
+		if(s = ua.match(/MicroMessenger\/([\.\w]+)/i)){
 			s = ['MicroMessenger', s[1]];
 		}else if(s = ua.match(/MQQBrowser\/([\d\.]+)/i)){
 			s = ['MQQBrowser', s[1]];
 		}else if(s = ua.match(/QQBrowser\/([\d\.]+)/i)){
 			s = ['QQBrowser', s[1]];
-		}else if(s = ua.match(/QQ\/([\d\.]+)$/i)){
-			s = ['QQ', s[1]];
-		}else if(s = ua.match(/QQ\/([\d\.]+)$/i)){
+		}else if(s = ua.match(/QQ\/([\d\.]+)/i)){
 			s = ['QQ', s[1]];
 		}else if(s = ua.match(/Qzone\/([\w_\.]+)/i)){
 			s = ['Qzone', s[1]];
@@ -83,14 +81,22 @@ var _fa = {
 			s = ['LBBROWSER', ''];
 		}else if(s = ua.match(/Maxthon[\/ ]([\d\.]+)/i)){
 			s = ['Maxthon', s[1]];
+		}else if(s = ua.match(/UCBrowser\/([\d\.]+)/i)){
+			s = ['UCBrowser', s[1]];
+		}else if(s = ua.match(/XiaoMi\/MiuiBrowser\/([\d\.]+)/i)){
+			s = ['XiaoMi/MiuiBrowser', s[1]];
 		}else if(s = ua.match(/SE ([\w\.]+) MetaSr 1.0/i)){
 			s = ['Sougou', s[1]];
+		}else if(s = ua.match(/SogouMobileBrowser\/([\d\.]+)/i)){
+			s = ['SogouMobileBrowser', s[1]];
 		}else if(s = ua.match(/TheWorld ([\d\.]+)/i)){
 			s = ['TheWorld', s[1]];
 		}else if(s = ua.match(/TheWorld/i)){
 			s = ['TheWorld', ''];
 		}else if(s = ua.match(/2345Explorer ([\d\.]+)/i)){
 			s = ['2345Explorer', s[1]];
+		}else if(s = ua.match(/UBrowser\/([\d\.]+)/i)){
+			s = ['UBrowser', s[1]];
 		}else if(s = ua.match(/360SE/i)){
 			s = ['360SE', ''];
 		}else{

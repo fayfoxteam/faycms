@@ -12,7 +12,7 @@ var common = {
 				},
 				'showAllErrors':true,
 				'beforeSubmit':function(){
-					$('.wrapper').block();
+					$('body').block();
 				},
 				'onError':function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
@@ -46,7 +46,7 @@ var common = {
 				'afterAjaxSubmit':function(resp){
 					if(resp.status){
 						$('#setting-form-submit').nextAll('img,span,a').remove();
-						$('#setting-form-submit').after('<span class="color-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
+						$('#setting-form-submit').after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
 					}else{
 						alert(resp.message);
 					}
@@ -157,61 +157,82 @@ var common = {
 		});
 	},
 	'menu':function(){
-		//左侧菜单条的打开关闭
-		$(document).on('click', '.menu-head', function(){
-			//菜单被折叠或菜单属于当前tab的时候，无效果
-			if(!$('body').hasClass('folded') && !$(this).parent().hasClass('sel')){
-				$(this).toggleClass('open');
-				if($(this).hasClass('open')){
-					$(this).next('ul').slideDown();
+		$('#main-menu').on('click', '.has-sub > a', function(){
+			//非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
+			if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
+				var slideElapse = 300;//滑动效果持续
+				$li = $(this).parent();//父级li
+				$ul = $(this).next('ul');//子菜单的ul
+				$_li = $ul.children('li');//子菜单的li
+				if($li.hasClass('expanded')){
+					//关闭
+					$ul.slideUp(slideElapse, function(){
+						$li.removeClass('expanded').removeClass('opened');
+						$(this).removeAttr('style');
+					});
 				}else{
-					$(this).next('ul').slideUp('normal', function(){
-						$(this).css('display', '');
+					//打开
+					$ul.slideDown(slideElapse, function(){
+						$(this).removeAttr('style');
+					});
+					$li.addClass('expanded');
+					$_li.addClass('is-hidden');
+					setTimeout((function($li){
+						return function(){
+							$li.addClass('is-shown');
+						}
+					})($_li), 0);
+					setTimeout((function($li){
+						return function(){
+							$li.removeClass('is-hidden is-shown');
+						}
+					})($_li), 500);
+					
+					//关闭其它打开的同辈元素
+					$li.siblings('.expanded').children('ul').slideUp(slideElapse, function(){
+						$li.siblings('.expanded').removeClass('expanded').removeClass('opened');
+						$(this).removeAttr('style');
 					});
 				}
+				return false;
 			}
 		});
-		//左侧菜单条的显示隐藏
-		$(document).on('click', '#collapse-menu', function(){
-			$('body').toggleClass('folded');
-			$.ajax({
+		
+		//小屏幕下打开关闭上面的菜单
+        $('.toggle-mobile-menu').on('click', function(){
+            $('#main-menu').toggleClass('mobile-is-visible');
+        });
+        
+        //打开缩起左侧菜单
+        $('.toggle-sidebar').on('click', function(){
+        	$('#sidebar-menu').toggleClass('collapsed');
+        	$.ajax({
 				type: 'POST',
 				url: system.url('admin/system/setting'),
 				data: {
-					'_key':'admin_body_class',
-					'class':$('body').hasClass('folded') ? 'folded' : ''
+					'_key':'admin_sidebar_class',
+					'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
 				}
 			});
-		});
+        });
 	},
 	'screenMeta':function(){
-		$('.screen-meta-links').on('click', 'a', function(){
-			$(this).toggleClass('active');
-			if($(this).hasClass('active')){
-				$($(this).attr('href')).slideDown();
-				$(this).parent()
-					.css({
-						'margin-top':'-1px'
-					})
-					.siblings()
-					.css({
-						'visibility':'hidden'
-					})//隐藏其他设置项
-					.find('a').removeClass('active');
-					
-			}else{
-				$($(this).attr('href')).slideUp();
-				$(this).parent()
-					.css({
-						'margin-top':''
-					})
-					.siblings()
-					.css({
-						'visibility':''
-					});
-			}
-			return false;
-		});
+		if($('.screen-meta-links a').length){
+            system.getCss(system.url('css/jquery.fancybox-1.3.4.css'));
+            system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+                $('.screen-meta-links a').fancybox({
+                    'padding':0,
+                    'centerOnScroll':true,
+                    'titleShow':false,
+                    'onClosed':function(o){
+                        $($(o).attr('href')).find('input,select,textarea').each(function(){
+                            $(this).poshytip('hide');
+                        });
+                    },
+                    'type' : 'inline'
+                });
+            });
+		}
 	},
 	'dragsort':function(){
 		//box的拖拽
@@ -316,19 +337,6 @@ var common = {
 		$('a[id$="reset"]').click(function(){
 			$('form#'+$(this).attr('id').replace('-reset', ''))[0].reset();
 		});
-		//label覆盖到输入框上面
-		$('.titlediv').each(function(i){
-			if($(this).find('input').val() != ''){
-				$(this).find('.title-prompt-text').hide();
-			}
-		});
-		$('.titlediv input').focus(function(){
-			$(this).parent().find('.title-prompt-text').hide();
-		}).blur(function(){
-			if($(this).val()==''){
-				$(this).parent().find('.title-prompt-text').show();
-			}
-		});
 		//表格间隔色
 		$('.list-table').each(function(){
 			$(this).find('tr:even').addClass('alternate');
@@ -336,6 +344,19 @@ var common = {
 		//永久删除的确认
 		$(document).on('click', '.remove-link', function(){
 			return confirm('确实要永久删除此记录吗？');
+		});
+		
+		//分页条页面跳转
+		//若要自定义ajax分页，可以把事件绑定到其它元素后return false防止页面跳转
+		$(document).on('keydown', '.pager .pager-input', function(event){
+			if(event.keyCode == 13 || event.keyCode == 108){
+				var link = window.location.href;
+				if(link.indexOf('?') > 0){
+					window.location.href = link+'&'+$(this).attr('name')+'='+$(this).val();
+				}else{
+					window.location.href = link+'?'+$(this).attr('name')+'='+$(this).val();
+				}
+			}
 		});
 	},
 	'validform':function(){
@@ -465,81 +486,48 @@ var common = {
 	'visualEditor':function(){
 		//此方法仅支持只有一个富文本编辑器的页面
 		if($('#visual-editor').length){
-			if($.browser.msie && $.browser.version < 8){
-				system.getScript(system.url('js/kindeditor/kindeditor.js'), function(){
-					KindEditor.basePath = system.url('js/kindeditor/');
-					system.getScript(system.url('js/kindeditor/lang/zh_CN.js'), function(){
-						var config = {
-							'width': '100%',
-							'height': $('#visual-editor').height(),
-							'filterMode': false,
-							'formatUploadUrl': false,
-							'items':[
-								'source', 'preview', '|',
-								'paste', 'plainpaste', 'wordpaste', 'undo', 'redo', '|',
-								'link', 'unlink', '|',
-								'image', 'table', 'emoticons', '|',
-								'insertorderedlist', 'insertunorderedlist', 'outdent', 'indent', 'justifyleft', 'justifycenter', 'justifyright',
-								'/',
-								'formatblock', 'fontname', 'fontsize', '|',
-								'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough','subscript', 'superscript', 'clearhtml', '|',
-								'fullscreen', 'code'
-							]
-						};
-						if(common.filebrowserImageUploadUrl){
-							config.uploadJson = common.filebrowserImageUploadUrl;
-						}
-						common.editorObj = KindEditor.create('#visual-editor', config);
-						//表单提交时获取编辑器内容
-						$($('#visual-editor')[0].form).submit(function(){
-							$('#visual-editor').val(common.editorObj.html());
-						});
-					});
-				});
-			}else{
-				window.CKEDITOR_BASEPATH = system.url('js/ckeditor/');
-				system.getScript(system.url('js/ckeditor/ckeditor.js'), function(){
-					//清空table的一些默认设置
-					CKEDITOR.on('dialogDefinition', function(ev){
-						var dialogName = ev.data.name;
-						var dialogDefinition = ev.data.definition;
+			window.CKEDITOR_BASEPATH = system.url('js/ckeditor/');
+			system.getScript(system.url('js/ckeditor/ckeditor.js'), function(){
+				//清空table的一些默认设置
+				CKEDITOR.on('dialogDefinition', function(ev){
+					var dialogName = ev.data.name;
+					var dialogDefinition = ev.data.definition;
 
-						if (dialogName == 'table'){
-							var info = dialogDefinition.getContents('info');
+					if (dialogName == 'table'){
+						var info = dialogDefinition.getContents('info');
 
-							info.get('txtWidth')['default'] = '';
-							info.get('txtBorder')['default'] = '';
-							info.get('txtCellSpace')['default'] = '';
-							info.get('txtCellPad')['default'] = '';
-							info.get('txtCols')['default'] = '3';
-							info.get('selHeaders')['default'] = 'row';
-						}
-					});
-					
-					var config = {
-						'height':$('#visual-editor').height()
-					};
-					if(common.filebrowserImageUploadUrl){
-						config.filebrowserImageUploadUrl = common.filebrowserImageUploadUrl;
+						info.get('txtWidth')['default'] = '';
+						info.get('txtBorder')['default'] = '';
+						info.get('txtCellSpace')['default'] = '';
+						info.get('txtCellPad')['default'] = '';
+						info.get('txtCols')['default'] = '3';
+						info.get('selHeaders')['default'] = 'row';
 					}
-					if(common.filebrowserFlashUploadUrl){
-						config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
-					}
-					if($('#visual-editor').hasClass('visual-simple')){
-						config.toolbar = [
-					  		['Source'],
-							['TextColor','BGColor'],
-							['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'],
-					  		['Image','Table']
-				  		];
-						//简化模式回车设为br而非p
-						config.enterMode = CKEDITOR.ENTER_BR;
-						config.shiftEnterMode = CKEDITOR.ENTER_P;
-					}
-					//console.log(config);
-					common.editorObj = CKEDITOR.replace('visual-editor', config);
 				});
-			}
+				
+				var config = {
+					'height':$('#visual-editor').height()
+				};
+				if(common.filebrowserImageUploadUrl){
+					config.filebrowserImageUploadUrl = common.filebrowserImageUploadUrl;
+				}
+				if(common.filebrowserFlashUploadUrl){
+					config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
+				}
+				if($('#visual-editor').hasClass('visual-simple') || parseInt($(window).width()) < 743){
+					//简化模式
+					config.toolbar = [
+				  		['Source'],
+						['TextColor','BGColor'],
+						['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'],
+				  		['Image','Table']
+			  		];
+					//简化模式回车设为br而非p
+					config.enterMode = CKEDITOR.ENTER_BR;
+					config.shiftEnterMode = CKEDITOR.ENTER_P;
+				}
+				common.editorObj = CKEDITOR.replace('visual-editor', config);
+			});
 		}
 	},
 	'markdownEditor':function(){
@@ -636,49 +624,7 @@ var common = {
 		}
 	},
 	'removeEditor':function(){//移除富文本编辑器实例
-		if($.browser.msie && $.browser.version < 8){
-			KindEditor.remove(common.editorObj);
-		}else{
-			common.editorObj.destroy();
-		}
-	},
-	'headerNotification':function(){
-		$.ajax({
-			type: 'GET',
-			url: system.url('admin/notification/get'),
-			dataType: 'json',
-			cache: false,
-			success: function(resp){
-				$('#header-notification-count').text(resp.data.length);
-				$('.header-notification-list').html('<ul></ul>');
-				var has_new_message = false;
-				$.each(resp.data, function(i, data){
-					if(new Date().getTime() - data.publish_time * 1000 < 50000){
-						//50秒内有新信息，自动弹出
-						has_new_message = true;
-					}
-					$('.header-notification-list ul').append([
-						'<li class="header-notification-item toggle-hover" id="header-notification-', data.id, '">',
-							'<a href="javascript:;" class="header-notification-delete" data-id="', data.id, '" title="删除"></a>',
-							'<div title="', system.encode(data.content), '">', system.encode(data.content), '</div>',
-								'<span class="abbr time" title="', system.date(data.publish_time), '">', system.shortDate(data.publish_time), '</span>',
-							'</div>',
-						'</li>'
-					].join(''));
-				});
-				if(resp.data.length > 0){
-					$('.header-notification-list ul').append(['<li>',
-						'<a href="javascript:;" class="header-notification-mute fl">不再提示</a>',
-						'<a href="', system.url('admin/notification/my'), '" class="fr">更多</a>',
-					'</li>'].join(''));
-					if(has_new_message){
-						$('.header-notification').addClass('hover');
-					}
-				}else{
-					$('.header-notification').removeClass('hover');
-				}
-			}
-		});
+		common.editorObj.destroy();
 	},
 	'tab':function(){
 		$('.tabbable').each(function(){
@@ -692,52 +638,31 @@ var common = {
 		});
 	},
 	'showPager':function(id, pager){
-		var html = ['<ul>'];
-		html.push('<li class="summary">共&nbsp;', pager.totalRecords, '&nbsp;条记录，当前第&nbsp;', pager.startRecord, '&nbsp;到&nbsp;', pager.endRecord, '&nbsp;条</li>');
-		//上一页
-		if(pager.currentPage == 1 && pager.totalRecords != 0){
-			html.push('<li><a class="prev disabled" href="javascript:;">«</a></li>');
-		}else if(pager.totalRecords != 0){
-			html.push('<li><a class="prev" href="javascript:;" data-page="'+(pager.currentPage - 1)+'">«</a></li>');
-		}
-		//是否显示第一页
-		if(pager.currentPage > pager.adjacents + 1){
-			html.push('<li><a class="prev" href="javascript:;" data-page="1">1</a></li>');
-		}
-		//显示间隔
-		if(pager.currentPage > pager.adjacents + 2){
-			html.push('<li><a href="javascript:;">...</a></li>');
-		}
-		//显示页码条
-		var pmin = pager.currentPage > pager.adjacents ? pager.currentPage - pager.adjacents : 1;
-		var pmax = pager.currentPage < pager.totalPages - pager.adjacents ? pager.currentPage + pager.adjacents : pager.totalPages;
-		
-		for(var i = pmin; i <= pmax; i++){
-			if(i == pager.currentPage){
-				html.push('<li><a href="javascript:;" class="page action">'+i+'</a></li>');
-			}else if(i == 1) {
-				html.push('<li><a href="javascript:;" data-page="1">1</a></li>');
+		if(pager.total_pages > 1){
+			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
+			//向前导航
+			if(pager.current_page == 1){
+				html.push('<a href="javascript:;" title="首页" class="page-numbers first disabled">&laquo;</a>');
+				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev disabled">&lsaquo;</a>');
 			}else{
-				html.push('<li><a href="javascript:;" class="page" data-page="'+i+'">'+i+'</a></li>');
+				html.push('<a href="javascript:;" title="首页" class="page-numbers first" data-page="1">&laquo;</a>');
+				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev" data-page="' + (pager.current_page - 1) + '">&lsaquo;</a>');
 			}
+			
+			//页码输入框
+			html.push(' 第 <input type="number" value="' + pager.current_page + '" class="form-control pager-input" min="1" max="' + pager.total_pages + '" /> 页，共' + pager.total_pages + '页');
+			
+			//向后导航
+			if(pager.current_page == pager.total_pages){
+				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev disabled">&rsaquo;</a>');
+				html.push('<a href="javascript:;" title="末页" class="page-numbers first disabled">&raquo;</a>');
+			}else{
+				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev" data-page="' + (pager.current_page + 1) + '">&rsaquo;</a>');
+				html.push('<a href="javascript:;" title="末页" class="page-numbers first" data-page="' + pager.total_pages + '">&raquo;</a>');
+			}
+		}else{
+			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 		}
-		//显示间隔
-		if(pager.currentPage<(pager.totalPages-pager.adjacents-1)) {
-			html.push('<li><a href="javascript:;">...</a></li>');
-		}
-		
-		//显示最后一页
-		if(pager.currentPage < pager.totalPages - pager.adjacents) {
-			html.push('<li><a href="javascript:;" data-page="'+pager.totalPages+'">'+pager.totalPages+'</a></li>');
-		}
-		//下一页
-		if(pager.currentPage < pager.totalPages) {
-			html.push('<li><a class="next" href="javascript:;" title="下一页" data-page="'+(pager.currentPage + 1)+'">»</a></li>');
-		}else if(pager.totalRecords != 0){
-			html.push('<li><a class="next disabled" href="javascript:;">»</a></li>');
-		}
-		
-		html.push('</ul>');
 		$('#'+id).html(html.join(''));
 	},
 	'batch':function(){
@@ -783,9 +708,21 @@ var common = {
 			});
 		}
 	},
+	'dropdown':function(){
+		$(document).on('click', 'a.dropdown', function(){
+			$(this).parent().toggleClass('open');
+			return false;
+		});
+		$(document).on('click', function(){
+			$('.dropdown-container').each(function(){
+				if($(this).hasClass('open')){
+					$(this).removeClass('open');
+				}
+			});
+		});
+	},
 	'init':function(){
 		this.fancybox();
-		this.notification();
 		this.menu();
 		this.screenMeta();
 		this.dragsort();
@@ -801,5 +738,6 @@ var common = {
 		this.batch();
 		this.dragsortList();
 		this.textAutosize();
+		this.dropdown();
 	}
 };

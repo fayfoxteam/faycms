@@ -7,9 +7,9 @@ return array(
 	 * 站点根目录，若为空，则系统会猜测一个，强烈建议手工设定。
 	 * 此参数为系统路由的基础，若设置错误，系统将无法正常运行。
 	 * 若系统在站点根目录，则该参数格式如下：
-	 * http://www.example.com/
+	 * http://www.faycms.com/
 	 * 若系统被放置在二级目录，则该参数格式或许是这个样子：
-	 * http://www.example.com/fayfox/
+	 * http://www.faycms.com/fayfox/
 	 * 注意不要忘了最后的斜杠
 	 */
 	//'base_url'=>'http://55.fayfox.com/fayfox/',

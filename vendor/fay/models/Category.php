@@ -429,4 +429,18 @@ class Category extends Model{
 			'right_value < ?'=>$root ? $root['right_value'] : false,
 		), '*', 'left_value');
 	}
+	
+	/**
+	 * 根据别名返回ID。
+	 * 若指定别名不存在，返回false
+	 * @param string $alias
+	 */
+	public function getIdByAlias($alias){
+		$cat = $this->get($alias);
+		if($cat){
+			return $cat['id'];
+		}else{
+			return false;
+		}
+	}
 }

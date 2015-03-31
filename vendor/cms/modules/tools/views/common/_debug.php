@@ -29,11 +29,11 @@ $db = Db::getInstance();
 #debug-container .debug-table th{text-align:left;}
 
 /* 字体颜色 */
-#debug-container .color-red{color:red !important;}
-#debug-container .color-green{color:green !important;}
-#debug-container .color-orange{color:orange !important;}
-#debug-container .color-blue{color:#21759B !important;}
-#debug-container .color-grey{color:grey !important;}
+#debug-container .fc-red{color:red !important;}
+#debug-container .fc-green{color:green !important;}
+#debug-container .fc-orange{color:orange !important;}
+#debug-container .fc-blue{color:#21759B !important;}
+#debug-container .fc-grey{color:grey !important;}
 
 /* debug Backtrace */
 #debug-container .trace-table{width:100%;}

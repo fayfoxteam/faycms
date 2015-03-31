@@ -75,6 +75,7 @@ class User extends Model{
 		$this->session->set('last_login_time', $user['last_login_time']);
 		$this->session->set('last_login_ip', long2ip($user['last_login_ip']));
 		$this->session->set('status', $user['status']);
+		$this->session->set('avatar', $user['avatar']);
 		
 		//获取角色名称
 		$role = Roles::model()->find($user['role']);

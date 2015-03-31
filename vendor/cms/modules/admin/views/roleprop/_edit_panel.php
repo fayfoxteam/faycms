@@ -4,14 +4,16 @@ use fay\models\tables\Props;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <div class="form-field">
-	<label class="title">属性名称<em class="color-red">*</em></label>
+	<label class="title">属性名称<em class="required">*</em></label>
 	<?php echo F::form()->inputText('title', array(
-		'class'=>'full-width',
+		'class'=>'form-control',
 	))?>
 </div>
 <div class="form-field">
 	<label class="title">属性别名</label>
-	<?php echo F::form()->inputText('alias')?>
+	<?php echo F::form()->inputText('alias', array(
+		'class'=>'form-control mw200',
+	))?>
 	<p class="description">特殊属性可能需要通过别名调用，可留空</p>
 </div>
 <div class="form-field">
@@ -35,7 +37,9 @@ use fay\models\tables\Props;
 </div>
 <div class="form-field">
 	<label class="title">排序值</label>
-	<?php echo F::form()->inputText('sort', array(), 100)?>
+	<?php echo F::form()->inputText('sort', array(
+		'class'=>'form-control mw150',
+	), 100)?>
 </div>
 <div class="form-field">
 	<label class="title">类型</label>
@@ -64,8 +68,8 @@ use fay\models\tables\Props;
 	<?php echo F::form()->inputText('', array(
 		'id'=>'prop-title',
 	))?>
-	<a href="javascript:;" class="btn-4" id="add-prop-value-link">添加</a>
-	<span class="color-grey">（添加后可拖拽排序）</span>
+	<a href="javascript:;" class="btn btn-grey btn-sm" id="add-prop-value-link">添加</a>
+	<span class="fc-grey">（添加后可拖拽排序）</span>
 	<div class="dragsort-list" id="prop-list">
 	<?php if(isset($prop['values']) && is_array($prop['values'])){?>
 		<?php foreach($prop['values'] as $pv){?>

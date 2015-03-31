@@ -215,7 +215,7 @@ class GoodsController extends AdminController{
 		$sql->where($conditions);
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>20,
+			'page_size'=>20,
 		));
 
 		$this->view->cats = Category::model()->getTree('_system_goods');

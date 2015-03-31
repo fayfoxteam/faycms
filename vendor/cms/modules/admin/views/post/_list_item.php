@@ -22,7 +22,7 @@ use cms\helpers\PostHelper;
 			echo Html::link('移入回收站', array('admin/post/delete', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'color-red',
+				'class'=>'fc-red',
 			), true);
 		}else{
 			echo Html::link('还原', array('admin/post/undelete', array(
@@ -33,7 +33,7 @@ use cms\helpers\PostHelper;
 			echo Html::link('永久删除', array('admin/post/remove', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'delete-post color-red remove-link',
+				'class'=>'delete-post fc-red remove-link',
 			), true);
 		}?>
 		</div>
@@ -84,47 +84,47 @@ use cms\helpers\PostHelper;
 	<td><?php echo $data['comments']?></td>
 	<?php }?>
 	<?php if(in_array('publish_time', $cols)){?>
-	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['publish_time'])?>">
+	<td>
+		<abbr class="time" title="<?php echo Date::format($data['publish_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['publish_time']);
 			}else{
 				echo Date::format($data['publish_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('last_view_time', $cols)){?>
-	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['last_view_time'])?>">
+	<td>
+		<abbr class="time" title="<?php echo Date::format($data['last_view_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['last_view_time']);
 			}else{
 				echo Date::format($data['last_view_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('last_modified_time', $cols)){?>
-	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['last_modified_time'])?>">
+	<td>
+		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['last_modified_time']);
 			}else{
 				echo Date::format($data['last_modified_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
-	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+	<td>
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['create_time']);
 			}else{
 				echo Date::format($data['create_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('sort', $cols)){?>
@@ -132,7 +132,7 @@ use cms\helpers\PostHelper;
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'post-sort w30',
+		'class'=>'form-control w50 post-sort',
 	))?></td>
 	<?php }?>
 </tr>

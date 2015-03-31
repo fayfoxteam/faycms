@@ -99,7 +99,7 @@ var cat = {
 		});
 	},
 	'isNav':function(){
-		$('.cat-list-container').on('click', '.is-nav-link', function(){
+		$('.tree-container').on('click', '.is-nav-link', function(){
 			var o = this;
 			$(this).find('span').hide().after('<img src="'+system.url()+'images/throbber.gif" />');
 			$.ajax({
@@ -218,17 +218,20 @@ var cat = {
 			$(this).parent().html('');
 		});
 		
-		$(".cat-list-container").on('click', '.cat-item-title.parent', function(){
-			if($(this).hasClass("close")){
-				$(this).removeClass("close")
-					.parent().siblings("ul").slideDown();
+		$(".tree-container").on('click', '.leaf-title.parent', function(){
+			$li = $(this).parent().parent();
+			if($li.hasClass("close")){
+				$li.children('ul').slideDown(function(){
+					$li.removeClass("close");
+				});
 			}else{
-				$(this).addClass("close")
-					.parent().siblings("ul").slideUp();
+				$li.children('ul').slideUp(function(){
+					$li.addClass("close");
+				});
 			}
 		});
 		
-		$('.cat-item-container').hover(function(){
+		$('.leaf-container').hover(function(){
 			$(this).addClass('hover');
 		}, function(){
 			$(this).removeClass('hover');

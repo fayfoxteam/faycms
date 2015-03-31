@@ -8,7 +8,7 @@ use fay\models\File;
 		<h4>缩略图</h4>
 	</div>
 	<div class="box-content">
-		<div id="thumbnail-container" style="margin-bottom:10px;"><a href="javascript:;" id="upload-thumbnail" class="btn-1">设置缩略图</a></div>
+		<div id="thumbnail-container" style="margin-bottom:10px;"><a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a></div>
 		<div id="thumbnail-preview-container">
 		<?php 
 			echo F::form()->inputHidden('thumbnail', array('id'=>'thumbnail-id'));

@@ -1,14 +1,31 @@
-<?php
-?>
 <form method="post" id="form">
-	<?php echo F::form()->textarea('key', array(
-		'class'=>'wp90 h200 autosize',
-	));?>
-	<div class="mt20">
-		<a href="javascript:;" id="form-submit" class="btn-1">提交</a>
+	<div class="row">
+		<div class="col-6">
+			<div class="box">
+				<div class="box-title"><h3>Timestamp</h3></div>
+				<div class="box-content">
+					<?php echo F::form()->textarea('key', array(
+						'class'=>'form-control h200 autosize',
+					));?>
+					<a href="javascript:;" id="form-submit" class="btn mt5">提交</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="box">
+				<div class="box-title"><h3>Result</h3></div>
+				<div class="box-content">
+					<div style="min-height:200px"><?php pr($result, true);?></div>
+				</div>
+			</div>
+		</div>
 	</div>
 </form>
-<div class="mt20">
-	<h3>执行结果</h3>
-	<?php pr($result);?>
-</div>
+<script>
+$("[name='key']").keydown(function(event){
+	if((event.keyCode == 82 || event.keyCode == 83) && event.ctrlKey){
+		$("#form").submit();
+		return false;
+	}
+});
+</script>

@@ -8,7 +8,7 @@ use fay\models\tables\Users;
 		<p class="drag_drop_info">将文件拖拽至此</p>
 		<p>或</p>
 		<p class="drag_drop_buttons">
-			<a class="plupload_browse_button btn-2" id="plupload_browse_button">选择文件</a>
+			<a class="plupload_browse_button btn btn-grey" id="plupload_browse_button">选择文件</a>
 		</p>
 	</div>
 </div>
@@ -31,11 +31,11 @@ use fay\models\tables\Users;
 			</span>
 			<div class="file-desc-container">
 				<?php echo Html::inputText("titles[{$d['file_id']}]", $d['title'], array(
-					'class'=>'photo-title mb5 full-width',
+					'class'=>'photo-title mb5 form-control',
 					'placeholder'=>'标题',
 				))?>
 				<?php echo Html::inputText("links[{$d['file_id']}]", $d['link'], array(
-					'class'=>'photo-link mb5 full-width',
+					'class'=>'photo-link mb5 form-control',
 					'placeholder'=>'链接地址',
 				))?>
 			</div>
@@ -52,9 +52,9 @@ use fay\models\tables\Users;
 	</div>
 	<div class="box-content">
 		<?php echo F::form('widget')->textarea('template', array(
-			'class'=>'wp90 h90 autosize',
+			'class'=>'form-control h90 autosize',
 		))?>
-		<p class="color-grey">
+		<p class="fc-grey mt5">
 			若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
 			即类似<code>frontend/widget/template</code><br />
 			则会调用当前application下符合该相对路径的view文件。<br />
@@ -81,7 +81,7 @@ var jq_camera = {
 	'files':function(){
 		//uploader
 		jq_camera.uploadObj = new plupload.Uploader({
-			runtimes : 'html5,html4,flash,gears,silverlight,browserplus',
+			runtimes : 'html5,html4,flash,gears,silverlight',
 			browse_button : 'plupload_browse_button',
 			container: 'drag_drop_area',
 			drop_element: "drag_drop_area",
@@ -107,8 +107,8 @@ var jq_camera = {
 							'<img src="', system.url('images/loading.gif'), '" />',
 						'</span>',
 						'<div class="file-desc-container">',
-							'<input type="text" class="photo-title mb5 full-width" placeholder="标题" value="', data.name, '" />',
-							'<input type="text" class="photo-link mb5 full-width" placeholder="链接地址" />',
+							'<input type="text" class="photo-title mb5 form-control" placeholder="标题" value="', data.name, '" />',
+							'<input type="text" class="photo-link mb5 form-control" placeholder="链接地址" />',
 						'</div>',
 						'<div class="clear"></div>',
 						'<div class="progress-bar">',

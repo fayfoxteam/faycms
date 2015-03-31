@@ -14,7 +14,7 @@ class IndexController extends FrontendController
     public function index()
     {
 //         dump(Post::model()->getByCatId(10006));
-       
+
         $this->view->about = Page::model()->getByAlias('about');
         
         $this->layout->section = 'index';

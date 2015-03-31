@@ -2,7 +2,7 @@
 //当前页
 $currentPage = $listview->current_page;
 //总页数
-$totalPages = $listview->totalp_ages;
+$totalPages = $listview->total_pages;
 //加载地址
 $reload = $listview->reload;
 //总条数

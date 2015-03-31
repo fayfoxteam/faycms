@@ -23,7 +23,7 @@ class PageController extends FrontendController
         
         if (empty($page))
         {
-            Response::showError('页面不存在！', 404, '404');
+           Response::show404();
         }
         
         $this->layout->title = $page['title'];

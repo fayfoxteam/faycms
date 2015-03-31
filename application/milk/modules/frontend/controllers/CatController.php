@@ -21,7 +21,7 @@ class CatController extends FrontendController
         
         if (!$cat)
         {
-            throw new  HttpException('分类不存在', 404);
+            Response::show404();
         }
         
         $this->view->cat = $cat;

@@ -16,7 +16,7 @@ class PostController extends FrontendController
         
         if (empty($content))
         {
-            Response::showError('请求的页面不存在！', 404, '404');
+            Response::show404();
         }
         
         Posts::model()->update(array(

@@ -59,7 +59,7 @@ class ExamPaperController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'emptyText'=>'<tr><td colspan="6" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="6" align="center">无相关记录！</td></tr>',
 		));
 
 		//分类树

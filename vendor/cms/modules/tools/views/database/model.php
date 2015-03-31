@@ -1,8 +1,18 @@
 <?php
 use fay\helpers\Html;
 ?>
-<div class="col-2-2">
-	<div class="col-2-2-body-sidebar">
+<div class="row">
+	<div class="col-8">
+		<div class="col-2-2-body-content">
+			<?php echo Html::textarea('code', '', array(
+				'style'=>'font-family:Consolas,Monaco,monospace',
+				'id'=>'code',
+				'class'=>'form-control autosize',
+			))?>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="col-4">
 		<h3>Tables</h3>
 		<ul class="table-list">
 		<?php foreach($tables as $t){
@@ -34,16 +44,6 @@ use fay\helpers\Html;
 			</li>
 		<?php }?>
 		</ul>
-	</div>
-	<div class="col-2-2-body">
-		<div class="col-2-2-body-content">
-			<?php echo Html::textarea('code', '', array(
-				'style'=>'background:none repeat scroll 0 0 #F9F9F9;font-family:Consolas,Monaco,monospace;width:97%;',
-				'id'=>'code',
-				'class'=>'autosize',
-			))?>
-		</div>
-		<div class="clear"></div>
 	</div>
 </div>
 <script>

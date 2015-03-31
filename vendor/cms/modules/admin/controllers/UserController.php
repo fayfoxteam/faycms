@@ -93,8 +93,8 @@ class UserController extends AdminController{
 		), 'id,title');
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
-			'emptyText'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 1).'" align="center">无相关记录！</td></tr>',
+			'page_size'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
+			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 1).'" align="center">无相关记录！</td></tr>',
 		));
 		
 		//引入IP地址库

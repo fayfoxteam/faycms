@@ -62,8 +62,8 @@ class ExamExamController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>$this->form('setting')->getData('page_size'),
-			'emptyText'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
+			'page_size'=>$this->form('setting')->getData('page_size'),
+			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		
 		$this->view->render();

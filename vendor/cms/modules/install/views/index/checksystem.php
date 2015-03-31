@@ -12,6 +12,7 @@
 		<td>
 			<p><label>主机：</label><?php echo F::app()->config->get('db.host')?></p>
 			<p><label>数据库名：</label><?php echo F::app()->config->get('db.dbname')?></p>
+			<p><label>表前缀：</label><?php echo F::app()->config->get('db.table_prefix')?></p>
 		</td>
 	</tr>
 	<tr>

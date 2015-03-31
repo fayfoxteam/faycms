@@ -70,8 +70,8 @@ class IndexController extends FrontController{
 		));
 		$this->view->listview->init();
 		
-		if($this->view->listview->currentPage > 1){
-			$this->layout->canonical = $reload.'?page='.$this->view->listview->currentPage;
+		if($this->view->listview->current_page > 1){
+			$this->layout->canonical = $reload.'?page='.$this->view->listview->current_page;
 		}else{
 			$this->layout->canonical = $reload;
 		}

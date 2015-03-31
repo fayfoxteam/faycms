@@ -71,9 +71,9 @@ class AnalystController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>$this->form('setting')->getData('page_size', 20),
-			'itemView'=>'_visit_list_item',
-			'emptyText'=>'<tr><td colspan="'.count($this->form('setting')->getData('cols')).'" align="center">无相关记录！</td></tr>',
+			'page_size'=>$this->form('setting')->getData('page_size', 20),
+			'item_view'=>'_visit_list_item',
+			'empty_text'=>'<tr><td colspan="'.count($this->form('setting')->getData('cols')).'" align="center">无相关记录！</td></tr>',
 		));
 		
 		//所有站点
@@ -138,9 +138,9 @@ class AnalystController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
-			'itemView'=>'_views_list_item',
-			'emptyText'=>'<tr><td colspan="'.count($this->form('setting')->getData('cols')).'" align="center">无相关记录！</td></tr>',
+			'page_size'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
+			'item_view'=>'_views_list_item',
+			'empty_text'=>'<tr><td colspan="'.count($this->form('setting')->getData('cols')).'" align="center">无相关记录！</td></tr>',
 		));
 
 		//所有站点
@@ -227,9 +227,9 @@ class AnalystController extends AdminController{
 		}
 
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
-			'itemView'=>'_pv_list_item',
-			'emptyText'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
+			'page_size'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
+			'item_view'=>'_pv_list_item',
+			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		
 		//所有站点
@@ -292,8 +292,8 @@ class AnalystController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>$this->form('setting')->getData('page_size', 30),
-			'itemView'=>'_spiderlog_list_item',
+			'page_size'=>$this->form('setting')->getData('page_size', 30),
+			'item_view'=>'_spiderlog_list_item',
 		));
 		
 		//引入IP地址库

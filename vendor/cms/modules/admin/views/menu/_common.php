@@ -224,12 +224,15 @@ F::form('edit')->setModel(Menus::model());
 var cat = {
 	'events':function(){
 		$(".tree-container").delegate('.leaf-title.parent', 'click', function(){
-			if($(this).hasClass("close")){
-				$(this).removeClass("close")
-					.parent().siblings("ul").slideDown();
+			$li = $(this).parent().parent();
+			if($li.hasClass("close")){
+				$li.children('ul').slideDown(function(){
+					$li.removeClass("close");
+				});
 			}else{
-				$(this).addClass("close")
-					.parent().siblings("ul").slideUp();
+				$li.children('ul').slideUp(function(){
+					$li.addClass("close");
+				});
 			}
 		});
 

@@ -1,5 +1,4 @@
 <?php 
-use fay\models\Setting;
 use fay\helpers\Html;
 use fay\models\Option;
 use fay\models\File;
@@ -37,6 +36,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<li class="hover-line"><a href="<?php echo $this->url()?>" title="网站首页" target="_blank"><i class="fa fa-home"></i></a></li>
+				<li class="hover-line"><a href="<?php echo $this->url('tools')?>" title="Tools" target="_blank"><i class="fa fa-wrench"></i></a></li>
 			</ul>
 			<ul class="user-info-menu fr">
 				<li class="dropdown-container user-profile">
@@ -113,8 +113,6 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 <script>
 $(function(){
 	//系统消息提示
-	common.headerNotification();
-	setInterval(common.headerNotification, 30000);
 	<?php
 		$forms = F::forms();
 		foreach($forms as $k=>$f){?>
@@ -130,5 +128,6 @@ $(function(){
 </script>
 <img src="<?php echo $this->url()?>images/throbber.gif" class="hide" />
 <img src="<?php echo $this->url()?>images/ajax-loading.gif" class="hide" />
+<img src="<?php echo $this->url()?>images/loading.gif" class="hide" />
 </body>
 </html>

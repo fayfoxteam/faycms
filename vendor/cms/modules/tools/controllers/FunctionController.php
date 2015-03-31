@@ -44,4 +44,10 @@ class FunctionController extends ToolsController{
 		
 		$this->view->render();
 	}
+	
+	public function string(){
+		$this->layout->subtitle = 'string';
+		
+		$this->view->render();
+	}
 }

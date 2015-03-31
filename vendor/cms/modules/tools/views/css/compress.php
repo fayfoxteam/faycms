@@ -1,16 +1,26 @@
 <?php
 use fay\helpers\Html;
 ?>
-<h3>before</h3>
-<form method="post" id="form">
-<?php echo F::form()->textarea('data', array(
-	'style'=>'width:95%;height:260px;',
-));?>
-<div class="margin-top-10">
-	<a href="javascript:;" id="form-submit" class="btn-1">压缩</a>
+<div class="row">
+	<?php echo F::form()->open()?>
+	<div class="col-6">
+		<div class="box">
+			<div class="box-title"><h3>before</h3></div>
+			<div class="box-content"><?php echo F::form()->textarea('data', array(
+				'class'=>'form-control h350',
+			));?></div>
+		</div>
+		<?php echo F::form()->submitLink('Compress', array(
+			'class'=>'btn',
+		))?>
+	</div>
+	<div class="col-6">
+		<div class="box">
+			<div class="box-title"><h3>before</h3></div>
+			<div class="box-content"><?php echo Html::textarea('after', $after_compress, array(
+				'class'=>'form-control h350',
+			))?></div>
+		</div>
+	</div>
+	<?php echo F::form()->close()?>
 </div>
-</form>
-<h3>after</h3>
-<?php echo Html::textarea('after', $after_compress, array(
-	'style'=>'width:95%;height:260px;',
-))?>

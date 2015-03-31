@@ -22,6 +22,7 @@ label{display:inline-block}
 table{border-spacing:0}
 
 /* 工具类 */
+.bold{font-weight:bold}
 .hide,.hidden{display:none}
 .circle{border-radius:50%}
 .clear{clear:both}
@@ -35,13 +36,14 @@ table{border-spacing:0}
 .fl{float:left}
 .fr{float:right}
 .ib{display:inline-block !important}
+.ellipsis{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pointer{cursor:pointer}
 @media (max-width:767px){
 	.hidden-xs{display:none !important}
 }
 @media (max-width:1200px) {
     .hidden-not-lg{display:none !important}
 }
-
 
 /* 宽高类 */
 .w20{width:20px !important}
@@ -53,11 +55,13 @@ table{border-spacing:0}
 .w150{width:150px !important}
 .w200{width:200px !important}
 .w600{width:600px !important}
+.w650{width:650px !important}
 .mw100{max-width:100px !important}
 .mw150{max-width:150px !important}
 .mw200{max-width:200px !important}
 .mw400{max-width:400px !important}
 .mw500{max-width:500px !important}
+.wp38{width:38% !important}
 .wp100{width:100% !important}
 
 .h40{height:30px}
@@ -70,6 +74,7 @@ table{border-spacing:0}
 .mb5{margin-bottom:5px !important}
 .mt5{margin-top:5px !important}
 .ml5{margin-left:5px !important}
+.pt0{padding-top:0 !important}
 .pl11{padding-left:11px !important}
 
 /* 布局类 */
@@ -88,11 +93,11 @@ table{border-spacing:0}
 .col-3{width:25%}
 .col-2{width:16.66666667%}
 .col-1{width:8.33333333%}
-@media screen and (max-width:768px){
+@media screen and (max-width:992px){
 	.col-5,.col-6,.col-7{width:100%}
 }
 @media screen and (max-width:1140px){
-	.col-3,.col-9{width:100%}
+	.col-3,.col-4,.col-8,.col-9{width:100%}
 }
 
 /* 颜色 */
@@ -103,6 +108,10 @@ table{border-spacing:0}
 .fc-blue{color:#21759B !important}
 .fc-grey{color:grey !important}
 .required{color:red !important}
+
+.bl-yellow{border-left:4px solid #FFB848;}
+.bl-red{border-left:4px solid #E1472F;}
+.bl-blue{border-left:4px solid #21759B;}
 
 .bg-red,.bg-grey,.bg-yellow,.bg-green{color:#fff !important;transition:all 0.5s linear 0s}
 .bg-red{background-color:#E1472F !important}
@@ -177,7 +186,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .list-table tr td{padding:5px 7px;vertical-align:top}
 .list-table tr .align-center{text-align:center}
 .list-table tr .row-actions{padding-top:3px;visibility:hidden}
-.list-table tr .row-actions a{background:url("images/cut-off-line.png") no-repeat scroll right 2px transparent;padding:0 9px 0 5px}
+.list-table tr .row-actions a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px}
 .list-table tr .row-actions a:last-child{background:0 none}
 .list-table tr.hover .row-actions,.list-table tr:hover .row-actions{visibility:visible}
 .list-table tr.hover td,.list-table tr:hover td{background-color:#f5f5f5}
@@ -262,8 +271,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .sidebar-menu .main-menu li.active > a{color:#fff}
 .sidebar-menu .main-menu > li.opened > ul{display:block}
 .sidebar-menu .main-menu > li.opened .opened > ul{display:block}
-.sidebar-menu .main-menu ul{display:none;overflow:hidden;}
-.sidebar-menu .main-menu .expanded > ul{display:block;}
+.sidebar-menu .main-menu ul{display:none;overflow:hidden}
+.sidebar-menu .main-menu .expanded > ul{display:block}
 .sidebar-menu .main-menu ul li{position:relative}
 .sidebar-menu .main-menu ul li a{padding-left:35px}
 .sidebar-menu .main-menu ul li ul li a{padding-left:60px}
@@ -308,7 +317,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 	.sidebar-menu.collapsed .main-menu > li{text-align:center;position:relative}
 	.sidebar-menu.collapsed .main-menu > li > a > span{display:none}
 	.sidebar-menu.collapsed .main-menu > li > ul{position:absolute;background:#2c2e2f;width:250px;top:0;left:100%;text-align:left;display:none}
-	.sidebar-menu.collapsed .main-menu > li:hover > ul{display:block;}
+	.sidebar-menu.collapsed .main-menu > li:hover > ul{display:block}
 	.sidebar-menu.collapsed .main-menu > li.has-sub > a:before{display:none}
 	.sidebar-menu.collapsed .main-menu > li.has-sub > ul a{padding-right:20px}
 	.sidebar-menu.collapsed .main-menu > li.has-sub > a > i{margin-right:0}
@@ -343,9 +352,9 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 /* 顶部导航 */
 .main-content .user-info-navbar{background-color:#fff;margin:-30px;margin-bottom:30px}
 .user-info-navbar .user-info-menu .fa{font-size:15px}
-.user-info-navbar .user-info-menu > li{position:relative;border:1px solid #fff;border-top:0;border-bottom:0;display:block;float:left;}
+.user-info-navbar .user-info-menu > li{position:relative;border:1px solid #fff;border-top:0;border-bottom:0;display:block;float:left}
 .user-info-navbar .user-info-menu > li.hover-line:hover:before{content:'';position:absolute;display:block;height:2px;top:0;left:0;right:0;background:#68b828}
-.user-info-navbar .user-info-menu > li > a{position:relative;display:block;padding:30px 20px;color:#606161;border-bottom:1px solid #fff;}
+.user-info-navbar .user-info-menu > li > a{position:relative;display:block;padding:30px 20px;color:#606161;border-bottom:1px solid #fff}
 .user-info-navbar .user-info-menu > li > a.toggle-sidebar{padding-left:30px}
 .user-info-navbar .user-info-menu > li.user-profile a{border-bottom-color:#ededed}
 .user-info-navbar .user-info-menu > li.user-profile.open > a{border-bottom-color:#fff}
@@ -419,12 +428,12 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .drag_drop_inside{margin-top:55px;color:#aaa}
 .info_fieldset{width:480px;margin:0 auto}
 #visual-editor{width:100%}
-#avatar-container img{vertical-align:bottom;margin-right:10px;}
-#avatar-container #avatar-img{width:178px;height:178px;}
-#avatar-container #avatar-img-circle{width:70px;height:70px;border-radius:50%;}
-.tick-circle,.cross-circle{width:16px;height:16px;display:inline-block;vertical-align:middle;margin-top:-3px;}
-.tick-circle{background:url("images/tick-circle.png") no-repeat !important;}
-.cross-circle{background:url("images/cross-circle.png") no-repeat !important;}
+#avatar-container img{vertical-align:bottom;margin-right:10px}
+#avatar-container #avatar-img{width:178px;height:178px}
+#avatar-container #avatar-img-circle{width:70px;height:70px;border-radius:50%}
+.tick-circle,.cross-circle{width:16px;height:16px;display:inline-block;vertical-align:middle;margin-top:-3px}
+.tick-circle{background:url("images/tick-circle.png") no-repeat !important}
+.cross-circle{background:url("images/cross-circle.png") no-repeat !important}
 
 /* 插件式样修正 */
 #faycms #fancybox-wrap{box-sizing:content-box}

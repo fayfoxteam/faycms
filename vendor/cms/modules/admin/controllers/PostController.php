@@ -68,6 +68,7 @@ class PostController extends AdminController{
 	
 	public function create(){
 		$cat_id = $this->input->get('cat_id', 'intval');
+		$cat_id || $cat_id = Category::model()->getIdByAlias('_system_post');
 		$cat = Category::model()->get($cat_id, 'title,left_value,right_value');
 		
 		if(!$cat){
@@ -294,8 +295,8 @@ class PostController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>$this->form('setting')->getData('page_size', 10),
-			'emptyText'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
+			'page_size'=>$this->form('setting')->getData('page_size', 10),
+			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
 		));
 		$this->view->render();
 	}

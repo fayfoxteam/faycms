@@ -129,8 +129,8 @@ class FileController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>$this->form('setting')->getData('page_size', 20),
-			'emptyText'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 3).'" align="center">无相关记录！</td></tr>',
+			'page_size'=>$this->form('setting')->getData('page_size', 20),
+			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 3).'" align="center">无相关记录！</td></tr>',
 		));
 		
 		$this->view->render();

@@ -337,19 +337,6 @@ var common = {
 		$('a[id$="reset"]').click(function(){
 			$('form#'+$(this).attr('id').replace('-reset', ''))[0].reset();
 		});
-		//label覆盖到输入框上面
-		$('.titlediv').each(function(i){
-			if($(this).find('input').val() != ''){
-				$(this).find('.title-prompt-text').hide();
-			}
-		});
-		$('.titlediv input').focus(function(){
-			$(this).parent().find('.title-prompt-text').hide();
-		}).blur(function(){
-			if($(this).val()==''){
-				$(this).parent().find('.title-prompt-text').show();
-			}
-		});
 		//表格间隔色
 		$('.list-table').each(function(){
 			$(this).find('tr:even').addClass('alternate');
@@ -499,81 +486,48 @@ var common = {
 	'visualEditor':function(){
 		//此方法仅支持只有一个富文本编辑器的页面
 		if($('#visual-editor').length){
-			if($.browser.msie && $.browser.version < 8){
-				system.getScript(system.url('js/kindeditor/kindeditor.js'), function(){
-					KindEditor.basePath = system.url('js/kindeditor/');
-					system.getScript(system.url('js/kindeditor/lang/zh_CN.js'), function(){
-						var config = {
-							'width': '100%',
-							'height': $('#visual-editor').height(),
-							'filterMode': false,
-							'formatUploadUrl': false,
-							'items':[
-								'source', 'preview', '|',
-								'paste', 'plainpaste', 'wordpaste', 'undo', 'redo', '|',
-								'link', 'unlink', '|',
-								'image', 'table', 'emoticons', '|',
-								'insertorderedlist', 'insertunorderedlist', 'outdent', 'indent', 'justifyleft', 'justifycenter', 'justifyright',
-								'/',
-								'formatblock', 'fontname', 'fontsize', '|',
-								'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough','subscript', 'superscript', 'clearhtml', '|',
-								'fullscreen', 'code'
-							]
-						};
-						if(common.filebrowserImageUploadUrl){
-							config.uploadJson = common.filebrowserImageUploadUrl;
-						}
-						common.editorObj = KindEditor.create('#visual-editor', config);
-						//表单提交时获取编辑器内容
-						$($('#visual-editor')[0].form).submit(function(){
-							$('#visual-editor').val(common.editorObj.html());
-						});
-					});
-				});
-			}else{
-				window.CKEDITOR_BASEPATH = system.url('js/ckeditor/');
-				system.getScript(system.url('js/ckeditor/ckeditor.js'), function(){
-					//清空table的一些默认设置
-					CKEDITOR.on('dialogDefinition', function(ev){
-						var dialogName = ev.data.name;
-						var dialogDefinition = ev.data.definition;
+			window.CKEDITOR_BASEPATH = system.url('js/ckeditor/');
+			system.getScript(system.url('js/ckeditor/ckeditor.js'), function(){
+				//清空table的一些默认设置
+				CKEDITOR.on('dialogDefinition', function(ev){
+					var dialogName = ev.data.name;
+					var dialogDefinition = ev.data.definition;
 
-						if (dialogName == 'table'){
-							var info = dialogDefinition.getContents('info');
+					if (dialogName == 'table'){
+						var info = dialogDefinition.getContents('info');
 
-							info.get('txtWidth')['default'] = '';
-							info.get('txtBorder')['default'] = '';
-							info.get('txtCellSpace')['default'] = '';
-							info.get('txtCellPad')['default'] = '';
-							info.get('txtCols')['default'] = '3';
-							info.get('selHeaders')['default'] = 'row';
-						}
-					});
-					
-					var config = {
-						'height':$('#visual-editor').height()
-					};
-					if(common.filebrowserImageUploadUrl){
-						config.filebrowserImageUploadUrl = common.filebrowserImageUploadUrl;
+						info.get('txtWidth')['default'] = '';
+						info.get('txtBorder')['default'] = '';
+						info.get('txtCellSpace')['default'] = '';
+						info.get('txtCellPad')['default'] = '';
+						info.get('txtCols')['default'] = '3';
+						info.get('selHeaders')['default'] = 'row';
 					}
-					if(common.filebrowserFlashUploadUrl){
-						config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
-					}
-					if($('#visual-editor').hasClass('visual-simple') || parseInt($(window).width()) < 743){
-						//简化模式
-						config.toolbar = [
-					  		['Source'],
-							['TextColor','BGColor'],
-							['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'],
-					  		['Image','Table']
-				  		];
-						//简化模式回车设为br而非p
-						config.enterMode = CKEDITOR.ENTER_BR;
-						config.shiftEnterMode = CKEDITOR.ENTER_P;
-					}
-					common.editorObj = CKEDITOR.replace('visual-editor', config);
 				});
-			}
+				
+				var config = {
+					'height':$('#visual-editor').height()
+				};
+				if(common.filebrowserImageUploadUrl){
+					config.filebrowserImageUploadUrl = common.filebrowserImageUploadUrl;
+				}
+				if(common.filebrowserFlashUploadUrl){
+					config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
+				}
+				if($('#visual-editor').hasClass('visual-simple') || parseInt($(window).width()) < 743){
+					//简化模式
+					config.toolbar = [
+				  		['Source'],
+						['TextColor','BGColor'],
+						['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'],
+				  		['Image','Table']
+			  		];
+					//简化模式回车设为br而非p
+					config.enterMode = CKEDITOR.ENTER_BR;
+					config.shiftEnterMode = CKEDITOR.ENTER_P;
+				}
+				common.editorObj = CKEDITOR.replace('visual-editor', config);
+			});
 		}
 	},
 	'markdownEditor':function(){
@@ -670,49 +624,7 @@ var common = {
 		}
 	},
 	'removeEditor':function(){//移除富文本编辑器实例
-		if($.browser.msie && $.browser.version < 8){
-			KindEditor.remove(common.editorObj);
-		}else{
-			common.editorObj.destroy();
-		}
-	},
-	'headerNotification':function(){
-		$.ajax({
-			type: 'GET',
-			url: system.url('admin/notification/get'),
-			dataType: 'json',
-			cache: false,
-			success: function(resp){
-				$('#header-notification-count').text(resp.data.length);
-				$('.header-notification-list').html('<ul></ul>');
-				var has_new_message = false;
-				$.each(resp.data, function(i, data){
-					if(new Date().getTime() - data.publish_time * 1000 < 50000){
-						//50秒内有新信息，自动弹出
-						has_new_message = true;
-					}
-					$('.header-notification-list ul').append([
-						'<li class="header-notification-item toggle-hover" id="header-notification-', data.id, '">',
-							'<a href="javascript:;" class="header-notification-delete" data-id="', data.id, '" title="删除"></a>',
-							'<div title="', system.encode(data.content), '">', system.encode(data.content), '</div>',
-								'<span class="abbr time" title="', system.date(data.publish_time), '">', system.shortDate(data.publish_time), '</span>',
-							'</div>',
-						'</li>'
-					].join(''));
-				});
-				if(resp.data.length > 0){
-					$('.header-notification-list ul').append(['<li>',
-						'<a href="javascript:;" class="header-notification-mute fl">不再提示</a>',
-						'<a href="', system.url('admin/notification/my'), '" class="fr">更多</a>',
-					'</li>'].join(''));
-					if(has_new_message){
-						$('.header-notification').addClass('hover');
-					}
-				}else{
-					$('.header-notification').removeClass('hover');
-				}
-			}
-		});
+		common.editorObj.destroy();
 	},
 	'tab':function(){
 		$('.tabbable').each(function(){
@@ -726,30 +638,30 @@ var common = {
 		});
 	},
 	'showPager':function(id, pager){
-		if(pager.totalPages > 1){
-			var html = ['<span class="summary">', pager.totalRecords, '条记录</span>'];
+		if(pager.total_pages > 1){
+			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 			//向前导航
-			if(pager.currentPage == 1){
+			if(pager.current_page == 1){
 				html.push('<a href="javascript:;" title="首页" class="page-numbers first disabled">&laquo;</a>');
 				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev disabled">&lsaquo;</a>');
 			}else{
 				html.push('<a href="javascript:;" title="首页" class="page-numbers first" data-page="1">&laquo;</a>');
-				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev" data-page="' + (pager.currentPage - 1) + '">&lsaquo;</a>');
+				html.push('<a href="javascript:;" title="上一页" class="page-numbers prev" data-page="' + (pager.current_page - 1) + '">&lsaquo;</a>');
 			}
 			
 			//页码输入框
-			html.push(' 第 <input type="number" value="' + pager.currentPage + '" class="form-control pager-input" min="1" max="' + pager.totalPages + '" /> 页，共' + pager.totalPages + '页');
+			html.push(' 第 <input type="number" value="' + pager.current_page + '" class="form-control pager-input" min="1" max="' + pager.total_pages + '" /> 页，共' + pager.total_pages + '页');
 			
 			//向后导航
-			if(pager.currentPage == pager.totalPages){
+			if(pager.current_page == pager.total_pages){
 				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev disabled">&rsaquo;</a>');
 				html.push('<a href="javascript:;" title="末页" class="page-numbers first disabled">&raquo;</a>');
 			}else{
-				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev" data-page="' + (pager.currentPage + 1) + '">&rsaquo;</a>');
-				html.push('<a href="javascript:;" title="末页" class="page-numbers first" data-page="' + pager.totalPages + '">&raquo;</a>');
+				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev" data-page="' + (pager.current_page + 1) + '">&rsaquo;</a>');
+				html.push('<a href="javascript:;" title="末页" class="page-numbers first" data-page="' + pager.total_pages + '">&raquo;</a>');
 			}
 		}else{
-			var html = ['<span class="summary">', pager.totalRecords, '条记录</span>'];
+			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 		}
 		$('#'+id).html(html.join(''));
 	},
@@ -811,7 +723,6 @@ var common = {
 	},
 	'init':function(){
 		this.fancybox();
-		this.notification();
 		this.menu();
 		this.screenMeta();
 		this.dragsort();

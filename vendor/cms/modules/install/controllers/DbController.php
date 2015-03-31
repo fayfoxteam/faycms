@@ -67,6 +67,17 @@ class DbController extends InstallController{
 		));
 	}
 	
+	public function setMenus(){
+		$prefix = $this->config->get('db.table_prefix');
+		$sql = file_get_contents(__DIR__.'/../data/menus.sql');
+		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+		$this->db->execute($sql);
+		
+		echo json_encode(array(
+			'status'=>1,
+		));
+	}
+	
 	public function setSystem(){
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/system.sql');

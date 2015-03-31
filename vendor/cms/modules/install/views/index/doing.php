@@ -87,6 +87,23 @@ var install = {
 			}
 		});
 	},
+	'setActions':function(){
+		$("#install-panel").append('<li>导入后台菜单<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$.ajax({
+			type: "GET",
+			url: system.url('install/db/set-menus'),
+			dataType: "json",
+			cache: false,
+			success: function(resp){
+				if(resp.status){
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
+					install.setSystem();
+				}else{
+					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
+				}
+			}
+		});
+	},
 	'setSystem':function(){
 		$("#install-panel").append('<li>导入系统数据<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
 		$.ajax({

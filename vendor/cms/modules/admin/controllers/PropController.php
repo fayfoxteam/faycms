@@ -36,7 +36,7 @@ class PropController extends AdminController{
 			))
 			->order('sort');
 		$listview = new ListView($sql);
-		$listview->pageSize = 15;
+		$listview->page_size = 15;
 		$this->view->listview = $listview;
 		
 		$this->view->render();
@@ -195,7 +195,7 @@ class PropController extends AdminController{
 			))
 			->order('sort');
 		$listview = new ListView($sql);
-		$listview->pageSize = 15;
+		$listview->page_size = 15;
 		$this->view->listview = $listview;
 		
 		$this->view->render();

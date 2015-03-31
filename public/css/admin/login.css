@@ -39,9 +39,6 @@ a{color:#00bff3;}
 /*从右往左移*/
 @keyframes right-to-left{0%{transform:translate(100px);}100%{transform:translate(0);}}
 
-/*从上往下移*/
-@keyframes top-to-bottom{0%{transform:translateY(-100px);}100%{transform:translateY(0);}}
-
 /*抖动*/
 @keyframes shake{0%{transform:translate(0, 0);}
 5%{transform:translate(10px, 0);}
@@ -58,7 +55,6 @@ a{color:#00bff3;}
 
 .main .shake{animation:shake 700ms;}
 .main .right-to-left{animation:right-to-left 1s;}
-.main .top-to-bottom{animation:top-to-bottom 1s;}
 .main{opacity:0;opacity:1\9\0;animation:fadein 400ms forwards;}
 .left{width:500px;float:left;position:relative;height:100%;}
 .rings{animation:fadein 3s;}
@@ -153,11 +149,3 @@ a{color:#00bff3;}
 .right .logo{font-family:Architext;font-size:55px;margin-bottom:21px;font-weight:normal;color:#fff;text-align:center;height:55px;}
 #login-form-submit{display:block;background-color:#2196FF;text-align:center;padding:12px 0;font-size:18px;color:#fff;text-decoration:none;transition:all 0.2s linear 0s;}
 #login-form-submit:hover{background-color:#1E87EF;}
-
-/* 小屏幕不显示左侧滚轮 */
-@media screen and (max-width:1140px){
-    .left{display:none}
-    .right{float:none;margin-left:-203px;left:50%}
-    .right .login-form-container{width:100%;max-width:343px;}
-    .main{width:100%;}
-}

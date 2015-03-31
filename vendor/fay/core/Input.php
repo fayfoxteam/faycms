@@ -148,10 +148,10 @@ class Input extends FBase{
 					$fields = explode(',', $fields);
 				}
 			}
-			if(is_array($data)){
+			if(is_array($data) || is_object($data)){
 				$return = array();
 				foreach($data as $key => $d){
-					if(is_array($d)){
+					if(is_array($d) || is_object($d)){
 						$return[$key] = $this->filterR($filters, $d, $fields);
 					}else{
 						$temp = $d;

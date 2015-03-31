@@ -9,23 +9,27 @@ use fay\models\tables\Users;
 	<div class="box-content">
 		<div class="form-field">
 			<label class="title">标题</label>
-			<?php echo Html::inputText('title', isset($data['title']) ? $data['title'] : '')?>
-			<p class="color-grey">若为空，默认为“友情链接”</p>
+			<?php echo F::form('widget')->inputText('title', array(
+				'class'=>'form-control mw400',
+			))?>
+			<p class="fc-grey">若为空，默认为“友情链接”</p>
 		</div>
 		<div class="form-field">
 			<label class="title">显示链接数</label>
-			<?php echo Html::inputText('number', isset($data['number']) ? $data['number'] : '5')?>
+			<?php echo F::form('widget')->inputText('number', array(
+				'class'=>'form-control mw150',
+			), 5)?>
 		</div>
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">渲染模版<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
-					'class'=>'wp90 h200 autosize',
+					'class'=>'form-control h200 autosize',
 				))?>
-				<p class="color-grey">
+				<p class="fc-grey mt5">
 					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
 					即类似<code>frontend/widget/template</code><br />
 					则会调用当前application下符合该相对路径的view文件。<br />

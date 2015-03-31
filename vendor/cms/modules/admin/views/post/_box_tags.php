@@ -8,7 +8,7 @@
 	<div class="box-content">
 		<?php echo F::form()->inputText('tags', array(
 			'id'=>'tags',
-			'class'=>'wp90',
+			'class'=>'form-control',
 		))?>
 	</div>
 </div>

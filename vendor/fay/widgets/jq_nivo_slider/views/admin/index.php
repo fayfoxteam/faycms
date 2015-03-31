@@ -15,7 +15,7 @@ use fay\models\File;
 		<p class="drag_drop_info">将文件拖拽至此</p>
 		<p>或</p>
 		<p class="drag_drop_buttons">
-			<a class="plupload_browse_button btn-2" id="plupload_browse_button">选择文件</a>
+			<a class="plupload_browse_button btn btn-grey" id="plupload_browse_button">选择文件</a>
 		</p>
 	</div>
 </div>
@@ -38,11 +38,11 @@ use fay\models\File;
 			</span>
 			<div class="file-desc-container">
 				<?php echo Html::inputText("titles[{$d['file_id']}]", $d['title'], array(
-					'class'=>'photo-title mb5 full-width',
+					'class'=>'photo-title mb5 form-control',
 					'placeholder'=>'标题',
 				))?>
 				<?php echo Html::inputText("links[{$d['file_id']}]", $d['link'], array(
-					'class'=>'photo-link mb5 full-width',
+					'class'=>'photo-link mb5 form-control',
 					'placeholder'=>'链接地址',
 				))?>
 			</div>
@@ -97,8 +97,8 @@ var widget_slides = {
 							'<img src="', system.url('images/loading.gif'), '" />',
 						'</span>',
 						'<div class="file-desc-container">',
-							'<input type="text" class="photo-title mb5 full-width" placeholder="标题" value="', data.name, '" />',
-							'<input type="text" class="photo-link mb5 full-width" placeholder="链接地址" />',
+							'<input type="text" class="photo-title mb5 form-control" placeholder="标题" value="', data.name, '" />',
+							'<input type="text" class="photo-link mb5 form-control" placeholder="链接地址" />',
 						'</div>',
 						'<div class="clear"></div>',
 						'<div class="progress-bar">',

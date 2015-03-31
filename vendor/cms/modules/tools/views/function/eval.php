@@ -1,18 +1,27 @@
-<?php
-?>
 <form method="post" id="form">
-	<?php echo F::form()->textarea('key', array(
-		'class'=>'wp90 h200 autosize',
-	));?>
-	<div class="mt20">
-		<a href="javascript:;" id="form-submit" class="btn-1">提交</a>
+	<div class="row">
+		<div class="col-12">
+			<div class="box">
+				<div class="box-title"><h3>Code</h3></div>
+				<div class="box-content">
+					<?php echo F::form()->textarea('key', array(
+						'class'=>'form-control h200 autosize',
+					));?>
+					<a href="javascript:;" id="form-submit" class="btn mt5">运行</a>
+					<a href="javascript:;" id="form-reset" class="btn btn-grey mt5">重置</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="box">
+				<div class="box-title"><h3>Result</h3></div>
+				<div class="box-content">
+					<div style="min-height:200px"><?php eval($key . '?>');?></div>
+				</div>
+			</div>
+		</div>
 	</div>
 </form>
-<div class="mt20">
-	<h3>执行结果</h3>
-	<?php eval($key . '?>');?>
-</div>
-
 <script>
 (function($){
 	$.fn.extend({
@@ -45,7 +54,7 @@ $("[name='key']").keydown(function(event){
 		$(this).insertAtCaret('  ');
 		return false;
 	}
-	if(event.keyCode == 83 && event.ctrlKey){
+	if((event.keyCode == 82 || event.keyCode == 83) && event.ctrlKey){
 		$("#form").submit();
 		return false;
 	}

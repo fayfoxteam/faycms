@@ -20,11 +20,11 @@ table{border-spacing:0;}
 .fl{float:left;}
 .fr{float:right;}
 .hide{display:none;}
-.color-red{color:red !important;}
-.color-green{color:green !important;}
-.color-orange{color:orange !important;}
+.fc-red{color:red !important;}
+.fc-green{color:green !important;}
+.fc-orange{color:orange !important;}
 .color-blue{color:#21759B !important;}
-.color-grey{color:grey !important;}
+.fc-grey{color:grey !important;}
 .chk-box{display:inline-block;}
 .bold{font-weight:bold !important;}
 .normal{font-weight:normal;}

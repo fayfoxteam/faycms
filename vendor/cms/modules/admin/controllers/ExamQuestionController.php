@@ -62,7 +62,7 @@ class ExamQuestionController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'emptyText'=>'<tr><td colspan="7" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="7" align="center">无相关记录！</td></tr>',
 		));
 
 		//分类树
@@ -435,7 +435,7 @@ class ExamQuestionController extends AdminController{
 		}
 		
 		$listview = new ListView($sql, array(
-			'pageSize'=>10,
+			'page_size'=>10,
 		));
 		
 		$data = $listview->getData();

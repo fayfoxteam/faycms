@@ -171,4 +171,26 @@ class ActionController extends AdminController{
 		}
 		$this->view->listview = new ListView($sql);
 	}
+
+	public function cat(){
+		$this->layout->subtitle = '权限分类';
+		$this->flash->set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
+		
+		$this->view->cats = Category::model()->getTree('_system_action');
+		$root_node = Category::model()->getByAlias('_system_action', 'id');
+		$this->view->root = $root_node['id'];
+		
+		$root_cat = Category::model()->getByAlias('_system_action', 'id');
+		$this->layout->sublink = array(
+			'uri'=>'#create-cat-dialog',
+			'text'=>'添加权限分类',
+			'html_options'=>array(
+				'class'=>'create-cat-link',
+				'data-title'=>'权限分类',
+				'data-id'=>$root_cat['id'],
+			),
+		);
+		
+		$this->view->render();
+	}
 }

@@ -25,7 +25,7 @@ class LogController extends AdminController{
 				'l.code LIKE ?'=>$this->input->get('code').'%',
 			));
 		}
-		if($this->input->get('type')){
+		if($this->input->get('type') !== null){
 			$sql->where(array(
 				'l.type = ?'=>$this->input->get('type', 'intval'),
 			));
@@ -40,7 +40,7 @@ class LogController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>20,
+			'page_size'=>20,
 		));
 		
 		//引入IP地址库

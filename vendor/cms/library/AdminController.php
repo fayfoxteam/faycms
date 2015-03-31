@@ -9,6 +9,8 @@ use fay\models\tables\Actions;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
 use fay\core\Response;
+use fay\core\ErrorException;
+use fay\models\Menu;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -23,178 +25,7 @@ class AdminController extends Controller{
 	 */
 	protected $_deny_routers = array();
 	
-	public $_left_menu = array(
-		array(
-			'label'=>'权限',
-			'directory'=>'role',
-			'sub'=>array(
-				array('label'=>'角色列表','router'=>'admin/role/index',),
-				array('label'=>'添加角色','router'=>'admin/role/create',),
-				array('label'=>'所有权限','router'=>'admin/action/index',),
-				array('label'=>'权限分类','router'=>'admin/category/action',),
-			),
-			'icon'=>'fa fa-gavel',
-		),
-		array(
-			'label'=>'用户管理',
-			'directory'=>'user',
-			'sub'=>array(
-				array('label'=>'所有用户','router'=>'admin/user/index',),
-				array('label'=>'添加用户','router'=>'admin/user/create',),
-				array('label'=>'所有管理员','router'=>'admin/operator/index',),
-				array('label'=>'添加管理员','router'=>'admin/operator/create',),
-			),
-			'icon'=>'fa fa-users',
-		),
-		array(
-			'label'=>'文章',
-			'directory'=>'post',
-			'sub'=>array(
-				array('label'=>'所有文章','router'=>'admin/post/index',),
-				array('label'=>'分类（发布）','router'=>'admin/post/cat',),
-				array('label'=>'标签','router'=>'admin/tag/index',),
-				array('label'=>'关键词','router'=>'admin/keyword/index',),
-			),
-			'icon'=>'fa fa-edit',
-		),
-		array(
-			'label'=>'页面',
-			'directory'=>'page',
-			'sub'=>array(
-				array('label'=>'所有页面','router'=>'admin/page/index',),
-				array('label'=>'添加页面','router'=>'admin/page/create',),
-				array('label'=>'分类','router'=>'admin/page/cat',),
-			),
-			'icon'=>'fa fa-bookmark',
-		),
-		array(
-			'label'=>'留言',
-			'directory'=>'message',
-			'sub'=>array(
-				array('label'=>'文章评论','router'=>'admin/comment/index',),
-				array('label'=>'联系我们','router'=>'admin/contact/index',),
-				array('label'=>'会话','router'=>'admin/chat/index',),
-			),
-			'icon'=>'fa fa-comments-o',
-		),
-		array(
-			'label'=>'导航栏',
-			'directory'=>'menu',
-			'sub'=>array(
-				array('label'=>'自定义导航','router'=>'admin/menu/index',),
-			),
-			'icon'=>'fa fa-map-marker',
-		),
-		array(
-			'label'=>'友情链接',
-			'directory'=>'link',
-			'sub'=>array(
-				array('label'=>'所有友链','router'=>'admin/link/index',),
-				array('label'=>'添加友链','router'=>'admin/link/create',),
-				array('label'=>'分类','router'=>'admin/link/cat',),
-			),
-			'icon'=>'fa fa-unlink',
-		),
-		array(
-			'label'=>'分类',
-			'directory'=>'cat',
-			'sub'=>array(
-				array('label'=>'所有分类','router'=>'admin/category/index',),
-			),
-			'icon'=>'fa fa-sitemap',
-		),
-		array(
-			'label'=>'站点',
-			'directory'=>'site',
-			'sub'=>array(
-				array('label'=>'站点参数','router'=>'admin/site/options',),
-				array('label'=>'参数列表','router'=>'admin/option/index',),
-				array('label'=>'系统日志','router'=>'admin/log/index',),
-				array('label'=>'小工具','router'=>'admin/widget/instances',),
-				array('label'=>'所有小工具','router'=>'admin/widget/index',),
-			),
-			'icon'=>'fa fa-cog',
-		),
-		array(
-			'label'=>'访问统计',
-			'directory'=>'analyst',
-			'sub'=>array(
-				array('label'=>'访客统计','router'=>'admin/analyst/visitor',),
-				array('label'=>'访问日志','router'=>'admin/analyst/views',),
-				array('label'=>'页面PV量','router'=>'admin/analyst/pv',),
-				array('label'=>'站点管理','router'=>'admin/analyst-site/index',),
-				array('label'=>'蜘蛛爬行记录','router'=>'admin/analyst/spiderlog',),
-			),
-			'icon'=>'fa fa-bar-chart-o',
-		),
-		array(
-			'label'=>'文件',
-			'directory'=>'file',
-			'sub'=>array(
-				array('label'=>'所有文件','router'=>'admin/file/index',),
-				array('label'=>'上传文件','router'=>'admin/file/do-upload',),
-			),
-			'icon'=>'fa fa-files-o',
-		),
-		array(
-			'label'=>'系统通知',
-			'directory'=>'notification',
-			'sub'=>array(
-				array('label'=>'我的消息','router'=>'admin/notification/my',),
-				array('label'=>'发送消息','router'=>'admin/notification/create',),
-				array('label'=>'消息分类','router'=>'admin/notification/cat',),
-			),
-			'icon'=>'fa fa-comment',
-		),
-		array(
-			'label'=>'模版',
-			'directory'=>'template',
-			'sub'=>array(
-				array('label'=>'添加模版','router'=>'admin/template/create',),
-				array('label'=>'模版管理','router'=>'admin/template/index',),
-			),
-			'icon'=>'fa fa-envelope-o',
-		),
-		array(
-			'label'=>'试题',
-			'directory'=>'exam-question',
-			'sub'=>array(
-				array('label'=>'试题库','router'=>'admin/exam-question/index',),
-				array('label'=>'添加试题','router'=>'admin/exam-question/create',),
-				array('label'=>'试题分类','router'=>'admin/exam-question/cat',),
-			),
-			'icon'=>'fa fa-book',
-		),
-		array(
-			'label'=>'试卷',
-			'directory'=>'exam-paper',
-			'sub'=>array(
-				array('label'=>'试卷列表','router'=>'admin/exam-paper/index',),
-				array('label'=>'组卷','router'=>'admin/exam-paper/create',),
-				array('label'=>'阅卷','router'=>'admin/exam-exam/index',),
-				array('label'=>'试卷分类','router'=>'admin/exam-paper/cat',),
-			),
-			'icon'=>'fa fa-edit',
-		),
-		array(
-			'label'=>'商品',
-			'directory'=>'goods',
-			'sub'=>array(
-				array('label'=>'所有商品','router'=>'admin/goods/index',),
-				array('label'=>'分类（发布）','router'=>'admin/category/goods',),
-			),
-			'icon'=>'fa fa-shopping-cart',
-		),
-		array(
-			'label'=>'优惠卷',
-			'directory'=>'voucher',
-			'sub'=>array(
-				array('label'=>'所有优惠卷','router'=>'admin/voucher/index',),
-				array('label'=>'添加优惠卷','router'=>'admin/voucher/create',),
-			),
-			'icon'=>'fa fa-gift',
-		),
-	);
+	public $_left_menu = array();
 	
 	public $_top_nav = array(
 		array(
@@ -235,9 +66,11 @@ class AdminController extends Controller{
 			$action = Actions::model()->fetchRow(array('router = ?'=>$uri->router), 'is_public');
 			//没设置权限的路由均默认为可访问路由
 			if($action && !$action['is_public'] && !in_array($uri->router, $this->session->get('actions', array()))){
-				Response::output('error', '您无权限做此操作');
+				throw new ErrorException('您无权限做此操作');
 			}
 		}
+		
+		$this->_left_menu = Menu::model()->getTree('_admin_main');
 	}
 	
 	public function showDataCheckError($check, $return = false){

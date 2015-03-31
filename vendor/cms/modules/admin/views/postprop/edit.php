@@ -1,13 +1,15 @@
-<div class="col-2-3">
-	<div class="col-right">
-		<?php $this->renderPartial('_right')?>
-	</div>
-	<div class="col-left">
-		<form id="form" action="" method="post" class="validform">
+<div class="row">
+	<div class="col-5">
+		<?php echo F::form()->open()?>
 			<?php $this->renderPartial('_edit_panel')?>
 			<div class="form-field">
-				<a href="javascript:;" class="btn-1" id="form-submit">编辑</a>
+				<?php echo F::form()->submitLink('提交', array(
+					'class'=>'btn',
+				))?>
 			</div>
-		</form>
+		<?php echo F::form()->close()?>
+	</div>
+	<div class="col-7">
+		<?php $this->renderPartial('_right')?>
 	</div>
 </div>

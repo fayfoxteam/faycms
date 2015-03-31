@@ -32,10 +32,10 @@ pre li:hover{background-color:#575757;}
 
 body{background-color:#f1f1f1;border:0 none;margin:0;outline:0 none;padding:0;font:14px helvetica, arial, sans-serif;}
 h3{font-size:16px;font-weight:bold;color:#4288ce;margin:0 0 5px;padding:15px 10px 10px;border-bottom:1px dotted #adadad;}
-.color-green{color:green !important;}
-.color-orange{color:orange !important;}
-.color-blue{color:#21759B !important;}
-.color-grey{color:grey !important;}
+.fc-green{color:green !important;}
+.fc-orange{color:orange !important;}
+.fc-blue{color:#21759B !important;}
+.fc-grey{color:grey !important;}
 
 .header{background-color:#272727;border-left:5px solid #CD3F3F;padding:30px 20px;position:relative;}
 .header i.icon{position:absolute;right:37px;top:29px;font-size:45px;color:#fff;font-family:FontAwesome;font-style:normal;display:inline-block;text-align:center;}

@@ -4,7 +4,7 @@
 			<th>属性名称</th>
 			<th>类型</th>
 			<th>必选</th>
-			<th class="w70">排序值</th>
+			<th class="w90">排序值</th>
 		</tr>
 	</thead>
 	<tfoot>

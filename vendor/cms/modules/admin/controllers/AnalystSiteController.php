@@ -86,7 +86,7 @@ class AnalystSiteController extends AdminController{
 			->where('deleted = 0');
 	
 		$this->view->listview = new ListView($sql, array(
-			'pageSize' => 15,
+			'page_size' => 15,
 		));
 	}
 }

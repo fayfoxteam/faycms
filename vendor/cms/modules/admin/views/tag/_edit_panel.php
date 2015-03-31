@@ -1,24 +1,24 @@
 <div class="form-field">
-	<label>名称<em class="color-red">*</em></label>
+	<label class="title">名称<em class="required">*</em></label>
 	<?php echo F::form()->inputText('title', array(
-		'class'=>'full-width',
+		'class'=>'form-control',
 	))?>
 </div>
 <div class="form-field">
-	<label>SEO Title</label>
+	<label class="title">SEO Title</label>
 	<?php echo F::form()->inputText('seo_title', array(
-		'class'=>'full-width',
+		'class'=>'form-control',
 	))?>
 </div>
 <div class="form-field">
-	<label>SEO Keywords</label>
+	<label class="title">SEO Keywords</label>
 	<?php echo F::form()->textarea('seo_keywords', array(
-		'class'=>'full-width h30 autosize',
+		'class'=>'form-control h30 autosize',
 	))?>
 </div>
 <div class="form-field">
-	<label>SEO Description</label>
+	<label class="title">SEO Description</label>
 	<?php echo F::form()->textarea('seo_description', array(
-		'class'=>'full-width h60 autosize',
+		'class'=>'form-control h60 autosize',
 	))?>
 </div>

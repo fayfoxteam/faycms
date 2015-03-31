@@ -8,7 +8,7 @@ use fay\models\tables\ExamQuestions;
 		<h4>试题</h4>
 	</div>
 		<div class="box-content" id="questions-container">
-			<a href="#question-dialog" id="select-question-link" class="btn-1">选择试题</a>
+			<a href="#question-dialog" id="select-question-link" class="btn">选择试题</a>
 			<label>
 				<?php echo F::form()->inputCheckbox('rand', 1)?>
 				随机排序
@@ -39,7 +39,7 @@ use fay\models\tables\ExamQuestions;
 								}?></span>
 								|
 								<label>分值：<?php echo Html::inputText('score[]', $q['score'], array(
-									'class'=>'w100',
+									'class'=>'form-control mw100 ib',
 								))?></label>
 							</p>
 						</div>

@@ -9,12 +9,16 @@ use fay\models\tables\Users;
 	<div class="box-content">
 		<div class="form-field">
 			<label class="title">标题</label>
-			<?php echo F::form('widget')->inputText('title')?>
-			<p class="color-grey">若为空，则显示顶级分类的标题</p>
+			<?php echo F::form('widget')->inputText('title', array(
+				'class'=>'form-control mw400',
+			))?>
+			<p class="fc-grey">若为空，则显示顶级分类的标题</p>
 		</div>
 		<div class="form-field">
 			<label class="title">分类</label>
-			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats))?>
+			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats), array(
+				'class'=>'form-control mw400',
+			))?>
 		</div>
 		<div class="form-field">
 			<label class="title">是否包含子分类下的文章</label>
@@ -28,7 +32,7 @@ use fay\models\tables\Users;
 		<div class="form-field">
 			<label class="title">显示文章数</label>
 			<?php echo F::form('widget')->inputText('number', array(
-				'class'=>'w100',
+				'class'=>'form-control mw150',
 			), 5)?>
 		</div>
 		<div class="form-field">
@@ -39,7 +43,7 @@ use fay\models\tables\Users;
 			<?php echo F::form('widget')->inputRadio('thumbnail', 0, array(
 				'label'=>'否',
 			), true)?>
-			<p class="color-grey">若该实例被用于画廊展示，请选择<span class="color-orange">“是”</span></p>
+			<p class="fc-grey">若该实例被用于画廊展示，请选择<span class="fc-orange">“是”</span></p>
 		</div>
 		<div class="form-field">
 			<label class="title">排序规则</label>
@@ -81,21 +85,23 @@ use fay\models\tables\Users;
 			<div class="form-field">
 				<label class="title">最近访问</label>
 				<p><?php echo F::form('widget')->inputText('last_view_time', array(
-					'class'=>'w100',
+					'class'=>'form-control mw150',
 				), 0);?>
-				<span class="color-grey">（单位：天。若为<em class="color-orange">0</em>，则不限制</span>）</p>
-				<p class="color-grey">
+				<span class="fc-grey">（单位：天。若为<em class="fc-orange">0</em>，则不限制</span>）</p>
+				<p class="fc-grey">
 					例如：30天则只有30天内被访问过的文章才会显示，防止过时文章被显示。<br>
 					该数值视网站访问量而定，设置过小可能导致无文章可显示。
 				</p>
 			</div>
 			<div class="form-field">
 				<label class="title">发布时间格式</label>
-				<?php echo F::form('widget')->inputText('date_format')?>
-				<p class="color-grey">若为空，则不显示时间</p>
+				<?php echo F::form('widget')->inputText('date_format', array(
+					'class'=>'form-control mw150',
+				))?>
+				<p class="fc-grey">若为空，则不显示时间</p>
 			</div>
 			<div class="form-field">
-				<label class="title">链接格式<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php
 					echo Html::inputRadio('uri', 'post/{$id}', !isset($data['uri']) || $data['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
@@ -110,19 +116,21 @@ use fay\models\tables\Users;
 					));
 					echo Html::inputText('other_uri', isset($data['uri']) && !in_array($data['uri'], array(
 						'post/{$id}', 'post-{$id}',
-					)) ? $data['uri'] : '');
+					)) ? $data['uri'] : '', array(
+						'class'=>'form-control mw150 ib',
+					));
 				?>
-				<p class="color-grey">
+				<p class="fc-grey">
 					<code>{$id}</code>代表“文章ID”。
 					不要包含base_url部分
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">渲染模版<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo F::form('widget')->textarea('template', array(
-					'class'=>'wp90 h90 autosize',
+					'class'=>'form-control h90 autosize',
 				))?>
-				<p class="color-grey">
+				<p class="fc-grey mt5">
 					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
 					即类似<code>frontend/widget/template</code><br />
 					则会调用当前application下符合该相对路径的view文件。<br />

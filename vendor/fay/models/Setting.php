@@ -14,7 +14,7 @@ class Setting extends Model{
 	
 	public function rules(){
 		return array(
-			array('page_size', 'int', array('max'=>100)),
+			array('page_size', 'int', array('min'=>1, 'max'=>999)),
 			array('_key', 'required'),
 		);
 	}

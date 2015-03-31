@@ -68,6 +68,7 @@ class PostController extends AdminController{
 	
 	public function create(){
 		$cat_id = $this->input->get('cat_id', 'intval');
+		$cat_id || $cat_id = Category::model()->getIdByAlias('_system_post');
 		$cat = Category::model()->get($cat_id, 'title,left_value,right_value');
 		
 		if(!$cat){
@@ -294,8 +295,8 @@ class PostController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'pageSize'=>$this->form('setting')->getData('page_size', 10),
-			'emptyText'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
+			'page_size'=>$this->form('setting')->getData('page_size', 10),
+			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
 		));
 		$this->view->render();
 	}
@@ -621,7 +622,21 @@ class PostController extends AdminController{
 	 */
 	public function cat(){
 		$this->layout->current_directory = 'post';
-	
+		$this->layout->_setting_panel = '_setting_cat';
+		
+		$_setting_key = 'admin_post_cat';
+		$_settings = Setting::model()->get($_setting_key);
+		$_settings || $_settings = array(
+			'default_dep'=>2,
+		);
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setData($_settings)
+			->setData(array(
+				'_key'=>$_setting_key
+			))
+			->setJsModel('setting');
+		
 		$this->layout->subtitle = '文章分类';
 		$this->view->cats = Category::model()->getTree('_system_post');
 		$root_node = Category::model()->getByAlias('_system_post', 'id');

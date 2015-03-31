@@ -7,17 +7,16 @@ CKEDITOR.editorConfig = function( config ) {
 	config.extraPlugins = 'code'; //新建插件
 	
 	config.toolbar = [
-		['Source', 'Preview'],
-		['Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+		['Source'],
+		['PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
 		['Link', 'Unlink'],
-		['Image', 'Table', 'Smiley', 'Flash', 'Code'],
+		['Image', 'Table', 'Flash', 'Code'],
 		['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'Blockquote'],
 		'/',
 		['Format', 'Styles', 'FontSize'],
 		['TextColor', 'BGColor'],
-		['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-		['Maximize', 'ShowBlocks'],
-		['Find', 'Replace']
+		['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat'],
+		['Maximize', 'ShowBlocks']
 	];
 	
 	//config.uiColor = '#ffffff';

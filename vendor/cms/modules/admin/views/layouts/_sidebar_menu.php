@@ -1,19 +1,17 @@
 <?php
 use cms\helpers\MenuHelper;
-use fay\models\Menu;
 use fay\helpers\Html;
-
-$menus = Menu::model()->getTree('_admin_main');
+use fay\models\Setting;
 ?>
-<aside class="sidebar-menu">
+<div class="sidebar-menu <?php $admin_sidebar_class = Setting::model()->get('admin_sidebar_class');echo $admin_sidebar_class['class']?>" id="sidebar-menu">
 	<div class="sidebar-menu-inner">
 		<header class="logo-env">
 			<div class="logo">
 				<?php
-					echo Html::link('Faycms', null, array(
+					echo Html::link('Faycms', array('admin/index/index'), array(
 						'class'=>'logo-expanded',
 					));
-					echo Html::link('F', null, array(
+					echo Html::link('F', array('admin/index/index'), array(
 						'class'=>'logo-collapsed',
 					));
 				?>
@@ -25,6 +23,6 @@ $menus = Menu::model()->getTree('_admin_main');
 				</a>
 			</div>
 		</header>
-		<?php MenuHelper::render($menus, isset($current_directory) ? $current_directory : '')?>
+		<?php MenuHelper::render(\F::app()->_left_menu, F::app()->session->get('actions', array()), F::app()->session->get('role'), isset($current_directory) ? $current_directory : '')?>
 	</div>
-</aside>
+</div>

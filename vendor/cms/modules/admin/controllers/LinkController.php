@@ -41,6 +41,11 @@ class LinkController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑链接';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/link/create'),
+			'text'=>'添加链接',
+		);
+		
 		$this->form()->setModel(Links::model());
 		$id = $this->input->get('id', 'intval');
 		
@@ -57,6 +62,13 @@ class LinkController extends AdminController{
 		}
 		if($link = Links::model()->find($id)){
 			$this->form()->setData($link);
+			
+			$this->layout->sublink = array(
+				'uri'=>array('admin/link/create', array(
+					'cat_id'=>$link['cat_id'],
+				)),
+				'text'=>'同分类下新增链接',
+			);
 			
 			$this->view->cats = Category::model()->getTree('_system_link', 'id,title');
 			$this->view->render();
@@ -83,7 +95,7 @@ class LinkController extends AdminController{
 		}
 		
 		$listview = new ListView($sql, array(
-			'emptyText'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		$this->view->listview = $listview;
 		

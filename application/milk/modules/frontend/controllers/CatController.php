@@ -39,7 +39,7 @@ class CatController extends FrontendController
             ));
         
         $this->view->listview = new ListView($sql, array(
-                'pageSize'  => 9,
+                'page_size'  => 9,
                 'reload'    => $this->view->url('cat/'.$cat['id']),
         ));
         

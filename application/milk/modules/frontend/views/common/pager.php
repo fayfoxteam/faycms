@@ -1,12 +1,12 @@
 <?php
 //当前页
-$currentPage = $listview->currentPage;
+$currentPage = $listview->current_page;
 //总页数
-$totalPages = $listview->totalPages;
+$totalPages = $listview->totalp_ages;
 //加载地址
 $reload = $listview->reload;
 //总条数
-$total = $listview->totalRecords;
+$total = $listview->total_records;
 //前后显示页数
 $adjacents = $listview->adjacents;
 

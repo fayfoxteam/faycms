@@ -8,18 +8,6 @@ class Input extends FBase{
 	private $_get = array();
 	private $_post = array();
 	
-	private $default_message = array(
-		'required'=>'%s不能为空',
-		'numerical'=>'%s必须是数字',
-		'length'=>'%s长度不正确',
-		'email'=>'%s格式不正确',
-		'url'=>'%s格式不正确',
-		'match'=>'%s格式不正确',
-		'unique'=>'%s必须唯一',
-		'recheck'=>'%s不匹配',
-		'exist'=>'%s不存在',
-	);
-	
 	private function __construct(){}
 	
 	private function __clone(){}
@@ -160,10 +148,10 @@ class Input extends FBase{
 					$fields = explode(',', $fields);
 				}
 			}
-			if(is_array($data)){
+			if(is_array($data) || is_object($data)){
 				$return = array();
 				foreach($data as $key => $d){
-					if(is_array($d)){
+					if(is_array($d) || is_object($d)){
 						$return[$key] = $this->filterR($filters, $d, $fields);
 					}else{
 						$temp = $d;

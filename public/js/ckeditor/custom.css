@@ -6,11 +6,11 @@ body{margin:10px;font-size:12px;}
 ul,ul li{list-style:none;}
 img{border:0;}
 
-.color-red{color:red !important;}
-.color-green{color:green !important;}
-.color-orange{color:orange !important;}
-.color-blue{color:#21759B !important;}
-.color-grey{color:grey !important;}
+.fc-red{color:red !important;}
+.fc-green{color:green !important;}
+.fc-orange{color:orange !important;}
+.fc-blue{color:#21759B !important;}
+.fc-grey{color:grey !important;}
 
 code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f8f8;border-radius:3px;color:#d14;}
 blockquote{border-left:4px solid #ddd;color:#777;padding:0 15px;margin-bottom:15px;}

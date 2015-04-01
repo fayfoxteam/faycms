@@ -37,7 +37,7 @@ use fay\helpers\Date;
 			<tr>
 				<th>当前登陆IP</th>
 				<td>
-					<?php echo $this->ip?>
+					<?php echo F::app()->ip?>
 					<em>( <?php echo $iplocation->getCountryAndArea(F::app()->ip)?> )</em>
 				</td>
 			</tr>

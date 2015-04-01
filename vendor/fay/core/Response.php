@@ -74,27 +74,7 @@ class Response extends FBase{
 		510 => 'Not Extended',
 		511 => 'Network Authentication Required',
 	);
-	
-	/**
-	 * 当Exception不好用的时候，用此函数显示错误
-	 * @param string $message
-	 * @param int $status_code http状态码
-	 * @param string $heading
-	 */
-	public static function showError($message, $status_code = 500, $heading = '出错啦'){
-		self::setStatusHeader($status_code);
-		$app = \F::app();
-		$app || $app = new Controller();
-		$app->view->assign(array(
-			'message'=>$message,
-			'status_code'=>$status_code,
-			'heading'=>$heading,
-		));
-		$app->view->_backtrace = debug_backtrace(false);
-		$app->view->renderPartial('errors/general');
-		die;
-	}
-	
+
 	/**
 	 * 发送一个http头
 	 * @param int $code
@@ -102,19 +82,19 @@ class Response extends FBase{
 	 */
 	public static function setStatusHeader($code = 200, $text = ''){
 		if ($code == '' OR ! is_numeric($code)){
-			self::showError('Status codes must be numeric', 500);
+			throw new HttpException('Status codes must be numeric', 500);
 		}
-	
+
 		if (isset(self::$httpStatuses[$code]) AND $text == ''){
 			$text = self::$httpStatuses[$code];
 		}
-	
+
 		if ($text == ''){
-			self::showError('No status text available.  Please check your status code number or supply your own message text.', 500);
+			throw new HttpException('No status text available.  Please check your status code number or supply your own message text.', 500);
 		}
-	
+
 		$server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
-	
+
 		if (substr(php_sapi_name(), 0, 3) == 'cgi'){
 			header("Status: {$code} {$text}", TRUE);
 		}elseif ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0'){
@@ -123,7 +103,7 @@ class Response extends FBase{
 			header("HTTP/1.1 {$code} {$text}", TRUE, $code);
 		}
 	}
-	
+
 	/**
 	 * 页面跳转
 	 * @param string $uri
@@ -137,7 +117,7 @@ class Response extends FBase{
 		}
 		die;
 	}
-	
+
 	/**
 	 * 返回上一页
 	 */
@@ -149,7 +129,7 @@ class Response extends FBase{
 		}
 		die;
 	}
-	
+
 	/**
 	 * 在非显示性页面调用此方法输出。
 	 * 若为ajax访问，则返回json
@@ -178,7 +158,7 @@ class Response extends FBase{
 			}else{
 				\F::app()->flash->set('操作失败', $status);
 			}
-			
+
 			if($redirect === false){
 				self::goback();
 			}else{
@@ -191,5 +171,33 @@ class Response extends FBase{
 				die;
 			}
 		}
+	}
+
+	/**
+	 * 用一个单页来做信息提示，并在$delay时间后跳转
+	 * @param unknown $message 信息
+	 * @param number $delay 停留时间
+	 * @param string $redirect 跳转的url，默认为回到上一页
+	 */
+	public static function jump($message, $status = 'success', $redirect = false, $delay = 3){
+		if(!$redirect && !empty($_SERVER['HTTP_REFERER'])){
+			$redirect = $_SERVER['HTTP_REFERER'];
+		}
+		\F::app()->view->renderPartial('common/jump', array(
+			'redirect'=>$redirect,
+			'status'=>$status,
+			'message'=>$message,
+			'delay'=>$delay,
+		));
+		die;
+	}
+
+	/**
+	 * 带layout显示一个404页面
+	 */
+	public static function show404(){
+	    self::setStatusHeader(404);
+	    \F::app()->view->render('common/404');
+	    die;
 	}
 }

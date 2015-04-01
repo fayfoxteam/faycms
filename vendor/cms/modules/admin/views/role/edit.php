@@ -4,7 +4,8 @@ $action_cat_count = count($actions);
 $col_left_count = floor($action_cat_count / 2);
 ?>
 <?php echo F::form()->open()?>
-	<div class="col-1">
+<div class="row">
+	<div class="col-12">
 		<div class="box">
 			<div class="box-title">
 				<h4>概况</h4>
@@ -13,78 +14,82 @@ $col_left_count = floor($action_cat_count / 2);
 				<div class="form-field">
 					<label class="title">
 						角色名称
-						<em class="color-red">*</em>
+						<em class="required">*</em>
 					</label>
-					<?php echo F::form()->inputText('title', array('class'=>'w300'))?>
+					<?php echo F::form()->inputText('title', array(
+						'class'=>'form-control mw500',
+					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">描述</label>
-					<?php echo F::form()->textarea('description', array('class'=>'w550 h90'))?>
+					<?php echo F::form()->textarea('description', array(
+						'class'=>'form-control h90 mw500 autosize',
+					))?>
 				</div>
 				<div class="form-field">
 					<?php echo F::form()->submitLink('更新角色', array(
-						'class'=>'btn-1',
+						'class'=>'btn',
 					))?>
-					<a href="javascript:;" id="form-reset" class="btn-2">重置</a>
+					<a href="javascript:;" id="form-reset" class="btn btn-grey">重置</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-2-1">
-		<div class="col-left">
-			<div class="col-content">
-			<?php $i = 0;
-				foreach($actions as $cat_title => $action){
-					$i++;
-					if($i > $col_left_count)continue;
-			?>
-				<div class="box">
-					<div class="box-title">
-						<h4><input type="checkbox" class="select-all" title="全选" /><?php echo $cat_title?></h4>
-					</div>
-					<div class="box-content">
-					<?php foreach($action as $a){?>
-						<span style="width:200px;float:left;" title="<?php echo $a['router']?>">
-							<?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
-								'label'=>$a['title'],
-								'parent'=>$a['parent'],
-							))?>
-						</span>
-					<?php }?>
-						<div class="clear"></div>
-					</div>
+</div>
+<div class="row">
+	<div class="col-6">
+		<div class="col-content">
+		<?php $i = 0;
+			foreach($actions as $cat_title => $action){
+				$i++;
+				if($i > $col_left_count)continue;
+		?>
+			<div class="box">
+				<div class="box-title">
+					<h4><input type="checkbox" class="select-all" title="全选" /><?php echo $cat_title?></h4>
 				</div>
-			<?php }?>
-			</div>
-		</div>
-		<div class="col-right">
-			<div class="col-content">
-			<?php $i = 0;
-				foreach($actions as $cat_title => $action){
-					$i++;
-					if($i <= $col_left_count)continue;
-			?>
-				<div class="box">
-					<div class="box-title">
-						<h4><input type="checkbox" class="select-all" title="全选" /><?php echo $cat_title?></h4>
-					</div>
-					<div class="box-content">
-					<?php foreach($action as $a){?>
-						<span style="width:200px;float:left;" title="<?php echo $a['router']?>">
-							<?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
-								'label'=>$a['title'],
-								'parent'=>$a['parent'],
-							))?>
-						</span>
-					<?php }?>
-						<div class="clear"></div>
-					</div>
+				<div class="box-content">
+				<?php foreach($action as $a){?>
+					<span class="w200 ib" title="<?php echo $a['router']?>">
+						<?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
+							'label'=>$a['title'],
+							'parent'=>$a['parent'],
+						))?>
+					</span>
+				<?php }?>
+					<div class="clear"></div>
 				</div>
-			<?php }?>
 			</div>
+		<?php }?>
 		</div>
-		<div class="clear"></div>
 	</div>
+	<div class="col-6">
+		<div class="col-content">
+		<?php $i = 0;
+			foreach($actions as $cat_title => $action){
+				$i++;
+				if($i <= $col_left_count)continue;
+		?>
+			<div class="box">
+				<div class="box-title">
+					<h4><input type="checkbox" class="select-all" title="全选" /><?php echo $cat_title?></h4>
+				</div>
+				<div class="box-content">
+				<?php foreach($action as $a){?>
+					<span class="w200 ib" title="<?php echo $a['router']?>">
+						<?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
+							'label'=>$a['title'],
+							'parent'=>$a['parent'],
+						))?>
+					</span>
+				<?php }?>
+					<div class="clear"></div>
+				</div>
+			</div>
+		<?php }?>
+		</div>
+	</div>
+</div>
 <?php echo F::form()->close()?>
 <script>
 $(function(){

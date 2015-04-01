@@ -18,7 +18,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 	</div>
 	<div class="form-field">
 		<?php echo F::form('setting')->submitLink('提交', array(
-			'class'=>'btn-3',
+			'class'=>'btn btn-sm',
 		))?>
 	</div>
 <?php echo F::form('setting')->close()?>

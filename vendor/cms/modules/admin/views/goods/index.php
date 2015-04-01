@@ -2,77 +2,78 @@
 use fay\helpers\Html;
 use fay\models\tables\Goods;
 ?>
-<div class="col-1">
-	<form method="get" class="validform" id="post-form">
-		<div class="mb5">
-			<?php echo F::form()->select('field', array(
-				'title'=>'商品名称',
-				'sn'=>'货号',
-			))?>
-			<?php echo F::form()->inputText('keywords');?>
-			|
-			<?php echo F::form()->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'))?>
-			|
-			<?php echo F::form()->select('status', array(
-				''=>'--状态--',
-				Goods::STATUS_INSTOCK=>'在库',
-				Goods::STATUS_ONSALE=>'销售中',
-			))?>
-		</div>
-		<div class="mb5">
-			<?php echo F::form()->select('time_field', array(
-				'create_time'=>'创建时间',
-				'last_modified_time'=>'最后修改时间',
-			))?>
-			<?php echo F::form()->inputText('start_time', array(
-				'data-rule'=>'datetime',
-				'data-label'=>'时间',
-				'class'=>'datetimepicker',
-			));?>
-			-
-			<?php echo F::form()->inputText('end_time', array(
-				'data-rule'=>'datetime',
-				'data-label'=>'时间',
-				'class'=>'datetimepicker',
-			));?>
-			<a href="javascript:;" class="btn-3" id="post-form-submit">查询</a>
-		</div>
-	</form>
-	<table class="list-table goods-list">
-		<thead>
-			<tr>
-				<th width="62"></th>
-				<th>商品名称</th>
-				<th>货号</th>
-				<th>分类</th>
-				<th>价格</th>
-				<th class="w35">新品</th>
-				<th class="w35">热销</th>
-				<th class="w70">状态</th>
-				<th class="w70">排序值</th>
-				<th>创建时间</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<th></th>
-				<th>商品名称</th>
-				<th>货号</th>
-				<th>分类</th>
-				<th>价格</th>
-				<th>新品</th>
-				<th>热销</th>
-				<th>状态</th>
-				<th>排序值</th>
-				<th>创建时间</th>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php $listview->showData();?>
-		</tbody>
-	</table>
-	<?php $listview->showPage();?>
-	<div class="clear"></div>
+<div class="row">
+	<div class="col-12">
+		<form method="get" class="validform" id="post-form">
+			<div class="mb5">
+				<?php echo F::form()->select('field', array(
+					'title'=>'商品名称',
+					'sn'=>'货号',
+				))?>
+				<?php echo F::form()->inputText('keywords');?>
+				|
+				<?php echo F::form()->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'))?>
+				|
+				<?php echo F::form()->select('status', array(
+					''=>'--状态--',
+					Goods::STATUS_INSTOCK=>'在库',
+					Goods::STATUS_ONSALE=>'销售中',
+				))?>
+			</div>
+			<div class="mb5">
+				<?php echo F::form()->select('time_field', array(
+					'create_time'=>'创建时间',
+					'last_modified_time'=>'最后修改时间',
+				))?>
+				<?php echo F::form()->inputText('start_time', array(
+					'data-rule'=>'datetime',
+					'data-label'=>'时间',
+					'class'=>'datetimepicker',
+				));?>
+				-
+				<?php echo F::form()->inputText('end_time', array(
+					'data-rule'=>'datetime',
+					'data-label'=>'时间',
+					'class'=>'datetimepicker',
+				));?>
+				<a href="javascript:;" class="btn btn-sm" id="post-form-submit">查询</a>
+			</div>
+		</form>
+		<table class="list-table goods-list">
+			<thead>
+				<tr>
+					<th width="62"></th>
+					<th>商品名称</th>
+					<th>货号</th>
+					<th>分类</th>
+					<th>价格</th>
+					<th class="w35">新品</th>
+					<th class="w35">热销</th>
+					<th class="w70">状态</th>
+					<th class="w70">排序值</th>
+					<th>创建时间</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th></th>
+					<th>商品名称</th>
+					<th>货号</th>
+					<th>分类</th>
+					<th>价格</th>
+					<th>新品</th>
+					<th>热销</th>
+					<th>状态</th>
+					<th>排序值</th>
+					<th>创建时间</th>
+				</tr>
+			</tfoot>
+			<tbody>
+				<?php $listview->showData();?>
+			</tbody>
+		</table>
+		<?php $listview->showPager();?>
+	</div>
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
 <script>

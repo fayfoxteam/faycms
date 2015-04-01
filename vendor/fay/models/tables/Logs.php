@@ -7,15 +7,15 @@ class Logs extends Table{
 	/**
 	 * 类型 - 正常
 	 */
-	const TYPE_NORMAL = 0;
+	const TYPE_NORMAL = 1;
 	/**
 	 * 类型 - 严重错误
 	 */
-	const TYPE_ERROR = 1;
+	const TYPE_ERROR = 2;
 	/**
 	 * 类型 - 警告
 	 */
-	const TYPE_WARMING = 2;
+	const TYPE_WARMING = 3;
 
 	protected $_name = 'logs';
 	

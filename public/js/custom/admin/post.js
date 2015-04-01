@@ -84,7 +84,7 @@ var post = {
 								'<img src="', system.url('images/loading.gif'), '" />',
 							'</span>',
 							'<div class="file-desc-container">',
-								'<textarea class="file-desc autosize">', data.name, '</textarea>',
+								'<textarea class="form-control file-desc autosize">', data.name, '</textarea>',
 							'</div>',
 							'<div class="clear"></div>',
 							'<div class="progress-bar">',

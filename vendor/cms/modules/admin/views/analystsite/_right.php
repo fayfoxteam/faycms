@@ -1,4 +1,4 @@
-<table border="0" cellpadding="0" cellspacing="0" class="list-table">
+<table class="list-table">
 	<thead>
 		<tr>
 			<th class="wp38">名称</th>
@@ -17,4 +17,4 @@
 ?>
 	</tbody>
 </table>
-<?php $listview->showPage();?>
+<?php $listview->showPager();?>

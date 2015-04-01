@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
 ?>
-<div class="col-2-1">
-	<div class="col-left">
+<div class="row">
+	<div class="col-6">
 		<table class="list-table" id="left-db-tables">
 			<thead><tr>
 				<th class="bold"><?php echo $db_config['left']['host'], '/', $db_config['left']['dbname']?></th>
@@ -14,13 +14,13 @@ use fay\helpers\Html;
 				<td class="<?php echo in_array($t, $right_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
 					<span class="fr row-actions pt0"><?php
 						if(in_array($t, $right_tables)){
-							echo Html::link('<i class="icon-exchange"></i>', array('tools/db-compare/table', array(
+							echo Html::link('<i class="fa fa-exchange"></i>', array('tools/db-compare/table', array(
 								'name'=>$t,
 							)), array(
 								'title'=>'Table Compare',
 								'encode'=>false,
 							));
-							echo Html::link('<i class="icon-arrow-right"></i>', '#data-transfer-dialog', array(
+							echo Html::link('<i class="fa fa-arrow-right"></i>', '#data-transfer-dialog', array(
 								'data-name'=>$t,
 								'data-db'=>'left',
 								'class'=>'data-transfer',
@@ -28,7 +28,7 @@ use fay\helpers\Html;
 								'encode'=>false,
 							));
 						}
-						echo Html::link('<i class="icon-eye"></i>', '#ddl-dialog', array(
+						echo Html::link('<i class="fa fa-eye"></i>', '#ddl-dialog', array(
 							'data-name'=>$t,
 							'data-db'=>'left',
 							'class'=>'show-ddl',
@@ -46,7 +46,7 @@ use fay\helpers\Html;
 			</tbody>
 		</table>
 	</div>
-	<div class="col-right">
+	<div class="col-6">
 		<table class="list-table">
 			<thead><tr>
 				<th class="bold"><?php echo $db_config['right']['host'], '/', $db_config['right']['dbname']?></th>
@@ -58,13 +58,13 @@ use fay\helpers\Html;
 					<td class="<?php echo in_array($t, $left_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
 						<span class="fr row-actions pt0"><?php
 							if(in_array($t, $left_tables)){
-								echo Html::link('<i class="icon-exchange"></i>', array('tools/db-compare/table', array(
+								echo Html::link('<i class="fa fa-exchange"></i>', array('tools/db-compare/table', array(
 									'name'=>$t,
 								)), array(
 									'title'=>'Table Compare',
 									'encode'=>false,
 								));
-								echo Html::link('<i class="icon-arrow-left"></i>', '#data-transfer-dialog', array(
+								echo Html::link('<i class="fa fa-arrow-left"></i>', '#data-transfer-dialog', array(
 									'data-name'=>$t,
 									'data-db'=>'right',
 									'class'=>'data-transfer',
@@ -72,7 +72,7 @@ use fay\helpers\Html;
 									'encode'=>false,
 								));
 							}
-							echo Html::link('<i class="icon-eye"></i>', '#ddl-dialog', array(
+							echo Html::link('<i class="fa fa-eye"></i>', '#ddl-dialog', array(
 								'data-name'=>$t,
 								'data-db'=>'right',
 								'class'=>'show-ddl',
@@ -113,10 +113,9 @@ use fay\helpers\Html;
 			</div>
 			<h3>DDL</h3>
 			<?php echo Html::textarea('code', '', array(
-				'style'=>'background:none repeat scroll 0 0 #F9F9F9;font-family:Consolas,Monaco,monospace;width:99%;',
-				'rows'=>13,
-				'cols'=>70,
+				'style'=>'font-family:Consolas,Monaco,monospace',
 				'id'=>'ddl-code',
+				'class'=>'form-control autosize',
 			))?>
 		</div>
 	</div>
@@ -146,8 +145,8 @@ use fay\helpers\Html;
 					<label><input type="radio" name="truncate" value="0" />NO</label>
 				</div>
 				<div class="mb5">
-					<a href="javascript:;" id="start-transfer" class="btn-1">Start Transfer</a>
-					<span class="color-red">This process may be longer, please do not close the browser or jump page.</span>
+					<a href="javascript:;" id="start-transfer" class="btn">Start Transfer</a>
+					<span class="fc-red">This process may be longer, please do not close the browser or jump page.</span>
 				</div>
 			</form>
 		</div>
@@ -324,7 +323,7 @@ $(function(){
 										'<td>', data.Comment, '</td>',
 									'</tr>'].join(''));
 								});
-								$('#ddl-code').val(resp.ddl);
+								$('#ddl-code').val(resp.ddl).trigger('autosize.resize');
 								$tbody.find('tr:even').addClass('alternate');
 								$.fancybox.center();
 							}

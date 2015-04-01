@@ -15,19 +15,19 @@ $widget = F::app()->widget->get($data['widget_name'], true);
 			echo Html::link('删除', array('admin/widget/remove-instance', array(
 				'id'=>$data['id'],
 			)), array(
-				'class'=>'color-red',
+				'class'=>'fc-red remove-link',
 			), true);
 		?>
 		</div>
 	</td>
 	<td><?php echo $data['alias']?></td>
 	<td><?php if($data['enabled']){
-		echo '<span class="color-green">是</span>';
+		echo '<span class="fc-green">是</span>';
 	}else{
-		echo '<span class="color-orange">否</span>';
+		echo '<span class="fc-orange">否</span>';
 	}?></td>
 	<td><?php if($widget == null){
-		echo '<span class="color-red">小工具已被移除</span>';
+		echo '<span class="fc-red">小工具已被移除</span>';
 	}else{
 		echo $widget->title;
 	}?></td>

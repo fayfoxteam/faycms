@@ -14,14 +14,14 @@ use fay\helpers\Date;
 		</div>
 	</td>
 	<td><?php echo Log::getType($data['type'])?></td>
-	<td><span class="abbr" title="<?php echo Html::encode($data['data'])?>">
+	<td><abbr title="<?php echo Html::encode($data['data'])?>">
 		<?php echo String::niceShort($data['data'], 60, true)?>
-	</span></td>
+	</abbr></td>
 	<td><?php echo Html::encode($data['username'])?></td>
 	<td class="col-date">
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php echo Date::niceShort($data['create_time'])?>
-		</span>
+		</abbr>
 	</td>
-	<td><span class="abbr" title="<?php echo long2ip($data['ip_int'])?>"><?php echo $iplocation->getCountry(long2ip($data['ip_int']))?></span></td>
+	<td><abbr title="<?php echo long2ip($data['ip_int'])?>"><?php echo $iplocation->getCountry(long2ip($data['ip_int']))?></abbr></td>
 </tr>

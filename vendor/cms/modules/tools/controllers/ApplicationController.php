@@ -68,7 +68,7 @@ class ApplicationController extends ToolsController{
 			File::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/index/index.php', file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/module/index.txt'));
 			
 			//创建默认layout
-			File::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/layout/frontend.php', file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/module/frontend.txt'));
+			File::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/layouts/frontend.php', file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/module/frontend.txt'));
 			
 			//创建默认css
 			File::createFile(BASEPATH.'static/'.$app_name.'/css/style.css', file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/static/style.css'));

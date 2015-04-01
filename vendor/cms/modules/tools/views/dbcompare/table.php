@@ -1,8 +1,7 @@
-<?php
-use fay\helpers\Html;
-?>
-<div class="col-2-1">
-	<div class="col-left">
+<?php use fay\core\Loader;
+$this->appendCss($this->url().'css/admin/diff.css')?>
+<div class="row">
+	<div class="col-6">
 		<h3 class="mb5"><?php echo $db_config['left']['host'], '/', $db_config['left']['dbname']?></h3>
 		<table class="list-table">
 			<thead><tr>
@@ -68,7 +67,7 @@ use fay\helpers\Html;
 			</tbody>
 		</table>
 	</div>
-	<div class="col-right">
+	<div class="col-6">
 		<h3 class="mb5"><?php echo $db_config['right']['host'], '/', $db_config['right']['dbname']?></h3>
 		<table class="list-table">
 			<thead><tr>
@@ -134,6 +133,16 @@ use fay\helpers\Html;
 			</tbody>
 		</table>
 	</div>
+	<div class="col-12"><?php
+		Loader::vendor('phpspec/php-diff/lib/Diff');
+		Loader::vendor('phpspec/php-diff/lib/Diff/Renderer/Html/SideBySide');
+		
+		$diff = new Diff(explode("\n", $left_ddl), explode("\n", $right_ddl), array(
+			'context'=>10,
+		));
+		$renderer = new Diff_Renderer_Html_SideBySide;
+		echo $diff->Render($renderer);
+	?></div>
 </div>
 <script>
 $(function(){

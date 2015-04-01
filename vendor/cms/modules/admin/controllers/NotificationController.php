@@ -52,7 +52,7 @@ class NotificationController extends AdminController{
 		;
 		
 		$this->view->listview = new ListView($sql, array(
-			'emptyText'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		
 		$this->view->render();
@@ -118,7 +118,7 @@ class NotificationController extends AdminController{
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加消息分类',
-				'htmlOptions'=>array(
+				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'消息分类',
 					'data-id'=>$root_node['id'],

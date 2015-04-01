@@ -6,7 +6,7 @@ $answers = ExamAnswers::model()->fetchAll('question_id = '.$exam_question['quest
 $user_answers = ExamExamQuestionAnswersInt::model()->fetchCol('user_answer_id', 'exam_question_id = '.$exam_question['id']);
 ?>
 <div class="bd" id="question-<?php echo $exam_question['id']?>">
-	<div class="clearfix exam-question-item">
+	<div class="cf exam-question-item">
 		<span><?php echo $index+1?>、</span>
 		<span><?php echo $exam_question['question']?></span>
 		<span>
@@ -20,10 +20,10 @@ $user_answers = ExamExamQuestionAnswersInt::model()->fetchCol('user_answer_id', 
 		<li><?php 
 			echo $a['answer'];
 			if($a['is_right_answer']){
-				echo '<span class="color-green pl10">[正确答案]</span>';
+				echo '<span class="fc-green pl10">[正确答案]</span>';
 			}
 			if(in_array($a['id'], $user_answers)){
-				echo '<span class="color-orange pl10">[用户选择]</span>';
+				echo '<span class="fc-orange pl10">[用户选择]</span>';
 			}
 		?></li>
 	<?php }?>

@@ -32,7 +32,7 @@ foreach($matches[1] as $m){
 	<?php foreach($work_files as $wf){?>
 		<div class="work-file-item">
 			<a href="<?php echo $this->url('file/pic', array('t'=>1, 'f'=>$wf))?>">
-				<?php echo Html::img($wf, File::PIC_ZOOM, array(
+				<?php echo Html::img($wf, File::PIC_RESIZE, array(
 					'dw'=>147,
 					'dh'=>147,
 				))?>

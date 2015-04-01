@@ -9,13 +9,17 @@ use fay\models\tables\Users;
 	<div class="box-content">
 		<div class="form-field">
 			<label class="title">标题</label>
-			<?php echo Html::inputText('title', isset($data['title']) ? $data['title'] : '')?>
-			<p class="color-grey">若为空，则显示顶级分类的标题</p>
+			<?php echo Html::inputText('title', isset($data['title']) ? $data['title'] : '', array(
+				'class'=>'form-control mw400',
+			))?>
+			<p class="fc-grey">若为空，则显示顶级分类的标题</p>
 		</div>
 		<div class="form-field">
 			<label class="title">顶级分类</label>
-			<?php echo Html::select('top', Html::getSelectOptions($cats), isset($data['top']) ? $data['top'] : 0)?>
-			<p class="color-grey">仅显示所选分类的子分类（不包含所选分类本身）</p>
+			<?php echo Html::select('top', Html::getSelectOptions($cats), isset($data['top']) ? $data['top'] : 0, array(
+				'class'=>'form-control mw400',
+			))?>
+			<p class="fc-grey">仅显示所选分类的子分类（不包含所选分类本身）</p>
 		</div>
 		<div class="form-field">
 			<label class="title">是否体现层级关系</label>
@@ -31,7 +35,7 @@ use fay\models\tables\Users;
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">链接格式<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php
 					echo Html::inputRadio('uri', 'cat/{$id}', !isset($data['uri']) || $data['uri'] == 'cat/{$id}', array(
 						'label'=>'cat/{$id}',
@@ -52,20 +56,22 @@ use fay\models\tables\Users;
 					));
 					echo Html::inputText('other_uri', isset($data['uri']) &&!in_array($data['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
-					)) ? $data['uri'] : '');
+					)) ? $data['uri'] : '', array(
+						'class'=>'form-control mw150 ib',
+					));
 				?>
-				<p class="color-grey">
+				<p class="fc-grey">
 					<code>{$id}</code>代表“分类ID”。
 					<code>{$alias}</code>代表“分类别名”。
 					不要包含base_url部分
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">渲染模版<span class="color-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
-					'class'=>'wp90 h200',
+					'class'=>'form-control h90 autosize',
 				))?>
-				<p class="color-grey">
+				<p class="fc-grey mt5">
 					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
 					即类似<code>frontend/widget/template</code><br />
 					则会调用当前application下符合该相对路径的view文件。<br />

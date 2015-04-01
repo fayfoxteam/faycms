@@ -19,4 +19,4 @@
 ?>
 	</tbody>
 </table>
-<?php $listview->showPage();?>
+<?php $listview->showPager();?>

@@ -3,50 +3,65 @@ use cms\helpers\ListTableHelper;
 use fay\helpers\Html;
 use fay\models\tables\Logs;
 ?>
-<div class="col-1">
-	<form method="get" class="validform" id="search-form">
-		<div class="mb5">
-			Code：<?php echo F::form('search')->inputText('code', array(
-				'class'=>'w200',
-			));?>
-			|
-			<?php echo F::form('search')->select('type', array(
-				''=>'--类型--',
-				Logs::TYPE_NORMAL=>'正常',
-				Logs::TYPE_ERROR=>'错误',
-				Logs::TYPE_WARMING=>'警告',
-			))?>
-			<a href="javascript:;" class="btn-3" id="search-form-submit">查询</a>
-		</div>
-	</form>
-	<table border="0" cellpadding="0" cellspacing="0" class="list-table">
-		<thead>
-			<tr>
-				<th>Code</th>
-				<th>类型</th>
-				<th>Data</th>
-				<th>用户</th>
-				<th class="wp15"><?php echo ListTableHelper::getSortLink('create_time', '生成时间')?></th>
-				<th class="wp15">IP</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<th>Code</th>
-				<th>类型</th>
-				<th>Data</th>
-				<th>用户</th>
-				<th><?php echo ListTableHelper::getSortLink('create_time', '生成时间')?></th>
-				<th>IP</th>
-			</tr>
-		</tfoot>
-		<tbody>
-	<?php
-		$listview->showData();
-	?>
-		</tbody>
-	</table>
-	<?php $listview->showPage();?>
+<div class="row">
+	<div class="col-7">
+		<?php echo F::form('search')->open(null, 'get', array(
+			'class'=>'form-inline',
+		))?>
+			<div class="mb5">
+				Code：<?php echo F::form('search')->inputText('code', array(
+					'class'=>'form-control',
+				));?>
+				|
+				<?php echo F::form('search')->select('type', array(
+					''=>'--类型--',
+					Logs::TYPE_NORMAL=>'正常',
+					Logs::TYPE_ERROR=>'错误',
+					Logs::TYPE_WARMING=>'警告',
+				), array(
+					'class'=>'form-control',
+				))?>
+				<a href="javascript:;" class="btn btn-sm" id="search-form-submit">查询</a>
+			</div>
+		<?php echo F::form('search')->close()?>
+	</div>
+	<div class="col-5">
+		<?php $listview->showPager()?>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>类型</th>
+					<th>Data</th>
+					<th>用户</th>
+					<th class="wp15"><?php echo ListTableHelper::getSortLink('create_time', '生成时间')?></th>
+					<th class="wp15">IP</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>Code</th>
+					<th>类型</th>
+					<th>Data</th>
+					<th>用户</th>
+					<th><?php echo ListTableHelper::getSortLink('create_time', '生成时间')?></th>
+					<th>IP</th>
+				</tr>
+			</tfoot>
+			<tbody>
+				<?php $listview->showData()?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<?php $listview->showPager()?>
+	</div>
 </div>
 <div class="hide">
 	<div id="log-detail-dialog" class="common-dialog">

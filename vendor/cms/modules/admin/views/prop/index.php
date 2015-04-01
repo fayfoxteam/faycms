@@ -2,17 +2,17 @@
 use fay\helpers\Html;
 use fay\models\tables\CatProps;
 ?>
-<div class="col-2-3">
-	<div class="col-right">
+<div class="row">
+	<div class="col-6">
 		<?php include '_right.php'?>
 	</div>
-	<div class="col-left">
+	<div class="col-6">
 		<form id="add-prop-form" action="<?php echo $this->url('admin/prop/create')?>" method="post" class="validform">
 			<?php echo Html::inputHidden('cat_id', $cat['id'])?>
 			<div class="form-field">
 				<label class="title">属性名</label>
 				<?php echo F::form()->inputText('title', array(
-					'class'=>'full-width',
+					'class'=>'form-control',
 					'data-rule'=>'string',
 					'data-params'=>'{max:255}',
 					'data-label'=>'属性名',
@@ -27,7 +27,7 @@ use fay\models\tables\CatProps;
 				<p class="description">
 					销售属性参与SKU计算，即与库存和售价有关
 					<br />
-					所有销售属性均为<span class="color-red">必选</span>，<span class="color-red">多选</span>属性
+					所有销售属性均为<span class="fc-red">必选</span>，<span class="fc-red">多选</span>属性
 				</p>
 			</div>
 			<div class="form-field">
@@ -62,12 +62,12 @@ use fay\models\tables\CatProps;
 				<?php echo F::form()->inputText('', array(
 					'id'=>'prop-title',
 				))?>
-				<a href="javascript:;" class="btn-4" id="add-prop-value-link">添加</a>
-				<span class="color-grey">（添加后可拖拽排序）</span>
+				<a href="javascript:;" class="btn btn-grey btn-sm" id="add-prop-value-link">添加</a>
+				<span class="fc-grey">（添加后可拖拽排序）</span>
 				<div class="dragsort-list" id="prop-list"></div>
 			</div>
 			<div class="form-field">
-				<a href="javascript:;" class="btn-1" id="add-prop-form-submit">添加属性</a>
+				<a href="javascript:;" class="btn" id="add-prop-form-submit">添加属性</a>
 			</div>
 		</form>
 	</div>

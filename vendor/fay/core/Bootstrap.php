@@ -79,7 +79,7 @@ class Bootstrap extends FBase{
 					'action'=>$uri->action.'Action',
 				);
 			}else{
-				throw new HttpException("Action \"{$uri->action}\" Not Found");
+				throw new HttpException("Action \"{$uri->action}\" Not Found IN Controller \"{$class_name}\"");
 			}
 		}
 		
@@ -99,7 +99,7 @@ class Bootstrap extends FBase{
 					'action'=>$uri->action.'Action',
 				);
 			}else{
-				throw new HttpException("Action \"{$uri->action}\" Not Found");
+				throw new HttpException("Action \"{$uri->action}\" Not Found IN Controller \"{$class_name}\"");
 			}
 		}
 		

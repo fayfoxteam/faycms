@@ -126,9 +126,9 @@ CREATE TABLE `{{$prefix}}categories` (
   `alias` varchar(50) NOT NULL DEFAULT '',
   `parent` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '1000',
   `description` varchar(500) NOT NULL DEFAULT '',
-  `is_nav` tinyint(1) NOT NULL DEFAULT '0',
+  `is_nav` tinyint(1) NOT NULL DEFAULT '1',
   `left_value` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `right_value` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `is_system` tinyint(1) NOT NULL DEFAULT '0',
@@ -433,6 +433,8 @@ CREATE TABLE `{{$prefix}}menus` (
   `alias` varchar(50) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL DEFAULT '',
   `sub_title` varchar(255) NOT NULL DEFAULT '',
+  `css_class` varchar(50) NOT NULL DEFAULT '',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `link` varchar(255) NOT NULL DEFAULT '',
   `target` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -579,7 +581,9 @@ CREATE TABLE `{{$prefix}}posts` (
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user` (`user_id`),
+  KEY `publish` (`deleted`,`publish_time`,`status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_tags`;

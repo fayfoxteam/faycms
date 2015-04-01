@@ -127,7 +127,6 @@ class RequestHelper{
 					if(isset($output['ie']) && strtolower($output['ie']) != 'utf-8'){
 						$data['keywords'] = iconv($output['ie'], 'UTF-8', urldecode($output['w']));
 					}else{
-						setcookie('refer', 'soso:'.urldecode($output['w']), $this->current_time + 86400 * 30, '/');
 						$data['keywords'] = urldecode($output['w']);
 					}
 				}
@@ -172,6 +171,46 @@ class RequestHelper{
 				$data['se'] = 'google';
 				if(isset($output['q'])){
 					$data['keywords'] = urldecode($output['q']);
+				}
+			}else if(strpos($parse_url['host'], '.sm.cn') !== false){
+				//神马(sm.cn)
+				$data['se'] = '神马(sm.cn)';
+				if(isset($output['q'])){
+					$data['keywords'] = urldecode($output['q']);
+				}
+			}else if(strpos($parse_url['host'], '.sogou.com') !== false){
+				//神马(sm.cn)
+				$data['se'] = '搜狗(sogou.com)';
+				if(isset($output['query'])){
+					$word = $output['query'];
+				}else{
+					$word = '';
+				}
+				if(isset($output['ie']) && strtolower($output['ie']) != 'utf8'){
+					$data['keywords'] = iconv($output['ie'], 'UTF-8', urldecode($word));
+				}else{
+					$data['keywords'] = urldecode($word);
+				}
+				if(!mb_check_encoding($data['keywords'], 'utf-8')){
+					if(mb_check_encoding($data['keywords'], 'gb2312')){
+						$data['keywords'] = iconv('gb2312', 'utf-8', $data['keywords']);
+					}
+				}
+			}else if(strpos($parse_url['host'], '.haosou.com') !== false){
+				//好搜(haosou.com)
+				$data['se'] = '好搜(haosou.com)';
+				if(isset($output['q'])){
+					$data['keywords'] = urldecode($output['q']);
+				}
+				if(isset($output['q'])){
+					$word = $output['q'];
+				}else{
+					$word = '';
+				}
+				if(isset($output['ie']) && strtolower($output['ie']) != 'utf-8'){
+					$data['keywords'] = iconv($output['ie'], 'UTF-8', urldecode($word));
+				}else{
+					$data['keywords'] = urldecode($word);
 				}
 			}
 		}

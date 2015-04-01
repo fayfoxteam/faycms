@@ -18,11 +18,11 @@ jQuery.fn.extend({
 				
 				clearTimeout($.feditsort_timeout);
 				$(this).next('img').remove();
-				$(this).after('<img src="'+system.url()+'images/throbber.gif" />');
+				$(this).after('<img src="'+system.url()+'images/throbber.gif" class="ajax-status-img" />');
 				$.feditsort_timeout = setTimeout((function(o){
 					return function(){
 						$(o).next('img').remove();
-						$(o).after('<img src="'+system.url()+'images/throbber.gif" />');
+						$(o).after('<img src="'+system.url()+'images/throbber.gif" class="ajax-status-img" />');
 						$.ajax({
 							type: "GET",
 							url: defaults.url,
@@ -41,7 +41,7 @@ jQuery.fn.extend({
 									}else{
 										$(o).val(resp.sort)
 											.next("img").attr("src", system.url() + "images/exclamation.png")
-											.attr('title', '排序字段取值为0-255之间');;
+											.attr('title', '排序字段取值为0-65535之间');;
 									}
 								}else{
 									$(o).next("img").attr("src", system.url() + "images/cross-circle.png")

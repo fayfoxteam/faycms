@@ -2,6 +2,11 @@
 use fay\helpers\Date;
 use fay\models\tables\Logs;
 ?>
+<style>
+.feeds li{background-color:#fafafa;margin-bottom:7px;line-height:28px;height:28px;}
+.feeds li .date{margin-right:15px;color:#c1cbd0;}
+.feeds li i{width:28px;line-height:28px;display:inline-block;text-align:center;}
+</style>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
 		<a class="tools remove" title="隐藏"></a>
@@ -22,10 +27,10 @@ use fay\models\tables\Logs;
 							<li>
 								<i class="<?php switch($l['type']){
 									case Logs::TYPE_ERROR:
-										echo 'icon-bolt bg-red';
+										echo 'fa fa-bolt bg-red';
 									break;
 									case Logs::TYPE_WARMING:
-										echo 'icon-bell bg-yellow';
+										echo 'fa fa-bell-o bg-yellow';
 									break;
 								}?>"></i>
 								<span class="fr date" title="<?php echo Date::format($l['create_time'])?>"><?php echo Date::niceShort($l['create_time'])?></span>

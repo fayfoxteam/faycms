@@ -83,19 +83,19 @@ var chat = {
 			}()),
 			(function(){
 				return chat.permissions.approve ?
-					['<a href="javascript:;" class="color-green approve-link', data.status == chat.status.approved ? ' hide' : '', '" data-id="', data.id, '">',
+					['<a href="javascript:;" class="fc-green approve-link', data.status == chat.status.approved ? ' hide' : '', '" data-id="', data.id, '">',
 						'<i class="icon-eye"></i>批准',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions.unapprove ?
-					['<a href="javascript:;" class="color-orange unapprove-link', data.status == chat.status.unapproved ? ' hide' : '', '" data-id="', data.id, '">',
+					['<a href="javascript:;" class="fc-orange unapprove-link', data.status == chat.status.unapproved ? ' hide' : '', '" data-id="', data.id, '">',
 						'<i class="icon-eye-slash"></i>驳回',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions['delete'] ?
-					['<a href="javascript:;" class="color-red delete-link" data-id="', data.id, '">',
+					['<a href="javascript:;" class="fc-red delete-link" data-id="', data.id, '">',
 						'<i class="icon-trash"></i>回收站',
 					'</a>'].join('') : ''
 			}()),

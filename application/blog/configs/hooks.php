@@ -7,7 +7,19 @@ return array(
 		//Controller实例化后执行
 		array(
 			'router'=>'/^(admin)\/.*$/i',
-			'function'=>'blog\\plugins\\AdminMenu::run',
+			'function'=>function(){
+				if(method_exists(\F::app(), 'addMenuTeam')){
+					\F::app()->addMenuTeam(array(
+						'label'=>'记账',
+						'directory'=>'bill',
+						'sub'=>array(
+							array('label'=>'账单','router'=>'admin/bill/index',),
+							array('label'=>'分类','router'=>'admin/bill/cat',),
+						),
+						'icon'=>'fa fa-rmb',
+					));
+				}
+			},
 		),
 	),
 );

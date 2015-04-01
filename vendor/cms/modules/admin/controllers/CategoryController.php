@@ -23,7 +23,7 @@ class CategoryController extends AdminController{
 		$this->layout->sublink = array(
 			'uri'=>'#create-cat-dialog',
 			'text'=>'添加根分类',
-			'htmlOptions'=>array(
+			'html_options'=>array(
 				'class'=>'create-cat-link',
 				'data-title'=>'系统根分类',
 				'data-id'=>0,
@@ -42,7 +42,7 @@ class CategoryController extends AdminController{
 				empty($data['alias']) && $data['alias'] = $this->getCatAlias($data['title']);
 				
 				$parent = $this->input->post('parent', 'intval', 0);
-				$sort = $this->input->post('sort', 'intval', 100);
+				$sort = $this->input->post('sort', 'intval', 1000);
 				
 				$cat_id = Category::model()->create($parent, $sort, $data);
 				
@@ -157,36 +157,13 @@ class CategoryController extends AdminController{
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加商品分类',
-				'htmlOptions'=>array(
+				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'商品',
 					'data-id'=>$root_cat['id'],
 				),
 			);
 		}
-		$this->view->render();
-	}
-
-	public function action(){
-		$this->layout->current_directory = 'role';
-		$this->layout->subtitle = '权限分类';
-		$this->flash->set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
-		
-		$this->view->cats = Category::model()->getTree('_system_action');
-		$root_node = Category::model()->getByAlias('_system_action', 'id');
-		$this->view->root = $root_node['id'];
-		
-		$root_cat = Category::model()->getByAlias('_system_action', 'id');
-		$this->layout->sublink = array(
-			'uri'=>'#create-cat-dialog',
-			'text'=>'添加权限分类',
-			'htmlOptions'=>array(
-				'class'=>'create-cat-link',
-				'data-title'=>'权限分类',
-				'data-id'=>$root_cat['id'],
-			),
-		);
-		
 		$this->view->render();
 	}
 	

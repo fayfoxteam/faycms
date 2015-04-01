@@ -1,27 +1,8 @@
 <?php
 use fay\helpers\Html;
 ?>
-<div class="col-2-2">
-	<div class="col-2-2-body-sidebar">
-		<h3>Tables</h3>
-		<ul class="table-list">
-		<?php foreach($tables as $t){
-			$t_name = preg_replace("/^{$prefix}(.*)/", '$1', array_shift($t), 1);
-			if(strpos($t_name, '_') &&
-				in_array(substr($t_name, 0, strpos($t_name, '_')), $apps) &&
-				substr($t_name, 0, strpos($t_name, '_')) != APPLICATION){
-				continue;
-			}
-		?>
-			<li class="">
-				<?php echo Html::link($t_name, array('tools/database/export', array(
-					't'=>$t_name,
-				)))?>
-			</li>
-		<?php }?>
-		</ul>
-	</div>
-	<div class="col-2-2-body">
+<div class="row">
+	<div class="col-9">
 		<div class="col-2-2-body-content">
 			<form id="form">
 				<div class="form-field pb0">
@@ -44,16 +25,33 @@ use fay\helpers\Html;
 					?>
 				</div>
 				<div class="form-field">
-					<a href="javascript:;" id="form-submit" class="btn-1">提交</a>
+					<a href="javascript:;" id="form-submit" class="btn">提交</a>
 				</div>
 			</form>
 			<?php echo Html::textarea('code', $insert, array(
-				'style'=>'background:none repeat scroll 0 0 #F9F9F9;font-family:Consolas,Monaco,monospace;width:97%;',
-				'rows'=>30,
-				'cols'=>70,
+				'style'=>'font-family:Consolas,Monaco,monospace',
+				'class'=>'form-control autosize h200',
 				'id'=>'code',
 			))?>
 		</div>
-		<div class="clear"></div>
+	</div>
+	<div class="col-3">
+		<h3>Tables</h3>
+		<ul class="table-list">
+		<?php foreach($tables as $t){
+			$t_name = preg_replace("/^{$prefix}(.*)/", '$1', array_shift($t), 1);
+			if(strpos($t_name, '_') &&
+				in_array(substr($t_name, 0, strpos($t_name, '_')), $apps) &&
+				substr($t_name, 0, strpos($t_name, '_')) != APPLICATION){
+				continue;
+			}
+		?>
+			<li class="<?php if(F::input()->get('t') == $t_name)echo 'bold'?>">
+				<?php echo Html::link($t_name, array('tools/database/export', array(
+					't'=>$t_name,
+				)))?>
+			</li>
+		<?php }?>
+		</ul>
 	</div>
 </div>

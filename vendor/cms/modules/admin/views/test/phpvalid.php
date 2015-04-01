@@ -1,5 +1,5 @@
-<div class="col-2-1">
-	<div class="col-left">
+<div class="row">
+	<div class="col-6">
 		<h3>Form 1</h3>
 		<form id="test-form" class="form-1-3" method="post">
 			<h3>输入框(username)</h3>

@@ -27,17 +27,17 @@ $settings = F::form('setting')->getAllData();
 			留言给<span class="ci-to"><?php
 				echo Html::encode($data['target_'.$settings['display_name']]);
 			?></span>
-			<span class="ci-time abbr" title="<?php echo Date::format($data['create_time'])?>"><?php
+			<abbr class="ci-time" title="<?php echo Date::format($data['create_time'])?>"><?php
 				echo Date::niceShort($data['create_time']);
-			?></span>
+			?></abbr>
 		</div>
 		<div class="ci-meta">
 			<span class="ci-status"><?php if($data['status'] == Messages::STATUS_APPROVED){
-				echo '<span class="color-green">已通过</span>';
+				echo '<span class="fc-green">已通过</span>';
 			}else if($data['status'] == Messages::STATUS_UNAPPROVED){
-				echo '<span class="color-red">已驳回</span>';
+				echo '<span class="fc-red">已驳回</span>';
 			}else if($data['status'] == Messages::STATUS_PENDING){
-				echo '<span class="color-orange">待审</span>';
+				echo '<span class="fc-orange">待审</span>';
 			}?></span>
 		</div>
 		<div class="ci-content">
@@ -45,14 +45,14 @@ $settings = F::form('setting')->getAllData();
 		</div>
 		<div class="ci-footer">
 			<a href="#chat-dialog" class="ci-reply-link" data-id="<?php echo $data['id']?>">
-				<i class="icon-reply"></i>
+				<i class="fa fa-reply"></i>
 				<span>回复</span>(<em><?php echo Message::model()->getReplyCount($data['id'])?></em>)&nbsp;
 			</a>
 			<span class="ci-options"><?php
 			if(F::app()->checkPermission('admin/chat/approve')){
 				echo Html::link('<span>批准</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
-					'class'=>'color-green approve-link'.($data['status'] == Messages::STATUS_APPROVED ? ' hide' : ''),
+					'class'=>'fc-green approve-link'.($data['status'] == Messages::STATUS_APPROVED ? ' hide' : ''),
 					'encode'=>false,
 					'title'=>false,
 				));
@@ -60,7 +60,7 @@ $settings = F::form('setting')->getAllData();
 			if(F::app()->checkPermission('admin/chat/unapprove')){
 				echo Html::link('<span>驳回</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
-					'class'=>'color-orange unapprove-link'.($data['status'] == Messages::STATUS_UNAPPROVED ? ' hide' : ''),
+					'class'=>'fc-orange unapprove-link'.($data['status'] == Messages::STATUS_UNAPPROVED ? ' hide' : ''),
 					'encode'=>false,
 					'title'=>false,
 				));
@@ -68,7 +68,7 @@ $settings = F::form('setting')->getAllData();
 			if(F::app()->checkPermission('admin/chat/delete')){
 				echo Html::link('<span>回收站</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
-					'class'=>'color-red delete-link',
+					'class'=>'fc-red delete-link',
 					'encode'=>false,
 					'title'=>false,
 				));
@@ -76,7 +76,7 @@ $settings = F::form('setting')->getAllData();
 			if(F::app()->checkPermission('admin/chat/remove-all')){
 				echo Html::link('<span>删除会话</span>', 'javascript:;', array(
 					'data-id'=>$data['id'],
-					'class'=>'color-red remove-all-link',
+					'class'=>'fc-red remove-all-link',
 					'encode'=>false,
 					'title'=>false,
 				));

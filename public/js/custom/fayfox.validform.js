@@ -41,7 +41,7 @@
 					}, params);
 					
 					//单个数字
-					if(!/^\d+$/.test(value)){
+					if(!/^-?[1-9]\d*$/.test(value)){
 						return $.validform._renderMsg(settings.message, {
 							'max':settings.max,
 							'min':settings.min,
@@ -82,6 +82,7 @@
 						'alias':/^[a-zA-Z_0-9-]+$/,//数字，字母，下划线和中横线
 						'numeric':/^\d+$/,//纯数字
 						'alnum':/^[a-zA-Z0-9]+$/,//数字+字母
+						'alias_space':/^[a-zA-Z_0-9- ]+$/,//数字，字母，下划线，中横线和空格
 					};
 					
 					if(settings.format){

@@ -11,12 +11,14 @@ use fay\helpers\Html;
 		<form action="<?php echo $this->url('admin/widget/render', array(
 			'name'=>'cms/change_app',
 			'action'=>'change',
-		), false)?>" method="post" id="change-app-form">
+		), false)?>" method="post" id="change-app-form" class="form-inline">
 			<?php
-				echo Html::select('app', $options, APPLICATION);
+				echo Html::select('app', $options, APPLICATION, array(
+					'class'=>'form-control',
+				));
 				echo Html::link('切换', 'javascript:;', array(
 					'id'=>'change-app-form-submit',
-					'class'=>'btn-3',
+					'class'=>'btn btn-sm',
 				));
 			?>
 			<span>（平台切换仅在当前登陆session有效）</span>

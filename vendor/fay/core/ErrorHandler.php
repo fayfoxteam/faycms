@@ -21,7 +21,7 @@ class ErrorHandler extends FBase{
 	
 	/**
 	 * 处理未捕获的异常
-	 * @param ErrorException|Exception $exception
+	 * @param ErrorException|Exception|HttpException $exception
 	 */
 	public function handleException($exception){
 		if($exception instanceof HttpException){

@@ -21,7 +21,7 @@ use fay\helpers\Date;
  				echo Html::link('标记为已读', array('admin/contact/set-read', array('id'=>$data['id'])));
  			}
 			echo Html::link('删除', array('admin/contact/remove', array('id'=>$data['id'])), array(
-				'class'=>'color-red remove-link',
+				'class'=>'fc-red remove-link',
 			))?>
 		</div>
 	</td>
@@ -38,17 +38,17 @@ use fay\helpers\Date;
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
+		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
 				echo Date::niceShort($data['create_time']);
 			}else{
 				echo Date::format($data['create_time']);
 			}?>
-		</span>
+		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('area', $cols)){?>
-	<td><span class="abbr" title="<?php echo long2ip($data['ip_int'])?>"><?php echo $iplocation->getCountry(long2ip($data['ip_int']))?></span></td>
+	<td><abbr title="<?php echo long2ip($data['ip_int'])?>"><?php echo $iplocation->getCountry(long2ip($data['ip_int']))?></abbr></td>
 	<?php }?>
 	<?php if(in_array('ip', $cols)){?>
 	<td><?php echo long2ip($data['ip_int'])?></td>

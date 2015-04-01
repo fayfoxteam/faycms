@@ -70,6 +70,17 @@ class Html extends FBase{
 	}
 	
 	/**
+	 * 生成一个数字框
+	 * @param string $name name属性
+	 * @param string $value value属性
+	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
+	 * @return string
+	 */
+	public static function inputNumber($name, $value = '', $html_options = array()){
+		return self::input($name, $value, 'number', $html_options);
+	}
+	
+	/**
 	 * 生成一个文本域
 	 * @param string $name name属性
 	 * @param string $value value属性
@@ -278,7 +289,7 @@ class Html extends FBase{
 						$src = File::model()->getThumbnailUrl($file);
 					}
 				break;
-				case File::PIC_CUT:
+				case File::PIC_CROP:
 					if(isset($html_options['x'])){
 						$img_params['x'] = $html_options['x'];
 						unset($html_options['x']);
@@ -307,7 +318,7 @@ class Html extends FBase{
 					$img_params['f'] = $id;
 					$src = \F::app()->view->url('file/pic', $img_params);
 				break;
-				case File::PIC_ZOOM:
+				case File::PIC_RESIZE:
 					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
 						//若开启了七牛云存储，且文件已上传，则利用七牛进行裁剪输出
 						$src = Qiniu::model()->getUrl($file, array(
@@ -352,9 +363,11 @@ class Html extends FBase{
 					return '';
 				}
 			}
-			$uri = \F::app()->view->url($uri[0],
+			$uri = \F::app()->view->url(empty($uri[0]) ? null : $uri[0],
 				empty($uri[1]) ? array() : $uri[1],
 				isset($uri[2]) && $uri[2] === false ? false : true);
+		}else if($uri === null){
+			$uri = \F::app()->view->url();
 		}
 		
 		$html_options['href'] = $uri;
@@ -418,6 +431,10 @@ class Html extends FBase{
 		$html = "<{$tag}";
 		foreach($html_options as $name => $value){
 			if($value === false)continue;
+			//一般是用于class这类可能有多个的属性
+			if(is_array($value)){
+				$value = implode(' ', $value);
+			}
 			$html .= ' ' . $name . '="' . $value . '"';
 		}
 		

@@ -32,7 +32,7 @@ class MenuHelper{
 				'title'=>Html::encode($c['title']),
 			));
 			if(!empty($c['children'])){
-				self::render($c['children'], $current_cat, ++$dep);
+				self::render($c['children'], $current_cat, $dep + 1);
 			}
 			echo '</li>';
 		}

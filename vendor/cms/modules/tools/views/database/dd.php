@@ -1,35 +1,8 @@
 <?php
 use fay\helpers\Html;
 ?>
-<div class="col-2-2">
-	<div class="col-2-2-body-sidebar">
-		<h3>Tables</h3>
-		<ul class="table-list">
-		<?php foreach($tables as $t){
-			$t_name = preg_replace("/^{$prefix}(.*)/", '$1', array_shift($t), 1);
-			if(strpos($t_name, '_') &&
-				in_array(substr($t_name, 0, strpos($t_name, '_')), $apps) &&
-				substr($t_name, 0, strpos($t_name, '_')) != APPLICATION){
-				continue;
-			}?>
-			<li class="<?php if($t_name == $current_table)echo 'disc';?>">
-			<?php if($t_name == $current_table){
-				echo $t_name;
-			}else{
-				echo Html::link($t_name, array('tools/database/dd', array(
-					't'=>$t_name,
-				)));
-			}?>
-			<span class="fr">
-				<?php echo Html::link('model', array('tools/database/model', array(
-					't'=>$t_name,
-				)))?>
-			</span>
-			</li>
-		<?php }?>
-		</ul>
-	</div>
-	<div class="col-2-2-body">
+<div class="row">
+	<div class="col-9">
 		<div class="col-2-2-body-content">
 			<div class="mb10">
 				<h3>Design</h3>
@@ -66,12 +39,38 @@ use fay\helpers\Html;
 			</div>
 			<h3>DDL</h3>
 			<?php echo Html::textarea('code', $ddl['Create Table'], array(
-				'style'=>'background:none repeat scroll 0 0 #F9F9F9;font-family:Consolas,Monaco,monospace;width:99%;',
+				'style'=>'font-family:Consolas,Monaco,monospace',
 				'id'=>'code',
-				'class'=>'autosize',
+				'class'=>'form-control autosize',
 			))?>
 		</div>
-		<div class="clear"></div>
+	</div>
+	<div class="col-3">
+		<h3>Tables</h3>
+		<ul class="table-list">
+		<?php foreach($tables as $t){
+			$t_name = preg_replace("/^{$prefix}(.*)/", '$1', array_shift($t), 1);
+			if(strpos($t_name, '_') &&
+				in_array(substr($t_name, 0, strpos($t_name, '_')), $apps) &&
+				substr($t_name, 0, strpos($t_name, '_')) != APPLICATION){
+				continue;
+			}?>
+			<li class="<?php if($t_name == $current_table)echo 'disc';?>">
+			<?php if($t_name == $current_table){
+				echo $t_name;
+			}else{
+				echo Html::link($t_name, array('tools/database/dd', array(
+					't'=>$t_name,
+				)));
+			}?>
+			<span class="fr">
+				<?php echo Html::link('model', array('tools/database/model', array(
+					't'=>$t_name,
+				)))?>
+			</span>
+			</li>
+		<?php }?>
+		</ul>
 	</div>
 </div>
 <script>

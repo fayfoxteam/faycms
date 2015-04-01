@@ -7,9 +7,9 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<?php echo F::form('widget')->inputText('link', array(
-			'class'=>'wp90',
+			'class'=>'form-control',
 		))?>
-		<div class="color-grey">
+		<div class="fc-grey">
 			<p>若不为空，则图片外会套上&lt;a&gt;标签</p>
 			<p>不要忘了http://</p>
 		</div>
@@ -17,6 +17,8 @@ use fay\helpers\Html;
 			'_blank'=>'_blank — 新窗口或新标签。',
 			'_top'=>'_top — 顶层窗口或标签。',
 			'_none'=>'_none — 同一窗口或标签。',
+		), array(
+			'class'=>'form-control',
 		))?></p>
 	</div>
 </div>
@@ -31,13 +33,13 @@ use fay\helpers\Html;
 				<th>宽x高</th>
 				<td>
 					<?php echo Html::inputText('width', isset($data['width']) ? $data['width'] : '', array(
-						'class'=>'w30',
+						'class'=>'form-control w50 ib',
 					))?>
 					x
 					<?php echo Html::inputText('height', isset($data['height']) ? $data['height'] : '', array(
-						'class'=>'w30',
+						'class'=>'form-control w50 ib',
 					))?>
-					<a href="javascript:;" title="原始尺寸" id="refresh-size"><i class="icon-refresh"></i></a>
+					<a href="javascript:;" title="原始尺寸" id="refresh-size"><i class="fa fa-refresh"></i></a>
 				</td>
 			</tr>
 		</table>

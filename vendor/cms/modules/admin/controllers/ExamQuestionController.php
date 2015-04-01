@@ -62,7 +62,7 @@ class ExamQuestionController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'emptyText'=>'<tr><td colspan="7" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="7" align="center">无相关记录！</td></tr>',
 		));
 
 		//分类树
@@ -351,7 +351,7 @@ class ExamQuestionController extends AdminController{
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加试题分类',
-				'htmlOptions'=>array(
+				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'试题分类',
 					'data-id'=>$root_node['id'],
@@ -435,7 +435,7 @@ class ExamQuestionController extends AdminController{
 		}
 		
 		$listview = new ListView($sql, array(
-			'pageSize'=>10,
+			'page_size'=>10,
 		));
 		
 		$data = $listview->getData();
@@ -446,7 +446,7 @@ class ExamQuestionController extends AdminController{
 		echo json_encode(array(
 			'status'=>1,
 			'data'=>$data,
-			'pager'=>$listview->getPage(),
+			'pager'=>$listview->getPager(),
 		));
 	}
 	

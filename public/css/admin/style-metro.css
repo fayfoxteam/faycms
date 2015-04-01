@@ -11,8 +11,6 @@ html,body{height:100%;}
 body{font:13px/1.5 Arial,tahoma,arial,宋体;background-color:#F1F1F1;color:#333;}
 a{color:#21759B;text-decoration:none;transition:all 0.2s linear 0s;}
 a:hover{color:#D54E21;text-decoration:none;}
-textarea,input[type="text"],input[type="password"],input[type="file"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="url"],select{border:1px solid #DFDFDF;padding:3px;font-size:13px;}
-textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type="file"]:focus,input[type="email"]:focus,input[type="number"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,select:focus{border-color:#aaa;box-shadow:1px 1px 2px rgba(0,0,0,0.1);}
 select{font-family:sans-serif;}
 table{border-spacing:0;}
 code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f8f8;border-radius:3px;color:#d14;}
@@ -28,12 +26,12 @@ code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f
 .ib{display:inline-block;}
 .hide{display:none;}
 .nowrap{white-space:nowrap;}
-.color-red{color:#d54e21 !important;}
-a.color-red:hover{color:red !important;}
-.color-green{color:green !important;}
-.color-orange{color:orange !important;}
+.fc-red{color:#d54e21 !important;}
+a.fc-red:hover{color:red !important;}
+.fc-green{color:green !important;}
+.fc-orange{color:orange !important;}
 .color-blue{color:#21759B !important;}
-.color-grey{color:grey !important;}
+.fc-grey{color:grey !important;}
 .chk-box{display:inline-block;}
 .bold{font-weight:bold !important;}
 .normal{font-weight:normal;}
@@ -479,7 +477,7 @@ pre .atv,code .atv{color:#060}
 pre li.crt{background-color:#553B3B;}
 pre li:hover{background-color:#575757;}
 
-#faycms #fancybox-close{top:5px;right:1px;background:none;font-size:23px;text-align:center;font-weight:bold;}
+#faycms #fancybox-close{background:none;font-size:23px;text-align:center;font-weight:bold;}
 #faycms #fancybox-close:before{content:"×"}
 
 [class^="icon-"],[class*=" icon-"]{font-family:FontAwesome;font-style:normal;margin-right:5px;width:1.25em;display:inline-block;text-align:center;}

@@ -33,6 +33,8 @@ class ProfileController extends AdminController{
 					unset($data['password']);
 				}
 				Users::model()->update($data, $this->current_user);
+				$this->session->set('avatar', $data['avatar']);
+				$this->session->set('nickname', $data['nickname']);
 				
 				//设置属性
 				$role = Role::model()->get($this->session->get('role'));

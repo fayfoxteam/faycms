@@ -1,10 +1,19 @@
 <?php
 use fay\models\tables\ExamQuestions;
 use fay\models\tables\ExamPapers;
+
+echo F::form()->open();
 ?>
-<form method="post" id="form" class="validform">
-	<div class="col-2-2">
-		<div class="col-2-2-body-sidebar" id="side">
+<div class="poststuff">
+	<div class="post-body">
+		<div class="post-body-content">
+			<div class="post-title-env"><?php echo F::form()->inputText('title', array(
+				'class'=>'form-control bigtxt',
+				'placeholder'=>'试卷名称',
+			))?></div>
+			<?php $this->renderPartial('_box_description')?>
+		</div>
+		<div class="postbox-container-1">
 			<div class="box" id="box-operation">
 				<div class="box-title">
 					<a class="tools toggle" title="点击以切换"></a>
@@ -12,7 +21,7 @@ use fay\models\tables\ExamPapers;
 				</div>
 				<div class="box-content">
 					<div>
-						<a href="javascript:;" class="btn-1" id="form-submit">提交</a>
+						<a href="javascript:;" class="btn" id="form-submit">提交</a>
 					</div>
 					<div class="misc-pub-section">
 						<strong>是否启用？</strong>
@@ -26,21 +35,12 @@ use fay\models\tables\ExamPapers;
 			<?php $this->renderPartial('_box_repeatedly')?>
 			<?php $this->renderPartial('_box_time_slot')?>
 		</div>
-		<div class="col-2-2-body">
-			<div class="col-2-2-body-content">
-				<div class="titlediv">
-					<label class="title-prompt-text" for="title">试卷名称</label>
-					<?php echo F::form()->inputText('title', array(
-						'id'=>'title',
-						'class'=>'bigtxt',
-					))?>
-				</div>
-				<?php $this->renderPartial('_box_description')?>
-				<?php $this->renderPartial('_box_questions')?>
-			</div>
+		<div class="postbox-container-2">
+			<?php $this->renderPartial('_box_questions')?>
 		</div>
 	</div>
-</form>
+</div>
+<?php echo F::form()->close()?>
 <?php $this->renderPartial('_dialog')?>
 <script src="<?php echo $this->url()?>js/custom/admin/paper.js"></script>
 <script>

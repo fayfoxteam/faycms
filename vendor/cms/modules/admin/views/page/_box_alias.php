@@ -6,8 +6,10 @@
 		<h4>别名</h4>
 	</div>
 	<div class="box-content">
-		<?php echo F::form()->inputText('alias', array('class'=>'full-width'))?>
-		<div class="color-grey">别名不可包含特殊字符，可留空。</div>
+		<?php echo F::form()->inputText('alias', array(
+			'class'=>'form-control',
+		))?>
+		<div class="fc-grey">别名不可包含特殊字符，可留空。</div>
 		<div class="clear"></div>
 	</div>
 </div>

@@ -7,14 +7,14 @@ use fay\models\tables\Props;
 		<label class="title">
 			<?php echo Html::encode($p['title']);?>
 			<?php if($p['required']){?>
-				<em class="color-red">(必选)</em>
+				<em class="fc-red">(必选)</em>
 			<?php }?>
 		</label>
 		<?php 
 		switch($p['element']){
 			case Props::ELEMENT_TEXT:
 				echo Html::inputText("props[{$p['id']}]", isset($data[$p['id']]) ? $data[$p['id']]['value'] : '', array(
-					'class'=>'full-width',
+					'class'=>'form-control',
 					'data-rule'=>'string',
 					'data-params'=>'{max:255}',
 					'data-required'=>$p['required'] ? 'required' : false,
@@ -90,7 +90,7 @@ use fay\models\tables\Props;
 			break;
 			case Props::ELEMENT_TEXTAREA:
 				echo Html::textarea("props[{$p['id']}]", isset($data[$p['id']]) ? $data[$p['id']]['value'] : '', array(
-					'class'=>'full-width h90',
+					'class'=>'form-control h90',
 					'data-required'=>$p['required'] ? 'required' : false,
 					'data-label'=>$p['title'],
 				));

@@ -4,6 +4,7 @@ use fay\models\Option;
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 <!--[if lt IE 9]>
@@ -116,11 +117,11 @@ DD_belatedPNG.fix('fieldset,.ring');
 	<div class="right <?php if(isset($error)){
 		echo 'shake';
 	}else{
-		echo 'right-to-left';
+		echo 'top-to-bottom';
 	}?>">
 		<div class="login-form-container">
 			<form method="post" id="login-form">
-				<fieldset class="logo">Fayfox</fieldset>
+				<fieldset class="logo">Faycms</fieldset>
 				<div class="error-msg"><?php if(isset($error))echo $error;?></div>
 				<fieldset class="input-container username">
 					<?php echo F::form()->inputText('username', array(

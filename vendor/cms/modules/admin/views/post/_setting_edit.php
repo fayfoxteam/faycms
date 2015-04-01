@@ -19,7 +19,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 	</div>
 	<div class="form-field">
 		<label class="title">默认编辑器</label>
-		<p class="color-grey">注意：该设置仅在创建文章时有效，编辑文章时强制为文章创建时所使用的编辑器进行编辑</p>
+		<p class="fc-grey">注意：该设置仅在创建文章时有效，编辑文章时强制为文章创建时所使用的编辑器进行编辑</p>
 		<?php
 			echo F::form('setting')->inputRadio('editor', Posts::CONTENT_TYPE_VISUAL_EDITOR, array(
 				'after'=>'可视化编辑器（IE6,7为Kindeditor, 其它浏览器为CKeditor。普通用户请选择此项）',
@@ -46,7 +46,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 	</div>
 	<div class="form-field">
 		<?php echo F::form('setting')->submitLink('提交', array(
-			'class'=>'btn-3',
+			'class'=>'btn',
 		))?>
 	</div>
 <?php echo F::form('setting')->close()?>

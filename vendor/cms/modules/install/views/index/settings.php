@@ -1,9 +1,12 @@
+<?php
+use fay\models\Option;
+?>
 <h1>初始化站点信息</h1>
 <form method="post">
 	<table class="form-table">
 		<tr>
 			<th>站点名称</th>
-			<td><input type="text" name="sitename" datatype="*1-50" /></td>
+			<td><input type="text" name="sitename" datatype="*1-50" value="<?php echo Option::get('sitename')?>" /></td>
 			<td><span class="desc Validform_checktip">后期可修改</span></td>
 		</tr>
 		<tr>

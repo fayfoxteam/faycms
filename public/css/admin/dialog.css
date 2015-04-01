@@ -12,8 +12,8 @@ textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type=
 .clear{clear:both;}
 .fl{float:left;}
 .fr{float:right;}
-.color-red{color:red !important;}
-.color-green{color:green !important;}
-.color-orange{color:orange !important;}
-.color-blue{color:#21759B !important;}
-.color-grey{color:grey !important;}
+.fc-red{color:red !important;}
+.fc-green{color:green !important;}
+.fc-orange{color:orange !important;}
+.fc-blue{color:#21759B !important;}
+.fc-grey{color:grey !important;}

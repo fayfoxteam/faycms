@@ -243,4 +243,20 @@ class DatabaseController extends ToolsController{
 		
 		$this->view->render();
 	}
+	
+	public function sql(){
+		$this->layout->subtitle = 'Run SQL query/queries on database "'.$prefix = $this->config->get('db.dbname').'"';
+		
+		if($this->input->post()){
+			$prefix = $this->config->get('db.table_prefix');
+			$sql = $this->input->post('sql');
+			$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+			$sqltype = strtolower(substr(trim($sql), 0, 6));
+			$this->db->execute($sql);
+		}
+
+		$this->flash->set('It will replace {{$time}} to current timestamp and {{$prefix}} to table prefix set in system config.', 'attention');
+		
+		$this->view->render();
+	}
 }

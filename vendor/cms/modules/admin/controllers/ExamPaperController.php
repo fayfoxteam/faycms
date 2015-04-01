@@ -58,7 +58,9 @@ class ExamPaperController extends AdminController{
 			));
 		}
 		
-		$this->view->listview = new ListView($sql);
+		$this->view->listview = new ListView($sql, array(
+			'empty_text'=>'<tr><td colspan="6" align="center">无相关记录！</td></tr>',
+		));
 
 		//分类树
 		$this->view->cats = Category::model()->getTree('_system_exam_paper');
@@ -116,7 +118,7 @@ class ExamPaperController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_exam_paper');
 		$this->view->question_cats = Category::model()->getTree('_system_exam_question');
 		
-		$this->view->render();
+		$this->view->render('edit');
 	}
 	
 	public function edit(){
@@ -241,7 +243,7 @@ class ExamPaperController extends AdminController{
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加试卷分类',
-				'htmlOptions'=>array(
+				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'试卷分类',
 					'data-id'=>$root_node['id'],

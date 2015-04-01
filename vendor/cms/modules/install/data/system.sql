@@ -17,14 +17,22 @@ INSERT INTO `{{$prefix}}roles` VALUES ('1', '普通用户', '', '0', '1');
 INSERT INTO `{{$prefix}}roles` VALUES ('100', '系统', '', '0', '0');
 INSERT INTO `{{$prefix}}roles` VALUES ('101', '超级管理员', '', '0', '0');
 
--- files表id从10000开始递增
+-- files表id从1000开始递增
 ALTER TABLE {{$prefix}}files AUTO_INCREMENT = 1000;
 
--- posts表id从10000开始递增
+-- posts表id从1000开始递增
 ALTER TABLE {{$prefix}}posts AUTO_INCREMENT = 1000;
 
--- pages表id从10000开始递增
+-- pages表id从1000开始递增
 ALTER TABLE {{$prefix}}pages AUTO_INCREMENT = 1000;
+
+-- actions表id从10000开始递增
+ALTER TABLE {{$prefix}}actions AUTO_INCREMENT = 10000;
+
+-- options表id从100开始递增
+INSERT INTO `{{$prefix}}options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES ('1', 'system.post_review', '0', '是否启用文章审核功能', '{{$time}}', '{{$time}}', '1');
+ALTER TABLE {{$prefix}}options AUTO_INCREMENT = 100;
+
 
 -- 访问统计本地站点
 INSERT INTO `{{$prefix}}analyst_sites` VALUES ('1', 'localhost', '本站', '0');

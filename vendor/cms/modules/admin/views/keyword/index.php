@@ -1,28 +1,28 @@
 <?php
 ?>
-<div class="col-2-3">
-	<div class="col-right">
-		<?php $this->renderPartial('_right');?>
-	</div>
-	<div class="col-left">
+<div class="row">
+	<div class="col-5">
 		<?php echo F::form()->open(array('admin/keyword/create'))?>
 			<div class="form-field">
-				<label>关键词<em class="color-red">*</em></label>
+				<label class="title">关键词<em class="required">*</em></label>
 				<?php echo F::form()->inputText('keyword', array(
-					'class'=>'full-width',
+					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
-				<label>链接地址<em class="color-red">*</em></label>
+				<label class="title">链接地址<em class="required">*</em></label>
 				<?php echo F::form()->inputText('link', array(
-					'class'=>'full-width',
+					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
 				<?php echo F::form()->submitLink('添加关键词', array(
-					'class'=>'btn-1',
+					'class'=>'btn',
 				))?>
 			</div>
 		<?php echo F::form()->close()?>
+	</div>
+	<div class="col-7">
+		<?php $this->renderPartial('_right');?>
 	</div>
 </div>

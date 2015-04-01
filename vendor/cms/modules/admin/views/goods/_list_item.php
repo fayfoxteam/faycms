@@ -27,7 +27,7 @@ use fay\helpers\Date;
 				'target'=>'_blank',
 			))?>
 			<?php echo Html::link('删除', array('admin/goods/delete', array('id'=>$data['id'])), array(
-				'class'=>'color-red remove-link',
+				'class'=>'fc-red remove-link',
 			))?>
 		</div>
 	</td>
@@ -55,9 +55,9 @@ use fay\helpers\Date;
 		'encode'=>false,
 	));?></td>
 	<td><?php if($data['status'] == Goods::STATUS_INSTOCK){
-		echo '<span class="color-orange">在库</span>';
+		echo '<span class="fc-orange">在库</span>';
 	}else if($data['status'] == Goods::STATUS_ONSALE){
-		echo '<span class="color-green">销售中</span>';
+		echo '<span class="fc-green">销售中</span>';
 	}?></td>
 	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
@@ -65,5 +65,5 @@ use fay\helpers\Date;
 		'data-id'=>$data['id'],
 		'class'=>'edit-sort w30',
 	))?></td>
-	<td><span class="time abbr" title="<?php echo Date::format($data['create_time'])?>"><?php echo Date::niceShort($data['create_time'])?></span></td>
+	<td><abbr class="time" title="<?php echo Date::format($data['create_time'])?>"><?php echo Date::niceShort($data['create_time'])?></abbr></td>
 </tr>

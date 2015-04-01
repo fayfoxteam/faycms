@@ -3,7 +3,9 @@ use fay\helpers\Html;
 ?>
 <style>
 #widget-attr-list li{background:url("<?php echo $this->url()?>css/admin/images/move.png") no-repeat scroll 3px center #FFFFFF;padding-left:25px;border-left:2px solid #35AA47;margin-bottom:5px;}
-.widget-attr-list li{height:66px;}
+.widget-attr-list li{zoom:1;clear:left;}
+.widget-attr-list li:before, .widget-attr-list li:after{content:"";display:table;}
+.widget-attr-list li:after{clear: both;}
 .widget-attr-list li .golden-left,.widget-attr-list li .golden-right{display:block;padding:5px 1% 0 0;}
 .widget-attr-list li .golden-left{width:38%;float:left;}
 .widget-attr-list li .golden-right{margin-left:40%;}
@@ -29,14 +31,14 @@ use fay\helpers\Html;
 			<li>
 				<span class="golden-left">
 					<?php echo Html::inputText('keys[]', $d['key'], array(
-						'class'=>'full-width',
+						'class'=>'form-control',
 					))?>
 					<?php echo Html::link('删除', 'javascript:;', array(
-						'class'=>'btn-2 mt5 widget-remove-attr-link',
+						'class'=>'btn btn-grey mt5 widget-remove-attr-link',
 					))?>
 				</span>
 				<span class="golden-right"><?php echo Html::textarea('values[]', $d['value'], array(
-					'class'=>'full-width',
+					'class'=>'form-control autosize',
 				))?></span>
 			</li>
 				<?php }
@@ -58,17 +60,17 @@ use fay\helpers\Html;
 			<li>
 				<span class="golden-left">
 					<?php echo Html::inputText('', '', array(
-						'class'=>'full-width',
+						'class'=>'form-control',
 						'id'=>'widget-add-attr-key',
 					))?>
 					<?php echo Html::link('添加', 'javascript:;', array(
-						'class'=>'btn-1 mt5',
+						'class'=>'btn mt5',
 						'id'=>'widget-add-attr-link',
 					))?>
 					<span id="widget-add-attr-msg"></span>
 				</span>
 				<span class="golden-right"><?php echo Html::textarea('', '', array(
-					'class'=>'full-width',
+					'class'=>'form-control autosize',
 					'id'=>'widget-add-attr-value',
 				))?></span>
 			</li>
@@ -82,11 +84,11 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
-			'class'=>'full-width',
+			'class'=>'form-control h90 autosize',
 		))?>
-		<p class="color-grey">
-			<span class="color-orange">{$key}</span>代表“名称”，
-			<span class="color-orange">{$value}</span>代表“值”。
+		<p class="fc-grey mt5">
+			<span class="fc-orange">{$key}</span>代表“名称”，
+			<span class="fc-orange">{$value}</span>代表“值”。
 			例如：<?php echo Html::encode('<p><label>{$key}</label>{$value}</p>')?>
 		</p>
 	</div>
@@ -102,12 +104,11 @@ var widget_options = {
 				var html = [
 					'<li>',
 						'<span class="golden-left">',
-							'<input type="text" name="keys[]" value="', $("#widget-add-attr-key").val(), '" class="full-width" />',
-							'<br />',
-							'<a href="javascript:;" class="btn-2 mt5 remove-link widget-remove-attr-link">删除</a>',
+							'<input type="text" name="keys[]" value="', $("#widget-add-attr-key").val(), '" class="form-control" />',
+							'<a href="javascript:;" class="btn btn-grey mt5 remove-link widget-remove-attr-link">删除</a>',
 						'</span>',
 						'<span class="golden-right">',
-							'<textarea name="values[]" class="full-width">', $("#widget-add-attr-value").val(), '</textarea>',
+							'<textarea name="values[]" class="form-control">', $("#widget-add-attr-value").val(), '</textarea>',
 						'</span>',
 					'</li>'
 				].join('');

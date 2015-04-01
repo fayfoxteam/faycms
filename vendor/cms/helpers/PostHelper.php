@@ -14,7 +14,10 @@ class PostHelper{
 				return '已发布';
 				break;
 			case Posts::STATUS_DRAFT:
-				return '<span class="color-orange">草稿</span>';
+				return '<span class="fc-blue">草稿</span>';
+				break;
+			case Posts::STATUS_PENDING:
+				return '<span class="fc-orange">待审核</span>';
 				break;
 		}
 	}

@@ -7,22 +7,22 @@ use fay\core\Sql;
 use fay\core\Exception;
 
 class ListView extends FBase{
-	public $currentPage = 1;
-	public $pageSize = 10;
-	public $itemView = '_list_item';
+	public $current_page = 1;
+	public $page_size = 10;
+	public $item_view = '_list_item';
 	public $sql;
-	public $countSql;
+	public $count_sql;
 	public $id;
-	public $emptyText = '无相关记录！';
+	public $empty_text = '无相关记录！';
 	public $offset;
-	public $startRecord;
-	public $endRecord;
-	public $totalRecords;
-	public $totalPages;
+	public $start_record;
+	public $end_record;
+	public $total_records;
+	public $total_pages;
 	public $reload = 'index';//加载地址，对于重写过的url，需要设置此项
 	public $adjacents = 2;//前后显示页数
 	public $params = array();
-	public $viewPartial = 'common/pager';
+	public $pager_view = 'common/pager';
 	/**
 	 * @var Db
 	 */
@@ -44,25 +44,25 @@ class ListView extends FBase{
 	
 	public function init(){
 		if(isset($this->id))
-			$this->currentPage = \F::app()->input->get($this->id.'_page', 'intval', 1);
+			$this->current_page = \F::app()->input->get($this->id.'_page', 'intval', 1);
 		else
-			$this->currentPage = \F::app()->input->get('page', 'intval', 1);
+			$this->current_page = \F::app()->input->get('page', 'intval', 1);
 		
-		$this->totalRecords = $this->count();
-		$this->totalPages = ceil($this->totalRecords / $this->pageSize);
-		$this->currentPage > $this->totalPages ? $this->currentPage = $this->totalPages : '';
-		$this->currentPage < 1 ? $this->currentPage = 1 : '';
-		$this->offset = ($this->currentPage - 1) * $this->pageSize;
-		$this->startRecord = $this->totalRecords ? $this->offset + 1 : 0;
-		$this->offset + $this->pageSize > $this->totalRecords ? $this->endRecord = $this->totalRecords : $this->endRecord = $this->offset + $this->pageSize;
+		$this->total_records = $this->count();
+		$this->total_pages = ceil($this->total_records / $this->page_size);
+		$this->current_page > $this->total_pages ? $this->current_page = $this->total_pages : '';
+		$this->current_page < 1 ? $this->current_page = 1 : '';
+		$this->offset = ($this->current_page - 1) * $this->page_size;
+		$this->start_record = $this->total_records ? $this->offset + 1 : 0;
+		$this->offset + $this->page_size > $this->total_records ? $this->end_record = $this->total_records : $this->end_record = $this->offset + $this->page_size;
 	}
 	
 	public function showData($view_data = array()){
-		if($this->totalRecords === null){
+		if($this->total_records === null){
 			$this->init();
 		}
 		
-		$sql = $this->sql." LIMIT {$this->offset}, {$this->pageSize}";
+		$sql = $this->sql." LIMIT {$this->offset}, {$this->page_size}";
 		$results = $this->db->fetchAll($sql, $this->params);
 		if(isset($results[0])){
 			$i = 0;
@@ -70,50 +70,50 @@ class ListView extends FBase{
 				$i++;
 				$view_data['index'] = $i;
 				$view_data['data'] = $data;
-				\F::app()->view->renderPartial($this->itemView, $view_data);
+				\F::app()->view->renderPartial($this->item_view, $view_data);
 			}
 		}else{
-			echo $this->emptyText;
+			echo $this->empty_text;
 		}
 	}
 	
 	public function getData(){
-		if($this->totalRecords === null){
+		if($this->total_records === null){
 			$this->init();
 		}
 		
-		$sql = $this->sql." LIMIT {$this->offset}, {$this->pageSize}";
+		$sql = $this->sql." LIMIT {$this->offset}, {$this->page_size}";
 		return $this->db->fetchAll($sql, $this->params);
 	}
 	
-	public function showPage($view_data = array()){
-		if($this->totalRecords === null){
+	public function showPager($view_data = array()){
+		if($this->total_records === null){
 			$this->init();
 		}
 		$view_data['listview'] = $this;
-		\F::app()->view->renderPartial($this->viewPartial, $view_data);
+		\F::app()->view->renderPartial($this->pager_view, $view_data);
 	}
 	
-	public function getPage(){
-		if($this->totalRecords === null){
+	public function getPager(){
+		if($this->total_records === null){
 			$this->init();
 		}
 		return array(
-			'currentPage'=>$this->currentPage,
-			'pageSize'=>$this->pageSize,
-			'emptyText'=>$this->emptyText,
+			'current_page'=>$this->current_page,
+			'page_size'=>$this->page_size,
+			'empty_text'=>$this->empty_text,
 			'offset'=>$this->offset,
-			'startRecord'=>$this->startRecord,
-			'endRecord'=>$this->endRecord,
-			'totalRecords'=>$this->totalRecords,
-			'totalPages'=>$this->totalPages,
+			'start_record'=>$this->start_record,
+			'end_record'=>$this->end_record,
+			'total_records'=>$this->total_records,
+			'total_pages'=>$this->total_pages,
 			'adjacents'=>$this->adjacents,
 		);
 	}
 	
 	private function count(){
-		if(isset($this->countSql)){
-			$sql = $this->countSql;
+		if(isset($this->count_sql)){
+			$sql = $this->count_sql;
 		}else{
 			$sql = preg_replace('/^SELECT[\s\S]*FROM/i', 'select COUNT(*) FROM', $this->sql);
 			$sql = preg_replace('/ORDER BY[\s\S]*/i', '', $sql);
@@ -128,7 +128,7 @@ class ListView extends FBase{
 			throw new Exception('ListView::setSql方法传入的参数必须是Sql类实例');
 		}
 		$this->sql = $sql->getSql();
-		$this->countSql = $sql->getCountSql();
+		$this->count_sql = $sql->getCountSql();
 		$this->params = $sql->getParams();
 	}
 	

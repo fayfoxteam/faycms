@@ -8,10 +8,10 @@ use fay\models\File;
 		<h4>附件</h4>
 	</div>
 	<div class="box-content">
-		<p class="color-grey">附件的用途视主题而定，一般用于画廊效果</p>
+		<p class="fc-grey">附件的用途视主题而定，一般用于画廊效果</p>
 		<div id="upload-file-container">
 			<?php echo Html::link('上传附件', 'javascript:;', array(
-				'class'=>'btn-1',
+				'class'=>'btn',
 				'id'=>'upload-file-link',
 			))?>
 		</div>
@@ -43,7 +43,7 @@ use fay\models\File;
 						</span>
 						<div class="file-desc-container">
 							<?php echo Html::textarea("description[{$p['file_id']}]", $p['description'], array(
-								'class'=>'file-desc autosize',
+								'class'=>'form-control file-desc autosize',
 								'maxlength'=>240,
 								'placeholder'=>'照片描述',
 							));?>

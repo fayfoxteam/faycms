@@ -1,28 +1,25 @@
 <?php 
-use fay\models\Setting;
 use fay\helpers\Html;
 use fay\models\Option;
+use fay\models\File;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
+
+<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/font-awesome.min.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-responsive.css" />
 <?php echo $this->getCss()?>
 
-<!--[if (!IE)|(gte IE 8)]><!-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-metro.css" />
-<!--<![endif]-->
-
-<!--[if lt IE 8]>
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style.css" />
-<![endif]-->
-
-<!--[if IE 6]>
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/ie6.css" />
-<![endif]-->
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<!--[if lt IE 9]>
+	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+<![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
@@ -31,109 +28,91 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
 <title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
 </head>
-<body class="<?php $admin_body_class = Setting::model()->get('admin_body_class');echo $admin_body_class['class']?>" id="faycms">
+<body id="faycms">
 <div class="wrapper">
-	<div class="adminbar">
-		<ul class="adminbar-left">
-		<?php
-			foreach(F::app()->_top_nav as $nav){
-				if(isset($nav['role'])){
-					if(is_array($nav['role']) && !in_array(F::app()->session->get('role'), $nav['role'])){
-						continue;
-					}else if(F::app()->session->get('role') != $nav['role']){
-						continue;
-					}
-				}
-		?>
-			<li class="toggle-hover">
-				<?php echo Html::link('<i class="'.$nav['icon'].'"></i>'.$nav['label'], array($nav['router']), array(
-					'class'=>'item',
-					'target'=>'_blank',
-					'target'=>isset($nav['target']) ? $nav['target'] : false,
-					'encode'=>false,
-					'title'=>$nav['label'],
-				))?>
-			</li>
-		<?php }?>
-		</ul>
-		<ul class="adminbar-right">
-			<li class="toggle-hover header-notification">
-				<a href="<?php echo $this->url('admin/notification/my')?>" class="item">
-					<i class="icon-comment"></i>
-					系统通知（<span id="header-notification-count">0</span>）
-				</a>
-				<div class="clear"></div>
-				<div class="sub-wrapper header-notification-list"></div>
-			</li>
-			<li class="toggle-hover">
-				<a href="javascript:;" class="item"><i class="icon-user"></i>你好，<?php echo F::app()->session->get('username')?></a>
-				<div class="clear"></div>
-				<div class="sub-wrapper profile">
-					<ul>
-						<li><?php echo F::app()->session->get('role_title')?></li>
-						<li><a href="<?php echo $this->url('admin/profile/index');?>">编辑我的个人信息</a></li>
-						<li><a href="<?php echo $this->url('admin/login/logout');?>">退出</a></li>
+	<?php include '_sidebar_menu.php'?>
+	<div class="container main-content">
+		<nav class="user-info-navbar">
+			<ul class="user-info-menu fl">
+				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
+				<li class="hover-line"><a href="<?php echo $this->url()?>" title="网站首页" target="_blank"><i class="fa fa-home"></i></a></li>
+				<li class="hover-line"><a href="<?php echo $this->url('tools')?>" title="Tools" target="_blank"><i class="fa fa-wrench"></i></a></li>
+			</ul>
+			<ul class="user-info-menu fr">
+				<li class="dropdown-container user-profile">
+					<a href="#user-profile-menu" class="dropdown"><?php 
+						echo Html::img(F::session()->get('avatar'), File::PIC_THUMBNAIL, array(
+							'class'=>'circle',
+							'width'=>28,
+							'spare'=>'avatar',
+						))
+					?><span><?php echo F::session()->get('username')?><i class="fa fa-angle-down"></i></span></a>
+					<ul class="dropdown-menu" id="user-profile-menu">
+						<li><?php
+							echo Html::link('我的个人信息', array('admin/profile/index'), array(
+								'prepend'=>array(
+									'tag'=>'i',
+									'class'=>'fa fa-user',
+									'text'=>'',
+								),
+							));
+						?></li>
+						<li class="last"><?php
+							echo Html::link('退出', array('admin/login/logout'), array(
+								'prepend'=>array(
+									'tag'=>'i',
+									'class'=>'fa fa-lock',
+									'text'=>'',
+								),
+							));
+						?></li>
 					</ul>
-				</div>
-			</li>
-		</ul>
-	</div>
-	<div class="menuback"></div>
-	<div class="menuwrap">
-		<?php include '_admin_left.php';?>
-	</div>
-	<div class="ffcontent" id="ffcontent">
-		<div class="ffbody">
-			<div class="ffbody-content">
-				<div class="screen-meta">
-				<?php if(isset($_help)){?>
-					<div class="hide" id="ffhelp-content"><?php $this->renderPartial($_help);?></div>
-				<?php }?>
-				<?php if(isset($_setting_panel)){?>
-					<div class="hide" id="ffsetting-content"><?php $this->renderPartial($_setting_panel);?></div>
-				<?php }?>
-				</div>
-				<div class="screen-meta-links">
-				<?php if(isset($_help)){?>
-					<div class="ffhelp-link-wrap">
-						<a href="#ffhelp-content" class="ffhelp-link">帮助</a>
-					</div>
-				<?php }?>
-				<?php if(isset($_setting_panel)){?>
-					<div class="ffsetting-link-wrap">
-						<a href="#ffsetting-content" class="ffsetting-link">设置</a>
-					</div>
-				<?php }?>
-				</div>
-				<h2 class="sub-title">
-					<?php echo isset($subtitle) ? $subtitle : '';?>
-					<?php if(isset($sublink)){
-						$htmlOptions = isset($sublink['htmlOptions']) ? $sublink['htmlOptions'] : array();
-						if(isset($htmlOptions['class'])){
-							$htmlOptions['class'] .= ' sub-link';
+				</li>
+			</ul>
+		</nav>
+		<div class="page-title">
+			<div class="title-env">
+				<h1 class="title"><?php
+					echo isset($subtitle) ? $subtitle : '无标题';
+					if(isset($sublink)){
+						$html_options = isset($sublink['html_options']) ? $sublink['html_options'] : array();
+						$html_options['prepend'] = '<i class="fa fa-link"></i>';
+						if(isset($html_options['class'])){
+							$html_options['class'] .= ' quick-link';
 						}else{
-							$htmlOptions['class'] = ' sub-link';
+							$html_options['class'] = 'quick-link';
 						}
 
-						echo Html::link($sublink['text'], $sublink['uri'], $htmlOptions);
-					}?>
-				</h2>
-				<div class="notification-wrap">
-					<?php echo F::app()->flash->get();?>
-				</div>
-				<div class="notification-wrap-js"></div>
-				<?php echo $content?>
+						echo Html::link($sublink['text'], $sublink['uri'], $html_options);
+					}?></h1>
 			</div>
-			<div class="clear"></div>
+			<div class="operate-env">
+				<div class="screen-meta-links">
+					<?php if(isset($_setting_panel)){
+						echo Html::link('', '#faycms-setting-content', array(
+							'class'=>'fa fa-cog faycms-setting-link',
+                            'title'=>'设置',
+						));
+						echo Html::tag('div', array(
+							'id'=>'faycms-setting-content',
+                            'class'=>'dialog-content',
+							'wrapper'=>array(
+								'tag'=>'div',
+								'class'=>'dialog hide',
+							),
+                            'prepend'=>'<h4>设置</h4>',
+						), $this->renderPartial($_setting_panel, array(), -1, true));
+					}?>
+				</div>
+			</div>
 		</div>
-		<div class="clear"></div>
+		<?php echo F::app()->flash->get();?>
+		<?php echo $content?>
 	</div>
 </div>
 <script>
 $(function(){
 	//系统消息提示
-	common.headerNotification();
-	setInterval(common.headerNotification, 30000);
 	<?php
 		$forms = F::forms();
 		foreach($forms as $k=>$f){?>
@@ -149,5 +128,6 @@ $(function(){
 </script>
 <img src="<?php echo $this->url()?>images/throbber.gif" class="hide" />
 <img src="<?php echo $this->url()?>images/ajax-loading.gif" class="hide" />
+<img src="<?php echo $this->url()?>images/loading.gif" class="hide" />
 </body>
 </html>

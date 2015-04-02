@@ -1,3 +1,12 @@
 @CHARSET "GB18030";
 
-.lh-25 { line-height: 25px!important; }
+.lh-25 { line-height: 23px!important; }
+.clear { clear: both; }
+.clear-0 { clear: both; height: 0px; font-size: 0px; float: none; overflow: hidden; }
+.clear-1 { clear: both; height: 1px; font-size: 0px; float: none; overflow: hidden; }
+.clear-2 { clear: both; height: 2px; font-size: 0px; float: none; overflow: hidden; }
+.clear-3{ clear: both; height: 3px; font-size: 0px; float: none; overflow: hidden; }
+.clear-4{ clear: both; height: 4px; font-size: 0px; float: none; overflow: hidden; }
+.clear-5 { clear: both; height: 5px; font-size: 0px; float: none; overflow: hidden; }
+.clear-7 { clear: both; height: 7px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-10 { clear: both; height: 10px; font-size: 0px;  float: none; overflow: hidden; }

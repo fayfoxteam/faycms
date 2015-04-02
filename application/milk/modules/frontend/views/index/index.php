@@ -22,7 +22,7 @@ $(document).ready(function(){
 		delayTime:500,
 		autoPlay:true,
 		autoPage:true, 
-		trigger:"click" 
+		trigger:"mouseover" 
 	});
 
 });

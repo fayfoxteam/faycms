@@ -1,9 +1,12 @@
+<?php 
+ use fay\models\Option;
+ ?> 
   <header>
         <div class="container_12">
             <div class="grid_3">
                 <hgroup>
-                    <h1 id="site_logo"><a href="<?php echo $this->url()?>" title=""><img src="<?php echo $this->staticFile('img/logo.png')?>" alt="Tea and milk"></a></h1>
-                    <h2 id="site_description">Tea and milk</h2>
+                    <h1 id="site_logo"><a href="<?php echo $this->url()?>" title=""><img src="<?php echo $this->staticFile('img/miaosi.png')?>" width="155" height="66" alt="Tea and milk"></a></h1>
+                  
                 </hgroup>
             </div><!-- .grid_3 -->
 
@@ -14,9 +17,7 @@
                     </div><!-- .welcome -->
 
               
-                    <form class="search">
-                        <input type="submit" class="search_button" value="">
-                        <input type="text" name="search" class="search_form" value="" placeholder="Search entire store here...">
+
                     </form><!-- .search -->
                 </div><!-- .top_header -->
 

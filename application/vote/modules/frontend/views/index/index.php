@@ -12,7 +12,7 @@
 <div class="col-md-3 col-sm-6">
 <div class="panel panel-default">
     <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
     </a>
 <div class="panel-body">
     <div class="caption">
@@ -37,57 +37,7 @@
 <div class="col-md-3 col-sm-6">
 <div class="panel panel-default">
     <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
-    </a>
-<div class="panel-body">
-    <div class="caption">
-        <h5>唐晓平</h5>
-        <p>
-        1955.05
-        外国语言文化与国际交流学院</p>
-        <p>
-        <div class="checkbox">
-            <label for="checkout">
-                <input type="checkbox" name="checkout" id="checkout" /> 
-                <span data-toggle="tooltip" data-placement="top" title="选唐晓平，唐晓平，晓平，平。。come on baby">选择</span>
-            </label>
-            <a href="" class="btn btn-xs btn-info pull-right" data-toggle="tooltip" data-placement="top" title="点我查看详情">查看详情</a>
-        </div>   
-        </p>
-    </div>
- </div>   
-</div>
-</div>
-
-<div class="col-md-3 col-sm-6">
-<div class="panel panel-default">
-    <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
-    </a>
-<div class="panel-body">
-    <div class="caption">
-        <h5>唐晓平</h5>
-        <p>
-        1955.05
-        外国语言文化与国际交流学院</p>
-        <p>
-        <div class="checkbox">
-            <label for="checkout">
-                <input type="checkbox" name="checkout" id="checkout" /> 
-                <span data-toggle="tooltip" data-placement="top" title="选唐晓平，唐晓平，晓平，平。。come on baby">选择</span>
-            </label>
-            <a href="" class="btn btn-xs btn-info pull-right" data-toggle="tooltip" data-placement="top" title="点我查看详情">查看详情</a>
-        </div>   
-        </p>
-    </div>
- </div>   
-</div>
-</div>
-
-<div class="col-md-3 col-sm-6">
-<div class="panel panel-default">
-    <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
     </a>
 <div class="panel-body">
     <div class="caption">
@@ -113,7 +63,7 @@
 <div class="col-md-3 col-sm-6">
 <div class="panel panel-default">
     <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
     </a>
 <div class="panel-body">
     <div class="caption">
@@ -135,10 +85,11 @@
 </div>
 </div>
 
+
 <div class="col-md-3 col-sm-6">
 <div class="panel panel-default">
     <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
     </a>
 <div class="panel-body">
     <div class="caption">
@@ -160,10 +111,11 @@
 </div>
 </div>
 
+
 <div class="col-md-3 col-sm-6">
 <div class="panel panel-default">
     <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
     </a>
 <div class="panel-body">
     <div class="caption">
@@ -185,10 +137,11 @@
 </div>
 </div>
 
+
 <div class="col-md-3 col-sm-6">
 <div class="panel panel-default">
     <a href="" class="thumbnail">
-        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt="" />
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
     </a>
 <div class="panel-body">
     <div class="caption">
@@ -209,6 +162,77 @@
  </div>   
 </div>
 </div>
+
+
+<div class="col-md-3 col-sm-6">
+<div class="panel panel-default">
+    <a href="" class="thumbnail">
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
+    </a>
+<div class="panel-body">
+    <div class="caption">
+        <h5>唐晓平</h5>
+        <p>
+        1955.05
+        外国语言文化与国际交流学院</p>
+        <p>
+        <div class="checkbox">
+            <label for="checkout">
+                <input type="checkbox" name="checkout" id="checkout" /> 
+                <span data-toggle="tooltip" data-placement="top" title="选唐晓平，唐晓平，晓平，平。。come on baby">选择</span>
+            </label>
+            <a href="" class="btn btn-xs btn-info pull-right" data-toggle="tooltip" data-placement="top" title="点我查看详情">查看详情</a>
+        </div>   
+        </p>
+    </div>
+ </div>   
+</div>
+</div>
+
+
+<div class="col-md-3 col-sm-6">
+<div class="panel panel-default">
+    <a href="" class="thumbnail">
+        <img src="<?php echo $this->staticFile('img/avatar.jpg')?>" alt=""  data-toggle="tooltip" data-placement="bottom" title="点击照片查看详情"/>
+    </a>
+<div class="panel-body">
+    <div class="caption">
+        <h5>唐晓平</h5>
+        <p>
+        1955.05
+        外国语言文化与国际交流学院</p>
+        <p>
+        <div class="checkbox">
+            <label for="checkout">
+                <input type="checkbox" name="checkout" id="checkout" /> 
+                <span data-toggle="tooltip" data-placement="top" title="选唐晓平，唐晓平，晓平，平。。come on baby">选择</span>
+            </label>
+            <a href="" class="btn btn-xs btn-info pull-right" data-toggle="tooltip" data-placement="top" title="点我查看详情">查看详情</a>
+        </div>   
+        </p>
+    </div>
+ </div>   
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

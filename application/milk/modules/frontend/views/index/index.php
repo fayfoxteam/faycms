@@ -43,7 +43,7 @@ $(document).ready(function(){
                         <h3><?php echo $about['title']?></h3>
                         <?php echo $about['abstract']?>
                         <a href="<?php echo $this->url('page/'.$about['id'])?>">&nbsp;更多>></a>
-                        <div class="clear-4"></div>
+                        <div class="clear-20"></div>
                     </div><!-- .about_as -->
                 </div><!-- .grid_4 -->
 

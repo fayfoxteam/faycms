@@ -3,7 +3,7 @@
 
 <div class="row">
 <div class="row">
-    <div class="col-md-9 col-sm-6 col-xs-5 col-xs-offset-1 text-center"><h3>候选人名单</h3></div>
+    <div class="col-md-9 col-sm-6 col-xs-5 col-xs-offset-1 text-center"><h4>候选人名单</h4></div>
     <div class="col-md-2 col-sm-5 col-xs-5">
         <h5><button class="btn btn-danger pull-right" data-toggle="modal" id="tooltip" data-placement="top" title="登录，登录，登陆就可以投了" data-target="#login-window" >登录进行投票</button></h5>
     </div>

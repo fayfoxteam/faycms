@@ -41,8 +41,8 @@ $(document).ready(function(){
                 <div class="grid_4">
                     <div class="bottom_block about_as">
                         <h3><?php echo $about['title']?></h3>
-                        <?php echo String::niceShort($about['content'], 1450)?>
-                        <a href="<?php echo $this->url('page/'.$about['id'])?>">more</a>
+                        <?php echo $about['abstract']?>
+                        <a href="<?php echo $this->url('page/'.$about['id'])?>">&nbsp;更多>></a>
                     </div><!-- .about_as -->
                 </div><!-- .grid_4 -->
 

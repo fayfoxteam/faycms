@@ -6,7 +6,7 @@ return array(
         'password'=>'ejsFPe4SLPx5wC1W',							//密码
         
         'port'=>3306,							//端口
-        'dbname'=>'fay_milk',				//数据库名
+        'dbname'=>'fay_vote',				//数据库名
         'charset'=>'utf8',						//数据库编码方式
         'table_prefix'=>'fay_',				//数据库表前缀
     ),
@@ -25,7 +25,7 @@ return array(
     /*
      * 运行环境，设为development则开启所有报错，设为production则关闭所有报错
     */
-    'environment'=> $_SERVER['HTTP_HOST'] == 'milk' ? 'development' : 'production',
+    'environment'=> $_SERVER['HTTP_HOST'] == 'faycms' ? 'development' : 'production',
     
     /*
      * 若为true，则页面地步会列出所有被执行的sql语句等信息

@@ -3137,11 +3137,7 @@ a:hover.button_block{
 	list-style: none;
 	padding: 0;
 }
-.news ul li{
-	font:normal 13px/20px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, Arial, Verdana, sans-serif;
-	list-style: none;
-	margin-bottom: 5px;
-}
+.news ul li{ font:normal 13px/20px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, Arial, Verdana, sans-serif; list-style: none; height: 30px; line-height: 30px; }
 .news ul li a{
 	color: #587fae;
 	text-decoration: none;

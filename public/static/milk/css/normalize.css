@@ -106,7 +106,7 @@ body{
     margin: 0 auto;
     color:#444;
     background: #fff;
-    font:normal 13px/25px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, Arial, Verdana, sans-serif
+    font:normal 13px/25px "Open Sans","Helvetica Neue",Helvetica,Arial,STHeiti,"Microsoft Yahei",sans-serif;
     min-width: 1008px;
 }
 

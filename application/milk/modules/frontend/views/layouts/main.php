@@ -78,7 +78,7 @@ use fay\models\Option;
 $(function(){
 	$(window).on('scroll',function(){
 		var st = $(document).scrollTop();
-		if( st>0 ){
+		if( st>200 ){
 			if( $('#main-container').length != 0  ){
 				var w = $(window).width(),mw = $('#main-container').width();
 				if( (w-mw)/2 > 70 )
@@ -107,6 +107,7 @@ $(function(){
 	});
 });
 </script>
+<script src="<?php echo $this->staticFile('js/milk.js')?>"></script>
 </body>
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 </html>

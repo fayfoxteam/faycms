@@ -13,10 +13,16 @@
             <div class="grid_9">
                 <div class="top_header">
                     <div class="welcome">
-                        免费送奶茶，不要问我为什么，有钱，任性！<span style="color: red;">店址：绍兴市城南大道900号。</span>
+                       <?php F::widget()->load('index-message')?>
                     </div><!-- .welcome -->
-
-              
+                    
+                    <div class="btns">
+                        <ul>
+                        	<li><a href="javascript:;" onclick="setHomepage()">设为首页</a></li>
+                        	<li><a href="javascript:;" onclick="AddFavorite('<?php echo $this->url()?>', '<?php echo Option::get('sitename')?>')">加入收藏</a></li>
+                        </ul>
+                    </div>
+                            
 
                     </form><!-- .search -->
                 </div><!-- .top_header -->

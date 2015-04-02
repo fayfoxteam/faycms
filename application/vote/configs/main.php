@@ -25,7 +25,7 @@ return array(
     /*
      * 运行环境，设为development则开启所有报错，设为production则关闭所有报错
     */
-    'environment'=> $_SERVER['HTTP_HOST'] == 'faycms' ? 'development' : 'production',
+    'environment'=> $_SERVER['HTTP_HOST'] !== 'vote' ? 'development' : 'production',
     
     /*
      * 若为true，则页面地步会列出所有被执行的sql语句等信息

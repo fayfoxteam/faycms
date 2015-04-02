@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-13 23:52:39
+-- Generation Time: 2015-03-14 01:59:19
 -- 服务器版本： 5.5.41-MariaDB
 -- PHP Version: 5.4.16
 
@@ -34,7 +34,19 @@ CREATE TABLE IF NOT EXISTS `fay_actionlogs` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `refer` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `fay_actionlogs`
+--
+
+INSERT INTO `fay_actionlogs` (`id`, `user_id`, `type`, `note`, `create_time`, `refer`, `ip_int`) VALUES
+(1, 10000, 6, '添加分类', 1427977755, 10000, 2130706433),
+(2, 10000, 6, '修改分类', 1427977783, 10000, 2130706433),
+(3, 10000, 6, '修改分类', 1427977801, 10000, 2130706433),
+(4, 10000, 16, '添加文章', 1427977896, 1000, 2130706433),
+(5, 10000, 17, '添加页面', 1427979095, 1000, 2130706433),
+(6, 10000, 17, '编辑页面', 1427979495, 1000, 2130706433);
 
 -- --------------------------------------------------------
 
@@ -67,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_caches` (
   `ip` smallint(5) unsigned NOT NULL DEFAULT '0',
   `new_visitors` smallint(5) unsigned NOT NULL DEFAULT '0',
   `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00'
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_analyst_caches`
@@ -120,7 +132,52 @@ INSERT INTO `fay_analyst_caches` (`id`, `date`, `hour`, `site`, `pv`, `uv`, `ip`
 (44, '2015-03-30', 22, 0, 0, 0, 0, 0, 0.00),
 (45, '2015-03-30', 23, 0, 0, 0, 0, 0, 0.00),
 (46, '2015-03-30', -1, 0, 0, 0, 0, 0, 0.00),
-(47, '2015-03-31', 21, 0, 1, 1, 1, 1, 100.00);
+(47, '2015-03-31', 21, 0, 1, 1, 1, 1, 100.00),
+(48, '2015-04-02', 0, 0, 0, 0, 0, 0, 0.00),
+(49, '2015-04-02', 1, 0, 0, 0, 0, 0, 0.00),
+(50, '2015-04-02', 2, 0, 0, 0, 0, 0, 0.00),
+(51, '2015-04-02', 3, 0, 0, 0, 0, 0, 0.00),
+(52, '2015-04-02', 4, 0, 0, 0, 0, 0, 0.00),
+(53, '2015-04-02', 5, 0, 0, 0, 0, 0, 0.00),
+(54, '2015-04-02', 6, 0, 0, 0, 0, 0, 0.00),
+(55, '2015-04-02', 7, 0, 0, 0, 0, 0, 0.00),
+(56, '2015-04-02', 8, 0, 0, 0, 0, 0, 0.00),
+(57, '2015-04-02', 9, 0, 0, 0, 0, 0, 0.00),
+(58, '2015-04-02', 10, 0, 0, 0, 0, 0, 0.00),
+(59, '2015-04-02', 11, 0, 0, 0, 0, 0, 0.00),
+(60, '2015-04-02', 12, 0, 0, 0, 0, 0, 0.00),
+(61, '2015-04-02', 13, 0, 0, 0, 0, 0, 0.00),
+(62, '2015-04-02', 14, 0, 0, 0, 0, 0, 0.00),
+(63, '2015-04-02', 15, 0, 0, 0, 0, 0, 0.00),
+(64, '2015-04-02', 16, 0, 0, 0, 0, 0, 0.00),
+(65, '2015-04-02', 17, 0, 0, 0, 0, 0, 0.00),
+(66, '2015-04-02', 18, 0, 0, 0, 0, 0, 0.00),
+(67, '2015-04-02', 19, 0, 0, 0, 0, 0, 0.00),
+(68, '2015-04-01', 0, 0, 0, 0, 0, 0, 0.00),
+(69, '2015-04-01', 1, 0, 0, 0, 0, 0, 0.00),
+(70, '2015-04-01', 2, 0, 0, 0, 0, 0, 0.00),
+(71, '2015-04-01', 3, 0, 0, 0, 0, 0, 0.00),
+(72, '2015-04-01', 4, 0, 0, 0, 0, 0, 0.00),
+(73, '2015-04-01', 5, 0, 0, 0, 0, 0, 0.00),
+(74, '2015-04-01', 6, 0, 0, 0, 0, 0, 0.00),
+(75, '2015-04-01', 7, 0, 0, 0, 0, 0, 0.00),
+(76, '2015-04-01', 8, 0, 0, 0, 0, 0, 0.00),
+(77, '2015-04-01', 9, 0, 0, 0, 0, 0, 0.00),
+(78, '2015-04-01', 10, 0, 0, 0, 0, 0, 0.00),
+(79, '2015-04-01', 11, 0, 0, 0, 0, 0, 0.00),
+(80, '2015-04-01', 12, 0, 0, 0, 0, 0, 0.00),
+(81, '2015-04-01', 13, 0, 0, 0, 0, 0, 0.00),
+(82, '2015-04-01', 14, 0, 0, 0, 0, 0, 0.00),
+(83, '2015-04-01', 15, 0, 0, 0, 0, 0, 0.00),
+(84, '2015-04-01', 16, 0, 0, 0, 0, 0, 0.00),
+(85, '2015-04-01', 17, 0, 0, 0, 0, 0, 0.00),
+(86, '2015-04-01', 18, 0, 0, 0, 0, 0, 0.00),
+(87, '2015-04-01', 19, 0, 0, 0, 0, 0, 0.00),
+(88, '2015-04-01', 20, 0, 0, 0, 0, 0, 0.00),
+(89, '2015-04-01', 21, 0, 0, 0, 0, 0, 0.00),
+(90, '2015-04-01', 22, 0, 0, 0, 0, 0, 0.00),
+(91, '2015-04-01', 23, 0, 0, 0, 0, 0, 0.00),
+(92, '2015-04-01', -1, 0, 0, 0, 0, 0, 0.00);
 
 -- --------------------------------------------------------
 
@@ -149,14 +206,15 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_macs` (
   `hour` tinyint(2) unsigned NOT NULL DEFAULT '0',
   `trackid` varchar(30) NOT NULL DEFAULT '',
   `site` smallint(5) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_analyst_macs`
 --
 
 INSERT INTO `fay_analyst_macs` (`id`, `user_agent`, `browser`, `browser_version`, `shell`, `shell_version`, `os`, `ip_int`, `screen_width`, `screen_height`, `url`, `refer`, `se`, `keywords`, `hash`, `create_time`, `create_date`, `hour`, `trackid`, `site`) VALUES
-(1, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36', 'Chrome', '41.0.2272.104', '', '', 'mac', 2130706433, 1280, 800, 'http://vote/a', 'http://vote/install/index/settings', '', '', '6fecdfa5b6e34da97645f4e858c0765a', 1427809347, '2015-03-31', 21, '', 1);
+(1, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36', 'Chrome', '41.0.2272.104', '', '', 'mac', 2130706433, 1280, 800, 'http://vote/a', 'http://vote/install/index/settings', '', '', '6fecdfa5b6e34da97645f4e858c0765a', 1427809347, '2015-03-31', 21, '', 1),
+(2, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36', 'Chrome', '41.0.2272.104', '', '', 'mac', 2130706433, 1280, 800, 'http://faycms/a', '', '', '', '528025ab3ae347092e72574d92e01f7a', 1427977725, '2015-04-02', 20, '', 1);
 
 -- --------------------------------------------------------
 
@@ -201,14 +259,15 @@ CREATE TABLE IF NOT EXISTS `fay_analyst_visits` (
   `HTTP_CLIENT_IP` varchar(255) NOT NULL DEFAULT '',
   `HTTP_X_FORWARDED_FOR` varchar(255) NOT NULL DEFAULT '',
   `REMOTE_ADDR` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_analyst_visits`
 --
 
 INSERT INTO `fay_analyst_visits` (`id`, `mac`, `ip_int`, `refer`, `url`, `short_url`, `trackid`, `user_id`, `create_time`, `create_date`, `hour`, `site`, `views`, `HTTP_CLIENT_IP`, `HTTP_X_FORWARDED_FOR`, `REMOTE_ADDR`) VALUES
-(1, 1, 2130706433, 'http://vote/install/index/settings', 'http://vote/a', 'fOPvuy', '', 0, 1427809347, '2015-03-31', 21, 1, 1, '', '', '127.0.0.1');
+(1, 1, 2130706433, 'http://vote/install/index/settings', 'http://vote/a', 'fOPvuy', '', 0, 1427809347, '2015-03-31', 21, 1, 1, '', '', '127.0.0.1'),
+(2, 2, 2130706433, '', 'http://faycms/a', '05DW9z', '', 0, 1427977725, '2015-04-02', 20, 1, 1, '', '', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -231,41 +290,42 @@ CREATE TABLE IF NOT EXISTS `fay_categories` (
   `seo_title` varchar(255) NOT NULL DEFAULT '',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_categories`
 --
 
 INSERT INTO `fay_categories` (`id`, `title`, `alias`, `parent`, `file_id`, `sort`, `description`, `is_nav`, `left_value`, `right_value`, `is_system`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
-(1, '未分类', '_system_post', 0, 0, 1000, '文章分类根目录', 1, 2, 3, 1, '', '', ''),
-(2, '页面分类', '_system_page', 0, 0, 1000, '', 1, 4, 5, 1, '', '', ''),
-(3, '权限', '_system_action', 0, 0, 1000, '', 1, 6, 41, 1, '', '', ''),
-(4, '系统消息', '_system_notification', 0, 0, 1000, '', 1, 42, 43, 1, '', '', ''),
-(5, '用户留言', '_system_messages', 0, 0, 1000, '', 1, 44, 45, 1, '', '', ''),
-(6, '商品分类', '_system_goods', 0, 0, 1000, '', 1, 46, 47, 1, '', '', ''),
-(7, '优惠卷', '_system_voucher', 0, 0, 1000, '', 1, 48, 49, 1, '', '', ''),
-(8, '考试', '_system_exam', 0, 0, 1000, '', 1, 50, 55, 1, '', '', ''),
-(9, '试题', '_system_exam_question', 8, 0, 1000, '', 1, 51, 52, 1, '', '', ''),
-(10, '试卷', '_system_exam_paper', 8, 0, 1000, '', 1, 53, 54, 1, '', '', ''),
-(11, '友情链接', '_system_link', 0, 0, 1000, '', 1, 56, 57, 1, '', '', ''),
-(101, '友情链接', '_role_youqinglianjie', 3, 0, 1000, '', 1, 7, 8, 1, '', '', ''),
-(102, '文件', '_role_wenjian', 3, 0, 1000, '', 1, 9, 10, 1, '', '', ''),
-(103, '文章', '_role_wenzhang', 3, 0, 1000, '', 1, 11, 12, 1, '', '', ''),
-(104, '提醒', '_role_tixing', 3, 0, 1000, '', 1, 13, 14, 1, '', '', ''),
-(105, '用户留言', '_role_yonghuliuyan', 3, 0, 1000, '', 1, 15, 16, 1, '', '', ''),
-(106, '管理员', '_role_guanliyuan', 3, 0, 1000, '', 1, 17, 18, 1, '', '', ''),
-(107, '页面', '_role_jingtaiyemian', 3, 0, 1000, '', 1, 19, 20, 1, '', '', ''),
-(108, '商品', '_role_shangpinguanli', 3, 0, 1000, '', 1, 21, 22, 1, '', '', ''),
-(109, '用户', '_role_yonghuguanli', 3, 0, 1000, '', 1, 23, 24, 1, '', '', ''),
-(110, '文章评论', '_role_wenzhangpinglun', 3, 0, 1000, '', 1, 25, 26, 1, '', '', ''),
-(111, '站点', '_role_zhandian', 3, 0, 1000, '', 1, 27, 28, 1, '', '', ''),
-(112, '角色', '_role_juese', 3, 0, 1000, '', 1, 29, 30, 1, '', '', ''),
-(113, '访问统计', '_role_fangwentongji', 3, 0, 1000, '', 1, 31, 32, 1, '', '', ''),
-(114, '导航栏', '_role_daohanglan', 3, 0, 1000, '', 1, 33, 34, 1, '', '', ''),
-(115, '会话', '_role_huihua', 3, 0, 1000, '', 1, 35, 36, 1, '', '', ''),
-(116, '试题', '_role_shiti', 3, 0, 1000, '', 1, 37, 38, 1, '', '', ''),
-(117, '试卷', '_role_shijuan', 3, 0, 1000, '', 1, 39, 40, 1, '', '', '');
+(1, '未分类', '_system_post', 0, 0, 1000, '文章分类根目录', 1, 2, 5, 1, '', '', ''),
+(2, '页面分类', '_system_page', 0, 0, 1000, '', 1, 6, 7, 1, '', '', ''),
+(3, '权限', '_system_action', 0, 0, 1000, '', 1, 8, 43, 1, '', '', ''),
+(4, '系统消息', '_system_notification', 0, 0, 1000, '', 1, 44, 45, 1, '', '', ''),
+(5, '用户留言', '_system_messages', 0, 0, 1000, '', 1, 46, 47, 1, '', '', ''),
+(6, '商品分类', '_system_goods', 0, 0, 1000, '', 1, 48, 49, 1, '', '', ''),
+(7, '优惠卷', '_system_voucher', 0, 0, 1000, '', 1, 50, 51, 1, '', '', ''),
+(8, '考试', '_system_exam', 0, 0, 1000, '', 1, 52, 57, 1, '', '', ''),
+(9, '试题', '_system_exam_question', 8, 0, 1000, '', 1, 53, 54, 1, '', '', ''),
+(10, '试卷', '_system_exam_paper', 8, 0, 1000, '', 1, 55, 56, 1, '', '', ''),
+(11, '友情链接', '_system_link', 0, 0, 1000, '', 1, 58, 59, 1, '', '', ''),
+(101, '友情链接', '_role_youqinglianjie', 3, 0, 1000, '', 1, 9, 10, 1, '', '', ''),
+(102, '文件', '_role_wenjian', 3, 0, 1000, '', 1, 11, 12, 1, '', '', ''),
+(103, '文章', '_role_wenzhang', 3, 0, 1000, '', 1, 13, 14, 1, '', '', ''),
+(104, '提醒', '_role_tixing', 3, 0, 1000, '', 1, 15, 16, 1, '', '', ''),
+(105, '用户留言', '_role_yonghuliuyan', 3, 0, 1000, '', 1, 17, 18, 1, '', '', ''),
+(106, '管理员', '_role_guanliyuan', 3, 0, 1000, '', 1, 19, 20, 1, '', '', ''),
+(107, '页面', '_role_jingtaiyemian', 3, 0, 1000, '', 1, 21, 22, 1, '', '', ''),
+(108, '商品', '_role_shangpinguanli', 3, 0, 1000, '', 1, 23, 24, 1, '', '', ''),
+(109, '用户', '_role_yonghuguanli', 3, 0, 1000, '', 1, 25, 26, 1, '', '', ''),
+(110, '文章评论', '_role_wenzhangpinglun', 3, 0, 1000, '', 1, 27, 28, 1, '', '', ''),
+(111, '站点', '_role_zhandian', 3, 0, 1000, '', 1, 29, 30, 1, '', '', ''),
+(112, '角色', '_role_juese', 3, 0, 1000, '', 1, 31, 32, 1, '', '', ''),
+(113, '访问统计', '_role_fangwentongji', 3, 0, 1000, '', 1, 33, 34, 1, '', '', ''),
+(114, '导航栏', '_role_daohanglan', 3, 0, 1000, '', 1, 35, 36, 1, '', '', ''),
+(115, '会话', '_role_huihua', 3, 0, 1000, '', 1, 37, 38, 1, '', '', ''),
+(116, '试题', '_role_shiti', 3, 0, 1000, '', 1, 39, 40, 1, '', '', ''),
+(117, '试卷', '_role_shijuan', 3, 0, 1000, '', 1, 41, 42, 1, '', '', ''),
+(10000, '候选人名单', 'list', 1, 0, 1000, '', 1, 3, 4, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -996,7 +1056,14 @@ CREATE TABLE IF NOT EXISTS `fay_files` (
   `downloads` smallint(5) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `qiniu` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `fay_files`
+--
+
+INSERT INTO `fay_files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`, `downloads`, `type`, `qiniu`) VALUES
+(1000, 'ylh05', '.jpg', 33117, 'image/jpeg', './uploads/vote/posts/2015/04/', '20130307131257773.jpg', 1, 500, 330, 1427977858, 10000, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1185,7 +1252,7 @@ CREATE TABLE IF NOT EXISTS `fay_logs` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `ip_int` int(11) NOT NULL DEFAULT '0',
   `user_agent` varchar(255) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `fay_logs`
@@ -1193,7 +1260,9 @@ CREATE TABLE IF NOT EXISTS `fay_logs` (
 
 INSERT INTO `fay_logs` (`id`, `user_id`, `type`, `code`, `data`, `create_date`, `create_time`, `ip_int`, `user_agent`) VALUES
 (1, 0, 1, 'admin:action:login.success', '{"fmac":"6fecdfa5b6e34da97645f4e858c0765a"}', '2015-03-31', 1427809349, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36'),
-(2, 0, 1, 'admin:action:login.success', '{"fmac":""}', '2015-03-31', 1427812615, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36');
+(2, 0, 1, 'admin:action:login.success', '{"fmac":""}', '2015-03-31', 1427812615, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36'),
+(3, 0, 1, 'admin:action:login.success', '{"fmac":""}', '2015-04-02', 1427977363, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36'),
+(4, 0, 1, 'admin:action:login.success', '{"fmac":"528025ab3ae347092e72574d92e01f7a"}', '2015-04-02', 1427977727, 2130706433, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.104 Safari/537.36');
 
 -- --------------------------------------------------------
 
@@ -1403,7 +1472,14 @@ CREATE TABLE IF NOT EXISTS `fay_pages` (
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT '',
   `abstract` varchar(500) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `fay_pages`
+--
+
+INSERT INTO `fay_pages` (`id`, `title`, `alias`, `content`, `author`, `create_time`, `last_modified_time`, `status`, `deleted`, `thumbnail`, `comments`, `views`, `sort`, `seo_title`, `seo_keywords`, `seo_description`, `abstract`) VALUES
+(1000, '评选介绍', 'introduce', '<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);"><strong style="line-height: 25.2000007629395px; word-break: normal;">第一条&nbsp;</strong>&nbsp;浙江大学唐立新教学名师奖由新尚集团董事长唐立新先生为增强浙江大学教师教书育人的责任感和使命感，凝聚优秀教师，奖励在人才培养领域和教学过程中开展创新探索，自觉将学校核心使命和价值观导向落实到教学行动中并取得成绩的教师，所设立的教学荣誉奖项。为做好唐立新教学名师奖，特制定本办法。</p>\r\n\r\n<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);"><strong style="line-height: 25.2000007629395px; word-break: normal;">第二条</strong>&nbsp; 基本条件<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n参评教师应长期从事教学工作，教学师德高、教学水平优、学术造诣精、教学效果好，学生受益深且须具备以下基本条件：<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（一）浙江大学在职全职教师，从事高校教学工作6年以上（含6年）且在浙江大学从事教学工作4年以上（含4年）；<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（二）师德高尚，为人师表，在教书育人方面有显著成绩，受到学生的普遍尊敬；<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（三）潜心教学，特色明显，原则上连续主讲3年以上（含3年）本科生课程，有提升教学质量的特色教学策略；<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（四）治学严谨，成果丰硕，积极开展学术研究，教学成果（特色）和科研在全校乃至国内同行中有较大影响；<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（五）精心指导，誉满课堂，近三年课堂教学质量评价优良，无教学事故，并获得同行认可。</p>\r\n\r\n<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);"><span style="line-height: 25.2000007629395px; word-break: normal;"><strong style="line-height: 25.2000007629395px; word-break: normal;">第三条&nbsp;</strong></span>&nbsp;评选程序</p>\r\n\r\n<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);">（一）本奖项的候选人采取推荐方式产生，不接受个人自荐。通过基层教学组织评议推荐的方式向学院（系）推荐候选人。候选人需据实填写《浙江大学唐立新教学名师奖申报表》，并提供相关辅助材料。<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（二）院（系）在公开公平公正的原则上，经过评审、公示后择优确定本单位正式推荐人选，每个院（系）限额1位候选人。<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（三）唐立新教学名师奖评审委员会负责进行校级综合评审，评审结果经网上公示无异议后，报唐立新教育发展基金管理委员会。<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n唐立新教学名师奖评选的具体要求及评选程序，每年可根据上一年的实施情况在评选通知中作相应调整。</p>\r\n\r\n<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);"><strong style="line-height: 25.2000007629395px; word-break: normal;">第四条</strong>&nbsp; 项目评审委员会</p>\r\n\r\n<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);">浙江大学唐立新教学名师奖的评审工作由唐立新教学名师奖评审委员会负责，并向唐立新教育发展基金管理委员会推荐合适人选。<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n唐立新教学名师奖评审委员会由下列人员组成：学院（系）代表；教师代表；校外顾问；学生代表以及人事处，纪委，校友总会、发展联络办公室、研究生院和本科生院等职能部门人员，秘书处设在本科生院。</p>\r\n\r\n<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);"><strong style="line-height: 25.2000007629395px; word-break: normal;">第五条&nbsp;</strong>&nbsp;奖项设置与奖励办法</p>\r\n\r\n<p style="margin-bottom: 0px; line-height: 25.2000007629395px; color: rgb(102, 102, 102); word-break: normal; font-family: 宋体; font-size: 14px !important; background-color: rgb(255, 255, 255);">本着宁缺毋滥，奖励优秀的原则，获奖名额可根据当年申报及评选实际情况确定，最终获奖名额可少于额定数。<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（一）奖项设置<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n唐立新教学名师奖设10名。<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n（二）奖励办法<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n奖金设置：每人50000元。<br style="line-height: 25.2000007629395px; word-break: normal;" />\r\n第六条&nbsp; 本细则自发文之日起实施，由浙江大学唐立新教学名师奖项目评审委员会负责解释。</p>\r\n', 10000, 1427979095, 1427979495, 1, 0, 0, 0, 1, 100, '', '', '', '浙江大学唐立新教学名师奖由新尚集团董事长唐立新先生为增强浙江大学教师教书育人的责任感和使命感，凝聚优秀教师，奖励在人才培养领域和教学过程中开展创新探索，自觉将学校核心使命和价值观导向落实到教学行动中并取得成绩的教师，所设立的教学荣誉奖项。为做好唐立新教学名师奖，特制定本办法。');
 
 -- --------------------------------------------------------
 
@@ -1447,7 +1523,14 @@ CREATE TABLE IF NOT EXISTS `fay_posts` (
   `seo_title` varchar(100) NOT NULL DEFAULT '',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '',
   `seo_description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `fay_posts`
+--
+
+INSERT INTO `fay_posts` (`id`, `cat_id`, `title`, `alias`, `content`, `content_type`, `create_time`, `last_modified_time`, `publish_date`, `publish_time`, `last_view_time`, `user_id`, `is_top`, `status`, `deleted`, `thumbnail`, `abstract`, `comments`, `sort`, `views`, `likes`, `seo_title`, `seo_keywords`, `seo_description`) VALUES
+(1000, 10000, '唐晓平', '', '<p>非常牛逼</p>\r\n', 0, 1427977896, 1427977896, '2015-04-02', 1427977896, 1427978941, 10000, 0, 1, 0, 1000, '2004，信息与电子系，计算机专业', 0, 100, 3, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5150,7 +5233,7 @@ INSERT INTO `fay_users` (`id`, `username`, `email`, `cellphone`, `password`, `sa
 (1, '系统', '', '', '', '', '系统', '系统', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (2, '用户留言收件人', '', '', '', '', '用户留言收件人', '用户留言收件人', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
 (3, '系统消息', '', '', '', '', '系统消息', '系统消息', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '', 0, 0, '', '', '', ''),
-(10000, '123', '', '', '4e2b2cf03c720daed095ff15ca8241a5', 'Het1a', '', '', 0, 1427809347, 0, 2, 1427812615, 2130706433, 1427812615, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
+(10000, '123', '', '', '4e2b2cf03c720daed095ff15ca8241a5', 'Het1a', '', '', 0, 1427809347, 0, 4, 1427977727, 2130706433, 1427977727, 3, 0, 101, 0, '', 0, '', 0, 0, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -5595,7 +5678,7 @@ ALTER TABLE `fay_widgets`
 -- AUTO_INCREMENT for table `fay_actionlogs`
 --
 ALTER TABLE `fay_actionlogs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `fay_actions`
 --
@@ -5605,12 +5688,12 @@ ALTER TABLE `fay_actions`
 -- AUTO_INCREMENT for table `fay_analyst_caches`
 --
 ALTER TABLE `fay_analyst_caches`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=93;
 --
 -- AUTO_INCREMENT for table `fay_analyst_macs`
 --
 ALTER TABLE `fay_analyst_macs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `fay_analyst_sites`
 --
@@ -5620,12 +5703,12 @@ ALTER TABLE `fay_analyst_sites`
 -- AUTO_INCREMENT for table `fay_analyst_visits`
 --
 ALTER TABLE `fay_analyst_visits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `fay_categories`
 --
 ALTER TABLE `fay_categories`
-  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10000;
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10001;
 --
 -- AUTO_INCREMENT for table `fay_cat_props`
 --
@@ -5675,7 +5758,7 @@ ALTER TABLE `fay_exam_questions`
 -- AUTO_INCREMENT for table `fay_files`
 --
 ALTER TABLE `fay_files`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
 --
 -- AUTO_INCREMENT for table `fay_goods`
 --
@@ -5720,7 +5803,7 @@ ALTER TABLE `fay_links`
 -- AUTO_INCREMENT for table `fay_logs`
 --
 ALTER TABLE `fay_logs`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `fay_menus`
 --
@@ -5745,12 +5828,12 @@ ALTER TABLE `fay_options`
 -- AUTO_INCREMENT for table `fay_pages`
 --
 ALTER TABLE `fay_pages`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
 --
 -- AUTO_INCREMENT for table `fay_posts`
 --
 ALTER TABLE `fay_posts`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1001;
 --
 -- AUTO_INCREMENT for table `fay_props`
 --

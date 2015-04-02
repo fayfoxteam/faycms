@@ -39,7 +39,7 @@ $(document).ready(function(){
                 </div><!-- .grid_4 -->
                 
                 <div class="grid_4">
-                    <div class="bottom_block about_as">
+                    <div class="bottom_block about_as lh-25">
                         <h3><?php echo $about['title']?></h3>
                         <?php echo $about['abstract']?>
                         <a href="<?php echo $this->url('page/'.$about['id'])?>">&nbsp;更多>></a>

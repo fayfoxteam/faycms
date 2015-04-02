@@ -34,7 +34,7 @@ use fay\models\Option;
     <meta name="viewport" content="width=device-width">
 
     <link rel="shortcut icon" href="favicon.ico">
-
+    <link rel="stylesheet" href="<?php echo $this->staticFile('css/until.css')?>" media="all" />
     <link rel="stylesheet" href="<?php echo $this->staticFile('css/grid.css')?>">
     <link rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>">
     <link rel="stylesheet" href="<?php echo $this->staticFile('css/normalize.css')?>">

@@ -108,12 +108,15 @@ if (count($posts['props']) > 0)
     </div>
 
     <div class="clear-30"></div>
-    <div class="row">
-        <!-- UY BEGIN -->
-        <div id="uyan_frame"></div>
-        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984360"></script>
-        <!-- UY END -->
+    <div class="container">
+        <div class="row">
+            <!-- UY BEGIN -->
+            <div id="uyan_frame"></div>
+            <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984360"></script>
+            <!-- UY END -->
+        </div>
     </div>
+
 
 
 </div>

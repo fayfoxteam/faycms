@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\models\File;
 use fay\helpers\String;
-// dump($introduce);
+// dump($lists);
 ?> 
 
 
@@ -26,7 +26,7 @@ use fay\helpers\String;
 <div class="col-md-3 col-sm-6">
 <div class="panel panel-default">
     <a href="<?php echo $this->url('post/'.$list['id'])?>" class="thumbnail">
-        <?php echo Html::img($list['id'], File::PIC_RESIZE, array('dw'=>251, 'dh' => 166, 'title'=> $list['title'], 'alt'=> $list['title'], 'data-toggle'=>"tooltip", 'data-placement'=>"bottom", 'title'=>"点击照片查看详情"))?>
+        <?php echo Html::img($list['thumbnail'], File::PIC_ORIGINAL, array('width'=>'100%', 'title'=> $list['title'], 'alt'=> $list['title'], 'data-toggle'=>"tooltip", 'data-placement'=>"bottom", 'title'=>"点击照片查看详情"))?>
     </a>
 <div class="panel-body">
     <div class="caption">

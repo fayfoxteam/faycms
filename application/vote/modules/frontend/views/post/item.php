@@ -107,7 +107,7 @@ if (count($posts['props']) > 0)
         </div>
     </div>
 
-
+    <div class="clear-30"></div>
     <div class="row">
         <!-- UY BEGIN -->
         <div id="uyan_frame"></div>

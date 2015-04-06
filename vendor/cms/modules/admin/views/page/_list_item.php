@@ -75,7 +75,7 @@ use fay\helpers\Date;
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'post-sort w30',
+		'class'=>'form-control page-sort ib w50',
 	))?></td>
 	<?php }?>
 </tr>

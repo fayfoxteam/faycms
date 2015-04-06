@@ -66,13 +66,13 @@ class String extends Validator{
 			));
 		}
 		
-		if($this->max && $len > $this->max){
+		if($this->max !== null && $len > $this->max){
 			return $this->addError($this->_field, 'string', $this->too_long, array(
 				'max'=>$this->max,
 			));
 		}
 
-		if($this->min && $len < $this->min){
+		if($this->min !== null && $len < $this->min){
 			return $this->addError($this->_field, 'string', $this->too_short, array(
 				'min'=>$this->min,
 			));

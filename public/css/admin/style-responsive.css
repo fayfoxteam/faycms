@@ -252,7 +252,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 
 /* 左侧导航栏 */
 /* 菜单 */
-.sidebar-menu{display:table-cell;position:relative;width:280px;background:#2c2e2f;z-index:1}
+.sidebar-menu{display:table-cell;position:relative;width:230px;background:#2c2e2f;z-index:1}
 .sidebar-menu.fixed{height:100%}
 .sidebar-menu.fixed .sidebar-menu-inner{position:fixed;left:0;top:0;bottom:0;overflow:hidden}
 
@@ -261,7 +261,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .sidebar-menu .logo-env .logo a:hover{text-decoration:none}
 .sidebar-menu .logo-env .logo a.logo-collapsed{display:none}
 .sidebar-menu .logo-env .toggle-mobile-menu{display:none}
-.sidebar-menu .sidebar-menu-inner .logo-env{margin-bottom:0;padding:19px 45px;border-bottom:1px solid #313437}
+.sidebar-menu .sidebar-menu-inner .logo-env{margin-bottom:0;padding:19px 30px;border-bottom:1px solid #313437;text-align:center}
 
 /* 左侧菜单基础效果 */
 .sidebar-menu .main-menu{padding:0 30px;margin-top:20px;margin-bottom:20px}
@@ -341,12 +341,12 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .main-content .page-title .title-env{padding-left:30px}
 .main-content .page-title .title-env h1{font-size:27px;font-weight:normal;float:left;vertical-align:bottom}
 /* 快捷菜单 */
-.main-content .page-title .quick-link{font-size:14px;margin-left:5px}
-.main-content .page-title .quick-link i{margin-right:2px}
-.main-content .page-title .operate-env{float:right;padding-right:30px;margin-top:3px}
-.main-content .page-title .operate-env .fa{font-size:20px;color:#979898}
+.main-content .page-title .quick-link{font-size:14px;margin-left:10px}
+.main-content .page-title .quick-link i{margin-right:5px}
+.main-content .page-title .operate-env{float:right;padding-right:30px;}
+.main-content .page-title .operate-env .fa{color:#979898}
 .main-content .page-title .operate-env .fa:hover{color:#646565}
-.main-content .page-title .operate-env .fa-cog{position:absolute;height:41px;right:25px;padding:8px;transition:none}
+.main-content .page-title .operate-env .fa-cog{position:absolute;right:25px;padding:8px;transition:none}
 .main-content .page-title .operate-env .fa-cog.active{background-color:#fff;border:1px solid #ccc;border-bottom:0 none;color:#646565}
 
 /* 顶部导航 */
@@ -356,10 +356,11 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .user-info-navbar .user-info-menu > li.hover-line:hover:before{content:'';position:absolute;display:block;height:2px;top:0;left:0;right:0;background:#68b828}
 .user-info-navbar .user-info-menu > li > a{position:relative;display:block;padding:30px 20px;color:#606161;border-bottom:1px solid #fff}
 .user-info-navbar .user-info-menu > li > a.toggle-sidebar{padding-left:30px}
+.user-info-navbar .user-info-menu > li.user-profile{margin-right:10px}
 .user-info-navbar .user-info-menu > li.user-profile a{border-bottom-color:#ededed}
 .user-info-navbar .user-info-menu > li.user-profile.open > a{border-bottom-color:#fff}
 .user-info-navbar .user-info-menu > li.user-profile img{position:relative;top:8px;margin-top:-17px}
-.user-info-navbar .user-info-menu > li.user-profile img + span{margin-left:5px}
+.user-info-navbar .user-info-menu > li.user-profile img + span{margin-left:9px}
 .user-info-navbar .user-info-menu > li.user-profile i.fa{margin-left:5px}
 .user-info-navbar .user-info-menu > li.open{border-left-color:#ddd;border-right-color:#ddd;z-index:15}
 .user-info-navbar .user-info-menu > li.user-profile .dropdown-menu{width:250px}
@@ -378,6 +379,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .leaf-title i.fa{margin-right:4px}
 .leaf:hover{background-color:#f1f1f1}
 .leaf{height:32px;line-height:32px;transition:all 0.2s linear 0s}
+.leaf .options .form-control{padding-top:4px;padding-bottom:4px}
 .leaf .options a{background:url("images/cut-off-line.png") no-repeat scroll right 5px transparent;padding:0 5px}
 .leaf .options a:last-child{background:0 none}
 .leaf a.hover-link{visibility:hidden}

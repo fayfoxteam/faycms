@@ -24,7 +24,12 @@ class UserController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '用户';
+		$this->layout->subtitle = '所有用户';
+			
+		$this->layout->sublink = array(
+			'uri'=>array('admin/user/create'),
+			'text'=>'添加用户',
+		);
 		
 		//自定义参数
 		$this->layout->_setting_panel = '_setting_index';

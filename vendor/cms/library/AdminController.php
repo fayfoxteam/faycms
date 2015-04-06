@@ -140,7 +140,7 @@ class AdminController extends Controller{
 	 */
 	public function addMenuItem($sub_menu, $directory, $offset = -1){
 		foreach($this->_left_menu as $k => &$menu){
-			if($menu['directory'] == $directory){
+			if($menu['alias'] == $directory){
 				array_splice($menu['sub'], $offset, 0, array($sub_menu));
 			}
 		}
@@ -152,7 +152,7 @@ class AdminController extends Controller{
 	 */
 	public function removeMenuTeam($directory, $index = null){
 		foreach($this->_left_menu as $k => &$menu){
-			if($menu['directory'] == $directory){
+			if($menu['alias'] == $directory){
 				if($index === null){
 					unset($this->_left_menu[$k]);
 					break;

@@ -190,8 +190,22 @@ class PostController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '文章';
+		$this->layout->subtitle = '所有文章';
 		$this->layout->_setting_panel = '_setting_index';
+		
+		$cat_id = $this->input->get('cat_id', 'intval');
+		if($cat_id){
+			$sub_link_params = array(
+				'cat_id'=>$cat_id,
+			);
+		}else{
+			$sub_link_params = array();
+		}
+		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/post/create', $sub_link_params),
+			'text'=>'发布文章',
+		);
 		
 		$_setting_key = 'admin_post_index';
 		$_settings = Setting::model()->get($_setting_key);
@@ -243,7 +257,7 @@ class PostController extends AdminController{
 		if($this->input->get('end_time')){
 			$sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
 		}
-		if($cat_id = $this->input->get('cat_id', 'intval')){
+		if($cat_id){
 			if($this->input->get('with_child')){
 				//包含子分类搜索
 				$cats = Category::model()->getAllIdsByParentId($cat_id);

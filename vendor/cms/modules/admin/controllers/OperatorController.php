@@ -24,7 +24,12 @@ class OperatorController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '管理员';
+		$this->layout->subtitle = '所有管理员';
+			
+		$this->layout->sublink = array(
+			'uri'=>array('admin/operator/create'),
+			'text'=>'添加管理员',
+		);
 
 		//自定义参数
 		$this->layout->_setting_panel = '_setting_index';

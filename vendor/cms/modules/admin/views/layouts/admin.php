@@ -25,7 +25,7 @@ system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.min.js"></script>
 <title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
 </head>
 <body id="faycms">
@@ -46,7 +46,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 							'width'=>28,
 							'spare'=>'avatar',
 						))
-					?><span><?php echo F::session()->get('username')?><i class="fa fa-angle-down"></i></span></a>
+					?><span>您好，<?php echo F::session()->get('username')?><i class="fa fa-angle-down"></i></span></a>
 					<ul class="dropdown-menu" id="user-profile-menu">
 						<li><?php
 							echo Html::link('我的个人信息', array('admin/profile/index'), array(
@@ -90,7 +90,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				<div class="screen-meta-links">
 					<?php if(isset($_setting_panel)){
 						echo Html::link('', '#faycms-setting-content', array(
-							'class'=>'fa fa-cog faycms-setting-link',
+							'class'=>'fa fa-cog fa-2x faycms-setting-link',
                             'title'=>'设置',
 						));
 						echo Html::tag('div', array(

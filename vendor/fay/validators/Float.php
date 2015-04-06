@@ -61,20 +61,20 @@ class Float extends Validator{
 			$max = '1'.str_repeat('0', $this->length - $this->decimal);
 			if($value > $max || $value < -$max){
 				return $this->addError($this->_field, 'float', $this->too_long, array(
-					'max'=>($this->max && $this->max < $max) ? $this->max : $max,
-					'min'=>($this->min && $this->min > -$max) ? $this->min : -$max,
+					'max'=>($this->max !== null && $this->max < $max) ? $this->max : $max,
+					'min'=>($this->min !== null && $this->min > -$max) ? $this->min : -$max,
 					'decimal'=>$this->decimal,
 				));
 			}
 		}
 		
-		if($this->max && $value > $this->max){
+		if($this->max !== null && $value > $this->max){
 			return $this->addError($this->_field, 'float', $this->too_big, array(
 				'max'=>$this->max,
 			));
 		}
 		
-		if($this->min && $value < $this->min){
+		if($this->min !== null && $value < $this->min){
 			return $this->addError($this->_field, 'float', $this->too_small, array(
 				'min'=>$this->min,
 			));

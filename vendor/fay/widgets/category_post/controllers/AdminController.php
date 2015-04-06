@@ -47,7 +47,8 @@ class AdminController extends Widget{
 	
 	public function rules(){
 		return array(
-			array(array('number', 'last_view_time'), 'int')
+			array('number', 'int', array('min'=>1)),
+			array('last_view_time', 'int', array('min'=>0)),
 		);
 	}
 	

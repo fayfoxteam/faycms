@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\File;
 use fay\helpers\String;
+use fay\helpers\Date;
 // dump($lists);
 ?> 
 
@@ -18,7 +19,14 @@ use fay\helpers\String;
 <div class="row">
     <div class="col-md-9 col-sm-6 col-xs-5 col-xs-offset-1 text-center"><h4>候选人名单</h4></div>
     <div class="col-md-2 col-sm-5 col-xs-5">
-        <h5><button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票</button></h5>
+        <h5>
+            <?php if (F::app()->session->get('id')){ ?>
+                <a>用户: <span class="label label-default" data-toggle="tooltip" data-placement="top" title="最后登录时间:<?php echo Date::niceShort(F::app()->session->get('last_login_time')) ?>" ><?php echo F::app()->session->get('username'); ?></span> <a
+                        href="login/logout">退出登录</a></a>
+           <?php }else{ ?>
+            <button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票</button>
+            <?php } ?>
+        </h5>
     </div>
 </div>
 <div class="clear-10"></div>

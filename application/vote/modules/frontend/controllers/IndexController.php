@@ -8,6 +8,7 @@ class IndexController extends FrontendController
 {
     public function index()
     {
+
         $this->view->introduce = Page::model()->getByAlias('introduce');
         
         $this->view->lists = Post::model()->getByCatAlias('list');

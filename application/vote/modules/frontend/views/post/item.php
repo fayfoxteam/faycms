@@ -2,20 +2,27 @@
 use fay\helpers\Html;
 use fay\models\File;
 use fay\models\Prop;
+use fay\models\Post;
+use fay\helpers\Date;
 use fay\models\tables\PropValues;
 
 if (count($posts['props']) > 0)
 {
     $props = $posts['props'];
 }
-//dump($posts['files']);
+//dump($posts);
 ?>
 
 <div class="row">
     <ol class="breadcrumb">
         <li><a href="<?php echo $this->url()?>">主页</a></li>
         <li><a href="javascript:;"><?php echo $posts['title']?>老师</a></li>
-        <li class="pull-right">是否登录</li>
+        <?php if (F::app()->session->get('id')){ ?>
+        <li class="pull-right">用户: <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="最后登录时间:<?php echo Date::niceShort(F::app()->session->get('last_login_time')) ?>" ><?php echo F::app()->session->get('username'); ?></span> <a
+                href="login/logout">退出登录</a></li>
+        <?php }else{ ?>
+        <li class="pull-right">请到首页登录后进行投票</li>
+        <?php } ?>
     </ol>
 </div>
 
@@ -41,12 +48,19 @@ if (count($posts['props']) > 0)
                             <th>姓名</th>
                             <td><?php echo $posts['title'] ?></td>
                         </tr>
-                        <?php foreach ($props as $prop){?>
                         <tr>
-                            <th><?php echo $prop['title'] ?></th>
-                            <td><?php echo $prop['value'] ?></td>
+                            <th>所在院系</th>
+                            <td><?php echo Post::model()->getPropValueByAlias('department', $posts['id']) ?></td>
                         </tr>
-                        <?php }?>
+                        <tr>
+                            <th>工作年限(单位:年)</th>
+                            <td><?php echo Post::model()->getPropValueByAlias('worktime', $posts['id']) ?></td>
+                        </tr>
+                        <tr>
+                            <th>出生年月</th>
+                            <td><?php echo Post::model()->getPropValueByAlias('birthday', $posts['id']) ?></td>
+                        </tr>
+
                     </table>
                 </div>
             </div>
@@ -91,8 +105,7 @@ if (count($posts['props']) > 0)
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
-                        【教学理念】：以博雅教育为体，素质教育为本，知识传播与能力训练相结合，润物无声地培养学生的批判思维能力，以达到培养学生在学习过程中自我形成创造性思维习惯的目的。在担任外语学院常务副院长期间提出.
-                        <a href="" class="btn btn-xs btn-success">更多>></a>
+                        <?php echo Post::model()->getPropValueByAlias('concept', $posts['id']) ? : '暂无' ?>
                     </div>
                 </div>
             </div>
@@ -106,8 +119,7 @@ if (count($posts['props']) > 0)
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                     <div class="panel-body">
-                        本人以学生人生发展为教育、教学为基本出发点，不仅在课堂上传授知识，更重视学生大学期间所学知识在职业发展和人生道路中的潜力， 以及这些知识的生成和对社会的贡献，多年来，本人不仅在课堂上树立学科...
-                        <a href="" class="btn btn-xs btn-success">更多>></a>
+                        <?php echo Post::model()->getPropValueByAlias('character', $posts['id']) ? : '暂无' ?>
                     </div>
                 </div>
             </div>
@@ -121,8 +133,7 @@ if (count($posts['props']) > 0)
                 </div>
                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                     <div class="panel-body">
-                        本人带领德语语言文学专业教学团队取得优异的教学改革成果，形成了德语专业模块教学、交叉学科课程体系， 国际化教学特色，受到学校多次表彰，浙江大学报对本专业的国际化办学特色进行过专版报道。本人.
-                        <a href="" class="btn btn-xs btn-success">更多>></a>
+                        <?php echo Post::model()->getPropValueByAlias('improve', $posts['id']) ? : '暂无' ?>
                     </div>
                 </div>
             </div>

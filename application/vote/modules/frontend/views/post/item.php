@@ -1,11 +1,14 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
-//dump($posts);
+use fay\models\Prop;
+use fay\models\tables\PropValues;
+
 if (count($posts['props']) > 0)
 {
     $props = $posts['props'];
 }
+//dump($posts['files']);
 ?>
 
 <div class="row">
@@ -57,16 +60,25 @@ if (count($posts['props']) > 0)
             </div>
             <div class="panel-body">
                 <ul class="list-group">
-                    <li class="list-group-item">附件1</li>
-                    <li class="list-group-item">附件2</li>
-                    <li class="list-group-item">附件3</li>
-                    <li class="list-group-item">附件4</li>
-                    <li class="list-group-item">附件5</li>
+                    <?php  if (empty($posts['files'])) {
+                        echo "暂无附件";
+                    }else { ?>
+                       <?php foreach ($posts['files'] as $k => $file)
+                        { ?>
+                            <li class="list-group-item"><span class="glyphicon glyphicon-file"></span>
+                                <?php echo Html::link($file['description'], array(
+                                    'id' => $file['file_id'],
+                                    'name' => 'date'
+                                )); ?></li>
+                        <?php } ?>
+                    <?php } ?>
+
                 </ul>
             </div>
 
         </div>
     </div>
+    <div class="clear-20"></div>
     <div class="container">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
@@ -117,17 +129,11 @@ if (count($posts['props']) > 0)
         </div>
     </div>
 
-
-
-
+<!--留言区域-->
     <div class="clear-30"></div>
 
             <!-- UY BEGIN -->
             <div id="uyan_frame" class="container"></div>
             <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1984360"></script>
             <!-- UY END -->
-
-
-
-
 </div>

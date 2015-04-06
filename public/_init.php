@@ -46,3 +46,21 @@ function dump($arr, $encode = false, $return = false){
 		echo '</pre>';
 	}
 }
+function pr($arr, $encode = false, $return = false){
+    if($encode){
+        $arr = F::input()->filterR('fay\helpers\Html::encode', $arr);
+    }
+    if($return){
+        ob_start();
+        echo '<pre>';
+        print_r($arr);
+        echo '</pre>';
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }else{
+        echo '<pre>';
+        print_r($arr);
+        echo '</pre>';
+    }
+}

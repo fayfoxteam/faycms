@@ -18,7 +18,7 @@ use fay\helpers\String;
 <div class="row">
     <div class="col-md-9 col-sm-6 col-xs-5 col-xs-offset-1 text-center"><h4>候选人名单</h4></div>
     <div class="col-md-2 col-sm-5 col-xs-5">
-        <h5><button class="btn btn-sm btn-danger pull-right" data-toggle="modal" id="tooltip" data-placement="top" title="登录，登录，登陆就可以投了" data-target="#login-window" >登录进行投票</button></h5>
+        <h5><button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票</button></h5>
     </div>
 </div>
 <div class="clear-10"></div>
@@ -69,7 +69,7 @@ use fay\helpers\String;
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">登录</button>
+                <button type="button" class="btn btn-primary" id="login_in">登录</button>
             </div>
         </div>
     </div>

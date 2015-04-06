@@ -23,7 +23,7 @@
 	<script type="text/javascript" src="<?php echo $this->staticFile('js/jquery.1.11.1.js')?>"></script>
 	<script src="<?php echo $this->staticFile('js/bootstrap.min.js')?>"></script>
 	<script type="text/javascript" src="<?php echo $this->staticFile('js/vote.js')?>"></script>
-	
+
 
 </body>
 </html>

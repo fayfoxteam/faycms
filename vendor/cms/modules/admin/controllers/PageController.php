@@ -42,7 +42,8 @@ class PageController extends AdminController{
 		$this->layout->subtitle = '添加页面';
 		$this->view->cats = Category::model()->getTree('_system_page');
 		
-		$this->form()->setModel(Pages::model());
+		$this->form()->setModel(Pages::model())
+			->setData($this->input->request());
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
@@ -95,12 +96,26 @@ class PageController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '页面';
+		$this->layout->subtitle = '所有页面';
 		$this->layout->_setting_panel = '_setting_index';
 		$this->view->_settings = Setting::model()->get('admin_page_index');
 		$this->view->_settings === null && $this->view->_settings = array(
 			'cols'=>array('category', 'status', 'alias', 'last_modified_time', 'create_time', 'sort'),
 			'page_size'=>10,
+		);
+		
+		$cat_id = $this->input->get('cat_id', 'intval');
+		if($cat_id){
+			$sub_link_params = array(
+				'page_category'=>$cat_id,
+			);
+		}else{
+			$sub_link_params = array();
+		}
+		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/page/create', $sub_link_params),
+			'text'=>'添加页面',
 		);
 		
 		$sql = new Sql();
@@ -132,10 +147,10 @@ class PageController extends AdminController{
 				"p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time','strtotime'),
 			));
 		}
-		if($this->input->get('cat_id')){
+		if($cat_id){
 			$sql->joinLeft('page_categories', 'pc', 'p.id = pc.page_id')
 				->where(array(
-					'pc.cat_id = ?'=>$this->input->get('cat_id','intval'),
+					'pc.cat_id = ?'=>$cat_id,
 				))
 				->distinct(true);
 		}

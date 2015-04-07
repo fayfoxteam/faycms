@@ -206,6 +206,7 @@ var common = {
         //打开缩起左侧菜单
         $('.toggle-sidebar').on('click', function(){
         	$('#sidebar-menu').toggleClass('collapsed');
+        	$(window).resize();
         	$.ajax({
 				type: 'POST',
 				url: system.url('admin/system/setting'),
@@ -231,6 +232,12 @@ var common = {
                     },
                     'type' : 'inline'
                 });
+            });
+            
+            $('.faycms-setting-link').on('mouseover', function(){
+            	$(this).addClass('fa-spin');
+            }).on('mouseleave', function(){
+            	$(this).removeClass('fa-spin');
             });
 		}
 	},

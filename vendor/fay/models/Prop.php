@@ -22,7 +22,7 @@ class Prop extends Model{
 			'alias'=>$prop['alias'],
 			'element'=>$prop['element'],
 			'required'=>empty($prop['required']) ? 0 : 1,
-			'is_show'=>empty($prop['is_show']) ? 0 : 1,
+			'is_show'=>isset($prop['is_show']) ? $prop['is_show'] : 1,
 			'sort'=>isset($prop['sort']) ? $prop['sort'] : 0,
 			'create_time'=>\F::app()->current_time,
 		));

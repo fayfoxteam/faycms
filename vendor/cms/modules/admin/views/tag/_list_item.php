@@ -24,6 +24,6 @@ use fay\helpers\Html;
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'tag-sort w30',
+		'class'=>'form-control tag-sort w50',
 	))?></td>
 </tr>

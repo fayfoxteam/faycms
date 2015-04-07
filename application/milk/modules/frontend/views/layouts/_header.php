@@ -1,22 +1,29 @@
+<?php 
+ use fay\models\Option;
+ ?> 
   <header>
         <div class="container_12">
             <div class="grid_3">
                 <hgroup>
-                    <h1 id="site_logo"><a href="<?php echo $this->url()?>" title=""><img src="<?php echo $this->staticFile('img/logo.png')?>" alt="Tea and milk"></a></h1>
-                    <h2 id="site_description">Tea and milk</h2>
+                    <h1 id="site_logo"><a href="<?php echo $this->url()?>" title=""><img src="<?php echo $this->staticFile('img/miaosi.png')?>" width="155" height="66" alt="Tea and milk"></a></h1>
+                  
                 </hgroup>
             </div><!-- .grid_3 -->
 
             <div class="grid_9">
                 <div class="top_header">
                     <div class="welcome">
-                        免费送奶茶，不要问我为什么，有钱，任性！<span style="color: red;">店址：绍兴市城南大道900号。</span>
+                       <?php F::widget()->load('index-message')?>
                     </div><!-- .welcome -->
+                    
+                    <div class="btns">
+                        <ul>
+                        	<li><a href="javascript:;" onclick="setHomepage()">设为首页</a></li>
+                        	<li><a href="javascript:;" onclick="AddFavorite('<?php echo $this->url()?>', '<?php echo Option::get('sitename')?>')">加入收藏</a></li>
+                        </ul>
+                    </div>
+                            
 
-              
-                    <form class="search">
-                        <input type="submit" class="search_button" value="">
-                        <input type="text" name="search" class="search_form" value="" placeholder="Search entire store here...">
                     </form><!-- .search -->
                 </div><!-- .top_header -->
 

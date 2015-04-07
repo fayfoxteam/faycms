@@ -22,7 +22,7 @@ $(document).ready(function(){
 		delayTime:500,
 		autoPlay:true,
 		autoPage:true, 
-		trigger:"click" 
+		trigger:"mouseover" 
 	});
 
 });
@@ -39,10 +39,11 @@ $(document).ready(function(){
                 </div><!-- .grid_4 -->
                 
                 <div class="grid_4">
-                    <div class="bottom_block about_as">
+                    <div class="bottom_block about_as lh-25">
                         <h3><?php echo $about['title']?></h3>
-                        <?php echo String::niceShort($about['content'], 1450)?>
-                        <a href="<?php echo $this->url('page/'.$about['id'])?>">more</a>
+                        <?php echo $about['abstract']?>
+                        <a href="<?php echo $this->url('page/'.$about['id'])?>">&nbsp;更多>></a>
+                        <div class="clear-20"></div>
                     </div><!-- .about_as -->
                 </div><!-- .grid_4 -->
 
@@ -60,59 +61,6 @@ $(document).ready(function(){
          
 
             <div class="clear"></div>
-
-            <div id="brands">
-                <div class="c_header">
-                    <div class="grid_10">
-                        <h2>Shop by brands</h2>
-                    </div><!-- .grid_10 -->
-
-                    <div class="grid_2">
-                        <a id="next_c1" class="next arows" href="#"><span>Next</span></a>
-                        <a id="prev_c1" class="prev arows" href="#"><span>Prev</span></a>
-                    </div><!-- .grid_2 -->
-                </div><!-- .c_header -->
-
-                <div class="brands_list">
-                    <ul id="listing">
-                        <li>
-                            <div class="grid_2">
-                                <a href="#"><div><img src="<?php echo $this->staticFile('img/content/brand1.png')?>" alt="Brand 1" title=""></div></a>
-                            </div><!-- .grid_2 -->
-                        </li>
-                       <li>
-                            <div class="grid_2">
-                                <a href="#"><div><img src="<?php echo $this->staticFile('img/content/brand2.png')?>" alt="Brand 2" title=""></div></a>
-                            </div><!-- .grid_2 -->
-                        </li>
-                       <li>
-                            <div class="grid_2">
-                                <a href="#"><div><img src="<?php echo $this->staticFile('img/content/brand3.png')?>" alt="Brand 3" title=""></div></a>
-                            </div><!-- .grid_2 -->
-                        </li>
-                       <li>
-                            <div class="grid_2">
-                                <a href="#"><div><img src="<?php echo $this->staticFile('img/content/brand4.png')?>" alt="Brand 4" title=""></div></a>
-                            </div><!-- .grid_2 -->
-                        </li>
-                       <li>
-                            <div class="grid_2">
-                                <a href="#"><div><img src="<?php echo $this->staticFile('img/content/brand5.png')?>" alt="Brand 5" title=""></div></a>
-                            </div><!-- .grid_2 -->
-                        </li>
-                       <li>
-                            <div class="grid_2">
-                                <a href="#"><div><img src="<?php echo $this->staticFile('img/content/brand6.png')?>" alt="Brand 6" title=""></div></a>
-                            </div><!-- .grid_2 -->
-                        </li>
-                       <li>
-                            <div class="grid_2">
-                                <a href="#"><div><img src="<?php echo $this->staticFile('img/content/brand7.png')?>" alt="Brand 7" title=""></div></a>
-                            </div><!-- .grid_2 -->
-                        </li>
-                    </ul><!-- #listing -->
-                </div><!-- .brands_list -->
-            </div><!-- #brands -->
 
           
         </div><!-- .container_12 -->

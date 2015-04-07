@@ -1,0 +1,22 @@
+@CHARSET "GB18030";
+
+.lh-25 { line-height: 30px!important; }
+.clear { clear: both; }
+.clear-0 { clear: both; height: 0px; font-size: 0px; float: none; overflow: hidden; }
+.clear-1 { clear: both; height: 1px; font-size: 0px; float: none; overflow: hidden; }
+.clear-2 { clear: both; height: 2px; font-size: 0px; float: none; overflow: hidden; }
+.clear-3{ clear: both; height: 3px; font-size: 0px; float: none; overflow: hidden; }
+.clear-4{ clear: both; height: 4px; font-size: 0px; float: none; overflow: hidden; }
+.clear-5 { clear: both; height: 5px; font-size: 0px; float: none; overflow: hidden; }
+.clear-7 { clear: both; height: 7px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-10 { clear: both; height: 10px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-15 { clear: both; height: 15px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-20 { clear: both; height: 20px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-25 { clear: both; height: 25px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-30 { clear: both; height: 30px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-35 { clear: both; height: 35px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-40 { clear: both; height: 40px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-50 { clear: both; height: 50px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-60 { clear: both; height: 60px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-70 { clear: both; height: 70px; font-size: 0px;  float: none; overflow: hidden; }
+.clear-80 { clear: both; height: 80px; font-size: 0px;  float: none; overflow: hidden; }

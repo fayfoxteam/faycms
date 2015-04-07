@@ -6,11 +6,11 @@ use fay\models\File;
   
   <div class="banner-box">
 	<div class="bd">
-        <ul>        
+        <ul style="width: 100%!important;">        
         <?php foreach ($files as $f){?>  	    
-            <li>
+            <li style="width: 100%!important;">
                 <div class="m-width">
-                <a href="javascript:void(0);"><?php echo Html::img($f['file_id'], File::PIC_ORIGINAL, array('width'=>'100%'))?></a>
+            <?php echo Html::img($f['file_id'], File::PIC_ORIGINAL, array('width'=>'100%'))?>
                 </div>
             </li>
             <?php }?>

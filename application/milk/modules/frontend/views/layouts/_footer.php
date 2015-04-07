@@ -57,16 +57,10 @@
         <div class="footer_info">
             <div class="container_12">
                 <div class="grid_6">
-                    <p class="copyright">© Designed by <a href="http://whis.fayfox.com/" target="_blank" title="whis">whis...</a></p>
+                    <p class="copyright">© Designed by <a href="http://whis.fayfox.com/" target="_blank" title="whis">whis... </a><?php echo Option::get('beian')?></p>
                 </div><!-- .grid_6 -->
 
-                <div class="grid_6">
-                    <div class="soc">
-                        <a class="google" href="#"></a>
-                        <a class="twitter" href="#"></a>
-                        <a class="facebook" href="#"></a>
-                    </div><!-- .soc -->
-                </div><!-- .grid_6 -->
+   
 
                 <div class="clear"></div>
             </div><!-- .container_12 -->

@@ -4,10 +4,13 @@ namespace vote\library;
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogs;
+use fay\core\Loader;
+use Predis\Client;
 class FrontendController extends Controller
 {
     public $layout_template = 'main';
     public $current_user = 0;
+    public $redis;
     
     public function __construct()
     {
@@ -37,5 +40,20 @@ class FrontendController extends Controller
         header('Content-type:application/json;charset=UTF-8');
 
         die(json_encode($data));
+    }
+    
+    public function redis()
+    {
+        Loader::vendor('predis/autoload');
+        
+        if ($this->redis !== null)
+        {
+            return $this->redis;
+        }
+        $this->redis = new Client(array(
+            'scheme' => 'tcp',
+            'host'   => 'redis',
+            'port'   => 6379,
+        )); 
     }
 }

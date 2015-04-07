@@ -7,11 +7,10 @@ $(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 	$('#tooltip').tooltip();
 
-
 });
 
 
-var login =
+var vote =
 {
     'login_in': function()
     {
@@ -49,10 +48,48 @@ var login =
             });
         });
     },
+    'vote': function()
+    {
+        $('#vote_submit').on('click', function(){
+            var data = [];
+            $('.checked:checked').each(function(){
+                data.push($(this).data('id'));
+                //console.log(this);
+            });
+            var user_id = system.user_id;
+            if (!user_id)
+            {
+                alert('请登录后再进行投票');
+            }
+            $.ajax({
+                url: 'index/vote',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    data: data,
+                    user_id: user_id
+                },
+                success: function(data)
+                {
+                    if (data.code == 0)
+                    {
+                        alert('投票成功');
+                        window,location.reload();
+                    }
+                    else
+                    {
+                        alert(data.message);
+                    }
+                }
+            });
+        });
+    },
     'init': function()
     {
         this.login_in();
+        this.vote();
     }
 }
 
-login.init();
+vote.init();
+

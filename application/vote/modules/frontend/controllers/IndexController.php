@@ -15,4 +15,11 @@ class IndexController extends FrontendController
         
         $this->view->render();
     }
+
+    public function vote()
+    {
+        $message = $this->input->post('user_id', 'intval');
+        $data = array('code' => 1, 'message' => $message);
+        $this->finish($data);
+    }
 }

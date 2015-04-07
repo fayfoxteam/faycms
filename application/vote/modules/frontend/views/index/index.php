@@ -43,10 +43,10 @@ use fay\helpers\Date;
        
         <div class="checkbox">
             <label for="data-id-<?php echo $list['id']?>">
-                <input type="checkbox" name="checkout" id="data-id-<?php echo $list['id']?>" /> 
-                <span data-toggle="tooltip" data-placement="top" title="选唐晓平，唐晓平，晓平，平。。come on baby">选择</span>
+                <input type="checkbox" name="checkout" class="checked" id="data-id-<?php echo $list['id'] ?>" data-id="<?php echo $list['id']?>" />
+                <span data-toggle="tooltip" data-placement="top" title="点击选择<?php echo $list['title'] ?>老师">选择</span>
             </label>
-            <a href="<?php echo $this->url('post/'.$list['id'])?>" class="btn btn-xs btn-info pull-right" data-toggle="tooltip" data-placement="top" title="点我查看详情">查看详情</a>
+            <a href="<?php echo $this->url('post/'.$list['id'])?>" class="btn btn-xs btn-info pull-right">查看详情</a>
         </div>   
         </p>
     </div>
@@ -54,7 +54,11 @@ use fay\helpers\Date;
 </div>
 </div>
 <?php }?>
-
+    <?php if (F::app()->session->get('id')){ ?>
+<div class="container">
+    <div class="btn btn-primary form-control" id="vote_submit">投票</div>
+</div>
+    <?php } ?>
 
 </div>
 
@@ -83,3 +87,4 @@ use fay\helpers\Date;
     </div>
 </div>
 <hr />
+

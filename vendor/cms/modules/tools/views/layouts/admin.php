@@ -35,10 +35,29 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 		<nav class="user-info-navbar">
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
-				<li class="hover-line"><a href="<?php echo $this->url()?>" title="网站首页" target="_blank"><i class="fa fa-home"></i></a></li>
-				<li class="hover-line"><a href="<?php echo $this->url('tools')?>" title="Tools" target="_blank"><i class="fa fa-wrench"></i></a></li>
+				<?php
+					foreach(F::app()->_top_nav as $nav){
+						if(isset($nav['role'])){
+							if(is_array($nav['role']) && !in_array(F::app()->session->get('role'), $nav['role'])){
+								continue;
+							}else if(F::app()->session->get('role') != $nav['role']){
+								continue;
+							}
+						}
+						echo Html::link('', array($nav['router']), array(
+							'target'=>isset($nav['target']) ? $nav['target'] : false,
+							'title'=>$nav['label'],
+							'prepend'=>'<i class="'.$nav['icon'].'"></i>',
+							'wrapper'=>array(
+								'tag'=>'li',
+								'class'=>'hover-line',
+							)
+						));
+					}
+				?>
 			</ul>
 			<ul class="user-info-menu fr">
+			<?php if(F::session()->get('id')){?>
 				<li class="dropdown-container user-profile">
 					<a href="#user-profile-menu" class="dropdown"><?php 
 						echo Html::img(F::session()->get('avatar'), File::PIC_THUMBNAIL, array(
@@ -68,6 +87,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						?></li>
 					</ul>
 				</li>
+			<?php }?>
 			</ul>
 		</nav>
 		<div class="page-title">

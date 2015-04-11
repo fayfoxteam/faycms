@@ -22,7 +22,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 		<p class="fc-grey">注意：该设置仅在创建文章时有效，编辑文章时强制为文章创建时所使用的编辑器进行编辑</p>
 		<?php
 			echo F::form('setting')->inputRadio('editor', Posts::CONTENT_TYPE_VISUAL_EDITOR, array(
-				'after'=>'可视化编辑器（IE6,7为Kindeditor, 其它浏览器为CKeditor。普通用户请选择此项）',
+				'after'=>'可视化编辑器（CKeditor，普通用户请选择此项）',
 				'wrapper'=>array(
 					'tag'=>'label',
 					'wrapper'=>'p',

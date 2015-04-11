@@ -16,6 +16,26 @@ class ToolsController extends Controller{
 	 */
 	public $current_user = 0;
 	
+	public $_top_nav = array(
+		array(
+			'label'=>'站点首页',
+			'icon'=>'fa fa-home',
+			'router'=>null,
+			'target'=>'_blank',
+		),
+		array(
+			'label'=>'控制台',
+			'icon'=>'fa fa-dashboard',
+			'router'=>'admin/index/index',
+		),
+		array(
+			'label'=>'Tools',
+			'icon'=>'fa fa-wrench',
+			'router'=>'tools',
+			'role'=>Users::ROLE_SUPERADMIN,
+		),
+	);
+	
 	public function __construct(){
 		parent::__construct();
 		//重置session_namespace
@@ -31,7 +51,7 @@ class ToolsController extends Controller{
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		if($this->session->get('role') != Users::ROLE_SUPERADMIN){
-			throw new HttpException('仅超级管理员可访问此模块', 500);
+			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
 		//设置当前用户id
 		$this->current_user = $this->session->get('id');

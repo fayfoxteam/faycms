@@ -18,7 +18,8 @@ CREATE TABLE `{{$prefix}}actions` (
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `is_public` tinyint(1) NOT NULL DEFAULT '0',
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `router` (`router`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_caches`;
@@ -463,7 +464,7 @@ CREATE TABLE `{{$prefix}}notifications` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `content` text NOT NULL,
-  `from` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  `sender` int(10) unsigned NOT NULL DEFAULT '0',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `active_key` varchar(32) NOT NULL DEFAULT '',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
@@ -714,15 +715,15 @@ CREATE TABLE `{{$prefix}}templates` (
 
 DROP TABLE IF EXISTS `{{$prefix}}user_notifications`;
 CREATE TABLE `{{$prefix}}user_notifications` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `to` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `notification_id` int(10) unsigned NOT NULL DEFAULT '0',
   `read` tinyint(1) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `processed` tinyint(1) NOT NULL DEFAULT '0',
   `ignored` tinyint(1) NOT NULL DEFAULT '0',
   `option` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`user_id`,`notification_id`),
+  KEY `unread` (`user_id`,`read`,`deleted`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;

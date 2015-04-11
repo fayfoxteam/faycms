@@ -98,7 +98,8 @@ class OperatorController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '添加管理员';
 		
-		$this->form()->setModel(Users::model())
+		$this->form()->setScene('create')
+			->setModel(Users::model())
 			->addRule(array(array('username', 'password', 'role'), 'required'));
 		if($this->input->post()){
 			
@@ -142,7 +143,8 @@ class OperatorController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑管理员信息';
 		$id = $this->input->request('id', 'intval');
-		$this->form()->setModel(Users::model());
+		$this->form()->setScene('edit')
+			->setModel(Users::model());
 		if($this->input->post()){
 			if($this->form()->check()){
 				//两次密码输入一致

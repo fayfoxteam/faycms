@@ -38,10 +38,10 @@ use fay\models\tables\Props;
 	}?></td>
 	<td><?php echo $data['required'] ? '是' : '否';?></td>
 	<td><?php echo $data['is_show'] ? '<span class="fc-green">是</span>' : '否';?></td>
-	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
+	<td class="w90"><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'edit-sort w30',
+		'class'=>'form-control w50 ib edit-sort w30',
 	))?></td>
 </tr>

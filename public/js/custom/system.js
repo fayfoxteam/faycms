@@ -47,7 +47,9 @@ var system = {
 		today.setSeconds(0);
 		var today_timestamp = parseInt(today.getTime() / 1000);
 		
-		if(dv < 60){
+		if(dv < 3){
+			return '刚刚';
+		}else if(dv < 60){
 			//一分钟内
 			return dv+'秒前';
 		}else if(dv < 3600){

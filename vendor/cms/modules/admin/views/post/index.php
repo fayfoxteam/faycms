@@ -90,37 +90,33 @@ $cols = F::form('setting')->getData('cols', array());
 </div>
 <form method="post" action="<?php echo $this->url('admin/post/batch')?>" id="batch-form" class="form-inline">
 	<div class="row">
-		<div class="col-5">
-			<div class="fl cf"><?php
-				if(F::app()->input->get('deleted')){
-					echo Html::select('batch_action', array(
-						''=>'批量操作',
-						'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
-						'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
-					), '', array(
-						'class'=>'form-control',
-					));
-				}else{
-					echo Html::select('batch_action', array(
-						''=>'批量操作',
-						'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
-						'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
-						'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
-						'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
-						'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
-					), '', array(
-						'class'=>'form-control',
-					));
-				}
-				echo Html::link('提交', 'javascript:;', array(
-					'id'=>'batch-form-submit',
-					'class'=>'btn btn-sm ml5',
+		<div class="col-5"><?php
+			if(F::app()->input->get('deleted')){
+				echo Html::select('batch_action', array(
+					''=>'批量操作',
+					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
+				), '', array(
+					'class'=>'form-control',
 				));
-			?></div>
-		</div>
-		<div class="col-7">
-			<?php $listview->showPager()?>
-		</div>
+			}else{
+				echo Html::select('batch_action', array(
+					''=>'批量操作',
+					'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
+					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
+					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
+					'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
+					'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
+				), '', array(
+					'class'=>'form-control',
+				));
+			}
+			echo Html::link('提交', 'javascript:;', array(
+				'id'=>'batch-form-submit',
+				'class'=>'btn btn-sm ml5',
+			));
+		?></div>
+		<div class="col-7"><?php $listview->showPager()?></div>
 	</div>
 	<div class="row">
 		<div class="col-12">
@@ -216,35 +212,33 @@ $cols = F::form('setting')->getData('cols', array());
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-5">
-			<div><?php
-				if(F::app()->input->get('deleted')){
-					echo Html::select('batch_action_2', array(
-						''=>'批量操作',
-						'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
-						'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
-					), '', array(
-						'class'=>'form-control',
-					));
-				}else{
-					echo Html::select('batch_action_2', array(
-						''=>'批量操作',
-						'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
-						'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
-						'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
-						'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
-						'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
-					), '', array(
-						'class'=>'form-control',
-					));
-				}
-				echo Html::link('提交', 'javascript:;', array(
-					'id'=>'batch-form-submit-2',
-					'class'=>'btn btn-sm ml5',
+		<div class="col-7 fr"><?php $listview->showPager()?></div>
+		<div class="col-5"><?php
+			if(F::app()->input->get('deleted')){
+				echo Html::select('batch_action_2', array(
+					''=>'批量操作',
+					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
+				), '', array(
+					'class'=>'form-control',
 				));
-			?></div>
-		</div>
-		<div class="col-7"><?php $listview->showPager()?></div>
+			}else{
+				echo Html::select('batch_action_2', array(
+					''=>'批量操作',
+					'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
+					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
+					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
+					'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
+					'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
+				), '', array(
+					'class'=>'form-control',
+				));
+			}
+			echo Html::link('提交', 'javascript:;', array(
+				'id'=>'batch-form-submit-2',
+				'class'=>'btn btn-sm ml5',
+			));
+		?></div>
 	</div>
 </form>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>

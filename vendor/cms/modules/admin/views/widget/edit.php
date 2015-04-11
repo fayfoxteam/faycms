@@ -14,9 +14,15 @@ use fay\helpers\Html;
 					<h4>操作</h4>
 				</div>
 				<div class="box-content">
-					<div><?php echo F::form('widget')->submitLink('保存', array(
-						'class'=>'btn',
-					))?></div>
+					<div><?php
+						echo F::form('widget')->submitLink('保存', array(
+							'class'=>'btn',
+						));
+						echo Html::link('预览', array('widget/load/'.$widget['alias']), array(
+							'class'=>'btn btn-grey ml5',
+							'target'=>'_blank',
+						));
+					?></div>
 					<div class="misc-pub-section">
 						<strong>是否启用？</strong>
 						<?php echo Html::inputRadio('f_widget_enabled', 1, ($widget['enabled']) ? true : false, array('label'=>'是'))?>

@@ -33,7 +33,7 @@ if(method_exists($exception, 'getLevel')){
 <body>
 <div class="header">
 	<h1><?php echo $level, ' - ', $exception->getMessage()?></h1>
-	<?php if(isset($exception->description)){
+	<?php if(!empty($exception->description)){
 		echo '<p>', $exception->description, '</p>';
 	}?>
 	<i class="icon"></i>

@@ -306,7 +306,7 @@ class DbCompareController extends ToolsController{
 		$name = $this->input->get('name');
 		
 		if($this->input->get('truncate')){
-			$to_obj->fetchAll("TRUNCATE {$from_config['prefix']}{$name}");
+			$to_obj->fetchAll("TRUNCATE {$to_config['prefix']}{$name}");
 		}
 		
 		$data = $from_obj->fetchAll("SELECT {$fields} FROM {$from_config['prefix']}{$name}");

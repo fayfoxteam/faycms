@@ -67,6 +67,7 @@ use fay\models\tables\Props;
 	<label class="title">属性值</label>
 	<?php echo F::form()->inputText('', array(
 		'id'=>'prop-title',
+		'class'=>'form-control w200 ib',
 	))?>
 	<a href="javascript:;" class="btn btn-grey btn-sm" id="add-prop-value-link">添加</a>
 	<span class="fc-grey">（添加后可拖拽排序）</span>
@@ -83,6 +84,7 @@ use fay\models\tables\Props;
 						'data-params'=>'{max:255}',
 						'data-label'=>'属性值',
 						'data-required'=>'required',
+						'class'=>'form-control',
 					), $pv['title'])?>
 				</div>
 			</div>
@@ -103,7 +105,7 @@ $(function(){
 			'<a class="dragsort-rm" href="javascript:;"></a>',
 			'<a class="dragsort-item-selector"></a>',
 			'<div class="dragsort-item-container">',
-				'<input type="text" name="prop_values[]" value="'+system.encode($("#prop-title").val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" />',
+				'<input type="text" name="prop_values[]" value="'+system.encode($("#prop-title").val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" class="form-control" />',
 			'</div>',
 		'</div>'].join(''));
 		$('#prop-list .dragsort-item:last').fadeIn();

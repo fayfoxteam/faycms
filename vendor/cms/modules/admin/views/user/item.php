@@ -5,42 +5,40 @@ use fay\helpers\Html;
 ?>
 <div class="row">
 	<div class="col-12">
-		<div class="detail-panel">
-			<div class="order-dashboard">
-				<div class="bd">
-					<div class="trade-status">
-						<strong>
-							审核状态：
-							<?php if($user['status'] == Users::STATUS_PENDING){?>
-								<span class="fc-orange">未审核</span>
-							<?php }else if($user['status'] == Users::STATUS_VERIFIED){?>
-								<span class="fc-green">通过审核</span>
-							<?php }else if($user['status'] == Users::STATUS_VERIFY_FAILED){?>
-								<span class="fc-red">未通过审核</span>
-							<?php }else if($user['status'] == Users::STATUS_UNCOMPLETED){?>
-								<span class="fc-orange">用户信息不完整</span>
-							<?php }?>
-						</strong>
-						|
-						<strong>
-							登陆状态：
-							<?php if($user['block']){?>
-								<span class="fc-red">限制登陆</span>
-							<?php }else{?>
-								<span class="fc-green">正常登陆</span>
-							<?php }?>
-						</strong>
-					</div>
-					<div class="trade-option">
-					<?php 
-						if(F::app()->checkPermission('admin/user/set-status')){
-							echo Html::link('设置状态', '#status-dialog', array(
-								'title'=>'',
-								'id'=>'set-status-link',
-								'class'=>'btn fancybox-inline',
-							));
-						}?>
-					</div>
+		<div class="box">
+			<div class="box-content">
+				<div class="trade-status">
+					<strong>
+						审核状态：
+						<?php if($user['status'] == Users::STATUS_PENDING){?>
+							<span class="fc-orange">未审核</span>
+						<?php }else if($user['status'] == Users::STATUS_VERIFIED){?>
+							<span class="fc-green">通过审核</span>
+						<?php }else if($user['status'] == Users::STATUS_VERIFY_FAILED){?>
+							<span class="fc-red">未通过审核</span>
+						<?php }else if($user['status'] == Users::STATUS_UNCOMPLETED){?>
+							<span class="fc-orange">用户信息不完整</span>
+						<?php }?>
+					</strong>
+					|
+					<strong>
+						登陆状态：
+						<?php if($user['block']){?>
+							<span class="fc-red">限制登陆</span>
+						<?php }else{?>
+							<span class="fc-green">正常登陆</span>
+						<?php }?>
+					</strong>
+				</div>
+				<div class="trade-option">
+				<?php 
+					if(F::app()->checkPermission('admin/user/set-status')){
+						echo Html::link('设置状态', '#status-dialog', array(
+							'title'=>'',
+							'id'=>'set-status-link',
+							'class'=>'btn fancybox-inline',
+						));
+					}?>
 				</div>
 			</div>
 			<div class="bd">

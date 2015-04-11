@@ -7,8 +7,8 @@
 					<?php echo F::form()->textarea('key', array(
 						'class'=>'form-control h200 autosize',
 					));?>
-					<a href="javascript:;" id="form-submit" class="btn mt5">运行</a>
-					<a href="javascript:;" id="form-reset" class="btn btn-grey mt5">重置</a>
+					<a href="javascript:;" id="form-submit" class="btn mt5">Run</a>
+					<a href="javascript:;" id="form-reset" class="btn btn-grey mt5">Reset</a>
 				</div>
 			</div>
 		</div>

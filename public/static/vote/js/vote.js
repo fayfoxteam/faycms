@@ -25,6 +25,7 @@ var vote =
             if (!password)
             {
                 alert('请输入密码');
+                return;
             }
             $.ajax({
                 url:'login/index',
@@ -54,12 +55,18 @@ var vote =
             var data = [];
             $('.checked:checked').each(function(){
                 data.push($(this).data('id'));
-                //console.log(this);
             });
+            console.log(data);
             var user_id = system.user_id;
             if (!user_id)
             {
                 alert('请登录后再进行投票');
+                return;
+            }
+            if (data.length == 0)
+            {
+            	alert('请选择老师进行投票');
+            	return;
             }
             $.ajax({
                 url: 'index/vote',

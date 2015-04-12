@@ -19,15 +19,43 @@ class IndexController extends FrontendController
 
     public function vote()
     {
+        $data['code'] = 0;
         $message = $this->input->post('user_id', 'intval');
-        $data = array('code' => 1, 'message' => $message);
+        $user_id = $this->session->get('id');
+        //调用redis
+        $redis = $this->redis();
+        if (!$redis->exists(getStudentKey($user_id)))
+        {
+            $vote_data = $this->input->post('data');
+            if (!empty($vote_data) && is_array($vote_data))
+            {
+//                dump($vote_data);die;
+                foreach ($vote_data as $key => $teacher)
+                {
+                    $teacher_key = getTeacherKey($teacher);
+                    $redis->sAdd($teacher_key, $user_id);
+                    $student_key = getStudentKey($user_id);
+                    $redis->set($student_key, $user_id);
+                }
+            }
+        }
+        else 
+        {
+            $this->finish(array('code' => 2, 'message' => '您已经投过了，请不要重复投'));
+        }
         $this->finish($data);
     }
     
     public function test()
     {
+//         dump($_SESSION);
+//         echo $this->session->get('id');
         $redis = $this->redis();
-        dump($redis);
+        $redis->sAdd('name', '22');
+        $redis->sAdd('name', '33');
+//         $redis->set('name', 'wwhis', 10);
+//         $redis->incr('name');
     }
+    
 
 }

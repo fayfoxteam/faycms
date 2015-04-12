@@ -4,6 +4,8 @@ use fay\models\File;
 use fay\helpers\String;
 use fay\helpers\Date;
 // dump($lists);
+$redis = new Redis();
+$redis->connect('redis', 6379, 300);
 ?> 
 
 
@@ -21,8 +23,8 @@ use fay\helpers\Date;
     <div class="col-md-2 col-sm-5 col-xs-5">
         <h5>
             <?php if (F::app()->session->get('id')){ ?>
-                <a>用户: <span class="label label-default" data-toggle="tooltip" data-placement="top" title="最后登录时间:<?php echo Date::niceShort(F::app()->session->get('last_login_time')) ?>" ><?php echo F::app()->session->get('username'); ?></span> <a
-                        href="login/logout">退出登录</a></a>
+                <a href="">用户: <span class="label label-default" data-toggle="tooltip" data-placement="top" title="最后登录时间:<?php echo Date::niceShort(F::app()->session->get('last_login_time')) ?>" ><?php echo F::app()->session->get('username'); ?></span> </a>
+                <a href="login/logout">退出登录</a>
            <?php }else{ ?>
             <button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票</button>
             <?php } ?>
@@ -56,7 +58,17 @@ use fay\helpers\Date;
 <?php }?>
     <?php if (F::app()->session->get('id')){ ?>
 <div class="container">
-    <div class="btn btn-primary form-control" id="vote_submit">投票</div>
+    <?php
+        if ($user_id = F::session()->get('id'))
+        {
+            if ($redis->exists(getStudentKey($user_id)))
+            {
+               ?>
+               <div class="btn btn-warning form-control" disabled>您已经投过了，只有一次机会的哦</div>
+        <?php }else { ?>
+            <div class="btn btn-primary form-control" id="vote_submit">投票</div>
+        <?php } } ?>
+   
 </div>
     <?php } ?>
 

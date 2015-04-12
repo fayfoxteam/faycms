@@ -27,13 +27,20 @@ var vote =
                 alert('请输入密码');
                 return;
             }
+            var vcode = $('#vcode').val();
+            if (!vcode)
+            {
+            	alert('请输入验证码');
+            	return;
+            }
             $.ajax({
                 url:'login/index',
                 type: 'POST',
                 dataType: 'json',
                 data: {
                     username: username,
-                    password: password
+                    password: password,
+                    vcode: vcode
                 },
                 success: function(data)
                 {

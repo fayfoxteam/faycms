@@ -3,9 +3,11 @@ use fay\helpers\Html;
 use fay\models\File;
 use fay\helpers\String;
 use fay\helpers\Date;
+
 // dump($lists);
 $redis = new Redis();
 $redis->connect('redis', 6379, 300);
+
 ?> 
 
 
@@ -89,6 +91,20 @@ $redis->connect('redis', 6379, 300);
                 <div class="form-group">
                     <label for="password">密码:</label>
                     <input type="password" name="password" id="password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="vcode">验证码</label>
+                    <?php echo F::form()->inputText('vcode', array(
+									'class'=>'form-control',
+                                    'id' => 'vcode'
+								));
+								echo Html::img($this->url('file/vcode', array(
+									'w'=>128,
+									'h'=>30
+								)).'?', 1, array(
+									'onClick'=>'this.src=this.src+Math.random()',
+									'class'=>'vam mt-10',
+								));?>
                 </div>
             </div>
             <div class="modal-footer">

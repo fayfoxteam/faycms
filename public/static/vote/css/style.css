@@ -5,13 +5,14 @@ a:hover { text-decoration: none; }
 .panel-heading { padding: 5px 15px; }
 .panel-body { padding: 10px; }
 
+
 .thumbnail { margin-bottom: 0px; }
 .checkbox { display: inline-block; margin: 10px 0; width: 100%;  }
 
 .footer { position: relative; padding-top: 20px; bottom: 0; width: 100%; height: 60px; background: #F6F7F9; }
 
 
-
+.mt-10 { margin-top: 10px; }
 .clear { clear: both; }
 .clear-0 { clear: both; height: 0px; font-size: 0px; float: none; overflow: hidden; }
 .clear-1 { clear: both; height: 1px; font-size: 0px; float: none; overflow: hidden; }

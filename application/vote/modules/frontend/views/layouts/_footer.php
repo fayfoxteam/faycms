@@ -1,8 +1,11 @@
+<?php 
 
+use fay\models\Option;
+?>
 <nav class="footer">
 <div class="container">
 <div class="row">
-<p class="text-center">designed by whis...</p>
+<p class="text-center"><?php echo Option::get('copyright')?></p>
 </div>
 
 </div>

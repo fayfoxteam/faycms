@@ -57,9 +57,18 @@ $redis->connect('redis', 6379, 300);
  </div>   
 </div>
 </div>
+
 <?php }?>
+
+
     <?php if (F::app()->session->get('id')){ ?>
 <div class="container">
+
+    <div class="checkbox">
+        <label>
+          <input type="checkbox" id="checkAll"> 全选
+        </label>
+    </div>
     <?php
         if ($user_id = F::session()->get('id'))
         {
@@ -116,3 +125,4 @@ $redis->connect('redis', 6379, 300);
 </div>
 <hr />
 
+<script src="<?php echo $this->staticFile('js/jquery-check-all.min.js')?>"></script>

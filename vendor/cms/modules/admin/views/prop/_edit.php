@@ -42,16 +42,18 @@ use fay\models\tables\Props;
 						'after'=>$v,
 					));
 				}
-				echo Html::inputRadio("props[{$p['id']}]", '', false, array(
-					'wrapper'=>array(
-						'tag'=>'label',
+				if(!$p['required']){
+					echo Html::inputRadio("props[{$p['id']}]", '', false, array(
 						'wrapper'=>array(
-							'tag'=>'p',
-							'class'=>'ib w240',
-						)
-					),
-					'after'=>'--清空此选项--',
-				));
+							'tag'=>'label',
+							'wrapper'=>array(
+								'tag'=>'p',
+								'class'=>'ib w240',
+							)
+						),
+						'after'=>'--清空此选项--',
+					));
+				}
 			break;
 			case Props::ELEMENT_SELECT:
 				echo Html::select("props[{$p['id']}]", array(''=>'--未选择--')+$p['values'], isset($data[$p['id']]) ? $data[$p['id']]['value'] : array(), array(

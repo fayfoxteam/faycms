@@ -28,9 +28,6 @@ use fay\models\File;
 		</strong>
 		<div class="row-actions">
 			<?php
-				echo Html::link('查看', array('admin/user/item', array(
-					'id'=>$data['id'],
-				)), array(), true);
 				echo Html::link('编辑', array('admin/user/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);

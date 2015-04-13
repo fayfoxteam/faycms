@@ -29,7 +29,7 @@ p, pre, code, .track-table{margin:12px 15px 12px 15px;}
 <body>
 	<div id="container">
 		<h1>出错啦</h1>
-		<div class="content">服务器内部错误</div>
+		<div class="content"><?php echo $message?></div>
 	</div>
 </body>
 </html>

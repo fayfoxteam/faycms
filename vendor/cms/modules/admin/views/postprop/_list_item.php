@@ -44,7 +44,7 @@ use fay\models\tables\Props;
 		break;
 	}?></td>
 	<td><?php echo $data['required'] ? '是' : '否';?></td>
-	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
+	<td class="w90"><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],

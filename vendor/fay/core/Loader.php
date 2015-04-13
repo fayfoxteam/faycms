@@ -5,29 +5,32 @@ class Loader{
 	/**
 	 * 自动加载类库
 	 * @param String $class_name 类名
+	 * @throws ErrorException
 	 */
 	public static function autoload($class_name){
 		if(strpos($class_name, 'fay') === 0 || strpos($class_name, 'cms') === 0 ){
 			$file_path = str_replace('\\', '/', SYSTEM_PATH.$class_name.'.php');
 			if(file_exists($file_path)){
 				require $file_path;
-				return;
+				return true;
 			}
 		}else if(strpos($class_name, APPLICATION) === 0){
 			$file_path = str_replace('\\', '/', APPLICATION_PATH.substr($class_name, strlen(APPLICATION)).'.php');
 			if(file_exists($file_path)){
 				require $file_path;
-				return;
+				return true;
 			}
 		}
-		throw new Exception("Class '{$class_name}' not found");
+		//此处若直接抛出异常，php5.3下会被PHP Fatal Error终止而无法显示报错页面
+		$error_handler = new ErrorHandler();
+		$error_handler->handleException(new ErrorException("Class '{$class_name}' not found"));
 	}
 	
 	/**
 	 * 引入一个第三方文件
 	 * 本质上是从vendor文件夹包含一个文件进来
 	 * @param unknown $name
-	 * @throws Exception
+	 * @throws ErrorException
 	 */
 	public static function vendor($name){
 		if(file_exists(APPLICATION_PATH . "{$name}.php")){
@@ -35,7 +38,7 @@ class Loader{
 		}else if(file_exists(SYSTEM_PATH . "{$name}.php")){
 			require_once SYSTEM_PATH . "{$name}.php";
 		}else{
-			throw new Exception("File '{$name}' not found");
+			throw new ErrorException("File '{$name}' not found");
 		}
 	}
 }

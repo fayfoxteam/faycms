@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
+use fay\models\tables\Users;
 
 echo F::form()->open()?>
 <div class="row">
@@ -44,6 +45,36 @@ echo F::form()->open()?>
 		<div class="form-field">
 			<label class="title">昵称</label>
 			<?php echo F::form()->inputText('nickname', array('class'=>'form-control mw400'))?>
+		</div>
+		<div class="form-field">
+			<label class="title">审核状态</label>
+			<?php echo F::form()->select('status', array(
+				Users::STATUS_UNCOMPLETED=>'用户信息不完整',
+				Users::STATUS_PENDING=>'未审核',
+				Users::STATUS_VERIFIED=>'通过审核',
+				Users::STATUS_VERIFY_FAILED=>'未通过审核',
+			), array(
+				'class'=>'form-control mw400',
+			))?>
+		</div>
+		<div class="form-field">
+			<label class="title">登陆状态</label>
+			<?php
+				echo F::form()->inputRadio('block', 0, array(
+					'wrapper'=>array(
+						'tag'=>'label',
+						'class'=>'fc-green',
+					),
+					'after'=>'正常登录',
+				));
+				echo F::form()->inputRadio('block', 1, array(
+					'wrapper'=>array(
+						'tag'=>'label',
+						'class'=>'fc-red',
+					),
+					'after'=>'限制登录',
+				));
+			?>
 		</div>
 		<div class="form-field">
 			<label class="title">头像</label>

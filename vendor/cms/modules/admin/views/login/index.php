@@ -110,7 +110,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 				<p>QQ:369281831</p>
 				<p>E-mail:<a href="mailto:admin@fayfox.com">admin@fayfox.com</a></p>
 				<p>© <a href="http://www.fayfox.com">fayfox.com</a></p>
-				<p>2011-2014</p>
+				<p>2011-<?php echo date('Y')?></p>
 			</div>
 		</div>
 	</div>

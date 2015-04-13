@@ -298,7 +298,7 @@ class Db extends FBase{
 		if(is_array($message)){
 			$message = implode(' - ', $message);
 		}
-		throw new Exception($message, $sql ? '<code>'.SqlHelper::nice($sql, $params).'</code>' : '');
+		throw new ErrorException($message, $sql ? '<code>'.SqlHelper::nice($sql, $params).'</code>' : '');
 	}
 	
 	public function getCount(){

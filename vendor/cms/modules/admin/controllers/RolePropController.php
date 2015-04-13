@@ -154,6 +154,7 @@ class RolePropController extends AdminController{
 		
 		$this->view->listview = new ListView($sql, array(
 			'page_size' => 15,
+			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 	}
 }

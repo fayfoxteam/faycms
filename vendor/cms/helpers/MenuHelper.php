@@ -11,7 +11,7 @@ class MenuHelper{
 	 * @param unknown $current_directory 当前页
 	 * @param number $dep 深度
 	 */
-	public static function render($menus, $actions, $role, $current_directory, $dep = 0){
+	public static function render($menus, $role, $current_directory, $dep = 0){
 		$text = array();
 		foreach($menus as $m){
 			//以link属性是否为javascript:;来判断是否为叶子
@@ -21,7 +21,7 @@ class MenuHelper{
 			}
 			
 			//叶子节点，进行权限检查
-			if($m['link'] != 'javascript:;' && !in_array($m['link'], $actions) && $role != Users::ROLE_SUPERADMIN){
+			if($m['link'] != 'javascript:;' && !\F::app()->checkPermission($m['link'])){
 				continue;
 			}
 			
@@ -47,7 +47,7 @@ class MenuHelper{
 						)
 					),
 					//子菜单
-					empty($m['children']) ? false : self::render($m['children'], $actions, $role, $current_directory, $dep + 1),
+					empty($m['children']) ? false : self::render($m['children'], $role, $current_directory, $dep + 1),
 				)
 			);
 			

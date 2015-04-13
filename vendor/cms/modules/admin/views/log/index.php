@@ -65,20 +65,20 @@ use fay\models\tables\Logs;
 </div>
 <div class="hide">
 	<div id="log-detail-dialog" class="common-dialog">
-		<div class="common-dialog-content">
+		<div class="common-dialog-content w600">
 			<h4>日志</h4>
 			<table class="form-table">
 				<tr>
 					<th class="adaption">Code</th>
 					<td><?php echo Html::inputText('', '', array(
-						'class'=>'w550',
+						'class'=>'form-control',
 						'id'=>'ld-code',
 					))?></td>
 				</tr>
 				<tr>
 					<th valign="top" class="adaption">Data</th>
 					<td><?php echo Html::textarea('', '', array(
-						'class'=>'w550 h90',
+						'class'=>'form-control h90 autosize',
 						'rows'=>5,
 						'id'=>'ld-data',
 					))?></td>
@@ -87,7 +87,7 @@ use fay\models\tables\Logs;
 					<th class="adaption">Create Time</th>
 					<td>
 						<?php echo Html::inputText('', '', array(
-							'class'=>'w550',
+							'class'=>'form-control',
 							'id'=>'ld-create_time',
 						))?>
 					</td>
@@ -96,7 +96,7 @@ use fay\models\tables\Logs;
 					<th class="adaption">User</th>
 					<td>
 						<?php echo Html::inputText('', '', array(
-							'class'=>'w550',
+							'class'=>'form-control',
 							'id'=>'ld-username',
 						))?>
 					</td>
@@ -105,9 +105,8 @@ use fay\models\tables\Logs;
 					<th class="adaption">User Agent</th>
 					<td>
 						<?php echo Html::textarea('', '', array(
-							'class'=>'w550',
+							'class'=>'form-control autosize',
 							'id'=>'ld-user_agent',
-							'rows'=>2,
 						))?>
 					</td>
 				</tr>
@@ -137,8 +136,8 @@ $(function(){
 							$("#log-detail-dialog").unblock();
 							if(resp.status){
 								$("#ld-code").val(resp.log.code);
-								$("#ld-data").val(resp.log.data);
-								$("#ld-user_agent").val(resp.log.user_agent);
+								$("#ld-data").val(resp.log.data).trigger('autosize.resize');
+								$("#ld-user_agent").val(resp.log.user_agent).trigger('autosize.resize');
 								$("#ld-create_time").val(system.date(resp.log.create_time));
 								if(resp.log.user_id == 0){
 									$("#ld-username").val('系统');

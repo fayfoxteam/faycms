@@ -12,7 +12,7 @@ $redis->connect('redis', 6379, 300);
 
 
 <div class="container">
-<h1 class="text-center">教学名师评选 <small>评选截止时间: 2015年06月01日</small></h1>
+<h2 class="text-center">教学名师评选 <small>评选截止时间: 2015年06月01日</small></h2>
 <p><?php echo Html::encode($introduce['abstract'])?><a href="<?php echo $this->url('page/'.$introduce['id'])?>" class="btn btn-xs btn-primary">查看详细</a></p>
 
 </div>

@@ -35,7 +35,9 @@ $redis->connect('redis', 6379, 300);
     </div>
 </div>
 <div class="clear-10"></div>
-<?php foreach ($lists as $list ){?>
+<?php
+shuffle($lists);
+ foreach ($lists as $list ){?>
 <div class="col-md-3 col-sm-6 teach-list">
 <div class="panel panel-default panel-until">
     <a href="<?php echo $this->url('post/'.$list['id'])?>" class="thumbnail">

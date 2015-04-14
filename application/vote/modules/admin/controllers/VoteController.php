@@ -7,6 +7,9 @@ use fay\models\File;
 use fay\core\Loader;
 use fay\models\User;
 use fay\core\Db;
+use fay\models\tables\Users;
+use fay\core\Sql;
+use fay\common\ListView;
 
 class VoteController extends AdminController
 {
@@ -99,6 +102,14 @@ class VoteController extends AdminController
     public function detail()
     {
         $this->layout->subtitle = '投票详情';
+        $condition = array(
+            'role = ?' => 1,
+            'status = ?' => 3,
+        );
+        $sql = new Sql();
+        $sql->from('users')->where($condition);
+        $this->view->listview = new ListView($sql);
+        
         $this->view->render();
     }
 }

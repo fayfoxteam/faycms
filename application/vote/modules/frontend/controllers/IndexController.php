@@ -4,6 +4,8 @@ namespace vote\modules\frontend\controllers;
 use vote\library\FrontendController;
 use fay\models\Post;
 use fay\models\Page;
+use fay\models\User;
+use fay\models\tables\Users;
 class IndexController extends FrontendController
 {
     
@@ -46,16 +48,16 @@ class IndexController extends FrontendController
         $this->finish($data);
     }
     
-    public function test()
+    public function result()
     {
-//         dump($_SESSION);
-//         echo $this->session->get('id');
-        $redis = $this->redis();
-        $redis->sAdd('name', '22');
-        $redis->sAdd('name', '33');
-//         $redis->set('name', 'wwhis', 10);
-//         $redis->incr('name');
+        $user_all = Users::model()->fetchAll();
+        $this->view->teachers = Post::model()->getByCatAlias('list');
+        
+        $this->view->studentCount = count($user_all);
+        $this->view->render();
     }
+    
+    
     
 
 }

@@ -7,6 +7,7 @@ p{
 
 .skillbar {
 	position:relative;
+	padding-left: 108px;
 	display:block;
 	margin-bottom:15px;
 	width:100%;

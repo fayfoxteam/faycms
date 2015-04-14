@@ -6,6 +6,7 @@ use fay\models\Post;
 use fay\models\Page;
 use fay\models\User;
 use fay\models\tables\Users;
+use fay\core\Db;
 class IndexController extends FrontendController
 {
     
@@ -38,6 +39,7 @@ class IndexController extends FrontendController
                     $redis->sAdd($teacher_key, $user_id);
                     $student_key = getStudentKey($user_id);
                     $redis->set($student_key, $user_id);
+                    Users::model()->update(array('vote_active' => 1), $user_id);
                 }
             }
         }
@@ -48,6 +50,7 @@ class IndexController extends FrontendController
         $this->finish($data);
     }
     
+    //前台显示投票结结果
     public function result()
     {
         $user_all = Users::model()->fetchAll();

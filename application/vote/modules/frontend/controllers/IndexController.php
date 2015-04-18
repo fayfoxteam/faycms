@@ -7,6 +7,7 @@ use fay\models\Page;
 use fay\models\User;
 use fay\models\tables\Users;
 use fay\core\Db;
+use fay\core\Sql;
 class IndexController extends FrontendController
 {
     
@@ -54,12 +55,14 @@ class IndexController extends FrontendController
     public function result()
     {
         //已投票人数
-        $user_all = Users::model()->fetchAll(array(
-            'vote_active = ?' => 1,
-        ));
+        $sql = new Sql();
+        $count = $sql->from('users', 'u')
+                     ->where(array(
+                            'vote_active = ? ' => 1))
+                     ->count();
         $this->view->teachers = Post::model()->getByCatAlias('list');
        
-        $this->view->studentCount = count($user_all);
+        $this->view->studentCount = $count;
         $this->view->render();
     }
     

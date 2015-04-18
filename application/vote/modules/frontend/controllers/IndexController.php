@@ -53,9 +53,12 @@ class IndexController extends FrontendController
     //前台显示投票结结果
     public function result()
     {
-        $user_all = Users::model()->fetchAll();
+        //已投票人数
+        $user_all = Users::model()->fetchAll(array(
+            'vote_active = ?' => 1,
+        ));
         $this->view->teachers = Post::model()->getByCatAlias('list');
-        
+       
         $this->view->studentCount = count($user_all);
         $this->view->render();
     }

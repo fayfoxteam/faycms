@@ -48,7 +48,7 @@ class VoteController extends AdminController
             echo "<button style='width:200px;height:80px;' onclick='window.history.back();'>点击返回</button>";
             $array = $this->config->getFile('array');
             
-            echo "<h1>总计".$realcount."条记录,第一条为表头不计入数据库</h1>";
+            echo "<h1>总计".$realCount."条记录,第一条为表头不计入数据库</h1>";
             $dataData = new \stdClass();
             
             $salt = 'whis';

@@ -16,7 +16,15 @@ $redis->connect('redis', 6379);
     <div class="container">
         <?php foreach ($teachers as $teacher){ 
         $teacherVote = $redis->sSize(getTeacherKey($teacher['id']));
-       $percent = $teacherVote / $studentCount *100; 
+        if ($studentCount == 0)
+        {
+            $percent = 0;
+        }
+        else
+        {
+            $percent = $teacherVote / $studentCount *100;
+        }
+        
         ?>
     <div class="skillbar clearfix " data-percent="<?php echo $percent ?>%">
     	<div class="skillbar-title" style="background: #2980b9;"><span><?php echo $teacher['title']." ".$percent."%" ?></span></div>

@@ -13,7 +13,7 @@ $redis->connect('redis', 6379, 300);
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3 mt-10">
+        <div class="col-md-3 mt-20">
             <img src="<?php echo $this->staticFile('/img/logo.gif') ?>" width="215" height="37" alt=""/>
         </div>
         <div class="col-md-9">

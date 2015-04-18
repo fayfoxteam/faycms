@@ -13,6 +13,7 @@ if (count($posts['props']) > 0)
 //dump($posts);
 ?>
 
+
 <div class="row">
     <ol class="breadcrumb">
         <li><a href="<?php echo $this->url()?>">主页</a></li>
@@ -27,7 +28,7 @@ if (count($posts['props']) > 0)
         <?php } ?>
     </ol>
 </div>
-
+<div class="clear-20"></div>
 <div class="row">
     <div class="col-md-8">
         <div class="panel panel-primary">
@@ -94,7 +95,7 @@ if (count($posts['props']) > 0)
 
         </div>
     </div>
-    <div class="clear-20"></div>
+    <div class="clear-40"></div>
     <div class="container">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">

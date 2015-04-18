@@ -1,10 +1,13 @@
-html body { border:none; padding:0; margin: 0; }
+html body { border:none; padding:0; margin: 0; background: url('../img/body_bg.jpg') #ffffff center top repeat-x;
+    font-family: '宋体';}
 a:hover { text-decoration: none; }
+
+/* index */
+.produce { line-height: 1.7em; letter-spacing: 2px; text-align: justify; }
 
 .panel-until:hover { border: 1px solid #ea6555; }
 .panel-heading { padding: 5px 15px; }
 .panel-body { padding: 10px; }
-
 
 .thumbnail { margin-bottom: 0px; }
 .checkbox { display: inline-block; margin: 10px 0; width: 100%;  }
@@ -13,6 +16,10 @@ a:hover { text-decoration: none; }
 
 
 .mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.fs-14 { font-size: 14px; }
+.fs-16 { font-size: 16px; }
+
 .clear { clear: both; }
 .clear-0 { clear: both; height: 0px; font-size: 0px; float: none; overflow: hidden; }
 .clear-1 { clear: both; height: 1px; font-size: 0px; float: none; overflow: hidden; }

@@ -12,8 +12,17 @@ $redis->connect('redis', 6379, 300);
 
 
 <div class="container">
-<h2 class="text-center">教学名师评选 <small>评选截止时间: 2015年06月01日</small></h2>
-<p><?php echo Html::encode($introduce['abstract'])?><a href="<?php echo $this->url('page/'.$introduce['id'])?>" class="btn btn-xs btn-primary">查看详细</a></p>
+    <div class="row">
+        <div class="col-md-3 mt-10">
+            <img src="<?php echo $this->staticFile('/img/logo.gif') ?>" width="215" height="37" alt=""/>
+        </div>
+        <div class="col-md-9">
+            <h2 class="text-left">教学名师评选 <small>评选截止时间: 2015年06月01日</small></h2>
+        </div>
+    </div>
+
+    <div class="clear-30"></div>
+<p class="fs-16 produce"><?php echo Html::encode($introduce['abstract'])?><a href="<?php echo $this->url('page/'.$introduce['id'])?>" class="btn btn-xs btn-primary">查看详细</a></p>
 
 </div>
 

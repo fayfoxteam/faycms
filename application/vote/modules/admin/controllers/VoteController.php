@@ -52,6 +52,7 @@ class VoteController extends AdminController
             $dataData = new \stdClass();
             
             $salt = 'whis';
+            $user_type = $this->input->post('user_type', 'intval');
             for ($i = 1; $i <= $excel->sheets[0]['numRows']; $i++)
             {
                 if ($i == 1)
@@ -64,13 +65,18 @@ class VoteController extends AdminController
                 }
                 
                 $user_data = new \stdClass();
-                $user_data->username = $excel_data['学籍号'];
-                $user_data->password = md5(md5(substr($excel_data['身份证号'], 12)).$salt);
-//                 echo md5(md5(substr($excel_data['身份证号'], 12)).$salt);
+                $user_data->username = $excel_data['学号'];
+                $user_data->password = md5(md5($excel_data['密码']).$salt);
+               
                 $user_data->salt = $salt;
                 $user_data->nickname = $excel_data['姓名'];
                 $user_data->status =  3;
                 $user_data->role = 1;
+                $user_data->user_type = $user_type;
+                $user_data->idnum = $excel_data['身份证号'];
+                $user_data->grade = $excel_data['年级'];
+                $user_data->class = $excel_data['班级'];
+                $user_data->department = $excel_data['院系'];
                 $user_data->keywords = json_encode($excel_data);
                 
                 $db = Db::getInstance();

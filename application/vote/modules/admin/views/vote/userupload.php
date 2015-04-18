@@ -14,6 +14,10 @@
                     <label>注意：导入的格式只支持xls（xlsx请自行转换），新的数据会覆盖旧的数据</label><br /><br />
                     <input type="file" name="xlsfile" id="" />
                     <input type="hidden" name="method" value="database"/>
+                    <select name="user_type" id="user_type">
+                        <option value="1">学生</option>
+                        <option value="2">教师</option>
+                    </select>
                     <input type="submit" value="导入" />
                 </form>
             </div>

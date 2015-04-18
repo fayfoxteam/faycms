@@ -150,6 +150,8 @@ class VoteController extends AdminController
             ));
         }
         
+        $sql->order('username asc');
+        
         $this->view->listview = new ListView($sql, array(
 			'page_size'  => $this->form('setting')->getData('page_size', 20),
         ));

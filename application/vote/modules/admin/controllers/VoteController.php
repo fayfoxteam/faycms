@@ -39,6 +39,7 @@ class VoteController extends AdminController
             $file_path = $result['file_path'].$result['raw_name'].'.xls';
             /* 引入excelphpreader类库 */
             Loader::vendor('Excel/reader');
+            
             $excel = new \Spreadsheet_Excel_Reader();
             $excel->setOutputEncoding('UTF-8');
             

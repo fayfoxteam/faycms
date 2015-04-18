@@ -23,6 +23,7 @@ class VoteController extends AdminController
     public function userUpload()
     {
         $this->layout->subtitle = '用户上传';
+        echo SYSTEM_PATH;
         $this->view->render();
     }
     
@@ -38,7 +39,9 @@ class VoteController extends AdminController
 //             dump($result);
             $file_path = $result['file_path'].$result['raw_name'].'.xls';
             /* 引入excelphpreader类库 */
-            Loader::vendor('Excel/excel_reader2');
+//             Loader::vendor('Excel/excel_reader2');
+            
+            include SYSTEM_PATH . 'Excel/excel_reader2.php';
             
             $excel = new \Spreadsheet_Excel_Reader($file_path, true, 'UTF-8');
             $count = $excel->sheets[0]['numRows'];

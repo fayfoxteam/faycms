@@ -41,6 +41,11 @@ class WidgetController extends AdminController{
 	}
 	
 	public function edit(){
+		$this->layout->sublink = array(
+			'uri'=>array('admin/widget/instances'),
+			'text'=>'小工具',
+		);
+		
 		$id = $this->input->get('id', 'intval');
 
 		$widget = Widgets::model()->find($id, 'widget_name');

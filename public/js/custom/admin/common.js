@@ -78,48 +78,52 @@ var common = {
 	'fancybox':function(){
 		//弹窗
 		if($('.fancybox-image').length){
-			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$('.fancybox-image').fancybox({
-					'transitionIn' : 'elastic',
-					'transitionOut' : 'elastic',
-					'type' : 'image',
-					'padding':0,
-					'centerOnScroll':true
+			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$('.fancybox-image').fancybox({
+						'transitionIn' : 'elastic',
+						'transitionOut' : 'elastic',
+						'type' : 'image',
+						'padding':0,
+						'centerOnScroll':true
+					});
 				});
 			});
 		}
 		if($('.fancybox-inline').length){
-			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$('.fancybox-inline').fancybox({
-					'padding':0,
-					'centerOnScroll':true,
-					'onClosed':function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'type' : 'inline'
+			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$('.fancybox-inline').fancybox({
+						'padding':0,
+						'centerOnScroll':true,
+						'onClosed':function(o){
+							$($(o).attr('href')).find('input,select,textarea').each(function(){
+								$(this).poshytip('hide');
+							});
+						},
+						'type' : 'inline'
+					});
 				});
 			});
 		}
 		if($('.fancybox-iframe').length){
-			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$('.fancybox-iframe').fancybox({
-					'centerOnScroll':true,
-					'type' : 'iframe',
-					'width' : 750,
-					'autoDimensions' : true
+			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$('.fancybox-iframe').fancybox({
+						'centerOnScroll':true,
+						'type' : 'iframe',
+						'width' : 750,
+						'autoDimensions' : true
+					});
 				});
 			});
 		}
 		if($('.fancybox-close').length){
-			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$(document).on('click', '.fancybox-close', function(){
-					$.fancybox.close();
+			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$(document).on('click', '.fancybox-close', function(){
+						$.fancybox.close();
+					});
 				});
 			});
 		}
@@ -139,21 +143,99 @@ var common = {
 			});
 		});
 		//ajax删除消息提示
-		$(document).on('click', '.header-notification-delete', function(){
+		$('#faycms-message').on('click', '.delete-message-link', function(){
+			var _this = $(this);
 			$.ajax({
 				type: 'GET',
-				url: system.url('admin/notification/delete', {'id':$(this).attr('data-id')}),
+				url: system.url('admin/notification/delete', {'id':_this.attr('data-id')}),
 				dataType: 'json',
 				cache: false,
 				success: function(data){
 					if(data.status == 1){
-						$('#header-notification-'+data.id).css('background-color', 'red').fadeOut();
+						_this.parent().css('background-color', 'red').fadeOut('slow', function(){
+							$(this).remove();
+						});
 					}else{
 						alert(data.message);
 					}
 					common.headerNotification();
 				}
 			});
+			return false;
+		}).on('click', '#faycms-messages-container', function(){
+			return false;
+		}).on('click', '.set-read-link', function(){
+			var _this = $(this);
+			$.ajax({
+				type: 'GET',
+				url: system.url('admin/notification/set-read'),
+				data: {
+					'id':_this.attr('data-id'),
+					'read':1
+				},
+				dataType: 'json',
+				cache: false,
+				success: function(data){
+					if(data.status == 1){
+						_this.parent().css('background-color', 'orange').fadeOut('slow', function(){
+							$(this).remove();
+						})
+					}else{
+						alert(data.message);
+					}
+					common.headerNotification();
+				}
+			});
+			return false;
+		});
+	},
+	'headerNotification':function(){
+		$.ajax({
+			type: 'GET',
+			url: system.url('admin/notification/get'),
+			dataType: 'json',
+			cache: false,
+			success: function(resp){
+				$('#faycms-messages .faycms-message-item').remove();
+				if(resp.data.length){
+					$('#faycms-message .badge').text(resp.data.length).show();
+					var has_new_message = false;
+					$.each(resp.data, function(i, data){
+						if(new Date().getTime() - data.publish_time * 1000 < 50000){
+							//50秒内有新信息，自动弹出
+							has_new_message = true;
+						}
+						$('#faycms-messages').append([
+							'<li class="faycms-message-item"><span class="faycms-message-container">',
+								'<span class="block">',
+									'<span class="fc-grey small">', system.shortDate(data.publish_time),'</span>',
+								'</span>',
+								'<span class="ellipsis" title="', data.title, '">', data.title, '</span>',
+								'<a href="javascript:;" class="set-read-link fa fa-bell-slash" data-id="', data.notification_id, '" title="标记为已读"></a>',
+								'<a href="javascript:;" class="delete-message-link" data-id="', data.notification_id, '" title="删除">×</a>',
+							'</span></li>'
+						].join(''));
+					});
+					
+					system.getScript(system.url('js/jquery.slimscroll.min.js'), function(){
+						$('#faycms-messages').slimScroll({
+							'height':'300px',
+							'color':'#a1b2bd',
+							'opacity':.3
+						});
+					});
+					if(has_new_message){
+						$('#faycms-message').addClass('open');
+					}
+				}else{
+					$('#faycms-messages').prepend([
+						'<li class="faycms-message-item"><span class="faycms-message-container">',
+							'<span class="ellipsis" title="">暂无未读信息</span>',
+						'</span></li>'
+					].join(''));
+					$('#faycms-message .badge').text(0).hide();
+				}
+			}
 		});
 	},
 	'menu':function(){
@@ -206,6 +288,7 @@ var common = {
         //打开缩起左侧菜单
         $('.toggle-sidebar').on('click', function(){
         	$('#sidebar-menu').toggleClass('collapsed');
+        	$(window).resize();
         	$.ajax({
 				type: 'POST',
 				url: system.url('admin/system/setting'),
@@ -215,6 +298,32 @@ var common = {
 				}
 			});
         });
+        
+		//左侧菜单固定
+        if($('.sidebar-menu').hasClass('fixed') && !($.browser.msie && $.browser.version < 9)){
+        	//插件不支持IE8
+			system.getCss(system.url('css/perfect-scrollbar.css'), function(){
+				system.getScript(system.url('js/perfect-scrollbar.js'), function(){
+					if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
+						$('.sidebar-menu-inner').perfectScrollbar({
+							'wheelPropagation':true
+						});
+					}
+					$(window).resize(function(){
+						if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
+							$('.sidebar-menu-inner').perfectScrollbar({
+								'wheelPropagation':true
+							});
+						}else{
+							$('.sidebar-menu-inner').perfectScrollbar('destroy');
+						}
+					});
+				});
+			});
+        }else{
+        	//ie8的情况下移除fixed
+        	$('.sidebar-menu').removeClass('fixed');
+        }
 	},
 	'screenMeta':function(){
 		if($('.screen-meta-links a').length){
@@ -231,6 +340,12 @@ var common = {
                     },
                     'type' : 'inline'
                 });
+            });
+            
+            $('.faycms-setting-link').on('mouseover', function(){
+            	$(this).addClass('fa-spin');
+            }).on('mouseleave', function(){
+            	$(this).removeClass('fa-spin');
             });
 		}
 	},
@@ -710,7 +825,18 @@ var common = {
 	},
 	'dropdown':function(){
 		$(document).on('click', 'a.dropdown', function(){
-			$(this).parent().toggleClass('open');
+			if($(this).parent().hasClass('open')){
+				//关闭
+				$(this).parent().removeClass('open');
+			}else{
+				//关闭所有其它下拉，打开当前下拉
+				$('.dropdown-container').each(function(){
+					if($(this).hasClass('open')){
+						$(this).removeClass('open');
+					}
+				});
+				$(this).parent().addClass('open');
+			}
 			return false;
 		});
 		$(document).on('click', function(){
@@ -739,5 +865,6 @@ var common = {
 		this.dragsortList();
 		this.textAutosize();
 		this.dropdown();
+		this.notification();
 	}
 };

@@ -87,7 +87,7 @@ use cms\helpers\ListTableHelper;
 					<th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
 					<?php }?>
 					<?php if(!isset($_settings['cols']) || in_array('sort', $_settings['cols'])){?>
-					<th class="w70"><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
+					<th class="w90"><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
 					<?php }?>
 				</tr>
 			</thead>
@@ -129,7 +129,7 @@ use cms\helpers\ListTableHelper;
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
 <script>
 $(function(){
-	$(".post-sort").feditsort({
+	$(".page-sort").feditsort({
 		'url':system.url("admin/page/sort")
 	});
 });

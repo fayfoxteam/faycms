@@ -70,6 +70,7 @@ use fay\helpers\Html;
 						'data-rule'=>'string',
 						'data-params'=>'{max:255}',
 						'data-label'=>'属性值',
+						'data-required'=>'required',
 						'class'=>'form-control',
 					), $pv['title'])?>
 				</div>

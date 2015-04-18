@@ -32,7 +32,7 @@ class ErrorHandler extends FBase{
 				if($exception->statusCode == 404){
 					$this->render404();
 				}else{
-					$this->render500();
+					$this->render500($exception->getMessage());
 				}
 			}else{
 				//环境非production，显示debug页面
@@ -40,7 +40,7 @@ class ErrorHandler extends FBase{
 			}
 		}else{
 			if($this->config('environment') == 'production'){
-				$this->render500();
+				$this->render500($exception->getMessage());
 			}else{
 				$this->renderDebug($exception);
 			}
@@ -55,7 +55,7 @@ class ErrorHandler extends FBase{
 			//例如@屏蔽报错的时候，error_reporting()会返回0
 			return;
 		}
-		$exception = new ErrorException($message, $code, $file, $line, $code);
+		$exception = new ErrorException($message, '', $code, $file, $line, $code);
 		$this->renderPHPError($exception);
 	}
 	
@@ -65,7 +65,7 @@ class ErrorHandler extends FBase{
 	public function handleFatalError(){
 		$error = error_get_last();
 		if(ErrorException::isFatalError($error)){
-			$exception = new ErrorException($error['message'], $error['type'], $error['file'], $error['line'], $error['type']);
+			$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
 			
 			if($this->config('environment') == 'production'){
 				$this->render500();
@@ -114,9 +114,11 @@ class ErrorHandler extends FBase{
 	/**
 	 * 显示500页面（不包含错误信息）
 	 */
-	protected function render500(){
+	protected function render500($message = '服务器内部错误'){
 		$this->clearOutput();
-		$this->app->view->renderPartial('errors/500');
+		$this->app->view->renderPartial('errors/500', array(
+			'message'=>$message,
+		));
 		die;
 	}
 	

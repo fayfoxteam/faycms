@@ -22,21 +22,22 @@ class Notification extends Model{
 	 * @param int|null $publish_time
 	 * @return 消息id
 	 */
-	public function send($to, $content, $from = Users::ITEM_SYSTEM_NOTIFICATION, $cat_id = 0, $publish_time = null){
+	public function send($to, $title, $content, $from = Users::ITEM_SYSTEM_NOTIFICATION, $cat_id = 0, $publish_time = null){
 		if(!is_array($to)){
 			$to = array($to);
 		}
 		
 		$notification_id = Notifications::model()->insert(array(
+			'title'=>$title,
 			'content'=>$content,
 			'create_time'=>\F::app()->current_time,
-			'from'=>$from,
+			'sender'=>$from,
 			'cat_id'=>$cat_id,
 			'publish_time'=>$publish_time ? $publish_time : \F::app()->current_time,
 		));
 		foreach($to as $t){
 			UserNotifications::model()->insert(array(
-				'to'=>$t,
+				'user_id'=>$t,
 				'notification_id'=>$notification_id,
 			));
 		}

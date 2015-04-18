@@ -31,11 +31,11 @@ class Int extends Validator{
 			return $this->addError($this->_field, 'int', $this->message);
 		}
 		
-		if($this->max && $value > $this->max){
+		if($this->max !== null && $value > $this->max){
 			return $this->addError($this->_field, 'int', $this->too_big, array('max'=>$this->max));
 		}
 		
-		if($this->min && $value < $this->min){
+		if($this->min !== null && $value < $this->min){
 			return $this->addError($this->_field, 'int', $this->too_small, array('min'=>$this->min));
 		}
 		

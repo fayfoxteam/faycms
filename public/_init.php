@@ -28,7 +28,7 @@ $error_handler->register();
  * @param boolean $encode 若此参数为true，则会对数组内容进行html实体转换
  * @param boolean $return 若此参数为true，则不直接输出数组，而是以变量的方式返回
  */
-function pr($arr, $encode = false, $return = false){
+function dump($arr, $encode = false, $return = false){
 	if($encode){
 		$arr = F::input()->filterR('fay\helpers\Html::encode', $arr);
 	}
@@ -45,4 +45,22 @@ function pr($arr, $encode = false, $return = false){
 		print_r($arr);
 		echo '</pre>';
 	}
+}
+function pr($arr, $encode = false, $return = false){
+    if($encode){
+        $arr = F::input()->filterR('fay\helpers\Html::encode', $arr);
+    }
+    if($return){
+        ob_start();
+        echo '<pre>';
+        print_r($arr);
+        echo '</pre>';
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }else{
+        echo '<pre>';
+        print_r($arr);
+        echo '</pre>';
+    }
 }

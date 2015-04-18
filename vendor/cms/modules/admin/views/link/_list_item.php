@@ -21,11 +21,14 @@ use fay\helpers\Date;
 			echo '不可见';
 		}?>
 	</td>
+	<td><?php echo Html::link($data['cat_title'], array('admin/link/index', array(
+		'cat_id'=>$data['cat_id'],
+	)))?></td>
 	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],
-		'class'=>'edit-sort w30',
+		'class'=>'form-control w50 edit-sort',
 	))?></td>
 	<td class="col-date">
 		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">

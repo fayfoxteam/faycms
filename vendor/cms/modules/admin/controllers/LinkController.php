@@ -78,13 +78,31 @@ class LinkController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '链接';
 		
+		$cat_id = $this->input->get('cat_id', 'intval');
+		if($cat_id){
+			$sub_link_params = array(
+				'cat_id'=>$cat_id,
+			);
+		}else{
+			$sub_link_params = array();
+		}
+		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/link/create'),
+			'uri'=>array('admin/link/create', $sub_link_params),
 			'text'=>'添加链接',
 		);
 		
 		$sql = new Sql();
-		$sql->from('links');
+		$sql->from('links', 'l')
+			->joinLeft('categories', 'c', 'l.cat_id = c.id', 'title AS cat_title');
+		
+		if($this->input->get('title')){
+			$sql->where(array('l.title LIKE ?'=>'%'.$this->input->get('title', 'trim').'%'));
+		}
+		
+		if($cat_id){
+			$sql->where(array('l.cat_id = ?'=>$cat_id));
+		}
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
@@ -95,9 +113,11 @@ class LinkController extends AdminController{
 		}
 		
 		$listview = new ListView($sql, array(
-			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="6" align="center">无相关记录！</td></tr>',
 		));
 		$this->view->listview = $listview;
+		
+		$this->view->cats = Category::model()->getTree('_system_link');
 		
 		$this->view->render();
 	}

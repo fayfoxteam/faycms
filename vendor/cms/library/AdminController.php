@@ -9,8 +9,8 @@ use fay\models\tables\Actions;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
 use fay\core\Response;
-use fay\core\ErrorException;
 use fay\models\Menu;
+use fay\core\HttpException;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -19,11 +19,6 @@ class AdminController extends Controller{
 	 * @var int
 	 */
 	public $current_user = 0;
-	
-	/**
-	 * 检查过被阻止的路由
-	 */
-	protected $_deny_routers = array();
 	
 	public $_left_menu = array();
 	
@@ -66,13 +61,19 @@ class AdminController extends Controller{
 			$action = Actions::model()->fetchRow(array('router = ?'=>$uri->router), 'is_public');
 			//没设置权限的路由均默认为可访问路由
 			if($action && !$action['is_public'] && !in_array($uri->router, $this->session->get('actions', array()))){
-				throw new ErrorException('您无权限做此操作');
+				throw new HttpException('您无权限做此操作', 403);
 			}
 		}
 		
 		$this->_left_menu = Menu::model()->getTree('_admin_main');
 	}
 	
+	/**
+	 * 表单验证出错后的报错渲染
+	 * @param array $check
+	 * @param bool $return
+	 * @return string
+	 */
 	public function showDataCheckError($check, $return = false){
 		$html = '';
 		foreach($check as $c){
@@ -85,6 +86,12 @@ class AdminController extends Controller{
 		}
 	}
 	
+	/**
+	 * 后台管理员操作日志
+	 * @param string $type
+	 * @param string $note
+	 * @param int $refer 引用，例如操作为“编辑文章”则该字段为文章id
+	 */
 	public function actionlog($type, $note, $refer = 0){
 		Actionlogs::model()->insert(array(
 			'user_id'=>$this->current_user,
@@ -94,31 +101,6 @@ class AdminController extends Controller{
 			'note'=>$note,
 			'refer'=>$refer,
 		));
-	}
-	
-	public function checkPermission($router){
-		if($this->session->get('role') == Users::ROLE_SUPERADMIN){
-			//超级管理员无限制
-			return true;
-		}else if(in_array($router, $this->session->get('actions'))){
-			//用户有此权限
-			return true;
-		}else{
-			if(in_array($router, $this->_deny_routers)){
-				//已经检查过此路由为不可访问路由
-				return false;
-			}
-			$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
-			if($action['is_public']){
-				//此路由为公共路由
-				return true;
-			}else if(!$action){
-				//此路由并不在权限路由列表内，视为公共路由
-				return true;
-			}
-		}
-		$this->_deny_routers[] = $router;
-		return false;
 	}
 	
 	/**
@@ -140,7 +122,7 @@ class AdminController extends Controller{
 	 */
 	public function addMenuItem($sub_menu, $directory, $offset = -1){
 		foreach($this->_left_menu as $k => &$menu){
-			if($menu['directory'] == $directory){
+			if($menu['alias'] == $directory){
 				array_splice($menu['sub'], $offset, 0, array($sub_menu));
 			}
 		}
@@ -152,7 +134,7 @@ class AdminController extends Controller{
 	 */
 	public function removeMenuTeam($directory, $index = null){
 		foreach($this->_left_menu as $k => &$menu){
-			if($menu['directory'] == $directory){
+			if($menu['alias'] == $directory){
 				if($index === null){
 					unset($this->_left_menu[$k]);
 					break;

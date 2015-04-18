@@ -5,6 +5,7 @@ use fay\core\db\Table;
 
 class UserNotifications extends Table{
 	protected $_name = 'user_notifications';
+	protected $_primary = array('user_id', 'notification_id');
 	
 	/**
 	 * @return UserNotifications
@@ -15,8 +16,7 @@ class UserNotifications extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id', 'notification_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('to'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('user_id', 'notification_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('read', 'processed', 'ignored'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('option'), 'string', array('max'=>255)),
 			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
@@ -25,20 +25,19 @@ class UserNotifications extends Table{
 
 	public function labels(){
 		return array(
-			'id'=>'Id',
-			'to'=>'To',
-			'notification_id'=>'Notification Id',
-			'read'=>'Read',
-			'deleted'=>'Deleted',
-			'processed'=>'Processed',
-			'ignored'=>'Ignored',
-			'option'=>'Option',
+			'user_id'=>'收件人',
+			'notification_id'=>'消息ID',
+			'read'=>'已读状态',
+			'deleted'=>'删除状态',
+			'processed'=>'是否处理',
+			'ignored'=>'是否忽略',
+			'option'=>'附加参数',
 		);
 	}
 
 	public function filters(){
 		return array(
-			'to'=>'intval',
+			'user_id'=>'intval',
 			'notification_id'=>'intval',
 			'read'=>'intval',
 			'deleted'=>'intval',

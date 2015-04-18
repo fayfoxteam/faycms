@@ -41,7 +41,7 @@
 					}, params);
 					
 					//单个数字
-					if(!/^-?[1-9]\d*$/.test(value)){
+					if(!/^(-?[1-9]\d*|0)$/.test(value)){
 						return $.validform._renderMsg(settings.message, {
 							'max':settings.max,
 							'min':settings.min,
@@ -50,14 +50,14 @@
 					}
 					
 					value = parseInt(value);
-					if(settings.max && value > settings.max){
+					if(settings.max !== null && value > settings.max){
 						return $.validform._renderMsg(settings.tooBig, {
 							'max':settings.max,
 							'min':settings.min,
 							'attribute':attribute ? attribute : '参数'
 						});
 					}
-					if(settings.min && value < settings.min){
+					if(settings.min !== null && value < settings.min){
 						return $.validform._renderMsg(settings.tooSmall, {
 							'max':settings.max,
 							'min':settings.min,
@@ -118,7 +118,7 @@
 						}
 					}
 					
-					if(settings.max && value.length > settings.max){
+					if(settings.max !== null && value.length > settings.max){
 						return $.validform._renderMsg(settings.tooLong, {
 							'min':settings.min,
 							'max':settings.max,
@@ -126,7 +126,7 @@
 							'attribute':attribute ? attribute : '参数'
 						});
 					}
-					if(settings.min && value.length < settings.min){
+					if(settings.min !== null && value.length < settings.min){
 						return $.validform._renderMsg(settings.tooShort, {
 							'min':settings.min,
 							'max':settings.max,
@@ -172,21 +172,21 @@
 							return $.validform._renderMsg(settings.tooLong, {
 								'length':settings.length,
 								'decimal':settings.decimal,
-								'max':(settings.max && settings.max < max) ? settings.max : max,
-								'min':(settings.min && settings.min > -max) ? settings.min : -max,
+								'max':(settings.max !== null && settings.max < max) ? settings.max : max,
+								'min':(settings.min !== null && settings.min > -max) ? settings.min : -max,
 								'attribute':attribute ? attribute : '参数'
 							});
 						}
 					}
 					
-					if(settings.max && parseFloat(value) > settings.max){
+					if(settings.max !== null && parseFloat(value) > settings.max){
 						return $.validform._renderMsg(settings.tooBig, {
 							'max':settings.max,
 							'attribute':attribute ? attribute : '参数'
 						});
 					}
 					
-					if(settings.min && parseFloat(value) < settings.min){
+					if(settings.min !== null && parseFloat(value) < settings.min){
 						return $.validform._renderMsg(settings.tooSmall, {
 							'min':settings.min,
 							'attribute':attribute ? attribute : '参数'
@@ -352,7 +352,7 @@
 			'_renderMsg':function(msg, params){
 				if(typeof(params) == 'object'){
 					for(var k in params){
-						if(params[k]){
+						if(typeof(params[k]) != 'undefined' && params[k] !== null){
 							msg = msg.replace(eval('/\\{\\$'+k+'}/g'), params[k]);
 						}
 					}

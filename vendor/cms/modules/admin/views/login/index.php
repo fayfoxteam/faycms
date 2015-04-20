@@ -92,7 +92,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 				<div class="preview">
 					<span class="middle-circle circle bl">
 						<span class="the-circle circle bl">
-							<span class="text">版权</span>
+							<span class="text">信息</span>
 						</span>
 					</span>
 				</div>
@@ -107,9 +107,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 				<p><label>来源：</label><span class="browser-from"><?php echo $iplocation->getCountryAndArea(F::app()->ip);?></span></p>
 			</div>
 			<div class="content-3 hide">
-				<p>QQ:369281831</p>
-				<p>E-mail:<a href="mailto:admin@fayfox.com">admin@fayfox.com</a></p>
-				<p>© <a href="http://www.fayfox.com">fayfox.com</a></p>
+				
 				<p>2011-<?php echo date('Y')?></p>
 			</div>
 		</div>
@@ -121,7 +119,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 	}?>">
 		<div class="login-form-container">
 			<form method="post" id="login-form">
-				<fieldset class="logo">Faycms</fieldset>
+				<fieldset class="logo">Ypcol</fieldset>
 				<div class="error-msg"><?php if(isset($error))echo $error;?></div>
 				<fieldset class="input-container username">
 					<?php echo F::form()->inputText('username', array(

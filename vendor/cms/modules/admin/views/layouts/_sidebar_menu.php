@@ -12,10 +12,10 @@ use fay\models\Setting;
 		<header class="logo-env">
 			<div class="logo">
 				<?php
-					echo Html::link('Faycms', array('admin/index/index'), array(
+					echo Html::link('Ypcol', array('admin/index/index'), array(
 						'class'=>'logo-expanded',
 					));
-					echo Html::link('F', array('admin/index/index'), array(
+					echo Html::link('Y', array('admin/index/index'), array(
 						'class'=>'logo-collapsed',
 					));
 				?>

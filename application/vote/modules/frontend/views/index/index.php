@@ -17,7 +17,7 @@ $redis->connect('redis', 6379, 300);
             <img src="<?php echo $this->staticFile('/img/logo.gif') ?>" width="215" height="37" alt=""/>
         </div>
         <div class="col-md-9">
-            <h2 class="text-left">教学名师评选 <small>评选截止时间: 2015年06月01日</small></h2>
+            <h2 class="text-left"><?php F::widget()->get('index-title') ?></h2>
         </div>
     </div>
 

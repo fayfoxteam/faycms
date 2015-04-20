@@ -20,7 +20,7 @@ return array(
      * 默认url后缀
     * 可通过config/ext.php配置文件对单独的url再做设置
     */
-    'url_suffix'=>'',
+    'url_suffix'=>'.shtml',
     
     /*
      * 运行环境，设为development则开启所有报错，设为production则关闭所有报错

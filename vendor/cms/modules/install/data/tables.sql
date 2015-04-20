@@ -584,7 +584,7 @@ CREATE TABLE `{{$prefix}}posts` (
   `seo_description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
-  KEY `publish` (`deleted`,`publish_time`,`status`)
+  KEY `cat` (`cat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_tags`;

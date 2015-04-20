@@ -5,7 +5,6 @@ class Loader{
 	/**
 	 * 自动加载类库
 	 * @param String $class_name 类名
-	 * @throws ErrorException
 	 */
 	public static function autoload($class_name){
 		if(strpos($class_name, 'fay') === 0 || strpos($class_name, 'cms') === 0 ){
@@ -21,9 +20,6 @@ class Loader{
 				return true;
 			}
 		}
-		//此处若直接抛出异常，php5.3下会被PHP Fatal Error终止而无法显示报错页面
-		$error_handler = new ErrorHandler();
-		$error_handler->handleException(new ErrorException("Class '{$class_name}' not found"));
 	}
 	
 	/**

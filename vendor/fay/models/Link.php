@@ -13,7 +13,42 @@ class Link extends Model{
 	}
 	
 	/**
-	 * 友情链接的分类体系比较简单，一般不会做多级分类，故不做父子关系搜索
+	 * 获取友链
+	 * @param int|string|array $cat
+	 *  - 若为数字，视为分类ID
+	 *  - 若为字符串，视为分类别名
+	 *  - 若为数组，则至少包含id字段
+	 *  - 若等价于false，则不限制分类
+	 * @param int $limit 获取条数，若为0，则全部取出
+	 * @param 0|1|false $visiable
+	 *  - 1：仅返回允许显示的友链
+	 *  - 0：仅返回不允许显示的友链
+	 *  - false：不做限制
+	 */
+	public function get($cat = 0, $limit = 0, $visiable = 1){
+		if($cat == false){
+			return Links::model()->fetchAll(array(
+				'visiable = ?'=>$visiable,
+			), '*', false, $limit ? $limit : false);
+		}else{
+			if(is_numeric($cat)){
+				return $this->getByCatId($cat, $limit, $visiable);
+			}else if(is_array($cat)){
+				return $this->getByCat($cat, $limit, $visiable);
+			}else{
+				return $this->getByCatAlias($cat, $limit, $visiable);
+			}
+		}
+	}
+	
+	/**
+	 * 根据分类ID获取友情链接
+	 * @param int $cat_id
+	 * @param int $limit 获取条数，若为0，则全部取出
+	 * @param 0|1|false $visiable
+	 *  - 1：仅返回允许显示的友链
+	 *  - 0：仅返回不允许显示的友链
+	 *  - false：不做限制
 	 */
 	public function getByCatId($cat_id, $limit = 0, $visiable = 1){
 		return Links::model()->fetchAll(array(
@@ -21,12 +56,30 @@ class Link extends Model{
 			'visiable = ?'=>$visiable,
 		), '*', false, $limit ? $limit : false);
 	}
-	
+
+	/**
+	 * 根据分类别名获取友情链接
+	 * @param string $cat_alias
+	 * @param int $limit 获取条数，若为0，则全部取出
+	 * @param 0|1|false $visiable
+	 *  - 1：仅返回允许显示的友链
+	 *  - 0：仅返回不允许显示的友链
+	 *  - false：不做限制
+	 */
 	public function getByCatAlias($cat_alias, $limit = 0, $visiable = 1){
 		$cat = Category::model()->getByAlias($cat_alias, 'id');
 		return $this->getByCatId($cat['id'], $limit, $visiable);
 	}
-	
+
+	/**
+	 * 根据分类数组获取友情链接
+	 * @param array $cat
+	 * @param int $limit 获取条数，若为0，则全部取出
+	 * @param 0|1|false $visiable
+	 *  - 1：仅返回允许显示的友链
+	 *  - 0：仅返回不允许显示的友链
+	 *  - false：不做限制
+	 */
 	public function getByCat($cat, $limit = 0, $visiable = 1){
 		return $this->getByCatId($cat['id'], $limit, $visiable);
 	}

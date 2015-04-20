@@ -58,10 +58,12 @@ class IndexController extends FrontendController
         $sql = new Sql();
         $count = $sql->from('users', 'u')
                      ->where(array(
-                            'vote_active = ? ' => 1))
+                            'vote_active = ? ' => 1,
+                            'role = ?' => 1
+                     ))
                      ->count();
         $this->view->teachers = Post::model()->getByCatAlias('list');
-       
+        
         $this->view->studentCount = $count;
         $this->view->render();
     }

@@ -10,7 +10,7 @@ $redis->connect('redis', 6379);
 
 <div class="container">
     <div class="clear-100"></div>
-    <h1>教师评选结果</h1>
+    <h1>教师评选结果<small> 百分比＝ 票数 / 已投票的学生数</small></h1>
     <div class="clear-30"></div>
     
     <div class="container">
@@ -24,7 +24,6 @@ $redis->connect('redis', 6379);
         {
             $percent = $teacherVote / $studentCount *100;
         }
-        
         ?>
     <div class="skillbar clearfix " data-percent="<?php echo $percent ?>%">
     	<div class="skillbar-title" style="background: #2980b9;"><span><?php echo $teacher['title']." ".$percent."%" ?></span></div>

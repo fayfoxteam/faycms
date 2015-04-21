@@ -31,12 +31,12 @@ if (count($posts['props']) > 0)
 <div class="clear-20"></div>
 <div class="row">
     <div class="col-md-8">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary teacher-info">
             <div class="panel-heading">
                 基本信息
             </div>
             <div class="panel-body">
-                <div class="col-md-4">
+                <div class="col-md-4 img">
                     <div class="thumbnail">
                         <?php echo Html::img($posts['thumbnail'], File::PIC_ORIGINAL, array(
                             'width' => '100%',
@@ -45,8 +45,8 @@ if (count($posts['props']) > 0)
                         )) ?>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <table class="table table-hover">
+                <div class="col-md-8 info">
+                    <table class="table table-hover ">
                         <tr>
                             <th>姓名</th>
                             <td><?php echo $posts['title'] ?></td>
@@ -71,7 +71,7 @@ if (count($posts['props']) > 0)
 
     </div>
     <div class="col-md-4">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary fujian">
             <div class="panel-heading">
                 附件
             </div>

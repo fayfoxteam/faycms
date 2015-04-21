@@ -30,6 +30,11 @@ use fay\helpers\Html;
 									}?>"/>
 	<link rel="stylesheet" href="<?php echo $this->staticFile('css/bootstrap.min.css')?>" />
 	<link rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" />
+	
+	<!--[if (IE 6) | (IE 7) | (IE 8)  ]>
+    <link href="<?php echo $this->staticFile('css/ie.css')?>" rel="stylesheet">
+    <![endif]-->
+	
     <script type="text/javascript" src="<?php echo $this->staticFile('js/jquery.1.11.1.js')?>"></script>
     <script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
     <script>

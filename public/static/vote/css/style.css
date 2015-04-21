@@ -9,6 +9,8 @@ a:hover { text-decoration: none; }
 .panel-heading { padding: 5px 15px; }
 .panel-body { padding: 10px; }
 
+.breadcrumb { background: transparent; }
+
 .thumbnail { margin-bottom: 0px; }
 .checkbox { display: inline-block; margin: 10px 0; width: 100%;  }
 

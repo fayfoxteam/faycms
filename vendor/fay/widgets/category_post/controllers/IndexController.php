@@ -63,7 +63,7 @@ class IndexController extends Widget{
 			$data['subclassification'] = true;
 		}
 		
-		$posts = Post::model()->getByCatId($data['top'], $data['number'], 'id,title,thumbnail,publish_time,abstract', $data['subclassification'], $order, $conditions);
+		$posts = Post::model()->getByCatId($data['top'], $data['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $data['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
 		if(empty($posts)){

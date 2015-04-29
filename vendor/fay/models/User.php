@@ -71,6 +71,7 @@ class User extends Model{
 		
 		$this->session->set('id', $user['id']);
 		$this->session->set('username', $user['username']);
+		$this->session->set('nickname', $user['nickname']);
 		$this->session->set('role', $user['role']);
 		$this->session->set('last_login_time', $user['last_login_time']);
 		$this->session->set('last_login_ip', long2ip($user['last_login_ip']));
@@ -201,6 +202,7 @@ class User extends Model{
 	public function setSessionInfo($user){
 		$this->session->set('id', $user['id']);
 		$this->session->set('username', $user['username']);
+		$this->session->set('nickname', $user['nickname']);
 		$this->session->set('avatar', $user['avatar']);
 		$this->session->set('role', $user['role']);
 		$this->session->set('last_login_time', $user['last_login_time']);

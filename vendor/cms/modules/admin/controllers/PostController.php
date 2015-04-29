@@ -229,7 +229,8 @@ class PostController extends AdminController{
 		
 		$sql = new Sql();
 		$sql->from('posts', 'p', '!content')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title');
+			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+		;
 		
 		if(in_array('user', $_settings['cols'])){
 			$sql->joinLeft('users', 'u', 'p.user_id = u.id', 'username,nickname,realname');
@@ -261,26 +262,36 @@ class PostController extends AdminController{
 			if($this->input->get('with_child')){
 				//包含子分类搜索
 				$cats = Category::model()->getAllIdsByParentId($cat_id);
-				$cats[] = $cat_id;
 				if($this->input->get('with_slave')){
+					$orWhere = array(
+						"p.cat_id = {$cat_id}",
+						"pc.cat_id = {$cat_id}",
+					);
+					foreach($cats as $c){
+						$orWhere[] = "p.cat_id = {$c}";
+						$orWhere[] = "pc.cat_id = {$c}";
+					}
 					//包含文章从分类搜索
 					$sql->joinLeft('post_categories', 'pc', 'p.id = pc.post_id')
-						->orWhere(array(
-							'pc.cat_id IN (?)'=>$cats,
-							'p.cat_id IN (?)'=>$cats,
-						))
+						->orWhere($orWhere)
 						->distinct(true);
 				}else{
 					//仅根据文章主分类搜索
-					$sql->where(array('p.cat_id IN (?)'=>$cats));
+					$orWhere = array(
+						"p.cat_id = {$cat_id}",
+					);
+					foreach($cats as $c){
+						$orWhere[] = "p.cat_id = {$c}";
+					}
+					$sql->orWhere($orWhere);
 				}
 			}else{
 				if($this->input->get('with_slave')){
 					//包含文章从分类搜索
 					$sql->joinLeft('post_categories', 'pc', 'p.id = pc.post_id')
 						->orWhere(array(
-							'pc.cat_id = ?'=>$cat_id,
 							'p.cat_id = ?'=>$cat_id,
+							'pc.cat_id = ?'=>$cat_id,
 						))
 						->distinct(true);
 				}else{

@@ -3,6 +3,7 @@ namespace fay\widgets\friendlinks\controllers;
 
 use fay\core\Widget;
 use fay\models\tables\Links;
+use fay\models\Link;
 
 class IndexController extends Widget{
 	public $eval_cat_uri = '';
@@ -17,9 +18,11 @@ class IndexController extends Widget{
 			$data['number'] = 5;
 		}
 		
-		$links = Links::model()->fetchAll(array(
-			'visiable'=>1,
-		), '*', 'sort', $data['number']);
+		if(empty($data['cat_id'])){
+			$data['cat_id'] = 0;
+		}
+		
+		$links = Link::model()->get($data['cat_id'], $data['number']);
 		
 		//若内容可显示，则不显示该widget
 		if(empty($links)){

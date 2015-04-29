@@ -133,9 +133,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 /* 数据表格 */
 .list-table{border:1px solid #dfdfdf;border-bottom:0 none;background-color:#fff;margin:3px 0;width:100%}
 .list-table thead th, .list-table tfoot th{background-color:#fff;text-align:left;padding:9px 7px;height:36px;border-bottom:1px solid #e1e1e1;font-weight:normal;font-size:15px}
-.list-table tr td{box-shadow:inset 0 -1px 0 rgba(0,0,0,.1);background-color:#fff}
+.list-table tr td{box-shadow:inset 0 -1px 0 rgba(0,0,0,.1);background-color:#fff;padding:5px 7px;vertical-align:top}
 .list-table tr.alternate td{background-color:#fcfcfc}
-.list-table tr td{padding:5px 7px;vertical-align:top}
 .list-table tr .align-center{text-align:center}
 .list-table tr .row-actions{padding-top:3px;visibility:hidden}
 .list-table tr .row-actions a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px}
@@ -318,7 +317,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .user-info-navbar .user-info-menu > li.user-profile{margin-right:10px}
 .user-info-navbar .user-info-menu > li.dropdown-container a.dropdown{border-bottom-color:#ededed}
 .user-info-navbar .user-info-menu > li.dropdown-container.open > a{border-bottom-color:#fff}
-.user-info-navbar .user-info-menu > li.user-profile img{position:relative;top:8px;margin-top:-17px}
+.user-info-navbar .user-info-menu > li.user-profile img{position:relative;top:8px;margin-top:-17px;width:28px;height:28px}
 .user-info-navbar .user-info-menu > li.user-profile img + span{margin-left:9px}
 .user-info-navbar .user-info-menu > li.user-profile i.fa{margin-left:5px}
 .user-info-navbar .user-info-menu > li.open{border-left-color:#ddd;border-right-color:#ddd;z-index:15}

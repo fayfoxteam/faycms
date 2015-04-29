@@ -30,7 +30,7 @@ $redis->connect('redis', 6379, 300);
 
 <div class="row">
 <div class="row">
-    <div class="col-md-8 col-sm-6 col-xs-5 col-xs-offset-1 text-center"><h4>名单</h4></div>
+    <div class="col-md-8 col-sm-6 col-xs-5 col-xs-offset-1 text-center"></div>
     <div class="col-md-3 col-sm-5 col-xs-5 text-right">
         <h5>
             <?php if (F::app()->session->get('id')){ ?>

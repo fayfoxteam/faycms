@@ -202,8 +202,9 @@ class VoteController extends AdminController
     		    'department != ?' => ''
     		))
     		->group('department, class')
-    		->order('COUNT(id) desc')
+    		->order('department desc')
     		->fetchAll();
+    	
     	$this->view->render();
     }
 }

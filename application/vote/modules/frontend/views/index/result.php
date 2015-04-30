@@ -26,7 +26,7 @@ $redis->connect('redis', 6379);
         }
         ?>
     <div class="skillbar clearfix " data-percent="<?php echo $percent ?>%">
-    	<div class="skillbar-title" style="background: #2980b9;"><span><?php echo $teacher['title']." ".$percent."%" ?></span></div>
+    	<div class="skillbar-title" style="background: #2980b9;"><span><?php echo $teacher['title']." ".intval($percent)."%" ?></span></div>
     	<div class="skillbar-bar" style="background: #3498db;"></div>
     	<div class="skill-bar-percent"><?php echo $teacherVote ?>票</div>
     </div> <!-- End Skill Bar -->

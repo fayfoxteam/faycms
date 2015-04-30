@@ -95,7 +95,7 @@ if (count($posts['props']) > 0)
 
         </div>
     </div>
-    <div class="clear-40"></div>
+    <div class="clear-10"></div>
     <div class="container">
     <div class="panel panel-info">
         <div class="panel-heading">个人简介</div>

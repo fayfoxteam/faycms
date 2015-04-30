@@ -20,6 +20,7 @@ a:hover { text-decoration: none; }
 
 .mt-10 { margin-top: 10px; }
 .mt-20 { margin-top: 20px; }
+.fs-12 { font-size: 12px; }
 .fs-14 { font-size: 14px; }
 .fs-16 { font-size: 16px; }
 
@@ -53,5 +54,9 @@ a:hover { text-decoration: none; }
 .clear-750 { clear: both; height: 750px; font-size: 0px;  float: none; overflow: hidden; }
 .clear-full { clear: both; height: 1000px; font-size: 0px;  float: none; overflow: hidden; }
 
-
+.hide { display: none; }
 .text-indent { text-indent: 2em; }
+
+
+
+.wx-img { position: absolute; width: 180px; height: 180px; bottom: 35px; right: 360px;  }

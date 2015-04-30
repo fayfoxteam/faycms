@@ -21,9 +21,9 @@ $redis->connect('redis', 6379, 300);
             <h2 class="text-left"><?php F::widget()->load('index-title') ?></h2>
         </div>
     </div>
-
     <div class="clear-30"></div>
-<p class="fs-16 produce"><?php echo Html::encode($introduce['abstract'])?> <a href="<?php echo $this->url('page/'.$introduce['id'])?>" class="btn btn-xs btn-primary">查看详细</a></p>
+<p class="fs-16 produce"><?php echo Html::encode($introduce['abstract'])?> </p>
+<a href="<?php echo $this->url('page/'.$introduce['id'])?>" class="btn btn-xs btn-primary">更多>></a>
 
 </div>
 
@@ -56,7 +56,7 @@ shuffle($lists);
     <div class="panel-body">
         <div class="caption">
             <h5><?php echo $list['title']?></h5>
-            <p><?php echo $list['abstract']?></p>
+            <p class="fs-12"><?php echo $list['abstract']?></p>
            
             <div class="checkbox">
                 <label for="data-id-<?php echo $list['id']?>">
@@ -72,14 +72,18 @@ shuffle($lists);
 </div>
 
 <?php }?>
+<?php if (F::session()->get('user_type') == 1 && $redis->exists(getStudentKey(F::session()->get('id')))){ ?>
 <div class="col-md-2 col-sm-3">
     <div class="panel pnael-default panel-until">
         <div class="thumbnail">
                 <img src="<?php echo $this->staticFile('img/weixincode.png')?>" alt="" />
         </div>
+        <div class="panel-body">
+            <h6 class="text-center">扫一扫来关注我们</h6>
+        </div>
     </div>
 </div>
-
+<?php }?>
 
 
     <?php if (F::app()->session->get('id')){ ?>

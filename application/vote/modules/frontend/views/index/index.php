@@ -98,7 +98,7 @@ shuffle($lists);
 </div>
 
 <div class="modal fade" id="login-window" tabindex="-1" role="dialog" aria-labelledby="login-title" aria-hidden="true" >
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -129,7 +129,7 @@ shuffle($lists);
 								));?>
 								<p class="help-block">点击更换验证码</p>
                 </div>
-                <div class="help-block">
+                <div class="alert alert-info">
                      教师可以多选，每人只能投一次，提交后不能修改
                 </div>
             </div>

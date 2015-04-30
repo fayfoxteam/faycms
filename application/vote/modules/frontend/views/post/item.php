@@ -30,7 +30,7 @@ if (count($posts['props']) > 0)
 </div>
 <div class="clear-20"></div>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="panel panel-primary teacher-info">
             <div class="panel-heading">
                 基本信息
@@ -70,7 +70,7 @@ if (count($posts['props']) > 0)
         </div>
 
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="panel panel-primary fujian">
             <div class="panel-heading">
                 附件

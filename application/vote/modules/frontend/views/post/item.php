@@ -109,11 +109,7 @@ if (count($posts['props']) > 0)
            <p class="text-indent"><?php echo Post::model()->getPropValueByAlias('concept', $posts['id']) ? : '暂无' ?></p>
       </div>
     </div>
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        
 
-         
-        </div>
     </div>
 
 <!--留言区域-->

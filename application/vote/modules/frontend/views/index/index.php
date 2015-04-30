@@ -111,7 +111,7 @@ shuffle($lists);
                 </div>
                 <div class="form-group">
                     <label for="password">密码:</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="密码为身份证后6位，或者为12345"/>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="密码为身份证后6位"/>
                 </div>
                 <div class="form-group">
                     <label for="vcode">验证码</label>
@@ -128,6 +128,9 @@ shuffle($lists);
 									'class'=>'vam mt-10',
 								));?>
 								<p class="help-block">点击更换验证码</p>
+                </div>
+                <div class="help-block">
+                     教师可以多选，每人只能投一次，提交后不能修改
                 </div>
             </div>
             <div class="modal-footer">

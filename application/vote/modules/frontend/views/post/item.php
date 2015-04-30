@@ -102,17 +102,30 @@ if (count($posts['props']) > 0)
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                           教学理念
+                           个人简介
                         </a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
+                        <?php echo Post::model()->getPropValueByAlias('personal', $posts['id']) ? : '暂无' ?>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            教学理念
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
                         <?php echo Post::model()->getPropValueByAlias('concept', $posts['id']) ? : '暂无' ?>
                     </div>
                 </div>
             </div>
-    
          
         </div>
     </div>

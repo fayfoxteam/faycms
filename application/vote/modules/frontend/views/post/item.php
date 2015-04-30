@@ -83,10 +83,10 @@ if (count($posts['props']) > 0)
                        <?php foreach ($posts['files'] as $k => $file)
                         { ?>
                             <li class="list-group-item"><span class="glyphicon glyphicon-file"></span>
-                                <?php echo Html::link($file['description'], array(
+                                <?php echo Html::link($file['description'], array('file/download', array(
                                     'id' => $file['file_id'],
                                     'name' => 'date'
-                                )); ?></li>
+                                ))); ?></li>
                         <?php } ?>
                     <?php } ?>
 

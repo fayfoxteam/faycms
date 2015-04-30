@@ -31,7 +31,8 @@ class RedisController extends FrontendController
         }
         
     }
-
+    
+    //清空redis数据
     public function redisFlushDb()
     {
         $redis = $this->redis();

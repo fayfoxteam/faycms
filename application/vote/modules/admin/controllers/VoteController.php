@@ -142,11 +142,11 @@ class VoteController extends AdminController
         if($this->input->get('class')){
         	$sql->where(array('class = ?'=>$this->input->get('class', 'trim')));
         }
-        
-        if ($this->input->get('vote_active'))
+        $vote_active = $this->input->get('vote_active');
+        if (isset($vote_active))
         {
             $sql->where(array(
-                        'vote_active = ?' => $this->input->get('vote_active', 'intval'),
+                        'vote_active = ?' => $this->input->get('vote_active'),
             ));
         }
         

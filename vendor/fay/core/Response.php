@@ -196,8 +196,8 @@ class Response extends FBase{
 	 * 带layout显示一个404页面
 	 */
 	public static function show404(){
-	    self::setStatusHeader(404);
-	    \F::app()->view->render('common/404');
-	    die;
+		self::setStatusHeader(404);
+		\F::app()->view->render('common/404');
+		die;
 	}
 }

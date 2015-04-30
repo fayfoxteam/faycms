@@ -64,7 +64,7 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1303', '访问日志', 'admin/analyst/views', '113', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1304', '页面PV量', 'admin/analyst/pv', '113', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1305', '站点管理', 'admin/analyst-site/index', '113', '0', '0');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1401', '列表', 'admin/menu/index', '114', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1401', '自定义导航', 'admin/menu/index', '114', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1402', '添加', 'admin/menu/create', '114', '0', '1401');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1403', '编辑', 'admin/menu/edit', '114', '0', '1401');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1404', '删除', 'admin/menu/remove', '114', '0', '1401');
@@ -111,3 +111,4 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9911', '发送系统消息', 'admin/notification/create', '199', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9912', '文件管理', 'admin/file/index', '199', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9913', '上传文件', 'admin/file/do-upload', '199', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9914', '后台菜单', 'admin/menu/admin', '199', '0', '0');

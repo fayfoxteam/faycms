@@ -30,4 +30,4 @@ INSERT INTO `{{$prefix}}categories` (id, parent, alias, title, is_system) VALUES
 INSERT INTO `{{$prefix}}categories` (id, parent, alias, title, is_system) VALUES ('116', '3', '_role_shiti', '试题', '1');
 INSERT INTO `{{$prefix}}categories` (id, parent, alias, title, is_system) VALUES ('117', '3', '_role_shijuan', '试卷', '1');
 INSERT INTO `{{$prefix}}categories` (id, parent, alias, title, is_system) VALUES ('118', '3', '_role_moban', '模版', '1');
-INSERT INTO `{{$prefix}}categories` (id, parent, alias, title, is_system) VALUES ('199', '3', '_role_qita', '其它', '1');
+INSERT INTO `{{$prefix}}categories` (id, parent, alias, title, is_system) VALUES ('199', '3', '_role_qita', '其它（一般不分配）', '1');

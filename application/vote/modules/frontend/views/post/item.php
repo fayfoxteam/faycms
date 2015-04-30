@@ -97,15 +97,15 @@ if (count($posts['props']) > 0)
     </div>
     <div class="clear-40"></div>
     <div class="container">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
+        <div class="panel-heading">个人简介</div>
       <div class="panel-body">
-        <h4>个人简介</h4>
            <p class="text-indent"><?php echo Post::model()->getPropValueByAlias('personal', $posts['id']) ? : '暂无' ?></p>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-info">
+    <div class="panel-heading">教学理念</div>
       <div class="panel-body">
-        <h4>教学理念</h4>
            <p class="text-indent"><?php echo Post::model()->getPropValueByAlias('concept', $posts['id']) ? : '暂无' ?></p>
       </div>
     </div>

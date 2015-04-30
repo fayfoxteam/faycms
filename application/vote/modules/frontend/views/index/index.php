@@ -8,6 +8,7 @@ use fay\helpers\Date;
 $redis = new Redis();
 $redis->connect('redis', 6379, 300);
 
+
 ?> 
 
 
@@ -22,7 +23,7 @@ $redis->connect('redis', 6379, 300);
     </div>
 
     <div class="clear-30"></div>
-<p class="fs-16 produce"><?php echo Html::encode($introduce['abstract'])?><a href="<?php echo $this->url('page/'.$introduce['id'])?>" class="btn btn-xs btn-primary">查看详细</a></p>
+<p class="fs-16 produce"><?php echo Html::encode($introduce['abstract'])?> <a href="<?php echo $this->url('page/'.$introduce['id'])?>" class="btn btn-xs btn-primary">查看详细</a></p>
 
 </div>
 
@@ -47,30 +48,38 @@ $redis->connect('redis', 6379, 300);
 <?php
 shuffle($lists);
  foreach ($lists as $list ){?>
-<div class="col-md-2 col-sm-6 teach-list">
-<div class="panel panel-default panel-until">
-    <a href="<?php echo $this->url('post/'.$list['id'])?>" class="thumbnail">
-        <?php echo Html::img($list['thumbnail'], File::PIC_ORIGINAL, array('width'=>'100%', 'title'=> $list['title'], 'alt'=> $list['title'], 'data-toggle'=>"tooltip", 'data-placement'=>"bottom", 'title'=>"点击照片查看详情"))?>
-    </a>
-<div class="panel-body">
-    <div class="caption">
-        <h5><?php echo $list['title']?></h5>
-        <p><?php echo $list['abstract']?></p>
-       
-        <div class="checkbox">
-            <label for="data-id-<?php echo $list['id']?>">
-                <input type="checkbox" name="checkout" class="checked" id="data-id-<?php echo $list['id'] ?>" data-id="<?php echo $list['id']?>" />
-                <span data-toggle="tooltip" data-placement="top" title="点击选择<?php echo $list['title'] ?>老师">选择</span>
-            </label>
-            <a href="<?php echo $this->url('post/'.$list['id'])?>" class="btn btn-xs btn-info pull-right">查看详情</a>
-        </div>   
-        </p>
+<div class="col-md-2 col-sm-3 teach-list">
+    <div class="panel panel-default panel-until">
+        <a href="<?php echo $this->url('post/'.$list['id'])?>" class="thumbnail">
+            <?php echo Html::img($list['thumbnail'], File::PIC_ORIGINAL, array('width'=>'100%', 'title'=> $list['title'], 'alt'=> $list['title'], 'data-toggle'=>"tooltip", 'data-placement'=>"bottom", 'title'=>"点击照片查看详情"))?>
+        </a>
+    <div class="panel-body">
+        <div class="caption">
+            <h5><?php echo $list['title']?></h5>
+            <p><?php echo $list['abstract']?></p>
+           
+            <div class="checkbox">
+                <label for="data-id-<?php echo $list['id']?>">
+                    <input type="checkbox" name="checkout" class="checked" id="data-id-<?php echo $list['id'] ?>" data-id="<?php echo $list['id']?>" />
+                    <span data-toggle="tooltip" data-placement="top" title="点击选择<?php echo $list['title'] ?>老师">选择</span>
+                </label>
+                <a href="<?php echo $this->url('post/'.$list['id'])?>" class="btn btn-xs btn-info pull-right">查看详情</a>
+            </div>   
+            </p>
+        </div>
+     </div>   
     </div>
- </div>   
-</div>
 </div>
 
 <?php }?>
+<div class="col-md-2 col-sm-3">
+    <div class="panel pnael-default panel-until">
+        <div class="thumbnail">
+                <img src="<?php echo $this->staticFile('img/weixincode.png')?>" alt="" />
+        </div>
+    </div>
+</div>
+
 
 
     <?php if (F::app()->session->get('id')){ ?>

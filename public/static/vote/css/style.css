@@ -9,6 +9,7 @@ a:hover { text-decoration: none; }
 .panel-heading { padding: 5px 15px; }
 .panel-body { padding: 10px; }
 
+
 .breadcrumb { background: transparent; }
 
 .thumbnail { margin-bottom: 0px; }
@@ -51,3 +52,6 @@ a:hover { text-decoration: none; }
 .clear-big { clear: both; height: 60px; font-size: 0px;  float: none; overflow: hidden; }
 .clear-750 { clear: both; height: 750px; font-size: 0px;  float: none; overflow: hidden; }
 .clear-full { clear: both; height: 1000px; font-size: 0px;  float: none; overflow: hidden; }
+
+
+.text-indent { text-indent: 2em; }

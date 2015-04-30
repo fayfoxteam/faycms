@@ -47,7 +47,7 @@ $redis->connect('redis', 6379, 300);
 <?php
 shuffle($lists);
  foreach ($lists as $list ){?>
-<div class="col-md-3 col-sm-6 teach-list">
+<div class="col-md-2 col-sm-6 teach-list">
 <div class="panel panel-default panel-until">
     <a href="<?php echo $this->url('post/'.$list['id'])?>" class="thumbnail">
         <?php echo Html::img($list['thumbnail'], File::PIC_ORIGINAL, array('width'=>'100%', 'title'=> $list['title'], 'alt'=> $list['title'], 'data-toggle'=>"tooltip", 'data-placement'=>"bottom", 'title'=>"点击照片查看详情"))?>

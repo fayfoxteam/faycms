@@ -36,7 +36,7 @@ if (count($posts['props']) > 0)
                 基本信息
             </div>
             <div class="panel-body">
-                <div class="col-md-4 img">
+                <div class="col-md-5 img">
                     <div class="thumbnail">
                         <?php echo Html::img($posts['thumbnail'], File::PIC_ORIGINAL, array(
                             'width' => '100%',
@@ -45,7 +45,7 @@ if (count($posts['props']) > 0)
                         )) ?>
                     </div>
                 </div>
-                <div class="col-md-8 info">
+                <div class="col-md-7 info">
                     <table class="table table-hover ">
                         <tr>
                             <th>姓名</th>

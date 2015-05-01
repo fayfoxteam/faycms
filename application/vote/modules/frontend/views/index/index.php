@@ -39,7 +39,7 @@ $redis->connect('redis', 6379, 300);
                 <?php echo F::app()->session->get('nickname')?:F::app()->session->get('username'); ?></span> </a>
                 <a href="login/logout">退出登录</a>
            <?php }else{ ?>
-            <button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票</button>
+            <button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票test</button>
             <?php } ?>
         </h5>
     </div>
@@ -72,18 +72,18 @@ shuffle($lists);
 </div>
 
 <?php }?>
-<?php if (F::session()->get('user_type') == 1 && $redis->exists(getStudentKey(F::session()->get('id')))){ ?>
+
 <div class="col-md-2 col-sm-3">
     <div class="panel pnael-default panel-until">
         <div class="thumbnail">
                 <img src="<?php echo $this->staticFile('img/weixincode.png')?>" alt="" />
         </div>
         <div class="panel-body">
-            <h6 class="text-center">扫一扫来关注我们</h6>
+            <h6 class="text-center">让同学们扫一扫来投票吧</h6>
         </div>
     </div>
 </div>
-<?php }?>
+
 
 
     <?php if (F::app()->session->get('id')){ ?>
@@ -109,6 +109,13 @@ shuffle($lists);
     <?php } ?>
 
 </div>
+
+<!-- 投票成功后弹出框 -->
+<div class="modal fade">
+    
+</div>
+
+
 
 <div class="modal fade" id="login-window" tabindex="-1" role="dialog" aria-labelledby="login-title" aria-hidden="true" >
     <div class="modal-dialog modal-md">

@@ -29,7 +29,6 @@ class RedisController extends FrontendController
             }
             dump($redis->sMembers($key));
         }
-        
     }
     
     //清空redis数据
@@ -66,8 +65,5 @@ class RedisController extends FrontendController
             echo $i.'老师的票数是:'.$redis->sSize($key).'<br />';
         }
     }
-    
-    public function test()
-    {
-    }
+
 }

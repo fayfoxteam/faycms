@@ -68,7 +68,33 @@ class IndexController extends FrontendController
         $this->view->render();
     }
     
-    
+    //根据姓名查询工号
+    public function search()
+    {
+//        echo '11';die;
+        $name = $this->input->post('name', 'trim');
+
+        $where = array(
+            'nickname = ?' => $name,
+        );
+
+        $sql = new Sql();
+        $teacher =  $sql->select('username')
+                        ->from('users')
+                        ->where($where)
+                        ->order('id')
+                        ->limit(1)
+                        ->fetchRow();
+
+        if ($teacher)
+        {
+            $this->finish(['code' => 0, 'value' => $teacher['username']]);
+        }
+        else
+        {
+            $this->finish(['code' => 1, 'message' => '查询失败，请检查姓名是否正确！']);
+        }
+    }
     
 
 }

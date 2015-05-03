@@ -110,3 +110,31 @@ var vote =
 
 vote.init();
 
+
+
+function query()
+{
+    var name = $('#teacher_name').val();
+    if (!name)
+    {
+        alert('请输入姓名！');
+    }
+    $.ajax({
+        url: 'index/search',
+        type: 'POST',
+        dataType: 'json',
+        data: { name: name },
+        success: function(data)
+        {
+            if (data.code == 0)
+            {
+                $('#username').val(data.value);
+            }
+            else
+            {
+                alert(data.message);
+            }
+        }
+    });
+}
+

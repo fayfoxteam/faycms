@@ -152,6 +152,10 @@ shuffle($lists);
                 <div class="alert alert-info">
                      可以多选，每人只能投一次，提交后不能修改
                 </div>
+                <div class="form-group">
+                    <label for="">教师工号查询，输入姓名:</label>
+                    <input type="text" id="teacher_name"  /><a href="javascript:;" class="btn btn-primary btn-sm ml-5" onclick="query()">查询</a>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

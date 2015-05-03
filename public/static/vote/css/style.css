@@ -17,7 +17,7 @@ a:hover { text-decoration: none; }
 
 .footer { position: relative; padding-top: 20px; bottom: 0; width: 100%; height: 60px; background: #F6F7F9; }
 
-
+.ml-5 { margin-left: 5px; }
 .mt-10 { margin-top: 10px; }
 .mt-20 { margin-top: 20px; }
 .fs-12 { font-size: 12px; }

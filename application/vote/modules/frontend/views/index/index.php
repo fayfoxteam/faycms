@@ -39,7 +39,7 @@ $redis->connect('redis', 6379, 300);
                 <?php echo F::app()->session->get('nickname')?:F::app()->session->get('username'); ?></span> </a>
                 <a href="login/logout">退出登录</a>
            <?php }else{ ?>
-            <button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票test</button>
+            <button class="btn btn-sm btn-danger pull-right" data-toggle="modal" data-target="#login-window" >登录进行投票</button>
             <?php } ?>
         </h5>
     </div>
@@ -111,9 +111,9 @@ shuffle($lists);
 </div>
 
 <!-- 投票成功后弹出框 -->
-<div class="modal fade">
+<!-- <div class="modal fade"> -->
     
-</div>
+<!-- </div> -->
 
 
 
@@ -150,7 +150,7 @@ shuffle($lists);
 								<p class="help-block">点击更换验证码</p>
                 </div>
                 <div class="alert alert-info">
-                     教师可以多选，每人只能投一次，提交后不能修改
+                     可以多选，每人只能投一次，提交后不能修改
                 </div>
             </div>
             <div class="modal-footer">

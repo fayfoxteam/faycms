@@ -46,7 +46,7 @@ $redis->connect('redis', 6379, 300);
 </div>
 <div class="clear-10"></div>
 <?php
-shuffle($lists);
+//shuffle($lists);
  foreach ($lists as $list ){?>
 <div class="col-md-2 col-sm-3 teach-list">
     <div class="panel panel-default panel-until">

@@ -71,7 +71,6 @@ class IndexController extends FrontendController
     //根据姓名查询工号
     public function search()
     {
-//        echo '11';die;
         $name = $this->input->post('name', 'trim');
 
         $where = array(

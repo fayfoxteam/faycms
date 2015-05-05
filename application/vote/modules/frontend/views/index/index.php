@@ -101,6 +101,7 @@ $redis->connect('redis', 6379, 300);
             {
                ?>
                <div class="btn btn-danger form-control" disabled>您已经投过了，只有一次机会的哦</div>
+               <?php include 'result.php'; ?>
         <?php }else { ?>
             <div class="btn btn-primary form-control" id="vote_submit">投票</div>
         <?php } } ?>

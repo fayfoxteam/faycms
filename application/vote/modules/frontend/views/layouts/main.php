@@ -37,11 +37,9 @@ use fay\helpers\Html;
 	
     <script type="text/javascript" src="<?php echo $this->staticFile('js/jquery.1.11.1.js')?>"></script>
     <script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
-    <script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
     <script>
         system.base_url = '<?php echo $this->url()?>';
         system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
-        _fa.init();
     </script>
 </head>
 <body>
@@ -56,5 +54,9 @@ use fay\helpers\Html;
 
 <script src="<?php echo $this->staticFile('js/bootstrap.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->staticFile('js/vote.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script>
+    _fa.init();
+</script>
 </body>
 </html>

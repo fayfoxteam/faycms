@@ -138,7 +138,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
 <script>
 _fa.init();
 var login = {

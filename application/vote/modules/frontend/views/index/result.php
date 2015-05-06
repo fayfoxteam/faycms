@@ -10,7 +10,7 @@ $redis->connect('redis', 6379);
 
 <div class="container">
     <div class="clear-100"></div>
-    <h1>教师评选结果<small> 百分比＝ 票数 / 已投票的学生数(当前已投票人数: <?php echo $studentCount; ?>人)</small></h1>
+    <h1>教师评选结果<small> (当前已投票人数: <?php echo $studentCount; ?>人)</small></h1>
     <div class="clear-30"></div>
     
     <div class="container">

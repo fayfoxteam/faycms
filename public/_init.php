@@ -2,7 +2,7 @@
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 use fay\core\ErrorHandler;
-use fay\core\Dumper;
+use fay\helpers\Dumper;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'application'.DS.APPLICATION).DS);

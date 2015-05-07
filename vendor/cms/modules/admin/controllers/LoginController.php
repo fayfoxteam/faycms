@@ -21,7 +21,10 @@ class LoginController extends Controller{
 			//获得用户名对应的密码后缀字母
 			$result = User::model()->adminLogin($this->input->post('username'), $this->input->post('password'));
 			if($result['status']){
-				Log::set('admin:action:login.success', array('fmac'=>isset($_COOKIE['fmac']) ? $_COOKIE['fmac'] : ''));
+				Log::set('admin:action:login.success', array(
+				    'fmac'=>isset($_COOKIE['fmac']) ? $_COOKIE['fmac'] : '',
+				    'username'=>$this->input->post('username'),
+				));
 				if($this->input->get('redirect')){
 					header('location:'.base64_decode($this->input->get('redirect')));
 					die;

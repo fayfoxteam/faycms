@@ -62,10 +62,11 @@ class Dumper{
                 $spaces = str_repeat(' ', ($level + 1) * 4);
                 foreach ((array) $var as $key => $value) {
                     $key = trim($key);
-                    if(substr($key, 0, strlen($class_name)) == $class_name){
+                    $pre = substr($key, 0, strpos($key, "\0"));
+                    if($pre == $class_name){
                         //private
-                        self::$_output .= "\n{$spaces}<i>private</i> '".substr($key, strlen($class_name))."'";
-                    }else if(substr($key, 0, 1) == '*'){
+                        self::$_output .= "\n{$spaces}<i>private</i> '".substr($key, strpos($key, "\0"))."'";
+                    }else if($pre == '*'){
                         //protected
                         self::$_output .= "\n{$spaces}<i>protected</i> '".substr($key, 1)."'";
                     }else{

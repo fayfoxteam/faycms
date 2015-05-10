@@ -45,10 +45,7 @@
     </div>
 
     <div class="friend-link border-all t-20 b-20">
-        <ul class="clearfix">
             <?php F::app()->widget->load('friendLinks'); ?>
-        </ul>
-
     </div>
     <script type="text/javascript">
         $(document).ready(function(){

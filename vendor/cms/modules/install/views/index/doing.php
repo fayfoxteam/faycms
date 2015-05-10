@@ -80,14 +80,14 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setSystem();
+					install.setMenus();
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
 			}
 		});
 	},
-	'setActions':function(){
+	'setMenus':function(){
 		$("#install-panel").append('<li>导入后台菜单<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",

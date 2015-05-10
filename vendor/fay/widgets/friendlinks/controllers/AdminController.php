@@ -2,6 +2,7 @@
 namespace fay\widgets\friendlinks\controllers;
 
 use fay\core\Widget;
+use fay\models\Category;
 
 class AdminController extends Widget{
 	
@@ -11,6 +12,15 @@ class AdminController extends Widget{
 	public $description = '友情链接列表';
 	
 	public function index($data){
+		$root_node = Category::model()->getByAlias('_system_link', 'id');
+		$this->view->cats = array(
+			array(
+				'id'=>0,
+				'title'=>'不限制分类',
+				'children'=>Category::model()->getTreeByParentId($root_node['id']),
+			),
+		);
+		
 		//获取默认模版
 		if(empty($data['template'])){
 			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
@@ -33,6 +43,7 @@ class AdminController extends Widget{
 		$this->saveData(array(
 			'title'=>$this->input->post('title', null, ''),
 			'number'=>$this->input->post('number', 'intval', 5),
+			'cat_id'=>$this->input->post('cat_id', 'intval', 0),
 			'template'=>$this->input->post('template'),
 		));
 		$this->flash->set('编辑成功', 'success');

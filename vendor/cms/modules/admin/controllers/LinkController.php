@@ -34,7 +34,7 @@ class LinkController extends AdminController{
 			}
 		}
 		
-		$this->view->cats = Category::model()->getTree('_system_link', 'id,title');
+		$this->view->cats = Category::model()->getTree('_system_link');
 		$this->view->render();
 	}
 	
@@ -70,7 +70,7 @@ class LinkController extends AdminController{
 				'text'=>'同分类下新增链接',
 			);
 			
-			$this->view->cats = Category::model()->getTree('_system_link', 'id,title');
+			$this->view->cats = Category::model()->getTree('_system_link');
 			$this->view->render();
 		}
 	}

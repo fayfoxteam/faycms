@@ -2,6 +2,7 @@
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 use fay\core\ErrorHandler;
+use fay\helpers\Dumper;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'application'.DS.APPLICATION).DS);
@@ -20,47 +21,13 @@ spl_autoload_register('fay\core\Loader::autoload');
 $error_handler = new ErrorHandler();
 $error_handler->register();
 
-
 /**
- * 这是一个debug辅助方法，之所以放这里，是因为放哪儿都不合适
- * 格式化输出一个数组
- * @param array $arr
- * @param boolean $encode 若此参数为true，则会对数组内容进行html实体转换
- * @param boolean $return 若此参数为true，则不直接输出数组，而是以变量的方式返回
+ * 定义一个快捷方式，方便调试
  */
-function dump($arr, $encode = false, $return = false){
-	if($encode){
-		$arr = F::input()->filterR('fay\helpers\Html::encode', $arr);
-	}
-	if($return){
-		ob_start();
-		echo '<pre>';
-		print_r($arr);
-		echo '</pre>';
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
-	}else{
-		echo '<pre>';
-		print_r($arr);
-		echo '</pre>';
-	}
+function pr($var, $encode = false, $return = false){
+	return Dumper::pr($var, $encode, $return);
 }
-function pr($arr, $encode = false, $return = false){
-    if($encode){
-        $arr = F::input()->filterR('fay\helpers\Html::encode', $arr);
-    }
-    if($return){
-        ob_start();
-        echo '<pre>';
-        print_r($arr);
-        echo '</pre>';
-        $content = ob_get_contents();
-        ob_end_clean();
-        return $content;
-    }else{
-        echo '<pre>';
-        print_r($arr);
-        echo '</pre>';
-    }
+
+function dump($var){
+	Dumper::dump($var);
 }

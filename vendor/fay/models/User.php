@@ -15,7 +15,7 @@ class User extends Model{
 	public static function model($className = __CLASS__){
 		return parent::model($className);
 	}
-	
+
 	public function adminLogin($username, $password){
 		if(empty($username)){
 			return array(
@@ -52,7 +52,7 @@ class User extends Model{
 				'error_code'=>'password:not-match',
 			);
 		}
-		
+
 		if($user['role'] < Users::ROLE_SYSTEM){
 			return array(
 				'status'=>0,
@@ -60,7 +60,7 @@ class User extends Model{
 				'error_code'=>'not-admin',
 			);
 		}
-		
+
 		if($user['block']){
 			return array(
 				'status'=>0,
@@ -68,19 +68,19 @@ class User extends Model{
 				'error_code'=>'block:blocked',
 			);
 		}
-		
-		$this->session->set('id', $user['id']);
-		$this->session->set('username', $user['username']);
-		$this->session->set('nickname', $user['nickname']);
-		$this->session->set('role', $user['role']);
-		$this->session->set('last_login_time', $user['last_login_time']);
-		$this->session->set('last_login_ip', long2ip($user['last_login_ip']));
-		$this->session->set('status', $user['status']);
-		$this->session->set('avatar', $user['avatar']);
-		
+
+		\F::session()->set('id', $user['id']);
+		\F::session()->set('username', $user['username']);
+		\F::session()->set('nickname', $user['nickname']);
+		\F::session()->set('role', $user['role']);
+		\F::session()->set('last_login_time', $user['last_login_time']);
+		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
+		\F::session()->set('status', $user['status']);
+		\F::session()->set('avatar', $user['avatar']);
+
 		//获取角色名称
 		$role = Roles::model()->find($user['role']);
-		$this->session->set('role_title', $role['title']);
+		\F::session()->set('role_title', $role['title']);
 		//设置权限，超级管理员无需设置
 		if($user['role'] != Users::ROLE_SUPERADMIN){
 			$sql = "SELECT
@@ -95,23 +95,23 @@ class User extends Model{
 			foreach($actions as $a){
 				$action_routers[] = $a['router'];
 			}
-			$this->session->set('actions', $action_routers);
+			\F::session()->set('actions', $action_routers);
 		}
-		
+
 		Users::model()->update(array(
 			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>$user['login_times'] + 1,
 		), $user['id']);
-		
+
 		return array(
 			'status'=>1,
 			'user'=>$user,
 		);
-			
+
 	}
-	
+
 	public function userLogin($username, $password, $role = null){
 		if($username == ''){
 			return array(
@@ -148,7 +148,7 @@ class User extends Model{
 				'error_code'=>'password:not-match',
 			);
 		}
-		
+
 		if($user['block']){
 			return array(
 				'status'=>0,
@@ -156,7 +156,7 @@ class User extends Model{
 				'error_code'=>'block:blocked',
 			);
 		}
-		
+
 		if($user['status'] == Users::STATUS_UNCOMPLETED){
 			return array(
 				'status'=>0,
@@ -182,57 +182,56 @@ class User extends Model{
 				'error_code'=>'status:not-verified',
 			);
 		}
-		
+
 		$this->setSessionInfo($user);
-		
+
 		Users::model()->update(array(
 			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>$user['login_times'] + 1,
 		),'id = '.$user['id']);
-		
+
 		return array(
 			'status'=>1,
 			'user'=>$user,
 		);
-		
+
 	}
-	
+
 	public function setSessionInfo($user){
-		$this->session->set('id', $user['id']);
-		$this->session->set('username', $user['username']);
-		$this->session->set('nickname', $user['nickname']);
-		$this->session->set('avatar', $user['avatar']);
-		$this->session->set('role', $user['role']);
-		$this->session->set('last_login_time', $user['last_login_time']);
-		$this->session->set('last_login_ip', long2ip($user['last_login_ip']));
-		$this->session->set('status', $user['status']);
-		$this->session->set('user_type', $user['user_type']);
+		\F::session()->set('id', $user['id']);
+		\F::session()->set('username', $user['username']);
+		\F::session()->set('nickname', $user['nickname']);
+		\F::session()->set('avatar', $user['avatar']);
+		\F::session()->set('role', $user['role']);
+		\F::session()->set('last_login_time', $user['last_login_time']);
+		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
+		\F::session()->set('status', $user['status']);
 	}
-	
+
 	public function logout(){
-		$this->session->remove();
+		\F::session()->remove();
 	}
-	
+
 	public function get($id, $fields = 'props'){
 		$fields = explode(',', $fields);
 		$user = Users::model()->find($id, '!password,salt');
-		
+
 		if(!$user){
 			return false;
 		}
-		
+
 		if(in_array('props', $fields)){
 			$props = Props::model()->fetchAll(array(
 				'refer = ?'=>$user['role'],
 				'type = '.Props::TYPE_ROLE,
 				'deleted = 0',
 			), 'id,title,element,required,is_show,alias', 'sort');
-			
+
 			$user['props'] = $this->getProps($id, $props);
 		}
-		
+
 		return $user;
 	}
 
@@ -247,14 +246,14 @@ class User extends Model{
 			$user = Users::model()->find($user_id, 'role');
 			$props = Prop::model()->getAll($user['role'], Props::TYPE_ROLE);
 		}
-	
+
 		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(
 			'varchar'=>'fay\models\tables\ProfileVarchar',
 			'int'=>'fay\models\tables\ProfileInt',
 			'text'=>'fay\models\tables\ProfileText',
 		));
 	}
-	
+
 	/**
 	 * 设置一个用户属性值
 	 * @param int $user_id
@@ -270,7 +269,7 @@ class User extends Model{
 			'text'=>'fay\models\tables\ProfileText',
 		));
 	}
-	
+
 	/**
 	 * 获取一个用户属性值
 	 * @param int $user_id
@@ -284,11 +283,11 @@ class User extends Model{
 			'text'=>'fay\models\tables\ProfileText',
 		));
 	}
-	
+
 	public function getPropOptionsByAlias($alias){
 		return Prop::model()->getPropOptionsByAlias($alias);
 	}
-	
+
 	public function getMemberCount($parent){
 		$member = Users::model()->fetchRow(array(
 			'parent = ?'=>$parent,

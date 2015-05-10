@@ -21,7 +21,7 @@ class ActionController extends AdminController{
 		
 		$this->_setListview();
 
-		$this->view->cats = Category::model()->getTree('_system_action', 'id,title');
+		$this->view->cats = Category::model()->getTree('_system_action');
 		$this->form()->setModel(Actions::model())
 			->addRule(array('parent_router', 'ajax', array('url'=>array('admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'))

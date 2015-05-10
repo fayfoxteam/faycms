@@ -15,6 +15,12 @@ use fay\models\tables\Users;
 			<p class="fc-grey">若为空，默认为“友情链接”</p>
 		</div>
 		<div class="form-field">
+			<label class="title">分类</label>
+			<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
+				'class'=>'form-control mw400',
+			))?>
+		</div>
+		<div class="form-field">
 			<label class="title">显示链接数</label>
 			<?php echo F::form('widget')->inputText('number', array(
 				'class'=>'form-control mw150',

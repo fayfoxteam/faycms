@@ -71,6 +71,9 @@ DD_belatedPNG.fix('img,.ie6png');
 
 
 
-
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script>
+    _fa.init();
+</script>
 </body>
 </html>

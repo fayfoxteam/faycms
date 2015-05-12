@@ -1,5 +1,5 @@
 <?php
-
+use fay\models\Option;
 ?>
 <!-- /container -->
 <div class="container">
@@ -22,21 +22,14 @@
         <!--<p class="fc999 pull-left footer-info">Copyright © 2013 生物探索网站<span class="l-20">苏ICP备11025281号</span></p>-->
 
         <ul class="about-ul">
-            <li>客服电话 400-100-8884</li>
+            <li>咨询电话 0575-88888888</li>
             <li><span>|</span></li>
-            <li><a title="广告投放" href="javascript:;" class="fc666" target="_blank">广告投放</a></li>
+            <li><a title="1111" href="javascript:;" class="fc666" target="_blank">1111</a></li>
             <li><span>|</span></li>
-            <li><a title="企业服务" href="javascript:;" class="fc666" target="_blank">企业服务</a></li>
+            <li><a title="2222" href="javascript:;" class="fc666" target="_blank">2222</a></li>
             <li><span>|</span></li>
-            <li><a title="公司博客" href="javascript:;" class="fc666" target="_blank" >公司博客</a></li>
+            <li><a title="3333" href="javascript:;" class="fc666" target="_blank" >3333</a></li>
             <li><span>|</span></li>
-            <li><a title="加入我们" href="javascript:;" class="fc666" target="_blank">加入我们</a></li>
-            <li><span>|</span></li>
-            <li><a title="服务协议" href="javascript:;" class="fc666" target="_blank">服务协议</a></li>
-            <li><span>|</span></li>
-            <!-- <li id="zk_btn" class="ie6png down-class">
-                <a title="友情链接" href="javascript:void(0);" class="fc666">友情链接</a>
-            </li>-->
             <li id="zk_btn" class="ie6png down-class">
                 <a title="友情链接" href="javascript:void(0);" class="fc666">友情链接</a>
             </li>
@@ -69,7 +62,7 @@
         });
     </script>
 
-    <p>Copyright ©2013　　备8888888888号</p>
+    <p><?= Option::get('copyright');  ?></p>
 
 </div>
 

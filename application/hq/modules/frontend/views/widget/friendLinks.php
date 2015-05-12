@@ -1,6 +1,8 @@
 <?php
-
+//dump($links);
 ?>
 <ul class="clearfix">
-    <li>1111</li>
+    <?php foreach ($links as $link){ ?>
+    <li><a href="<?= $link['url'] ?>" target="<?= $link['target'] ?>"><?php echo $link['title'] ?></a></li>
+    <?php } ?>
 </ul>

@@ -1,4 +1,4 @@
-\@CHARSET "UTF-8";
+
 .logo-div .logo-img {width:100%;}
 .label-div ul {list-style: none;}
 .label-div .label-title {color: #336699;font-weight: bold;}
@@ -224,11 +224,11 @@ ul.dropdown-bio li a:hover {background: #E6E6E6;}
 .footer ul.about-ul li.down-class, .footer ul.about-ul li.up-class {background: url(../images/icons.png) no-repeat;padding-right: 10px;}
 .footer ul.about-ul li.fc666{color:#3399CC; font-size:18px;}
 .footer ul.about-ul li.down-class {background-position: 60px 24px;}
-.footer p{text-align:center; color:#999; margin:0px; padding:10px 0; height:30px; line-height:30px;}
+.footer p{text-align:center; color:#999; margin:0; padding:10px 0; height:30px; line-height:30px;}
 .footer ul.about-ul li.up-class {background-position: 60px -8px;}
 .footer .friend-link {background: #fff;padding: 10px 15px 2px;}
-.footer .friend-link ul{width:100%}
-.footer .friend-link ul li {float: left;margin-bottom: 10px;}
+.footer .friend-link ul{ width:100%; text-align: center; }
+.footer .friend-link ul li { margin-bottom: 10px; margin-right: 10px; display: inline-block; }
 .footer .friend-link ul li a {white-space:nowrap;}
 .footer .friend-link ul li span {color: #999;padding: 0 8px;}
 /**************登录注册用户中心*************/

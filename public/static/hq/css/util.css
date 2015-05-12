@@ -6,6 +6,10 @@
 .fs-26 { font-size: 26px; }
 .fs-30 { font-size: 30px; }
 
+.ml-10 { margin-right: 10px; }
+
+.text-center { text-align: center; }
+
 .clear { clear: both; }
 .clear-0 { clear: both; height: 0px; font-size: 0px; float: none; overflow: hidden; }
 .clear-1 { clear: both; height: 1px; font-size: 0px; float: none; overflow: hidden; }

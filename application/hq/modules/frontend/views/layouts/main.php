@@ -1,5 +1,6 @@
 <?php 
-
+use fay\models\Option;
+use fay\helpers\Html;
 $cssUrl = $this->staticFile('css/');
 $jsUrl = $this->staticFile('js/');
 $imgUrl = $this->staticFile('images/'); 
@@ -10,9 +11,30 @@ $imgUrl = $this->staticFile('images/');
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Language" content="zh-CN" />
-<title>医疗器械创新网</title>
-<meta name="Keywords" content=""/>
-<meta name="Description" content=""/>
+<title><?php
+    if (!empty($title))
+    {
+        echo $title. ' - ';
+    }
+    echo Option::get('sitename');
+    ?>
+</title>
+<meta name="Keywords" content="
+<?php
+if($keywords !== ''){
+    echo Html::encode($keywords);
+}else{
+    echo Option::get('seo_index_keywords');
+}?>
+"/>
+<meta name="Description" content="
+<?php
+if($keywords !== ''){
+    echo Html::encode($description);
+}else{
+    echo Option::get('seo_index_description');
+}?>
+"/>
 <!-- Le styles -->
 <link rel="stylesheet" type="text/css" href="<?php echo $cssUrl ?>basic.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $cssUrl ?>index.css"/>
@@ -22,7 +44,11 @@ $imgUrl = $this->staticFile('images/');
 <script type="text/javascript" src="<?php echo $jsUrl ?>jquery.lazyload.mini.js"></script>
 <script type="text/javascript" src="<?php echo $jsUrl ?>bioV4.min.js"></script>
 <script src="<?php echo $jsUrl?>hq.js"></script>
-
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script>
+    system.base_url = '<?php echo $this->url()?>';
+    system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
+</script>
 <!--[if IE 6]>
 <script type="text/javascript" src="<?php echo $jsUrl ?>DD_belatedPNG.js"></script>
 <script type="text/javascript">

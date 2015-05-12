@@ -10,7 +10,7 @@ $imgUrl = $this->staticFile('images/');
 <div class="label-div t-20 border-all">
 <div class="l-15">
     <h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">
-        <a href="javascript:;" title="创新项目" class="pull-left r-10">创新项目</a>
+        <a href="javascript:;" title="文章列表" class="pull-left r-10">文章列表</a>
 							<span class="pull-left">
 									            				<a href="javascript:;" title="分类" class="pull-left">分类</a>
 	            					            				<a href="javascript:;" title="分类" class="pull-left">分类</a>
@@ -30,12 +30,12 @@ $imgUrl = $this->staticFile('images/');
     <div class="slides-list slides-banner">
         <div class="slides-css" style="display:block;">
             <a target="_blank" href="javascript:;" title="标题标题"  rel="bookmark" >
-                <img alt="标题标题" src="<?php echo $imgUrl ?>lunbo1.jpg"/>
+                <img alt="标题标题" src="<?php echo $imgUrl ?>111.jpg" style="width: 587px; height: 357px;"/>
             </a>
         </div>
         <div class="slides-css" style="display:none;">
             <a target="_blank" href="javascript:;" title="标题标题"  rel="bookmark" >
-                <img alt="标题标题" src="<?php echo $imgUrl ?>lunbo2.jpg"/>
+                <img alt="标题标题" src="<?php echo $imgUrl ?>222.jpg" style="width: 587px; height: 357px;"/>
             </a>
         </div>
 
@@ -328,7 +328,7 @@ $imgUrl = $this->staticFile('images/');
 <!--栏目展示-->
 <div class="l-15 mmtop">
     <h3 class="label-title border-b small clearfix" style="padding-bottom: 14px; margin-bottom:14px;">
-        <a href="javascript:;" title="创新咨讯" class="pull-left r-10">创新咨讯</a>
+        <a href="javascript:;" title="文章列表" class="pull-left r-10">文章列表</a>
                 <span class="pull-left">
                     <a href="javascript:;" title="分类" class="pull-left">分类</a>
 
@@ -534,14 +534,14 @@ $imgUrl = $this->staticFile('images/');
 
 
 
-<!--项目展示-->
+<!--文章列表-->
 <div class="span13">
 <div class="label-div t-30 border-all">
 
 
 <div class="l-15">
     <h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">
-        <a href="/talk.html" title="访谈" class="pull-left r-10">项目展示</a>
+        <a href="/talk.html" title="文章列表" class="pull-left r-10">文章列表</a>
             <span class="pull-left">
                 <a href="javascript:;" title="分类" class="pull-left">分类</a>
                 <a href="javascript:;" title="分类" class="pull-left">分类</a>
@@ -910,14 +910,8 @@ $imgUrl = $this->staticFile('images/');
 
     <div class="label-div t-20 border-all">
         <div class="l-15"><h3 style="padding-bottom: 14px;" class="label-title border-b b-20 small clearfix">关注我们</h3></div>
-        <div class="l-15 home-other clearfix">
-            <a target="_blank" class="home-sina" title="新浪微博" href="http://weibo.com/2094942911/"><img style="width: 20%;max-width: 36px;display: inline-block;" src="<?php echo $imgUrl ?>sina.png" alt="新浪微博"></a>
-            <a target="_blank" class="home-qq" title="腾讯微博" href="http://t.qq.com/shengwu___tansuo"><img style="width: 20%;max-width: 36px;display: inline-block;" src="<?php echo $imgUrl ?>qq.png" alt="腾讯微博"></a>
-            <a target="_blank" class="home-renren" title="人人网" href="http://www.renren.com/600991382"><img style="width: 20%;max-width: 36px;display: inline-block;" src="<?php echo $imgUrl ?>rr.png" alt="人人网"></a>
-            <a style="margin-right: 0;" target="_blank" class="home-linkin" title="LinkedIn" href="http://cn.linkedin.com/pub/bio-discover/38/4b6/a27"><img style="width: 20%;max-width: 36px;display: inline-block;" src="<?php echo $imgUrl ?>in.png" alt="LinkedIn"></a>
-        </div>
         <div class="l-15 t-20"><img src="<?php echo $imgUrl ?>mm.png"></div>
-        <p style="margin-bottom: 0;" class="l-15 t-5 fc999">扫描微信，随时获得最新资讯</p>
+        <p class="l-15 t-5 fc999 text-center">扫一扫，关注我们</p>
     </div>
 
 
@@ -928,7 +922,7 @@ $imgUrl = $this->staticFile('images/');
 
     <div class="label-div t-30 border-all">
         <div class="l-15">
-            <h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">关注项目</h3></div>
+            <h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">文章列表</h3></div>
         <div class="label-main tody-hot l-15" >
             <ul>
                 <li><a href="">标题标题标题标题标题标题题标题</a></li>
@@ -948,7 +942,7 @@ $imgUrl = $this->staticFile('images/');
 
     <div class="label-div t-30 border-all">
         <div class="l-15">
-            <h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">关注咨询</h3>
+            <h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">文章列表</h3>
         </div>
         <div class="label-main tody-hot l-15" >
             <ul>
@@ -975,7 +969,7 @@ $imgUrl = $this->staticFile('images/');
 
 
     <div class="label-div t-30 border-all">
-        <div class="l-15"><h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">合作机构</h3></div>
+        <div class="l-15"><h3 class="label-title border-b b-15 small clearfix" style="padding-bottom: 14px;">文章列表</h3></div>
         <div class="label-main tody-hot l-15" >
             <ul>
                 <li><a href="">标题标题标题标题标题标题题标题</a></li>

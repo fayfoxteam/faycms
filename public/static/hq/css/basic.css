@@ -739,7 +739,7 @@ button.close {
 	padding: 20px 0 20px;
 }
 .logo-img { height: 75px; line-height: 75px; vertical-align: middle; }
-.logo-img span { display: inline-block; height: 75px; line-height: 75px; vertical-align: middle; margin-left: 10px; }
+.logo-img span { display: inline-block; height: 40px; line-height: 40px; vertical-align: middle; margin-left: 10px; }
 .logo-lib {padding-left: 1em;}
 .label-main .video-list {width: 166px;}
 .label-div .label-main .square-list p {

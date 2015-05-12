@@ -43,9 +43,9 @@ use fay\helpers\Html;
     <div class="container clearfix">
         <div class="span10 logo-img">
             <a href="/" title="医疗器械创新网">
-                <img src="<?php echo $imgUrl ?>logo.gif" width="350"/>
+                <img src="<?php echo $imgUrl ?>logo.gif" width="300"/>
             </a>
-            <span class="fs-26">后勤管理处</span>
+            <span class="fs-22">后勤管理处</span>
         </div>
     </div>
 </div>

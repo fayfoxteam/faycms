@@ -1,0 +1,32 @@
+.nav-navin{height:45px;background:#318BCC;width:100%;}
+.nav-navinmin{width:1100px;text-align:left;margin:0 auto;font-family:"微软雅黑";font-size:14px;line-height:45px;color:#fff;}
+.nav-navinmin a{color:#fff}
+.gyah-min{width:1100px;margin:10px auto;zoom:1;overflow:auto}
+.gyah-minleft{width:150px;float:left;background:#F4F5F6;}
+.gyah-minleft li{height:50px;width:100%;border-bottom:1px solid #fff;line-height:50px;padding:0;margin: 0;}
+.gyah-minleft li a{display:block;color:#666;font-size:14px;}
+
+.gyah-minleft li:hover{background:url("../images/lxwmlibg_03.jpg") no-repeat;color:#fff}
+.gyah-minleft li a:hover{color:#fff}
+.gyah-minleft .gyah-libg{background:url("../images/lxwmlibg_03.jpg") no-repeat;color:#fff}
+.gyah-minleft li .gyah-litxt{color:#fff}
+
+.gyah-minright{width:918px;float:right; text-align:left;position:relative;overflow:hidden}
+.gyah-minrtop{border:1px solid #f4f5f6;padding:20px}
+.gyah-minrtoptit{font-size: 24px;color:#2f8bcc}
+.gyah-minrtopmin li{border-bottom:1px dashed #D9D9D9;padding-bottom:15px;position:relative}
+.gyah-minrtopmin ul{}
+.gyah-minrtopmin .gyah-minrtltit{font-size: 24px;color:#666666;padding:20px 0}
+.gyah-minrtopmin .gyah-minrtltime{font-size:12px;color:#c5c5c5}
+.gyah-minrtopmin .gyah-minrtltxt{font-size:14px;color:#666666;line-height:25px;width:495px;}
+.gyah-minrtopmin .gyah-minrtltxt a{color:#318BCC}
+.gyah-minrtopmin .gyah-minrtlimg{position: absolute;right:93px;bottom:18px}
+.gyah-minryema{margin-top:20px;height:40px;float:right}
+.gyah-minryema ul{}
+.gyah-minryema ul li{float:left;margin-left:4px}
+.gyah-minryema ul li a{padding:3px 7px;border:solid #CCCCCC 1px}
+.gyah-minryema ul li a:hover{color: #fff;background:#318BCC}
+.gyah-minryema ul li .yemabg{color: #fff;background:#318BCC}
+.gyah-minryema ul .gyah-minryemaxyy{display:inline-block;background:url("../images/yama1xyy_11.jpg") no-repeat 50px;}
+.gyah-minryema ul .gyah-minryemaxyy a{padding:3px 10px;}
+.gyah-minryema ul .gyah-minryemaxyy a:hover{background:none; color:#666666;text-decoration:underline ;}

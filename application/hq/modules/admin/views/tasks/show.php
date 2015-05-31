@@ -23,17 +23,17 @@
 
     var zNodes =[
         { id:1, pId:0, name:"1幢寝室楼电表", t:"1幢寝室楼电表", open:true},
-        { id:11, pId:1, name:"1001", t:"1001"},
-        { id:12, pId:1, name:"1002", t:"1002"},
-        { id:13, pId:1, name:"1003", t:"1003"},
+        { id:11, pId:1, name:"1001", t:"1幢寝室楼"},
+        { id:12, pId:1, name:"1002", t:"1幢寝室楼"},
+        { id:13, pId:1, name:"1003", t:"1幢寝室楼"},
         { id:2, pId:0, name:"2幢寝室楼电表", t:"2幢寝室楼电表", open:true},
-        { id:21, pId:2, name:"2001", t:"2001" },
-        { id:22, pId:2, name:"2002", t:"2002" },
-        { id:23, pId:2, name:"2003", t:"2003" },
+        { id:21, pId:2, name:"2001", t:"2幢寝室楼" },
+        { id:22, pId:2, name:"2002", t:"2幢寝室楼" },
+        { id:23, pId:2, name:"2003", t:"2幢寝室楼" },
         { id:3, pId:0, name:"3幢寝室楼电表", t:"3幢寝室楼电表", open:true },
-        { id:31, pId:3, name:"3001", t:"3001"},
-        { id:32, pId:3, name:"3002", t:"3002"},
-        { id:33, pId:3, name:"3003", t:"3003"}
+        { id:31, pId:3, name:"3001", t:"3幢寝室楼"},
+        { id:32, pId:3, name:"3002", t:"3幢寝室楼"},
+        { id:33, pId:3, name:"3003", t:"3幢寝室楼"}
     ];
 
     var log, className = "dark";
@@ -54,17 +54,20 @@
             dataType: 'json',
             data: {
                 type: 1,
-                treeId: treeNode.id
+                treeId: treeNode.id,
+                name: treeNode.name,
+                text: treeNode.t
             },
             success: function(data)
             {
+//                console.log(data);
                 if (data.code == 0)
                 {
-                    tongji_charts.create(data.data);
+                    tongji_charts.create(data.data, data.text, data.name);
                 }
                 else
                 {
-                    alert(data.message);
+                    alert('111');
                 }
             }
         });
@@ -114,11 +117,11 @@
 
 <script>
     var tongji_charts = {
-        'create': function(data)
+        'create': function(data, text, name)
         {
             $('#charts').highcharts({
                 title: {
-                    text: '1幢寝室楼1001电表',
+                    text: text + name + '电表',
                     x: -20 //center
                 },
                 subtitle: {
@@ -156,7 +159,7 @@
         }
     }
     $(function () {
-        tongji_charts.create([27.0, 36.9, 9.5, 14.5, 18.2,27.0, 36.9, 9.5, 14.5, 18.2]);
+        tongji_charts.create([27.0, 36.9, 9.5, 14.5, 18.2,27.0, 36.9, 9.5, 14.5, 18.2], '1幢寝室楼', '1001');
         $.fn.zTree.init($("#treeElectric"), setting, zNodes);
     });
 </script>

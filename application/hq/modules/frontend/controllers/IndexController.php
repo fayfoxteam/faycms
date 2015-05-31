@@ -7,7 +7,8 @@ class IndexController extends FrontController
 {
     public function index()
     {
-        $this->session->set('tab', 'index');
-        $this->view->render();
+        echo 'index';
+//        $this->session->set('tab', 'index');
+//        $this->view->render();
     }
 }

@@ -2,10 +2,10 @@
 namespace hq\modules\admin\controllers;
 
 use cms\library\AdminController;
+use fay\core\Sql;
 use hq\models\tables\Zbiaos;
 use hq\models\ZbiaoRecord;
 use fay\core\Response;
-use hq\models\tables\ZbiaoRecords;
 
 class TasksController extends AdminController
 {
@@ -50,6 +50,23 @@ class TasksController extends AdminController
         
         $this->view->tables = $tables;
         
+        $this->view->render();
+    }
+
+    public function total()
+    {
+        $this->layout->subtitle = '水电统计';
+
+        $condition = [
+            'type' => Zbiaos::TYPE_ELECTRICITY,
+        ];
+        $sql = new Sql();
+        $sql->from('zbiaos')->where($condition);
+
+        $sql->order('created desc');
+
+        $this->view->listview = new \fay\common\ListView($sql);
+
         $this->view->render();
     }
 }

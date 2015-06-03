@@ -53,4 +53,13 @@ class Zbiaos extends Table{
 			'updated'=>'intval',
 		);
 	}
+
+    public static function getTypeName()
+    {
+        return [
+            self::TYPE_ELECTRICITY => '电表',
+            self::TYPE_WATER => '水表'
+        ];
+    }
+
 }

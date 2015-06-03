@@ -2,6 +2,10 @@
 namespace hq\modules\admin\controllers;
 
 use cms\library\AdminController;
+use hq\models\tables\Zbiaos;
+use hq\models\ZbiaoRecord;
+use fay\core\Response;
+use hq\models\tables\ZbiaoRecords;
 
 class TasksController extends AdminController
 {
@@ -35,6 +39,17 @@ class TasksController extends AdminController
     public function input()
     {
         $this->layout->subtitle = '数据录入';
+
+        if ($post = $this->input->post())
+        {
+           ZbiaoRecord::model()->insertRecord($post);
+           Response::output('success', '信息录入成功');
+        }
+        
+        $tables = Zbiaos::model()->fetchAll();
+        
+        $this->view->tables = $tables;
+        
         $this->view->render();
     }
 }

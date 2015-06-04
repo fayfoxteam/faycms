@@ -3,6 +3,7 @@ namespace hq\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\core\Sql;
+use hq\models\tables\ZbiaoRecords;
 use hq\models\tables\Zbiaos;
 use hq\models\ZbiaoRecord;
 use fay\core\Response;
@@ -32,7 +33,20 @@ class TasksController extends AdminController
         $name = $this->input->post('name');
         $text = $this->input->post('text');
 
-        $data['data'] = [$tree_id, 21.9, 9.5, 21.5, 18.2,30.0, 36.9, 9.5, 14.5, 8.2];
+        $condition = ['biao_id = ?' => $tree_id];
+        $sql = new Sql();
+        $chat_data = $sql->from('zbiao_records', 'records', 'day_use')
+                         ->where($condition)
+                         ->order('created desc')
+                         ->limit(10)
+                         ->fetchAll();
+
+        if (!$chat_data)
+        {
+            $this->finish(['code' => -1, 'message' => '数据不存在']);
+        }
+//        $data['data'] = [$tree_id, 21.9, 9.5, 21.5, 18.2,30.0, 36.9, 9.5, 14.5, 8.2];
+        $data['data'] = ZbiaoRecord::getChatData($chat_data);
         $data['name'] = $name;
         $data['text'] = $text;
 

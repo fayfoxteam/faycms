@@ -39,4 +39,17 @@ class ZbiaoRecord extends Model
             Zbiaos::model()->update($biaos_update, $id);
         }
     }
+
+    public static function getChatData($data)
+    {
+        $chat_array = [];
+        foreach ($data as $key => $value)
+        {
+            foreach ($value as $v)
+            {
+                $chat_array[] = intval($v);
+            }
+        }
+        return $chat_array;
+    }
 }

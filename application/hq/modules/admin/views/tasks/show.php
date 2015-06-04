@@ -23,7 +23,7 @@
 
     var zNodes =[
         { id:1, pId:0, name:"1幢寝室楼电表", t:"1幢寝室楼电表", open:true},
-        { id:11, pId:1, name:"1001", t:"1幢寝室楼"},
+        { id:1001, pId:1, name:"1001", t:"1幢寝室楼"},
         { id:12, pId:1, name:"1002", t:"1幢寝室楼"},
         { id:13, pId:1, name:"1003", t:"1幢寝室楼"},
         { id:2, pId:0, name:"2幢寝室楼电表", t:"2幢寝室楼电表", open:true},
@@ -67,7 +67,7 @@
                 }
                 else
                 {
-                    alert('111');
+                    alert(data.message);
                 }
             }
         });

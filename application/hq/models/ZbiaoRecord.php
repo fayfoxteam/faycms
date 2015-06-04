@@ -18,8 +18,12 @@ class ZbiaoRecord extends Model
     {
         foreach ($data as $key => $value)
         {
-            $id = substr($key, -1);
+            $id = mb_substr($key, 5);
             $table = Zbiaos::model()->find($id);
+            if (!$value)
+            {
+                continue;
+            }
             $day_use = $value - $table['zongzhi'];
             $records = array(
                 'biao_id' => $table['biao_id'],
@@ -27,7 +31,6 @@ class ZbiaoRecord extends Model
                 'day_use' => $day_use,
                 'created' => time(),
             );
-            dump($records);
             ZbiaoRecords::model()->insert($records);
             $biaos_update = array(
                 'zongzhi' => $value,

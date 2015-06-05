@@ -141,20 +141,19 @@ class File extends Model{
 		}
 	}
 	
-	public function upload($target = '', $type = 0, $private = false){
+	public function upload($target = '', $type = 0, $private = false, $allowed_types = null){
 		if($target && substr($target, -1) != '/'){
 			//目标路径末尾不是斜杠的话，加上斜杠
 			$target .= '/';
 		}
 		
-		if($private){
-			$upload_config = array(
-				'upload_path'=>'./../uploads/' . APPLICATION . '/' . $target . date('Y/m/'),
-			);
-		}else{
-			$upload_config = array(
-				'upload_path'=>'./uploads/' . APPLICATION . '/' . $target . date('Y/m/'),
-			);
+		//是否存入私有文件
+		$upload_config['upload_path'] = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
+			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
+		
+		//是否指定上传文件类型
+		if($allowed_types !== null){
+			$upload_config['allowed_types'] = $allowed_types;
 		}
 		$result = self::createFolder($upload_config['upload_path']);
 		$upload = new Upload($upload_config);

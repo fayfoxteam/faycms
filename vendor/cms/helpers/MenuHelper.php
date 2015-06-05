@@ -2,7 +2,6 @@
 namespace cms\helpers;
 
 use fay\helpers\Html;
-use fay\models\tables\Users;
 class MenuHelper{
 	/**
 	 * 渲染一个导航栏

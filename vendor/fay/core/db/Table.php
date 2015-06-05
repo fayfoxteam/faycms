@@ -29,7 +29,7 @@ class Table extends Model{
 	 * 根据filters返回的参数列表，设置table相关参数
 	 * 并进行相关的filter处理
 	 * 没有设置filter的数据将不会被返回
-	 * @param array $options
+	 * @param array $data
 	 */
 	public function setAttributes($data){
 		$filters = $this->filters();
@@ -43,15 +43,38 @@ class Table extends Model{
 	}
 	
 	/**
-	 * 向当前表插入
-	 * @param array $options
+	 * 向当前表插入单行数据
+	 * @param array $data 一维数组
+	 * @param bool $filter 是否调用过滤器进行过滤
 	 */
-	public function insert($options, $filter = false){
-		if(!empty($options)){
+	public function insert($data, $filter = false){
+		if(!empty($data)){
 			if($filter){
-				$options = $this->setAttributes($options);
+				$data = $this->setAttributes($data);
 			}
-			return $this->db->insert($this->_name, $options);
+			return $this->db->insert($this->_name, $data);
+		}else{
+			return null;
+		}
+	}
+	
+	/**
+	 * 向当前表批量插入
+	 * @param array $data 二维数组
+	 * @param bool $filter 是否调用过滤器进行过滤
+	 */
+	public function bulkInsert($data, $filter = false){
+		if(!empty($data)){
+			$insert_data = array();
+			foreach($data as $d){
+				if($filter){
+					$insert_data[] = $this->setAttributes($d);
+				}else{
+					$insert_data[] = $d;
+				}
+			}
+			
+			return $this->db->bulkInsert($this->_name, $insert_data);
 		}else{
 			return null;
 		}
@@ -59,19 +82,19 @@ class Table extends Model{
 	
 	/**
 	 * 更新当前表记录
-	 * @param array $options
+	 * @param array $data
 	 * @param array $where
 	 * @param boolean $filter
 	 */
-	public function update($options, $where, $filter = false){
+	public function update($data, $where, $filter = false){
 		if(is_numeric($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
-		if(!empty($options)){
+		if(!empty($data)){
 			if($filter){
-				$options = $this->setAttributes($options);
+				$data = $this->setAttributes($data);
 			}
-			return $this->db->update($this->_name, $options, $where);
+			return $this->db->update($this->_name, $data, $where);
 		}else{
 			return null;
 		}

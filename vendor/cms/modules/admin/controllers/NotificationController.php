@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Users;
-use fay\models\tables\UserNotifications;
+use fay\models\tables\UsersNotifications;
 use fay\models\tables\Actionlogs;
 use fay\models\tables\Roles;
 use fay\models\Category;
@@ -39,7 +39,7 @@ class NotificationController extends AdminController{
 		$this->layout->subtitle = '我的消息';
 		
 		$sql = new Sql();
-		$sql->from('user_notifications', 'un', 'notification_id,read')
+		$sql->from('users_notifications', 'un', 'notification_id,read')
 			->joinLeft('notifications', 'n', 'un.notification_id = n.id', 'title,content,sender,publish_time')
 			->joinLeft('users', 'u', 'n.sender = u.id', 'username,nickname,realname')
 			->joinLeft('categories', 'c', 'n.cat_id = c.id', 'title AS cat_title')
@@ -61,7 +61,7 @@ class NotificationController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		
-		UserNotifications::model()->update(array(
+		UsersNotifications::model()->update(array(
 			'deleted'=>1,
 		), array(
 			'user_id = '.$this->current_user,
@@ -80,7 +80,7 @@ class NotificationController extends AdminController{
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
 		
-		UserNotifications::model()->update(array(
+		UsersNotifications::model()->update(array(
 			'deleted'=>0,
 		), array(
 			'user_id = '.$this->current_user,
@@ -102,7 +102,7 @@ class NotificationController extends AdminController{
 		
 		//获取未读消息数
 		$sql = new Sql();
-		$notifications = $sql->from('user_notifications', 'un', 'notification_id')
+		$notifications = $sql->from('users_notifications', 'un', 'notification_id')
 			->joinLeft('notifications', 'n', 'un.notification_id = n.id', 'title,content,publish_time')
 			->where(array(
 				"un.user_id = {$this->current_user}",
@@ -119,7 +119,7 @@ class NotificationController extends AdminController{
 	}
 	
 	public function mute(){
-		UserNotifications::model()->update(array(
+		UsersNotifications::model()->update(array(
 			'read'=>1,
 		), "user_id = {$this->current_user}");
 	}
@@ -149,7 +149,7 @@ class NotificationController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		$read = $this->input->get('read', 'intval');
 		
-		UserNotifications::model()->update(array(
+		UsersNotifications::model()->update(array(
 			'read'=>$read,
 		), array(
 			"user_id = {$this->current_user}",
@@ -167,7 +167,7 @@ class NotificationController extends AdminController{
 		}
 		switch($action){
 			case 'set-read':
-				$affected_rows = UserNotifications::model()->update(array(
+				$affected_rows = UsersNotifications::model()->update(array(
 					'read'=>1,
 				), array(
 					"user_id = {$this->current_user}",
@@ -176,7 +176,7 @@ class NotificationController extends AdminController{
 				Response::output('success', $affected_rows.'条消息被标记为已读');
 			break;
 			case 'set-unread':
-				$affected_rows = UserNotifications::model()->update(array(
+				$affected_rows = UsersNotifications::model()->update(array(
 					'read'=>0,
 				), array(
 					"user_id = {$this->current_user}",
@@ -185,7 +185,7 @@ class NotificationController extends AdminController{
 				Response::output('success', $affected_rows.'条消息被标记为未读');
 			break;
 			case 'delete':
-				$affected_rows = UserNotifications::model()->update(array(
+				$affected_rows = UsersNotifications::model()->update(array(
 					'deleted'=>1,
 				), array(
 					"user_id = {$this->current_user}",

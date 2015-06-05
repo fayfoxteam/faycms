@@ -1,4 +1,6 @@
 <?php
+use fay\models\Option;
+use fay\models\tables\Users;
 use fay\models\tables\Posts;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
@@ -29,17 +31,26 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						))?>
 					</div>
 					<div class="misc-pub-section">
-						<strong>状态</strong>
+						<strong>状态：</strong>
 						<?php
-							if(!F::app()->post_review || F::app()->checkPermission('admin/post/review')){
-								//未开启审核，或者有审核权限，显示发布按钮，并默认为“立即发布”
-								echo F::form()->inputRadio('status', Posts::STATUS_PUBLISH, array('label'=>'发布'), true);
-							}
+							$options = array(Posts::STATUS_DRAFT=>'草稿');
+							$default = '';
 							if(F::app()->post_review){
 								//开启审核，显示待审核选项。若没有审核权限，默认为待审核
-								echo F::form()->inputRadio('status', Posts::STATUS_PENDING, array('label'=>'待审核'), F::app()->checkPermission('admin/post/review') ? false : true);
+								$options[Posts::STATUS_PENDING] = '待审核';
+								if(F::app()->checkPermission('admin/post/review')){
+									$options[Posts::STATUS_REVIEWED] = '通过审核';
+								}
+								$default = Posts::STATUS_PENDING;
 							}
-							echo F::form()->inputRadio('status', Posts::STATUS_DRAFT, array('label'=>'草稿'));
+							if(!F::app()->post_review || F::app()->checkPermission('admin/post/publish')){
+								//未开启审核，或者有审核权限，显示发布按钮，并默认为“立即发布”
+								$options[Posts::STATUS_PUBLISHED] = '已发布';
+								$default = Posts::STATUS_PUBLISHED;
+							}
+							echo F::form()->select('status', $options, array(
+								'class'=>'form-control mw100 mt5 ib',
+							), $default);
 						?>
 					</div>
 					<div class="misc-pub-section mt0">
@@ -49,19 +60,21 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					</div>
 				</div>
 			</div>
-			<?php if(isset($_box_sort_settings['side'])){
-				foreach($_box_sort_settings['side'] as $box){
-					$k = array_search($box, $boxes_cp);
-					if($k !== false){
-						if(isset(F::app()->boxes[$k]['view'])){
-							$this->renderPartial(F::app()->boxes[$k]['view']);
-						}else{
-							$this->renderPartial('_box_'.str_replace('-', '_', $box));
+			<?php
+				if(isset($_box_sort_settings['side'])){
+					foreach($_box_sort_settings['side'] as $box){
+						$k = array_search($box, $boxes_cp);
+						if($k !== false){
+							if(isset(F::app()->boxes[$k]['view'])){
+								$this->renderPartial(F::app()->boxes[$k]['view']);
+							}else{
+								$this->renderPartial('_box_'.str_replace('-', '_', $box));
+							}
+							unset($boxes_cp[$k]);
 						}
-						unset($boxes_cp[$k]);
 					}
 				}
-			}?>
+			?>
 		</div>
 		<div class="postbox-container-2 dragsort"><?php 
 			if(isset($_box_sort_settings['normal'])){
@@ -95,9 +108,12 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script>
 $(function(){
 	common.dragsortKey = 'admin_post_box_sort';
-	common.filebrowserImageUploadUrl = system.url("admin/file/upload", {'t':'posts'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'posts'});
 	common.filebrowserFlashUploadUrl = system.url("admin/file/upload", {'t':'posts'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
+	<?php if(F::session()->get('role') != Users::ROLE_SUPERADMIN && Option::get('system.role_cats')){?>
+		post.roleCats = <?php echo json_encode(F::session()->get('role_cats'))?>;
+	<?php }?>
 	post.init();
 });
 </script>

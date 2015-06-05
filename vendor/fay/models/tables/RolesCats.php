@@ -3,12 +3,12 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class PostCategories extends Table{
-	protected $_name = 'post_categories';
-	protected $_primary = array('post_id', 'cat_id');
+class RolesCats extends Table{
+	protected $_name = 'roles_cats';
+	protected $_primary = array('role_id', 'cat_id');
 	
 	/**
-	 * @return PostCategories
+	 * @return RolesCats
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);
@@ -16,21 +16,20 @@ class PostCategories extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('post_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('role_id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
 		);
 	}
 
 	public function labels(){
 		return array(
-			'post_id'=>'Post Id',
+			'role_id'=>'Role Id',
 			'cat_id'=>'Cat Id',
 		);
 	}
 
 	public function filters(){
 		return array(
-			'post_id'=>'intval',
+			'role_id'=>'intval',
 			'cat_id'=>'intval',
 		);
 	}

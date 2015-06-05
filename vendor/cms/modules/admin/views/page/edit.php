@@ -36,7 +36,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					</div>
 					<div class="misc-pub-section">
 						<strong>状态</strong>
-						<?php echo F::form()->inputRadio('status', Pages::STATUS_PUBLISH, array('label'=>'已发布'))?>
+						<?php echo F::form()->inputRadio('status', Pages::STATUS_PUBLISHED, array('label'=>'已发布'))?>
 						<?php echo F::form()->inputRadio('status', Pages::STATUS_DRAFT, array('label'=>'草稿'))?>
 					</div>
 				</div>
@@ -85,7 +85,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script>
 $(function(){
 	common.dragsortKey = 'admin_page_box_sort';
-	common.filebrowserImageUploadUrl = system.url("admin/file/upload", {'t':'pages'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'pages'});
 	common.filebrowserFlashUploadUrl = system.url("admin/file/upload", {'t':'pages'});
 	
 });

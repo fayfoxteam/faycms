@@ -1,5 +1,5 @@
 #wmd-button-bar{padding:7px 5px;}
-#wmd-input{border:0;outline:0 none;padding:0.5%;box-sizing:content-box;}
+#wmd-input{border:0;outline:0 none;padding:0.5%;}
 #wmd-input:focus{box-shadow:none;}
 .wmd-preview{background-color:#fff;width:48.7%;padding:0.5%;overflow:auto;float:right;}
 .wmd-button-row{position:relative;height:20px;}
@@ -18,7 +18,7 @@
 .wmd-preview table td{border:1px solid black;padding:5px;}
 
 #wmd-model-links{position:relative;z-index:2;float:right;}
-#wmd-model-links a{background:url(admin/images/cut-off-line.png) no-repeat scroll right 2px transparent;padding:0 9px 0 5px;}
+#wmd-model-links a{background:url(admin/images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px;}
 #wmd-model-links a:last-child{background:0 none;}
 
 .wmd-preview h1{padding:12px 0;}

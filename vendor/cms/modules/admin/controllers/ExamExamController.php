@@ -8,7 +8,7 @@ use fay\models\tables\ExamExams;
 use fay\models\tables\Users;
 use fay\models\tables\ExamPapers;
 use fay\models\Setting;
-use fay\models\tables\ExamExamQuestions;
+use fay\models\tables\ExamExamsQuestions;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\models\Exam;
@@ -80,7 +80,7 @@ class ExamExamController extends AdminController{
 		$this->view->paper = ExamPapers::model()->find($exam['paper_id']);
 		
 		$sql = new Sql();
-		$this->view->exam_questions = $sql->from('exam_exam_questions', 'ea')
+		$this->view->exam_questions = $sql->from('exam_exams_questions', 'ea')
 			->joinLeft('exam_questions', 'q', 'ea.question_id = q.id', 'question,type')
 			->where(array(
 				'ea.exam_id = ?'=>$id,
@@ -97,7 +97,7 @@ class ExamExamController extends AdminController{
 		$score = $this->input->get('score', 'floatval');
 
 		//获取考试ID
-		$exam_question = ExamExamQuestions::model()->find($id, 'id,exam_id,total_score');
+		$exam_question = ExamExamsQuestions::model()->find($id, 'id,exam_id,total_score');
 		
 		if($score > $exam_question['total_score']){
 			Response::output('error', array(
@@ -105,11 +105,11 @@ class ExamExamController extends AdminController{
 			));
 		}
 		
-		ExamExamQuestions::model()->update(array(
+		ExamExamsQuestions::model()->update(array(
 			'score'=>$score,
 		), $id);
 		//计算总分
-		$exam_score = ExamExamQuestions::model()->fetchRow('exam_id = '.$exam_question['exam_id'], 'SUM(score) AS score');
+		$exam_score = ExamExamsQuestions::model()->fetchRow('exam_id = '.$exam_question['exam_id'], 'SUM(score) AS score');
 		//更新总分
 		ExamExams::model()->update(array(
 			'score'=>$exam_score['score'],

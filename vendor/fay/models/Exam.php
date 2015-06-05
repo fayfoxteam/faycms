@@ -9,7 +9,7 @@ use fay\models\tables\ExamAnswers;
 use fay\models\tables\ExamQuestions;
 use fay\models\tables\ExamPaperQuestions;
 use fay\models\tables\ExamExams;
-use fay\models\tables\ExamExamQuestions;
+use fay\models\tables\ExamExamsQuestions;
 use fay\models\tables\ExamExamQuestionAnswerText;
 
 class Exam extends Model{
@@ -108,7 +108,7 @@ class Exam extends Model{
 						//回答错误
 						$score = 0;
 					}
-					$exam_question_id = ExamExamQuestions::model()->insert(array(
+					$exam_question_id = ExamExamsQuestions::model()->insert(array(
 						'exam_id'=>$exam_id,
 						'question_id'=>$q['question_id'],
 						'total_score'=>$q['score'],
@@ -123,7 +123,7 @@ class Exam extends Model{
 				break;
 				case ExamQuestions::TYPE_INPUT:
 					//填空题默认为0分，由其他逻辑确定得分
-					$exam_question_id = ExamExamQuestions::model()->insert(array(
+					$exam_question_id = ExamExamsQuestions::model()->insert(array(
 						'exam_id'=>$exam_id,
 						'question_id'=>$q['question_id'],
 						'total_score'=>$q['score'],
@@ -149,7 +149,7 @@ class Exam extends Model{
 						$score = $q['score'];
 						$user_score += $q['score'];
 					}
-					$exam_question_id = ExamExamQuestions::model()->insert(array(
+					$exam_question_id = ExamExamsQuestions::model()->insert(array(
 						'exam_id'=>$exam_id,
 						'question_id'=>$q['question_id'],
 						'total_score'=>$q['score'],
@@ -175,7 +175,7 @@ class Exam extends Model{
 	}
 	
 	public function remove($exem_id){
-		$exam_question_ids = ExamExamQuestions::model()->fetchCol('id', 'exam_id = '.$exem_id);
+		$exam_question_ids = ExamExamsQuestions::model()->fetchCol('id', 'exam_id = '.$exem_id);
 		
 		//删除答案
 		ExamExamQuestionAnswersInt::model()->delete(array(
@@ -186,7 +186,7 @@ class Exam extends Model{
 		));
 		
 		//删除答案得分
-		ExamExamQuestions::model()->delete('exam_id = '.$exem_id);
+		ExamExamsQuestions::model()->delete('exam_id = '.$exem_id);
 		
 		//删除考卷信息
 		ExamExams::model()->delete('id = '.$exem_id);

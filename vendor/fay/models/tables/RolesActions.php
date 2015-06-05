@@ -3,11 +3,11 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class RoleActions extends Table{
-	protected $_name = 'role_actions';
+class RolesActions extends Table{
+	protected $_name = 'roles_actions';
 	
 	/**
-	 * @return RoleActions
+	 * @return RolesActions
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);

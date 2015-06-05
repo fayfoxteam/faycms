@@ -119,16 +119,6 @@ class Actionlogs extends Table{
 	 */
 	const TYPE_EXAM = 32;
 
-	/**
-	 * 得分权重
-	 */
-	const TYPE_SCORE = 101;
-
-	/**
-	 * 得分权重
-	 */
-	const TYPE_SET_SCORE = 102;
-
 	protected $_name = 'actionlogs';
 	
 	/**

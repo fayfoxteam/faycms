@@ -3,11 +3,11 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class ExamExamQuestions extends Table{
-	protected $_name = 'exam_exam_questions';
+class ExamExamsQuestions extends Table{
+	protected $_name = 'exam_exams_questions';
 	
 	/**
-	 * @return ExamExamQuestions
+	 * @return ExamExamsQuestions
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);

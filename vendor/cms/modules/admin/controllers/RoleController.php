@@ -5,10 +5,13 @@ use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Roles;
-use fay\models\tables\RoleActions;
+use fay\models\tables\RolesActions;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\Html;
+use fay\models\Category;
+use fay\models\tables\RolesCats;
+use fay\helpers\ArrayHelper;
 
 class RoleController extends AdminController{
 	public function __construct(){
@@ -38,13 +41,25 @@ class RoleController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$role_id = Roles::model()->insert($this->form()->getFilteredData());
+				
+				//操作权限
 				$actions = $this->input->post('actions', 'intval', array());
 				foreach($actions as $a){
-					RoleActions::model()->insert(array(
+					RolesActions::model()->insert(array(
 						'role_id'=>$role_id,
 						'action_id'=>$a,
 					));
 				}
+				
+				//分类权限
+				$role_cats = $this->input->post('role_cats', 'intval', array());
+				foreach($role_cats as $rc){
+					RolesCats::model()->insert(array(
+						'role_id'=>$role_id,
+						'cat_id'=>$rc,
+					));
+				}
+				
 				$this->actionlog(Actionlogs::TYPE_ROLE, '添加了一个角色', $role_id);
 				Response::output('success', '角色添加成功', array('admin/role/edit', array(
 					'id'=>$role_id,
@@ -63,6 +78,7 @@ class RoleController extends AdminController{
 			$actions_group[$a['cat_title']][] = $a;
 		}
 		$this->view->actions = $actions_group;
+		$this->view->cats = Category::model()->getTree('_system_post');
 		
 		$this->view->render();
 	}
@@ -80,20 +96,40 @@ class RoleController extends AdminController{
 			if($this->form()->check()){
 				Roles::model()->update($this->form()->getFilteredData(), $role_id, true);
 				
+				//操作权限
 				$actions = $this->input->post('actions', 'intval', array(0));
-				RoleActions::model()->delete(array(
+				RolesActions::model()->delete(array(
 					'role_id = ?'=>$role_id,
 					'action_id NOT IN (?)'=>$actions,
 				));
-				$old_actions = RoleActions::model()->fetchCol('action_id', array(
+				$old_actions = RolesActions::model()->fetchCol('action_id', array(
 					'role_id = ?'=>$role_id,
 				));
 				
 				foreach($actions as $a){
 					if(!in_array($a, $old_actions)){
-						RoleActions::model()->insert(array(
+						RolesActions::model()->insert(array(
 							'role_id'=>$role_id,
 							'action_id'=>$a,
+						));
+					}
+				}
+				
+				//分类权限
+				$role_cats = $this->input->post('role_cats', 'intval', array(0));
+				RolesCats::model()->delete(array(
+					'role_id = ?'=>$role_id,
+					'cat_id NOT IN (?)'=>$role_cats,
+				));
+				$old_role_cats = RolesCats::model()->fetchCol('cat_id', array(
+					'role_id = ?'=>$role_id,
+				));
+				
+				foreach($role_cats as $rc){
+					if(!in_array($rc, $old_role_cats)){
+						RolesCats::model()->insert(array(
+							'role_id'=>$role_id,
+							'cat_id'=>$rc,
 						));
 					}
 				}
@@ -108,7 +144,7 @@ class RoleController extends AdminController{
 		$this->form()->setData($role);
 		
 		$this->form()->setData(array(
-			'actions'=>RoleActions::model()->fetchCol('action_id', array('role_id = ?'=>$role_id)),
+			'actions'=>RolesActions::model()->fetchCol('action_id', array('role_id = ?'=>$role_id)),
 		));
 		
 		$sql = new Sql();
@@ -121,6 +157,12 @@ class RoleController extends AdminController{
 			$actions_group[$a['cat_title']][] = $a;
 		}
 		$this->view->actions = $actions_group;
+		$this->form()->setData(array(
+			'role_cats'=>RolesCats::model()->fetchCol('cat_id', array(
+				'role_id = ?'=>$role_id,
+			)),
+		));
+		$this->view->cats = Category::model()->getTree('_system_post');
 		
 		$this->view->render();
 	}

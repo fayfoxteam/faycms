@@ -3,12 +3,12 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class PageCategories extends Table{
-	protected $_name = 'page_categories';
+class PagesCategories extends Table{
+	protected $_name = 'pages_categories';
 	protected $_primary = array('page_id', 'cat_id');
 	
 	/**
-	 * @return PageCategories
+	 * @return PagesCategories
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);

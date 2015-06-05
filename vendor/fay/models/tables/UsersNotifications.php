@@ -3,12 +3,12 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class UserNotifications extends Table{
-	protected $_name = 'user_notifications';
+class UsersNotifications extends Table{
+	protected $_name = 'users_notifications';
 	protected $_primary = array('user_id', 'notification_id');
 	
 	/**
-	 * @return UserNotifications
+	 * @return UsersNotifications
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);

@@ -3,12 +3,12 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class PostFiles extends Table{
-	protected $_name = 'post_files';
+class PostsFiles extends Table{
+	protected $_name = 'posts_files';
 	protected $_primary = array('post_id', 'file_id');
 	
 	/**
-	 * @return PostFiles
+	 * @return PostsFiles
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);

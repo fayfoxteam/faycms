@@ -5,7 +5,8 @@ use fay\core\Model;
 use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\models\tables\Props;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
+use fay\models\tables\RolesCats;
 
 class User extends Model{
 	/**
@@ -31,11 +32,10 @@ class User extends Model{
 				'error_code'=>'password:can-not-be-empty',
 			);
 		}
-		$conditions = array(
+		$user = Users::model()->fetchRow(array(
 			'username = ?'=>$username,
 			'deleted = 0',
-		);
-		$user = Users::model()->fetchRow($conditions);
+		));
 		//判断用户名是否存在
 		if(!$user){
 			return array(
@@ -86,20 +86,27 @@ class User extends Model{
 			$sql = "SELECT
 				{$this->db->actions}.router
 				FROM
-				{$this->db->role_actions}
-				LEFT JOIN {$this->db->actions} ON {$this->db->role_actions}.action_id = {$this->db->actions}.id
+				{$this->db->roles_actions}
+				LEFT JOIN {$this->db->actions} ON {$this->db->roles_actions}.action_id = {$this->db->actions}.id
 				WHERE
-				{$this->db->role_actions}.role_id = ".$user['role'];
+				{$this->db->roles_actions}.role_id = ".$user['role'];
 			$actions = $this->db->fetchAll($sql);
 			$action_routers = array();
 			foreach($actions as $a){
 				$action_routers[] = $a['router'];
 			}
 			\F::session()->set('actions', $action_routers);
+			
+			//分类权限
+			if(Option::get('system.role_cats')){
+				//未分类文章任何人都有权限编辑
+				$post_root = Category::model()->get('_system_post', 'id');
+				\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id = '.$user['role'])));
+			}
 		}
 		
 		Users::model()->update(array(
-			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
+			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>$user['login_times'] + 1,
@@ -186,7 +193,7 @@ class User extends Model{
 		$this->setSessionInfo($user);
 		
 		Users::model()->update(array(
-			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
+			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>$user['login_times'] + 1,

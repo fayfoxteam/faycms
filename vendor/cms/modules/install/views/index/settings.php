@@ -6,7 +6,7 @@ use fay\models\Option;
 	<table class="form-table">
 		<tr>
 			<th>站点名称</th>
-			<td><input type="text" name="sitename" datatype="*1-50" value="<?php echo Option::get('sitename')?>" /></td>
+			<td><input type="text" name="sitename" datatype="*1-50" value="<?php echo Option::get('site.sitename')?>" /></td>
 			<td><span class="desc Validform_checktip">后期可修改</span></td>
 		</tr>
 		<tr>

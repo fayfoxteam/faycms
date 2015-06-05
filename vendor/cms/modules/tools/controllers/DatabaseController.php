@@ -35,8 +35,6 @@ class DatabaseController extends ToolsController{
 	}
 	
 	public function dd(){
-		$this->layout->subtitle = 'Data Dictionary';
-		
 		$this->view->tables = $this->db->fetchAll('SHOW TABLES');
 		$this->view->prefix = $this->config->get('db.table_prefix');
 		
@@ -58,6 +56,7 @@ class DatabaseController extends ToolsController{
 			$class_name = 'fay\models\tables\\'.String::underscore2case($t_name);
 		}
 		
+		$this->layout->subtitle = 'Data Dictionary - '.$t_name;
 		$this->view->current_table = $t_name;
 		
 		$this->view->labels = \F::model($class_name)->labels();
@@ -171,7 +170,7 @@ class DatabaseController extends ToolsController{
 			$ddl = 'DROP TABLE IF EXISTS `'.str_replace($this->config->get('db.table_prefix'), '{{$prefix}}', $table_name).'`;'."\n".$ddl;
 			
 			$ddl = str_replace('CREATE TABLE `'.$this->config->get('db.table_prefix'), 'CREATE TABLE `{{$prefix}}', $ddl);
-			$ddl = preg_replace('/AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
+			$ddl = preg_replace('/ AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
 			$ddl = preg_replace("/ COMMENT '.+'/", '', $ddl);//删除注释
 			$ddls[] = $ddl.';';
 		}

@@ -5,10 +5,6 @@ use fay\core\FBase;
 
 class Model extends FBase{
 	/**
-	 * @var Session
-	 */
-	public $session;
-	/**
 	 * @var Db
 	 */
 	public $db = null;
@@ -16,7 +12,6 @@ class Model extends FBase{
 	private static $_models = array();
 	
 	public function __construct(){
-		$this->session = Session::getInstance();
 		$this->db = Db::getInstance();
 	}
 	

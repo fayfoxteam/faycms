@@ -5,7 +5,8 @@ use fay\core\Model;
 use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\models\tables\Props;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
+use fay\models\tables\RolesCats;
 
 class User extends Model{
 	/**
@@ -31,11 +32,10 @@ class User extends Model{
 				'error_code'=>'password:can-not-be-empty',
 			);
 		}
-		$conditions = array(
+		$user = Users::model()->fetchRow(array(
 			'username = ?'=>$username,
 			'deleted = 0',
-		);
-		$user = Users::model()->fetchRow($conditions);
+		));
 		//判断用户名是否存在
 		if(!$user){
 			return array(
@@ -69,37 +69,44 @@ class User extends Model{
 			);
 		}
 		
-		$this->session->set('id', $user['id']);
-		$this->session->set('username', $user['username']);
-		$this->session->set('nickname', $user['nickname']);
-		$this->session->set('role', $user['role']);
-		$this->session->set('last_login_time', $user['last_login_time']);
-		$this->session->set('last_login_ip', long2ip($user['last_login_ip']));
-		$this->session->set('status', $user['status']);
-		$this->session->set('avatar', $user['avatar']);
+		\F::session()->set('id', $user['id']);
+		\F::session()->set('username', $user['username']);
+		\F::session()->set('nickname', $user['nickname']);
+		\F::session()->set('role', $user['role']);
+		\F::session()->set('last_login_time', $user['last_login_time']);
+		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
+		\F::session()->set('status', $user['status']);
+		\F::session()->set('avatar', $user['avatar']);
 		
 		//获取角色名称
 		$role = Roles::model()->find($user['role']);
-		$this->session->set('role_title', $role['title']);
+		\F::session()->set('role_title', $role['title']);
 		//设置权限，超级管理员无需设置
 		if($user['role'] != Users::ROLE_SUPERADMIN){
 			$sql = "SELECT
 				{$this->db->actions}.router
 				FROM
-				{$this->db->role_actions}
-				LEFT JOIN {$this->db->actions} ON {$this->db->role_actions}.action_id = {$this->db->actions}.id
+				{$this->db->roles_actions}
+				LEFT JOIN {$this->db->actions} ON {$this->db->roles_actions}.action_id = {$this->db->actions}.id
 				WHERE
-				{$this->db->role_actions}.role_id = ".$user['role'];
+				{$this->db->roles_actions}.role_id = ".$user['role'];
 			$actions = $this->db->fetchAll($sql);
 			$action_routers = array();
 			foreach($actions as $a){
 				$action_routers[] = $a['router'];
 			}
-			$this->session->set('actions', $action_routers);
+			\F::session()->set('actions', $action_routers);
+			
+			//分类权限
+			if(Option::get('system.role_cats')){
+				//未分类文章任何人都有权限编辑
+				$post_root = Category::model()->get('_system_post', 'id');
+				\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id = '.$user['role'])));
+			}
 		}
 		
 		Users::model()->update(array(
-			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
+			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>$user['login_times'] + 1,
@@ -186,7 +193,7 @@ class User extends Model{
 		$this->setSessionInfo($user);
 		
 		Users::model()->update(array(
-			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
+			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>$user['login_times'] + 1,
@@ -200,18 +207,18 @@ class User extends Model{
 	}
 	
 	public function setSessionInfo($user){
-		$this->session->set('id', $user['id']);
-		$this->session->set('username', $user['username']);
-		$this->session->set('nickname', $user['nickname']);
-		$this->session->set('avatar', $user['avatar']);
-		$this->session->set('role', $user['role']);
-		$this->session->set('last_login_time', $user['last_login_time']);
-		$this->session->set('last_login_ip', long2ip($user['last_login_ip']));
-		$this->session->set('status', $user['status']);
+		\F::session()->set('id', $user['id']);
+		\F::session()->set('username', $user['username']);
+		\F::session()->set('nickname', $user['nickname']);
+		\F::session()->set('avatar', $user['avatar']);
+		\F::session()->set('role', $user['role']);
+		\F::session()->set('last_login_time', $user['last_login_time']);
+		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
+		\F::session()->set('status', $user['status']);
 	}
 	
 	public function logout(){
-		$this->session->remove();
+		\F::session()->remove();
 	}
 	
 	public function get($id, $fields = 'props'){

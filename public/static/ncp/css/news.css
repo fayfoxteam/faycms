@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+.news_info{ float:left; width:100%; background:#ff}
+.news_left{ background:#fff; width:760px; padding:19px; border:#ddd 1px solid; float:left}
+.news_left ul{}
+.news_left ul li{ float:left; width:760px; margin-bottom:20px; border-bottom:#ddd 1px solid; padding-bottom:15px; }
+.news_left ul li .news_title{ position:relative}
+.news_left ul li .news_title h2{ height:40px; line-height:40px; font-size:16px}
+.news_left ul li .news_title span{ position:absolute; top:10px; right:0; color:#999}
+.news_left ul li .news_info { text-indent:2em; line-height:20px; color:#999}
+.news_left ul li .news_view a{ float:right; padding:5px 10px; border:#ddd 1px solid}
+.news_left ul li .news_view a:hover{ border:#08c 1px solid; color:#08c}
+
+
+.news_right{ float:right; width:180px}
+.detail-info{float:left; width:1000px; margin:20px 0;}
+.d-fl{ float:left; width:760px; padding:19px; border:#ddd 1px solid; background:#fff}
+.d-fl h1{ font-size:18px; font-weight:normal; text-align:center;; padding:15px 0; border-bottom:#ddd 1px dashed}
+.detail-p{  display:inline-block; margin:10px 0}
+.detail-p p{ text-indent:2em; margin-bottom:10px; line-height:20px; color:#666}
+.detail-p p img{ max-width:790px}
+.d-fr{ float:right}
+.d-fr h3{height:40px; line-height:40px; text-align:center; font-size:16px; color:#333; font-weight:normal; border-bottom:#666 2px solid}
+.d-fr ul{}
+.d-fr ul li{ margin-bottom:15px}
+.d-fr ul li .p-name a{ height:30px; line-height:30px; text-align:center; display:inline-block}
+

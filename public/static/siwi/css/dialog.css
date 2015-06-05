@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0;}
+article,aside,div,dt,figcaption,footer,form,header,hgroup,html,map,nav,section{display:block;}
+ul,ul li{list-style:none;}
+a{text-decoration:none;transition:all 0.2s linear 0s;color:#838383;}
+a:hover{text-decoration:none;color:#E04145;}
+img{border:0;}
+.clear{clear:both;}
+body{background-color:#FFFFFF;font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;color:#454545;font-size:14px;}
+
+.subtitle{background-color:#e04145;}
+.subtitle h1{font-size:48px;color:#FFFFFF;padding-left:35px;height:98px;line-height:98px;font-weight:normal;}
+.subtitle .close-link{display:block;float:right;width:46px;height:47px;margin-top:25px;}
+.subtitle .close-link img{transform:rotate(0deg);
+-moz-transition:all 0.8s ease-in-out 0s;
+-webkit-transition:all 0.8s ease-in-out 0s;
+-0-transition:all 0.8s ease-in-out 0s;
+-ms-transition:all 0.8s ease-in-out 0s;
+transition:all 0.8s ease-in-out 0s;
+}
+.subtitle .close-link:hover img{
+-moz-transform:rotate(360deg);
+-webkit-transform:rotate(360deg);
+-o-transform:rotate(360deg);
+-ms-transform:rotate(360deg);
+transform:rotate(360deg);
+}
+
+.main{padding:23px 35px;}
+
+.form-field{width:321px;height:38px;border:1px solid #a9a9a9;color:#ababab;padding-left:34px;margin-bottom:17px;}
+.form-field .title-prompt-text{cursor:text;padding:10px 8px;position:absolute;}
+.form-field .inputxt{line-height:25px;border:0 none;padding:6px;height:25px;width:306px;}
+.form-field .select{line-height:38px;border:0 none;padding:10px 6px;height:38px;width:306px;}
+.form-field.email{background:url("images/email.jpg") no-repeat scroll 8px 6px transparent;}
+.form-field.password{background:url("images/password.jpg") no-repeat scroll 8px 6px transparent;}
+.form-field.username{background:url("images/username.jpg") no-repeat scroll 8px 6px transparent;}
+.form-field.role{background:url("images/role.jpg") no-repeat scroll 8px 6px transparent;}
+.form-field.school{background:url("images/school.jpg") no-repeat scroll 8px 6px transparent;}
+.option{position:relative;height:37px;}
+.option .links{position:absolute;bottom:1px;right:10px;}
+
+.btn-1{background-color:#a9a9a9;color:#FFFFFF;padding:0 62px;height:37px;line-height:37px;display:block;float:left;font-size:18px;}
+.btn-1:hover{background-color:#616161;color:#FFFFFF;}
+
+.btn-3{height:50px;line-height:50px;background-color:#E04145;font-size:18px;color:#FFFFFF;display:block;border-radius:5px;padding:0 25px;float:left;}
+.btn-3:hover{background-color:#eb363b;color:#FFFFFF;}
+
+.color-red{color:red;}

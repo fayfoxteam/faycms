@@ -124,6 +124,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .box-content{padding:8px 12px}
 .box-content .misc-pub-section{padding:6px 10px 8px;border-top:1px solid #DFDFDF;margin-top:6px}
 .box.closed .box-content{display:none}
+.box.holder{border:2px dashed #DFDFDF !important}
 
 /* badge右上角的小点点 */
 .badge{display:inline-block;color:#fff;vertical-align:baseline;white-space:nowrap;text-align:center;border-radius:10px}
@@ -177,11 +178,11 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .tabbable .nav-tabs li a{display:block;padding:3px 18px;transition:none;color:#aaa}
 .tabbable .nav-tabs li.active{font-weight:400;padding-top:0;border-bottom:0;border-top:0}
 .tabbable .nav-tabs li.active a{background-color:#fff;border-top:3px solid #D12610;color:#000}
-.tabbable .tab-content{background-color:#fff;border:1px solid #ddd;padding:10px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04)}
+.tabbable .tab-content{background-color:#fff;border:1px solid #ddd;padding:30px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04)}
 .tabbable .tab-pane{position:relative}
 
 /* 分页条 */
-.pager{text-align:right;float:right}
+.pager{text-align:right;float:right;line-height:28px}
 .pager .summary{color:#777;font-family:"Open Sans",sans-serif;margin-right:2px}
 .pager a{padding:3px 10px 3px;font-size:16px;font-weight:400;margin:0 1px;background-color:#fff;vertical-align:middle}
 .pager a:hover{background-color:#2ea2cc;color:#fff}
@@ -234,6 +235,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .sidebar-menu .main-menu ul li ul li ul li ul li a{padding-left:110px}
 .sidebar-menu .main-menu li.has-sub > a:before{position:relative;display:inline-block;font-family:'FontAwesome';content:'\f107';float:right;color:#6d747a;margin-left:10px;transform:rotate(-90deg);transition:all 150ms ease-in-out}
 .sidebar-menu .main-menu li.has-sub.expanded > a:before{transform:rotate(0deg)}
+.sidebar-menu .main-menu > li > a > i.fa{width:1.25em;display:inline-block;text-align:center}
 
 /* 打开菜单挨个划入的效果 */
 @media screen and (min-width:768px){
@@ -277,7 +279,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 	.sidebar-menu.collapsed .main-menu > li:hover > ul{display:block}
 	.sidebar-menu.collapsed .main-menu > li.has-sub > a:before{display:none}
 	.sidebar-menu.collapsed .main-menu > li.has-sub > ul a{padding-right:20px}
-	.sidebar-menu.collapsed .main-menu > li.has-sub > a > i{margin-right:0}
+	.sidebar-menu.collapsed .main-menu > li > a > i{margin-right:0}
 	.sidebar-menu.collapsed .logo-env{padding:18px 0}
 	.sidebar-menu.collapsed .logo-env .logo a.logo-expanded{display:none}
 	.sidebar-menu.collapsed .logo-env .logo a.logo-collapsed{display:block;text-align:center}
@@ -379,7 +381,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 
 /* 文章编辑框架 */
 .poststuff .post-body{margin-right:310px}
-.poststuff .post-body-content{margin-bottom:30px;width:100%;min-width:463px;float:left}
+.poststuff .post-body-content{width:100%;min-width:463px;float:left}
+.poststuff .post-body-content .postarea{margin-bottom:30px}
 .poststuff .postbox-container-1{float:right;margin-right:-310px;width:280px}
 .poststuff .postbox-container-2{float:left;width:100%}
 .poststuff .post-title-env{margin-bottom:30px}
@@ -556,6 +559,8 @@ pre li:hover{background-color:#575757}
 .mw200{max-width:200px !important}
 .mw400{max-width:400px !important}
 .mw500{max-width:500px !important}
+.wp10{width:10% !important}
+.wp15{width:15% !important}
 .wp38{width:38% !important}
 .wp100{width:100% !important}
 
@@ -568,6 +573,7 @@ pre li:hover{background-color:#575757}
 .mr5{margin-right:5px !important}
 .mb5{margin-bottom:5px !important}
 .mb10{margin-bottom:10px !important}
+.mt0{margin-top:0 !important}
 .mt5{margin-top:5px !important}
 .ml5{margin-left:5px !important}
 .pt0{padding-top:0 !important}

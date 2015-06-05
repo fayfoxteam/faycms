@@ -36,6 +36,15 @@ use fay\models\tables\Users;
 			), 5)?>
 		</div>
 		<div class="form-field">
+			<label class="title">无文章时是否显示小工具</label>
+			<?php echo F::form('widget')->inputRadio('show_empty', 1, array(
+				'label'=>'是',
+			))?>
+			<?php echo F::form('widget')->inputRadio('show_empty', 0, array(
+				'label'=>'否',
+			), true)?>
+		</div>
+		<div class="form-field">
 			<label class="title">仅显示有缩略图的文章</label>
 			<?php echo F::form('widget')->inputRadio('thumbnail', 1, array(
 				'label'=>'是',

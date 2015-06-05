@@ -1,5 +1,7 @@
 <?php
 use fay\helpers\Html;
+use fay\models\Option;
+use fay\models\tables\Users;
 
 function showCats($cats, $dep = 0, $open_dep = 2){?>
 	<ul class="tree">
@@ -72,12 +74,14 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey hidden-not-lg">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php echo Html::link('发布文章', array('admin/post/create', array(
-						'cat_id'=>$c['id'],
-					)), array(
-						'class'=>'fc-green hover-link',
-						'prepend'=>'<i class="fa fa-pencil"></i>',
-					), true)?>
+					<?php if(F::session()->get('role') == Users::ROLE_SUPERADMIN || !Option::get('system.role_cats') || in_array($c['id'], F::session()->get('role_cats'))){
+						echo Html::link('发布文章', array('admin/post/create', array(
+							'cat_id'=>$c['id'],
+						)), array(
+							'class'=>'fc-green hover-link',
+							'prepend'=>'<i class="fa fa-pencil"></i>',
+						), true);
+					}?>
 				</span>
 			</div>
 			<?php if(!empty($c['children'])){

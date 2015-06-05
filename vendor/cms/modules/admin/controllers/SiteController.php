@@ -15,7 +15,7 @@ class SiteController extends AdminController{
 	
 		if($this->input->post()){
 			foreach($this->input->post() as $key=>$value){
-				Option::set($key, $value);
+				Option::set('site.' . $key, $value);
 			}
 			$this->flash->set('更新成功', 'success');
 		}

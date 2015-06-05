@@ -4,6 +4,8 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Validator;
 use fay\helpers\Html;
+use fay\core\Loader;
+use fay\models\tables\Users;
 
 class TestController extends AdminController{
 	public function valid(){
@@ -216,5 +218,16 @@ class TestController extends AdminController{
 	public function debug(){
 		$this->layout_template = null;
 		$this->view->render();
+	}
+	
+	public function redis(){
+		Loader::vendor('predis/predis/lib/Predis/Autoloader');
+		\Predis\Autoloader::register();
+		
+		$client = new \Predis\Client('tcp://114.215.134.73:6379');
+		$client->set('foo', 'bar');
+		$value = $client->get('foo');
+		
+		var_dump(Users9::model());
 	}
 }

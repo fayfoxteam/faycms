@@ -221,9 +221,9 @@ F::form('edit')->setModel(Menus::model());
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
 <script>
-var cat = {
+var menu = {
 	'events':function(){
-		$(".tree-container").delegate('.leaf-title.parent', 'click', function(){
+		$('.tree-container').on('click', '.leaf-title.parent', function(){
 			$li = $(this).parent().parent();
 			if($li.hasClass("close")){
 				$li.children('ul').slideDown(function(){
@@ -350,6 +350,6 @@ var cat = {
 	}
 };
 $(function(){
-	cat.init();
+	menu.init();
 })
 </script>

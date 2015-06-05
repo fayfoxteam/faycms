@@ -31,6 +31,11 @@ class IndexController extends Widget{
 			$data['number'] = 5;
 		}
 		
+		//show_empty
+		if(!isset($data['show_empty'])){
+			$data['show_empty'] = 0;
+		}
+		
 		//date format
 		if(empty($data['date_format'])){
 			$data['date_format'] = '';
@@ -66,7 +71,7 @@ class IndexController extends Widget{
 		$posts = Post::model()->getByCatId($data['top'], $data['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $data['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
-		if(empty($posts)){
+		if(empty($posts) && !$data['show_empty']){
 			return;
 		}
 		

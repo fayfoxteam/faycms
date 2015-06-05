@@ -191,8 +191,8 @@ CREATE TABLE `{{$prefix}}exam_exam_question_answers_int` (
   PRIMARY KEY (`exam_question_id`,`user_answer_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{{$prefix}}exam_exam_questions`;
-CREATE TABLE `{{$prefix}}exam_exam_questions` (
+DROP TABLE IF EXISTS `{{$prefix}}exam_exams_questions`;
+CREATE TABLE `{{$prefix}}exam_exams_questions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `exam_id` mediumint(8) unsigned NOT NULL,
   `question_id` mediumint(8) unsigned NOT NULL,
@@ -486,8 +486,8 @@ CREATE TABLE `{{$prefix}}options` (
   UNIQUE KEY `option_name` (`option_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{{$prefix}}page_categories`;
-CREATE TABLE `{{$prefix}}page_categories` (
+DROP TABLE IF EXISTS `{{$prefix}}pages_categories`;
+CREATE TABLE `{{$prefix}}pages_categories` (
   `page_id` int(11) unsigned NOT NULL DEFAULT '0',
   `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`page_id`,`cat_id`)
@@ -515,15 +515,15 @@ CREATE TABLE `{{$prefix}}pages` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{{$prefix}}post_categories`;
-CREATE TABLE `{{$prefix}}post_categories` (
+DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;
+CREATE TABLE `{{$prefix}}posts_categories` (
   `post_id` int(11) unsigned NOT NULL DEFAULT '0',
   `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`post_id`,`cat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{{$prefix}}post_files`;
-CREATE TABLE `{{$prefix}}post_files` (
+DROP TABLE IF EXISTS `{{$prefix}}posts_files`;
+CREATE TABLE `{{$prefix}}posts_files` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0',
   `description` varchar(255) NOT NULL DEFAULT '',
@@ -658,12 +658,11 @@ CREATE TABLE `{{$prefix}}regions` (
   KEY `region_type` (`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{{$prefix}}role_actions`;
-CREATE TABLE `{{$prefix}}role_actions` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `{{$prefix}}roles_actions`;
+CREATE TABLE `{{$prefix}}roles_actions` (
   `role_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `action_id` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`role_id`,`action_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}roles`;
@@ -674,6 +673,13 @@ CREATE TABLE `{{$prefix}}roles` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `is_show` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `{{$prefix}}roles_cats`;
+CREATE TABLE `{{$prefix}}roles_cats` (
+  `role_id` mediumint(8) unsigned NOT NULL,
+  `cat_id` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`role_id`,`cat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}spider_logs`;
@@ -713,8 +719,8 @@ CREATE TABLE `{{$prefix}}templates` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `{{$prefix}}user_notifications`;
-CREATE TABLE `{{$prefix}}user_notifications` (
+DROP TABLE IF EXISTS `{{$prefix}}users_notifications`;
+CREATE TABLE `{{$prefix}}users_notifications` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `notification_id` int(10) unsigned NOT NULL DEFAULT '0',
   `read` tinyint(1) NOT NULL DEFAULT '0',

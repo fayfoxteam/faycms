@@ -1,3 +1,3 @@
 RewriteEngine on
-RewriteRule !^(css|fonts|flash|images|img|js|uploads|static|favicon.ico|robots\.txt) public/index.php [L]
-RewriteRule (.*) public/$1
+RewriteRule ^$ public/ [L]
+RewriteRule (.*) public/$1 [L]

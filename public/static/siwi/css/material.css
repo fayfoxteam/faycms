@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+.work-list article{width:283px;margin-right:19px;float:left;margin-bottom:19px;}
+.work-list article.last{margin-right:0;}
+.work-list article img.thumbnail{width:283px;height:217px;display:block;}
+.work-list article .meta{border:1px solid #efefef;height:87px;background-color:#ffffff;}
+.work-list article h3{font-size:15px;color:#323232;margin-top:20px;text-align:center;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+.work-list article .cat{margin-top:18px;text-align:center;color:#a1a1a1;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}

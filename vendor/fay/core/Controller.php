@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 use fay\models\tables\Actions;
 use fay\models\tables\Users;
 
@@ -81,7 +81,7 @@ class Controller{
 		self::$_instance = $this;
 		
 		//当前用户登陆IP
-		$this->ip = RequestHelper::getIP();
+		$this->ip = Request::getIP();
 	}
 	
 	public static function getInstance(){
@@ -115,11 +115,8 @@ class Controller{
 				return false;
 			}
 			$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
-			if($action['is_public']){
-				//此路由为公共路由
-				return true;
-			}else if(!$action){
-				//此路由并不在权限路由列表内，视为公共路由
+			//此路由并不在权限路由列表内，视为公共路由
+			if(!$action || $action['is_public']){
 				return true;
 			}
 		}

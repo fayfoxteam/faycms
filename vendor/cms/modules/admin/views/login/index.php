@@ -23,7 +23,7 @@ system.base_url = '<?php echo $this->url()?>';
 DD_belatedPNG.fix('fieldset,.ring');
 </script>
 <![endif]-->
-<title><?php echo Option::get('sitename')?>后台登陆</title>
+<title><?php echo Option::get('site.sitename')?>后台登陆</title>
 </head>
 <body>
 <div class="main">
@@ -140,7 +140,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
 <script>
 _fa.init();
 var login = {

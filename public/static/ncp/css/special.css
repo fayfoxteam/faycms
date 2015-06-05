@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+ 
+ 
+ 
+
+.tm-tuijian{ width:180px; float:right; position:absolute;top:0;right:0}
+.tm-tuijian h3{ height:30px; line-height:30px; text-align:center; font-size:14px; color:#999; font-weight:normal}
+.tm-tuijian ul li{ width:180px; height:135px; overflow:hidden; margin-bottom:5px}
+
+.detail-info{float:left; width:1000px; margin:20px 0;}
+.d-fl{ float:left; width:800px}
+.detail-hd{border-bottom:#f90 2px solid;height:40px; line-height:40px; }
+.detail-hd h3{ padding:0 20px; color:#333; font-size:14px; float:left; height:40px; position:relative;  cursor:pointer }
+.detail-hd h3.cur{ background:#f90; color:#fff}
+.detail-p{ padding:15px; display:inline-block}
+.detail-p p img{ max-width:790px}
+.d-fr{ float:right}
+.d-fr h3{height:40px; line-height:40px; text-align:center; font-size:16px; color:#333; font-weight:normal; border-bottom:#666 2px solid}
+.d-fr ul{}
+.d-fr ul li{ margin-bottom:15px}
+.d-fr ul li .p-name a{ height:30px; line-height:30px; text-align:center; display:inline-block}
+
+.sp_left ul li{ float:left; width:100%; background:#fff; margin-bottom:15px}
+.sp_left{ float:left; width:1000px}
+.sp_img{ float:left; width:400px; height:300px; overflow:hidden}
+.sp_img a img{ width:400px	}
+.sp_name{ width:580px}
+.sp_name h2{ line-height:40px; line-height:40px; font-size:16px}
+.sp_name p{ color:#666; text-indent:2em; line-height:22px}
+.sp_bth a{ width:30px; padding:0 10px; height:30px; text-align:center; float:right;; line-height:30px; margin-right:20px; background:#f90; border-radius:2px; color:#fff}

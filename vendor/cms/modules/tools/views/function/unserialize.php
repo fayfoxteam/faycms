@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-6">
 			<div class="box">
-				<div class="box-title"><h3>Timestamp</h3></div>
+				<div class="box-title"><h3>Serialize String</h3></div>
 				<div class="box-content">
 					<?php echo F::form()->textarea('key', array(
 						'class'=>'form-control h200 autosize',
@@ -15,7 +15,7 @@
 			<div class="box">
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
-					<div style="min-height:200px"><?php pr($result, true);?></div>
+					<div style="min-height:239px"><?php pr($result, true);?></div>
 				</div>
 			</div>
 		</div>

@@ -64,6 +64,7 @@ class AdminController extends Widget{
 			'subclassification'=>'intval',
 			'top'=>'intval',
 			'title'=>'trim',
+			'show_empty'=>'intval',
 			'number'=>'intval',
 			'uri'=>'trim',
 			'other_uri'=>'trim',

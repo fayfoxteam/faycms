@@ -65,10 +65,10 @@ use fay\helpers\Html;
 						<th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
 						<th>试题</th>
 						<th>分类</th>
-						<th class="w50">分值</th>
+						<th class="w70">分值</th>
 						<th class="w70">类型</th>
 						<th class="w50">状态</th>
-						<th class="w100">创建时间</th>
+						<th class="wp10">创建时间</th>
 					</tr>
 				</thead>
 				<tfoot>

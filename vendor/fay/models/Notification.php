@@ -4,7 +4,7 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Users;
 use fay\models\tables\Notifications;
-use fay\models\tables\UserNotifications;
+use fay\models\tables\UsersNotifications;
 
 class Notification extends Model{
 	/**
@@ -36,7 +36,7 @@ class Notification extends Model{
 			'publish_time'=>$publish_time ? $publish_time : \F::app()->current_time,
 		));
 		foreach($to as $t){
-			UserNotifications::model()->insert(array(
+			UsersNotifications::model()->insert(array(
 				'user_id'=>$t,
 				'notification_id'=>$notification_id,
 			));

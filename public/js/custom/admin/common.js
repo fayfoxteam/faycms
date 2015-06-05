@@ -12,7 +12,9 @@ var common = {
 				},
 				'showAllErrors':true,
 				'beforeSubmit':function(){
-					$('body').block();
+					$('body').block({
+						'zindex':1300
+					});
 				},
 				'onError':function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
@@ -357,7 +359,7 @@ var common = {
 					'itemSelector': 'div.box',
 					'dragSelector': 'h4',
 					'dragBetween': true,
-					'placeHolderTemplate': '<div class="box"></div>',
+					'placeHolderTemplate': '<div class="box holder"></div>',
 					'dragSelectorExclude': 'input,textarea,select,table,span,p',
 					'dragEnd':function(){
 						if(common.dragsortKey){
@@ -783,7 +785,7 @@ var common = {
 	'batch':function(){
 		//批量操作表单提交
 		$(document).on('change', '.batch-ids-all', function(){
-			$('.batch-ids,.batch-ids-all').attr('checked', !!$(this).attr('checked'));
+			$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
 		}).on('submit', '#batch-form', function(){
 			if($('[name="batch_action"]').val() == '' && $('[name="batch_action_2"]').val() == ''){
 				alert('请选择操作');

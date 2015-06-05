@@ -2,7 +2,7 @@
 namespace fay\core;
 
 use fay\core\FBase;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 use fay\models\tables\Widgets;
 
 class Widget extends FBase{
@@ -79,7 +79,7 @@ class Widget extends FBase{
 		$this->current_time = \F::app()->current_time;
 		
 		//当前用户登陆IP
-		$this->ip = RequestHelper::getIP();
+		$this->ip = Request::getIP();
 		
 		$this->init();
 	}

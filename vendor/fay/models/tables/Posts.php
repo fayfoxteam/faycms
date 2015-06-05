@@ -12,15 +12,20 @@ class Posts extends Table{
 	 */
 	const STATUS_DRAFT = 0;
 	/**
-	 * 文章状态-发布
+	 * 文章状态-已发布
 	 * @var int
 	 */
-	const STATUS_PUBLISH = 1;
+	const STATUS_PUBLISHED = 1;
 	/**
-	 * 文章状态-发布
+	 * 文章状态-待审核
 	 * @var int
 	 */
 	const STATUS_PENDING = 2;
+	/**
+	 * 文章状态-待复审
+	 * @var int
+	 */
+	const STATUS_REVIEWED = 3;
 	
 	/**
 	 * 文本类型 - 可视化编辑器
@@ -58,7 +63,7 @@ class Posts extends Table{
 			array(array('is_top', 'deleted'), 'range', array('range'=>array('0', '1'))),
 			array(array('publish_time'), 'datetime'),
 
-			array(array('status'), 'range', array('range'=>array(self::STATUS_PUBLISH, self::STATUS_DRAFT, self::STATUS_PENDING))),
+			array(array('status'), 'range', array('range'=>array(self::STATUS_PUBLISHED, self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_REVIEWED))),
 			array('alias', 'unique', array('table'=>'posts', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/post/is-alias-not-exist'))),
 		);
 	}

@@ -2,7 +2,7 @@
 namespace cms\modules\tools\controllers;
 
 use fay\core\Controller;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 use fay\helpers\String;
 use fay\helpers\Date;
 use fay\models\tables\AnalystMacs;
@@ -35,7 +35,7 @@ class AnalystController extends Controller{
 				setcookie('fmac', $fmac, $this->current_time + 3600 * 24 * 365, '/', $this->config->get('tld'));
 				
 				//获取搜索引擎信息
-				$se = RequestHelper::getSearchEngine($refer);
+				$se = Request::getSearchEngine($refer);
 				$mac_id = AnalystMacs::model()->insert(array(
 					'user_agent'=>$_SERVER['HTTP_USER_AGENT'],
 					'browser'=>$this->input->get('b'),
@@ -43,7 +43,7 @@ class AnalystController extends Controller{
 					'shell'=>$this->input->get('s'),
 					'shell_version'=>$this->input->get('sv'),
 					'os'=>$this->input->get('os'),
-					'ip_int'=>RequestHelper::ip2int($this->ip),
+					'ip_int'=>Request::ip2int($this->ip),
 					'screen_width'=>$this->input->get('sw', 'intval'),
 					'screen_height'=>$this->input->get('sh', 'intval'),
 					'url'=>$url,
@@ -60,7 +60,7 @@ class AnalystController extends Controller{
 				
 				AnalystVisits::model()->insert(array(
 					'mac'=>$mac_id,
-					'ip_int'=>RequestHelper::ip2int($this->ip),
+					'ip_int'=>Request::ip2int($this->ip),
 					'refer'=>$refer,
 					'url'=>$url,
 					'trackid'=>$trackid,
@@ -91,7 +91,7 @@ class AnalystController extends Controller{
 					}else{
 						AnalystVisits::model()->insert(array(
 							'mac'=>$mac['id'],
-							'ip_int'=>RequestHelper::ip2int($this->ip),
+							'ip_int'=>Request::ip2int($this->ip),
 							'refer'=>$refer,
 							'url'=>$url,
 							'trackid'=>$trackid,

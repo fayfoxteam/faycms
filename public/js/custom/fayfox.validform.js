@@ -226,7 +226,7 @@
 				},
 				'mobile':function(value, params, attribute){
 					var settings = $.validform.merge({
-						'pattern':/^13[0-9]{9}$|^14[0-9]{9}$|^15[0-9]{9}$|^18[0-9]{9}$/,
+						'pattern':/^1[0-9]{10}$/,
 						'message':'{$attribute}格式不正确'
 					}, params);
 					

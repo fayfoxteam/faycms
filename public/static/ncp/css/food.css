@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* CSS Document */
+ 
+.nav-switch{ float:left; width:1198px; border-top:#ddd 1px solid; border-left:#ddd 1px solid}
+.nav-category{ width:1198px; border-bottom:#ddd 1px solid; border-right:#ddd 1px solid; float:left; background:#fff}
+.nav-category h4{ float:left; width:68px; background:#f3f3f3; height:40px; line-height:40px; padding-left:10px; font-family:"宋体"; font-size:12px; color:#999; font-weight:normal}
+.nav-category ul{ float:left; width:1100px}
+.nav-category ul li{ float:left; margin-top:5px }
+.nav-category ul li a{ line-height:30px; padding:0 8px;height:30px; display:inline-block; margin-left:10px}
+.nav-category ul li a:hover,.nav-category ul li a.sel{ background:#52614f; color:#fff; border-radius:2px}
+.product-all{ clear:both; float:left; width:100%}
+.product{ width:1265px}
+.product li{ float:left; width:270px; margin:0 13px 20px 0; background:#fff; padding:9px; border:#ddd 1px solid}
+.product li.hover{ border:#f30 1px solid}
+.product li .p-img a img{max-width:270px}
+.product li .p-name{ height:30px; line-height:30px; margin-bottom:3px; overflow:hidden}
+.product li .p-name a{ font-size:16px; color:#f30}
+.product li .p-maoshu{ color:#999; line-height:18px; height:36px; overflow:hidden}
+.product li .p-st{ color:#999; margin-top:8px }
+.product li .p-st b{font-weight:normal}
+.product li .p-st .gowhere{ background:#f60; border-radius:2px; height:24px; line-height:24px; float:right; padding:0 8px; color:#fff}
+.product li .p-st .gowhere:hover,.product li.hover .p-st .gowhere{ background:#f30;}
+
+.tm-clear{ position:relative}
+.tm-warp{ float:left; width:100%; position:relative; min-height:300px}
+.tb-property{ padding:0 180px 0 400px;}
+.tb-hd{ background:#f90; font-size:18px; color:#fff; line-height:30px; padding:10px 0}
+.tb-hd h1{ padding:0 10px;}
+.tb-info p{ text-indent:2em; line-height:20px; color:#999; margin:10px 0; padding-left:10px}
+.tb-s{}
+.tb-s li{ height:25px; line-height:25px; margin-bottom:10px}
+.tb-s li label{ padding-left:20px; width:90px; color:#999}
+.tm-ser{ float:left; width:400px; margin-left:-100%}
+.go-bth{ text-align:center; float:left; width:100%}
+.go-bth a{ height:40px; line-height:40px; padding:0 25px;; background:#F90; color:#fff; font-size:16px; border-radius:2px;  display:inline-block; width:80px; border:1px solid #FF6901}
+
+.tm-tuijian{ width:180px; float:right; position:absolute;top:0;right:0}
+.tm-tuijian h3{ height:30px; line-height:30px; text-align:center; font-size:14px; color:#999; font-weight:normal}
+.tm-tuijian ul li{ width:180px; height:135px; overflow:hidden; margin-bottom:5px}
+
+.detail-info{float:left; width:1200px; margin:20px 0;}
+.d-fl{ float:left; width:1000px}
+.detail-hd{border-bottom:#f90 2px solid;height:40px; line-height:40px; }
+.detail-hd h3{ padding:0 20px; color:#333; font-size:14px; float:left; height:40px; position:relative;  cursor:pointer }
+.detail-hd h3.cur{ background:#f90; color:#fff}
+.detail-p{ padding:15px; display:inline-block}
+.detail-p p img{ max-width:790px}
+.d-fr{ float:right}
+.d-fr h3{height:40px; line-height:40px; text-align:center; font-size:16px; color:#333; font-weight:normal; border-bottom:#666 2px solid}
+.d-fr ul{}
+.d-fr ul li{ margin-bottom:15px}
+.d-fr ul li .p-name a{ height:30px; line-height:30px; text-align:center; display:inline-block}
+
+ .s_product .product,.s_meishi .product{ width:1000px}
+ .s_product .product li,.s_meishi .product li{ margin:30px 40px 0  0}
+ .s_product .product li:hover,.s_meishi .product li:hover{ margin:30px 40px 0  0; border:#08c 1px solid}

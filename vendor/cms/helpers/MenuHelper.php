@@ -2,7 +2,6 @@
 namespace cms\helpers;
 
 use fay\helpers\Html;
-use fay\models\tables\Users;
 class MenuHelper{
 	/**
 	 * 渲染一个导航栏
@@ -44,7 +43,8 @@ class MenuHelper{
 								'class'=>'title',
 								'text'=>$m['title'],
 							)
-						)
+						),
+					    'target'=>$m['target'] ? $m['target'] : false,
 					),
 					//子菜单
 					empty($m['children']) ? false : self::render($m['children'], $role, $current_directory, $dep + 1),

@@ -38,7 +38,7 @@ use fay\helpers\Html;
 				</table>
 			</div>
 			<h3>DDL</h3>
-			<?php echo Html::textarea('code', $ddl['Create Table'], array(
+			<?php echo Html::textarea('code', str_replace('CREATE TABLE `'.$prefix, 'CREATE TABLE `{{$prefix}}', $ddl['Create Table']), array(
 				'style'=>'font-family:Consolas,Monaco,monospace',
 				'id'=>'code',
 				'class'=>'form-control autosize',

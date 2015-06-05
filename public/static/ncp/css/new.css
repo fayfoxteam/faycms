@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+.mian{ width:1200px; margin:0 auto; overflow:hidden}
+.ui-box{ border:#ddd 1px solid; float:left; width:1198px; border-bottom:none}
+.ui-title{ background:#eee; }
+.ui-title ul{ float:left; width:100%;border-bottom:#ddd 1px solid;background:#eee; }
+.ui-title ul li{ float:left; width:25%; height:40px; line-height:40px; text-align:center}
+
+.ui-cnt{ float:left; width:100%}
+.lasted-list li { border-bottom:#ddd 1px  solid; float:left; width:100%; padding:15px 0}
+.lasted-list li div { float:left; width:25%; text-align:center}
+.lasted-list li div.lasted-style,.lasted-list li div.lasted-city,.lasted-list li div.lasted-time{ text-align:center}
+ 

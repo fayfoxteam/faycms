@@ -5,7 +5,7 @@ use fay\core\db\Table;
 
 class Pages extends Table{
 	const STATUS_DRAFT = 0;
-	const STATUS_PUBLISH = 1;
+	const STATUS_PUBLISHED = 1;
 
 	protected $_name = 'pages';
 	

@@ -49,9 +49,9 @@ use cms\helpers\ListTableHelper;
 				<span class="fc-grey">(<?php echo Page::model()->getPageCount()?>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status') == Pages::STATUS_PUBLISH && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/page/index', array('status'=>Pages::STATUS_PUBLISH))?>">已发布</a>
-				<span class="fc-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_PUBLISH)?>)</span>
+			<li class="publish <?php if(F::app()->input->get('status') == Pages::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/page/index', array('status'=>Pages::STATUS_PUBLISHED))?>">已发布</a>
+				<span class="fc-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_PUBLISHED)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Pages::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">

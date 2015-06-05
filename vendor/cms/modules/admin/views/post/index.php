@@ -66,14 +66,19 @@ $cols = F::form('setting')->getData('cols', array());
 				<span class="fc-grey">(<?php echo Post::model()->getCount()?>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PUBLISH && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PUBLISH))?>">已发布</a>
-				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISH)?>)</span>
+			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PUBLISHED))?>">已发布</a>
+				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISHED)?>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PENDING)?>)</span>
+				|
+			</li>
+			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_REVIEWED))?>">通过审核</a>
+				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_REVIEWED)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
@@ -100,13 +105,14 @@ $cols = F::form('setting')->getData('cols', array());
 					'class'=>'form-control',
 				));
 			}else{
-				echo Html::select('batch_action', array(
+				echo Html::select('batch_action_2', array(
 					''=>'批量操作',
-					'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
+					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
+						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
 					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
+					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
+					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
-					'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
-					'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
 				), '', array(
 					'class'=>'form-control',
 				));
@@ -223,13 +229,14 @@ $cols = F::form('setting')->getData('cols', array());
 					'class'=>'form-control',
 				));
 			}else{
-				echo Html::select('batch_action_2', array(
+				echo Html::select('batch_action', array(
 					''=>'批量操作',
-					'set-publish'=>F::app()->checkPermission('admin/post/edit') ? '标记为已发布' : false,
+					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
+						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
 					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
+					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
+					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
-					'review'=>(F::app()->checkPermission('admin/post/review') && F::app()->post_review) ? '通过审核' : false,
-					'pending'=>(F::app()->checkPermission('admin/post/edit') && F::app()->post_review) ? '待审核' : false,
 				), '', array(
 					'class'=>'form-control',
 				));

@@ -1,8 +1,8 @@
 <form method="post" id="form">
 	<div class="row">
-		<div class="col-6">
+		<div class="col-12">
 			<div class="box">
-				<div class="box-title"><h3>Timestamp</h3></div>
+				<div class="box-title"><h3>before</h3></div>
 				<div class="box-content">
 					<?php echo F::form()->textarea('key', array(
 						'class'=>'form-control h200 autosize',
@@ -11,11 +11,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-6">
+		<div class="col-12">
 			<div class="box">
-				<div class="box-title"><h3>Result</h3></div>
+				<div class="box-title"><h3>after</h3></div>
 				<div class="box-content">
-					<div style="min-height:200px"><?php pr($result, true);?></div>
+					<div style="min-height:239px"><?php pr($result, true);?></div>
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,39 @@
+@charset "utf-8";
+* {margin:0;padding:0;}
+body,td,th {font-size: 12px;}
+body {margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;background:url(images/login_bg.jpg) repeat-x #E8E8E8;}
+a {font-size: 12px;color: #000;text-decoration: none;}
+a:visited {color: #000;text-decoration: none;}
+a:hover {color: #333;text-decoration: none;}
+a:active {color: #000;text-decoration: none;}
+ul {list-style:none;}
+img {border:none;}
+table {border-collapse:collapse;}
+input {height:20px;line-height:20px;border:1px solid #999;border-bottom:1px solid #CCC;border-right:1px solid #CCC;}
+textarea {line-height:20px;border:1px solid #999;border-bottom:1px solid #CCC;border-right:1px solid #CCC;}
+.Cal {clear:both;}
+p {text-indent:24px;line-height:25px;}
+#IndexBox {width:565px;height:355px;margin:0 auto;background-image:url(images/login.jpg);}
+#IndexBoxTitle {padding-top:83px;margin-left:150px;font-size:16px;font-weight:bold;}
+#IndexBoxContent {width:50%;margin:0 auto;margin-top:30px;margin-bottom:10px;}
+#Top {height:60px;background-image:url(images/TopBg.jpg);border-bottom:1px solid #CCC;}
+#TopInfo {width:770px;margin:0 auto;}
+#LoginInfo {width:500px;float:left;margin-top:30px;line-height:30px;}
+#LoginNav {width:200px;margin-top:20px;float:right;}
+#LoginNav li {float:left;margin:5px;width:79px;height:29px;background-image:url(images/NavBg.png);line-height:29px;text-align:center;}
+#MainBox {width:770px;margin:0 auto;}
+#MainBox img {border:2px solid #CCC;}
+#MainBox h1 {text-align:center;font-size:14px;margin:15px;}
+.MainLine {line-height:25px;}
+.QClick {border:1px solid #F90;padding:5px;}
+#QuestionBox {background-color: #ff6;border: 1px solid #f90;line-height: 23px;font-size: 12px;padding:10px;z-index:99;width: 760px;height: 300px;left:50%;/*FF IE7*/top: 50%;/*FF IE7*/margin-left:-380px!important;/*FF IE7 该值为本身宽的一半 */margin-top:-150px!important;/*FF IE7 该值为本身高的一半*/margin-top:0px;position:fixed!important;/*FF IE7*/position:absolute;/*IE6*/_top:expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 : document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);/*IE5 IE5.5*/}
+#QuestionBg {background-color: #ccc;width: 100%;height: 100%;left:0;top:0;/*FF IE7*/filter:alpha(opacity=50);/*IE*/opacity:0.5;/*FF*/z-index:1;position:fixed!important;/*FF IE7*/position:absolute;/*IE6*/_top:expression(eval(document.compatMode&&document.compatMode=='CSS1Compat') ? documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 : document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);}
+.Lists {margin:5px;}
+.Lists li {float:left;margin:2px;}
+.Lists li span {width:20px;height:20px;line-height:20px;font-weight:bold;text-align:center;display:block;cursor:pointer;border:1px solid #906000;}
+.QD {background-color:#EFC036;color:#FFF;}
+
+.m-notification{padding:25px 35px 25px 68px;border-width:2px;border-style:solid;font-size:14px;}
+.m-notification.success{background:url("images/v.png") no-repeat scroll 25px center #FFFFFF;border-color:#9ADF8F;color:#556652;}
+.m-notification.error{background:url("images/x.png") no-repeat scroll 25px center #FFFFFF;border-color:#DF8F8F;color:#665252;}
+.m-notification a{text-decoration:underline;}

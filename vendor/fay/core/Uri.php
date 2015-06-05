@@ -65,12 +65,18 @@ class Uri extends FBase{
 			}
 		}else{
 			$folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
+			//所有斜杠都以正斜杠为准
+			$folder = str_replace('\\', '/', $folder);
 			if(substr($folder, -7) == '/public'){
 				$folder = substr($folder, 0, -7);
 			}
 			if($folder && substr($folder, 0, 1) != '/'){
 				//由于配置关系，有的DOCUMENT_ROOT最后有斜杠，有的没有
 				$folder = '/'.$folder;
+			}
+			if($folder == '/'){
+			    //仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
+			    $folder = '';
 			}
 			$base_url = 'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$folder.'/';
 			if(defined('NO_REWRITE')){

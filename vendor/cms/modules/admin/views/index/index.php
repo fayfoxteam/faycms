@@ -1,12 +1,12 @@
 <?php
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 
 $boxes_cp = $enabled_boxes;?>
 <div class="row">
 	<div class="col-6">
 		<div class="col-content dragsort" id="dashboard-left">
 		<?php 
-			$browser = RequestHelper::getBrowser();
+			$browser = Request::getBrowser();
 			if($browser[0] == 'msie' && ($browser[1] == '6.0' || $browser[1] == '7.0')){
 		?>
 			<div class="box">

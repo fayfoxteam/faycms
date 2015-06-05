@@ -26,7 +26,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
-<title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
+<title><?php echo $subtitle?> | <?php echo Option::get('site.sitename')?>后台</title>
 </head>
 <body id="faycms">
 <div class="wrapper">

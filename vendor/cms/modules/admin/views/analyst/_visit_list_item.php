@@ -60,6 +60,6 @@ use fay\helpers\Date;
 	<td><?php echo Html::encode($data['user_agent'])?></td>
 	<?php }?>
 	<?php if(in_array('screen', $cols)){?>
-	<td><span><?php echo $data['screen_x'], ' x ', $data['screen_y']?></span></td>
+	<td><span><?php echo $data['screen_width'], ' x ', $data['screen_height']?></span></td>
 	<?php }?>
 </tr>

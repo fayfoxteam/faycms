@@ -3,7 +3,7 @@ namespace cms\library;
 
 use fay\core\Controller;
 use fay\core\Uri;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 use fay\models\tables\Users;
 use fay\models\tables\Actions;
 use fay\models\tables\Actionlogs;
@@ -96,7 +96,7 @@ class AdminController extends Controller{
 		Actionlogs::model()->insert(array(
 			'user_id'=>$this->current_user,
 			'create_time'=>$this->current_time,
-			'ip_int'=>RequestHelper::ip2int($this->ip),
+			'ip_int'=>Request::ip2int($this->ip),
 			'type'=>$type,
 			'note'=>$note,
 			'refer'=>$refer,

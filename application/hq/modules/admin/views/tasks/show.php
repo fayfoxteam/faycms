@@ -21,19 +21,36 @@
         }
     };
 
-    var zNodes =[
-        { id:1, pId:0, name:"1幢寝室楼电表", t:"1幢寝室楼电表", open:true},
+    var eNodes =[
+        { id:1, pId:0, name:"1幢寝室楼电表", t:"1幢寝室楼电表", open:true, click: false },
         { id:1001, pId:1, name:"1001", t:"1幢寝室楼"},
         { id:12, pId:1, name:"1002", t:"1幢寝室楼"},
         { id:13, pId:1, name:"1003", t:"1幢寝室楼"},
-        { id:2, pId:0, name:"2幢寝室楼电表", t:"2幢寝室楼电表", open:true},
+        { id:2, pId:0, name:"2幢寝室楼电表", t:"2幢寝室楼电表", open:true, click: false },
         { id:21, pId:2, name:"2001", t:"2幢寝室楼" },
         { id:22, pId:2, name:"2002", t:"2幢寝室楼" },
         { id:23, pId:2, name:"2003", t:"2幢寝室楼" },
-        { id:3, pId:0, name:"3幢寝室楼电表", t:"3幢寝室楼电表", open:true },
+        { id:3, pId:0, name:"3幢寝室楼电表", t:"3幢寝室楼电表", open:true, click: false },
         { id:31, pId:3, name:"3001", t:"3幢寝室楼"},
         { id:32, pId:3, name:"3002", t:"3幢寝室楼"},
         { id:33, pId:3, name:"3003", t:"3幢寝室楼"}
+    ];
+
+    var wNodes = [
+        { id: 1 ,pId: 0, name: "水表", t: "水表", open: true, click: false },
+        { id: 1046, pId: 1, name: "学院总表", t: "学院总表"},
+        { id: 1047, pId: 1, name: "消防总表", t: "消防总表"},
+        { id: 1048, pId: 1, name: "经管1", t: "经管1"},
+        { id: 1049, pId: 1, name: "经管2", t: "经管2"},
+        { id: 1050, pId: 1, name: "活动中心", t: "活动中心"},
+        { id: 1051, pId: 1, name: "人文外语", t: "人文外语"},
+        { id: 1052, pId: 1, name: "服装理工", t: "服装理工"},
+        { id: 1053, pId: 1, name: "公寓", t: "公寓"},
+        { id: 1054, pId: 1, name: "教工1（西）", t: "教工1（西）"},
+        { id: 1055, pId: 1, name: "教工1（东）", t: "教工1（东）"},
+        { id: 1056, pId: 1, name: "教工2（西）", t: "教工2（西）"},
+        { id: 1057, pId: 1, name: "教工2（东）", t: "教工2（东）"},
+        { id: 1058, pId: 1, name: "食堂", t: "食堂"}
     ];
 
     var log, className = "dark";
@@ -45,7 +62,7 @@
          console.log(treeNode);
         if (!treeNode.pId)
         {
-            alert('请选择' + treeNode.name + '节点下面的电表' );
+//            alert('请选择' + treeNode.name + '节点下面的电表' );
             return;
         }
         $.ajax({
@@ -63,7 +80,7 @@
 //                console.log(data);
                 if (data.code == 0)
                 {
-                    tongji_charts.create(data.data, data.text, data.name);
+                    tongji_charts.create(data.data, data.text, data.name, data.date);
                 }
                 else
                 {
@@ -99,6 +116,18 @@
                 <div class="clear"></div>
             </div>
         </div>
+        <div class="box" data-name="tasks/lists">
+            <div class="box-title">
+                <a class="tools toggle" title="点击以切换"></a>
+                <h4 style="cursor: pointer;">水表分布</h4>
+            </div>
+            <div class="box-content">
+                <div class="zTreeDemoBackground left">
+                    <ul id="treeWater" class="ztree"></ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
     </div>
     <div class="col-9">
         <div class="box" data-name="tasks/charts">
@@ -117,20 +146,22 @@
 
 <script>
     var tongji_charts = {
-        'create': function(data, text, name)
+        'create': function(data, text, name, date)
         {
             $('#charts').highcharts({
                 title: {
-                    text: text + name + '电表',
+                    text: text + name + '表',
                     x: -20 //center
                 },
                 subtitle: {
                     text: '来源:人工输入',
                     x: -20
                 },
+                credits: {
+                    text: '绍兴文理学院元培学院'
+                },
                 xAxis: {
-                    categories: ['01', '02', '03', '04', '05', '06',
-                        '07', '08', '09', '10', '11', '12']
+                    categories: date
                 },
                 yAxis: {
                     title: {
@@ -152,15 +183,17 @@
                     borderWidth: 0
                 },
                 series: [{
-                    name: '电',
+                    name: '使用',
                     data: data
                 }]
             });
         }
     }
     $(function () {
-        tongji_charts.create([27.0, 36.9, 9.5, 14.5, 18.2,27.0, 36.9, 9.5, 14.5, 18.2], '1幢寝室楼', '1001');
-        $.fn.zTree.init($("#treeElectric"), setting, zNodes);
+        tongji_charts.create(<?= json_encode($data) ?>, '1幢寝室楼', '1001', <?= json_encode($date) ?>);
+        $.fn.zTree.init($("#treeElectric"), setting, eNodes);
+        $.fn.zTree.init($("#treeWater"), setting, wNodes);
     });
 </script>
+
 <script src="<?= $this->staticFile('highcharts/js/highcharts.js') ?>"></script>

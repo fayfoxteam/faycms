@@ -2,6 +2,7 @@
 namespace hq\models;
 
 use fay\core\Model;
+use fay\helpers\Date;
 use hq\models\tables\Zbiaos;
 use hq\models\tables\ZbiaoRecords;
 
@@ -40,14 +41,19 @@ class ZbiaoRecord extends Model
         }
     }
 
-    public static function getChatData($data)
+    /**
+     * @param $data
+     * @param bool $date 是否是输出日期格式
+     * @return array
+     */
+    public static function getChatData($data, $date = false)
     {
         $chat_array = [];
         foreach ($data as $key => $value)
         {
             foreach ($value as $v)
             {
-                $chat_array[] = intval($v);
+                $chat_array[] = $date ? date('m月d日 H:i', $v) : intval($v);
             }
         }
         return $chat_array;

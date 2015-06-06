@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use fay\core\Sql;
 use hq\models\tables\ZbiaoRecords;
 use hq\models\tables\Zbiaos;
+use hq\models\Zbiao;
 use hq\models\ZbiaoRecord;
 use fay\core\Response;
 use fay\common\Upload;
@@ -22,6 +23,24 @@ class TasksController extends AdminController
     public function show()
     {
         $this->layout->subtitle = '水电详情';
+
+//        显示第一个电表的数据
+        $condition = ['biao_id = ?' => 1001];
+        $sql = new Sql();
+        $chat_data = $sql->from('zbiao_records', 'records', 'day_use')
+            ->where($condition)
+            ->order('created asc')
+            ->limit(10)
+            ->fetchAll();
+        $chat_date = $sql->from('zbiao_records', 'records', 'created')
+            ->where($condition)
+            ->order('created asc')
+            ->limit(10)
+            ->fetchAll();
+
+        $this->view->data = ZbiaoRecord::getChatData($chat_data);
+        $this->view->date = ZbiaoRecord::getChatData($chat_date, true);
+
         $this->view->render();
     }
 
@@ -37,16 +56,20 @@ class TasksController extends AdminController
         $sql = new Sql();
         $chat_data = $sql->from('zbiao_records', 'records', 'day_use')
                          ->where($condition)
-                         ->order('created desc')
+                         ->order('created asc')
                          ->limit(10)
                          ->fetchAll();
-
+        $chat_date = $sql->from('zbiao_records', 'records', 'created')
+                         ->where($condition)
+                         ->order('created asc')
+                         ->limit(10)
+                         ->fetchAll();
         if (!$chat_data)
         {
             $this->finish(['code' => -1, 'message' => '数据不存在']);
         }
-//        $data['data'] = [$tree_id, 21.9, 9.5, 21.5, 18.2,30.0, 36.9, 9.5, 14.5, 8.2];
         $data['data'] = ZbiaoRecord::getChatData($chat_data);
+        $data['date'] = ZbiaoRecord::getChatData($chat_date, true);
         $data['name'] = $name;
         $data['text'] = $text;
 
@@ -58,18 +81,21 @@ class TasksController extends AdminController
     {
         $this->layout->subtitle = '数据录入';
 
+        //判断选择录入数据类型
+        if ($type_id = $this->input->get('type_id', 'intval'))
+        {
+            $condition = ['type = ?' => $type_id];
+            $tables = Zbiaos::model()->fetchAll($condition);
+            $this->view->tables = $tables;
+        }
+
+//        录入完成后进行数据的储存
         if ($post = $this->input->post())
         {
-//             dump($post);
-//             die;
            ZbiaoRecord::model()->insertRecord($post);
            Response::output('success', '信息录入成功');
         }
-        
-        $tables = Zbiaos::model()->fetchAll();
-        
-        $this->view->tables = $tables;
-        
+
         $this->view->render();
     }
 
@@ -77,13 +103,13 @@ class TasksController extends AdminController
     {
         $this->layout->subtitle = '水电统计';
 
-        $condition = [
-            'type' => Zbiaos::TYPE_ELECTRICITY,
-        ];
         $sql = new Sql();
-        $sql->from('zbiaos')->where($condition);
+        $sql->from('zbiaos')->order('created desc');
 
-        $sql->order('created desc');
+        if ($type_id = $this->input->get('type_id', 'intval'))
+        {
+            $sql->where(array('type = ?' => $type_id));
+        }
 
         $this->view->listview = new \fay\common\ListView($sql);
 
@@ -134,8 +160,10 @@ class TasksController extends AdminController
                $theData->type = $type;
                $theData->biao_name = $dataData->data['biao_name'];
                $theData->zongzhi = $dataData->data['zongzhi'];
-               $theData->address = $dataData->data['address'];
-               $theData->shuoming = $dataData->data['shuoming'];
+//               $theData->address = $dataData->data['address'];
+               $theData->address = '';
+//               $theData->shuoming = $dataData->data['shuoming'];
+               $theData->shuoming = '';
                $theData->data = json_encode($dataData);
                $theData->created = $this->current_time;
                $theData->updated = $this->current_time;

@@ -1,25 +1,17 @@
-﻿body{background:#fff;color:#666666}
+﻿body{background:#fff;color:#666666; background: url("../images/body_bg.jpg") no-repeat;}
 a{color:#000000;text-decoration:none;font-family: "微软雅黑"; border:none;}
 a:link{text-decoration:none;border:none;}
-a:hover{  text-decoration:none;border:none;}
+a:hover{  text-decoration:none;border:none; color: #197abf;}
 a:active{border:none;}
 a{background: none;}
-a:hover, a:visited{background: none;}
+a:hover, a:visited{ background: none;}
 #header{ height:100px; width:100%; }
 .header{ height:100px;width:1100px;margin: 0 auto; position:relative; }
-.hesder-top{width:325px; height: 27px;background:#EEEEEE;position:absolute;top: 0;right: 0;color: #7d7d7d;line-height:27px;border-radius:0 0 10px 10px}
+.hesder-top{width:325px; height: 27px; position:absolute;top: 0;right: 0;color: #7d7d7d;line-height:27px;border-radius:0 0 10px 10px}
 .hesder-top a{color: #7d7d7d;padding:0 10px}
 .hesder-top span{text-align: center;width:17px;padding: 0 5px}
 .hesder-top span img{text-align: center;vertical-align: middle;}
-/*.header-nav{position: absolute;right:0px;top:58px;font-size: 16px;color:#484848}*/
-/*.header-nav ul{}*/
-/*.header-nav ul li{float:left}*/
-/*.header-nav ul li a{padding:0 10px;color:#484848}*/
-/*.header-nav ul li a:hover{ color:#197abf}*/
-/*.header-nav ul li .clearpadding{padding:0px;padding-left:10px}*/
-/*.header-nav ul li .index-color{color: #197abf}*/
-/* navBar */
-/*.nav-menu { width: 100%; height: 50px; }*/
+
 .navBar{margin:0 auto;height:50px;line-height:50px;background:#08A5E0;color:#333;}
 .nav{position:relative;width:980px;margin:0 auto;font-family:"Microsoft YaHei",SimSun,SimHei;font-size:14px;}
 .nav a{color:#fff;}
@@ -38,6 +30,7 @@ a:hover, a:visited{background: none;}
 .Logo-min{float:left; padding-left:10px; padding-top: 30px; }
 .Logo-mintit{font-size:22px}
 
+.container { background: #fff; width: 1200px; margin: 0 auto; height: 100%; padding-top: 20px; }
 
 .indexbanner{ width:100%;margin: 0 auto; height:250px; overflow:hidden; position:relative;text-align: center  }
 .indexbanner .hd{ height:15px; overflow:hidden; position:absolute; right:50%; bottom:10px; z-index:1;margin-right:-70px }
@@ -57,15 +50,15 @@ a:hover, a:visited{background: none;}
 .indexbanner .prevStop{ display:none;  }
 .indexbanner .nextStop{ display:none;  }
 
-.index-min{width:1100px;margin:20px auto;height:307px;overflow:auto;zoom:1;position: relative;font-family: "宋体";}
+.index-min{width:1100px;margin:0 auto 10px; height:248px;overflow:hidden;zoom:1;position: relative;font-family: "宋体";}
 .index-mingsjj{position: absolute;left:0;top:0; width:345px; text-align:left}
-.index-mingsjjtit{height:16px;font-size:16px;color:#197abf;border-left:4px solid #197abf;line-height:15px;padding-left:10px}
+.index-mingsjjtit{height:16px;font-size:16px;color:#197abf;border-bottom: 2px solid #197abf;line-height:15px; }
 .index-mingsjjtit span{position:absolute; right:0}
 
 /*热门图片	*/
 .hot_slider{ padding:0px; width:345px; border:1px solid #000000;}
 .slider_wrap{position:relative;width:337px;height:200px;margin:4px;}
-.mask{FILTER:alpha(opacity=60);opacity:0.6;width:100%;height:55px;background-color:#000000;position:absolute;bottom:0;left:0;display:block;}
+.mask{opacity:0.6;width:100%;height:55px;background-color:#000000;position:absolute;bottom:0;left:0;display:block;}
 .comt{width:345px;color:#ffffff;position:absolute;left:0;bottom:0;height:55px;text-indent:10px;text-align:left;}
 .comt h3{font-size:16px;margin-top:13px;}
 .comt p{font-size:12px;line-height:20px;}
@@ -73,9 +66,28 @@ a:hover, a:visited{background: none;}
 #contentList li{float:left;position:relative;}
 #contentList li img{width:337px;height:200px;}
 #previewList{position:absolute;bottom:5px;right:5px;}
-#previewList li{list-style:none;float:left;width:16px;height:14px;FILTER:alpha(opacity=80);opacity:0.8;border:1px solid #D00000;background-color:#FFFFFF;color:#D00000;text-align:center;cursor:pointer;margin-right:2px;padding-top:0px;overflow:hidden;}
+#previewList li{list-style:none;float:left;width:16px;height:14px;opacity:0.8;border:1px solid #D00000;background-color:#FFFFFF;color:#D00000;text-align:center;cursor:pointer;margin-right:2px;padding-top:0px;overflow:hidden;}
 #previewList li:hover,#previewList li.active{border:1px solid #D00000;background-color:#FF0000;color:#FFFFFF;width:16px;height:14px;font-weight:bold;font-size:13px;}
 
+#serve { height: 60px; width: 1100px; background: #fff; border: 1px solid #ccc; margin: 0 auto; padding: 0 20px; box-sizing: border-box; border-radius: 4px; }
+#serve:after { content: ''; width: 1080px; height: 1px; margin-top: 58px; display: block; position: absolute; left: 50%; margin-left: -540px; z-index: -1; -webkit-box-shadow: 0px 0px 8px 2px #ccc; }
+#serve .title { float: left; line-height: 60px; font-size: 20px; }
+#serve .serve-list { float: left; margin-left: 20px; }
+#serve .serve-list ul li { display: inline-block; padding: 0 10px; line-height: 60px; font-size: 20px; }
+
+#content-bottom { width: 1100px; margin: 0 auto; height: 260px; }
+#content-bottom .left { width: 240px; float: left; background: #eee; border-radius: 4px; }
+#content-bottom .left .guide .content-header { border-top-left-radius: 4px; border-top-right-radius: 4px; margin-bottom: 10px; text-align: left; height: 20px; font-size: 16px; color: #fff; border-left: 4px solid #197abf; background: #197abf; line-height: 20px; padding-left: 10px; }
+#content-bottom .left .guide .content-box { height: 165px; padding: 10px; }
+#content-bottom .left .guide .content-box ul li { float: left; height: 27px; line-height: 27px; width: 100px; }
+#content-bottom .left .guide .content-bottom { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; height: 20px; font-size: 14px; color: #fff; background: #197abf;  line-height: 20px; }
+#content-bottom .center { width: 500px; float: left; margin: 0 10px; }
+#content-bottom .center .content-header { height: 16px; line-height: 16px; width: 380px; margin: 0 auto; text-align: left; color: #197abf; font-size: 16px; border-bottom: 2px solid #197abf; }
+#content-bottom .center .content-box { height: 200px; }
+#content-bottom .center .content-box .web { width: 377px; height: 59px; font-size: 16px; line-height: 59px; margin: 10px auto; background: url("../images/wb_bg.png"); }
+
+#content-bottom .right { width: 335px; float: left; }
+#content-bottom .right .hot-topic .content-header { height: 16px; border-bottom:2px solid #197abf; line-height: 16px; text-align: left; color: #197abf; font-size: 16px; }
 
 #gg { height:200px;overflow:hidden; width: 464px; }
 .index-minhxyw{width: 350px; position: absolute;left:380px; text-align: left}
@@ -96,7 +108,8 @@ a:hover, a:visited{background: none;}
 .index-bottom{height:126px ;background:#EEEEEE;width: 100%;font-family: "宋体";}
 .index-bottommin{height:126px ;width:1100px;margin:0 auto}
 .index-bottommyq{text-align:left;padding:15px 0;border-bottom:1px solid #D6D6D6}
-.index-bottommyq a{padding:5px}
+.index-bottommyq a {padding:5px}
+.index-bottommyq a:hover { text-decoration: underline; }
 .index-bottomcopy{position: relative;text-align: left;margin-top:10px;line-height:30px}
 .index-bottomcopyL{position: absolute;left:0px;}
 .index-bottomclogo{float:left;padding-top:15px;padding-right:10px}
@@ -107,11 +120,4 @@ a:hover, a:visited{background: none;}
 .index-bottomcopyL3{position: absolute;right:0px;}
 .index-bottomcopyL3 a{margin-left: 20px}
 
-.suspend{width:45px;height:163px;position:fixed;top:305px;right:0;overflow:hidden;z-index:9999;}
-.suspend dl{width:100px;height:163px;border-radius:25px 0 0 25px;padding-left:40px;box-shadow:0 0 5px #e4e8ec;}
-.suspend dl dt{width:45px;height:163px;background:url(../images/suspend.png) no-repeat;position:absolute;top:0;left:0;cursor:pointer;}
-.suspend dl dd.suspendQQ{width:100px;height:85px;background:#ffffff;}
-.suspend dl dd.suspendQQ a{width:100px;height:85px;display:block;background:url(../images/suspend.png) no-repeat  -43px 0;overflow:hidden;}
-.suspend dl dd.suspendTel{width:100px;height:80px;background:#ffffff;}
-.suspend dl dd.suspendTel a{width:100px;height:80px;display:block;background:url(../images/suspend.png) no-repeat -43px -86px;overflow:hidden;line-height:90px}
-* html .suspend{position:absolute;left:expression(eval(document.documentElement.scrollRight));top:expression(eval(document.documentElement.scrollTop+200))}
+.qcode { position: absolute; right: 0; top: -110px; background: url("../images/qrcode.jpg"); width: 100px; height: 100px;  background-size: cover; }

@@ -18,11 +18,11 @@
 .gyah-minrtopmin ul{}
 .gyah-minrtopmin .gyah-minrtltit{font-size: 24px;color:#666666;padding:20px 0}
 .gyah-minrtopmin .gyah-minrtltime{font-size:12px;color:#c5c5c5}
-.gyah-minrtopmin .gyah-minrtltxt{font-size:14px;color:#666666;line-height:25px;width:495px;}
+.gyah-minrtopmin .gyah-minrtltxt{font-size:14px;color:#666666;line-height:25px;}
 .gyah-minrtopmin .gyah-minrtltxt a{color:#318BCC}
 .gyah-minrtopmin .gyah-minrtlimg{position: absolute;right:93px;bottom:18px}
-.gyah-minryema{margin-top:20px;height:40px;float:right}
-.gyah-minryema ul{}
+.gyah-minryema{margin-top:20px;height:40px;float:right; width: 500px; margin: 0 auto;}
+.gyah-minryema ul{ float: right; }
 .gyah-minryema ul li{float:left;margin-left:4px}
 .gyah-minryema ul li a{padding:3px 7px;border:solid #CCCCCC 1px}
 .gyah-minryema ul li a:hover{color: #fff;background:#318BCC}
@@ -30,3 +30,13 @@
 .gyah-minryema ul .gyah-minryemaxyy{display:inline-block;background:url("../images/yama1xyy_11.jpg") no-repeat 50px;}
 .gyah-minryema ul .gyah-minryemaxyy a{padding:3px 10px;}
 .gyah-minryema ul .gyah-minryemaxyy a:hover{background:none; color:#666666;text-decoration:underline ;}
+.pagination_info { float: right; }
+
+
+
+/*内容页*/
+.gyah-minrtoptit2{ text-align: center;}
+.gyah-minrtop .info { width: 100%; border-bottom:1px dashed #D5D5D5;  }
+.gyah-minrtop .info ul { width: 500px; margin: 0 auto; text-align: center; }
+.gyah-minrtop .info ul li { display: inline-block; padding: 10px 5px; }
+.gyah-mt2pictxt{font-size: 16px;line-height:27px;text-indent:35px;margin-top: 10px}

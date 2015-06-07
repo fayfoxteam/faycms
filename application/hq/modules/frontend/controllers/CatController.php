@@ -19,9 +19,8 @@ class CatController extends  FrontController
 
         if (!$cat)
         {
-            Response::showError('您访问的页面不存在！', 404, '404');
+            Response::show404('您访问的页面不存在！', 404, '404');
         }
-
         $this->view->cat = $cat;
 
         $sql = new Sql();
@@ -37,7 +36,7 @@ class CatController extends  FrontController
                 'p.publish_time < '.$this->current_time,
             ));
         $this->view->listview = new ListView($sql, array(
-            'pageSize'  => 12,
+            'page_size'  => 5,
             'reload'  => $this->view->url('cat/'.$cat['id']),
         ));
 

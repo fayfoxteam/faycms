@@ -1,7 +1,11 @@
+<?php
+use fay\models\Category;
+use fay\helpers\Html;
+?>
 <div id="header">
     <div class="header">
         <div class="hesder-top">
-            <a href="">加入收藏</a>│<span><img src="<?= $img_url ?>/index_03.png" alt=""/></span>服务热线：400-800-800
+            <a href="javascript:;" onclick="AddFavorite('<?= $this->url() ?>', '绍兴文理学院元培学院后勤管理处')";>加入收藏</a>│<span><img src="<?= $img_url ?>/index_03.png" alt=""/></span>服务热线：400-800-800
         </div>
         <div class="Logo">
             <div class="Logo-img"><img src="<?= $img_url ?>/ypcol.gif" width="100%"/></div>
@@ -17,73 +21,46 @@
     <div class="navBar">
         <ul class="nav clearfix">
             <li class="m">
-                <h3><a href="http://www.sucai888.com/">网站首页</a></h3>
+                <h3><a href="<?= $this->url() ?>">网站首页</a></h3>
             </li>
             <li class="s">|</li>
-            <li class="m">
-                <h3><a href="http://www.sucai888.com/">关于我们</a></h3>
-                <ul class="sub">
-                    <li><a href="http://www.sucai888.com/">企业简介</a></li>
-                    <li><a href="http://www.sucai888.com/">组织架构</a></li>
-                    <li><a href="http://www.sucai888.com/">企业资质</a></li>
-                    <li><a href="http://www.sucai888.com/">企业文化</a></li>
-                    <li><a href="http://www.sucai888.com/">企业文化</a></li>
-                    <li><a href="http://www.sucai888.com/">企业文化</a></li>
-                    <li><a href="http://www.sucai888.com/">企业文化</a></li>
-                </ul>
-            </li>
+            <?php
+            //文章分类
+            $cats = Category::model()->getTree('_system_post');
+            $length = count($cats);
+            foreach ($cats as $k => $cat)
+            {
+                if (!$cat['is_nav']) continue;
+                echo '<li class="m">';
+                echo '<h3>', Html::link($cat['title'], ['cat/'.$cat['id']], ['title' => false]), '</h3>';
+
+                if (!empty($cat['children']))
+                {
+                    echo '<ul class="sub">';
+                            foreach ($cat['children'] as $c)
+                            {
+                                if(!$c['is_nav'])continue;
+                                echo '<li>', Html::link($c['title'], ['cat/'.$c['id']], ['title'=> false]), '</li>';
+                            }
+                    echo '</ul>';
+                }
+                if ($k < $length -1)
+                {
+                    echo '<li class="s">|</li>';
+                }
+
+            }
+            echo '</li>';
+            ?>
             <li class="s">|</li>
             <li class="m">
-                <h3><a href="http://www.sucai888.com/">资质认定</a></h3>
-                <ul class="sub">
-                    <li><a href="http://www.sucai888.com/">国家高新认证</a></li>
-                    <li><a href="http://www.sucai888.com/">软件企业认证</a></li>
-                    <li><a href="http://www.sucai888.com/">深圳市高企认证</a></li>
-                    <li><a href="http://www.sucai888.com/">其它认证</a></li>
-                </ul>
-            </li>
-            <li class="s">|</li>
-            <li class="m">
-                <h3><a href="http://www.sucai888.com/">政府扶持</a></h3>
-                <ul class="sub" style="display: none;">
-                    <li><a href="http://www.sucai888.com/">深圳市级扶持</a></li>
-                    <li><a href="http://www.sucai888.com/">各区级扶持</a></li>
-                    <li><a href="http://www.sucai888.com/">广东省级扶持</a></li>
-                    <li><a href="http://www.sucai888.com/">国家和部级扶持</a></li>
-                </ul>
-            </li>
-            <li class="s">|</li>
-            <li class="m">
-                <h3><a href="http://www.sucai888.com/">知识产权</a></h3>
-                <ul class="sub" style="display: none;">
-                    <li><a href="http://www.sucai888.com/">知识产权申请</a></li>
-                    <li><a href="http://www.sucai888.com/">知识产权转让</a></li>
-                    <li><a href="http://www.sucai888.com/">技术咨询</a></li>
-                    <li><a href="http://www.sucai888.com/">技术成果鉴定</a></li>
-                </ul>
-            </li>
-            <li class="s">|</li>
-            <li class="m">
-                <h3><a href="http://www.sucai888.com/">上市服务</a></h3>
-                <ul class="sub" style="display: none;">
-                    <li><a href="http://www.sucai888.com/">上市条件及流程</a></li>
-                    <li><a href="http://www.sucai888.com/">上市顾问</a></li>
-                    <li><a href="http://www.sucai888.com/">税收筹划</a></li>
-                    <li><a href="http://www.sucai888.com/">资产重组</a></li>
-                </ul>
-            </li>
-            <li class="s">|</li>
-            <li class="m">
-                <h3><a href="http://www.sucai888.com/">人才招聘</a></h3>
-            </li>
-            <li class="s">|</li>
-            <li class="m">
-                <h3><a href="http://www.sucai888.com/">联系我们</a></h3>
+                <h3><a href="http://ypc.edu.cn" target="_blank">学院主页</a></h3>
             </li>
             <li class="block" style="left:251px;"></li>
         </ul>
     </div>
 </div>
+
 <script type="text/javascript">
     $(function(){
         var nav = $(".nav");

@@ -28,15 +28,15 @@ class TasksController extends AdminController
         $condition = ['biao_id = ?' => 1001];
         $sql = new Sql();
         $chat_data = $sql->from('zbiao_records', 'records', 'day_use')
-            ->where($condition)
-            ->order('created asc')
-            ->limit(10)
-            ->fetchAll();
+                         ->where($condition)
+                         ->order('created asc')
+                         ->limit(10)
+                         ->fetchAll();
         $chat_date = $sql->from('zbiao_records', 'records', 'created')
-            ->where($condition)
-            ->order('created asc')
-            ->limit(10)
-            ->fetchAll();
+                         ->where($condition)
+                         ->order('created asc')
+                         ->limit(10)
+                         ->fetchAll();
 
         $this->view->data = ZbiaoRecord::getChatData($chat_data);
         $this->view->date = ZbiaoRecord::getChatData($chat_date, true);
@@ -66,12 +66,13 @@ class TasksController extends AdminController
                          ->fetchAll();
         if (!$chat_data)
         {
-            $this->finish(['code' => -1, 'message' => '数据不存在']);
+            $this->finish(['code' => -1, 'message' => '暂无数据']);
         }
         $data['data'] = ZbiaoRecord::getChatData($chat_data);
         $data['date'] = ZbiaoRecord::getChatData($chat_date, true);
         $data['name'] = $name;
         $data['text'] = $text;
+        $data['type'] = $type;
 
         $this->finish($data);
 
@@ -104,7 +105,7 @@ class TasksController extends AdminController
         $this->layout->subtitle = '水电统计';
 
         $sql = new Sql();
-        $sql->from('zbiaos')->order('created desc');
+        $sql->from('zbiaos')->order('id asc');
 
         if ($type_id = $this->input->get('type_id', 'intval'))
         {
@@ -112,6 +113,35 @@ class TasksController extends AdminController
         }
 
         $this->view->listview = new \fay\common\ListView($sql);
+
+        $this->view->render();
+    }
+
+    public function detail()
+    {
+        $biao_id = $this->input->get('id', 'intval');
+        $biao = Zbiaos::model()->fetchRow(['biao_id = ?' => $biao_id]);
+
+        $subtitle = $biao['biao_name'].'-详情';
+        $this->layout->subtitle = $subtitle;
+
+
+        $condition = ['biao_id = ?' => $biao_id];
+        $sql = new Sql();
+        $chat_data = $sql->from('zbiao_records', 'records', 'zongliang')
+                         ->where($condition)
+                         ->order('created asc')
+                         ->limit(20)
+                         ->fetchAll();
+        $chat_date = $sql->from('zbiao_records', 'records', 'created')
+                         ->where($condition)
+                         ->order('created asc')
+                         ->limit(20)
+                         ->fetchAll();
+        $this->view->text = $biao['biao_name'];
+        $this->view->data = ZbiaoRecord::getChatData($chat_data);
+        $this->view->date = ZbiaoRecord::getChatData($chat_date, true);
+        $this->view->type = $biao['type'];
 
         $this->view->render();
     }
@@ -188,11 +218,11 @@ class TasksController extends AdminController
                    $update = $db->update('zbiaos', $theData);
                    if ($update)
                    {
-                       echo $i.".".$user_data->biao_name."...数据更新成功<br />";
+                       echo $i.".".$theData->biao_name."...数据更新成功<br />";
                    }
                    else
                    {
-                       echo $i.".".$user_data->biao_name."...数据没有变化，不用更新！<br />";
+                       echo $i.".".$theData->biao_name."...数据没有变化，不用更新！<br />";
                    }
                }
             }

@@ -232,7 +232,74 @@ class TasksController extends AdminController
         $this->view->render();
     }
     
-    
+    public function inputUpload()
+    {
+        $this->layout->subtitle = '数据上传';
+
+        $method = $this->input->post('method');
+
+        if ($method == 'database')
+        {
+            $upload = new Upload();
+            $upload->run($_FILES['xlsfile']['tmp_name']);
+            $result = File::model()->upload('excel');
+            $file_path = $result['file_path'].$result['raw_name'].'.xls';
+
+            /* 引入excelphpreader类库 */
+            Loader::vendor('Excel/excel_reader2');
+
+            $excel = new \Spreadsheet_Excel_Reader($file_path, true, 'UTF-8');
+            $count = $excel->sheets[0]['numRows'];
+            $realCount = $count - 1;
+
+            error_reporting(0);
+            echo "<button style='width:200px;height:80px;' onclick='window.history.back();'>点击返回</button>";
+            echo "<h1>总计".$realCount."条记录,第一条为表头不计入数据库</h1>";
+
+            $excel_data = new \stdClass();
+
+            for ($i = 1; $i <= $excel->sheets[0]['numRows']; $i++)
+            {
+                if ($i == 1)
+                {
+                    continue;
+                }
+                for ($j = 1; $j <= $excel->sheets[0]['numCols']; $j++)
+                {
+                    $excel_data->data[$j] = $excel->sheets[0]['cells'][$i][$j];
+                }
+                $insert_data = new \stdClass();
+
+                $insert_data->biao_id = $excel_data->data[1];
+                $insert_data->zongzhi = $excel_data->data[2];
+//                $insert_data->day_use = $excel_data->data[3];
+//                $insert_data->created = $this->current_time;
+                $insert_data->updated = $this->current_time;
+
+                $db = Db::getInstance();
+//                $insert_id = $db->insert('zbiao_records', $insert_data);
+//                if ($insert_id)
+//                {
+//                    echo $i. '.' . $insert_data->biao_id. '...插入成功<br/>';
+//                }
+//                else
+//                {
+//                    echo $i.".".$insert_data->biao_id."...插入失败，请检查数据<br />";
+//                }
+                $update_id = $db->update('zbiaos', array('zongzhi' => $insert_data->zongzhi), array('biao_id = ? '=> $insert_data->biao_id));
+                if ($update_id)
+                {
+                       echo $i.".".$insert_data->biao_id."...数据更新成功<br />";
+                   }
+                   else
+                   {
+                       echo $i.".".$insert_data->biao_id."...数据没有变化，不用更新！<br />";
+                   }
+            }
+        }
+
+        $this->view->render();
+    }
     
     
     

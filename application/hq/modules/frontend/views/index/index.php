@@ -152,7 +152,7 @@ $img_url = $this->staticFile('images');
         <div class="content-header">快速通道</div>
         <div class="content-box">
             <div class="web web-1"><a href="">办公用品申领平台</a></div>
-            <div class="web web-2"><a href="">水电使用监控平台</a></div>
+            <div class="web web-2"><a href="<?= $this->url('tasks/show') ?>">水电使用监控平台</a></div>
             <div class="web web-3"><a href="">阳光厨房监控平台</a></div>
         </div>
     </div>

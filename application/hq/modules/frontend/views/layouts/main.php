@@ -28,7 +28,11 @@ $img_url = $this->staticFile('images');
     <link href="<?= $css_url ?>/util.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<?= $this->url('js/jquery-1.8.3.min.js') ?>"></script>
     <script type="text/javascript" src="<?= $js_url ?>/jquery.SuperSlide.2.1.1.js"></script>
-
+    <script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+    <script>
+        system.base_url = '<?php echo $this->url()?>';
+        system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
+    </script>
     
 </head>
 
@@ -42,7 +46,10 @@ $img_url = $this->staticFile('images');
 
 <script src="<?= $this->staticFile('js/Msclass.js') ?>"></script>
 <script src="<?= $this->staticFile('js/base.js') ?>"></script>
-
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script>
+    _fa.init();
+</script>
 
 </body>
 </html>

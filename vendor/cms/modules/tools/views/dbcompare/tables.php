@@ -165,15 +165,15 @@ var db_config = {
 };
 
 $(function(){
-	$(document).on('mouseenter', '.list-table tr', function(){
+	$(document).on('mouseenter', '.list-table tbody tr', function(){
 		var index = $(this).index();
 		$('.list-table').each(function(){
 			$(this).find('tbody tr:eq('+index+')').addClass('hover').siblings().removeClass('hover');
 		});
-	}).on('mouseleave', '.list-table tr', function (){
+	}).on('mouseleave', '.list-table tbody tr', function(){
 		var index = $(this).index();
-		$('.list-table tbody tr:eq('+index+')').each(function(){
-			$(this).removeClass('hover');
+		$('.list-table').each(function(){
+			$(this).find('tbody tr:eq('+index+')').removeClass('hover');
 		});
 	}).on('click', '#start-transfer', function(){
 		//数据迁移

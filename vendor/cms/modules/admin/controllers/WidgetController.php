@@ -11,6 +11,7 @@ use fay\models\File;
 use fay\core\Response;
 use fay\models\Setting;
 use fay\core\HttpException;
+use fay\models\tables\Widgetareas;
 
 class WidgetController extends AdminController{
 	public function __construct(){
@@ -36,6 +37,14 @@ class WidgetController extends AdminController{
 		}
 		
 		$this->view->widgets = $widget_instances;
+
+		//小工具域列表
+		$widget_areas = Widgetareas::model()->fetchAll('deleted = 0');
+		$widget_areas_arr = array();
+		foreach($widget_areas as $wa){
+			$widget_areas_arr[$wa['id']] = $wa['description'] . ' - ' . $wa['alias'];
+		}
+		$this->view->widget_areas = $widget_areas_arr;
 		
 		$this->view->render();
 	}
@@ -72,6 +81,7 @@ class WidgetController extends AdminController{
 					'alias'=>$this->input->post('f_widget_alias'),
 					'description'=>$this->input->post('f_widget_description'),
 					'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
+					'widgetarea_id'=>$this->input->post('widgetarea_id', 'intval'),
 				), $id);
 				if(method_exists($widget_obj, 'onPost')){
 					$widget_obj->onPost();
@@ -92,6 +102,14 @@ class WidgetController extends AdminController{
 		
 		$this->view->widget_admin = $widget_admin;
 		$this->layout->subtitle = '编辑小工具  - '.$this->view->widget_admin->title;
+		
+		//小工具域列表
+		$widget_areas = Widgetareas::model()->fetchAll('deleted = 0');
+		$widget_areas_arr = array();
+		foreach($widget_areas as $wa){
+			$widget_areas_arr[$wa['id']] = $wa['description'] . ' - ' . $wa['alias'];
+		}
+		$this->view->widget_areas = $widget_areas_arr;
 		
 		$this->view->render();
 	}
@@ -146,6 +164,7 @@ class WidgetController extends AdminController{
 				'widget_name'=>$this->input->post('widget_name'),
 				'alias'=>$this->input->post('alias') ? $this->input->post('alias') : uniqid(),
 				'description'=>$this->input->post('description'),
+				'widgetarea_id'=>$this->input->post('widgetarea_id', 'intval'),
 			));
 			$this->actionlog(Actionlogs::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
 			

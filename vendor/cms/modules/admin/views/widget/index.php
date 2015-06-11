@@ -53,9 +53,16 @@ use fay\helpers\Html;
 					<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个</p>
 				</div>
 				<div class="form-field">
+					<label class="title">所属域</label>
+					<?php echo Html::select('widgetarea_id', array(''=>'--所属小工具域--')+$widget_areas, '', array(
+						'class'=>'form-control',
+					))?>
+					<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个</p>
+				</div>
+				<div class="form-field">
 					<label class="title">描述</label>
 					<?php echo Html::textarea('description', '', array(
-						'class'=>'form-control w400',
+						'class'=>'form-control w400 autosize',
 					))?>
 				</div>
 				<div class="form-field">

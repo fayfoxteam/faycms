@@ -15,7 +15,7 @@ class Widgets extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('id', 'widgetarea_id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('enabled'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('alias', 'widget_name', 'description'), 'string', array('max'=>255)),
 		);
@@ -29,6 +29,7 @@ class Widgets extends Table{
 			'widget_name'=>'Widget Name',
 			'description'=>'Description',
 			'enabled'=>'Enabled',
+			'widgetarea_id'=>'Widgetarea Id',
 		);
 	}
 
@@ -39,6 +40,7 @@ class Widgets extends Table{
 			'widget_name'=>'trim',
 			'description'=>'trim',
 			'enabled'=>'intval',
+			'widgetarea_id'=>'intval',
 		);
 	}
 }

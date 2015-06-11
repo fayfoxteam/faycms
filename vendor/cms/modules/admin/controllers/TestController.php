@@ -230,4 +230,25 @@ class TestController extends AdminController{
 		
 		var_dump(Users9::model());
 	}
+	
+	public function in(){
+		//$ids = array(10086,20000,130001,200133,349985,858372,1139822,2993814,3482713,3898234);
+		$ids = array(/* 10086,20000,130001,200133,349985,858372,1139822,2993814,3482713,3898234, */
+			30000,30001,30002,30003,30004,30005,30006,30007,30008,30009);
+		$start = microtime(true);
+		$posts = \fay\models\tables\Posts::model()->fetchAll('id IN ('.implode(',', $ids).')');
+		//\fay\core\Db::getInstance()->fetchAll('SELECT id,title FROM posts_0 WHERE id IN ('.implode(',', $ids).')');
+		$in_cost = microtime(true) - $start;
+		echo 1000 * $in_cost, '<br>';
+		unset($posts);
+		
+		$start = microtime(true);
+		foreach($ids as $id){
+			\fay\models\tables\Posts::model()->find($id);
+			//\fay\core\Db::getInstance()->fetchRow('SELECT id,title FROM posts_0 WHERE id = '.$id);
+		}
+		$simple_cost = microtime(true) - $start;
+		echo 1000 * $simple_cost, '<br>';
+		echo '相差：', 1000 * ($simple_cost - $in_cost), 'ms';
+	}
 }

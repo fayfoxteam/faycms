@@ -217,6 +217,14 @@
                         color: '#808080'
                     }]
                 },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: true
+                    }
+                },
                 tooltip: {
                     valueSuffix: type == 1 ? '度' : '吨'
                 },

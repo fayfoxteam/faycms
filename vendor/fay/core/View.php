@@ -123,6 +123,9 @@ class View extends FBase{
 	 * @param array $layout_data 传递给模板的参数
 	 */
 	public function render($view = null, $layout = null, $return = false){
+		//hook
+		Hook::getInstance()->call('before_render');
+		
 		$uri = Uri::getInstance();
 		$content = $this->renderPartial($view, array(), -1, true);
 		

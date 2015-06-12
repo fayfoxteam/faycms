@@ -3,6 +3,7 @@ namespace fay\core;
 
 use fay\core\FBase;
 use fay\models\tables\Widgets;
+use fay\models\tables\Widgetareas;
 
 class FWidget extends FBase{
 	/**
@@ -34,12 +35,19 @@ class FWidget extends FBase{
 	/**
 	 * 根据数据库中的别名，实例化对应的widget，进行渲染
 	 */
-	public function load($alias, $ajax = false, $cache = false){
-		$widget_config = Widgets::model()->fetchRow(array(
-			'alias = ?'=>$alias,
-		));
-		if($widget_config['enabled']){
-			$this->render($widget_config['widget_name'], json_decode($widget_config['options'], true), $ajax, $cache, $alias);
+	public function load($widget, $ajax = false, $cache = false){
+		if(!is_array($widget)){
+			if(is_numeric($widget)){
+				$widget = Widgets::model()->find($widget);
+			}else{
+				$widget = Widgets::model()->fetchRow(array(
+					'alias = ?'=>$widget,
+				));
+			}
+		}
+		
+		if($widget && $widget['enabled']){
+			$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $cache, $widget['alias']);
 		}
 	}
 	
@@ -91,10 +99,32 @@ class FWidget extends FBase{
 		}
 	}
 	
+	/**
+	 * 返回一个小工具
+	 * @param string $alias 小工具实例别名
+	 * @return array
+	 */
 	public function getData($alias){
 		$widget = Widgets::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'options');
 		return json_decode($widget['options'], true);
+	}
+	
+	/**
+	 * 渲染一个小工具域
+	 * @param string $alias 小工具域别名
+	 */
+	public function area($alias){
+		$widgetarea = Widgetareas::model()->fetchRow(array(
+			'alias = ?'=>$alias,
+			'deleted = 0',
+		), 'id');
+		if($widgetarea){
+			$widgets = Widgets::model()->fetchAll('widgetarea_id = '.$widgetarea['id'], '*', 'sort,id');
+			foreach($widgets as $w){
+				$this->load($w);
+			}
+		}
 	}
 }

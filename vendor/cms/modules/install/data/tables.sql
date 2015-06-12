@@ -800,20 +800,23 @@ CREATE TABLE `{{$prefix}}vouchers` (
 
 DROP TABLE IF EXISTS `{{$prefix}}widgetareas`;
 CREATE TABLE `{{$prefix}}widgetareas` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `alias` varchar(30) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL DEFAULT '',
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `alias` varchar(30) NOT NULL DEFAULT '' COMMENT '别名',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='小工具域';
 
 DROP TABLE IF EXISTS `{{$prefix}}widgets`;
 CREATE TABLE `{{$prefix}}widgets` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Alias',
-  `options` text NOT NULL COMMENT 'Options',
-  `widget_name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Widget Name',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Description',
-  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Enabled',
+  `alias` varchar(255) NOT NULL DEFAULT '' COMMENT '别名',
+  `options` text NOT NULL COMMENT '实例参数',
+  `widget_name` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具名称',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具描述',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  `widgetarea_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '小工具域ID',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -22,7 +22,6 @@ use fay\helpers\Html;
 use fay\core\Hook;
 use fay\core\HttpException;
 use fay\models\Option;
-use fay\models\tables\Users;
 
 class PostController extends AdminController{
 	/**

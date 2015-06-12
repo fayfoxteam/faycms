@@ -64,6 +64,8 @@ class WidgetareaController extends AdminController{
 			$this->form()->setData($widgetarea);
 				
 			$this->_setListview();
+			
+			
 				
 			$this->view->render();
 		}else{

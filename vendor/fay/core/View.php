@@ -62,15 +62,6 @@ class View extends FBase{
 	}
 	
 	/**
-	 * 用于输出文章内容等信息
-	 * @param string $input
-	 * @return string
-	 */
-	public function escape($input){
-		return Html::encode($input);
-	}
-	
-	/**
 	 * 向视图传递一堆参数
 	 * @param array $options
 	 */

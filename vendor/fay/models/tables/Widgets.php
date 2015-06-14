@@ -15,11 +15,11 @@ class Widgets extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('widgetarea_id'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('enabled'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('alias', 'widget_name', 'description'), 'string', array('max'=>255)),
+			array(array('widgetarea'), 'string', array('max'=>50)),
 		);
 	}
 
@@ -31,7 +31,7 @@ class Widgets extends Table{
 			'widget_name'=>'小工具名称',
 			'description'=>'小工具描述',
 			'enabled'=>'是否启用',
-			'widgetarea_id'=>'小工具域ID',
+			'widgetarea'=>'小工具域',
 			'sort'=>'排序值',
 		);
 	}
@@ -44,7 +44,7 @@ class Widgets extends Table{
 			'widget_name'=>'trim',
 			'description'=>'trim',
 			'enabled'=>'intval',
-			'widgetarea_id'=>'intval',
+			'widgetarea'=>'trim',
 			'sort'=>'intval',
 		);
 	}

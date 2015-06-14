@@ -12,6 +12,9 @@ class AdminController extends Widget{
 	public $description = '友情链接列表';
 	
 	public function index($data){
+		//帮助面板
+		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
+		
 		$root_node = Category::model()->getByAlias('_system_link', 'id');
 		$this->view->cats = array(
 			array(
@@ -27,6 +30,7 @@ class AdminController extends Widget{
 		}
 		
 		$this->view->data = $data;
+		
 		$this->view->render();
 	}
 	
@@ -40,13 +44,37 @@ class AdminController extends Widget{
 		}else if($this->input->post('other_uri')){
 			$uri = $this->input->post('other_uri');
 		}
+		//若模版与默认模版一致，不保存
+		$template = $this->input->post('template');
+		if($template == file_get_contents(dirname(__FILE__).'/../views/index/template.php')){
+			$template = '';
+		}
 		$this->saveData(array(
 			'title'=>$this->input->post('title', null, ''),
 			'number'=>$this->input->post('number', 'intval', 5),
 			'cat_id'=>$this->input->post('cat_id', 'intval', 0),
-			'template'=>$this->input->post('template'),
+			'template'=>$template,
 		));
 		$this->flash->set('编辑成功', 'success');
 	}
 	
+	public function rules(){
+		return array(
+			array('number', 'int', array('min'=>1, 'max'=>20)),
+		);
+	}
+	
+	public function labels(){
+		return array(
+			'number'=>'显示链接数',
+		);
+	}
+	
+	public function filters(){
+		return array(
+			'title'=>'',
+			'number'=>'intval',
+			'template'=>'trim',
+		);
+	}
 }

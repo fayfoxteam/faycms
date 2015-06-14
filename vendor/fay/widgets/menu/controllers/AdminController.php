@@ -13,6 +13,9 @@ class AdminController extends Widget{
 	public $description = '以ul, li的方式渲染一个导航树';
 	
 	public function index($data){
+		//帮助面板
+		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
+		
 		$this->view->menu = array(
 			array(
 				'id'=>Menus::ITEM_USER_MENU,
@@ -43,12 +46,17 @@ class AdminController extends Widget{
 		}else if($this->input->post('other_uri')){
 			$uri = $this->input->post('other_uri');
 		}
+		//若模版与默认模版一致，不保存
+		$template = $this->input->post('template');
+		if($template == file_get_contents(dirname(__FILE__).'/../views/index/template.php')){
+			$template = '';
+		}
 		$this->saveData(array(
 			'hierarchical'=>$this->input->post('hierarchical', 'intval', 0),
 			'top'=>$this->input->post('top', 'intval', 0),
 			'title'=>$this->input->post('title', null, ''),
 			'uri'=>$uri,
-			'template'=>$this->input->post('template'),
+			'template'=>$template,
 		));
 		$this->flash->set('编辑成功', 'success');
 	}

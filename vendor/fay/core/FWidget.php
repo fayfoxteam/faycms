@@ -116,15 +116,9 @@ class FWidget extends FBase{
 	 * @param string $alias 小工具域别名
 	 */
 	public function area($alias){
-		$widgetarea = Widgetareas::model()->fetchRow(array(
-			'alias = ?'=>$alias,
-			'deleted = 0',
-		), 'id');
-		if($widgetarea){
-			$widgets = Widgets::model()->fetchAll('widgetarea_id = '.$widgetarea['id'], '*', 'sort,id');
-			foreach($widgets as $w){
-				$this->load($w);
-			}
+		$widgets = Widgets::model()->fetchAll("widgetarea = '{$alias}'", '*', 'sort,id');
+		foreach($widgets as $w){
+			$this->load($w);
 		}
 	}
 }

@@ -1,27 +1,31 @@
 <?php
+namespace blog\modules\frontend\views\widget;
+
 use fay\helpers\Html;
 
-function renderCats($cats, $uri, $dep = 0){
-	$html = '<ul';
-	$html .= $dep ? ' class="children"' : '';
-	$html .= '>';
-	foreach($cats as $c){
-		$html .= '<li>';
-		$html .= Html::link($c['title'], array(str_replace(array(
-			'{$id}', '{$alias}',
-		), array(
-			$c['id'], $c['alias'],
-		), $uri)));
-		if(!empty($c['children'])){
-			$html .= renderCats($c['children'], $uri, ++$dep);
+if(!function_exists('blog\modules\frontend\views\widget\renderCats')){
+	function renderCats($cats, $uri, $dep = 0){
+		$html = '<ul';
+		$html .= $dep ? ' class="children"' : '';
+		$html .= '>';
+		foreach($cats as $c){
+			$html .= '<li>';
+			$html .= Html::link($c['title'], array(str_replace(array(
+				'{$id}', '{$alias}',
+			), array(
+				$c['id'], $c['alias'],
+			), $uri)));
+			if(!empty($c['children'])){
+				$html .= renderCats($c['children'], $uri, ++$dep);
+			}
+			$html .= '</li>';
 		}
-		$html .= '</li>';
+		$html .= '</ul>';
+		return $html;
 	}
-	$html .= '</ul>';
-	return $html;
 }
 ?>
 <aside class="widget category">
-	<div class="widget-title"><?php echo Html::encode($data['title'])?></div>
-	<?php echo renderCats($cats, $data['uri'])?>
+	<div class="widget-title"><?php echo Html::encode($config['title'])?></div>
+	<?php echo renderCats($cats, $config['uri'])?>
 </aside>

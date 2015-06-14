@@ -849,6 +849,14 @@ var common = {
 			});
 		});
 	},
+	'prettyPrint':function(){
+		if($('.prettyprint').length){
+			system.getScript(system.url('js/prettify.js'), function(){
+				prettyPrint();
+			});
+			system.getCss(system.url('css/debug.css'));
+		}
+	},
 	'init':function(){
 		this.fancybox();
 		this.menu();
@@ -868,5 +876,6 @@ var common = {
 		this.textAutosize();
 		this.dropdown();
 		this.notification();
+		this.prettyPrint();
 	}
 };

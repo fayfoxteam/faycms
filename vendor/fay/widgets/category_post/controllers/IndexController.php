@@ -6,49 +6,49 @@ use fay\models\Category;
 use fay\models\Post;
 
 class IndexController extends Widget{
-	public function index($data){
+	public function index($config){
 		$conditions = array();
 		
 		//root node
-		if(empty($data['top'])){
+		if(empty($config['top'])){
 			$root_node = Category::model()->getByAlias('_system_post', 'id');
-			$data['top'] = $root_node['id'];
+			$config['top'] = $root_node['id'];
 		}
 		
 		//title
-		if(empty($data['title'])){
-			$node = Category::model()->get($data['top'], 'title');
-			$data['title'] = $node['title'];
+		if(empty($config['title'])){
+			$node = Category::model()->get($config['top'], 'title');
+			$config['title'] = $node['title'];
 		}
 		
 		//uri
-		if(empty($data['uri'])){
-			$data['uri'] = 'post/{$id}';
+		if(empty($config['uri'])){
+			$config['uri'] = 'post/{$id}';
 		}
 		
 		//number
-		if(empty($data['number'])){
-			$data['number'] = 5;
+		if(empty($config['number'])){
+			$config['number'] = 5;
 		}
 		
 		//show_empty
-		if(!isset($data['show_empty'])){
-			$data['show_empty'] = 0;
+		if(!isset($config['show_empty'])){
+			$config['show_empty'] = 0;
 		}
 		
 		//date format
-		if(empty($data['date_format'])){
-			$data['date_format'] = '';
+		if(empty($config['date_format'])){
+			$config['date_format'] = '';
 		}
 		
 		//thumbnail
-		if(!empty($data['thumbnail'])){
+		if(!empty($config['thumbnail'])){
 			$conditions[] = 'thumbnail != 0';
 		}
 		
 		//last view
-		if(!empty($data['last_view_time'])){
-			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $data['last_view_time']);
+		if(!empty($config['last_view_time'])){
+			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $config['last_view_time']);
 		}
 		
 		//order
@@ -58,40 +58,40 @@ class IndexController extends Widget{
 			'views'=>'views DESC, publish_time DESC',
 			'rand'=>'RAND()',
 		);
-		if(!empty($data['order']) && isset($orders[$data['order']])){
-			$order = $orders[$data['order']];
+		if(!empty($config['order']) && isset($orders[$config['order']])){
+			$order = $orders[$config['order']];
 		}else{
 			$order = $orders['hand'];
 		}
 		
-		if(!isset($data['subclassification'])){
-			$data['subclassification'] = true;
+		if(!isset($config['subclassification'])){
+			$config['subclassification'] = true;
 		}
 		
-		$posts = Post::model()->getByCatId($data['top'], $data['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $data['subclassification'], $order, $conditions);
+		$posts = Post::model()->getByCatId($config['top'], $config['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $config['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
-		if(empty($posts) && !$data['show_empty']){
+		if(empty($posts) && !$config['show_empty']){
 			return;
 		}
 		
 		//template
-		if(empty($data['template'])){
+		if(empty($config['template'])){
 			$this->view->render('template', array(
 				'posts'=>$posts,
-				'data'=>$data,
+				'config'=>$config,
 				'alias'=>$this->alias,
 			));
 		}else{
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $data['template'])){
-				\F::app()->view->renderPartial($data['template'], array(
+			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+				\F::app()->view->renderPartial($config['template'], array(
 					'posts'=>$posts,
-					'data'=>$data,
+					'config'=>$config,
 					'alias'=>$this->alias,
 				));
 			}else{
 				$alias = $this->alias;
-				eval('?>'.$data['template'].'<?php ');
+				eval('?>'.$config['template'].'<?php ');
 			}
 		}
 		

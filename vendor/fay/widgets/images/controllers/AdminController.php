@@ -4,13 +4,15 @@ namespace fay\widgets\images\controllers;
 use fay\core\Widget;
 
 class AdminController extends Widget{
-	
 	public $title = '图集';
 	public $author = 'fayfox';
 	public $author_link = 'http://www.fayfox.com';
 	public $description = '仅显示一组图片，不自带任何js效果';
 	
 	public function index($data){
+		//帮助面板
+		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
+		
 		//获取默认模版
 		if(empty($data['template'])){
 			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');

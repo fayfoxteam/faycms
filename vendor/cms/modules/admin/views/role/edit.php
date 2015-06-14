@@ -40,7 +40,7 @@ $col_left_count = floor($action_cat_count / 2);
 	<div class="col-12">
 		<div class="tabbable">
 			<ul class="nav-tabs">
-				<li class="active"><a href="#action-panel">操作权限</a></li>
+				<li class="active"><a href="#action-panel">访问权限</a></li>
 				<li><a href="#cats-panel">分类权限</a></li>
 			</ul>
 			<div class="tab-content">

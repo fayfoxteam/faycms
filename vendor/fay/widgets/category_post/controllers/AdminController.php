@@ -12,6 +12,9 @@ class AdminController extends Widget{
 	public $description = '显示某个分类下的文章';
 	
 	public function index($data){
+		//帮助面板
+		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
+		
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(
@@ -39,7 +42,10 @@ class AdminController extends Widget{
 	public function onPost(){
 		$data = $this->form->getFilteredData();
 		$data['uri'] || $data['uri'] = empty($data['other_uri']) ? 'post/{$id}' : $data['other_uri'];
-		
+		//若模版与默认模版一致，不保存
+		if($data['template'] == file_get_contents(dirname(__FILE__).'/../views/index/template.php')){
+			$data['template'] = '';
+		}
 		$this->saveData($data);
 		
 		$this->flash->set('编辑成功', 'success');

@@ -52,7 +52,7 @@ use fay\helpers\Html;
 					</div>
 					<div class="form-field">
 						<label class="title">所属域</label>
-						<?php echo Html::select('widgetarea_id', array(''=>'--所属小工具域--')+$widget_areas, $widget['widgetarea_id'], array(
+						<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
 							'class'=>'form-control',
 						))?>
 						<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个</p>

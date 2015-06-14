@@ -6,36 +6,36 @@ use fay\models\Category;
 use fay\models\Menu;
 
 class IndexController extends Widget{
-	public function index($data){
+	public function index($config){
 		//root node
-		if(empty($data['top'])){
+		if(empty($config['top'])){
 			$root_node = Category::model()->getByAlias('_system_post', 'id');
-			$data['top'] = $root_node['id'];
+			$config['top'] = $root_node['id'];
 		}
 		
-		$menu = Menu::model()->getTree($data['top'], true, true);
+		$menu = Menu::model()->getTree($config['top'], true, true);
 		
 		//若无分类可显示，则不显示该widget
 		if(empty($menu)){
 			return;
 		}
 		
-		if(empty($data['template'])){
+		if(empty($config['template'])){
 			$this->view->render('template', array(
 				'menu'=>$menu,
-				'data'=>$data,
+				'config'=>$config,
 				'alias'=>$this->alias,
 			));
 		}else{
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $data['template'])){
-				\F::app()->view->renderPartial($data['template'], array(
+			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+				\F::app()->view->renderPartial($config['template'], array(
 					'menu'=>$menu,
-					'data'=>$data,
+					'config'=>$config,
 					'alias'=>$this->alias,
 				));
 			}else{
 				$alias = $this->alias;
-				eval('?>'.$data['template'].'<?php ');
+				eval('?>'.$config['template'].'<?php ');
 			}
 		}
 	}

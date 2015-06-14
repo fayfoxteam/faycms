@@ -6,8 +6,8 @@ F::form('create')->setModel(Menus::model());
 F::form('edit')->setModel(Menus::model());
 ?>
 <div class="hide">
-	<div id="edit-cat-dialog" class="common-dialog">
-		<div class="common-dialog-content w550">
+	<div id="edit-cat-dialog" class="dialog">
+		<div class="dialog-content w550">
 			<h4>编辑菜单<em>（当前菜单：<span id="edit-cat-title" class="fc-orange"></span>）</em></h4>
 			<?php echo F::form('edit')->open(array('admin/menu/edit'), 'post', array(
 				'class'=>'form-inline',
@@ -118,8 +118,8 @@ F::form('edit')->setModel(Menus::model());
 	</div>
 </div>
 <div class="hide">
-	<div id="create-cat-dialog" class="common-dialog">
-		<div class="common-dialog-content w550">
+	<div id="create-cat-dialog" class="dialog">
+		<div class="dialog-content w550">
 			<h4>添加子项<em>（父节点：<span id="create-cat-parent" class="fc-orange"></span>）</em></h4>
 			<?php echo F::form('create')->open(array('admin/menu/create'), 'post', array(
 				'class'=>'form-inline',

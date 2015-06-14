@@ -1,6 +1,3 @@
-<?php
-use fay\helpers\Html;
-?>
 <div class="row">
 	<div class="col-5">
 		<div class="form-field">
@@ -44,10 +41,10 @@ var widgetarea = {
 		system.getScript(system.url('js/jquery.dragsort-0.5.1.js'), function(){
 			$('.widget-list').dragsort({
 				'itemSelector': '.widget-item',
-				'dragSelector': '.widget-item-selector',
+				//'dragSelector': '.widget-item-selector',
 				'dragBetween': true,
 				'placeHolderTemplate': '<div class="widget-item holder"></div>',
-				'dragSelectorExclude': 'strong,p',
+				'dragSelectorExclude': 'strong,span',
 				'dragEnd':function(){
 					var widgetareas = {};
 					$('#widgetarea-list .box').each(function(){

@@ -46,13 +46,21 @@ class AdminController extends Widget{
 		}else if($this->input->post('other_uri')){
 			$uri = $this->input->post('other_uri');
 		}
-		$this->saveData(array(
+		//@todo 改成rules，filter那种形式
+		$data = array(
 			'hierarchical'=>$this->input->post('hierarchical', 'intval', 0),
 			'top'=>$this->input->post('top', 'intval', 0),
 			'title'=>$this->input->post('title', null, ''),
 			'uri'=>$uri,
 			'template'=>$this->input->post('template'),
-		));
+		);
+		
+		//若模版与默认模版一致，不保存
+		if($data['template'] == file_get_contents(dirname(__FILE__).'/../views/index/template.php')){
+			$data['template'] = '';
+		}
+		
+		$this->saveData($data);
 		$this->flash->set('编辑成功', 'success');
 	}
 	

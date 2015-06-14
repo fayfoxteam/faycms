@@ -150,13 +150,13 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .list-table .desc:hover .sorting-indicator:before{content:"\f0d7"}
 
 /* dialog */
-.common-dialog{overflow:auto}
-.common-dialog-content{padding:30px}
-.common-dialog-content h4{border-bottom:1px solid #DFDFDF;color:#464646;font-size:21px;margin:-5px -8px 11px -6px;text-shadow:0 1px 0 #fff;font-weight:normal;padding-bottom:10px}
-.common-dialog-form-table{width:100%}
-.common-dialog-form-table tr td,.common-dialog-form-table tr th{padding:10px;vertical-align:top}
-.common-dialog-form-table tr td{text-align:left}
-.common-dialog-form-table tr th{text-align:right}
+.dialog{overflow:auto}
+.dialog-content{padding:20px 30px;min-width:400px}
+.dialog-content h4{border-bottom:1px solid #dfdfdf;color:#464646;font-size:18px;line-height:18px;margin-bottom:10px;text-shadow:0 1px 0 #fff;font-weight:normal;padding-bottom:15px}
+.dialog-form-table{width:100%}
+.dialog-form-table tr td,.dialog-form-table tr th{padding:10px;vertical-align:top}
+.dialog-form-table tr td{text-align:left}
+.dialog-form-table tr th{text-align:right}
 
 /* 带细线边框的表格 */
 .inbox-table{width:100%;margin:3px 0;border-color:#f0f0ee;border-style:solid;border-width:1px 1px 0 0}
@@ -196,11 +196,6 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 	.pager a{padding:8px 20px 11px;font-size:18px}
 	.pager .pager-input{padding:12px 6px}
 }
-
-/* fancybox弹窗 */
-.dialog{overflow:auto}
-.dialog-content{padding:20px 30px;min-width:400px}
-.dialog-content h4{border-bottom:1px solid #dfdfdf;color:#464646;font-size:18px;line-height:18px;margin-bottom:10px;text-shadow:0 1px 0 #fff;font-weight:normal;padding-bottom:15px}
 
 /* 左侧导航栏 */
 /* 菜单 */

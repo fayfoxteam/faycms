@@ -64,8 +64,8 @@ use fay\models\tables\Logs;
 	</div>
 </div>
 <div class="hide">
-	<div id="log-detail-dialog" class="common-dialog">
-		<div class="common-dialog-content w600">
+	<div id="log-detail-dialog" class="dialog">
+		<div class="dialog-content w600">
 			<h4>日志</h4>
 			<table class="form-table">
 				<tr>

@@ -3,8 +3,8 @@ use fay\helpers\Html;
 use fay\models\tables\ExamQuestions;
 ?>
 <div class="hide">
-	<div id="question-dialog" class="common-dialog">
-		<div class="common-dialog-content" style="min-width:750px;">
+	<div id="question-dialog" class="dialog">
+		<div class="dialog-content" style="min-width:750px;">
 			<h4>添加试题</h4>
 			<?php echo F::form('search')->open(null, 'get', array(
 				'class'=>'form-inline',

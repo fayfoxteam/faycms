@@ -92,8 +92,8 @@ use fay\helpers\Html;
 	</div>
 </div>
 <div class="hide">
-	<div id="ddl-dialog" class="common-dialog">
-		<div class="common-dialog-content w650">
+	<div id="ddl-dialog" class="dialog">
+		<div class="dialog-content w650">
 			<h4></h4>
 			<div class="mb5">
 				<h3>Fields</h3>
@@ -121,8 +121,8 @@ use fay\helpers\Html;
 	</div>
 </div>
 <div class="hide">
-	<div id="data-transfer-dialog" class="common-dialog">
-		<div class="common-dialog-content w650">
+	<div id="data-transfer-dialog" class="dialog">
+		<div class="dialog-content w650">
 			<h4><span id="db-table-name"></span> (<span class="db-table-from"></span> &gt; <span class="db-table-to"></span>)</h4>
 			<form id="transfer-form">
 				<input type="hidden" name="from" />

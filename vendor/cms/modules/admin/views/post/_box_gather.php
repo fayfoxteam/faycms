@@ -12,8 +12,8 @@ use fay\helpers\Html;
 	</div>
 </div>
 <div class="hide">
-	<div id="gather-dialog" class="common-dialog">
-		<div class="common-dialog-content">
+	<div id="gather-dialog" class="dialog">
+		<div class="dialog-content">
 			<h4>文章采集</h4>
 			<div id="gather-form">
 				<div class="form-field">

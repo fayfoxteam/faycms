@@ -42,8 +42,8 @@ use fay\helpers\Html;
 	</div>
 </div>
 <div class="hide">
-	<div id="create-instance-dialog" class="common-dialog">
-		<div class="common-dialog-content">
+	<div id="create-instance-dialog" class="dialog">
+		<div class="dialog-content">
 			<h4>创建小工具实例</h4>
 			<form id="create-instance-form" action="<?php echo $this->url('admin/widget/create-instance')?>" method="post" class="validform">
 				<input type="hidden" name="widget_name" id="widget-name" />

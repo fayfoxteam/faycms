@@ -15,7 +15,7 @@ class AdminController extends Widget{
 		
 		//获取默认模版
 		if(empty($data['template'])){
-			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
+			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
 				'template'=>$data['template'],
 			), true);

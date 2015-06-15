@@ -26,7 +26,7 @@ class AdminController extends Widget{
 		
 		//获取默认模版
 		if(empty($data['template'])){
-			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
+			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 		}
 		
 		$this->view->data = $data;
@@ -46,7 +46,7 @@ class AdminController extends Widget{
 		}
 		//若模版与默认模版一致，不保存
 		$template = $this->input->post('template');
-		if($template == file_get_contents(dirname(__FILE__).'/../views/index/template.php')){
+		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$template = '';
 		}
 		$this->saveData(array(

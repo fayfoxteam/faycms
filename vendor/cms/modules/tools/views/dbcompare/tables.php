@@ -204,7 +204,7 @@ $(function(){
 			$(".data-transfer").fancybox({
 				'padding':0,
 				'titleShow':false,
-				'centerOnScroll':true,
+				'centerOnScroll':false,
 				'hideOnOverlayClick':false,
 				'onStart':function(o){
 					if($(o).attr('data-db') == 'left'){
@@ -291,7 +291,7 @@ $(function(){
 			$(".show-ddl").fancybox({
 				'padding':0,
 				'titleShow':false,
-				'centerOnScroll':true,
+				'centerOnScroll':false,
 				'onStart':function(o){
 					$('#ddl-dialog h4').text($(o).attr('data-name'));
 				},

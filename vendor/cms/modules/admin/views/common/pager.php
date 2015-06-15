@@ -4,14 +4,8 @@ use fay\helpers\Html;
 <div class="pager">
 <?php
 if($listview->total_pages > 1){
-	if($listview->id){
-		$page_param = $listview->id.'_page';
-	}else{
-		$page_param = 'page';
-	}
-	
 	$gets = F::app()->input->get();
-	unset($gets[$page_param]);
+	unset($gets[$listview->page_key]);
 ?>
 	<span class="summary"><?php echo $listview->total_records?>条记录</span>
 	<?php
@@ -35,7 +29,7 @@ if($listview->total_pages > 1){
 		));
 	}else{
 		echo Html::link('&lsaquo;', array(F::app()->uri->router, $gets + array(
-			$page_param=>$listview->current_page - 1,
+			$listview->page_key=>$listview->current_page - 1,
 		)), array(
 			'class'=>'page-numbers prev',
 			'title'=>'上一页',
@@ -43,7 +37,7 @@ if($listview->total_pages > 1){
 		));
 	}
 	
-	echo Html::inputNumber($page_param, $listview->current_page, array(
+	echo Html::inputNumber($listview->page_key, $listview->current_page, array(
 		'class'=>'form-control pager-input',
 		'before'=>' 第 ',
 		'after'=>' 页，共'.$listview->total_pages.'页 ',
@@ -53,14 +47,14 @@ if($listview->total_pages > 1){
 	
 	//下一页
 	echo Html::link('&rsaquo;', array(F::app()->uri->router, $gets + array(
-		$page_param=>$listview->current_page == $listview->total_pages ? $listview->current_page : $listview->current_page + 1,
+		$listview->page_key=>$listview->current_page == $listview->total_pages ? $listview->current_page : $listview->current_page + 1,
 	)), array(
 		'class'=>'page-numbers next'.($listview->current_page == $listview->total_pages ? ' disabled' : ''),
 		'title'=>'下一页',
 		'encode'=>false,
 	));
 	echo Html::link('&raquo;', array(F::app()->uri->router, $gets + array(
-		$page_param=>$listview->total_pages,
+		$listview->page_key=>$listview->total_pages,
 	)), array(
 		'class'=>'page-numbers end'.($listview->current_page == $listview->total_pages ? ' disabled' : ''),
 		'title'=>'末页',

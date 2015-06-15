@@ -221,35 +221,104 @@ class User extends Model{
 		\F::session()->remove();
 	}
 	
-	public function get($id, $fields = 'props'){
+	/**
+	 * 返回多个用户
+	 * @param string|array $ids 可以是逗号分割的id串，也可以是一维数组
+	 *   若传入的$ids是一个数字，会返回一维数组（除props字段）
+	 *   若传入多个id，则返回数组会与传入id顺序一致并以id为数组键
+	 * @param string $fields 可指定返回字段
+	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
+	 */
+	public function get($ids, $fields = 'users.username,users.nickname,users.id,users.avatar'){
 		$fields = explode(',', $fields);
-		$user = Users::model()->find($id, '!password,salt');
-		
-		if(!$user){
-			return false;
-		}
-		
-		if(in_array('props', $fields)){
-			$props = Props::model()->fetchAll(array(
-				'refer = ?'=>$user['role'],
-				'type = '.Props::TYPE_ROLE,
-				'deleted = 0',
-			), 'id,title,element,required,is_show,alias', 'sort');
+		$user_fields = array();
+		$props_fields = array();
+		foreach($fields as $f){
+			if(substr($f, 0, 6) == 'users.'){
+				if($f == 'users.*'){
+					$user_fields = '!password,salt';
+				}else if(is_array($user_fields)){
+					$user_fields[] = substr($f, 6);
+				}
+			}else if(substr($f, 0, 6)){
+				if($f == 'props.*'){
+					$props_fields = '*';
+				}else if(is_array($props_fields)){
+					$props_fields[] = substr($f, 6);
+				}
+			}
 			
-			$user['props'] = $this->getProps($id, $props);
+		}
+		if(is_array($user_fields)){
+			if(empty($user_fields)){
+				$user_fields_str = 'id,role,username,nickname';
+			}else{
+				$user_fields_str = implode(',', $user_fields);
+				if(!empty($props_fields)){
+					//若要搜索角色属性，则这两个字段是必须的
+					$user_fields_str .= ',id,role';
+				}else{
+					//因为要排序，id总是得搜出来的
+					$user_fields_str .= ',id';
+				}
+			}
+		}else{
+			$user_fields_str = $user_fields;
 		}
 		
-		return $user;
+		if(!is_array($ids)){
+			$ids_arr = explode(',', $ids);
+		}else{
+			$ids_arr = $ids;
+		}
+		
+		$users = Users::model()->fetchAll(array(
+			'id IN (?)'=>$ids_arr,
+		), $user_fields_str);
+		
+		if(!empty($props_fields)){
+			foreach($users as &$user){
+				$props = Props::model()->fetchAll(array(
+					'refer = ?'=>$user['role'],
+					'type = '.Props::TYPE_ROLE,
+					'deleted = 0',
+					'alias IN (?)'=>$props_fields === '*' ? false : $props_fields,
+				), 'id,title,element,required,is_show,alias', 'sort');
+				
+				$user['props'] = $this->getProps($user['id'], $props);
+			}
+		}
+		
+		//根据传入ID顺序排序后返回
+		$return = array();
+		foreach($ids_arr as $id){
+			foreach($users as $k => $u){
+				if($id == $u['id']){
+					//移除不需要返回的字段
+					if(is_array($user_fields) && !in_array('id', $user_fields)){
+						unset($u['id']);
+					}
+					if(is_array($user_fields) && !in_array('role', $user_fields)){
+						unset($u['role']);
+					}
+					$return[$id] = $u;
+					unset($users[$k]);
+					break;
+				}
+			}
+		}
+		
+		return is_numeric($ids) ? (isset($return[$ids]) ? $return[$ids] : array()) : $return;
 	}
-
-
+	
 	/**
 	 * 获取用户附加属性<br>
 	 * 可传入props（并不一定真的是当前用户分类对应的属性，比如编辑用户所属分类的时候会传入其他属性）<br>
-	 * 若不传入，则会自动获取当前用户所属分类的属性集
+	 * 若不传入，则会自动获取当前用户所属角色的属性集
 	 */
-	public function getProps($user_id, $props = array()){
-		if(!$props){
+	public function getProps($user_id, $props = null){
+		if($props === null){
 			$user = Users::model()->find($user_id, 'role');
 			$props = Prop::model()->getAll($user['role'], Props::TYPE_ROLE);
 		}

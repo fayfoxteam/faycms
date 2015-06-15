@@ -12,7 +12,7 @@ class ListView extends FBase{
 	public $item_view = '_list_item';
 	public $sql;
 	public $count_sql;
-	public $id;
+	public $page_key = 'page';//当前页参数
 	public $empty_text = '无相关记录！';
 	public $offset;
 	public $start_record;
@@ -43,10 +43,7 @@ class ListView extends FBase{
 	}
 	
 	public function init(){
-		if(isset($this->id))
-			$this->current_page = \F::app()->input->get($this->id.'_page', 'intval', 1);
-		else
-			$this->current_page = \F::app()->input->get('page', 'intval', 1);
+		$this->current_page = \F::app()->input->get($this->page_key, 'intval', 1);
 		
 		$this->total_records = $this->count();
 		$this->total_pages = ceil($this->total_records / $this->page_size);

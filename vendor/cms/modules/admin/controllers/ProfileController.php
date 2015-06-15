@@ -51,7 +51,7 @@ class ProfileController extends AdminController{
 			}
 		}
 		
-		$this->view->user = User::model()->get($this->current_user);
+		$this->view->user = User::model()->get($this->current_user, 'users.*,props.*');
 		$this->form()->setData($this->view->user);
 		
 		$this->view->role = Role::model()->get($this->view->user['role']);

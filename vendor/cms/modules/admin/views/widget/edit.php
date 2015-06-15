@@ -55,7 +55,7 @@ use fay\helpers\Html;
 						<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
 							'class'=>'form-control',
 						))?>
-						<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个</p>
+						<p class="fc-grey">小工具可以属于一个域，通过调用域来显示一组小工具</p>
 					</div>
 					<div class="form-field pb0">
 						<label class="title pb0">描述</label>

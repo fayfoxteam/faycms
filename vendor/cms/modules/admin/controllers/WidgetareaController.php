@@ -23,7 +23,7 @@ class WidgetareaController extends AdminController{
 		$this->view->widgetareas = $this->config->getFile('widgetareas');
 		
 		//小工具实例
-		$this->view->widgets = Widgets::model()->fetchAll(array(), '*', 'widgetarea, sort');
+		$this->view->widgets = Widgets::model()->fetchAll(array(), '*', 'widgetarea, sort, id DESC');
 		
 		$this->view->render();
 	}

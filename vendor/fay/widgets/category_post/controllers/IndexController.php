@@ -22,34 +22,23 @@ class IndexController extends Widget{
 		}
 		
 		//uri
-		if(empty($config['uri'])){
-			$config['uri'] = 'post/{$id}';
-		}
+		empty($config['uri']) && $config['uri'] = 'post/{$id}';
 		
 		//number
-		if(empty($config['number'])){
-			$config['number'] = 5;
-		}
+		empty($config['number']) && $config['number'] = 5;
 		
 		//show_empty
-		if(!isset($config['show_empty'])){
-			$config['show_empty'] = 0;
-		}
+		isset($config['show_empty']) || $config['show_empty'] = 0;
 		
 		//date format
-		if(empty($config['date_format'])){
-			$config['date_format'] = '';
-		}
+		empty($config['date_format']) && $config['date_format'] = '';
 		
 		//thumbnail
-		if(!empty($config['thumbnail'])){
-			$conditions[] = 'thumbnail != 0';
-		}
+		empty($config['thumbnail']) || $conditions[] = 'thumbnail != 0';
 		
 		//last view
-		if(!empty($config['last_view_time'])){
+		empty($config['last_view_time']) ||
 			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $config['last_view_time']);
-		}
 		
 		//order
 		$orders = array(

@@ -176,7 +176,7 @@ class OperatorController extends AdminController{
 			}
 		}
 		
-		$this->view->user = User::model()->get($id);
+		$this->view->user = User::model()->get($id, 'users.*,props.*');
 		$this->form()->setData($this->view->user);
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
@@ -190,7 +190,7 @@ class OperatorController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id);
+			$this->view->user = User::model()->get($id, 'users.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

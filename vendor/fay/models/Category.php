@@ -33,9 +33,9 @@ class Category extends Model{
 	public function getByAlias($alias, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
 			if(is_numeric($root)){
-				$root = $this->getById($root, $fields);
+				$root = $this->getById($root, 'left_value,right_value');
 			}else{
-				$root = $this->getByAlias($root, $fields);
+				$root = $this->getByAlias($root, 'left_value,right_value');
 			}
 		}
 		
@@ -51,7 +51,7 @@ class Category extends Model{
 	
 	/**
 	 * 根据分类ID获取一个分类信息
-	 * @param string $alias
+	 * @param string $id 单个分类ID
 	 * @param string $fields
 	 * @param int|string|array $root 若指定root，则只搜索root下的分类
 	 *  - 若为数字，视为分类ID
@@ -61,9 +61,9 @@ class Category extends Model{
 	public function getById($id, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
 			if(is_numeric($root)){
-				$root = $this->getById($root, $fields);
+				$root = $this->getById($root, 'left_value,right_value');
 			}else{
-				$root = $this->getByAlias($root, $fields);
+				$root = $this->getByAlias($root, 'left_value,right_value');
 			}
 		}
 		
@@ -75,6 +75,56 @@ class Category extends Model{
 			$conditions['right_value < ?'] = $root['right_value'];
 		}
 		return Categories::model()->fetchRow($conditions, $fields);
+	}
+	
+	/**
+	 * 根据分类ID串获取多个分类信息
+	 * @param string $ids 多个分类ID（数组或者逗号分隔），返回数组会与传入id顺序一致并以id为数组键
+	 * @param string $fields
+	 * @param int|string|array $root 若指定root，则只搜索root下的分类
+	 *  - 若为数字，视为分类ID
+	 *  - 若为字符串，视为分类别名
+	 *  - 若为数组，则必须包含left_value和right_value
+	 */
+	public function getByIds($ids, $fields = '*', $root = null){
+		if(!is_array($ids)){
+			$ids = explode(',', $ids);
+		}
+		if($root !== null && !is_array($root)){
+			if(is_numeric($root)){
+				$root = $this->getById($root, 'left_value,right_value');
+			}else{
+				$root = $this->getByAlias($root, 'left_value,right_value');
+			}
+		}
+		
+		$conditions = array(
+			'id IN (?)'=>$ids,
+		);
+		if($root){
+			$conditions['left_value > ?'] = $root['left_value'];
+			$conditions['right_value < ?'] = $root['right_value'];
+		}
+		$cats = Categories::model()->fetchAll($conditions, $fields.',id');
+		//根据传入ID顺序返回
+		$return = array();
+		if($fields !== '*' && !is_array($fields)){
+			$fields = explode(',', $fields);
+		}
+		foreach($ids as $id){
+			foreach($cats as $k => $c){
+				if($c['id'] == $id){
+					//若不需要返回id，把id去掉
+					if($fields !== '*' && !in_array('id', $fields)){
+						unset($c['id']);
+					}
+					$return[$id] = $c;
+					unset($cats[$k]);
+					break;
+				}
+			}
+		}
+		return $return;
 	}
 	
 	/**
@@ -295,7 +345,7 @@ class Category extends Model{
 	 * @param int|string|array $cats
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若为字符串，视为分类别名获取分类；
-	 *  - 若是数组，循环调用自己获取多个分类；
+	 *  - 若是数组，循环调用自己获取多个分类（数组项可以是数字也可以是字符串）；
 	 * @param string $fields
 	 * @param int|string|array $root 若指定root，则只搜索root下的分类
 	 *  - 若为数字，视为分类ID
@@ -305,17 +355,13 @@ class Category extends Model{
 	public function get($cats, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
 			if(is_numeric($root)){
-				$root = $this->getById($root, $fields);
+				$root = $this->getById($root, 'left_value,right_value');
 			}else{
-				$root = $this->getByAlias($root, $fields);
+				$root = $this->getByAlias($root, 'left_value,right_value');
 			}
 		}
 		if(is_array($cats)){
-			$return = array();
-			foreach($cats as $c){
-				$return[] = $this->get($c, $fields, $root);
-			}
-			return $return;
+			return $this->getByIds($cats, $fields);
 		}else{
 			if(is_numeric($cats)){
 				return $this->getById($cats, $fields, $root);

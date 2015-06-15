@@ -30,11 +30,11 @@ use fay\models\File;
 			</span>
 			<div class="file-desc-container">
 				<?php echo Html::inputText("titles[{$d['file_id']}]", $d['title'], array(
-					'class'=>'photo-title mb5 full-width',
+					'class'=>'photo-title mb5 form-control',
 					'placeholder'=>'标题',
 				))?>
 				<?php echo Html::inputText("links[{$d['file_id']}]", $d['link'], array(
-					'class'=>'photo-link mb5 full-width',
+					'class'=>'photo-link mb5 form-control',
 					'placeholder'=>'链接地址',
 				))?>
 			</div>
@@ -89,8 +89,8 @@ var jq_camera = {
 							'<img src="', system.url('images/loading.gif'), '" />',
 						'</span>',
 						'<div class="file-desc-container">',
-							'<input type="text" class="photo-title mb5 full-width" placeholder="标题" value="', data.name, '" />',
-							'<input type="text" class="photo-link mb5 full-width" placeholder="链接地址" />',
+							'<input type="text" class="photo-title mb5 form-control" placeholder="标题" value="', data.name, '" />',
+							'<input type="text" class="photo-link mb5 form-control" placeholder="链接地址" />',
 						'</div>',
 						'<div class="clear"></div>',
 						'<div class="progress-bar">',

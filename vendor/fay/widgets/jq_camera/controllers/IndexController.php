@@ -5,16 +5,16 @@ use fay\core\Widget;
 
 class IndexController extends Widget{
 	
-	public function index($data){
-		if(empty($data)){
-			$data = array();
+	public function index($config){
+		if(empty($config)){
+			$config = array();
 		}
-		empty($data['height']) && $data['height'] = 450;
-		empty($data['transPeriod']) && $data['transPeriod'] = 800;
-		empty($data['time']) && $data['time'] = 5000;
-		empty($data['fx']) && $data['fx'] = 'random';
+		empty($config['height']) && $config['height'] = 450;
+		empty($config['transPeriod']) && $config['transPeriod'] = 800;
+		empty($config['time']) && $config['time'] = 5000;
+		empty($config['fx']) && $config['fx'] = 'random';
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 }

@@ -6,7 +6,7 @@ use fay\helpers\Html;
 ?>
 <div class="jq-camera-container">
 	<div class="camera_wrap camera_azure_skin jq-camera">
-	<?php foreach($data['files'] as $d){
+	<?php foreach($config['files'] as $d){
 		$file = Files::model()->find($d['file_id']);
 		if($file['qiniu']){
 			$data_src = Qiniu::model()->getUrl($file);
@@ -24,19 +24,19 @@ use fay\helpers\Html;
 <script src="<?php echo $this->url()?>js/jquery.camera.js"></script>
 <script src="<?php echo $this->url()?>js/jquery.easing.1.3.js"></script>
 <style>
-.jq-camera-container{height:<?php echo $data['height']?>px;}
+.jq-camera-container{height:<?php echo $config['height']?>px;}
 </style>
 <script>
 $(function(){
 	$(".jq-camera").camera({
-		'height':'<?php echo is_numeric($data['height']) ? $data['height'].'px' : $data['height']?>',
+		'height':'<?php echo is_numeric($config['height']) ? $config['height'].'px' : $config['height']?>',
 		'easing':'swing',
 		'loader':'none',
 		'pagination':false,
 		'playPause':false,
-		'transPeriod':<?php echo $data['transPeriod']?>,
-		'time':<?php echo $data['time']?>,
-		'fx':'<?php echo $data['fx']?>'
+		'transPeriod':<?php echo $config['transPeriod']?>,
+		'time':<?php echo $config['time']?>,
+		'fx':'<?php echo $config['fx']?>'
 	});
 });
 </script>

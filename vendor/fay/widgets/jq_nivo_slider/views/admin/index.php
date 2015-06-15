@@ -2,14 +2,6 @@
 use fay\helpers\Html;
 use fay\models\File;
 ?>
-<div class="box">
-	<div class="box-content">
-		<h3>提示：</h3>
-		<p>1、该widget调用了<code>jquery.nivo.slider.pack.js</code>，侧边栏参数为插件配置参数，详细可自行查看插件官方文档。</p>
-		<p>2、该widget使用<code>$this-&gt;appendCss</code>引入css文件，故layout中必须有<code>echo $this-&gt;getCss()</code>语句用于输出css文件。</p>
-		<p>3、如果你看不懂上面两点在说什么，请改用images widget用于保存/编辑图片，自行选择轮播图插件。</p>
-	</div>
-</div>
 <div class="drag_drop_area" id="drag_drop_area">
 	<div class="drag_drop_inside">
 		<p class="drag_drop_info">将文件拖拽至此</p>

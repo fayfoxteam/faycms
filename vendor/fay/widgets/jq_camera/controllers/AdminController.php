@@ -11,6 +11,9 @@ class AdminController extends Widget{
 	public $description = '轮播图 - jquery camera插件（自适应全屏轮播）';
 	
 	public function index($data){
+		//帮助面板
+		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
+		
 		$this->view->data = $data;
 		$this->view->render();
 	}

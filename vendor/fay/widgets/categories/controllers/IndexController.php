@@ -24,9 +24,9 @@ class IndexController extends Widget{
 		}
 		
 		if(!empty($config['hierarchical'])){
-			$cats = Category::model()->getTreeByParentId($config['top']);
+			$cats = Category::model()->getTree($config['top']);
 		}else{
-			$cats = Category::model()->getAllByParentId($config['top']);
+			$cats = Category::model()->getAll($config['top']);
 		}
 		
 		//若无分类可显示，则不显示该widget

@@ -112,11 +112,10 @@ class Widget extends FBase{
 	}
 	
 	/**
-	 * 获取一个表单实例，若不指定name，返回第一个被实例化的表单。
-	 * 	若没有表单被实例化，实例化一个default
-	 * @param null|string $name 默认为第一个被实例化的表单
+	 * 获取一个表单实例，若不指定name，返回后台小工具编辑表单。
+	 * @param null|string $name 默认为后台小工具编辑表单
 	 */
-	public function form($name = null){
+	public function form($name = 'widget'){
 		return \F::form($name);
 	}
 	

@@ -53,32 +53,29 @@ class AdminController extends Widget{
 	
 	public function rules(){
 		return array(
-			array('number', 'int', array('min'=>1)),
-			array('last_view_time', 'int', array('min'=>0)),
+			array('page_size', 'int', array('min'=>1)),
 		);
 	}
 	
 	public function labels(){
 		return array(
-			'number'=>'显示文章数',
-			'last_view_time'=>'最近访问',
+			'page_size'=>'分页大小',
+			'page_key'=>'页码字段',
+			'cat_key'=>'分类字段',
 		);
 	}
 	
 	public function filters(){
 		return array(
-			'subclassification'=>'intval',
-			'top'=>'intval',
-			'title'=>'trim',
-			'show_empty'=>'intval',
-			'number'=>'intval',
+			'page_size'=>'intval',
+			'page_key'=>'trim',
+			'cat_key'=>'trim',
+			'order'=>'trim',
 			'uri'=>'trim',
 			'other_uri'=>'trim',
-			'template'=>'trim',
 			'date_format'=>'trim',
-			'thumbnail'=>'intval',
-			'last_view_time'=>'intval',
-			'order'=>'trim',
+			'template'=>'trim',
+			'fields'=>'trim',
 		);
 	}
 }

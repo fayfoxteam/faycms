@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\Html;
-use fay\helpers\Date;
 ?>
 <?php foreach($posts as $p){?>
 <article class="post-list-item">
@@ -11,8 +10,7 @@ use fay\helpers\Date;
 		<?php if(!empty($config['date_format'])){?>
 		<span class="post-meta">
 			发表于 
-			<time><?php echo $config['date_format'] == 'pretty' ?
-				Date::niceShort($p['publish_time']) : \date($config['date_format'], $p['publish_time'])?></time>
+			<time><?php echo $p['publish_format_time']?></time>
 		</span>
 		<?php }?>
 	</div>

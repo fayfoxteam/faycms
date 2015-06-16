@@ -4,6 +4,7 @@ namespace fay\widgets\category_post\controllers;
 use fay\core\Widget;
 use fay\models\Category;
 use fay\models\Post;
+use fay\helpers\Date;
 
 class IndexController extends Widget{
 	public function index($config){
@@ -62,6 +63,16 @@ class IndexController extends Widget{
 		//若无文章可显示，则不显示该widget
 		if(empty($posts) && !$config['show_empty']){
 			return;
+		}
+		
+		foreach($posts as &$p){
+			if($config['date_format'] == 'pretty'){
+				$p['publish_format_time'] = Date::niceShort($p['publish_time']);
+			}else if($config['date_format']){
+				$p['publish_format_time'] = \date($config['date_format'], $p['publish_time']);
+			}else{
+				$p['publish_format_time'] = '';
+			}
 		}
 		
 		//template

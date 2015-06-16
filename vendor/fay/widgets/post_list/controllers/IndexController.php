@@ -8,6 +8,7 @@ use fay\models\tables\Posts;
 use fay\helpers\ArrayHelper;
 use fay\models\Category;
 use fay\models\User;
+use fay\helpers\Date;
 
 class IndexController extends Widget{
 	public function index($config){
@@ -15,6 +16,8 @@ class IndexController extends Widget{
 		empty($config['cat_key']) && $config['cat_key'] = 'cat_id';
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
+		empty($config['date_format']) && $config['date_format'] = 'pretty';
+		empty($config['fields']) && $config['fields'] = array();
 		
 		//order
 		$orders = array(
@@ -45,17 +48,32 @@ class IndexController extends Widget{
 		$posts = $listview->getData();
 		
 		if($posts){
-			//获取所有相关分类
-			$cat_ids = ArrayHelper::column($posts, 'cat_id');
-			$cats = Category::model()->getByIDs(array_unique($cat_ids), 'id,title,alias');
+			if(in_array('cat', $config['fields'])){
+				//获取所有相关分类
+				$cat_ids = ArrayHelper::column($posts, 'cat_id');
+				$cats = Category::model()->getByIDs(array_unique($cat_ids), 'id,title,alias');
+			}
 			
-			//获取所有相关作者
-			$user_ids = ArrayHelper::column($posts, 'user_id');
-			$users = User::model()->getByIds(array_unique($user_ids));
+			if(in_array('user', $config['fields'])){
+				//获取所有相关作者
+				$user_ids = ArrayHelper::column($posts, 'user_id');
+				$users = User::model()->getByIds(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
+			}
 			
 			foreach($posts as &$p){
-				$p['cat'] = $cats[$p['cat_id']];
-				$p['user'] = $users[$p['user_id']];
+				if(in_array('cat', $config['fields'])){
+					$p['cat'] = $cats[$p['cat_id']];
+				}
+				if(in_array('user', $config['fields'])){
+					$p['user'] = $users[$p['user_id']];
+				}
+				if($config['date_format'] == 'pretty'){
+					$p['publish_format_time'] = Date::niceShort($p['publish_time']);
+				}else if($config['date_format']){
+					$p['publish_format_time'] = \date($config['date_format'], $p['publish_time']);
+				}else{
+					$p['publish_format_time'] = '';
+				}
 			}
 		}
 		

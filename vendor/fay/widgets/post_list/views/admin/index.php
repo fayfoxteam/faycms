@@ -90,6 +90,18 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
+				<label class="title">搜索字段<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<?php
+					echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
+						'label'=>'分类详情',
+					));
+					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
+						'label'=>'作者信息',
+					));
+				?>
+				<p class="fc-grey">仅搜索模版中用到的字段，可以加快程序效率。</p>
+			</div>
+			<div class="form-field">
 				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',

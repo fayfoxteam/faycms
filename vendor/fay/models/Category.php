@@ -447,7 +447,7 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 获取族谱
+	 * 获取祖谱
 	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
 	 * cat和root都可以是：{
 	 *  - 数字:代表分类ID;

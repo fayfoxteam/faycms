@@ -16,15 +16,26 @@ class IndexController extends Widget{
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
 		
+		//order
+		$orders = array(
+			'hand'=>'is_top DESC, sort, publish_time DESC',
+			'publish_time'=>'publish_time DESC',
+			'views'=>'views DESC, publish_time DESC',
+		);
+		if(!empty($config['order']) && isset($orders[$config['order']])){
+			$order = $orders[$config['order']];
+		}else{
+			$order = $orders['hand'];
+		}
+		
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract,comments,views,likes');
-		
 		
 		$sql->where(array(
 			'p.deleted = 0',
 			'p.status = '.Posts::STATUS_PUBLISHED,
 			"p.publish_time < {$this->current_time}",
-		));
+		))->order($order);
 		
 		$listview = new ListView($sql, array(
 			'page_size'=>$config['page_size'],
@@ -36,16 +47,16 @@ class IndexController extends Widget{
 		if($posts){
 			//获取所有相关分类
 			$cat_ids = ArrayHelper::column($posts, 'cat_id');
-			$cats = Category::model()->get(array_unique($cat_ids), 'id,title,alias');
+			$cats = Category::model()->getByIDs(array_unique($cat_ids), 'id,title,alias');
 			
 			//获取所有相关作者
 			$user_ids = ArrayHelper::column($posts, 'user_id');
 			$users = User::model()->getByIds(array_unique($user_ids));
-		}
-		
-		foreach($posts as &$p){
-			$p['cat'] = $cats[$p['cat_id']];
-			$p['user'] = $users[$p['user_id']];
+			
+			foreach($posts as &$p){
+				$p['cat'] = $cats[$p['cat_id']];
+				$p['user'] = $users[$p['user_id']];
+			}
 		}
 		
 		//@todo 分页条还没做，选择性搜索某些列还没做

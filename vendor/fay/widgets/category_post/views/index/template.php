@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\Html;
+use fay\helpers\Date;
 ?>
 <div class="widget widget-category-posts" id="widget-<?php echo Html::encode($alias)?>">
 	<div class="widget-title">
@@ -11,7 +12,8 @@ use fay\helpers\Html;
 			<li><?php
 				echo Html::link($p['title'], array(str_replace('{$id}', $p['id'], $config['uri'])));
 				if(!empty($config['date_format'])){
-					echo '<span class="time">'.date($config['date_format'], $p['publish_time']).'</span>';
+					echo '<span class="time">'.($config['date_format'] == 'pretty' ?
+						Date::niceShort($p['publish_time']) : \date($config['date_format'], $p['publish_time'])).'</span>';
 				}
 			?></li>
 		<?php }?>

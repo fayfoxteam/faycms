@@ -50,13 +50,6 @@ use fay\models\tables\Users;
 					),
 					'after'=>'阅读数倒序+发布时间倒序（热门文章）',
 				));
-				echo F::form('widget')->inputRadio('order', 'rand', array(
-					'wrapper'=>array(
-						'tag'=>'label',
-						'wrapper'=>'p',
-					),
-					'after'=>'随机排序（效率较低）',
-				));
 			?>
 		</div>
 		<div class="form-field">
@@ -67,8 +60,9 @@ use fay\models\tables\Users;
 				<label class="title">发布时间格式</label>
 				<?php echo F::form('widget')->inputText('date_format', array(
 					'class'=>'form-control mw150',
-				))?>
-				<p class="fc-grey">若为空，则不显示时间</p>
+				), 'pretty')?>
+				<p class="fc-grey">若为空，则不显示时间；若为pretty，则会显示“1天前”这样的时间格式；<br>
+					其他格式视为PHP date函数的第一个参数</p>
 			</div>
 			<div class="form-field">
 				<label class="title">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>

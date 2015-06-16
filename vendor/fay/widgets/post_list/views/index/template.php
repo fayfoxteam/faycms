@@ -8,10 +8,13 @@ use fay\helpers\Date;
 		<h1><?php
 			echo Html::link($p['title'], array(str_replace('{$id}', $p['id'], $config['uri'])));
 		?></h1>
+		<?php if(!empty($config['date_format'])){?>
 		<span class="post-meta">
 			发表于 
-			<time><?php echo Date::format($p['publish_time'])?></time>
+			<time><?php echo $config['date_format'] == 'pretty' ?
+				Date::niceShort($p['publish_time']) : \date($config['date_format'], $p['publish_time'])?></time>
 		</span>
+		<?php }?>
 	</div>
 	<div class="post-content"><?php echo nl2br($p['abstract'])?></div>
 	<div class="post-tags">

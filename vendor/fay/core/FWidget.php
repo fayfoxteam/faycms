@@ -116,6 +116,9 @@ class FWidget extends FBase{
 	 * @param string $alias 小工具域别名
 	 */
 	public function area($alias){
+		if(empty($alias)){
+			throw new Exception('引用小工具域时，别名不能为空');
+		}
 		$widgets = Widgets::model()->fetchAll("widgetarea = '{$alias}'", '*', 'sort,id');
 		foreach($widgets as $w){
 			$this->load($w);

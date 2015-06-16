@@ -343,9 +343,9 @@ class Category extends Model{
 	/**
 	 * 获取一个或多个分类。
 	 * @param int|string|array $cats
-	 *  - 若为数字，视为分类ID获取分类；
-	 *  - 若为字符串，视为分类别名获取分类；
-	 *  - 若是数组，循环调用自己获取多个分类（数组项可以是数字也可以是字符串）；
+	 *  - 若为数字，视为分类ID获取分类（返回一维数组）；
+	 *  - 若为字符串，视为分类别名获取分类（返回一维数组）；
+	 *  - 若是数组，循环调用自己获取多个分类（数组项可以是数字也可以是字符串，返回二维数组）；
 	 * @param string $fields
 	 * @param int|string|array $root 若指定root，则只搜索root下的分类
 	 *  - 若为数字，视为分类ID
@@ -361,7 +361,11 @@ class Category extends Model{
 			}
 		}
 		if(is_array($cats)){
-			return $this->getByIds($cats, $fields);
+			$return = array();
+			foreach($cats as $c){
+				$return[] = $this->get($c, $fields, $root);
+			}
+			return $return;
 		}else{
 			if(is_numeric($cats)){
 				return $this->getById($cats, $fields, $root);

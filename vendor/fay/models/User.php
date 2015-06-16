@@ -7,6 +7,7 @@ use fay\models\tables\Roles;
 use fay\models\tables\Props;
 use fay\helpers\Request;
 use fay\models\tables\RolesCats;
+use fay\helpers\SqlHelper;
 
 class User extends Model{
 	/**
@@ -222,7 +223,7 @@ class User extends Model{
 	}
 	
 	/**
-	 * 返回多个用户
+	 * 返回单个用户
 	 * @param string|array $ids 可以是逗号分割的id串，也可以是一维数组
 	 *   若传入的$ids是一个数字，会返回一维数组（除props字段）
 	 *   若传入多个id，则返回数组会与传入id顺序一致并以id为数组键
@@ -230,86 +231,121 @@ class User extends Model{
 	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
 	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
 	 */
-	public function get($ids, $fields = 'users.username,users.nickname,users.id,users.avatar'){
-		$fields = explode(',', $fields);
-		$user_fields = array();
-		$props_fields = array();
-		foreach($fields as $f){
-			if(substr($f, 0, 6) == 'users.'){
-				if($f == 'users.*'){
-					$user_fields = '!password,salt';
-				}else if(is_array($user_fields)){
-					$user_fields[] = substr($f, 6);
-				}
-			}else if(substr($f, 0, 6)){
-				if($f == 'props.*'){
-					$props_fields = '*';
-				}else if(is_array($props_fields)){
-					$props_fields[] = substr($f, 6);
-				}
-			}
-			
-		}
-		if(is_array($user_fields)){
-			if(empty($user_fields)){
-				$user_fields_str = 'id,role,username,nickname';
-			}else{
-				$user_fields_str = implode(',', $user_fields);
-				if(!empty($props_fields)){
-					//若要搜索角色属性，则这两个字段是必须的
-					$user_fields_str .= ',id,role';
-				}else{
-					//因为要排序，id总是得搜出来的
-					$user_fields_str .= ',id';
-				}
-			}
+	public function get($id, $fields = 'users.username,users.nickname,users.id,users.avatar'){
+		//解析$fields
+		$fields = SqlHelper::processFields($fields, 'users');
+		if(empty($fields['users'])){
+			//若未指定返回字段，初始化
+			$fields['users'] = array(
+				'id', 'role', 'username', 'nickname',
+			);
+		}else if(in_array('*', $fields['users'])){
+			//若存在*，视为全字段搜索，但密码字段不会被返回
+			$labels = Users::model()->labels();
+			unset($labels['password'], $labels['salt']);
+			$fields['users'] = array_keys($labels);
 		}else{
-			$user_fields_str = $user_fields;
+			//永远不会返回密码字段
+			foreach($fields['users'] as $k => $v){
+				if($v == 'password' || $v == 'salt'){
+					unset($fields['users'][$k]);
+				}
+			}
 		}
 		
-		if(!is_array($ids)){
-			$ids_arr = explode(',', $ids);
+		$user = Users::model()->find($id, implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id', 'role'))));
+		
+		if(!empty($fields['props'])){
+			//附加角色属性
+			$props = Props::model()->fetchAll(array(
+				'refer = ?'=>$user['role'],
+				'type = '.Props::TYPE_ROLE,
+				'deleted = 0',
+				'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
+			), 'id,title,element,required,is_show,alias', 'sort');
+			
+			$user['props'] = $this->getProps($user['id'], $props);
+		}
+		
+		//删除不需要返回的字段
+		if(!in_array('id', $fields['users'])){
+			unset($user['id']);
+		}
+		if(!in_array('role', $fields['users'])){
+			unset($user['role']);
+		}
+		
+		return $user;
+	}
+	
+	/**
+	 * 返回多个用户
+	 * @param string|array $ids 可以是逗号分割的id串，也可以是一维数组
+	 *   若传入的$ids是一个数字，会返回一维数组（除props字段）
+	 *   若传入多个id，则返回数组会与传入id顺序一致并以id为数组键
+	 * @param string $fields 可指定返回字段
+	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
+	 */
+	public function getByIds($ids, $fields = 'users.username,users.nickname,users.id,users.avatar'){
+		//解析$ids
+		is_array($ids) || $ids = explode(',', $ids);
+		
+		//解析$fields
+		$fields = SqlHelper::processFields($fields, 'users');
+		if(empty($fields['users'])){
+			//若未指定返回字段，初始化
+			$fields['users'] = array(
+				'id', 'role', 'username', 'nickname',
+			);
+		}else if(in_array('*', $fields['users'])){
+			//若存在*，视为全字段搜索，但密码字段不会被返回
+			$labels = Users::model()->labels();
+			unset($labels['password'], $labels['salt']);
+			$fields['users'] = array_keys($labels);
 		}else{
-			$ids_arr = $ids;
+			//永远不会返回密码字段
+			foreach($fields['users'] as $k => $v){
+				if($v == 'password' || $v == 'salt'){
+					unset($fields['users'][$k]);
+				}
+			}
 		}
 		
 		$users = Users::model()->fetchAll(array(
-			'id IN (?)'=>$ids_arr,
-		), $user_fields_str);
+			'id IN (?)'=>$ids,
+		), implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id', 'role'))));
 		
-		if(!empty($props_fields)){
+		if(!empty($fields['props'])){
+			//附加角色属性
 			foreach($users as &$user){
 				$props = Props::model()->fetchAll(array(
 					'refer = ?'=>$user['role'],
 					'type = '.Props::TYPE_ROLE,
 					'deleted = 0',
-					'alias IN (?)'=>$props_fields === '*' ? false : $props_fields,
+					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
 				), 'id,title,element,required,is_show,alias', 'sort');
 				
 				$user['props'] = $this->getProps($user['id'], $props);
 			}
 		}
 		
-		//根据传入ID顺序排序后返回
+		//删除不需要返回的字段
 		$return = array();
-		foreach($ids_arr as $id){
-			foreach($users as $k => $u){
+		foreach($ids as $id){
+			foreach($users as $u){
 				if($id == $u['id']){
-					//移除不需要返回的字段
-					if(is_array($user_fields) && !in_array('id', $user_fields)){
+					if(!in_array('id', $fields['users'])){
 						unset($u['id']);
 					}
-					if(is_array($user_fields) && !in_array('role', $user_fields)){
+					if(!in_array('role', $fields['users'])){
 						unset($u['role']);
 					}
 					$return[$id] = $u;
-					unset($users[$k]);
-					break;
 				}
 			}
 		}
-		
-		return is_numeric($ids) ? (isset($return[$ids]) ? $return[$ids] : array()) : $return;
+		return $return;
 	}
 	
 	/**

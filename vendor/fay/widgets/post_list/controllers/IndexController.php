@@ -33,13 +33,15 @@ class IndexController extends Widget{
 		
 		$posts = $listview->getData();
 		
-		//获取所有相关分类
-		$cat_ids = ArrayHelper::column($posts, 'cat_id');
-		$cats = Category::model()->get(array_unique($cat_ids), 'id,title,alias');
-		
-		//获取所有相关作者
-		$user_ids = ArrayHelper::column($posts, 'user_id');
-		$users = User::model()->get(array_unique($user_ids));
+		if($posts){
+			//获取所有相关分类
+			$cat_ids = ArrayHelper::column($posts, 'cat_id');
+			$cats = Category::model()->get(array_unique($cat_ids), 'id,title,alias');
+			
+			//获取所有相关作者
+			$user_ids = ArrayHelper::column($posts, 'user_id');
+			$users = User::model()->getByIds(array_unique($user_ids));
+		}
 		
 		foreach($posts as &$p){
 			$p['cat'] = $cats[$p['cat_id']];

@@ -56,4 +56,39 @@ class SqlHelper{
 		}
 		return $return;
 	}
+	
+	/**
+	 * （严格来说这不算是一个sql方法，只是写法上像sql的fields）
+	 * 将users.username,users.nickname,users.id,props.*这样的字符串，
+	 * 转换为如下格式的数组
+	 * array(
+	 *   'users'=>array(
+	 *     'username', 'nickname', 'id',
+	 *   ),
+	 *   'props'=>array(
+	 *     '*',
+	 *   ),
+	 * )
+	 * @param string $fields
+	 * @param string|null $default_key 若设置了default_key，则不包含.(点号)的项会被归属到default_key下
+	 */
+	public static function processFields($fields, $default_key = null){
+		$fields = explode(',', $fields);
+		$return = array();
+		foreach($fields as $f){
+			$f = trim($f);
+			if(strpos($f, '.')){
+				$fa = explode('.', $f);
+				$fa_end = array_pop($fa);
+				eval('$return[\'' . implode("']['", $fa) . "'][]='{$fa_end}';");
+			}else{
+				if($default_key){
+					$return[$default_key][] = $f;
+				}else{
+					$return[] = $f;
+				}
+			}
+		}
+		return $return;
+	}
 }

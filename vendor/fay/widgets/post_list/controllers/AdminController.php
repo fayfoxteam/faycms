@@ -54,6 +54,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array('page_size', 'int', array('min'=>1)),
+			array('pager', 'range', array('range'=>array('system', 'custom'))),
 		);
 	}
 	
@@ -76,6 +77,9 @@ class AdminController extends Widget{
 			'date_format'=>'trim',
 			'template'=>'trim',
 			'fields'=>'trim',
+			'pager'=>'trim',
+			'pager_template'=>'trim',
+			'empty_text'=>'trim',
 		);
 	}
 }

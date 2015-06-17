@@ -18,6 +18,9 @@ class IndexController extends Widget{
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
 		empty($config['date_format']) && $config['date_format'] = 'pretty';
 		empty($config['fields']) && $config['fields'] = array();
+		empty($config['pager']) && $config['pager'] = 'system';
+		empty($config['pager_template']) && $config['pager_template'] = '';
+		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
 		
 		//order
 		$orders = array(
@@ -34,6 +37,10 @@ class IndexController extends Widget{
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract,comments,views,likes');
 		
+		if($this->input->get($config['cat_key'])){
+			$sql->where(array('cat_id = ?'=>$this->input->get($config['cat_key'], 'intval')));
+		}
+		
 		$sql->where(array(
 			'p.deleted = 0',
 			'p.status = '.Posts::STATUS_PUBLISHED,
@@ -44,7 +51,7 @@ class IndexController extends Widget{
 			'page_size'=>$config['page_size'],
 			'page_key'=>$config['page_key'],
 		));
-		
+		$listview->empty_text = $config['empty_text'];
 		$posts = $listview->getData();
 		
 		if($posts){
@@ -75,26 +82,46 @@ class IndexController extends Widget{
 					$p['publish_format_time'] = '';
 				}
 			}
+			
+			//template
+			if(empty($config['template'])){
+				$this->view->render('template', array(
+					'posts'=>$posts,
+					'config'=>$config,
+					'alias'=>$this->alias,
+					'listview'=>$listview,
+				));
+			}else{
+				if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+					\F::app()->view->renderPartial($config['template'], array(
+						'posts'=>$posts,
+						'config'=>$config,
+						'alias'=>$this->alias,
+						'listview'=>$listview,
+					));
+				}else{
+					$alias = $this->alias;
+					eval('?>'.$config['template'].'<?php ');
+				}
+			}
+		}else{
+			echo $config['empty_text'];
 		}
 		
-		//@todo 分页条还没做，选择性搜索某些列还没做
-		//template
-		if(empty($config['template'])){
-			$this->view->render('template', array(
-				'posts'=>$posts,
-				'config'=>$config,
-				'alias'=>$this->alias,
-			));
+		if($config['pager'] == 'system'){
+			$listview->showPager();
 		}else{
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
-				\F::app()->view->renderPartial($config['template'], array(
-					'posts'=>$posts,
+			$pager_data = $listview->getPager();
+			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['pager_template'])){
+				\F::app()->view->renderPartial($config['pager_template'], $pager_data + array(
+					'listview'=>$listview,
 					'config'=>$config,
 					'alias'=>$this->alias,
 				));
 			}else{
 				$alias = $this->alias;
-				eval('?>'.$config['template'].'<?php ');
+				extract($pager_data);
+				eval('?>'.$config['pager_template'].'<?php ');
 			}
 		}
 		

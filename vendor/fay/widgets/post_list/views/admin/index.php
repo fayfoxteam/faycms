@@ -54,6 +54,7 @@ use fay\models\tables\Users;
 		</div>
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
+			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
@@ -65,7 +66,7 @@ use fay\models\tables\Users;
 					其他格式视为PHP date函数的第一个参数</p>
 			</div>
 			<div class="form-field">
-				<label class="title">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">链接格式</label>
 				<?php
 					echo Html::inputRadio('uri', 'post/{$id}', !isset($data['uri']) || $data['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
@@ -90,7 +91,7 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">搜索字段<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">搜索字段</label>
 				<?php
 					echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
 						'label'=>'分类详情',
@@ -102,7 +103,7 @@ use fay\models\tables\Users;
 				<p class="fc-grey">仅搜索模版中用到的字段，可以加快程序效率。</p>
 			</div>
 			<div class="form-field">
-				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title">渲染模版</label>
 				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',
 				))?>
@@ -113,6 +114,35 @@ use fay\models\tables\Users;
 					否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
 				</p>
 			</div>
+			<div class="form-field">
+				<label class="title">无内容时显示的替换文本</label>
+				<?php echo F::form('widget')->textarea('empty_text', array(
+					'class'=>'form-control h90 autosize',
+				), '无相关记录！')?>
+				<p class="fc-grey">可以包含html</p>
+			</div>
+			<div class="form-field">
+				<label class="title">分页条模版</label>
+				<p><?php
+					echo Html::inputRadio('pager', 'system', !isset($data['pager']) || $data['pager'] == 'system', array(
+						'label'=>'调用全局分页条',
+					));
+					echo Html::inputRadio('pager', 'custom', isset($data['pager']) && $data['pager'] == 'custom', array(
+						'label'=>'小工具内自定义',
+					));
+				?></p>
+				<div id="pager-template-container" class="<?php if(!isset($data['pager']) || $data['pager'] == 'system')echo 'hide';?>">
+					<?php echo F::form('widget')->textarea('pager_template', array(
+						'class'=>'form-control h90 autosize',
+					))?>
+					<p class="fc-grey mt5">
+						若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
+						即类似<code>frontend/widget/pager</code><br />
+						则会调用当前application下符合该相对路径的view文件。<br />
+						否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -120,6 +150,14 @@ use fay\models\tables\Users;
 $(function(){
 	$('.toggle-advance').on('click', function(){
 		$(".advance").toggle();
+	});
+
+	$('input[name="pager"]').on('click', function(){
+		if($(this).val() == 'custom'){
+			$('#pager-template-container').show();
+		}else{
+			$('#pager-template-container').hide();
+		}
 	});
 });
 </script>

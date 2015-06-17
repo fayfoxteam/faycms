@@ -297,8 +297,8 @@ class Form extends FBase{
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
 	 * @return string
 	 */
-	public function input($name, $type = 'text', $html_options = array()){
-		return Html::input($name, $this->getData($name, ''), $type, $html_options);
+	public function input($name, $type = 'text', $html_options = array(), $default = ''){
+		return Html::input($name, $this->getData($name, $default), $type, $html_options);
 	}
 	
 	public function inputText($name, $html_options = array(), $default = ''){
@@ -357,8 +357,8 @@ class Form extends FBase{
 		return Html::inputRadio($name, $value, $checked, $html_options);
 	}
 	
-	public function textarea($name, $html_options = array()){
-		return Html::textArea($name, $this->getData($name, ''), $html_options);
+	public function textarea($name, $html_options = array(), $default = ''){
+		return Html::textArea($name, $this->getData($name, $default), $html_options);
 	}
 	
 	/*

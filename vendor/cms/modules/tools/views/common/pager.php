@@ -48,7 +48,7 @@ if($listview->total_pages > 1){
 				'class'=>'page-numbers',
 			));
 		}else{
-			echo Html::link($i, "{$listview->reload}?{{$listview->page_key}}={$i}", array(
+			echo Html::link($i, "{$listview->reload}?{$listview->page_key}={$i}", array(
 				'class'=>'page-numbers',
 			));
 		}

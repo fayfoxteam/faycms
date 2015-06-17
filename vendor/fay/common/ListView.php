@@ -19,7 +19,7 @@ class ListView extends FBase{
 	public $end_record;
 	public $total_records;
 	public $total_pages;
-	public $reload = 'index';//加载地址，对于重写过的url，需要设置此项
+	public $reload = null;//加载地址，对于重写过的url，需要设置此项
 	public $adjacents = 2;//前后显示页数
 	public $params = array();
 	public $pager_view = 'common/pager';
@@ -61,7 +61,7 @@ class ListView extends FBase{
 		
 		$sql = $this->sql." LIMIT {$this->offset}, {$this->page_size}";
 		$results = $this->db->fetchAll($sql, $this->params);
-		if(isset($results[0])){
+		if($results){
 			$i = 0;
 			foreach ($results as $data){
 				$i++;
@@ -87,6 +87,12 @@ class ListView extends FBase{
 		if($this->total_records === null){
 			$this->init();
 		}
+		
+		if($this->reload === null){
+			$gets = \F::app()->input->get();
+			unset($gets[$this->page_key]);
+			$this->reload = \F::app()->view->url(\F::app()->uri->router, $gets);
+		}
 		$view_data['listview'] = $this;
 		\F::app()->view->renderPartial($this->pager_view, $view_data);
 	}
@@ -105,6 +111,7 @@ class ListView extends FBase{
 			'total_records'=>$this->total_records,
 			'total_pages'=>$this->total_pages,
 			'adjacents'=>$this->adjacents,
+			'page_key'=>$this->page_key,
 		);
 	}
 	

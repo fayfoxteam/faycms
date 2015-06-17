@@ -17,7 +17,7 @@ class IndexController extends Widget{
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
 		empty($config['date_format']) && $config['date_format'] = 'pretty';
-		empty($config['fields']) && $config['fields'] = array();
+		isset($config['fields']) || $config['fields'] = array('cat');
 		empty($config['pager']) && $config['pager'] = 'system';
 		empty($config['pager_template']) && $config['pager_template'] = '';
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';

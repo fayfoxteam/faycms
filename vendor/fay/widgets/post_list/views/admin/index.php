@@ -95,7 +95,7 @@ use fay\models\tables\Users;
 				<?php
 					echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
 						'label'=>'分类详情',
-					));
+					), true);
 					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
 						'label'=>'作者信息',
 					));

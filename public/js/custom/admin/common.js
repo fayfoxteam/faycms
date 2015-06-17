@@ -11,10 +11,10 @@ var common = {
 					system.getScript(system.url('js/jquery.poshytip.min.js'));
 				},
 				'showAllErrors':true,
-				'beforeSubmit':function(){
-					$('body').block({
-						'zindex':1300
-					});
+				'onAjaxEnd':function(obj, resp){
+					if(!resp.status){
+						$('body').unblock();
+					}
 				},
 				'onError':function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
@@ -442,6 +442,9 @@ var common = {
 		$(document).on('click', 'a[id$="submit"]', function(){
 			$('form#'+$(this).attr('id').replace('-submit', '')).find('input[name="_export"]').remove();
 			$('form#'+$(this).attr('id').replace('-submit', '')).submit();
+			$('body').block({
+				'zindex':1300
+			});
 			return false;
 		});
 		//表单导出

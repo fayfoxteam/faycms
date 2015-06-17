@@ -415,7 +415,7 @@
 				'beforeCheck':function(form){},//全局验证前执行
 				'beforeSubmit':function(form){},//表单提交前执行，若返回false，则表单不会被提交
 				'onAjaxStart':function(obj){},//ajax验证发送前执行
-				'onAjaxEnd':function(obj){},//ajax验证完成时执行
+				'onAjaxEnd':function(obj, resp){},//ajax验证完成时执行
 				'ajaxSubmit':false,//ajax提交表单
 				'afterAjaxSubmit':function(resp, form){}//如果是ajax提交表单，表单提交后执行此回调函数
 			}, params);
@@ -674,7 +674,7 @@
 						var ajaxQueue = form.data('ajaxQueue');
 						delete ajaxQueue[name];
 						form.data('ajaxQueue', ajaxQueue);
-						validform.prototype.settings.onAjaxEnd(obj);
+						validform.prototype.settings.onAjaxEnd(obj, resp);
 						if(resp.status){
 							obj.data('validate_status', 'success');
 							validform.prototype.settings.onSuccess(obj);

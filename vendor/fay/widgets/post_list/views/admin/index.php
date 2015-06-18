@@ -14,19 +14,6 @@ use fay\models\tables\Users;
 			), 10)?>
 		</div>
 		<div class="form-field">
-			<label class="title">页码字段</label>
-			<?php echo F::form('widget')->inputText('page_key', array(
-				'class'=>'form-control mw150',
-			), 'page')?>
-		</div>
-		<div class="form-field">
-			<label class="title">分类字段</label>
-			<?php echo F::form('widget')->inputText('cat_key', array(
-				'class'=>'form-control mw150',
-			), 'cat_id')?>
-			<p class="fc-grey">若传入分类字段，会搜索此分类下的文章</p>
-		</div>
-		<div class="form-field">
 			<label class="title">排序规则</label>
 			<?php
 				echo F::form('widget')->inputRadio('order', 'hand', array(
@@ -57,6 +44,19 @@ use fay\models\tables\Users;
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
+			<div class="form-field">
+				<label class="title">页码字段</label>
+				<?php echo F::form('widget')->inputText('page_key', array(
+					'class'=>'form-control mw150',
+				), 'page')?>
+			</div>
+			<div class="form-field">
+				<label class="title">分类字段</label>
+				<?php echo F::form('widget')->inputText('cat_key', array(
+					'class'=>'form-control mw150',
+				), 'cat_id')?>
+				<p class="fc-grey">若传入分类字段，会搜索此分类下的文章</p>
+			</div>
 			<div class="form-field">
 				<label class="title">发布时间格式</label>
 				<?php echo F::form('widget')->inputText('date_format', array(

@@ -3,7 +3,6 @@ namespace fay\core;
 
 use fay\core\FBase;
 use fay\models\tables\Widgets;
-use fay\models\tables\Widgetareas;
 
 class FWidget extends FBase{
 	/**

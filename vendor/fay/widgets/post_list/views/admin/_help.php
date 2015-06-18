@@ -1,12 +1,25 @@
 <div class="help-info">
-	<ol>
-		<li>该工具仅搜索可见的文章（已发布状态，且未删除，且发布时间小于当前时间）进行显示</li>
-	</ol>
+	<strong>概述</strong>
+	<p>该工具仅搜索可见的文章（已发布状态，且未删除，且发布时间小于当前时间）进行显示</p>
 	<strong>模版层可用参数</strong>
 	<ol>
 		<li><code>$alias</code>：该小工具实例的别名</li>
 		<li><code>$config</code>：本页面的配置信息</li>
-		<li><code>$posts</code>：符合条件的文章数组</li>
+		<li>
+			<code>$posts</code>：符合条件的文章数组
+			<ul>
+				<li>每项包含：<code>id</code>, <code>cat_id</code>, <code>title</code>, <code>publish_time</code>,
+					<code>user_id</code>, <code>is_top</code>, <code>thumbnail</code>, <code>abstract</code>,
+					<code>comments</code>, <code>views</code>, <code>likes</code></li>
+				<li>
+					若选择附加分类、作者信息，则还对应包含<code>cat</code>, <code>user</code>字段
+					<ul>
+						<li>cat字段包含：<code>id</code>, <code>title</code>, <code>alias</code></li>
+						<li>user字段包含：<code>id</code>, <code>username</code>, <code>nickname</code>, <code>avatar</code></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
 	</ol>
 	<strong>页码条可用参数</strong>
 	<ol>

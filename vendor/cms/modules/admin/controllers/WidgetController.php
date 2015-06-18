@@ -11,6 +11,7 @@ use fay\models\File;
 use fay\core\Response;
 use fay\models\Setting;
 use fay\core\HttpException;
+use fay\core\Loader;
 
 class WidgetController extends AdminController{
 	public function __construct(){
@@ -58,6 +59,19 @@ class WidgetController extends AdminController{
 
 		$widget = Widgets::model()->find($id, 'widget_name');
 		$widget_obj = $this->widget->get($widget['widget_name'], true);
+		
+		//获取README.md文件作为帮助信息
+		if(strpos($widget['widget_name'], '/') === false){
+			$readme_file = APPLICATION_PATH . 'widgets/' .$widget['widget_name'] . 'README.md';
+		}else{
+			$name_explode = explode('/', $widget['widget_name']);
+			$pre = array_shift($name_explode);
+			$readme_file = SYSTEM_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/README.md';
+		}
+		if(file_exists($readme_file)){
+			Loader::vendor('Markdown/markdown');
+			$this->layout->_help_contet = '<div class="text">' . Markdown(file_get_contents($readme_file)) . '</div>';
+		}
 		
 		$this->form('widget')->setRules(array(
 			array('f_widget_alias', 'string', array('max'=>255,'format'=>'alias')),

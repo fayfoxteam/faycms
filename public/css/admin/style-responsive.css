@@ -485,11 +485,15 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .exam-question-list .exam-question-answers li:hover{background-color:#EAEAEA}
 
 /* 帮助信息（多行文本） */
-.help-info ol,.help-info ul{margin-left:23px}
-.help-info ol li,.help-info ul li{line-height:23px}
-.help-info ul li{list-style:square}
-.help-info ul li ul li{list-style:disc}
-.help-info strong{display:block;margin-bottom:5px}
+.text ol,.text ul{margin-left:20px}
+.text ol li,.text ul li{line-height:23px}
+.text ul li{list-style:square}
+.text ul li ul li{list-style:disc}
+.text strong{margin:5px 0}
+.text p{margin:5px 0}
+.text h1,.text h2,.text h3{font-size:16px;margin:10px 0}
+.text h4,.text h5,.text h6{font-size:15px;margin:5px 0}
+.text blockquote{padding:5px 11px;margin:0 0 8px 3px;border-left:5px solid #eee}
 
 /* autocomplete输入框 */
 .fac-container{border:1px solid #aaa;box-shadow:0 4px 5px rgba(0, 0, 0, 0.15);display:none;background-color:#fff;position:absolute;z-index:500}

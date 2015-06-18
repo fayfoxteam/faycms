@@ -1,4 +1,4 @@
-<div class="help-info">
+<div class="text">
 	<strong>概述</strong>
 	<p>该工具仅搜索可见的文章（已发布状态，且未删除，且发布时间小于当前时间）进行显示</p>
 	<strong>模版层可用参数</strong>

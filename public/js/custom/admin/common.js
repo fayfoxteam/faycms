@@ -16,6 +16,11 @@ var common = {
 						$('body').unblock();
 					}
 				},
+				'beforeCheck':function(){
+					$('body').block({
+						'zindex':1300
+					});
+				},
 				'onError':function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
@@ -442,9 +447,6 @@ var common = {
 		$(document).on('click', 'a[id$="submit"]', function(){
 			$('form#'+$(this).attr('id').replace('-submit', '')).find('input[name="_export"]').remove();
 			$('form#'+$(this).attr('id').replace('-submit', '')).submit();
-			$('body').block({
-				'zindex':1300
-			});
 			return false;
 		});
 		//表单导出

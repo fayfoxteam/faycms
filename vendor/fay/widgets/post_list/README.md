@@ -1,16 +1,15 @@
-**概述**
-
-该工具仅搜索可见的文章（已发布状态，且未删除，且发布时间小于当前时间）进行显示
+#文章列表（带分页）
+显示一个带分页条的文章列表。
+> 该工具仅搜索可见的文章（已发布状态，且未删除，且发布时间小于当前时间）进行显示
 
 **模版层可用参数**
 
 - `$alias`：该小工具实例的别名
 - `$config`：本页面的配置信息
 - `$posts`：符合条件的文章数组
-  * 每项包含：`id`, `cat_id`, `title`, `publish_time`, `user_id`, `is_top`, `thumbnail`, `abstract`, `comments`, `views`, `likes`
-  * 若选择附加分类、作者信息，则还对应包含`cat`, `user`字段
-    1. cat字段包含：`id`, `title`, `alias`
-    2. user字段包含：`id`, `username`, `nickname`, `avatar`
+  * `$posts`数组每项包含：`id`, `cat_id`, `title`, `publish_time`, `user_id`, `is_top`, `thumbnail`, `abstract`, `comments`, `views`, `likes`
+  * 若搜索字段选择附加分类，则还对应包含`cat`字段。`cat`字段包含：`id`, `title`, `alias`三项。
+  * 若搜索字段选择坐着信息，则还对应包含`user`字段。`user`字段包含：`id`, `username`, `nickname`, `avatar`四项。
 
 **页码条可用参数**
 

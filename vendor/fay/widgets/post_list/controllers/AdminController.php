@@ -5,10 +5,6 @@ use fay\core\Widget;
 use fay\models\Category;
 
 class AdminController extends Widget{
-	
-	public $title = '文章列表（带分页）';
-	public $description = '显示一个带分页条的文章列表';
-	
 	public function index($data){
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(

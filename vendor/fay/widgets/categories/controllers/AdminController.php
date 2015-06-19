@@ -5,16 +5,7 @@ use fay\core\Widget;
 use fay\models\Category;
 
 class AdminController extends Widget{
-	
-	public $title = '分类目录';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '分类目录的列表';
-	
 	public function index($data){
-		//帮助面板
-		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
-		
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(

@@ -18,16 +18,14 @@ class FWidget extends FBase{
 		
 		if(strpos($name, '/') === false){
 			$class_name = APPLICATION.'\widgets\\'.$name.'\controllers\\'.$controller;
-			return new $class_name(array(
-				'name'=>$name,
-			));
+			$path = APPLICATION_PATH . 'widgets/' . $name . '/';
+			return new $class_name($name, $path);
 		}else{
 			$name_explode = explode('/', $name);
 			$pre = array_shift($name_explode);
 			$class_name = $pre.'\widgets\\'.implode('/', $name_explode).'\controllers\\'.$controller;
-			return new $class_name(array(
-				'name'=>$name,
-			));
+			$path = $readme_file = SYSTEM_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/';
+			return new $class_name($name, $path);
 		}
 	}
 	

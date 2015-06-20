@@ -13,6 +13,7 @@
                     <select name="type" id="type">
                         <option value="1">导入</option>
                         <option value="2">更新</option>
+                        <option value="3">插入parent表</option>
                     </select>
                     <input type="submit" value="导入" />
                 </form>

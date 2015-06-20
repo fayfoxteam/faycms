@@ -187,13 +187,15 @@ class TasksController extends AdminController
                
                $theData = new \stdClass();
                $theData->biao_id = $dataData->data['biao_id'];
-               $theData->type = $type;
+               $theData->parent_id = $dataData->data['parent_id'];
+               $theData->type = $dataData->data['type'];
                $theData->biao_name = $dataData->data['biao_name'];
+               $theData->address = $dataData->data['address'];
+               $theData->t_number = $dataData->data['t_number'];
+               $theData->shuoming = $dataData->data['shuoming'];
+               $theData->times = $dataData->data['times'];
                $theData->zongzhi = $dataData->data['zongzhi'];
-//               $theData->address = $dataData->data['address'];
-               $theData->address = '';
-//               $theData->shuoming = $dataData->data['shuoming'];
-               $theData->shuoming = '';
+
                $theData->data = json_encode($dataData);
                $theData->created = $this->current_time;
                $theData->updated = $this->current_time;
@@ -226,7 +228,7 @@ class TasksController extends AdminController
                    }
                }
             }
-            Response::output('success', '表格导入成功');
+//            Response::output('success', '表格导入成功');
         }
         
         $this->view->render();
@@ -261,51 +263,53 @@ class TasksController extends AdminController
 
             $type = $this->input->post('type');
 
-            for ($i = 1; $i <= $excel->sheets[0]['numRows']; $i++)
-            {
-                if ($i == 1)
-                {
+            for ($i = 1; $i <= $excel->sheets[0]['numRows']; $i++) {
+
+                if ($i == 1) {
                     continue;
                 }
-                for ($j = 1; $j <= $excel->sheets[0]['numCols']; $j++)
-                {
+                for ($j = 1; $j <= $excel->sheets[0]['numCols']; $j++) {
                     $excel_data->data[$j] = $excel->sheets[0]['cells'][$i][$j];
                 }
                 $insert_data = new \stdClass();
 
-                if ($type == 1)
-                {
+                if ($type == 1) {
                     $insert_data->biao_id = $excel_data->data[1];
-                    $insert_data->zongliang = $excel_data->data[2];
-                    $insert_data->day_use = $excel_data->data[3];
-                    $insert_data->created = $excel_data->data[4];
+                    $insert_data->parent_id = $excel_data->data[2];
+                    $insert_data->zongliang = $excel_data->data[3] ? :0;
+                    $insert_data->day_use = $excel_data->data[4];
+                    $insert_data->created = strtotime($excel_data->data[5]) + 60 * 60 * 12;
 
                     $insert_id = $db->insert('zbiao_records', $insert_data);
-                    if ($insert_id)
-                    {
+                    if ($insert_id) {
                         echo $i. '.' . $insert_data->biao_id. '...插入成功<br/>';
-                    }
-                    else
-                    {
+                    } else {
                         echo $i.".".$insert_data->biao_id."...插入失败，请检查数据<br />";
                     }
 
-                }
-                else if ($type == 2)
-                {
+                } else if ($type == 2) {
                     $insert_data->biao_id = $excel_data->data[1];
                     $insert_data->zongzhi = $excel_data->data[2];
                     $insert_data->updated = $excel_data->data[3];
 
                     $update_data = ['zongzhi' => $insert_data->zongzhi, 'updated' => $insert_data->updated];
                     $update_id = $db->update('zbiaos', $update_data, array('biao_id = ? '=> $insert_data->biao_id));
-                    if ($update_id)
-                    {
+                    if ($update_id) {
                         echo $i.".".$insert_data->biao_id."...数据更新成功<br />";
-                    }
-                    else
-                    {
+                    } else {
                         echo $i.".".$insert_data->biao_id."...数据没有变化，不用更新！<br />";
+                    }
+                } else if ($type == 3) {
+                    $insert_data->p_id = $excel_data->data[1];
+                    $insert_data->name = $excel_data->data[2];
+                    $insert_data->created = $this->current_time;
+                    $insert_data->updated = $this->current_time;
+
+                    $insert_id = $db->insert('parent_biaos', $insert_data);
+                    if ($insert_id) {
+                        echo $i. '.' . $insert_data->p_id. '...插入成功<br/>';
+                    } else {
+                        echo $i.".".$insert_data->p_id."...插入失败，请检查数据<br />";
                     }
                 }
             }

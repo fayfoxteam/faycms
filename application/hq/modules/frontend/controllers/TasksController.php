@@ -8,12 +8,20 @@
 namespace hq\modules\frontend\controllers;
 
 use fay\core\Sql;
+use fay\helpers\Date;
 use hq\library\FrontController;
 use hq\models\tables\ZbiaoRecords;
 use hq\models\ZbiaoRecord;
 
 class TasksController extends FrontController
 {
+    public function index()
+    {
+        $str = '2015-6-2 00:00:00';
+        $str1 =  strtotime($str) + 60*60*12;
+        echo date('Y-m-d H:i:s', $str1);
+    }
+
     public function show()
     {
         $this->layout->title = '水电详情';
@@ -23,12 +31,12 @@ class TasksController extends FrontController
         $sql = new Sql();
         $chat_data = $sql->from('zbiao_records', 'records', 'day_use')
             ->where($condition)
-            ->order('created asc')
+            ->order('created desc')
             ->limit(10)
             ->fetchAll();
         $chat_date = $sql->from('zbiao_records', 'records', 'created')
             ->where($condition)
-            ->order('created asc')
+            ->order('created desc')
             ->limit(10)
             ->fetchAll();
 

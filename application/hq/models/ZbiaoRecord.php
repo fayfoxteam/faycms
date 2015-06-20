@@ -53,7 +53,8 @@ class ZbiaoRecord extends Model
         {
             foreach ($value as $v)
             {
-                $chat_array[] = $date ? date('m月d日 H:i', $v) : intval($v);
+                $v = $date ? date('m月d日', $v) : intval($v);
+                array_unshift($chat_array, $v);
             }
         }
         return $chat_array;

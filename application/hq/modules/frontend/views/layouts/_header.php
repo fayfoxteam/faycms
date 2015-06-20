@@ -5,7 +5,7 @@ use fay\helpers\Html;
 <div id="header">
     <div class="header">
         <div class="hesder-top">
-            <a href="javascript:;" onclick="AddFavorite('<?= $this->url() ?>', '绍兴文理学院元培学院后勤管理处')";>加入收藏</a>│<span><img src="<?= $img_url ?>/index_03.png" alt=""/></span>服务热线：400-800-800
+            <a href="javascript:;" onclick="AddFavorite('<?= $this->url() ?>', '绍兴文理学院元培学院后勤管理处')">加入收藏</a>│<span><img src="<?= $img_url ?>/index_03.png" alt=""/></span>服务热线：400-800-800
         </div>
         <div class="Logo">
             <div class="Logo-img"><img src="<?= $img_url ?>/ypcol.gif" width="100%"/></div>

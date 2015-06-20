@@ -23,15 +23,11 @@ use fay\helpers\Html;
 				<tr>
 					<td>
 						<strong><?php echo $w->title?></strong>
-						<div class="row-actions"><?php
-						if(method_exists($w, 'index')){
-							echo Html::link('创建实例', '#create-instance-dialog', array(
-								'title'=>$w->title,
-								'class'=>'create-instance-link',
-								'data-name'=>$w->name
-							));
-						}
-						?></div>
+						<div class="row-actions"><?php echo Html::link('创建实例', '#create-instance-dialog', array(
+							'title'=>$w->title,
+							'class'=>'create-instance-link',
+							'data-name'=>$w->name
+						));?></div>
 					</td>
 					<td><?php echo $w->description?></td>
 					<td><?php echo $w->name?></td>

@@ -4,9 +4,14 @@ use fay\helpers\Html;
 <?php echo F::form('widget')->open()?>
 <div class="poststuff">
 	<div class="post-body">
-		<div class="post-body-content">
-			<?php echo $widget_admin->index($widget_data);?>
-		</div>
+		<div class="post-body-content"><?php
+		if(method_exists($widget_admin, 'index')){ 
+			echo $widget_admin->index($widget_data);
+		}else{?>
+			<div class="box">
+				<div class="box-content">该小工具无可配置项</div>
+			</div>
+		<?php }?></div>
 		<div class="postbox-container-1">
 			<div class="box">
 				<div class="box-title">

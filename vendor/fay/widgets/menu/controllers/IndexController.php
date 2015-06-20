@@ -13,23 +13,23 @@ class IndexController extends Widget{
 			$config['top'] = $root_node['id'];
 		}
 		
-		$menu = Menu::model()->getTree($config['top'], true, true);
+		$menus = Menu::model()->getTree($config['top'], true, true);
 		
 		//若无分类可显示，则不显示该widget
-		if(empty($menu)){
+		if(empty($menus)){
 			return;
 		}
 		
 		if(empty($config['template'])){
 			$this->view->render('template', array(
-				'menu'=>$menu,
+				'menus'=>$menus,
 				'config'=>$config,
 				'alias'=>$this->alias,
 			));
 		}else{
 			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
 				\F::app()->view->renderPartial($config['template'], array(
-					'menu'=>$menu,
+					'menus'=>$menus,
 					'config'=>$config,
 					'alias'=>$this->alias,
 				));

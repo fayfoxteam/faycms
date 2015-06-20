@@ -27,5 +27,5 @@ if(!function_exists('fay\widgets\categories\views\index\renderMenu')){
 }
 ?>
 <div class="widget widget-menu" id="widget-<?php Html::encode($alias)?>">
-	<?php renderMenu($menu)?>
+	<?php renderMenu($menus)?>
 </div>

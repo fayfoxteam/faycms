@@ -4,16 +4,7 @@ namespace fay\widgets\jq_camera\controllers;
 use fay\core\Widget;
 
 class AdminController extends Widget{
-	
-	public $title = '轮播图 - camera';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '轮播图 - jquery camera插件（自适应全屏轮播）';
-	
 	public function index($data){
-		//帮助面板
-		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
-		
 		$this->view->data = $data;
 		$this->view->render();
 	}

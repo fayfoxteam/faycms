@@ -4,16 +4,7 @@ namespace fay\widgets\jq_nivo_slider\controllers;
 use fay\core\Widget;
 
 class AdminController extends Widget{
-	
-	public $title = '轮播图 - nivo.slider';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '轮播图 - jquery nivo.slider插件';
-	
 	public function index($data){
-		//帮助面板
-		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
-		
 		$this->view->data = $data;
 		$this->view->render();
 	}

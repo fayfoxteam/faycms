@@ -4,12 +4,6 @@ namespace fay\widgets\image\controllers;
 use fay\core\Widget;
 
 class AdminController extends Widget{
-	
-	public $title = '图片';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '显示一张图片，一般用于顶部banner图';
-	
 	public function index($data){
 		isset($data['file_id']) || $data['file_id'] = 0;
 		$this->view->data = $data;

@@ -503,7 +503,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .fac-container li.active{background-color:#eeeeee;cursor:pointer}
 
 /* prettify */
-.prettyprinted code{border:0 none;background:none;padding:0}
+.prettyprinted code{border:0 none;background:none;padding:0;display:block}
 pre .str,code .str{color:#65b042}
 pre .kwd,code .kwd{color:#e28964}
 pre .com,code .com{color:#aeaeae;font-style:italic}

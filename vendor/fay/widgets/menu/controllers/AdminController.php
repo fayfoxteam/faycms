@@ -6,16 +6,7 @@ use fay\models\Menu;
 use fay\models\tables\Menus;
 
 class AdminController extends Widget{
-	
-	public $title = '导航菜单';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '以ul, li的方式渲染一个导航树';
-	
 	public function index($data){
-		//帮助面板
-		\F::app()->layout->_help_contet = $this->view->render('_help', array(), true);
-		
 		$this->view->menu = array(
 			array(
 				'id'=>Menus::ITEM_USER_MENU,

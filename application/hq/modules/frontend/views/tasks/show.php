@@ -1,5 +1,5 @@
 <?php
-
+use hq\models\tables\ZbiaoRecords;
 
 ?>
 <link rel="stylesheet" href="<?= $this->staticFile('css/bootstrap.css') ?>"/>
@@ -178,10 +178,25 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="box-chart">
                 <div class="panel-heading">使用情况</div>
                 <div class="panel-body">
-                    <div id="charts"></div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="radio-inline">
+                                <input type="radio" name="time" id="week" value="<?= ZbiaoRecords::TIME_DAY ?>"> 日
+                            </label> &nbsp;
+                            <label class="radio-inline">
+                                <input type="radio" name="time" id="week" value="<?= ZbiaoRecords::TIME_WEEK ?>"> 周
+                            </label>&nbsp;
+                            <label class="radio-inline">
+                                <input type="radio" name="time" id="month" value="<?= ZbiaoRecords::TIME_MONTH ?>"> 月
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="charts"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -240,12 +255,36 @@
                     data: data
                 }]
             });
+        },
+        'events': function() {
+            $('#box-chart').on('click', "[name=time]", function() {
+
+                $.ajax({
+                    url: system.url('tasks/getDataByTime'),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        time: $(this).val()
+                    },
+                    success: function(data){
+                        if (data.code == 0)
+                        {
+                            tongji_charts.create(data.data, data.text, data.name, data.date, data.type);
+                        }
+                        else
+                        {
+                            alert(data.message);
+                        }
+                    }
+                });
+            });
         }
     }
     $(function () {
         tongji_charts.create(<?= json_encode($data) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date) ?>, 1);
         $.fn.zTree.init($("#treeElectric"), setting, eNodes);
         $.fn.zTree.init($("#treeWater"), setting, wNodes);
+        tongji_charts.events();
     });
 </script>
 

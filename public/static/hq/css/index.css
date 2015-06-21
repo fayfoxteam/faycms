@@ -53,6 +53,8 @@ a:hover, a:visited{ background: none;}
 .index-min{width:1100px;margin:0 auto 10px; height:248px;overflow:hidden;zoom:1;position: relative;font-family: "宋体";}
 .index-mingsjj{position: absolute;left:0;top:0; width:345px; text-align:left}
 .index-mingsjjtit{height:16px;font-size:16px;color:#197abf;border-bottom: 2px solid #197abf;line-height:15px; }
+.index-mingsjjtit h3 { float: left; width: 100px; font-size: 16px; font-weight: normal;  cursor: pointer;}
+.index-mingsjjtit h3:hover { color: #318BCC; }
 .index-mingsjjtit span{position:absolute; right:0}
 
 /*热门图片	*/

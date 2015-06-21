@@ -4,6 +4,11 @@ namespace hq\models\tables;
 use fay\core\db\Table;
 
 class ZbiaoRecords extends Table{
+
+    const TIME_DAY = 1;
+    const TIME_WEEK = 2;
+    const TIME_MONTH = 3;
+
 	protected $_name = 'zbiao_records';
 
     /**

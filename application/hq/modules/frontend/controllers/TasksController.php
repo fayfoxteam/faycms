@@ -78,4 +78,22 @@ class TasksController extends FrontController
 
         $this->finish($data);
     }
+
+    public function getDataByTime()
+    {
+        $data['code'] = 0;
+
+        $time = $this->input->get('time', 'intval');
+
+        if ($time == ZbiaoRecords::TIME_DAY) {
+
+        } elseif ($time == ZbiaoRecords::TIME_WEEK) {
+
+        } elseif ($time == ZbiaoRecords::TIME_MONTH) {
+
+        }
+
+
+        $this->finish($data);
+    }
 }

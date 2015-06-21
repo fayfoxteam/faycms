@@ -60,9 +60,12 @@ $img_url = $this->staticFile('images');
 
     </div>
     <div class="index-minhxyw">
-        <div class="index-mingsjjtit">后勤动态<span><a href=""><img src="<?= $img_url ?>/index_11.png" alt=""/></a></span> </div>
+        <div class="index-mingsjjtit"><h3 class="tab" data-id="1" onmouseover="setContentTab(1, 2)">后勤动态</h3> <h3 class="tab" data-id="2" onmouseover="setContentTab(2, 1)">媒体报道</h3>
+            <span class="tab-1"><a href="11"><img src="<?= $img_url ?>/index_11.png" alt=""/></a></span>
+            <span class="tab-2 hide"><a href="22"><img src="<?= $img_url ?>/index_11.png" alt=""/></a></span>
+        </div>
         <div class="clear-10"></div>
-        <div class="index-minhxywmin">
+        <div class="index-minhxywmin" id="tab-1">
             <ul>
                 <li><i></i><a href="">新闻资讯新闻资讯新闻资讯新闻资讯</a> <span>[2015-4-26]</span></li>
                 <li><i></i><a href="">新闻资讯新闻资讯新闻资讯新闻资讯</a> <span>[2015-4-26]</span></li>
@@ -73,6 +76,19 @@ $img_url = $this->staticFile('images');
                 <li><i></i><a href="">新闻资讯新闻资讯新闻资讯新闻资讯</a> <span>[2015-4-26]</span></li>
                 <li><i></i><a href="">新闻资讯新闻资讯新闻资讯新闻资讯</a> <span>[2015-4-26]</span></li>
                 <li><i></i><a href="">新闻资讯新闻资讯新闻资讯新闻资讯</a> <span>[2015-4-26]</span></li>
+            </ul>
+        </div>
+        <div class="index-minhxywmin hide" id="tab-2">
+            <ul>
+                <li><i></i><a href="">新闻资讯新闻资11资讯1</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯新22资讯新闻资讯2</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯新33资讯新闻资讯3</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯新44讯新闻资讯4</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯新闻资55讯新闻资讯5</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯新闻资66讯新闻资讯6</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯新闻77资讯新闻资讯7</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯新88资讯新闻资讯8</a> <span>[2015-4-26]</span></li>
+                <li><i></i><a href="">新闻资讯8讯新闻资讯9</a> <span>[2015-4-26]</span></li>
             </ul>
         </div>
     </div>
@@ -172,5 +188,12 @@ $img_url = $this->staticFile('images');
 
         jQuery(".slider_wrap").slide({mainCell:"#slider_box ul",autoPlay:true});
     });
+
+    function setContentTab(show, hide) {
+        $('#tab-' + show).removeClass('hide');
+        $('#tab-' + hide).addClass('hide');
+        $('.tab-' + show).removeClass('hide');
+        $('.tab-' + hide).addClass('hide');
+    }
 
 </script>

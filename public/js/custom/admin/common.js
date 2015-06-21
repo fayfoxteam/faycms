@@ -149,7 +149,11 @@ var common = {
 				}
 			});
 		});
-		//ajax删除消息提示
+		//跳转链接特殊处理
+		$('#faycms-messages-container').on('click', '.last a', function(){
+			window.location.href = $(this).attr('href');
+			return false;
+		});
 		$('#faycms-message').on('click', '.delete-message-link', function(){
 			var _this = $(this);
 			$.ajax({

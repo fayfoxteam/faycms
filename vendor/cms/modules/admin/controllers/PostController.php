@@ -22,6 +22,7 @@ use fay\helpers\Html;
 use fay\core\Hook;
 use fay\core\HttpException;
 use fay\models\Option;
+use fay\models\Flash;
 
 class PostController extends AdminController{
 	/**
@@ -365,7 +366,7 @@ class PostController extends AdminController{
 			Posts::model()->update(array(
 				'cat_id'=>$cat['id'],
 			), $post_id);
-			$this->flash->set('文章所属分类不存在，请重新设置文章分类', 'attention');
+			Flash::set('文章所属分类不存在，请重新设置文章分类', 'attention');
 		}
 		
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
@@ -388,7 +389,7 @@ class PostController extends AdminController{
 						'status'=>Posts::STATUS_DRAFT,
 					), true);
 					$status = Posts::STATUS_DRAFT;
-					$this->flash->set('文章状态异常，被强制修改为“草稿”', 'attention');
+					Flash::set('文章状态异常，被强制修改为“草稿”', 'attention');
 				}
 				
 				$old_post = Posts::model()->find($post_id, 'cat_id');
@@ -514,7 +515,7 @@ class PostController extends AdminController{
 				));
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '编辑文章', $post_id);
-				$this->flash->set('一篇文章被编辑', 'success');
+				Flash::set('一篇文章被编辑', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

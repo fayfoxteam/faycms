@@ -275,7 +275,7 @@ class DatabaseController extends ToolsController{
 			$this->db->execute($sql);
 		}
 
-		$this->flash->set('It will replace {{$time}} to current timestamp and {{$prefix}} to table prefix set in system config.', 'attention');
+		Flash::set('It will replace {{$time}} to current timestamp and {{$prefix}} to table prefix set in system config.', 'attention');
 		
 		$this->view->render();
 	}

@@ -5,7 +5,6 @@ use cms\library\AdminController;
 use fay\core\Validator;
 use fay\helpers\Html;
 use fay\core\Loader;
-use fay\models\tables\Users;
 
 class TestController extends AdminController{
 	public function valid(){
@@ -66,7 +65,7 @@ class TestController extends AdminController{
 			if($valid === true){
 				pr($this->input->post());
 			}else{
-				//$this->flash->set(pr($valid, true, true));
+				//Flash::set(pr($valid, true, true));
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}

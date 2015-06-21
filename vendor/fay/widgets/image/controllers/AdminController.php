@@ -2,6 +2,7 @@
 namespace fay\widgets\image\controllers;
 
 use fay\core\Widget;
+use fay\models\Flash;
 
 class AdminController extends Widget{
 	public function index($data){
@@ -15,7 +16,7 @@ class AdminController extends Widget{
 	 */
 	public function onPost(){
 		$this->saveData($this->form->getFilteredData());
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
 	/**

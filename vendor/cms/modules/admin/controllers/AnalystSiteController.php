@@ -7,6 +7,7 @@ use fay\helpers\Html;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
+use fay\models\Flash;
 
 class AnalystSiteController extends AdminController{
 	public function __construct(){
@@ -46,7 +47,7 @@ class AnalystSiteController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				AnalystSites::model()->update($this->form()->getFilteredData(), $id);
-				$this->flash->set('站点编辑成功', 'success');
+				Flash::set('站点编辑成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

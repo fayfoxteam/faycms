@@ -28,9 +28,9 @@ class ApplicationController extends ToolsController{
 	public function create(){
 		$this->layout->subtitle = '创建项目';
 		
-		$this->flash->set('此工具用于快速创建一个application项目', 'attention');
+		Flash::set('此工具用于快速创建一个application项目', 'attention');
 		if(!is_writable(BASEPATH.'..'.DS.'application')){
-			$this->flash->set('application目录不可写！用此功能创建项目，请确保系统对application目录拥有写权限。');
+			Flash::set('application目录不可写！用此功能创建项目，请确保系统对application目录拥有写权限。');
 		}
 		
 		if($this->input->post()){

@@ -98,7 +98,6 @@ class Widget extends FBase{
 		$this->session = Session::getInstance();
 		$this->cache = Cache::getInstance();
 		$this->config = Config::getInstance();
-		$this->flash = new Flash();
 		$this->db = Db::getInstance();
 		$this->form = $this->form('widget');
 		

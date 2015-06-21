@@ -16,6 +16,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
+use fay\models\Flash;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -184,7 +185,7 @@ class UserController extends AdminController{
 				));
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $id);
-				$this->flash->set('修改成功', 'success');
+				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

@@ -3,6 +3,7 @@ namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
 use fay\models\tables\Contacts;
+use fay\models\Flash;
 
 class ContactController extends FrontController{
 	public function __construct(){
@@ -25,7 +26,7 @@ class ContactController extends FrontController{
 				'create_time'=>$this->current_time,
 				'ip'=>$this->ip,
 			));
-			$this->flash->set('留言发布成功', 'success');
+			Flash::set('留言发布成功', 'success');
 		}
 		$this->layout->breadcrumbs = array(
 			array(

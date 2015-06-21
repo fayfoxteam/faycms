@@ -10,6 +10,7 @@ use fay\models\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
 use fay\core\Validator;
+use fay\models\Flash;
 
 class MaterialController extends UserController{
 	private $rules = array(
@@ -61,9 +62,9 @@ class MaterialController extends UserController{
 		
 				Tag::model()->set($this->input->post('tags'), $post_id);
 		
-				$this->flash->set('素材上传成功', 'success');
+				Flash::set('素材上传成功', 'success');
 			}else{
-				$this->flash->set('参数异常');
+				Flash::set('参数异常');
 			}
 		}
 		
@@ -128,11 +129,11 @@ class MaterialController extends UserController{
 			
 				Tag::model()->set($this->input->post('tags'), $post['id']);
 			
-				$this->flash->set('文章编辑成功', 'success');
+				Flash::set('文章编辑成功', 'success');
 			
 				$post = Posts::model()->find($id);
 			}else{
-				$this->flash->set('参数异常');
+				Flash::set('参数异常');
 			}
 		}
 		

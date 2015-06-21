@@ -1,5 +1,6 @@
 <?php
 use fay\models\Option;
+use fay\models\Flash;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -50,6 +51,6 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
     <div id="BoxContents"></div>
     <div id="AlphaBox"></div>
 </div>
-<?php echo F::app()->flash->get();?>
+<?php echo Flash::get();?>
 </body>
 </html>

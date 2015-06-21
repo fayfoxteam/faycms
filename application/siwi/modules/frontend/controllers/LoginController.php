@@ -9,6 +9,7 @@ use fay\helpers\String;
 use fay\core\Response;
 use fay\core\Validator;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class LoginController extends FrontController{
 	public function index(){
@@ -72,7 +73,7 @@ class LoginController extends FrontController{
 				'username = ?'=>$email,
 			), 'id');
 			if(!$user){
-				$this->flash->set('您所提交的Email未在本平台注册');
+				Flash::set('您所提交的Email未在本平台注册');
 				Response::goback();
 			}
 			
@@ -92,7 +93,7 @@ class LoginController extends FrontController{
       请在24小时内点击以下链接重新设置密码：（{$url}），您也可以将链接复制到浏览器地址栏进行访问。<br>
       感谢您对大赛平台的支持！";
 			Email::model()->send($email, $subject, $body);
-			$this->flash->set('邮件发送成功，请登陆您的邮箱查看！', 'success');
+			Flash::set('邮件发送成功，请登陆您的邮箱查看！', 'success');
 		}
 		
 		$this->view->render();
@@ -119,7 +120,7 @@ class LoginController extends FrontController{
 				
 				if($this->input->post()){
 					if($this->input->post('password') != $this->input->post('repassword')){
-						$this->flash->set('两次输入密码不一致，请重新输入');
+						Flash::set('两次输入密码不一致，请重新输入');
 					}else{
 						$salt = String::random('alnum', 5);
 						$password = md5(md5($this->input->post('password')).$salt);
@@ -128,7 +129,7 @@ class LoginController extends FrontController{
 							'password'=>$password,
 							'salt'=>$salt,
 						), $user['id']);
-						$this->flash->set('密码修改成功，请用新密码登陆', 'success');
+						Flash::set('密码修改成功，请用新密码登陆', 'success');
 					}
 				}
 			}else{

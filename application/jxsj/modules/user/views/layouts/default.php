@@ -1,6 +1,7 @@
 <?php
 use fay\models\Option;
 use fay\helpers\Html;
+use fay\models\Flash;
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,7 +40,7 @@ body{background-position:center 112px;}
 		</div>
 	</div>
 	<?php include '_footer.php'?>
-	<?php echo F::app()->flash->get();?>
+	<?php echo Flash::get();?>
 </div>
 <script type="text/javascript" src="<?php echo $this->staticFile('js/common.js')?>"></script>
 <script>

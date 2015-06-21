@@ -17,6 +17,7 @@ use fay\helpers\Date;
 use fay\models\GoodsModel;
 use fay\core\Response;
 use fay\helpers\Html;
+use fay\models\Flash;
 
 class GoodsController extends AdminController{
 	public $boxes = array('sku', 'guide', 'shipping', 'publish-time', 'thumbnail', 'seo',
@@ -26,7 +27,7 @@ class GoodsController extends AdminController{
 		parent::__construct();
 		$this->layout->current_directory = 'goods';
 		if(!$this->input->isAjaxRequest()){
-			$this->flash->set('这个模块只是做着玩的，并没有实现购物功能。', 'attention');
+			Flash::set('这个模块只是做着玩的，并没有实现购物功能。', 'attention');
 		}
 	}
 	
@@ -458,7 +459,7 @@ class GoodsController extends AdminController{
 				}
 			}
 			
-			$this->flash->set('一个商品被编辑', 'success');
+			Flash::set('一个商品被编辑', 'success');
 			$this->actionlog(Actionlogs::TYPE_GOODS, '编辑一个商品', $goods_id);
 		}
 		

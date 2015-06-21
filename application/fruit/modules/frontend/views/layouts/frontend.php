@@ -1,5 +1,6 @@
 <?php
 use fay\models\Option;
+use fay\models\Flash;
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 	<?php include '_header.php';?>
 	<?php echo $content?>
 	<?php include '_footer.php';?>
-	<?php echo \F::app()->flash->get();?>
+	<?php echo Flash::get();?>
 </div>
 </body>
 </html>

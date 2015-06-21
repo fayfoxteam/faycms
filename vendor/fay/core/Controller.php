@@ -73,7 +73,6 @@ class Controller{
 		$this->layout = new Layout();
 		$this->session = Session::getInstance();
 		$this->cache = new Cache();
-		$this->flash = new Flash();
 		$this->config = Config::getInstance();
 		$this->current_time = time();
 		$this->uri = Uri::getInstance();

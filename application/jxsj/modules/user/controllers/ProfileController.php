@@ -4,6 +4,7 @@ namespace jxsj\modules\user\controllers;
 use jxsj\library\UserController;
 use fay\models\tables\Users;
 use fay\helpers\String;
+use fay\models\Flash;
 
 class ProfileController extends UserController{
 	public function index(){
@@ -20,7 +21,7 @@ class ProfileController extends UserController{
 				'nickname'=>$this->input->post('nickname'),
 			), $this->current_user);
 			
-			$this->flash->set('个人资料修改成功', 'success');
+			Flash::set('个人资料修改成功', 'success');
 		}
 		
 		$this->layout->current_directory = 'profile';
@@ -37,11 +38,11 @@ class ProfileController extends UserController{
 		
 		if($this->input->post()){
 			if($this->input->post('password') != $this->input->post('repassword')){
-				$this->flash->set('两次密码不一致');
+				Flash::set('两次密码不一致');
 			}else{
 				$user = Users::model()->find($this->session->get('id'), 'password,salt');
 				if($user['password'] != md5(md5($this->input->post('old_password')).$user['salt'])){
-					$this->flash->set('原密码不正确');
+					Flash::set('原密码不正确');
 				}else{
 					$salt = String::random('alnum', 5);
 					$password = md5(md5($this->input->post('password')).$salt);
@@ -49,7 +50,7 @@ class ProfileController extends UserController{
 						'password'=>$password,
 						'salt'=>$salt,
 					), $this->session->get('id'));
-					$this->flash->set('密码修改成功', 'success');
+					Flash::set('密码修改成功', 'success');
 				}
 			}
 		}

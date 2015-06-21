@@ -3,6 +3,7 @@ namespace fay\widgets\post_list\controllers;
 
 use fay\core\Widget;
 use fay\models\Category;
+use fay\models\Flash;
 
 class AdminController extends Widget{
 	public function index($data){
@@ -42,7 +43,7 @@ class AdminController extends Widget{
 		}
 		$this->saveData($data);
 		
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

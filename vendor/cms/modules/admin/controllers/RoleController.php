@@ -11,7 +11,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Category;
 use fay\models\tables\RolesCats;
-use fay\helpers\ArrayHelper;
+use fay\models\Flash;
 
 class RoleController extends AdminController{
 	public function __construct(){
@@ -135,7 +135,7 @@ class RoleController extends AdminController{
 				}
 
 				$this->actionlog(Actionlogs::TYPE_ROLE, '编辑了一个角色', $role_id);
-				$this->flash->set('一个角色被编辑', 'success');
+				Flash::set('一个角色被编辑', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

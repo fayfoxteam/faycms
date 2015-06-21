@@ -2,6 +2,7 @@
 namespace fay\core;
 
 use fay\core\FBase;
+use fay\models\Flash;
 
 class Response extends FBase{
 	/**
@@ -152,11 +153,11 @@ class Response extends FBase{
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash
-				\F::app()->flash->set($data['message'], $status);
+				Flash::set($data['message'], $status);
 			}else if($status == 'success'){
-				\F::app()->flash->set('操作成功', $status);
+				Flash::set('操作成功', $status);
 			}else{
-				\F::app()->flash->set('操作失败', $status);
+				Flash::set('操作失败', $status);
 			}
 
 			if($redirect === false){

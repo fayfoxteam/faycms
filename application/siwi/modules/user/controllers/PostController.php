@@ -10,6 +10,7 @@ use fay\models\Tag;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class PostController extends UserController{
 	private $rules = array(
@@ -69,7 +70,7 @@ class PostController extends UserController{
 					'id'=>$post_id,
 				)));
 			}else{
-				$this->flash->set('参数异常');
+				Flash::set('参数异常');
 			}
 		}
 		$this->view->cats = Category::model()->getNextLevel('_blog');
@@ -136,11 +137,11 @@ class PostController extends UserController{
 	
 				Tag::model()->set($this->input->post('tags'), $post['id']);
 				
-				$this->flash->set('文章编辑成功', 'success');
+				Flash::set('文章编辑成功', 'success');
 				
 				$post = Posts::model()->find($id);
 			}else{
-				$this->flash->set('参数异常');
+				Flash::set('参数异常');
 			}
 		}
 		

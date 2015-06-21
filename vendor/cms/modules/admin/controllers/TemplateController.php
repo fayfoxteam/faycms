@@ -8,6 +8,7 @@ use fay\models\tables\Templates;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\Html;
+use fay\models\Flash;
 
 class TemplateController extends AdminController{
 	public function __construct(){
@@ -67,7 +68,7 @@ class TemplateController extends AdminController{
 				}
 				Templates::model()->update($data, $id);
 				
-				$this->flash->set('一个模版被编辑', 'success');
+				Flash::set('一个模版被编辑', 'success');
 				$this->actionlog(Actionlogs::TYPE_TEMPLATE, '编辑了一个模版', $id);
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());

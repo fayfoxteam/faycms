@@ -3,6 +3,7 @@ namespace shinecolor\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\Option;
+use fay\models\Flash;
 
 class YsiteController extends AdminController{
 	public function __construct(){
@@ -17,7 +18,7 @@ class YsiteController extends AdminController{
 			foreach($this->input->post() as $key=>$value){
 				Option::set($key, $value);
 			}
-			$this->flash->set('更新成功', 'success');
+			Flash::set('更新成功', 'success');
 		}
 		
 		$this->view->render();

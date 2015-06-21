@@ -1,5 +1,6 @@
 <?php
 use fay\models\Option;
+use fay\models\Flash;
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,7 +38,7 @@ system.current_user = '<?php echo F::app()->session->get('id', 0)?>';
 	}
 	echo $content;
 	include '_footer.php';
-	echo \F::app()->flash->get();
+	echo Flash::get();
 ?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery.fancybox-1.3.4.pack.js"></script>
 <script type="text/javascript" src="<?php echo $this->staticFile('js/common.js')?>"></script>

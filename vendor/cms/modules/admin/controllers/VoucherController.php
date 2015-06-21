@@ -7,6 +7,7 @@ use fay\helpers\String;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\common\ListView;
+use fay\models\Flash;
 
 class VoucherController extends AdminController{
 	public function __construct(){
@@ -29,7 +30,7 @@ class VoucherController extends AdminController{
 					Vouchers::model()->insert($data);
 				}
 		
-				$this->flash->set($this->input->post('num').'个优惠码被添加','success');
+				Flash::set($this->input->post('num').'个优惠码被添加','success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

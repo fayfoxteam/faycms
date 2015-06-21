@@ -1,3 +1,7 @@
+<?php
+use fay\helpers\Html;
+use fay\models\Option;
+?>
 <form id="form" action="" method="post" class="validform">
 	<div class="form-field">
 		<label class="title">站点名称</label>

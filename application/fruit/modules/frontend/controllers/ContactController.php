@@ -5,6 +5,7 @@ use fruit\library\FrontController;
 use fay\models\Email;
 use fay\models\tables\Pages;
 use fay\core\Response;
+use fay\models\Flash;
 
 class ContactController extends FrontController{
 	public function index(){
@@ -28,7 +29,7 @@ class ContactController extends FrontController{
 			邮箱：{$this->input->post('email')}<br />
 			留言：{$this->input->post('message')}<br />
 		");
-		$this->flash->set('留言邮件已发送', 'success');
+		Flash::set('留言邮件已发送', 'success');
 		Response::goback();
 	}
 }

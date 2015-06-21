@@ -1,5 +1,6 @@
 <?php
 use fay\models\Option;
+use fay\models\Flash;
 ?>
 <footer class="g-ft">
 	<div class="w1190">
@@ -48,4 +49,4 @@ use fay\models\Option;
 <script>common.init();</script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
 <script>_fa.init();</script>
-<?php echo F::app()->flash->get()?>
+<?php echo Flash::get()?>

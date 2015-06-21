@@ -12,6 +12,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Notification;
 use fay\core\Sql;
+use fay\models\Flash;
 
 class NotificationController extends AdminController{
 	public function __construct(){
@@ -28,7 +29,7 @@ class NotificationController extends AdminController{
 			$notification_id = Notification::model()->send($operators, $this->input->post('title', 'trim'), $this->input->post('content', 'trim'), $this->current_user, $this->input->get('cat_id', null, 0));
 			
 			$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '发送系统信息', $notification_id);
-			$this->flash->set('消息发送成功', 'success');
+			Flash::set('消息发送成功', 'success');
 		}
 		$this->view->notification_cats = Category::model()->getNextLevel('_system_notification');
 		$this->view->roles = Roles::model()->fetchAll('deleted = 0');

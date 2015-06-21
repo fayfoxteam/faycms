@@ -11,6 +11,7 @@ use fay\models\Setting;
 use fay\core\Response;
 use fay\models\Menu;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -82,7 +83,7 @@ class AdminController extends Controller{
 		if($return){
 			return $html;
 		}else{
-			$this->flash->set($html);
+			Flash::set($html);
 		}
 	}
 	

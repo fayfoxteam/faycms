@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\Option;
 use fay\models\File;
+use fay\models\Flash;
 ?>
 <!DOCTYPE html>
 <html>
@@ -126,7 +127,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				</div>
 			</div>
 		</div>
-		<?php echo F::app()->flash->get();?>
+		<?php echo Flash::get();?>
 		<?php echo $content?>
 	</div>
 </div>

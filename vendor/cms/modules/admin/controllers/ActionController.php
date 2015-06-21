@@ -8,6 +8,7 @@ use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
+use fay\models\Flash;
 
 class ActionController extends AdminController{
 	public function __construct(){
@@ -17,7 +18,7 @@ class ActionController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '添加权限';
-		$this->flash->set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
 		
 		$this->_setListview();
 
@@ -40,7 +41,7 @@ class ActionController extends AdminController{
 						'router = ?'=>$this->input->post('parent_router', 'trim'),
 					), 'id');
 					if(!$parent_router){
-						$this->flash->set('父级路由不存在');
+						Flash::set('父级路由不存在');
 						Response::output('error', '父级路由不存在');
 					}
 					$parent = $parent_router['id'];
@@ -93,7 +94,7 @@ class ActionController extends AdminController{
 				isset($data['is_public']) || $data['is_public'] = 0;
 				Actions::model()->update($data, "id = {$action_id}");
 				$this->actionlog(Actionlogs::TYPE_ACTION, '编辑管理员权限', $action_id);
-				$this->flash->set('权限编辑成功', 'success');
+				Flash::set('权限编辑成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -174,7 +175,7 @@ class ActionController extends AdminController{
 
 	public function cat(){
 		$this->layout->subtitle = '权限分类';
-		$this->flash->set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
 		
 		$this->view->cats = Category::model()->getTree('_system_action');
 		$root_node = Category::model()->getByAlias('_system_action', 'id');

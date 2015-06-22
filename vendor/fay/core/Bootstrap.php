@@ -37,13 +37,11 @@ class Bootstrap{
 			$cache_routers = \F::config()->get('*', 'pagecache');
 			$cache_routers_keys = array_keys($cache_routers);
 			if(!Input::getInstance()->post() && in_array($uri->router, $cache_routers_keys)){
-				$filepath = APPLICATION_PATH.'runtimes/cache/pages/'.$uri->router;
-				$cache_file = $filepath . '/' . md5(json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
-				if(file_exists($cache_file) && ($cache_routers[$uri->router]['ttl'] == 0 || filemtime($cache_file) + $cache_routers[$uri->router]['ttl'] > time())){
-					if(!empty($cache_routers[$uri->router]['function'])){
-						$cache_routers[$uri->router]['function']();
-					}
-					readfile($cache_file);
+				$filename = md5(json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
+				$cache_key = 'pages/' . $uri->router . '/' . $filename;
+				$content = \F::cache()->get($cache_key);
+				if($content){
+					echo $content;
 					die;
 				}
 			}

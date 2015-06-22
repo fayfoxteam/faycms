@@ -2,7 +2,7 @@
 return array(
 	'frontend/post/item'=>array(
 		'params'=>array('id'),
-		'ttl'=>1,
+		'ttl'=>5,
 		'on_post'=>'remove',
 	),
 	'frontend/sitemap/xml'=>array(

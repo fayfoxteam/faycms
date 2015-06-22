@@ -10,7 +10,7 @@ class Cache extends FBase{
 	private $_memcache_config = array();
 	
 	public function __construct(){
-		$this->_memcache_config = $this->config('memcache', 'memcache');
+		$this->_memcache_config = \F::config()->get('memcache', 'memcache');
 		self::$_instance = $this;
 	}
 	

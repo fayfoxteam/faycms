@@ -21,7 +21,7 @@ class Hook extends FBase{
 	}
 	
 	private function init(){
-		$this->hooks = $this->config('*', 'hooks');
+		$this->hooks = \F::config()->get('*', 'hooks');
 	}
 	
 	/**

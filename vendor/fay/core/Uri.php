@@ -32,7 +32,7 @@ class Uri extends FBase{
 	
 	public function __construct(){
 		$this->input = Input::getInstance();
-		$this->module = $this->config('default_router.module');
+		$this->module = \F::config()->get('default_router.module');
 		
 		$this->_setRouting();
 		
@@ -55,13 +55,13 @@ class Uri extends FBase{
 	
 	private function _parseHttpArgs(){
 		//若配置文件中未设置base_url，则系统猜测一个
-		$base_url = $this->config('base_url');
+		$base_url = \F::config()->get('base_url');
 		
 		if($base_url){
 			//若未开启伪静态，需要加上index.php/
 			if(defined('NO_REWRITE') && NO_REWRITE && substr($base_url, -10) != 'index.php/'){
 				$base_url .= 'index.php/';
-				$this->setConfig('base_url', $base_url);
+				\F::config()->set('base_url', $base_url);
 			}
 		}else{
 			$folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
@@ -82,7 +82,7 @@ class Uri extends FBase{
 			if(defined('NO_REWRITE')){
 				$base_url .= 'index.php/';
 			}
-			$this->setConfig('base_url', $base_url);
+			\F::config()->set('base_url', $base_url);
 		}
 		
 		$base_url_params = parse_url($base_url);
@@ -98,14 +98,14 @@ class Uri extends FBase{
 		
 		if($request == ''){
 			//无路由信息，访问默认路由
-			$default_router = $this->config('default_router');
+			$default_router = \F::config()->get('default_router');
 			$this->_setRouter($default_router['module'], $default_router['controller'], $default_router['action']);
 			return;
 		}
 		
 		//匹配扩展名
-		$ext = $this->config('url_suffix');
-		$exts = $this->config('*', 'exts', 'merge_recursive');
+		$ext = \F::config()->get('url_suffix');
+		$exts = \F::config()->get('*', 'exts', 'merge_recursive');
 		foreach($exts as $key => $val){
 			foreach($val as $v){
 				if(preg_match('/^'.str_replace(array(
@@ -129,13 +129,13 @@ class Uri extends FBase{
 		}
 		
 		//进行URL重写匹配
-		$routes = $this->config('*', 'routes');
+		$routes = \F::config()->get('*', 'routes');
 		if(!empty($routes)){
 			$request = preg_replace(array_keys($routes), array_values($routes), $request);
 		}
 		
 		$request_arr = explode('/', $request);
-		$modules = array_merge(array('admin', 'tools', 'install'), $this->config('modules'));
+		$modules = array_merge(array('admin', 'tools', 'install'), \F::config()->get('modules'));
 		if(in_array($request_arr[0], $modules)){
 			//前3级是路由
 			$this->_setRouter($request_arr[0], isset($request_arr[1]) ? $request_arr[1] : null, isset($request_arr[2]) ? $request_arr[2] : null);
@@ -163,7 +163,7 @@ class Uri extends FBase{
 	}
 	
 	private function _setRouter($module = null, $controller = null, $action = null){
-		$module || $module = $this->config('default_router.module');
+		$module || $module = \F::config()->get('default_router.module');
 		$controller || $controller = 'index';
 		$action || $action = 'index';
 		
@@ -183,7 +183,7 @@ class Uri extends FBase{
 	private function _parseCliArgs(){
 		//第一个参数是路由信息
 		$router = explode('/', $_SERVER['argv'][1]);
-		$modules = array_merge(array('admin', 'tools'), $this->config('modules'));
+		$modules = array_merge(array('admin', 'tools'), \F::config()->get('modules'));
 		if(in_array($router[0], $modules)){
 			$this->_setRouter($router[0], isset($router[1]) ? $router[1] : null, isset($router[2]) ? $router[2] : null);
 		}else{

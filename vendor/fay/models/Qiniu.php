@@ -25,7 +25,7 @@ class Qiniu extends Model{
 		Loader::vendor('qiniu/io');
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = $this->config('*', 'qiniu');
+		$qiniu = \F::config()->get('*', 'qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$putPolicy = new \Qiniu_RS_PutPolicy($qiniu['bucket']);
@@ -61,7 +61,7 @@ class Qiniu extends Model{
 		
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = $this->config('*', 'qiniu');
+		$qiniu = \F::config()->get('*', 'qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$client = new \Qiniu_MacHttpClient(null);

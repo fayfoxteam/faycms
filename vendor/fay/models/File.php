@@ -43,7 +43,7 @@ class File extends Model{
 	}
 	
 	public function getIconByMimetype($mimetype){
-		$mimetypes = $this->config('*', 'mimes');
+		$mimetypes = \F::config()->get('*', 'mimes');
 		$types = array(
 			'image'=>array('jpeg', 'jpg', 'jpe', 'png', 'bmp', 'gif'),
 			'archive'=>array('rar', 'gz', 'tgz', 'zip', 'tar'),

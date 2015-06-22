@@ -14,16 +14,16 @@ class View extends FBase{
 	private $_css = array();
 	
 	public function url($router = null, $params = array(), $url_rewrite = true){
-		$base_url = $this->config('base_url');
+		$base_url = \F::config()->get('base_url');
 		if(!$router){
 			return $base_url;
 		}else{
-			$default_module = $this->config('default_router.module');
+			$default_module = \F::config()->get('default_router.module');
 			if(strpos($router, $default_module . '/') === 0){
 				$router = substr($router, strlen($default_module) + 1);
 			}
-			$ext = $this->config('url_suffix');
-			$exts = $this->config('*', 'exts', 'merge_recursive');
+			$ext = \F::config()->get('url_suffix');
+			$exts = \F::config()->get('*', 'exts', 'merge_recursive');
 			foreach($exts as $key => $val){
 				foreach($val as $v){
 					if(preg_match('/^'.str_replace(array(
@@ -56,7 +56,7 @@ class View extends FBase{
 	}
 	
 	public function staticFile($uri){
-		$base_url = $this->config('base_url');
+		$base_url = \F::config()->get('base_url');
 		return $base_url . 'static/' . APPLICATION . '/' . $uri;
 	}
 	
@@ -119,7 +119,7 @@ class View extends FBase{
 		$uri = Uri::getInstance();
 		$content = $this->renderPartial($view, array(), -1, true);
 		
-		$module = isset($uri->module) ? $uri->module : $this->config('default_router.module');
+		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		if($layout !== false){
 			if($layout !== null){
 				//加载模板文件
@@ -147,7 +147,7 @@ class View extends FBase{
 		}
 		
 		//根据router设置缓存
-		$cache_routers = $this->config('*', 'pagecache');
+		$cache_routers = \F::config()->get('*', 'pagecache');
 		$cache_routers_keys = array_keys($cache_routers);
 		if(in_array($uri->router, $cache_routers_keys)){
 			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
@@ -178,7 +178,7 @@ class View extends FBase{
 		}else{
 			echo $content;
 			//自动输出debug信息
-			if($this->config('debug')){
+			if(\F::config()->get('debug')){
 			    $this->renderPartial('common/_debug');
 			}
 			
@@ -196,7 +196,7 @@ class View extends FBase{
 	 */
 	public function renderPartial($view = null, $view_data = array(), $__cache = -1, $return = false){
 		$uri = Uri::getInstance();
-		$module = isset($uri->module) ? $uri->module : $this->config('default_router.module');
+		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		//加载视图文件
 		if($view === null){
 			$view = strtolower($uri->action);

@@ -10,7 +10,7 @@ class Encrypt extends FBase{
 	public $key = '';
 	
 	public function __construct(){
-		$this->key = \F::app()->config('encryption_key');
+		$this->key = \F::config()->get('encryption_key');
 	}
 
 	public function encode($data){

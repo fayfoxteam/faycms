@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class View extends FBase{
+class View{
 	/**
 	 * 用于试图层的数据
 	 * @var array

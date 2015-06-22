@@ -1,10 +1,9 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\core\Uri;
 
-class Bootstrap extends FBase{
+class Bootstrap{
 	public function init(){
 		//默认时区
 		$date = \F::config()->get('date');

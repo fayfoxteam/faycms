@@ -1,10 +1,9 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\models\Flash;
 
-class Response extends FBase{
+class Response{
 	/**
 	 * HTTP状态码
 	 */

@@ -1,11 +1,10 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\helpers\Request;
 use fay\models\tables\Widgets;
 
-class Widget extends FBase{
+class Widget{
 	/**
 	 * 小工具名称（初始化时传入）
 	 */

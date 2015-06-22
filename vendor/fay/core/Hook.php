@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Hook extends FBase{
+class Hook{
 	private $hooks = array();
 	
 	private static $_instance;

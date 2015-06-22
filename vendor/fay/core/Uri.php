@@ -1,7 +1,6 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\helpers\String;
 
 /**
@@ -9,7 +8,7 @@ use fay\helpers\String;
  * @author karma
  *
  */
-class Uri extends FBase{
+class Uri{
 	public $router;
 	public $module;
 	

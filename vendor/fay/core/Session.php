@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Session extends FBase{
+class Session{
 	private static $_instance;
 	
 	private function __construct(){}

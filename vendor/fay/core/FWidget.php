@@ -1,10 +1,9 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\models\tables\Widgets;
 
-class FWidget extends FBase{
+class FWidget{
 	/**
 	 * 实例化一个widget，并返回实例
 	 * @return Widget

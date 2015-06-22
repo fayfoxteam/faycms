@@ -1,11 +1,10 @@
 <?php
 namespace ncp\plugins;
 
-use fay\core\FBase;
 use ncp\models\tables\TourRoute as Table_TourRoute;
 use fay\models\Category;
 
-class TourRoute extends FBase{
+class TourRoute{
 	public function addBox($params){
 		$travel_cat = Category::model()->getByAlias('travel', 'id');
 		if(Category::model()->isChild($params['cat_id'], $travel_cat['id'])){

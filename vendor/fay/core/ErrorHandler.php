@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-class ErrorHandler extends FBase{
+class ErrorHandler{
 	public $app;
 	
 	public function __construct(){

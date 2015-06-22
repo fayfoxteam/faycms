@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Cache extends FBase{
+class Cache{
 	private static $_instance;
 	private $_memcache = null;
 	

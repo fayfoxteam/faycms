@@ -1,10 +1,9 @@
 <?php 
 namespace fay\common;
 
-use fay\core\FBase;
 use fay\models\File;
 
-class Upload extends FBase{
+class Upload{
 	private $upload_path;
 	private $allowed_types = array();
 	private $max_size;

@@ -10,7 +10,7 @@ abstract class Cache{
 	/**
 	 * 序列化、反序列化函数
 	 */
-	public $serializer = array('json_encode', 'json_decode');
+	public $serializer = array('serialize', 'unserialize');
 	
 	/**
 	 * 作为缓存$key的分隔符。

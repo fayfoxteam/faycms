@@ -130,4 +130,10 @@ return array(
 	 * 若用到加密类，需要配置此key
 	 */
 	'encryption_key'=>'m3cQ3mFAuy6z7LF2',//加密用的密钥
+	
+	/*
+	 * 默认缓存方式
+	 * 若要禁用默认缓存，将这个值设为空即可
+	 */
+	'default_cache_driver'=>'file',
 );

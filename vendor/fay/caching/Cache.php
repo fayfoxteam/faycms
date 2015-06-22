@@ -1,5 +1,5 @@
 <?php
-namespace fay\core\caching;
+namespace fay\caching;
 
 abstract class Cache{
 	/**
@@ -47,7 +47,7 @@ abstract class Cache{
 	 * @param mix $key $key中若包含斜杠（/），点号（.），冒号（:）会被统一转为$this->separator
 	 *   即仅这3个符号存在差别的key会被视为同一个key
 	 * @param mix $value
-	 * @param int $duration 缓存过期时间（单位：秒）
+	 * @param int $duration 缓存时间（单位：秒）
 	 */
 	public function set($key, $value, $duration = 0){
 		if(!empty($this->serializer[0])){
@@ -62,7 +62,7 @@ abstract class Cache{
 	/**
 	 * 设置多个缓存
 	 * @param array $items
-	 * @param int $duration 缓存过期时间（单位：秒）
+	 * @param int $duration 缓存时间（单位：秒）
 	 */
 	public function mset($items, $duration = 0){
 		$data = array();
@@ -154,7 +154,7 @@ abstract class Cache{
 	 * 设置单个缓存
 	 * @param mix $key
 	 * @param mix $value
-	 * @param int $duration 缓存过期时间（单位：秒）
+	 * @param int $duration 缓存时间（单位：秒）
 	 */
 	abstract protected function setValue($key, $value, $duration);
 	

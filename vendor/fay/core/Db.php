@@ -162,11 +162,10 @@ class Db extends FBase{
 		$values = array();
 		foreach($data as $k => $v){
 			if($v === false)continue;
+			$fields[] = "`{$k}`";
 			if($v instanceof Intact){
-				$fields[] = "`{$k}`";
 				$pres[] = $v->get();
 			}else{
-				$fields[] = "`{$k}`";
 				$pres[] = '?';
 				$values[] = $v;
 			}
@@ -180,7 +179,7 @@ class Db extends FBase{
 	 * @param string $table 表名
 	 * @param array $data 插入数据
 	 */
-	public function bulkInsert($table, $data){
+	public function batchInsert($table, $data){
 		$fields = array();
 		$pres = array();
 		$values = array();
@@ -189,11 +188,10 @@ class Db extends FBase{
 		$first_item = array_shift($data);
 		foreach($first_item as $k => $v){
 			if($v === false)continue;
+			$fields[] = "`{$k}`";
 			if($v instanceof Intact){
-				$fields[] = "`{$k}`";
 				$pres[] = $v->get();
 			}else{
-				$fields[] = "`{$k}`";
 				$pres[] = '?';
 				$values[] = $v;
 			}

@@ -63,7 +63,7 @@ class Table extends Model{
 	 * @param array $data 二维数组
 	 * @param bool $filter 是否调用过滤器进行过滤
 	 */
-	public function bulkInsert($data, $filter = false){
+	public function batchInsert($data, $filter = false){
 		if(!empty($data)){
 			$insert_data = array();
 			foreach($data as $d){
@@ -74,7 +74,7 @@ class Table extends Model{
 				}
 			}
 			
-			return $this->db->bulkInsert($this->_name, $insert_data);
+			return $this->db->batchInsert($this->_name, $insert_data);
 		}else{
 			return null;
 		}

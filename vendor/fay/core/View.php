@@ -2,7 +2,6 @@
 namespace fay\core;
 
 use fay\core\FBase;
-use fay\helpers\Html;
 
 class View extends FBase{
 	/**
@@ -195,7 +194,7 @@ class View extends FBase{
 	 * @param int $cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
 	 * @return string|NULL
 	 */
-	public function renderPartial($view = null, $view_data = array(), $cache = -1, $return = false){
+	public function renderPartial($view = null, $view_data = array(), $__cache = -1, $return = false){
 		$uri = Uri::getInstance();
 		$module = isset($uri->module) ? $uri->module : $this->config('default_router.module');
 		//加载视图文件
@@ -225,11 +224,11 @@ class View extends FBase{
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}
 		
-		if($cache >= 0){
+		if($__cache >= 0){
 			//从缓存获取
 			$filepath = APPLICATION_PATH.'runtimes/cache/partial';
 			$cache_file = $filepath . '/' . md5($view_relative_path);
-			if(file_exists($cache_file) && ($cache == 0 || filemtime($cache_file) + $cache > \F::app()->current_time)){
+			if(file_exists($cache_file) && ($__cache == 0 || filemtime($cache_file) + $__cache > \F::app()->current_time)){
 				if($return){
 					return file_get_contents($cache_file);;
 				}else{
@@ -260,7 +259,7 @@ class View extends FBase{
 			ob_end_clean();
 		}
 		
-		if($cache >= 0){
+		if($__cache >= 0){
 			//设置缓存
 			if(!is_dir($filepath)){
 				mkdir($filepath, 0770, true);

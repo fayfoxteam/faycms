@@ -35,7 +35,7 @@ class Bootstrap extends FBase{
 		
 		//根据router来读取缓存
 		if(!\F::input()->get('__r')){//强制跳过缓存，主要用于测试
-			$cache_routers = $this->config('*', 'cache');
+			$cache_routers = $this->config('*', 'pagecache');
 			$cache_routers_keys = array_keys($cache_routers);
 			if(!Input::getInstance()->post() && in_array($uri->router, $cache_routers_keys)){
 				$filepath = APPLICATION_PATH.'runtimes/cache/pages/'.$uri->router;

@@ -147,7 +147,7 @@ class View extends FBase{
 		}
 		
 		//根据router设置缓存
-		$cache_routers = $this->config('*', 'cache');
+		$cache_routers = $this->config('*', 'pagecache');
 		$cache_routers_keys = array_keys($cache_routers);
 		if(in_array($uri->router, $cache_routers_keys)){
 			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));

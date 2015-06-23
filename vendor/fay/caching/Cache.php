@@ -173,8 +173,25 @@ abstract class Cache{
 		foreach ($keys as $key) {
 			$results[$key] = $this->getValue($key);
 		}
-	
+		
 		return $results;
+	}
+	
+	/**
+	 * 循环设置多个缓存，若缓存机制允许一次性写入多个值，请重写此方法
+	 * @param array $data
+	 * @param int $duration 缓存时间（单位：秒）
+	 * @return 设置缓存失败的项
+	 */
+	protected function setValues($data, $duration){
+		$failedKeys = array();
+		foreach($data as $key => $value) {
+			if($this->setValue($key, $value, $duration) === false){
+				$failedKeys[] = $key;
+			}
+		}
+		
+		return $failedKeys;
 	}
 	
 	/**

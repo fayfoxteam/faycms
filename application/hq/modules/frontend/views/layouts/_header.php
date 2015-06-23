@@ -52,7 +52,6 @@ use fay\helpers\Html;
             }
             echo '</li>';
             ?>
-            <li class="s">|</li>
             <li class="m">
                 <h3><a href="http://ypc.edu.cn" target="_blank">学院主页</a></h3>
             </li>

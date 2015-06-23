@@ -1,6 +1,9 @@
 <?php
 namespace fay\caching;
 
+/**
+ * 文件缓存
+ */
 class File extends Cache{
 	/**
 	 * 以某个几率自动删除过期的缓存文件（单位：%）
@@ -42,8 +45,7 @@ class File extends Cache{
 	}
 	
 	/**
-	 * 获取单个缓存
-	 * @param mix $key
+	 * @see \fay\caching\Cache::getValue()
 	 */
 	protected function getValue($key){
 		$file = $this->getCacheFile($this->buildKey($key));
@@ -60,10 +62,7 @@ class File extends Cache{
 	}
 	
 	/**
-	 * 设置单个缓存
-	 * @param mix $key
-	 * @param mix $value
-	 * @param int $duration 缓存过期时间（单位：秒）
+	 * @see \fay\caching\Cache::setValue()
 	 */
 	protected function setValue($key, $value, $duration){
 		$file = $this->getCacheFile($key);
@@ -85,8 +84,7 @@ class File extends Cache{
 	}
 	
 	/**
-	 * 删除单个缓存
-	 * @param mix $key
+	 * @see \fay\caching\Cache::deleteValue()
 	 */
 	protected function deleteValue($key){
 		$file = $this->getCacheFile($key);
@@ -95,8 +93,7 @@ class File extends Cache{
 	}
 	
 	/**
-	 * 清空部分或全部缓存
-	 * @param $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
+	 * @see \fay\caching\Cache::flushValues()
 	 */
 	protected function flushValues($prefix = null){
 		$this->gc(true, false, $prefix);

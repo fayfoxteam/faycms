@@ -8,7 +8,7 @@ CREATE TABLE `{{$prefix}}actionlogs` (
   `refer` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Refer',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'Ip Int',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}actions`;
 CREATE TABLE `{{$prefix}}actions` (
@@ -20,7 +20,7 @@ CREATE TABLE `{{$prefix}}actions` (
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
   PRIMARY KEY (`id`),
   KEY `router` (`router`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_caches`;
 CREATE TABLE `{{$prefix}}analyst_caches` (
@@ -34,7 +34,7 @@ CREATE TABLE `{{$prefix}}analyst_caches` (
   `new_visitors` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'New Visitors',
   `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Bounce Rate',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_macs`;
 CREATE TABLE `{{$prefix}}analyst_macs` (
@@ -61,7 +61,7 @@ CREATE TABLE `{{$prefix}}analyst_macs` (
   PRIMARY KEY (`id`),
   KEY `hash` (`hash`),
   KEY `date` (`create_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_sites`;
 CREATE TABLE `{{$prefix}}analyst_sites` (
@@ -70,7 +70,7 @@ CREATE TABLE `{{$prefix}}analyst_sites` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_visits`;
 CREATE TABLE `{{$prefix}}analyst_visits` (
@@ -93,7 +93,7 @@ CREATE TABLE `{{$prefix}}analyst_visits` (
   PRIMARY KEY (`id`),
   KEY `pv` (`mac`,`short_url`,`create_time`),
   KEY `date` (`create_date`,`hour`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}cat_prop_values`;
 CREATE TABLE `{{$prefix}}cat_prop_values` (
@@ -104,7 +104,7 @@ CREATE TABLE `{{$prefix}}cat_prop_values` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}cat_props`;
 CREATE TABLE `{{$prefix}}cat_props` (
@@ -118,7 +118,7 @@ CREATE TABLE `{{$prefix}}cat_props` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT 'Sort',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}categories`;
 CREATE TABLE `{{$prefix}}categories` (
@@ -139,7 +139,7 @@ CREATE TABLE `{{$prefix}}categories` (
   PRIMARY KEY (`id`),
   KEY `alias` (`alias`),
   KEY `left_right_value` (`left_value`,`right_value`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}cities`;
 CREATE TABLE `{{$prefix}}cities` (
@@ -150,7 +150,7 @@ CREATE TABLE `{{$prefix}}cities` (
   `abbr` varchar(30) NOT NULL DEFAULT '' COMMENT '缩写',
   `short` varchar(30) NOT NULL DEFAULT '' COMMENT '单个首字母',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}contacts`;
 CREATE TABLE `{{$prefix}}contacts` (
@@ -164,7 +164,7 @@ CREATE TABLE `{{$prefix}}contacts` (
   `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Status',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_answers`;
 CREATE TABLE `{{$prefix}}exam_answers` (
@@ -175,21 +175,21 @@ CREATE TABLE `{{$prefix}}exam_answers` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`),
   KEY `question` (`question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exam_question_answer_text`;
 CREATE TABLE `{{$prefix}}exam_exam_question_answer_text` (
   `exam_question_id` int(11) NOT NULL COMMENT 'Exam Question Id',
   `user_answer` text COMMENT 'User Answer',
   PRIMARY KEY (`exam_question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exam_question_answers_int`;
 CREATE TABLE `{{$prefix}}exam_exam_question_answers_int` (
   `exam_question_id` int(10) unsigned NOT NULL COMMENT 'Exam Question Id',
   `user_answer_id` mediumint(8) unsigned NOT NULL COMMENT 'User Answer Id',
   PRIMARY KEY (`exam_question_id`,`user_answer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exams`;
 CREATE TABLE `{{$prefix}}exam_exams` (
@@ -202,7 +202,7 @@ CREATE TABLE `{{$prefix}}exam_exams` (
   `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Total Score',
   `rand` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Rand',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exams_questions`;
 CREATE TABLE `{{$prefix}}exam_exams_questions` (
@@ -212,7 +212,7 @@ CREATE TABLE `{{$prefix}}exam_exams_questions` (
   `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Total Score',
   `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Score',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_paper_questions`;
 CREATE TABLE `{{$prefix}}exam_paper_questions` (
@@ -222,7 +222,7 @@ CREATE TABLE `{{$prefix}}exam_paper_questions` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`paper_id`,`question_id`),
   KEY `question` (`question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_papers`;
 CREATE TABLE `{{$prefix}}exam_papers` (
@@ -240,7 +240,7 @@ CREATE TABLE `{{$prefix}}exam_papers` (
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Modified Time',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_questions`;
 CREATE TABLE `{{$prefix}}exam_questions` (
@@ -255,7 +255,7 @@ CREATE TABLE `{{$prefix}}exam_questions` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}favourites`;
 CREATE TABLE `{{$prefix}}favourites` (
@@ -263,7 +263,7 @@ CREATE TABLE `{{$prefix}}favourites` (
   `post_id` int(10) unsigned NOT NULL COMMENT 'Post Id',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   PRIMARY KEY (`user_id`,`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}files`;
 CREATE TABLE `{{$prefix}}files` (
@@ -284,7 +284,7 @@ CREATE TABLE `{{$prefix}}files` (
   `qiniu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Qiniu',
   PRIMARY KEY (`id`),
   KEY `raw_name` (`raw_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}followers`;
 CREATE TABLE `{{$prefix}}followers` (
@@ -292,7 +292,7 @@ CREATE TABLE `{{$prefix}}followers` (
   `follower` int(10) unsigned NOT NULL COMMENT 'Follower',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   PRIMARY KEY (`user_id`,`follower`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods`;
 CREATE TABLE `{{$prefix}}goods` (
@@ -319,7 +319,7 @@ CREATE TABLE `{{$prefix}}goods` (
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_files`;
 CREATE TABLE `{{$prefix}}goods_files` (
@@ -330,7 +330,7 @@ CREATE TABLE `{{$prefix}}goods_files` (
   `position` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Position',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_prop_values`;
 CREATE TABLE `{{$prefix}}goods_prop_values` (
@@ -340,7 +340,7 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
   `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Value Id',
   `prop_value_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Prop Value Alias',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (
@@ -351,7 +351,7 @@ CREATE TABLE `{{$prefix}}goods_skus` (
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Quantity',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}item_prop_values`;
 CREATE TABLE `{{$prefix}}item_prop_values` (
@@ -364,7 +364,7 @@ CREATE TABLE `{{$prefix}}item_prop_values` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}item_props`;
 CREATE TABLE `{{$prefix}}item_props` (
@@ -382,7 +382,7 @@ CREATE TABLE `{{$prefix}}item_props` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `multi` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Multi',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}keywords`;
 CREATE TABLE `{{$prefix}}keywords` (
@@ -390,7 +390,7 @@ CREATE TABLE `{{$prefix}}keywords` (
   `keyword` varchar(50) NOT NULL DEFAULT '' COMMENT '关键词',
   `link` varchar(500) NOT NULL DEFAULT '' COMMENT '链接地址',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}likes`;
 CREATE TABLE `{{$prefix}}likes` (
@@ -398,7 +398,7 @@ CREATE TABLE `{{$prefix}}likes` (
   `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   PRIMARY KEY (`post_id`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}links`;
 CREATE TABLE `{{$prefix}}links` (
@@ -415,7 +415,7 @@ CREATE TABLE `{{$prefix}}links` (
   `logo` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Logo',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}logs`;
 CREATE TABLE `{{$prefix}}logs` (
@@ -430,7 +430,7 @@ CREATE TABLE `{{$prefix}}logs` (
   `user_agent` varchar(255) NOT NULL COMMENT 'User Agent',
   PRIMARY KEY (`id`),
   KEY `type` (`type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}menus`;
 CREATE TABLE `{{$prefix}}menus` (
@@ -448,7 +448,7 @@ CREATE TABLE `{{$prefix}}menus` (
   `target` varchar(30) NOT NULL DEFAULT '' COMMENT '打开方式',
   PRIMARY KEY (`id`),
   KEY `alias` (`alias`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}messages`;
 CREATE TABLE `{{$prefix}}messages` (
@@ -465,7 +465,7 @@ CREATE TABLE `{{$prefix}}messages` (
   `is_terminal` tinyint(1) NOT NULL DEFAULT '1' COMMENT '判断是否为叶子节点',
   PRIMARY KEY (`id`),
   KEY `root` (`root`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}notifications`;
 CREATE TABLE `{{$prefix}}notifications` (
@@ -479,12 +479,12 @@ CREATE TABLE `{{$prefix}}notifications` (
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
   `validity_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '有效期',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}options`;
 CREATE TABLE `{{$prefix}}options` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `option_name` varchar(255) NOT NULL COMMENT '参数名',
+  `option_name` varchar(200) NOT NULL COMMENT '参数名',
   `option_value` text NOT NULL COMMENT '参数值',
   `description` varchar(500) NOT NULL DEFAULT '' COMMENT 'Description',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
@@ -492,7 +492,7 @@ CREATE TABLE `{{$prefix}}options` (
   `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is System',
   PRIMARY KEY (`id`),
   UNIQUE KEY `option_name` (`option_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (
@@ -514,14 +514,14 @@ CREATE TABLE `{{$prefix}}pages` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}pages_categories`;
 CREATE TABLE `{{$prefix}}pages_categories` (
   `page_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Page Id',
   `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   PRIMARY KEY (`page_id`,`cat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_int`;
 CREATE TABLE `{{$prefix}}post_prop_int` (
@@ -529,7 +529,7 @@ CREATE TABLE `{{$prefix}}post_prop_int` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Content',
   PRIMARY KEY (`post_id`,`prop_id`,`content`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_text`;
 CREATE TABLE `{{$prefix}}post_prop_text` (
@@ -537,7 +537,7 @@ CREATE TABLE `{{$prefix}}post_prop_text` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` text NOT NULL COMMENT 'Content',
   PRIMARY KEY (`post_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_varchar`;
 CREATE TABLE `{{$prefix}}post_prop_varchar` (
@@ -545,7 +545,7 @@ CREATE TABLE `{{$prefix}}post_prop_varchar` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT 'Content',
   PRIMARY KEY (`post_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts`;
 CREATE TABLE `{{$prefix}}posts` (
@@ -576,14 +576,14 @@ CREATE TABLE `{{$prefix}}posts` (
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
   KEY `cat` (`cat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;
 CREATE TABLE `{{$prefix}}posts_categories` (
   `post_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   PRIMARY KEY (`post_id`,`cat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_files`;
 CREATE TABLE `{{$prefix}}posts_files` (
@@ -593,14 +593,14 @@ CREATE TABLE `{{$prefix}}posts_files` (
   `is_image` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否为图片',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`post_id`,`file_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_tags`;
 CREATE TABLE `{{$prefix}}posts_tags` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
   PRIMARY KEY (`post_id`,`tag_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}profile_int`;
 CREATE TABLE `{{$prefix}}profile_int` (
@@ -608,7 +608,7 @@ CREATE TABLE `{{$prefix}}profile_int` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Content',
   PRIMARY KEY (`user_id`,`prop_id`,`content`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}profile_text`;
 CREATE TABLE `{{$prefix}}profile_text` (
@@ -616,7 +616,7 @@ CREATE TABLE `{{$prefix}}profile_text` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` text NOT NULL COMMENT 'Content',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}profile_varchar`;
 CREATE TABLE `{{$prefix}}profile_varchar` (
@@ -624,7 +624,7 @@ CREATE TABLE `{{$prefix}}profile_varchar` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT 'Content',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}prop_values`;
 CREATE TABLE `{{$prefix}}prop_values` (
@@ -636,7 +636,7 @@ CREATE TABLE `{{$prefix}}prop_values` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}props`;
 CREATE TABLE `{{$prefix}}props` (
@@ -652,7 +652,7 @@ CREATE TABLE `{{$prefix}}props` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
 CREATE TABLE `{{$prefix}}regions` (
@@ -663,7 +663,7 @@ CREATE TABLE `{{$prefix}}regions` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `region_type` (`type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}roles`;
 CREATE TABLE `{{$prefix}}roles` (
@@ -673,21 +673,21 @@ CREATE TABLE `{{$prefix}}roles` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}roles_actions`;
 CREATE TABLE `{{$prefix}}roles_actions` (
   `role_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Role Id',
   `action_id` smallint(5) unsigned NOT NULL COMMENT 'Action Id',
   PRIMARY KEY (`role_id`,`action_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}roles_cats`;
 CREATE TABLE `{{$prefix}}roles_cats` (
   `role_id` mediumint(8) unsigned NOT NULL COMMENT 'Role Id',
   `cat_id` mediumint(8) unsigned NOT NULL COMMENT 'Cat Id',
   PRIMARY KEY (`role_id`,`cat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}spider_logs`;
 CREATE TABLE `{{$prefix}}spider_logs` (
@@ -698,7 +698,7 @@ CREATE TABLE `{{$prefix}}spider_logs` (
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT 'Url',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}tags`;
 CREATE TABLE `{{$prefix}}tags` (
@@ -710,7 +710,7 @@ CREATE TABLE `{{$prefix}}tags` (
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}templates`;
 CREATE TABLE `{{$prefix}}templates` (
@@ -724,7 +724,7 @@ CREATE TABLE `{{$prefix}}templates` (
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (
@@ -733,7 +733,7 @@ CREATE TABLE `{{$prefix}}user_settings` (
   `setting_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Setting Key',
   `setting_value` text NOT NULL COMMENT 'Setting Value',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users`;
 CREATE TABLE `{{$prefix}}users` (
@@ -767,7 +767,7 @@ CREATE TABLE `{{$prefix}}users` (
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '搜索关键词',
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users_notifications`;
 CREATE TABLE `{{$prefix}}users_notifications` (
@@ -780,7 +780,7 @@ CREATE TABLE `{{$prefix}}users_notifications` (
   `option` varchar(255) NOT NULL DEFAULT '' COMMENT '附加参数',
   PRIMARY KEY (`user_id`,`notification_id`),
   KEY `unread` (`user_id`,`read`,`deleted`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}vouchers`;
 CREATE TABLE `{{$prefix}}vouchers` (
@@ -796,7 +796,7 @@ CREATE TABLE `{{$prefix}}vouchers` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   `counts` smallint(5) NOT NULL DEFAULT '1' COMMENT '剩余次数',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}widgets`;
 CREATE TABLE `{{$prefix}}widgets` (
@@ -810,4 +810,4 @@ CREATE TABLE `{{$prefix}}widgets` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

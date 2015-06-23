@@ -14,8 +14,9 @@ class DbController extends InstallController{
 	
 	public function createTables(){
 		$prefix = $this->config->get('db.table_prefix');
+		$charset = $this->config->get('db.charset');
 		$sql = file_get_contents(__DIR__.'/../data/tables.sql');
-		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+		$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
 		$this->db->execute($sql);
 		
 		echo json_encode(array(

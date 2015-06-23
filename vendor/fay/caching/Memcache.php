@@ -38,6 +38,11 @@ class Memcache extends Cache{
 	public $_cache;
 	
 	/**
+	 * 作为缓存$key的分隔符。
+	 */
+	public $separator = '.';
+	
+	/**
 	 * memcache服务器列表
 	 */
 	public $_servers = array();

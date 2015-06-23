@@ -36,8 +36,13 @@ use fay\helpers\Html;
 							))?>
 						</div>
 					</td>
-					<td style="word-break:break-all;word-wrap:break-word;"><?php 
-						$data = F::cache()->get($key);
+					<td style="word-break:break-all;word-wrap:break-word;"><?php
+						$prefix = F::cache()->getDriver('memcache')->key_prefix;
+						if($prefix){
+							$separator = F::cache()->getDriver('memcache')->separator;
+							$key = substr($key, strlen($prefix . $separator));
+						}
+						$data = F::cache()->get($key, 'memcache');
 						if(is_array($data)){
 							echo json_encode($data);
 						}else{

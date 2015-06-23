@@ -276,5 +276,10 @@ class TestController extends AdminController{
 		dump(\F::cache()->delete('f', 'memcache'));
 		echo '批量获取缓存a, c, d, f, g';
 		dump(\F::cache()->mget(array('a', 'c', 'd', 'f', 'g'), 'memcache'));
+		
+// 		echo '清空缓存';
+// 		dump(\F::cache()->flush(null, 'memcache'));
+// 		echo '批量获取缓存a, c, d, f, g';
+// 		dump(\F::cache()->mget(array('a', 'c', 'd', 'f', 'g'), 'memcache'));
 	}
 }

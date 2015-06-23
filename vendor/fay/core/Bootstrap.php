@@ -41,6 +41,9 @@ class Bootstrap{
 				$cache_key = 'pages/' . $uri->router . '/' . $filename;
 				$content = \F::cache()->get($cache_key);
 				if($content){
+					if(\F::config()->get('debug')){
+						echo '来自缓存';
+					}
 					echo $content;
 					die;
 				}

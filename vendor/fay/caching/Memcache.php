@@ -207,7 +207,7 @@ class Memcache extends Cache{
 	 */
 	protected function setValues($data, $duration){
 		if($this->use_memcached){
-			$this->_cache->setMulti($data, $duration > 0 ? $duration + time() : 0);
+			$this->_cache->setMulti($data, $duration > 0 ? $duration + \F::app()->current_time : 0);
 			
 			return array();
 		}else{

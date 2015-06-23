@@ -250,4 +250,31 @@ class TestController extends AdminController{
 		echo 1000 * $simple_cost, '<br>';
 		echo '相差：', 1000 * ($simple_cost - $in_cost), 'ms';
 	}
+	
+	public function cache(){
+		//Memcache
+		echo '设置缓存a，永不过期';
+		dump(\F::cache()->set('a', 'b', 100, 'memcache'));
+		echo '读取缓存a';
+		dump(\F::cache()->get('a', 'memcache'));
+		
+		echo '设置缓存c，过期时间3秒';
+		dump(\F::cache()->set('c', 'b', 3, 'memcache'));
+		echo '获取缓存c';
+		dump(\F::cache()->get('c', 'memcache'));
+		
+		echo '批量设置缓存d, f';
+		dump(\F::cache()->mset(array(
+			'd'=>'e',
+			'f'=>'g',
+		), 0, 'memcache'));
+		echo '批量获取缓存d, f';
+		dump(\F::cache()->mget(array('d', 'f'), 'memcache'));
+		echo '删除缓存c';
+		dump(\F::cache()->delete('c', 'memcache'));
+		echo '删除缓存f';
+		dump(\F::cache()->delete('f', 'memcache'));
+		echo '批量获取缓存a, c, d, f, g';
+		dump(\F::cache()->mget(array('a', 'c', 'd', 'f', 'g'), 'memcache'));
+	}
 }

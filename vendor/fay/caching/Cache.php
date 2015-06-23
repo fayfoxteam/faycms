@@ -69,7 +69,7 @@ abstract class Cache{
 		foreach ($items as $key => $value) {
 			$key = $this->buildKey($key);
 			if(!empty($this->serializer[0])){
-				$data[$key] = $this->serializer[1]($value);
+				$data[$key] = $this->serializer[0]($value);
 			}else{
 				$data[$key] = $value;
 			}

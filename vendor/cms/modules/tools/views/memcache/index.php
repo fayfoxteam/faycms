@@ -5,7 +5,7 @@ use fay\helpers\Html;
 <?php foreach($slabs as $slabId => $slabMeta){
 	if(!is_int($slabId)) continue;
 	if($slabMeta['used_chunks'] == 0) continue;
-	$cdump = F::cache()->memcache()->getExtendedStats('cachedump', $slabId);
+	$cdump = F::cache()->getDriver('memcache')->_cache->getExtendedStats('cachedump', $slabId);
 	$first_cdump = array_shift($cdump);
 	?>
 	<div class="bd">

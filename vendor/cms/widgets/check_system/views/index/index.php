@@ -137,7 +137,10 @@
 						echo '<span class="fc-red">扩展未开启</span>';
 					}else{
 						$memcache = new Memcache();
-						$connect = @$memcache->connect(F::app()->config->get('memcache.host', 'memcache'), F::app()->config->get('memcache.port', 'memcache'));
+						$memcache_config = F::config()->getFile('memcache');
+						if($memcache_config){
+							$connect = @$memcache->connect($memcache_config[0]['host'], isset($memcache_config[0]['port']) ? $memcache_config[0]['port'] : 11211);
+						}
 						if($connect){
 							echo '版本:', $memcache->getVersion();
 						}else{

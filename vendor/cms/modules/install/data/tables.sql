@@ -801,7 +801,7 @@ CREATE TABLE `{{$prefix}}vouchers` (
 DROP TABLE IF EXISTS `{{$prefix}}widgets`;
 CREATE TABLE `{{$prefix}}widgets` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `alias` varchar(255) NOT NULL DEFAULT '' COMMENT '别名',
+  `alias` varchar(200) NOT NULL DEFAULT '' COMMENT '别名',
   `options` text NOT NULL COMMENT '实例参数',
   `widget_name` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具描述',

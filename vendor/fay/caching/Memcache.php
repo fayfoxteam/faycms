@@ -38,6 +38,11 @@ class Memcache extends Cache{
 	public $_cache;
 	
 	/**
+	 * 作为缓存$key的分隔符。
+	 */
+	public $separator = '.';
+	
+	/**
 	 * memcache服务器列表
 	 */
 	public $_servers = array();
@@ -207,7 +212,7 @@ class Memcache extends Cache{
 	 */
 	protected function setValues($data, $duration){
 		if($this->use_memcached){
-			$this->_cache->setMulti($data, $duration > 0 ? $duration + time() : 0);
+			$this->_cache->setMulti($data, $duration > 0 ? $duration + \F::app()->current_time : 0);
 			
 			return array();
 		}else{

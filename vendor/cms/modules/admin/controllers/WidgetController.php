@@ -170,6 +170,7 @@ class WidgetController extends AdminController{
 				'alias'=>$this->input->post('alias') ? $this->input->post('alias') : uniqid(),
 				'description'=>$this->input->post('description'),
 				'widgetarea'=>$this->input->post('widgetarea', 'trim'),
+				'options'=>'',
 			));
 			$this->actionlog(Actionlogs::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
 			

@@ -23,7 +23,7 @@ return array(
 		'password'=>'',							//密码
 		'port'=>3306,							//端口
 		'dbname'=>'fayfox_temp',				//数据库名
-		'charset'=>'utf8',						//数据库编码方式
+		'charset'=>'utf8',						//数据库编码方式（本产品不支持gb2312编码，但是可以选择utf8或者utf8mb4）
 		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),
 	

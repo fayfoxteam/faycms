@@ -12,14 +12,15 @@ a:hover, a:visited{ background: none;}
 .hesder-top span{text-align: center;width:17px;padding: 0 5px}
 .hesder-top span img{text-align: center;vertical-align: middle;}
 
-.navBar{margin:0 auto;height:50px;line-height:50px;background:#08A5E0;color:#333;}
+.navBar{margin:0 auto;height:40px;line-height:40px;background:#08A5E0;color:#333;}
 .nav{position:relative;width:980px;margin:0 auto;font-family:"Microsoft YaHei",SimSun,SimHei;font-size:14px;}
 .nav a{color:#fff;}
 .nav h3{font-size:100%;font-weight:normal;}
 .nav .m{float:left;position:relative;z-index:1;}
+.nav .m:hover { background: #0baeeb; }
 .nav .s{float:left;width:3px;text-align:center;color:#fff;font-size:12px;}
 .nav h3 a{display:block;width:115px;text-align:center;font-weight:bold;}
-.nav .sub{display:none;position:absolute;left:-3px;top:50px;z-index:1;width:117px;border:1px solid #E6E4E3;border-top:0;background:#fff;}
+.nav .sub{display:none;position:absolute;left:-3px;top:40px;z-index:1;width:117px;border:1px solid #E6E4E3;border-top:0;background:#fff;}
 .nav .sub li{ text-align:center; display: table; table-layout: fixed; width: 100%; }
 .nav .sub li a{display:table-cell; vertical-align: middle; border-bottom:1px solid #E6E4E3;padding:8px 0;height:28px;line-height:28px;color:#000;font-size:12px;font-weight:bold;}
 .nav .sub li a:hover{color:#FE7700;}
@@ -79,9 +80,16 @@ a:hover, a:visited{ background: none;}
 
 #content-bottom { width: 1100px; margin: 0 auto; height: 260px; }
 #content-bottom .left { width: 240px; float: left; background: #eee; border-radius: 4px; }
-#content-bottom .left .guide .content-header { border-top-left-radius: 4px; border-top-right-radius: 4px; margin-bottom: 10px; text-align: left; height: 20px; font-size: 16px; color: #fff; border-left: 4px solid #197abf; background: #197abf; line-height: 20px; padding-left: 10px; }
+#content-bottom .left .guide .content-header { border-top-left-radius: 4px; border-top-right-radius: 4px; margin-bottom: 10px; text-align: left;
+    height: 20px; font-size: 16px; color: #197abf; border-bottom: 2px solid #197abf; background: #fff; line-height: 20px; }
 #content-bottom .left .guide .content-box { height: 165px; padding: 10px; }
-#content-bottom .left .guide .content-box ul li { float: left; height: 27px; line-height: 27px; width: 100px; }
+#content-bottom .left .guide .content-box ul { width: 100%; }
+#content-bottom .left .guide .content-box ul:after { content: ''; display: table; clear: both; }
+#content-bottom .left .guide .content-box ul li { float: left; height: 40px; line-height: 40px; width: 100px; padding-left: 10px; }
+#content-bottom .left .guide .content-box ul li a { display: inline-block; height: 40px; line-height: 40px; position: relative; }
+#content-bottom .left .guide .content-box ul li img { width: 20px; height: 20px; position: absolute; top: 50%; margin-top: -10px; left: -20px; }
+#content-bottom .left .guide .content-box ul li img:after { content: ''; display: table; clear: both; }
+#content-bottom .left .guide .content-box ul li a:hover { margin-left: 4px; }
 #content-bottom .left .guide .content-bottom { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; height: 20px; font-size: 14px; color: #fff; background: #197abf;  line-height: 20px; }
 #content-bottom .center { width: 500px; float: left; margin: 0 10px; }
 #content-bottom .center .content-header { height: 16px; line-height: 16px; width: 380px; margin: 0 auto; text-align: left; color: #197abf; font-size: 16px; border-bottom: 2px solid #197abf; }

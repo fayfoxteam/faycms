@@ -55,26 +55,13 @@ use fay\helpers\Html;
             <li class="m">
                 <h3><a href="http://ypc.edu.cn" target="_blank">学院主页</a></h3>
             </li>
-            <li class="block" style="left:251px;"></li>
         </ul>
     </div>
 </div>
 
 <script type="text/javascript">
     $(function(){
-        var nav = $(".nav");
-        var init = $(".nav .m").eq(ind);
-        var block = $(".nav .block");
-        block.css({
-            "left": init.position().left - 3
-        });
-        nav.hover(function() {},
-            function() {
-                block.stop().animate({
-                        "left": init.position().left - 3
-                    },
-                    100);
-            });
+
         $(".nav").slide({
             type: "menu",
             titCell: ".m",
@@ -84,10 +71,7 @@ use fay\helpers\Html;
             returnDefault: true,
             defaultIndex: ind,
             startFun: function(i, c, s, tit) {
-                block.stop().animate({
-                        "left": tit.eq(i).position().left - 3
-                    },
-                    100);
+
             }
         });
     });

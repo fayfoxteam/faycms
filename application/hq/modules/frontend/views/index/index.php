@@ -53,12 +53,8 @@ $img_url = $this->staticFile('images');
             <div class="content-header">服务指南</div>
             <div class="content-box">
                 <ul>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />餐饮服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />餐饮服务</a></li>
                     <li><a href="">餐饮服务</a></li>
                     <li><a href="">餐饮服务</a></li>
                     <li><a href="">餐饮服务</a></li>

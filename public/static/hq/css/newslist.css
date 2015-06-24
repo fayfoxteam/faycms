@@ -8,8 +8,8 @@
 
 .gyah-minleft li:hover{background:url("../images/lxwmlibg_03.jpg") no-repeat;color:#fff}
 .gyah-minleft li a:hover{color:#fff}
-.gyah-minleft .gyah-libg{background:url("../images/lxwmlibg_03.jpg") no-repeat;color:#fff}
-.gyah-minleft li .gyah-litxt{color:#fff}
+.gyah-minleft li.li-active {background:url("../images/lxwmlibg_03.jpg") no-repeat;color:#fff}
+.gyah-minleft li a.active {color:#fff}
 
 .gyah-minright{width:918px;float:right; text-align:left;position:relative;overflow:hidden}
 .gyah-minrtop{border:1px solid #f4f5f6;padding:20px}

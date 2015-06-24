@@ -86,7 +86,7 @@ class Category extends Model{
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAll($parent = null, $fields = 'id,parent,alias,title,sort', $order = 'sort'){
+	public function getAll($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($parent === null){
 			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else if(is_numeric($parent)){
@@ -103,7 +103,7 @@ class Category extends Model{
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAllByAlias($alias = null, $fields = 'id,parent,alias,title,sort', $order = 'sort'){
+	public function getAllByAlias($alias = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($alias === null){
 			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else{
@@ -126,7 +126,7 @@ class Category extends Model{
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAllByParentId($id = 0, $fields = 'id,parent,alias,title,sort', $order = 'sort'){
+	public function getAllByParentId($id = 0, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($id == 0){
 			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else{

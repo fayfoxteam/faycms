@@ -1,4 +1,4 @@
-﻿body{background:#fff;color:#666666; background: url("../images/body_bg.jpg") no-repeat;}
+﻿body{background:#fff;color:#666666; background: url("../images/body_bg.jpg") repeat-x;}
 a{color:#000000;text-decoration:none;font-family: "微软雅黑"; border:none;}
 a:link{text-decoration:none;border:none;}
 a:hover{  text-decoration:none;border:none; color: #197abf;}
@@ -81,7 +81,7 @@ a:hover, a:visited{ background: none;}
 #content-bottom { width: 1100px; margin: 0 auto; height: 260px; }
 #content-bottom .left { width: 240px; float: left; background: #eee; border-radius: 4px; }
 #content-bottom .left .guide .content-header { border-top-left-radius: 4px; border-top-right-radius: 4px; margin-bottom: 10px; text-align: left;
-    height: 20px; font-size: 16px; color: #197abf; border-bottom: 2px solid #197abf; background: #fff; line-height: 20px; }
+    height: 16px; line-height: 16px; font-size: 16px; color: #197abf; border-bottom: 2px solid #197abf; background: #fff; }
 #content-bottom .left .guide .content-box { height: 165px; padding: 10px; }
 #content-bottom .left .guide .content-box ul { width: 100%; }
 #content-bottom .left .guide .content-box ul:after { content: ''; display: table; clear: both; }

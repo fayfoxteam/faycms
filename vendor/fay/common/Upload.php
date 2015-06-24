@@ -107,7 +107,7 @@ class Upload{
 		}else{
 			$destination = $this->upload_path.$this->file_name;
 		}
-		if( move_uploaded_file($file['tmp_name'], $destination)){
+		if(move_uploaded_file($file['tmp_name'], $destination)){
 			$data = array(
 				'file_name'=>$this->file_name,
 				'raw_name'=>str_replace($this->file_ext, '', $this->file_name),

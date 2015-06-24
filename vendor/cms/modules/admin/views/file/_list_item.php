@@ -91,7 +91,7 @@ $full_file_path = File::model()->getUrl($data);
 	<td><?php echo $data['file_type']?></td>
 	<?php }?>
 	<?php if(in_array('file_path', $cols)){?>
-	<td><?php echo $data['file_path']?></td>
+	<td><?php echo $data['file_path'], $data['raw_name'], $data['file_ext']?></td>
 	<?php }?>
 	<?php if(in_array('file_size', $cols)){?>
 	<td><?php echo number_format($data['file_size']/1024, 2, '.', ',')?>KB</td>

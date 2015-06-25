@@ -1,10 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-use fay\helpers\Html;
-
-class View extends FBase{
+class View{
 	/**
 	 * 用于试图层的数据
 	 * @var array
@@ -15,16 +12,16 @@ class View extends FBase{
 	private $_css = array();
 	
 	public function url($router = null, $params = array(), $url_rewrite = true){
-		$base_url = $this->config('base_url');
+		$base_url = \F::config()->get('base_url');
 		if(!$router){
 			return $base_url;
 		}else{
-			$default_module = $this->config('default_router.module');
+			$default_module = \F::config()->get('default_router.module');
 			if(strpos($router, $default_module . '/') === 0){
 				$router = substr($router, strlen($default_module) + 1);
 			}
-			$ext = $this->config('url_suffix');
-			$exts = $this->config('*', 'exts', 'merge_recursive');
+			$ext = \F::config()->get('url_suffix');
+			$exts = \F::config()->get('*', 'exts', 'merge_recursive');
 			foreach($exts as $key => $val){
 				foreach($val as $v){
 					if(preg_match('/^'.str_replace(array(
@@ -57,17 +54,8 @@ class View extends FBase{
 	}
 	
 	public function staticFile($uri){
-		$base_url = $this->config('base_url');
+		$base_url = \F::config()->get('base_url');
 		return $base_url . 'static/' . APPLICATION . '/' . $uri;
-	}
-	
-	/**
-	 * 用于输出文章内容等信息
-	 * @param string $input
-	 * @return string
-	 */
-	public function escape($input){
-		return Html::encode($input);
 	}
 	
 	/**
@@ -123,10 +111,13 @@ class View extends FBase{
 	 * @param array $layout_data 传递给模板的参数
 	 */
 	public function render($view = null, $layout = null, $return = false){
+		//hook
+		Hook::getInstance()->call('before_render');
+		
 		$uri = Uri::getInstance();
 		$content = $this->renderPartial($view, array(), -1, true);
 		
-		$module = isset($uri->module) ? $uri->module : $this->config('default_router.module');
+		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		if($layout !== false){
 			if($layout !== null){
 				//加载模板文件
@@ -154,29 +145,23 @@ class View extends FBase{
 		}
 		
 		//根据router设置缓存
-		$cache_routers = $this->config('*', 'cache');
+		$cache_routers = \F::config()->get('*', 'pagecache');
 		$cache_routers_keys = array_keys($cache_routers);
 		if(in_array($uri->router, $cache_routers_keys)){
 			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
-			$filepath = APPLICATION_PATH.'runtimes/cache/pages/'.$uri->router;
+			$cache_key = 'pages/' . $uri->router . '/' . $filename;
 			if(\F::input()->post()){
 				//有post数据的时候，是否更新页面
 				if(isset($cache_routers[$uri->router]['on_post'])){
 					if($cache_routers[$uri->router]['on_post'] == 'rebuild'){//刷新缓存
-						if(!is_dir($filepath)){
-							mkdir($filepath, 0770, true);
-						}
-						file_put_contents($filepath.'/'.$filename, $content);
+						\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
 					}else if($cache_routers[$uri->router]['on_post'] == 'remove'){//删除缓存
-						@unlink($filepath.'/'.$filename);
+						\F::cache()->delete($cache_key);
 					}
 				}
 			}else{
 				//没post数据的时候，直接重新生成页面缓存
-				if(!is_dir($filepath)){
-					mkdir($filepath, 0770, true);
-				}
-				file_put_contents($filepath.'/'.$filename, $content);
+				\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
 			}
 		}
 		
@@ -185,7 +170,7 @@ class View extends FBase{
 		}else{
 			echo $content;
 			//自动输出debug信息
-			if($this->config('debug')){
+			if(\F::config()->get('debug')){
 			    $this->renderPartial('common/_debug');
 			}
 			
@@ -201,9 +186,9 @@ class View extends FBase{
 	 * @param int $cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
 	 * @return string|NULL
 	 */
-	public function renderPartial($view = null, $view_data = array(), $cache = -1, $return = false){
+	public function renderPartial($view = null, $view_data = array(), $__cache = -1, $__return = false){
 		$uri = Uri::getInstance();
-		$module = isset($uri->module) ? $uri->module : $this->config('default_router.module');
+		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		//加载视图文件
 		if($view === null){
 			$view = strtolower($uri->action);
@@ -231,15 +216,15 @@ class View extends FBase{
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}
 		
-		if($cache >= 0){
+		if($__cache >= 0){
 			//从缓存获取
-			$filepath = APPLICATION_PATH.'runtimes/cache/partial';
-			$cache_file = $filepath . '/' . md5($view_relative_path);
-			if(file_exists($cache_file) && ($cache == 0 || filemtime($cache_file) + $cache > \F::app()->current_time)){
-				if($return){
-					return file_get_contents($cache_file);;
+			$cache_key = "partial/{$module}/{$controller}/{$action}";
+			$content = \F::cache()->get($cache_key);
+			if($content){
+				if($__return){
+					return $content;
 				}else{
-					readfile($cache_file);
+					echo $content;
 					return null;
 				}
 			}
@@ -266,15 +251,12 @@ class View extends FBase{
 			ob_end_clean();
 		}
 		
-		if($cache >= 0){
+		if($__cache >= 0){
 			//设置缓存
-			if(!is_dir($filepath)){
-				mkdir($filepath, 0770, true);
-			}
-			file_put_contents($cache_file, $content);
+			\F::cache()->set($cache_key, $content, $__cache);
 		}
 		
-		if($return){
+		if($__return){
 			return $content;
 		}else{
 			echo $content;

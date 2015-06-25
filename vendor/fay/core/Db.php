@@ -4,7 +4,7 @@ namespace fay\core;
 use fay\core\db\Intact;
 use fay\helpers\SqlHelper;
 
-class Db extends FBase{
+class Db{
 	private $_host;
 	private $_user;
 	private $_pwd;
@@ -43,7 +43,7 @@ class Db extends FBase{
 	 * 初始化
 	 */
 	public function init($config){
-		$db_config = $this->config('db');
+		$db_config = \F::config()->get('db');
 		$this->_host = isset($config['host']) ? $config['host'] : $db_config['host'];
 		$this->_user = isset($config['user']) ? $config['user'] : $db_config['user'];
  		$this->_pwd = isset($config['password']) ? $config['password'] : $db_config['password'];
@@ -51,7 +51,7 @@ class Db extends FBase{
 		$this->_dbname = isset($config['dbname']) ? $config['dbname'] : $db_config['dbname'];
 		$this->_charset = isset($config['charset']) ? $config['charset'] : $db_config['charset'];
 		$this->_table_prefix = isset($config['table_prefix']) ? $config['table_prefix'] : $db_config['table_prefix'];
-		$this->_debug = isset($config['debug']) ? $config['debug'] : $this->config('debug');
+		$this->_debug = isset($config['debug']) ? $config['debug'] : \F::config()->get('debug');
 		$this->getConn();
 	}
 	
@@ -151,22 +151,65 @@ class Db extends FBase{
 		return $sth->fetch($result_style);
 	}
 	
+	/**
+	 * 单条插入
+	 * @param string $table 表名
+	 * @param array $data 数据
+	 */
 	public function insert($table, $data){
 		$fields = array();
 		$pres = array();
 		$values = array();
 		foreach($data as $k => $v){
 			if($v === false)continue;
+			$fields[] = "`{$k}`";
 			if($v instanceof Intact){
-				$fields[] = "`{$k}`";
 				$pres[] = $v->get();
 			}else{
-				$fields[] = "`{$k}`";
 				$pres[] = '?';
 				$values[] = $v;
 			}
 		}
 		$sql = "INSERT INTO {$this->__get($table)} (".implode(',', $fields).') VALUES ('.implode(',', $pres).')';
+		return $this->execute($sql, $values);
+	}
+	
+	/**
+	 * 批量插入（要求二维数组所有数组项结构一致）
+	 * @param string $table 表名
+	 * @param array $data 插入数据
+	 */
+	public function batchInsert($table, $data){
+		$fields = array();
+		$pres = array();
+		$values = array();
+		$bulk = array();
+		//取第一项构造fields
+		$first_item = array_shift($data);
+		foreach($first_item as $k => $v){
+			if($v === false)continue;
+			$fields[] = "`{$k}`";
+			if($v instanceof Intact){
+				$pres[] = $v->get();
+			}else{
+				$pres[] = '?';
+				$values[] = $v;
+			}
+		}
+		$bulk[] = implode(',', $pres);
+		foreach($data as $item){
+			$pres = array();
+			foreach($item as $i){
+				if($i instanceof Intact){
+					$pres[] = $i->get();
+				}else{
+					$pres[] = '?';
+					$values[] = $i;
+				}
+			}
+			$bulk[] = implode(',', $pres);
+		}
+		$sql = "INSERT INTO {$this->__get($table)} (".implode(',', $fields).') VALUES ('.implode("),\n(", $bulk).')';
 		return $this->execute($sql, $values);
 	}
 	
@@ -294,6 +337,13 @@ class Db extends FBase{
 		);
 	}
 	
+	/**
+	 * 抛出一个错误异常
+	 * @param string $message
+	 * @param string $sql
+	 * @param array $params
+	 * @throws ErrorException
+	 */
 	public function error($message, $sql = '', $params = array()){
 		if(is_array($message)){
 			$message = implode(' - ', $message);
@@ -301,12 +351,39 @@ class Db extends FBase{
 		throw new ErrorException($message, $sql ? '<code>'.SqlHelper::nice($sql, $params).'</code>' : '');
 	}
 	
+	/**
+	 * 启动一个事务
+	 */
+	public function beginTransaction(){
+	    $this->_conn->beginTransaction();
+	}
+	
+	/**
+	 * 提交一个事务
+	 */
+	public function commit(){
+	    $this->_conn->commit();
+	}
+	
+	/**
+	 * 回滚一个事务 
+	 */
+	public function rollBack(){
+	    $this->_conn->rollBack();
+	}
+	
+	/**
+	 * 返回sql执行次数
+	 * @return number
+	 */
 	public function getCount(){
 		return self::$_count;
 	}
 	
 	private function logSql($sql, $params = array(), $time){
-		self::$_sqls[] = array($sql, $params, $time);
+		if($this->_debug){
+			self::$_sqls[] = array($sql, $params, $time);
+		}
 	}
 	
 	public function getSqlLogs(){

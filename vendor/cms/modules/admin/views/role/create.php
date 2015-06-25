@@ -35,84 +35,85 @@ $col_left_count = floor($action_cat_count / 2);
 	</div>
 </div>
 <div class="row">
-	<div class="col-6">
-		<div class="col-content">
-		<?php $i = 0;
-			foreach($actions as $cat_title => $action){
-				$i++;
-				if($i > $col_left_count)continue;
-		?>
-			<div class="box">
-				<div class="box-title">
-					<h4><input type="checkbox" class="select-all" title="全选" /><?php echo $cat_title?></h4>
+	<div class="col-12">
+		<div class="tabbable">
+			<ul class="nav-tabs">
+				<li class="active"><a href="#action-panel">访问权限</a></li>
+				<li><a href="#cats-panel">分类权限</a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="action-panel" class="tab-pane p5">
+					<?php $this->renderPartial('_action_panel', array(
+						'col_left_count'=>$col_left_count,
+					))?>
 				</div>
-				<div class="box-content">
-				<?php foreach($action as $a){?>
-					<span class="w200 ib" title="<?php echo $a['router']?>">
-						<?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
-							'label'=>$a['title'],
-							'parent'=>$a['parent'],
-						))?>
-					</span>
-				<?php }?>
-					<div class="clear"></div>
+				<div id="cats-panel" class="tab-pane p5">
+					<?php $this->renderPartial('_cat_panel', array(
+						'cats'=>$cats,
+					))?>
 				</div>
 			</div>
-		<?php }?>
-		</div>
-	</div>
-	<div class="col-6">
-		<div class="col-content">
-		<?php $i = 0;
-			foreach($actions as $cat_title => $action){
-				$i++;
-				if($i <= $col_left_count)continue;
-		?>
-			<div class="box">
-				<div class="box-title">
-					<h4><input type="checkbox" class="select-all" title="全选" /><?php echo $cat_title?></h4>
-				</div>
-				<div class="box-content">
-				<?php foreach($action as $a){?>
-					<span class="w200 ib" title="<?php echo $a['router']?>">
-						<?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
-							'label'=>$a['title'],
-							'parent'=>$a['parent'],
-						))?>
-					</span>
-				<?php }?>
-					<div class="clear"></div>
-				</div>
-			</div>
-		<?php }?>
 		</div>
 	</div>
 </div>
 <?php echo F::form()->close()?>
 <script>
-$(function(){
-	$(".select-all").change(function(){
-		if($(this).attr("checked")){
-			$(this).parent().parent().next(".box-content").find("input[type='checkbox']").attr("checked", "checked");
-		}else{
-			$(this).parent().parent().next(".box-content").find("input[type='checkbox']").attr("checked", false).attr("disabled", false);
-			$(this).parent().parent().next(".box-content").find("input[type='hidden']").remove();
-		}
-	});
-	//父节点必选
-	$("input[name='actions[]']").change(function(){
-		var $parent = $("input[type='checkbox'][name='actions[]'][value='"+$(this).attr("parent")+"']");
-		if($(this).attr("checked")){
-			$parent.attr("checked", "checked").attr("disabled", "disabled").change();
+var role = {
+	'events':function(){
+		$(".select-all").change(function(){
+			if($(this).attr("checked")){
+				$(this).parent().parent().next(".box-content").find("input[type='checkbox']").attr("checked", "checked");
+			}else{
+				$(this).parent().parent().next(".box-content").find("input[type='checkbox']").attr("checked", false).attr("disabled", false);
+				$(this).parent().parent().next(".box-content").find("input[type='hidden']").remove();
+			}
+		});
+		//父节点必选
+		$("input[name='actions[]']").change(function(){
+			var $parent = $("input[type='checkbox'][name='actions[]'][value='"+$(this).attr("parent")+"']");
+			if($(this).attr("checked")){
+				$parent.attr("checked", "checked").attr("disabled", "disabled").change();
+				if(!$parent.next("input[type='hidden']").length){
+					$parent.after('<input type="hidden" name="actions[]" value="'+$(this).attr("parent")+'" />');
+				}
+			}else{
+				if($("input[name='actions[]'][parent='"+$(this).attr("parent")+"']:checked").length == 0){
+					$parent.removeAttr("disabled");
+					$parent.next("input[type='hidden']").remove();
+				}
+			}
+		});
+
+		$(".tree-container").on('click', '.leaf-title.parent', function(){
+			$li = $(this).parent().parent();
+			if($li.hasClass("close")){
+				$li.children('ul').slideDown(function(){
+					$li.removeClass("close");
+				});
+			}else{
+				$li.children('ul').slideUp(function(){
+					$li.addClass("close");
+				});
+			}
+		}).on('click', '.select-all-children', function(){
+			$(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', 'checked');
+			return false;
+		});
+	},
+	'init':function(){
+		//初始化父级必选项
+		$("input[type='checkbox'][name='actions[]'][parent!=0]:checked").each(function(){
+			var $parent = $("input[type='checkbox'][name='actions[]'][value='"+$(this).attr("parent")+"']");
+			$parent.attr("checked", "checked").attr("disabled", "disabled");
 			if(!$parent.next("input[type='hidden']").length){
 				$parent.after('<input type="hidden" name="actions[]" value="'+$(this).attr("parent")+'" />');
 			}
-		}else{
-			if($("input[name='actions[]'][parent='"+$(this).attr("parent")+"']:checked").length == 0){
-				$parent.removeAttr("disabled");
-				$parent.next("input[type='hidden']").remove();
-			}
-		}
-	});
+		});
+		
+		this.events();
+	}
+};
+$(function(){
+	role.init();
 });
 </script>

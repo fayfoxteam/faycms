@@ -92,8 +92,8 @@ use fay\helpers\Html;
 	</div>
 </div>
 <div class="hide">
-	<div id="ddl-dialog" class="common-dialog">
-		<div class="common-dialog-content w650">
+	<div id="ddl-dialog" class="dialog">
+		<div class="dialog-content w650">
 			<h4></h4>
 			<div class="mb5">
 				<h3>Fields</h3>
@@ -121,8 +121,8 @@ use fay\helpers\Html;
 	</div>
 </div>
 <div class="hide">
-	<div id="data-transfer-dialog" class="common-dialog">
-		<div class="common-dialog-content w650">
+	<div id="data-transfer-dialog" class="dialog">
+		<div class="dialog-content w650">
 			<h4><span id="db-table-name"></span> (<span class="db-table-from"></span> &gt; <span class="db-table-to"></span>)</h4>
 			<form id="transfer-form">
 				<input type="hidden" name="from" />
@@ -165,15 +165,15 @@ var db_config = {
 };
 
 $(function(){
-	$(document).on('mouseenter', '.list-table tr', function(){
+	$(document).on('mouseenter', '.list-table tbody tr', function(){
 		var index = $(this).index();
 		$('.list-table').each(function(){
 			$(this).find('tbody tr:eq('+index+')').addClass('hover').siblings().removeClass('hover');
 		});
-	}).on('mouseleave', '.list-table tr', function (){
+	}).on('mouseleave', '.list-table tbody tr', function(){
 		var index = $(this).index();
-		$('.list-table tbody tr:eq('+index+')').each(function(){
-			$(this).removeClass('hover');
+		$('.list-table').each(function(){
+			$(this).find('tbody tr:eq('+index+')').removeClass('hover');
 		});
 	}).on('click', '#start-transfer', function(){
 		//数据迁移
@@ -204,7 +204,7 @@ $(function(){
 			$(".data-transfer").fancybox({
 				'padding':0,
 				'titleShow':false,
-				'centerOnScroll':true,
+				'centerOnScroll':false,
 				'hideOnOverlayClick':false,
 				'onStart':function(o){
 					if($(o).attr('data-db') == 'left'){
@@ -291,7 +291,7 @@ $(function(){
 			$(".show-ddl").fancybox({
 				'padding':0,
 				'titleShow':false,
-				'centerOnScroll':true,
+				'centerOnScroll':false,
 				'onStart':function(o){
 					$('#ddl-dialog h4').text($(o).attr('data-name'));
 				},

@@ -20,6 +20,9 @@ class FileController extends AdminController{
 		$this->layout->current_directory = 'file';
 	}
 	
+	/**
+	 * 不做限制，可以上传配置文件中允许的任何文件
+	 */
 	public function upload(){
 		set_time_limit(0);
 		
@@ -50,6 +53,42 @@ class FileController extends AdminController{
 			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
 		}else{
 			echo json_encode($result);
+		}
+	}
+	
+	/**
+	 * 此接口仅允许上传图片
+	 */
+	public function imgUpload(){
+		set_time_limit(0);
+		
+		$target = $this->input->get('t');
+		$type = 0;
+		//传入非指定target的话，清空这个值
+		if($target == 'posts'){
+			$type = Files::TYPE_POST;
+		}else if($target == 'pages'){
+			$type = Files::TYPE_PAGE;
+		}else if($target == 'goods'){
+			$type = Files::TYPE_GOODS;
+		}else if($target == 'cat'){
+			$type = Files::TYPE_CAT;
+		}else if($target == 'widget'){
+			$type = Files::TYPE_WIDGET;
+		}else if($target == 'avatar'){
+			$type = Files::TYPE_AVATAR;
+		}else if($target == 'exam'){
+			$type = Files::TYPE_EXAM;
+		}else{
+			$target = 'other';
+		}
+		
+		$private = !!$this->input->get('p');
+		$result = File::model()->upload($target, $type, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
+		if(!empty($result['src']) && $this->input->get('CKEditorFuncNum')){
+			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
+		}else{
+			echo "<script>alert('{$result[0]}');</script>";
 		}
 	}
 	

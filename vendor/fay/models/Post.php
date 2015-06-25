@@ -4,9 +4,9 @@ namespace fay\models;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\models\tables\Posts;
-use fay\models\tables\PostCategories;
+use fay\models\tables\PostsCategories;
 use fay\models\tables\Messages;
-use fay\models\tables\PostFiles;
+use fay\models\tables\PostsFiles;
 use fay\models\tables\Categories;
 use fay\models\tables\Props;
 use fay\models\tables\Favourites;
@@ -17,6 +17,7 @@ use fay\models\tables\PostPropVarchar;
 use fay\models\tables\PostPropText;
 use fay\helpers\String;
 use fay\core\Loader;
+use fay\models\tables\Users;
 
 class Post extends Model{
 	
@@ -34,7 +35,7 @@ class Post extends Model{
 	 */
 	public function getCats($id, $fields = 'id,title,alias'){
 		$sql = new Sql();
-		return $sql->from('post_categories', 'pc', '')
+		return $sql->from('posts_categories', 'pc', '')
 			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
 			->where("pc.post_id = {$id}")
 			->order('c.sort')
@@ -46,7 +47,7 @@ class Post extends Model{
 	 * @param int $id 文章ID
 	 */
 	public function getCatIds($id){
-		return PostCategories::model()->fetchCol('cat_id', "post_id = {$id}");
+		return PostsCategories::model()->fetchCol('cat_id', "post_id = {$id}");
 	}
 	
 	public function getCount($status = null){
@@ -87,7 +88,7 @@ class Post extends Model{
 			$sql->where(array(
 				'p.deleted = 0',
 				'p.publish_time < '.\F::app()->current_time,
-				'p.status = '.Posts::STATUS_PUBLISH,
+				'p.status = '.Posts::STATUS_PUBLISHED,
 			));
 		}
 		
@@ -135,7 +136,7 @@ class Post extends Model{
 		
 		//扩展分类
 		if(in_array('categories', $fields)){
-			$post['ext_cats'] = $sql->from('post_categories', 'pc', '')
+			$post['ext_cats'] = $sql->from('posts_categories', 'pc', '')
 				->joinLeft('categories', 'c', 'pc.cat_id = c.id', 'title,id')
 				->where('pc.post_id = '.$post['id'])
 				->fetchAll();
@@ -154,7 +155,7 @@ class Post extends Model{
 				->where(array(
 					'p.deleted = 0',
 					'p.publish_time < '.\F::app()->current_time,
-					'p.status = '.Posts::STATUS_PUBLISH,
+					'p.status = '.Posts::STATUS_PUBLISHED,
 					'p.cat_id = '.$post['cat_id'],
 					"p.publish_time >= {$post['publish_time']}",
 					"p.sort <= {$post['sort']}",
@@ -168,7 +169,7 @@ class Post extends Model{
 					->where(array(
 						'p.deleted = 0',
 						'p.publish_time < '.\F::app()->current_time,
-						'p.status = '.Posts::STATUS_PUBLISH,
+						'p.status = '.Posts::STATUS_PUBLISHED,
 						'p.cat_id = '.$post['cat_id'],
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
@@ -184,7 +185,7 @@ class Post extends Model{
 				->where(array(
 					'p.deleted = 0',
 					'p.publish_time < '.\F::app()->current_time,
-					'p.status = '.Posts::STATUS_PUBLISH,
+					'p.status = '.Posts::STATUS_PUBLISHED,
 					'p.cat_id = '.$post['cat_id'],
 					"p.publish_time <= {$post['publish_time']}",
 					"p.sort >= {$post['sort']}",
@@ -197,7 +198,7 @@ class Post extends Model{
 					->where(array(
 						'p.deleted = 0',
 						'p.publish_time < '.\F::app()->current_time,
-						'p.status = '.Posts::STATUS_PUBLISH,
+						'p.status = '.Posts::STATUS_PUBLISHED,
 						'p.cat_id = '.$post['cat_id'],
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
@@ -211,7 +212,7 @@ class Post extends Model{
 		
 		//files
 		if(in_array('files', $fields)){
-			$post['files'] = PostFiles::model()->fetchAll(array(
+			$post['files'] = PostsFiles::model()->fetchAll(array(
 				'post_id = ?'=>$id,
 			), 'file_id,description,is_image', 'sort');
 		}
@@ -319,11 +320,11 @@ class Post extends Model{
 	public function getByCatArray($cat, $limit = 10, $field = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$sql = new Sql();
 		$sql->from('posts', 'p', $field)
-			->joinLeft('post_categories', 'pc', 'p.id = pc.post_id')
+			->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
 			->where(array(
 				'deleted = 0',
 				'publish_time < '.\F::app()->current_time,
-				'status = '.Posts::STATUS_PUBLISH,
+				'status = '.Posts::STATUS_PUBLISHED,
 			))
 			->order($order)
 			->distinct(true);
@@ -501,8 +502,8 @@ class Post extends Model{
 		Posts::model()->delete('id = '.$post_id);
 		
 		//删除文章对应的附加信息
-		PostCategories::model()->delete('post_id = '.$post_id);
-		PostFiles::model()->delete('post_id = '.$post_id);
+		PostsCategories::model()->delete('post_id = '.$post_id);
+		PostsFiles::model()->delete('post_id = '.$post_id);
 		PostsTags::model()->delete('post_id = '.$post_id);
 		
 		//删除文章可能存在的自定义属性
@@ -552,7 +553,7 @@ class Post extends Model{
 			->where(array(
 				'p.deleted = 0',
 				'p.publish_time < '.\F::app()->current_time,
-				'p.status = '.Posts::STATUS_PUBLISH,
+				'p.status = '.Posts::STATUS_PUBLISHED,
 				'pi.content = '.$prop_value,
 			))
 			->joinLeft('post_prop_int', 'pi', array(
@@ -586,6 +587,254 @@ class Post extends Model{
 			return String::nl2p($post['content']);
 		}else{
 			return $post['content'];
+		}
+	}
+	
+	/**
+	 * 判断当前登录用户是否对该文章有编辑权限
+	 * @param int $post_id 文章ID
+	 * @param int $new_status 更新后的状态，不传则不做验证
+	 * @param int $new_cat_id 更新后的分类，不传则不做验证
+	 */
+	public static function checkEditPermission($post_id, $new_status = null, $new_cat_id = null){
+		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+			//后台用户
+			/**
+			 * 是否启用分类权限
+			 */
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			/**
+			 * 是否启用文章审核
+			 */
+			$post_review = is_bool(\F::app()->post_review) ? \F::app()->post_review : Option::get('system.post_review');
+			//没有编辑权限，直接返回错误
+			if(!\F::app()->checkPermission('admin/post/edit')){
+				return array(
+					'status'=>0,
+					'message'=>'您无文章编辑权限！',
+					'error_code'=>'permission-denied:no-edit-action-allowed',
+				);
+			}
+			
+			$post = Posts::model()->find($post_id, 'status,cat_id');
+			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可编辑
+			if($role_cats &&
+				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
+				return array(
+					'status'=>0,
+					'message'=>'您无权编辑该分类下的文章！',
+					'error_code'=>'permission-denied:category-denied',
+				);
+			}
+			
+			//文章分类被编辑，且当前用户不是超级管理员，且无权限对新分类进行编辑
+			if($new_cat_id &&
+				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				$role_cats &&
+				!in_array($new_cat_id, \F::session()->get('role_cats'))){
+				return array(
+					'status'=>0,
+					'message'=>'您无权将该文章设置为当前分类',
+					'error_code'=>'permission-denied:category-denied',
+				);
+			}
+			
+			//文章状态被编辑
+			if($new_status){
+				//若系统开启文章审核功能；且文章原状态不是“通过审核”，被修改为“通过审核”；且该用户无审核权限 - 报错
+				if($post_review &&
+					$post['status'] != Posts::STATUS_REVIEWED && $new_status == Posts::STATUS_REVIEWED &&
+					!\F::app()->checkPermission('admin/post/review')
+				){
+					return array(
+						'status'=>0,
+						'message'=>'您无权将该文章设置为“通过审核”状态',
+						'error_code'=>'permission-denied:status-denied',
+					);
+				}
+				//若系统开启文章审核功能；文章原状态不是“已发布”，被修改为“已发布”；且该用户无发布权限- 报错
+				if($post_review &&
+					$post['status'] != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED &&
+					!\F::app()->checkPermission('admin/post/publish')
+				){
+					return array(
+						'status'=>0,
+						'message'=>'您无权将该文章设置为“已发布”状态',
+						'error_code'=>'permission-denied:status-denied',
+					);
+				}
+			}
+			return array(
+				'status'=>1,
+			);
+		}else{
+			//前台用户，只要是自己的文章都能编辑
+			$post = Posts::model()->find($post_id, 'user_id');
+			if($post['user_id'] != \F::app()->current_user){
+				return array(
+					'status'=>0,
+					'message'=>'您无权编辑该文章！',
+					'error_code'=>'permission-denied',
+				);
+			}else{
+				return array(
+					'status'=>1,
+				);
+			}
+		}
+	}
+	
+	/**
+	 * 判断当前登录用户是否对该文章有删除权限
+	 * @param int $post_id 文章ID
+	 */
+	public static function checkDeletePermission($post_id){
+		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+			//后台用户
+			//没有删除权限，直接返回错误
+			if(!\F::app()->checkPermission('admin/post/delete')){
+				return array(
+					'status'=>0,
+					'message'=>'您无删除文章权限！',
+					'error_code'=>'permission-denied:no-delete-action-allowed',
+				);
+			}
+			$post = Posts::model()->find($post_id, 'status,cat_id');
+			
+			/**
+			 * 是否启用分类权限
+			 */
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可删除
+			if($role_cats &&
+				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
+				return array(
+					'status'=>0,
+					'message'=>'您无权删除该分类下的文章！',
+					'error_code'=>'permission-denied:category-denied',
+				);
+			}
+			return array(
+				'status'=>1,
+			);
+		}else{
+			//前台用户，只要是自己的文章都能删除
+			$post = Posts::model()->find($post_id, 'user_id');
+			if($post['user_id'] != \F::app()->current_user){
+				return array(
+					'status'=>0,
+					'message'=>'您无权删除该文章！',
+					'error_code'=>'permission-denied',
+				);
+			}else{
+				return array(
+					'status'=>1,
+				);
+			}
+		}
+	}
+	
+	/**
+	 * 判断当前登录用户是否对该文章有还原权限
+	 * @param int $post_id 文章ID
+	 */
+	public static function checkUndeletePermission($post_id){
+		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+			//后台用户
+			//没有还原权限，直接返回错误
+			if(!\F::app()->checkPermission('admin/post/undelete')){
+				return array(
+					'status'=>0,
+					'message'=>'您无删除文章权限！',
+					'error_code'=>'permission-denied:no-delete-action-allowed',
+				);
+			}
+			$post = Posts::model()->find($post_id, 'status,cat_id');
+			
+			/**
+			 * 是否启用分类权限
+			 */
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可还原
+			if($role_cats &&
+				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
+				return array(
+					'status'=>0,
+					'message'=>'您无权还原该分类下的文章！',
+					'error_code'=>'permission-denied:category-denied',
+				);
+			}
+			return array(
+				'status'=>1,
+			);
+		}else{
+			//前台用户，只要是自己的文章都能还原
+			$post = Posts::model()->find($post_id, 'user_id');
+			if($post['user_id'] != \F::app()->current_user){
+				return array(
+					'status'=>0,
+					'message'=>'您无权还原该文章！',
+					'error_code'=>'permission-denied',
+				);
+			}else{
+				return array(
+					'status'=>1,
+				);
+			}
+		}
+	}
+	
+	/**
+	 * 判断当前登录用户是否对该文章有永久删除权限
+	 * @param int $post_id 文章ID
+	 */
+	public static function checkRemovePermission($post_id){
+		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+			//后台用户
+			//没有永久删除权限，直接返回错误
+			if(!\F::app()->checkPermission('admin/post/remove')){
+				return array(
+					'status'=>0,
+					'message'=>'您无永久删除文章权限！',
+					'error_code'=>'permission-denied:no-delete-action-allowed',
+				);
+			}
+			$post = Posts::model()->find($post_id, 'status,cat_id');
+			
+			/**
+			 * 是否启用分类权限
+			 */
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可永久删除
+			if($role_cats &&
+				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
+				return array(
+					'status'=>0,
+					'message'=>'您无权永久删除该分类下的文章！',
+					'error_code'=>'permission-denied:category-denied',
+				);
+			}
+			return array(
+				'status'=>1,
+			);
+		}else{
+			//前台用户，只要是自己的文章都能永久删除
+			$post = Posts::model()->find($post_id, 'user_id');
+			if($post['user_id'] != \F::app()->current_user){
+				return array(
+					'status'=>0,
+					'message'=>'您无权永久删除该文章！',
+					'error_code'=>'permission-denied',
+				);
+			}else{
+				return array(
+					'status'=>1,
+				);
+			}
 		}
 	}
 }

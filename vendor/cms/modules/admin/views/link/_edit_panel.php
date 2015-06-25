@@ -6,14 +6,14 @@ use fay\helpers\Html;
 	<?php echo F::form()->inputText('title', array(
 		'class'=>'form-control mw400',
 	))?>
-	<p class="description">例如：百度</p>
+	<p class="description">例如：Faycms</p>
 </div>
 <div class="form-field">
 	<label class="title">网址<em class="required">*</em></label>
 	<?php echo F::form()->inputText('url', array(
 		'class'=>'form-control mw400',
 	))?>
-	<p class="description">例子：http://www.fayfox.com/ —— 不要忘了 http://</p>
+	<p class="description">例子：http://www.faycms.com/ —— 不要忘了 http://</p>
 </div>
 <div class="form-field">
 	<label class="title">描述</label>

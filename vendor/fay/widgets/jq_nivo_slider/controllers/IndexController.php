@@ -5,17 +5,17 @@ use fay\core\Widget;
 
 class IndexController extends Widget{
 	
-	public function index($data){
-		if(empty($data)){
-			$data = array();
+	public function index($config){
+		if(empty($config)){
+			$config = array();
 		}
-		empty($data['animSpeed']) && $data['animSpeed'] = 500;
-		empty($data['pauseTime']) && $data['pauseTime'] = 5000;
-		empty($data['effect']) && $data['effect'] = 'random';
-		empty($data['elementId']) && $data['elementId'] = 'slide';
-		isset($data['directionNav']) || $data['directionNav'] = '1';
+		empty($config['animSpeed']) && $config['animSpeed'] = 500;
+		empty($config['pauseTime']) && $config['pauseTime'] = 5000;
+		empty($config['effect']) && $config['effect'] = 'random';
+		empty($config['elementId']) && $config['elementId'] = 'slide';
+		isset($config['directionNav']) || $config['directionNav'] = '1';
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 }

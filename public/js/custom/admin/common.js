@@ -11,8 +11,15 @@ var common = {
 					system.getScript(system.url('js/jquery.poshytip.min.js'));
 				},
 				'showAllErrors':true,
-				'beforeSubmit':function(){
-					$('body').block();
+				'onAjaxEnd':function(obj, resp){
+					if(!resp.status){
+						$('body').unblock();
+					}
+				},
+				'beforeCheck':function(){
+					$('body').block({
+						'zindex':1300
+					});
 				},
 				'onError':function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
@@ -142,7 +149,11 @@ var common = {
 				}
 			});
 		});
-		//ajax删除消息提示
+		//跳转链接特殊处理
+		$('#faycms-messages-container').on('click', '.last a', function(){
+			window.location.href = $(this).attr('href');
+			return false;
+		});
 		$('#faycms-message').on('click', '.delete-message-link', function(){
 			var _this = $(this);
 			$.ajax({
@@ -357,7 +368,7 @@ var common = {
 					'itemSelector': 'div.box',
 					'dragSelector': 'h4',
 					'dragBetween': true,
-					'placeHolderTemplate': '<div class="box"></div>',
+					'placeHolderTemplate': '<div class="box holder"></div>',
 					'dragSelectorExclude': 'input,textarea,select,table,span,p',
 					'dragEnd':function(){
 						if(common.dragsortKey){
@@ -783,7 +794,7 @@ var common = {
 	'batch':function(){
 		//批量操作表单提交
 		$(document).on('change', '.batch-ids-all', function(){
-			$('.batch-ids,.batch-ids-all').attr('checked', !!$(this).attr('checked'));
+			$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
 		}).on('submit', '#batch-form', function(){
 			if($('[name="batch_action"]').val() == '' && $('[name="batch_action_2"]').val() == ''){
 				alert('请选择操作');
@@ -847,6 +858,14 @@ var common = {
 			});
 		});
 	},
+	'prettyPrint':function(){
+		if($('.prettyprint').length){
+			system.getScript(system.url('js/prettify.js'), function(){
+				prettyPrint();
+			});
+			system.getCss(system.url('css/debug.css'));
+		}
+	},
 	'init':function(){
 		this.fancybox();
 		this.menu();
@@ -866,5 +885,6 @@ var common = {
 		this.textAutosize();
 		this.dropdown();
 		this.notification();
+		this.prettyPrint();
 	}
 };

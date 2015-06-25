@@ -3,14 +3,9 @@ namespace fay\widgets\category_post\controllers;
 
 use fay\core\Widget;
 use fay\models\Category;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '分类文章';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '显示某个分类下的文章';
-	
 	public function index($data){
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
@@ -23,7 +18,7 @@ class AdminController extends Widget{
 		
 		//获取默认模版
 		if(empty($data['template'])){
-			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
+			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
 				'template'=>$data['template'],
 			), true);
@@ -39,10 +34,13 @@ class AdminController extends Widget{
 	public function onPost(){
 		$data = $this->form->getFilteredData();
 		$data['uri'] || $data['uri'] = empty($data['other_uri']) ? 'post/{$id}' : $data['other_uri'];
-		
+		//若模版与默认模版一致，不保存
+		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+			$data['template'] = '';
+		}
 		$this->saveData($data);
 		
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
 	public function rules(){
@@ -64,6 +62,7 @@ class AdminController extends Widget{
 			'subclassification'=>'intval',
 			'top'=>'intval',
 			'title'=>'trim',
+			'show_empty'=>'intval',
 			'number'=>'intval',
 			'uri'=>'trim',
 			'other_uri'=>'trim',

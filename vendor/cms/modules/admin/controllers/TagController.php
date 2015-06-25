@@ -9,6 +9,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class TagController extends AdminController{
 	public function __construct(){
@@ -74,7 +75,7 @@ class TagController extends AdminController{
 				$data = Tags::model()->setAttributes($this->input->post());
 				Tags::model()->update($data, array('id = ?'=>$tag_id));
 				$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
-				$this->flash->set('一个标签被编辑', 'success');
+				Flash::set('一个标签被编辑', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

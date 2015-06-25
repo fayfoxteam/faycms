@@ -92,7 +92,7 @@ class IndexController extends InstallController{
 				'status'=>Users::STATUS_VERIFIED,
 			));
 			
-			Option::set('sitename', $this->input->post('sitename'));
+			Option::set('site.sitename', $this->input->post('sitename'));
 			Response::redirect('a');
 		}
 		$this->view->render();

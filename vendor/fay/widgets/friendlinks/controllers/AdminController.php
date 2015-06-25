@@ -3,14 +3,9 @@ namespace fay\widgets\friendlinks\controllers;
 
 use fay\core\Widget;
 use fay\models\Category;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '友情链接';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '友情链接列表';
-	
 	public function index($data){
 		$root_node = Category::model()->getByAlias('_system_link', 'id');
 		$this->view->cats = array(
@@ -23,10 +18,11 @@ class AdminController extends Widget{
 		
 		//获取默认模版
 		if(empty($data['template'])){
-			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
+			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 		}
 		
 		$this->view->data = $data;
+		
 		$this->view->render();
 	}
 	
@@ -40,13 +36,37 @@ class AdminController extends Widget{
 		}else if($this->input->post('other_uri')){
 			$uri = $this->input->post('other_uri');
 		}
+		//若模版与默认模版一致，不保存
+		$template = $this->input->post('template');
+		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+			$template = '';
+		}
 		$this->saveData(array(
 			'title'=>$this->input->post('title', null, ''),
 			'number'=>$this->input->post('number', 'intval', 5),
 			'cat_id'=>$this->input->post('cat_id', 'intval', 0),
-			'template'=>$this->input->post('template'),
+			'template'=>$template,
 		));
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
+	public function rules(){
+		return array(
+			array('number', 'int', array('min'=>1, 'max'=>20)),
+		);
+	}
+	
+	public function labels(){
+		return array(
+			'number'=>'显示链接数',
+		);
+	}
+	
+	public function filters(){
+		return array(
+			'title'=>'',
+			'number'=>'intval',
+			'template'=>'trim',
+		);
+	}
 }

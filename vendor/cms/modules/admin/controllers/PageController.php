@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\Category;
 use fay\models\tables\Pages;
-use fay\models\tables\PageCategories;
+use fay\models\tables\PagesCategories;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
 use fay\core\Sql;
@@ -13,6 +13,7 @@ use fay\models\Page;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class PageController extends AdminController{
 	public $boxes = array(
@@ -51,9 +52,11 @@ class PageController extends AdminController{
 				$data['last_modified_time'] = 0;
 				$data['author'] = $this->current_user;
 				$page_id = Pages::model()->insert($data);
-				if(!empty($data['page_category'])){
-					foreach($data['page_category'] as $page_cat){
-						PageCategories::model()->insert(array(
+				
+				$page_category = $this->form()->getData('page_category');
+				if(!empty($page_category)){
+					foreach($page_category as $page_cat){
+						PagesCategories::model()->insert(array(
 							'page_id'=>$page_id,
 							'cat_id'=>$page_cat,
 						));
@@ -148,7 +151,7 @@ class PageController extends AdminController{
 			));
 		}
 		if($cat_id){
-			$sql->joinLeft('page_categories', 'pc', 'p.id = pc.page_id')
+			$sql->joinLeft('pages_categories', 'pc', 'p.id = pc.page_id')
 				->where(array(
 					'pc.cat_id = ?'=>$cat_id,
 				))
@@ -208,10 +211,12 @@ class PageController extends AdminController{
 				$data['last_modified_time'] = $this->current_time;
 				$result = Pages::model()->update($data, $page_id);
 				if(in_array('category', $enabled_boxes)){
-					PageCategories::model()->delete("page_id = {$page_id}");
-					if(!empty($data['page_category'])){
-						foreach($data['page_category'] as $page_cat){
-							PageCategories::model()->insert(array(
+					PagesCategories::model()->delete("page_id = {$page_id}");
+					
+					$page_category = $this->form()->getData('page_category');
+					if(!empty($page_category)){
+						foreach($page_category as $page_cat){
+							PagesCategories::model()->insert(array(
 								'page_id'=>$page_id,
 								'cat_id'=>$page_cat,
 							));
@@ -220,7 +225,7 @@ class PageController extends AdminController{
 				}
 				
 				$this->actionlog(Actionlogs::TYPE_PAGE, '编辑页面', $page_id);
-				$this->flash->set('一个页面被编辑', 'success');
+				Flash::set('一个页面被编辑', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -260,7 +265,7 @@ class PageController extends AdminController{
 	
 	public function remove(){
 		Pages::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
-		PageCategories::model()->delete(array('page_id = ?'=>$this->input->get('id', 'intval')));
+		PagesCategories::model()->delete(array('page_id = ?'=>$this->input->get('id', 'intval')));
 		$this->actionlog(Actionlogs::TYPE_PAGE, '将页面永久删除', $this->input->get('id', 'intval'));
 		
 		Response::output('success', array(

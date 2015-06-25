@@ -7,44 +7,44 @@ use fay\models\Option;
 		<div class="col-6">
 			<div class="form-field">
 				<label class="title">站点名称</label>
-				<?php echo Html::inputText('sitename', Option::get('sitename'), array(
+				<?php echo Html::inputText('sitename', Option::get('site.sitename'), array(
 					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">版权信息</label>
-				<?php echo Html::inputText('copyright', Option::get('copyright'), array(
+				<?php echo Html::inputText('copyright', Option::get('site.copyright'), array(
 					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">备案信息</label>
-				<?php echo Html::inputText('beian', Option::get('beian'), array(
+				<?php echo Html::inputText('beian', Option::get('site.beian'), array(
 					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">电话</label>
-				<?php echo Html::inputText('phone', Option::get('phone'), array(
+				<?php echo Html::inputText('phone', Option::get('site.phone'), array(
 					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">传真</label>
-				<?php echo Html::inputText('fax', Option::get('fax'), array(
+				<?php echo Html::inputText('fax', Option::get('site.fax'), array(
 					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">电子邮箱</label>
-				<?php echo Html::inputText('email', Option::get('email'), array(
+				<?php echo Html::inputText('email', Option::get('site.email'), array(
 					'class'=>'form-control',
 					'data-rule'=>'email',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">地址</label>
-				<?php echo Html::inputText('address', Option::get('address'), array(
+				<?php echo Html::inputText('address', Option::get('site.address'), array(
 					'class'=>'form-control',
 				))?>
 			</div>
@@ -52,19 +52,19 @@ use fay\models\Option;
 		<div class="col-6">
 			<div class="form-field">
 				<label class="title">首页Title</label>
-				<?php echo Html::inputText('seo_index_title', Option::get('seo_index_title'), array(
+				<?php echo Html::inputText('seo_index_title', Option::get('site.seo_index_title'), array(
 					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">首页Keywords</label>
-				<?php echo Html::textarea('seo_index_keywords', Option::get('seo_index_keywords'), array(
+				<?php echo Html::textarea('seo_index_keywords', Option::get('site.seo_index_keywords'), array(
 					'class'=>'form-control h90 autosize',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">首页Description</label>
-				<?php echo Html::textarea('seo_index_description', Option::get('seo_index_description'), array(
+				<?php echo Html::textarea('seo_index_description', Option::get('site.seo_index_description'), array(
 					'class'=>'form-control h90 autosize',
 				))?>
 			</div>

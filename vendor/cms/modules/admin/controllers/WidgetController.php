@@ -11,6 +11,7 @@ use fay\models\File;
 use fay\core\Response;
 use fay\models\Setting;
 use fay\core\HttpException;
+use fay\core\Loader;
 
 class WidgetController extends AdminController{
 	public function __construct(){
@@ -19,7 +20,7 @@ class WidgetController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '小工具';
+		$this->layout->subtitle = '所有小工具';
 		
 		$widget_instances = array();
 		
@@ -36,20 +37,33 @@ class WidgetController extends AdminController{
 		}
 		
 		$this->view->widgets = $widget_instances;
+
+		//小工具域列表
+		$widgetareas = $this->config->getFile('widgetareas');
+		$widgetareas_arr = array();
+		foreach($widgetareas as $wa){
+			$widgetareas_arr[$wa['alias']] = $wa['description'] . ' - ' . $wa['alias'];
+		}
+		$this->view->widgetareas = $widgetareas_arr;
 		
 		$this->view->render();
 	}
 	
 	public function edit(){
 		$this->layout->sublink = array(
-			'uri'=>array('admin/widget/instances'),
-			'text'=>'小工具',
+			'uri'=>array('admin/widgetarea/index'),
+			'text'=>'小工具域',
 		);
 		
 		$id = $this->input->get('id', 'intval');
 
 		$widget = Widgets::model()->find($id, 'widget_name');
 		$widget_obj = $this->widget->get($widget['widget_name'], true);
+		
+		if(file_exists($widget_obj->path . 'README.md')){
+			Loader::vendor('Markdown/markdown');
+			$this->layout->_help_contet = '<div class="text">' . Markdown(file_get_contents($widget_obj->path . 'README.md')) . '</div>';
+		}
 		
 		$this->form('widget')->setRules(array(
 			array('f_widget_alias', 'string', array('max'=>255,'format'=>'alias')),
@@ -72,6 +86,7 @@ class WidgetController extends AdminController{
 					'alias'=>$this->input->post('f_widget_alias'),
 					'description'=>$this->input->post('f_widget_description'),
 					'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
+					'widgetarea'=>$this->input->post('widgetarea', 'trim'),
 				), $id);
 				if(method_exists($widget_obj, 'onPost')){
 					$widget_obj->onPost();
@@ -92,6 +107,14 @@ class WidgetController extends AdminController{
 		
 		$this->view->widget_admin = $widget_admin;
 		$this->layout->subtitle = '编辑小工具  - '.$this->view->widget_admin->title;
+
+		//小工具域列表
+		$widgetareas = $this->config->getFile('widgetareas');
+		$widgetareas_arr = array();
+		foreach($widgetareas as $wa){
+			$widgetareas_arr[$wa['alias']] = $wa['description'] . ' - ' . $wa['alias'];
+		}
+		$this->view->widgetareas = $widgetareas_arr;
 		
 		$this->view->render();
 	}
@@ -146,6 +169,8 @@ class WidgetController extends AdminController{
 				'widget_name'=>$this->input->post('widget_name'),
 				'alias'=>$this->input->post('alias') ? $this->input->post('alias') : uniqid(),
 				'description'=>$this->input->post('description'),
+				'widgetarea'=>$this->input->post('widgetarea', 'trim'),
+				'options'=>'',
 			));
 			$this->actionlog(Actionlogs::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
 			

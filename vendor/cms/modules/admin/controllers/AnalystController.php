@@ -7,7 +7,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\AnalystSites;
 use fay\helpers\Date;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 use fay\core\Loader;
 
 class AnalystController extends AdminController{
@@ -56,7 +56,7 @@ class AnalystController extends AdminController{
 		}
 		if($this->input->get('ip')){
 			$sql->where(array(
-				'ip_int = ?'=>$this->input->get('ip', 'trim|RequestHelper::ip2int'),
+				'ip_int = ?'=>$this->input->get('ip', 'trim|Request::ip2int'),
 			));
 		}
 		if($this->input->get('site')){
@@ -128,7 +128,7 @@ class AnalystController extends AdminController{
 		}
 		if($this->input->get('ip')){
 			$sql->where(array(
-				'ip_int = ?'=>RequestHelper::ip2int($this->input->get('ip', 'trim')),
+				'ip_int = ?'=>Request::ip2int($this->input->get('ip', 'trim')),
 			));
 		}
 		if($this->input->get('site')){
@@ -209,7 +209,7 @@ class AnalystController extends AdminController{
 		}
 		if($this->input->get('ip')){
 			$sql->where(array(
-				'ip_int = ?'=>$this->input->get('ip', 'trim|RequestHelper::ip2int'),
+				'ip_int = ?'=>$this->input->get('ip', 'trim|Request::ip2int'),
 			));
 		}
 		if($this->input->get('site')){

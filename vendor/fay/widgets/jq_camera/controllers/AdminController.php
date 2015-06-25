@@ -2,14 +2,9 @@
 namespace fay\widgets\jq_camera\controllers;
 
 use fay\core\Widget;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '轮播图 - camera';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '轮播图 - jquery camera插件（自适应全屏轮播）';
-	
 	public function index($data){
 		$this->view->data = $data;
 		$this->view->render();
@@ -29,7 +24,7 @@ class AdminController extends Widget{
 			);
 		}
 		$this->saveData($data);
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
 	/**

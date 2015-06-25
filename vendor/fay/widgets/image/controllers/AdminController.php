@@ -2,14 +2,9 @@
 namespace fay\widgets\image\controllers;
 
 use fay\core\Widget;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '图片';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '显示一张图片，一般用于顶部banner图';
-	
 	public function index($data){
 		isset($data['file_id']) || $data['file_id'] = 0;
 		$this->view->data = $data;
@@ -21,7 +16,7 @@ class AdminController extends Widget{
 	 */
 	public function onPost(){
 		$this->saveData($this->form->getFilteredData());
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
 	/**

@@ -23,7 +23,7 @@ return array(
 		'password'=>'',							//密码
 		'port'=>3306,							//端口
 		'dbname'=>'fayfox_temp',				//数据库名
-		'charset'=>'utf8',						//数据库编码方式
+		'charset'=>'utf8',						//数据库编码方式（本产品不支持gb2312编码，但是可以选择utf8或者utf8mb4）
 		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),
 	
@@ -130,4 +130,10 @@ return array(
 	 * 若用到加密类，需要配置此key
 	 */
 	'encryption_key'=>'m3cQ3mFAuy6z7LF2',//加密用的密钥
+	
+	/*
+	 * 默认缓存方式
+	 * 若要禁用默认缓存，将这个值设为空即可
+	 */
+	'default_cache_driver'=>'file',
 );

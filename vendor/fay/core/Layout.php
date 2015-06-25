@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Layout extends FBase{
+class Layout{
 	/**
 	 * 用于layout的数据
 	 * @var array

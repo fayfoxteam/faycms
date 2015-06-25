@@ -7,6 +7,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class OptionController extends AdminController{
 	public function __construct(){
@@ -49,7 +50,7 @@ class OptionController extends AdminController{
 				$data = $this->form()->getFilteredData();
 				$data['last_modified_time'] = $this->current_time;
 				Options::model()->update($data, array('id = ?'=>$option_id));
-				$this->flash->set('一个参数被编辑', 'success');
+				Flash::set('一个参数被编辑', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -67,7 +68,7 @@ class OptionController extends AdminController{
 	}
 	
 	public function index(){
-		$this->flash->set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'attention');
 		$this->layout->subtitle = '添加参数';
 		
 		$this->_setListview();
@@ -118,6 +119,7 @@ class OptionController extends AdminController{
 		
 		$this->view->listview = new ListView($sql, array(
 			'page_size'=>15,
+			'empty_text'=>'<tr><td colspan="3" align="center">无相关记录！</td></tr>',
 		));
 	}
 }

@@ -1,12 +1,29 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 use fay\models\tables\Widgets;
 
-class Widget extends FBase{
+class Widget{
+	/**
+	 * 小工具名称（初始化时传入）
+	 */
 	public $name;
+	
+	/**
+	 * 小工具在项目中的路径（初始化时传入，带末尾斜杠）
+	 */
+	public $path;
+	
+	/**
+	 * 小工具标题（给用户看的描述），取README.md文件第一行作为标题
+	 */
+	public $title = '未命名小工具';
+	
+	/**
+	 * 小工具描述（给用户看的描述），取README.md文件第二行作为描述
+	 */
+	public $description = '暂无描述';
 	
 	/**
 	 * @var widget\View
@@ -60,10 +77,18 @@ class Widget extends FBase{
 	 */
 	public $current_time = 0;
 	
-	public function __construct($options = array()){
-		if(isset($options['name'])){
-			//传入的name可能包含了前缀的路径
-			$this->name = $options['name'];
+	public function __construct($name, $path){
+		//传入的name可能包含了前缀的路径
+		$this->name = $name;
+		
+		//widget在项目中的路径，获取README.md文件的时候方便点
+		$this->path = $path;
+		
+		if(strpos(get_class($this), 'controllers\AdminController') && file_exists($path . 'README.md')){
+			//后台调用的时候，会从README.md文件获取标题和描述信息
+			$readme = file($path . 'README.md');
+			$this->title = trim($readme[0], ' \t\n\r\0\x0B#');
+			$this->description = trim($readme[1]);
 		}
 		
 		include_once 'widget/View.php';
@@ -72,14 +97,13 @@ class Widget extends FBase{
 		$this->session = Session::getInstance();
 		$this->cache = Cache::getInstance();
 		$this->config = Config::getInstance();
-		$this->flash = new Flash();
 		$this->db = Db::getInstance();
 		$this->form = $this->form('widget');
 		
 		$this->current_time = \F::app()->current_time;
 		
 		//当前用户登陆IP
-		$this->ip = RequestHelper::getIP();
+		$this->ip = Request::getIP();
 		
 		$this->init();
 	}
@@ -112,11 +136,10 @@ class Widget extends FBase{
 	}
 	
 	/**
-	 * 获取一个表单实例，若不指定name，返回第一个被实例化的表单。
-	 * 	若没有表单被实例化，实例化一个default
-	 * @param null|string $name 默认为第一个被实例化的表单
+	 * 获取一个表单实例，若不指定name，返回后台小工具编辑表单。
+	 * @param null|string $name 默认为后台小工具编辑表单
 	 */
-	public function form($name = null){
+	public function form($name = 'widget'){
 		return \F::form($name);
 	}
 	

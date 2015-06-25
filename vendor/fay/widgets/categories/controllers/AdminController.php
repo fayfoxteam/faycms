@@ -3,14 +3,9 @@ namespace fay\widgets\categories\controllers;
 
 use fay\core\Widget;
 use fay\models\Category;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '分类目录';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '分类目录的列表';
-	
 	public function index($data){
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
@@ -23,7 +18,7 @@ class AdminController extends Widget{
 		
 		//获取默认模版
 		if(empty($data['template'])){
-			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
+			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
 				'template'=>$data['template'],
 			), true);
@@ -37,20 +32,42 @@ class AdminController extends Widget{
 	 * 当有post提交的时候，会自动调用此方法
 	 */
 	public function onPost(){
-		$uri = 'cat/{$id}';
-		if($this->input->post('uri')){
-			$uri = $this->input->post('uri');
-		}else if($this->input->post('other_uri')){
-			$uri = $this->input->post('other_uri');
+		$data = $this->form()->getFilteredData();
+		$data['uri'] || $data['uri'] = $this->input->post('other_uri');
+		
+		//若模版与默认模版一致，不保存
+		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+			$data['template'] = '';
 		}
-		$this->saveData(array(
-			'hierarchical'=>$this->input->post('hierarchical', 'intval', 0),
-			'top'=>$this->input->post('top', 'intval', 0),
-			'title'=>$this->input->post('title', null, ''),
-			'uri'=>$uri,
-			'template'=>$this->input->post('template'),
-		));
-		$this->flash->set('编辑成功', 'success');
+		
+		$this->saveData($data);
+		Flash::set('编辑成功', 'success');
 	}
 	
+	public function rules(){
+		return array(
+			array('hierarchical', 'range', array('range'=>array('0', '1'))),
+			array('top', 'int', array('min'=>0, 'max'=>16777215)),
+		);
+	}
+	
+	public function labels(){
+		return array(
+			'hierarchical'=>'是否体现层级关系',
+			'top'=>'顶级分类',
+			'title'=>'标题',
+			'uri'=>'链接格式',
+			'template'=>'渲染模版',
+		);
+	}
+	
+	public function filters(){
+		return array(
+			'hierarchical'=>'intval',
+			'top'=>'intval',
+			'title'=>'',
+			'uri'=>'trim',
+			'template'=>'trim',
+		);
+	}
 }

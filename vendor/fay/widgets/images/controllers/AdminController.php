@@ -2,18 +2,13 @@
 namespace fay\widgets\images\controllers;
 
 use fay\core\Widget;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '图集';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '仅显示一组图片，不自带任何js效果';
-	
 	public function index($data){
 		//获取默认模版
 		if(empty($data['template'])){
-			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
+			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
 				'template'=>$data['template'],
 			), true);
@@ -37,7 +32,7 @@ class AdminController extends Widget{
 			);
 		}
 		$this->saveData($data);
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

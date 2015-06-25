@@ -12,6 +12,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class PostPropController extends AdminController{
 	public function __construct(){
@@ -81,7 +82,7 @@ class PostPropController extends AdminController{
 				
 				Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
 				
-				$this->flash->set('文章分类属性编辑成功', 'success');
+				Flash::set('文章分类属性编辑成功', 'success');
 				$this->actionlog(Actionlogs::TYPE_POST_CAT, '编辑了文章分类属性信息', $prop_id);
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());

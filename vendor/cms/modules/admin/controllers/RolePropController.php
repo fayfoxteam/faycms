@@ -11,6 +11,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class RolePropController extends AdminController{
 	public function __construct(){
@@ -81,7 +82,7 @@ class RolePropController extends AdminController{
 					
 				Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
 				
-				$this->flash->set('角色属性编辑成功', 'success');
+				Flash::set('角色属性编辑成功', 'success');
 				$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());

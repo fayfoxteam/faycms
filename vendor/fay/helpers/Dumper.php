@@ -39,7 +39,7 @@ class Dumper{
                 break;
             case 'array':
                 if(empty($var)){
-                    self::$_output .= "<b>array</b>\n  <i><font color=\"#888a85\">empty</font></i>";
+                    self::$_output .= "<b>array</b>\n".str_repeat(' ', ($level + 1) * 4)."<i><font color=\"#888a85\">empty</font></i>";
                 }else{
                     $keys = array_keys($var);
                     $spaces = str_repeat(' ', ($level + 1) * 4);

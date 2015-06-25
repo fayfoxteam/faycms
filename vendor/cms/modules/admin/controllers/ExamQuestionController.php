@@ -10,7 +10,8 @@ use fay\helpers\Html;
 use fay\models\Category;
 use fay\models\tables\ExamAnswers;
 use fay\core\Response;
-use fay\models\tables\ExamExamQuestions;
+use fay\models\tables\ExamExamsQuestions;
+use fay\models\Flash;
 
 class ExamQuestionController extends AdminController{
 	public function __construct(){
@@ -294,7 +295,7 @@ class ExamQuestionController extends AdminController{
 				}
 				
 				$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一个试题', $id);
-				$this->flash->set('编辑成功', 'success');
+				Flash::set('编辑成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -311,9 +312,9 @@ class ExamQuestionController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_exam_question');
 		
 		//是否参与过考试
-		$this->view->is_examed = !!ExamExamQuestions::model()->fetchRow('question_id = '.$id);
+		$this->view->is_examed = !!ExamExamsQuestions::model()->fetchRow('question_id = '.$id);
 		if($this->view->is_examed){
-			$this->flash->set('已参与考试的试题不能改变试题类型且不可删除已被用户选过的选项', 'attention');
+			Flash::set('已参与考试的试题不能改变试题类型且不可删除已被用户选过的选项', 'attention');
 		}
 		
 		$this->view->render();

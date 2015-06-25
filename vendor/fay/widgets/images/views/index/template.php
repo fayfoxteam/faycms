@@ -12,7 +12,7 @@ use fay\models\File;
 			'width'=>false,
 			'height'=>false,
 			'alt'=>Html::encode($f['title']),
-		)), str_replace('{$base_url}', $this->config('base_url'), $f['link']), array(
+		)), str_replace('{$base_url}', \F::config()->get('base_url'), $f['link']), array(
 			'encode'=>false,
 			'title'=>Html::encode($f['title']),
 			'wrapper'=>'li',

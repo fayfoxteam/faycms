@@ -2,20 +2,12 @@
 use fay\helpers\Html;
 use fay\models\File;
 ?>
-<div class="box">
-	<div class="box-content">
-		<h3>提示：</h3>
-		<p>1、该widget调用了<code>jquery.camera.js</code>，侧边栏参数为插件配置参数，详细可自行查看插件官方文档。</p>
-		<p>2、该widget使用<code>$this-&gt;appendCss</code>引入css文件，故layout中必须有<code>echo $this-&gt;getCss()</code>语句用于输出css文件。</p>
-		<p>3、如果你看不懂上面两点在说什么，请改用images widget用于保存/编辑图片，自行选择轮播图插件。</p>
-	</div>
-</div>
 <div class="drag_drop_area" id="drag_drop_area">
 	<div class="drag_drop_inside">
 		<p class="drag_drop_info">将文件拖拽至此</p>
 		<p>或</p>
 		<p class="drag_drop_buttons">
-			<a class="plupload_browse_button btn-2" id="plupload_browse_button">选择文件</a>
+			<a class="plupload_browse_button btn btn-grey" id="plupload_browse_button">选择文件</a>
 		</p>
 	</div>
 </div>
@@ -38,11 +30,11 @@ use fay\models\File;
 			</span>
 			<div class="file-desc-container">
 				<?php echo Html::inputText("titles[{$d['file_id']}]", $d['title'], array(
-					'class'=>'photo-title mb5 full-width',
+					'class'=>'photo-title mb5 form-control',
 					'placeholder'=>'标题',
 				))?>
 				<?php echo Html::inputText("links[{$d['file_id']}]", $d['link'], array(
-					'class'=>'photo-link mb5 full-width',
+					'class'=>'photo-link mb5 form-control',
 					'placeholder'=>'链接地址',
 				))?>
 			</div>
@@ -97,8 +89,8 @@ var jq_camera = {
 							'<img src="', system.url('images/loading.gif'), '" />',
 						'</span>',
 						'<div class="file-desc-container">',
-							'<input type="text" class="photo-title mb5 full-width" placeholder="标题" value="', data.name, '" />',
-							'<input type="text" class="photo-link mb5 full-width" placeholder="链接地址" />',
+							'<input type="text" class="photo-title mb5 form-control" placeholder="标题" value="', data.name, '" />',
+							'<input type="text" class="photo-link mb5 form-control" placeholder="链接地址" />',
 						'</div>',
 						'<div class="clear"></div>',
 						'<div class="progress-bar">',

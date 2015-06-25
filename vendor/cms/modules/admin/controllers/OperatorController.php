@@ -16,6 +16,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
+use fay\models\Flash;
 
 class OperatorController extends AdminController{
 	public function __construct(){
@@ -170,13 +171,13 @@ class OperatorController extends AdminController{
 				));
 				
 				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $this->current_user);
-				$this->flash->set('修改成功', 'success');
+				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		
-		$this->view->user = User::model()->get($id);
+		$this->view->user = User::model()->get($id, 'users.*,props.*');
 		$this->form()->setData($this->view->user);
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
@@ -190,7 +191,7 @@ class OperatorController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id);
+			$this->view->user = User::model()->get($id, 'users.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

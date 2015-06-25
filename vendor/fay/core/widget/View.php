@@ -1,10 +1,7 @@
 <?php
 namespace fay\core\widget;
 
-use fay\core\FBase;
-use fay\helpers\Html;
-
-class View extends FBase{
+class View{
 	/**
 	 * 用于视图层的数据
 	 * @var array
@@ -25,20 +22,12 @@ class View extends FBase{
 	}
 	
 	/**
-	 * 用于输出文章内容等信息
-	 * @param string $input
-	 * @return string
-	 */
-	public function escape($input){
-		return Html::encode($input);
-	}
-	
-	/**
 	 * 向视图传递一堆参数
 	 * @param array $options
 	 */
 	public function assign($options){
 		$this->_view_data = array_merge($this->_view_data, $options);
+		return $this;
 	}
 	
 	public function getViewData(){

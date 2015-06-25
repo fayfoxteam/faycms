@@ -4,6 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Validator;
 use fay\helpers\Html;
+use fay\core\Loader;
 
 class TestController extends AdminController{
 	public function valid(){
@@ -64,7 +65,7 @@ class TestController extends AdminController{
 			if($valid === true){
 				pr($this->input->post());
 			}else{
-				//$this->flash->set(pr($valid, true, true));
+				//Flash::set(pr($valid, true, true));
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
@@ -216,5 +217,69 @@ class TestController extends AdminController{
 	public function debug(){
 		$this->layout_template = null;
 		$this->view->render();
+	}
+	
+	public function redis(){
+		Loader::vendor('predis/predis/lib/Predis/Autoloader');
+		\Predis\Autoloader::register();
+		
+		$client = new \Predis\Client('tcp://114.215.134.73:6379');
+		$client->set('foo', 'bar');
+		$value = $client->get('foo');
+		
+		var_dump(Users9::model());
+	}
+	
+	public function in(){
+		//$ids = array(10086,20000,130001,200133,349985,858372,1139822,2993814,3482713,3898234);
+		$ids = array(/* 10086,20000,130001,200133,349985,858372,1139822,2993814,3482713,3898234, */
+			30000,30001,30002,30003,30004,30005,30006,30007,30008,30009);
+		$start = microtime(true);
+		$posts = \fay\models\tables\Posts::model()->fetchAll('id IN ('.implode(',', $ids).')');
+		//\fay\core\Db::getInstance()->fetchAll('SELECT id,title FROM posts_0 WHERE id IN ('.implode(',', $ids).')');
+		$in_cost = microtime(true) - $start;
+		echo 1000 * $in_cost, '<br>';
+		unset($posts);
+		
+		$start = microtime(true);
+		foreach($ids as $id){
+			\fay\models\tables\Posts::model()->find($id);
+			//\fay\core\Db::getInstance()->fetchRow('SELECT id,title FROM posts_0 WHERE id = '.$id);
+		}
+		$simple_cost = microtime(true) - $start;
+		echo 1000 * $simple_cost, '<br>';
+		echo '相差：', 1000 * ($simple_cost - $in_cost), 'ms';
+	}
+	
+	public function cache(){
+		//Memcache
+		echo '设置缓存a，永不过期';
+		dump(\F::cache()->set('a', 'b', 100, 'memcache'));
+		echo '读取缓存a';
+		dump(\F::cache()->get('a', 'memcache'));
+		
+		echo '设置缓存c，过期时间3秒';
+		dump(\F::cache()->set('c', 'b', 3, 'memcache'));
+		echo '获取缓存c';
+		dump(\F::cache()->get('c', 'memcache'));
+		
+		echo '批量设置缓存d, f';
+		dump(\F::cache()->mset(array(
+			'd'=>'e',
+			'f'=>'g',
+		), 0, 'memcache'));
+		echo '批量获取缓存d, f';
+		dump(\F::cache()->mget(array('d', 'f'), 'memcache'));
+		echo '删除缓存c';
+		dump(\F::cache()->delete('c', 'memcache'));
+		echo '删除缓存f';
+		dump(\F::cache()->delete('f', 'memcache'));
+		echo '批量获取缓存a, c, d, f, g';
+		dump(\F::cache()->mget(array('a', 'c', 'd', 'f', 'g'), 'memcache'));
+		
+// 		echo '清空缓存';
+// 		dump(\F::cache()->flush(null, 'memcache'));
+// 		echo '批量获取缓存a, c, d, f, g';
+// 		dump(\F::cache()->mget(array('a', 'c', 'd', 'f', 'g'), 'memcache'));
 	}
 }

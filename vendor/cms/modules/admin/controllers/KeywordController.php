@@ -7,6 +7,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\Flash;
 
 class KeywordController extends AdminController{
 	public function __construct(){
@@ -57,7 +58,7 @@ class KeywordController extends AdminController{
 			if($this->form()->check()){
 				$data = Keywords::model()->setAttributes($this->input->post());
 				Keywords::model()->update($data, array('id = ?'=>$keyword_id));
-				$this->flash->set('一个关键词被编辑', 'success');
+				Flash::set('一个关键词被编辑', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

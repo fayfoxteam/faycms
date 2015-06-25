@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\Option;
 use fay\models\File;
+use fay\models\Flash;
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
-<title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
+<title><?php echo $subtitle?> | <?php echo Option::get('site.sitename')?>后台</title>
 </head>
 <body id="faycms">
 <div class="wrapper">
@@ -126,7 +127,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				</div>
 			</div>
 		</div>
-		<?php echo F::app()->flash->get();?>
+		<?php echo Flash::get();?>
 		<?php echo $content?>
 	</div>
 </div>

@@ -2,7 +2,7 @@
 namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
-use fay\helpers\RequestHelper;
+use fay\helpers\Request;
 use fay\core\Loader;
 
 class IndexController extends ToolsController{
@@ -14,7 +14,7 @@ class IndexController extends ToolsController{
 		$this->view->iplocation = new \IpLocation();
 		
 		//浏览器类型
-		$this->view->browser = RequestHelper::getBrowser();
+		$this->view->browser = Request::getBrowser();
 		
 		$this->view->render();
 	}

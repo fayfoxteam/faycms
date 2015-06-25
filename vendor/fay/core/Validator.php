@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Validator extends FBase{
+class Validator{
 	public static $map = array(
 		'email'=>'fay\validators\Email',
 		'string'=>'fay\validators\String',

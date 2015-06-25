@@ -6,6 +6,9 @@ use fay\models\File;
 use fay\models\Category;
 use fay\helpers\String;
 use fay\models\tables\Users;
+use fay\models\Menu;
+use fay\models\tables\Categories;
+use fay\models\tables\Menus;
 
 class ApplicationController extends ToolsController{
 	public function __construct(){
@@ -25,9 +28,9 @@ class ApplicationController extends ToolsController{
 	public function create(){
 		$this->layout->subtitle = '创建项目';
 		
-		$this->flash->set('此工具用于快速创建一个application项目', 'attention');
+		Flash::set('此工具用于快速创建一个application项目', 'attention');
 		if(!is_writable(BASEPATH.'..'.DS.'application')){
-			$this->flash->set('application目录不可写！用此功能创建项目，请确保系统对application目录拥有写权限。');
+			Flash::set('application目录不可写！用此功能创建项目，请确保系统对application目录拥有写权限。');
 		}
 		
 		if($this->input->post()){
@@ -87,9 +90,11 @@ class ApplicationController extends ToolsController{
 				$this->setCities($table_prefix);
 				$this->setRegions($table_prefix);
 				$this->setCats($table_prefix);
+				$this->setMenus($table_prefix);
 				$this->setActions($table_prefix);
 				$this->setSystem($table_prefix);
 				$this->indexCats();
+				$this->indexMenus();
 				
 				$salt = String::random('alnum', 5);
 				$password = $this->input->post('user_password');
@@ -150,6 +155,12 @@ class ApplicationController extends ToolsController{
 		$this->db->execute($sql);
 	}
 	
+	private function setMenus($prefix){
+		$sql = file_get_contents(__DIR__.'/../../install/data/menus.sql');
+		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+		$this->db->execute($sql);
+	}
+	
 	private function setActions($prefix){
 		$sql = file_get_contents(__DIR__.'/../../install/data/actions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
@@ -166,6 +177,17 @@ class ApplicationController extends ToolsController{
 	 * 对categories表进行索引
 	 */
 	private function indexCats(){
+		Category::model()->db = $this->db;
+		Categories::model()->db = $this->db;
 		Category::model()->buildIndex();
+	}
+	
+	/**
+	 * 对menus表进行索引
+	 */
+	private function indexMenus(){
+		Menu::model()->db = $this->db;
+		Menus::model()->db = $this->db;
+		Menu::model()->buildIndex();
 	}
 }

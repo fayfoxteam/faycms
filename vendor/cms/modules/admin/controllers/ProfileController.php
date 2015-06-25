@@ -8,6 +8,7 @@ use fay\models\tables\Actionlogs;
 use fay\models\User;
 use fay\models\Role;
 use fay\models\Prop;
+use fay\models\Flash;
 
 class ProfileController extends AdminController{
 	public function __construct(){
@@ -45,13 +46,13 @@ class ProfileController extends AdminController{
 				));
 				
 				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了个人信息', $this->current_user);
-				$this->flash->set('修改成功', 'success');
+				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		
-		$this->view->user = User::model()->get($this->current_user);
+		$this->view->user = User::model()->get($this->current_user, 'users.*,props.*');
 		$this->form()->setData($this->view->user);
 		
 		$this->view->role = Role::model()->get($this->view->user['role']);

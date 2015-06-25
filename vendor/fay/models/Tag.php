@@ -99,7 +99,7 @@ class Tag extends Model{
 				->where(array(
 					'pt.tag_id = '.$tag,
 					'p.deleted = 0',
-					'p.status = '.Posts::STATUS_PUBLISH,
+					'p.status = '.Posts::STATUS_PUBLISHED,
 				))
 				->fetchRow();
 			Tags::model()->update(array(

@@ -3,7 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\core\Sql;
-use fay\models\tables\PageCategories;
+use fay\models\tables\PagesCategories;
 use fay\models\tables\Pages;
 use fay\models\tables\Categories;
 
@@ -18,14 +18,14 @@ class Page extends Model{
 	
 	public function getPageCats($id, $fields = '*'){
 		$sql = new Sql();
-		return $sql->from('page_categories', 'pc', '')
+		return $sql->from('pages_categories', 'pc', '')
 			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
 			->where("pc.page_id = {$id}")
 			->fetchAll();
 	}
 	
 	public function getPageCatIds($id){
-		return PageCategories::model()->fetchCol('cat_id', "page_id = {$id}");
+		return PagesCategories::model()->fetchCol('cat_id', "page_id = {$id}");
 	}
 	
 	public static function getPageStatus($status, $delete){
@@ -33,7 +33,7 @@ class Page extends Model{
 			return '回收站';
 		}
 		switch ($status) {
-			case Pages::STATUS_PUBLISH:
+			case Pages::STATUS_PUBLISHED:
 				return '已发布';
 				break;
 			case Pages::STATUS_DRAFT:
@@ -71,10 +71,10 @@ class Page extends Model{
 		
 		$sql = new Sql();
 		$sql->from('pages', 'p', $field)
-			->joinLeft('page_categories', 'pc', 'p.id = pc.page_id')
+			->joinLeft('pages_categories', 'pc', 'p.id = pc.page_id')
 			->where(array(
 				'deleted = 0',
-				'status = '.Pages::STATUS_PUBLISH,
+				'status = '.Pages::STATUS_PUBLISHED,
 			))
 			->order('sort, id DESC')
 			->distinct(true)

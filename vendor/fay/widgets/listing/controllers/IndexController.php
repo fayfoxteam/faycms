@@ -5,8 +5,8 @@ use fay\core\Widget;
 
 class IndexController extends Widget{
 	
-	public function index($options){
-		$this->view->data = $options;
+	public function index($config){
+		$this->view->config = $config;
 		$this->view->render();
 	}
 }

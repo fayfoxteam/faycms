@@ -4,9 +4,14 @@ use fay\helpers\Html;
 <?php echo F::form('widget')->open()?>
 <div class="poststuff">
 	<div class="post-body">
-		<div class="post-body-content">
-			<?php echo $widget_admin->index($widget_data);?>
-		</div>
+		<div class="post-body-content"><?php
+		if(method_exists($widget_admin, 'index')){ 
+			echo $widget_admin->index($widget_data);
+		}else{?>
+			<div class="box">
+				<div class="box-content">该小工具无可配置项</div>
+			</div>
+		<?php }?></div>
 		<div class="postbox-container-1">
 			<div class="box">
 				<div class="box-title">
@@ -50,6 +55,13 @@ use fay\helpers\Html;
 							唯一的识别一个widget实例
 						</p>
 					</div>
+					<div class="form-field">
+						<label class="title">所属域</label>
+						<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
+							'class'=>'form-control',
+						))?>
+						<p class="fc-grey">小工具可以属于一个域，通过调用域来显示一组小工具</p>
+					</div>
 					<div class="form-field pb0">
 						<label class="title pb0">描述</label>
 						<?php echo Html::textarea('f_widget_description', $widget['description'], array(
@@ -67,6 +79,6 @@ use fay\helpers\Html;
 <?php echo F::form('widget')->close()?>
 <script>
 $(function(){
-	common.filebrowserImageUploadUrl = system.url("admin/file/upload", {'t':'widget-<?php echo $widget['alias']?>'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'widget-<?php echo $widget['alias']?>'});
 });
 </script>

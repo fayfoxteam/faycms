@@ -1,10 +1,9 @@
 <?php 
 namespace fay\common;
 
-use fay\core\FBase;
 use fay\models\File;
 
-class Upload extends FBase{
+class Upload{
 	private $upload_path;
 	private $allowed_types = array();
 	private $max_size;
@@ -80,33 +79,43 @@ class Upload extends FBase{
 			return false;
 		}
 		
-		if(!$this->isAllowedType($file['type'])){
-			$this->setErrorMsg('非法文件类型');
-			return false;
-		}
-		
 		if(!$this->isAllowedSize($file['size'])){
 			$this->setErrorMsg('文件过大');
 			return false;
 		}
-		$ext = File::getFileExt($file['name']);
-		$filename = File::getFilename($this->upload_path, $ext);
+		
+		$this->file_temp = $file['tmp_name'];
+		$this->file_size = $file['size'];
+		$this->_file_mime_type($file);
+		$this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
+		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
+		
+		$this->file_ext = File::getFileExt($file['name']);
+		//随机一个唯一文件名
+		$this->file_name = File::getFilename($this->upload_path, $this->file_ext);
+		//客户端文件名
+		$this->client_name = $file['name'];
+		
+		if(!$this->isAllowedType()){
+			$this->setErrorMsg('非法文件类型');
+			return false;
+		}
 		
 		//没开启URL重写的话，"./uploads/"这样的路径就不是public下了
 		if(defined('NO_REWRITE')){
-			$destination = './public/'.$this->upload_path.$filename;
+			$destination = './public/'.$this->upload_path.$this->file_name;
 		}else{
-			$destination = $this->upload_path.$filename;
+			$destination = $this->upload_path.$this->file_name;
 		}
-		if( move_uploaded_file($file['tmp_name'], $destination)){
+		if(move_uploaded_file($file['tmp_name'], $destination)){
 			$data = array(
-				'file_name'=>$filename,
-				'raw_name'=>str_replace($ext, '', $filename),
-				'file_ext'=>$ext,
+				'file_name'=>$this->file_name,
+				'raw_name'=>str_replace($this->file_ext, '', $this->file_name),
+				'file_ext'=>$this->file_ext,
 				'file_type'=>trim($file['type'], '"'),
 				'file_size'=>$file['size'],
 				'file_path'=>$this->upload_path,
-				'full_path'=>$this->upload_path . $filename,
+				'full_path'=>$this->upload_path . $this->file_name,
 				'client_name'=>$file['name'],
 			);
 			$data = array_merge($data, $this->setImgProperties($destination));
@@ -132,17 +141,14 @@ class Upload extends FBase{
 	 * @param mix $types
 	 */
 	private function setAllowedTypes($types){
-		if(!is_array($types) && $types == '*'){
-			$this->allowed_types = '*';
+		if(is_array($types) || $types === '*'){
+			$this->allowed_types = $types;
 		}else{
-			$allowed_types_array = explode('|', $types);
-			$mimes = \F::app()->config->get('*', 'mimes');
-			foreach($allowed_types_array as $type){
-				if(is_array( $mimes[$type] )){
-					$this->allowed_types = array_merge($this->allowed_types, $mimes[$type]);
-				}else{
-					$this->allowed_types[] = $mimes[$type];
-				}
+			$types = explode('|', $types);
+			if(is_array($types)){
+				$this->allowed_types = $types;
+			}else{
+				$this->allowed_types = array();
 			}
 		}
 	}
@@ -151,12 +157,28 @@ class Upload extends FBase{
 	 * 判断上传的文件是否是允许的文件类型
 	 * @param string $type
 	 */
-	private function isAllowedType($type){
+	private function isAllowedType(){
+		$ext = strtolower(ltrim($this->file_ext, '.'));
+		
+		//任何情况下不允许直接上传php文件
+		if($ext == 'php'){
+			return false;
+		}
+		
 		if($this->allowed_types == '*'){
 			return true;
-		}else{
-			return in_array($type, $this->allowed_types);
 		}
+		
+		if (!in_array($ext, $this->allowed_types)){
+			return false;
+		}
+		
+		if(in_array($ext, array('gif', 'jpg', 'jpeg', 'jpe', 'png'), true) && @getimagesize($this->file_temp) === false){
+			return false;
+		}
+		
+		//不做mime type类型验证，因为无法确保能真的获取到
+		return true;
 	}
 	
 	/**
@@ -201,5 +223,124 @@ class Upload extends FBase{
 				'is_image'=>false,
 			);
 		}
+	}
+
+	/**
+	 * 从CI上抄来的，效果也不太好，依旧不一定能获取到文件的mime type
+	 * File MIME type
+	 *
+	 * Detects the (actual) MIME type of the uploaded file, if possible.
+	 * The input array is expected to be $_FILES[$field]
+	 *
+	 * @param	array	$file
+	 * @return	void
+	 */
+	protected function _file_mime_type($file)
+	{
+		// We'll need this to validate the MIME info string (e.g. text/plain; charset=us-ascii)
+		$regexp = '/^([a-z\-]+\/[a-z0-9\-\.\+]+)(;\s.+)?$/';
+
+		/* Fileinfo extension - most reliable method
+		 *
+		 * Unfortunately, prior to PHP 5.3 - it's only available as a PECL extension and the
+		 * more convenient FILEINFO_MIME_TYPE flag doesn't exist.
+		 */
+		if (function_exists('finfo_file'))
+		{
+			$finfo = @finfo_open(FILEINFO_MIME);
+			if (is_resource($finfo)) // It is possible that a FALSE value is returned, if there is no magic MIME database file found on the system
+			{
+				$mime = @finfo_file($finfo, $file['tmp_name']);
+				finfo_close($finfo);
+
+				/* According to the comments section of the PHP manual page,
+				 * it is possible that this function returns an empty string
+				 * for some files (e.g. if they don't exist in the magic MIME database)
+				 */
+				if (is_string($mime) && preg_match($regexp, $mime, $matches))
+				{
+					$this->file_type = $matches[1];
+					return;
+				}
+			}
+		}
+
+		/* This is an ugly hack, but UNIX-type systems provide a "native" way to detect the file type,
+		 * which is still more secure than depending on the value of $_FILES[$field]['type'], and as it
+		 * was reported in issue #750 (https://github.com/EllisLab/CodeIgniter/issues/750) - it's better
+		 * than mime_content_type() as well, hence the attempts to try calling the command line with
+		 * three different functions.
+		 *
+		 * Notes:
+		 *	- the DIRECTORY_SEPARATOR comparison ensures that we're not on a Windows system
+		 *	- many system admins would disable the exec(), shell_exec(), popen() and similar functions
+		 *	  due to security concerns, hence the function_usable() checks
+		 */
+		if (DIRECTORY_SEPARATOR !== '\\')
+		{
+			$cmd = function_exists('escapeshellarg')
+				? 'file --brief --mime '.escapeshellarg($file['tmp_name']).' 2>&1'
+				: 'file --brief --mime '.$file['tmp_name'].' 2>&1';
+
+			if (function_usable('exec'))
+			{
+				/* This might look confusing, as $mime is being populated with all of the output when set in the second parameter.
+				 * However, we only need the last line, which is the actual return value of exec(), and as such - it overwrites
+				 * anything that could already be set for $mime previously. This effectively makes the second parameter a dummy
+				 * value, which is only put to allow us to get the return status code.
+				 */
+				$mime = @exec($cmd, $mime, $return_status);
+				if ($return_status === 0 && is_string($mime) && preg_match($regexp, $mime, $matches))
+				{
+					$this->file_type = $matches[1];
+					return;
+				}
+			}
+
+			if ( ! ini_get('safe_mode') && function_usable('shell_exec'))
+			{
+				$mime = @shell_exec($cmd);
+				if (strlen($mime) > 0)
+				{
+					$mime = explode("\n", trim($mime));
+					if (preg_match($regexp, $mime[(count($mime) - 1)], $matches))
+					{
+						$this->file_type = $matches[1];
+						return;
+					}
+				}
+			}
+
+			if (function_usable('popen'))
+			{
+				$proc = @popen($cmd, 'r');
+				if (is_resource($proc))
+				{
+					$mime = @fread($proc, 512);
+					@pclose($proc);
+					if ($mime !== FALSE)
+					{
+						$mime = explode("\n", trim($mime));
+						if (preg_match($regexp, $mime[(count($mime) - 1)], $matches))
+						{
+							$this->file_type = $matches[1];
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		// Fall back to the deprecated mime_content_type(), if available (still better than $_FILES[$field]['type'])
+		if (function_exists('mime_content_type'))
+		{
+			$this->file_type = @mime_content_type($file['tmp_name']);
+			if (strlen($this->file_type) > 0) // It's possible that mime_content_type() returns FALSE or an empty string
+			{
+				return;
+			}
+		}
+
+		$this->file_type = $file['type'];
 	}
 }

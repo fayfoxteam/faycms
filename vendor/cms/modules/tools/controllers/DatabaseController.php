@@ -35,8 +35,6 @@ class DatabaseController extends ToolsController{
 	}
 	
 	public function dd(){
-		$this->layout->subtitle = 'Data Dictionary';
-		
 		$this->view->tables = $this->db->fetchAll('SHOW TABLES');
 		$this->view->prefix = $this->config->get('db.table_prefix');
 		
@@ -58,6 +56,7 @@ class DatabaseController extends ToolsController{
 			$class_name = 'fay\models\tables\\'.String::underscore2case($t_name);
 		}
 		
+		$this->layout->subtitle = 'Data Dictionary - '.$t_name;
 		$this->view->current_table = $t_name;
 		
 		$this->view->labels = \F::model($class_name)->labels();
@@ -165,14 +164,35 @@ class DatabaseController extends ToolsController{
 				continue;
 			}
 			
+			//加载model，从model中获取label作为备注
+			$t_name = preg_replace("/^{$prefix}(.*)/", '$1', $table_name, 1);
+			$class_name = 'fay\models\tables\\'.String::underscore2case($t_name);
+			$labels = \F::model($class_name)->labels();
+			
 			$sql = "SHOW CREATE TABLE {$table_name}";
 			$ddl = $this->db->fetchRow($sql);
 			$ddl = $ddl['Create Table'];
+			
+			$ddl_arr = explode("\n", $ddl);
+			foreach($ddl_arr as &$f){
+				preg_match('/^  `(\w+)`.*/', $f, $match);
+				if($match && isset($labels[$match[1]])){
+					if(preg_match("/ COMMENT '.+'/", $f)){
+						//原来就有注释，替换为model中的label作为注释
+						$f = preg_replace("/ COMMENT '.+'/", " COMMENT '{$labels[$match[1]]}'", $f);
+					}else{
+						//原来没有注释，加上注释
+						$f = preg_replace("/,$/", " COMMENT '{$labels[$match[1]]}',", $f);
+					}
+				}
+			}
+			$ddl = implode("\n", $ddl_arr);
+			
 			$ddl = 'DROP TABLE IF EXISTS `'.str_replace($this->config->get('db.table_prefix'), '{{$prefix}}', $table_name).'`;'."\n".$ddl;
 			
 			$ddl = str_replace('CREATE TABLE `'.$this->config->get('db.table_prefix'), 'CREATE TABLE `{{$prefix}}', $ddl);
-			$ddl = preg_replace('/AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
-			$ddl = preg_replace("/ COMMENT '.+'/", '', $ddl);//删除注释
+			$ddl = preg_replace('/ AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
+			//$ddl = preg_replace("/ COMMENT '.+'/", '', $ddl);//删除注释
 			$ddls[] = $ddl.';';
 		}
 		
@@ -255,7 +275,7 @@ class DatabaseController extends ToolsController{
 			$this->db->execute($sql);
 		}
 
-		$this->flash->set('It will replace {{$time}} to current timestamp and {{$prefix}} to table prefix set in system config.', 'attention');
+		Flash::set('It will replace {{$time}} to current timestamp and {{$prefix}} to table prefix set in system config.', 'attention');
 		
 		$this->view->render();
 	}

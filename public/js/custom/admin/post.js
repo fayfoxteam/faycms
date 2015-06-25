@@ -1,5 +1,6 @@
 var post = {
 	'boxes':[],
+	'roleCats':null,
 	'thumbnail':function(){
 		//设置缩略图
 		var uploader = new plupload.Uploader({
@@ -173,7 +174,12 @@ var post = {
 			}
 			//更新附加分类
 			if($('#box-category').length){
-				$('#box-category').find('input').attr('disabled', false);
+				$('#box-category').find('input').each(function(){
+					//标有data-disabled的为权限不允许编辑的分类
+					if(!$(this).attr('data-disabled')){
+						$(this).attr('disabled', false);
+					}
+				});
 				$('#box-category').find('[name="post_category[]"][value="'+$(this).val()+'"]').attr({
 					'checked':'checked',
 					'disabled':'disabed'
@@ -181,6 +187,17 @@ var post = {
 			}
 		}).on('click', '#remove-thumbnail', function(){
 			$('#thumbnail-preview-container').html('<input type="hidden" name="thumbnail" value="0" />');
+		});
+		$('#box-operation').on('click', '#edit-status-link', function(){
+			$('#edit-status-container').show();
+		}).on('click', '#set-status-editing', function(){
+			var status = $('#edit-status-selector').val();
+			var status_text = $('#edit-status-selector').find('[value="'+status+'"]').text();
+			$('input[name="status"]').val(status);
+			$('#crt-status').text(status_text);
+			$('#edit-status-container').hide();
+		}).on('click', '#cancel-status-editing', function(){
+			$('#edit-status-container').hide();
 		});
 		
 		common.beforeDragsortListItemRemove = function(obj){
@@ -200,12 +217,32 @@ var post = {
 			system.getScript(system.url('js/jquery.autosize.min.js'));
 		}
 	},
+	'setRoleCats':function(){
+		if(system.inArray('main-category', post.boxes)){
+			$('#box-main-category [name="cat_id"] option').each(function(){
+				if(!system.inArray($(this).val(), post.roleCats)){
+					$(this).attr('disabled', 'disabled');
+				}
+			});
+		}
+		if(system.inArray('category', post.boxes)){
+			$('#box-category [name="post_category[]"]').each(function(){
+				if(!system.inArray($(this).val(), post.roleCats)){
+					$(this).attr('disabled', 'disabled');
+					$(this).attr('data-disabled', 'data-disabled');
+				}
+			});
+		}
+	},
 	'init':function(){
 		if(system.inArray('thumbnail', post.boxes)){
 			this.thumbnail();
 		}
 		if(system.inArray('files', post.boxes)){
 			this.files();
+		}
+		if(this.roleCats !== null){
+			this.setRoleCats();
 		}
 		this.events();
 		this.autosize();

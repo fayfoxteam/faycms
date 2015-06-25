@@ -3,9 +3,9 @@ use fay\helpers\Html;
 
 $this->appendCss($this->url().'css/nivo-slider.css');
 ?>
-<div id="<?php echo $data['elementId']?>">
+<div id="<?php echo $config['elementId']?>">
 	<div class="nivo-slider">
-	<?php foreach($data['files'] as $d){
+	<?php foreach($config['files'] as $d){
 		if(empty($d['link'])){
 			$d['link'] = 'javascript:;';
 		}
@@ -24,11 +24,11 @@ $this->appendCss($this->url().'css/nivo-slider.css');
 <script src="<?php echo $this->url()?>js/jquery.nivo.slider.pack.js"></script>
 <script>
 $(function(){
-	$("#<?php echo $data['elementId']?> .nivo-slider").nivoSlider({
-		'animSpeed':<?php echo $data['animSpeed']?>,
-		'pauseTime':<?php echo $data['pauseTime']?>,
-		'directionNav':<?php echo $data['directionNav'] ? 'true' : 'false'?>,
-		'effect':'<?php echo $data['effect']?>'
+	$("#<?php echo $config['elementId']?> .nivo-slider").nivoSlider({
+		'animSpeed':<?php echo $config['animSpeed']?>,
+		'pauseTime':<?php echo $config['pauseTime']?>,
+		'directionNav':<?php echo $config['directionNav'] ? 'true' : 'false'?>,
+		'effect':'<?php echo $config['effect']?>'
 	});
 });
 </script>

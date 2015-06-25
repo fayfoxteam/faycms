@@ -2,24 +2,24 @@ var cat = {
 	'editCat':function(){
 		system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
 			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$(".edit-cat-link").fancybox({
+				$('.edit-cat-link').fancybox({
 					'padding':0,
 					'titleShow':false,
 					'onComplete':function(o){
-						$("#edit-cat-form").find(".submit-loading").remove();
-						$("#edit-cat-dialog").block({
+						$('#edit-cat-form').find('.submit-loading').remove();
+						$('#edit-cat-dialog').block({
 							'zindex':1200
 						});
 						$.ajax({
-							type: "GET",
-							url: system.url("admin/category/get"),
-							data: {"id":$(o).attr('data-id')},
-							dataType: "json",
+							type: 'GET',
+							url: system.url('admin/category/get'),
+							data: {'id':$(o).attr('data-id')},
+							dataType: 'json',
 							cache: false,
 							success: function(resp){
-								$("#edit-cat-dialog").unblock();
+								$('#edit-cat-dialog').unblock();
 								if(resp.status){
-									$("#edit-cat-title").text(resp.data.title);
+									$('#edit-cat-title').text(resp.data.title);
 									$("#edit-cat-dialog input[name='id']").val(resp.data.id);
 									$("#edit-cat-dialog input[name='title']").val(resp.data.title);
 									$("#edit-cat-dialog input[name='alias']").val(resp.data.alias);
@@ -31,7 +31,7 @@ var cat = {
 										$("#edit-cat-dialog input[name='is_nav']").attr('checked', false);
 									}
 									if(resp.data.file_id != 0){
-										$("#cat-pic-for-edit-container").html([
+										$('#cat-pic-for-edit-container').html([
 		                       				'<a href="', system.url('file/pic', {
 		                       					't':1,
 		                       					'f':resp.data.file_id
@@ -103,21 +103,21 @@ var cat = {
 			var o = this;
 			$(this).find('span').hide().after('<img src="'+system.url()+'images/throbber.gif" />');
 			$.ajax({
-				type: "GET",
-				url: system.url("admin/category/set-is-nav"),
+				type: 'GET',
+				url: system.url('admin/category/set-is-nav'),
 				data: {
-					"id":$(this).attr("data-id"),
-					"is_nav":$(this).find('span').hasClass("tick-circle") ? 0 : 1
+					'id':$(this).attr('data-id'),
+					'is_nav':$(this).find('span').hasClass('tick-circle') ? 0 : 1
 				},
-				dataType: "json",
+				dataType: 'json',
 				cache: false,
 				success: function(resp){
 					if(resp.status){
-						$(o).find('span').removeClass("tick-circle")
-							.removeClass("cross-circle")
-							.addClass(resp.is_nav == 1 ? "tick-circle" : "cross-circle")
+						$(o).find('span').removeClass('tick-circle')
+							.removeClass('cross-circle')
+							.addClass(resp.is_nav == 1 ? 'tick-circle' : 'cross-circle')
 							.show()
-							.next("img").remove();
+							.next('img').remove();
 					}else{
 						alert(resp.message);
 					}
@@ -132,24 +132,24 @@ var cat = {
 			browse_button : 'upload-cat-pic-for-create',
 			container : 'upload-cat-pic-for-create-container',
 			max_file_size : '2mb',
-			url : system.url("admin/file/upload",{'t':'cat'}),
+			url : system.url('admin/file/upload', {'t':'cat'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
-				{title : "Image files", extensions : "jpg,gif,png,jpeg"}
+				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
 			]
 		});
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$("#cat-pic-for-create-container").html('<img src="'+system.url('images/loading.gif')+'" height="100" />');
+			$('#cat-pic-for-create-container').html('<img src="'+system.url('images/loading.gif')+'" height="100" />');
 			uploader.start();
 		});
 		
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 			$('#cat-pic-for-create').val(resp.id);
-			$("#cat-pic-for-create-container").html([
+			$('#cat-pic-for-create-container').html([
 				'<a href="', resp.url, '" class="fancybox-image" target="_blank">',
 					'<img src="', resp.thumbnail, '" width="100" />',
 				'</a>',
@@ -159,7 +159,7 @@ var cat = {
 
 		uploader.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert("文件大小不能超过"+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+"M");
+				alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
 				alert('非法的文件类型');
@@ -176,24 +176,24 @@ var cat = {
 			browse_button : 'upload-cat-pic-for-edit',
 			container : 'upload-cat-pic-for-edit-container',
 			max_file_size : '2mb',
-			url : system.url("admin/file/upload",{'t':'cat'}),
+			url : system.url('admin/file/upload',{'t':'cat'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
-				{title : "Image files", extensions : "jpg,gif,png,jpeg"}
+				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
 			]
 		});
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$("#cat-pic-for-edit-container").html('<img src="'+system.url('images/loading.gif')+'" height="100" />');
+			$('#cat-pic-for-edit-container').html('<img src="'+system.url('images/loading.gif')+'" height="100" />');
 			uploader.start();
 		});
 		
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 			$('#cat-pic-for-edit').val(resp.id);
-			$("#cat-pic-for-edit-container").html([
+			$('#cat-pic-for-edit-container').html([
 				'<a href="', resp.url, '" class="fancybox-image" target="_blank">',
 					'<img src="', resp.thumbnail, '" width="100" />',
 				'</a>',
@@ -203,7 +203,7 @@ var cat = {
 
 		uploader.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert("文件大小不能超过"+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+"M");
+				alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
 				alert('非法的文件类型');
@@ -218,15 +218,15 @@ var cat = {
 			$(this).parent().html('');
 		});
 		
-		$(".tree-container").on('click', '.leaf-title.parent', function(){
+		$('.tree-container').on('click', '.leaf-title.parent', function(){
 			$li = $(this).parent().parent();
-			if($li.hasClass("close")){
+			if($li.hasClass('close')){
 				$li.children('ul').slideDown(function(){
-					$li.removeClass("close");
+					$li.removeClass('close');
 				});
 			}else{
 				$li.children('ul').slideUp(function(){
-					$li.addClass("close");
+					$li.addClass('close');
 				});
 			}
 		});
@@ -237,8 +237,8 @@ var cat = {
 			$(this).removeClass('hover');
 		});
 
-		$(".edit-sort").feditsort({
-			'url':system.url("admin/category/sort")
+		$('.edit-sort').feditsort({
+			'url':system.url('admin/category/sort')
 		});
 	},
 	'init':function(){

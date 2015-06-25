@@ -8,10 +8,10 @@ use fay\models\tables\Tags;
 use fay\models\tables\Props;
 use fay\models\Prop;
 use fay\models\tables\Posts;
-use fay\models\tables\PostCategories;
+use fay\models\tables\PostsCategories;
 use fay\models\Tag;
 use fay\models\tables\Files;
-use fay\models\tables\PostFiles;
+use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
 use fay\core\Sql;
@@ -22,12 +22,18 @@ use fay\helpers\Html;
 use fay\core\Hook;
 use fay\core\HttpException;
 use fay\models\Option;
+use fay\models\Flash;
 
 class PostController extends AdminController{
 	/**
 	 * 是否启用文章审核功能
 	 */
-	public $post_review = true;
+	public $post_review = false;
+	
+	/**
+	 * 是否启用分类权限（根据角色分配可编辑的分类）
+	 */
+	public $role_cats = false;
 	
 	/**
 	 * box列表
@@ -64,6 +70,7 @@ class PostController extends AdminController{
 		parent::__construct();
 		$this->layout->current_directory = 'post';
 		$this->post_review = !!(Option::get('system.post_review'));
+		$this->role_cats = !!(Option::get('system.role_cats'));
 	}
 	
 	public function create(){
@@ -112,7 +119,7 @@ class PostController extends AdminController{
 				$post_category = $this->form()->getData('post_category');
 				if(!empty($post_category)){
 					foreach($post_category as $post_cat){
-						PostCategories::model()->insert(array(
+						PostsCategories::model()->insert(array(
 							'post_id'=>$post_id,
 							'cat_id'=>$post_cat,
 						));
@@ -130,7 +137,7 @@ class PostController extends AdminController{
 				foreach($files as $f){
 					$i++;
 					$file = Files::model()->find($f, 'is_image');
-					PostFiles::model()->insert(array(
+					PostsFiles::model()->insert(array(
 						'file_id'=>$f,
 						'post_id'=>$post_id,
 						'description'=>$desc[$f],
@@ -272,7 +279,7 @@ class PostController extends AdminController{
 						$orWhere[] = "pc.cat_id = {$c}";
 					}
 					//包含文章从分类搜索
-					$sql->joinLeft('post_categories', 'pc', 'p.id = pc.post_id')
+					$sql->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
 						->orWhere($orWhere)
 						->distinct(true);
 				}else{
@@ -288,7 +295,7 @@ class PostController extends AdminController{
 			}else{
 				if($this->input->get('with_slave')){
 					//包含文章从分类搜索
-					$sql->joinLeft('post_categories', 'pc', 'p.id = pc.post_id')
+					$sql->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
 						->orWhere(array(
 							'p.cat_id = ?'=>$cat_id,
 							'pc.cat_id = ?'=>$cat_id,
@@ -339,11 +346,18 @@ class PostController extends AdminController{
 			throw new HttpException('参数不完整', 500);
 		}
 		
-		//所有附加属性
-		$post = Posts::model()->find($post_id, 'cat_id');
+		//原文章部分信息
+		$post = Posts::model()->find($post_id, 'cat_id,status');
 		if(!$post){
 			throw new HttpException('无效的文章ID');
 		}
+		
+		//编辑权限检查
+		$edit_permission = Post::checkEditPermission($post_id, $this->input->post('status', 'intval'), $this->input->post('cat_id'));
+		if(!$edit_permission['status']){
+			throw new HttpException(empty($edit_permission['message']) ? '您无权限编辑该文章' : $edit_permission['message']);
+		}
+		
 		$cat = Category::model()->get($post['cat_id'], 'title,left_value,right_value');
 		
 		//若分类已被删除，将文章归为根分类
@@ -352,7 +366,7 @@ class PostController extends AdminController{
 			Posts::model()->update(array(
 				'cat_id'=>$cat['id'],
 			), $post_id);
-			$this->flash->set('文章分类异常，请重新设置文章分类', 'attention');
+			Flash::set('文章所属分类不存在，请重新设置文章分类', 'attention');
 		}
 		
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
@@ -366,10 +380,22 @@ class PostController extends AdminController{
 		
 		if($this->input->post()){
 			if($this->form()->check()){
+				$new_cat_id = $this->form()->getData('cat_id');
+				$status = $this->form()->getData('status');
+				
+				//未开启审核，文章却被设置为审核状态，强制修改为草稿（一般是之前开启了审核，后来关掉了）
+				if(!$this->post_review && ($status == Posts::STATUS_REVIEWED || $status == Posts::STATUS_PENDING)){
+					$this->form()->setData(array(
+						'status'=>Posts::STATUS_DRAFT,
+					), true);
+					$status = Posts::STATUS_DRAFT;
+					Flash::set('文章状态异常，被强制修改为“草稿”', 'attention');
+				}
+				
 				$old_post = Posts::model()->find($post_id, 'cat_id');
 				//主分类被改了，重新获取分类属性
-				if($this->input->post('cat_id') && $old_post['cat_id'] != $this->input->post('cat_id')){
-					$cat = Category::model()->get($this->input->post('cat_id', 'intval'), 'title,left_value,right_value');
+				if($new_cat_id && $old_post['cat_id'] != $new_cat_id){
+					$cat = Category::model()->get($new_cat_id, 'title,left_value,right_value');
 					$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
 					$cat_parents = Categories::model()->fetchCol('id', array(
 						'left_value <= '.$cat['left_value'],
@@ -399,7 +425,7 @@ class PostController extends AdminController{
 					$post_category = $this->form()->getData('post_category');
 					if(!empty($post_category)){
 						//删除被删除了的分类
-						PostCategories::model()->delete(array(
+						PostsCategories::model()->delete(array(
 							'post_id = ?'=>$post_id,
 							'or'=>array(
 								'cat_id NOT IN (?)'=>$post_category,
@@ -407,12 +433,12 @@ class PostController extends AdminController{
 							),
 						));
 						foreach($post_category as $cat_id){
-							if(!PostCategories::model()->fetchRow(array(
+							if(!PostsCategories::model()->fetchRow(array(
 								'post_id = ?'=>$post_id,
 								'cat_id = ?'=>$cat_id,
 							))){
 								//不存在，则插入
-								PostCategories::model()->insert(array(
+								PostsCategories::model()->insert(array(
 									'post_id'=>$post_id,
 									'cat_id'=>$cat_id,
 								));
@@ -421,7 +447,7 @@ class PostController extends AdminController{
 					}else{
 						//用户有权编辑category，但无数据提交，意味着删光了
 						//删除全部category
-						PostCategories::model()->delete(array(
+						PostsCategories::model()->delete(array(
 							'post_id = ?'=>$post_id,
 						));
 					}
@@ -438,24 +464,24 @@ class PostController extends AdminController{
 					$files = $this->input->post('files', 'intval', array());
 					//删除已被删除的图片
 					if($files){
-						PostFiles::model()->delete(array(
+						PostsFiles::model()->delete(array(
 							'post_id = ?'=>$post_id,
 							'file_id NOT IN ('.implode(',', $files).')',
 						));
 					}else{
-						PostFiles::model()->delete(array(
+						PostsFiles::model()->delete(array(
 							'post_id = ?'=>$post_id,
 						));
 					}
 					//获取已存在的图片
-					$old_files_ids = PostFiles::model()->fetchCol('file_id', array(
+					$old_files_ids = PostsFiles::model()->fetchCol('file_id', array(
 						'post_id = ?'=>$post_id,
 					));
 					$i = 0;
 					foreach($files as $f){
 						$i++;
 						if(in_array($f, $old_files_ids)){
-							PostFiles::model()->update(array(
+							PostsFiles::model()->update(array(
 								'description'=>$desc[$f],
 								'sort'=>$i,
 							), array(
@@ -464,7 +490,7 @@ class PostController extends AdminController{
 							));
 						}else{
 							$file = Files::model()->find($f, 'is_image');
-							PostFiles::model()->insert(array(
+							PostsFiles::model()->insert(array(
 								'post_id'=>$post_id,
 								'file_id'=>$f,
 								'description'=>$desc[$f],
@@ -475,7 +501,7 @@ class PostController extends AdminController{
 					}
 				}
 				
-				//附件属性
+				//附加属性
 				if(in_array('props', $enabled_boxes)){
 					Prop::model()->updatePropertySet('post_id', $post_id, $this->view->props, $this->input->post('props'), array(
 						'varchar'=>'fay\models\tables\PostPropVarchar',
@@ -489,7 +515,7 @@ class PostController extends AdminController{
 				));
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '编辑文章', $post_id);
-				$this->flash->set('一篇文章被编辑', 'success');
+				Flash::set('一篇文章被编辑', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -522,7 +548,7 @@ class PostController extends AdminController{
 			$this->view->cats = Category::model()->getTree('_system_post');
 			
 			//post files
-			$this->view->files = PostFiles::model()->fetchAll(array(
+			$this->view->files = PostsFiles::model()->fetchAll(array(
 				'post_id = ?'=>$post_id,
 			), 'file_id,description,is_image', 'sort');
 
@@ -690,16 +716,19 @@ class PostController extends AdminController{
 			$action = $this->input->post('batch_action_2');
 		}
 		switch($action){
-			case 'set-publish':
-				if(!$this->checkPermission('admin/post/edit')){
-					Response::output('error', array(
-						'message'=>'权限不允许',
-						'error_code'=>'permission-denied',
-					));
+			case 'set-published':
+				foreach($ids as $id){
+					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
+					if(!$check['status']){
+						Response::output('error', array(
+							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+							'error_code'=>'permission-denied',
+						));
+					}
 				}
 				
 				$affected_rows = Posts::model()->update(array(
-					'status'=>Posts::STATUS_PUBLISH,
+					'status'=>Posts::STATUS_PUBLISHED,
 				), array(
 					'id IN (?)'=>$ids,
 				));
@@ -711,11 +740,14 @@ class PostController extends AdminController{
 				Response::output('success', $affected_rows.'篇文章被发布');
 			break;
 			case 'set-draft':
-				if(!$this->checkPermission('admin/post/edit')){
-					Response::output('error', array(
-						'message'=>'权限不允许',
-						'error_code'=>'permission-denied',
-					));
+				foreach($ids as $id){
+					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
+					if(!$check['status']){
+						Response::output('error', array(
+							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+							'error_code'=>'permission-denied',
+						));
+					}
 				}
 				
 				$affected_rows = Posts::model()->update(array(
@@ -727,15 +759,64 @@ class PostController extends AdminController{
 				//刷新tags的count值
 				Tag::model()->refreshCountByPostId($ids);
 				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为草稿');
-				Response::output('success', $affected_rows.'篇文章被标记为草稿');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“草稿”');
+				Response::output('success', $affected_rows.'篇文章被标记为“草稿”');
+			break;
+			case 'set-pending':
+				foreach($ids as $id){
+					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
+					if(!$check['status']){
+						Response::output('error', array(
+							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+							'error_code'=>'permission-denied',
+						));
+					}
+				}
+				
+				$affected_rows = Posts::model()->update(array(
+					'status'=>Posts::STATUS_PENDING,
+				), array(
+					'id IN (?)'=>$ids,
+				));
+				
+				//刷新tags的count值
+				Tag::model()->refreshCountByPostId($ids);
+				
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“待审核”');
+				Response::output('success', $affected_rows.'篇文章被标记为“待审核”');
+			break;
+			case 'set-reviewed':
+				foreach($ids as $id){
+					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
+					if(!$check['status']){
+						Response::output('error', array(
+							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+							'error_code'=>'permission-denied',
+						));
+					}
+				}
+				
+				$affected_rows = Posts::model()->update(array(
+					'status'=>Posts::STATUS_REVIEWED,
+				), array(
+					'id IN (?)'=>$ids,
+				));
+				
+				//刷新tags的count值
+				Tag::model()->refreshCountByPostId($ids);
+				
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“通过审核”');
+				Response::output('success', $affected_rows.'篇文章被标记为“通过审核”');
 			break;
 			case 'delete':
-				if(!$this->checkPermission('admin/post/delete')){
-					Response::output('error', array(
-						'message'=>'权限不允许',
-						'error_code'=>'permission-denied',
-					));
+				foreach($ids as $id){
+					$check = Post::checkDeletePermission($id);
+					if(!$check['status']){
+						Response::output('error', array(
+							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+							'error_code'=>'permission-denied',
+						));
+					}
 				}
 				
 				$affected_rows = Posts::model()->update(array(
@@ -751,11 +832,14 @@ class PostController extends AdminController{
 				Response::output('success', $affected_rows.'篇文章被移入回收站');
 			break;
 			case 'undelete':
-				if(!$this->checkPermission('admin/post/undelete')){
-					Response::output('error', array(
-						'message'=>'权限不允许',
-						'error_code'=>'permission-denied',
-					));
+				foreach($ids as $id){
+					$check = Post::checkUndeletePermission($id);
+					if(!$check['status']){
+						Response::output('error', array(
+							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+							'error_code'=>'permission-denied',
+						));
+					}
 				}
 				
 				$affected_rows = Posts::model()->update(array(
@@ -771,11 +855,14 @@ class PostController extends AdminController{
 				Response::output('success', $affected_rows.'篇文章被还原');
 			break;
 			case 'remove':
-				if(!$this->checkPermission('admin/post/remove')){
-					Response::output('error', array(
-						'message'=>'权限不允许',
-						'error_code'=>'permission-denied',
-					));
+				foreach($ids as $id){
+					$check = Post::checkRemovePermission($id);
+					if(!$check['status']){
+						Response::output('error', array(
+							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+							'error_code'=>'permission-denied',
+						));
+					}
 				}
 				
 				foreach($ids as $id){
@@ -785,46 +872,11 @@ class PostController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.count($ids).'篇文章被永久删除');
 				Response::output('success', count($ids).'篇文章被永久删除');
 			break;
-			case 'review':
-				if(!$this->checkPermission('admin/post/review')){
-					Response::output('error', array(
-						'message'=>'权限不允许',
-						'error_code'=>'permission-denied',
-					));
-				}
-				
-				$affected_rows = Posts::model()->update(array(
-					'status'=>Posts::STATUS_PUBLISH,
-				), array(
-					'id IN (?)'=>$ids,
-					'status = '.Posts::STATUS_PENDING,
+			default:
+				Response::output('error', array(
+					'message'=>'操作选项不能为空',
+					'error_code'=>'action-can-not-be-empty',
 				));
-				
-				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章通过审核');
-				Response::output('success', $affected_rows.'篇文章通过审核');
-			break;
-			case 'pending':
-				if(!$this->checkPermission('admin/post/edit')){
-					Response::output('error', array(
-						'message'=>'权限不允许',
-						'error_code'=>'permission-denied',
-					));
-				}
-				
-				$affected_rows = Posts::model()->update(array(
-					'status'=>Posts::STATUS_PENDING,
-				), array(
-					'id IN (?)'=>$ids,
-				));
-				
-				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为待审核');
-				Response::output('success', $affected_rows.'篇文章被标记为待审核');
 			break;
 		}
 	}

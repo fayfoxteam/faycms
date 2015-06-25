@@ -102,8 +102,8 @@ use fay\helpers\Html;
 	</div>
 </div>
 <div class="hide">
-	<div id="status-dialog" class="common-dialog">
-		<div class="common-dialog-content">
+	<div id="status-dialog" class="dialog">
+		<div class="dialog-content">
 			<h4>设置状态</h4>
 			<form action="<?php echo $this->url('admin/operator/set-status')?>" method="post" id="set-status-form">
 				<?php echo Html::inputHidden('id', $user['id'])?>

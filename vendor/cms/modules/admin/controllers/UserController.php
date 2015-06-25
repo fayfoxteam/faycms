@@ -16,6 +16,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
+use fay\models\Flash;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -184,13 +185,13 @@ class UserController extends AdminController{
 				));
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $id);
-				$this->flash->set('修改成功', 'success');
+				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		
-		$this->view->user = User::model()->get($id);
+		$this->view->user = User::model()->get($id, 'users.*,props.*');
 		$this->form()->setData($this->view->user);
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
@@ -205,12 +206,12 @@ class UserController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id);
+			$this->view->user = User::model()->get($id, 'users.*,props.*');
 		}else if($username = $this->input->get('username')){
 			$user = Users::model()->fetchRow(array(
 				'username = ?'=>$username,
 			), 'id');
-			$this->view->user = User::model()->get($user['id']);
+			$this->view->user = User::model()->get($user['id'], 'users.*,props.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

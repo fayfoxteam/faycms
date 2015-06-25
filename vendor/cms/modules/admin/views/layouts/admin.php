@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\Option;
 use fay\models\File;
+use fay\models\Flash;
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,8 +27,8 @@ system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
-<title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
+<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.min.js"></script>
+<title><?php echo $subtitle?> | <?php echo Option::get('site.sitename')?>后台</title>
 </head>
 <body id="faycms">
 <div class="wrapper">
@@ -135,26 +136,58 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 					}?></h1>
 			</div>
 			<div class="operate-env">
-				<div class="screen-meta-links">
-					<?php if(isset($_setting_panel)){
-						echo Html::link('', '#faycms-setting-content', array(
-							'class'=>'fa fa-cog fa-2x faycms-setting-link',
-                            'title'=>'设置',
+				<div class="screen-meta-links"><?php
+					//帮助面板
+					if(isset($_help_panel)){
+						echo Html::link('', '#faycms-help-content', array(
+							'class'=>'fa fa-question-circle fa-2x faycms-help-link',
+							'title'=>'帮助',
 						));
 						echo Html::tag('div', array(
-							'id'=>'faycms-setting-content',
-                            'class'=>'dialog-content',
+							'id'=>'faycms-help-content',
+							'class'=>'dialog-content',
 							'wrapper'=>array(
 								'tag'=>'div',
 								'class'=>'dialog hide',
 							),
-                            'prepend'=>'<h4>设置</h4>',
+							'prepend'=>'<h4>设置</h4>',
+						), $this->renderPartial($_help_panel, array(), -1, true));
+					}
+					//帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的常见
+					if(isset($_help_contet)){
+						echo Html::link('', '#faycms-help-content', array(
+							'class'=>'fa fa-question-circle fa-2x faycms-help-link',
+							'title'=>'帮助',
+						));
+						echo Html::tag('div', array(
+							'id'=>'faycms-help-content',
+							'class'=>'dialog-content',
+							'wrapper'=>array(
+								'tag'=>'div',
+								'class'=>'dialog hide',
+							),
+							'prepend'=>'<h4>帮助</h4>',
+						), $_help_contet);
+					}
+					//页面设置
+					if(isset($_setting_panel)){
+						echo Html::link('', '#faycms-setting-content', array(
+							'class'=>'fa fa-cog fa-2x faycms-setting-link',
+							'title'=>'设置',
+						));
+						echo Html::tag('div', array(
+							'id'=>'faycms-setting-content',
+							'class'=>'dialog-content',
+							'wrapper'=>array(
+								'tag'=>'div',
+								'class'=>'dialog hide',
+							),
+							'prepend'=>'<h4>设置</h4>',
 						), $this->renderPartial($_setting_panel, array(), -1, true));
-					}?>
-				</div>
+					}?></div>
 			</div>
 		</div>
-		<?php echo F::app()->flash->get();?>
+		<?php echo Flash::get();?>
 		<?php echo $content?>
 	</div>
 </div>

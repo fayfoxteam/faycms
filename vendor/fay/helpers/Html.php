@@ -1,7 +1,6 @@
 <?php
 namespace fay\helpers;
 
-use fay\core\FBase;
 use fay\models\tables\Files;
 use fay\models\File;
 use fay\models\Qiniu;
@@ -10,7 +9,7 @@ use fay\models\Qiniu;
  * 构造html元素
  * 该类不会对标签属性做任何转义处理
  */
-class Html extends FBase{
+class Html{
 	/**
 	 * 对字符串进行html实体转换（双引号和单引号都会被转换）
 	 * @param string $input

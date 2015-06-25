@@ -169,7 +169,7 @@ class Menu extends Model{
 	 */
 	public function renderLink($menu){
 		foreach($menu as &$m){
-			$m['link'] = str_replace('{$base_url}', $this->config('base_url'), $m['link']);
+			$m['link'] = str_replace('{$base_url}', \F::config()->get('base_url'), $m['link']);
 			if(isset($m['children'])){
 				$m['children'] = $this->renderLink($m['children']);
 			}

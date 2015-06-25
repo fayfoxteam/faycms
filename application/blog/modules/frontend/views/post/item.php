@@ -101,7 +101,7 @@ $(function(){
 	$("#leave-message-submit").click(function(){
 		$.ajax({
 			type: "POST",
-			url: system.url("message/create.html"),
+			url: system.url("message/create"),
 			data: $("#leave-message-form").serialize(),
 			dataType: 'json',
 			cache: false,

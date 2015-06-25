@@ -1,9 +1,7 @@
 <?php
 namespace ncp\plugins;
 
-use fay\core\FBase;
-
-class AdminMenu extends FBase{
+class AdminMenu{
 	public function run(){
 		if(method_exists(\F::app(), 'removeMenuTeam')){
 			\F::app()->removeMenuTeam('goods');

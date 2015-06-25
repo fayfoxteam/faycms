@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-class ErrorHandler extends FBase{
+class ErrorHandler{
 	public $app;
 	
 	public function __construct(){
@@ -28,7 +28,7 @@ class ErrorHandler extends FBase{
 			//Http异常
 			Response::setStatusHeader($exception->statusCode);
 			//404, 500等http错误
-			if($this->config('environment') == 'production'){
+			if(\F::config()->get('environment') == 'production'){
 				if($exception->statusCode == 404){
 					$this->render404();
 				}else{
@@ -39,7 +39,7 @@ class ErrorHandler extends FBase{
 				$this->renderDebug($exception);
 			}
 		}else{
-			if($this->config('environment') == 'production'){
+			if(\F::config()->get('environment') == 'production'){
 				$this->render500($exception->getMessage());
 			}else{
 				$this->renderDebug($exception);
@@ -67,7 +67,7 @@ class ErrorHandler extends FBase{
 		if(ErrorException::isFatalError($error)){
 			$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
 			
-			if($this->config('environment') == 'production'){
+			if(\F::config()->get('environment') == 'production'){
 				$this->render500();
 			}else{
 				$this->renderDebug($exception);

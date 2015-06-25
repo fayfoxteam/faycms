@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Session extends FBase{
+class Session{
 	private static $_instance;
 	
 	private function __construct(){}
@@ -21,7 +19,7 @@ class Session extends FBase{
 	 * 设置session
 	 */
 	public function set($key, $value){
-		$session_namespace = $this->config('session_namespace');
+		$session_namespace = \F::config()->get('session_namespace');
 		$_SESSION[$session_namespace][$key] = $value;
 		return true;
 	}
@@ -30,7 +28,7 @@ class Session extends FBase{
 	 * 获取session
 	 */
 	public function get($key = false, $default = null, $session_namespace = null){
-		$session_namespace || $session_namespace = $this->config('session_namespace');
+		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
 		if($key === false){
 			return $_SESSION[$session_namespace];
 		}
@@ -47,7 +45,7 @@ class Session extends FBase{
 	 * @param string $session_namespace 命名空间
 	 */
 	public function remove($key = null, $session_namespace = null){
-		$session_namespace || $session_namespace = $this->config('session_namespace');
+		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
 		if($key === null){
 			unset($_SESSION[$session_namespace]);
 		}else{
@@ -60,7 +58,7 @@ class Session extends FBase{
 	 * 销毁指定命名空间下的所有session
 	 */
 	public function flush($session_namespace = null){
-		$session_namespace || $session_namespace = $this->config('session_namespace');
+		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
 		$this->remove();
 	}
 	

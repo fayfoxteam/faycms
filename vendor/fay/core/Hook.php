@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Hook extends FBase{
+class Hook{
 	private $hooks = array();
 	
 	private static $_instance;
@@ -21,7 +19,7 @@ class Hook extends FBase{
 	}
 	
 	private function init(){
-		$this->hooks = $this->config('*', 'hooks');
+		$this->hooks = \F::config()->get('*', 'hooks');
 	}
 	
 	/**

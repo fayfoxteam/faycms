@@ -1,9 +1,7 @@
 <?php
 namespace fay\core\widget;
 
-use fay\core\FBase;
-
-class View extends FBase{
+class View{
 	/**
 	 * 用于视图层的数据
 	 * @var array

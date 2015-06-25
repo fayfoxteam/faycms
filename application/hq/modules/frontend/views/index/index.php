@@ -81,10 +81,7 @@ $img_url = $this->staticFile('images');
     </div>
 
     <div class="right">
-        <div class="hot-topic">
-            <div class="content-header">热点专题</div>
-            <div class="content-box"></div>
-        </div>
+        <?= F::widget()->load('hot_images'); ?>
     </div>
 </div>
 

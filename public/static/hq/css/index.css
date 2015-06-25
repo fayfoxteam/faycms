@@ -103,6 +103,8 @@ a:hover, a:visited{ background: none;}
 
 #content-bottom .right { width: 335px; float: left; }
 #content-bottom .right .hot-topic .content-header { height: 25px; border-bottom:2px solid #197abf; line-height: 25px; text-align: left; color: #197abf; font-size: 16px; }
+#content-bottom .right .hot-topic .content-box {  }
+#content-bottom .right .hot-topic .content-box img { width: 100%; height: 50px; display: block; margin-top: 5px; }
 
 #gg { height:200px;overflow:hidden; width: 464px; }
 .index-minhxyw{width: 350px; position: absolute;left:380px; text-align: left}

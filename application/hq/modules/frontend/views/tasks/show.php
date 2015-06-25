@@ -179,21 +179,8 @@ use hq\models\tables\ZbiaoRecords;
         </div>
         <div class="col-md-9">
             <div class="panel panel-default" id="box-chart">
-                <div class="panel-heading">使用情况</div>
+                <div class="panel-heading">使用情况(日)</div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label class="radio-inline">
-                                <input type="radio" name="time" id="week" value="<?= ZbiaoRecords::TIME_DAY ?>"> 日
-                            </label> &nbsp;
-                            <label class="radio-inline">
-                                <input type="radio" name="time" id="week" value="<?= ZbiaoRecords::TIME_WEEK ?>"> 周
-                            </label>&nbsp;
-                            <label class="radio-inline">
-                                <input type="radio" name="time" id="month" value="<?= ZbiaoRecords::TIME_MONTH ?>"> 月
-                            </label>
-                        </div>
-                    </div>
                     <div class="row">
                         <div id="charts"></div>
                     </div>

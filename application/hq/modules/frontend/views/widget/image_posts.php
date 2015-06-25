@@ -21,7 +21,7 @@ use fay\models\File;
                     ?>
                             <li>
                                 <a href="<?= $this->url('post/'. $p['id']) ?>">
-                                    <?= Html::img($p['thumbnail'], File::PIC_THUMBNAIL, ['alt' => $p['title'], 'title' => $p['title']]) ?>
+                                    <?= Html::img($p['thumbnail'], File::PIC_ORIGINAL, ['alt' => $p['title'], 'title' => $p['title']]) ?>
                                 </a>
                                 <div class="mask"></div>
                                 <div class="comt">

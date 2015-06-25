@@ -12,6 +12,9 @@ $img_url = $this->staticFile('images');
         </div>
     </div>
 </div>
+<div class="bg">
+
+
 <div class="container">
 
 
@@ -37,12 +40,13 @@ $img_url = $this->staticFile('images');
     <div class="title">服务大厅</div>
     <div class="serve-list">
         <ul>
-            <li><a href="">保修</a></li>
-            <li><a href="">失物招领</a></li>
-            <li><a href="">一卡通充值</a></li>
-            <li><a href="">水电缴费查询</a></li>
-            <li><a href="">网上订餐</a></li>
-            <li><a href="">投诉建议</a></li>
+            <li><a href=""><img src="<?= $this->staticFile('images/box2_pic1.jpg') ?>" />保修</a></li>
+            <li><a href=""><img src="<?= $this->staticFile('images/box2_pic2.jpg') ?>" />失物招领</a></li>
+            <li><a href=""><img src="<?= $this->staticFile('images/box2_pic3.jpg') ?>" />一卡通充值</a></li>
+            <li><a href=""><img src="<?= $this->staticFile('images/box2_pic4.jpg') ?>" />水电缴费查询</a></li>
+            <li><a href=""><img src="<?= $this->staticFile('images/box2_pic5.jpg') ?>" />网上订餐</a></li>
+            <li><a href=""><img src="<?= $this->staticFile('images/box2_pic6.jpg') ?>" />投诉建议</a></li>
+            <li><a href=""><img src="<?= $this->staticFile('images/box2_pic7.jpg') ?>" />投诉建议</a></li>
         </ul>
     </div>
 </div>
@@ -54,13 +58,13 @@ $img_url = $this->staticFile('images');
             <div class="content-box">
                 <ul>
                     <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />餐饮服务</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
-                    <li><a href="">餐饮服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />交通服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />水电维修</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />邮政通信</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />超市便利</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />教材服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />常见问题</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />值班电话</a></li>
                 </ul>
             </div>
             <div class="content-bottom">总值班电话：88888888（24小时）</div>

@@ -22,7 +22,7 @@ class IndexController extends InstallController{
 	
 	public function checkSystem(){
 		$this->isInstalled();
-
+		
 		// /uploads
 		if(is_writable(BASEPATH.'../uploads')){
 			$uploads = true;
@@ -71,7 +71,7 @@ class IndexController extends InstallController{
 	
 	public function doing(){
 		$this->isInstalled();
-
+		
 		$this->view->render();
 	}
 	
@@ -99,12 +99,10 @@ class IndexController extends InstallController{
 	}
 	
 	private function isInstalled(){
-		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
-		
 		$tbl_user = $this->db->fetchRow("SHOW TABLES LIKE '{$this->db->users}'");
 		$this->view->installed = !!$tbl_user;
 		
-		if($this->session->get('role') != Users::ROLE_SUPERADMIN && $this->view->installed){
+		if($this->session->get('role', $this->config->get('session_namespace').'_admin') != Users::ROLE_SUPERADMIN && $this->view->installed){
 			throw new Exception('系统检测到users表已存在，我们将此作为系统数据库已成功安装的依据。<br>系统不允许重复安装，除非您先用超级管理员身份登陆后台！');
 		}
 	}

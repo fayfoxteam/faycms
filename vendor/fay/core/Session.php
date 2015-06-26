@@ -18,8 +18,8 @@ class Session{
 	/**
 	 * 设置session
 	 */
-	public function set($key, $value){
-		$session_namespace = \F::config()->get('session_namespace');
+	public function set($key, $value, $session_namespace = null){
+		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
 		$_SESSION[$session_namespace][$key] = $value;
 		return true;
 	}

@@ -22,7 +22,9 @@ $img_url = $this->staticFile('images');
 
 <?= F::widget()->load('image_posts'); ?>
     <div class="index-minhxyw">
-        <div class="index-mingsjjtit"><h3 class="tab" data-id="1" onmouseover="setContentTab(1, 2)">后勤动态</h3> <h3 class="tab" data-id="2" onmouseover="setContentTab(2, 1)">媒体报道</h3>
+        <div class="index-mingsjjtit">
+            <h3 class="tab active" data-id="1" onmouseover="setContentTab(1, 2)">后勤动态</h3>
+            <h3 class="tab" data-id="2" onmouseover="setContentTab(2, 1)">媒体报道</h3>
             <span class="tab-1"><a href="11"><img src="<?= $img_url ?>/index_11.png" alt=""/></a></span>
             <span class="tab-2 hide"><a href="22"><img src="<?= $img_url ?>/index_11.png" alt=""/></a></span>
         </div>
@@ -88,9 +90,12 @@ $img_url = $this->staticFile('images');
 </div>
 <script>
     $(function(){
-
-
         jQuery(".slider_wrap").slide({mainCell:"#slider_box ul",autoPlay:true});
+
+        $('.tab').hover(function(){
+            $('.tab').removeClass('active');
+            $(this).addClass('active');
+        });
     });
 
     function setContentTab(show, hide) {

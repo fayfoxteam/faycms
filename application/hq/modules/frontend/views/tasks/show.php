@@ -130,20 +130,17 @@ use hq\models\tables\ZbiaoRecords;
                 name: treeNode.name,
                 text: treeNode.t
             },
-            success: function(data)
-            {
+            success: function(data) {
 //                console.log(data);
-                if (data.code == 0)
-                {
-                    tongji_charts.create(data.data, data.text, data.name, data.date, data.type);
-                }
-                else
-                {
+                if (data.code == 0) {
+                    tongji_charts.create('day', data.data_day, data.text, data.name, data.date_day, data.type);
+                    tongji_charts.create('week', data.data_day, data.text, data.name, data.date_day, data.type);
+                    tongji_charts.create('month', data.data_month, data.text, data.name, data.date_month, data.type);
+                } else {
                     alert(data.message);
                 }
             }
         });
-
     }
 
     function getTime() {
@@ -182,7 +179,23 @@ use hq\models\tables\ZbiaoRecords;
                 <div class="panel-heading">使用情况(日)</div>
                 <div class="panel-body">
                     <div class="row">
-                        <div id="charts"></div>
+                        <div id="charts-day"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="box-chart">
+                <div class="panel-heading">使用情况(周)</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div id="charts-week"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="box-chart">
+                <div class="panel-heading">使用情况(月)</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div id="charts-month"></div>
                     </div>
                 </div>
             </div>
@@ -193,9 +206,8 @@ use hq\models\tables\ZbiaoRecords;
 
 <script>
     var tongji_charts = {
-        'create': function(data, text, name, date, type)
-        {
-            $('#charts').highcharts({
+        'create': function(time, data, text, name, date, type) {
+            $('#charts-' + time).highcharts({
                 title: {
                     text: text,
                     x: -20 //center
@@ -254,21 +266,20 @@ use hq\models\tables\ZbiaoRecords;
                         time: $(this).val()
                     },
                     success: function(data){
-                        if (data.code == 0)
-                        {
+                        if (data.code == 0) {
                             tongji_charts.create(data.data, data.text, data.name, data.date, data.type);
-                        }
-                        else
-                        {
+                        } else {
                             alert(data.message);
                         }
                     }
                 });
             });
         }
-    }
+    };
     $(function () {
-        tongji_charts.create(<?= json_encode($data) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date) ?>, 1);
+        tongji_charts.create('day', <?= json_encode($data_day) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_day) ?>, 1);
+        tongji_charts.create('week', <?= json_encode($data_day) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_day) ?>, 1);
+        tongji_charts.create('month', <?= json_encode($data_month) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_month) ?>, 1);
         $.fn.zTree.init($("#treeElectric"), setting, eNodes);
         $.fn.zTree.init($("#treeWater"), setting, wNodes);
         tongji_charts.events();

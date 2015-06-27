@@ -20,7 +20,7 @@ class ZbiaoRecords extends Table{
 
     public function rules(){
         return array(
-            array(array('id', 'biao_id', 'parent_id', 'zongliang', 'day_use', 'created'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
+            array(array('id', 'biao_id', 'parent_id', 'zongliang', 'day_use', 'week_num', 'month_num', 'created'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
         );
     }
 
@@ -31,6 +31,8 @@ class ZbiaoRecords extends Table{
             'parent_id'=>'Parent Id',
             'zongliang'=>'Zongliang',
             'day_use'=>'Day Use',
+            'week_num'=>'Week Num',
+            'month_num'=>'Month Num',
             'created'=>'Created',
         );
     }
@@ -42,6 +44,8 @@ class ZbiaoRecords extends Table{
             'parent_id'=>'intval',
             'zongliang'=>'intval',
             'day_use'=>'intval',
+            'week_num'=>'intval',
+            'month_num'=>'intval',
             'created'=>'intval',
         );
     }

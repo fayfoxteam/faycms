@@ -90,7 +90,7 @@ class TasksController extends AdminController
             $this->view->tables = $tables;
         }
 
-//        录入完成后进行数据的储存
+        //录入完成后进行数据的储存
         if ($post = $this->input->post())
         {
            ZbiaoRecord::model()->insertRecord($post);
@@ -133,11 +133,13 @@ class TasksController extends AdminController
                          ->order('created asc')
                          ->limit(20)
                          ->fetchAll();
+
         $chat_date = $sql->from('zbiao_records', 'records', 'created')
                          ->where($condition)
                          ->order('created asc')
                          ->limit(20)
                          ->fetchAll();
+
         $this->view->text = $biao['biao_name'];
         $this->view->data = ZbiaoRecord::getChatData($chat_data);
         $this->view->date = ZbiaoRecord::getChatData($chat_date, true);

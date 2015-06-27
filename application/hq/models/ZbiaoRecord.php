@@ -30,6 +30,8 @@ class ZbiaoRecord extends Model
                 'biao_id' => $table['biao_id'],
                 'zongliang' => $value,
                 'day_use' => $day_use,
+                'week_num' => date('W'),
+                'month_num' => date('n'),
                 'created' => time(),
             );
             ZbiaoRecords::model()->insert($records);
@@ -49,14 +51,29 @@ class ZbiaoRecord extends Model
     public static function getChatData($data, $date = false)
     {
         $chat_array = [];
-        foreach ($data as $key => $value)
-        {
-            foreach ($value as $v)
-            {
+        foreach ($data as $key => $value) {
+            foreach ($value as $v) {
                 $v = $date ? date('m月d日', $v) : intval($v);
                 array_unshift($chat_array, $v);
             }
         }
+        return $chat_array;
+    }
+
+
+    /**
+     * 拼接月份
+     * @param $data
+     * @return array 按月排序的数组
+     */
+    public static function getChatDataByMonth($data)
+    {
+        $chat_array = [];
+        foreach ($data as $key => $value) {
+            $v = $value['month_num'] . '月';
+            $chat_array[] = $v;
+        }
+
         return $chat_array;
     }
 }

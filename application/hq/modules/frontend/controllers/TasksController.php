@@ -26,22 +26,40 @@ class TasksController extends FrontController
     {
         $this->layout->title = '水电详情';
 
-        //        显示第一个电表的数据
-        $condition = ['biao_id = ?' => 1001];
+        $biao_id = 1001;
+
+        //显示第一个电表的数据
+        $condition = ['biao_id = ?' => $biao_id];
         $sql = new Sql();
-        $chat_data = $sql->from('zbiao_records', 'records', 'day_use')
+        $chat_data_day = $sql->from('zbiao_records', 'records', 'day_use')
             ->where($condition)
             ->order('created desc')
             ->limit(10)
             ->fetchAll();
-        $chat_date = $sql->from('zbiao_records', 'records', 'created')
+        $chat_date_day = $sql->from('zbiao_records', 'records', 'created')
             ->where($condition)
             ->order('created desc')
             ->limit(10)
             ->fetchAll();
 
-        $this->view->data = ZbiaoRecord::getChatData($chat_data);
-        $this->view->date = ZbiaoRecord::getChatData($chat_date, true);
+        $chat_data_month = $sql->select('sum(day_use)')
+            ->from('zbiao_records', 'records', 'sum(day_use)')
+            ->where($condition)
+            ->group('month_num')
+            ->order('month_num asc')
+            ->fetchAll();
+
+        $chat_date_month = $sql->from('zbiao_records', 'records', 'month_num')
+            ->where($condition)
+            ->group('month_num')
+            ->order('month_num asc')
+            ->fetchAll();
+
+        $this->view->data_day = ZbiaoRecord::getChatData($chat_data_day);
+        $this->view->date_day = ZbiaoRecord::getChatData($chat_date_day, true);
+
+        $this->view->data_month = ZbiaoRecord::getChatData($chat_data_month);
+        $this->view->date_month = ZbiaoRecord::getChatDataByMonth($chat_date_month);
 
         $this->view->render();
     }
@@ -56,22 +74,39 @@ class TasksController extends FrontController
 
         $condition = ['biao_id = ?' => $tree_id];
         $sql = new Sql();
-        $chat_data = $sql->from('zbiao_records', 'records', 'day_use')
+        $chat_data_day = $sql->from('zbiao_records', 'records', 'day_use')
             ->where($condition)
             ->order('created asc')
             ->limit(10)
             ->fetchAll();
-        $chat_date = $sql->from('zbiao_records', 'records', 'created')
+        $chat_date_day = $sql->from('zbiao_records', 'records', 'created')
             ->where($condition)
             ->order('created asc')
             ->limit(10)
             ->fetchAll();
-        if (!$chat_data)
+        if (!$chat_data_day)
         {
             $this->finish(['code' => -1, 'message' => '暂无数据']);
         }
-        $data['data'] = ZbiaoRecord::getChatData($chat_data);
-        $data['date'] = ZbiaoRecord::getChatData($chat_date, true);
+
+        $chat_data_month = $sql->select('sum(day_use)')
+            ->from('zbiao_records', 'records', 'sum(day_use)')
+            ->where($condition)
+            ->group('month_num')
+            ->order('month_num asc')
+            ->fetchAll();
+
+        $chat_date_month = $sql->from('zbiao_records', 'records', 'month_num')
+            ->where($condition)
+            ->group('month_num')
+            ->order('month_num asc')
+            ->fetchAll();
+
+        $data['data_day'] = ZbiaoRecord::getChatData($chat_data_day);
+        $data['date_day'] = ZbiaoRecord::getChatData($chat_date_day, true);
+
+        $data['data_month'] = ZbiaoRecord::getChatData($chat_data_month);
+        $data['date_month'] = ZbiaoRecord::getChatDataByMonth($chat_date_month, true);
         $data['name'] = $name;
         $data['text'] = $text;
         $data['type'] = $type;

@@ -136,10 +136,9 @@
 					if(!in_array('memcache', $extensions)){
 						echo '<span class="fc-red">扩展未开启</span>';
 					}else{
-						$memcache = new Memcache();
-						$connect = @$memcache->connect(F::app()->config->get('memcache.host', 'memcache'), F::app()->config->get('memcache.port', 'memcache'));
-						if($connect){
-							echo '版本:', $memcache->getVersion();
+						$version = @F::cache()->getDriver('memcache')->_cache->getVersion();
+						if($version){
+							echo '版本:', $version;
 						}else{
 							echo '<span class="fc-red">连接失败</span>';
 						}

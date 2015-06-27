@@ -1,16 +1,14 @@
 <?php
 namespace fay\common;
 
-use fay\core\FBase;
-
 /**
  * 一个加密类，需要开启php_encrypt扩展才能用
  */
-class Encrypt extends FBase{
+class Encrypt{
 	public $key = '';
 	
 	public function __construct(){
-		$this->key = \F::app()->config('encryption_key');
+		$this->key = \F::config()->get('encryption_key');
 	}
 
 	public function encode($data){

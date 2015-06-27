@@ -1,9 +1,7 @@
 <?php
 namespace shinecolor\plugins;
 
-use fay\core\FBase;
-
-class AdminMenu extends FBase{
+class AdminMenu{
 	public function run(){
 		if(method_exists(\F::app(), 'addMenuTeam')){
 			\F::app()->removeMenuTeam('message');

@@ -19,12 +19,12 @@ class Email extends Model{
 	 * @param string $body 邮件内容
 	 */
 	public function send($address, $subject, $body){
-		if(!$this->config('send_email')){
+		if(!\F::config()->get('send_email')){
 			return;
 		}
 		
 		Loader::vendor('PHPMailer/class.phpmailer');
-		$config_email = $this->config('email');
+		$config_email = \F::config()->get('email');
 	
 		$mail = new \PHPMailer ();
 		$mail->IsSMTP ();

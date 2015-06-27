@@ -1,9 +1,7 @@
 <?php
 namespace ncp\plugins;
 
-use fay\core\FBase;
-
-class HideBoxes extends FBase{
+class HideBoxes{
 	public function run(){
 		\F::app()->removeBox('alias');
 		\F::app()->removeBox('tags');

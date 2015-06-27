@@ -1,9 +1,7 @@
 <?php
 namespace siwi\plugins;
 
-use fay\core\FBase;
-
-class Dashboard extends FBase{
+class Dashboard{
 	public static function run(){
 		//操作dashboard，测试用途
 		\F::app()->addBox(array(

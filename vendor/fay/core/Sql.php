@@ -1,10 +1,9 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\helpers\String;
 
-class Sql extends FBase{
+class Sql{
 	protected $fields = array();
 	
 	protected $from = array();

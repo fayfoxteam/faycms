@@ -1,10 +1,9 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\helpers\Html;
 
-class Form extends FBase{
+class Form{
 	private static $_forms = array();
 	private $_data = null;
 	private $_rules = array();

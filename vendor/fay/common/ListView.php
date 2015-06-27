@@ -1,12 +1,11 @@
 <?php 
 namespace fay\common;
 
-use fay\core\FBase;
 use fay\core\Db;
 use fay\core\Sql;
 use fay\core\Exception;
 
-class ListView extends FBase{
+class ListView{
 	public $current_page = 1;
 	public $page_size = 10;
 	public $item_view = '_list_item';

@@ -467,7 +467,7 @@ class Post extends Model{
 	 * 设置一个文章属性值
 	 * @param int $post_id
 	 * @param string $alias
-	 * @param mix $value
+* @param mixed $value
 	 * @return boolean
 	 */
 	public function setPropValueByAlias($alias, $value, $post_id){

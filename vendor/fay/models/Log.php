@@ -16,7 +16,7 @@ class Log extends Model{
 	/**
 	 * 记录日志
 	 * @param string $code 错误码
-	 * @param mix $data 相关数据(若为数组，会被转为json存储)
+* @param mixed $data 相关数据(若为数组，会被转为json存储)
 	 * @param int $type 错误级别，在Logs中定义错误级别常量
 	 */
 	public static function set($code, $data, $type = Logs::TYPE_NORMAL){

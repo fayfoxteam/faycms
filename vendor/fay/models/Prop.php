@@ -478,7 +478,7 @@ class Prop extends Model{
 	 * @param string $field 字段名，$refer对应的字段
 	 * @param int $refer 字段值
 	 * @param string $alias 属性别名
-	 * @param mix $value 属性值<br>
+* @param mixed $value 属性值<br>
 	 * 若属性元素对应的是输入框，文本域或单选框，则直接更新属性值<br>
 	 * 若属性元素对应的是多选框：<br>
 	 *     当$value是数字的时候，仅做插入（已存在则无操作）操作，<br>

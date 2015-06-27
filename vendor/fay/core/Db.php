@@ -171,7 +171,7 @@ class Db extends FBase{
 				$values[] = $v;
 			}
 		}
-		$sql = "INSERT INTO {$this->__get($table)} (".implode(',', $fields).') VALUES ('.implode(',', $pres).')';
+		$sql = "INSERT INTO {$this->getTableName($table)} (".implode(',', $fields).') VALUES ('.implode(',', $pres).')';
 		return $this->execute($sql, $values);
 	}
 	
@@ -211,10 +211,18 @@ class Db extends FBase{
 			}
 			$bulk[] = implode(',', $pres);
 		}
-		$sql = "INSERT INTO {$this->__get($table)} (".implode(',', $fields).') VALUES ('.implode("),\n(", $bulk).')';
+		$sql = "INSERT INTO {$this->getTableName($table)} (".implode(',', $fields).') VALUES ('.implode("),\n(", $bulk).')';
 		return $this->execute($sql, $values);
 	}
 	
+	/**
+	 * 更新符合条件的记录
+	 * @param string $table 表名
+	 * @param array $data 数据
+	 * @param false|array|string $condition 条件，若为false，则更新所有字段
+	 * @throws Exception
+	 * @return Ambigous <string, number>
+	 */
 	public function update($table, $data, $condition = false){
 		if(empty($data)){
 			throw new Exception('Db::update语句更新数据不能为空');
@@ -233,31 +241,58 @@ class Db extends FBase{
 		}
 		
 		if($condition === false){
-			$sql = "UPDATE {$this->__get($table)} SET ".implode(',', $set);
+			$sql = "UPDATE {$this->getTableName($table)} SET ".implode(',', $set);
 			return $this->execute($sql, $values);
 		}else{
 			$where = $this->getWhere($condition);
-			$sql = "UPDATE {$this->__get($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
+			$sql = "UPDATE {$this->getTableName($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
 			return $this->execute($sql, array_merge($values, $where['params']));
 		}
 	}
 	
+	/**
+	 * 根据条件删除行
+	 * @param string $table 表名
+	 * @param array|string $condition 条件，出于安全考虑，$condition不能为空，即不可全表删除
+	 * @return Ambigous <string, number>
+	 */
 	public function delete($table, $condition){
 		$where = $this->getWhere($condition);
-		$sql = "DELETE FROM {$this->__get($table)} WHERE {$where['condition']}";
+		$sql = "DELETE FROM {$this->getTableName($table)} WHERE {$where['condition']}";
 		return $this->execute($sql, $where['params']);
 	}
 	
+	/**
+	 * 递增/递减一个字段
+	 * @param string $table 表名
+	 * @param array|string $condition where条件
+	 * @param string $field 字段
+	 * @param int $count 递增/递减值
+	 */
 	public function inc($table, $condition, $field, $count){
 		$where = $this->getWhere($condition);
 		if($count >= 0){
 			$count = '+'.$count;
 		}
-		$sql = "UPDATE {$this->__get($table)} SET `{$field}` = `{$field}` {$count} WHERE {$where['condition']}";
+		$sql = "UPDATE {$this->getTableName($table)} SET `{$field}` = `{$field}` {$count} WHERE {$where['condition']}";
 		return $this->execute($sql, $where['params']);
 	}
 	
+	/**
+	 * 给传入字段加上表前缀后返回
+	 * @param string $table_name
+	 * @return string
+	 */
 	public function __get($table_name){
+		return $this->getTableName($table_name);
+	}
+	
+	/**
+	 * 给表名加上表名前缀
+	 * @param string $table_name
+	 * @return string
+	 */
+	public function getTableName($table_name){
 		return $this->_table_prefix . $table_name;
 	}
 	

@@ -370,7 +370,7 @@ class User extends Model{
 	 * 设置一个用户属性值
 	 * @param int $user_id
 	 * @param string $alias
-	 * @param mix $value
+* @param mixed $value
 	 * @return boolean
 	 */
 	public function setPropValueByAlias($alias, $value, $user_id = null){

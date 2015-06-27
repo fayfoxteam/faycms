@@ -5,10 +5,14 @@ use cms\library\InstallController;
 use fay\models\Category;
 use fay\core\Db;
 use fay\models\Menu;
+use fay\helpers\Request;
 
 class DbController extends InstallController{
 	public function __construct(){
 		parent::__construct();
+		
+		$this->checkToken();
+		
 		$this->db = Db::getInstance();
 	}
 	
@@ -19,8 +23,12 @@ class DbController extends InstallController{
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
 		$this->db->execute($sql);
 		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "tables-completed");
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -30,8 +38,12 @@ class DbController extends InstallController{
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\ncities-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -41,8 +53,12 @@ class DbController extends InstallController{
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\nregions-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -52,8 +68,12 @@ class DbController extends InstallController{
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\ncategoties-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -63,8 +83,12 @@ class DbController extends InstallController{
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\nactions-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -74,8 +98,12 @@ class DbController extends InstallController{
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\nmenus-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -85,8 +113,12 @@ class DbController extends InstallController{
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\nsystem-data-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -101,8 +133,13 @@ class DbController extends InstallController{
 				$this->db->execute($sql);
 			}
 		}
+		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\ncustom-data-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 	
@@ -112,8 +149,14 @@ class DbController extends InstallController{
 	public function indexCats(){
 		Category::model()->buildIndex();
 		Menu::model()->buildIndex();
+		
+		//安装日志
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\nindex-tree-tables-completed", FILE_APPEND);
+		file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "]\r\ndatabase-completed", FILE_APPEND);
+		
 		echo json_encode(array(
 			'status'=>1,
+			'_token'=>$this->getToken(),
 		));
 	}
 }

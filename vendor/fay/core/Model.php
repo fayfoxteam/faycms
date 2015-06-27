@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Model extends FBase{
+class Model{
 	/**
 	 * @var Db
 	 */

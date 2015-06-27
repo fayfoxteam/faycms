@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Input extends FBase{
+class Input{
 	private static $_instance;
 	private $_get = array();
 	private $_post = array();

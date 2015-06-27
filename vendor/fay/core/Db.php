@@ -4,7 +4,7 @@ namespace fay\core;
 use fay\core\db\Intact;
 use fay\helpers\SqlHelper;
 
-class Db extends FBase{
+class Db{
 	private $_host;
 	private $_user;
 	private $_pwd;

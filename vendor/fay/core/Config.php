@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Config extends FBase{
+class Config{
 	private static $_instance;
 	private $_configs;
 	

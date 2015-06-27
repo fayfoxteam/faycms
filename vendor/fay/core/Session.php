@@ -19,7 +19,7 @@ class Session{
 	 * 设置session
 	 */
 	public function set($key, $value){
-		$session_namespace = $this->config('session_namespace');
+		$session_namespace = \F::config()->get('session_namespace');
 		$_SESSION[$session_namespace][$key] = $value;
 		return true;
 	}
@@ -28,7 +28,7 @@ class Session{
 	 * 获取session
 	 */
 	public function get($key = false, $default = null, $session_namespace = null){
-		$session_namespace || $session_namespace = $this->config('session_namespace');
+		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
 		if($key === false){
 			return $_SESSION[$session_namespace];
 		}
@@ -45,7 +45,7 @@ class Session{
 	 * @param string $session_namespace 命名空间
 	 */
 	public function remove($key = null, $session_namespace = null){
-		$session_namespace || $session_namespace = $this->config('session_namespace');
+		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
 		if($key === null){
 			unset($_SESSION[$session_namespace]);
 		}else{
@@ -59,7 +59,7 @@ class Session{
 	 * @param null|string $session_namespace 若为null，默认为Config中指定的命名空间
 	 */
 	public function flush($session_namespace = null){
-		$session_namespace || $session_namespace = $this->config('session_namespace');
+		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
 		$this->remove();
 	}
 	

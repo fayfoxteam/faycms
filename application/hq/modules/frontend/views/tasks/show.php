@@ -158,7 +158,7 @@ use hq\models\tables\ZbiaoRecords;
     <div class="row">
         <div class="col-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading">电表分布</div>
+                <div class="panel-heading tab" data-status="on">电表分布</div>
                 <div class="panel-body">
                     <div class="zTreeDemoBackground left">
                         <ul id="treeElectric" class="ztree"></ul>
@@ -166,7 +166,7 @@ use hq\models\tables\ZbiaoRecords;
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">水表分布</div>
+                <div class="panel-heading tab" data-status="on">水表分布</div>
                 <div class="panel-body">
                     <div class="zTreeDemoBackground left">
                         <ul id="treeWater" class="ztree"></ul>
@@ -279,10 +279,10 @@ use hq\models\tables\ZbiaoRecords;
             $('.tab').click(function(){
                 var status = $(this).attr('data-status');
                 if (status == 'on') {
-                    $(this).next().hide();
+                    $(this).next().slideToggle();
                     $(this).attr('data-status', 'off');
                 } else if (status == 'off') {
-                    $(this).next().show();
+                    $(this).next().slideToggle();
                     $(this).attr('data-status', 'on');
                 }
             });

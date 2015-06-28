@@ -54,7 +54,7 @@ use fay\helpers\Html;
 					<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--') + $widgetareas, '', array(
 						'class'=>'form-control',
 					))?>
-					<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个</p>
+					<p class="description">将小工具指定到域，可以通过域来调用一组小工具。</p>
 				</div>
 				<div class="form-field">
 					<label class="title">别名</label>
@@ -65,7 +65,7 @@ use fay\helpers\Html;
 						'data-ajax'=>$this->url('admin/widget/is-alias-not-exist'),
 						'class'=>'form-control w400',
 					))?>
-					<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个</p>
+					<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个。</p>
 				</div>
 				<div class="form-field">
 					<a href="javascript:;" class="btn" id="create-instance-form-submit">创建</a>

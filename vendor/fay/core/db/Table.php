@@ -63,7 +63,7 @@ class Table extends Model{
 	 * @param array $data 二维数组
 	 * @param bool $filter 是否调用过滤器进行过滤
 	 */
-	public function batchInsert($data, $filter = false){
+	public function bulkInsert($data, $filter = false){
 		if(!empty($data)){
 			$insert_data = array();
 			foreach($data as $d){
@@ -74,7 +74,7 @@ class Table extends Model{
 				}
 			}
 			
-			return $this->db->batchInsert($this->_name, $insert_data);
+			return $this->db->bulkInsert($this->_name, $insert_data);
 		}else{
 			return null;
 		}
@@ -83,8 +83,8 @@ class Table extends Model{
 	/**
 	 * 更新当前表记录
 	 * @param array $data
-	 * @param array $where
-	 * @param boolean $filter
+	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
+	 * @param boolean $filter 若为true且$this->filters()中有设置过滤器，则进行过滤
 	 */
 	public function update($data, $where, $filter = false){
 		if(is_numeric($where)){
@@ -102,8 +102,7 @@ class Table extends Model{
 	
 	/**
 	 * 删除一条记录
-	 * 单主键自递增的情况下可以进传入一个数字，视为根据主键进行删除
-	 * @param mix $where
+	 * @param mix $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
 	 */
 	public function delete($where){
 		if(is_numeric($where)){

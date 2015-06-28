@@ -187,7 +187,7 @@ class Validator{
 	/**
 	 * 验证一个字段<br>
 	 * 所有验证器需要实现此方法
-	 * @param mix $value 字段值
+	 * @param mixed $value 字段值
 	 */
 	public function validate($value){
 		return true;
@@ -235,7 +235,7 @@ class Validator{
 	/**
 	 * 是否跳过该字段验证
 	 * @param string $field 字段名
-	 * @param mix $value 字段值
+	 * @param mixed $value 字段值
 	 * @return boolean
 	 */
 	private function isSkip($field, $value){

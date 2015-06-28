@@ -107,7 +107,7 @@ class Upload{
 		}else{
 			$destination = $this->upload_path.$this->file_name;
 		}
-		if(move_uploaded_file($file['tmp_name'], $destination)){
+		if( move_uploaded_file($file['tmp_name'], $destination)){
 			$data = array(
 				'file_name'=>$this->file_name,
 				'raw_name'=>str_replace($this->file_ext, '', $this->file_name),
@@ -138,7 +138,7 @@ class Upload{
 	 * 若为*，则允许所有类型的文件
 	 * $types参数为允许的文件类型数组，一般为文件扩展名
 	 * 自动读取config文件夹中的mimes.php文件，转换为标准mimetype类型
-	 * @param mix $types
+	 * @param mixed $types
 	 */
 	private function setAllowedTypes($types){
 		if(is_array($types) || $types === '*'){

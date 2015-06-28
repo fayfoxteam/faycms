@@ -140,7 +140,7 @@ class Form{
 	/**
 	 * 根据key获取单个表单数据
 	 * @param string $key
-	 * @param mix $default 若key不存在，返回默认值
+	 * @param mixed $default 若key不存在，返回默认值
 	 * @param bool $filter 若为true且$this->_filter中有设置过滤器，则进行过滤
 	 */
 	public function getData($key, $default = null, $filter = true){

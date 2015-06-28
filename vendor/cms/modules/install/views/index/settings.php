@@ -3,6 +3,7 @@ use fay\models\Option;
 ?>
 <h1>初始化站点信息</h1>
 <form method="post">
+	<input type="hidden" name="_token" value="<?php echo F::app()->getToken()?>" />
 	<table class="form-table">
 		<tr>
 			<th>站点名称</th>

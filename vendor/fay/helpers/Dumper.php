@@ -6,7 +6,7 @@ class Dumper{
 
     /**
      * 相对于pr函数来说，dump更美观一些
-     * @param mix $var
+* @param mixed $var
      */
     public static function dump($var){
         self::$_output = '';

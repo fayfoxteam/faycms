@@ -73,7 +73,7 @@ class Config{
 	/**
 	 * 运行中动态配置配置项
 	 * @param string $item 可以点式操作，例如db.host修改二维数组db下的host
-	 * @param mix $value
+	 * @param mixed $value
 	 * @param string $filename
 	 */
 	public function set($item, $value, $filename = false){

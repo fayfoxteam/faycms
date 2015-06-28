@@ -4,12 +4,18 @@ namespace fay\core;
 use fay\helpers\Request;
 use fay\models\tables\Actions;
 use fay\models\tables\Users;
+use fay\helpers\String;
 
 class Controller{
 	/**
 	 * 检查过被阻止的路由
 	 */
 	protected $_deny_routers = array();
+	
+	/**
+	 * 随机token，用于防止重复请求（并不一定用到）
+	 */
+	private $token;
 	
 	/**
 	 * @var Uri
@@ -121,5 +127,33 @@ class Controller{
 		}
 		$this->_deny_routers[] = $router;
 		return false;
+	}
+	
+	/**
+	 * 生成一个token并返回。
+	 * 一次http请求只会生成一个token。
+	 */
+	public function getToken(){
+		if(!$this->token){
+			//设置token
+			$this->token = String::random();
+			$this->session->set('_token', $this->token);
+		}
+		return $this->token;
+	}
+	
+	/**
+	 * 检查token防重复提交，每次校验都会重新生成一个token
+	 * @return boolean
+	 */
+	protected function checkToken(){
+		$token = $this->input->request('_token');
+		$last_token = $this->session->get('_token');
+		$this->getToken();
+		if($token && $token == $last_token){
+			return true;
+		}else{
+			throw new Exception('Token校验失败');
+		}
 	}
 }

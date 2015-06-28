@@ -1,7 +1,7 @@
 var post = {
 	'tag':function(){
 		//tags输入
-		system.getScript(system.url('js/custom/fayfox.textext.js'), function(){
+		system.getScript(system.url('faycms/js/fayfox.textext.js'), function(){
 			$("[name='tags']").ftextext({
 				'url':system.url('tag/search.html')
 			});
@@ -10,7 +10,7 @@ var post = {
 	'cats':function(){
 		//分类选择
 		//下拉框美化
-		system.getScript(system.url('js/custom/fayfox.select.js'), function(){
+		system.getScript(system.url('faycms/js/fayfox.select.js'), function(){
 			$('select').fselect({
 				'afterSetChoice':function(o){
 					if(common.validObj){

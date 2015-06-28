@@ -47,6 +47,6 @@ use fay\models\Flash;
 </footer>
 <script type="text/javascript" src="<?php echo $this->staticFile('js/common.js')?>"></script>
 <script>common.init();</script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
 <script>_fa.init();</script>
 <?php echo Flash::get()?>

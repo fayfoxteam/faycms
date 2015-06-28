@@ -104,7 +104,7 @@ echo F::form()->open();
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/browserplus-min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/user.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/user.js"></script>
 <script>
 user.user_id = <?php echo $user['id']?>;
 user.init();

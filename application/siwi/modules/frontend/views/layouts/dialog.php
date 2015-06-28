@@ -8,7 +8,7 @@ use fay\models\Option;
 <link href="<?php echo $this->url()?>static/siwi/css/dialog.css" rel="stylesheet" type="text/css" />
 <?php echo $this->getCss()?>
 <script src="<?php echo $this->url()?>js/jquery-1.7.1.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->session->get('id', 0)?>';

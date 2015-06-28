@@ -74,7 +74,7 @@ $labels = array(
 	</div>
 	<div class="col-6"><?php pr($js_rules)?></div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.validform.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/fayfox.validform.js"></script>
 <script>
 var demo;
 $(function(){

@@ -13,7 +13,7 @@ use fay\models\Option;
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/login.css" />
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/prefixfree.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 </script>
@@ -140,7 +140,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
 <script>
 _fa.init();
 var login = {

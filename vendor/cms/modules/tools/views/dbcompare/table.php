@@ -1,5 +1,5 @@
 <?php use fay\core\Loader;
-$this->appendCss($this->url().'css/admin/diff.css')?>
+$this->appendCss($this->url().'faycms/css/diff.css')?>
 <div class="row">
 	<div class="col-6">
 		<h3 class="mb5"><?php echo $db_config['left']['host'], '/', $db_config['left']['dbname']?></h3>

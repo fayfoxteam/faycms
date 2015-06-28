@@ -104,7 +104,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 </div>
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/post.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/post.js"></script>
 <script>
 $(function(){
 	common.dragsortKey = 'admin_post_box_sort';

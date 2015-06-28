@@ -44,7 +44,7 @@ use fay\helpers\Date;
 		</table>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
 <script>
 $(function(){
 	var browser = _fa.getBrowser();

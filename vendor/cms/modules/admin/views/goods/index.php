@@ -75,7 +75,7 @@ use fay\models\tables\Goods;
 		<?php $listview->showPager();?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/fayfox.editsort.js"></script>
 <script>
 $(function(){
 	$(".goods-list").delegate(".is-new-link", "click", function(){

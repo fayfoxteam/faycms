@@ -56,7 +56,7 @@ use fay\helpers\Html;
 		<?php $listview->showPager();?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/fayfox.editsort.js"></script>
 <script>
 $(".edit-sort").feditsort({
 	'url':system.url("admin/link/sort")

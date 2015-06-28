@@ -1,7 +1,7 @@
 var blog_item = {
 	'loadScripts':function(){
 		//遮蔽层
-		system.getScript(system.url('js/custom/fayfox.block.js'));
+		system.getScript(system.url('faycms/js/fayfox.block.js'));
 		//滚动
 		system.getScript(system.url('js/jquery.scrollTo-min.js'));
 		//分享插件

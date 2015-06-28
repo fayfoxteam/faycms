@@ -14,11 +14,11 @@ use fay\models\Flash;
 <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-responsive.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>faycms/css/style-responsive.css" />
 <?php echo $this->getCss()?>
 
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
 <![endif]-->
@@ -26,8 +26,8 @@ use fay\models\Flash;
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/fayfox.block.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/common.min.js"></script>
 <title><?php echo $subtitle?> | <?php echo Option::get('site.sitename')?>后台</title>
 </head>
 <body id="faycms">

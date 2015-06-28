@@ -24,7 +24,7 @@ use fay\helpers\Html;
 		<?php }?>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>js/custom/fayfox.fixcontent.js"></script>
+<script src="<?php echo $this->url()?>faycms/js/fayfox.fixcontent.js"></script>
 <script src="<?php echo $this->url()?>js/jquery.scrollTo-min.js"></script>
 <script>
 $(function(){

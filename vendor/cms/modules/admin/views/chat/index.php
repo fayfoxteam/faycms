@@ -45,7 +45,7 @@ $settings = F::form('setting')->getAllData();
 		</div>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>js/custom/admin/chat.js"></script>
+<script src="<?php echo $this->url()?>faycms/js/admin/chat.js"></script>
 <script>
 chat.status = {
 	'<?php echo Messages::STATUS_APPROVED?>':'<span class="fc-green">已通过</span>',

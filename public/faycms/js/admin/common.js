@@ -420,7 +420,7 @@ var common = {
 	'fixContent':function(){
 		//下拉后顶部固定
 		if($('.fixed-content').length){
-			system.getScript(system.url('js/custom/fayfox.fixcontent.js'), function(){
+			system.getScript(system.url('faycms/js/fayfox.fixcontent.js'), function(){
 				$('.fixed-content').fixcontent();
 			});
 		}
@@ -487,7 +487,7 @@ var common = {
 	},
 	'validform':function(){
 		if($('form.validform').length){
-			system.getScript(system.url('js/custom/fayfox.validform.min.js'), function(){
+			system.getScript(system.url('faycms/js/fayfox.validform.min.js'), function(){
 				if(!$.isEmptyObject(common.validformParams.forms)){
 					for(var k in common.validformParams.forms){
 						if(common.validformParams.forms[k].scene == 'default'){
@@ -863,7 +863,7 @@ var common = {
 			system.getScript(system.url('js/prettify.js'), function(){
 				prettyPrint();
 			});
-			system.getCss(system.url('css/debug.css'));
+			system.getCss(system.url('faycms/css/debug.css'));
 		}
 	},
 	'init':function(){

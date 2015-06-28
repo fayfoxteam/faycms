@@ -11,7 +11,7 @@ use fay\models\Option;
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
 <![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>static/siwi/css/login.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/login.css')?>" />
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site.sitename')?></title>
 </head>

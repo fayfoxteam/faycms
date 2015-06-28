@@ -20,7 +20,7 @@ echo Option::get('site.sitename')?></title>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/jquery.camera.css" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
 <![endif]-->

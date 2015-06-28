@@ -11,7 +11,7 @@ use fay\models\Flash;
 <link href="<?php echo $this->staticFile('css/login.css')?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo $this->staticFile('css/box.css')?>" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';

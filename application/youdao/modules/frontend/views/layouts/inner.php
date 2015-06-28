@@ -9,7 +9,7 @@ use fay\helpers\Html;
 <link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" />
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
@@ -69,7 +69,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 	<?php include '_footer.php'?>
 </div>
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery.masonry.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.fixcontent.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/fayfox.fixcontent.js"></script>
 <script>
 $(".titlediv").each(function(i){
 	if($(this).find("input").val() != ""){

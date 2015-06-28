@@ -46,5 +46,5 @@ map.addOverlay(marker1);              // 将标注添加到地图中
 var infoWindow1 = new BMap.InfoWindow("<?php echo Option::get('site.sitename')?>");
 marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
 <script>_fa.init();</script>

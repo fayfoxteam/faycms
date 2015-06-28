@@ -32,7 +32,7 @@ $menu = array(
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/jquery.fancybox-1.3.4.css" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" />
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
@@ -164,7 +164,7 @@ $(function(){
 	});
 });
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
 <script>_fa.init();</script>
 </body>
 </html>

@@ -306,7 +306,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 <script type="text/javascript" src="<?php echo $this->url()?>js/kindeditor/lang/zh_CN.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/browserplus-min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/goods.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/goods.js"></script>
 <script>
 common.validformParams.tiptype = 2;//validform报错方式
 common.validformParams.tipSweep = true;//表单提交时候才触发验证

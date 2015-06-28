@@ -248,7 +248,7 @@ $cols = F::form('setting')->getData('cols', array());
 		?></div>
 	</div>
 </form>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/fayfox.editsort.js"></script>
 <script>
 $(function(){
 	$(".post-sort").feditsort({

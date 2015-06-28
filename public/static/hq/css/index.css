@@ -75,7 +75,7 @@ a:hover, a:visited{ background: none;}
 
 #serve { height: 80px; width: 1100px; background: url("../images/box2_bg.jpg"); border: 1px solid #ccc; margin: 0 auto; padding: 0 20px; box-sizing: border-box; border-radius: 4px; }
 #serve:after { content: ''; width: 1080px; height: 1px; margin-top: 58px; display: block; position: absolute; left: 50%; margin-left: -540px; z-index: -1; -webkit-box-shadow: 0px 0px 8px 2px #ccc; }
-#serve .title { float: left; line-height: 80px; font-size: 20px; }
+#serve .title { float: left; line-height: 80px; font-size: 20px; font-weight: bold; letter-spacing: 2px; }
 #serve .serve-list { float: left; margin-left: 20px; }
 #serve .serve-list ul { padding: 10px 0; margin-left: 40px; }
 #serve .serve-list ul li { display: inline-block; padding: 0 10px; text-align: center; font-size: 14px; width: 100px; }
@@ -92,21 +92,24 @@ a:hover, a:visited{ background: none;}
 #content-bottom .left .guide .content-box ul { width: 100%; }
 #content-bottom .left .guide .content-box ul:after { content: ''; display: table; clear: both; }
 #content-bottom .left .guide .content-box ul li { float: left; height: 40px; line-height: 40px; width: 98px; padding-left: 10px; }
-#content-bottom .left .guide .content-box ul li a { display: inline-block; height: 40px; line-height: 40px; position: relative; }
+#content-bottom .left .guide .content-box ul li a { display: inline-block; height: 40px; line-height: 40px; position: relative; font-size: 14px; }
 #content-bottom .left .guide .content-box ul li img { width: 20px; height: 20px; position: absolute; top: 50%; margin-top: -10px; left: -20px; }
 #content-bottom .left .guide .content-box ul li img:after { content: ''; display: table; clear: both; }
 #content-bottom .left .guide .content-box ul li a:hover { margin-left: 4px; }
 #content-bottom .left .guide .content-bottom { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; height: 20px; font-size: 14px; color: #fff; background: #197abf;  line-height: 20px; }
 #content-bottom .center { width: 500px; float: left; margin: 0 10px; }
-#content-bottom .center .content-header { height: 25px; line-height: 25px; width: 380px; margin: 0 auto; text-align: left; color: #197abf; font-size: 16px; border-bottom: 2px solid #197abf; }
+#content-bottom .center .content-header { height: 25px; line-height: 25px; width: 400px; margin: 0 auto; text-align: left; color: #197abf; font-size: 16px; border-bottom: 2px solid #197abf; }
 #content-bottom .center .content-box { height: 200px; }
-#content-bottom .center .content-box .web { width: 377px; height: 59px; font-size: 16px; line-height: 59px; margin: 10px auto; background: url("../images/wb_bg.png"); }
+#content-bottom .center .content-box .web { width: 400px; height: 63px; font-size: 16px; margin: 10px auto; }
+#content-bottom .center .content-box .web a { display: block; position: relative; width: 100%; height: 63px; }
+#content-bottom .center .content-box .web img { height: 63px; width: 100%; }
+#content-bottom .center .content-box .web img:hover { box-shadow: 2px 3px 3px #ccc; }
 
 #content-bottom .right { width: 335px; float: left; }
 #content-bottom .right .hot-topic .content-header { height: 25px; border-bottom:2px solid #197abf; line-height: 25px; text-align: left; color: #197abf; font-size: 16px; }
 #content-bottom .right .hot-topic .content-box {  }
-#content-bottom .right .hot-topic .content-box a { width: 100%; height: 50px; display: block; overflow: hidden; }
-#content-bottom .right .hot-topic .content-box img { width: 100%; height: 50px; display: block; margin-top: 5px; border-radius: 4px;
+#content-bottom .right .hot-topic .content-box a { width: 100%; height: 55px; display: block; overflow: hidden; }
+#content-bottom .right .hot-topic .content-box img { width: 100%; height: inherit; display: block; margin-top: 5px; border-radius: 4px;
     transition:all .3s ease;-webkit-transition:all .3s ease;-moz-transition:all .3s ease;-ms-transition:all .3s ease;-o-transition:all .3s ease; }
 #content-bottom .right .hot-topic .content-box a:hover img { transform: scale(1.04,1.04);-ms-transform: scale(1.04,1.04);-webkit-transform: scale(1.04,1.04); }
 

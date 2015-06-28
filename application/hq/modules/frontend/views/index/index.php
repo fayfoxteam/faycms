@@ -59,14 +59,14 @@ $img_url = $this->staticFile('images');
             <div class="content-header">服务指南</div>
             <div class="content-box">
                 <ul>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />餐饮服务</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />交通服务</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />水电维修</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />邮政通信</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />超市便利</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />教材服务</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />常见问题</a></li>
-                    <li><a href=""><img src="<?= $this->staticFile('images/icon_fw.jpg') ?>" />值班电话</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_01.gif') ?>" />餐饮服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_02.gif') ?>" />交通服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_03.gif') ?>" />水电维修</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_04.gif') ?>" />邮政通信</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_05.gif') ?>" />超市便利</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_06.gif') ?>" />教材服务</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_07.gif') ?>" />常见问题</a></li>
+                    <li><a href=""><img src="<?= $this->staticFile('images/icon/icon_08.gif') ?>" />值班电话</a></li>
                 </ul>
             </div>
             <div class="content-bottom">总值班电话：88888888（24小时）</div>
@@ -74,12 +74,7 @@ $img_url = $this->staticFile('images');
     </div>
 
     <div class="center">
-        <div class="content-header">快速通道</div>
-        <div class="content-box">
-            <div class="web web-1"><a href="">办公用品申领平台</a></div>
-            <div class="web web-2"><a href="<?= $this->url('tasks/show') ?>">水电使用监控平台</a></div>
-            <div class="web web-3"><a href="">阳光厨房监控平台</a></div>
-        </div>
+       <?= F::widget()->load('index_fast') ?>
     </div>
 
     <div class="right">
@@ -92,6 +87,7 @@ $img_url = $this->staticFile('images');
     $(function(){
         jQuery(".slider_wrap").slide({mainCell:"#slider_box ul",autoPlay:true});
 
+        //主页tab切换
         $('.tab').hover(function(){
             $('.tab').removeClass('active');
             $(this).addClass('active');

@@ -91,7 +91,7 @@ var paper = {
 								'<p class="mt5">',
 									'<span>', paper.types[data.type], '</span>',
 									' | ',
-									'<label>分值：<input type="text" name="score[]" class="w100" value="', data.score, '" /></label>',
+									'<label>分值：<input type="text" name="score[]" class="form-control w100 ib" value="', data.score, '" /></label>',
 								'</p>',
 							'</div>',
 						'</div>'].join(''));

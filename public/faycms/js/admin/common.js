@@ -22,6 +22,7 @@ var common = {
 					});
 				},
 				'onError':function(obj, msg, rule){
+					$('body').unblock();
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
 					//报错

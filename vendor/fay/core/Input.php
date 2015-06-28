@@ -86,9 +86,9 @@ class Input{
 	 */
 	public function request($key = null, $filter = null, $default = null){
 		if($key){
-			if(($temp = $this->get($key, $filter)) !== null){
+			if(($temp = $this->post($key, $filter)) !== null){
 				return $temp;
-			}else if(($temp = $this->post($key, $filter)) !== null){
+			}else if(($temp = $this->get($key, $filter)) !== null){
 				return $temp;
 			}else{
 				return $default;

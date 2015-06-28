@@ -280,7 +280,9 @@ class TasksController extends AdminController
                     $insert_data->parent_id = $excel_data->data[2];
                     $insert_data->zongliang = $excel_data->data[3] ? :0;
                     $insert_data->day_use = $excel_data->data[4];
-                    $insert_data->created = strtotime($excel_data->data[5]) + 60 * 60 * 12;
+                    $insert_data->week_num = $excel_data->data[5];
+                    $insert_data->month_num = $excel_data->data[6];
+                    $insert_data->created = strtotime($excel_data->data[7]) + 60 * 60 * 12;
 
                     $insert_id = $db->insert('zbiao_records', $insert_data);
                     if ($insert_id) {

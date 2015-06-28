@@ -134,7 +134,7 @@ use hq\models\tables\ZbiaoRecords;
 //                console.log(data);
                 if (data.code == 0) {
                     tongji_charts.create('day', data.data_day, data.text, data.name, data.date_day, data.type);
-                    tongji_charts.create('week', data.data_day, data.text, data.name, data.date_day, data.type);
+                    tongji_charts.create('week', data.data_week, data.text, data.name, data.date_week, data.type);
                     tongji_charts.create('month', data.data_month, data.text, data.name, data.date_month, data.type);
                 } else {
                     alert(data.message);
@@ -176,7 +176,7 @@ use hq\models\tables\ZbiaoRecords;
         </div>
         <div class="col-md-9">
             <div class="panel panel-default" id="box-chart">
-                <div class="panel-heading">使用情况(日)</div>
+                <div class="panel-heading tab" data-status="on">使用情况(日)</div>
                 <div class="panel-body">
                     <div class="row">
                         <div id="charts-day"></div>
@@ -184,7 +184,7 @@ use hq\models\tables\ZbiaoRecords;
                 </div>
             </div>
             <div class="panel panel-default" id="box-chart">
-                <div class="panel-heading">使用情况(周)</div>
+                <div class="panel-heading tab" data-status="on">使用情况(周)</div>
                 <div class="panel-body">
                     <div class="row">
                         <div id="charts-week"></div>
@@ -192,7 +192,7 @@ use hq\models\tables\ZbiaoRecords;
                 </div>
             </div>
             <div class="panel panel-default" id="box-chart">
-                <div class="panel-heading">使用情况(月)</div>
+                <div class="panel-heading tab" data-status="on">使用情况(月)</div>
                 <div class="panel-body">
                     <div class="row">
                         <div id="charts-month"></div>
@@ -274,15 +274,31 @@ use hq\models\tables\ZbiaoRecords;
                     }
                 });
             });
+        },
+        'tab': function(){
+            $('.tab').click(function(){
+                var status = $(this).attr('data-status');
+                if (status == 'on') {
+                    $(this).next().hide();
+                    $(this).attr('data-status', 'off');
+                } else if (status == 'off') {
+                    $(this).next().show();
+                    $(this).attr('data-status', 'on');
+                }
+            });
+        },
+        'init': function(){
+            this.tab();
+            this.events();
         }
     };
     $(function () {
         tongji_charts.create('day', <?= json_encode($data_day) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_day) ?>, 1);
-        tongji_charts.create('week', <?= json_encode($data_day) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_day) ?>, 1);
+        tongji_charts.create('week', <?= json_encode($data_week) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_week) ?>, 1);
         tongji_charts.create('month', <?= json_encode($data_month) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_month) ?>, 1);
         $.fn.zTree.init($("#treeElectric"), setting, eNodes);
         $.fn.zTree.init($("#treeWater"), setting, wNodes);
-        tongji_charts.events();
+        tongji_charts.init();
     });
 </script>
 

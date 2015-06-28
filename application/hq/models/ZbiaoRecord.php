@@ -66,11 +66,15 @@ class ZbiaoRecord extends Model
      * @param $data
      * @return array 按月排序的数组
      */
-    public static function getChatDataByMonth($data)
+    public static function getChatDataByMonth($data, $month = true)
     {
         $chat_array = [];
         foreach ($data as $key => $value) {
-            $v = $value['month_num'] . '月';
+            if ($month) {
+                $v = $value['month_num'] . '月';
+            } else {
+                $v = $value['week_num'] . '周';
+            }
             $chat_array[] = $v;
         }
 

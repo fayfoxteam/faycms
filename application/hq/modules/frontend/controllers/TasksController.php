@@ -42,6 +42,19 @@ class TasksController extends FrontController
             ->limit(10)
             ->fetchAll();
 
+        $chat_data_week = $sql->select('sum(day_use)')
+            ->from('zbiao_records', 'records', 'sum(day_use)')
+            ->where($condition)
+            ->group('week_num')
+            ->order('week_num desc')
+            ->fetchAll();
+
+        $chat_date_week = $sql->from('zbiao_records', 'records', 'week_num')
+            ->where($condition)
+            ->group('week_num')
+            ->order('week_num asc')
+            ->fetchAll();
+
         $chat_data_month = $sql->select('sum(day_use)')
             ->from('zbiao_records', 'records', 'sum(day_use)')
             ->where($condition)
@@ -57,6 +70,9 @@ class TasksController extends FrontController
 
         $this->view->data_day = ZbiaoRecord::getChatData($chat_data_day);
         $this->view->date_day = ZbiaoRecord::getChatData($chat_date_day, true);
+
+        $this->view->data_week = ZbiaoRecord::getChatData($chat_data_week);
+        $this->view->date_week = ZbiaoRecord::getChatDataByMonth($chat_date_week, false);
 
         $this->view->data_month = ZbiaoRecord::getChatData($chat_data_month);
         $this->view->date_month = ZbiaoRecord::getChatDataByMonth($chat_date_month);
@@ -89,6 +105,19 @@ class TasksController extends FrontController
             $this->finish(['code' => -1, 'message' => '暂无数据']);
         }
 
+        $chat_data_week = $sql->select('sum(day_use)')
+            ->from('zbiao_records', 'records', 'sum(day_use)')
+            ->where($condition)
+            ->group('week_num')
+            ->order('week_num desc')
+            ->fetchAll();
+
+        $chat_date_week = $sql->from('zbiao_records', 'records', 'week_num')
+            ->where($condition)
+            ->group('week_num')
+            ->order('week_num asc')
+            ->fetchAll();
+
         $chat_data_month = $sql->select('sum(day_use)')
             ->from('zbiao_records', 'records', 'sum(day_use)')
             ->where($condition)
@@ -104,6 +133,9 @@ class TasksController extends FrontController
 
         $data['data_day'] = ZbiaoRecord::getChatData($chat_data_day);
         $data['date_day'] = ZbiaoRecord::getChatData($chat_date_day, true);
+
+        $data['data_week'] = ZbiaoRecord::getChatData($chat_data_week);
+        $data['date_week'] = ZbiaoRecord::getChatDataByMonth($chat_date_week, false);
 
         $data['data_month'] = ZbiaoRecord::getChatData($chat_data_month);
         $data['date_month'] = ZbiaoRecord::getChatDataByMonth($chat_date_month, true);

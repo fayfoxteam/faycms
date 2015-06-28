@@ -12,12 +12,12 @@ a:hover, a:visited{ background: none;}
 .hesder-top span{text-align: center;width:17px;padding: 0 5px}
 .hesder-top span img{text-align: center;vertical-align: middle;}
 
-.navBar{margin:0 auto;height:40px;line-height:40px;background:#08A5E0;color:#333;}
-.nav{position:relative;width:980px;margin:0 auto;font-family:"Microsoft YaHei",SimSun,SimHei;font-size:14px;}
+.navBar{margin:0 auto;height:40px;line-height:40px;background:#197abf;color:#333;}
+.nav{position:relative;width:1100px;margin:0 auto;font-family:"Microsoft YaHei",SimSun,SimHei;font-size:14px;}
 .nav a{color:#fff;}
 .nav h3{font-size:100%;font-weight:normal;}
 .nav .m{float:left;position:relative;z-index:1;}
-.nav .m:hover { background: #0baeeb; }
+.nav .m:hover { background: #248ad3; }
 .nav .s{float:left;width:3px;text-align:center;color:#fff;font-size:12px;}
 .nav h3 a{display:block;width:115px;text-align:center;font-weight:bold;}
 .nav .sub{display:none;position:absolute;left:-3px;top:40px;z-index:1;width:117px;border:1px solid #E6E4E3;border-top:0;background:#fff;}

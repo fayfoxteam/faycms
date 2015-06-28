@@ -113,7 +113,8 @@ a:hover, a:visited{ background: none;}
 #gg { height:200px;overflow:hidden; width: 464px; }
 .index-minhxyw{width: 350px; position: absolute;left:380px; text-align: left}
 .index-minhxyw ul{width:464px;}
-.index-minhxyw ul li{margin:12px 0; width:343px;overflow:hidden}
+.index-minhxyw ul li { margin:12px 0; width:343px;overflow:hidden}
+.index-minhxyw ul li:hover { margin-left: 4px; }
 .index-minhxyw ul li span { float: right; }
 .index-minhxyw ul li a:hover{color:#318BCC}
 .index-minhxyw ul li i{background:url("../images/indexli_16.jpg") no-repeat; display: inline-block;height:7px;width:15px}
@@ -121,8 +122,9 @@ a:hover, a:visited{ background: none;}
 .index-minhxyw .index-minhxywmint{text-align:center;padding: 5px 0}
 .index-minxwzx{width:345px;position: absolute;text-align: left;right: 0}
 .index-minxwzxmin ul{}
-.index-minxwzxmin ul li{margin:12px 0; width:343px;overflow:hidden}
-.index-minxwzxmin ul li span { font-size: 12px; float: right; }
+.index-minxwzxmin ul li{ margin:12px 0; width:343px;overflow:hidden}
+.index-minxwzxmin ul li:hover { margin-left: 4px; }
+.index-minxwzxmin ul li span { font-size: 12px; float: right; margin-right: 4px; }
 .index-minxwzxmin ul li a:hover{color:#318BCC}
 .index-minxwzxmin ul li a { font-size: 12px; }
 .index-minxwzxmin ul li i{background:url("../images/indexli_16.jpg") no-repeat; display: inline-block;height:7px;width:15px}

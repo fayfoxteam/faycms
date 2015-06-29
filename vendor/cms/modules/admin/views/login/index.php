@@ -10,7 +10,7 @@ use fay\models\Option;
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
 <![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/login.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>faycms/css/login.css" />
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/prefixfree.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>

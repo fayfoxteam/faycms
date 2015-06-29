@@ -117,8 +117,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .box{background-color:#fff;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);border:1px solid #DFDFDF;margin-bottom:30px;position:relative}
 .box-title{border-bottom:1px solid #EEEEEE;text-shadow:0 1px 0 #fff;padding:3px 12px}
 .box-title h4,.box-title h3{font-size:15px;height:32px;line-height:32px}
-.box-title .tools{cursor:pointer;float:right;height:32px;width:19px;line-height:32px;color:#B7B7B7;text-align:center;font-family:FontAwesome}
-.box-title:hover .toggle:before{content:"\f0d7"}
+.box-title .tools{cursor:pointer;float:right;height:32px;width:19px;line-height:32px;color:#B7B7B7;text-align:center}
+.box-title:hover .toggle:before{content:"\f0d7";font-family:FontAwesome}
 .box-title:hover .remove:before{content:"×"}
 .box.closed .box-title.hover .handlediv:before{content:"\f0d9"}
 .box-content{padding:8px 12px}
@@ -362,8 +362,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .dragsort-list .dragsort-item .dragsort-item-selector:before{content:"\f0dc";font-family:FontAwesome}
 .dragsort-list .dragsort-item .dragsort-meta{margin-left:31px}
 .dragsort-list .dragsort-item.holder{background-color:#fff;border:2px dashed #DFDFDF !important}
-.dragsort-list .dragsort-item .dragsort-rm{float:right;color:grey;margin-top:-6px;z-index:100}
-.dragsort-list .dragsort-item .dragsort-rm:before{content:"×";font-family:FontAwesome}
+.dragsort-list .dragsort-item .dragsort-rm{float:right;color:grey;margin-top:-3px;z-index:100;line-height:1em;font-size:20px}
+.dragsort-list .dragsort-item .dragsort-rm:before{content:"×"}
 .dragsort-list .dragsort-item-container{margin:0 22px 0 31px}
 
 /* 小工具域 */

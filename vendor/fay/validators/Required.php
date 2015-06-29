@@ -25,7 +25,7 @@ class Required extends Validator{
 				return true;
 			}
 		}else{
-			if(empty($value)){
+			if(empty($value) && $value != 0){//字符串和数字的0在empty中都返回true
 				return $this->message;
 			}else{
 				return true;

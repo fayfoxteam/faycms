@@ -59,6 +59,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				?>
 			</ul>
 			<ul class="user-info-menu fr">
+			<?php if(F::session()->get('id')){?>
 				<li class="dropdown-container hover-line message" id="faycms-message">
 					<?php echo Html::link('', '#faycms-messages-container', array(
 						'class'=>'dropdown',
@@ -117,6 +118,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						?></li>
 					</ul>
 				</li>
+				<?php }?>
 			</ul>
 		</nav>
 		<div class="page-title">
@@ -131,7 +133,6 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						}else{
 							$html_options['class'] = 'quick-link';
 						}
-
 						echo Html::link($sublink['text'], $sublink['uri'], $html_options);
 					}?></h1>
 			</div>
@@ -194,8 +195,10 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 <script>
 $(function(){
 	//系统消息提示
-	common.headerNotification();
-	setInterval(common.headerNotification, 30000);
+	if(system.user_id){
+		common.headerNotification();
+		setInterval(common.headerNotification, 30000);
+	}
 	
 	<?php
 		$forms = F::forms();

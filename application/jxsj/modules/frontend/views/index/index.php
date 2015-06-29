@@ -83,7 +83,7 @@ use fay\models\File;
 		</section>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>js/jquery.kxbdmarquee.js"></script>
+<script src="<?php echo $this->assets('js/jquery.kxbdmarquee.js')?>"></script>
 <script>
 var app = {
 	'workList':function(){

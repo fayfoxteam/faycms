@@ -8,8 +8,8 @@ $cats = Category::model()->getTree('fayfox');
 	<div class="sidebar-menu-inner">
 		<header class="logo-env">
 			<div class="logo">
-				<a href="<?php echo $this->url()?>" class="logo-expanded">Faycms</a>
-				<a href="<?php echo $this->url()?>" class="logo-collapsed">F</a>
+				<a href="<?php echo $this->assets('" class="logo-expanded')?>">Faycms</a>
+				<a href="<?php echo $this->assets('" class="logo-collapsed')?>">F</a>
 			</div>
 			
 			<div class="mobile-menu-toggle">

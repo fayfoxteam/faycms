@@ -62,16 +62,16 @@ use fay\models\File;
 				'title'=>false,
 			));
 		}else{
-			echo Html::link(Html::img($this->url().'images/avatar.png', 0, array(
+			echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
 				'id'=>'avatar-img',
-			)), $this->url().'images/avatar.png', array(
+			)), $this->assets('images/avatar.png'), array(
 				'class'=>'fancybox-image',
 				'encode'=>false,
 				'title'=>false,
 			));
-			echo Html::link(Html::img($this->url().'images/avatar.png', 0, array(
+			echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
 				'id'=>'avatar-img-circle',
-			)), $this->url().'images/avatar.png', array(
+			)), $this->assets('images/avatar.png'), array(
 				'class'=>'fancybox-image',
 				'encode'=>false,
 				'title'=>false,

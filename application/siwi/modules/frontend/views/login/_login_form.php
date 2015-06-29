@@ -11,7 +11,7 @@ use fay\helpers\Html;
 		<div id="login-form-container">
 			<fieldset class="form-field">
 				<label for="login-username" class="prompt-text">账号</label>
-				<img src="<?php echo $this->url()?>static/51fb/images/man.png" />
+				<img src="<?php echo $this->assets('static/51fb/images/man.png')?>" />
 				<?php echo \F::form()->inputText('username', array(
 					'id'=>'login-username',
 					'datatype'=>'e',
@@ -21,7 +21,7 @@ use fay\helpers\Html;
 			</fieldset>
 			<fieldset class="last form-field">
 				<label for="login-password" class="prompt-text">密码</label>
-				<img src="<?php echo $this->url()?>static/51fb/images/lock.png" />
+				<img src="<?php echo $this->assets('static/51fb/images/lock.png')?>" />
 				<?php echo \F::form()->inputPassword('password', array(
 					'id'=>'login-password',
 					'datatype'=>'*',

@@ -4,7 +4,7 @@ use ncp\helpers\FriendlyLink;
 use fay\models\File;
 use fay\helpers\String;
 
-$this->appendCss($this->staticFile('css/food.css'));
+$this->appendCss($this->appStatic('css/food.css'));
 ?>
 <div class="container containerbg">
 	<div class="curnav">

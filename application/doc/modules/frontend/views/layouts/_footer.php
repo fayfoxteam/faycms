@@ -11,5 +11,5 @@ use fay\models\Option;
 		</div>
 	</div>
 </footer>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>_fa.init();</script>

@@ -106,10 +106,10 @@ use fay\models\Post;
 </section>
 <section id="our-partners">
 	<div class="w1000 clearfix">
-		<img src="<?php echo $this->staticFile('images/our-partners.png')?>" />
+		<img src="<?php echo $this->appStatic('images/our-partners.png')?>" />
 	</div>
 </section>
-<script src="<?php echo $this->url()?>js/jcarousellite_1.0.1.min.js"></script>
+<script src="<?php echo $this->assets('js/jcarousellite_1.0.1.min.js')?>"></script>
 <script>
 var app = {
 	'introduct':function(){

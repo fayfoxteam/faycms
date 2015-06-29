@@ -44,13 +44,13 @@ use fay\models\File;
 <?php }?>
 <?php }?>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript">
 var widget_slides = {
 	'uploadObj':null,
 	'preview':function(){
-		system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 				$(".photo-thumb-link").fancybox({
 					'transitionIn'	: 'elastic',
 					'transitionOut'	: 'elastic',
@@ -119,8 +119,8 @@ var widget_slides = {
 					'<img src="'+resp.thumbnail+'" />',
 				'</a>'
 			].join(''));
-			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-				system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 					$(".photo-thumb-link").fancybox({
 						'transitionIn'	: 'elastic',
 						'transitionOut'	: 'elastic',

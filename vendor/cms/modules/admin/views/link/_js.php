@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script>
 var link = {
 	'uploadObj':null,

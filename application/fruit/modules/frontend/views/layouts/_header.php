@@ -8,7 +8,7 @@ use fay\helpers\Html;
 		<div class="g-mn">
 			<div class="top-logo">
 				<a href="<?php echo $this->url()?>">
-					<img src="<?php echo $this->staticFile('images/logo.png')?>" />
+					<img src="<?php echo $this->appStatic('images/logo.png')?>" />
 				</a>
 			</div>
 			<nav class="top-nav">

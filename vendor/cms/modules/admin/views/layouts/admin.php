@@ -11,23 +11,23 @@ use fay\models\Flash;
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
+<link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
 
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>faycms/css/style-responsive.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/style-responsive.css')?>" />
 <?php echo $this->getCss()?>
 
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/fayfox.block.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/common.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
 <title><?php echo $subtitle?> | <?php echo Option::get('site.sitename')?>后台</title>
 </head>
 <body id="faycms">
@@ -213,8 +213,8 @@ $(function(){
 	common.init();
 });
 </script>
-<img src="<?php echo $this->url()?>images/throbber.gif" class="hide" />
-<img src="<?php echo $this->url()?>images/ajax-loading.gif" class="hide" />
-<img src="<?php echo $this->url()?>images/loading.gif" class="hide" />
+<img src="<?php echo $this->assets('images/throbber.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/ajax-loading.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/loading.gif" class="hide')?>" />
 </body>
 </html>

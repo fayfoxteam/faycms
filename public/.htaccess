@@ -1,2 +1,2 @@
 RewriteEngine on
-RewriteRule !^(css|fonts|flash|images|js|uploads|static|faycms|favicon.ico|robots\.txt) index.php
+RewriteRule !^(assets|uploads|apps|favicon.ico|robots\.txt) index.php

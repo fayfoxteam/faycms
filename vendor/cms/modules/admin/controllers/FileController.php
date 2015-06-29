@@ -437,7 +437,7 @@ class FileController extends AdminController{
 					break;
 			}
 		}else{
-			$img = Image::getImage($spare);
+			$img = Image::getImage('assets/' . $spare);
 			header('Content-type: image/jpeg');
 			$img = Image::resize($img, $dw, $dh);
 			imagejpeg($img);

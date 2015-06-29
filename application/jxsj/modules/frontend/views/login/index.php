@@ -8,10 +8,10 @@ use fay\models\Flash;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo Option::get('site.sitename')?>--学生登录</title>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-<link href="<?php echo $this->staticFile('css/login.css')?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo $this->staticFile('css/box.css')?>" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
+<link href="<?php echo $this->appStatic('css/login.css')?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo $this->appStatic('css/box.css')?>" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.7.1.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
@@ -34,9 +34,9 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
     	        <td><input type="password" name="password" id="Users_LoginPass" style="width:140px; height:20px;" /></td>
 	        </tr>
     	    <tr>
-    	        <td height="40" colspan="2" align="center"><input type="image" src="<?php echo $this->staticFile('images/Signin.jpg')?>" style="height:22px; width:81px; border:none;" />
+    	        <td height="40" colspan="2" align="center"><input type="image" src="<?php echo $this->appStatic('images/Signin.jpg')?>" style="height:22px; width:81px; border:none;" />
  
-                    &nbsp;&nbsp;<a href=""><img src="<?php echo $this->staticFile('images/reset.jpg')?>" width="81" height="22" /></a>
+                    &nbsp;&nbsp;<a href=""><img src="<?php echo $this->appStatic('images/reset.jpg')?>" width="81" height="22" /></a>
 
                     </td>
 	        </tr>

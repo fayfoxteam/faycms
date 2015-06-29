@@ -13,7 +13,7 @@
 	</div>
 </div>
 <script>
-system.getScript(system.url('faycms/js/fayfox.textext.js'), function(){
+system.getScript(system.assets('faycms/js/fayfox.textext.js'), function(){
 	$("#tags").ftextext({
 		'url':system.url('admin/tag/search')
 	});

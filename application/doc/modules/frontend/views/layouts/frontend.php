@@ -12,15 +12,15 @@ use fay\helpers\Html;
 <title><?php echo $title ? $title : ''?></title>
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
 <?php echo $this->getCss()?>
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 </script>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 </head>
 <body>
@@ -32,7 +32,7 @@ system.base_url = '<?php echo $this->url()?>';
 			<?php if(isset($breadcrumb)){?>
 			<ol class="fr breadcrumb">
 				<li>
-					<a href="<?php echo $this->url()?>"><i class="icon-home"></i>主页</a>
+					<a href="<?php echo $this->assets('"><i class="icon-home')?>"></i>主页</a>
 				</li>
 				<?php foreach($breadcrumb as $b){?>
 				<li><?php echo Html::link($b['text'], $b['href'])?></li>
@@ -44,8 +44,8 @@ system.base_url = '<?php echo $this->url()?>';
 		<?php $this->renderPartial('layouts/_footer')?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->staticFile('js/common.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/prefixfree.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/prefixfree.min.js')?>"></script>
 <script>
 $(function(){
 	common.init();

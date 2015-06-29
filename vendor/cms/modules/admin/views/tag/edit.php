@@ -13,7 +13,7 @@
 		<?php $this->renderPartial('_right');?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
 	$(".tag-sort").feditsort({

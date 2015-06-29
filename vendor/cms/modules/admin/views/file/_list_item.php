@@ -83,7 +83,7 @@ $full_file_path = File::model()->getUrl($data);
 			?></div>
 		</div>
 		<div class="loading hide">
-			<img src="<?php echo $this->url()?>images/throbber.gif" />操作中...
+			<img src="<?php echo $this->assets('images/throbber.gif')?>" />操作中...
 		</div>
 	</td>
 	<?php }?>

@@ -28,8 +28,8 @@ use fay\models\File;
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/browserplus-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/browserplus-min.js')?>"></script>
 <script>
 $(function(){
 	var uploader = new plupload.Uploader({
@@ -77,8 +77,8 @@ $(function(){
 			'<a href="javascript:;" id="remove-thumbnail">移除缩略图</a>',
 		].join('');
 		$("#thumbnail-preview-container").html(html);
-		system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 				$("#thumbnail-preview-container .fancybox-image").fancybox({
 					'transitionIn'	: 'elastic',
 					'transitionOut'	: 'elastic',

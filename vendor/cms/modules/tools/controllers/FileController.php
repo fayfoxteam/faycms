@@ -21,7 +21,7 @@ class FileController extends Controller{
 		
 		if($check !== true){
 			header('Content-type: image/jpeg');
-			readfile(BASEPATH . 'images/no-image.jpg');
+			readfile(BASEPATH . 'assets/images/no-image.jpg');
 		}
 		
 		//显示模式
@@ -35,7 +35,7 @@ class FileController extends Controller{
 				$spare = $spares[$this->input->get('s', null, 'default')];
 					
 				header('Content-type: image/jpeg');
-				readfile(BASEPATH . $spare);
+				readfile(BASEPATH . 'assets/' . $spare);
 				die;
 			}else{
 				$file = Files::model()->find($f);
@@ -118,7 +118,7 @@ class FileController extends Controller{
 			$spare = $spares[$this->input->get('s', null, 'default')];
 			
 			header('Content-type: image/jpeg');
-			readfile(BASEPATH.$spare);
+			readfile(BASEPATH . 'assets/' . $spare);
 		}
 	}
 	
@@ -210,7 +210,7 @@ class FileController extends Controller{
 					break;
 			}
 		}else{
-			$img = Image::getImage($spare);
+			$img = Image::getImage('assets/' . $spare);
 			header('Content-type: image/jpeg');
 			$img = Image::resize($img, $dw, $dh);
 			imagejpeg($img);

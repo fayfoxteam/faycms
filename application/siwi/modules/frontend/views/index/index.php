@@ -1,5 +1,5 @@
 <?php
-$this->appendCss($this->staticFile('css/index.css'));
+$this->appendCss($this->appStatic('css/index.css'));
 ?>
 <div class="clearfix col2">
 	<section class="clearfix collect-list">
@@ -7,7 +7,7 @@ $this->appendCss($this->staticFile('css/index.css'));
 	</section>
 	<?php $listview->showPager()?>
 </div>
-<script src="<?php echo $this->staticFile('js/index.js')?>"></script>
+<script src="<?php echo $this->appStatic('js/index.js')?>"></script>
 <script>
 index.init();
 </script>

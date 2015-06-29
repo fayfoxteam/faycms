@@ -11,7 +11,7 @@ use fay\models\File;
 			<article class="case-1">
 				<div class="inner">
 					<figure>
-						<img src="<?php echo $this->staticFile('images/icon1.png')?>" />
+						<img src="<?php echo $this->appStatic('images/icon1.png')?>" />
 					</figure>
 					<h3><?php echo $case_1['title']?></h3>
 					<div class="item-introtext">
@@ -27,7 +27,7 @@ use fay\models\File;
 			<article class="case-2">
 				<div class="inner">
 					<figure>
-						<img src="<?php echo $this->staticFile('images/icon2.png')?>" />
+						<img src="<?php echo $this->appStatic('images/icon2.png')?>" />
 					</figure>
 					<h3><?php echo $case_2['title']?></h3>
 					<div class="item-introtext">
@@ -43,7 +43,7 @@ use fay\models\File;
 			<article class="case-3">
 				<div class="inner">
 					<figure>
-						<img src="<?php echo $this->staticFile('images/icon3.png')?>" />
+						<img src="<?php echo $this->appStatic('images/icon3.png')?>" />
 					</figure>
 					<h3><?php echo $case_3['title']?></h3>
 					<div class="item-introtext">
@@ -91,7 +91,7 @@ use fay\models\File;
 		</section>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>js/jcarousellite_1.0.1.min.js"></script>
+<script src="<?php echo $this->assets('js/jcarousellite_1.0.1.min.js')?>"></script>
 <script>
 var app = {
 	'productList':function(){

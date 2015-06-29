@@ -28,7 +28,7 @@ use fay\models\Option;
 	</table>
 	<p><input type="submit" value="提交" class="btn-1" /></p>
 </form>
-<script type="text/javascript" src="<?php echo $this->url()?>js/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/Validform_v5.3.2_min.js')?>"></script>
 <script>
 $("form").Validform({
 	showAllError:true,

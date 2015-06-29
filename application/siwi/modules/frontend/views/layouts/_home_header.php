@@ -6,7 +6,7 @@ use fay\models\File;
 	<div class="hd-bar-shadow"></div>
 	<div class="hd-bar">
 		<div class="hd-bar-logo">
-			<a href="<?php echo $this->url()?>"><img src="<?php echo $this->url()?>static/siwi/images/home-logo.png" /></a>
+			<a href="<?php echo $this->assets('"><img src="<?php echo $this->url()?>static/siwi/images/home-logo.png')?>" /></a>
 		</div>
 		<div class="hd-bar-user" id="g-hdu-links">
 			<?php if(F::app()->session->get('avatar')){

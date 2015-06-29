@@ -14,7 +14,7 @@ use fay\helpers\Html;
 	<div class="col-2-right">
 		<div id="contact">
 			<div id="contact-left">
-				<img src="<?php echo $this->staticFile('images/contact-logo.png')?>" />
+				<img src="<?php echo $this->appStatic('images/contact-logo.png')?>" />
 			</div>
 			<div id="contact-right">
 				<?php \F::app()->widget->load('contact')?>
@@ -24,7 +24,7 @@ use fay\helpers\Html;
 		<div id="location">
 			<h3>我们的地理位置</h3>
 			<p>
-				<img src="<?php echo $this->staticFile('images/location.jpg')?>" />
+				<img src="<?php echo $this->appStatic('images/location.jpg')?>" />
 			</p>
 		</div>
 		<div id="message">
@@ -55,8 +55,8 @@ use fay\helpers\Html;
 		</div>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>faycms/js/fayfox.fixcontent.js"></script>
-<script src="<?php echo $this->url()?>js/jquery.scrollTo-min.js"></script>
+<script src="<?php echo $this->assets('faycms/js/fayfox.fixcontent.js')?>"></script>
+<script src="<?php echo $this->assets('js/jquery.scrollTo-min.js')?>"></script>
 <script>
 $(function(){
 	$(".left-menu").fixcontent();
@@ -69,12 +69,12 @@ $(function(){
 		$("#message-form").submit();
 	});
 
-	system.getCss(system.url('css/tip-twitter/tip-twitter.css'));
-	system.getScript(system.url('js/jquery.poshytip.min.js'), function(){
+	system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
+	system.getScript(system.assets('js/jquery.poshytip.min.js'), function(){
 		//只是引入，不做任何操作
 	});
 	
-	system.getScript(system.url('js/Validform_v5.3.2.js'), function(){
+	system.getScript(system.assets('js/Validform_v5.3.2.js'), function(){
 		$("form.validform").Validform({
 			showAllError:true,
 			tiptype:function(msg,o,cssctl){

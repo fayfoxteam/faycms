@@ -12,7 +12,7 @@ use fay\helpers\Html;
 		</nav>
 	</div>
 	<div class="col-2-right">
-		<div id="about-banner"><img src="<?php echo $this->staticFile('images/about.png')?>" /></div>
+		<div id="about-banner"><img src="<?php echo $this->appStatic('images/about.png')?>" /></div>
 		<?php foreach($pages as $p){?>
 			<div class="page-item" id="page-<?php echo $p['alias']?>">
 				<header>
@@ -24,8 +24,8 @@ use fay\helpers\Html;
 		<?php }?>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>faycms/js/fayfox.fixcontent.js"></script>
-<script src="<?php echo $this->url()?>js/jquery.scrollTo-min.js"></script>
+<script src="<?php echo $this->assets('faycms/js/fayfox.fixcontent.js')?>"></script>
+<script src="<?php echo $this->assets('js/jquery.scrollTo-min.js')?>"></script>
 <script>
 $(function(){
 	$(".left-menu").fixcontent();

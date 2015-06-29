@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use siwi\helpers\FriendlyLink;
 
-$this->appendCss($this->staticFile('css/material.css'));
+$this->appendCss($this->appStatic('css/material.css'));
 ?>
 <div class="g-sub-hd clearfix">
 	<div class="shot-menu">

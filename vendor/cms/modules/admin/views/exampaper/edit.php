@@ -42,7 +42,7 @@ echo F::form()->open();
 </div>
 <?php echo F::form()->close()?>
 <?php $this->renderPartial('_dialog')?>
-<script src="<?php echo $this->url()?>faycms/js/admin/paper.js"></script>
+<script src="<?php echo $this->assets('faycms/js/admin/paper.js')?>"></script>
 <script>
 common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'exam'});
 paper.types = {

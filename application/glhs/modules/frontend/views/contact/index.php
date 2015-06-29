@@ -37,8 +37,8 @@ use fay\models\Option;
 		</div>
 	</div>
 </div>
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/jquery.fancybox-1.3.4.css" />
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery.fancybox-1.3.4.pack.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>" />
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=10b033765ad00c668fcdd20902dab530"></script>
 <script>
 $(function(){
@@ -61,12 +61,12 @@ $(function(){
 		$("#leave-message-form").submit();
 	});
 	
-	system.getCss(system.url('css/tip-twitter/tip-twitter.css'));
-	system.getScript(system.url('js/jquery.poshytip.min.js'), function(){
+	system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
+	system.getScript(system.assets('js/jquery.poshytip.min.js'), function(){
 		//只是引入，不做任何操作
 	});
 	
-	system.getScript(system.url('js/Validform_v5.3.2.js'), function(){
+	system.getScript(system.assets('js/Validform_v5.3.2.js'), function(){
 		$("form.validform").Validform({
 			showAllError:true,
 			tiptype:function(msg,o,cssctl){

@@ -26,7 +26,7 @@ use fay\helpers\Html;
 		</div>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>faycms/js/fayfox.fixcontent.js"></script>
+<script src="<?php echo $this->assets('faycms/js/fayfox.fixcontent.js')?>"></script>
 <script>
 $(function(){
 	$(".left-menu").fixcontent();

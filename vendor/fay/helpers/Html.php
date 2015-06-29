@@ -234,7 +234,7 @@ class Html{
 				//若未设置，返回空字符串
 				$spares = \F::app()->config->get('spares');
 				if(isset($html_options['spare']) && isset($spares[$html_options['spare']])){
-					$html = '<img src="'.\F::app()->view->url().$spares[$html_options['spare']].'"';
+					$html = '<img src="'.\F::app()->view->assets($spares[$html_options['spare']]).'"';
 
 					if(isset($html_options['dw'])){
 						$html .= ' width="'.$html_options['dw'].'"';

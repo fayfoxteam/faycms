@@ -38,7 +38,7 @@
 <script>
 var widgetarea = {
 	'dragsort':function(){
-		system.getScript(system.url('js/jquery.dragsort-0.5.1.js'), function(){
+		system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
 			$('.widget-list').dragsort({
 				'itemSelector': '.widget-item',
 				//'dragSelector': '.widget-item-selector',

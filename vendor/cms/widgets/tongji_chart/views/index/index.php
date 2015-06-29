@@ -27,7 +27,7 @@ use fay\helpers\Html;
 	</div>
 </div>
 
-<script src="<?php echo $this->url()?>js/highcharts.js"></script>
+<script src="<?php echo $this->assets('js/highcharts.js')?>"></script>
 <script>
 var tongji_chart = {
 	'obj':null,

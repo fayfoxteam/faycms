@@ -5,7 +5,7 @@ use fay\models\Option;
 	<div class="footer-row">
 		<div class="g-mn clearfix">
 			<div class="flogo">
-				<a href="<?php echo $this->url()?>"><img src="<?php echo $this->staticFile('images/flogo.png')?>" /></a>
+				<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appStatic('images/flogo.png')?>" /></a>
 			</div>
 			<div class="flocation">
 				<h3>我们的位置</h3>
@@ -46,5 +46,5 @@ map.addOverlay(marker1);              // 将标注添加到地图中
 var infoWindow1 = new BMap.InfoWindow("<?php echo Option::get('site.sitename')?>");
 marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>_fa.init();</script>

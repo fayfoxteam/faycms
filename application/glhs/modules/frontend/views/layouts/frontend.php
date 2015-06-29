@@ -16,13 +16,13 @@ use fay\helpers\Html;
 echo Option::get('site.sitename')?></title>
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" >
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/jquery.camera.css" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.camera.css')?>" >
 <?php echo $this->getCss()?>
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';

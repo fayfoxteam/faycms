@@ -29,23 +29,23 @@ $menu = array(
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/jquery.fancybox-1.3.4.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" />
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.7.1.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
-<script type="text/javascript" src="<?php echo $this->staticFile('js/menu.js')?>"></script>
-<link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
+<script type="text/javascript" src="<?php echo $this->appStatic('js/menu.js')?>"></script>
+<link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 <?php if(!empty($canonical)){?>
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site.sitename')?></title>
 </head>
@@ -54,7 +54,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 	<div class="menu">
 		<div class="menu-in">
 			<div class="logo">
-				<a href="<?php echo $this->url()?>" title="Fayfox"></a>
+				<a href="<?php echo $this->assets('" title="Fayfox')?>"></a>
 			</div>
 			<ul class="menu-links">
 			<?php foreach($menu as $m){?>
@@ -91,8 +91,8 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 	</div>
 	<?php }?>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery.animate-shadow-min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery.animate-shadow-min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script type="text/javascript">
 $(function(){
 	$(".menu-links").menu();
@@ -164,7 +164,7 @@ $(function(){
 	});
 });
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>_fa.init();</script>
 </body>
 </html>

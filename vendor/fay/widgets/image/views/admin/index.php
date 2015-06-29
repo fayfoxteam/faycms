@@ -15,7 +15,7 @@ use fay\helpers\Html;
 	<a href="javascript:;" class="btn btn-grey" id="widget-form-upload">上传</a>
 </div>
 <div class="fc-grey">提示：点击侧边栏“提交”后，修改才会生效</div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript">
 $(function(){
 	var uploader = new plupload.Uploader({

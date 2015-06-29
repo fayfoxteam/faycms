@@ -4,6 +4,6 @@
 		<h4>在线管理员</h4>
 	</div>
 	<div class="box-content">
-		<img src="<?php echo $this->url()?>images/throbber.gif" />
+		<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 	</div>
 </div>

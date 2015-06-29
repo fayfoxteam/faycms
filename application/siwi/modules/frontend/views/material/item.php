@@ -3,7 +3,7 @@ use fay\helpers\Html;
 use fay\helpers\Date;
 use fay\models\File;
 
-$this->appendCss($this->staticFile('css/blog.css'));
+$this->appendCss($this->appStatic('css/blog.css'));
 ?>
 <div class="g-sub-hd">
 	<div class="post-info">
@@ -74,7 +74,7 @@ $this->appendCss($this->staticFile('css/blog.css'));
 		<?php \F::app()->widget->render('recent_posts')?>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>static/siwi/js/blog-item.js"></script>
+<script src="<?php echo $this->assets('static/siwi/js/blog-item.js')?>"></script>
 <script>
 blog_item.id = <?php echo $post['id']?>;
 var jiathis_config = {

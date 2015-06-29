@@ -53,9 +53,24 @@ class View{
 		}
 	}
 	
-	public function staticFile($uri){
-		$base_url = \F::config()->get('base_url');
-		return $base_url . 'static/' . APPLICATION . '/' . $uri;
+	/**
+	 * 返回public/apps/{APPLICATION}下的文件路径
+	 * 用于返回自定义application的静态文件
+	 * @param string $uri
+	 * @return string
+	 */
+	public function appStatic($uri){
+		return \F::config()->get('base_url') . 'apps/' . APPLICATION . '/' . $uri;
+	}
+	
+	/**
+	 * 返回public/assets/下的文件路径（第三方jquery类库等）
+	 * 主要是考虑到以后如果要做静态资源分离，只要改这个函数就好了
+	 * @param string $uri
+	 * @return string
+	 */
+	public function assets($uri){
+		return \F::config()->get('base_url') . 'assets/' . $uri;
 	}
 	
 	/**

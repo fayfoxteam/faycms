@@ -6,19 +6,19 @@ use fay\models\Option;
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
+<link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>faycms/css/login.css" />
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/prefixfree.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/system.min.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/login.css')?>" />
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/prefixfree.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 </script>
 <!--[if IE 6]>
-<script type="text/javascript" src="<?php echo $this->url()?>js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/DD_belatedPNG_0.0.8a-min.js')?>"></script>
 <script>
 DD_belatedPNG.fix('fieldset,.ring');
 </script>
@@ -140,7 +140,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>
 _fa.init();
 var login = {

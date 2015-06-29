@@ -62,8 +62,8 @@
 </div>
 <script>
 $(function(){
-	system.getCss(system.url('css/tip-twitter/tip-twitter.css'));
-	system.getScript(system.url('js/jquery.poshytip.min.js'), function(){
+	system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
+	system.getScript(system.assets('js/jquery.poshytip.min.js'), function(){
 		$("input[name='username']").poshytip("enable").poshytip("show");
 	});
 });

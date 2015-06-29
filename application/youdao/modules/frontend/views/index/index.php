@@ -12,18 +12,18 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 }?>
 
 <div id="banner">
-	<img src="<?php echo $this->staticFile('images/banner.jpg')?>" />
+	<img src="<?php echo $this->appStatic('images/banner.jpg')?>" />
 	<div class="logos" id="csa">
-		<a href=""><img src="<?php echo $this->staticFile("images/14{$postfix}.png")?>" /></a>
+		<a href=""><img src="<?php echo $this->appStatic("images/14{$postfix}.png")?>" /></a>
 	</div>
 	<div class="logos" id="ul">
-		<a href=""><img src="<?php echo $this->staticFile("images/14{$postfix}.png")?>" /></a>
+		<a href=""><img src="<?php echo $this->appStatic("images/14{$postfix}.png")?>" /></a>
 	</div>
 	<div class="logos" id="vde">
-		<a href=""><img src="<?php echo $this->staticFile("images/14{$postfix}.png")?>" /></a>
+		<a href=""><img src="<?php echo $this->appStatic("images/14{$postfix}.png")?>" /></a>
 	</div>
 	<div class="logos" id="ccc">
-		<a href=""><img src="<?php echo $this->staticFile("images/14{$postfix}.png")?>" /></a>
+		<a href=""><img src="<?php echo $this->appStatic("images/14{$postfix}.png")?>" /></a>
 	</div>
 </div>
 <div id="main">
@@ -31,12 +31,12 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 		<div class="box-1-title">
 			<h3>公司简介</h3>
 			<a href="<?php echo $this->url('about')?>" class="more">
-				<img src="<?php echo $this->staticFile('images/more.png')?>" class="fixpng" />
+				<img src="<?php echo $this->appStatic('images/more.png')?>" class="fixpng" />
 			</a>
 		</div>
 		<div class="box-1-content">
 			<a href="<?php echo $this->url('about')?>">
-				<img src="<?php echo $this->staticFile('images/p1.jpg')?>" />
+				<img src="<?php echo $this->appStatic('images/p1.jpg')?>" />
 			</a>
 			<p>
 				<?php echo String::niceShort($about['abstract'], 70, true)?>
@@ -48,13 +48,13 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 		<div class="box-1-title">
 			<h3>最新资讯</h3>
 			<a href="<?php echo $this->url('post')?>" class="more">
-				<img src="<?php echo $this->staticFile('images/more.png')?>" class="fixpng" />
+				<img src="<?php echo $this->appStatic('images/more.png')?>" class="fixpng" />
 			</a>
 		</div>
 		<div class="box-1-content">
 			<?php $top_news = array_shift($last_news);?>
 			<div id="top-news">
-				<img src="<?php echo $this->staticFile('images/p2.jpg')?>" class="f-left" />
+				<img src="<?php echo $this->appStatic('images/p2.jpg')?>" class="f-left" />
 				<h4><?php echo Html::link($top_news['title'], array('post/'.$top_news['id']))?></h4>
 				<p>
 					<?php echo String::niceShort($top_news['abstract'], 60, true)?>
@@ -75,7 +75,7 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 							<span>
 								<?php echo String::niceShort($n['title'], 40, true)?>
 								<?php if($n['publish_time'] > $this->current_time - 86400 * 30){?>
-								<img src="<?php echo $this->staticFile('images/652264.png')?>" />
+								<img src="<?php echo $this->appStatic('images/652264.png')?>" />
 								<?php }?>
 							</span>
 						</a>
@@ -90,12 +90,12 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 		<div class="box-1-title">
 			<h3>联系我们</h3>
 			<a href="<?php echo $this->url('contact')?>" class="more">
-				<img src="<?php echo $this->staticFile('images/more.png')?>" class="fixpng" />
+				<img src="<?php echo $this->appStatic('images/more.png')?>" class="fixpng" />
 			</a>
 		</div>
 		<div class="box-1-content">
 			<a href="<?php echo $this->url('contact')?>">
-				<img src="<?php echo $this->staticFile('images/contact.jpg')?>" id="call-me" />
+				<img src="<?php echo $this->appStatic('images/contact.jpg')?>" id="call-me" />
 			</a>
 			<p id="call-me-text">
 				量身定制解决方案

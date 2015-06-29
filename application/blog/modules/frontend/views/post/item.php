@@ -86,8 +86,8 @@ use fay\models\Post;
 </div>
 <div class="clear"></div>
 
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery.sourcerer.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/prettify.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery.sourcerer.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/prettify.js')?>"></script>
 <script>
 $(function(){
 	$('.showCode').sourcerer('js html css php'); // Display all languages

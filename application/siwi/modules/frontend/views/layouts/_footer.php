@@ -33,7 +33,7 @@ use fay\models\Flash;
 		<div class="box m-weixin">
 			<h3>我们的微信</h3>
 			<div class="box-content">
-				<img src="<?php echo $this->url()?>static/siwi/images/weixin.png" />
+				<img src="<?php echo $this->assets('static/siwi/images/weixin.png')?>" />
 				<p>关注我们的微信公众号，每天都有新鲜的设计，最新的资讯，灵感由你掌握。</p>
 			</div>
 		</div>
@@ -45,8 +45,8 @@ use fay\models\Flash;
 		</div>
 	</div>
 </footer>
-<script type="text/javascript" src="<?php echo $this->staticFile('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
 <script>common.init();</script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>_fa.init();</script>
 <?php echo Flash::get()?>

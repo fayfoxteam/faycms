@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 ?>
 <style>
-#widget-attr-list li{background:url("<?php echo $this->url()?>css/admin/images/move.png") no-repeat scroll 3px center #FFFFFF;padding-left:25px;border-left:2px solid #35AA47;margin-bottom:5px;}
+#widget-attr-list li{background:url("<?php echo $this->assets('faycms/css/images/move.png')?>") no-repeat scroll 3px center #FFFFFF;padding-left:25px;border-left:2px solid #35AA47;margin-bottom:5px;}
 .widget-attr-list li{zoom:1;clear:left;}
 .widget-attr-list li:before, .widget-attr-list li:after{content:"";display:table;}
 .widget-attr-list li:after{clear: both;}
@@ -131,7 +131,7 @@ var widget_options = {
 		});
 	},
 	'dragsort':function(){
-		system.getScript(system.url('js/jquery.dragsort-0.5.1.js'), function(){
+		system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
 			$("#widget-attr-list").dragsort({
 				'dragSelectorExclude': 'input,textarea,.widget-attr-list-header',
 				'placeHolderTemplate': '<li class="place-holder"></li>'

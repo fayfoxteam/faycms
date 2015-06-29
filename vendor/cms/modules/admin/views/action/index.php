@@ -13,7 +13,7 @@
 		<?php include '_right.php';?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/fayfox.autocomplete.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.autocomplete.js')?>"></script>
 <script>
 $(function(){
 	$("#parent-router").autocomplete({

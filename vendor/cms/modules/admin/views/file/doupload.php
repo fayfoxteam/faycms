@@ -14,7 +14,7 @@
 		</form>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript">
 var uploader = new plupload.Uploader({
 	runtimes : 'html5,flash,gears,silverlight,browserplus',

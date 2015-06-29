@@ -99,16 +99,16 @@ echo F::form()->open()?>
 						'title'=>false,
 					));
 				}else{
-					echo Html::link(Html::img($this->url().'images/avatar.png', 0, array(
+					echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
 						'id'=>'avatar-img',
-					)), $this->url().'images/avatar.png', array(
+					)), $this->assets('images/avatar.png'), array(
 						'class'=>'fancybox-image',
 						'encode'=>false,
 						'title'=>false,
 					));
-					echo Html::link(Html::img($this->url().'images/avatar.png', 0, array(
+					echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
 						'id'=>'avatar-img-circle',
-					)), $this->url().'images/avatar.png', array(
+					)), $this->assets('images/avatar.png'), array(
 						'class'=>'fancybox-image',
 						'encode'=>false,
 						'title'=>false,
@@ -135,9 +135,9 @@ echo F::form()->open()?>
 	))?>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/browserplus-min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>faycms/js/admin/user.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/browserplus-min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>
 <script>
 user.user_id = <?php echo $user['id']?>;
 user.init();

@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use ncp\helpers\FriendlyLink;
 use fay\models\File;
-$this->appendCss($this->staticFile('css/news.css'));
+$this->appendCss($this->appStatic('css/news.css'));
 ?>
 <style type="text/css">
 body{background:#e4e4e4}

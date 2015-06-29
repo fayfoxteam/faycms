@@ -6,8 +6,8 @@
 		<a href="javascript:;" id="form-submit" class="btn-red fr">确认修改</a>
 	</div>
 </form>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>static/siwi/js/editor.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('static/siwi/js/editor.js')?>"></script>
 <script>
 editor.cat_id = <?php echo \F::form()->getData('cat_id')?>;
 $(function(){

@@ -5,14 +5,14 @@ use fay\models\Option;
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
+<link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
 <meta content="<?php if(isset($keywords))echo $keywords;?>" name="keywords" />
 <meta content="<?php if(isset($description))echo $description;?>" name="description" />
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/login.css')?>" />
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/login.css')?>" />
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site.sitename')?></title>
 </head>
 <body>
@@ -41,8 +41,8 @@ use fay\models\Option;
 		</div>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>static/siwi/js/cufon-yui.js" type="text/javascript"></script>
-<script src="<?php echo $this->url()?>static/siwi/fonts/login/siwi_400.font.js" type="text/javascript"></script>
+<script src="<?php echo $this->assets('static/siwi/js/cufon-yui.js" type="text/javascript')?>"></script>
+<script src="<?php echo $this->assets('static/siwi/fonts/login/siwi_400.font.js" type="text/javascript')?>"></script>
 <script type="text/javascript">
 Cufon.replace('#desc');
 Cufon.replace('#login-btn');

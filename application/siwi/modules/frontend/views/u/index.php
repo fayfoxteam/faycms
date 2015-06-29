@@ -101,7 +101,7 @@ use fay\helpers\Date;
 		<?php \F::app()->widget->render('siwi/recent_posts')?>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>static/siwi/js/home.js"></script>
+<script src="<?php echo $this->assets('static/siwi/js/home.js')?>"></script>
 <script>
 home.user_id = <?php echo $this->user_id?>;
 home.init();

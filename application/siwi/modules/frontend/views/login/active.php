@@ -1,5 +1,5 @@
 <?php use fay\models\Flash;
-$this->appendCss($this->staticFile('css/col2.css'))?>
+$this->appendCss($this->appStatic('css/col2.css'))?>
 <?php echo Flash::get();?>
 <div class="col2 pb30">
 	<div class="w1000 clearfix">

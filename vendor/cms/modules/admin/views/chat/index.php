@@ -17,7 +17,7 @@ $settings = F::form('setting')->getAllData();
 	<div id="chat-dialog" class="dialog w650">
 		<div class="">
 			<div class="cf cd-header">
-				<img src="<?php echo $this->url()?>images/avatar.png" class="circle cd-avatar" />
+				<img src="<?php echo $this->assets('images/avatar.png" class="circle cd-avatar')?>" />
 				<div class="cd-meta">
 					<span class="cd-user"></span>
 					<i class="fa fa-share"></i>
@@ -45,7 +45,7 @@ $settings = F::form('setting')->getAllData();
 		</div>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>faycms/js/admin/chat.js"></script>
+<script src="<?php echo $this->assets('faycms/js/admin/chat.js')?>"></script>
 <script>
 chat.status = {
 	'<?php echo Messages::STATUS_APPROVED?>':'<span class="fc-green">已通过</span>',

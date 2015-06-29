@@ -26,9 +26,9 @@ if(method_exists($exception, 'getLevel')){
 <head>
 <meta charset="utf-8" />
 <title><?php echo $level?></title>
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/prettify.js"></script>
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>faycms/css/debug.css" />
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/prettify.js')?>"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/debug.css')?>" />
 </head>
 <body>
 <div class="header">

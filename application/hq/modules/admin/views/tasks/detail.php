@@ -6,7 +6,27 @@
  * Time: 下午7:00
  */
 ?>
-
+<div class="row">
+    <div class="col-12">
+        <table class="list-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>表名</th>
+                <th>总量</th>
+                <th>日使用量</th>
+                <th>周数</th>
+                <th>月份</th>
+                <th>记录时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $listview->showData() ?>
+            </tbody>
+        </table>
+        <?php $listview->showPager() ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-12">
@@ -22,6 +42,7 @@
         </div>
     </div>
 </div>
+
 
 
 <script>

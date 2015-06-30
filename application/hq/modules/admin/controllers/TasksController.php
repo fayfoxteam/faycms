@@ -2,6 +2,7 @@
 namespace hq\modules\admin\controllers;
 
 use cms\library\AdminController;
+use fay\common\ListView;
 use fay\core\Sql;
 use hq\models\tables\ZbiaoRecords;
 use hq\models\tables\Zbiaos;
@@ -130,20 +131,30 @@ class TasksController extends AdminController
         $sql = new Sql();
         $chat_data = $sql->from('zbiao_records', 'records', 'zongliang')
                          ->where($condition)
-                         ->order('created asc')
-                         ->limit(20)
+                         ->order('created desc')
+                         ->limit(10)
                          ->fetchAll();
 
         $chat_date = $sql->from('zbiao_records', 'records', 'created')
                          ->where($condition)
-                         ->order('created asc')
-                         ->limit(20)
+                         ->order('created desc')
+                         ->limit(10)
                          ->fetchAll();
 
         $this->view->text = $biao['biao_name'];
         $this->view->data = ZbiaoRecord::getChatData($chat_data);
         $this->view->date = ZbiaoRecord::getChatData($chat_date, true);
         $this->view->type = $biao['type'];
+
+        //显示全部数据记录
+        $query = new Sql();
+        $query->from('zbiao_records', 'records')
+            ->where(['biao_id = ?' => $biao_id])
+            ->order('created desc');
+
+        $this->view->listview = new ListView($query, [
+            'item_view' => '_detail_item_view'
+        ]);
 
         $this->view->render();
     }

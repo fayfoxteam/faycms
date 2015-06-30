@@ -80,4 +80,9 @@ class ZbiaoRecord extends Model
 
         return $chat_array;
     }
+
+    public static function getBiaoName($biao_id)
+    {
+        return Zbiaos::model()->fetchRow(['biao_id = ? ' => $biao_id]);
+    }
 }

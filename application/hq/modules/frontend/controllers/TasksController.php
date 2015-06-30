@@ -92,12 +92,12 @@ class TasksController extends FrontController
         $sql = new Sql();
         $chat_data_day = $sql->from('zbiao_records', 'records', 'day_use')
             ->where($condition)
-            ->order('created asc')
+            ->order('created desc')
             ->limit(10)
             ->fetchAll();
         $chat_date_day = $sql->from('zbiao_records', 'records', 'created')
             ->where($condition)
-            ->order('created asc')
+            ->order('created desc')
             ->limit(10)
             ->fetchAll();
         if (!$chat_data_day)

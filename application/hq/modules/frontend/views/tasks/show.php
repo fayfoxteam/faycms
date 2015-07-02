@@ -114,12 +114,8 @@ use hq\models\tables\ZbiaoRecords;
 
     function onClick(event, treeId, treeNode, clickFlag) {
         console.log(treeNode);
-
+        $('#hidden_biao_id').val(treeNode.id);
         var type = treeId == 'treeElectric' ? 1 : 2;
-//        if (!treeNode.pId)
-//        {
-//            return;
-//        }
         $.ajax({
             url: system.url('tasks/getData'),
             type: 'POST',
@@ -133,9 +129,9 @@ use hq\models\tables\ZbiaoRecords;
             success: function(data) {
 //                console.log(data);
                 if (data.code == 0) {
-                    tongji_charts.create('day', data.data_day, data.text, data.name, data.date_day, data.type);
-                    tongji_charts.create('week', data.data_week, data.text, data.name, data.date_week, data.type);
-                    tongji_charts.create('month', data.data_month, data.text, data.name, data.date_month, data.type);
+                    tongji_charts.create('day', data.data_day, data.text, data.date_day, data.type);
+                    tongji_charts.create('week', data.data_week, data.text, data.date_week, data.type);
+                    tongji_charts.create('month', data.data_month, data.text, data.date_month, data.type);
                 } else {
                     alert(data.message);
                 }
@@ -179,6 +175,20 @@ use hq\models\tables\ZbiaoRecords;
                 <div class="panel-heading tab" data-status="on">使用情况(日)</div>
                 <div class="panel-body">
                     <div class="row">
+                        <?= F::form('search')->open(null, 'get', ['class' => 'form-inline']) ?>
+                        <div class="col-md-2">
+                                <input type="text" class="form-control" name="start_time" placeholder="开始时间" onClick="WdatePicker()" value="<?= F::session()->get('start_time') ? F::session()->get('start_time') : ''; ?>">
+                        </div>
+                        <div class="col-md-2">
+                                <input type="text" class="form-control" name="end_time" placeholder="结束时间" onClick="WdatePicker()" value="<?= F::session()->get('end_time') ? F::session()->get('end_time') : ''; ?>">
+                        </div>
+                        <input name="hidden_biao_id" id="hidden_biao_id" type="hidden" value="1001"/>
+                        <div class="col-md-2">
+                            <input type="submit" value="查询"/>
+                        </div>
+                        <?= F::form()->close(); ?>
+                    </div>
+                    <div class="row">
                         <div id="charts-day"></div>
                     </div>
                 </div>
@@ -206,14 +216,14 @@ use hq\models\tables\ZbiaoRecords;
 
 <script>
     var tongji_charts = {
-        'create': function(time, data, text, name, date, type) {
+        'create': function(time, data, text, date, type) {
             $('#charts-' + time).highcharts({
                 title: {
                     text: text,
                     x: -20 //center
                 },
                 subtitle: {
-                    text: '地点:'+ name,
+                    text: '',
                     x: -20
                 },
                 credits: {
@@ -293,9 +303,9 @@ use hq\models\tables\ZbiaoRecords;
         }
     };
     $(function () {
-        tongji_charts.create('day', <?= json_encode($data_day) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_day) ?>, 1);
-        tongji_charts.create('week', <?= json_encode($data_week) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_week) ?>, 1);
-        tongji_charts.create('month', <?= json_encode($data_month) ?>, '经管楼配电房1#表', '经管楼配电房1#表', <?= json_encode($date_month) ?>, 1);
+        tongji_charts.create('day', <?= json_encode($data_day) ?>, '<?= $biao_name ?>', <?= json_encode($date_day) ?>, 1);
+        tongji_charts.create('week', <?= json_encode($data_week) ?>, '<?= $biao_name ?>', <?= json_encode($date_week) ?>, 1);
+        tongji_charts.create('month', <?= json_encode($data_month) ?>, '<?= $biao_name ?>', <?= json_encode($date_month) ?>, 1);
         $.fn.zTree.init($("#treeElectric"), setting, eNodes);
         $.fn.zTree.init($("#treeWater"), setting, wNodes);
         tongji_charts.init();
@@ -303,3 +313,4 @@ use hq\models\tables\ZbiaoRecords;
 </script>
 
 <script src="<?= $this->staticFile('highcharts/js/highcharts.js') ?>"></script>
+<script src="<?= $this->url('js/My97DatePicker/WdatePicker.js') ?>"></script>

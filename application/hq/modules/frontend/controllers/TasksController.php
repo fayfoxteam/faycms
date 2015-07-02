@@ -11,6 +11,7 @@ use fay\core\Sql;
 use fay\helpers\Date;
 use hq\library\FrontController;
 use hq\models\tables\ZbiaoRecords;
+use hq\models\tables\Zbiaos;
 use hq\models\ZbiaoRecord;
 
 class TasksController extends FrontController
@@ -26,21 +27,40 @@ class TasksController extends FrontController
     {
         $this->layout->title = '水电详情';
 
-        $biao_id = 1001;
+        $start_time = $this->input->get('start_time', null, '');
+        $end_time = $this->input->get('end_time', null, '');
+        $biao_id = $this->input->get('hidden_biao_id', 'intval', 1001);
+
+        
+        $biao_name = Zbiaos::model()->fetchRow(['biao_id =?' => $biao_id]);
 
         //显示第一个电表的数据
         $condition = ['biao_id = ?' => $biao_id];
         $sql = new Sql();
-        $chat_data_day = $sql->from('zbiao_records', 'records', 'day_use')
-            ->where($condition)
-            ->order('created desc')
-            ->limit(10)
-            ->fetchAll();
-        $chat_date_day = $sql->from('zbiao_records', 'records', 'created')
-            ->where($condition)
-            ->order('created desc')
-            ->limit(10)
-            ->fetchAll();
+        $sql->from('zbiao_records', 'records', 'day_use')->where($condition);
+        if ($start_time) {
+            $sql->where(['records.created >= ?' => strtotime($start_time)]);
+        }
+        if ($end_time) {
+            $sql->where(['records.created <= ?' => strtotime($end_time)]);
+        }
+        if (!$start_time && !$end_time) {
+            $sql->limit(10);
+        }
+        $chat_data_day = $sql->order('created asc')->fetchAll();
+
+
+        $sql->from('zbiao_records', 'records', 'created')->where($condition);
+        if ($start_time) {
+            $sql->where(['records.created > ?' => strtotime($start_time)]);
+        }
+        if ($end_time) {
+            $sql->where(['records.created < ?' => strtotime($end_time)]);
+        }
+        if (!$start_time && !$end_time) {
+            $sql->limit(10);
+        }
+        $chat_date_day = $sql->order('created desc')->fetchAll();
 
         $chat_data_week = $sql->select('sum(day_use)')
             ->from('zbiao_records', 'records', 'sum(day_use)')
@@ -77,6 +97,11 @@ class TasksController extends FrontController
         $this->view->data_month = ZbiaoRecord::getChatData($chat_data_month);
         $this->view->date_month = ZbiaoRecord::getChatDataByMonth($chat_date_month);
 
+        $this->view->biao_name = $biao_name['biao_name'];
+
+        $this->session->set('start_time', $start_time);
+        $this->session->set('end_time', $end_time);
+
         $this->view->render();
     }
 
@@ -85,7 +110,6 @@ class TasksController extends FrontController
         $data['code'] = 0;
         $type = $this->input->post('type', 'intval');
         $tree_id = $this->input->post('treeId', 'intval');
-        $name = $this->input->post('name');
         $text = $this->input->post('text');
 
         $condition = ['biao_id = ?' => $tree_id];
@@ -139,7 +163,6 @@ class TasksController extends FrontController
 
         $data['data_month'] = ZbiaoRecord::getChatData($chat_data_month);
         $data['date_month'] = ZbiaoRecord::getChatDataByMonth($chat_date_month, true);
-        $data['name'] = $name;
         $data['text'] = $text;
         $data['type'] = $type;
 

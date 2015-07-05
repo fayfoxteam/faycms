@@ -94,8 +94,9 @@ class TasksController extends AdminController
         //录入完成后进行数据的储存
         if ($post = $this->input->post())
         {
-           ZbiaoRecord::model()->insertRecord($post);
-           Response::output('success', '信息录入成功');
+            $created = array_pop($post);
+            ZbiaoRecord::model()->insertRecord($post, $created);
+            Response::output('success', '信息录入成功');
         }
 
         $this->view->render();

@@ -40,6 +40,15 @@ use hq\models\tables\Zbiaos;
              <?php
                 }
              ?>
+                <div class="form-field">
+                    <label>录入时间: </label>
+                    <?= F::form()->inputText('input_time', [
+                        'data-rule'=>'datetime',
+                        'data-label'=>'时间',
+                        'class'=>'datetimepicker',
+                    ]); ?>
+                    <small>(默认是当天时间)</small>
+                </div>
             <div class="form-field">
                 <?php echo F::form()->submitLink('添加记录', array(
                     'class'=>'btn',

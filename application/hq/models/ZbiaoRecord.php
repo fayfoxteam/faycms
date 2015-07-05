@@ -15,8 +15,11 @@ class ZbiaoRecord extends Model
         return parent::model($className);
     }
     
-    public function insertRecord($data)
+    public function insertRecord($data, $time = null)
     {
+        $created = $time ? strtotime($time) : time();
+        $week_num = date('W', $created);
+        $month_num = date('n', $created);
         foreach ($data as $key => $value)
         {
             $id = mb_substr($key, 5);
@@ -28,11 +31,12 @@ class ZbiaoRecord extends Model
             $day_use = $value - $table['zongzhi'];
             $records = array(
                 'biao_id' => $table['biao_id'],
+                'parent_id' => $table['parent_id'],
                 'zongliang' => $value,
-                'day_use' => $day_use,
-                'week_num' => date('W'),
-                'month_num' => date('n'),
-                'created' => time(),
+                'day_use' => $day_use * $table['times'],
+                'week_num' => $week_num,
+                'month_num' => $month_num,
+                'created' => $created,
             );
             ZbiaoRecords::model()->insert($records);
             $biaos_update = array(
@@ -85,4 +89,5 @@ class ZbiaoRecord extends Model
     {
         return Zbiaos::model()->fetchRow(['biao_id = ? ' => $biao_id]);
     }
+
 }

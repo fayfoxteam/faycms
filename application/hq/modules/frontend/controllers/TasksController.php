@@ -30,7 +30,6 @@ class TasksController extends FrontController
         $start_time = $this->input->get('start_time', null, '');
         $end_time = $this->input->get('end_time', null, '');
         $biao_id = $this->input->get('hidden_biao_id', 'intval', 1001);
-
         
         $biao_name = Zbiaos::model()->fetchRow(['biao_id =?' => $biao_id]);
 
@@ -47,9 +46,8 @@ class TasksController extends FrontController
         if (!$start_time && !$end_time) {
             $sql->limit(10);
         }
-        $chat_data_day = $sql->order('created asc')->fetchAll();
-
-
+        $chat_data_day = $sql->order('created desc')->fetchAll();
+        
         $sql->from('zbiao_records', 'records', 'created')->where($condition);
         if ($start_time) {
             $sql->where(['records.created > ?' => strtotime($start_time)]);

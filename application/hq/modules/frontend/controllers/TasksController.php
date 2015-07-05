@@ -47,7 +47,7 @@ class TasksController extends FrontController
             $sql->limit(10);
         }
         $chat_data_day = $sql->order('created desc')->fetchAll();
-        
+
         $sql->from('zbiao_records', 'records', 'created')->where($condition);
         if ($start_time) {
             $sql->where(['records.created > ?' => strtotime($start_time)]);

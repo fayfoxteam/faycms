@@ -90,4 +90,13 @@ class ZbiaoRecord extends Model
         return Zbiaos::model()->fetchRow(['biao_id = ? ' => $biao_id]);
     }
 
+    /**
+     * 根据表id获取变比
+     * @param $biao_id
+     */
+    public static function getTimes($biao_id)
+    {
+        return Zbiaos::model()->fetchRow(['biao_id = ?' => $biao_id], 'times');
+    }
+
 }

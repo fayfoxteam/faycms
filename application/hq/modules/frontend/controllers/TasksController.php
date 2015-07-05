@@ -180,12 +180,14 @@ class TasksController extends FrontController
             ->where($condition)
             ->group('created')
             ->order('created desc')
+            ->limit(10)
             ->fetchAll();
 
         $chat_date_day = $sql->from('zbiao_records', 'records', 'created')
             ->where($condition)
             ->distinct(true)
             ->order('created desc')
+            ->limit(10)
             ->fetchAll();
 
         $chat_data_week = $sql->from('zbiao_records', 'records', 'sum(day_use)')

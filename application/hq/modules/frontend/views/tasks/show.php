@@ -324,7 +324,6 @@ use hq\models\tables\ZbiaoRecords;
         'init': function(){
             this.tab();
             this.events();
-            this.tab();
         }
     };
     $(function () {

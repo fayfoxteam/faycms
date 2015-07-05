@@ -16,4 +16,5 @@ $biao = ZbiaoRecord::getBiaoName($data['biao_id']);
     <td><?= $data['week_num'] ?></td>
     <td><?= $data['month_num'] ?></td>
     <td><?= date('Y-m-d', $data['created']) ?></td>
+    <td><a href="javascript:;" onclick="deleteRecord(<?= $data['id'] ?>)">删除</a></td>
 </tr>

@@ -333,8 +333,31 @@ class TasksController extends AdminController
 
         $this->view->render();
     }
-    
-    
+
+    public function deleteRecord()
+    {
+        $id = $this->input->post('id', 'intval');
+        $record = ZbiaoRecords::model()->find($id);
+        $biao = Zbiaos::model()->fetchRow(['biao_id = ?' => $record['biao_id']]);
+
+        $zongzhi = $record['zongliang'] - $record['day_use'] / $biao['times'];
+
+        $db = Db::getInstance();
+        $sql = sprintf("update fay_zbiaos set zongzhi = %s where biao_id = %d", $zongzhi, $record['biao_id']);
+
+        $updated = $db->execute($sql);
+
+        if (!$updated) {
+            $this->finish(['code' => 2, 'message' => '表记录更新失败']);
+        }
+
+        $deleted = ZbiaoRecords::model()->delete($id);
+        if ($deleted) {
+            $this->finish(['code' => 0]);
+        }
+
+        $this->finish(['code' => 1, 'message' => '删除失败']);
+    }
     
     
     

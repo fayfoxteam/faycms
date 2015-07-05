@@ -18,6 +18,7 @@
                 <th>周数</th>
                 <th>月份</th>
                 <th>记录时间</th>
+                <th>删除</th>
             </tr>
             </thead>
             <tbody>
@@ -43,6 +44,25 @@
     </div>
 </div>
 
+<script>
+    function deleteRecord(id) {
+        if (!confirm('确认删除?')) return;
+
+        $.ajax({
+            url: system.url('admin/tasks/delete-record'),
+            type: 'POST',
+            dataType: 'json',
+            data: { id: id },
+            success: function(data) {
+                if (data.code == 0) {
+                    window.location.reload();
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    }
+</script>
 
 
 <script>

@@ -167,20 +167,64 @@ class TasksController extends FrontController
         $this->finish($data);
     }
 
-    public function getDataByTime()
+    public function getDataByPid()
     {
         $data['code'] = 0;
+        $type = $this->input->post('type', 'intval');
+        $pid = $this->input->post('pid', 'intval');
+        $text = $this->input->post('text');
 
-        $time = $this->input->get('time', 'intval');
+        $condition = ['parent_id = ?' => $pid];
+        $sql = new Sql();
+        $chat_data_day = $sql->from('zbiao_records', 'records', 'sum(day_use)')
+            ->where($condition)
+            ->group('created')
+            ->order('created desc')
+            ->fetchAll();
 
-        if ($time == ZbiaoRecords::TIME_DAY) {
+        $chat_date_day = $sql->from('zbiao_records', 'records', 'created')
+            ->where($condition)
+            ->distinct(true)
+            ->order('created desc')
+            ->fetchAll();
 
-        } elseif ($time == ZbiaoRecords::TIME_WEEK) {
+        $chat_data_week = $sql->from('zbiao_records', 'records', 'sum(day_use)')
+            ->where($condition)
+            ->group('week_num')
+            ->order('week_num desc')
+            ->fetchAll();
 
-        } elseif ($time == ZbiaoRecords::TIME_MONTH) {
+        $chat_date_week = $sql->from('zbiao_records', 'records', 'week_num')
+            ->where($condition)
+            ->group('week_num')
+            ->order('week_num asc')
+            ->fetchAll();
 
-        }
 
+        $data['data_day'] = ZbiaoRecord::getChatData($chat_data_day);
+        $data['date_day'] = ZbiaoRecord::getChatData($chat_date_day, true);
+
+        $data['data_week'] = ZbiaoRecord::getChatData($chat_data_week);
+        $data['date_week'] = ZbiaoRecord::getChatDataByMonth($chat_date_week, false);
+
+        $chat_data_month = $sql->select('sum(day_use)')
+            ->from('zbiao_records', 'records', 'sum(day_use)')
+            ->where($condition)
+            ->group('month_num')
+            ->order('month_num asc')
+            ->fetchAll();
+
+        $chat_date_month = $sql->from('zbiao_records', 'records', 'month_num')
+            ->where($condition)
+            ->group('month_num')
+            ->order('month_num asc')
+            ->fetchAll();
+
+        $data['data_month'] = ZbiaoRecord::getChatData($chat_data_month);
+        $data['date_month'] = ZbiaoRecord::getChatDataByMonth($chat_date_month, true);
+
+        $data['text'] = $text;
+        $data['type'] = $type;
 
         $this->finish($data);
     }

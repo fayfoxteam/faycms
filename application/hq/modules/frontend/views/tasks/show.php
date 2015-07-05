@@ -116,6 +116,10 @@ use hq\models\tables\ZbiaoRecords;
         console.log(treeNode);
         $('#hidden_biao_id').val(treeNode.id);
         var type = treeId == 'treeElectric' ? 1 : 2;
+        if (!treeNode.pId) {
+            tongji_charts.getPidData(type, treeNode);
+            return;
+        }
         $.ajax({
             url: system.url('tasks/getData'),
             type: 'POST',
@@ -123,7 +127,6 @@ use hq\models\tables\ZbiaoRecords;
             data: {
                 type: type,
                 treeId: treeNode.id,
-                name: treeNode.name,
                 text: treeNode.t
             },
             success: function(data) {
@@ -285,6 +288,27 @@ use hq\models\tables\ZbiaoRecords;
                 });
             });
         },
+        'getPidData': function(type,treeNode){
+            $.ajax({
+                url: system.url('tasks/getDataByPid'),
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    type: type,
+                    pid: treeNode.id,
+                    text: treeNode.t
+                },
+                success: function(data) {
+                    if (data.code == 0) {
+                        tongji_charts.create('day', data.data_day, data.text, data.date_day, data.type);
+                        tongji_charts.create('week', data.data_week, data.text, data.date_week, data.type);
+                        tongji_charts.create('month', data.data_month, data.text, data.date_month, data.type);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        },
         'tab': function(){
             $('.tab').click(function(){
                 var status = $(this).attr('data-status');
@@ -300,6 +324,7 @@ use hq\models\tables\ZbiaoRecords;
         'init': function(){
             this.tab();
             this.events();
+            this.tab();
         }
     };
     $(function () {

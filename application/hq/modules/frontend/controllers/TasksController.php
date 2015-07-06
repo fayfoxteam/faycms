@@ -75,7 +75,7 @@ class TasksController extends FrontController
             ->from('zbiao_records', 'records', 'sum(day_use)')
             ->where($condition)
             ->group('month_num')
-            ->order('month_num asc')
+            ->order('month_num desc')
             ->fetchAll();
 
         $chat_date_month = $sql->from('zbiao_records', 'records', 'month_num')
@@ -142,7 +142,7 @@ class TasksController extends FrontController
             ->from('zbiao_records', 'records', 'sum(day_use)')
             ->where($condition)
             ->group('month_num')
-            ->order('month_num asc')
+            ->order('month_num desc')
             ->fetchAll();
 
         $chat_date_month = $sql->from('zbiao_records', 'records', 'month_num')
@@ -228,4 +228,63 @@ class TasksController extends FrontController
 
         $this->finish($data);
     }
+
+    /**
+     * 根据时间来进行查询具体数据，后期可能做excel导出
+     */
+    public function showListByDate()
+    {
+        $biaos = Zbiaos::model()->fetchAll([], 'biao_id, biao_name');
+
+        $start_time = $this->input->get('start_time', 'strtotime', '');
+        $end_time = $this->input->get('end_time', 'strtotime', '');
+        $biao_id = $this->input->get('biao_id', 'intval', 1001);
+
+        $condition = ['biao_id = ?' => $biao_id];
+
+        $this->view->biao_info = Zbiaos::model()->fetchRow($condition, 'type, biao_name');
+
+        $sql = new Sql();
+        $sql->from('zbiao_records', 'records', 'day_use')->where($condition);
+        if ($start_time) {
+            $sql->where(['records.created >= ?' => $start_time]);
+        }
+        if ($end_time) {
+            $sql->where(['records.created <= ?' => $end_time]);
+        }
+        if (!$start_time && !$end_time) {
+            $sql->limit(10);
+        }
+        $chat_data_day = $sql->order('created desc')->fetchAll();
+
+        $sql->from('zbiao_records', 'records', 'created')->where($condition);
+        if ($start_time) {
+            $sql->where(['records.created > ?' => $start_time]);
+        }
+        if ($end_time) {
+            $sql->where(['records.created < ?' => $end_time]);
+        }
+        if (!$start_time && !$end_time) {
+            $sql->limit(10);
+        }
+        $chat_date_day = $sql->order('created desc')->fetchAll();
+
+        $this->view->data_day = ZbiaoRecord::getChatData($chat_data_day);
+        $this->view->date_day = ZbiaoRecord::getChatData($chat_date_day, true);
+
+        $biao_arr = [
+            '' => '--水电表--',
+        ];
+        foreach ($biaos as $key => $b) {
+            $biao_arr[$b['biao_id']] = $b['biao_name'];
+        }
+
+        $this->view->biao_arr = $biao_arr;
+
+        $this->session->set('start_time', date('Y-m-d', $start_time));
+        $this->session->set('end_time', date('Y-m-d', $end_time));
+
+        $this->view->render('show-list-by-date');
+    }
+
 }

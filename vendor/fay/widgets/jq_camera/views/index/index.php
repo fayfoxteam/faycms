@@ -20,7 +20,7 @@ use fay\helpers\Html;
 	}?>
 	</div>
 </div>
-<?php $this->appendCss($this->url().'css/jquery.camera.css')?>
+<?php $this->appendCss($this->assets('css/jquery.camera.css'))?>
 <script src="<?php echo $this->assets('js/jquery.camera.js')?>"></script>
 <script src="<?php echo $this->assets('js/jquery.easing.1.3.js')?>"></script>
 <style>

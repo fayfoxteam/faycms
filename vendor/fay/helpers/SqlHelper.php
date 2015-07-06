@@ -49,9 +49,14 @@ class SqlHelper{
 		$return = array();
 		foreach($tables as $t){
 			$table = array_shift($t);
-			//前缀不符合的表将被舍弃
-			if(strpos($table, $prefix) === 0){
-				$return[] = substr($table, $prefix_length);
+			if($prefix){
+				//如果传入前缀，但前缀不符合的表将被舍弃
+				if(strpos($table, $prefix) === 0){
+					$return[] = substr($table, $prefix_length);
+				}
+			}else{
+				//前缀为空，则不判断，直接返回
+				$return[] = $table;
 			}
 		}
 		return $return;

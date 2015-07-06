@@ -18,9 +18,7 @@ class TasksController extends FrontController
 {
     public function index()
     {
-        $str = '2015-6-2 00:00:00';
-        $str1 =  strtotime($str) + 60*60*12;
-        echo date('Y-m-d H:i:s', $str1);
+
     }
 
     public function show()

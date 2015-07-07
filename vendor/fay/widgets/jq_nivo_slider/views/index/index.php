@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 
-$this->appendCss($this->url().'css/nivo-slider.css');
+$this->appendCss($this->assets('css/nivo-slider.css'));
 ?>
 <div id="<?php echo $config['elementId']?>">
 	<div class="nivo-slider">

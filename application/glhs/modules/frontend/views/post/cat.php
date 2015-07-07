@@ -7,7 +7,7 @@ use fay\helpers\Html;
 		<h1><?php echo Html::encode($cat['title'])?></h1>
 		<div class="breadcrumbs">
 			<ol>
-				<li><?php echo Html::link(Option::get('site.sitename'), null)?></li>
+				<li><?php echo Html::link(Option::get('site:sitename'), null)?></li>
 				<li><?php echo Html::encode($cat['title'])?></li>
 			</ol>
 		</div>

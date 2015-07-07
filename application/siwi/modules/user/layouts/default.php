@@ -24,7 +24,7 @@ use fay\helpers\Html;
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->session->get('id', 0)?>';
 </script>
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site.sitename')?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
 </head>
 <body>
 <?php include MODULE_PATH.'frontend/layouts/_header.php';?>

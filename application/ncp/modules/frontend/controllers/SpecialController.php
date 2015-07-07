@@ -59,7 +59,7 @@ class SpecialController extends FrontController{
 		}
 		
 		$product_cat = Category::model()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-		$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site.right_recommend_days'));
+		$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site:right_recommend_days'));
 		
 		$this->view->render();
 	}

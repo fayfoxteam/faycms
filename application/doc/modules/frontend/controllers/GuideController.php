@@ -17,7 +17,7 @@ class GuideController extends FrontController{
 		}
 		
 		$this->layout->page_title = $cat['description'] ? "{$cat['title']}（{$cat['description']}）" : $cat['title'];
-		$this->layout->title = $cat['title'].' - '.Option::get('site.sitename');
+		$this->layout->title = $cat['title'].' - '.Option::get('site:sitename');
 
 		$breadcrumb = array();
 		$parent_path = Category::model()->getParentPath($cat, 'fayfox');

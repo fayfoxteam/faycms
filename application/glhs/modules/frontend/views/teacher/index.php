@@ -10,7 +10,7 @@ use fay\helpers\String;
 		<h1>师资力量</h1>
 		<div class="breadcrumbs">
 			<ol>
-				<li><?php echo Html::link(Option::get('site.sitename'))?></li>
+				<li><?php echo Html::link(Option::get('site:sitename'))?></li>
 				<li>师资力量</li>
 			</ol>
 		</div>

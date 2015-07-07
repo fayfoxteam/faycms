@@ -6,7 +6,7 @@ use fay\models\Flash;
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo Option::get('site.sitename')?>--学生登录</title>
+<title><?php echo Option::get('site:sitename')?>--学生登录</title>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <link href="<?php echo $this->appStatic('css/login.css')?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo $this->appStatic('css/box.css')?>" rel="stylesheet" type="text/css" />
@@ -41,7 +41,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
                     </td>
 	        </tr>
     	    <tr>
-    	        <td height="40" colspan="2" align="center"><?php echo Option::get('site.copyright')?></td>
+    	        <td height="40" colspan="2" align="center"><?php echo Option::get('site:copyright')?></td>
     	        </tr>
 	    </table>
     </div>

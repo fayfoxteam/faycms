@@ -99,7 +99,7 @@ class User extends Model{
 			\F::session()->set('actions', $action_routers);
 			
 			//分类权限
-			if(Option::get('system.role_cats')){
+			if(Option::get('system:role_cats')){
 				//未分类文章任何人都有权限编辑
 				$post_root = Category::model()->get('_system_post', 'id');
 				\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id = '.$user['role'])));

@@ -3,7 +3,7 @@ use fay\models\Option;
 ?>
 <footer id="colophon">
 	<div id="footer-copyright-container">
-		<div id="footer-copyright"><?php echo Option::get('site.copyright')?></div>
+		<div id="footer-copyright"><?php echo Option::get('site:copyright')?></div>
 		<div id="footer-copyright-welcome">
 			Welcome to join us.
 			Power By <a href="http://www.siwi.me/">Siwi.Me</a>

@@ -144,10 +144,10 @@ class FoodController extends FrontController{
 			'area'=>$area,
 			'buy_link'=>Post::model()->getPropValueByAlias('food_buy_link', $id),
 			'routes'=>TourRoute::model()->fetchAll('post_id = '.$post['id']),
-			'travel_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 9, Option::get('site.content_recommend_days'), $area['id']),
-			'product_posts'=>Recommend::model()->getByCatAndArea($product_cat, 9, Option::get('site.content_recommend_days'), $area['id']),
-			'right_posts'=>Recommend::model()->getByCatAndArea($food_cat, 6, Option::get('site.right_recommend_days'), 0, $id),
-			'right_top_posts'=>Recommend::model()->getByCatAndArea($product_cat, 2, Option::get('site.right_top_recommend_days')),
+			'travel_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
+			'product_posts'=>Recommend::model()->getByCatAndArea($product_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
+			'right_posts'=>Recommend::model()->getByCatAndArea($food_cat, 6, Option::get('site:right_recommend_days'), 0, $id),
+			'right_top_posts'=>Recommend::model()->getByCatAndArea($product_cat, 2, Option::get('site:right_top_recommend_days')),
 		))->render();
 	}
 }

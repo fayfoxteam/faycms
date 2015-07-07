@@ -7,7 +7,7 @@ use fay\models\Option;
 		<h1><?php echo Html::encode($page['title'])?></h1>
 		<div class="breadcrumbs">
 			<ol>
-				<li><?php echo Html::link(Option::get('site.sitename'), null)?></li>
+				<li><?php echo Html::link(Option::get('site:sitename'), null)?></li>
 				<li>关于我们</li>
 			</ol>
 		</div>

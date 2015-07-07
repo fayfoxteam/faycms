@@ -69,8 +69,8 @@ class PostController extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'post';
-		$this->post_review = !!(Option::get('system.post_review'));
-		$this->role_cats = !!(Option::get('system.role_cats'));
+		$this->post_review = !!(Option::get('system:post_review'));
+		$this->role_cats = !!(Option::get('system:role_cats'));
 	}
 	
 	public function create(){

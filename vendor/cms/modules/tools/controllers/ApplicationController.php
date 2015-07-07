@@ -10,6 +10,8 @@ use fay\models\Menu;
 use fay\models\tables\Categories;
 use fay\models\tables\Menus;
 use fay\models\Flash;
+use fay\models\Option;
+use fay\helpers\Request;
 
 class ApplicationController extends ToolsController{
 	public function __construct(){
@@ -108,6 +110,10 @@ class ApplicationController extends ToolsController{
 					'reg_time'=>$this->current_time,
 					'status'=>Users::STATUS_VERIFIED,
 				));
+				
+				Option::set('site:sitename', $this->input->post('sitename'));
+				
+				file_put_contents(BASEPATH.'..'.DS.'application/'.$app_name.'/installed.lock', date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
 			}
 		}
 		

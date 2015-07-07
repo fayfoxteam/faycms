@@ -19,8 +19,8 @@ class IndexController extends FrontController{
 	}
 	
 	public function index(){
-		$this->layout->keywords = Option::get('site.seo_index_keywords');
-		$this->layout->description = Option::get('site.seo_index_description');
+		$this->layout->keywords = Option::get('site:seo_index_keywords');
+		$this->layout->description = Option::get('site:seo_index_description');
 		
 		$this->view->news = Post::model()->getByCatAlias('news', 7, 'id,title,publish_time', true);
 		

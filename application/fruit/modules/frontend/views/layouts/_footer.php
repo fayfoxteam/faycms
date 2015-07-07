@@ -23,8 +23,8 @@ use fay\models\Option;
 	</div>
 	<div class="copyright-row">
 		<div class="g-mn">
-			<p class="fl"><?php echo Option::get('site.copyright')?></p>
-			<p class="fr"><?php echo Option::get('site.beian')?></p>
+			<p class="fl"><?php echo Option::get('site:copyright')?></p>
+			<p class="fr"><?php echo Option::get('site:beian')?></p>
 			<br class="clear" />
 		</div>
 	</div>
@@ -43,7 +43,7 @@ var marker1 = new BMap.Marker(new BMap.Point(120.202605, 30.212051));// 创建�
 map.addOverlay(marker1);              // 将标注添加到地图中
 
 //创建信息窗口
-var infoWindow1 = new BMap.InfoWindow("<?php echo Option::get('site.sitename')?>");
+var infoWindow1 = new BMap.InfoWindow("<?php echo Option::get('site:sitename')?>");
 marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>

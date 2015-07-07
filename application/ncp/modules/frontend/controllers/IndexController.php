@@ -39,7 +39,7 @@ class IndexController extends FrontController{
 			$not = ArrayHelper::column($travel_top, 'id');
 			$travels[] = array(
 				'top'=>$travel_top,
-				'recommend'=>Recommend::model()->getByCatAndArea($travel_cat, 6, Option::get('site.index_travel_recommend_days'), $a['id'], $not),
+				'recommend'=>Recommend::model()->getByCatAndArea($travel_cat, 6, Option::get('site:index_travel_recommend_days'), $a['id'], $not),
 			);
 			$foods[] = Post::model()->getByProp($prop_area, $a['id'], 4, $food_cat['id']);
 			$products[] = Post::model()->getByProp($prop_area, $a['id'], 7, $product_cat['id']);

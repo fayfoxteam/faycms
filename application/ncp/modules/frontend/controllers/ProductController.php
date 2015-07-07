@@ -133,10 +133,10 @@ class ProductController extends FrontController{
 			'post'=>$post,
 			'area'=>$area,
 			'buy_link'=>Post::model()->getPropValueByAlias('product_buy_link', $id),
-			'food_posts'=>Recommend::model()->getByCatAndArea($food_cat, 9, Option::get('site.content_recommend_days'), $area['id']),
-			'travel_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 9, Option::get('site.content_recommend_days'), $area['id']),
-			'right_posts'=>Recommend::model()->getByCatAndArea($food_cat, 6, Option::get('site.right_recommend_days')),
-			'right_top_posts'=>Recommend::model()->getByCatAndArea($product_cat, 2, Option::get('site.right_top_recommend_days'), 0, $id),
+			'food_posts'=>Recommend::model()->getByCatAndArea($food_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
+			'travel_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
+			'right_posts'=>Recommend::model()->getByCatAndArea($food_cat, 6, Option::get('site:right_recommend_days')),
+			'right_top_posts'=>Recommend::model()->getByCatAndArea($product_cat, 2, Option::get('site:right_top_recommend_days'), 0, $id),
 		))->render();
 	}
 }

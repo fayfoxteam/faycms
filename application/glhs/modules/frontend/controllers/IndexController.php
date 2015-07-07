@@ -12,8 +12,8 @@ class IndexController extends FrontController{
 		parent::__construct();
 		
 		$this->layout->title = '首页';
-		$this->layout->keywords = Option::get('site.seo_index_keywords');
-		$this->layout->description = Option::get('site.seo_index_description');
+		$this->layout->keywords = Option::get('site:seo_index_keywords');
+		$this->layout->description = Option::get('site:seo_index_description');
 		
 		$this->layout->current_directory = 'home';
 	}

@@ -143,10 +143,10 @@ class TravelController extends FrontController{
 			'post'=>$post,
 			'area'=>$area,
 			'routes'=>TourRoute::model()->fetchAll('post_id = '.$post['id']),
-			'food_posts'=>Recommend::model()->getByCatAndArea($food_cat, 9, Option::get('site.content_recommend_days'), $area['id']),
-			'product_posts'=>Recommend::model()->getByCatAndArea($product_cat, 9, Option::get('site.content_recommend_days'), $area['id']),
-			'right_posts'=>Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site.right_recommend_days')),
-			'right_top_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 2, Option::get('site.right_top_recommend_days'), 0, $id),
+			'food_posts'=>Recommend::model()->getByCatAndArea($food_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
+			'product_posts'=>Recommend::model()->getByCatAndArea($product_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
+			'right_posts'=>Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site:right_recommend_days')),
+			'right_top_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 2, Option::get('site:right_top_recommend_days'), 0, $id),
 		))->render();
 	}
 }

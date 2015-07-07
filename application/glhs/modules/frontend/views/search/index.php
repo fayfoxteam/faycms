@@ -7,7 +7,7 @@ use fay\helpers\Html;
 		<h1><?php echo Html::encode($keywords)?></h1>
 		<div class="breadcrumbs">
 			<ol>
-				<li><?php echo Html::link(Option::get('site.sitename'), null)?></li>
+				<li><?php echo Html::link(Option::get('site:sitename'), null)?></li>
 				<li><?php echo Html::encode($keywords)?></li>
 			</ol>
 		</div>

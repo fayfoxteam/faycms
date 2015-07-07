@@ -259,6 +259,8 @@ class Form{
 	public function open($action = null, $method = 'post', $html_options = array()){
 		if($action == null){
 			$action = '';
+		}else if(!is_array($action)){
+			$action = \F::app()->view->url($action);
 		}else{
 			$action = \F::app()->view->url($action[0], isset($action[1]) ? $action[1] : array());
 		}

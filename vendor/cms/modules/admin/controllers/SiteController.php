@@ -16,11 +16,20 @@ class SiteController extends AdminController{
 	
 		if($this->input->post()){
 			foreach($this->input->post() as $key=>$value){
-				Option::set('site.' . $key, $value);
+				Option::set($key, $value);
 			}
 			Flash::set('更新成功', 'success');
 		}
 	
+		$this->view->render();
+	}
+	
+	/**
+	 * 配置项汇总
+	 */
+	public function settings(){
+		$this->layout->subtitle = '系统设置';
+		
 		$this->view->render();
 	}
 }

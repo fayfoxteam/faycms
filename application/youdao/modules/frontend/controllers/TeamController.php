@@ -64,7 +64,7 @@ class TeamController extends FrontController{
 				$this->view->member = $member;
 				
 				//SEO
-				$this->layout->title = $member['seo_title'] ? $member['seo_title'] : $member['title'] . ' | ' . Option::get('site.seo_team_title');
+				$this->layout->title = $member['seo_title'] ? $member['seo_title'] : $member['title'] . ' | ' . Option::get('site:seo_team_title');
 				$this->layout->keywords = $member['seo_keywords'] ? $member['seo_keywords'] : $member['title'];
 				$this->layout->description = $member['seo_description'] ? $member['seo_description'] : $member['abstract'];
 			}else{

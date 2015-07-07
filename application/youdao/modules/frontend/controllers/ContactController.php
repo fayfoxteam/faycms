@@ -53,9 +53,9 @@ class ContactController extends FrontController{
 		$this->layout->banner = 'contact-banner.jpg';
 		$this->layout->current_directory = 'contact';
 
-		$this->layout->title = Option::get('site.seo_contact_title');
-		$this->layout->keywords = Option::get('site.seo_contact_keywords');
-		$this->layout->description = Option::get('site.seo_contact_description');
+		$this->layout->title = Option::get('site:seo_contact_title');
+		$this->layout->keywords = Option::get('site:seo_contact_keywords');
+		$this->layout->description = Option::get('site:seo_contact_description');
 		
 		$this->view->render();
 	}

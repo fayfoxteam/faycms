@@ -103,10 +103,10 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 				为企业发展保驾护航
 			</p>
 			<div id="contact">
-				<p class="phone bold"><?php echo Option::get('site.youdao_phone')?></p>
-				<p>传真：<?php echo Option::get('site.youdao_fax')?></p>
-				<p>邮箱：<a href="mailto:<?php echo Option::get('site.youdao_email')?>"><?php echo Option::get('site.youdao_email')?></a></p>
-				<p>地址：<?php echo Option::get('site.youdao_address')?></p>
+				<p class="phone bold"><?php echo Option::get('site:youdao_phone')?></p>
+				<p>传真：<?php echo Option::get('site:youdao_fax')?></p>
+				<p>邮箱：<a href="mailto:<?php echo Option::get('site:youdao_email')?>"><?php echo Option::get('site:youdao_email')?></a></p>
+				<p>地址：<?php echo Option::get('site:youdao_address')?></p>
 			</div>
 		</div>
 	</section>

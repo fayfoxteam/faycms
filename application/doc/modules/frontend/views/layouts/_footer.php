@@ -7,7 +7,7 @@ use fay\models\Option;
 			<a href="#" rel="go-top"><i class="icon-angle-up"></i></a>
 		</div>
 		<div class="copyright">
-			<?php echo Option::get('site.copyright')?>
+			<?php echo Option::get('site:copyright')?>
 		</div>
 	</div>
 </footer>

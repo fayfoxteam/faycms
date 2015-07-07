@@ -75,7 +75,7 @@ use fay\helpers\Html;
 				<div id="install-db">
 					<div class="form-field">
 						<label class="title">站点名称<em class="fc-red">*</em></label>
-						<?php echo Html::inputText('sitename', '', array(
+						<?php echo Html::inputText('site:sitename', '', array(
 							'data-required'=>'required',
 							'data-label'=>'站点名称',
 							'class'=>'form-control mw400',

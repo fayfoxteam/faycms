@@ -8,8 +8,8 @@ use fay\models\Option;
 
 class IndexController extends FrontController{
 	public function index(){
-		$this->layout->title = Option::get('site.sitename');
-		$this->layout->page_title = Option::get('site.sitename');
+		$this->layout->title = Option::get('site:sitename');
+		$this->layout->page_title = Option::get('site:sitename');
 		
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'cat_id')

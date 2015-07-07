@@ -9,6 +9,7 @@ use fay\models\tables\Users;
 use fay\models\Menu;
 use fay\models\tables\Categories;
 use fay\models\tables\Menus;
+use fay\models\Flash;
 
 class ApplicationController extends ToolsController{
 	public function __construct(){

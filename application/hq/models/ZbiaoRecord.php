@@ -2,6 +2,7 @@
 namespace hq\models;
 
 use fay\core\Model;
+use fay\core\Sql;
 use fay\helpers\Date;
 use hq\models\tables\Zbiaos;
 use hq\models\tables\ZbiaoRecords;
@@ -99,4 +100,20 @@ class ZbiaoRecord extends Model
         return Zbiaos::model()->fetchRow(['biao_id = ?' => $biao_id], 'times');
     }
 
+    /**
+     * 根据传入时间跟记录表里面时间最大值进行比较
+     * @param null $created
+     * @return bool
+     */
+    public function verifyCreatedTime($created = null)
+    {
+        if (!$created) {
+            $created = time();
+        }
+        $sql = new Sql();
+        $data = $sql->from('zbiao_records', 'records', 'max(created) as max_created')->fetchRow();
+        $max_created = $data['max_created'];
+
+        return $created > $max_created ? true : false;
+    }
 }

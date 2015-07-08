@@ -2,13 +2,12 @@
 use fay\helpers\Html;
 use hq\models\tables\Zbiaos;
 
-// dump($tables);
 ?>
 
 <div class="row">
     <div class="col-12">
         <?php echo F::form('search')->open(null, 'get', array('class' => 'form-inline')); ?>
-        请选择需要查看的类型:
+        请选择需要录入的表类型:
         <select name="type_id" class="form-control">
             <option value="" >--分类--</option>
             <option value="<?= Zbiaos::TYPE_ELECTRICITY ?>" <?= isset($_GET['type_id']) && $_GET['type_id'] == Zbiaos::TYPE_ELECTRICITY ? 'selected' : '' ?> >电表</option>
@@ -24,7 +23,7 @@ use hq\models\tables\Zbiaos;
 <div class="row">
 
   <?php echo F::form()->open();?>
-        <div class="col-6">
+        <div class="col-8">
         <?php
             if (isset($tables))
             {
@@ -34,8 +33,9 @@ use hq\models\tables\Zbiaos;
                 <div class="form-field">
                     <label class="title"><?= $table['biao_name'] ?><em class="required">*</em>&nbsp;Id: <?= $table['biao_id'] ?></label>
                     <?php echo F::form()->inputText('biao-'.$table['id'], array(
-                        'class'=>'form-control mw400',
+                        'class'=>'form-control mw400 ib',
                     ))?>
+                    <span>昨天记录的总值: <?= $table['zongzhi'] ?></span>
                </div>
              <?php
                 }

@@ -19,6 +19,9 @@ class TasksController extends AdminController
     public function index()
     {
         echo 'tasks/index';
+        $zbiao_records = new ZbiaoRecord();
+        $a = $zbiao_records->verifyCreatedTime();
+        dump($a);
     }
 
     public function show()
@@ -95,6 +98,11 @@ class TasksController extends AdminController
         if ($post = $this->input->post())
         {
             $created = array_pop($post);
+            $zbiao_record = new ZbiaoRecord();
+            if (!$zbiao_record->verifyCreatedTime(strtotime($created))) {
+                Response::output('error', '录入时间必须比前一天的大');
+            }
+
             ZbiaoRecord::model()->insertRecord($post, $created);
             Response::output('success', '信息录入成功');
         }
@@ -341,7 +349,6 @@ class TasksController extends AdminController
         $biao = Zbiaos::model()->fetchRow(['biao_id = ?' => $record['biao_id']]);
 
         $zongzhi = $record['zongliang'] - $record['day_use'] / $biao['times'];
-
         $db = Db::getInstance();
         $sql = sprintf("update fay_zbiaos set zongzhi = %s where biao_id = %d", $zongzhi, $record['biao_id']);
 

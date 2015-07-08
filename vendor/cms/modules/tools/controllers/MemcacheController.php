@@ -22,7 +22,9 @@ class MemcacheController extends ToolsController{
 		);
 		
 		//单服务器模式
-		$this->view->slabs = current(\F::cache()->getDriver('memcache')->_cache->getExtendedStats('slabs'));
+		$slabs = @\F::cache()->getDriver('memcache')->_cache->getExtendedStats('slabs');
+		$first_slab = current($slabs);
+		$this->view->slabs = $first_slab ? $first_slab : array();
 	
 		$this->view->render();
 	}

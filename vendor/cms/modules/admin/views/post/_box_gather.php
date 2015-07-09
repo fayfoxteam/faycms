@@ -17,7 +17,7 @@ use fay\helpers\Html;
 			<h4>文章采集</h4>
 			<div id="gather-form">
 				<div class="form-field">
-					<label class="title">链接地址</label>
+					<label class="title bold">链接地址</label>
 					<?php echo Html::inputText('', '', array(
 						'class'=>'w400',
 						'id'=>'gather-url',
@@ -25,7 +25,7 @@ use fay\helpers\Html;
 					<p class="description">例子：http://www.fayfox.com/about.html —— 不要忘了 http://</p>
 				</div>
 				<div class="form-field">
-					<label class="title">选择器</label>
+					<label class="title bold">选择器</label>
 					<?php echo Html::inputText('gather_rule', '', array(
 						'class'=>'w400',
 						'id'=>'gather-rule',

@@ -2,7 +2,7 @@
 <div class="row">
 	<div class="col-6">
 		<div class="form-field">
-			<label class="title">用户名<em class="required">*</em></label>
+			<label class="title bold">用户名<em class="required">*</em></label>
 			<?php echo F::form()->inputText('username', array(
 				'class'=>'form-control mw400',
 			))?>

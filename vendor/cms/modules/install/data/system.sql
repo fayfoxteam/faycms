@@ -30,8 +30,8 @@ ALTER TABLE {{$prefix}}pages AUTO_INCREMENT = 1000;
 ALTER TABLE {{$prefix}}actions AUTO_INCREMENT = 10000;
 
 -- options表id从100开始递增
-INSERT INTO `{{$prefix}}options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES ('1', 'system.post_review', '0', '是否启用文章审核功能', '{{$time}}', '{{$time}}', '1');
-INSERT INTO `{{$prefix}}options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES ('2', 'system.role_cats', '0', '是否启用角色分类权限控制', '{{$time}}', '{{$time}}', '1');
+INSERT INTO `{{$prefix}}options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES ('1', 'system:post_review', '0', '是否启用文章审核功能', '{{$time}}', '{{$time}}', '1');
+INSERT INTO `{{$prefix}}options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES ('2', 'system:role_cats', '0', '是否启用角色分类权限控制', '{{$time}}', '{{$time}}', '1');
 ALTER TABLE {{$prefix}}options AUTO_INCREMENT = 100;
 
 

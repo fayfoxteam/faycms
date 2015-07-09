@@ -4,7 +4,7 @@ use fay\models\tables\Props;
 ?>
 <?php foreach($props as $p){?>
 	<div class="form-field">
-		<label class="title">
+		<label class="title bold">
 			<?php echo Html::encode($p['title']);?>
 			<?php if($p['required']){?>
 				<em class="fc-red">(必选)</em>

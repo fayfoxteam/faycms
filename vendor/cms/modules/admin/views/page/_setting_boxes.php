@@ -6,7 +6,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 <?php echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
-		<label class="title">显示下列项目</label>
+		<label class="title bold">显示下列项目</label>
 		<?php 
 		foreach(F::app()->boxes as $box){
 			echo Html::inputCheckbox('boxes[]', $box['name'],

@@ -13,6 +13,12 @@ class Option extends Model{
 		return parent::model($className);
 	}
 	
+	/**
+	 * 获取一个参数
+	 * @param string $name 参数名
+	 * @param string $default 若不存在，返回默认值
+	 * @return mixed
+	 */
 	public static function get($name, $default = null){
 		$option = Options::model()->fetchRow(array('option_name = ?'=>$name), 'option_value');
 		if($option){
@@ -22,6 +28,11 @@ class Option extends Model{
 		}
 	}
 	
+	/**
+	 * 设置一个参数
+	 * @param string $name 参数名
+	 * @param mixed $value 参数值
+	 */
 	public static function set($name, $value){
 		$option = Options::model()->fetchRow(array('option_name = ?'=>$name), 'option_value');
 		if($option){
@@ -38,5 +49,19 @@ class Option extends Model{
 				'create_time'=>\F::app()->current_time,
 			));
 		}
+	}
+	
+	/**
+	 * 根据配置项前缀获取配置（返回数组的key不会包含前缀部分）
+	 * @param 配置项前缀 $name
+	 */
+	public static function getTeam($name){
+		$options = Options::model()->fetchAll(array('option_name LIKE ?'=>$name.'%'), 'option_name,option_value');
+		$return = array();
+		foreach($options as $o){
+			$return[substr($o['option_name'], strlen($name) + 1)] = $o['option_value'];
+		}
+		
+		return $return;
 	}
 }

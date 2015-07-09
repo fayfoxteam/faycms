@@ -183,7 +183,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 						<?php foreach($props as $p){
 							if($p['is_sale_prop'])continue;?>
 							<div class="form-field">
-								<label class="title">
+								<label class="title bold">
 									<?php echo Html::encode($p['title'])?>
 									<?php if($p['required']){?>
 										<em class="fc-red">(必选)</em>

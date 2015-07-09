@@ -12,7 +12,7 @@ $col_left_count = floor($action_cat_count / 2);
 			</div>
 			<div class="box-content">
 				<div class="form-field">
-					<label class="title">
+					<label class="title bold">
 						角色名称
 						<em class="required">*</em>
 					</label>
@@ -21,7 +21,7 @@ $col_left_count = floor($action_cat_count / 2);
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">描述</label>
+					<label class="title bold">描述</label>
 					<?php echo F::form()->textarea('description', array(
 						'class'=>'form-control h90 mw500 autosize',
 					))?>

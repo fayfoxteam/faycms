@@ -7,7 +7,7 @@ echo F::form()->open();
 <div class="row">
 	<div class="col-6">
 		<div class="form-field">
-			<label class="title">登录名</label>
+			<label class="title bold">登录名</label>
 			<?php echo F::form()->inputText('username', array(
 				'class'=>'form-control mw400',
 				'disabled'=>'disabled',
@@ -15,38 +15,38 @@ echo F::form()->open();
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">密码</label>
+			<label class="title bold">密码</label>
 			<?php echo F::form()->inputText('password', array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="description">若为空，则不会修改密码字段</p>
 		</div>
 		<div class="form-field">
-			<label class="title">邮箱</label>
+			<label class="title bold">邮箱</label>
 			<?php echo F::form()->inputText('email', array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">手机号</label>
+			<label class="title bold">手机号</label>
 			<?php echo F::form()->inputText('cellphone', array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">姓名</label>
+			<label class="title bold">姓名</label>
 			<?php echo F::form()->inputText('realname', array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">昵称</label>
+			<label class="title bold">昵称</label>
 			<?php echo F::form()->inputText('nickname', array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">头像</label>
+			<label class="title bold">头像</label>
 			<div id="avatar-container">
 				<?php 
 				echo F::form()->inputHidden('avatar', array('id'=>'avatar-id'));

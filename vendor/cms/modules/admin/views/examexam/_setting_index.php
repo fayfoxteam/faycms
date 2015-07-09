@@ -1,7 +1,7 @@
 <?php echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
-		<label class="title">显示用户方式</label>
+		<label class="title bold">显示用户方式</label>
 		<?php
 		echo F::form('setting')->inputRadio('display_name', 'username', array(
 			'label'=>'用户名',
@@ -15,7 +15,7 @@
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">分页大小</label>
+		<label class="title bold">分页大小</label>
 		<?php echo F::form('setting')->inputNumber('page_size', array(
 			'class'=>'form-control w50',
 			'min'=>1,

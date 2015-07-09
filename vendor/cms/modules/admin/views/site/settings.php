@@ -11,10 +11,10 @@
 					<?php $this->renderPartial('_options_panel')?>
 				</div>
 				<div id="email-panel" class="tab-pane p5">
-					
+					<?php $this->renderPartial('_email_panel')?>
 				</div>
 				<div id="qiniu-panel" class="tab-pane p5">
-					
+					<?php $this->renderPartial('_qiniu_panel')?>
 				</div>
 			</div>
 		</div>

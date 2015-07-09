@@ -56,7 +56,7 @@ use fay\helpers\Html;
 						</p>
 					</div>
 					<div class="form-field">
-						<label class="title">所属域</label>
+						<label class="title bold">所属域</label>
 						<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
 							'class'=>'form-control',
 						))?>

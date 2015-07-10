@@ -21,7 +21,7 @@ jQuery.fn.extend({
 				var html = [
 					'<div>',
 						'<div class="fn-block"></div>',
-						'<img src="', system.url('images/ajax-loading.gif'), '" class="fn-block-loading-img" />',
+						'<img src="', system.assets('images/ajax-loading.gif'), '" class="fn-block-loading-img" />',
 					'</div>'
 				].join('');
 				
@@ -34,7 +34,7 @@ jQuery.fn.extend({
 					'z-index':typeof(options.zindex) == 'undefined' ? 500 : options.zindex
 				})
 					.append('<div class="fn-block"></div>')
-					.append('<img src="' + system.url('images/ajax-loading.gif') + '" class="fn-block-loading-img" />');
+					.append('<img src="' + system.assets('images/ajax-loading.gif') + '" class="fn-block-loading-img" />');
 				$('body').append(html);
 				$(this).data('fblock', html);
 			}

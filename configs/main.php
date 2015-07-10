@@ -103,20 +103,6 @@ return array(
 	),
 	
 	/*
-	 * Email参数
-	 */
-	'email'=>array(
-		'Host'=>'smtp.163.com',
-		'Username'=>'public_fayfox@163.com',
-		'Password'=>'24631633',
-		'SMTPSecure'=>'',
-		'Port'=>25,
-		'CharSet'=>'utf8',
-		'From'=>'public_fayfox@163.com',
-		'FromName'=>'Fayfox',
-	),
-	
-	/*
 	 * 邮件开关，当设置为false时，不会发送任何邮件
 	 */
 	'send_email'=>true,

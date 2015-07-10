@@ -25,7 +25,7 @@ class Qiniu extends Model{
 		Loader::vendor('qiniu/io');
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = \F::config()->get('*', 'qiniu');
+		$qiniu = Option::getTeam('qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$putPolicy = new \Qiniu_RS_PutPolicy($qiniu['bucket']);
@@ -61,7 +61,7 @@ class Qiniu extends Model{
 		
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = \F::config()->get('*', 'qiniu');
+		$qiniu = Option::getTeam('qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$client = new \Qiniu_MacHttpClient(null);
@@ -96,8 +96,8 @@ class Qiniu extends Model{
 		if(!$file['qiniu']){
 			return '';
 		}
-		$domain = \F::app()->config->get('domain', 'qiniu');
-		$domain || $domain = 'http://'.\F::app()->config->get('bucket', 'qiniu').'.qiniudn.com/';
+		$domain = Option::get('qiniu:domain');
+		$domain || $domain = 'http://'.Option::get('qiniu:bucket').'.qiniudn.com/';
 		$src = $domain . $this->getKey($file);
 		
 		if($file['is_image'] && (isset($options['dw']) || isset($options['dh']))){

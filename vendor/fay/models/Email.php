@@ -3,6 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\core\Loader;
+use fay\core\ErrorException;
 
 class Email extends Model{
 	/**
@@ -18,26 +19,31 @@ class Email extends Model{
 	 * @param string $subject 邮件标题
 	 * @param string $body 邮件内容
 	 */
-	public function send($address, $subject, $body){
+	public static function send($address, $subject, $body){
 		if(!\F::config()->get('send_email')){
 			return;
 		}
 		
 		Loader::vendor('PHPMailer/class.phpmailer');
-		$config_email = \F::config()->get('email');
-	
+		$email_config = Option::getTeam('email');
+		
+		if(empty($email_config['Host']) || empty($email_config['Username']) ||
+			empty($email_config['Password']) || empty($email_config['Port'])){
+			throw new ErrorException('Email信息未配置');
+		}
+		
 		$mail = new \PHPMailer ();
 		$mail->IsSMTP ();
 		$mail->SMTPDebug = false;
-		$mail->Host = $config_email['Host'];
+		$mail->Host = $email_config['Host'];
 		$mail->SMTPAuth = true;
-		$mail->Username = $config_email['Username'];
-		$mail->Password = $config_email['Password']; // SMTP password
-		$mail->SMTPSecure = $config_email['SMTPSecure']; // Enable encryption, 'ssl' also accepted
-		$mail->Port = $config_email['Port'];
-		$mail->CharSet = $config_email['CharSet'];
-		$mail->From = $config_email['From'];
-		$mail->FromName = $config_email['FromName'];
+		$mail->Username = $email_config['Username'];
+		$mail->Password = $email_config['Password']; // SMTP password
+		$mail->SMTPSecure = empty($email_config['SMTPSecure']) ? '' : $email_config['SMTPSecure']; // Enable encryption, 'ssl' also accepted
+		$mail->Port = $email_config['Port'];
+		$mail->CharSet = 'utf8';
+		$mail->From = $email_config['Username'];
+		$mail->FromName = empty($email_config['FromName']) ? '' : $email_config['FromName'];
 		if(is_array($address)){
 			foreach($address as $a){
 				$mail->AddAddress($a);

@@ -4,6 +4,7 @@ namespace fay\helpers;
 use fay\models\tables\Files;
 use fay\models\File;
 use fay\models\Qiniu;
+use fay\models\Option;
 
 /**
  * 构造html元素
@@ -265,7 +266,7 @@ class Html{
 						));
 					}else{
 						//公共文件，直接返回真实路径
-						if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
+						if(Option::get('qiniu:accessKey') && $file['qiniu']){
 							//若开启了七牛云存储，且文件已上传，则显示七牛路径
 							$src = Qiniu::model()->getUrl($file);
 						}else{
@@ -278,7 +279,7 @@ class Html{
 				break;
 				case File::PIC_THUMBNAIL:
 					//显示一张缩略图，若不是图片文件，显示一个图标
-					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu'] && $file['is_image']){
+					if(Option::get('qiniu:accessKey') && $file['qiniu'] && $file['is_image']){
 						//若开启了七牛云存储，且文件已上传，则利用七牛在线裁剪为100x100图片
 						$src = Qiniu::model()->getUrl($file, array(
 							'dw'=>100,
@@ -318,7 +319,7 @@ class Html{
 					$src = \F::app()->view->url('file/pic', $img_params);
 				break;
 				case File::PIC_RESIZE:
-					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
+					if(Option::get('qiniu:accessKey') && $file['qiniu']){
 						//若开启了七牛云存储，且文件已上传，则利用七牛进行裁剪输出
 						$src = Qiniu::model()->getUrl($file, array(
 							'dw'=>isset($html_options['dw']) ? $html_options['dw'] : false,

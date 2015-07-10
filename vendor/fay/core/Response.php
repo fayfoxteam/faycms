@@ -145,6 +145,7 @@ class Response{
 			);
 		}
 		if(\F::app()->input->isAjaxRequest()){
+			header('Content-Type: application/json');
 			echo json_encode(array(
 				'status'=>$status == 'success' ? 1 : 0,
 			)+$data);

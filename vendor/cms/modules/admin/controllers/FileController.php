@@ -13,6 +13,7 @@ use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
+use fay\models\Option;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -127,7 +128,7 @@ class FileController extends AdminController{
 		);
 		
 		//如果未配置七牛参数，则强制不显示七牛那一列
-		if(!$this->config->get('*', 'qiniu')){
+		if(!Option::getTeam('qiniu')){
 			foreach($_settings['cols'] as $k => $v){
 				if($v == 'qiniu'){
 					unset($_settings['cols'][$k]);

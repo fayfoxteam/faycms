@@ -52,7 +52,7 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1003', '驳回', 'admin/comment/unapprove', '110', '0', '1001');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1004', '删除', 'admin/comment/delete', '110', '0', '1001');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1005', '永久删除', 'admin/comment/remove', '110', '0', '1001');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1101', '站点参数', 'admin/site/options', '111', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1101', '站点设置', 'admin/site/settings', '111', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1102', '小工具', 'admin/widget/instances', '111', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1103', '移除小工具', 'admin/widget/remove-instance', '111', '0', '1102');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1104', '编辑小工具', 'admin/widget/edit', '111', '0', '1102');

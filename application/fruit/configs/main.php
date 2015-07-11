@@ -12,8 +12,8 @@ return array(
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
 		'port'=>3306,							//端口
-		'dbname'=>'fayfox_fruit',				//数据库名
-		'charset'=>'utf8',						//数据库编码方式
+		'dbname'=>'faycms_fruit',				//数据库名
+		'charset'=>'utf8mb4',						//数据库编码方式
 		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),
 	

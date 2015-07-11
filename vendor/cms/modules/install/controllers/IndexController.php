@@ -133,7 +133,7 @@ class IndexController extends InstallController{
 					'status'=>Users::STATUS_VERIFIED,
 				));
 				
-				Option::set('site:sitename', $this->input->post('sitename'));
+				Option::set('site:sitename', $this->input->post('site:sitename'));
 				
 				file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
 				

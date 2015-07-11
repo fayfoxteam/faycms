@@ -23,15 +23,11 @@ return array(
 	'session_namespace'=>'fruit',
 	
 	/*
-	 * 是否启用钩子，视application而定
-	 * 默认为false
-	 */
-	'hook'=>true,
-	
-	/*
 	 * 当前application包含的模块
 	 */
 	'modules'=>array(
 		'frontend'
 	),
+	
+	'debug'=>false,
 );

@@ -3,7 +3,7 @@
 <script>
 var install = {
 	'createTables':function(){
-		$("#install-panel").append('<li>创建数据表<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>创建数据表<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/create-tables', {'_token':'<?php echo F::app()->getToken()?>'}),
@@ -20,7 +20,7 @@ var install = {
 		});
 	},
 	'setCities':function(token){
-		$("#install-panel").append('<li>导入城市数据<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>导入城市数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/set-cities', {
@@ -39,7 +39,7 @@ var install = {
 		});
 	},
 	'setRegions':function(token){
-		$("#install-panel").append('<li>导入地区数据<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>导入地区数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/set-regions', {
@@ -58,7 +58,7 @@ var install = {
 		});
 	},
 	'setCats':function(token){
-		$("#install-panel").append('<li>导入基础分类数据<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>导入基础分类数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/set-cats', {
@@ -77,7 +77,7 @@ var install = {
 		});
 	},
 	'setActions':function(token){
-		$("#install-panel").append('<li>导入权限数据<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>导入权限数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/set-actions', {
@@ -96,7 +96,7 @@ var install = {
 		});
 	},
 	'setMenus':function(token){
-		$("#install-panel").append('<li>导入后台菜单<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>导入后台菜单<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/set-menus', {
@@ -115,7 +115,7 @@ var install = {
 		});
 	},
 	'setSystem':function(token){
-		$("#install-panel").append('<li>导入系统数据<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>导入系统数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/set-system', {
@@ -134,7 +134,7 @@ var install = {
 		});
 	},
 	'setCustom':function(token){
-		$("#install-panel").append('<li>导入用户数据<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>导入用户数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/set-custom', {
@@ -153,7 +153,7 @@ var install = {
 		});
 	},
 	'indexCats':function(token){
-		$("#install-panel").append('<li>索引表<span class="throbber"><img src="'+system.url('images/throbber.gif')+'" /></span></li>');
+		$("#install-panel").append('<li>索引表<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
 			url: system.url('install/db/index-cats', {

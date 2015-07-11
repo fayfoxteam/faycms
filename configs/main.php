@@ -49,12 +49,6 @@ return array(
 	'debug'=>true,
 	
 	/*
-	 * 是否启用钩子，视application而定
-	 * 默认为false
-	 */
-	'hook'=>true,
-	
-	/*
 	 * 时间相关设置
 	 */
 	'date'=>array(

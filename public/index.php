@@ -18,7 +18,6 @@ define('APPLICATION', isset($_SESSION['__app']) ? $_SESSION['__app'] : (isset($_
 require __DIR__.'/_init.php';
 
 $bootstrap = new Bootstrap();
-if(\F::config()->get('hook')){
-	Hook::getInstance()->call('before_system');
-}
+//hook
+Hook::getInstance()->call('before_system');
 $bootstrap->init();

@@ -509,7 +509,8 @@ class PostController extends AdminController{
 						'text'=>'fay\models\tables\PostPropText',
 					));
 				}
-
+				
+				//hook
 				Hook::getInstance()->call('after_post_created', array(
 					'post_id'=>$post_id,
 				));

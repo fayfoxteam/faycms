@@ -34,7 +34,7 @@ use fay\helpers\Html;
 						'class'=>'form-control',
 					))?>
 					<?php echo Html::link('删除', 'javascript:;', array(
-						'class'=>'btn btn-grey mt5 widget-remove-attr-link',
+						'class'=>'btn btn-grey btn-sm mt5 widget-remove-attr-link',
 					))?>
 				</span>
 				<span class="golden-right"><?php echo Html::textarea('values[]', $d['value'], array(
@@ -64,7 +64,7 @@ use fay\helpers\Html;
 						'id'=>'widget-add-attr-key',
 					))?>
 					<?php echo Html::link('添加', 'javascript:;', array(
-						'class'=>'btn mt5',
+						'class'=>'btn mt5 btn-sm',
 						'id'=>'widget-add-attr-link',
 					))?>
 					<span id="widget-add-attr-msg"></span>
@@ -96,7 +96,7 @@ use fay\helpers\Html;
 <script>
 var widget_options = {
 	'addAttr':function(){
-		$(document).delegate('#widget-add-attr-link', 'click', function(){
+		$(document).on('click', '#widget-add-attr-link', function(){
 			if($("#widget-add-attr-key").val() == ""){
 				$("#widget-add-attr-msg").css({"color":"red"}).text("名称不能为空");
 			}else{
@@ -105,7 +105,7 @@ var widget_options = {
 					'<li>',
 						'<span class="golden-left">',
 							'<input type="text" name="keys[]" value="', $("#widget-add-attr-key").val(), '" class="form-control" />',
-							'<a href="javascript:;" class="btn btn-grey mt5 remove-link widget-remove-attr-link">删除</a>',
+							'<a href="javascript:;" class="btn btn-grey btn-sm mt5 remove-link widget-remove-attr-link">删除</a>',
 						'</span>',
 						'<span class="golden-right">',
 							'<textarea name="values[]" class="form-control">', $("#widget-add-attr-value").val(), '</textarea>',
@@ -124,7 +124,7 @@ var widget_options = {
 		});
 	},
 	'removeAttr':function(){
-		$(document).delegate('.widget-remove-attr-link', 'click', function(){
+		$(document).on('click', '.widget-remove-attr-link', function(){
 			if(confirm("您确定要删除此属性吗？")){
 				$(this).parent().parent().remove();
 			}

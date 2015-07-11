@@ -23,20 +23,7 @@ use fay\helpers\Date;
 			</article>
 		</div>
 		<div class="g-aside">
-			<aside class="box">
-				<div class="box-title">
-					<h3 class="sub-title">产品分类</h3>
-				</div>
-				<div class="box-content">
-					<ul class="box-cats">
-					<?php foreach($cats as $c){?>
-						<li><?php echo Html::link($c['title'], array(
-							'product/'.$c['alias']
-						))?></li>
-					<?php }?>
-					</ul>
-				</div>
-			</aside>
+			<?php F::widget()->load('news-cats')?>
 		</div>
 	</div>
 </div>

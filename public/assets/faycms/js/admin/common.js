@@ -864,7 +864,6 @@ var common = {
 			system.getScript(system.assets('js/prettify.js'), function(){
 				prettyPrint();
 			});
-			system.getCss(system.assets('faycms/css/debug.css'));
 		}
 	},
 	'init':function(){

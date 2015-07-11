@@ -22,6 +22,11 @@ class WidgetController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '所有小工具';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/widgetarea/index'),
+			'text'=>'小工具域',
+		);
+		
 		$widget_instances = array();
 		
 		//获取当前application下的widgets

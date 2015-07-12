@@ -424,10 +424,10 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .fn-block-loading-img{position:absolute;top:50%;left:50%;margin:-22px 0 0 -22px;z-index:501;cursor:wait}
 
 /* tags输入框 */
-.ftextext-container{display:inline-block}
+.ftextext-container{display:inline-block;border:1px solid #DFDFDF;box-sizing:content-box}
+.ftextext-container.ftextext-active{border-color:#aaa;box-shadow:1px 1px 2px rgba(0,0,0,0.1)}
 .ftextext-container input[type="text"]{outline:0;border:0 !important;background:transparent !important;box-shadow:none}
-.ftextext-container .ftextext-choices{border:1px solid #DFDFDF;padding:3px;cursor:text;background-color:#fff}
-.ftextext-active .ftextext-choices{border-color:#aaa;box-shadow:1px 1px 2px rgba(0,0,0,0.1)}
+.ftextext-container .ftextext-choices{padding:3px;cursor:text;background-color:#fff}
 .ftextext-drop{margin-top:4px;border:1px solid #aaa;box-shadow:0 4px 5px rgba(0, 0, 0, 0.15);display:none;background-color:#fff;position:absolute;z-index:500}
 .ftextext-drop ul{margin:4px}
 .ftextext-drop li{padding:5px 6px}
@@ -496,7 +496,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .text blockquote{padding:5px 11px;margin:0 0 8px 3px;border-left:5px solid #eee}
 
 /* autocomplete输入框 */
-.fac-container{border:1px solid #aaa;box-shadow:0 4px 5px rgba(0, 0, 0, 0.15);display:none;background-color:#fff;position:absolute;z-index:500}
+.fac-container{border:1px solid #aaa;box-shadow:0 4px 5px rgba(0, 0, 0, 0.15);display:none;background-color:#fff;position:absolute;z-index:500;box-sizing:content-box}
 .fac-container ul{margin:4px}
 .fac-container li{padding:5px 6px}
 .fac-container li .highlight{background-color:yellow}

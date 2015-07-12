@@ -898,4 +898,14 @@ class PostController extends AdminController{
 			));
 		}
 	}
+	
+	public function search(){
+		$posts = Posts::model()->fetchAll(array(
+			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
+		), 'id,title', 'id DESC', 20);
+		echo json_encode(array(
+			'status'=>1,
+			'data'=>$posts,
+		));
+	}
 }

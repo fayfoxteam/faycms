@@ -8,13 +8,13 @@ use fay\models\tables\Users;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<label class="title">分页大小</label>
+			<label class="title bold">分页大小</label>
 			<?php echo F::form('widget')->inputText('page_size', array(
 				'class'=>'form-control mw150',
 			), 10)?>
 		</div>
 		<div class="form-field">
-			<label class="title">排序规则</label>
+			<label class="title bold">排序规则</label>
 			<?php
 				echo F::form('widget')->inputRadio('order', 'hand', array(
 					'wrapper'=>array(
@@ -45,20 +45,20 @@ use fay\models\tables\Users;
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">页码字段</label>
+				<label class="title bold">页码字段</label>
 				<?php echo F::form('widget')->inputText('page_key', array(
 					'class'=>'form-control mw150',
 				), 'page')?>
 			</div>
 			<div class="form-field">
-				<label class="title">分类字段</label>
+				<label class="title bold">分类字段</label>
 				<?php echo F::form('widget')->inputText('cat_key', array(
 					'class'=>'form-control mw150',
 				), 'cat_id')?>
 				<p class="fc-grey">若传入分类字段，会搜索此分类下的文章</p>
 			</div>
 			<div class="form-field">
-				<label class="title">发布时间格式</label>
+				<label class="title bold">发布时间格式</label>
 				<?php echo F::form('widget')->inputText('date_format', array(
 					'class'=>'form-control mw150',
 				), 'pretty')?>
@@ -66,7 +66,7 @@ use fay\models\tables\Users;
 					其他格式视为PHP date函数的第一个参数</p>
 			</div>
 			<div class="form-field">
-				<label class="title">链接格式</label>
+				<label class="title bold">链接格式</label>
 				<?php
 					echo Html::inputRadio('uri', 'post/{$id}', !isset($data['uri']) || $data['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
@@ -91,7 +91,7 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">搜索字段</label>
+				<label class="title bold">附加字段</label>
 				<?php
 					echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
 						'label'=>'分类详情',
@@ -100,10 +100,10 @@ use fay\models\tables\Users;
 						'label'=>'作者信息',
 					));
 				?>
-				<p class="fc-grey">仅搜索模版中用到的字段，可以加快程序效率。</p>
+				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>
 			<div class="form-field">
-				<label class="title">渲染模版</label>
+				<label class="title bold">渲染模版</label>
 				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',
 				))?>
@@ -115,14 +115,14 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">无内容时显示的替换文本</label>
+				<label class="title bold">无内容时显示的替换文本</label>
 				<?php echo F::form('widget')->textarea('empty_text', array(
 					'class'=>'form-control h90 autosize',
 				), '无相关记录！')?>
 				<p class="fc-grey">可以包含html</p>
 			</div>
 			<div class="form-field">
-				<label class="title">分页条模版</label>
+				<label class="title bold">分页条模版</label>
 				<p><?php
 					echo Html::inputRadio('pager', 'system', !isset($data['pager']) || $data['pager'] == 'system', array(
 						'label'=>'调用全局分页条',

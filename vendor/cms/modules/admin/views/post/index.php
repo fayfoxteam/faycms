@@ -71,6 +71,7 @@ $cols = F::form('setting')->getData('cols', array());
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISHED)?>)</span>
 				|
 			</li>
+			<?php if(F::app()->post_review){//仅开启审核时显示?>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PENDING)?>)</span>
@@ -81,6 +82,7 @@ $cols = F::form('setting')->getData('cols', array());
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_REVIEWED)?>)</span>
 				|
 			</li>
+			<?php }?>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_DRAFT)?>)</span>

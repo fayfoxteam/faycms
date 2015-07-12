@@ -241,6 +241,14 @@ var post = {
 		if(system.inArray('files', post.boxes)){
 			this.files();
 		}
+		if(system.inArray('tags', post.boxes)){
+			system.getScript(system.assets('faycms/js/fayfox.textext.js'), function(){
+				$("#tags").ftextext({
+					'url':system.url('admin/tag/search'),
+					'width':'100%'
+				});
+			});
+		}
 		if(this.roleCats !== null){
 			this.setRoleCats();
 		}

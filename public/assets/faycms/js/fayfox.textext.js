@@ -15,6 +15,9 @@ jQuery.fn.extend({
 		var width = $(this).width();
 		var padding_left = $(this).css('padding-left');
 		var padding_right = $(this).css('padding-right');
+		if(typeof(settings.width) == 'undefined'){
+			settings.width = (parseInt(width) + parseInt(padding_left) + parseInt(padding_right)) + 'px';
+		}
 		
 		var app = {
 			'obj':$(this),//被隐藏掉到原始输入框
@@ -23,18 +26,18 @@ jQuery.fn.extend({
 			'lastText':null,
 			'input':null,//模拟出来到可见输入框
 			'cache':{},//ajax缓存
-			'width':(parseInt(width) + parseInt(padding_left) + parseInt(padding_right)) + 'px',
+			'width':settings.width,
 			'lazyAjax':null,//用户连续键盘输入时，不发送ajax
 			'encode' : function(str){
-				var s = "";
-				if (str == undefined || str.length == 0) return "";
-				s = str.replace(/&/g, "&amp;");
-				s = s.replace(/</g, "&lt;");
-				s = s.replace(/>/g, "&gt;");
-				s = s.replace(/ /g,"&nbsp;");
-				s = s.replace(/\'/g, "&#39;");
-				s = s.replace(/\"/g, "&quot;");
-				s = s.replace(/\n/g, "<br>");
+				var s = '';
+				if (str == undefined || str.length == 0) return '';
+				s = str.replace(/&/g, '&amp;');
+				s = s.replace(/</g, '&lt;');
+				s = s.replace(/>/g, '&gt;');
+				s = s.replace(/ /g,'&nbsp;');
+				s = s.replace(/\'/g, '&#39;');
+				s = s.replace(/\"/g, '&quot;');
+				s = s.replace(/\n/g, '<br>');
 				return s;
 			},
 			'arrayUnique':function(inputArr){
@@ -44,7 +47,7 @@ jQuery.fn.extend({
 
 				var __array_search = function(needle, haystack){
 					var fkey = '';
-					for(fkey in haystack){$("#f_autocomplete")
+					for(fkey in haystack){$('#f_autocomplete')
 						if(haystack.hasOwnProperty(fkey)){
 							if((haystack[fkey] + '') === (needle + '')){
 								return fkey;
@@ -74,7 +77,7 @@ jQuery.fn.extend({
 								'<input type="text" autocomplete="off" style="width:25px;" />',
 							'</li>',
 						'</ul>',
-						'<div class="ftextext-drop" style="width:', app.width, ';">',
+						'<div class="ftextext-drop">',
 							'<ul class="ftextext-results"></ul>',
 						'</div>',
 					'</div>'
@@ -96,10 +99,10 @@ jQuery.fn.extend({
 					clearTimeout(app.lazyAjax);
 					app.lazyAjax = setTimeout(function(){
 						$.ajax({
-							type: "GET",
+							type: 'GET',
 							url: settings.url,
-							dataType: "json",
-							data: {"key":key},
+							dataType: 'json',
+							data: {'key':key},
 							success: function(resp){
 								if(resp.status){
 									app.cache[key] = resp.data;
@@ -146,12 +149,14 @@ jQuery.fn.extend({
 					//最大高度限制
 					if(parseInt(app.container.find('.ftextext-drop ul').height()) > parseInt(settings.maxHeight)){
 						app.drop.css({
-							"height":settings.maxHeight + 1,
-							"overflow":"auto"
+							'height':settings.maxHeight + 1,
+							'overflow':'auto',
+							'width':app.container.width()
 						});
 					}else{
 						app.drop.css({
-							"height":"auto"
+							'height':'auto',
+							'width':app.container.width()
 						});
 					}
 				}else{
@@ -297,24 +302,25 @@ jQuery.fn.extend({
 						}
 					}else if(event.keyCode == 40){//向下
 						app.goDown();
+					}else if(event.keyCode == 8){
+						//已经空了，继续按退格键，则删除前一项
+						if(!app.input.val()){
+							app.input.parent().prev('.ftextext-choice').remove();
+						}
 					}
 				});
 				
 				//输入框有输入
 				app.container.on('keyup', 'input', function(event){
 					var current = app.container.find('.ftextext-results li.active');
-					if(event.keyCode == 38){//向上
-						//app.goUp(current);
-					}else if(event.keyCode == 40){//向下
-						//app.goDown(current);
-					}else if(event.keyCode == 13 || event.keyCode == 108){//回车
+					if(event.keyCode == 13 || event.keyCode == 108){//回车
 						if(current.length > 0){
 							app.setInputText(current.text());
 						}
 						app.setChoice();
 						app.drop.hide();
 						return;
-					}else{
+					}else if(event.keyCode != 38 && event.keyCode != 40){//上下键另外处理
 						app.getChoices(app.input.val());
 						var width = 14 * parseInt(app.input.val().length);
 						if(width > 25){
@@ -352,8 +358,6 @@ jQuery.fn.extend({
 				this.events();
 			}
 		};
-		
 		app.init();
-		
 	}
 });

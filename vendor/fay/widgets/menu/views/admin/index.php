@@ -9,7 +9,7 @@ use fay\models\tables\Menus;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<label class="title">顶级菜单</label>
+			<label class="title bold">顶级菜单</label>
 			<?php echo Html::select('top', Html::getSelectOptions($menu), isset($data['top']) ? $data['top'] : Menus::ITEM_USER_MENU, array(
 				'class'=>'form-control mw400',
 			))?>
@@ -20,7 +20,7 @@ use fay\models\tables\Menus;
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
 					'class'=>'form-control h90 autosize',
 				))?>

@@ -8,20 +8,20 @@ use fay\models\tables\Users;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<label class="title">标题</label>
+			<label class="title bold">标题</label>
 			<?php echo F::form('widget')->inputText('title', array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">若为空，则显示顶级分类的标题</p>
 		</div>
 		<div class="form-field">
-			<label class="title">分类</label>
+			<label class="title bold">分类</label>
 			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats), array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">是否包含子分类下的文章</label>
+			<label class="title bold">是否包含子分类下的文章</label>
 			<?php echo F::form('widget')->inputRadio('subclassification', 1, array(
 				'label'=>'是',
 			), true)?>
@@ -30,13 +30,13 @@ use fay\models\tables\Users;
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">显示文章数</label>
+			<label class="title bold">显示文章数</label>
 			<?php echo F::form('widget')->inputText('number', array(
 				'class'=>'form-control mw150',
 			), 5)?>
 		</div>
 		<div class="form-field">
-			<label class="title">无文章时是否显示小工具</label>
+			<label class="title bold">无文章时是否显示小工具</label>
 			<?php echo F::form('widget')->inputRadio('show_empty', 1, array(
 				'label'=>'是',
 			))?>
@@ -45,7 +45,7 @@ use fay\models\tables\Users;
 			), true)?>
 		</div>
 		<div class="form-field">
-			<label class="title">仅显示有缩略图的文章</label>
+			<label class="title bold">仅显示有缩略图的文章</label>
 			<?php echo F::form('widget')->inputRadio('thumbnail', 1, array(
 				'label'=>'是',
 			))?>
@@ -55,7 +55,7 @@ use fay\models\tables\Users;
 			<p class="fc-grey">若该实例被用于画廊展示，请选择<span class="fc-orange">“是”</span></p>
 		</div>
 		<div class="form-field">
-			<label class="title">排序规则</label>
+			<label class="title bold">排序规则</label>
 			<?php
 				echo F::form('widget')->inputRadio('order', 'hand', array(
 					'wrapper'=>array(
@@ -92,7 +92,7 @@ use fay\models\tables\Users;
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">最近访问</label>
+				<label class="title bold">最近访问</label>
 				<p><?php echo F::form('widget')->inputText('last_view_time', array(
 					'class'=>'form-control mw150',
 				), 0);?>
@@ -103,7 +103,7 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">发布时间格式</label>
+				<label class="title bold">发布时间格式</label>
 				<?php echo F::form('widget')->inputText('date_format', array(
 					'class'=>'form-control mw150',
 				), 'pretty')?>
@@ -111,7 +111,7 @@ use fay\models\tables\Users;
 					其他格式视为PHP date函数的第一个参数</p>
 			</div>
 			<div class="form-field">
-				<label class="title">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php
 					echo Html::inputRadio('uri', 'post/{$id}', !isset($data['uri']) || $data['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
@@ -136,7 +136,7 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',
 				))?>

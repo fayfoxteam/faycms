@@ -13,15 +13,16 @@
 		<?php include '_right.php';?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.autocomplete.js')?>"></script>
 <script>
 $(function(){
-	$("#parent-router").autocomplete({
-		"url" : system.url('admin/action/search'),
-		'startSuggestLength':0,
-		'onSelect':function(obj){
-			common.validformParams.forms.default.obj.check(obj);
-		}
+	system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
+		$("#parent-router").autocomplete({
+			"url" : system.url('admin/action/search'),
+			'startSuggestLength':0,
+			'onSelect':function(obj){
+				common.validformParams.forms.default.obj.check(obj);
+			}
+		});
 	});
 });
 </script>

@@ -4,7 +4,7 @@ jQuery.fn.extend({
 		var settings = {
 			'maxHeight':200,
 			'startSuggestLength':3,
-			'onSelect':function(obj){}//选中某项后执行
+			'onSelect':function(obj, data){}//选中某项后执行
 		};
 		$.each(options, function(i, n){
 			settings[i] = n;
@@ -73,6 +73,22 @@ jQuery.fn.extend({
 				}
 			},
 			'showSuggests':function(data){
+				//重新定位，因为元素可能被因为开始的时候是隐藏的，或者页面上其他元素被隐藏而发生定位变化
+				var offset = $(app.obj).offset();
+				var width = $(app.obj).width();
+				var height = $(app.obj).height();
+				var padding_top = $(app.obj).css('padding-top');
+				var padding_bottom = $(app.obj).css('padding-bottom');
+				var padding_left = $(app.obj).css('padding-left');
+				var padding_right = $(app.obj).css('padding-right');
+				var border_top = $(app.obj).css('border-top-width');
+				var border_bottom = $(app.obj).css('border-bottom-width');
+				app.container.css({
+					'width':(parseInt(width) + parseInt(padding_left) + parseInt(padding_right)) + 'px',
+					'top':(parseInt(offset.top) + parseInt(height) + parseInt(padding_top) + parseInt(padding_bottom) + parseInt(border_top) + parseInt(border_bottom) + 2) + 'px',
+					'left':offset.left + 'px'
+				});
+				
 				if(typeof(data) != 'undefined'){
 					app.container.find('ul').html('');
 					$.each(data, function(i, n){
@@ -82,6 +98,7 @@ jQuery.fn.extend({
 							var text = app.encode(n.title);
 						}
 						app.container.find('ul').append('<li>'+text+'</li>');
+						app.container.find('ul li:last').data('autocomplete-data', n);//把所有返回的数据存起来，因为除了可见的文字，还可能包含id等字段
 					});
 				}
 				if(app.container.find('li').length > 0){
@@ -188,8 +205,8 @@ jQuery.fn.extend({
 						
 					}else if(event.keyCode == 13 || event.keyCode == 108){//回车
 						if(current.length > 0){
-							$(this).val(current.text());
-							settings.onSelect(app.obj);
+							$(this).val(current.text()).data('autocomplete-data', current.data('autocomplete-data'));
+							settings.onSelect(app.obj, app.obj.data('autocomplete-data'));
 						}
 						app.container.fadeOut("fast");
 						return;
@@ -204,8 +221,8 @@ jQuery.fn.extend({
 				});
 				
 				app.container.on('click', 'li', function(){
-					app.obj.val($(this).text());
-					settings.onSelect(app.obj);
+					app.obj.val($(this).text()).data('autocomplete-data', $(this).data('autocomplete-data'));
+					settings.onSelect(app.obj, app.obj.data('autocomplete-data'));
 				});
 			},
 			'init':function(){

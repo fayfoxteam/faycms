@@ -9,7 +9,7 @@ use fay\helpers\Html;
 		<ul class="box-cats">
 		<?php foreach($cats as $c){?>
 			<li><?php echo Html::link($c['title'], array(
-				'product/'.$c['alias']
+				'news/'.$c['alias']
 			))?></li>
 		<?php }?>
 		</ul>

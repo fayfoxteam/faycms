@@ -135,8 +135,12 @@ class Input{
 	 * @param array|string $filters 可以是数组，也可以是竖线分隔的字符串
 	 * @param array|string $data
 	 * @param string $fields 可以是数组，也可以是逗号分隔的字符串，但不可以有多余的空格
+	 * @param bool $skip_on_empty 若为true，则当值为空时不调用过滤器进行过滤，默认为true
 	 */
-	public function filterR($filters, $data, $fields = null){
+	public function filterR($filters, $data, $fields = null, $skip_on_empty = true){
+		if($skip_on_empty && ($data === '' || $data === null || $data === array())){
+			return $data;
+		}
 		if(is_string($filters)){
 			$filters = explode('|', $filters);
 		}

@@ -14,7 +14,7 @@ use fay\models\tables\Users;
 			<div class="form-field">
 				<label class="title bold">显示方式</label>
 				<?php
-					echo F::form('widget')->inputRadio('type', 'by_id', array(
+					echo F::form('widget')->inputRadio('type', 'by_input', array(
 						'label'=>'根据传入ID显示',
 					), true);
 					echo F::form('widget')->inputRadio('type', 'fixed_post', array(
@@ -22,7 +22,7 @@ use fay\models\tables\Users;
 					));
 				?>
 			</div>
-			<div class="form-field <?php if($config['type'] == 'fixed_post')echo 'hide'?>" id="type-by-id-options">
+			<div class="form-field <?php if(isset($config['type']) && $config['type'] == 'fixed_post')echo 'hide'?>" id="type-by-input-options">
 				<label class="title bold">ID字段</label>
 				<?php echo F::form('widget')->inputText('id_key', array(
 					'class'=>'form-control mw150',
@@ -31,7 +31,7 @@ use fay\models\tables\Users;
 					URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;request($key)</code>可以获取到）
 				</p>
 			</div>
-			<div class="form-field <?php if($config['type'] != 'fixed_post')echo 'hide'?>" id="type-fixed-post-options">
+			<div class="form-field <?php if(!isset($config['type']) || $config['type'] != 'fixed_post')echo 'hide'?>" id="type-fixed-post-options">
 				<label class="title bold">指定文章标题</label>
 				<?php
 					echo F::form('widget')->inputHidden('fixed_id', array(
@@ -93,12 +93,13 @@ $(function(){
 	$('.toggle-advance').on('click', function(){
 		$('.advance').toggle();
 	});
+	
 	$('input[name="type"]').on('click', function(){
-		if($(this).val() == 'by_id'){
-			$('#type-by-id-options').show();
+		if($(this).val() == 'by_input'){
+			$('#type-by-input-options').show();
 			$('#type-fixed-post-options').hide();
 		}else{
-			$('#type-by-id-options').hide();
+			$('#type-by-input-options').hide();
 			$('#type-fixed-post-options').show();
 		}
 	});

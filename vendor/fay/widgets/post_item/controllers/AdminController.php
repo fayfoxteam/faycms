@@ -3,7 +3,6 @@ namespace fay\widgets\post_item\controllers;
 
 use fay\core\Widget;
 use fay\models\Flash;
-use fay\models\Post;
 use fay\models\tables\Posts;
 
 class AdminController extends Widget{
@@ -34,7 +33,7 @@ class AdminController extends Widget{
 	public function onPost(){
 		$data = $this->form->getFilteredData();
 		
-		if($data['type'] == 'by_id'){
+		if($data['type'] == 'by_input'){
 			$data['fixed_id'] = '';
 		}else{
 			$data['id_key'] = '';
@@ -53,7 +52,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array('fixed_id', 'int', array('min'=>1)),
-			array('type', 'range', array('range'=>array('by_id', 'fixed_post'))),
+			array('type', 'range', array('range'=>array('by_input', 'fixed_post'))),
 		);
 	}
 	

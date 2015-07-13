@@ -6,9 +6,10 @@ use fay\models\Post;
 
 class IndexController extends Widget{
 	public function index($config){
-		$config['fields'] || $config['fields'] = array('user', 'nav');
+		isset($config['fields']) || $config['fields'] = array('user', 'nav');
+		empty($config['type']) && $config['type'] = 'by_input';
 		
-		if($config['type'] == 'by_id'){
+		if($config['type'] == 'by_input'){
 			$post = Post::model()->get($this->input->get($config['id_key']), implode(',', $config['fields']));
 		}else{
 			$post = Post::model()->get($config['fixed_id'], implode(',', $config['fields']));

@@ -51,11 +51,43 @@ use fay\models\tables\Users;
 				), 'page')?>
 			</div>
 			<div class="form-field">
-				<label class="title bold">分类字段</label>
-				<?php echo F::form('widget')->inputText('cat_key', array(
-					'class'=>'form-control mw150',
-				), 'cat_id')?>
-				<p class="fc-grey">若传入分类字段，会搜索此分类下的文章</p>
+				<label class="title bold">分类限制</label>
+				<?php
+					echo F::form('widget')->inputRadio('cat_type', 'by_input', array(
+						'label'=>'根据传入分类ID确定分类',
+					), true);
+					echo F::form('widget')->inputRadio('cat_type', 'fixed_cat', array(
+						'label'=>'固定显示一个分类下的文章',
+					));
+				?>
+				<p class="fc-grey">限制仅显示某个分类下的文章</p>
+			</div>
+			<div class="<?php if(isset($config['cat_type']) && $config['cat_type'] == 'fixed_cat')echo 'hide'?>" id="type-by-input-options">
+				<div class="form-field">
+					<label class="title bold">分类字段</label>
+					<?php echo F::form('widget')->inputText('cat_key', array(
+						'class'=>'form-control mw150',
+					), 'cat_id')?>
+					<p class="fc-grey">若传入分类字段，会搜索此分类下的文章；不传入则显示全部文章。</p>
+				</div>
+			</div>
+			<div class="<?php if(!isset($config['cat_type']) || $config['cat_type'] != 'fixed_cat')echo 'hide'?>" id="type-fixed-cat-options">
+				<div class="form-field">
+					<label class="title bold">固定分类</label>
+					<?php echo F::form('widget')->select('fixed_cat_id', Html::getSelectOptions($cats), array(
+						'class'=>'form-control mw400',
+					))?>
+					<p class="fc-grey">固定显示所选分类下的文章</p>
+				</div>
+			</div>
+			<div class="form-field">
+				<label class="title bold">是否包含子分类下的文章</label>
+				<?php echo F::form('widget')->inputRadio('subclassification', 1, array(
+					'label'=>'是',
+				), true)?>
+				<?php echo F::form('widget')->inputRadio('subclassification', 0, array(
+					'label'=>'否',
+				))?>
 			</div>
 			<div class="form-field">
 				<label class="title bold">发布时间格式</label>
@@ -68,20 +100,20 @@ use fay\models\tables\Users;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'post/{$id}', !isset($data['uri']) || $data['uri'] == 'post/{$id}', array(
+					echo Html::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
 					));
-					echo Html::inputRadio('uri', 'post-{$id}', isset($data['uri']) && $data['uri'] == 'post-{$id}', array(
+					echo Html::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
 						'label'=>'post-{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($data['uri']) && !in_array($data['uri'], array(
+					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($data['uri']) && !in_array($data['uri'], array(
+					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
-					)) ? $data['uri'] : '', array(
+					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
@@ -124,14 +156,14 @@ use fay\models\tables\Users;
 			<div class="form-field">
 				<label class="title bold">分页条模版</label>
 				<p><?php
-					echo Html::inputRadio('pager', 'system', !isset($data['pager']) || $data['pager'] == 'system', array(
+					echo Html::inputRadio('pager', 'system', !isset($config['pager']) || $config['pager'] == 'system', array(
 						'label'=>'调用全局分页条',
 					));
-					echo Html::inputRadio('pager', 'custom', isset($data['pager']) && $data['pager'] == 'custom', array(
+					echo Html::inputRadio('pager', 'custom', isset($config['pager']) && $config['pager'] == 'custom', array(
 						'label'=>'小工具内自定义',
 					));
 				?></p>
-				<div id="pager-template-container" class="<?php if(!isset($data['pager']) || $data['pager'] == 'system')echo 'hide';?>">
+				<div id="pager-template-container" class="<?php if(!isset($config['pager']) || $config['pager'] == 'system')echo 'hide';?>">
 					<?php echo F::form('widget')->textarea('pager_template', array(
 						'class'=>'form-control h90 autosize',
 					))?>
@@ -150,6 +182,16 @@ use fay\models\tables\Users;
 $(function(){
 	$('.toggle-advance').on('click', function(){
 		$(".advance").toggle();
+	});
+	
+	$('input[name="cat_type"]').on('click', function(){
+		if($(this).val() == 'by_input'){
+			$('#type-by-input-options').show();
+			$('#type-fixed-cat-options').hide();
+		}else{
+			$('#type-by-input-options').hide();
+			$('#type-fixed-cat-options').show();
+		}
 	});
 
 	$('input[name="pager"]').on('click', function(){

@@ -13,6 +13,7 @@ use fay\helpers\Date;
 class IndexController extends Widget{
 	public function index($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
+		empty($config['cat_type']) && $config['cat_type'] = 'by_input';
 		empty($config['cat_key']) && $config['cat_key'] = 'cat_id';
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
@@ -21,6 +22,7 @@ class IndexController extends Widget{
 		empty($config['pager']) && $config['pager'] = 'system';
 		empty($config['pager_template']) && $config['pager_template'] = '';
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
+		isset($config['subclassification']) || $config['subclassification'] = true;
 		
 		//order
 		$orders = array(
@@ -37,8 +39,23 @@ class IndexController extends Widget{
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract,comments,views,likes');
 		
-		if($this->input->get($config['cat_key'])){
-			$sql->where(array('cat_id = ?'=>$this->input->get($config['cat_key'], 'intval')));
+		//限制分类
+		if($config['cat_type'] == 'by_input' && $this->input->get($config['cat_key'])){
+			$limit_cat_id = $this->input->get($config['cat_key'], 'intval');
+		}else if($config['cat_type'] == 'fixed_cat'){
+			$limit_cat_id = $config['fixed_cat_id'];
+		}
+		
+		if(!empty($limit_cat_id)){
+			if($config['subclassification']){
+				//包含子分类
+				$limit_cat_children = Category::model()->getAllIds($limit_cat_id);
+				$limit_cat_children[] = $limit_cat_id;//加上父节点
+				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
+			}else{
+				//不包含子分类
+				$sql->where(array('cat_id = ?'=>$limit_cat_id));
+			}
 		}
 		
 		$sql->where(array(

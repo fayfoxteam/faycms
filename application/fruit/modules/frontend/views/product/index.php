@@ -25,6 +25,7 @@ use fay\helpers\Html;
 			<ul class="clearfix">
 				<?php $listview->showData();?>
 			</ul>
+			<?php $listview->showPager();?>
 		</div>
 	</div>
 </div>

@@ -16,7 +16,7 @@ var user = {
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$('#avatar-img, #avatar-img-circle').attr('src', system.url('images/loading.gif'));
+			$('#avatar-img, #avatar-img-circle').attr('src', system.assets('images/loading.gif'));
 			uploader.start();
 		});
 

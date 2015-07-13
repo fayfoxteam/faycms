@@ -35,7 +35,7 @@ $(function(){
 	uploader.init();
 	
 	uploader.bind('FilesAdded', function(up, files) {
-		$("#file-preview").html('<img src="'+system.url('images/loading.gif')+'" />').show();
+		$("#file-preview").html('<img src="'+system.assets('images/loading.gif')+'" />').show();
 		uploader.start();
 	});
 	

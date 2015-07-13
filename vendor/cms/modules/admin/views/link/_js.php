@@ -18,7 +18,7 @@ var link = {
 
 		link.uploadObj.init();
 		link.uploadObj.bind('FilesAdded', function(up, files) {
-			$("#upload-logo-preview").html('<img src="'+system.url('images/loading.gif')+'" />');
+			$("#upload-logo-preview").html('<img src="'+system.assets('images/loading.gif')+'" />');
 			link.uploadObj.start();
 		});
 		

@@ -18,7 +18,7 @@ var post = {
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$("#thumbnail-preview-container").html('<img src="'+system.url('images/loading.gif')+'" />');
+			$("#thumbnail-preview-container").html('<img src="'+system.assets('images/loading.gif')+'" />');
 			uploader.start();
 		});
 		
@@ -82,7 +82,7 @@ var post = {
 						'<a class="dragsort-rm" href="javascript:;"></a>',
 						'<div class="dragsort-item-container">',
 							'<span class="file-thumb">',
-								'<img src="', system.url('images/loading.gif'), '" />',
+								'<img src="', system.assets('images/loading.gif'), '" />',
 							'</span>',
 							'<div class="file-desc-container">',
 								'<textarea class="form-control file-desc autosize">', data.name, '</textarea>',

@@ -1,5 +1,6 @@
 <?php
 use fay\models\tables\Users;
+use fay\helpers\Html;
 ?>
 <div class="box" id="box-abstract" data-name="abstract">
 	<div class="box-title">
@@ -22,29 +23,50 @@ use fay\models\tables\Users;
 					));
 				?>
 			</div>
-			<div class="form-field <?php if(isset($config['type']) && $config['type'] == 'fixed_post')echo 'hide'?>" id="type-by-input-options">
-				<label class="title bold">ID字段</label>
-				<?php echo F::form('widget')->inputText('id_key', array(
-					'class'=>'form-control mw150',
-				), 'id')?>
-				<p class="fc-grey">
-					URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;request($key)</code>可以获取到）
-				</p>
+			<div class="<?php if(isset($config['type']) && $config['type'] == 'fixed_post')echo 'hide'?>" id="type-by-input-options">
+				<div class="form-field">
+					<label class="title bold">ID字段</label>
+					<?php echo F::form('widget')->inputText('id_key', array(
+						'class'=>'form-control mw150',
+					), 'id')?>
+					<p class="fc-grey">URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;request($key)</code>可以获取到）</p>
+				</div>
+				<div class="form-field">
+					<label class="title bold">所属分类</label>
+					<?php echo F::form('widget')->select('under_cat_id', Html::getSelectOptions($cats), array(
+						'class'=>'form-control mw400',
+					))?>
+					<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项很有用。</p>
+				</div>
+				<div class="form-field">
+					<label class="title bold">递增阅读数</label>
+					<?php
+						echo F::form('widget')->inputRadio('inc_views', '1', array(
+							'label'=>'递增',
+						), true);
+						echo F::form('widget')->inputRadio('inc_views', '0', array(
+							'label'=>'不递增',
+						));
+					?>
+					<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项很有用。</p>
+				</div>
 			</div>
-			<div class="form-field <?php if(!isset($config['type']) || $config['type'] != 'fixed_post')echo 'hide'?>" id="type-fixed-post-options">
-				<label class="title bold">指定文章标题</label>
-				<?php
-					echo F::form('widget')->inputHidden('fixed_id', array(
-						'id'=>'fixed-id',
-					));
-					echo F::form('widget')->inputText('fixed_title', array(
-						'class'=>'form-control mw500',
-						'id'=>'fixed-title',
-					));
-				?>
-				<p class="fc-grey">
-					固定显示一篇文章，一般用在页面的某一块显示一些固定的描述。
-				</p>
+			<div class="<?php if(!isset($config['type']) || $config['type'] != 'fixed_post')echo 'hide'?>" id="type-fixed-post-options">
+				<div class="form-field">
+					<label class="title bold">指定文章标题</label>
+					<?php
+						echo F::form('widget')->inputHidden('fixed_id', array(
+							'id'=>'fixed-id',
+						));
+						echo F::form('widget')->inputText('fixed_title', array(
+							'class'=>'form-control mw500',
+							'id'=>'fixed-title',
+						));
+					?>
+					<p class="fc-grey">
+						固定显示一篇文章，一般用在页面的某一块显示一些固定的描述。
+					</p>
+				</div>
 			</div>
 			<div class="form-field">
 				<label class="title bold">附加字段</label>

@@ -51,6 +51,7 @@ class AdminController extends Widget{
 			array('page_size', 'int', array('min'=>1)),
 			array('pager', 'range', array('range'=>array('system', 'custom'))),
 			array('cat_type', 'range', array('range'=>array('by_input', 'fixed_cat'))),
+			array('cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
 		);
 	}
 	
@@ -59,7 +60,7 @@ class AdminController extends Widget{
 			'page_size'=>'分页大小',
 			'page_key'=>'页码字段',
 			'cat_key'=>'分类字段',
-			'cat_type'=>'分类限制'
+			'cat_id'=>'默认分类',
 		);
 	}
 	
@@ -67,7 +68,6 @@ class AdminController extends Widget{
 		return array(
 			'page_size'=>'intval',
 			'page_key'=>'trim',
-			'cat_type'=>'trim',
 			'cat_key'=>'trim',
 			'order'=>'trim',
 			'uri'=>'trim',
@@ -78,7 +78,7 @@ class AdminController extends Widget{
 			'pager'=>'trim',
 			'pager_template'=>'trim',
 			'empty_text'=>'trim',
-			'fixed_cat_id'=>'intval',
+			'cat_id'=>'intval',
 			'subclassification'=>'intval',
 		);
 	}

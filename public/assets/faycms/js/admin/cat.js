@@ -142,7 +142,7 @@ var cat = {
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$('#cat-pic-for-create-container').html('<img src="'+system.url('images/loading.gif')+'" height="100" />');
+			$('#cat-pic-for-create-container').html('<img src="'+system.assets('images/loading.gif')+'" height="100" />');
 			uploader.start();
 		});
 		
@@ -186,7 +186,7 @@ var cat = {
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$('#cat-pic-for-edit-container').html('<img src="'+system.url('images/loading.gif')+'" height="100" />');
+			$('#cat-pic-for-edit-container').html('<img src="'+system.assets('images/loading.gif')+'" height="100" />');
 			uploader.start();
 		});
 		

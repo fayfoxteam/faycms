@@ -104,7 +104,7 @@ var jq_camera = {
 					'<a class="dragsort-item-selector"></a>',
 					'<div class="dragsort-item-container">',
 						'<span class="file-thumb">',
-							'<img src="', system.url('images/loading.gif'), '" />',
+							'<img src="', system.assets('images/loading.gif'), '" />',
 						'</span>',
 						'<div class="file-desc-container">',
 							'<input type="text" class="photo-title mb5 form-control" placeholder="标题" value="', data.name, '" />',

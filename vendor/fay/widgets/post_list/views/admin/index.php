@@ -51,34 +51,18 @@ use fay\models\tables\Users;
 				), 'page')?>
 			</div>
 			<div class="form-field">
-				<label class="title bold">分类限制</label>
-				<?php
-					echo F::form('widget')->inputRadio('cat_type', 'by_input', array(
-						'label'=>'根据传入分类ID确定分类',
-					), true);
-					echo F::form('widget')->inputRadio('cat_type', 'fixed_cat', array(
-						'label'=>'固定显示一个分类下的文章',
-					));
-				?>
-				<p class="fc-grey">限制仅显示某个分类下的文章</p>
+				<label class="title bold">默认分类</label>
+				<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
+					'class'=>'form-control mw400',
+				))?>
+				<p class="fc-grey">没有传入分类字段的情况下显示此分类下的文章</p>
 			</div>
-			<div class="<?php if(isset($config['cat_type']) && $config['cat_type'] == 'fixed_cat')echo 'hide'?>" id="type-by-input-options">
-				<div class="form-field">
-					<label class="title bold">分类字段</label>
-					<?php echo F::form('widget')->inputText('cat_key', array(
-						'class'=>'form-control mw150',
-					), 'cat_id')?>
-					<p class="fc-grey">若传入分类字段，会搜索此分类下的文章；不传入则显示全部文章。</p>
-				</div>
-			</div>
-			<div class="<?php if(!isset($config['cat_type']) || $config['cat_type'] != 'fixed_cat')echo 'hide'?>" id="type-fixed-cat-options">
-				<div class="form-field">
-					<label class="title bold">固定分类</label>
-					<?php echo F::form('widget')->select('fixed_cat_id', Html::getSelectOptions($cats), array(
-						'class'=>'form-control mw400',
-					))?>
-					<p class="fc-grey">固定显示所选分类下的文章</p>
-				</div>
+			<div class="form-field">
+				<label class="title bold">分类字段</label>
+				<?php echo F::form('widget')->inputText('cat_key', array(
+					'class'=>'form-control mw150',
+				), 'cat_id')?>
+				<p class="fc-grey">若传入分类字段，会搜索此分类下的文章。</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">是否包含子分类下的文章</label>
@@ -182,16 +166,6 @@ use fay\models\tables\Users;
 $(function(){
 	$('.toggle-advance').on('click', function(){
 		$(".advance").toggle();
-	});
-	
-	$('input[name="cat_type"]').on('click', function(){
-		if($(this).val() == 'by_input'){
-			$('#type-by-input-options').show();
-			$('#type-fixed-cat-options').hide();
-		}else{
-			$('#type-by-input-options').hide();
-			$('#type-fixed-cat-options').show();
-		}
 	});
 
 	$('input[name="pager"]').on('click', function(){

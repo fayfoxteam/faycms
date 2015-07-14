@@ -44,7 +44,7 @@ class ProductController extends FrontController{
 		
 		$this->view->listview = new ListView($sql, array(
 			'reload'=>$cat['alias'] == 'product' ? $this->view->url('product') : $this->view->url('product/'.$cat['alias']),
-			'page_size'=>10,
+			'page_size'=>1,
 		));
 		
 		$this->view->render();

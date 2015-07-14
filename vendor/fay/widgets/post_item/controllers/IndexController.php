@@ -3,6 +3,7 @@ namespace fay\widgets\post_item\controllers;
 
 use fay\core\Widget;
 use fay\models\Post;
+use fay\core\HttpException;
 
 class IndexController extends Widget{
 	public function index($config){
@@ -10,9 +11,18 @@ class IndexController extends Widget{
 		empty($config['type']) && $config['type'] = 'by_input';
 		
 		if($config['type'] == 'by_input'){
-			$post = Post::model()->get($this->input->get($config['id_key']), implode(',', $config['fields']));
+			$post = Post::model()->get($this->input->get($config['id_key']), implode(',', $config['fields']), isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
+			if(!$post){
+				throw new HttpException('您访问的页面不存在');
+			}
+			\F::app()->layout->title = $post['seo_title'];
+			\F::app()->layout->keywords = $post['seo_keywords'];
+			\F::app()->layout->description = $post['seo_description'];
 		}else{
-			$post = Post::model()->get($config['fixed_id'], implode(',', $config['fields']));
+			$post = Post::model()->get($config['fixed_id'], implode(',', $config['fields']), isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
+			if(!$post){
+				return '';
+			}
 		}
 		
 		//template

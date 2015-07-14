@@ -9,11 +9,11 @@ use fay\helpers\ArrayHelper;
 use fay\models\Category;
 use fay\models\User;
 use fay\helpers\Date;
+use fay\core\HttpException;
 
 class IndexController extends Widget{
 	public function index($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
-		empty($config['cat_type']) && $config['cat_type'] = 'by_input';
 		empty($config['cat_key']) && $config['cat_key'] = 'cat_id';
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
@@ -40,21 +40,29 @@ class IndexController extends Widget{
 		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract,comments,views,likes');
 		
 		//限制分类
-		if($config['cat_type'] == 'by_input' && $this->input->get($config['cat_key'])){
-			$limit_cat_id = $this->input->get($config['cat_key'], 'intval');
-		}else if($config['cat_type'] == 'fixed_cat'){
-			$limit_cat_id = $config['fixed_cat_id'];
+		if($this->input->get($config['cat_key'])){
+			$cat_id = $this->input->get($config['cat_key'], 'intval');
+		}else {
+			$cat_id = $config['cat_id'];
 		}
 		
-		if(!empty($limit_cat_id)){
+		if(!empty($cat_id)){
+			$cat = Category::model()->get($cat_id, '*', '_system_post');
+			if(!$cat){
+				throw new HttpException('您访问的页面不存在');
+			}else{
+				\F::app()->layout->title = empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'];
+				\F::app()->layout->keywords = empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'];
+				\F::app()->layout->description = empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'];
+			}
 			if($config['subclassification']){
 				//包含子分类
-				$limit_cat_children = Category::model()->getAllIds($limit_cat_id);
-				$limit_cat_children[] = $limit_cat_id;//加上父节点
+				$limit_cat_children = Category::model()->getAllIds($cat_id);
+				$limit_cat_children[] = $cat_id;//加上父节点
 				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
 			}else{
 				//不包含子分类
-				$sql->where(array('cat_id = ?'=>$limit_cat_id));
+				$sql->where(array('cat_id = ?'=>$cat_id));
 			}
 		}
 		

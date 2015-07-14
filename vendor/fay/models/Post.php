@@ -68,8 +68,8 @@ class Post extends Model{
 	 * 返回一篇文章信息（返回字段已做去转义处理）
 	 * @param int $id
 	 * @param string $fields tags,messages,nav,files,props,user,categories
-	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），<br>
-	 * 	则只会在此分类极其子分类下搜索该篇文章<br>
+	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
+	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
 	 * @param null|bool $publish 若为true，则只在已发布的文章里搜索
 	 */

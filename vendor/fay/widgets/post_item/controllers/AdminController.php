@@ -4,6 +4,7 @@ namespace fay\widgets\post_item\controllers;
 use fay\core\Widget;
 use fay\models\Flash;
 use fay\models\tables\Posts;
+use fay\models\Category;
 
 class AdminController extends Widget{
 	public function index($config){
@@ -23,6 +24,16 @@ class AdminController extends Widget{
 				'fixed_title'=>$post['title'],
 			));
 		}
+		
+		//所有分类
+		$root_node = Category::model()->getByAlias('_system_post', 'id');
+		$this->view->cats = array(
+			array(
+				'id'=>$root_node['id'],
+				'title'=>'顶级',
+				'children'=>Category::model()->getTreeByParentId($root_node['id']),
+			),
+		);
 		
 		$this->view->render();
 	}
@@ -51,15 +62,19 @@ class AdminController extends Widget{
 	
 	public function rules(){
 		return array(
-			array('fixed_id', 'int', array('min'=>1)),
+			array(array('fixed_id', 'under_cat_id'), 'int', array('min'=>1)),
 			array('type', 'range', array('range'=>array('by_input', 'fixed_post'))),
+			array('inc_views', 'range', array('range'=>array('0', '1'))),
+			array('under_cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
+			array('fixed_id', 'exist', array('table'=>'posts', 'field'=>'id')),
 		);
 	}
 	
 	public function labels(){
 		return array(
-			'fixed_id'=>'固定文章ID',
+			'fixed_id'=>'固定文章',
 			'type'=>'显示方式',
+			'under_cat_id'=>'所属分类',
 		);
 	}
 	
@@ -70,6 +85,8 @@ class AdminController extends Widget{
 			'fixed_id'=>'intval',
 			'template'=>'trim',
 			'fields'=>'trim',
+			'under_cat_id'=>'intval',
+			'inc_views'=>'intval',
 		);
 	}
 }

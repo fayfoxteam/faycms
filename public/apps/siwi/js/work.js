@@ -131,7 +131,7 @@ var post = {
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$('.thumbnail-container img').attr('src', system.url('images/loading.gif')).addClass('loading');
+			$('.thumbnail-container img').attr('src', system.assets('images/loading.gif')).addClass('loading');
 			uploader.start();
 		});
 		

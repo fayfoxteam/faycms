@@ -157,7 +157,7 @@ var editor = {
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$('.thumbnail-container img').attr('src', system.url('images/loading.gif')).addClass('loading');
+			$('.thumbnail-container img').attr('src', system.assets('images/loading.gif')).addClass('loading');
 			uploader.start();
 		});
 		
@@ -266,7 +266,7 @@ var editor = {
 								'<span class="progress-bar-percent"></span>',
 							'</div>',
 						'</div>',
-						'<img src="', system.url('images/loading.gif'), '" />',
+						'<img src="', system.assets('images/loading.gif'), '" />',
 						'<div class="remove-link-container hide">',
 							'<a href="javascript:;" class="remove-link">',
 								'<i class="icon-cross"></i>',

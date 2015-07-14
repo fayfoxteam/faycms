@@ -1,5 +1,5 @@
 <?php
-namespace fay\widgets\post_item\controllers;
+namespace fay\widgets\page_item\controllers;
 
 use fay\core\Widget;
 use fay\models\Flash;
@@ -52,7 +52,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array('fixed_id', 'int', array('min'=>1)),
-			array('type', 'range', array('range'=>array('by_input', 'fixed_post'))),
+			array('type', 'range', array('range'=>array('by_input', 'fixed_page'))),
 		);
 	}
 	

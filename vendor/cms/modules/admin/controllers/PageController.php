@@ -329,4 +329,14 @@ class PageController extends AdminController{
 			));
 		}
 	}
+	
+	public function search(){
+		$pages = Pages::model()->fetchAll(array(
+			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
+		), 'id,title', 'id DESC', 20);
+		echo json_encode(array(
+			'status'=>1,
+			'data'=>$pages,
+		));
+	}
 }

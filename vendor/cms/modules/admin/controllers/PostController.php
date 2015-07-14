@@ -91,7 +91,6 @@ class PostController extends AdminController{
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],
 		));
-		$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
 		
 		//查询所有标签
 		$this->view->tags = Tags::model()->fetchAll(array(), 'id, title');
@@ -179,17 +178,25 @@ class PostController extends AdminController{
 		$_setting_key = 'admin_post_boxes';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array();
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		$this->form('setting')
 			->setModel(Setting::model())
 			->setJsModel('setting')
 			->setData($_settings)
 			->setData(array(
 				'_key'=>$_setting_key,
-				'enabled_boxes'=>$this->getEnabledBoxes($_setting_key),
+				'enabled_boxes'=>$enabled_boxes,
 			));
 		
 		//所有文章分类
 		$this->view->cats = Category::model()->getTree('_system_post');
+		
+		//标题
+		if(in_array('main-category', $enabled_boxes)){
+			$this->layout->subtitle = '撰写文章';
+		}else{
+			$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
+		}
 		
 		$this->layout->_help = '_help';
 		

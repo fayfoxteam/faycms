@@ -18,34 +18,6 @@ class ProductController extends FrontController{
 	}
 	
 	public function index(){
-		$this->layout->title = '产品中心';
-		
-		$this->view->cats = Category::model()->getAll('product');
-		
-		if($this->input->get('cat')){
-			$cat = Category::model()->getByAlias($this->input->get('cat'));
-		}else{
-			$cat = Category::model()->getByAlias('product');
-		}
-		$this->view->cat = $cat;
-		
-		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,title,thumbnail,abstract')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id')
-			->where(array(
-				'p.deleted = 0',
-				'p.publish_time < '.$this->current_time,
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'c.left_value >= '.$cat['left_value'],
-				'c.right_value <= '.$cat['right_value'],
-			))
-			->order('p.is_top DESC, p.sort, p.publish_time DESC')
-		;
-		
-		$this->view->listview = new ListView($sql, array(
-			'reload'=>$cat['alias'] == 'product' ? $this->view->url('product') : $this->view->url('product/'.$cat['alias']),
-			'page_size'=>1,
-		));
 		
 		$this->view->render();
 	}

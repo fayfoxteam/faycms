@@ -10,8 +10,8 @@ class IndexController extends Widget{
 		isset($config['fields']) || $config['fields'] = array('user', 'nav');
 		empty($config['type']) && $config['type'] = 'by_input';
 		
-		if($config['type'] == 'by_input'){
-			$post = Post::model()->get($this->input->get($config['id_key']), implode(',', $config['fields']), isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
+		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
+			$post = Post::model()->get($this->input->get($config['id_key'], 'intval'), implode(',', $config['fields']), isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
@@ -19,7 +19,7 @@ class IndexController extends Widget{
 			\F::app()->layout->keywords = $post['seo_keywords'];
 			\F::app()->layout->description = $post['seo_description'];
 		}else{
-			$post = Post::model()->get($config['fixed_id'], implode(',', $config['fields']), isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
+			$post = Post::model()->get($config['default_post_id'], implode(',', $config['fields']));
 			if(!$post){
 				return '';
 			}

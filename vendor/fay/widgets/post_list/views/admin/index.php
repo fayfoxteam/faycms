@@ -58,11 +58,21 @@ use fay\models\tables\Users;
 				<p class="fc-grey">没有传入分类字段的情况下显示此分类下的文章</p>
 			</div>
 			<div class="form-field">
-				<label class="title bold">分类字段</label>
-				<?php echo F::form('widget')->inputText('cat_key', array(
+				<label class="title bold">分类ID字段</label>
+				<?php echo F::form('widget')->inputText('cat_id_key', array(
 					'class'=>'form-control mw150',
 				), 'cat_id')?>
-				<p class="fc-grey">若传入分类字段，会搜索此分类下的文章。</p>
+				<p class="fc-grey">若传入分类ID字段，会搜索此分类下的文章。</p>
+			</div>
+			<div class="form-field">
+				<label class="title bold">分类别名字段</label>
+				<?php echo F::form('widget')->inputText('cat_alias_key', array(
+					'class'=>'form-control mw150',
+				), 'cat_alias')?>
+				<p class="fc-grey">
+					若传入分类别名字段，会搜索此分类下的文章。<br>
+					若同时传入分类ID和分类别名， 则以分类ID字段为准。
+				</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">是否包含子分类下的文章</label>

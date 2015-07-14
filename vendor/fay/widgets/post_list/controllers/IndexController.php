@@ -14,7 +14,6 @@ use fay\core\HttpException;
 class IndexController extends Widget{
 	public function index($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
-		empty($config['cat_key']) && $config['cat_key'] = 'cat_id';
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
 		empty($config['date_format']) && $config['date_format'] = 'pretty';
@@ -40,9 +39,11 @@ class IndexController extends Widget{
 		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract,comments,views,likes');
 		
 		//限制分类
-		if($this->input->get($config['cat_key'])){
-			$cat_id = $this->input->get($config['cat_key'], 'intval');
-		}else {
+		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
+			$cat_id = $this->input->get($config['cat_id_key'], 'intval');
+		}else if(!empty($config['cat_alias_key']) && $this->input->get($config['cat_alias_key'])){
+			$cat_id = $this->input->get($config['cat_alias_key'], 'trim');
+		}else{
 			$cat_id = $config['cat_id'];
 		}
 		
@@ -57,12 +58,12 @@ class IndexController extends Widget{
 			}
 			if($config['subclassification']){
 				//包含子分类
-				$limit_cat_children = Category::model()->getAllIds($cat_id);
-				$limit_cat_children[] = $cat_id;//加上父节点
+				$limit_cat_children = Category::model()->getAllIds($cat['id']);
+				$limit_cat_children[] = $cat['id'];//加上父节点
 				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
 			}else{
 				//不包含子分类
-				$sql->where(array('cat_id = ?'=>$cat_id));
+				$sql->where(array('cat_id = ?'=>$cat['id']));
 			}
 		}
 		
@@ -100,11 +101,11 @@ class IndexController extends Widget{
 					$p['user'] = $users[$p['user_id']];
 				}
 				if($config['date_format'] == 'pretty'){
-					$p['publish_format_time'] = Date::niceShort($p['publish_time']);
+					$p['format_time'] = Date::niceShort($p['publish_time']);
 				}else if($config['date_format']){
-					$p['publish_format_time'] = \date($config['date_format'], $p['publish_time']);
+					$p['format_time'] = \date($config['date_format'], $p['publish_time']);
 				}else{
-					$p['publish_format_time'] = '';
+					$p['format_time'] = '';
 				}
 			}
 			

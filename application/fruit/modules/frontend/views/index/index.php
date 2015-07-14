@@ -61,7 +61,10 @@ use fay\models\File;
 			<h3 class="sec-title"><span>我们的故事</span></h3>
 			<div class="clearfix item-content">
 				<figure>
-					<?php echo Html::img($about['thumbnail'])?>
+					<?php echo Html::img($about['thumbnail'], File::PIC_ORIGINAL, array(
+						'width'=>false,
+						'height'=>false,
+					))?>
 				</figure>
 				<div class="item-introtext"><?php echo $about['content']?></div>
 			</div>

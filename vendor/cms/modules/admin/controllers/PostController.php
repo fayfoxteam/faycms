@@ -907,8 +907,13 @@ class PostController extends AdminController{
 	}
 	
 	public function search(){
+		if($cat_id = $this->input->get('cat_id', 'intval')){
+			$cats = Category::model()->getAllIds($cat_id);
+			$cats[] = $cat_id;
+		}
 		$posts = Posts::model()->fetchAll(array(
-			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
+			'title LIKE ?'=>'%'.$this->input->get('key', false).'%',
+			'cat_id IN (?)'=>isset($cats) ? $cats : false,
 		), 'id,title', 'id DESC', 20);
 		echo json_encode(array(
 			'status'=>1,

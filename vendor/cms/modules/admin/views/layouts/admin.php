@@ -11,7 +11,7 @@ use fay\models\Flash;
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
+<link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/style-responsive.css')?>" />

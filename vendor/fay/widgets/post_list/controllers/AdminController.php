@@ -59,7 +59,8 @@ class AdminController extends Widget{
 		return array(
 			'page_size'=>'分页大小',
 			'page_key'=>'页码字段',
-			'cat_key'=>'分类字段',
+			'cat_id_key'=>'分类ID字段',
+			'cat_alias_key'=>'分类别名字段',
 			'cat_id'=>'默认分类',
 		);
 	}
@@ -68,7 +69,8 @@ class AdminController extends Widget{
 		return array(
 			'page_size'=>'intval',
 			'page_key'=>'trim',
-			'cat_key'=>'trim',
+			'cat_id_key'=>'trim',
+			'cat_alias_key'=>'trim',
 			'order'=>'trim',
 			'uri'=>'trim',
 			'other_uri'=>'trim',

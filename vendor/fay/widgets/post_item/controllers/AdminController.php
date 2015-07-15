@@ -16,10 +16,10 @@ class AdminController extends Widget{
 			), true);
 		}
 		
-		$this->view->config = $config;
-		
-		if(!empty($config['fixed_id'])){
-			$post = Posts::model()->find($config['fixed_id'], 'title');
+		$this->view->config = $config;		
+
+		if(!empty($config['default_post_id'])){
+			$post = Posts::model()->find($config['default_post_id'], 'title');
 			$this->form->setData(array(
 				'fixed_title'=>$post['title'],
 			));
@@ -44,15 +44,17 @@ class AdminController extends Widget{
 	public function onPost(){
 		$data = $this->form->getFilteredData();
 		
-		if($data['type'] == 'by_input'){
-			$data['fixed_id'] = '';
-		}else{
-			$data['id_key'] = '';
-		}
-		
 		//若模版与默认模版一致，不保存
 		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$data['template'] = '';
+		}
+		
+		//若输入框被清空，则把ID也清空
+		if(\F::input()->post('fixed_title') == ''){
+			$this->form->setData(array(
+				'default_post_id'=>'',
+			), true);
+			$data['default_post_id'] = '';
 		}
 		
 		$this->saveData($data);
@@ -62,27 +64,24 @@ class AdminController extends Widget{
 	
 	public function rules(){
 		return array(
-			array(array('fixed_id', 'under_cat_id'), 'int', array('min'=>1)),
-			array('type', 'range', array('range'=>array('by_input', 'fixed_post'))),
+			array(array('default_post_id', 'under_cat_id'), 'int', array('min'=>1)),
 			array('inc_views', 'range', array('range'=>array('0', '1'))),
 			array('under_cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
-			array('fixed_id', 'exist', array('table'=>'posts', 'field'=>'id')),
+			array('default_post_id', 'exist', array('table'=>'posts', 'field'=>'id')),
 		);
 	}
 	
 	public function labels(){
 		return array(
-			'fixed_id'=>'固定文章',
-			'type'=>'显示方式',
+			'default_post_id'=>'默认文章',
 			'under_cat_id'=>'所属分类',
 		);
 	}
 	
 	public function filters(){
 		return array(
-			'type'=>'trim',
 			'id_key'=>'trim',
-			'fixed_id'=>'intval',
+			'default_post_id'=>'intval',
 			'template'=>'trim',
 			'fields'=>'trim',
 			'under_cat_id'=>'intval',

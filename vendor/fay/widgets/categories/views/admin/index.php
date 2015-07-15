@@ -32,10 +32,11 @@ use fay\models\tables\Users;
 		</div>
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
+			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title bold">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">链接格式</label>
 				<?php
 					echo Html::inputRadio('uri', 'cat/{$id}', !isset($data['uri']) || $data['uri'] == 'cat/{$id}', array(
 						'label'=>'cat/{$id}',
@@ -63,11 +64,12 @@ use fay\models\tables\Users;
 				<p class="fc-grey">
 					<code>{$id}</code>代表“分类ID”。
 					<code>{$alias}</code>代表“分类别名”。
-					不要包含base_url部分
+					不要包含base_url部分。<br>
+					<span class="fc-orange">此配置项是否生效取决于模版代码</span>
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">渲染模版</label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
 					'class'=>'form-control h90 autosize',
 				))?>

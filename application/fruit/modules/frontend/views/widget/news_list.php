@@ -7,7 +7,7 @@ use fay\models\File;
 		<header>
 			<h2><?php echo Html::link($post['title'], array('news/'.$post['id']))?></h2>
 			<div class="meta">
-				<span>发布于：<?php echo $post['publish_format_time']?></span>
+				<span>发布于：<?php echo $post['format_time']?></span>
 				<span>阅读数：<?php echo $post['views']?></span>
 			</div>
 		</header>

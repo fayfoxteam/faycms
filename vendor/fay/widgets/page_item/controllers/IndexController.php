@@ -3,16 +3,30 @@ namespace fay\widgets\page_item\controllers;
 
 use fay\core\Widget;
 use fay\models\Page;
+use fay\core\HttpException;
+use fay\models\tables\Pages;
 
 class IndexController extends Widget{
 	public function index($config){
-		isset($config['fields']) || $config['fields'] = array('user', 'nav');
-		empty($config['type']) && $config['type'] = 'by_input';
+		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
+			$page = Page::model()->get($this->input->get($config['id_key'], 'intval'));
+			if(!$page){
+				throw new HttpException('您访问的页面不存在');
+			}
+		}else if(!empty($config['alias_key']) && $this->input->get($config['alias_key'])){
+			$page = Page::model()->get($this->input->get($config['alias_key'], 'trim'));
+			if(!$page){
+				throw new HttpException('您访问的页面不存在');
+			}
+		}else if($config['default_page_id']){
+			$page = Page::model()->get($config['default_page_id']);
+			if(!$page){
+				return '';
+			}
+		}
 		
-		if($config['type'] == 'by_input'){
-			$page = Page::model()->get($this->input->get($config['id_key']));
-		}else{
-			$page = Page::model()->get($config['fixed_id']);
+		if($config['inc_views']){
+			Pages::model()->inc($page['id'], 'views', 1);
 		}
 		
 		//template

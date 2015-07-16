@@ -49,7 +49,7 @@ var common = {
 				'ajaxSubmit':true,
 				'beforeSubmit':function(){
 					$('#setting-form-submit').nextAll('span').remove();
-					$('#setting-form-submit').after('<img src="'+system.url('images/throbber.gif')+'" class="submit-loading" />');
+					$('#setting-form-submit').after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
 				},
 				'afterAjaxSubmit':function(resp){
 					if(resp.status){

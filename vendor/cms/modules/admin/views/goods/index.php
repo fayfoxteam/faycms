@@ -80,7 +80,7 @@ use fay\models\tables\Goods;
 $(function(){
 	$(".goods-list").delegate(".is-new-link", "click", function(){
 		var o = this;
-		$(this).hide().after('<img src="'+system.url()+'images/throbber.gif" />');
+		$(this).hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
 		$.ajax({
 			type: "GET",
 			url: system.url("admin/goods/set-is-new"),
@@ -106,7 +106,7 @@ $(function(){
 
 	$(".goods-list").delegate(".is-hot-link", "click", function(){
 		var o = this;
-		$(this).hide().after('<img src="'+system.url()+'images/throbber.gif" />');
+		$(this).hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
 		$.ajax({
 			type: "GET",
 			url: system.url("admin/goods/set-is-hot"),

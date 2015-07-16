@@ -3,7 +3,7 @@ namespace fay\widgets\page_item\controllers;
 
 use fay\core\Widget;
 use fay\models\Flash;
-use fay\models\tables\Posts;
+use fay\models\tables\Pages;
 
 class AdminController extends Widget{
 	public function index($config){
@@ -17,10 +17,10 @@ class AdminController extends Widget{
 		
 		$this->view->config = $config;
 		
-		if(!empty($config['fixed_id'])){
-			$post = Posts::model()->find($config['fixed_id'], 'title');
+		if(!empty($config['default_page_id'])){
+			$post = Pages::model()->find($config['default_page_id'], 'title');
 			$this->form->setData(array(
-				'fixed_title'=>$post['title'],
+				'page_title'=>$post['title'],
 			));
 		}
 		
@@ -32,12 +32,6 @@ class AdminController extends Widget{
 	 */
 	public function onPost(){
 		$data = $this->form->getFilteredData();
-		
-		if($data['type'] == 'by_input'){
-			$data['fixed_id'] = '';
-		}else{
-			$data['id_key'] = '';
-		}
 		
 		//若模版与默认模版一致，不保存
 		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
@@ -51,14 +45,15 @@ class AdminController extends Widget{
 	
 	public function rules(){
 		return array(
-			array('fixed_id', 'int', array('min'=>1)),
-			array('type', 'range', array('range'=>array('by_input', 'fixed_page'))),
+			array('default_page_id', 'int'),
+			array('default_page_id', 'exist', array('table'=>'pages', 'field'=>'id')),
+			array('inc_views', 'range', array('range'=>array('0', '1'))),
 		);
 	}
 	
 	public function labels(){
 		return array(
-			'fixed_id'=>'固定文章ID',
+			'default_page_id'=>'固定页面ID',
 			'type'=>'显示方式',
 		);
 	}
@@ -67,9 +62,11 @@ class AdminController extends Widget{
 		return array(
 			'type'=>'trim',
 			'id_key'=>'trim',
-			'fixed_id'=>'intval',
+			'alias_key'=>'trim',
+			'default_page_id'=>'intval',
 			'template'=>'trim',
 			'fields'=>'trim',
+			'inc_views'=>'intval',
 		);
 	}
 }

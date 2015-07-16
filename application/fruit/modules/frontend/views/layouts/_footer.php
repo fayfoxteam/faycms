@@ -40,7 +40,7 @@ map.addControl(new BMap.ScaleControl());// 添加比例尺控件
 map.enableScrollWheelZoom();//启用滚轮放大缩小
 
 var marker1 = new BMap.Marker(new BMap.Point(120.202605, 30.212051));// 创建标注
-map.addOverlay(marker1);              // 将标注添加到地图中
+map.addOverlay(marker1);// 将标注添加到地图中
 
 //创建信息窗口
 var infoWindow1 = new BMap.InfoWindow("<?php echo Option::get('site:sitename')?>");

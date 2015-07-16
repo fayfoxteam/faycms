@@ -72,7 +72,7 @@ use fay\models\File;
 		<section class="clearfix product">
 			<h3 class="sec-title"><span>我们的产品</span></h3>
 			<div class="clearfix item-content">
-				<ul class="clearfix">
+				<ul class="clearfix" id="product-list">
 				<?php foreach($products as $p){?>
 					<li><a href="<?php echo $this->url('product/'.$p['id'])?>"
 						title="<?php echo Html::encode($p['title'])?>"><?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
@@ -88,21 +88,42 @@ use fay\models\File;
 				</ul>
 			</div>
 			<div class="nav">
-				<a href="javascript:;" class="prev">&lt;</a>
-				<a href="javascript:;" class="next">&gt;</a>
+				<a href="javascript:;" id="product-list-prev">&lt;</a>
+				<a href="javascript:;" id="product-list-next">&gt;</a>
 			</div>
 		</section>
 	</div>
 </div>
-<script src="<?php echo $this->assets('js/jcarousellite_1.0.1.min.js')?>"></script>
+<script src="<?php echo $this->assets('js/jquery.carouFredSel-6.2.1-packed.js')?>"></script>
+<script src="<?php echo $this->assets('js/jquery.touchSwipe.min.js')?>"></script>
 <script>
 var app = {
 	'productList':function(){
-		$('.product .item-content').jCarouselLite({
-			'visible':4,
-			'btnNext':'.product .nav .next',
-			'btnPrev':'.product .nav .prev',
-			'speed':800
+		$('#product-list').carouFredSel({
+			responsive: true,
+			width: '100%',
+			items: {
+				width: 280,
+				height: 'variable',
+				visible: {
+					min: 2,
+					max: 4
+				},
+				minimum: 1
+			},
+			scroll: {
+				items: 1,
+				fx: "scroll",
+				easing: "swing",
+				duration: 500,
+				queue: true
+			},
+			auto: false,
+			next: "#product-list-prev",
+			prev: "#product-list-next",
+			swipe:{
+				onTouch: true
+			}
 		});
 	},
 	'init':function(){

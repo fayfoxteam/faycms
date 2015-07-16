@@ -8,6 +8,19 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
+			<label class="title bold">默认显示文章</label>
+			<?php
+				echo F::form('widget')->inputHidden('default_post_id', array(
+					'id'=>'fixed-id',
+				));
+				echo F::form('widget')->inputText('fixed_title', array(
+					'class'=>'form-control mw500',
+					'id'=>'fixed-title',
+				));
+			?>
+			<p class="fc-grey">当没有传入ID字段时，默认显示此文章</p>
+		</div>
+		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
@@ -24,20 +37,7 @@ use fay\helpers\Html;
 				<?php echo F::form('widget')->select('under_cat_id', Html::getSelectOptions($cats), array(
 					'class'=>'form-control mw400',
 				))?>
-				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项可以避免在错误的界面显示文章。</p>
-			</div>
-			<div class="form-field">
-				<label class="title bold">默认显示文章</label>
-				<?php
-					echo F::form('widget')->inputHidden('default_post_id', array(
-						'id'=>'fixed-id',
-					));
-					echo F::form('widget')->inputText('fixed_title', array(
-						'class'=>'form-control mw500',
-						'id'=>'fixed-title',
-					));
-				?>
-				<p class="fc-grey">当没有传入文章ID时，默认显示此文章</p>
+				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项可以避免文章在错误的界面显示。</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">递增阅读数</label>

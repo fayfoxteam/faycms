@@ -7,44 +7,53 @@ use fay\models\tables\Users;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
+			<label class="title bold">默认显示页面</label>
+			<?php
+				echo F::form('widget')->inputHidden('fixed_id', array(
+					'id'=>'fixed-id',
+				));
+				echo F::form('widget')->inputText('fixed_title', array(
+					'class'=>'form-control mw500',
+					'id'=>'fixed-title',
+				));
+			?>
+			<p class="fc-grey">
+				固定显示一篇文章，一般用在页面的某一块显示一些固定的描述。
+			</p>
+		</div>
+		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
 		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
 			<div class="form-field">
-				<label class="title bold">显示方式</label>
-				<?php
-					echo F::form('widget')->inputRadio('type', 'by_input', array(
-						'label'=>'根据传入ID显示',
-					), true);
-					echo F::form('widget')->inputRadio('type', 'fixed_page', array(
-						'label'=>'固定显示一个页面',
-					));
-				?>
-			</div>
-			<div class="form-field <?php if(isset($config['type']) && $config['type'] == 'fixed_page')echo 'hide'?>" id="type-by-input-options">
 				<label class="title bold">ID字段</label>
 				<?php echo F::form('widget')->inputText('id_key', array(
 					'class'=>'form-control mw150',
-				), 'id')?>
+				), 'page_id')?>
+				<p class="fc-grey">URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;request($key)</code>可以获取到）</p>
+			</div>
+			<div class="form-field">
+				<label class="title bold">别名字段</label>
+				<?php echo F::form('widget')->inputText('alias_key', array(
+					'class'=>'form-control mw150',
+				), 'page_alias')?>
 				<p class="fc-grey">
-					URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;request($key)</code>可以获取到）
+					若传入分类别名字段，会根据别名获取页面。<br>
+					若同时传入ID和分类别名， 则以ID字段为准。
 				</p>
 			</div>
-			<div class="form-field <?php if(!isset($config['type']) || $config['type'] != 'fixed_page')echo 'hide'?>" id="type-fixed-post-options">
-				<label class="title bold">指定页面标题</label>
+			<div class="form-field">
+				<label class="title bold">递增阅读数</label>
 				<?php
-					echo F::form('widget')->inputHidden('fixed_id', array(
-						'id'=>'fixed-id',
-					));
-					echo F::form('widget')->inputText('fixed_title', array(
-						'class'=>'form-control mw500',
-						'id'=>'fixed-title',
+					echo F::form('widget')->inputRadio('inc_views', '1', array(
+						'label'=>'递增',
+					), true);
+					echo F::form('widget')->inputRadio('inc_views', '0', array(
+						'label'=>'不递增',
 					));
 				?>
-				<p class="fc-grey">
-					固定显示一篇文章，一般用在页面的某一块显示一些固定的描述。
-				</p>
+				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项很有用。</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">渲染模版</label>
@@ -65,16 +74,6 @@ use fay\models\tables\Users;
 $(function(){
 	$('.toggle-advance').on('click', function(){
 		$('.advance').toggle();
-	});
-	
-	$('input[name="type"]').on('click', function(){
-		if($(this).val() == 'by_input'){
-			$('#type-by-input-options').show();
-			$('#type-fixed-post-options').hide();
-		}else{
-			$('#type-by-input-options').hide();
-			$('#type-fixed-post-options').show();
-		}
 	});
 	
 	system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){

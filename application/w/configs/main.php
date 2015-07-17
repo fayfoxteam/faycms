@@ -13,7 +13,7 @@ return array(
 		'password'=>'nimei001',							//密码
 		'port'=>3306,							//端口
 		'dbname'=>'w',				//数据库名
-		'charset'=>'utf8mb4',						//数据库编码方式
+		'charset'=>'utf8',						//数据库编码方式
 		'table_prefix'=>'w_',				//数据库表前缀
 	),
 	

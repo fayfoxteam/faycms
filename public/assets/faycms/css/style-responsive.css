@@ -458,7 +458,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .chats-list .ci-footer .ci-options{visibility:hidden}
 .chats-list .chat-item:hover .ci-options{visibility:visible}
 
-#chat-dialog .cd-header{background-color:#379BE9;color:#fff;margin-right:6px;padding:15px 0 15px 35px}
+#chat-dialog .cd-header{background-color:#379BE9;color:#fff;padding:15px 0 15px 35px}
 #chat-dialog .cd-avatar{width:80px;height:80px;float:left;margin-right:10px}
 #chat-dialog .reply-root{color:#fff;text-decoration:underline;margin-left:10px}
 #chat-dialog .icon-share{margin-right:0}
@@ -472,7 +472,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 #chat-dialog .reply-container textarea{width:95%;margin:0 auto;display:block;height:80px}
 #chat-dialog .cdi-options{visibility:hidden}
 #chat-dialog .cd-item:hover .cdi-options{visibility:visible}
-#chat-dialog .cdi-options a{background:url("images/cut-off-line.png") no-repeat scroll right 2px transparent;padding:0 9px 0 5px}
+#chat-dialog .cdi-options a{background:url("images/cut-off-line.png") no-repeat scroll right 5px transparent;padding:0 9px 0 5px}
 #chat-dialog .cdi-options a:last-child{background:0 none}
 #chat-dialog .cdi-line{position:absolute;background:#379BE9;width:2px;height:100%;left:70px;top:0;visibility:hidden}
 #chat-dialog .cd-item:hover .cdi-line{visibility:visible}

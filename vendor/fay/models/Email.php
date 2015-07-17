@@ -7,13 +7,6 @@ use fay\core\ErrorException;
 
 class Email extends Model{
 	/**
-	 * @return Email
-	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
-	}
-	
-	/**
 	 * 发送一封邮件
 	 * @param string|array $address 邮箱地址
 	 * @param string $subject 邮件标题
@@ -29,7 +22,7 @@ class Email extends Model{
 		
 		if(empty($email_config['Host']) || empty($email_config['Username']) ||
 			empty($email_config['Password']) || empty($email_config['Port'])){
-			throw new ErrorException('Email信息未配置');
+			throw new ErrorException('Email参数未配置');
 		}
 		
 		$mail = new \PHPMailer ();

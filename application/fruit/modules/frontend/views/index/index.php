@@ -2,8 +2,10 @@
 use fay\helpers\Html;
 use fay\models\File;
 ?>
-<div id="index-slide">
-	<?php \F::app()->widget->load('index-slides-camera')?>
+<div>
+	<div id="index-slide">
+		<?php \F::app()->widget->load('index-slides-camera')?>
+	</div>
 </div>
 <div class="g-con">
 	<div class="g-mn">

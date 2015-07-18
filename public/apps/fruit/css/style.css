@@ -94,6 +94,10 @@ $media(max-width:979px) and (min-width:768px){
 #index-slide .camera_prev span{background-position:0 -121px;}
 #index-slide .camera_next span{background-position:-40px -121px;}
 
+@media(max-width:767px){
+	#index-slide{display:none}
+}
+
 .showcase{margin-left:-20px;margin-bottom:40px;}
 .showcase article{float:left;width:33.3333%;text-align:center;position:relative;z-index:2;}
 .showcase article .inner{margin-left:20px;background-color:#ffffff;padding:0 20px 44px;border-top:13px solid #ff8b3d;position:relative;z-index:2;}

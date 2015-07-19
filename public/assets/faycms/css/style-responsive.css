@@ -189,7 +189,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .pager a.disabled{color:#aaa}
 .pager a.disabled:hover{background-color:#f5f5f5;color:#aaa}
 .pager a.prev{border-left-width:1px}
-.pager .pager-input{width:50px;display:inline-block}
+.pager .pager-input{width:100px;display:inline-block}
 @media screen and (max-width:768px){
 	.pager{width:100%;text-align:center;float:none}
 	.pager .summary{display:none}

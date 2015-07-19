@@ -11,14 +11,14 @@ class Sms extends Model{
 	 * @param string $to 收短信手机
 	 * @param string $content 短信内容
 	 */
-	public static function send($to, $content){
+	public static function send($to, $content, $template_id){
 		if(!\F::config()->get('send_sms')){
 			return;
 		}
 		
 		$config = Option::getTeam('ucpaas');
 		
-		if(empty($config['accountsid']) || empty($config['token'])){
+		if(empty($config['accountsid']) || empty($config['token']) || empty($config['appid'])){
 			throw new ErrorException('云之讯参数未配置');
 		}
 		
@@ -27,9 +27,6 @@ class Sms extends Model{
 		
 		$ucpass = new \Ucpaas($config);
 		
-		if (!$mail->Send ()){
-			return $mail->ErrorInfo;
-		}
-		return true;
+		return $ucpass->templateSMS($config['appid'], $to, $template_id, $content);
 	}
 }

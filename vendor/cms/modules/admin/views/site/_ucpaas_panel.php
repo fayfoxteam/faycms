@@ -23,6 +23,15 @@ use fay\models\Option;
 				))?>
 				<p class="description">从云之讯开放平台获取</p>
 			</div>
+			<div class="form-field">
+				<label class="title">APP ID<em class="required">*</em></label>
+				<?php echo Html::inputText('ucpaas:appid', Option::get('ucpaas:appid'), array(
+					'class'=>'form-control mw400',
+					'data-required'=>'required',
+					'data-label'=>'APP ID',
+				))?>
+				<p class="description">从云之讯开放平台获取</p>
+			</div>
 		</div>
 	</div>
 	<div class="row">

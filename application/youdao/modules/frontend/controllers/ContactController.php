@@ -62,7 +62,7 @@ class ContactController extends FrontController{
 	
 	public function markmessage(){
 		sleep(3);
-// 		Email::model()->send('369281831@qq.com', '网站留言', "姓名：{$this->input->post('realname')}<br />
+// 		Email::send('369281831@qq.com', '网站留言', "姓名：{$this->input->post('realname')}<br />
 // 			联系电话：{$this->input->post('phone')}<br />
 // 			邮箱：{$this->input->post('email')}<br />
 // 			单位：{$this->input->post('company')}<br />

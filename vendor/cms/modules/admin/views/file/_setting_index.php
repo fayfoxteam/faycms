@@ -1,4 +1,5 @@
-<?php echo F::form('setting')->open(array('admin/system/setting'))?>
+<?php use fay\models\Option;
+echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
 		<label class="title bold">显示下列项目</label>
@@ -24,9 +25,11 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'upload_time', array(
 			'label'=>'上传时间',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'qiniu', array(
-			'label'=>'七牛',
-		));
+		if(Option::getTeam('qiniu')){
+			echo F::form('setting')->inputCheckbox('cols[]', 'qiniu', array(
+				'label'=>'七牛',
+			));
+		}
 		?>
 	</div>
 	<div class="form-field">

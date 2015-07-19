@@ -30,7 +30,7 @@ use fay\helpers\Html;
 				<?php echo F::form('widget')->inputText('id_key', array(
 					'class'=>'form-control mw150',
 				), 'id')?>
-				<p class="fc-grey">URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;request($key)</code>可以获取到）</p>
+				<p class="fc-grey">URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;get($key)</code>可以获取到）</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">所属分类</label>

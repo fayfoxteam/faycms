@@ -101,7 +101,7 @@ var cat = {
 	'isNav':function(){
 		$('.tree-container').on('click', '.is-nav-link', function(){
 			var o = this;
-			$(this).find('span').hide().after('<img src="'+system.url()+'images/throbber.gif" />');
+			$(this).find('span').hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
 			$.ajax({
 				type: 'GET',
 				url: system.url('admin/category/set-is-nav'),

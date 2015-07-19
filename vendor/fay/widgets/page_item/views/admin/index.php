@@ -9,12 +9,12 @@ use fay\models\tables\Users;
 		<div class="form-field">
 			<label class="title bold">默认显示页面</label>
 			<?php
-				echo F::form('widget')->inputHidden('fixed_id', array(
-					'id'=>'fixed-id',
+				echo F::form('widget')->inputHidden('default_page_id', array(
+					'id'=>'page-id',
 				));
-				echo F::form('widget')->inputText('fixed_title', array(
+				echo F::form('widget')->inputText('page_title', array(
 					'class'=>'form-control mw500',
-					'id'=>'fixed-title',
+					'id'=>'page-title',
 				));
 			?>
 			<p class="fc-grey">
@@ -31,7 +31,7 @@ use fay\models\tables\Users;
 				<?php echo F::form('widget')->inputText('id_key', array(
 					'class'=>'form-control mw150',
 				), 'page_id')?>
-				<p class="fc-grey">URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;request($key)</code>可以获取到）</p>
+				<p class="fc-grey">URL中的id字段。（此字段为URL重写后的字段，即通过<code>F::input()-&gt;get($key)</code>可以获取到）</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">别名字段</label>
@@ -77,11 +77,11 @@ $(function(){
 	});
 	
 	system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
-		$('#fixed-title').autocomplete({
+		$('#page-title').autocomplete({
 			'url' : system.url('admin/page/search'),
 			'startSuggestLength':0,
 			'onSelect':function(obj, data){
-				$('#fixed-id').val(data.id);
+				$('#page-id').val(data.id);
 			}
 		});
 	});

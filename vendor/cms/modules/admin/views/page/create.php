@@ -55,7 +55,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				}
 			}?>
 		</div>
-		<div class="postbox-container-2 dragsort"><?php
+		<div class="postbox-container-2 dragsort" id="normal"><?php
 			if(isset($_settings['normal'])){
 				foreach($_settings['normal'] as $box){
 					$k = array_search($box, $boxes_cp);

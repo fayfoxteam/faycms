@@ -33,7 +33,7 @@ $(function(){
 	$("#leave-message-form-submit").click(function(){
 		var o = this;
 		if(flag){
-			$(this).before('<img src="'+system.siteUrl()+'images/throbber.gif" style="margin-right:10px;" />');
+			$(this).before('<img src="'+system.assets('images/throbber.gif')+'" style="margin-right:10px;" />');
 			flag = false;
 			$.ajax({
 				type: "POST",

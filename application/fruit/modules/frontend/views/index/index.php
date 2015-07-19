@@ -2,60 +2,15 @@
 use fay\helpers\Html;
 use fay\models\File;
 ?>
-<div id="index-slide">
-	<?php \F::app()->widget->load('index-slides-camera')?>
+<div>
+	<div id="index-slide">
+		<?php \F::app()->widget->load('index-slides-camera')?>
+	</div>
 </div>
 <div class="g-con">
 	<div class="g-mn">
 		<section class="clearfix showcase">
-			<article class="case-1">
-				<div class="inner">
-					<figure>
-						<img src="<?php echo $this->appStatic('images/icon1.png')?>" />
-					</figure>
-					<h3><?php echo $case_1['title']?></h3>
-					<div class="item-introtext">
-						<?php echo $case_1['abstract']?>
-					</div>
-					<?php echo Html::link('查看详细', array(
-						'page/'.$case_1['id'],
-					), array(
-						'class'=>'more',
-					))?>
-				</div>
-			</article>
-			<article class="case-2">
-				<div class="inner">
-					<figure>
-						<img src="<?php echo $this->appStatic('images/icon2.png')?>" />
-					</figure>
-					<h3><?php echo $case_2['title']?></h3>
-					<div class="item-introtext">
-						<?php echo $case_2['abstract']?>
-					</div>
-					<?php echo Html::link('查看详细', array(
-						'page/'.$case_2['id'],
-					), array(
-						'class'=>'more',
-					))?>
-				</div>
-			</article>
-			<article class="case-3">
-				<div class="inner">
-					<figure>
-						<img src="<?php echo $this->appStatic('images/icon3.png')?>" />
-					</figure>
-					<h3><?php echo $case_3['title']?></h3>
-					<div class="item-introtext">
-						<?php echo $case_3['abstract']?>
-					</div>
-					<?php echo Html::link('查看详细', array(
-						'page/'.$case_3['id'],
-					), array(
-						'class'=>'more',
-					))?>
-				</div>
-			</article>
+			<?php F::widget()->area('index-cases')?>
 		</section>
 		<section class="clearfix story">
 			<h3 class="sec-title"><span>我们的故事</span></h3>

@@ -4,11 +4,11 @@ namespace fay\widgets\post_item\controllers;
 use fay\core\Widget;
 use fay\models\Post;
 use fay\core\HttpException;
+use fay\models\tables\Posts;
 
 class IndexController extends Widget{
 	public function index($config){
 		isset($config['fields']) || $config['fields'] = array('user', 'nav');
-		empty($config['type']) && $config['type'] = 'by_input';
 		
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			$post = Post::model()->get($this->input->get($config['id_key'], 'intval'), implode(',', $config['fields']), isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
@@ -23,6 +23,10 @@ class IndexController extends Widget{
 			if(!$post){
 				return '';
 			}
+		}
+		
+		if($config['inc_views']){
+			Posts::model()->inc($post['id'], 'views', 1);
 		}
 		
 		//template

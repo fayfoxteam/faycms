@@ -23,9 +23,6 @@ use fay\helpers\Html;
 <?php $this->appendCss($this->assets('css/jquery.camera.css'))?>
 <script src="<?php echo $this->assets('js/jquery.camera.js')?>"></script>
 <script src="<?php echo $this->assets('js/jquery.easing.1.3.js')?>"></script>
-<style>
-.jq-camera-container{height:<?php echo $config['height']?>px;}
-</style>
 <script>
 $(function(){
 	$(".jq-camera").camera({

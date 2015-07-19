@@ -69,7 +69,7 @@ class FWidget{
 						echo '</div>';
 					}else{
 						//若未定义，显示一个loading的图片
-						echo "<div id='{$id}'><img src='".\F::app()->view->url()."images/throbber.gif' /></div>";
+						echo "<div id='{$id}'><img src='".\F::app()->view->assets('images/throbber.gif')."' /></div>";
 					}
 					echo '<script>
 						$.ajax({

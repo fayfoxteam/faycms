@@ -4,7 +4,7 @@ use fay\models\tables\Files;
 
 $cols = F::form('setting')->getData('cols');
 ?>
-<div class="row">
+<div class="row mb5">
 	<div class="col-12">
 		<?php echo F::form('search')->open(null, 'get', array(
 			'class'=>'form-inline',
@@ -46,22 +46,28 @@ $cols = F::form('setting')->getData('cols');
 				<a href="javascript:;" class="btn btn-sm" id="search-form-submit">查询</a>
 			</div>
 		<?php echo F::form('search')->close()?>
-		<form method="post" action="<?php echo $this->url('admin/file/batch')?>" id="batch-form" class="form-inline">
-			<div class="fl mt5"><?php
-				echo Html::select('batch_action', array(
-					''=>'批量操作',
-					'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
-					'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
-					'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-				), '', array(
-					'class'=>'form-control',
-				));
-				echo Html::link('提交', 'javascript:;', array(
-					'id'=>'batch-form-submit',
-					'class'=>'btn btn-sm ml5',
-				));
-			?></div>
-			<?php $listview->showPager();?>
+	</div>
+</div>
+<form method="post" action="<?php echo $this->url('admin/file/batch')?>" id="batch-form" class="form-inline">
+	<div class="row">
+		<div class="col-5"><?php
+			echo Html::select('batch_action', array(
+				''=>'批量操作',
+				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
+				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
+				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
+			), '', array(
+				'class'=>'form-control',
+			));
+			echo Html::link('提交', 'javascript:;', array(
+				'id'=>'batch-form-submit',
+				'class'=>'btn btn-sm ml5',
+			));
+		?></div>
+		<div class="col-7"><?php $listview->showPager();?></div>
+	</div>
+	<div class="row">
+		<div class="col-12">
 			<table class="list-table">
 				<thead>
 					<tr>
@@ -133,24 +139,26 @@ $cols = F::form('setting')->getData('cols');
 					));?>
 				</tbody>
 			</table>
-			<div class="fl mt5"><?php
-				echo Html::select('batch_action_2', array(
-					''=>'批量操作',
-					'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
-					'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
-					'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-				), '', array(
-					'class'=>'form-control',
-				));
-				echo Html::link('提交', 'javascript:;', array(
-					'id'=>'batch-form-submit-2',
-					'class'=>'btn btn-sm ml5',
-				));
-			?></div>
-		</form>
-		<?php $listview->showPager();?>
+		</div>
 	</div>
-</div>
+	<div class="row">
+		<div class="col-5"><?php
+			echo Html::select('batch_action_2', array(
+				''=>'批量操作',
+				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
+				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
+				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
+			), '', array(
+				'class'=>'form-control',
+			));
+			echo Html::link('提交', 'javascript:;', array(
+				'id'=>'batch-form-submit-2',
+				'class'=>'btn btn-sm ml5',
+			));
+		?></div>
+		<div class="col-7"><?php $listview->showPager();?></div>
+	</div>
+</form>
 <script>
 var file = {
 	'remove':function(file_id){

@@ -6,4 +6,6 @@ return array(
 	
 	'/^news\/(\d+)$/'=>'news/item/id/$1',
 	'/^news\/([\w-]+)$/'=>'news/index/cat_alias/$1',
+
+
 );

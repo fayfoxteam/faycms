@@ -4,7 +4,7 @@ namespace w\modules\frontend\controllers;
 use fay\core\Loader;
 
 use w\library\FrontController;
-use w\api\ucpaas\UcpaasApi;
+use fay\models\Sms;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -21,8 +21,8 @@ class IndexController extends FrontController{
         //test
         //test1
 		//UcpaasApi::getInstance()->getDevinfo();
-		UcpaasApi::getInstance()->getDevinfo();
-//		dump(UcpaasApi::getInstance()->templateSMS(\F::config()->get('UCPAAS_APPID'),'18667357613','8538','123123,3'));
+        Sms::getInstance()->getDevinfo();
+	//dump(Sms::getInstance()->templateSMS(\F::config()->get('UCPAAS_APPID'),'18667357613','8538','123123,3'));
 
 		$this->view->render();
 	}

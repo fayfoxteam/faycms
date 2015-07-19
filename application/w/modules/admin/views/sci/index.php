@@ -21,6 +21,7 @@ use w\models\tables\sci;
 		<table border="0" cellpadding="0" cellspacing="0" class="list-table">
 			<thead>
 				<tr>
+                    <th>ID</th>
 					<th>名称</th>
 					<th>简称</th>
 					<th>ISSN</th>
@@ -30,6 +31,7 @@ use w\models\tables\sci;
 			</thead>
 			<tfoot>
             <tr>
+                <th>ID</th>
                 <th>名称</th>
                 <th>简称</th>
                 <th>ISSN</th>

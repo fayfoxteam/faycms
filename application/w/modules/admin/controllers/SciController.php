@@ -9,6 +9,7 @@ use w\models\tables\Sci;
 use fay\helpers\Html;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\core\Validator;
 
 class SciController extends AdminController{
 	public function __construct(){
@@ -18,37 +19,38 @@ class SciController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = 'sci信息';
-		
-
-		
-//		$sql = new Sql();
-//		$sql->from('blog_bills', 'b')
-//			->joinLeft('users', 'u', 'b.user_id = u.id', 'realname')
-//			->joinLeft('categories', 'c', 'b.cat_id = c.id', 'title AS cat_title')
-//			->order('id DESC');
-		
-//		if($this->input->get('user_id')){
-//			$sql->where(array('user_id = ?'=>$this->input->get('user_id', 'intval')));
-//		}
-//
-//		if($this->input->get('type')){
-//			$sql->where(array('type = ?'=>$this->input->get('type', 'intval')));
-//		}
 
         $sql = new Sql();
         $sql->from('sci', 's');
-//            ->order('id ASC');
+
+//        $conditions = array();
+//        if($this->input->get('name')){
+//            $conditions = array('name like ?'=> '%'.$this->input->get('name').'%');
+//        }
+//
+//        if($this->input->get('short_name')){
+//            $conditions = array('short_name like ?'=> '%'.$this->input->get('short_name').'%');
+//        }
+//
+//        if($this->input->get('research_dir')){
+//            $conditions = array('research_dir like ?'=> '%'.$this->input->get('research_dir').'%');
+//        }
+//
+//        if($conditions){
+//            $sql->orWhere($conditions);
+//        }
+
 
         if($this->input->get('name')){
-            $sql->where(array('name like ?'=> '%'.$this->input->get('name').'%'));
+            $sql->Where(array('name like ?'=> '%'.$this->input->get('name').'%'));
         }
 
         if($this->input->get('short_name')){
-            $sql->where(array('short_name like ?'=> '%'.$this->input->get('type').'%'));
+            $sql->Where(array('short_name like ?'=> '%'.$this->input->get('short_name').'%'));
         }
 
         if($this->input->get('research_dir')){
-            $sql->where(array('research_dir like ?'=> '%'.$this->input->get('research_dir').'%'));
+            $sql->Where(array('research_dir like ?'=> '%'.$this->input->get('research_dir').'%'));
         }
 
 		$listview = new ListView($sql);
@@ -59,6 +61,28 @@ class SciController extends AdminController{
 		
 		$this->view->render();
 	}
+
+
+    public function item(){
+        $validator = new Validator();
+        $check = $validator->check(array(
+            array(array('id'), 'required'),
+        ));
+
+        if($check === true){
+            $data = Sci::model()->fetchRow(array(
+                'id = ?'=>$this->input->get('id'),
+            ));
+            if($data){
+                $this->view->data = $data;
+                $this->view->render();
+            }else{
+                throw new HttpException('id不存在');
+            }
+        }else{
+            throw new HttpException('参数异常', 500);
+        }
+    }
 	
 //	public function create(){
 //		if($this->input->post()){

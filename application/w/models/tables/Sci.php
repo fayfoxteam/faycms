@@ -4,7 +4,7 @@ namespace w\models\tables;
 use fay\core\db\Table;
 
 class Sci extends Table{
-	protected $_name = 'w_sci';
+	protected $_name = 'sci';
 	
 	/**
 	 * @return sci

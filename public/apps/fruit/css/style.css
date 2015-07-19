@@ -93,6 +93,7 @@ $media(max-width:979px) and (min-width:768px){
 #index-slide .camera_next{margin-left:10px;}
 #index-slide .camera_prev span{background-position:0 -121px;}
 #index-slide .camera_next span{background-position:-40px -121px;}
+#index-slide .camera_wrap{float:none}
 
 @media(max-width:767px){
 	#index-slide{display:none}

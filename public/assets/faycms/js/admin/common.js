@@ -472,16 +472,36 @@ var common = {
 		$(document).on('click', '.remove-link', function(){
 			return confirm('确实要永久删除此记录吗？');
 		});
+	},
+	'pager':function(){
+		//初始化页码输入框长度
+		$('.pager .pager-input').each(function(){
+			var inputLength = parseInt($(this).val().length);
+			if(inputLength > 1){
+				$(this).css({'width':50 + 7 * (inputLength - 1)});
+			}
+		});
 		
-		//分页条页面跳转
+		//分页条页面跳转，输入框长度根据页码数长度变化
 		//若要自定义ajax分页，可以把事件绑定到其它元素后return false防止页面跳转
-		$(document).on('keydown', '.pager .pager-input', function(event){
+		$(document).on('keyup', '.pager .pager-input', function(event){
 			if(event.keyCode == 13 || event.keyCode == 108){
 				var link = window.location.href;
 				if(link.indexOf('?') > 0){
 					window.location.href = link+'&'+$(this).attr('name')+'='+$(this).val();
 				}else{
 					window.location.href = link+'?'+$(this).attr('name')+'='+$(this).val();
+				}
+			}else{
+				if($(this).val() > $(this).attr('max')){
+					$(this).val($(this).attr('max'));
+				}
+				var inputLength = parseInt($(this).val().length);
+				if(inputLength){
+					$(this).css({'width':50 + 7 * (inputLength - 1)});
+				}else{
+					//输入了非数字，会获取不到
+					$(this).css({'width':50}).val('');
 				}
 			}
 		});
@@ -886,5 +906,6 @@ var common = {
 		this.dropdown();
 		this.notification();
 		this.prettyPrint();
+		this.pager();
 	}
 };

@@ -53,8 +53,8 @@ $cols = F::form('setting')->getData('cols');
 		<div class="col-5"><?php
 			echo Html::select('batch_action', array(
 				''=>'批量操作',
-				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
-				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
+				'upload-to-qiniu'=>(F::app()->checkPermission('admin/qiniu/put') && in_array('qiniu', $cols)) ? '上传至七牛' : false,
+				'remove-from-qiniu'=>(F::app()->checkPermission('admin/qiniu/delete') && in_array('qiniu', $cols)) ? '从七牛移除' : false,
 				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
 			), '', array(
 				'class'=>'form-control',

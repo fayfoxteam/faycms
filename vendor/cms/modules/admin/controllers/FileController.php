@@ -223,13 +223,8 @@ class FileController extends AdminController{
                     $affected_rows++;
                 }
 
-                $cat = Categories::model()->fetchRow(array(
-                    'id' => $cat_id,
-                ));
-                echo $cat_id;
-                dump($cat);
-                $this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被移动到'.$cat['title']);
-                Response::output('success', $affected_rows.'个文件被移动到分类'.$cat['title']);
+                $this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被移动');
+                Response::output('success', $affected_rows.'个文件被移动');
             break;
 		}
 	}

@@ -201,4 +201,22 @@ class Response{
 		\F::app()->view->render('common/404');
 		die;
 	}
+	
+	/**
+	 * 返回json
+	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
+	 * @param mix $content 内容部分
+	 * @param string $error_code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
+	 * @param string $error_message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 */
+	public static function json($content, $status = 1, $error_message = '', $error_code = ''){
+		header('Content-Type:application/json; charset=utf-8');
+		echo json_encode(array(
+			'status'=>$status == 0 ? 0 : 1,
+			'content'=>$content,
+			'errCode'=>$error_code,
+			'errMsg'=>$error_message
+		));
+		die;
+	}
 }

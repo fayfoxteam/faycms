@@ -92,7 +92,7 @@ class LoginController extends FrontController{
       因应您曾提出忘记登录密码事宜，大赛平台自动发出此电子邮件。<br>
       请在24小时内点击以下链接重新设置密码：（{$url}），您也可以将链接复制到浏览器地址栏进行访问。<br>
       感谢您对大赛平台的支持！";
-			Email::model()->send($email, $subject, $body);
+			Email::send($email, $subject, $body);
 			Flash::set('邮件发送成功，请登陆您的邮箱查看！', 'success');
 		}
 		

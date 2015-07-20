@@ -5,7 +5,7 @@ use fay\helpers\Html;
 <?php $menu = Menu::model()->getTree('_fruit_top');?>
 <header class="g-top">
 	<div class="top-inner">
-		<div class="g-mn">
+		<div class="g-mn clearfix">
 			<div class="top-logo">
 				<a href="<?php echo $this->url()?>">
 					<img src="<?php echo $this->appStatic('images/logo.png')?>" />
@@ -24,6 +24,12 @@ use fay\helpers\Html;
 						))?></li>
 					<?php }?>
 				</ul>
+				<select id="select-nav">
+					<option value="#">--导航--</option>
+				<?php foreach($menu as $m){?>
+					<option value="<?php echo $m['link']?>" <?php if(isset($current_header_menu) && $current_header_menu == $m['alias'])echo 'selected="selected"'?>><?php echo $m['title']?></option>
+				<?php }?>
+				</select>
 			</nav>
 		</div>
 	</div>

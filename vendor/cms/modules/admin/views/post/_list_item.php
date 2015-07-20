@@ -60,7 +60,7 @@ if(F::session()->get('role') == Users::ROLE_SUPERADMIN || !F::app()->role_cats |
 		</div>
 	</td>
 	<?php if(in_array('main_category', $cols)){?>
-	<td class="wp15"><?php echo Html::link($data['cat_title'], array('admin/post/index', array(
+	<td><?php echo Html::link($data['cat_title'], array('admin/post/index', array(
 		'cat_id'=>$data['cat_id'],
 	)));?></td>
 	<?php }?>
@@ -91,7 +91,7 @@ if(F::session()->get('role') == Users::ROLE_SUPERADMIN || !F::app()->role_cats |
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td class="wp10">
+	<td>
 	<?php echo PostHelper::getStatus($data['status'], $data['deleted']);?>
 	</td>
 	<?php }?>

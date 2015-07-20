@@ -123,7 +123,7 @@ class File extends Model{
 		if(!$file['is_image']){
 			//不是图片，返回一张文件类型对应的小图标
 			$icon = File::model()->getIconByMimetype($file['file_type']);
-			return \F::app()->view->url() . 'images/crystal/' . $icon . '.png';
+			return \F::app()->view->url() . 'public/assets/images/crystal/' . $icon . '.png';
 		}
 		if($fullpath){
 			if(substr($file['file_path'], 0, 4) == './..'){
@@ -206,7 +206,7 @@ class File extends Model{
 				$data['id'] = Files::model()->insert($data);
 		
 				$icon = File::model()->getIconByMimetype($data['file_type']);
-				$data['thumbnail'] = \F::app()->view->url().'images/crystal/'.$icon.'.png';
+				$data['thumbnail'] = \F::app()->view->url().'public/assets/images/crystal/'.$icon.'.png';
 				//下载地址
 				$data['url'] = \F::app()->view->url('file/download', array(
 					'id'=>$data['id'],

@@ -29,7 +29,7 @@ return array(
 		'frontend'
 	),
 	
-	'debug'=>false,
+	'debug'=>true,
 
 
 	/* 短信接口配置*/

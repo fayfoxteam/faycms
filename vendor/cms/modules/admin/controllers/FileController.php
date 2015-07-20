@@ -15,6 +15,7 @@ use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\models\Option;
 use fay\models\Category;
+use fay\models\tables\Categories;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -98,6 +99,8 @@ class FileController extends AdminController{
 	}
 	
 	public function doUpload(){
+        $this->view->cats = Category::model()->getTree('_system_file');
+//        $this->view->alias = $this->input->get('target');
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
@@ -163,7 +166,7 @@ class FileController extends AdminController{
 		if($this->input->get('cat_id')){
 			$sql->where(array('f.cat_id = ?'=>$this->input->get('cat_id', 'intval')));
 		}
-		
+
 		if($this->input->get('qiniu') !== '' && $this->input->get('qiniu') !== null){
 			$sql->where(array('f.qiniu = ?'=>$this->input->get('qiniu', 'intval')));
 		}
@@ -209,6 +212,25 @@ class FileController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
 				Response::output('success', $affected_rows.'个文件被删除');
 			break;
+
+            case 'exchange':
+                $cat_id = $this->input->post('cat_id_1') | $this->input->post('cat_id_2') | 0;
+                $affected_rows = 0;
+                foreach($ids as $id){
+                    Files::model()->update(array(
+                        'cat_id'=>$cat_id,
+                    ), $id);
+                    $affected_rows++;
+                }
+
+                $cat = Categories::model()->fetchRow(array(
+                    'id' => $cat_id,
+                ));
+                echo $cat_id;
+                dump($cat);
+                $this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被移动到'.$cat['title']);
+                Response::output('success', $affected_rows.'个文件被移动到分类'.$cat['title']);
+            break;
 		}
 	}
 	

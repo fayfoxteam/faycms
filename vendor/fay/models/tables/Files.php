@@ -4,40 +4,40 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class Files extends Table{
-	/**
-	 * 类型 - 文章配图
-	 */
-	const TYPE_POST = 1;
-
-	/**
-	 * 类型 - 静态页配图
-	 */
-	const TYPE_PAGE = 2;
-
-	/**
-	 * 类型 - 商品配图
-	 */
-	const TYPE_GOODS = 3;
-
-	/**
-	 * 类型 - 分类图片
-	 */
-	const TYPE_CAT = 4;
-
-	/**
-	 * 类型 - 小工具
-	 */
-	const TYPE_WIDGET = 5;
-
-	/**
-	 * 类型 - 用户头像
-	 */
-	const TYPE_AVATAR = 6;
-
-	/**
-	 * 类型 - 考试系统
-	 */
-	const TYPE_EXAM = 7;
+//	/**
+//	 * 类型 - 文章配图
+//	 */
+//	const TYPE_POST = 1;
+//
+//	/**
+//	 * 类型 - 静态页配图
+//	 */
+//	const TYPE_PAGE = 2;
+//
+//	/**
+//	 * 类型 - 商品配图
+//	 */
+//	const TYPE_GOODS = 3;
+//
+//	/**
+//	 * 类型 - 分类图片
+//	 */
+//	const TYPE_CAT = 4;
+//
+//	/**
+//	 * 类型 - 小工具
+//	 */
+//	const TYPE_WIDGET = 5;
+//
+//	/**
+//	 * 类型 - 用户头像
+//	 */
+//	const TYPE_AVATAR = 6;
+//
+//	/**
+//	 * 类型 - 考试系统
+//	 */
+//	const TYPE_EXAM = 7;
 
 	protected $_name = 'files';
 	

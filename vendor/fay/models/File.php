@@ -141,7 +141,7 @@ class File extends Model{
 		}
 	}
 	
-	public function upload($target = '', $type = 0, $private = false, $allowed_types = null){
+	public function upload($target = '', $cat_id = 0, $private = false, $allowed_types = null){
 		if($target && substr($target, -1) != '/'){
 			//目标路径末尾不是斜杠的话，加上斜杠
 			$target .= '/';
@@ -172,7 +172,7 @@ class File extends Model{
 					'image_height'=>$result['image_height'],
 					'upload_time'=>\F::app()->current_time,
 					'user_id'=>\F::app()->current_user,
-					'type'=>$type,
+					'cat_id'=>$cat_id,
 				);
 				$data['id'] = Files::model()->insert($data);
 				$src_img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
@@ -201,7 +201,7 @@ class File extends Model{
 					'is_image'=>$result['is_image'],
 					'upload_time'=>\F::app()->current_time,
 					'user_id'=>\F::app()->current_user,
-					'type'=>$type,
+					'cat_id'=>$cat_id,
 				);
 				$data['id'] = Files::model()->insert($data);
 		

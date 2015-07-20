@@ -14,17 +14,11 @@ $cols = F::form('setting')->getData('cols');
 				'class'=>'form-control w200',
 			));?>
 			|
-			<?php echo F::form('search')->select('type', array(
-				''=>'--用于--',
-				Files::TYPE_POST => '文章',
-				Files::TYPE_PAGE => '静态页',
-				Files::TYPE_GOODS => '商品',
-				Files::TYPE_CAT => '分类插图',
-				Files::TYPE_WIDGET => '小工具',
-				Files::TYPE_EXAM => '考试系统',
-			), array(
-				'class'=>'form-control',
-			))?>
+				<?php echo F::form('search')->select('cat_id', array(
+						''=>'--分类--',
+					) + Html::getSelectOptions($cats, 'id', 'title'), array(
+					'class'=>'form-control',
+				))?>
 			|
 			<?php echo F::form('search')->select('qiniu', array(
 				''=>'--七牛--',

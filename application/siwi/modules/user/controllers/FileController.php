@@ -5,6 +5,7 @@ use siwi\library\UserController;
 use fay\models\tables\Files;
 use fay\models\File;
 use fay\core\HttpException;
+use fay\models\Category;
 
 class FileController extends UserController{
 	public function __construct(){
@@ -15,18 +16,18 @@ class FileController extends UserController{
 		set_time_limit(0);
 		
 		$target = $this->input->get('t');
-		$type = 0;
+		$cat_id = 0;
 		//传入非指定target的话，清空这个值
 		if($target == 'posts'){
-			$type = Files::TYPE_POST;
+			$cat_id = Category::model()->getIdByAlias($target);
 		}else if($target == 'avatar'){
-			$type = Files::TYPE_AVATAR;
+			$cat_id = Category::model()->getIdByAlias($target);
 		}else{
 			throw new HttpException('参数异常', 500);
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $type, $private);
+		$result = File::model()->upload($target, $cat_id, $private);
 		if($this->input->get('CKEditorFuncNum')){
 			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['url']}', '');</script>";
 		}else{

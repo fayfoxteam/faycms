@@ -14,6 +14,7 @@ use fay\core\Validator;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\models\Option;
+use fay\models\Category;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -28,28 +29,29 @@ class FileController extends AdminController{
 		set_time_limit(0);
 		
 		$target = $this->input->get('t');
-		$type = 0;
 		//传入非指定target的话，清空这个值
-		if($target == 'posts'){
-			$type = Files::TYPE_POST;
-		}else if($target == 'pages'){
-			$type = Files::TYPE_PAGE;
-		}else if($target == 'goods'){
-			$type = Files::TYPE_GOODS;
-		}else if($target == 'cat'){
-			$type = Files::TYPE_CAT;
-		}else if($target == 'widget'){
-			$type = Files::TYPE_WIDGET;
-		}else if($target == 'avatar'){
-			$type = Files::TYPE_AVATAR;
-		}else if($target == 'exam'){
-			$type = Files::TYPE_EXAM;
-		}else{
-			$target = 'other';
-		}
+//		if($target == 'posts'){
+//			$type = Files::TYPE_POST;
+//		}else if($target == 'pages'){
+//			$type = Files::TYPE_PAGE;
+//		}else if($target == 'goods'){
+//			$type = Files::TYPE_GOODS;
+//		}else if($target == 'cat'){
+//			$type = Files::TYPE_CAT;
+//		}else if($target == 'widget'){
+//			$type = Files::TYPE_WIDGET;
+//		}else if($target == 'avatar'){
+//			$type = Files::TYPE_AVATAR;
+//		}else if($target == 'exam'){
+//			$type = Files::TYPE_EXAM;
+//		}else{
+//			$target = 'other';
+//		}
+		$cat_id = Category::model()->getIdByAlias($target) | 0;
+
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $type, $private);
+		$result = File::model()->upload($target, $cat_id, $private);
 		if($this->input->get('CKEditorFuncNum')){
 			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
 		}else{
@@ -66,26 +68,28 @@ class FileController extends AdminController{
 		$target = $this->input->get('t');
 		$type = 0;
 		//传入非指定target的话，清空这个值
-		if($target == 'posts'){
-			$type = Files::TYPE_POST;
-		}else if($target == 'pages'){
-			$type = Files::TYPE_PAGE;
-		}else if($target == 'goods'){
-			$type = Files::TYPE_GOODS;
-		}else if($target == 'cat'){
-			$type = Files::TYPE_CAT;
-		}else if($target == 'widget'){
-			$type = Files::TYPE_WIDGET;
-		}else if($target == 'avatar'){
-			$type = Files::TYPE_AVATAR;
-		}else if($target == 'exam'){
-			$type = Files::TYPE_EXAM;
-		}else{
-			$target = 'other';
-		}
-		
+//		if($target == 'posts'){
+//			$type = Files::TYPE_POST;
+//		}else if($target == 'pages'){
+//			$type = Files::TYPE_PAGE;
+//		}else if($target == 'goods'){
+//			$type = Files::TYPE_GOODS;
+//		}else if($target == 'cat'){
+//			$type = Files::TYPE_CAT;
+//		}else if($target == 'widget'){
+//			$type = Files::TYPE_WIDGET;
+//		}else if($target == 'avatar'){
+//			$type = Files::TYPE_AVATAR;
+//		}else if($target == 'exam'){
+//			$type = Files::TYPE_EXAM;
+//		}else{
+//			$target = 'other';
+//		}
+
+		$cat_id = Category::model()->getIdByAlias($target) | 0;
+
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $type, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
+		$result = File::model()->upload($target, $cat_id, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
 		if(!empty($result['src']) && $this->input->get('CKEditorFuncNum')){
 			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
 		}else{
@@ -143,6 +147,9 @@ class FileController extends AdminController{
 			->setData(array(
 				'_key'=>$_setting_key,
 			));
+
+
+		$this->view->cats = Category::model()->getTree('_system_file');
 		
 		$sql = new Sql();
 		$sql->from('files', 'f')
@@ -153,8 +160,8 @@ class FileController extends AdminController{
 			$sql->where(array('f.client_name LIKE ?'=>'%'.$this->input->get('keywords').'%'));
 		}
 		
-		if($this->input->get('type')){
-			$sql->where(array('f.type = ?'=>$this->input->get('type', 'intval')));
+		if($this->input->get('cat_id')){
+			$sql->where(array('f.cat_id = ?'=>$this->input->get('cat_id', 'intval')));
 		}
 		
 		if($this->input->get('qiniu') !== '' && $this->input->get('qiniu') !== null){
@@ -244,6 +251,33 @@ class FileController extends AdminController{
 		}else{
 			throw new HttpException('参数不正确', 500);
 		}
+	}
+
+	/**
+	 * 分类管理
+	 */
+	public function cat(){
+		$this->layout->current_directory = 'file';
+
+		$this->layout->subtitle = '文件分类';
+		$this->view->cats = Category::model()->getTree('_system_file');
+		$root_node = Category::model()->getByAlias('_system_file', 'id');
+		$this->view->root = $root_node['id'];
+
+		$root_cat = Category::model()->getByAlias('_system_file', 'id');
+		if($this->checkPermission('admin/link/cat-create')){
+			$this->layout->sublink = array(
+				'uri'=>'#create-cat-dialog',
+				'text'=>'添加文件分类',
+				'html_options'=>array(
+					'class'=>'create-cat-link',
+					'data-title'=>'文件分类',
+					'data-id'=>$root_cat['id'],
+				),
+			);
+		}
+
+		$this->view->render();
 	}
 
 	public function pic(){

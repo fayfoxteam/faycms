@@ -187,7 +187,7 @@ class FileController extends AdminController{
                     $affected_rows++;
                 }
 
-				$cat = Category::model()->getById($cat_id);
+				$cat = Category::model()->get($cat_id,'title');
 				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被移动到'.$cat['title']);
 				Response::output('success', $affected_rows.'个文件被移动到分类'.$cat['title']);
             break;

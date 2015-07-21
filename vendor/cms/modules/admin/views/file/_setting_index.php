@@ -16,7 +16,7 @@ echo F::form('setting')->open(array('admin/system/setting'))?>
 		echo F::form('setting')->inputCheckbox('cols[]', 'user', array(
 			'label'=>'用户',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'type', array(
+		echo F::form('setting')->inputCheckbox('cols[]', 'cat', array(
 			'label'=>'用于',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'downloads', array(

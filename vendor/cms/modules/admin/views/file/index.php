@@ -92,7 +92,7 @@ $cols = F::form('setting')->getData('cols');
 						<?php if(in_array('user', $cols)){?>
 						<th>用户</th>
 						<?php }?>
-						<?php if(in_array('type', $cols)){?>
+						<?php if(in_array('cat', $cols)){?>
 						<th>用于</th>
 						<?php }?>
 						<?php if(in_array('downloads', $cols)){?>
@@ -123,7 +123,7 @@ $cols = F::form('setting')->getData('cols');
 						<?php if(in_array('user', $cols)){?>
 						<th>用户</th>
 						<?php }?>
-						<?php if(in_array('type', $cols)){?>
+						<?php if(in_array('cat', $cols)){?>
 						<th>用于</th>
 						<?php }?>
 						<?php if(in_array('downloads', $cols)){?>

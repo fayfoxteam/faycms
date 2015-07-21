@@ -184,8 +184,8 @@ class FileController extends Controller{
 		}else if($dh && !$dw){
 			$dw = $dh * ($file['image_width'] / $file['image_height']);
 		}else if(!$dw && !$dh){
-			$dw = 200;
-			$dh = 200;
+			$dw = $file['image_width'];
+			$dh = $file['image_height'];
 		}
 		
 		if($file !== false){

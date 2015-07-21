@@ -5,7 +5,7 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0}
 article,aside,div,dt,figcaption,footer,form,header,hgroup,html,map,nav,section,main{display:block}
 
-body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;font-size:14px;line-height:1.42857143;color:#2c2e2f;background-color:#eee}
+body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol;font-size:14px;line-height:1.42857143;color:#2c2e2f;background-color:#eee}
 ul,ul li{list-style:none}
 ul li.disc{list-style:disc !important}
 img{border:0}
@@ -20,6 +20,7 @@ code,pre{font-family:monospace,monospace;font-size:1em}
 code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f8f8;border-radius:3px;color:#d14}
 label{display:inline-block}
 table{border-spacing:0}
+input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font-weight:inherit}
 
 /* 布局类 */
 .container{padding:30px 30px 0}

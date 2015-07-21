@@ -226,9 +226,10 @@ class Html{
 	 * @param int $id 一般为系统图片ID，若传入url路径则第二个参数type无效
 	 * @param int $type
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
+	 * @param bool $return_src 若为true，则仅返回src地址；若为false，返回完整<img>标签。默认为false
 	 * @return string
 	 */
-	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array()){
+	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array(), $return_src = false){
 		if(is_numeric($id)){
 			if($id == 0){
 				//若有设置spares，返回对应的默认图片
@@ -340,9 +341,17 @@ class Html{
 				break;
 			}
 			unset($html_options['spare']);
-			return self::tag('img', array('src'=>$src)+$html_options);
+			if($return_src){
+				return $src;
+			}else{
+				return self::tag('img', array('src'=>$src)+$html_options);
+			}
 		}else{
-			return self::tag('img', array('src'=>$id)+$html_options);
+			if($return_src){
+				return $id;
+			}else{
+				return self::tag('img', array('src'=>$id)+$html_options);
+			}
 		}
 	}
 	

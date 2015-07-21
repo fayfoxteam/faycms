@@ -58,7 +58,7 @@ $cols = F::form('setting')->getData('cols');
               echo F::form('search')->select('cat_id_1', array(
                     ''=>'--分类--',
                 ) + Html::getSelectOptions($cats, 'id', 'title'), array(
-                    'class'=>'form-control',
+                    'class'=>'form-control fn-hide',
                     'id' => 'cat_id_1',
                 ));
 
@@ -159,7 +159,7 @@ $cols = F::form('setting')->getData('cols');
             echo F::form('search')->select('cat_id_2', array(
                     ''=>'--分类--',
                 ) + Html::getSelectOptions($cats, 'id', 'title'), array(
-                    'class'=>'form-control',
+                    'class'=>'form-control fn-hide',
                     'id' => 'cat_id_2',
                 ));
 			echo Html::link('提交', 'javascript:;', array(
@@ -173,17 +173,17 @@ $cols = F::form('setting')->getData('cols');
 <script>
 $('select[name = "batch_action"]').change(function(){
     if($(this) .val() == 'exchange'){
-        $('#cat_id_1').show();
+        $('#cat_id_1').removeClass('fn-hide');
     }else{
-        $('#cat_id_1').hide();
+        $('#cat_id_1').addClass('fn-hide');
     }
 });
 
 $('select[name = "batch_action_2"]').change(function(){
     if($(this) .val() == 'exchange'){
-        $('#cat_id_2').show();
+        $('#cat_id_2').removeClass('fn-hide');
     }else{
-        $('#cat_id_2').hide();
+        $('#cat_id_2').addClass('fn-hide');
     }
 });
 

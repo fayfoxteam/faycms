@@ -30,27 +30,10 @@ class FileController extends AdminController{
 		set_time_limit(0);
 		
 		$target = $this->input->get('t');
-		//传入非指定target的话，清空这个值
-//		if($target == 'posts'){
-//			$type = Files::TYPE_POST;
-//		}else if($target == 'pages'){
-//			$type = Files::TYPE_PAGE;
-//		}else if($target == 'goods'){
-//			$type = Files::TYPE_GOODS;
-//		}else if($target == 'cat'){
-//			$type = Files::TYPE_CAT;
-//		}else if($target == 'widget'){
-//			$type = Files::TYPE_WIDGET;
-//		}else if($target == 'avatar'){
-//			$type = Files::TYPE_AVATAR;
-//		}else if($target == 'exam'){
-//			$type = Files::TYPE_EXAM;
-//		}else{
-//			$target = 'other';
-//		}
-		$cat_id = Category::model()->getIdByAlias($target) | 0;
 
-		
+		//传入非指定target的话，清空这个值
+		//通过target （分类别名）获取分类id
+		$cat_id = Category::model()->getIdByAlias($target) ? Category::model()->getIdByAlias($target) : 0;
 		$private = !!$this->input->get('p');
 		$result = File::model()->upload($target, $cat_id, $private);
 		if($this->input->get('CKEditorFuncNum')){
@@ -65,29 +48,9 @@ class FileController extends AdminController{
 	 */
 	public function imgUpload(){
 		set_time_limit(0);
-		
-		$target = $this->input->get('t');
-		$type = 0;
-		//传入非指定target的话，清空这个值
-//		if($target == 'posts'){
-//			$type = Files::TYPE_POST;
-//		}else if($target == 'pages'){
-//			$type = Files::TYPE_PAGE;
-//		}else if($target == 'goods'){
-//			$type = Files::TYPE_GOODS;
-//		}else if($target == 'cat'){
-//			$type = Files::TYPE_CAT;
-//		}else if($target == 'widget'){
-//			$type = Files::TYPE_WIDGET;
-//		}else if($target == 'avatar'){
-//			$type = Files::TYPE_AVATAR;
-//		}else if($target == 'exam'){
-//			$type = Files::TYPE_EXAM;
-//		}else{
-//			$target = 'other';
-//		}
 
-		$cat_id = Category::model()->getIdByAlias($target) | 0;
+		$target = $this->input->get('t');
+		$cat_id = Category::model()->getIdByAlias($target) ? Category::model()->getIdByAlias($target) : 0;
 
 		$private = !!$this->input->get('p');
 		$result = File::model()->upload($target, $cat_id, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
@@ -99,8 +62,8 @@ class FileController extends AdminController{
 	}
 	
 	public function doUpload(){
+		//获取文件类目树
         $this->view->cats = Category::model()->getTree('_system_file');
-//        $this->view->alias = $this->input->get('target');
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
@@ -213,8 +176,9 @@ class FileController extends AdminController{
 				Response::output('success', $affected_rows.'个文件被删除');
 			break;
 
+			//图片移动到分类XXX
             case 'exchange':
-                $cat_id = $this->input->post('cat_id_1') | $this->input->post('cat_id_2') | 0;
+				$cat_id = $this->input->post('cat_id_1') ? $this->input->post('cat_id_1', 'intval') : $this->input->post('cat_id_2', 'intval', 0);
                 $affected_rows = 0;
                 foreach($ids as $id){
                     Files::model()->update(array(
@@ -223,8 +187,9 @@ class FileController extends AdminController{
                     $affected_rows++;
                 }
 
-                $this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被移动');
-                Response::output('success', $affected_rows.'个文件被移动');
+				$cat = Category::model()->getById($cat_id);
+				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被移动到'.$cat['title']);
+				Response::output('success', $affected_rows.'个文件被移动到分类'.$cat['title']);
             break;
 		}
 	}
@@ -275,12 +240,10 @@ class FileController extends AdminController{
 	 */
 	public function cat(){
 		$this->layout->current_directory = 'file';
-
 		$this->layout->subtitle = '文件分类';
 		$this->view->cats = Category::model()->getTree('_system_file');
 		$root_node = Category::model()->getByAlias('_system_file', 'id');
 		$this->view->root = $root_node['id'];
-
 		$root_cat = Category::model()->getByAlias('_system_file', 'id');
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(

@@ -536,6 +536,7 @@ pre li:hover{background-color:#575757}
 /* 工具类 */
 .bold{font-weight:bold}
 .hide,.hidden{display:none}
+.fn-hide{display:none !important;}
 .circle{border-radius:50%}
 .clear{clear:both}
 .cf,.row,.page-title,.form-field,.user-info-navbar{zoom:1;clear:left}

@@ -229,7 +229,7 @@ class Response{
 	 * @param string $error_message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
 	 * @param string $func jsonp请求的回调函数名，在调用的地方，从请求中获取，例如jquery发送的请求：$func = $this->input->get('callback');！
 	 */
-	public static function jsonp($content, $status = 1, $message = '', $code = '',$func = 'callback'){
+	public static function jsonp( $func = 'callback', $content, $status = 1, $message = '', $code = ''){
 		// 返回JSON数据格式到客户端 包含状态信息
 		header('Content-Type:application/json; charset=utf-8');
 		echo $func.'('.json_encode(array(

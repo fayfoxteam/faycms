@@ -186,7 +186,7 @@ class View{
 			echo $content;
 			//自动输出debug信息
 			if(\F::config()->get('debug')){
-			    $this->renderPartial('common/_debug');
+				$this->renderPartial('common/_debug');
 			}
 			
 			return null;

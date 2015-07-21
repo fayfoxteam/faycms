@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Files;
 
 $cols = F::form('setting')->getData('cols');
 ?>
@@ -14,11 +13,11 @@ $cols = F::form('setting')->getData('cols');
 				'class'=>'form-control w200',
 			));?>
 			|
-				<?php echo F::form('search')->select('cat_id', array(
-						''=>'--分类--',
-					) + Html::getSelectOptions($cats, 'id', 'title'), array(
-					'class'=>'form-control',
-				))?>
+			<?php echo F::form('search')->select('cat_id', array(
+					''=>'--分类--',
+				) + Html::getSelectOptions($cats, 'id', 'title'), array(
+				'class'=>'form-control',
+			))?>
 			|
 			<?php echo F::form('search')->select('qiniu', array(
 				''=>'--七牛--',
@@ -50,17 +49,17 @@ $cols = F::form('setting')->getData('cols');
 				'upload-to-qiniu'=>(F::app()->checkPermission('admin/qiniu/put') && in_array('qiniu', $cols)) ? '上传至七牛' : false,
 				'remove-from-qiniu'=>(F::app()->checkPermission('admin/qiniu/delete') && in_array('qiniu', $cols)) ? '从七牛移除' : false,
 				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-                'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
+				'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
 			), '', array(
 				'class'=>'form-control',
 			));
 
-              echo F::form('search')->select('cat_id_1', array(
-                    ''=>'--分类--',
-                ) + Html::getSelectOptions($cats, 'id', 'title'), array(
-                    'class'=>'form-control fn-hide',
-                    'id' => 'cat_id_1',
-                ));
+			echo F::form('search')->select('cat_id_1', array(
+					''=>'--分类--',
+				) + Html::getSelectOptions($cats, 'id', 'title'), array(
+					'class'=>'form-control fn-hide',
+					'id' => 'cat_id_1',
+				));
 
 			echo Html::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit',
@@ -151,17 +150,17 @@ $cols = F::form('setting')->getData('cols');
 				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
 				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
 				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-                'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
+				'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
 			), '', array(
 				'class'=>'form-control',
 			));
 
-            echo F::form('search')->select('cat_id_2', array(
-                    ''=>'--分类--',
-                ) + Html::getSelectOptions($cats, 'id', 'title'), array(
-                    'class'=>'form-control fn-hide',
-                    'id' => 'cat_id_2',
-                ));
+			echo F::form('search')->select('cat_id_2', array(
+					''=>'--分类--',
+				) + Html::getSelectOptions($cats, 'id', 'title'), array(
+					'class'=>'form-control fn-hide',
+					'id' => 'cat_id_2',
+				));
 			echo Html::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit-2',
 				'class'=>'btn btn-sm ml5',
@@ -171,22 +170,6 @@ $cols = F::form('setting')->getData('cols');
 	</div>
 </form>
 <script>
-$('select[name = "batch_action"]').change(function(){
-    if($(this) .val() == 'exchange'){
-        $('#cat_id_1').removeClass('fn-hide');
-    }else{
-        $('#cat_id_1').addClass('fn-hide');
-    }
-});
-
-$('select[name = "batch_action_2"]').change(function(){
-    if($(this) .val() == 'exchange'){
-        $('#cat_id_2').removeClass('fn-hide');
-    }else{
-        $('#cat_id_2').addClass('fn-hide');
-    }
-});
-
 var file = {
 	'remove':function(file_id){
 		$.ajax({
@@ -289,6 +272,18 @@ var file = {
 				return false;
 			}
 			return true;
+		}).on('change', 'select[name="batch_action"]', function(){
+			if($(this) .val() == 'exchange'){
+				$('#cat_id_1').removeClass('fn-hide');
+			}else{
+				$('#cat_id_1').addClass('fn-hide');
+			}
+		}).on('change', 'select[name = "batch_action_2"]', function(){
+			if($(this) .val() == 'exchange'){
+				$('#cat_id_2').removeClass('fn-hide');
+			}else{
+				$('#cat_id_2').addClass('fn-hide');
+			}
 		});
 	},
 	'init':function(){

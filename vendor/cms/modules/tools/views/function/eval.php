@@ -1,18 +1,18 @@
 
 <div class="row">
 	<div class="col-12">
-	   <form method="post" id="form">
-    		<div class="box">
-    			<div class="box-title"><h3>Code</h3></div>
-    			<div class="box-content">
-    				<?php echo F::form()->textarea('key', array(
-    					'class'=>'form-control h200 autosize',
-    				));?>
-    				<a href="javascript:;" id="form-submit" class="btn mt5">Run</a>
-    				<a href="javascript:;" id="form-reset" class="btn btn-grey mt5">Reset</a>
-    			</div>
-    		</div>
-    	</form>
+		<form method="post" id="form">
+			<div class="box">
+				<div class="box-title"><h3>Code</h3></div>
+				<div class="box-content">
+					<?php echo F::form()->textarea('key', array(
+						'class'=>'form-control h200 autosize',
+					));?>
+					<a href="javascript:;" id="form-submit" class="btn mt5">Run</a>
+					<a href="javascript:;" id="form-reset" class="btn btn-grey mt5">Reset</a>
+				</div>
+			</div>
+		</form>
 	</div>
 	<div class="col-12">
 		<div class="box">

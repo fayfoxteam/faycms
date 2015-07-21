@@ -280,7 +280,7 @@ CREATE TABLE `{{$prefix}}files` (
   `upload_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Upload Time',
   `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
   `downloads` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Downloads',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Type',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   `qiniu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Qiniu',
   PRIMARY KEY (`id`),
   KEY `raw_name` (`raw_name`)

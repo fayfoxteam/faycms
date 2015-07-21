@@ -15,7 +15,6 @@ use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\models\Option;
 use fay\models\Category;
-use fay\models\tables\Categories;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -63,7 +62,7 @@ class FileController extends AdminController{
 	
 	public function doUpload(){
 		//获取文件类目树
-        $this->view->cats = Category::model()->getTree('_system_file');
+		$this->view->cats = Category::model()->getTree('_system_file');
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
@@ -175,22 +174,31 @@ class FileController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
 				Response::output('success', $affected_rows.'个文件被删除');
 			break;
-
-			//图片移动到分类XXX
-            case 'exchange':
-				$cat_id = $this->input->post('cat_id_1') ? $this->input->post('cat_id_1', 'intval') : $this->input->post('cat_id_2', 'intval', 0);
-                $affected_rows = 0;
-                foreach($ids as $id){
-                    Files::model()->update(array(
-                        'cat_id'=>$cat_id,
-                    ), $id);
-                    $affected_rows++;
-                }
-
+			
+			//移动到目标分类图片
+			case 'exchange':
+				if($this->input->post('batch_action')){
+					//点了上面的提交，就用上面的分类
+					$cat_id = $this->input->post('cat_id_1', 'intval');
+				}else{
+					//点了下面的提交，就用下面的分类
+					$cat_id = $this->input->post('cat_id_2', 'intval');
+				}
+				
+				if(!$cat_id){
+					Response::output('error', '未指定分类');
+				}
+				
+				$affected_rows = Files::model()->update(array(
+					'cat_id'=>$cat_id,
+				), array(
+					'id IN (?)'=>$ids,
+				));
+			
 				$cat = Category::model()->get($cat_id,'title');
-				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被移动到'.$cat['title']);
-				Response::output('success', $affected_rows.'个文件被移动到分类'.$cat['title']);
-            break;
+				$this->actionlog(Actionlogs::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
+				Response::output('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
+			break;
 		}
 	}
 	

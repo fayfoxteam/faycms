@@ -204,10 +204,10 @@ class Response{
 	
 	/**
 	 * 返回json
-	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
 	 * @param mix $content 内容部分
-	 * @param string $error_code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
-	 * @param string $error_message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
+	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
 	 */
 	public static function json($content, $status = 1, $message = '', $code = ''){
 		header('Content-Type:application/json; charset=utf-8');
@@ -220,16 +220,15 @@ class Response{
 		die;
 	}
 
-
 	/**
 	 * 返回jsonp
-	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
-	 * @param mix $content 内容部分
-	 * @param string $error_code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
-	 * @param string $error_message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
 	 * @param string $func jsonp请求的回调函数名，在调用的地方，从请求中获取，例如jquery发送的请求：$func = $this->input->get('callback');！
+	 * @param mix $content 内容部分
+	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
+	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
 	 */
-	public static function jsonp( $func = 'callback', $content, $status = 1, $message = '', $code = ''){
+	public static function jsonp($func, $content, $status = 1, $message = '', $code = ''){
 		// 返回JSON数据格式到客户端 包含状态信息
 		header('Content-Type:application/json; charset=utf-8');
 		echo $func.'('.json_encode(array(
@@ -240,7 +239,4 @@ class Response{
 		)).');';
 		die;
 	}
-
-
-
 }

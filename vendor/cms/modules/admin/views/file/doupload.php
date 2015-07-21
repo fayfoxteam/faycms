@@ -2,20 +2,20 @@
 use fay\helpers\Html;
 ?>
 <div class="row mb5">
-    <div class="col-12">
-        <?php echo F::form('search')->open(null, 'get', array(
-            'class'=>'form-inline',
-        ))?>
-        <div class="mb5">
-            文件上传分类选择 :
-            <?php echo F::form('search')->select('target', array(
-                    ''=>'--分类--',
-                ) + Html::getSelectOptions($cats, 'alias', 'title'), array(
-                    'class'=>'form-control','id' => 'target',
-                ))?>
-        </div>
-        <?php echo F::form('search')->close()?>
-    </div>
+	<div class="col-12">
+		<?php echo F::form('search')->open(null, 'get', array(
+			'class'=>'form-inline',
+		))?>
+		<div class="mb5">
+			文件上传分类选择 :
+			<?php echo F::form('search')->select('target', array(
+					''=>'--分类--',
+				) + Html::getSelectOptions($cats, 'alias', 'title'), array(
+					'class'=>'form-control','id' => 'target',
+				))?>
+		</div>
+		<?php echo F::form('search')->close()?>
+	</div>
 </div>
 <div class="row">
 	<div class="col-12">
@@ -54,9 +54,8 @@ uploader.bind('Init', function(up, params) {
 uploader.init();
 
 uploader.bind('BeforeUpload', function(up, filters) {
-        up.settings.url =  uploader_url + '?t='+$("#target").val();
-    }
-);
+	up.settings.url =  uploader_url + '?t='+$("#target").val();
+});
 
 uploader.bind('FilesAdded', function(up, files) {
 	uploader.start();

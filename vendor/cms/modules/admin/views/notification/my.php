@@ -4,13 +4,14 @@ use fay\helpers\Html;
 <form id="batch-form" method="post" action="<?php echo $this->url('admin/notification/batch')?>" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
-			echo Html::select('batch_action', array(
+			echo Html::select('', array(
 				''=>'批量操作',
 				'set-read'=>'标记为已读',
 				'set-unread'=>'标记为未读',
 				'delete'=>'删除',
 			), '', array(
 				'class'=>'form-control',
+				'id'=>'batch-action',
 			));
 			echo Html::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit',
@@ -49,13 +50,14 @@ use fay\helpers\Html;
 			<?php $listview->showPager()?>
 		</div>
 		<div class="col-5"><?php
-			echo Html::select('batch_action_2', array(
+			echo Html::select('', array(
 				''=>'批量操作',
 				'set-read'=>'标记为已读',
 				'set-unread'=>'标记为未读',
 				'delete'=>'删除',
 			), '', array(
 				'class'=>'form-control',
+				'id'=>'batch-action-2',
 			));
 			echo Html::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit-2',

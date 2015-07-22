@@ -454,9 +454,7 @@ class ExamQuestionController extends AdminController{
 	public function batch(){
 		$ids = $this->input->post('ids', 'intval');
 		$action = $this->input->post('batch_action');
-		if(empty($action)){
-			$action = $this->input->post('batch_action_2');
-		}
+		
 		switch($action){
 			case 'set-enabled':
 				if(!$this->checkPermission('admin/exam-question/edit')){

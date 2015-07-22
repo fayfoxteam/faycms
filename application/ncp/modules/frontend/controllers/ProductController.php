@@ -56,11 +56,11 @@ class ProductController extends FrontController{
 			$sql->from('posts', 'p', 'id,title,thumbnail')
 				->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
 				->where(array(
-					'p.deleted = 0',
-					'p.publish_time < '.$this->current_time,
-					'p.status = '.Posts::STATUS_PUBLISHED,
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
+					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.deleted = 0',
+					'p.publish_time < '.$this->current_time,
 				))
 				->joinLeft('post_prop_int', 'pia', array(
 					'pia.prop_id = '.$prop_area_id,

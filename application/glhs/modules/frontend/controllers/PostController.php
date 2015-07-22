@@ -31,10 +31,10 @@ class PostController extends FrontController{
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,title,abstract,thumbnail,publish_time')
 			->where(array(
-				'p.deleted = 0',
-				'p.publish_time < '.$this->current_time,
-				'p.status = '.Posts::STATUS_PUBLISHED,
 				'p.cat_id = '.$cat['id'],
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.$this->current_time,
 			))
 			->order('is_top DESC, sort, publish_time DESC');
 		$this->view->assign(array(

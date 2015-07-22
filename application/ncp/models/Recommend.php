@@ -29,9 +29,9 @@ class Recommend extends Model{
 		$sql->from('posts', 'p', 'id,title,thumbnail,abstract,publish_time,views')
 			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
+				'p.status = '.Posts::STATUS_PUBLISHED,
 				'p.deleted = 0',
 				'p.publish_time < '.\F::app()->current_time,
-				'p.status = '.Posts::STATUS_PUBLISHED,
 			))
 			->order('RAND()')
 			->limit($limit);
@@ -78,8 +78,8 @@ class Recommend extends Model{
 				->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
 				->where(array(
 					'p.deleted = 0',
-					'p.publish_time < '.\F::app()->current_time,
 					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.publish_time < '.\F::app()->current_time,
 				))
 				->order('RAND()')
 				->limit($limit - $result_count);

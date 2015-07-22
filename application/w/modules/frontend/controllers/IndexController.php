@@ -21,9 +21,8 @@ class IndexController extends FrontController{
         //test
         //test1
 		//UcpaasApi::getInstance()->getDevinfo();
-        Sms::getInstance()->getDevinfo();
-	//dump(Sms::getInstance()->templateSMS(\F::config()->get('UCPAAS_APPID'),'18667357613','8538','123123,3'));
-
+//        Sms::getInstance()->getDevinfo();
+		dump(Sms::send('18667357613','123123,3','8538'));
 		$this->view->render();
 	}
 	

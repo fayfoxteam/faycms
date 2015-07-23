@@ -273,7 +273,6 @@ var file = {
 				});
 				return false;
 			}else if(action == 'exchange'){
-				alert($('#batch-form [name="_submit"]').val());
 				if($('#batch-form [name="_submit"]').val() == 'batch-form-submit'){
 					$('#batch-form').append('<input type="hidden" name="cat_id" value="'+$('#cat-id-1').val()+'">')
 				}else{

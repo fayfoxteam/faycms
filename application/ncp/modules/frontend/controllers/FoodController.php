@@ -59,11 +59,11 @@ class FoodController extends FrontController{
 			$sql->from('posts', 'p', 'id,title,thumbnail,abstract,views')
 				->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
 				->where(array(
-					'p.deleted = 0',
-					'p.publish_time < '.$this->current_time,
-					'p.status = '.Posts::STATUS_PUBLISHED,
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
+					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.deleted = 0',
+					'p.publish_time < '.$this->current_time,
 				))
 				->order('p.is_top DESC, p.sort, p.publish_time DESC')
 				->group('p.id')

@@ -451,6 +451,7 @@ var common = {
 		//表单提交
 		$(document).on('click', 'a[id$="submit"]', function(){
 			$('form#'+$(this).attr('id').replace('-submit', '')).find('input[name="_export"]').remove();
+			$('form#'+$(this).attr('id').replace('-submit', '')).append('<input type="hidden" name="_submit" value="'+$(this).attr('id')+'">')
 			$('form#'+$(this).attr('id').replace('-submit', '')).submit();
 			return false;
 		});
@@ -814,17 +815,30 @@ var common = {
 	},
 	'batch':function(){
 		//批量操作表单提交
-		$(document).on('change', '.batch-ids-all', function(){
+		$('body').on('change', '.batch-ids-all', function(){
 			$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
-		}).on('submit', '#batch-form', function(){
-			if($('[name="batch_action"]').val() == '' && $('[name="batch_action_2"]').val() == ''){
+		}).on('click', '#batch-form-submit', function(){
+			if($('#batch-action').val() == ''){
 				alert('请选择操作');
-				return false;
 			}else{
-				$('.wrapper').block();
+				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
+				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action').val()+'">')
+					.append('<input type="hidden" name="_submit" value="batch-form-submit">');
+				$('body').block();
+				$('#batch-form').submit();
 			}
+			return false;
 		}).on('click', '#batch-form-submit-2', function(){
-			$('#batch-form-submit').click();
+			if($('#batch-action-2').val() == ''){
+				alert('请选择操作');
+			}else{
+				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
+				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action-2').val()+'">')
+					.append('<input type="hidden" name="_submit" value="batch-form-submit-2">');
+				$('body').block();
+				$('#batch-form').submit();
+			}
+			return false;
 		});
 	},
 	'dragsortList':function(){
@@ -893,6 +907,7 @@ var common = {
 		this.dragsort();
 		this.poshytip();
 		this.datepicker();
+		this.batch();
 		this.events();
 
 		this.fixContent();
@@ -900,7 +915,6 @@ var common = {
 		this.visualEditor();
 		this.markdownEditor();
 		this.tab();
-		this.batch();
 		this.dragsortList();
 		this.textAutosize();
 		this.dropdown();

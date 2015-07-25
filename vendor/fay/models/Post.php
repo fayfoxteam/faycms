@@ -87,8 +87,8 @@ class Post extends Model{
 		if($publish === true){
 			$sql->where(array(
 				'p.deleted = 0',
-				'p.publish_time < '.\F::app()->current_time,
 				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
 			));
 		}
 		
@@ -153,10 +153,10 @@ class Post extends Model{
 			//此处上一篇是比当前文章新一点的那篇
 			$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 				->where(array(
-					'p.deleted = 0',
-					'p.publish_time < '.\F::app()->current_time,
-					'p.status = '.Posts::STATUS_PUBLISHED,
 					'p.cat_id = '.$post['cat_id'],
+					'p.deleted = 0',
+					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.publish_time < '.\F::app()->current_time,
 					"p.publish_time >= {$post['publish_time']}",
 					"p.sort <= {$post['sort']}",
 					"p.id != {$post['id']}",
@@ -167,10 +167,10 @@ class Post extends Model{
 				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
 				$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 					->where(array(
-						'p.deleted = 0',
-						'p.publish_time < '.\F::app()->current_time,
-						'p.status = '.Posts::STATUS_PUBLISHED,
 						'p.cat_id = '.$post['cat_id'],
+						'p.deleted = 0',
+						'p.status = '.Posts::STATUS_PUBLISHED,
+						'p.publish_time < '.\F::app()->current_time,
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
 						"p.id > {$post['id']}",
@@ -183,10 +183,10 @@ class Post extends Model{
 			//next post
 			$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 				->where(array(
-					'p.deleted = 0',
-					'p.publish_time < '.\F::app()->current_time,
-					'p.status = '.Posts::STATUS_PUBLISHED,
 					'p.cat_id = '.$post['cat_id'],
+					'p.deleted = 0',
+					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.publish_time < '.\F::app()->current_time,
 					"p.publish_time <= {$post['publish_time']}",
 					"p.sort >= {$post['sort']}",
 					"p.id != {$post['id']}",
@@ -196,10 +196,10 @@ class Post extends Model{
 			if($next_post['publish_time'] == $post['publish_time'] && $next_post['sort'] == $post['sort']){
 				$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 					->where(array(
-						'p.deleted = 0',
-						'p.publish_time < '.\F::app()->current_time,
-						'p.status = '.Posts::STATUS_PUBLISHED,
 						'p.cat_id = '.$post['cat_id'],
+						'p.deleted = 0',
+						'p.status = '.Posts::STATUS_PUBLISHED,
+						'p.publish_time < '.\F::app()->current_time,
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
 						"p.id < {$post['id']}",
@@ -552,8 +552,8 @@ class Post extends Model{
 			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'p.deleted = 0',
-				'p.publish_time < '.\F::app()->current_time,
 				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
 				'pi.content = '.$prop_value,
 			))
 			->joinLeft('post_prop_int', 'pi', array(

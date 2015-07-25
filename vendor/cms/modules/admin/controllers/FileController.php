@@ -151,9 +151,7 @@ class FileController extends AdminController{
 	public function batch(){
 		$ids = $this->input->post('ids', 'intval');
 		$action = $this->input->post('batch_action');
-		if(empty($action)){
-			$action = $this->input->post('batch_action_2');
-		}
+		
 		switch($action){
 			case 'remove':
 				$affected_rows = 0;
@@ -177,16 +175,15 @@ class FileController extends AdminController{
 			
 			//移动到目标分类图片
 			case 'exchange':
-				if($this->input->post('batch_action')){
-					//点了上面的提交，就用上面的分类
-					$cat_id = $this->input->post('cat_id_1', 'intval');
-				}else{
-					//点了下面的提交，就用下面的分类
-					$cat_id = $this->input->post('cat_id_2', 'intval');
-				}
+				$cat_id = $this->input->post('cat_id', 'intval');
 				
 				if(!$cat_id){
 					Response::output('error', '未指定分类');
+				}
+			
+				$cat = Category::model()->get($cat_id,'title');
+				if(!$cat){
+					Response::output('error', '指定分类不存在');
 				}
 				
 				$affected_rows = Files::model()->update(array(
@@ -194,8 +191,6 @@ class FileController extends AdminController{
 				), array(
 					'id IN (?)'=>$ids,
 				));
-			
-				$cat = Category::model()->get($cat_id,'title');
 				$this->actionlog(Actionlogs::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
 				Response::output('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
 			break;

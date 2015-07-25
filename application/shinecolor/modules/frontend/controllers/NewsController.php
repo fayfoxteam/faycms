@@ -64,11 +64,11 @@ class NewsController extends FrontController{
 		$sql->from('posts', 'p', 'id,title,publish_time')
 			->joinLeft('categories', 'c', 'p.cat_id = c.id')
 			->where(array(
-				'p.deleted = 0',
-				'p.publish_time < '.\F::app()->current_time,
-				'p.status = '.Posts::STATUS_PUBLISHED,
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
 			))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;

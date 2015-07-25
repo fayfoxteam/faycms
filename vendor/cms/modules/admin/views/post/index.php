@@ -99,15 +99,16 @@ $cols = F::form('setting')->getData('cols', array());
 	<div class="row">
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
-				echo Html::select('batch_action', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
 					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action',
 				));
 			}else{
-				echo Html::select('batch_action_2', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
 						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
@@ -117,6 +118,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action',
 				));
 			}
 			echo Html::link('提交', 'javascript:;', array(
@@ -223,15 +225,16 @@ $cols = F::form('setting')->getData('cols', array());
 		<div class="col-7 fr"><?php $listview->showPager()?></div>
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
-				echo Html::select('batch_action_2', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
 					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action-2',
 				));
 			}else{
-				echo Html::select('batch_action', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
 						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
@@ -241,6 +244,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action-2',
 				));
 			}
 			echo Html::link('提交', 'javascript:;', array(

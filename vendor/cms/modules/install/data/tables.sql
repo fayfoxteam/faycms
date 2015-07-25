@@ -575,7 +575,8 @@ CREATE TABLE `{{$prefix}}posts` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
-  KEY `cat` (`cat_id`)
+  KEY `cat` (`cat_id`),
+  KEY `deleted-status-publish_time` (`deleted`,`status`,`publish_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;

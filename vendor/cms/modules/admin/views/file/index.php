@@ -14,8 +14,8 @@ $cols = F::form('setting')->getData('cols');
 			));?>
 			|
 			<?php echo F::form('search')->select('cat_id', array(
-					''=>'--分类--',
-				) + Html::getSelectOptions($cats, 'id', 'title'), array(
+				''=>'--分类--',
+			) + Html::getSelectOptions($cats, 'id', 'title'), array(
 				'class'=>'form-control',
 			))?>
 			|
@@ -44,7 +44,7 @@ $cols = F::form('setting')->getData('cols');
 <form method="post" action="<?php echo $this->url('admin/file/batch')?>" id="batch-form" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
-			echo Html::select('batch_action', array(
+			echo Html::select('', array(
 				''=>'批量操作',
 				'upload-to-qiniu'=>(F::app()->checkPermission('admin/qiniu/put') && in_array('qiniu', $cols)) ? '上传至七牛' : false,
 				'remove-from-qiniu'=>(F::app()->checkPermission('admin/qiniu/delete') && in_array('qiniu', $cols)) ? '从七牛移除' : false,
@@ -52,14 +52,15 @@ $cols = F::form('setting')->getData('cols');
 				'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
 			), '', array(
 				'class'=>'form-control',
+				'id'=>'batch-action',
 			));
 
-			echo F::form('search')->select('cat_id_1', array(
-					''=>'--分类--',
-				) + Html::getSelectOptions($cats, 'id', 'title'), array(
-					'class'=>'form-control fn-hide',
-					'id' => 'cat_id_1',
-				));
+			echo F::form('search')->select('', array(
+				''=>'--分类--',
+			) + Html::getSelectOptions($cats, 'id', 'title'), array(
+				'class'=>'form-control fn-hide',
+				'id' => 'cat-id-1',
+			));
 
 			echo Html::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit',
@@ -145,7 +146,7 @@ $cols = F::form('setting')->getData('cols');
 	</div>
 	<div class="row">
 		<div class="col-5"><?php
-			echo Html::select('batch_action_2', array(
+			echo Html::select('', array(
 				''=>'批量操作',
 				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
 				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
@@ -153,14 +154,15 @@ $cols = F::form('setting')->getData('cols');
 				'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
 			), '', array(
 				'class'=>'form-control',
+				'id'=>'batch-action-2',
 			));
 
-			echo F::form('search')->select('cat_id_2', array(
-					''=>'--分类--',
-				) + Html::getSelectOptions($cats, 'id', 'title'), array(
-					'class'=>'form-control fn-hide',
-					'id' => 'cat_id_2',
-				));
+			echo F::form('search')->select('', array(
+				''=>'--分类--',
+			) + Html::getSelectOptions($cats, 'id', 'title'), array(
+				'class'=>'form-control fn-hide',
+				'id' => 'cat-id-2',
+			));
 			echo Html::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit-2',
 				'class'=>'btn btn-sm ml5',
@@ -251,10 +253,9 @@ var file = {
 		});
 		$('#batch-form').on('submit', function(){
 			var action = $('[name="batch_action"]').val();
-			if(!action){
-				action = $('[name="batch_action_2"]').val();
-			}
+			
 			if(action == 'upload-to-qiniu'){
+				$('body').unblock('immediately');
 				$('.batch-ids:checked').each(function(){
 					id = $(this).val();
 					if($('#file-'+id).attr('data-qiniu') == '0'){
@@ -263,6 +264,7 @@ var file = {
 				});
 				return false;
 			}else if(action == 'remove-from-qiniu'){
+				$('body').unblock('immediately');
 				$('.batch-ids:checked').each(function(){
 					id = $(this).val();
 					if($('#file-'+id).attr('data-qiniu') == '1'){
@@ -270,19 +272,25 @@ var file = {
 					}
 				});
 				return false;
+			}else if(action == 'exchange'){
+				if($('#batch-form [name="_submit"]').val() == 'batch-form-submit'){
+					$('#batch-form').append('<input type="hidden" name="cat_id" value="'+$('#cat-id-1').val()+'">')
+				}else{
+					$('#batch-form').append('<input type="hidden" name="cat_id" value="'+$('#cat-id-2').val()+'">')
+				}
 			}
 			return true;
-		}).on('change', 'select[name="batch_action"]', function(){
+		}).on('change', '#batch-action', function(){
 			if($(this) .val() == 'exchange'){
-				$('#cat_id_1').removeClass('fn-hide');
+				$('#cat-id-1').removeClass('fn-hide');
 			}else{
-				$('#cat_id_1').addClass('fn-hide');
+				$('#cat-id-1').addClass('fn-hide');
 			}
-		}).on('change', 'select[name = "batch_action_2"]', function(){
+		}).on('change', '#batch-action-2', function(){
 			if($(this) .val() == 'exchange'){
-				$('#cat_id_2').removeClass('fn-hide');
+				$('#cat-id-2').removeClass('fn-hide');
 			}else{
-				$('#cat_id_2').addClass('fn-hide');
+				$('#cat-id-2').addClass('fn-hide');
 			}
 		});
 	},

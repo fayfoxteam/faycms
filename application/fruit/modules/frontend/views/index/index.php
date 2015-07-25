@@ -33,7 +33,6 @@ use fay\models\File;
 						title="<?php echo Html::encode($p['title'])?>"><?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
 						'dw'=>268,
 						'dh'=>242,
-					), array(
 						'alt'=>Html::encode($p['title']),
 					))?>
 						<span class="zoom-bg"></span>

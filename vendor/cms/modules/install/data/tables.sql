@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `{{$prefix}}actions`;
 CREATE TABLE `{{$prefix}}actions` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '操作',
-  `router` varchar(255) NOT NULL DEFAULT '' COMMENT '路由',
+  `router` varchar(50) NOT NULL DEFAULT '' COMMENT '路由',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
   `is_public` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为公共路由',
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',

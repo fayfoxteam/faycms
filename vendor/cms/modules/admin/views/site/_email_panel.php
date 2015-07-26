@@ -6,6 +6,22 @@ use fay\models\Option;
 	<div class="row">
 		<div class="col-12">
 			<div class="form-field">
+				<label class="title">是否启用<em class="required">*</em></label>
+				<?php
+					echo Html::inputRadio('email:enabled', '1', Option::get('email:enabled') == '1', array(
+						'label'=>'是',
+						'data-required'=>'required',
+						'data-label'=>'是否启用',
+					));
+					echo Html::inputRadio('email:enabled', '0', Option::get('email:enabled') === '0', array(
+						'label'=>'否',
+						'data-required'=>'required',
+						'data-label'=>'是否启用',
+					));
+				?>
+				<p class="description">若不启用，则调用<code>fay\model\Email::send()</code>时直接返回true，不会真的发出邮件。</p>
+			</div>
+			<div class="form-field">
 				<label class="title">主机名<em class="required">*</em></label>
 				<?php echo Html::inputText('email:Host', Option::get('email:Host'), array(
 					'class'=>'form-control mw400',

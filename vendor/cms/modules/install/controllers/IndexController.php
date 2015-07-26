@@ -26,7 +26,7 @@ class IndexController extends InstallController{
 		
 		if($is_installed == 'installation-completed'){
 			//全部安装已完成
-			throw new Exception('程序已完成安装，若要重新安装，请删除当前application下的installed.lock文件后重试');
+			throw new Exception('程序已完成安装，若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
 		}else if($is_installed == 'database-completed'){
 			//数据库已初始化，跳转至设置超级管理员界面
 			Response::redirect('install/index/settings', array(
@@ -93,7 +93,7 @@ class IndexController extends InstallController{
 		
 		if($is_installed == 'installation-completed'){
 			//全部安装已完成
-			throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的installed.lock文件后重试');
+			throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
 		}else if($is_installed == 'database-completed'){
 			//数据库安装完成，跳转到用户设置界面
 			Response::redirect('install/index/settings', array(
@@ -117,7 +117,7 @@ class IndexController extends InstallController{
 		
 		if($is_installed == 'installation-completed'){
 			//全部安装已完成
-			throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的installed.lock文件后重试');
+			throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
 		}else if($is_installed == 'database-completed'){
 			//数据库已初始化，跳转至设置超级管理员界面
 			if($this->input->post()){
@@ -135,7 +135,7 @@ class IndexController extends InstallController{
 				
 				Option::set('site:sitename', $this->input->post('site:sitename'));
 				
-				file_put_contents(APPLICATION_PATH . 'installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
+				file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
 				
 				Response::redirect('a');
 			}
@@ -147,8 +147,8 @@ class IndexController extends InstallController{
 	}
 	
 	private function isInstalled(){
-		if(file_exists(APPLICATION_PATH . 'installed.lock')){
-			$installed_file = file(APPLICATION_PATH . 'installed.lock');
+		if(file_exists(APPLICATION_PATH . 'runtimes/installed.lock')){
+			$installed_file = file(APPLICATION_PATH . 'runtimes/installed.lock');
 			return array_pop($installed_file);
 		}else{
 			return 'new';

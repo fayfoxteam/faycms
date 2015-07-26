@@ -53,7 +53,7 @@ function showCats($cats, $dep = 0){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php echo Html::link('添加图片', array('admin/file/do-upload', array(
+					<?php echo Html::link('上传文件', array('admin/file/do-upload', array(
 						'target'=>$c['alias'],
 					)), array(
 						'class'=>'fc-green hover-link',

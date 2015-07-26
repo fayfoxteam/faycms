@@ -3,6 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Categories;
+use fay\helpers\String;
 
 class Category extends Model{
 	/**
@@ -32,7 +33,7 @@ class Category extends Model{
 	 */
 	public function getByAlias($alias, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
-			if(is_numeric($root)){
+			if(String::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
@@ -60,7 +61,7 @@ class Category extends Model{
 	 */
 	public function getById($id, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
-			if(is_numeric($root)){
+			if(String::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
@@ -91,7 +92,7 @@ class Category extends Model{
 			$ids = explode(',', $ids);
 		}
 		if($root !== null && !is_array($root)){
-			if(is_numeric($root)){
+			if(String::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
@@ -139,7 +140,7 @@ class Category extends Model{
 	public function getAll($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($parent === null){
 			return Categories::model()->fetchAll(array(), $fields, $order);
-		}else if(is_numeric($parent)){
+		}else if(String::isInt($parent)){
 			return $this->getAllByParentId($parent, $fields, $order);
 		}else{
 			return $this->getAllByAlias($parent, $fields, $order);
@@ -202,7 +203,7 @@ class Category extends Model{
 	public function getAllIds($parent = null){
 		if($parent === null){
 			return Categories::model()->fetchCol('id');
-		}else if(is_numeric($parent)){
+		}else if(String::isInt($parent)){
 			return $this->getAllIdsByParentId($parent);
 		}else{
 			return $this->getAllIdsByParentAlias($parent);
@@ -258,7 +259,7 @@ class Category extends Model{
 	public function getTree($parent = null){
 		if($parent === null){
 			return Tree::model()->getTree('fay\models\tables\Categories');
-		}else if(is_numeric($parent)){
+		}else if(String::isInt($parent)){
 			return $this->getTreeByParentId($parent);
 		}else{
 			return $this->getTreeByParentAlias($parent);
@@ -304,7 +305,7 @@ class Category extends Model{
 	 * @param string $order 排序规则
 	 */
 	public function getNextLevel($parent, $fields = '*', $order = 'sort, id'){
-		if(is_numeric($parent)){
+		if(String::isInt($parent)){
 			return $this->getNextLevelByParentId($parent, $fields, $order);
 		}else{
 			return $this->getNextLevelByParentAlias($parent, $fields, $order);
@@ -354,7 +355,7 @@ class Category extends Model{
 	 */
 	public function get($cats, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
-			if(is_numeric($root)){
+			if(String::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
@@ -367,7 +368,7 @@ class Category extends Model{
 			}
 			return $return;
 		}else{
-			if(is_numeric($cats)){
+			if(String::isInt($cats)){
 				return $this->getById($cats, $fields, $root);
 			}else{
 				return $this->getByAlias($cats, $fields, $root);
@@ -458,14 +459,14 @@ class Category extends Model{
 	 * @param int|string|array $root
 	 */
 	public function getParentPath($cat, $root = null){
-		if(is_numeric($cat)){
+		if(String::isInt($cat)){
 			$cat = $this->get($cat);
 		}else if(is_string($cat)){
 			$cat = $this->getByAlias($cat);
 		}
 		
 		if($root){
-			if(is_numeric($root)){
+			if(String::isInt($root)){
 				$root = $this->get($root);
 			}else if(is_string($root)){
 				$root = $this->getByAlias($root);

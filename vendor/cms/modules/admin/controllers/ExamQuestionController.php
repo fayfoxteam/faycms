@@ -12,6 +12,7 @@ use fay\models\tables\ExamAnswers;
 use fay\core\Response;
 use fay\models\tables\ExamExamsQuestions;
 use fay\models\Flash;
+use fay\helpers\String;
 
 class ExamQuestionController extends AdminController{
 	public function __construct(){
@@ -199,7 +200,7 @@ class ExamQuestionController extends AdminController{
 							$answer_ids = array();
 							$i = 0;
 							foreach($selector_answers as $k=>$a){
-								if(is_numeric($k)){
+								if(String::isInt($k)){
 									//老记录，更新
 									$answer_ids[] = $k;
 									//更新记录
@@ -366,7 +367,7 @@ class ExamQuestionController extends AdminController{
 	public function get(){
 		$id = $this->input->get('id');
 		
-		if(is_numeric($id)){
+		if(String::isInt($id)){
 			$question = ExamQuestions::model()->find($id);
 			echo json_encode(array(
 				'status'=>1,

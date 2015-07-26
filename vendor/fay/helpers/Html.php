@@ -230,7 +230,7 @@ class Html{
 	 * @return string
 	 */
 	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array(), $return_src = false){
-		if(is_numeric($id)){
+		if(String::isInt($id)){
 			if($id == 0){
 				//若有设置spares，返回对应的默认图片
 				//若未设置，返回空字符串

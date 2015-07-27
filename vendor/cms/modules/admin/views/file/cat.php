@@ -7,6 +7,7 @@ function showCats($cats, $dep = 0){?>
 		<li class="leaf-container <?php if(!$k)echo 'first';?>">
 			<div class="leaf">
 				<span class="fr options">
+					<?php if(F::app()->checkPermission('admin/file/cat-sort')){?>
 					<span class="w115 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
 						'size'=>3,
@@ -15,6 +16,7 @@ function showCats($cats, $dep = 0){?>
 						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
+					<?php }?>
 					<?php echo Html::link('查看该分类', array('admin/file/index', array(
 						'cat_id'=>$c['id'],
 					)), array(), true);
@@ -51,7 +53,7 @@ function showCats($cats, $dep = 0){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php echo Html::link('添加图片', array('admin/file/do-upload', array(
+					<?php echo Html::link('上传文件', array('admin/file/do-upload', array(
 						'target'=>$c['alias'],
 					)), array(
 						'class'=>'fc-green hover-link',

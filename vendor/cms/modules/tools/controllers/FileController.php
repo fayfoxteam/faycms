@@ -9,6 +9,7 @@ use fay\helpers\SecurityCode;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\core\Loader;
+use fay\helpers\String;
 
 class FileController extends Controller{
 	public function pic(){
@@ -29,7 +30,7 @@ class FileController extends Controller{
 		
 		//文件名或文件id号
 		$f = $this->input->get('f');
-		if(is_numeric($f)){
+		if(String::isInt($f)){
 			if($f == 0){
 				$spares = $this->config->get('spares');
 				$spare = $spares[$this->input->get('s', null, 'default')];

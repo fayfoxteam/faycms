@@ -15,6 +15,7 @@ use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\models\Option;
 use fay\models\Category;
+use fay\helpers\String;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -281,7 +282,7 @@ class FileController extends AdminController{
 		
 		//文件名或文件id号
 		$f = $this->input->get('f');
-		if(is_numeric($f)){
+		if(String::isInt($f)){
 			if($f == 0){
 				$file = false;
 			}else{

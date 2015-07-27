@@ -99,7 +99,7 @@ class Post extends Model{
 		if($cat != null){
 			if(is_array($cat)){
 				//无操作
-			}else if(is_numeric($cat)){
+			}else if(String::isInt($cat)){
 				$cat = Category::model()->get($cat);
 			}else{
 				$cat = Category::model()->getByAlias($cat);
@@ -267,7 +267,7 @@ class Post extends Model{
 		if(is_array($cat)){
 			//分类数组
 			return $this->getByCatArray($cat, $limit, $field, $children, $order, $conditions);
-		}else if(is_numeric($cat)){
+		}else if(String::isInt($cat)){
 			//分类ID
 			return $this->getByCatId($cat, $limit, $field, $children, $order, $conditions);
 		}else{
@@ -544,7 +544,7 @@ class Post extends Model{
 	 * @param string $order 排序字段
 	 */
 	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $field = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
-		if(!is_numeric($prop)){
+		if(!String::isInt($prop)){
 			$prop = Prop::model()->getIdByAlias($prop);
 		}
 		$sql = new Sql();

@@ -48,6 +48,7 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('210', '100', 'file', '文件', 'fa fa-files-o', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('211', '210', '', '所有文件', '', 'admin/file/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('212', '210', '', '上传文件', '', 'admin/file/do-upload');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('213', '210', '', '文件分类', '', 'admin/file/cat');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('220', '100', 'notification', '系统消息', 'fa fa-comment', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('222', '220', '', '发送消息', '', 'admin/notification/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('223', '220', '', '消息分类', '', 'admin/notification/cat');

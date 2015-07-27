@@ -211,12 +211,13 @@ class Response{
 	 */
 	public static function json($content, $status = 1, $message = '', $code = ''){
 		header('Content-Type:application/json; charset=utf-8');
-		echo json_encode(array(
+		$content = json_encode(array(
 			'status'=>$status == 0 ? 0 : 1,
 			'content'=>$content,
 			'code'=>$code,
 			'message'=>$message
 		));
+		self::send($content);
 		die;
 	}
 
@@ -231,12 +232,44 @@ class Response{
 	public static function jsonp($func, $content, $status = 1, $message = '', $code = ''){
 		// 返回JSON数据格式到客户端 包含状态信息
 		header('Content-Type:application/json; charset=utf-8');
-		echo $func.'('.json_encode(array(
+		$content = $func.'('.json_encode(array(
 			'status'=>$status == 0 ? 0 : 1,
 			'content'=>$content,
 			'code'=>$code,
 			'message'=>$message
 		)).');';
+		self::send($content);
 		die;
+	}
+	
+	/**
+	 * 向浏览器输出
+	 * @param string $content
+	 */
+	public static function send($content){
+		$uri = Uri::getInstance();
+		
+		//根据router设置缓存
+		$cache_routers = \F::config()->get('*', 'pagecache');
+		$cache_routers_keys = array_keys($cache_routers);
+		if(in_array($uri->router, $cache_routers_keys)){
+			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
+			$cache_key = 'pages/' . $uri->router . '/' . $filename;
+			if(\F::input()->post()){
+				//有post数据的时候，是否更新页面
+				if(isset($cache_routers[$uri->router]['on_post'])){
+					if($cache_routers[$uri->router]['on_post'] == 'rebuild'){//刷新缓存
+						\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
+					}else if($cache_routers[$uri->router]['on_post'] == 'remove'){//删除缓存
+						\F::cache()->delete($cache_key);
+					}
+				}
+			}else{
+				//没post数据的时候，直接重新生成页面缓存
+				\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
+			}
+		}
+		
+		echo $content;
 	}
 }

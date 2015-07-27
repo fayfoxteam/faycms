@@ -775,14 +775,25 @@ var common = {
 		common.editorObj.destroy();
 	},
 	'tab':function(){
-		$('.tabbable').each(function(){
-			$(this).find('.tab-content div.tab-pane:gt(0)').hide();
-		});
 		$(document).on('click', '.tabbable .nav-tabs a', function(){
 			$($(this).attr('href')).show().siblings().hide();
 			$(this).parent().addClass('active').siblings().removeClass('active');
 			
 			return false;
+		});
+		
+		var hash = window.location.hash;
+		$('.tabbable').each(function(){
+			//url中有指定锚点，且本实例中包含此锚点，打开指定锚点的tab
+			if($(this).find('.nav-tabs a[href="'+hash+'"]').length){
+				$(this).find('.nav-tabs a[href="'+hash+'"]').click();
+			}else if($(this).find('.nav-tabs li.active').length){
+				//有指定打开那个tab的class，打开对应的tab
+				$(this).find('.nav-tabs li.active a').click();
+			}else{
+				//默认打开第一个tab
+				$(this).find('.nav-tabs li:first a').click();
+			}
 		});
 	},
 	'showPager':function(id, pager){

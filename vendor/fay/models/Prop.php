@@ -5,6 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Props;
 use fay\models\tables\PropValues;
 use fay\core\Sql;
+use fay\helpers\String;
 
 class Prop extends Model{
 	/**
@@ -141,7 +142,7 @@ class Prop extends Model{
 		if(is_array($refer)){
 			$refer = implode(',', $refer);
 		}
-		if(is_numeric($refer)){
+		if(String::isInt($refer)){
 			//获取单个属性
 			$props = Props::model()->fetchAll(array(
 				'refer = ?'=>$refer,
@@ -159,7 +160,7 @@ class Prop extends Model{
 		
 		//若fields中包含value，则获取属性对应的可选属性值
 		if(in_array('values', $fields)){
-			if(is_numeric($refer)){
+			if(String::isInt($refer)){
 				$prop_values = PropValues::model()->fetchAll(array(
 					'refer = ?'=>$refer,
 					'deleted = 0',

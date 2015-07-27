@@ -77,7 +77,7 @@ class File extends Model{
 	 * </pre>
 	 */
 	public function getUrl($file, $full_url = true){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image');
 		}
 		if($full_url){
@@ -103,7 +103,7 @@ class File extends Model{
 	 * 返回文件本地完整路径
 	 */
 	public function getPath($file){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path');
 		}
 		return realpath($file['file_path'] . $file['raw_name'] . $file['file_ext']);
@@ -117,7 +117,7 @@ class File extends Model{
 	 * 若是其他类型文件，返回文件图标
 	 */
 	public function getThumbnailUrl($file, $fullpath = true){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'id,file_type,raw_name,file_path,is_image');
 		}
 		if(!$file['is_image']){

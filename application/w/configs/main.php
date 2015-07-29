@@ -26,7 +26,7 @@ return array(
 	 * 当前application包含的模块
 	 */
 	'modules'=>array(
-		'frontend'
+        'frontend','api'
 	),
 	
 	'debug'=>true,

@@ -98,8 +98,9 @@ class TasksController extends AdminController
         if ($post = $this->input->post())
         {
             $created = array_pop($post);
+            $type = $this->input->get('type_id', 'intval');
             $zbiao_record = new ZbiaoRecord();
-            if (!$zbiao_record->verifyCreatedTime(strtotime($created))) {
+            if (!$zbiao_record->verifyCreatedTime(strtotime($created), $type)) {
                 Response::output('error', '录入时间必须比前一天的大');
             }
 

@@ -35,6 +35,10 @@ use fay\helpers\Date;
 				<td><span id="user-info-browser-shell"></span></td>
 			</tr>
 			<tr>
+				<th>操作系统</th>
+				<td><span id="user-info-os"></span></td>
+			</tr>
+			<tr>
 				<th>当前登陆IP</th>
 				<td>
 					<?php echo F::app()->ip?>
@@ -48,9 +52,11 @@ use fay\helpers\Date;
 <script>
 $(function(){
 	var browser = _fa.getBrowser();
+	var os = _fa.getOS();
 	$('#user-info-browser').text(browser[0] + '/' + browser[1]);
 	if(browser[2]){
 		$('#user-info-browser-shell').text(browser[2] + '/' + browser[3]);
 	}
+	$('#user-info-os').text(os);
 });
 </script>

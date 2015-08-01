@@ -34,6 +34,7 @@ var _fa = {
 			if(ua.indexOf('windows nt 6.2') > -1 || ua.indexOf('windows 8') > -1) return 'win8';
 			if(ua.indexOf('windows nt 6.3') > -1) return 'win8.1';
 			if(ua.indexOf('windows nt 6.4') > -1) return 'win10';
+			if(ua.indexOf('windows nt 10.0') > -1) return 'win10';
 			if(ua.match(/windows ce/i) == 'windows ce') return 'wince';
 			if(ua.match(/windows mobile/i) == 'windows mobile') return 'winmobile';
 			if(ua.match(/windows phone/i) == 'windows phone') return 'windows phone';
@@ -103,7 +104,8 @@ var _fa = {
 			s = ['', ''];
 		} 
 		
-		if(b = ua.match(/rv:([\d\.]+)\) like gecko/i)) return ['IE', b[1], s[0], s[1]];
+		if(b = ua.match(/rv:([\d\.]+)\) like gecko/i)) return ['IE', b[1], s[0], s[1]];//IE11
+		if(b = ua.match(/Edge\/([\d\.]+)/i)) return ['Edge', b[1], s[0], s[1]];//win10自带浏览器
 		if(b = ua.match(/MSIE ([\d\.]+)/i)) return ['IE', b[1], s[0], s[1]];
 		
 		if(b = ua.match(/Firefox\/([\d\.]+)/i)) return ['Firefox', b[1], s[0], s[1]];

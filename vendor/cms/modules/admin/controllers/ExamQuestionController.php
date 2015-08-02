@@ -80,7 +80,7 @@ class ExamQuestionController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$question_id = ExamQuestions::model()->insert(array(
-					'question'=>$this->input->post('question', 'addslashes'),
+					'question'=>$this->input->post('question'),
 					'cat_id'=>$this->input->post('cat_id', 'intval', 0),
 					'score'=>$this->input->post('score', 'floatval'),
 					'type'=>$this->input->post('type', 'intval'),
@@ -163,7 +163,7 @@ class ExamQuestionController extends AdminController{
 				$old_question = ExamQuestions::model()->find($id, 'type');
 				$new_question_type = $this->input->post('type', 'intval', $old_question['type']);
 				ExamQuestions::model()->update(array(
-					'question'=>$this->input->post('question', 'addslashes'),
+					'question'=>$this->input->post('question'),
 					'cat_id'=>$this->input->post('cat_id', 'intval'),
 					'score'=>$this->input->post('score', 'floatval'),
 					'type'=>$new_question_type,

@@ -83,7 +83,7 @@ var material = {
 			browse_button : 'upload-file-link',
 			container : 'upload-file-container',
 			max_file_size : '2mb',
-			url : system.url("user/file/upload",{'t':'posts'}),
+			url : system.url("user/file/upload",{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -137,7 +137,7 @@ var material = {
 			browse_button : 'upload-thumbnail-link',
 			container : 'upload-thumbnail-container',
 			max_file_size : '2mb',
-			url : system.url("user/file/upload",{'t':'posts'}),
+			url : system.url("user/file/upload",{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -182,7 +182,7 @@ var material = {
 			browse_button : 'upload-preview-link',
 			container : 'upload-preview-container',
 			max_file_size : '2mb',
-			url : system.url("user/file/upload",{'t':'posts'}),
+			url : system.url("user/file/upload",{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

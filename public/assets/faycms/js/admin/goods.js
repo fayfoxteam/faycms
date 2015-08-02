@@ -7,40 +7,40 @@ var app = {
 	'skus':{},
 
 	'events':function(){
-		$("#create-goods-form").submit(function(){
+		$('#create-goods-form').submit(function(){
 			if(app.tab1_editor != null){
-				$("#tab-1-textarea").val(app.tab1_editor.html());
+				$('#tab-1-textarea').val(app.tab1_editor.html());
 			}
 			if(app.tab2_editor != null){
-				$("#tab-2-textarea").val(app.tab2_editor.html());
+				$('#tab-2-textarea').val(app.tab2_editor.html());
 			}
 			if(app.tab3_editor != null){
-				$("#tab-3-textarea").val(app.tab3_editor.html());
+				$('#tab-3-textarea').val(app.tab3_editor.html());
 			}
 			if(app.tab4_editor != null){
-				$("#tab-4-textarea").val(app.tab4_editor.html());
+				$('#tab-4-textarea').val(app.tab4_editor.html());
 			}
 		});
 
-		$(".sku-quantity").live("blur", function(){
+		$('.sku-quantity').live('blur', function(){
 			app.getTotalNum();
 		});
 	},
 	'tabs':function(){//tab页
-		$(".tabs .tab-content div.tab-item:gt(0)").hide();
-		$(".tabs .tab-nav a").die().live("click", function(){
-			$($(this).attr("href")).show().siblings().hide();
-			$(this).addClass("sel").parent().siblings().find("a").removeClass("sel");
+		$('.tabs .tab-content div.tab-item:gt(0)').hide();
+		$('.tabs .tab-nav a').die().live('click', function(){
+			$($(this).attr('href')).show().siblings().hide();
+			$(this).addClass('sel').parent().siblings().find('a').removeClass('sel');
 			
-			if($($(this).attr("href")).find(".lazy-kindeditor").size() > 0){
-				app['tab'+$(this).attr("href").substr(5,1)+'_editor'] = KindEditor.create($(this).attr("href")+' .lazy-kindeditor', {
+			if($($(this).attr('href')).find('.lazy-kindeditor').size() > 0){
+				app['tab'+$(this).attr('href').substr(5,1)+'_editor'] = KindEditor.create($(this).attr('href')+' .lazy-kindeditor', {
 					width: '100%',
 					allowFileManager : true,
 					filterMode : false,
 					formatUploadUrl : false,
-					uploadJson : system.url('admin/file/upload', {'t':'goods'})
+					uploadJson : system.url('admin/file/upload', {'cat':'goods'})
 				});
-				$($(this).attr("href")+' .lazy-kindeditor').removeClass("lazy-kindeditor");
+				$($(this).attr('href')+' .lazy-kindeditor').removeClass('lazy-kindeditor');
 			}
 			
 			return false;
@@ -52,11 +52,11 @@ var app = {
 			browse_button : 'upload_thumbnail',
 			container : 'container',
 			max_file_size : '10mb',
-			url : system.url("admin/file/upload", {'t':'goods'}),
+			url : system.url('admin/file/upload', {'cat':'goods'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
-				{title : "Image files", extensions : "jpg,gif,png,bmp,jpeg"}
+				{title : 'Image files', extensions : 'jpg,gif,png,bmp,jpeg'}
 			]
 		});
 
@@ -71,14 +71,14 @@ var app = {
 
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var rps = $.parseJSON(response.response);
-			$("#thumbnail-preview").attr("src", rps.thumbnail).show();
-			$("#thumbnail-id").val(rps.id);
+			$('#thumbnail-preview').attr('src', rps.thumbnail).show();
+			$('#thumbnail-id').val(rps.id);
 		});
 	},
 	'gallery':function(){
 		system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
-			$(".photo-list").dragsort({
-				itemSelector: "div.photo-item",
+			$('.photo-list').dragsort({
+				itemSelector: 'div.photo-item',
 				placeHolderTemplate: '<div class="photo-item holder"></div>'
 			});
 		});
@@ -88,11 +88,11 @@ var app = {
 			browse_button : 'upload-photo-link',
 			container: 'upload-photo-container',
 			max_file_size : '2mb',
-			url : system.url("admin/file/upload", {'t':'goods'}),
+			url : system.url('admin/file/upload', {'cat':'goods'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
-				{title : "Image files", extensions : "jpg,gif,png,jpeg"}
+				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
 			]
 		});
 

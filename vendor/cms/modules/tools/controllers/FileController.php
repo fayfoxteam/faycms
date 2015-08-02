@@ -134,14 +134,16 @@ class FileController extends Controller{
 		$dh = $this->input->get('dh', 'intval', 0);
 		//选中部分的宽度
 		$w = $this->input->get('w', 'intval');
-		if(!$w)throw new HttpException('不完整的请求', 500);
 		//选中部分的高度
 		$h = $this->input->get('h', 'intval');
-		if(!$h)throw new HttpException('不完整的请求', 500);
+		
+		if(!$w || !$h){
+			throw new HttpException('不完整的请求', 500);
+		}
 		
 		if($file !== false){
 			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-		
+			
 			if($dw == 0){
 				$dw = $w;
 			}
@@ -149,8 +151,10 @@ class FileController extends Controller{
 				$dh = $h;
 			}
 			$img = Image::crop($img, $x, $y, $w, $h);
-			$img = Image::resize($img, $dw, $dh);
-		
+			if($dw != $w || $dh != $h){
+				$img = Image::resize($img, $dw, $dh);
+			}
+			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
 			imagejpeg($img, null, $this->input->get('q', 'intval', 75));

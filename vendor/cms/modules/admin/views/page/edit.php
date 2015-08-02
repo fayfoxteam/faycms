@@ -85,8 +85,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script>
 $(function(){
 	common.dragsortKey = 'admin_page_box_sort';
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'pages'});
-	common.filebrowserFlashUploadUrl = system.url("admin/file/upload", {'t':'pages'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'page'});
+	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'pages'});
 	
 });
 </script>

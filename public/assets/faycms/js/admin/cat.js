@@ -132,7 +132,7 @@ var cat = {
 			browse_button : 'upload-cat-pic-for-create',
 			container : 'upload-cat-pic-for-create-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload', {'t':'cat'}),
+			url : system.url('admin/file/upload', {'cat':'cat'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -176,7 +176,7 @@ var cat = {
 			browse_button : 'upload-cat-pic-for-edit',
 			container : 'upload-cat-pic-for-edit-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload',{'t':'cat'}),
+			url : system.url('admin/file/upload', {'cat':'cat'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

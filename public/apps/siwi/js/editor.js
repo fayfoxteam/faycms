@@ -81,7 +81,7 @@ var editor = {
 		system.getScript(system.assets('js/ckeditor/ckeditor.js'), function(){
 			var config = {
 				'height':350,
-				'filebrowserImageUploadUrl':system.url('user/file/upload', {'t':'posts'})
+				'filebrowserImageUploadUrl':system.url('user/file/upload', {'cat':'post'})
 			};
 			common.editorObj = CKEDITOR.replace('visual-editor', config);
 		});
@@ -93,7 +93,7 @@ var editor = {
 			browse_button : 'upload-file-link',
 			container : 'upload-file-container',
 			max_file_size : '2mb',
-			url : system.url("user/file/upload",{'t':'posts'}),
+			url : system.url("user/file/upload",{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -147,7 +147,7 @@ var editor = {
 			browse_button : 'upload-thumbnail-link',
 			container : 'upload-thumbnail-container',
 			max_file_size : '2mb',
-			url : system.url("user/file/upload",{'t':'posts'}),
+			url : system.url("user/file/upload",{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -192,7 +192,7 @@ var editor = {
 			browse_button : 'upload-preview-link',
 			container : 'upload-preview-container',
 			max_file_size : '2mb',
-			url : system.url("user/file/upload",{'t':'posts'}),
+			url : system.url("user/file/upload",{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -247,7 +247,7 @@ var editor = {
 			browse_button : 'upload-files-link',
 			container : 'upload-files-container',
 			max_file_size : '2mb',
-			url : system.url("user/file/upload",{'t':'posts'}),
+			url : system.url("user/file/upload",{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

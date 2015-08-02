@@ -79,6 +79,6 @@ use fay\helpers\Html;
 <?php echo F::form('widget')->close()?>
 <script>
 $(function(){
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'widget-<?php echo $widget['alias']?>'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'widget'});
 });
 </script>

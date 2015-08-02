@@ -22,7 +22,7 @@ class Controller{
 	 */
 	public $uri;
 	/**
-	 * @var Input
+	 * @var \fay\core\Input
 	 */
 	public $input;
 	/**

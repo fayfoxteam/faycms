@@ -8,23 +8,23 @@ var post = {
 			browse_button : 'upload_thumbnail',
 			container : 'thumbnail-container',
 			max_file_size : '2mb',
-			url : system.url("admin/file/upload",{'t':'posts'}),
+			url : system.url('admin/file/upload',{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
-				{title : "Image files", extensions : "jpg,gif,png,jpeg"}
+				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
 			]
 		});
 
 		uploader.init();
 		uploader.bind('FilesAdded', function(up, files) {
-			$("#thumbnail-preview-container").html('<img src="'+system.assets('images/loading.gif')+'" />');
+			$('#thumbnail-preview-container').html('<img src="'+system.assets('images/loading.gif')+'" />');
 			uploader.start();
 		});
 		
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
-			$("#thumbnail-preview-container").html([
+			$('#thumbnail-preview-container').html([
 				'<input type="hidden" name="thumbnail" value="', resp.id, '" />',
 				'<a href="', resp.url, '" class="fancybox-image">',
 					'<img src="', system.url('admin/file/pic', {
@@ -37,7 +37,7 @@ var post = {
 			].join(''));
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-					$("#thumbnail-preview-container .fancybox-image").fancybox({
+					$('#thumbnail-preview-container .fancybox-image').fancybox({
 						'transitionIn'	: 'elastic',
 						'transitionOut'	: 'elastic',
 						'type' : 'image',
@@ -49,7 +49,7 @@ var post = {
 
 		uploader.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert("文件大小不能超过"+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+"M");
+				alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
 				alert('非法的文件类型');
@@ -66,7 +66,7 @@ var post = {
 			browse_button : 'upload-file-link',
 			container: 'upload-file-container',
 			max_file_size : '20mb',
-			url : system.url("admin/file/upload",{'t':'posts'}),
+			url : system.url('admin/file/upload',{'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap'
 		});
@@ -76,7 +76,7 @@ var post = {
 		files_uploader.bind('FilesAdded', function(up, files) {
 			files_uploader.start();
 			$.each(files, function(i, data){
-				$(".file-list").append([
+				$('.file-list').append([
 					'<div class="dragsort-item" id="file-', data.id, '">',
 						'<a class="dragsort-item-selector"></a>',
 						'<a class="dragsort-rm" href="javascript:;"></a>',
@@ -98,28 +98,28 @@ var post = {
 		});
 
 		files_uploader.bind('UploadProgress', function(up, file) {
-			$("#file-"+file.id+" .progress-bar-percent").animate({'width':file.percent+'%'});
+			$('#file-'+file.id+' .progress-bar-percent').animate({'width':file.percent+'%'});
 		});
 
 		files_uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
-			$file = $("#file-"+file.id);
+			$file = $('#file-'+file.id);
 			if('raw_name' in resp){
-				$file.find('.file-desc').attr("name", 'description['+resp.id+']').autosize();
+				$file.find('.file-desc').attr('name', 'description['+resp.id+']').autosize();
 				$file.append('<input type="hidden" name="files[]" value="'+resp.id+'" />');
 				$file.prepend('<a class="file-rm" href="javascript:;"></a>');
 				
 				
 				if(resp.is_image){
 					//是图片，用fancybox弹窗
-					$file.find(".file-thumb").html([
+					$file.find('.file-thumb').html([
 						'<a href="', resp.url, '" class="file-thumb-link">',
 							'<img src="'+resp.thumbnail+'" />',
 						'</a>'
 					].join(''));
 					system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 						system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-							$(".file-thumb-link").fancybox({
+							$('.file-thumb-link').fancybox({
 								'transitionIn'	: 'elastic',
 								'transitionOut'	: 'elastic',
 								'type' : 'image',
@@ -129,7 +129,7 @@ var post = {
 					});
 				}else{
 					//非图片，直接新窗口打开
-					$file.find(".file-thumb").html([
+					$file.find('.file-thumb').html([
 						'<a href="', resp.url, '" target="_blank">',
 							'<img src="'+resp.thumbnail+'" />',
 						'</a>'
@@ -144,7 +144,7 @@ var post = {
 
 		files_uploader.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert("文件大小不能超过"+(parseInt(files_uploader.settings.max_file_size) / (1024 * 1024))+"M");
+				alert('文件大小不能超过'+(parseInt(files_uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
 				alert('非法的文件类型');
@@ -158,7 +158,7 @@ var post = {
 		$(document).on('change', '[name="cat_id"]', function(){
 			//更新附加属性
 			if($('#box-props').length){
-				$("#box-props").block();
+				$('#box-props').block();
 				$.ajax({
 					'type': 'GET',
 					'url': system.url('admin/post/get-prop-box', {
@@ -167,8 +167,8 @@ var post = {
 					}),
 					'cache': false,
 					'success': function(resp){
-						$("#box-props").unblock();
-						$("#box-props").replaceWith(resp);
+						$('#box-props').unblock();
+						$('#box-props').replaceWith(resp);
 					}
 				});
 			}
@@ -243,7 +243,7 @@ var post = {
 		}
 		if(system.inArray('tags', post.boxes)){
 			system.getScript(system.assets('faycms/js/fayfox.textext.js'), function(){
-				$("#tags").ftextext({
+				$('#tags').ftextext({
 					'url':system.url('admin/tag/search'),
 					'width':'100%'
 				});

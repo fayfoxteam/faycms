@@ -27,19 +27,43 @@ class FileController extends AdminController{
 	 * 不做限制，可以上传配置文件中允许的任何文件
 	 */
 	public function upload(){
+		$validator = new Validator();
+		$check = $validator->check(array(
+			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
+		));
+		
+		if($check !== true){
+			throw new HttpException('参数异常');
+		}
+		
 		set_time_limit(0);
 		
-		$target = $this->input->get('t');
-
-		//传入非指定target的话，清空这个值
-		//通过target （分类别名）获取分类id
-		$cat_id = Category::model()->getIdByAlias($target) ? Category::model()->getIdByAlias($target) : 0;
-		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $cat_id, $private);
-		if($this->input->get('CKEditorFuncNum')){
-			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
+		$cat = $this->input->request('cat');
+		if($cat){
+			$cat = Category::model()->get($cat, 'id,alias');
+			if(!$cat){
+				throw new HttpException('指定的文件分类不存在');
+			}
 		}else{
-			echo json_encode($result);
+			$cat = 0;
+		}
+		
+		$private = !!$this->input->get('p');
+		$result = File::model()->upload($cat, $private);
+		$data = $result['data'];
+		
+		if($result['status']){
+			$data = $this->afterUpload($result['data']);
+		}
+		
+		if($this->input->request('CKEditorFuncNum')){
+			if($result['status']){
+				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
+			}else{
+				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+			}
+		}else{
+			echo json_encode($data);
 		}
 	}
 	
@@ -47,18 +71,163 @@ class FileController extends AdminController{
 	 * 此接口仅允许上传图片
 	 */
 	public function imgUpload(){
+		$validator = new Validator();
+		$check = $validator->check(array(
+			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
+		));
+		
+		if($check !== true){
+			throw new HttpException('参数异常');
+		}
+		
 		set_time_limit(0);
 
-		$target = $this->input->get('t');
-		$cat_id = Category::model()->getIdByAlias($target) ? Category::model()->getIdByAlias($target) : 0;
+		$cat = $this->input->request('cat');
+		if($cat){
+			$cat = Category::model()->get($cat, 'id,alias');
+			if(!$cat){
+				throw new HttpException('指定的文件分类不存在');
+			}
+		}else{
+			$cat = 0;
+		}
 
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $cat_id, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
-		if(!empty($result['src']) && $this->input->get('CKEditorFuncNum')){
-			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
-		}else{
-			echo "<script>alert('{$result[0]}');</script>";
+		$result = File::model()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
+		$data = $result['data'];
+		
+		if($result['status']){
+			$data = $this->afterUpload($result['data']);
 		}
+		
+		if($this->input->request('CKEditorFuncNum')){
+			if($result['status']){
+				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
+			}else{
+				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+			}
+		}else{
+			echo json_encode($data);
+		}
+	}
+	
+	/**
+	 * 文件上传后的额外处理（例如裁剪、缩放等）
+	 * @param array $data 文件信息
+	 */
+	private function afterUpload($data){
+		//如果是图片，可能要缩放/裁剪处理
+		if($data['is_image']){
+			switch($this->input->request('handle')){
+				case 'resize':
+					//输出宽度
+					$dw = $this->input->request('dw', 'intval');
+					//输出高度
+					$dh = $this->input->request('dh', 'intval');
+						
+					if($dw && !$dh){
+						$dh = $dw * ($data['image_height'] / $data['image_width']);
+					}else if($dh && !$dw){
+						$dw = $dh * ($data['image_width'] / $data['image_height']);
+					}else if(!$dw && !$dh){
+						$dw = $data['image_width'];
+						$dh = $data['image_height'];
+					}
+						
+					$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
+						
+					$img = Image::resize($img, $dw, $dh);
+						
+					//处理过的图片统一以jpg方式保存
+					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg', $this->input->get('q', 'intval', 75));
+						
+					//重新生成缩略图
+					$img = Image::resize($img, 100, 100);
+					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
+						
+					$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg');
+						
+					//更新数据库字段
+					Files::model()->update(array(
+						'file_ext'=>'.jpg',
+						'image_width'=>$dw,
+						'image_height'=>$dh,
+						'file_size'=>$new_file_size,
+					), $data['id']);
+						
+					//更新返回值字段
+					$data['image_width'] = $dw;
+					$data['image_height'] = $dh;
+					$data['file_size'] = $new_file_size;
+						
+					if($data['file_ext'] != '.jpg'){
+						//若原图不是jpg，物理删除原图
+						@unlink((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
+					}
+					break;
+				case 'crop':
+					//x坐标位置
+					$x = $this->input->request('x', 'intval', 0);
+					//y坐标
+					$y = $this->input->request('y', 'intval', 0);
+					//输出宽度
+					$dw = $this->input->request('dw', 'intval', 0);
+					//输出高度
+					$dh = $this->input->request('dh', 'intval', 0);
+					//选中部分的宽度
+					$w = $this->input->request('w', 'intval');
+					//选中部分的高度
+					$h = $this->input->request('h', 'intval');
+						
+					if($w && $h){
+						//若参数不完整，则不处理
+						$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
+		
+						if($dw == 0){
+							$dw = $w;
+						}
+						if($dh == 0){
+							$dh = $h;
+						}
+						$img = Image::crop($img, $x, $y, $w, $h);
+						if($dw != $w || $dh != $h){
+							//如果完全一致，则不需要缩放，但依旧会进行清晰度处理
+							$img = Image::resize($img, $dw, $dh);
+						}
+		
+						//处理过的图片统一以jpg方式保存
+						imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg', $this->input->request('q', 'intval', 75));
+		
+						//重新生成缩略图
+						$img = Image::resize($img, 100, 100);
+						imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
+		
+						$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg');
+		
+						//更新数据库字段
+						Files::model()->update(array(
+							'file_ext'=>'.jpg',
+							'image_width'=>$dw,
+							'image_height'=>$dh,
+							'file_size'=>$new_file_size,
+						), $data['id']);
+		
+		
+						if($data['file_ext'] != '.jpg'){
+							//若原图不是jpg，物理删除原图
+							@unlink((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
+						}
+		
+						//更新返回值字段
+						$data['image_width'] = $dw;
+						$data['image_height'] = $dh;
+						$data['file_size'] = $new_file_size;;
+					}
+					break;
+			}
+		}
+		
+		return $data;
 	}
 	
 	public function doUpload(){

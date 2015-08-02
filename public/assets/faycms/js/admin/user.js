@@ -6,7 +6,7 @@ var user = {
 			browse_button : 'upload-avatar',
 			container : 'avatar-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload',{'t':'avatar'}),
+			url : system.url('admin/file/upload', {'cat':'avatar'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

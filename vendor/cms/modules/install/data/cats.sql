@@ -33,11 +33,12 @@ INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_syste
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('199', '其它（一般不分配）', '_role_qita', '3', '1');
 
 -- 文件分类
-INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('201', '文章', 'posts', '12', '0');
-INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('202', '静态页', 'pages', '12', '0');
+INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('201', '文章', 'post', '12', '0');
+INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('202', '静态页', 'page', '12', '0');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('203', '商品', 'goods', '12', '0');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('204', '分类插图', 'cat', '12', '0');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('205', '小工具', 'widget', '12', '0');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('206', '用户头像', 'avatar', '12', '0');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('207', '考试系统', 'exam', '12', '0');
+INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('208', '友情链接', 'link', '12', '0');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('299', '其他', 'other', '12', '0');

@@ -6,6 +6,7 @@ use fay\models\tables\Files;
 use fay\common\Upload;
 use fay\helpers\Image;
 use fay\helpers\String;
+use fay\core\ErrorException;
 
 /**
  * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储
@@ -141,7 +142,30 @@ class File extends Model{
 		}
 	}
 	
-	public function upload($target = '', $cat_id = 0, $private = false, $allowed_types = null){
+	/**
+	 * 执行上传
+	 * @param string $target uploads目录下的某个子目录
+	 * @param int|alias|array $cat 分类ID
+	 * @param string $private
+	 * @param string $allowed_types
+	 */
+	public function upload($cat = 0, $private = false, $allowed_types = null){
+		if($cat){
+			if(!is_array($cat)){
+				$cat = Category::model()->get($cat, 'id,alias', '_system_file');
+			}
+			
+			if(!$cat){
+				throw new ErrorException('fay\models\File::upload传入$cat不存在');
+			}
+		}else{
+			$cat = array(
+				'id'=>0,
+				'alias'=>'',
+			);
+		}
+		
+		$target = $cat['alias'];
 		if($target && substr($target, -1) != '/'){
 			//目标路径末尾不是斜杠的话，加上斜杠
 			$target .= '/';
@@ -172,7 +196,7 @@ class File extends Model{
 					'image_height'=>$result['image_height'],
 					'upload_time'=>\F::app()->current_time,
 					'user_id'=>\F::app()->current_user,
-					'cat_id'=>$cat_id,
+					'cat_id'=>$cat['id'],
 				);
 				$data['id'] = Files::model()->insert($data);
 				$src_img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
@@ -201,7 +225,7 @@ class File extends Model{
 					'is_image'=>$result['is_image'],
 					'upload_time'=>\F::app()->current_time,
 					'user_id'=>\F::app()->current_user,
-					'cat_id'=>$cat_id,
+					'cat_id'=>$cat['id'],
 				);
 				$data['id'] = Files::model()->insert($data);
 				
@@ -214,9 +238,15 @@ class File extends Model{
 				//真实存放路径
 				$data['src'] = \F::app()->view->url() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
 			}
-			return $data;
+			return array(
+				'status'=>1,
+				'data'=>$data,
+			);
 		}else{
-			return $upload->getErrorMsg();
+			return array(
+				'status'=>0,
+				'data'=>$upload->getErrorMsg(),
+			);
 		}
 	}
 

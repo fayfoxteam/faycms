@@ -59,7 +59,7 @@ return array(
 	/*
 	 * 顶级域名，一般用于设置全局cookie，并不一定用到
 	 * 若为false，则为当前域名
-	 * 若是本地测试，需设为false，因为chrome不接受域名为localhost的cookie
+	 * 若是localhost本地测试，需设为false，因为chrome不接受域名为localhost的cookie
 	 */
 	'tld'=>false,
 	
@@ -95,16 +95,6 @@ return array(
 		'avatar'=>'images/avatar.png',
 		'thumbnail'=>'images/thumbnail.jpg',
 	),
-	
-	/*
-	 * 邮件开关，当设置为false时，不会发送任何邮件
-	 */
-	'send_email'=>true,
-	
-	/*
-	 * 短信开关，但事实上由于短信网关不统一，系统默认并未集成短信接口
-	 */
-	'send_sms'=>true,//短信开关
 	
 	/*
 	 * 若用到加密类，需要配置此key

@@ -4,6 +4,7 @@ namespace blog\modules\frontend\controllers;
 use blog\library\FrontController;
 use fay\core\HttpException;
 use fay\models\Post;
+use fay\helpers\String;
 
 class PostController extends FrontController{
 	public function __construct(){
@@ -18,7 +19,7 @@ class PostController extends FrontController{
 	
 	public function item(){
 		//auth request
-		if(!$this->input->get('id') || !is_numeric($this->input->get('id'))){
+		if(!$this->input->get('id') || !String::isInt($this->input->get('id'))){
 			throw new HttpException('异常的请求');
 		}
 		

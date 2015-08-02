@@ -2,6 +2,7 @@
 namespace fay\core;
 
 use fay\models\tables\Widgets;
+use fay\helpers\String;
 
 class FWidget{
 	/**
@@ -33,7 +34,7 @@ class FWidget{
 	 */
 	public function load($widget, $ajax = false, $cache = false){
 		if(!is_array($widget)){
-			if(is_numeric($widget)){
+			if(String::isInt($widget)){
 				$widget = Widgets::model()->find($widget);
 			}else{
 				$widget = Widgets::model()->fetchRow(array(

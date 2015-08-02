@@ -6,6 +6,22 @@ use fay\models\Option;
 	<div class="row">
 		<div class="col-12">
 			<div class="form-field">
+				<label class="title">是否启用<em class="required">*</em></label>
+				<?php
+					echo Html::inputRadio('qiniu:enabled', '1', Option::get('qiniu:enabled') == '1', array(
+						'label'=>'是',
+						'data-required'=>'required',
+						'data-label'=>'是否启用',
+					));
+					echo Html::inputRadio('qiniu:enabled', '0', Option::get('qiniu:enabled') === '0', array(
+						'label'=>'否',
+						'data-required'=>'required',
+						'data-label'=>'是否启用',
+					));
+				?>
+				<p class="description">若不启用，则调用<code>fay\model\Sms::send()</code>时直接返回true，不会真的发出短信。</p>
+			</div>
+			<div class="form-field">
 				<label class="title">Account Sid<em class="required">*</em></label>
 				<?php echo Html::inputText('ucpaas:accountsid', Option::get('ucpaas:accountsid'), array(
 					'class'=>'form-control mw400',

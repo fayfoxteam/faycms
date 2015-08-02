@@ -3,6 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Links;
+use fay\helpers\String;
 
 class Link extends Model{
 	/**
@@ -31,7 +32,7 @@ class Link extends Model{
 				'visiable = ?'=>$visiable,
 			), '*', false, $limit ? $limit : false);
 		}else{
-			if(is_numeric($cat)){
+			if(String::isInt($cat)){
 				return $this->getByCatId($cat, $limit, $visiable);
 			}else if(is_array($cat)){
 				return $this->getByCat($cat, $limit, $visiable);

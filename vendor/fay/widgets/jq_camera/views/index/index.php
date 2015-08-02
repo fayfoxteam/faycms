@@ -3,6 +3,7 @@ use fay\models\File;
 use fay\models\tables\Files;
 use fay\models\Qiniu;
 use fay\helpers\Html;
+use fay\helpers\String;
 ?>
 <div class="jq-camera-container">
 	<div class="camera_wrap camera_azure_skin jq-camera">
@@ -26,7 +27,7 @@ use fay\helpers\Html;
 <script>
 $(function(){
 	$(".jq-camera").camera({
-		'height':'<?php echo is_numeric($config['height']) ? $config['height'].'px' : $config['height']?>',
+		'height':'<?php echo String::isInt($config['height']) ? $config['height'].'px' : $config['height']?>',
 		'easing':'swing',
 		'loader':'none',
 		'pagination':false,

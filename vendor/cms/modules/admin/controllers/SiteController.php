@@ -15,7 +15,9 @@ class SiteController extends AdminController{
 		$this->layout->subtitle = '站点参数';
 	
 		if($this->input->post()){
-			foreach($this->input->post() as $key=>$value){
+			$data = $this->input->post();
+			unset($data['_submit']);//提交按钮不用保存
+			foreach($data as $key=>$value){
 				Option::set($key, $value);
 			}
 			Response::output('success', '保存成功');

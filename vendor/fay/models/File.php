@@ -249,6 +249,118 @@ class File extends Model{
 			);
 		}
 	}
+	
+	/**
+	 * 编辑一张图片
+	 * @param int|array $file 可以传入文件ID或包含足够信息的数组
+	 * @param string $handler 处理方式。resize(缩放)和crop(裁剪)可选
+	 * @param array $params
+	 *     $params['dw'] 输出宽度
+	 *     $params['dh'] 输出高度
+	 *     $params['x'] 裁剪时x坐标点
+	 *     $params['y'] 裁剪时y坐标点
+	 *     $params['w'] 裁剪时宽度
+	 *     $params['h'] 裁剪时高度
+	 */
+	public function edit($file, $handler, $params){
+		if(String::isInt($file)){
+			$file = Files::model()->find($file);
+		}
+		
+		switch($handler){
+			case 'resize':
+				if($params['dw'] && !$params['dh']){
+					$params['dh'] = $params['dw'] * ($file['image_height'] / $file['image_width']);
+				}else if($params['dh'] && !$params['dw']){
+					$params['dw'] = $params['dh'] * ($file['image_width'] / $file['image_height']);
+				}else if(!$params['dw'] && !$params['dh']){
+					$params['dw'] = $file['image_width'];
+					$params['dh'] = $file['image_height'];
+				}
+				
+				$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+				
+				$img = Image::resize($img, $params['dw'], $params['dh']);
+				
+				//处理过的图片统一以jpg方式保存
+				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
+				
+				//重新生成缩略图
+				$img = Image::resize($img, 100, 100);
+				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+				
+				$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
+				
+				//更新数据库字段
+				Files::model()->update(array(
+					'file_ext'=>'.jpg',
+					'image_width'=>$params['dw'],
+					'image_height'=>$params['dh'],
+					'file_size'=>$new_file_size,
+				), $file['id']);
+				
+				//更新返回值字段
+				$file['image_width'] = $params['dw'];
+				$file['image_height'] = $params['dh'];
+				$file['file_size'] = $new_file_size;
+				
+				if($file['file_ext'] != '.jpg'){
+					//若原图不是jpg，物理删除原图
+					@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+				}
+				break;
+			case 'crop':
+				if(!$params['x'] || !$params['y'] || !$params['w'] || !$params['h']){
+					throw new ErrorException('fay\models\File::edit方法crop处理缺少必要参数');
+				}
+				
+				if($params['w'] && $params['h']){
+					//若参数不完整，则不处理
+					$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+					
+					if($params['dw'] == 0){
+						$params['dw'] = $params['w'];
+					}
+					if($params['dh'] == 0){
+						$params['dh'] = $params['h'];
+					}
+					$img = Image::crop($img, $params['x'], $params['y'], $params['w'], $params['h']);
+					if($params['dw'] != $params['w'] || $params['dh'] != $params['h']){
+						//如果完全一致，则不需要缩放，但依旧会进行清晰度处理
+						$img = Image::resize($img, $params['dw'], $params['dh']);
+					}
+					
+					//处理过的图片统一以jpg方式保存
+					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
+					
+					//重新生成缩略图
+					$img = Image::resize($img, 100, 100);
+					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+					
+					$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
+					
+					//更新数据库字段
+					Files::model()->update(array(
+						'file_ext'=>'.jpg',
+						'image_width'=>$params['dw'],
+						'image_height'=>$params['dh'],
+						'file_size'=>$new_file_size,
+					), $file['id']);
+					
+					if($file['file_ext'] != '.jpg'){
+						//若原图不是jpg，物理删除原图
+						@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+					}
+					
+					//更新返回值字段
+					$file['image_width'] = $params['dw'];
+					$file['image_height'] = $params['dh'];
+					$file['file_size'] = $new_file_size;;
+				}
+				break;
+		}
+		return $file;
+	}
 
 	/**
 	 * 获取指定路径下的文件列表，如果第二个参数为true，

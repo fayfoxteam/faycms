@@ -53,7 +53,7 @@ class FileController extends AdminController{
 		$data = $result['data'];
 		
 		if($result['status']){
-			$data = $this->afterUpload($result['data']);
+			$data = $this->afterUpload($data);
 		}
 		
 		if($this->input->request('CKEditorFuncNum')){
@@ -97,7 +97,7 @@ class FileController extends AdminController{
 		$data = $result['data'];
 		
 		if($result['status']){
-			$data = $this->afterUpload($result['data']);
+			$data = $this->afterUpload($data);
 		}
 		
 		if($this->input->request('CKEditorFuncNum')){
@@ -120,113 +120,27 @@ class FileController extends AdminController{
 		if($data['is_image']){
 			switch($this->input->request('handle')){
 				case 'resize':
-					//输出宽度
-					$dw = $this->input->request('dw', 'intval');
-					//输出高度
-					$dh = $this->input->request('dh', 'intval');
-						
-					if($dw && !$dh){
-						$dh = $dw * ($data['image_height'] / $data['image_width']);
-					}else if($dh && !$dw){
-						$dw = $dh * ($data['image_width'] / $data['image_height']);
-					}else if(!$dw && !$dh){
-						$dw = $data['image_width'];
-						$dh = $data['image_height'];
-					}
-						
-					$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-						
-					$img = Image::resize($img, $dw, $dh);
-						
-					//处理过的图片统一以jpg方式保存
-					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg', $this->input->get('q', 'intval', 75));
-						
-					//重新生成缩略图
-					$img = Image::resize($img, 100, 100);
-					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
-						
-					$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg');
-						
-					//更新数据库字段
-					Files::model()->update(array(
-						'file_ext'=>'.jpg',
-						'image_width'=>$dw,
-						'image_height'=>$dh,
-						'file_size'=>$new_file_size,
-					), $data['id']);
-						
-					//更新返回值字段
-					$data['image_width'] = $dw;
-					$data['image_height'] = $dh;
-					$data['file_size'] = $new_file_size;
-						
-					if($data['file_ext'] != '.jpg'){
-						//若原图不是jpg，物理删除原图
-						@unlink((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-					}
-					break;
+					$data = File::model()->edit($data, 'resize', array(
+						'dw'=>$this->input->request('dw', 'intval'),
+						'dh'=>$this->input->request('dh', 'intval'),
+					));
+				break;
 				case 'crop':
-					//x坐标位置
-					$x = $this->input->request('x', 'intval', 0);
-					//y坐标
-					$y = $this->input->request('y', 'intval', 0);
-					//输出宽度
-					$dw = $this->input->request('dw', 'intval', 0);
-					//输出高度
-					$dh = $this->input->request('dh', 'intval', 0);
-					//选中部分的宽度
-					$w = $this->input->request('w', 'intval');
-					//选中部分的高度
-					$h = $this->input->request('h', 'intval');
-						
-					if($w && $h){
-						//若参数不完整，则不处理
-						$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-		
-						if($dw == 0){
-							$dw = $w;
-						}
-						if($dh == 0){
-							$dh = $h;
-						}
-						$img = Image::crop($img, $x, $y, $w, $h);
-						if($dw != $w || $dh != $h){
-							//如果完全一致，则不需要缩放，但依旧会进行清晰度处理
-							$img = Image::resize($img, $dw, $dh);
-						}
-		
-						//处理过的图片统一以jpg方式保存
-						imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg', $this->input->request('q', 'intval', 75));
-		
-						//重新生成缩略图
-						$img = Image::resize($img, 100, 100);
-						imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
-		
-						$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'.jpg');
-		
-						//更新数据库字段
-						Files::model()->update(array(
-							'file_ext'=>'.jpg',
-							'image_width'=>$dw,
-							'image_height'=>$dh,
-							'file_size'=>$new_file_size,
-						), $data['id']);
-		
-		
-						if($data['file_ext'] != '.jpg'){
-							//若原图不是jpg，物理删除原图
-							@unlink((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-						}
-		
-						//更新返回值字段
-						$data['image_width'] = $dw;
-						$data['image_height'] = $dh;
-						$data['file_size'] = $new_file_size;;
+					$params = array(
+						'x'=>$this->input->request('x', 'intval'),
+						'y'=>$this->input->request('y', 'intval'),
+						'w'=>$this->input->request('w', 'intval'),
+						'h'=>$this->input->request('h', 'intval'),
+						'dw'=>$this->input->request('dw', 'intval'),
+						'dh'=>$this->input->request('dh', 'intval'),
+					);
+					if($params['x'] && $params['y'] && $params['w'] && $params['h']){
+						//若参数不完整，则不裁剪
+						$data = File::model()->edit($data, 'crop', $params);
 					}
-					break;
+				break;
 			}
 		}
-		
 		return $data;
 	}
 	

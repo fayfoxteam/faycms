@@ -67,6 +67,77 @@ class FileController extends AdminController{
 		}
 	}
 	
+	public function uploadByBase64(){
+		$validator = new Validator();
+		$check = $validator->check(array(
+			array('file', 'required'),
+			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
+		));
+		
+		if($check !== true){
+			throw new HttpException('参数异常', 500);
+		}
+		
+		set_time_limit(0);
+		
+		$cat = $this->input->request('cat');
+		if($cat){
+			$cat = Category::model()->get($cat, 'id,alias');
+			if(!$cat){
+				throw new HttpException('指定的文件分类不存在');
+			}
+		}else{
+			$cat = array(
+				'id'=>0,
+				'alias'=>'',
+			);
+		}
+		
+		$private = !!$this->input->get('p');
+		$client_name = $this->input->post('client_name', 'trim', '');
+		
+		$file = @imagecreatefromstring(base64_decode($this->input->post('file')));
+		if(!$file){
+			throw new HttpException('上传文件格式错误', 500);
+		}
+		
+		$target = $cat['alias'];
+		if($target && substr($target, -1) != '/'){
+			//目标路径末尾不是斜杠的话，加上斜杠
+			$target .= '/';
+		}
+		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
+			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
+		$filename = File::getFilename($upload_path, '.jpg');
+		if(defined('NO_REWRITE')){
+			$destination = './public/'.$upload_path . $filename;
+		}else{
+			$destination = $upload_path . $filename;
+		}
+		
+		imagejpeg($file, $destination);
+		
+		$data = array(
+			'raw_name'=>substr($filename, 0, -4),
+			'file_ext'=>'.jpg',
+			'file_type'=>'image/jpeg',
+			'file_size'=>filesize($destination),
+			'file_path'=>$upload_path,
+			'client_name'=>$client_name,
+			'is_image'=>1,
+			'image_width'=>imagesx($file),
+			'image_height'=>imagesy($file),
+			'upload_time'=>\F::app()->current_time,
+			'user_id'=>\F::app()->current_user,
+			'cat_id'=>$cat['id'],
+		);
+		$data['id'] = Files::model()->insert($data);
+		
+		$data = $this->afterUpload($data);
+		
+		echo json_encode($data);
+	}
+	
 	/**
 	 * 此接口仅允许上传图片
 	 */
@@ -118,7 +189,7 @@ class FileController extends AdminController{
 	private function afterUpload($data){
 		//如果是图片，可能要缩放/裁剪处理
 		if($data['is_image']){
-			switch($this->input->request('handle')){
+			switch($this->input->request('handler')){
 				case 'resize':
 					$data = File::model()->edit($data, 'resize', array(
 						'dw'=>$this->input->request('dw', 'intval'),

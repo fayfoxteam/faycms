@@ -58,16 +58,6 @@ class Users extends Table{
 	 * @var int
 	 */
 	const ROLE_SUPERADMIN = 101;
-
-	/**
-	 * 性别 - 男
-	 */
-	const SEX_MALE = 1;
-
-	/**
-	 * 性别 - 女
-	 */
-	const SEX_FEMALE = 2;
 	
 	/**
 	 * 系统用户
@@ -96,15 +86,14 @@ class Users extends Table{
 	public function rules(){
 		return array(
 			array(array('reg_ip', 'last_login_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-			array(array('id', 'avatar', 'active_expire', 'sms_expire', 'last_login_time', 'last_time_online'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'avatar', 'last_login_time', 'last_time_online'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('parent'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('login_times'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('status', 'block'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('role'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('username', 'realname', 'nickname', 'trackid'), 'string', array('max'=>50)),
-			array(array('password', 'active_key'), 'string', array('max'=>32)),
+			array(array('password'), 'string', array('max'=>32)),
 			array(array('salt'), 'string', array('max'=>5)),
-			array(array('sms_key'), 'string', array('max'=>6)),
 			array(array('refer', 'keywords'), 'string', array('max'=>255)),
 			array(array('se'), 'string', array('max'=>30)),
 			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
@@ -140,10 +129,6 @@ class Users extends Table{
 			'block'=>'屏蔽用户',
 			'role'=>'角色',
 			'parent'=>'父节点',
-			'active_key'=>'邮件验证码',
-			'active_expire'=>'邮件过期时间',
-			'sms_key'=>'Sms Key',
-			'sms_expire'=>'Sms Expire',
 			'deleted'=>'Deleted',
 			'trackid'=>'Trackid',
 			'refer'=>'来源URL',
@@ -174,10 +159,6 @@ class Users extends Table{
 			'block'=>'intval',
 			'role'=>'intval',
 			'parent'=>'intval',
-			'active_key'=>'trim',
-			'active_expire'=>'intval',
-			'sms_key'=>'trim',
-			'sms_expire'=>'intval',
 			'deleted'=>'intval',
 			'trackid'=>'trim',
 			'refer'=>'trim',

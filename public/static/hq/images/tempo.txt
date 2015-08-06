@@ -1,0 +1,24 @@
+yum -y install gcc gcc-c++  make cmake automake autoconf kernel-devel ncurses-devel libxml2-devel openssl-devel curl-devel libjpeg-devel libpng-devel  pcre-devel libtool-libs freetype-devel gd zlib-devel file bison patch mlocate flex diffutils   readline-devel glibc-devel glib2-devel bzip2-devel gettext-devel libcap-devel libmcrypt-devel openldap openldap-devellibxslt-devel
+
+依赖：
+curl curl-devel libpng libpng-devel gmp-devel libc-client-devel
+
+ln -s /usr/lib64/libc-client.so /usr/lib/libc-client.so
+
+#使用wget可以通过以下路径下载
+wget ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/attic/libmcrypt/libmcrypt-2.5.7.tar.gz
+ 
+#解压
+tar -zxvf libmcrypt-2.5.7.tar.gz 
+ 
+#进入目录
+cd libmcrypt-2.5.7
+ 
+#编译（默认安装到/usr/local/lib/）
+./configure --prefix=/usr/local/libmcrypt
+ 
+#执行安装
+make && make install
+
+
+./configure --prefix=/usr/local/web/php --enable-fpm --enable-mbstring --with-openssl --with-pcre-regex --with-zlib   --with-curl --enable-exif --with-gd --enable-gd-native-ttf --enable-gd-jis-conv --with-gettext --with-gmp --with-mhash --with-imap --with-mcrypt=/usr/local/libmcrypt --with-mysql --with-mysqli --with-mysql-sock  --with-pdo-mysql --enable-mysqlnd --with-kerberos --with-imap-ssl

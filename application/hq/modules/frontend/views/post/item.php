@@ -22,6 +22,10 @@ use fay\models\User;
                    <?= $post['content'] ?>
                 </p>
             </div>
+            <div class="share clearfix">
+                <div class="fleft"><a href="javascript:window.print()" class="print">打印本页</a></div>
+                <div class="fleft"><a href="javascript:window.close()" class="close">关闭窗口</a></div>
+            </div>
         </div>
     </div>
 </div>

@@ -74,7 +74,7 @@ $img_url = $this->staticFile('images');
     </div>
 
     <div class="center">
-       <?= F::widget()->load('index_fast') ?>
+       <?= F::widget()->load('index_fast'); ?>
     </div>
 
     <div class="right">

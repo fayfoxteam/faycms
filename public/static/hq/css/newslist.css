@@ -12,16 +12,18 @@
 .gyah-minleft li a.active {color:#fff}
 
 .gyah-minright{width:918px;float:right; text-align:left;position:relative;overflow:hidden}
-.gyah-minrtop{border:1px solid #f4f5f6;padding:20px}
-.gyah-minrtoptit{font-size: 24px;color:#2f8bcc}
-.gyah-minrtopmin li{border-bottom:1px dashed #D9D9D9;padding-bottom:15px;position:relative}
+.gyah-minrtop{border:1px solid #f4f5f6 ;padding: 20px 20px 50px 20px;}
+.gyah-minrtoptit{font-size: 24px;color:#2f8bcc; height: 40px; line-height: 40px; border-bottom: 1px solid #2f8bcc; }
+.gyah-minrtopmin { margin-top: 30px; }
 .gyah-minrtopmin ul{}
-.gyah-minrtopmin .gyah-minrtltit{font-size: 24px;color:#666666;padding:20px 0}
-.gyah-minrtopmin .gyah-minrtltime{font-size:12px;color:#c5c5c5}
+.gyah-minrtopmin li{ border-bottom:1px dashed #D9D9D9; height: 40px; line-height: 40px; }
+.gyah-minrtopmin li a:hover * { color: #318BCC; }
+.gyah-minrtopmin li a:hover .gyah-minrtltit { padding-left: 5px; }
+.gyah-minrtopmin .gyah-minrtltit{font-size: 18px;color:#666666; height: 40px; line-height: 40px; float: left; }
+.gyah-minrtopmin .gyah-minrtltime{ display: inline-block; height: 40px; line-height: 40px; font-size:12px;color:#c5c5c5; float: right; }
 .gyah-minrtopmin .gyah-minrtltxt{font-size:14px;color:#666666;line-height:25px;}
-.gyah-minrtopmin .gyah-minrtltxt a{color:#318BCC}
 .gyah-minrtopmin .gyah-minrtlimg{position: absolute;right:93px;bottom:18px}
-.gyah-minryema{margin-top:20px;height:40px;float:right; width: 500px; margin: 0 auto;}
+.gyah-minryema{ margin: 0 auto; margin-top:20px;height:40px;float:right; width: 500px;}
 .gyah-minryema ul{ float: right; }
 .gyah-minryema ul li{float:left;margin-left:4px}
 .gyah-minryema ul li a{padding:3px 7px;border:solid #CCCCCC 1px}
@@ -35,8 +37,14 @@
 
 
 /*内容页*/
-.gyah-minrtoptit2{ text-align: center;}
-.gyah-minrtop .info { width: 100%; border-bottom:1px dashed #D5D5D5;  }
+.gyah-minrtoptit2{ text-align: center; border-bottom: none; }
+.gyah-minrtop .info { width: 100%; border-bottom:1px dashed #D5D5D5; margin-bottom: 30px; }
 .gyah-minrtop .info ul { width: 500px; margin: 0 auto; text-align: center; }
 .gyah-minrtop .info ul li { display: inline-block; padding: 10px 5px; }
 .gyah-mt2pictxt{font-size: 16px;line-height:27px;text-indent:35px;margin-top: 10px}
+
+
+.share { border-top: 1px dotted #CCCCCC; padding-top: 10px; padding-left: 350px; margin-top: 30px; }
+.share .fleft { height: 36px; line-height: 36px; margin-left: 60px; float: left; }
+.share a.print{ display:block; float:left; width:50px; background:url(../images/print.png) no-repeat left center; padding-left:20px;}
+.share a.close{ display:block; float:left; width:50px; background:url(../images/close-2.png) no-repeat left center; padding-left:20px;}

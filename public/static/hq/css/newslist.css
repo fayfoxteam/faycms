@@ -48,3 +48,10 @@
 .share .fleft { height: 36px; line-height: 36px; margin-left: 60px; float: left; }
 .share a.print{ display:block; float:left; width:50px; background:url(../images/print.png) no-repeat left center; padding-left:20px;}
 .share a.close{ display:block; float:left; width:50px; background:url(../images/close-2.png) no-repeat left center; padding-left:20px;}
+
+.fleft { float: left; }
+.fleft p { height: 30px; line-height: 30px;  }
+
+.download { margin: 10px; }
+.download .files { margin-left: 30px; }
+.download .files a { font-size: 14px; }

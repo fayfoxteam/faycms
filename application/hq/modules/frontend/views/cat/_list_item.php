@@ -8,6 +8,6 @@ $post = Post::model()->get($data['id']);
         <li>
             <a href="<?= $this->url('post/'.$data['id']) ?>">
             <div class="gyah-minrtltit"><?= $data['title'] ?></div>
-            <span class="gyah-minrtltime">发布于 <?= date('Y-m-d', $data['publish_time']) ?></span>
+            <span class="gyah-minrtltime"><?= date('Y-m-d H:i', $data['publish_time']) ?></span>
             </a>
         </li>

@@ -1,6 +1,7 @@
 <?php
 namespace hq\models;
 
+use fay\core\Db;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\helpers\Date;
@@ -112,8 +113,9 @@ class ZbiaoRecord extends Model
         }
         $sql = new Sql();
         $max_id = $sql->from('zbiaos', 'zbiaos', 'max(biao_id) as max_id')->where(['type = ?' => $type_id])->fetchRow();
+        $max_id = $max_id['max_id'];
 
-        $data = $sql->from('zbiao_records', 'records', 'max(created) as max_created')->where(['biao_id <= ?' => $max_id])->fetchRow();
+        $data = $sql->from('zbiao_records', 'records', 'max(created)')->where(['biao_id <= ?' => $max_id])->fetchRow();
         $max_created = $data['max_created'];
 
         return $created > $max_created ? true : false;

@@ -6,6 +6,7 @@
  * Time: 下午8:50
  */
 use fay\helpers\Html;
+use fay\helpers\String;
 
 ?>
 
@@ -24,7 +25,7 @@ use fay\helpers\Html;
             <?php foreach ($posts as $p) { ?>
             <li><i></i>
                 <?php
-                echo Html::link($p['title'], array(str_replace('{$id}', $p['id'], $data['uri'])));
+                echo Html::link(String::niceShort($p['title'], 20), array(str_replace('{$id}', $p['id'], $data['uri'])));
                 if(!empty($data['date_format'])){
                     echo '<span>'.date($data['date_format'], $p['publish_time']).'</span>';
                 }

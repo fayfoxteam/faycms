@@ -17,6 +17,8 @@ use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\Flash;
+use fay\models\tables\UserProfile;
+use fay\helpers\Request;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -115,16 +117,21 @@ class UserController extends AdminController{
 		
 		$this->form()->setScene('create')
 			->setModel(Users::model())
-			->addRule(array(array('username', 'password', 'role'), 'required'));
+			->setRule(array(array('username', 'password', 'role'), 'required'));
 		
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = Users::model()->setAttributes($this->input->post());
-				$data['reg_time'] = $this->current_time;
 				$data['status'] = Users::STATUS_VERIFIED;
 				$data['salt'] = String::random('alnum', 5);
 				$data['password'] = md5(md5($data['password']).$data['salt']);
 				$user_id = Users::model()->insert($data);
+				UserProfile::model()->insert(array(
+					'user_id'=>$user_id,
+					'reg_time'=>$this->current_time,
+					'reg_ip'=>Request::ip2int(Request::getIP()),
+					'trackid'=>'admin_create:'.$this->session->get('id'),
+				));
 				
 				//设置属性
 				$role = Role::model()->get($this->input->post('role', 'intval'));

@@ -25,15 +25,10 @@ use fay\models\tables\Users;
 		?>
 		</div>
 	</td>
-	<td><?php if($data['id'] < Users::ROLE_SYSTEM){
-		echo '<span class="fc-green">用户</span>';
-	}else{
+	<td><?php if($data['admin']){
 		echo '管理员';
-	}?></td>
-	<td><?php if($data['is_show']){
-		echo '<span class="fc-green">是</span>';
 	}else{
-		echo '<abbr class="fc-red" title="此类角色用户在用户列表中不会显示出来">否</abbr>';
+		echo '<span class="fc-green">用户</span>';
 	}?></td>
 	<td><?php echo Html::encode($data['description'])?></td>
 </tr>

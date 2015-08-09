@@ -227,7 +227,7 @@ class Post extends Model{
 				'right_value >= '.$post_cat['right_value'],
 			));
 			//所有属性
-			$props = Prop::model()->getAll($post_cat_parents, Props::TYPE_POST_CAT, '');
+			$props = Prop::model()->mget($post_cat_parents, Props::TYPE_POST_CAT, '');
 			
 			$post['props'] = $this->getProps($id, $props);
 		}
@@ -242,7 +242,7 @@ class Post extends Model{
 	public function getProps($post_id, $props = array()){
 		if(!$props){
 			$post = Posts::model()->find($post_id, 'cat_id');
-			$props = Prop::model()->getAll($post['cat_id'], Props::TYPE_POST_CAT);
+			$props = Prop::model()->mget($post['cat_id'], Props::TYPE_POST_CAT);
 		}
 		
 		return Prop::model()->getPropertySet('post_id', $post_id, $props, array(

@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\tables\Props;
 ?>
+<?php if($props){?>
 <?php foreach($props as $p){?>
 	<div class="form-field">
 		<label class="title bold">
@@ -100,4 +101,5 @@ use fay\models\tables\Props;
 		}
 		?>
 	</div>
+<?php }?>
 <?php }?>

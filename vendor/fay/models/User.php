@@ -255,15 +255,19 @@ class User extends Model{
 		
 		if(!empty($fields['props'])){
 			$user_roles = $this->getRoleIds($user['id']);
-			//附加角色属性
-			$props = Props::model()->fetchAll(array(
-				'refer IN ('.implode(',', $user_roles).')',
-				'type = '.Props::TYPE_ROLE,
-				'deleted = 0',
-				'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
-			), 'id,title,element,required,is_show,alias', 'sort');
-			
-			$user['props'] = $this->getProps($user['id'], $props);
+			if($user_roles){
+				//附加角色属性
+				$props = Props::model()->fetchAll(array(
+					'refer IN ('.implode(',', $user_roles).')',
+					'type = '.Props::TYPE_ROLE,
+					'deleted = 0',
+					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
+				), 'id,title,element,required,is_show,alias', 'sort');
+				
+				$user['props'] = $this->getProps($user['id'], $props);
+			}else{
+				$user['props'] = array();
+			}
 		}
 		
 		if(!empty($fields['roles'])){
@@ -274,7 +278,7 @@ class User extends Model{
 		if(!in_array('id', $fields['users'])){
 			unset($user['id']);
 		}
-		if(!in_array('roles', $fields['users'])){
+		if(empty($fields['roles'])){
 			unset($user['roles']);
 		}
 		
@@ -363,8 +367,8 @@ class User extends Model{
 	 */
 	public function getProps($user_id, $props = null){
 		if($props === null){
-			$user = Users::model()->find($user_id, 'role');
-			$props = Prop::model()->getAll($user['role'], Props::TYPE_ROLE);
+			$user_roles = User::model()->getRoleIds($user_id);
+			$props = Prop::model()->mget($user_roles, Props::TYPE_ROLE);
 		}
 	
 		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(

@@ -96,7 +96,7 @@ class PostController extends AdminController{
 		$this->view->tags = Tags::model()->fetchAll(array(), 'id, title');
 		
 		//设置附加属性
-		$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 		
 		//分类树
 		$this->view->cats = Category::model()->getTree('_system_post');
@@ -381,7 +381,7 @@ class PostController extends AdminController{
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],
 		));
-		$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 		
 		$this->form()->setModel(Posts::model());
 		
@@ -408,7 +408,7 @@ class PostController extends AdminController{
 						'left_value <= '.$cat['left_value'],
 						'right_value >= '.$cat['right_value'],
 					));
-					$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+					$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 				}
 				//更新posts表
 				$data = $this->form()->getFilteredData();
@@ -662,7 +662,7 @@ class PostController extends AdminController{
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],
 		));
-		$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 		
 		//文章对应附加属性值
 		if($post_id){

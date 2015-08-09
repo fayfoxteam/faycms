@@ -242,7 +242,7 @@ class Form{
 	 * @param array $rule
 	 * @return \fay\core\Form
 	 */
-	public function addRule($rule){
+	public function setRule($rule){
 		if(empty($rule[2]['on']) || $rule[2]['on'] == $this->scene){
 			$this->_rules[] = $rule;
 		}

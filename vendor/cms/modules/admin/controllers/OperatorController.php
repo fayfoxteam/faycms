@@ -17,6 +17,11 @@ use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\Flash;
+use fay\models\tables\UserProfile;
+use fay\helpers\Request;
+use fay\models\tables\UsersRoles;
+use fay\helpers\ArrayHelper;
+use fay\models\tables\Props;
 
 class OperatorController extends AdminController{
 	public function __construct(){
@@ -102,16 +107,39 @@ class OperatorController extends AdminController{
 		
 		$this->form()->setScene('create')
 			->setModel(Users::model())
-			->addRule(array(array('username', 'password', 'role'), 'required'));
+			->setModel(UserProfile::model())
+			->setRules(array(
+				array(array('username', 'password'), 'required'),
+				array('roles', 'int'),
+			));
 		if($this->input->post()){
-			
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
-				$data['reg_time'] = $this->current_time;
 				$data['status'] = Users::STATUS_VERIFIED;
 				$data['salt'] = String::random('alnum', 5);
 				$data['password'] = md5(md5($data['password']).$data['salt']);
+				$data['admin'] = 1;
+				//插用户表
 				$user_id = Users::model()->insert($data);
+				//插用户扩展表
+				UserProfile::model()->insert(array(
+					'user_id'=>$user_id,
+					'reg_time'=>$this->current_time,
+					'reg_ip'=>Request::ip2int(Request::getIP()),
+					'trackid'=>'admin_create:'.$this->session->get('id'),
+				));
+				//插角色表
+				$roles = $this->input->post('roles', 'intval');
+				if($roles){
+					$user_roles = array();
+					foreach($roles as $r){
+						$user_roles[] = array(
+							'user_id'=>$user_id,
+							'role_id'=>$r,
+						);
+					}
+					UsersRoles::model()->bulkInsert($user_roles);
+				}
 				
 				//设置属性
 				$role = Role::model()->get($this->input->post('role', 'intval'));
@@ -161,11 +189,40 @@ class OperatorController extends AdminController{
 				}else{
 					unset($data['password']);
 				}
-				Users::model()->update($data, $this->input->get('id'));
+				Users::model()->update($data, $id);
+				
+				$roles = $this->form()->getData('roles');
+				if(!empty($roles)){
+					//删除被删除了的角色
+					UsersRoles::model()->delete(array(
+						'user_id = ?'=>$id,
+						'role_id NOT IN (?)'=>$roles,
+					));
+					$user_roles = array();
+					foreach($roles as $r){
+						if(!UsersRoles::model()->fetchRow(array(
+							'user_id = ?'=>$id,
+							'role_id = ?'=>$r,
+						))){
+							//不存在，则插入
+							$user_roles[] = array(
+								'user_id'=>$id,
+								'role_id'=>$r,
+							);
+						}
+					}
+					UsersRoles::model()->bulkInsert($user_roles);
+				}else{
+					//用户有权编辑category，但无数据提交，意味着删光了
+					//删除全部category
+					UsersRoles::model()->delete(array(
+						'user_id = ?'=>$id,
+					));
+				}
 				
 				//设置属性
-				$role = Role::model()->get($this->input->post('role', 'intval'));
-				Prop::model()->updatePropertySet('user_id', $id, $role['props'], $this->input->post('props'), array(
+				$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
+				Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
 					'varchar'=>'fay\models\tables\ProfileVarchar',
 					'int'=>'fay\models\tables\ProfileInt',
 					'text'=>'fay\models\tables\ProfileText',
@@ -178,15 +235,17 @@ class OperatorController extends AdminController{
 			}
 		}
 		
-		$this->view->user = User::model()->get($id, 'users.*,props.*');
-		$this->form()->setData($this->view->user);
+		$user = User::model()->get($id, 'users.*,props.*');
+		$user['roles'] = User::model()->getRoleIds($user['id']);
+		$this->view->user = $user;
+		$this->form()->setData($user);
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
 			'admin = 1',
 			'deleted = 0',
 		), 'id,title');	
 		
-		$this->view->role = Role::model()->get($this->view->user['role']);
+		$this->view->props = Prop::model()->mget($user['roles'], Props::TYPE_ROLE);
 		$this->view->render();
 	}
 	

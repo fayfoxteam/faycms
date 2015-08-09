@@ -141,7 +141,7 @@ class IndexController extends InstallController{
 			}
 			$this->view->render();
 		}else{
-			//其它状态（可能是数据库装一般断掉了）重新安装
+			//其它状态（可能是数据库装一半断掉了）重新安装
 			Response::redirect('install/index/index');
 		}
 	}

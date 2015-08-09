@@ -6,65 +6,12 @@ echo F::form()->open();
 <div class="row">
 	<div class="col-6">
 		<div class="form-field">
-			<label class="title bold">用户名<em class="required">*</em></label>
+			<label class="title bold">登录名<em class="required">*</em></label>
 			<?php echo F::form()->inputText('username', array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
-		<div class="form-field">
-			<label class="title bold">密码<em class="required">*</em></label>
-			<?php echo F::form()->inputText('password', array(
-				'class'=>'form-control mw400',
-			))?>
-		</div>
-		<div class="form-field">
-			<label class="title bold">手机号码</label>
-			<?php echo F::form()->inputText('mobile', array(
-				'class'=>'form-control mw400',
-			))?>
-		</div>
-		<div class="form-field">
-			<label class="title bold">邮箱</label>
-			<?php echo F::form()->inputText('email', array(
-				'class'=>'form-control mw400',
-			))?>
-		</div>
-		<div class="form-field">
-			<label class="title bold">角色<em class="required">*</em></label>
-			<?php echo F::form()->select('role', Html::getSelectOptions($roles, 'id', 'title'), array(
-				'class'=>'form-control mw400',
-			))?>
-		</div>
-		<div class="form-field">
-			<label class="title bold">姓名</label>
-			<?php echo F::form()->inputText('realname', array('class'=>'form-control mw400'))?>
-		</div>
-		<div class="form-field">
-			<label class="title bold">头像</label>
-			<div id="avatar-container">
-			<?php
-				echo F::form()->inputHidden('avatar', array('id'=>'avatar-id'));
-				echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
-					'id'=>'avatar-img',
-				)), $this->assets('images/avatar.png'), array(
-					'class'=>'fancybox-image',
-					'encode'=>false,
-					'title'=>false,
-				));
-				echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
-					'id'=>'avatar-img-circle',
-				)), $this->assets('images/avatar.png'), array(
-					'class'=>'fancybox-image',
-					'encode'=>false,
-					'title'=>false,
-				));
-				echo Html::link('上传头像', 'javascript:;', array(
-					'id'=>'upload-avatar',
-					'class'=>'btn btn-grey',
-				));
-			?>
-			</div>
-		</div>
+		<?php $this->renderPartial('_edit_panel')?>
 	</div>
 	<div class="col-6" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(

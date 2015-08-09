@@ -20,6 +20,20 @@ $col_left_count = floor($action_cat_count / 2);
 					))?>
 				</div>
 				<div class="form-field">
+					<label class="title bold">
+						类型
+						<em class="required">*</em>
+					</label>
+					<?php
+						echo F::form()->inputRadio('admin', 1, array(
+							'label'=>'管理员',
+						), true);
+						echo F::form()->inputRadio('admin', 0, array(
+							'label'=>'前台用户',
+						));
+					?>
+				</div>
+				<div class="form-field">
 					<label class="title bold">描述</label>
 					<?php echo F::form()->textarea('description', array(
 						'class'=>'form-control h90 mw500 autosize',

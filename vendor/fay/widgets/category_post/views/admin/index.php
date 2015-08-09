@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Users;
+use fay\models\tables\Roles;
 ?>
 <div class="box" id="box-abstract" data-name="abstract">
 	<div class="box-title">
@@ -90,7 +90,7 @@ use fay\models\tables\Users;
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 		</div>
-		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
+		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">最近访问</label>
 				<p><?php echo F::form('widget')->inputText('last_view_time', array(

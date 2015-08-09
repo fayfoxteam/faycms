@@ -39,10 +39,9 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
 					foreach(F::app()->_top_nav as $nav){
-						if(isset($nav['role'])){
-							if(is_array($nav['role']) && !in_array(F::app()->session->get('role'), $nav['role'])){
-								continue;
-							}else if(F::app()->session->get('role') != $nav['role']){
+						if(isset($nav['roles'])){
+							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
+							if(!array_intersect(F::app()->session->get('roles'), $nav['roles'])){
 								continue;
 							}
 						}

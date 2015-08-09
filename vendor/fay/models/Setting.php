@@ -35,7 +35,7 @@ class Setting extends Model{
 		if(UserSettings::model()->fetchRow(array(
 			'user_id = ?'=>$user_id ? $user_id : \F::app()->current_user,
 			'setting_key = ?'=>$key,
-		), 'id')){
+		), 'setting_key')){
 			UserSettings::model()->update(array(
 				'setting_value'=>json_encode($value),
 			), array(

@@ -7,6 +7,7 @@ use fay\models\tables\Users;
 use fay\models\File;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\tables\Roles;
 
 class ToolsController extends Controller{
 	public $layout_template = 'admin';
@@ -32,7 +33,7 @@ class ToolsController extends Controller{
 			'label'=>'Tools',
 			'icon'=>'fa fa-wrench',
 			'router'=>'tools',
-			'role'=>Users::ROLE_SUPERADMIN,
+			'roles'=>Roles::ITEM_SUPER_ADMIN,
 		),
 	);
 	
@@ -45,12 +46,16 @@ class ToolsController extends Controller{
 		$this->layout->subtitle = '';
 	}
 	
+	/**
+	 * 验证仅超级管理员可访问
+	 * @throws \fay\core\HttpException
+	 */
 	public function isLogin(){
 		//验证session中是否有值
 		if(!$this->session->get('username')){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
-		if($this->session->get('role') != Users::ROLE_SUPERADMIN){
+		if(!in_array(Roles::ITEM_SUPER_ADMIN, $this->session->get('roles'))){
 			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
 		//设置当前用户id

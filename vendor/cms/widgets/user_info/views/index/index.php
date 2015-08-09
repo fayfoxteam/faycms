@@ -1,5 +1,7 @@
 <?php
 use fay\helpers\Date;
+use fay\models\User;
+use fay\helpers\ArrayHelper;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -12,7 +14,10 @@ use fay\helpers\Date;
 		<?php if(\F::app()->session->get('id')){?>
 			<tr>
 				<th>用户身份</th>
-				<td><?php echo \F::app()->session->get('role_title')?></td>
+				<td><?php
+					$user_roles = User::model()->getRoles(\F::app()->session->get('id'));
+					echo implode(', ', ArrayHelper::column($user_roles, 'title'));
+				?></td>
 			</tr>
 			<tr>
 				<th>上次登陆时间</th>

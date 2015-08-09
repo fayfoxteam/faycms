@@ -22,7 +22,7 @@ echo F::form()->open()?>
 		</div>
 		<div class="form-field">
 			<label class="title bold">手机号码</label>
-			<?php echo F::form()->inputText('cellphone', array(
+			<?php echo F::form()->inputText('mobile', array(
 					'class'=>'form-control mw400',
 				))?>
 		</div>
@@ -37,10 +37,6 @@ echo F::form()->open()?>
 			<?php echo F::form()->select('role', Html::getSelectOptions($roles, 'id', 'title'), array(
 				'class'=>'form-control mw400',
 			))?>
-		</div>
-		<div class="form-field">
-			<label class="title bold">姓名</label>
-			<?php echo F::form()->inputText('realname', array('class'=>'form-control mw400'))?>
 		</div>
 		<div class="form-field">
 			<label class="title bold">昵称</label>

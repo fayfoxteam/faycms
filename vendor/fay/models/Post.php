@@ -18,6 +18,7 @@ use fay\models\tables\PostPropText;
 use fay\helpers\String;
 use fay\core\Loader;
 use fay\models\tables\Users;
+use fay\models\tables\Roles;
 
 class Post extends Model{
 	
@@ -597,7 +598,7 @@ class Post extends Model{
 	 * @param int $new_cat_id 更新后的分类，不传则不做验证
 	 */
 	public static function checkEditPermission($post_id, $new_status = null, $new_cat_id = null){
-		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+		if(\F::session()->get('admin')){
 			//后台用户
 			/**
 			 * 是否启用分类权限
@@ -619,7 +620,7 @@ class Post extends Model{
 			$post = Posts::model()->find($post_id, 'status,cat_id');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可编辑
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,
@@ -630,7 +631,7 @@ class Post extends Model{
 			
 			//文章分类被编辑，且当前用户不是超级管理员，且无权限对新分类进行编辑
 			if($new_cat_id &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				$role_cats &&
 				!in_array($new_cat_id, \F::session()->get('role_cats'))){
 				return array(
@@ -708,7 +709,7 @@ class Post extends Model{
 			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可删除
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,
@@ -759,7 +760,7 @@ class Post extends Model{
 			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可还原
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,
@@ -810,7 +811,7 @@ class Post extends Model{
 			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可永久删除
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,

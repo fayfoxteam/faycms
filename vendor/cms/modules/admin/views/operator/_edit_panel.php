@@ -17,7 +17,7 @@ use fay\models\File;
 </div>
 <div class="form-field">
 	<label class="title bold">手机号</label>
-	<?php echo F::form()->inputText('cellphone', array(
+	<?php echo F::form()->inputText('mobile', array(
 		'class'=>'form-control mw400',
 	))?>
 </div>

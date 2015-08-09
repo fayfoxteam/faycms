@@ -1,7 +1,7 @@
 <?php
 use fay\models\Option;
-use fay\models\tables\Users;
 use fay\models\tables\Posts;
+use fay\models\tables\Roles;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -111,7 +111,7 @@ $(function(){
 	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'post'});
 	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
-	<?php if(F::session()->get('role') != Users::ROLE_SUPERADMIN && Option::get('system:role_cats')){?>
+	<?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) && Option::get('system:role_cats')){?>
 		post.roleCats = <?php echo json_encode(F::session()->get('role_cats'))?>;
 	<?php }?>
 	post.init();

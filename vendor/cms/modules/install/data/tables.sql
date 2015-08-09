@@ -727,6 +727,22 @@ CREATE TABLE `{{$prefix}}templates` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}user_profile`;
+CREATE TABLE `fayfox_user_profile` (
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
+  `reg_ip` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册IP',
+  `login_times` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '登录次数',
+  `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
+  `last_login_ip` int(11) NOT NULL DEFAULT '0' COMMENT '最后登录IP',
+  `last_time_online` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后在线时间',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
+  `refer` varchar(255) NOT NULL DEFAULT '' COMMENT '来源URL',
+  `se` varchar(30) NOT NULL DEFAULT '' COMMENT '搜索引擎',
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '搜索关键词',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -741,27 +757,16 @@ CREATE TABLE `{{$prefix}}users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '登录名',
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮箱',
-  `cellphone` varchar(30) NOT NULL DEFAULT '' COMMENT '手机号码',
+  `mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '手机号码',
   `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `salt` char(5) NOT NULL DEFAULT '' COMMENT '五位随机数',
-  `realname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '昵称',
   `avatar` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '头像',
-  `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
-  `reg_ip` int(11) NOT NULL DEFAULT '0' COMMENT '注册ip',
-  `login_times` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '登陆次数',
-  `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登陆时间',
-  `last_login_ip` int(11) NOT NULL DEFAULT '0' COMMENT '最后登陆者ip',
-  `last_time_online` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后在线时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户审核状态',
   `block` tinyint(1) NOT NULL DEFAULT '0' COMMENT '屏蔽用户',
-  `role` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '角色',
   `parent` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '父节点',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT 'Trackid',
-  `refer` varchar(255) NOT NULL DEFAULT '' COMMENT '来源URL',
-  `se` varchar(30) NOT NULL DEFAULT '' COMMENT '搜索引擎',
-  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '搜索关键词',
+  `admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为管理员',
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

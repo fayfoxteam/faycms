@@ -9,24 +9,19 @@ use fay\models\tables\Users;
 		</strong>
 		<div class="row-actions">
 		<?php 
-			if($data['id'] > Users::ROLE_SUPERADMIN){
-				//非管理员用户没有权限
-				echo Html::link('编辑', array('admin/role/edit', array(
-					'id'=>$data['id'],
-				)), array(), true);
-			}
+			//非管理员用户没有权限
+			echo Html::link('编辑', array('admin/role/edit', array(
+				'id'=>$data['id'],
+			)), array(), true);
 			echo Html::link('附加属性', array('admin/role-prop/index', array(
 				'role_id'=>$data['id'],
 			)), array(), true);
-
-			if($data['id'] > Users::ROLE_SUPERADMIN){
-				//普通用户不能删除
-				echo Html::link('删除', array('admin/role/delete', array(
-					'id'=>$data['id'],
-				)), array(
-					'class'=>'fc-red remove-link',
-				), true);
-			}
+			//普通用户不能删除
+			echo Html::link('删除', array('admin/role/delete', array(
+				'id'=>$data['id'],
+			)), array(
+				'class'=>'fc-red remove-link',
+			), true);
 		?>
 		</div>
 	</td>

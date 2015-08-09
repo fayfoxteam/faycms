@@ -5,7 +5,7 @@ use fay\core\db\Table;
 
 /**
  * Users model
- *
+ * 
  * @property int $id
  * @property string $username
  * @property string $email
@@ -18,6 +18,7 @@ use fay\core\db\Table;
  * @property int $block
  * @property int $parent
  * @property int $deleted
+ * @property int $admin
  */
 class Users extends Table{
 	/**
@@ -78,7 +79,7 @@ class Users extends Table{
 		return array(
 			array(array('id', 'avatar'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('parent'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('status', 'block'), 'int', array('min'=>-128, 'max'=>127)),
+			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('username', 'nickname'), 'string', array('max'=>50)),
 			array(array('password'), 'string', array('max'=>32)),
 			array(array('salt'), 'string', array('max'=>5)),
@@ -88,6 +89,7 @@ class Users extends Table{
 			array(array('username'), 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('tools/user/is-username-not-exist'))),
 			array(array('username'), 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('tools/user/is-username-not-exist'))),
 			array(array('email'), 'email'),
+			array(array('block', 'admin'), 'range', array('range'=>array('0', '1'))),
 		);
 	}
 
@@ -105,6 +107,7 @@ class Users extends Table{
 			'block'=>'屏蔽用户',
 			'parent'=>'父节点',
 			'deleted'=>'Deleted',
+			'admin'=>'是否为管理员',
 		);
 	}
 
@@ -122,6 +125,7 @@ class Users extends Table{
 			'block'=>'intval',
 			'parent'=>'intval',
 			'deleted'=>'intval',
+			'admin'=>'intval',
 		);
 	}
 }

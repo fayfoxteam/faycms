@@ -52,9 +52,9 @@ use fay\helpers\Html;
 						</tr>
 						<tr>
 							<th>手机</th>
-							<td><?php echo $user['cellphone']?></td>
-							<th>真名</th>
-							<td><?php echo $user['realname']?></td>
+							<td><?php echo $user['mobile']?></td>
+							<th>昵称</th>
+							<td><?php echo $user['nickname']?></td>
 						</tr>
 						<tr>
 							<th>注册时间</th>

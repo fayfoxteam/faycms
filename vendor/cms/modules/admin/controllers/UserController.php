@@ -37,7 +37,7 @@ class UserController extends AdminController{
 		$_setting_key = 'admin_user_index';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array(
-			'cols'=>array('role', 'cellphone', 'email', 'cellphone', 'realname', 'reg_time'),
+			'cols'=>array('roles', 'cellphone', 'email', 'cellphone', 'realname', 'reg_time'),
 			'page_size'=>20,
 		);
 		$this->form('setting')->setModel(Setting::model())
@@ -49,12 +49,12 @@ class UserController extends AdminController{
 		
 		$sql = new Sql();
 		$sql->from('users', 'u')
-			->joinLeft('roles', 'r', 'u.role = r.id', 'title AS role_title')
+			->joinLeft('user_profile', 'up', 'u.id = up.user_id', '*')
 			->where(array(
 				'u.id > 10000',//10000以下的ID用于特殊用途，如系统提示等
 				'u.parent = 0',
 				'u.deleted = 0',
-				'r.is_show = 1',
+				'u.admin = 0',
 			));
 		
 		if($this->input->get('keywords')){
@@ -69,7 +69,7 @@ class UserController extends AdminController{
 			));
 		}else{
 			$sql->where(array(
-				'u.role < '.Users::ROLE_SYSTEM,
+				'u.admin = 0'
 			));
 		}
 		
@@ -95,7 +95,7 @@ class UserController extends AdminController{
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
 			'deleted = 0',
-			'id < '.Users::ROLE_SYSTEM,
+			'admin = 0',
 		), 'id,title');
 		
 		$this->view->listview = new ListView($sql, array(
@@ -143,7 +143,7 @@ class UserController extends AdminController{
 		}
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
-			'id < '.Users::ROLE_SYSTEM,
+			'admin = 0',
 			'deleted = 0',
 		), 'id,title');
 		
@@ -195,7 +195,7 @@ class UserController extends AdminController{
 		$this->form()->setData($this->view->user);
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
-			'id < '.Users::ROLE_SYSTEM,
+			'admin = 0',
 			'deleted = 0',
 		), 'id,title');
 		

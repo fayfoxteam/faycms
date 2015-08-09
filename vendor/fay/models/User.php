@@ -8,6 +8,11 @@ use fay\models\tables\Props;
 use fay\helpers\Request;
 use fay\models\tables\RolesCats;
 use fay\helpers\SqlHelper;
+use fay\models\tables\UsersRoles;
+use fay\helpers\ArrayHelper;
+use fay\core\Sql;
+use fay\models\tables\UserProfile;
+use fay\core\db\Intact;
 
 class User extends Model{
 	/**
@@ -54,7 +59,8 @@ class User extends Model{
 			);
 		}
 		
-		if($user['role'] < Users::ROLE_SYSTEM){
+		$user['roles'] = $this->getRoleIds($user['id']);
+		if(!$user['admin']){
 			return array(
 				'status'=>0,
 				'message'=>'您不是管理员，不能登陆！',
@@ -70,47 +76,33 @@ class User extends Model{
 			);
 		}
 		
-		\F::session()->set('id', $user['id']);
-		\F::session()->set('username', $user['username']);
-		\F::session()->set('nickname', $user['nickname']);
-		\F::session()->set('role', $user['role']);
-		\F::session()->set('last_login_time', $user['last_login_time']);
-		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
-		\F::session()->set('status', $user['status']);
-		\F::session()->set('avatar', $user['avatar']);
+		$user_profile = UserProfile::model()->find($user['id']);
+		$user = $user + $user_profile;
 		
-		//获取角色名称
-		$role = Roles::model()->find($user['role']);
-		\F::session()->set('role_title', $role['title']);
+		$this->setSessionInfo($user);
+		
 		//设置权限，超级管理员无需设置
-		if($user['role'] != Users::ROLE_SUPERADMIN){
-			$sql = "SELECT
-				{$this->db->actions}.router
-				FROM
-				{$this->db->roles_actions}
-				LEFT JOIN {$this->db->actions} ON {$this->db->roles_actions}.action_id = {$this->db->actions}.id
-				WHERE
-				{$this->db->roles_actions}.role_id = ".$user['role'];
-			$actions = $this->db->fetchAll($sql);
-			$action_routers = array();
-			foreach($actions as $a){
-				$action_routers[] = $a['router'];
-			}
-			\F::session()->set('actions', $action_routers);
+		if(!in_array(Roles::ITEM_SUPER_ADMIN, $user['roles'])){
+			$sql = new Sql();
+			$actions = $sql->from('roles_actions', 'ra')
+				->joinLeft('actions', 'a', 'ra.action_id = a.id')
+				->where('ra.role_id IN ('.implode(',', $user['roles']).')')
+				->fetchAll();
+			\F::session()->set('actions', ArrayHelper::column($actions, 'router'));
 			
 			//分类权限
 			if(Option::get('system:role_cats')){
 				//未分类文章任何人都有权限编辑
 				$post_root = Category::model()->get('_system_post', 'id');
-				\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id = '.$user['role'])));
+				\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $user['roles']).')')));
 			}
 		}
 		
-		Users::model()->update(array(
+		UserProfile::model()->update(array(
 			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
-			'login_times'=>$user['login_times'] + 1,
+			'login_times'=>new Intact('login_times + 1'),
 		), $user['id']);
 		
 		return array(
@@ -191,13 +183,19 @@ class User extends Model{
 			);
 		}
 		
+		//获取用户角色
+		$user['roles'] = $this->getRoleIds($user['id']);
+		
+		$user_profile = UserProfile::model()->find($user['id']);
+		$user = $user + $user_profile;
+		
 		$this->setSessionInfo($user);
 		
-		Users::model()->update(array(
+		UserProfile::model()->update(array(
 			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
-			'login_times'=>$user['login_times'] + 1,
+			'login_times'=>new Intact('login_times + 1'),
 		),'id = '.$user['id']);
 		
 		return array(
@@ -212,10 +210,11 @@ class User extends Model{
 		\F::session()->set('username', $user['username']);
 		\F::session()->set('nickname', $user['nickname']);
 		\F::session()->set('avatar', $user['avatar']);
-		\F::session()->set('role', $user['role']);
+		\F::session()->set('roles', $user['roles']);
 		\F::session()->set('last_login_time', $user['last_login_time']);
 		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
 		\F::session()->set('status', $user['status']);
+		\F::session()->set('admin', $user['admin']);
 	}
 	
 	public function logout(){
@@ -224,11 +223,10 @@ class User extends Model{
 	
 	/**
 	 * 返回单个用户
-	 * @param string|array $ids 可以是逗号分割的id串，也可以是一维数组
-	 *   若传入的$ids是一个数字，会返回一维数组（除props字段）
-	 *   若传入多个id，则返回数组会与传入id顺序一致并以id为数组键
+	 * @param string|array $id 用户id
 	 * @param string $fields 可指定返回字段
 	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *   roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
 	 */
 	public function get($id, $fields = 'users.username,users.nickname,users.id,users.avatar'){
@@ -237,7 +235,7 @@ class User extends Model{
 		if(empty($fields['users'])){
 			//若未指定返回字段，初始化
 			$fields['users'] = array(
-				'id', 'role', 'username', 'nickname',
+				'id', 'username', 'nickname',
 			);
 		}else if(in_array('*', $fields['users'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
@@ -253,12 +251,13 @@ class User extends Model{
 			}
 		}
 		
-		$user = Users::model()->find($id, implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id', 'role'))));
+		$user = Users::model()->find($id, implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id'))));
 		
 		if(!empty($fields['props'])){
+			$user_roles = $this->getRoleIds($user['id']);
 			//附加角色属性
 			$props = Props::model()->fetchAll(array(
-				'refer = ?'=>$user['role'],
+				'refer IN ('.implode(',', $user_roles).')',
 				'type = '.Props::TYPE_ROLE,
 				'deleted = 0',
 				'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
@@ -267,12 +266,16 @@ class User extends Model{
 			$user['props'] = $this->getProps($user['id'], $props);
 		}
 		
+		if(!empty($fields['roles'])){
+			$user['roles'] = $this->getRoles($user['id'], in_array('*', $fields['props']) ? '*' : $fields['props']);
+		}
+		
 		//删除不需要返回的字段
 		if(!in_array('id', $fields['users'])){
 			unset($user['id']);
 		}
-		if(!in_array('role', $fields['users'])){
-			unset($user['role']);
+		if(!in_array('roles', $fields['users'])){
+			unset($user['roles']);
 		}
 		
 		return $user;
@@ -280,9 +283,7 @@ class User extends Model{
 	
 	/**
 	 * 返回多个用户
-	 * @param string|array $ids 可以是逗号分割的id串，也可以是一维数组
-	 *   若传入的$ids是一个数字，会返回一维数组（除props字段）
-	 *   若传入多个id，则返回数组会与传入id顺序一致并以id为数组键
+	 * @param string|array $ids 可以是逗号分割的id串，也可以是用户ID构成的一维数组
 	 * @param string $fields 可指定返回字段
 	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
 	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
@@ -314,19 +315,26 @@ class User extends Model{
 		
 		$users = Users::model()->fetchAll(array(
 			'id IN (?)'=>$ids,
-		), implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id', 'role'))));
+		), implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id'))));
 		
 		if(!empty($fields['props'])){
 			//附加角色属性
 			foreach($users as &$user){
+				$user_roles = $this->getRoleIds($user['id']);
 				$props = Props::model()->fetchAll(array(
-					'refer = ?'=>$user['role'],
+					'refer IN ('.implode(',', $user_roles).')',
 					'type = '.Props::TYPE_ROLE,
 					'deleted = 0',
 					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
 				), 'id,title,element,required,is_show,alias', 'sort');
 				
 				$user['props'] = $this->getProps($user['id'], $props);
+			}
+		}
+		
+		if(!empty($fields['roles'])){
+			foreach($users as &$user2){
+				$user2['roles'] = $this->getRoles($user2['id'], in_array('*', $fields['props']) ? '*' : $fields['props']);
 			}
 		}
 		
@@ -370,7 +378,7 @@ class User extends Model{
 	 * 设置一个用户属性值
 	 * @param int $user_id
 	 * @param string $alias
-* @param mixed $value
+	 * @param mixed $value
 	 * @return boolean
 	 */
 	public function setPropValueByAlias($alias, $value, $user_id = null){
@@ -405,5 +413,39 @@ class User extends Model{
 			'parent = ?'=>$parent,
 		), 'COUNT(*) AS count');
 		return $member['count'];
+	}
+	
+	/**
+	 * 获取用户角色ID（一维数组）若未登陆，返回空数组
+	 * @param int|null $user
+	 */
+	public function getRoleIds($user_id = null){
+		if(!$user_id && isset(\F::app()->current_user)){
+			$user_id = \F::app()->current_user;
+		}
+		if(!$user_id){
+			return array();
+		}
+		
+		$user_roles = UsersRoles::model()->fetchAll('user_id = ' . $user_id, 'role_id');
+		return ArrayHelper::column($user_roles, 'role_id');
+	}
+	
+	/**
+	 * 获取用户角色详细（若未登陆，返回空数组）
+	 * @param int|null $user
+	 */
+	public function getRoles($user_id = null, $fields = '*'){
+		if(!$user_id && isset(\F::app()->current_user)){
+			$user_id = \F::app()->current_user;
+		}
+		if(!$user_id){
+			return array();
+		}
+		
+		$sql = new Sql();
+		return $sql->from('users_roles', 'ur', '')
+			->joinLeft('roles', 'r', 'ur.role_id = r.id', $fields)
+			->fetchAll();
 	}
 }

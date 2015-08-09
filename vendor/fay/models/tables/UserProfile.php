@@ -4,7 +4,7 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 /**
- * User Extend model
+ * User Profile model
  * 
  * @property int $user_id
  * @property int $reg_time
@@ -18,12 +18,12 @@ use fay\core\db\Table;
  * @property string $se
  * @property string $keywords
  */
-class UserExtend extends Table{
-	protected $_name = 'user_extend';
+class UserProfile extends Table{
+	protected $_name = 'user_profile';
 	protected $_primary = 'user_id';
 	
 	/**
-	 * @return UserExtend
+	 * @return UserProfile
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);

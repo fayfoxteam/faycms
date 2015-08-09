@@ -37,7 +37,7 @@ class OperatorController extends AdminController{
 		$_setting_key = 'admin_operator_index';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array(
-			'cols'=>array('role', 'cellphone', 'email', 'cellphone', 'realname', 'reg_time'),
+			'cols'=>array('roles', 'cellphone', 'email', 'cellphone', 'realname', 'reg_time'),
 			'page_size'=>20,
 		);
 		$this->form('setting')->setModel(Setting::model())
@@ -50,30 +50,31 @@ class OperatorController extends AdminController{
 		//查询所有管理员类型
 		$this->view->roles = Roles::model()->fetchAll(array(
 			'deleted = 0',
-			'id > '.Users::ROLE_SYSTEM,
+			'admin = 1',
 		));
 		
 		$sql = new Sql();
 		$sql->from('users', 'u', '*')
-			->joinLeft('roles', 'r', 'u.role = r.id', 'title AS role_title')
-			->where('u.role > '.Users::ROLE_SYSTEM)
+			->joinLeft('user_profile', 'up', 'u.id = up.user_id', '*')
+			->where('u.admin = 1')
 		;
-		
-		//超级管理员可以看到所有管理员
-		//普通管理员即便有管理权限，也无法修改超级管理员
-		if($this->session->get('role') != Users::ROLE_SUPERADMIN){
-			$sql->where('r.is_show = 1');
-		}
 		
 		if($this->input->get('keywords')){
 			if($this->input->get('field') == 'id'){
 				$sql->where(array(
-					"u.id = ?"=>$this->input->get('keywords', 'intval'),
+					'u.id = ?'=>$this->input->get('keywords', 'intval'),
 				));
 			}else{
-				$sql->where(array(
-					"u.{$this->input->get('field')} LIKE ?"=>'%'.$this->input->get('keywords').'%',
-				));
+				$field = $this->input->get('field');
+				if(in_array($field, Users::model()->getFields())){
+					$sql->where(array(
+						"u.{$field} LIKE ?"=>'%'.$this->input->get('keywords').'%',
+					));
+				}else{
+					$sql->where(array(
+						"up.{$field} LIKE ?"=>'%'.$this->input->get('keywords').'%',
+					));
+				}
 			}
 		}
 		
@@ -130,7 +131,7 @@ class OperatorController extends AdminController{
 			}
 		}
 		$this->view->roles = Roles::model()->fetchAll(array(
-			'id > '.Users::ROLE_SYSTEM,
+			'admin = 1',
 			'deleted = 0',
 		), 'id,title');
 		
@@ -181,7 +182,7 @@ class OperatorController extends AdminController{
 		$this->form()->setData($this->view->user);
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
-			'id > '.Users::ROLE_SYSTEM,
+			'admin = 1',
 			'deleted = 0',
 		), 'id,title');	
 		

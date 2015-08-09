@@ -6,10 +6,10 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'avatar', array(
 			'label'=>'头像',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'role', array(
+		echo F::form('setting')->inputCheckbox('cols[]', 'roles', array(
 			'label'=>'角色',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'cellphone', array(
+		echo F::form('setting')->inputCheckbox('cols[]', 'mobile', array(
 			'label'=>'手机',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'email', array(

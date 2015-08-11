@@ -11,21 +11,29 @@ use fay\models\File;
 
 <div class="content-header">快速通道</div>
 <div class="content-box">
-    <?php
-     foreach ($files as $f) {
-         ?>
-         <div class="web web-1">
-             <?= Html::link(Html::img($f['file_id'], File::PIC_ORIGINAL, [
-                 'width'  => false,
-                 'height' => false,
-                 'alt'    => $f['title'],
-             ]), str_replace('{$base_url}', $this->config('base_url'), $f['link']), [
-                 'encode' => false,
-                 'title'=>Html::encode($f['title']),
-                 'target'=>'_blank',
-             ]) ?>
-         </div>
-     <?php
-     }
-    ?>
+<!--    --><?php
+//     foreach ($files as $f) {
+//         ?>
+<!--         <div class="web web-1">-->
+<!--             --><?//= Html::link(Html::img($f['file_id'], File::PIC_ORIGINAL, [
+//                 'width'  => false,
+//                 'height' => false,
+//                 'alt'    => $f['title'],
+//             ]), str_replace('{$base_url}', $this->config('base_url'), $f['link']), [
+//                 'encode' => false,
+//                 'title'=>Html::encode($f['title']),
+//                 'target'=>'_blank',
+//             ]) ?>
+<!--         </div>-->
+<!--     --><?php
+//     }
+//    ?>
+
+    <div class="property">
+        <a href="">办公用品</a></div>
+    <div class="property"><a href="">水电使用</a></div>
+    <div class="property"><a href="">阳光厨房</a></div>
+    <div class="property"><a href="">本周日程</a></div>
+    <div class="property"><a href="">工作简报</a></div>
+    <div class="property"><a href="">文件汇编</a></div>
 </div>

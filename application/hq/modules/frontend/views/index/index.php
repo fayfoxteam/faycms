@@ -23,16 +23,21 @@ $img_url = $this->staticFile('images');
 <?= F::widget()->load('image_posts'); ?>
     <div class="index-minhxyw">
         <div class="index-mingsjjtit">
-            <h3 class="tab active" data-id="1" onmouseover="setContentTab(1, 2)">后勤动态</h3>
-            <h3 class="tab" data-id="2" onmouseover="setContentTab(2, 1)">媒体报道</h3>
-            <span class="tab-1"><a href="11"><img src="<?= $img_url ?>/index_11.png" alt=""/></a></span>
-            <span class="tab-2 hide"><a href="22"><img src="<?= $img_url ?>/index_11.png" alt=""/></a></span>
+            <h3 class="tab active" data-id="1" >后勤动态</h3>
+            <h3 class="tab" data-id="2">媒体报道</h3>
+            <h3 class="tab" data-id="3" >生活资讯</h3>
+            <span class="tab-nav tab-1"><a href="<?= $this->url('cat/10016') ?>"><img src="<?= $img_url ?>/index_11.png" /></a></span>
+            <span class="tab-nav tab-2 hide"><a href="<?= $this->url('cat/10017') ?>"><img src="<?= $img_url ?>/index_11.png" /></a></span>
+            <span class="tab-nav tab-3 hide"><a href="<?= $this->url('cat/10018') ?>"><img src="<?= $img_url ?>/index_11.png" /></a></span>
         </div>
         <div class="index-minhxywmin" id="tab-1">
             <?= F::widget()->load('hqdt_posts'); ?>
         </div>
         <div class="index-minhxywmin hide" id="tab-2">
             <?= F::widget()->load('mtbd_posts'); ?>
+        </div>
+        <div class="index-minhxywmin hide" id="tab-3">
+            <?= F::widget()->load('shzx_posts'); ?>
         </div>
     </div>
         <?= F::widget()->load('new_posts') ?>
@@ -89,16 +94,17 @@ $img_url = $this->staticFile('images');
 
         //主页tab切换
         $('.tab').hover(function(){
+            var tabId = $(this).attr('data-id');
             $('.tab').removeClass('active');
             $(this).addClass('active');
+
+            $('.tab-nav').addClass('hide');
+            $('.tab-' + tabId).removeClass('hide');
+
+            $('.index-minhxywmin').addClass('hide');
+            $('#tab-' + tabId).removeClass('hide');
         });
     });
 
-    function setContentTab(show, hide) {
-        $('#tab-' + show).removeClass('hide');
-        $('#tab-' + hide).addClass('hide');
-        $('.tab-' + show).removeClass('hide');
-        $('.tab-' + hide).addClass('hide');
-    }
 
 </script>

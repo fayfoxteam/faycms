@@ -101,7 +101,7 @@ a:hover, a:visited{ background: none;}
 #content-bottom .center { width: 500px; float: left; margin: 0 10px; }
 #content-bottom .center .content-header { height: 25px; line-height: 25px; width: 460px; margin: 0 auto; text-align: left; color: #197abf; font-size: 16px; border-bottom: 2px solid #197abf; }
 #content-bottom .center .content-box { height: 210px;  padding: 10px; }
-#content-bottom .center .content-box .property { margin-top: 5px; border: 1px solid #197abf; display: inline-block; width: 45%; height: 60px; line-height: 60px; border-radius: 4px; background: #199ac9; }
+#content-bottom .center .content-box .property { margin-top: 5px; border: none; display: inline-block; width: 45%; height: 60px; line-height: 60px; border-radius: 4px; }
 #content-bottom .center .content-box .property a { color: #FFFFFF; font-size: 16px; }
 #content-bottom .center .content-box .property:hover  { background: #197abf; }
 #content-bottom .center .content-box .property:hover a { color: #EFEFEF; }

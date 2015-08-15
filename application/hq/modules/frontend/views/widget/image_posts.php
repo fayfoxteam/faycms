@@ -12,7 +12,6 @@ use fay\models\File;
 
 <div class="index-mingsjj">
     <div class="index-mingsjjtit"><?= $data['title'] ?><span>
-<!--            <a href="--><?//= $this->url('cat/'. $data['top']) ?><!--"><img src="--><?//= $this->staticFile('images') ?><!--/index_11.png"/></a></span> -->
     </div>
     <div class="clear-10"></div>
     <div class="hot_slider">

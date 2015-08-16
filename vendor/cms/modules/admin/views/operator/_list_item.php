@@ -40,8 +40,15 @@ use fay\helpers\ArrayHelper;
 	
 	<?php if(in_array('roles', $cols)){?>
 	<td><?php
-		$user_roles = User::model()->getRoles($data['id'], 'title');
-		echo implode(', ', ArrayHelper::column($user_roles, 'title'));
+		$user_roles = User::model()->getRoles($data['id'], 'id,title');
+		foreach($user_roles as $k => $role){
+			if($k){
+				echo ', ';
+			}
+			echo Html::link($role['title'], array('admin/operator/index', array(
+				'role'=>$role['id']
+			)));
+		}
 	?></td>
 	<?php }?>
 	

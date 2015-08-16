@@ -3,6 +3,8 @@ use fay\models\tables\Users;
 use fay\helpers\Date;
 use fay\helpers\Html;
 use fay\models\File;
+use fay\models\User;
+use fay\helpers\ArrayHelper;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
 	<?php if(in_array('avatar', $cols)){?>
@@ -37,7 +39,7 @@ use fay\models\File;
 	
 	<?php if(in_array('roles', $cols)){?>
 	<td><?php
-		$user_roles = User::model()->getRoles(\F::app()->session->get('id'));
+		$user_roles = User::model()->getRoles($data['id'], 'id,title');
 		if($user_roles){
 			echo implode(', ', ArrayHelper::column($user_roles, 'title'));
 		}

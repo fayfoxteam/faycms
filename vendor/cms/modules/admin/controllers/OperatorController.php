@@ -6,7 +6,6 @@ use fay\models\tables\Users;
 use fay\core\Sql;
 use fay\models\tables\Roles;
 use fay\helpers\String;
-use fay\models\Role;
 use fay\models\Prop;
 use fay\models\tables\Actionlogs;
 use fay\common\ListView;
@@ -83,9 +82,10 @@ class OperatorController extends AdminController{
 		}
 		
 		if($this->input->get('role')){
-			$sql->where(array(
-				'u.role = ?'=>$this->input->get('role', 'intval'),
-			));
+			$sql->joinLeft('users_roles', 'ur', 'u.id = ur.user_id')
+				->where(array(
+					'ur.role_id = ?' => $this->input->get('role', 'intval'),
+				));
 		}
 		
 		if($this->input->get('orderby')){

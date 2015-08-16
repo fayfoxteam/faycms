@@ -68,9 +68,10 @@ class UserController extends AdminController{
 		}
 
 		if($this->input->get('role')){
-			$sql->where(array(
-				'u.role = ?' => $this->input->get('role', 'intval'),
-			));
+			$sql->joinLeft('users_roles', 'ur', 'u.id = ur.user_id')
+				->where(array(
+					'ur.role_id = ?' => $this->input->get('role', 'intval'),
+				));
 		}else{
 			$sql->where(array(
 				'u.admin = 0'

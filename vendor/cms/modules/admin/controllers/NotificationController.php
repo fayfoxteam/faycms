@@ -13,6 +13,7 @@ use fay\helpers\Html;
 use fay\models\Notification;
 use fay\core\Sql;
 use fay\models\Flash;
+use fay\models\tables\UserProfile;
 
 class NotificationController extends AdminController{
 	public function __construct(){
@@ -97,7 +98,7 @@ class NotificationController extends AdminController{
 	
 	public function get(){
 		//刷新用户在线信息
-		Users::model()->update(array(
+		UserProfile::model()->update(array(
 			'last_time_online'=>$this->current_time,
 		), $this->current_user);
 		

@@ -9,13 +9,9 @@
 		</div>
 		<?php $this->renderPartial('_edit_panel')?>
 	</div>
-	<div class="col-6" id="prop-panel">
-		<?php $this->renderPartial('prop/_edit', array(
-			'props'=>$role['props'],
-			'data'=>array(),
-		))?>
-	</div>
-	<div class="clear"></div>
+	<div class="col-6" id="prop-panel"><?php
+		//预留给角色属性的div
+	?></div>
 </div>
 <div class="form-field">
 	<?php echo F::form()->submitLink('添加', array(

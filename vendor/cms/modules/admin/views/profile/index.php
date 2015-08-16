@@ -93,13 +93,15 @@ echo F::form()->open();
 	</div>
 	<div class="col-6" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(
-			'props'=>$role['props'],
+			'props'=>$props,
 			'data'=>$user['props'],
 		))?>
 	</div>
 </div>
 <div class="form-field">
-	<a href="javascript:;" class="btn" id="form-submit">保存</a>
+	<?php echo F::form()->submitLink('保存', array(
+		'class'=>'btn',
+	))?>
 </div>
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>

@@ -13,7 +13,7 @@ echo F::form()->open()?>
 	</div>
 	<div class="col-6" id="prop-panel">
 		<?php $this->renderPartial('prop/_edit', array(
-			'props'=>$role['props'],
+			'props'=>$props,
 			'data'=>$user['props'],
 		))?>
 	</div>

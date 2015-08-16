@@ -437,7 +437,8 @@ class User extends Model{
 	
 	/**
 	 * 获取用户角色详细（若未登陆，返回空数组）
-	 * @param int|null $user
+	 * @param int|null $user_id
+	 * @param string $fields 角色字段（roles表字段）
 	 */
 	public function getRoles($user_id = null, $fields = '*'){
 		if(!$user_id && isset(\F::app()->current_user)){
@@ -450,6 +451,7 @@ class User extends Model{
 		$sql = new Sql();
 		return $sql->from('users_roles', 'ur', '')
 			->joinLeft('roles', 'r', 'ur.role_id = r.id', $fields)
+			->where('ur.user_id = '.$user_id)
 			->fetchAll();
 	}
 }

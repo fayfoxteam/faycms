@@ -22,12 +22,17 @@ use fay\models\tables\Users;
 		'class'=>'form-control mw400',
 	))?>
 </div>
+<?php if($roles){?>
 <div class="form-field">
-	<label class="title bold">角色<em class="required">*</em></label>
-	<?php echo F::form()->select('role', Html::getSelectOptions($roles, 'id', 'title'), array(
-		'class'=>'form-control mw400',
-	))?>
+	<label class="title bold">角色</label>
+	<?php foreach($roles as $r){
+		echo F::form()->inputCheckbox('roles[]', $r['id'], array(
+			'label'=>$r['title'],
+			'class'=>'user-roles',
+		));
+	}?>
 </div>
+<?php }?>
 <div class="form-field">
 	<label class="title bold">昵称</label>
 	<?php echo F::form()->inputText('nickname', array('class'=>'form-control mw400'))?>
@@ -41,7 +46,7 @@ use fay\models\tables\Users;
 		Users::STATUS_VERIFY_FAILED=>'未通过审核',
 	), array(
 		'class'=>'form-control mw400',
-	))?>
+	), Users::STATUS_VERIFIED)?>
 </div>
 <div class="form-field">
 	<label class="title bold">登陆状态</label>

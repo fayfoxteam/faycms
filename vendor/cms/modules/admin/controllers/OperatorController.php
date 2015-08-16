@@ -20,7 +20,6 @@ use fay\models\Flash;
 use fay\models\tables\UserProfile;
 use fay\helpers\Request;
 use fay\models\tables\UsersRoles;
-use fay\helpers\ArrayHelper;
 use fay\models\tables\Props;
 
 class OperatorController extends AdminController{
@@ -142,12 +141,14 @@ class OperatorController extends AdminController{
 				}
 				
 				//设置属性
-				$role = Role::model()->get($this->input->post('role', 'intval'));
-				Prop::model()->createPropertySet('user_id', $user_id, $role['props'], $this->input->post('props'), array(
-					'varchar'=>'fay\models\tables\ProfileVarchar',
-					'int'=>'fay\models\tables\ProfileInt',
-					'text'=>'fay\models\tables\ProfileText',
-				));
+				if($roles){
+					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
+					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
+						'varchar'=>'fay\models\tables\ProfileVarchar',
+						'int'=>'fay\models\tables\ProfileInt',
+						'text'=>'fay\models\tables\ProfileText',
+					));
+				}
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
 				
@@ -162,10 +163,6 @@ class OperatorController extends AdminController{
 			'admin = 1',
 			'deleted = 0',
 		), 'id,title');
-		
-		//附加属性
-		$current_role = current($this->view->roles);
-		$this->view->role = Role::model()->get($current_role['id']);
 		
 		$this->view->render();
 	}
@@ -213,22 +210,23 @@ class OperatorController extends AdminController{
 					}
 					UsersRoles::model()->bulkInsert($user_roles);
 				}else{
-					//用户有权编辑category，但无数据提交，意味着删光了
-					//删除全部category
+					//删除全部角色
 					UsersRoles::model()->delete(array(
 						'user_id = ?'=>$id,
 					));
 				}
 				
 				//设置属性
-				$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-				Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
-					'varchar'=>'fay\models\tables\ProfileVarchar',
-					'int'=>'fay\models\tables\ProfileInt',
-					'text'=>'fay\models\tables\ProfileText',
-				));
+				if($roles){
+					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
+					Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
+						'varchar'=>'fay\models\tables\ProfileVarchar',
+						'int'=>'fay\models\tables\ProfileInt',
+						'text'=>'fay\models\tables\ProfileText',
+					));
+				}
 				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $this->current_user);
+				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $id);
 				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());

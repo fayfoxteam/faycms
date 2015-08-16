@@ -40,7 +40,7 @@ use fay\helpers\ArrayHelper;
 	
 	<?php if(in_array('roles', $cols)){?>
 	<td><?php
-		$user_roles = User::model()->getRoles(\F::app()->session->get('id'));
+		$user_roles = User::model()->getRoles($data['id'], 'title');
 		echo implode(', ', ArrayHelper::column($user_roles, 'title'));
 	?></td>
 	<?php }?>

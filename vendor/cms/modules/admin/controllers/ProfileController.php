@@ -6,9 +6,10 @@ use fay\models\tables\Users;
 use fay\helpers\String;
 use fay\models\tables\Actionlogs;
 use fay\models\User;
-use fay\models\Role;
 use fay\models\Prop;
 use fay\models\Flash;
+use fay\models\tables\Props;
+use fay\models\tables\Roles;
 
 class ProfileController extends AdminController{
 	public function __construct(){
@@ -17,7 +18,8 @@ class ProfileController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '编辑个人信息';
+		$this->layout->subtitle = '编辑管理员信息';
+		$id = $this->current_user;
 		$this->form()->setModel(Users::model());
 		if($this->input->post()){
 			if($this->form()->check()){
@@ -33,29 +35,41 @@ class ProfileController extends AdminController{
 				}else{
 					unset($data['password']);
 				}
-				Users::model()->update($data, $this->current_user);
+				Users::model()->update($data, $id);
+				
+				//修改当前用户session
 				$this->session->set('avatar', $data['avatar']);
 				$this->session->set('nickname', $data['nickname']);
 				
 				//设置属性
-				$role = Role::model()->get($this->session->get('role'));
-				Prop::model()->updatePropertySet('user_id', $this->current_user, $role['props'], $this->input->post('props'), array(
-					'varchar'=>'fay\models\tables\ProfileVarchar',
-					'int'=>'fay\models\tables\ProfileInt',
-					'text'=>'fay\models\tables\ProfileText',
-				));
+				$roles = User::model()->getRoleIds($id);
+				if($roles){
+					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
+					Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
+						'varchar'=>'fay\models\tables\ProfileVarchar',
+						'int'=>'fay\models\tables\ProfileInt',
+						'text'=>'fay\models\tables\ProfileText',
+					));
+				}
 				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了个人信息', $this->current_user);
+				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $id);
 				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		
-		$this->view->user = User::model()->get($this->current_user, 'users.*,props.*');
-		$this->form()->setData($this->view->user);
+		$user = User::model()->get($id, 'users.*,props.*');
+		$user['roles'] = User::model()->getRoleIds($user['id']);
+		$this->view->user = $user;
+		$this->form()->setData($user);
 		
-		$this->view->role = Role::model()->get($this->view->user['role']);
+		$this->view->roles = Roles::model()->fetchAll(array(
+			'admin = 1',
+			'deleted = 0',
+		), 'id,title');
+		
+		$this->view->props = Prop::model()->mget($user['roles'], Props::TYPE_ROLE);
 		$this->view->render();
 	}
 }

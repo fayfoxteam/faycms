@@ -15,6 +15,7 @@ use fay\models\File;
 	<?php foreach($roles as $r){
 		echo F::form()->inputCheckbox('roles[]', $r['id'], array(
 			'label'=>$r['title'],
+			'class'=>'user-roles',
 		));
 	}?>
 </div>

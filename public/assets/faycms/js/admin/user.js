@@ -56,14 +56,19 @@ var user = {
 		});
 	},
 	'prop':function(){
-		$(document).on('change', '[name="role"]', function(){
+		$(document).on('change', '[name="roles[]"]', function(){
 			$('#prop-panel').block();
+			var value = [];
+			$('.user-roles:checked').each(function(){ 
+				value.push($(this).val()); 
+			});
 			$.ajax({
 				'type': 'GET',
-				'url': system.url('admin/user/get-prop-panel', {
-					'role_id':$(this).val(),
+				'url': system.url('admin/user/get-prop-panel'),
+				'data': {
+					'role_ids[]':value,
 					'user_id':user.user_id ? user.user_id : 0
-				}),
+				},
 				'cache': false,
 				'success': function(resp){
 					$('#prop-panel').unblock();

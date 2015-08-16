@@ -86,7 +86,7 @@ class SqlHelper{
 				$fa = explode('.', $f);
 				$fa_end = array_pop($fa);
 				eval('$return[\'' . implode("']['", $fa) . "'][]='{$fa_end}';");
-			}else{
+			}else if(!empty($f)){
 				if($default_key){
 					$return[$default_key][] = $f;
 				}else{

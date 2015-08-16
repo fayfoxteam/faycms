@@ -192,9 +192,21 @@ class Table extends Model{
 	
 	/**
 	 * 获取表所有字段
+	 * @param array|string $except 返回字段不包含except中指定的字段
 	 * @return array:
 	 */
-	public function getFields(){
-		return array_keys($this->labels());
+	public function getFields($except = array()){
+		if($except){
+			if(!is_array($except)){
+				$except = explode(',', $except);
+			}
+			$labels = $this->labels();
+			foreach($except as $e){
+				unset($labels[$e]);
+			}
+			return array_keys($labels);
+		}else{
+			return array_keys($this->labels());
+		}
 	}
 }

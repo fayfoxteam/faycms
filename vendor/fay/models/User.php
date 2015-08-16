@@ -228,6 +228,7 @@ class User extends Model{
 	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
 	 *   roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
+	 * @return false|array 若用户ID不存在，返回false，否则返回数组
 	 */
 	public function get($id, $fields = 'users.username,users.nickname,users.id,users.avatar'){
 		//解析$fields
@@ -253,6 +254,10 @@ class User extends Model{
 		
 		$user = Users::model()->find($id, implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id'))));
 		
+		if(!$user){
+			return false;
+		}
+		
 		if(!empty($fields['props'])){
 			$user_roles = $this->getRoleIds($user['id']);
 			if($user_roles){
@@ -271,15 +276,12 @@ class User extends Model{
 		}
 		
 		if(!empty($fields['roles'])){
-			$user['roles'] = $this->getRoles($user['id'], in_array('*', $fields['props']) ? '*' : $fields['props']);
+			$user['roles'] = $this->getRoles($user['id'], in_array('*', $fields['roles']) ? '*' : $fields['roles']);
 		}
 		
 		//删除不需要返回的字段
 		if(!in_array('id', $fields['users'])){
 			unset($user['id']);
-		}
-		if(empty($fields['roles'])){
-			unset($user['roles']);
 		}
 		
 		return $user;
@@ -290,6 +292,7 @@ class User extends Model{
 	 * @param string|array $ids 可以是逗号分割的id串，也可以是用户ID构成的一维数组
 	 * @param string $fields 可指定返回字段
 	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *   roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
 	 */
 	public function getByIds($ids, $fields = 'users.username,users.nickname,users.id,users.avatar'){
@@ -301,13 +304,11 @@ class User extends Model{
 		if(empty($fields['users'])){
 			//若未指定返回字段，初始化
 			$fields['users'] = array(
-				'id', 'role', 'username', 'nickname',
+				'id', 'username', 'nickname', 'avatar',
 			);
 		}else if(in_array('*', $fields['users'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
-			$labels = Users::model()->labels();
-			unset($labels['password'], $labels['salt']);
-			$fields['users'] = array_keys($labels);
+			$fields['users'] = Users::model()->getFields('password,salt');
 		}else{
 			//永远不会返回密码字段
 			foreach($fields['users'] as $k => $v){
@@ -321,39 +322,33 @@ class User extends Model{
 			'id IN (?)'=>$ids,
 		), implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id'))));
 		
-		if(!empty($fields['props'])){
-			//附加角色属性
-			foreach($users as &$user){
-				$user_roles = $this->getRoleIds($user['id']);
-				$props = Props::model()->fetchAll(array(
-					'refer IN ('.implode(',', $user_roles).')',
-					'type = '.Props::TYPE_ROLE,
-					'deleted = 0',
-					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
-				), 'id,title,element,required,is_show,alias', 'sort');
-				
-				$user['props'] = $this->getProps($user['id'], $props);
-			}
-		}
-		
-		if(!empty($fields['roles'])){
-			foreach($users as &$user2){
-				$user2['roles'] = $this->getRoles($user2['id'], in_array('*', $fields['props']) ? '*' : $fields['props']);
-			}
-		}
-		
-		//删除不需要返回的字段
+		//根据传入id顺序排序，并删除不需要返回的字段
 		$return = array();
 		foreach($ids as $id){
-			foreach($users as $u){
-				if($id == $u['id']){
+			foreach($users as $user){
+				if($id == $user['id']){
+					if(!empty($fields['roles'])){
+						//附加用户角色
+						$user['roles'] = $this->getRoles($user['id'], in_array('*', $fields['roles']) ? '*' : $fields['roles']);
+					}
+						
+					if(!empty($fields['props'])){
+						//附加用户角色属性
+						$user_roles = $this->getRoleIds($user['id']);
+						$props = Props::model()->fetchAll(array(
+							'refer IN ('.implode(',', $user_roles).')',
+							'type = '.Props::TYPE_ROLE,
+							'deleted = 0',
+							'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
+						), 'id,title,element,required,is_show,alias', 'sort');
+							
+						$user['props'] = $this->getProps($user['id'], $props);
+					}
+					
 					if(!in_array('id', $fields['users'])){
-						unset($u['id']);
+						unset($user['id']);
 					}
-					if(!in_array('role', $fields['users'])){
-						unset($u['role']);
-					}
-					$return[$id] = $u;
+					$return[$id] = $user;
 				}
 			}
 		}

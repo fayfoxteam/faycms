@@ -1,7 +1,7 @@
 -- 系统用户和留言用户
-INSERT INTO `{{$prefix}}users` (id, username, realname, nickname) VALUES ('1', '系统', '系统', '系统');
-INSERT INTO `{{$prefix}}users` (id, username, realname, nickname) VALUES ('2', '用户留言收件人', '用户留言收件人', '用户留言收件人');
-INSERT INTO `{{$prefix}}users` (id, username, realname, nickname) VALUES ('3', '系统消息', '系统消息', '系统消息');
+INSERT INTO `{{$prefix}}users` (id, username, nickname) VALUES ('1', '系统', '系统');
+INSERT INTO `{{$prefix}}users` (id, username, nickname) VALUES ('2', '用户留言收件人', '用户留言收件人');
+INSERT INTO `{{$prefix}}users` (id, username, nickname) VALUES ('3', '系统消息', '系统消息');
 
 -- users表id从10000开始自递增
 ALTER TABLE {{$prefix}}users AUTO_INCREMENT = 10000;

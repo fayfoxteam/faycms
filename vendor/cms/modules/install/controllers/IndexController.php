@@ -10,6 +10,9 @@ use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
 use fay\helpers\Request;
+use fay\models\tables\UserProfile;
+use fay\models\tables\UsersRoles;
+use fay\models\tables\Roles;
 
 class IndexController extends InstallController{
 	public function __construct(){
@@ -124,13 +127,23 @@ class IndexController extends InstallController{
 				$salt = String::random('alnum', 5);
 				$password = $this->input->post('password');
 				$password = md5(md5($password).$salt);
-				Users::model()->insert(array(
+				$user_id = Users::model()->insert(array(
 					'username'=>$this->input->post('username'),
 					'password'=>$password,
 					'salt'=>$salt,
-					'role'=>Users::ROLE_SUPERADMIN,
-					'reg_time'=>$this->current_time,
 					'status'=>Users::STATUS_VERIFIED,
+				));
+				
+				UserProfile::model()->insert(array(
+					'user_id'=>$user_id,
+					'reg_time'=>$this->current_time,
+					'reg_ip'=>Request::ip2int(Request::getIP()),
+					'trackid'=>'admin_create:'.$this->session->get('id'),
+				));
+				
+				UsersRoles::model()->insert(array(
+					'user_id'=>$user_id,
+					'role_id'=>Roles::ITEM_SUPER_ADMIN,
 				));
 				
 				Option::set('site:sitename', $this->input->post('site:sitename'));

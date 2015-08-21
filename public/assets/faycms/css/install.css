@@ -37,5 +37,5 @@ html{background-color:#f1f1f1;font-size:14px;color:#444;line-height:1.5em;}
 .info-table td p{margin:0;}
 
 .Validform_checktip{margin-left:3px;overflow:hidden;color:#999;font-size:14px;}
-.Validform_right{margin-left:8px;color:#71b83d;padding-left:20px;background:url(../images/tick-circle.png) no-repeat left center;}
-.Validform_wrong{margin-left:8px;color:red;padding-left:20px;white-space:nowrap;background:url(../images/cross-circle.png) no-repeat left center;}
+.Validform_right{margin-left:8px;color:#71b83d;padding-left:20px;background:url(images/tick-circle.png) no-repeat left center;}
+.Validform_wrong{margin-left:8px;color:red;padding-left:20px;white-space:nowrap;background:url(images/cross-circle.png) no-repeat left center;}

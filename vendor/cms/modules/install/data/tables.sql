@@ -671,8 +671,8 @@ CREATE TABLE `{{$prefix}}roles` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '角色名',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `admin` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否管理员角色',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -783,6 +783,13 @@ CREATE TABLE `{{$prefix}}users_notifications` (
   PRIMARY KEY (`user_id`,`notification_id`),
   KEY `unread` (`user_id`,`read`,`deleted`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}users_roles`;
+CREATE TABLE `{{$prefix}}users_roles` (
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `role_id` smallint(5) unsigned NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`user_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}vouchers`;
 CREATE TABLE `{{$prefix}}vouchers` (

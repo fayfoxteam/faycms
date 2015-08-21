@@ -132,6 +132,7 @@ class IndexController extends InstallController{
 					'password'=>$password,
 					'salt'=>$salt,
 					'status'=>Users::STATUS_VERIFIED,
+					'admin'=>1,
 				));
 				
 				UserProfile::model()->insert(array(

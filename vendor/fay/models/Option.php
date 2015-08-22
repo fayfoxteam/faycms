@@ -41,7 +41,7 @@ class Option extends Model{
 		$options = Options::model()->fetchAll(array('option_name IN (?)'=>$names), 'option_name,option_value');
 		$return = ArrayHelper::column($options, 'option_value', 'option_name');
 		foreach($names as $n){
-			if(!isset($return[$n])){
+			if($n && !isset($return[$n])){
 				$return[$n] = null;
 			}
 		}

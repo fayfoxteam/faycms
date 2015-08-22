@@ -12,6 +12,7 @@ use fay\models\tables\Menus;
 use fay\models\Flash;
 use fay\models\Option;
 use fay\helpers\Request;
+use fay\models\tables\Roles;
 
 class ApplicationController extends ToolsController{
 	public function __construct(){
@@ -39,6 +40,7 @@ class ApplicationController extends ToolsController{
 		if($this->input->post()){
 			$app_name = $this->input->post('name');
 			$table_prefix = $this->input->post('table_prefix');
+			$charset = $this->input->post('charset');
 			//创建主配置文件
 			$config_file = file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/config/main.txt');
 			$config_file = str_replace(array(
@@ -47,6 +49,7 @@ class ApplicationController extends ToolsController{
 				'{{$password}}',
 				'{{$port}}',
 				'{{$dbname}}',
+				'{{$charset}}',
 				'{{$table_prefix}}',
 				'{{$name}}',
 			), array(
@@ -55,6 +58,7 @@ class ApplicationController extends ToolsController{
 				$this->input->post('password'),
 				$this->input->post('port', 'intval', 3306),
 				$this->input->post('dbname'),
+				$charset,
 				$table_prefix,
 				$app_name,
 			), $config_file);
@@ -88,8 +92,9 @@ class ApplicationController extends ToolsController{
 					'port'=>$this->input->post('port', 'intval', 3306),
 					'dbname'=>$this->input->post('dbname'),
 					'table_prefix'=>$table_prefix,
+					'charset'=>$charset,
 				));
-				$this->createTables($table_prefix);
+				$this->createTables($table_prefix, $charset);
 				$this->setCities($table_prefix);
 				$this->setRegions($table_prefix);
 				$this->setCats($table_prefix);
@@ -102,13 +107,24 @@ class ApplicationController extends ToolsController{
 				$salt = String::random('alnum', 5);
 				$password = $this->input->post('user_password');
 				$password = md5(md5($password).$salt);
-				$this->db->insert('users', array(
+				$user_id = $this->db->insert('users', array(
 					'username'=>$this->input->post('user_username'),
 					'password'=>$password,
 					'salt'=>$salt,
-					'role'=>Users::ROLE_SUPERADMIN,
-					'reg_time'=>$this->current_time,
 					'status'=>Users::STATUS_VERIFIED,
+					'admin'=>1,
+				));
+				
+				$this->db->insert('user_profile', array(
+					'user_id'=>$user_id,
+					'reg_time'=>$this->current_time,
+					'reg_ip'=>Request::ip2int(Request::getIP()),
+					'trackid'=>'tools_create',
+				));
+				
+				$this->db->insert('users_roles', array(
+					'user_id'=>$user_id,
+					'role_id'=>Roles::ITEM_SUPER_ADMIN,
 				));
 				
 				Option::set('site:sitename', $this->input->post('sitename'));
@@ -138,9 +154,9 @@ class ApplicationController extends ToolsController{
 		));
 	}
 	
-	private function createTables($prefix){
+	private function createTables($prefix, $charset){
 		$sql = file_get_contents(__DIR__.'/../../install/data/tables.sql');
-		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+		$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
 		$this->db->execute($sql);
 	}
 	

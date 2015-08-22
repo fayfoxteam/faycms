@@ -139,7 +139,7 @@ class IndexController extends InstallController{
 					'user_id'=>$user_id,
 					'reg_time'=>$this->current_time,
 					'reg_ip'=>Request::ip2int(Request::getIP()),
-					'trackid'=>'admin_create:'.$this->session->get('id'),
+					'trackid'=>'install',
 				));
 				
 				UsersRoles::model()->insert(array(

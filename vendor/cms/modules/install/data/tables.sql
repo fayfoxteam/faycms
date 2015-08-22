@@ -728,7 +728,7 @@ CREATE TABLE `{{$prefix}}templates` (
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_profile`;
-CREATE TABLE `fayfox_user_profile` (
+CREATE TABLE `{{$prefix}}user_profile` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
   `reg_ip` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册IP',

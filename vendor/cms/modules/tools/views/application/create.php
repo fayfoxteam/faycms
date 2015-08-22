@@ -10,11 +10,12 @@ use fay\helpers\Html;
 					<?php echo Html::inputText('name', '', array(
 						'data-required'=>'required',
 						'data-rule'=>'string',
-						'data-params'=>'{format:\'alias\'}',
+						'data-params'=>'{format:\'alnum\'}',
 						'data-label'=>'项目名称',
 						'data-ajax'=>$this->url('tools/application/is-app-not-exist'),
 						'class'=>'form-control mw400',
 					))?>
+					<p class="fc-grey">仅允许英文和数字</p>
 				</div>
 				<div class="form-field">
 					<label class="title bold">主机<em class="fc-red">*</em></label>
@@ -59,6 +60,16 @@ use fay\helpers\Html;
 					<?php echo Html::inputText('table_prefix', 'faycms_', array(
 						'class'=>'form-control mw400',
 					))?>
+				</div>
+				<div class="form-field">
+					<label class="title bold">编码方式</label>
+					<?php echo Html::select('charset', array(
+						'utf8'=>'utf8',
+						'utf8mb4'=>'utf8mb4',
+					), '', array(
+						'class'=>'form-control mw400',
+					))?>
+					<p class="fc-grey">utf8mb4可存储emoji等4字节编码，但需要mysql5.5以上版本支持</p>
 				</div>
 				<div class="form-field">
 					<label class="title bold">是否创建数据库</label>

@@ -3,6 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Options;
+use fay\helpers\ArrayHelper;
 
 class Option extends Model{
 	/**
@@ -26,6 +27,25 @@ class Option extends Model{
 		}else{
 			return $default;
 		}
+	}
+	
+	/**
+	 * 一次性获取多个参数
+	 * @param string|array $names 允许是逗号分割的字符串，或者数组
+	 * @return 返回以name项作为key的数组，若name不存在则不返回对应的key
+	 */
+	public static function mget($names){
+		if(is_string($names)){
+			$names = explode(',', str_replace(' ', '', $names));
+		}
+		$options = Options::model()->fetchAll(array('option_name IN (?)'=>$names), 'option_name,option_value');
+		$return = ArrayHelper::column($options, 'option_value', 'option_name');
+		foreach($names as $n){
+			if(!isset($return[$n])){
+				$return[$n] = null;
+			}
+		}
+		return $return;
 	}
 	
 	/**

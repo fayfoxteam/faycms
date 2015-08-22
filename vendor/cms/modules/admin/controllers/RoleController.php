@@ -12,6 +12,7 @@ use fay\helpers\Html;
 use fay\models\Category;
 use fay\models\tables\RolesCats;
 use fay\models\Flash;
+use fay\models\Option;
 
 class RoleController extends AdminController{
 	public function __construct(){
@@ -75,6 +76,13 @@ class RoleController extends AdminController{
 		
 		$actions_group = array();
 		foreach($actions as $a){
+			//若未开启文章审核，过滤掉文章审核权限
+			$post_review = Option::get('system:post_review');
+			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
+				&& !$post_review){
+				continue;
+			}
+			
 			$actions_group[$a['cat_title']][] = $a;
 		}
 		$this->view->actions = $actions_group;
@@ -154,6 +162,13 @@ class RoleController extends AdminController{
 		
 		$actions_group = array();
 		foreach($actions as $a){
+			//若未开启文章审核，过滤掉文章审核权限
+			$post_review = Option::get('system:post_review');
+			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
+				&& !$post_review){
+				continue;
+			}
+			
 			$actions_group[$a['cat_title']][] = $a;
 		}
 		$this->view->actions = $actions_group;

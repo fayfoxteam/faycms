@@ -3,11 +3,25 @@ use fay\helpers\Html;
 use fay\models\File;
 ?>
 <div class="form-field">
-	<label class="title bold">密码</label>
-	<?php echo F::form()->inputText('password', array(
+	<label class="title bold">登录名</label>
+	<?php echo F::form()->inputText('username', array(
 		'class'=>'form-control mw400',
+		'disabled'=>F::form()->getScene() == 'edit' ? 'disabled' : false,
+		'readonly'=>F::form()->getScene() == 'edit' ? 'readonly' : false,
 	))?>
-	<p class="description">若为空，则不会修改密码字段</p>
+</div>
+<div class="form-field">
+	<label class="title bold">密码</label>
+	<?php
+		echo F::form()->inputText('password', array(
+			'class'=>'form-control mw400',
+		));
+		if(F::form()->getScene() == 'edit'){
+			echo Html::tag('p', array(
+				'class'=>'description',
+			), '若为空，则不会修改密码字段');
+		}
+	?>
 </div>
 <?php if($roles){?>
 <div class="form-field">

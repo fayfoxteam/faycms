@@ -1,14 +1,6 @@
 <?php echo F::form()->open()?>
 <div class="row">
 	<div class="col-6">
-		<div class="form-field">
-			<label class="title bold">登录名</label>
-			<?php echo F::form()->inputText('username', array(
-				'class'=>'form-control mw400',
-				'disabled'=>'disabled',
-				'readonly'=>'readonly',
-			))?>
-		</div>
 		<?php $this->renderPartial('_edit_panel')?>
 	</div>
 	<div class="col-6" id="prop-panel">

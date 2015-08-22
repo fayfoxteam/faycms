@@ -13,7 +13,7 @@ ALTER TABLE {{$prefix}}categories AUTO_INCREMENT = 10000;
 ALTER TABLE {{$prefix}}menus AUTO_INCREMENT = 1000;
 
 -- roles表新增超级管理员和系统角色
-INSERT INTO `{{$prefix}}roles` VALUES ('1', '超级管理员', '', '0', '0');
+INSERT INTO `{{$prefix}}roles` VALUES ('1', '超级管理员', '', '0', '1');
 
 -- files表id从1000开始递增
 ALTER TABLE {{$prefix}}files AUTO_INCREMENT = 1000;

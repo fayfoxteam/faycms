@@ -367,9 +367,9 @@ class User extends Model{
 		}
 	
 		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(
-			'varchar'=>'fay\models\tables\ProfileVarchar',
-			'int'=>'fay\models\tables\ProfileInt',
-			'text'=>'fay\models\tables\ProfileText',
+			'varchar'=>'fay\models\tables\UserPropVarchar',
+			'int'=>'fay\models\tables\UserPropInt',
+			'text'=>'fay\models\tables\UserPropText',
 		));
 	}
 	
@@ -383,9 +383,9 @@ class User extends Model{
 	public function setPropValueByAlias($alias, $value, $user_id = null){
 		$user_id === null && $user_id = \F::app()->current_user;
 		return Prop::model()->setPropValueByAlias('user_id', $user_id, $alias, $value, array(
-			'varchar'=>'fay\models\tables\ProfileVarchar',
-			'int'=>'fay\models\tables\ProfileInt',
-			'text'=>'fay\models\tables\ProfileText',
+			'varchar'=>'fay\models\tables\UserPropVarchar',
+			'int'=>'fay\models\tables\UserPropInt',
+			'text'=>'fay\models\tables\UserPropText',
 		));
 	}
 	
@@ -397,9 +397,9 @@ class User extends Model{
 	public function getPropValueByAlias($alias, $user_id = null){
 		$user_id === null && $user_id = \F::app()->current_user;
 		return Prop::model()->getPropValueByAlias('user_id', $user_id, $alias, array(
-			'varchar'=>'fay\models\tables\ProfileVarchar',
-			'int'=>'fay\models\tables\ProfileInt',
-			'text'=>'fay\models\tables\ProfileText',
+			'varchar'=>'fay\models\tables\UserPropVarchar',
+			'int'=>'fay\models\tables\UserPropInt',
+			'text'=>'fay\models\tables\UserPropText',
 		));
 	}
 	

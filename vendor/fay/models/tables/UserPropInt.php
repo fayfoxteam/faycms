@@ -3,12 +3,19 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class ProfileInt extends Table{
-	protected $_name = 'profile_int';
+/**
+ * User Prop Int model
+ * 
+ * @property int $user_id
+ * @property int $prop_id
+ * @property int $content
+ */
+class UserPropInt extends Table{
+	protected $_name = 'user_prop_int';
 	protected $_primary = array('user_id', 'prop_id', 'content');
 	
 	/**
-	 * @return ProfileInt
+	 * @return UserPropInt
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);
@@ -22,9 +29,9 @@ class ProfileInt extends Table{
 
 	public function labels(){
 		return array(
-			'user_id'=>'User Id',
-			'prop_id'=>'Prop Id',
-			'content'=>'Content',
+			'user_id'=>'用户ID',
+			'prop_id'=>'角色ID',
+			'content'=>'角色值',
 		);
 	}
 

@@ -46,9 +46,9 @@ class ProfileController extends AdminController{
 				if($roles){
 					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
 					Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
-						'varchar'=>'fay\models\tables\ProfileVarchar',
-						'int'=>'fay\models\tables\ProfileInt',
-						'text'=>'fay\models\tables\ProfileText',
+						'varchar'=>'fay\models\tables\UserPropVarchar',
+						'int'=>'fay\models\tables\UserPropInt',
+						'text'=>'fay\models\tables\UserPropText',
 					));
 				}
 				

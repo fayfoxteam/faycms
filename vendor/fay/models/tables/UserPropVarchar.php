@@ -3,12 +3,19 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class ProfileText extends Table{
-	protected $_name = 'profile_text';
+/**
+ * User Prop Varchar model
+ * 
+ * @property int $user_id
+ * @property int $prop_id
+ * @property string $content
+ */
+class UserPropVarchar extends Table{
+	protected $_name = 'user_prop_varchar';
 	protected $_primary = array('user_id', 'prop_id');
 	
 	/**
-	 * @return ProfileText
+	 * @return UserPropVarchar
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);
@@ -17,14 +24,15 @@ class ProfileText extends Table{
 	public function rules(){
 		return array(
 			array(array('user_id', 'prop_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('content'), 'string', array('max'=>255)),
 		);
 	}
 
 	public function labels(){
 		return array(
-			'user_id'=>'User Id',
-			'prop_id'=>'Prop Id',
-			'content'=>'Content',
+			'user_id'=>'用户ID',
+			'prop_id'=>'角色ID',
+			'content'=>'角色值',
 		);
 	}
 
@@ -32,7 +40,7 @@ class ProfileText extends Table{
 		return array(
 			'user_id'=>'intval',
 			'prop_id'=>'intval',
-			'content'=>'',
+			'content'=>'trim',
 		);
 	}
 }

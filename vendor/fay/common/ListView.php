@@ -88,9 +88,34 @@ class ListView{
 		}
 		
 		if($this->reload === null){
-			$gets = \F::app()->input->get();
+			$folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
+			//所有斜杠都以正斜杠为准
+			$folder = str_replace('\\', '/', $folder);
+			if(substr($folder, -7) == '/public'){
+				$folder = substr($folder, 0, -7);
+			}
+			if($folder && substr($folder, 0, 1) != '/'){
+				//由于配置关系，有的DOCUMENT_ROOT最后有斜杠，有的没有
+				$folder = '/'.$folder;
+			}
+			if($folder == '/'){
+				//仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
+				$folder = '';
+			}
+			$request = substr($_SERVER['REQUEST_URI'], strlen($folder) + 1);
+			//去掉问号后面的部分
+			$pos = strpos($request, '?');
+			if($pos !== false){
+				$request = substr($request, 0, $pos);
+			}
+			
+			$gets = $_GET;
 			unset($gets[$this->page_key]);
-			$this->reload = \F::app()->view->url(\F::app()->uri->router, $gets);
+			if($gets){
+				$this->reload = \F::app()->view->url($request) . '?' . http_build_query($gets);
+			}else{
+				$this->reload = \F::app()->view->url($request);
+			}
 		}
 		$view_data['listview'] = $this;
 		\F::app()->view->renderPartial($this->pager_view, $view_data);

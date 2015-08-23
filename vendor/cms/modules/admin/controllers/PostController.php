@@ -69,8 +69,8 @@ class PostController extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'post';
-		$this->post_review = !!(Option::get('system.post_review'));
-		$this->role_cats = !!(Option::get('system.role_cats'));
+		$this->post_review = !!(Option::get('system:post_review'));
+		$this->role_cats = !!(Option::get('system:role_cats'));
 	}
 	
 	public function create(){
@@ -91,13 +91,12 @@ class PostController extends AdminController{
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],
 		));
-		$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
 		
 		//查询所有标签
 		$this->view->tags = Tags::model()->fetchAll(array(), 'id, title');
 		
 		//设置附加属性
-		$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 		
 		//分类树
 		$this->view->cats = Category::model()->getTree('_system_post');
@@ -179,17 +178,25 @@ class PostController extends AdminController{
 		$_setting_key = 'admin_post_boxes';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array();
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		$this->form('setting')
 			->setModel(Setting::model())
 			->setJsModel('setting')
 			->setData($_settings)
 			->setData(array(
 				'_key'=>$_setting_key,
-				'enabled_boxes'=>$this->getEnabledBoxes($_setting_key),
+				'enabled_boxes'=>$enabled_boxes,
 			));
 		
 		//所有文章分类
 		$this->view->cats = Category::model()->getTree('_system_post');
+		
+		//标题
+		if(in_array('main-category', $enabled_boxes)){
+			$this->layout->subtitle = '撰写文章';
+		}else{
+			$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
+		}
 		
 		$this->layout->_help = '_help';
 		
@@ -374,7 +381,7 @@ class PostController extends AdminController{
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],
 		));
-		$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 		
 		$this->form()->setModel(Posts::model());
 		
@@ -401,7 +408,7 @@ class PostController extends AdminController{
 						'left_value <= '.$cat['left_value'],
 						'right_value >= '.$cat['right_value'],
 					));
-					$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+					$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 				}
 				//更新posts表
 				$data = $this->form()->getFilteredData();
@@ -509,7 +516,8 @@ class PostController extends AdminController{
 						'text'=>'fay\models\tables\PostPropText',
 					));
 				}
-
+				
+				//hook
 				Hook::getInstance()->call('after_post_created', array(
 					'post_id'=>$post_id,
 				));
@@ -654,7 +662,7 @@ class PostController extends AdminController{
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],
 		));
-		$this->view->props = Prop::model()->getAll($cat_parents, Props::TYPE_POST_CAT);
+		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 		
 		//文章对应附加属性值
 		if($post_id){
@@ -712,9 +720,7 @@ class PostController extends AdminController{
 	public function batch(){
 		$ids = $this->input->post('ids', 'intval');
 		$action = $this->input->post('batch_action');
-		if(empty($action)){
-			$action = $this->input->post('batch_action_2');
-		}
+		
 		switch($action){
 			case 'set-published':
 				foreach($ids as $id){
@@ -896,5 +902,20 @@ class PostController extends AdminController{
 				'status'=>1,
 			));
 		}
+	}
+	
+	public function search(){
+		if($cat_id = $this->input->get('cat_id', 'intval')){
+			$cats = Category::model()->getAllIds($cat_id);
+			$cats[] = $cat_id;
+		}
+		$posts = Posts::model()->fetchAll(array(
+			'title LIKE ?'=>'%'.$this->input->get('key', false).'%',
+			'cat_id IN (?)'=>isset($cats) ? $cats : false,
+		), 'id,title', 'id DESC', 20);
+		echo json_encode(array(
+			'status'=>1,
+			'data'=>$posts,
+		));
 	}
 }

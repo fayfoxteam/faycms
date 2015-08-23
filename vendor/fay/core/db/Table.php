@@ -4,6 +4,7 @@ namespace fay\core\db;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
+use fay\helpers\String;
 
 class Table extends Model{
 	protected $_name = '';
@@ -87,7 +88,7 @@ class Table extends Model{
 	 * @param boolean $filter 若为true且$this->filters()中有设置过滤器，则进行过滤
 	 */
 	public function update($data, $where, $filter = false){
-		if(is_numeric($where)){
+		if(String::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		if(!empty($data)){
@@ -105,14 +106,14 @@ class Table extends Model{
 	 * @param mix $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
 	 */
 	public function delete($where){
-		if(is_numeric($where)){
+		if(String::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		return $this->db->delete($this->_name, $where);
 	}
 	
 	public function inc($where, $field, $count){
-		if(is_numeric($where)){
+		if(String::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		$this->db->inc($this->_name, $where, $field, $count);
@@ -191,9 +192,21 @@ class Table extends Model{
 	
 	/**
 	 * 获取表所有字段
+	 * @param array|string $except 返回字段不包含except中指定的字段
 	 * @return array:
 	 */
-	public function getFields(){
-		return array_keys($this->labels());
+	public function getFields($except = array()){
+		if($except){
+			if(!is_array($except)){
+				$except = explode(',', $except);
+			}
+			$labels = $this->labels();
+			foreach($except as $e){
+				unset($labels[$e]);
+			}
+			return array_keys($labels);
+		}else{
+			return array_keys($this->labels());
+		}
 	}
 }

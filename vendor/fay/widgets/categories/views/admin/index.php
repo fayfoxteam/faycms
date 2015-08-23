@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Users;
+use fay\models\tables\Roles;
 ?>
 <div class="box" id="box-abstract" data-name="abstract">
 	<div class="box-title">
@@ -8,21 +8,21 @@ use fay\models\tables\Users;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<label class="title">标题</label>
+			<label class="title bold">标题</label>
 			<?php echo Html::inputText('title', isset($data['title']) ? $data['title'] : '', array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">若为空，则显示顶级分类的标题</p>
 		</div>
 		<div class="form-field">
-			<label class="title">顶级分类</label>
+			<label class="title bold">顶级分类</label>
 			<?php echo Html::select('top', Html::getSelectOptions($cats), isset($data['top']) ? $data['top'] : 0, array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">仅显示所选分类的子分类（不包含所选分类本身）</p>
 		</div>
 		<div class="form-field">
-			<label class="title">是否体现层级关系</label>
+			<label class="title bold">是否体现层级关系</label>
 			<?php echo Html::inputRadio('hierarchical', 1, !empty($data['hierarchical']), array(
 				'label'=>'是',
 			))?>
@@ -32,10 +32,11 @@ use fay\models\tables\Users;
 		</div>
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
+			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
-		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
+		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">链接格式</label>
 				<?php
 					echo Html::inputRadio('uri', 'cat/{$id}', !isset($data['uri']) || $data['uri'] == 'cat/{$id}', array(
 						'label'=>'cat/{$id}',
@@ -63,11 +64,12 @@ use fay\models\tables\Users;
 				<p class="fc-grey">
 					<code>{$id}</code>代表“分类ID”。
 					<code>{$alias}</code>代表“分类别名”。
-					不要包含base_url部分
+					不要包含base_url部分。<br>
+					<span class="fc-orange">此配置项是否生效取决于模版代码</span>
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">渲染模版</label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
 					'class'=>'form-control h90 autosize',
 				))?>

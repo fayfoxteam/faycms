@@ -6,6 +6,7 @@ use fay\core\Sql;
 use fay\models\tables\PagesCategories;
 use fay\models\tables\Pages;
 use fay\models\tables\Categories;
+use fay\helpers\String;
 
 class Page extends Model{
 	
@@ -120,7 +121,7 @@ class Page extends Model{
 	 *  - 若为字符串，视为单页别名获取；
 	 */
 	public function get($page){
-		if(is_numeric($page)){
+		if(String::isInt($page)){
 			return $this->getById($page);
 		}else{
 			return $this->getByAlias($page);

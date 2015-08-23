@@ -13,22 +13,22 @@ use fay\models\Flash;
 
 <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-responsive.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/style-responsive.css')?>" />
 <?php echo $this->getCss()?>
 
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.min.js"></script>
-<title><?php echo $subtitle?> | <?php echo Option::get('site.sitename')?>后台</title>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
+<title><?php echo $subtitle?> | <?php echo Option::get('site:sitename')?>后台</title>
 </head>
 <body id="faycms">
 <div class="wrapper">
@@ -39,10 +39,9 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
 					foreach(F::app()->_top_nav as $nav){
-						if(isset($nav['role'])){
-							if(is_array($nav['role']) && !in_array(F::app()->session->get('role'), $nav['role'])){
-								continue;
-							}else if(F::app()->session->get('role') != $nav['role']){
+						if(isset($nav['roles'])){
+							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
+							if(!array_intersect(F::app()->session->get('roles'), $nav['roles'])){
 								continue;
 							}
 						}
@@ -59,6 +58,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				?>
 			</ul>
 			<ul class="user-info-menu fr">
+			<?php if(F::session()->get('id')){?>
 				<li class="dropdown-container hover-line message" id="faycms-message">
 					<?php echo Html::link('', '#faycms-messages-container', array(
 						'class'=>'dropdown',
@@ -117,6 +117,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						?></li>
 					</ul>
 				</li>
+				<?php }?>
 			</ul>
 		</nav>
 		<div class="page-title">
@@ -131,7 +132,6 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						}else{
 							$html_options['class'] = 'quick-link';
 						}
-
 						echo Html::link($sublink['text'], $sublink['uri'], $html_options);
 					}?></h1>
 			</div>
@@ -194,8 +194,10 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 <script>
 $(function(){
 	//系统消息提示
-	common.headerNotification();
-	setInterval(common.headerNotification, 30000);
+	if(system.user_id){
+		common.headerNotification();
+		setInterval(common.headerNotification, 30000);
+	}
 	
 	<?php
 		$forms = F::forms();
@@ -210,8 +212,8 @@ $(function(){
 	common.init();
 });
 </script>
-<img src="<?php echo $this->url()?>images/throbber.gif" class="hide" />
-<img src="<?php echo $this->url()?>images/ajax-loading.gif" class="hide" />
-<img src="<?php echo $this->url()?>images/loading.gif" class="hide" />
+<img src="<?php echo $this->assets('images/throbber.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/ajax-loading.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/loading.gif" class="hide')?>" />
 </body>
 </html>

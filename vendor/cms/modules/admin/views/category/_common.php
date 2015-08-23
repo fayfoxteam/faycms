@@ -205,9 +205,9 @@ F::form('edit')->setModel(Categories::model());
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/cat.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/cat.js')?>"></script>
 <script>
 $(function(){
 	cat.init();

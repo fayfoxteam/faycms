@@ -12,10 +12,3 @@
 		))?>
 	</div>
 </div>
-<script>
-system.getScript(system.url('js/custom/fayfox.textext.js'), function(){
-	$("#tags").ftextext({
-		'url':system.url('admin/tag/search')
-	});
-});
-</script>

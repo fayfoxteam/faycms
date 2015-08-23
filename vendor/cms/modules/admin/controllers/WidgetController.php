@@ -22,6 +22,11 @@ class WidgetController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '所有小工具';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/widgetarea/index'),
+			'text'=>'小工具域',
+		);
+		
 		$widget_instances = array();
 		
 		//获取当前application下的widgets
@@ -86,7 +91,7 @@ class WidgetController extends AdminController{
 					'alias'=>$this->input->post('f_widget_alias'),
 					'description'=>$this->input->post('f_widget_description'),
 					'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
-					'widgetarea'=>$this->input->post('widgetarea', 'trim'),
+					'widgetarea'=>$this->input->post('f_widget_widgetarea', 'trim'),
 				), $id);
 				if(method_exists($widget_obj, 'onPost')){
 					$widget_obj->onPost();

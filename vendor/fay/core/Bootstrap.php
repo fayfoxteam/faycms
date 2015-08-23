@@ -23,9 +23,8 @@ class Bootstrap{
 		//路由
 		$uri = new Uri();
 		
-		if(\F::config()->get('hook')){
-			Hook::getInstance()->call('after_uri');
-		}
+		//hook
+		Hook::getInstance()->call('after_uri');
 		
 		if(!$uri->router){
 			//路由解析失败
@@ -52,11 +51,9 @@ class Bootstrap{
 		
 		$file = $this->getControllerAndAction($uri);
 		$controller = new $file['controller'];
-		if(\F::config()->get('hook')){
-			Hook::getInstance()->call('after_controller_constructor');
-		}
+		//hook
+		Hook::getInstance()->call('after_controller_constructor');
 		$controller->{$file['action']}();
-		
 	}
 	
 	/**

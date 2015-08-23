@@ -13,7 +13,7 @@ return array(
 		'password'=>'{{$password}}',							//密码
 		'port'=>{{$port}},							//端口
 		'dbname'=>'{{$dbname}}',					//数据库名
-		'charset'=>'utf8',						//数据库编码方式
+		'charset'=>'{{$charset}}',						//数据库编码方式
 		'table_prefix'=>'{{$table_prefix}}',				//数据库表前缀
 	),
 	

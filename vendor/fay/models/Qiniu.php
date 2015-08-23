@@ -4,6 +4,7 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Files;
 use fay\core\Loader;
+use fay\helpers\String;
 
 class Qiniu extends Model{
 	/**
@@ -18,14 +19,14 @@ class Qiniu extends Model{
 	 * @param int $file_id 本地文件ID
 	 */
 	public function put($file){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file);
 		}
 		
 		Loader::vendor('qiniu/io');
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = \F::config()->get('*', 'qiniu');
+		$qiniu = Option::getTeam('qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$putPolicy = new \Qiniu_RS_PutPolicy($qiniu['bucket']);
@@ -55,13 +56,13 @@ class Qiniu extends Model{
 	 * @param int $file_id 本地文件ID
 	 */
 	public function delete($file){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path');
 		}
 		
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = \F::config()->get('*', 'qiniu');
+		$qiniu = Option::getTeam('qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$client = new \Qiniu_MacHttpClient(null);
@@ -89,15 +90,15 @@ class Qiniu extends Model{
 	 * @param $options 包含宽高参数，若文件非图片，宽高参数无效
 	 */
 	public function getUrl($file, $options = array()){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image,qiniu');
 		}
 		
 		if(!$file['qiniu']){
 			return '';
 		}
-		$domain = \F::app()->config->get('domain', 'qiniu');
-		$domain || $domain = 'http://'.\F::app()->config->get('bucket', 'qiniu').'.qiniudn.com/';
+		$domain = Option::get('qiniu:domain');
+		$domain || $domain = 'http://'.Option::get('qiniu:bucket').'.qiniudn.com/';
 		$src = $domain . $this->getKey($file);
 		
 		if($file['is_image'] && (isset($options['dw']) || isset($options['dh']))){

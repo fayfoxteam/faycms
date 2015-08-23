@@ -28,8 +28,8 @@ use fay\models\File;
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/browserplus-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/browserplus-min.js')?>"></script>
 <script>
 $(function(){
 	var uploader = new plupload.Uploader({
@@ -37,23 +37,23 @@ $(function(){
 		browse_button : 'upload-thumbnail',
 		container : 'thumbnail-container',
 		max_file_size : '2mb',
-		url : system.url("admin/file/upload",{'t':'pages'}),
+		url : system.url('admin/file/upload',{'cat':'page'}),
 		flash_swf_url : system.url()+'flash/plupload.flash.swf',
 		silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 		filters : [
-			{title : "Image files", extensions : "jpg,gif,png,jpeg"}
+			{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
 		]
 	});
 
 	uploader.init();
 	uploader.bind('FilesAdded', function(up, files) {
-		$("#thumbnail-preview-container").html('<img src="'+system.url('images/loading.gif')+'" />');
+		$('#thumbnail-preview-container').html('<img src="'+system.assets('images/loading.gif')+'" />');
 		uploader.start();
 	});
 	
 	uploader.bind('Error', function(up, error) {
 		if(error.code == -600){
-			alert("文件大小不能超过"+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+"M");
+			alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
 			return false;
 		}else if(error.code == -601){
 			alert('非法的文件类型');
@@ -76,10 +76,10 @@ $(function(){
 			'</a>',
 			'<a href="javascript:;" id="remove-thumbnail">移除缩略图</a>',
 		].join('');
-		$("#thumbnail-preview-container").html(html);
-		system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$("#thumbnail-preview-container .fancybox-image").fancybox({
+		$('#thumbnail-preview-container').html(html);
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+				$('#thumbnail-preview-container .fancybox-image').fancybox({
 					'transitionIn'	: 'elastic',
 					'transitionOut'	: 'elastic',
 					'type' : 'image',

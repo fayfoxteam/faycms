@@ -12,6 +12,7 @@ use fay\models\tables\ExamAnswers;
 use fay\core\Response;
 use fay\models\tables\ExamExamsQuestions;
 use fay\models\Flash;
+use fay\helpers\String;
 
 class ExamQuestionController extends AdminController{
 	public function __construct(){
@@ -79,7 +80,7 @@ class ExamQuestionController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$question_id = ExamQuestions::model()->insert(array(
-					'question'=>$this->input->post('question', 'addslashes'),
+					'question'=>$this->input->post('question'),
 					'cat_id'=>$this->input->post('cat_id', 'intval', 0),
 					'score'=>$this->input->post('score', 'floatval'),
 					'type'=>$this->input->post('type', 'intval'),
@@ -162,7 +163,7 @@ class ExamQuestionController extends AdminController{
 				$old_question = ExamQuestions::model()->find($id, 'type');
 				$new_question_type = $this->input->post('type', 'intval', $old_question['type']);
 				ExamQuestions::model()->update(array(
-					'question'=>$this->input->post('question', 'addslashes'),
+					'question'=>$this->input->post('question'),
 					'cat_id'=>$this->input->post('cat_id', 'intval'),
 					'score'=>$this->input->post('score', 'floatval'),
 					'type'=>$new_question_type,
@@ -199,7 +200,7 @@ class ExamQuestionController extends AdminController{
 							$answer_ids = array();
 							$i = 0;
 							foreach($selector_answers as $k=>$a){
-								if(is_numeric($k)){
+								if(String::isInt($k)){
 									//老记录，更新
 									$answer_ids[] = $k;
 									//更新记录
@@ -366,7 +367,7 @@ class ExamQuestionController extends AdminController{
 	public function get(){
 		$id = $this->input->get('id');
 		
-		if(is_numeric($id)){
+		if(String::isInt($id)){
 			$question = ExamQuestions::model()->find($id);
 			echo json_encode(array(
 				'status'=>1,
@@ -454,9 +455,7 @@ class ExamQuestionController extends AdminController{
 	public function batch(){
 		$ids = $this->input->post('ids', 'intval');
 		$action = $this->input->post('batch_action');
-		if(empty($action)){
-			$action = $this->input->post('batch_action_2');
-		}
+		
 		switch($action){
 			case 'set-enabled':
 				if(!$this->checkPermission('admin/exam-question/edit')){

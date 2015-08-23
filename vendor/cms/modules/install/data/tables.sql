@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `{{$prefix}}actions`;
 CREATE TABLE `{{$prefix}}actions` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '操作',
-  `router` varchar(255) NOT NULL DEFAULT '' COMMENT '路由',
+  `router` varchar(50) NOT NULL DEFAULT '' COMMENT '路由',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
   `is_public` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为公共路由',
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
@@ -280,7 +280,7 @@ CREATE TABLE `{{$prefix}}files` (
   `upload_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Upload Time',
   `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
   `downloads` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Downloads',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Type',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   `qiniu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Qiniu',
   PRIMARY KEY (`id`),
   KEY `raw_name` (`raw_name`)
@@ -575,7 +575,8 @@ CREATE TABLE `{{$prefix}}posts` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
-  KEY `cat` (`cat_id`)
+  KEY `cat` (`cat_id`),
+  KEY `deleted-status-publish_time` (`deleted`,`status`,`publish_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;
@@ -600,30 +601,6 @@ CREATE TABLE `{{$prefix}}posts_tags` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
   PRIMARY KEY (`post_id`,`tag_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}profile_int`;
-CREATE TABLE `{{$prefix}}profile_int` (
-  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Content',
-  PRIMARY KEY (`user_id`,`prop_id`,`content`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}profile_text`;
-CREATE TABLE `{{$prefix}}profile_text` (
-  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` text NOT NULL COMMENT 'Content',
-  PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}profile_varchar`;
-CREATE TABLE `{{$prefix}}profile_varchar` (
-  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT 'Content',
-  PRIMARY KEY (`user_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}prop_values`;
@@ -670,8 +647,8 @@ CREATE TABLE `{{$prefix}}roles` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '角色名',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `admin` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否管理员角色',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -726,6 +703,46 @@ CREATE TABLE `{{$prefix}}templates` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}user_profile`;
+CREATE TABLE `{{$prefix}}user_profile` (
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
+  `reg_ip` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册IP',
+  `login_times` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '登录次数',
+  `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
+  `last_login_ip` int(11) NOT NULL DEFAULT '0' COMMENT '最后登录IP',
+  `last_time_online` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后在线时间',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
+  `refer` varchar(255) NOT NULL DEFAULT '' COMMENT '来源URL',
+  `se` varchar(30) NOT NULL DEFAULT '' COMMENT '搜索引擎',
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '搜索关键词',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}user_prop_int`;
+CREATE TABLE `{{$prefix}}user_prop_int` (
+  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
+  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色值',
+  PRIMARY KEY (`user_id`,`prop_id`,`content`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `{{$prefix}}user_prop_text`;
+CREATE TABLE `{{$prefix}}user_prop_text` (
+  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
+  `content` text NOT NULL COMMENT '角色值',
+  PRIMARY KEY (`user_id`,`prop_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `{{$prefix}}user_prop_varchar`;
+CREATE TABLE `{{$prefix}}user_prop_varchar` (
+  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '角色值',
+  PRIMARY KEY (`user_id`,`prop_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -740,31 +757,16 @@ CREATE TABLE `{{$prefix}}users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '登录名',
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮箱',
-  `cellphone` varchar(30) NOT NULL DEFAULT '' COMMENT '手机号码',
+  `mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '手机号码',
   `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `salt` char(5) NOT NULL DEFAULT '' COMMENT '五位随机数',
-  `realname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '昵称',
   `avatar` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '头像',
-  `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
-  `reg_ip` int(11) NOT NULL DEFAULT '0' COMMENT '注册ip',
-  `login_times` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '登陆次数',
-  `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登陆时间',
-  `last_login_ip` int(11) NOT NULL DEFAULT '0' COMMENT '最后登陆者ip',
-  `last_time_online` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后在线时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户审核状态',
   `block` tinyint(1) NOT NULL DEFAULT '0' COMMENT '屏蔽用户',
-  `role` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '角色',
   `parent` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '父节点',
-  `active_key` char(32) NOT NULL DEFAULT '' COMMENT '邮件验证码',
-  `active_expire` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '邮件过期时间',
-  `sms_key` char(6) NOT NULL DEFAULT '' COMMENT 'Sms Key',
-  `sms_expire` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sms Expire',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT 'Trackid',
-  `refer` varchar(255) NOT NULL DEFAULT '' COMMENT '来源URL',
-  `se` varchar(30) NOT NULL DEFAULT '' COMMENT '搜索引擎',
-  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '搜索关键词',
+  `admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为管理员',
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -781,6 +783,13 @@ CREATE TABLE `{{$prefix}}users_notifications` (
   PRIMARY KEY (`user_id`,`notification_id`),
   KEY `unread` (`user_id`,`read`,`deleted`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}users_roles`;
+CREATE TABLE `{{$prefix}}users_roles` (
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `role_id` smallint(5) unsigned NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`user_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}vouchers`;
 CREATE TABLE `{{$prefix}}vouchers` (

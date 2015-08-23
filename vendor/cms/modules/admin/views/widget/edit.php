@@ -43,7 +43,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="box-content">
 					<div class="form-field pb0 pt0">
-						<label class="title pb0">别名</label>
+						<label class="title bold pb0">别名</label>
 						<?php echo Html::inputText('f_widget_alias', $widget['alias'], array(
 							'data-rule'=>'string',
 							'data-label'=>'别名',
@@ -56,14 +56,14 @@ use fay\helpers\Html;
 						</p>
 					</div>
 					<div class="form-field">
-						<label class="title">所属域</label>
-						<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
+						<label class="title bold">所属域</label>
+						<?php echo Html::select('f_widget_widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
 							'class'=>'form-control',
 						))?>
 						<p class="fc-grey">小工具可以属于一个域，通过调用域来显示一组小工具</p>
 					</div>
 					<div class="form-field pb0">
-						<label class="title pb0">描述</label>
+						<label class="title bold pb0">描述</label>
 						<?php echo Html::textarea('f_widget_description', $widget['description'], array(
 							'class'=>'form-control autosize',
 						))?>
@@ -79,6 +79,6 @@ use fay\helpers\Html;
 <?php echo F::form('widget')->close()?>
 <script>
 $(function(){
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'widget-<?php echo $widget['alias']?>'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'widget'});
 });
 </script>

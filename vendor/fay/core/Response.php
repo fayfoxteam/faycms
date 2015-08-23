@@ -145,6 +145,7 @@ class Response{
 			);
 		}
 		if(\F::app()->input->isAjaxRequest()){
+			header('Content-Type: application/json');
 			echo json_encode(array(
 				'status'=>$status == 'success' ? 1 : 0,
 			)+$data);
@@ -199,5 +200,76 @@ class Response{
 		self::setStatusHeader(404);
 		\F::app()->view->render('common/404');
 		die;
+	}
+	
+	/**
+	 * 返回json
+	 * @param mix $content 内容部分
+	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
+	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
+	 */
+	public static function json($content, $status = 1, $message = '', $code = ''){
+		header('Content-Type:application/json; charset=utf-8');
+		$content = json_encode(array(
+			'status'=>$status == 0 ? 0 : 1,
+			'content'=>$content,
+			'code'=>$code,
+			'message'=>$message
+		));
+		self::send($content);
+		die;
+	}
+
+	/**
+	 * 返回jsonp
+	 * @param string $func jsonp请求的回调函数名，在调用的地方，从请求中获取，例如jquery发送的请求：$func = $this->input->get('callback');！
+	 * @param mix $content 内容部分
+	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
+	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
+	 */
+	public static function jsonp($func, $content, $status = 1, $message = '', $code = ''){
+		// 返回JSON数据格式到客户端 包含状态信息
+		header('Content-Type:application/json; charset=utf-8');
+		$content = $func.'('.json_encode(array(
+			'status'=>$status == 0 ? 0 : 1,
+			'content'=>$content,
+			'code'=>$code,
+			'message'=>$message
+		)).');';
+		self::send($content);
+		die;
+	}
+	
+	/**
+	 * 向浏览器输出
+	 * @param string $content
+	 */
+	public static function send($content){
+		$uri = Uri::getInstance();
+		
+		//根据router设置缓存
+		$cache_routers = \F::config()->get('*', 'pagecache');
+		$cache_routers_keys = array_keys($cache_routers);
+		if(in_array($uri->router, $cache_routers_keys)){
+			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
+			$cache_key = 'pages/' . $uri->router . '/' . $filename;
+			if(\F::input()->post()){
+				//有post数据的时候，是否更新页面
+				if(isset($cache_routers[$uri->router]['on_post'])){
+					if($cache_routers[$uri->router]['on_post'] == 'rebuild'){//刷新缓存
+						\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
+					}else if($cache_routers[$uri->router]['on_post'] == 'remove'){//删除缓存
+						\F::cache()->delete($cache_key);
+					}
+				}
+			}else{
+				//没post数据的时候，直接重新生成页面缓存
+				\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
+			}
+		}
+		
+		echo $content;
 	}
 }

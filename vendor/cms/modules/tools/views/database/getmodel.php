@@ -4,6 +4,23 @@ namespace <?php echo $namespace?>;
 
 use fay\core\db\Table;
 
+/**
+ * <?php echo ucwords(str_replace('_', ' ', $table_name))?> model
+ * <?php foreach($fields as $f){?>
+
+ * @property <?php
+	if(strpos($f['Type'], 'int') === 0 || strpos($f['Type'], 'mediumint') === 0 ||
+		strpos($f['Type'], 'smallint') === 0 || strpos($f['Type'], 'tinyint') === 0){
+		echo 'int';
+	}else if(strpos($f['Type'], 'decimal') === 0 || strpos($f['Type'], 'float') === 0){
+		echo 'float';
+	}else{
+		echo 'string';
+	}
+	echo " \${$f['Field']}";
+}?>
+
+ */
 class <?php echo $class_name?> extends Table{
 	protected $_name = '<?php echo $table_name?>';
 <?php if(count($primary) > 1){?>

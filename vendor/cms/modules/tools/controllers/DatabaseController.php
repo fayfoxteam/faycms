@@ -4,6 +4,7 @@ namespace cms\modules\tools\controllers;
 use cms\library\ToolsController;
 use fay\helpers\String;
 use fay\core\Db;
+use fay\models\Flash;
 
 class DatabaseController extends ToolsController{
 	/**

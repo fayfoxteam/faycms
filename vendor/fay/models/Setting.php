@@ -33,14 +33,14 @@ class Setting extends Model{
 	
 	public function set($key, $value, $user_id = null){
 		if(UserSettings::model()->fetchRow(array(
-			'setting_key = ?'=>$key,
 			'user_id = ?'=>$user_id ? $user_id : \F::app()->current_user,
-		), 'id')){
+			'setting_key = ?'=>$key,
+		), 'setting_key')){
 			UserSettings::model()->update(array(
 				'setting_value'=>json_encode($value),
 			), array(
-				'setting_key = ?'=>$key,
 				'user_id = ?'=>$user_id ? $user_id : \F::app()->current_user,
+				'setting_key = ?'=>$key,
 			));
 		}else{
 			UserSettings::model()->insert(array(
@@ -53,8 +53,8 @@ class Setting extends Model{
 	
 	public function get($key, $user_id = null){
 		$setting = UserSettings::model()->fetchRow(array(
-			'setting_key = ?'=>$key,
 			'user_id = ?'=>$user_id ? $user_id : \F::app()->current_user,
+			'setting_key = ?'=>$key,
 		), 'setting_value');
 		if($setting !== false){
 			return json_decode($setting['setting_value'], true);

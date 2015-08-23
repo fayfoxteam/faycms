@@ -4,6 +4,7 @@ namespace fay\helpers;
 use fay\models\tables\Files;
 use fay\models\File;
 use fay\models\Qiniu;
+use fay\models\Option;
 
 /**
  * 构造html元素
@@ -225,16 +226,17 @@ class Html{
 	 * @param int $id 一般为系统图片ID，若传入url路径则第二个参数type无效
 	 * @param int $type
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
+	 * @param bool $return_src 若为true，则仅返回src地址；若为false，返回完整<img>标签。默认为false
 	 * @return string
 	 */
-	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array()){
-		if(is_numeric($id)){
+	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array(), $return_src = false){
+		if(String::isInt($id)){
 			if($id == 0){
 				//若有设置spares，返回对应的默认图片
 				//若未设置，返回空字符串
 				$spares = \F::app()->config->get('spares');
 				if(isset($html_options['spare']) && isset($spares[$html_options['spare']])){
-					$html = '<img src="'.\F::app()->view->url().$spares[$html_options['spare']].'"';
+					$html = '<img src="'.\F::app()->view->assets($spares[$html_options['spare']]).'"';
 
 					if(isset($html_options['dw'])){
 						$html .= ' width="'.$html_options['dw'].'"';
@@ -265,7 +267,7 @@ class Html{
 						));
 					}else{
 						//公共文件，直接返回真实路径
-						if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
+						if(Option::get('qiniu:enabled') && $file['qiniu']){
 							//若开启了七牛云存储，且文件已上传，则显示七牛路径
 							$src = Qiniu::model()->getUrl($file);
 						}else{
@@ -278,7 +280,7 @@ class Html{
 				break;
 				case File::PIC_THUMBNAIL:
 					//显示一张缩略图，若不是图片文件，显示一个图标
-					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu'] && $file['is_image']){
+					if(Option::get('qiniu:enabled') && $file['qiniu'] && $file['is_image']){
 						//若开启了七牛云存储，且文件已上传，则利用七牛在线裁剪为100x100图片
 						$src = Qiniu::model()->getUrl($file, array(
 							'dw'=>100,
@@ -318,7 +320,7 @@ class Html{
 					$src = \F::app()->view->url('file/pic', $img_params);
 				break;
 				case File::PIC_RESIZE:
-					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
+					if(Option::get('qiniu:enabled') && $file['qiniu']){
 						//若开启了七牛云存储，且文件已上传，则利用七牛进行裁剪输出
 						$src = Qiniu::model()->getUrl($file, array(
 							'dw'=>isset($html_options['dw']) ? $html_options['dw'] : false,
@@ -339,9 +341,17 @@ class Html{
 				break;
 			}
 			unset($html_options['spare']);
-			return self::tag('img', array('src'=>$src)+$html_options);
+			if($return_src){
+				return $src;
+			}else{
+				return self::tag('img', array('src'=>$src)+$html_options);
+			}
 		}else{
-			return self::tag('img', array('src'=>$id)+$html_options);
+			if($return_src){
+				return $id;
+			}else{
+				return self::tag('img', array('src'=>$id)+$html_options);
+			}
 		}
 	}
 	

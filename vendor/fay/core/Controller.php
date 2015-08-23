@@ -5,6 +5,7 @@ use fay\helpers\Request;
 use fay\models\tables\Actions;
 use fay\models\tables\Users;
 use fay\helpers\String;
+use fay\models\tables\Roles;
 
 class Controller{
 	/**
@@ -22,7 +23,7 @@ class Controller{
 	 */
 	public $uri;
 	/**
-	 * @var Input
+	 * @var \fay\core\Input
 	 */
 	public $input;
 	/**
@@ -108,7 +109,7 @@ class Controller{
 	 * @return boolean
 	 */
 	public function checkPermission($router){
-		if($this->session->get('role') == Users::ROLE_SUPERADMIN){
+		if(in_array(Roles::ITEM_SUPER_ADMIN, $this->session->get('roles'))){
 			//超级管理员无限制
 			return true;
 		}else if(in_array($router, $this->session->get('actions', array()))){

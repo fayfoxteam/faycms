@@ -4,6 +4,7 @@ use fay\helpers\Html;
 use fay\helpers\Date;
 use fay\models\Qiniu;
 use fay\models\tables\Files;
+use fay\models\Category;
 
 $full_file_path = File::model()->getUrl($data);
 ?>
@@ -83,7 +84,7 @@ $full_file_path = File::model()->getUrl($data);
 			?></div>
 		</div>
 		<div class="loading hide">
-			<img src="<?php echo $this->url()?>images/throbber.gif" />操作中...
+			<img src="<?php echo $this->assets('images/throbber.gif')?>" />操作中...
 		</div>
 	</td>
 	<?php }?>
@@ -99,32 +100,13 @@ $full_file_path = File::model()->getUrl($data);
 	<?php if(in_array('user', $cols)){?>
 	<td><?php echo $data[$display_name]?></td>
 	<?php }?>
-	<?php if(in_array('type', $cols)){?>
-	<td><?php switch($data['type']){
-		case Files::TYPE_AVATAR:
-			echo '头像';
-		break;
-		case Files::TYPE_CAT:
-			echo '分类插图';
-		break;
-		case Files::TYPE_EXAM:
-			echo '考试系统';
-		break;
-		case Files::TYPE_GOODS:
-			echo '商品图片';
-		break;
-		case Files::TYPE_PAGE:
-			echo '静态页';
-		break;
-		case Files::TYPE_POST:
-			echo '文章';
-		break;
-		case Files::TYPE_WIDGET:
-			echo '小工具';
-		break;
-		default:
-			echo '其它';
-	}?></td>
+	<?php if(in_array('cat', $cols)){?>
+	<td>
+		<?php
+		 $cat = Category::model()->get($data['cat_id'],'title');
+		echo $cat['title'];
+		?>
+	</td>
 	<?php }?>
 	<?php if(in_array('downloads', $cols)){?>
 	<td><?php echo $data['downloads']?></td>

@@ -9,11 +9,11 @@ use fay\helpers\ArrayHelper;
 use fay\models\Category;
 use fay\models\User;
 use fay\helpers\Date;
+use fay\core\HttpException;
 
 class IndexController extends Widget{
 	public function index($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
-		empty($config['cat_key']) && $config['cat_key'] = 'cat_id';
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
 		empty($config['date_format']) && $config['date_format'] = 'pretty';
@@ -21,6 +21,7 @@ class IndexController extends Widget{
 		empty($config['pager']) && $config['pager'] = 'system';
 		empty($config['pager_template']) && $config['pager_template'] = '';
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
+		isset($config['subclassification']) || $config['subclassification'] = true;
 		
 		//order
 		$orders = array(
@@ -37,8 +38,33 @@ class IndexController extends Widget{
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract,comments,views,likes');
 		
-		if($this->input->get($config['cat_key'])){
-			$sql->where(array('cat_id = ?'=>$this->input->get($config['cat_key'], 'intval')));
+		//限制分类
+		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
+			$cat_id = $this->input->get($config['cat_id_key'], 'intval');
+		}else if(!empty($config['cat_alias_key']) && $this->input->get($config['cat_alias_key'])){
+			$cat_id = $this->input->get($config['cat_alias_key'], 'trim');
+		}else{
+			$cat_id = $config['cat_id'];
+		}
+		
+		if(!empty($cat_id)){
+			$cat = Category::model()->get($cat_id, '*', '_system_post');
+			if(!$cat){
+				throw new HttpException('您访问的页面不存在');
+			}else{
+				\F::app()->layout->title = empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'];
+				\F::app()->layout->keywords = empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'];
+				\F::app()->layout->description = empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'];
+			}
+			if($config['subclassification']){
+				//包含子分类
+				$limit_cat_children = Category::model()->getAllIds($cat['id']);
+				$limit_cat_children[] = $cat['id'];//加上父节点
+				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
+			}else{
+				//不包含子分类
+				$sql->where(array('cat_id = ?'=>$cat['id']));
+			}
 		}
 		
 		$sql->where(array(
@@ -75,11 +101,11 @@ class IndexController extends Widget{
 					$p['user'] = $users[$p['user_id']];
 				}
 				if($config['date_format'] == 'pretty'){
-					$p['publish_format_time'] = Date::niceShort($p['publish_time']);
+					$p['format_time'] = Date::niceShort($p['publish_time']);
 				}else if($config['date_format']){
-					$p['publish_format_time'] = \date($config['date_format'], $p['publish_time']);
+					$p['format_time'] = \date($config['date_format'], $p['publish_time']);
 				}else{
-					$p['publish_format_time'] = '';
+					$p['format_time'] = '';
 				}
 			}
 			

@@ -2,13 +2,13 @@
 use fay\helpers\Html;
 ?>
 <div class="form-field">
-	<label class="title">操作<em class="required">*</em></label>
+	<label class="title bold">操作<em class="required">*</em></label>
 	<?php echo F::form()->inputText('title', array(
 		'class'=>'form-control',
 	))?>
 </div>
 <div class="form-field">
-	<label class="title">路由<em class="required">*</em></label>
+	<label class="title bold">路由<em class="required">*</em></label>
 	<?php echo F::form()->inputText('router', array(
 		'class'=>'form-control',
 	))?>
@@ -17,13 +17,13 @@ use fay\helpers\Html;
 	</p>
 </div>
 <div class="form-field">
-	<label class="title">分类<em class="required">*</em></label>
+	<label class="title bold">分类<em class="required">*</em></label>
 	<?php echo F::form()->select('cat_id', Html::getSelectOptions($cats, 'id', 'title'), array(
 		'class'=>'form-control',
 	));?>
 </div>
 <div class="form-field">
-	<label class="title">父级</label>
+	<label class="title bold">父级</label>
 	<?php echo F::form()->inputText('parent_router', array(
 		'class'=>'form-control',
 		'id'=>'parent-router',

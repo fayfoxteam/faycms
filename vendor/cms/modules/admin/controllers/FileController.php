@@ -13,6 +13,9 @@ use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
+use fay\models\Option;
+use fay\models\Category;
+use fay\helpers\String;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -24,75 +27,197 @@ class FileController extends AdminController{
 	 * 不做限制，可以上传配置文件中允许的任何文件
 	 */
 	public function upload(){
+		$validator = new Validator();
+		$check = $validator->check(array(
+			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
+		));
+		
+		if($check !== true){
+			throw new HttpException('参数异常');
+		}
+		
 		set_time_limit(0);
 		
-		$target = $this->input->get('t');
-		$type = 0;
-		//传入非指定target的话，清空这个值
-		if($target == 'posts'){
-			$type = Files::TYPE_POST;
-		}else if($target == 'pages'){
-			$type = Files::TYPE_PAGE;
-		}else if($target == 'goods'){
-			$type = Files::TYPE_GOODS;
-		}else if($target == 'cat'){
-			$type = Files::TYPE_CAT;
-		}else if($target == 'widget'){
-			$type = Files::TYPE_WIDGET;
-		}else if($target == 'avatar'){
-			$type = Files::TYPE_AVATAR;
-		}else if($target == 'exam'){
-			$type = Files::TYPE_EXAM;
+		$cat = $this->input->request('cat');
+		if($cat){
+			$cat = Category::model()->get($cat, 'id,alias');
+			if(!$cat){
+				throw new HttpException('指定的文件分类不存在');
+			}
 		}else{
-			$target = 'other';
+			$cat = 0;
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $type, $private);
-		if($this->input->get('CKEditorFuncNum')){
-			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
-		}else{
-			echo json_encode($result);
+		$result = File::model()->upload($cat, $private);
+		$data = $result['data'];
+		
+		if($result['status']){
+			$data = $this->afterUpload($data);
 		}
+		
+		if($this->input->request('CKEditorFuncNum')){
+			if($result['status']){
+				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
+			}else{
+				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+			}
+		}else{
+			echo json_encode($data);
+		}
+	}
+	
+	public function uploadByBase64(){
+		$validator = new Validator();
+		$check = $validator->check(array(
+			array('file', 'required'),
+			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
+		));
+		
+		if($check !== true){
+			throw new HttpException('参数异常', 500);
+		}
+		
+		set_time_limit(0);
+		
+		$cat = $this->input->request('cat');
+		if($cat){
+			$cat = Category::model()->get($cat, 'id,alias');
+			if(!$cat){
+				throw new HttpException('指定的文件分类不存在');
+			}
+		}else{
+			$cat = array(
+				'id'=>0,
+				'alias'=>'',
+			);
+		}
+		
+		$private = !!$this->input->get('p');
+		$client_name = $this->input->post('client_name', 'trim', '');
+		
+		$file = @imagecreatefromstring(base64_decode($this->input->post('file')));
+		if(!$file){
+			throw new HttpException('上传文件格式错误', 500);
+		}
+		
+		$target = $cat['alias'];
+		if($target && substr($target, -1) != '/'){
+			//目标路径末尾不是斜杠的话，加上斜杠
+			$target .= '/';
+		}
+		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
+			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
+		$filename = File::getFilename($upload_path, '.jpg');
+		if(defined('NO_REWRITE')){
+			$destination = './public/'.$upload_path . $filename;
+		}else{
+			$destination = $upload_path . $filename;
+		}
+		
+		imagejpeg($file, $destination);
+		
+		$data = array(
+			'raw_name'=>substr($filename, 0, -4),
+			'file_ext'=>'.jpg',
+			'file_type'=>'image/jpeg',
+			'file_size'=>filesize($destination),
+			'file_path'=>$upload_path,
+			'client_name'=>$client_name,
+			'is_image'=>1,
+			'image_width'=>imagesx($file),
+			'image_height'=>imagesy($file),
+			'upload_time'=>\F::app()->current_time,
+			'user_id'=>\F::app()->current_user,
+			'cat_id'=>$cat['id'],
+		);
+		$data['id'] = Files::model()->insert($data);
+		
+		$data = $this->afterUpload($data);
+		
+		echo json_encode($data);
 	}
 	
 	/**
 	 * 此接口仅允许上传图片
 	 */
 	public function imgUpload(){
-		set_time_limit(0);
+		$validator = new Validator();
+		$check = $validator->check(array(
+			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
+		));
 		
-		$target = $this->input->get('t');
-		$type = 0;
-		//传入非指定target的话，清空这个值
-		if($target == 'posts'){
-			$type = Files::TYPE_POST;
-		}else if($target == 'pages'){
-			$type = Files::TYPE_PAGE;
-		}else if($target == 'goods'){
-			$type = Files::TYPE_GOODS;
-		}else if($target == 'cat'){
-			$type = Files::TYPE_CAT;
-		}else if($target == 'widget'){
-			$type = Files::TYPE_WIDGET;
-		}else if($target == 'avatar'){
-			$type = Files::TYPE_AVATAR;
-		}else if($target == 'exam'){
-			$type = Files::TYPE_EXAM;
-		}else{
-			$target = 'other';
+		if($check !== true){
+			throw new HttpException('参数异常');
 		}
 		
-		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $type, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
-		if(!empty($result['src']) && $this->input->get('CKEditorFuncNum')){
-			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['src']}', '');</script>";
+		set_time_limit(0);
+
+		$cat = $this->input->request('cat');
+		if($cat){
+			$cat = Category::model()->get($cat, 'id,alias');
+			if(!$cat){
+				throw new HttpException('指定的文件分类不存在');
+			}
 		}else{
-			echo "<script>alert('{$result[0]}');</script>";
+			$cat = 0;
+		}
+
+		$private = !!$this->input->get('p');
+		$result = File::model()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
+		$data = $result['data'];
+		
+		if($result['status']){
+			$data = $this->afterUpload($data);
+		}
+		
+		if($this->input->request('CKEditorFuncNum')){
+			if($result['status']){
+				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
+			}else{
+				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+			}
+		}else{
+			echo json_encode($data);
 		}
 	}
 	
+	/**
+	 * 文件上传后的额外处理（例如裁剪、缩放等）
+	 * @param array $data 文件信息
+	 */
+	private function afterUpload($data){
+		//如果是图片，可能要缩放/裁剪处理
+		if($data['is_image']){
+			switch($this->input->request('handler')){
+				case 'resize':
+					$data = File::model()->edit($data, 'resize', array(
+						'dw'=>$this->input->request('dw', 'intval'),
+						'dh'=>$this->input->request('dh', 'intval'),
+					));
+				break;
+				case 'crop':
+					$params = array(
+						'x'=>$this->input->request('x', 'intval'),
+						'y'=>$this->input->request('y', 'intval'),
+						'w'=>$this->input->request('w', 'intval'),
+						'h'=>$this->input->request('h', 'intval'),
+						'dw'=>$this->input->request('dw', 'intval'),
+						'dh'=>$this->input->request('dh', 'intval'),
+					);
+					if($params['x'] && $params['y'] && $params['w'] && $params['h']){
+						//若参数不完整，则不裁剪
+						$data = File::model()->edit($data, 'crop', $params);
+					}
+				break;
+			}
+		}
+		return $data;
+	}
+	
 	public function doUpload(){
+		//获取文件类目树
+		$this->view->cats = Category::model()->getTree('_system_file');
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
@@ -127,7 +252,7 @@ class FileController extends AdminController{
 		);
 		
 		//如果未配置七牛参数，则强制不显示七牛那一列
-		if(!$this->config->get('*', 'qiniu')){
+		if(!Option::getTeam('qiniu')){
 			foreach($_settings['cols'] as $k => $v){
 				if($v == 'qiniu'){
 					unset($_settings['cols'][$k]);
@@ -142,6 +267,9 @@ class FileController extends AdminController{
 			->setData(array(
 				'_key'=>$_setting_key,
 			));
+
+
+		$this->view->cats = Category::model()->getTree('_system_file');
 		
 		$sql = new Sql();
 		$sql->from('files', 'f')
@@ -152,10 +280,10 @@ class FileController extends AdminController{
 			$sql->where(array('f.client_name LIKE ?'=>'%'.$this->input->get('keywords').'%'));
 		}
 		
-		if($this->input->get('type')){
-			$sql->where(array('f.type = ?'=>$this->input->get('type', 'intval')));
+		if($this->input->get('cat_id')){
+			$sql->where(array('f.cat_id = ?'=>$this->input->get('cat_id', 'intval')));
 		}
-		
+
 		if($this->input->get('qiniu') !== '' && $this->input->get('qiniu') !== null){
 			$sql->where(array('f.qiniu = ?'=>$this->input->get('qiniu', 'intval')));
 		}
@@ -178,9 +306,7 @@ class FileController extends AdminController{
 	public function batch(){
 		$ids = $this->input->post('ids', 'intval');
 		$action = $this->input->post('batch_action');
-		if(empty($action)){
-			$action = $this->input->post('batch_action_2');
-		}
+		
 		switch($action){
 			case 'remove':
 				$affected_rows = 0;
@@ -200,6 +326,28 @@ class FileController extends AdminController{
 				
 				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
 				Response::output('success', $affected_rows.'个文件被删除');
+			break;
+			
+			//移动到目标分类图片
+			case 'exchange':
+				$cat_id = $this->input->post('cat_id', 'intval');
+				
+				if(!$cat_id){
+					Response::output('error', '未指定分类');
+				}
+			
+				$cat = Category::model()->get($cat_id,'title');
+				if(!$cat){
+					Response::output('error', '指定分类不存在');
+				}
+				
+				$affected_rows = Files::model()->update(array(
+					'cat_id'=>$cat_id,
+				), array(
+					'id IN (?)'=>$ids,
+				));
+				$this->actionlog(Actionlogs::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
+				Response::output('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
 			break;
 		}
 	}
@@ -245,6 +393,31 @@ class FileController extends AdminController{
 		}
 	}
 
+	/**
+	 * 分类管理
+	 */
+	public function cat(){
+		$this->layout->current_directory = 'file';
+		$this->layout->subtitle = '文件分类';
+		$this->view->cats = Category::model()->getTree('_system_file');
+		$root_node = Category::model()->getByAlias('_system_file', 'id');
+		$this->view->root = $root_node['id'];
+		$root_cat = Category::model()->getByAlias('_system_file', 'id');
+		if($this->checkPermission('admin/link/cat-create')){
+			$this->layout->sublink = array(
+				'uri'=>'#create-cat-dialog',
+				'text'=>'添加文件分类',
+				'html_options'=>array(
+					'class'=>'create-cat-link',
+					'data-title'=>'文件分类',
+					'data-id'=>$root_cat['id'],
+				),
+			);
+		}
+
+		$this->view->render();
+	}
+
 	public function pic(){
 		$validator = new Validator();
 		$check = $validator->check(array(
@@ -263,7 +436,7 @@ class FileController extends AdminController{
 		
 		//文件名或文件id号
 		$f = $this->input->get('f');
-		if(is_numeric($f)){
+		if(String::isInt($f)){
 			if($f == 0){
 				$file = false;
 			}else{
@@ -411,8 +584,8 @@ class FileController extends AdminController{
 		}else if($dh && !$dw){
 			$dw = $dh * ($file['image_width'] / $file['image_height']);
 		}else if(!$dw && !$dh){
-			$dw = 200;
-			$dh = 200;
+			$dw = $file['image_width'];
+			$dh = $file['image_height'];
 		}
 		
 		if($file !== false){
@@ -437,7 +610,7 @@ class FileController extends AdminController{
 					break;
 			}
 		}else{
-			$img = Image::getImage($spare);
+			$img = Image::getImage('assets/' . $spare);
 			header('Content-type: image/jpeg');
 			$img = Image::resize($img, $dw, $dh);
 			imagejpeg($img);

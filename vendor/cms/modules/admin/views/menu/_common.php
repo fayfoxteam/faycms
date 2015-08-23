@@ -219,7 +219,7 @@ F::form('edit')->setModel(Menus::model());
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 var menu = {
 	'events':function(){
@@ -241,8 +241,8 @@ var menu = {
 		});
 	},
 	'editCat':function(){
-		system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 				$(".edit-cat-link").fancybox({
 					'padding':0,
 					'titleShow':false,
@@ -295,8 +295,8 @@ var menu = {
 		});
 	},
 	'createCat':function(){
-		system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 				$(".create-cat-link").fancybox({
 					'padding':0,
 					'titleShow':false,
@@ -317,7 +317,7 @@ var menu = {
 	'enabled':function(){
 		$('.tree-container').on('click', '.enabled-link', function(){
 			var o = this;
-			$(this).find('span').hide().after('<img src="'+system.url()+'images/throbber.gif" />');
+			$(this).find('span').hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
 			$.ajax({
 				type: "GET",
 				url: system.url("admin/menu/set-enabled"),

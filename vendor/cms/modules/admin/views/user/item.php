@@ -52,9 +52,9 @@ use fay\helpers\Html;
 						</tr>
 						<tr>
 							<th>手机</th>
-							<td><?php echo $user['cellphone']?></td>
-							<th>真名</th>
-							<td><?php echo $user['realname']?></td>
+							<td><?php echo $user['mobile']?></td>
+							<th>昵称</th>
+							<td><?php echo $user['nickname']?></td>
 						</tr>
 						<tr>
 							<th>注册时间</th>
@@ -118,7 +118,7 @@ use fay\helpers\Html;
 			<form action="<?php echo $this->url('admin/user/set-status')?>" method="post" id="set-status-form">
 				<?php echo Html::inputHidden('id', $user['id'])?>
 				<div class="form-field">
-					<label class="title">用户状态</label>
+					<label class="title bold">用户状态</label>
 					<label class="fc-orange">
 						<?php echo Html::inputRadio('status', Users::STATUS_PENDING, $user['status'] == Users::STATUS_PENDING)?>
 						待审核
@@ -133,7 +133,7 @@ use fay\helpers\Html;
 					</label>
 				</div>
 				<div class="form-field">
-					<label class="title">登陆状态<span class="fc-grey normal"> (设置为限制登陆的用户将无法登陆系统)</span></label>
+					<label class="title bold">登陆状态<span class="fc-grey normal"> (设置为限制登陆的用户将无法登陆系统)</span></label>
 					<label class="fc-green">
 						<?php echo Html::inputRadio('block', 0, !$user['block'])?>
 						正常

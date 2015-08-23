@@ -126,7 +126,7 @@ use cms\helpers\ListTableHelper;
 		<?php $listview->showPager();?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
 	$(".page-sort").feditsort({

@@ -3,6 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Menus;
+use fay\helpers\String;
 
 class Menu extends Model{
 	/**
@@ -92,7 +93,7 @@ class Menu extends Model{
 	public function getTree($parent = null, $real_link = true, $only_enabled = true){
 		if($parent === null){
 			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
-		}else if(is_numeric($parent)){
+		}else if(String::isInt($parent)){
 			return $this->getTreeByParentId($parent, $real_link, $only_enabled);
 		}else{
 			return $this->getTreeByParentAlias($parent, $real_link, $only_enabled);

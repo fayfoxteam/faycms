@@ -2,6 +2,7 @@
 namespace fay\validators;
 
 use fay\core\Validator;
+use fay\helpers\String as StringHelper;
 
 /**
  * 验证是否为整数
@@ -27,7 +28,7 @@ class Int extends Validator{
 	public $message = '{$attribute}必须是整数';
 	
 	public function validate($value){
-		if(!is_numeric($value)){
+		if(!StringHelper::isInt($value, false)){
 			return $this->addError($this->_field, 'int', $this->message);
 		}
 		

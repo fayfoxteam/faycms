@@ -242,7 +242,7 @@ class Form{
 	 * @param array $rule
 	 * @return \fay\core\Form
 	 */
-	public function addRule($rule){
+	public function setRule($rule){
 		if(empty($rule[2]['on']) || $rule[2]['on'] == $this->scene){
 			$this->_rules[] = $rule;
 		}
@@ -259,6 +259,8 @@ class Form{
 	public function open($action = null, $method = 'post', $html_options = array()){
 		if($action == null){
 			$action = '';
+		}else if(!is_array($action)){
+			$action = \F::app()->view->url($action);
 		}else{
 			$action = \F::app()->view->url($action[0], isset($action[1]) ? $action[1] : array());
 		}
@@ -297,11 +299,11 @@ class Form{
 	 * @return string
 	 */
 	public function input($name, $type = 'text', $html_options = array(), $default = ''){
-		return Html::input($name, $this->getData($name, $default), $type, $html_options);
+		return Html::input($name, $this->getData($name, $default, false), $type, $html_options);
 	}
 	
 	public function inputText($name, $html_options = array(), $default = ''){
-		return Html::inputText($name, $this->getData($name, $default), $html_options);
+		return Html::inputText($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	public function inputPassword($name, $html_options = array()){
@@ -309,7 +311,7 @@ class Form{
 	}
 	
 	public function inputHidden($name, $html_options = array(), $default = ''){
-		return Html::inputHidden($name, $this->getData($name, $default), $html_options);
+		return Html::inputHidden($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	/**
@@ -321,16 +323,16 @@ class Form{
 	 * @return string
 	 */
 	public function inputNumber($name, $html_options = array(), $default = ''){
-		if($rule = $this->getRule('page_size', 'int')){
+		if($rule = $this->getRule($name, 'int')){
 			$html_options = array_merge($html_options, $rule);
 		}
-		return Html::inputNumber($name, $this->getData($name, $default), $html_options);
+		return Html::inputNumber($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	public function inputCheckbox($name, $value, $html_options = array(), $default = false){
 		$name1 = rtrim($name, '[]');
 		$checked = false;
-		$data = $this->getData($name1);
+		$data = $this->getData($name1, null, false);
 		if($data !== null){
 			if(is_array($data) && in_array($value, $data)){
 				$checked = true;
@@ -345,7 +347,7 @@ class Form{
 	
 	public function inputRadio($name, $value, $html_options = array(), $default = false){
 		$name1 = rtrim($name, '[]');
-		$data = $this->getData($name1);
+		$data = $this->getData($name1, null, false);
 		if($data !== null && $value == $data){
 			$checked = true;
 		}else if($data === null && $default){
@@ -357,7 +359,7 @@ class Form{
 	}
 	
 	public function textarea($name, $html_options = array(), $default = ''){
-		return Html::textArea($name, $this->getData($name, $default), $html_options);
+		return Html::textArea($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	/*
@@ -365,7 +367,7 @@ class Form{
 	 */
 	public function select($name = '', $options = array(), $html_options = array(), $default = ''){
 		$name1 = rtrim($name, '[]');
-		$data = $this->getData($name1);
+		$data = $this->getData($name1, null, false);
 		$data !== null ? $selected = $data : $selected = $default;
 		return Html::select($name, $options, $selected, $html_options);
 	}
@@ -471,8 +473,14 @@ class Form{
 					}
 				}
 			}
-			
-			return $rules;
 		}
+		return $rules;
+	}
+	
+	/**
+	 * 获取当前表单对象所有验证规则
+	 */
+	public function getRules(){
+		return $this->_rules;
 	}
 }

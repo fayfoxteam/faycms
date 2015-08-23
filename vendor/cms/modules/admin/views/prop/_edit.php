@@ -2,9 +2,10 @@
 use fay\helpers\Html;
 use fay\models\tables\Props;
 ?>
+<?php if($props){?>
 <?php foreach($props as $p){?>
 	<div class="form-field">
-		<label class="title">
+		<label class="title bold">
 			<?php echo Html::encode($p['title']);?>
 			<?php if($p['required']){?>
 				<em class="fc-red">(必选)</em>
@@ -100,4 +101,5 @@ use fay\models\tables\Props;
 		}
 		?>
 	</div>
+<?php }?>
 <?php }?>

@@ -44,7 +44,7 @@ class MenuHelper{
 								'text'=>$m['title'],
 							)
 						),
-					    'target'=>$m['target'] ? $m['target'] : false,
+						'target'=>$m['target'] ? $m['target'] : false,
 					),
 					//子菜单
 					empty($m['children']) ? false : self::render($m['children'], $role, $current_directory, $dep + 1),

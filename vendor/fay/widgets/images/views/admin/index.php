@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
-use fay\models\tables\Users;
+use fay\models\tables\Roles;
 ?>
 <div class="drag_drop_area" id="drag_drop_area">
 	<div class="drag_drop_inside">
@@ -45,7 +45,7 @@ use fay\models\tables\Users;
 <?php }?>
 <?php }?>
 </div>
-<div class="box <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'closed';?>">
+<div class="box <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'closed';?>">
 	<div class="box-title">
 		<a class="tools toggle" title="点击以切换"></a>
 		<h4>渲染模版</h4>
@@ -62,13 +62,13 @@ use fay\models\tables\Users;
 		</p>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript">
 var jq_camera = {
 	'uploadObj':null,
 	'preview':function(){
-		system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 				$(".photo-thumb-link").fancybox({
 					'transitionIn'	: 'elastic',
 					'transitionOut'	: 'elastic',
@@ -84,13 +84,13 @@ var jq_camera = {
 			runtimes : 'html5,html4,flash,gears,silverlight',
 			browse_button : 'plupload_browse_button',
 			container: 'drag_drop_area',
-			drop_element: "drag_drop_area",
+			drop_element: 'drag_drop_area',
 			max_file_size : '2mb',
-			url : system.url("admin/file/upload", {'t':'widget'}),
+			url : system.url('admin/file/upload', {'cat':'widget'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
-				{title : "Image files", extensions : "jpg,gif,png,jpeg"}
+				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
 			]
 		});
 		
@@ -99,12 +99,12 @@ var jq_camera = {
 		jq_camera.uploadObj.bind('FilesAdded', function(up, files) {
 			jq_camera.uploadObj.start();
 			$.each(files, function(i, data){
-				$(".file-list").append(['<div class="dragsort-item" id="file-', data.id, '">',
+				$('.file-list').append(['<div class="dragsort-item" id="file-', data.id, '">',
 					'<a class="dragsort-rm" href="javascript:;"></a>',
 					'<a class="dragsort-item-selector"></a>',
 					'<div class="dragsort-item-container">',
 						'<span class="file-thumb">',
-							'<img src="', system.url('images/loading.gif'), '" />',
+							'<img src="', system.assets('images/loading.gif'), '" />',
 						'</span>',
 						'<div class="file-desc-container">',
 							'<input type="text" class="photo-title mb5 form-control" placeholder="标题" value="', data.name, '" />',
@@ -120,26 +120,26 @@ var jq_camera = {
 		});
 		
 		jq_camera.uploadObj.bind('UploadProgress', function(up, file) {
-			$("#file-"+file.id+" .progress-bar-percent").animate({'width':file.percent+'%'});
+			$('#file-'+file.id+' .progress-bar-percent').animate({'width':file.percent+'%'});
 		});
 		
 		jq_camera.uploadObj.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
-			$file = $("#file-"+file.id);
-			$file.find('.photo-title').attr("name", 'titles['+resp.id+']');
-			$file.find('.photo-link').attr("name", 'links['+resp.id+']');
+			$file = $('#file-'+file.id);
+			$file.find('.photo-title').attr('name', 'titles['+resp.id+']');
+			$file.find('.photo-link').attr('name', 'links['+resp.id+']');
 			$file.append('<input type="hidden" name="photos[]" value="'+resp.id+'" />');
 			$file.prepend('<a class="photo-rm" href="javascript:;" data-id="'+resp.id+'"></a>');
 			
 			//是图片，用fancybox弹窗
-			$file.find(".file-thumb").html([
+			$file.find('.file-thumb').html([
 				'<a href="', resp.url, '" title="'+resp.client_name+'" class="photo-thumb-link">',
 					'<img src="'+resp.thumbnail+'" />',
 				'</a>'
 			].join(''));
-			system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-				system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
-					$(".photo-thumb-link").fancybox({
+			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$('.photo-thumb-link').fancybox({
 						'transitionIn'	: 'elastic',
 						'transitionOut'	: 'elastic',
 						'type' : 'image',
@@ -151,7 +151,7 @@ var jq_camera = {
 
 		jq_camera.uploadObj.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert("文件大小不能超过"+(parseInt(files_uploader.settings.max_file_size) / (1024 * 1024))+"M");
+				alert('文件大小不能超过'+(parseInt(files_uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
 				alert('非法的文件类型');

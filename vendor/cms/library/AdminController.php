@@ -12,6 +12,7 @@ use fay\core\Response;
 use fay\models\Menu;
 use fay\core\HttpException;
 use fay\models\Flash;
+use fay\models\tables\Roles;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -39,7 +40,7 @@ class AdminController extends Controller{
 			'label'=>'Tools',
 			'icon'=>'fa fa-wrench',
 			'router'=>'tools',
-			'role'=>Users::ROLE_SUPERADMIN,
+			'roles'=>Roles::ITEM_SUPER_ADMIN,
 		),
 	);
 	
@@ -47,8 +48,9 @@ class AdminController extends Controller{
 		parent::__construct();
 		//重置session_namespace
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
+		
 		//验证session中是否有值
-		if(!$this->session->get('role') || $this->session->get('role') <= Users::ROLE_SYSTEM){
+		if(!$this->session->get('admin')){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		//设置当前用户id
@@ -57,13 +59,8 @@ class AdminController extends Controller{
 		$this->layout->subtitle = '';
 
 		//权限判断
-		if($this->session->get('role') != Users::ROLE_SUPERADMIN){
-			$uri = Uri::getInstance();
-			$action = Actions::model()->fetchRow(array('router = ?'=>$uri->router), 'is_public');
-			//没设置权限的路由均默认为可访问路由
-			if($action && !$action['is_public'] && !in_array($uri->router, $this->session->get('actions', array()))){
-				throw new HttpException('您无权限做此操作', 403);
-			}
+		if(!$this->checkPermission(Uri::getInstance()->router)){
+			throw new HttpException('您无权限做此操作', 403);
 		}
 		
 		$this->_left_menu = Menu::model()->getTree('_admin_main');

@@ -44,20 +44,20 @@ use fay\helpers\Html;
 			<form id="create-instance-form" action="<?php echo $this->url('admin/widget/create-instance')?>" method="post" class="validform">
 				<input type="hidden" name="widget_name" id="widget-name" />
 				<div class="form-field">
-					<label class="title">描述</label>
+					<label class="title bold">描述</label>
 					<?php echo Html::inputText('description', '', array(
 						'class'=>'form-control w400',
 					))?>
 				</div>
 				<div class="form-field">
-					<label class="title">所属域</label>
+					<label class="title bold">所属域</label>
 					<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--') + $widgetareas, '', array(
 						'class'=>'form-control',
 					))?>
 					<p class="description">将小工具指定到域，可以通过域来调用一组小工具。</p>
 				</div>
 				<div class="form-field">
-					<label class="title">别名</label>
+					<label class="title bold">别名</label>
 					<?php echo Html::inputText('alias', '', array(
 						'data-rule'=>'string',
 						'data-label'=>'别名',
@@ -77,8 +77,8 @@ use fay\helpers\Html;
 </div>
 <script>
 $(function(){
-	system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-		system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+	system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 			$(".create-instance-link").fancybox({
 				'padding':0,
 				'centerOnScroll':true,

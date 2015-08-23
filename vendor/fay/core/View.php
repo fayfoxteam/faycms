@@ -53,9 +53,24 @@ class View{
 		}
 	}
 	
-	public function staticFile($uri){
-		$base_url = \F::config()->get('base_url');
-		return $base_url . 'static/' . APPLICATION . '/' . $uri;
+	/**
+	 * 返回public/apps/{APPLICATION}下的文件路径
+	 * 用于返回自定义application的静态文件
+	 * @param string $uri
+	 * @return string
+	 */
+	public function appStatic($uri){
+		return \F::config()->get('base_url') . 'apps/' . APPLICATION . '/' . $uri;
+	}
+	
+	/**
+	 * 返回public/assets/下的文件路径（第三方jquery类库等）
+	 * 主要是考虑到以后如果要做静态资源分离，只要改这个函数就好了
+	 * @param string $uri
+	 * @return string
+	 */
+	public function assets($uri){
+		return \F::config()->get('base_url') . 'assets/' . $uri;
 	}
 	
 	/**
@@ -144,34 +159,13 @@ class View{
 			ob_end_clean();
 		}
 		
-		//根据router设置缓存
-		$cache_routers = \F::config()->get('*', 'pagecache');
-		$cache_routers_keys = array_keys($cache_routers);
-		if(in_array($uri->router, $cache_routers_keys)){
-			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
-			$cache_key = 'pages/' . $uri->router . '/' . $filename;
-			if(\F::input()->post()){
-				//有post数据的时候，是否更新页面
-				if(isset($cache_routers[$uri->router]['on_post'])){
-					if($cache_routers[$uri->router]['on_post'] == 'rebuild'){//刷新缓存
-						\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
-					}else if($cache_routers[$uri->router]['on_post'] == 'remove'){//删除缓存
-						\F::cache()->delete($cache_key);
-					}
-				}
-			}else{
-				//没post数据的时候，直接重新生成页面缓存
-				\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
-			}
-		}
-		
 		if($return){
 			return $content;
 		}else{
-			echo $content;
+			Response::send($content);
 			//自动输出debug信息
 			if(\F::config()->get('debug')){
-			    $this->renderPartial('common/_debug');
+				$this->renderPartial('common/_debug');
 			}
 			
 			return null;

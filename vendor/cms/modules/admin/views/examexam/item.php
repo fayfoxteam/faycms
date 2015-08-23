@@ -94,7 +94,7 @@ $(function(){
 			alert('设置得分不能高于总分');
 			return false;
 		}else{
-			$(this).parent().append('<img src="'+system.url('images/throbber.gif')+'" class="submit-loading" />');
+			$(this).parent().append('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
 			$.ajax({
 				'type': 'GET',
 				'url': system.url('admin/exam-exam/set-score'),

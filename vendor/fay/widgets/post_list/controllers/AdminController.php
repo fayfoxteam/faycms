@@ -6,7 +6,7 @@ use fay\models\Category;
 use fay\models\Flash;
 
 class AdminController extends Widget{
-	public function index($data){
+	public function index($config){
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(
@@ -17,14 +17,14 @@ class AdminController extends Widget{
 		);
 		
 		//获取默认模版
-		if(empty($data['template'])){
-			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
-				'template'=>$data['template'],
+				'template'=>$config['template'],
 			), true);
 		}
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -50,6 +50,8 @@ class AdminController extends Widget{
 		return array(
 			array('page_size', 'int', array('min'=>1)),
 			array('pager', 'range', array('range'=>array('system', 'custom'))),
+			array('cat_type', 'range', array('range'=>array('by_input', 'fixed_cat'))),
+			array('cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
 		);
 	}
 	
@@ -57,7 +59,9 @@ class AdminController extends Widget{
 		return array(
 			'page_size'=>'分页大小',
 			'page_key'=>'页码字段',
-			'cat_key'=>'分类字段',
+			'cat_id_key'=>'分类ID字段',
+			'cat_alias_key'=>'分类别名字段',
+			'cat_id'=>'默认分类',
 		);
 	}
 	
@@ -65,7 +69,8 @@ class AdminController extends Widget{
 		return array(
 			'page_size'=>'intval',
 			'page_key'=>'trim',
-			'cat_key'=>'trim',
+			'cat_id_key'=>'trim',
+			'cat_alias_key'=>'trim',
 			'order'=>'trim',
 			'uri'=>'trim',
 			'other_uri'=>'trim',
@@ -75,6 +80,8 @@ class AdminController extends Widget{
 			'pager'=>'trim',
 			'pager_template'=>'trim',
 			'empty_text'=>'trim',
+			'cat_id'=>'intval',
+			'subclassification'=>'intval',
 		);
 	}
 }

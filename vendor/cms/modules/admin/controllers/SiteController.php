@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\Option;
-use fay\models\Flash;
+use fay\core\Response;
 
 class SiteController extends AdminController{
 	public function __construct(){
@@ -11,16 +11,26 @@ class SiteController extends AdminController{
 		$this->layout->current_directory = 'site';
 	}
 	
-	public function options(){
+	public function setOptions(){
 		$this->layout->subtitle = '站点参数';
 	
 		if($this->input->post()){
-			foreach($this->input->post() as $key=>$value){
-				Option::set('site.' . $key, $value);
+			$data = $this->input->post();
+			unset($data['_submit']);//提交按钮不用保存
+			foreach($data as $key=>$value){
+				Option::set($key, $value);
 			}
-			Flash::set('更新成功', 'success');
+			Response::output('success', '保存成功');
 		}
+		Response::output('error', '无数据提交');
+	}
 	
+	/**
+	 * 配置项汇总
+	 */
+	public function settings(){
+		$this->layout->subtitle = '系统设置';
+		
 		$this->view->render();
 	}
 }

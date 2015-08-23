@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Users;
+use fay\models\tables\Roles;
 ?>
 <div class="box" id="box-abstract" data-name="abstract">
 	<div class="box-title">
@@ -8,13 +8,13 @@ use fay\models\tables\Users;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<label class="title">分页大小</label>
+			<label class="title bold">分页大小</label>
 			<?php echo F::form('widget')->inputText('page_size', array(
 				'class'=>'form-control mw150',
 			), 10)?>
 		</div>
 		<div class="form-field">
-			<label class="title">排序规则</label>
+			<label class="title bold">排序规则</label>
 			<?php
 				echo F::form('widget')->inputRadio('order', 'hand', array(
 					'wrapper'=>array(
@@ -43,22 +43,48 @@ use fay\models\tables\Users;
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
-		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
+		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">页码字段</label>
+				<label class="title bold">页码字段</label>
 				<?php echo F::form('widget')->inputText('page_key', array(
 					'class'=>'form-control mw150',
 				), 'page')?>
 			</div>
 			<div class="form-field">
-				<label class="title">分类字段</label>
-				<?php echo F::form('widget')->inputText('cat_key', array(
-					'class'=>'form-control mw150',
-				), 'cat_id')?>
-				<p class="fc-grey">若传入分类字段，会搜索此分类下的文章</p>
+				<label class="title bold">默认分类</label>
+				<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
+					'class'=>'form-control mw400',
+				))?>
+				<p class="fc-grey">没有传入分类字段的情况下显示此分类下的文章</p>
 			</div>
 			<div class="form-field">
-				<label class="title">发布时间格式</label>
+				<label class="title bold">分类ID字段</label>
+				<?php echo F::form('widget')->inputText('cat_id_key', array(
+					'class'=>'form-control mw150',
+				), 'cat_id')?>
+				<p class="fc-grey">若传入分类ID字段，会搜索此分类下的文章。</p>
+			</div>
+			<div class="form-field">
+				<label class="title bold">分类别名字段</label>
+				<?php echo F::form('widget')->inputText('cat_alias_key', array(
+					'class'=>'form-control mw150',
+				), 'cat_alias')?>
+				<p class="fc-grey">
+					若传入分类别名字段，会搜索此分类下的文章。<br>
+					若同时传入分类ID和分类别名， 则以分类ID字段为准。
+				</p>
+			</div>
+			<div class="form-field">
+				<label class="title bold">是否包含子分类下的文章</label>
+				<?php echo F::form('widget')->inputRadio('subclassification', 1, array(
+					'label'=>'是',
+				), true)?>
+				<?php echo F::form('widget')->inputRadio('subclassification', 0, array(
+					'label'=>'否',
+				))?>
+			</div>
+			<div class="form-field">
+				<label class="title bold">发布时间格式</label>
 				<?php echo F::form('widget')->inputText('date_format', array(
 					'class'=>'form-control mw150',
 				), 'pretty')?>
@@ -66,22 +92,22 @@ use fay\models\tables\Users;
 					其他格式视为PHP date函数的第一个参数</p>
 			</div>
 			<div class="form-field">
-				<label class="title">链接格式</label>
+				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'post/{$id}', !isset($data['uri']) || $data['uri'] == 'post/{$id}', array(
+					echo Html::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
 					));
-					echo Html::inputRadio('uri', 'post-{$id}', isset($data['uri']) && $data['uri'] == 'post-{$id}', array(
+					echo Html::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
 						'label'=>'post-{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($data['uri']) && !in_array($data['uri'], array(
+					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($data['uri']) && !in_array($data['uri'], array(
+					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
-					)) ? $data['uri'] : '', array(
+					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
@@ -91,7 +117,7 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">搜索字段</label>
+				<label class="title bold">附加字段</label>
 				<?php
 					echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
 						'label'=>'分类详情',
@@ -100,10 +126,10 @@ use fay\models\tables\Users;
 						'label'=>'作者信息',
 					));
 				?>
-				<p class="fc-grey">仅搜索模版中用到的字段，可以加快程序效率。</p>
+				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>
 			<div class="form-field">
-				<label class="title">渲染模版</label>
+				<label class="title bold">渲染模版</label>
 				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',
 				))?>
@@ -115,23 +141,23 @@ use fay\models\tables\Users;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">无内容时显示的替换文本</label>
+				<label class="title bold">无内容时显示的替换文本</label>
 				<?php echo F::form('widget')->textarea('empty_text', array(
 					'class'=>'form-control h90 autosize',
 				), '无相关记录！')?>
 				<p class="fc-grey">可以包含html</p>
 			</div>
 			<div class="form-field">
-				<label class="title">分页条模版</label>
+				<label class="title bold">分页条模版</label>
 				<p><?php
-					echo Html::inputRadio('pager', 'system', !isset($data['pager']) || $data['pager'] == 'system', array(
+					echo Html::inputRadio('pager', 'system', !isset($config['pager']) || $config['pager'] == 'system', array(
 						'label'=>'调用全局分页条',
 					));
-					echo Html::inputRadio('pager', 'custom', isset($data['pager']) && $data['pager'] == 'custom', array(
+					echo Html::inputRadio('pager', 'custom', isset($config['pager']) && $config['pager'] == 'custom', array(
 						'label'=>'小工具内自定义',
 					));
 				?></p>
-				<div id="pager-template-container" class="<?php if(!isset($data['pager']) || $data['pager'] == 'system')echo 'hide';?>">
+				<div id="pager-template-container" class="<?php if(!isset($config['pager']) || $config['pager'] == 'system')echo 'hide';?>">
 					<?php echo F::form('widget')->textarea('pager_template', array(
 						'class'=>'form-control h90 autosize',
 					))?>

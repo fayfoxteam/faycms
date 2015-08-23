@@ -13,8 +13,8 @@ $cols = F::form('setting')->getData('cols');
 				<?php echo F::form('search')->select('field', array(
 					'username'=>'用户名',
 					'id'=>'用户ID',
-					'realname'=>'姓名',
-					'cellphone'=>'手机',
+					'nickname'=>'昵称',
+					'mobile'=>'手机',
 					'email'=>'邮箱',
 				), array(
 					'class'=>'form-control',
@@ -36,10 +36,10 @@ $cols = F::form('setting')->getData('cols');
 						echo '<th class="w50">头像</th>';
 					}?>
 					<th>登录名</th>
-					<?php if(in_array('role', $cols)){
+					<?php if(in_array('roles', $cols)){
 						echo '<th>角色</th>';
 					}
-					if(in_array('cellphone', $cols)){
+					if(in_array('mobile', $cols)){
 						echo '<th>手机</th>';
 					}
 					if(in_array('email', $cols)){
@@ -47,9 +47,6 @@ $cols = F::form('setting')->getData('cols');
 					}
 					if(in_array('nickname', $cols)){
 						echo '<th>昵称</th>';
-					}
-					if(in_array('realname', $cols)){
-						echo '<th>真名</th>';
 					}
 					if(in_array('block', $cols)){
 						echo '<th>阻塞</th>';
@@ -80,10 +77,10 @@ $cols = F::form('setting')->getData('cols');
 						echo '<th>头像</th>';
 					}?>
 					<th>登录名</th>
-					<?php if(in_array('role', $cols)){
+					<?php if(in_array('roles', $cols)){
 						echo '<th>角色</th>';
 					}
-					if(in_array('cellphone', $cols)){
+					if(in_array('mobile', $cols)){
 						echo '<th>手机</th>';
 					}
 					if(in_array('email', $cols)){
@@ -91,9 +88,6 @@ $cols = F::form('setting')->getData('cols');
 					}
 					if(in_array('nickname', $cols)){
 						echo '<th>昵称</th>';
-					}
-					if(in_array('realname', $cols)){
-						echo '<th>真名</th>';
 					}
 					if(in_array('block', $cols)){
 						echo '<th>阻塞</th>';

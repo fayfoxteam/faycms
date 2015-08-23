@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-5">
 		<div class="form-field">
-			<label class="title">小工具实例</label>
+			<label class="title bold">小工具实例</label>
 			<div class="widget-list" id="inactive-widget-list">
 			<?php if(isset($widgets) && is_array($widgets)){
 				foreach($widgets as $widget){
@@ -38,7 +38,7 @@
 <script>
 var widgetarea = {
 	'dragsort':function(){
-		system.getScript(system.url('js/jquery.dragsort-0.5.1.js'), function(){
+		system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
 			$('.widget-list').dragsort({
 				'itemSelector': '.widget-item',
 				//'dragSelector': '.widget-item-selector',

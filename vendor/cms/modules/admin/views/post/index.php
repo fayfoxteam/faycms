@@ -71,6 +71,7 @@ $cols = F::form('setting')->getData('cols', array());
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISHED)?>)</span>
 				|
 			</li>
+			<?php if(F::app()->post_review){//仅开启审核时显示?>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PENDING)?>)</span>
@@ -81,6 +82,7 @@ $cols = F::form('setting')->getData('cols', array());
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_REVIEWED)?>)</span>
 				|
 			</li>
+			<?php }?>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
 				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_DRAFT)?>)</span>
@@ -97,15 +99,16 @@ $cols = F::form('setting')->getData('cols', array());
 	<div class="row">
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
-				echo Html::select('batch_action', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
 					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action',
 				));
 			}else{
-				echo Html::select('batch_action_2', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
 						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
@@ -115,6 +118,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action',
 				));
 			}
 			echo Html::link('提交', 'javascript:;', array(
@@ -221,15 +225,16 @@ $cols = F::form('setting')->getData('cols', array());
 		<div class="col-7 fr"><?php $listview->showPager()?></div>
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
-				echo Html::select('batch_action_2', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
 					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action-2',
 				));
 			}else{
-				echo Html::select('batch_action', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
 						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
@@ -239,6 +244,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action-2',
 				));
 			}
 			echo Html::link('提交', 'javascript:;', array(
@@ -248,7 +254,7 @@ $cols = F::form('setting')->getData('cols', array());
 		?></div>
 	</div>
 </form>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
 	$(".post-sort").feditsort({

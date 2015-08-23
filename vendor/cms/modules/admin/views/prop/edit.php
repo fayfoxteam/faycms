@@ -10,7 +10,7 @@ use fay\models\tables\CatProps;
 		<form id="edit-prop-form" action="" method="post" class="validform">
 			<?php echo F::form()->inputHidden('cat_id')?>
 			<div class="form-field">
-				<label class="title">属性名</label>
+				<label class="title bold">属性名</label>
 				<?php echo F::form()->inputText('title', array(
 					'data-rule'=>'string',
 					'data-params'=>'{max:255}',
@@ -19,7 +19,7 @@ use fay\models\tables\CatProps;
 				))?>
 			</div>
 			<div class="form-field">
-				<label class="title">是否为销售属性</label>
+				<label class="title bold">是否为销售属性</label>
 				<?php echo F::form()->inputCheckbox('is_sale_prop', 1, array(
 					'label'=>'销售属性',
 				))?>
@@ -30,19 +30,19 @@ use fay\models\tables\CatProps;
 				</p>
 			</div>
 			<div class="form-field">
-				<label class="title">是否为必选属性</label>
+				<label class="title bold">是否为必选属性</label>
 				<?php echo F::form()->inputCheckbox('required', 1, array(
 					'label'=>'必选',
 					'disabled'=>F::form()->getData('is_sale_prop') ? 'disabled' : false,
 				))?>
 			</div>
 			<div class="form-field">
-				<label class="title">排序值</label>
+				<label class="title bold">排序值</label>
 				<?php echo F::form()->inputText('sort', array(), 100)?>
 				<p class="description">0-255之间的整数，数字越小，排序越靠前</p>
 			</div>
 			<div class="form-field">
-				<label class="title">录入方式</label>
+				<label class="title bold">录入方式</label>
 				<?php echo F::form()->inputRadio('type', CatProps::TYPE_CHECK, array(
 					'label'=>'多选',
 				))?>
@@ -62,7 +62,7 @@ use fay\models\tables\CatProps;
 			<div class="form-field <?php if(F::form()->getData('type') == CatProps::TYPE_INPUT
 				|| F::form()->getData('type') == CatProps::TYPE_BOOLEAN)echo 'hide';?>"
 				id="prop-values-container">
-				<label class="title">属性值</label>
+				<label class="title bold">属性值</label>
 				<?php echo F::form()->inputText('', array(
 					'id'=>'prop-title',
 				))?>
@@ -92,7 +92,7 @@ use fay\models\tables\CatProps;
 		</form>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
 	$("#edit-prop-form").submit(function(){

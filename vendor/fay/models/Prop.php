@@ -5,6 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Props;
 use fay\models\tables\PropValues;
 use fay\core\Sql;
+use fay\helpers\String;
 
 class Prop extends Model{
 	/**
@@ -130,36 +131,38 @@ class Prop extends Model{
 	}
 	
 	/**
-	 * 获取所有属性<br>
+	 * 获取一个或多个引用ID对应的属性<br>
 	 * 若fields字段包含values，则同时获取可选属性值
-	 * @param int $refer 引用
+	 * @param int|array $refer 引用
 	 * @param int $type
 	 * @param string $fields
 	 */
-	public function getAll($refer, $type, $fields = 'values'){
+	public function mget($refer, $type, $fields = 'values'){
 		$fields = explode(',', $fields);
 		if(is_array($refer)){
 			$refer = implode(',', $refer);
 		}
-		if(is_numeric($refer)){
+		if(String::isInt($refer)){
 			//获取单个属性
 			$props = Props::model()->fetchAll(array(
 				'refer = ?'=>$refer,
 				'type = ?'=>$type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort, id');
-		}else{
+		}else if(!empty($refer)){
 			//一次获取多个属性
 			$props = Props::model()->fetchAll(array(
 				"refer IN ({$refer})",
 				'type = ?'=>$type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort, id');
+		}else{
+			return array();
 		}
 		
 		//若fields中包含value，则获取属性对应的可选属性值
 		if(in_array('values', $fields)){
-			if(is_numeric($refer)){
+			if(String::isInt($refer)){
 				$prop_values = PropValues::model()->fetchAll(array(
 					'refer = ?'=>$refer,
 					'deleted = 0',

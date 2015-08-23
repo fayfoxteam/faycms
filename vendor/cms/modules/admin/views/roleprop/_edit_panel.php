@@ -4,20 +4,20 @@ use fay\models\tables\Props;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <div class="form-field">
-	<label class="title">属性名称<em class="required">*</em></label>
+	<label class="title bold">属性名称<em class="required">*</em></label>
 	<?php echo F::form()->inputText('title', array(
 		'class'=>'form-control',
 	))?>
 </div>
 <div class="form-field">
-	<label class="title">属性别名</label>
+	<label class="title bold">属性别名</label>
 	<?php echo F::form()->inputText('alias', array(
 		'class'=>'form-control mw200',
 	))?>
 	<p class="description">特殊属性可能需要通过别名调用，可留空</p>
 </div>
 <div class="form-field">
-	<label class="title">是否为必选属性</label>
+	<label class="title bold">是否为必选属性</label>
 	<?php echo F::form()->inputCheckbox('required', 1, array(
 		'data-rule'=>'range',
 		'data-params'=>"{range:['1']}",
@@ -26,7 +26,7 @@ use fay\models\tables\Props;
 	))?>
 </div>
 <div class="form-field">
-	<label class="title">是否可见</label>
+	<label class="title bold">是否可见</label>
 	<?php echo F::form()->inputCheckbox('is_show', 1, array(
 		'data-rule'=>'range',
 		'data-params'=>"{range:['1']}",
@@ -36,13 +36,13 @@ use fay\models\tables\Props;
 	<p class="description">在查看会员信息时，是否显示此属性</p>
 </div>
 <div class="form-field">
-	<label class="title">排序值</label>
+	<label class="title bold">排序值</label>
 	<?php echo F::form()->inputText('sort', array(
 		'class'=>'form-control mw150',
 	), 100)?>
 </div>
 <div class="form-field">
-	<label class="title">类型</label>
+	<label class="title bold">类型</label>
 	<?php echo F::form()->inputRadio('element', Props::ELEMENT_TEXT, array(
 		'label'=>'输入框',
 	), true)?>
@@ -64,7 +64,7 @@ use fay\models\tables\Props;
 	Props::ELEMENT_SELECT,
 	Props::ELEMENT_CHECKBOX,
 ))) echo 'hide';?>" id="prop-values-container">
-	<label class="title">属性值</label>
+	<label class="title bold">属性值</label>
 	<?php echo F::form()->inputText('', array(
 		'id'=>'prop-title',
 		'class'=>'form-control w200 ib',
@@ -92,7 +92,7 @@ use fay\models\tables\Props;
 	<?php }?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
 	$('#add-prop-value-link').on('click', function(){

@@ -18,6 +18,7 @@ use fay\models\tables\PostPropText;
 use fay\helpers\String;
 use fay\core\Loader;
 use fay\models\tables\Users;
+use fay\models\tables\Roles;
 
 class Post extends Model{
 	
@@ -68,8 +69,8 @@ class Post extends Model{
 	 * 返回一篇文章信息（返回字段已做去转义处理）
 	 * @param int $id
 	 * @param string $fields tags,messages,nav,files,props,user,categories
-	 * @param int $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），<br>
-	 * 	则只会在此分类极其子分类下搜索该篇文章<br>
+	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
+	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
 	 * @param null|bool $publish 若为true，则只在已发布的文章里搜索
 	 */
@@ -87,8 +88,8 @@ class Post extends Model{
 		if($publish === true){
 			$sql->where(array(
 				'p.deleted = 0',
-				'p.publish_time < '.\F::app()->current_time,
 				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
 			));
 		}
 		
@@ -99,7 +100,7 @@ class Post extends Model{
 		if($cat != null){
 			if(is_array($cat)){
 				//无操作
-			}else if(is_numeric($cat)){
+			}else if(String::isInt($cat)){
 				$cat = Category::model()->get($cat);
 			}else{
 				$cat = Category::model()->getByAlias($cat);
@@ -153,10 +154,10 @@ class Post extends Model{
 			//此处上一篇是比当前文章新一点的那篇
 			$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 				->where(array(
-					'p.deleted = 0',
-					'p.publish_time < '.\F::app()->current_time,
-					'p.status = '.Posts::STATUS_PUBLISHED,
 					'p.cat_id = '.$post['cat_id'],
+					'p.deleted = 0',
+					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.publish_time < '.\F::app()->current_time,
 					"p.publish_time >= {$post['publish_time']}",
 					"p.sort <= {$post['sort']}",
 					"p.id != {$post['id']}",
@@ -167,10 +168,10 @@ class Post extends Model{
 				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
 				$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 					->where(array(
-						'p.deleted = 0',
-						'p.publish_time < '.\F::app()->current_time,
-						'p.status = '.Posts::STATUS_PUBLISHED,
 						'p.cat_id = '.$post['cat_id'],
+						'p.deleted = 0',
+						'p.status = '.Posts::STATUS_PUBLISHED,
+						'p.publish_time < '.\F::app()->current_time,
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
 						"p.id > {$post['id']}",
@@ -183,10 +184,10 @@ class Post extends Model{
 			//next post
 			$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 				->where(array(
-					'p.deleted = 0',
-					'p.publish_time < '.\F::app()->current_time,
-					'p.status = '.Posts::STATUS_PUBLISHED,
 					'p.cat_id = '.$post['cat_id'],
+					'p.deleted = 0',
+					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.publish_time < '.\F::app()->current_time,
 					"p.publish_time <= {$post['publish_time']}",
 					"p.sort >= {$post['sort']}",
 					"p.id != {$post['id']}",
@@ -196,10 +197,10 @@ class Post extends Model{
 			if($next_post['publish_time'] == $post['publish_time'] && $next_post['sort'] == $post['sort']){
 				$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
 					->where(array(
-						'p.deleted = 0',
-						'p.publish_time < '.\F::app()->current_time,
-						'p.status = '.Posts::STATUS_PUBLISHED,
 						'p.cat_id = '.$post['cat_id'],
+						'p.deleted = 0',
+						'p.status = '.Posts::STATUS_PUBLISHED,
+						'p.publish_time < '.\F::app()->current_time,
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
 						"p.id < {$post['id']}",
@@ -226,7 +227,7 @@ class Post extends Model{
 				'right_value >= '.$post_cat['right_value'],
 			));
 			//所有属性
-			$props = Prop::model()->getAll($post_cat_parents, Props::TYPE_POST_CAT, '');
+			$props = Prop::model()->mget($post_cat_parents, Props::TYPE_POST_CAT, '');
 			
 			$post['props'] = $this->getProps($id, $props);
 		}
@@ -241,7 +242,7 @@ class Post extends Model{
 	public function getProps($post_id, $props = array()){
 		if(!$props){
 			$post = Posts::model()->find($post_id, 'cat_id');
-			$props = Prop::model()->getAll($post['cat_id'], Props::TYPE_POST_CAT);
+			$props = Prop::model()->mget($post['cat_id'], Props::TYPE_POST_CAT);
 		}
 		
 		return Prop::model()->getPropertySet('post_id', $post_id, $props, array(
@@ -267,7 +268,7 @@ class Post extends Model{
 		if(is_array($cat)){
 			//分类数组
 			return $this->getByCatArray($cat, $limit, $field, $children, $order, $conditions);
-		}else if(is_numeric($cat)){
+		}else if(String::isInt($cat)){
 			//分类ID
 			return $this->getByCatId($cat, $limit, $field, $children, $order, $conditions);
 		}else{
@@ -544,7 +545,7 @@ class Post extends Model{
 	 * @param string $order 排序字段
 	 */
 	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $field = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
-		if(!is_numeric($prop)){
+		if(!String::isInt($prop)){
 			$prop = Prop::model()->getIdByAlias($prop);
 		}
 		$sql = new Sql();
@@ -552,8 +553,8 @@ class Post extends Model{
 			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'p.deleted = 0',
-				'p.publish_time < '.\F::app()->current_time,
 				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
 				'pi.content = '.$prop_value,
 			))
 			->joinLeft('post_prop_int', 'pi', array(
@@ -597,16 +598,16 @@ class Post extends Model{
 	 * @param int $new_cat_id 更新后的分类，不传则不做验证
 	 */
 	public static function checkEditPermission($post_id, $new_status = null, $new_cat_id = null){
-		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+		if(\F::session()->get('admin')){
 			//后台用户
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
 			/**
 			 * 是否启用文章审核
 			 */
-			$post_review = is_bool(\F::app()->post_review) ? \F::app()->post_review : Option::get('system.post_review');
+			$post_review = is_bool(\F::app()->post_review) ? \F::app()->post_review : Option::get('system:post_review');
 			//没有编辑权限，直接返回错误
 			if(!\F::app()->checkPermission('admin/post/edit')){
 				return array(
@@ -619,7 +620,7 @@ class Post extends Model{
 			$post = Posts::model()->find($post_id, 'status,cat_id');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可编辑
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,
@@ -630,7 +631,7 @@ class Post extends Model{
 			
 			//文章分类被编辑，且当前用户不是超级管理员，且无权限对新分类进行编辑
 			if($new_cat_id &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				$role_cats &&
 				!in_array($new_cat_id, \F::session()->get('role_cats'))){
 				return array(
@@ -705,10 +706,10 @@ class Post extends Model{
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可删除
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,
@@ -756,10 +757,10 @@ class Post extends Model{
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可还原
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,
@@ -807,10 +808,10 @@ class Post extends Model{
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system.role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可永久删除
 			if($role_cats &&
-				\F::session()->get('role') != Users::ROLE_SUPERADMIN &&
+				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('roles')) &&
 				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
 				return array(
 					'status'=>0,

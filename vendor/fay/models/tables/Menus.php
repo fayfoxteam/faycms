@@ -3,6 +3,22 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Menus model
+ *
+ * @property int $id
+ * @property int $parent
+ * @property int $sort
+ * @property int $left_value
+ * @property int $right_value
+ * @property string $alias
+ * @property string $title
+ * @property string $sub_title
+ * @property string $css_class
+ * @property int $enabled
+ * @property string $link
+ * @property string $target
+ */
 class Menus extends Table{
 	protected $_name = 'menus';
 

@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use fay\core\Validator;
 use fay\helpers\Html;
 use fay\core\Loader;
+use fay\models\tables\Posts;
 
 class TestController extends AdminController{
 	public function valid(){
@@ -281,5 +282,26 @@ class TestController extends AdminController{
 // 		dump(\F::cache()->flush(null, 'memcache'));
 // 		echo '批量获取缓存a, c, d, f, g';
 // 		dump(\F::cache()->mget(array('a', 'c', 'd', 'f', 'g'), 'memcache'));
+	}
+	
+	/**
+	 * 随即更新多条数据
+	 */
+	public function update(){
+		$rand = array();
+		for($i = 0; $i < 1000; $i++){
+			$rand[] = mt_rand(1, 600000);
+		}
+		
+		$start_time = microtime(true);
+		foreach($rand as $r){
+			Posts::model()->update(array(
+				'last_modified_time'=>time(),
+			), $r);
+		}
+		
+		dump($rand);
+		echo microtime(true) - $start_time;
+		dump(Posts::model()->db->getSqlLogs());
 	}
 }

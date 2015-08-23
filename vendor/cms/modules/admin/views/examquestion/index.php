@@ -44,13 +44,14 @@ use fay\helpers\Html;
 		<div class="clear"></div>
 		<form method="post" action="<?php echo $this->url('admin/exam-question/batch')?>" id="batch-form" class="form-inline">
 			<div class="fl mt5"><?php
-				echo Html::select('batch_action', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'set-enabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '启用' : false,
 					'set-disabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '禁用' : false,
 					'delete'=>F::app()->checkPermission('admin/exam-question/delete') ? '删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action',
 				));
 				echo Html::link('提交', 'javascript:;', array(
 					'id'=>'batch-form-submit',
@@ -85,13 +86,14 @@ use fay\helpers\Html;
 				<tbody><?php $listview->showData();?></tbody>
 			</table>
 			<div class="fl mt5"><?php
-				echo Html::select('batch_action_2', array(
+				echo Html::select('', array(
 					''=>'批量操作',
 					'set-enabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '启用' : false,
 					'set-disabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '禁用' : false,
 					'delete'=>F::app()->checkPermission('admin/exam-question/delete') ? '删除' : false,
 				), '', array(
 					'class'=>'form-control',
+					'id'=>'batch-action-2',
 				));
 				echo Html::link('提交', 'javascript:;', array(
 					'id'=>'batch-form-submit-2',

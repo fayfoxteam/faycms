@@ -24,7 +24,7 @@ class ActionController extends AdminController{
 
 		$this->view->cats = Category::model()->getTree('_system_action');
 		$this->form()->setModel(Actions::model())
-			->addRule(array('parent_router', 'ajax', array('url'=>array('admin/action/is-router-exist'))))
+			->setRule(array('parent_router', 'ajax', array('url'=>array('admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'))
 		;
 		$this->view->render();
@@ -33,7 +33,7 @@ class ActionController extends AdminController{
 	public function create(){
 		if($this->input->post()){
 			if($this->form()->setModel(Actions::model())
-				->addRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router')))
+				->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router')))
 				->setLabels(array('parent_router'=>'父级路由'))
 				->check()){
 				if($this->input->post('parent_router')){
@@ -73,7 +73,7 @@ class ActionController extends AdminController{
 		$this->view->cats = Category::model()->getNextLevel('_system_action');
 		
 		$this->form()->setModel(Actions::model())
-			->addRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router', 'ajax'=>array('admin/action/is-router-exist'))))
+			->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router', 'ajax'=>array('admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'));
 		
 		if($this->input->post()){

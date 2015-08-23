@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\Option;
-use fay\models\tables\Users;
+use fay\models\tables\Roles;
 
 function showCats($cats, $dep = 0, $open_dep = 2){?>
 	<ul class="tree">
@@ -74,7 +74,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey hidden-not-lg">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php if(F::session()->get('role') == Users::ROLE_SUPERADMIN || !Option::get('system.role_cats') || in_array($c['id'], F::session()->get('role_cats'))){
+					<?php if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) || !Option::get('system:role_cats') || in_array($c['id'], F::session()->get('role_cats'))){
 						echo Html::link('发布文章', array('admin/post/create', array(
 							'cat_id'=>$c['id'],
 						)), array(

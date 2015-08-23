@@ -11,7 +11,7 @@ define('BACKEND_PATH', realpath(SYSTEM_PATH.'cms').DS);
 define('MODULE_PATH', realpath(APPLICATION_PATH . 'modules') . DS);
 
 //包含基础文件
-require SYSTEM_PATH.'F.php';
+require SYSTEM_PATH.'fay/F.php';
 require SYSTEM_PATH.'fay/core/Loader.php';
 
 //注册自动加载

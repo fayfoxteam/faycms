@@ -6,6 +6,7 @@ use fay\models\tables\Files;
 use fay\common\Upload;
 use fay\helpers\Image;
 use fay\helpers\String;
+use fay\core\ErrorException;
 
 /**
  * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储
@@ -77,7 +78,7 @@ class File extends Model{
 	 * </pre>
 	 */
 	public function getUrl($file, $full_url = true){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image');
 		}
 		if($full_url){
@@ -103,7 +104,7 @@ class File extends Model{
 	 * 返回文件本地完整路径
 	 */
 	public function getPath($file){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path');
 		}
 		return realpath($file['file_path'] . $file['raw_name'] . $file['file_ext']);
@@ -117,13 +118,13 @@ class File extends Model{
 	 * 若是其他类型文件，返回文件图标
 	 */
 	public function getThumbnailUrl($file, $fullpath = true){
-		if(is_numeric($file)){
+		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'id,file_type,raw_name,file_path,is_image');
 		}
 		if(!$file['is_image']){
 			//不是图片，返回一张文件类型对应的小图标
 			$icon = File::model()->getIconByMimetype($file['file_type']);
-			return \F::app()->view->url() . 'images/crystal/' . $icon . '.png';
+			return \F::app()->view->url() . 'assets/images/crystal/' . $icon . '.png';
 		}
 		if($fullpath){
 			if(substr($file['file_path'], 0, 4) == './..'){
@@ -141,7 +142,30 @@ class File extends Model{
 		}
 	}
 	
-	public function upload($target = '', $type = 0, $private = false, $allowed_types = null){
+	/**
+	 * 执行上传
+	 * @param string $target uploads目录下的某个子目录
+	 * @param int|alias|array $cat 分类ID
+	 * @param string $private
+	 * @param string $allowed_types
+	 */
+	public function upload($cat = 0, $private = false, $allowed_types = null){
+		if($cat){
+			if(!is_array($cat)){
+				$cat = Category::model()->get($cat, 'id,alias', '_system_file');
+			}
+			
+			if(!$cat){
+				throw new ErrorException('fay\models\File::upload传入$cat不存在');
+			}
+		}else{
+			$cat = array(
+				'id'=>0,
+				'alias'=>'',
+			);
+		}
+		
+		$target = $cat['alias'];
 		if($target && substr($target, -1) != '/'){
 			//目标路径末尾不是斜杠的话，加上斜杠
 			$target .= '/';
@@ -172,7 +196,7 @@ class File extends Model{
 					'image_height'=>$result['image_height'],
 					'upload_time'=>\F::app()->current_time,
 					'user_id'=>\F::app()->current_user,
-					'type'=>$type,
+					'cat_id'=>$cat['id'],
 				);
 				$data['id'] = Files::model()->insert($data);
 				$src_img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
@@ -201,12 +225,12 @@ class File extends Model{
 					'is_image'=>$result['is_image'],
 					'upload_time'=>\F::app()->current_time,
 					'user_id'=>\F::app()->current_user,
-					'type'=>$type,
+					'cat_id'=>$cat['id'],
 				);
 				$data['id'] = Files::model()->insert($data);
-		
+				
 				$icon = File::model()->getIconByMimetype($data['file_type']);
-				$data['thumbnail'] = \F::app()->view->url().'images/crystal/'.$icon.'.png';
+				$data['thumbnail'] = \F::app()->view->url().'assets/images/crystal/'.$icon.'.png';
 				//下载地址
 				$data['url'] = \F::app()->view->url('file/download', array(
 					'id'=>$data['id'],
@@ -214,10 +238,128 @@ class File extends Model{
 				//真实存放路径
 				$data['src'] = \F::app()->view->url() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
 			}
-			return $data;
+			return array(
+				'status'=>1,
+				'data'=>$data,
+			);
 		}else{
-			return $upload->getErrorMsg();
+			return array(
+				'status'=>0,
+				'data'=>$upload->getErrorMsg(),
+			);
 		}
+	}
+	
+	/**
+	 * 编辑一张图片
+	 * @param int|array $file 可以传入文件ID或包含足够信息的数组
+	 * @param string $handler 处理方式。resize(缩放)和crop(裁剪)可选
+	 * @param array $params
+	 *     $params['dw'] 输出宽度
+	 *     $params['dh'] 输出高度
+	 *     $params['x'] 裁剪时x坐标点
+	 *     $params['y'] 裁剪时y坐标点
+	 *     $params['w'] 裁剪时宽度
+	 *     $params['h'] 裁剪时高度
+	 */
+	public function edit($file, $handler, $params){
+		if(String::isInt($file)){
+			$file = Files::model()->find($file);
+		}
+		
+		switch($handler){
+			case 'resize':
+				if($params['dw'] && !$params['dh']){
+					$params['dh'] = $params['dw'] * ($file['image_height'] / $file['image_width']);
+				}else if($params['dh'] && !$params['dw']){
+					$params['dw'] = $params['dh'] * ($file['image_width'] / $file['image_height']);
+				}else if(!$params['dw'] && !$params['dh']){
+					$params['dw'] = $file['image_width'];
+					$params['dh'] = $file['image_height'];
+				}
+				
+				$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+				
+				$img = Image::resize($img, $params['dw'], $params['dh']);
+				
+				//处理过的图片统一以jpg方式保存
+				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
+				
+				//重新生成缩略图
+				$img = Image::resize($img, 100, 100);
+				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+				
+				$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
+				
+				//更新数据库字段
+				Files::model()->update(array(
+					'file_ext'=>'.jpg',
+					'image_width'=>$params['dw'],
+					'image_height'=>$params['dh'],
+					'file_size'=>$new_file_size,
+				), $file['id']);
+				
+				//更新返回值字段
+				$file['image_width'] = $params['dw'];
+				$file['image_height'] = $params['dh'];
+				$file['file_size'] = $new_file_size;
+				
+				if($file['file_ext'] != '.jpg'){
+					//若原图不是jpg，物理删除原图
+					@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+				}
+				break;
+			case 'crop':
+				if(!$params['x'] || !$params['y'] || !$params['w'] || !$params['h']){
+					throw new ErrorException('fay\models\File::edit方法crop处理缺少必要参数');
+				}
+				
+				if($params['w'] && $params['h']){
+					//若参数不完整，则不处理
+					$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+					
+					if($params['dw'] == 0){
+						$params['dw'] = $params['w'];
+					}
+					if($params['dh'] == 0){
+						$params['dh'] = $params['h'];
+					}
+					$img = Image::crop($img, $params['x'], $params['y'], $params['w'], $params['h']);
+					if($params['dw'] != $params['w'] || $params['dh'] != $params['h']){
+						//如果完全一致，则不需要缩放，但依旧会进行清晰度处理
+						$img = Image::resize($img, $params['dw'], $params['dh']);
+					}
+					
+					//处理过的图片统一以jpg方式保存
+					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
+					
+					//重新生成缩略图
+					$img = Image::resize($img, 100, 100);
+					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+					
+					$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
+					
+					//更新数据库字段
+					Files::model()->update(array(
+						'file_ext'=>'.jpg',
+						'image_width'=>$params['dw'],
+						'image_height'=>$params['dh'],
+						'file_size'=>$new_file_size,
+					), $file['id']);
+					
+					if($file['file_ext'] != '.jpg'){
+						//若原图不是jpg，物理删除原图
+						@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+					}
+					
+					//更新返回值字段
+					$file['image_width'] = $params['dw'];
+					$file['image_height'] = $params['dh'];
+					$file['file_size'] = $new_file_size;;
+				}
+				break;
+		}
+		return $file;
 	}
 
 	/**

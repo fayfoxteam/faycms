@@ -4,6 +4,6 @@
 		<h4>Feeds</h4>
 	</div>
 	<div class="box-content">
-		<img src="<?php echo $this->url()?>images/ajax-loading.gif" class="widget-loading" />
+		<img src="<?php echo $this->assets('images/ajax-loading.gif" class="widget-loading')?>" />
 	</div>
 </div>

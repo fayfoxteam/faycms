@@ -199,8 +199,8 @@ $(function(){
 	});
 
 	//数据传输
-	system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-		system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+	system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 			$(".data-transfer").fancybox({
 				'padding':0,
 				'titleShow':false,
@@ -286,8 +286,8 @@ $(function(){
 	});
 	
 	//dll弹窗
-	system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-		system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+	system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 			$(".show-ddl").fancybox({
 				'padding':0,
 				'titleShow':false,

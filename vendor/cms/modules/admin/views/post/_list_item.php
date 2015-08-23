@@ -3,13 +3,14 @@ use fay\helpers\Html;
 use fay\models\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
-use fay\models\tables\Users;
-use fay\models\Option;
+use fay\models\tables\Roles;
 
 /**
  * 超级管理员或未开启分类权限或当前用户有此分类操作权限，则文章可编辑
  */
-if(F::session()->get('role') == Users::ROLE_SUPERADMIN || !F::app()->role_cats || in_array($data['cat_id'], F::session()->get('role_cats', array()))){
+if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
+	!F::app()->role_cats ||
+	in_array($data['cat_id'], F::session()->get('role_cats', array()))){
 	/**
 	 * 是否有权限编辑（此处验证的是分类权限）
 	 */
@@ -60,7 +61,7 @@ if(F::session()->get('role') == Users::ROLE_SUPERADMIN || !F::app()->role_cats |
 		</div>
 	</td>
 	<?php if(in_array('main_category', $cols)){?>
-	<td class="wp15"><?php echo Html::link($data['cat_title'], array('admin/post/index', array(
+	<td><?php echo Html::link($data['cat_title'], array('admin/post/index', array(
 		'cat_id'=>$data['cat_id'],
 	)));?></td>
 	<?php }?>
@@ -91,7 +92,7 @@ if(F::session()->get('role') == Users::ROLE_SUPERADMIN || !F::app()->role_cats |
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td class="wp10">
+	<td>
 	<?php echo PostHelper::getStatus($data['status'], $data['deleted']);?>
 	</td>
 	<?php }?>

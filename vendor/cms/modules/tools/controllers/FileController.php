@@ -9,6 +9,7 @@ use fay\helpers\SecurityCode;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\core\Loader;
+use fay\helpers\String;
 
 class FileController extends Controller{
 	public function pic(){
@@ -21,7 +22,7 @@ class FileController extends Controller{
 		
 		if($check !== true){
 			header('Content-type: image/jpeg');
-			readfile(BASEPATH . 'images/no-image.jpg');
+			readfile(BASEPATH . 'assets/images/no-image.jpg');
 		}
 		
 		//显示模式
@@ -29,13 +30,13 @@ class FileController extends Controller{
 		
 		//文件名或文件id号
 		$f = $this->input->get('f');
-		if(is_numeric($f)){
+		if(String::isInt($f)){
 			if($f == 0){
 				$spares = $this->config->get('spares');
 				$spare = $spares[$this->input->get('s', null, 'default')];
 					
 				header('Content-type: image/jpeg');
-				readfile(BASEPATH . $spare);
+				readfile(BASEPATH . 'assets/' . $spare);
 				die;
 			}else{
 				$file = Files::model()->find($f);
@@ -118,7 +119,7 @@ class FileController extends Controller{
 			$spare = $spares[$this->input->get('s', null, 'default')];
 			
 			header('Content-type: image/jpeg');
-			readfile(BASEPATH.$spare);
+			readfile(BASEPATH . 'assets/' . $spare);
 		}
 	}
 	
@@ -133,14 +134,16 @@ class FileController extends Controller{
 		$dh = $this->input->get('dh', 'intval', 0);
 		//选中部分的宽度
 		$w = $this->input->get('w', 'intval');
-		if(!$w)throw new HttpException('不完整的请求', 500);
 		//选中部分的高度
 		$h = $this->input->get('h', 'intval');
-		if(!$h)throw new HttpException('不完整的请求', 500);
+		
+		if(!$w || !$h){
+			throw new HttpException('不完整的请求', 500);
+		}
 		
 		if($file !== false){
 			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-		
+			
 			if($dw == 0){
 				$dw = $w;
 			}
@@ -148,24 +151,13 @@ class FileController extends Controller{
 				$dh = $h;
 			}
 			$img = Image::crop($img, $x, $y, $w, $h);
-			$img = Image::resize($img, $dw, $dh);
-		
-			header('Content-type: '.$file['file_type']);
-			switch ($file['file_type']) {
-				case 'image/gif':
-					imagegif($img);
-					break;
-				case 'image/jpeg':
-				case 'image/jpg':
-					imagejpeg($img);
-					break;
-				case 'image/png':
-					imagepng($img);
-					break;
-				default:
-					imagejpeg($img);
-					break;
+			if($dw != $w || $dh != $h){
+				$img = Image::resize($img, $dw, $dh);
 			}
+			
+			//处理过的图片统一以jpg方式显示
+			header('Content-type: image/jpeg');
+			imagejpeg($img, null, $this->input->get('q', 'intval', 75));
 		}else{
 			//图片不存在，显示一张默认图片吧
 		}
@@ -184,8 +176,8 @@ class FileController extends Controller{
 		}else if($dh && !$dw){
 			$dw = $dh * ($file['image_width'] / $file['image_height']);
 		}else if(!$dw && !$dh){
-			$dw = 200;
-			$dh = 200;
+			$dw = $file['image_width'];
+			$dh = $file['image_height'];
 		}
 		
 		if($file !== false){
@@ -193,24 +185,11 @@ class FileController extends Controller{
 			
 			$img = Image::resize($img, $dw, $dh);
 			
-			header('Content-type: '.$file['file_type']);
-			switch ($file['file_type']) {
-				case 'image/gif':
-					imagegif($img);
-					break;
-				case 'image/jpeg':
-				case 'image/jpg':
-					imagejpeg($img, null, $this->input->get('q', 'intval', 75));
-					break;
-				case 'image/png':
-					imagepng($img);
-					break;
-				default:
-					imagejpeg($img);
-					break;
-			}
+			//处理过的图片统一以jpg方式显示
+			header('Content-type: image/jpeg');
+			imagejpeg($img, null, $this->input->get('q', 'intval', 75));
 		}else{
-			$img = Image::getImage($spare);
+			$img = Image::getImage('assets/' . $spare);
 			header('Content-type: image/jpeg');
 			$img = Image::resize($img, $dw, $dh);
 			imagejpeg($img);

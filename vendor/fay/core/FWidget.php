@@ -2,6 +2,7 @@
 namespace fay\core;
 
 use fay\models\tables\Widgets;
+use fay\helpers\String;
 
 class FWidget{
 	/**
@@ -33,7 +34,7 @@ class FWidget{
 	 */
 	public function load($widget, $ajax = false, $cache = false){
 		if(!is_array($widget)){
-			if(is_numeric($widget)){
+			if(String::isInt($widget)){
 				$widget = Widgets::model()->find($widget);
 			}else{
 				$widget = Widgets::model()->fetchRow(array(
@@ -69,7 +70,7 @@ class FWidget{
 						echo '</div>';
 					}else{
 						//若未定义，显示一个loading的图片
-						echo "<div id='{$id}'><img src='".\F::app()->view->url()."images/throbber.gif' /></div>";
+						echo "<div id='{$id}'><img src='".\F::app()->view->assets('images/throbber.gif')."' /></div>";
 					}
 					echo '<script>
 						$.ajax({

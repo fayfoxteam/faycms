@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-use fay\core\Exception;
+use fay\core\ErrorException;
 
 class Image{
 	/**
@@ -10,7 +10,7 @@ class Image{
 	 */
 	public static function getImage($filename){
 		$imageInfo = getimagesize($filename);
-		$img_mime = strtolower($imageInfo['mime']);
+		$img_mime = @strtolower($imageInfo['mime']);
 		switch ($img_mime) {
 			case 'image/gif':
 				$im = imagecreatefromgif($filename);
@@ -28,7 +28,7 @@ class Image{
 		}
 		
 		if($im == 'unknow') {
-			throw new Exception('未知图片类型');
+			throw new ErrorException('未知图片类型:' . $img_mime);
 		}
 		return $im;
 	}

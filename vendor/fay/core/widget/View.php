@@ -93,7 +93,11 @@ class View{
 		}
 	}
 	
-	public function staticFile($uri){
-		return \F::app()->view->staticFile($uri);
+	public function assets($uri){
+		return \F::app()->view->assets($uri);
+	}
+	
+	public function appStatic($uri){
+		return \F::app()->view->appStatic($uri);
 	}
 }

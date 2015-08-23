@@ -74,8 +74,8 @@ class Uri{
 				$folder = '/'.$folder;
 			}
 			if($folder == '/'){
-			    //仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
-			    $folder = '';
+				//仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
+				$folder = '';
 			}
 			$base_url = 'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$folder.'/';
 			if(defined('NO_REWRITE')){

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Users;
+use fay\models\tables\Roles;
 ?>
 <div class="box" id="box-abstract" data-name="abstract">
 	<div class="box-title">
@@ -8,20 +8,20 @@ use fay\models\tables\Users;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<label class="title">标题</label>
+			<label class="title bold">标题</label>
 			<?php echo F::form('widget')->inputText('title', array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">若为空，默认为“友情链接”</p>
 		</div>
 		<div class="form-field">
-			<label class="title">分类</label>
+			<label class="title bold">分类</label>
 			<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title">显示链接数</label>
+			<label class="title bold">显示链接数</label>
 			<?php echo F::form('widget')->inputText('number', array(
 				'class'=>'form-control mw150',
 			), 5)?>
@@ -29,9 +29,9 @@ use fay\models\tables\Users;
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 		</div>
-		<div class="advance <?php if(F::app()->session->get('role') != Users::ROLE_SUPERADMIN)echo 'hide';?>">
+		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
 			<div class="form-field">
-				<label class="title">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
+				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
 					'class'=>'form-control h200 autosize',
 				))?>

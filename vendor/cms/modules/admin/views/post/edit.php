@@ -1,9 +1,9 @@
 <?php
 use fay\models\Option;
-use fay\models\tables\Users;
 use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
 use fay\helpers\Html;
+use fay\models\tables\Roles;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -89,7 +89,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				}
 			?>
 		</div>
-		<div class="postbox-container-2 dragsort"><?php
+		<div class="postbox-container-2 dragsort" id="normal"><?php
 			if(isset($_box_sort_settings['normal'])){
 				foreach($_box_sort_settings['normal'] as $box){
 					$k = array_search($box, $boxes_cp);
@@ -116,16 +116,16 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	</div>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/post.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/post.js')?>"></script>
 <script>
 $(function(){
 	common.dragsortKey = 'admin_post_box_sort';
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'t':'posts'});
-	common.filebrowserFlashUploadUrl = system.url("admin/file/upload", {'t':'posts'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'post'});
+	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
 	post.post_id = <?php echo $post['id']?>;
-	<?php if(F::session()->get('role') != Users::ROLE_SUPERADMIN && Option::get('system.role_cats')){?>
+	<?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) && Option::get('system:role_cats')){?>
 		post.roleCats = <?php echo json_encode(F::session()->get('role_cats'))?>;
 	<?php }?>
 	post.init();

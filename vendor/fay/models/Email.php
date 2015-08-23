@@ -3,41 +3,39 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\core\Loader;
+use fay\core\ErrorException;
 
 class Email extends Model{
-	/**
-	 * @return Email
-	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
-	}
-	
 	/**
 	 * 发送一封邮件
 	 * @param string|array $address 邮箱地址
 	 * @param string $subject 邮件标题
 	 * @param string $body 邮件内容
 	 */
-	public function send($address, $subject, $body){
-		if(!\F::config()->get('send_email')){
-			return;
+	public static function send($address, $subject, $body){
+		$config = Option::getTeam('email');
+		if($config['enabled'] === null || empty($config['Host']) ||
+			empty($config['Username']) || empty($config['Password']) ||
+			empty($config['Port'])){
+			throw new ErrorException('Email参数未配置');
+		}else if(!$config['enabled']){
+			return true;
 		}
 		
 		Loader::vendor('PHPMailer/class.phpmailer');
-		$config_email = \F::config()->get('email');
-	
+		
 		$mail = new \PHPMailer ();
 		$mail->IsSMTP ();
 		$mail->SMTPDebug = false;
-		$mail->Host = $config_email['Host'];
+		$mail->Host = $config['Host'];
 		$mail->SMTPAuth = true;
-		$mail->Username = $config_email['Username'];
-		$mail->Password = $config_email['Password']; // SMTP password
-		$mail->SMTPSecure = $config_email['SMTPSecure']; // Enable encryption, 'ssl' also accepted
-		$mail->Port = $config_email['Port'];
-		$mail->CharSet = $config_email['CharSet'];
-		$mail->From = $config_email['From'];
-		$mail->FromName = $config_email['FromName'];
+		$mail->Username = $config['Username'];
+		$mail->Password = $config['Password']; // SMTP password
+		$mail->SMTPSecure = empty($config['SMTPSecure']) ? '' : $config['SMTPSecure']; // Enable encryption, 'ssl' also accepted
+		$mail->Port = $config['Port'];
+		$mail->CharSet = 'utf8';
+		$mail->From = $config['Username'];
+		$mail->FromName = empty($config['FromName']) ? '' : $config['FromName'];
 		if(is_array($address)){
 			foreach($address as $a){
 				$mail->AddAddress($a);

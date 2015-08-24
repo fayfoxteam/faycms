@@ -8,7 +8,7 @@
 $folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
 $request = substr($_SERVER['REQUEST_URI'], strlen($folder.'/index.php/'));
 
-if(preg_match('/^(css|fonts|flash|images|img|js|uploads|static|favicon.ico|robots\.txt)/', $request)){
+if(preg_match('/^(assets|uploads|apps|favicon.ico|robots\.txt)/', $request)){
 	//静态文件
 	if($pos = strpos($request, '?')){
 		//截掉问号后面部分

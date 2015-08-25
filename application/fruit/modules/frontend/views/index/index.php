@@ -34,6 +34,7 @@ use fay\models\File;
 						'dw'=>268,
 						'dh'=>242,
 						'alt'=>Html::encode($p['title']),
+						'width'=>268,
 					))?>
 						<span class="zoom-bg"></span>
 						<span class="zoom-icon"></span>

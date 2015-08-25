@@ -27,6 +27,6 @@ use fay\models\Setting;
 				</a>
 			</div>
 		</header>
-		<?php MenuHelper::render(F::app()->_left_menu, F::app()->session->get('role'), isset($current_directory) ? $current_directory : '')?>
+		<?php MenuHelper::render(F::app()->_left_menu, F::session()->get('role'), isset($current_directory) ? $current_directory : '')?>
 	</div>
 </div>

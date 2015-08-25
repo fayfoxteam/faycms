@@ -109,7 +109,7 @@ class Controller{
 	 * @return boolean
 	 */
 	public function checkPermission($router){
-		if(in_array(Roles::ITEM_SUPER_ADMIN, $this->session->get('roles'))){
+		if(in_array(Roles::ITEM_SUPER_ADMIN, $this->session->get('roles', array()))){
 			//超级管理员无限制
 			return true;
 		}else if(in_array($router, $this->session->get('actions', array()))){

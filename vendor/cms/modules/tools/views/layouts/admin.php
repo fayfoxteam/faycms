@@ -24,7 +24,7 @@ use fay\models\Flash;
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
-system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
+system.user_id = '<?php echo F::session()->get('id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
@@ -41,7 +41,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
-							if(!array_intersect(F::app()->session->get('roles'), $nav['roles'])){
+							if(!array_intersect(F::session()->get('roles', array()), $nav['roles'])){
 								continue;
 							}
 						}

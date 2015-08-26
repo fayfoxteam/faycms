@@ -41,6 +41,9 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 .col-3{width:25%}
 .col-2{width:16.66666667%}
 .col-1{width:8.33333333%}
+@media screen and (max-width:768px){
+	.col-2,.col-8{width:100%}
+}
 @media screen and (max-width:992px){
 	.col-5,.col-6,.col-7{width:100%}
 }
@@ -170,6 +173,15 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .form-table tr th{width:38%;font-weight:bold}
 .form-table tr th.adaption{width:auto}
 .form-table.col4 tr th{width:19%}
+
+/* 跟上面的差不多，只不过不是以table的方式实现，能实现响应式 */
+.form-group{margin:0 -15px 15px}
+.form-group label{text-align:right;padding-top:7px;color:#23282d;font-weight:600}
+@media screen and (max-width:768px){
+	.form-group{margin-left:0;margin-right:0}
+	.form-group label{text-align:left}
+}
+.form-group-separator{height:1px;background-color:#eee;margin-bottom:15px}
 
 /* tabs */
 .tabbable .nav-tabs{zoom:1;clear:left}
@@ -540,13 +552,14 @@ pre li:hover{background-color:#575757}
 .fn-hide{display:none !important;}
 .circle{border-radius:50%}
 .clear{clear:both}
-.cf,.row,.page-title,.form-field,.user-info-navbar{zoom:1;clear:left}
+.cf,.row,.page-title,.form-field,.user-info-navbar,.form-group{zoom:1;clear:left}
 .cf:before,.cf:after,
 .row:before,.row:after,
 .page-title:before,.page-title:after,
 .form-field:before,.form-field:after,
-.user-info-navbar:before,.user-info-navbar:after{content:"";display:table}
-.cf:after,.row:after,.page-title:after,.form-field:after,.user-info-navbar:after{clear:both}
+.user-info-navbar:before,.user-info-navbar:after,
+.form-group:before,.form-group:after{content:"";display:table}
+.cf:after,.row:after,.page-title:after,.form-field:after,.user-info-navbar:after,.form-group:after{clear:both}
 .fl{float:left}
 .fr{float:right}
 .ib{display:inline-block !important}
@@ -596,4 +609,5 @@ pre li:hover{background-color:#575757}
 .mt5{margin-top:5px !important}
 .ml5{margin-left:5px !important}
 .pt0{padding-top:0 !important}
+.pt7{padding-top:7px !important}
 .pl11{padding-left:11px !important}

@@ -11,6 +11,7 @@ use fay\helpers\ArrayHelper;
 		'width'=>40,
 		'height'=>40,
 		'class'=>'circle',
+		'spare'=>'avatar',
 	)), array('admin/user/item', array(
 		'id'=>$data['id'],
 	)), array(

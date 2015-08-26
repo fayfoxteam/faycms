@@ -249,7 +249,7 @@ class OperatorController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id, 'users.*');
+			$this->view->user = User::model()->get($id, 'users.*,props.*,roles.*,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}
@@ -258,6 +258,13 @@ class OperatorController extends AdminController{
 		
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
+		
+		if($this->checkPermission('admin/operator/edit')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/operator/edit', array('id'=>$id)),
+				'text'=>'编辑用户',
+			);
+		}
 		
 		$this->view->render();
 	}

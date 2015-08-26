@@ -228,6 +228,7 @@ class User extends Model{
 	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
 	 *   roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
+	 *   profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
 	 * @return false|array 若用户ID不存在，返回false，否则返回数组
 	 */
 	public function get($id, $fields = 'users.username,users.nickname,users.id,users.avatar'){
@@ -252,14 +253,14 @@ class User extends Model{
 			}
 		}
 		
-		$user = Users::model()->find($id, implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id'))));
+		$user = Users::model()->find($id, implode(',', $fields['users']));
 		
 		if(!$user){
 			return false;
 		}
 		
 		if(!empty($fields['props'])){
-			$user_roles = $this->getRoleIds($user['id']);
+			$user_roles = $this->getRoleIds($id);
 			if($user_roles){
 				//附加角色属性
 				$props = Props::model()->fetchAll(array(
@@ -269,19 +270,19 @@ class User extends Model{
 					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
 				), 'id,title,element,required,is_show,alias', 'sort');
 				
-				$user['props'] = $this->getProps($user['id'], $props);
+				$user['props'] = $this->getProps($id, $props);
 			}else{
 				$user['props'] = array();
 			}
 		}
 		
 		if(!empty($fields['roles'])){
-			$user['roles'] = $this->getRoles($user['id'], in_array('*', $fields['roles']) ? '*' : $fields['roles']);
+			$user['roles'] = $this->getRoles($id, $fields['roles']);
 		}
 		
-		//删除不需要返回的字段
-		if(!in_array('id', $fields['users'])){
-			unset($user['id']);
+		if(!empty($fields['profile'])){
+			$profile = UserProfile::model()->find($id, implode(',', $fields['profile']));
+			$user = array_merge($user, $profile);
 		}
 		
 		return $user;

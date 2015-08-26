@@ -270,12 +270,7 @@ class UserController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id, 'users.*,props.*');
-		}else if($username = $this->input->get('username')){
-			$user = Users::model()->fetchRow(array(
-				'username = ?'=>$username,
-			), 'id');
-			$this->view->user = User::model()->get($user['id'], 'users.*,props.*');
+			$this->view->user = User::model()->get($id, 'users.*,props.*,roles.*,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}
@@ -284,6 +279,13 @@ class UserController extends AdminController{
 		
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
+		
+		if($this->checkPermission('admin/user/edit')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/user/edit', array('id'=>$id)),
+				'text'=>'编辑用户',
+			);
+		}
 		
 		$this->view->render();
 	}

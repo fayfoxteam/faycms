@@ -90,6 +90,11 @@ use fay\helpers\Html;
 						<em class="abbr" title="<?php echo long2ip($user['last_login_ip'])?>"><?php echo $iplocation->getCountryAndArea(long2ip($user['last_login_ip']))?></em>
 					<?php }?></div>
 				</div>
+				<div class="form-group-separator"></div>
+				<div class="form-group">
+					<label class="col-2">最后在线时间</label>
+					<div class="col-10 pt7"><?php echo Date::format($user['last_time_online'])?></div>
+				</div>
 			</div>
 		</div>
 		<div class="box">

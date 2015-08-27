@@ -129,7 +129,7 @@ class ApplicationController extends ToolsController{
 				
 				Option::set('site:sitename', $this->input->post('sitename'));
 				
-				file_put_contents(BASEPATH.'..'.DS.'application/'.$app_name.'/installed.lock', date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
+				file_put_contents(BASEPATH.'..'.DS.'application/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
 			}
 		}
 		

@@ -26,7 +26,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 <title><?php if(!empty($title)){
 	echo $title, '_';
 }
-echo Option::get('site.sitename')?></title>
+echo Option::get('site:sitename')?></title>
 </head>
 <body>
 <?php include '_site_nav.php'?>

@@ -26,6 +26,7 @@ use fay\helpers\Html;
 				</ul>
 				<select id="select-nav">
 					<option value="#">--导航--</option>
+					<option value="<?php echo $m['link']?>" <?php if(empty($current_header_menu) || $current_header_menu == 'home')echo 'selected="selected"'?>><?php echo $m['title']?></option>
 				<?php foreach($menu as $m){?>
 					<option value="<?php echo $m['link']?>" <?php if(isset($current_header_menu) && $current_header_menu == $m['alias'])echo 'selected="selected"'?>><?php echo $m['title']?></option>
 				<?php }?>

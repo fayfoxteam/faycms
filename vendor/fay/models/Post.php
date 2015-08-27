@@ -94,7 +94,7 @@ class Post extends Model{
 		}
 		
 		if(in_array('user', $fields)){
-			$sql->joinLeft('users', 'u', 'p.user_id = u.id', 'username,nickname,realname,avatar');
+			$sql->joinLeft('users', 'u', 'p.user_id = u.id', 'username,nickname,avatar');
 		}
 		
 		if($cat != null){

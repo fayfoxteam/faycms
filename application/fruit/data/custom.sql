@@ -6,7 +6,7 @@ INSERT INTO `{{$prefix}}pages` (id, title, abstract, alias, thumbnail) VALUES (4
 INSERT INTO `{{$prefix}}pages` (id, title, alias) VALUES (5, '联系我们', 'contact');
 
 -- 基础参数
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`) VALUES ('site:copyright', 'Copyright © 2012-2015 <a href="http://www.fayfox.com" target="_blank">fayfox.com</a>', '{{$time}}');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`) VALUES ('site:copyright', '© 2012-2015 <a href="http://www.fayfox.com" target="_blank">fayfox.com</a>', '{{$time}}');
 INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`) VALUES ('site:beian', '浙ICP备12036784号-1', '{{$time}}');
 INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`) VALUES ('site:sitename', 'Fayfox', '{{$time}}');
 

@@ -72,7 +72,7 @@ use fay\helpers\String;
 </div>
 <div class="g-sd">
 	<?php F::widget()->load('index-notice')?>
-	<img src="<?php echo $this->staticFile('images/quick-service-title.jpg')?>" id="quick-service-title" />
+	<img src="<?php echo $this->appStatic('images/quick-service-title.jpg')?>" id="quick-service-title" />
 	<?php F::widget()->load('quick-service')?>
 	<?php F::widget()->load('index-sidebar-1')?>
 	<?php F::widget()->load('index-sidebar-2')?>

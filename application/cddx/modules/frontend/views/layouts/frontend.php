@@ -15,7 +15,7 @@ use fay\helpers\Html;
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
@@ -37,6 +37,6 @@ echo Option::get('site.sitename')?></title>
 	</div>
 </div>
 <?php include '_footer.php'?>
-<script type="text/javascript" src="<?php echo $this->staticFile('js/mail.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/mail.js')?>"></script>
 </body>
 </html>

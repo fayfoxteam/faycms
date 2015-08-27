@@ -761,6 +761,7 @@ CREATE TABLE `{{$prefix}}users` (
   `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `salt` char(5) NOT NULL DEFAULT '' COMMENT '五位随机数',
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '昵称',
+  `realname` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
   `avatar` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '头像',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户审核状态',
   `block` tinyint(1) NOT NULL DEFAULT '0' COMMENT '屏蔽用户',

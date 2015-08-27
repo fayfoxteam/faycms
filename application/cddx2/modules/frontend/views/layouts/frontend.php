@@ -9,6 +9,9 @@ use fay\helpers\Html;
 <?php if(!empty($canonical)){?>
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
+<!--[if lt IE 9]>
+	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+<![endif]-->
 <title><?php if(!empty($title)){
 	echo $title, '_';
 }
@@ -25,8 +28,10 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 </script>
 </head>
 <body>
+<?php $this->renderPartial('layouts/_header')?>
 <div class="wrap">
 <?php echo $content?>
 </div>
+<?php $this->renderPartial('layouts/_footer')?>
 </body>
 </html>

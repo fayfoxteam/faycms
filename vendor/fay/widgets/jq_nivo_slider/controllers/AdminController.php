@@ -41,7 +41,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array('links', 'url'),
-			array(array('animSpeed', 'pauseTime'), 'int'),
+			array(array('animSpeed', 'pauseTime', 'width', 'height'), 'int', array('min'=>1)),
 			array('id', 'required'),
 			array('id', 'string', array('format'=>'alias')),
 		);
@@ -53,6 +53,8 @@ class AdminController extends Widget{
 			'links'=>'链接地址',
 			'pauseTime'=>'停顿时长',
 			'animSpeed'=>'过渡动画时长',
+			'width'=>'图片宽度',
+			'height'=>'图片高度',
 		);
 	}
 	
@@ -63,6 +65,8 @@ class AdminController extends Widget{
 			'effect'=>'trim',
 			'elementId'=>'trim',
 			'directionNav'=>'intval',
+			'width'=>'intval',
+			'height'=>'intval',
 		);
 	}
 }

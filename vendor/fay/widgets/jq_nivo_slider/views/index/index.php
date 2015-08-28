@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\Html;
+use fay\models\File;
 
 $this->appendCss($this->assets('css/nivo-slider.css'));
 ?>
@@ -9,11 +10,11 @@ $this->appendCss($this->assets('css/nivo-slider.css'));
 		if(empty($d['link'])){
 			$d['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($d['file_id'], 1, array(
+		echo Html::link(Html::img($d['file_id'], File::PIC_RESIZE, array(
 			'alt'=>Html::encode($d['title']),
 			'title'=>Html::encode($d['title']),
-			'width'=>false,
-			'height'=>false,
+			'dw'=>$config['width'] ? $config['width'] : false,
+			'dh'=>$config['height'] ? $config['height'] : false,
 		)), $d['link'], array(
 			'encode'=>false,
 			'title'=>Html::encode($d['title']),

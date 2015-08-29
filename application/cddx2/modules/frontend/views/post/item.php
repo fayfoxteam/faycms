@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
+use fay\models\File;
 use fay\models\Post;
 ?>
 <div class="inner cf">

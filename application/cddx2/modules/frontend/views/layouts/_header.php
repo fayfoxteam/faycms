@@ -3,17 +3,19 @@ use fay\helpers\Html;
 ?>
 <header class="g-hd">
 	<div class="w1000">
-		<div class="hd-search-bar"></div>
+		<div class="hd-search-bar">
+			<form>
+				<span><?php echo date('Y年m月d日')?></span>
+				<span class="sep">|</span>
+				<span><?php echo Html::inputText('q', '', array(
+					'placeholder'=>'请输入关键词',
+				))?></span>
+			</form>
+		</div>
 	</div>
 	<nav class="g-nav">
 		<div class="w1000">
-			<ul>
-				<?php foreach($menus as $m){
-					echo Html::link($m['title'], $m['link'], array(
-						'wrapper'=>'li',
-					));
-				}?>
-			</ul>
+			<?php F::widget()->load('header-nav')?>
 		</div>
 	</nav>
 </header>

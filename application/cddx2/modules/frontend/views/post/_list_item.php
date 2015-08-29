@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 
-echo Html::link('<span>'.Html::encode($data['title']).'</span>', array('post-'.$data['id']), array(
+echo Html::link('<span>'.Html::encode($data['title']).'</span>', array('post/'.$data['id']), array(
 	'wrapper'=>'li',
 	'before'=>array(
 		'tag'=>'time',

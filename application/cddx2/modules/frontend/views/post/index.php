@@ -16,7 +16,7 @@ use fay\helpers\Html;
 			<?php }?>
 			<ul>
 			<?php foreach($left_cats['children'] as $c){
-				echo Html::link($c['title'], array('cat-'.$c['id']), array(
+				echo Html::link($c['title'], array('cat/'.$c['id']), array(
 					'wrapper'=>'li',
 					'class'=>$c['id'] == $cat['id'] ? 'crt' : false,
 				));

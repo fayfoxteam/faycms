@@ -1,19 +1,4 @@
 <div class="row">
-	<div class="col-5">
-		<div class="form-field">
-			<label class="title bold">小工具实例</label>
-			<div class="widget-list" id="inactive-widget-list">
-			<?php if(isset($widgets) && is_array($widgets)){
-				foreach($widgets as $widget){
-					if($widget['widgetarea']) continue;
-					$this->renderPartial('_widget_item', array(
-						'widget'=>$widget,
-					));
-				}
-			}?>
-			</div>
-		</div>
-	</div>
 	<div class="col-7" id="widgetarea-list">
 	<?php foreach($widgetareas as $wa){?>
 		<div class="box" data-alias="<?php echo $wa['alias']?>">
@@ -34,6 +19,21 @@
 		</div>
 	<?php }?>
 	</div>
+	<div class="col-5">
+		<div class="form-field">
+			<label class="title bold">小工具实例</label>
+			<div class="widget-list" id="inactive-widget-list">
+			<?php if(isset($widgets) && is_array($widgets)){
+				foreach($widgets as $widget){
+					if($widget['widgetarea']) continue;
+					$this->renderPartial('_widget_item', array(
+						'widget'=>$widget,
+					));
+				}
+			}?>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
 var widgetarea = {
@@ -41,7 +41,7 @@ var widgetarea = {
 		system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
 			$('.widget-list').dragsort({
 				'itemSelector': '.widget-item',
-				//'dragSelector': '.widget-item-selector',
+				'dragSelector': '.widget-item',//若不指定，且第一个框中没可拖动元素，则其他框也不可拖动，这算是插件的bug吧
 				'dragBetween': true,
 				'placeHolderTemplate': '<div class="widget-item holder"></div>',
 				'dragSelectorExclude': 'strong,span',

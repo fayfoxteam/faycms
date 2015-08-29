@@ -83,7 +83,6 @@ a:hover{color:#e00404;text-decoration:none;}
 #slide .nivo-controlNav{position:absolute;bottom:3px;right:10px;z-index:10;padding:0;}
 #slide .nivo-controlNav a{display:inline-block;margin:0 8px;width:14px;height:14px;line-height:14px;border-radius:50%;background:#bebebe;overflow:hidden;text-indent:-99999px;}
 #slide .nivo-controlNav a.active{background:#ff9c00;}
-#slide .nivoSlider{height:327px;}
 
 #widget-index-notice .more{display:none;}
 #widget-index-notice .kxbdMarquee{height:272px;overflow:hidden;}

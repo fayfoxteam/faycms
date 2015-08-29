@@ -67,11 +67,11 @@ class IndexController extends Widget{
 		
 		foreach($posts as &$p){
 			if($config['date_format'] == 'pretty'){
-				$p['publish_format_time'] = Date::niceShort($p['publish_time']);
+				$p['format_publish_time'] = Date::niceShort($p['publish_time']);
 			}else if($config['date_format']){
-				$p['publish_format_time'] = \date($config['date_format'], $p['publish_time']);
+				$p['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
 			}else{
-				$p['publish_format_time'] = '';
+				$p['format_publish_time'] = '';
 			}
 		}
 		

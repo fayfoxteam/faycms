@@ -2,15 +2,14 @@
 namespace fay\widgets\menu\controllers;
 
 use fay\core\Widget;
-use fay\models\Category;
 use fay\models\Menu;
+use fay\models\tables\Menus;
 
 class IndexController extends Widget{
 	public function index($config){
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_post', 'id');
-			$config['top'] = $root_node['id'];
+			$config['top'] = Menus::ITEM_USER_MENU;
 		}
 		
 		$menus = Menu::model()->getTree($config['top'], true, true);

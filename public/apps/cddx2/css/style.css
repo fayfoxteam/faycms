@@ -32,6 +32,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .box-post-list li a{color:#000;padding-left:16px;line-height:27px;display:block;background:url(images/triangle.png) no-repeat scroll 2px center transparent;}
 .box-post-list li a:hover{color:#e00404;padding-left:19px;}
 .box-post-list li a time{float:right;}
+.box-post-list li a span{width:220px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left;}
 
 .box-top-news{padding-bottom:11px;border-bottom:1px dotted #d5d5d5;margin-bottom:11px;}
 .box-top-news h4{text-align:center;margin:21px 0 15px;}
@@ -50,6 +51,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .box-2-content{padding:10px 0 10px 30px;background:url(images/box-2-content-bg.jpg) no-repeat scroll right bottom transparent;}
 .box-2-content ul li{list-style:square;}
 .box-2-content ul li a{display:block;line-height:24px;color:#212121;font-family:"宋体"}
+.box-2-content ul li a span{width:220px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 .box-3{background-color:#b40009;}
 .box-3-title{background:url(images/box-3-title-bg.jpg) no-repeat scroll 0 0 transparent;}
@@ -57,6 +59,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .box-3-title h3 a{color:#fff;}
 .box-3-content ul li{padding-left:32px;background:url(images/white-triangle.png) no-repeat scroll 13px center transparent;}
 .box-3-content ul li a{display:block;line-height:24px;color:#212121;background-color:#ebeef3;padding-left:13px;line-height:31px;}
+.box-3-content ul li a span{width:220px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 .g-hd{background:url(images/banner.jpg) no-repeat scroll center top #FEA056;height:260px;position:relative;}
 .g-hd .w1000{position:relative;}
@@ -95,6 +98,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 
 #index-section-1 #widget-news{float:left;margin-left:18px;width:348px;}
 #index-section-1 #widget-noticeboard{float:left;margin-left:13px;width:270px;border-left:1px solid #e5e5e5;padding-left:14px;}
+#index-section-1 #widget-noticeboard .box-post-list li a span{width:170px;}
 
 #index-section-2{background-color:#ededed;padding:13px 10px 13px 7px;margin-top:10px;}
 #index-section-2 #quick-link .ql-title{float:left;}

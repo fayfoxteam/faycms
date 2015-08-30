@@ -3,8 +3,8 @@ namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
 use fay\helpers\String;
-use fay\core\Response;
 use fay\models\tables\Widgets;
+use fay\core\HttpException;
 
 class WidgetController extends ToolsController{
 	//加载一个widget

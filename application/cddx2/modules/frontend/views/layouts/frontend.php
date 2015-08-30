@@ -29,7 +29,7 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 </head>
 <body>
 <?php $this->renderPartial('layouts/_header')?>
-<div class="w1000">
+<div class="w1000 g-con">
 	<?php echo $content?>
 </div>
 <?php $this->renderPartial('layouts/_footer')?>

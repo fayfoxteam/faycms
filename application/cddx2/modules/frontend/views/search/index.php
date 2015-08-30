@@ -3,7 +3,10 @@ use fay\helpers\Html;
 ?>
 <div class="inner cf">
 	<div class="breadcrumbs">
-		<?php echo Html::link('网站首页', array(''));?>
+		<?php
+		echo Html::link('网站首页', array('')),
+			' &gt; 全站搜索';
+		?>
 	</div>
 	<div class="g-sd">
 		<div class="cat-list">

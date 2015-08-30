@@ -20,6 +20,7 @@ class OptionController extends AdminController{
 			if($this->form()->setModel(Options::model())->check()){
 				$data = $this->form()->getFilteredData();
 				$data['create_time'] = $this->current_time;
+				$data['last_modified_time'] = $this->current_time;
 				Options::model()->insert($data);
 				
 				Response::output('success', array(

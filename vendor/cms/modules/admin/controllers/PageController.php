@@ -49,7 +49,7 @@ class PageController extends AdminController{
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
 				$data['create_time'] = $this->current_time;
-				$data['last_modified_time'] = 0;
+				$data['last_modified_time'] = $this->current_time;
 				$data['author'] = $this->current_user;
 				$page_id = Pages::model()->insert($data);
 				

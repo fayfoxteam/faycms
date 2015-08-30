@@ -7,12 +7,13 @@ $cats = Category::model()->getTree('__root__');
 <header class="g-hd">
 	<div class="w1000">
 		<div class="hd-search-bar">
-			<form>
+			<form action="<?php echo $this->url('search/index')?>">
 				<span><?php echo date('Y年m月d日')?></span>
 				<span class="sep">|</span>
-				<span><?php echo Html::inputText('q', '', array(
+				<span><?php echo Html::inputText('q', F::app()->input->get('q', 'trim'), array(
 					'placeholder'=>'请输入关键词',
 				))?></span>
+				<input type="submit" value="搜索" style="width:50px;height:20px;">
 			</form>
 		</div>
 	</div>

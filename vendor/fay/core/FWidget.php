@@ -17,14 +17,16 @@ class FWidget{
 		}
 		
 		if(strpos($name, '/') === false){
+			//用户自定义的widget name不带斜杠
 			$class_name = APPLICATION.'\widgets\\'.$name.'\controllers\\'.$controller;
 			$path = APPLICATION_PATH . 'widgets/' . $name . '/';
 			return new $class_name($name, $path);
 		}else{
+			//系统自带的widget name为cms/*或者fay/*
 			$name_explode = explode('/', $name);
-			$pre = array_shift($name_explode);
+			$pre = array_shift($name_explode);//pre取值为cms或fay
 			$class_name = $pre.'\widgets\\'.implode('/', $name_explode).'\controllers\\'.$controller;
-			$path = $readme_file = SYSTEM_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/';
+			$path = SYSTEM_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/';
 			return new $class_name($name, $path);
 		}
 	}
@@ -32,7 +34,7 @@ class FWidget{
 	/**
 	 * 根据数据库中的别名，实例化对应的widget，进行渲染
 	 */
-	public function load($widget, $ajax = false, $cache = false){
+	public function load($widget, $ajax = false, $cache = false, $_index = null){
 		if(!is_array($widget)){
 			if(String::isInt($widget)){
 				$widget = Widgets::model()->find($widget);
@@ -44,14 +46,14 @@ class FWidget{
 		}
 		
 		if($widget && $widget['enabled']){
-			$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $cache, $widget['alias']);
+			$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $cache, $widget['alias'], $_index);
 		}
 	}
 	
 	/**
 	 * 根据widget name调用index方法，直接渲染一个widget
 	 */
-	public function render($name, $options = array(), $ajax = false, $cache = false, $alias = ''){
+	public function render($name, $options = array(), $ajax = false, $cache = false, $alias = '', $_index = null){
 		if($cache && $content = \F::app()->cache->get(md5('widget_'.$name.serialize($options)))){
 			echo $content;
 		}else{
@@ -59,7 +61,8 @@ class FWidget{
 			if($widget_obj == null){
 				echo 'widget不存在或已被删除';
 			}else{
-				$widget_obj->alias = $alias;
+				$widget_obj->alias = $alias;//别名
+				$widget_obj->_index = $_index;//在小工具域中的位置，若不是小工具域中调用，则为null
 				if($ajax){
 					//先占个位，然后用ajax引入widget
 					$id = uniqid();
@@ -75,7 +78,7 @@ class FWidget{
 					echo '<script>
 						$.ajax({
 							type: "GET",
-							url: "'.\F::app()->view->url(\F::app()->uri->module.'/widget/render', array('name'=>$name) + $options, false).'",
+							url: "'.\F::app()->view->url(\F::app()->uri->module.'/widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
 							cache: false,
 							success: function(resp){
 								$("#'.$id.'").replaceWith(resp);
@@ -97,7 +100,8 @@ class FWidget{
 	}
 	
 	/**
-	 * 返回一个小工具
+	 * 返回一个小工具的参数
+	 * //@todo 改成getConfig比较合适
 	 * @param string $alias 小工具实例别名
 	 * @return array
 	 */
@@ -117,8 +121,8 @@ class FWidget{
 			throw new Exception('引用小工具域时，别名不能为空');
 		}
 		$widgets = Widgets::model()->fetchAll("widgetarea = '{$alias}'", '*', 'sort,id');
-		foreach($widgets as $w){
-			$this->load($w);
+		foreach($widgets as $k => $w){
+			$this->load($w, $w['ajax'], $w['cache'], $k+1);
 		}
 	}
 }

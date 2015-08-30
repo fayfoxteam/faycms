@@ -9,8 +9,8 @@ use fay\models\tables\Widgets;
 class WidgetController extends ToolsController{
 	//加载一个widget
 	public function render(){
-		if($this->input->get('name')){
-			$widget_obj = $this->widget->get($this->input->get('name', 'trim'));
+		if($this->input->request('name')){
+			$widget_obj = $this->widget->get($this->input->request('name', 'trim'));
 			if($widget_obj == null){
 				if($this->input->isAjaxRequest()){
 					echo json_encode(array(
@@ -22,11 +22,15 @@ class WidgetController extends ToolsController{
 					throw new HttpException('Widget不存在或已被删除');
 				}
 			}
-			$action = String::hyphen2case($this->input->get('action', 'trim', 'index'), false);
+			
+			$widget_obj->_index = $this->input->request('_index');
+			$widget_obj->alias = $this->input->request('_alias');
+			
+			$action = String::hyphen2case($this->input->request('action', 'trim', 'index'), false);
 			if(method_exists($widget_obj, $action)){
-				$widget_obj->{$action}($this->input->get());
+				$widget_obj->{$action}($this->input->request());
 			}else if(method_exists($widget_obj, $action.'Action')){
-				$widget_obj->{$action.'Action'}($this->input->get());
+				$widget_obj->{$action.'Action'}($this->input->request());
 			}else{
 				if($this->input->isAjaxRequest()){
 					echo json_encode(array(
@@ -50,7 +54,7 @@ class WidgetController extends ToolsController{
 	}
 	
 	public function load(){
-		if($alias = $this->input->get('alias')){
+		if($alias = $this->input->request('alias')){
 			$widget_config = Widgets::model()->fetchRow(array(
 				'alias = ?'=>$alias,
 			));

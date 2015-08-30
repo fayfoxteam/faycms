@@ -30,8 +30,8 @@ use fay\helpers\Html;
 					?></div>
 					<div class="misc-pub-section">
 						<strong>是否启用？</strong>
-						<?php echo Html::inputRadio('f_widget_enabled', 1, ($widget['enabled']) ? true : false, array('label'=>'是'))?>
-						<?php echo Html::inputRadio('f_widget_enabled', 0, ($widget['enabled']) ? false : true, array('label'=>'否'))?>
+						<?php echo Html::inputRadio('f_widget_enabled', 1, $widget['enabled'] ? true : false, array('label'=>'是'))?>
+						<?php echo Html::inputRadio('f_widget_enabled', 0, $widget['enabled'] ? false : true, array('label'=>'否'))?>
 						<p class="fc-grey">停用后不再显示，但会保留设置</p>
 					</div>
 				</div>
@@ -62,11 +62,21 @@ use fay\helpers\Html;
 						))?>
 						<p class="fc-grey">小工具可以属于一个域，通过调用域来显示一组小工具</p>
 					</div>
-					<div class="form-field pb0">
+					<div class="form-field">
 						<label class="title bold pb0">描述</label>
 						<?php echo Html::textarea('f_widget_description', $widget['description'], array(
 							'class'=>'form-control autosize',
 						))?>
+					</div>
+					<div class="form-field">
+						<label class="title bold pb0">是否缓存</label>
+						<?php echo Html::inputRadio('f_widget_cache', 1, $widget['cache'] ? true : false, array('label'=>'是'))?>
+						<?php echo Html::inputRadio('f_widget_cache', 0, $widget['cache'] ? false : true, array('label'=>'否'))?>
+					</div>
+					<div class="form-field pb0">
+						<label class="title bold pb0">是否ajax引入</label>
+						<?php echo Html::inputRadio('f_widget_ajax', 1, $widget['ajax'] ? true : false, array('label'=>'是'))?>
+						<?php echo Html::inputRadio('f_widget_ajax', 0, $widget['ajax'] ? false : true, array('label'=>'否'))?>
 					</div>
 				</div>
 			</div>

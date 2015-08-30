@@ -77,20 +77,26 @@ class IndexController extends Widget{
 		
 		//template
 		if(empty($config['template'])){
+			//调用默认模版
 			$this->view->render('template', array(
 				'posts'=>$posts,
 				'config'=>$config,
 				'alias'=>$this->alias,
+				'_index'=>$this->_index,
 			));
 		}else{
 			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+				//调用app的view文件
 				\F::app()->view->renderPartial($config['template'], array(
 					'posts'=>$posts,
 					'config'=>$config,
 					'alias'=>$this->alias,
+					'_index'=>$this->_index,
 				));
 			}else{
-				$alias = $this->alias;
+				//直接视为代码执行
+				$alias = $this->view->alias;
+				$_index = $this->_index;
 				eval('?>'.$config['template'].'<?php ');
 			}
 		}

@@ -72,6 +72,12 @@ class Widget{
 	public $alias;
 	
 	/**
+	 * 若在小工具域中调用，则此参数为本实例在小工具域中出现的位置。
+	 * 否则为null
+	 */
+	public $_index = null;
+	
+	/**
 	 * 当前时间
 	 * @var int
 	 */

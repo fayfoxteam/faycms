@@ -8,6 +8,9 @@ class View{
 	 */
 	private $_view_data = array();
 	
+	/**
+	 * 小工具名称，在Controller实例化的时候传过来的
+	 */
 	public $__name = '';
 	
 	private $_widget_class_name = '';
@@ -69,13 +72,17 @@ class View{
 		}
 		
 		if(strpos($this->__name, '/') === false){
+			//用户自定义的widget name不带斜杠
 			$view_file = APPLICATION_PATH.'widgets'.DS.$this->__name.DS.'views'.DS.$view.'.php';
 		}else{
+			//系统自带的widget name为cms/*或者fay/*
 			$name_explode = explode('/', $this->__name);
 			$pre = array_shift($name_explode);
 			if(substr($this->_widget_class_name, 0, strlen(APPLICATION)) == APPLICATION){
+				//app下自定义小工具
 				$view_file = APPLICATION_PATH.'widgets'.DS.implode(DS, $name_explode).DS.'views'.DS.$view.'.php';
 			}else{
+				//系统小工具
 				$view_file = SYSTEM_PATH.$pre.DS.'widgets'.DS.implode(DS, $name_explode).DS.'views'.DS.$view.'.php';
 			}
 		}

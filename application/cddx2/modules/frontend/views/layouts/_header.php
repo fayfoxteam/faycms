@@ -1,5 +1,8 @@
 <?php
 use fay\helpers\Html;
+use fay\models\Category;
+
+$cats = Category::model()->getTree('__root__');
 ?>
 <header class="g-hd">
 	<div class="w1000">
@@ -15,7 +18,17 @@ use fay\helpers\Html;
 	</div>
 	<nav class="g-nav">
 		<div class="w1000">
-			<?php F::widget()->load('header-nav')?>
+			<ul><?php
+				echo Html::link('网站首页', array(), array(
+					'wrapper'=>'li',
+				));
+				foreach($cats as $c){
+					if(!$c['is_nav']) continue;
+					echo Html::link($c['title'], array('cat/'.$c['id']), array(
+						'wrapper'=>'li',
+					));
+				}
+			?></ul>
 		</div>
 	</nav>
 </header>

@@ -16,7 +16,7 @@ a:hover{color:#e00404;text-decoration:none;}
 .fr{float:right;}
 .hide{display:none;}
 
-body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;background-color:#fafafa;color:#444;font-size:12px;}
+body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;background-color:#fafafa;color:#444;font-size:12px;overflow-y:scroll;}
 .g-con{background-color:#fff;padding:11px 0 30px;}
 .w1000{width:1000px;margin:0 auto;}
 

@@ -89,9 +89,10 @@ class WidgetController extends AdminController{
 			if($this->form('widget')->check()){
 				$f_widget_cache = $this->input->post('f_widget_cache');
 				$f_widget_cache_expire = $this->input->post('f_widget_cache_expire', 'intval');
+				$alias = $this->input->post('f_widget_alias', 'trim');
 				Widgets::model()->update(array(
-					'alias'=>$this->input->post('f_widget_alias'),
-					'description'=>$this->input->post('f_widget_description'),
+					'alias'=>$alias,
+					'description'=>$this->input->post('f_widget_description', 'trim'),
 					'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
 					'ajax'=>$this->input->post('f_widget_ajax') ? 1 : 0,
 					'cache'=>$f_widget_cache && $f_widget_cache_expire >= 0 ? $f_widget_cache_expire : -1,
@@ -100,6 +101,7 @@ class WidgetController extends AdminController{
 				if(method_exists($widget_obj, 'onPost')){
 					$widget_obj->onPost();
 				}
+				\F::cache()->delete($alias);
 			}else{
 				$this->showDataCheckError($this->form('widget')->getErrors());
 			}

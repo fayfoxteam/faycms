@@ -33,8 +33,15 @@ class FWidget{
 	
 	/**
 	 * 根据数据库中的别名，实例化对应的widget，进行渲染
+	 * @param int|alias|array $widget
+	 *  - 若为数字，视为数据库中的ID
+	 *  - 若为字符串，视为别名
+	 *  - 若为数组，视为已经从数据库中搜出对应行
+	 * @param bool $ajax 是否ajax调用
+	 * @param int $cache 缓存时间，若为负数，则不缓存，为0则缓存不过期。若开启缓存，则ajax参数无效
+	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
 	 */
-	public function load($widget, $ajax = false, $cache = false, $_index = null){
+	public function load($widget, $ajax = false, $cache = -1, $index = null){
 		if(!is_array($widget)){
 			if(String::isInt($widget)){
 				$widget = Widgets::model()->find($widget);
@@ -46,15 +53,25 @@ class FWidget{
 		}
 		
 		if($widget && $widget['enabled']){
-			$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $cache, $widget['alias'], $_index);
+			if($cache >= 0 && $content = \F::app()->cache->get($widget['alias'])){
+				echo $content;
+			}else{
+				$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $cache, $widget['alias'], $index);
+			}
 		}
 	}
 	
 	/**
 	 * 根据widget name调用index方法，直接渲染一个widget
+	 * @param string $name 小工具名称
+	 * @param array $options 小工具配置参数
+	 * @param bool $ajax 是否ajax调用
+	 * @param int $cache 缓存时间，若为负数，则不缓存，为0则缓存不过期。若开启缓存，则ajax参数无效
+	 * @param string $alias 别名，若直接调用，则别名为空
+	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
 	 */
-	public function render($name, $options = array(), $ajax = false, $cache = false, $alias = '', $_index = null){
-		if($cache && $content = \F::app()->cache->get(md5('widget_'.$name.serialize($options)))){
+	public function render($name, $options = array(), $ajax = false, $cache = -1, $alias = '', $index = null){
+		if($alias && $cache >= 0 && $content = \F::app()->cache->get($alias)){
 			echo $content;
 		}else{
 			$widget_obj = $this->get($name);
@@ -62,7 +79,7 @@ class FWidget{
 				echo 'widget不存在或已被删除';
 			}else{
 				$widget_obj->alias = $alias;//别名
-				$widget_obj->_index = $_index;//在小工具域中的位置，若不是小工具域中调用，则为null
+				$widget_obj->_index = $index;//在小工具域中的位置，若不是小工具域中调用，则为null
 				if($ajax){
 					//先占个位，然后用ajax引入widget
 					$id = uniqid();
@@ -90,8 +107,8 @@ class FWidget{
 					$widget_obj->index($options);
 					$content = ob_get_contents();
 					ob_end_clean();
-					if($cache){
-						\F::app()->cache->set(md5('widget_'.$name.serialize($options)), $content);
+					if($cache >= 0 && $alias){
+						\F::app()->cache->set($alias, $content, $cache);
 					}
 					echo $content;
 				}

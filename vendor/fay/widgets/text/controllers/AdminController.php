@@ -11,7 +11,7 @@ class AdminController extends Widget{
 	}
 	
 	public function onPost(){
-		$this->saveData(array(
+		$this->setConfig(array(
 			'content'=>$this->input->post('content'),
 		));
 		Flash::set('编辑成功', 'success');

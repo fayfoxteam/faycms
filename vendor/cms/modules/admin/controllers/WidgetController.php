@@ -62,7 +62,10 @@ class WidgetController extends AdminController{
 		
 		$id = $this->input->get('id', 'intval');
 
-		$widget = Widgets::model()->find($id, 'widget_name');
+		$widget = Widgets::model()->find($id);
+		if(!$widget){
+			throw new HttpException('指定的小工具ID不存在');
+		}
 		$widget_obj = $this->widget->get($widget['widget_name'], true);
 		
 		if(file_exists($widget_obj->path . 'README.md')){
@@ -72,6 +75,7 @@ class WidgetController extends AdminController{
 		
 		$this->form('widget')->setRules(array(
 			array('f_widget_alias', 'string', array('max'=>255,'format'=>'alias')),
+			array('f_widget_alias', 'required'),
 			array('f_widget_description', 'string', array('max'=>255)),
 			array('f_widget_alias', 'unique', array('table'=>'widgets', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/widget/is-alias-not-exist'))),
 			
@@ -98,6 +102,9 @@ class WidgetController extends AdminController{
 					'cache'=>$f_widget_cache && $f_widget_cache_expire >= 0 ? $f_widget_cache_expire : -1,
 					'widgetarea'=>$this->input->post('f_widget_widgetarea', 'trim'),
 				), $id);
+				
+				$widget = Widgets::model()->find($id);
+				$widget_obj->alias = $widget['alias'];
 				if(method_exists($widget_obj, 'onPost')){
 					$widget_obj->onPost();
 				}
@@ -107,13 +114,12 @@ class WidgetController extends AdminController{
 			}
 		}
 		
-		$widget = Widgets::model()->find($id);
 		$this->view->widget = $widget;
 		if($widget['options']){
-			$this->view->widget_data = json_decode($widget['options'], true);
-			$this->form('widget')->setData($this->view->widget_data);
+			$this->view->widget_config = json_decode($widget['options'], true);
+			$this->form('widget')->setData($this->view->widget_config);
 		}else{
-			$this->view->widget_data = array();
+			$this->view->widget_config = array();
 		}
 		
 		$this->view->widget_admin = $widget_admin;

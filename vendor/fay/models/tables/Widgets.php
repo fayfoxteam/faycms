@@ -21,6 +21,8 @@ class Widgets extends Table{
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('alias', 'widget_name', 'description'), 'string', array('max'=>255)),
 			array(array('widgetarea'), 'string', array('max'=>50)),
+			
+			array('alias', 'required'),
 		);
 	}
 

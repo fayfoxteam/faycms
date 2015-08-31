@@ -57,7 +57,7 @@ class AdminController extends Widget{
 			$data['default_post_id'] = '';
 		}
 		
-		$this->saveData($data);
+		$this->setConfig($data);
 		
 		Flash::set('编辑成功', 'success');
 	}

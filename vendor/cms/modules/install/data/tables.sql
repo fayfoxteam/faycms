@@ -818,6 +818,8 @@ CREATE TABLE `{{$prefix}}widgets` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   `widgetarea` varchar(50) NOT NULL DEFAULT '' COMMENT '小工具域',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序值',
+  `ajax` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否ajax引入',
+  `cache` int(11) NOT NULL DEFAULT '-1' COMMENT '是否缓存',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

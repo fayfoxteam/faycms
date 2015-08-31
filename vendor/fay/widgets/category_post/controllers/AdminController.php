@@ -38,7 +38,7 @@ class AdminController extends Widget{
 		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$data['template'] = '';
 		}
-		$this->saveData($data);
+		$this->setConfig($data);
 		
 		Flash::set('编辑成功', 'success');
 	}

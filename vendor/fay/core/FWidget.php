@@ -117,16 +117,19 @@ class FWidget{
 	}
 	
 	/**
-	 * 返回一个小工具的参数
-	 * //@todo 改成getConfig比较合适
+	 * 返回一个小工具的配置参数
 	 * @param string $alias 小工具实例别名
 	 * @return array
 	 */
-	public function getData($alias){
+	public function getConfig($alias){
 		$widget = Widgets::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'options');
-		return json_decode($widget['options'], true);
+		if(isset($widget['options']) && $widget['options']){
+			return json_decode($widget['options'], true);
+		}else{
+			return array();
+		}
 	}
 	
 	/**

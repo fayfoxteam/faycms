@@ -21,7 +21,7 @@ class AdminController extends Widget{
 		foreach($values as $v){
 			$data['values'][] = $v;
 		}
-		$this->saveData($data);
+		$this->setConfig($data);
 		Flash::set('编辑成功', 'success');
 	}
 }

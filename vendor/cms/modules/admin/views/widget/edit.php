@@ -6,7 +6,7 @@ use fay\helpers\Html;
 	<div class="post-body">
 		<div class="post-body-content"><?php
 		if(method_exists($widget_admin, 'index')){ 
-			echo $widget_admin->index($widget_data);
+			echo $widget_admin->index($widget_config);
 		}else{?>
 			<div class="box">
 				<div class="box-content">该小工具无可配置项</div>
@@ -91,7 +91,7 @@ use fay\helpers\Html;
 				</div>
 			</div>
 			<?php if(method_exists($widget_admin, 'sidebar')){
-				$widget_admin->sidebar($widget_data);
+				$widget_admin->sidebar($widget_config);
 			}?>
 		</div>
 	</div>

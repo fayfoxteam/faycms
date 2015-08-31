@@ -23,7 +23,7 @@ class AdminController extends Widget{
 				'title'=>$titles[$p],
 			);
 		}
-		$this->saveData($data);
+		$this->setConfig($data);
 		Flash::set('编辑成功', 'success');
 	}
 	

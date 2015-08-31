@@ -123,18 +123,18 @@ class Widget{
 	/**
 	 * 存储该widget实例的参数，参数以数组的方式传入
 	 */
-	public function saveData($data){
+	public function setConfig($data){
 		Widgets::model()->update(array(
 			'options'=>json_encode($data),
-		), $this->input->get('id', 'intval'));
+		), "alias = '{$this->alias}'");
 	}
 	
 	/**
 	 * 获取该widget实例的参数，参数以数组方式返回，若未设置参数，返回空数组
 	 */
-	public function getData(){
-		$widget = Widgets::model()->find($this->input->get('id', 'intval'), 'options');
-		if($widget['options']){
+	public function getConfig(){
+		$widget = Widgets::model()->fetchRow("alias = '{$this->alias}'", 'options');
+		if(isset($widget['options']) && $widget['options']){
 			return json_decode($widget['options'], true);
 		}else{
 			return array();

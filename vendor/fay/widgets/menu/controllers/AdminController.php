@@ -43,7 +43,7 @@ class AdminController extends Widget{
 		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$template = '';
 		}
-		$this->saveData(array(
+		$this->setConfig(array(
 			'hierarchical'=>$this->input->post('hierarchical', 'intval', 0),
 			'top'=>$this->input->post('top', 'intval', 0),
 			'title'=>$this->input->post('title', null, ''),

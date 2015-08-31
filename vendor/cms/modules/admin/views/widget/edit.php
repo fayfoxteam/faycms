@@ -68,15 +68,25 @@ use fay\helpers\Html;
 							'class'=>'form-control autosize',
 						))?>
 					</div>
-					<div class="form-field">
-						<label class="title bold pb0">是否缓存</label>
-						<?php echo Html::inputRadio('f_widget_cache', 1, $widget['cache'] ? true : false, array('label'=>'是'))?>
-						<?php echo Html::inputRadio('f_widget_cache', 0, $widget['cache'] ? false : true, array('label'=>'否'))?>
-					</div>
 					<div class="form-field pb0">
 						<label class="title bold pb0">是否ajax引入</label>
 						<?php echo Html::inputRadio('f_widget_ajax', 1, $widget['ajax'] ? true : false, array('label'=>'是'))?>
 						<?php echo Html::inputRadio('f_widget_ajax', 0, $widget['ajax'] ? false : true, array('label'=>'否'))?>
+					</div>
+					<div class="form-field">
+						<label class="title bold pb0">是否缓存</label>
+						<?php echo Html::inputRadio('f_widget_cache', 1, $widget['cache'] >= 0 ? true : false, array('label'=>'是'))?>
+						<?php echo Html::inputRadio('f_widget_cache', 0, $widget['cache'] < 0 ? true : false, array('label'=>'否'))?>
+					</div>
+					<div class="form-field <?php if($widget['cache'] < 0)echo 'hide'?>" id="cache-expire-container">
+						<label class="title bold pb0">缓存周期</label>
+						<?php echo Html::inputText('f_widget_cache_expire', $widget['cache'] >= 0 ? $widget['cache'] : 3600, array(
+							'class'=>'form-control w100 ib',
+						))?>
+						单位（秒）
+						<p class="fc-grey">
+							0代表不过期
+						</p>
 					</div>
 				</div>
 			</div>
@@ -90,5 +100,13 @@ use fay\helpers\Html;
 <script>
 $(function(){
 	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'widget'});
+
+	$('[name="f_widget_cache"]').on('change', function(){
+		if($('[name="f_widget_cache"]:checked').val() == '1'){
+			$('#cache-expire-container').show();
+		}else{
+			$('#cache-expire-container').hide();
+		}
+	});
 });
 </script>

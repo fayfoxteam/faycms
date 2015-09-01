@@ -103,11 +103,11 @@ class WidgetController extends AdminController{
 					'widgetarea'=>$this->input->post('f_widget_widgetarea', 'trim'),
 				), $id);
 				
-				$widget = Widgets::model()->find($id);
-				$widget_obj->alias = $widget['alias'];
+				$widget_obj->alias = $alias;
 				if(method_exists($widget_obj, 'onPost')){
 					$widget_obj->onPost();
 				}
+				$widget = Widgets::model()->find($id);
 				\F::cache()->delete($alias);
 			}else{
 				$this->showDataCheckError($this->form('widget')->getErrors());

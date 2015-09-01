@@ -29,5 +29,7 @@ return array(
 		'frontend'
 	),
 	
+	//'environment'=>'production',
+	
 	'debug'=>false,
 );

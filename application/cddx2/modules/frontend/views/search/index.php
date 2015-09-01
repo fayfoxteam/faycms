@@ -9,19 +9,7 @@ use fay\helpers\Html;
 		?>
 	</div>
 	<div class="g-sd">
-		<div class="cat-list">
-			<?php if($left_cats['alias'] != '__root__'){?>
-				<h3><?php echo Html::encode($left_cats['title'])?></h3>
-			<?php }?>
-			<ul>
-			<?php foreach($left_cats['children'] as $c){
-				echo Html::link($c['title'], array('cat/'.$c['id']), array(
-					'wrapper'=>'li',
-					'class'=>$c['id'] == $cat['id'] ? 'crt' : false,
-				));
-			}?>
-			</ul>
-		</div>
+		<?php F::widget()->load('left-cats')?>
 	</div>
 	<div class="g-mn">
 		<h1 class="sub-title">搜索关键词：<?php echo Html::encode($keywords)?></h1>

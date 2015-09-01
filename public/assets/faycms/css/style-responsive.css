@@ -109,7 +109,7 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 
 /* 常规表单元素式样 */
-.form-control{display:block;width:100%;padding:5px 6px;font-size:13px;line-height:1.42857143;color:#555555;background-color:#fff;background-image:none;border:1px solid #e4e4e4}
+.form-control{display:block;width:100%;padding:5px 6px;font-size:13px;line-height:1.42857143;color:#555555;background-color:#fff;border:1px solid #e4e4e4}
 .form-control:focus{border-color:#aaa;box-shadow:1px 1px 2px rgba(0,0,0,0.1);outline:0}
 .form-control::-moz-placeholder{color:#777;opacity:1}
 .form-control:-ms-input-placeholder{color:#777}

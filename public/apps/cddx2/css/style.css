@@ -113,7 +113,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .breadcrumbs{height:35px;line-height:35px;background-color:#eaeaea;margin-bottom:10px;padding:0 10px;}
 
 .cat-list h3{background-color:#be000c;height:40px;line-height:40px;text-align:center;color:#fff;}
-.cat-list ul{border:1px solid #e5e5e5;border-top:0 none;padding:0 19px 15px 19px;}
+.cat-list ul{border:1px solid #e5e5e5;padding:0 19px 15px 19px;}
 .cat-list ul li a{height:40px;line-height:40px;text-align:center;display:block;font-size:15px;}
 .cat-list ul li a.crt{border-bottom:1px solid #be000c;}
 

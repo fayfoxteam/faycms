@@ -385,7 +385,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .widget-list .widget-item .widget-item-selector{width:30px;display:block;text-align:center;position:absolute;top:50%;margin-top:-15px;height:30px;line-height:30px}
 .widget-list .widget-item .widget-item-selector:before{content:"\f047";font-family:FontAwesome}
 .widget-list .widget-item.holder[data-placeholder="true"]{background-color:#fff;border:2px dashed #DFDFDF !important}
-.widget-list .widget-item.holder[data-droptarget="true"]{display:none;}
+.widget-list .widget-item.holder[data-droptarget="true"]{height:2px !important;border:0 none;padding:0;margin:0;box-shadow:none}
 .widget-list .widget-item .operations a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px}
 .widget-list .widget-item .operations a:last-child{background:0 none}
 .widget-list .widget-item-container{margin:0 22px 0 31px}

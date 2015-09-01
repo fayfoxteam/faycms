@@ -525,25 +525,25 @@ CREATE TABLE `{{$prefix}}pages_categories` (
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_int`;
 CREATE TABLE `{{$prefix}}post_prop_int` (
-  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Content',
+  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值',
   PRIMARY KEY (`post_id`,`prop_id`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_text`;
 CREATE TABLE `{{$prefix}}post_prop_text` (
-  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` text NOT NULL COMMENT 'Content',
+  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` text NOT NULL COMMENT '属性值',
   PRIMARY KEY (`post_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_varchar`;
 CREATE TABLE `{{$prefix}}post_prop_varchar` (
-  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT 'Content',
+  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`post_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -722,24 +722,24 @@ CREATE TABLE `{{$prefix}}user_profile` (
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_int`;
 CREATE TABLE `{{$prefix}}user_prop_int` (
   `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
-  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色值',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_text`;
 CREATE TABLE `{{$prefix}}user_prop_text` (
   `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
-  `content` text NOT NULL COMMENT '角色值',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` text NOT NULL COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_varchar`;
 CREATE TABLE `{{$prefix}}user_prop_varchar` (
   `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '角色ID',
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '角色值',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

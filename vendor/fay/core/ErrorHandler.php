@@ -64,12 +64,14 @@ class ErrorHandler{
 	 */
 	public function handleFatalError(){
 		$error = error_get_last();
+		
 		if(ErrorException::isFatalError($error)){
-			$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
+			Response::setStatusHeader(500);
 			
 			if(\F::config()->get('environment') == 'production'){
 				$this->render500();
 			}else{
+				$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
 				$this->renderDebug($exception);
 			}
 			die;
@@ -80,7 +82,6 @@ class ErrorHandler{
 	 * @param ErrorException $exception
 	 */
 	protected function renderDebug($exception){
-		Response::setStatusHeader(500);
 		//清空缓冲区
 		$this->clearOutput();
 		

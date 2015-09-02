@@ -1,8 +1,6 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
-
-$this->appendCss($this->assets('css/nivo-slider.css'));
 ?>
 <div id="<?php echo $config['elementId']?>">
 	<div class="nivo-slider">
@@ -22,6 +20,7 @@ $this->appendCss($this->assets('css/nivo-slider.css'));
 	}?>
 	</div>
 </div>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/nivo-slider.css')?>" >
 <script src="<?php echo $this->assets('js/jquery.nivo.slider.pack.js')?>"></script>
 <script>
 $(function(){

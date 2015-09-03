@@ -4,8 +4,6 @@ namespace cms\library;
 use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\Request;
-use fay\models\tables\Users;
-use fay\models\tables\Actions;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
 use fay\core\Response;

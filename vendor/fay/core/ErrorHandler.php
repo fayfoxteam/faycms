@@ -1,6 +1,7 @@
 <?php
 namespace fay\core;
 
+use fay\log\Logger;
 class ErrorHandler{
 	public $app;
 	
@@ -24,6 +25,10 @@ class ErrorHandler{
 	 * @param ErrorException|Exception|HttpException $exception
 	 */
 	public function handleException($exception){
+		//错误日志
+		//@todo 这里得做个开关
+		\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'error');
+		
 		if($exception instanceof HttpException){
 			//Http异常
 			Response::setStatusHeader($exception->statusCode);
@@ -55,7 +60,13 @@ class ErrorHandler{
 			//例如@屏蔽报错的时候，error_reporting()会返回0
 			return;
 		}
+		
 		$exception = new ErrorException($message, '', $code, $file, $line, $code);
+		
+		//错误日志
+		//@todo 这里得做个开关
+		\F::logger()->log((string)$exception, Logger::LEVEL_WARNING, 'error');
+		
 		$this->renderPHPError($exception);
 	}
 	
@@ -68,10 +79,15 @@ class ErrorHandler{
 		if(ErrorException::isFatalError($error)){
 			Response::setStatusHeader(500);
 			
+			$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
+			//错误日志
+			//@todo 这里这样记不下来，得另找办法
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'error');
+			\F::logger()->flush();
+			
 			if(\F::config()->get('environment') == 'production'){
 				$this->render500();
 			}else{
-				$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
 				$this->renderDebug($exception);
 			}
 			die;

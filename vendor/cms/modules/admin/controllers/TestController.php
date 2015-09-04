@@ -6,6 +6,7 @@ use fay\core\Validator;
 use fay\helpers\Html;
 use fay\core\Loader;
 use fay\models\tables\Posts;
+use fay\log\Logger;
 
 class TestController extends AdminController{
 	public function valid(){
@@ -303,5 +304,14 @@ class TestController extends AdminController{
 		dump($rand);
 		echo microtime(true) - $start_time;
 		dump(Posts::model()->db->getSqlLogs());
+	}
+	
+	/**
+	 * 日志测试
+	 */
+	public function log(){
+		$this->a();
+		\F::logger()->log('haha', Logger::LEVEL_ERROR);
+		\F::logger()->flush();
 	}
 }

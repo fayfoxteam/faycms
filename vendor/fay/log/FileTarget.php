@@ -24,6 +24,10 @@ class FileTarget extends Target{
 	 * 将日志写入文件
 	 */
 	public function export($messages){
+		if(!$messages){
+			//若无可记录的日志，直接返回
+			return;
+		}
 		$this->logFile || $this->logFile = APPLICATION_PATH . 'runtimes/logs/app.'.date('Y-m-d').'.log';
 		
 		$logPath = dirname($this->logFile);

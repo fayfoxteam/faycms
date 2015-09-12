@@ -310,8 +310,9 @@ class TestController extends AdminController{
 	 * 日志测试
 	 */
 	public function log(){
-		$this->a();
+		//$this->a();
 		\F::logger()->log('haha', Logger::LEVEL_ERROR);
+		\F::logger()->log('hehe', Logger::LEVEL_INFO);
 		\F::logger()->flush();
 	}
 }

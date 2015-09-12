@@ -3,13 +3,15 @@ namespace fay\helpers;
 
 class Dumper{
 	private static $_output;
+    private static $_depth;
 
 	/**
 	 * 相对于pr函数来说，dump更美观一些
 	 * @param mixed $var
 	 */
-	public static function dump($var){
+	public static function dump($var, $depth = 10){
 		self::$_output = '';
+		self::$_depth = $depth;
 		self::dumpInternal($var);
 		echo '<pre>', self::$_output, "\n</pre>";
 	}
@@ -38,7 +40,9 @@ class Dumper{
 				self::$_output .= '{unknown}';
 				break;
 			case 'array':
-				if(empty($var)){
+				if($level >= self::$_depth){
+					self::$_output .= "<b>array</b>\n".str_repeat(' ', ($level + 1) * 4)."<i><font>[...]</font></i>";
+				}else if(empty($var)){
 					self::$_output .= "<b>array</b>\n".str_repeat(' ', ($level + 1) * 4)."<i><font color=\"#888a85\">empty</font></i>";
 				}else{
 					$keys = array_keys($var);
@@ -56,27 +60,32 @@ class Dumper{
 					}
 				}
 				break;
-			case 'object':
+			case 'object':{
 				$class_name = get_class($var);
-				self::$_output .= "<b>object</b>(<i>".$class_name."</i>)";
-				$spaces = str_repeat(' ', ($level + 1) * 4);
-				foreach ((array) $var as $key => $value) {
-					$key = trim($key);
-					$pre = substr($key, 0, strpos($key, "\0"));
-					if($pre == $class_name){
-						//private
-						self::$_output .= "\n{$spaces}<i>private</i> '".substr($key, strpos($key, "\0"))."'";
-					}else if($pre == '*'){
-						//protected
-						self::$_output .= "\n{$spaces}<i>protected</i> '".substr($key, 1)."'";
-					}else{
-						//public
-						self::$_output .= "\n{$spaces}<i>public</i> '{$key}'";
+				if($level >= self::$_depth){
+					self::$_output .= "<b>object</b>(<i>".$class_name."</i>)\n".str_repeat(' ', ($level + 1) * 4)."<i><font>(...)</font></i>";
+				}else{
+					self::$_output .= "<b>object</b>(<i>".$class_name."</i>)";
+					$spaces = str_repeat(' ', ($level + 1) * 4);
+					foreach ((array) $var as $key => $value) {
+						$key = trim($key);
+						$pre = substr($key, 0, strpos($key, "\0"));
+						if($pre == $class_name){
+							//private
+							self::$_output .= "\n{$spaces}<i>private</i> '".substr($key, strpos($key, "\0"))."'";
+						}else if($pre == '*'){
+							//protected
+							self::$_output .= "\n{$spaces}<i>protected</i> '".substr($key, 1)."'";
+						}else{
+							//public
+							self::$_output .= "\n{$spaces}<i>public</i> '{$key}'";
+						}
+						self::$_output .= ' <font color=\"#888a85\">=&gt;</font> ';
+						self::dumpInternal($value, $level + 1);
 					}
-					self::$_output .= ' <font color=\"#888a85\">=&gt;</font> ';
-					self::dumpInternal($value, $level + 1);
 				}
 				break;
+			}
 		}
 	}
 

@@ -7,6 +7,7 @@ use fay\core\Cache;
 use fay\core\Session;
 use fay\core\Config;
 use fay\core\Db;
+use fay\log\Logger;
 
 /**
  * 超级类，可以在任何地方获取各种方法
@@ -109,4 +110,12 @@ class F{
 	public static function filter($filters, $data, $fields = null){
 		return Input::getInstance()->filterR($filters, $data, $fields);
 	}
+	
+	/**
+	 * 获取日志驱动
+	 */
+	public static function logger(){
+		return Logger::getInstance();
+	}
+	
 }

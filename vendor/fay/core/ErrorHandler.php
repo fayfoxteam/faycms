@@ -1,6 +1,8 @@
 <?php
 namespace fay\core;
 
+use fay\log\Logger;
+
 class ErrorHandler{
 	public $app;
 	
@@ -25,12 +27,19 @@ class ErrorHandler{
 	 */
 	public function handleException($exception){
 		if($exception instanceof HttpException){
-			//Http异常
-			Response::setStatusHeader($exception->statusCode);
+			//错误日志
+			if($exception->status_code == 404){
+				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_access');
+			}else{
+				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+			}
+			
+			//自定义Http异常
+			Response::setStatusHeader($exception->status_code);
 			//404, 500等http错误
 			if(\F::config()->get('environment') == 'production'){
-				if($exception->statusCode == 404){
-					$this->render404();
+				if($exception->status_code == 404){
+					$this->render404($exception->getMessage());
 				}else{
 					$this->render500($exception->getMessage());
 				}
@@ -38,7 +47,21 @@ class ErrorHandler{
 				//环境非production，显示debug页面
 				$this->renderDebug($exception);
 			}
+		}else if($exception instanceof ErrorException){
+			//错误日志
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+			
+			//自定义异常
+			if(\F::config()->get('environment') == 'production'){
+				$this->render500($exception->getMessage());
+			}else{
+				$this->renderDebug($exception);
+			}
 		}else{
+			//错误日志
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
+			
+			//其它（php或者其他一些类库）抛出的异常
 			if(\F::config()->get('environment') == 'production'){
 				$this->render500($exception->getMessage());
 			}else{
@@ -55,7 +78,12 @@ class ErrorHandler{
 			//例如@屏蔽报错的时候，error_reporting()会返回0
 			return;
 		}
+		
 		$exception = new ErrorException($message, '', $code, $file, $line, $code);
+		
+		//错误日志
+		\F::logger()->log((string)$exception, Logger::LEVEL_WARNING, 'php_error');
+		
 		$this->renderPHPError($exception);
 	}
 	
@@ -68,10 +96,14 @@ class ErrorHandler{
 		if(ErrorException::isFatalError($error)){
 			Response::setStatusHeader(500);
 			
+			$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
+			//错误日志
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
+			\F::logger()->flush();
+			
 			if(\F::config()->get('environment') == 'production'){
 				$this->render500();
 			}else{
-				$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
 				$this->renderDebug($exception);
 			}
 			die;
@@ -106,9 +138,17 @@ class ErrorHandler{
 	/**
 	 * 显示404页面（不包含错误信息）
 	 */
-	protected function render404(){
+	protected function render404($message = '您访问的页面不存在'){
+		//清空缓冲区
 		$this->clearOutput();
-		$this->app->view->renderPartial('errors/404');
+		
+		if(\F::input()->isAjaxRequest()){
+			Response::json('', 0, $message, 'http_error:404:not_found');
+		}else{
+			$this->app->view->renderPartial('errors/404', array(
+				'message'=>$message,
+			));
+		}
 		die;
 	}
 	
@@ -116,10 +156,16 @@ class ErrorHandler{
 	 * 显示500页面（不包含错误信息）
 	 */
 	protected function render500($message = '服务器内部错误'){
+		//清空缓冲区
 		$this->clearOutput();
-		$this->app->view->renderPartial('errors/500', array(
-			'message'=>$message,
-		));
+		
+		if(\F::input()->isAjaxRequest()){
+			Response::json('', 0, $message, 'http_error:500:internal_server_error');
+		}else{
+			$this->app->view->renderPartial('errors/500', array(
+				'message'=>$message,
+			));
+		}
 		die;
 	}
 	

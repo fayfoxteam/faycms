@@ -82,7 +82,8 @@ class Logger{
 	 */
 	public function log($message, $level = self::LEVEL_INFO, $category = 'app'){
 		$time = microtime(true);
-		$traces = debug_backtrace();
+		//$traces = debug_backtrace();
+		$traces = array();
 		$this->messages[] = array($message, $level, $category, $time, $traces);
 		if($this->flush_interval > 0 && count($this->messages) >= $this->flush_interval){
 			$this->flush();

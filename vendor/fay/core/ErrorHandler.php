@@ -2,6 +2,7 @@
 namespace fay\core;
 
 use fay\log\Logger;
+
 class ErrorHandler{
 	public $app;
 	
@@ -25,12 +26,15 @@ class ErrorHandler{
 	 * @param ErrorException|Exception|HttpException $exception
 	 */
 	public function handleException($exception){
-		//错误日志
-		//@todo 这里得做个开关
-		\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'error');
-		
 		if($exception instanceof HttpException){
-			//Http异常
+			//错误日志
+			if($exception->statusCode == 404){
+				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_access');
+			}else{
+				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+			}
+			
+			//自定义Http异常
 			Response::setStatusHeader($exception->statusCode);
 			//404, 500等http错误
 			if(\F::config()->get('environment') == 'production'){
@@ -43,7 +47,21 @@ class ErrorHandler{
 				//环境非production，显示debug页面
 				$this->renderDebug($exception);
 			}
+		}else if($exception instanceof ErrorException){
+			//错误日志
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+			
+			//自定义异常
+			if(\F::config()->get('environment') == 'production'){
+				$this->render500($exception->getMessage());
+			}else{
+				$this->renderDebug($exception);
+			}
 		}else{
+			//错误日志
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
+			
+			//其它（php或者其他一些类库）抛出的异常
 			if(\F::config()->get('environment') == 'production'){
 				$this->render500($exception->getMessage());
 			}else{
@@ -64,8 +82,7 @@ class ErrorHandler{
 		$exception = new ErrorException($message, '', $code, $file, $line, $code);
 		
 		//错误日志
-		//@todo 这里得做个开关
-		\F::logger()->log((string)$exception, Logger::LEVEL_WARNING, 'error');
+		\F::logger()->log((string)$exception, Logger::LEVEL_WARNING, 'php_error');
 		
 		$this->renderPHPError($exception);
 	}
@@ -81,8 +98,7 @@ class ErrorHandler{
 			
 			$exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
 			//错误日志
-			//@todo 这里这样记不下来，得另找办法
-			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'error');
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
 			\F::logger()->flush();
 			
 			if(\F::config()->get('environment') == 'production'){

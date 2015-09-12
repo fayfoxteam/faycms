@@ -90,7 +90,7 @@ abstract class Target{
 				continue;
 			}
 			
-			$matched = empty($categories);
+			$matched = empty($this->categories);
 			foreach($this->categories as $category){
 				if ($message[2] === $category || substr($category, -1) === '*' && strpos($message[2], rtrim($category, '*')) === 0) {
 					$matched = true;
@@ -129,6 +129,7 @@ abstract class Target{
 		}
 		
 		$ip = Request::getIP();
+		//并不是所有情况下都能获取到用户ID，所以这只是个参考
 		$user = empty(\F::app()->current_user) ? 'no login' : 'user:' . \F::app()->current_user;
 		
 		return date('H:i:s', $timestamp) . " [{$ip}][{$user}][{$level}][{$category}] $text";

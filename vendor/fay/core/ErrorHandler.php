@@ -28,18 +28,18 @@ class ErrorHandler{
 	public function handleException($exception){
 		if($exception instanceof HttpException){
 			//错误日志
-			if($exception->statusCode == 404){
+			if($exception->status_code == 404){
 				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_access');
 			}else{
 				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
 			}
 			
 			//自定义Http异常
-			Response::setStatusHeader($exception->statusCode);
+			Response::setStatusHeader($exception->status_code);
 			//404, 500等http错误
 			if(\F::config()->get('environment') == 'production'){
-				if($exception->statusCode == 404){
-					$this->render404();
+				if($exception->status_code == 404){
+					$this->render404($exception->getMessage());
 				}else{
 					$this->render500($exception->getMessage());
 				}
@@ -117,9 +117,14 @@ class ErrorHandler{
 		//清空缓冲区
 		$this->clearOutput();
 		
-		$this->app->view->renderPartial('errors/debug', array(
-			'exception'=>$exception,
-		));
+		if(\F::input()->isAjaxRequest()){
+			$status_code = isset($exception->status_code) ? $exception->status_code : 500;
+			Response::json('', 0, $exception->getMessage(), 'http_error:'.$status_code.':'.str_replace(' ', '_', strtolower(Response::$httpStatuses[$status_code])));
+		}else{
+			$this->app->view->renderPartial('errors/debug', array(
+				'exception'=>$exception,
+			));
+		}
 		die;
 	}
 
@@ -138,9 +143,14 @@ class ErrorHandler{
 	/**
 	 * 显示404页面（不包含错误信息）
 	 */
-	protected function render404(){
+	protected function render404($message = '您访问的页面不存在'){
 		$this->clearOutput();
-		$this->app->view->renderPartial('errors/404');
+		
+		if(\F::input()->isAjaxRequest()){
+			Response::json('', 0, $message, 'http_error:404:not_found');
+		}else{
+			$this->app->view->renderPartial('errors/404');
+		}
 		die;
 	}
 	
@@ -149,9 +159,14 @@ class ErrorHandler{
 	 */
 	protected function render500($message = '服务器内部错误'){
 		$this->clearOutput();
-		$this->app->view->renderPartial('errors/500', array(
-			'message'=>$message,
-		));
+		
+		if(\F::input()->isAjaxRequest()){
+			Response::json('', 0, $message, 'http_error:500:internal_server_error');
+		}else{
+			$this->app->view->renderPartial('errors/500', array(
+				'message'=>$message,
+			));
+		}
 		die;
 	}
 	

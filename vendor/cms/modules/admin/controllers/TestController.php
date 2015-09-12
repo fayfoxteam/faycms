@@ -316,7 +316,7 @@ class TestController extends AdminController{
 		//$this->a();
 		//throw new ErrorException('这是一个自定义的错误异常');
 		//throw new HttpException('这是一个404异常');
-		throw new HttpException('这是一个500异常', 500);
+		//throw new HttpException('这是一个500异常', 500);
 		\F::logger()->log('haha', Logger::LEVEL_ERROR);
 		\F::logger()->log('hehe', Logger::LEVEL_INFO);
 		\F::logger()->flush();

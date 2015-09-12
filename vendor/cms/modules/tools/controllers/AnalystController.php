@@ -120,6 +120,6 @@ class AnalystController extends Controller{
 		header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 		header('Content-type: image/gif');
-		readfile('./images/hm.gif');
+		echo base64_decode('R0lGODlhAQABAIABAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAICTAEAOw==');//一个像素点的git图，原图位置./assets/images/hm.gif
 	}
 }

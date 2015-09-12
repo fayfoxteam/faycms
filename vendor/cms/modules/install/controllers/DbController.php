@@ -21,10 +21,10 @@ class DbController extends InstallController{
 		$charset = $this->config->get('db.charset');
 		$sql = file_get_contents(__DIR__.'/../data/tables.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
-		$this->db->execute($sql);
+		$this->db->exec($sql, true);
 		
 		//安装日志
-		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "tables-completed");
+		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', date('Y-m-d H:i:s [') . Request::getIP() . "]\r\ntables-completed");
 		
 		echo json_encode(array(
 			'status'=>1,
@@ -36,7 +36,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/cities.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->execute($sql);
+		$this->db->exec($sql, true);
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\ncities-completed", FILE_APPEND);
@@ -51,7 +51,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/regions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->execute($sql);
+		$this->db->exec($sql, true);
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nregions-completed", FILE_APPEND);
@@ -66,7 +66,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/cats.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->execute($sql);
+		$this->db->exec($sql, true);
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\ncategoties-completed", FILE_APPEND);
@@ -81,7 +81,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/actions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->execute($sql);
+		$this->db->exec($sql, true);
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nactions-completed", FILE_APPEND);
@@ -96,7 +96,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/menus.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->execute($sql);
+		$this->db->exec($sql, true);
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nmenus-completed", FILE_APPEND);
@@ -111,7 +111,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/system.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->execute($sql);
+		$this->db->exec($sql, true);
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nsystem-data-completed", FILE_APPEND);
@@ -130,7 +130,7 @@ class DbController extends InstallController{
 			$prefix = $this->config->get('db.table_prefix');
 			if($sql = file_get_contents(APPLICATION_PATH . 'data/custom.sql')){
 				$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-				$this->db->execute($sql);
+				$this->db->exec($sql, true);
 			}
 		}
 		

@@ -6,6 +6,7 @@ use fay\core\Validator;
 use fay\helpers\Html;
 use fay\core\Loader;
 use fay\models\tables\Posts;
+use fay\core\Db;
 
 class TestController extends AdminController{
 	public function valid(){
@@ -303,5 +304,23 @@ class TestController extends AdminController{
 		dump($rand);
 		echo microtime(true) - $start_time;
 		dump(Posts::model()->db->getSqlLogs());
+	}
+	
+	/**
+	 * 批量执行SQL测试
+	 */
+	public function db(){
+		$db = Db::getInstance();
+		$sql = '-- 页面
+INSERT INTO `faycms_pages` (title, alias) VALUES (\'关于我们\', \'about\');
+
+--　基础分类
+INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES (\'1000\', \'师资力量\', \'teacher\', \'1\', \'1\', \'1\');
+INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES (\'1001\', \'学生作品\', \'works\', \'1\', \'1\', \'1\');';
+		
+// 		$sql = ';UPDATE faycms_categories SET alias = \'about\' WHERE id = 1';
+		$db->exec($sql, true);
+		
+		dump($db->getSqlLogs());
 	}
 }

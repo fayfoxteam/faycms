@@ -89,6 +89,38 @@ class Db{
 	}
 	
 	/**
+	 * 执行一条或多条SQL
+	 * 全部成功返回true，失败会抛出异常。
+	 * @param string $sql
+	 * @param bool $explode 默认为false。若为true，则会把"\r\n"替换为"\n"后根据";\n"分割为多个SQL依次执行
+	 * （这并不是很完美的解决方案，因为从语法上讲，SQL并不一定要一行一个，而且极端情况下可能出错。不过适用于数据导入等情况）
+	 */
+	public function exec($sql, $explode = false){
+		if($explode){
+			$sql = explode(";\n", str_replace("\r\n", "\n", $sql));
+			foreach($sql as $s){
+				if(!$s){
+					continue;
+				}
+				$start_time = microtime(true);
+				if($this->_conn->exec($s) === false){
+					$this->error($this->_conn->errorInfo(), $s);
+				}
+				self::$_count++;
+				$this->logSql($s, array(), microtime(true) - $start_time);
+			}
+			return true;
+		}else{
+			$result = $this->_conn->exec($sql);
+			if($result === false){
+				$this->error($this->_conn->errorInfo(), $s);
+			}else{
+				return $result;
+			}
+		}
+	}
+	
+	/**
 	 * 返回所有查询数据，如果没有符合条件的数据，则返回空数组
 	 * @param string $sql
 	 * @param array $params

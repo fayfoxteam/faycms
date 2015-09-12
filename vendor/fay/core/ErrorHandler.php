@@ -117,14 +117,9 @@ class ErrorHandler{
 		//清空缓冲区
 		$this->clearOutput();
 		
-		if(\F::input()->isAjaxRequest()){
-			$status_code = isset($exception->status_code) ? $exception->status_code : 500;
-			Response::json('', 0, $exception->getMessage(), 'http_error:'.$status_code.':'.str_replace(' ', '_', strtolower(Response::$httpStatuses[$status_code])));
-		}else{
-			$this->app->view->renderPartial('errors/debug', array(
-				'exception'=>$exception,
-			));
-		}
+		$this->app->view->renderPartial('errors/debug', array(
+			'exception'=>$exception,
+		));
 		die;
 	}
 
@@ -144,12 +139,15 @@ class ErrorHandler{
 	 * 显示404页面（不包含错误信息）
 	 */
 	protected function render404($message = '您访问的页面不存在'){
+		//清空缓冲区
 		$this->clearOutput();
 		
 		if(\F::input()->isAjaxRequest()){
 			Response::json('', 0, $message, 'http_error:404:not_found');
 		}else{
-			$this->app->view->renderPartial('errors/404');
+			$this->app->view->renderPartial('errors/404', array(
+				'message'=>$message,
+			));
 		}
 		die;
 	}
@@ -158,6 +156,7 @@ class ErrorHandler{
 	 * 显示500页面（不包含错误信息）
 	 */
 	protected function render500($message = '服务器内部错误'){
+		//清空缓冲区
 		$this->clearOutput();
 		
 		if(\F::input()->isAjaxRequest()){

@@ -137,8 +137,7 @@ CREATE TABLE `{{$prefix}}categories` (
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`),
-  KEY `alias` (`alias`),
-  KEY `left_right_value` (`left_value`,`right_value`)
+  KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}cities`;

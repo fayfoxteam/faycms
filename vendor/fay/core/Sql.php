@@ -245,6 +245,13 @@ class Sql{
 	}
 	
 	/**
+	 * 将类转换为字符串输出
+	 */
+	public function __toString(){
+		return $this->getSql();
+	}
+	
+	/**
 	 * 得到count用的sql语句
 	 * 若设置了distinct参数，则无视前面设置的distinct参数
 	 */

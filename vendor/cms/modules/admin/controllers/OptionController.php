@@ -92,14 +92,9 @@ class OptionController extends AdminController{
 			'option_name = ?'=>$option_name,
 			'id != ?'=>$this->input->get('id', 'intval', 0),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'参数名已存在',
-			));
+			Response::json('', 0, '参数名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	

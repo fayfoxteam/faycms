@@ -66,10 +66,10 @@ $(function(){
 	uploader.bind('FileUploaded', function(up, file, response) {
 		var resp = $.parseJSON(response.response);
 		var html = [
-			'<input type="hidden" name="thumbnail" value="', resp.id, '" />',
-			'<a href="', resp.url, '" class="fancybox-image">',
+			'<input type="hidden" name="thumbnail" value="', resp.data.id, '" />',
+			'<a href="', resp.data.url, '" class="fancybox-image">',
 				'<img src="', system.url('admin/file/pic', {
-					'f':resp.id,
+					'f':resp.data.id,
 					't':4,
 					'dw':257
 				}), '" />',

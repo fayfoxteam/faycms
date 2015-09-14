@@ -23,8 +23,10 @@ class MessageController extends AdminController{
 		}
 		
 		Response::output('success', array(
-			'id'=>$id,
-			'message_status'=>$message['status'],
+			'data'=>array(
+				'id'=>$id,
+				'status'=>$message['status'],
+			),
 		));
 	}
 	
@@ -41,8 +43,10 @@ class MessageController extends AdminController{
 		}
 		
 		Response::output('success', array(
-			'id'=>$id,
-			'message_status'=>$message['status'],
+			'data'=>array(
+				'id'=>$id,
+				'status'=>$message['status'],
+			),
 		));
 	}
 
@@ -60,7 +64,9 @@ class MessageController extends AdminController{
 		}
 		
 		Response::output('success', array(
-			'id'=>$id,
+			'data'=>array(
+				'id'=>$id,
+			),
 			'message'=>'一条留言被移入回收站 - '.Html::link('撤销', array('admin/comment/undelete', array(
 				'id'=>$id,
 			)))
@@ -79,7 +85,9 @@ class MessageController extends AdminController{
 		Post::model()->refreshComments($message['target']);
 		
 		Response::output('success', array(
-			'id'=>$id,
+			'data'=>array(
+				'id'=>$id,
+			),
 			'message'=>'一条留言被还原',
 		));
 	}
@@ -97,7 +105,9 @@ class MessageController extends AdminController{
 		}
 		
 		Response::output('success', array(
-			'id'=>$id,
+			'data'=>array(
+				'id'=>$id,
+			),
 			'message'=>'一条留言被永久删除',
 		));
 	}
@@ -112,7 +122,9 @@ class MessageController extends AdminController{
 			));
 		}else{
 			Response::output('success', array(
-				'id'=>$id,
+				'data'=>array(
+					'id'=>$id,
+				),
 				'message'=>'会话删除成功',
 			));
 		}
@@ -130,10 +142,11 @@ class MessageController extends AdminController{
 		$parent = $this->input->post('parent', 'intval', 0);
 		$message_id = Message::model()->create($target, $content, $type, $parent);
 			
-		$message = Message::model()->get($message_id);
+		$message = Message::model()->get($message_id, '!deleted,is_terminal');
+		
 		Response::output('success', array(
 			'data'=>$message,
-			'message'=>'会话删除成功',
+			'message'=>'留言添加成功',
 		));
 	}
 }

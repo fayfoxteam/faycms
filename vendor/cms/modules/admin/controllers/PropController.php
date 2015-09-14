@@ -223,14 +223,9 @@ class PropController extends AdminController{
 			'alias = ?'=>$alias,
 			'id != ?'=>$this->input->get('id', 'intval', 0),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'别名已存在',
-			));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 }

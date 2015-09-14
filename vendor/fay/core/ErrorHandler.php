@@ -117,9 +117,13 @@ class ErrorHandler{
 		//清空缓冲区
 		$this->clearOutput();
 		
-		$this->app->view->renderPartial('errors/debug', array(
-			'exception'=>$exception,
-		));
+		if($exception instanceof HttpException && $exception->status_code == 404 && \F::input()->isAjaxRequest()){
+			Response::json('', 0, $exception->getMessage(), 'http_error:404:not_found');
+		}else{
+			$this->app->view->renderPartial('errors/debug', array(
+				'exception'=>$exception,
+			));
+		}
 		die;
 	}
 

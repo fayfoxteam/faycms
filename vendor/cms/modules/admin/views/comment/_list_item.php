@@ -7,10 +7,11 @@ use fay\helpers\Date;
 <tr valign="top" id="message-<?php echo $data['id']?>">
 	<td>
 		<?php if($data['user_id']){
-			echo Html::encode($data['realname']),
-				'<br />',
-				"<em class='fc-grey' title='用户名'>({$data['username']})</em>";
-			
+			echo Html::encode($data['username']);
+			if($data['nickname']){
+				echo '<br />',
+				"<em class='fc-grey' title='用户名'>({$data['nickname']})</em>";
+			}
 		}else{
 			echo '匿名';
 		}?>

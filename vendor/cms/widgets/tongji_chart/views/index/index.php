@@ -139,7 +139,7 @@ var tongji_chart = {
 				success: function(resp){
 					$("#box-tongji-chart").unblock();
 					if(resp.status){
-						tongji_chart.create(resp.today, resp.yesterday, resp.today_total, resp.yesterday_total);
+						tongji_chart.create(resp.data.today, resp.data.yesterday, resp.data.today_total, resp.data.yesterday_total);
 					}
 				}
 			});

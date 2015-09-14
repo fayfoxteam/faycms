@@ -80,9 +80,9 @@ class KeywordController extends AdminController{
 			'keyword = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo json_encode(array('status'=>0, 'message'=>'关键词已存在'));
+			Response::json('', 0, '关键词已存在');
 		}else{
-			echo json_encode(array('status'=>1));
+			Response::json();
 		}
 	}
 	

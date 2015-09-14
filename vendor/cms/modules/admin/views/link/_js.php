@@ -25,9 +25,9 @@ var link = {
 		link.uploadObj.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 			var html = [
-				'<input type="hidden" name="logo" value="', resp.id, '" />',
-				'<a href="', resp.url, '" class="fancybox-image">',
-					'<img src="', resp.url, '" />',
+				'<input type="hidden" name="logo" value="', resp.data.id, '" />',
+				'<a href="', resp.data.url, '" class="fancybox-image">',
+					'<img src="', resp.data.url, '" />',
 				'</a>'
 			].join('');
 			$('#upload-logo-preview').html(html);

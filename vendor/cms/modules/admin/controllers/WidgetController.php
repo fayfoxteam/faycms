@@ -143,15 +143,7 @@ class WidgetController extends AdminController{
 		if($this->input->get('name')){
 			$widget_obj = $this->widget->get($this->input->get('name', 'trim'));
 			if($widget_obj == null){
-				if($this->input->isAjaxRequest()){
-					echo json_encode(array(
-						'status'=>0,
-						'message'=>'Widget不存在或已被删除',
-					));
-					die;
-				}else{
-					throw new HttpException('Widget不存在或已被删除');
-				}
+				throw new HttpException('Widget不存在或已被删除');
 			}
 			$action = String::hyphen2case($this->input->get('action', 'trim', 'index'), false);
 			if(method_exists($widget_obj, $action)){
@@ -159,24 +151,10 @@ class WidgetController extends AdminController{
 			}else if(method_exists($widget_obj, $action.'Action')){
 				$widget_obj->{$action.'Action'}($this->input->get());
 			}else{
-				if($this->input->isAjaxRequest()){
-					echo json_encode(array(
-						'status'=>0,
-						'message'=>'Widget方法不存在',
-					));
-				}else{
-					throw new HttpException('Widget方法不存在');
-				}
+				throw new HttpException('Widget方法不存在');
 			}
 		}else{
-			if($this->input->isAjaxRequest()){
-				echo json_encode(array(
-					'status'=>0,
-					'message'=>'不完整的请求',
-				));
-			}else{
-				throw new HttpException('不完整的请求');
-			}
+			throw new HttpException('不完整的请求');
 		}
 	}
 	
@@ -242,14 +220,9 @@ class WidgetController extends AdminController{
 			'alias = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false)
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'别名已存在',
-			));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 }

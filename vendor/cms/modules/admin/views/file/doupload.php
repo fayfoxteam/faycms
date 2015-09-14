@@ -67,29 +67,29 @@ uploader.bind('UploadProgress', function(up, file) {
 });
 
 uploader.bind('FileUploaded', function(up, file, response) {
-	var rps = $.parseJSON(response.response);
+	var resp = $.parseJSON(response.response);
 	html = '';
 	html += '<div class="media_item">';
-	html += '	<img src="'+rps.thumbnail+'" style="float:left;margin:14px 10px 0 0;" />'
+	html += '	<img src="'+resp.data.thumbnail+'" style="float:left;margin:14px 10px 0 0;" />'
 	html += '	<table width="620" style="padding:4px;">';
 	html += '		<tr>';
 	html += '			<td>文件名</td>';
-	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][url]" value="'+rps.client_name+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+resp.data.id+'][url]" value="'+resp.data.client_name+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '		<tr>';
 	html += '			<td>类型</td>';
-	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][file_type]" value="'+rps.file_type+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+resp.data.id+'][file_type]" value="'+resp.data.file_type+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '		<tr>';
 	html += '			<td>大小</td>';
-	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][url]" value="'+rps.image_width+" X "+rps.image_height+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+resp.data.id+'][url]" value="'+resp.data.image_width+" X "+resp.data.image_height+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '		<tr>';
 	html += '			<td>URL</td>';
-	html += '			<td><input type="text" class="form-control" name="media['+rps.id+'][url]" value="'+rps.url+'" readonly="readonly" /></td>';
+	html += '			<td><input type="text" class="form-control" name="media['+resp.data.id+'][url]" value="'+resp.data.url+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '	</table>';
-	html += '	<a href="javascript:;" class="delete_file" fid="'+rps.id+'">永久删除</a>';
+	html += '	<a href="javascript:;" class="delete_file" fid="'+resp.data.id+'">永久删除</a>';
 	html += '	<div class="clear"></div>';
 	html += '</div>';
 	$(".media_list").append(html);

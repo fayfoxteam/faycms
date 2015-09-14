@@ -888,34 +888,26 @@ class PostController extends AdminController{
 	}
 	
 	public function isAliasNotExist(){
-		$alias = $this->input->post('value', 'trim');
+		$alias = $this->input->request('value', 'trim');
 		if(Posts::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'id != ?'=>$this->input->request('id', 'intval', 0),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'别名已存在',
-			));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
 	public function search(){
-		if($cat_id = $this->input->get('cat_id', 'intval')){
+		if($cat_id = $this->input->request('cat_id', 'intval')){
 			$cats = Category::model()->getAllIds($cat_id);
 			$cats[] = $cat_id;
 		}
 		$posts = Posts::model()->fetchAll(array(
-			'title LIKE ?'=>'%'.$this->input->get('key', false).'%',
+			'title LIKE ?'=>'%'.$this->input->request('key', false).'%',
 			'cat_id IN (?)'=>isset($cats) ? $cats : false,
 		), 'id,title', 'id DESC', 20);
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$posts,
-		));
+		Response::json($posts);
 	}
 }

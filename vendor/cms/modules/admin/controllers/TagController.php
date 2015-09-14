@@ -99,14 +99,9 @@ class TagController extends AdminController{
 			'title = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$id,
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'标签已存在'
-			));
+			Response::json('', 0, '标签已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -151,9 +146,7 @@ class TagController extends AdminController{
 		$tags = Tags::model()->fetchAll(array(
 			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
 		), 'id,title', 'sort, count DESC', 20);
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$tags,
-		));
+		
+		Response::json($tags);
 	}
 }

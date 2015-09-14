@@ -86,11 +86,6 @@ class CategoryController extends AdminController{
 		}
 	}
 	
-	public function getSubcat(){
-		$cats = Category::model()->getNextLevelByParentId($this->input->get('id', 'intval'));
-		echo json_encode($cats);
-	}
-	
 	public function edit(){
 		if($this->input->post()){
 			if($this->form()->setModel(Categories::model())->check()){
@@ -174,9 +169,9 @@ class CategoryController extends AdminController{
 			'left_value > '.$cat['left_value'],
 			'right_value < '.$cat['right_value'],
 		));
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$cat,
+		
+		Response::json(array(
+			'cat'=>$cat,
 			'children'=>$children,
 		));
 	}
@@ -214,14 +209,9 @@ class CategoryController extends AdminController{
 			'alias = ?'=>$alias,
 			'id != ?'=>$this->input->get('id', 'intval', 0),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'别名已存在',
-			));
+			echo Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			echo Response::json('', 1, '别名不存在');
 		}
 	}
 }

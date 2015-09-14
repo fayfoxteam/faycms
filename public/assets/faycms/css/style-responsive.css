@@ -480,7 +480,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 #chat-dialog .cd-reply-list{padding:0 20px 10px 20px}
 #chat-dialog .cd-item{position:relative;padding:9px 0 9px 92px;background:url(images/timeline.png) -113px 0 repeat-y}
 #chat-dialog .cdi-user{line-height:20px;color:#379BE9}
-#chat-dialog .cdi-time{position:absolute;left:0;top:9px;margin-left:12px;width:72px;background:url(images/timeline.png) 55px 6px no-repeat}
+#chat-dialog .cdi-time{position:absolute;left:0;top:9px;margin-left:4px;width:72px;background:url(images/timeline.png) 63px 6px no-repeat}
 #chat-dialog .cdi-status{margin-left:3px}
 #chat-dialog .reply-container{padding:8px 20px;border-top:1px solid #ddd;margin-right:6px}
 #chat-dialog .reply-container textarea{width:95%;margin:0 auto;display:block;height:80px}
@@ -609,6 +609,7 @@ pre li:hover{background-color:#575757}
 .mt0{margin-top:0 !important}
 .mt5{margin-top:5px !important}
 .ml5{margin-left:5px !important}
+.mr10{margin-right:10px !important}
 .pt0{padding-top:0 !important}
 .pt7{padding-top:7px !important}
 .pl11{padding-left:11px !important}

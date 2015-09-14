@@ -7,27 +7,27 @@ use fay\models\tables\Messages;
 		<ul class="subsubsub">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/comment/index')?>">全部</a>
-				<span class="fc-grey">(<?php echo Message::model()->getCount()?>)</span>
+				<span class="fc-grey">(<?php echo Message::model()->getCount(null, Messages::TYPE_POST_COMMENT)?>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status', 'intval') === Messages::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/comment/index', array('status'=>Messages::STATUS_PENDING))?>">待审</a>
-				<span class="fc-grey">(<?php echo Message::model()->getCount(Messages::STATUS_PENDING)?>)</span>
+				<span class="fc-grey">(<?php echo Message::model()->getCount(Messages::STATUS_PENDING, Messages::TYPE_POST_COMMENT)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Messages::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/comment/index', array('status'=>Messages::STATUS_APPROVED))?>">通过</a>
-				<span class="fc-grey">(<?php echo Message::model()->getCount(Messages::STATUS_APPROVED)?>)</span>
+				<span class="fc-grey">(<?php echo Message::model()->getCount(Messages::STATUS_APPROVED, Messages::TYPE_POST_COMMENT)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Messages::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/comment/index', array('status'=>Messages::STATUS_UNAPPROVED))?>">驳回</a>
-				<span class="fc-grey">(<?php echo Message::model()->getCount(Messages::STATUS_UNAPPROVED)?>)</span>
+				<span class="fc-grey">(<?php echo Message::model()->getCount(Messages::STATUS_UNAPPROVED, Messages::TYPE_POST_COMMENT)?>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/comment/index', array('deleted'=>1))?>">回收站</a>
-				<span class="fc-grey">(<?php echo Message::model()->getDeletedCount()?>)</span>
+				<span class="fc-grey">(<?php echo Message::model()->getDeletedCount(Messages::TYPE_POST_COMMENT)?>)</span>
 			</li>
 		</ul>
 		

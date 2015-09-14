@@ -6,7 +6,6 @@ use fay\models\Menu;
 use fay\models\tables\Menus;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
-use fay\models\tables\Users;
 use fay\models\tables\Roles;
 
 class MenuController extends AdminController{
@@ -131,9 +130,8 @@ class MenuController extends AdminController{
 			'left_value > '.$menu['left_value'],
 			'right_value < '.$menu['right_value'],
 		));
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$menu,
+		Response::json(array(
+			'menu'=>$menu,
 			'children'=>$children,
 		));
 	}

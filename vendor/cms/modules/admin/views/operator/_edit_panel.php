@@ -53,6 +53,25 @@ use fay\models\File;
 	))?>
 </div>
 <div class="form-field">
+	<label class="title bold">登陆状态</label>
+	<?php
+		echo F::form()->inputRadio('block', 0, array(
+			'wrapper'=>array(
+				'tag'=>'label',
+				'class'=>'fc-green',
+			),
+			'after'=>'正常登录',
+		));
+		echo F::form()->inputRadio('block', 1, array(
+			'wrapper'=>array(
+				'tag'=>'label',
+				'class'=>'fc-red',
+			),
+			'after'=>'限制登录',
+		));
+	?>
+</div>
+<div class="form-field">
 	<label class="title bold">头像</label>
 	<div id="avatar-container">
 		<?php 

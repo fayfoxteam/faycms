@@ -12,14 +12,9 @@ class SystemController extends AdminController{
 			'cellphone = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'该手机号码已被注册',
-			));
+			Response::json('', 0, '该手机号码已被注册');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -28,14 +23,9 @@ class SystemController extends AdminController{
 			'email = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'该邮箱已被注册',
-			));
+			Response::json('', 0, '该邮箱已被注册');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -44,14 +34,9 @@ class SystemController extends AdminController{
 			'username = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'该用户名已被注册',
-			));
+			Response::json('', 0, '该用户名已被注册');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	

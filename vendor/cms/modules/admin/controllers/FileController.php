@@ -63,7 +63,7 @@ class FileController extends AdminController{
 				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
 			}
 		}else{
-			echo json_encode($data);
+			Response::json($data);
 		}
 	}
 	
@@ -135,7 +135,7 @@ class FileController extends AdminController{
 		
 		$data = $this->afterUpload($data);
 		
-		echo json_encode($data);
+		Response::json($data);
 	}
 	
 	/**
@@ -178,7 +178,7 @@ class FileController extends AdminController{
 				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
 			}
 		}else{
-			echo json_encode($data);
+			Response::json($data);
 		}
 	}
 	

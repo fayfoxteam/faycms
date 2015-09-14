@@ -19,26 +19,26 @@ var cat = {
 							success: function(resp){
 								$('#edit-cat-dialog').unblock();
 								if(resp.status){
-									$('#edit-cat-title').text(resp.data.title);
-									$("#edit-cat-dialog input[name='id']").val(resp.data.id);
-									$("#edit-cat-dialog input[name='title']").val(resp.data.title);
-									$("#edit-cat-dialog input[name='alias']").val(resp.data.alias);
-									$("#edit-cat-dialog input[name='alias']").attr('data-ajax', system.url('admin/category/is-alias-not-exist', {id:resp.data.id}));
+									$('#edit-cat-title').text(resp.data.cat.title);
+									$("#edit-cat-dialog input[name='id']").val(resp.data.cat.id);
+									$("#edit-cat-dialog input[name='title']").val(resp.data.cat.title);
+									$("#edit-cat-dialog input[name='alias']").val(resp.data.cat.alias);
+									$("#edit-cat-dialog input[name='alias']").attr('data-ajax', system.url('admin/category/is-alias-not-exist', {id:resp.data.cat.id}));
 									
-									if(resp.data.is_nav == 1){
+									if(resp.data.cat.is_nav == 1){
 										$("#edit-cat-dialog input[name='is_nav']").attr('checked', 'checked');
 									}else{
 										$("#edit-cat-dialog input[name='is_nav']").attr('checked', false);
 									}
-									if(resp.data.file_id != 0){
+									if(resp.data.cat.file_id != 0){
 										$('#cat-pic-for-edit-container').html([
 		                       				'<a href="', system.url('file/pic', {
 		                       					't':1,
-		                       					'f':resp.data.file_id
+		                       					'f':resp.data.cat.file_id
 		                       				}), '" class="fancybox-image" target="_blank">',
 		                       					'<img src="', system.url('file/pic', {
 		                       						't':2,
-		                       						'f':resp.data.file_id
+		                       						'f':resp.data.cat.file_id
 		                       					}), '" width="100" />',
 		                       				'</a>',
 		                       				'<a href="javascript:;" class="remove-pic">移除插图</a>'
@@ -46,15 +46,15 @@ var cat = {
 									}else{
 										$("#cat-pic-for-edit-container").html('');
 									}
-									$("#edit-cat-dialog textarea[name='description']").val(resp.data.description).trigger('autosize.resize');
-									$("#edit-cat-dialog input[name='sort']").val(resp.data.sort);
-									$("#edit-cat-dialog input[name='seo_title']").val(resp.data.seo_title);
-									$("#edit-cat-dialog input[name='seo_keywords']").val(resp.data.seo_keywords);
-									$("#edit-cat-dialog textarea[name='seo_description']").val(resp.data.seo_description);
-									$("#edit-cat-dialog select[name='parent']").val(resp.data.parent);
+									$("#edit-cat-dialog textarea[name='description']").val(resp.data.cat.description).trigger('autosize.resize');
+									$("#edit-cat-dialog input[name='sort']").val(resp.data.cat.sort);
+									$("#edit-cat-dialog input[name='seo_title']").val(resp.data.cat.seo_title);
+									$("#edit-cat-dialog input[name='seo_keywords']").val(resp.data.cat.seo_keywords);
+									$("#edit-cat-dialog textarea[name='seo_description']").val(resp.data.cat.seo_description);
+									$("#edit-cat-dialog select[name='parent']").val(resp.data.cat.parent);
 									//父节点不能被挂载到其子节点上
 									$("#edit-cat-dialog select[name='parent'] option").attr('disabled', false).each(function(){
-										if(system.inArray($(this).attr("value"), resp.children) || $(this).attr("value") == resp.data.id){
+										if(system.inArray($(this).attr("value"), resp.data.children) || $(this).attr("value") == resp.data.cat.id){
 											$(this).attr('disabled', 'disabled');
 										}
 									});

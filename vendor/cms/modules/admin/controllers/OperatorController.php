@@ -268,27 +268,4 @@ class OperatorController extends AdminController{
 		
 		$this->view->render();
 	}
-	
-	public function setStatus(){
-		$id = $this->input->post('id', 'intval');
-		
-		$user = Users::model()->find($id, 'id,status,block');
-		if(!$user){
-			if($this->input->isAjaxRequest()){
-				echo json_encode(array(
-					'status'=>0,
-					'message'=>'指定的用户ID不存在',
-				));
-			}else{
-				throw new HttpException('指定的用户ID不存在');
-			}
-		}
-		Users::model()->update($this->input->post(), $id, true);
-
-		$this->actionlog(Actionlogs::TYPE_USERS, '编辑了管理员状态', $id);
-		Response::output('success', array(
-			'message'=>'管理员状态被编辑',
-		));
-	}
-	
 }

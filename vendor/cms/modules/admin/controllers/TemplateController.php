@@ -57,6 +57,11 @@ class TemplateController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑模板';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/template/create'),
+			'text'=>'添加模版',
+		);
+		
 		$id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(Templates::model());
@@ -83,6 +88,11 @@ class TemplateController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '添加模板';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/template/index'),
+			'text'=>'模版列表',
+		);
+		
 		$this->form()->setModel(Templates::model());
 		if($this->input->post()){
 			if($this->form()->check()){
@@ -92,8 +102,11 @@ class TemplateController extends AdminController{
 				}
 				$data['create_time'] = $this->current_time;
 				$id = Templates::model()->insert($data);
-					
+				
 				$this->actionlog(Actionlogs::TYPE_TEMPLATE, '添加了一个模版', $id);
+				Response::output('success', '模版添加成功', array('admin/template/edit', array(
+					'id'=>$id,
+				)));
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -107,9 +120,9 @@ class TemplateController extends AdminController{
 			'alias = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo json_encode(array('status'=>0, 'message'=>'关键词已存在'));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array('status'=>1));
+			Response::json();
 		}
 	}
 	

@@ -135,14 +135,14 @@ $(function(){
 						success: function(resp){
 							$("#log-detail-dialog").unblock();
 							if(resp.status){
-								$("#ld-code").val(resp.log.code);
-								$("#ld-data").val(resp.log.data).trigger('autosize.resize');
-								$("#ld-user_agent").val(resp.log.user_agent).trigger('autosize.resize');
-								$("#ld-create_time").val(system.date(resp.log.create_time));
-								if(resp.log.user_id == 0){
+								$("#ld-code").val(resp.data.code);
+								$("#ld-data").val(resp.data.data).trigger('autosize.resize');
+								$("#ld-user_agent").val(resp.data.user_agent).trigger('autosize.resize');
+								$("#ld-create_time").val(system.date(resp.data.create_time));
+								if(resp.data.user_id == 0){
 									$("#ld-username").val('系统');
 								}else{
-									$("#ld-username").val(resp.log.username);
+									$("#ld-username").val(resp.data.username);
 								}
 							}else{
 								alert(resp.message);

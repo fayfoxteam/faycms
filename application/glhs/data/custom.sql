@@ -1,5 +1,7 @@
 -- 页面
 INSERT INTO `{{$prefix}}pages` (id, title, alias) VALUES (1, '关于我们', 'about');
+INSERT INTO `{{$prefix}}pages` (id, title, alias, content) VALUES (2, '联系我们', 'contact', '<p>联系电话：0553-12345678</p>\r\n\r\n<p>QQ: 383920940</p>\r\n\r\n<p>手机：13616546418</p>\r\n');
+
 
 -- 基础分类
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES ('1000', '师资力量', 'teacher', '1', '1', '1');

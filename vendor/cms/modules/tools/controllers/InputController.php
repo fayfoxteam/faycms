@@ -35,8 +35,7 @@ class InputController extends ToolsController{
 	public function get(){
 		$this->layout->subtitle = 'GET';
 		if($this->input->isAjaxRequest()){
-			echo json_encode($this->input->get());
-			die;
+			Response::json($this->input->get());
 		}
 		$this->view->render();
 	}
@@ -44,8 +43,7 @@ class InputController extends ToolsController{
 	public function post(){
 		$this->layout->subtitle = 'POST';
 		if($this->input->isAjaxRequest()){
-			echo json_encode($this->input->post());
-			die;
+			Response::json($this->input->get());
 		}
 		$this->view->render();
 	}

@@ -314,29 +314,21 @@ class PageController extends AdminController{
 	}
 	
 	public function isAliasNotExist(){
-		$alias = $this->input->post('value', 'trim');
+		$alias = $this->input->request('value', 'trim');
 		if(Pages::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'别名已存在',
-			));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
 	public function search(){
 		$pages = Pages::model()->fetchAll(array(
-			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
+			'title LIKE ?'=>'%'.$this->input->request('key', false).'%'
 		), 'id,title', 'id DESC', 20);
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$pages,
-		));
+		Response::json($pages);
 	}
 }

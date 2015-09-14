@@ -3,7 +3,6 @@ namespace fay\core;
 
 use fay\helpers\Request;
 use fay\models\tables\Actions;
-use fay\models\tables\Users;
 use fay\helpers\String;
 use fay\models\tables\Roles;
 

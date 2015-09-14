@@ -12,15 +12,7 @@ class WidgetController extends ToolsController{
 		if($this->input->request('name')){
 			$widget_obj = $this->widget->get($this->input->request('name', 'trim'));
 			if($widget_obj == null){
-				if($this->input->isAjaxRequest()){
-					echo json_encode(array(
-						'status'=>0,
-						'message'=>'Widget不存在或已被删除',
-					));
-					die;
-				}else{
-					throw new HttpException('Widget不存在或已被删除');
-				}
+				throw new HttpException('Widget不存在或已被删除');
 			}
 			
 			$widget_obj->_index = $this->input->request('_index');
@@ -32,24 +24,10 @@ class WidgetController extends ToolsController{
 			}else if(method_exists($widget_obj, $action.'Action')){
 				$widget_obj->{$action.'Action'}($this->input->request());
 			}else{
-				if($this->input->isAjaxRequest()){
-					echo json_encode(array(
-						'status'=>0,
-						'message'=>'Widget方法不存在',
-					));
-				}else{
-					throw new HttpException('Widget方法不存在');
-				}
+				throw new HttpException('Widget方法不存在');
 			}
 		}else{
-			if($this->input->isAjaxRequest()){
-				echo json_encode(array(
-					'status'=>0,
-					'message'=>'不完整的请求',
-				));
-			}else{
-				throw new HttpException('不完整的请求', 500);
-			}
+			throw new HttpException('不完整的请求');
 		}
 	}
 	
@@ -61,27 +39,12 @@ class WidgetController extends ToolsController{
 			if($widget_config['enabled']){
 				$widget_obj = $this->widget->get($widget_config['widget_name']);
 				if($widget_obj == null){
-					if($this->input->isAjaxRequest()){
-						echo json_encode(array(
-							'status'=>0,
-							'message'=>'Widget不存在或已被删除',
-						));
-						die;
-					}else{
-						throw new HttpException('Widget不存在或已被删除');
-					}
+					throw new HttpException('Widget不存在或已被删除');
 				}
 				$widget_obj->index(json_decode($widget_config['options'], true));
 			}
 		}else{
-			if($this->input->isAjaxRequest()){
-				echo json_encode(array(
-					'status'=>0,
-					'message'=>'不完整的请求',
-				));
-			}else{
-				throw new HttpException('不完整的请求', 500);
-			}
+			throw new HttpException('不完整的请求');
 		}
 	}
 }

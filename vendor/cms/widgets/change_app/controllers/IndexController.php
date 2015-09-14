@@ -11,7 +11,9 @@ class IndexController extends Widget{
 		$apps = File::getFileList(APPLICATION_PATH.'..');
 		$options = array();
 		foreach($apps as $app){
-			$options[$app['name']] = $app['name'];
+			if($app['is_dir']){
+				$options[$app['name']] = $app['name'];
+			}
 		}
 		$this->view->options = $options;
 		$this->view->render();

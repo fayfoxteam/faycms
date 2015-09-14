@@ -148,9 +148,9 @@ var chat = {
 					'dataType': 'json',
 					'cache': false,
 					'success': function(resp){
-						$('#chat-'+resp.id).unblock();
+						$('#chat-'+resp.data.id).unblock();
 						if(resp.status){
-							$('#chat-'+resp.id).fadeOut('normal', function(){
+							$('#chat-'+resp.data.id).fadeOut('normal', function(){
 								$(this).remove();
 							});
 						}else{
@@ -171,11 +171,11 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#chat-'+resp.id).unblock();
+					$('#chat-'+resp.data.id).unblock();
 					if(resp.status){
-						$('#chat-'+resp.id).find('.ci-status').html(chat.status[resp.message_status]);
-						$('#chat-'+resp.id).find('.approve-link').hide()
-						$('#chat-'+resp.id).find('.unapprove-link').show();
+						$('#chat-'+resp.data.id).find('.ci-status').html(chat.status[resp.data.status]);
+						$('#chat-'+resp.data.id).find('.approve-link').hide()
+						$('#chat-'+resp.data.id).find('.unapprove-link').show();
 					}else{
 						alert(resp.message);
 					}
@@ -193,11 +193,11 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#chat-'+resp.id).unblock();
+					$('#chat-'+resp.data.id).unblock();
 					if(resp.status){
-						$('#chat-'+resp.id).find('.ci-status').html(chat.status[resp.message_status]);
-						$('#chat-'+resp.id).find('.unapprove-link').hide()
-						$('#chat-'+resp.id).find('.approve-link').show();
+						$('#chat-'+resp.data.id).find('.ci-status').html(chat.status[resp.data.status]);
+						$('#chat-'+resp.data.id).find('.unapprove-link').hide()
+						$('#chat-'+resp.data.id).find('.approve-link').show();
 					}else{
 						alert(resp.message);
 					}
@@ -215,9 +215,9 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#chat-'+resp.id).unblock();
+					$('#chat-'+resp.data.id).unblock();
 					if(resp.status){
-						$('#chat-'+resp.id).fadeOut('normal', function(){
+						$('#chat-'+resp.data.id).fadeOut('normal', function(){
 							$(this).remove();
 						});
 					}else{
@@ -239,11 +239,11 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#reply-'+resp.id).unblock();
+					$('#reply-'+resp.data.id).unblock();
 					if(resp.status){
-						$('#reply-'+resp.id).find('.cdi-status').html(chat.status[resp.message_status]);
-						$('#reply-'+resp.id).find('.approve-link').hide()
-						$('#reply-'+resp.id).find('.unapprove-link').show();
+						$('#reply-'+resp.data.id).find('.cdi-status').html(chat.status[resp.data.id]);
+						$('#reply-'+resp.data.id).find('.approve-link').hide()
+						$('#reply-'+resp.data.id).find('.unapprove-link').show();
 					}else{
 						alert(resp.message);
 					}
@@ -263,11 +263,11 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#reply-'+resp.id).unblock();
+					$('#reply-'+resp.data.id).unblock();
 					if(resp.status){
-						$('#reply-'+resp.id).find('.cdi-status').html(chat.status[resp.message_status]);
-						$('#reply-'+resp.id).find('.unapprove-link').hide()
-						$('#reply-'+resp.id).find('.approve-link').show();
+						$('#reply-'+resp.data.id).find('.cdi-status').html(chat.status[resp.data.id]);
+						$('#reply-'+resp.data.id).find('.unapprove-link').hide()
+						$('#reply-'+resp.data.id).find('.approve-link').show();
 					}else{
 						alert(resp.message);
 					}
@@ -288,9 +288,9 @@ var chat = {
 					'dataType': 'json',
 					'cache': false,
 					'success': function(resp){
-						$('#reply-'+resp.id).unblock();
+						$('#reply-'+resp.data.id).unblock();
 						if(resp.status){
-							$('#reply-'+resp.id).fadeOut('normal', function(){
+							$('#reply-'+resp.data.id).fadeOut('normal', function(){
 								$(this).remove();
 							});
 						}else{

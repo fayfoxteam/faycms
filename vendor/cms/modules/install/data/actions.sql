@@ -38,7 +38,6 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('602', '添加', 'admin/operator/create', '106', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('603', '编辑', 'admin/operator/edit', '106', '0', '601');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('604', '查看', 'admin/operator/item', '106', '0', '601');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('605', '设置状态', 'admin/operator/set-status', '106', '0', '604');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('701', '列表', 'admin/page/index', '107', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('702', '添加', 'admin/page/create', '107', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('703', '修改', 'admin/page/edit', '107', '0', '701');
@@ -53,7 +52,6 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('902', '添加', 'admin/user/create', '109', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('903', '查看', 'admin/user/item', '109', '0', '901');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('904', '编辑', 'admin/user/edit', '109', '0', '901');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('905', '设置状态', 'admin/user/set-status', '109', '0', '903');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1001', '列表', 'admin/comment/index', '110', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1002', '批准', 'admin/comment/approve', '110', '0', '1001');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1003', '驳回', 'admin/comment/unapprove', '110', '0', '1001');
@@ -63,6 +61,7 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1102', '小工具', 'admin/widget/instances', '111', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1103', '移除小工具', 'admin/widget/remove-instance', '111', '0', '1102');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1104', '编辑小工具', 'admin/widget/edit', '111', '0', '1102');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1105', '小工具域', 'admin/widgetarea/index', '111', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1201', '列表', 'admin/role/index', '112', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1202', '添加', 'admin/role/create', '112', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1203', '删除', 'admin/role/delete', '112', '0', '1201');

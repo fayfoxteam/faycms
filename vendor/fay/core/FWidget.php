@@ -20,14 +20,22 @@ class FWidget{
 			//用户自定义的widget name不带斜杠
 			$class_name = APPLICATION.'\widgets\\'.$name.'\controllers\\'.$controller;
 			$path = APPLICATION_PATH . 'widgets/' . $name . '/';
-			return new $class_name($name, $path);
+			if(file_exists($path.'controllers/IndexController.php')){
+				return new $class_name($name, $path);
+			}else{
+				return null;
+			}
 		}else{
 			//系统自带的widget name为cms/*或者fay/*
 			$name_explode = explode('/', $name);
 			$pre = array_shift($name_explode);//pre取值为cms或fay
 			$class_name = $pre.'\widgets\\'.implode('/', $name_explode).'\controllers\\'.$controller;
 			$path = SYSTEM_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/';
-			return new $class_name($name, $path);
+			if(file_exists($path.'controllers/IndexController.php')){
+				return new $class_name($name, $path);
+			}else{
+				return null;
+			}
 		}
 	}
 	

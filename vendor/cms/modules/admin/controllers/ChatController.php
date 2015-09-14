@@ -6,6 +6,7 @@ use fay\core\Sql;
 use fay\models\tables\Messages;
 use fay\common\ListView;
 use fay\models\Setting;
+use fay\core\Response;
 
 class ChatController extends AdminController{
 	public function __construct(){
@@ -87,12 +88,9 @@ class ChatController extends AdminController{
 			->fetchAll()
 		;
 		
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>array(
-				'root'=>$root,
-				'replies'=>$replies,
-			),
+		Response::json(array(
+			'root'=>$root,
+			'replies'=>$replies,
 		));
 	}
 	

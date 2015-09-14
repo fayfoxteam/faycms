@@ -369,10 +369,8 @@ class ExamQuestionController extends AdminController{
 		
 		if(String::isInt($id)){
 			$question = ExamQuestions::model()->find($id);
-			echo json_encode(array(
-				'status'=>1,
-				'data'=>array(\F::filter('strip_tags', $question, 'question')),
-			));
+			
+			Response::json(array(\F::filter('strip_tags', $question, 'question')));
 		}else{
 			$questions = ExamQuestions::model()->fetchAll(array(
 				'id IN (?)'=>$this->input->get('id', 'intval'),
@@ -382,10 +380,7 @@ class ExamQuestionController extends AdminController{
 				$q['question'] = strip_tags($q['question'], '<u>');
 			}
 			
-			echo json_encode(array(
-				'status'=>1,
-				'data'=>$questions,
-			));
+			Response::json($questions);
 		}
 	}
 	
@@ -445,9 +440,8 @@ class ExamQuestionController extends AdminController{
 			$d['question'] = strip_tags($d['question'], '<u>');
 		}
 		
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$data,
+		echo Response::json(array(
+			'questions'=>$data,
 			'pager'=>$listview->getPager(),
 		));
 	}

@@ -13,6 +13,7 @@ use fay\models\Flash;
 use fay\models\Option;
 use fay\helpers\Request;
 use fay\models\tables\Roles;
+use fay\core\Response;
 
 class ApplicationController extends ToolsController{
 	public function __construct(){
@@ -142,16 +143,10 @@ class ApplicationController extends ToolsController{
 		$apps = File::getFileList(APPLICATION_PATH.'..');
 		foreach($apps as $app){
 			if($value == $app['name']){
-				echo json_encode(array(
-					'status'=>0,
-					'message'=>'项目名已存在',
-				));
-				die;
+				Response::json('', 0, '项目名已存在');
 			}
 		}
-		echo json_encode(array(
-			'status'=>1,
-		));
+		Response::json();
 	}
 	
 	private function createTables($prefix, $charset){

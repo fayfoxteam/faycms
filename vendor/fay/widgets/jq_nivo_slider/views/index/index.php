@@ -11,8 +11,8 @@ use fay\models\File;
 		echo Html::link(Html::img($d['file_id'], File::PIC_RESIZE, array(
 			'alt'=>Html::encode($d['title']),
 			'title'=>Html::encode($d['title']),
-			'dw'=>$config['width'] ? $config['width'] : false,
-			'dh'=>$config['height'] ? $config['height'] : false,
+			'dw'=>empty($config['width']) ? false : $config['width'],
+			'dh'=>empty($config['height']) ?  false : $config['height'],
 		)), $d['link'], array(
 			'encode'=>false,
 			'title'=>Html::encode($d['title']),

@@ -24,6 +24,16 @@ F::form('edit')->setModel(Menus::model());
 						</td>
 					</tr>
 					<tr>
+						<th valign="top" class="adaption">链接地址</th>
+						<td>
+							<?php echo Html::inputText('link', '', array(
+								'class'=>'form-control wp100',
+							))?>
+							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
+							<p class="fc-grey">若是外站地址，不要忘了http://</p>
+						</td>
+					</tr>
+					<tr>
 						<th class="adaption">别名</th>
 						<td>
 							<?php echo Html::inputText('alias', '', array(
@@ -60,16 +70,6 @@ F::form('edit')->setModel(Menus::model());
 								'label'=>'否',
 							));
 						?></td>
-					</tr>
-					<tr>
-						<th valign="top" class="adaption">链接地址</th>
-						<td>
-							<?php echo Html::inputText('link', '', array(
-								'class'=>'form-control wp100',
-							))?>
-							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
-							<p class="fc-grey">若是外站地址，不要忘了http://</p>
-						</td>
 					</tr>
 					<tr>
 						<th class="adaption">排序</th>
@@ -136,6 +136,16 @@ F::form('edit')->setModel(Menus::model());
 						</td>
 					</tr>
 					<tr>
+						<th valign="top" class="adaption">链接地址</th>
+						<td>
+							<?php echo Html::inputText('link', '{$base_url}', array(
+								'class'=>'form-control wp100',
+							))?>
+							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
+							<p class="fc-grey">若是外站地址，不要忘了http://</p>
+						</td>
+					</tr>
+					<tr>
 						<th class="adaption">别名</th>
 						<td>
 							<?php echo Html::inputText('alias', '', array(
@@ -172,16 +182,6 @@ F::form('edit')->setModel(Menus::model());
 								'label'=>'否',
 							));
 						?></td>
-					</tr>
-					<tr>
-						<th valign="top" class="adaption">链接地址</th>
-						<td>
-							<?php echo Html::inputText('link', '{$base_url}', array(
-								'class'=>'form-control wp100',
-							))?>
-							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
-							<p class="fc-grey">若是外站地址，不要忘了http://</p>
-						</td>
 					</tr>
 					<tr>
 						<th class="adaption">排序</th>
@@ -261,20 +261,20 @@ var menu = {
 							success: function(resp){
 								$("#edit-cat-dialog").unblock();
 								if(resp.status){
-									$("#edit-cat-title").text(resp.data.title);
-									$("#edit-cat-dialog input[name='id']").val(resp.data.id);
-									$("#edit-cat-dialog input[name='title']").val(resp.data.title);
-									$("#edit-cat-dialog input[name='sub_title']").val(resp.data.sub_title);
-									$("#edit-cat-dialog input[name='css_class']").val(resp.data.css_class);
-									$("#edit-cat-dialog input[name='enabled'][value='"+resp.data.enabled+"']").attr('checked', 'checked');
-									$("#edit-cat-dialog input[name='alias']").val(resp.data.alias);
-									$("#edit-cat-dialog input[name='sort']").val(resp.data.sort);
-									$("#edit-cat-dialog input[name='link']").val(resp.data.link);
-									$("#edit-cat-dialog select[name='target']").val(resp.data.target);
-									$("#edit-cat-dialog select[name='parent']").val(resp.data.parent);
+									$("#edit-cat-title").text(resp.data.menu.title);
+									$("#edit-cat-dialog input[name='id']").val(resp.data.menu.id);
+									$("#edit-cat-dialog input[name='title']").val(resp.data.menu.title);
+									$("#edit-cat-dialog input[name='sub_title']").val(resp.data.menu.sub_title);
+									$("#edit-cat-dialog input[name='css_class']").val(resp.data.menu.css_class);
+									$("#edit-cat-dialog input[name='enabled'][value='"+resp.data.menu.enabled+"']").attr('checked', 'checked');
+									$("#edit-cat-dialog input[name='alias']").val(resp.data.menu.alias);
+									$("#edit-cat-dialog input[name='sort']").val(resp.data.menu.sort);
+									$("#edit-cat-dialog input[name='link']").val(resp.data.menu.link);
+									$("#edit-cat-dialog select[name='target']").val(resp.data.menu.target);
+									$("#edit-cat-dialog select[name='parent']").val(resp.data.menu.parent);
 									//父节点不能被挂载到其子节点上
 									$("#edit-cat-dialog select[name='parent'] option").attr('disabled', false).each(function(){
-										if(system.inArray($(this).attr("value"), resp.children) || $(this).attr("value") == resp.data.id){
+										if(system.inArray($(this).attr("value"), resp.data.menu.children) || $(this).attr("value") == resp.data.menu.id){
 											$(this).attr('disabled', 'disabled');
 										}
 									});

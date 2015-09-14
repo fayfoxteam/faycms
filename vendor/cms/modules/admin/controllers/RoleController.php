@@ -215,14 +215,9 @@ class RoleController extends AdminController{
 			'title = ?'=>$value = $this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->get('id', 'intval', 0),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'角色已存在',
-			));
+			Response::json('', 0, '角色已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 }

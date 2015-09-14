@@ -145,11 +145,7 @@ class Response{
 			);
 		}
 		if(\F::app()->input->isAjaxRequest()){
-			header('Content-Type: application/json');
-			echo json_encode(array(
-				'status'=>$status == 'success' ? 1 : 0,
-			)+$data);
-			die;
+			Response::json(isset($data['data']) ? $data['data'] : array(), $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '');
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash
@@ -209,11 +205,11 @@ class Response{
 	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
 	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
 	 */
-	public static function json($content, $status = 1, $message = '', $code = ''){
+	public static function json($data = '', $status = 1, $message = '', $code = ''){
 		header('Content-Type:application/json; charset=utf-8');
 		$content = json_encode(array(
 			'status'=>$status == 0 ? 0 : 1,
-			'content'=>$content,
+			'data'=>$data,
 			'code'=>$code,
 			'message'=>$message
 		));

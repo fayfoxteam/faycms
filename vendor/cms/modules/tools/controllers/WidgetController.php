@@ -38,10 +38,39 @@ class WidgetController extends ToolsController{
 			));
 			if($widget_config['enabled']){
 				$widget_obj = $this->widget->get($widget_config['widget_name']);
+				$action = $this->input->request('action', 'trim', 'index');
 				if($widget_obj == null){
 					throw new HttpException('Widget不存在或已被删除');
 				}
-				$widget_obj->index(json_decode($widget_config['options'], true));
+				$widget_obj->{$action}(json_decode($widget_config['options'], true));
+			}else{
+				throw new HttpException('小工具未启用');
+			}
+		}else{
+			throw new HttpException('不完整的请求');
+		}
+	}
+	
+	/**
+	 * 获取widget实例参数，需要widget实现IndexController::getData()方法
+	 */
+	public function data(){
+		if($alias = $this->input->request('alias')){
+			$widget_config = Widgets::model()->fetchRow(array(
+				'alias = ?'=>$alias,
+			));
+			if($widget_config['enabled']){
+				$widget_obj = $this->widget->get($widget_config['widget_name']);
+				if($widget_obj == null){
+					throw new HttpException('Widget不存在或已被删除');
+				}
+				if(method_exists($widget_obj, 'getData')){
+					$widget_obj->getData(json_decode($widget_config['options'], true));
+				}else{
+					throw new HttpException('该小工具未实现获取数据方法');
+				}
+			}else{
+				throw new HttpException('小工具未启用');
 			}
 		}else{
 			throw new HttpException('不完整的请求');

@@ -2,8 +2,13 @@
 namespace fay\widgets\images\controllers;
 
 use fay\core\Widget;
+use fay\core\Response;
 
 class IndexController extends Widget{
+	public function getData($config){
+		Response::json($config['files']);
+	}
+	
 	public function index($config){
 		//template
 		if(empty($config['template'])){

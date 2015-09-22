@@ -7,7 +7,10 @@ use fay\models\tables\Widgets;
 use fay\core\HttpException;
 
 class WidgetController extends ToolsController{
-	//加载一个widget
+	/**
+	 * 根据widget name及其他传入参数，渲染一个widget
+	 * @throws HttpException
+	 */
 	public function render(){
 		if($this->input->request('name')){
 			$widget_obj = $this->widget->get($this->input->request('name', 'trim'));
@@ -31,6 +34,10 @@ class WidgetController extends ToolsController{
 		}
 	}
 	
+	/**
+	 * 根据别名渲染一个widget
+	 * @throws HttpException
+	 */
 	public function load(){
 		if($alias = $this->input->request('alias')){
 			$widget_config = Widgets::model()->fetchRow(array(
@@ -53,6 +60,7 @@ class WidgetController extends ToolsController{
 	
 	/**
 	 * 获取widget实例参数，需要widget实现IndexController::getData()方法
+	 * @throws HttpException
 	 */
 	public function data(){
 		if($alias = $this->input->request('alias')){

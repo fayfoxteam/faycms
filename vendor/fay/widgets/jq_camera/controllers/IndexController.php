@@ -4,6 +4,9 @@ namespace fay\widgets\jq_camera\controllers;
 use fay\core\Widget;
 
 class IndexController extends Widget{
+	public function getData($config){
+		return empty($config['files']) ? array() : $config['files'];
+	}
 	
 	public function index($config){
 		if(empty($config)){

@@ -115,7 +115,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
 					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
 					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
+					'delete'=>F::app()->checkPermission('admin/post/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action',
@@ -241,7 +241,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
 					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
 					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post/delete') ? '删除' : false,
+					'delete'=>F::app()->checkPermission('admin/post/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action-2',

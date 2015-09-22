@@ -7,6 +7,60 @@ use fay\models\Post;
 use fay\helpers\Date;
 
 class IndexController extends Widget{
+	public function getData($config){
+		$conditions = array();
+		
+		//root node
+		if(empty($config['top'])){
+			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$config['top'] = $root_node['id'];
+		}
+		
+		//number
+		empty($config['number']) && $config['number'] = 5;
+		
+		//date format
+		empty($config['date_format']) && $config['date_format'] = '';
+		
+		//thumbnail
+		empty($config['thumbnail']) || $conditions[] = 'thumbnail != 0';
+		
+		//last view
+		empty($config['last_view_time']) ||
+			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $config['last_view_time']);
+		
+		//order
+		$orders = array(
+			'hand'=>'is_top DESC, sort, publish_time DESC',
+			'publish_time'=>'publish_time DESC',
+			'views'=>'views DESC, publish_time DESC',
+			'rand'=>'RAND()',
+		);
+		if(!empty($config['order']) && isset($orders[$config['order']])){
+			$order = $orders[$config['order']];
+		}else{
+			$order = $orders['hand'];
+		}
+		
+		if(!isset($config['subclassification'])){
+			$config['subclassification'] = true;
+		}
+		
+		$posts = Post::model()->getByCatId($config['top'], $config['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $config['subclassification'], $order, $conditions);
+		if($posts){
+			foreach($posts as &$p){
+				if($config['date_format'] == 'pretty'){
+					$p['format_publish_time'] = Date::niceShort($p['publish_time']);
+				}else if($config['date_format']){
+					$p['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
+				}else{
+					$p['format_publish_time'] = '';
+				}
+			}
+		}
+		return $posts;
+	}
+	
 	public function index($config){
 		$conditions = array();
 		

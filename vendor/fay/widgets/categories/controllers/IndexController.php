@@ -5,6 +5,20 @@ use fay\core\Widget;
 use fay\models\Category;
 
 class IndexController extends Widget{
+	public function getData($config){
+		//root node
+		if(empty($config['top'])){
+			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$config['top'] = $root_node['id'];
+		}
+		
+		if(!empty($config['hierarchical'])){
+			return Category::model()->getTree($config['top']);
+		}else{
+			return Category::model()->getAll($config['top']);
+		}
+	}
+	
 	public function index($config){
 		//root node
 		if(empty($config['top'])){

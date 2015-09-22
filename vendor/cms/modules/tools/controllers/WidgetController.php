@@ -5,6 +5,7 @@ use cms\library\ToolsController;
 use fay\helpers\String;
 use fay\models\tables\Widgets;
 use fay\core\HttpException;
+use fay\core\Response;
 
 class WidgetController extends ToolsController{
 	/**
@@ -73,7 +74,8 @@ class WidgetController extends ToolsController{
 					throw new HttpException('Widget不存在或已被删除');
 				}
 				if(method_exists($widget_obj, 'getData')){
-					$widget_obj->getData(json_decode($widget_config['options'], true));
+					$data = $widget_obj->getData(json_decode($widget_config['options'], true));
+					Response::json($data);
 				}else{
 					throw new HttpException('该小工具未实现获取数据方法');
 				}

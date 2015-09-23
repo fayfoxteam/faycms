@@ -142,14 +142,6 @@ class Widget{
 	}
 	
 	/**
-	 * 获取数据，与index方法独立，需要在子类中实现
-	 * @throws HttpException
-	 */
-	public function getData($config){
-		throw new HttpException('该小工具未实现获取数据方法');
-	}
-	
-	/**
 	 * 获取一个表单实例，若不指定name，返回后台小工具编辑表单。
 	 * @param null|string $name 默认为后台小工具编辑表单
 	 */

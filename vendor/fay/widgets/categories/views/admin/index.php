@@ -9,24 +9,24 @@ use fay\models\tables\Roles;
 	<div class="box-content">
 		<div class="form-field">
 			<label class="title bold">标题</label>
-			<?php echo Html::inputText('title', isset($data['title']) ? $data['title'] : '', array(
+			<?php echo F::form('widget')->inputText('title', array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">若为空，则显示顶级分类的标题</p>
 		</div>
 		<div class="form-field">
 			<label class="title bold">顶级分类</label>
-			<?php echo Html::select('top', Html::getSelectOptions($cats), isset($data['top']) ? $data['top'] : 0, array(
+			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats), array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">仅显示所选分类的子分类（不包含所选分类本身）</p>
 		</div>
 		<div class="form-field">
 			<label class="title bold">是否体现层级关系</label>
-			<?php echo Html::inputRadio('hierarchical', 1, !empty($data['hierarchical']), array(
+			<?php echo F::form('widget')->inputRadio('hierarchical', 1, array(
 				'label'=>'是',
 			))?>
-			<?php echo Html::inputRadio('hierarchical', 0, empty($data['hierarchical']),  array(
+			<?php echo F::form('widget')->inputRadio('hierarchical', 0, array(
 				'label'=>'否',
 			), true)?>
 		</div>
@@ -38,26 +38,26 @@ use fay\models\tables\Roles;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'cat/{$id}', !isset($data['uri']) || $data['uri'] == 'cat/{$id}', array(
+					echo Html::inputRadio('uri', 'cat/{$id}', !isset($config['uri']) || $config['uri'] == 'cat/{$id}', array(
 						'label'=>'cat/{$id}',
 					));
-					echo Html::inputRadio('uri', 'cat/{$alias}', isset($data['uri']) && $data['uri'] == 'cat/{$alias}', array(
+					echo Html::inputRadio('uri', 'cat/{$alias}', isset($config['uri']) && $config['uri'] == 'cat/{$alias}', array(
 						'label'=>'cat/{$alias}',
 					));
-					echo Html::inputRadio('uri', 'cat-{$id}', isset($data['uri']) && $data['uri'] == 'cat-{$id}', array(
+					echo Html::inputRadio('uri', 'cat-{$id}', isset($config['uri']) && $config['uri'] == 'cat-{$id}', array(
 						'label'=>'cat-{$id}',
 					));
-					echo Html::inputRadio('uri', 'cat-{$alias}', isset($data['uri']) && $data['uri'] == 'cat-{$alias}', array(
+					echo Html::inputRadio('uri', 'cat-{$alias}', isset($config['uri']) && $config['uri'] == 'cat-{$alias}', array(
 						'label'=>'cat-{$alias}',
 					));
-					echo Html::inputRadio('uri', '', isset($data['uri']) &&!in_array($data['uri'], array(
+					echo Html::inputRadio('uri', '', isset($config['uri']) &&!in_array($config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($data['uri']) &&!in_array($data['uri'], array(
+					echo Html::inputText('other_uri', isset($config['uri']) &&!in_array($config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
-					)) ? $data['uri'] : '', array(
+					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
@@ -70,7 +70,7 @@ use fay\models\tables\Roles;
 			</div>
 			<div class="form-field">
 				<label class="title bold">渲染模版</label>
-				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
+				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 					'class'=>'form-control h90 autosize',
 				))?>
 				<p class="fc-grey mt5">

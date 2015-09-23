@@ -8,7 +8,7 @@ use fay\models\File;
 		if(empty($d['link'])){
 			$d['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($d['file_id'], File::PIC_RESIZE, array(
+		echo Html::link(Html::img($d['file_id'], ($config['width'] || $config['height']) ? File::PIC_RESIZE : File::PIC_ORIGINAL, array(
 			'alt'=>Html::encode($d['title']),
 			'title'=>Html::encode($d['title']),
 			'dw'=>empty($config['width']) ? false : $config['width'],

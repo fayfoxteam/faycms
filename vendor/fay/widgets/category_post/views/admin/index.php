@@ -113,20 +113,20 @@ use fay\models\tables\Roles;
 			<div class="form-field">
 				<label class="title bold">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php
-					echo Html::inputRadio('uri', 'post/{$id}', !isset($data['uri']) || $data['uri'] == 'post/{$id}', array(
+					echo Html::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
 					));
-					echo Html::inputRadio('uri', 'post-{$id}', isset($data['uri']) && $data['uri'] == 'post-{$id}', array(
+					echo Html::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
 						'label'=>'post-{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($data['uri']) && !in_array($data['uri'], array(
+					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($data['uri']) && !in_array($data['uri'], array(
+					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
-					)) ? $data['uri'] : '', array(
+					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>

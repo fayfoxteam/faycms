@@ -5,16 +5,16 @@ use fay\core\Widget;
 use fay\models\Flash;
 
 class AdminController extends Widget{
-	public function index($data){
+	public function index($config){
 		//获取默认模版
-		if(empty($data['template'])){
-			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
-				'template'=>$data['template'],
+				'template'=>$config['template'],
 			), true);
 		}
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -36,16 +36,24 @@ class AdminController extends Widget{
 	}
 	
 	public function rules(){
-		return array();
+		return array(
+			array(array('width', 'height'), 'int', array('min'=>1)),
+		);
 	}
 	
 	public function labels(){
-		return array();
+		return array(
+			'template'=>'模版',
+			'width'=>'图片宽度',
+			'height'=>'图片高度',
+		);
 	}
 	
 	public function filters(){
 		return array(
 			'template'=>'trim',
+			'width'=>'intval',
+			'height'=>'intval',
 		);
 	}
 }

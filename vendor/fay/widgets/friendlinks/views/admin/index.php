@@ -32,7 +32,7 @@ use fay\models\tables\Roles;
 		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
-				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
+				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 					'class'=>'form-control h200 autosize',
 				))?>
 				<p class="fc-grey mt5">

@@ -2,10 +2,19 @@
 namespace fay\widgets\jq_nivo_slider\controllers;
 
 use fay\core\Widget;
+use fay\helpers\Html;
+use fay\models\File;
 
 class IndexController extends Widget{
 	public function getData($config){
-		return empty($config['files']) ? array() : $config['files'];
+		$data = empty($config['files']) ? array() : $config['files'];
+		foreach($data as &$d){
+			$d['src'] = Html::img($d['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
+				'dw'=>empty($config['width']) ? false : $config['width'],
+				'dh'=>empty($config['height']) ?  false : $config['height'],
+			), true);
+		}
+		return $data;
 	}
 	
 	public function index($config){

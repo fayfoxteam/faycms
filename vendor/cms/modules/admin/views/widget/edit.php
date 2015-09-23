@@ -90,8 +90,8 @@ use fay\helpers\Html;
 					</div>
 				</div>
 			</div>
-			<?php if(method_exists($widget_admin, 'sidebar')){
-				$widget_admin->sidebar($widget_config);
+			<?php if(file_exists($widget_admin->path . 'views/admin/sidebar.php')){
+				$widget_admin->view->render('sidebar');
 			}?>
 		</div>
 	</div>

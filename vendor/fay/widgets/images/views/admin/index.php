@@ -13,8 +13,8 @@ use fay\models\tables\Roles;
 	</div>
 </div>
 <div class="dragsort-list file-list">
-<?php if(isset($data['files'])){?>
-<?php foreach($data['files'] as $d){?>
+<?php if(isset($config['files'])){?>
+<?php foreach($config['files'] as $d){?>
 	<div class="dragsort-item">
 		<?php echo Html::inputHidden('photos[]', $d['file_id'])?>
 		<a class="dragsort-rm" href="javascript:;"></a>
@@ -126,15 +126,15 @@ var jq_camera = {
 		jq_camera.uploadObj.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 			$file = $('#file-'+file.id);
-			$file.find('.photo-title').attr('name', 'titles['+resp.id+']');
-			$file.find('.photo-link').attr('name', 'links['+resp.id+']');
-			$file.append('<input type="hidden" name="photos[]" value="'+resp.id+'" />');
-			$file.prepend('<a class="photo-rm" href="javascript:;" data-id="'+resp.id+'"></a>');
+			$file.find('.photo-title').attr('name', 'titles['+resp.data.id+']');
+			$file.find('.photo-link').attr('name', 'links['+resp.data.id+']');
+			$file.append('<input type="hidden" name="photos[]" value="'+resp.data.id+'" />');
+			$file.prepend('<a class="photo-rm" href="javascript:;" data-id="'+resp.data.id+'"></a>');
 			
 			//是图片，用fancybox弹窗
 			$file.find('.file-thumb').html([
-				'<a href="', resp.url, '" title="'+resp.client_name+'" class="photo-thumb-link">',
-					'<img src="'+resp.thumbnail+'" />',
+				'<a href="', resp.data.url, '" title="'+resp.data.client_name+'" class="photo-thumb-link">',
+					'<img src="'+resp.data.thumbnail+'" />',
 				'</a>'
 			].join(''));
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){

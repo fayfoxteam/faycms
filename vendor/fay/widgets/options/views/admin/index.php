@@ -26,8 +26,8 @@ use fay\helpers\Html;
 				<span class="golden-right">值</span>
 			</li>
 			<?php 
-			if(isset($data['data'])){
-				foreach($data['data'] as $d){?>
+			if(isset($config['data'])){
+				foreach($config['data'] as $d){?>
 			<li>
 				<span class="golden-left">
 					<?php echo Html::inputText('keys[]', $d['key'], array(
@@ -83,7 +83,7 @@ use fay\helpers\Html;
 		<h4>渲染模板</h4>
 	</div>
 	<div class="box-content">
-		<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
+		<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 			'class'=>'form-control h90 autosize',
 		))?>
 		<p class="fc-grey mt5">

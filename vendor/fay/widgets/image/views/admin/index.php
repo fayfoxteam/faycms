@@ -6,11 +6,11 @@ use fay\helpers\Html;
 #file-preview img{max-width:100%;}
 </style>
 <div class="box">
-	<div class="box-content" id="file-preview" <?php if(!$data['file_id'])echo 'style="display:none;"'?>>
-		<?php echo Html::img($data['file_id'])?>
+	<div class="box-content" id="file-preview" <?php if(!$config['file_id'])echo 'style="display:none;"'?>>
+		<?php echo Html::img($config['file_id'])?>
 	</div>
 </div>
-<input type="hidden" value="<?php echo intval($data['file_id'])?>" name="file_id" id="file_id" />
+<input type="hidden" value="<?php echo intval($config['file_id'])?>" name="file_id" id="file_id" />
 <div class="margin-top-20">
 	<a href="javascript:;" class="btn btn-grey" id="widget-form-upload">上传</a>
 </div>

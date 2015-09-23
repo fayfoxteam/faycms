@@ -8,8 +8,8 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="dragsort-list" id="widget-listing-values">
-		<?php if(!empty($data['values'])){?>
-			<?php foreach($data['values'] as $v){?>
+		<?php if(!empty($config['values'])){?>
+			<?php foreach($config['values'] as $v){?>
 				<div class="dragsort-item">
 					<a class="dragsort-rm" href="javascript:;"></a>
 					<a class="dragsort-item-selector"></a>
@@ -46,7 +46,7 @@ use fay\helpers\Html;
 		<h4>渲染模板</h4>
 	</div>
 	<div class="box-content">
-		<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
+		<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 			'class'=>'form-control h90 autosize',
 		))?>
 		<p class="fc-grey mt5">

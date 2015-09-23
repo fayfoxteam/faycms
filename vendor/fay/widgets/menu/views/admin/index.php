@@ -10,7 +10,7 @@ use fay\models\tables\Menus;
 	<div class="box-content">
 		<div class="form-field">
 			<label class="title bold">顶级菜单</label>
-			<?php echo Html::select('top', Html::getSelectOptions($menu), isset($data['top']) ? $data['top'] : Menus::ITEM_USER_MENU, array(
+			<?php echo Html::select('top', Html::getSelectOptions($menu), isset($config['top']) ? $config['top'] : Menus::ITEM_USER_MENU, array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">仅显示所选菜单的子菜单（不包含所选菜单本身）</p>
@@ -21,7 +21,7 @@ use fay\models\tables\Menus;
 		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
-				<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
+				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 					'class'=>'form-control h90 autosize',
 				))?>
 				<p class="fc-grey mt5">

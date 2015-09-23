@@ -5,8 +5,8 @@ use fay\core\Widget;
 use fay\models\Flash;
 
 class AdminController extends Widget{
-	public function index($data){
-		$this->view->data = $data;
+	public function index($config){
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -26,16 +26,6 @@ class AdminController extends Widget{
 		
 		$this->setConfig($data);
 		Flash::set('编辑成功', 'success');
-	}
-	
-	/**
-	 * 会在编辑界面的侧边栏出现
-	 * @param array $data 该widget实例的参数
-	 */
-	public function sidebar($data){
-		$this->view->data = $data;
-		
-		$this->view->render('sidebar');
 	}
 	
 	public function rules(){

@@ -148,10 +148,10 @@ var cat = {
 		
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
-			$('#cat-pic-for-create').val(resp.id);
+			$('#cat-pic-for-create').val(resp.data.id);
 			$('#cat-pic-for-create-container').html([
-				'<a href="', resp.url, '" class="fancybox-image" target="_blank">',
-					'<img src="', resp.thumbnail, '" width="100" />',
+				'<a href="', resp.data.url, '" class="fancybox-image" target="_blank">',
+					'<img src="', resp.data.thumbnail, '" width="100" />',
 				'</a>',
    				'<a href="javascript:;" class="remove-pic">移除插图</a>'
 			].join(''));
@@ -192,10 +192,10 @@ var cat = {
 		
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
-			$('#cat-pic-for-edit').val(resp.id);
+			$('#cat-pic-for-edit').val(resp.data.id);
 			$('#cat-pic-for-edit-container').html([
-				'<a href="', resp.url, '" class="fancybox-image" target="_blank">',
-					'<img src="', resp.thumbnail, '" width="100" />',
+				'<a href="', resp.data.url, '" class="fancybox-image" target="_blank">',
+					'<img src="', resp.data.thumbnail, '" width="100" />',
 				'</a>',
    				'<a href="javascript:;" class="remove-pic">移除插图</a>'
 			].join(''));

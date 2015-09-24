@@ -12,7 +12,7 @@ use fay\helpers\String;
 		if($file['qiniu']){
 			$data_src = Qiniu::model()->getUrl($file);
 		}else{
-			$data_src = File::model()->getUrl($file);
+			$data_src = File::getUrl($file);
 		}
 		echo Html::tag('div', array(
 			'data-src'=>$data_src,

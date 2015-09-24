@@ -55,14 +55,14 @@ echo F::form()->open();
 						'dw'=>178,
 						'dh'=>178,
 						'id'=>'avatar-img',
-					)), File::model()->getUrl($user['avatar']), array(
+					)), File::getUrl($user['avatar']), array(
 						'encode'=>false,
 						'class'=>'fancybox-image',
 						'title'=>false,
 					));
 					echo Html::link(Html::img($user['avatar'], File::PIC_THUMBNAIL, array(
 						'id'=>'avatar-img-circle',
-					)), File::model()->getUrl($user['avatar']), array(
+					)), File::getUrl($user['avatar']), array(
 						'encode'=>false,
 						'class'=>'fancybox-image',
 						'title'=>false,

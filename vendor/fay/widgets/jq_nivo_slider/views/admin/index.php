@@ -21,7 +21,7 @@ use fay\models\File;
 		<div class="dragsort-item-container">
 			<span class="file-thumb">
 			<?php 
-				echo Html::link(Html::img($d['file_id'], 2), File::model()->getUrl($d['file_id']), array(
+				echo Html::link(Html::img($d['file_id'], 2), File::getUrl($d['file_id']), array(
 					'class'=>'photo-thumb-link',
 					'encode'=>false,
 					'title'=>Html::encode($d['title']),

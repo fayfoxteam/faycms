@@ -15,7 +15,7 @@ use fay\models\File;
 			if(!empty($page['thumbnail'])){
 				echo Html::link(Html::img($page['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>257,
-				)), File::model()->getUrl($page['thumbnail']), array(
+				)), File::getUrl($page['thumbnail']), array(
 					'encode'=>false,
 					'class'=>'fancybox-image',
 					'title'=>false,

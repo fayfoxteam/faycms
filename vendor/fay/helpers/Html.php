@@ -223,13 +223,12 @@ class Html{
 	/**
 	 * 返回一张图片<br>
 	 * 需要跟FileController配合使用的一个方法
-	 * @param int $id 一般为系统图片ID，若传入url路径则第二个参数type无效
+	 * @param int $id 一般为系统图片ID，若传入url路径则参数$type和$html_options无效
 	 * @param int $type
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
-	 * @param bool $return_src 若为true，则仅返回src地址；若为false，返回完整<img>标签。默认为false
 	 * @return string
 	 */
-	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array(), $return_src = false){
+	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array()){
 		if(String::isInt($id)){
 			if($id == 0){
 				//若有设置spares，返回对应的默认图片
@@ -256,102 +255,13 @@ class Html{
 					return '';
 				}
 			}
-			$img_params = array('t'=>$type);
-			$file = Files::model()->find($id, 'raw_name,file_ext,file_path,image_width,image_height,qiniu,is_image,file_type');
-			switch($type){
-				case File::PIC_ORIGINAL:
-					if(substr($file['file_path'], 0, 4) == './..'){
-						//私有文件，不能直接访问文件
-						$src = \F::app()->view->url('file/pic', array(
-							'f'=>$id,
-						));
-					}else{
-						//公共文件，直接返回真实路径
-						if($file['qiniu'] && Option::get('qiniu:enabled')){
-							//若开启了七牛云存储，且文件已上传，则显示七牛路径
-							$src = Qiniu::model()->getUrl($file);
-						}else{
-							$src = \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
-						}
-					}
-					
-					isset($html_options['width']) || $html_options['width'] = $file['image_width'];
-					isset($html_options['height']) || $html_options['height'] = $file['image_height'];
-				break;
-				case File::PIC_THUMBNAIL:
-					//显示一张缩略图，若不是图片文件，显示一个图标
-					if($file['qiniu'] && Option::get('qiniu:enabled') && $file['is_image']){
-						//若开启了七牛云存储，且文件已上传，则利用七牛在线裁剪为100x100图片
-						$src = Qiniu::model()->getUrl($file, array(
-							'dw'=>100,
-							'dh'=>100,
-						));
-					}else{
-						$src = File::model()->getThumbnailUrl($file);
-					}
-				break;
-				case File::PIC_CROP:
-					if(isset($html_options['x'])){
-						$img_params['x'] = $html_options['x'];
-						unset($html_options['x']);
-					}
-					if(isset($html_options['y'])){
-						$img_params['y'] = $html_options['y'];
-						unset($html_options['y']);
-					}
-					if(isset($html_options['dw'])){
-						$img_params['dw'] = $html_options['dw'];
-						unset($html_options['dw']);
-					}
-					if(isset($html_options['dh'])){
-						$img_params['dh'] = $html_options['dh'];
-						unset($html_options['dh']);
-					}
-					if(isset($html_options['w'])){
-						$img_params['w'] = $html_options['w'];
-						unset($html_options['w']);
-					}
-					if(isset($html_options['h'])){
-						$img_params['h'] = $html_options['h'];
-						unset($html_options['h']);
-					}
-					ksort($img_params);
-					$img_params['f'] = $id;
-					$src = \F::app()->view->url('file/pic', $img_params);
-				break;
-				case File::PIC_RESIZE:
-					if($file['qiniu'] && Option::get('qiniu:enabled')){
-						//若开启了七牛云存储，且文件已上传，则利用七牛进行裁剪输出
-						$src = Qiniu::model()->getUrl($file, array(
-							'dw'=>isset($html_options['dw']) ? $html_options['dw'] : false,
-							'dh'=>isset($html_options['dh']) ? $html_options['dh'] : false,
-						));
-					}else{
-						if(isset($html_options['dw'])){
-							$img_params['dw'] = $html_options['dw'];
-						}
-						if(isset($html_options['dh'])){
-							$img_params['dh'] = $html_options['dh'];
-						}
-						ksort($img_params);
-						$img_params['f'] = $id;
-						$src = \F::app()->view->url('file/pic', $img_params);
-					}
-					unset($html_options['dw'], $html_options['dh']);
-				break;
-			}
-			unset($html_options['spare']);
-			if($return_src){
-				return $src;
-			}else{
-				return self::tag('img', array('src'=>$src)+$html_options);
-			}
+			
+			$src = File::getUrl($id, $type, $html_options);
+			
+			unset($html_options['spare'], $html_options['dw'], $html_options['dh'], $html_options['w'], $html_options['h'], $html_options['x'], $html_options['y']);
+			return self::tag('img', array('src'=>$src) + $html_options);
 		}else{
-			if($return_src){
-				return $id;
-			}else{
-				return self::tag('img', array('src'=>$id)+$html_options);
-			}
+			return self::tag('img', array('src'=>$id) + $html_options);
 		}
 	}
 	

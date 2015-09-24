@@ -9,7 +9,7 @@ class IndexController extends Widget{
 	public function getData($config){
 		$data = empty($config['files']) ? array() : $config['files'];
 		foreach($data as &$d){
-			$d['src'] = Html::img($d['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
+			$d['src'] = File::getUrl($d['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
 				'dw'=>empty($config['width']) ? false : $config['width'],
 				'dh'=>empty($config['height']) ?  false : $config['height'],
 			), true);

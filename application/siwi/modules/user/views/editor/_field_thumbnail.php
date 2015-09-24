@@ -14,7 +14,7 @@ use fay\models\File;
 			echo Html::link(Html::img(\F::form()->getData('thumbnail'), File::PIC_RESIZE, array(
 				'dw'=>257,
 				'dh'=>217,
-			)), File::model()->getUrl(\F::form()->getData('thumbnail')), array(
+			)), File::getUrl(\F::form()->getData('thumbnail')), array(
 				'encode'=>false,
 				'class'=>'fancybox-image',
 				'title'=>false,

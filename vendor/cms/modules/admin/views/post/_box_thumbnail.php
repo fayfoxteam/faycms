@@ -17,7 +17,7 @@ use fay\models\File;
 			if(!empty($post['thumbnail'])){
 				echo Html::link(Html::img($post['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>257,
-				)), File::model()->getUrl($post['thumbnail']), array(
+				)), File::getUrl($post['thumbnail']), array(
 					'encode'=>false,
 					'class'=>'fancybox-image',
 					'title'=>'点击查看原图',

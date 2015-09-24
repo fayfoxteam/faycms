@@ -25,14 +25,14 @@ use fay\models\File;
 					<div class="dragsort-item-container">
 						<span class="file-thumb">
 							<?php if($p['is_image']){
-								$full_file_path = File::model()->getUrl($p['file_id']);
+								$full_file_path = File::getUrl($p['file_id']);
 								echo Html::link(Html::img($p['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link fancybox-image',
 									'encode'=>false,
 									'title'=>$p['description'],
 								));
 							}else{
-								$full_file_path = File::model()->getUrl($p['file_id']);
+								$full_file_path = File::getUrl($p['file_id']);
 								echo Html::link(Html::img($p['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link',
 									'encode'=>false,

@@ -23,23 +23,16 @@ var user = {
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 
-			$('#avatar-id').val(resp.id);
+			$('#avatar-id').val(resp.data.id);
 			$('#avatar-img').attr('src', system.url('admin/file/pic', {
-				'f':resp.id,
+				'f':resp.data.id,
 				't':4,
 				'dw':178,
 				'dh':178
 			}))
-			.parent().attr('href', system.url('admin/file/pic', {
-				'f':resp.id
-			}));
-			$('#avatar-img-circle').attr('src', system.url('admin/file/pic', {
-				'f':resp.id,
-				't':2
-			}))
-			.parent().attr('href', system.url('admin/file/pic', {
-				'f':resp.id
-			}));
+				.parent().attr('href', resp.data.src);
+			$('#avatar-img-circle').attr('src', resp.data.thumbnail)
+				.parent().attr('href', resp.data.src);
 			
 		});
 

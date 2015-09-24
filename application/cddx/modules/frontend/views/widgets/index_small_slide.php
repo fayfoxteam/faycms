@@ -17,7 +17,7 @@ use fay\models\File;
 			)), 'javascript:;', array(
 				'encode'=>false,
 				'title'=>false,
-				'data-src'=>File::model()->getUrl($f['file_id']),
+				'data-src'=>File::getUrl($f['file_id']),
 				'data-link'=>$f['link'] ? $f['link'] : 'javascript:;',
 				'data-title'=>$f['title'],
 			));

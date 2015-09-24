@@ -6,7 +6,7 @@ use fay\models\Qiniu;
 use fay\models\tables\Files;
 use fay\models\Category;
 
-$full_file_path = File::model()->getUrl($data);
+$full_file_path = File::getUrl($data);
 ?>
 <tr valign="top" id="file-<?php echo $data['id']?>" data-qiniu="<?php echo $data['qiniu']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(

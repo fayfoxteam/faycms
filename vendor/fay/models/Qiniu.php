@@ -91,28 +91,22 @@ class Qiniu extends Model{
 	 */
 	public function getUrl($file, $options = array()){
 		if(String::isInt($file)){
-			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image,qiniu');
+			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		
 		if(!$file['qiniu']){
-			return '';
+			return false;
 		}
 		$domain = Option::get('qiniu:domain');
 		$domain || $domain = 'http://'.Option::get('qiniu:bucket').'.qiniudn.com/';
 		$src = $domain . $this->getKey($file);
 		
-		if($file['is_image'] && (isset($options['dw']) || isset($options['dh']))){
-			if(!empty($options['dw']) && !empty($options['dh'])){
-				$src .= '?imageView2/1';//裁剪
-			}else{
-				$src .= '?imageView2/0';//等比缩放
-			}
-			if(!empty($options['dw'])){
-				$src .= '/w/'.$options['dw'];
-			}
-			if(!empty($options['dh'])){
-				$src .= '/h/'.$options['dh'];
-			}
+		if($file['is_image'] && (!empty($options['dw']) || !empty($options['dh']))){
+			//由于七牛的缩放机制与系统不同，所以直接计算好宽高传过去，不让七牛自动算
+			empty($options['dw']) && $options['dw'] = intval($options['dh'] * ($file['image_width'] / $file['image_height']));
+			empty($options['dh']) && $options['dh'] = intval($options['dw'] * ($file['image_height'] / $file['image_width']));
+			
+			$src .= "?imageView2/1/w/{$options['dw']}/h/{$options['dh']}";//裁剪
 		}
 		
 		return $src;

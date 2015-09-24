@@ -1,10 +1,7 @@
 <?php
 namespace fay\helpers;
 
-use fay\models\tables\Files;
 use fay\models\File;
-use fay\models\Qiniu;
-use fay\models\Option;
 
 /**
  * 构造html元素

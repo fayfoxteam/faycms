@@ -25,10 +25,10 @@ var post = {
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 			$('#thumbnail-preview-container').html([
-				'<input type="hidden" name="thumbnail" value="', resp.id, '" />',
-				'<a href="', resp.url, '" class="fancybox-image">',
+				'<input type="hidden" name="thumbnail" value="', resp.data.id, '" />',
+				'<a href="', resp.data.url, '" class="fancybox-image">',
 					'<img src="', system.url('admin/file/pic', {
-						'f':resp.id,
+						'f':resp.data.id,
 						't':4,
 						'dw':257
 					}), '" />',
@@ -104,17 +104,17 @@ var post = {
 		files_uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 			$file = $('#file-'+file.id);
-			if('raw_name' in resp){
-				$file.find('.file-desc').attr('name', 'description['+resp.id+']').autosize();
-				$file.append('<input type="hidden" name="files[]" value="'+resp.id+'" />');
+			if('raw_name' in resp.data){
+				$file.find('.file-desc').attr('name', 'description['+resp.data.id+']').autosize();
+				$file.append('<input type="hidden" name="files[]" value="'+resp.data.id+'" />');
 				$file.prepend('<a class="file-rm" href="javascript:;"></a>');
 				
 				
-				if(resp.is_image){
+				if(resp.data.is_image){
 					//是图片，用fancybox弹窗
 					$file.find('.file-thumb').html([
-						'<a href="', resp.url, '" class="file-thumb-link">',
-							'<img src="'+resp.thumbnail+'" />',
+						'<a href="', resp.data.url, '" class="file-thumb-link">',
+							'<img src="'+resp.data.thumbnail+'" />',
 						'</a>'
 					].join(''));
 					system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
@@ -130,15 +130,15 @@ var post = {
 				}else{
 					//非图片，直接新窗口打开
 					$file.find('.file-thumb').html([
-						'<a href="', resp.url, '" target="_blank">',
-							'<img src="'+resp.thumbnail+'" />',
+						'<a href="', resp.data.url, '" target="_blank">',
+							'<img src="'+resp.data.thumbnail+'" />',
 						'</a>'
 					].join(''));
 				}
 			}else{
 				//非json数据，上传出错
 				$file.remove();
-				alert(resp);
+				alert(resp.message);
 			}
 		});
 

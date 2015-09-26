@@ -553,22 +553,9 @@ class FileController extends AdminController{
 			$img = Image::crop($img, $x, $y, $w, $h);
 			$img = Image::resize($img, $dw, $dh);
 		
-			header('Content-type: '.$file['file_type']);
-			switch ($file['file_type']) {
-				case 'image/gif':
-					imagegif($img);
-					break;
-				case 'image/jpeg':
-				case 'image/jpg':
-					imagejpeg($img);
-					break;
-				case 'image/png':
-					imagepng($img);
-					break;
-				default:
-					imagejpeg($img);
-					break;
-			}
+			//处理过的图片统一以jpg方式显示
+			header('Content-type: image/jpeg');
+			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
 		}else{
 			//图片不存在，显示一张默认图片吧
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
@@ -600,22 +587,9 @@ class FileController extends AdminController{
 			
 			$img = Image::resize($img, $dw, $dh);
 			
-			header('Content-type: '.$file['file_type']);
-			switch ($file['file_type']) {
-				case 'image/gif':
-					imagegif($img);
-					break;
-				case 'image/jpeg':
-				case 'image/jpg':
-					imagejpeg($img, null, $this->input->get('q', 'intval', 75));
-					break;
-				case 'image/png':
-					imagepng($img);
-					break;
-				default:
-					imagejpeg($img);
-					break;
-			}
+			//处理过的图片统一以jpg方式显示
+			header('Content-type: image/jpeg');
+			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');

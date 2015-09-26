@@ -10,6 +10,7 @@ use fay\core\Validator;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\helpers\String;
+use fay\models\Option;
 
 class FileController extends Controller{
 	public function pic(){
@@ -153,7 +154,7 @@ class FileController extends Controller{
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', 75));
+			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
 		}else{
 			//图片不存在，显示一张默认图片吧
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
@@ -187,7 +188,7 @@ class FileController extends Controller{
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', 75));
+			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');

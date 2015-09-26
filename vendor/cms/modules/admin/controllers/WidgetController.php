@@ -70,7 +70,7 @@ class WidgetController extends AdminController{
 		
 		if(file_exists($widget_obj->path . 'README.md')){
 			Loader::vendor('Markdown/markdown');
-			$this->layout->_help_contet = '<div class="text">' . Markdown(file_get_contents($widget_obj->path . 'README.md')) . '</div>';
+			$this->layout->_help_content = '<div class="text">' . Markdown(file_get_contents($widget_obj->path . 'README.md')) . '</div>';
 		}
 		
 		$this->form('widget')->setRules(array(

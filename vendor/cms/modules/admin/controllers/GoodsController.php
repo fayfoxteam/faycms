@@ -31,6 +31,31 @@ class GoodsController extends AdminController{
 		}
 	}
 	
+	public function cat(){
+		$this->layout->current_directory = 'goods';
+		
+		$this->layout->_help_panel = '_help';
+		
+		$this->layout->subtitle = '商品分类';
+		$this->view->cats = Category::model()->getTree('_system_goods');
+		$root_node = Category::model()->getByAlias('_system_goods', 'id');
+		$this->view->root = $root_node['id'];
+		
+		$root_cat = Category::model()->getByAlias('_system_goods', 'id');
+		if($this->checkPermission('admin/goods/cat-create')){
+			$this->layout->sublink = array(
+				'uri'=>'#create-cat-dialog',
+				'text'=>'添加商品分类',
+				'html_options'=>array(
+					'class'=>'create-cat-link',
+					'data-title'=>'商品',
+					'data-id'=>$root_cat['id'],
+				),
+			);
+		}
+		$this->view->render();
+	}
+	
 	public function create(){
 		$this->layout->subtitle = '添加商品';
 		
@@ -38,7 +63,7 @@ class GoodsController extends AdminController{
 			//插入goods表
 			$goods_data = Goods::model()->setAttributes($this->input->post());
 			$goods_data['create_time'] = $this->current_time;
-			$goods_data['cat_id'] = $this->input->get('cid');
+			$goods_data['cat_id'] = $this->input->get('cat_id');
 			!empty($goods_data['publish_time']) || $goods_data['publish_time'] = $this->current_time;
 			!empty($goods_data['sub_stock']) || $goods_data['sub_stock'] = Goods::SUB_STOCK_PAY;
 			

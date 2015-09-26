@@ -123,7 +123,7 @@ class ExamPaperController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑试卷';
-		$this->layout->_help = '_help';
+		$this->layout->_help_panel = '_help';
 		
 		$id = $this->input->get('id', 'intval');
 		

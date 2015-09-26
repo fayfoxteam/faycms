@@ -152,7 +152,7 @@ class ExamQuestionController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑试题';
-		$this->layout->_help = '_help';
+		$this->layout->_help = '_help_panel';
 		
 		$id = $this->input->get('id', 'intval');
 		

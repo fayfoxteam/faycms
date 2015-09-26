@@ -198,7 +198,7 @@ class PostController extends AdminController{
 			$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
 		}
 		
-		$this->layout->_help = '_help';
+		$this->layout->_help_panel = '_help';
 		
 		$this->view->render();
 	}

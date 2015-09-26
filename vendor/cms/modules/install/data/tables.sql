@@ -313,7 +313,7 @@ CREATE TABLE `{{$prefix}}goods` (
   `is_new` tinyint(1) NOT NULL DEFAULT '0' COMMENT '新品',
   `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '热销',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
+  `sort` mediumint(8) unsigned NOT NULL DEFAULT '10000' COMMENT 'Sort',
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',

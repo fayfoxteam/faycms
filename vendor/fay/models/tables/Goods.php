@@ -3,6 +3,32 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Goods model
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $description
+ * @property int $create_time
+ * @property int $last_modified_time
+ * @property int $publish_time
+ * @property int $sub_stock
+ * @property float $weight
+ * @property float $size
+ * @property string $sn
+ * @property int $cat_id
+ * @property int $thumbnail
+ * @property int $num
+ * @property float $price
+ * @property int $status
+ * @property int $is_new
+ * @property int $is_hot
+ * @property int $deleted
+ * @property int $sort
+ * @property string $seo_title
+ * @property string $seo_keywords
+ * @property string $seo_description
+ */
 class Goods extends Table{
 	/**
 	 * 状态 - 销售中
@@ -36,9 +62,9 @@ class Goods extends Table{
 	public function rules(){
 		return array(
 			array(array('create_time', 'last_modified_time', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('id', 'cat_id', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('num'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('sub_stock', 'status', 'sort'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('sub_stock', 'status'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
 			array(array('sn'), 'string', array('max'=>50)),
 			array(array('weight', 'size', 'price'), 'float', array('length'=>8, 'decimal'=>2)),

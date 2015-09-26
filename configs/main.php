@@ -88,15 +88,6 @@ return array(
 	),
 	
 	/*
-	 * 当图片不存在时，显示默认图片
-	 */
-	'spares' => array(							//当图片不存在时，显示的默认图片
-		'default'=>'images/no-image.jpg',
-		'avatar'=>'images/avatar.png',
-		'thumbnail'=>'images/thumbnail.jpg',
-	),
-	
-	/*
 	 * 若用到加密类，需要配置此key
 	 */
 	'encryption_key'=>'m3cQ3mFAuy6z7LF2',//加密用的密钥

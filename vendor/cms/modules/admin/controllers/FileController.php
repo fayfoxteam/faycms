@@ -427,8 +427,11 @@ class FileController extends AdminController{
 		));
 		
 		if($check !== true){
-			//@todo输出一张参数异常的图片
-			print_r($check);die;
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			header('Content-type: image/png');
+			readfile($spare);
+			die;
 		}
 		
 		//显示模式
@@ -438,6 +441,7 @@ class FileController extends AdminController{
 		$f = $this->input->get('f');
 		if(String::isInt($f)){
 			if($f == 0){
+				//这里不直接返回图片不存在的提示，因为可能需要缩放，让后面的逻辑去处理
 				$file = false;
 			}else{
 				$file = Files::model()->find($f);
@@ -498,16 +502,14 @@ class FileController extends AdminController{
 	
 	private function _pic($file){
 		if($file !== false){
-			if(file_exists((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext'])){
-				header('Content-type: '.$file['file_type']);
-				readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-			}else{
-				header('Content-type: image/jpeg');
-				readfile(BASEPATH . '/images/no-image.jpg');
-			}
+			//出于性能考虑，这里不会去判断物理文件是否存在（除非服务器挂了，否则肯定存在）
+			header('Content-type: '.$file['file_type']);
+			readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 		}else{
-			header('Content-type: image/jpeg');
-			readfile(BASEPATH . '/images/no-image.jpg');
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			header('Content-type: image/png');
+			readfile($spare);
 		}
 	}
 	
@@ -516,9 +518,10 @@ class FileController extends AdminController{
 			header('Content-type: '.$file['file_type']);
 			readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
 		}else{
-			$img = file_get_contents('./images/thumbnail.jpg');
-			header('Content-type: image/jpeg');
-			echo $img;
+			$spare = $this->config->get($this->input->get('s', 'trim', 'thumbnail'), 'noimage');
+			$spare || $spare = $this->config->get('thumbnail', 'noimage');
+			header('Content-type: image/png');
+			readfile($spare);
 		}
 	}
 	
@@ -568,12 +571,16 @@ class FileController extends AdminController{
 			}
 		}else{
 			//图片不存在，显示一张默认图片吧
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			$img = Image::getImage($spare);
+			header('Content-type: image/jpeg');
+			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			imagejpeg($img);
 		}
 	}
 	
 	private function _resize($file){
-		$spares = $this->config->get('spares');
-		$spare = $spares[$this->input->get('s', null, 'default')];
 		//输出宽度
 		$dw = $this->input->get('dw', 'intval');
 		//输出高度
@@ -610,9 +617,11 @@ class FileController extends AdminController{
 					break;
 			}
 		}else{
-			$img = Image::getImage('assets/' . $spare);
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			$img = Image::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw, $dh);
+			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}

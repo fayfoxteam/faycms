@@ -8,7 +8,7 @@ var post = {
 			browse_button : 'upload_thumbnail',
 			container : 'thumbnail-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload',{'cat':'post'}),
+			url : system.url('admin/file/img-upload', {'cat':'post'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

@@ -54,7 +54,7 @@ echo F::form()->open(null, 'post', array('id'=>'create-goods-form'));
 						'class'=>'text-short',
 					))?>
 				</div>
-				<div class="misc-pub-section mt0">
+				<div class="misc-pub-section">
 					<label><strong>货号</strong></label>
 					<?php echo F::form()->inputText('sn', array(
 					))?>

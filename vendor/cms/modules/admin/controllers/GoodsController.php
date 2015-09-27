@@ -18,10 +18,35 @@ use fay\models\GoodsModel;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Flash;
+use fay\models\Setting;
 
 class GoodsController extends AdminController{
-	public $boxes = array('sku', 'guide', 'shipping', 'publish-time', 'thumbnail', 'seo',
-		'gallery');
+	/**
+	 * box列表
+	 */
+	public $boxes = array(
+		array('name'=>'sku', 'title'=>'SKU'),
+		array('name'=>'guide', 'title'=>'导购'),
+		array('name'=>'shipping', 'title'=>'物流参数'),
+		array('name'=>'publish-time', 'title'=>'发布时间'),
+		array('name'=>'thumbnail', 'title'=>'缩略图'),
+		array('name'=>'views', 'title'=>'浏览量'),
+		array('name'=>'seo', 'title'=>'SEO优化'),
+		array('name'=>'files', 'title'=>'画廊'),
+		array('name'=>'props', 'title'=>'商品属性'),
+	);
+	
+	/**
+	 * 默认box排序
+	 */
+	public $default_box_sort = array(
+		'side'=>array(
+			'publish-time', 'guide', 'shipping', 'thumbnail', 'views',
+		),
+		'normal'=>array(
+			'sku', 'props', 'files', 'seo'
+		),
+	);
 	
 	public function __construct(){
 		parent::__construct();
@@ -59,6 +84,11 @@ class GoodsController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '添加商品';
 		
+		//获取分类
+		$cat = Categories::model()->find($this->input->get('cat_id', 'intval'), 'id,title');
+		$this->view->cat = $cat;
+		
+		$this->form()->setModel(Goods::model());
 		if($this->input->post()){
 			//插入goods表
 			$goods_data = Goods::model()->setAttributes($this->input->post());
@@ -176,10 +206,6 @@ class GoodsController extends AdminController{
 		}
 		$this->form()->setData($this->input->post());
 		
-		//获取分类
-		$cat = Categories::model()->find($this->input->get('cid', 'intval'), 'id,title');
-		$this->view->cat = $cat;
-		
 		//props
 		$props = CatProps::model()->fetchAll(array(
 			"cat_id = {$cat['id']}",
@@ -203,6 +229,25 @@ class GoodsController extends AdminController{
 		
 		$this->view->props = $props;
 		
+		//可配置信息
+		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
+		$this->view->_box_sort_settings = $_box_sort_settings;
+		
+		$this->layout->_setting_panel = '_setting_edit';
+		$_setting_key = 'admin_goods_boxes';
+		$_settings = Setting::model()->get($_setting_key);
+		$_settings || $_settings = array();
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setJsModel('setting')
+			->setData($_settings)
+			->setData(array(
+				'_key'=>$_setting_key,
+				'enabled_boxes'=>$enabled_boxes,
+			));
+		
 		$this->view->boxes = $this->boxes;
 		$this->view->render();
 	}
@@ -211,7 +256,7 @@ class GoodsController extends AdminController{
 		$this->layout->subtitle = '商品';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/category/goods'),
+			'uri'=>array('admin/goods/cat'),
 			'text'=>'添加商品',
 		);
 
@@ -220,28 +265,25 @@ class GoodsController extends AdminController{
 		$sql = new Sql();
 		$sql->from('goods', 'g')
 			->joinLeft('categories', 'c', 'g.cat_id = c.id', 'title AS cat_title');
-		$conditions = array(
-			'g.deleted = 0',
-		);
-		if($this->input->get('keywords')){
-			$conditions["g.{$this->input->get("field")} like ?"] = '%'.$this->input->get('keywords').'%';
-		}
+		$sql->where('g.deleted = 0');
 		if($this->input->get('start_time')){
-			$conditions["g.{$this->input->get("time_field")} > ?"] = $this->input->get('start_time','strtotime');
+			$sql->where(array("g.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time','strtotime')));
 		}
 		if($this->input->get('end_time')){
-			$conditions["g.{$this->input->get("time_field")} < ?"] = $this->input->get('end_time', 'strtotime');
+			$sql->where(array("g.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time','strtotime')));
 		}
 		if($this->input->get('cat_id')){
-			$conditions['g.cat_id = ?'] = $this->input->get('cat_id', 'intval');
+			$sql->where(array('g.cat_id = ?'=>$this->input->get('cat_id', 'intval')));
 		}
 		if($this->input->get('status')){
-			$conditions['g.status = ?'] = $this->input->get('status', 'intval');
+			$sql->where(array('g.status = ?'=>$this->input->get('status', 'intval')));
 		}
-		$sql->where($conditions);
+		if($this->input->get('keywords')){
+			$sql->where(array("g.{$this->input->get('field')} like ?"=>'%'.$this->input->get('keywords').'%'));
+		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'page_size'=>20,
+			'page_size'=>$this->form('setting')->getData('page_size', 20),
 		));
 
 		$this->view->cats = Category::model()->getTree('_system_goods');

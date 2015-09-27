@@ -30,7 +30,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>状态：</strong>
 						<?php
 							$options = array(Posts::STATUS_DRAFT=>'草稿');
@@ -53,7 +53,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							), $default);
 						?>
 					</div>
-					<div class="misc-pub-section mt0">
+					<div class="misc-pub-section">
 						<strong>是否置顶？</strong>
 						<?php echo F::form()->inputRadio('is_top', 1, array('label'=>'是'))?>
 						<?php echo F::form()->inputRadio('is_top', 0, array('label'=>'否'), true)?>

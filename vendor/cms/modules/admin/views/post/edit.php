@@ -33,7 +33,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>当前状态：</strong>
 						<span id="crt-status"><?php echo PostHelper::getStatus(F::form()->getData('status'), 0, false)?></span>
 						<a href="javascript:;" id="edit-status-link" class="ml5">编辑</a>
@@ -66,7 +66,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							));
 						?><p class="fc-grey">点击“确定”并提交修改后生效</p></div>
 					</div>
-					<div class="misc-pub-section mt0">
+					<div class="misc-pub-section">
 						<strong>是否置顶？</strong>
 						<?php echo F::form()->inputRadio('is_top', 1, array('label'=>'是'))?>
 						<?php echo F::form()->inputRadio('is_top', 0, array('label'=>'否'), true)?>

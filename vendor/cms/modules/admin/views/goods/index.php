@@ -4,41 +4,58 @@ use fay\models\tables\Goods;
 ?>
 <div class="row">
 	<div class="col-12">
-		<form method="get" class="validform" id="post-form">
+		<?php echo F::form('search')->open(null, 'get', array(
+			'class'=>'form-inline',
+		))?>
 			<div class="mb5">
-				<?php echo F::form()->select('field', array(
+				<?php echo F::form('search')->select('field', array(
 					'title'=>'商品名称',
 					'sn'=>'货号',
+				), array(
+					'class'=>'form-control',
 				))?>
-				<?php echo F::form()->inputText('keywords');?>
+				<?php echo F::form('search')->inputText('keywords', array(
+					'class'=>'form-control w200',
+				));?>
 				|
-				<?php echo F::form()->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'))?>
+				<?php echo F::form('search')->select('cat_id', array(
+					''=>'--分类--',
+				) + Html::getSelectOptions($cats, 'id', 'title'), array(
+					'class'=>'form-control',
+				))?>
 				|
-				<?php echo F::form()->select('status', array(
+				<?php echo F::form('search')->select('status', array(
 					''=>'--状态--',
 					Goods::STATUS_INSTOCK=>'在库',
 					Goods::STATUS_ONSALE=>'销售中',
+				), array(
+					'class'=>'form-control',
 				))?>
 			</div>
 			<div class="mb5">
-				<?php echo F::form()->select('time_field', array(
+				<?php echo F::form('search')->select('time_field', array(
 					'create_time'=>'创建时间',
 					'last_modified_time'=>'最后修改时间',
+					'publish_time'=>'发布时间',
+				), array(
+					'class'=>'form-control',
 				))?>
-				<?php echo F::form()->inputText('start_time', array(
+				<?php echo F::form('search')->inputText('start_time', array(
 					'data-rule'=>'datetime',
 					'data-label'=>'时间',
-					'class'=>'datetimepicker',
+					'class'=>'form-control datetimepicker',
 				));?>
 				-
-				<?php echo F::form()->inputText('end_time', array(
+				<?php echo F::form('search')->inputText('end_time', array(
 					'data-rule'=>'datetime',
 					'data-label'=>'时间',
-					'class'=>'datetimepicker',
+					'class'=>'form-control datetimepicker',
 				));?>
-				<a href="javascript:;" class="btn btn-sm" id="post-form-submit">查询</a>
+				<?php echo F::form('search')->submitLink('查询', array(
+					'class'=>'btn btn-sm',
+				))?>
 			</div>
-		</form>
+		<?php echo F::form('search')->close()?>
 		<table class="list-table goods-list">
 			<thead>
 				<tr>

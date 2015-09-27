@@ -126,7 +126,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .box-title:hover .remove:before{content:"×"}
 .box.closed .box-title.hover .handlediv:before{content:"\f0d9"}
 .box-content{padding:8px 12px}
-.box-content .misc-pub-section{padding:6px 10px 8px;border-top:1px solid #DFDFDF;margin-top:6px}
+.box-content .misc-pub-section{padding:6px 11px 8px;border-top:1px solid #DFDFDF}
 .box.closed .box-content{display:none}
 .box.holder{border:2px dashed #DFDFDF !important}
 
@@ -582,6 +582,7 @@ pre li:hover{background-color:#575757}
 .w90{width:90px !important}
 .w100{width:100px !important}
 .w115{width:115px !important}
+.w135{width:135px !important}
 .w150{width:150px !important}
 .w200{width:200px !important}
 .w240{width:240px !important}
@@ -609,8 +610,10 @@ pre li:hover{background-color:#575757}
 .mb10{margin-bottom:10px !important}
 .mt0{margin-top:0 !important}
 .mt5{margin-top:5px !important}
+.mt6{margin-top:6px !important}
 .ml5{margin-left:5px !important}
 .mr10{margin-right:10px !important}
 .pt0{padding-top:0 !important}
 .pt7{padding-top:7px !important}
 .pl11{padding-left:11px !important}
+.b0{border:0 none !important}

@@ -1,29 +1,9 @@
-var app = {
-	'tab1_editor':null,
-	'tab2_editor':null,
-	'tab3_editor':null,
-	'tab4_editor':null,
-	
+var goods = {
 	'skus':{},
 
 	'events':function(){
-		$('#create-goods-form').submit(function(){
-			if(app.tab1_editor != null){
-				$('#tab-1-textarea').val(app.tab1_editor.html());
-			}
-			if(app.tab2_editor != null){
-				$('#tab-2-textarea').val(app.tab2_editor.html());
-			}
-			if(app.tab3_editor != null){
-				$('#tab-3-textarea').val(app.tab3_editor.html());
-			}
-			if(app.tab4_editor != null){
-				$('#tab-4-textarea').val(app.tab4_editor.html());
-			}
-		});
-
 		$('.sku-quantity').live('blur', function(){
-			app.getTotalNum();
+			goods.getTotalNum();
 		});
 	},
 	'tabs':function(){//tab页
@@ -154,8 +134,8 @@ var app = {
 				$(this).next("label").show();
 				$(this).siblings("input[type='text']").hide();
 			}
-			app.showSkuTable();
-			app.getTotalNum();
+			goods.showSkuTable();
+			goods.getTotalNum();
 		});
 	},
 	'props':function(){
@@ -294,9 +274,9 @@ var app = {
 			});
 
 			var path = data.path.join(';');
-			var price = (app.skus[path]) ? app.skus[path].price : $("#sku-price").val();
-			var quantity = (app.skus[path]) ? app.skus[path].quantity : 1;
-			var tsces = (app.skus[path]) ? app.skus[path].tsces : '';
+			var price = (goods.skus[path]) ? goods.skus[path].price : $("#sku-price").val();
+			var quantity = (goods.skus[path]) ? goods.skus[path].quantity : 1;
+			var tsces = (goods.skus[path]) ? goods.skus[path].tsces : '';
 			
 			html += '	<td><input type="text" name="prices['+path+']" value="'+price+'" class="text-short" data-rule="float" data-params="{\'langth\':8,decimal:2}" data-label="sku价格" /></td>';
 			html += '	<td><input type="text" name="quantities['+path+']" value="'+quantity+'" class="text-short sku-quantity" data-rule="int" data-label="sku数量" /></td>';
@@ -308,13 +288,13 @@ var app = {
 		$("#sku-table-container").html(html);
 	},
 	'init':function(){
-		app.tabs();
-		app.events();
-		app.thumbnail();
-		app.gallery();
-		app.props();
-		app.sku();
-		app.showSkuTable();
-		app.getTotalNum();
+		this.tabs();
+		this.events();
+		this.thumbnail();
+		this.gallery();
+		this.props();
+		this.sku();
+		this.showSkuTable();
+		this.getTotalNum();
 	}
 };

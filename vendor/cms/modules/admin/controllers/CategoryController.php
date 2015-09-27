@@ -161,7 +161,9 @@ class CategoryController extends AdminController{
 		
 		$node = Categories::model()->find($id, 'sort,title');
 		Response::output('success', array(
-			'sort'=>$node['sort'],
+			'data'=>array(
+				'sort'=>$node['sort'],
+			),
 			'message'=>"分类{$node['title']}的排序值被修改为{$node['sort']}",
 		));
 	}
@@ -177,7 +179,9 @@ class CategoryController extends AdminController{
 		
 		$cat = Categories::model()->find($this->input->get('id', 'intval'), 'is_nav');
 		Response::output('success', array(
-			'is_nav'=>$cat['is_nav'],
+			'data'=>array(
+				'is_nav'=>$cat['is_nav'],
+			),
 		));
 	}
 	

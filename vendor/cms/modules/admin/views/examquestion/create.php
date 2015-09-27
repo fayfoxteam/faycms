@@ -67,7 +67,7 @@ echo F::form()->open();
 					<div>
 						<a href="javascript:;" class="btn" id="form-submit">发布</a>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>状态</strong>
 						<?php echo F::form()->inputRadio('status', ExamQuestions::STATUS_ENABLED, array('label'=>'启用'), true)?>
 						<?php echo F::form()->inputRadio('status', ExamQuestions::STATUS_DISABLED, array('label'=>'禁用'))?>

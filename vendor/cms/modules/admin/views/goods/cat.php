@@ -7,41 +7,47 @@ function showCats($cats, $dep = 0){?>
 		<li class="leaf-container <?php if(!$k)echo 'first';?>">
 			<div class="leaf">
 				<span class="fr options">
-					<span class="w115 block fl">
+					<?php if(F::app()->checkPermission('admin/goods/cat-sort')){?>
+					<span class="w135 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
-						'size'=>3,
-						'maxlength'=>3,
 						'data-id'=>$c['id'],
-						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
+						'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
-					<?php if(F::app()->checkPermission('admin/goods/create')){
-						echo Html::link('发布商品', array('admin/goods/create', array(
+					<?php }?>
+					<?php
+						echo Html::link('查看该分类', array('admin/goods/index', array(
 							'cat_id'=>$c['id'],
-						)), array(
-							'class'=>'fc-green',
-						));
-					}?>
-					<?php echo Html::link('查看该分类', array('admin/goods/index', array(
-						'cat_id'=>$c['id'],
-					)))?>
-					<?php echo Html::link('分类属性', array('admin/prop/index', array(
-						'cid'=>$c['id'],
-					)))?>
-					<?php echo Html::link('添加子节点', '#create-cat-dialog', array(
-						'class'=>'create-cat-link',
-						'data-title'=>Html::encode($c['title']),
-						'data-id'=>$c['id'],
-					))?>
-					<?php echo Html::link('编辑', '#edit-cat-dialog', array(
-						'class'=>'edit-cat-link',
-						'data-id'=>$c['id'],
-					))?>
-					<?php echo Html::link('删除', array('admin/category/remove', array(
-						'id'=>$c['id'],
-					)), array(
-						'class'=>'remove-link fc-red',
-					))?>
+						)), array(), true);
+						echo Html::link('分类属性', array('admin/prop/index', array(
+							'cid'=>$c['id'],
+						)), array(), true);
+						if(F::app()->checkPermission('admin/goods/cat-create')){
+							echo Html::link('添加子节点', '#create-cat-dialog', array(
+								'class'=>'create-cat-link',
+								'data-title'=>Html::encode($c['title']),
+								'data-id'=>$c['id'],
+							));
+						}
+						if(F::app()->checkPermission('admin/post/cat-create')){
+							echo Html::link('编辑', '#edit-cat-dialog', array(
+								'class'=>'edit-cat-link',
+								'data-id'=>$c['id'],
+							));
+						}
+						if(F::app()->checkPermission('admin/goods/cat-remove')){
+							echo Html::link('删除', array('admin/category/remove', array(
+								'id'=>$c['id'],
+							)), array(
+								'class'=>'remove-link fc-red',
+							));
+							echo Html::link('删除全部', array('admin/category/remove-all', array(
+								'id'=>$c['id'],
+							)), array(
+								'class'=>'remove-link fc-red',
+							));
+						}
+					?>
 				</span>
 				<span class="leaf-title cat-<?php echo $c['id']?> <?php if(empty($c['children']))
 						echo 'terminal';
@@ -55,6 +61,12 @@ function showCats($cats, $dep = 0){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
+					<?php echo Html::link('发布商品', array('admin/goods/create', array(
+							'cat_id'=>$c['id'],
+						)), array(
+							'class'=>'fc-green hover-link',
+							'prepend'=>'<i class="fa fa-pencil"></i>',
+						), true);?>
 				</span>
 			</div>
 			<?php if(!empty($c['children'])){

@@ -28,7 +28,7 @@ use fay\helpers\Html;
 							'target'=>'_blank',
 						));
 					?></div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>是否启用？</strong>
 						<?php echo Html::inputRadio('f_widget_enabled', 1, $widget['enabled'] ? true : false, array('label'=>'是'))?>
 						<?php echo Html::inputRadio('f_widget_enabled', 0, $widget['enabled'] ? false : true, array('label'=>'否'))?>

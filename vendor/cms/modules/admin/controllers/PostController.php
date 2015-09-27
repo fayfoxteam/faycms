@@ -170,10 +170,11 @@ class PostController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
+		//可配置信息
 		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
-
+		
 		$this->layout->_setting_panel = '_setting_edit';
 		$_setting_key = 'admin_post_boxes';
 		$_settings = Setting::model()->get($_setting_key);

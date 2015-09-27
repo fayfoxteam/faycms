@@ -34,7 +34,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>状态</strong>
 						<?php echo F::form()->inputRadio('status', Pages::STATUS_PUBLISHED, array('label'=>'已发布'))?>
 						<?php echo F::form()->inputRadio('status', Pages::STATUS_DRAFT, array('label'=>'草稿'))?>

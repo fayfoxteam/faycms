@@ -5,9 +5,10 @@ use fay\core\db\Table;
 
 /**
  * Goods model
- *
+ * 
  * @property int $id
  * @property string $title
+ * @property int $cat_id
  * @property string $description
  * @property int $create_time
  * @property int $last_modified_time
@@ -16,13 +17,13 @@ use fay\core\db\Table;
  * @property float $weight
  * @property float $size
  * @property string $sn
- * @property int $cat_id
  * @property int $thumbnail
  * @property int $num
  * @property float $price
  * @property int $status
  * @property int $is_new
  * @property int $is_hot
+ * @property int $views
  * @property int $deleted
  * @property int $sort
  * @property string $seo_title
@@ -62,7 +63,7 @@ class Goods extends Table{
 	public function rules(){
 		return array(
 			array(array('create_time', 'last_modified_time', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('id', 'cat_id', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('id', 'cat_id', 'views', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('num'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('sub_stock', 'status'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
@@ -77,6 +78,7 @@ class Goods extends Table{
 		return array(
 			'id'=>'Id',
 			'title'=>'标题',
+			'cat_id'=>'分类ID',
 			'description'=>'描述',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
@@ -85,13 +87,13 @@ class Goods extends Table{
 			'weight'=>'单位:kg',
 			'size'=>'单位:立方米',
 			'sn'=>'Sn',
-			'cat_id'=>'Cat Id',
 			'thumbnail'=>'Thumbnail',
 			'num'=>'库存',
 			'price'=>'价格',
 			'status'=>'Status',
 			'is_new'=>'新品',
 			'is_hot'=>'热销',
+			'views'=>'浏览量',
 			'deleted'=>'Deleted',
 			'sort'=>'Sort',
 			'seo_title'=>'Seo Title',
@@ -103,6 +105,7 @@ class Goods extends Table{
 	public function filters(){
 		return array(
 			'title'=>'trim',
+			'cat_id'=>'intval',
 			'description'=>'',
 			'create_time'=>'',
 			'last_modified_time'=>'',
@@ -111,13 +114,13 @@ class Goods extends Table{
 			'weight'=>'floatval',
 			'size'=>'floatval',
 			'sn'=>'trim',
-			'cat_id'=>'intval',
 			'thumbnail'=>'intval',
 			'num'=>'intval',
 			'price'=>'floatval',
 			'status'=>'intval',
 			'is_new'=>'intval',
 			'is_hot'=>'intval',
+			'views'=>'intval',
 			'deleted'=>'intval',
 			'sort'=>'intval',
 			'seo_title'=>'trim',

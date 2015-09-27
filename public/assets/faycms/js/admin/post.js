@@ -5,7 +5,7 @@ var post = {
 		//设置缩略图
 		var uploader = new plupload.Uploader({
 			runtimes : 'html5,html4,flash,gears,silverlight',
-			browse_button : 'upload_thumbnail',
+			browse_button : 'upload-thumbnail',
 			container : 'thumbnail-container',
 			max_file_size : '2mb',
 			url : system.url('admin/file/img-upload', {'cat':'post'}),

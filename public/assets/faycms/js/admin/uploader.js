@@ -1,8 +1,10 @@
 /**
- * 将一些上传场景抽象出来。例如：缩略图，附件
+ * 将一些上传场景抽象出来。例如：缩略图，附件。
+ * 这不是一个独立的插件，它依赖于system.js和common.js
  */
 var uploader = {
 	/**
+	 * 上传缩略图
 	 * 可选参数：
 	 * options.cat: 上传文件所属分类。默认为other
 	 * options.browse_button: 上传按钮id。默认为upload-thumbnail
@@ -84,27 +86,146 @@ var uploader = {
 			});
 		});
 		
+		//移除缩略图事件
+		$('#'+settings.preview_container).on('click', '#remove-thumbnail', function(){
+			$('#'+settings.preview_container).html('<input type="hidden" name="thumbnail" value="0" />');
+		});
 		return uploader;
 	},
 	/**
+	 * 上传多个文件，可用于附件，画廊等需求
+	 * 此函数依赖于common.js中的dragsortList方法提供拖拽及删除效果
 	 * 可选参数：
-	 * options.browse_button: 上传按钮id。默认为upload-thumbnail
-	 * options.container: 上传控件外层div id。默认为thumbnail-container
+	 * options.browse_button: 上传按钮id。默认为upload-file-link
+	 * options.container: 上传控件外层div id。默认为upload-file-container
 	 * options.max_file_size: 文件大小限制。默认为2
 	 * options.cat: 上传文件所属分类。默认为other
-	 * options.input_name: 用于记录缩略图图片id的输入框名称（会随着其他内容一起提交给服务端）。默认为thumbnail
+	 * options.input_name: 用于记录文件id的输入框名称（会随着其他内容一起提交给服务端）。默认为files
+	 * options.description_name: 用于记录文件描述的文本域名称（会随着其他内容一起提交给服务端）。默认为description
+	 * options.image_only: 若为true，则仅允许上传图片。默认为false
 	 */
 	'files': function(options){
 		options = options || {};
 		var settings = {
-			'browse_button': 'upload-thumbnail',
-			'container': 'thumbnail-container',
+			'browse_button': 'upload-file-link',
+			'container': 'upload-file-container',
 			'max_file_size': '2',
 			'cat': 'other',
-			'input_name': 'thumbnail'
+			'input_name': 'files',
+			'description_name': 'description',
+			'image_only': false
 		};
 		$.each(options, function(i, n){
 			settings[i] = n;
 		});
+		
+		var uploader;
+		system.getScript(system.assets('js/plupload.full.js'), function(){
+			var url, filters;
+			if(settings.image_only){
+				url = system.url('admin/file/img-upload', {'cat': settings.cat});
+				filters = [
+					{title: 'Image files', extensions: 'jpg,gif,png,jpeg'}
+				];
+			}else{
+				url = system.url('admin/file/upload', {'cat': settings.cat});
+				filters = [];
+			}
+			
+			uploader = new plupload.Uploader({
+				'runtimes': 'html5,html4,flash,gears,silverlight',
+				'flash_swf_url': system.url()+'flash/plupload.flash.swf',
+				'silverlight_xap_url': system.url()+'js/plupload.silverlight.xap',
+				'browse_button': settings.browse_button,
+				'container': settings.container,
+				'max_file_size': settings.max_file_size + 'mb',
+				'url': url,
+				'filters': filters
+			});
+			
+			uploader.init();
+			
+			uploader.bind('FilesAdded', function(up, files) {
+				uploader.start();
+				$.each(files, function(i, data){
+					$('.file-list').append([
+						'<div class="dragsort-item" id="file-', data.id, '">',
+							'<a class="dragsort-item-selector"></a>',
+							'<a class="dragsort-rm" href="javascript:;"></a>',
+							'<div class="dragsort-item-container">',
+								'<span class="file-thumb">',
+									'<img src="', system.assets('images/loading.gif'), '" />',
+								'</span>',
+								'<div class="file-desc-container">',
+									'<textarea class="form-control file-desc autosize">', data.name, '</textarea>',
+								'</div>',
+								'<div class="clear"></div>',
+								'<div class="progress-bar">',
+									'<span class="progress-bar-percent"></span>',
+								'</div>',
+							'</div>',
+						'</div>'
+					].join(''));
+				});
+			});
+			
+			uploader.bind('UploadProgress', function(up, file) {
+				$('#file-'+file.id+' .progress-bar-percent').animate({'width':file.percent+'%'});
+			});
+			
+			uploader.bind('FileUploaded', function(up, file, response) {
+				var resp = $.parseJSON(response.response);
+				$file = $('#file-'+file.id);
+				if('raw_name' in resp.data){
+					$file.find('.file-desc').attr('name', settings.description_name+'['+resp.data.id+']').autosize();
+					$file.append('<input type="hidden" name="'+settings.input_name+'[]" value="'+resp.data.id+'" />');
+					$file.prepend('<a class="file-rm" href="javascript:;"></a>');
+					
+					if(resp.data.is_image){
+						//是图片，用fancybox弹窗
+						$file.find('.file-thumb').html([
+							'<a href="', resp.data.url, '" class="file-thumb-link">',
+								'<img src="'+resp.data.thumbnail+'" />',
+							'</a>'
+						].join(''));
+						system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+							system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+								$('.file-thumb-link').fancybox({
+									'transitionIn':'elastic',
+									'transitionOut': 'elastic',
+									'type': 'image',
+									'padding': 0
+								});
+							});
+						});
+					}else{
+						//非图片，直接新窗口打开
+						$file.find('.file-thumb').html([
+							'<a href="', resp.data.url, '" target="_blank">',
+								'<img src="'+resp.data.thumbnail+'" />',
+							'</a>'
+						].join(''));
+					}
+				}else{
+					//非json数据，上传出错
+					$file.remove();
+					alert(resp.message);
+				}
+			});
+			
+			uploader.bind('Error', function(up, error) {
+				if(error.code == -600){
+					alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
+					return false;
+				}else if(error.code == -601){
+					alert('非法的文件类型');
+					return false;
+				}else{
+					alert(error.message);
+				}
+			});
+		});
+		
+		return uploader;
 	}
 };

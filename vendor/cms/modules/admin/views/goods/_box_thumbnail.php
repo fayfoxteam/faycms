@@ -9,7 +9,7 @@ use fay\models\File;
 	</div>
 	<div class="box-content">
 		<div id="thumbnail-container" class="mb10">
-			<a href="javascript:;" id="upload_thumbnail" class="btn">设置缩略图</a>
+			<a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a>
 		</div>
 		<div id="thumbnail-preview-container">
 		<?php 

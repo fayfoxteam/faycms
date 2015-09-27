@@ -8,158 +8,19 @@ var goods = {
 	},
 	'thumbnail':function(){
 		//设置缩略图
-		var uploader = new plupload.Uploader({
-			runtimes : 'html5,html4,flash,gears,silverlight',
-			browse_button : 'upload_thumbnail',
-			container : 'thumbnail-container',
-			max_file_size : '2mb',
-			url : system.url('admin/file/img-upload', {'cat':'post'}),
-			flash_swf_url : system.url()+'flash/plupload.flash.swf',
-			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
-			filters : [
-				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
-			]
-		});
-
-		uploader.init();
-		uploader.bind('FilesAdded', function(up, files) {
-			$('#thumbnail-preview-container').html('<img src="'+system.assets('images/loading.gif')+'" />');
-			uploader.start();
-		});
-		
-		uploader.bind('FileUploaded', function(up, file, response) {
-			var resp = $.parseJSON(response.response);
-			$('#thumbnail-preview-container').html([
-				'<input type="hidden" name="thumbnail" value="', resp.data.id, '" />',
-				'<a href="', resp.data.url, '" class="fancybox-image">',
-					'<img src="', system.url('admin/file/pic', {
-						'f':resp.data.id,
-						't':4,
-						'dw':257
-					}), '" />',
-				'</a>',
-				'<a href="javascript:;" id="remove-thumbnail">移除缩略图</a>',
-			].join(''));
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-					$('#thumbnail-preview-container .fancybox-image').fancybox({
-						'transitionIn'	: 'elastic',
-						'transitionOut'	: 'elastic',
-						'type' : 'image',
-						'padding' : 0
-					});
-				});
+		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+			uploader.thumbnail({
+				'cat': 'goods',
 			});
-		});
-
-		uploader.bind('Error', function(up, error) {
-			if(error.code == -600){
-				alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
-				return false;
-			}else if(error.code == -601){
-				alert('非法的文件类型');
-				return false;
-			}else{
-				alert(error.message);
-			}
 		});
 	},
 	'gallery':function(){
-		//文件上传
-		var files_uploader = new plupload.Uploader({
-			runtimes : 'html5,html4,flash,gears,silverlight',
-			browse_button : 'upload-file-link',
-			container: 'upload-file-container',
-			max_file_size : '2mb',
-			url : system.url('admin/file/img-upload', {'cat':'goods'}),
-			flash_swf_url : system.url()+'flash/plupload.flash.swf',
-			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
-			filters : [
-				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
-			]
-		});
-
-		files_uploader.init();
-
-		files_uploader.bind('FilesAdded', function(up, files) {
-			files_uploader.start();
-			$.each(files, function(i, data){
-				$('.file-list').append([
-					'<div class="dragsort-item" id="file-', data.id, '">',
-						'<a class="dragsort-item-selector"></a>',
-						'<a class="dragsort-rm" href="javascript:;"></a>',
-						'<div class="dragsort-item-container">',
-							'<span class="file-thumb">',
-								'<img src="', system.assets('images/loading.gif'), '" />',
-							'</span>',
-							'<div class="file-desc-container">',
-								'<textarea class="form-control file-desc autosize">', data.name, '</textarea>',
-							'</div>',
-							'<div class="clear"></div>',
-							'<div class="progress-bar">',
-								'<span class="progress-bar-percent"></span>',
-							'</div>',
-						'</div>',
-					'</div>'
-				].join(''));
+		//图集
+		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+			uploader.files({
+				'cat': 'goods',
+				'image_only': true
 			});
-		});
-
-		files_uploader.bind('UploadProgress', function(up, file) {
-			$('#file-'+file.id+' .progress-bar-percent').animate({'width':file.percent+'%'});
-		});
-
-		files_uploader.bind('FileUploaded', function(up, file, response) {
-			var resp = $.parseJSON(response.response);
-			$file = $('#file-'+file.id);
-			if('raw_name' in resp.data){
-				$file.find('.file-desc').attr('name', 'description['+resp.data.id+']').autosize();
-				$file.append('<input type="hidden" name="files[]" value="'+resp.data.id+'" />');
-				$file.prepend('<a class="file-rm" href="javascript:;"></a>');
-				
-				
-				if(resp.data.is_image){
-					//是图片，用fancybox弹窗
-					$file.find('.file-thumb').html([
-						'<a href="', resp.data.url, '" class="file-thumb-link">',
-							'<img src="'+resp.data.thumbnail+'" />',
-						'</a>'
-					].join(''));
-					system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-						system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-							$('.file-thumb-link').fancybox({
-								'transitionIn'	: 'elastic',
-								'transitionOut'	: 'elastic',
-								'type' : 'image',
-								'padding' : 0
-							});
-						});
-					});
-				}else{
-					//非图片，直接新窗口打开
-					$file.find('.file-thumb').html([
-						'<a href="', resp.data.url, '" target="_blank">',
-							'<img src="'+resp.data.thumbnail+'" />',
-						'</a>'
-					].join(''));
-				}
-			}else{
-				//非json数据，上传出错
-				$file.remove();
-				alert(resp.message);
-			}
-		});
-		
-		files_uploader.bind('Error', function(up, error) {
-			if(error.code == -600){
-				alert('文件大小不能超过'+(parseInt(files_uploader.settings.max_file_size) / (1024 * 1024))+'M');
-				return false;
-			}else if(error.code == -601){
-				alert('非法的文件类型');
-				return false;
-			}else{
-				alert(error.message);
-			}
 		});
 	},
 	'sku':function(){

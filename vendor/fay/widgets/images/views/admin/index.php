@@ -70,8 +70,8 @@ var jq_camera = {
 		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 				$(".photo-thumb-link").fancybox({
-					'transitionIn'	: 'elastic',
-					'transitionOut'	: 'elastic',
+					'transitionIn' : 'elastic',
+					'transitionOut' : 'elastic',
 					'type' : 'image',
 					'padding' : 0
 				});
@@ -140,8 +140,8 @@ var jq_camera = {
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 					$('.photo-thumb-link').fancybox({
-						'transitionIn'	: 'elastic',
-						'transitionOut'	: 'elastic',
+						'transitionIn' : 'elastic',
+						'transitionOut' : 'elastic',
 						'type' : 'image',
 						'padding' : 0
 					});

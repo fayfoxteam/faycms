@@ -60,17 +60,6 @@ var post = {
 		}).on('click', '#cancel-status-editing', function(){
 			$('#edit-status-container').hide();
 		});
-		
-		common.beforeDragsortListItemRemove = function(obj){
-			//拖拽列表若有报错，该项内部所有表单元素报错信息将被删除
-			obj.find('input,select,textarea').poshytip('destroy');
-		}
-		common.afterDragsortListItemRemove = function(obj){
-			//拖拽列表若有报错，该列表内所有表单元素将重新定位
-			obj.find('input,select,textarea').each(function(){
-				$(this).poshytip('hide').poshytip('show');
-			});
-		}
 	},
 	'autosize':function(){
 		if(!$('textarea.autosize').length && system.inArray('files', post.boxes)){

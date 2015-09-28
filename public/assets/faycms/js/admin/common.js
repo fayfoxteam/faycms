@@ -81,8 +81,6 @@ var common = {
 		}
 	},
 	'settingValidform':null,
-	'beforeDragsortListItemRemove':function(obj){},//拖拽列表中有元素被删除前执行此回调函数，传入被删除元素的jquery对象
-	'afterDragsortListItemRemove':function(obj){},//拖拽列表中有元素被删除前执行此回调函数，传入拖拽列表的jquery对象
 	'fancybox':function(){
 		//弹窗
 		if($('.fancybox-image').length){
@@ -372,10 +370,14 @@ var common = {
 					'placeHolderTemplate': '<div class="box holder"></div>',
 					'dragSelectorExclude': 'input,textarea,select,table,span,p',
 					'dragEnd':function(){
-						//如果有报错，拖拽后需要重新定位报错信息
+						//拖拽后poshytip需要重新定位
 						$('.dragsort').find('input,select,textarea').each(function(){
-							$(this).poshytip('hide').poshytip('show');
+							if($(this).data('poshytip')){
+								$(this).poshytip('refresh');
+							}
 						});
+						
+						//若设置了key，则发ajax保存当前排序
 						if(common.dragsortKey){
 							var data = {
 								'_key':common.dragsortKey
@@ -863,16 +865,32 @@ var common = {
 				$(".dragsort-list").dragsort({
 					'itemSelector': 'div.dragsort-item',
 					'dragSelector':'.dragsort-item-selector',
-					'placeHolderTemplate': '<div class="dragsort-item holder"></div>'
+					'placeHolderTemplate': '<div class="dragsort-item holder"></div>',
+					'dragEnd': function(a, b, c){
+						//拖拽后poshytip需要重新定位
+						$('.dragsort-list').find('input,select,textarea').each(function(){
+							if($(this).data('poshytip')){
+								$(this).poshytip('refresh');
+							}
+						});
+					}
 				});
 			});
 			//删除
 			$(".dragsort-list").on('click', '.dragsort-rm', function(){
 				$(this).parent().fadeOut('fast', function(){
+					//先复制出来，因为后面$(this)要被remove掉
 					var dragsort_list = $(this).parent();
-					common.beforeDragsortListItemRemove($(this));
+					//拖拽列表若有报错，该项内部所有poshytip信息将被删除
+					$(this).find('input,select,textarea').poshytip('destroy');
+					//移除指定项
 					$(this).remove();
-					common.afterDragsortListItemRemove(dragsort_list);
+					//拖拽列表若有报错，该列表内所有poshytip元素将重新定位
+					dragsort_list.find('input,select,textarea').each(function(){
+						if($(this).data('poshytip')){
+							$(this).poshytip('refresh');
+						}
+					});
 				});
 			});
 		}

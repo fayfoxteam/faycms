@@ -101,19 +101,26 @@ var uploader = {
 	 * options.max_file_size: 文件大小限制。默认为2
 	 * options.cat: 上传文件所属分类。默认为other
 	 * options.input_name: 用于记录文件id的输入框名称（会随着其他内容一起提交给服务端）。默认为files
-	 * options.description_name: 用于记录文件描述的文本域名称（会随着其他内容一起提交给服务端）。默认为description
 	 * options.image_only: 若为true，则仅允许上传图片。默认为false
+	 * options.file_info: 文件附加信息。description, title, link可选，默认为description。
+	 * options.description_name: 用于记录文件描述的文本域名称（会随着其他内容一起提交给服务端）。默认为description
+	 * options.title_name: 用于记录文件标题的输入框名称（会随着其他内容一起提交给服务端）。默认为titles
+	 * options.link_name: 用于记录文件链接地址的输入框名称（会随着其他内容一起提交给服务端）。默认为links
 	 */
 	'files': function(options){
 		options = options || {};
 		var settings = {
 			'browse_button': 'upload-file-link',
 			'container': 'upload-file-container',
+			'drop_element': null,
 			'max_file_size': '2',
 			'cat': 'other',
 			'input_name': 'files',
+			'image_only': false,
+			'file_info': ['description'],
 			'description_name': 'description',
-			'image_only': false
+			'title_name': 'titles',
+			'link_name': 'links'
 		};
 		$.each(options, function(i, n){
 			settings[i] = n;
@@ -138,6 +145,7 @@ var uploader = {
 				'silverlight_xap_url': system.url()+'js/plupload.silverlight.xap',
 				'browse_button': settings.browse_button,
 				'container': settings.container,
+				'drop_element': settings.drop_element,
 				'max_file_size': settings.max_file_size + 'mb',
 				'url': url,
 				'filters': filters
@@ -157,7 +165,19 @@ var uploader = {
 									'<img src="', system.assets('images/loading.gif'), '" />',
 								'</span>',
 								'<div class="file-desc-container">',
-									'<textarea class="form-control file-desc autosize">', data.name, '</textarea>',
+									(function(){
+										var html = [];
+										if(system.inArray('description', settings.file_info)){
+											html.push('<textarea class="form-control file-desc autosize">', data.name, '</textarea>');
+										}
+										if(system.inArray('title', settings.file_info)){
+											html.push('<input type="text" class="file-title mb5 form-control" placeholder="标题" value="', data.name, '" />');
+										}
+										if(system.inArray('link', settings.file_info)){
+											html.push('<input type="text" class="file-link mb5 form-control" placeholder="链接地址" />');
+										}
+										return html.join('');
+									}()),
 								'</div>',
 								'<div class="clear"></div>',
 								'<div class="progress-bar">',
@@ -178,6 +198,9 @@ var uploader = {
 				$file = $('#file-'+file.id);
 				if('raw_name' in resp.data){
 					$file.find('.file-desc').attr('name', settings.description_name+'['+resp.data.id+']').autosize();
+					$file.find('.file-title').attr('name', settings.title_name+'['+resp.data.id+']');
+					$file.find('.file-link').attr('name', settings.link_name+'['+resp.data.id+']');
+					
 					$file.append('<input type="hidden" name="'+settings.input_name+'[]" value="'+resp.data.id+'" />');
 					$file.prepend('<a class="file-rm" href="javascript:;"></a>');
 					
@@ -185,7 +208,7 @@ var uploader = {
 						//是图片，用fancybox弹窗
 						$file.find('.file-thumb').html([
 							'<a href="', resp.data.url, '" class="file-thumb-link">',
-								'<img src="'+resp.data.thumbnail+'" />',
+								'<img src="', resp.data.thumbnail, '" />',
 							'</a>'
 						].join(''));
 						system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
@@ -202,7 +225,7 @@ var uploader = {
 						//非图片，直接新窗口打开
 						$file.find('.file-thumb').html([
 							'<a href="', resp.data.url, '" target="_blank">',
-								'<img src="'+resp.data.thumbnail+'" />',
+								'<img src="', resp.data.thumbnail, '" />',
 							'</a>'
 						].join(''));
 					}

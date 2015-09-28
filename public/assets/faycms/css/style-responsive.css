@@ -377,7 +377,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .dragsort-list .dragsort-item.holder{background-color:#fff;border:2px dashed #DFDFDF !important}
 .dragsort-list .dragsort-item .dragsort-rm{float:right;color:grey;margin-top:-3px;z-index:100;line-height:1em;font-size:20px}
 .dragsort-list .dragsort-item .dragsort-rm:before{content:"×"}
-.dragsort-list .dragsort-item-container{margin:0 22px 0 31px}
+.dragsort-list .dragsort-item-container{margin:0 60px 0 31px}
 
 /* 小工具域 */
 .widget-list{padding-top:10px}
@@ -416,9 +416,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .subsubsub{margin:8px 0 5px;white-space:nowrap}
 .subsubsub li{display:inline}
 .subsubsub li.sel a{font-weight:bold;color:#000}
-.drag_drop_area{border:4px dashed #ddd;height:200px;text-align:center;background-color:#fff}
-.drag_drop_inside{margin-top:55px;color:#aaa}
-.info_fieldset{width:480px;margin:0 auto}
+.drag-drop-area{border:4px dashed #ddd;height:200px;text-align:center;background-color:#fff}
+.drag-drop-inside{margin-top:55px;color:#aaa}
 #visual-editor{width:100%}
 #avatar-container img{vertical-align:bottom;margin-right:10px}
 #avatar-container #avatar-img{width:178px;height:178px}

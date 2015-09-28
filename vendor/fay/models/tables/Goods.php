@@ -7,9 +7,9 @@ use fay\core\db\Table;
  * Goods model
  * 
  * @property int $id
- * @property string $title
  * @property int $cat_id
- * @property string $description
+ * @property string $title
+ * @property string $content
  * @property int $create_time
  * @property int $last_modified_time
  * @property int $publish_time
@@ -62,8 +62,8 @@ class Goods extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('create_time', 'last_modified_time', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('id', 'cat_id', 'views', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('cat_id', 'views', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('num'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('sub_stock', 'status'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
@@ -77,9 +77,9 @@ class Goods extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'title'=>'标题',
 			'cat_id'=>'分类ID',
-			'description'=>'描述',
+			'title'=>'标题',
+			'content'=>'描述',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 			'publish_time'=>'发布时间',
@@ -104,9 +104,9 @@ class Goods extends Table{
 
 	public function filters(){
 		return array(
-			'title'=>'trim',
 			'cat_id'=>'intval',
-			'description'=>'',
+			'title'=>'trim',
+			'content'=>'',
 			'create_time'=>'',
 			'last_modified_time'=>'',
 			'publish_time'=>'trim',

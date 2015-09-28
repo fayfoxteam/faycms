@@ -29,7 +29,7 @@ use fay\models\File;
 								echo Html::link(Html::img($p['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link fancybox-image',
 									'encode'=>false,
-									'title'=>$p['description'],
+									'title'=>false,
 								));
 							}else{
 								$full_file_path = File::getUrl($p['file_id']);
@@ -37,7 +37,7 @@ use fay\models\File;
 									'class'=>'file-thumb-link',
 									'encode'=>false,
 									'title'=>$p['description'],
-									'target'=>'_blank',
+									'target'=>false,
 								));
 							}?>
 						</span>

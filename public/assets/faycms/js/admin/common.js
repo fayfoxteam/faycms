@@ -293,15 +293,15 @@ var common = {
 		});
 		
 		//小屏幕下打开关闭上面的菜单
-        $('.toggle-mobile-menu').on('click', function(){
-            $('#main-menu').toggleClass('mobile-is-visible');
-        });
-        
-        //打开缩起左侧菜单
-        $('.toggle-sidebar').on('click', function(){
-        	$('#sidebar-menu').toggleClass('collapsed');
-        	$(window).resize();
-        	$.ajax({
+		$('.toggle-mobile-menu').on('click', function(){
+			$('#main-menu').toggleClass('mobile-is-visible');
+		});
+		
+		//打开缩起左侧菜单
+		$('.toggle-sidebar').on('click', function(){
+			$('#sidebar-menu').toggleClass('collapsed');
+			$(window).resize();
+			$.ajax({
 				type: 'POST',
 				url: system.url('admin/system/setting'),
 				data: {
@@ -309,11 +309,11 @@ var common = {
 					'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
 				}
 			});
-        });
-        
+		});
+		
 		//左侧菜单固定
-        if($('.sidebar-menu').hasClass('fixed') && !($.browser.msie && $.browser.version < 9)){
-        	//插件不支持IE8
+		if($('.sidebar-menu').hasClass('fixed') && !($.browser.msie && $.browser.version < 9)){
+			//插件不支持IE8
 			system.getCss(system.assets('css/perfect-scrollbar.css'), function(){
 				system.getScript(system.assets('js/perfect-scrollbar.js'), function(){
 					if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
@@ -332,33 +332,33 @@ var common = {
 					});
 				});
 			});
-        }else{
-        	//ie8的情况下移除fixed
-        	$('.sidebar-menu').removeClass('fixed');
-        }
+		}else{
+			//ie8的情况下移除fixed
+			$('.sidebar-menu').removeClass('fixed');
+		}
 	},
 	'screenMeta':function(){
 		if($('.screen-meta-links a').length){
-            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                $('.screen-meta-links a').fancybox({
-                    'padding':0,
-                    'centerOnScroll':true,
-                    'titleShow':false,
-                    'onClosed':function(o){
-                        $($(o).attr('href')).find('input,select,textarea').each(function(){
-                            $(this).poshytip('hide');
-                        });
-                    },
-                    'type' : 'inline'
-                });
-            });
-            
-            $('.faycms-setting-link').on('mouseover', function(){
-            	$(this).addClass('fa-spin');
-            }).on('mouseleave', function(){
-            	$(this).removeClass('fa-spin');
-            });
+			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+				$('.screen-meta-links a').fancybox({
+					'padding':0,
+					'centerOnScroll':true,
+					'titleShow':false,
+					'onClosed':function(o){
+						$($(o).attr('href')).find('input,select,textarea').each(function(){
+							$(this).poshytip('hide');
+						});
+					},
+					'type' : 'inline'
+				});
+			});
+			
+			$('.faycms-setting-link').on('mouseover', function(){
+				$(this).addClass('fa-spin');
+			}).on('mouseleave', function(){
+				$(this).removeClass('fa-spin');
+			});
 		}
 	},
 	'dragsort':function(){
@@ -372,6 +372,10 @@ var common = {
 					'placeHolderTemplate': '<div class="box holder"></div>',
 					'dragSelectorExclude': 'input,textarea,select,table,span,p',
 					'dragEnd':function(){
+						//如果有报错，拖拽后需要重新定位报错信息
+						$('.dragsort').find('input,select,textarea').each(function(){
+							$(this).poshytip('hide').poshytip('show');
+						});
 						if(common.dragsortKey){
 							var data = {
 								'_key':common.dragsortKey

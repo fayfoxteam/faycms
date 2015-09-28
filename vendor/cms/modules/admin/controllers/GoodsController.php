@@ -88,16 +88,16 @@ class GoodsController extends AdminController{
 		$cat = Categories::model()->find($this->input->get('cat_id', 'intval'), 'id,title');
 		$this->view->cat = $cat;
 		
-		$this->form()->setModel(Goods::model());
+		$this->form()->setModel(Goods::model())
+			->setModel(GoodsFiles::model());
 		if($this->input->post()){
 			//插入goods表
-			$goods_data = Goods::model()->setAttributes($this->input->post());
-			$goods_data['create_time'] = $this->current_time;
-			$goods_data['cat_id'] = $this->input->get('cat_id');
-			!empty($goods_data['publish_time']) || $goods_data['publish_time'] = $this->current_time;
-			!empty($goods_data['sub_stock']) || $goods_data['sub_stock'] = Goods::SUB_STOCK_PAY;
+			$data = Goods::model()->setAttributes($this->input->post());
+			$data['create_time'] = $this->current_time;
+			empty($data['sub_stock']) && $data['sub_stock'] = Goods::SUB_STOCK_PAY;
+			empty($data['publish_time']) ? $data['publish_time'] = $this->current_time : $data['publish_time'] = strtotime($data['publish_time']);
 			
-			$goods_id = Goods::model()->insert($goods_data);
+			$goods_id = Goods::model()->insert($data);
 			
 			//设置gallery
 			$desc = $this->input->post('desc');
@@ -297,9 +297,9 @@ class GoodsController extends AdminController{
 		
 		if($this->input->post()){
 			//更新goods表
-			$goods_data = Goods::model()->setAttributes($this->input->post());
-			$goods_data['last_modified_time'] = $this->current_time;
-			Goods::model()->update($goods_data, $goods_id);
+			$data = Goods::model()->setAttributes($this->input->post());
+			$data['last_modified_time'] = $this->current_time;
+			Goods::model()->update($data, $goods_id);
 			
 			//设置gallery
 			$desc = $this->input->post('desc');

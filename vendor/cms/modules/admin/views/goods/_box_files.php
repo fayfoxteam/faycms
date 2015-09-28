@@ -44,7 +44,6 @@ use fay\models\File;
 						<div class="file-desc-container">
 							<?php echo Html::textarea("description[{$p['file_id']}]", $p['description'], array(
 								'class'=>'form-control file-desc autosize',
-								'maxlength'=>240,
 								'placeholder'=>'照片描述',
 							));?>
 						</div>

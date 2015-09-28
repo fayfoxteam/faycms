@@ -101,7 +101,8 @@ class PostController extends AdminController{
 		//分类树
 		$this->view->cats = Category::model()->getTree('_system_post');
 		
-		$this->form()->setModel(Posts::model());
+		$this->form()->setModel(Posts::model())
+			->setModel(PostsFiles::model());
 		if($this->input->post()){
 			if($this->form()->check()){
 				//添加posts表

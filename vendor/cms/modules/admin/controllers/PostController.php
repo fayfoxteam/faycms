@@ -894,7 +894,7 @@ class PostController extends AdminController{
 		$alias = $this->input->request('value', 'trim');
 		if(Posts::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->request('id', 'intval', 0),
+			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
 			Response::json('', 0, '别名已存在');
 		}else{

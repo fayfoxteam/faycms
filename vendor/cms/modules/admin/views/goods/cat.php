@@ -20,7 +20,7 @@ function showCats($cats, $dep = 0){?>
 							'cat_id'=>$c['id'],
 						)), array(), true);
 						echo Html::link('分类属性', array('admin/goods-cat-prop/index', array(
-							'cid'=>$c['id'],
+							'cat_id'=>$c['id'],
 						)), array(), true);
 						if(F::app()->checkPermission('admin/goods/cat-create')){
 							echo Html::link('添加子节点', '#create-cat-dialog', array(

@@ -189,7 +189,7 @@ class CategoryController extends AdminController{
 		$alias = $this->input->post('value', 'trim');
 		if(Categories::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){
 			echo Response::json('', 0, '别名已存在');
 		}else{

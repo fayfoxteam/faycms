@@ -563,6 +563,7 @@ pre li:hover{background-color:#575757}
 .fl{float:left}
 .fr{float:right}
 .ib{display:inline-block !important}
+.title-sup{padding:0 3px}
 .block{display:block}
 .ellipsis{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pointer{cursor:pointer}

@@ -7,6 +7,7 @@ use fay\core\db\Table;
  * Goods Cat Props model
  * 
  * @property int $id
+ * @property string $alias
  * @property int $type
  * @property int $cat_id
  * @property int $required
@@ -54,12 +55,15 @@ class GoodsCatProps extends Table{
 			array(array('type', 'sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('is_sale_prop', 'is_input_prop', 'deleted'), 'range', array('range'=>array('0', '1'))),
+			
+			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/goods-cat-prop/is-alias-not-exist'))),
 		);
 	}
 
 	public function labels(){
 		return array(
 			'id'=>'Id',
+			'alias'=>'别名',
 			'type'=>'编辑框类型',
 			'cat_id'=>'分类ID',
 			'required'=>'必选标记',
@@ -74,6 +78,7 @@ class GoodsCatProps extends Table{
 	public function filters(){
 		return array(
 			'id'=>'intval',
+			'alias'=>'trim',
 			'type'=>'intval',
 			'cat_id'=>'intval',
 			'required'=>'intval',

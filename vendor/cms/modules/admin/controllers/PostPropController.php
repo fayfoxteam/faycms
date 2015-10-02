@@ -21,20 +21,24 @@ class PostPropController extends AdminController{
 	}
 	
 	public function index(){
+		$this->layout->sublink = array(
+			'uri'=>array('admin/post/cat'),
+			'text'=>'返回文章分类',
+		);
+		
 		$cat_id = $this->input->get('id', 'intval');
 		
 		$cat = Categories::model()->fetchRow(array(
 			'id = ?'=>$cat_id,
 		), 'title');
 		if(!$cat){
-			throw new HttpException('所选分类不存在');
+			throw new HttpException('指定分类不存在');
 		}
 		
 		$this->form()->setModel(Props::model())
 			->setData(array(
 				'refer'=>$cat_id,
 			));
-		$this->view->refer = $cat_id;
 		
 		$this->layout->subtitle = '文章分类属性 - 分类: '.Html::encode($cat['title']);
 		
@@ -134,7 +138,9 @@ class PostPropController extends AdminController{
 		$data = Props::model()->find($id, 'sort');
 		Response::output('success', array(
 			'message'=>'一个文章分类属性排序值被编辑',
-			'sort'=>$data['sort'],
+			'data'=>array(
+				'sort'=>$data['sort'],
+			),
 		));
 	}
 	

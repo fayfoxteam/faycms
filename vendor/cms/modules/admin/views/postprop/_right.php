@@ -16,11 +16,7 @@
 		</tr>
 	</tfoot>
 	<tbody>
-<?php
-	$listview->showData(array(
-		'refer'=>$refer,
-	));
-?>
+		<?php $listview->showData()?>
 	</tbody>
 </table>
 <?php $listview->showPager();?>

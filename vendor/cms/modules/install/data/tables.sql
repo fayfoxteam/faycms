@@ -311,6 +311,7 @@ CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
 DROP TABLE IF EXISTS `{{$prefix}}goods_cat_props`;
 CREATE TABLE `{{$prefix}}goods_cat_props` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '编辑框类型',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',

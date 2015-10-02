@@ -10,7 +10,8 @@ use fay\models\tables\GoodsCatProps;
 use fay\models\tables\GoodsCatPropValues;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
-use fay\models\tables\Props;
+use fay\models\Category;
+use fay\core\HttpException;
 
 /**
  * 商品属性
@@ -22,23 +23,22 @@ class GoodsCatPropController extends AdminController{
 	}
 	
 	public function index(){
-		$cid = $this->input->get('cid', 'intval');
-		$cat = Categories::model()->find($cid, 'id,title');
-		$this->view->cat = $cat;
-
+		$this->layout->sublink = array(
+			'uri'=>array('admin/goods/cat'),
+			'text'=>'返回商品分类',
+		);
+		
+		$cat_id = $this->input->get('cat_id', 'intval');
+		$cat = Category::model()->get($cat_id, 'id,title');
+		if(!$cat){
+			throw new HttpException('指定商品分类不存在');
+		}
+		
+		$this->form()->setModel(GoodsCatProps::model());
+		
 		$this->layout->subtitle = Html::encode($cat['title']) . ' - 分类属性';
 		
-		$sql = new Sql();
-		$sql->from('cat_props')
-			->where(array(
-				'deleted = 0',
-				'cat_id = ?'=>$cid,
-			))
-			->order('sort');
-		$listview = new ListView($sql);
-		$listview->page_size = 15;
-		$this->view->listview = $listview;
-		
+		$this->_setListview($cat_id);
 		$this->view->render();
 	}
 	
@@ -51,6 +51,7 @@ class GoodsCatPropController extends AdminController{
 				$required = $this->input->post('required', 'intval', 0);
 			}
 			$prop_id = GoodsCatProps::model()->insert(array(
+				'alias'=>$this->input->post('alias', 'trim'),
 				'cat_id'=>$this->input->post('cat_id', 'intval'),
 				'type'=>$this->input->post('type', 'intval'),
 				'required'=>$required,
@@ -129,6 +130,7 @@ class GoodsCatPropController extends AdminController{
 				$required = $this->input->post('required', 'intval', 0);
 			}
 			GoodsCatProps::model()->update(array(
+				'alias'=>$this->input->post('alias', 'trim'),
 				'type'=>$this->input->post('type', 'intval'),
 				'required'=>$required,
 				'title'=>$this->input->post('title'),
@@ -175,11 +177,11 @@ class GoodsCatPropController extends AdminController{
 		$cat = Categories::model()->find($prop['cat_id'], 'id,title');
 		$this->layout->sublink = array(
 			'uri'=>array('admin/goods-cat-prop/index', array(
-				'cid'=>$cat['id'],
+				'cat_id'=>$cat['id'],
 			)),
 			'text'=>'返回属性列表',
 		);
-		$this->layout->subtitle = Html::encode($cat['title']) . ' - 分类属性 - ' . $prop['title'] . '（编辑）';
+		$this->layout->subtitle = Html::encode($cat['title']) . ' - 分类属性 - ' . $prop['title'];
 		$this->view->prop_values = GoodsCatPropValues::model()->fetchAll(array(
 			'prop_id = ?'=>$prop['id'],
 			'deleted = 0',
@@ -187,45 +189,56 @@ class GoodsCatPropController extends AdminController{
 		
 		$this->form()->setData($prop);
 		
-		$sql = new Sql();
-		$sql->from('cat_props')
-			->where(array(
-				'deleted = 0',
-				'cat_id = ?'=>$prop['cat_id'],
-			))
-			->order('sort');
-		$listview = new ListView($sql);
-		$listview->page_size = 15;
-		$this->view->listview = $listview;
+		$this->_setListview($prop['cat_id']);
 		
 		$this->view->render();
 	}
 	
 	public function sort(){
-		$prop_id = $this->input->get('id', 'intval');
+		$id = $this->input->get('id', 'intval');
 		$result = GoodsCatProps::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
-			'id = ?'=>$prop_id,
+			'id = ?'=>$id,
 		));
-		$this->actionlog(Actionlogs::TYPE_GOODS_PROP, '改变了商品属性排序', $prop_id);
+		$this->actionlog(Actionlogs::TYPE_GOODS_PROP, '改变了商品属性排序', $id);
 		
-		$prop = GoodsCatProps::model()->find($prop_id, 'sort');
+		$data = GoodsCatProps::model()->find($id, 'sort');
 		Response::output('success', array(
 			'message'=>'一个商品属性的排序值被编辑',
-			'sort'=>$prop['sort'],
+			'data'=>array(
+				'sort'=>$data['sort'],
+			),
 		));
 	}
 	
 	public function isAliasNotExist(){
 		$alias = $this->input->post('value', 'trim');
-		if(Props::model()->fetchRow(array(
+		if(GoodsCatProps::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){
-			Response::json('', 0, '别名已存在');
+			echo Response::json('', 0, '别名已存在');
 		}else{
-			Response::json();
+			echo Response::json('', 1, '别名不存在');
 		}
+	}
+	/**
+	 * 设置右侧项目列表
+	 */
+	private function _setListview($cat_id){
+		$sql = new Sql();
+		$sql->from('goods_cat_props')
+			->where(array(
+				'deleted = 0',
+				'cat_id IN ('.implode(',', Category::model()->getParentIds($cat_id)).')',
+			))
+			->order('sort, id DESC');
+		$listview = new ListView($sql, array(
+			'page_size'=>15,
+			'empty_text'=>'<tr><td colspan="4" align="center">无相关记录！</td></tr>',
+		));
+		$this->view->listview = $listview;
+		
 	}
 }

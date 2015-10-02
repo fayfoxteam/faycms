@@ -4,7 +4,11 @@ use fay\helpers\Html;
 use fay\models\Setting;
 use fay\models\Menu;
 ?>
-<div class="sidebar-menu <?php $admin_sidebar_class = Setting::model()->get('admin_sidebar_class');echo $admin_sidebar_class['class']?>" id="sidebar-menu">
+<div class="sidebar-menu <?php
+	$admin_sidebar_class = Setting::model()->get('admin_sidebar_class');
+	echo $admin_sidebar_class['class'];
+	if(!F::config()->get('debug'))echo ' fixed';
+?>" id="sidebar-menu">
 	<div class="sidebar-menu-inner">
 		<header class="logo-env">
 			<div class="logo">

@@ -34,4 +34,6 @@ return array(
 	'modules'=>array(
 		'frontend'
 	),
+	
+	//'debug'=>false,
 );

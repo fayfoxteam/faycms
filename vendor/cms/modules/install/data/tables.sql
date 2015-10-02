@@ -95,31 +95,6 @@ CREATE TABLE `{{$prefix}}analyst_visits` (
   KEY `date` (`create_date`,`hour`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}cat_prop_values`;
-CREATE TABLE `{{$prefix}}cat_prop_values` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}cat_props`;
-CREATE TABLE `{{$prefix}}cat_props` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Type',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
-  `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Required',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
-  `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Sale Prop',
-  `is_input_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Input Prop',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT 'Sort',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
 DROP TABLE IF EXISTS `{{$prefix}}categories`;
 CREATE TABLE `{{$prefix}}categories` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -319,6 +294,31 @@ CREATE TABLE `{{$prefix}}goods` (
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}goods_cat_prop_values`;
+CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值i',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}goods_cat_props`;
+CREATE TABLE `{{$prefix}}goods_cat_props` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '编辑框类型',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
+  `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否销售属性',
+  `is_input_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否可自定义属性',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT '排序值',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 

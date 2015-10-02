@@ -7,7 +7,7 @@ use fay\models\tables\CatProps;
 		<?php include '_right.php'?>
 	</div>
 	<div class="col-6">
-		<form id="add-prop-form" action="<?php echo $this->url('admin/prop/create')?>" method="post" class="validform">
+		<form id="add-prop-form" action="<?php echo $this->url('admin/goods-cat-prop/create')?>" method="post" class="validform">
 			<?php echo Html::inputHidden('cat_id', $cat['id'])?>
 			<div class="form-field">
 				<label class="title bold">属性名</label>
@@ -123,7 +123,7 @@ $(function(){
 	});
 
 	$(".tag-sort").feditsort({
-		'url':system.url("admin/prop/sort")
+		'url':system.url("admin/goods-cat-prop/sort")
 	});
 });
 </script>

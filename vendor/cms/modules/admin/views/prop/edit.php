@@ -152,7 +152,7 @@ $(function(){
 	});
 
 	$(".tag-sort").feditsort({
-		'url':system.url("admin/prop/sort")
+		'url':system.url("admin/goods-cat-prop/sort")
 	});
 });
 </script>

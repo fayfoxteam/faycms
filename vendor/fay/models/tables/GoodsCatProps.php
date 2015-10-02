@@ -3,7 +3,20 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class CatProps extends Table{
+/**
+ * Goods Cat Props model
+ * 
+ * @property int $id
+ * @property int $type
+ * @property int $cat_id
+ * @property int $required
+ * @property string $title
+ * @property int $is_sale_prop
+ * @property int $is_input_prop
+ * @property int $deleted
+ * @property int $sort
+ */
+class GoodsCatProps extends Table{
 	/**
 	 * 属性类型 - 多选
 	 */
@@ -23,12 +36,11 @@ class CatProps extends Table{
 	 * 属性类型 - 布尔属性
 	 */
 	const TYPE_BOOLEAN = 4;
-
-
-	protected $_name = 'cat_props';
+	
+	protected $_name = 'goods_cat_props';
 	
 	/**
-	 * @return CatProps
+	 * @return GoodsCatProps
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);
@@ -48,19 +60,20 @@ class CatProps extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'type'=>'Type',
-			'cat_id'=>'Cat Id',
-			'required'=>'Required',
-			'title'=>'Title',
-			'is_sale_prop'=>'Is Sale Prop',
-			'is_input_prop'=>'Is Input Prop',
-			'deleted'=>'Deleted',
-			'sort'=>'Sort',
+			'type'=>'编辑框类型',
+			'cat_id'=>'分类ID',
+			'required'=>'必选标记',
+			'title'=>'标题',
+			'is_sale_prop'=>'是否销售属性',
+			'is_input_prop'=>'是否可自定义属性',
+			'deleted'=>'删除标记',
+			'sort'=>'排序值',
 		);
 	}
 
 	public function filters(){
 		return array(
+			'id'=>'intval',
 			'type'=>'intval',
 			'cat_id'=>'intval',
 			'required'=>'intval',

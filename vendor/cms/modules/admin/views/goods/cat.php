@@ -19,7 +19,7 @@ function showCats($cats, $dep = 0){?>
 						echo Html::link('查看该分类', array('admin/goods/index', array(
 							'cat_id'=>$c['id'],
 						)), array(), true);
-						echo Html::link('分类属性', array('admin/prop/index', array(
+						echo Html::link('分类属性', array('admin/goods-cat-prop/index', array(
 							'cid'=>$c['id'],
 						)), array(), true);
 						if(F::app()->checkPermission('admin/goods/cat-create')){

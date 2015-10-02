@@ -5,8 +5,8 @@ use fay\helpers\Html;
 	<td>
 		<strong><?php echo Html::encode($data['title'])?></strong>
 		<div class="row-actions">
-			<a href="<?php echo $this->url('admin/prop/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
-			<a href="<?php echo $this->url('admin/prop/delete', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red">删除</a>
+			<a href="<?php echo $this->url('admin/goods-cat-prop/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
+			<a href="<?php echo $this->url('admin/goods-cat-prop/delete', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red">删除</a>
 		</div>
 	</td>
 	<td><?php echo $data['required'] ? '是' : '否';?></td>

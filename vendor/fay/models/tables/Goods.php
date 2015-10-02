@@ -16,6 +16,7 @@ use fay\core\db\Table;
  * @property int $sub_stock
  * @property float $weight
  * @property float $size
+ * @property float $post_fee
  * @property string $sn
  * @property int $thumbnail
  * @property int $num
@@ -69,6 +70,7 @@ class Goods extends Table{
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
 			array(array('sn'), 'string', array('max'=>50)),
 			array(array('weight', 'size', 'price'), 'float', array('length'=>8, 'decimal'=>2)),
+			array(array('post_fee'), 'float', array('length'=>6, 'decimal'=>2)),
 			array(array('is_new', 'is_hot', 'deleted'), 'range', array('range'=>array('0', '1'))),
 			array(array('publish_time'), 'datetime'),
 		);
@@ -86,6 +88,7 @@ class Goods extends Table{
 			'sub_stock'=>'何时减库存',
 			'weight'=>'单位:kg',
 			'size'=>'单位:立方米',
+			'post_fee'=>'运费',
 			'sn'=>'Sn',
 			'thumbnail'=>'Thumbnail',
 			'num'=>'库存',
@@ -113,6 +116,7 @@ class Goods extends Table{
 			'sub_stock'=>'intval',
 			'weight'=>'floatval',
 			'size'=>'floatval',
+			'post_fee'=>'floatval',
 			'sn'=>'trim',
 			'thumbnail'=>'intval',
 			'num'=>'intval',

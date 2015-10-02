@@ -18,5 +18,12 @@
 			))?>
 			<span class="fc-grey">单位：立方米</span>
 		</div>
+		<div class="misc-pub-section">
+			<strong>运费</strong>
+			<?php echo F::form()->inputText('post_fee', array(
+				'class'=>'form-control w70 ib',
+			))?>
+			<span class="fc-grey">单位：元</span>
+		</div>
 	</div>
 </div>

@@ -305,6 +305,7 @@ CREATE TABLE `{{$prefix}}goods` (
   `sub_stock` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '何时减库存',
   `weight` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:kg',
   `size` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:立方米',
+  `post_fee` decimal(6,2) NOT NULL DEFAULT '0.00' COMMENT '运费',
   `sn` varchar(50) NOT NULL DEFAULT '' COMMENT 'Sn',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail',
   `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '库存',

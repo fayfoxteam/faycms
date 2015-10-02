@@ -1,6 +1,6 @@
 <?php
 ?>
-<div class="box" id="box-publish-time" data-name="publish-time">
+<div class="box" id="box-publish-time" data-name="publish_time">
 	<div class="box-title">
 		<a class="tools remove" title="隐藏"></a>
 		<h4>发布时间</h4>

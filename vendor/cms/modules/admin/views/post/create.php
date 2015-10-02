@@ -68,7 +68,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							if(isset(F::app()->boxes[$k]['view'])){
 								$this->renderPartial(F::app()->boxes[$k]['view']);
 							}else{
-								$this->renderPartial('_box_'.str_replace('-', '_', $box));
+								$this->renderPartial('_box_'.$box);
 							}
 							unset($boxes_cp[$k]);
 						}
@@ -84,7 +84,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						if(isset(F::app()->boxes[$k]['view'])){
 							$this->renderPartial(F::app()->boxes[$k]['view']);
 						}else{
-							$this->renderPartial('_box_'.str_replace('-', '_', $box));
+							$this->renderPartial('_box_'.$box);
 						}
 						unset($boxes_cp[$k]);
 					}
@@ -96,7 +96,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				if(isset(F::app()->boxes[$k]['view'])){
 					$this->renderPartial(F::app()->boxes[$k]['view']);
 				}else{
-					$this->renderPartial('_box_'.str_replace('-', '_', $box));
+					$this->renderPartial('_box_'.$box);
 				}
 			}
 		?></div>

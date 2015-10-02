@@ -28,7 +28,7 @@ class GoodsController extends AdminController{
 		array('name'=>'sku', 'title'=>'SKU'),
 		array('name'=>'guide', 'title'=>'导购'),
 		array('name'=>'shipping', 'title'=>'物流参数'),
-		array('name'=>'publish-time', 'title'=>'发布时间'),
+		array('name'=>'publish_time', 'title'=>'发布时间'),
 		array('name'=>'thumbnail', 'title'=>'缩略图'),
 		array('name'=>'views', 'title'=>'浏览量'),
 		array('name'=>'seo', 'title'=>'SEO优化'),

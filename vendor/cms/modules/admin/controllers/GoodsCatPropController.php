@@ -149,7 +149,7 @@ class GoodsCatPropController extends AdminController{
 			));
 			//设置属性值
 			if($this->input->post('type', 'intval') != GoodsCatProps::TYPE_INPUT){//手工录入属性没有属性值
-				$prop_values = $this->input->post('prop_values', array());
+				$prop_values = $this->input->post('prop_values', 'trim', array());
 				$i = 0;
 				foreach($prop_values as $key => $pv){
 					$i++;

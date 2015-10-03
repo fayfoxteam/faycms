@@ -197,6 +197,7 @@ class PostController extends AdminController{
 		if(in_array('main-category', $enabled_boxes)){
 			$this->layout->subtitle = '撰写文章';
 		}else{
+			//若没有给出主分类选择框，则在标题中显示分类名
 			$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
 		}
 		

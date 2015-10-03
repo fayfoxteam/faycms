@@ -82,16 +82,14 @@ class GoodsController extends AdminController{
 	}
 	
 	public function create(){
-		$this->layout->subtitle = '添加商品';
+		//获取分类
+		$cat = Category::model()->get($this->input->get('cat_id', 'intval'), 'id,title');
 		
+		$this->layout->subtitle = '添加商品 - 所属分类：'.$cat['title'];
 		$this->layout->sublink = array(
 			'uri'=>array('admin/goods/cat'),
 			'text'=>'商品分类',
 		);
-		
-		//获取分类
-		$cat = Categories::model()->find($this->input->get('cat_id', 'intval'), 'id,title');
-		$this->view->cat = $cat;
 		
 		$this->form()->setModel(Goods::model())
 			->setModel(GoodsFiles::model());
@@ -211,15 +209,16 @@ class GoodsController extends AdminController{
 		}
 		$this->form()->setData($this->input->post());
 		
+		$parentIds = Category::model()->getParentIds($cat['id']);
 		//props
 		$props = GoodsCatProps::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'sort, id');
 		
 		//prop_values
 		$prop_values = GoodsCatPropValues::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'prop_id, sort');
 		

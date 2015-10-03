@@ -55,13 +55,8 @@ use fay\models\tables\GoodsCatProps;
 		'label'=>'手工录入',
 		'disabled'=>F::form()->getData('is_sale_prop') ? 'disabled' : false,
 	))?>
-	<?php echo F::form()->inputRadio('type', GoodsCatProps::TYPE_BOOLEAN, array(
-		'label'=>'布尔属性',
-		'title'=>'一种特殊的单选属性，统一为是否两个属性值',
-	))?>
 </div>
-<div class="form-field <?php if(F::form()->getData('type') == GoodsCatProps::TYPE_INPUT
-	|| F::form()->getData('type') == GoodsCatProps::TYPE_BOOLEAN)echo 'hide';?>"
+<div class="form-field <?php if(F::form()->getData('type') == GoodsCatProps::TYPE_INPUT)echo 'hide';?>"
 	id="prop-values-container">
 	<label class="title bold">属性值</label>
 	<?php echo F::form()->inputText('', array(
@@ -99,37 +94,11 @@ use fay\models\tables\GoodsCatProps;
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
-	<?php if(empty($prop_values)){//@todo 这个逻辑肯定要改的?>
-	$("#add-prop-form").submit(function(){
-		if($("input[name='type']:checked").val() == <?php echo GoodsCatProps::TYPE_BOOLEAN?>){
-			//若是布尔属性，强制将属性值置为0,1两个值
-			var html = '<input type="hidden" value="1" name="prop_values[]" />';
-			html += '<input type="hidden" value="0" name="prop_values[]" />';
-			$("#prop-list").html(html);
-		}else if($("input[name='type']:checked").val() == <?php echo GoodsCatProps::TYPE_INPUT?>){
-			$("#prop-list").html("");
-		}
-	});
-	<?php }else{?>
 	$("#edit-prop-form").submit(function(){
-		if($("input[name='type']:checked").val() == <?php echo GoodsCatProps::TYPE_BOOLEAN?>){
-			//若是布尔属性，强制将属性值置为0,1两个值
-			<?php if($prop['type'] == GoodsCatProps::TYPE_BOOLEAN){?>
-				var html = '';
-				<?php foreach($prop_values as $pv){?>
-					html += '<?php echo F::form()->inputText("prop_values[{$pv['id']}]", array(), $pv['title'])?>';
-					html += '<?php echo Html::inputHidden('old_prop_value_ids[]', $pv['id'])?>';
-				<?php }?>
-			<?php }else{?>
-				var html = '<input type="hidden" value="1" name="prop_values[]" />';
-				html += '<input type="hidden" value="0" name="prop_values[]" />';
-			<?php }?>
-			$("#prop-list").html(html);
-		}else if($("input[name='type']:checked").val() == <?php echo GoodsCatProps::TYPE_INPUT?>){
+		if($("input[name='type']:checked").val() == <?php echo GoodsCatProps::TYPE_INPUT?>){
 			$("#prop-list").html("");
 		}
 	});
-	<?php }?>
 
 	$("#add-prop-value-link").click(function(){
 		if($("#prop-title").val() == ""){
@@ -160,8 +129,7 @@ $(function(){
 	});
 
 	$("input[name='type']").change(function(){
-		if($(this).val() == <?php echo GoodsCatProps::TYPE_INPUT?> ||
-			$(this).val() == <?php echo GoodsCatProps::TYPE_BOOLEAN?>){
+		if($(this).val() == <?php echo GoodsCatProps::TYPE_INPUT?>){
 			$("#prop-values-container").hide();
 		}else{
 			$("#prop-values-container").show();

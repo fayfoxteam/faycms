@@ -7,6 +7,6 @@
 	</div>
 	<div class="box-content">
 		<?php echo F::form()->inputText('publish_time', array('class'=>'form-control timepicker'))?>
-		<div class="fc-grey">留空默认为当前时间</div>
+		<p class="fc-grey">留空默认为当前时间</p>
 	</div>
 </div>

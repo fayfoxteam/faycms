@@ -33,11 +33,6 @@ class GoodsCatProps extends Table{
 	 */
 	const TYPE_INPUT = 3;
 
-	/**
-	 * 属性类型 - 布尔属性
-	 */
-	const TYPE_BOOLEAN = 4;
-	
 	protected $_name = 'goods_cat_props';
 	
 	/**

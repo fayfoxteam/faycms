@@ -291,7 +291,12 @@ class Post extends Model{
 			'alias = ?'=>$alias
 		), 'id,left_value,right_value');
 		
-		return $this->getByCatArray($cat, $limit, $fields, $children, $order, $conditions);
+		if(!$cat){
+			//指定分类不存在，直接返回空数组
+			return array();
+		}else{
+			return $this->getByCatArray($cat, $limit, $fields, $children, $order, $conditions);
+		}
 	}
 	
 	/**
@@ -305,7 +310,12 @@ class Post extends Model{
 	 */
 	public function getByCatId($cat_id, $limit = 10, $fields = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$cat = Categories::model()->find($cat_id, 'id,left_value,right_value');
-		return $this->getByCatArray($cat, $limit, $fields, $children, $order, $conditions);
+		if(!$cat){
+			//指定分类不存在，直接返回空数组
+			return array();
+		}else{
+			return $this->getByCatArray($cat, $limit, $fields, $children, $order, $conditions);
+		}
 	}
 
 

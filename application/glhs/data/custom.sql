@@ -15,3 +15,8 @@ INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_nav`,
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES ('1006', '课程设置', 'course', '1', '1', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES ('1007', '高考动态', 'examination', '1', '1', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES ('1008', '画室资讯', 'news', '1', '0', '1');
+
+-- 初始化小工具
+INSERT INTO `{{$prefix}}widgets` (`id`, `alias`, `options`, `widget_name`, `description`) VALUES ('1', 'slider', '{\"height\":\"450\",\"transPeriod\":800,\"time\":5000,\"fx\":\"random\",\"files\":[{\"file_id\":1000,\"link\":\"\",\"title\":\"2013061321521811.jpg\"}]}', 'fay/jq_camera', '顶部轮播图');
+INSERT INTO `{{$prefix}}widgets` (`id`, `alias`, `options`, `widget_name`, `description`) VALUES ('2', 'environment', '{\"data\":[{\"key\":\"\\u6211\\u4eec\\u7684\\u6c1b\\u56f4\",\"value\":\"\\u6c1b\\u56f4\\u5f88\\u597d\"},{\"key\":\"\\u6211\\u4eec\\u7684\\u8d23\\u4efb\\u611f\",\"value\":\"\\u968f\\u4fbf\\u5439\\u4e24\\u53e5\"},{\"key\":\"\\u6211\\u4eec\\u7684\\u627f\\u8bfa\",\"value\":\"\\u6211\\u4eec\\u627f\\u8bfa\\uff0cXXX\"}],\"template\":\"<li>\\r\\n    <a href=\\\"javascript:;\\\">{$key}<\\/a>\\r\\n    <p class=\\\"hide\\\">{$value}<\\/p>\\r\\n<\\/li>\"}', 'fay/options', '环境');
+INSERT INTO `{{$prefix}}widgets` (`id`, `alias`, `options`, `widget_name`, `description`) VALUES ('3', 'index-advantage', '{\"values\":[\"\\u4f18\\u52bf\\u4e00\",\"\\u4f18\\u52bf\\u4e8c\",\"\\u4f18\\u52bf\\u4e09\",\"\\u4f18\\u52bf\\u56db\",\"\\u4f18\\u52bf\\u4e94\"],\"template\":\"<li>{$value}<\\/li>\"}', 'fay/listing', '勾勒优势');

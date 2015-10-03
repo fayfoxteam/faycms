@@ -59,7 +59,7 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 	<div class="g-search mb30">
 		<h4>搜索 SEARCH</h4>
 		<form id="search-form" action="<?php echo $this->url('search')?>"><?php
-			echo Html::inputText('keywords', '', array(
+			echo Html::inputText('keywords', F::input()->get('keywords', 'trim'), array(
 				'placeholder'=>'输入关键词',
 				'id'=>'keywords',
 			));

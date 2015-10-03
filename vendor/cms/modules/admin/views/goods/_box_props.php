@@ -20,9 +20,8 @@ use fay\helpers\Html;
 					</label>
 					<?php if($p['type'] == GoodsCatProps::TYPE_CHECK){//多选?>
 					<div class="goods-prop-box">
-						<ul class="goods-prop-list">
 						<?php foreach($p['prop_values'] as $pv){?>
-							<li>
+							<p class="ib w240">
 							<?php 
 							echo F::form()->inputCheckbox("cp[{$p['id']}][]", $pv['id'], array(
 								'id'=>"cp-{$p['id']}-{$pv['id']}",
@@ -33,19 +32,20 @@ use fay\helpers\Html;
 							<label for="<?php echo "cp-{$p['id']}-{$pv['id']}"?>"><?php echo $pv['title']?></label>
 							<?php 
 							echo Html::inputText("cp_alias[{$p['id']}][{$pv['id']}]", $pv['title'], array(
-								'class'=>'text-short hide',
+								'class'=>'form-control mw200 ib fn-hide',
 							));
 							?>
-							</li>
+							</p>
 						<?php }?>
-						</ul>
-						<div class="clear"></div>
 					</div>
 					<?php 
 					}else if($p['type'] == GoodsCatProps::TYPE_OPTIONAL){//单选
-						echo F::form()->select("cp[{$p['id']}]", Html::getSelectOptions($p['prop_values']));
+						echo F::form()->select("cp[{$p['id']}]", Html::getSelectOptions($p['prop_values']), array(
+							'class'=>'form-control wa',
+						));
 					}else if($p['type'] == GoodsCatProps::TYPE_INPUT){//手工录入
 						echo F::form()->inputText("cp_alias[{$p['id']}][0]", array(
+							'class'=>'form-control mw500',
 							'data-rule'=>'string',
 							'data-params'=>'{max:255}',
 							'data-label'=>$p['title'].'属性',

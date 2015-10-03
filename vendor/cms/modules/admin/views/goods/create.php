@@ -83,7 +83,6 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	</div>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/goods.js')?>"></script>
 <script>
 common.dragsortKey = 'admin_goods_box_sort';

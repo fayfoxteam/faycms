@@ -28,10 +28,10 @@ var goods = {
 		$(".sku-item [type='checkbox']").click(function(){
 			if($(this).attr("checked")){
 				$(this).next("label").hide();
-				$(this).siblings("input[type='text']").show();
+				$(this).siblings("input[type='text']").removeClass('fn-hide');
 			}else{
 				$(this).next("label").show();
-				$(this).siblings("input[type='text']").hide();
+				$(this).siblings("input[type='text']").addClass('fn-hide');
 			}
 			goods.showSkuTable();
 			goods.getTotalNum();
@@ -40,26 +40,26 @@ var goods = {
 	'props':function(){
 		//普通属性选中
 		//复选框
-		$(".goods-prop-list [type='checkbox']").click(function(){
+		$(".goods-prop-box [type='checkbox']").click(function(){
 			if($(this).attr("checked")){
 				$(this).next("label").hide();
-				$(this).siblings("input[type='text']").show();
+				$(this).siblings("input[type='text']").removeClass('fn-hide');
 			}else{
 				$(this).next("label").show();
-				$(this).siblings("input[type='text']").hide();
+				$(this).siblings("input[type='text']").addClass('fn-hide');
 			}
 		});
 
 		//单选框
-		$(".goods-prop-list [type='radio']").click(function(){
+		$(".goods-prop-box [type='radio']").click(function(){
 			var name = $(this).attr("name");
-			$(".goods-prop-list [name='"+name+"']").each(function(){
+			$(".goods-prop-box [name='"+name+"']").each(function(){
 				if($(this).attr("checked")){
 					$(this).next("label").hide();
-					$(this).siblings("input[type='text']").show();
+					$(this).siblings("input[type='text']").removeClass('fn-hide');
 				}else{
 					$(this).next("label").show();
-					$(this).siblings("input[type='text']").hide();
+					$(this).siblings("input[type='text']").addClass('fn-hide');
 				}
 			});
 		});

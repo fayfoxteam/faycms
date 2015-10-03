@@ -548,8 +548,6 @@ pre li:hover{background-color:#575757}
 
 /* 工具类 */
 .bold{font-weight:bold}
-.hide,.hidden{display:none}
-.fn-hide{display:none !important;}
 .circle{border-radius:50%}
 .clear{clear:both}
 .cf,.row,.page-title,.form-field,.user-info-navbar,.form-group{zoom:1;clear:left}
@@ -568,6 +566,8 @@ pre li:hover{background-color:#575757}
 .ellipsis{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pointer{cursor:pointer}
 .horizontal-rotate{transition:all 2s linear 0s;-webkit-transform:rotateY(360deg);-moz-transform:rotateY(360deg);-ms-transform:rotateY(360deg);transform:rotateY(360deg)}
+.hide,.hidden{display:none}
+.fn-hide{display:none !important;}
 @media (max-width:767px){
 	.hidden-xs{display:none !important}
 }
@@ -588,6 +588,7 @@ pre li:hover{background-color:#575757}
 .w240{width:240px !important}
 .w600{width:600px !important}
 .w650{width:650px !important}
+.wa{width:auto !important}
 .mw100{max-width:100px !important}
 .mw150{max-width:150px !important}
 .mw200{max-width:200px !important}

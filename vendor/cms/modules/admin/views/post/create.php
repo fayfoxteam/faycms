@@ -30,7 +30,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>状态：</strong>
 						<?php
 							$options = array(Posts::STATUS_DRAFT=>'草稿');
@@ -53,7 +53,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							), $default);
 						?>
 					</div>
-					<div class="misc-pub-section mt0">
+					<div class="misc-pub-section">
 						<strong>是否置顶？</strong>
 						<?php echo F::form()->inputRadio('is_top', 1, array('label'=>'是'))?>
 						<?php echo F::form()->inputRadio('is_top', 0, array('label'=>'否'), true)?>
@@ -68,7 +68,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							if(isset(F::app()->boxes[$k]['view'])){
 								$this->renderPartial(F::app()->boxes[$k]['view']);
 							}else{
-								$this->renderPartial('_box_'.str_replace('-', '_', $box));
+								$this->renderPartial('_box_'.$box);
 							}
 							unset($boxes_cp[$k]);
 						}
@@ -84,7 +84,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						if(isset(F::app()->boxes[$k]['view'])){
 							$this->renderPartial(F::app()->boxes[$k]['view']);
 						}else{
-							$this->renderPartial('_box_'.str_replace('-', '_', $box));
+							$this->renderPartial('_box_'.$box);
 						}
 						unset($boxes_cp[$k]);
 					}
@@ -96,14 +96,13 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				if(isset(F::app()->boxes[$k]['view'])){
 					$this->renderPartial(F::app()->boxes[$k]['view']);
 				}else{
-					$this->renderPartial('_box_'.str_replace('-', '_', $box));
+					$this->renderPartial('_box_'.$box);
 				}
 			}
 		?></div>
 	</div>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/post.js')?>"></script>
 <script>
 $(function(){

@@ -8,6 +8,7 @@ use fay\helpers\String;
 
 /**
  * 基于左右值的树操作
+ * 该类基于ID或直接传入数组操作，不根据alias进行操作，也不做数据正确性验证
  */
 class Tree extends Model{
 	/**
@@ -490,9 +491,9 @@ class Tree extends Model{
 
 	/**
 	 * 修改一条记录的sort值，并修改左右值
+	 * @param string $model
 	 * @param int|array $node
 	 * @param int $sort
-	 * @param string $model
 	 */
 	public function sort($model, $node, $sort){
 		$sort < 0 && $sort = 0;
@@ -600,5 +601,87 @@ class Tree extends Model{
 				'right_value'=>new Intact('right_value + '.$diff),
 			), 'id IN ('.implode(',', $branch_ids).')');
 		}
+	}
+	
+	/**
+	 * 判断$cat1是否为$cat2的子节点
+	 * @param string $model
+	 * @param int|array $cat1
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若是数组，必须包含left_value和right_value
+	 * @param int|string|array $cat2
+	 *  - 若为数字，视为分类ID获取分类；
+	 *  - 若是数组，必须包含left_value和right_value
+	 */
+	public function isChild($model, $cat1, $cat2){
+		if(!is_array($cat1)){
+			$cat1 = \F::model($model)->find($cat1, 'left_value,right_value');
+		}
+		if(!is_array($cat2)){
+			$cat2 = \F::model($model)->find($cat2, 'left_value,right_value');
+		}
+		
+		if($cat1['left_value'] > $cat2['left_value'] && $cat1['right_value'] < $cat2['right_value']){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * 获取祖谱
+	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
+	 * cat和root都可以是：{
+	 *  - 数字:代表分类ID;
+	 *  - 数组:分类数组（必须包含left_value和right_value字段）
+	 * }
+	 * @param string $model
+	 * @param int|array $cat
+	 * @param int|array $root
+	 */
+	public function getParentPath($model, $cat, $root = null){
+		if(!is_array($cat)){
+			$cat = \F::model($model)->find($cat, 'left_value,right_value');
+		}
+		
+		if($root && !is_array($root)){
+			$root = \F::model($model)->find($root, 'left_value,right_value');
+		}
+		
+		return \F::model($model)->fetchAll(array(
+			'left_value < '.$cat['left_value'],
+			'right_value > '.$cat['right_value'],
+			'left_value > ?'=>$root ? $root['left_value'] : false,
+			'right_value < ?'=>$root ? $root['right_value'] : false,
+		), '*', 'left_value');
+	}
+	
+	/**
+	 * 获取指定节点的祖先节点的ID，以一位数组方式返回（包含指定节点ID）
+	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
+	 * cat和root都可以是：{
+	 *  - 数字:代表分类ID;
+	 *  - 字符串:分类别名;
+	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
+	 * }
+	 * @param string $model
+	 * @param int|array $cat
+	 * @param int|array $root
+	 */
+	public function getParentIds($model, $cat, $root = null){
+		if(!is_array($cat)){
+			$cat = \F::model($model)->find($cat, 'left_value,right_value');
+		}
+		
+		if($root && !is_array($root)){
+			$root = \F::model($model)->find($root, 'left_value,right_value');
+		}
+		
+		return \F::model($model)->fetchCol('id', array(
+			'left_value <= '.$cat['left_value'],
+			'right_value >= '.$cat['right_value'],
+			'left_value >= ?'=>$root ? $root['left_value'] : false,
+			'right_value <= ?'=>$root ? $root['right_value'] : false,
+		), 'left_value');
 	}
 }

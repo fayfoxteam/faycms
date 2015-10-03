@@ -126,7 +126,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .box-title:hover .remove:before{content:"×"}
 .box.closed .box-title.hover .handlediv:before{content:"\f0d9"}
 .box-content{padding:8px 12px}
-.box-content .misc-pub-section{padding:6px 10px 8px;border-top:1px solid #DFDFDF;margin-top:6px}
+.box-content .misc-pub-section{padding:6px 11px 8px;border-top:1px solid #DFDFDF}
 .box.closed .box-content{display:none}
 .box.holder{border:2px dashed #DFDFDF !important}
 
@@ -377,7 +377,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .dragsort-list .dragsort-item.holder{background-color:#fff;border:2px dashed #DFDFDF !important}
 .dragsort-list .dragsort-item .dragsort-rm{float:right;color:grey;margin-top:-3px;z-index:100;line-height:1em;font-size:20px}
 .dragsort-list .dragsort-item .dragsort-rm:before{content:"×"}
-.dragsort-list .dragsort-item-container{margin:0 22px 0 31px}
+.dragsort-list .dragsort-item-container{margin:0 60px 0 31px}
 
 /* 小工具域 */
 .widget-list{padding-top:10px}
@@ -416,9 +416,8 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .subsubsub{margin:8px 0 5px;white-space:nowrap}
 .subsubsub li{display:inline}
 .subsubsub li.sel a{font-weight:bold;color:#000}
-.drag_drop_area{border:4px dashed #ddd;height:200px;text-align:center;background-color:#fff}
-.drag_drop_inside{margin-top:55px;color:#aaa}
-.info_fieldset{width:480px;margin:0 auto}
+.drag-drop-area{border:4px dashed #ddd;height:200px;text-align:center;background-color:#fff}
+.drag-drop-inside{margin-top:55px;color:#aaa}
 #visual-editor{width:100%}
 #avatar-container img{vertical-align:bottom;margin-right:10px}
 #avatar-container #avatar-img{width:178px;height:178px}
@@ -549,8 +548,6 @@ pre li:hover{background-color:#575757}
 
 /* 工具类 */
 .bold{font-weight:bold}
-.hide,.hidden{display:none}
-.fn-hide{display:none !important;}
 .circle{border-radius:50%}
 .clear{clear:both}
 .cf,.row,.page-title,.form-field,.user-info-navbar,.form-group{zoom:1;clear:left}
@@ -564,10 +561,13 @@ pre li:hover{background-color:#575757}
 .fl{float:left}
 .fr{float:right}
 .ib{display:inline-block !important}
+.title-sup{padding:0 3px}
 .block{display:block}
 .ellipsis{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pointer{cursor:pointer}
 .horizontal-rotate{transition:all 2s linear 0s;-webkit-transform:rotateY(360deg);-moz-transform:rotateY(360deg);-ms-transform:rotateY(360deg);transform:rotateY(360deg)}
+.hide,.hidden{display:none}
+.fn-hide{display:none !important;}
 @media (max-width:767px){
 	.hidden-xs{display:none !important}
 }
@@ -582,11 +582,13 @@ pre li:hover{background-color:#575757}
 .w90{width:90px !important}
 .w100{width:100px !important}
 .w115{width:115px !important}
+.w135{width:135px !important}
 .w150{width:150px !important}
 .w200{width:200px !important}
 .w240{width:240px !important}
 .w600{width:600px !important}
 .w650{width:650px !important}
+.wa{width:auto !important}
 .mw100{max-width:100px !important}
 .mw150{max-width:150px !important}
 .mw200{max-width:200px !important}
@@ -609,8 +611,10 @@ pre li:hover{background-color:#575757}
 .mb10{margin-bottom:10px !important}
 .mt0{margin-top:0 !important}
 .mt5{margin-top:5px !important}
+.mt6{margin-top:6px !important}
 .ml5{margin-left:5px !important}
 .mr10{margin-right:10px !important}
 .pt0{padding-top:0 !important}
 .pt7{padding-top:7px !important}
 .pl11{padding-left:11px !important}
+.b0{border:0 none !important}

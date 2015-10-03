@@ -32,7 +32,7 @@ echo F::form()->open();
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>启用</strong>
 						<?php echo F::form()->inputRadio('enable', 1, array('label'=>'是'), true)?>
 						<?php echo F::form()->inputRadio('enable', 0, array('label'=>'否'))?>

@@ -15,7 +15,7 @@ use fay\models\tables\Props;
 		switch($p['element']){
 			case Props::ELEMENT_TEXT:
 				echo Html::inputText("props[{$p['id']}]", isset($data[$p['id']]) ? $data[$p['id']]['value'] : '', array(
-					'class'=>'form-control',
+					'class'=>'form-control mw500',
 					'data-rule'=>'string',
 					'data-params'=>'{max:255}',
 					'data-required'=>$p['required'] ? 'required' : false,
@@ -61,6 +61,7 @@ use fay\models\tables\Props;
 					'datat-rule'=>'int',
 					'data-required'=>$p['required'] ? 'required' : false,
 					'data-label'=>$p['title'],
+					'class'=>'form-control wa',
 				));
 			break;
 			case Props::ELEMENT_CHECKBOX:

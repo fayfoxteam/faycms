@@ -13,10 +13,10 @@ class AdminController extends Widget{
 	public function onPost(){
 		$data = $this->form->getFilteredData();
 		
-		$photos = $this->input->post('photos', 'intval', array());
+		$files = $this->input->post('files', 'intval', array());
 		$links = $this->input->post('links', 'trim');
 		$titles = $this->input->post('titles', 'trim');
-		foreach($photos as $p){
+		foreach($files as $p){
 			$data['files'][] = array(
 				'file_id'=>$p,
 				'link'=>$links[$p],

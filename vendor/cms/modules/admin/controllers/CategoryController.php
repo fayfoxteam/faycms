@@ -138,31 +138,9 @@ class CategoryController extends AdminController{
 		}
 	}
 	
-	public function goods(){
-		$this->layout->current_directory = 'goods';
-		
-		$this->layout->_help = 'goods/_help';
-
-		$this->layout->subtitle = '商品分类';
-		$this->view->cats = Category::model()->getTree('_system_goods');
-		$root_node = Category::model()->getByAlias('_system_goods', 'id');
-		$this->view->root = $root_node['id'];
-		
-		$root_cat = Category::model()->getByAlias('_system_goods', 'id');
-		if($this->checkPermission('admin/goods/cat-create')){
-			$this->layout->sublink = array(
-				'uri'=>'#create-cat-dialog',
-				'text'=>'添加商品分类',
-				'html_options'=>array(
-					'class'=>'create-cat-link',
-					'data-title'=>'商品',
-					'data-id'=>$root_cat['id'],
-				),
-			);
-		}
-		$this->view->render();
-	}
-	
+	/**
+	 * 获取指定id对应的分类，及该分类下的所有子分类
+	 */
 	public function get(){
 		$cat = Categories::model()->find($this->input->get('id', 'intval'));
 		$children = Categories::model()->fetchCol('id', array(
@@ -183,7 +161,9 @@ class CategoryController extends AdminController{
 		
 		$node = Categories::model()->find($id, 'sort,title');
 		Response::output('success', array(
-			'sort'=>$node['sort'],
+			'data'=>array(
+				'sort'=>$node['sort'],
+			),
 			'message'=>"分类{$node['title']}的排序值被修改为{$node['sort']}",
 		));
 	}
@@ -199,7 +179,9 @@ class CategoryController extends AdminController{
 		
 		$cat = Categories::model()->find($this->input->get('id', 'intval'), 'is_nav');
 		Response::output('success', array(
-			'is_nav'=>$cat['is_nav'],
+			'data'=>array(
+				'is_nav'=>$cat['is_nav'],
+			),
 		));
 	}
 	
@@ -207,7 +189,7 @@ class CategoryController extends AdminController{
 		$alias = $this->input->post('value', 'trim');
 		if(Categories::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){
 			echo Response::json('', 0, '别名已存在');
 		}else{

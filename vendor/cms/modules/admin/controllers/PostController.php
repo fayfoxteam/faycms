@@ -42,8 +42,8 @@ class PostController extends AdminController{
 		array('name'=>'alias', 'title'=>'别名'),
 		array('name'=>'views', 'title'=>'阅读数'),
 		array('name'=>'likes', 'title'=>'点赞数'),
-		array('name'=>'publish-time', 'title'=>'发布时间'),
-		array('name'=>'main-category', 'title'=>'主分类'),
+		array('name'=>'publish_time', 'title'=>'发布时间'),
+		array('name'=>'main_category', 'title'=>'主分类'),
 		array('name'=>'category', 'title'=>'附加分类'),
 		array('name'=>'thumbnail', 'title'=>'缩略图'),
 		array('name'=>'seo', 'title'=>'SEO优化'),
@@ -101,11 +101,12 @@ class PostController extends AdminController{
 		//分类树
 		$this->view->cats = Category::model()->getTree('_system_post');
 		
-		$this->form()->setModel(Posts::model());
+		$this->form()->setModel(Posts::model())
+			->setModel(PostsFiles::model());
 		if($this->input->post()){
 			if($this->form()->check()){
 				//添加posts表
-				$data = $this->form()->getFilteredData();
+				$data = Posts::model()->setAttributes($this->input->post());
 				$data['create_time'] = $this->current_time;
 				$data['last_modified_time'] = $this->current_time;
 				$data['user_id'] = $this->current_user;
@@ -170,10 +171,11 @@ class PostController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
+		//可配置信息
 		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
-
+		
 		$this->layout->_setting_panel = '_setting_edit';
 		$_setting_key = 'admin_post_boxes';
 		$_settings = Setting::model()->get($_setting_key);
@@ -195,10 +197,11 @@ class PostController extends AdminController{
 		if(in_array('main-category', $enabled_boxes)){
 			$this->layout->subtitle = '撰写文章';
 		}else{
+			//若没有给出主分类选择框，则在标题中显示分类名
 			$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
 		}
 		
-		$this->layout->_help = '_help';
+		$this->layout->_help_panel = '_help';
 		
 		$this->view->render();
 	}
@@ -383,7 +386,8 @@ class PostController extends AdminController{
 		));
 		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 		
-		$this->form()->setModel(Posts::model());
+		$this->form()->setModel(Posts::model())
+			->setModel(PostsFiles::model());
 		
 		if($this->input->post()){
 			if($this->form()->check()){
@@ -411,7 +415,7 @@ class PostController extends AdminController{
 					$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 				}
 				//更新posts表
-				$data = $this->form()->getFilteredData();
+				$data = Posts::model()->setAttributes($this->input->post());
 				$data['last_modified_time'] = $this->current_time;
 				if(in_array('publish-time', $enabled_boxes)){
 					if(empty($data['publish_time'])){
@@ -891,7 +895,7 @@ class PostController extends AdminController{
 		$alias = $this->input->request('value', 'trim');
 		if(Posts::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->request('id', 'intval', 0),
+			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
 			Response::json('', 0, '别名已存在');
 		}else{

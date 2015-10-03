@@ -3,7 +3,21 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class CatProps extends Table{
+/**
+ * Goods Cat Props model
+ * 
+ * @property int $id
+ * @property string $alias
+ * @property int $type
+ * @property int $cat_id
+ * @property int $required
+ * @property string $title
+ * @property int $is_sale_prop
+ * @property int $is_input_prop
+ * @property int $deleted
+ * @property int $sort
+ */
+class GoodsCatProps extends Table{
 	/**
 	 * 属性类型 - 多选
 	 */
@@ -19,16 +33,10 @@ class CatProps extends Table{
 	 */
 	const TYPE_INPUT = 3;
 
-	/**
-	 * 属性类型 - 布尔属性
-	 */
-	const TYPE_BOOLEAN = 4;
-
-
-	protected $_name = 'cat_props';
+	protected $_name = 'goods_cat_props';
 	
 	/**
-	 * @return CatProps
+	 * @return GoodsCatProps
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);
@@ -42,25 +50,30 @@ class CatProps extends Table{
 			array(array('type', 'sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('is_sale_prop', 'is_input_prop', 'deleted'), 'range', array('range'=>array('0', '1'))),
+			
+			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/goods-cat-prop/is-alias-not-exist'))),
 		);
 	}
 
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'type'=>'Type',
-			'cat_id'=>'Cat Id',
-			'required'=>'Required',
-			'title'=>'Title',
-			'is_sale_prop'=>'Is Sale Prop',
-			'is_input_prop'=>'Is Input Prop',
-			'deleted'=>'Deleted',
-			'sort'=>'Sort',
+			'alias'=>'别名',
+			'type'=>'编辑框类型',
+			'cat_id'=>'分类ID',
+			'required'=>'必选标记',
+			'title'=>'标题',
+			'is_sale_prop'=>'是否销售属性',
+			'is_input_prop'=>'是否可自定义属性',
+			'deleted'=>'删除标记',
+			'sort'=>'排序值',
 		);
 	}
 
 	public function filters(){
 		return array(
+			'id'=>'intval',
+			'alias'=>'trim',
 			'type'=>'intval',
 			'cat_id'=>'intval',
 			'required'=>'intval',

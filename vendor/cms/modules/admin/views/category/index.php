@@ -7,12 +7,12 @@ function showCats($cats, $dep = 0){?>
 		<li class="leaf-container <?php if(!$k)echo 'first';?>">
 			<div class="leaf">
 				<span class="fr options">
-					<span class="w115 block fl">
+					<span class="w135 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
 						'size'=>3,
 						'maxlength'=>3,
 						'data-id'=>$c['id'],
-						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
+						'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
 					<?php 

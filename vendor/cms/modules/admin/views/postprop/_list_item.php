@@ -8,12 +8,12 @@ use fay\models\tables\Props;
 		<?php if($data['alias']){?>
 		<em class="fc-grey">[ <?php echo $data['alias']?> ]</em>
 		<?php }?>
-		<?php if($data['refer'] != $refer){?>
+		<?php if($data['refer'] != F::form()->getData('refer')){?>
 		<sup class="bg-yellow title-sup" title="继承自父节点">继承</sup>
 		<?php }else{?>
 		<sup class="bg-green title-sup" title="自有属性">自有</sup>
 		<?php }?>
-		<?php if($data['refer'] == $refer){?>
+		<?php if($data['refer'] == F::form()->getData('refer')){?>
 		<div class="row-actions">
 			<?php echo Html::link('编辑', array('admin/post-prop/edit', array(
 				'id'=>$data['id'],

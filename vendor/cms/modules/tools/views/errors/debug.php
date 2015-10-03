@@ -29,6 +29,7 @@ if(method_exists($exception, 'getLevel')){
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('js/prettify.js')?>"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/debug.css')?>" />
+<link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 </head>
 <body>
 <div class="header">

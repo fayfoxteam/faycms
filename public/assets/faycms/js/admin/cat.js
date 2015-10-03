@@ -115,7 +115,7 @@ var cat = {
 					if(resp.status){
 						$(o).find('span').removeClass('tick-circle')
 							.removeClass('cross-circle')
-							.addClass(resp.is_nav == 1 ? 'tick-circle' : 'cross-circle')
+							.addClass(resp.data.is_nav == 1 ? 'tick-circle' : 'cross-circle')
 							.show()
 							.next('img').remove();
 					}else{

@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\models\Category;
 ?>
-<div class="box" id="box-main-category" data-name="main-category">
+<div class="box" id="box-main-category" data-name="main_category">
 	<div class="box-title">
 		<a class="tools remove" title="隐藏"></a>
 		<h4>主分类</h4>

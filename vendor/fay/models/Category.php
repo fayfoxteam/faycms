@@ -440,11 +440,7 @@ class Category extends Model{
 			$cat2 = $this->get($cat2, 'left_value,right_value');
 		}
 		
-		if($cat1['left_value'] > $cat2['left_value'] && $cat1['right_value'] < $cat2['right_value']){
-			return true;
-		}else{
-			return false;
-		}
+		return Tree::model()->isChild('fay\models\tables\Categories', $cat1, $cat2);
 	}
 	
 	/**
@@ -459,26 +455,38 @@ class Category extends Model{
 	 * @param int|string|array $root
 	 */
 	public function getParentPath($cat, $root = null){
-		if(String::isInt($cat)){
-			$cat = $this->get($cat);
-		}else if(is_string($cat)){
-			$cat = $this->getByAlias($cat);
+		if(!is_array($cat)){
+			$cat = $this->get($cat, 'left_value,right_value');
 		}
 		
-		if($root){
-			if(String::isInt($root)){
-				$root = $this->get($root);
-			}else if(is_string($root)){
-				$root = $this->getByAlias($root);
-			}
+		if($root && !is_array($root)){
+			$root = $this->get($root, 'left_value,right_value');
 		}
 		
-		return Categories::model()->fetchAll(array(
-			'left_value < '.$cat['left_value'],
-			'right_value > '.$cat['right_value'],
-			'left_value > ?'=>$root ? $root['left_value'] : false,
-			'right_value < ?'=>$root ? $root['right_value'] : false,
-		), '*', 'left_value');
+		return Tree::model()->getParentIds('fay\models\tables\Categories', $cat, $root);
+	}
+	
+	/**
+	 * 获取指定节点的祖先节点的ID，以一位数组方式返回
+	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
+	 * cat和root都可以是：{
+	 *  - 数字:代表分类ID;
+	 *  - 字符串:分类别名;
+	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
+	 * } 
+	 * @param int|string|array $cat
+	 * @param int|string|array $root
+	 */
+	public function getParentIds($cat, $root = null){
+		if(!is_array($cat)){
+			$cat = $this->get($cat, 'left_value,right_value');
+		}
+		
+		if($root && !is_array($root)){
+			$root = $this->get($root, 'left_value,right_value');
+		}
+		
+		return Tree::model()->getParentIds('fay\models\tables\Categories', $cat, $root);
 	}
 	
 	/**

@@ -5,7 +5,7 @@ use fay\models\File;
 <div class="box" id="box-files" data-name="files">
 	<div class="box-title">
 		<a class="tools remove" title="隐藏"></a>
-		<h4>附件</h4>
+		<h4>图集</h4>
 	</div>
 	<div class="box-content">
 		<p class="fc-grey">附件的用途视主题而定，一般用于画廊效果</p>
@@ -36,8 +36,8 @@ use fay\models\File;
 								echo Html::link(Html::img($p['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link',
 									'encode'=>false,
-									'title'=>$p['description'],
-									'target'=>false,
+									'title'=>false,
+									'target'=>'_blank',
 								));
 							}?>
 						</span>

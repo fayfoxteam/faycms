@@ -95,31 +95,6 @@ CREATE TABLE `{{$prefix}}analyst_visits` (
   KEY `date` (`create_date`,`hour`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}cat_prop_values`;
-CREATE TABLE `{{$prefix}}cat_prop_values` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}cat_props`;
-CREATE TABLE `{{$prefix}}cat_props` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Type',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
-  `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Required',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
-  `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Sale Prop',
-  `is_input_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Input Prop',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT 'Sort',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
 DROP TABLE IF EXISTS `{{$prefix}}categories`;
 CREATE TABLE `{{$prefix}}categories` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -295,23 +270,25 @@ CREATE TABLE `{{$prefix}}followers` (
 
 DROP TABLE IF EXISTS `{{$prefix}}goods`;
 CREATE TABLE `{{$prefix}}goods` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-  `description` text NOT NULL COMMENT '描述',
+  `content` text NOT NULL COMMENT '描述',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
   `sub_stock` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '何时减库存',
   `weight` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:kg',
   `size` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:立方米',
+  `post_fee` decimal(6,2) NOT NULL DEFAULT '0.00' COMMENT '运费',
   `sn` varchar(50) NOT NULL DEFAULT '' COMMENT 'Sn',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail',
   `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `price` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '价格',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Status',
   `is_new` tinyint(1) NOT NULL DEFAULT '0' COMMENT '新品',
   `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '热销',
+  `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '浏览量',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `sort` mediumint(8) unsigned NOT NULL DEFAULT '10000' COMMENT 'Sort',
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Title',
@@ -320,13 +297,39 @@ CREATE TABLE `{{$prefix}}goods` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}goods_cat_prop_values`;
+CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值i',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}goods_cat_props`;
+CREATE TABLE `{{$prefix}}goods_cat_props` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '编辑框类型',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
+  `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否销售属性',
+  `is_input_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否可自定义属性',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT '排序值',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
 DROP TABLE IF EXISTS `{{$prefix}}goods_files`;
 CREATE TABLE `{{$prefix}}goods_files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `goods_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Goods Id',
-  `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'File Id',
-  `desc` varchar(255) NOT NULL DEFAULT '' COMMENT 'Desc',
-  `position` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Position',
+  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品Id',
+  `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件Id',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -334,7 +337,7 @@ CREATE TABLE `{{$prefix}}goods_files` (
 DROP TABLE IF EXISTS `{{$prefix}}goods_prop_values`;
 CREATE TABLE `{{$prefix}}goods_prop_values` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `goods_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Goods Id',
+  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Goods Id',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Value Id',
   `prop_value_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Prop Value Alias',

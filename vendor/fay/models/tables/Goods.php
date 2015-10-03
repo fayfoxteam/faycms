@@ -5,24 +5,26 @@ use fay\core\db\Table;
 
 /**
  * Goods model
- *
+ * 
  * @property int $id
+ * @property int $cat_id
  * @property string $title
- * @property string $description
+ * @property string $content
  * @property int $create_time
  * @property int $last_modified_time
  * @property int $publish_time
  * @property int $sub_stock
  * @property float $weight
  * @property float $size
+ * @property float $post_fee
  * @property string $sn
- * @property int $cat_id
  * @property int $thumbnail
  * @property int $num
  * @property float $price
  * @property int $status
  * @property int $is_new
  * @property int $is_hot
+ * @property int $views
  * @property int $deleted
  * @property int $sort
  * @property string $seo_title
@@ -61,13 +63,14 @@ class Goods extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('create_time', 'last_modified_time', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('id', 'cat_id', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('cat_id', 'views', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('num'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('sub_stock', 'status'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
 			array(array('sn'), 'string', array('max'=>50)),
 			array(array('weight', 'size', 'price'), 'float', array('length'=>8, 'decimal'=>2)),
+			array(array('post_fee'), 'float', array('length'=>6, 'decimal'=>2)),
 			array(array('is_new', 'is_hot', 'deleted'), 'range', array('range'=>array('0', '1'))),
 			array(array('publish_time'), 'datetime'),
 		);
@@ -76,22 +79,24 @@ class Goods extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
+			'cat_id'=>'分类ID',
 			'title'=>'标题',
-			'description'=>'描述',
+			'content'=>'描述',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 			'publish_time'=>'发布时间',
 			'sub_stock'=>'何时减库存',
 			'weight'=>'单位:kg',
 			'size'=>'单位:立方米',
+			'post_fee'=>'运费',
 			'sn'=>'Sn',
-			'cat_id'=>'Cat Id',
 			'thumbnail'=>'Thumbnail',
 			'num'=>'库存',
 			'price'=>'价格',
 			'status'=>'Status',
 			'is_new'=>'新品',
 			'is_hot'=>'热销',
+			'views'=>'浏览量',
 			'deleted'=>'Deleted',
 			'sort'=>'Sort',
 			'seo_title'=>'Seo Title',
@@ -102,22 +107,24 @@ class Goods extends Table{
 
 	public function filters(){
 		return array(
+			'cat_id'=>'intval',
 			'title'=>'trim',
-			'description'=>'',
+			'content'=>'',
 			'create_time'=>'',
 			'last_modified_time'=>'',
 			'publish_time'=>'trim',
 			'sub_stock'=>'intval',
 			'weight'=>'floatval',
 			'size'=>'floatval',
+			'post_fee'=>'floatval',
 			'sn'=>'trim',
-			'cat_id'=>'intval',
 			'thumbnail'=>'intval',
 			'num'=>'intval',
 			'price'=>'floatval',
 			'status'=>'intval',
 			'is_new'=>'intval',
 			'is_hot'=>'intval',
+			'views'=>'intval',
 			'deleted'=>'intval',
 			'sort'=>'intval',
 			'seo_title'=>'trim',

@@ -3,11 +3,21 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
-class CatPropValues extends Table{
-	protected $_name = 'cat_prop_values';
+/**
+ * Goods Cat Prop Values model
+ * 
+ * @property int $id
+ * @property int $cat_id
+ * @property int $prop_id
+ * @property string $title
+ * @property int $deleted
+ * @property int $sort
+ */
+class GoodsCatPropValues extends Table{
+	protected $_name = 'goods_cat_prop_values';
 	
 	/**
-	 * @return CatPropValues
+	 * @return GoodsCatPropValues
 	 */
 	public static function model($className=__CLASS__){
 		return parent::model($className);
@@ -26,16 +36,17 @@ class CatPropValues extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'cat_id'=>'Cat Id',
-			'prop_id'=>'Prop Id',
-			'title'=>'Title',
-			'deleted'=>'Deleted',
-			'sort'=>'Sort',
+			'cat_id'=>'分类ID',
+			'prop_id'=>'属性ID',
+			'title'=>'标题',
+			'deleted'=>'删除标记',
+			'sort'=>'排序值i',
 		);
 	}
 
 	public function filters(){
 		return array(
+			'id'=>'intval',
 			'cat_id'=>'intval',
 			'prop_id'=>'intval',
 			'title'=>'trim',

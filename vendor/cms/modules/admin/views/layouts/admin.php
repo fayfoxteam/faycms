@@ -154,7 +154,7 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 						), $this->renderPartial($_help_panel, array(), -1, true));
 					}
 					//帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的常见
-					if(isset($_help_contet)){
+					if(isset($_help_content)){
 						echo Html::link('', '#faycms-help-content', array(
 							'class'=>'fa fa-question-circle fa-2x faycms-help-link',
 							'title'=>'帮助',
@@ -167,7 +167,7 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 								'class'=>'dialog hide',
 							),
 							'prepend'=>'<h4>帮助</h4>',
-						), $_help_contet);
+						), $_help_content);
 					}
 					//页面设置
 					if(isset($_setting_panel)){
@@ -212,8 +212,8 @@ $(function(){
 	common.init();
 });
 </script>
-<img src="<?php echo $this->assets('images/throbber.gif" class="hide')?>" />
-<img src="<?php echo $this->assets('images/ajax-loading.gif" class="hide')?>" />
-<img src="<?php echo $this->assets('images/loading.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/throbber.gif')?>"  class="hide" />
+<img src="<?php echo $this->assets('images/ajax-loading.gif')?>" class="hide" />
+<img src="<?php echo $this->assets('images/loading.gif')?>" class="hide" />
 </body>
 </html>

@@ -1,146 +1,25 @@
-var app = {
-	'tab1_editor':null,
-	'tab2_editor':null,
-	'tab3_editor':null,
-	'tab4_editor':null,
-	
+var goods = {
 	'skus':{},
 
 	'events':function(){
-		$('#create-goods-form').submit(function(){
-			if(app.tab1_editor != null){
-				$('#tab-1-textarea').val(app.tab1_editor.html());
-			}
-			if(app.tab2_editor != null){
-				$('#tab-2-textarea').val(app.tab2_editor.html());
-			}
-			if(app.tab3_editor != null){
-				$('#tab-3-textarea').val(app.tab3_editor.html());
-			}
-			if(app.tab4_editor != null){
-				$('#tab-4-textarea').val(app.tab4_editor.html());
-			}
-		});
-
 		$('.sku-quantity').live('blur', function(){
-			app.getTotalNum();
-		});
-	},
-	'tabs':function(){//tab页
-		$('.tabs .tab-content div.tab-item:gt(0)').hide();
-		$('.tabs .tab-nav a').die().live('click', function(){
-			$($(this).attr('href')).show().siblings().hide();
-			$(this).addClass('sel').parent().siblings().find('a').removeClass('sel');
-			
-			if($($(this).attr('href')).find('.lazy-kindeditor').size() > 0){
-				app['tab'+$(this).attr('href').substr(5,1)+'_editor'] = KindEditor.create($(this).attr('href')+' .lazy-kindeditor', {
-					width: '100%',
-					allowFileManager : true,
-					filterMode : false,
-					formatUploadUrl : false,
-					uploadJson : system.url('admin/file/upload', {'cat':'goods'})
-				});
-				$($(this).attr('href')+' .lazy-kindeditor').removeClass('lazy-kindeditor');
-			}
-			
-			return false;
+			goods.getTotalNum();
 		});
 	},
 	'thumbnail':function(){
-		var uploader = new plupload.Uploader({
-			runtimes : 'gears,html5,html4,flash,silverlight,browserplus',
-			browse_button : 'upload_thumbnail',
-			container : 'container',
-			max_file_size : '10mb',
-			url : system.url('admin/file/upload', {'cat':'goods'}),
-			flash_swf_url : system.url()+'flash/plupload.flash.swf',
-			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
-			filters : [
-				{title : 'Image files', extensions : 'jpg,gif,png,bmp,jpeg'}
-			]
-		});
-
-		uploader.init();
-		uploader.bind('FilesAdded', function(up, files) {
-			uploader.start();
-		});
-		
-		uploader.bind('Error', function(up, error) {
-			alert(error.message);
-		});
-
-		uploader.bind('FileUploaded', function(up, file, response) {
-			var rps = $.parseJSON(response.response);
-			$('#thumbnail-preview').attr('src', rps.thumbnail).show();
-			$('#thumbnail-id').val(rps.id);
+		//设置缩略图
+		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+			uploader.thumbnail({
+				'cat': 'goods',
+			});
 		});
 	},
 	'gallery':function(){
-		system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
-			$('.photo-list').dragsort({
-				itemSelector: 'div.photo-item',
-				placeHolderTemplate: '<div class="photo-item holder"></div>'
-			});
-		});
-		//文件上传
-		var gallery_uploader = new plupload.Uploader({
-			runtimes : 'html5,html4,flash,gears,silverlight,browserplus',
-			browse_button : 'upload-photo-link',
-			container: 'upload-photo-container',
-			max_file_size : '2mb',
-			url : system.url('admin/file/upload', {'cat':'goods'}),
-			flash_swf_url : system.url()+'flash/plupload.flash.swf',
-			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
-			filters : [
-				{title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
-			]
-		});
-
-		gallery_uploader.init();
-
-		gallery_uploader.bind('FilesAdded', function(up, files) {
-			gallery_uploader.start();
-		});
-
-		gallery_uploader.bind('UploadProgress', function(up, file) {
-			//console.log(file.percent);
-		});
-
-		gallery_uploader.bind('FileUploaded', function(up, file, response) {
-			var rps = $.parseJSON(response.response);
-			var html = '';
-			html += '<div class="photo-item">';
-			html += '	<input type="hidden" name="photos[]" value="'+rps.id+'" />';
-			html += '	<a class="photo-rm" href="javascript:;" pid="'+rps.id+'"></a>';
-			html += '	<span class="photo-thumb">';
-			html += '		<a href="'+rps.url+'" class="photo-thumb-link">';
-			html += '			<img src="'+rps.thumbnail+'">';
-			html += '		</a>';
-			html += '	</span>';
-			html += '	<div class="photo-desc-container">';
-			html += '		<textarea class="photo-desc" name="desc['+rps.id+']" placeholder="照片描述" maxlength="240"></textarea>';
-			html += '	</div>';
-			html += '	<div class="clear"></div>';
-			html += '</div>';
-			$(".photo-list").append(html);
-
-			$(".photo-list").dragsort("destroy");
-			$(".photo-list").dragsort({
-				'itemSelector' : "div.photo-item",
-				'placeHolderTemplate' : '<div class="photo-item holder"></div>'
-			});
-			$(".photo-thumb-link").fancybox({
-				'transitionIn'	: 'elastic',
-				'transitionOut'	: 'elastic',
-				'type' : 'image',
-				'padding' : 0
-			});
-		});
-		
-		//删除图片
-		$(".photo-rm").die().live("click", function(){
-			$(this).parent().fadeOut("slow", function(){
-				$(this).remove();
+		//图集
+		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+			uploader.files({
+				'cat': 'goods',
+				'image_only': true
 			});
 		});
 	},
@@ -149,38 +28,38 @@ var app = {
 		$(".sku-item [type='checkbox']").click(function(){
 			if($(this).attr("checked")){
 				$(this).next("label").hide();
-				$(this).siblings("input[type='text']").show();
+				$(this).siblings("input[type='text']").removeClass('fn-hide');
 			}else{
 				$(this).next("label").show();
-				$(this).siblings("input[type='text']").hide();
+				$(this).siblings("input[type='text']").addClass('fn-hide');
 			}
-			app.showSkuTable();
-			app.getTotalNum();
+			goods.showSkuTable();
+			goods.getTotalNum();
 		});
 	},
 	'props':function(){
 		//普通属性选中
 		//复选框
-		$(".goods-prop-list [type='checkbox']").click(function(){
+		$(".goods-prop-box [type='checkbox']").click(function(){
 			if($(this).attr("checked")){
 				$(this).next("label").hide();
-				$(this).siblings("input[type='text']").show();
+				$(this).siblings("input[type='text']").removeClass('fn-hide');
 			}else{
 				$(this).next("label").show();
-				$(this).siblings("input[type='text']").hide();
+				$(this).siblings("input[type='text']").addClass('fn-hide');
 			}
 		});
 
 		//单选框
-		$(".goods-prop-list [type='radio']").click(function(){
+		$(".goods-prop-box [type='radio']").click(function(){
 			var name = $(this).attr("name");
-			$(".goods-prop-list [name='"+name+"']").each(function(){
+			$(".goods-prop-box [name='"+name+"']").each(function(){
 				if($(this).attr("checked")){
 					$(this).next("label").hide();
-					$(this).siblings("input[type='text']").show();
+					$(this).siblings("input[type='text']").removeClass('fn-hide');
 				}else{
 					$(this).next("label").show();
-					$(this).siblings("input[type='text']").hide();
+					$(this).siblings("input[type='text']").addClass('fn-hide');
 				}
 			});
 		});
@@ -294,9 +173,9 @@ var app = {
 			});
 
 			var path = data.path.join(';');
-			var price = (app.skus[path]) ? app.skus[path].price : $("#sku-price").val();
-			var quantity = (app.skus[path]) ? app.skus[path].quantity : 1;
-			var tsces = (app.skus[path]) ? app.skus[path].tsces : '';
+			var price = (goods.skus[path]) ? goods.skus[path].price : $("#sku-price").val();
+			var quantity = (goods.skus[path]) ? goods.skus[path].quantity : 1;
+			var tsces = (goods.skus[path]) ? goods.skus[path].tsces : '';
 			
 			html += '	<td><input type="text" name="prices['+path+']" value="'+price+'" class="text-short" data-rule="float" data-params="{\'langth\':8,decimal:2}" data-label="sku价格" /></td>';
 			html += '	<td><input type="text" name="quantities['+path+']" value="'+quantity+'" class="text-short sku-quantity" data-rule="int" data-label="sku数量" /></td>';
@@ -308,13 +187,12 @@ var app = {
 		$("#sku-table-container").html(html);
 	},
 	'init':function(){
-		app.tabs();
-		app.events();
-		app.thumbnail();
-		app.gallery();
-		app.props();
-		app.sku();
-		app.showSkuTable();
-		app.getTotalNum();
+		this.events();
+		this.thumbnail();
+		this.gallery();
+		this.props();
+		this.sku();
+		this.showSkuTable();
+		this.getTotalNum();
 	}
 };

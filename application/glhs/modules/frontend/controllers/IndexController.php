@@ -3,9 +3,6 @@ namespace glhs\modules\frontend\controllers;
 
 use glhs\library\FrontController;
 use fay\models\Option;
-use fay\models\tables\Pages;
-use fay\models\Category;
-use fay\models\Post;
 
 class IndexController extends FrontController{
 	public function __construct(){

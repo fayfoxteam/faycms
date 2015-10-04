@@ -65,23 +65,8 @@ class WidgetController extends ToolsController{
 	 */
 	public function data(){
 		if($alias = $this->input->request('alias')){
-			$widget_config = Widgets::model()->fetchRow(array(
-				'alias = ?'=>$alias,
-			));
-			if($widget_config['enabled']){
-				$widget_obj = $this->widget->get($widget_config['widget_name']);
-				if($widget_obj == null){
-					throw new HttpException('Widget不存在或已被删除');
-				}
-				if(method_exists($widget_obj, 'getData')){
-					$data = $widget_obj->getData(json_decode($widget_config['options'], true));
-					Response::json($data);
-				}else{
-					throw new HttpException('该小工具未实现获取数据方法');
-				}
-			}else{
-				throw new HttpException('小工具未启用');
-			}
+			$data = $this->widget->getData($alias);
+			Response::json($data);
 		}else{
 			throw new HttpException('不完整的请求');
 		}

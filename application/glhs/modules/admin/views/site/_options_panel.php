@@ -30,7 +30,7 @@ use fay\models\Option;
 				))?>
 			</div>
 			<div class="form-field">
-				<label class="title">官方微博</label>
+				<label class="title">官方店铺</label>
 				<?php echo Html::inputText('site:weibo', Option::get('site:weibo'), array(
 					'class'=>'form-control',
 				))?>

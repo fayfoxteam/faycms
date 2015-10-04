@@ -37,7 +37,7 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 			<nav class="top-nav fr">
 				<ul>
 					<li><?php
-						echo Html::link('官方微博', Option::get('site:weibo'), array(
+						echo Html::link('官方店铺', Option::get('site:weibo'), array(
 							'target'=>'_blank',
 						));
 					?></li>

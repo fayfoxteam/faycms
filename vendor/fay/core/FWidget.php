@@ -125,6 +125,30 @@ class FWidget{
 	}
 	
 	/**
+	 * 返回小工具参数
+	 * @param string $alias 小工具实例别名
+	 * @throws HttpException
+	 */
+	public function getData($alias){
+		$widget_config = Widgets::model()->fetchRow(array(
+			'alias = ?'=>$alias,
+		));
+		if($widget_config['enabled']){
+			$widget_obj = $this->get($widget_config['widget_name']);
+			if($widget_obj == null){
+				throw new HttpException('Widget不存在或已被删除');
+			}
+			if(method_exists($widget_obj, 'getData')){
+				return $widget_obj->getData(json_decode($widget_config['options'], true));
+			}else{
+				throw new HttpException('小工具未实现获取数据方法');
+			}
+		}else{
+			throw new HttpException('小工具未启用');
+		}
+	}
+	
+	/**
 	 * 返回一个小工具的配置参数
 	 * @param string $alias 小工具实例别名
 	 * @return array

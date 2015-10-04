@@ -189,7 +189,7 @@ class View{
 			$controller = strtolower($uri->controller);
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$view}.php";
 		}else{
-			$view_arr = explode('/', $view);
+			$view_arr = explode('/', $view, 3);
 			
 			switch(count($view_arr)){
 				case 1:

@@ -5,8 +5,8 @@ use fay\core\Widget;
 
 class IndexController extends Widget{
 	public function getData($config){
-		if(isset($config['values']) && is_array($config['values'])){
-			return $config['values'];
+		if(isset($config['data']) && is_array($config['data'])){
+			return $config['data'];
 		}else{
 			return array();
 		}
@@ -17,15 +17,15 @@ class IndexController extends Widget{
 		if(empty($config['template'])){
 			//调用默认模版
 			$this->view->render('template', array(
-				'values'=>(isset($config['values']) && is_array($config['values']) ? $config['values'] : array()),
+				'values'=>(isset($config['data']) && is_array($config['data']) ? $config['data'] : array()),
 				'alias'=>$this->alias,
 				'_index'=>$this->_index,
 			));
 		}else{
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
 				//调用app的view文件
 				\F::app()->view->renderPartial($config['template'], array(
-					'values'=>(isset($config['values']) && is_array($config['values']) ? $config['values'] : array()),
+					'values'=>(isset($config['data']) && is_array($config['data']) ? $config['data'] : array()),
 					'alias'=>$this->alias,
 					'_index'=>$this->_index,
 				));
@@ -33,7 +33,7 @@ class IndexController extends Widget{
 				//直接视为代码执行
 				$alias = $this->view->alias;
 				$_index = $this->_index;
-				$values = (isset($config['values']) && is_array($config['values']) ? $config['values'] : array());
+				$data = (isset($config['data']) && is_array($config['data']) ? $config['data'] : array());
 				eval('?>'.$config['template'].'<?php ');
 			}
 		}

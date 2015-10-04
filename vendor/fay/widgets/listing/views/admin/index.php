@@ -7,13 +7,13 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="dragsort-list" id="widget-listing-values">
-		<?php if(!empty($config['values'])){?>
-			<?php foreach($config['values'] as $v){?>
+		<?php if(!empty($config['data'])){?>
+			<?php foreach($config['data'] as $v){?>
 				<div class="dragsort-item">
 					<a class="dragsort-rm" href="javascript:;"></a>
 					<a class="dragsort-item-selector"></a>
 					<div class="dragsort-item-container">
-						<?php echo Html::textarea("values[]", $v, array(
+						<?php echo Html::textarea("data[]", $v, array(
 							'class'=>'form-control h60 autosize',
 						));?>
 					</div>
@@ -25,7 +25,7 @@ use fay\helpers\Html;
 				<a class="dragsort-rm" href="javascript:;"></a>
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
-					<?php echo Html::textarea("values[]", '', array(
+					<?php echo Html::textarea("data[]", '', array(
 						'class'=>'form-control h60 autosize',
 					));?>
 				</div>
@@ -62,11 +62,11 @@ $(function(){
 			'<a class="dragsort-rm" href="javascript:;"></a>',
 			'<a class="dragsort-item-selector"></a>',
 			'<div class="dragsort-item-container">',
-				'<textarea name="values[]" class="form-control h60 autosize"></textarea>',
+				'<textarea name="data[]" class="form-control h60 autosize"></textarea>',
 			'</div>',
 			'<div class="clear"></div>',
 		'</div>'].join(''));
-		$('#widget-listing-values .dragsort-item:last-child textarea').autosize();
+		$('#widget-listing-data .dragsort-item:last-child textarea').autosize();
 	});
 });
 </script>

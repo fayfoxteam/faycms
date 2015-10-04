@@ -19,14 +19,14 @@ class AdminController extends Widget{
 	}
 	
 	public function onPost(){
-		$values = $this->input->post('values', null, array());
+		$values = $this->input->post('data', null, array());
 		$data = array(
-			'values'=>array(),
+			'data'=>array(),
 			'template'=>$this->input->post('template'),
 		);
 		
 		foreach($values as $v){
-			$data['values'][] = $v;
+			$data['data'][] = $v;
 		}
 		
 		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){

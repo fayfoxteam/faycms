@@ -3,7 +3,7 @@ use fay\helpers\Html;
 ?>
 <div class="box" id="advantage">
 	<h3 class="box-title">
-		<span>勾勒优势</span>
+		<span><?php echo Html::encode($title)?></span>
 	</h3>
 	<div class="box-content">
 		<ul><?php foreach($data as $d){

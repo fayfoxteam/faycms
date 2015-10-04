@@ -3,7 +3,20 @@ use fay\helpers\Html;
 ?>
 <div class="box">
 	<div class="box-title">
-		<h4>列表</h4>
+		<h4>标题</h4>
+	</div>
+	<div class="box-content">
+		<div class="form-field">
+			<?php echo F::form('widget')->inputText('title', array(
+				'class'=>'form-control',
+			))?>
+			<p class="fc-grey">是否用到标题视模版而定，并不一定会显示。</p>
+		</div>
+	</div>
+</div>
+<div class="box">
+	<div class="box-title">
+		<h4>数据</h4>
 	</div>
 	<div class="box-content">
 		<div class="dragsort-list" id="widget-listing-values">

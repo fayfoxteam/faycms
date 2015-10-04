@@ -3,7 +3,7 @@ use fay\helpers\Html;
 ?>
 <div class="box" id="environment">
 	<h3 class="box-title">
-		<span>勾勒画室</span>
+		<span><?php echo Html::encode($title)?></span>
 	</h3>
 	<div class="box-content">
 		<ul><?php foreach($data as $d){

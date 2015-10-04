@@ -19,12 +19,10 @@ class AdminController extends Widget{
 	}
 	
 	public function onPost(){
-		$values = $this->input->post('data', null, array());
-		$data = array(
-			'data'=>array(),
-			'template'=>$this->input->post('template'),
-		);
+		$data = $this->form->getFilteredData();
 		
+		$values = $this->input->post('data', null, array());
+		$data['data'] = array();
 		foreach($values as $v){
 			$data['data'][] = $v;
 		}
@@ -35,5 +33,23 @@ class AdminController extends Widget{
 		
 		$this->setConfig($data);
 		Flash::set('编辑成功', 'success');
+	}
+	
+	public function rules(){
+		return array();
+	}
+	
+	public function labels(){
+		return array(
+			'title'=>'标题',
+			'template'=>'模版',
+		);
+	}
+	
+	public function filters(){
+		return array(
+			'title'=>'trim',
+			'template'=>'trim',
+		);
 	}
 }

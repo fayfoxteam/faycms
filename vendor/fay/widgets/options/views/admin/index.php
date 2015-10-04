@@ -16,6 +16,19 @@ use fay\helpers\Html;
 </style>
 <div class="box">
 	<div class="box-title">
+		<h4>标题</h4>
+	</div>
+	<div class="box-content">
+		<div class="form-field">
+			<?php echo F::form('widget')->inputText('title', array(
+				'class'=>'form-control',
+			))?>
+			<p class="fc-grey">是否用到标题视模版而定，并不一定会显示。</p>
+		</div>
+	</div>
+</div>
+<div class="box">
+	<div class="box-title">
 		<a class="tools toggle" title="点击以切换"></a>
 		<h4>属性集</h4>
 	</div>

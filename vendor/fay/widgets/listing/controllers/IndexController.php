@@ -17,7 +17,7 @@ class IndexController extends Widget{
 		if(empty($config['template'])){
 			//调用默认模版
 			$this->view->render('template', array(
-				'values'=>(isset($config['data']) && is_array($config['data']) ? $config['data'] : array()),
+				'data'=>(isset($config['data']) && is_array($config['data']) ? $config['data'] : array()),
 				'alias'=>$this->alias,
 				'_index'=>$this->_index,
 			));
@@ -25,7 +25,7 @@ class IndexController extends Widget{
 			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
 				//调用app的view文件
 				\F::app()->view->renderPartial($config['template'], array(
-					'values'=>(isset($config['data']) && is_array($config['data']) ? $config['data'] : array()),
+					'data'=>(isset($config['data']) && is_array($config['data']) ? $config['data'] : array()),
 					'alias'=>$this->alias,
 					'_index'=>$this->_index,
 				));

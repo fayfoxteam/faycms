@@ -26,7 +26,7 @@ class IndexController extends Widget{
 				'alias'=>$this->alias,
 			));
 		}else{
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
 				\F::app()->view->renderPartial($config['template'], array(
 					'menus'=>$menus,
 					'config'=>$config,

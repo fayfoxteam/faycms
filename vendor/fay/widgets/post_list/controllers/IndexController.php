@@ -118,7 +118,7 @@ class IndexController extends Widget{
 					'listview'=>$listview,
 				));
 			}else{
-				if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+				if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
 					\F::app()->view->renderPartial($config['template'], array(
 						'posts'=>$posts,
 						'config'=>$config,
@@ -138,7 +138,7 @@ class IndexController extends Widget{
 			$listview->showPager();
 		}else{
 			$pager_data = $listview->getPager();
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['pager_template'])){
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['pager_template'])){
 				\F::app()->view->renderPartial($config['pager_template'], $pager_data + array(
 					'listview'=>$listview,
 					'config'=>$config,

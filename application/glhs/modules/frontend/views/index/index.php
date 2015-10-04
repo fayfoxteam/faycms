@@ -2,22 +2,8 @@
 	<div class="container">
 		<div class="row cols col3 cf">
 			<?php F::widget()->load('about')?>
-			<div class="box" id="advantage">
-				<h3 class="box-title">
-					<span>勾勒优势</span>
-				</h3>
-				<div class="box-content">
-					<ul><?php F::widget()->load('index-advantage')?></ul>
-				</div>
-			</div>
-			<div class="box" id="environment">
-				<h3 class="box-title">
-					<span>勾勒画室</span>
-				</h3>
-				<div class="box-content">
-					<ul><?php F::widget()->load('environment')?></ul>
-				</div>
-			</div>
+			<?php F::widget()->load('index-advantage')?>
+			<?php F::widget()->load('environment')?>
 		</div>
 	</div>
 </section>

@@ -2,7 +2,7 @@
 use fay\models\tables\Roles;
 use fay\helpers\Html;
 ?>
-<div class="box" id="box-abstract" data-name="abstract">
+<div class="box">
 	<div class="box-title">
 		<h4>配置参数</h4>
 	</div>

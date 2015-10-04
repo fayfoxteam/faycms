@@ -6,6 +6,29 @@ use fay\models\Menu;
 use fay\models\tables\Menus;
 
 class IndexController extends Widget{
+	public function getData($config){
+		if(empty($config['top'])){
+			$config['top'] = Menus::ITEM_USER_MENU;
+		}
+		
+		$menus = Menu::model()->getTree($config['top'], true, true);
+		$this->removeFields($menus);
+		return $menus;
+	}
+	
+	/**
+	 * 移除一些对客户端没用的字段
+	 * @param array $menus
+	 */
+	private function removeFields(&$menus){
+		foreach($menus as &$m){
+			unset($m['left_value'],$m['right_value'],$m['sort']);
+			if(!empty($m['children'])){
+				$this->removeFields($m['children']);
+			}
+		}
+	}
+	
 	public function index($config){
 		//root node
 		if(empty($config['top'])){

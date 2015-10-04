@@ -7,6 +7,7 @@ use fay\helpers\Html;
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link type="image/x-icon" href="<?php echo $this->appStatic('favicon.ico')?>" rel="shortcut icon" />
 <?php if(!empty($canonical)){?>
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>

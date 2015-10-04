@@ -164,22 +164,22 @@ var goods = {
 				counter[i].current++;
 			}
 		}
-		//console.log(table);
+		console.log(table);
 		//生成表格
 		$.each(table, function(i, data){
-			html += '<tr>';
-			$.each(data.tds, function(j, data2){
-				html += '	<td rowspan="'+data2.rowspan+'">'+data2.alias+'</td>';
-			});
-
 			var path = data.path.join(';');
 			var price = (goods.skus[path]) ? goods.skus[path].price : $("#sku-price").val();
 			var quantity = (goods.skus[path]) ? goods.skus[path].quantity : 1;
 			var tsces = (goods.skus[path]) ? goods.skus[path].tsces : '';
 			
-			html += '	<td><input type="text" name="prices['+path+']" value="'+price+'" class="text-short" data-rule="float" data-params="{\'langth\':8,decimal:2}" data-label="sku价格" /></td>';
-			html += '	<td><input type="text" name="quantities['+path+']" value="'+quantity+'" class="text-short sku-quantity" data-rule="int" data-label="sku数量" /></td>';
-			html += '	<td><input type="text" name="tsces['+path+']" value="'+tsces+'" class="text-short" /></td>';			
+			html += '<tr>';
+			$.each(data.tds, function(j, data2){
+				html += '	<td rowspan="'+data2.rowspan+'"><span id="label-'+path+'">'+data2.alias+'</span></td>';
+			});
+			
+			html += '	<td><input type="text" name="prices['+path+']" value="'+price+'" class="form-control mw100 ib" data-rule="float" data-params="{\'langth\':8,decimal:2}" data-label="sku价格" /></td>';
+			html += '	<td><input type="text" name="quantities['+path+']" value="'+quantity+'" class="form-control mw100 ib sku-quantity" data-rule="int" data-label="sku数量" /></td>';
+			html += '	<td><input type="text" name="tsces['+path+']" value="'+tsces+'" class="form-control mw100 ib" /></td>';			
 			html += '</tr>';
 		});
 

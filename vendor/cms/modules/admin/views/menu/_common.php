@@ -331,7 +331,7 @@ var menu = {
 					if(resp.status){
 						$(o).find('span').removeClass("tick-circle")
 							.removeClass("cross-circle")
-							.addClass(resp.enabled == 1 ? "tick-circle" : "cross-circle")
+							.addClass(resp.data.enabled == 1 ? "tick-circle" : "cross-circle")
 							.show()
 							.next("img").remove();
 					}else{

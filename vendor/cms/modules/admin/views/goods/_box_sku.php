@@ -16,19 +16,18 @@ use fay\helpers\Html;
 						<?php foreach($p['prop_values'] as $pv){?>
 							<p class="ib w240 sku-item">
 								<?php echo F::form()->inputCheckbox("cp_sale[{$p['id']}][]", $pv['id'], array(
-									'id'=>"cp_sale_{$p['id']}_{$pv['id']}",
+									'id'=>"cp-sale-{$p['id']}-{$pv['id']}",
 									'data-rule'=>'string',
 									'data-params'=>'{max:255}',
 									'data-label'=>$p['title'].'属性',
 									'data-required'=>$p['required'] ? 'required' : false,
 								))?>
-								<label for="<?php echo "cp_sale_{$p['id']}_{$pv['id']}"?>"><?php echo $pv['title']?></label>
+								<label for="<?php echo "cp-sale-{$p['id']}-{$pv['id']}"?>"><?php echo $pv['title']?></label>
 								<?php echo Html::inputText("cp_alias[{$p['id']}][{$pv['id']}]", $pv['title'], array(
 									'class'=>'form-control mw200 ib fn-hide',
 								))?>
 							</p>
 						<?php }?>
-						<div class="clear"></div>
 					</div>
 				</div>
 			<?php }?>

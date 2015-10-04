@@ -153,7 +153,9 @@ class MenuController extends AdminController{
 		
 		$menu = Menus::model()->find($this->input->get('id', 'intval'), 'enabled');
 		Response::output('success', array(
-			'enabled'=>$menu['enabled'],
+			'data'=>array(
+				'enabled'=>$menu['enabled'],
+			),
 		));
 	}
 	

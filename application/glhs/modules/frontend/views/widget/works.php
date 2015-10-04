@@ -4,7 +4,7 @@ use fay\models\File;
 ?>
 <div class="box right works">
 	<h3 class="box-title">
-		<span>师生作品</span>
+		<span><?php echo Html::encode($config['title'])?></span>
 	</h3>
 	<div class="box-content">
 		<ul class="cf">

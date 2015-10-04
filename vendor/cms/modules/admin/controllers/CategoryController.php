@@ -52,7 +52,7 @@ class CategoryController extends AdminController{
 				$cat = Categories::model()->find($cat_id);
 				Response::output('success', array(
 					'cat'=>$cat,
- 					'message'=>'分类'.$cat['title'].'添加成功',
+ 					'message'=>'分类<span class="fc-orange">'.Html::encode($cat['title']).'</span>添加成功',
 				));
 			}else{
 				Response::output('error', '参数异常');
@@ -103,7 +103,7 @@ class CategoryController extends AdminController{
 				
 				$cat = Categories::model()->find($cat_id);
 				Response::output('success', array(
-					'message'=>'分类'.Html::encode($cat['title']).'编辑成功',
+					'message'=>'分类<span class="fc-orange">'.Html::encode($cat['title']).'</span>编辑成功',
 					'cat'=>$cat,
 				));
 			}else{

@@ -59,7 +59,7 @@ class PostController extends AdminController{
 	 */
 	public $default_box_sort = array(
 		'side'=>array(
-			'publish-time', 'thumbnail', 'main-category', 'views', 'likes', 'alias', 'props', 'gather',
+			'publish_time', 'thumbnail', 'main_category', 'views', 'likes', 'alias', 'props', 'gather',
 		),
 		'normal'=>array(
 			'abstract', 'tags', 'files', 'seo'
@@ -194,7 +194,7 @@ class PostController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_post');
 		
 		//标题
-		if(in_array('main-category', $enabled_boxes)){
+		if(in_array('main_category', $enabled_boxes)){
 			$this->layout->subtitle = '撰写文章';
 		}else{
 			//若没有给出主分类选择框，则在标题中显示分类名
@@ -417,7 +417,7 @@ class PostController extends AdminController{
 				//更新posts表
 				$data = Posts::model()->setAttributes($this->input->post());
 				$data['last_modified_time'] = $this->current_time;
-				if(in_array('publish-time', $enabled_boxes)){
+				if(in_array('publish_time', $enabled_boxes)){
 					if(empty($data['publish_time'])){
 						$data['publish_time'] = $this->current_time;
 						$data['publish_date'] = date('Y-m-d', $data['publish_time']);

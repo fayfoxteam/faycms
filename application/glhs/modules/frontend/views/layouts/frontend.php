@@ -29,6 +29,13 @@ echo Option::get('site:sitename')?></title>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::session()->get('id', 0)?>';
 </script>
+<style>
+<?php
+$footer_image = F::widget()->getData('footer-background-image');
+if(!empty($footer_image['src'])){
+echo '.g-footer{background-image:url('.$footer_image['src'].')}';
+}?>
+</style>
 </head>
 <body>
 <div class="wrap">

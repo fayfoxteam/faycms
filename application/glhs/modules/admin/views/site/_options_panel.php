@@ -58,13 +58,13 @@ use fay\models\Option;
 			</div>
 			<div class="form-field">
 				<label class="title">首页Keywords</label>
-				<?php echo Html::textarea('seo_index_keywords', Option::get('site:seo_index_keywords'), array(
+				<?php echo Html::textarea('site:seo_index_keywords', Option::get('site:seo_index_keywords'), array(
 					'class'=>'form-control h90 autosize',
 				))?>
 			</div>
 			<div class="form-field">
 				<label class="title">首页Description</label>
-				<?php echo Html::textarea('seo_index_description', Option::get('site:seo_index_description'), array(
+				<?php echo Html::textarea('site:seo_index_description', Option::get('site:seo_index_description'), array(
 					'class'=>'form-control h90 autosize',
 				))?>
 			</div>

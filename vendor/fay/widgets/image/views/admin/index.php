@@ -57,10 +57,10 @@ $(function(){
 	
 	uploader.bind('FileUploaded', function(up, file, response) {
 		var resp = $.parseJSON(response.response);
-		$('#file_id').val(resp.id);
-		$('#file-preview').html('<img src="'+resp.url+'" />');
-		$("input[name='width']").val(resp.image_width);
-		$("input[name='height']").val(resp.image_height);
+		$('#file_id').val(resp.data.id);
+		$('#file-preview').html('<img src="'+resp.data.url+'" />');
+		$("input[name='width']").val(resp.data.image_width);
+		$("input[name='height']").val(resp.data.image_height);
 	});
 	
 });

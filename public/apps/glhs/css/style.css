@@ -165,7 +165,7 @@ a:hover{color:#e12236;}
 .sec-title span:before,.sec-title span:after{content:"";background:url(images/border-title.png) 0 0 repeat-x;height:1px;width:1000px;top:85%;display:block;position:absolute;}
 .sec-title span:before{left:-1019px;}
 .sec-title span:after{right:-1019px;}
-#contact-map{border:1px solid #9b9b9b;margin-bottom:30px;}
+.baidu-map{border:1px solid #9b9b9b;margin-bottom:30px;}
 #contact-page{margin-bottom:70px;}
 
 #leave-message-form{margin-bottom:30px;}

@@ -46,6 +46,7 @@ class WidgetController extends ToolsController{
 			));
 			if($widget_config['enabled']){
 				$widget_obj = $this->widget->get($widget_config['widget_name']);
+				$widget_obj->alias = $alias;//别名
 				$action = $this->input->request('action', 'trim', 'index');
 				if($widget_obj == null){
 					throw new HttpException('Widget不存在或已被删除');

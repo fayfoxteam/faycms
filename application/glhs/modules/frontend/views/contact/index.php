@@ -5,7 +5,7 @@ use fay\models\Option;
 	<div class="g-mn">
 		<h1 class="sec-title"><span>联系我们</span></h1>
 		
-		<div id="contact-map" style="height:358px;"></div>
+		<?php F::widget()->load('contact-map')?>
 		
 		<div id="contact-page" class="clearfix">
 			<?php echo $page['content']?>
@@ -39,24 +39,8 @@ use fay\models\Option;
 </div>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>" />
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=10b033765ad00c668fcdd20902dab530"></script>
 <script>
 $(function(){
-	// 百度地图API功能
-	var map = new BMap.Map("contact-map");// 创建Map实例
-	map.centerAndZoom(new BMap.Point(120.202605, 30.212051), 13);// 初始化地图,设置中心点坐标和地图级别
-	map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
-	map.addControl(new BMap.ScaleControl());// 添加比例尺控件
-	map.enableScrollWheelZoom();//启用滚轮放大缩小
-
-	var marker1 = new BMap.Marker(new BMap.Point(120.202605, 30.212051));// 创建标注
-	map.addOverlay(marker1);              // 将标注添加到地图中
-
-	//创建信息窗口
-	var infoWindow1 = new BMap.InfoWindow("<?php echo Option::get('site:sitename')?>");
-	marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
-
-
 	$("#leave-message-form-submit").on('click', function(){
 		$("#leave-message-form").submit();
 	});

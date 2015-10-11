@@ -131,7 +131,7 @@ class PostController extends AdminController{
 				}
 				
 				//设置附件
-				$desc = $this->input->post('description');
+				$description = $this->input->post('description');
 				$files = $this->input->post('files', 'intval', array());
 				$i = 0;
 				foreach($files as $f){
@@ -140,7 +140,7 @@ class PostController extends AdminController{
 					PostsFiles::model()->insert(array(
 						'file_id'=>$f,
 						'post_id'=>$post_id,
-						'description'=>$desc[$f],
+						'description'=>$description[$f],
 						'is_image'=>$file['is_image'],
 						'sort'=>$i,
 					));

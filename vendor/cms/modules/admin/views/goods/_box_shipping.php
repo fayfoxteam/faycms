@@ -1,6 +1,6 @@
-<div class="box">
+<div class="box" id="box-shipping" data-name="shipping">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
+		<a class="tools remove" title="隐藏"></a>
 		<h4>物流参数</h4>
 	</div>
 	<div class="box-content">

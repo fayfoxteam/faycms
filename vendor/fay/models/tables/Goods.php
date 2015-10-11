@@ -13,6 +13,7 @@ use fay\core\db\Table;
  * @property int $create_time
  * @property int $last_modified_time
  * @property int $publish_time
+ * @property int $user_id
  * @property int $sub_stock
  * @property float $weight
  * @property float $size
@@ -63,7 +64,7 @@ class Goods extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('cat_id', 'views', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('num'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('sub_stock', 'status'), 'int', array('min'=>0, 'max'=>255)),
@@ -85,12 +86,13 @@ class Goods extends Table{
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 			'publish_time'=>'发布时间',
+			'user_id'=>'用户ID',
 			'sub_stock'=>'何时减库存',
 			'weight'=>'单位:kg',
 			'size'=>'单位:立方米',
 			'post_fee'=>'运费',
-			'sn'=>'Sn',
-			'thumbnail'=>'Thumbnail',
+			'sn'=>'货号',
+			'thumbnail'=>'缩略图',
 			'num'=>'库存',
 			'price'=>'价格',
 			'status'=>'Status',
@@ -98,7 +100,7 @@ class Goods extends Table{
 			'is_hot'=>'热销',
 			'views'=>'浏览量',
 			'deleted'=>'Deleted',
-			'sort'=>'Sort',
+			'sort'=>'排序值',
 			'seo_title'=>'Seo Title',
 			'seo_keywords'=>'Seo Keywords',
 			'seo_description'=>'Seo Description',
@@ -113,6 +115,7 @@ class Goods extends Table{
 			'create_time'=>'',
 			'last_modified_time'=>'',
 			'publish_time'=>'trim',
+			'user_id'=>'intval',
 			'sub_stock'=>'intval',
 			'weight'=>'floatval',
 			'size'=>'floatval',

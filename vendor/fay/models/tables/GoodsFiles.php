@@ -5,8 +5,7 @@ use fay\core\db\Table;
 
 /**
  * Goods Files model
- *
- * @property int $id
+ * 
  * @property int $goods_id
  * @property int $file_id
  * @property string $description
@@ -15,6 +14,7 @@ use fay\core\db\Table;
  */
 class GoodsFiles extends Table{
 	protected $_name = 'goods_files';
+	protected $_primary = array('goods_id', 'file_id');
 	
 	/**
 	 * @return GoodsFiles
@@ -25,7 +25,7 @@ class GoodsFiles extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id', 'goods_id', 'file_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('goods_id', 'file_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('description'), 'string', array('max'=>255)),
 		);
@@ -33,7 +33,6 @@ class GoodsFiles extends Table{
 
 	public function labels(){
 		return array(
-			'id'=>'Id',
 			'goods_id'=>'商品Id',
 			'file_id'=>'文件Id',
 			'description'=>'描述',
@@ -48,6 +47,7 @@ class GoodsFiles extends Table{
 			'file_id'=>'intval',
 			'description'=>'trim',
 			'sort'=>'intval',
+			'create_time'=>'',
 		);
 	}
 }

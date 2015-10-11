@@ -277,6 +277,7 @@ CREATE TABLE `{{$prefix}}goods` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `sub_stock` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '何时减库存',
   `weight` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:kg',
   `size` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:立方米',
@@ -325,13 +326,12 @@ CREATE TABLE `{{$prefix}}goods_cat_props` (
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_files`;
 CREATE TABLE `{{$prefix}}goods_files` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品Id',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件Id',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`goods_id`,`file_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_prop_values`;
@@ -346,13 +346,12 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `goods_id` int(10) unsigned NOT NULL COMMENT 'Goods Id',
-  `prop_value_ids` varchar(255) NOT NULL DEFAULT '' COMMENT 'Prop Value Ids',
-  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Price',
-  `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Quantity',
+  `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
+  `key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Key',
+  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
+  `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`goods_id`,`key`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}item_prop_values`;
@@ -562,7 +561,7 @@ CREATE TABLE `{{$prefix}}posts` (
   `publish_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '发布日期',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
   `last_view_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后访问时间',
-  `user_id` int(9) unsigned NOT NULL DEFAULT '0' COMMENT '作者',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '作者',
   `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '文章状态',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',

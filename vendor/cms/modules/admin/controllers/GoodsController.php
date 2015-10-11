@@ -19,6 +19,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Flash;
 use fay\models\Setting;
+use fay\core\HttpException;
 
 class GoodsController extends AdminController{
 	/**
@@ -34,6 +35,7 @@ class GoodsController extends AdminController{
 		array('name'=>'seo', 'title'=>'SEO优化'),
 		array('name'=>'files', 'title'=>'画廊'),
 		array('name'=>'props', 'title'=>'商品属性'),
+		array('name'=>'sale_info', 'title'=>'销售属性'),
 	);
 	
 	/**
@@ -85,35 +87,41 @@ class GoodsController extends AdminController{
 		//获取分类
 		$cat = Category::model()->get($this->input->get('cat_id', 'intval'), 'id,title');
 		
+		if(!$cat){
+			throw new HttpException('未指定商品分类或指定分类不存在');
+		}
+		
 		$this->layout->subtitle = '添加商品 - 所属分类：'.$cat['title'];
 		$this->layout->sublink = array(
 			'uri'=>array('admin/goods/cat'),
 			'text'=>'商品分类',
 		);
 		
-		$this->form()->setModel(Goods::model())
-			->setModel(GoodsFiles::model());
+		$this->form()->setModel(Goods::model());
 		if($this->input->post()){
 			//插入goods表
 			$data = Goods::model()->setAttributes($this->input->post());
 			$data['create_time'] = $this->current_time;
+			$data['last_modified_time'] = $this->current_time;
+			$data['user_id'] = $this->current_user;
+			$data['cat_id'] = $cat['id'];
 			empty($data['sub_stock']) && $data['sub_stock'] = Goods::SUB_STOCK_PAY;
 			empty($data['publish_time']) ? $data['publish_time'] = $this->current_time : $data['publish_time'] = strtotime($data['publish_time']);
 			
 			$goods_id = Goods::model()->insert($data);
 			
 			//设置gallery
-			$desc = $this->input->post('desc');
-			$photos = $this->input->post('photos', 'intval', array());
+			$description = $this->input->post('description');
+			$files = $this->input->post('files', 'intval', array());
 			$i = 0;
-			foreach($photos as $p){
+			foreach($files as $f){
 				$i++;
 				GoodsFiles::model()->insert(array(
-					'file_id'=>$p,
 					'goods_id'=>$goods_id,
-					'desc'=>$desc[$p],
-					'position'=>$i,
+					'file_id'=>$f,
+					'description'=>$description[$f],
 					'create_time'=>$this->current_time,
+					'sort'=>$i,
 				));
 			}
 			
@@ -198,7 +206,7 @@ class GoodsController extends AdminController{
 			foreach($prices as $k => $p){
 				GoodsSkus::model()->insert(array(
 					'goods_id'=>$goods_id,
-					'prop_value_ids'=>$k,
+					'key'=>$k,
 					'price'=>$p,
 					'quantity'=>$quantities[$k],
 					'tsces'=>$tsces[$k],
@@ -252,7 +260,6 @@ class GoodsController extends AdminController{
 				'enabled_boxes'=>$enabled_boxes,
 			));
 		
-		$this->view->boxes = $this->boxes;
 		$this->view->render();
 	}
 	
@@ -329,7 +336,7 @@ class GoodsController extends AdminController{
 				if(in_array($p, $old_files_ids)){
 					GoodsFiles::model()->update(array(
 						'desc'=>$desc[$p],
-						'position'=>$i,
+						'sort'=>$i,
 					), array(
 						'goods_id = ?'=>$goods_id,
 						'file_id = ?'=>$p,
@@ -339,7 +346,7 @@ class GoodsController extends AdminController{
 						'file_id'=>$p,
 						'goods_id'=>$goods_id,
 						'desc'=>$desc[$p],
-						'position'=>$i,
+						'sort'=>$i,
 						'create_time'=>$this->current_time,
 					));
 				}
@@ -500,14 +507,14 @@ class GoodsController extends AdminController{
 			$prices = $this->input->post('prices', 'floatval', array());
 			$quantities = $this->input->post('quantities', 'intval', array());
 			$tsces = $this->input->post('tsces', array());
-			$old_skus = GoodsSkus::model()->fetchCol('prop_value_ids', array(
+			$old_skus = GoodsSkus::model()->fetchCol('key', array(
 				'goods_id = ?'=>$goods_id,
 			));
 			//删除已被删除的sku
 			$new_sku_keys = array_keys($prices);
 			GoodsSkus::model()->delete(array(
 				'goods_id = ?'=>$goods_id,
-				"prop_value_ids NOT IN ('".implode("','", $new_sku_keys)."')"
+				"key NOT IN ('".implode("','", $new_sku_keys)."')"
 			));
 			foreach($prices as $k => $p){
 				if(in_array($k, $old_skus)){
@@ -517,12 +524,12 @@ class GoodsController extends AdminController{
 						'quantity'=>$quantities[$k],
 						'tsces'=>$tsces[$k],
 					), array(
-						'prop_value_ids = ?'=>$k,
+						'key = ?'=>$k,
 					));
 				}else{
 					GoodsSkus::model()->insert(array(
 						'goods_id'=>$goods_id,
-						'prop_value_ids'=>$k,
+						'key'=>$k,
 						'price'=>$p,
 						'quantity'=>$quantities[$k],
 						'tsces'=>$tsces[$k],
@@ -541,15 +548,16 @@ class GoodsController extends AdminController{
 		//获取分类
 		$cat = Categories::model()->find($goods['cat_id'], 'id,title');
 		
+		$parentIds = Category::model()->getParentIds($cat['id']);
 		//props
 		$props = GoodsCatProps::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'sort, id');
 		
 		//prop_values
 		$prop_values = GoodsCatPropValues::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'prop_id, sort');
 		
@@ -564,10 +572,28 @@ class GoodsController extends AdminController{
 		
 		$this->view->props = $props;
 		
-		$this->view->goods = $goods;
+		//可配置信息
+		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
+		$this->view->_box_sort_settings = $_box_sort_settings;
+		
+		$this->layout->_setting_panel = '_setting_edit';
+		$_setting_key = 'admin_goods_boxes';
+		$_settings = Setting::model()->get($_setting_key);
+		$_settings || $_settings = array();
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setJsModel('setting')
+			->setData($_settings)
+			->setData(array(
+				'_key'=>$_setting_key,
+				'enabled_boxes'=>$enabled_boxes,
+			));
+		
+		$this->view->files = $goods['files'];
 		$this->form()->setData($goods);
 
-		$this->view->boxes = $this->boxes;
 		$this->view->render();
 	}
 	

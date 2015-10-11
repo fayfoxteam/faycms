@@ -24,7 +24,7 @@ use fay\helpers\Html;
 								))?>
 								<label for="<?php echo "cp-sale-{$p['id']}-{$pv['id']}"?>"><?php echo $pv['title']?></label>
 								<?php echo Html::inputText("cp_alias[{$p['id']}][{$pv['id']}]", $pv['title'], array(
-									'class'=>'form-control mw200 ib fn-hide',
+									'class'=>'form-control mw200 ib fn-hide cp-alias',
 								))?>
 							</p>
 						<?php }?>

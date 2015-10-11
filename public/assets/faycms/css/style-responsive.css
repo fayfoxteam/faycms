@@ -153,6 +153,10 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .list-table .desc .sorting-indicator:before{content:"\f0d8"}
 .list-table .desc:hover .sorting-indicator:before{content:"\f0d7"}
 
+/* 带一像素边框的表格 */
+.border-table{border-collapse:collapse;border-spacing:0}
+.border-table td,.border-table th{border:1px solid #f0f0ee;padding:8px 16px;text-align:center;vertical-align:middle}
+
 /* dialog */
 .dialog{overflow:auto}
 .dialog-content{padding:20px 30px;min-width:400px}
@@ -612,6 +616,7 @@ pre li:hover{background-color:#575757}
 .mt0{margin-top:0 !important}
 .mt5{margin-top:5px !important}
 .mt6{margin-top:6px !important}
+.mt32{margin-top:32px !important}
 .ml5{margin-left:5px !important}
 .mr10{margin-right:10px !important}
 .pt0{padding-top:0 !important}

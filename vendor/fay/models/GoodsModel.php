@@ -5,8 +5,8 @@ use fay\core\Model;
 use fay\models\tables\Goods;
 use fay\models\tables\GoodsFiles;
 use fay\core\Sql;
-use fay\models\tables\CatProps;
 use fay\models\tables\GoodsSkus;
+use fay\models\tables\GoodsCatProps;
 
 class GoodsModel extends Model{
 	/**
@@ -28,7 +28,7 @@ class GoodsModel extends Model{
 			//画廊
 			$goods['files'] = GoodsFiles::model()->fetchAll(array(
 				'goods_id = ?'=>$id,
-			), '*', 'position');
+			), '*', 'sort');
 		}
 		
 		if(in_array('props', $fields)){
@@ -36,7 +36,7 @@ class GoodsModel extends Model{
 			$goods['props'] = array();
 			$sql = new Sql();
 			$goods_props = $sql->from('goods_prop_values', 'gpv')
-				->joinLeft('cat_props', 'cp', 'gpv.prop_id = cp.id', '!id')
+				->joinLeft('goods_cat_props', 'cp', 'gpv.prop_id = cp.id', '!id')
 				->where(array(
 					'gpv.goods_id = ?'=>$id,
 					'cp.deleted = 0',
@@ -59,7 +59,7 @@ class GoodsModel extends Model{
 						'is_input_prop'=>$gp['is_input_prop'],
 						'deleted'=>$gp['deleted'],
 						'sort'=>$gp['sort'],
-						'multi'=>$gp['type'] == CatProps::TYPE_CHECK ? true : false,
+						'multi'=>$gp['type'] == GoodsCatProps::TYPE_CHECK ? true : false,
 						'values'=>array(
 							$gp['prop_value_id'] => $gp['prop_value_alias'],
 						),
@@ -77,7 +77,7 @@ class GoodsModel extends Model{
 				'goods_id = ?'=>$id,
 			), '!goods_id');
 			foreach($skus as $s){
-				$goods['skus'][$s['prop_value_ids']] = $s;
+				$goods['skus'][$s['key']] = $s;
 			}
 		}
 

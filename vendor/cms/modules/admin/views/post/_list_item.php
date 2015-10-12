@@ -24,6 +24,9 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
 		'class'=>'batch-ids',
 		'disabled'=>$editable ? false : 'disabled',
 	));?></td>
+	<?php if(in_array('id', $cols)){?>
+	<td><?php echo $data['id']?></td>
+	<?php }?>
 	<td>
 		<strong>
 			<?php if($editable){
@@ -97,7 +100,14 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
 	</td>
 	<?php }?>
 	<?php if(in_array('user', $cols)){?>
-	<td><?php echo Html::encode($data[F::form('setting')->getData('display_name', 'username')])?></td>
+	<td><?php
+		echo Html::link($data[F::form('setting')->getData('display_name', 'username')], array(
+			'admin/post/index', array(
+				'keywords_field'=>'p.user_id',
+				'keywords'=>$data['user_id'],
+			),
+		));
+	?></td>
 	<?php }?>
 	<?php if(in_array('views', $cols)){?>
 	<td><?php echo $data['views']?></td>

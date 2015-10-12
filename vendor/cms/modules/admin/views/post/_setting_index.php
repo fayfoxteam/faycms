@@ -3,6 +3,9 @@
 	<div class="form-field">
 		<label class="title bold">显示下列项目</label>
 		<?php
+		echo F::form('setting')->inputCheckbox('cols[]', 'id', array(
+			'label'=>'文章ID',
+		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'main_category', array(
 			'label'=>'主分类',
 		));

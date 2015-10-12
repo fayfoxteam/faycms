@@ -11,47 +11,56 @@ $cols = F::form('setting')->getData('cols', array());
 		<?php echo F::form('search')->open(null, 'get', array(
 			'class'=>'form-inline',
 		))?>
-			<div class="mb5">
-				文章标题：<?php echo F::form('search')->inputText('title', array(
+			<div class="mb5"><?php
+				echo F::form('search')->select('keywords_field', array(
+					'p.title'=>'文章标题',
+					'p.id'=>'文章ID',
+					'p.user_id'=>'作者ID',
+				), array(
+					'class'=>'form-control',
+				)),
+				'&nbsp;',
+				F::form('search')->inputText('keywords', array(
 					'class'=>'form-control w200',
-				));?>
-				|
-				<?php echo F::form('search')->select('cat_id', array(
+				)),
+				' | ',
+				F::form('search')->select('cat_id', array(
 					''=>'--分类--',
 				) + Html::getSelectOptions($cats, 'id', 'title'), array(
 					'class'=>'form-control',
-				))?>
-				<?php if(in_array('category', $enabled_boxes)){
+				));
+				if(in_array('category', $enabled_boxes)){
 					echo F::form('search')->inputCheckbox('with_slave', 1, array(
 						'label'=>'附加分类',
 						'title'=>'同时搜索文章主分类和附加分类',
 					));
-				}?>
-				<?php echo F::form('search')->inputCheckbox('with_child', 1, array(
+				}
+				echo F::form('search')->inputCheckbox('with_child', 1, array(
 					'label'=>'子分类',
 					'title'=>'符合所选分类子分类的文章也将被搜出',
-				))?>
-			</div>
-			<div>
-				<?php echo F::form('search')->select('time_field', array(
+				));
+			?></div>
+			<div><?php
+				echo F::form('search')->select('time_field', array(
 					'publish_time'=>'发布时间',
 					'create_time'=>'创建时间',
 					'last_modified_time'=>'最后修改时间',
 				), array(
 					'class'=>'form-control',
-				));?>
-				<?php echo F::form('search')->inputText('start_time', array(
+				)),
+				'&nbsp;',
+				F::form('search')->inputText('start_time', array(
 					'data-rule'=>'datetime',
 					'data-label'=>'时间',
 					'class'=>'form-control datetimepicker',
-				));?>
-				-
-				<?php echo F::form('search')->inputText('end_time', array(
+				)),
+				' | ',
+				F::form('search')->inputText('end_time', array(
 					'data-rule'=>'datetime',
 					'data-label'=>'时间',
 					'class'=>'form-control datetimepicker',
-				));?>
-				<?php echo F::form('search')->submitLink('查询', array(
+				)),
+				F::form('search')->submitLink('查询', array(
 					'class'=>'btn btn-sm',
 				))?>
 			</div>
@@ -134,6 +143,9 @@ $cols = F::form('setting')->getData('cols', array());
 				<thead>
 					<tr>
 						<th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
+						<?php if(in_array('id', $cols)){?>
+						<th class="w70">文章ID</th>
+						<?php }?>
 						<th>标题</th>
 						<?php if(in_array('main_category', $cols)){?>
 						<th>主分类</th>
@@ -151,10 +163,10 @@ $cols = F::form('setting')->getData('cols', array());
 						<th>作者</th>
 						<?php }?>
 						<?php if(in_array('views', $cols)){?>
-						<th class="w70"><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
+						<th class="w90"><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
 						<?php }?>
 						<?php if(in_array('comments', $cols)){?>
-						<th class="w70"><?php echo ListTableHelper::getSortLink('comments', '评论数')?></th>
+						<th class="w90"><?php echo ListTableHelper::getSortLink('comments', '评论数')?></th>
 						<?php }?>
 						<?php if(in_array('publish_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
@@ -176,6 +188,9 @@ $cols = F::form('setting')->getData('cols', array());
 				<tfoot>
 					<tr>
 						<th><input type="checkbox" class="batch-ids-all" /></th>
+						<?php if(in_array('id', $cols)){?>
+						<th>文章ID</th>
+						<?php }?>
 						<th>标题</th>
 						<?php if(in_array('main_category', $cols)){?>
 						<th>主分类</th>

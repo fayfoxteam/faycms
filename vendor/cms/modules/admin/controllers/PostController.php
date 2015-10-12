@@ -266,8 +266,14 @@ class PostController extends AdminController{
 		}
 		
 		//获得表单提交数据
-		if($this->input->get('title')){
-			$sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('title').'%'));
+		if($this->input->get('keywords')){
+			if(in_array($this->input->get('keywords_field'), array('p.title'))){
+				$sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+			}else if(in_array($this->input->get('keywords_field'), array('p.id', 'p.user_id'))){
+				$sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+			}else{
+				$sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
+			}
 		}
 		if($this->input->get('start_time')){
 			$sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));

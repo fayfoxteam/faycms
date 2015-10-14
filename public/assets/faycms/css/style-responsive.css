@@ -360,7 +360,7 @@ input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
 .leaf-title.terminal{background:url(images/tree/L1.gif) repeat-y scroll 0 8px transparent}
 .leaf-title i.fa{margin-right:4px}
 .leaf:hover{background-color:#f1f1f1}
-.leaf{height:32px;line-height:32px;transition:all 0.2s linear 0s}
+.leaf{height:34px;line-height:32px;transition:all 0.2s linear 0s}
 .leaf .options .form-control{padding-top:4px;padding-bottom:4px;line-height:1;vertical-align: inherit}
 .leaf .options a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 5px}
 .leaf .options a:last-child{background:0 none}

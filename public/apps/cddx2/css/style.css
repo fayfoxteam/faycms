@@ -65,7 +65,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .g-hd .w1000{position:relative;}
 .g-hd .g-nav{height:46px;background:url(images/nav-bg.png) repeat-x scroll center top transparent;position:absolute;bottom:0;width:100%;}
 .g-hd .g-nav ul li{display:block;float:left;background:url(images/nav-sep.png) no-repeat scroll left center transparent;}
-.g-hd .g-nav ul li a{display:block;line-height:46px;color:#fff;padding:0 39px;font-size:16px;}
+.g-hd .g-nav ul li a{display:block;line-height:46px;color:#fff;padding:0 28px;font-size:16px;}
 .g-hd .g-nav ul li:first-child{background:none;}
 
 .g-hd .hd-search-bar{position:absolute;top:8px;left:680px;color:#fff;}

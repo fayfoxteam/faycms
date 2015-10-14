@@ -24,6 +24,7 @@ INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUE
 INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUES ('成都改革', 'Revolution_in_Chengdu', '10000', '1');
 INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUES ('教学研究', 'Education_Research', '10000', '1');
 INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUES ('机关党建', 'Consolidation_Works', '10000', '1');
+INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUES ('党风廉政建设', 'dangfenglianzhengjianshe', '10000', '1');
 INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUES ('公告栏', 'Noticeboard', '10000', '0');
 INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUES ('常用软件下载', 'Download', '10000', '0');
 INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_nav`) VALUES ('重点热点研究', 'hot', '10000', '0');

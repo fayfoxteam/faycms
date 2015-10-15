@@ -3,6 +3,34 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Posts model
+ *
+ * @property int $id
+ * @property int $cat_id
+ * @property string $title
+ * @property string $alias
+ * @property string $content
+ * @property int $content_type
+ * @property int $create_time
+ * @property int $last_modified_time
+ * @property string $publish_date
+ * @property int $publish_time
+ * @property int $last_view_time
+ * @property int $user_id
+ * @property int $is_top
+ * @property int $status
+ * @property int $deleted
+ * @property int $thumbnail
+ * @property string $abstract
+ * @property int $sort
+ * @property int $views
+ * @property int $comments
+ * @property int $likes
+ * @property string $seo_title
+ * @property string $seo_keywords
+ * @property string $seo_description
+ */
 class Posts extends Table{
 	protected $_name = 'posts';
 
@@ -52,9 +80,9 @@ class Posts extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id', 'create_time', 'last_modified_time', 'user_id', 'thumbnail', 'comments'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'create_time', 'last_modified_time', 'user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('cat_id', 'views'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('likes'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('likes', 'comments'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'abstract'), 'string', array('max'=>500)),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
@@ -87,9 +115,9 @@ class Posts extends Table{
 			'deleted'=>'Deleted',
 			'thumbnail'=>'缩略图',
 			'abstract'=>'摘要',
-			'comments'=>'评论数量',
 			'sort'=>'排序',
 			'views'=>'阅读数',
+			'comments'=>'评论数',
 			'likes'=>'点赞数',
 			'seo_title'=>'Seo Title',
 			'seo_keywords'=>'Seo Keywords',
@@ -115,9 +143,9 @@ class Posts extends Table{
 			'deleted'=>'intval',
 			'thumbnail'=>'intval',
 			'abstract'=>'trim',
-			'comments'=>'intval',
 			'sort'=>'intval',
 			'views'=>'intval',
+			'comments'=>'intval',
 			'likes'=>'intval',
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',

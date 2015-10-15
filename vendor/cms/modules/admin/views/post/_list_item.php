@@ -28,15 +28,15 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
 	<td><?php echo $data['id']?></td>
 	<?php }?>
 	<td>
-		<strong>
-			<?php if($editable){
+		<strong><?php
+			if($editable){
 				echo Html::link($data['title'] ? $data['title'] : '--无标题--', array('admin/post/edit', array(
 					'id'=>$data['id'],
 				)));
 			}else{
 				echo Html::link($data['title'] ? $data['title'] : '--无标题--', 'javascript:;');
-			}?>
-		</strong>
+			}
+		?></strong>
 		<div class="row-actions">
 		<?php if($editable){
 			if($data['deleted'] == 0){
@@ -95,9 +95,7 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td>
-	<?php echo PostHelper::getStatus($data['status'], $data['deleted']);?>
-	</td>
+	<td><?php echo PostHelper::getStatus($data['status'], $data['deleted']);?></td>
 	<?php }?>
 	<?php if(in_array('user', $cols)){?>
 	<td><?php

@@ -26,6 +26,8 @@ use fay\core\db\Table;
  * @property int $is_new
  * @property int $is_hot
  * @property int $views
+ * @property int $sales
+ * @property int $comments
  * @property int $deleted
  * @property int $sort
  * @property string $seo_title
@@ -65,8 +67,8 @@ class Goods extends Table{
 	public function rules(){
 		return array(
 			array(array('id', 'user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('cat_id', 'views', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('num'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('cat_id', 'views', 'sales', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('num', 'comments'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('sub_stock', 'status'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
 			array(array('sn'), 'string', array('max'=>50)),
@@ -95,10 +97,12 @@ class Goods extends Table{
 			'thumbnail'=>'缩略图',
 			'num'=>'库存',
 			'price'=>'价格',
-			'status'=>'Status',
+			'status'=>'状态',
 			'is_new'=>'新品',
 			'is_hot'=>'热销',
 			'views'=>'浏览量',
+			'sales'=>'总销量',
+			'comments'=>'评论数',
 			'deleted'=>'Deleted',
 			'sort'=>'排序值',
 			'seo_title'=>'Seo Title',
@@ -128,6 +132,8 @@ class Goods extends Table{
 			'is_new'=>'intval',
 			'is_hot'=>'intval',
 			'views'=>'intval',
+			'sales'=>'intval',
+			'comments'=>'intval',
 			'deleted'=>'intval',
 			'sort'=>'intval',
 			'seo_title'=>'trim',

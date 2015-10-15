@@ -271,6 +271,23 @@ class GoodsController extends AdminController{
 			'text'=>'添加商品',
 		);
 
+		$this->layout->_setting_panel = '_setting_index';
+		$_setting_key = 'admin_goods_index';
+		$_settings = Setting::model()->get($_setting_key);
+		$_settings || $_settings = array(
+			'cols'=>array('avatar', 'category', 'price', 'is_new', 'is_hot', 'sales', 'status', 'create_time', 'sort'),
+			'display_name'=>'username',
+			'display_time'=>'short',
+			'page_size'=>10,
+		);
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setData($_settings)
+			->setData(array(
+				'_key'=>$_setting_key
+			))
+			->setJsModel('setting');
+
 		$this->form()->setData($this->input->get());
 		
 		$sql = new Sql();
@@ -291,6 +308,10 @@ class GoodsController extends AdminController{
 		}
 		if($this->input->get('keywords')){
 			$sql->where(array("g.{$this->input->get('field')} like ?"=>'%'.$this->input->get('keywords').'%'));
+		}
+		
+		if(in_array('user', $_settings['cols'])){
+			$sql->joinLeft('users', 'u', 'g.user_id = u.id', 'username,nickname,realname');
 		}
 		
 		$this->view->listview = new ListView($sql, array(
@@ -637,7 +658,9 @@ class GoodsController extends AdminController{
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'is_new');
 		Response::output('success', array(
 			'message'=>'',
-			'is_new'=>$goods['is_new'],
+			'data'=>array(
+				'is_new'=>$goods['is_new'],
+			),
 		));
 	}
 	
@@ -649,7 +672,9 @@ class GoodsController extends AdminController{
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'is_hot');
 		Response::output('success', array(
 			'message'=>'',
-			'is_hot'=>$goods['is_hot'],
+			'data'=>array(
+				'is_hot'=>$goods['is_hot'],
+			),
 		));
 	}
 	
@@ -661,7 +686,9 @@ class GoodsController extends AdminController{
 		
 		Response::output('success', array(
 			'message'=>'一个商品的排序值被编辑',
-			'sort'=>$goods['sort'],
+			'data'=>array(
+				'sort'=>$goods['sort'],
+			),
 		));
 	}
 }

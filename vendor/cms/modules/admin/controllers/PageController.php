@@ -283,7 +283,9 @@ class PageController extends AdminController{
 		$page = Pages::model()->find($page_id, 'sort');
 		Response::output('success', array(
 			'message'=>'一个页面的排序值被编辑',
-			'sort'=>$page['sort'],
+			'data'=>array(
+				'sort'=>$page['sort'],
+			),
 		));
 	}
 

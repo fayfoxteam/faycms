@@ -51,6 +51,7 @@ use fay\helpers\Html;
 	), 100)?>
 	<p class="description"></p>
 </div>
+<?php if($cats){//若没有设置分类，则不显示分类下拉框（并不是所有的系统都要对友链做分类）?>
 <div class="form-field">
 	<label class="title bold">分类</label>
 	<?php echo F::form()->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'), array(
@@ -58,6 +59,7 @@ use fay\helpers\Html;
 	));?>
 	<p class="description">分类效果视主题而定，可留空</p>
 </div>
+<?php }?>
 <div class="form-field">
 	<label class="title bold">Logo</label>
 	<div id="upload-logo-preview">

@@ -23,6 +23,11 @@ class RoleController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '角色';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/role/create'),
+			'text'=>'添加角色',
+		);
+		
 		$sql = new Sql();
 		$sql->from('roles', 'r')
 			->where(array(

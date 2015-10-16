@@ -16,7 +16,7 @@ a:hover{color:#e00404;text-decoration:none;}
 .fr{float:right;}
 .hide{display:none;}
 
-body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;background-color:#fafafa;color:#444;font-size:12px;overflow-y:scroll;}
+body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;background:url(images/header-bg.jpg) repeat-x scroll center top #fafafa;color:#444;font-size:12px;overflow-y:scroll;}
 .g-con{background-color:#fff;padding:11px 0 30px;}
 .w1000{width:1000px;margin:0 auto;}
 
@@ -61,14 +61,14 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .box-3-content ul li a{display:block;line-height:24px;color:#212121;background-color:#ebeef3;padding-left:13px;line-height:31px;}
 .box-3-content ul li a span{width:220px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-.g-hd{background:url(images/banner.jpg) no-repeat scroll center top #FEA056;height:260px;position:relative;}
+.g-hd{height:260px;position:relative;}
 .g-hd .w1000{position:relative;}
 .g-hd .g-nav{height:46px;background:url(images/nav-bg.png) repeat-x scroll center top transparent;position:absolute;bottom:0;width:100%;}
 .g-hd .g-nav ul li{display:block;float:left;background:url(images/nav-sep.png) no-repeat scroll left center transparent;}
 .g-hd .g-nav ul li a{display:block;line-height:46px;color:#fff;padding:0 28px;font-size:16px;}
 .g-hd .g-nav ul li:first-child{background:none;}
 
-.g-hd .hd-search-bar{position:absolute;top:8px;left:680px;color:#fff;}
+.g-hd .hd-search-bar{position:absolute;top:8px;left:663px;color:#fff;}
 .g-hd .hd-search-bar .sep{padding:10px;}
 .g-hd .hd-search-bar input{width:100px;height:15px;}
 .g-mn{margin-top:27px;}

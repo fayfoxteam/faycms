@@ -73,7 +73,7 @@ class Post extends Model{
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
 	 * @param null|bool $publish 若为true，则只在已发布的文章里搜索
 	 */
-	public function get($id, $fields = 'tags,messages,nav,files,props,user,categories', $cat = null, $publish = true){
+	public function get($id, $fields = 'tags,messages,nav,files,props,user,categories', $cat = null, $published = true){
 		$sql = new Sql();
 		
 		$fields = explode(',', $fields);
@@ -84,7 +84,7 @@ class Post extends Model{
 			));
 		
 		//仅搜索已发布的文章
-		if($publish === true){
+		if($published){
 			$sql->where(array(
 				'p.deleted = 0',
 				'p.status = '.Posts::STATUS_PUBLISHED,

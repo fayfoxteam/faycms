@@ -8,9 +8,9 @@ use fay\core\Sql;
 use fay\models\tables\GoodsSkus;
 use fay\models\tables\GoodsCatProps;
 
-class GoodsModel extends Model{
+class Goods extends Model{
 	/**
-	 * @return GoodsModel
+	 * @return Goods
 	 */
 	public static function model($className = __CLASS__){
 		return parent::model($className);

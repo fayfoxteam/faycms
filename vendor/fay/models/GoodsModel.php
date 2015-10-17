@@ -77,7 +77,7 @@ class GoodsModel extends Model{
 				'goods_id = ?'=>$id,
 			), '!goods_id');
 			foreach($skus as $s){
-				$goods['skus'][$s['key']] = $s;
+				$goods['skus'][$s['sku_key']] = $s;
 			}
 		}
 

@@ -17,7 +17,6 @@ use fay\models\tables\PostPropVarchar;
 use fay\models\tables\PostPropText;
 use fay\helpers\String;
 use fay\core\Loader;
-use fay\models\tables\Users;
 use fay\models\tables\Roles;
 
 class Post extends Model{

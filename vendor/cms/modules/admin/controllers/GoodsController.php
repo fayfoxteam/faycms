@@ -206,7 +206,7 @@ class GoodsController extends AdminController{
 			foreach($prices as $k => $p){
 				GoodsSkus::model()->insert(array(
 					'goods_id'=>$goods_id,
-					'key'=>$k,
+					'sku_key'=>$k,
 					'price'=>$p,
 					'quantity'=>$quantities[$k],
 					'tsces'=>$tsces[$k],
@@ -275,7 +275,7 @@ class GoodsController extends AdminController{
 		$_setting_key = 'admin_goods_index';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array(
-			'cols'=>array('avatar', 'category', 'price', 'is_new', 'is_hot', 'sales', 'status', 'create_time', 'sort'),
+			'cols'=>array('thumbnail', 'category', 'price', 'is_new', 'is_hot', 'sales', 'status', 'create_time', 'sort'),
 			'display_name'=>'username',
 			'display_time'=>'short',
 			'page_size'=>10,
@@ -327,20 +327,37 @@ class GoodsController extends AdminController{
 		
 		$goods_id = $this->input->get('id', 'intval');
 		
+		//这里获取enabled_boxes是为了更新商品的时候用
+		//由于box可能被hook改掉，后面还会再获取一次enabled_boxes
+		$_setting_key = 'admin_goods_boxes';
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		
 		if($this->input->post()){
 			//更新goods表
 			$data = Goods::model()->setAttributes($this->input->post());
 			$data['last_modified_time'] = $this->current_time;
+			
+			if(in_array('publish_time', $enabled_boxes)){
+				if(empty($data['publish_time'])){
+					$data['publish_time'] = $this->current_time;
+					$this->form()->setData(array(
+						'publish_time'=>date('Y-m-d H:i:s', $data['publish_time']),
+					));
+				}else{
+					$data['publish_time'] = strtotime($data['publish_time']);
+				}
+			}
+			
 			Goods::model()->update($data, $goods_id);
 			
 			//设置gallery
-			$desc = $this->input->post('desc');
-			$photos = $this->input->post('photos', 'intval', array());
+			$description = $this->input->post('description');
+			$files = $this->input->post('files', 'intval', array());
 			//删除已被删除的图片
-			if($photos){
+			if($files){
 				GoodsFiles::model()->delete(array(
 					'goods_id = ?'=>$goods_id,
-					'file_id NOT IN ('.implode(',', $photos).')',
+					'file_id NOT IN ('.implode(',', $files).')',
 				));
 			}else{
 				GoodsFiles::model()->delete(array(
@@ -352,21 +369,21 @@ class GoodsController extends AdminController{
 				'goods_id = ?'=>$goods_id,
 			));
 			$i = 0;
-			foreach($photos as $p){
+			foreach($files as $f){
 				$i++;
-				if(in_array($p, $old_files_ids)){
+				if(in_array($f, $old_files_ids)){
 					GoodsFiles::model()->update(array(
-						'desc'=>$desc[$p],
+						'description'=>$description[$f],
 						'sort'=>$i,
 					), array(
 						'goods_id = ?'=>$goods_id,
-						'file_id = ?'=>$p,
+						'file_id = ?'=>$f,
 					));
 				}else{
 					GoodsFiles::model()->insert(array(
-						'file_id'=>$p,
+						'file_id'=>$f,
 						'goods_id'=>$goods_id,
-						'desc'=>$desc[$p],
+						'description'=>$description[$f],
 						'sort'=>$i,
 						'create_time'=>$this->current_time,
 					));
@@ -376,7 +393,6 @@ class GoodsController extends AdminController{
 			//属性别名
 			$cp_alias = $this->input->post('cp_alias');
 			
-
 			$new_prop_values = array();//记录所有属性（普通属性+销售属性）
 			$old_prop_values = GoodsPropValues::model()->fetchCol('prop_value_id', array(
 				'goods_id = ?'=>$goods_id,
@@ -528,29 +544,29 @@ class GoodsController extends AdminController{
 			$prices = $this->input->post('prices', 'floatval', array());
 			$quantities = $this->input->post('quantities', 'intval', array());
 			$tsces = $this->input->post('tsces', array());
-			$old_skus = GoodsSkus::model()->fetchCol('key', array(
+			$old_skus = GoodsSkus::model()->fetchCol('sku_key', array(
 				'goods_id = ?'=>$goods_id,
 			));
 			//删除已被删除的sku
 			$new_sku_keys = array_keys($prices);
 			GoodsSkus::model()->delete(array(
 				'goods_id = ?'=>$goods_id,
-				"key NOT IN ('".implode("','", $new_sku_keys)."')"
+				"sku_key NOT IN ('".implode("','", $new_sku_keys)."')"
 			));
 			foreach($prices as $k => $p){
 				if(in_array($k, $old_skus)){
 					GoodsSkus::model()->update(array(
-						'goods_id'=>$goods_id,
 						'price'=>$p,
 						'quantity'=>$quantities[$k],
 						'tsces'=>$tsces[$k],
 					), array(
-						'key = ?'=>$k,
+						'goods_id = ?'=>$goods_id,
+						'sku_key = ?'=>$k,
 					));
 				}else{
 					GoodsSkus::model()->insert(array(
 						'goods_id'=>$goods_id,
-						'key'=>$k,
+						'sku_key'=>$k,
 						'price'=>$p,
 						'quantity'=>$quantities[$k],
 						'tsces'=>$tsces[$k],
@@ -599,7 +615,6 @@ class GoodsController extends AdminController{
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
 		$this->layout->_setting_panel = '_setting_edit';
-		$_setting_key = 'admin_goods_boxes';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array();
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
@@ -613,6 +628,7 @@ class GoodsController extends AdminController{
 			));
 		
 		$this->view->files = $goods['files'];
+		$this->view->goods = $goods;
 		$this->form()->setData($goods);
 
 		$this->view->render();

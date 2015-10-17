@@ -2,11 +2,9 @@
 use fay\models\tables\Posts;
 use fay\helpers\Html;
 
-if(isset($post['content_type'])){
-	$editor = $post['content_type'];
-}else{
-	$editor = F::form('setting')->getData('editor');
-}
+$editor = F::form()->getData('content_type');
+$editor || $editor = F::form('setting')->getData('editor');
+
 if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 	echo F::form()->textarea('content', array(
 		'class'=>'h350 form-control autosize',

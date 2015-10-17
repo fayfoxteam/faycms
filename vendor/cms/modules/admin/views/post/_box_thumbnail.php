@@ -14,10 +14,11 @@ use fay\models\File;
 		<div id="thumbnail-preview-container">
 		<?php 
 			echo F::form()->inputHidden('thumbnail', array('id'=>'thumbnail-id'));
-			if(!empty($post['thumbnail'])){
-				echo Html::link(Html::img($post['thumbnail'], File::PIC_RESIZE, array(
+			$thumbnail = F::form()->getData('thumbnail', 0);
+			if(!empty($thumbnail)){
+				echo Html::link(Html::img($thumbnail, File::PIC_RESIZE, array(
 					'dw'=>257,
-				)), File::getUrl($post['thumbnail']), array(
+				)), File::getUrl($thumbnail), array(
 					'encode'=>false,
 					'class'=>'fancybox-image',
 					'title'=>'点击查看原图',

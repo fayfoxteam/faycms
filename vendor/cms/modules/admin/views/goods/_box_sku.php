@@ -13,9 +13,11 @@ use fay\helpers\Html;
 				<div class="sku-group form-field" data-name="<?php echo $p['title']?>" data-pid="<?php echo $p['id']?>">
 					<label class="sku-label title bold"><?php echo $p['title']?>：</label>
 					<div class="sku-box">
-						<?php foreach($p['prop_values'] as $pv){?>
+						<?php foreach($p['prop_values'] as $pv){
+							$alias = isset($goods['props'][$p['id']]['values'][$pv['id']]) ? $goods['props'][$p['id']]['values'][$pv['id']] : $pv['title'];
+							$checked = isset($goods['props'][$p['id']]['values'][$pv['id']]);?>
 							<p class="ib w240 sku-item">
-								<?php echo F::form()->inputCheckbox("cp_sale[{$p['id']}][]", $pv['id'], array(
+								<?php echo Html::inputCheckbox("cp_sale[{$p['id']}][]", $pv['id'], $checked, array(
 									'id'=>"cp-sale-{$p['id']}-{$pv['id']}",
 									'data-rule'=>'string',
 									'data-params'=>'{max:255}',
@@ -23,7 +25,7 @@ use fay\helpers\Html;
 									'data-required'=>$p['required'] ? 'required' : false,
 								))?>
 								<label for="<?php echo "cp-sale-{$p['id']}-{$pv['id']}"?>"><?php echo $pv['title']?></label>
-								<?php echo Html::inputText("cp_alias[{$p['id']}][{$pv['id']}]", $pv['title'], array(
+								<?php echo Html::inputText("cp_alias[{$p['id']}][{$pv['id']}]", $alias, array(
 									'class'=>'form-control mw200 ib fn-hide cp-alias',
 								))?>
 							</p>

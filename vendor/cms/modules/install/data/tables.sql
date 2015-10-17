@@ -349,7 +349,7 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
-  `key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Key',
+  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Key',
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',

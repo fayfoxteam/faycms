@@ -12,7 +12,7 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'sn', array(
 			'label'=>'货号',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'main_category', array(
+		echo F::form('setting')->inputCheckbox('cols[]', 'category', array(
 			'label'=>'分类',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'user', array(

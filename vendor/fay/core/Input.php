@@ -41,7 +41,7 @@ class Input{
 		if(is_array($key)){
 			$return = array();
 			foreach($key as $k){
-				isset($this->_get[$k]) ? $return[$k] = $this->filterR($filters, $this->_get[$k]) : $return[$k] = null;
+				$return[$k] = isset($this->_get[$k]) ? $this->filterR($filters, $this->_get[$k]) : null;
 			}
 			return $return;
 		}else if(isset($this->_get[$key])){
@@ -69,7 +69,7 @@ class Input{
 		if(is_array($key)){
 			$return = array();
 			foreach($key as $k){
-				isset($this->_post[$k]) ? $return[$k] = $this->filterR($filters, $this->_post[$k]) : $return[$k] = null;
+				$return[$k] = isset($this->_post[$k]) ? $this->filterR($filters, $this->_post[$k]) : null;
 			}
 			return $return;
 		}else if(isset($this->_post[$key])){

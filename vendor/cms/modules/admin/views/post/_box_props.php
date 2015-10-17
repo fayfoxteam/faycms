@@ -6,7 +6,7 @@
 	<div class="box-content">
 	<?php $this->renderPartial('prop/_edit', array(
 		'props'=>$props,
-		'data'=>isset($post['props']) ? $post['props'] : array(),
+		'data'=>F::form()->getData('props', array()),
 	))?>
 	</div>
 </div>

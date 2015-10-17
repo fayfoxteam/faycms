@@ -23,7 +23,9 @@ use fay\helpers\Html;
 						<?php foreach($p['prop_values'] as $pv){?>
 							<p class="ib w240">
 							<?php 
-							echo F::form()->inputCheckbox("cp[{$p['id']}][]", $pv['id'], array(
+							$alias = isset($goods['props'][$p['id']]['values'][$pv['id']]) ? $goods['props'][$p['id']]['values'][$pv['id']] : $pv['title'];
+							$checked = isset($goods['props'][$p['id']]['values'][$pv['id']]);
+							echo Html::inputCheckbox("cp[{$p['id']}][]", $pv['id'], $checked, array(
 								'id'=>"cp-{$p['id']}-{$pv['id']}",
 								'data-rule'=>'int',
 								'data-label'=>$p['title'].'属性',
@@ -31,7 +33,7 @@ use fay\helpers\Html;
 							));?>
 							<label for="<?php echo "cp-{$p['id']}-{$pv['id']}"?>"><?php echo $pv['title']?></label>
 							<?php 
-							echo Html::inputText("cp_alias[{$p['id']}][{$pv['id']}]", $pv['title'], array(
+							echo Html::inputText("cp_alias[{$p['id']}][{$pv['id']}]", $alias, array(
 								'class'=>'form-control mw200 ib fn-hide',
 							));
 							?>
@@ -40,11 +42,13 @@ use fay\helpers\Html;
 					</div>
 					<?php 
 					}else if($p['type'] == GoodsCatProps::TYPE_OPTIONAL){//单选
-						echo F::form()->select("cp[{$p['id']}]", Html::getSelectOptions($p['prop_values']), array(
+						$selected = isset($goods['props'][$p['id']]) ? array_keys($goods['props'][$p['id']]['values']) : array();
+						echo Html::select("cp[{$p['id']}]", Html::getSelectOptions($p['prop_values']), $selected, array(
 							'class'=>'form-control wa',
 						));
 					}else if($p['type'] == GoodsCatProps::TYPE_INPUT){//手工录入
-						echo F::form()->inputText("cp_alias[{$p['id']}][0]", array(
+						$value = isset($goods['props'][$p['id']]['values'][0]) ? $goods['props'][$p['id']]['values'][0] : '';
+						echo Html::inputText("cp_alias[{$p['id']}][0]", $value, array(
 							'class'=>'form-control mw500',
 							'data-rule'=>'string',
 							'data-params'=>'{max:255}',

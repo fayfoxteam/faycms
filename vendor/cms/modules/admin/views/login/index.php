@@ -127,11 +127,6 @@ DD_belatedPNG.fix('fieldset,.ring');
 					<div class="user-profile">
 						您好，<?php echo F::session()->get('username')?>
 						<?php echo Html::link('更换账号登录', array('admin/login/logout'), array(
-							'prepend'=>array(
-								'tag'=>'i',
-								'class'=>'fa fa-lock',
-								'text'=>'',
-							),
 							'class'=>'logout-link',
 						));?>
 					</div>

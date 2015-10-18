@@ -47,7 +47,7 @@ class SystemController extends AdminController{
 				->check()){
 				$data = $this->form('setting')->getAllData();
 				$key = $data['_key'];
-				unset($data['_key']);
+				unset($data['_key'], $data['_submit']);
 				Setting::model()->set($key, $data);
 				Response::output('success', '设置保存成功');
 			}else{

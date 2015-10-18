@@ -8,6 +8,7 @@ class Contacts extends Table{
 	 * 状态 - 未读
 	 */
 	const STATUS_UNREAD = 1;
+	
 	/**
 	 * 状态 - 已读
 	 */

@@ -22,47 +22,42 @@ use fay\core\db\Table;
  */
 class Users extends Table{
 	/**
-	 * 用户信息不完整
-	 * @var int
+	 * 状态-用户信息不完整
 	 */
 	const STATUS_UNCOMPLETED = 0;
 
 	/**
-	 * 等待人工审核
-	 * @var int
+	 * 状态-等待人工审核
 	 */
 	const STATUS_PENDING = 1;
 
 	/**
-	 * 未通过人工审核
-	 * @var int
+	 * 状态-未通过人工审核
 	 */
 	const STATUS_VERIFY_FAILED = 2;
 
 	/**
-	 * 通过审核
-	 * @var int
+	 * 状态-通过审核
 	 */
 	const STATUS_VERIFIED = 3;
 
 	/**
-	 * 未验证邮箱
-	 * @var int
+	 * 状态-未验证邮箱
 	 */
 	const STATUS_NOT_VERIFIED = 4;
 
 	/**
-	 * 系统用户
+	 * 特殊记录-系统用户
 	 */
 	const ITEM_SYSTEM = 1;
 	
 	/**
-	 * 用户留言收件人
+	 * 特殊记录-用户留言收件人
 	 */
 	const ITEM_USER_MESSAGE_RECEIVER = 2;
 	
 	/**
-	 * 系统消息用户
+	 * 特殊记录-系统消息用户
 	 */
 	const ITEM_SYSTEM_NOTIFICATION = 3;
 

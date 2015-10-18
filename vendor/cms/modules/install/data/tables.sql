@@ -497,6 +497,36 @@ CREATE TABLE `{{$prefix}}options` (
   UNIQUE KEY `option_name` (`option_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}orders`;
+CREATE TABLE `{{$prefix}}orders` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
+  `buyer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '买家ID',
+  `buyer_note` varchar(255) NOT NULL DEFAULT '' COMMENT '买家留言',
+  `seller_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '卖家ID',
+  `seller_note` varchar(255) NOT NULL DEFAULT '' COMMENT '卖家留言',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '订单状态',
+  `goods_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品总价',
+  `shipping_fee` decimal(6,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '邮费',
+  `adjust_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '卖家手工调整金额（差值）',
+  `total_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '订单总价',
+  `payment` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实付金额',
+  `seller_rate` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否评价',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `receiver_state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在省',
+  `receiver_city` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在市',
+  `receiver_district` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在区',
+  `receiver_address` varchar(255) NOT NULL DEFAULT '' COMMENT '收货人详细地址',
+  `receiver_name` varchar(50) NOT NULL DEFAULT '' COMMENT '收货人姓名',
+  `receiver_mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '收货人的手机号码',
+  `receiver_phone` varchar(30) NOT NULL DEFAULT '' COMMENT '收货人的电话号码',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单创建时间',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
+  `consign_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '卖家发货时间',
+  `comfirm_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '确认收货时间',
+  `close_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '交易关闭原因',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单表';
+
 DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',

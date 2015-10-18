@@ -6,17 +6,16 @@ use fay\core\db\Table;
 class Templates extends Table{
 	/**
 	 * 邮件
-	 * @var int
 	 */
 	const TYPE_EMAIL = 1;
+	
 	/**
 	 * 短信
-	 * @var int
 	 */
 	const TYPE_SMS = 2;
+	
 	/**
 	 * 站内信
-	 * @var int
 	 */
 	const TYPE_NOTIFICATION = 3;
 

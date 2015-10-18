@@ -4,7 +4,14 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class Pages extends Table{
+	/**
+	 * 状态-草稿
+	 */
 	const STATUS_DRAFT = 0;
+	
+	/**
+	 * 状态-已发布
+	 */
 	const STATUS_PUBLISHED = 1;
 
 	protected $_name = 'pages';

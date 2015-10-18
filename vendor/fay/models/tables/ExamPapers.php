@@ -4,8 +4,6 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class ExamPapers extends Table{
-	protected $_name = 'exam_papers';
-	
 	/**
 	 * 状态 - 激活
 	 */
@@ -15,6 +13,8 @@ class ExamPapers extends Table{
 	 * 状态 - 未激活
 	 */
 	const STATUS_DISABLED = 2;
+	
+	protected $_name = 'exam_papers';
 	
 	/**
 	 * @return ExamPapers

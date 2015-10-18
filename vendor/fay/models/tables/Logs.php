@@ -8,10 +8,12 @@ class Logs extends Table{
 	 * 类型 - 正常
 	 */
 	const TYPE_NORMAL = 1;
+	
 	/**
 	 * 类型 - 严重错误
 	 */
 	const TYPE_ERROR = 2;
+	
 	/**
 	 * 类型 - 警告
 	 */

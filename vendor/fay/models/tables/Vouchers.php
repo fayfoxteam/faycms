@@ -4,17 +4,17 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class Vouchers extends Table{
-	protected $_name = 'vouchers';
-
 	/**
-	 * 现金卷
+	 * 类型-现金卷
 	 */
 	const TYPE_CASH = 1;
 
 	/**
-	 * 折扣卷
+	 * 类型-折扣卷
 	 */
 	const TYPE_DISCOUNT = 2;
+	
+	protected $_name = 'vouchers';
 
 	/**
 	 * @return Vouchers

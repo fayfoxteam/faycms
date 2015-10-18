@@ -20,8 +20,6 @@ use fay\core\db\Table;
  * @property string $target
  */
 class Menus extends Table{
-	protected $_name = 'menus';
-
 	/**
 	 * 后台菜单集合
 	 */
@@ -31,6 +29,8 @@ class Menus extends Table{
 	 * 用户自定义菜单集合
 	 */
 	const ITEM_USER_MENU = 2;
+	
+	protected $_name = 'menus';
 	
 	/**
 	 * @return Menus

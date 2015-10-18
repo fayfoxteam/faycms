@@ -5,28 +5,28 @@ use fay\core\db\Table;
 
 class Messages extends Table{
 	/**
-	 * 未审核
-	 * @var int
+	 * 状态-未审核
 	 */
 	const STATUS_PENDING = 0;
+	
 	/**
-	 * 已审核
-	 * @var int
+	 * 状态-已审核
 	 */
 	const STATUS_APPROVED = 1;
+	
 	/**
-	 * 未通过审核
-	 * @var int
+	 * 状态-未通过审核
 	 */
 	const STATUS_UNAPPROVED = 2;
 
 	/**
-	 * 文章评论
+	 * 类型-文章评论
 	 * @var int
 	 */
 	const TYPE_POST_COMMENT = 1;
+	
 	/**
-	 * 留言
+	 * 类型-留言
 	 * @var int
 	 */
 	const TYPE_USER_MESSAGE = 2;

@@ -4,8 +4,6 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class ExamQuestions extends Table{
-	protected $_name = 'exam_questions';
-	
 	/**
 	 * 状态 - 激活
 	 */
@@ -35,6 +33,8 @@ class ExamQuestions extends Table{
 	 * 类型 - 多选
 	 */
 	const TYPE_MULTIPLE_ANSWERS = 4;
+	
+	protected $_name = 'exam_questions';
 	
 	/**
 	 * @return ExamQuestions

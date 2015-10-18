@@ -32,44 +32,42 @@ use fay\core\db\Table;
  * @property string $seo_description
  */
 class Posts extends Table{
-	protected $_name = 'posts';
-
 	/**
 	 * 文章状态-草稿
-	 * @var int
 	 */
 	const STATUS_DRAFT = 0;
+	
 	/**
 	 * 文章状态-已发布
-	 * @var int
 	 */
 	const STATUS_PUBLISHED = 1;
+	
 	/**
 	 * 文章状态-待审核
-	 * @var int
 	 */
 	const STATUS_PENDING = 2;
+	
 	/**
 	 * 文章状态-待复审
-	 * @var int
 	 */
 	const STATUS_REVIEWED = 3;
 	
 	/**
 	 * 文本类型 - 可视化编辑器
-	 * @var int
 	 */
 	const CONTENT_TYPE_VISUAL_EDITOR = 1;
+	
 	/**
 	 * 文本类型 - 文本域
-	 * @var int
 	 */
 	const CONTENT_TYPE_TEXTAREA = 2;
+	
 	/**
 	 * 文本类型 - Markdown
-	 * @var int
 	 */
 	const CONTENT_TYPE_MARKDOWN = 3;
+	
+	protected $_name = 'posts';
 
 	/**
 	 * @return Posts

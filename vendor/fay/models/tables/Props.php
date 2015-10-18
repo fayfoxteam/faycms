@@ -5,33 +5,37 @@ use fay\core\db\Table;
 
 class Props extends Table{
 	/**
-	 * 文本框
+	 * 录入方式-文本框
 	 */
 	const ELEMENT_TEXT = 1;
+	
 	/**
-	 * 单选框
+	 * 录入方式-单选框
 	 */
 	const ELEMENT_RADIO = 2;
+	
 	/**
-	 * 下拉框
+	 * 录入方式-下拉框
 	 */
 	const ELEMENT_SELECT = 3;
+	
 	/**
-	 * 多选框
+	 * 录入方式-多选框
 	 */
 	const ELEMENT_CHECKBOX = 4;
+	
 	/**
-	 * 文本域
+	 * 录入方式-文本域
 	 */
 	const ELEMENT_TEXTAREA = 5;
 
 	/**
-	 * 文章分类属性
+	 * 类型-文章分类属性
 	 */
 	const TYPE_POST_CAT = 1;
 
 	/**
-	 * 角色附加属性
+	 * 类型-角色附加属性
 	 */
 	const TYPE_ROLE = 2;
 

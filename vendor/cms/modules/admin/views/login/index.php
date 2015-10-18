@@ -1,5 +1,7 @@
 <?php
 use fay\models\Option;
+use fay\helpers\Html;
+use fay\models\File;
 ?>
 <!DOCTYPE html>
 <html>
@@ -114,31 +116,58 @@ DD_belatedPNG.fix('fieldset,.ring');
 			</div>
 		</div>
 	</div>
-	<div class="right <?php if(isset($error)){
-		echo 'shake';
-	}else{
-		echo 'top-to-bottom';
-	}?>">
-		<div class="login-form-container">
-			<form method="post" id="login-form">
+	<?php if(F::session()->get('id')){?>
+		<div class="right top-to-bottom">
+			<div class="login-form-container">
 				<fieldset class="logo">Faycms</fieldset>
-				<div class="error-msg"><?php if(isset($error))echo $error;?></div>
-				<fieldset class="input-container username">
-					<?php echo F::form()->inputText('username', array(
-						'placeholder'=>'用户名',
-					))?>
-				</fieldset>
-				<fieldset class="input-container password">
-					<?php echo F::form()->inputPassword('password', array(
-						'placeholder'=>'密码',
-					))?>
+				<fieldset class="user-info">
+					<div class="user-avatar">
+						<?php echo Html::img(\F::session()->get('avatar'), File::PIC_THUMBNAIL)?>
+					</div>
+					<div class="user-profile">
+						您好，<?php echo F::session()->get('username')?>
+						<?php echo Html::link('更换账号登录', array('admin/login/logout'), array(
+							'prepend'=>array(
+								'tag'=>'i',
+								'class'=>'fa fa-lock',
+								'text'=>'',
+							),
+							'class'=>'logout-link',
+						));?>
+					</div>
 				</fieldset>
 				<fieldset>
-					<a href="javascript:;" id="login-form-submit">登&nbsp;&nbsp;录</a>
+					<a href="<?php echo $this->url('admin')?>" id="login-form-submit">进&nbsp;入&nbsp;后&nbsp;台</a>
 				</fieldset>
-			</form>
+			</div>
 		</div>
-	</div>
+	<?php }else{?>
+		<div class="right <?php if(isset($error)){
+			echo 'shake';
+		}else{
+			echo 'top-to-bottom';
+		}?>">
+			<div class="login-form-container">
+				<form method="post" id="login-form">
+					<fieldset class="logo">Faycms</fieldset>
+					<div class="error-msg"><?php if(isset($error))echo $error;?></div>
+					<fieldset class="input-container username">
+						<?php echo F::form()->inputText('username', array(
+							'placeholder'=>'用户名',
+						))?>
+					</fieldset>
+					<fieldset class="input-container password">
+						<?php echo F::form()->inputPassword('password', array(
+							'placeholder'=>'密码',
+						))?>
+					</fieldset>
+					<fieldset>
+						<a href="javascript:;" id="login-form-submit">登&nbsp;&nbsp;录</a>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	<?php }?>
 </div>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>

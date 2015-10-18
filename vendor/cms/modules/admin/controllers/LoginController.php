@@ -15,6 +15,7 @@ class LoginController extends Controller{
 	}
 	
 	public function index(){
+		//不显示debug信息，显示debug信息的话视觉效果上不好看
 		$this->config->set('debug', false);
 		
 		if($this->input->post()){

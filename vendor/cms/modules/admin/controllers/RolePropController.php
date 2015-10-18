@@ -51,7 +51,7 @@ class RolePropController extends AdminController{
 		
 		if($this->form()->setModel(Props::model())->check()){
 			$refer = $this->input->post('refer', 'intval');
-			$prop = Props::model()->setAttributes($this->input->post());
+			$prop = Props::model()->fillData($this->input->post());
 			$values = $this->input->post('prop_values', array());
 			$prop_id = Prop::model()->create($refer, Props::TYPE_ROLE, $prop, $values);
 			

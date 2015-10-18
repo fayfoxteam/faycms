@@ -127,7 +127,7 @@ class UserController extends AdminController{
 			));
 		if($this->input->post()){
 			if($this->form()->check()){
-				$data = Users::model()->setAttributes($this->input->post());
+				$data = Users::model()->fillData($this->input->post());
 				$data['status'] = Users::STATUS_VERIFIED;
 				$data['salt'] = String::random('alnum', 5);
 				$data['password'] = md5(md5($data['password']).$data['salt']);
@@ -196,7 +196,7 @@ class UserController extends AdminController{
 		
 		if($this->input->post()){
 			if($this->form()->check()){
-				$data = Users::model()->setAttributes($this->input->post());
+				$data = Users::model()->fillData($this->input->post());
 				if($password = $this->input->post('password')){
 					//生成五位随机数
 					$salt = String::random('alnum', 5);

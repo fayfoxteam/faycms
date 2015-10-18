@@ -30,7 +30,7 @@ class TagController extends AdminController{
 	public function create(){
 		if($this->input->post()){
 			if($this->form()->setModel(Tags::model())->check()){
-				$data = Tags::model()->setAttributes($this->input->post());
+				$data = Tags::model()->fillData($this->input->post());
 				$tag_id = Tags::model()->insert($data);
 				$this->actionlog(Actionlogs::TYPE_TAG, '创建了标签', $tag_id);
 
@@ -72,7 +72,7 @@ class TagController extends AdminController{
 		$this->form()->setModel(Tags::model());
 		if($this->input->post()){
 			if($this->form()->check()){
-				$data = Tags::model()->setAttributes($this->input->post());
+				$data = Tags::model()->fillData($this->input->post());
 				Tags::model()->update($data, array('id = ?'=>$tag_id));
 				$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
 				Flash::set('一个标签被编辑', 'success');

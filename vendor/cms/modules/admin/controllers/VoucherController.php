@@ -22,7 +22,7 @@ class VoucherController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				for($i = 0; $i < $this->input->post('num'); $i++){
-					$data = Vouchers::model()->setAttributes($this->input->post());
+					$data = Vouchers::model()->fillData($this->input->post());
 		
 					//拼接优惠码
 					$data['sn'] = $data['cat_id'] . String::random('numeric', 5);

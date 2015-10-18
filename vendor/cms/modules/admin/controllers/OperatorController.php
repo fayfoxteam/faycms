@@ -175,7 +175,7 @@ class OperatorController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				//两次密码输入一致
-				$data = Users::model()->setAttributes($this->input->post());
+				$data = Users::model()->fillData($this->input->post());
 				if($password = $this->input->post('password')){
 					//生成五位随机数
 					$salt = String::random('alnum', 5);

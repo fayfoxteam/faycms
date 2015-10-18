@@ -27,17 +27,16 @@ class Table extends Model{
 	}
 	
 	/**
-	 * 根据filters返回的参数列表，设置table相关参数
-	 * 并进行相关的filter处理
-	 * 没有设置filter的数据将不会被返回
+	 * 根据表字段填充数据，仅$this->filters()中存在的字段会被返回
 	 * @param array $data
+	 * @param bool $filter 若为true，则会根据$this->filters()中指定的过滤器进行过滤。默认为true
 	 */
-	public function setAttributes($data){
+	public function fillData($data, $filter = true){
 		$filters = $this->filters();
 		$return = array();
 		foreach($data as $k => $v){
 			if(isset($filters[$k])){
-				$return[$k] = \F::filter($filters[$k], $v);
+				$return[$k] = $filter ? \F::filter($filters[$k], $v) : $v;
 			}
 		}
 		return $return;
@@ -51,7 +50,7 @@ class Table extends Model{
 	public function insert($data, $filter = false){
 		if(!empty($data)){
 			if($filter){
-				$data = $this->setAttributes($data);
+				$data = $this->fillData($data);
 			}
 			return $this->db->insert($this->_name, $data);
 		}else{
@@ -68,11 +67,7 @@ class Table extends Model{
 		if(!empty($data)){
 			$insert_data = array();
 			foreach($data as $d){
-				if($filter){
-					$insert_data[] = $this->setAttributes($d);
-				}else{
-					$insert_data[] = $d;
-				}
+				$insert_data[] = $filter ? $this->fillData($d) : $d;
 			}
 			
 			return $this->db->bulkInsert($this->_name, $insert_data);
@@ -93,7 +88,7 @@ class Table extends Model{
 		}
 		if(!empty($data)){
 			if($filter){
-				$data = $this->setAttributes($data);
+				$data = $this->fillData($data);
 			}
 			return $this->db->update($this->_name, $data, $where);
 		}else{

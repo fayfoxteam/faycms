@@ -27,7 +27,7 @@ class KeywordController extends AdminController{
 	public function create(){
 		if($this->input->post()){
 			if($this->form()->setModel(Keywords::model())->check()){
-				$data = Keywords::model()->setAttributes($this->input->post());
+				$data = Keywords::model()->fillData($this->input->post());
 				Keywords::model()->insert($data);
 				Response::output('success', '关键词添加成功', array('admin/keyword/index'));
 			}else{
@@ -56,7 +56,7 @@ class KeywordController extends AdminController{
 		
 		if($this->input->post()){
 			if($this->form()->check()){
-				$data = Keywords::model()->setAttributes($this->input->post());
+				$data = Keywords::model()->fillData($this->input->post());
 				Keywords::model()->update($data, array('id = ?'=>$keyword_id));
 				Flash::set('一个关键词被编辑', 'success');
 			}else{

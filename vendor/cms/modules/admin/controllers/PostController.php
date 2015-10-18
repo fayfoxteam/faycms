@@ -106,7 +106,7 @@ class PostController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				//添加posts表
-				$data = Posts::model()->setAttributes($this->input->post());
+				$data = Posts::model()->fillData($this->input->post());
 				$data['create_time'] = $this->current_time;
 				$data['last_modified_time'] = $this->current_time;
 				$data['user_id'] = $this->current_user;
@@ -421,7 +421,7 @@ class PostController extends AdminController{
 					$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
 				}
 				//更新posts表
-				$data = Posts::model()->setAttributes($this->input->post());
+				$data = Posts::model()->fillData($this->input->post());
 				$data['last_modified_time'] = $this->current_time;
 				if(in_array('publish_time', $enabled_boxes)){
 					if(empty($data['publish_time'])){

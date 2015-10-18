@@ -100,7 +100,7 @@ class GoodsController extends AdminController{
 		$this->form()->setModel(Goods::model());
 		if($this->input->post()){
 			//插入goods表
-			$data = Goods::model()->setAttributes($this->input->post());
+			$data = Goods::model()->fillData($this->input->post());
 			$data['create_time'] = $this->current_time;
 			$data['last_modified_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
@@ -334,7 +334,7 @@ class GoodsController extends AdminController{
 		
 		if($this->input->post()){
 			//更新goods表
-			$data = Goods::model()->setAttributes($this->input->post());
+			$data = Goods::model()->fillData($this->input->post());
 			$data['last_modified_time'] = $this->current_time;
 			
 			if(in_array('publish_time', $enabled_boxes)){

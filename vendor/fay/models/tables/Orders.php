@@ -52,7 +52,7 @@ class Orders extends Table{
 	/**
 	 * 订单状态-交易关闭x
 	 */
-	const STATUS_CLOSED = 5;
+	const STATUS_CLOSED = -1;
 	
 	protected $_name = 'orders';
 	
@@ -65,7 +65,8 @@ class Orders extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id', 'buyer_id', 'seller_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('buyer_id', 'seller_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('receiver_state', 'receiver_city', 'receiver_district'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('status', 'seller_rate'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('buyer_note', 'seller_note', 'title', 'receiver_address', 'close_reason'), 'string', array('max'=>255)),

@@ -349,7 +349,7 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
-  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Key',
+  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
@@ -499,7 +499,7 @@ CREATE TABLE `{{$prefix}}options` (
 
 DROP TABLE IF EXISTS `{{$prefix}}orders`;
 CREATE TABLE `{{$prefix}}orders` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
   `buyer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '买家ID',
   `buyer_note` varchar(255) NOT NULL DEFAULT '' COMMENT '买家留言',
   `seller_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '卖家ID',
@@ -525,7 +525,7 @@ CREATE TABLE `{{$prefix}}orders` (
   `comfirm_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '确认收货时间',
   `close_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '交易关闭原因',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单表';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='订单表';
 
 DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (

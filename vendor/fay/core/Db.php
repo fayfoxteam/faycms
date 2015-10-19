@@ -299,16 +299,23 @@ class Db{
 	 * 递增/递减一个字段
 	 * @param string $table 表名
 	 * @param array|string $condition where条件
-	 * @param string $field 字段
+	 * @param string|array $fields 字段（可以是多个，多个字段以一维数组方式传入）
 	 * @param int $count 递增/递减值
 	 */
-	public function inc($table, $condition, $field, $count){
+	public function inc($table, $condition, $fields, $count){
 		$where = $this->getWhere($condition);
 		if($count >= 0){
 			$count = '+'.$count;
 		}
-		$sql = "UPDATE {$this->getTableName($table)} SET `{$field}` = `{$field}` {$count} WHERE {$where['condition']}";
-		return $this->execute($sql, $where['params']);
+		
+		if(!is_array($fields)){
+			$fields = array($fields);
+		}
+		$data = array();
+		foreach($fields as $f){
+			$data[$f] = new Intact("`{$f}` {$count}");
+		}
+		return $this->update($table, $data, $condition);
 	}
 	
 	/**

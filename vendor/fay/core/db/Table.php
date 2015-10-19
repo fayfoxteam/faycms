@@ -107,11 +107,11 @@ class Table extends Model{
 		return $this->db->delete($this->_name, $where);
 	}
 	
-	public function inc($where, $field, $count){
+	public function inc($where, $fields, $count){
 		if(String::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
-		$this->db->inc($this->_name, $where, $field, $count);
+		$this->db->inc($this->_name, $where, $fields, $count);
 	}
 	
 	/**

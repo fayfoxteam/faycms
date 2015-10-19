@@ -160,6 +160,6 @@ a{color:#00bff3}
 
 .user-info{margin:40px 0 30px}
 .user-info .user-avatar{float:left;padding-left:20px}
-.user-info .user-avatar img{border-radius:50%;box-shadow:0 0 0 6px rgba(255, 255, 255, 0.05)}
+.user-info .user-avatar img{border-radius:50%;box-shadow:0 0 0 6px rgba(255, 255, 255, 0.05);width:100px;height:100px}
 .user-info .user-profile{color:#fff;margin-left:160px;padding-top:20px}
 .user-info .user-profile .logout-link{margin-top:15px;display:block;color:rgba(152,175,197,0.7)}

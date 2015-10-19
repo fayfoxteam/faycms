@@ -122,7 +122,9 @@ DD_belatedPNG.fix('fieldset,.ring');
 				<fieldset class="logo">Faycms</fieldset>
 				<fieldset class="user-info">
 					<div class="user-avatar">
-						<?php echo Html::img(\F::session()->get('avatar'), File::PIC_THUMBNAIL)?>
+						<?php echo Html::img(\F::session()->get('avatar'), File::PIC_THUMBNAIL, array(
+							'spare'=>'avatar',
+						))?>
 					</div>
 					<div class="user-profile">
 						您好，<?php echo F::session()->get('username')?>

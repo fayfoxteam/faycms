@@ -26,7 +26,7 @@ class IndexController extends Widget{
 		}
 		
 		if($config['inc_views']){
-			Posts::model()->inc($post['id'], 'views', 1);
+			Posts::model()->inc($post['id'], array('views', 'real_views'), 1);
 		}
 		
 		return $post;

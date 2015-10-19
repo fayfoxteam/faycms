@@ -338,12 +338,11 @@ CREATE TABLE `{{$prefix}}goods_files` (
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_prop_values`;
 CREATE TABLE `{{$prefix}}goods_prop_values` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Goods Id',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Value Id',
-  `prop_value_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Prop Value Alias',
-  PRIMARY KEY (`id`)
+  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品Id',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性Id',
+  `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值Id',
+  `prop_value_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '属性别名',
+  PRIMARY KEY (`goods_id`,`prop_id`,`prop_value_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;

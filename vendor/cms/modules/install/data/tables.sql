@@ -353,7 +353,7 @@ CREATE TABLE `{{$prefix}}goods_skus` (
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
-  PRIMARY KEY (`goods_id`,`key`)
+  PRIMARY KEY (`goods_id`,`sku_key`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}item_prop_values`;

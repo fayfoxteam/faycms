@@ -47,7 +47,7 @@ class Logs extends Table{
 			'data'=>'Data',
 			'create_date'=>'Create Date',
 			'create_time'=>'Create Time',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'user_agent'=>'User Agent',
 		);
 	}

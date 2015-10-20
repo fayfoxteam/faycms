@@ -29,7 +29,7 @@ class SpiderLogs extends Table{
 			'id'=>'Id',
 			'spider'=>'Spider',
 			'user_agent'=>'User Agent',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'url'=>'Url',
 			'create_time'=>'Create Time',
 		);

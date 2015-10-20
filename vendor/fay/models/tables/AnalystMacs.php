@@ -36,7 +36,7 @@ class AnalystMacs extends Table{
 			'shell'=>'浏览器套壳',
 			'shell_version'=>'套壳版本',
 			'os'=>'操作系统',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'screen_width'=>'屏幕宽度',
 			'screen_height'=>'屏幕高度',
 			'url'=>'Url',

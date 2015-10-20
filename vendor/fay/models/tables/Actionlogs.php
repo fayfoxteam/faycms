@@ -141,12 +141,12 @@ class Actionlogs extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'user_id'=>'User Id',
-			'type'=>'Type',
-			'note'=>'Note',
-			'create_time'=>'Create Time',
-			'refer'=>'Refer',
-			'ip_int'=>'Ip Int',
+			'user_id'=>'用户ID',
+			'type'=>'日志类型',
+			'note'=>'日志内容',
+			'create_time'=>'创建时间',
+			'refer'=>'关联ID',
+			'ip_int'=>'IP',
 		);
 	}
 

@@ -40,7 +40,7 @@ class Contacts extends Table{
 			'phone'=>'Phone',
 			'content'=>'Content',
 			'create_time'=>'Create Time',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'parent'=>'Parent',
 			'status'=>'Status',
 		);

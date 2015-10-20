@@ -32,7 +32,7 @@ class AnalystVisits extends Table{
 		return array(
 			'id'=>'Id',
 			'mac'=>'Mac',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'refer'=>'Refer',
 			'url'=>'Url',
 			'short_url'=>'Short Url',

@@ -93,7 +93,7 @@ use fay\helpers\Html;
 </div>
 <div class="hide">
 	<div id="ddl-dialog" class="dialog">
-		<div class="dialog-content w650">
+		<div class="dialog-content w800">
 			<h4></h4>
 			<div class="mb5">
 				<h3>Fields</h3>
@@ -122,7 +122,7 @@ use fay\helpers\Html;
 </div>
 <div class="hide">
 	<div id="data-transfer-dialog" class="dialog">
-		<div class="dialog-content w650">
+		<div class="dialog-content w800">
 			<h4><span id="db-table-name"></span> (<span class="db-table-from"></span> &gt; <span class="db-table-to"></span>)</h4>
 			<form id="transfer-form">
 				<input type="hidden" name="from" />
@@ -237,36 +237,36 @@ $(function(){
 							if(resp.status){
 								if($(o).attr('data-db') == 'left'){
 									//点了左侧的传输
-									if(resp.left.length){
+									if(resp.data.left.length){
 										$('#db-table-from-separate-fields-container').show();
-										$('#db-table-from-separate-fields').html(resp.left.join(', '));
+										$('#db-table-from-separate-fields').html(resp.data.left.join(', '));
 									}else{
 										$('#db-table-from-separate-fields-container').hide();
 									}
-									if(resp.right.length){
+									if(resp.data.right.length){
 										$('#db-table-to-separate-fields-container').show();
-										$('#db-table-to-separate-fields').html(resp.right.join(', '));
+										$('#db-table-to-separate-fields').html(resp.data.right.join(', '));
 									}else{
 										$('#db-table-to-separate-fields-container').hide();
 									}
 								}else{
 									//点了右侧的传输
-									if(resp.right.length){
+									if(resp.data.right.length){
 										$('#db-table-from-separate-fields-container').show();
-										$('#db-table-from-separate-fields').html(resp.right.join(', '));
+										$('#db-table-from-separate-fields').html(resp.data.right.join(', '));
 									}else{
 										$('#db-table-from-separate-fields-container').hide();
 									}
-									if(resp.left.length){
+									if(resp.data.left.length){
 										$('#db-table-to-separate-fields-container').show();
-										$('#db-table-to-separate-fields').html(resp.left.join(', '));
+										$('#db-table-to-separate-fields').html(resp.data.left.join(', '));
 									}else{
 										$('#db-table-to-separate-fields-container').hide();
 									}
 								}
 
 								$('#db-table-common-fields').html('');
-								$.each(resp.common, function(i, data){
+								$.each(resp.data.common, function(i, data){
 									$('#db-table-common-fields').append(['<p><label>',
 										'<input type="checkbox" name="fields[]" value="', data,'" checked="checked" />',
 										data,
@@ -313,7 +313,7 @@ $(function(){
 							if(resp.status){
 								var $tbody = $('#ddl-dialog .list-table tbody');
 								$tbody.html('');
-								$.each(resp.fields, function(i, data){
+								$.each(resp.data.fields, function(i, data){
 									$tbody.append(['<tr>',
 										'<td>', data.Field, '</td>',
 										'<td>', data.Type, '</td>',
@@ -323,7 +323,7 @@ $(function(){
 										'<td>', data.Comment, '</td>',
 									'</tr>'].join(''));
 								});
-								$('#ddl-code').val(resp.ddl).trigger('autosize.resize');
+								$('#ddl-code').val(resp.data.ddl).trigger('autosize.resize');
 								$tbody.find('tr:even').addClass('alternate');
 								$.fancybox.center();
 							}

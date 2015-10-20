@@ -110,8 +110,20 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
 	<?php if(in_array('views', $cols)){?>
 	<td><?php echo $data['views']?></td>
 	<?php }?>
+	<?php if(in_array('real_views', $cols)){?>
+	<td><?php echo $data['real_views']?></td>
+	<?php }?>
 	<?php if(in_array('comments', $cols)){?>
 	<td><?php echo $data['comments']?></td>
+	<?php }?>
+	<?php if(in_array('real_comments', $cols)){?>
+	<td><?php echo $data['real_comments']?></td>
+	<?php }?>
+	<?php if(in_array('likes', $cols)){?>
+	<td><?php echo $data['likes']?></td>
+	<?php }?>
+	<?php if(in_array('real_likes', $cols)){?>
+	<td><?php echo $data['real_likes']?></td>
 	<?php }?>
 	<?php if(in_array('publish_time', $cols)){?>
 	<td>

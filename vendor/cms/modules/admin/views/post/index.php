@@ -165,8 +165,20 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php if(in_array('views', $cols)){?>
 						<th class="w90"><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
 						<?php }?>
+						<?php if(in_array('real_views', $cols)){?>
+						<th class="w100"><?php echo ListTableHelper::getSortLink('real_views', '真实阅读')?></th>
+						<?php }?>
 						<?php if(in_array('comments', $cols)){?>
 						<th class="w90"><?php echo ListTableHelper::getSortLink('comments', '评论数')?></th>
+						<?php }?>
+						<?php if(in_array('real_comments', $cols)){?>
+						<th class="w100"><?php echo ListTableHelper::getSortLink('real_comments', '真实评论')?></th>
+						<?php }?>
+						<?php if(in_array('likes', $cols)){?>
+						<th class="w90"><?php echo ListTableHelper::getSortLink('likes', '点赞数')?></th>
+						<?php }?>
+						<?php if(in_array('real_likes', $cols)){?>
+						<th class="w100"><?php echo ListTableHelper::getSortLink('real_likes', '真实点赞')?></th>
 						<?php }?>
 						<?php if(in_array('publish_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
@@ -210,8 +222,20 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php if(in_array('views', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
 						<?php }?>
+						<?php if(in_array('real_views', $cols)){?>
+						<th><?php echo ListTableHelper::getSortLink('real_views', '真实阅读')?></th>
+						<?php }?>
 						<?php if(in_array('comments', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('comments', '评论数')?></th>
+						<?php }?>
+						<?php if(in_array('real_comments', $cols)){?>
+						<th><?php echo ListTableHelper::getSortLink('real_comments', '真实评论')?></th>
+						<?php }?>
+						<?php if(in_array('likes', $cols)){?>
+						<th><?php echo ListTableHelper::getSortLink('likes', '点赞数')?></th>
+						<?php }?>
+						<?php if(in_array('real_likes', $cols)){?>
+						<th><?php echo ListTableHelper::getSortLink('real_likes', '真实点赞')?></th>
 						<?php }?>
 						<?php if(in_array('publish_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>

@@ -19,7 +19,7 @@ class Sku extends Model{
 	 * @param int $goods_id 商品ID
 	 * @param string $sku_key
 	 */
-	public function getPropertiesNameByKey($goods_id, $sku_key){
+	public static function getPropertiesNameByKey($goods_id, $sku_key){
 		$sku_items = explode(';', $sku_key);
 		$sku_map = array();
 		foreach($sku_items as $p){

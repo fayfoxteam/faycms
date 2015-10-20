@@ -526,6 +526,19 @@ CREATE TABLE `{{$prefix}}orders` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='订单表';
 
+DROP TABLE IF EXISTS `{{$prefix}}order_goods`;
+CREATE TABLE `{{$prefix}}order_goods` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `order_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '订单ID',
+  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '商品标题',
+  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品价格',
+  `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '购买数量',
+  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
+  `sku_properties_name` varchar(500) NOT NULL DEFAULT '' COMMENT 'SKU的值',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='订单商品表';
+
 DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',

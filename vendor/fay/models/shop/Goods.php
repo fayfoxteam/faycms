@@ -1,8 +1,8 @@
 <?php
-namespace fay\models;
+namespace fay\models\shop;
 
 use fay\core\Model;
-use fay\models\tables\Goods;
+use fay\models\tables\Goods as TableGoods;
 use fay\models\tables\GoodsFiles;
 use fay\core\Sql;
 use fay\models\tables\GoodsSkus;
@@ -18,7 +18,7 @@ class Goods extends Model{
 	
 	public function get($id, $fields = 'files,props,sku'){
 		$fields = explode(',', $fields);
-		$goods = Goods::model()->find($id);
+		$goods = TableGoods::model()->find($id);
 		
 		if(!$goods){
 			return array();

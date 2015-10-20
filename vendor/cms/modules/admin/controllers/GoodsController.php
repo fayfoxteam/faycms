@@ -14,7 +14,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\Category;
 use fay\helpers\Date;
-use fay\models\Goods as GoodsModel;
+use fay\models\shop\Goods as GoodsModel;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Flash;

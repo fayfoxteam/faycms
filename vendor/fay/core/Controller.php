@@ -59,10 +59,13 @@ class Controller{
 	 */
 	public $layout_template;
 	/**
-	 * 当前时间
-	 * @var int
+	 * 当前时间时间戳
 	 */
 	public $current_time = 0;
+	/**
+	 * 当前登录用户ID
+	 */
+	public $current_user = 0;
 	/**
 	 * @var Controller
 	 */

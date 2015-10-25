@@ -298,7 +298,7 @@ CREATE TABLE `{{$prefix}}goods` (
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_cat_prop_values`;
 CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
@@ -353,7 +353,7 @@ CREATE TABLE `{{$prefix}}goods_skus` (
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
   PRIMARY KEY (`goods_id`,`sku_key`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}item_prop_values`;
 CREATE TABLE `{{$prefix}}item_prop_values` (
@@ -524,7 +524,7 @@ CREATE TABLE `{{$prefix}}orders` (
   `comfirm_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '确认收货时间',
   `close_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '交易关闭原因',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='订单表';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单表';
 
 DROP TABLE IF EXISTS `{{$prefix}}order_goods`;
 CREATE TABLE `{{$prefix}}order_goods` (
@@ -537,7 +537,7 @@ CREATE TABLE `{{$prefix}}order_goods` (
   `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
   `sku_properties_name` varchar(500) NOT NULL DEFAULT '' COMMENT 'SKU的值',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='订单商品表';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单商品表';
 
 DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (
@@ -749,6 +749,24 @@ CREATE TABLE `{{$prefix}}templates` (
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}user_addresses`;
+CREATE TABLE `{{$prefix}}user_addresses` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '所在省',
+  `city` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '所在市',
+  `district` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '所在区',
+  `address` varchar(255) NOT NULL DEFAULT '' COMMENT '详细地址',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
+  `mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '手机号码',
+  `phone` varchar(30) NOT NULL DEFAULT '' COMMENT '电话号码',
+  `zipcode` varchar(30) NOT NULL DEFAULT '' COMMENT '邮编',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '默认收货地址',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_profile`;

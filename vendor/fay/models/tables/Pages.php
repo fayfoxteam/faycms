@@ -34,9 +34,9 @@ class Pages extends Table{
 			array(array('seo_description'), 'string', array('max'=>255)),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
 			array(array('seo_title', 'seo_keywords'), 'string', array('max'=>100)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			
-			array(array('status'), 'range', array('range'=>array('0', '1'))),
+			array(array('status'), 'range', array('range'=>array(0, 1))),
 			array('alias', 'unique', array('table'=>'pages', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/page/is-alias-not-exist'))),
 		);
 	}

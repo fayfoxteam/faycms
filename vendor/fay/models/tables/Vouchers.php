@@ -31,7 +31,7 @@ class Vouchers extends Table{
 			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('sn'), 'string', array('max'=>30)),
 			array(array('amount'), 'float', array('length'=>6, 'decimal'=>2)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('start_time', 'end_time'), 'datetime'),
 		);
 	}

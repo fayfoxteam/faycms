@@ -18,7 +18,7 @@ class Options extends Table{
 			array(array('id', 'create_time', 'last_modified_time'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('option_name'), 'string', array('max'=>255)),
 			array(array('description'), 'string', array('max'=>500)),
-			array(array('is_system'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_system'), 'range', array('range'=>array(0, 1))),
 
 			array('option_name', 'required'),
 			array('option_name', 'unique', array('table'=>'options', 'except'=>'id', 'ajax'=>array('admin/option/is-option-not-exist'))),

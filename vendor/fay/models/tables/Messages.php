@@ -46,7 +46,7 @@ class Messages extends Table{
 			array(array('id', 'user_id', 'target', 'parent', 'root', 'create_time'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
-			array(array('deleted', 'is_terminal'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted', 'is_terminal'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

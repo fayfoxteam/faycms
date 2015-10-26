@@ -78,13 +78,13 @@ class Users extends Table{
 			array(array('username', 'nickname', 'realname'), 'string', array('max'=>50)),
 			array(array('password'), 'string', array('max'=>32)),
 			array(array('salt'), 'string', array('max'=>5)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('mobile'), 'mobile'),
 
 			array(array('username'), 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('tools/user/is-username-not-exist'))),
 			array(array('username'), 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('tools/user/is-username-not-exist'))),
 			array(array('email'), 'email'),
-			array(array('block', 'admin'), 'range', array('range'=>array('0', '1'))),
+			array(array('block', 'admin'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

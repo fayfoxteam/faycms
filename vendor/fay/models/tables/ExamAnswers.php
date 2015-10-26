@@ -17,7 +17,7 @@ class ExamAnswers extends Table{
 		return array(
 			array(array('id', 'question_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
-			array(array('is_right_answer'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_right_answer'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

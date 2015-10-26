@@ -24,7 +24,7 @@ class Files extends Table{
 			array(array('file_ext'), 'string', array('max'=>10)),
 			array(array('file_type'), 'string', array('max'=>30)),
 			array(array('file_path', 'client_name'), 'string', array('max'=>255)),
-			array(array('is_image'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_image'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

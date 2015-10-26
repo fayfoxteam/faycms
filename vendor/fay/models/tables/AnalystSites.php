@@ -17,7 +17,7 @@ class AnalystSites extends Table{
 		return array(
 			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('title', 'description'), 'string', array('max'=>255)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			
 			array('title', 'required'),
 		);

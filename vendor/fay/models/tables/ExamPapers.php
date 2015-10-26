@@ -30,7 +30,7 @@ class ExamPapers extends Table{
 			array(array('rand', 'status', 'repeatedly'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('score'), 'float', array('length'=>5, 'decimal'=>2)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('start_time', 'end_time'), 'datetime'),
 			
 			array('title', 'required'),

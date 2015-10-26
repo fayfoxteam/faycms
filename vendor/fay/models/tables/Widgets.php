@@ -17,7 +17,7 @@ class Widgets extends Table{
 		return array(
 			array(array('cache'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('enabled', 'ajax'), 'range', array('range'=>array('0', '1'))),
+			array(array('enabled', 'ajax'), 'range', array('range'=>array(0, 1))),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('alias', 'widget_name', 'description'), 'string', array('max'=>255)),
 			array(array('widgetarea'), 'string', array('max'=>50)),

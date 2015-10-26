@@ -19,7 +19,7 @@ class PostsFiles extends Table{
 			array(array('post_id', 'file_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('description'), 'string', array('max'=>255)),
-			array(array('is_image'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_image'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

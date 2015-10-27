@@ -26,11 +26,11 @@ class ErrorHandler{
 	 * @param ErrorException|Exception|HttpException $exception
 	 */
 	public function handleException($exception){
-		if($exception instanceof HttpException){
+		if($exception instanceof HttpException){//http错误，一般都是404
 			//错误日志
-			if($exception->status_code == 404){
+			if($exception->status_code == 404){//如文章不存在等
 				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_access');
-			}else{
+			}else{//如用户参数异常，报500
 				\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
 			}
 			
@@ -47,9 +47,9 @@ class ErrorHandler{
 				//环境非production，显示debug页面
 				$this->renderDebug($exception);
 			}
-		}else if($exception instanceof ErrorException){
+		}else if($exception instanceof ErrorException){//php报错
 			//错误日志
-			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
 			
 			//自定义异常
 			if(\F::config()->get('environment') == 'production'){
@@ -57,7 +57,17 @@ class ErrorHandler{
 			}else{
 				$this->renderDebug($exception);
 			}
-		}else{
+		}else if($exception instanceof Exception){//业务逻辑报错
+			//错误日志
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+				
+			//自定义异常
+			if(\F::config()->get('environment') == 'production'){
+				$this->render500($exception->getMessage());
+			}else{
+				$this->renderDebug($exception);
+			}
+		}else{//默认为php报错
 			//错误日志
 			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
 			

@@ -260,13 +260,16 @@ CREATE TABLE `{{$prefix}}files` (
   KEY `raw_name` (`raw_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}followers`;
-CREATE TABLE `{{$prefix}}followers` (
-  `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
-  `follower` int(10) unsigned NOT NULL COMMENT 'Follower',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  PRIMARY KEY (`user_id`,`follower`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+DROP TABLE IF EXISTS `{{$prefix}}follows`;
+CREATE TABLE `{{$prefix}}follows` (
+  `fans_id` int(10) unsigned NOT NULL COMMENT '粉丝ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关注时间',
+  `relation` tinyint(4) NOT NULL DEFAULT '1' COMMENT '单向/双向关注',
+  `is_real` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否真实用户',
+  PRIMARY KEY (`fans_id`,`user_id`),
+  KEY `fans` (`user_id`,`fans_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='关注关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}goods`;
 CREATE TABLE `{{$prefix}}goods` (

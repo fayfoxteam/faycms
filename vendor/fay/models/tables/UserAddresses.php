@@ -37,7 +37,7 @@ class UserAddresses extends Table{
 			array(array('address'), 'string', array('max'=>255)),
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('phone', 'zipcode'), 'string', array('max'=>30)),
-			array(array('is_default'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_default'), 'range', array('range'=>array(0, 1))),
 			array(array('mobile'), 'mobile'),
 			
 			array(array('district', 'address', 'name'), 'required'),

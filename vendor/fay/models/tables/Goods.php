@@ -74,7 +74,7 @@ class Goods extends Table{
 			array(array('sn'), 'string', array('max'=>50)),
 			array(array('weight', 'size', 'price'), 'float', array('length'=>8, 'decimal'=>2)),
 			array(array('post_fee'), 'float', array('length'=>6, 'decimal'=>2)),
-			array(array('is_new', 'is_hot', 'deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_new', 'is_hot', 'deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 		);
 	}

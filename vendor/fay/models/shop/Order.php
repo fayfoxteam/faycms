@@ -40,7 +40,7 @@ class Order extends Model{
 		
 		//更新库存
 		
-		//执行回调
+		//执行钩子
 		Hook::getInstance()->call('after_order_created');
 	}
 }

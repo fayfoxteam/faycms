@@ -49,7 +49,7 @@ class GoodsCatProps extends Table{
 			array(array('required'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('type', 'sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('is_sale_prop', 'is_input_prop', 'deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_sale_prop', 'is_input_prop', 'deleted'), 'range', array('range'=>array(0, 1))),
 			
 			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/goods-cat-prop/is-alias-not-exist'))),
 		);

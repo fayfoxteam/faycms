@@ -86,7 +86,7 @@ class Posts extends Table{
 			array(array('alias'), 'string', array('max'=>50), 'format'=>'alias'),
 			array(array('seo_title', 'seo_keywords'), 'string', array('max'=>100)),
 			array(array('seo_description'), 'string', array('max'=>255)),
-			array(array('is_top', 'deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_top', 'deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 
 			array(array('status'), 'range', array('range'=>array(self::STATUS_PUBLISHED, self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_REVIEWED))),

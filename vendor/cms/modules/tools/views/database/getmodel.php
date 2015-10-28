@@ -139,7 +139,7 @@ foreach($fields as $f){
 <?php }?>
 <?php }?>
 <?php if(!empty($range_0_1)){?>
-			array(array('<?php echo implode("', '", $range_0_1)?>'), 'range', array('range'=>array('0', '1'))),
+			array(array('<?php echo implode("', '", $range_0_1)?>'), 'range', array('range'=>array(0, 1))),
 <?php }?>
 <?php if(!empty($datetime)){?>
 			array(array('<?php echo implode("', '", $datetime)?>'), 'datetime'),

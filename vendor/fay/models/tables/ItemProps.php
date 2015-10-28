@@ -20,7 +20,7 @@ class ItemProps extends Table{
 			array(array('required', 'multi'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('is_input_prop', 'is_sale_prop', 'is_color_prop', 'is_enum_prop', 'deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_input_prop', 'is_sale_prop', 'is_color_prop', 'is_enum_prop', 'deleted'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

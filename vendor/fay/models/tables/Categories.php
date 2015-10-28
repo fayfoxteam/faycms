@@ -20,7 +20,7 @@ class Categories extends Table{
 			array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
 			array(array('description'), 'string', array('max'=>500)),
-			array(array('is_nav', 'is_system'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_nav', 'is_system'), 'range', array('range'=>array(0, 1))),
 			
 			array('title', 'required'),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),

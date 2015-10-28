@@ -20,7 +20,7 @@ class PropValues extends Table{
 			array(array('default'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

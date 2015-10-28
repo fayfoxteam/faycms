@@ -1,7 +1,7 @@
 <?php
-namespace cms\modules\tools\controllers;
+namespace cms\modules\api\controllers;
 
-use fay\core\Controller;
+use cms\library\ApiController;
 use fay\models\File;
 use fay\models\tables\Files;
 use fay\helpers\Image;
@@ -12,7 +12,7 @@ use fay\core\Loader;
 use fay\helpers\String;
 use fay\models\Option;
 
-class FileController extends Controller{
+class FileController extends ApiController{
 	public function pic(){
 		$validator = new Validator();
 		$check = $validator->check(array(

@@ -55,7 +55,7 @@ class TestController extends AdminController{
 			array('refer', 'string', array('min'=>2, 'max'=>5)),
 			array('cat_id', 'int', array('min'=>2, 'max'=>4)),
 			array('cat_id', 'range', array('range'=>array('2', '3'))),
-			array('username', 'unique', array('table'=>'users', 'field'=>'username', 'ajax'=>array('tools/user/is-username-not-exist'))),
+			array('username', 'unique', array('table'=>'users', 'field'=>'username', 'ajax'=>array('api/user/is-username-not-exist'))),
 			array('datetime', 'datetime', array('int'=>true)),
 		);
 		

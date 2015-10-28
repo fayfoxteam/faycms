@@ -1,11 +1,11 @@
 <?php
-namespace cms\modules\tools\controllers;
+namespace cms\modules\api\controllers;
 
-use fay\core\Controller;
+use cms\library\ApiController;
 use fay\models\tables\Users;
 use fay\core\Response;
 
-class UserController extends Controller{
+class UserController extends ApiController{
 	public function isUsernameNotExist(){
 		$value = $this->input->post('value');
 		if(!$value){

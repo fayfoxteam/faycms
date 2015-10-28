@@ -134,7 +134,7 @@ class Uri{
 		}
 		
 		$request_arr = explode('/', $request);
-		$modules = array_merge(array('admin', 'tools', 'install'), \F::config()->get('modules'));
+		$modules = array_merge(array('admin', 'tools', 'install', 'api'), \F::config()->get('modules'));
 		if(in_array($request_arr[0], $modules)){
 			//前3级是路由
 			$this->_setRouter($request_arr[0], isset($request_arr[1]) ? $request_arr[1] : null, isset($request_arr[2]) ? $request_arr[2] : null);

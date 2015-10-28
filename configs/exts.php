@@ -8,6 +8,6 @@
  *     * => .*
  */
 return array(
-	'.js'=>array('tools/analyst'),
+	'.js'=>array('api/analyst'),
 	''=>array('file/download*', 'file/pic*', 'file/vcode*', 'redirect*', '/', 'admin*', 'install/*', 'tools*', 'a', 'widget/*'),
 );

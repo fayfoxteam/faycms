@@ -7,27 +7,27 @@ return array(
 	'/^a$/'=>'admin/login/index',
 	
 	//根据widget别名加载
-	'/^widget\/load$/'=>'tools/widget/load',//别名跟在问号后面参数中
-	'/^widget\/load\/(.+)$/'=>'tools/widget/load/alias/$1',//别名包含在url重写中
+	'/^widget\/load$/'=>'api/widget/load',//别名跟在问号后面参数中
+	'/^widget\/load\/(.+)$/'=>'api/widget/load/alias/$1',//别名包含在url重写中
 	
 	//根据widget别名获取widget数据（不渲染，以ajax方式返回）
-	'/^widget\/data$/'=>'tools/widget/data',//别名跟在问号后面参数中
-	'/^widget\/data\/(.+)$/'=>'tools/widget/data/alias/$1',//别名包含在url重写中
+	'/^widget\/data$/'=>'api/widget/data',//别名跟在问号后面参数中
+	'/^widget\/data\/(.+)$/'=>'api/widget/data/alias/$1',//别名包含在url重写中
 	
 	
 	//根据widget名称加载
-	'/^widget\/render$/'=>'tools/widget/render',//widget名称在问号后面参数中（名称很可能包含斜杠，故一般不会在url重写中）
-	'/^widget\/(\w+)$/'=>'tools/widget/render/name/$1',//widget名称包含在url重写中
+	'/^widget\/render$/'=>'api/widget/render',//widget名称在问号后面参数中（名称很可能包含斜杠，故一般不会在url重写中）
+	'/^widget\/(\w+)$/'=>'api/widget/render/name/$1',//widget名称包含在url重写中
 	
 	'/^tools$/'=>'tools/index/index',//工具
 	
-	'/^tools\/analyst$/'=>'tools/analyst/js',//访问统计
+	'/^api\/analyst$/'=>'api/analyst/js',//访问统计
 	
 	//图片显示
-	'/^file\/pic(.*)$/'=>'tools/file/pic$1',
-	'/^file\/vcode(.*)$/'=>'tools/file/vcode$1',
-	'/^file\/qrcode(.*)$/'=>'tools/file/qrcode$1',
-	'/^file\/download(.*)$/'=>'tools/file/download$1',
+	'/^file\/pic(.*)$/'=>'api/file/pic$1',
+	'/^file\/vcode(.*)$/'=>'api/file/vcode$1',
+	'/^file\/qrcode(.*)$/'=>'api/file/qrcode$1',
+	'/^file\/download(.*)$/'=>'api/file/download$1',
 	
-	'/^redirect(.*)$/'=>'tools/redirect/index$1',//页面跳转
+	'/^redirect(.*)$/'=>'api/redirect/index$1',//页面跳转
 );

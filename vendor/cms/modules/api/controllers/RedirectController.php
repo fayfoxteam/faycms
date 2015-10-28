@@ -1,10 +1,10 @@
 <?php
-namespace cms\modules\tools\controllers;
+namespace cms\modules\api\controllers;
 
-use cms\library\ToolsController;
+use cms\library\ApiController;
 use fay\core\HttpException;
 
-class RedirectController extends ToolsController{
+class RedirectController extends ApiController{
 	/**
 	 * 跳转到指定url
 	 */

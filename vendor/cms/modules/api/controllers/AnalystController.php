@@ -1,14 +1,14 @@
 <?php
-namespace cms\modules\tools\controllers;
+namespace cms\modules\api\controllers;
 
-use fay\core\Controller;
+use cms\library\ApiController;
 use fay\helpers\Request;
 use fay\helpers\String;
 use fay\helpers\Date;
 use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
 
-class AnalystController extends Controller{
+class AnalystController extends ApiController{
 	public $current_user = 0;
 	
 	public function __construct(){

@@ -298,7 +298,7 @@ class Html{
 	
 	/**
 	 * 跳转到站外地址。
-	 * 出于seo考虑，不直接显示站外地址，而是通过tools/redirect/index来跳转
+	 * 出于seo考虑，不直接显示站外地址，而是通过api/redirect/index来跳转
 	 * @param string $text
 	 * @param string $url 包括http://在内的完整url
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性

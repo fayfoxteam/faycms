@@ -1,13 +1,13 @@
 <?php
-namespace cms\modules\tools\controllers;
+namespace cms\modules\api\controllers;
 
-use cms\library\ToolsController;
+use cms\library\ApiController;
 use fay\helpers\String;
 use fay\models\tables\Widgets;
 use fay\core\HttpException;
 use fay\core\Response;
 
-class WidgetController extends ToolsController{
+class WidgetController extends ApiController{
 	/**
 	 * 根据widget name及其他传入参数，渲染一个widget
 	 * @throws HttpException

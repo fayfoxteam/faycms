@@ -58,16 +58,18 @@ var system = {
 		}else if(dv < 3600){
 			//一小时内
 			return Math.floor(dv / 60)+'分钟前';
-		}else if(date.getDate() == now.getDate()){
+		}else if(dv < 86400 && date.getDate() == now.getDate()){
 			//今天内
 			return Math.floor(dv / 3600)+'小时前';
 		}else if(dv < ((now_timestamp - today_timestamp) + 6 * 86400)){
 			//7天内
 			return Math.ceil((dv - (now_timestamp - today_timestamp)) / 86400)+'天前';
 		}else if(date.getFullYear() == now.getFullYear()){
-			return date.getMonth()+'月'+date.getDate()+'日';
+			var month = date.getMonth() + 1;
+			return month+'月'+date.getDate()+'日';
 		}else{
-			return date.getFullYear().toString().substring(2)+'年'+date.getMonth()+'月'+date.getDate()+'日';
+			var month = date.getMonth() + 1;
+			return date.getFullYear().toString().substring(2)+'年'+month+'月'+date.getDate()+'日';
 		}
 	},
 	'encode' : function(str){

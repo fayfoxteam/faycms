@@ -97,8 +97,9 @@ class Db{
 	 */
 	public function exec($sql, $explode = false){
 		if($explode){
-			$sql = explode(";\n", str_replace("\r\n", "\n", $sql));
-			foreach($sql as $s){
+			$sqls = explode(";\n", str_replace("\r\n", "\n", $sql));
+			foreach($sqls as $s){
+				$s = trim($s);
 				if(!$s){
 					continue;
 				}

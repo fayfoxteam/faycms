@@ -15,16 +15,16 @@ use fay\helpers\Html;
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('static/siwi/css/style.css')?>" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('static/siwi/css/frontend.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/frontend.css')?>" />
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->session->get('id', 0)?>';
 </script>
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get(site.sitename)?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site.sitename')?></title>
 </head>
 <body>
 <?php include '_header.php';?>

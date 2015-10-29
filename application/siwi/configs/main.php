@@ -11,7 +11,7 @@ return array(
 		'host'=>'localhost',					//数据库服务器
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
-		'dbname'=>'fayfox_siwi',				//数据库名
+		'dbname'=>'faycms_siwi',				//数据库名
 		'charset'=>'utf8',						//数据库编码方式
 		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),

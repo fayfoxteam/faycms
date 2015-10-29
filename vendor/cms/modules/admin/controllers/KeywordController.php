@@ -29,19 +29,19 @@ class KeywordController extends AdminController{
 			if($this->form()->setModel(Keywords::model())->check()){
 				$data = Keywords::model()->fillData($this->input->post());
 				Keywords::model()->insert($data);
-				Response::output('success', '关键词添加成功', array('admin/keyword/index'));
+				Response::notify('success', '关键词添加成功', array('admin/keyword/index'));
 			}else{
-				Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
 			}
 		}else{
-			Response::output('error', '不完整的请求', array('admin/keyword/index'));
+			Response::notify('error', '不完整的请求', array('admin/keyword/index'));
 		}
 	}
 	
 	public function remove(){
 		Keywords::model()->delete($this->input->get('id', 'intval'));
 		
-		Response::output('success', '一个关键词被永久删除', array('admin/keyword/index', $this->input->get()));
+		Response::notify('success', '一个关键词被永久删除', array('admin/keyword/index', $this->input->get()));
 	}
 	
 	public function edit(){

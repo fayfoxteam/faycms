@@ -641,7 +641,7 @@ class GoodsController extends AdminController{
 		), $goods_id);
 		$this->actionlog(Actionlogs::TYPE_GOODS, '软删除一个商品', $goods_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个商品被移入回收站 - '.Html::link('撤销', array('admin/goods/undelete', array(
 				'id'=>$goods_id,
 			))),
@@ -656,7 +656,7 @@ class GoodsController extends AdminController{
 		), array('id = ?'=>$goods_id));
 		$this->actionlog(Actionlogs::TYPE_GOODS, '将商品移出回收站', $goods_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个商品被还原',
 			'id'=>$goods_id
 		));
@@ -672,7 +672,7 @@ class GoodsController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'is_new');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'',
 			'data'=>array(
 				'is_new'=>$goods['is_new'],
@@ -686,7 +686,7 @@ class GoodsController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'is_hot');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'',
 			'data'=>array(
 				'is_hot'=>$goods['is_hot'],
@@ -700,7 +700,7 @@ class GoodsController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'sort');
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个商品的排序值被编辑',
 			'data'=>array(
 				'sort'=>$goods['sort'],

@@ -29,7 +29,7 @@ class LinkController extends AdminController{
 				$data['last_modified_time'] = $this->current_time;
 				$link_id = Links::model()->insert($data);
 				$this->actionlog(Actionlogs::TYPE_LINK, '添加友情链接', $link_id);
-				Response::output('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
+				Response::notify('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -128,7 +128,7 @@ class LinkController extends AdminController{
 		
 		$this->actionlog(Actionlogs::TYPE_LINK, '移除友情链接', $this->input->get('id', 'intval'));
 		
-		Response::output('success', '一个友情链接被永久删除', array('admin/link/index', $this->input->get()));
+		Response::notify('success', '一个友情链接被永久删除', array('admin/link/index', $this->input->get()));
 	}
 	
 	public function sort(){
@@ -141,7 +141,7 @@ class LinkController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_LINK, '改变了友情链接排序', $id);
 		
 		$link = Links::model()->find($id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'改变了友情链接排序值',
 			'sort'=>$link['sort'],
 		));

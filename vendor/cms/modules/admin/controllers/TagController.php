@@ -35,17 +35,17 @@ class TagController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_TAG, '创建了标签', $tag_id);
 
 				$tag = Tags::model()->find($tag_id, 'id,title');
-				Response::output('success', array(
+				Response::notify('success', array(
 					'message'=>'标签创建成功',
 					'tag'=>$tag,
 				));
 			}else{
-				Response::output('error', array(
+				Response::notify('error', array(
 					'message'=>$this->showDataCheckError($this->form()->getErrors(), true),
 				));
 			}
 		}else{
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>'不完整的请求',
 			));
 		}
@@ -57,7 +57,7 @@ class TagController extends AdminController{
 		PostsTags::model()->delete(array('tag_id = ?'=>$tag_id));
 		$this->actionlog(Actionlogs::TYPE_TAG, '删除了标签', $tag_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个标签被永久删除',
 		));
 	}
@@ -115,7 +115,7 @@ class TagController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_TAG, '改变了标签排序', $tag_id);
 		
 		$tag = Tags::model()->find($tag_id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一篇标签的排序值被编辑',
 			'sort'=>$tag['sort'],
 		));

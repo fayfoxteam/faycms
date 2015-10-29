@@ -9,7 +9,7 @@ class UserController extends ApiController{
 	public function isUsernameNotExist(){
 		$value = $this->input->post('value');
 		if(!$value){
-			Response::output('error', '用户名不能为空');
+			Response::notify('error', '用户名不能为空');
 		}
 		$conditions = array(
 			'username = ?'=>$value,
@@ -20,9 +20,9 @@ class UserController extends ApiController{
 		}
 		$user = Users::model()->fetchRow($conditions);
 		if($user){
-			Response::output('error', '用户名已存在');
+			Response::notify('error', '用户名已存在');
 		}else{
-			Response::output('success');
+			Response::notify('success');
 		}
 	}
 	
@@ -37,9 +37,9 @@ class UserController extends ApiController{
 		}
 		$user = Users::model()->fetchRow($conditions);
 		if($user){
-			Response::output('success');
+			Response::notify('success');
 		}else{
-			Response::output('error', '该用户名不存在');
+			Response::notify('error', '该用户名不存在');
 		}
 	}
 }

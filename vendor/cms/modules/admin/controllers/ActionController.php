@@ -42,7 +42,7 @@ class ActionController extends AdminController{
 					), 'id');
 					if(!$parent_router){
 						Flash::set('父级路由不存在');
-						Response::output('error', '父级路由不存在');
+						Response::notify('error', '父级路由不存在');
 					}
 					$parent = $parent_router['id'];
 				}else{
@@ -52,12 +52,12 @@ class ActionController extends AdminController{
 				$data['parent'] = $parent;
 				$result = Actions::model()->insert($data);
 				$this->actionlog(Actionlogs::TYPE_ACTION, '添加权限', $result);
-				Response::output('success', '权限添加成功');
+				Response::notify('success', '权限添加成功');
 			}else{
-				Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
 			}
 		}else{
-			Response::output('error', '不完整的请求');
+			Response::notify('error', '不完整的请求');
 		}
 	}
 	
@@ -115,7 +115,7 @@ class ActionController extends AdminController{
 		Actions::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
 		$this->actionlog(Actionlogs::TYPE_ACTION, '删除权限', $this->input->get('id', 'intval'));
 		
-		Response::output('success', '一个权限被删除', $this->view->url('admin/action/index', $this->input->get()));
+		Response::notify('success', '一个权限被删除', $this->view->url('admin/action/index', $this->input->get()));
 	}
 	
 	public function search(){

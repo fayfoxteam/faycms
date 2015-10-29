@@ -104,7 +104,7 @@ class ExamPaperController extends AdminController{
 				}
 				$this->actionlog(Actionlogs::TYPE_EXAM, '添加了一份试卷', $paper_id);
 				
-				Response::output('success', '试卷发布成功', array(
+				Response::notify('success', '试卷发布成功', array(
 					'admin/exam-paper/edit', array(
 						'id'=>$paper_id,
 					)
@@ -185,7 +185,7 @@ class ExamPaperController extends AdminController{
 				}
 				
 				$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一份试卷', $id);
-				Response::output('success', '编辑成功');
+				Response::notify('success', '编辑成功');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
@@ -218,7 +218,7 @@ class ExamPaperController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一份试卷被删除', $id);
 		
-		Response::output('success', '一份试卷被删除 - '.Html::link('撤销', array('admin/exam-paper/undelete', array(
+		Response::notify('success', '一份试卷被删除 - '.Html::link('撤销', array('admin/exam-paper/undelete', array(
 			'id'=>$id,
 		))));
 	}
@@ -230,7 +230,7 @@ class ExamPaperController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一份试卷被还原', $id);
 		
-		Response::output('success', '一份试卷被还原');
+		Response::notify('success', '一份试卷被还原');
 	}
 	
 	public function cat(){

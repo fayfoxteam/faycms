@@ -232,9 +232,9 @@ class FileController extends AdminController{
 			Files::model()->delete($file_id);
 			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
 			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
-			Response::output('success', '删除成功');
+			Response::notify('success', '删除成功');
 		}else{
-			Response::output('error', '参数不完整');
+			Response::notify('error', '参数不完整');
 		}
 	}
 	
@@ -325,7 +325,7 @@ class FileController extends AdminController{
 				}
 				
 				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
-				Response::output('success', $affected_rows.'个文件被删除');
+				Response::notify('success', $affected_rows.'个文件被删除');
 			break;
 			
 			//移动到目标分类图片
@@ -333,12 +333,12 @@ class FileController extends AdminController{
 				$cat_id = $this->input->post('cat_id', 'intval');
 				
 				if(!$cat_id){
-					Response::output('error', '未指定分类');
+					Response::notify('error', '未指定分类');
 				}
 			
 				$cat = Category::model()->get($cat_id,'title');
 				if(!$cat){
-					Response::output('error', '指定分类不存在');
+					Response::notify('error', '指定分类不存在');
 				}
 				
 				$affected_rows = Files::model()->update(array(
@@ -347,7 +347,7 @@ class FileController extends AdminController{
 					'id IN (?)'=>$ids,
 				));
 				$this->actionlog(Actionlogs::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
-				Response::output('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
+				Response::notify('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
 			break;
 		}
 	}

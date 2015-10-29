@@ -67,7 +67,7 @@ class RoleController extends AdminController{
 				}
 				
 				$this->actionlog(Actionlogs::TYPE_ROLE, '添加了一个角色', $role_id);
-				Response::output('success', '角色添加成功', array('admin/role/edit', array(
+				Response::notify('success', '角色添加成功', array('admin/role/edit', array(
 					'id'=>$role_id,
 				)));
 			}else{
@@ -194,7 +194,7 @@ class RoleController extends AdminController{
 		), $role_id);
 		$this->actionlog(Actionlogs::TYPE_ROLE, '删除了一个角色', $role_id);
 
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个角色被删除 - '.Html::link('撤销', array('admin/role/undelete', array(
 				'id'=>$role_id,
 			))),
@@ -209,7 +209,7 @@ class RoleController extends AdminController{
 		), $role_id);
 		$this->actionlog(Actionlogs::TYPE_ROLE, '还原了一个角色', $role_id);
 
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个角色被还原',
 			'id'=>$role_id,
 		));

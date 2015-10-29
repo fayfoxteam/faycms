@@ -59,12 +59,12 @@ class PostPropController extends AdminController{
 			
 			$this->actionlog(Actionlogs::TYPE_POST_CAT, '添加了一个文章分类属性', $prop_id);
 			
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'文章分类属性添加成功',
 				'id'=>$prop_id,
 			));
 		}else{
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>$this->showDataCheckError($this->form()->getErrors(), true),
 				'id'=>$prop_id,
 			));
@@ -121,7 +121,7 @@ class PostPropController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_POST_CAT, '删除了一个文章分类属性', $id);
 		
 		//不能直接回到上一页，因为可能处在编辑状态
-		Response::output('success', '一个文章分类属性被删除', array('admin/post-prop/index', array(
+		Response::notify('success', '一个文章分类属性被删除', array('admin/post-prop/index', array(
 			'id'=>$prop['refer'],
 		)));
 	}
@@ -136,7 +136,7 @@ class PostPropController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_POST_CAT, '改变了文章分类属性排序', $id);
 		
 		$data = Props::model()->find($id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个文章分类属性排序值被编辑',
 			'data'=>array(
 				'sort'=>$data['sort'],

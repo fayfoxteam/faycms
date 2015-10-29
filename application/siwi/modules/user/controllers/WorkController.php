@@ -82,7 +82,7 @@ class WorkController extends UserController{
 				
 				Tag::model()->set($this->input->post('tags'), $post_id);
 	
-				Response::output('success', '作品发布成功', array('user/work/edit', array(
+				Response::notify('success', '作品发布成功', array('user/work/edit', array(
 					'id'=>$post_id,
 				)));
 			}else{

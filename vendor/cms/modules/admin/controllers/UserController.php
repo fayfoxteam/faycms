@@ -166,7 +166,7 @@ class UserController extends AdminController{
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个新用户', $user_id);
 				
-				Response::output('success', '用户添加成功，'.Html::link('继续添加', array('admin/user/create')), array('admin/user/edit', array(
+				Response::notify('success', '用户添加成功，'.Html::link('继续添加', array('admin/user/create')), array('admin/user/edit', array(
 					'id'=>$user_id,
 				)));
 			}else{

@@ -169,7 +169,7 @@ class WidgetController extends AdminController{
 			));
 			$this->actionlog(Actionlogs::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
 			
-			Response::output('success', '小工具实例创建成功', array('admin/widget/edit', array(
+			Response::notify('success', '小工具实例创建成功', array('admin/widget/edit', array(
 				'id'=>$widget_instance_id,
 			)));
 		}else{
@@ -210,7 +210,7 @@ class WidgetController extends AdminController{
 		Widgets::model()->delete($this->input->get('id', 'intval'));
 		$this->actionlog(Actionlogs::TYPE_WIDGET, '删除了一个小工具实例', $id);
 
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个小工具实例被删除',
 		));
 	}

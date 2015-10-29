@@ -117,9 +117,9 @@ class SciController extends AdminController{
 //					'note'=>$this->input->post('note', null, ''),
 //					'create_time'=>$this->current_time,
 //				));
-//				Response::output('success', '账单记录添加成功');
+//				Response::notify('success', '账单记录添加成功');
 //			}else{
-//				Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+//				Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
 //			}
 //
 //		}else{

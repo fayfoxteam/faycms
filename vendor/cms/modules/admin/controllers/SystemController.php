@@ -49,12 +49,12 @@ class SystemController extends AdminController{
 				$key = $data['_key'];
 				unset($data['_key'], $data['_submit']);
 				Setting::model()->set($key, $data);
-				Response::output('success', '设置保存成功');
+				Response::notify('success', '设置保存成功');
 			}else{
-				Response::output('error', '异常的数据格式');
+				Response::notify('error', '异常的数据格式');
 			}
 		}else{
-			Response::output('error', '无数据被提交');
+			Response::notify('error', '无数据被提交');
 		}
 	}
 }

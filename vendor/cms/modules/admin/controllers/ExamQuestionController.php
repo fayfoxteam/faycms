@@ -134,7 +134,7 @@ class ExamQuestionController extends AdminController{
 				}
 				$this->actionlog(Actionlogs::TYPE_EXAM, '创建了一个试题', $question_id);
 				
-				Response::output('success', '一个试题被添加', array(
+				Response::notify('success', '一个试题被添加', array(
 					'admin/exam-question/edit', array(
 						'id'=>$question_id,
 					)
@@ -328,7 +328,7 @@ class ExamQuestionController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一个试题被删除', $id);
 		
-		Response::output('success', '一个试题被删除 - '.Html::link('撤销', array('admin/exam-question/undelete', array(
+		Response::notify('success', '一个试题被删除 - '.Html::link('撤销', array('admin/exam-question/undelete', array(
 			'id'=>$id,
 		))));
 	}
@@ -340,7 +340,7 @@ class ExamQuestionController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一个试题被还原', $id);
 		
-		Response::output('success', '一个试题被还原');
+		Response::notify('success', '一个试题被还原');
 	}
 	
 	public function cat(){
@@ -453,7 +453,7 @@ class ExamQuestionController extends AdminController{
 		switch($action){
 			case 'set-enabled':
 				if(!$this->checkPermission('admin/exam-question/edit')){
-					Response::output('error', array(
+					Response::notify('error', array(
 						'message'=>'权限不允许',
 						'error_code'=>'permission-denied',
 					));
@@ -464,11 +464,11 @@ class ExamQuestionController extends AdminController{
 				), array(
 					'id IN (?)'=>$ids,
 				));
-				Response::output('success', $affected_rows.'条记录被启用');
+				Response::notify('success', $affected_rows.'条记录被启用');
 			break;
 			case 'set-disabled':
 				if(!$this->checkPermission('admin/exam-question/edit')){
-					Response::output('error', array(
+					Response::notify('error', array(
 						'message'=>'权限不允许',
 						'error_code'=>'permission-denied',
 					));
@@ -479,11 +479,11 @@ class ExamQuestionController extends AdminController{
 				), array(
 					'id IN (?)'=>$ids,
 				));
-				Response::output('success', $affected_rows.'条记录被禁用');
+				Response::notify('success', $affected_rows.'条记录被禁用');
 			break;
 			case 'delete':
 				if(!$this->checkPermission('admin/exam-question/edit')){
-					Response::output('error', array(
+					Response::notify('error', array(
 						'message'=>'权限不允许',
 						'error_code'=>'permission-denied',
 					));
@@ -494,7 +494,7 @@ class ExamQuestionController extends AdminController{
 				), array(
 					'id IN (?)'=>$ids,
 				));
-				Response::output('success', $affected_rows.'条记录被删除');
+				Response::notify('success', $affected_rows.'条记录被删除');
 			break;
 		}
 	}

@@ -53,6 +53,6 @@ class WidgetareaController extends AdminController{
 				), $w);
 			}
 		}
-		Response::output('success', '修改成功');
+		Response::notify('success', '修改成功');
 	}
 }

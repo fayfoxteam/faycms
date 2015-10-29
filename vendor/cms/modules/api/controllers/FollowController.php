@@ -22,24 +22,24 @@ class FollowController extends UserController{
 		))->check()){
 			$user_id = $this->form()->getData('user_id');
 			if($user_id == $this->current_user){
-				Response::output('error', array(
+				Response::notify('error', array(
 					'message'=>'您不能关注自己',
 					'code'=>'app-error:can-not-follow-yourself',
 				));
 			}
 			
 			if(Follow::isFollow($user_id)){
-				Response::output('error', array(
+				Response::notify('error', array(
 					'message'=>'您已关注过该用户',
 					'code'=>'app-error:already-followed',
 				));
 			}
 			
 			Follow::follow($user_id);
-			Response::output('success', '关注成功');
+			Response::notify('success', '关注成功');
 		}else{
 			$error = $this->form()->getFirstError();
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>$error['message'],
 				'code'=>$error['code'],
 			));
@@ -64,17 +64,17 @@ class FollowController extends UserController{
 			$user_id = $this->form()->getData('user_id');
 			
 			if(!Follow::isFollow($user_id)){
-				Response::output('error', array(
+				Response::notify('error', array(
 					'message'=>'您未关注过该用户',
 					'code'=>'app-error:not-followed',
 				));
 			}
 			
 			Follow::unfollow($user_id);
-			Response::output('success', '取消关注成功');
+			Response::notify('success', '取消关注成功');
 		}else{
 			$error = $this->form()->getFirstError();
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>$error['message'],
 				'code'=>$error['code'],
 			));

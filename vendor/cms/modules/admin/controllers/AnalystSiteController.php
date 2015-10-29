@@ -27,12 +27,12 @@ class AnalystSiteController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->setModel(AnalystSites::model())->check()){
 				AnalystSites::model()->insert($this->form()->getFilteredData());
-				Response::output('success', '站点添加成功');
+				Response::notify('success', '站点添加成功');
 			}else{
-				Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
 			}
 		}else{
-			Response::output('error', '无数据提交');
+			Response::notify('error', '无数据提交');
 		}
 	}
 	
@@ -68,7 +68,7 @@ class AnalystSiteController extends AdminController{
 		AnalystSites::model()->update(array(
 			'deleted'=>1,
 		), $id);
-		Response::output('success', '一个站点被删除。'.Html::link('撤销', array('admin/analyst-site/undelete', array(
+		Response::notify('success', '一个站点被删除。'.Html::link('撤销', array('admin/analyst-site/undelete', array(
 			'id'=>$id,
 		))));
 	}
@@ -78,7 +78,7 @@ class AnalystSiteController extends AdminController{
 		AnalystSites::model()->update(array(
 			'deleted'=>0,
 		), $id);
-		Response::output('success', '一个站点被还原');
+		Response::notify('success', '一个站点被还原');
 	}
 	
 	private function _setListview(){

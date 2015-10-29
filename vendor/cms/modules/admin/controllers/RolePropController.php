@@ -57,12 +57,12 @@ class RolePropController extends AdminController{
 			
 			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '添加了一个角色属性', $prop_id);
 	
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'角色属性添加成功',
 				'id'=>$prop_id,
 			));
 		}else{
-			Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+			Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
 		}
 	}
 	
@@ -117,7 +117,7 @@ class RolePropController extends AdminController{
 		$prop = Props::model()->find($id, 'refer');
 		Prop::model()->delete($id);
 
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'删除了一个角色属性',
 		), array('admin/role-prop/index', array(
 			'id'=>$prop['refer'],
@@ -134,7 +134,7 @@ class RolePropController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '改变了角色属性排序', $id);
 		
 		$data = Props::model()->find($id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个角色属性的排序值被编辑',
 			'sort'=>$data['sort'],
 		));

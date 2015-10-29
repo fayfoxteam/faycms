@@ -23,16 +23,16 @@ class OptionController extends AdminController{
 				$data['last_modified_time'] = $this->current_time;
 				Options::model()->insert($data);
 				
-				Response::output('success', array(
+				Response::notify('success', array(
 					'message'=>'站点参数添加成功',
 				), array('admin/option/index'));
 			}else{
-				Response::output('error', array(
+				Response::notify('error', array(
 					'message'=>'参数异常',
 				), array('admin/option/index'));
 			}
 		}else{
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>'不完整的请求',
 			), array('admin/option/index'));
 		}
@@ -81,7 +81,7 @@ class OptionController extends AdminController{
 	
 	public function remove(){
 		Options::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个参数被永久删除',
 		), array('admin/option/index', $this->input->get()));
 	}

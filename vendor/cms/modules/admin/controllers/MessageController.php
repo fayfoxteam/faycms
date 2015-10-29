@@ -22,7 +22,7 @@ class MessageController extends AdminController{
 			Post::model()->refreshComments($message['target']);
 		}
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>array(
 				'id'=>$id,
 				'status'=>$message['status'],
@@ -42,7 +42,7 @@ class MessageController extends AdminController{
 			Post::model()->refreshComments($message['target']);
 		}
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>array(
 				'id'=>$id,
 				'status'=>$message['status'],
@@ -63,7 +63,7 @@ class MessageController extends AdminController{
 			Post::model()->refreshComments($message['target']);
 		}
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>array(
 				'id'=>$id,
 			),
@@ -84,7 +84,7 @@ class MessageController extends AdminController{
 		$message = Messages::model()->find($id, 'target');
 		Post::model()->refreshComments($message['target']);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>array(
 				'id'=>$id,
 			),
@@ -104,7 +104,7 @@ class MessageController extends AdminController{
 			Post::model()->refreshComments($message['target']);
 		}
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>array(
 				'id'=>$id,
 			),
@@ -117,11 +117,11 @@ class MessageController extends AdminController{
 		
 		$result = Message::model()->removeChat($id);
 		if($result === false){
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>'该留言非会话根留言',
 			));
 		}else{
-			Response::output('success', array(
+			Response::notify('success', array(
 				'data'=>array(
 					'id'=>$id,
 				),
@@ -133,7 +133,7 @@ class MessageController extends AdminController{
 	public function create(){
 		$target = $this->input->post('target', 'intval');
 		if(!$target){
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>'信息不完整',
 			));
 		}
@@ -144,7 +144,7 @@ class MessageController extends AdminController{
 			
 		$message = Message::model()->get($message_id, '!deleted,is_terminal');
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>$message,
 			'message'=>'留言添加成功',
 		));

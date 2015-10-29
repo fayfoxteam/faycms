@@ -66,7 +66,7 @@ class PostController extends UserController{
 				
 				Tag::model()->set($this->input->post('tags'), $post_id);
 	
-				Response::output('success', '博文发布成功', array('user/post/edit', array(
+				Response::notify('success', '博文发布成功', array('user/post/edit', array(
 					'id'=>$post_id,
 				)));
 			}else{

@@ -138,7 +138,7 @@ class Response{
 	 * @param array|string $data
 	 * @param bool|array $redirect 跳转地址，若为true且是浏览器访问，则返回上一页。若为false，则不会跳转。若非布尔型，则视为跳转地址进行跳转
 	 */
-	public static function output($status = 'error', $data = array(), $redirect = true){
+	public static function notify($status = 'error', $data = array(), $redirect = true){
 		if(!is_array($data)){
 			$data = array(
 				'message'=>$data,

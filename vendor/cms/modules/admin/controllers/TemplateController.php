@@ -35,7 +35,7 @@ class TemplateController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_TEMPLATE, '删除模版', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个模板被删除 - '.Html::link('撤销', array('admin/template/undelete', array(
 				'id'=>$id,
 			))),
@@ -49,7 +49,7 @@ class TemplateController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_TEMPLATE, '还原模版', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个模板被还原',
 		));
 	}
@@ -104,7 +104,7 @@ class TemplateController extends AdminController{
 				$id = Templates::model()->insert($data);
 				
 				$this->actionlog(Actionlogs::TYPE_TEMPLATE, '添加了一个模版', $id);
-				Response::output('success', '模版添加成功', array('admin/template/edit', array(
+				Response::notify('success', '模版添加成功', array('admin/template/edit', array(
 					'id'=>$id,
 				)));
 			}else{

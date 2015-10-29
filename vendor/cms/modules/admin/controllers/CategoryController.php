@@ -50,15 +50,15 @@ class CategoryController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_CATEGORY, '添加分类', $cat_id);
 				
 				$cat = Categories::model()->find($cat_id);
-				Response::output('success', array(
+				Response::notify('success', array(
 					'cat'=>$cat,
  					'message'=>'分类<span class="fc-orange">'.Html::encode($cat['title']).'</span>添加成功',
 				));
 			}else{
-				Response::output('error', '参数异常');
+				Response::notify('error', '参数异常');
 			}
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -102,15 +102,15 @@ class CategoryController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_CATEGORY, '修改分类', $cat_id);
 				
 				$cat = Categories::model()->find($cat_id);
-				Response::output('success', array(
+				Response::notify('success', array(
 					'message'=>'分类<span class="fc-orange">'.Html::encode($cat['title']).'</span>编辑成功',
 					'cat'=>$cat,
 				));
 			}else{
-				Response::output('error', '参数异常');
+				Response::notify('error', '参数异常');
 			}
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -118,11 +118,11 @@ class CategoryController extends AdminController{
 		if(Category::model()->remove($this->input->get('id', 'intval'))){
 			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类', $this->input->get('id', 'intval'));
 			
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'一个分类被移除',
 			));
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -130,11 +130,11 @@ class CategoryController extends AdminController{
 		if(Category::model()->removeAll($this->input->get('id', 'intval'))){
 			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类及其所有子分类', $this->input->get('id', 'intval'));
 				
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'一个分类分支被移除',
 			));
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -160,7 +160,7 @@ class CategoryController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_CATEGORY, '改变了分类排序', $id);
 		
 		$node = Categories::model()->find($id, 'sort,title');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>array(
 				'sort'=>$node['sort'],
 			),
@@ -178,7 +178,7 @@ class CategoryController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		
 		$cat = Categories::model()->find($this->input->get('id', 'intval'), 'is_nav');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>array(
 				'is_nav'=>$cat['is_nav'],
 			),

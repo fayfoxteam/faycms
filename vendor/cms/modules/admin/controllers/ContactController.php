@@ -64,7 +64,7 @@ class ContactController extends AdminController{
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被标记为已读', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一条信息被标记为已读 - '.Html::link('撤销', array('admin/contact/set-unread', array(
 				'id'=>$id,
 			))),
@@ -79,7 +79,7 @@ class ContactController extends AdminController{
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被标记为未读', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一条信息被标记为未读 - '.Html::link('撤销', array('admin/contact/set-read', array(
 				'id'=>$id,
 			))),
@@ -92,7 +92,7 @@ class ContactController extends AdminController{
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被永久删除', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一条信息被永久删除',
 		));
 	}
@@ -120,7 +120,7 @@ class ContactController extends AdminController{
 				));
 			}
 		}
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'',
 		));
 	}

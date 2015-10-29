@@ -159,7 +159,7 @@ class PostController extends AdminController{
 				));
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '添加文章', $post_id);
-				Response::output('success', '文章发布成功', array('admin/post/edit', array(
+				Response::notify('success', '文章发布成功', array('admin/post/edit', array(
 					'id'=>$post_id,
 				)));
 			}else{
@@ -608,7 +608,7 @@ class PostController extends AdminController{
 		Tag::model()->refreshCountByPostId($id);
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章移入回收站', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一篇文章被移入回收站 - '.Html::link('撤销', array('admin/post/undelete', array(
 				'id'=>$id,
 			))),
@@ -622,7 +622,7 @@ class PostController extends AdminController{
 		Tag::model()->refreshCountByPostId($id);
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章移出回收站', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一篇文章被还原',
 			'id'=>$id,
 		));
@@ -635,7 +635,7 @@ class PostController extends AdminController{
 		
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章永久删除', $post_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一篇文章被永久删除',
 			'id'=>$post_id,
 		));
@@ -654,7 +654,7 @@ class PostController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_POST, '改变了文章排序', $post_id);
 		
 		$post = Posts::model()->find($post_id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一篇文章的排序值被编辑',
 			'sort'=>$post['sort'],
 		));
@@ -736,7 +736,7 @@ class PostController extends AdminController{
 				foreach($ids as $id){
 					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
 					if(!$check['status']){
-						Response::output('error', array(
+						Response::notify('error', array(
 							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
 							'error_code'=>'permission-denied',
 						));
@@ -753,13 +753,13 @@ class PostController extends AdminController{
 				Tag::model()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被发布');
-				Response::output('success', $affected_rows.'篇文章被发布');
+				Response::notify('success', $affected_rows.'篇文章被发布');
 			break;
 			case 'set-draft':
 				foreach($ids as $id){
 					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
 					if(!$check['status']){
-						Response::output('error', array(
+						Response::notify('error', array(
 							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
 							'error_code'=>'permission-denied',
 						));
@@ -776,13 +776,13 @@ class PostController extends AdminController{
 				Tag::model()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“草稿”');
-				Response::output('success', $affected_rows.'篇文章被标记为“草稿”');
+				Response::notify('success', $affected_rows.'篇文章被标记为“草稿”');
 			break;
 			case 'set-pending':
 				foreach($ids as $id){
 					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
 					if(!$check['status']){
-						Response::output('error', array(
+						Response::notify('error', array(
 							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
 							'error_code'=>'permission-denied',
 						));
@@ -799,13 +799,13 @@ class PostController extends AdminController{
 				Tag::model()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“待审核”');
-				Response::output('success', $affected_rows.'篇文章被标记为“待审核”');
+				Response::notify('success', $affected_rows.'篇文章被标记为“待审核”');
 			break;
 			case 'set-reviewed':
 				foreach($ids as $id){
 					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
 					if(!$check['status']){
-						Response::output('error', array(
+						Response::notify('error', array(
 							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
 							'error_code'=>'permission-denied',
 						));
@@ -822,13 +822,13 @@ class PostController extends AdminController{
 				Tag::model()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“通过审核”');
-				Response::output('success', $affected_rows.'篇文章被标记为“通过审核”');
+				Response::notify('success', $affected_rows.'篇文章被标记为“通过审核”');
 			break;
 			case 'delete':
 				foreach($ids as $id){
 					$check = Post::checkDeletePermission($id);
 					if(!$check['status']){
-						Response::output('error', array(
+						Response::notify('error', array(
 							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
 							'error_code'=>'permission-denied',
 						));
@@ -845,13 +845,13 @@ class PostController extends AdminController{
 				Tag::model()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被移入回收站');
-				Response::output('success', $affected_rows.'篇文章被移入回收站');
+				Response::notify('success', $affected_rows.'篇文章被移入回收站');
 			break;
 			case 'undelete':
 				foreach($ids as $id){
 					$check = Post::checkUndeletePermission($id);
 					if(!$check['status']){
-						Response::output('error', array(
+						Response::notify('error', array(
 							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
 							'error_code'=>'permission-denied',
 						));
@@ -868,13 +868,13 @@ class PostController extends AdminController{
 				Tag::model()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被还原');
-				Response::output('success', $affected_rows.'篇文章被还原');
+				Response::notify('success', $affected_rows.'篇文章被还原');
 			break;
 			case 'remove':
 				foreach($ids as $id){
 					$check = Post::checkRemovePermission($id);
 					if(!$check['status']){
-						Response::output('error', array(
+						Response::notify('error', array(
 							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
 							'error_code'=>'permission-denied',
 						));
@@ -886,10 +886,10 @@ class PostController extends AdminController{
 				}
 
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.count($ids).'篇文章被永久删除');
-				Response::output('success', count($ids).'篇文章被永久删除');
+				Response::notify('success', count($ids).'篇文章被永久删除');
 			break;
 			default:
-				Response::output('error', array(
+				Response::notify('error', array(
 					'message'=>'操作选项不能为空',
 					'error_code'=>'action-can-not-be-empty',
 				));

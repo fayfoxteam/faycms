@@ -49,7 +49,7 @@ class Validator{
 	 * 当一个字段存在错误信息，则跳过所有验证
 	 * @var boolean
 	 */
-	public $skip_all_on_error = false;
+	public $skip_all_on_error = true;
 	
 	/**
 	 * 当一个字段为null时，跳过验证
@@ -166,21 +166,9 @@ class Validator{
 	 * @param array $params
 	 */
 	public function addError($message = null, $code = null, $params = array()){
-		$params['attribute'] = isset($this->labels[$this->_field]) ? $this->labels[$this->_field] : $this->_field;
-		$params['field'] = $this->_field;
-		$params['rule'] = $this->_rule;
-		$search = array();
-		$replace = array();
-		foreach($params as $k=>$p){
-			$search[] = "{\$$k}";
-			$replace[] = $p;
-		}
-		$message = str_replace($search, $replace, $message === null ? $this->message : $message);
-		
-		//当直接实例化验证器时，该属性为null
+		//当直接实例化验证器时，$this->object为null
 		if($this->_object){
-			$code = str_replace($search, $replace, $code === null ? $this->code : $code);
-			$this->_object->_addError($this->_field, $this->_rule, $message, $code, $params);
+			$this->_object->_addError($this->_field, $this->_rule, $message === null ? $this->message : $message, $code === null ? $this->code : $code, $params);
 		}
 		
 		//返回错误描述，直接调用Validator时或许会有用
@@ -234,6 +222,17 @@ class Validator{
 	 * @param string $message 错误描述
 	 */
 	private function _addError($field, $rule, $message, $code = '', $params = array()){
+		$params['attribute'] = isset($this->labels[$field]) ? $this->labels[$field] : $field;
+		$params['field'] = $this->_field;
+		$params['rule'] = $rule;
+		$search = array();
+		$replace = array();
+		foreach($params as $k=>$p){
+			$search[] = "{\$$k}";
+			$replace[] = $p;
+		}
+		$message = str_replace($search, $replace, $message);
+		$code = str_replace($search, $replace, $code);
 		$this->errors[] = array(
 			'field'=>$field,
 			'rule'=>$rule,

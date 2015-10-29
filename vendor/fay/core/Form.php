@@ -97,8 +97,18 @@ class Form{
 		}
 	}
 	
+	/**
+	 * 获取错误信息
+	 */
 	public function getErrors(){
 		return $this->_errors;
+	}
+	
+	/**
+	 * 获取第一条错误信息
+	 */
+	public function getFirstError(){
+		return isset($this->_errors[0]) ? $this->_errors[0] : null;
 	}
 	
 	/**
@@ -427,9 +437,9 @@ class Form{
 	
 	/**
 	 * 数据校验
-	 * @param string $filter 是否先用过滤器过滤再进行验证，默认为true
+	 * @param string $filter 是否先用过滤器过滤再进行验证，默认为false
 	 */
-	public function check($filter = true){
+	public function check($filter = false){
 		$validator = new Validator();
 		$check =  $validator->check($this->_rules, $this->_labels, $this->getAllData($filter));
 		if($check === true){

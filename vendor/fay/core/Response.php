@@ -136,16 +136,16 @@ class Response{
 	 * 若是浏览器访问，则设置flash后跳转
 	 * @param string $status 状态success, error
 	 * @param array|string $data
-	 * @param bool|array $redirect 跳转地址，若为false且是浏览器访问，则返回上一页
+	 * @param bool|array $redirect 跳转地址，若为true且是浏览器访问，则返回上一页。若为false，则不会跳转。若非布尔型，则视为跳转地址进行跳转
 	 */
-	public static function output($status = 'error', $data = array(), $redirect = false){
+	public static function output($status = 'error', $data = array(), $redirect = true){
 		if(!is_array($data)){
 			$data = array(
 				'message'=>$data,
 			);
 		}
 		if(\F::app()->input->isAjaxRequest()){
-			Response::json(isset($data['data']) ? $data['data'] : '', $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '', $data['code'] ? $data['code'] : '');
+			Response::json(isset($data['data']) ? $data['data'] : '', $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '', isset($data['code']) ? $data['code'] : '');
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash
@@ -156,9 +156,9 @@ class Response{
 				Flash::set('操作失败', $status);
 			}
 
-			if($redirect === false){
+			if($redirect === true){
 				self::goback();
-			}else{
+			}else if($redirect !== false){
 				if(is_array($redirect)){
 					$redirect = \F::app()->view->url($redirect[0],
 						empty($redirect[1]) ? array() : $redirect[1],

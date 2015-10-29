@@ -9,11 +9,6 @@ use fay\core\Validator;
  */
 class Compare extends Validator{
 	/**
-	 * 错误码
-	 */
-	public $code = 'invalid-parameter:{$field}:compare-with:{$compare_attribute}';
-	
-	/**
 	 * 比较符
 	 */
 	public $operator = '==';

@@ -196,7 +196,7 @@ class User extends Model{
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>new Intact('login_times + 1'),
-		),'id = '.$user['id']);
+		),'user_id = '.$user['id']);
 		
 		return array(
 			'status'=>1,

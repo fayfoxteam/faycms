@@ -25,6 +25,11 @@ class Validator{
 	public $message = '{$attribute}字段不符合要求';
 	
 	/**
+	 * 错误码
+	 */
+	public $code = 'invalid-parameter:{$field}:{$rule}';
+	
+	/**
 	 * 字段标签
 	 */
 	public $labels = array();
@@ -57,6 +62,12 @@ class Validator{
 	 * 所有在本类中被实例化的验证器实例都将包含此变量
 	 */
 	public $_field;
+	
+	/**
+	 * 验证规则
+	 * 会根据self::$map自动设置（同一个验证器可以有不同的name）
+	 */
+	public $_rule;
 	
 	/**
 	 * Validator实例<br>
@@ -99,8 +110,8 @@ class Validator{
 				$r[0] = array($r[0]);
 			}
 			
+			$validate = $this->createValidator($r[1], isset($r[2]) ? $r[2] : array());
 			foreach($r[0] as $field){
-				$validate = $this->createValidator($r[1], isset($r[2]) ? $r[2] : array());
 				if(!$validate)continue;//无法识别的验证器直接跳过
 				$validate->_field = $field;
 				$validate->_object = $this;
@@ -112,21 +123,14 @@ class Validator{
 							//该字段已经存在错误信息，跳过验证
 							continue;
 						}
-						$result = $validate->validate($v, $field);
-						if($result !== true && is_string($result)){
-							$this->_addError($field, $r[1], $result);
-							break;
-						}
+						$validate->validate($v, $field);
 					}
 				}else{
 					if($validate->isSkip($field, $value)){
 						//该字段已经存在错误信息，跳过验证
 						continue;
 					}
-					$result = $validate->validate($value, $field);
-					if($result !== true && is_string($result)){
-						$this->_addError($field, $r[1], $result);
-					}
+					$validate->validate($value, $field);
 				}
 			}
 		}
@@ -151,23 +155,36 @@ class Validator{
 			return false;
 		}
 		$instance->init($params);
+		$instance->_rule = $name;
 		return $instance;
 	}
 	
 	/**
 	 * 供子类调用的设置错误信息的方法
-	 * @param string $field
-	 * @param string $rule
-	 * @param string $message
+	 * @param string $message 一个验证器可能有多种错误描述，所以不能直接通过$this->message获取
+	 * @param string $code 同上
 	 * @param array $params
 	 */
-	public function addError($field, $rule, $message, $params = array()){
+	public function addError($message = null, $code = null, $params = array()){
+		$params['attribute'] = isset($this->labels[$this->_field]) ? $this->labels[$this->_field] : $this->_field;
+		$params['field'] = $this->_field;
+		$params['rule'] = $this->_rule;
+		$search = array();
+		$replace = array();
+		foreach($params as $k=>$p){
+			$search[] = "{\$$k}";
+			$replace[] = $p;
+		}
+		$message = str_replace($search, $replace, $message === null ? $this->message : $message);
+		
 		//当直接实例化验证器时，该属性为null
 		if($this->_object){
-			$this->_object->_addError($field, $rule, $message, $params);
+			$code = str_replace($search, $replace, $code === null ? $this->code : $code);
+			$this->_object->_addError($this->_field, $this->_rule, $message, $code, $params);
 		}
 		
-		return false;
+		//返回错误描述，直接调用Validator时或许会有用
+		return $message;
 	}
 	
 	/**
@@ -216,20 +233,13 @@ class Validator{
 	 * @param string $rule 规则
 	 * @param string $message 错误描述
 	 */
-	private function _addError($field, $rule, $message, $params = array()){
-		$params['attribute'] = isset($this->labels[$field]) ? $this->labels[$field] : $field;
-		$search= array();
-		$replace = array();
-		foreach($params as $k=>$p){
-			$search[] = "{\$$k}";
-			$replace[] = $p;
-		}
-		
+	private function _addError($field, $rule, $message, $code = '', $params = array()){
 		$this->errors[] = array(
-			$field, $rule, str_replace($search, $replace, $message),
+			'field'=>$field,
+			'rule'=>$rule,
+			'message'=>$message,
+			'code'=>$code,
 		);
-		
-		return false;
 	}
 	
 	/**

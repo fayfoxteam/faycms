@@ -24,9 +24,15 @@ class String extends Validator{
 	
 	public $too_long = '{$attribute}不能超过{$max}个字符';
 	
+	public $too_long_code = 'invalid-parameter:{$field}:string-too-lange';
+	
 	public $too_short = '{$attribute}不能少于{$min}个字符';
 	
+	public $too_short_code = 'invalid-parameter:{$field}:string-too-short';
+	
 	public $not_equal = '{$attribute}长度必须为{$equal}个字符';
+	
+	public $not_equal_code = 'invalid-parameter:{$field}:string-not-equal-{$equal}';
 	
 	public $format_error = '{$attribute}格式不正确';
 	
@@ -61,19 +67,19 @@ class String extends Validator{
 		$len = mb_strlen($value, 'utf-8');
 		
 		if($this->equal && $len != $this->equal){
-			return $this->addError($this->_field, 'string', $this->not_equal, array(
+			return $this->addError($this->not_equal, $this->not_equal_code, array(
 				'equal'=>$this->equal,
 			));
 		}
 		
 		if($this->max !== null && $len > $this->max){
-			return $this->addError($this->_field, 'string', $this->too_long, array(
+			return $this->addError($this->too_long, $this->too_long_code, array(
 				'max'=>$this->max,
 			));
 		}
 
 		if($this->min !== null && $len < $this->min){
-			return $this->addError($this->_field, 'string', $this->too_short, array(
+			return $this->addError($this->too_short, $this->too_short_code, array(
 				'min'=>$this->min,
 			));
 		}

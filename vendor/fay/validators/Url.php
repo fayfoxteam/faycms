@@ -13,6 +13,8 @@ class Url extends Validator{
 	 */
 	public $pattern = '/^(http|https):\/\/\w+.*$/';
 	
+	public $code = 'invalid-parameter:{$field}-should-be-a-url';
+	
 	/**
 	 * 错误描述
 	 */
@@ -22,7 +24,7 @@ class Url extends Validator{
 		if(preg_match($this->pattern, $value)){
 			return true;
 		}else{
-			return $this->message;
+			return $this->addError($this->message, $this->code);
 		}
 	}
 }

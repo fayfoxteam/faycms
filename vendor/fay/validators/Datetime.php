@@ -14,6 +14,8 @@ class Datetime extends Validator{
 	
 	public $message = '{$attribute}日期格式不正确';
 	
+	public $code = 'invalid-parameter:{$field}-is-not-a-date';
+	
 	/**
 	 * 因为datetime类型很有可能先被strtotime过
 	 * 用户直接输入数字一定是无效的，因为用户提交数据为string类型
@@ -23,11 +25,11 @@ class Datetime extends Validator{
 	public function validate($value){
 		if($this->int){
 			if(!is_int($value)){
-				return $this->message;
+				return $this->addError($this->message, $this->code);
 			}
 		}else{
 			if(!preg_match($this->pattern, $value)){
-				return $this->message;
+				return $this->addError($this->message, $this->code);
 			}
 		}
 		return true;

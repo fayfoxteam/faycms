@@ -12,6 +12,8 @@ use fay\core\Sql;
 class Unique extends Validator{
 	public $message = '{$attribute}已存在';
 	
+	public $code = 'invalid-parameter:{$field}-is-exist';
+	
 	/**
 	 * 表名（必填）
 	 */
@@ -47,7 +49,7 @@ class Unique extends Validator{
 		}
 		$result = $sql->fetchRow();
 		if($result){
-			return $this->message;
+			return $this->addError($this->message, $this->code);
 		}else{
 			return true;
 		}

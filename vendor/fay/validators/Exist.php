@@ -10,6 +10,8 @@ use fay\core\Sql;
 class Exist extends Validator{
 	public $message = '{$attribute}不存在';
 	
+	public $code = 'invalid-parameter:{$field}-is-not-exist';
+	
 	public $table;
 	
 	public $field;
@@ -20,7 +22,7 @@ class Exist extends Validator{
 			if($this->skip_on_empty){
 				return true;
 			}else{
-				return $this->message;
+				return $this->addError($this->message, $this->code);
 			}
 		}
 		$field = $this->field ? $this->field : $this->_field;
@@ -34,7 +36,7 @@ class Exist extends Validator{
 		){
 			return true;
 		}else{
-			return $this->message;
+			return $this->addError($this->message, $this->code);
 		}
 	}
 }

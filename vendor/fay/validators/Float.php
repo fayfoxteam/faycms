@@ -46,12 +46,12 @@ class Float extends Validator{
 	
 	public function validate($value){
 		if(!preg_match('/^\d+(\.\d+)?$/', $value)){
-			return $this->addError($this->_field, 'float', $this->message);
+			return $this->addError($this->message);
 		}
 		
 		$point_pos = strpos($value, '.');
 		if($point_pos && strlen($value) - $point_pos - 1 > $this->decimal){
-			return $this->addError($this->_field, 'float', $this->decimal_too_long, array(
+			return $this->addError($this->decimal_too_long, $this->code, array(
 				'decimal'=>$this->decimal,
 			));
 		}
@@ -60,7 +60,7 @@ class Float extends Validator{
 		if($this->length){
 			$max = '1'.str_repeat('0', $this->length - $this->decimal);
 			if($value > $max || $value < -$max){
-				return $this->addError($this->_field, 'float', $this->too_long, array(
+				return $this->addError($this->too_long, $this->code, array(
 					'max'=>($this->max !== null && $this->max < $max) ? $this->max : $max,
 					'min'=>($this->min !== null && $this->min > -$max) ? $this->min : -$max,
 					'decimal'=>$this->decimal,
@@ -69,13 +69,13 @@ class Float extends Validator{
 		}
 		
 		if($this->max !== null && $value > $this->max){
-			return $this->addError($this->_field, 'float', $this->too_big, array(
+			return $this->addError($this->too_big, $this->code, array(
 				'max'=>$this->max,
 			));
 		}
 		
 		if($this->min !== null && $value < $this->min){
-			return $this->addError($this->_field, 'float', $this->too_small, array(
+			return $this->addError($this->too_small, $this->code, array(
 				'min'=>$this->min,
 			));
 		}

@@ -6,6 +6,8 @@ use fay\core\Validator;
 class Range extends Validator{
 	public $message = '{$attribute}的取值非法';
 	
+	public $code = 'invalid-parameter:{$field}:not-in-range';
+	
 	/**
 	 * 范围，这个值必须设置
 	 */
@@ -26,7 +28,7 @@ class Range extends Validator{
 			|| $this->not && !in_array($value, $this->range, $this->strict)){
 			return true;
 		}else{
-			return $this->message;
+			return $this->addError($this->message, $this->code);
 		}
 	}
 }

@@ -15,7 +15,7 @@ class Mobile extends Validator{
 		if(preg_match($this->pattern, $value)){
 			return true;
 		}else{
-			return $this->message;
+			return $this->addError($this->message, $this->code);
 		}
 	}
 }

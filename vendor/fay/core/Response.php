@@ -145,7 +145,7 @@ class Response{
 			);
 		}
 		if(\F::app()->input->isAjaxRequest()){
-			Response::json(isset($data['data']) ? $data['data'] : array(), $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '');
+			Response::json(isset($data['data']) ? $data['data'] : '', $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '', $data['code'] ? $data['code'] : '');
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash

@@ -8,6 +8,7 @@ use fay\core\Session;
 use fay\core\Config;
 use fay\core\Db;
 use fay\log\Logger;
+use fay\core\FWidget;
 
 /**
  * 超级类，可以在任何地方获取各种方法
@@ -89,7 +90,7 @@ class F{
 	 * @return \fay\core\FWidget
 	 */
 	public static function widget(){
-		return self::app()->widget;
+		return FWidget::getInstance();
 	}
 	
 	/**

@@ -2,6 +2,7 @@
 namespace cms\helpers;
 
 use fay\helpers\Html;
+use fay\core\Uri;
 class MenuHelper{
 	/**
 	 * 渲染一个导航栏
@@ -56,7 +57,7 @@ class MenuHelper{
 				if(!empty($m['children'])){
 					$item['class'][] = 'has-sub';
 				}
-				if(($current_directory && $current_directory == $m['alias']) || \F::app()->uri->router == $m['link']){
+				if(($current_directory && $current_directory == $m['alias']) || Uri::getInstance()->router == $m['link']){
 					$item['class'][] = 'opened';
 					$item['class'][] = 'expanded';
 					$item['class'][] = 'active';

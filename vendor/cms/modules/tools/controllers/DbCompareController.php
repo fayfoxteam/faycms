@@ -5,6 +5,7 @@ use cms\library\ToolsController;
 use fay\core\Response;
 use fay\helpers\SqlHelper;
 use fay\core\Db;
+use fay\core\Uri;
 
 class DbCompareController extends ToolsController{
 	/**
@@ -36,7 +37,7 @@ class DbCompareController extends ToolsController{
 		
 		$this->db = Db::getInstance();
 		
-		if($this->uri->router != 'tools/db-compare/index'){
+		if(Uri::getInstance()->router != 'tools/db-compare/index'){
 			if(!$this->db_config = \F::session()->get('dbcompare')){
 				Response::notify('error', 'Please set the database info!', array('tools/db-compare/index'));
 			}

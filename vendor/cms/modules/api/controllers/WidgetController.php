@@ -14,7 +14,7 @@ class WidgetController extends ApiController{
 	 */
 	public function render(){
 		if($this->input->request('name')){
-			$widget_obj = $this->widget->get($this->input->request('name', 'trim'));
+			$widget_obj = \F::widget()->get($this->input->request('name', 'trim'));
 			if($widget_obj == null){
 				throw new HttpException('Widget不存在或已被删除');
 			}
@@ -45,7 +45,7 @@ class WidgetController extends ApiController{
 				'alias = ?'=>$alias,
 			));
 			if($widget_config['enabled']){
-				$widget_obj = $this->widget->get($widget_config['widget_name']);
+				$widget_obj = \F::widget()->get($widget_config['widget_name']);
 				$widget_obj->alias = $alias;//别名
 				$action = $this->input->request('action', 'trim', 'index');
 				if($widget_obj == null){
@@ -66,7 +66,7 @@ class WidgetController extends ApiController{
 	 */
 	public function data(){
 		if($alias = $this->input->request('alias')){
-			$data = $this->widget->getData($alias);
+			$data = \F::widget()->getData($alias);
 			Response::json($data);
 		}else{
 			throw new HttpException('不完整的请求');

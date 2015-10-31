@@ -5,6 +5,18 @@ use fay\models\tables\Widgets;
 use fay\helpers\String;
 
 class FWidget{
+	private static $_instance;
+	
+	private function __construct(){}
+	
+	private function __clone(){}
+	
+	public static function getInstance(){
+		if(!(self::$_instance instanceof self)){
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 	/**
 	 * 实例化一个widget，并返回实例
 	 * @return Widget
@@ -103,7 +115,7 @@ class FWidget{
 					echo '<script>
 						$.ajax({
 							type: "GET",
-							url: "'.\F::app()->view->url(\F::app()->uri->module.'/widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
+							url: "'.\F::app()->view->url(Uri::getInstance()->module.'/widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
 							cache: false,
 							success: function(resp){
 								$("#'.$id.'").replaceWith(resp);

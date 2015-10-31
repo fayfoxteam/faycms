@@ -9,7 +9,7 @@ class WidgetController extends UserController{
 	//加载一个widget
 	public function load(){
 		if($this->input->get('name')){
-			$widget_obj = $this->widget->get($this->input->get('name', 'trim'));
+			$widget_obj = \F::widget()->get($this->input->get('name', 'trim'));
 			if($widget_obj == null){
 				if($this->input->isAjaxRequest()){
 					echo json_encode(array(

@@ -18,10 +18,6 @@ class Controller{
 	private $token;
 	
 	/**
-	 * @var Uri
-	 */
-	public $uri;
-	/**
 	 * @var \fay\core\Input
 	 */
 	public $input;
@@ -37,14 +33,6 @@ class Controller{
 	 * @var Cache
 	 */
 	public $cache;
-	/**
-	 * @var Flash
-	 */
-	public $flash;
-	/**
-	 * @var FWidget
-	 */
-	public $widget;
 	/**
 	 * @var Layout
 	 */
@@ -79,8 +67,6 @@ class Controller{
 		$this->cache = new Cache();
 		$this->config = Config::getInstance();
 		$this->current_time = time();
-		$this->uri = Uri::getInstance();
-		$this->widget = new FWidget();
 		self::$_instance = $this;
 		
 		//当前用户登陆IP

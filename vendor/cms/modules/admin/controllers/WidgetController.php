@@ -32,13 +32,13 @@ class WidgetController extends AdminController{
 		//获取当前application下的widgets
 		$app_widgets = File::getFileList(APPLICATION_PATH . 'widgets');
 		foreach($app_widgets as $w){
-			$widget_instances[] = $this->widget->get($w['name'], true);
+			$widget_instances[] = \F::widget()->get($w['name'], true);
 		}
 		
 		//获取系统公用widgets
 		$common_widgets = File::getFileList(SYSTEM_PATH . 'fay' . DS . 'widgets');
 		foreach($common_widgets as $w){
-			$widget_instances[] = $this->widget->get('fay/'.$w['name'], true);
+			$widget_instances[] = \F::widget()->get('fay/'.$w['name'], true);
 		}
 		
 		$this->view->widgets = $widget_instances;
@@ -66,7 +66,7 @@ class WidgetController extends AdminController{
 		if(!$widget){
 			throw new HttpException('指定的小工具ID不存在');
 		}
-		$widget_obj = $this->widget->get($widget['widget_name'], true);
+		$widget_obj = \F::widget()->get($widget['widget_name'], true);
 		
 		if(file_exists($widget_obj->path . 'README.md')){
 			Loader::vendor('Markdown/markdown');
@@ -84,7 +84,7 @@ class WidgetController extends AdminController{
 			'f_widget_description'=>'描述',
 		));
 		
-		$widget_admin = $this->widget->get($widget['widget_name'], true);
+		$widget_admin = \F::widget()->get($widget['widget_name'], true);
 		$this->form('widget')->setRules($widget_admin->rules())
 			->setLabels($widget_admin->labels())
 			->setFilters($widget_admin->filters());
@@ -141,7 +141,7 @@ class WidgetController extends AdminController{
 	 */
 	public function render(){
 		if($this->input->get('name')){
-			$widget_obj = $this->widget->get($this->input->get('name', 'trim'));
+			$widget_obj = \F::widget()->get($this->input->get('name', 'trim'));
 			if($widget_obj == null){
 				throw new HttpException('Widget不存在或已被删除');
 			}

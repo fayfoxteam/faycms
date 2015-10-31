@@ -55,7 +55,7 @@ class PaperController extends UserController{
 		}
 		
 		$this->view->hash = String::random();
-		$this->session->set('exam', array(
+		\F::session()->set('exam', array(
 			$id=>array(
 				'start_time'=>$this->current_time,
 				'hash'=>$this->view->hash,
@@ -76,14 +76,14 @@ class PaperController extends UserController{
 			Response::notify('error', '不在考试时间段');
 		}
 		
-		$exam_session = $this->session->get('exam');
+		$exam_session = \F::session()->get('exam');
 		if(empty($exam_session[$paper_id]['hash']) || $exam_session[$paper_id]['hash'] != $this->input->post('hash')){
 			Response::notify('error', '异常的请求');
 		}
 		
 		$exam_id = Exam::model()->record($paper, $exam_session[$paper_id]['start_time'], $answers);
 		
-		$this->session->set('exam', array(
+		\F::session()->set('exam', array(
 			$paper_id=>false,
 		));
 		

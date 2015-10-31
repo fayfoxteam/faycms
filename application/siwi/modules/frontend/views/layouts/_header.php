@@ -25,8 +25,8 @@ use fay\helpers\Html;
 			</ul>
 		</nav>
 		<div class="user-icon" id="g-hdu-links">
-			<?php if(\F::app()->session->get('avatar')){
-				echo Html::img(\F::app()->session->get('avatar'), 2);
+			<?php if(\F::session()->get('user.avatar')){
+				echo Html::img(\F::session()->get('user.avatar'), 2);
 			}?>
 			<em class="arrow"></em>
 			<ul class="sub">

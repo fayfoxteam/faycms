@@ -10,7 +10,7 @@ class MenuHelper{
 	 * @param unknown $current_directory 当前页
 	 * @param number $dep 深度
 	 */
-	public static function render($menus, $role, $current_directory, $dep = 0){
+	public static function render($menus, $current_directory, $dep = 0){
 		$text = array();
 		foreach($menus as $m){
 			//以link属性是否为javascript:;来判断是否为叶子
@@ -47,7 +47,7 @@ class MenuHelper{
 						'target'=>$m['target'] ? $m['target'] : false,
 					),
 					//子菜单
-					empty($m['children']) ? false : self::render($m['children'], $role, $current_directory, $dep + 1),
+					empty($m['children']) ? false : self::render($m['children'], $current_directory, $dep + 1),
 				)
 			);
 			

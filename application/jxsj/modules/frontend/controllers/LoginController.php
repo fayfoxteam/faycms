@@ -8,7 +8,7 @@ use fay\core\Response;
 class LoginController extends FrontController{
 	public function index(){
 		if($this->input->post()){
-			if($this->input->post('vcode') && ($this->input->post('vcode', 'strtolower') != $this->session->get('vcode'))){
+			if($this->input->post('vcode') && ($this->input->post('vcode', 'strtolower') != \F::session()->get('vcode'))){
 				Response::notify('error', '验证码不正确', array('login'));
 			}
 			$username = $this->input->post('username');

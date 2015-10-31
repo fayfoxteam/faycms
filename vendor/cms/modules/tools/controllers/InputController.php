@@ -11,6 +11,7 @@ class InputController extends ToolsController{
 	}
 	
 	public function session(){
+		\F::session();//默认不开启session
 		$this->layout->subtitle = 'SESSION';
 		$this->layout->sublink = array(
 			'uri'=>array('tools/input/clearsession'),

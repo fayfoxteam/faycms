@@ -51,14 +51,14 @@ class ToolsController extends Controller{
 	 */
 	public function isLogin(){
 		//验证session中是否有值
-		if(!$this->session->get('username')){
+		if(!\F::session()->get('user.admin')){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
-		if(!in_array(Roles::ITEM_SUPER_ADMIN, $this->session->get('roles'))){
+		if(!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles'))){
 			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
 		//设置当前用户id
-		$this->current_user = $this->session->get('id');
+		$this->current_user = \F::session()->get('user.id');
 	}
 	
 	public function getApps(){

@@ -11,23 +11,23 @@ use fay\helpers\ArrayHelper;
 	</div>
 	<div class="box-content">
 		<table class="form-table">
-		<?php if(\F::app()->session->get('id')){?>
+		<?php if(\F::session()->get('user.id')){?>
 			<tr>
 				<th>用户身份</th>
 				<td><?php
-					$user_roles = User::model()->getRoles(\F::app()->session->get('id'));
+					$user_roles = User::model()->getRoles(\F::session()->get('user.id'));
 					echo implode(', ', ArrayHelper::column($user_roles, 'title'));
 				?></td>
 			</tr>
 			<tr>
 				<th>上次登陆时间</th>
-				<td><?php echo Date::format(\F::app()->session->get('last_login_time'))?></td>
+				<td><?php echo Date::format(\F::session()->get('user.last_login_time'))?></td>
 			</tr>
 			<tr>
 				<th>上次登陆IP</th>
 				<td>
-					<?php echo \F::app()->session->get('last_login_ip')?>
-					<em>( <?php echo $iplocation->getCountryAndArea(\F::app()->session->get('last_login_ip'))?> )</em>
+					<?php echo \F::session()->get('user.last_login_ip')?>
+					<em>( <?php echo $iplocation->getCountryAndArea(\F::session()->get('user.last_login_ip'))?> )</em>
 				</td>
 			</tr>
 		<?php }?>

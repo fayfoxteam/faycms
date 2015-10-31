@@ -25,7 +25,7 @@ class ProfileController extends UserController{
 		}
 		
 		$this->layout->current_directory = 'profile';
-		$user = Users::model()->find($this->session->get('id'));
+		$user = Users::model()->find(\F::session()->get('user.id'));
 		$this->form()->setData($user);
 		$this->view->render();
 	}
@@ -40,7 +40,7 @@ class ProfileController extends UserController{
 			if($this->input->post('password') != $this->input->post('repassword')){
 				Flash::set('两次密码不一致');
 			}else{
-				$user = Users::model()->find($this->session->get('id'), 'password,salt');
+				$user = Users::model()->find(\F::session()->get('user.id'), 'password,salt');
 				if($user['password'] != md5(md5($this->input->post('old_password')).$user['salt'])){
 					Flash::set('原密码不正确');
 				}else{
@@ -49,7 +49,7 @@ class ProfileController extends UserController{
 					Users::model()->update(array(
 						'password'=>$password,
 						'salt'=>$salt,
-					), $this->session->get('id'));
+					), \F::session()->get('user.id'));
 					Flash::set('密码修改成功', 'success');
 				}
 			}

@@ -125,7 +125,7 @@ class OperatorController extends AdminController{
 					'user_id'=>$user_id,
 					'reg_time'=>$this->current_time,
 					'reg_ip'=>Request::ip2int(Request::getIP()),
-					'trackid'=>'admin_create:'.$this->session->get('id'),
+					'trackid'=>'admin_create:'.\F::session()->get('user.id'),
 				));
 				//插角色表
 				$roles = $this->input->post('roles', 'intval');

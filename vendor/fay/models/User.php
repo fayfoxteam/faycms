@@ -13,6 +13,7 @@ use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\models\tables\UserProfile;
 use fay\core\db\Expr;
+use fay\core\Hook;
 
 class User extends Model{
 	/**
@@ -204,16 +205,136 @@ class User extends Model{
 		
 	}
 	
+	public function login($username, $password, $admin = false){
+		if(!$username){
+			return array(
+				'status'=>0,
+				'message'=>'用户名不能为空',
+				'error_code'=>'username:can-not-be-empty',
+			);
+		}
+		if(!$password){
+			return array(
+				'status'=>0,
+				'message'=>'密码不能为空',
+				'error_code'=>'password:can-not-be-empty',
+			);
+		}
+		$user = Users::model()->fetchRow(array(
+			'username = ?'=>$username,
+			'deleted = 0',
+		));
+		//判断用户名是否存在
+		if(!$user){
+			return array(
+				'status'=>0,
+				'message'=>'用户名不存在',
+				'error_code'=>'username:not-exist',
+			);
+		}
+		$password = md5(md5($password).$user['salt']);
+		if($password != $user['password']){
+			return array(
+				'status'=>0,
+				'message'=>'密码错误',
+				'error_code'=>'password:not-match',
+			);
+		}
+		
+		if($user['block']){
+			return array(
+				'status'=>0,
+				'message'=>'用户已锁定',
+				'error_code'=>'block:blocked',
+			);
+		}
+		
+		if($user['status'] == Users::STATUS_UNCOMPLETED){
+			return array(
+				'status'=>0,
+				'message'=>'账号信息不完整',
+				'error_code'=>'status:uncompleted',
+			);
+		}else if($user['status'] == Users::STATUS_PENDING){
+			return array(
+				'status'=>0,
+				'message'=>'账号正在审核中',
+				'error_code'=>'status:pending',
+			);
+		}else if($user['status'] == Users::STATUS_VERIFY_FAILED){
+			return array(
+				'status'=>0,
+				'message'=>'账号未通过审核',
+				'error_code'=>'status:verify-failed',
+			);
+		}else if($user['status'] == Users::STATUS_NOT_VERIFIED){
+			return array(
+				'status'=>0,
+				'message'=>'请先验证邮箱',
+				'error_code'=>'status:not-verified',
+			);
+		}
+		
+		if($admin && $user['admin'] != $admin){
+			return array(
+				'status'=>0,
+				'message'=>'您不是管理员，不能登陆！',
+				'error_code'=>'not-admin',
+			);
+		}
+		
+		$user['roles'] = $this->getRoleIds($user['id']);
+		$user_profile = UserProfile::model()->find($user['id']);
+		$user = $user + $user_profile;
+		
+		$this->setSessionInfo($user);
+		
+		//设置权限，超级管理员无需设置
+		if(!in_array(Roles::ITEM_SUPER_ADMIN, $user['roles'])){
+			$sql = new Sql();
+			$actions = $sql->from('roles_actions', 'ra', '')
+				->joinLeft('actions', 'a', 'ra.action_id = a.id', 'router')
+				->where('ra.role_id IN ('.implode(',', $user['roles']).')')
+				->fetchAll();
+			\F::session()->set('actions', ArrayHelper::column($actions, 'router'));
+				
+			//分类权限
+			if(Option::get('system:role_cats')){
+				//未分类文章任何人都有权限编辑
+				$post_root = Category::model()->get('_system_post', 'id');
+				\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $user['roles']).')')));
+			}
+		}
+		
+		UserProfile::model()->update(array(
+			'last_login_ip'=>Request::ip2int(\F::app()->ip),
+			'last_login_time'=>\F::app()->current_time,
+			'last_time_online'=>\F::app()->current_time,
+			'login_times'=>new Expr('login_times + 1'),
+		), $user['id']);
+		
+		Hook::getInstance()->call('after_login', array(
+			'user'=>$user,
+		));
+		
+		return array(
+			'status'=>1,
+			'user'=>$user,
+		);
+	}
+	
 	public function setSessionInfo($user){
-		\F::session()->set('id', $user['id']);
-		\F::session()->set('username', $user['username']);
-		\F::session()->set('nickname', $user['nickname']);
-		\F::session()->set('avatar', $user['avatar']);
-		\F::session()->set('roles', $user['roles']);
-		\F::session()->set('last_login_time', $user['last_login_time']);
-		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
-		\F::session()->set('status', $user['status']);
-		\F::session()->set('admin', $user['admin']);
+		\F::session()->set('user', array(
+			'id'=>$user['id'],
+			'username'=>$user['username'],
+			'nickname'=>$user['nickname'],
+			'avatar'=>$user['avatar'],
+			'roles'=>$user['roles'],
+			'last_login_time'=>$user['last_login_time'],
+			'last_login_ip'=>$user['last_login_ip'],
+			'status'=>$user['status'],
+			'admin'=>$user['admin'],
+		));
 	}
 	
 	public function logout(){

@@ -110,7 +110,7 @@ $(function(){
 	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'post'});
 	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
-	<?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) && Option::get('system:role_cats')){?>
+	<?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) && Option::get('system:role_cats')){?>
 		post.roleCats = <?php echo json_encode(F::session()->get('role_cats'))?>;
 	<?php }?>
 	post.init();

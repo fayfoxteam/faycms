@@ -10,6 +10,7 @@ class Session{
 	
 	public static function getInstance(){
 		if(!(self::$_instance instanceof self)){
+			session_start();
 			self::$_instance = new self();
 		}
 		return self::$_instance;
@@ -32,8 +33,18 @@ class Session{
 		if($key === false){
 			return $_SESSION[$session_namespace];
 		}
-		if(isset($_SESSION[$session_namespace][$key])){
-			return $_SESSION[$session_namespace][$key];
+		$key_exploded = explode('.', $key);
+		$first_key_part = array_shift($key_exploded);
+		if(isset($_SESSION[$session_namespace][$first_key_part])){
+			$temp = $_SESSION[$session_namespace][$first_key_part];
+			foreach($key_exploded as $k){
+				if(isset($temp[$k])){
+					$temp = $temp[$k];
+				}else{
+					return $default;
+				}
+			}
+			return $temp;
 		}else{
 			return $default;
 		}

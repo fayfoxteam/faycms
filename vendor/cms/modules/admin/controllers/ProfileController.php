@@ -38,8 +38,8 @@ class ProfileController extends AdminController{
 				Users::model()->update($data, $id);
 				
 				//修改当前用户session
-				$this->session->set('avatar', $data['avatar']);
-				$this->session->set('nickname', $data['nickname']);
+				\F::session()->set('avatar', $data['avatar']);
+				\F::session()->set('nickname', $data['nickname']);
 				
 				//设置属性
 				$roles = User::model()->getRoleIds($id);

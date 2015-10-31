@@ -37,7 +37,7 @@ class DbCompareController extends ToolsController{
 		$this->db = Db::getInstance();
 		
 		if($this->uri->router != 'tools/db-compare/index'){
-			if(!$this->db_config = $this->session->get('dbcompare')){
+			if(!$this->db_config = \F::session()->get('dbcompare')){
 				Response::notify('error', 'Please set the database info!', array('tools/db-compare/index'));
 			}
 			
@@ -123,13 +123,13 @@ class DbCompareController extends ToolsController{
 				'prefix'=>$right_config['prefix'],
 			));
 			
-			$this->session->set('dbcompare', array(
+			\F::session()->set('dbcompare', array(
 				'left'=>$left_config,
 				'right'=>$right_config,
 			));
 		}
 		
-		if($this->session->get('dbcompare')){
+		if(\F::session()->get('dbcompare')){
 			Response::redirect('tools/db-compare/tables');
 		}
 		
@@ -140,7 +140,7 @@ class DbCompareController extends ToolsController{
 	 * 清除数据库参数信息
 	 */
 	public function clear(){
-		$this->session->remove('dbcompare');
+		\F::session()->remove('dbcompare');
 		Response::redirect('tools/db-compare/index');
 	}
 	

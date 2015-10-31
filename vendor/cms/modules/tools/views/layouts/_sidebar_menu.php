@@ -28,6 +28,6 @@ use fay\models\Menu;
 				</a>
 			</div>
 		</header>
-		<?php MenuHelper::render(Menu::model()->getTree('_tools_main'), F::session()->get('role'), isset($current_directory) ? $current_directory : '')?>
+		<?php MenuHelper::render(Menu::model()->getTree('_tools_main'), isset($current_directory) ? $current_directory : '')?>
 	</div>
 </div>

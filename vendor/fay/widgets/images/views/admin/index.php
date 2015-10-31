@@ -45,7 +45,7 @@ use fay\models\tables\Roles;
 <?php }?>
 <?php }?>
 </div>
-<div class="box <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'closed';?>">
+<div class="box <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')))echo 'closed';?>">
 	<div class="box-title">
 		<a class="tools toggle" title="点击以切换"></a>
 		<h4>渲染模版</h4>

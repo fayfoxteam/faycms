@@ -10,6 +10,6 @@ class ApiController extends Controller{
 	public function __construct(){
 		parent::__construct();
 		
-		$this->current_user = $this->session->get('id');
+		$this->current_user = \F::session()->get('user.id');
 	}
 }

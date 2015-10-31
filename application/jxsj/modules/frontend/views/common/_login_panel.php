@@ -8,15 +8,15 @@ use fay\helpers\Date;
 			<div class="st"><div class="sl"><div class="sr"><div class="sb">
 				<div class="p16 clearfix">
 					<h2>用户登录</h2>
-					<?php if(F::app()->session->get('id')){?>
+					<?php if(F::session()->get('user.id')){?>
 					<table>
 						<tr>
 							<th width="73">当前用户：</th>
-							<td><?php echo F::app()->session->get('username')?></td>
+							<td><?php echo F::session()->get('user.username')?></td>
 						</tr>
 						<tr>
 							<th>上次登录：</th>
-							<td><?php echo Date::format(F::app()->session->get('last_login_time'))?></td>
+							<td><?php echo Date::format(F::session()->get('user.last_login_time'))?></td>
 						</tr>
 						<tr>
 							<td colspan="2"><?php 

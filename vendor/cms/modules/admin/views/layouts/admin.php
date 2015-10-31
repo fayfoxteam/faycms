@@ -24,7 +24,7 @@ use fay\models\Flash;
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
-system.user_id = '<?php echo F::session()->get('id', 0)?>';
+system.user_id = '<?php echo F::session()->get('user.id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
@@ -41,7 +41,7 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
-							if(!array_intersect(F::session()->get('roles'), $nav['roles'])){
+							if(!array_intersect(F::session()->get('user.roles'), $nav['roles'])){
 								continue;
 							}
 						}
@@ -58,7 +58,7 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 				?>
 			</ul>
 			<ul class="user-info-menu fr">
-			<?php if(F::session()->get('id')){?>
+			<?php if(F::session()->get('user.id')){?>
 				<li class="dropdown-container hover-line message" id="faycms-message">
 					<?php echo Html::link('', '#faycms-messages-container', array(
 						'class'=>'dropdown',
@@ -90,12 +90,12 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 				</li>
 				<li class="dropdown-container user-profile">
 					<a href="#user-profile-menu" class="dropdown"><?php 
-						echo Html::img(F::session()->get('avatar'), File::PIC_THUMBNAIL, array(
+						echo Html::img(F::session()->get('user.avatar'), File::PIC_THUMBNAIL, array(
 							'class'=>'circle',
 							'width'=>28,
 							'spare'=>'avatar',
 						))
-					?><span>您好，<?php echo F::session()->get('username')?><i class="fa fa-angle-down"></i></span></a>
+					?><span>您好，<?php echo F::session()->get('user.username')?><i class="fa fa-angle-down"></i></span></a>
 					<ul class="dropdown-menu" id="user-profile-menu">
 						<li><?php
 							echo Html::link('我的个人信息', array('admin/profile/index'), array(

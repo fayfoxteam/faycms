@@ -10,7 +10,7 @@ use fay\helpers\Html;
 	<div id="logged-container">
 		<p>您已登陆账号</p>
 		<p class="account">
-			<?php echo \F::app()->session->get('username')?>
+			<?php echo \F::session()->get('user.username')?>
 			( <?php echo Html::link('退出', array('user/logout'))?> )
 		</p>
 	</div>

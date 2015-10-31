@@ -16,12 +16,12 @@ class UserController extends FrontController{
 		parent::__construct();
 		
 		//验证session中是否有值
-		if(!$this->session->get('id')){
+		if(!\F::session()->get('user.id')){
 			Response::redirect('login', array(
 				'redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get())),
 			), false);
 		}
 		
-		$this->current_user = $this->session->get('id');
+		$this->current_user = \F::session()->get('user.id');
 	}
 }

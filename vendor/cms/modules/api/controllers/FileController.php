@@ -203,7 +203,7 @@ class FileController extends ApiController{
 		$sc = new SecurityCode($this->input->get('l', 'intval', 4), $this->input->get('w', 'intval', 110), $this->input->get('h', 'intval', 40));
 		//$sc->ext_line = false;
 		$sc->create();
-		$this->session->set('vcode', strtolower($sc->randnum));
+		\F::session()->set('vcode', strtolower($sc->randnum));
 	}
 	
 	public function qrcode(){

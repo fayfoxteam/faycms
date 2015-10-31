@@ -24,7 +24,7 @@ use fay\helpers\Html;
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
-		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
+		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">ID字段</label>
 				<?php echo F::form('widget')->inputText('id_key', array(

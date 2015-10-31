@@ -29,7 +29,7 @@ use fay\models\tables\Roles;
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 		</div>
-		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
+		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(

@@ -38,10 +38,6 @@ class Controller{
 	 */
 	public $cache;
 	/**
-	 * @var Session
-	 */
-	public $session;
-	/**
 	 * @var Flash
 	 */
 	public $flash;
@@ -80,7 +76,6 @@ class Controller{
 		$this->input = Input::getInstance();
 		$this->view = new View();
 		$this->layout = new Layout();
-		$this->session = Session::getInstance();
 		$this->cache = new Cache();
 		$this->config = Config::getInstance();
 		$this->current_time = time();
@@ -111,10 +106,10 @@ class Controller{
 	 * @return boolean
 	 */
 	public function checkPermission($router){
-		if(in_array(Roles::ITEM_SUPER_ADMIN, $this->session->get('roles', array()))){
+		if(in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles', array()))){
 			//超级管理员无限制
 			return true;
-		}else if(in_array($router, $this->session->get('actions', array()))){
+		}else if(in_array($router, \F::session()->get('actions', array()))){
 			//用户有此权限
 			return true;
 		}else{
@@ -140,7 +135,7 @@ class Controller{
 		if(!$this->token){
 			//设置token
 			$this->token = String::random();
-			$this->session->set('_token', $this->token);
+			\F::session()->set('_token', $this->token);
 		}
 		return $this->token;
 	}
@@ -151,7 +146,7 @@ class Controller{
 	 */
 	protected function checkToken(){
 		$token = $this->input->request('_token');
-		$last_token = $this->session->get('_token');
+		$last_token = \F::session()->get('_token');
 		$this->getToken();
 		if($token && $token == $last_token){
 			return true;

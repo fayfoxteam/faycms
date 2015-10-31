@@ -20,7 +20,7 @@ class LoginController extends Controller{
 		
 		if($this->input->post()){
 			//获得用户名对应的密码后缀字母
-			$result = User::model()->adminLogin($this->input->post('username'), $this->input->post('password'));
+			$result = User::model()->login($this->input->post('username'), $this->input->post('password'), 1);
 			if($result['status']){
 				Log::set('admin:action:login.success', array(
 					'fmac'=>isset($_COOKIE['fmac']) ? $_COOKIE['fmac'] : '',
@@ -50,7 +50,7 @@ class LoginController extends Controller{
 	}
 	
 	public function logout(){
-		$this->session->remove();
+		User::model()->logout();
 		Response::redirect('admin/login/index');
 	}
 }

@@ -48,11 +48,11 @@ class AdminController extends Controller{
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
 		
 		//验证session中是否有值
-		if(!$this->session->get('admin')){
+		if(!\F::session()->get('user.admin')){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		//设置当前用户id
-		$this->current_user = $this->session->get('id');
+		$this->current_user = \F::session()->get('user.id');
 		$this->layout->current_directory = '';
 		$this->layout->subtitle = '';
 

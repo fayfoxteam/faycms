@@ -12,7 +12,7 @@ use fay\models\tables\UsersRoles;
 use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\models\tables\UserProfile;
-use fay\core\db\Intact;
+use fay\core\db\Expr;
 
 class User extends Model{
 	/**
@@ -102,7 +102,7 @@ class User extends Model{
 			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
-			'login_times'=>new Intact('login_times + 1'),
+			'login_times'=>new Expr('login_times + 1'),
 		), $user['id']);
 		
 		return array(
@@ -127,11 +127,10 @@ class User extends Model{
 				'error_code'=>'password:can-not-be-empty',
 			);
 		}
-		$conditions = array(
+		$user = Users::model()->fetchRow(array(
 			'username = ?'=>$username,
 			'deleted = 0',
-		);
-		$user = Users::model()->fetchRow($conditions);
+		));
 		//判断用户名是否存在
 		if(!$user){
 			return array(
@@ -195,7 +194,7 @@ class User extends Model{
 			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
-			'login_times'=>new Intact('login_times + 1'),
+			'login_times'=>new Expr('login_times + 1'),
 		),'user_id = '.$user['id']);
 		
 		return array(

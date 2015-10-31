@@ -11,7 +11,7 @@ use fay\core\HttpException;
 use fay\models\Prop;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\PropValues;
-use fay\core\db\Intact;
+use fay\core\db\Expr;
 use ncp\models\Recommend;
 use fay\models\Option;
 
@@ -116,7 +116,7 @@ class ProductController extends FrontController{
 		}
 		Posts::model()->update(array(
 			'last_view_time'=>$this->current_time,
-			'views'=>new Intact('views + 1'),
+			'views'=>new Expr('views + 1'),
 		), $id);
 		
 		$this->layout->title = $post['seo_title'];

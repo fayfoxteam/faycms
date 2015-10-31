@@ -10,7 +10,7 @@ use fay\common\ListView;
 use ncp\models\Recommend;
 use fay\models\Option;
 use fay\models\Post;
-use fay\core\db\Intact;
+use fay\core\db\Expr;
 
 class SpecialController extends FrontController{
 	public function __construct(){
@@ -72,7 +72,7 @@ class SpecialController extends FrontController{
 		}
 		Posts::model()->update(array(
 			'last_view_time'=>$this->current_time,
-			'views'=>new Intact('views + 1'),
+			'views'=>new Expr('views + 1'),
 		), $id);
 		
 		$this->layout->title = $post['seo_title'];

@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\db\Intact;
+use fay\core\db\Expr;
 use fay\helpers\SqlHelper;
 use fay\helpers\String;
 
@@ -196,7 +196,7 @@ class Db{
 		$values = array();
 		foreach($data as $k => $v){
 			if($v === false)continue;
-			if($v instanceof Intact){
+			if($v instanceof Expr){
 				$fields[] = "`{$k}`";
 				$pres[] = $v->get();
 			}else{
@@ -223,7 +223,7 @@ class Db{
 		$first_item = array_shift($data);
 		foreach($first_item as $k => $v){
 			if($v === false)continue;
-			if($v instanceof Intact){
+			if($v instanceof Expr){
 				$fields[] = "`{$k}`";
 				$pres[] = $v->get();
 			}else{
@@ -236,7 +236,7 @@ class Db{
 		foreach($data as $item){
 			$pres = array();
 			foreach($item as $i){
-				if($i instanceof Intact){
+				if($i instanceof Expr){
 					$pres[] = $i->get();
 				}else{
 					$pres[] = '?';
@@ -266,7 +266,7 @@ class Db{
 		$values = array();
 		foreach($data as $k => $v){
 			if($v === false)continue;
-			if($v instanceof Intact){
+			if($v instanceof Expr){
 				$set[] = "`{$k}` = {$v->get()}";
 			}else{
 				$set[] = "`{$k}` = ?";
@@ -314,7 +314,7 @@ class Db{
 		}
 		$data = array();
 		foreach($fields as $f){
-			$data[$f] = new Intact("`{$f}` {$count}");
+			$data[$f] = new Expr("`{$f}` {$count}");
 		}
 		return $this->update($table, $data, $condition);
 	}

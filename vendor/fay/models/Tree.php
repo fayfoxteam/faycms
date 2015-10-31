@@ -2,7 +2,7 @@
 namespace fay\models;
 
 use fay\core\Model;
-use fay\core\db\Intact;
+use fay\core\db\Expr;
 use fay\core\Exception;
 use fay\helpers\String;
 
@@ -156,15 +156,15 @@ class Tree extends Model{
 			$diff = $node['right_value'] - $node['left_value'] + 1;//差值
 			//所有后续节点减去差值
 			\F::model($model)->update(array(
-				'left_value'=>new Intact('left_value - '.$diff),
-				'right_value'=>new Intact('right_value - '.$diff),
+				'left_value'=>new Expr('left_value - '.$diff),
+				'right_value'=>new Expr('right_value - '.$diff),
 			), array(
 				'right_value > '.$node['right_value'],
 				'left_value > '.$node['right_value'],
 			));
 			//所有父节点的右节点减去差值
 			\F::model($model)->update(array(
-				'right_value'=>new Intact('right_value - '.$diff),
+				'right_value'=>new Expr('right_value - '.$diff),
 			), array(
 				'right_value > '.$node['right_value'],
 				'left_value < '.$node['left_value'],
@@ -187,8 +187,8 @@ class Tree extends Model{
 				//叶子节点，直接挂
 				//所有后续节点加上差值
 				\F::model($model)->update(array(
-					'left_value'=>new Intact('left_value + '.$diff),
-					'right_value'=>new Intact('right_value + '.$diff),
+					'left_value'=>new Expr('left_value + '.$diff),
+					'right_value'=>new Expr('right_value + '.$diff),
 				), array(
 					'right_value > '.$parent_node['right_value'],
 					'left_value > '.$parent_node['right_value'],
@@ -196,7 +196,7 @@ class Tree extends Model{
 				));
 				//所有父节点的右节点加上差值
 				\F::model($model)->update(array(
-					'right_value'=>new Intact('right_value + '.$diff),
+					'right_value'=>new Expr('right_value + '.$diff),
 				), array(
 					'right_value >= '.$parent_node['right_value'],
 					'left_value <= '.$parent_node['left_value'],
@@ -208,8 +208,8 @@ class Tree extends Model{
 					$diff2 = '+'.($diff2);
 				}
 				\F::model($model)->update(array(
-					'left_value'=>new Intact('left_value '.$diff2),
-					'right_value'=>new Intact('right_value '.$diff2),
+					'left_value'=>new Expr('left_value '.$diff2),
+					'right_value'=>new Expr('right_value '.$diff2),
 				), 'id IN ('.implode(',', $branch_ids).')');
 			}else{
 				//若未指定sort，获取源节点的sort值
@@ -232,8 +232,8 @@ class Tree extends Model{
 					//存在右节点
 					//所有后续节点及其子节点加上差值
 					\F::model($model)->update(array(
-						'left_value'=>new Intact('left_value + '.$diff),
-						'right_value'=>new Intact('right_value + '.$diff),
+						'left_value'=>new Expr('left_value + '.$diff),
+						'right_value'=>new Expr('right_value + '.$diff),
 					), array(
 						'or'=>array(
 							'and'=>array(
@@ -249,7 +249,7 @@ class Tree extends Model{
 					));
 					//所有父节点的右节点加上差值
 					\F::model($model)->update(array(
-						'right_value'=>new Intact('right_value + '.$diff),
+						'right_value'=>new Expr('right_value + '.$diff),
 					), array(
 						'right_value > '.$right_node['right_value'],
 						'left_value < '.$right_node['left_value'],
@@ -261,15 +261,15 @@ class Tree extends Model{
 						$diff2 = '+'.($diff2);
 					}
 					\F::model($model)->update(array(
-						'left_value'=>new Intact('left_value '.$diff2),
-						'right_value'=>new Intact('right_value '.$diff2),
+						'left_value'=>new Expr('left_value '.$diff2),
+						'right_value'=>new Expr('right_value '.$diff2),
 					), 'id IN ('.implode(',', $branch_ids).')');
 				}else{
 					//不存在右节点，插到最后
 					//所有后续节点加上差值
 					\F::model($model)->update(array(
-						'left_value'=>new Intact('left_value + '.$diff),
-						'right_value'=>new Intact('right_value + '.$diff),
+						'left_value'=>new Expr('left_value + '.$diff),
+						'right_value'=>new Expr('right_value + '.$diff),
 					), array(
 						'right_value > '.$parent_node['right_value'],
 						'left_value > '.$parent_node['left_value'],
@@ -277,7 +277,7 @@ class Tree extends Model{
 					));
 					//所有父节点的右节点加上差值
 					\F::model($model)->update(array(
-						'right_value'=>new Intact('right_value + '.$diff),
+						'right_value'=>new Expr('right_value + '.$diff),
 					), array(
 						'right_value >= '.$parent_node['right_value'],
 						'left_value <= '.$parent_node['left_value'],
@@ -289,8 +289,8 @@ class Tree extends Model{
 						$diff2 = '+'.($diff2);
 					}
 					\F::model($model)->update(array(
-						'left_value'=>new Intact('left_value '.$diff2),
-						'right_value'=>new Intact('right_value '.$diff2),
+						'left_value'=>new Expr('left_value '.$diff2),
+						'right_value'=>new Expr('right_value '.$diff2),
 					), 'id IN ('.implode(',', $branch_ids).')');
 				}
 			}
@@ -421,23 +421,23 @@ class Tree extends Model{
 		$node = \F::model($model)->find($id, 'left_value,right_value,parent');
 		//所有子节点左右值-1
 		\F::model($model)->update(array(
-			'left_value'=>new Intact('left_value - 1'),
-			'right_value'=>new Intact('right_value - 1'),
+			'left_value'=>new Expr('left_value - 1'),
+			'right_value'=>new Expr('right_value - 1'),
 		), array(
 			'left_value > '.$node['left_value'],
 			'right_value < '.$node['right_value'],
 		));
 		//所有后续节点左右值-2
 		\F::model($model)->update(array(
-			'left_value'=>new Intact('left_value - 2'),
-			'right_value'=>new Intact('right_value - 2'),
+			'left_value'=>new Expr('left_value - 2'),
+			'right_value'=>new Expr('right_value - 2'),
 		), array(
 			'right_value > '.$node['right_value'],
 			'left_value > '.$node['right_value'],
 		));
 		//所有父节点
 		\F::model($model)->update(array(
-			'right_value'=>new Intact('right_value - 2'),
+			'right_value'=>new Expr('right_value - 2'),
 		), array(
 			'right_value > '.$node['right_value'],
 			'left_value < '.$node['left_value'],
@@ -473,15 +473,15 @@ class Tree extends Model{
 		$diff = $node['right_value'] - $node['left_value'] + 1;
 		//所有后续节点减去差值
 		\F::model($model)->update(array(
-			'left_value'=>new Intact('left_value - '.$diff),
-			'right_value'=>new Intact('right_value - '.$diff),
+			'left_value'=>new Expr('left_value - '.$diff),
+			'right_value'=>new Expr('right_value - '.$diff),
 		), array(
 			'right_value > '.$node['right_value'],
 			'left_value > '.$node['left_value'],
 		));
 		//所有父节点的右节点减去差值
 		\F::model($model)->update(array(
-			'right_value'=>new Intact('right_value - '.$diff),
+			'right_value'=>new Expr('right_value - '.$diff),
 		), array(
 			'right_value > '.$node['right_value'],
 			'left_value < '.$node['left_value'],
@@ -553,8 +553,8 @@ class Tree extends Model{
 			//修改移动区间内树枝的左右值
 			$diff = $node['right_value'] - $node['left_value'] + 1;
 			\F::model($model)->update(array(
-				'left_value'=>new Intact('left_value + '.$diff),
-				'right_value'=>new Intact('right_value + '.$diff),
+				'left_value'=>new Expr('left_value + '.$diff),
+				'right_value'=>new Expr('right_value + '.$diff),
 			), array(
 				'left_value >= '.$right_node['left_value'],
 				'right_value < '.$node['left_value'],
@@ -563,8 +563,8 @@ class Tree extends Model{
 			//修改被移动树枝的左右值
 			$diff = $node['left_value'] - $right_node['left_value'];
 			\F::model($model)->update(array(
-				'left_value'=>new Intact('left_value - '.$diff),
-				'right_value'=>new Intact('right_value - '.$diff),
+				'left_value'=>new Expr('left_value - '.$diff),
+				'right_value'=>new Expr('right_value - '.$diff),
 			), 'id IN ('.implode(',', $branch_ids).')');
 		}else if($sort > $ori_right_node_sort || ($sort == $ori_right_node_sort && $node['id'] > $ori_right_node['id'])){//节点右移
 			//新位置的左节点
@@ -587,8 +587,8 @@ class Tree extends Model{
 			//修改移动区间内树枝的左右值
 			$diff = $node['right_value'] - $node['left_value'] + 1;
 			\F::model($model)->update(array(
-				'left_value'=>new Intact('left_value - '.$diff),
-				'right_value'=>new Intact('right_value - '.$diff),
+				'left_value'=>new Expr('left_value - '.$diff),
+				'right_value'=>new Expr('right_value - '.$diff),
 			), array(
 				'left_value > '.$node['right_value'],
 				'right_value <= '.$left_node['right_value'],
@@ -597,8 +597,8 @@ class Tree extends Model{
 			//修改被移动树枝的左右值
 			$diff = $left_node['right_value'] - $node['right_value'];
 			\F::model($model)->update(array(
-				'left_value'=>new Intact('left_value + '.$diff),
-				'right_value'=>new Intact('right_value + '.$diff),
+				'left_value'=>new Expr('left_value + '.$diff),
+				'right_value'=>new Expr('right_value + '.$diff),
 			), 'id IN ('.implode(',', $branch_ids).')');
 		}
 	}

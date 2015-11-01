@@ -1,6 +1,7 @@
 <?php
 use fay\models\Option;
 use fay\models\Flash;
+use fay\core\Uri;
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,7 @@ system.current_user = '<?php echo F::session()->get('user.id', 0)?>';
 <?php 
 	include '_header.php';
 	include '_sitenav.php';
-	if(F::app()->uri->router != 'default/index/index'){
+	if(Uri::getInstance()->router != 'default/index/index'){
 		include '_sub_banner.php';
 	}
 	if($breadcrumbs){

@@ -1,6 +1,7 @@
 <?php
 use fay\models\Option;
 use fay\helpers\Html;
+use fay\core\Uri;
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +29,7 @@ system.user_id = '<?php echo \F::session()->get('user.id', 0)?>';
 </head>
 <body>
 <?php include '_header.php';?>
-<?php if(F::app()->uri->router == 'frontend/index/index'){
+<?php if(Uri::getInstance()->router == 'frontend/index/index'){
 	F::widget()->load('index-slides-camera');
 }?>
 <div class="g-con">

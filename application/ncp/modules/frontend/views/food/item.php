@@ -63,7 +63,7 @@ $this->appendCss($this->appStatic('css/food.css'));
 		</div>
 	</div>
 	<div class="in_adv">
-		<?php echo F::app()->widget->load('food-item-ad')?>
+		<?php echo F::widget()->load('food-item-ad')?>
 	</div>
 	<div class="detail-info mt10">
 		<div class="d-fl">

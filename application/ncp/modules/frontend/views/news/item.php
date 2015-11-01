@@ -10,7 +10,7 @@ $this->appendCss($this->appStatic('css/news.css'));
 		<strong>当前位置：</strong><a href="/">首页</a>&gt;<a href="/product/">农资讯</a>&gt;<span>五莲星冷鲜缙云麻鸭</span>
 	</div>
 	<div class="in_adv">
-		<?php echo F::app()->widget->load('news-item-ad')?>
+		<?php echo F::widget()->load('news-item-ad')?>
 	</div>
 	<div class="detail-info">
 		<div class="d-fl">

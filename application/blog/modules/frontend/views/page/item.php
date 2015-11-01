@@ -9,8 +9,8 @@
 	</article>
 </div>
 <div class="col-side">
-	<?php echo F::app()->widget->render('profile')?>
-	<?php echo F::app()->widget->render('contact')?>
-	<?php echo F::app()->widget->load('categories')?>
+	<?php echo F::widget()->render('profile')?>
+	<?php echo F::widget()->render('contact')?>
+	<?php echo F::widget()->load('categories')?>
 </div>
 <div class="clear"></div>

@@ -4,7 +4,7 @@ use fay\models\File;
 ?>
 <div>
 	<div id="index-slide">
-		<?php \F::app()->widget->load('index-slides-camera')?>
+		<?php \F::widget()->load('index-slides-camera')?>
 	</div>
 </div>
 <div class="g-con">

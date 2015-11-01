@@ -15,7 +15,7 @@ use fay\models\Option;
 				<h3>联系我们</h3>
 				<div class="fcontacts">
 					<table>
-						<?php F::app()->widget->load('contacts')?>
+						<?php F::widget()->load('contacts')?>
 					</table>
 				</div>
 			</div>

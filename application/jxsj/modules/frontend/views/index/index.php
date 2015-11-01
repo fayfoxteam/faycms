@@ -7,14 +7,14 @@ use fay\models\File;
 #login-panel{margin-bottom:10px;}
 </style>
 <div id="banner">
-	<?php F::app()->widget->load('index-slides')?>
+	<?php F::widget()->load('index-slides')?>
 </div>
 <div class="g-con">
 	<div class="w1000 clearfix bg-white">
 		<div class="w300 fr">
 			<?php $this->renderPartial('common/_login_panel')?>
 			<?php //$this->renderPartial('common/_contact')?>
-			<?php //F::app()->widget->load('friendlinks')?>
+			<?php //F::widget()->load('friendlinks')?>
 			<div class="box" id="quick-guide">
 				<div class="box-title">
 					<h3>快速导航</h3>
@@ -22,10 +22,10 @@ use fay\models\File;
 				<div class="box-content">
 					<div class="st"><div class="sl"><div class="sr"><div class="sb">
 						<div class="p16 clearfix">
-							<p><?php F::app()->widget->load('index-quickguide-1')?></p>
-							<p><?php F::app()->widget->load('index-quickguide-2')?></p>
-							<p><?php F::app()->widget->load('index-quickguide-3')?></p>
-							<p><?php F::app()->widget->load('index-quickguide-4')?></p>
+							<p><?php F::widget()->load('index-quickguide-1')?></p>
+							<p><?php F::widget()->load('index-quickguide-2')?></p>
+							<p><?php F::widget()->load('index-quickguide-3')?></p>
+							<p><?php F::widget()->load('index-quickguide-4')?></p>
 						</div>
 					</div></div></div></div>
 				</div>
@@ -34,7 +34,7 @@ use fay\models\File;
 		<div class="mr310">
 			<section class="mb10 fl wp100">
 				<div class="wp37 fl">
-					<?php F::app()->widget->load('index-1-1')?>
+					<?php F::widget()->load('index-1-1')?>
 				</div>
 				<div class="wp62 fr">
 					<div class="box" id="index-about">
@@ -69,17 +69,17 @@ use fay\models\File;
 			</section>
 			<section class="clearfix">
 				<div class="wp37 fl">
-					<?php F::app()->widget->load('index-2-1')?>
+					<?php F::widget()->load('index-2-1')?>
 				</div>
 				<div class="wp62 fr">
-					<?php F::app()->widget->load('index-2-2')?>
+					<?php F::widget()->load('index-2-2')?>
 				</div>
 			</section>
 		</div>
 	</div>
 	<div class="w1000 bg-white">
 		<section class="clearfix pt20">
-			<?php F::app()->widget->load('index-bottom-gallery')?>
+			<?php F::widget()->load('index-bottom-gallery')?>
 		</section>
 	</div>
 </div>

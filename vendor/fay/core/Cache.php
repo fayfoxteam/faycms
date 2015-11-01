@@ -114,7 +114,7 @@ class Cache{
 	/**
 	 * 删除一个缓存
 	 * @param mix $key
-	 * @param $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
+	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
 	 * @throws \fay\core\ErrorException
 	 * @return bool
 	 */
@@ -141,7 +141,7 @@ class Cache{
 	 * @throws \fay\core\ErrorException
 	 * @return bool
 	 */
-	public function flush($prefix, $driver = null){
+	public function flush($prefix = null, $driver = null){
 		$driver || $driver = \F::config()->get('default_cache_driver');
 		
 		if(empty($driver)){

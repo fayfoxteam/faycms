@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 
-$widget = F::app()->widget->get($data['widget_name'], true);
+$widget = F::widget()->get($data['widget_name'], true);
 ?>
 <tr valign="top">
 	<td>

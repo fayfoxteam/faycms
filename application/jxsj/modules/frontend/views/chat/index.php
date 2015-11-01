@@ -3,13 +3,13 @@ use fay\helpers\Html;
 use fay\models\tables\Users;
 ?>
 <div id="banner">
-	<?php \F::app()->widget->load('index-slides')?>
+	<?php \F::widget()->load('index-slides')?>
 </div>
 <div class="w1000 clearfix bg-white">
 	<div class="w230 fl">
 		<?php
 		//直接引用widget
-		\F::app()->widget->render('fay/category_post', array(
+		\F::widget()->render('fay/category_post', array(
 			'title'=>'最新发布',
 			'order'=>'publish_time',
 			'template'=>'frontend/widget/category_posts',

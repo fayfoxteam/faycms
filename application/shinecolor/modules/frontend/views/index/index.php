@@ -3,10 +3,10 @@ use fay\helpers\Html;
 use fay\models\Post;
 ?>
 <div id="index-slide">
-	<?php \F::app()->widget->load('index-slides-camera')?>
+	<?php \F::widget()->load('index-slides-camera')?>
 </div>
 <section id="index-abstract" class="w1000">
-	<?php \F::app()->widget->load('index-abstract')?>
+	<?php \F::widget()->load('index-abstract')?>
 </section>
 <section id="main-business">
 	<header>
@@ -15,7 +15,7 @@ use fay\models\Post;
 	</header>
 	<div class="business-content">
 		<div class="w1000">
-			<?php $widget_data = F::app()->widget->getData('business');?>
+			<?php $widget_data = F::widget()->getData('business');?>
 			<nav class="introduce">
 				<ul>
 				<?php foreach($widget_data['data'] as $k=>$w){?>

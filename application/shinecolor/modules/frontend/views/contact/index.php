@@ -17,7 +17,7 @@ use fay\helpers\Html;
 				<img src="<?php echo $this->appStatic('images/contact-logo.png')?>" />
 			</div>
 			<div id="contact-right">
-				<?php \F::app()->widget->load('contact')?>
+				<?php \F::widget()->load('contact')?>
 			</div>
 			<div class="clear"></div>
 		</div>

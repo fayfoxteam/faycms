@@ -67,6 +67,6 @@ $this->appendCss($this->appStatic('css/blog.css'));
 		<?php $listview->showPager()?>
 	</section>
 	<div class="g-sd">
-		<?php \F::app()->widget->render('recent_posts')?>
+		<?php \F::widget()->render('recent_posts')?>
 	</div>
 </div>

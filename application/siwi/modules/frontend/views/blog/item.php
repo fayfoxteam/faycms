@@ -79,7 +79,7 @@ $this->appendCss($this->appStatic('css/blog.css'));
 		</div>
 	</div>
 	<div class="g-sd">
-		<?php \F::app()->widget->render('recent_posts')?>
+		<?php \F::widget()->render('recent_posts')?>
 	</div>
 </div>
 <script src="<?php echo $this->assets('static/siwi/js/blog-item.js')?>"></script>

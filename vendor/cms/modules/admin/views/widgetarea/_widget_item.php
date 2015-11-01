@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 
-$widget_instance = F::app()->widget->get($widget['widget_name'], true);
+$widget_instance = F::widget()->get($widget['widget_name'], true);
 ?>
 <div class="widget-item" data-widget-id="<?php echo $widget['id']?>">
 	<a class="widget-item-selector"></a>

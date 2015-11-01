@@ -98,7 +98,7 @@ use fay\helpers\Date;
 		</section>
 	</div>
 	<div class="g-sd">
-		<?php \F::app()->widget->render('siwi/recent_posts')?>
+		<?php \F::widget()->render('siwi/recent_posts')?>
 	</div>
 </div>
 <script src="<?php echo $this->assets('static/siwi/js/home.js')?>"></script>

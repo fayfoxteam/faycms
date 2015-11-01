@@ -60,7 +60,7 @@ $this->appendCss($this->appStatic('css/travel.css'));
 		</div>
 	</div>
 	<div class="in_adv">
-		<?php echo F::app()->widget->load('travel-item-ad')?>
+		<?php echo F::widget()->load('travel-item-ad')?>
 	</div>
 	<div class="detail-info mt10">
 		<div class="d-fl">

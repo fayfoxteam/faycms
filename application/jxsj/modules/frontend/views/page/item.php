@@ -2,12 +2,12 @@
 use fay\helpers\Html;
 ?>
 <div id="banner">
-	<?php \F::app()->widget->load('index-slides')?>
+	<?php \F::widget()->load('index-slides')?>
 </div>
 <div class="w1000 clearfix bg-white">
 	<div class="w230 fl">
 		<?php $this->renderPartial('common/_login_panel')?>
-		<?php \F::app()->widget->load('friendlinks')?>
+		<?php \F::widget()->load('friendlinks')?>
 	</div>
 	<div class="ml240">
 		<div class="box" id="post-item">

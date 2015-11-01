@@ -64,7 +64,6 @@ class Controller{
 		$this->input = Input::getInstance();
 		$this->view = new View();
 		$this->layout = new Layout();
-		$this->cache = new Cache();
 		$this->config = Config::getInstance();
 		$this->current_time = time();
 		self::$_instance = $this;

@@ -7,11 +7,11 @@ $this->appendCss($this->appStatic('css/index.css'));
 
 <div class="container">
 	<div class="m mt10">
-		<?php F::app()->widget->load('index-top-slides')?>
+		<?php F::widget()->load('index-top-slides')?>
 		<div class="adv_r fr">
-			<?php F::app()->widget->load('index-top-ad-1')?>
-			<?php F::app()->widget->load('index-top-ad-2')?>
-			<?php F::app()->widget->load('index-top-ad-3')?>
+			<?php F::widget()->load('index-top-ad-1')?>
+			<?php F::widget()->load('index-top-ad-2')?>
+			<?php F::widget()->load('index-top-ad-3')?>
 		</div>
 	</div>
 	<div class="m mt10">
@@ -173,13 +173,13 @@ $this->appendCss($this->appStatic('css/index.css'));
 			</div>
 		</div>
 		<div class="k_adv">
-			<?php F::app()->widget->load('index-bottom-ad-1')?>
-			<?php F::app()->widget->load('index-bottom-ad-2')?>
+			<?php F::widget()->load('index-bottom-ad-1')?>
+			<?php F::widget()->load('index-bottom-ad-2')?>
 		</div>
 		<div class="f_special">
-			<?php F::app()->widget->load('index-bottom-special')?>
+			<?php F::widget()->load('index-bottom-special')?>
 		</div>
 	</div>
 </div>
 
-<?php F::app()->widget->load('index-friendlinks')?>
+<?php F::widget()->load('index-friendlinks')?>

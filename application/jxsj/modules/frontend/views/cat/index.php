@@ -2,19 +2,19 @@
 use fay\helpers\Html;
 ?>
 <div id="banner">
-	<?php \F::app()->widget->load('index-slides')?>
+	<?php \F::widget()->load('index-slides')?>
 </div>
 <div class="w1000 clearfix bg-white">
 	<div class="w230 fl">
 		<?php
 		//直接引用widget
-		\F::app()->widget->render('fay/categories', array(
+		\F::widget()->render('fay/categories', array(
 			'top'=>$cat['id'],
 			'title'=>'分类列表',
 			'order'=>'views',
 			'template'=>'frontend/widget/categories',
 		));
-		\F::app()->widget->render('fay/category_post', array(
+		\F::widget()->render('fay/category_post', array(
 			'top'=>$cat['id'],
 			'title'=>'热门文章',
 			'order'=>'views',

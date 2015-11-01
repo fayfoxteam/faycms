@@ -115,7 +115,7 @@ class FWidget{
 					echo '<script>
 						$.ajax({
 							type: "GET",
-							url: "'.\F::app()->view->url(Uri::getInstance()->module.'/widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
+							url: "'.\F::app()->view->url('widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
 							cache: false,
 							success: function(resp){
 								$("#'.$id.'").replaceWith(resp);

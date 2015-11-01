@@ -100,8 +100,6 @@ class Widget{
 		include_once 'widget/View.php';
 		$this->view = new widget\View($this->name, get_class($this));
 		$this->input = Input::getInstance();
-		$this->session = Session::getInstance();
-		$this->cache = Cache::getInstance();
 		$this->config = Config::getInstance();
 		$this->db = Db::getInstance();
 		$this->form = $this->form('widget');

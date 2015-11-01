@@ -6,7 +6,7 @@ use fay\models\Flash;
 	<div class="w1190">
 		<div class="box m-about">
 			<h3>关于思唯</h3>
-			<div class="box-content"><?php echo F::app()->widget->load('footer_about')?></div>
+			<div class="box-content"><?php echo F::widget()->load('footer_about')?></div>
 		</div>
 		<div class="box m-msg">
 			<h3>信息</h3>

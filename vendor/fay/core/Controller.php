@@ -6,6 +6,10 @@ use fay\models\tables\Actions;
 use fay\helpers\String;
 use fay\models\tables\Roles;
 
+/**
+ * @property View $view 视图
+ * @property Layout $layout 模版
+ */
 class Controller{
 	/**
 	 * 检查过被阻止的路由
@@ -25,18 +29,6 @@ class Controller{
 	 * @var Config
 	 */
 	public $config;
-	/**
-	 * @var View
-	 */
-	public $view;
-	/**
-	 * @var Cache
-	 */
-	public $cache;
-	/**
-	 * @var Layout
-	 */
-	public $layout;
 	/**
 	 * 模板文件
 	 * @var string
@@ -62,14 +54,24 @@ class Controller{
 	
 	public function __construct(){
 		$this->input = Input::getInstance();
-		$this->view = new View();
-		$this->layout = new Layout();
 		$this->config = Config::getInstance();
 		$this->current_time = time();
-		self::$_instance = $this;
-		
 		//当前用户登陆IP
 		$this->ip = Request::getIP();
+		
+		self::$_instance = $this;
+	}
+	
+	public function __get($key){
+		if($key == 'view'){
+			$this->view = new View();
+			return $this->view;
+		}else if($key == 'layout'){
+			$this->layout = new Layout();
+			return $this->layout;
+		}else{
+			return null;
+		}
 	}
 	
 	public static function getInstance(){

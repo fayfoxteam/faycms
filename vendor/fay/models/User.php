@@ -331,7 +331,7 @@ class User extends Model{
 			'avatar'=>$user['avatar'],
 			'roles'=>$user['roles'],
 			'last_login_time'=>$user['last_login_time'],
-			'last_login_ip'=>$user['last_login_ip'],
+			'last_login_ip'=>long2ip($user['last_login_ip']),
 			'status'=>$user['status'],
 			'admin'=>$user['admin'],
 		));

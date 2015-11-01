@@ -36,4 +36,5 @@ return array(
 	),
 	
 	//'debug'=>false,
+	//'environment'=>'production',
 );

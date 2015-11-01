@@ -39,9 +39,9 @@ class ErrorHandler{
 			//404, 500等http错误
 			if(\F::config()->get('environment') == 'production'){
 				if($exception->status_code == 404){
-					$this->render404($exception->getMessage());
+					$this->render404($exception);
 				}else{
-					$this->render500($exception->getMessage());
+					$this->render500($exception);
 				}
 			}else{
 				//环境非production，显示debug页面
@@ -53,7 +53,7 @@ class ErrorHandler{
 			
 			//自定义异常
 			if(\F::config()->get('environment') == 'production'){
-				$this->render500($exception->getMessage());
+				$this->render500($exception);
 			}else{
 				$this->renderDebug($exception);
 			}
@@ -63,7 +63,7 @@ class ErrorHandler{
 				
 			//自定义异常
 			if(\F::config()->get('environment') == 'production'){
-				$this->render500($exception->getMessage());
+				$this->render500($exception);
 			}else{
 				$this->renderDebug($exception);
 			}
@@ -73,7 +73,7 @@ class ErrorHandler{
 			
 			//其它（php或者其他一些类库）抛出的异常
 			if(\F::config()->get('environment') == 'production'){
-				$this->render500($exception->getMessage());
+				$this->render500($exception);
 			}else{
 				$this->renderDebug($exception);
 			}
@@ -129,9 +129,9 @@ class ErrorHandler{
 		
 		if(\F::input()->isAjaxRequest()){
 			if($exception instanceof HttpException && $exception->status_code == 404){
-				Response::json('', 0, $exception->getMessage(), 'http_error:404:not_found');
+				Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:404:not_found');
 			}else{
-				Response::json('', 0, $exception->getMessage(), 'http_error:500:internal_server_error');
+				Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:500:internal_server_error');
 			}
 		}else{
 			$this->app->view->renderPartial('errors/debug', array(
@@ -156,15 +156,15 @@ class ErrorHandler{
 	/**
 	 * 显示404页面（不包含错误信息）
 	 */
-	protected function render404($message = '您访问的页面不存在'){
+	protected function render404($exception){
 		//清空缓冲区
 		$this->clearOutput();
 		
 		if(\F::input()->isAjaxRequest()){
-			Response::json('', 0, $message, 'http_error:404:not_found');
+			Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:404:not_found');
 		}else{
 			$this->app->view->renderPartial('errors/404', array(
-				'message'=>$message,
+				'message'=>$exception->getMessage(),
 			));
 		}
 		die;
@@ -173,15 +173,15 @@ class ErrorHandler{
 	/**
 	 * 显示500页面（不包含错误信息）
 	 */
-	protected function render500($message = '服务器内部错误'){
+	protected function render500($exception){
 		//清空缓冲区
 		$this->clearOutput();
 		
 		if(\F::input()->isAjaxRequest()){
-			Response::json('', 0, $message, 'http_error:500:internal_server_error');
+			Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:500:internal_server_error');
 		}else{
 			$this->app->view->renderPartial('errors/500', array(
-				'message'=>$message,
+				'message'=>$exception->getMessage(),
 			));
 		}
 		die;

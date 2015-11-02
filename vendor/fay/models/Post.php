@@ -50,20 +50,6 @@ class Post extends Model{
 		return PostsCategories::model()->fetchCol('cat_id', "post_id = {$id}");
 	}
 	
-	public function getCount($status = null){
-		$conditions = array('deleted = 0');
-		if($status !== null){
-			$conditions['status = ?'] = $status;
-		}
-		$result = Posts::model()->fetchRow($conditions, 'COUNT(*)');
-		return $result['COUNT(*)'];
-	}
-	
-	public function getDeletedCount(){
-		$result = Posts::model()->fetchRow('deleted = 1', 'COUNT(*)');
-		return $result['COUNT(*)'];
-	}
-	
 	/**
 	 * 返回一篇文章信息（返回字段已做去转义处理）
 	 * @param int $id

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Post;
+use cms\models\Post;
 use fay\models\tables\Posts;
 use cms\helpers\ListTableHelper;
 

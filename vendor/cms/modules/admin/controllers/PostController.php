@@ -245,9 +245,13 @@ class PostController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_post');
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', '!content')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
-		;
+		$count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
+		$sql->from('posts', 'p', '!content');
+		$count_sql->from('posts', 'p', 'COUNT(*)');
+		
+		if(in_array('main_category', $_settings['cols'])){
+			$sql->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title');
+		}
 		
 		if(in_array('user', $_settings['cols'])){
 			$sql->joinLeft('users', 'u', 'p.user_id = u.id', 'username,nickname,realname');
@@ -256,30 +260,41 @@ class PostController extends AdminController{
 		//文章状态
 		if($this->input->get('deleted', 'intval') == 1){
 			$sql->where('p.deleted = 1');
+			$count_sql->where('p.deleted = 1');
 		}else if($this->input->get('status', 'intval') !== null && $this->input->get('delete', 'intval') != 1){
 			$sql->where(array(
+				'p.deleted != 1',
 				'p.status = ?'=>$this->input->get('status', 'intval'),
-				'p.deleted <> 1',
+			));
+			$count_sql->where(array(
+				'p.deleted != 1',
+				'p.status = ?'=>$this->input->get('status', 'intval'),
 			));
 		}else{
 			$sql->where('p.deleted = 0');
+			$count_sql->where('p.deleted = 0');
 		}
 		
 		//获得表单提交数据
 		if($this->input->get('keywords')){
 			if(in_array($this->input->get('keywords_field'), array('p.title'))){
 				$sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+				$count_sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
 			}else if(in_array($this->input->get('keywords_field'), array('p.id', 'p.user_id'))){
 				$sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+				$count_sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
 			}else{
 				$sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
+				$count_sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
 			}
 		}
 		if($this->input->get('start_time')){
 			$sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
+			$count_sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
 		}
 		if($this->input->get('end_time')){
 			$sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
+			$count_sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
 		}
 		if($cat_id){
 			if($this->input->get('with_child')){
@@ -298,6 +313,10 @@ class PostController extends AdminController{
 					$sql->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
 						->orWhere($orWhere)
 						->distinct(true);
+					$count_sql->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
+						->orWhere($orWhere)
+						->countBy('DISTINCT p.id')
+					;
 				}else{
 					//仅根据文章主分类搜索
 					$orWhere = array(
@@ -307,19 +326,17 @@ class PostController extends AdminController{
 						$orWhere[] = "p.cat_id = {$c}";
 					}
 					$sql->orWhere($orWhere);
+					$count_sql->orWhere($orWhere);
 				}
 			}else{
 				if($this->input->get('with_slave')){
 					//包含文章从分类搜索
-					$sql->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
-						->orWhere(array(
-							'p.cat_id = ?'=>$cat_id,
-							'pc.cat_id = ?'=>$cat_id,
-						))
-						->distinct(true);
+					$sql->where(array('p.cat_id = ?'=>$cat_id));
+					$count_sql->where(array('p.cat_id = ?'=>$cat_id));
 				}else{
 					//仅根据文章主分类搜索
 					$sql->where(array('p.cat_id = ?'=>$cat_id));
+					$count_sql->where(array('p.cat_id = ?'=>$cat_id));
 				}
 			}
 		}
@@ -330,9 +347,13 @@ class PostController extends AdminController{
 					'pt.tag_id = ?'=>$tag_id,
 				))
 				->distinct(true);
+			$count_sql->joinLeft('posts_tags', 'pt', 'p.id = pt.post_id')
+				->where(array(
+					'pt.tag_id = ?'=>$tag_id,
+				))
+				->countBy('DISTINCT p.id');
 		}
 		
-		$sql->countBy('DISTINCT p.id');
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
@@ -346,6 +367,7 @@ class PostController extends AdminController{
 			'page_size'=>$this->form('setting')->getData('page_size', 10),
 			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
 		));
+		$this->view->listview->count_sql = $count_sql->getCountSql();
 		$this->view->render();
 	}
 	

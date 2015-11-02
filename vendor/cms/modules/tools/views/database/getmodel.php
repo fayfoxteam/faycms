@@ -17,7 +17,13 @@ use fay\core\db\Table;
 	}else{
 		echo 'string';
 	}
-	echo " \${$f['Field']}";
+	echo " \${$f['Field']} ";
+	
+	if(!empty($f['Comment'])){
+		echo $f['Comment'];
+	}else{
+		echo ucwords(str_replace('_', ' ', $f['Field']));
+	}
 }?>
 
  */

@@ -4,9 +4,9 @@ namespace fay\models\user;
 use fay\core\Model;
 use fay\core\Hook;
 use fay\core\Exception;
-use fay\models\tables\Users;
 use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
+use fay\models\User;
 
 class Follow extends Model{
 	/**
@@ -23,22 +23,22 @@ class Follow extends Model{
 	 * @param bool|int 是否真实用户（社交网站总是免不了要做个假）
 	 */
 	public static function follow($user_id, $fans_id = null, $is_real = true){
-		$fans_id || $fans_id = \F::app()->current_user;
-		if(!$fans_id){
-			throw new Exception('未能获取到粉丝ID');
+		if($fans_id === null){
+			$fans_id = \F::app()->current_user;
+		}else if(!User::isUserIdExist($fans_id)){
+			throw new Exception('指定粉丝ID不存在', 'the-given-fans-id-is-not-exist');
 		}
 		
 		if($user_id == $fans_id){
-			throw new Exception('粉丝和用户ID不能相同');
+			throw new Exception('粉丝和用户ID不能相同', 'can-not-follow-yourself');
 		}
 		
-		$user = Users::model()->find($user_id, 'id');
-		if(!$user){
-			throw new Exception('关注的用户ID不存在');
+		if(!User::isUserIdExist($user_id)){
+			throw new Exception('关注的用户ID不存在', 'the-given-fans-id-is-not-exist');
 		}
 		
 		if(self::isFollow($user_id, $fans_id)){
-			throw new Exception('已关注，不能重复关注');
+			throw new Exception('已关注，不能重复关注', 'already-followed');
 		}
 		
 		$isFollow = self::isFollow($fans_id, $user_id);
@@ -72,7 +72,7 @@ class Follow extends Model{
 	public static function unfollow($user_id, $fans_id = null){
 		$fans_id || $fans_id = \F::app()->current_user;
 		if(!$fans_id){
-			throw new Exception('未能获取到粉丝ID');
+			throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
 		}
 		
 		//删除关注关系
@@ -104,7 +104,7 @@ class Follow extends Model{
 	public static function isFollow($user_id, $fans_id = null){
 		$fans_id || $fans_id = \F::app()->current_user;
 		if(!$fans_id){
-			throw new Exception('未能获取到粉丝ID');
+			throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
 		}
 		
 		$follow = Follows::model()->find(array($fans_id, $user_id), 'relation');
@@ -116,15 +116,15 @@ class Follow extends Model{
 	}
 	
 	/**
-	 * 批量验证是否关注
-	 * @param unknown $user_ids
-	 * @param string $fans_id
+	 * 批量判断是否关注
+	 * @param array $user_ids 由用户ID组成的一维数组
+	 * @param string $fans_id 粉丝ID，默认为当前登录用户
 	 * @return array 根据传入的$user_ids为数组的键，对应值为:0-未关注;1-单向关注;2-双向关注
 	 */
 	public static function mIsFollow($user_ids, $fans_id = null){
 		$fans_id || $fans_id = \F::app()->current_user;
 		if(!$fans_id){
-			throw new Exception('未能获取到粉丝ID');
+			throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
 		}
 		
 		$follows = Follows::model()->fetchAll(array(

@@ -570,4 +570,16 @@ class User extends Model{
 			->where('ur.user_id = '.$user_id)
 			->fetchAll();
 	}
+	
+	/**
+	 * 判断一个用户ID是否存在，若为0或者其他等价于false的值，直接返回false
+	 * @param int $user_id
+	 */
+	public static function isUserIdExist($user_id){
+		if($user_id){
+			return !!Users::model()->find($user_id, 'id');
+		}else{
+			return false;
+		}
+	}
 }

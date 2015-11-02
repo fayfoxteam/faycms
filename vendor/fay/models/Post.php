@@ -10,7 +10,6 @@ use fay\models\tables\PostsFiles;
 use fay\models\tables\Categories;
 use fay\models\tables\Props;
 use fay\models\tables\Favourites;
-use fay\models\tables\Likes;
 use fay\models\tables\PostsTags;
 use fay\models\tables\PostPropInt;
 use fay\models\tables\PostPropVarchar;
@@ -18,6 +17,7 @@ use fay\models\tables\PostPropText;
 use fay\helpers\String;
 use fay\core\Loader;
 use fay\models\tables\Roles;
+use fay\models\tables\PostLikes;
 
 class Post extends Model{
 	
@@ -396,60 +396,6 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 是否已点赞
-	 * @param int $post_id
-	 * @param null|int $user_id
-	 * @return boolean
-	 */
-	public function isLiked($post_id, $user_id = null){
-		if($user_id === null){
-			if(\F::app()->current_user){
-				$user_id = \F::app()->current_user;
-			}else{
-				return false;
-			}
-		}
-		
-		if(Likes::model()->find(array($user_id, $post_id))){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	/**
-	 * 刷新posts表likes字段
-	 * @param int $post_id
-	 * @return int
-	 */
-	public function refreshLikes($post_id){
-		$count = Likes::model()->fetchRow(array(
-			'post_id = ?'=>$post_id
-		), 'COUNT(*) AS count');
-		
-		Posts::model()->update(array(
-			'likes'=>$count['count'],
-		), $post_id);
-		return $count['count'];
-	}
-	
-	/**
-	 * 点赞数+1（若需要点赞数作假的话，用此函数）
-	 * @param int $post_id
-	 */
-	public function incLikes($post_id){
-		Posts::model()->inc($post_id, 'likes', 1);
-	}
-	
-	/**
-	 * 点赞数-1（若需要点赞数作假的话，用此函数）
-	 * @param int $post_id
-	 */
-	public function decLikes($post_id){
-		Posts::model()->inc($post_id, 'likes', -1);
-	}
-	
-	/**
 	 * 是否已收藏
 	 * @param int $post_id
 	 * @param null|int $user_id
@@ -522,7 +468,7 @@ class Post extends Model{
 		PostPropText::model()->delete('post_id = '.$post_id);
 		
 		//删除关注，收藏列表
-		Likes::model()->delete('post_id = '.$post_id);
+		PostLikes::model()->delete('post_id = '.$post_id);
 		Favourites::model()->delete('post_id = '.$post_id);
 		
 		//刷新对应tags的count值
@@ -845,6 +791,14 @@ class Post extends Model{
 					'status'=>1,
 				);
 			}
+		}
+	}
+	
+	public static function isPostIdExist($post_id){
+		if($post_id){
+			return !!Posts::model()->find($post_id, 'id');
+		}else{
+			return false;
 		}
 	}
 }

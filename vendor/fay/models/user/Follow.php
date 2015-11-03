@@ -46,14 +46,14 @@ class Follow extends Model{
 			'fans_id'=>$fans_id,
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
-			'relation'=>$isFollow ? Follows::RELATION_TWO_WAY : Follows::RELATION_ONE_WAY,
+			'relation'=>$isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE,
 			'is_real'=>$is_real ? 1 : 0,
 		));
 		
 		if($isFollow){
 			//若存在反向关注，则将反向关注记录的relation也置为双向关注
 			Follows::model()->update(array(
-				'relation'=>Follows::RELATION_TWO_WAY,
+				'relation'=>Follows::RELATION_BOTH,
 			), array(
 				'user_id = ?'=>$fans_id,
 				'fans_id = ?'=>$user_id,
@@ -84,7 +84,7 @@ class Follow extends Model{
 		//若互相关注，则更新反向关注的关注关系
 		if(self::isFollow($fans_id, $user_id)){
 			Follows::model()->update(array(
-				'relation'=>Follows::RELATION_ONE_WAY,
+				'relation'=>Follows::RELATION_SINGLE,
 			), array(
 				'fans_id = ?'=>$user_id,
 				'user_id = ?'=>$fans_id,

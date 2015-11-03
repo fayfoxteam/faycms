@@ -16,12 +16,12 @@ class Follows extends Table{
 	/**
 	 * 单向关注
 	 */
-	const RELATION_ONE_WAY = 1;
+	const RELATION_SINGLE = 1;
 	
 	/**
 	 * 双向关注
 	 */
-	const RELATION_TWO_WAY = 2;
+	const RELATION_BOTH = 2;
 	
 	protected $_name = 'follows';
 	protected $_primary = array('fans_id', 'user_id');

@@ -604,24 +604,24 @@ class Tree extends Model{
 	}
 	
 	/**
-	 * 判断$cat1是否为$cat2的子节点
+	 * 判断$node1是否为$node2的子节点
 	 * @param string $model
-	 * @param int|array $cat1
+	 * @param int|array $node1
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若是数组，必须包含left_value和right_value
-	 * @param int|string|array $cat2
+	 * @param int|string|array $node2
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若是数组，必须包含left_value和right_value
 	 */
-	public function isChild($model, $cat1, $cat2){
-		if(!is_array($cat1)){
-			$cat1 = \F::model($model)->find($cat1, 'left_value,right_value');
+	public function isChild($model, $node1, $node2){
+		if(!is_array($node1)){
+			$node1 = \F::model($model)->find($node1, 'left_value,right_value');
 		}
-		if(!is_array($cat2)){
-			$cat2 = \F::model($model)->find($cat2, 'left_value,right_value');
+		if(!is_array($node2)){
+			$node2 = \F::model($model)->find($node2, 'left_value,right_value');
 		}
 		
-		if($cat1['left_value'] > $cat2['left_value'] && $cat1['right_value'] < $cat2['right_value']){
+		if($node1['left_value'] > $node2['left_value'] && $node1['right_value'] < $node2['right_value']){
 			return true;
 		}else{
 			return false;
@@ -630,18 +630,18 @@ class Tree extends Model{
 	
 	/**
 	 * 获取祖谱
-	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
-	 * cat和root都可以是：{
+	 * 若$root为null，则会一直追溯到根节点，否则追溯到root为止
+	 * $node和$root都可以是：{
 	 *  - 数字:代表分类ID;
 	 *  - 数组:分类数组（必须包含left_value和right_value字段）
 	 * }
 	 * @param string $model
-	 * @param int|array $cat
+	 * @param int|array $node
 	 * @param int|array $root
 	 */
-	public function getParentPath($model, $cat, $root = null){
-		if(!is_array($cat)){
-			$cat = \F::model($model)->find($cat, 'left_value,right_value');
+	public function getParentPath($model, $node, $root = null){
+		if(!is_array($node)){
+			$node = \F::model($model)->find($node, 'left_value,right_value');
 		}
 		
 		if($root && !is_array($root)){
@@ -649,8 +649,8 @@ class Tree extends Model{
 		}
 		
 		return \F::model($model)->fetchAll(array(
-			'left_value < '.$cat['left_value'],
-			'right_value > '.$cat['right_value'],
+			'left_value < '.$node['left_value'],
+			'right_value > '.$node['right_value'],
 			'left_value > ?'=>$root ? $root['left_value'] : false,
 			'right_value < ?'=>$root ? $root['right_value'] : false,
 		), '*', 'left_value');
@@ -658,19 +658,19 @@ class Tree extends Model{
 	
 	/**
 	 * 获取指定节点的祖先节点的ID，以一位数组方式返回（包含指定节点ID）
-	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
-	 * cat和root都可以是：{
+	 * 若$root为null，则会一直追溯到根节点，否则追溯到root为止
+	 * $node和$root都可以是：{
 	 *  - 数字:代表分类ID;
 	 *  - 字符串:分类别名;
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
 	 * }
 	 * @param string $model
-	 * @param int|array $cat
+	 * @param int|array $node
 	 * @param int|array $root
 	 */
-	public function getParentIds($model, $cat, $root = null){
-		if(!is_array($cat)){
-			$cat = \F::model($model)->find($cat, 'left_value,right_value');
+	public function getParentIds($model, $node, $root = null){
+		if(!is_array($node)){
+			$node = \F::model($model)->find($node, 'left_value,right_value');
 		}
 		
 		if($root && !is_array($root)){
@@ -678,8 +678,8 @@ class Tree extends Model{
 		}
 		
 		return \F::model($model)->fetchCol('id', array(
-			'left_value <= '.$cat['left_value'],
-			'right_value >= '.$cat['right_value'],
+			'left_value <= '.$node['left_value'],
+			'right_value >= '.$node['right_value'],
 			'left_value >= ?'=>$root ? $root['left_value'] : false,
 			'right_value <= ?'=>$root ? $root['right_value'] : false,
 		), 'left_value');

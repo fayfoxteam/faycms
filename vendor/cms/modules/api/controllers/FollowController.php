@@ -17,6 +17,7 @@ class FollowController extends UserController{
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
 		))->setFilters(array(
 			'user_id'=>'intval',
+			'follow_from'=>'trim',
 		))->setLabels(array(
 			'user_id'=>'用户ID',
 		))->check()){
@@ -35,7 +36,7 @@ class FollowController extends UserController{
 				));
 			}
 			
-			Follow::follow($user_id);
+			Follow::follow($user_id, $this->form()->getData('follow_from'));
 			Response::notify('success', '关注成功');
 		}else{
 			$error = $this->form()->getFirstError();

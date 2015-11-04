@@ -88,7 +88,7 @@ class Sql{
 	/**
 	 * 默认情况下，以and方式连接各条件
 	 * 也可以指定，具体方法见Db::getWhere
-	 * @param array $where
+	 * @param array|string $where
 	 * @return Sql
 	 */
 	public function where($where){

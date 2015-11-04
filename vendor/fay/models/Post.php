@@ -18,6 +18,7 @@ use fay\helpers\String;
 use fay\core\Loader;
 use fay\models\tables\Roles;
 use fay\models\tables\PostLikes;
+use fay\helpers\SqlHelper;
 
 class Post extends Model{
 	
@@ -53,24 +54,80 @@ class Post extends Model{
 	/**
 	 * 返回一篇文章信息（返回字段已做去转义处理）
 	 * @param int $id
-	 * @param string $fields tags,messages,nav,files,props,user,categories
+	 * @param string $fields 可指定返回字段
+	 *   posts.*系列可指定posts表返回字段，若有一项为'posts.*'，则返回所有字段
+	 *   tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *   nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'posts.*'，则返回除content字段外的所有字段
+	 *   files.*系列可指定posts_files表返回字段，若有一项为'files.*'，则返回所有字段
+	 *   props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
+	 *   users.*系列可指定作者信息，可选users表字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *   categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
 	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
-	 * @param null|bool $publish 若为true，则只在已发布的文章里搜索
+	 * @param null|bool $only_publish 若为true，则只在已发布的文章里搜索
 	 */
-	public function get($id, $fields = 'tags,messages,nav,files,props,user,categories', $cat = null, $published = true){
+	public function get($id, $fields = 'posts.*', $cat = null, $only_published = true){
+		//解析$fields
+		$fields = SqlHelper::processFields($fields, 'posts');
+		if(empty($fields['posts']) || in_array('*', $fields['posts'])){
+			//若未指定返回字段，初始化
+			$fields['posts'] = Posts::model()->getFields();
+		}
+		//dump($fields);die;
+		
 		$sql = new Sql();
 		
-		$fields = explode(',', $fields);
-		$sql->from('posts', 'p')
+		$post_fields = $fields['posts'];
+		if(!empty($fields['users']) && !in_array('user_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'user_id';
+		}
+		
+		if(!empty($fields['nav'])){
+			//如果要获取上一篇，下一篇，则必须搜出publish_time, sort, cat_id
+			if(!in_array('publish_time', $post_fields)){
+				$post_fields[] = 'publish_time';
+			}
+			if(!in_array('sort', $post_fields)){
+				$post_fields[] = 'sort';
+			}
+			if(!in_array('cat_id', $post_fields)){
+				$post_fields[] = 'cat_id';
+			}
+		}
+		
+		if(!empty($fields['props']) && !in_array('cat_id', $post_fields)){
+			//如果要获取附加属性，必须搜出cat_id
+			$post_fields[] = 'cat_id';
+		}
+		
+		if(in_array('seo_title', $post_fields) && !in_array('title', $post_fields)){
+			//如果要获取seo_title，必须搜出title
+			$post_fields[] = 'title';
+		}
+		if(in_array('seo_keywords', $post_fields) && !in_array('title', $post_fields)){
+			//如果要获取seo_title，必须搜出title
+			$post_fields[] = 'title';
+		}
+		if(in_array('seo_description', $post_fields)){
+			//如果要获取seo_title，必须搜出title, content
+			if(!in_array('abstract', $post_fields)){
+				$post_fields[] = 'abstract';
+			}
+			if(!in_array('content', $post_fields)){
+				$post_fields[] = 'content';
+			}
+		}
+		
+		$sql->from('posts', 'p', $post_fields)
 			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'p.id = ?'=>$id,
 			));
 		
 		//仅搜索已发布的文章
-		if($published){
+		if($only_published){
 			$sql->where(array(
 				'p.deleted = 0',
 				'p.status = '.Posts::STATUS_PUBLISHED,
@@ -78,17 +135,9 @@ class Post extends Model{
 			));
 		}
 		
-		if(in_array('user', $fields)){
-			$sql->joinLeft('users', 'u', 'p.user_id = u.id', 'username,nickname,avatar');
-		}
-		
-		if($cat != null){
-			if(is_array($cat)){
-				//无操作
-			}else if(String::isInt($cat)){
-				$cat = Category::model()->get($cat);
-			}else{
-				$cat = Category::model()->getByAlias($cat);
+		if($cat){
+			if(!is_array($cat)){
+				$cat = Category::model()->get($cat, 'left_value,right_value');
 			}
 			
 			if(!$cat){
@@ -107,116 +156,73 @@ class Post extends Model{
 		}
 
 		//设置一下SEO信息
-		$post['seo_title'] || $post['seo_title'] = $post['title'];
-		$post['seo_keywords'] || $post['seo_keywords'] = str_replace(array(
-			' ', '|', '，'
-		), ',', $post['title']);
-		$post['seo_description'] || $post['seo_description'] = $post['abstract'] ?
-			$post['abstract'] : trim(mb_substr(strip_tags($post['content']), 0, 150));
-		
-		
-		//tags
-		if(in_array('tags', $fields)){
-			$post['tags'] = $this->getTags($id);
+		if(in_array('seo_title', $fields['posts']) && empty($post['seo_title'])){
+			$post['seo_title'] = $post['title'];
+		}
+		if(in_array('seo_keywords', $fields['posts']) && empty($post['seo_keywords'])){
+			$post['seo_keywords'] = str_replace(array(
+				' ', '|', '，'
+			), ',', $post['title']);
+		}
+		if(in_array('seo_description', $fields['posts']) && empty($post['seo_description'])){
+			$post['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150));
 		}
 		
-		//扩展分类
-		if(in_array('categories', $fields)){
-			$post['ext_cats'] = $sql->from('posts_categories', 'pc', '')
-				->joinLeft('categories', 'c', 'pc.cat_id = c.id', 'title,id')
-				->where('pc.post_id = '.$post['id'])
-				->fetchAll();
+		$return = array(
+			'post'=>$post,
+		);
+		
+		//作者信息
+		if(!empty($fields['users'])){
+			$return['user'] = User::model()->get($post['user_id'], implode(',', $fields['users']));
 		}
 		
-		//messages
-		if(in_array('messages', $fields)){
-			$post['messages'] = Message::model()->getAll($id, Messages::TYPE_POST_COMMENT);
+		//标签
+		if(!empty($fields['tags'])){
+			$return['tags'] = $this->getTags($id, $fields['tags']);
 		}
 		
-		//nav
-		if(in_array('nav', $fields)){
-			//previous post
-			//此处上一篇是比当前文章新一点的那篇
-			$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
-				->where(array(
-					'p.cat_id = '.$post['cat_id'],
-					'p.deleted = 0',
-					'p.status = '.Posts::STATUS_PUBLISHED,
-					'p.publish_time < '.\F::app()->current_time,
-					"p.publish_time >= {$post['publish_time']}",
-					"p.sort <= {$post['sort']}",
-					"p.id != {$post['id']}",
-				))
-				->order('is_top, sort DESC, publish_time')
-				->fetchRow();
-			if($prev_post['publish_time'] == $post['publish_time'] && $prev_post['sort'] == $post['sort']){
-				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
-				$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
-					->where(array(
-						'p.cat_id = '.$post['cat_id'],
-						'p.deleted = 0',
-						'p.status = '.Posts::STATUS_PUBLISHED,
-						'p.publish_time < '.\F::app()->current_time,
-						"p.publish_time = {$post['publish_time']}",
-						"p.sort = {$post['sort']}",
-						"p.id > {$post['id']}",
-					))
-					->order('id ASC')
-					->fetchRow();
-			}
-			$post['nav']['prev'] = $prev_post;
-				
-			//next post
-			$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
-				->where(array(
-					'p.cat_id = '.$post['cat_id'],
-					'p.deleted = 0',
-					'p.status = '.Posts::STATUS_PUBLISHED,
-					'p.publish_time < '.\F::app()->current_time,
-					"p.publish_time <= {$post['publish_time']}",
-					"p.sort >= {$post['sort']}",
-					"p.id != {$post['id']}",
-				))
-				->order('is_top DESC, sort, publish_time DESC')
-				->fetchRow();
-			if($next_post['publish_time'] == $post['publish_time'] && $next_post['sort'] == $post['sort']){
-				$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
-					->where(array(
-						'p.cat_id = '.$post['cat_id'],
-						'p.deleted = 0',
-						'p.status = '.Posts::STATUS_PUBLISHED,
-						'p.publish_time < '.\F::app()->current_time,
-						"p.publish_time = {$post['publish_time']}",
-						"p.sort = {$post['sort']}",
-						"p.id < {$post['id']}",
-					))
-					->order('id DESC')
-					->fetchRow();
-			}
-			$post['nav']['next'] = $next_post;
+		//附件
+		if(!empty($fields['files'])){
+			$return['files'] = $this->getFiles($id);
 		}
 		
-		//files
-		if(in_array('files', $fields)){
-			$post['files'] = PostsFiles::model()->fetchAll(array(
-				'post_id = ?'=>$id,
-			), 'file_id,description,is_image', 'sort');
-		}
-		
-		if(in_array('props', $fields)){
-			//文章所属分类
-			$post_cat = Category::model()->get($post['cat_id'], 'title,left_value,right_value');
-			//所有父级分类
-			$post_cat_parents = Categories::model()->fetchCol('id', array(
-				'left_value <= '.$post_cat['left_value'],
-				'right_value >= '.$post_cat['right_value'],
-			));
-			//所有属性
-			$props = Prop::model()->mget($post_cat_parents, Props::TYPE_POST_CAT, '');
+		//附加属性
+		if(!empty($fields['props'])){
+			$post_cat_parents = Category::model()->getParentIds($post['cat_id'], '_system_post');
 			
-			$post['props'] = $this->getProps($id, $props);
+			$props = Props::model()->fetchAll(array(
+				'refer IN ('.implode(',', $post_cat_parents).')',
+				'type = '.Props::TYPE_POST_CAT,
+				'deleted = 0',
+				'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
+			), 'id,title,element,required,is_show,alias', 'sort');
+			
+			$return['props'] = $this->getProps($id, $props);
 		}
-		return $post;
+		
+		//附加分类
+		if(!empty($fields['categories'])){
+			$return['categories'] = $this->getCategories($id, $fields['categories']);
+		}
+		
+		//前后一篇文章导航
+		if(!empty($fields['nav'])){
+			//上一篇
+			$return['nav']['prev'] = $this->getPrevPost($id, $fields['nav']);
+			
+			//下一篇
+			$return['nav']['next'] = $this->getNextPost($id, $fields['nav']);
+		}
+		
+		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+		foreach(array('user_id', 'publish_time', 'sort', 'cat_id', 'title', 'abstract', 'content') as $f){
+			if(!in_array($f, $fields['posts']) && in_array($f, $post_fields)){
+				unset($return['post'][$f]);
+			}
+		}
+		
+		return $return;
 	}
 	
 	/**
@@ -409,7 +415,7 @@ class Post extends Model{
 	 * 设置一个文章属性值
 	 * @param int $post_id
 	 * @param string $alias
-* @param mixed $value
+	 * @param mixed $value
 	 * @return boolean
 	 */
 	public function setPropValueByAlias($alias, $value, $post_id){
@@ -464,16 +470,157 @@ class Post extends Model{
 	/**
 	 * 获取文章对应tags
 	 * @param int $post_id
+	 * @param string $fields 标签字段，tags表字段
 	 */
-	public function getTags($post_id){
+	public function getTags($post_id, $fields = 'id,title'){
 		$sql = new Sql();
 		return $sql->from('posts_tags', 'pt', '')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', 'id,title')
+			->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
 			->where(array(
 				'pt.post_id = ?'=>$post_id,
 			))
 			->order('t.`count`')
 			->fetchAll();
+	}
+	
+	/**
+	 * 获取文章附件
+	 * @param int $post_id 文章ID
+	 * @param string $fields 附件字段（files表字段）
+	 */
+	public function getFiles($post_id, $fields = 'file_id,description,is_image'){
+		return PostsFiles::model()->fetchAll(array(
+			'post_id = ?'=>$post_id,
+		), $fields, 'sort');
+	}
+	
+	/**
+	 * 获取文章附加分类
+	 * @param int $post_id 文章ID
+	 * @param string $fields 分类字段（categories表字段）
+	 */
+	public function getCategories($post_id, $fields = 'id,title'){
+		$sql = new Sql();
+		return $sql->from('posts_categories', 'pc', '')
+			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
+			->where(array('pc.post_id = ?'=>$post_id))
+			->fetchAll();
+	}
+	
+	/**
+	 * 获取当前文章上一篇文章
+	 * （此处上一篇是比当前文章新一点的那篇）
+	 * @param int $post_id 文章ID
+	 * @param string $fields 文章字段（posts表字段）
+	 */
+	public function getPrevPost($post_id, $fields = 'id,title,sort,publish_time'){
+		$sql = new Sql();
+		//根据文章ID获取当前文章
+		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
+		if(!is_array($fields)){
+			$fields = explode(',', $fields);
+		}
+		$post_fields = $fields;
+		if(!in_array('sort', $post_fields)){
+			$post_fields[] = 'sort';
+		}
+		if(!in_array('publish_time', $post_fields)){
+			$post_fields[] = 'publish_time';
+		}
+		$prev_post = $sql->from('posts', 'p', $post_fields)
+			->where(array(
+				'p.cat_id = '.$post['cat_id'],
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+				"p.publish_time >= {$post['publish_time']}",
+				"p.sort <= {$post['sort']}",
+				"p.id != {$post['id']}",
+			))
+			->order('is_top, sort DESC, publish_time')
+			->fetchRow();
+		if($prev_post){
+			if($prev_post['publish_time'] == $post['publish_time'] && $prev_post['sort'] == $post['sort']){
+				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
+				$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
+					->where(array(
+						'p.cat_id = '.$post['cat_id'],
+						'p.deleted = 0',
+						'p.status = '.Posts::STATUS_PUBLISHED,
+						'p.publish_time < '.\F::app()->current_time,
+						"p.publish_time = {$post['publish_time']}",
+						"p.sort = {$post['sort']}",
+						"p.id > {$post['id']}",
+					))
+					->order('id ASC')
+					->fetchRow();
+			}
+			if(!in_array('sort', $fields)){
+				unset($prev_post['sort']);
+			}
+			if(!in_array('publish_time', $fields)){
+				unset($prev_post['publish_time']);
+			}
+		}
+		return $prev_post;
+	}
+	
+	/**
+	 * 获取当前文章下一篇文章
+	 * （此处下一篇是比当前文章老一点的那篇）
+	 * @param int $post_id 文章ID
+	 * @param string $fields 文章字段（posts表字段）
+	 */
+	public function getNextPost($post_id, $fields = 'id,title,sort,publish_time'){
+		$sql = new Sql();
+		//根据文章ID获取当前文章
+		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
+		if(!is_array($fields)){
+			$fields = explode(',', $fields);
+		}
+		$post_fields = $fields;
+		if(!in_array('sort', $post_fields)){
+			$post_fields[] = 'sort';
+		}
+		if(!in_array('publish_time', $post_fields)){
+			$post_fields[] = 'publish_time';
+		}
+		$next_post = $sql->from('posts', 'p', $post_fields)
+			->where(array(
+				'p.cat_id = '.$post['cat_id'],
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+				"p.publish_time <= {$post['publish_time']}",
+				"p.sort >= {$post['sort']}",
+				"p.id != {$post['id']}",
+			))
+			->order('is_top, sort DESC, publish_time')
+			->fetchRow();
+		if($next_post){
+			if($next_post['publish_time'] == $post['publish_time'] && $next_post['sort'] == $post['sort']){
+				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
+				$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
+					->where(array(
+						'p.cat_id = '.$post['cat_id'],
+						'p.deleted = 0',
+						'p.status = '.Posts::STATUS_PUBLISHED,
+						'p.publish_time < '.\F::app()->current_time,
+						"p.publish_time = {$post['publish_time']}",
+						"p.sort = {$post['sort']}",
+						"p.id < {$post['id']}",
+					))
+					->order('id ASC')
+					->fetchRow();
+			}
+			if(!in_array('sort', $fields)){
+				unset($next_post['sort']);
+			}
+			if(!in_array('publish_time', $fields)){
+				unset($next_post['publish_time']);
+			}
+		}
+		return $next_post;
 	}
 	
 	/**

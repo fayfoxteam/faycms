@@ -22,7 +22,7 @@ class Follow extends Model{
 	 * @param null|int $fans_id 粉丝，默认为当前登陆用户
 	 * @param bool|int 是否真实用户（社交网站总是免不了要做个假）
 	 */
-	public static function follow($user_id, $fans_id = null, $is_real = true){
+	public static function follow($user_id, $follow_from = '', $fans_id = null, $is_real = true){
 		if($fans_id === null){
 			$fans_id = \F::app()->current_user;
 		}else if(!User::isUserIdExist($fans_id)){
@@ -48,6 +48,7 @@ class Follow extends Model{
 			'create_time'=>\F::app()->current_time,
 			'relation'=>$isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE,
 			'is_real'=>$is_real ? 1 : 0,
+			'follow_from'=>$follow_from,
 		));
 		
 		if($isFollow){

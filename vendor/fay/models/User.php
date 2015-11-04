@@ -361,9 +361,7 @@ class User extends Model{
 			);
 		}else if(in_array('*', $fields['users'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
-			$labels = Users::model()->labels();
-			unset($labels['password'], $labels['salt']);
-			$fields['users'] = array_keys($labels);
+			$fields['users'] = Users::model()->getFields('password,salt');
 		}else{
 			//永远不会返回密码字段
 			foreach($fields['users'] as $k => $v){

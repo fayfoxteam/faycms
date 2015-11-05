@@ -341,4 +341,29 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
 		
 		dump($db->getSqlLogs());
 	}
+	
+	public function postCats(){
+		set_time_limit(0);
+		$p = 0;
+		$cats = array();
+		for($c = 10000; $c <= 10100; $c++){
+			$cats[] = $c;
+		}
+		
+		for($i = 0; $i < 10000; $i++){
+			$data = array();
+			for($j = 0; $j < 1000; $j++){
+				$p++;
+				$rand_keys = array_rand($cats, mt_rand(2, 5));
+				foreach($rand_keys as $k){
+					$data[] = array(
+						'post_id'=>$p,
+						'cat_id'=>$cats[$k],
+					);
+				}
+			}
+			//dump($data);die;
+			\fay\models\tables\PostsCategories::model()->bulkInsert($data);
+		}
+	}
 }

@@ -592,7 +592,7 @@ class PostController extends AdminController{
 				'post_id = ?'=>$post_id,
 			), 'file_id,description,is_image', 'sort');
 
-			$this->form()->setData($post);
+			$this->form()->setData($post, true);
 			
 			$this->view->post = $post;
 			
@@ -698,11 +698,13 @@ class PostController extends AdminController{
 		
 		//文章对应附加属性值
 		if($post_id){
-			$this->view->post = array(
+			$this->form()->setData(array(
 				'props'=>Post::model()->getProps($post_id, $this->view->props),
-			);
+			));
 		}else{
-			$this->view->post = array('props'=>array());
+			$this->form()->setData(array(
+				'props'=>array(),
+			));
 		}
 		
 		$this->view->renderPartial('_box_props');

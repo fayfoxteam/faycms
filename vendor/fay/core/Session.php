@@ -17,20 +17,33 @@ class Session{
 	}
 	
 	/**
-	 * 设置session
+	 * 设置Session
+	 * @param string $key Session名
+	 * @param mix $value Session值
+	 * @param string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
-	public function set($key, $value){
-		$session_namespace = \F::config()->get('session_namespace');
+	public function set($key, $value, $session_namespace = null){
+		if($session_namespace === null){
+			$session_namespace = \F::config()->get('session_namespace');
+		}
 		$_SESSION[$session_namespace][$key] = $value;
 		return true;
 	}
 	
 	/**
-	 * 获取session
+	 * 获取Session
+	 * @param string $key Session名
+	 *   - 若为null，则以键值数组返回所有指定$session_namespace下的Session，数组key为Session名
+	 *   - 若为数组，则以键值数组返回所有指定$session_namespace下符合条件的Session，数组key为Session名
+	 *   - 若为字符串，则返回有指定$session_namespace下对应的Session值
+	 * @param string $default
+	 * @param string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
-	public function get($key = false, $default = null, $session_namespace = null){
-		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
-		if($key === false){
+	public function get($key = null, $default = null, $session_namespace = null){
+		if($session_namespace === null){
+			$session_namespace = \F::config()->get('session_namespace');
+		}
+		if($key === null){
 			return $_SESSION[$session_namespace];
 		}
 		$key_exploded = explode('.', $key);
@@ -53,10 +66,12 @@ class Session{
 	/**
 	 * 销毁指定命名空间下的session
 	 * @param string|null $key 若不指定或者指定为null，则删除所有session
-	 * @param string $session_namespace 命名空间
+	 * @param string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
 	public function remove($key = null, $session_namespace = null){
-		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
+		if($session_namespace === null){
+			$session_namespace = \F::config()->get('session_namespace');
+		}
 		if($key === null){
 			unset($_SESSION[$session_namespace]);
 		}else{
@@ -67,10 +82,12 @@ class Session{
 	
 	/**
 	 * 销毁指定命名空间下的所有session
-	 * @param null|string $session_namespace 若为null，默认为Config中指定的命名空间
+	 * @param null|string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
 	public function flush($session_namespace = null){
-		$session_namespace || $session_namespace = \F::config()->get('session_namespace');
+		if($session_namespace === null){
+			$session_namespace = \F::config()->get('session_namespace');
+		}
 		$this->remove();
 	}
 	

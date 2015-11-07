@@ -9,6 +9,7 @@ use fay\core\Config;
 use fay\core\Db;
 use fay\log\Logger;
 use fay\core\FWidget;
+use fay\core\Cookie;
 
 /**
  * 超级类，可以在任何地方获取各种方法
@@ -36,6 +37,14 @@ class F{
 	 */
 	public static function session(){
 		return Session::getInstance();
+	}
+	
+	/**
+	 * 获取Cookie类实例
+	 * @return \fay\core\Cookie
+	 */
+	public static function cookie(){
+		return Cookie::getInstance();
 	}
 	
 	/**

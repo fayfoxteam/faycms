@@ -12,15 +12,10 @@ return array(
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
 		'port'=>3306,							//端口
-		'dbname'=>'faycms_glhs',					//数据库名
+		'dbname'=>'faycms_glhs',				//数据库名
 		'charset'=>'utf8',						//数据库编码方式
 		'table_prefix'=>'faycms_',				//数据库表前缀
 	),
-	
-	/*
-	 * 在一台服务器上跑多个cms的时候，以此区分session，可以随便设置一个
-	 */
-	'session_namespace'=>'glhs',
 	
 	/*
 	 * 当前application包含的模块

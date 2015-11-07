@@ -28,9 +28,14 @@ return array(
 	),
 	
 	/*
-	 * 在一台服务器上跑多个cms的时候，以此区分session，可以随便设置一个
+	 * 用一个域名管理多个APP的时候，以此区分session，默认为APPLICATION
 	 */
-	'session_namespace'=>'fayfox',
+	'session_namespace'=>APPLICATION,
+	
+	/*
+	 * 用一个域名管理多个APP的时候，以此区分cookie，默认为APPLICATION加下划线
+	 */
+	'cookie_prefix'=>APPLICATION . '_',
 	
 	/*
 	 * 默认url后缀

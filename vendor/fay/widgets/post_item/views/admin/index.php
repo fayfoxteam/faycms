@@ -40,40 +40,37 @@ use fay\helpers\Html;
 				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项可以避免文章在错误的界面显示。</p>
 			</div>
 			<div class="form-field">
-				<label class="title bold">递增阅读数</label>
+				<label class="title bold">更新访问信息</label>
 				<?php
 					echo F::form('widget')->inputRadio('inc_views', '1', array(
-						'label'=>'递增',
+						'label'=>'更新',
 					), true);
 					echo F::form('widget')->inputRadio('inc_views', '0', array(
-						'label'=>'不递增',
+						'label'=>'不更新',
 					));
 				?>
-				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项很有用。</p>
+				<p class="fc-grey">请求widget的时候同时更新阅读数和最后访问时间。</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
-					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'user.nickname,user.username,user.id', array(
 						'label'=>'作者信息',
 					), true);
-					echo F::form('widget')->inputCheckbox('fields[]', 'nav', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'nav.id,nav.title', array(
 						'label'=>'导航（上一篇|下一篇）',
 					), true);
-					echo F::form('widget')->inputCheckbox('fields[]', 'tags', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'tags.id,tags.title', array(
 						'label'=>'标签',
 					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'files', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'files.file_id,files.description,files.is_image', array(
 						'label'=>'附件',
 					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'props', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'props.*', array(
 						'label'=>'附加属性',
 					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'categories', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'categories.id,categories.title', array(
 						'label'=>'附加分类',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'messages', array(
-						'label'=>'评论信息',
 					));
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>

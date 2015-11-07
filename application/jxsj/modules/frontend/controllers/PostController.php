@@ -8,7 +8,7 @@ use fay\core\HttpException;
 
 class PostController extends FrontController{
 	public function item(){
-		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav,files');
+		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav.id,nav.title,files.*');
 		
 		if(!$post){
 			throw new HttpException('页面不存在');
@@ -26,12 +26,3 @@ class PostController extends FrontController{
 	}
 	
 }
-
-
-
-
-
-
-
-
-

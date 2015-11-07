@@ -310,7 +310,7 @@ class Db{
 		}
 		
 		if(!is_array($fields)){
-			$fields = array($fields);
+			$fields = explode(',', $fields);
 		}
 		$data = array();
 		foreach($fields as $f){

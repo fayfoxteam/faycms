@@ -63,7 +63,7 @@ class PostController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::model()->get($id, 'files,user')){
+		if(!$id || !$post = Post::model()->get($id, 'files.file_id,files.description,user.id,user.username,user.nickname')){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
@@ -71,11 +71,11 @@ class PostController extends FrontController{
 			'views'=>new Expr('views + 1'),
 		), $id);
 		
-		$this->layout->title = $post['seo_title'];
-		$this->layout->keywords = $post['seo_keywords'];
-		$this->layout->description = $post['seo_description'];
+		$this->layout->title = $post['post']['seo_title'];
+		$this->layout->keywords = $post['post']['seo_keywords'];
+		$this->layout->description = $post['post']['seo_description'];
 		
-		$cat = Category::model()->get($post['cat_id']);
+		$cat = Category::model()->get($post['post']['cat_id']);
 		if($cat['right_value'] - $cat['left_value'] == 1){
 			//叶子节点
 			$parent_cat = Category::model()->get($cat['parent']);

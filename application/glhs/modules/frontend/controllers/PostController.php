@@ -58,18 +58,18 @@ class PostController extends FrontController{
 		$id = $this->input->get('id', 'intval');
 		$cat = Category::model()->get($this->input->get('cat'));
 		
-		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav', $cat);
+		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav.id,nav.title', $cat);
 		if(!$post){
 			throw new HttpException('文章不存在', 404);
 		}
 		$this->view->post = $post;
 		
 		//设置页面SEO信息
-		$this->layout->title = $post['seo_title'];
-		$this->layout->keywords = $post['seo_keywords'];
-		$this->layout->description = $post['seo_description'];
+		$this->layout->title = $post['post']['seo_title'];
+		$this->layout->keywords = $post['post']['seo_keywords'];
+		$this->layout->description = $post['post']['seo_description'];
 		
-		$this->layout->canonical = $this->view->url("{$cat['alias']}-{$post['id']}");
+		$this->layout->canonical = $this->view->url("{$cat['alias']}-{$post['post']['id']}");
 		
 		$this->view->render();
 	}

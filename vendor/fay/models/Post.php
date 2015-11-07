@@ -55,31 +55,31 @@ class Post extends Model{
 	 * 返回一篇文章信息（返回字段已做去转义处理）
 	 * @param int $id
 	 * @param string $fields 可指定返回字段
-	 *   posts.*系列可指定posts表返回字段，若有一项为'posts.*'，则返回所有字段
+	 *   post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
 	 *   tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
-	 *   nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'posts.*'，则返回除content字段外的所有字段
+	 *   nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
 	 *   files.*系列可指定posts_files表返回字段，若有一项为'files.*'，则返回所有字段
 	 *   props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *   users.*系列可指定作者信息，可选users表字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *   user.*系列可指定作者信息，可选users表字段，若有一项为'user.*'，则返回除密码字段外的所有字段
 	 *   categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
 	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
 	 * @param null|bool $only_publish 若为true，则只在已发布的文章里搜索
 	 */
-	public function get($id, $fields = 'posts.*', $cat = null, $only_published = true){
+	public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'posts');
-		if(empty($fields['posts']) || in_array('*', $fields['posts'])){
+		$fields = SqlHelper::processFields($fields, 'post');
+		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化
-			$fields['posts'] = Posts::model()->getFields();
+			$fields['post'] = Posts::model()->getFields();
 		}
 		//dump($fields);die;
 		
 		$sql = new Sql();
 		
-		$post_fields = $fields['posts'];
-		if(!empty($fields['users']) && !in_array('user_id', $post_fields)){
+		$post_fields = $fields['post'];
+		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$post_fields[] = 'user_id';
 		}
@@ -156,15 +156,15 @@ class Post extends Model{
 		}
 
 		//设置一下SEO信息
-		if(in_array('seo_title', $fields['posts']) && empty($post['seo_title'])){
+		if(in_array('seo_title', $fields['post']) && empty($post['seo_title'])){
 			$post['seo_title'] = $post['title'];
 		}
-		if(in_array('seo_keywords', $fields['posts']) && empty($post['seo_keywords'])){
+		if(in_array('seo_keywords', $fields['post']) && empty($post['seo_keywords'])){
 			$post['seo_keywords'] = str_replace(array(
 				' ', '|', '，'
 			), ',', $post['title']);
 		}
-		if(in_array('seo_description', $fields['posts']) && empty($post['seo_description'])){
+		if(in_array('seo_description', $fields['post']) && empty($post['seo_description'])){
 			$post['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150));
 		}
 		
@@ -173,8 +173,8 @@ class Post extends Model{
 		);
 		
 		//作者信息
-		if(!empty($fields['users'])){
-			$return['user'] = User::model()->get($post['user_id'], implode(',', $fields['users']));
+		if(!empty($fields['user'])){
+			$return['user'] = User::model()->get($post['user_id'], implode(',', $fields['user']));
 		}
 		
 		//标签
@@ -217,7 +217,7 @@ class Post extends Model{
 		
 		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
 		foreach(array('user_id', 'publish_time', 'sort', 'cat_id', 'title', 'abstract', 'content') as $f){
-			if(!in_array($f, $fields['posts']) && in_array($f, $post_fields)){
+			if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
 				unset($return['post'][$f]);
 			}
 		}
@@ -513,7 +513,7 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 * @param string $fields 文章字段（posts表字段）
 	 */
-	public function getPrevPost($post_id, $fields = 'id,title,sort,publish_time'){
+	public function getPrevPost($post_id, $fields = 'id,title'){
 		$sql = new Sql();
 		//根据文章ID获取当前文章
 		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
@@ -571,7 +571,7 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 * @param string $fields 文章字段（posts表字段）
 	 */
-	public function getNextPost($post_id, $fields = 'id,title,sort,publish_time'){
+	public function getNextPost($post_id, $fields = 'id,title'){
 		$sql = new Sql();
 		//根据文章ID获取当前文章
 		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');

@@ -68,7 +68,7 @@ class NewsController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::model()->get($id, 'nav', 'news')){
+		if(!$id || !$post = Post::model()->get($id, 'nav.id,nav.title', 'news')){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(

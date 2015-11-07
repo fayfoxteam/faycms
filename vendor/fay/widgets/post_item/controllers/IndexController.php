@@ -5,6 +5,7 @@ use fay\core\Widget;
 use fay\models\Post;
 use fay\core\HttpException;
 use fay\models\tables\Posts;
+use fay\core\db\Expr;
 
 class IndexController extends Widget{
 	public function getData($config){
@@ -26,7 +27,7 @@ class IndexController extends Widget{
 		}
 		
 		if($config['inc_views']){
-			Posts::model()->inc($post['id'], array('views', 'real_views'), 1);
+			Posts::model()->inc($post['post']['id'], array('views', 'real_views'), 1);
 		}
 		
 		return $post;
@@ -42,9 +43,9 @@ class IndexController extends Widget{
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
-			\F::app()->layout->title = $post['seo_title'];
-			\F::app()->layout->keywords = $post['seo_keywords'];
-			\F::app()->layout->description = $post['seo_description'];
+			\F::app()->layout->title = $post['post']['seo_title'];
+			\F::app()->layout->keywords = $post['post']['seo_keywords'];
+			\F::app()->layout->description = $post['post']['seo_description'];
 		}else{
 			//未传入ID字段或未设置ID字段名
 			$post = Post::model()->get($config['default_post_id'], implode(',', $config['fields']));
@@ -54,7 +55,10 @@ class IndexController extends Widget{
 		}
 		
 		if($config['inc_views']){
-			Posts::model()->inc($post['id'], 'views', 1);
+			Posts::model()->update(array(
+				'last_view_time'=>$this->current_time,
+				'views'=>new Expr('views + 1'),
+			), $post['post']['id']);
 		}
 		
 		//template

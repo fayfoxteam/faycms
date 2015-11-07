@@ -8,9 +8,9 @@ use fay\models\Post;
 		<?php
 		echo Html::link('网站首页', array('')),
 			' &gt; ',
-			Html::link($post['cat_title'], array('cat-'.$post['cat_id'])),
+			Html::link($post['post']['cat_title'], array('cat-'.$post['post']['cat_id'])),
 			' &gt; ',
-			Html::encode($post['title']);
+			Html::encode($post['post']['title']);
 		?>
 	</div>
 	<div class="g-sd">
@@ -22,22 +22,22 @@ use fay\models\Post;
 			<?php foreach($left_cats['children'] as $c){
 				echo Html::link($c['title'], array('cat-'.$c['id']), array(
 					'wrapper'=>'li',
-					'class'=>$c['id'] == $post['cat_id'] ? 'crt' : false,
+					'class'=>$c['id'] == $post['post']['cat_id'] ? 'crt' : false,
 				));
 			}?>
 			</ul>
 		</div>
 	</div>
 	<div class="g-mn">
-		<h1 class="post-title"><?php echo Html::encode($post['title'])?></h1>
+		<h1 class="post-title"><?php echo Html::encode($post['post']['title'])?></h1>
 		<div class="post-meta">
-			<span>发布部门：<?php $departmeng = Post::model()->getPropValueByAlias('department', $post['id']);echo $departmeng['title']?></span>
-			<span>撰写人：<?php echo $post['nickname'] ? : $post['username']?></span>
-			<span>签发人：<?php echo Post::model()->getPropValueByAlias('reviewer', $post['id'])?></span>
-			<span>发布时间：<?php echo Date::niceShort($post['publish_time'])?></span>
-			<span>阅读数：<?php echo $post['views']?></span>
+			<span>发布部门：<?php $departmeng = Post::model()->getPropValueByAlias('department', $post['post']['id']);echo $departmeng['title']?></span>
+			<span>撰写人：<?php echo $post['user']['nickname'] ? : $post['user']['username']?></span>
+			<span>签发人：<?php echo Post::model()->getPropValueByAlias('reviewer', $post['post']['id'])?></span>
+			<span>发布时间：<?php echo Date::niceShort($post['post']['publish_time'])?></span>
+			<span>阅读数：<?php echo $post['post']['views']?></span>
 		</div>
-		<div class="post-content"><?php echo $post['content']?></div>
+		<div class="post-content"><?php echo $post['post']['content']?></div>
 		<?php if($post['files']){?>
 		<div class="attachment">
 			<h3>附件：</h3>

@@ -9,5 +9,5 @@
  */
 return array(
 	'.js'=>array('api/analyst'),
-	''=>array('file/download*', 'file/pic*', 'file/vcode*', 'redirect*', '/', 'admin*', 'install/*', 'tools*', 'a', 'widget/*'),
+	''=>array('file/download*', 'file/pic*', 'file/vcode*', 'redirect*', '/', 'admin*', 'install/*', 'tools*', 'a', 'widget/*', 'assets/*', 'apps/*'),
 );

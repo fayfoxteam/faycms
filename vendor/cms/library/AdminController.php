@@ -73,7 +73,7 @@ class AdminController extends Controller{
 	public function showDataCheckError($check, $return = false){
 		$html = '';
 		foreach($check as $c){
-			$html .= "<p>{$c[2]}</p>";
+			$html .= "<p>{$c['message']}</p>";
 		}
 		if($return){
 			return $html;

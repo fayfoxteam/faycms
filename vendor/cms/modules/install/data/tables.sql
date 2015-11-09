@@ -398,12 +398,22 @@ CREATE TABLE `{{$prefix}}keywords` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}likes`;
-CREATE TABLE `{{$prefix}}likes` (
-  `post_id` int(10) unsigned NOT NULL COMMENT 'Post Id',
-  `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  PRIMARY KEY (`post_id`,`user_id`)
+DROP TABLE IF EXISTS `{{$prefix}}post_favorites`;
+CREATE TABLE `{{$prefix}}post_favorites` (
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏时间',
+  PRIMARY KEY (`user_id`,`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}post_likes`;
+CREATE TABLE `{{$prefix}}post_likes` (
+  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点赞时间',
+  `is_real` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否真实用户',
+  PRIMARY KEY (`post_id`,`user_id`),
+  KEY `my-likes` (`user_id`,`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}links`;

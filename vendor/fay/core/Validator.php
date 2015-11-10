@@ -223,7 +223,7 @@ class Validator{
 	 */
 	private function _addError($field, $rule, $message, $code = '', $params = array()){
 		$params['attribute'] = isset($this->labels[$field]) ? $this->labels[$field] : $field;
-		$params['field'] = $this->_field;
+		$params['field'] = $field;
 		$params['rule'] = $rule;
 		$search = array();
 		$replace = array();

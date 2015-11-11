@@ -119,6 +119,7 @@ class FollowController extends UserController{
 	public function mIsFollow(){
 		if($this->form()->setRules(array(
 			array(array('user_ids'), 'required'),
+			array(array('user_ids'), 'int'),
 		))->setLabels(array(
 			'user_ids'=>'用户ID',
 		))->check()){
@@ -127,17 +128,8 @@ class FollowController extends UserController{
 				$user_ids = explode(',', str_replace(' ', '', $user_ids));
 			}
 			
-			foreach($user_ids as $user_id){
-				if(!String::isInt($user_id)){
-					Response::notify('error', array(
-						'message'=>'user_id参数所有项都必须是数字',
-						'code'=>'invalid-parameter:all-members-in-user_ids-should-be-a-number',
-					));
-				}
-			}
-			
 			if($is_follow = Follow::mIsFollow($user_ids)){
-				Response::notify('success', array('data'=>$is_follow, 'message'=>'已关注'));
+				Response::notify('success', array('data'=>$is_follow));
 			}
 		}else{
 			$error = $this->form()->getFirstError();

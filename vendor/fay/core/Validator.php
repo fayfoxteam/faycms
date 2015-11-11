@@ -117,21 +117,11 @@ class Validator{
 				$validate->_object = $this;
 				$value = isset($data[$field]) ? $data[$field] : null;
 				
-				if(is_array($value)){
-					foreach($value as $v){
-						if($validate->isSkip($field, $v)){
-							//该字段已经存在错误信息，跳过验证
-							continue;
-						}
-						$validate->validate($v, $field);
-					}
-				}else{
-					if($validate->isSkip($field, $value)){
-						//该字段已经存在错误信息，跳过验证
-						continue;
-					}
-					$validate->validate($value, $field);
+				if($validate->isSkip($field, $value)){
+					//该字段已经存在错误信息，跳过验证
+					continue;
 				}
+				$validate->validate($value, $field);
 			}
 		}
 		

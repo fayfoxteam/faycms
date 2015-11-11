@@ -441,7 +441,7 @@ class Form{
 	 */
 	public function check($filter = false){
 		$validator = new Validator();
-		$check =  $validator->check($this->_rules, $this->_labels, $this->getAllData($filter));
+		$check = $validator->check($this->_rules, $this->_labels, $this->getAllData($filter));
 		if($check === true){
 			return true;
 		}else{

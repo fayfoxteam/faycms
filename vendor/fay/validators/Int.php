@@ -10,6 +10,16 @@ use fay\helpers\String as StringHelper;
  */
 class Int extends Validator{
 	/**
+	 * 若为true，允许传入数组，每个数组项都必须是数字
+	 */
+	public $allow_array = true;
+	
+	/**
+	 * 若为true，允许逗号分割（但不允许有空格），拆分后每项都必须是符合条件的整数
+	 */
+	public $allow_comma_separated = true;
+	
+	/**
 	 * 最小值
 	 * @var int
 	 */
@@ -34,16 +44,53 @@ class Int extends Validator{
 	public $code = 'invalid-parameter:{$field}-should-be-a-number';
 	
 	public function validate($value){
-		if(!StringHelper::isInt($value, false)){
-			return $this->addError($this->message, $this->code);
+		if($this->allow_array && is_array($value)){
+			//如果允许传入数组且传入的是数组
+			foreach($value as $v){
+				$check = $this->checkItem($v);
+				if($check !== true){
+					return $this->addError($check[0], $check[1], $check[2]);
+				}
+			}
+			
+			return true;
 		}
 		
-		if($this->max !== null && $value > $this->max){
-			return $this->addError($this->too_big, $this->too_big_code, array('max'=>$this->max));
+		if($this->allow_comma_separated){
+			//如果允许逗号分割，进行切割（即便传入的是纯数字，切割也没什么影响）
+			$value = explode(',', $value);
+			foreach($value as $v){
+				$check = $this->checkItem($v);
+				if($check !== true){
+					return $this->addError($check[0], $check[1], $check[2]);
+				}
+			}
+				
+			return true;
+		}else{
+			//只允许纯数字
+			$check = $this->checkItem($v);
+			if($check !== true){
+				return $this->addError($check[0], $check[1], $check[2]);
+			}
+		}
+	}
+	
+	/**
+	 * 判断一个一项是否符合标准
+	 * @param int $item
+	 */
+	private function checkItem($item){
+		if(!StringHelper::isInt($item, false)){
+			return array($this->message, $this->code, array());
 		}
 		
-		if($this->min !== null && $value < $this->min){
-			return $this->addError($this->too_small, $this->too_small_code, array('min'=>$this->min));
+		if($this->max !== null && $item > $this->max){
+			return array($this->too_big, $this->too_big_code, array('max'=>$this->max));
+		}
+		
+		if($this->min !== null && $item < $this->min){
+			return array($this->too_small, $this->too_small_code, array('min'=>$this->min));
 		}
 		
 		return true;

@@ -71,7 +71,7 @@ use fay\models\tables\Users;
 				'class'=>'fc-green',
 			),
 			'after'=>'正常登录',
-		));
+		), true);
 		echo F::form()->inputRadio('block', 1, array(
 			'wrapper'=>array(
 				'tag'=>'label',

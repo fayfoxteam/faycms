@@ -1,5 +1,4 @@
 <?php
-
 $action_cat_count = count($actions);
 $col_left_count = floor($action_cat_count / 2);
 ?>
@@ -113,6 +112,9 @@ var role = {
 			}
 		}).on('click', '.select-all-children', function(){
 			$(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', 'checked');
+			return false;
+		}).on('click', '.unselect-all-children', function(){
+			$(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', false);
 			return false;
 		});
 	},

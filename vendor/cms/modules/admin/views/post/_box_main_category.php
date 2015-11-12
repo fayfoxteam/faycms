@@ -10,7 +10,7 @@ use fay\models\Category;
 	<div class="box-content">
 		<?php echo F::form()->select('cat_id', array(
 			Category::model()->getIdByAlias('_system_post')=>'--未分类--',
-		)+Html::getSelectOptions($cats), array(
+		) + Html::getSelectOptions($cats), array(
 			'class'=>'form-control mw400',
 		))?>
 		<p class="fc-grey">修改文章主分类可能会影响附加属性（这取决于您是否设置有附加属性）</p>

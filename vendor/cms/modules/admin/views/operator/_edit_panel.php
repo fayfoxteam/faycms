@@ -26,12 +26,12 @@ use fay\models\File;
 <?php if($roles){?>
 <div class="form-field">
 	<label class="title bold">角色</label>
-	<?php foreach($roles as $r){
-		echo F::form()->inputCheckbox('roles[]', $r['id'], array(
+	<div class="mw400"><?php foreach($roles as $r){
+		echo '<span class="ib w200">', F::form()->inputCheckbox('roles[]', $r['id'], array(
 			'label'=>$r['title'],
 			'class'=>'user-roles',
-		));
-	}?>
+		)), '</span>';
+	}?></div>
 </div>
 <?php }?>
 <div class="form-field">
@@ -61,7 +61,7 @@ use fay\models\File;
 				'class'=>'fc-green',
 			),
 			'after'=>'正常登录',
-		));
+		), true);
 		echo F::form()->inputRadio('block', 1, array(
 			'wrapper'=>array(
 				'tag'=>'label',

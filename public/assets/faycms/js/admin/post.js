@@ -68,7 +68,7 @@ var post = {
 		}
 	},
 	'setRoleCats':function(){
-		if(system.inArray('main-category', post.boxes)){
+		if(system.inArray('main_category', post.boxes)){
 			$('#box-main-category [name="cat_id"] option').each(function(){
 				if(!system.inArray($(this).val(), post.roleCats)){
 					$(this).attr('disabled', 'disabled');

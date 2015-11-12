@@ -107,6 +107,7 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 .form-field label.title{color:#222;text-shadow:0 1px 0 #fff;padding-bottom:4px;display:block;font-size:15px}
 .form-field p.description{color:#999;padding:5px}
 input.bigtxt{font-size:1.7em;width:100%;border-radius:3px;padding:6px}
+select option[disabled]{text-decoration:line-through}
 
 /* 常规表单元素式样 */
 .form-control{display:block;width:100%;padding:5px 6px;font-size:13px;line-height:1.42857143;color:#555555;background-color:#fff;border:1px solid #e4e4e4}

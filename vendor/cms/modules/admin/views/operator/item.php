@@ -2,6 +2,7 @@
 use fay\models\tables\Users;
 use fay\helpers\Date;
 use fay\helpers\Html;
+use fay\helpers\ArrayHelper;
 ?>
 <div class="row">
 	<div class="col-12">
@@ -28,6 +29,14 @@ use fay\helpers\Html;
 				<div class="form-group">
 					<label class="col-2">邮箱</label>
 					<div class="col-10 pt7"><?php echo $user['email']?></div>
+				</div>
+				<div class="form-group-separator"></div>
+				<div class="form-group">
+					<label class="col-2">角色</label>
+					<div class="col-10 pt7"><?php
+						$role_titles = ArrayHelper::column($user['roles'], 'title');
+						echo implode(', ', $role_titles);
+					?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">

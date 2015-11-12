@@ -152,7 +152,9 @@ class OperatorController extends AdminController{
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
 				
-				Response::notify('success', '管理员添加成功， '.Html::link('继续添加', array('admin/operator/create')), array('admin/operator/edit', array(
+				Response::notify('success', '管理员添加成功， '.Html::link('继续添加', array('admin/operator/create', array(
+					'roles'=>$roles,
+				))), array('admin/operator/edit', array(
 					'id'=>$user_id,
 				)));
 			}else{
@@ -249,7 +251,7 @@ class OperatorController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id, 'users.*,props.*,roles.*,profile.*');
+			$this->view->user = User::model()->get($id, 'users.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

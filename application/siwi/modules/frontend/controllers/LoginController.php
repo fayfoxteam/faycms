@@ -16,7 +16,7 @@ class LoginController extends FrontController{
 		if($this->input->post()){
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-			$result = User::model()->userLogin($username, $password);
+			$result = User::model()->login($username, $password);
 			if($result['status']){
 				if($this->input->get('redirect')){
 					header('location:'.base64_decode($this->input->get('redirect')));
@@ -43,7 +43,7 @@ class LoginController extends FrontController{
 		if($this->input->post()){
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-			$result = User::model()->userLogin($username, $password);
+			$result = User::model()->login($username, $password);
 			if($result['status']){
 				echo '<script>parent.common.afterLogin('.json_encode(array(
 					'user_id'=>$result['user']['id'],

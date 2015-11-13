@@ -63,10 +63,12 @@ class Follow extends Model{
 		
 		//执行钩子
 		Hook::getInstance()->call('after_follow');
+		
+		return $isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE;
 	}
 	
 	/**
-	 * 取消关注
+	 * 取消关注（若实际在未关注状态，并不抛异常，返回false）
 	 * @param int $user_id 取消关注的人
 	 * @param null|int $fans_id 粉丝，默认为当前登录用户
 	 */
@@ -76,24 +78,30 @@ class Follow extends Model{
 			throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
 		}
 		
-		//删除关注关系
-		Follows::model()->delete(array(
-			'fans_id = ?'=>$fans_id,
-			'user_id = ?'=>$user_id,
-		));
-		
-		//若互相关注，则更新反向关注的关注关系
-		if(self::isFollow($fans_id, $user_id)){
-			Follows::model()->update(array(
-				'relation'=>Follows::RELATION_SINGLE,
-			), array(
-				'fans_id = ?'=>$user_id,
-				'user_id = ?'=>$fans_id,
+		if(self::isFollow($user_id, $fans_id)){//是关注状态，执行取消关注
+			//删除关注关系
+			Follows::model()->delete(array(
+				'fans_id = ?'=>$fans_id,
+				'user_id = ?'=>$user_id,
 			));
+			
+			//若互相关注，则更新反向关注的关注关系
+			if(self::isFollow($fans_id, $user_id)){
+				Follows::model()->update(array(
+					'relation'=>Follows::RELATION_SINGLE,
+				), array(
+					'fans_id = ?'=>$user_id,
+					'user_id = ?'=>$fans_id,
+				));
+			}
+			
+			//执行钩子
+			Hook::getInstance()->call('after_unfollow');
+			
+			return true;
+		}else{//不是关注状态，也不抛异常
+			return false;
 		}
-		
-		//执行钩子
-		Hook::getInstance()->call('after_unfollow');
 	}
 	
 	/**

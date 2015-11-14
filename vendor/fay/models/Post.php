@@ -19,6 +19,7 @@ use fay\core\Loader;
 use fay\models\tables\Roles;
 use fay\models\tables\PostLikes;
 use fay\helpers\SqlHelper;
+use fay\models\tables\Files;
 
 class Post extends Model{
 	
@@ -30,6 +31,241 @@ class Post extends Model{
 	}
 	
 	/**
+	 * 创建一篇文章
+	 * @param array $post posts表相关字段
+	 * @param array $extra 其它字段
+	 *   - categories 附加分类ID，逗号分隔或一维数组
+	 *   - tags 标签文本，逗号分割或一维数组
+	 *   - files 由文件ID为键，文件描述为值构成的关联数组
+	 *   - props 以属性ID为键，属性值为值构成的关联数组
+	 * @param int $user_id 作者ID
+	 */
+	public function create($post, $extra = array(), $user_id = 0){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		$post['create_time'] = \F::app()->current_time;
+		$post['last_modified_time'] = \F::app()->current_time;
+		$post['user_id'] = \F::app()->current_user;
+		$post['publish_time'] || $post['publish_time'] = \F::app()->current_time;
+		$post['publish_date'] = $post('Y-m-d', $post['publish_time']);
+		
+		//过滤掉多余的数据
+		$post = Posts::model()->fillData($post, false);
+		$post_id = Posts::model()->insert($post);
+		
+		//文章分类
+		if(!empty($extra['categories'])){
+			if(!is_array($extra['categories'])){
+				$extra['categories'] = explode(',', $extra['categories']);
+			}
+			foreach($extra['categories'] as $cat_id){
+				PostsCategories::model()->insert(array(
+					'post_id'=>$post_id,
+					'cat_id'=>$cat_id,
+				));
+			}
+		}
+		//添加到标签表
+		if($extra['tags']){
+			Tag::model()->set($extra['tags'], $post_id);
+		}
+		
+		//设置附件
+		if($extra['files']){
+			$i = 0;
+			foreach($extra['files'] as $file_id => $description){
+				$i++;
+				PostsFiles::model()->insert(array(
+					'file_id'=>$file_id,
+					'post_id'=>$post_id,
+					'description'=>$description,
+					'is_image'=>File::isImage($file_id),
+					'sort'=>$i,
+				));
+			}
+		}
+		
+		//设置属性
+		if($extra['props']){
+			$this->createPropertySet($post_id, $extra['props']);
+		}
+		
+		return $post_id;
+	}
+	
+	/**
+	 * 更新一篇文章
+	 * @param int $post_id 文章ID
+	 * @param array $post posts表相关字段
+	 * @param array $extra 其它字段
+	 *   - categories 附加分类ID，逗号分隔或一维数组。若不传，则不会更新，若传了空数组，则清空附加分类。
+	 *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
+	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
+	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
+	 */
+	public function update($post_id, $post, $extra = array()){
+		$post['last_modified_time'] = \F::app()->current_time;
+		//过滤掉多余的数据
+		$post = Posts::model()->fillData($post, false);
+		Posts::model()->update($post, $post_id);
+		
+		//附加分类
+		if(isset($extra['categories'])){
+			if(!is_array($extra['categories'])){
+				$extra['categories'] = explode(',', $extra['categories']);
+			}
+			$post = Posts::model()->find($post_id, 'cat_id');
+			if(!empty($extra['categories'])){
+				//删除被删除了的分类
+				PostsCategories::model()->delete(array(
+					'post_id = ?'=>$post_id,
+					'or'=>array(
+						'cat_id NOT IN (?)'=>$extra['categories'],
+						'cat_id = ?'=>$post['cat_id'],//主属性不应出现在附加属性中
+					),
+				));
+				foreach($extra['categories'] as $cat_id){
+					if(!PostsCategories::model()->fetchRow(array(
+						'post_id = ?'=>$post_id,
+						'cat_id = ?'=>$cat_id,
+					))){
+						//不存在，则插入
+						PostsCategories::model()->insert(array(
+							'post_id'=>$post_id,
+							'cat_id'=>$cat_id,
+						));
+					}
+				}
+			}else{
+				//删除全部附加分类
+				PostsCategories::model()->delete(array(
+					'post_id = ?'=>$post_id,
+				));
+			}
+		}
+		
+		//标签
+		if(isset($extra['tags'])){
+			Tag::model()->set($extra['tags'], $post_id);
+		}
+		
+		//附件
+		if(isset($extra['files'])){
+			//删除已被删除的图片
+			if($extra['files']){
+				PostsFiles::model()->delete(array(
+					'post_id = ?'=>$post_id,
+					'file_id NOT IN (?)'=>array_keys($extra['files']),
+				));
+			}else{
+				PostsFiles::model()->delete(array(
+					'post_id = ?'=>$post_id,
+				));
+			}
+			//获取已存在的图片
+			$old_files_ids = PostsFiles::model()->fetchCol('file_id', array(
+				'post_id = ?'=>$post_id,
+			));
+			$i = 0;
+			foreach($extra['files'] as $file_id => $description){
+				$i++;
+				if(in_array($file_id, $old_files_ids)){
+					PostsFiles::model()->update(array(
+						'description'=>$description,
+						'sort'=>$i,
+					), array(
+						'post_id = ?'=>$post_id,
+						'file_id = ?'=>$file_id,
+					));
+				}else{
+					PostsFiles::model()->insert(array(
+						'post_id'=>$post_id,
+						'file_id'=>$file_id,
+						'description'=>$description,
+						'sort'=>$i,
+						'is_image'=>File::isImage($file_id),
+					));
+				}
+			}
+		}
+		
+		//附加属性
+		if(isset($extra['props'])){
+			$this->updatePropertySet($post_id, $extra['props']);
+		}
+	}
+	
+	/**
+	 * 根据文章ID，获取文章对应属性（不带属性值）
+	 * @param int $post_id
+	 */
+	public function getProps($post_id){
+		$post = Posts::model()->find($post_id, 'cat_id');
+		return $this->getPropsByCat($post['cat_id']);
+	}
+	
+	/**
+	 * 根据分类ID，获取相关属性（不包含属性值）
+	 * @param int $cat
+	 *  - 数字:代表分类ID;
+	 *  - 字符串:分类别名;
+	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
+	 */
+	public function getPropsByCat($cat){
+		return Prop::model()->mget(Category::model()->getParentIds($cat, '_system_post'), Props::TYPE_POST_CAT);
+	}
+	
+	/**
+	 * 新增一个文章属性集
+	 * @param int $post_id 文章ID
+	 * @param array $data 以属性ID为键的属性键值数组
+	 * @param null|array $props 属性。若为null，则根据文章ID获取属性
+	 */
+	public function createPropertySet($post_id, $data, $props = null){
+		if($props === null){
+			$props = $this->getProps($post_id);
+		}
+		Prop::model()->createPropertySet('post_id', $post_id, $props, $data, array(
+			'varchar'=>'fay\models\tables\PostPropVarchar',
+			'int'=>'fay\models\tables\PostPropInt',
+			'text'=>'fay\models\tables\PostPropText',
+		));
+	}
+	
+	/**
+	 * 新增一个文章属性集
+	 * @param int $post_id 文章ID
+	 * @param array $data 以属性ID为键的属性键值数组
+	 * @param null|array $props 属性。若为null，则根据文章ID获取属性
+	 */
+	public function updatePropertySet($post_id, $data, $props = null){
+		if($props === null){
+			$props = $this->getProps($post_id);
+		}
+		Prop::model()->updatePropertySet('post_id', $post_id, $props, $data, array(
+			'varchar'=>'fay\models\tables\PostPropVarchar',
+			'int'=>'fay\models\tables\PostPropInt',
+			'text'=>'fay\models\tables\PostPropText',
+		));
+	}
+	
+	/**
+	 * 根据文章ID，获取一个属性集
+	 * @param int $post_id 文章ID
+	 * @param null|array $props 属性。若为null，则根据文章ID获取属性
+	 */
+	public function getPropertySet($post_id, $props = null){
+		if($props === null){
+			$props = $this->getProps($post_id);
+		}
+		return Prop::model()->getPropertySet('post_id', $post_id, $props, array(
+			'varchar'=>'fay\models\tables\PostPropVarchar',
+			'int'=>'fay\models\tables\PostPropInt',
+			'text'=>'fay\models\tables\PostPropText',
+		));
+	}
+	
+	/**
 	 * 返回文章所属附加分类信息的二维数组
 	 * @param int $id 文章ID
 	 * @param int $fields categories表的字段
@@ -38,7 +274,7 @@ class Post extends Model{
 		$sql = new Sql();
 		return $sql->from('posts_categories', 'pc', '')
 			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
-			->where("pc.post_id = {$id}")
+			->where(array('pc.post_id = ?'=>$id))
 			->order('c.sort')
 			->fetchAll();
 	}
@@ -48,7 +284,7 @@ class Post extends Model{
 	 * @param int $id 文章ID
 	 */
 	public function getCatIds($id){
-		return PostsCategories::model()->fetchCol('cat_id', "post_id = {$id}");
+		return PostsCategories::model()->fetchCol('cat_id', array('post_id = ?'=>$id));
 	}
 	
 	/**
@@ -226,24 +462,6 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 获取文章附加属性<br>
-	 * 可传入props（并不一定真的是当前文章分类对应的属性，比如编辑文章所属分类的时候会传入其他属性）<br>
-	 * 若不传入，则会自动获取当前文章所属分类的属性集
-	 */
-	public function getProps($post_id, $props = array()){
-		if(!$props){
-			$post = Posts::model()->find($post_id, 'cat_id');
-			$props = Prop::model()->mget($post['cat_id'], Props::TYPE_POST_CAT);
-		}
-		
-		return Prop::model()->getPropertySet('post_id', $post_id, $props, array(
-			'varchar'=>'fay\models\tables\PostPropVarchar',
-			'int'=>'fay\models\tables\PostPropInt',
-			'text'=>'fay\models\tables\PostPropText',
-		));
-	}
-	
-	/**
 	 * 根据分类信息获取对应文章<br>
 	 * @param int|string|array $cat 父节点ID或别名
 	 *  - 若为数字，视为分类ID获取分类；
@@ -386,30 +604,6 @@ class Post extends Model{
 		), $target);
 		return $comment_count['count'];
 	}
-	
-	/**
-	 * 是否已收藏
-	 * @param int $post_id
-	 * @param null|int $user_id
-	 * @return boolean
-	 */
-	public function isFavored($post_id, $user_id = null){
-		if($user_id === null){
-			if(\F::app()->current_user){
-				$user_id = \F::app()->current_user;
-			}else{
-				return false;
-			}
-		}
-		
-		if(Favourites::model()->find(array($user_id, $post_id))){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	
 	
 	/**
 	 * 设置一个文章属性值
@@ -927,9 +1121,18 @@ class Post extends Model{
 		}
 	}
 	
+	/**
+	 * 判断一个文章ID是否存在
+	 * @param int $post_id
+	 */
 	public static function isPostIdExist($post_id){
 		if($post_id){
-			return !!Posts::model()->find($post_id, 'id');
+			$post = Posts::model()->find($post_id, 'deleted,publish_time');
+			if($post['deleted'] || $post['publish_time'] > \F::app()->current_time){
+				return false;
+			}else{
+				return true;
+			}
 		}else{
 			return false;
 		}

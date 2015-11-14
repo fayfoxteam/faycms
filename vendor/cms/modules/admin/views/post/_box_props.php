@@ -5,8 +5,7 @@
 	</div>
 	<div class="box-content">
 	<?php $this->renderPartial('prop/_edit', array(
-		'props'=>$props,
-		'data'=>F::form()->getData('props', array()),
+		'prop_set'=>$prop_set,
 	))?>
 	</div>
 </div>

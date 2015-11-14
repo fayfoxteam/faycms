@@ -199,9 +199,9 @@ class Prop extends Model{
 	/**
 	 * 创建一个属性集
 	 * @param string $field 字段名，$refer对应的字段
-	 * @param int $refer 字段值
+	 * @param int $refer $models中对应的字段值
 	 * @param array $props 属性集合
-	 * @param array $data 属性值
+	 * @param array $data 属性值，以属性集合的id为键的数组
 	 * @param array $models varchar, int, text等字段类型对应的表模型
 	 */
 	public function createPropertySet($field, $refer, $props, $data, $models){

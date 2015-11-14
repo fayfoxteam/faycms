@@ -16,27 +16,26 @@ class Tag extends Model{
 	}
 	
 	/**
-	 * 设置一篇文章的tags<br>
-	 * 传入的tags是逗号分隔的标签原文<br>
-	 * 若为空，则删除文章所有标签
-	 * @param string $tags
+	 * 设置一篇文章的标签
+	 * @param string|array $tags 逗号分割的标签文本，或由标签文本构成的一维数组。若为空，则删除指定文章的所有标签
 	 * @param int $post_id
 	 */
 	public function set($tags, $post_id){
 		if($tags){
-			//将文章原先的标签和post提交过来的标签进行合并
-			$input_tags = explode(',', $tags);
+			if(!is_array($tags)){
+				$tags = explode(',', $tags);
+			}
 			$input_tag_ids = array();
-			foreach($input_tags as $nt){
-				if(!$nt = trim($nt))continue;
+			foreach($tags as $tag_title){
+				if(!$tag_title = trim($tag_title))continue;
 				$tag = Tags::model()->fetchRow(array(
-					'title = ?'=>$nt,
+					'title = ?'=>$tag_title,
 				), 'id');
 				if($tag){//已存在，获取id
 					$input_tag_ids[] = $tag['id'];
 				}else{//不存在，插入新tag
 					$input_tag_ids[] = Tags::model()->insert(array(
-						'title'=>$nt,
+						'title'=>$tag_title,
 					));
 				}
 			}

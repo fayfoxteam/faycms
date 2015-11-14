@@ -630,4 +630,14 @@ class File extends Model{
 		$file = Files::model()->find($file_id, 'downloads');
 		return $file['downloads'];
 	}
+	
+	/**
+	 * 返回指定文件是否是图片
+	 * @param int $file_id
+	 * @return int 返回0|1
+	 */
+	public static function isImage($file_id){
+		$file = Files::model()->find($file_id, 'is_image');
+		return $file['is_image'];
+	}
 }

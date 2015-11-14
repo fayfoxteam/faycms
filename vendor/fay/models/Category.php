@@ -467,7 +467,7 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 获取指定节点的祖先节点的ID，以一位数组方式返回
+	 * 获取指定节点的祖先节点的ID，以一位数组方式返回（包含指定节点ID）
 	 * 若root为null，则会一直追溯到根节点，否则追溯到root为止
 	 * cat和root都可以是：{
 	 *  - 数字:代表分类ID;

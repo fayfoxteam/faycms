@@ -3,14 +3,8 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\Category;
-use fay\models\tables\Categories;
-use fay\models\tables\Tags;
-use fay\models\tables\Props;
-use fay\models\Prop;
 use fay\models\tables\Posts;
-use fay\models\tables\PostsCategories;
 use fay\models\Tag;
-use fay\models\tables\Files;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
@@ -87,71 +81,37 @@ class PostController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
-		$cat_parents = Categories::model()->fetchCol('id', array(
-			'left_value <= '.$cat['left_value'],
-			'right_value >= '.$cat['right_value'],
-		));
-		
-		//查询所有标签
-		$this->view->tags = Tags::model()->fetchAll(array(), 'id, title');
-		
-		//设置附加属性
-		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
-		
-		//分类树
-		$this->view->cats = Category::model()->getTree('_system_post');
-		
 		$this->form()->setModel(Posts::model())
 			->setModel(PostsFiles::model());
 		if($this->input->post()){
 			if($this->form()->check()){
 				//添加posts表
 				$data = Posts::model()->fillData($this->input->post());
-				$data['create_time'] = $this->current_time;
-				$data['last_modified_time'] = $this->current_time;
-				$data['user_id'] = $this->current_user;
-				empty($data['publish_time']) ? $data['publish_time'] = $this->current_time : $data['publish_time'] = strtotime($data['publish_time']);
-				$data['publish_date'] = date('Y-m-d', $data['publish_time']);
 				isset($data['cat_id']) || $data['cat_id'] = $cat_id;
-				$post_id = Posts::model()->insert($data);
 				
-				//文章分类
-				$post_category = $this->form()->getData('post_category');
-				if(!empty($post_category)){
-					foreach($post_category as $post_cat){
-						PostsCategories::model()->insert(array(
-							'post_id'=>$post_id,
-							'cat_id'=>$post_cat,
-						));
-					}
-				}
-				//添加到标签表
-				if($this->input->post('tags')){
-					Tag::model()->set($this->input->post('tags'), $post_id);
+				$extra = array();
+				//附加分类
+				if($post_category = $this->form()->getData('post_category')){
+					$extra['categories'] = $post_category;
 				}
 				
-				//设置附件
+				//标签
+				if($tags = $this->input->post('tags')){
+					$extra['tags'] = $tags;
+				}
+				
+				//附件
 				$description = $this->input->post('description');
 				$files = $this->input->post('files', 'intval', array());
-				$i = 0;
+				$extra['files'] = array();
 				foreach($files as $f){
-					$i++;
-					$file = Files::model()->find($f, 'is_image');
-					PostsFiles::model()->insert(array(
-						'file_id'=>$f,
-						'post_id'=>$post_id,
-						'description'=>$description[$f],
-						'is_image'=>$file['is_image'],
-						'sort'=>$i,
-					));
+					$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
 				}
 				
-				//设置属性
-				Prop::model()->createPropertySet('post_id', $post_id, $this->view->props, $this->input->post('props'), array(
-					'varchar'=>'fay\models\tables\PostPropVarchar',
-					'int'=>'fay\models\tables\PostPropInt',
-					'text'=>'fay\models\tables\PostPropText',
-				));
+				//附加属性
+				$extra['props'] = $this->input->post('props', '', array());
+				
+				$post_id = Post::model()->create($data, $extra, $this->current_user);
 				
 				//hook
 				Hook::getInstance()->call('after_post_created', array(
@@ -166,6 +126,9 @@ class PostController extends AdminController{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
+		
+		//设置附加属性
+		$this->view->prop_set = Post::model()->getPropsByCat($cat_id);
 		
 		$this->form()->setData(array(
 			'cat_id'=>$cat_id,
@@ -407,13 +370,6 @@ class PostController extends AdminController{
 			Flash::set('文章所属分类不存在，请重新设置文章分类', 'attention');
 		}
 		
-		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
-		$cat_parents = Categories::model()->fetchCol('id', array(
-			'left_value <= '.$cat['left_value'],
-			'right_value >= '.$cat['right_value'],
-		));
-		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
-		
 		$this->form()->setModel(Posts::model())
 			->setModel(PostsFiles::model());
 		
@@ -427,130 +383,53 @@ class PostController extends AdminController{
 					$this->form()->setData(array(
 						'status'=>Posts::STATUS_DRAFT,
 					), true);
-					$status = Posts::STATUS_DRAFT;
 					Flash::set('文章状态异常，被强制修改为“草稿”', 'attention');
 				}
 				
-				$old_post = Posts::model()->find($post_id, 'cat_id');
-				//主分类被改了，重新获取分类属性
-				if($new_cat_id && $old_post['cat_id'] != $new_cat_id){
-					$cat = Category::model()->get($new_cat_id, 'title,left_value,right_value');
-					$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
-					$cat_parents = Categories::model()->fetchCol('id', array(
-						'left_value <= '.$cat['left_value'],
-						'right_value >= '.$cat['right_value'],
-					));
-					$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
-				}
-				//更新posts表
+				//筛选出文章相关字段
 				$data = Posts::model()->fillData($this->input->post());
-				$data['last_modified_time'] = $this->current_time;
+				//发布时间特殊处理
 				if(in_array('publish_time', $enabled_boxes)){
 					if(empty($data['publish_time'])){
 						$data['publish_time'] = $this->current_time;
 						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
-						$this->form()->setData(array(
-							'publish_time'=>date('Y-m-d H:i:s', $data['publish_time']),
-						));
 					}else{
 						$data['publish_time'] = strtotime($data['publish_time']);
 						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
 					}
 				}
-				Posts::model()->update($data, $post_id);
 				
-				//文章分类
+				$extra = array();
+				
+				//附件分类
 				if(in_array('category', $enabled_boxes)){
-					$post_category = $this->form()->getData('post_category');
-					if(!empty($post_category)){
-						//删除被删除了的分类
-						PostsCategories::model()->delete(array(
-							'post_id = ?'=>$post_id,
-							'or'=>array(
-								'cat_id NOT IN (?)'=>$post_category,
-								'cat_id = ?'=>isset($data['cat_id']) ? $data['cat_id'] : false,//主属性不应出现在附加属性中
-							),
-						));
-						foreach($post_category as $cat_id){
-							if(!PostsCategories::model()->fetchRow(array(
-								'post_id = ?'=>$post_id,
-								'cat_id = ?'=>$cat_id,
-							))){
-								//不存在，则插入
-								PostsCategories::model()->insert(array(
-									'post_id'=>$post_id,
-									'cat_id'=>$cat_id,
-								));
-							}
-						}
-					}else{
-						//用户有权编辑category，但无数据提交，意味着删光了
-						//删除全部category
-						PostsCategories::model()->delete(array(
-							'post_id = ?'=>$post_id,
-						));
-					}
+					$extra['categories'] = $this->form()->getData('post_category', array(), 'intval');
 				}
 				
-				//更新标签
+				//标签
 				if(in_array('tags', $enabled_boxes)){
-					Tag::model()->set($this->input->post('tags'), $post_id);
+					$extra['tags'] = $this->input->post('tags', 'trim', array());
 				}
 				
-				//设置files
+				//附件
 				if(in_array('files', $enabled_boxes)){
-					$desc = $this->input->post('description');
+					$description = $this->input->post('description');
 					$files = $this->input->post('files', 'intval', array());
-					//删除已被删除的图片
-					if($files){
-						PostsFiles::model()->delete(array(
-							'post_id = ?'=>$post_id,
-							'file_id NOT IN ('.implode(',', $files).')',
-						));
-					}else{
-						PostsFiles::model()->delete(array(
-							'post_id = ?'=>$post_id,
-						));
-					}
-					//获取已存在的图片
-					$old_files_ids = PostsFiles::model()->fetchCol('file_id', array(
-						'post_id = ?'=>$post_id,
-					));
-					$i = 0;
+					$extra['files'] = array();
 					foreach($files as $f){
-						$i++;
-						if(in_array($f, $old_files_ids)){
-							PostsFiles::model()->update(array(
-								'description'=>$desc[$f],
-								'sort'=>$i,
-							), array(
-								'post_id = ?'=>$post_id,
-								'file_id = ?'=>$f,
-							));
-						}else{
-							$file = Files::model()->find($f, 'is_image');
-							PostsFiles::model()->insert(array(
-								'post_id'=>$post_id,
-								'file_id'=>$f,
-								'description'=>$desc[$f],
-								'sort'=>$i,
-								'is_image'=>$file['is_image'],
-							));
-						}
+						$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
 					}
 				}
 				
 				//附加属性
 				if(in_array('props', $enabled_boxes)){
-					Prop::model()->updatePropertySet('post_id', $post_id, $this->view->props, $this->input->post('props'), array(
-						'varchar'=>'fay\models\tables\PostPropVarchar',
-						'int'=>'fay\models\tables\PostPropInt',
-						'text'=>'fay\models\tables\PostPropText',
-					));
+					$extra['props'] = $this->input->post('props');
 				}
 				
+				Post::model()->update($post_id, $data, $extra);
+				
 				//hook
-				Hook::getInstance()->call('after_post_created', array(
+				Hook::getInstance()->call('after_post_updated', array(
 					'post_id'=>$post_id,
 				));
 				
@@ -581,9 +460,6 @@ class PostController extends AdminController{
 			}
 			$this->form()->setData(array('tags'=>implode(',', $tags_arr)));
 			
-			//文章对应附加属性值
-			$post['props'] = Post::model()->getProps($post_id, $this->view->props);
-			
 			//分类树
 			$this->view->cats = Category::model()->getTree('_system_post');
 			
@@ -596,6 +472,11 @@ class PostController extends AdminController{
 			
 			$this->view->post = $post;
 			
+			//附加属性
+			$this->view->prop_set = Post::model()->getPropertySet($post['id']);
+			
+			$cat = Category::model()->get($post['cat_id'], 'title');
+			$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
 			$this->layout->sublink = array(
 				'uri'=>array('admin/post/create', array(
 					'cat_id'=>$post['cat_id'],
@@ -689,22 +570,12 @@ class PostController extends AdminController{
 		$cat_id = $this->input->get('cat_id', 'intval');
 		$post_id = $this->input->get('post_id', 'intval');
 		
-		$cat = Category::model()->get($cat_id, 'title,left_value,right_value');
-		$cat_parents = Categories::model()->fetchCol('id', array(
-			'left_value <= '.$cat['left_value'],
-			'right_value >= '.$cat['right_value'],
-		));
-		$this->view->props = Prop::model()->mget($cat_parents, Props::TYPE_POST_CAT);
-		
 		//文章对应附加属性值
+		$props = Post::model()->getPropsByCat($cat_id);
 		if($post_id){
-			$this->form()->setData(array(
-				'props'=>Post::model()->getProps($post_id, $this->view->props),
-			));
+			$this->view->prop_set = Post::model()->getPropertySet($post_id, $props);
 		}else{
-			$this->form()->setData(array(
-				'props'=>array(),
-			));
+			$this->view->prop_set = $props;
 		}
 		
 		$this->view->renderPartial('_box_props');

@@ -17,7 +17,7 @@ use fay\core\Cookie;
 class F{
 	/**
 	 * 获取当前Controller实例
-	 * @return Controller
+	 * @return \fay\core\Controller
 	 */
 	public static function app(){
 		return Controller::getInstance();

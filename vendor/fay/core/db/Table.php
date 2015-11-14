@@ -50,7 +50,7 @@ class Table extends Model{
 	public function insert($data, $filter = false){
 		if(!empty($data)){
 			if($filter){
-				$data = $this->fillData($data);
+				$data = $this->fillData($data, true);
 			}
 			return $this->db->insert($this->_name, $data);
 		}else{

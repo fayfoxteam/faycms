@@ -76,19 +76,19 @@ use fay\models\File;
 	<div id="avatar-container">
 		<?php 
 		echo F::form()->inputHidden('avatar', array('id'=>'avatar-id'));
-		if(!empty($user['avatar'])){
-			echo Html::link(Html::img($user['avatar'], File::PIC_RESIZE, array(
+		if(!empty($user['user']['avatar'])){
+			echo Html::link(Html::img($user['user']['avatar'], File::PIC_RESIZE, array(
 				'dw'=>178,
 				'dh'=>178,
 				'id'=>'avatar-img',
-			)), File::getUrl($user['avatar']), array(
+			)), File::getUrl($user['user']['avatar']), array(
 				'encode'=>false,
 				'class'=>'fancybox-image',
 				'title'=>false,
 			));
-			echo Html::link(Html::img($user['avatar'], File::PIC_THUMBNAIL, array(
+			echo Html::link(Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
 				'id'=>'avatar-img-circle',
-			)), File::getUrl($user['avatar']), array(
+			)), File::getUrl($user['user']['avatar']), array(
 				'encode'=>false,
 				'class'=>'fancybox-image',
 				'title'=>false,

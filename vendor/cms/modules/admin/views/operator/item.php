@@ -13,22 +13,22 @@ use fay\helpers\ArrayHelper;
 			<div class="box-content">
 				<div class="form-group">
 					<label class="col-2">用户名</label>
-					<div class="col-10 pt7"><?php echo $user['username']?></div>
+					<div class="col-10 pt7"><?php echo $user['user']['username']?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">昵称</label>
-					<div class="col-10 pt7"><?php echo $user['nickname']?></div>
+					<div class="col-10 pt7"><?php echo $user['user']['nickname']?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">手机</label>
-					<div class="col-10 pt7"><?php echo $user['mobile']?></div>
+					<div class="col-10 pt7"><?php echo $user['user']['mobile']?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">邮箱</label>
-					<div class="col-10 pt7"><?php echo $user['email']?></div>
+					<div class="col-10 pt7"><?php echo $user['user']['email']?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
@@ -41,7 +41,7 @@ use fay\helpers\ArrayHelper;
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">审核状态</label>
-					<div class="col-10 pt7"><?php switch($user['status']){
+					<div class="col-10 pt7"><?php switch($user['user']['status']){
 						case Users::STATUS_UNCOMPLETED:
 							echo '<span class="fc-blue">用户信息不完整</span>';
 						break;
@@ -63,7 +63,7 @@ use fay\helpers\ArrayHelper;
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">登录</label>
-					<div class="col-10 pt7"><?php if($user['block']){
+					<div class="col-10 pt7"><?php if($user['user']['block']){
 						echo '<span class="fc-red">限制登录</span>';
 					}else{
 						echo '<span class="fc-green">正常登录</span>';
@@ -78,31 +78,31 @@ use fay\helpers\ArrayHelper;
 			<div class="box-content">
 				<div class="form-group">
 					<label class="col-2">注册时间</label>
-					<div class="col-10 pt7"><?php echo Date::format($user['reg_time'])?></div>
+					<div class="col-10 pt7"><?php echo Date::format($user['profile']['reg_time'])?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">注册IP</label>
-					<div class="col-10 pt7"><?php if($user['reg_ip']){?>
-						<em class="abbr" title="<?php echo long2ip($user['reg_ip'])?>"><?php echo $iplocation->getCountryAndArea(long2ip($user['reg_ip']))?></em>
+					<div class="col-10 pt7"><?php if($user['profile']['reg_ip']){?>
+						<em class="abbr" title="<?php echo long2ip($user['profile']['reg_ip'])?>"><?php echo $iplocation->getCountryAndArea(long2ip($user['profile']['reg_ip']))?></em>
 					<?php }?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">最后登陆时间</label>
-					<div class="col-10 pt7"><?php echo Date::format($user['last_login_time'])?></div>
+					<div class="col-10 pt7"><?php echo Date::format($user['profile']['last_login_time'])?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">最后登陆IP</label>
-					<div class="col-10 pt7"><?php if($user['last_login_ip']){?>
-						<em class="abbr" title="<?php echo long2ip($user['last_login_ip'])?>"><?php echo $iplocation->getCountryAndArea(long2ip($user['last_login_ip']))?></em>
+					<div class="col-10 pt7"><?php if($user['profile']['last_login_ip']){?>
+						<em class="abbr" title="<?php echo long2ip($user['profile']['last_login_ip'])?>"><?php echo $iplocation->getCountryAndArea(long2ip($user['profile']['last_login_ip']))?></em>
 					<?php }?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2">最后在线时间</label>
-					<div class="col-10 pt7"><?php echo Date::format($user['last_time_online'])?></div>
+					<div class="col-10 pt7"><?php echo Date::format($user['profile']['last_time_online'])?></div>
 				</div>
 			</div>
 		</div>

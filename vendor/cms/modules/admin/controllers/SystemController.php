@@ -7,9 +7,9 @@ use fay\models\Setting;
 use fay\core\Response;
 
 class SystemController extends AdminController{
-	public function isCellphoneExist(){
+	public function isMoboleExist(){
 		if(Users::model()->fetchRow(array(
-			'cellphone = ?'=>$this->input->post('value', 'trim'),
+			'mobile = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
 			Response::json('', 0, '该手机号码已被注册');

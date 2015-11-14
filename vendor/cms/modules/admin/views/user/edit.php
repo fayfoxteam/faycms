@@ -20,6 +20,6 @@ echo F::form()->open()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>
 <script>
-user.user_id = <?php echo $user['id']?>;
+user.user_id = <?php echo F::form()->getData('id')?>;
 user.init();
 </script>

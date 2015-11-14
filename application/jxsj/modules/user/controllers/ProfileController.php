@@ -16,7 +16,7 @@ class ProfileController extends UserController{
 		if($this->input->post()){
 			Users::model()->update(array(
 				'email'=>$this->input->post('email'),
-				'cellphone'=>$this->input->post('cellphone'),
+				'mobile'=>$this->input->post('mobile'),
 				'realname'=>$this->input->post('realname'),
 				'nickname'=>$this->input->post('nickname'),
 			), $this->current_user);

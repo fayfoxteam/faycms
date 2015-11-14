@@ -203,6 +203,7 @@ class User extends Model{
 			return false;
 		}
 		
+		$return['user'] = $user;
 		if(!empty($fields['props'])){
 			$user_roles = $this->getRoleIds($id);
 			if($user_roles){
@@ -214,22 +215,21 @@ class User extends Model{
 					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
 				), 'id,title,element,required,is_show,alias', 'sort');
 				
-				$user['props'] = $this->getProps($id, $props);
+				$return['props'] = $this->getProps($id, $props);
 			}else{
-				$user['props'] = array();
+				$return['props'] = array();
 			}
 		}
 		
 		if(!empty($fields['roles'])){
-			$user['roles'] = $this->getRoles($id, $fields['roles']);
+			$return['roles'] = $this->getRoles($id, $fields['roles']);
 		}
 		
 		if(!empty($fields['profile'])){
-			$profile = UserProfile::model()->find($id, implode(',', $fields['profile']));
-			$user = array_merge($user, $profile);
+			$return['profile'] = UserProfile::model()->find($id, implode(',', $fields['profile']));
 		}
 		
-		return $user;
+		return $return;
 	}
 	
 	/**

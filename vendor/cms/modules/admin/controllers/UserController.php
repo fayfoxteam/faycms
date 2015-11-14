@@ -41,7 +41,7 @@ class UserController extends AdminController{
 		$_setting_key = 'admin_user_index';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array(
-			'cols'=>array('roles', 'cellphone', 'email', 'cellphone', 'realname', 'reg_time'),
+			'cols'=>array('roles', 'mobile', 'email', 'realname', 'reg_time'),
 			'page_size'=>20,
 		);
 		$this->form('setting')->setModel(Setting::model())
@@ -257,16 +257,17 @@ class UserController extends AdminController{
 		}
 		
 		$user = User::model()->get($id, 'users.*,props.*');
-		$user['roles'] = User::model()->getRoleIds($user['id']);
+		$user_role_ids = User::model()->getRoleIds($id);
 		$this->view->user = $user;
-		$this->form()->setData($user);
+		$this->form()->setData($user['user'])
+			->setData(array('roles'=>$user_role_ids));
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
 			'admin = 0',
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->props = Prop::model()->mget($user['roles'], Props::TYPE_ROLE);
+		$this->view->props = Prop::model()->mget($user_role_ids, Props::TYPE_ROLE);
 		$this->view->render();
 	}
 	
@@ -277,7 +278,7 @@ class UserController extends AdminController{
 			throw new HttpException('参数不完整', 500);
 		}
 		
-		$this->layout->subtitle = "用户 - {$this->view->user['username']}";
+		$this->layout->subtitle = "用户 - {$this->view->user['user']['username']}";
 		
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();

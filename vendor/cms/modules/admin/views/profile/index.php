@@ -29,7 +29,7 @@ echo F::form()->open();
 		</div>
 		<div class="form-field">
 			<label class="title bold">手机号</label>
-			<?php echo F::form()->inputText('cellphone', array(
+			<?php echo F::form()->inputText('mobile', array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
@@ -50,19 +50,19 @@ echo F::form()->open();
 			<div id="avatar-container">
 				<?php 
 				echo F::form()->inputHidden('avatar', array('id'=>'avatar-id'));
-				if(!empty($user['avatar'])){
-					echo Html::link(Html::img($user['avatar'], File::PIC_RESIZE, array(
+				if(!empty($user['user']['avatar'])){
+					echo Html::link(Html::img($user['user']['avatar'], File::PIC_RESIZE, array(
 						'dw'=>178,
 						'dh'=>178,
 						'id'=>'avatar-img',
-					)), File::getUrl($user['avatar']), array(
+					)), File::getUrl($user['user']['avatar']), array(
 						'encode'=>false,
 						'class'=>'fancybox-image',
 						'title'=>false,
 					));
-					echo Html::link(Html::img($user['avatar'], File::PIC_THUMBNAIL, array(
+					echo Html::link(Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
 						'id'=>'avatar-img-circle',
-					)), File::getUrl($user['avatar']), array(
+					)), File::getUrl($user['user']['avatar']), array(
 						'encode'=>false,
 						'class'=>'fancybox-image',
 						'title'=>false,
@@ -108,6 +108,6 @@ echo F::form()->open();
 <script type="text/javascript" src="<?php echo $this->assets('js/browserplus-min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>
 <script>
-user.user_id = <?php echo $user['id']?>;
+user.user_id = <?php echo \F::form()->getData('id')?>;
 user.init();
 </script>

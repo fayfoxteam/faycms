@@ -220,45 +220,7 @@ class PostController extends AdminController{
 			$sql->joinLeft('users', 'u', 'p.user_id = u.id', 'username,nickname,realname');
 		}
 		
-		//文章状态
-		if($this->input->get('deleted', 'intval') == 1){
-			$sql->where('p.deleted = 1');
-			$count_sql->where('p.deleted = 1');
-		}else if($this->input->get('status', 'intval') !== null && $this->input->get('delete', 'intval') != 1){
-			$sql->where(array(
-				'p.deleted != 1',
-				'p.status = ?'=>$this->input->get('status', 'intval'),
-			));
-			$count_sql->where(array(
-				'p.deleted != 1',
-				'p.status = ?'=>$this->input->get('status', 'intval'),
-			));
-		}else{
-			$sql->where('p.deleted = 0');
-			$count_sql->where('p.deleted = 0');
-		}
-		
-		//获得表单提交数据
-		if($this->input->get('keywords')){
-			if(in_array($this->input->get('keywords_field'), array('p.title'))){
-				$sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
-				$count_sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
-			}else if(in_array($this->input->get('keywords_field'), array('p.id', 'p.user_id'))){
-				$sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
-				$count_sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
-			}else{
-				$sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
-				$count_sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
-			}
-		}
-		if($this->input->get('start_time')){
-			$sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
-			$count_sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
-		}
-		if($this->input->get('end_time')){
-			$sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
-			$count_sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
-		}
+		//根据分类搜索
 		if($cat_id){
 			if($this->input->get('with_child')){
 				//包含子分类搜索
@@ -304,6 +266,32 @@ class PostController extends AdminController{
 			}
 		}
 		
+		//文章状态
+		if($this->input->get('deleted', 'intval') == 1){
+			$sql->where('p.deleted = 1');
+			$count_sql->where('p.deleted = 1');
+		}else if($this->input->get('status', 'intval') !== null && $this->input->get('delete', 'intval') != 1){
+			$sql->where(array(
+				'p.deleted != 1',
+				'p.status = ?'=>$this->input->get('status', 'intval'),
+			));
+			$count_sql->where(array(
+				'p.deleted != 1',
+				'p.status = ?'=>$this->input->get('status', 'intval'),
+			));
+		}else{
+			$sql->where('p.deleted = 0');
+			$count_sql->where('p.deleted = 0');
+		}
+		if($this->input->get('start_time')){
+			$sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
+			$count_sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
+		}
+		if($this->input->get('end_time')){
+			$sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
+			$count_sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
+		}
+		
 		if($tag_id = $this->input->get('tag_id', 'intval')){
 			$sql->joinLeft('posts_tags', 'pt', 'p.id = pt.post_id')
 				->where(array(
@@ -317,6 +305,19 @@ class PostController extends AdminController{
 				->countBy('DISTINCT p.id');
 		}
 		
+		//关键词搜索
+		if($this->input->get('keywords')){
+			if(in_array($this->input->get('keywords_field'), array('p.title'))){
+				$sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+				$count_sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+			}else if(in_array($this->input->get('keywords_field'), array('p.id', 'p.user_id'))){
+				$sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+				$count_sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+			}else{
+				$sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
+				$count_sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
+			}
+		}
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');

@@ -19,7 +19,7 @@ class ProfileController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '编辑管理员信息';
-		$id = $this->current_user;
+		$user_id = $this->current_user;
 		$this->form()->setModel(Users::model());
 		if($this->input->post()){
 			if($this->form()->check()){
@@ -35,32 +35,32 @@ class ProfileController extends AdminController{
 				}else{
 					unset($data['password']);
 				}
-				Users::model()->update($data, $id);
+				Users::model()->update($data, $user_id);
 				
 				//修改当前用户session
 				\F::session()->set('avatar', $data['avatar']);
 				\F::session()->set('nickname', $data['nickname']);
 				
 				//设置属性
-				$roles = User::model()->getRoleIds($id);
+				$roles = User::model()->getRoleIds($user_id);
 				if($roles){
 					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
+					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
 						'varchar'=>'fay\models\tables\UserPropVarchar',
 						'int'=>'fay\models\tables\UserPropInt',
 						'text'=>'fay\models\tables\UserPropText',
 					));
 				}
 				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $id);
+				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
 				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		
-		$user = User::model()->get($id, 'users.*,props.*');
-		$user_role_ids = User::model()->getRoleIds($id);
+		$user = User::model()->get($user_id, 'users.*,profile.*');
+		$user_role_ids = User::model()->getRoleIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));
@@ -70,7 +70,7 @@ class ProfileController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->props = Prop::model()->mget($user_role_ids, Props::TYPE_ROLE);
+		$this->view->prop_set = User::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 }

@@ -94,7 +94,7 @@ use fay\models\tables\Props;
 				}
 			break;
 			case Props::ELEMENT_TEXTAREA:
-				echo Html::textarea("props[{$prop['id']}]", isset($data[$prop['id']]) ? $prop['value'] : '', array(
+				echo Html::textarea("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
 					'class'=>'form-control h90',
 					'data-required'=>$prop['required'] ? 'required' : false,
 					'data-label'=>$prop['title'],

@@ -181,10 +181,6 @@ class UserController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		//附加属性
-		$current_role = current($this->view->roles);
-		$this->view->role = Role::model()->get($current_role['id']);
-
 		$this->view->render();
 	}
 	
@@ -192,7 +188,7 @@ class UserController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑用户';
 		
-		$id = $this->input->get('id', 'intval');
+		$user_id = $this->input->get('id', 'intval');
 		$this->form()->setScene('edit')
 			->setModel(Users::model());
 		
@@ -209,24 +205,24 @@ class UserController extends AdminController{
 				}else{
 					unset($data['password']);
 				}
-				Users::model()->update($data, $id);
+				Users::model()->update($data, $user_id);
 				
 				$roles = $this->form()->getData('roles');
 				if(!empty($roles)){
 					//删除被删除了的角色
 					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$id,
+						'user_id = ?'=>$user_id,
 						'role_id NOT IN (?)'=>$roles,
 					));
 					$user_roles = array();
 					foreach($roles as $r){
 						if(!UsersRoles::model()->fetchRow(array(
-							'user_id = ?'=>$id,
+							'user_id = ?'=>$user_id,
 							'role_id = ?'=>$r,
 						))){
 							//不存在，则插入
 							$user_roles[] = array(
-								'user_id'=>$id,
+								'user_id'=>$user_id,
 								'role_id'=>$r,
 							);
 						}
@@ -235,29 +231,29 @@ class UserController extends AdminController{
 				}else{
 					//删除全部角色
 					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$id,
+						'user_id = ?'=>$user_id,
 					));
 				}
 				
 				//设置属性
 				if($roles){
 					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
+					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
 						'varchar'=>'fay\models\tables\UserPropVarchar',
 						'int'=>'fay\models\tables\UserPropInt',
 						'text'=>'fay\models\tables\UserPropText',
 					));
 				}
 				
-				$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $id);
+				$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $user_id);
 				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		
-		$user = User::model()->get($id, 'users.*,props.*');
-		$user_role_ids = User::model()->getRoleIds($id);
+		$user = User::model()->get($user_id, 'users.*,profile.*');
+		$user_role_ids = User::model()->getRoleIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));
@@ -267,7 +263,7 @@ class UserController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->props = Prop::model()->mget($user_role_ids, Props::TYPE_ROLE);
+		$this->view->prop_set = User::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
@@ -298,17 +294,16 @@ class UserController extends AdminController{
 		$user_id = $this->input->get('user_id', 'intval');
 		
 		if($role_ids){
-			$roles = Role::model()->get($role_ids);
-			$this->view->props = $roles['props'];
+			$props = User::model()->getPropsByRoles($role_ids);
 		}else{
-			$this->view->props = array();
+			$props = array();
 		}
 		
-		if(!empty($roles) && $user_id){
-			$this->view->data = User::model()->getProps($user_id, $roles['props']);
-		}else{
-			$this->view->data = array();
+		if(!empty($props) && $user_id){
+			$props = User::model()->getPropertySet($user_id, $props);
 		}
+		
+		$this->view->prop_set = $props;
 		
 		$this->view->renderPartial('prop/_edit');
 	}

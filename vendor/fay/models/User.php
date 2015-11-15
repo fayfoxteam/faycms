@@ -305,17 +305,33 @@ class User extends Model{
 	 * 可传入props（并不一定真的是当前用户分类对应的属性，比如编辑用户所属分类的时候会传入其他属性）<br>
 	 * 若不传入，则会自动获取当前用户所属角色的属性集
 	 */
-	public function getProps($user_id, $props = null){
+	public function getPropertySet($user_id, $props = null){
 		if($props === null){
-			$user_roles = User::model()->getRoleIds($user_id);
-			$props = Prop::model()->mget($user_roles, Props::TYPE_ROLE);
+			$props = $this->getProps($user_id);
 		}
-	
+		
 		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(
 			'varchar'=>'fay\models\tables\UserPropVarchar',
 			'int'=>'fay\models\tables\UserPropInt',
 			'text'=>'fay\models\tables\UserPropText',
 		));
+	}
+	
+	/**
+	 * 根据用户ID，获取用户对应属性（不带属性值）
+	 * @param int $user_id
+	 */
+	public function getProps($user_id){
+		$role_ids = User::model()->getRoleIds($user_id);
+		return $this->getPropsByRoles($role_ids);
+	}
+	
+	/**
+	 * 根据角色id，获取相关属性（不带属性值）
+	 * @param array $role_ids 由角色id构成的一维数组
+	 */
+	public function getPropsByRoles($role_ids){
+		return Prop::model()->mget($role_ids, Props::TYPE_ROLE);
 	}
 	
 	/**

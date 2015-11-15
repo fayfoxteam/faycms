@@ -171,7 +171,7 @@ class OperatorController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑管理员信息';
-		$id = $this->input->request('id', 'intval');
+		$user_id = $this->input->request('id', 'intval');
 		$this->form()->setScene('edit')
 			->setModel(Users::model());
 		if($this->input->post()){
@@ -188,24 +188,24 @@ class OperatorController extends AdminController{
 				}else{
 					unset($data['password']);
 				}
-				Users::model()->update($data, $id);
+				Users::model()->update($data, $user_id);
 				
 				$roles = $this->form()->getData('roles');
 				if(!empty($roles)){
 					//删除被删除了的角色
 					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$id,
+						'user_id = ?'=>$user_id,
 						'role_id NOT IN (?)'=>$roles,
 					));
 					$user_roles = array();
 					foreach($roles as $r){
 						if(!UsersRoles::model()->fetchRow(array(
-							'user_id = ?'=>$id,
+							'user_id = ?'=>$user_id,
 							'role_id = ?'=>$r,
 						))){
 							//不存在，则插入
 							$user_roles[] = array(
-								'user_id'=>$id,
+								'user_id'=>$user_id,
 								'role_id'=>$r,
 							);
 						}
@@ -214,29 +214,29 @@ class OperatorController extends AdminController{
 				}else{
 					//删除全部角色
 					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$id,
+						'user_id = ?'=>$user_id,
 					));
 				}
 				
 				//设置属性
 				if($roles){
 					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
+					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
 						'varchar'=>'fay\models\tables\UserPropVarchar',
 						'int'=>'fay\models\tables\UserPropInt',
 						'text'=>'fay\models\tables\UserPropText',
 					));
 				}
 				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $id);
+				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
 				Flash::set('修改成功', 'success');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		
-		$user = User::model()->get($id, 'users.*,props.*');
-		$user_role_ids = User::model()->getRoleIds($id);
+		$user = User::model()->get($user_id, 'users.*,profile.*');
+		$user_role_ids = User::model()->getRoleIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));
@@ -246,7 +246,7 @@ class OperatorController extends AdminController{
 			'deleted = 0',
 		), 'id,title');	
 		
-		$this->view->props = Prop::model()->mget($user_role_ids, Props::TYPE_ROLE);
+		$this->view->prop_set = User::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	

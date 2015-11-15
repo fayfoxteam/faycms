@@ -204,7 +204,7 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 根据分类ID，获取相关属性（不包含属性值）
+	 * 根据分类ID，获取相关属性（不带属性值）
 	 * @param int $cat
 	 *  - 数字:代表分类ID;
 	 *  - 字符串:分类别名;

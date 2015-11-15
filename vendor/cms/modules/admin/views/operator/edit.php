@@ -4,10 +4,7 @@
 		<?php $this->renderPartial('_edit_panel')?>
 	</div>
 	<div class="col-6" id="prop-panel">
-		<?php $this->renderPartial('prop/_edit', array(
-			'props'=>$props,
-			'data'=>$user['props'],
-		))?>
+		<?php $this->renderPartial('prop/_edit')?>
 	</div>
 </div>
 <div class="form-field">

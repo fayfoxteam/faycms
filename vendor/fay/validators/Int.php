@@ -73,6 +73,8 @@ class Int extends Validator{
 			if($check !== true){
 				return $this->addError($check[0], $check[1], $check[2]);
 			}
+			
+			return true;
 		}
 	}
 	

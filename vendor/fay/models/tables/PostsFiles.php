@@ -27,7 +27,7 @@ class PostsFiles extends Table{
 		return array(
 			'post_id'=>'文章ID',
 			'file_id'=>'文件ID',
-			'description'=>'描述',
+			'description'=>'附件描述',
 			'is_image'=>'是否为图片',
 			'sort'=>'排序值',
 		);

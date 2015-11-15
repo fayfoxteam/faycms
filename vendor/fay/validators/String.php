@@ -8,6 +8,11 @@ use fay\core\Validator;
  */
 class String extends Validator{
 	/**
+	 * 若为true，允许传入数组，每个数组项都必须是数字
+	 */
+	public $allow_array = true;
+	
+	/**
 	 * 最大长度
 	 */
 	public $max;
@@ -36,6 +41,8 @@ class String extends Validator{
 	
 	public $format_error = '{$attribute}格式不正确';
 	
+	public $format_error_code = 'invalid-parameter:{$field}:format-error';
+	
 	/**
 	 * 若指定为formats中的key，则调用formats中的正则
 	 * 否则将指定的format值视为正则进行格式匹配
@@ -53,6 +60,28 @@ class String extends Validator{
 	);
 	
 	public function validate($value){
+		if($this->allow_array && is_array($value)){
+			//如果允许传入数组且传入的是数组
+			foreach($value as $v){
+				$check = $this->checkItem($v);
+				if($check !== true){
+					return $this->addError($check[0], $check[1], $check[2]);
+				}
+			}
+			
+			return true;
+		}
+		
+		//只允许纯字符串
+		$check = $this->checkItem($value);
+		if($check !== true){
+			return $this->addError($check[0], $check[1], $check[2]);
+		}
+			
+		return true;
+	}
+	
+	public function checkItem($value){
 		if($this->format){
 			if(isset($this->formats[$this->format])){
 				$pattern = $this->formats[$this->format];
@@ -60,26 +89,26 @@ class String extends Validator{
 				$pattern = $this->format;
 			}
 			if(!preg_match($pattern, $value)){
-				return $this->format_error;
+				return array($this->format_error, $this->format_error_code, array());
 			}
 		}
 		
 		$len = mb_strlen($value, 'utf-8');
 		
 		if($this->equal && $len != $this->equal){
-			return $this->addError($this->not_equal, $this->not_equal_code, array(
+			return array($this->not_equal, $this->not_equal_code, array(
 				'equal'=>$this->equal,
 			));
 		}
 		
 		if($this->max !== null && $len > $this->max){
-			return $this->addError($this->too_long, $this->too_long_code, array(
+			return array($this->too_long, $this->too_long_code, array(
 				'max'=>$this->max,
 			));
 		}
 
 		if($this->min !== null && $len < $this->min){
-			return $this->addError($this->too_short, $this->too_short_code, array(
+			return array($this->too_short, $this->too_short_code, array(
 				'min'=>$this->min,
 			));
 		}

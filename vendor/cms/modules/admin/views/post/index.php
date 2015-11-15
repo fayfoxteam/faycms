@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\Html;
-use cms\models\Post;
 use fay\models\tables\Posts;
 use cms\helpers\ListTableHelper;
 
@@ -72,34 +71,34 @@ $cols = F::form('setting')->getData('cols', array());
 		<ul class="subsubsub fl">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index')?>">全部</a>
-				<span class="fc-grey">(<?php echo Post::model()->getCount()?>)</span>
+				<span class="fc-grey">(<span id="all-post-count">计算中...</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PUBLISHED))?>">已发布</a>
-				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PUBLISHED)?>)</span>
+				<span class="fc-grey">(<span id="published-post-count">计算中...</span>)</span>
 				|
 			</li>
 			<?php if(F::app()->post_review){//仅开启审核时显示?>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
-				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_PENDING)?>)</span>
+				<span class="fc-grey">(<span id="pending-post-count">计算中...</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_REVIEWED))?>">通过审核</a>
-				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_REVIEWED)?>)</span>
+				<span class="fc-grey">(<span id="reviewed-post-count">计算中...</span>)</span>
 				|
 			</li>
 			<?php }?>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
-				<span class="fc-grey">(<?php echo Post::model()->getCount(Posts::STATUS_DRAFT)?>)</span>
+				<span class="fc-grey">(<span id="draft-post-count">计算中...</span>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('deleted'=>1))?>">回收站</a>
-				<span class="fc-grey">(<?php echo Post::model()->getDeletedCount()?>)</span>
+				<span class="fc-grey">(<span id="deleted-post-count">计算中...</span>)</span>
 			</li>
 		</ul>
 	</div>
@@ -296,6 +295,26 @@ $cols = F::form('setting')->getData('cols', array());
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
+	//显示各状态文章数
+	$.ajax({
+		'type': 'GET',
+		'url': system.url('admin/post/get-counts'),
+		'dataType': 'json',
+		'cache': false,
+		'success': function(resp){
+			$('#all-post-count').text(resp.data.all);
+			$('#published-post-count').text(resp.data.published);
+			$('#draft-post-count').text(resp.data.draft);
+			$('#deleted-post-count').text(resp.data.deleted);
+			if(resp.data.pending){
+				$('#pending-post-count').text(resp.data.pending);
+			}
+			if(resp.data.reviewed){
+				$('#reviewed-post-count').text(resp.data.reviewed);
+			}
+		}
+	});
+	
 	$(".post-sort").feditsort({
 		'url':system.url("admin/post/sort")
 	});

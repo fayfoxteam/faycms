@@ -792,6 +792,9 @@ class PostController extends AdminController{
 		}
 	}
 	
+	/**
+	 * 验证文章别名是否存在（不排除已删除和未发布的文章）
+	 */
 	public function isAliasNotExist(){
 		$alias = $this->input->request('value', 'trim');
 		if(Posts::model()->fetchRow(array(
@@ -804,6 +807,9 @@ class PostController extends AdminController{
 		}
 	}
 	
+	/**
+	 * 搜索
+	 */
 	public function search(){
 		if($cat_id = $this->input->request('cat_id', 'intval')){
 			$cats = Category::model()->getAllIds($cat_id);
@@ -814,5 +820,24 @@ class PostController extends AdminController{
 			'cat_id IN (?)'=>isset($cats) ? $cats : false,
 		), 'id,title', 'id DESC', 20);
 		Response::json($posts);
+	}
+	
+	/**
+	 * 返回各状态下的文章数
+	 */
+	public function getCounts(){
+		$data = array(
+			'all'=>\cms\models\Post::model()->getCount(),
+			'published'=>\cms\models\Post::model()->getCount(Posts::STATUS_PUBLISHED),
+			'draft'=>\cms\models\Post::model()->getCount(Posts::STATUS_DRAFT),
+			'deleted'=>\cms\models\Post::model()->getDeletedCount(),
+		);
+		
+		if($this->post_review){
+			$data['pending'] = \cms\models\Post::model()->getCount(Posts::STATUS_PENDING);
+			$data['reviewed'] = \cms\models\Post::model()->getCount(Posts::STATUS_REVIEWED);
+		}
+		
+		Response::json($data);
 	}
 }

@@ -19,7 +19,6 @@ use fay\core\Loader;
 use fay\models\tables\Roles;
 use fay\models\tables\PostLikes;
 use fay\helpers\SqlHelper;
-use fay\models\tables\Files;
 
 class Post extends Model{
 	

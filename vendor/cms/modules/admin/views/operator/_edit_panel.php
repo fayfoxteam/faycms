@@ -11,7 +11,13 @@ use fay\models\File;
 	))?>
 </div>
 <div class="form-field">
-	<label class="title bold">密码</label>
+	<label class="title bold">密码<?php
+		if(F::form()->getScene() == 'create'){
+			echo Html::tag('em', array(
+				'class'=>'required',
+			), '*');
+		}
+	?></label>
 	<?php
 		echo F::form()->inputText('password', array(
 			'class'=>'form-control mw400',

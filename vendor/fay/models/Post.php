@@ -232,7 +232,7 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 新增一个文章属性集
+	 * 更新一个文章属性集
 	 * @param int $post_id 文章ID
 	 * @param array $data 以属性ID为键的属性键值数组
 	 * @param null|array $props 属性。若为null，则根据文章ID获取属性

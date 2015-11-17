@@ -14,6 +14,7 @@ use fay\core\Sql;
 use fay\models\tables\UserProfile;
 use fay\core\db\Expr;
 use fay\core\Hook;
+use fay\helpers\String;
 
 class User extends Model{
 	/**
@@ -421,5 +422,168 @@ class User extends Model{
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * 新增一个用户属性集
+	 * @param int $user_id 用户ID
+	 * @param array $data 以属性ID为键的属性键值数组
+	 * @param null|array $props 属性。若为null，则根据用户ID获取属性
+	 */
+	public function createPropertySet($user_id, $data, $props = null){
+		if($props === null){
+			$props = $this->getProps($user_id);
+		}
+		Prop::model()->createPropertySet('user_id', $user_id, $props, $data, array(
+			'varchar'=>'fay\models\tables\UserPropVarchar',
+			'int'=>'fay\models\tables\UserPropInt',
+			'text'=>'fay\models\tables\UserPropText',
+		));
+	}
+	
+	/**
+	 * 更新一个用户属性集
+	 * @param int $user_id 用户ID
+	 * @param array $data 以属性ID为键的属性键值数组
+	 * @param null|array $props 属性。若为null，则根据用户ID获取属性
+	 */
+	public function updatePropertySet($user_id, $data, $props = null){
+		if($props === null){
+			$props = $this->getProps($user_id);
+		}
+		Prop::model()->updatePropertySet('user_id', $user_id, $props, $data, array(
+			'varchar'=>'fay\models\tables\UserPropVarchar',
+			'int'=>'fay\models\tables\UserPropInt',
+			'text'=>'fay\models\tables\UserPropText',
+		));
+	}
+	
+	/**
+	 * 创建一个用户
+	 * @param array $user
+	 * @param array $extra 其它信息
+	 *  - roles 角色ID，逗号分隔或一维数组
+	 *  - props 以属性ID为键，属性值为值构成的关联数组
+	 *  - trackid 字符串，用于追踪用户来源的自定义标识码
+	 */
+	public function create($user, $extra = array(), $is_admin = 0){
+		if(!empty($user['password'])){
+			$auth_key = $this->generatePassword($user['password']);
+			$user['salt'] = $auth_key['salt'];
+			$user['password'] = $auth_key['password'];
+		}
+		
+		//过滤掉多余的数据
+		$user = Users::model()->fillData($user, false);
+		//插用户表
+		$user_id = Users::model()->insert($user);
+		//插用户扩展表
+		UserProfile::model()->insert(array(
+			'user_id'=>$user_id,
+			'reg_time'=>\F::app()->current_time,
+			'reg_ip'=>Request::ip2int(Request::getIP()),
+			'trackid'=>isset($extra['trackid']) ? $extra['trackid'] : '',
+		));
+		
+		//插角色表
+		if(!empty($extra['roles'])){
+			if(!is_array($extra['roles'])){
+				$extra['roles'] = explode(',', $extra['roles']);
+			}
+			$user_roles = array();
+			foreach($extra['roles'] as $r){
+				$user_roles[] = array(
+					'user_id'=>$user_id,
+					'role_id'=>$r,
+				);
+			}
+			UsersRoles::model()->bulkInsert($user_roles);
+			
+		}
+		
+		//设置属性
+		if($extra['props']){
+			$this->createPropertySet($user_id, $extra['props']);
+		}
+		
+		return $user_id;
+	}
+	
+	/**
+	 * 更新一个用户
+	 * @param array $user
+	 * @param array $extra 其它信息
+	 *  - roles 角色ID，逗号分隔或一维数组
+	 *  - props 以属性ID为键，属性值为值构成的关联数组
+	 *  - trackid 字符串，用于追踪用户来源的自定义标识码
+	 */
+	public function update($user_id, $user, $extra = array()){
+		if(isset($user['password'])){
+			if($user['password']){
+				//非空，则更新密码字段
+				$auth_key = $this->generatePassword($user['password']);
+				$user['salt'] = $auth_key['salt'];
+				$user['password'] = $auth_key['password'];
+			}else{
+				//为空，则不更新密码字段
+				unset($user['password'], $user['salt']);
+			}
+		}
+		
+		//过滤掉多余的数据
+		$user = Users::model()->fillData($user, false);
+		
+		if($user){
+			//更新用户表（也有可能没数据提交不更新）
+			Users::model()->update($user, $user_id);
+		}
+		
+		if(isset($extra['roles'])){
+			if(!is_array($extra['roles'])){
+				$extra['roles'] = explode(',', $extra['roles']);
+			}
+			if(!empty($extra['roles'])){
+				//删除被删除了的角色
+				UsersRoles::model()->delete(array(
+					'user_id = ?'=>$user_id,
+					'role_id NOT IN (?)'=>$extra['roles'],
+				));
+				$user_roles = array();
+				foreach($extra['roles'] as $r){
+					if(!UsersRoles::model()->fetchRow(array(
+						'user_id = ?'=>$user_id,
+						'role_id = ?'=>$r,
+					))){
+						//不存在，则插入
+						$user_roles[] = array(
+							'user_id'=>$user_id,
+							'role_id'=>$r,
+						);
+					}
+				}
+				UsersRoles::model()->bulkInsert($user_roles);
+			}else{
+				//删除全部角色
+				UsersRoles::model()->delete(array(
+					'user_id = ?'=>$user_id,
+				));
+			}
+		}
+		
+		//附加属性
+		if(isset($extra['props'])){
+			$this->updatePropertySet($user_id, $extra['props']);
+		}
+	}
+	
+	/**
+	 * 根据明码，得到一个加密后的密码和混淆码
+	 */
+	public function generatePassword($password){
+		$salt = String::random('alnum', 5);
+		return array(
+			'salt'=>$salt,
+			'password'=>md5(md5($password) . $salt),
+		);
 	}
 }

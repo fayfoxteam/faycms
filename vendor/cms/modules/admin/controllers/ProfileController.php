@@ -3,12 +3,9 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Users;
-use fay\helpers\String;
 use fay\models\tables\Actionlogs;
 use fay\models\User;
-use fay\models\Prop;
 use fay\models\Flash;
-use fay\models\tables\Props;
 use fay\models\tables\Roles;
 
 class ProfileController extends AdminController{
@@ -25,35 +22,22 @@ class ProfileController extends AdminController{
 			if($this->form()->check()){
 				//两次密码输入一致
 				$data = Users::model()->fillData($this->input->post());
-				if($password = $this->input->post('password')){
-					//生成五位随机数
-					$salt = String::random('alnum', 5);
-					//密码加密
-					$password = md5(md5($password).$salt);
-					$data['salt'] = $salt;
-					$data['password'] = $password;
-				}else{
-					unset($data['password']);
-				}
-				Users::model()->update($data, $user_id);
+				
+				$extra = array(
+					'props'=>$this->input->post('props', '', array()),
+				);
+				
+				User::model()->update($user_id, $data, $extra);
+				
+				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
+				Flash::set('修改成功', 'success');
 				
 				//修改当前用户session
 				\F::session()->set('avatar', $data['avatar']);
 				\F::session()->set('nickname', $data['nickname']);
 				
-				//设置属性
-				$roles = User::model()->getRoleIds($user_id);
-				if($roles){
-					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
-						'varchar'=>'fay\models\tables\UserPropVarchar',
-						'int'=>'fay\models\tables\UserPropInt',
-						'text'=>'fay\models\tables\UserPropText',
-					));
-				}
-				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
-				Flash::set('修改成功', 'success');
+				//置空密码字段
+				$this->form()->setData(array('password'=>''), true);
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

@@ -8,9 +8,6 @@ use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\common\ListView;
 use fay\models\User;
-use fay\helpers\String;
-use fay\models\Role;
-use fay\models\Prop;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\Html;
@@ -18,9 +15,6 @@ use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\Flash;
 use fay\models\tables\UserProfile;
-use fay\helpers\Request;
-use fay\models\tables\Props;
-use fay\models\tables\UsersRoles;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -128,46 +122,20 @@ class UserController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = Users::model()->fillData($this->input->post());
-				$data['status'] = Users::STATUS_VERIFIED;
-				$data['salt'] = String::random('alnum', 5);
-				$data['password'] = md5(md5($data['password']).$data['salt']);
-				$data['admin'] = 0;
-				//插用户表
-				$user_id = Users::model()->insert($data);
-				//插用户扩展表
-				UserProfile::model()->insert(array(
-					'user_id'=>$user_id,
-					'reg_time'=>$this->current_time,
-					'reg_ip'=>Request::ip2int(Request::getIP()),
-					'trackid'=>'admin_create:'.\F::session()->get('user.id'),
-				));
-				//插角色表
-				$roles = $this->input->post('roles', 'intval');
-				if($roles){
-					$user_roles = array();
-					foreach($roles as $r){
-						$user_roles[] = array(
-							'user_id'=>$user_id,
-							'role_id'=>$r,
-						);
-					}
-					UsersRoles::model()->bulkInsert($user_roles);
-				}
+				isset($data['status']) || $data['status'] = Users::STATUS_VERIFIED;
 				
-				//设置属性
-				if($roles){
-					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
-						'varchar'=>'fay\models\tables\UserPropVarchar',
-						'int'=>'fay\models\tables\UserPropInt',
-						'text'=>'fay\models\tables\UserPropText',
-					));
-				}
+				$extra = array(
+					'trackid'=>'admin_create:'.\F::session()->get('user.id'),
+					'roles'=>$this->input->post('roles', 'intval', array()),
+					'props'=>$this->input->post('props', '', array()),
+				);
+				
+				$user_id = User::model()->create($data, $extra);
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个新用户', $user_id);
 				
 				Response::notify('success', '用户添加成功，'.Html::link('继续添加', array('admin/user/create', array(
-					'roles'=>$roles,
+					'roles'=>$this->input->post('roles', 'intval', array()),
 				))), array('admin/user/edit', array(
 					'id'=>$user_id,
 				)));
@@ -194,59 +162,20 @@ class UserController extends AdminController{
 		
 		if($this->input->post()){
 			if($this->form()->check()){
-				$data = Users::model()->fillData($this->input->post());
-				if($password = $this->input->post('password')){
-					//生成五位随机数
-					$salt = String::random('alnum', 5);
-					//密码加密
-					$password = md5(md5($password).$salt);
-					$data['salt'] = $salt;
-					$data['password'] = $password;
-				}else{
-					unset($data['password']);
-				}
-				Users::model()->update($data, $user_id);
+				$data = Users::model()->fillData($this->form()->getAllData(false));
 				
-				$roles = $this->form()->getData('roles');
-				if(!empty($roles)){
-					//删除被删除了的角色
-					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$user_id,
-						'role_id NOT IN (?)'=>$roles,
-					));
-					$user_roles = array();
-					foreach($roles as $r){
-						if(!UsersRoles::model()->fetchRow(array(
-							'user_id = ?'=>$user_id,
-							'role_id = ?'=>$r,
-						))){
-							//不存在，则插入
-							$user_roles[] = array(
-								'user_id'=>$user_id,
-								'role_id'=>$r,
-							);
-						}
-					}
-					UsersRoles::model()->bulkInsert($user_roles);
-				}else{
-					//删除全部角色
-					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$user_id,
-					));
-				}
+				$extra = array(
+					'roles'=>$this->input->post('roles', 'intval', array()),
+					'props'=>$this->input->post('props', '', array()),
+				);
 				
-				//设置属性
-				if($roles){
-					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
-						'varchar'=>'fay\models\tables\UserPropVarchar',
-						'int'=>'fay\models\tables\UserPropInt',
-						'text'=>'fay\models\tables\UserPropText',
-					));
-				}
+				User::model()->update($user_id, $data, $extra);
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $user_id);
 				Flash::set('修改成功', 'success');
+				
+				//置空密码字段
+				$this->form()->setData(array('password'=>''), true);
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

@@ -337,20 +337,21 @@ var common = {
 	},
 	'screenMeta': function(){
 		if($('.screen-meta-links a').length){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$('.screen-meta-links a').fancybox({
-					'padding': 0,
-					'centerOnScroll': true,
-					'titleShow': false,
-					'onClosed': function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'type' : 'inline'
+			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$('.screen-meta-links > a').fancybox({
+						'padding': 0,
+						'centerOnScroll': true,
+						'titleShow': false,
+						'onClosed': function(o){
+							$($(o).attr('href')).find('input,select,textarea').each(function(){
+								$(this).poshytip('hide');
+							});
+						}
+					});
 				});
 			});
+			
 			
 			$('.faycms-setting-link').on('mouseover', function(){
 				$(this).addClass('fa-spin');

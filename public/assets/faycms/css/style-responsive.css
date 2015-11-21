@@ -319,7 +319,7 @@ select option[disabled]{text-decoration:line-through}
 }
 
 /* 内容主题-页面标题 */
-.main-content .page-title{background:#f8f8f8;margin:-30px;margin-bottom:30px;padding:20px 0;-webkit-box-shadow:0 1px 0 rgba(0,1,1,.08), inset 0 1px 0 #ededed;-moz-box-shadow:0 1px 0 rgba(0,1,1,.08), inset 0 1px 0 #ededed;box-shadow:0 1px 0 rgba(0,1,1,.08), inset 0 1px 0 #ededed}
+.main-content .page-title{background:#f8f8f8;margin:-30px;margin-bottom:30px;padding:20px 0;box-shadow:0 1px 0 rgba(0,1,1,.08), inset 0 1px 0 #ededed}
 @media screen and (max-width: 768px) {
 	.main-content .page-title{padding:15px 0}
 }
@@ -331,8 +331,8 @@ select option[disabled]{text-decoration:line-through}
 .main-content .page-title .operate-env{float:right;padding-right:30px}
 .main-content .page-title .operate-env .fa{color:#979898;padding:4px 8px}
 .main-content .page-title .operate-env .fa:hover{color:#646565}
-.main-content .page-title .operate-env .faycms-help-link{transition:all 700ms ease-in-out}
-.main-content .page-title .operate-env .faycms-help-link:hover{-webkit-transform:rotateY(360deg);-moz-transform:rotateY(360deg);-ms-transform:rotateY(360deg);transform:rotateY(360deg)}
+.main-content .page-title .operate-env .faycms-help-link{transition:all 700ms ease-in-out;transform:rotateY(0deg)}
+.main-content .page-title .operate-env .faycms-help-link:hover{transform:rotateY(360deg)}
 
 /* 顶部导航 */
 .main-content .user-info-navbar{background-color:#fff;margin:-30px;margin-bottom:30px}
@@ -582,7 +582,6 @@ pre li:hover{background-color:#575757}
 .block{display:block}
 .ellipsis{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pointer{cursor:pointer}
-.horizontal-rotate{transition:all 2s linear 0s;-webkit-transform:rotateY(360deg);-moz-transform:rotateY(360deg);-ms-transform:rotateY(360deg);transform:rotateY(360deg)}
 .hide,.hidden{display:none}
 .fn-hide{display:none !important;}
 @media (max-width:767px){

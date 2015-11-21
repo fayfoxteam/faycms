@@ -27,7 +27,7 @@ system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo F::session()->get('user.id', 0)?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
 <title><?php echo $subtitle?> | <?php echo Option::get('site:sitename')?>后台</title>
 </head>
 <body id="faycms">

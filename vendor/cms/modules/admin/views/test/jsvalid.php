@@ -97,6 +97,6 @@ $(function(){
 	}]});
 	demo.addLabels({'username2':'asdf'});
 
-	demo.addValidator('test', function(){alert('123')});
+	demo.addValidator('test', function(){common.alert('123')});
 });
 </script>

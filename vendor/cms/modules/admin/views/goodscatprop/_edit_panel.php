@@ -102,7 +102,7 @@ $(function(){
 
 	$("#add-prop-value-link").click(function(){
 		if($("#prop-title").val() == ""){
-			alert('属性值不能为空！');
+			common.alert('属性值不能为空！');
 			return false;
 		}
 		$('#prop-list').append(['<div class="dragsort-item hide">',

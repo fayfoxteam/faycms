@@ -46,7 +46,7 @@ jQuery.fn.extend({
 								}else{
 									$(o).next('img').attr('src', system.assets('images/cross-circle.png'))
 										.attr('title', resp.message);
-									alert(resp.message);
+									common.alert(resp.message);
 								}
 							}
 						});

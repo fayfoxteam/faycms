@@ -91,7 +91,7 @@ $(function(){
 		var id = $(this).parent().prev().attr('data-id');
 		var total_score = $('#question-'+id).find('.total-score').text();
 		if(parseFloat(score) > parseFloat(total_score)){
-			alert('设置得分不能高于总分');
+			common.alert('设置得分不能高于总分');
 			return false;
 		}else{
 			$(this).parent().append('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
@@ -113,7 +113,7 @@ $(function(){
 						});
 						$('#exam-score').text(system.changeTwoDecimal(resp.exam_total_score));
 					}else{
-						alert('message');
+						common.alert('message');
 					}
 				}
 			});

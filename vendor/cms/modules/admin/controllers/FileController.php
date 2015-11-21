@@ -60,7 +60,7 @@ class FileController extends AdminController{
 			if($result['status']){
 				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
 			}else{
-				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+				echo '<script>common.alert("' . implode("\r\n", $data) . '");</script>';
 			}
 		}else{
 			Response::json($data);
@@ -175,7 +175,7 @@ class FileController extends AdminController{
 			if($result['status']){
 				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
 			}else{
-				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+				echo '<script>common.alert("' . implode("\r\n", $data) . '");</script>';
 			}
 		}else{
 			Response::json($data);

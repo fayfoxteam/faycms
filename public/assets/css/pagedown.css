@@ -18,7 +18,7 @@
 .wmd-preview table td{border:1px solid black;padding:5px;}
 
 #wmd-model-links{position:relative;z-index:2;float:right;}
-#wmd-model-links a{background:url(admin/images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px;}
+#wmd-model-links a{background:url(../faycms/css/images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px;}
 #wmd-model-links a:last-child{background:0 none;}
 
 .wmd-preview h1{padding:12px 0;}

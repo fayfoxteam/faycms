@@ -6,22 +6,22 @@ var common = {
 		'forms':{},
 		'settings':{
 			'poshytip':{//利用poshytip插件报错
-				'init':function(){
+				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 					system.getScript(system.assets('js/jquery.poshytip.min.js'));
 				},
-				'showAllErrors':true,
-				'onAjaxEnd':function(obj, resp){
+				'showAllErrors': true,
+				'onAjaxEnd': function(obj, resp){
 					if(!resp.status){
 						$('body').unblock();
 					}
 				},
-				'beforeCheck':function(){
+				'beforeCheck': function(){
 					$('body').block({
-						'zindex':1300
+						'zindex': 1300
 					});
 				},
-				'onError':function(obj, msg, rule){
+				'onError': function(obj, msg, rule){
 					$('body').unblock();
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
@@ -36,30 +36,30 @@ var common = {
 						'content': msg
 					}).poshytip('show');
 				},
-				'onSuccess':function(obj){
+				'onSuccess': function(obj){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
 				}
 			},
 			'setting':{//管理员界面顶部设置表单
-				'init':function(){
+				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 					system.getScript(system.assets('js/jquery.poshytip.min.js'));
 				},
-				'ajaxSubmit':true,
-				'beforeSubmit':function(){
+				'ajaxSubmit': true,
+				'beforeSubmit': function(){
 					$('#setting-form-submit').nextAll('span').remove();
 					$('#setting-form-submit').after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
 				},
-				'afterAjaxSubmit':function(resp){
+				'afterAjaxSubmit': function(resp){
 					if(resp.status){
 						$('#setting-form-submit').nextAll('img,span,a').remove();
 						$('#setting-form-submit').after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				},
-				'onError':function(obj, msg, rule){
+				'onError': function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
 					//报错
@@ -73,7 +73,7 @@ var common = {
 						'content': msg
 					}).poshytip('show');
 				},
-				'onSuccess':function(obj){
+				'onSuccess': function(obj){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
 				}
@@ -81,7 +81,7 @@ var common = {
 		}
 	},
 	'settingValidform':null,
-	'fancybox':function(){
+	'fancybox': function(){
 		//弹窗
 		if($('.fancybox-image').length){
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
@@ -90,8 +90,8 @@ var common = {
 						'transitionIn' : 'elastic',
 						'transitionOut' : 'elastic',
 						'type' : 'image',
-						'padding':0,
-						'centerOnScroll':true
+						'padding': 0,
+						'centerOnScroll': true
 					});
 				});
 			});
@@ -100,9 +100,9 @@ var common = {
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 					$('.fancybox-inline').fancybox({
-						'padding':0,
-						'centerOnScroll':true,
-						'onClosed':function(o){
+						'padding': 0,
+						'centerOnScroll': true,
+						'onClosed': function(o){
 							$($(o).attr('href')).find('input,select,textarea').each(function(){
 								$(this).poshytip('hide');
 							});
@@ -116,7 +116,7 @@ var common = {
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 					$('.fancybox-iframe').fancybox({
-						'centerOnScroll':true,
+						'centerOnScroll': true,
 						'type' : 'iframe',
 						'width' : 750,
 						'autoDimensions' : true
@@ -135,7 +135,7 @@ var common = {
 		}
 		
 	},
-	'notification':function(){
+	'notification': function(){
 		//将所有系统消息置为已读状态
 		$(document).on('click', '.header-notification-mute', function(){
 			$.ajax({
@@ -166,7 +166,7 @@ var common = {
 							$(this).remove();
 						});
 					}else{
-						alert(data.message);
+						common.alert(data.message);
 					}
 					common.headerNotification();
 				}
@@ -181,7 +181,7 @@ var common = {
 				url: system.url('admin/notification/set-read'),
 				data: {
 					'id':_this.attr('data-id'),
-					'read':1
+					'read': 1
 				},
 				dataType: 'json',
 				cache: false,
@@ -191,7 +191,7 @@ var common = {
 							$(this).remove();
 						})
 					}else{
-						alert(data.message);
+						common.alert(data.message);
 					}
 					common.headerNotification();
 				}
@@ -199,7 +199,7 @@ var common = {
 			return false;
 		});
 	},
-	'headerNotification':function(){
+	'headerNotification': function(){
 		$.ajax({
 			type: 'GET',
 			url: system.url('admin/notification/get'),
@@ -229,9 +229,9 @@ var common = {
 					
 					system.getScript(system.assets('js/jquery.slimscroll.min.js'), function(){
 						$('#faycms-messages').slimScroll({
-							'height':'300px',
-							'color':'#a1b2bd',
-							'opacity':.3
+							'height': '300px',
+							'color': '#a1b2bd',
+							'opacity': .3
 						});
 					});
 					if(has_new_message){
@@ -248,7 +248,7 @@ var common = {
 			}
 		});
 	},
-	'menu':function(){
+	'menu': function(){
 		$('#main-menu').on('click', '.has-sub > a', function(){
 			//非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
 			if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
@@ -303,7 +303,7 @@ var common = {
 				type: 'POST',
 				url: system.url('admin/system/setting'),
 				data: {
-					'_key':'admin_sidebar_class',
+					'_key': 'admin_sidebar_class',
 					'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
 				}
 			});
@@ -316,13 +316,13 @@ var common = {
 				system.getScript(system.assets('js/perfect-scrollbar.js'), function(){
 					if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
 						$('.sidebar-menu-inner').perfectScrollbar({
-							'wheelPropagation':true
+							'wheelPropagation': true
 						});
 					}
 					$(window).resize(function(){
 						if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
 							$('.sidebar-menu-inner').perfectScrollbar({
-								'wheelPropagation':true
+								'wheelPropagation': true
 							});
 						}else{
 							$('.sidebar-menu-inner').perfectScrollbar('destroy');
@@ -335,15 +335,15 @@ var common = {
 			$('.sidebar-menu').removeClass('fixed');
 		}
 	},
-	'screenMeta':function(){
+	'screenMeta': function(){
 		if($('.screen-meta-links a').length){
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
 			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 				$('.screen-meta-links a').fancybox({
-					'padding':0,
-					'centerOnScroll':true,
-					'titleShow':false,
-					'onClosed':function(o){
+					'padding': 0,
+					'centerOnScroll': true,
+					'titleShow': false,
+					'onClosed': function(o){
 						$($(o).attr('href')).find('input,select,textarea').each(function(){
 							$(this).poshytip('hide');
 						});
@@ -359,7 +359,7 @@ var common = {
 			});
 		}
 	},
-	'dragsort':function(){
+	'dragsort': function(){
 		//box的拖拽
 		if($('.dragsort').length){
 			system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
@@ -369,7 +369,7 @@ var common = {
 					'dragBetween': true,
 					'placeHolderTemplate': '<div class="box holder"></div>',
 					'dragSelectorExclude': 'input,textarea,select,table,span,p',
-					'dragEnd':function(){
+					'dragEnd': function(){
 						//拖拽后poshytip需要重新定位
 						$('.dragsort').find('input,select,textarea').each(function(){
 							if($(this).data('poshytip')){
@@ -401,7 +401,7 @@ var common = {
 									if(resp.status){
 										
 									}else{
-										alert(resp.message);
+										common.alert(resp.message);
 									}
 								}
 							});
@@ -411,20 +411,20 @@ var common = {
 			});
 		}
 	},
-	'poshytip':function(){
+	'poshytip': function(){
 		if($('.poshytip').length){
 			system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 			system.getScript(system.assets('js/jquery.poshytip.min.js'), function(){
 				$('.poshytip').poshytip({
-					'className':'tip-twitter',
+					'className': 'tip-twitter',
 					'alignTo': 'target',
 					'alignX': 'center',
-					'showTimeout':5
+					'showTimeout': 5
 				});
 			});
 		}
 	},
-	'fixContent':function(){
+	'fixContent': function(){
 		//下拉后顶部固定
 		if($('.fixed-content').length){
 			system.getScript(system.assets('faycms/js/fayfox.fixcontent.js'), function(){
@@ -432,7 +432,7 @@ var common = {
 			});
 		}
 	},
-	'events':function(){
+	'events': function(){
 		//鼠标划过添加hover
 		$(document).on('mouseenter', '.box-title, .toggle-hover, .list-table tr', function(){
 			$(this).addClass('hover');
@@ -480,12 +480,12 @@ var common = {
 			return confirm('确实要永久删除此记录吗？');
 		});
 	},
-	'pager':function(){
+	'pager': function(){
 		//初始化页码输入框长度
 		$('.pager .pager-input').each(function(){
 			var inputLength = parseInt($(this).val().length);
 			if(inputLength > 1){
-				$(this).css({'width':50 + 7 * (inputLength - 1)});
+				$(this).css({'width': 50 + 7 * (inputLength - 1)});
 			}
 		});
 		
@@ -505,15 +505,15 @@ var common = {
 				}
 				var inputLength = parseInt($(this).val().length);
 				if(inputLength){
-					$(this).css({'width':50 + 7 * (inputLength - 1)});
+					$(this).css({'width': 50 + 7 * (inputLength - 1)});
 				}else{
 					//输入了非数字，会获取不到
-					$(this).css({'width':50}).val('');
+					$(this).css({'width': 50}).val('');
 				}
 			}
 		});
 	},
-	'validform':function(){
+	'validform': function(){
 		if($('form.validform').length){
 			system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
 				if(!$.isEmptyObject(common.validformParams.forms)){
@@ -535,13 +535,13 @@ var common = {
 			});
 		}
 	},
-	'datepicker':function(){
+	'datepicker': function(){
 		//完整的时间选择，精确到秒
 		if($('.timepicker').length){
 			system.getScript(system.assets('js/My97DatePicker/WdatePicker.js'), function(){
 				$(document).on('focus', '.timepicker', function(){
 					WdatePicker({
-						'dateFmt':'yyyy-MM-dd HH:mm:ss'
+						'dateFmt': 'yyyy-MM-dd HH:mm:ss'
 					});
 				});
 			});
@@ -552,13 +552,13 @@ var common = {
 			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
 			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
 				$('.datetimepicker').datetimepicker({
-					'lang':'ch',
-					'format':'Y-m-d H:i:00',
-					'formatDate':'Y-m-d',
-					'formatTime':'H:i',
-					'dayOfWeekStart':1,
+					'lang': 'ch',
+					'format': 'Y-m-d H:i:00',
+					'formatDate': 'Y-m-d',
+					'formatTime': 'H:i',
+					'dayOfWeekStart': 1,
 					'allowBlank':$.browser.msie ? false : true,
-					'onShow':function(){
+					'onShow': function(){
 						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
 						setTimeout((function(o){
 							return function(){
@@ -577,13 +577,13 @@ var common = {
 			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
 			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
 				$('input.datetimepicker[name="start_time"]').datetimepicker({
-					'lang':'ch',
-					'format':'Y-m-d H:i:00',
-					'formatDate':'Y-m-d',
-					'formatTime':'H:i',
-					'dayOfWeekStart':1,
+					'lang': 'ch',
+					'format': 'Y-m-d H:i:00',
+					'formatDate': 'Y-m-d',
+					'formatTime': 'H:i',
+					'dayOfWeekStart': 1,
 					'allowBlank':($.browser.msie && $.browser.version < 9) ? false : true,
-					'onShow':function(ct){
+					'onShow': function(ct){
 						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
 						setTimeout((function(o){
 							return function(){
@@ -609,13 +609,13 @@ var common = {
 			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
 			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
 				$('input.datetimepicker[name="end_time"]').datetimepicker({
-					'lang':'ch',
-					'format':'Y-m-d H:i:00',
-					'formatDate':'Y-m-d',
-					'formatTime':'H:i',
-					'dayOfWeekStart':1,
-					'allowBlank':($.browser.msie && $.browser.version < 9) ? false : true,
-					'onShow':function(ct){
+					'lang': 'ch',
+					'format': 'Y-m-d H:i:00',
+					'formatDate': 'Y-m-d',
+					'formatTime': 'H:i',
+					'dayOfWeekStart': 1,
+					'allowBlank': ($.browser.msie && $.browser.version < 9) ? false : true,
+					'onShow': function(ct){
 						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
 						setTimeout((function(o){
 							return function(){
@@ -637,7 +637,7 @@ var common = {
 			});
 		}
 	},
-	'visualEditor':function(){
+	'visualEditor': function(){
 		//此方法仅支持只有一个富文本编辑器的页面
 		if($('#visual-editor').length){
 			window.CKEDITOR_BASEPATH = system.assets('js/ckeditor/');
@@ -684,7 +684,7 @@ var common = {
 			});
 		}
 	},
-	'markdownEditor':function(){
+	'markdownEditor': function(){
 		//Markdown编辑器
 		if($('#wmd-input').length){
 			system.getCss(system.assets('css/pagedown.css'));
@@ -777,10 +777,10 @@ var common = {
 			});
 		}
 	},
-	'removeEditor':function(){//移除富文本编辑器实例
+	'removeEditor': function(){//移除富文本编辑器实例
 		common.editorObj.destroy();
 	},
-	'tab':function(){
+	'tab': function(){
 		$(document).on('click', '.tabbable .nav-tabs a', function(){
 			$($(this).attr('href')).show().siblings().hide();
 			$(this).parent().addClass('active').siblings().removeClass('active');
@@ -802,7 +802,7 @@ var common = {
 			}
 		});
 	},
-	'showPager':function(id, pager){
+	'showPager': function(id, pager){
 		if(pager.total_pages > 1){
 			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 			//向前导航
@@ -830,13 +830,13 @@ var common = {
 		}
 		$('#'+id).html(html.join(''));
 	},
-	'batch':function(){
+	'batch': function(){
 		//批量操作表单提交
 		$('body').on('change', '.batch-ids-all', function(){
 			$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
 		}).on('click', '#batch-form-submit', function(){
 			if($('#batch-action').val() == ''){
-				alert('请选择操作');
+				common.alert('请选择操作');
 			}else{
 				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
 				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action').val()+'">')
@@ -847,7 +847,7 @@ var common = {
 			return false;
 		}).on('click', '#batch-form-submit-2', function(){
 			if($('#batch-action-2').val() == ''){
-				alert('请选择操作');
+				common.alert('请选择操作');
 			}else{
 				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
 				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action-2').val()+'">')
@@ -858,13 +858,13 @@ var common = {
 			return false;
 		});
 	},
-	'dragsortList':function(){
+	'dragsortList': function(){
 		if($('.dragsort-list').length){
 			//可拖拽的列表，例如文章附件
 			system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
 				$(".dragsort-list").dragsort({
 					'itemSelector': 'div.dragsort-item',
-					'dragSelector':'.dragsort-item-selector',
+					'dragSelector': '.dragsort-item-selector',
 					'placeHolderTemplate': '<div class="dragsort-item holder"></div>',
 					'dragEnd': function(a, b, c){
 						//拖拽后poshytip需要重新定位
@@ -895,14 +895,14 @@ var common = {
 			});
 		}
 	},
-	'textAutosize':function(){
+	'textAutosize': function(){
 		if($('textarea.autosize').length){
 			system.getScript(system.assets('js/jquery.autosize.min.js'), function(){
 				$('textarea.autosize').autosize();
 			});
 		}
 	},
-	'dropdown':function(){
+	'dropdown': function(){
 		$(document).on('click', 'a.dropdown', function(){
 			if($(this).parent().hasClass('open')){
 				//关闭
@@ -926,14 +926,46 @@ var common = {
 			});
 		});
 	},
-	'prettyPrint':function(){
+	'prettyPrint': function(){
 		if($('.prettyprint').length){
 			system.getScript(system.assets('js/prettify.js'), function(){
 				prettyPrint();
 			});
 		}
 	},
-	'init':function(){
+	'notify': function(message, type){
+		type = type || 'success';
+		system.getScript(system.assets('faycms/js/fayfox.toast.js'), function(){
+			if(type == 'success'){
+				//成功的提醒5秒后自动消失，不出现关闭按钮，点击则直接消失
+				$.toast(message, type, {
+					'closeButton': false,
+					'click': function(message){
+						message.fadeOut();
+					}
+				});
+			}else if(type == 'alert'){
+				//单页报错，在底部中间出现，红色背景，不显示关闭按钮，点击消失，延迟5秒消失
+				$.toast(message, type, {
+					'closeButton': false,
+					'positionClass': 'toast-bottom-middle',
+					'click': function(message){
+						message.fadeOut();
+					}
+				});
+			}else{
+				//其它类型，点击关闭消失，不自动消失
+				$.toast(message, type, {
+					'timeOut': 0,
+					'positionClass': 'toast-bottom-right'
+				});
+			}
+		});
+	},
+	'alert': function(message){
+		this.notify(message, 'alert');
+	},
+	'init': function(){
 		this.fancybox();
 		this.menu();
 		this.screenMeta();

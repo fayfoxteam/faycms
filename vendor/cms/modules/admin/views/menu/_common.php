@@ -280,7 +280,7 @@ var menu = {
 									});
 									
 								}else{
-									alert(resp.message);
+									common.alert(resp.message);
 								}
 							}
 						});
@@ -335,7 +335,7 @@ var menu = {
 							.show()
 							.next("img").remove();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});

@@ -95,13 +95,6 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 .btn.btn-grey{background-color:#e1e1e1;color:#333}
 .btn.btn-grey:hover{background-color:#d1d1d1}
 
-/* 消息 */
-.notification-container{margin-bottom:30px}
-.notification{padding:15px;margin-bottom:18px;background-color:#fff;border-left-width:5px;border-left-style:solid}
-.notification-success{border-color:#8dc63f}
-.notification-attention{border-color:#ffba00}
-.notification-error{border-color:#cc3f44}
-
 /* 表单布局 */
 .form-field{padding:8px 0}
 .form-field label.title{color:#222;text-shadow:0 1px 0 #fff;padding-bottom:4px;display:block;font-size:15px}
@@ -130,6 +123,25 @@ select option[disabled]{text-decoration:line-through}
 .box-content .misc-pub-section{padding:6px 11px 8px;border-top:1px solid #DFDFDF}
 .box.closed .box-content{display:none}
 .box.holder{border:2px dashed #DFDFDF !important}
+
+/* toast */
+.toast-container{position:fixed;z-index:999999}
+.toast-top-right{top:12px;right:12px}
+.toast-bottom-right{bottom:12px;right:12px}
+.toast-bottom-middle{bottom:12px;left:50%;margin-left:-175px}
+.toast-container > div.toast{padding:12px 15px;width:350px;margin-bottom:10px;color:#fff}
+.toast-container > div i{margin-right:6px;font-family:FontAwesome;font-style:normal;width:1.25em;display:inline-block}
+.toast-container > div:hover{cursor:pointer}
+.toast-warning{background-color:#ffba00}
+.toast-info{background-color:#40bbea}
+.toast-success{background-color:#8dc63f}
+.toast-error,.toast-alert{background-color:#cc3f44}
+.toast-warning i:before{content:"\f071"}
+.toast-info i:before{content:"\f12a"}
+.toast-success i:before{content:"\f058"}
+.toast-error i:before,.toast-alert i:before{content:"\f05a"}
+.toast-close-link{position:relative;right:-0.3em;top:-0.3em;float:right;font-size:20px;font-weight:bold;color:#fff;opacity:0.8}
+.toast-close-link:hover{opacity:1;color:#fff}
 
 /* badge右上角的小点点 */
 .badge{display:inline-block;color:#fff;vertical-align:baseline;white-space:nowrap;text-align:center;border-radius:10px}

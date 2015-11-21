@@ -39,7 +39,7 @@ var paper = {
 					common.showPager('questions-list-pager', resp.data.pager);
 					$('#question-dialog .select-all').attr('checked', false);
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});
@@ -99,7 +99,7 @@ var paper = {
 					paper.getQuestions(paper.page);
 					paper.refreshScore();
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});

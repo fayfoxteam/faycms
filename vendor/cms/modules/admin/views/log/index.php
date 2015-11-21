@@ -145,7 +145,7 @@ $(function(){
 									$("#ld-username").val(resp.data.username);
 								}
 							}else{
-								alert(resp.message);
+								common.alert(resp.message);
 							}
 						}
 					});

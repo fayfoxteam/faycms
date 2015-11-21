@@ -11,7 +11,7 @@
  *   }
  * }
  */
-;(function($) {
+;(function($){
 	$.extend({
 		'validform':{
 			//这是一堆验证器

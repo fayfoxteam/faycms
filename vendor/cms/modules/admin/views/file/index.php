@@ -185,7 +185,7 @@ var file = {
 				if(data.status){
 					$('#file-'+file_id+' td').addClass('bg-red').fadeOut('slow');
 				}else{
-					alert(data.message);
+					common.alert(data.message);
 				}
 			}
 		});
@@ -209,7 +209,7 @@ var file = {
 						$container.find('.loading').hide();
 						$container.find('.show-qiniu-file').attr('href', data.url);
 					}else{
-						alert(data.message);
+						common.alert(data.message);
 					}
 				}
 			});
@@ -232,7 +232,7 @@ var file = {
 						$container.find('.loading').hide();
 						$container.find('.show-qiniu-file').attr('href', '');
 					}else{
-						alert(data.message);
+						common.alert(data.message);
 					}
 				}
 			});

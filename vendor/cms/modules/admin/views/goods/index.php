@@ -221,7 +221,7 @@ $(function(){
 						.show()
 						.next("img").remove();
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});
@@ -247,7 +247,7 @@ $(function(){
 						.show()
 						.next("img").remove();
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});

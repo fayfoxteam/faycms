@@ -59,7 +59,7 @@ var cat = {
 										}
 									});
 								}else{
-									alert(resp.message);
+									common.alert(resp.message);
 								}
 							}
 						});
@@ -119,7 +119,7 @@ var cat = {
 							.show()
 							.next('img').remove();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -159,13 +159,13 @@ var cat = {
 
 		uploader.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
+				common.alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
-				alert('非法的文件类型');
+				common.alert('非法的文件类型');
 				return false;
 			}else{
-				alert(error.message);
+				common.alert(error.message);
 			}
 		});
 	},
@@ -203,13 +203,13 @@ var cat = {
 
 		uploader.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
+				common.alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
-				alert('非法的文件类型');
+				common.alert('非法的文件类型');
 				return false;
 			}else{
-				alert(error.message);
+				common.alert(error.message);
 			}
 		});
 	},

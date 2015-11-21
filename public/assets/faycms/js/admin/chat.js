@@ -29,7 +29,7 @@ var chat = {
 						$.fancybox.center(true);
 					});
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});
@@ -154,7 +154,7 @@ var chat = {
 								$(this).remove();
 							});
 						}else{
-							alert(resp.message);
+							common.alert(resp.message);
 						}
 					}
 				});
@@ -177,7 +177,7 @@ var chat = {
 						$('#chat-'+resp.data.id).find('.approve-link').hide()
 						$('#chat-'+resp.data.id).find('.unapprove-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -199,7 +199,7 @@ var chat = {
 						$('#chat-'+resp.data.id).find('.unapprove-link').hide()
 						$('#chat-'+resp.data.id).find('.approve-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -221,7 +221,7 @@ var chat = {
 							$(this).remove();
 						});
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -245,7 +245,7 @@ var chat = {
 						$('#reply-'+resp.data.id).find('.approve-link').hide()
 						$('#reply-'+resp.data.id).find('.unapprove-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -269,7 +269,7 @@ var chat = {
 						$('#reply-'+resp.data.id).find('.unapprove-link').hide()
 						$('#reply-'+resp.data.id).find('.approve-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -294,7 +294,7 @@ var chat = {
 								$(this).remove();
 							});
 						}else{
-							alert(resp.message);
+							common.alert(resp.message);
 						}
 					}
 				});
@@ -326,7 +326,7 @@ var chat = {
 							'animate':true
 						});
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});

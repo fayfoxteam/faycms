@@ -3,11 +3,12 @@ namespace fay\validators;
 
 use fay\core\Validator;
 use fay\core\Sql;
+use fay\core\ErrorException;
 
 /**
  * 验证表字段是否唯一
  * 该验证器必须传入table, field参数
- * additional可选
+ * conditions可选
  */
 class Unique extends Validator{
 	public $message = '{$attribute}已存在';
@@ -34,16 +35,20 @@ class Unique extends Validator{
 	 * 附加条件，
 	 * 若except字段不够用，则可以用此方法传入更复杂的条件
 	 */
-	public $additional = array();
+	public $conditions = array();
 	
 	public function validate($value){
 		$field = $this->field ? $this->field : $this->_field;
+		
+		if(!$this->table){
+			throw new ErrorException('fay\validators\Unique验证器必须指定table参数');
+		}
 		
 		$sql = new Sql();
 		$sql->from($this->table, $field)
 			->where(array(
 				"`{$field}` = ?"=>$value,
-			) + $this->additional);
+			) + $this->conditions);
 		if($this->except && \F::app()->input->request($this->except)){
 			$sql->where(array("{$this->except} != ?"=>\F::app()->input->request($this->except)));
 		}

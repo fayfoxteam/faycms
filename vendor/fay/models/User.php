@@ -172,10 +172,10 @@ class User extends Model{
 	 * 返回单个用户
 	 * @param string|array $id 用户id
 	 * @param string $fields 可指定返回字段
-	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
-	 *   roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
-	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
-	 *   profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
+	 *  - users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
+	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
+	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
 	 * @return false|array 若用户ID不存在，返回false，否则返回数组
 	 */
 	public function get($id, $fields = 'users.username,users.nickname,users.id,users.avatar'){

@@ -167,7 +167,7 @@ class Message extends Model{
 		//var_dump($msg);
 		//删除该条记录
 		Messages::model()->delete($id);
-		 if($msg['is_terminal']){
+		if($msg['is_terminal']){
 			//是叶子节点，查找其父节点还有没有其他子节点
 			if(Messages::model()->fetchRow(array(
 				'parent = ?'=>$msg['parent'],

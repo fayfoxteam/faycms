@@ -15,17 +15,20 @@ ALTER TABLE {{$prefix}}menus AUTO_INCREMENT = 1000;
 -- roles表新增超级管理员和系统角色
 INSERT INTO `{{$prefix}}roles` VALUES ('1', '超级管理员', '', '0', '1');
 
--- files表id从1000开始递增
-ALTER TABLE {{$prefix}}files AUTO_INCREMENT = 1000;
+-- files表id从10000开始递增
+ALTER TABLE {{$prefix}}files AUTO_INCREMENT = 10000;
 
--- posts表id从1000开始递增
-ALTER TABLE {{$prefix}}posts AUTO_INCREMENT = 1000;
+-- posts表id从10000开始递增
+ALTER TABLE {{$prefix}}posts AUTO_INCREMENT = 10000;
 
 -- pages表id从1000开始递增
 ALTER TABLE {{$prefix}}pages AUTO_INCREMENT = 1000;
 
 -- actions表id从10000开始递增
 ALTER TABLE {{$prefix}}actions AUTO_INCREMENT = 10000;
+
+-- post_comments表id从10000开始递增
+ALTER TABLE {{$prefix}}post_comments AUTO_INCREMENT = 10000;
 
 -- options表id从100开始递增
 INSERT INTO `{{$prefix}}options` (`id`, `option_name`, `option_value`, `description`, `create_time`, `last_modified_time`, `is_system`) VALUES ('1', 'system:post_review', '0', '是否启用文章审核功能', '{{$time}}', '{{$time}}', '1');

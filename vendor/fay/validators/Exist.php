@@ -3,6 +3,7 @@ namespace fay\validators;
 
 use fay\core\Validator;
 use fay\core\Sql;
+use fay\core\ErrorException;
 
 /**
  * 该验证器必须传入table, field参数
@@ -12,9 +13,20 @@ class Exist extends Validator{
 	
 	public $code = 'invalid-parameter:{$field}-is-not-exist';
 	
+	/**
+	 * 表名（必填）
+	 */
 	public $table;
 	
+	/**
+	 * 字段名（选填，不填则默认为传入参数名
+	 */
 	public $field;
+	
+	/**
+	 * 附加条件
+	 */
+	public $conditions = array();
 	
 	public function validate($value){
 		if($value == 0){
@@ -27,11 +39,15 @@ class Exist extends Validator{
 		}
 		$field = $this->field ? $this->field : $this->_field;
 		
+		if(!$this->table){
+			throw new ErrorException('fay\validators\Exist验证器必须指定table参数');
+		}
+		
 		$sql = new Sql();
 		if($sql->from($this->table, $field)
 			->where(array(
 				"`{$field}` = ?"=>$value,
-			))
+			) + $this->conditions)
 			->fetchRow()
 		){
 			return true;

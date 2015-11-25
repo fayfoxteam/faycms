@@ -46,7 +46,7 @@ class Post extends Model{
 		$post['last_modified_time'] = \F::app()->current_time;
 		$post['user_id'] = \F::app()->current_user;
 		$post['publish_time'] || $post['publish_time'] = \F::app()->current_time;
-		$post['publish_date'] = $post('Y-m-d', $post['publish_time']);
+		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
 		
 		//过滤掉多余的数据
 		$post = Posts::model()->fillData($post, false);
@@ -290,13 +290,13 @@ class Post extends Model{
 	 * 返回一篇文章信息（返回字段已做去转义处理）
 	 * @param int $id
 	 * @param string $fields 可指定返回字段
-	 *   post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
-	 *   tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
-	 *   nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
-	 *   files.*系列可指定posts_files表返回字段，若有一项为'files.*'，则返回所有字段
-	 *   props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *   user.*系列可指定作者信息，可选users表字段，若有一项为'user.*'，则返回除密码字段外的所有字段
-	 *   categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
+	 *  - files.*系列可指定posts_files表返回字段，若有一项为'files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
 	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
@@ -1123,11 +1123,12 @@ class Post extends Model{
 	/**
 	 * 判断一个文章ID是否存在
 	 * @param int $post_id
+	 * @return bool 若文章已发布且未删除返回true，否则返回false
 	 */
 	public static function isPostIdExist($post_id){
 		if($post_id){
-			$post = Posts::model()->find($post_id, 'deleted,publish_time');
-			if($post['deleted'] || $post['publish_time'] > \F::app()->current_time){
+			$post = Posts::model()->find($post_id, 'deleted,publish_time,status');
+			if($post['deleted'] || $post['publish_time'] > \F::app()->current_time || $post['status'] != Posts::STATUS_PUBLISHED){
 				return false;
 			}else{
 				return true;

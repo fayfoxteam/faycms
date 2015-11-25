@@ -4,7 +4,6 @@ namespace cms\modules\api\controllers;
 use cms\library\UserController;
 use fay\core\Response;
 use fay\models\user\Follow;
-use fay\helpers\String;
 
 class FollowController extends UserController{
 	/**
@@ -14,7 +13,7 @@ class FollowController extends UserController{
 	public function follow(){
 		if($this->form()->setRules(array(
 			array(array('user_id'), 'required'),
-			array(array('user_id'), 'int', array('min'=>0)),
+			array(array('user_id'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
 		))->setFilters(array(
 			'user_id'=>'intval',
@@ -46,7 +45,6 @@ class FollowController extends UserController{
 				'code'=>$error['code'],
 			));
 		}
-		
 	}
 	
 	/**
@@ -56,7 +54,7 @@ class FollowController extends UserController{
 	public function unfollow(){
 		if($this->form()->setRules(array(
 			array(array('user_id'), 'required'),
-			array(array('user_id'), 'int', array('min'=>0)),
+			array(array('user_id'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
 		))->setFilters(array(
 			'user_id'=>'intval',
@@ -90,7 +88,7 @@ class FollowController extends UserController{
 	public function isFollow(){
 		if($this->form()->setRules(array(
 			array(array('user_id'), 'required'),
-			array(array('user_id'), 'int', array('min'=>0)),
+			array(array('user_id'), 'int', array('min'=>1)),
 		))->setFilters(array(
 			'user_id'=>'intval',
 		))->setLabels(array(

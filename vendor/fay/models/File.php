@@ -43,7 +43,11 @@ class File extends Model{
 		
 	}
 	
-	public function getIconByMimetype($mimetype){
+	/**
+	 * 根据文件的mimetype类型，获取对应的小图标
+	 * @param string $mimetype 例如：image/png
+	 */
+	public static function getIconByMimetype($mimetype){
 		$mimetypes = \F::config()->get('*', 'mimes');
 		$types = array(
 			'image'=>array('jpeg', 'jpg', 'jpe', 'png', 'bmp', 'gif'),
@@ -77,6 +81,7 @@ class File extends Model{
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
 	 * @param int 返回图片类型。可选原图、缩略图、裁剪图和缩放图。（仅当指定文件是图片时有效）
 	 * @param array 图片的一些裁剪，缩放参数（仅当指定文件是图片时有效）
+	 * @return url 返回文件可访问的url，若指定文件不存在且未指定替代图，则返回null
 	 */
 	public static function getUrl($file, $type = self::PIC_ORIGINAL, $options = array()){
 		if(String::isInt($file)){
@@ -85,7 +90,11 @@ class File extends Model{
 		
 		if(!$file){
 			//指定文件不存在，返回null
-			return null;
+			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+				return \F::app()->view->url($spare);
+			}else{
+				return null;
+			}
 		}
 		
 		if($file['is_image']){
@@ -168,7 +177,7 @@ class File extends Model{
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
 	 * @param bool $realpath 若为true，返回完整路径，若为false，返回相对路径，默认为true
 	 */
-	public function getPath($file, $realpath = true){
+	public static function getPath($file, $realpath = true){
 		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path');
 		}
@@ -187,7 +196,7 @@ class File extends Model{
 	 * 若是其他类型文件，返回文件图标
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
 	 */
-	public function getThumbnailUrl($file){
+	public static function getThumbnailUrl($file){
 		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'id,file_type,raw_name,file_path,is_image');
 		}
@@ -199,7 +208,7 @@ class File extends Model{
 		
 		if(!$file['is_image']){
 			//不是图片，返回一张文件类型对应的小图标
-			$icon = $this->getIconByMimetype($file['file_type']);
+			$icon = self::getIconByMimetype($file['file_type']);
 			return \F::app()->view->url() . 'assets/images/crystal/' . $icon . '.png';
 		}
 		
@@ -221,7 +230,7 @@ class File extends Model{
 	 * @param bool $realpath 若为true，返回完整路径，若为false，返回相对路径，默认为true
 	 * @return mix 图片类型返回缩略图路径；非图片类型没有缩略图，返回false；指定文件不存在返回null
 	 */
-	public function getThumbnailPath($file, $realpath = true){
+	public static function getThumbnailPath($file, $realpath = true){
 		if(String::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image');
 		}
@@ -333,7 +342,7 @@ class File extends Model{
 				);
 				$data['id'] = Files::model()->insert($data);
 				
-				$icon = File::model()->getIconByMimetype($data['file_type']);
+				$icon = self::getIconByMimetype($data['file_type']);
 				$data['thumbnail'] = \F::app()->view->url().'assets/images/crystal/'.$icon.'.png';
 				//下载地址
 				$data['url'] = \F::app()->view->url('file/download', array(

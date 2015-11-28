@@ -13,8 +13,7 @@ class QiniuController extends AdminController{
 		if($result['status']){
 			Response::notify('success', array(
 				'message'=>'文件已被上传至七牛',
-				'data'=>$result['data'],
-				'url'=>Qiniu::model()->getUrl($file_id),
+				'data'=>$result['data'] + array('url'=>Qiniu::model()->getUrl($file_id)),
 			));
 		}else{
 			Response::notify('error', array(

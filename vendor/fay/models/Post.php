@@ -682,9 +682,13 @@ class Post extends Model{
 	 * @param string $fields 附件字段（files表字段）
 	 */
 	public function getFiles($post_id, $fields = 'file_id,description,is_image'){
-		return PostsFiles::model()->fetchAll(array(
+		$files = PostsFiles::model()->fetchAll(array(
 			'post_id = ?'=>$post_id,
 		), $fields, 'sort');
+		foreach($files as &$f){
+			$f['url'] = File::getUrl($f['file_id']);
+		}
+		return $files;
 	}
 	
 	/**

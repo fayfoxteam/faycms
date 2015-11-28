@@ -33,7 +33,7 @@ class Qiniu extends Model{
 		$upToken = $putPolicy->Token(null);
 		$putExtra = new \Qiniu_PutExtra();
 		$putExtra->Crc32 = 1;
-		list($ret, $err) = Qiniu_PutFile($upToken, $this->getKey($file), File::model()->getPath($file), $putExtra);
+		list($ret, $err) = Qiniu_PutFile($upToken, $this->getKey($file), File::getPath($file), $putExtra);
 		
 		if($err !== null){
 			return array(

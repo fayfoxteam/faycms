@@ -3,7 +3,6 @@ use fay\models\File;
 use fay\helpers\Html;
 use fay\helpers\Date;
 use fay\models\Qiniu;
-use fay\models\tables\Files;
 use fay\models\Category;
 
 $full_file_path = File::getUrl($data);
@@ -23,7 +22,7 @@ $full_file_path = File::getUrl($data);
 			'title'=>$data['client_name'],
 		))?>
 	<?php }else{?>
-		<img src="<?php echo File::model()->getThumbnailUrl($data)?>" />
+		<img src="<?php echo File::getThumbnailUrl($data)?>" />
 	<?php }?>
 	</td>
 	<td>

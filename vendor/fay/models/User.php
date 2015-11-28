@@ -204,6 +204,13 @@ class User extends Model{
 			return false;
 		}
 		
+		if(isset($user['avatar'])){
+			//如果有头像，将头像转为图片URL
+			$user['avatar'] = File::getUrl($user['avatar'], File::PIC_ORIGINAL, array(
+				'spare'=>'avatar',
+			));
+		}
+		
 		$return['user'] = $user;
 		if(!empty($fields['props'])){
 			$user_roles = $this->getRoleIds($id);

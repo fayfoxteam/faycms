@@ -10,7 +10,7 @@ class Sci extends Table{
 	 * @return sci
 	 */
 	public static function model($class_name = __CLASS__){
-		return parent::model($className);
+		return parent::model($class_name);
 	}
 	
 	public function rules(){

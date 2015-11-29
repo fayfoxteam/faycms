@@ -35,8 +35,8 @@ class File extends Model{
 	/**
 	 * @return File
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function getIconById($id){

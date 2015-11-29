@@ -10,8 +10,8 @@ class Post extends Model{
 	/**
 	 * @return Post
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function getType($cat_id){

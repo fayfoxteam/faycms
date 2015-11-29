@@ -13,8 +13,8 @@ class Favorite extends Model{
 	/**
 	 * @return Favorite
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**

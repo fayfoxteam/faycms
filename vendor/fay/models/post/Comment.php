@@ -24,9 +24,9 @@ class Comment extends Model{
 	 *  - comment.*系列可指定post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - parent_comment.*系列可指定父评论post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-	 *  - parent_user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
+	 *  - parent_comment_user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
 	 */
-	public function get($comment_id, $fields = 'comment.*,user.nickname,user.avatar,parent_comment.content,parent_comment.user_id,parent_user.nickname,parent_user.avatar'){
+	public function get($comment_id, $fields = 'comment.*,user.nickname,user.avatar,parent_comment.content,parent_comment.user_id,parent_comment_user.nickname,parent_comment_user.avatar'){
 		//解析$fields
 		$fields = SqlHelper::processFields($fields, 'comment');
 		if(empty($fields['comment']) || in_array('*', $fields['comment'])){
@@ -64,7 +64,7 @@ class Comment extends Model{
 		//父节点
 		if(!empty($fields['parent_comment'])){
 			$parent_comment_fields = $fields['parent_comment'];
-			if(!empty($fields['parent_user']) && !in_array('user_id', $parent_comment_fields)){
+			if(!empty($fields['parent_comment_user']) && !in_array('user_id', $parent_comment_fields)){
 				//如果要获取作者信息，则必须搜出user_id
 				$parent_comment_fields[] = 'user_id';
 			}
@@ -77,8 +77,8 @@ class Comment extends Model{
 			$return['parent_comment'] = $parent_comment;
 			
 			if($parent_comment){
-				if(!empty($fields['parent_user'])){
-					$return['parent_user'] = User::model()->get($parent_comment['user_id'], implode(',', $fields['parent_user']));
+				if(!empty($fields['parent_comment_user'])){
+					$return['parent_comment_user'] = User::model()->get($parent_comment['user_id'], implode(',', $fields['parent_comment_user']));
 				}
 				if(!in_array('user_id', $fields['parent_comment']) && in_array('user_id', $parent_comment_fields)){
 					unset($return['parent_comment']['user_id']);

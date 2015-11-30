@@ -18,7 +18,8 @@ class PostCommentController extends ApiController{
 		
 		if($this->form()->setRules(array(
 			array(array('post_id', 'content'), 'required'),
-			array(array('post_id', 'parent'), 'int', array('min'=>1)),
+			array(array('post_id'), 'int', array('min'=>1)),
+			array(array('parent'), 'int', array('min'=>0)),
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
@@ -80,8 +81,57 @@ class PostCommentController extends ApiController{
 		))->setLabels(array(
 			'comment_id'=>'评论ID',
 		))->check()){
-			Comment::model()->delete($this->form()->getData('comment_id'));
-			Response::notify('success', '评论删除成功');
+			$comment_id = $this->form()->getData('comment_id');
+			
+			if(Comment::model()->checkPermission($comment_id, 'delete')){
+				Comment::model()->delete($comment_id);
+				Response::notify('success', '评论删除成功');
+			}else{
+				Response::notify('error', array(
+					'message'=>'您无权操作该评论',
+					'code'=>'permission-denied',
+				));
+			}
+		}else{
+			$error = $this->form()->getFirstError();
+			Response::notify('error', array(
+				'message'=>$error['message'],
+				'code'=>$error['code'],
+			));
+		}
+	}
+	
+	/**
+	 * 从回收站还原评论
+	 * @param int $comment_id 评论ID
+	 */
+	public function undelete(){
+		$this->checkLogin();
+		
+		if($this->form()->setRules(array(
+			array(array('comment_id'), 'required'),
+			array(array('comment_id'), 'int', array('min'=>1)),
+			array(array('comment_id'), 'exist', array(
+				'table'=>'post_comments',
+				'field'=>'id',
+				'conditions'=>array('deleted != 0')
+			)),
+		))->setFilters(array(
+			'comment_id'=>'intval',
+		))->setLabels(array(
+			'comment_id'=>'评论ID',
+		))->check()){
+			$comment_id = $this->form()->getData('comment_id');
+			
+			if(Comment::model()->checkPermission($comment_id, 'undelete')){
+				Comment::model()->undelete($comment_id);
+				Response::notify('success', '评论还原成功');
+			}else{
+				Response::notify('error', array(
+					'message'=>'您无权操作该评论',
+					'code'=>'permission-denied',
+				));
+			}
 		}else{
 			$error = $this->form()->getFirstError();
 			Response::notify('error', array(
@@ -113,12 +163,20 @@ class PostCommentController extends ApiController{
 			'post_id'=>'文章ID',
 			'content'=>'评论内容',
 		))->check()){
-			Comment::model()->update(
-				$this->form()->getData('comment_id'),
-				$this->form()->getData('content')
-			);
+			$comment_id = $this->form()->getData('comment_id');
 			
-			Response::notify('success', '评论修改成功');
+			if(Comment::model()->checkPermission($comment_id, 'edit')){
+				Comment::model()->update(
+					$comment_id,
+					$this->form()->getData('content')
+				);
+				Response::notify('success', '评论修改成功');
+			}else{
+				Response::notify('error', array(
+					'message'=>'您无权操作该评论',
+					'code'=>'permission-denied',
+				));
+			}
 		}else{
 			$error = $this->form()->getFirstError();
 			Response::notify('error', array(

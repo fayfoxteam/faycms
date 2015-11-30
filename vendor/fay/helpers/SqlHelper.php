@@ -79,6 +79,10 @@ class SqlHelper{
 	 * @param string|null $default_key 若设置了default_key，则不包含.(点号)的项会被归属到default_key下
 	 */
 	public static function processFields($fields, $default_key = null){
+		if(is_array($fields)){
+			//如果已经是数组，则直接返回（防止重复调用）
+			return $fields;
+		}
 		$fields = explode(',', $fields);
 		$return = array();
 		foreach($fields as $f){

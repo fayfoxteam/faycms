@@ -2,306 +2,356 @@
 namespace fay\models;
 
 use fay\core\Model;
-use fay\models\tables\Messages;
-use fay\core\Sql;
+use fay\helpers\SqlHelper;
+use fay\models\tables\PostComments;
 
 class Message extends Model{
 	/**
 	 * @param string $className
 	 * @return Message
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**
-	 * 发表评论/留言
+	 * 获取一条信息
+	 * @param string $model 表模型
+	 * @param int $message_id 消息ID
+	 * @param int $fields 返回字段
+	 *  - message.*系列可指定$model对应表返回字段，若有一项为'message.*'，则返回所有字段
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - parent_message.*系列可指定父消息post_messages表返回字段，若有一项为'message.*'，则返回所有字段
+	 *  - parent_message_user.*系列可指定父消息作者信息，格式参照\fay\models\User::get()
 	 */
-	public function create($target, $content, $type, $parent = 0, $status = Messages::STATUS_APPROVED, $user_id = null){
-		$root_node = $this->getRootByParnetId($parent);
-		if($root_node){
-			$root = $root_node['id'];
-		}else{
-			$root = 0;
+	public function get($model, $message_id, $fields = 'message.*,user.nickname,user.avatar,parent_message.content,parent_message.user_id,parent_message_user.nickname,parent_message_user.avatar'){
+		//解析$fields
+		$fields = SqlHelper::processFields($fields, 'message');
+		if(empty($fields['message']) || in_array('*', $fields['message'])){
+			//若未指定返回字段，初始化
+			$fields['message'] = \F::model($model)->getFields(array('status', 'deleted', 'is_real'));
 		}
-		$data = array(
-			'user_id'=>$user_id === null ? \F::app()->current_user : $user_id,
-			'target'=>$target,
-			'content'=>$content,
-			'parent'=>$parent,
-			'root'=>$root,
-			'type'=>$type,
-			'create_time'=>\F::app()->current_time,
-			'status'=>$status,
-			'deleted'=>0,
-			'is_terminal'=>1,
-		);
-		$message_id = Messages::model()->insert($data);
-		if(!empty($parent)){
-			//标记其父节点为非叶子节点
-			Messages::model()->update(array(
-				'is_terminal'=>0,
-			), $parent);
-		}
-		return $message_id;
-	}
-	
-	/**
-	 *获取指定parent下的所有直接子节点的信息
-	 */
-	public function getNextLevel($parent_id = 0, $fields = '*'){
-		//返回指定parent下的所有直接子节点的信息
-		$sql = new Sql();
-		return $sql->from('messages', 'm', $fields)
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->where("m.parent = {$parent_id}")
-			->fetchAll();
-	}
-	
-	
-	public function get($id, $fields = '*'){
-		$sql = new Sql();
-		return $sql->from('messages', 'm', $fields)
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->joinLeft('messages', 'm2', 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id')
-			->joinLeft('users', 'u2', 'm2.user_id = u2.id', 'username AS parent_username,realname AS parent_realname,nickname AS parent_nickname')
-			->where("m.id = {$id}")
-			->fetchRow();
-	}
-	
-	/**
-	 * 根据留言对象和类型
-	 * 获取所有留言，一维数组方式返回<br>
-	 * （例如获取一篇文章的所有评论）
-	 * @param int $target
-	 * @param int $type
-	 * @param string $fields
-	 */
-	public function getAll($target, $type, $fields = '*'){
-		$sql = new Sql();
-		return $sql->from('messages', 'm', $fields)
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->joinLeft('messages', 'm2', 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id')
-			->joinLeft('users', 'u2', 'm2.user_id = u2.id', 'username AS username,realname AS parent_realname,nickname AS parent_nickname')
-			->where(array(
-				"m.target = {$target}",
-				"m.type = {$type}",
-				'm.deleted = 0',
-			))
-			->order('create_time DESC')
-			->fetchAll();
-	}
-	
-	/**
-	 * 获取所有留言，并以树形方式返回
-	 * @param int $target 目标ID，如文章ID
-	 * @param int $type 类型
-	 * @param string $fields
-	 */
-	public function getTree($target, $type, $fields = '*'){
-		$has_parent = true;
-		$has_is_terminal = true;
-		$has_id = true;
-		if($fields != '*'){//如果fields本身没包含id,parent和is_terminal字段，强制加入这三个字段
-			$fields = explode(',', $fields);
-			if(!in_array('parent', $fields)){
-				$fields[] = 'parent';
-				$has_parent = false;
-			}
-			if(!in_array('is_terminal', $fields)){
-				$fields[] = 'is_terminal';
-				$has_is_terminal = false;
-			}
-			if(!in_array('id', $fields)){
-				$fields[] = 'id';
-				$has_id = false;
-			}
-			$fields = implode(',', $fields);
-		}
-		$messages = $this->getAll($target, $type, $fields);
-		return $this->renderTree($messages, 0, $has_id, $has_parent, $has_is_terminal);
-	}
-	
-	/**
-	 * 将数据库中搜出来的一维数组，构造成为一棵树
-	 * @param array $messages
-	 * @param int $parent
-	 */
-	private function renderTree(&$messages, $parent = 0, $has_id = true, $has_parent = true, $has_is_terminal = true){
-		$tree = array();
-		if(empty($messages)) return $tree;
 		
-		foreach($messages as $k => $m){
-			if($m['parent'] == $parent){
-				if(!$has_parent) unset($m['parent']);//参数中不要求返回本字段，故删除
-				$tree[] = $m;
-				unset($messages[$k]);
-			}
+		$message_fields = $fields['message'];
+		if(!empty($fields['user']) && !in_array('user_id', $message_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$message_fields[] = 'user_id';
 		}
-		foreach($tree as &$t){
-			if(!$t['is_terminal']){
-				$t['child'] = $this->renderTree($messages, $t['id'], $has_id, $has_parent, $has_is_terminal);
-			}
-			if(!$has_is_terminal) unset($t['is_terminal']);//参数中不要求返回本字段，故删除
-			if(!$has_id) unset($t['id']);//参数中不要求返回本字段，故删除
+		if(!empty($fields['parent_message']) && !in_array('parent', $message_fields)){
+			//如果要获取作者信息，则必须搜出parent
+			$message_fields[] = 'parent';
 		}
-		if($parent == 0){
-			if(!empty($messages)){
-				//若有树枝节点在回收站中，则会出现叶子节点无处挂靠的情况
-				//这些叶子节点全部挂靠到根节点，且体现父子关系（wordpress是这么做的）
-				$tree = $tree + $messages;
-			}
-		}
-		return $tree;
-	}
-	
-	/**
-	 * 如果是叶子节点被删除，则正常删除，再判断是否还有兄弟节点，没有，则将其父节点标记为叶子节点
-	 * 如果不是叶子节点被删除，则被删除节点的子节点会挂到其父节点上
-	 * @param int $id
-	 * @return boolean
-	 */
-	public function remove($id){
-		//根据主键查询数据
-		$msg = Messages::model()->find($id);
-		//var_dump($msg);
-		//删除该条记录
-		Messages::model()->delete($id);
-		if($msg['is_terminal']){
-			//是叶子节点，查找其父节点还有没有其他子节点
-			if(Messages::model()->fetchRow(array(
-				'parent = ?'=>$msg['parent'],
-			), 'id')){
-				//其父节点没有其他子节点，将其父节点标记为叶子节点
-				Messages::model()->update(array(
-					'is_terminal'=>1,
-				), $msg['parent']);
-			}
-		}else{
-			//不是叶子节点，将其子节点挂到其父节点上
-			Messages::model()->update(array(
-				'parent'=>$msg['parent'],
-			), array(
-				'parent=?'=>$id,
-			));
-		}
-		return true;
-	}
-	
-	/**
-	 * 从根开始，完整的删除一个会话的所有留言
-	 * @param int $id
-	 */
-	public function removeChat($id){
-		$message = $this->get($id, 'id,root');
-		if($message['root'] != 0){
-			//传过来的id并不是根节点
+		
+		$message = \F::model($model)->fetchRow(array(
+			'id = ?'=>$message_id,
+			'deleted = 0',
+		), $message_fields);
+		
+		if(!$message){
 			return false;
 		}
 		
-		return Messages::model()->delete(array(
-			'or'=>array(
-				'id = '.$message['id'],
-				'root = '.$message['id'],
-			)
-		));
-	}
-	
-	/**
-	 * 根据当前节点ID得到父节点
-	 * @param int $id
-	 */
-	public function getParent($id){
-		$message = Messages::model()->find($id);
-		if($message['parent'] == 0){//无父节点直接返回本节点
-			return $message;
-		}else{
-			return $this->get($message['parent']);
+		$return = array(
+			'message'=>$message,
+		);
+		//作者信息
+		if(!empty($fields['user'])){
+			$return['user'] = User::model()->get($message['user_id'], implode(',', $fields['user']));
 		}
-	}
-	
-	/**
-	 * 根据当前节点的父ID得到父节点
-	 * @param int $id
-	 */
-	public function getParentByParentId($id){
-		if($id == 0){return false;}//根节点无父节点
-		return $this->get($id);
-	}
-	
-	/**
-	 * 根据当前节点ID得到树根节点
-	 * @param int $id
-	 */
-	public function getRoot($id){
-		$parent_message = $this->getParent($id);
-		if($parent_message['parent'] != 0){
-			return $this->getRootByParnetId($parent_message['parent']);
-		}else{
-			return $parent_message;
+		
+		//父节点
+		if(!empty($fields['parent_message'])){
+			$parent_message_fields = $fields['parent_message'];
+			if(!empty($fields['parent_message_user']) && !in_array('user_id', $parent_message_fields)){
+				//如果要获取作者信息，则必须搜出user_id
+				$parent_message_fields[] = 'user_id';
+			}
+				
+			$parent_message = \F::model($model)->fetchRow(array(
+				'id = ?'=>$message['parent'],
+				'deleted = 0',
+			), $parent_message_fields);
+				
+			$return['parent_message'] = $parent_message;
+				
+			if($parent_message){
+				if(!empty($fields['parent_message_user'])){
+					$return['parent_message_user'] = User::model()->get($parent_message['user_id'], implode(',', $fields['parent_message_user']));
+				}
+				if(!in_array('user_id', $fields['parent_message']) && in_array('user_id', $parent_message_fields)){
+					unset($return['parent_message']['user_id']);
+				}
+			}
 		}
+		
+		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+		foreach(array('user_id', 'parent') as $f){
+			if(!in_array($f, $fields['message']) && in_array($f, $message_fields)){
+				unset($return['message'][$f]);
+			}
+		}
+		
+		return $return;
 	}
-
+	
 	/**
 	 * 根据当前节点的父ID得到树根节点
-	 * @param int $id
+	 * @param string $model 表模型
+	 * @param int $parent_id
+	 * @param int $fields 返回字段，同get方法的fields格式
 	 */
-	public function getRootByParnetId($id){
-		if($id == 0){return false;}//已经是根节点
-		$parent_message = $this->getParentByParentId($id);
-		if($parent_message['parent'] != 0){
-			$parent_message = $this->getRootByParnetId($parent_message['parent']);
+	public function getRootByParnetId($model, $parent_id, $fields = 'id,user_id,content,parent'){
+		if($parent_id == 0){
+			//已经是根节点
+			return false;
+		}
+		$parent_message = $this->get($model, $parent_id, $fields);
+		if($parent_message['message']['parent'] != 0){
+			$parent_message = $this->getRootByParnetId($model, $parent_message['message']['parent'], $fields);
 		}
 		return $parent_message;
 	}
 	
 	/**
-	 * 根据状态和类型，获取消息总数
-	 * @param int $status
-	 * @param int $type
-	 */
-	public function getCount($status = null, $type = array()){
-		$conditions = array('deleted = 0');
-		if($type){
-			if(!is_array($type)){
-				$type = explode(',', $type);
-			}
-			$conditions[] = 'type IN ('.implode(',', $type).')';
-		}
-		if($status !== null){
-			$conditions['status = ?'] = $status;
-		}
-		$result = Messages::model()->fetchRow($conditions, 'COUNT(*)');
-		return $result['COUNT(*)'];
-	}
-	
-	/**
-	 * 根据给定的类型，获取回收站内消息总数
-	 * @param int $type
-	 */
-	public function getDeletedCount($type = array()){
-		$conditions = array('deleted = 1');
-		if($type){
-			if(!is_array($type)){
-				$type = explode(',', $type);
-			}
-			$conditions[] = 'type IN ('.implode(',', $type).')';
-		}
-		$result = Messages::model()->fetchRow($conditions, 'COUNT(*)');
-		return $result['COUNT(*)'];
-	}
-	
-	/**
-	 * 获取回复数（不包含回收站里的）
+	 * 根据当前节点ID得到父节点（若无父节点直接返回本节点）
+	 * @param string $model 表模型
 	 * @param int $id
+	 * @param int $fields 返回字段，同get方法的fields格式
 	 */
-	public function getReplyCount($id, $status = false){
-		$message = Messages::model()->fetchRow(array(
-			'root = ?'=>$id,
-			'status = ?'=>$status,
-			'deleted = 0',
-		), 'COUNT(*) AS count');
-		return $message['count'];
+	public function getParent($model, $message_id, $fields = 'id,user_id,content,parent'){
+		$message = $this->get($model, $message_id, $fields);
+		if($message['message']['parent'] == 0){
+			//无父节点直接返回本节点
+			return $message;
+		}else{
+			return $this->get($model, $message['message']['parent'], $fields);
+		}
 	}
 	
+	/**
+	 * 根据当前节点ID得到树根节点
+	 * @param string $model 表模型
+	 * @param int $message_id
+	 * @param int $fields 返回字段，同get方法的fields格式
+	 */
+	public function getRoot($model, $message_id, $fields = 'id,user_id,content,parent'){
+		$parent_message = $this->getParent($model, $message_id, $fields);
+		if($parent_message['parent'] != 0){
+			return $this->getRootByParnetId($model, $parent_message['message']['parent'], $fields);
+		}else{
+			return $parent_message;
+		}
+	}
+	
+	/**
+	 * 发表一条消息
+	 * @param string $model 表模型
+	 * @param string $target_field 目标字段名（例如post_id）
+	 * @param int $target_id 目标ID
+	 * @param string $content 消息内容
+	 * @param int $status 状态
+	 * @param int $parent 父ID，若是回复消息的消息，则带上被回复消息的消息ID，默认为0
+	 * @param int $user_id 用户ID，若不指定，默认为当前登录用户ID
+	 * @param bool $is_real 是否是真实用户行为
+	 */
+	public function create($model, $target_field, $target_id, $content, $status, $parent = 0, $user_id = null, $is_real = true){
+		$user_id === null && $user_id = \F::app()->current_user;
+		
+		$root_node = $this->getRootByParnetId($model, $parent, 'id,parent');
+		if($root_node){
+			$root = $root_node['message']['id'];
+		}else{
+			$root = 0;
+		}
+		$message_id = \F::model($model)->insert(array(
+			$target_field=>$target_id,
+			'user_id'=>$user_id,
+			'content'=>$content,
+			'parent'=>$parent,
+			'root'=>$root,
+			'create_time'=>\F::app()->current_time,
+			'status'=>$status,
+			'deleted'=>0,
+			'is_terminal'=>1,
+			'is_real'=>$is_real ? 1 : 0,
+		));
+		if(!empty($parent)){
+			$parent_message = \F::model($model)->find($parent, 'is_terminal');
+			if($parent_message['is_terminal']){
+				//标记其父节点为非叶子节点
+				\F::model($model)->update(array(
+					'is_terminal'=>0,
+				), $parent);
+			}
+		}
+		
+		return $message_id;
+	}
+	
+	/**
+	 * 软删除一条消息
+	 * 软删除不会修改is_terminal和parent标识，因为删除的东西随时都有可能会被恢复，而parent如果变了是无法被恢复的。
+	 * @param string $model 表模型
+	 * @param int $message_id 消息ID
+	 */
+	public function delete($model, $message){
+		if(!is_array($message)){
+			$message = \F::model($model)->find($message, 'id,parent,deleted,is_terminal');
+		}
+		
+		if($message['deleted']){
+			//消息已被删除，返回0（受影响行数）
+			return 0;
+		}
+		
+		/*
+		 * 查找其父节点，若父节点未被删除，且不是叶子节点，并且没有其他子节点，则将父节点更新为叶子节点。
+		 * 不管当前节点是不是叶子节点，都要确认父节点。
+		 * 因为即便该节点还有子节点，当该节点被删除时，子节点被显示到根节点，但并不更新parent字段
+		 * （与wordpress处理方式一致）
+		 */
+		$parent_message = \F::model($model)->fetchRow(array(
+			'id = ?'=>$message['parent'],
+			'deleted = 0',
+		), 'id,is_terminal');
+		if($parent_message && !$parent_message['is_terminal']){
+			if(!\F::model($model)->fetchRow(array(
+				'parent = ' . $message['parent'],
+				'deleted = 0',
+				'id != ' . $message['id'],
+			), 'id')){
+				//其父节点没有其他子节点，将其父节点标记为叶子节点
+				\F::model($model)->update(array(
+					'is_terminal'=>1,
+				), $message['parent']);
+			}
+		}
+		
+		return \F::model($model)->update(array(
+			'deleted'=>1,
+		), $message['id']);
+	}
+	
+	public function undelete($model, $message){
+		if(!is_array($message)){
+			$message = \F::model($model)->find($message, 'id,parent,deleted,is_terminal');
+		}
+		
+		if(!$message['deleted']){
+			//消息未被删除，返回0（受影响行数）
+			return 0;
+		}
+		
+		/*
+		 * 若存在父节点，且父节点原本是叶子节点，则将父节点更新为非叶子结点
+		 * 若父节点已被删除则不去update
+		 */
+		if($message['parent']){
+			$parent_message = \F::model($model)->fetchRow(array(
+				'id = ?'=>$message['parent'],
+				'deleted = 0',
+			), 'id,is_terminal');
+			if($parent_message['is_terminal']){
+				\F::model($model)->update(array(
+					'is_terminal'=>0,
+				), $parent_message['id']);
+			}
+		}
+		
+		if(!$message['is_terminal'] && !\F::model($model)->fetchRow(array(
+			'parent = ' . $message['id'],
+			'deleted = 0',
+		), 'id')){
+			/*
+			 * 若当前节点被标记为非叶子节点，且不存在子节点（当前节点被删除后子节点又被删除）
+			 * 则将当前节点置为叶子节点
+			 */
+			return \F::model($model)->update(array(
+				'is_terminal'=>1,
+				'deleted'=>0,
+			), $message['id']);
+		}else if($message['is_terminal'] && \F::model($model)->fetchRow(array(
+			'parent = ' . $message['id'],
+			'deleted = 0',
+		), 'id')){
+			/*
+			 * 若当前节点被标记为叶子节点，但存在子节点（当前节点被删除后子节点又被还原）
+			 * 则将当前节点置为非叶子节点
+			 */
+			return \F::model($model)->update(array(
+				'is_terminal'=>0,
+				'deleted'=>0,
+			), $message['id']);
+		}else{
+			//否则仅更新deleted字段
+			return \F::model($model)->update(array(
+				'deleted'=>0,
+			), $message['id']);
+		}
+	}
+	
+	/**
+	 * 将一条直接回复文章的消息及其所有回复标记为已删除
+	 * @param string $model 表模型
+	 * @param int $message_id 消息ID。必须是直接回复目标的消息（根消息）
+	 */
+	public function deleteChat($model, $message_id){
+		return \F::model($model)->update(array(
+			'deleted'=>1,
+		), array(
+			'or'=>array(
+				'id = ?'=>$message_id,
+				'root = ?'=>$message_id,
+			)
+		));
+	}
+	
+	/**
+	 * 永久删除一条消息
+	 * @param string $model 表模型
+	 * @param int|array $message 消息
+	 *  - 若是数字，视为消息ID
+	 *  - 若是数字，视为已包含足够信息的消息数组，至少需要包含id, parent, is_terminal
+	 */
+	public function remove($model, $message){
+		if(!is_array($message)){
+			$message = \F::model($model)->find($message, 'id,parent,is_terminal');
+		}
+		
+		if($message['is_terminal']){
+			//是叶子节点，查找其父节点还有没有其他子节点
+			if(!\F::model($model)->fetchRow(array(
+				'parent = ' . $message['parent'],
+				'deleted = 0',
+				'id != ' . $message['id'],
+			), 'id')){
+				//其父节点没有其他子节点，将其父节点标记为叶子节点
+				\F::model($model)->update(array(
+					'is_terminal'=>1,
+				), $message['parent']);
+			}
+		}else{
+			//不是叶子节点，将其子节点挂到其父节点上
+			\F::model($model)->update(array(
+				'parent'=>$message['parent'],
+			), array(
+				'parent=?'=>$message,
+			));
+		}
+		
+		return \F::model($model)->delete($message['id']);
+	}
+	
+	/**
+	 * 删除一条直接回复文章的评论及其所有回复
+	 * @param int $message_id 评论ID。必须是直接评论文章的评论（根评论）
+	 */
+	public function removeChat($model, $message_id){
+		return \F::model($model)->delete(array(
+			'or'=>array(
+				'id = ?'=>$message_id,
+				'root = ?'=>$message_id,
+			)
+		));
+	}
 }

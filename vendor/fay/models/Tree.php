@@ -8,7 +8,14 @@ use fay\helpers\String;
 
 /**
  * 基于左右值的树操作
- * 该类基于ID或直接传入数组操作，不根据alias进行操作，也不做数据正确性验证
+ * 该模型针对一张表对应一棵树的数据结构，适用于分类等需求
+ * 该模型基于ID或直接传入数组操作，不根据alias进行操作，也不做数据正确性验证
+ * **关键字段**：
+ *  - id 节点ID
+ *  - left_value 左值
+ *  - right_value 右值
+ *  - parent 父节点ID（parent可用于左右值索引出错后的修复依据，平时搜索时左右值已经包含了父子关系，不需要用到parent）
+ *  - sort 排序值（sort可用于左右值索引出错后的修复一句，在平级内部起作用，不同层级之间的排序不受sort影响。平时搜索时左右值已经包含了排序，不需要用到sort）
  */
 class Tree extends Model{
 	/**
@@ -49,11 +56,11 @@ class Tree extends Model{
 	
 	/**
 	 * 创建一个节点
-	 * @param array $model 表模型
+	 * @param string $model 表模型
 	 * @param int $parent 父节点
 	 * @param int $sort 排序值
 	 * @param array $data 其它参数
-	 * @return unknown
+	 * @return int 节点ID
 	 */
 	public function create($model, $parent, $sort, $data){
 		if($parent == 0){
@@ -67,7 +74,7 @@ class Tree extends Model{
 				//存在右节点
 				\F::model($model)->inc('left_value >= '.$right_node['left_value'], 'left_value', 2);
 				\F::model($model)->inc('right_value >= '.$right_node['left_value'], 'right_value', 2);
-				$menu_id = \F::model($model)->insert(array_merge($data, array(
+				$node = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
 					'left_value'=>$right_node['left_value'],
@@ -76,7 +83,7 @@ class Tree extends Model{
 			}else{
 				//不存在右节点，即在孩子的最后面插入
 				$max_right_node = \F::model($model)->fetchRow(array(), 'MAX(right_value) AS max');
-				$menu_id = \F::model($model)->insert(array_merge($data, array(
+				$node = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
 					'left_value'=>$max_right_node['max'] + 1,
@@ -93,7 +100,7 @@ class Tree extends Model{
 				//父节点本身是叶子节点，直接挂载
 				\F::model($model)->inc('left_value > '.$parent_node['left_value'], 'left_value', 2);
 				\F::model($model)->inc('right_value > '.$parent_node['left_value'], 'right_value', 2);
-				$menu_id = \F::model($model)->insert(array_merge($data, array(
+				$node = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
 					'left_value'=>$parent_node['left_value'] + 1,
@@ -111,7 +118,7 @@ class Tree extends Model{
 					//存在左节点
 					\F::model($model)->inc('left_value > '.$left_node['right_value'], 'left_value', 2);
 					\F::model($model)->inc('right_value > '.$left_node['right_value'], 'right_value', 2);
-					$menu_id = \F::model($model)->insert(array_merge($data, array(
+					$node = \F::model($model)->insert(array_merge($data, array(
 						'sort'=>$sort,
 						'parent'=>$parent,
 						'left_value'=>$left_node['right_value'] + 1,
@@ -121,7 +128,7 @@ class Tree extends Model{
 					//不存在左节点，即在孩子的最前面插入
 					\F::model($model)->inc('left_value > '.$parent_node['left_value'], 'left_value', 2);
 					\F::model($model)->inc('right_value > '.$parent_node['left_value'], 'right_value', 2);
-					$menu_id = \F::model($model)->insert(array_merge($data, array(
+					$node = \F::model($model)->insert(array_merge($data, array(
 						'sort'=>$sort,
 						'parent'=>$parent,
 						'left_value'=>$parent_node['left_value'] + 1,
@@ -130,9 +137,17 @@ class Tree extends Model{
 				}
 			}
 		}
-		return $menu_id;
+		return $node;
 	}
 	
+	/**
+	 * 修改一个节点
+	 * @param string $model 表模型
+	 * @param int $id 节点ID
+	 * @param array $data 数据
+	 * @param int $sort 排序值
+	 * @param int $parent 父节点
+	 */
 	public function edit($model, $id, $data, $sort = null, $parent = null){
 		$node = \F::model($model)->find($id);
 		if($parent !== null){
@@ -661,7 +676,6 @@ class Tree extends Model{
 	 * 若$root为null，则会一直追溯到根节点，否则追溯到root为止
 	 * $node和$root都可以是：{
 	 *  - 数字:代表分类ID;
-	 *  - 字符串:分类别名;
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
 	 * }
 	 * @param string $model

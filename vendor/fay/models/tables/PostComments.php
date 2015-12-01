@@ -17,6 +17,8 @@ use fay\core\db\Table;
  * @property int $deleted 删除标记
  * @property int $is_terminal 是否为叶子节点
  * @property int $is_real 是否真实用户
+ * @property int $left_value 左值
+ * @property int $right_value 右值
  */
 class PostComments extends Table{
 	/**
@@ -44,6 +46,7 @@ class PostComments extends Table{
 	public function rules(){
 		return array(
 			array(array('id', 'post_id', 'user_id', 'parent', 'root'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('deleted', 'is_terminal', 'is_real'), 'range', array('range'=>array(0, 1))),
 		);
@@ -62,6 +65,8 @@ class PostComments extends Table{
 			'deleted'=>'删除标记',
 			'is_terminal'=>'是否为叶子节点',
 			'is_real'=>'是否真实用户',
+			'left_value'=>'左值',
+			'right_value'=>'右值',
 		);
 	}
 
@@ -78,6 +83,8 @@ class PostComments extends Table{
 			'deleted'=>'intval',
 			'is_terminal'=>'intval',
 			'is_real'=>'intval',
+			'left_value'=>'intval',
+			'right_value'=>'intval',
 		);
 	}
 }

@@ -661,6 +661,8 @@ CREATE TABLE `{{$prefix}}post_comments` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
   `is_terminal` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否为叶子节点',
   `is_real` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否真实用户',
+  `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',
+  `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 

@@ -14,6 +14,7 @@ use fay\core\Model;
  *  - right_value 右值
  *  - parent 父节点ID
  *  - root 根节点。多树模型，需要有个根节点来标识树之间的关系
+ *  - deleted 删除标记
  */
 class MultiTree extends Model{
 	/**
@@ -92,7 +93,30 @@ class MultiTree extends Model{
 	 * @param int $id 节点ID
 	 */
 	public function delete($model, $id){
-		
+		//获取被删除节点
+		$node = \F::model($model)->find($id, 'left_value,right_value,parent');
+		if($node['right_value'] - $node['left_value'] == 1){
+			//被删除节点是叶子节点
+			if($node['right_value'] != 2){
+				//不是根节点
+				//所有后续节点左右值-2
+				\F::model($model)->inc(array(
+					'right_value > '.$node['right_value'],
+					'left_value > '.$node['right_value'],
+				), array('left_value', 'right_value'), -2);
+				//所有父节点右值-2
+				\F::model($model)->inc(array(
+					'right_value > '.$node['right_value'],
+					'left_value < '.$node['left_value'],
+				), 'right_value', -2);
+			}
+			//标记为已删除即可
+			\F::model($model)->update(array(
+				'deleted'=>1,
+			), $id);
+		}else{
+			//被删除节点还有子节点，则将子节点设为根节点
+		}
 	}
 	
 	/**

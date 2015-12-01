@@ -1,5 +1,5 @@
 <?php
-use fay\models\Message;
+use cms\models\Message;
 use fay\models\tables\Messages;
 ?>
 <div class="row">

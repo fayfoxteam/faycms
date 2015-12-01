@@ -275,13 +275,12 @@ class DatabaseController extends ToolsController{
 		
 		if($this->input->post()){
 			$prefix = $this->config->get('db.table_prefix');
+			$charset = $this->config->get('db.charset');
 			$sql = $this->input->post('sql');
-			$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+			$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
 			$sqltype = strtolower(substr(trim($sql), 0, 6));
 			$this->db->execute($sql);
 		}
-
-		Flash::set('It will replace {{$time}} to current timestamp and {{$prefix}} to table prefix set in system config.', 'attention');
 		
 		$this->view->render();
 	}

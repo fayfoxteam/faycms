@@ -29,7 +29,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .box-content{padding:7px 0;}
 #widget-news .box-content{padding:0;}
 
-.box-post-list li a{color:#000;padding-left:16px;line-height:27px;display:block;background:url(images/triangle.png) no-repeat scroll 2px center transparent;}
+.box-post-list li a{color:#000;padding-left:16px;line-height:27px;height:27px;display:block;background:url(images/triangle.png) no-repeat scroll 2px center transparent;}
 .box-post-list li a:hover{color:#e00404;padding-left:19px;}
 .box-post-list li a time{float:right;}
 .box-post-list li a span{width:220px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left;}
@@ -39,10 +39,11 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .box-top-news h4 a{color:#e26017;font-size:14px;}
 .box-top-news p{text-indent:2em;color:#666;}
 .box-top-news p a{color:#960000;padding-left:5px;}
-.box-news-list li{margin-left:16px;list-style:square;}
-.box-news-list li a{color:#000;line-height:27px;display:block;}
+.box-news-list li{margin-left:16px;display:block;}
+.box-news-list li a{color:#000;line-height:27px;height:27px;display:block;}
 .box-news-list li a:hover{color:#e00404;padding-left:3px;}
 .box-news-list li a time{float:right;}
+.box-news-list li a span{width:250px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left;}
 
 .box-2{border:1px solid #bebebb;}
 .box-2-title{background:url(images/box-2-title-bg.png) repeat-x scroll 0 1px transparent;}

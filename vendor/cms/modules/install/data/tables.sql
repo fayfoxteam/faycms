@@ -655,12 +655,11 @@ CREATE TABLE `{{$prefix}}post_comments` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `content` text COMMENT '内容',
   `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父ID',
-  `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
-  `is_terminal` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否为叶子节点',
   `is_real` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否真实用户',
+  `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
   `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',
   `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
   PRIMARY KEY (`id`)

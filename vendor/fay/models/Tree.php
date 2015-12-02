@@ -74,7 +74,7 @@ class Tree extends Model{
 				//存在右节点
 				\F::model($model)->inc('left_value >= '.$right_node['left_value'], 'left_value', 2);
 				\F::model($model)->inc('right_value >= '.$right_node['left_value'], 'right_value', 2);
-				$node = \F::model($model)->insert(array_merge($data, array(
+				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
 					'left_value'=>$right_node['left_value'],
@@ -83,7 +83,7 @@ class Tree extends Model{
 			}else{
 				//不存在右节点，即在孩子的最后面插入
 				$max_right_node = \F::model($model)->fetchRow(array(), 'MAX(right_value) AS max');
-				$node = \F::model($model)->insert(array_merge($data, array(
+				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
 					'left_value'=>$max_right_node['max'] + 1,
@@ -100,7 +100,7 @@ class Tree extends Model{
 				//父节点本身是叶子节点，直接挂载
 				\F::model($model)->inc('left_value > '.$parent_node['left_value'], 'left_value', 2);
 				\F::model($model)->inc('right_value > '.$parent_node['left_value'], 'right_value', 2);
-				$node = \F::model($model)->insert(array_merge($data, array(
+				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
 					'left_value'=>$parent_node['left_value'] + 1,
@@ -118,7 +118,7 @@ class Tree extends Model{
 					//存在左节点
 					\F::model($model)->inc('left_value > '.$left_node['right_value'], 'left_value', 2);
 					\F::model($model)->inc('right_value > '.$left_node['right_value'], 'right_value', 2);
-					$node = \F::model($model)->insert(array_merge($data, array(
+					$node_id = \F::model($model)->insert(array_merge($data, array(
 						'sort'=>$sort,
 						'parent'=>$parent,
 						'left_value'=>$left_node['right_value'] + 1,
@@ -128,7 +128,7 @@ class Tree extends Model{
 					//不存在左节点，即在孩子的最前面插入
 					\F::model($model)->inc('left_value > '.$parent_node['left_value'], 'left_value', 2);
 					\F::model($model)->inc('right_value > '.$parent_node['left_value'], 'right_value', 2);
-					$node = \F::model($model)->insert(array_merge($data, array(
+					$node_id = \F::model($model)->insert(array_merge($data, array(
 						'sort'=>$sort,
 						'parent'=>$parent,
 						'left_value'=>$parent_node['left_value'] + 1,
@@ -137,7 +137,7 @@ class Tree extends Model{
 				}
 			}
 		}
-		return $node;
+		return $node_id;
 	}
 	
 	/**
@@ -148,7 +148,7 @@ class Tree extends Model{
 	 * @param int $sort 排序值
 	 * @param int $parent 父节点
 	 */
-	public function edit($model, $id, $data, $sort = null, $parent = null){
+	public function update($model, $id, $data, $sort = null, $parent = null){
 		$node = \F::model($model)->find($id);
 		if($parent !== null){
 			$data['parent'] = $parent;
@@ -428,8 +428,8 @@ class Tree extends Model{
 	
 	/**
 	 * 删除一个节点，其子节点将被挂载到父节点
-	 * @param string $model
-	 * @param int $id
+	 * @param string $model 表模型
+	 * @param int $id 节点ID
 	 */
 	public function remove($model, $id){
 		//获取被删除节点
@@ -469,8 +469,8 @@ class Tree extends Model{
 	
 	/**
 	 * 删除一个节点，及其所有子节点
-	 * @param string $model
-	 * @param int $id
+	 * @param string $model 表模型
+	 * @param int $id 节点ID
 	 */
 	public function removeAll($model, $id){
 		//获取被删除节点

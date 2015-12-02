@@ -418,7 +418,7 @@ class Category extends Model{
 	 * @param array $data
 	 */
 	public function update($id, $data, $sort = null, $parent = null){
-		return Tree::model()->edit('fay\models\tables\Categories', $id, $data, $sort, $parent);
+		return Tree::model()->update('fay\models\tables\Categories', $id, $data, $sort, $parent);
 	}
 	
 	/**

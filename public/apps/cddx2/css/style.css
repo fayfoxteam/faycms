@@ -35,9 +35,9 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 .box-post-list li a span{width:220px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left;}
 
 .box-top-news{padding-bottom:11px;border-bottom:1px dotted #d5d5d5;margin-bottom:11px;}
-.box-top-news h4{text-align:center;margin:21px 0 15px;}
+.box-top-news h4{text-align:center;margin:21px 0 15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .box-top-news h4 a{color:#e26017;font-size:14px;}
-.box-top-news p{text-indent:2em;color:#666;}
+.box-top-news p{text-indent:2em;color:#666;margin-bottom:5px;height:32px;}
 .box-top-news p a{color:#960000;padding-left:5px;}
 .box-news-list li{margin-left:16px;list-style:square;}
 .box-news-list li a{color:#000;line-height:27px;height:27px;display:block;}

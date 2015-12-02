@@ -172,33 +172,33 @@ class User extends Model{
 	 * 返回单个用户
 	 * @param string|array $id 用户id
 	 * @param string $fields 可指定返回字段
-	 *  - users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *  - user.*系列可指定users表返回字段，若有一项为'user.*'，则返回除密码字段外的所有字段
 	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
 	 * @return false|array 若用户ID不存在，返回false，否则返回数组
 	 */
-	public function get($id, $fields = 'users.username,users.nickname,users.id,users.avatar'){
+	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar'){
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'users');
-		if(empty($fields['users'])){
+		$fields = SqlHelper::processFields($fields, 'user');
+		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
-			$fields['users'] = array(
+			$fields['user'] = array(
 				'id', 'username', 'nickname',
 			);
-		}else if(in_array('*', $fields['users'])){
+		}else if(in_array('*', $fields['user'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
-			$fields['users'] = Users::model()->getFields('password,salt');
+			$fields['user'] = Users::model()->getFields('password,salt');
 		}else{
 			//永远不会返回密码字段
-			foreach($fields['users'] as $k => $v){
+			foreach($fields['user'] as $k => $v){
 				if($v == 'password' || $v == 'salt'){
-					unset($fields['users'][$k]);
+					unset($fields['user'][$k]);
 				}
 			}
 		}
 		
-		$user = Users::model()->find($id, implode(',', $fields['users']));
+		$user = Users::model()->find($id, implode(',', $fields['user']));
 		
 		if(!$user){
 			return false;
@@ -223,7 +223,7 @@ class User extends Model{
 					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
 				), 'id,title,element,required,is_show,alias', 'sort');
 				
-				$return['props'] = $this->getProps($id, $props);
+				$return['props'] = $this->getPropertySet($id, $props);
 			}else{
 				$return['props'] = array();
 			}
@@ -244,36 +244,36 @@ class User extends Model{
 	 * 返回多个用户
 	 * @param string|array $ids 可以是逗号分割的id串，也可以是用户ID构成的一维数组
 	 * @param string $fields 可指定返回字段
-	 *   users.*系列可指定users表返回字段，若有一项为'users.*'，则返回除密码字段外的所有字段
+	 *   user.*系列可指定users表返回字段，若有一项为'user.*'，则返回除密码字段外的所有字段
 	 *   roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
 	 */
-	public function getByIds($ids, $fields = 'users.username,users.nickname,users.id,users.avatar'){
+	public function getByIds($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
 		//解析$ids
 		is_array($ids) || $ids = explode(',', $ids);
 		
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'users');
-		if(empty($fields['users'])){
+		$fields = SqlHelper::processFields($fields, 'user');
+		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
-			$fields['users'] = array(
+			$fields['user'] = array(
 				'id', 'username', 'nickname', 'avatar',
 			);
-		}else if(in_array('*', $fields['users'])){
+		}else if(in_array('*', $fields['user'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
-			$fields['users'] = Users::model()->getFields('password,salt');
+			$fields['user'] = Users::model()->getFields('password,salt');
 		}else{
 			//永远不会返回密码字段
-			foreach($fields['users'] as $k => $v){
+			foreach($fields['user'] as $k => $v){
 				if($v == 'password' || $v == 'salt'){
-					unset($fields['users'][$k]);
+					unset($fields['user'][$k]);
 				}
 			}
 		}
 		
 		$users = Users::model()->fetchAll(array(
 			'id IN (?)'=>$ids,
-		), implode(',', empty($fields['props']) ? $fields['users'] : array_merge($fields['users'], array('id'))));
+		), implode(',', empty($fields['props']) ? $fields['user'] : array_merge($fields['user'], array('id'))));
 		
 		//根据传入id顺序排序，并删除不需要返回的字段
 		$return = array();
@@ -298,7 +298,7 @@ class User extends Model{
 						$user['props'] = $this->getProps($user['id'], $props);
 					}
 					
-					if(!in_array('id', $fields['users'])){
+					if(!in_array('id', $fields['user'])){
 						unset($user['id']);
 					}
 					$return[$id] = $user;

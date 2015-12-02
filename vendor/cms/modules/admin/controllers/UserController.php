@@ -181,7 +181,7 @@ class UserController extends AdminController{
 			}
 		}
 		
-		$user = User::model()->get($user_id, 'users.*,profile.*');
+		$user = User::model()->get($user_id, 'user.*,profile.*');
 		$user_role_ids = User::model()->getRoleIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
@@ -198,7 +198,7 @@ class UserController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id, 'users.*,props.*,roles.title,profile.*');
+			$this->view->user = User::model()->get($id, 'user.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

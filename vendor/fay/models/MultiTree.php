@@ -2,6 +2,7 @@
 namespace fay\models;
 
 use fay\core\Model;
+use fay\core\db\Expr;
 
 /**
  * 基于左右值的多树操作
@@ -94,11 +95,11 @@ class MultiTree extends Model{
 	 */
 	public function delete($model, $id){
 		//获取被删除节点
-		$node = \F::model($model)->find($id, 'left_value,right_value,parent');
+		$node = \F::model($model)->find($id, 'left_value,right_value');
 		if($node['right_value'] - $node['left_value'] == 1){
 			//被删除节点是叶子节点
 			if($node['right_value'] != 2){
-				//不是根节点
+				//不是根节点（是根节点且是叶子节点的话，无需操作）
 				//所有后续节点左右值-2
 				\F::model($model)->inc(array(
 					'right_value > '.$node['right_value'],
@@ -110,13 +111,30 @@ class MultiTree extends Model{
 					'left_value < '.$node['left_value'],
 				), 'right_value', -2);
 			}
-			//标记为已删除即可
-			\F::model($model)->update(array(
-				'deleted'=>1,
-			), $id);
 		}else{
 			//被删除节点还有子节点，则将子节点设为根节点
+			$children_nodes = \F::model($model)->fetchAll(array(
+				'parent = ' . $id,
+				'deleted = 0',
+			));
+			foreach($children_nodes as $cn){
+				\F::model($model)->update(array(
+					'root'=>$cn['id'],
+					'left_value'=>new Expr('left_value - ' . ($cn['left_value'] - 1)),
+					'right_value'=>new Expr('right_value - ' . ($cn['left_value'] - 1)),
+				), array(
+					'root = ' . $cn['root'],
+					'left_value >= ' . $cn['left_value'],
+					'right_value <= ' . $cn['right_value'],
+				));
+			}
 		}
+		//标记为已删除即可
+		\F::model($model)->update(array(
+			'deleted'=>1,
+		), $id);
+		
+		return true;
 	}
 	
 	/**
@@ -135,6 +153,56 @@ class MultiTree extends Model{
 	 * @param int $id 节点ID
 	 */
 	public function remove($model, $id){
+		//获取被删除节点
+		$node = \F::model($model)->find($id, 'left_value,right_value,parent');
 		
+		if($node['right_value'] - $node['left_value'] == 1){
+			//被删除节点是叶子节点
+			if($node['right_value'] != 2){
+				//不是根节点（是根节点且是叶子节点的话，无需操作）
+				//所有后续节点左右值-2
+				\F::model($model)->inc(array(
+					'right_value > '.$node['right_value'],
+					'left_value > '.$node['right_value'],
+				), array('left_value', 'right_value'), -2);
+				//所有父节点右值-2
+				\F::model($model)->inc(array(
+					'right_value > '.$node['right_value'],
+					'left_value < '.$node['left_value'],
+				), 'right_value', -2);
+			}
+		}else{
+			//所有子节点左右值-1
+			\F::model($model)->update(array(
+				'left_value'=>new Expr('left_value - 1'),
+				'right_value'=>new Expr('right_value - 1'),
+			), array(
+				'left_value > '.$node['left_value'],
+				'right_value < '.$node['right_value'],
+			));
+			//所有后续节点左右值-2
+			\F::model($model)->update(array(
+				'left_value'=>new Expr('left_value - 2'),
+				'right_value'=>new Expr('right_value - 2'),
+			), array(
+				'right_value > '.$node['right_value'],
+				'left_value > '.$node['right_value'],
+			));
+			//所有父节点
+			\F::model($model)->update(array(
+				'right_value'=>new Expr('right_value - 2'),
+			), array(
+				'right_value > '.$node['right_value'],
+				'left_value < '.$node['left_value'],
+			));
+		}
+		//删除当前节点
+		\F::model($model)->delete($id);
+		//将所有父节点为该节点的parent字段指向其parent
+		\F::model($model)->update(array(
+			'parent'=>$node['parent'],
+		), 'parent = '.$id);
+		
+		return true;
 	}
 }

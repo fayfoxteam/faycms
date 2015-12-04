@@ -18,7 +18,7 @@ use fay\helpers\Date;
 	<div class="g-mn">
 		<h1 class="post-title"><?php echo Html::encode($post['post']['title'])?></h1>
 		<div class="post-meta">
-			<span>撰写人：<?php echo $post['user']['nickname'] ? $post['user']['nickname'] : $post['user']['username']?></span>
+			<span>撰写人：<?php echo $post['user']['user']['nickname'] ? $post['user']['user']['nickname'] : $post['user']['user']['username']?></span>
 			<span>发布时间：<?php echo Date::niceShort($post['post']['publish_time'])?></span>
 			<span>阅读数：<?php echo $post['post']['views']?></span>
 		</div>

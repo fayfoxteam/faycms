@@ -146,6 +146,8 @@ class Validator{
 		}
 		$instance->init($params);
 		$instance->_rule = $name;
+		//有些验证器支持传入数组，这时候在外面无法判断是否为空
+		$instance->skip_on_empty = $this->skip_on_empty;
 		return $instance;
 	}
 	

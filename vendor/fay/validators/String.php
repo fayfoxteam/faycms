@@ -63,6 +63,10 @@ class String extends Validator{
 		if($this->allow_array && is_array($value)){
 			//如果允许传入数组且传入的是数组
 			foreach($value as $v){
+				if($this->skip_on_empty && ($v === null || $v === '' || $v === array())){
+					//跳过为空的值
+					continue;
+				}
 				$check = $this->checkItem($v);
 				if($check !== true){
 					return $this->addError($check[0], $check[1], $check[2]);

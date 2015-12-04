@@ -238,7 +238,7 @@ class Validator{
 	 * @return boolean
 	 */
 	private function isSkip($field, $value){
-		if($this->skip_on_empty && ($value === null || $value === '')){
+		if($this->skip_on_empty && ($value === null || $value === '' || $value === array())){
 			return true;
 		}
 		

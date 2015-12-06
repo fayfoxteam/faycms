@@ -31,24 +31,24 @@ class Tree extends Model{
 	 * @param int $parent
 	 * @param int $start_num
 	 */
-	public function buildIndex($model, $parent = 0, $start_num = 1){
-		$records = \F::model($model)->fetchAll('parent = ' . $parent, 'id', 'sort, id ASC');
-		foreach($records as $r){
-			$children = \F::model($model)->fetchAll('parent = ' . $r['id'], 'sort');
+	public function buildIndex($model, $parent = 0, $start_num = 1, $nodes = null){
+		$nodes || $nodes = \F::model($model)->fetchAll('parent = ' . $parent, 'id', 'sort, id ASC');
+		foreach($nodes as $node){
+			$children = \F::model($model)->fetchAll('parent = ' . $node['id'], 'id', 'sort, id ASC');
 			if($children){
 				//有孩子，先记录左节点，右节点待定
 				$left = ++$start_num;
-				$start_num = $this->buildIndex($model, $r['id'], $start_num);
+				$start_num = $this->buildIndex($model, $node['id'], $start_num, $children);
 				\F::model($model)->update(array(
 					'left_value'=>$left,
 					'right_value'=>++$start_num,
-				), $r['id']);
+				), $node['id']);
 			}else{
 				//已经是叶子节点，直接记录左右节点
 				\F::model($model)->update(array(
 					'left_value'=>++$start_num,
 					'right_value'=>++$start_num,
-				), $r['id']);
+				), $node['id']);
 			}
 		}
 		return $start_num;

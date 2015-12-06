@@ -49,12 +49,12 @@ class MultiTree extends Model{
 			if($parent_node['right_value'] - $parent_node['left_value'] == 1){
 				//父节点是叶子节点
 				\F::model($model)->inc(array(
-					'left_value > ' . $parent_node['left_value'],
 					'root = ' . $parent_node['root'],
+					'left_value > ' . $parent_node['left_value'],
 				), 'left_value', 2);
 				\F::model($model)->inc(array(
-					'right_value > ' . $parent_node['left_value'],
 					'root = ' . $parent_node['root'],
+					'right_value > ' . $parent_node['left_value'],
 				), 'right_value', 2);
 				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'parent'=>$parent,
@@ -63,22 +63,19 @@ class MultiTree extends Model{
 					'root'=>$parent_node['root'],
 				)));
 			}else{
-				//父节点非叶子节点，插入到最右侧
-				$left_node = \F::model($model)->fetchRow(array(
-					'parent = ' . $parent,
-				), 'left_value,right_value', 'id DESC');
+				//父节点非叶子节点，插入到最左侧
 				\F::model($model)->inc(array(
-					'left_value > ' . $left_node['right_value'],
 					'root = ' . $parent_node['root'],
+					'left_value > ' . $parent_node['left_value'],
 				), 'left_value', 2);
 				\F::model($model)->inc(array(
-					'right_value > ' . $left_node['right_value'],
 					'root = ' . $parent_node['root'],
+					'right_value >= ' . $parent_node['left_value'],
 				), 'right_value', 2);
 				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'parent'=>$parent,
-					'left_value'=>$left_node['right_value'] + 1,
-					'right_value'=>$left_node['right_value'] + 2,
+					'left_value'=>$parent_node['left_value'] + 1,
+					'right_value'=>$parent_node['left_value'] + 2,
 					'root'=>$parent_node['root'],
 				)));
 			}
@@ -217,9 +214,9 @@ class MultiTree extends Model{
 				//定位新插入节点的排序位置
 				$left_node = \F::model($model)->fetchRow(array(
 					'parent = ' . $node['parent'],
-					'id < ' . $node['id'],
-				), 'left_value,right_value', 'id DESC');
-			
+					'id > ' . $node['id'],
+				), 'left_value,right_value', 'id ASC');
+				
 				if($left_node){
 					//存在左节点
 					\F::model($model)->inc(array(
@@ -448,23 +445,24 @@ class MultiTree extends Model{
 	 * @param string $model
 	 * @param int $parent
 	 * @param int $start_num
+	 * @param array $nodes 递归的时候，直接传入子节点，而不需要再搜一次
 	 */
-	public function buildIndex($model, $root, $parent = 0, $start_num = 0){
-		$nodes = \F::model($model)->fetchAll(array(
+	public function buildIndex($model, $root, $parent = 0, $start_num = 0, $nodes = null){
+		$nodes || $nodes = \F::model($model)->fetchAll(array(
 			'root = ?'=>$root,
 			'left_value > 0',//已删除的不管
 			'parent = ?'=>$parent,
-		), 'id', 'id ASC');
+		), 'id', 'id DESC');
 		foreach($nodes as $node){
 			$children = \F::model($model)->fetchAll(array(
 				'root = ?'=>$root,
 				'left_value > 0',
 				'parent = ?'=>$node['id'],
-			), 'id', 'id ASC');
+			), 'id', 'id DESC');
 			if($children){
 				//有孩子，先记录左节点，右节点待定
 				$left = ++$start_num;
-				$start_num = $this->buildIndex($model, $root, $node['id'], $start_num);
+				$start_num = $this->buildIndex($model, $root, $node['id'], $start_num, $children);
 				\F::model($model)->update(array(
 					'left_value'=>$left,
 					'right_value'=>++$start_num,
@@ -480,4 +478,115 @@ class MultiTree extends Model{
 		return $start_num;
 	}
 	
+	/**
+	 * 以树的方式返回
+	 * @param string $model
+	 * @param string $field 字段名，例如：post_id
+	 * @param int $value 字段值，例如：文章ID
+	 * @param int $count 返回根记录数（回复有多少返回多少，不分页）
+	 * @param int $offset 偏移量（根据页码在调用前算好
+	 */
+	public function getTree($model, $field, $value, $count = 10, $offset = 0){
+		//得到根节点
+		$root_nodes = \F::model($model)->fetchCol('root', array(
+			"{$field} = ?"=>$value,
+			'left_value = 1',//已删除的不管
+		), false, $count, $offset);
+		
+		if($root_nodes){
+			//搜索所有节点
+			$nodes = \F::model($model)->fetchAll(array(
+				'root IN (?)'=>$root_nodes,
+				'left_value > 0',
+			), \F::model($model)->getFields(), 'root DESC, left_value ASC');
+			
+			//一棵一棵渲染
+			$sub_tree = array();
+			$last_root = $nodes[0]['root'];
+			$tree = array();
+			foreach($nodes as $n){
+				if($last_root != $n['root'] && $sub_tree){
+					$tree[] = $this->renderTree($sub_tree);
+					$sub_tree = array();
+					$last_root = $n['root'];
+				}
+				
+				$sub_tree[] = $n;
+			}
+			$tree[] = $this->renderTree($sub_tree);
+			return $tree;
+		}else{
+			return array();
+		}
+	}
+	
+	/**
+	 * 根据left_value和right_value渲染出一个多维数组
+	 * @param array $nodes
+	 */
+	public function renderTree($nodes, $parent = 0){
+		if(empty($nodes)) return array();
+		$level = 0;//下一根树枝要挂载的层级
+		$current_level = 0;//当前层级
+		$left = $nodes[0]['left_value'] - 1;//上一片叶子的左值
+		$branch = array();//树枝
+		$parent_node = null;//叶子前一级树枝
+		$leaf = null;//叶子
+		$tree = array();//树
+		foreach($nodes as $n){
+			if($n['left_value'] - $left == 1){
+				//子节点
+				if(empty($branch)){
+					$branch[] = $n;
+					$leaf = &$branch[0];
+					$parent_node = &$branch;
+				}else{
+					$leaf['children'] = array($n);
+					$parent_node = &$leaf;
+					$leaf = &$leaf['children'][0];
+				}
+				$current_level++;
+			}else if($n['left_value'] - $left == 2){
+				//同级叶子
+				if(isset($parent_node['children'])){
+					$parent_node['children'][] = $n;
+					$leaf = &$parent_node['children'][count($parent_node['children']) - 1];
+				}else{
+					//该树枝的根
+					$parent_node[] = $n;
+					$leaf = &$parent_node[count($parent_node) - 1];
+				}
+			}else{
+				//当前树枝遍历完毕，转向父节点进行遍历
+				$tree = $this->mountBranch($branch, $tree, $level);//将之前产生的树枝先挂到树上
+				$level = $current_level - ($n['left_value'] - $left - 1);//下次挂在这个位置
+				$current_level = $level + 1;
+				$branch = array($n);//重置树枝
+				$parent_node = &$branch;
+				$leaf = &$branch[0];
+			}
+			$left = $n['left_value'];
+		}
+		$tree = $this->mountBranch($branch, $tree, $level);
+		return $tree;
+	}
+	
+	/**
+	 * 将一根树枝挂载到指定树的指定层级的最右侧
+	 * @param array $branch
+	 * @param array $tree
+	 * @param int $level
+	 */
+	private function mountBranch($branch, $tree, $level){
+		if($level == 0){
+			$tree = array_merge($tree, $branch);
+		}else{
+			$temp = &$tree[count($tree) - 1];//第一层的最后一个元素的引用
+			for($i = 1; $i < $level; $i++){
+				$temp = &$temp['children'][count($temp['children']) - 1];
+			}
+			$temp['children'] = array_merge($temp['children'], $branch);
+		}
+		return $tree;
+	}
 }

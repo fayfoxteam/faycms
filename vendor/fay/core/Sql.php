@@ -235,7 +235,7 @@ class Sql{
 		}else{
 			if(!empty($this->count)){
 				if($this->offset !== null && $this->offset !== false){
-					$sql .= "LIMIT {$this->offset} {$this->count} \n";
+					$sql .= "LIMIT {$this->offset}, {$this->count} \n";
 				}else{
 					$sql .= "LIMIT {$this->count} \n";
 				}

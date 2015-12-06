@@ -657,7 +657,6 @@ CREATE TABLE `{{$prefix}}post_comments` (
   `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
   `is_real` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否真实用户',
   `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
   `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',

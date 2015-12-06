@@ -14,7 +14,6 @@ use fay\core\db\Table;
  * @property int $root 根评论ID
  * @property int $create_time 创建时间
  * @property int $status 状态
- * @property int $deleted 删除标记
  * @property int $is_terminal 是否为叶子节点
  * @property int $is_real 是否真实用户
  * @property int $left_value 左值
@@ -48,7 +47,7 @@ class PostComments extends Table{
 			array(array('id', 'post_id', 'user_id', 'parent', 'root'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('deleted', 'is_terminal', 'is_real'), 'range', array('range'=>array(0, 1))),
+			array(array('is_terminal', 'is_real'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -62,7 +61,6 @@ class PostComments extends Table{
 			'root'=>'根评论ID',
 			'create_time'=>'创建时间',
 			'status'=>'状态',
-			'deleted'=>'删除标记',
 			'is_terminal'=>'是否为叶子节点',
 			'is_real'=>'是否真实用户',
 			'left_value'=>'左值',
@@ -80,7 +78,6 @@ class PostComments extends Table{
 			'root'=>'intval',
 			'create_time'=>'',
 			'status'=>'intval',
-			'deleted'=>'intval',
 			'is_terminal'=>'intval',
 			'is_real'=>'intval',
 			'left_value'=>'intval',

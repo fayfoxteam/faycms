@@ -1,7 +1,7 @@
 <?php
-namespace {{$name}}\modules\frontend\controllers;
+namespace pharmrich\modules\frontend\controllers;
 
-use {{$name}}\library\FrontController;
+use pharmrich\library\FrontController;
 use fay\models\Option;
 
 class IndexController extends FrontController{
@@ -12,7 +12,7 @@ class IndexController extends FrontController{
 		$this->layout->keywords = Option::get('site:seo_index_keywords');
 		$this->layout->description = Option::get('site:seo_index_description');
 		
-		$this->layout->current_directory = 'home';
+		$this->layout->current_header_menu = 'home';
 	}
 	
 	public function index(){

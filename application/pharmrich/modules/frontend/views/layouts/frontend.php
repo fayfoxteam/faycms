@@ -1,12 +1,12 @@
 <?php
 use fay\models\Option;
 use fay\helpers\Html;
-use fay\core\Uri;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link type="image/x-icon" href="<?php echo $this->assets('favicon.ico')?>" rel="shortcut icon" />
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
@@ -17,7 +17,7 @@ use fay\core\Uri;
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/frontend.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
@@ -28,15 +28,13 @@ system.user_id = '<?php echo \F::session()->get('user.id', 0)?>';
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
 </head>
 <body>
-<?php include '_header.php';?>
-<?php if(Uri::getInstance()->router == 'frontend/index/index'){
-	F::widget()->load('index-slides-camera');
-}?>
-<div class="g-con">
-	<div class="g-mn">
-		<?php echo $content;?>
-	</div>
-</div>
-<?php include '_footer.php';?>
+<?php $this->renderPartial('layouts/_header', array(
+	'current_header_menu'=>$current_header_menu,
+));?>
+<?php echo $content?>
+<?php $this->renderPartial('layouts/_footer');?>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
+<script>_fa.init();</script>
+
 </body>
 </html>

@@ -91,9 +91,7 @@ class Menu extends Model{
 	 * @return array
 	 */
 	public function getTree($parent = null, $real_link = true, $only_enabled = true){
-		if($parent === null){
-			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
-		}else if(String::isInt($parent)){
+		if(String::isInt($parent)){
 			return $this->getTreeByParentId($parent, $real_link, $only_enabled);
 		}else{
 			return $this->getTreeByParentAlias($parent, $real_link, $only_enabled);
@@ -106,7 +104,7 @@ class Menu extends Model{
 	 */
 	public function getTreeByParentAlias($alias = null, $real_link = true, $only_enabled = true){
 		if($alias === null){
-			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
+			return $this->getTreeByParentId(Menus::ITEM_USER_MENU, $real_link, $only_enabled);
 		}else{
 			$root = $this->getByAlias($alias, 'id');
 			if($root){
@@ -122,9 +120,7 @@ class Menu extends Model{
 	 * 若不指定ID，返回用户自定义菜单
 	 */
 	public function getTreeByParentId($id = null, $real_link = true, $only_enabled = true){
-		if($id == null){
-			return Tree::model()->getTree('fay\models\tables\Menus', Menus::ITEM_USER_MENU);
-		}
+		$id === null && $id = Menus::ITEM_USER_MENU;
 		
 		$menu = Tree::model()->getTree('fay\models\tables\Menus', $id);
 		

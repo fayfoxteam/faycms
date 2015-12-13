@@ -53,7 +53,7 @@ class FWidget{
 	
 	/**
 	 * 根据数据库中的别名，实例化对应的widget，进行渲染
-	 * @param int|alias|array $widget
+	 * @param int|string|array $widget
 	 *  - 若为数字，视为数据库中的ID
 	 *  - 若为字符串，视为别名
 	 *  - 若为数组，视为已经从数据库中搜出对应行

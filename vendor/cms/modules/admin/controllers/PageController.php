@@ -64,13 +64,7 @@ class PageController extends AdminController{
 				}
 				
 				$this->actionlog(Actionlogs::TYPE_PAGE, '添加页面', $page_id);
-				Response::notify('success', '页面发布成功 - '.Html::link('查看', array('page/item', array(
-					'id'=>$page_id,
-				)), array(
-					'target'=>'_blank',
-				)), array('admin/page/edit', array(
-					'id'=>$page_id,
-				)));
+				Response::notify('success', '页面发布成功');
 			}else{
 				$this->showDataCheckError($this->form()->getErrors());
 			}

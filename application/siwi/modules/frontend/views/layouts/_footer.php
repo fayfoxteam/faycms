@@ -33,7 +33,7 @@ use fay\models\Flash;
 		<div class="box m-weixin">
 			<h3>我们的微信</h3>
 			<div class="box-content">
-				<img src="<?php echo $this->assets('static/siwi/images/weixin.png')?>" />
+				<img src="<?php echo $this->appStatic('images/weixin.png')?>" />
 				<p>关注我们的微信公众号，每天都有新鲜的设计，最新的资讯，灵感由你掌握。</p>
 			</div>
 		</div>
@@ -41,7 +41,7 @@ use fay\models\Flash;
 	<div class="g-fcp">
 		<div class="w1190">
 			<p class="tip">最佳分辨率1280*800，建议使用Chrome、Firefox、Safari、ie10版本浏览器</p>
-			<p class="cp"><?php echo Option::get('site.copyright')?></p>
+			<p class="cp"><?php echo Option::get('site:copyright')?></p>
 		</div>
 	</div>
 </footer>

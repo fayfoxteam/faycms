@@ -80,8 +80,9 @@ a:hover{color:#e1472f;text-decoration:none;}
 /* 页脚 */
 .g-ft{border-top:5px solid #e1472f;background-color:#323232;padding-top:51px;height:293px;position:relative;}
 .g-ft h3{color:#fff;font-size:16px;font-weight:300;margin-bottom:20px;}
-.g-ft .m-about{width:50%;color:#a5a5a5;line-height:1.7em;margin-right:20px;}
+.g-ft .m-about{width:50%;color:#a5a5a5;line-height:1.7em;float:left;}
 .g-ft .m-contact{width:25%;float:left;color:#a5a5a5;}
+.g-ft .m-about,.g-ft .m-contact{box-sizing:border-box;padding-right:20px;}
 .g-fcp{height:43px;line-height:43px;color:#a5a5a5;position:absolute;bottom:0;width:100%;background-color:#252525;}
 .g-fcp .tip{float:right;}
 

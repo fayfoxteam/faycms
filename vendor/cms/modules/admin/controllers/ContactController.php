@@ -57,7 +57,7 @@ class ContactController extends AdminController{
 	}
 	
 	public function setRead(){
-		$id = $this->input->get('id');
+		$id = $this->input->get('id', 'intval');
 		Contacts::model()->update(array(
 			'is_read'=>1,
 		), $id);
@@ -72,7 +72,7 @@ class ContactController extends AdminController{
 	}
 	
 	public function setUnread(){
-		$id = $this->input->get('id');
+		$id = $this->input->get('id', 'intval');
 		Contacts::model()->update(array(
 			'is_read'=>0,
 		), $id);
@@ -87,13 +87,27 @@ class ContactController extends AdminController{
 	}
 	
 	public function remove(){
-		$id = $this->input->get('id');
+		$id = $this->input->get('id', 'intval');
 		Contacts::model()->delete($id);
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被永久删除', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一条信息被永久删除',
+		));
+	}
+	
+	public function reply(){
+		$id = $this->input->get('id', 'intval');
+		$reply = $this->input->get('reply', 'trim');
+		Contacts::model()->update(array(
+			'reply'=>$reply,
+		), $id);
+		
+		$this->actionlog(Actionlogs::TYPE_CONTACT, '回复了一条留言', $id);
+		
+		Response::notify('success', array(
+			'message'=>'回复成功',
 		));
 	}
 	

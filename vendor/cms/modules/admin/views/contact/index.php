@@ -14,6 +14,9 @@ $cols = F::form('setting')->getData('cols');
 						<?php if(in_array('title', $cols)){?>
 						<th>标题</th>
 						<?php }?>
+						<?php if(in_array('reply', $cols)){?>
+						<th>回复</th>
+						<?php }?>
 						<?php if(in_array('realname', $cols)){?>
 						<th>姓名</th>
 						<?php }?>
@@ -43,6 +46,9 @@ $cols = F::form('setting')->getData('cols');
 						<th>留言</th>
 						<?php if(in_array('title', $cols)){?>
 						<th>标题</th>
+						<?php }?>
+						<?php if(in_array('reply', $cols)){?>
+						<th>回复</th>
 						<?php }?>
 						<?php if(in_array('realname', $cols)){?>
 						<th>姓名</th>
@@ -88,10 +94,47 @@ $cols = F::form('setting')->getData('cols');
 		</form>
 	</div>
 </div>
+<div class="hide">
+	<div id="reply-dialog" class="dialog w650">
+		<div class="dialog-content w600">
+			<h4>回复给：<span id="reply-to"></span></h4>
+			<form id="reply-form" action="<?php echo $this->url('admin/contact/reply')?>">
+				<input type="hidden" name="id" value="" />
+				<textarea name="reply" class="h200 wp100"></textarea>
+				<a href="javascript:;" id="reply-form-submit" class="btn fr mt5 mr10">回复</a>
+				<a href="javascript:;" class="btn btn-grey fr fancybox-close mt5 mr10">取消</a>
+			</form>
+			<br class="clear" />
+		</div>
+	</div>
+</div>
 <script>
 $(function(){
 	$(document).on('change', '.check-all', function(){
 		$("[name='ids[]'],.check-all").attr("checked", !!$(this).attr("checked"));
+	});
+	
+	system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			$('.reply-link').fancybox({
+				'padding':0,
+				'titleShow':false,
+				'centerOnScroll':true,
+				'onComplete':function(o){
+					if($(o).attr('data-realname')){
+						$('#reply-dialog #reply-to').text($(o).attr('data-realname'));
+					}else if($(o).attr('data-phone')){
+						$('#reply-dialog #reply-to').text($(o).attr('data-phone'));
+					}else if($(o).attr('data-email')){
+						$('#reply-dialog #reply-to').text($(o).attr('data-email'));
+					}else{
+						$('#reply-dialog #reply-to').text('匿名');
+					}
+					
+					$('#reply-form [name="id"]').val($(o).attr('data-id'));
+				}
+			});
+		});
 	});
 })
 </script>

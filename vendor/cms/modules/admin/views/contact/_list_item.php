@@ -1,5 +1,4 @@
 <?php
-use fay\models\tables\Contacts;
 use fay\helpers\Html;
 use fay\helpers\Date;
 ?>
@@ -13,8 +12,7 @@ use fay\helpers\Date;
 	</td>
 	<td>
 		<?php echo Html::encode($data['content'])?>
-		<div class="row-actions">
- 			<?php 
+		<div class="row-actions"><?php 
  			if($data['is_read']){
  				echo Html::link('标记为未读', array('admin/contact/set-unread', array('id'=>$data['id'])));
  			}else{
@@ -22,11 +20,21 @@ use fay\helpers\Date;
  			}
 			echo Html::link('删除', array('admin/contact/remove', array('id'=>$data['id'])), array(
 				'class'=>'fc-red remove-link',
-			))?>
-		</div>
+			));
+			echo Html::link('回复', '#reply-dialog', array(
+				'class'=>'reply-link',
+				'data-id'=>$data['id'],
+				'data-realname'=>$data['realname'],
+				'data-phone'=>$data['phone'],
+				'data-email'=>$data['email'],
+			));
+		?></div>
 	</td>
 	<?php if(in_array('title', $cols)){?>
 	<td><?php echo Html::encode($data['title'])?></td>
+	<?php }?>
+	<?php if(in_array('reply', $cols)){?>
+	<td><?php echo Html::encode($data['reply'])?></td>
 	<?php }?>
 	<?php if(in_array('realname', $cols)){?>
 	<td><?php echo Html::encode($data['realname'])?></td>

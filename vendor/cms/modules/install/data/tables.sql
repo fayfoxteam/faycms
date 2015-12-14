@@ -129,14 +129,18 @@ CREATE TABLE `{{$prefix}}cities` (
 DROP TABLE IF EXISTS `{{$prefix}}contacts`;
 CREATE TABLE `{{$prefix}}contacts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `realname` varchar(50) NOT NULL DEFAULT '' COMMENT 'Realname',
+  `realname` varchar(50) NOT NULL DEFAULT '' COMMENT '真名',
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT 'Email',
-  `phone` varchar(50) NOT NULL DEFAULT '' COMMENT 'Phone',
-  `content` text NOT NULL COMMENT 'Content',
+  `phone` varchar(50) NOT NULL DEFAULT '' COMMENT '电话',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '留言标题',
+  `country` varchar(50) NOT NULL DEFAULT '' COMMENT '国家',
+  `content` text NOT NULL COMMENT '留言内容',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'Ip Int',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Status',
+  `reply` text NOT NULL COMMENT '回复',
+  `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '已读标记',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 

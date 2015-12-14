@@ -11,11 +11,17 @@ $cols = F::form('setting')->getData('cols');
 					<tr>
 						<th class="w20 pl11"><input type="checkbox" class="check-all" /></th>
 						<th>留言</th>
+						<?php if(in_array('title', $cols)){?>
+						<th>标题</th>
+						<?php }?>
 						<?php if(in_array('realname', $cols)){?>
 						<th>姓名</th>
 						<?php }?>
 						<?php if(in_array('email', $cols)){?>
 						<th>邮箱</th>
+						<?php }?>
+						<?php if(in_array('country', $cols)){?>
+						<th>国家</th>
 						<?php }?>
 						<?php if(in_array('phone', $cols)){?>
 						<th>电话</th>
@@ -35,11 +41,17 @@ $cols = F::form('setting')->getData('cols');
 					<tr>
 						<th class="pl11"><input type="checkbox" class="check-all" /></th>
 						<th>留言</th>
+						<?php if(in_array('title', $cols)){?>
+						<th>标题</th>
+						<?php }?>
 						<?php if(in_array('realname', $cols)){?>
 						<th>姓名</th>
 						<?php }?>
 						<?php if(in_array('email', $cols)){?>
 						<th>邮箱</th>
+						<?php }?>
+						<?php if(in_array('country', $cols)){?>
+						<th>国家</th>
 						<?php }?>
 						<?php if(in_array('phone', $cols)){?>
 						<th>电话</th>

@@ -3,11 +3,11 @@ use fay\models\Option;
 use fay\models\Flash;
 ?>
 <footer class="g-ft">
-	<div class="centered-wrapper">
-		<?php F::widget()->load('footer-about-us')?>
-		<?php F::widget()->load('contact-1')?>
-		<?php F::widget()->load('contact-2')?>
-		<?php F::widget()->load('contact-3')?>
+	<div class="centered-wrapper cf">
+		<div class="ft-left"><?php F::widget()->load('footer-about-us')?></div>
+		<div class="ft-right">
+			<?php F::widget()->area('footer-contact')?>
+		</div>
 	</div>
 	<div class="g-fcp">
 		<div class="centered-wrapper">

@@ -117,7 +117,9 @@ class MenuController extends AdminController{
 		$node = Menus::model()->find($id, 'sort,title');
 		Response::notify('success', array(
 			'message'=>"菜单{$node['title']}的排序值被修改",
-			'sort'=>$node['sort'],
+			'data'=>array(
+				'sort'=>$node['sort'],
+			),
 		));
 	}
 	

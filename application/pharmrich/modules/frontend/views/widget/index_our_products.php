@@ -16,8 +16,8 @@ use fay\models\File;
 				<a href="<?php echo File::getUrl($p['thumbnail'])?>" rel="prettyPhoto[pp_gal]" title="<?php echo Html::encode($p['title'])?>">
 					<span class="item-on-hover"><span class="hover-image"></span></span>
 					<?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
-						'dw'=>265,
-						'dh'=>217,
+						'dw'=>300,
+						'dh'=>245,
 						'alt'=>Html::encode($p['title']),
 					))?>
 				</a>

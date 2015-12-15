@@ -17,8 +17,8 @@ use fay\helpers\Date;
 				<a href="<?php echo $p['url']?>">
 					<span class="item-on-hover"></span>
 					<?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
-						'dw'=>265,
-						'dh'=>217,
+						'dw'=>300,
+						'dh'=>245,
 						'alt'=>Html::encode($p['title']),
 					))?>
 				</a>

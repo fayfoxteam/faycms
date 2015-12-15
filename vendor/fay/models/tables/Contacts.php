@@ -3,17 +3,24 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Contacts model
+ * 
+ * @property int $id Id
+ * @property string $realname 真名
+ * @property string $email Email
+ * @property string $phone 电话
+ * @property string $title 留言标题
+ * @property string $country 国家
+ * @property string $content 留言内容
+ * @property int $create_time Create Time
+ * @property int $ip_int IP
+ * @property int $parent Parent
+ * @property int $status Status
+ * @property string $reply 回复
+ * @property int $is_read 已读标记
+ */
 class Contacts extends Table{
-	/**
-	 * 状态 - 未读
-	 */
-	const STATUS_UNREAD = 1;
-	
-	/**
-	 * 状态 - 已读
-	 */
-	const STATUS_READ = 2;
-
 	protected $_name = 'contacts';
 	
 	/**
@@ -26,36 +33,47 @@ class Contacts extends Table{
 	public function rules(){
 		return array(
 			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-			array(array('id', 'create_time', 'parent'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('realname', 'phone'), 'string', array('max'=>50)),
+			array(array('realname', 'phone', 'country'), 'string', array('max'=>50)),
+			array(array('title'), 'string', array('max'=>255)),
+			array(array('is_read'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'realname'=>'Realname',
+			'realname'=>'真名',
 			'email'=>'Email',
-			'phone'=>'Phone',
-			'content'=>'Content',
+			'phone'=>'电话',
+			'title'=>'留言标题',
+			'country'=>'国家',
+			'content'=>'留言内容',
 			'create_time'=>'Create Time',
 			'ip_int'=>'IP',
 			'parent'=>'Parent',
 			'status'=>'Status',
+			'reply'=>'回复',
+			'is_read'=>'已读标记',
 		);
 	}
 
 	public function filters(){
 		return array(
+			'id'=>'intval',
 			'realname'=>'trim',
 			'email'=>'trim',
 			'phone'=>'trim',
+			'title'=>'trim',
+			'country'=>'trim',
 			'content'=>'',
 			'create_time'=>'',
 			'ip_int'=>'intval',
 			'parent'=>'intval',
 			'status'=>'intval',
+			'reply'=>'',
+			'is_read'=>'intval',
 		);
 	}
 }

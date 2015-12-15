@@ -57,9 +57,9 @@ class ContactController extends AdminController{
 	}
 	
 	public function setRead(){
-		$id = $this->input->get('id');
+		$id = $this->input->get('id', 'intval');
 		Contacts::model()->update(array(
-			'status'=>Contacts::STATUS_READ,
+			'is_read'=>1,
 		), $id);
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被标记为已读', $id);
@@ -72,9 +72,9 @@ class ContactController extends AdminController{
 	}
 	
 	public function setUnread(){
-		$id = $this->input->get('id');
+		$id = $this->input->get('id', 'intval');
 		Contacts::model()->update(array(
-			'status'=>Contacts::STATUS_UNREAD,
+			'is_read'=>0,
 		), $id);
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被标记为未读', $id);
@@ -87,13 +87,27 @@ class ContactController extends AdminController{
 	}
 	
 	public function remove(){
-		$id = $this->input->get('id');
+		$id = $this->input->get('id', 'intval');
 		Contacts::model()->delete($id);
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被永久删除', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一条信息被永久删除',
+		));
+	}
+	
+	public function reply(){
+		$id = $this->input->get('id', 'intval');
+		$reply = $this->input->get('reply', 'trim');
+		Contacts::model()->update(array(
+			'reply'=>$reply,
+		), $id);
+		
+		$this->actionlog(Actionlogs::TYPE_CONTACT, '回复了一条留言', $id);
+		
+		Response::notify('success', array(
+			'message'=>'回复成功',
 		));
 	}
 	
@@ -104,13 +118,13 @@ class ContactController extends AdminController{
 		if($action && $ids){
 			if($action == 'read'){
 				Contacts::model()->update(array(
-					'status'=>Contacts::STATUS_READ,
+					'is_read'=>1,
 				), array(
 					'id IN (?)'=>$ids,
 				));
 			}else if($action == 'unread'){
 				Contacts::model()->update(array(
-					'status'=>Contacts::STATUS_UNREAD,
+					'is_read'=>0,
 				), array(
 					'id IN (?)'=>$ids,
 				));

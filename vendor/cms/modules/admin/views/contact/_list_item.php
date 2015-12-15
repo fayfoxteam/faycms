@@ -1,10 +1,9 @@
 <?php
-use fay\models\tables\Contacts;
 use fay\helpers\Html;
 use fay\helpers\Date;
 ?>
 <tr valign="top">
-	<td class="<?php if($data['status'] == Contacts::STATUS_UNREAD){
+	<td class="<?php if(!$data['is_read']){
 		echo 'bl-yellow';
 	}else{
 		echo 'pl11';
@@ -13,18 +12,30 @@ use fay\helpers\Date;
 	</td>
 	<td>
 		<?php echo Html::encode($data['content'])?>
-		<div class="row-actions">
- 			<?php 
- 			if($data['status'] == Contacts::STATUS_READ){
+		<div class="row-actions"><?php 
+ 			if($data['is_read']){
  				echo Html::link('标记为未读', array('admin/contact/set-unread', array('id'=>$data['id'])));
  			}else{
  				echo Html::link('标记为已读', array('admin/contact/set-read', array('id'=>$data['id'])));
  			}
 			echo Html::link('删除', array('admin/contact/remove', array('id'=>$data['id'])), array(
 				'class'=>'fc-red remove-link',
-			))?>
-		</div>
+			));
+			echo Html::link('回复', '#reply-dialog', array(
+				'class'=>'reply-link',
+				'data-id'=>$data['id'],
+				'data-realname'=>$data['realname'],
+				'data-phone'=>$data['phone'],
+				'data-email'=>$data['email'],
+			));
+		?></div>
 	</td>
+	<?php if(in_array('title', $cols)){?>
+	<td><?php echo Html::encode($data['title'])?></td>
+	<?php }?>
+	<?php if(in_array('reply', $cols)){?>
+	<td><?php echo Html::encode($data['reply'])?></td>
+	<?php }?>
 	<?php if(in_array('realname', $cols)){?>
 	<td><?php echo Html::encode($data['realname'])?></td>
 	<?php }?>
@@ -32,6 +43,9 @@ use fay\helpers\Date;
 	<td><a href="mailto:<?php echo Html::encode($data['email'])?>">
 		<?php echo Html::encode($data['email'])?>
 	</a></td>
+	<?php }?>
+	<?php if(in_array('country', $cols)){?>
+	<td><?php echo Html::encode($data['country'])?></td>
 	<?php }?>
 	<?php if(in_array('phone', $cols)){?>
 	<td><?php echo Html::encode($data['phone'])?></td>

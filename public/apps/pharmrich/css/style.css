@@ -60,10 +60,11 @@ a:hover{color:#e1472f;text-decoration:none;}
 /* 页面顶部 */
 .g-hd{height:100px;border-bottom:1px solid #d8d8d8;background-color:#ffffff;}
 .g-hd .m-logo{width:360px;float:left;position:absolute;top:0;left:5px;}
-.g-hd .nav{float:right;position:absolute;right:0;top:38px;}
-.g-hd .nav a{color:#696969;font-size:14px;display:block;height:31px;line-height:31px;}
-.g-hd .nav a:hover,.g-hd .nav a.crt{color:#e1472f;}
-.g-hd .nav li{display:block;float:left;height:31px;padding:0 14px;background:url("images/dotted.png") repeat-y scroll 0 0 transparent;}
+.g-hd .nav{float:right;position:absolute;right:0;top:0;}
+.g-hd .nav li a{color:#696969;font-size:14px;display:block;height:101px;line-height:101px;padding:0 14px;background:url(images/nav-bg.png) no-repeat scroll 0 center transparent;}
+.g-hd .nav li:first-child a{background-image:none;}
+.g-hd .nav li a:hover,.g-hd .nav a.crt{color:#fff;background-color:#e1472f;background-image:none;}
+.g-hd .nav li{display:block;float:left;}
 .g-hd .nav li:first-child{background:none;}
 .g-hd .nav .select-menu{display:none;color:#999;border:1px solid #EBEBEB;}
 @media only screen and (min-width: 768px) and (max-width: 1023px) {

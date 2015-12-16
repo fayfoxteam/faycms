@@ -356,7 +356,7 @@ class Post extends Model{
 		}
 		
 		$sql->from('posts', 'p', $post_fields)
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title, alias AS cat_alias')
 			->where(array(
 				'p.id = ?'=>$id,
 			));

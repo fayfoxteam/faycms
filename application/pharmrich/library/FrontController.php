@@ -7,7 +7,6 @@ use fay\models\tables\SpiderLogs;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
-	public $current_user = 0;
 	
 	public function __construct(){
 		parent::__construct();
@@ -24,5 +23,7 @@ class FrontController extends Controller{
 				'create_time'=>$this->current_time,
 			));
 		}
+		
+		$this->layout->current_header_menu = '';
 	}
 }

@@ -3,6 +3,7 @@ use fay\helpers\Html;
 use fay\models\Menu;
 use fay\models\Option;
 use fay\helpers\ArrayHelper;
+use fay\core\Uri;
 ?>
 <header class="g-top">
 	<div class="centered-wrapper">
@@ -21,7 +22,9 @@ use fay\helpers\ArrayHelper;
 		</nav>
 	</div>
 </header>
-<div class="cf"><?php F::widget()->load('index-slides-camera')?></div>
+<?php if(Uri::getInstance()->router == 'frontend/index/index'){?>
+	<div class="cf"><?php F::widget()->load('index-slides-camera')?></div>
+<?php }?>
 <div class="g-search cf">
 	<h4>搜索 SEARCH</h4>
 	<form id="search-form" action="<?php echo $this->url('search')?>"><?php

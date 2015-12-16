@@ -22,5 +22,9 @@ return array(
 	array(
 		'alias'=>'index-content',
 		'description'=>'首页主体部分',
-	)
+	),
+	array(
+		'alias'=>'product-item-sidebar',
+		'description'=>'商品详情页侧边栏',
+	),
 );

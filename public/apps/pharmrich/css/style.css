@@ -84,7 +84,7 @@ a:hover{color:#e1472f;text-decoration:none;}
 @media screen and (max-width:1080px){
 	.g-nav .container{margin-left:0;margin-right:0;}
 	.g-nav ul li a{width:25%;}
-	.g-nav ul li a{border-top:1px solid #c8c8c8;margin-top:-1px;}
+	.g-nav ul li a{border-bottom:1px solid #c8c8c8;margin-bottom:-1px;}
 }
 
 .select-menu{display:none;color:#999;border:1px solid #c3c3c3;clear:both;margin:5px auto;padding:5px 10px;width:240px;position:relative;}

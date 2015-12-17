@@ -3,14 +3,14 @@ use fay\helpers\Html;
 ?>
 <ul class="inner-post-list"><?php
 	foreach($posts as $k => $p){
-		echo Html::link('<span>'.Html::encode($p['title']).'</span>', array('post/'.$p['id']), array(
+		echo Html::link('<span>'.Html::encode($p['post']['title']).'</span>', array('post/'.$p['post']['id']), array(
 			'wrapper'=>'li',
 			'before'=>array(
 				'tag'=>'time',
-				'text'=>date('Y-m-d', $p['publish_time']),
+				'text'=>date('Y-m-d', $p['post']['publish_time']),
 			),
 			'encode'=>false,
-			'title'=>Html::encode($p['title']),
+			'title'=>Html::encode($p['post']['title']),
 		));
 		
 		if(($k + 1) % 5 == 0){

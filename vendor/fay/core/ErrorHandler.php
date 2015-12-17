@@ -51,6 +51,9 @@ class ErrorHandler{
 			//错误日志
 			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
 			
+			//自定义Http异常
+			Response::setStatusHeader(500);
+			
 			//自定义异常
 			if(\F::config()->get('environment') == 'production'){
 				$this->render500($exception);
@@ -60,7 +63,10 @@ class ErrorHandler{
 		}else if($exception instanceof Exception){//业务逻辑报错
 			//错误日志
 			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
-				
+			
+			//自定义Http异常
+			Response::setStatusHeader(500);
+			
 			//自定义异常
 			if(\F::config()->get('environment') == 'production'){
 				$this->render500($exception);
@@ -70,6 +76,9 @@ class ErrorHandler{
 		}else{//默认为php报错
 			//错误日志
 			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
+			
+			//自定义Http异常
+			Response::setStatusHeader(500);
 			
 			//其它（php或者其他一些类库）抛出的异常
 			if(\F::config()->get('environment') == 'production'){

@@ -2,5 +2,5 @@
 	<section class="g-mn">
 		<?php F::widget()->load('product-item')?>
 	</section>
-	<aside class="g-sd"><?php F::widget()->area('product-item-sidebar')?></aside>
+	<aside class="g-sd"><?php F::widget()->area('product-index-sidebar')?></aside>
 </div>

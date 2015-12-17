@@ -422,7 +422,7 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 判断$cat1是否为$cat2的子节点
+	 * 判断$cat1是否为$cat2的子节点（是同一节点也返回true）
 	 * @param int|string|array $cat1
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若为字符串，视为分类别名获取分类；

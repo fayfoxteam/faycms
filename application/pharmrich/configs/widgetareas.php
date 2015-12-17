@@ -24,7 +24,27 @@ return array(
 		'description'=>'首页主体部分',
 	),
 	array(
+		'alias'=>'product-index-sidebar',
+		'description'=>'商品列表页侧边栏',
+	),
+	array(
 		'alias'=>'product-item-sidebar',
 		'description'=>'商品详情页侧边栏',
+	),
+	array(
+		'alias'=>'news-index-sidebar',
+		'description'=>'新闻列表页侧边栏',
+	),
+	array(
+		'alias'=>'news-item-sidebar',
+		'description'=>'新闻详情页侧边栏',
+	),
+	array(
+		'alias'=>'cook-recipes-index-sidebar',
+		'description'=>'食谱列表页侧边栏',
+	),
+	array(
+		'alias'=>'cook-recipes-item-sidebar',
+		'description'=>'食谱详情页侧边栏',
 	),
 );

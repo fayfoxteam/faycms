@@ -618,7 +618,7 @@ class Tree extends Model{
 	}
 	
 	/**
-	 * 判断$node1是否为$node2的子节点
+	 * 判断$node1是否为$node2的子节点（是同一节点也返回true）
 	 * @param string $model
 	 * @param int|array $node1
 	 *  - 若为数字，视为分类ID获取分类；
@@ -635,7 +635,7 @@ class Tree extends Model{
 			$node2 = \F::model($model)->find($node2, 'left_value,right_value');
 		}
 		
-		if($node1['left_value'] > $node2['left_value'] && $node1['right_value'] < $node2['right_value']){
+		if($node1['left_value'] >= $node2['left_value'] && $node1['right_value'] <= $node2['right_value']){
 			return true;
 		}else{
 			return false;

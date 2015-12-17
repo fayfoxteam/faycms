@@ -29,34 +29,6 @@ class Page extends Model{
 		return PagesCategories::model()->fetchCol('cat_id', "page_id = {$id}");
 	}
 	
-	public static function getPageStatus($status, $delete){
-		if($delete == 1){
-			return '回收站';
-		}
-		switch ($status) {
-			case Pages::STATUS_PUBLISHED:
-				return '已发布';
-				break;
-			case Pages::STATUS_DRAFT:
-				return '草稿';
-				break;
-		}
-	}
-	
-	public function getPageCount($status = null){
-		$conditions = array('deleted = 0');
-		if($status !== null){
-			$conditions['status = ?'] = $status;
-		}
-		$result = Pages::model()->fetchRow($conditions, 'COUNT(*)');
-		return $result['COUNT(*)'];
-	}
-	
-	public function getDeletedPageCount(){
-		$result = Pages::model()->fetchRow('deleted = 1', 'COUNT(*)');
-		return $result['COUNT(*)'];
-	}
-	
 	/**
 	 * 根据分类别名获取页面
 	 * @param string $alias

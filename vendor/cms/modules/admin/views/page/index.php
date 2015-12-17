@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Page;
 use fay\models\tables\Pages;
+use cms\models\Page;
 use cms\helpers\ListTableHelper;
 ?>
 <div class="row">
@@ -46,22 +46,22 @@ use cms\helpers\ListTableHelper;
 		<ul class="subsubsub">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index')?>">全部</a>
-				<span class="fc-grey">(<?php echo Page::model()->getPageCount()?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getCount()?>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Pages::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index', array('status'=>Pages::STATUS_PUBLISHED))?>">已发布</a>
-				<span class="fc-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_PUBLISHED)?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getCount(Pages::STATUS_PUBLISHED)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Pages::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index', array('status'=>Pages::STATUS_DRAFT))?>">草稿</a>
-				<span class="fc-grey">(<?php echo Page::model()->getPageCount(Pages::STATUS_DRAFT)?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getCount(Pages::STATUS_DRAFT)?>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/page/index', array('deleted'=>1))?>">回收站</a>
-				<span class="fc-grey">(<?php echo Page::model()->getDeletedPageCount()?>)</span>
+				<span class="fc-grey">(<?php echo Page::model()->getDeletedCount()?>)</span>
 			</li>
 		</ul>
 		<table class="list-table">

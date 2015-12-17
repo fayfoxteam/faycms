@@ -1,6 +1,3 @@
-<?php
-use fay\models\Option;
-?>
 <div class="container">
 	<div class="g-mn">
 		<h1 class="sec-title"><span>联系我们</span></h1>

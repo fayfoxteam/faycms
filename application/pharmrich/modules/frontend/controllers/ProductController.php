@@ -9,9 +9,13 @@ class ProductController extends FrontController{
 	public function index(){
 		$cat_id = $this->input->get('cat_id', 'intval');
 		
-		//获取分类
-		if(!$cat_id || !$cat = Category::model()->get($cat_id)){
-			throw new HttpException('您请求的页面不存在');
+		if($cat_id){
+			$cat = Category::model()->get($cat_id);
+			if(!$cat){
+				throw new HttpException('您请求的页面不存在');
+			}
+		}else{
+			$cat = Category::model()->get('products');
 		}
 		
 		$this->view->cat = $cat;

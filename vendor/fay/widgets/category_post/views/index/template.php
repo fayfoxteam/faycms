@@ -10,7 +10,7 @@ use fay\helpers\Html;
 		<?php foreach($posts as $p){?>
 			<li><?php
 				echo Html::link($p['title'], array(str_replace('{$id}', $p['id'], $config['uri'])));
-				echo $p['publish_format_time'];
+				echo $p['format_publish_time'];
 			?></li>
 		<?php }?>
 		</ul>

@@ -44,7 +44,7 @@ class IndexController extends Widget{
 		}else if(!empty($config['cat_alias_key']) && $this->input->get($config['cat_alias_key'])){
 			$cat_id = $this->input->get($config['cat_alias_key'], 'trim');
 		}else{
-			$cat_id = $config['cat_id'];
+			$cat_id = isset($config['cat_id']) ? $config['cat_id'] : 0;
 		}
 		
 		if(!empty($cat_id)){
@@ -80,6 +80,7 @@ class IndexController extends Widget{
 		$listview->empty_text = $config['empty_text'];
 		$posts = $listview->getData();
 		
+		$format_posts = array();
 		if($posts){
 			if(in_array('cat', $config['fields'])){
 				//获取所有相关分类
@@ -93,21 +94,27 @@ class IndexController extends Widget{
 				$users = User::model()->getByIds(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
 			}
 			
-			foreach($posts as &$p){
+			foreach($posts as $p){
+				$format_post = array(
+					'post'=>$p,
+				);
 				if(in_array('cat', $config['fields'])){
-					$p['cat'] = $cats[$p['cat_id']];
+					$format_post['cat'] = $cats[$p['cat_id']];
 				}
 				if(in_array('user', $config['fields'])){
-					$p['user'] = $users[$p['user_id']];
+					$format_post['user'] = $users[$p['user_id']];
 				}
 				if($config['date_format'] == 'pretty'){
-					$p['format_time'] = Date::niceShort($p['publish_time']);
+					$format_post['post']['format_publish_time'] = Date::niceShort($p['publish_time']);
 				}else if($config['date_format']){
-					$p['format_time'] = \date($config['date_format'], $p['publish_time']);
+					$format_post['post']['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
 				}else{
-					$p['format_time'] = '';
+					$format_post['post']['format_publish_time'] = '';
 				}
+				
+				$format_posts[] = $format_post;
 			}
+			$posts = $format_posts;
 			
 			//template
 			if(empty($config['template'])){

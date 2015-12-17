@@ -73,7 +73,7 @@ class FWidget{
 		}
 		
 		if($widget && $widget['enabled']){
-			if($cache >= 0 && $content = \F::app()->cache->get($widget['alias'])){
+			if($cache >= 0 && $content = \F::cache()->get($widget['alias'])){
 				echo $content;
 			}else{
 				$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $cache, $widget['alias'], $index);

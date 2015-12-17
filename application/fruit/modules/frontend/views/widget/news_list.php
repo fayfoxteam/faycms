@@ -5,28 +5,28 @@ use fay\models\File;
 <?php foreach($posts as $post){?>
 	<article>
 		<header>
-			<h2><?php echo Html::link($post['title'], array('news/'.$post['id']))?></h2>
+			<h2><?php echo Html::link($post['post']['title'], array('news/'.$post['post']['id']))?></h2>
 			<div class="meta">
-				<span>发布于：<?php echo $post['format_time']?></span>
-				<span>阅读数：<?php echo $post['views']?></span>
+				<span>发布于：<?php echo $post['post']['format_publish_time']?></span>
+				<span>阅读数：<?php echo $post['post']['views']?></span>
 			</div>
 		</header>
-		<?php if($post['thumbnail']){?>
+		<?php if($post['post']['thumbnail']){?>
 		<figure><?php
-			echo Html::link(Html::img($post['thumbnail'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($post['post']['thumbnail'], File::PIC_RESIZE, array(
 				'dw'=>748,
 				'dh'=>286,
-				'alt'=>Html::encode($post['title']),
-			)), array('news/'.$post['id']), array(
+				'alt'=>Html::encode($post['post']['title']),
+			)), array('news/'.$post['post']['id']), array(
 				'encode'=>false,
-				'title'=>Html::encode($post['title']),
+				'title'=>Html::encode($post['post']['title']),
 			));
 		?></figure>
 		<?php }?>
 		<div class="introtext">
-			<?php echo Html::encode($post['abstract'])?>
+			<?php echo Html::encode($post['post']['abstract'])?>
 		</div>
-		<?php echo Html::link('阅读全文', array('news/'.$post['id']), array(
+		<?php echo Html::link('阅读全文', array('news/'.$post['post']['id']), array(
 			'class'=>'more',
 		))?>
 	</article>

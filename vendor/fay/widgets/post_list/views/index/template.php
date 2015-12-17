@@ -10,7 +10,7 @@ use fay\helpers\Html;
 		<?php if(!empty($config['date_format'])){?>
 		<span class="post-meta">
 			发表于 
-			<time><?php echo $p['format_time']?></time>
+			<time><?php echo $p['format_publish_time']?></time>
 		</span>
 		<?php }?>
 	</div>

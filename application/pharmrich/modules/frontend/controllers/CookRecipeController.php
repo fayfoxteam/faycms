@@ -6,6 +6,12 @@ use fay\core\HttpException;
 use fay\models\Category;
 
 class CookRecipeController extends FrontController{
+	public function __construct(){
+		parent::__construct();
+		
+		$this->layout->current_header_menu = 'cook-recipes';
+	}
+	
 	public function index(){
 		$cat_id = $this->input->get('cat_id', 'intval');
 

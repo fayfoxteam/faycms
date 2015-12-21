@@ -8,6 +8,12 @@ use fay\core\Response;
 use fay\models\Flash;
 
 class ContactController extends FrontController{
+	public function __construct(){
+		parent::__construct();
+		
+		$this->layout->current_header_menu = 'cook-recipes';
+	}
+	
 	public function index(){
 		$page = Pages::model()->fetchRow(array('alias = ?'=>'contact'));
 		Pages::model()->inc($page['id'], 'views', 1);

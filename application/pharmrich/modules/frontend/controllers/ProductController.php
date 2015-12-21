@@ -6,6 +6,12 @@ use fay\core\HttpException;
 use fay\models\Category;
 
 class ProductController extends FrontController{
+	public function __construct(){
+		parent::__construct();
+		
+		$this->layout->current_header_menu = 'products';
+	}
+	
 	public function index(){
 		$cat_id = $this->input->get('cat_id', 'intval');
 		

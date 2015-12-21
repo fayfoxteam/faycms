@@ -112,6 +112,8 @@ class IndexController extends Widget{
 					$format_post['post']['format_publish_time'] = '';
 				}
 				
+				$format_post['post']['link'] = $this->view->url(str_replace('{$id}', $format_post['post']['id'], $config['uri']));
+				
 				$format_posts[] = $format_post;
 			}
 			$posts = $format_posts;

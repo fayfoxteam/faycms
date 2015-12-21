@@ -9,7 +9,7 @@ use fay\helpers\String;
 	<?php $type = PostHelper::getType($p['post']['cat_id'])?>
 	<article class="cf">
 		<header class="cf">
-			<h1><?php echo Html::link($p['post']['title'], array("{$type}/{$p['post']['id']}"))?></h1>
+			<h1><?php echo Html::link($p['post']['title'], $p['post']['link'])?></h1>
 			<span class="post-meta">
 				<?php echo date('d M Y', $p['post']['publish_time'])?>
 				/
@@ -25,14 +25,14 @@ use fay\helpers\String;
 				'dw'=>150,
 				'dh'=>115,
 				'alt'=>Html::encode($p['post']['title']),
-			)), array("{$type}/{$p['post']['id']}"), array(
+			)), $p['post']['link'], array(
 				'encode'=>false,
 				'class'=>'thumbnail',
 				'title'=>Html::encode($p['post']['title']),
 			));
 		}?>
 		<p><?php echo nl2br(Html::encode(String::niceShort($p['post']['abstract'], 250)))?></p>
-		<?php echo Html::link('Read More', array("{$type}/{$p['post']['id']}"), array(
+		<?php echo Html::link('Read More', $p['post']['link'], array(
 			'class'=>'btn-red btn-sm mt20',
 			'title'=>false,
 		))?>

@@ -11,9 +11,9 @@ class PostHelper{
 	public static function getType($cat_id){
 		$cat = Category::model()->get($cat_id, 'left_value,right_value');
 		if(Category::model()->isChild($cat, 'products')){
-			return 'products';
+			return 'product';
 		}else if(Category::model()->isChild($cat, 'cook-recipes')){
-			return 'cook-recipes';
+			return 'cook-recipe';
 		}else{
 			return 'news';
 		}

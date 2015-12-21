@@ -84,6 +84,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .g-nav{border-top:1px solid #c8c8c8;border-bottom:1px solid #c8c8c8;}
 .g-nav ul{border-left:1px solid #c8c8c8;}
 .g-nav ul li a{display:block;float:left;width:12.5%;text-align:center;height:48px;line-height:48px;font-size:16px;color:#6e6e6e;border-right:1px solid #c8c8c8;box-sizing:border-box;}
+.g-nav ul li a.crt{color:#e1472f;}
 @media screen and (max-width:1080px){
 	.g-nav .container{margin-left:0;margin-right:0;}
 	.g-nav ul li a{width:25%;}

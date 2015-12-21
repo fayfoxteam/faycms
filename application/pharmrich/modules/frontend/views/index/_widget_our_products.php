@@ -22,7 +22,7 @@ use fay\models\File;
 					))?>
 				</a>
 				<div class="products-carousel-details">
-					<?php echo Html::link($p['title'], $p['url'], array(
+					<?php echo Html::link($p['title'], $p['link'], array(
 						'wrapper'=>'h3',
 					))?>
 				</div>

@@ -5,7 +5,7 @@ use pharmrich\library\FrontController;
 use fay\core\HttpException;
 use fay\models\Category;
 
-class CookRecipesController extends FrontController{
+class CookRecipeController extends FrontController{
 	public function index(){
 		$cat_id = $this->input->get('cat_id', 'intval');
 

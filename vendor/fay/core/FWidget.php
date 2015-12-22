@@ -184,7 +184,7 @@ class FWidget{
 		if(empty($alias)){
 			throw new Exception('引用小工具域时，别名不能为空');
 		}
-		$widgets = Widgets::model()->fetchAll("widgetarea = '{$alias}'", '*', 'sort,id');
+		$widgets = Widgets::model()->fetchAll("widgetarea = '{$alias}'", '*', 'sort, id DESC');
 		foreach($widgets as $k => $w){
 			$this->load($w, $w['ajax'], $w['cache'], $k+1);
 		}

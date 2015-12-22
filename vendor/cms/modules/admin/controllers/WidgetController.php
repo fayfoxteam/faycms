@@ -207,7 +207,7 @@ class WidgetController extends AdminController{
 	
 	public function removeInstance(){
 		$id = $this->input->get('id', 'intval');
-		Widgets::model()->delete($this->input->get('id', 'intval'));
+		Widgets::model()->delete($id);
 		$this->actionlog(Actionlogs::TYPE_WIDGET, '删除了一个小工具实例', $id);
 
 		Response::notify('success', array(
@@ -224,5 +224,31 @@ class WidgetController extends AdminController{
 		}else{
 			Response::json();
 		}
+	}
+	
+	public function copy(){
+		$id = $this->input->get('id', 'intval');
+		$widget = Widgets::model()->find($id);
+		if(!$widget){
+			throw new HttpException('指定小工具ID不存在');
+		}
+		
+		$widget_id = Widgets::model()->insert(array(
+			'alias'=>uniqid(),
+			'options'=>$widget['options'],
+			'widget_name'=>$widget['widget_name'],
+			'description'=>$widget['description'],
+			'enabled'=>$widget['enabled'],
+			'widgetarea'=>$widget['widgetarea'],
+			'sort'=>$widget['sort'],
+			'ajax'=>$widget['ajax'],
+			'cache'=>$widget['cache'],
+		));
+		
+		$this->actionlog(Actionlogs::TYPE_WIDGET, '复制了小工具实例' . $id, $widget_id);
+		
+		Response::notify('success', array(
+			'message'=>'一个小工具实例被复制',
+		), array('admin/widgetarea/index'));
 	}
 }

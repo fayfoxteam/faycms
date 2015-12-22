@@ -7,8 +7,10 @@ $widget_instance = F::widget()->get($widget['widget_name'], true);
 	<a class="widget-item-selector"></a>
 	<div class="widget-item-container">
 		<strong><?php echo Html::tag('span', array(
-			'title'=>'小工具名称',
-		), $widget_instance->title), ' - ', $widget['widget_name']?></strong>
+			'title'=>'小工具实例描述',
+		), $widget['description'] ? $widget['description'] : '无描述'), ' - ', Html::tag('span', array(
+			'title'=>'小工具实例别名',
+		), $widget['alias'])?></strong>
 		<span class="operations"><?php
 			echo Html::link('编辑', array('admin/widget/edit', array(
 				'id'=>$widget['id'],
@@ -18,11 +20,12 @@ $widget_instance = F::widget()->get($widget['widget_name'], true);
 			)), array(
 				'class'=>'fc-red remove-link',
 			), true);
+			echo Html::link('复制', array('admin/widget/copy', array(
+				'id'=>$widget['id'],
+			)), array(), true);
 		?></span>
 		<p class="fc-grey"><?php echo Html::tag('span', array(
-			'title'=>'小工具实例描述',
-		), $widget['description'] ? $widget['description'] : '无描述'), ' - ', Html::tag('span', array(
-			'title'=>'小工具实例别名',
-		), $widget['alias'])?></p>
+			'title'=>'小工具名称',
+		), $widget_instance->title), ' - ', $widget['widget_name']?></p>
 	</div>
 </div>

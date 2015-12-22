@@ -46,6 +46,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .widget.posts h5 a{color:#444;font-size:13px;}
 .widget.posts li{overflow:hidden;border-bottom:1px solid #efefef;margin-bottom:15px;padding-bottom:15px;}
 .widget.posts li:last-child{border-bottom:0 none;}
+.widget.posts li a img{float:left;width:75px;height:57px;margin-right:10px;}
 .widget.categories li{font-size:12px;padding:3px 0;}
 
 
@@ -199,6 +200,11 @@ a:hover span.hover-image{opacity:1;}
 .post-list article h1 a{color:#323232;}
 .post-list article .post-meta{height:30px;line-height:30px;border-bottom:1px dotted #c3c3c3;display:block;float:left;margin-bottom:18px;text-transform:uppercase;font-size:11px;position:relative;}
 .post-list article .thumbnail{float:left;margin-right:20px;}
+.post-list article .thumbnail img{width:150px;}
+@media only screen and (max-width: 400px) {
+	.post-list article .thumbnail{float:none;display:block;margin-right:0;}
+	.post-list article .thumbnail img{width:100%;}
+}
 
 .post-gallery{margin-left:-20px;}
 .post-gallery li{float:left;display:block;width:25%;padding-left:20px;}

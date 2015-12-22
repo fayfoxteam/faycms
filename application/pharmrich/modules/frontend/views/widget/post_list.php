@@ -22,8 +22,8 @@ use fay\helpers\String;
 		</header>
 		<?php if($p['post']['thumbnail']){
 			echo Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
-				'dw'=>150,
-				'dh'=>115,
+				'dw'=>300,
+				'dh'=>230,
 				'alt'=>Html::encode($p['post']['title']),
 			)), $p['post']['link'], array(
 				'encode'=>false,

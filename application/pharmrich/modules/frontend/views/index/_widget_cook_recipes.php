@@ -6,7 +6,7 @@ use fay\helpers\Date;
 <section class="box" id="<?php echo $alias?>">
 	<div class="box-title">
 		<h2><?php echo $config['title']?></h2>
-		<?php echo Html::link('More', array('cook-recipes'), array(
+		<?php echo Html::link('More', array('cook-recipe'), array(
 			'class'=>'more-link',
 		))?>
 	</div>
@@ -14,7 +14,7 @@ use fay\helpers\Date;
 		<ul class="posts-carousel">
 		<?php foreach($posts as $p){?>
 			<li>
-				<a href="<?php echo $p['url']?>">
+				<a href="<?php echo $p['link']?>">
 					<span class="item-on-hover"></span>
 					<?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
 						'dw'=>300,
@@ -23,7 +23,7 @@ use fay\helpers\Date;
 					))?>
 				</a>
 				<div class="posts-carousel-details">
-					<?php echo Html::link($p['title'], $p['url'], array(
+					<?php echo Html::link($p['title'], $p['link'], array(
 						'wrapper'=>'h2',
 					))?>
 					<div class="carousel-meta">

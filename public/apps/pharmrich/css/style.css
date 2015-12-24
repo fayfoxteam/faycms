@@ -46,6 +46,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .widget.posts h5 a{color:#444;font-size:13px;}
 .widget.posts li{overflow:hidden;border-bottom:1px solid #efefef;margin-bottom:15px;padding-bottom:15px;}
 .widget.posts li:last-child{border-bottom:0 none;}
+.widget.posts li a img{float:left;width:75px;height:57px;margin-right:10px;}
 .widget.categories li{font-size:12px;padding:3px 0;}
 
 
@@ -84,6 +85,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .g-nav{border-top:1px solid #c8c8c8;border-bottom:1px solid #c8c8c8;}
 .g-nav ul{border-left:1px solid #c8c8c8;}
 .g-nav ul li a{display:block;float:left;width:12.5%;text-align:center;height:48px;line-height:48px;font-size:16px;color:#6e6e6e;border-right:1px solid #c8c8c8;box-sizing:border-box;}
+.g-nav ul li a.crt{color:#e1472f;}
 @media screen and (max-width:1080px){
 	.g-nav .container{margin-left:0;margin-right:0;}
 	.g-nav ul li a{width:25%;}
@@ -129,8 +131,8 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .g-sd{width:100%;float:none;}
 }
 
-.page-title h1{font-size:36px;line-height:44px;font-weight:300;}
-.meta{height:50px;line-height:50px;border-bottom:1px dotted #c3c3c3;display:block;float:left;margin-bottom:18px;font-size:11px;}
+.page-title h1{font-size:36px;line-height:44px;font-weight:300;margin-bottom:18px;}
+.meta{border-bottom:1px dotted #c3c3c3;display:block;float:left;margin-bottom:18px;padding-bottom:18px;font-size:11px;}
 
 span.hover-image{width:41px;height:41px;top:50%;left:50%;margin-left:-20px;margin-top:-20px;position:absolute;display:block;opacity:0;filter:alpha(opacity=0);background:#e1472f url(images/lightbox.png) no-repeat scroll center center;transition:all 0.2s linear 0s;}
 span.item-on-hover{cursor:pointer;display:block;opacity:0;filter:alpha(opacity=0);position:absolute;width:100%;height:100%;background:url(images/item-on-hover.png) repeat;transition:all 0.2s linear 0s;}
@@ -198,6 +200,11 @@ a:hover span.hover-image{opacity:1;}
 .post-list article h1 a{color:#323232;}
 .post-list article .post-meta{height:30px;line-height:30px;border-bottom:1px dotted #c3c3c3;display:block;float:left;margin-bottom:18px;text-transform:uppercase;font-size:11px;position:relative;}
 .post-list article .thumbnail{float:left;margin-right:20px;}
+.post-list article .thumbnail img{width:150px;}
+@media only screen and (max-width: 400px) {
+	.post-list article .thumbnail{float:none;display:block;margin-right:0;}
+	.post-list article .thumbnail img{width:100%;}
+}
 
 .post-gallery{margin-left:-20px;}
 .post-gallery li{float:left;display:block;width:25%;padding-left:20px;}

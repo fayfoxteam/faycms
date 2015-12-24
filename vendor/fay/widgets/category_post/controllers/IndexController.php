@@ -57,7 +57,7 @@ class IndexController extends Widget{
 					$p['format_publish_time'] = '';
 				}
 				
-				$p['url'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
+				$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
 			}
 		}
 		return $posts;
@@ -130,7 +130,7 @@ class IndexController extends Widget{
 				$p['format_publish_time'] = '';
 			}
 				
-			$p['url'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
+			$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
 		}
 		
 		//template

@@ -62,7 +62,8 @@ $(function(){
 				last.poshytip('destroy');
 			},
 			'afterAjaxSubmit':function(resp){
-				$('body').unblock()
+				$('body').unblock();
+				common.notify('保存成功', 'success');
 			}
 		});
 	});

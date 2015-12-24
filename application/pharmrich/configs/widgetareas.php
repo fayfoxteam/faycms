@@ -47,4 +47,8 @@ return array(
 		'alias'=>'cook-recipes-item-sidebar',
 		'description'=>'食谱详情页侧边栏',
 	),
+	array(
+		'alias'=>'page-item-sidebar',
+		'description'=>'静态页侧边栏',
+	),
 );

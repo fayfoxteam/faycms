@@ -113,7 +113,7 @@ $(function(){
 						});
 						$('#exam-score').text(system.changeTwoDecimal(resp.exam_total_score));
 					}else{
-						common.alert('message');
+						common.alert(resp.message);
 					}
 				}
 			});

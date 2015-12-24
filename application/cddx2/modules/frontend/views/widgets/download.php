@@ -16,10 +16,6 @@ $cat = Category::model()->get($config['top'], 'title,alias');
 					'title'=>Html::encode($p['title']),
 					'encode'=>false,
 					'wrapper'=>'li',
-					'append'=>array(
-						'tag'=>'time',
-						'text'=>$p['format_publish_time'],
-					),
 				));
 			}?>
 			</ul>

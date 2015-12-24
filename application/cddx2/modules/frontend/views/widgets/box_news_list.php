@@ -8,11 +8,11 @@ $cat = Category::model()->get($config['top'], 'title,alias');
 <div class="widget widget-category-posts" id="widget-<?php echo Html::encode($alias)?>">
 	<div class="box">
 		<div class="box-title">
-			<h3><?php echo Html::encode($cat['title'])?></h3>
-			<em><?php echo str_replace('_', ' ', $cat['alias'])?></em>
 			<?php echo Html::link('more..', array('cat/' . $config['top']), array(
 				'class'=>'more-link',
 			))?>
+			<h3><?php echo Html::encode($cat['title'])?></h3>
+			<em><?php echo str_replace('_', ' ', $cat['alias'])?></em>
 		</div>
 		<div class="box-content">
 			<div class="box-top-news">

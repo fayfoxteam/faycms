@@ -93,7 +93,7 @@ class Widget{
 		if(strpos(get_class($this), 'controllers\AdminController') && file_exists($path . 'README.md')){
 			//后台调用的时候，会从README.md文件获取标题和描述信息
 			$readme = file($path . 'README.md');
-			$this->title = trim($readme[0], ' \t\n\r\0\x0B#');
+			$this->title = trim($readme[0], " \t\n\r\0\x0B#");
 			$this->description = trim($readme[1]);
 		}
 		

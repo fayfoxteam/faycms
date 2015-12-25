@@ -171,7 +171,6 @@ class PostController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '所有文章';
-		$this->layout->_setting_panel = '_setting_index';
 		
 		$cat_id = $this->input->get('cat_id', 'intval');
 		if($cat_id){
@@ -187,6 +186,7 @@ class PostController extends AdminController{
 			'text'=>'发布文章',
 		);
 		
+		$this->layout->_setting_panel = '_setting_index';
 		$_setting_key = 'admin_post_index';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array(

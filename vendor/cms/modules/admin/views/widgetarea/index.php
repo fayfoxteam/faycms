@@ -1,10 +1,17 @@
+<?php
+$show_alias = F::form('setting')->getData('show_alias', 0);
+?>
 <div class="row">
 	<div class="col-7" id="widgetarea-list">
 	<?php foreach($widgetareas as $wa){?>
 		<div class="box" data-alias="<?php echo $wa['alias']?>">
 			<div class="box-title">
 				<a class="tools toggle" title="点击以切换"></a>
-				<h4><?php echo $wa['description'], ' - ', $wa['alias']?></h4>
+				<h4><?php
+					echo $wa['description'];
+					if($show_alias){
+						echo ' - ', $wa['alias'];
+					}?></h4>
 			</div>
 			<div class="box-content widget-list">
 			<?php if(isset($widgets) && is_array($widgets)){
@@ -12,6 +19,7 @@
 					if($widget['widgetarea'] != $wa['alias']) continue;
 					$this->renderPartial('_widget_item', array(
 						'widget'=>$widget,
+						'show_alias'=>$show_alias,
 					));
 				}
 			}?>
@@ -28,6 +36,7 @@
 					if($widget['widgetarea']) continue;
 					$this->renderPartial('_widget_item', array(
 						'widget'=>$widget,
+						'show_alias'=>$show_alias,
 					));
 				}
 			}?>

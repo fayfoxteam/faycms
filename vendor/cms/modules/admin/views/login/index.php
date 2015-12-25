@@ -134,7 +134,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 					</div>
 				</fieldset>
 				<fieldset>
-					<a href="<?php echo $this->url('admin')?>" id="login-form-submit">进&nbsp;入&nbsp;后&nbsp;台</a>
+					<a href="<?php echo $this->url('admin/index/index')?>" id="login-form-submit">进&nbsp;入&nbsp;后&nbsp;台</a>
 				</fieldset>
 			</div>
 		</div>

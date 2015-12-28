@@ -37,6 +37,7 @@ class ContactController extends FrontController{
 				Contacts::model()->insert(array(
 					'name'=>$this->form()->getData('name'),
 					'email'=>$this->form()->getData('email'),
+					'title'=>$this->form()->getData('subject'),
 					'content'=>$this->form()->getData('message'),
 					'ip_int'=>Request::ip2int($this->ip),
 					'create_time'=>$this->current_time,

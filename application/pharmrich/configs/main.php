@@ -16,15 +16,15 @@ return array(
 		'charset'=>'utf8mb4',						//数据库编码方式
 		'table_prefix'=>'faycms_',				//数据库表前缀
 	),
-	'db'=>array(
-		'host'=>'112.124.64.22',					//数据库服务器
-		'user'=>'fayfox',//用户名
-		'password'=>'800998ecf8427e',//密码
-		'port'=>3306,							//端口
-		'dbname'=>'faycms_pharmrich',					//数据库名
-		'charset'=>'utf8',						//数据库编码方式
-		'table_prefix'=>'faycms_',				//数据库表前缀
-	),
+// 	'db'=>array(
+// 		'host'=>'112.124.64.22',					//数据库服务器
+// 		'user'=>'fayfox',//用户名
+// 		'password'=>'800998ecf8427e',//密码
+// 		'port'=>3306,							//端口
+// 		'dbname'=>'faycms_pharmrich',					//数据库名
+// 		'charset'=>'utf8',						//数据库编码方式
+// 		'table_prefix'=>'faycms_',				//数据库表前缀
+// 	),
 	
 	/*
 	 * 在一台服务器上跑多个cms的时候，以此区分session，可以随便设置一个

@@ -17,7 +17,7 @@ $cols = F::form('setting')->getData('cols');
 						<?php if(in_array('reply', $cols)){?>
 						<th>回复</th>
 						<?php }?>
-						<?php if(in_array('realname', $cols)){?>
+						<?php if(in_array('name', $cols)){?>
 						<th>姓名</th>
 						<?php }?>
 						<?php if(in_array('email', $cols)){?>
@@ -50,7 +50,7 @@ $cols = F::form('setting')->getData('cols');
 						<?php if(in_array('reply', $cols)){?>
 						<th>回复</th>
 						<?php }?>
-						<?php if(in_array('realname', $cols)){?>
+						<?php if(in_array('name', $cols)){?>
 						<th>姓名</th>
 						<?php }?>
 						<?php if(in_array('email', $cols)){?>
@@ -96,7 +96,7 @@ $cols = F::form('setting')->getData('cols');
 </div>
 <div class="hide">
 	<div id="reply-dialog" class="dialog w650">
-		<div class="dialog-content w600">
+		<div class="dialog-content">
 			<h4>回复给：<span id="reply-to"></span></h4>
 			<form id="reply-form" action="<?php echo $this->url('admin/contact/reply')?>">
 				<input type="hidden" name="id" value="" />
@@ -121,8 +121,8 @@ $(function(){
 				'titleShow':false,
 				'centerOnScroll':true,
 				'onComplete':function(o){
-					if($(o).attr('data-realname')){
-						$('#reply-dialog #reply-to').text($(o).attr('data-realname'));
+					if($(o).attr('data-name')){
+						$('#reply-dialog #reply-to').text($(o).attr('data-name'));
 					}else if($(o).attr('data-phone')){
 						$('#reply-dialog #reply-to').text($(o).attr('data-phone'));
 					}else if($(o).attr('data-email')){
@@ -130,6 +130,8 @@ $(function(){
 					}else{
 						$('#reply-dialog #reply-to').text('匿名');
 					}
+
+					$('#reply-dialog [name="reply"]').val($(o).attr('data-reply'));
 					
 					$('#reply-form [name="id"]').val($(o).attr('data-id'));
 				}

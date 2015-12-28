@@ -7,7 +7,7 @@ use fay\models\Page;
 <tr valign="top" id="page-<?php echo $data['id']?>">
 	<td>
 		<strong>
-			<?php echo Html::link($data['title'], array('page/item', array(
+			<?php echo Html::link($data['title'], array('admin/page/edit', array(
 				'id'=>$data['id'],
 			)), array(
 				'target'=>'_blank',

@@ -51,4 +51,8 @@ return array(
 		'alias'=>'page-item-sidebar',
 		'description'=>'静态页侧边栏',
 	),
+	array(
+		'alias'=>'contact-sidebar',
+		'description'=>'联系我们侧边栏',
+	),
 );

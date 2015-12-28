@@ -129,7 +129,7 @@ CREATE TABLE `{{$prefix}}cities` (
 DROP TABLE IF EXISTS `{{$prefix}}contacts`;
 CREATE TABLE `{{$prefix}}contacts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `realname` varchar(50) NOT NULL DEFAULT '' COMMENT '真名',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT 'Email',
   `phone` varchar(50) NOT NULL DEFAULT '' COMMENT '电话',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '留言标题',

@@ -9,7 +9,7 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'reply', array(
 			'label'=>'回复',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'realname', array(
+		echo F::form('setting')->inputCheckbox('cols[]', 'name', array(
 			'label'=>'姓名',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'email', array(

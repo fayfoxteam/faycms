@@ -42,7 +42,8 @@ class ContactController extends AdminController{
 		}
 		
 		$sql = new Sql();
-		$sql->from('contacts');
+		$sql->from('contacts')
+			->order('id DESC');
 		
 		$this->view->listview = new ListView($sql, array(
 			'page_size'=>$this->form('setting')->getData('page_size', 10),
@@ -102,6 +103,7 @@ class ContactController extends AdminController{
 		$reply = $this->input->get('reply', 'trim');
 		Contacts::model()->update(array(
 			'reply'=>$reply,
+			'is_read'=>1,
 		), $id);
 		
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '回复了一条留言', $id);

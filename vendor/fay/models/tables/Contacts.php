@@ -7,7 +7,7 @@ use fay\core\db\Table;
  * Contacts model
  * 
  * @property int $id Id
- * @property string $realname 真名
+ * @property string $name 姓名
  * @property string $email Email
  * @property string $phone 电话
  * @property string $title 留言标题
@@ -35,7 +35,7 @@ class Contacts extends Table{
 			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('realname', 'phone', 'country'), 'string', array('max'=>50)),
+			array(array('name', 'phone', 'country'), 'string', array('max'=>50)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('is_read'), 'range', array('range'=>array(0, 1))),
 		);
@@ -44,7 +44,7 @@ class Contacts extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'realname'=>'真名',
+			'name'=>'真名',
 			'email'=>'Email',
 			'phone'=>'电话',
 			'title'=>'留言标题',
@@ -62,7 +62,7 @@ class Contacts extends Table{
 	public function filters(){
 		return array(
 			'id'=>'intval',
-			'realname'=>'trim',
+			'name'=>'trim',
 			'email'=>'trim',
 			'phone'=>'trim',
 			'title'=>'trim',

@@ -24,9 +24,10 @@ use fay\helpers\Date;
 			echo Html::link('回复', '#reply-dialog', array(
 				'class'=>'reply-link',
 				'data-id'=>$data['id'],
-				'data-realname'=>$data['realname'],
+				'data-name'=>$data['name'],
 				'data-phone'=>$data['phone'],
 				'data-email'=>$data['email'],
+				'data-reply'=>$data['reply'],
 			));
 		?></div>
 	</td>
@@ -36,8 +37,8 @@ use fay\helpers\Date;
 	<?php if(in_array('reply', $cols)){?>
 	<td><?php echo Html::encode($data['reply'])?></td>
 	<?php }?>
-	<?php if(in_array('realname', $cols)){?>
-	<td><?php echo Html::encode($data['realname'])?></td>
+	<?php if(in_array('name', $cols)){?>
+	<td><?php echo Html::encode($data['name'])?></td>
 	<?php }?>
 	<?php if(in_array('email', $cols)){?>
 	<td><a href="mailto:<?php echo Html::encode($data['email'])?>">

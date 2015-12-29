@@ -7,7 +7,7 @@ $settings = F::form('setting')->getAllData();
 	<div class="col-12">
 		<ul class="chats-list">
 			<?php $listview->showData(array(
-				'setting'=>$settings,
+				'settings'=>$settings,
 			));?>
 		</ul>
 		<?php $listview->showPager();?>

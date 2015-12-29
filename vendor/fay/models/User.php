@@ -18,7 +18,7 @@ use fay\helpers\String;
 
 class User extends Model{
 	/**
-	 * @param string $className
+	 * @param string $class_name
 	 * @return User
 	 */
 	public static function model($class_name = __CLASS__){

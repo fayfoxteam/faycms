@@ -7,7 +7,7 @@ use fay\core\Sql;
 
 class Message extends Model{
 	/**
-	 * @param string $className
+	 * @param string $class_name
 	 * @return Message
 	 */
 	public static function model($class_name = __CLASS__){

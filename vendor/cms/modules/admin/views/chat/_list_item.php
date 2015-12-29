@@ -4,8 +4,6 @@ use fay\helpers\Date;
 use fay\models\File;
 use fay\models\Message;
 use fay\models\tables\Messages;
-
-$settings = F::form('setting')->getAllData();
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
 	<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(

@@ -3,11 +3,11 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\helpers\SqlHelper;
-use fay\models\tables\PostComments;
+use fay\models\tables\Messages;
 
 class Message extends Model{
 	/**
-	 * @param string $className
+	 * @param string $class_name
 	 * @return Message
 	 */
 	public static function model($class_name = __CLASS__){
@@ -353,5 +353,18 @@ class Message extends Model{
 				'root = ?'=>$message_id,
 			)
 		));
+	}
+	
+	/**
+	 * 获取回复数（不包含回收站里的）
+	 * @param int $id
+	 */
+	public function getReplyCount($id, $status = false){
+		$message = Messages::model()->fetchRow(array(
+			'root = ?'=>$id,
+			'status = ?'=>$status,
+			'deleted = 0',
+		), 'COUNT(*) AS count');
+		return $message['count'];
 	}
 }

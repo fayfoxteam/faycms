@@ -11,7 +11,7 @@ class Template extends Model{
 	 */
 	public $templates = array();
 	/**
-	 * @param string $className
+	 * @param string $class_name
 	 * @return Template
 	 */
 	public static function model($class_name = __CLASS__){

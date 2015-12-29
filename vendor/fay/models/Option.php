@@ -7,7 +7,7 @@ use fay\helpers\ArrayHelper;
 
 class Option extends Model{
 	/**
-	 * @param string $className
+	 * @param string $class_name
 	 * @return Option
 	 */
 	public static function model($class_name = __CLASS__){

@@ -1,87 +1,99 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\models\File;
-use fay\models\Message;
-use fay\models\tables\Messages;
-
-$settings = F::form('setting')->getAllData();
 ?>
-<li class="chat-item" id="chat-<?php echo $data['id']?>">
-	<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
-		'width'=>40,
-		'height'=>40,
-		'class'=>'circle ci-avatar',
-		'spare'=>'avatar',
-	)), array('admin/user/item', array(
-		'id'=>$data['user_id'],
-	)), array(
-		'title'=>false,
-		'encode'=>false,
-	))?>
-	<div class="chat-body">
-		<div class="ci-header">
-			<span class="ci-user">
-				<?php echo Html::encode($data[$settings['display_name']])?>
-			</span>
-			留言给<span class="ci-to"><?php
-				echo Html::encode($data['target_'.$settings['display_name']]);
-			?></span>
-			<abbr class="ci-time" title="<?php echo Date::format($data['create_time'])?>"><?php
-				echo Date::niceShort($data['create_time']);
-			?></abbr>
-		</div>
-		<div class="ci-meta">
-			<span class="ci-status"><?php if($data['status'] == Messages::STATUS_APPROVED){
-				echo '<span class="fc-green">已通过</span>';
-			}else if($data['status'] == Messages::STATUS_UNAPPROVED){
-				echo '<span class="fc-red">已驳回</span>';
-			}else if($data['status'] == Messages::STATUS_PENDING){
-				echo '<span class="fc-orange">待审</span>';
-			}?></span>
-		</div>
-		<div class="ci-content">
-			<p><?php echo nl2br(Html::encode($data['content']))?></p>
-		</div>
-		<div class="ci-footer">
-			<a href="#chat-dialog" class="ci-reply-link" data-id="<?php echo $data['id']?>">
-				<i class="fa fa-reply"></i>
-				<span>回复</span>(<em><?php echo Message::model()->getReplyCount($data['id'])?></em>)&nbsp;
-			</a>
-			<span class="ci-options"><?php
-			if(F::app()->checkPermission('admin/chat/approve')){
-				echo Html::link('<span>批准</span>&nbsp;|&nbsp;', 'javascript:;', array(
-					'data-id'=>$data['id'],
-					'class'=>'fc-green approve-link'.($data['status'] == Messages::STATUS_APPROVED ? ' hide' : ''),
-					'encode'=>false,
-					'title'=>false,
-				));
-			}
-			if(F::app()->checkPermission('admin/chat/unapprove')){
-				echo Html::link('<span>驳回</span>&nbsp;|&nbsp;', 'javascript:;', array(
-					'data-id'=>$data['id'],
-					'class'=>'fc-orange unapprove-link'.($data['status'] == Messages::STATUS_UNAPPROVED ? ' hide' : ''),
-					'encode'=>false,
-					'title'=>false,
-				));
-			}
-			if(F::app()->checkPermission('admin/chat/delete')){
-				echo Html::link('<span>回收站</span>&nbsp;|&nbsp;', 'javascript:;', array(
-					'data-id'=>$data['id'],
-					'class'=>'fc-red delete-link',
-					'encode'=>false,
-					'title'=>false,
-				));
-			}
-			if(F::app()->checkPermission('admin/chat/remove-all')){
-				echo Html::link('<span>删除会话</span>', 'javascript:;', array(
-					'data-id'=>$data['id'],
-					'class'=>'fc-red remove-all-link',
-					'encode'=>false,
-					'title'=>false,
-				));
-			}
-			?></span>
-		</div>
+<li class="contact-item" id="contact-<?php echo $data['id']?>">
+	<div class="ci-options">
+		<?php echo Html::link('<i class="fa fa-reply-all"></i>', 'javascript:;', array(
+			'data-id'=>$data['id'],
+			'class'=>'btn btn-grey reply-link',
+			'encode'=>false,
+			'title'=>'回复',
+		))?>
+		<?php echo Html::link('<i class="fa fa-trash"></i>', 'javascript:;', array(
+			'data-id'=>$data['id'],
+			'class'=>'btn btn-grey remove-link',
+			'encode'=>false,
+			'title'=>'删除',
+		))?>
 	</div>
+	<h3><?php echo Html::encode($data['title'])?></h3>
+	<div class="ci-header"><?php
+		if(in_array('name', $settings['cols'])){
+			echo Html::tag('span', array(
+				'class'=>'ci-name',
+				'title'=>'称呼',
+				'prepend'=>array(
+					'tag'=>'i',
+					'class'=>'fa fa-user',
+					'text'=>'',
+				),
+			), Html::encode($data['name']));
+		}
+		if(in_array('create_time', $settings['cols'])){
+			echo Html::tag('span', array(
+				'class'=>'ci-time',
+				'title'=>Date::format($data['create_time']),
+				'prepend'=>array(
+					'tag'=>'i',
+					'class'=>'fa fa-calendar',
+					'text'=>'',
+				),
+			), (empty($settings['display_time']) || $settings['display_time'] == 'short') ? Date::niceShort($data['create_time']) : Date::format($data['create_time']));
+		}
+		if(in_array('country', $settings['cols'])){
+			echo Html::tag('span', array(
+				'class'=>'ci-country',
+				'title'=>'国家',
+				'prepend'=>array(
+					'tag'=>'i',
+					'class'=>'fa fa-location-arrow',
+					'text'=>'',
+				),
+			), Html::encode($data['country']));
+		}
+		if(in_array('phone', $settings['cols'])){
+			echo Html::tag('span', array(
+				'class'=>'ci-phone',
+				'title'=>'电话',
+				'prepend'=>array(
+					'tag'=>'i',
+					'class'=>'fa fa-mobile-phone',
+					'text'=>'',
+				),
+			), Html::encode($data['phone']));
+		}
+		if(in_array('email', $settings['cols'])){
+			echo Html::tag('span', array(
+				'class'=>'ci-email',
+				'title'=>'邮箱',
+				'prepend'=>array(
+					'tag'=>'i',
+					'class'=>'fa fa-envelope-o',
+					'text'=>'',
+				),
+			), Html::encode($data['email']));
+		}
+		if(in_array('area', $settings['cols'])){
+			echo Html::tag('span', array(
+				'class'=>'ci-email',
+				'title'=>'来源地区',
+				'prepend'=>array(
+					'tag'=>'i',
+					'class'=>'fa fa-map-marker',
+					'text'=>'',
+				),
+				'title'=>long2ip($data['ip_int']),
+			), $iplocation->getCountry(long2ip($data['ip_int'])));
+		}
+		if(in_array('ip', $settings['cols'])){
+			echo '(', long2ip($data['ip_int']), ')';
+		}
+	?></div>
+	<div class="ci-content"><?php echo Html::encode($data['content'])?></div>
+	<div class="ci-reply"><?php if($data['reply']){
+		echo Html::tag('strong', array(), '管理员回复：'), Html::encode($data['reply']);
+	}else{
+		echo '未回复';
+	}?></div>
 </li>

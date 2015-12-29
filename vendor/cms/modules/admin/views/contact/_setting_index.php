@@ -10,7 +10,7 @@
 			'label'=>'回复',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'name', array(
-			'label'=>'姓名',
+			'label'=>'称呼',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'email', array(
 			'label'=>'邮箱',

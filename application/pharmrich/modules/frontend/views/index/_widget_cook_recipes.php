@@ -29,7 +29,7 @@ use fay\helpers\Date;
 					<div class="carousel-meta">
 						<span class="post-format"><i class="fa fa-pencil"></i></span>
 						<span class="details">
-							<?php echo Date::format($p['publish_time'])?>
+							<?php echo $p['format_publish_time']?>
 							/
 							<span class="views"><?php echo $p['views']?> Views</span>
 						</span>

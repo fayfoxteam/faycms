@@ -11,7 +11,7 @@ use fay\helpers\String;
 		<header class="cf">
 			<h1><?php echo Html::link($p['post']['title'], $p['post']['link'])?></h1>
 			<span class="post-meta">
-				<?php echo date('d M Y', $p['post']['publish_time'])?>
+				<?php echo $p['post']['format_publish_time']?>
 				/
 				<?php echo Html::link($p['cat']['title'], array("$type/{$p['cat']['alias']}"), array(
 					'class'=>'fc-red',

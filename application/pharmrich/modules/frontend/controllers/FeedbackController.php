@@ -2,6 +2,8 @@
 namespace pharmrich\modules\frontend\controllers;
 
 use pharmrich\library\FrontController;
+use fay\common\ListView;
+use fay\core\Sql;
 
 class FeedbackController extends FrontController{
 	public function __construct(){
@@ -11,10 +13,12 @@ class FeedbackController extends FrontController{
 	}
 	
 	public function index(){
+		$sql = new Sql();
+		$sql->from('contacts')
+			->where("reply != ''")
+			->order('id DESC');
 		
-	}
-	
-	public function item(){
+		$this->view->listview = new ListView($sql);
 		$this->view->render();
 	}
 }

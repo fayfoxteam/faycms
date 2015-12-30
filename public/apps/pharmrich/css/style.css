@@ -140,19 +140,19 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .g-ft .m-about,.g-ft .m-contact{box-sizing:border-box;padding-right:20px;}
 .g-fcp{height:43px;line-height:43px;color:#a5a5a5;background-color:#252525;margin-top:115px;}
 .g-fcp .tip{float:right;}
+@media only screen and (max-width: 995px) {
+	.g-ft .m-contact{width:50%;}
+}
 @media only screen and (max-width: 400px) {
 	.g-ft .ft-left,.g-ft .ft-right,.g-ft .m-contact{width:100%;}
 	.g-fcp .tip{display:none;}
-}
-@media only screen and (max-width: 995px) {
-	.g-ft .m-contact{width:50%;}
 }
 
 .g-mn{width:70.536%;float:left;}
 .g-sd{width:26.78%;float:right;}
 @media only screen and (max-width: 995px) {
-.g-mn{width:100%;float:none;}
-.g-sd{width:100%;float:none;}
+	.g-mn{width:100%;float:none;}
+	.g-sd{width:100%;float:none;}
 }
 
 .page-title h1{font-size:36px;line-height:44px;font-weight:300;margin-bottom:18px;}
@@ -252,3 +252,15 @@ a:hover span.hover-image{opacity:1;}
 @media only screen and (max-width: 500px) {
 	#leave-message-form fieldset .one-third{width:100%;padding-left:0;}
 }
+
+.contact-item{margin-bottom:30px;background-color:#fff;padding:20px;border-bottom:2px solid #323232;}
+.contact-item .ci-header{color:#979898;}
+.contact-item h3{color:#2c2e2f;font-size:23px;margin-bottom:10px;}
+.contact-item .ci-options{float:right;}
+.contact-item .ci-header{margin-bottom:20px;}
+.contact-item .ci-header span{margin-left:11px;}
+.contact-item .ci-header span:first-child{margin-left:0;}
+.contact-item .ci-header .fa{margin-right:5px;}
+.contact-item .ci-content{color:#555;margin-bottom:20px;}
+.contact-item .ci-reply{border:1px solid #e4e4e4;padding:15px 20px;color:#979898;}
+.contact-item .ci-reply strong{color:#575858;}

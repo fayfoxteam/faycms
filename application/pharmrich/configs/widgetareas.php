@@ -55,4 +55,8 @@ return array(
 		'alias'=>'contact-sidebar',
 		'description'=>'联系我们侧边栏',
 	),
+	array(
+		'alias'=>'feedback-sidebar',
+		'description'=>'意见反馈侧边栏',
+	),
 );

@@ -274,7 +274,7 @@ CREATE TABLE `{{$prefix}}follows` (
   `follow_from` varchar(30) NOT NULL DEFAULT '' COMMENT '关注来源',
   PRIMARY KEY (`fans_id`,`user_id`),
   KEY `fans` (`user_id`,`fans_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='关注关系';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='关注关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}goods`;
 CREATE TABLE `{{$prefix}}goods` (

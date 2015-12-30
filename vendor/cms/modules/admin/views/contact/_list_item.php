@@ -4,13 +4,15 @@ use fay\helpers\Date;
 ?>
 <li class="contact-item" id="contact-<?php echo $data['id']?>">
 	<div class="ci-options">
-		<?php echo Html::link('<i class="fa fa-reply-all"></i>', 'javascript:;', array(
+		<?php echo Html::link('<i class="fa fa-reply-all"></i>', '#contact-reply-dialog', array(
 			'data-id'=>$data['id'],
 			'class'=>'btn btn-grey reply-link',
 			'encode'=>false,
 			'title'=>'回复',
 		))?>
-		<?php echo Html::link('<i class="fa fa-trash"></i>', 'javascript:;', array(
+		<?php echo Html::link('<i class="fa fa-trash"></i>', array('admin/contact/remove', array(
+			'id'=>$data['id'],
+		)), array(
 			'data-id'=>$data['id'],
 			'class'=>'btn btn-grey remove-link',
 			'encode'=>false,
@@ -90,9 +92,11 @@ use fay\helpers\Date;
 			echo '(', long2ip($data['ip_int']), ')';
 		}
 	?></div>
-	<div class="ci-content"><?php echo Html::encode($data['content'])?></div>
+	<div class="ci-content"><?php echo nl2br(Html::encode($data['content']))?></div>
 	<div class="ci-reply"><?php if($data['reply']){
-		echo Html::tag('strong', array(), '管理员回复：'), Html::encode($data['reply']);
+		echo Html::tag('strong', array(), '管理员回复：'), Html::tag('span', array(
+			'class'=>'ci-reply-container',
+		), nl2br(Html::encode($data['reply'])));
 	}else{
 		echo '未回复';
 	}?></div>

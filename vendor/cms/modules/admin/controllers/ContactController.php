@@ -63,10 +63,10 @@ class ContactController extends AdminController{
 			'is_read'=>1,
 		), $id);
 		
-		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被标记为已读', $id);
+		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被标记为已读', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条信息被标记为已读 - '.Html::link('撤销', array('admin/contact/set-unread', array(
+			'message'=>'一条留言被标记为已读 - '.Html::link('撤销', array('admin/contact/set-unread', array(
 				'id'=>$id,
 			))),
 		));
@@ -78,10 +78,10 @@ class ContactController extends AdminController{
 			'is_read'=>0,
 		), $id);
 		
-		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被标记为未读', $id);
+		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被标记为未读', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条信息被标记为未读 - '.Html::link('撤销', array('admin/contact/set-read', array(
+			'message'=>'一条留言被标记为未读 - '.Html::link('撤销', array('admin/contact/set-read', array(
 				'id'=>$id,
 			))),
 		));
@@ -91,25 +91,30 @@ class ContactController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		Contacts::model()->delete($id);
 		
-		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条信息被永久删除', $id);
+		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被永久删除', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条信息被永久删除',
+			'message'=>'一条留言被永久删除',
 		));
 	}
 	
 	public function reply(){
-		$id = $this->input->get('id', 'intval');
-		$reply = $this->input->get('reply', 'trim');
+		$id = $this->input->request('id', 'intval');
+		$reply = $this->input->request('reply', 'trim');
 		Contacts::model()->update(array(
 			'reply'=>$reply,
 			'is_read'=>1,
 		), $id);
 		
+		$contact = Contacts::model()->find($id, 'id,reply');
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '回复了一条留言', $id);
 		
 		Response::notify('success', array(
 			'message'=>'回复成功',
+			'data'=>array(
+				'id'=>$contact['id'],
+				'reply'=>$contact['reply'],
+			)
 		));
 	}
 	

@@ -18,7 +18,9 @@ class FeedbackController extends FrontController{
 			->where("reply != ''")
 			->order('id DESC');
 		
-		$this->view->listview = new ListView($sql);
+		$this->view->listview = new ListView($sql, array(
+			'page_size'=>10,
+		));
 		$this->view->render();
 	}
 }

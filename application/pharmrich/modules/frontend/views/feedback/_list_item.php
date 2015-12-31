@@ -7,7 +7,7 @@ use fay\helpers\Date;
 	<div class="ci-header"><?php
 		echo Html::tag('span', array(
 			'class'=>'ci-name',
-			'title'=>'称呼',
+			'title'=>'Name',
 			'prepend'=>array(
 				'tag'=>'i',
 				'class'=>'fa fa-user',
@@ -26,7 +26,7 @@ use fay\helpers\Date;
 		if($data['country']){
 			echo Html::tag('span', array(
 				'class'=>'ci-country',
-				'title'=>'国家',
+				'title'=>'Country',
 				'prepend'=>array(
 					'tag'=>'i',
 					'class'=>'fa fa-location-arrow',

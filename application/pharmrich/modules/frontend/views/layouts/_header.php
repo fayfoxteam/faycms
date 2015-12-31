@@ -8,7 +8,9 @@ use fay\core\Uri;
 <header class="g-top">
 	<div class="centered-wrapper">
 		<span class="top-logo">
-			<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo Option::get('site:sitename')?>" />
+			<a href="<?php echo $this->url()?>">
+				<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo Option::get('site:sitename')?>" />
+			</a>
 		</span>
 		<nav class="top-nav fr">
 			<ul><?php
@@ -17,6 +19,7 @@ use fay\core\Uri;
 					echo Html::link($nav['title'], $nav['link'], array(
 						'target'=>$nav['target'],
 						'wrapper'=>'li',
+						'title'=>false,
 					));
 				}
 			?>
@@ -50,6 +53,7 @@ use fay\core\Uri;
 					'class'=>isset($current_header_menu) && $current_header_menu == $menu['alias'] ? 'crt' : false,
 					'target'=>$nav['target'],
 					'wrapper'=>'li',
+					'title'=>false,
 				));
 			}
 		?></ul>

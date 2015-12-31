@@ -8,7 +8,9 @@ $type = PostHelper::getType($data['cat_id']);
 ?>
 <article class="cf">
 	<header class="cf">
-		<h1><?php echo Html::link($data['title'], array("$type/{$data['id']}"))?></h1>
+		<h1><?php echo Html::link(str_replace($keywords, "<mark>{$keywords}</mark>", Html::encode($data['title'])), array("$type/{$data['id']}"), array(
+			'encode'=>false,
+		))?></h1>
 		<span class="post-meta">
 			<?php echo date('d M Y', $data['publish_time'])?>
 			/

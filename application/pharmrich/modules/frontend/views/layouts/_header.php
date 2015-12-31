@@ -26,10 +26,10 @@ use fay\core\Uri;
 	<div class="cf"><?php F::widget()->load('index-slides-camera')?></div>
 <?php }?>
 <div class="g-search cf">
-	<h4>搜索 SEARCH</h4>
+	<h4>SEARCH</h4>
 	<form id="search-form" action="<?php echo $this->url('search')?>"><?php
 		echo Html::inputText('keywords', F::input()->get('keywords', 'trim'), array(
-			'placeholder'=>'输入关键词',
+			'placeholder'=>'Enter Keywords',
 			'id'=>'keywords',
 		));
 		echo Html::link('', 'javascript:;', array(

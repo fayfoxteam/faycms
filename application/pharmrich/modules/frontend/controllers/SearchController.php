@@ -13,13 +13,17 @@ class SearchController extends FrontController{
 	}
 	
 	public function index(){
+		$keywords = $this->input->get('keywords', 'trim');
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,title,abstract,publish_time,views,cat_id,thumbnail')
 			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title,alias AS cat_alias')
-			->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'))
+			->where(array('p.title LIKE ?'=>'%'.$keywords.'%'))
 			->order('id DESC');
 		
-		$this->view->listview = new ListView($sql);
+		$this->view->assign(array(
+			'listview'=>new ListView($sql),
+			'keywords'=>$keywords,
+		))->render();
 		
 		$this->view->render();
 	}

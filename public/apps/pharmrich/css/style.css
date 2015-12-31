@@ -84,7 +84,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .jq-camera-container .camera_azure_skin .camera_next > span{background-position:-40px -121px;}
 
 /* 页码条 */
-.pagination{text-align:center;height:40px;line-height:40px;background-color:#ffffff;margin-top:40px;}
+.pagination{text-align:center;height:40px;line-height:40px;background-color:#f9f9f9;margin-top:40px;}
 .pagination .page-numbers{display:inline-block;padding:0 16px;}
 .pagination a.page-numbers:hover,.pagination .page-numbers.crt{background-color:#e1472f;color:#ffffff;}
 .pagination .page-numbers.dots{font-family:Lato,sans-serif;}
@@ -95,6 +95,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 @media screen and (max-width:995px){
 	.g-top .centered-wrapper{padding-left:0;padding-right:0;}
 }
+.g-top .top-logo img{height:50px;}
 .top-nav li{float:left;}
 .top-nav li a{display:block;font-size:16px;color:#fff;height:50px;line-height:50px;}
 .top-nav li a:before{content:"|";padding:0 16px;}
@@ -117,7 +118,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 }
 
 .select-menu{display:none;color:#999;border:1px solid #c3c3c3;clear:both;margin:5px auto;padding:5px 10px;width:240px;position:relative;}
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
 	.g-nav{display:none;}
 	.select-menu{display:block;}
 }
@@ -220,6 +221,7 @@ a:hover span.hover-image{opacity:1;}
 }
 
 .post-list article{margin-bottom:50px;padding-bottom:20px;border-bottom:2px solid #323232;overflow:hidden;position:relative;}
+.post-list article mark{color:#c00;background:none;}
 .post-list article h1{font-size:28px;line-height:36px;margin-bottom:13px;}
 .post-list article h1 a{color:#323232;}
 .post-list article .post-meta{height:30px;line-height:30px;border-bottom:1px dotted #c3c3c3;display:block;float:left;margin-bottom:18px;text-transform:uppercase;font-size:11px;position:relative;}

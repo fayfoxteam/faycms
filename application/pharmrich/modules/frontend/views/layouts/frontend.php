@@ -7,7 +7,7 @@ use fay\helpers\Html;
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link type="image/x-icon" href="<?php echo $this->assets('favicon.ico')?>" rel="shortcut icon" />
+<link type="image/x-icon" href="<?php echo $this->appStatic('favicon.ico')?>" rel="shortcut icon" />
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 <?php if(!empty($canonical)){?>
@@ -22,9 +22,13 @@ use fay\helpers\Html;
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::session()->get('user.id', 0)?>';
+$(function(){
+	common.init();
+});
 </script>
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
 </head>

@@ -24,7 +24,5 @@ class SearchController extends FrontController{
 			'listview'=>new ListView($sql),
 			'keywords'=>$keywords,
 		))->render();
-		
-		$this->view->render();
 	}
 }

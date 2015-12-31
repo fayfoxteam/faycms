@@ -120,13 +120,13 @@ $(function(){
 		'padding-left':0,
 		'padding-right':0
 	});
-	$('.phone-container .phone').on('mouseover', function(){
+	$('.phone-container').on('mouseenter', function(){
 		$('.phone-container .phone-number').animate({
 			'width':phone_width,
 			'padding-left':16,
 			'padding-right':16
 		});
-	}).on('mouseout', function(){
+	}).on('mouseleave', function(){
 		$('.phone-container .phone-number').animate({
 			'width':0,
 			'padding-left':0,

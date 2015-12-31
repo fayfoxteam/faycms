@@ -11,7 +11,7 @@ use fay\models\Flash;
 	</div>
 	<div class="g-fcp">
 		<div class="centered-wrapper">
-			<p class="tip">最佳分辨率1280*800，建议使用Chrome、Firefox、Safari、ie10版本浏览器</p>
+			<p class="tip"></p>
 			<p class="cp"><?php echo Option::get('site:copyright')?></p>
 		</div>
 	</div>

@@ -7,6 +7,9 @@ use fay\core\Uri;
 ?>
 <header class="g-top">
 	<div class="centered-wrapper">
+		<span class="top-logo">
+			<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo Option::get('site:sitename')?>" />
+		</span>
 		<nav class="top-nav fr">
 			<ul><?php
 				$top_nav = Menu::model()->getTree('_top_nav');
@@ -27,13 +30,14 @@ use fay\core\Uri;
 <?php }?>
 <div class="g-search cf">
 	<h4>SEARCH</h4>
-	<form id="search-form" action="<?php echo $this->url('search')?>"><?php
+	<form id="search-form" action="<?php echo $this->url('search')?>" method="get"><?php
 		echo Html::inputText('keywords', F::input()->get('keywords', 'trim'), array(
 			'placeholder'=>'Enter Keywords',
 			'id'=>'keywords',
 		));
 		echo Html::link('', 'javascript:;', array(
 			'id'=>'search-form-submit',
+			'title'=>false,
 		));
 	?></form>
 </div>

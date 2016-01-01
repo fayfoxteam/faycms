@@ -135,6 +135,23 @@ class String{
 		return implode('', $explodes);
 	}
 	
+	public static function case2underscore($str){
+		$new_str = '';
+		$str_length = strlen($str);
+		for($i = 0; $i < $str_length; $i++){
+			$ascii_code = ord($str[$i]);
+			if($ascii_code >= 65 && $ascii_code <= 90){
+				if($i){
+					$new_str .= '_';
+				}
+				$new_str .= chr($ascii_code + 32);
+			}else{
+				$new_str .= $str[$i];
+			}
+		}
+		return $new_str;
+	}
+	
 	/**
 	 * 连字符（中横线）分割转大小写分割<br>
 	 * 若$ucfirst为false，首字母小写，默认为所有分词首字母大写
@@ -204,7 +221,7 @@ class String{
 			
 			// @ @ search for the hex values
 			$val = preg_replace ( '/(&#[xX]0{0,8}' . dechex ( ord ( $search [$i] ) ) . ';?)/i', $search [$i], $val ); // with a ;
-			                                                                                           // @ @ 0{0,7} matches '0' zero to seven times
+				                                                                                         // @ @ 0{0,7} matches '0' zero to seven times
 			$val = preg_replace ( '/(&#0{0,8}' . ord ( $search [$i] ) . ';?)/', $search [$i], $val ); // with a ;
 		}
 		

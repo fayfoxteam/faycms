@@ -28,7 +28,7 @@ class PostComments extends Table{
 	 */
 	const STATUS_APPROVED = 2;
 	/**
-	 * 状态-通过审核
+	 * 状态-未通过审核
 	 */
 	const STATUS_UNAPPROVED = 3;
 	

@@ -67,7 +67,9 @@ use fay\helpers\Date;
 		</div>	
 	</td>
 	<td>
-		<?php echo Html::link($data['post_title'], Post::model()->getLink($data['post_id']), array(
+		<?php echo Html::link($data['post_title'], array('admin/post/edit', array(
+			'id'=>$data['post_id'],
+		)), array(
 			'target'=>'_blank',
 		))?>
 	</td>

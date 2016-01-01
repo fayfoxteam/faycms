@@ -56,7 +56,7 @@ class ChatController extends AdminController{
 		}
 		
 		$listview = new ListView($sql, array(
-			'page_size'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
+			'page_size'=>!empty($_settings['page_size']) ? $_settings['page_size'] : 20,
 		));
 		$this->view->listview = $listview;			
 		

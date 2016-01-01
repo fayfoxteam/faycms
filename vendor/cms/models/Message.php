@@ -3,15 +3,14 @@ namespace cms\models;
 
 use fay\core\Model;
 use fay\models\tables\Messages;
-use fay\core\Sql;
 
 class Message extends Model{
 	/**
-	 * @param string $className
+	 * @param string $class_name
 	 * @return Message
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name=__CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**

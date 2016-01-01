@@ -270,7 +270,7 @@ class PostController extends AdminController{
 		if($this->input->get('deleted', 'intval') == 1){
 			$sql->where('p.deleted = 1');
 			$count_sql->where('p.deleted = 1');
-		}else if($this->input->get('status', 'intval') !== null && $this->input->get('delete', 'intval') != 1){
+		}else if($this->input->get('status', 'intval') !== null && $this->input->get('deleted', 'intval') != 1){
 			$sql->where(array(
 				'p.deleted != 1',
 				'p.status = ?'=>$this->input->get('status', 'intval'),

@@ -14,6 +14,7 @@ use fay\core\db\Table;
  * @property int $create_time 创建时间
  * @property int $status 状态
  * @property int $is_real 是否真实用户
+ * @property int $deleted 删除标记
  * @property int $root 根评论ID
  * @property int $left_value 左值
  * @property int $right_value 右值
@@ -46,7 +47,7 @@ class PostComments extends Table{
 			array(array('id', 'post_id', 'user_id', 'parent', 'root'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('is_real'), 'range', array('range'=>array(0, 1))),
+			array(array('is_real', 'deleted'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -60,6 +61,7 @@ class PostComments extends Table{
 			'create_time'=>'创建时间',
 			'status'=>'状态',
 			'is_real'=>'是否真实用户',
+			'deleted'=>'删除标记',
 			'root'=>'根评论ID',
 			'left_value'=>'左值',
 			'right_value'=>'右值',
@@ -76,6 +78,7 @@ class PostComments extends Table{
 			'create_time'=>'',
 			'status'=>'intval',
 			'is_real'=>'intval',
+			'deleted'=>'intval',
 			'root'=>'intval',
 			'left_value'=>'intval',
 			'right_value'=>'intval',

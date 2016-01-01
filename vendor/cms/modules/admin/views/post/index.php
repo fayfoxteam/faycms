@@ -53,7 +53,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'data-label'=>'时间',
 					'class'=>'form-control datetimepicker',
 				)),
-				' | ',
+				' - ',
 				F::form('search')->inputText('end_time', array(
 					'data-rule'=>'datetime',
 					'data-label'=>'时间',

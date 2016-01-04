@@ -61,6 +61,3 @@ use fay\core\Uri;
 		?></ul>
 	</div>
 </nav>
-<?php echo Html::select('', ArrayHelper::column($menus, 'title', 'link'), isset($current_header_menu) ? $current_header_menu : '', array(
-	'class'=>'select-menu',
-))?>

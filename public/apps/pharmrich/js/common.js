@@ -60,7 +60,10 @@ var common = {
 	'events': function(){
 		$('#right-fix-toolbar #skypes .close').on('click', function(){
 			$('#right-fix-toolbar #skypes').fadeOut();
-		})
+		});
+		$('.toggle-phone-menu a').on('click', function(){
+			$('.g-nav').slideToggle();
+		});
 	},
 	'init':function(){
 		this.form();

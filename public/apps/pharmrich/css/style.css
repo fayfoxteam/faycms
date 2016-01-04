@@ -83,7 +83,7 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .jq-camera-container .camera_azure_skin .camera_next > span{background-position:-40px -121px;}
 
 /* 页码条 */
-.pagination{text-align:center;height:40px;line-height:40px;background-color:#f9f9f9;margin-top:40px;}
+.pagination{text-align:center;height:40px;line-height:40px;background-color:#f9f9f9;margin:40px 0;}
 .pagination .page-numbers{display:inline-block;padding:0 16px;}
 .pagination a.page-numbers:hover,.pagination .page-numbers.crt{background-color:#e1472f;color:#ffffff;}
 .pagination .page-numbers.dots{font-family:Lato,sans-serif;}
@@ -94,7 +94,8 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 @media screen and (max-width:995px){
 	.g-top .centered-wrapper{padding-left:0;padding-right:0;}
 }
-.g-top .top-logo img{height:50px;}
+.g-top .top-logo img{height:50px;float:left;}
+.g-top .top-logo a span{font-size:16px;color:#fff;display:block;height:50px;line-height:50px;margin-left:15px;float:left;}
 .top-nav li{float:left;}
 .top-nav li a{display:block;font-size:16px;color:#fff;height:50px;line-height:50px;}
 .top-nav li a:before{content:"|";padding:0 16px;}
@@ -102,8 +103,14 @@ h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
 .top-nav li.phone-container{margin-left:20px;}
 .top-nav li .phone-number{background-color:#B11A2B;display:block;padding:0 16px;height:50px;line-height:50px;color:#fff;float:left;font-size:28px;overflow:hidden;}
 .top-nav li .phone{width:60px;height:50px;display:block;background:url(images/phone.png);float:right;cursor:pointer;}
-@media screen and (max-width:350px){
-	.top-nav ul li:last-child{display:none;}
+.top-nav li.toggle-phone-menu{display:none;}
+.top-nav li.toggle-phone-menu a{padding:0 20px;}
+.top-nav li.toggle-phone-menu a:before{content:"";padding:0;}
+@media screen and (max-width:720px){
+	.top-nav li{display:none;}
+}
+@media only screen and (max-width: 500px) {
+	.top-nav li.toggle-phone-menu{display:block;}
 }
 
 .g-nav{border-top:1px solid #c8c8c8;border-bottom:1px solid #c8c8c8;}
@@ -244,6 +251,7 @@ a:hover span.hover-image{opacity:1;}
 .contact .g-sd .m-contact li a:hover{color:#444;}
 .contact .page-title h1{text-transform:uppercase;font-size:30px;line-height:33px;}
 
+#leave-message-form h3{text-transform:uppercase;font-size:13px;font-weight:600;margin-bottom:20px;line-height:24px;color:#444;}
 #leave-message-form label{display:block;color:#7f7f7f;}
 #leave-message-form fieldset .one-third{padding-left:4%;margin-bottom:20px;}
 #leave-message-form fieldset .one-third:first-child{padding-left:0;}
@@ -254,7 +262,7 @@ a:hover span.hover-image{opacity:1;}
 	#leave-message-form fieldset .one-third{width:100%;padding-left:0;}
 }
 
-.contact-item{margin-bottom:30px;background-color:#fff;padding:20px;border-bottom:2px solid #323232;}
+.contact-item{margin-bottom:30px;background-color:#fff;padding:20px;border-bottom:1px solid #efefef;}
 .contact-item .ci-header{color:#979898;}
 .contact-item h3{color:#2c2e2f;font-size:23px;margin-bottom:10px;}
 .contact-item .ci-options{float:right;}
@@ -265,3 +273,14 @@ a:hover span.hover-image{opacity:1;}
 .contact-item .ci-content{color:#555;margin-bottom:20px;}
 .contact-item .ci-reply{border:1px solid #e4e4e4;padding:15px 20px;color:#979898;}
 .contact-item .ci-reply strong{color:#575858;}
+
+#right-fix-toolbar{position:fixed;right:5px;width:138px;z-index:100;overflow:hidden;top:100px;}
+#right-fix-toolbar #skypes .close{display:block;width:15px;height:15px;position:absolute;right:17px;top:8px;}
+#right-fix-toolbar #skypes{background:url(images/cs-top.jpg) no-repeat;min-height:300px;}
+#right-fix-toolbar #skypes .wrap{padding:205px 0 15px;background:url(images/cs-bottom.jpg) no-repeat left bottom;}
+#right-fix-toolbar #skypes ul{background:url(images/cs-middle.jpg) repeat-y;}
+#right-fix-toolbar #skypes ul li a{display:block;height:25px;line-height:25px;margin-left:22px;color:#2dacf1;letter-spacing:1px;font-weight:bold;}
+#right-fix-toolbar #skypes ul li a img{width:20px;vertical-align:middle;margin-right:3px;}
+@media only screen and (max-width: 995px) {
+	#right-fix-toolbar{display:none;}
+}

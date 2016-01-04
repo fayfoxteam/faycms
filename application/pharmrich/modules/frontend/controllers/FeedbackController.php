@@ -22,7 +22,7 @@ class FeedbackController extends FrontController{
 		$this->form()->setModel(LeaveMessage::model());
 		
 		$this->view->listview = new ListView($sql, array(
-			'page_size'=>10,
+			'page_size'=>2,
 		));
 		$this->view->render();
 	}

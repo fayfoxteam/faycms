@@ -16,4 +16,7 @@ use fay\models\Flash;
 		</div>
 	</div>
 </footer>
+<div id="right-fix-toolbar">
+	<?php F::widget()->area('right-fix-toolbar')?>
+</div>
 <?php echo Flash::get()?>

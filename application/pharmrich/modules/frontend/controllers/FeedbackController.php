@@ -4,6 +4,7 @@ namespace pharmrich\modules\frontend\controllers;
 use pharmrich\library\FrontController;
 use fay\common\ListView;
 use fay\core\Sql;
+use pharmrich\models\forms\LeaveMessage;
 
 class FeedbackController extends FrontController{
 	public function __construct(){
@@ -17,6 +18,8 @@ class FeedbackController extends FrontController{
 		$sql->from('contacts')
 			->where("reply != ''")
 			->order('id DESC');
+		
+		$this->form()->setModel(LeaveMessage::model());
 		
 		$this->view->listview = new ListView($sql, array(
 			'page_size'=>10,

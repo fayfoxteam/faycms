@@ -1,5 +1,4 @@
 @CHARSET "UTF-8";
-@font-face {font-family:'FontAwesome';src:url('../../assets/fonts/fontawesome-webfont.eot?v=4.0.3');src:url('../../assets/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), url('../../assets/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'), url('../../assets/fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype'), url('../../assets/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg');font-weight:normal;font-style:normal;}
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0;}
 article,aside,div,dt,figcaption,footer,form,header,hgroup,html,map,nav,section{display:block;}
 ul,ul li{list-style:none;}

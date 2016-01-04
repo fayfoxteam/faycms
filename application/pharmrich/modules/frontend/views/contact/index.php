@@ -66,7 +66,7 @@ var contact = {
 		});
 	},
 	'validform': function(rules, labels){
-		system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
+		system.getScript(system.assets('faycms/js/fayfox.validform.js'), function(){
 			$('#leave-message-form').validform({
 				'showAllErrors': false,
 				'onError': function(obj, msg, rule){

@@ -13,8 +13,12 @@ class LeaveMessage extends Model{
 	
 	public function rules(){
 		return array(
-			array(array('name', 'email', 'subject', 'message'), 'required'),
-			array('email', 'email'),
+			array(array('name', 'email', 'subject', 'message'), 'required', array(
+				'message'=>'{$attribute} can not be empty!'
+			)),
+			array('email', 'email', array(
+				'message'=>'{$attribute} is not a valid email!'
+			)),
 		);
 	}
 

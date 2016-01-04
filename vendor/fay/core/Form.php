@@ -430,6 +430,14 @@ class Form{
 						'params'=>isset($r[2]) ? $r[2] : array(),
 					);
 				}
+				
+				//删除一些空字段，输出给js也是浪费流量
+				if(isset($js_rules[$field]['ajax']) && !$js_rules[$field]['ajax']){
+					unset($js_rules[$field]['ajax']);
+				}
+				if(isset($js_rules[$field]['validators']) && !$js_rules[$field]['validators']){
+					unset($js_rules[$field]['validators']);
+				}
 			}
 		}
 		return $js_rules;

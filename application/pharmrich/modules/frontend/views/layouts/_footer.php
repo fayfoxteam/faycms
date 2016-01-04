@@ -19,4 +19,5 @@ use fay\models\Flash;
 <div id="right-fix-toolbar">
 	<?php F::widget()->area('right-fix-toolbar')?>
 </div>
+<a href="#" title="Back to top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 <?php echo Flash::get()?>

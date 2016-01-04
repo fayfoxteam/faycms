@@ -284,3 +284,6 @@ a:hover span.hover-image{opacity:1;}
 @media only screen and (max-width: 995px) {
 	#right-fix-toolbar{display:none;}
 }
+
+#back-to-top{display:block;width:35px;height:35px;line-height:35px;font-size:17px;background-color:#7a6e6e;z-index:2;position:fixed;bottom:5px;right:10px;color:#f5f5f5;text-align:center;}
+#back-to-top:hover{color:#fff;background-color:#c81623;}

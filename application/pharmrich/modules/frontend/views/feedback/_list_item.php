@@ -34,6 +34,14 @@ use fay\helpers\Date;
 				),
 			), Html::encode($data['country']));
 		}
+		echo Html::tag('span', array(
+			'class'=>'ci-time',
+			'prepend'=>array(
+				'tag'=>'i',
+				'class'=>'fa fa-map-marker',
+				'text'=>'',
+			),
+		), preg_replace('/(\d+)\.(\d+)\.(\d+)\.(\d+)/', '$1.$2.*.*', long2ip($data['ip_int'])));
 	?></div>
 	<div class="ci-content"><?php echo nl2br(Html::encode($data['content']))?></div>
 	<?php if($data['reply']){?>

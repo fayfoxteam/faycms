@@ -59,4 +59,8 @@ return array(
 		'alias'=>'feedback-sidebar',
 		'description'=>'意见反馈侧边栏',
 	),
+	array(
+		'alias'=>'right-fix-toolbar',
+		'description'=>'右侧浮层',
+	),
 );

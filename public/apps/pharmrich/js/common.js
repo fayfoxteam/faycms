@@ -1,4 +1,34 @@
 var common = {
+	'toast':function(message, type){
+		type = type || 'success';
+		system.getScript(system.assets('faycms/js/fayfox.toast.js'), function(){
+			if(type == 'success'){
+				//成功的提醒5秒后自动消失，不出现关闭按钮，点击则直接消失
+				$.toast(message, type, {
+					'closeButton': false,
+					'positionClass': 'toast-bottom-middle',
+					'click': function(message){
+						message.fadeOut();
+					}
+				});
+			}else if(type == 'error'){
+				//单页报错，在底部中间出现，红色背景，不显示关闭按钮，点击消失，延迟5秒消失
+				$.toast(message, type, {
+					'closeButton': false,
+					'positionClass': 'toast-bottom-middle',
+					'click': function(message){
+						message.fadeOut();
+					}
+				});
+			}else{
+				//其它类型，点击关闭消失，不自动消失
+				$.toast(message, type, {
+					'timeOut': 0,
+					'positionClass': 'toast-bottom-middle'
+				});
+			}
+		});
+	},
 	'form':function(){
 		//表单提交
 		$(document).on('click', 'a[id$="submit"]', function(){
@@ -27,8 +57,17 @@ var common = {
 			});
 		});
 	},
+	'events': function(){
+		$('#right-fix-toolbar #skypes .close').on('click', function(){
+			$('#right-fix-toolbar #skypes').fadeOut();
+		});
+		$('.toggle-phone-menu a').on('click', function(){
+			$('.g-nav').slideToggle();
+		});
+	},
 	'init':function(){
 		this.form();
 		this.topPhone();
+		this.events();
 	}
 };

@@ -10,6 +10,7 @@ use fay\core\Uri;
 		<span class="top-logo">
 			<a href="<?php echo $this->url()?>">
 				<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo Option::get('site:sitename')?>" />
+				<span>Pharmrich</span>
 			</a>
 		</span>
 		<nav class="top-nav fr">
@@ -24,6 +25,7 @@ use fay\core\Uri;
 				}
 			?>
 				<li class="phone-container"><span class="phone-number" style="display:none"><?php echo Option::get('site:phone')?></span><span class="phone"></span></li>
+				<li class="toggle-phone-menu"><a href="javascript:;"><i class="fa fa-bars"></i></a></li>
 			</ul>
 		</nav>
 	</div>
@@ -59,6 +61,3 @@ use fay\core\Uri;
 		?></ul>
 	</div>
 </nav>
-<?php echo Html::select('', ArrayHelper::column($menus, 'title', 'link'), isset($current_header_menu) ? $current_header_menu : '', array(
-	'class'=>'select-menu',
-))?>

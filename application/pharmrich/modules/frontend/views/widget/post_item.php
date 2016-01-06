@@ -19,7 +19,7 @@ use fay\models\File;
 	<?php foreach($post['files'] as $f){?>
 		<?php if(!$f['is_image'])continue;//不是图片无法显示，直接跳过?>
 		<li>
-			<a href="<?php echo $f['url']?>">
+			<a href="<?php echo $f['url']?>" data-lightbox="products">
 				<span class="item-on-hover"><span class="hover-image"></span></span>
 				<?php echo Html::img($f['file_id'], File::PIC_RESIZE, array(
 					'dw'=>200,

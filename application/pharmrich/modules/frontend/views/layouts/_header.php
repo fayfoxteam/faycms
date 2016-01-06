@@ -2,7 +2,6 @@
 use fay\helpers\Html;
 use fay\models\Menu;
 use fay\models\Option;
-use fay\helpers\ArrayHelper;
 use fay\core\Uri;
 ?>
 <header class="g-top">

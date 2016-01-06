@@ -13,7 +13,7 @@ use fay\models\File;
 		<ul class="products-carousel">
 		<?php foreach($posts as $p){?>
 			<li>
-				<a href="<?php echo File::getUrl($p['thumbnail'])?>" rel="prettyPhoto[pp_gal]" title="<?php echo Html::encode($p['title'])?>">
+				<a href="<?php echo File::getUrl($p['thumbnail'])?>" title="<?php echo Html::encode($p['title'])?>" data-lightbox="our-products">
 					<span class="item-on-hover"><span class="hover-image"></span></span>
 					<?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
 						'dw'=>300,

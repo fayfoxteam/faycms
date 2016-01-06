@@ -65,9 +65,22 @@ var common = {
 			$('.g-nav').slideToggle();
 		});
 	},
+	'lightbox': function(){
+		if($('[data-lightbox]').length){
+			system.getCss(system.assets('css/lightbox/css/lightbox.css'), function(){
+				system.getScript(system.assets('js/lightbox.min.js'), function(){
+					lightbox.option({
+						'albumLabel': '',
+						'wrapAround': true
+					});
+				});
+			});
+		}
+	},
 	'init':function(){
 		this.form();
 		this.topPhone();
 		this.events();
+		this.lightbox();
 	}
 };

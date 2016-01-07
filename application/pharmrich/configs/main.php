@@ -13,7 +13,7 @@ return array(
 		'password'=>$_SERVER['HTTP_HOST'] == 'pharmrich.faycms.com' ? 'jDoBjHwVq6q2hQVN' : '',//密码
 		'port'=>3306,							//端口
 		'dbname'=>'faycms_pharmrich',					//数据库名
-		'charset'=>'utf8mb4',						//数据库编码方式
+		'charset'=>$_SERVER['HTTP_HOST'] == 'pharmrich.faycms.com' ? 'utf8' : 'utf8mb4',						//数据库编码方式
 		'table_prefix'=>'faycms_',				//数据库表前缀
 	),
 // 	'db'=>array(

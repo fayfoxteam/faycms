@@ -49,9 +49,11 @@ use fay\models\Option;
 				<p class="description">空间。在七牛管理平台创建</p>
 			</div>
 			<div class="form-field">
-				<label class="title">domain</label>
+				<label class="title">domain<em class="required">*</em></label>
 				<?php echo Html::inputText('qiniu:domain', Option::get('qiniu:domain'), array(
 					'class'=>'form-control mw400',
+					'data-required'=>'required',
+					'data-label'=>'domain',
 				))?>
 				<p class="description">若绑定了独立域名（在七牛管理平台设置）可指定域名。需要http://和末尾斜杠，例如：<code>http://pic.faycms.com/</code></p>
 			</div>

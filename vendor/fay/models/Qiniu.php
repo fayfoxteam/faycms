@@ -98,7 +98,6 @@ class Qiniu extends Model{
 			return false;
 		}
 		$domain = Option::get('qiniu:domain');
-		$domain || $domain = 'http://'.Option::get('qiniu:bucket').'.qiniudn.com/';
 		$src = $domain . $this->getKey($file);
 		
 		if($file['is_image'] && (!empty($options['dw']) || !empty($options['dh']))){

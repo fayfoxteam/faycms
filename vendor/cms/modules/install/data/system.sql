@@ -9,8 +9,8 @@ ALTER TABLE {{$prefix}}users AUTO_INCREMENT = 10000;
 -- categories表id从10000开始自递增
 ALTER TABLE {{$prefix}}categories AUTO_INCREMENT = 10000;
 
--- menus表id从1000开始自递增
-ALTER TABLE {{$prefix}}menus AUTO_INCREMENT = 1000;
+-- menus表id从10000开始自递增
+ALTER TABLE {{$prefix}}menus AUTO_INCREMENT = 10000;
 
 -- roles表新增超级管理员和系统角色
 INSERT INTO `{{$prefix}}roles` VALUES ('1', '超级管理员', '', '0', '1');

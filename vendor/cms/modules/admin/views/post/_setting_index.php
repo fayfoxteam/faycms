@@ -6,6 +6,9 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'id', array(
 			'label'=>'文章ID',
 		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'thumbnail', array(
+			'label'=>'缩略图',
+		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'main_category', array(
 			'label'=>'主分类',
 		));

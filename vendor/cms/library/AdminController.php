@@ -95,7 +95,7 @@ class AdminController extends Controller{
 			'ip_int'=>Request::ip2int($this->ip),
 			'type'=>$type,
 			'note'=>$note,
-			'refer'=>$refer,
+			'refer'=>is_array($refer) ? implode(',', $refer) : $refer,
 		));
 	}
 	

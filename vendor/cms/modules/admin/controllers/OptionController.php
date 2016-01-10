@@ -41,7 +41,7 @@ class OptionController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑参数';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/option/index', $this->input->get()),
+			'uri'=>array('admin/option/index', array('page'=>$this->input->get('page', 'intval', 1))),
 			'text'=>'添加参数',
 		);
 		$option_id = $this->input->get('id', 'intval');
@@ -69,7 +69,7 @@ class OptionController extends AdminController{
 	}
 	
 	public function index(){
-		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'warning');
 		$this->layout->subtitle = '添加参数';
 		
 		$this->_setListview();

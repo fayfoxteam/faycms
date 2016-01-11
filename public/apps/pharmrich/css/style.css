@@ -9,7 +9,7 @@ a{color:#323232;text-decoration:none;transition:all 0.2s linear 0s;}
 a:hover{color:#e1472f;text-decoration:none;}
 *:focus{outline:none;}
 *{box-sizing: border-box}
-h6{font-size:13px;line-height:20px;margin-bottom:20px;font-weight:600;}
+h6{font-size:13px;line-height:20px;margin:30px 0 20px;font-weight:600;}
 
 .cb{clear:both;}
 .cf,.box,.g-mn{zoom:1;clear:left;} 

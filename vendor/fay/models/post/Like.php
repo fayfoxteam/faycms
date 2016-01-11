@@ -21,9 +21,9 @@ class Like extends Model{
 	 * 给文章点赞
 	 * @param int $post_id 文章ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
-	 * @param bool $is_real 是否真实用户（社交网站总是免不了要做个假）
+	 * @param bool $sockpuppet 马甲信息
 	 */
-	public static function like($post_id, $user_id = null, $is_real = true){
+	public static function like($post_id, $user_id = null, $sockpuppet = 0){
 		if($user_id === null){
 			$user_id = \F::app()->current_user;
 		}else if(!User::isUserIdExist($user_id)){
@@ -42,7 +42,7 @@ class Like extends Model{
 			'post_id'=>$post_id,
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
-			'is_real'=>$is_real ? 1 : 0,
+			'sockpuppet'=>$sockpuppet,
 		));
 		
 		Hook::getInstance()->call('after_post_like');

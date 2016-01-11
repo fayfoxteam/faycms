@@ -9,7 +9,7 @@ use fay\core\db\Table;
  * @property int $post_id 文章ID
  * @property int $user_id 用户ID
  * @property int $create_time 点赞时间
- * @property int $is_real 是否真实用户
+ * @property int $sockpuppet 马甲信息
  */
 class PostLikes extends Table{
 	protected $_name = 'post_likes';
@@ -24,8 +24,7 @@ class PostLikes extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('post_id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('is_real'), 'range', array('range'=>array(0, 1))),
+			array(array('post_id', 'user_id', 'sockpuppet'), 'int', array('min'=>0, 'max'=>4294967295)),
 		);
 	}
 
@@ -34,7 +33,7 @@ class PostLikes extends Table{
 			'post_id'=>'文章ID',
 			'user_id'=>'用户ID',
 			'create_time'=>'点赞时间',
-			'is_real'=>'是否真实用户',
+			'sockpuppet'=>'马甲信息',
 		);
 	}
 
@@ -43,7 +42,7 @@ class PostLikes extends Table{
 			'post_id'=>'intval',
 			'user_id'=>'intval',
 			'create_time'=>'',
-			'is_real'=>'intval',
+			'sockpuppet'=>'intval',
 		);
 	}
 }

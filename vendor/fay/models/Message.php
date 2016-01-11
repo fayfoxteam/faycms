@@ -29,7 +29,7 @@ class Message extends Model{
 		$fields = SqlHelper::processFields($fields, 'message');
 		if(empty($fields['message']) || in_array('*', $fields['message'])){
 			//若未指定返回字段，初始化
-			$fields['message'] = \F::model($model)->getFields(array('status', 'deleted', 'is_real'));
+			$fields['message'] = \F::model($model)->getFields(array('status', 'deleted', 'sockpuppet'));
 		}
 		
 		$message_fields = $fields['message'];

@@ -253,7 +253,7 @@ class PostCommentController extends AdminController{
 				$comments = PostComments::model()->fetchAll(array(
 					'id IN (?)'=>$ids,
 					'status != ' . PostComments::STATUS_APPROVED,
-				), 'id,post_id,is_real');
+				), 'id,post_id,sockpuppet');
 				if(!$comments){
 					Response::notify('success', array(
 						'message'=>'无符合条件的记录',
@@ -274,10 +274,10 @@ class PostCommentController extends AdminController{
 					//更新文章评论数
 					if($post_comment_verify){
 						//如果只显示通过审核的评论，则当评论通过审核时，相应文章评论数+1
-						if($c['is_real']){
-							Posts::model()->inc('id = '.$c['post_id'], array('comments', 'real_comments'), 1);
-						}else{
+						if($c['sockpuppet']){
 							Posts::model()->inc('id = '.$c['post_id'], array('comments'), 1);
+						}else{
+							Posts::model()->inc('id = '.$c['post_id'], array('comments', 'real_comments'), 1);
 						}
 					}
 					

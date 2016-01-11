@@ -10,7 +10,7 @@ use fay\core\db\Table;
  * @property int $user_id 用户ID
  * @property int $create_time 关注时间
  * @property int $relation 单向/双向关注
- * @property int $is_real 是否真实用户
+ * @property int $sockpuppet 马甲信息
  * @property string $follow_from 关注来源
  */
 class Follows extends Table{
@@ -36,8 +36,8 @@ class Follows extends Table{
 	
 	public function rules(){
 		return array(
+			array(array('sockpuppet'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('fans_id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('is_real'), 'range', array('range'=>array(0, 1))),
 			array(array('follow_from'), 'string', array('max'=>30)),
 
 			array(array('relation'), 'range', array('range'=>array(1, 2))),
@@ -50,7 +50,7 @@ class Follows extends Table{
 			'user_id'=>'用户ID',
 			'create_time'=>'关注时间',
 			'relation'=>'单向/双向关注',
-			'is_real'=>'是否真实用户',
+			'sockpuppet'=>'马甲信息',
 			'follow_from'=>'关注来源',
 		);
 	}
@@ -61,7 +61,7 @@ class Follows extends Table{
 			'user_id'=>'intval',
 			'create_time'=>'',
 			'relation'=>'intval',
-			'is_real'=>'intval',
+			'sockpuppet'=>'intval',
 			'follow_from'=>'trim',
 		);
 	}

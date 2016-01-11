@@ -77,6 +77,10 @@ class CategoryController extends AdminController{
 				return $title;
 			}
 		}
+		
+		//转为纯小写，空格替换为短横线
+		$spelling = str_replace(' ', '-', strtolower($spelling));
+		
 		$alias = $dep ? $spelling.'-'.$dep : $spelling;
 		$cat = Categories::model()->fetchRow(array('alias = ?'=>$alias), 'id');
 		if($cat){

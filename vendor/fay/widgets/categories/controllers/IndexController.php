@@ -24,13 +24,7 @@ class IndexController extends Widget{
 		}
 		
 		//格式化分类链接
-		foreach($cats as &$c){
-			$c['link'] = str_replace(array(
-				'{$id}', '{$alias}',
-			), array(
-				$c['id'], $c['alias'],
-			), $config['uri']);
-		}
+		$cats = $this->setLink($cats, $config['uri']);
 		
 		return $cats;
 	}
@@ -60,13 +54,7 @@ class IndexController extends Widget{
 		}
 		
 		//格式化分类链接
-		foreach($cats as &$c){
-			$c['link'] = str_replace(array(
-				'{$id}', '{$alias}',
-			), array(
-				$c['id'], $c['alias'],
-			), $config['uri']);
-		}
+		$cats = $this->setLink($cats, $config['uri']);
 		
 		//若无分类可显示，则不显示该widget
 		if(empty($cats)){
@@ -93,4 +81,23 @@ class IndexController extends Widget{
 		}
 	}
 	
+	/**
+	 * 为分类列表添加link字段
+	 * @param array $cats
+	 */
+	private function setLink($cats, $uri){
+		foreach($cats as &$c){
+			$c['link'] = str_replace(array(
+				'{$id}', '{$alias}',
+			), array(
+				$c['id'], $c['alias'],
+			), $uri);
+			
+			if(!empty($c['children'])){
+				$c['children'] = $this->setLink($c['children'], $uri);
+			}
+		}
+		
+		return $cats;
+	}
 }

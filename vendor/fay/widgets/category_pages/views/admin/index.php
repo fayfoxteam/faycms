@@ -45,8 +45,14 @@ use fay\models\tables\Roles;
 					echo Html::inputRadio('uri', 'page/{$id}', !isset($config['uri']) || $config['uri'] == 'page/{$id}', array(
 						'label'=>'page/{$id}',
 					));
+					echo Html::inputRadio('uri', 'page/{$alias}', isset($config['uri']) && $config['uri'] == 'page/{$alias}', array(
+						'label'=>'page/{$alias}',
+					));
 					echo Html::inputRadio('uri', 'page-{$id}', isset($config['uri']) && $config['uri'] == 'page-{$id}', array(
 						'label'=>'page-{$id}',
+					));
+					echo Html::inputRadio('uri', 'page-{$alias}', isset($config['uri']) && $config['uri'] == 'page-{$alias}', array(
+						'label'=>'page-{$alias}',
 					));
 					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
 						'page/{$id}', 'page-{$id}',
@@ -54,7 +60,7 @@ use fay\models\tables\Roles;
 						'label'=>'其它',
 					));
 					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
-						'page/{$id}', 'page-{$id}',
+						'page/{$id}', 'page/{$alias}', 'page-{$id}', 'page-{$alias}',
 					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));

@@ -12,11 +12,27 @@ class IndexController extends Widget{
 			$config['top'] = $root_node['id'];
 		}
 		
-		if(!empty($config['hierarchical'])){
-			return Category::model()->getTree($config['top']);
-		}else{
-			return Category::model()->getAll($config['top']);
+		//uri
+		if(empty($config['uri'])){
+			$config['uri'] = 'cat/{$id}';
 		}
+		
+		if(!empty($config['hierarchical'])){
+			$cats = Category::model()->getTree($config['top']);
+		}else{
+			$cats = Category::model()->getAll($config['top']);
+		}
+		
+		//格式化分类链接
+		foreach($cats as &$c){
+			$c['link'] = str_replace(array(
+				'{$id}', '{$alias}',
+			), array(
+				$c['id'], $c['alias'],
+			), $config['uri']);
+		}
+		
+		return $cats;
 	}
 	
 	public function index($config){
@@ -41,6 +57,15 @@ class IndexController extends Widget{
 			$cats = Category::model()->getTree($config['top']);
 		}else{
 			$cats = Category::model()->getAll($config['top']);
+		}
+		
+		//格式化分类链接
+		foreach($cats as &$c){
+			$c['link'] = str_replace(array(
+				'{$id}', '{$alias}',
+			), array(
+				$c['id'], $c['alias'],
+			), $config['uri']);
 		}
 		
 		//若无分类可显示，则不显示该widget

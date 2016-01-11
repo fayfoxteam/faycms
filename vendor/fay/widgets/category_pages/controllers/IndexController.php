@@ -23,7 +23,11 @@ class IndexController extends Widget{
 			->fetchAll();
 		
 		foreach($pages as &$p){
-			$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
+			$p['link'] = $this->view->url(str_replace(array(
+				'{$id}', '{$alias}',
+			), array(
+				$p['id'], $p['alias'],
+			), $config['uri']));
 		}
 		
 		return $pages;
@@ -34,6 +38,12 @@ class IndexController extends Widget{
 		if(empty($config['top'])){
 			$root_node = Category::model()->getByAlias('_system_page', 'id');
 			$config['top'] = $root_node['id'];
+		}
+		
+		//title
+		if(empty($config['title'])){
+			$node = Category::model()->get($config['top'], 'title');
+			$config['title'] = $node['title'];
 		}
 		
 		//number
@@ -55,7 +65,11 @@ class IndexController extends Widget{
 		}
 		
 		foreach($pages as &$p){
-			$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
+			$p['link'] = $this->view->url(str_replace(array(
+				'{$id}', '{$alias}',
+			), array(
+				$p['id'], $p['alias'],
+			), $config['uri']));
 		}
 		
 		//template

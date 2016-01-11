@@ -17,4 +17,5 @@ return array(
 
 	'/^about$/'=>'page/item/alias/about',
 	'/^shipment$/'=>'page/item/alias/shipment',
+	'/^faq$/'=>'page/item/alias/faq',
 );

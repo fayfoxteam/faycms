@@ -10,11 +10,7 @@ if(!function_exists('fay\widgets\categories\views\index\renderCats')){
 		$html .= '>';
 		foreach($cats as $c){
 			$html .= '<li class="cat-item">';
-			$html .= Html::link($c['title'], array(str_replace(array(
-				'{$id}', '{$alias}',
-			), array(
-				$c['id'], $c['alias'],
-			), $uri)));
+			$html .= Html::link($c['title'], $c['link']);
 			if(!empty($c['children'])){
 				$html .= renderCats($c['children'], $uri, ++$dep);
 			}

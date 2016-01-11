@@ -117,7 +117,7 @@ class OperatorController extends AdminController{
 					'props'=>$this->input->post('props', '', array()),
 				);
 				
-				$user_id = User::model()->create($data, $extra);
+				$user_id = User::model()->create($data, $extra, 1);
 				
 				$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
 				

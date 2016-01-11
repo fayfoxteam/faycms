@@ -118,6 +118,11 @@ class Actionlogs extends Table{
 	 * 试题管理
 	 */
 	const TYPE_EXAM = 32;
+	
+	/**
+	 * 文章评论
+	 */
+	const TYPE_POST_COMMENT = 33;
 
 	protected $_name = 'actionlogs';
 	

@@ -131,7 +131,7 @@ class ActionController extends AdminController{
 			'router = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo Response::json('', 0, '该路由已存在2');
+			echo Response::json('', 0, '该路由已存在');
 		}else{
 			echo Response::json('', 1, '路由不存在');
 		}

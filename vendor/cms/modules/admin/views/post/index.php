@@ -145,6 +145,9 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php if(in_array('id', $cols)){?>
 						<th class="w70">文章ID</th>
 						<?php }?>
+						<?php if(in_array('thumbnail', $cols)){?>
+						<th width="62">缩略图</th>
+						<?php }?>
 						<th>标题</th>
 						<?php if(in_array('main_category', $cols)){?>
 						<th>主分类</th>
@@ -201,6 +204,9 @@ $cols = F::form('setting')->getData('cols', array());
 						<th><input type="checkbox" class="batch-ids-all" /></th>
 						<?php if(in_array('id', $cols)){?>
 						<th>文章ID</th>
+						<?php }?>
+						<?php if(in_array('thumbnail', $cols)){?>
+						<th>缩略图</th>
 						<?php }?>
 						<th>标题</th>
 						<?php if(in_array('main_category', $cols)){?>

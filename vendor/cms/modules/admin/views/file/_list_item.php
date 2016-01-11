@@ -68,7 +68,7 @@ $full_file_path = File::getUrl($data);
 					'data-id'=>$data['id'],
 					'class'=>'qiniu-delete fc-red',
 					'title'=>'从七牛删除，本地图片会保留',
-				));
+				), true);
 			?></div>
 		</div>
 		<div class="qiniu-status qiniu-not-upload <?php if($data['qiniu']){echo 'hide';}?>">
@@ -79,7 +79,7 @@ $full_file_path = File::getUrl($data);
 				)), array(
 					'data-id'=>$data['id'],
 					'class'=>'qiniu-put',
-				));
+				), true);
 			?></div>
 		</div>
 		<div class="loading hide">

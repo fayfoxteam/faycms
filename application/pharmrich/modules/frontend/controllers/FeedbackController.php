@@ -23,6 +23,7 @@ class FeedbackController extends FrontController{
 		
 		$this->view->listview = new ListView($sql, array(
 			'page_size'=>2,
+			'empty_text'=>'',
 		));
 		$this->view->render();
 	}

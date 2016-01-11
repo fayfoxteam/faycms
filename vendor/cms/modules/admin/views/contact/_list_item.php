@@ -3,22 +3,24 @@ use fay\helpers\Html;
 use fay\helpers\Date;
 ?>
 <li class="contact-item" id="contact-<?php echo $data['id']?>">
-	<div class="ci-options">
-		<?php echo Html::link('<i class="fa fa-reply-all"></i>', '#contact-reply-dialog', array(
-			'data-id'=>$data['id'],
-			'class'=>'btn btn-grey reply-link',
-			'encode'=>false,
-			'title'=>'回复',
-		))?>
-		<?php echo Html::link('<i class="fa fa-trash"></i>', array('admin/contact/remove', array(
+	<div class="ci-options"><?php
+		if(F::app()->checkPermission('admin/contact/reply')){
+			echo Html::link('<i class="fa fa-reply-all"></i>', '#contact-reply-dialog', array(
+				'data-id'=>$data['id'],
+				'class'=>'btn btn-grey reply-link',
+				'encode'=>false,
+				'title'=>'回复',
+			));
+		}
+		echo Html::link('<i class="fa fa-trash"></i>', array('admin/contact/remove', array(
 			'id'=>$data['id'],
 		)), array(
 			'data-id'=>$data['id'],
 			'class'=>'btn btn-grey remove-link',
 			'encode'=>false,
 			'title'=>'删除',
-		))?>
-	</div>
+		), true);
+	?></div>
 	<h3><?php echo Html::encode($data['title'])?></h3>
 	<div class="ci-header"><?php
 		if(in_array('name', $settings['cols'])){

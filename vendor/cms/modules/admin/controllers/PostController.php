@@ -368,7 +368,7 @@ class PostController extends AdminController{
 			Posts::model()->update(array(
 				'cat_id'=>$cat['id'],
 			), $post_id);
-			Flash::set('文章所属分类不存在，请重新设置文章分类', 'attention');
+			Flash::set('文章所属分类不存在，请重新设置文章分类', 'info');
 		}
 		
 		$this->form()->setModel(Posts::model())
@@ -384,7 +384,7 @@ class PostController extends AdminController{
 					$this->form()->setData(array(
 						'status'=>Posts::STATUS_DRAFT,
 					), true);
-					Flash::set('文章状态异常，被强制修改为“草稿”', 'attention');
+					Flash::set('文章状态异常，被强制修改为“草稿”', 'info');
 				}
 				
 				//筛选出文章相关字段

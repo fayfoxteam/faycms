@@ -4,6 +4,7 @@ use fay\models\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
 use fay\models\tables\Roles;
+use fay\models\File;
 
 /**
  * 超级管理员或未开启分类权限或当前用户有此分类操作权限，则文章可编辑
@@ -26,6 +27,27 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 	));?></td>
 	<?php if(in_array('id', $cols)){?>
 	<td><?php echo $data['id']?></td>
+	<?php }?>
+	<?php if(in_array('thumbnail', $cols)){?>
+	<td class="align-center"><?php
+		if($data['thumbnail']){
+			echo Html::link(Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
+				'width'=>60,
+				'height'=>60,
+				'spare'=>'default',
+			)), File::getUrl($data['thumbnail']), array(
+				'class'=>'file-image fancybox-image',
+				'encode'=>false,
+				'title'=>Html::encode($data['title']),
+			));
+		}else{
+			echo Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
+				'width'=>60,
+				'height'=>60,
+				'spare'=>'default',
+			));
+		}
+	?></td>
 	<?php }?>
 	<td>
 		<strong><?php

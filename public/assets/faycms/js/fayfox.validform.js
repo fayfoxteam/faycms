@@ -432,12 +432,20 @@
 					return true;
 				}
 				form.on('blur', 'select,input,textarea', function(){
-					if(_this.getValue($(this)) == '' || $(this).data('validate_status') == 'error'){
-						//为空或者之前验证状态为错误的情况下会再进行验证
+					if($(this).is(':radio') || $(this).is(':checkbox')){
+						//如果是复选框或者单选框，则每次失去焦点必然伴随着值改变，重新验证
 						_this.check($(this));
+					}else{
+						if(_this.getValue($(this)) == '' || $(this).data('validate_status') == 'error'){
+							//为空或者之前验证状态为错误的情况下，每次都执行验证
+							_this.check($(this));
+							$(this).data('validate_last_value', $(this).val());
+						}else if(!$(this).data('validate_last_value') || $(this).data('validate_last_value') != $(this).val()){
+							//如果值有改变或未记录之前的用户输入，则进行验证
+							_this.check($(this));
+							$(this).data('validate_last_value', $(this).val());
+						}
 					}
-				}).on('change', 'select,input,textarea', function(){
-					_this.check($(this));
 				}).on('change', 'select,input,textarea', function(){
 					if(form.data('status') == 'checking'){
 						//若是在最后验证ajax的时候，用户又改了某些输入框的值，则不能提交表单
@@ -496,15 +504,15 @@
 		}
 		
 		validform.prototype = {
+			/**
+			 * 传入jquery对象
+			 * 验证一个元素
+			 * 	返回null：没有设置name属性直接跳过
+			 * 	返回true：验证成功
+			 * 	返回"ajax"：本地验证通过，正在进行ajax验证
+			 * 	返回非ajax字符串：错误信息
+			 */
 			'check':function(obj){
-				/**
-				 * 传入jquery对象
-				 * 验证一个元素
-				 * 	返回null：没有设置name属性直接跳过
-				 * 	返回true：验证成功
-				 * 	返回"ajax"：本地验证通过，正在进行ajax验证
-				 * 	返回非ajax字符串：错误信息
-				 */
 				if(this.settings.ignoreHidden && obj.is(':hidden')){
 					return true;//忽略隐藏元素
 				}

@@ -11,9 +11,11 @@ use fay\core\db\Table;
  * @property int $user_id 用户ID
  * @property string $content 内容
  * @property int $parent 父ID
- * @property int $create_time 创建时间
  * @property int $status 状态
- * @property int $is_real 是否真实用户
+ * @property int $create_time 创建时间
+ * @property int $last_modified_time 最后修改时间
+ * @property int $ip_int IP
+ * @property int $sockpuppet 马甲信息
  * @property int $deleted 删除标记
  * @property int $root 根评论ID
  * @property int $left_value 左值
@@ -44,10 +46,12 @@ class PostComments extends Table{
 	
 	public function rules(){
 		return array(
+			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
+			array(array('id', 'post_id', 'user_id', 'parent', 'sockpuppet', 'root'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('id', 'post_id', 'user_id', 'parent', 'root'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('is_real', 'deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -58,9 +62,11 @@ class PostComments extends Table{
 			'user_id'=>'用户ID',
 			'content'=>'内容',
 			'parent'=>'父ID',
-			'create_time'=>'创建时间',
 			'status'=>'状态',
-			'is_real'=>'是否真实用户',
+			'create_time'=>'创建时间',
+			'last_modified_time'=>'最后修改时间',
+			'ip_int'=>'IP',
+			'sockpuppet'=>'马甲信息',
 			'deleted'=>'删除标记',
 			'root'=>'根评论ID',
 			'left_value'=>'左值',
@@ -75,9 +81,11 @@ class PostComments extends Table{
 			'user_id'=>'intval',
 			'content'=>'',
 			'parent'=>'intval',
-			'create_time'=>'',
 			'status'=>'intval',
-			'is_real'=>'intval',
+			'create_time'=>'',
+			'last_modified_time'=>'',
+			'ip_int'=>'intval',
+			'sockpuppet'=>'intval',
 			'deleted'=>'intval',
 			'root'=>'intval',
 			'left_value'=>'intval',

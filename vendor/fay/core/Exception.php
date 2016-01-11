@@ -12,6 +12,10 @@ class Exception extends \Exception{
 		$this->description = $description;
 	}
 	
+	public function getDescription(){
+		return $this->description;
+	}
+	
 	/**
 	 * 判断是否为致命错误
 	 */

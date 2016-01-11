@@ -14,7 +14,7 @@ use fay\helpers\Html;
 			'order'=>'views',
 			'template'=>'frontend/widget/categories',
 		));
-		\F::widget()->render('fay/category_post', array(
+		\F::widget()->render('fay/category_posts', array(
 			'top'=>$cat['id'],
 			'title'=>'热门文章',
 			'order'=>'views',

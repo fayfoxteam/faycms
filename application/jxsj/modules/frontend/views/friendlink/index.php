@@ -8,7 +8,7 @@ use fay\helpers\Html;
 	<div class="w230 fl">
 		<?php
 		//直接引用widget
-		\F::widget()->render('fay/category_post', array(
+		\F::widget()->render('fay/category_posts', array(
 			'title'=>'热门文章',
 			'order'=>'views',
 			'template'=>'frontend/widget/category_posts',

@@ -74,7 +74,7 @@ use fay\models\Post;
 <div class="col-side">
 	<?php echo F::widget()->render('profile')?>
 	<?php echo F::widget()->render('contact')?>
-	<?php echo F::widget()->render('fay/category_post', array(
+	<?php echo F::widget()->render('fay/category_posts', array(
 		'title'=>'相关文章',
 		'top'=>$post['cat_id'],
 		'subclassification'=>true,

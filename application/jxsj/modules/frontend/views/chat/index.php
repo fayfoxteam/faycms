@@ -9,7 +9,7 @@ use fay\models\tables\Users;
 	<div class="w230 fl">
 		<?php
 		//直接引用widget
-		\F::widget()->render('fay/category_post', array(
+		\F::widget()->render('fay/category_posts', array(
 			'title'=>'最新发布',
 			'order'=>'publish_time',
 			'template'=>'frontend/widget/category_posts',

@@ -10,7 +10,7 @@ use fay\models\File;
 	<div class="w230 fl">
 		<?php
 		//直接引用widget
-		F::widget()->render('fay/category_post', array(
+		F::widget()->render('fay/category_posts', array(
 			'top'=>$post['cat_id'],
 			'title'=>'最新添加',
 			'order'=>'publish_time',

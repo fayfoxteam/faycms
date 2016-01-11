@@ -17,7 +17,7 @@ use fay\models\File;
 					'dw'=>257,
 				)), File::getUrl($page['thumbnail']), array(
 					'encode'=>false,
-					'class'=>'fancybox-image',
+					'class'=>'fancybox-image block',
 					'title'=>false,
 				));
 				echo Html::link('移除缩略图', 'javascript:;', array(

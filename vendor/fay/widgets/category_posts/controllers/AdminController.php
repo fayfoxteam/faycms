@@ -1,5 +1,5 @@
 <?php
-namespace fay\widgets\category_post\controllers;
+namespace fay\widgets\category_posts\controllers;
 
 use fay\core\Widget;
 use fay\models\Category;

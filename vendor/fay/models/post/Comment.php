@@ -111,6 +111,13 @@ class Comment extends Model{
 			'ip_int'=>Request::ip2int(\F::app()->ip),
 		)), $parent);
 		
+		//更新文章评论数
+		$this->updatePostCommentsAndRealComments(array(array(
+			'post_id'=>$post_id,
+			'status'=>$status,
+			'sockpuppet'=>$sockpuppet,
+		)), 'create');
+		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_created', array(
 			'comment_id'=>$comment_id,
@@ -163,7 +170,7 @@ class Comment extends Model{
 		), $comment_id);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments(array($comment));
+		$this->updatePostCommentsAndRealComments(array($comment), 'delete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_deleted', array(
@@ -227,11 +234,8 @@ class Comment extends Model{
 				'id IN (?)'=>$comment_ids,
 			));
 			
-			/*
-			 * 更新文章评论数
-			 * 所有评论对应的post_id必然是同一个，所以先算好增量，然后一次性更新
-			 */
-			$this->updatePostCommentsAndRealComments($comments);
+			//更新文章评论数
+			$this->updatePostCommentsAndRealComments($comments, 'delete');
 			
 			//执行钩子
 			Hook::getInstance()->call('after_post_comment_batch_deleted', array(
@@ -245,18 +249,16 @@ class Comment extends Model{
 	}
 	
 	/**
-	 * 删除或者还原时，更posts表comments和real_comments字段。
-	 * 该函数不会验证原数据的deleted状态，所以传入的$comments必须确保deleted状态。
-	 * 像通过审核，拒绝审核这类场景不能用此函数更新。
-	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段）
+	 * 更posts表comments和real_comments字段。
+	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
+	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/unapprove）
 	 */
-	private function updatePostCommentsAndRealComments($comments, $action = 'delete'){
+	private function updatePostCommentsAndRealComments($comments, $action){
 		$post_comment_verify = Option::get('system:post_comment_verify');
 		$counts = 0;
 		$real_counts = 0;
 		foreach($comments as $c){
-			//如果评论是通过审核状态或未开启“仅显示通过审核评论”，相关文章评论数-1
-			if($c['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
+			if($this->changePostComments($c, $action, $post_comment_verify)){
 				if($c['sockpuppet']){
 					$counts++;
 				}else{
@@ -266,7 +268,8 @@ class Comment extends Model{
 			}
 		}
 		
-		if($action == 'delete'){
+		if(in_array($action, array('delete', 'remove', 'unapprove'))){
+			//如果是删除相关的操作，取反
 			$counts = - $counts;
 			$real_counts = - $real_counts;
 		}
@@ -282,6 +285,32 @@ class Comment extends Model{
 				Posts::model()->inc('id = '.$c['post_id'], array('real_comments'), $real_counts);
 			}
 		}
+	}
+	
+	/**
+	 * 判断一条动态的改变是否需要改变文章评论数
+	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
+	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/unapprove）
+	 * @param mix $post_comment_verify 是否开启文章评论审核（视为bool）
+	 */
+	private function changePostComments($comment, $action, $post_comment_verify){
+		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
+			if($comment['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
+				return true;
+			}
+		}else if($action == 'approve'){
+			//只要开启了评论审核，则必然在通过审核的时候文章评论数+1
+			if($post_comment_verify){
+				return true;
+			}
+		}else if($action == 'unapprove'){
+			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
+			if($comment['status'] == PostComments::STATUS_APPROVED && $post_comment_verify){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -303,7 +332,7 @@ class Comment extends Model{
 		
 		if(!$comment['deleted']){
 			//更新文章评论数
-			$this->updatePostCommentsAndRealComments(array($comment));
+			$this->updatePostCommentsAndRealComments(array($comment), 'remove');
 		}
 		
 		return true;
@@ -339,7 +368,7 @@ class Comment extends Model{
 			}
 		}
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments($undeleted_comments);
+		$this->updatePostCommentsAndRealComments($undeleted_comments, 'remove');
 		
 		MultiTree::model()->removeAll('\fay\models\tables\PostComments', $comment_id);
 		
@@ -374,16 +403,10 @@ class Comment extends Model{
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		//更新文章评论数
-		if(Option::get('system:post_comment_verify')){
-			//如果只显示通过审核的评论，则当评论通过审核时，相应文章评论数+1
-			if($comment['sockpuppet']){
-				Posts::model()->inc('id = '.$comment['post_id'], array('comments'), 1);
-			}else{
-				Posts::model()->inc('id = '.$comment['post_id'], array('comments', 'real_comments'), 1);
-			}
-		}
 		$this->setStatus($comment_id, PostComments::STATUS_APPROVED);
+		
+		//更新文章评论数
+		$this->updatePostCommentsAndRealComments(array($comment), 'approve');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_approved', array(
@@ -408,16 +431,10 @@ class Comment extends Model{
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		//更新文章评论数
-		if($comment['status'] == PostComments::STATUS_APPROVED && Option::get('system:post_comment_verify')){
-			//如果评论原本是通过审核状态，且系统只显示通过审核的评论，则当评论未通过审核时，相应文章评论数-1
-			if($comment['sockpuppet']){
-				Posts::model()->inc('id = '.$comment['post_id'], array('comments'), -1);
-			}else{
-				Posts::model()->inc('id = '.$comment['post_id'], array('comments', 'real_comments'), -1);
-			}
-		}
 		$this->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
+		
+		//更新文章评论数
+		$this->updatePostCommentsAndRealComments(array($comment), 'unapprove');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_unapproved', array(

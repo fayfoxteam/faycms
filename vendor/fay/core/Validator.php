@@ -117,8 +117,11 @@ class Validator{
 				$validate->_object = $this;
 				$value = isset($data[$field]) ? $data[$field] : null;
 				
-				if($validate->isSkip($field, $value)){
-					//该字段已经存在错误信息，跳过验证
+				if($r[1] != 'required' && $validate->isSkip($field, $value)){
+					/*
+					 * required验证器肯定更不能跳过
+					 * 该字段已经存在错误信息，跳过验证
+					 */
 					continue;
 				}
 				$validate->validate($value, $field);

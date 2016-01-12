@@ -72,14 +72,21 @@ class Message extends Model{
 				'deleted = 0',
 			), $parent_message_fields);
 				
-			$return['parent_message'] = $parent_message;
-				
 			if($parent_message){
+				//有父节点
+				$return['parent_message'] = $parent_message;
 				if(!empty($fields['parent_message_user'])){
 					$return['parent_message_user'] = User::model()->get($parent_message['user_id'], implode(',', $fields['parent_message_user']));
 				}
 				if(!in_array('user_id', $fields['parent_message']) && in_array('user_id', $parent_message_fields)){
 					unset($return['parent_message']['user_id']);
+				}
+			}else{
+				//没有父节点，但是要求返回相关父节点字段，则返回空对象
+				$return['parent_message'] = array();
+				
+				if(!empty($fields['parent_message_user'])){
+					$return['parent_message_user'] = array();
 				}
 			}
 		}

@@ -78,7 +78,7 @@ class Comment extends Model{
 	 *  - parent_comment.*系列可指定父评论post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
 	 *  - parent_comment_user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
 	 */
-	public function get($comment_id, $fields = 'comment.*,user.nickname,user.avatar,parent_comment.content,parent_comment.user_id,parent_comment_user.nickname,parent_comment_user.avatar'){
+	public function get($comment_id, $fields = 'comment.id,comment.content,comment.parent,comment.create_time,user.id,user.nickname,user.avatar,parent_comment.id,parent_comment.content,parent_comment.create_time,parent_comment_user.id,parent_comment_user.nickname,parent_comment_user.avatar'){
 		$comment = Message::model()->get('\fay\models\tables\PostComments', $comment_id, $this->formatFieldForMessage($fields));
 		return $this->formatMessageToComment($comment);
 	}
@@ -101,6 +101,7 @@ class Comment extends Model{
 		}
 		
 		$comment_id = MultiTree::model()->create('\fay\models\tables\PostComments', array_merge($extra, array(
+			'post_id'=>$post_id,
 			'content'=>$content,
 			'status'=>$status,
 			'user_id'=>$user_id,
@@ -162,7 +163,7 @@ class Comment extends Model{
 		), $comment_id);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealCommentsAfterDeleteOrUndelete(array($comment));
+		$this->updatePostCommentsAndRealComments(array($comment));
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_deleted', array(
@@ -190,7 +191,7 @@ class Comment extends Model{
 		), $comment_id);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealCommentsAfterDeleteOrUndelete(array($comment), 'undelete');
+		$this->updatePostCommentsAndRealComments(array($comment), 'undelete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_deleted', array(
@@ -230,7 +231,7 @@ class Comment extends Model{
 			 * 更新文章评论数
 			 * 所有评论对应的post_id必然是同一个，所以先算好增量，然后一次性更新
 			 */
-			$this->updatePostCommentsAndRealCommentsAfterDeleteOrUndelete($comments);
+			$this->updatePostCommentsAndRealComments($comments);
 			
 			//执行钩子
 			Hook::getInstance()->call('after_post_comment_batch_deleted', array(
@@ -249,7 +250,7 @@ class Comment extends Model{
 	 * 像通过审核，拒绝审核这类场景不能用此函数更新。
 	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段）
 	 */
-	private function updatePostCommentsAndRealCommentsAfterDeleteOrUndelete($comments, $action = 'delete'){
+	private function updatePostCommentsAndRealComments($comments, $action = 'delete'){
 		$post_comment_verify = Option::get('system:post_comment_verify');
 		$counts = 0;
 		$real_counts = 0;
@@ -302,7 +303,7 @@ class Comment extends Model{
 		
 		if(!$comment['deleted']){
 			//更新文章评论数
-			$this->updatePostCommentsAndRealCommentsAfterDeleteOrUndelete(array($comment));
+			$this->updatePostCommentsAndRealComments(array($comment));
 		}
 		
 		return true;
@@ -338,7 +339,7 @@ class Comment extends Model{
 			}
 		}
 		//更新文章评论数
-		$this->updatePostCommentsAndRealCommentsAfterDeleteOrUndelete($undeleted_comments);
+		$this->updatePostCommentsAndRealComments($undeleted_comments);
 		
 		MultiTree::model()->removeAll('\fay\models\tables\PostComments', $comment_id);
 		

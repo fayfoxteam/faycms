@@ -117,19 +117,24 @@ class User extends Model{
 		
 		//设置权限，超级管理员无需设置
 		if(!in_array(Roles::ITEM_SUPER_ADMIN, $user['roles'])){
-			$sql = new Sql();
-			$actions = $sql->from('roles_actions', 'ra', '')
-				->joinLeft('actions', 'a', 'ra.action_id = a.id', 'router')
-				->where('ra.role_id IN ('.implode(',', $user['roles']).')')
-				->group('a.router')
-				->fetchAll();
-			\F::session()->set('actions', ArrayHelper::column($actions, 'router'));
-				
-			//分类权限
-			if(Option::get('system:role_cats')){
-				//未分类文章任何人都有权限编辑
-				$post_root = Category::model()->get('_system_post', 'id');
-				\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $user['roles']).')')));
+			if($user['roles']){
+				$sql = new Sql();
+				$actions = $sql->from('roles_actions', 'ra', '')
+					->joinLeft('actions', 'a', 'ra.action_id = a.id', 'router')
+					->where('ra.role_id IN ('.implode(',', $user['roles']).')')
+					->group('a.router')
+					->fetchAll();
+				\F::session()->set('actions', ArrayHelper::column($actions, 'router'));
+					
+				//分类权限
+				if(Option::get('system:role_cats')){
+					//未分类文章任何人都有权限编辑
+					$post_root = Category::model()->get('_system_post', 'id');
+					\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $user['roles']).')')));
+				}
+			}else{
+				//用户不属于任何角色，则角色权限为空
+				\F::session()->set('actions', array());
 			}
 		}
 		
@@ -206,9 +211,11 @@ class User extends Model{
 		
 		if(isset($user['avatar'])){
 			//如果有头像，将头像转为图片URL
-			$user['avatar'] = File::getUrl($user['avatar'], File::PIC_ORIGINAL, array(
+			$user['avatar_url'] = File::getUrl($user['avatar'], File::PIC_ORIGINAL, array(
 				'spare'=>'avatar',
 			));
+		}else{
+			$user['avatar_url'] = '';
 		}
 		
 		$return['user'] = $user;

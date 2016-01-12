@@ -48,6 +48,15 @@ class PostCommentController extends ApiController{
 			);
 			
 			$comment = Comment::model()->get($comment_id);
+			
+			//格式化一下空数组的问题，保证返回给客户端的数据类型一致
+			if(isset($comment['parent_comment']) && empty($comment['parent_comment'])){
+				$comment['parent_comment'] = new \stdClass();
+			}
+			if(isset($comment['parent_comment_user']) && empty($comment['parent_comment_user'])){
+				$comment['parent_comment_user'] = new \stdClass();
+			}
+			
 			Response::notify('success', array(
 				'message'=>'评论成功',
 				'data'=>$comment,

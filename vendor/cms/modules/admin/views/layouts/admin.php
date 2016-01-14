@@ -132,7 +132,7 @@ system.user_id = '<?php echo F::session()->get('user.id', 0)?>';
 						}else{
 							$html_options['class'] = 'quick-link';
 						}
-						echo Html::link($sublink['text'], $sublink['uri'], $html_options);
+						echo Html::link($sublink['text'], $sublink['uri'], $html_options, true);
 					}?></h1>
 			</div>
 			<div class="operate-env">

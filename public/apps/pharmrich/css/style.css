@@ -51,7 +51,8 @@ h6{font-size:13px;line-height:20px;margin:30px 0 20px;font-weight:600;}
 .widget.categories h3,.widget.pages h3{background-color:#e1472f;padding:9px 15px;color:#fff;}
 .widget.categories > ul,.widget.pages > ul{margin:0 0 20px 15px;}
 .widget.categories li,.widget.pages li{font-size:12px;padding-left:10px;}
-.widget.categories li a,.widget.pages li a{padding:10px 0;}
+.widget.categories li a,.widget.pages li a{padding:4px 0;display:block;}
+.widget.categories li a:hover,.widget.pages li a:hover{padding-left:4px;}
 
 /* toast */
 .toast-container{position:fixed;z-index:999999}

@@ -7,9 +7,7 @@ use fay\helpers\String;
 $cat = Category::model()->get($config['top']);
 ?>
 <div class="teacher-list-container">
-	<h2 class="en">teacher strength</h2>
 	<h2><?php echo Html::encode($config['title'])?></h2>
-	<div class="description">强大的师资是教学成果的保证</div>
 	<div class="teacher-list">
 		<ul class="cf"><?php foreach($posts as $p){
 			echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(

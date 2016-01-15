@@ -575,7 +575,7 @@ CREATE TABLE `{{$prefix}}pages` (
   `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
-  `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
+  `abstract` text NOT NULL COMMENT '摘要',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 

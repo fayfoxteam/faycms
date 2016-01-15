@@ -28,6 +28,6 @@ use fay\models\File;
 				</div>
 			</li>
 		<?php }?>
-		</ul>	
+		</ul>
 	</div>
 </section>

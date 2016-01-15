@@ -1,7 +1,6 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
-use fay\helpers\Date;
 ?>
 <section class="box" id="<?php echo $alias?>">
 	<div class="box-title">
@@ -38,6 +37,6 @@ use fay\helpers\Date;
 				</div>
 			</li>
 		<?php }?>
-		</ul>	
+		</ul>
 	</div>
 </section>

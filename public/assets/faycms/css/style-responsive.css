@@ -60,9 +60,9 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 .fc-grey{color:grey !important}
 .required{color:red !important}
 
-.bl-yellow{border-left:4px solid #FFB848}
-.bl-red{border-left:4px solid #E1472F}
-.bl-blue{border-left:4px solid #21759B}
+.bl-yellow{border-left:4px solid #FFB848 !important}
+.bl-red{border-left:4px solid #E1472F !important}
+.bl-blue{border-left:4px solid #21759B !important}
 
 .bg-red,.bg-grey,.bg-yellow,.bg-green{color:#fff !important;transition:all 0.5s linear 0s}
 .bg-red{background-color:#E1472F !important}

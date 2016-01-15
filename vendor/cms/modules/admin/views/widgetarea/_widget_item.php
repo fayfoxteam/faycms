@@ -3,7 +3,7 @@ use fay\helpers\Html;
 
 $widget_instance = F::widget()->get($widget['widget_name'], true);
 ?>
-<div class="widget-item" data-widget-id="<?php echo $widget['id']?>">
+<div class="widget-item <?php if(!$widget['enabled'])echo 'bl-yellow'?>" data-widget-id="<?php echo $widget['id']?>">
 	<a class="widget-item-selector"></a>
 	<div class="widget-item-container">
 	<?php if($show_alias){?>

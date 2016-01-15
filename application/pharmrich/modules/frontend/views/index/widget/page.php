@@ -19,7 +19,7 @@ use fay\models\File;
 				'encode'=>false,
 				'title'=>Html::encode($page['title']),
 			));
-			echo $page['abstract'];
 		}
+		echo nl2br($page['abstract']);
 	?></div>
 </section>

@@ -305,16 +305,13 @@ class Db{
 	 */
 	public function inc($table, $condition, $fields, $count){
 		$where = $this->getWhere($condition);
-		if($count >= 0){
-			$count = '+'.$count;
-		}
 		
 		if(!is_array($fields)){
 			$fields = explode(',', $fields);
 		}
 		$data = array();
 		foreach($fields as $f){
-			$data[$f] = new Expr("`{$f}` {$count}");
+			$data[$f] = new Expr("`{$f}` + {$count}");
 		}
 		return $this->update($table, $data, $condition);
 	}

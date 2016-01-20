@@ -52,35 +52,45 @@ $cols = F::form('setting')->getData('cols', array());
 		<ul class="subsubsub">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post-comment/index')?>">全部</a>
-				<span class="fc-grey">(<span id="all-post-comments-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="all-post-comments-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status', 'intval') === PostComments::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<?php echo Html::link(PostCommentHelper::getStatus(PostComments::STATUS_PENDING, 0, false), array('admin/post-comment/index', array(
 					'status'=>PostComments::STATUS_PENDING,
 				)));?>
-				<span class="fc-grey">(<span id="pending-post-comment-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="pending-post-comment-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostComments::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<?php echo Html::link(PostCommentHelper::getStatus(PostComments::STATUS_APPROVED, 0, false), array('admin/post-comment/index', array(
 					'status'=>PostComments::STATUS_APPROVED,
 				)));?>
-				<span class="fc-grey">(<span id="approved-post-comment-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="approved-post-comment-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostComments::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<?php echo Html::link(PostCommentHelper::getStatus(PostComments::STATUS_UNAPPROVED, 0, false), array('admin/post-comment/index', array(
 					'status'=>PostComments::STATUS_UNAPPROVED,
 				)));?>
-				<span class="fc-grey">(<span id="unapproved-post-comment-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="unapproved-post-comment-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<?php echo Html::link(PostCommentHelper::getStatus(0, 1, false), array('admin/post-comment/index', array(
 					'deleted'=>1,
 				)));?>
-				<span class="fc-grey">(<span id="deleted-post-comment-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="deleted-post-comment-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 			</li>
 		</ul>
 	</div>
@@ -101,7 +111,7 @@ $cols = F::form('setting')->getData('cols', array());
 				echo Html::select('', array(
 					''=>'批量操作',
 					'set-approved'=>F::app()->checkPermission('admin/post-comment/approve') ? '通过审核' : false,
-					'set-unapproved'=>F::app()->checkPermission('admin/post-comment/unapprove') ? '不通过审核' : false,
+					'set-disapproved'=>F::app()->checkPermission('admin/post-comment/disapprove') ? '驳回' : false,
 					'set-pending'=>F::app()->checkPermission('admin/post-comment/pending') ? '标记为待审核' : false,
 					'delete'=>F::app()->checkPermission('admin/post-comment/delete') ? '移入回收站' : false,
 				), '', array(
@@ -186,7 +196,7 @@ $cols = F::form('setting')->getData('cols', array());
 				echo Html::select('', array(
 					''=>'批量操作',
 					'set-approved'=>F::app()->checkPermission('admin/post-comment/approve') ? '通过审核' : false,
-					'set-unapproved'=>F::app()->checkPermission('admin/post-comment/unapprove') ? '不通过审核' : false,
+					'set-disapproved'=>F::app()->checkPermission('admin/post-comment/disapprove') ? '驳回' : false,
 					'set-pending'=>F::app()->checkPermission('admin/post-comment/pending') ? '标记为待审核' : false,
 					'delete'=>F::app()->checkPermission('admin/post-comment/delete') ? '移入回收站' : false,
 				), '', array(

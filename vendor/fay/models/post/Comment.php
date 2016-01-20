@@ -179,6 +179,41 @@ class Comment extends Model{
 	}
 	
 	/**
+	 * 批量删除
+	 * @param array $comment_ids 由评论ID构成的一维数组
+	 */
+	public function batchDelete($comment_ids){
+		$comments = PostComments::model()->fetchAll(array(
+			'id IN (?)'=>$comment_ids,
+			'deleted = 0',
+		), 'id,post_id,sockpuppet,status');
+		if(!$comments){
+			//无符合条件的记录
+			return 0;
+		}
+		
+		//更新状态
+		$affected_rows = PostComments::model()->update(array(
+			'deleted'=>1,
+			'last_modified_time'=>\F::app()->current_time,
+		), array(
+			'id IN (?)'=>$comment_ids,
+		));
+		
+		//更新文章评论数
+		$this->updatePostCommentsAndRealComments($comments, 'delete');
+		
+		foreach($comments as $c){
+			//执行钩子（循环逐条执行）
+			Hook::getInstance()->call('after_post_comment_deleted', array(
+				'comment_id'=>$c['id'],
+			));
+		}
+		
+		return $affected_rows;
+	}
+	
+	/**
 	 * 从回收站恢复一条评论
 	 * @param int $comment_id 评论ID
 	 */
@@ -201,9 +236,44 @@ class Comment extends Model{
 		$this->updatePostCommentsAndRealComments(array($comment), 'undelete');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_deleted', array(
+		Hook::getInstance()->call('after_post_comment_undeleted', array(
 			'comment_id'=>$comment_id,
 		));
+	}
+	
+	/**
+	 * 批量还原
+	 * @param array $comment_ids 由评论ID构成的一维数组
+	 */
+	public function batchUnelete($comment_ids){
+		$comments = PostComments::model()->fetchAll(array(
+			'id IN (?)'=>$comment_ids,
+			'deleted > 0',
+		), 'id,post_id,sockpuppet,status');
+		if(!$comments){
+			//无符合条件的记录
+			return 0;
+		}
+		
+		//更新状态
+		$affected_rows = PostComments::model()->update(array(
+			'deleted'=>0,
+			'last_modified_time'=>\F::app()->current_time,
+		), array(
+			'id IN (?)'=>$comment_ids,
+		));
+		
+		//更新文章评论数
+		$this->updatePostCommentsAndRealComments($comments, 'undelete');
+		
+		foreach($comments as $c){
+			//执行钩子（循环逐条执行）
+			Hook::getInstance()->call('after_post_comment_undeleted', array(
+				'comment_id'=>$c['id'],
+			));
+		}
+		
+		return $affected_rows;
 	}
 	
 	/**
@@ -246,71 +316,6 @@ class Comment extends Model{
 		}else{
 			return array();
 		}
-	}
-	
-	/**
-	 * 更posts表comments和real_comments字段。
-	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/unapprove）
-	 */
-	private function updatePostCommentsAndRealComments($comments, $action){
-		$post_comment_verify = Option::get('system:post_comment_verify');
-		$counts = 0;
-		$real_counts = 0;
-		foreach($comments as $c){
-			if($this->changePostComments($c, $action, $post_comment_verify)){
-				if($c['sockpuppet']){
-					$counts++;
-				}else{
-					$counts++;
-					$real_counts++;
-				}
-			}
-		}
-		
-		if(in_array($action, array('delete', 'remove', 'unapprove'))){
-			//如果是删除相关的操作，取反
-			$counts = - $counts;
-			$real_counts = - $real_counts;
-		}
-		
-		if($counts && $counts == $real_counts){
-			//如果全部评论都是真实评论，则一起更新real_comments和comments
-			Posts::model()->inc('id = '.$c['post_id'], array('comments', 'real_comments'), $counts);
-		}else{
-			if($counts){
-				Posts::model()->inc('id = '.$c['post_id'], array('comments'), $counts);
-			}
-			if($real_counts){
-				Posts::model()->inc('id = '.$c['post_id'], array('real_comments'), $real_counts);
-			}
-		}
-	}
-	
-	/**
-	 * 判断一条动态的改变是否需要改变文章评论数
-	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/unapprove）
-	 * @param mix $post_comment_verify 是否开启文章评论审核（视为bool）
-	 */
-	private function changePostComments($comment, $action, $post_comment_verify){
-		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($comment['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
-				return true;
-			}
-		}else if($action == 'approve'){
-			//只要开启了评论审核，则必然在通过审核的时候文章评论数+1
-			if($post_comment_verify){
-				return true;
-			}
-		}else if($action == 'unapprove'){
-			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
-			if($comment['status'] == PostComments::STATUS_APPROVED && $post_comment_verify){
-				return true;
-			}
-		}
-		
-		return false;
 	}
 	
 	/**
@@ -377,21 +382,28 @@ class Comment extends Model{
 	
 	/**
 	 * 更新评论状态
-	 * @param int $comment_id 评论ID
+	 * @param int|array $comment_id 评论ID或由评论ID构成的一维数组
 	 * @param int $status 状态码
 	 */
 	public function setStatus($comment_id, $status){
-		return PostComments::model()->update(array(
-			'status'=>$status,
-			'last_modified_time'=>\F::app()->current_time,
-		), $comment_id);
+		if(is_array($comment_id)){
+			return PostComments::model()->update(array(
+				'status'=>$status,
+				'last_modified_time'=>\F::app()->current_time,
+			), array('id IN (?)'=>$comment_id));
+		}else{
+			return PostComments::model()->update(array(
+				'status'=>$status,
+				'last_modified_time'=>\F::app()->current_time,
+			), $comment_id);
+		}
 	}
 	
 	/**
 	 * 通过审核
 	 * @param int $comment_id 评论ID
 	 */
-	public function approved($comment_id){
+	public function approve($comment_id){
 		$comment = PostComments::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
@@ -416,10 +428,40 @@ class Comment extends Model{
 	}
 	
 	/**
+	 * 批量通过审核
+	 * @param array $comment_ids 由评论ID构成的一维数组
+	 */
+	public function batchApprove($comment_ids){
+		$comments = PostComments::model()->fetchAll(array(
+			'id IN (?)'=>$comment_ids,
+			'status != ' . PostComments::STATUS_APPROVED,
+		), 'id,post_id,sockpuppet,status');
+		if(!$comments){
+			//无符合条件的记录
+			return 0;
+		}
+		
+		//更新状态
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
+		
+		//更新文章评论数
+		$this->updatePostCommentsAndRealComments($comments, 'approve');
+		
+		foreach($comments as $c){
+			//执行钩子（循环逐条执行）
+			Hook::getInstance()->call('after_post_comment_approved', array(
+				'comment_id'=>$c['id'],
+			));
+		}
+		
+		return $affected_rows;
+	}
+	
+	/**
 	 * 不通过审核
 	 * @param int $comment_id 评论ID
 	 */
-	public function unapproved($comment_id){
+	public function disapprove($comment_id){
 		$comment = PostComments::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
@@ -434,13 +476,43 @@ class Comment extends Model{
 		$this->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments(array($comment), 'unapprove');
+		$this->updatePostCommentsAndRealComments(array($comment), 'disapprove');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_unapproved', array(
+		Hook::getInstance()->call('after_post_comment_disapproved', array(
 			'comment_id'=>$comment_id,
 		));
 		return true;
+	}
+	
+	/**
+	 * 批量不通过审核
+	 * @param array $comment_ids 由评论ID构成的一维数组
+	 */
+	public function batchDisapprove($comment_ids){
+		$comments = PostComments::model()->fetchAll(array(
+			'id IN (?)'=>$comment_ids,
+			'status != ' . PostComments::STATUS_UNAPPROVED,
+		), 'id,post_id,sockpuppet,status');
+		if(!$comments){
+			//无符合条件的记录
+			return 0;
+		}
+		
+		//更新状态
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
+		
+		//更新文章评论数
+		$this->updatePostCommentsAndRealComments($comments, 'disapprove');
+		
+		foreach($comments as $c){
+			//执行钩子（循环逐条执行）
+			Hook::getInstance()->call('after_post_comment_disapproved', array(
+				'comment_id'=>$c['id'],
+			));
+		}
+		
+		return $affected_rows;
 	}
 	
 	/**
@@ -452,5 +524,81 @@ class Comment extends Model{
 		return PostComments::model()->update(array(
 			'content'=>$content,
 		), $comment_id);
+	}
+	
+	/**
+	 * 判断一条动态的改变是否需要改变文章评论数
+	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
+	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
+	 * @param mix $post_comment_verify 是否开启文章评论审核（视为bool）
+	 */
+	private function needChangePostComments($comment, $action, $post_comment_verify){
+		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
+			if($comment['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
+				return true;
+			}
+		}else if($action == 'approve'){
+			//只要开启了评论审核，则必然在通过审核的时候文章评论数+1
+			if($post_comment_verify){
+				return true;
+			}
+		}else if($action == 'disapprove'){
+			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
+			if($comment['status'] == PostComments::STATUS_APPROVED && $post_comment_verify){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 更posts表comments和real_comments字段。
+	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
+	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
+	 */
+	private function updatePostCommentsAndRealComments($comments, $action){
+		$post_comment_verify = Option::get('system:post_comment_verify');
+		$posts = array();
+		foreach($comments as $c){
+			if($this->needChangePostComments($c, $action, $post_comment_verify)){
+				//更新评论数
+				if(isset($posts[$c['post_id']]['comments'])){
+					$posts[$c['post_id']]['comments']++;
+				}else{
+					$posts[$c['post_id']]['comments'] = 1;
+				}
+				if(!$c['sockpuppet']){
+					//如果不是马甲，更新真实评论数
+					if(isset($posts[$c['post_id']]['real_comments'])){
+						$posts[$c['post_id']]['real_comments']++;
+					}else{
+						$posts[$c['post_id']]['real_comments'] = 1;
+					}
+				}
+			}
+		}
+		
+		foreach($posts as $post_id => $comment_count){
+			$comments = isset($comment_count['comments']) ? $comment_count['comments'] : 0;
+			$real_comments = isset($comment_count['real_comments']) ? $comment_count['real_comments'] : 0;
+			if(in_array($action, array('delete', 'remove', 'disapprove'))){
+				//如果是删除相关的操作，取反
+				$comments = - $comments;
+				$real_comments = - $real_comments;
+			}
+			
+			if($comments && $comments == $real_comments){
+				//如果全部评论都是真实评论，则一起更新real_comments和comments
+				Posts::model()->inc('id = '.$post_id, array('comments', 'real_comments'), $comments);
+			}else{
+				if($comments){
+					Posts::model()->inc('id = '.$post_id, array('comments'), $comments);
+				}
+				if($real_comments){
+					Posts::model()->inc('id = '.$post_id, array('real_comments'), $real_comments);
+				}
+			}
+		}
 	}
 }

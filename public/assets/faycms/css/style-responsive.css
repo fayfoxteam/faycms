@@ -435,6 +435,7 @@ select option[disabled]{text-decoration:line-through}
 .subsubsub{margin:8px 0 5px;white-space:nowrap}
 .subsubsub li{display:inline}
 .subsubsub li.sel a{font-weight:bold;color:#000}
+.subsubsub li img{vertical-align:middle}
 .drag-drop-area{border:4px dashed #ddd;height:200px;text-align:center;background-color:#fff}
 .drag-drop-inside{margin-top:55px;color:#aaa}
 #visual-editor{width:100%}

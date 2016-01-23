@@ -8,12 +8,8 @@ use fay\models\tables\PostComments;
 use fay\core\Response;
 use fay\models\Setting;
 use fay\models\tables\Actionlogs;
-use fay\models\Option;
-use fay\core\Hook;
-use fay\models\tables\Posts;
-use fay\helpers\ArrayHelper;
 use fay\helpers\Html;
-use fay\models\post\Comment;
+use fay\services\post\Comment;
 use fay\core\Exception;
 
 class PostCommentController extends AdminController{

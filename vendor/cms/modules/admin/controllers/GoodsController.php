@@ -14,7 +14,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\Category;
 use fay\helpers\Date;
-use fay\models\shop\Goods as GoodsModel;
+use fay\services\shop\Goods as GoodsService;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Flash;
@@ -578,7 +578,7 @@ class GoodsController extends AdminController{
 			$this->actionlog(Actionlogs::TYPE_GOODS, '编辑一个商品', $goods_id);
 		}
 		
-		$goods = GoodsModel::model()->get($goods_id);
+		$goods = GoodsService::model()->get($goods_id);
 		//做一些格式化处理
 		$goods['publish_time'] = Date::format($goods['publish_time']);
 		

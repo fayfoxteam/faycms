@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
 use fay\core\Response;
-use fay\models\user\Follow;
+use fay\services\Follow;
 
 class FollowController extends UserController{
 	/**
@@ -36,7 +36,7 @@ class FollowController extends UserController{
 				));
 			}
 			
-			Follow::follow($user_id, $this->form()->getData('follow_from'));
+			Follow::follow($user_id, $this->form()->getData('follow_from', 'trim', ''));
 			Response::notify('success', '关注成功');
 		}else{
 			$error = $this->form()->getFirstError();

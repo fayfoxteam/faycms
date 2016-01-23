@@ -9,7 +9,9 @@ use fay\core\db\Table;
  * @property int $post_id 文章ID
  * @property int $user_id 用户ID
  * @property int $create_time 点赞时间
+ * @property int $ip_int IP
  * @property int $sockpuppet 马甲信息
+ * @property string $trackid 追踪ID
  */
 class PostLikes extends Table{
 	protected $_name = 'post_likes';
@@ -24,7 +26,9 @@ class PostLikes extends Table{
 	
 	public function rules(){
 		return array(
+			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('post_id', 'user_id', 'sockpuppet'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('trackid'), 'string', array('max'=>50)),
 		);
 	}
 
@@ -33,7 +37,9 @@ class PostLikes extends Table{
 			'post_id'=>'文章ID',
 			'user_id'=>'用户ID',
 			'create_time'=>'点赞时间',
+			'ip_int'=>'IP',
 			'sockpuppet'=>'马甲信息',
+			'trackid'=>'追踪ID',
 		);
 	}
 
@@ -42,7 +48,9 @@ class PostLikes extends Table{
 			'post_id'=>'intval',
 			'user_id'=>'intval',
 			'create_time'=>'',
+			'ip_int'=>'intval',
 			'sockpuppet'=>'intval',
+			'trackid'=>'trim',
 		);
 	}
 }

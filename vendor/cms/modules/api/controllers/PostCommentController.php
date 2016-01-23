@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\models\post\Comment;
+use fay\services\post\Comment;
 use fay\core\Response;
 use fay\models\tables\Posts;
 

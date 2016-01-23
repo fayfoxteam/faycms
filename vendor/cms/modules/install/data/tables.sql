@@ -269,9 +269,10 @@ CREATE TABLE `{{$prefix}}follows` (
   `fans_id` int(10) unsigned NOT NULL COMMENT '粉丝ID',
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关注时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `relation` tinyint(4) NOT NULL DEFAULT '1' COMMENT '单向/双向关注',
-  `sockpuppet` int(11) NOT NULL DEFAULT '1' COMMENT '马甲信息',
-  `follow_from` varchar(30) NOT NULL DEFAULT '' COMMENT '关注来源',
+  `sockpuppet` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '马甲信息',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`fans_id`,`user_id`),
   KEY `fans` (`user_id`,`fans_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='关注关系';
@@ -407,6 +408,9 @@ CREATE TABLE `{{$prefix}}post_favorites` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`user_id`,`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
@@ -415,7 +419,9 @@ CREATE TABLE `{{$prefix}}post_likes` (
   `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点赞时间',
-  `sockpuppet` int(11) NOT NULL DEFAULT '1' COMMENT '马甲信息',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '马甲信息',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`post_id`,`user_id`),
   KEY `my-likes` (`user_id`,`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

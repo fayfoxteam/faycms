@@ -100,6 +100,14 @@ class Comment extends Model{
 			throw new Exception('文章ID不存在', 'post_id-not-exist');
 		}
 		
+		$parent_comment = PostComments::model()->find($parent, 'post_id');
+		if(!$parent_comment){
+			throw new Exception('父节点不存在', 'parent-not-exist');
+		}
+		if($parent_comment['post_id'] != $post_id){
+			throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'post_id-and-parent-not-match');
+		}
+		
 		$comment_id = MultiTree::model()->create('\fay\models\tables\PostComments', array_merge($extra, array(
 			'post_id'=>$post_id,
 			'content'=>$content,

@@ -9,7 +9,10 @@ class IndexController extends Widget{
 	}
 	
 	public function index($config){
-		$this->view->config = $config;
-		$this->view->render();
+		$this->view->assign(array(
+			'config'=>$config,
+			'alias'=>$this->alias,
+			'_index'=>$this->_index,
+		))->render();
 	}
 }

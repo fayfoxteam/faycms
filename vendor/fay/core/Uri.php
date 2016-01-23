@@ -13,7 +13,7 @@ class Uri{
 	public $module;
 	
 	/**
-	 * 与$_SERVER['REQUEST_URI']想必，如果有二级或多级目录，会去掉目录
+	 * 与$_SERVER['REQUEST_URI']相比，如果有二级或多级目录，会去掉目录
 	 */
 	public $request_uri;
 	

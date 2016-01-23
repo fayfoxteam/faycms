@@ -12,9 +12,9 @@ a:hover{color:#e1472f;text-decoration:none;}
 h6{font-size:13px;line-height:20px;margin:30px 0 20px;font-weight:600;}
 
 .cb{clear:both;}
-.cf,.box,.g-mn{zoom:1;clear:left;} 
-.cf:before,.cf:after,.box:before,.box:after,.g-mn:before,.g-mn:after{content:"";display:table;}
-.cf:after,.box:after,.g-mn:after{clear: both;}
+.cf,.box,.g-mn,.pagination{zoom:1;clear:left;} 
+.cf:before,.cf:after,.box:before,.box:after,.g-mn:before,.g-mn:after,.pagination:before,.pagination:after{content:"";display:table;}
+.cf:after,.box:after,.g-mn:after,.pagination:after{clear: both;}
 .fl{float:left;}
 .fr{float:right;}
 .hide{display:none;}

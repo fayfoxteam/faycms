@@ -423,7 +423,7 @@ CREATE TABLE `{{$prefix}}post_likes` (
   `sockpuppet` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`post_id`,`user_id`),
-  KEY `my-likes` (`user_id`,`post_id`)
+  KEY `likes` (`user_id`,`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}links`;

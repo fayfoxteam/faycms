@@ -1,8 +1,10 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
+
+$element_id = $config['element_id'] ? $config['element_id'] : $alias;
 ?>
-<div id="<?php echo $config['elementId']?>">
+<div id="<?php echo $element_id?>">
 	<div class="nivo-slider">
 	<?php foreach($config['files'] as $d){
 		if(empty($d['link'])){
@@ -24,7 +26,7 @@ use fay\models\File;
 <script src="<?php echo $this->assets('js/jquery.nivo.slider.pack.js')?>"></script>
 <script>
 $(function(){
-	$("#<?php echo $config['elementId']?> .nivo-slider").nivoSlider({
+	$("#<?php echo $element_id?> .nivo-slider").nivoSlider({
 		'animSpeed':<?php echo $config['animSpeed']?>,
 		'pauseTime':<?php echo $config['pauseTime']?>,
 		'directionNav':<?php echo $config['directionNav'] ? 'true' : 'false'?>,

@@ -314,3 +314,5 @@ a:hover span.hover-image{opacity:1;}
 #product-list-slider .nivo-controlNav{position:absolute;bottom:0;width:100%;padding:7px 0 3px;text-align:right;z-index:10;}
 #product-list-slider .nivo-controlNav a{display:inline-block;text-indent:99em;background-color:#bebebe;border-radius:50%;width:14px;height:14px;margin:0 8px;overflow:hidden;}
 #product-list-slider .nivo-controlNav a.active{background-color:#ff9c00;}
+
+#index-news a:hover{padding-left:5px;}

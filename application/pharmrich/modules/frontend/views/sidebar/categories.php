@@ -4,7 +4,7 @@ namespace pharmrich\modules\frontend\views\sidebar;
 use fay\helpers\Html;
 
 if(!function_exists('pharmrich\modules\frontend\views\sidebar\renderCats')){
-	function renderCats($cats, $uri, $dep = 0){
+	function renderCats($cats, $dep = 0){
 		$html = '<ul';
 		$html .= $dep ? ' class="children"' : '';
 		$html .= '>';
@@ -12,7 +12,7 @@ if(!function_exists('pharmrich\modules\frontend\views\sidebar\renderCats')){
 			$html .= '<li class="cat-item">';
 			$html .= Html::link($c['title'], $c['link']);
 			if(!empty($c['children'])){
-				$html .= renderCats($c['children'], $uri, ++$dep);
+				$html .= renderCats($c['children'], ++$dep);
 			}
 			$html .= '</li>';
 		}
@@ -23,5 +23,5 @@ if(!function_exists('pharmrich\modules\frontend\views\sidebar\renderCats')){
 ?>
 <div class="widget categories">
 	<h3><?php echo $config['title']?></h3>
-	<?php echo renderCats($cats, $config['uri'])?>
+	<?php echo renderCats($cats)?>
 </div>

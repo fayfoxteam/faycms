@@ -195,21 +195,23 @@ a:hover span.hover-image{opacity:1;}
 .products-carousel li .products-carousel-details{border-left:1px solid #efefef;border-right:1px solid #efefef;height:80px;border-bottom:2px solid #323232;}
 .products-carousel li:hover .products-carousel-details{background-color:#fafafa;}
 
-/* 产品详情页的列表为3列 */
-#product-list .products-carousel li{width:33.3333%;}
-#product-list .g-mn{float:right;}
-#product-list .g-sd{float:left;}
+/* 产品列表页和食谱列表页为3列 */
+#product-list .products-carousel li,#cook-recipe-list .products-carousel li{width:33.3333%;}
+#product-list .g-mn,#cook-recipe-list .g-mn{float:right;}
+#product-list .g-sd,#cook-recipe-list .g-sd{float:left;}
 
 @media only screen and (max-width: 995px) {
 	.products-carousel li{width:33.3333%;}
 }
 @media only screen and (max-width: 600px) {
 	.products-carousel li{width:50%;}
-	#product-list .products-carousel li{width:50%;}
+	#product-list .products-carousel li{width:50%;}	
+	#cook-recipe-list .products-carousel li{width:50%;}	
 }
 @media only screen and (max-width: 420px) {
 	.products-carousel li{width:100%;}
 	#product-list .products-carousel li{width:100%;}
+	#cook-recipe-list .products-carousel li{width:100%;}
 	.products-carousel li img{width:100%;height:auto;}
 }
 

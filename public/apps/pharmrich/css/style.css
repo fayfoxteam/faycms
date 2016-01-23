@@ -266,11 +266,11 @@ a:hover span.hover-image{opacity:1;}
 .post-gallery li img{width:100%;display:block;}
 
 .contact .g-sd.fl{float:left;}
-.contact .g-sd .m-contact{margin-bottom:20px;}
-.contact .g-sd .m-contact h3{font-size:13px;line-height:20px;margin-bottom:15px;font-weight:600;color:#444;}
-.contact .g-sd .m-contact li span{color:#444;}
-.contact .g-sd .m-contact li a{color:#e1472f;}
-.contact .g-sd .m-contact li a:hover{color:#444;}
+.g-sd .m-contact{margin-bottom:20px;}
+.g-sd .m-contact h3{font-size:13px;line-height:20px;margin-bottom:15px;font-weight:600;color:#444;}
+.g-sd .m-contact li span{color:#444;}
+.g-sd .m-contact li a{color:#e1472f;}
+.g-sd .m-contact li a:hover{color:#444;}
 .contact .page-title h1{text-transform:uppercase;font-size:30px;line-height:33px;}
 
 #leave-message-form h3{text-transform:uppercase;font-size:13px;font-weight:600;margin-bottom:20px;line-height:24px;color:#444;}

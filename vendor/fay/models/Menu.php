@@ -69,6 +69,15 @@ class Menu extends Model{
 	}
 	
 	/**
+	 * 根据ID获取一个菜单项
+	 * @param int $id
+	 * @param string $fields
+	 */
+	public function getById($id, $fields = 'id,parent,alias,title,sort'){
+		return Menus::model()->find($id, $fields);
+	}
+	
+	/**
 	 * 根据别名获取一个菜单项
 	 * @param string $alias
 	 * @param string $fields
@@ -78,6 +87,21 @@ class Menu extends Model{
 		return Menus::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), $fields);
+	}
+	
+	/**
+	 * 获取一个菜单项
+	 * @param int|string $menu
+	 *  - 若为数字，视为分类ID获取菜单
+	 *  - 若为字符串，视为分类别名获取菜单
+	 * @param string $fields
+	 */
+	public function get($menu, $fields = 'id,parent,alias,title,sort'){
+		if(String::isInt($menu)){
+			return $this->getById($menu, $fields);
+		}else{
+			return $this->getByAlias($menu, $fields);
+		}
 	}
 	
 	/**

@@ -17,7 +17,7 @@ class MenuController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '导航栏';
 		$this->view->menus = Menu::model()->getTree('_user_menu', false, false);
-		$this->view->root = Menu::model()->getByAlias('_user_menu');
+		$this->view->root = Menu::model()->get('_user_menu');
 		if($this->checkPermission('admin/menu/create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -165,7 +165,7 @@ class MenuController extends AdminController{
 	public function admin(){
 		$this->layout->subtitle = '后台导航栏';
 		$this->view->menus = Menu::model()->getTree('_admin_menu', false, false);
-		$this->view->root = Menu::model()->getByAlias('_admin_menu');
+		$this->view->root = Menu::model()->get('_admin_menu');
 		if(in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles'))){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',

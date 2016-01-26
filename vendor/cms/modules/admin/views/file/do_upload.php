@@ -20,17 +20,17 @@ use fay\helpers\Html;
 </div>
 <div class="row">
 	<div class="col-12">
-		<div class="drag_drop_area" id="drag_drop_area">
-			<div class="drag_drop_inside">
-				<p class="drag_drop_info">将文件拖拽至此</p>
+		<div class="drag-drop-area" id="drag-drop-area">
+			<div class="drag-drop-inside">
+				<p class="drag-drop-info">将文件拖拽至此</p>
 				<p>或</p>
-				<p class="drag_drop_buttons">
-					<a class="plupload_browse_button btn btn-grey btn-sm" id="plupload_browse_button">选择文件</a>
+				<p class="drag-drop-buttons">
+					<a class="plupload-browse-button btn btn-grey btn-sm" id="plupload-browse-button">选择文件</a>
 				</p>
 			</div>
 		</div>
-		<form class="edit_form">
-			<div class="media_list"></div>
+		<form class="edit-form">
+			<div class="media-list"></div>
 		</form>
 	</div>
 </div>
@@ -39,9 +39,9 @@ use fay\helpers\Html;
 var uploader_url = system.url('admin/file/upload');
 var uploader = new plupload.Uploader({
 	runtimes : 'html5,flash,gears,silverlight,browserplus',
-	browse_button : 'plupload_browse_button',
-	container: 'drag_drop_area',
-	drop_element: 'drag_drop_area',
+	browse_button : 'plupload-browse-button',
+	container: 'drag-drop-area',
+	drop_element: 'drag-drop-area',
 	max_file_size : '100mb',
 	url : uploader_url,
 	flash_swf_url : system.url()+'flash/plupload.flash.swf',
@@ -69,7 +69,7 @@ uploader.bind('UploadProgress', function(up, file) {
 uploader.bind('FileUploaded', function(up, file, response) {
 	var resp = $.parseJSON(response.response);
 	html = '';
-	html += '<div class="media_item">';
+	html += '<div class="media-item">';
 	html += '	<img src="'+resp.data.thumbnail+'" style="float:left;margin:14px 10px 0 0;" />'
 	html += '	<table width="620" style="padding:4px;">';
 	html += '		<tr>';
@@ -89,13 +89,13 @@ uploader.bind('FileUploaded', function(up, file, response) {
 	html += '			<td><input type="text" class="form-control" name="media['+resp.data.id+'][url]" value="'+resp.data.url+'" readonly="readonly" /></td>';
 	html += '		</tr>';
 	html += '	</table>';
-	html += '	<a href="javascript:;" class="delete_file" fid="'+resp.data.id+'">永久删除</a>';
+	html += '	<a href="javascript:;" class="delete-file" fid="'+resp.data.id+'">永久删除</a>';
 	html += '	<div class="clear"></div>';
 	html += '</div>';
-	$(".media_list").append(html);
+	$(".media-list").append(html);
 });
 
-$(".delete_file").on("click", function(){
+$(".delete-file").on("click", function(){
 	var o = this;
 	$.ajax({
 		type: 'GET',

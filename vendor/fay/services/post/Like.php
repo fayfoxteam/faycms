@@ -1,28 +1,29 @@
 <?php
-namespace fay\models\post;
+namespace fay\services\post;
 
 use fay\core\Model;
 use fay\core\Hook;
 use fay\core\Exception;
+use fay\models\tables\PostLikes;
 use fay\models\User;
 use fay\models\Post;
-use fay\models\tables\PostFavorites;
 use fay\helpers\ArrayHelper;
 
-class Favorite extends Model{
+class Like extends Model{
 	/**
-	 * @return Favorite
+	 * @return Like
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);
 	}
 	
 	/**
-	 * 收藏文章
+	 * 给文章点赞
 	 * @param int $post_id 文章ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @param bool $sockpuppet 马甲信息
 	 */
-	public static function favorite($post_id, $user_id = null){
+	public static function like($post_id, $user_id = null, $sockpuppet = 0){
 		if($user_id === null){
 			$user_id = \F::app()->current_user;
 		}else if(!User::isUserIdExist($user_id)){
@@ -33,51 +34,52 @@ class Favorite extends Model{
 			throw new Exception('指定的文章ID不存在', 'the-given-post-id-is-not-exist');
 		}
 		
-		if(self::isFavorited($post_id, $user_id)){
-			throw new Exception('已收藏，不能重复收藏', 'already-favorited');
+		if(self::isLiked($post_id, $user_id)){
+			throw new Exception('已赞过，不能重复点赞', 'already-liked');
 		}
 		
-		PostFavorites::model()->insert(array(
-			'user_id'=>$user_id,
+		PostLikes::model()->insert(array(
 			'post_id'=>$post_id,
+			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
+			'sockpuppet'=>$sockpuppet,
 		));
 		
-		Hook::getInstance()->call('after_post_favorite');
+		Hook::getInstance()->call('after_post_like');
 	}
 	
 	/**
-	 * 取消收藏
+	 * 取消点赞
 	 * @param int $post_id 文章ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
 	 */
-	public static function unfavorite($post_id, $user_id = null){
+	public static function unlike($post_id, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		if(!$user_id){
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		//删除收藏关系
-		PostFavorites::model()->delete(array(
+		//删除点赞关系
+		PostLikes::model()->delete(array(
 			'user_id = ?'=>$user_id,
 			'post_id = ?'=>$post_id,
 		));
 		
-		Hook::getInstance()->call('after_post_unfavorite');
+		Hook::getInstance()->call('after_post_unlike');
 	}
 	
 	/**
-	 * 判断是否收藏过
+	 * 判断是否赞过
 	 * @param int $post_id 文章ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
 	 */
-	public static function isFavorited($post_id, $user_id = null){
+	public static function isLiked($post_id, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		if(!$user_id){
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(PostFavorites::model()->find(array($user_id, $post_id))){
+		if(PostLikes::model()->find(array($post_id, $user_id))){
 			return true;
 		}else{
 			return false;
@@ -85,11 +87,11 @@ class Favorite extends Model{
 	}
 	
 	/**
-	 * 批量判断是否收藏过
+	 * 批量判断是否赞过
 	 * @param array $post_ids 由文章ID组成的一维数组
 	 * @param int $user_id 用户ID，默认为当前登录用户
 	 */
-	public static function mIsFavorited($post_ids, $user_id = null){
+	public static function mIsLiked($post_ids, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		if(!$user_id){
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
@@ -99,17 +101,18 @@ class Favorite extends Model{
 			$post_ids = explode(',', str_replace(' ', '', $post_ids));
 		}
 		
-		$favorites = PostFavorites::model()->fetchAll(array(
+		$likes = PostLikes::model()->fetchAll(array(
 			'user_id = ?'=>$user_id,
 			'post_id IN (?)'=>$post_ids,
 		), 'post_id');
 		
-		$favorite_map = ArrayHelper::column($favorites, 'post_id');
+		$like_map = ArrayHelper::column($likes, 'post_id');
 		
 		$return = array();
 		foreach($post_ids as $p){
-			$return[$p] = in_array($p, $favorite_map);
+			$return[$p] = in_array($p, $like_map);
 		}
+		
 		return $return;
 	}
 }

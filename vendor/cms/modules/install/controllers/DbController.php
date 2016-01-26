@@ -36,7 +36,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/cities.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->exec($sql, true);
+		$this->db->exec($sql);//此表较大，且是较为固定的内容，就不拆分开逐条执行了
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\ncities-completed", FILE_APPEND);
@@ -50,7 +50,7 @@ class DbController extends InstallController{
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(__DIR__.'/../data/regions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
-		$this->db->exec($sql, true);
+		$this->db->exec($sql);//此表较大，且是较为固定的内容，就不拆分开逐条执行了
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nregions-completed", FILE_APPEND);

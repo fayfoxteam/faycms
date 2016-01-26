@@ -1,4 +1,4 @@
-<div class="centered-wrapper cf mt30">
+<div class="centered-wrapper cf mt30" id="cook-recipe-list">
 	<section class="g-mn">
 		<?php F::widget()->load('cook-recipes-list')?>
 	</section>

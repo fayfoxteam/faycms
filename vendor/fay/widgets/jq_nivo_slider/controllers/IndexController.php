@@ -2,7 +2,6 @@
 namespace fay\widgets\jq_nivo_slider\controllers;
 
 use fay\core\Widget;
-use fay\helpers\Html;
 use fay\models\File;
 
 class IndexController extends Widget{
@@ -24,10 +23,12 @@ class IndexController extends Widget{
 		empty($config['animSpeed']) && $config['animSpeed'] = 500;
 		empty($config['pauseTime']) && $config['pauseTime'] = 5000;
 		empty($config['effect']) && $config['effect'] = 'random';
-		empty($config['elementId']) && $config['elementId'] = 'slide';
 		isset($config['directionNav']) || $config['directionNav'] = '1';
 		
-		$this->view->config = $config;
-		$this->view->render();
+		$this->view->assign(array(
+			'config'=>$config,
+			'alias'=>$this->alias,
+			'_index'=>$this->_index,
+		))->render();
 	}
 }

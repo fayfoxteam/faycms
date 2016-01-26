@@ -32,14 +32,13 @@ class AdminController extends Widget{
 		return array(
 			array('links', 'url'),
 			array(array('animSpeed', 'pauseTime', 'width', 'height'), 'int', array('min'=>1)),
-			array('id', 'required'),
-			array('id', 'string', array('format'=>'alias')),
+			array('element_id', 'string', array('format'=>'alias')),
 		);
 	}
 	
 	public function labels(){
 		return array(
-			'id'=>'外层元素ID',
+			'element_id'=>'外层元素ID',
 			'links'=>'链接地址',
 			'pauseTime'=>'停顿时长',
 			'animSpeed'=>'过渡动画时长',
@@ -53,7 +52,7 @@ class AdminController extends Widget{
 			'animSpeed'=>'intval',
 			'pauseTime'=>'intval',
 			'effect'=>'trim',
-			'elementId'=>'trim',
+			'element_id'=>'trim',
 			'directionNav'=>'intval',
 			'width'=>'intval',
 			'height'=>'intval',

@@ -4,7 +4,7 @@ namespace fay\widgets\categories\views\index;//一般不需要用命名空间，
 use fay\helpers\Html;
 
 if(!function_exists('fay\widgets\categories\views\index\renderCats')){
-	function renderCats($cats, $uri, $dep = 0){
+	function renderCats($cats, $dep = 0){
 		$html = '<ul';
 		$html .= $dep ? ' class="children"' : '';
 		$html .= '>';
@@ -12,7 +12,7 @@ if(!function_exists('fay\widgets\categories\views\index\renderCats')){
 			$html .= '<li class="cat-item">';
 			$html .= Html::link($c['title'], $c['link']);
 			if(!empty($c['children'])){
-				$html .= renderCats($c['children'], $uri, ++$dep);
+				$html .= renderCats($c['children'], ++$dep);
 			}
 			$html .= '</li>';
 		}
@@ -26,6 +26,6 @@ if(!function_exists('fay\widgets\categories\views\index\renderCats')){
 		<h3><?php echo Html::encode($config['title'])?></h3>
 	</div>
 	<div class="widget-content">
-		<?php echo renderCats($cats, $config['uri'])?>
+		<?php echo renderCats($cats)?>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <?php
-namespace fay\models\user;
+namespace fay\services;
 
 use fay\core\Model;
 use fay\core\Hook;
@@ -7,6 +7,7 @@ use fay\core\Exception;
 use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
 use fay\models\User;
+use fay\helpers\Request;
 
 class Follow extends Model{
 	/**
@@ -22,7 +23,7 @@ class Follow extends Model{
 	 * @param null|int $fans_id 粉丝，默认为当前登陆用户
 	 * @param int $$sockpuppet 马甲信息
 	 */
-	public static function follow($user_id, $follow_from = '', $fans_id = null, $sockpuppet = 0){
+	public static function follow($user_id, $trackid = '', $fans_id = null, $sockpuppet = 0){
 		if($fans_id === null){
 			$fans_id = \F::app()->current_user;
 		}else if(!User::isUserIdExist($fans_id)){
@@ -46,9 +47,10 @@ class Follow extends Model{
 			'fans_id'=>$fans_id,
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
+			'ip_int'=>Request::ip2int(\F::app()->ip),
 			'relation'=>$isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE,
 			'sockpuppet'=>$sockpuppet,
-			'follow_from'=>$follow_from,
+			'trackid'=>$trackid,
 		));
 		
 		if($isFollow){

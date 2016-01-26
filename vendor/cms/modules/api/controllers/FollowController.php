@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
 use fay\core\Response;
-use fay\models\user\Follow;
+use fay\services\Follow;
 
 class FollowController extends UserController{
 	/**
@@ -17,7 +17,7 @@ class FollowController extends UserController{
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
 		))->setFilters(array(
 			'user_id'=>'intval',
-			'follow_from'=>'trim',
+			'trackid'=>'trim',
 		))->setLabels(array(
 			'user_id'=>'用户ID',
 		))->check()){
@@ -36,7 +36,7 @@ class FollowController extends UserController{
 				));
 			}
 			
-			Follow::follow($user_id, $this->form()->getData('follow_from'));
+			Follow::follow($user_id, $this->form()->getData('trackid', 'trim', ''));
 			Response::notify('success', '关注成功');
 		}else{
 			$error = $this->form()->getFirstError();

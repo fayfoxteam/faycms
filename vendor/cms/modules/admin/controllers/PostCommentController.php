@@ -8,12 +8,8 @@ use fay\models\tables\PostComments;
 use fay\core\Response;
 use fay\models\Setting;
 use fay\models\tables\Actionlogs;
-use fay\models\Option;
-use fay\core\Hook;
-use fay\models\tables\Posts;
-use fay\helpers\ArrayHelper;
 use fay\helpers\Html;
-use fay\models\post\Comment;
+use fay\services\post\Comment;
 use fay\core\Exception;
 
 class PostCommentController extends AdminController{
@@ -106,7 +102,7 @@ class PostCommentController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		try{
-			Comment::model()->approved($id);
+			Comment::model()->approve($id);
 				
 			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '审核通过了一条文章评论', $id);
 		
@@ -130,11 +126,11 @@ class PostCommentController extends AdminController{
 	/**
 	 * 不通过审核
 	 */
-	public function unapprove(){
+	public function disapprove(){
 		$id = $this->input->get('id', 'intval');
 		
 		try{
-			Comment::model()->unapproved($id);
+			Comment::model()->disapprove($id);
 		
 			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '审核拒绝了一条文章评论', $id);
 		
@@ -250,59 +246,51 @@ class PostCommentController extends AdminController{
 		switch($action){
 			case 'set-approved':
 				//通过审核
-				$comments = PostComments::model()->fetchAll(array(
-					'id IN (?)'=>$ids,
-					'status != ' . PostComments::STATUS_APPROVED,
-				), 'id,post_id,sockpuppet');
-				if(!$comments){
+				$affected_rows = Comment::model()->batchApprove($ids);
+				if($affected_rows){
+					Response::notify('success', $affected_rows.'条评论通过审核');
+				}else{
 					Response::notify('success', array(
 						'message'=>'无符合条件的记录',
 					));
 				}
-				
-				$comment_ids = ArrayHelper::column($comments, 'id');
-				$affected_rows = PostComments::model()->update(array(
-					'status'=>PostComments::STATUS_APPROVED,
-				), array(
-					'id IN (?)'=>$comment_ids,
-				));
-				
-				$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '批处理：'.$affected_rows.'条文章评论通过审核', $comment_ids);
-				
-				$post_comment_verify = Option::get('system:post_comment_verify');
-				foreach($comments as $c){
-					//更新文章评论数
-					if($post_comment_verify){
-						//如果只显示通过审核的评论，则当评论通过审核时，相应文章评论数+1
-						if($c['sockpuppet']){
-							Posts::model()->inc('id = '.$c['post_id'], array('comments'), 1);
-						}else{
-							Posts::model()->inc('id = '.$c['post_id'], array('comments', 'real_comments'), 1);
-						}
-					}
-					
-					Hook::getInstance()->call('after_post_comment_approved', array(
-						'comment_id'=>$c['id'],
+			break;
+			case 'set-disapproved':
+				//不通过审核
+				$affected_rows = Comment::model()->batchDisapprove($ids);
+				if($affected_rows){
+					Response::notify('success', $affected_rows.'条评论未通过审核');
+				}else{
+					Response::notify('success', array(
+						'message'=>'无符合条件的记录',
 					));
 				}
-				
-				Response::notify('success', $affected_rows.'条评论通过审核');
-			break;
-			case 'set-unapproved':
-			//不通过审核
-				
 			break;
 			case 'set-pending':
-			//标记为待审核
+				//标记为待审核
 				
 			break;
 			case 'delete':
-			//放入回收站
-				
+				//放入回收站
+				$affected_rows = Comment::model()->batchDelete($ids);
+				if($affected_rows){
+					Response::notify('success', $affected_rows.'条评论被删除');
+				}else{
+					Response::notify('success', array(
+						'message'=>'无符合条件的记录',
+					));
+				}
 			break;
 			case 'undelete':
-			//从回收站还原
-				
+				//从回收站还原
+				$affected_rows = Comment::model()->batchUnelete($ids);
+				if($affected_rows){
+					Response::notify('success', $affected_rows.'条评论被还原');
+				}else{
+					Response::notify('success', array(
+						'message'=>'无符合条件的记录',
+					));
+				}
 			break;
 			case 'remove':
 			//永久删除

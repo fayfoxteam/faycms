@@ -87,11 +87,11 @@ class IndexController extends Widget{
 	 */
 	private function setLink($cats, $uri){
 		foreach($cats as &$c){
-			$c['link'] = str_replace(array(
+			$c['link'] = $this->view->url(str_replace(array(
 				'{$id}', '{$alias}',
 			), array(
 				$c['id'], $c['alias'],
-			), $uri);
+			), $uri));
 			
 			if(!empty($c['children'])){
 				$c['children'] = $this->setLink($c['children'], $uri);

@@ -212,7 +212,7 @@ $(function(){
 	common.init();
 });
 </script>
-<img src="<?php echo $this->assets('images/throbber.gif')?>"  class="hide" />
+<img src="<?php echo $this->assets('images/throbber.gif')?>" class="hide" />
 <img src="<?php echo $this->assets('images/ajax-loading.gif')?>" class="hide" />
 <img src="<?php echo $this->assets('images/loading.gif')?>" class="hide" />
 </body>

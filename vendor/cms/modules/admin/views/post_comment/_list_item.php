@@ -22,13 +22,13 @@ use fay\helpers\String;
 					)), array(
 						'class'=>'fc-green',
 					));
-					echo Html::link('驳回', array('admin/post-comment/unapprove', array(
+					echo Html::link('驳回', array('admin/post-comment/disapprove', array(
 						'id'=>$data['id'],
 					)), array(
 						'class'=>'fc-orange',
 					));
 				}else if($data['status'] == PostComments::STATUS_APPROVED){
-					echo Html::link('驳回', array('admin/post-comment/unapprove', array(
+					echo Html::link('驳回', array('admin/post-comment/disapprove', array(
 							'id'=>$data['id'],
 					)), array(
 							'class'=>'fc-orange',

@@ -71,34 +71,44 @@ $cols = F::form('setting')->getData('cols', array());
 		<ul class="subsubsub fl">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index')?>">全部</a>
-				<span class="fc-grey">(<span id="all-post-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="all-post-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PUBLISHED))?>">已发布</a>
-				<span class="fc-grey">(<span id="published-post-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="published-post-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<?php if(F::app()->post_review){//仅开启审核时显示?>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
-				<span class="fc-grey">(<span id="pending-post-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="pending-post-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_REVIEWED))?>">通过审核</a>
-				<span class="fc-grey">(<span id="reviewed-post-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="reviewed-post-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 				|
 			</li>
 			<?php }?>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
-				<span class="fc-grey">(<span id="draft-post-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="draft-post-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/post/index', array('deleted'=>1))?>">回收站</a>
-				<span class="fc-grey">(<span id="deleted-post-count">计算中...</span>)</span>
+				<span class="fc-grey">(<span id="deleted-post-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
 			</li>
 		</ul>
 	</div>

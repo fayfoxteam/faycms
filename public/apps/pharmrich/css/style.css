@@ -12,9 +12,9 @@ a:hover{color:#e1472f;text-decoration:none;}
 h6{font-size:13px;line-height:20px;margin:30px 0 20px;font-weight:600;}
 
 .cb{clear:both;}
-.cf,.box,.g-mn{zoom:1;clear:left;} 
-.cf:before,.cf:after,.box:before,.box:after,.g-mn:before,.g-mn:after{content:"";display:table;}
-.cf:after,.box:after,.g-mn:after{clear: both;}
+.cf,.box,.g-mn,.pagination{zoom:1;clear:left;} 
+.cf:before,.cf:after,.box:before,.box:after,.g-mn:before,.g-mn:after,.pagination:before,.pagination:after{content:"";display:table;}
+.cf:after,.box:after,.g-mn:after,.pagination:after{clear: both;}
 .fl{float:left;}
 .fr{float:right;}
 .hide{display:none;}
@@ -169,8 +169,8 @@ h6{font-size:13px;line-height:20px;margin:30px 0 20px;font-weight:600;}
 	.g-fcp .tip{display:none;}
 }
 
-.g-mn{width:70.536%;float:left;margin-bottom:55px;clear:right;line-height:2em;}
-.g-sd{width:26.78%;float:right;}
+.g-mn{width:70.536%;float:right;margin-bottom:55px;clear:right;line-height:2em;}
+.g-sd{width:26.78%;float:left;}
 @media only screen and (max-width: 995px) {
 	.g-mn{width:100%;float:none;}
 	.g-sd{width:100%;float:none;}
@@ -190,18 +190,26 @@ a:hover span.hover-image{opacity:1;}
 .products-carousel li img{display:block;width:100%;height:auto;}
 .products-carousel li a{display:block;width:100%;height:auto;position:relative;color:#323232;}
 .products-carousel li a:hover{color:#e1472f;}
-.products-carousel li h3{text-transform:uppercase;font-size:12px;font-weight:600;padding:20px 0 2px;margin:0;}
-.products-carousel li h3 a{color:#323232;display:block;}
+.products-carousel li h3{text-transform:uppercase;font-size:12px;font-weight:600;padding:20px 0 2px;margin:0 10px;}
+.products-carousel li h3 a{color:#323232;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .products-carousel li .products-carousel-details{border-left:1px solid #efefef;border-right:1px solid #efefef;height:80px;border-bottom:2px solid #323232;}
 .products-carousel li:hover .products-carousel-details{background-color:#fafafa;}
+
+/* 产品列表页和食谱列表页为3列 */
+#product-list .products-carousel li,#cook-recipe-list .products-carousel li{width:33.3333%;}
+
 @media only screen and (max-width: 995px) {
 	.products-carousel li{width:33.3333%;}
 }
 @media only screen and (max-width: 600px) {
-.products-carousel li{width:50%;}
+	.products-carousel li{width:50%;}
+	#product-list .products-carousel li{width:50%;}	
+	#cook-recipe-list .products-carousel li{width:50%;}	
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 420px) {
 	.products-carousel li{width:100%;}
+	#product-list .products-carousel li{width:100%;}
+	#cook-recipe-list .products-carousel li{width:100%;}
 	.products-carousel li img{width:100%;height:auto;}
 }
 
@@ -258,11 +266,11 @@ a:hover span.hover-image{opacity:1;}
 .post-gallery li img{width:100%;display:block;}
 
 .contact .g-sd.fl{float:left;}
-.contact .g-sd .m-contact{margin-bottom:20px;}
-.contact .g-sd .m-contact h3{font-size:13px;line-height:20px;margin-bottom:15px;font-weight:600;color:#444;}
-.contact .g-sd .m-contact li span{color:#444;}
-.contact .g-sd .m-contact li a{color:#e1472f;}
-.contact .g-sd .m-contact li a:hover{color:#444;}
+.g-sd .m-contact{margin-bottom:20px;}
+.g-sd .m-contact h3{font-size:13px;line-height:20px;margin-bottom:15px;font-weight:600;color:#444;}
+.g-sd .m-contact li span{color:#444;}
+.g-sd .m-contact li a{color:#e1472f;}
+.g-sd .m-contact li a:hover{color:#444;}
 .contact .page-title h1{text-transform:uppercase;font-size:30px;line-height:33px;}
 
 #leave-message-form h3{text-transform:uppercase;font-size:13px;font-weight:600;margin-bottom:20px;line-height:24px;color:#444;}
@@ -301,3 +309,10 @@ a:hover span.hover-image{opacity:1;}
 
 #back-to-top{display:block;width:35px;height:35px;line-height:35px;font-size:17px;background-color:#7a6e6e;z-index:2;position:fixed;bottom:5px;right:10px;color:#f5f5f5;text-align:center;}
 #back-to-top:hover{color:#fff;background-color:#c81623;}
+
+#product-list-slider{position:relative;margin-bottom:20px;}
+#product-list-slider .nivo-controlNav{position:absolute;bottom:0;width:100%;padding:7px 0 3px;text-align:right;z-index:10;}
+#product-list-slider .nivo-controlNav a{display:inline-block;text-indent:99em;background-color:#bebebe;border-radius:50%;width:14px;height:14px;margin:0 8px;overflow:hidden;}
+#product-list-slider .nivo-controlNav a.active{background-color:#ff9c00;}
+
+#index-news a:hover{padding-left:5px;}

@@ -1,5 +1,5 @@
 <?php
-namespace fay\models\shop;
+namespace fay\services\shop;
 
 use fay\core\Model;
 use fay\models\tables\UserAddresses;

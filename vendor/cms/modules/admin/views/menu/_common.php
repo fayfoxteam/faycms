@@ -97,7 +97,7 @@ F::form('edit')->setModel(Menus::model());
 						<th class="adaption">父节点</th>
 						<td>
 							<?php echo Html::select('parent', array(
-								Menus::ITEM_USER_MENU=>'根节点',
+								$root['id']=>'根节点',
 							)+Html::getSelectOptions($menus, 'id', 'title'), '', array(
 								'class'=>'form-control',
 							))?>

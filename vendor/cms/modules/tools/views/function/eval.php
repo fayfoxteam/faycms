@@ -54,5 +54,5 @@ editor.commands.addCommand({
         $('#form').submit();
     }
 });
-editor.setValue($('#key').val());
+editor.setValue($('#key').val(), 1);
 </script>

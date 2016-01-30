@@ -49,7 +49,7 @@ class User extends Model{
 		$user = Users::model()->fetchRow(array(
 			'username = ?'=>$username,
 			'deleted = 0',
-		));
+		), 'id,password,salt,block,status,admin');
 		//判断用户名是否存在
 		if(!$user){
 			return array(
@@ -109,19 +109,22 @@ class User extends Model{
 			);
 		}
 		
-		$user['roles'] = $this->getRoleIds($user['id']);
-		$user_profile = UserProfile::model()->find($user['id']);
-		$user = $user + $user_profile;
-		
+		//重新获取用户信息，这次获取更全面的信息
+		$user = $this->get($user['id'], array(
+			'user'=>array('id', 'username', 'nickname', 'avatar', 'status', 'admin'),
+			'profile'=>array('last_login_time', 'last_login_ip'),
+			'roles'=>'id',
+		));
 		$this->setSessionInfo($user);
 		
+		$role_ids = ArrayHelper::column($user['roles'], 'id');
 		//设置权限，超级管理员无需设置
-		if(!in_array(Roles::ITEM_SUPER_ADMIN, $user['roles'])){
-			if($user['roles']){
+		if(!in_array(Roles::ITEM_SUPER_ADMIN, $role_ids)){
+			if($role_ids){
 				$sql = new Sql();
 				$actions = $sql->from('roles_actions', 'ra', '')
 					->joinLeft('actions', 'a', 'ra.action_id = a.id', 'router')
-					->where('ra.role_id IN ('.implode(',', $user['roles']).')')
+					->where('ra.role_id IN ('.implode(',', $role_ids).')')
 					->group('a.router')
 					->fetchAll();
 				\F::session()->set('actions', ArrayHelper::column($actions, 'router'));
@@ -130,7 +133,7 @@ class User extends Model{
 				if(Option::get('system:role_cats')){
 					//未分类文章任何人都有权限编辑
 					$post_root = Category::model()->get('_system_post', 'id');
-					\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $user['roles']).')')));
+					\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $role_ids).')')));
 				}
 			}else{
 				//用户不属于任何角色，则角色权限为空
@@ -143,7 +146,7 @@ class User extends Model{
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>new Expr('login_times + 1'),
-		), $user['id']);
+		), $user['user']['id']);
 		
 		Hook::getInstance()->call('after_login', array(
 			'user'=>$user,
@@ -157,15 +160,15 @@ class User extends Model{
 	
 	public function setSessionInfo($user){
 		\F::session()->set('user', array(
-			'id'=>$user['id'],
-			'username'=>$user['username'],
-			'nickname'=>$user['nickname'],
-			'avatar'=>$user['avatar'],
-			'roles'=>$user['roles'],
-			'last_login_time'=>$user['last_login_time'],
-			'last_login_ip'=>long2ip($user['last_login_ip']),
-			'status'=>$user['status'],
-			'admin'=>$user['admin'],
+			'id'=>$user['user']['id'],
+			'username'=>$user['user']['username'],
+			'nickname'=>$user['user']['nickname'],
+			'avatar'=>$user['user']['avatar'],
+			'roles'=>ArrayHelper::column($user['roles'], 'id'),
+			'status'=>$user['user']['status'],
+			'admin'=>$user['user']['admin'],
+			'last_login_time'=>$user['profile']['last_login_time'],
+			'last_login_ip'=>long2ip($user['profile']['last_login_ip']),
 		));
 	}
 	

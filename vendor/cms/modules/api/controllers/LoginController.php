@@ -17,10 +17,10 @@ class LoginController extends ApiController{
 					'message'=>'登录成功',
 					'data'=>array(
 						'user'=>array(
-							'username'=>$result['user']['username'],
-							'nickname'=>$result['user']['nickname'],
-							'avatar'=>$result['user']['avatar'],
-							'avatar_url'=>File::getUrl($result['user']['avatar']),
+							'username'=>$result['user']['user']['username'],
+							'nickname'=>$result['user']['user']['nickname'],
+							'avatar'=>$result['user']['user']['avatar'],
+							'avatar_url'=>$result['user']['user']['avatar_url'],
 						),
 					),
 				));

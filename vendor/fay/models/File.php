@@ -85,6 +85,9 @@ class File extends Model{
 	 */
 	public static function getUrl($file, $type = self::PIC_ORIGINAL, $options = array()){
 		if(String::isInt($file)){
+			if($file <= 0){
+				return '';
+			}
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		

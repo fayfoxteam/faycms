@@ -4,7 +4,6 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\models\User;
 use fay\core\Response;
-use fay\models\File;
 
 class LoginController extends ApiController{
 	public function index(){

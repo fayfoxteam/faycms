@@ -8,7 +8,7 @@ use fay\models\File;
 <div class="meta">
 	<?php echo date('d M Y', $post['post']['publish_time'])?>
 	/
-	<span class="fc-red"><?php echo $post['post']['views']?> Views</span>
+	<span class="fc-red"><?php echo $post['meta']['views']?> Views</span>
 	/
 	<?php echo Html::link($post['post']['cat_title'], array('product/' . $post['post']['cat_alias']))?>
 </div>

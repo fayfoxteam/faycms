@@ -15,7 +15,8 @@ class SearchController extends FrontController{
 	public function index(){
 		$keywords = $this->input->get('keywords', 'trim');
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,title,abstract,publish_time,views,cat_id,thumbnail')
+		$sql->from('posts', 'p', 'id,title,abstract,publish_time,cat_id,thumbnail')
+			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', 'views')
 			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title,alias AS cat_alias')
 			->where(array('p.title LIKE ?'=>'%'.$keywords.'%'))
 			->order('id DESC');

@@ -54,7 +54,7 @@ use fay\helpers\Html;
 			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
-					echo F::form('widget')->inputCheckbox('fields[]', 'user.nickname,user.username,user.id', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'user.nickname,user.username,user.id,user.avatar', array(
 						'label'=>'作者信息',
 					), true);
 					echo F::form('widget')->inputCheckbox('fields[]', 'nav.id,nav.title', array(
@@ -71,6 +71,9 @@ use fay\helpers\Html;
 					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'categories.id,categories.title', array(
 						'label'=>'附加分类',
+					));
+					echo F::form('widget')->inputCheckbox('fields[]', 'meta.comments,meta.likes,meta.views', array(
+						'label'=>'计数（评论数/阅读数/点赞数',
 					));
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>

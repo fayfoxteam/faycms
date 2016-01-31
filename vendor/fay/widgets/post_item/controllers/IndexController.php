@@ -4,13 +4,23 @@ namespace fay\widgets\post_item\controllers;
 use fay\core\Widget;
 use fay\models\Post;
 use fay\core\HttpException;
-use fay\models\tables\Posts;
 use fay\core\db\Expr;
+use fay\models\tables\PostMeta;
 
 class IndexController extends Widget{
 	public function getData($config){
 		//若未设置返回字段，初始化返回字段
-		isset($config['fields']) || $config['fields'] = array('user', 'nav');
+		isset($config['fields']) || $config['fields'] = array(
+			'user'=>array(
+				'id', 'username', 'nickname', 'avatar',
+			),
+			'nav'=>array(
+				'id', 'title',
+			),
+			'meta'=>array(
+				'comments', 'views', 'likes',
+			),
+		);
 		
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			//有设置ID字段名，且传入ID字段
@@ -27,7 +37,11 @@ class IndexController extends Widget{
 		}
 		
 		if($config['inc_views']){
-			Posts::model()->inc($post['post']['id'], array('views', 'real_views'), 1);
+			PostMeta::model()->update(array(
+				'last_view_time'=>$this->current_time,
+				'views'=>new Expr('views + 1'),
+				'real_views'=>new Expr('real_views + 1'),
+			), $post['post']['id']);
 		}
 		
 		return $post;
@@ -35,7 +49,17 @@ class IndexController extends Widget{
 	
 	public function index($config){
 		//若未设置返回字段，初始化返回字段
-		isset($config['fields']) || $config['fields'] = array('user', 'nav');
+		isset($config['fields']) || $config['fields'] = array(
+			'user'=>array(
+				'id', 'username', 'nickname', 'avatar',
+			),
+			'nav'=>array(
+				'id', 'title',
+			),
+			'meta'=>array(
+				'comments', 'views', 'likes',
+			),
+		);
 		
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			//有设置ID字段名，且传入ID字段
@@ -55,9 +79,10 @@ class IndexController extends Widget{
 		}
 		
 		if($config['inc_views']){
-			Posts::model()->update(array(
+			PostMeta::model()->update(array(
 				'last_view_time'=>$this->current_time,
 				'views'=>new Expr('views + 1'),
+				'real_views'=>new Expr('real_views + 1'),
 			), $post['post']['id']);
 		}
 		

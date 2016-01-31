@@ -4,7 +4,6 @@ namespace cms\modules\tools\controllers;
 use cms\library\ToolsController;
 use fay\helpers\String;
 use fay\core\Db;
-use fay\models\Flash;
 
 class DatabaseController extends ToolsController{
 	/**
@@ -119,7 +118,7 @@ class DatabaseController extends ToolsController{
 		}
 		$this->view->table_name = $table_name;
 		
-		$content = $this->view->renderPartial('getmodel', array(), -1, true);
+		$content = $this->view->renderPartial('get_model', array(), -1, true);
 		
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 			header('Content-Type: "application/x-httpd-php"');

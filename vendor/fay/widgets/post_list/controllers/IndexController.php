@@ -36,7 +36,11 @@ class IndexController extends Widget{
 		}
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract,comments,views,likes');
+		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract');
+		
+		if(in_array('meta', $config['fields'])){
+			$sql->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', 'comments,views,likes');
+		}
 		
 		//限制分类
 		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){

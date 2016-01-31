@@ -3,6 +3,22 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Links model
+ *
+ * @property int $id Id
+ * @property string $title 标题
+ * @property string $description 描述
+ * @property string $url 网址
+ * @property int $visiable 可见
+ * @property int $user_id 添加者
+ * @property string $target 打开方式
+ * @property int $create_time 创建时间
+ * @property int $last_modified_time 最后修改时间
+ * @property int $sort 排序值
+ * @property int $logo Logo
+ * @property int $cat_id 分类
+ */
 class Links extends Table{
 	protected $_name = 'links';
 	
@@ -34,10 +50,10 @@ class Links extends Table{
 			'description'=>'描述',
 			'url'=>'网址',
 			'visiable'=>'可见',
-			'user_id'=>'添加者',
+			'user_id'=>'用户ID',
 			'target'=>'打开方式',
-			'create_time'=>'Create Time',
-			'last_modified_time'=>'Last Modified Time',
+			'create_time'=>'创建时间',
+			'last_modified_time'=>'最后修改时间',
 			'sort'=>'排序值',
 			'logo'=>'Logo',
 			'cat_id'=>'分类',

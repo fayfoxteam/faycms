@@ -6,30 +6,27 @@ use fay\core\db\Table;
 /**
  * Posts model
  *
- * @property int $id
- * @property int $cat_id
- * @property string $title
- * @property string $alias
- * @property string $content
- * @property int $content_type
- * @property int $create_time
- * @property int $last_modified_time
- * @property string $publish_date
- * @property int $publish_time
- * @property int $last_view_time
- * @property int $user_id
- * @property int $is_top
- * @property int $status
- * @property int $deleted
- * @property int $thumbnail
- * @property string $abstract
- * @property int $sort
- * @property int $views
- * @property int $comments
- * @property int $likes
- * @property string $seo_title
- * @property string $seo_keywords
- * @property string $seo_description
+ * @property int $id Id
+ * @property int $cat_id 分类ID
+ * @property string $title 标题
+ * @property string $alias 别名
+ * @property string $content 正文
+ * @property int $content_type 正文类型（普通文本，符文本，markdown）
+ * @property int $create_time 添加时间
+ * @property int $last_modified_time 最后修改时间
+ * @property string $publish_date 发布日期
+ * @property int $publish_time 发布时间
+ * @property int $user_id 作者ID
+ * @property int $is_top 是否置顶
+ * @property int $status 文章状态
+ * @property int $deleted Deleted
+ * @property int $thumbnail 缩略图
+ * @property string $abstract 摘要
+ * @property int $sort 排序
+ * @property int $real_likes 真实点赞数
+ * @property string $seo_title Seo Title
+ * @property string $seo_keywords Seo Keywords
+ * @property string $seo_description Seo Description
  */
 class Posts extends Table{
 	/**
@@ -79,8 +76,7 @@ class Posts extends Table{
 	public function rules(){
 		return array(
 			array(array('id', 'user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('cat_id', 'views', 'real_views', 'likes', 'real_likes'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('comments', 'real_comments'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'abstract'), 'string', array('max'=>500)),
 			array(array('alias'), 'string', array('max'=>50), 'format'=>'alias'),
@@ -103,24 +99,17 @@ class Posts extends Table{
 			'alias'=>'别名',
 			'content'=>'正文',
 			'content_type'=>'正文类型（普通文本，符文本，markdown）',
-			'create_time'=>'后台添加时间',
+			'create_time'=>'添加时间',
 			'last_modified_time'=>'最后修改时间',
 			'publish_date'=>'发布日期',
 			'publish_time'=>'发布时间',
-			'last_view_time'=>'最后访问时间',
-			'user_id'=>'作者',
+			'user_id'=>'作者ID',
 			'is_top'=>'是否置顶',
 			'status'=>'文章状态',
 			'deleted'=>'Deleted',
 			'thumbnail'=>'缩略图',
 			'abstract'=>'摘要',
 			'sort'=>'排序',
-			'views'=>'阅读数',
-			'real_views'=>'真实点赞数',
-			'comments'=>'评论数',
-			'real_comments'=>'真实评论数',
-			'likes'=>'点赞数',
-			'real_likes'=>'真实点赞数',
 			'seo_title'=>'Seo Title',
 			'seo_keywords'=>'Seo Keywords',
 			'seo_description'=>'Seo Description',
@@ -139,7 +128,6 @@ class Posts extends Table{
 			'last_modified_time'=>'',
 			'publish_date'=>'',
 			'publish_time'=>'trim',
-			'last_view_time'=>'',
 			'user_id'=>'intval',
 			'is_top'=>'intval',
 			'status'=>'intval',
@@ -147,12 +135,6 @@ class Posts extends Table{
 			'thumbnail'=>'intval',
 			'abstract'=>'trim',
 			'sort'=>'intval',
-			'views'=>'intval',
-			'real_views'=>'intval',
-			'comments'=>'intval',
-			'real_comments'=>'intval',
-			'likes'=>'intval',
-			'real_likes'=>'intval',
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',
 			'seo_description'=>'trim',

@@ -426,6 +426,19 @@ CREATE TABLE `{{$prefix}}post_likes` (
   KEY `likes` (`user_id`,`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}post_meta`;
+CREATE TABLE `{{$prefix}}post_meta` (
+  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `last_view_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后访问时间',
+  `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '阅读数',
+  `real_views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实阅读数',
+  `comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '评论数',
+  `real_comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '真实评论数',
+  `likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
+  `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
+  PRIMARY KEY (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+
 DROP TABLE IF EXISTS `{{$prefix}}links`;
 CREATE TABLE `{{$prefix}}links` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -433,7 +446,7 @@ CREATE TABLE `{{$prefix}}links` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '网址',
   `visiable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '可见',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '添加者',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `target` varchar(25) NOT NULL DEFAULT '' COMMENT '打开方式',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Modified Time',
@@ -624,23 +637,17 @@ CREATE TABLE `{{$prefix}}posts` (
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `content` text NOT NULL COMMENT '正文',
   `content_type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '正文类型（普通文本，符文本，markdown）',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '后台添加时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `publish_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '发布日期',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `last_view_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后访问时间',
-  `user_id` int(9) unsigned NOT NULL DEFAULT '0' COMMENT '作者',
+  `user_id` int(9) unsigned NOT NULL DEFAULT '0' COMMENT '作者ID',
   `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '文章状态',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
   `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序',
-  `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '阅读数',
-  `real_views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
-  `comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '评论数',
-  `real_comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '真实评论数',
-  `likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
   `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
   `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',

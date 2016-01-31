@@ -17,6 +17,7 @@ use fay\core\Hook;
 use fay\core\HttpException;
 use fay\models\Option;
 use fay\models\Flash;
+use fay\models\tables\PostMeta;
 
 class PostController extends AdminController{
 	/**
@@ -209,7 +210,8 @@ class PostController extends AdminController{
 		
 		$sql = new Sql();
 		$count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
-		$sql->from('posts', 'p', '!content');
+		$sql->from('posts', 'p', '!content')
+			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', '!post_id');
 		$count_sql->from('posts', 'p', 'COUNT(*)');
 		
 		if(in_array('main_category', $_settings['cols'])){
@@ -372,6 +374,7 @@ class PostController extends AdminController{
 		}
 		
 		$this->form()->setModel(Posts::model())
+			->setModel(PostMeta::model())
 			->setModel(PostsFiles::model());
 		
 		if($this->input->post()){
@@ -388,7 +391,8 @@ class PostController extends AdminController{
 				}
 				
 				//筛选出文章相关字段
-				$data = Posts::model()->fillData($this->input->post());
+				$data = array_merge(Posts::model()->fillData($this->input->post()),
+					PostMeta::model()->fillData($this->input->post()));
 				//发布时间特殊处理
 				if(in_array('publish_time', $enabled_boxes)){
 					if(empty($data['publish_time'])){
@@ -440,70 +444,75 @@ class PostController extends AdminController{
 				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
-		if($post = Posts::model()->find($post_id)){
-			//hook
-			Hook::getInstance()->call('before_post_update', array(
-				'cat_id'=>$post['cat_id'],
-				'post_id'=>$post_id,
-			));
-			
-			$post['post_category'] = Post::model()->getCatIds($post_id);
-			$post['publish_time'] = date('Y-m-d H:i:s', $post['publish_time']);
-			//文章对应标签
-			$sql = new Sql();
-			$tags = $sql->from('posts_tags', 'pt', '')
-				->joinLeft('tags', 't', 'pt.tag_id = t.id', 'title')
-				->where('pt.post_id = '.$post_id)
-				->fetchAll();
-			$tags_arr = array();
-			foreach($tags as $t){
-				$tags_arr[] = $t['title'];
-			}
-			$this->form()->setData(array('tags'=>implode(',', $tags_arr)));
-			
-			//分类树
-			$this->view->cats = Category::model()->getTree('_system_post');
-			
-			//post files
-			$this->view->files = PostsFiles::model()->fetchAll(array(
-				'post_id = ?'=>$post_id,
-			), 'file_id,description,is_image', 'sort');
-
-			$this->form()->setData($post, true);
-			
-			$this->view->post = $post;
-			
-			//附加属性
-			$this->view->prop_set = Post::model()->getPropertySet($post['id']);
-			
-			$cat = Category::model()->get($post['cat_id'], 'title');
-			$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
-			$this->layout->sublink = array(
-				'uri'=>array('admin/post/create', array(
-					'cat_id'=>$post['cat_id'],
-				)),
-				'text'=>'在此分类下发布文章',
-			);
-			
-			//box排序
-			$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
-			$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
-			$this->view->_box_sort_settings = $_box_sort_settings;
-			
-			$enabled_boxes = $this->getEnabledBoxes($_setting_key);
-			$_settings = Setting::model()->get($_setting_key);
-			$_settings || $_settings = array();
-			$this->form('setting')
-				->setModel(Setting::model())
-				->setJsModel('setting')
-				->setData($_settings)
-				->setData(array(
-					'_key'=>$_setting_key,
-					'enabled_boxes'=>$enabled_boxes,
-				));
-			
-			$this->view->render();
+		
+		$sql = new Sql();
+		$post = $sql->from('posts', 'p', Posts::model()->getFields())
+			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', '!post_id')
+			->where('p.id = ' . $post_id)
+			->fetchRow()
+		;
+		
+		//hook
+		Hook::getInstance()->call('before_post_update', array(
+			'cat_id'=>$post['cat_id'],
+			'post_id'=>$post_id,
+		));
+		
+		$post['post_category'] = Post::model()->getCatIds($post_id);
+		$post['publish_time'] = date('Y-m-d H:i:s', $post['publish_time']);
+		//文章对应标签
+		$tags = $sql->from('posts_tags', 'pt', '')
+			->joinLeft('tags', 't', 'pt.tag_id = t.id', 'title')
+			->where('pt.post_id = '.$post_id)
+			->fetchAll();
+		$tags_arr = array();
+		foreach($tags as $t){
+			$tags_arr[] = $t['title'];
 		}
+		$this->form()->setData(array('tags'=>implode(',', $tags_arr)));
+		
+		//分类树
+		$this->view->cats = Category::model()->getTree('_system_post');
+		
+		//post files
+		$this->view->files = PostsFiles::model()->fetchAll(array(
+			'post_id = ?'=>$post_id,
+		), 'file_id,description,is_image', 'sort');
+
+		$this->form()->setData($post, true);
+		
+		$this->view->post = $post;
+		
+		//附加属性
+		$this->view->prop_set = Post::model()->getPropertySet($post['id']);
+		
+		$cat = Category::model()->get($post['cat_id'], 'title');
+		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
+		$this->layout->sublink = array(
+			'uri'=>array('admin/post/create', array(
+				'cat_id'=>$post['cat_id'],
+			)),
+			'text'=>'在此分类下发布文章',
+		);
+		
+		//box排序
+		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
+		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
+		$this->view->_box_sort_settings = $_box_sort_settings;
+		
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$_settings = Setting::model()->get($_setting_key);
+		$_settings || $_settings = array();
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setJsModel('setting')
+			->setData($_settings)
+			->setData(array(
+				'_key'=>$_setting_key,
+				'enabled_boxes'=>$enabled_boxes,
+			));
+		
+		$this->view->render();
 	}
 	
 	public function delete(){

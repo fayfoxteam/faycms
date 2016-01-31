@@ -285,7 +285,7 @@ class User extends Model{
 			'id IN (?)'=>$ids,
 		), implode(',', empty($fields['props']) ? $fields['user'] : array_merge($fields['user'], array('id'))));
 		
-		//根据传入id顺序排序，并删除不需要返回的字段
+		//以id为键，并删除不需要返回的字段
 		$return = array();
 		foreach($ids as $id){
 			foreach($users as $user){

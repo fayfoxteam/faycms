@@ -19,6 +19,7 @@ use fay\core\Loader;
 use fay\models\tables\Roles;
 use fay\models\tables\PostLikes;
 use fay\helpers\SqlHelper;
+use fay\models\tables\PostMeta;
 
 class Post extends Model{
 	
@@ -51,6 +52,9 @@ class Post extends Model{
 		//过滤掉多余的数据
 		$post = Posts::model()->fillData($post, false);
 		$post_id = Posts::model()->insert($post);
+		PostMeta::model()->insert(array(
+			'post_id'=>$post_id,
+		));
 		
 		//文章分类
 		if(!empty($extra['categories'])){
@@ -102,11 +106,15 @@ class Post extends Model{
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
 	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
 	 */
-	public function update($post_id, $post, $extra = array()){
-		$post['last_modified_time'] = \F::app()->current_time;
+	public function update($post_id, $data, $extra = array()){
+		$data['last_modified_time'] = \F::app()->current_time;
 		//过滤掉多余的数据
-		$post = Posts::model()->fillData($post, false);
+		$post = Posts::model()->fillData($data, false);
 		Posts::model()->update($post, $post_id);
+		$post_meta = PostMeta::model()->fillData($data, false);
+		if($post_meta){
+			PostMeta::model()->update($post_meta, $post_id);
+		}
 		
 		//附加分类
 		if(isset($extra['categories'])){
@@ -291,6 +299,7 @@ class Post extends Model{
 	 * @param int $id
 	 * @param string $fields 可指定返回字段
 	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
+	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'files.*'，则返回所有字段
@@ -309,9 +318,6 @@ class Post extends Model{
 			//若未指定返回字段，初始化
 			$fields['post'] = Posts::model()->getFields();
 		}
-		//dump($fields);die;
-		
-		$sql = new Sql();
 		
 		$post_fields = $fields['post'];
 		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
@@ -355,6 +361,7 @@ class Post extends Model{
 			}
 		}
 		
+		$sql = new Sql();
 		$sql->from('posts', 'p', $post_fields)
 			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title, alias AS cat_alias')
 			->where(array(
@@ -406,6 +413,10 @@ class Post extends Model{
 		$return = array(
 			'post'=>$post,
 		);
+		
+		if(!empty($fields['meta'])){
+			$return['meta'] = PostMeta::model()->find($id, in_array('*', $fields['meta']) ? '!post_id' : $fields['meta']);
+		}
 		
 		//作者信息
 		if(!empty($fields['user'])){
@@ -539,6 +550,7 @@ class Post extends Model{
 	public function getByCatArray($cat, $limit = 10, $field = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$sql = new Sql();
 		$sql->from('posts', 'p', $field)
+			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', 'comments,views,likes')
 			->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
 			->where(array(
 				'deleted = 0',

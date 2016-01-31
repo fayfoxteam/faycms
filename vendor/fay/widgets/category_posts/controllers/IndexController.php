@@ -114,7 +114,7 @@ class IndexController extends Widget{
 			$config['subclassification'] = true;
 		}
 		
-		$posts = Post::model()->getByCatId($config['top'], $config['number'], 'id,title,user_id,thumbnail,publish_time,abstract,views', $config['subclassification'], $order, $conditions);
+		$posts = Post::model()->getByCatId($config['top'], $config['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $config['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
 		if(empty($posts) && !$config['show_empty']){

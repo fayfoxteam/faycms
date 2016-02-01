@@ -17,7 +17,7 @@ use fay\helpers\String;
 					'class'=>'fc-red',
 				))?>
 				/
-				<span class="fc-red"><?php echo $p['post']['views']?> Views</span>
+				<span class="fc-red"><?php echo $p['meta']['views']?> Views</span>
 			</span>
 		</header>
 		<?php if($p['post']['thumbnail']){

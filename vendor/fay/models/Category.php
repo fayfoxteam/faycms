@@ -44,8 +44,8 @@ class Category extends Model{
 			'alias = ?'=>$alias,
 		);
 		if($root){
-			$conditions['left_value > ?'] = $root['left_value'];
-			$conditions['right_value < ?'] = $root['right_value'];
+			$conditions['left_value >= ?'] = $root['left_value'];
+			$conditions['right_value <= ?'] = $root['right_value'];
 		}
 		return Categories::model()->fetchRow($conditions, $fields);
 	}
@@ -72,8 +72,8 @@ class Category extends Model{
 			'id = ?'=>$id,
 		);
 		if($root){
-			$conditions['left_value > ?'] = $root['left_value'];
-			$conditions['right_value < ?'] = $root['right_value'];
+			$conditions['left_value >= ?'] = $root['left_value'];
+			$conditions['right_value <= ?'] = $root['right_value'];
 		}
 		return Categories::model()->fetchRow($conditions, $fields);
 	}
@@ -103,8 +103,8 @@ class Category extends Model{
 			'id IN (?)'=>$ids,
 		);
 		if($root){
-			$conditions['left_value > ?'] = $root['left_value'];
-			$conditions['right_value < ?'] = $root['right_value'];
+			$conditions['left_value >= ?'] = $root['left_value'];
+			$conditions['right_value <= ?'] = $root['right_value'];
 		}
 		$cats = Categories::model()->fetchAll($conditions, $fields.',id');
 		//根据传入ID顺序返回

@@ -1153,4 +1153,27 @@ class Post extends Model{
 			return false;
 		}
 	}
+	
+	/**
+	 * 根据指定文章ID，返回以文章ID为键，公共meta信息为值的二维数组
+	 * @param array $post_ids 由文章ID构成的一维数组
+	 */
+	public function getMetaByPostIds($post_ids){
+		$post_metas = PostMeta::model()->fetchAll('post_id IN ('.implode(',', $post_ids).')', 'post_id,comments,views,likes');
+		$return = array();
+		foreach($post_ids as $pi){
+			foreach($post_metas as $k => $pm){
+				if($pi == $pm['post_id']){
+					$return[$pi] = array(
+						'comments'=>$pm['comments'],
+						'views'=>$pm['views'],
+						'likes'=>$pm['likes'],
+					);
+					unset($post_metas[$k]);
+					break;
+				}
+			}
+		}
+		return $return;
+	}
 }

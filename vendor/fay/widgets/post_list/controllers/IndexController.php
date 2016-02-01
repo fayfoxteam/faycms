@@ -10,6 +10,8 @@ use fay\models\Category;
 use fay\models\User;
 use fay\helpers\Date;
 use fay\core\HttpException;
+use fay\models\tables\PostMeta;
+use fay\models\Post;
 
 class IndexController extends Widget{
 	public function index($config){
@@ -37,10 +39,6 @@ class IndexController extends Widget{
 		
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract');
-		
-		if(in_array('meta', $config['fields'])){
-			$sql->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', 'comments,views,likes');
-		}
 		
 		//限制分类
 		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
@@ -92,6 +90,10 @@ class IndexController extends Widget{
 				$cats = Category::model()->getByIDs(array_unique($cat_ids), 'id,title,alias');
 			}
 			
+			if(in_array('meta', $config['fields'])){
+				$post_metas = Post::model()->getMetaByPostIds(ArrayHelper::column($posts, 'id'));
+			}
+			
 			if(in_array('user', $config['fields'])){
 				//获取所有相关作者
 				$user_ids = ArrayHelper::column($posts, 'user_id');
@@ -107,6 +109,9 @@ class IndexController extends Widget{
 				}
 				if(in_array('user', $config['fields'])){
 					$format_post['user'] = $users[$p['user_id']];
+				}
+				if(in_array('meta', $config['fields'])){
+					$format_post['meta'] = $post_metas[$p['id']];
 				}
 				if($config['date_format'] == 'pretty'){
 					$format_post['post']['format_publish_time'] = Date::niceShort($p['publish_time']);

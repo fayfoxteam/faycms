@@ -91,8 +91,9 @@ class Sql{
 	 * @param array|string $where
 	 * @return Sql
 	 */
-	public function where($where){
+	public function where($where, $params = ''){
 		if(is_array($where)){
+			//如果是数组，无视第二个参数
 			foreach($where as $k => $w){
 				if(in_array(strtoupper(trim($k)), $this->operators)){
 					//若key是关键词，即or，and这些
@@ -101,6 +102,8 @@ class Sql{
 					$this->conditions = array_merge($this->conditions, array($k => $w));
 				}
 			}
+		}else if($params){
+			$this->conditions = array_merge($this->conditions, array($where => $params));
 		}else{
 			$this->conditions[] = $where;
 		}

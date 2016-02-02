@@ -302,7 +302,7 @@ class Post extends Model{
 	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
-	 *  - files.*系列可指定posts_files表返回字段，若有一项为'files.*'，则返回所有字段
+	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
@@ -415,7 +415,7 @@ class Post extends Model{
 		);
 		
 		if(!empty($fields['meta'])){
-			$return['meta'] = PostMeta::model()->find($id, in_array('*', $fields['meta']) ? '!post_id' : $fields['meta']);
+			$return['meta'] = $this->getMeta($id, $fields['meta']);
 		}
 		
 		//作者信息
@@ -430,21 +430,12 @@ class Post extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$return['files'] = $this->getFiles($id);
+			$return['files'] = $this->getFiles($id, $fields['files']);
 		}
 		
 		//附加属性
 		if(!empty($fields['props'])){
-			$post_cat_parents = Category::model()->getParentIds($post['cat_id'], '_system_post');
-			
-			$props = Props::model()->fetchAll(array(
-				'refer IN ('.implode(',', $post_cat_parents).')',
-				'type = '.Props::TYPE_POST_CAT,
-				'deleted = 0',
-				'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
-			), 'id,title,element,required,is_show,alias', 'sort');
-			
-			$return['props'] = $this->getProps($id, $props);
+			$return['props'] = $this->getPropertySet($id);
 		}
 		
 		//附加分类
@@ -542,7 +533,14 @@ class Post extends Model{
 	 * 根据分类数组获取对应的文章<br>
 	 * @param array $cat 分类数组，至少需要包括id,left_value,right_value信息
 	 * @param number $limit 显示文章数若为0，则不限制
-	 * @param string $field 字段
+	 * @param string $field 可指定返回字段
+	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
+	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
@@ -674,46 +672,144 @@ class Post extends Model{
 	
 	/**
 	 * 获取文章对应tags
-	 * @param int $post_id
+	 * @param int|array $post_id
+	 *  - 若是数字，返回该文章ID对应的分类，返回二维数组
+	 *  - 若是数组，视为文章ID数组，返回以文章ID为key的三维数组
 	 * @param string $fields 标签字段，tags表字段
 	 */
 	public function getTags($post_id, $fields = 'id,title'){
 		$sql = new Sql();
-		return $sql->from('posts_tags', 'pt', '')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
-			->where(array(
-				'pt.post_id = ?'=>$post_id,
-			))
-			->order('t.`count`')
-			->fetchAll();
+		if(is_array($post_id)){
+			$tags = $sql->from('posts_tags', 'pt', 'post_id')
+				->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
+				->where(array('pt.post_id IN (?)'=>$post_id))
+				->fetchAll();
+			$return = array_fill_keys($post_id, array());
+			foreach($tags as $t){
+				$p = $t['post_id'];
+				unset($t['post_id']);
+				$return[$p][] = $t;
+			}
+			return $return;
+		}else{
+			return $sql->from('posts_tags', 'pt', '')
+				->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
+				->where(array(
+					'pt.post_id = ?'=>$post_id,
+				))
+				->order('t.`count`')
+				->fetchAll();
+		}
 	}
 	
 	/**
 	 * 获取文章附件
-	 * @param int $post_id 文章ID
-	 * @param string $fields 附件字段（files表字段）
+	 * @param int|array $post_id 文章ID
+	 *  - 若是数字，返回该文章ID对应的分类，返回二维数组
+	 *  - 若是数组，视为文章ID数组，返回以文章ID为key的三维数组
+	 * @param string $fields 附件字段（posts_files表字段）
 	 */
 	public function getFiles($post_id, $fields = 'file_id,description,is_image'){
-		$files = PostsFiles::model()->fetchAll(array(
-			'post_id = ?'=>$post_id,
-		), $fields, 'sort');
-		foreach($files as &$f){
-			$f['url'] = File::getUrl($f['file_id']);
+		if(is_array($post_id)){
+			//批量搜索，必须先得到post_id
+			if(!is_array($fields)){
+				$fields = explode(',', $fields);
+			}
+			if(!in_array('post_id', $fields)){
+				$fields[] = 'post_id';
+				$remove_post_id = true;
+			}else{
+				$remove_post_id = false;
+			}
+			$files = PostsFiles::model()->fetchAll(array(
+				'post_id IN (?)'=>$post_id,
+			), $fields, 'post_id, sort');
+			$return = array_fill_keys($post_id, array());
+			foreach($files as $f){
+				$p = $f['post_id'];
+				if($remove_post_id){
+					unset($f['post_id']);
+				}
+				$return[$p][] = $f;
+			}
+			return $return;
+		}else{
+			$files = PostsFiles::model()->fetchAll(array(
+				'post_id = ?'=>$post_id,
+			), $fields, 'sort');
+			foreach($files as &$f){
+				$f['url'] = File::getUrl($f['file_id']);
+			}
+			return $files;
 		}
-		return $files;
+	}
+	
+	/**
+	 * 获取文章计数信息
+	 * @param int|array $post_id 文章ID
+	 *  - 若是数字，返回该文章ID对应的分类，返回一维数组
+	 *  - 若是数组，视为文章ID数组，返回以文章ID为key的二维数组
+	 * @param string $fields 附件字段（post_meta表字段）
+	 */
+	public function getMeta($post_id, $fields = 'comments,views,likes'){
+		if(is_array($post_id)){
+			//批量搜索，必须先得到post_id
+			if(!is_array($fields)){
+				$fields = explode(',', $fields);
+			}
+			if(!in_array('post_id', $fields)){
+				$fields[] = 'post_id';
+				$remove_post_id = true;
+			}else{
+				$remove_post_id = false;
+			}
+			$metas = PostMeta::model()->fetchAll(array(
+				'post_id IN (?)'=>$post_id,
+			), $fields, 'post_id');
+			$return = array_fill_keys($post_id, array());
+			foreach($metas as $m){
+				$p = $m['post_id'];
+				if($remove_post_id){
+					unset($m['post_id']);
+				}
+				$return[$p][] = $m;
+			}
+			return $return;
+		}else{
+			$meta = PostMeta::model()->fetchRow(array(
+				'post_id = ?'=>$post_id,
+			), $fields);
+			return $meta;
+		}
 	}
 	
 	/**
 	 * 获取文章附加分类
-	 * @param int $post_id 文章ID
+	 * @param int|array $post_id 文章ID
+	 *  - 若是数字，返回该文章ID对应的分类，返回二维数组
+	 *  - 若是数组，视为文章ID数组，返回以文章ID为key的三维数组
 	 * @param string $fields 分类字段（categories表字段）
 	 */
 	public function getCategories($post_id, $fields = 'id,title'){
 		$sql = new Sql();
-		return $sql->from('posts_categories', 'pc', '')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
-			->where(array('pc.post_id = ?'=>$post_id))
-			->fetchAll();
+		if(is_array($post_id)){
+			$cats = $sql->from('posts_categories', 'pc', 'post_id')
+				->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
+				->where(array('pc.post_id IN (?)'=>$post_id))
+				->fetchAll();
+			$return = array_fill_keys($post_id, array());
+			foreach($cats as $c){
+				$p = $c['post_id'];
+				unset($c['post_id']);
+				$return[$p][] = $c;
+			}
+			return $return;
+		}else{
+			return $sql->from('posts_categories', 'pc', '')
+				->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
+				->where(array('pc.post_id = ?'=>$post_id))
+				->fetchAll();
+		}
 	}
 	
 	/**

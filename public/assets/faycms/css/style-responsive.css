@@ -142,6 +142,11 @@ select option[disabled]{text-decoration:line-through}
 .toast-error i:before,.toast-alert i:before{content:"\f05a"}
 .toast-close-link{position:relative;right:-0.3em;top:-0.3em;float:right;font-size:20px;font-weight:bold;color:#fff;opacity:0.8}
 .toast-close-link:hover{opacity:1;color:#fff}
+@media only screen and (max-width: 500px) {
+	.toast-container{width:100%}
+	.toast-bottom-middle{margin:0 20px;width:100%;left:auto}
+	.toast-container > div.toast{width:90%}
+}
 
 /* badge右上角的小点点 */
 .badge{display:inline-block;color:#fff;vertical-align:baseline;white-space:nowrap;text-align:center;border-radius:10px}

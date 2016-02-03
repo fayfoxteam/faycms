@@ -11,7 +11,7 @@
 				'closeButton': true,
 				'positionClass': 'toast-top-right',
 				'timeOut': 5000,//为0则不自动消失
-				'onclick': null
+				'click': ''
 			};
 			for(var key in params){
 				settings[key] = params[key];
@@ -69,7 +69,13 @@
 			
 			if(settings.click){
 				$message.on('click', function(){
-					settings.click($(this));
+					if(typeof settings.click == 'function'){
+						settings.click($(this));
+					}else if(settings.click == 'hide' || settings.click == 'remove'){
+						$(this).remove();
+					}else if(settings.click == 'fadeOut'){
+						$(this).fadeOut();
+					}
 				});
 			}
 		}

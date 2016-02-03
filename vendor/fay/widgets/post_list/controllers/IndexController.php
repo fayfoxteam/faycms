@@ -91,7 +91,7 @@ class IndexController extends Widget{
 			}
 			
 			if(in_array('meta', $config['fields'])){
-				$post_metas = Post::model()->getMetaByPostIds(ArrayHelper::column($posts, 'id'));
+				$post_metas = PostMeta::model()->mget(ArrayHelper::column($posts, 'id'));
 			}
 			
 			if(in_array('user', $config['fields'])){

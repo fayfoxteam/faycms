@@ -81,7 +81,7 @@ class Category extends Model{
 	/**
 	 * 根据分类ID串获取多个分类信息
 	 * @param string $ids 多个分类ID（数组或者逗号分隔），返回数组会与传入id顺序一致并以id为数组键
-	 * @param string $fields
+	 * @param string $fields 可选categories表字段
 	 * @param int|string|array $root 若指定root，则只搜索root下的分类
 	 *  - 若为数字，视为分类ID
 	 *  - 若为字符串，视为分类别名
@@ -90,6 +90,19 @@ class Category extends Model{
 	public function getByIds($ids, $fields = '*', $root = null){
 		if(!is_array($ids)){
 			$ids = explode(',', $ids);
+		}
+		if(!is_array($fields)){
+			$fields = explode(',', $fields);
+		}
+		if(in_array('*', $fields)){
+			//如果有一项是*，则获取所有字段
+			$fields = Categories::model()->getFields();
+		}
+		$remove_id = false;//最受是否删除id字段
+		if(!in_array('id', $fields)){
+			//id必须搜出，若为指定，则先插入id字段，到后面再unset掉
+			$fields[] = 'id';
+			$remove_id = true;
 		}
 		if($root !== null && !is_array($root)){
 			if(String::isInt($root)){
@@ -106,7 +119,7 @@ class Category extends Model{
 			$conditions['left_value >= ?'] = $root['left_value'];
 			$conditions['right_value <= ?'] = $root['right_value'];
 		}
-		$cats = Categories::model()->fetchAll($conditions, $fields.',id');
+		$cats = Categories::model()->fetchAll($conditions, $fields);
 		//根据传入ID顺序返回
 		$return = array();
 		if($fields !== '*' && !is_array($fields)){
@@ -116,7 +129,7 @@ class Category extends Model{
 			foreach($cats as $k => $c){
 				if($c['id'] == $id){
 					//若不需要返回id，把id去掉
-					if($fields !== '*' && !in_array('id', $fields)){
+					if($remove_id){
 						unset($c['id']);
 					}
 					$return[$id] = $c;

@@ -61,6 +61,13 @@ h6{font-size:13px;line-height:20px;margin:30px 0 20px;font-weight:600;}
 .widget.categories,.widget.pages{border:1px solid #e1472f;}
 .widget.categories h3,.widget.pages h3{background-color:#e1472f;padding:9px 15px;color:#fff;margin-bottom:0;}
 .widget.categories ul li a,.widget.pages ul li a{font-size:12px;padding-left:10px;border-bottom:1px solid #dedede;display:block;line-height:40px;}
+@media only screen and (max-width: 500px) {
+	.g-sd .widget.pages{position:fixed;bottom:0;width:100%;left:0;margin-bottom:0;background-color:#252525;}
+	.g-sd .widget.pages h3{display:none;}
+	.g-sd .widget.pages h3 ul li{float:left;}
+	.g-sd .widget.pages{border:0;}
+	.g-sd .widget.pages h3 ul li a{border-bottom:0;color:#6e6e6e;text-align:center;}
+}
 .widget.categories li a:hover,.widget.pages li a:hover{padding-left:14px;}
 
 /* toast */
@@ -296,7 +303,7 @@ a:hover span.hover-image{opacity:1;}
 .contact-item .ci-reply{border:1px solid #e4e4e4;padding:15px 20px;color:#979898;}
 .contact-item .ci-reply strong{color:#575858;}
 
-#right-fix-toolbar{position:fixed;right:5px;width:138px;z-index:100;overflow:hidden;top:100px;}
+#right-fix-toolbar{position:fixed;right:51px;width:138px;z-index:100;overflow:hidden;top:100px;}
 #right-fix-toolbar #skypes .close{display:block;width:15px;height:15px;position:absolute;right:17px;top:8px;}
 #right-fix-toolbar #skypes{background:url(images/cs-top.jpg) no-repeat;min-height:300px;}
 #right-fix-toolbar #skypes .wrap{padding:205px 0 15px;background:url(images/cs-bottom.jpg) no-repeat left bottom;}

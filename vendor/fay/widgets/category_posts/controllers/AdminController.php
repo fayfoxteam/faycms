@@ -71,6 +71,7 @@ class AdminController extends Widget{
 			'thumbnail'=>'intval',
 			'last_view_time'=>'intval',
 			'order'=>'trim',
+			'fields'=>'trim',
 		);
 	}
 }

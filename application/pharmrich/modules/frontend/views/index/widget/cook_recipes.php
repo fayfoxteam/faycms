@@ -13,27 +13,27 @@ use fay\models\File;
 		<ul class="posts-carousel">
 		<?php foreach($posts as $p){?>
 			<li>
-				<a href="<?php echo $p['link']?>">
+				<a href="<?php echo $p['post']['link']?>">
 					<span class="item-on-hover"></span>
-					<?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+					<?php echo Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
 						'dw'=>300,
 						'dh'=>245,
-						'alt'=>Html::encode($p['title']),
+						'alt'=>Html::encode($p['post']['title']),
 					))?>
 				</a>
 				<div class="posts-carousel-details">
-					<?php echo Html::link($p['title'], $p['link'], array(
+					<?php echo Html::link($p['post']['title'], $p['post']['link'], array(
 						'wrapper'=>'h2',
 					))?>
 					<div class="carousel-meta">
 						<span class="post-format"><i class="fa fa-pencil"></i></span>
 						<span class="details">
-							<?php echo $p['format_publish_time']?>
+							<?php echo $p['post']['format_publish_time']?>
 							/
-							<span class="views"><?php echo $p['views']?> Views</span>
+							<span class="views"><?php echo $p['meta']['views']?> Views</span>
 						</span>
 					</div>
-					<p><?php echo Html::encode($p['abstract'])?></p>
+					<p><?php echo Html::encode($p['post']['abstract'])?></p>
 				</div>
 			</li>
 		<?php }?>

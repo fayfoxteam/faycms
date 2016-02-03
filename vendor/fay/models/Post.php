@@ -5,7 +5,6 @@ use fay\core\Model;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
-use fay\models\tables\Messages;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Categories;
 use fay\models\tables\Props;
@@ -21,7 +20,8 @@ use fay\models\tables\PostLikes;
 use fay\helpers\SqlHelper;
 use fay\models\tables\PostMeta;
 use fay\models\post\Meta;
-use fay\models\post\Category;
+use fay\models\post\Category as PostCategory;
+use fay\models\Category;
 use fay\models\post\Tag;
 use fay\models\post\File;
 use fay\helpers\ArrayHelper;
@@ -224,7 +224,7 @@ class Post extends Model{
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
 	 */
 	public function getPropsByCat($cat){
-		return Prop::model()->mget(\fay\models\Category::model()->getParentIds($cat, '_system_post'), Props::TYPE_POST_CAT);
+		return Prop::model()->mget(Category::model()->getParentIds($cat, '_system_post'), Props::TYPE_POST_CAT);
 	}
 	
 	/**
@@ -448,7 +448,7 @@ class Post extends Model{
 		
 		//附加分类
 		if(!empty($fields['categories'])){
-			$return['categories'] = Category::model()->get($id, $fields['categories']);
+			$return['categories'] = PostCategory::model()->get($id, $fields['categories']);
 		}
 		
 		//前后一篇文章导航
@@ -570,6 +570,7 @@ class Post extends Model{
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
@@ -586,6 +587,10 @@ class Post extends Model{
 		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$post_fields[] = 'user_id';
+		}
+		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'cat_id';
 		}
 		if(!in_array('id', $fields['post'])){
 			//id字段无论如何都要返回，因为后面要用到
@@ -643,7 +648,13 @@ class Post extends Model{
 		
 		//附加分类
 		if(!empty($fields['categories'])){
-			$post_categories = Category::model()->mget($post_ids, $fields['categories']);
+			$post_categories = PostCategory::model()->mget($post_ids, $fields['categories']);
+		}
+		
+		//主分类
+		if(!empty($fields['category'])){
+			$cat_ids = ArrayHelper::column($posts, 'cat_id');
+			$post_category = Category::model()->getByIDs(array_unique($cat_ids), implode(',', $fields['category']));
 		}
 		
 		$return = array();
@@ -669,6 +680,11 @@ class Post extends Model{
 				$post['categories'] = $post_categories[$p['id']];
 			}
 			
+			//主分类
+			if(!empty($fields['category'])){
+				$post['category'] = $post_category[$p['cat_id']];
+			}
+			
 			//作者信息
 			if(!empty($fields['user'])){
 				$post['user'] = User::model()->get($p['user_id'], implode(',', $fields['user']));
@@ -680,7 +696,7 @@ class Post extends Model{
 			}
 			
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
-			foreach(array('id', 'user_id') as $f){
+			foreach(array('id', 'user_id', 'cat_id') as $f){
 				if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
 					unset($post['post'][$f]);
 				}

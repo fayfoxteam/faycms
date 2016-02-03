@@ -136,6 +136,18 @@ use fay\models\tables\Roles;
 				</p>
 			</div>
 			<div class="form-field">
+				<label class="title bold">附加字段</label>
+				<?php
+					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
+						'label'=>'作者信息',
+					));
+					echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
+						'label'=>'计数（评论数/阅读数/点赞数',
+					));
+				?>
+				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
+			</div>
+			<div class="form-field">
 				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',

@@ -52,7 +52,7 @@ class Meta extends Model{
 			if($remove_post_id){
 				unset($m['post_id']);
 			}
-			$return[$p][] = $m;
+			$return[$p] = $m;
 		}
 		return $return;
 	}

@@ -75,7 +75,7 @@ class Post extends Model{
 		}
 		//添加到标签表
 		if($extra['tags']){
-			Tag::model()->set($extra['tags'], $post_id);
+			\fay\models\Tag::model()->set($extra['tags'], $post_id);
 		}
 		
 		//设置附件
@@ -87,7 +87,7 @@ class Post extends Model{
 					'file_id'=>$file_id,
 					'post_id'=>$post_id,
 					'description'=>$description,
-					'is_image'=>File::isImage($file_id),
+					'is_image'=>\fay\models\File::isImage($file_id),
 					'sort'=>$i,
 				));
 			}
@@ -158,7 +158,7 @@ class Post extends Model{
 		
 		//标签
 		if(isset($extra['tags'])){
-			Tag::model()->set($extra['tags'], $post_id);
+			\fay\models\Tag::model()->set($extra['tags'], $post_id);
 		}
 		
 		//附件
@@ -195,7 +195,7 @@ class Post extends Model{
 						'file_id'=>$file_id,
 						'description'=>$description,
 						'sort'=>$i,
-						'is_image'=>File::isImage($file_id),
+						'is_image'=>\fay\models\File::isImage($file_id),
 					));
 				}
 			}
@@ -397,10 +397,11 @@ class Post extends Model{
 				//指定分类不存在，一般来说是Controller调用错误
 				return false;
 			}
-			$sql->where(array(
-				'c.left_value >= '.$cat['left_value'],
-				'c.right_value <= '.$cat['right_value'],
-			));
+			$sql->joinLeft('categories', 'c', 'p.cat_id = c.id')
+				->where(array(
+					'c.left_value >= '.$cat['left_value'],
+					'c.right_value <= '.$cat['right_value'],
+				));
 		}
 		
 		$post = $sql->fetchRow();

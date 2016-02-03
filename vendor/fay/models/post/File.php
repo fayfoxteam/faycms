@@ -23,7 +23,7 @@ class File extends Model{
 			'post_id = ?'=>$post_id,
 		), $fields, 'sort');
 		foreach($files as &$f){
-			$f['url'] = File::getUrl($f['file_id']);
+			$f['url'] = \fay\models\File::getUrl($f['file_id']);
 		}
 		return $files;
 	}

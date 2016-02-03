@@ -54,6 +54,12 @@ use fay\helpers\Html;
 			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
+					echo F::form('widget')->inputCheckbox('fields[]', 'category.id,category.title', array(
+						'label'=>'主分类',
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'categories.id,categories.title', array(
+						'label'=>'附加分类',
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'user.nickname,user.username,user.id,user.avatar', array(
 						'label'=>'作者信息',
 					), true);
@@ -68,9 +74,6 @@ use fay\helpers\Html;
 					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'props.*', array(
 						'label'=>'附加属性',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'categories.id,categories.title', array(
-						'label'=>'附加分类',
 					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'meta.comments,meta.likes,meta.views', array(
 						'label'=>'计数（评论数/阅读数/点赞数',

@@ -313,6 +313,7 @@ class Post extends Model{
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
 	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
@@ -330,6 +331,10 @@ class Post extends Model{
 		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$post_fields[] = 'user_id';
+		}
+		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'cat_id';
 		}
 		
 		if(!empty($fields['nav'])){
@@ -370,7 +375,6 @@ class Post extends Model{
 		
 		$sql = new Sql();
 		$sql->from('posts', 'p', $post_fields)
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title, alias AS cat_alias')
 			->where(array(
 				'p.id = ?'=>$id,
 			));
@@ -451,6 +455,11 @@ class Post extends Model{
 			$return['categories'] = PostCategory::model()->get($id, $fields['categories']);
 		}
 		
+		//主分类
+		if(!empty($fields['category'])){
+			$return['category'] = Category::model()->get($post['cat_id'], $fields['category']);
+		}
+		
 		//前后一篇文章导航
 		if(!empty($fields['nav'])){
 			//上一篇
@@ -485,6 +494,7 @@ class Post extends Model{
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
@@ -514,6 +524,7 @@ class Post extends Model{
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
@@ -543,6 +554,7 @@ class Post extends Model{
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件

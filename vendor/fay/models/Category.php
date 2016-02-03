@@ -122,9 +122,6 @@ class Category extends Model{
 		$cats = Categories::model()->fetchAll($conditions, $fields);
 		//根据传入ID顺序返回
 		$return = array();
-		if($fields !== '*' && !is_array($fields)){
-			$fields = explode(',', $fields);
-		}
 		foreach($ids as $id){
 			foreach($cats as $k => $c){
 				if($c['id'] == $id){
@@ -375,11 +372,7 @@ class Category extends Model{
 			}
 		}
 		if(is_array($cats)){
-			$return = array();
-			foreach($cats as $c){
-				$return[] = $this->get($c, $fields, $root);
-			}
-			return $return;
+			return $this->getByIds($cats, $fields, $root);
 		}else{
 			if(String::isInt($cats)){
 				return $this->getById($cats, $fields, $root);

@@ -6,6 +6,7 @@ use fay\models\tables\Props;
 use fay\models\tables\PropValues;
 use fay\core\Sql;
 use fay\helpers\String;
+use fay\helpers\ArrayHelper;
 
 class Prop extends Model{
 	/**
@@ -131,14 +132,13 @@ class Prop extends Model{
 	}
 	
 	/**
-	 * 获取一个或多个引用ID对应的属性<br>
+	 * 获取一个或多个引用ID对应的属性
 	 * 若fields字段包含values，则同时获取可选属性值
 	 * @param int|array $refer 引用
 	 * @param int $type
 	 * @param string $fields
 	 */
-	public function mget($refer, $type, $fields = 'values'){
-		$fields = explode(',', $fields);
+	public function mget($refer, $type, $with_values = true){
 		if(is_array($refer)){
 			$refer = implode(',', $refer);
 		}
@@ -160,34 +160,81 @@ class Prop extends Model{
 			return array();
 		}
 		
-		//若fields中包含value，则获取属性对应的可选属性值
-		if(in_array('values', $fields)){
-			if(String::isInt($refer)){
-				$prop_values = PropValues::model()->fetchAll(array(
-					'refer = ?'=>$refer,
-					'deleted = 0',
-				), 'id,title,prop_id', 'prop_id, sort');
-			}else{
-				$prop_values = PropValues::model()->fetchAll(array(
-					"refer IN ({$refer})",
-					'deleted = 0',
-				), 'id,title,prop_id', 'prop_id, sort');
-			}
-			foreach($props as &$p){
-				if(in_array($p['element'], array(
-					Props::ELEMENT_RADIO,
-					Props::ELEMENT_SELECT,
-					Props::ELEMENT_CHECKBOX,
-				))){
-					$start = false;
-					foreach($prop_values as $k => $v){
-						if($v['prop_id'] == $p['id']){
-							$p['values'][$v['id']] = $v['title'];
-							$start = true;
-							unset($prop_values[$k]);
-						}else if($start){
-							break;
-						}
+		//附加属性可选值
+		if($with_values && $props){
+			$props = $this->addValues($props);
+		}
+		
+		return $props;
+	}
+	
+	/**
+	 * 获取一个或多个别名对应的属性
+	 * 若fields字段包含values，则同时获取可选属性值
+	 * @param string|array $alias 属性别名
+	 * @param int $type
+	 * @param string $fields
+	 */
+	public function mgetByAlias($aliases, $type, $with_values = true){
+		if(!is_array($aliases)){
+			$aliases = explode(',', $aliases);
+		}
+		if(isset($aliases[1])){
+			//如果有多项，搜索条件用IN
+			$props = Props::model()->fetchAll(array(
+				'alias IN (?)'=>$aliases,
+				'type = ?'=>$type,
+				'deleted = 0',
+			), 'id,title,type,required,element', 'sort,id');
+		}else{
+			//如果只有一项，搜索条件直接用等于
+			$props = Props::model()->fetchAll(array(
+				'alias = ?'=>$aliases,
+				'type = ?'=>$type,
+				'deleted = 0',
+			), 'id,title,type,required,element', 'sort,id');
+		}
+		
+		if($with_values && $props){
+			//附加属性可选值
+			$props = $this->addValues($props);
+		}
+		
+		return $props;
+	}
+	
+	/**
+	 * 为props附加可选值
+	 * @param array $props
+	 */
+	private function addValues($props){
+		//获取属性对应的可选属性值
+		$prop_ids = ArrayHelper::column($props, 'id');
+		if(isset($prop_ids[1])){
+			$prop_values = PropValues::model()->fetchAll(array(
+				'prop_id IN (?)'=>$prop_ids,
+				'deleted = 0',
+			), 'id,title,prop_id', 'prop_id,sort');
+		}else{
+			$prop_values = PropValues::model()->fetchAll(array(
+				'prop_id = ?'=>$prop_ids,
+				'deleted = 0',
+			), 'id,title,prop_id', 'prop_id,sort');
+		}
+		foreach($props as &$p){
+			if(in_array($p['element'], array(
+				Props::ELEMENT_RADIO,
+				Props::ELEMENT_SELECT,
+				Props::ELEMENT_CHECKBOX,
+			))){
+				$start = false;
+				foreach($prop_values as $k => $v){
+					if($v['prop_id'] == $p['id']){
+						$p['values'][$v['id']] = $v['title'];
+						$start = true;
+						unset($prop_values[$k]);
+					}else if($start){
+						break;
 					}
 				}
 			}

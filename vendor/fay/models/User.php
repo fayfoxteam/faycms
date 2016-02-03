@@ -217,8 +217,6 @@ class User extends Model{
 			$user['avatar_url'] = File::getUrl($user['avatar'], File::PIC_ORIGINAL, array(
 				'spare'=>'avatar',
 			));
-		}else{
-			$user['avatar_url'] = '';
 		}
 		
 		$return['user'] = $user;

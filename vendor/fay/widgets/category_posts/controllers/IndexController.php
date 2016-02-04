@@ -29,17 +29,7 @@ class IndexController extends Widget{
 		empty($config['last_view_time']) ||
 			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $config['last_view_time']);
 		
-		isset($config['fields']) || $config['fields'] = array(
-			'user'=>array(
-				'id', 'username', 'nickname', 'avatar',
-			),
-			'category'=>array(
-				'id', 'title', 'alias',
-			),
-			'meta'=>array(
-				'comments', 'views', 'likes',
-			),
-		);
+		isset($config['fields']) || $config['fields'] = array('user', 'category', 'meta');
 		
 		//order
 		$orders = array(
@@ -121,17 +111,7 @@ class IndexController extends Widget{
 		empty($config['last_view_time']) ||
 			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $config['last_view_time']);
 		
-		isset($config['fields']) || $config['fields'] = array(
-			'user'=>array(
-				'id', 'username', 'nickname', 'avatar',
-			),
-			'category'=>array(
-				'id', 'title', 'alias',
-			),
-			'meta'=>array(
-				'comments', 'views', 'likes',
-			),
-		);
+		isset($config['fields']) || $config['fields'] = array('user', 'category', 'meta');
 		
 		//order
 		$orders = array(

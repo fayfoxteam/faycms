@@ -224,7 +224,7 @@ class User extends Model{
 		
 		$return['user'] = $user;
 		if(!empty($fields['props'])){
-			$user_roles = $this->getRoleIds($id);
+			$user_roles = Role::model()->getIds($id);
 			if($user_roles){
 				//附加角色属性
 				$props = Props::model()->fetchAll(array(
@@ -349,7 +349,7 @@ class User extends Model{
 	 * @param int $user_id
 	 */
 	public function getProps($user_id){
-		$role_ids = User::model()->getRoleIds($user_id);
+		$role_ids = Role::model()->getIds($user_id);
 		return $this->getPropsByRoles($role_ids);
 	}
 	
@@ -400,22 +400,6 @@ class User extends Model{
 			'parent = ?'=>$parent,
 		), 'COUNT(*) AS count');
 		return $member['count'];
-	}
-	
-	/**
-	 * 获取用户角色ID（一维数组）若未登陆，返回空数组
-	 * @param int|null $user
-	 */
-	public function getRoleIds($user_id = null){
-		if(!$user_id && isset(\F::app()->current_user)){
-			$user_id = \F::app()->current_user;
-		}
-		if(!$user_id){
-			return array();
-		}
-		
-		$user_roles = UsersRoles::model()->fetchAll('user_id = ' . $user_id, 'role_id');
-		return ArrayHelper::column($user_roles, 'role_id');
 	}
 	
 	/**

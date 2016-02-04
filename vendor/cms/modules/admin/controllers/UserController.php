@@ -15,6 +15,7 @@ use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\Flash;
 use fay\models\tables\UserProfile;
+use fay\models\user\Role;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -182,7 +183,7 @@ class UserController extends AdminController{
 		}
 		
 		$user = User::model()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = User::model()->getRoleIds($user_id);
+		$user_role_ids = Role::model()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));

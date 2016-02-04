@@ -4,6 +4,8 @@ namespace fay\models\user;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\models\tables\Roles;
+use fay\models\tables\UsersRoles;
+use fay\helpers\ArrayHelper;
 
 class Role extends Model{
 	/**
@@ -61,5 +63,15 @@ class Role extends Model{
 			$return[$u][] = $r;
 		}
 		return $return;
+	}
+	
+	/**
+	 * 返回指定用户的角色ID
+	 * @param int $user_id 用户ID
+	 * @return array 角色ID构成的一维数组
+	 */
+	public function getIds($user_id){
+		$user_roles = UsersRoles::model()->fetchAll(array('user_id = ?'=>$user_id), 'role_id');
+		return ArrayHelper::column($user_roles, 'role_id');
 	}
 }

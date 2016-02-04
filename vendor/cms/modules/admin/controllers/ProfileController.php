@@ -7,6 +7,7 @@ use fay\models\tables\Actionlogs;
 use fay\models\User;
 use fay\models\Flash;
 use fay\models\tables\Roles;
+use fay\models\user\Role;
 
 class ProfileController extends AdminController{
 	public function __construct(){
@@ -44,7 +45,7 @@ class ProfileController extends AdminController{
 		}
 		
 		$user = User::model()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = User::model()->getRoleIds($user_id);
+		$user_role_ids = Role::model()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));

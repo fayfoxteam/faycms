@@ -3,6 +3,7 @@ namespace fay\models\post;
 
 use fay\core\Model;
 use fay\core\Sql;
+use fay\models\tables\Categories;
 
 class Category extends Model{
 	/**
@@ -21,7 +22,7 @@ class Category extends Model{
 	public function get($post_id, $fields = 'id,title'){
 		$sql = new Sql();
 		return $sql->from('posts_categories', 'pc', '')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
+			->joinLeft('categories', 'c', 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
 			->where(array('pc.post_id = ?'=>$post_id))
 			->fetchAll();
 	}
@@ -35,7 +36,7 @@ class Category extends Model{
 	public function mget($post_ids, $fields = 'id,title'){
 		$sql = new Sql();
 		$cats = $sql->from('posts_categories', 'pc', 'post_id')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
+			->joinLeft('categories', 'c', 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
 			->where(array('pc.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Date;
-use fay\models\User;
 use fay\helpers\ArrayHelper;
+use fay\models\user\Role;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -15,7 +15,7 @@ use fay\helpers\ArrayHelper;
 			<tr>
 				<th>用户身份</th>
 				<td><?php
-					$user_roles = User::model()->getRoles(\F::session()->get('user.id', null, \F::config()->get('session_namespace').'_admin'));
+					$user_roles = Role::model()->get(\F::session()->get('user.id', null, \F::config()->get('session_namespace').'_admin'));
 					echo implode(', ', ArrayHelper::column($user_roles, 'title'));
 				?></td>
 			</tr>

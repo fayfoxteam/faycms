@@ -15,9 +15,7 @@ class Meta extends Model{
 	/**
 	 * 获取文章计数信息
 	 * @param int $post_id 文章ID
-	 *  - 若是数字，返回该文章ID对应的分类，返回一维数组
-	 *  - 若是数组，视为文章ID数组，返回以文章ID为key的二维数组
-	 * @param string $fields 附件字段（post_meta表字段）
+	 * @param string $fields 字段（post_meta表字段）
 	 * @return array 返回包含文章meta信息的一维数组
 	 */
 	public function get($post_id, $fields = 'comments,views,likes'){
@@ -29,7 +27,7 @@ class Meta extends Model{
 	/**
 	 * 批量获取文章计数信息
 	 * @param array $post_ids 文章ID一维数组
-	 * @param string $fields 附件字段（post_meta表字段）
+	 * @param string $fields 字段（post_meta表字段）
 	 * @return array 返回以文章ID为key的二维数组
 	 */
 	public function mget($post_ids, $fields = 'comments,views,likes'){

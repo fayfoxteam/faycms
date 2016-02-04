@@ -41,9 +41,9 @@ class File extends Model{
 			}
 			if(!in_array('post_id', $fields)){
 				$fields[] = 'post_id';
-				$remove_post_id = true;
+				$remove_post_id_field = true;
 			}else{
-				$remove_post_id = false;
+				$remove_post_id_field = false;
 			}
 			$files = PostsFiles::model()->fetchAll(array(
 				'post_id IN (?)'=>$post_id,
@@ -51,7 +51,7 @@ class File extends Model{
 			$return = array_fill_keys($post_id, array());
 			foreach($files as $f){
 				$p = $f['post_id'];
-				if($remove_post_id){
+				if($remove_post_id_field){
 					unset($f['post_id']);
 				}
 				$f['url'] = File::getUrl($f['file_id']);

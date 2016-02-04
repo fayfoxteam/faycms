@@ -15,6 +15,9 @@ use fay\models\tables\UserProfile;
 use fay\core\db\Expr;
 use fay\core\Hook;
 use fay\helpers\String;
+use fay\models\user\Profile;
+use fay\models\user\Role;
+use fay\models\user\Password;
 
 class User extends Model{
 	/**
@@ -238,11 +241,11 @@ class User extends Model{
 		}
 		
 		if(!empty($fields['roles'])){
-			$return['roles'] = $this->getRoles($id, $fields['roles']);
+			$return['roles'] = Role::model()->get($id, $fields['roles']);
 		}
 		
 		if(!empty($fields['profile'])){
-			$return['profile'] = UserProfile::model()->find($id, implode(',', $fields['profile']));
+			$return['profile'] = Profile::model()->get($id, $fields['profile']);
 		}
 		
 		return $return;
@@ -252,9 +255,10 @@ class User extends Model{
 	 * 返回多个用户
 	 * @param string|array $ids 可以是逗号分割的id串，也可以是用户ID构成的一维数组
 	 * @param string $fields 可指定返回字段
-	 *   user.*系列可指定users表返回字段，若有一项为'user.*'，则返回除密码字段外的所有字段
-	 *   roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
-	 *   props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
+	 *  - user.*系列可指定users表返回字段，若有一项为'user.*'，则返回除密码字段外的所有字段
+	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
+	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
+	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
 	 */
 	public function getByIds($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
 		//解析$ids
@@ -279,40 +283,45 @@ class User extends Model{
 			}
 		}
 		
+		$remove_id_field = false;
+		if((!empty($fields['props']) || !empty($fields['roles']) || !empty($fields['profile'])) && in_array('id', $fields['user'])){
+			$fields['user'][] = 'id';
+			$remove_id_field = true;
+		}
 		$users = Users::model()->fetchAll(array(
 			'id IN (?)'=>$ids,
-		), implode(',', empty($fields['props']) ? $fields['user'] : array_merge($fields['user'], array('id'))));
+		), $fields['user']);
 		
-		//以id为键，并删除不需要返回的字段
-		$return = array();
-		foreach($ids as $id){
-			foreach($users as $user){
-				if($id == $user['id']){
-					if(!empty($fields['roles'])){
-						//附加用户角色
-						$user['roles'] = $this->getRoles($user['id'], in_array('*', $fields['roles']) ? '*' : $fields['roles']);
-					}
-						
-					if(!empty($fields['props'])){
-						//附加用户角色属性
-						$user_roles = $this->getRoleIds($user['id']);
-						$props = Props::model()->fetchAll(array(
-							'refer IN ('.implode(',', $user_roles).')',
-							'type = '.Props::TYPE_ROLE,
-							'deleted = 0',
-							'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
-						), 'id,title,element,required,is_show,alias', 'sort');
-							
-						$user['props'] = $this->getProps($user['id'], $props);
-					}
-					
-					if(!in_array('id', $fields['user'])){
-						unset($user['id']);
-					}
-					$return[$id] = $user;
-				}
+		if(!empty($fields['profile'])){
+			//获取所有相关的profile
+			$profiles = Profile::model()->mget($ids, $fields['profile']);
+		}
+		if(!empty($fields['roles'])){
+			//获取所有相关的roles
+			$roles = Role::model()->mget($ids, $fields['roles']);
+		}
+		
+		$return = array_fill_keys($ids, array());
+		foreach($users as $u){
+			$user['user'] = $u;
+			
+			if(!empty($fields['profile'])){
+				$user['profile'] = $profiles[$u['id']];
+			}
+			
+			if(!empty($fields['roles'])){
+				$user['roles'] = $roles[$u['id']];
+			}
+			
+			if(!empty($fields['props'])){
+				$user['props'] = $this->getProps($u['id']);
+			}
+			
+			if($remove_id_field){
+				unset($user['user']['id']);
 			}
 		}
+		
 		return $return;
 	}
 	
@@ -408,27 +417,8 @@ class User extends Model{
 	}
 	
 	/**
-	 * 获取用户角色详细（若未登陆，返回空数组）
-	 * @param int|null $user_id
-	 * @param string $fields 角色字段（roles表字段）
-	 */
-	public function getRoles($user_id = null, $fields = '*'){
-		if(!$user_id && isset(\F::app()->current_user)){
-			$user_id = \F::app()->current_user;
-		}
-		if(!$user_id){
-			return array();
-		}
-		
-		$sql = new Sql();
-		return $sql->from('users_roles', 'ur', '')
-			->joinLeft('roles', 'r', 'ur.role_id = r.id', $fields)
-			->where('ur.user_id = '.$user_id)
-			->fetchAll();
-	}
-	
-	/**
-	 * 判断一个用户ID是否存在，若为0或者其他等价于false的值，直接返回false
+	 * 判断一个用户ID是否存在，若为0或者其他等价于false的值，直接返回false。
+	 * 即便是deleted标记为已删除的用户，也被视为存着的用户ID
 	 * @param int $user_id
 	 */
 	public static function isUserIdExist($user_id){
@@ -483,7 +473,7 @@ class User extends Model{
 	 */
 	public function create($user, $extra = array(), $is_admin = 0){
 		if(!empty($user['password'])){
-			$auth_key = $this->generatePassword($user['password']);
+			$auth_key = Password::model()->generate($user['password']);
 			$user['salt'] = $auth_key['salt'];
 			$user['password'] = $auth_key['password'];
 		}
@@ -536,7 +526,7 @@ class User extends Model{
 		if(isset($user['password'])){
 			if($user['password']){
 				//非空，则更新密码字段
-				$auth_key = $this->generatePassword($user['password']);
+				$auth_key = Password::model()->generate($user['password']);
 				$user['salt'] = $auth_key['salt'];
 				$user['password'] = $auth_key['password'];
 			}else{
@@ -589,16 +579,5 @@ class User extends Model{
 		if(isset($extra['props'])){
 			$this->updatePropertySet($user_id, $extra['props']);
 		}
-	}
-	
-	/**
-	 * 根据明码，得到一个加密后的密码和混淆码
-	 */
-	public function generatePassword($password){
-		$salt = String::random('alnum', 5);
-		return array(
-			'salt'=>$salt,
-			'password'=>md5(md5($password) . $salt),
-		);
 	}
 }

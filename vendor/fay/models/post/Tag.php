@@ -3,6 +3,7 @@ namespace fay\models\post;
 
 use fay\core\Model;
 use fay\core\Sql;
+use fay\models\tables\Tags;
 
 class Tag extends Model{
 	/**
@@ -21,7 +22,7 @@ class Tag extends Model{
 	public function get($post_id, $fields = 'id,title'){
 		$sql = new Sql();
 		return $sql->from('posts_tags', 'pt', '')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
+			->joinLeft('tags', 't', 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array(
 				'pt.post_id = ?'=>$post_id,
 			))
@@ -38,7 +39,7 @@ class Tag extends Model{
 	public function mget($post_ids, $fields = 'id,title'){
 		$sql = new Sql();
 		$tags = $sql->from('posts_tags', 'pt', 'post_id')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
+			->joinLeft('tags', 't', 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array('pt.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());

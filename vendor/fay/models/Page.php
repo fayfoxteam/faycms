@@ -36,14 +36,14 @@ class Page extends Model{
 	 * @param string $field
 	 * @param bool $children 若为true，则会返回该分类及其所有子分类对应的页面
 	 */
-	public function getByCatAlias($alias, $limit = 10, $field = '!content', $children = false){
+	public function getByCatAlias($alias, $limit = 10, $fields = '!content', $children = false){
 		$sql = new Sql();
 		$cat = Categories::model()->fetchRow(array(
 			'alias = ?'=>$alias
 		), 'id,left_value,right_value');
 		
 		$sql = new Sql();
-		$sql->from('pages', 'p', $field)
+		$sql->from('pages', 'p', Pages::model()->formatFields($fields))
 			->joinLeft('pages_categories', 'pc', 'p.id = pc.page_id')
 			->where(array(
 				'deleted = 0',

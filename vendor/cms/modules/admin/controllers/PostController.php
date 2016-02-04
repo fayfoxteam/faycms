@@ -210,8 +210,8 @@ class PostController extends AdminController{
 		
 		$sql = new Sql();
 		$count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
-		$sql->from('posts', 'p', '!content')
-			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', '!post_id');
+		$sql->from('posts', 'p', Posts::model()->formatFields('!content'))
+			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'));
 		$count_sql->from('posts', 'p', 'COUNT(*)');
 		
 		if(in_array('main_category', $_settings['cols'])){
@@ -447,7 +447,7 @@ class PostController extends AdminController{
 		
 		$sql = new Sql();
 		$post = $sql->from('posts', 'p', Posts::model()->getFields())
-			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', '!post_id')
+			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'))
 			->where('p.id = ' . $post_id)
 			->fetchRow()
 		;

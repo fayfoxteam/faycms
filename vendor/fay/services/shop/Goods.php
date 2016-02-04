@@ -36,7 +36,7 @@ class Goods extends Model{
 			$goods['props'] = array();
 			$sql = new Sql();
 			$goods_props = $sql->from('goods_prop_values', 'gpv')
-				->joinLeft('goods_cat_props', 'cp', 'gpv.prop_id = cp.id', '!id')
+				->joinLeft('goods_cat_props', 'cp', 'gpv.prop_id = cp.id', GoodsCatProps::model()->formatFields('!id'))
 				->where(array(
 					'gpv.goods_id = ?'=>$id,
 					'cp.deleted = 0',

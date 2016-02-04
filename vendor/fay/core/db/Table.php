@@ -207,7 +207,7 @@ class Table extends Model{
 	
 	/**
 	 * 格式化传入字段
-	 * @param string|array $fields 若是字符串，先逗号分割为数组。当有一项是*，则返回全部字段。否则会对指定字段与表字段做交集后返回
+	 * @param string|array $fields 若是字符串，先逗号分割为数组。当有一项是*，则返回全部字段。
 	 * @return array 表字段
 	 */
 	public function formatFields($fields){
@@ -226,7 +226,7 @@ class Table extends Model{
 			//当有一项是*，则返回全部字段
 			return $this->getFields();
 		}else{
-			return array_values(array_intersect($this->getFields(), $fields));
+			return $fields;
 		}
 	}
 }

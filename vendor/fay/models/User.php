@@ -223,27 +223,17 @@ class User extends Model{
 		}
 		
 		$return['user'] = $user;
+		//角色属性
 		if(!empty($fields['props'])){
-			$user_roles = Role::model()->getIds($id);
-			if($user_roles){
-				//附加角色属性
-				$props = Props::model()->fetchAll(array(
-					'refer IN ('.implode(',', $user_roles).')',
-					'type = '.Props::TYPE_ROLE,
-					'deleted = 0',
-					'alias IN (?)'=>in_array('*', $fields['props']) ? false : $fields['props'],
-				), 'id,title,element,required,is_show,alias', 'sort');
-				
-				$return['props'] = $this->getPropertySet($id, $props);
-			}else{
-				$return['props'] = array();
-			}
+			$return['props'] = $this->getPropertySet($id, in_array('*', $fields['props']) ? null : $fields['props']);
 		}
 		
+		//角色
 		if(!empty($fields['roles'])){
 			$return['roles'] = Role::model()->get($id, $fields['roles']);
 		}
 		
+		//profile
 		if(!empty($fields['profile'])){
 			$return['profile'] = Profile::model()->get($id, $fields['profile']);
 		}
@@ -305,19 +295,23 @@ class User extends Model{
 		foreach($users as $u){
 			$user['user'] = $u;
 			
+			//profile
 			if(!empty($fields['profile'])){
 				$user['profile'] = $profiles[$u['id']];
 			}
 			
+			//角色
 			if(!empty($fields['roles'])){
 				$user['roles'] = $roles[$u['id']];
 			}
 			
+			//角色属性
 			if(!empty($fields['props'])){
-				$user['props'] = $this->getProps($u['id']);
+				$user['props'] = $this->getPropertySet($u['id'], in_array('*', $fields['props']) ? null : $fields['props']);
 			}
 			
 			if($remove_id_field){
+				//移除id字段
 				unset($user['user']['id']);
 			}
 			
@@ -335,6 +329,8 @@ class User extends Model{
 	public function getPropertySet($user_id, $props = null){
 		if($props === null){
 			$props = $this->getProps($user_id);
+		}else{
+			$props = Prop::model()->mgetByAlias($props, Props::TYPE_ROLE);
 		}
 		
 		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(

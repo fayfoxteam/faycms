@@ -6,6 +6,11 @@ use fay\models\tables\PostMeta;
 
 class Meta extends Model{
 	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array('comments', 'views', 'likes');
+	
+	/**
 	 * @return Meta
 	 */
 	public static function model($class_name = __CLASS__){
@@ -18,7 +23,11 @@ class Meta extends Model{
 	 * @param string $fields 字段（post_meta表字段）
 	 * @return array 返回包含文章meta信息的一维数组
 	 */
-	public function get($post_id, $fields = 'comments,views,likes'){
+	public function get($post_id, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
 		return PostMeta::model()->fetchRow(array(
 			'post_id = ?'=>$post_id,
 		), $fields);
@@ -30,7 +39,11 @@ class Meta extends Model{
 	 * @param string $fields 字段（post_meta表字段）
 	 * @return array 返回以文章ID为key的二维数组
 	 */
-	public function mget($post_ids, $fields = 'comments,views,likes'){
+	public function mget($post_ids, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
 		//批量搜索，必须先得到post_id
 		if(!is_array($fields)){
 			$fields = explode(',', $fields);

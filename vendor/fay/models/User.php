@@ -284,7 +284,7 @@ class User extends Model{
 		}
 		
 		$remove_id_field = false;
-		if((!empty($fields['props']) || !empty($fields['roles']) || !empty($fields['profile'])) && in_array('id', $fields['user'])){
+		if((!empty($fields['props']) || !empty($fields['roles']) || !empty($fields['profile'])) && !in_array('id', $fields['user'])){
 			$fields['user'][] = 'id';
 			$remove_id_field = true;
 		}
@@ -320,13 +320,15 @@ class User extends Model{
 			if($remove_id_field){
 				unset($user['user']['id']);
 			}
+			
+			$return[$u['id']] = $user;
 		}
 		
 		return $return;
 	}
 	
 	/**
-	 * 获取用户附加属性<br>
+	 * 获取用户附加属性
 	 * 可传入props（并不一定真的是当前用户分类对应的属性，比如编辑用户所属分类的时候会传入其他属性）<br>
 	 * 若不传入，则会自动获取当前用户所属角色的属性集
 	 */

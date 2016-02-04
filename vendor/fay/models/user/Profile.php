@@ -6,6 +6,11 @@ use fay\models\tables\UserProfile;
 
 class Profile extends Model{
 	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array('reg_time', 'last_login_time', 'last_login_ip', 'last_time_online');
+	
+	/**
 	 * @return Profile
 	 */
 	public static function model($class_name = __CLASS__){
@@ -18,7 +23,11 @@ class Profile extends Model{
 	 * @param string $fields 附件字段（user_profile表字段）
 	 * @return array 返回包含用户profile信息的二维数组
 	 */
-	public function get($user_id, $fields = 'reg_time,last_login_time,last_login_ip,last_time_online'){
+	public function get($user_id, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
 		return UserProfile::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
 		), $fields);
@@ -30,7 +39,11 @@ class Profile extends Model{
 	 * @param string $fields 附件字段（user_profile表字段）
 	 * @return array 返回以用户ID为key的三维数组
 	 */
-	public function mget($user_ids, $fields = 'reg_time,last_login_time,last_login_ip,last_time_online'){
+	public function mget($user_ids, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
 		//批量搜索，必须先得到user_id
 		if(!is_array($fields)){
 			$fields = explode(',', $fields);

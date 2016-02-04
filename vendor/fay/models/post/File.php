@@ -6,6 +6,11 @@ use fay\models\tables\PostsFiles;
 
 class File extends Model{
 	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array('file_id', 'description', 'is_image');
+	
+	/**
 	 * @return File
 	 */
 	public static function model($class_name = __CLASS__){
@@ -18,7 +23,11 @@ class File extends Model{
 	 * @param string $fields 附件字段（posts_files表字段）
 	 * @return array 返回包含文章附件信息的二维数组
 	 */
-	public function get($post_id, $fields = 'file_id,description,is_image'){
+	public function get($post_id, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
 		$files = PostsFiles::model()->fetchAll(array(
 			'post_id = ?'=>$post_id,
 		), $fields, 'sort');
@@ -34,29 +43,33 @@ class File extends Model{
 	 * @param string $fields 附件字段（posts_files表字段）
 	 * @return array 返回以文章ID为key的三维数组
 	 */
-	public function mget($post_id, $fields = 'file_id,description,is_image'){
-			//批量搜索，必须先得到post_id
-			if(!is_array($fields)){
-				$fields = explode(',', $fields);
+	public function mget($post_id, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
+		//批量搜索，必须先得到post_id
+		if(!is_array($fields)){
+			$fields = explode(',', $fields);
+		}
+		if(!in_array('post_id', $fields)){
+			$fields[] = 'post_id';
+			$remove_post_id_field = true;
+		}else{
+			$remove_post_id_field = false;
+		}
+		$files = PostsFiles::model()->fetchAll(array(
+			'post_id IN (?)'=>$post_id,
+		), $fields, 'post_id, sort');
+		$return = array_fill_keys($post_id, array());
+		foreach($files as $f){
+			$p = $f['post_id'];
+			if($remove_post_id_field){
+				unset($f['post_id']);
 			}
-			if(!in_array('post_id', $fields)){
-				$fields[] = 'post_id';
-				$remove_post_id_field = true;
-			}else{
-				$remove_post_id_field = false;
-			}
-			$files = PostsFiles::model()->fetchAll(array(
-				'post_id IN (?)'=>$post_id,
-			), $fields, 'post_id, sort');
-			$return = array_fill_keys($post_id, array());
-			foreach($files as $f){
-				$p = $f['post_id'];
-				if($remove_post_id_field){
-					unset($f['post_id']);
-				}
-				$f['url'] = File::getUrl($f['file_id']);
-				$return[$p][] = $f;
-			}
-			return $return;
+			$f['url'] = File::getUrl($f['file_id']);
+			$return[$p][] = $f;
+		}
+		return $return;
 	}
 }

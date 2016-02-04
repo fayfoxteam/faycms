@@ -906,7 +906,8 @@ DROP TABLE IF EXISTS `{{$prefix}}users_roles`;
 CREATE TABLE `{{$prefix}}users_roles` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `role_id` smallint(5) unsigned NOT NULL COMMENT '角色ID',
-  PRIMARY KEY (`user_id`,`role_id`)
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `role_id-user_id` (`role_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}vouchers`;

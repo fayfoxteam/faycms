@@ -40,7 +40,7 @@ use fay\models\user\Role;
 	
 	<?php if(in_array('roles', $cols)){?>
 	<td><?php
-		$user_roles = Role::model()->getget($data['id']);
+		$user_roles = Role::model()->get($data['id']);
 		foreach($user_roles as $k => $role){
 			if($k){
 				echo ', ';

@@ -11,21 +11,21 @@ use fay\models\File;
 	</div>
 	<div class="box-content">
 		<?php foreach($posts as $p){
-			if($p['thumbnail']){
-				echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+			if($p['post']['thumbnail']){
+				echo Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>234,
 					'dh'=>165,
-					'alt'=>Html::encode($p['title']),
-				)), $p['link'], array(
+					'alt'=>Html::encode($p['post']['title']),
+				)), $p['post']['link'], array(
 					'encode'=>false,
-					'title'=>Html::encode($p['title']),
+					'title'=>Html::encode($p['post']['title']),
 				));
 				break;
 			}
 		}?>
 		<ul>
 		<?php foreach($posts as $p){
-			echo Html::link($p['title'], $p['link'], array(
+			echo Html::link($p['post']['title'], $p['post']['link'], array(
 				'wrapper'=>'li',
 			));
 		}?>

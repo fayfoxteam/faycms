@@ -23,7 +23,7 @@ use fay\models\post\Meta;
 use fay\models\post\Category as PostCategory;
 use fay\models\Category;
 use fay\models\post\Tag;
-use fay\models\post\File;
+use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
 
 class Post extends Model{
@@ -443,7 +443,7 @@ class Post extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$return['files'] = File::model()->get($id, $fields['files']);
+			$return['files'] = PostFile::model()->get($id, $fields['files']);
 		}
 		
 		//附加属性
@@ -656,7 +656,7 @@ class Post extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$post_files = File::model()->mget($post_ids, $fields['files']);
+			$post_files = PostFile::model()->mget($post_ids, $fields['files']);
 		}
 		
 		//附加分类

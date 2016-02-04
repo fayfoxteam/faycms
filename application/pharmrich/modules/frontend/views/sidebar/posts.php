@@ -6,18 +6,18 @@ use fay\models\File;
 	<h3><?php echo $config['title']?></h3>
 	<ul><?php foreach($posts as $p){?>
 		<li>
-			<?php if($p['thumbnail']){
-				echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+			<?php if($p['post']['thumbnail']){
+				echo Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>150,
 					'dh'=>115,
-					'alt'=>Html::encode($p['title']),
-				)), $p['link'], array(
+					'alt'=>Html::encode($p['post']['title']),
+				)), $p['post']['link'], array(
 					'encode'=>false,
-					'title'=>Html::encode($p['title']),
+					'title'=>Html::encode($p['post']['title']),
 				));
 			}?>
-			<h5><?php echo Html::link($p['title'], $p['link'])?></h5>
-			<span><?php echo $p['format_publish_time']?> / <span class="fc-red"><?php echo $p['views']?> Views</span></span>
+			<h5><?php echo Html::link($p['post']['title'], $p['post']['link'])?></h5>
+			<span><?php echo $p['post']['format_publish_time']?> / <span class="fc-red"><?php echo $p['meta']['views']?> Views</span></span>
 		</li>
 	<?php }?></ul>
 </div>

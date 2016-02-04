@@ -91,13 +91,7 @@ class Category extends Model{
 		if(!is_array($ids)){
 			$ids = explode(',', $ids);
 		}
-		if(!is_array($fields)){
-			$fields = explode(',', $fields);
-		}
-		if(in_array('*', $fields)){
-			//如果有一项是*，则获取所有字段
-			$fields = Categories::model()->getFields();
-		}
+		$fields = Categories::model()->formatFields($fields);
 		$remove_id = false;//最受是否删除id字段
 		if(!in_array('id', $fields)){
 			//id必须搜出，若为指定，则先插入id字段，到后面再unset掉

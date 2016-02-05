@@ -16,6 +16,7 @@ class LoginController extends ApiController{
 					'message'=>'登录成功',
 					'data'=>array(
 						'user'=>array(
+							'id'=>$result['user']['user']['id'],
 							'username'=>$result['user']['user']['username'],
 							'nickname'=>$result['user']['user']['nickname'],
 							'avatar'=>$result['user']['user']['avatar'],

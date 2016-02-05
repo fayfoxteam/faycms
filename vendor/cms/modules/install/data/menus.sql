@@ -22,7 +22,7 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('142', '140', '', '添加页面', '', 'admin/page/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('143', '140', '', '页面分类', '', 'admin/page/cat');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('150', '100', 'message', '留言', 'fa fa-comments-o', 'javascript:;');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('151', '150', '', '文章评论', '', 'admin/comment/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('151', '150', '', '文章评论', '', 'admin/post-comment/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('152', '150', '', '联系我们', '', 'admin/contact/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('153', '150', '', '会话', '', 'admin/chat/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('160', '100', 'menu', '导航栏', 'fa fa-map-marker', 'javascript:;');

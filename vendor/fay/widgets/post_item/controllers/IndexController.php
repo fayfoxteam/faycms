@@ -31,7 +31,7 @@ class IndexController extends Widget{
 			'file_id', 'description', 'is_image',
 		),
 		'props'=>array(
-			'*',
+			'*',//这里指定的是属性别名，取值视后台设定而定
 		),
 		'meta'=>array(
 			'comments', 'views', 'likes',
@@ -101,6 +101,9 @@ class IndexController extends Widget{
 				return '';
 			}
 		}
+		
+		//格式化文章内容
+		$post['post']['content'] = Post::formatContent($post['post']);
 		
 		if($config['inc_views']){
 			PostMeta::model()->update(array(

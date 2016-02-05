@@ -394,7 +394,7 @@ class Post extends Model{
 			}
 			
 			if(!$cat){
-				//指定分类不存在，一般来说是Controller调用错误
+				//指定分类不存在
 				return false;
 			}
 			$sql->joinLeft('categories', 'c', 'p.cat_id = c.id')

@@ -27,6 +27,7 @@ class ApiController extends Controller{
 	 */
 	protected function checkLogin(){
 		if(!$this->isLogin()){
+			Response::setStatusHeader(401);
 			Response::json('', 0, '请先登录', 'login-request');
 		}
 	}

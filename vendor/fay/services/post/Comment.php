@@ -101,8 +101,8 @@ class Comment extends Model{
 		}
 		
 		if($parent){
-			$parent_comment = PostComments::model()->find($parent, 'post_id');
-			if(!$parent_comment){
+			$parent_comment = PostComments::model()->find($parent, 'post_id,deleted');
+			if(!$parent_comment || $parent_comment['deleted']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
 			}
 			if($parent_comment['post_id'] != $post_id){

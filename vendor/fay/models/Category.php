@@ -4,6 +4,7 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Categories;
 use fay\helpers\String;
+use fay\helpers\ArrayHelper;
 
 class Category extends Model{
 	/**
@@ -195,51 +196,7 @@ class Category extends Model{
 	 *  - 若为字符串，视为分类别名获取分类；
 	 */
 	public function getAllIds($parent = null){
-		if($parent === null){
-			return Categories::model()->fetchCol('id');
-		}else if(String::isInt($parent)){
-			return $this->getAllIdsByParentId($parent);
-		}else{
-			return $this->getAllIdsByParentAlias($parent);
-		}
-	}
-	
-	/**
-	 * 根据父节点别名，获取所有子节点的ID，以一维数组方式返回
-	 * 若不指定别名，返回整张表
-	 * @param string $parent_alias 父节点别名
-	 */
-	public function getAllIdsByParentAlias($parent_alias = null){
-		if($parent_alias === null){
-			return Categories::model()->fetchCol('id');
-		}else{
-			$node = $this->getByAlias($parent_alias, 'left_value,right_value');
-			if($node){
-				return Categories::model()->fetchCol('id', array(
-					'left_value > '.$node['left_value'],
-					'right_value < '.$node['right_value'],
-				));
-			}else{
-				return array();
-			}
-		}
-	}
-	
-	/**
-	 * 根据父节点ID，获取所有子节点的ID，以一维数组方式返回
-	 * @param int $parent_id 父节点ID
-	 * @return array
-	 */
-	public function getAllIdsByParentId($parent_id){
-		$node = $this->get($parent_id, 'left_value,right_value');
-		if($node){
-			return Categories::model()->fetchCol('id', array(
-				'left_value > '.$node['left_value'],
-				'right_value < '.$node['right_value'],
-			));
-		}else{
-			return array();
-		}
+		return ArrayHelper::column($this->getAll($parent, 'id', 'id'), 'id');
 	}
 	
 	/**

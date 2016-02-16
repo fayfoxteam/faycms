@@ -388,6 +388,7 @@ class Post extends Model{
 			));
 		}
 		
+		//若指定了分类，加上分类条件限制
 		if($cat){
 			if(!is_array($cat)){
 				$cat = Category::model()->get($cat, 'left_value,right_value');
@@ -667,7 +668,7 @@ class Post extends Model{
 		//主分类
 		if(!empty($fields['category'])){
 			$cat_ids = ArrayHelper::column($posts, 'cat_id');
-			$post_category = Category::model()->getByIDs(array_unique($cat_ids), $fields['category']);
+			$post_category = Category::model()->mget(array_unique($cat_ids), $fields['category']);
 		}
 		
 		$return = array();

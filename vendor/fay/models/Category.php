@@ -87,7 +87,7 @@ class Category extends Model{
 	 *  - 若为字符串，视为分类别名
 	 *  - 若为数组，则必须包含left_value和right_value
 	 */
-	public function getByIds($ids, $fields = '*', $root = null){
+	public function mget($ids, $fields = '*', $root = null){
 		if(!is_array($ids)){
 			$ids = explode(',', $ids);
 		}
@@ -116,18 +116,8 @@ class Category extends Model{
 		$cats = Categories::model()->fetchAll($conditions, $fields);
 		//根据传入ID顺序返回
 		$return = array();
-		foreach($ids as $id){
-			foreach($cats as $k => $c){
-				if($c['id'] == $id){
-					//若不需要返回id，把id去掉
-					if($remove_id){
-						unset($c['id']);
-					}
-					$return[$id] = $c;
-					unset($cats[$k]);
-					break;
-				}
-			}
+		foreach($cats as $c){
+			$return[$c['id']] = $c;
 		}
 		return $return;
 	}
@@ -347,7 +337,7 @@ class Category extends Model{
 	
 	/**
 	 * 获取一个或多个分类。
-	 * @param int|string|array $cats
+	 * @param int|string $cats
 	 *  - 若为数字，视为分类ID获取分类（返回一维数组）；
 	 *  - 若为字符串，视为分类别名获取分类（返回一维数组）；
 	 *  - 若是数组，循环调用自己获取多个分类（数组项可以是数字也可以是字符串，返回二维数组）；
@@ -365,14 +355,11 @@ class Category extends Model{
 				$root = $this->getByAlias($root, 'left_value,right_value');
 			}
 		}
-		if(is_array($cats)){
-			return $this->getByIds($cats, $fields, $root);
+		
+		if(String::isInt($cats)){
+			return $this->getById($cats, $fields, $root);
 		}else{
-			if(String::isInt($cats)){
-				return $this->getById($cats, $fields, $root);
-			}else{
-				return $this->getByAlias($cats, $fields, $root);
-			}
+			return $this->getByAlias($cats, $fields, $root);
 		}
 	}
 	

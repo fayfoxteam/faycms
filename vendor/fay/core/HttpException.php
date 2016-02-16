@@ -1,8 +1,12 @@
 <?php
 namespace fay\core;
 
-class HttpException extends \Exception
-{
+class HttpException extends \Exception{
+	/**
+	 * 这个字段在这里并没有什么用，只是为了与ErrorException一致
+	 */
+	public $description;
+	
 	/**
 	 * @var integer HTTP 状态码, 例如403, 404, 500等
 	 */

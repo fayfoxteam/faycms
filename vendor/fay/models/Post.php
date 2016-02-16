@@ -5,7 +5,6 @@ use fay\core\Model;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
-use fay\models\tables\Messages;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Categories;
 use fay\models\tables\Props;
@@ -21,9 +20,11 @@ use fay\models\tables\PostLikes;
 use fay\helpers\SqlHelper;
 use fay\models\tables\PostMeta;
 use fay\models\post\Meta;
-use fay\models\post\Category;
+use fay\models\post\Category as PostCategory;
+use fay\models\Category;
 use fay\models\post\Tag;
-use fay\models\post\File;
+use fay\models\post\File as PostFile;
+use fay\helpers\ArrayHelper;
 
 class Post extends Model{
 	
@@ -74,7 +75,7 @@ class Post extends Model{
 		}
 		//添加到标签表
 		if($extra['tags']){
-			Tag::model()->set($extra['tags'], $post_id);
+			\fay\models\Tag::model()->set($extra['tags'], $post_id);
 		}
 		
 		//设置附件
@@ -86,7 +87,7 @@ class Post extends Model{
 					'file_id'=>$file_id,
 					'post_id'=>$post_id,
 					'description'=>$description,
-					'is_image'=>File::isImage($file_id),
+					'is_image'=>\fay\models\File::isImage($file_id),
 					'sort'=>$i,
 				));
 			}
@@ -157,7 +158,7 @@ class Post extends Model{
 		
 		//标签
 		if(isset($extra['tags'])){
-			Tag::model()->set($extra['tags'], $post_id);
+			\fay\models\Tag::model()->set($extra['tags'], $post_id);
 		}
 		
 		//附件
@@ -194,7 +195,7 @@ class Post extends Model{
 						'file_id'=>$file_id,
 						'description'=>$description,
 						'sort'=>$i,
-						'is_image'=>File::isImage($file_id),
+						'is_image'=>\fay\models\File::isImage($file_id),
 					));
 				}
 			}
@@ -263,11 +264,13 @@ class Post extends Model{
 	/**
 	 * 根据文章ID，获取一个属性集
 	 * @param int $post_id 文章ID
-	 * @param null|array $props 属性。若为null，则根据文章ID获取属性
+	 * @param null|array $props 属性别名。若为null，则根据文章ID获取所有属性
 	 */
 	public function getPropertySet($post_id, $props = null){
 		if($props === null){
 			$props = $this->getProps($post_id);
+		}else{
+			$props = Prop::model()->mgetByAlias($props, Props::TYPE_POST_CAT);
 		}
 		return Prop::model()->getPropertySet('post_id', $post_id, $props, array(
 			'varchar'=>'fay\models\tables\PostPropVarchar',
@@ -310,6 +313,7 @@ class Post extends Model{
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
 	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
@@ -327,6 +331,10 @@ class Post extends Model{
 		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$post_fields[] = 'user_id';
+		}
+		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'cat_id';
 		}
 		
 		if(!empty($fields['nav'])){
@@ -367,7 +375,6 @@ class Post extends Model{
 		
 		$sql = new Sql();
 		$sql->from('posts', 'p', $post_fields)
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title, alias AS cat_alias')
 			->where(array(
 				'p.id = ?'=>$id,
 			));
@@ -387,13 +394,14 @@ class Post extends Model{
 			}
 			
 			if(!$cat){
-				//指定分类不存在，一般来说是Controller调用错误
+				//指定分类不存在
 				return false;
 			}
-			$sql->where(array(
-				'c.left_value >= '.$cat['left_value'],
-				'c.right_value <= '.$cat['right_value'],
-			));
+			$sql->joinLeft('categories', 'c', 'p.cat_id = c.id')
+				->where(array(
+					'c.left_value >= '.$cat['left_value'],
+					'c.right_value <= '.$cat['right_value'],
+				));
 		}
 		
 		$post = $sql->fetchRow();
@@ -418,6 +426,7 @@ class Post extends Model{
 			'post'=>$post,
 		);
 		
+		//meta
 		if(!empty($fields['meta'])){
 			$return['meta'] = Meta::model()->get($id, $fields['meta']);
 		}
@@ -434,17 +443,22 @@ class Post extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$return['files'] = File::model()->get($id, $fields['files']);
+			$return['files'] = PostFile::model()->get($id, $fields['files']);
 		}
 		
 		//附加属性
 		if(!empty($fields['props'])){
-			$return['props'] = $this->getPropertySet($id);
+			$return['props'] = $this->getPropertySet($id, in_array('*', $fields['props']) ? null : $fields['props']);
 		}
 		
 		//附加分类
 		if(!empty($fields['categories'])){
-			$return['categories'] = Category::model()->get($id, $fields['categories']);
+			$return['categories'] = PostCategory::model()->get($id, $fields['categories']);
+		}
+		
+		//主分类
+		if(!empty($fields['category'])){
+			$return['category'] = Category::model()->get($post['cat_id'], $fields['category']);
 		}
 		
 		//前后一篇文章导航
@@ -467,18 +481,26 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 根据分类信息获取对应文章<br>
+	 * 根据分类信息获取对应文章
 	 * @param int|string|array $cat 父节点ID或别名
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若为字符串，视为分类别名获取分类；
 	 *  - 若为数组，至少需要包括id,left_value,right_value信息；
 	 * @param number $limit 显示文章数若为0，则不限制
 	 * @param string $field 字段
+	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
+	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
 	 */
-	public function getByCat($cat, $limit = 10, $field = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+	public function getByCat($cat, $limit = 10, $field = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		if(is_array($cat)){
 			//分类数组
 			return $this->getByCatArray($cat, $limit, $field, $children, $order, $conditions);
@@ -492,15 +514,23 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 根据分类别名获取对应的文章<br>
+	 * 根据分类别名获取对应的文章
 	 * @param string $alias 分类别名
 	 * @param number $limit 显示文章数若为0，则不限制
 	 * @param string $field 字段
+	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
+	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
 	 */
-	public function getByCatAlias($alias, $limit = 10, $fields = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+	public function getByCatAlias($alias, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$cat = Categories::model()->fetchRow(array(
 			'alias = ?'=>$alias
 		), 'id,left_value,right_value');
@@ -514,15 +544,23 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 根据分类ID获取对应的文章<br>
+	 * 根据分类ID获取对应的文章
 	 * @param string $cat_id 分类ID
 	 * @param number $limit 显示文章数若为0，则不限制
 	 * @param string $field 字段
+	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
+	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
 	 */
-	public function getByCatId($cat_id, $limit = 10, $fields = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+	public function getByCatId($cat_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$cat = Categories::model()->find($cat_id, 'id,left_value,right_value');
 		if(!$cat){
 			//指定分类不存在，直接返回空数组
@@ -534,7 +572,7 @@ class Post extends Model{
 
 
 	/**
-	 * 根据分类数组获取对应的文章<br>
+	 * 根据分类数组获取对应的文章
 	 * @param array $cat 分类数组，至少需要包括id,left_value,right_value信息
 	 * @param number $limit 显示文章数若为0，则不限制
 	 * @param string $field 可指定返回字段
@@ -545,14 +583,35 @@ class Post extends Model{
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
 	 */
-	public function getByCatArray($cat, $limit = 10, $field = '!content', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+	public function getByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+		//解析$fields
+		$fields = SqlHelper::processFields($fields, 'post');
+		if(empty($fields['post']) || in_array('*', $fields['post'])){
+			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
+			$fields['post'] = Posts::model()->getFields('content');
+		}
+		
+		$post_fields = $fields['post'];
+		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'user_id';
+		}
+		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'cat_id';
+		}
+		if(!in_array('id', $fields['post'])){
+			//id字段无论如何都要返回，因为后面要用到
+			$post_fields[] = 'id';
+		}
+		
 		$sql = new Sql();
-		$sql->from('posts', 'p', $field)
-			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', 'comments,views,likes')
+		$sql->from('posts', 'p', $post_fields)
 			->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
 			->where(array(
 				'deleted = 0',
@@ -582,7 +641,84 @@ class Post extends Model{
 		if(!empty($conditions)){
 			$sql->where($conditions);
 		}
-		return $sql->fetchAll();
+		$posts = $sql->fetchAll();
+		
+		$post_ids = ArrayHelper::column($posts, 'id');
+		//meta
+		if(!empty($fields['meta'])){
+			$post_metas = Meta::model()->mget($post_ids, $fields['meta']);
+		}
+		
+		//标签
+		if(!empty($fields['tags'])){
+			$post_tags = Tag::model()->mget($post_ids, $fields['tags']);
+		}
+		
+		//附件
+		if(!empty($fields['files'])){
+			$post_files = PostFile::model()->mget($post_ids, $fields['files']);
+		}
+		
+		//附加分类
+		if(!empty($fields['categories'])){
+			$post_categories = PostCategory::model()->mget($post_ids, $fields['categories']);
+		}
+		
+		//主分类
+		if(!empty($fields['category'])){
+			$cat_ids = ArrayHelper::column($posts, 'cat_id');
+			$post_category = Category::model()->getByIDs(array_unique($cat_ids), $fields['category']);
+		}
+		
+		$return = array();
+		foreach($posts as $p){
+			$post['post'] = $p;
+			//meta
+			if(!empty($fields['meta'])){
+				$post['meta'] = $post_metas[$p['id']];
+			}
+			
+			//标签
+			if(!empty($fields['tags'])){
+				$post['tags'] = $post_tags[$p['id']];
+			}
+			
+			//附件
+			if(!empty($fields['files'])){
+				$post['files'] = $post_files[$p['id']];
+			}
+			
+			//附加分类
+			if(!empty($fields['categories'])){
+				$post['categories'] = $post_categories[$p['id']];
+			}
+			
+			//主分类
+			if(!empty($fields['category'])){
+				$post['category'] = $post_category[$p['cat_id']];
+			}
+			
+			//作者信息
+			if(!empty($fields['user'])){
+				$post['user'] = User::model()->get($p['user_id'], implode(',', $fields['user']));
+			}
+			
+			//附加属性
+			if(!empty($fields['props'])){
+				$post['props'] = $this->getPropertySet($p['id'], in_array('*', $fields['props']) ? null : $fields['props']);
+			}
+			
+			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+			foreach(array('id', 'user_id', 'cat_id') as $f){
+				if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
+					unset($post['post'][$f]);
+				}
+			}
+			
+			$return[] = $post;
+		}
+		
+		return $return;
 	}
 	
 	/**
@@ -597,25 +733,6 @@ class Post extends Model{
 			$post_id = $post;
 		}
 		return \F::app()->view->url($controller . '/' . $post_id);
-	}
-	
-	/**
-	 * 刷新文章评论数
-	 * @param int $target
-	 * @return int
-	 */
-	public function refreshComments($target){
-		$comment_count = Messages::model()->fetchRow(array(
-			'target = ?'=>$target,
-			'type = '.Messages::TYPE_POST_COMMENT,
-			'status = '.Messages::STATUS_APPROVED,
-			'deleted = 0',
-		), 'COUNT(*) AS count');
-		
-		Posts::model()->update(array(
-			'comments'=>$comment_count['count'],
-		), $target);
-		return $comment_count['count'];
 	}
 	
 	/**
@@ -669,6 +786,9 @@ class Post extends Model{
 		//删除关注，收藏列表
 		PostLikes::model()->delete('post_id = '.$post_id);
 		Favourites::model()->delete('post_id = '.$post_id);
+		
+		//删除文章meta信息
+		PostMeta::model()->delete('post_id = ' . $post_id);
 		
 		//刷新对应tags的count值
 		Tag::model()->refreshCountByTagId($tag_ids);

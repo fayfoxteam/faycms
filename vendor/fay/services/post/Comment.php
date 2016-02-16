@@ -9,10 +9,10 @@ use fay\models\Post;
 use fay\models\Message;
 use fay\helpers\SqlHelper;
 use fay\models\Option;
-use fay\models\tables\Posts;
 use fay\models\MultiTree;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
+use fay\models\tables\PostMeta;
 
 class Comment extends Model{
 	/**
@@ -100,12 +100,14 @@ class Comment extends Model{
 			throw new Exception('文章ID不存在', 'post_id-not-exist');
 		}
 		
-		$parent_comment = PostComments::model()->find($parent, 'post_id');
-		if(!$parent_comment){
-			throw new Exception('父节点不存在', 'parent-not-exist');
-		}
-		if($parent_comment['post_id'] != $post_id){
-			throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'post_id-and-parent-not-match');
+		if($parent){
+			$parent_comment = PostComments::model()->find($parent, 'post_id,deleted');
+			if(!$parent_comment || $parent_comment['deleted']){
+				throw new Exception('父节点不存在', 'parent-not-exist');
+			}
+			if($parent_comment['post_id'] != $post_id){
+				throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'post_id-and-parent-not-match');
+			}
 		}
 		
 		$comment_id = MultiTree::model()->create('\fay\models\tables\PostComments', array_merge($extra, array(
@@ -598,13 +600,13 @@ class Comment extends Model{
 			
 			if($comments && $comments == $real_comments){
 				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				Posts::model()->inc('id = '.$post_id, array('comments', 'real_comments'), $comments);
+				PostMeta::model()->inc($post_id, array('comments', 'real_comments'), $comments);
 			}else{
 				if($comments){
-					Posts::model()->inc('id = '.$post_id, array('comments'), $comments);
+					PostMeta::model()->inc($post_id, array('comments'), $comments);
 				}
 				if($real_comments){
-					Posts::model()->inc('id = '.$post_id, array('real_comments'), $real_comments);
+					PostMeta::model()->inc($post_id, array('real_comments'), $real_comments);
 				}
 			}
 		}

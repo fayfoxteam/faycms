@@ -3,8 +3,14 @@ namespace fay\models\post;
 
 use fay\core\Model;
 use fay\core\Sql;
+use fay\models\tables\Tags;
 
 class Tag extends Model{
+	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array('id', 'title');
+	
 	/**
 	 * @return Tag
 	 */
@@ -18,10 +24,14 @@ class Tag extends Model{
 	 * @param string $fields 标签字段，tags表字段
 	 * @return array 返回包含文章tag信息的二维数组
 	 */
-	public function get($post_id, $fields = 'id,title'){
+	public function get($post_id, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
 		$sql = new Sql();
 		return $sql->from('posts_tags', 'pt', '')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
+			->joinLeft('tags', 't', 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array(
 				'pt.post_id = ?'=>$post_id,
 			))
@@ -35,10 +45,14 @@ class Tag extends Model{
 	 * @param string $fields 标签字段，tags表字段
 	 * @return array 返回以文章ID为key的三维数组
 	 */
-	public function mget($post_ids, $fields = 'id,title'){
+	public function mget($post_ids, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = $this->default_fields;
+		}
 		$sql = new Sql();
 		$tags = $sql->from('posts_tags', 'pt', 'post_id')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', $fields)
+			->joinLeft('tags', 't', 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array('pt.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());

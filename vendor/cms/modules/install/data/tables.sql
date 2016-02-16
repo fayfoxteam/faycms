@@ -648,7 +648,6 @@ CREATE TABLE `{{$prefix}}posts` (
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
   `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序',
-  `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
   `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
@@ -906,7 +905,8 @@ DROP TABLE IF EXISTS `{{$prefix}}users_roles`;
 CREATE TABLE `{{$prefix}}users_roles` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `role_id` smallint(5) unsigned NOT NULL COMMENT '角色ID',
-  PRIMARY KEY (`user_id`,`role_id`)
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `role_id-user_id` (`role_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}vouchers`;

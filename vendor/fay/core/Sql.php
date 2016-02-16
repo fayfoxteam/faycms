@@ -336,15 +336,6 @@ class Sql{
 	 * @param string $table 表名
 	 */
 	private function _field($fields, $alias = null, $table = null){
-		if(is_string($fields) && strpos($fields, '!') === 0){
-			$except_fields = explode(',', str_replace(' ', '', substr($fields, 1)));
-			if(strpos($table, APPLICATION.'_') === 0){
-				$all_fields = \F::model(APPLICATION.'\models\tables\\'.String::underscore2case($table))->getFields($except_fields);
-			}else{
-				$all_fields = \F::model('fay\models\tables\\'.String::underscore2case($table))->getFields($except_fields);
-			}
-			$fields = '`'.implode('`,`', $all_fields).'`';
-		}
 		if(!empty($fields)){
 			if(!is_array($fields)){
 				$fields = array($fields);

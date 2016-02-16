@@ -10,7 +10,7 @@ use fay\models\File;
 	/
 	<span class="fc-red"><?php echo $post['meta']['views']?> Views</span>
 	/
-	<?php echo Html::link($post['post']['cat_title'], array('product/' . $post['post']['cat_alias']))?>
+	<?php echo Html::link($post['category']['title'], array('product/' . $post['category']['alias']))?>
 </div>
 <div class="page-content cf"><?php echo $post['post']['content']?></div>
 <?php if($post['files']){?>

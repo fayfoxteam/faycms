@@ -948,9 +948,7 @@ var common = {
 				$.toast(message, type, {
 					'timeOut': 5000,
 					'closeButton': false,
-					'click': function(message){
-						message.fadeOut();
-					},
+					'click': 'fadeOut',
 					'positionClass': 'toast-top-right'
 				});
 			}else if(type == 'error'){
@@ -964,9 +962,7 @@ var common = {
 				$.toast(message, type, {
 					'closeButton': false,
 					'positionClass': 'toast-bottom-middle',
-					'click': function(message){
-						message.fadeOut();
-					}
+					'click': 'fadeOut'
 				});
 			}else{
 				//其它类型，点击关闭消失，不自动消失

@@ -118,7 +118,7 @@ class PageController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('pages', 'p', '!content');
+		$sql->from('pages', 'p', Pages::model()->formatFields('!content'));
 		
 		if($this->input->get('deleted', 'intval') == 1){
 			$sql->where('p.deleted = 1');

@@ -54,27 +54,30 @@ use fay\helpers\Html;
 			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
-					echo F::form('widget')->inputCheckbox('fields[]', 'user.nickname,user.username,user.id,user.avatar', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'category', array(
+						'label'=>'主分类',
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'categories', array(
+						'label'=>'附加分类',
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
 						'label'=>'作者信息',
 					), true);
-					echo F::form('widget')->inputCheckbox('fields[]', 'nav.id,nav.title', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'nav', array(
 						'label'=>'导航（上一篇|下一篇）',
 					), true);
-					echo F::form('widget')->inputCheckbox('fields[]', 'tags.id,tags.title', array(
+					echo F::form('widget')->inputCheckbox('fields[]', 'tags', array(
 						'label'=>'标签',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'files.file_id,files.description,files.is_image', array(
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'files', array(
 						'label'=>'附件',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'props.*', array(
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'props', array(
 						'label'=>'附加属性',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'categories.id,categories.title', array(
-						'label'=>'附加分类',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'meta.comments,meta.likes,meta.views', array(
-						'label'=>'计数（评论数/阅读数/点赞数',
-					));
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
+						'label'=>'计数（评论数/阅读数/点赞数）',
+					), true);
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>

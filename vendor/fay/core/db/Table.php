@@ -119,7 +119,7 @@ class Table extends Model{
 	 */
 	public function find($primary, $fields = '*'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $fields)
+		$this->_sql->from($this->_name, $this->_name, $this->formatFields($fields))
 			->limit(1);
 		if(is_array($this->_primary)){
 			foreach($this->_primary as $k=>$pk){
@@ -142,7 +142,7 @@ class Table extends Model{
 	 */
 	public function fetchRow($conditions, $fields = '*', $order = false, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $fields)
+		$this->_sql->from($this->_name, $this->_name, $this->formatFields($fields))
 			->where($conditions)
 			->limit(1);
 		if($order){
@@ -162,7 +162,7 @@ class Table extends Model{
 	 */
 	public function fetchAll($conditions = array(), $fields = '*', $order = false, $count = false, $offset = false, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $fields)
+		$this->_sql->from($this->_name, $this->_name, $this->formatFields($fields))
 			->where($conditions);
 		if($order){
 			$this->_sql->order($order);
@@ -202,6 +202,31 @@ class Table extends Model{
 			return array_keys($labels);
 		}else{
 			return array_keys($this->labels());
+		}
+	}
+	
+	/**
+	 * 格式化传入字段
+	 * @param string|array $fields 若是字符串，先逗号分割为数组。当有一项是*，则返回全部字段。
+	 * @return array 表字段
+	 */
+	public function formatFields($fields){
+		if(!is_array($fields)){
+			if(is_string($fields) && strpos($fields, '!') === 0){
+				//若不是数组，且首字母是感叹号，则视为排除指定字段
+				$except_fields = explode(',', str_replace(' ', '', substr($fields, 1)));
+				return $this->getFields($except_fields);
+			}else{
+				//最常规的逗号分割，拆成数组后面处理
+				$fields = explode(',', $fields);
+			}
+		}
+		
+		if(in_array('*', $fields)){
+			//当有一项是*，则返回全部字段
+			return $this->getFields();
+		}else{
+			return $fields;
 		}
 	}
 }

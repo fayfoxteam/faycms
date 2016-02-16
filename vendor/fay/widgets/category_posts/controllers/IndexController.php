@@ -29,6 +29,8 @@ class IndexController extends Widget{
 		empty($config['last_view_time']) ||
 			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $config['last_view_time']);
 		
+		isset($config['fields']) || $config['fields'] = array('user', 'category', 'meta');
+		
 		//order
 		$orders = array(
 			'hand'=>'is_top DESC, sort, publish_time DESC',
@@ -46,18 +48,30 @@ class IndexController extends Widget{
 			$config['subclassification'] = true;
 		}
 		
-		$posts = Post::model()->getByCatId($config['top'], $config['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $config['subclassification'], $order, $conditions);
+		$fields = array(
+			'posts'=>array('id', 'title', 'user_id', 'thumbnail', 'publish_time', 'abstract'),
+		);
+		if(in_array('user', $config['fields'])){
+			$fields['user'] = array('id', 'username', 'nickname', 'avatar');
+		}
+		if(in_array('category', $config['fields'])){
+			$fields['category'] = array('id', 'title', 'alias');
+		}
+		if(in_array('meta', $config['fields'])){
+			$fields['meta'] = array('views', 'likes', 'comments');
+		}
+		$posts = Post::model()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		if($posts){
 			foreach($posts as &$p){
 				if($config['date_format'] == 'pretty'){
-					$p['format_publish_time'] = Date::niceShort($p['publish_time']);
+					$p['post']['format_publish_time'] = Date::niceShort($p['post']['publish_time']);
 				}else if($config['date_format']){
-					$p['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
+					$p['post']['format_publish_time'] = \date($config['date_format'], $p['post']['publish_time']);
 				}else{
-					$p['format_publish_time'] = '';
+					$p['post']['format_publish_time'] = '';
 				}
 				
-				$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
+				$p['post']['link'] = $this->view->url(str_replace('{$id}', $p['post']['id'], $config['uri']));
 			}
 		}
 		return $posts;
@@ -97,6 +111,8 @@ class IndexController extends Widget{
 		empty($config['last_view_time']) ||
 			$conditions[] = 'last_view_time > '.(\F::app()->current_time - 86400 * $config['last_view_time']);
 		
+		isset($config['fields']) || $config['fields'] = array('user', 'category', 'meta');
+		
 		//order
 		$orders = array(
 			'hand'=>'is_top DESC, sort, publish_time DESC',
@@ -114,7 +130,19 @@ class IndexController extends Widget{
 			$config['subclassification'] = true;
 		}
 		
-		$posts = Post::model()->getByCatId($config['top'], $config['number'], 'id,title,user_id,thumbnail,publish_time,abstract', $config['subclassification'], $order, $conditions);
+		$fields = array(
+			'posts'=>array('id', 'title', 'user_id', 'thumbnail', 'publish_time', 'abstract'),
+		);
+		if(in_array('user', $config['fields'])){
+			$fields['user'] = array('id', 'username', 'nickname', 'avatar');
+		}
+		if(in_array('category', $config['fields'])){
+			$fields['category'] = array('id', 'title', 'alias');
+		}
+		if(in_array('meta', $config['fields'])){
+			$fields['meta'] = array('views', 'likes', 'comments');
+		}
+		$posts = Post::model()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
 		if(empty($posts) && !$config['show_empty']){
@@ -123,14 +151,14 @@ class IndexController extends Widget{
 		
 		foreach($posts as &$p){
 			if($config['date_format'] == 'pretty'){
-				$p['format_publish_time'] = Date::niceShort($p['publish_time']);
+				$p['post']['format_publish_time'] = Date::niceShort($p['post']['publish_time']);
 			}else if($config['date_format']){
-				$p['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
+				$p['post']['format_publish_time'] = \date($config['date_format'], $p['post']['publish_time']);
 			}else{
-				$p['format_publish_time'] = '';
+				$p['post']['format_publish_time'] = '';
 			}
 				
-			$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
+			$p['post']['link'] = $this->view->url(str_replace('{$id}', $p['post']['id'], $config['uri']));
 		}
 		
 		//template

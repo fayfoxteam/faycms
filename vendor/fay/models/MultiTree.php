@@ -65,20 +65,17 @@ class MultiTree extends Model{
 					'root'=>$parent_node['root'],
 				)));
 			}else{
-				//父节点非叶子节点，插入到最左侧
-				\F::model($model)->inc(array(
-					'root = ' . $parent_node['root'],
-					'left_value > ' . $parent_node['left_value'],
-				), 'left_value', 2);
-				\F::model($model)->inc(array(
-					'root = ' . $parent_node['root'],
-					'right_value >= ' . $parent_node['left_value'],
-				), 'right_value', 2);
+				//父节点非叶子节点，插入到最右侧（因为留言系统一般回复都是按时间正序排列的）
+				$left_node = \F::model($model)->fetchRow(array(
+					'parent = ' . $parent,
+				), 'left_value,right_value', 'left_value DESC');
+				\F::model($model)->inc('left_value > ' . $left_node['right_value'], 'left_value', 2);
+				\F::model($model)->inc('right_value > ' . $left_node['right_value'], 'right_value', 2);
 				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'parent'=>$parent,
-					'left_value'=>$parent_node['left_value'] + 1,
-					'right_value'=>$parent_node['left_value'] + 2,
 					'root'=>$parent_node['root'],
+					'left_value'=>$left_node['right_value'] + 1,
+					'right_value'=>$left_node['right_value'] + 2,
 				)));
 			}
 		}

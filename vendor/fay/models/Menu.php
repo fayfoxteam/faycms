@@ -188,13 +188,13 @@ class Menu extends Model{
 	/**
 	 * 将link替换为真实url
 	 */
-	public function renderLink($menu){
-		foreach($menu as &$m){
+	public function renderLink($menus){
+		foreach($menus as &$m){
 			$m['link'] = str_replace('{$base_url}', \F::config()->get('base_url'), $m['link']);
 			if(isset($m['children'])){
 				$m['children'] = $this->renderLink($m['children']);
 			}
 		}
-		return $menu;
+		return $menus;
 	}
 }

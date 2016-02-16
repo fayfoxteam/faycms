@@ -32,7 +32,7 @@ use fay\helpers\Date;
 					'class'=>'fa fa-user',
 					'text'=>'',
 				),
-			), Html::encode($data['name']));
+			), $data['name'] ? Html::encode($data['name']) : '匿名');
 		}
 		if(in_array('create_time', $settings['cols'])){
 			echo Html::tag('span', array(
@@ -54,7 +54,7 @@ use fay\helpers\Date;
 					'class'=>'fa fa-location-arrow',
 					'text'=>'',
 				),
-			), Html::encode($data['country']));
+			), $data['country'] ? Html::encode($data['country']) : '未填写');
 		}
 		if(in_array('phone', $settings['cols'])){
 			echo Html::tag('span', array(
@@ -65,7 +65,7 @@ use fay\helpers\Date;
 					'class'=>'fa fa-mobile-phone',
 					'text'=>'',
 				),
-			), Html::encode($data['phone']));
+			), $data['phone'] ? Html::encode($data['phone']) : '未填写');
 		}
 		if(in_array('email', $settings['cols'])){
 			echo Html::tag('span', array(
@@ -76,7 +76,7 @@ use fay\helpers\Date;
 					'class'=>'fa fa-envelope-o',
 					'text'=>'',
 				),
-			), Html::encode($data['email']));
+			), $data['email'] ? Html::encode($data['email']) : '未填写');
 		}
 		if(in_array('area', $settings['cols'])){
 			echo Html::tag('span', array(

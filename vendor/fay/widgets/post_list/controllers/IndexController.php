@@ -86,7 +86,7 @@ class IndexController extends Widget{
 			if(in_array('cat', $config['fields'])){
 				//获取所有相关分类
 				$cat_ids = ArrayHelper::column($posts, 'cat_id');
-				$cats = Category::model()->getByIDs(array_unique($cat_ids), 'id,title,alias');
+				$cats = Category::model()->mget(array_unique($cat_ids), 'id,title,alias');
 			}
 			
 			if(in_array('meta', $config['fields'])){

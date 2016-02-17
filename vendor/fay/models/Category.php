@@ -4,6 +4,7 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Categories;
 use fay\helpers\String;
+use fay\helpers\ArrayHelper;
 
 class Category extends Model{
 	/**
@@ -87,7 +88,7 @@ class Category extends Model{
 	 *  - 若为字符串，视为分类别名
 	 *  - 若为数组，则必须包含left_value和right_value
 	 */
-	public function getByIds($ids, $fields = '*', $root = null){
+	public function mget($ids, $fields = '*', $root = null){
 		if(!is_array($ids)){
 			$ids = explode(',', $ids);
 		}
@@ -116,18 +117,8 @@ class Category extends Model{
 		$cats = Categories::model()->fetchAll($conditions, $fields);
 		//根据传入ID顺序返回
 		$return = array();
-		foreach($ids as $id){
-			foreach($cats as $k => $c){
-				if($c['id'] == $id){
-					//若不需要返回id，把id去掉
-					if($remove_id){
-						unset($c['id']);
-					}
-					$return[$id] = $c;
-					unset($cats[$k]);
-					break;
-				}
-			}
+		foreach($cats as $c){
+			$return[$c['id']] = $c;
 		}
 		return $return;
 	}
@@ -205,51 +196,7 @@ class Category extends Model{
 	 *  - 若为字符串，视为分类别名获取分类；
 	 */
 	public function getAllIds($parent = null){
-		if($parent === null){
-			return Categories::model()->fetchCol('id');
-		}else if(String::isInt($parent)){
-			return $this->getAllIdsByParentId($parent);
-		}else{
-			return $this->getAllIdsByParentAlias($parent);
-		}
-	}
-	
-	/**
-	 * 根据父节点别名，获取所有子节点的ID，以一维数组方式返回
-	 * 若不指定别名，返回整张表
-	 * @param string $parent_alias 父节点别名
-	 */
-	public function getAllIdsByParentAlias($parent_alias = null){
-		if($parent_alias === null){
-			return Categories::model()->fetchCol('id');
-		}else{
-			$node = $this->getByAlias($parent_alias, 'left_value,right_value');
-			if($node){
-				return Categories::model()->fetchCol('id', array(
-					'left_value > '.$node['left_value'],
-					'right_value < '.$node['right_value'],
-				));
-			}else{
-				return array();
-			}
-		}
-	}
-	
-	/**
-	 * 根据父节点ID，获取所有子节点的ID，以一维数组方式返回
-	 * @param int $parent_id 父节点ID
-	 * @return array
-	 */
-	public function getAllIdsByParentId($parent_id){
-		$node = $this->get($parent_id, 'left_value,right_value');
-		if($node){
-			return Categories::model()->fetchCol('id', array(
-				'left_value > '.$node['left_value'],
-				'right_value < '.$node['right_value'],
-			));
-		}else{
-			return array();
-		}
+		return ArrayHelper::column($this->getAll($parent, 'id', 'id'), 'id');
 	}
 	
 	/**
@@ -347,7 +294,7 @@ class Category extends Model{
 	
 	/**
 	 * 获取一个或多个分类。
-	 * @param int|string|array $cats
+	 * @param int|string $cats
 	 *  - 若为数字，视为分类ID获取分类（返回一维数组）；
 	 *  - 若为字符串，视为分类别名获取分类（返回一维数组）；
 	 *  - 若是数组，循环调用自己获取多个分类（数组项可以是数字也可以是字符串，返回二维数组）；
@@ -365,14 +312,11 @@ class Category extends Model{
 				$root = $this->getByAlias($root, 'left_value,right_value');
 			}
 		}
-		if(is_array($cats)){
-			return $this->getByIds($cats, $fields, $root);
+		
+		if(String::isInt($cats)){
+			return $this->getById($cats, $fields, $root);
 		}else{
-			if(String::isInt($cats)){
-				return $this->getById($cats, $fields, $root);
-			}else{
-				return $this->getByAlias($cats, $fields, $root);
-			}
+			return $this->getByAlias($cats, $fields, $root);
 		}
 	}
 	

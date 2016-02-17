@@ -23,7 +23,9 @@ use fay\core\Uri;
 					));
 				}
 			?>
-				<li class="phone-container"><span class="phone-number" style="display:none"><?php echo Option::get('site:phone')?></span><span class="phone"></span></li>
+			<?php if($phone = Option::get('site:phone')){?>
+				<li class="phone-container"><span class="phone-number" style="display:none"><?php echo $phone?></span><span class="phone"></span></li>
+			<?php }?>
 				<li class="toggle-phone-menu"><a href="javascript:;"><i class="fa fa-bars"></i></a></li>
 			</ul>
 		</nav>

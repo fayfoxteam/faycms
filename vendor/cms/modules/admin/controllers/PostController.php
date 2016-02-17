@@ -226,7 +226,7 @@ class PostController extends AdminController{
 		if($cat_id){
 			if($this->input->get('with_child')){
 				//包含子分类搜索
-				$cats = Category::model()->getAllIdsByParentId($cat_id);
+				$cats = Category::model()->getChildIds($cat_id);
 				if($this->input->get('with_slave')){
 					$orWhere = array(
 						"p.cat_id = {$cat_id}",
@@ -822,7 +822,7 @@ class PostController extends AdminController{
 	 */
 	public function search(){
 		if($cat_id = $this->input->request('cat_id', 'intval')){
-			$cats = Category::model()->getAllIds($cat_id);
+			$cats = Category::model()->getChildIds($cat_id);
 			$cats[] = $cat_id;
 		}
 		$posts = Posts::model()->fetchAll(array(

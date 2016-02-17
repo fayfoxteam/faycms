@@ -103,7 +103,7 @@ class FoodController extends FrontController{
 			$this->view->assign(array(
 				'areas'=>$areas,
 				'monthes'=>$monthes,
-				'cats'=>Category::model()->getAll('food'),
+				'cats'=>Category::model()->getChildren('food'),
 				'area_id'=>$area_id,
 				'month_id'=>$month_id,
 				'cat_id'=>$cat_id,

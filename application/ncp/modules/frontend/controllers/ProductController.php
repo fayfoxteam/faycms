@@ -93,7 +93,7 @@ class ProductController extends FrontController{
 			$this->view->assign(array(
 				'areas'=>$areas,
 				'monthes'=>$monthes,
-				'cats'=>Category::model()->getAll('product'),
+				'cats'=>Category::model()->getChildren('product'),
 				'area_id'=>$area_id,
 				'month_id'=>$month_id,
 				'cat_id'=>$cat_id,

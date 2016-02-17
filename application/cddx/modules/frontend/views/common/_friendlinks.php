@@ -5,7 +5,7 @@ use fay\helpers\Html;
 use fay\models\File;
 
 $links_has_logo = Link::model()->getLinksHasLogo(null, 10);
-$link_cats = Category::model()->getAll('_system_link');
+$link_cats = Category::model()->getChildren('_system_link');
 ?>
 <div class="w1000">
 	<div class="box" id="footer-links">

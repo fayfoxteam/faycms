@@ -132,13 +132,13 @@ class Category extends Model{
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAll($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
+	public function getChildren($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($parent === null){
 			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else if(String::isInt($parent)){
-			return $this->getAllByParentId($parent, $fields, $order);
+			return $this->getChildrenByParentId($parent, $fields, $order);
 		}else{
-			return $this->getAllByAlias($parent, $fields, $order);
+			return $this->getChildrenByParentAlias($parent, $fields, $order);
 		}
 	}
 	
@@ -149,7 +149,7 @@ class Category extends Model{
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAllByAlias($alias = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
+	public function getChildrenByParentAlias($alias = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($alias === null){
 			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else{
@@ -172,7 +172,7 @@ class Category extends Model{
 	 * @param string $fields
 	 * @return array
 	 */
-	public function getAllByParentId($id = 0, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
+	public function getChildrenByParentId($id = 0, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($id == 0){
 			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else{
@@ -195,8 +195,8 @@ class Category extends Model{
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若为字符串，视为分类别名获取分类；
 	 */
-	public function getAllIds($parent = null){
-		return ArrayHelper::column($this->getAll($parent, 'id', 'id'), 'id');
+	public function getChildIds($parent = null){
+		return ArrayHelper::column($this->getChildren($parent, 'id', 'id'), 'id');
 	}
 	
 	/**
@@ -439,7 +439,7 @@ class Category extends Model{
 	 * @param string $alias
 	 */
 	public function getIdByAlias($alias){
-		$cat = $this->get($alias);
+		$cat = $this->get($alias, 'id');
 		if($cat){
 			return $cat['id'];
 		}else{

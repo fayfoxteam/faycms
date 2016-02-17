@@ -20,7 +20,7 @@ class IndexController extends Widget{
 		if(!empty($config['hierarchical'])){
 			$cats = Category::model()->getTree($config['top']);
 		}else{
-			$cats = Category::model()->getAll($config['top']);
+			$cats = Category::model()->getChildren($config['top']);
 		}
 		
 		//格式化分类链接
@@ -50,7 +50,7 @@ class IndexController extends Widget{
 		if(!empty($config['hierarchical'])){
 			$cats = Category::model()->getTree($config['top']);
 		}else{
-			$cats = Category::model()->getAll($config['top']);
+			$cats = Category::model()->getChildren($config['top']);
 		}
 		
 		//格式化分类链接

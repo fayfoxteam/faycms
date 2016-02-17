@@ -9,7 +9,7 @@ use fay\models\tables\Posts;
 class IndexController extends Widget{
 	
 	public function index($options){
-		$cat_ids = Category::model()->getAllIds('_blog');
+		$cat_ids = Category::model()->getChildIds('_blog');
 
 		$sql = new Sql();
 		$this->view->posts = $sql->from('posts', 'p', 'id,title,user_id,comments,thumbnail')

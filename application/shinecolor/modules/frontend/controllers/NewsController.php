@@ -58,7 +58,7 @@ class NewsController extends FrontController{
 		$this->view->cat = $cat;
 		
 		//获取news下的所有子节点
-		$this->view->children = Category::model()->getAll('news', 'alias,title');
+		$this->view->children = Category::model()->getChildren('news', 'alias,title');
 		
 		$sql = new Sql();
 		$sql->from('posts', 'p', 'id,title,publish_time')
@@ -89,7 +89,7 @@ class NewsController extends FrontController{
 			throw new HttpException('404页面不存在');
 		}
 		
-		$this->view->children = Category::model()->getAll('news');
+		$this->view->children = Category::model()->getChildren('news');
 		$this->view->cat = Category::model()->get($post['cat_id']);
 		
 		$this->layout->breadcrumbs = array(

@@ -103,7 +103,7 @@ class TravelController extends FrontController{
 			$this->view->assign(array(
 				'areas'=>$areas,
 				'monthes'=>$monthes,
-				'cats'=>Category::model()->getAll('travel'),
+				'cats'=>Category::model()->getChildren('travel'),
 				'area_id'=>$area_id,
 				'month_id'=>$month_id,
 				'cat_id'=>$cat_id,

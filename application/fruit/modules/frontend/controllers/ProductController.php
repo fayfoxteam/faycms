@@ -17,7 +17,7 @@ class ProductController extends FrontController{
 	}
 	
 	public function item(){
-		$this->view->cats = Category::model()->getAll('product');
+		$this->view->cats = Category::model()->getChildren('product');
 		
 		$this->view->render();
 	}

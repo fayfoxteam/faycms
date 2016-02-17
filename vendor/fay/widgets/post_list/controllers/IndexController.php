@@ -59,7 +59,7 @@ class IndexController extends Widget{
 			}
 			if($config['subclassification']){
 				//包含子分类
-				$limit_cat_children = Category::model()->getAllIds($cat['id']);
+				$limit_cat_children = Category::model()->getChildIds($cat['id']);
 				$limit_cat_children[] = $cat['id'];//加上父节点
 				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
 			}else{

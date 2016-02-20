@@ -37,7 +37,7 @@ class PostController extends ApiController{
 			'id', 'title', 'alias',
 		),
 		'user'=>array(
-			'id', 'username', 'nickname', 'avatar',
+			'id', 'username', 'nickname', 'avatar', 'roles.id', 'roles.title',
 		),
 		'nav'=>array(
 			'id', 'title',
@@ -84,7 +84,7 @@ class PostController extends ApiController{
 					if(!isset($this->allowed_fields[$k])){
 						unset($fields[$k]);
 					}
-					$fields[$k] = array_intersect($this->allowed_fields[$k], $v);
+					$fields[$k] = in_array('*', $v) ? $this->allowed_fields[$k] : array_intersect($this->allowed_fields[$k], $v);
 				}
 			}else{
 				//若未指定$fields，取默认值

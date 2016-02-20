@@ -462,6 +462,7 @@ class User extends Model{
 		
 		//过滤掉多余的数据
 		$user = Users::model()->fillData($user, false);
+		$user['admin'] = $is_admin;
 		//插用户表
 		$user_id = Users::model()->insert($user);
 		//插用户扩展表

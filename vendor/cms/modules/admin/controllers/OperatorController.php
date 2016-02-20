@@ -136,6 +136,14 @@ class OperatorController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
+		//有可能默认了某些角色
+		$role_ids = $this->input->get('roles', 'intval');
+		if($role_ids){
+			$this->view->prop_set = User::model()->getPropsByRoles($role_ids);
+		}else{
+			$this->view->prop_set = array();
+		}
+		
 		$this->view->render();
 	}
 	

@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\tables\Props;
+use fay\helpers\ArrayHelper;
 ?>
 <?php if($prop_set){?>
 <?php foreach($prop_set as $prop){?>
@@ -23,13 +24,13 @@ use fay\models\tables\Props;
 				));
 			break;
 			case Props::ELEMENT_RADIO:
-				foreach($prop['values'] as $k=>$v){
-					if(!empty($prop['value']) && $prop['value']['id'] == $k){
+				foreach($prop['options'] as $k=>$v){
+					if(!empty($prop['value']) && $prop['value'] == $v['id']){
 						$checked = true;
 					}else{
 						$checked = false;
 					}
-					echo Html::inputRadio("props[{$prop['id']}]", $k, $checked, array(
+					echo Html::inputRadio("props[{$prop['id']}]", $v['id'], $checked, array(
 						'datat-rule'=>'int',
 						'data-required'=>$prop['required'] ? 'required' : false,
 						'data-label'=>$prop['title'],
@@ -40,7 +41,7 @@ use fay\models\tables\Props;
 								'class'=>'ib w240',
 							)
 						),
-						'after'=>$v,
+						'after'=>$v['title'],
 					));
 				}
 				if(!$prop['required']){
@@ -58,7 +59,7 @@ use fay\models\tables\Props;
 				}
 			break;
 			case Props::ELEMENT_SELECT:
-				echo Html::select("props[{$prop['id']}]", array(''=>'--未选择--')+$prop['values'], isset($prop['value']) ? $prop['value'] : array(), array(
+				echo Html::select("props[{$prop['id']}]", array(''=>'--未选择--')+ArrayHelper::column($prop['options'], 'title', 'id'), isset($prop['value']) ? $prop['value'] : array(), array(
 					'datat-rule'=>'int',
 					'data-required'=>$prop['required'] ? 'required' : false,
 					'data-label'=>$prop['title'],
@@ -66,19 +67,14 @@ use fay\models\tables\Props;
 				));
 			break;
 			case Props::ELEMENT_CHECKBOX:
-				$values = array();
-				if(isset($prop['value'])){
-					foreach($prop['value'] as $pv){
-						$values[] = $pv['id'];
-					}
-				}
-				foreach($prop['values'] as $k=>$v){
-					if(in_array($k, $values)){
+				$checked_values = empty($prop['value']) ? array() : explode(',', $prop['value']);
+				foreach($prop['options'] as $k=>$v){
+					if(in_array($v['id'], $checked_values)){
 						$checked = true;
 					}else{
 						$checked = false;
 					}
-					echo Html::inputCheckbox("props[{$prop['id']}][]", $k, $checked, array(
+					echo Html::inputCheckbox("props[{$prop['id']}][]", $v['id'], $checked, array(
 						'datat-rule'=>'int',
 						'data-required'=>$prop['required'] ? 'required' : false,
 						'data-label'=>$prop['title'],
@@ -89,7 +85,7 @@ use fay\models\tables\Props;
 								'class'=>'ib w240',
 							)
 						),
-						'after'=>$v,
+						'after'=>$v['title'],
 					));
 				}
 			break;

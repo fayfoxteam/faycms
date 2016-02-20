@@ -222,6 +222,8 @@ class Prop extends Model{
 			), 'id,title,prop_id', 'prop_id,sort');
 		}
 		foreach($props as &$p){
+			//保证各项返回数据字段一致性，没有选项的输入类型也返回空的options
+			$p['options'] = array();
 			if(in_array($p['element'], array(
 				Props::ELEMENT_RADIO,
 				Props::ELEMENT_SELECT,
@@ -230,7 +232,10 @@ class Prop extends Model{
 				$start = false;
 				foreach($prop_values as $k => $v){
 					if($v['prop_id'] == $p['id']){
-						$p['values'][$v['id']] = $v['title'];
+						$p['options'][] = array(
+							'id'=>$v['id'],
+							'title'=>$v['title'],
+						);
 						$start = true;
 						unset($prop_values[$k]);
 					}else if($start){
@@ -325,36 +330,36 @@ class Prop extends Model{
 					break;
 				case Props::ELEMENT_RADIO:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id,title')
+						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id')
 						->where(array(
 							"pi.{$field} = ?"=>$refer,
 							'pi.prop_id = ?'=>$p['id'],
 						))
 						->fetchRow()
 					;
-					$property_set[$p['id']]['value'] = $value;
+					$property_set[$p['id']]['value'] = $value['id'];
 					break;
 				case Props::ELEMENT_SELECT:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id,title')
+						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id')
 						->where(array(
 							"pi.{$field} = ?"=>$refer,
 							'pi.prop_id = ?'=>$p['id'],
 						))
 						->fetchRow()
 					;
-					$property_set[$p['id']]['value'] = $value;
+					$property_set[$p['id']]['value'] = $value['id'];
 					break;
 				case Props::ELEMENT_CHECKBOX:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id,title')
+						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id')
 						->where(array(
 							"pi.{$field} = ?"=>$refer,
 							'pi.prop_id = ?'=>$p['id'],
 						))
 						->fetchAll()
 					;
-					$property_set[$p['id']]['value'] = $value;
+					$property_set[$p['id']]['value'] = implode(',', ArrayHelper::column($value, 'id'));
 					break;
 				case Props::ELEMENT_TEXTAREA:
 					$value = \F::model($models['text'])->fetchRow(array(

@@ -4,7 +4,8 @@
 		<?php $this->renderPartial('_edit_panel')?>
 	</div>
 	<div class="col-6" id="prop-panel"><?php
-		//预留给角色属性的div
+		//添加的时候也可能默认有角色
+		$this->renderPartial('prop/_edit')
 	?></div>
 </div>
 <div class="form-field">

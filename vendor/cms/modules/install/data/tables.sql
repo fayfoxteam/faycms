@@ -412,7 +412,7 @@ CREATE TABLE `{{$prefix}}post_favorites` (
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`user_id`,`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_likes`;
 CREATE TABLE `{{$prefix}}post_likes` (
@@ -437,7 +437,7 @@ CREATE TABLE `{{$prefix}}post_meta` (
   `likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
   `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
   PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}links`;
 CREATE TABLE `{{$prefix}}links` (
@@ -726,7 +726,8 @@ CREATE TABLE `{{$prefix}}props` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `refer-type-deleted` (`refer`,`type`,`deleted`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
@@ -833,7 +834,7 @@ CREATE TABLE `{{$prefix}}user_profile` (
   `se` varchar(30) NOT NULL DEFAULT '' COMMENT '搜索引擎',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '搜索关键词',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_int`;
 CREATE TABLE `{{$prefix}}user_prop_int` (
@@ -865,7 +866,8 @@ CREATE TABLE `{{$prefix}}user_settings` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
   `setting_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Setting Key',
   `setting_value` text NOT NULL COMMENT 'Setting Value',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id-setting_key` (`user_id`,`setting_key`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users`;
@@ -907,7 +909,7 @@ CREATE TABLE `{{$prefix}}users_roles` (
   `role_id` smallint(5) unsigned NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `role_id-user_id` (`role_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}vouchers`;
 CREATE TABLE `{{$prefix}}vouchers` (

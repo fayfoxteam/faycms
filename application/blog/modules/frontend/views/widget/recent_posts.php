@@ -4,7 +4,7 @@
 	<ul>
 	<?php foreach($posts as $p){?>
 	<li><?php
-		echo Html::link($p['title'], array(str_replace('{$id}', $p['id'], $config['uri'])));
+		echo Html::link($p['post']['title'], array(str_replace('{$id}', $p['post']['id'], $config['uri'])));
 	?></li>
 	<?php }?>
 	</ul>

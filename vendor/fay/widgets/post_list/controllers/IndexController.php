@@ -96,7 +96,7 @@ class IndexController extends Widget{
 			if(in_array('user', $config['fields'])){
 				//获取所有相关作者
 				$user_ids = ArrayHelper::column($posts, 'user_id');
-				$users = User::model()->getByIds(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
+				$users = User::model()->mget(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
 			}
 			
 			foreach($posts as $p){

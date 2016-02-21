@@ -4,8 +4,33 @@ namespace cms\modules\api\controllers;
 use cms\library\UserController;
 use fay\core\Response;
 use fay\services\Follow;
+use fay\helpers\SqlHelper;
 
 class FollowController extends UserController{
+	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array(
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'follows'=>array(
+			'relation'
+		),
+	);
+	
+	/**
+	 * 可选字段
+	*/
+	private $allowed_fields = array(
+		'user'=>array(
+			'id', 'username', 'nickname', 'avatar', 'roles.id', 'roles.title',
+		),
+		'follows'=>array(
+			'relation', 'create_time',
+		),
+	);
+	
 	/**
 	 * 关注一个用户
 	 * @param int $user_id
@@ -129,6 +154,120 @@ class FollowController extends UserController{
 			if($is_follow = Follow::mIsFollow($user_ids)){
 				Response::notify('success', array('data'=>$is_follow));
 			}
+		}else{
+			$error = $this->form()->getFirstError();
+			Response::notify('error', array(
+				'message'=>$error['message'],
+				'code'=>$error['code'],
+			));
+		}
+	}
+	
+	/**
+	 * 粉丝列表
+	 * @param int $user_id 用户ID
+	 * @param string $fields 字段
+	 * @param int $page 页码
+	 * @param int $page_size 分页大小
+	 */
+	public function fans(){
+		if($this->form()->setRules(array(
+			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
+		))->setFilters(array(
+			'user_id'=>'intval',
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'user_id'=>'用户ID',
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check()){
+			$user_id = $this->form()->getData('user_id', $this->current_user);
+			if(!$user_id){
+				Response::notify('error', array(
+					'message'=>'未指定用户',
+					'code'=>'user_id:not-found',
+				));
+			}
+			
+			$fields = $this->form()->getData('fields');
+			if($fields){
+				//过滤字段，移除那些不允许的字段
+				$fields = SqlHelper::processFields($fields, 'follows');
+				foreach($fields as $k => $v){
+					if(!isset($this->allowed_fields[$k])){
+						unset($fields[$k]);
+					}
+					$fields[$k] = in_array('*', $v) ? $this->allowed_fields[$k] : array_intersect($this->allowed_fields[$k], $v);
+				}
+			}else{
+				$fields = $this->default_fields;
+			}
+			
+			$fans = Follow::fans($user_id,
+				$fields,
+				$this->form()->getData('page', 1),
+				$this->form()->getData('page_size', 20));
+			Response::json($fans);
+		}else{
+			$error = $this->form()->getFirstError();
+			Response::notify('error', array(
+				'message'=>$error['message'],
+				'code'=>$error['code'],
+			));
+		}
+	}
+	
+	/**
+	 * 关注列表
+	 * @param int $user_id 用户ID
+	 * @param string $fields 字段
+	 * @param int $page 页码
+	 * @param int $page_size 分页大小
+	 */
+	public function follows(){
+		if($this->form()->setRules(array(
+			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
+		))->setFilters(array(
+			'user_id'=>'intval',
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'user_id'=>'用户ID',
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check()){
+			$user_id = $this->form()->getData('user_id', $this->current_user);
+			if(!$user_id){
+				Response::notify('error', array(
+					'message'=>'未指定用户',
+					'code'=>'user_id:not-found',
+				));
+			}
+			
+			$fields = $this->form()->getData('fields');
+			if($fields){
+				//过滤字段，移除那些不允许的字段
+				$fields = SqlHelper::processFields($fields, 'follows');
+				foreach($fields as $k => $v){
+					if(!isset($this->allowed_fields[$k])){
+						unset($fields[$k]);
+					}
+					$fields[$k] = in_array('*', $v) ? $this->allowed_fields[$k] : array_intersect($this->allowed_fields[$k], $v);
+				}
+			}else{
+				$fields = $this->default_fields;
+			}
+				
+			$follows = Follow::follows($user_id,
+				$fields,
+				$this->form()->getData('page', 1),
+				$this->form()->getData('page_size', 20));
+			Response::json($follows);
 		}else{
 			$error = $this->form()->getFirstError();
 			Response::notify('error', array(

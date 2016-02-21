@@ -19,7 +19,7 @@ class PostController extends ApiController{
 			'id', 'title', 'alias',
 		),
 		'user'=>array(
-			'id', 'nickname',
+			'id', 'nickname', 'avatar',
 		)
 	);
 	

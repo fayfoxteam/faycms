@@ -8,6 +8,9 @@ use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
 use fay\models\User;
 use fay\helpers\Request;
+use fay\core\Sql;
+use fay\common\ListView;
+use fay\helpers\SqlHelper;
 
 class Follow extends Model{
 	/**
@@ -152,4 +155,111 @@ class Follow extends Model{
 		return $return;
 	}
 	
+	/**
+	 * 关注列表
+	 * @param int $user_id 用户ID
+	 * @param string $fields 字段
+	 * @param int $page 页码
+	 * @param int $page_size 分页大小
+	 */
+	public static function follows($user_id = null, $fields = null, $page = 1, $page_size = 20){
+		$user_id || $user_id = \F::app()->current_user;
+		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
+		$fields = SqlHelper::processFields($fields, 'follows');
+		
+		isset($fields['follows']) || $fields['follows'] = array();
+		$follows_fields = $fields['follows'];
+		if(isset($fields['user']) && !in_array('user_id', $follows_fields)){
+			$follows_fields[] = 'user_id';
+		}
+		
+		$sql = new Sql();
+		$sql->from('follows', 'f', $follows_fields)
+			->where('fans_id = ?', $user_id)
+			->order('create_time DESC')
+		;
+		$listview = new ListView($sql, array(
+			'page_size'=>$page_size,
+		));
+		
+		$follows = $listview->getData();
+		
+		$return = array(
+			'follows'=>array(),
+			'pager'=>$listview->getPager(),
+		);
+		
+		if($follows && !empty($fields['user'])){
+			$users = User::model()->mget(ArrayHelper::column($follows, 'user_id'), implode(',', $fields['user']));
+		}
+		
+		foreach($follows as $f){
+			$follow = array();
+			foreach($fields['follows'] as $field){
+				$follow['follow'][$field] = $f[$field];
+			}
+			
+			if(!empty($fields['user'])){
+				$follow['user'] = $users[$f['user_id']];
+			}
+			
+			$return['follows'][] = $follow;
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * 粉丝列表
+	 * @param int $user_id 用户ID
+	 * @param string $fields 字段
+	 * @param int $page 页码
+	 * @param int $page_size 分页大小
+	 */
+	public static function fans($user_id = null, $fields = null, $page = 1, $page_size = 20){
+		$user_id || $user_id = \F::app()->current_user;
+		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
+		$fields = SqlHelper::processFields($fields, 'follows');
+		
+		isset($fields['follows']) || $fields['follows'] = array();
+		$follows_fields = $fields['follows'];
+		if(isset($fields['user']) && !in_array('fans_id', $follows_fields)){
+			$follows_fields[] = 'fans_id';
+		}
+		
+		$sql = new Sql();
+		$sql->from('follows', 'f', $follows_fields)
+			->where('user_id = ?', $user_id)
+			->order('create_time DESC')
+		;
+		$listview = new ListView($sql, array(
+			'page_size'=>$page_size,
+		));
+		
+		$fans = $listview->getData();
+		
+		$return = array(
+			'fans'=>array(),
+			'pager'=>$listview->getPager(),
+		);
+		
+		if($fans && !empty($fields['user'])){
+			$users = User::model()->mget(ArrayHelper::column($fans, 'fans_id'), implode(',', $fields['user']));
+		}
+		
+		foreach($fans as $f){
+			$follow = array();
+			foreach($fields['follows'] as $field){
+				$follow['follow'][$field] = $f[$field];
+			}
+			
+			if(!empty($fields['user'])){
+				$follow['user'] = $users[$f['fans_id']];
+			}
+			
+			$return['fans'][] = $follow;
+		}
+		
+		return $return;
+	}
 }

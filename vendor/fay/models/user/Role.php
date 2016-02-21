@@ -11,7 +11,7 @@ class Role extends Model{
 	/**
 	 * 默认返回字段
 	 */
-	private $default_fields = array('id', 'title');
+	private $public_fields = array('id', 'title', 'description');
 	
 	/**
 	 * @return Role
@@ -27,9 +27,18 @@ class Role extends Model{
 	 * @return array 返回包含用户角色信息的二维数组
 	 */
 	public function get($user_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = $this->public_fields;
+		}else{
+			if(!is_array($fields)){
+				$fields = explode(',', $fields);
+			}
+			if(in_array('*', $fields)){
+				$fields = $this->public_fields;
+			}else{
+				$fields = array_intersect($this->public_fields, $fields);
+			}
 		}
 		$sql = new Sql();
 		return $sql->from('users_roles', 'ur', '')
@@ -46,9 +55,18 @@ class Role extends Model{
 	 * @return array 返回以用户ID为key的三维数组
 	 */
 	public function mget($user_ids, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = $this->public_fields;
+		}else{
+			if(!is_array($fields)){
+				$fields = explode(',', $fields);
+			}
+			if(in_array('*', $fields)){
+				$fields = $this->public_fields;
+			}else{
+				$fields = array_intersect($this->public_fields, $fields);
+			}
 		}
 		$sql = new Sql();
 		$roles = $sql->from('users_roles', 'ur', 'user_id')

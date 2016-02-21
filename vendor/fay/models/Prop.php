@@ -315,7 +315,6 @@ class Prop extends Model{
 		$property_set = array();
 		$sql = new Sql();
 		foreach($props as $p){
-			$property_set[$p['id']] = $p;
 			switch($p['element']){
 				case Props::ELEMENT_TEXT:
 					$value = \F::model($models['varchar'])->fetchRow(array(
@@ -323,9 +322,9 @@ class Prop extends Model{
 						'prop_id = ?'=>$p['id'],
 					), 'content');
 					if($value){
-						$property_set[$p['id']]['value'] = $value['content'];
+						$p['value'] = $value['content'];
 					}else{
-						$property_set[$p['id']]['value'] = '';
+						$p['value'] = '';
 					}
 					break;
 				case Props::ELEMENT_RADIO:
@@ -337,7 +336,7 @@ class Prop extends Model{
 						))
 						->fetchRow()
 					;
-					$property_set[$p['id']]['value'] = $value['id'];
+					$p['value'] = $value['id'];
 					break;
 				case Props::ELEMENT_SELECT:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
@@ -348,7 +347,7 @@ class Prop extends Model{
 						))
 						->fetchRow()
 					;
-					$property_set[$p['id']]['value'] = $value['id'];
+					$p['value'] = $value['id'];
 					break;
 				case Props::ELEMENT_CHECKBOX:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
@@ -359,7 +358,7 @@ class Prop extends Model{
 						))
 						->fetchAll()
 					;
-					$property_set[$p['id']]['value'] = implode(',', ArrayHelper::column($value, 'id'));
+					$p['value'] = implode(',', ArrayHelper::column($value, 'id'));
 					break;
 				case Props::ELEMENT_TEXTAREA:
 					$value = \F::model($models['text'])->fetchRow(array(
@@ -367,12 +366,13 @@ class Prop extends Model{
 						'prop_id = ?'=>$p['id'],
 					), 'content');
 					if($value){
-						$property_set[$p['id']]['value'] = $value['content'];
+						$p['value'] = $value['content'];
 					}else{
-						$property_set[$p['id']]['value'] = '';
+						$p['value'] = '';
 					}
 					break;
 			}
+			$property_set[] = $p;
 		}
 		return $property_set;
 	}

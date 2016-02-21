@@ -195,7 +195,7 @@ class User extends Model{
 		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
 			$fields['user'] = array(
-				'id', 'username', 'nickname',
+				'id', 'username', 'nickname', 'avatar',
 			);
 		}else if(in_array('*', $fields['user'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
@@ -250,7 +250,7 @@ class User extends Model{
 	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
 	 */
-	public function getByIds($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
+	public function mget($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
 		//解析$ids
 		is_array($ids) || $ids = explode(',', $ids);
 		
@@ -294,6 +294,12 @@ class User extends Model{
 		$return = array_fill_keys($ids, array());
 		foreach($users as $u){
 			$user['user'] = $u;
+			if(isset($user['user']['avatar'])){
+				//如果有头像，将头像转为图片URL
+				$user['user']['avatar_url'] = File::getUrl($user['user']['avatar'], File::PIC_ORIGINAL, array(
+					'spare'=>'avatar',
+				));
+			}
 			
 			//profile
 			if(!empty($fields['profile'])){

@@ -5,7 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Files;
 use fay\common\Upload;
 use fay\helpers\Image;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\ErrorException;
 
 /**
@@ -84,7 +84,7 @@ class File extends Model{
 	 * @return url 返回文件可访问的url，若指定文件不存在且未指定替代图，则返回null
 	 */
 	public static function getUrl($file, $type = self::PIC_ORIGINAL, $options = array()){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			if($file <= 0){
 				return '';
 			}
@@ -181,7 +181,7 @@ class File extends Model{
 	 * @param bool $realpath 若为true，返回完整路径，若为false，返回相对路径，默认为true
 	 */
 	public static function getPath($file, $realpath = true){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path');
 		}
 		if($realpath){
@@ -200,7 +200,7 @@ class File extends Model{
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
 	 */
 	public static function getThumbnailUrl($file){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file, 'id,file_type,raw_name,file_path,is_image');
 		}
 		
@@ -234,7 +234,7 @@ class File extends Model{
 	 * @return mix 图片类型返回缩略图路径；非图片类型没有缩略图，返回false；指定文件不存在返回null
 	 */
 	public static function getThumbnailPath($file, $realpath = true){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image');
 		}
 		
@@ -379,7 +379,7 @@ class File extends Model{
 	 *     $params['h'] 裁剪时高度
 	 */
 	public function edit($file, $handler, $params){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file);
 		}
 		
@@ -523,7 +523,7 @@ class File extends Model{
 	 * @param String $ext 扩展名
 	 */
 	public static function getFilename($path, $ext){
-		$filename = String::random('alnum', 5).$ext;
+		$filename = StringHelper::random('alnum', 5).$ext;
 		if (!file_exists($path.$filename)){
 			return $filename;
 		}else{

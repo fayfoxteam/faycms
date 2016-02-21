@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use ncp\helpers\FriendlyLink;
 use fay\models\File;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 $this->appendCss($this->appStatic('css/food.css'));
 ?>

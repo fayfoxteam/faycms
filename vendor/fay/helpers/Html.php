@@ -226,7 +226,7 @@ class Html{
 	 * @return string
 	 */
 	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array()){
-		if(String::isInt($id)){
+		if(StringHelper::isInt($id)){
 			if($id == 0){
 				//若有设置spares，返回对应的默认图片
 				//若未设置，返回空字符串

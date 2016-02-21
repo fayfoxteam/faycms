@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\models\File;
 use fay\models\Category;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 $cat = Category::model()->get($config['top']);
 ?>
@@ -27,5 +27,5 @@ $cat = Category::model()->get($config['top']);
 	</div>
 </div>
 <div class="more-description">
-	<?php echo String::nl2p(Html::encode($cat['description']))?>
+	<?php echo StringHelper::nl2p(Html::encode($cat['description']))?>
 </div>

@@ -3,7 +3,7 @@ namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
 use fay\models\tables\Users;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\Flash;
 
 class ProfileController extends UserController{
@@ -44,7 +44,7 @@ class ProfileController extends UserController{
 				if($user['password'] != md5(md5($this->input->post('old_password')).$user['salt'])){
 					Flash::set('原密码不正确');
 				}else{
-					$salt = String::random('alnum', 5);
+					$salt = StringHelper::random('alnum', 5);
 					$password = md5(md5($this->input->post('password')).$salt);
 					Users::model()->update(array(
 						'password'=>$password,

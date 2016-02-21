@@ -2,7 +2,7 @@
 namespace fay\core;
 
 use fay\models\tables\Widgets;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class FWidget{
 	private static $_instance;
@@ -63,7 +63,7 @@ class FWidget{
 	 */
 	public function load($widget, $ajax = false, $cache = -1, $index = null){
 		if(!is_array($widget)){
-			if(String::isInt($widget)){
+			if(StringHelper::isInt($widget)){
 				$widget = Widgets::model()->find($widget);
 			}else{
 				$widget = Widgets::model()->fetchRow(array(

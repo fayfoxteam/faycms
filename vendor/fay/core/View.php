@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 class View{
 	/**
 	 * 用于试图层的数据
@@ -186,8 +186,8 @@ class View{
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		//加载视图文件
 		if($view === null){
-			$view = String::case2underscore($uri->action);
-			$controller = String::case2underscore($uri->controller);
+			$view = StringHelper::case2underscore($uri->action);
+			$controller = StringHelper::case2underscore($uri->controller);
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$view}.php";
 		}else{
 			$view_arr = explode('/', $view, 3);
@@ -209,8 +209,8 @@ class View{
 			}
 			
 			//大小写分割转下划线分割
-			$controller = String::case2underscore($controller);
-			$action = String::case2underscore($action);
+			$controller = StringHelper::case2underscore($controller);
+			$action = StringHelper::case2underscore($action);
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}
 		

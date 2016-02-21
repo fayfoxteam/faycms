@@ -3,7 +3,7 @@ namespace fay\core;
 
 use fay\core\db\Expr;
 use fay\helpers\SqlHelper;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Db{
 	private $_host;
@@ -354,7 +354,7 @@ class Db{
 				}else{
 					$op = ' AND ';
 					if($condition != ''){$condition .= $op;}
-					if(String::isInt($key)){//'id = 1'
+					if(StringHelper::isInt($key)){//'id = 1'
 						$condition .= $value;
 					}else{//'id = ?'=>1
 						if(is_array($value)){
@@ -390,7 +390,7 @@ class Db{
 				$partial_condition[] = $partial['condition'];
 				$params = array_merge($params, $partial['params']);
 			}else{
-				if(String::isInt($key)){//'id = 1'
+				if(StringHelper::isInt($key)){//'id = 1'
 					$partial_condition[] = $value;
 				}else{//'id = ?'=>1
 					if(is_array($value)){

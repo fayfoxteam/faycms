@@ -3,7 +3,7 @@ namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
 use fay\models\tables\Posts;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\HttpException;
 
 class CaseController extends FrontController{
@@ -74,7 +74,7 @@ class CaseController extends FrontController{
 				'link'=>$this->view->url('case'),
 			),
 			array(
-				'title'=>String::niceShort($post['title'], 20, true),
+				'title'=>StringHelper::niceShort($post['title'], 20, true),
 			),
 		);
 	

@@ -11,7 +11,7 @@ use fay\models\tables\ExamPaperQuestions;
 use fay\models\tables\ExamExams;
 use fay\models\tables\ExamExamsQuestions;
 use fay\models\tables\ExamExamQuestionAnswerText;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Exam extends Model{
 	/**
@@ -73,7 +73,7 @@ class Exam extends Model{
 	public function record($paper, $start_time, $user_answers, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		
-		String::isInt($paper) && $paper = ExamPapers::model()->find($paper, 'id,rand');
+		StringHelper::isInt($paper) && $paper = ExamPapers::model()->find($paper, 'id,rand');
 		
 		$exam_id = ExamExams::model()->insert(array(
 			'user_id'=>$user_id,

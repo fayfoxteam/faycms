@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Vouchers;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -25,7 +25,7 @@ class VoucherController extends AdminController{
 					$data = Vouchers::model()->fillData($this->input->post());
 		
 					//拼接优惠码
-					$data['sn'] = $data['cat_id'] . String::random('numeric', 5);
+					$data['sn'] = $data['cat_id'] . StringHelper::random('numeric', 5);
 					$data['create_time'] = $this->current_time;
 					Vouchers::model()->insert($data);
 				}

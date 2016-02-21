@@ -4,7 +4,7 @@ namespace fay\core\db;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Table extends Model{
 	protected $_name = '';
@@ -83,7 +83,7 @@ class Table extends Model{
 	 * @param boolean $filter 若为true且$this->filters()中有设置过滤器，则进行过滤
 	 */
 	public function update($data, $where, $filter = false){
-		if(String::isInt($where)){
+		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		if(!empty($data)){
@@ -101,14 +101,14 @@ class Table extends Model{
 	 * @param mix $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
 	 */
 	public function delete($where){
-		if(String::isInt($where)){
+		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		return $this->db->delete($this->_name, $where);
 	}
 	
 	public function inc($where, $fields, $count){
-		if(String::isInt($where)){
+		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		$this->db->inc($this->_name, $where, $fields, $count);

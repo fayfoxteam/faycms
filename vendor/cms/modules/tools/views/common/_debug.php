@@ -3,7 +3,7 @@
  * 开发模式或debug模式下，出现在页面底部的debug数据
  */
 use fay\helpers\Backtrace;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\SqlHelper;
 use fay\helpers\Html;
 use fay\core\Db;
@@ -55,7 +55,7 @@ $db = Db::getInstance();
 					|
 					内存使用:<?php echo round(memory_get_usage()/1024, 2)?>KB
 					|
-					执行时间:<?php echo String::money((microtime(true) - START) * 1000)?>ms
+					执行时间:<?php echo StringHelper::money((microtime(true) - START) * 1000)?>ms
 				</div>
 				<table class="debug-table">
 				<?php 
@@ -66,12 +66,12 @@ $db = Db::getInstance();
 					<tr>
 						<td><?php echo $k+1?></td>
 						<td><?php echo SqlHelper::nice(Html::encode($s[0]), $s[1])?></td>
-						<td><?php echo String::money($s[2] * 1000)?>ms</td>
+						<td><?php echo StringHelper::money($s[2] * 1000)?>ms</td>
 					</tr>
 				<?php }?>
 					<tr>
 						<td colspan="2" align="center">数据库耗时</td>
-						<td><?php echo String::money($total_db_time * 1000)?>ms</td>
+						<td><?php echo StringHelper::money($total_db_time * 1000)?>ms</td>
 					</tr>
 				</table>
 			</div>

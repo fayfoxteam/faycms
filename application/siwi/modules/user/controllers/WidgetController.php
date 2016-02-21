@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\HttpException;
 
 class WidgetController extends UserController{
@@ -20,7 +20,7 @@ class WidgetController extends UserController{
 					throw new HttpException('Widget不存在或已被删除', 404);
 				}
 			}
-			$action = String::hyphen2case($this->input->get('action', 'trim', 'index'), false);
+			$action = StringHelper::hyphen2case($this->input->get('action', 'trim', 'index'), false);
 			if(method_exists($widget_obj, $action)){
 				$widget_obj->{$action}($this->input->get());
 			}else if(method_exists($widget_obj, $action.'Action')){

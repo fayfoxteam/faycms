@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\Date;
 ?>
 <tr>
@@ -13,7 +13,7 @@ use fay\helpers\Date;
 	<?php if(in_array('url', $cols)){?>
 	<td><a href="<?php echo $data['url']?>" target="_blank">
 		<abbr title="<?php echo urldecode(Html::encode($data['url']))?>">
-			<?php echo String::niceShort(urldecode(Html::encode($data['url'])), 32)?>
+			<?php echo StringHelper::niceShort(urldecode(Html::encode($data['url'])), 32)?>
 		</abbr>
 	</a></td>
 	<?php }?>
@@ -30,7 +30,7 @@ use fay\helpers\Date;
 	<?php }?>
 	<?php if(in_array('refer', $cols)){?>
 	<td><abbr title="<?php echo urldecode(Html::encode($data['refer']))?>">
-		<?php echo String::niceShort(urldecode(Html::encode($data['refer'])), 22)?>
+		<?php echo StringHelper::niceShort(urldecode(Html::encode($data['refer'])), 22)?>
 	</abbr></td>
 	<?php }?>
 	<?php if(in_array('views', $cols)){?>

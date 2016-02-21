@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 /**
  * 对url进行路由解析
@@ -167,8 +167,8 @@ class Uri{
 		$this->router = "{$module}/{$controller}/{$action}";
 			
 		$this->module = $module;
-		$this->controller = String::hyphen2case($controller);
-		$this->action = String::hyphen2case($action, false);
+		$this->controller = StringHelper::hyphen2case($controller);
+		$this->action = StringHelper::hyphen2case($action, false);
 	}
 	
 	/**

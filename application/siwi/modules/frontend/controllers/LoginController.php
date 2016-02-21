@@ -5,7 +5,7 @@ use siwi\library\FrontController;
 use fay\models\User;
 use fay\models\tables\Users;
 use fay\models\Email;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\Response;
 use fay\core\Validator;
 use fay\core\HttpException;
@@ -77,7 +77,7 @@ class LoginController extends FrontController{
 				Response::goback();
 			}
 			
-			$active_key = String::random('alnum', 32);
+			$active_key = StringHelper::random('alnum', 32);
 			$url = $this->view->url('login/active', array(
 				'email'=>$email,
 				'active'=>$active_key,
@@ -122,7 +122,7 @@ class LoginController extends FrontController{
 					if($this->input->post('password') != $this->input->post('repassword')){
 						Flash::set('两次输入密码不一致，请重新输入');
 					}else{
-						$salt = String::random('alnum', 5);
+						$salt = StringHelper::random('alnum', 5);
 						$password = md5(md5($this->input->post('password')).$salt);
 						
 						Users::model()->update(array(

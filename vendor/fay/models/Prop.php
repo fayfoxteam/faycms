@@ -5,7 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Props;
 use fay\models\tables\PropValues;
 use fay\core\Sql;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 
 class Prop extends Model{
@@ -142,7 +142,7 @@ class Prop extends Model{
 		if(is_array($refer)){
 			$refer = implode(',', $refer);
 		}
-		if(String::isInt($refer)){
+		if(StringHelper::isInt($refer)){
 			//获取单个属性
 			$props = Props::model()->fetchAll(array(
 				'refer = ?'=>$refer,

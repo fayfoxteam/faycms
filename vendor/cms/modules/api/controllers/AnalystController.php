@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\helpers\Request;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\Date;
 use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
@@ -24,13 +24,13 @@ class AnalystController extends ApiController{
 			$trackid = $this->input->get('t', '');
 			$refer = $this->input->get('r');
 			$url = isset($_SERVER['HTTP_REFERER']) ? rtrim($_SERVER['HTTP_REFERER'], '?') : '';
-			$short_url = current(String::base62($url));
+			$short_url = current(StringHelper::base62($url));
 			$date = date('Y-m-d');
 			$hour = date('G');
 			
 			if(empty($_COOKIE['fmac'])){
 				//首次访问
-				$fmac = String::random('unique');
+				$fmac = StringHelper::random('unique');
 				//设置cookie
 				setcookie('fmac', $fmac, $this->current_time + 3600 * 24 * 365, '/', $this->config->get('tld'));
 				

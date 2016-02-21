@@ -1,7 +1,7 @@
 <?php 
 use fay\models\File;
 use fay\helpers\Html;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <aside class="m-recent-posts">
 	<h3>最新博文</h3>
@@ -27,7 +27,7 @@ use fay\helpers\String;
 					'alt'=>Html::encode($p['title']),
 				));
 			}
-			echo Html::link(String::niceShort($p['title'], 38, true), array('blog/'.$p['id']), array(
+			echo Html::link(StringHelper::niceShort($p['title'], 38, true), array('blog/'.$p['id']), array(
 				'title'=>Html::encode($p['title']),
 				'class'=>'title',
 				'encode'=>false,

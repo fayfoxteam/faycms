@@ -3,7 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Categories;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 
 class Category extends Model{
@@ -34,7 +34,7 @@ class Category extends Model{
 	 */
 	public function getByAlias($alias, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
-			if(String::isInt($root)){
+			if(StringHelper::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
@@ -62,7 +62,7 @@ class Category extends Model{
 	 */
 	public function getById($id, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
-			if(String::isInt($root)){
+			if(StringHelper::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
@@ -100,7 +100,7 @@ class Category extends Model{
 			$remove_id = true;
 		}
 		if($root !== null && !is_array($root)){
-			if(String::isInt($root)){
+			if(StringHelper::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
@@ -135,7 +135,7 @@ class Category extends Model{
 	public function getChildren($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($parent === null){
 			return Categories::model()->fetchAll(array(), $fields, $order);
-		}else if(String::isInt($parent)){
+		}else if(StringHelper::isInt($parent)){
 			return $this->getChildrenByParentId($parent, $fields, $order);
 		}else{
 			return $this->getChildrenByParentAlias($parent, $fields, $order);
@@ -210,7 +210,7 @@ class Category extends Model{
 	public function getTree($parent = null){
 		if($parent === null){
 			return Tree::model()->getTree('fay\models\tables\Categories');
-		}else if(String::isInt($parent)){
+		}else if(StringHelper::isInt($parent)){
 			return $this->getTreeByParentId($parent);
 		}else{
 			return $this->getTreeByParentAlias($parent);
@@ -256,7 +256,7 @@ class Category extends Model{
 	 * @param string $order 排序规则
 	 */
 	public function getNextLevel($parent, $fields = '*', $order = 'sort, id'){
-		if(String::isInt($parent)){
+		if(StringHelper::isInt($parent)){
 			return $this->getNextLevelByParentId($parent, $fields, $order);
 		}else{
 			return $this->getNextLevelByParentAlias($parent, $fields, $order);
@@ -306,14 +306,14 @@ class Category extends Model{
 	 */
 	public function get($cats, $fields = '*', $root = null){
 		if($root !== null && !is_array($root)){
-			if(String::isInt($root)){
+			if(StringHelper::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
 			}else{
 				$root = $this->getByAlias($root, 'left_value,right_value');
 			}
 		}
 		
-		if(String::isInt($cats)){
+		if(StringHelper::isInt($cats)){
 			return $this->getById($cats, $fields, $root);
 		}else{
 			return $this->getByAlias($cats, $fields, $root);

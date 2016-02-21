@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <?php echo F::form()->open(null, 'post')?>
 	<div class="row">
@@ -28,7 +28,7 @@ use fay\helpers\String;
 						));
 					?>
 					</fieldset>
-					<fieldset class="form-field"><?php echo String::random(F::form()->getData('random_type', 'alnum'), F::form()->getData('random_length', 16))?></fieldset>
+					<fieldset class="form-field"><?php echo StringHelper::random(F::form()->getData('random_type', 'alnum'), F::form()->getData('random_length', 16))?></fieldset>
 				</div>
 			</div>
 		</div>

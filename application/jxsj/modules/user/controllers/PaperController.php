@@ -7,7 +7,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\ExamPapers;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\ExamExams;
 use fay\core\HttpException;
 
@@ -54,7 +54,7 @@ class PaperController extends UserController{
 			}
 		}
 		
-		$this->view->hash = String::random();
+		$this->view->hash = StringHelper::random();
 		\F::session()->set('exam', array(
 			$id=>array(
 				'start_time'=>$this->current_time,

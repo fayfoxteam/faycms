@@ -3,7 +3,7 @@ namespace fay\core;
 
 use fay\helpers\Request;
 use fay\models\tables\Actions;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\Roles;
 
 /**
@@ -121,7 +121,7 @@ class Controller{
 	public function getToken(){
 		if(!$this->token){
 			//设置token
-			$this->token = String::random();
+			$this->token = StringHelper::random();
 			\F::session()->set('_token', $this->token);
 		}
 		return $this->token;

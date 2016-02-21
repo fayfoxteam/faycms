@@ -3,7 +3,7 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use fay\models\tables\Users;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\Option;
 use fay\models\File;
 use fay\core\Response;
@@ -124,7 +124,7 @@ class IndexController extends InstallController{
 		}else if($is_installed == 'database-completed'){
 			//数据库已初始化，跳转至设置超级管理员界面
 			if($this->input->post()){
-				$salt = String::random('alnum', 5);
+				$salt = StringHelper::random('alnum', 5);
 				$password = $this->input->post('password');
 				$password = md5(md5($password).$salt);
 				$user_id = Users::model()->insert(array(

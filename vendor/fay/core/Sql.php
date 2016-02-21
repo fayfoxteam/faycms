@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Sql{
 	protected $fields = array();

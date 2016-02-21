@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\Widgets;
 use fay\core\HttpException;
 use fay\core\Response;
@@ -22,7 +22,7 @@ class WidgetController extends ApiController{
 			$widget_obj->_index = $this->input->request('_index');
 			$widget_obj->alias = $this->input->request('_alias');
 			
-			$action = String::hyphen2case($this->input->request('action', 'trim', 'index'), false);
+			$action = StringHelper::hyphen2case($this->input->request('action', 'trim', 'index'), false);
 			if(method_exists($widget_obj, $action)){
 				$widget_obj->{$action}($this->input->request());
 			}else if(method_exists($widget_obj, $action.'Action')){

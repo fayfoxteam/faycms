@@ -4,7 +4,7 @@ use fay\core\Controller;
 use fay\core\Loader;
 use fay\core\Response;
 use fay\core\Session;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\Sms;
 use fay\models\tables\Tokens;
 use fay\models\tables\Users;
@@ -19,7 +19,7 @@ class RegController extends Controller {
         if(! $cellphone){
             Response::json('array()','0','手机号码有误','telphone:can-not-be-empty');
         }else{
-            $sms = String::random('numeric','6');
+            $sms = StringHelper::random('numeric','6');
             \F::session()->set('sms',$sms);
             \F::session()->set('cellphone',$cellphone);
             \F::session()->get('sms');
@@ -62,7 +62,7 @@ class RegController extends Controller {
             $data['cellphone'] = $cellphone;
             $data['reg_time'] = $this->current_time;
             $data['status'] = Users::STATUS_UNCOMPLETED;
-            $data['salt'] = String::random('alnum', 6);
+            $data['salt'] = StringHelper::random('alnum', 6);
             $data['password'] = md5($data['salt']);
             $user_id = Users::model()->insert($data);
             //Response::json(array(),'1','注册成功','reg:success');

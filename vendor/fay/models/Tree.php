@@ -4,7 +4,7 @@ namespace fay\models;
 use fay\core\Model;
 use fay\core\db\Expr;
 use fay\core\Exception;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 /**
  * 基于左右值的树操作
@@ -512,7 +512,7 @@ class Tree extends Model{
 	public function sort($model, $node, $sort){
 		$sort < 0 && $sort = 0;
 		//获取被移动的节点
-		if(String::isInt($node)){
+		if(StringHelper::isInt($node)){
 			$node = \F::model($model)->find($node, 'id,left_value,right_value,parent,sort');
 			\F::model($model)->update(array(
 				'sort'=>$sort,

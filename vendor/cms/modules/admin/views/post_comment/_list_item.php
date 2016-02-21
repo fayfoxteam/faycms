@@ -3,7 +3,7 @@ use fay\helpers\Html;
 use fay\helpers\Date;
 use fay\models\tables\PostComments;
 use cms\helpers\PostCommentHelper;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <tr valign="top" id="message-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
@@ -69,7 +69,7 @@ use fay\helpers\String;
 	<?php }?>
 	<?php if(in_array('post', $cols)){?>
 	<td>
-		<?php echo Html::link(String::niceShort($data['post_title'], 40), array('admin/post/edit', array(
+		<?php echo Html::link(StringHelper::niceShort($data['post_title'], 40), array('admin/post/edit', array(
 			'id'=>$data['post_id'],
 		)), array(
 			'target'=>'_blank',

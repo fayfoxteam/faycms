@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-class String{
+class StringHelper{
 	/**
 	 * 类似PHP的nl2br函数，只是将回车转为p标签包裹
 	 */

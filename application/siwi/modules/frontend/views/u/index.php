@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\Date;
 ?>
 <div class="clearfix col2">
@@ -57,7 +57,7 @@ use fay\helpers\Date;
 				?></div>
 				<div class="con">
 					<header>
-						<h3><?php echo Html::link(String::niceShort($p['title'], 38, true), array('blog/'.$p['id']), array(
+						<h3><?php echo Html::link(StringHelper::niceShort($p['title'], 38, true), array('blog/'.$p['id']), array(
 							'title'=>Html::encode($p['title']),
 							'encode'=>false,
 						))?></h3>

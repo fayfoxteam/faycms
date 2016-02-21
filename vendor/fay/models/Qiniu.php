@@ -4,7 +4,7 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Files;
 use fay\core\Loader;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Qiniu extends Model{
 	/**
@@ -19,7 +19,7 @@ class Qiniu extends Model{
 	 * @param int $file_id 本地文件ID
 	 */
 	public function put($file){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file);
 		}
 		
@@ -56,7 +56,7 @@ class Qiniu extends Model{
 	 * @param int $file_id 本地文件ID
 	 */
 	public function delete($file){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path');
 		}
 		
@@ -90,7 +90,7 @@ class Qiniu extends Model{
 	 * @param $options 包含宽高参数，若文件非图片，宽高参数无效
 	 */
 	public function getUrl($file, $options = array()){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		

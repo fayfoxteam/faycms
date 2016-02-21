@@ -3,7 +3,7 @@ use fay\models\Option;
 use fay\helpers\Html;
 use fay\models\File;
 use fay\models\Post;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <div class="page-title">
 	<div class="container">
@@ -18,7 +18,7 @@ use fay\helpers\String;
 </div>
 <div class="container">
 	<div class="page-content">
-		<div class="teacher-description"><?php echo String::nl2p(Html::encode($cat_teacher['description']))?></div>
+		<div class="teacher-description"><?php echo StringHelper::nl2p(Html::encode($cat_teacher['description']))?></div>
 		<div class="teacher-list">
 			<ul class="cf"><?php foreach($teachers as $t){
 				echo Html::link(Html::img($t['thumbnail'], File::PIC_RESIZE, array(

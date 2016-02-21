@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use ncp\helpers\FriendlyLink;
 use fay\models\File;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 $this->appendCss($this->appStatic('css/travel.css'));
 ?>
@@ -80,7 +80,7 @@ $this->appendCss($this->appStatic('css/travel.css'));
 					<div class="luxian">
 					 	<div class="luxian_title"><h5><i></i>路线<?php echo $k+1?></h5></div>
 						<div class="luxian_info">
-							<?php echo String::nl2p($r['route'])?>
+							<?php echo StringHelper::nl2p($r['route'])?>
 						</div>
 					 </div>
 					 <?php }?>

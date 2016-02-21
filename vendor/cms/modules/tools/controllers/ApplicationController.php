@@ -4,7 +4,7 @@ namespace cms\modules\tools\controllers;
 use cms\library\ToolsController;
 use fay\models\File;
 use fay\models\Category;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\Users;
 use fay\models\Menu;
 use fay\models\tables\Categories;
@@ -105,7 +105,7 @@ class ApplicationController extends ToolsController{
 				$this->indexCats();
 				$this->indexMenus();
 				
-				$salt = String::random('alnum', 5);
+				$salt = StringHelper::random('alnum', 5);
 				$password = $this->input->post('user_password');
 				$password = md5(md5($password).$salt);
 				$user_id = $this->db->insert('users', array(

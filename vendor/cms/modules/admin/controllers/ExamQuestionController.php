@@ -12,7 +12,7 @@ use fay\models\tables\ExamAnswers;
 use fay\core\Response;
 use fay\models\tables\ExamExamsQuestions;
 use fay\models\Flash;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class ExamQuestionController extends AdminController{
 	public function __construct(){
@@ -200,7 +200,7 @@ class ExamQuestionController extends AdminController{
 							$answer_ids = array();
 							$i = 0;
 							foreach($selector_answers as $k=>$a){
-								if(String::isInt($k)){
+								if(StringHelper::isInt($k)){
 									//老记录，更新
 									$answer_ids[] = $k;
 									//更新记录
@@ -367,7 +367,7 @@ class ExamQuestionController extends AdminController{
 	public function get(){
 		$id = $this->input->get('id');
 		
-		if(String::isInt($id)){
+		if(StringHelper::isInt($id)){
 			$question = ExamQuestions::model()->find($id);
 			
 			Response::json(array(\F::filter('strip_tags', $question, 'question')));

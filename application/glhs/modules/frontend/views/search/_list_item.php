@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <article class="cf">
 	<?php echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(
@@ -16,7 +16,7 @@ use fay\helpers\String;
 	<div class="post-info">
 		<h2><?php echo Html::link($data['title'], array("{$data['cat_alias']}-{$data['id']}"))?></h2>
 		<time class="publish-time"><?php echo date('Y年m月d日', $data['publish_time'])?></time>
-		<div class="abstract"><?php echo String::nl2p(Html::encode($data['abstract']))?></div>
+		<div class="abstract"><?php echo StringHelper::nl2p(Html::encode($data['abstract']))?></div>
 		<?php echo Html::link('Read More', array("{$data['cat_alias']}-{$data['id']}"), array(
 			'class'=>'read-more',
 		))?>

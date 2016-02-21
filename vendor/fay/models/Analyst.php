@@ -3,7 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\core\Sql;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
 use fay\models\tables\AnalystCaches;
@@ -119,7 +119,7 @@ class Analyst extends Model{
 		if($uv == 0){
 			return 0;
 		}else{
-			return String::money($result['count'] * 100 / $uv);
+			return StringHelper::money($result['count'] * 100 / $uv);
 		}
 	}
 	

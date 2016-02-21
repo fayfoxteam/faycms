@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\helpers\Date;
 use fay\models\tables\ExamPapers;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <tr valign="top">
 	<td>
@@ -29,7 +29,7 @@ use fay\helpers\String;
 			echo '<span class="fc-red">禁用</span>';
 			break;
 	}?></td>
-	<td><?php echo String::money($data['score'])?></td>
+	<td><?php echo StringHelper::money($data['score'])?></td>
 	<td><abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 		<?php echo Date::niceShort($data['create_time'])?>
 	</abbr></td>

@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use pharmrich\helpers\PostHelper;
 use fay\models\File;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <div class="post-list">
 <?php foreach($posts as $p){?>
@@ -31,7 +31,7 @@ use fay\helpers\String;
 				'title'=>Html::encode($p['post']['title']),
 			));
 		}?>
-		<p><?php echo nl2br(Html::encode(String::niceShort($p['post']['abstract'], 250)))?></p>
+		<p><?php echo nl2br(Html::encode(StringHelper::niceShort($p['post']['abstract'], 250)))?></p>
 		<?php echo Html::link('Read More', $p['post']['link'], array(
 			'class'=>'btn-red btn-sm mt20',
 			'title'=>false,

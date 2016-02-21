@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use pharmrich\helpers\PostHelper;
 use fay\models\File;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 $type = PostHelper::getType($data['cat_id']);
 ?>
@@ -32,7 +32,7 @@ $type = PostHelper::getType($data['cat_id']);
 			'title'=>Html::encode($data['title']),
 		));
 	}?>
-	<p><?php echo nl2br(Html::encode(String::niceShort($data['abstract'], 250)))?></p>
+	<p><?php echo nl2br(Html::encode(StringHelper::niceShort($data['abstract'], 250)))?></p>
 	<?php echo Html::link('Read More', array("$type/{$data['id']}"), array(
 		'class'=>'btn-red btn-sm mt20',
 		'title'=>false,

@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Widgets;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -145,7 +145,7 @@ class WidgetController extends AdminController{
 			if($widget_obj == null){
 				throw new HttpException('Widget不存在或已被删除');
 			}
-			$action = String::hyphen2case($this->input->get('action', 'trim', 'index'), false);
+			$action = StringHelper::hyphen2case($this->input->get('action', 'trim', 'index'), false);
 			if(method_exists($widget_obj, $action)){
 				$widget_obj->{$action}($this->input->get());
 			}else if(method_exists($widget_obj, $action.'Action')){

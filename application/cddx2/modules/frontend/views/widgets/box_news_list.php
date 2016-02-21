@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\Category;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 $cat = Category::model()->get($config['top'], 'title,alias');
 ?>
@@ -19,7 +19,7 @@ $cat = Category::model()->get($config['top'], 'title,alias');
 				<?php $first_post = array_shift($posts);?>
 				<h4><?php echo Html::link($first_post['title'], array('post/'.$first_post['id']))?></h4>
 				<p>
-					<?php echo Html::encode(String::niceShort($first_post['abstract'], 50))?>
+					<?php echo Html::encode(StringHelper::niceShort($first_post['abstract'], 50))?>
 					<?php echo Html::link('[详情]', array('post/'.$first_post['id']))?>
 				</p>
 			</div>

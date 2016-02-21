@@ -2,7 +2,7 @@
 namespace fay\models\user;
 
 use fay\core\Model;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Password extends Model{
 	/**
@@ -16,7 +16,7 @@ class Password extends Model{
 	 * 根据明码，得到一个加密后的密码和混淆码
 	 */
 	public function generate($password){
-		$salt = String::random('alnum', 5);
+		$salt = StringHelper::random('alnum', 5);
 		return array(
 			'salt'=>$salt,
 			'password'=>md5(md5($password) . $salt),

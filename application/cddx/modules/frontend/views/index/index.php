@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <div class="g-mn cf">
 	<div class="box cf"><?php F::widget()->load('index-slider')?></div>
@@ -15,10 +15,10 @@ use fay\helpers\String;
 			</header>
 			<div class="box-content">
 			<?php
-				$text = String::niceShort($about['abstract'], 100, true) . Html::link('[详细]', array('page-'.$about['id']), array(
+				$text = StringHelper::niceShort($about['abstract'], 100, true) . Html::link('[详细]', array('page-'.$about['id']), array(
 					'class'=>'fc-red',
 				));
-				echo String::nl2p($text);
+				echo StringHelper::nl2p($text);
 			?>
 			</div>
 		</div>
@@ -37,7 +37,7 @@ use fay\helpers\String;
 						$top_news = array_shift($news);
 					?>
 					<h3><?php echo Html::link($top_news['title'], array('post-'.$top_news['id']))?></h3>
-					<p><?php echo String::niceShort($top_news['abstract'], 50), Html::link('[详情]', array('post-'.$top_news['id']), array(
+					<p><?php echo StringHelper::niceShort($top_news['abstract'], 50), Html::link('[详情]', array('post-'.$top_news['id']), array(
 						'class'=>'fc-red',
 					))?></p>
 				</div>

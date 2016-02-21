@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\Log;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\Date;
 ?>
 <tr valign="top" id="link-<?php echo $data['id']?>">
@@ -15,7 +15,7 @@ use fay\helpers\Date;
 	</td>
 	<td><?php echo Log::getType($data['type'])?></td>
 	<td><abbr title="<?php echo Html::encode($data['data'])?>">
-		<?php echo String::niceShort($data['data'], 60, true)?>
+		<?php echo StringHelper::niceShort($data['data'], 60, true)?>
 	</abbr></td>
 	<td><?php echo Html::encode($data['username'])?></td>
 	<td class="col-date">

@@ -4,7 +4,7 @@ namespace youdao\modules\frontend\controllers;
 use youdao\library\FrontController;
 use fay\models\Category;
 use fay\models\tables\Posts;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\Sql;
 use fay\models\tables\Categories;
 use fay\common\ListView;
@@ -61,7 +61,7 @@ class PostController extends FrontController{
 				'link'=>$this->view->url('post'),
 			),
 			array(
-				'title'=>String::niceShort($post['title'], 20, true),
+				'title'=>StringHelper::niceShort($post['title'], 20, true),
 			),
 		);
 		

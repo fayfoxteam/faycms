@@ -13,7 +13,7 @@ use fay\models\tables\PostsTags;
 use fay\models\tables\PostPropInt;
 use fay\models\tables\PostPropVarchar;
 use fay\models\tables\PostPropText;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\Loader;
 use fay\models\tables\Roles;
 use fay\models\tables\PostLikes;
@@ -505,7 +505,7 @@ class Post extends Model{
 		if(is_array($cat)){
 			//分类数组
 			return $this->getByCatArray($cat, $limit, $field, $children, $order, $conditions);
-		}else if(String::isInt($cat)){
+		}else if(StringHelper::isInt($cat)){
 			//分类ID
 			return $this->getByCatId($cat, $limit, $field, $children, $order, $conditions);
 		}else{
@@ -921,7 +921,7 @@ class Post extends Model{
 	 * @param string $order 排序字段
 	 */
 	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $field = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
-		if(!String::isInt($prop)){
+		if(!StringHelper::isInt($prop)){
 			$prop = Prop::model()->getIdByAlias($prop);
 		}
 		$sql = new Sql();
@@ -961,7 +961,7 @@ class Post extends Model{
 			Loader::vendor('Markdown/markdown');
 			return Markdown($post['content']);
 		}else if($post['content_type'] == Posts::CONTENT_TYPE_TEXTAREA){
-			return String::nl2p($post['content']);
+			return StringHelper::nl2p($post['content']);
 		}else{
 			return $post['content'];
 		}

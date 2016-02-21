@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Request;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\helpers\Html;
 use fay\models\Option;
 
@@ -39,7 +39,7 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 				<img src="<?php echo $this->appStatic('images/p1.jpg')?>" />
 			</a>
 			<p>
-				<?php echo String::niceShort($about['abstract'], 70, true)?>
+				<?php echo StringHelper::niceShort($about['abstract'], 70, true)?>
 				<a href="<?php echo $this->url('about')?>" class="color-red">[详细]</a>
 			</p>
 		</div>
@@ -57,7 +57,7 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 				<img src="<?php echo $this->appStatic('images/p2.jpg')?>" class="f-left" />
 				<h4><?php echo Html::link($top_news['title'], array('post/'.$top_news['id']))?></h4>
 				<p>
-					<?php echo String::niceShort($top_news['abstract'], 60, true)?>
+					<?php echo StringHelper::niceShort($top_news['abstract'], 60, true)?>
 					<?php echo Html::link('[详细]', array('post/'.$top_news['id'], array(
 						'class'=>'color-red',
 					)))?>
@@ -73,7 +73,7 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 						<a href="<?php echo $this->url("post/{$n['id']}")?>" class="news-list-title" title="<?php echo Html::encode($n['title'])?>">
 							<em class="f-right"><?php echo date('Y-m-d', $n['publish_time'])?></em>
 							<span>
-								<?php echo String::niceShort($n['title'], 40, true)?>
+								<?php echo StringHelper::niceShort($n['title'], 40, true)?>
 								<?php if($n['publish_time'] > $this->current_time - 86400 * 30){?>
 								<img src="<?php echo $this->appStatic('images/652264.png')?>" />
 								<?php }?>

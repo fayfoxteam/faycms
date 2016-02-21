@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\Users;
 use fay\helpers\Request;
 use fay\core\HttpException;
@@ -22,7 +22,7 @@ class RegisterController extends FrontController{
 			));
 			
 			if($check === true){
-				$salt = String::random('alnum', 5);
+				$salt = StringHelper::random('alnum', 5);
 				$username = $this->input->post('username');
 				$password = md5(md5($this->input->post('password')).$salt);
 				

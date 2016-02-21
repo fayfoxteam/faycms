@@ -15,7 +15,7 @@ use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\models\Option;
 use fay\models\Category;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -439,7 +439,7 @@ class FileController extends AdminController{
 		
 		//文件名或文件id号
 		$f = $this->input->get('f');
-		if(String::isInt($f)){
+		if(StringHelper::isInt($f)){
 			if($f == 0){
 				//这里不直接返回图片不存在的提示，因为可能需要缩放，让后面的逻辑去处理
 				$file = false;

@@ -45,7 +45,7 @@ class ListView{
 		$this->current_page = \F::app()->input->get($this->page_key, 'intval', 1);
 		
 		$this->total_records = $this->count();
-		$this->total_pages = ceil($this->total_records / $this->page_size);
+		$this->total_pages = intval(ceil($this->total_records / $this->page_size));
 		$this->current_page > $this->total_pages ? $this->current_page = $this->total_pages : '';
 		$this->current_page < 1 ? $this->current_page = 1 : '';
 		$this->offset = ($this->current_page - 1) * $this->page_size;
@@ -148,7 +148,7 @@ class ListView{
 			$sql = preg_replace('/GROUP BY[\s\S]*/i', '', $sql);
 		}
 		$result = $this->db->fetchRow($sql, $this->params);
-		return array_shift($result);
+		return intval(array_shift($result));
 	}
 	
 	public function setSql($sql){

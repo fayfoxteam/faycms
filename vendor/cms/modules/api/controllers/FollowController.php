@@ -195,13 +195,7 @@ class FollowController extends UserController{
 			$fields = $this->form()->getData('fields');
 			if($fields){
 				//过滤字段，移除那些不允许的字段
-				$fields = FieldHelper::process($fields, 'follows');
-				foreach($fields as $k => $v){
-					if(!isset($this->allowed_fields[$k])){
-						unset($fields[$k]);
-					}
-					$fields[$k] = in_array('*', $v) ? $this->allowed_fields[$k] : array_intersect($this->allowed_fields[$k], $v);
-				}
+				$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
 			}else{
 				$fields = $this->default_fields;
 			}
@@ -252,13 +246,7 @@ class FollowController extends UserController{
 			$fields = $this->form()->getData('fields');
 			if($fields){
 				//过滤字段，移除那些不允许的字段
-				$fields = FieldHelper::process($fields, 'follows');
-				foreach($fields as $k => $v){
-					if(!isset($this->allowed_fields[$k])){
-						unset($fields[$k]);
-					}
-					$fields[$k] = in_array('*', $v) ? $this->allowed_fields[$k] : array_intersect($this->allowed_fields[$k], $v);
-				}
+				$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
 			}else{
 				$fields = $this->default_fields;
 			}

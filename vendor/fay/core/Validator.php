@@ -4,7 +4,7 @@ namespace fay\core;
 class Validator{
 	public static $map = array(
 		'email'=>'fay\validators\Email',
-		'string'=>'fay\validators\String',
+		'string'=>'fay\validators\StringValidator',
 		'required'=>'fay\validators\Required',
 		'int'=>'fay\validators\Int',
 		'float'=>'fay\validators\Float',

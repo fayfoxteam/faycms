@@ -6,7 +6,7 @@ use fay\core\Validator;
 /**
  * 字符串验证
  */
-class String extends Validator{
+class StringValidator extends Validator{
 	/**
 	 * 若为true，允许传入数组，每个数组项都必须是数字
 	 */

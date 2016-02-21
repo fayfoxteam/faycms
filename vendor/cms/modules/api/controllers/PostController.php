@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\models\Post;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 
 class PostController extends ApiController{
@@ -79,7 +79,7 @@ class PostController extends ApiController{
 			
 			if($fields){
 				//过滤字段，移除那些不允许的字段
-				$fields = SqlHelper::processFields($fields, 'post');
+				$fields = FieldHelper::process($fields, 'post');
 				foreach($fields as $k => $v){
 					if(!isset($this->allowed_fields[$k])){
 						unset($fields[$k]);

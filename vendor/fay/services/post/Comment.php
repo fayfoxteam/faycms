@@ -7,7 +7,7 @@ use fay\core\Exception;
 use fay\core\Hook;
 use fay\models\Post;
 use fay\models\Message;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 use fay\models\Option;
 use fay\models\MultiTree;
 use fay\helpers\ArrayHelper;
@@ -50,7 +50,7 @@ class Comment extends Model{
 	 */
 	protected function formatFieldForMessage($fields){
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'message');
+		$fields = FieldHelper::process($fields, 'message');
 		
 		$return = array();
 		if(isset($fields['comment'])){

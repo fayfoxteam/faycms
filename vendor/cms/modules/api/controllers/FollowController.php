@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\UserController;
 use fay\core\Response;
 use fay\services\Follow;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 
 class FollowController extends UserController{
 	/**
@@ -195,7 +195,7 @@ class FollowController extends UserController{
 			$fields = $this->form()->getData('fields');
 			if($fields){
 				//过滤字段，移除那些不允许的字段
-				$fields = SqlHelper::processFields($fields, 'follows');
+				$fields = FieldHelper::process($fields, 'follows');
 				foreach($fields as $k => $v){
 					if(!isset($this->allowed_fields[$k])){
 						unset($fields[$k]);
@@ -252,7 +252,7 @@ class FollowController extends UserController{
 			$fields = $this->form()->getData('fields');
 			if($fields){
 				//过滤字段，移除那些不允许的字段
-				$fields = SqlHelper::processFields($fields, 'follows');
+				$fields = FieldHelper::process($fields, 'follows');
 				foreach($fields as $k => $v){
 					if(!isset($this->allowed_fields[$k])){
 						unset($fields[$k]);

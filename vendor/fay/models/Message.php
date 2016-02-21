@@ -2,7 +2,7 @@
 namespace fay\models;
 
 use fay\core\Model;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 use fay\models\tables\Messages;
 
 class Message extends Model{
@@ -26,7 +26,7 @@ class Message extends Model{
 	 */
 	public function get($model, $message_id, $fields = 'message.*,user.nickname,user.avatar,parent_message.content,parent_message.user_id,parent_message_user.nickname,parent_message_user.avatar'){
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'message');
+		$fields = FieldHelper::process($fields, 'message');
 		if(empty($fields['message']) || in_array('*', $fields['message'])){
 			//若未指定返回字段，初始化
 			$fields['message'] = \F::model($model)->getFields(array('status', 'deleted', 'sockpuppet'));

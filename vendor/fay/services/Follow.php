@@ -10,7 +10,7 @@ use fay\models\User;
 use fay\helpers\Request;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 
 class Follow extends Model{
 	/**
@@ -165,7 +165,7 @@ class Follow extends Model{
 	public static function follows($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
 		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
-		$fields = SqlHelper::processFields($fields, 'follows');
+		$fields = FieldHelper::process($fields, 'follows');
 		
 		isset($fields['follows']) || $fields['follows'] = array();
 		$follows_fields = $fields['follows'];
@@ -219,7 +219,7 @@ class Follow extends Model{
 	public static function fans($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
 		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
-		$fields = SqlHelper::processFields($fields, 'follows');
+		$fields = FieldHelper::process($fields, 'follows');
 		
 		isset($fields['follows']) || $fields['follows'] = array();
 		$follows_fields = $fields['follows'];

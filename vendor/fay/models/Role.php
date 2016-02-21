@@ -5,7 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Roles;
 use fay\models\tables\Props;
 use fay\models\tables\PropValues;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 
 class Role extends Model{
 	/**
@@ -21,7 +21,7 @@ class Role extends Model{
 	 * @param string $fields
 	 */
 	public function get($ids, $fields = 'roles.*,props.*'){
-		$fields = SqlHelper::processFields($fields, 'roles');
+		$fields = FieldHelper::process($fields, 'roles');
 		
 		if(is_array($ids)){
 			$ids = implode(',', $ids);

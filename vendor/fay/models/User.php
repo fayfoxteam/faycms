@@ -7,14 +7,13 @@ use fay\models\tables\Roles;
 use fay\models\tables\Props;
 use fay\helpers\Request;
 use fay\models\tables\RolesCats;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 use fay\models\tables\UsersRoles;
 use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\models\tables\UserProfile;
 use fay\core\db\Expr;
 use fay\core\Hook;
-use fay\helpers\String;
 use fay\models\user\Profile;
 use fay\models\user\Role;
 use fay\models\user\Password;
@@ -191,7 +190,7 @@ class User extends Model{
 	 */
 	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar'){
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'user');
+		$fields = FieldHelper::process($fields, 'user');
 		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
 			$fields['user'] = array(
@@ -255,7 +254,7 @@ class User extends Model{
 		is_array($ids) || $ids = explode(',', $ids);
 		
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'user');
+		$fields = FieldHelper::process($fields, 'user');
 		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
 			$fields['user'] = array(

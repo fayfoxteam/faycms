@@ -17,7 +17,7 @@ use fay\helpers\String;
 use fay\core\Loader;
 use fay\models\tables\Roles;
 use fay\models\tables\PostLikes;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 use fay\models\tables\PostMeta;
 use fay\models\post\Meta;
 use fay\models\post\Category as PostCategory;
@@ -321,7 +321,7 @@ class Post extends Model{
 	 */
 	public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'post');
+		$fields = FieldHelper::process($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化
 			$fields['post'] = Posts::model()->getFields();
@@ -591,7 +591,7 @@ class Post extends Model{
 	 */
 	public function getByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		//解析$fields
-		$fields = SqlHelper::processFields($fields, 'post');
+		$fields = FieldHelper::process($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
 			$fields['post'] = Posts::model()->getFields('content');

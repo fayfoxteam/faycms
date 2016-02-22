@@ -280,71 +280,24 @@ class MultiTree extends Model{
 	}
 	
 	/**
-	 * 根据left_value和right_value渲染出一个多维数组
+	 * 根据parent字段渲染出一个多维数组
+	 * （因为$nodes不会包含软删除数据，所以利用left_value和right_value是构造不出tree的，不连续）
 	 * @param array $nodes
 	 */
 	public function renderTree($nodes, $parent = 0){
-		if(empty($nodes)) return array();
-		$level = 0;//下一根树枝要挂载的层级
-		$current_level = 0;//当前层级
-		$left = $nodes[0]['left_value'] - 1;//上一片叶子的左值
-		$branch = array();//树枝
-		$parent_node = null;//叶子前一级树枝
-		$leaf = null;//叶子
-		$tree = array();//树
-		foreach($nodes as $n){
-			if($n['left_value'] - $left == 1){
-				//子节点
-				if(empty($branch)){
-					$branch[] = $n;
-					$leaf = &$branch[0];
-					$parent_node = &$branch;
-				}else{
-					$leaf['children'] = array($n);
-					$parent_node = &$leaf;
-					$leaf = &$leaf['children'][0];
-				}
-				$current_level++;
-			}else if($n['left_value'] - $left == 2){
-				//同级叶子
-				if(isset($parent_node['children'])){
-					$parent_node['children'][] = $n;
-					$leaf = &$parent_node['children'][count($parent_node['children']) - 1];
-				}else{
-					//该树枝的根
-					$parent_node[] = $n;
-					$leaf = &$parent_node[count($parent_node) - 1];
-				}
-			}else{
-				//当前树枝遍历完毕，转向父节点进行遍历
-				$tree = $this->mountBranch($branch, $tree, $level);//将之前产生的树枝先挂到树上
-				$level = $current_level - ($n['left_value'] - $left - 1);//下次挂在这个位置
-				$current_level = $level + 1;
-				$branch = array($n);//重置树枝
-				$parent_node = &$branch;
-				$leaf = &$branch[0];
+		$tree = array();
+		if(empty($nodes)) return $tree;
+		foreach($nodes as $k=>$n){
+			if($n['parent'] == $parent){
+				$tree[] = $n;
+				unset($nodes[$k]);
 			}
-			$left = $n['left_value'];
 		}
-		$tree = $this->mountBranch($branch, $tree, $level);
-		return $tree;
-	}
-	
-	/**
-	 * 将一根树枝挂载到指定树的指定层级的最右侧
-	 * @param array $branch
-	 * @param array $tree
-	 * @param int $level
-	 */
-	private function mountBranch($branch, $tree, $level){
-		if($level == 0){
-			$tree = array_merge($tree, $branch);
-		}else{
-			$temp = &$tree[count($tree) - 1];//第一层的最后一个元素的引用
-			for($i = 1; $i < $level; $i++){
-				$temp = &$temp['children'][count($temp['children']) - 1];
+		foreach($tree as &$t){
+			if($t['right_value'] - $t['left_value'] != 1){
+				//非叶子
+				$t['children'] = $this->renderTreeByParent($nodes, $t['id']);
 			}
-			$temp['children'] = array_merge($temp['children'], $branch);
 		}
 		return $tree;
 	}

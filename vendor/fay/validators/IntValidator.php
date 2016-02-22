@@ -8,7 +8,7 @@ use fay\helpers\StringHelper as StringHelper;
  * 验证是否为整数
  * 通过更改属性，可以实现范围验证
  */
-class Int extends Validator{
+class IntValidator extends Validator{
 	/**
 	 * 若为true，允许传入数组，每个数组项都必须是数字
 	 */

@@ -11,7 +11,7 @@ use fay\core\Validator;
  * - 例如：max为5.12；min为3.14之间的小数
  * 两种方式可结合使用
  */
-class Float extends Validator{
+class FloatValidator extends Validator{
 	/**
 	 * 长度
 	 */

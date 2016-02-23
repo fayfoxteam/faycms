@@ -10,7 +10,7 @@ use fay\helpers\StringHelper;
 		'class'=>'batch-ids',
 	));?></td>
 	<?php if(in_array('id', $cols)){?>
-		<td>评论ID</td>
+		<td><?php echo $data['id']?></td>
 	<?php }?>
 	<td>
 		<?php echo Html::encode($data['content'])?>

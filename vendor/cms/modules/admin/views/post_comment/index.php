@@ -190,7 +190,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'remove'=>F::app()->checkPermission('admin/post-comment/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
-					'id'=>'batch-action',
+					'id'=>'batch-action-2',
 				));
 			}else{
 				echo Html::select('', array(
@@ -201,7 +201,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'delete'=>F::app()->checkPermission('admin/post-comment/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
-					'id'=>'batch-action',
+					'id'=>'batch-action-2',
 				));
 			}
 			echo Html::link('提交', 'javascript:;', array(

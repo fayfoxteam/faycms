@@ -296,6 +296,11 @@ class PostCommentController extends AdminController{
 			//永久删除
 				
 			break;
+			default:
+				Response::notify('error', array(
+					'message'=>'未选择操作',
+				));
+			break;
 		}
 	}
 }

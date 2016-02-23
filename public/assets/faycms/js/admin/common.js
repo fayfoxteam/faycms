@@ -558,6 +558,8 @@ var common = {
 					'formatDate': 'Y-m-d',
 					'formatTime': 'H:i',
 					'dayOfWeekStart': 1,
+					'yearStart': 2010,
+					'yearEnd': 2037,
 					'allowBlank':$.browser.msie ? false : true,
 					'onShow': function(){
 						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
@@ -583,6 +585,8 @@ var common = {
 					'formatDate': 'Y-m-d',
 					'formatTime': 'H:i',
 					'dayOfWeekStart': 1,
+					'yearStart': 2010,
+					'yearEnd': 2037,
 					'allowBlank':($.browser.msie && $.browser.version < 9) ? false : true,
 					'onShow': function(ct){
 						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
@@ -615,6 +619,8 @@ var common = {
 					'formatDate': 'Y-m-d',
 					'formatTime': 'H:i',
 					'dayOfWeekStart': 1,
+					'yearStart': 2010,
+					'yearEnd': 2037,
 					'allowBlank': ($.browser.msie && $.browser.version < 9) ? false : true,
 					'onShow': function(ct){
 						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了

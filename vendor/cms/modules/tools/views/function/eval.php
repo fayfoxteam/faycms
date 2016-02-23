@@ -54,5 +54,12 @@ editor.commands.addCommand({
         $('#form').submit();
     }
 });
+editor.commands.addCommand({
+    name: 'run',
+    bindKey: {win: 'Ctrl-R',  mac: 'Command-S'},
+    exec: function(editor) {
+        $('#form').submit();
+    }
+});
 editor.setValue($('#key').val(), 1);
 </script>

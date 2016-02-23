@@ -611,4 +611,25 @@ class Comment extends Model{
 			}
 		}
 	}
+	
+	public function getTree($post_id, $count = 10, $offset = 0, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
+		$conditions = array(
+			'deleted = 0',
+		);
+		if(Option::get('system:post_comment_verify')){
+			//开启了评论审核
+			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
+		}
+		
+		$tree = MultiTree::model()->getTree('\fay\models\tables\PostComments',
+			'post_id',
+			$post_id,
+			$count,
+			$offset,
+			$fields,
+			$conditions
+		);
+		
+		return $tree;
+	}
 }

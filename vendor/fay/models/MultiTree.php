@@ -4,6 +4,8 @@ namespace fay\models;
 use fay\core\Model;
 use fay\core\db\Expr;
 use fay\core\ErrorException;
+use fay\helpers\FieldHelper;
+use fay\helpers\ArrayHelper;
 
 /**
  * 基于左右值的多树操作
@@ -245,19 +247,46 @@ class MultiTree extends Model{
 	 * @param int $value 字段值，例如：文章ID
 	 * @param int $count 返回根记录数（回复有多少返回多少，不分页）
 	 * @param int $offset 偏移量（根据页码在调用前算好
+	 * @param string $fields 可指定返回字段（虽然把user等字段放这里会让model看起来不纯，但是性能上会好很多）
+	 *  - 无前缀系列可指定$model表返回字段，若未指定，默认为*
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
+	 * @param string $order 排序条件
 	 */
-	public function getTree($model, $field, $value, $count = 10, $offset = 0){
+	public function getTree($model, $field, $value, $count = 10, $offset = 0, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
+		//解析$fields
+		$fields = FieldHelper::process($fields, 'tree');
+		if(empty($fields['tree']) || in_array('*', $fields)){
+			$fields['tree'] = \F::model($model)->getFields();
+		}
+		$tree_fields = $fields['tree'];
+		//一些需要用到，但未指定返回的字段特殊处理下
+		foreach(array('root', 'left_value', 'right_value', 'parent') as $key){
+			if(!in_array($key, $tree_fields)){
+				$tree_fields[] = $key;
+			}
+		}
+		if(!empty($fields['user']) && !in_array('user_id', $tree_fields)){
+			$tree_fields[] = 'user_id';
+		}
+		
 		//得到根节点
 		$root_nodes = \F::model($model)->fetchCol('root', array(
 			"{$field} = ?"=>$value,
 			'left_value = 1',
-		), false, $count, $offset);
+		) + $conditions, $order, $count, $offset);
 		
 		if($root_nodes){
 			//搜索所有节点
 			$nodes = \F::model($model)->fetchAll(array(
 				'root IN (?)'=>$root_nodes,
-			), \F::model($model)->getFields(), 'root DESC, left_value ASC');
+			) + $conditions, $tree_fields, $order);
+			
+			//像user这种附加信息，可以一次性获取以提升性能
+			$extra = array();
+			if(!empty($fields['user'])){
+				$extra['users'] = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), implode(',', $fields['user']));
+			}
 			
 			//一棵一棵渲染
 			$sub_tree = array();
@@ -265,14 +294,14 @@ class MultiTree extends Model{
 			$tree = array();
 			foreach($nodes as $n){
 				if($last_root != $n['root'] && $sub_tree){
-					$tree[] = $this->renderTree($sub_tree);
+					$tree[] = $this->renderTree($sub_tree, $fields, 0, $extra);
 					$sub_tree = array();
 					$last_root = $n['root'];
 				}
 				
 				$sub_tree[] = $n;
 			}
-			$tree[] = $this->renderTree($sub_tree);
+			$tree[] = $this->renderTree($sub_tree, $fields, 0, $extra);
 			return $tree;
 		}else{
 			return array();
@@ -283,20 +312,35 @@ class MultiTree extends Model{
 	 * 根据parent字段渲染出一个多维数组
 	 * （因为$nodes不会包含软删除数据，所以利用left_value和right_value是构造不出tree的，不连续）
 	 * @param array $nodes
+	 * @param array $fields
+	 * @param int $parent
+	 * @param array $extra
 	 */
-	public function renderTree($nodes, $parent = 0){
+	public function renderTree($nodes, $fields, $parent = 0, $extra = array()){
 		$tree = array();
 		if(empty($nodes)) return $tree;
-		foreach($nodes as $k=>$n){
+		foreach($nodes as $k => $n){
 			if($n['parent'] == $parent){
-				$tree[] = $n;
+				$node = array();
+				//只返回需要返回的字段
+				foreach($n as $key => $val){
+					if(in_array($key, $fields['tree'])){
+						$node['data'][$key] = $val;
+					}
+				}
+				
+				if(!empty($extra['users'])){
+					//获取user信息
+					$node['user'] = $extra['users'][$n['user_id']];
+				}
+				
+				if($n['right_value'] - $n['left_value'] != 1){
+					//非叶子，获取子树
+					$node['children'] = $this->renderTree($nodes, $fields, $n['id'], $extra);
+				}
+				
+				$tree[] = $node;
 				unset($nodes[$k]);
-			}
-		}
-		foreach($tree as &$t){
-			if($t['right_value'] - $t['left_value'] != 1){
-				//非叶子
-				$t['children'] = $this->renderTreeByParent($nodes, $t['id']);
 			}
 		}
 		return $tree;

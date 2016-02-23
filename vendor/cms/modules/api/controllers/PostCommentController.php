@@ -5,8 +5,32 @@ use cms\library\ApiController;
 use fay\services\post\Comment;
 use fay\core\Response;
 use fay\models\tables\Posts;
+use fay\helpers\FieldHelper;
 
 class PostCommentController extends ApiController{
+	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+	);
+	
+	/**
+	 * 可选字段
+	 */
+	private $allowed_fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'username', 'nickname', 'avatar', 'roles.id', 'roles.title',
+		),
+	);
 	/**
 	 * 发表评论
 	 * @param int $post_id 文章ID
@@ -199,6 +223,53 @@ class PostCommentController extends ApiController{
 	 * 评论列表
 	 */
 	public function listAction(){
-		
+		if($this->form()->setRules(array(
+			array(array('post_id', 'page', 'page_size'), 'required'),
+			array(array('post_id'), 'int', array('min'=>1)),
+			array(array('post_id'), 'exist', array(
+				'table'=>'posts',
+				'field'=>'id',
+				'conditions'=>array(
+					'deleted = 0',
+					'status = '.Posts::STATUS_PUBLISHED,
+					'publish_time < '.\F::app()->current_time,
+				)
+			)),
+		))->setFilters(array(
+			'post_id'=>'intval',
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'mode'=>'trim',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'post_id'=>'文章ID',
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check()){
+			$fields = $this->form()->getData('fields');
+			if($fields){
+				//过滤字段，移除那些不允许的字段
+				$fields = FieldHelper::process($fields, 'comment', $this->allowed_fields);
+			}else{
+				$fields = $this->default_fields;
+			}
+			
+			switch($this->form()->getData('mode')){
+				case 'tree':
+					Response::json(Comment::model()->getTree(
+						$this->form()->getData('post_id')),
+						$this->form()->getData('page_size', 20),
+						$this->form()->getData('page', 1),
+						$fields
+					);
+					break;
+			}
+		}else{
+			$error = $this->form()->getFirstError();
+			Response::notify('error', array(
+				'message'=>$error['message'],
+				'code'=>$error['code'],
+			));
+		}
 	}
 }

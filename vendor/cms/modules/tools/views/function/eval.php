@@ -48,15 +48,15 @@ editor.getSession().on('change', function(e) {
 	$('#key').val(editor.getValue());
 });
 editor.commands.addCommand({
-    name: 'run',
+    name: 'run-s',
     bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
     exec: function(editor) {
         $('#form').submit();
     }
 });
 editor.commands.addCommand({
-    name: 'run',
-    bindKey: {win: 'Ctrl-R',  mac: 'Command-S'},
+    name: 'run-r',
+    bindKey: {win: 'Ctrl-R',  mac: 'Command-R'},
     exec: function(editor) {
         $('#form').submit();
     }

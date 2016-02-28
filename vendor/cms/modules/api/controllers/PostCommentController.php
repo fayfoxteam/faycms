@@ -224,8 +224,8 @@ class PostCommentController extends ApiController{
 	 */
 	public function listAction(){
 		if($this->form()->setRules(array(
-			array(array('post_id', 'page', 'page_size'), 'required'),
-			array(array('post_id'), 'int', array('min'=>1)),
+			array(array('post_id'), 'required'),
+			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
@@ -256,12 +256,12 @@ class PostCommentController extends ApiController{
 			
 			switch($this->form()->getData('mode')){
 				case 'tree':
-					Response::json(Comment::model()->getTree(
-						$this->form()->getData('post_id')),
+					Response::json(array('comments'=>Comment::model()->getTree(
+						$this->form()->getData('post_id'),
 						$this->form()->getData('page_size', 20),
 						$this->form()->getData('page', 1),
 						$fields
-					);
+					)));
 					break;
 			}
 		}else{

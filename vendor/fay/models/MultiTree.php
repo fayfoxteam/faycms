@@ -21,7 +21,37 @@ use fay\helpers\ArrayHelper;
  *  - parent 父节点ID
  *  - root 根节点。多树模型，需要有个根节点来标识树之间的关系
  */
-class MultiTree extends Model{
+abstract class MultiTree extends Model{
+	/**
+	 * 表结构模型（子类中必须指定）
+	 * @var string
+	 */
+	protected $model;
+	
+	/**
+	 * 外主键（例如文章评论，则对应外主键是文章ID：post_id）
+	 * @var string
+	 */
+	protected $foreign_key;
+	
+	/**
+	 * 用于输入输出时指定$fields默认的key
+	 * @var string
+	 */
+	protected $field_key;
+	
+	public function __construct(){
+		if(!$this->model){
+			throw new ErrorException(__CLASS__ . '::$model属性未指定');
+		}
+		if(!$this->foreign_key){
+			throw new ErrorException(__CLASS__ . '::$foreign_key属性未指定');
+		}
+		if(!$this->field_key){
+			throw new ErrorException(__CLASS__ . '::$field_key属性未指定');
+		}
+	}
+	
 	/**
 	 * @return MultiTree
 	 */
@@ -31,36 +61,35 @@ class MultiTree extends Model{
 	
 	/**
 	 * 创建一个节点
-	 * @param string $model 表模型
 	 * @param array $data 数据
 	 * @param int $parent 父节点
 	 */
-	public function create($model, $data, $parent = 0){
+	protected function _create($data, $parent = 0){
 		if($parent == 0){
 			//插入根节点
-			$node_id = \F::model($model)->insert(array_merge($data, array(
+			$node_id = \F::model($this->model)->insert(array_merge($data, array(
 				'parent'=>$parent,
 				'left_value'=>1,
 				'right_value'=>2,
 			)));
 			//根节点是自己
-			\F::model($model)->update(array(
+			\F::model($this->model)->update(array(
 				'root'=>$node_id,
 			), $node_id);
 		}else{
 			//插入叶子节点
-			$parent_node = \F::model($model)->find($parent, 'id,root,left_value,right_value');
+			$parent_node = \F::model($this->model)->find($parent, 'id,root,left_value,right_value');
 			if($parent_node['right_value'] - $parent_node['left_value'] == 1){
 				//父节点是叶子节点
-				\F::model($model)->inc(array(
+				\F::model($this->model)->inc(array(
 					'root = ' . $parent_node['root'],
 					'left_value > ' . $parent_node['left_value'],
 				), 'left_value', 2);
-				\F::model($model)->inc(array(
+				\F::model($this->model)->inc(array(
 					'root = ' . $parent_node['root'],
 					'right_value > ' . $parent_node['left_value'],
 				), 'right_value', 2);
-				$node_id = \F::model($model)->insert(array_merge($data, array(
+				$node_id = \F::model($this->model)->insert(array_merge($data, array(
 					'parent'=>$parent,
 					'left_value'=>$parent_node['left_value'] + 1,
 					'right_value'=>$parent_node['left_value'] + 2,
@@ -68,12 +97,18 @@ class MultiTree extends Model{
 				)));
 			}else{
 				//父节点非叶子节点，插入到最右侧（因为留言系统一般回复都是按时间正序排列的）
-				$left_node = \F::model($model)->fetchRow(array(
+				$left_node = \F::model($this->model)->fetchRow(array(
 					'parent = ' . $parent,
 				), 'left_value,right_value', 'left_value DESC');
-				\F::model($model)->inc('left_value > ' . $left_node['right_value'], 'left_value', 2);
-				\F::model($model)->inc('right_value > ' . $left_node['right_value'], 'right_value', 2);
-				$node_id = \F::model($model)->insert(array_merge($data, array(
+				\F::model($this->model)->inc(array(
+					'root = ' . $parent_node['root'],
+					'left_value > ' . $left_node['right_value'],
+				), 'left_value', 2);
+				\F::model($this->model)->inc(array(
+					'root = ' . $parent_node['root'],
+					'right_value > ' . $left_node['right_value'],
+				), 'right_value', 2);
+				$node_id = \F::model($this->model)->insert(array_merge($data, array(
 					'parent'=>$parent,
 					'root'=>$parent_node['root'],
 					'left_value'=>$left_node['right_value'] + 1,
@@ -87,13 +122,12 @@ class MultiTree extends Model{
 	/**
 	 * 删除一个节点
 	 * 物理删除，其子节点会挂到其父节点上
-	 * @param string $model 表模型
-	 * @param int|array $id 节点ID或包含id,left_value,right_value,parent,root节点信息的数组
+	 * @param int|array $node 节点ID或包含id,left_value,right_value,parent,root节点信息的数组
 	 */
-	public function remove($model, $node){
+	protected function _remove($node){
 		//获取被删除节点
 		if(!is_array($node)){
-			$node = \F::model($model)->find($node, 'id,left_value,right_value,parent,root');
+			$node = \F::model($this->model)->find($node, 'id,left_value,right_value,parent,root');
 		}
 		if(!$node){
 			throw new ErrorException('节点不存在', 'node-not-exist');
@@ -104,13 +138,13 @@ class MultiTree extends Model{
 			if($node['right_value'] != 2){
 				//不是根节点（是根节点且是叶子节点的话，无需操作）
 				//所有后续节点左右值-2
-				\F::model($model)->inc(array(
+				\F::model($this->model)->inc(array(
 					'root = ' . $node['root'],
 					'right_value > ' . $node['right_value'],
 					'left_value > ' . $node['right_value'],
 				), array('left_value', 'right_value'), -2);
 				//所有父节点右值-2
-				\F::model($model)->inc(array(
+				\F::model($this->model)->inc(array(
 					'root = ' . $node['root'],
 					'right_value > ' . $node['right_value'],
 					'left_value < ' . $node['left_value'],
@@ -118,12 +152,12 @@ class MultiTree extends Model{
 			}
 			
 			//删除当前节点
-			\F::model($model)->delete($node['id']);
+			\F::model($this->model)->delete($node['id']);
 			
 			return true;
 		}else{
 			//所有子节点左右值-1
-			\F::model($model)->update(array(
+			\F::model($this->model)->update(array(
 				'left_value'=>new Expr('left_value - 1'),
 				'right_value'=>new Expr('right_value - 1'),
 			), array(
@@ -132,7 +166,7 @@ class MultiTree extends Model{
 				'right_value < ' . $node['right_value'],
 			));
 			//所有后续节点左右值-2
-			\F::model($model)->update(array(
+			\F::model($this->model)->update(array(
 				'left_value'=>new Expr('left_value - 2'),
 				'right_value'=>new Expr('right_value - 2'),
 			), array(
@@ -140,7 +174,7 @@ class MultiTree extends Model{
 				'left_value > ' . $node['right_value'],
 				'right_value > ' . $node['right_value'],
 			));
-			\F::model($model)->inc(array(
+			\F::model($this->model)->inc(array(
 				'root = ' . $node['root'],
 				'left_value < ' . $node['left_value'],
 				'right_value > ' . $node['right_value'],
@@ -148,19 +182,19 @@ class MultiTree extends Model{
 				'left_value', 'right_value'
 			), -2);
 			//所有父节点
-			\F::model($model)->inc(array(
+			\F::model($this->model)->inc(array(
 				'root = ' . $node['root'],
 				'left_value < ' . $node['left_value'],
 				'right_value > ' . $node['right_value'],
 			), 'right_value', -2);
 			
 			//将所有父节点为该节点的parent字段指向其parent
-			\F::model($model)->update(array(
+			\F::model($this->model)->update(array(
 				'parent'=>$node['parent'],
 			), 'parent = ' . $node['id']);
 			
 			//删除当前节点
-			\F::model($model)->delete($node['id']);
+			\F::model($this->model)->delete($node['id']);
 			
 			return true;
 		}
@@ -168,18 +202,20 @@ class MultiTree extends Model{
 	
 	/**
 	 * 删除一个节点，及其所有子节点
-	 * @param string $model 表模型
-	 * @param int $id 节点ID
+	 * @param int|array $node 节点ID或包含id,left_value,right_value,root节点信息的数组
 	 */
-	public function removeAll($model, $id){
+	protected function _removeAll($node){
 		//获取被删除节点
-		$node = \F::model($model)->find($id, 'left_value,right_value,parent');
+		if(!is_array($node)){
+			$node = \F::model($this->model)->find($node, 'id,left_value,right_value,root');
+		}
 		if(!$node){
 			throw new ErrorException('节点不存在', 'node-not-exist');
 		}
 		
 		//删除所有树枝节点
-		\F::model($model)->delete(array(
+		\F::model($this->model)->delete(array(
+			'root = ' . $node['root'],
 			'left_value >= ' . $node['left_value'],
 			'right_value <= ' . $node['right_value'],
 		));
@@ -187,17 +223,19 @@ class MultiTree extends Model{
 		//差值
 		$diff = $node['right_value'] - $node['left_value'] + 1;
 		//所有后续节点减去差值
-		\F::model($model)->update(array(
+		\F::model($this->model)->update(array(
 			'left_value'=>new Expr('left_value - ' . $diff),
 			'right_value'=>new Expr('right_value - ' . $diff),
 		), array(
+			'root = ' . $node['root'],
 			'left_value > ' . $node['left_value'],
 			'right_value > ' . $node['right_value'],
 		));
 		//所有父节点的右节点减去差值
-		\F::model($model)->update(array(
+		\F::model($this->model)->update(array(
 			'right_value'=>new Expr('right_value - ' . $diff),
 		), array(
+			'root = ' . $node['root'],
 			'left_value < ' . $node['left_value'],
 			'right_value > ' . $node['right_value'],
 		));
@@ -206,32 +244,32 @@ class MultiTree extends Model{
 	
 	/**
 	 * 根据root重建一棵树的索引
-	 * @param string $model
+	 * @param int $root
 	 * @param int $parent
 	 * @param int $start_num
 	 * @param array $nodes 递归的时候，直接传入子节点，而不需要再搜一次
 	 */
-	public function buildIndex($model, $root, $parent = 0, $start_num = 0, $nodes = null){
-		$nodes || $nodes = \F::model($model)->fetchAll(array(
+	public function buildIndex($root, $parent = 0, $start_num = 0, $nodes = null){
+		$nodes || $nodes = \F::model($this->model)->fetchAll(array(
 			'root = ?'=>$root,
 			'parent = ?'=>$parent,
 		), 'id', 'id DESC');
 		foreach($nodes as $node){
-			$children = \F::model($model)->fetchAll(array(
+			$children = \F::model($this->model)->fetchAll(array(
 				'root = ?'=>$root,
 				'parent = ?'=>$node['id'],
 			), 'id', 'id DESC');
 			if($children){
 				//有孩子，先记录左节点，右节点待定
 				$left = ++$start_num;
-				$start_num = $this->buildIndex($model, $root, $node['id'], $start_num, $children);
-				\F::model($model)->update(array(
+				$start_num = $this->buildIndex($root, $node['id'], $start_num, $children);
+				\F::model($this->model)->update(array(
 					'left_value'=>$left,
 					'right_value'=>++$start_num,
 				), $node['id']);
 			}else{
 				//已经是叶子节点，直接记录左右节点
-				\F::model($model)->update(array(
+				\F::model($this->model)->update(array(
 					'left_value'=>++$start_num,
 					'right_value'=>++$start_num,
 				), $node['id']);
@@ -242,8 +280,6 @@ class MultiTree extends Model{
 	
 	/**
 	 * 以树的方式返回
-	 * @param string $model
-	 * @param string $field 字段名，例如：post_id
 	 * @param int $value 字段值，例如：文章ID
 	 * @param int $count 返回根记录数（回复有多少返回多少，不分页）
 	 * @param int $offset 偏移量（根据页码在调用前算好
@@ -253,13 +289,13 @@ class MultiTree extends Model{
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param string $order 排序条件
 	 */
-	public function getTree($model, $field, $value, $count = 10, $offset = 0, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
+	protected function _getTree($value, $count = 10, $offset = 0, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'tree');
-		if(empty($fields['tree']) || in_array('*', $fields)){
-			$fields['tree'] = \F::model($model)->getFields();
+		$fields = FieldHelper::process($fields, $this->field_key);
+		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
+			$fields[$this->field_key] = \F::model($this->model)->getFields();
 		}
-		$tree_fields = $fields['tree'];
+		$tree_fields = $fields[$this->field_key];
 		//一些需要用到，但未指定返回的字段特殊处理下
 		foreach(array('root', 'left_value', 'right_value', 'parent') as $key){
 			if(!in_array($key, $tree_fields)){
@@ -271,14 +307,14 @@ class MultiTree extends Model{
 		}
 		
 		//得到根节点
-		$root_nodes = \F::model($model)->fetchCol('root', array(
-			"{$field} = ?"=>$value,
+		$root_nodes = \F::model($this->model)->fetchCol('root', array(
+			"{$this->foreign_key} = ?"=>$value,
 			'left_value = 1',
 		) + $conditions, $order, $count, $offset);
 		
 		if($root_nodes){
 			//搜索所有节点
-			$nodes = \F::model($model)->fetchAll(array(
+			$nodes = \F::model($this->model)->fetchAll(array(
 				'root IN (?)'=>$root_nodes,
 			) + $conditions, $tree_fields, $order);
 			
@@ -294,15 +330,14 @@ class MultiTree extends Model{
 			$tree = array();
 			foreach($nodes as $n){
 				if($last_root != $n['root'] && $sub_tree){
-					$tree[] = $this->renderTree($sub_tree, $fields, 0, $extra);
+					$tree = array_merge($tree, $this->renderTree($sub_tree, $fields, 0, $extra));
 					$sub_tree = array();
 					$last_root = $n['root'];
 				}
 				
 				$sub_tree[] = $n;
 			}
-			$tree[] = $this->renderTree($sub_tree, $fields, 0, $extra);
-			return $tree;
+			return array_merge($tree, $this->renderTree($sub_tree, $fields, 0, $extra));
 		}else{
 			return array();
 		}
@@ -324,8 +359,8 @@ class MultiTree extends Model{
 				$node = array();
 				//只返回需要返回的字段
 				foreach($n as $key => $val){
-					if(in_array($key, $fields['tree'])){
-						$node['data'][$key] = $val;
+					if(in_array($key, $fields[$this->field_key])){
+						$node[$this->field_key][$key] = $val;
 					}
 				}
 				
@@ -337,6 +372,8 @@ class MultiTree extends Model{
 				if($n['right_value'] - $n['left_value'] != 1){
 					//非叶子，获取子树
 					$node['children'] = $this->renderTree($nodes, $fields, $n['id'], $extra);
+				}else{
+					$node['children'] = array();
 				}
 				
 				$tree[] = $node;

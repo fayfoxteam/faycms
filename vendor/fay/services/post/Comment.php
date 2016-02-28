@@ -1,7 +1,7 @@
 <?php
 namespace fay\services\post;
 
-use fay\core\Model;
+use fay\models\MultiTree;
 use fay\models\tables\PostComments;
 use fay\core\Exception;
 use fay\core\Hook;
@@ -9,12 +9,26 @@ use fay\models\Post;
 use fay\models\Message;
 use fay\helpers\FieldHelper;
 use fay\models\Option;
-use fay\models\MultiTree;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\PostMeta;
 
-class Comment extends Model{
+class Comment extends MultiTree{
+	/**
+	 * @see MultiTree::$model
+	 */
+	protected $model = '\fay\models\tables\PostComments';
+	
+	/**
+	 * @see MultiTree::$foreign_key
+	 */
+	protected $foreign_key = 'post_id';
+	
+	/**
+	 * @see MultiTree::$field_key
+	 */
+	protected $field_key = 'comment';
+	
 	/**
 	 * @return Comment
 	 */
@@ -110,7 +124,7 @@ class Comment extends Model{
 			}
 		}
 		
-		$comment_id = MultiTree::model()->create('\fay\models\tables\PostComments', array_merge($extra, array(
+		$comment_id = $this->_create(array_merge($extra, array(
 			'post_id'=>$post_id,
 			'content'=>$content,
 			'status'=>$status,
@@ -122,7 +136,7 @@ class Comment extends Model{
 		)), $parent);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments(array(array(
+		$this->updatePostComments(array(array(
 			'post_id'=>$post_id,
 			'status'=>$status,
 			'sockpuppet'=>$sockpuppet,
@@ -180,7 +194,7 @@ class Comment extends Model{
 		), $comment_id);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments(array($comment), 'delete');
+		$this->updatePostComments(array($comment), 'delete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_deleted', array(
@@ -211,7 +225,7 @@ class Comment extends Model{
 		));
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments($comments, 'delete');
+		$this->updatePostComments($comments, 'delete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -243,7 +257,7 @@ class Comment extends Model{
 		), $comment_id);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments(array($comment), 'undelete');
+		$this->updatePostComments(array($comment), 'undelete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_undeleted', array(
@@ -274,7 +288,7 @@ class Comment extends Model{
 		));
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments($comments, 'undelete');
+		$this->updatePostComments($comments, 'undelete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -315,7 +329,7 @@ class Comment extends Model{
 			));
 			
 			//更新文章评论数
-			$this->updatePostCommentsAndRealComments($comments, 'delete');
+			$this->updatePostComments($comments, 'delete');
 			
 			//执行钩子
 			Hook::getInstance()->call('after_post_comment_batch_deleted', array(
@@ -343,11 +357,11 @@ class Comment extends Model{
 			'comment_id'=>$comment_id,
 		));
 		
-		MultiTree::model()->remove('\fay\models\tables\PostComments', $comment);
+		$this->_remove($comment);
 		
 		if(!$comment['deleted']){
 			//更新文章评论数
-			$this->updatePostCommentsAndRealComments(array($comment), 'remove');
+			$this->updatePostComments(array($comment), 'remove');
 		}
 		
 		return true;
@@ -358,7 +372,7 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function removeAll($comment_id){
-		$comment = PostComments::model()->find($comment_id, 'id,parent');
+		$comment = PostComments::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
@@ -383,9 +397,9 @@ class Comment extends Model{
 			}
 		}
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments($undeleted_comments, 'remove');
+		$this->updatePostComments($undeleted_comments, 'remove');
 		
-		MultiTree::model()->removeAll('\fay\models\tables\PostComments', $comment_id);
+		$this->_removeAll($comment);
 		
 		return $comment_ids;
 	}
@@ -428,7 +442,7 @@ class Comment extends Model{
 		$this->setStatus($comment_id, PostComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments(array($comment), 'approve');
+		$this->updatePostComments(array($comment), 'approve');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_approved', array(
@@ -455,7 +469,7 @@ class Comment extends Model{
 		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments($comments, 'approve');
+		$this->updatePostComments($comments, 'approve');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -486,7 +500,7 @@ class Comment extends Model{
 		$this->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments(array($comment), 'disapprove');
+		$this->updatePostComments(array($comment), 'disapprove');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_disapproved', array(
@@ -513,7 +527,7 @@ class Comment extends Model{
 		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		$this->updatePostCommentsAndRealComments($comments, 'disapprove');
+		$this->updatePostComments($comments, 'disapprove');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -567,7 +581,7 @@ class Comment extends Model{
 	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 */
-	private function updatePostCommentsAndRealComments($comments, $action){
+	private function updatePostComments($comments, $action){
 		$post_comment_verify = Option::get('system:post_comment_verify');
 		$posts = array();
 		foreach($comments as $c){
@@ -612,7 +626,7 @@ class Comment extends Model{
 		}
 	}
 	
-	public function getTree($post_id, $count = 10, $offset = 0, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
+	public function getTree($post_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
 		$conditions = array(
 			'deleted = 0',
 		);
@@ -621,15 +635,12 @@ class Comment extends Model{
 			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
 		}
 		
-		$tree = MultiTree::model()->getTree('\fay\models\tables\PostComments',
-			'post_id',
-			$post_id,
-			$count,
-			$offset,
+		return $this->_getTree($post_id,
+			$page_size,
+			($page - 1) * $page_size,
 			$fields,
 			$conditions
 		);
 		
-		return $tree;
 	}
 }

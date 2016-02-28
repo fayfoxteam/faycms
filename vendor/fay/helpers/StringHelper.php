@@ -52,17 +52,18 @@ class StringHelper{
 	 *     numeric: 数字字符串。
 	 *     nozero: 不含零的数字字符串。
 	 *     unique: 用 MD5 and uniqid()加密的字符串。注意：第二个长度参数在这种类型无效。均返回一个32位长度的字符串。
+	 *     uuid: 生成一个UUID。注意：第二个长度参数在这种类型无效。均返回一个36位长度的字符串。
 	 * @param int $length
 	 */
 	public static function random($type = 'alnum', $length = 16) {
 		switch ($type) {
-			case 'basic' :
+			case 'basic':
 				return mt_rand();
 				break;
-			case 'alnum' :
-			case 'numeric' :
-			case 'nozero' :
-			case 'alpha' :
+			case 'alnum':
+			case 'numeric':
+			case 'nozero':
+			case 'alpha':
 				
 				switch ($type) {
 					case 'alpha' :
@@ -85,9 +86,12 @@ class StringHelper{
 				}
 				return $str;
 				break;
-			case 'unique' :
-			case 'md5' :
+			case 'unique':
+			case 'md5':
 				return md5(uniqid(mt_rand()));
+				break;
+			case 'uuid':
+				return self::guidv4();
 				break;
 		}
 	}

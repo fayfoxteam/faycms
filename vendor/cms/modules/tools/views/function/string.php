@@ -16,6 +16,7 @@ use fay\helpers\StringHelper;
 							'nozero'=>'nozero',
 							'alpha'=>'alpha',
 							'unique'=>'unique',
+							'uuid'=>'uuid',
 						), array(
 							'class'=>'form-control ib w150',
 						));

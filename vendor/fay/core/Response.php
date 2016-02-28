@@ -2,6 +2,8 @@
 namespace fay\core;
 
 use fay\models\Flash;
+use fay\helpers\StringHelper;
+use fay\helpers\SqlHelper;
 
 class Response{
 	/**
@@ -210,12 +212,30 @@ class Response{
 	 */
 	public static function json($data = '', $status = 1, $message = '', $code = ''){
 		header('Content-Type:application/json; charset=utf-8');
-		$content = json_encode(array(
-			'status'=>$status == 0 ? 0 : 1,
-			'data'=>$data,
-			'code'=>$code,
-			'message'=>$message
-		));
+		if(\F::config()->get('debug')){
+			$sqls = \fay\core\Db::getInstance()->getSqlLogs();
+			$sql_formats = array();
+			foreach($sqls as &$s){
+				$sql_formats[] = array(
+					'time'=>StringHelper::money($s[2] * 1000).'ms',
+					'sql'=>SqlHelper::bind($s[0], $s[1]),
+				);
+			}
+			$content = json_encode(array(
+				'status'=>$status == 0 ? 0 : 1,
+				'data'=>$data,
+				'code'=>$code,
+				'message'=>$message,
+				'sqls'=>$sql_formats,
+			));
+		}else{
+			$content = json_encode(array(
+				'status'=>$status == 0 ? 0 : 1,
+				'data'=>$data,
+				'code'=>$code,
+				'message'=>$message,
+			));
+		}
 		self::send($content);
 		die;
 	}

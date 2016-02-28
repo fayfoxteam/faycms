@@ -4,9 +4,10 @@ namespace fay\helpers;
 class SqlHelper{
 	/**
 	 * 简单的美化一下，必须结合faycms后台式样
-	 * @param sql $sql
+	 * @param sql $sql SQL
+	 * @param array $params 参数
 	 */
-	public static function nice($sql, $params){
+	public static function nice($sql, $params = array()){
 		$keywords = array('FROM', 'WHERE',
 			'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN',
 			'AS', 'LIMIT', 'ORDER BY', 'GROUP BY',
@@ -33,7 +34,24 @@ class SqlHelper{
 		
 		if(!empty($params)){
 			foreach($params as $p){
-				$sql = preg_replace('/\?/', is_numeric($p) ? $p : "'".Html::encode($p)."'", $sql, 1);
+				$sql = preg_replace('/\?/', is_int($p) ? $p : "'".Html::encode($p)."'", $sql, 1);
+			}
+		}
+		
+		return $sql;
+	}
+	
+	/**
+	 * 将$sql中的问号替换为参数值，并将换行符移除
+	 * @param string $sql SQL
+	 * @param array $params 参数
+	 */
+	public static function bind($sql, $params = array()){
+		$sql = str_replace("\n", ' ', $sql);
+		$sql = preg_replace('/\s{2,}/', ' ', $sql);//这个替换实际上是有风险的，单引号内的空格也会被替换掉，只是暂时没找到更好的方法
+		if(!empty($params)){
+			foreach($params as $p){
+				$sql = preg_replace('/\?/', is_int($p) ? $p : "'{$p}'", $sql, 1);
 			}
 		}
 		

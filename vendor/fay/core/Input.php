@@ -122,7 +122,9 @@ class Input{
 		if($this->request('ajax')){
 			return true;
 		}else{
-			if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest'){
+			if((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') ||
+				isset($_SERVER['HTTP_POSTMAN_TOKEN'])//postman发起的请求视为ajax请求
+			){
 				return true;
 			}else{
 				return false;

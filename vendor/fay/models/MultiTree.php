@@ -356,6 +356,7 @@ abstract class MultiTree extends Model{
 		if(empty($nodes)) return $tree;
 		foreach($nodes as $k => $n){
 			if($n['parent'] == $parent){
+				unset($nodes[$k]);
 				$node = array();
 				//只返回需要返回的字段
 				foreach($n as $key => $val){
@@ -377,7 +378,6 @@ abstract class MultiTree extends Model{
 				}
 				
 				$tree[] = $node;
-				unset($nodes[$k]);
 			}
 		}
 		return $tree;

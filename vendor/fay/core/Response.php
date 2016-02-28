@@ -215,18 +215,25 @@ class Response{
 		if(\F::config()->get('debug')){
 			$sqls = \fay\core\Db::getInstance()->getSqlLogs();
 			$sql_formats = array();
+			$sql_time = 0;
 			foreach($sqls as &$s){
 				$sql_formats[] = array(
 					'time'=>StringHelper::money($s[2] * 1000).'ms',
 					'sql'=>SqlHelper::bind($s[0], $s[1]),
 				);
+				$sql_time += $s[2];
 			}
 			$content = json_encode(array(
 				'status'=>$status == 0 ? 0 : 1,
 				'data'=>$data,
 				'code'=>$code,
 				'message'=>$message,
-				'sqls'=>$sql_formats,
+				'debug'=>array(
+					'sqls'=>$sql_formats,
+					'sql_time'=>StringHelper::money($sql_time * 1000).'ms',
+					'php_time'=>StringHelper::money((microtime(true) - START) * 1000).'ms',
+					'memory'=>round(memory_get_usage()/1024, 2).'KB',
+				),
 			));
 		}else{
 			$content = json_encode(array(

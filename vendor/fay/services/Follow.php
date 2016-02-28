@@ -190,7 +190,7 @@ class Follow extends Model{
 		);
 		
 		if($follows && !empty($fields['user'])){
-			$users = User::model()->mget(ArrayHelper::column($follows, 'user_id'), implode(',', $fields['user']));
+			$users = User::model()->mget(ArrayHelper::column($follows, 'user_id'), $fields['user']);
 		}
 		
 		foreach($follows as $f){
@@ -244,7 +244,7 @@ class Follow extends Model{
 		);
 		
 		if($fans && !empty($fields['user'])){
-			$users = User::model()->mget(ArrayHelper::column($fans, 'fans_id'), implode(',', $fields['user']));
+			$users = User::model()->mget(ArrayHelper::column($fans, 'fans_id'), $fields['user']);
 		}
 		
 		foreach($fans as $f){

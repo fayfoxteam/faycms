@@ -1,12 +1,12 @@
 <?php
 namespace cms\modules\api\controllers;
 
-use cms\library\UserController;
+use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\Follow;
 use fay\helpers\FieldHelper;
 
-class FollowController extends UserController{
+class FollowController extends ApiController{
 	/**
 	 * 默认返回字段
 	 */
@@ -36,6 +36,7 @@ class FollowController extends UserController{
 	 * @param int $user_id
 	 */
 	public function follow(){
+		$this->checkLogin();
 		if($this->form()->setRules(array(
 			array(array('user_id'), 'required'),
 			array(array('user_id'), 'int', array('min'=>1)),
@@ -77,6 +78,7 @@ class FollowController extends UserController{
 	 * @param int $user_id
 	 */
 	public function unfollow(){
+		$this->checkLogin();
 		if($this->form()->setRules(array(
 			array(array('user_id'), 'required'),
 			array(array('user_id'), 'int', array('min'=>1)),
@@ -111,6 +113,7 @@ class FollowController extends UserController{
 	 * @param int $user_id
 	 */
 	public function isFollow(){
+		$this->checkLogin();
 		if($this->form()->setRules(array(
 			array(array('user_id'), 'required'),
 			array(array('user_id'), 'int', array('min'=>1)),
@@ -140,6 +143,7 @@ class FollowController extends UserController{
 	 * @param array|string $user_ids 用户ID，可以是数组的方式传入，也可以逗号分隔传入
 	 */
 	public function mIsFollow(){
+		$this->checkLogin();
 		if($this->form()->setRules(array(
 			array(array('user_ids'), 'required'),
 			array(array('user_ids'), 'int'),

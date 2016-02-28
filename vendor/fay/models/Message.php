@@ -56,7 +56,7 @@ class Message extends Model{
 		);
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::model()->get($message['user_id'], implode(',', $fields['user']));
+			$return['user'] = User::model()->get($message['user_id'], $fields['user']);
 		}
 		
 		//父节点
@@ -76,7 +76,7 @@ class Message extends Model{
 				//有父节点
 				$return['parent_message'] = $parent_message;
 				if(!empty($fields['parent_message_user'])){
-					$return['parent_message_user'] = User::model()->get($parent_message['user_id'], implode(',', $fields['parent_message_user']));
+					$return['parent_message_user'] = User::model()->get($parent_message['user_id'], $fields['parent_message_user']);
 				}
 				if(!in_array('user_id', $fields['parent_message']) && in_array('user_id', $parent_message_fields)){
 					unset($return['parent_message']['user_id']);

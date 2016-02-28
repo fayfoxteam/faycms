@@ -321,7 +321,7 @@ abstract class MultiTree extends Model{
 			//像user这种附加信息，可以一次性获取以提升性能
 			$extra = array();
 			if(!empty($fields['user'])){
-				$extra['users'] = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), implode(',', $fields['user']));
+				$extra['users'] = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
 			}
 			
 			//一棵一棵渲染

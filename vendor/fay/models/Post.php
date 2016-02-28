@@ -434,7 +434,7 @@ class Post extends Model{
 		
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::model()->get($post['user_id'], implode(',', $fields['user']));
+			$return['user'] = User::model()->get($post['user_id'], $fields['user']);
 		}
 		
 		//标签
@@ -701,7 +701,7 @@ class Post extends Model{
 			
 			//作者信息
 			if(!empty($fields['user'])){
-				$post['user'] = User::model()->get($p['user_id'], implode(',', $fields['user']));
+				$post['user'] = User::model()->get($p['user_id'], $fields['user']);
 			}
 			
 			//附加属性

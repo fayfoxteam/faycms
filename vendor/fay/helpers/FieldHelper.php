@@ -3,46 +3,55 @@ namespace fay\helpers;
 
 class FieldHelper{
 	/**
-	 * 将users.username,users.nickname,users.id,props.*,users.role.*这样的字符串，
+	 * 将users.username,users.nickname,users.id,props.*,users.role.id,users.role.title这样的字符串，
 	 * 转换为如下格式的数组
 	 * array(
 	 *   'users'=>array(
-	 *     'username', 'nickname', 'id', 'role.*'
+	 *     'username', 'nickname', 'id', 'role'=>array(
+	 *       'id', 'title',
+	 *     ),
 	 *   ),
 	 *   'props'=>array(
 	 *     '*',
 	 *   ),
 	 * )
-	 * 只会切割第一个点，后面的点不会被分割
 	 * @param string $fields
 	 * @param string|null $default_key 若设置了default_key，则不包含.(点号)的项会被归属到default_key下
 	 * @param array $allowed_fields 若该字段非空，则会调用self::filter方法对解析后的$fields进行过滤
 	 */
 	public static function process($fields, $default_key = null, $allowed_fields = array()){
-		if(is_array($fields)){
-			//如果已经是数组，则直接返回（防止重复调用）
-			return $fields;
-		}
-		$fields = explode(',', $fields);
-		$return = array();
-		foreach($fields as $f){
-			$f = trim($f);
-			if(strpos($f, '.')){
-				$fa = explode('.', $f, 2);
-				$return[$fa[0]][] = $fa[1];
-			}else if(!empty($f)){
-				if($default_key){
-					$return[$default_key][] = $f;
-				}else{
-					$return[] = $f;
+		if(is_array($fields) && $default_key){
+			//如果已经是数组，且有$default_key，则把索引数组项归类到$default_key下（当传入$fields是二次解析的数组时，可能存在此类情况）
+			foreach($fields as $k => $f){
+				if(is_int($k)){
+					$fields[$default_key][] = $f;
+					unset($fields[$k]);
 				}
 			}
-		}
-		
-		if($allowed_fields){
-			return self::filter($return, $allowed_fields);
+			return $fields;
 		}else{
-			return $return;
+			$fields = explode(',', $fields);
+			$return = array();
+			foreach($fields as $f){
+				$f = trim($f);
+				if(strpos($f, '.')){
+					$fa = explode('.', $f);
+					$fa_end = array_pop($fa);
+					eval('$return[\'' . implode("']['", $fa) . "'][]='{$fa_end}';");
+				}else if(!empty($f)){
+					if($default_key){
+						$return[$default_key][] = $f;
+					}else{
+						$return[] = $f;
+					}
+				}
+			}
+			
+			if($allowed_fields){
+				return self::filter($return, $allowed_fields);
+			}else{
+				return $return;
+			}
 		}
 	}
 	
@@ -61,5 +70,29 @@ class FieldHelper{
 		}
 		
 		return $fields;
+	}
+	
+	/**
+	 * 将self::process()解析出来的字符串拼凑回去
+	 * @param array $fields self::process()得到的结果
+	 */
+	public static function join($data, $prefix = ''){
+		$return = array();
+		foreach($data as $key => $fields){
+			if(is_int($key)){
+				//取process中的一部分的时候，会出现这种情况
+				$return[] = $prefix ? "{$prefix}.{$fields}" : $fields;
+			}else{
+				foreach($fields as $k=>$f){
+					if(is_int($k)){
+						$return[] = $prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}";
+					}else{
+						$return[] = self::join(array($k=>$f), $prefix ? "{$prefix}.{$key}" : $key);
+					}
+				}
+			}
+		}
+		
+		return implode(',', $return);
 	}
 }

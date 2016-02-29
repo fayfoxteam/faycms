@@ -93,7 +93,22 @@ class PostCommentController extends ApiController{
 				$this->form()->getData('parent', 0)
 			);
 			
-			$comment = Comment::model()->get($comment_id);
+			$comment = CommentModel::model()->get($comment_id, array(
+				'comment'=>array(
+					'id', 'content', 'parent', 'create_time',
+				),
+				'user'=>array(
+					'id', 'nickname', 'avatar',
+				),
+				'parent'=>array(
+					'comment'=>array(
+						'id', 'content', 'parent', 'create_time',
+					),
+					'user'=>array(
+						'id', 'nickname', 'avatar',
+					),
+				),
+			));
 			
 			//格式化一下空数组的问题，保证返回给客户端的数据类型一致
 			if(isset($comment['parent_comment']) && empty($comment['parent_comment'])){

@@ -52,7 +52,7 @@ class Comment extends MultiTree{
 				'id', 'content', 'parent', 'create_time',
 			),
 			'user'=>array(
-				'id', 'nickname',
+				'id', 'nickname', 'avatar',
 			),
 		)
 	)){

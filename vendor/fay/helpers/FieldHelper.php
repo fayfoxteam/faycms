@@ -66,7 +66,7 @@ class FieldHelper{
 				unset($fields[$k]);
 				continue;
 			}
-			$fields[$k] = in_array('*', $v) ? $allowed_fields[$k] : array_intersect($allowed_fields[$k], $v);
+			$fields[$k] = in_array('*', $v) ? $allowed_fields[$k] : ArrayHelper::intersect($allowed_fields[$k], $v);
 		}
 		
 		return $fields;

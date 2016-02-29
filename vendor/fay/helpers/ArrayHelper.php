@@ -32,4 +32,31 @@ class ArrayHelper{
 			}
 		}
 	}
+	
+	/**
+	 * 多维数组取交集，返回在$array和$array2中都存在的项
+	 * @param array $array
+	 * @param array $array2
+	 */
+	public static function intersect($array, $array2){
+		foreach($array as $k => $a){
+			if(is_array($a)){
+				//是数组
+				if(isset($array2[$k])){
+					//$array2中存在这个key，递归
+					$array[$k] = self::intersect($a, $array2[$k]);
+				}else{
+					//$array2中不存在这个key，直接unset
+					unset($array[$k]);
+				}
+			}else{
+				//不是数组
+				if(!in_array($a, $array2)){
+					unset($array[$k]);
+				}
+			}
+		}
+		
+		return $array;
+	}
 }

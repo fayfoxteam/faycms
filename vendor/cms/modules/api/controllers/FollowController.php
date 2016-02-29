@@ -24,7 +24,9 @@ class FollowController extends ApiController{
 	*/
 	private $allowed_fields = array(
 		'user'=>array(
-			'id', 'username', 'nickname', 'avatar', 'roles.id', 'roles.title',
+			'id', 'username', 'nickname', 'avatar', 'roles'=>array(
+				'id', 'title',
+			),
 		),
 		'follows'=>array(
 			'relation', 'create_time',

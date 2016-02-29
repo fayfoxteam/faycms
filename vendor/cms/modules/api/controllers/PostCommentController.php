@@ -28,7 +28,9 @@ class PostCommentController extends ApiController{
 			'id', 'content', 'parent', 'create_time',
 		),
 		'user'=>array(
-			'id', 'username', 'nickname', 'avatar', 'roles.id', 'roles.title',
+			'id', 'username', 'nickname', 'avatar', 'roles'=>array(
+				'id', 'title',
+			),
 		),
 	);
 	/**

@@ -54,5 +54,8 @@ $(function(){
 	$('#length_string').on('keyup', function(){
 		$('#string-length').text($(this).val().length);
 	});
+	$('#length_string').on('blur', function(){
+		$('#string-length').text($(this).val().length);
+	});
 });
 </script>

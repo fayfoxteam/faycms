@@ -548,10 +548,10 @@ var common = {
 			});
 		}
 		
-		if($('input.datetimepicker[name^="start_time"]').length){
+		if($('input.datetimepicker').length){
 			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
 			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
-				$('input.datetimepicker[name^="start_time"]').datetimepicker({
+				$('input.datetimepicker').datetimepicker({
 					'lang': 'ch',
 					'format': 'Y-m-d H:i:00',
 					'formatDate': 'Y-m-d',
@@ -560,7 +560,7 @@ var common = {
 					'yearStart': 2010,
 					'yearEnd': 2037,
 					'allowBlank':($.browser.msie && $.browser.version < 9) ? false : true,
-					'onShow': function(ct){
+					'onShow': function(ct, e){
 						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
 						setTimeout((function(o){
 							return function(){
@@ -570,46 +570,32 @@ var common = {
 								}
 							}
 						})(this), 20);
-						var end_time = $(this).parent().find('input.datetimepicker[name^="end_time"]').val();
-						if(end_time){
-							this.setOptions({
-								maxDate:end_time.split(' ')[0],
-								maxTime:false
-							});
-						}
-					}
-				});
-			});
-		}
-		
-		if($('input.datetimepicker[name^="end_time"]').length){
-			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
-			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
-				$('input.datetimepicker[name^="end_time"]').datetimepicker({
-					'lang': 'ch',
-					'format': 'Y-m-d H:i:00',
-					'formatDate': 'Y-m-d',
-					'formatTime': 'H:i',
-					'dayOfWeekStart': 1,
-					'yearStart': 2010,
-					'yearEnd': 2037,
-					'allowBlank': ($.browser.msie && $.browser.version < 9) ? false : true,
-					'onShow': function(ct){
-						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
-						setTimeout((function(o){
-							return function(){
-								var top = parseInt($(o).css('top'));
-								if(top){
-									$(o).css('top', top + 2);
+						
+						//清空最大最小值限制
+						this.setOptions({
+							maxDate: false,
+							maxTime: false,
+							minDate: false,
+							minTime: false
+						});
+						//若控件是用在起止时间选择的场景
+						var name = $(e).attr('name');
+						if(name){
+							if(name.indexOf('start_time') === 0){
+								var end_time = $(e).parent().find('input.datetimepicker[name^="end_time"]').val();
+								if(end_time){
+									this.setOptions({
+										maxDate: end_time.split(' ')[0]
+									});
+								}
+							}else if(name.indexOf('end_time') === 0){
+								var start_time = $(e).parent().find('input.datetimepicker[name^="start_time"]').val();
+								if(start_time){
+									this.setOptions({
+										minDate: start_time.split(' ')[0]
+									});
 								}
 							}
-						})(this), 20);
-						var start_time = $(this).parent().find('input.datetimepicker[name^="start_time"]').val();
-						if(start_time){
-							this.setOptions({
-								minDate:start_time.split(' ')[0],
-								maxTime:false
-							});
 						}
 					}
 				});

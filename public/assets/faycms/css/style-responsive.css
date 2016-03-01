@@ -415,10 +415,10 @@ select option[disabled]{text-decoration:line-through}
 .widget-list .widget-item:hover .widget-item-container .operations{visibility:visible}
 
 /* 如文章编辑页面文件列表 */
-.file-list .file-thumb{float:left;overflow:hidden;text-align:center;width:65px}
-.file-list .file-thumb img{height:60px}
+.file-list .file-thumb{float:left;overflow:hidden;text-align:center;width:105px}
+.file-list .file-thumb img{height:100px}
 .file-list .file-desc{width:95%}
-.file-list .file-desc-container{margin-left:80px;margin-right:16px}
+.file-list .file-desc-container{margin-left:120px;margin-right:16px}
 .progress-bar{height:5px;position:absolute;bottom:-1px;width:100%;left:0}
 .progress-bar-percent{background-color:#2187E7;height:2px;margin:2px 0;position:absolute}
 
@@ -623,6 +623,7 @@ pre li:hover{background-color:#575757}
 .wp10{width:10% !important}
 .wp15{width:15% !important}
 .wp38{width:38% !important}
+.wp49{width:49% !important}
 .wp100{width:100% !important}
 
 .h40{height:30px}

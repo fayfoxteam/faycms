@@ -51,7 +51,7 @@ class Url extends Validator{
 	}
 	
 	/**
-	 * 判断一个一项是否符合标准
+	 * 判断一项是否符合标准
 	 * @param int $item
 	 */
 	private function checkItem($item){

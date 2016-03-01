@@ -48,7 +48,7 @@ class SqlHelper{
 	 */
 	public static function bind($sql, $params = array()){
 		$sql = str_replace("\n", ' ', $sql);
-		$sql = preg_replace('/\s{2,}/', ' ', $sql);//这个替换实际上是有风险的，单引号内的空格也会被替换掉，只是暂时没找到更好的方法
+		$sql = trim($sql);
 		if(!empty($params)){
 			foreach($params as $p){
 				$sql = preg_replace('/\?/', is_int($p) ? $p : "'{$p}'", $sql, 1);

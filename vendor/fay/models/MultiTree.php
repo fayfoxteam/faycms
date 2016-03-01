@@ -314,10 +314,9 @@ abstract class MultiTree extends Model{
 		$sql->from(\F::model($this->model)->getName(), 't', 'root')
 			->where(array(
 				"{$this->foreign_key} = ?"=>$value,
-				'status = ' . PostComments::STATUS_APPROVED,
-				'deleted = 0',
 				'left_value = 1',
-			) + $conditions);
+			))
+			->where($conditions);
 		$listview = new ListView($sql, array(
 			'current_page'=>$page,
 			'page_size'=>$count,
@@ -326,9 +325,9 @@ abstract class MultiTree extends Model{
 		$root_nodes = ArrayHelper::column($listview->getData(), 'root');
 		if($root_nodes){
 			//搜索所有节点
-			$nodes = \F::model($this->model)->fetchAll(array(
+			$nodes = \F::model($this->model)->fetchAll(array_merge(array(
 				'root IN (?)'=>$root_nodes,
-			) + $conditions, $tree_fields, $order);
+			), $conditions), $tree_fields, $order);
 			
 			//像user这种附加信息，可以一次性获取以提升性能
 			$extra = array();

@@ -548,38 +548,10 @@ var common = {
 			});
 		}
 		
-		//跨度为10分钟的时间选择，不是很精确
-		if($('.datetimepicker[name!="start_time"][name!="end_time"]').length){
+		if($('input.datetimepicker[name^="start_time"]').length){
 			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
 			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
-				$('.datetimepicker').datetimepicker({
-					'lang': 'ch',
-					'format': 'Y-m-d H:i:00',
-					'formatDate': 'Y-m-d',
-					'formatTime': 'H:i',
-					'dayOfWeekStart': 1,
-					'yearStart': 2010,
-					'yearEnd': 2037,
-					'allowBlank':$.browser.msie ? false : true,
-					'onShow': function(){
-						//原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
-						setTimeout((function(o){
-							return function(){
-								var top = parseInt($(o).css('top'));
-								if(top){
-									$(o).css('top', top + 2);
-								}
-							}
-						})(this), 20);
-					}
-				});
-			});
-		}
-		
-		if($('input.datetimepicker[name="start_time"]').length){
-			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
-			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
-				$('input.datetimepicker[name="start_time"]').datetimepicker({
+				$('input.datetimepicker[name^="start_time"]').datetimepicker({
 					'lang': 'ch',
 					'format': 'Y-m-d H:i:00',
 					'formatDate': 'Y-m-d',
@@ -598,7 +570,7 @@ var common = {
 								}
 							}
 						})(this), 20);
-						var end_time = $(this).parent().find('input.datetimepicker[name="end_time"]').val();
+						var end_time = $(this).parent().find('input.datetimepicker[name^="end_time"]').val();
 						if(end_time){
 							this.setOptions({
 								maxDate:end_time.split(' ')[0],
@@ -610,10 +582,10 @@ var common = {
 			});
 		}
 		
-		if($('input.datetimepicker[name="end_time"]').length){
+		if($('input.datetimepicker[name^="end_time"]').length){
 			system.getCss(system.assets('js/datetimepicker/jquery.datetimepicker.css'));
 			system.getScript(system.assets('js/datetimepicker/jquery.datetimepicker.js'), function(){
-				$('input.datetimepicker[name="end_time"]').datetimepicker({
+				$('input.datetimepicker[name^="end_time"]').datetimepicker({
 					'lang': 'ch',
 					'format': 'Y-m-d H:i:00',
 					'formatDate': 'Y-m-d',
@@ -632,7 +604,7 @@ var common = {
 								}
 							}
 						})(this), 20);
-						var start_time = $(this).parent().find('input.datetimepicker[name="start_time"]').val();
+						var start_time = $(this).parent().find('input.datetimepicker[name^="start_time"]').val();
 						if(start_time){
 							this.setOptions({
 								minDate:start_time.split(' ')[0],

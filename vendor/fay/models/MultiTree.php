@@ -64,7 +64,7 @@ abstract class MultiTree extends Model{
 	 * @param array $data 数据
 	 * @param int $parent 父节点
 	 */
-	protected function _create($data, $parent = 0){
+	public function create($data, $parent = 0){
 		if($parent == 0){
 			//插入根节点
 			$node_id = \F::model($this->model)->insert(array_merge($data, array(
@@ -124,7 +124,7 @@ abstract class MultiTree extends Model{
 	 * 物理删除，其子节点会挂到其父节点上
 	 * @param int|array $node 节点ID或包含id,left_value,right_value,parent,root节点信息的数组
 	 */
-	protected function _remove($node){
+	public function remove($node){
 		//获取被删除节点
 		if(!is_array($node)){
 			$node = \F::model($this->model)->find($node, 'id,left_value,right_value,parent,root');
@@ -204,7 +204,7 @@ abstract class MultiTree extends Model{
 	 * 删除一个节点，及其所有子节点
 	 * @param int|array $node 节点ID或包含id,left_value,right_value,root节点信息的数组
 	 */
-	protected function _removeAll($node){
+	public function removeAll($node){
 		//获取被删除节点
 		if(!is_array($node)){
 			$node = \F::model($this->model)->find($node, 'id,left_value,right_value,root');
@@ -289,7 +289,7 @@ abstract class MultiTree extends Model{
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param string $order 排序条件
 	 */
-	protected function _getTree($value, $count = 10, $offset = 0, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
+	public function getTree($value, $count = 10, $offset = 0, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
 		//解析$fields
 		$fields = FieldHelper::process($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){

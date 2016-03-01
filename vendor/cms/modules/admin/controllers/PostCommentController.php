@@ -75,7 +75,7 @@ class PostCommentController extends AdminController{
 		
 		$listview = new ListView($sql, array(
 			'page_size'=>!empty($_settings['page_size']) ? $_settings['page_size'] : 20,
-			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
 		));
 		$this->view->listview = $listview;			
 		

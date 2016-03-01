@@ -1,100 +1,23 @@
 <?php
 namespace fay\services\post;
 
-use fay\models\MultiTree;
+use fay\core\Model;
 use fay\models\tables\PostComments;
 use fay\core\Exception;
 use fay\core\Hook;
 use fay\models\Post;
-use fay\models\Message;
-use fay\helpers\FieldHelper;
+use fay\models\post\Comment as CommentModel;
 use fay\models\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\PostMeta;
 
-class Comment extends MultiTree{
-	/**
-	 * @see MultiTree::$model
-	 */
-	protected $model = '\fay\models\tables\PostComments';
-	
-	/**
-	 * @see MultiTree::$foreign_key
-	 */
-	protected $foreign_key = 'post_id';
-	
-	/**
-	 * @see MultiTree::$field_key
-	 */
-	protected $field_key = 'comment';
-	
+class Comment extends Model{
 	/**
 	 * @return Comment
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);
-	}
-	
-	/**
-	 * 调用fay\models\Message得到的评论，键是message，转成comment返回
-	 * @param array $comment 由fay\models\Message得到的消息
-	 */
-	protected function formatMessageToComment($comment){
-		$return = array();
-		if(isset($comment['message'])){
-			$return['comment'] = $comment['message'];
-		}
-		if(isset($comment['user'])){
-			$return['user'] = $comment['user'];
-		}
-		if(isset($comment['parent_message'])){
-			$return['parent_comment'] = $comment['parent_message'];
-		}
-		if(isset($comment['parent_message_user'])){
-			$return['parent_comment_user'] = $comment['parent_message_user'];
-		}
-		
-		return $return;
-	}
-	
-	/**
-	 * 调用fay\models\Message时fields字段传入的是message，将comment转为message
-	 * @param string $field 逗号分割的字段
-	 */
-	protected function formatFieldForMessage($fields){
-		//解析$fields
-		$fields = FieldHelper::process($fields, 'message');
-		
-		$return = array();
-		if(isset($fields['comment'])){
-			$return['message'] = $fields['comment'];
-		}
-		if(isset($fields['user'])){
-			$return['user'] = $fields['user'];
-		}
-		if(isset($fields['parent_comment'])){
-			$return['parent_message'] = $fields['parent_comment'];
-		}
-		if(isset($fields['parent_comment_user'])){
-			$return['parent_message_user'] = $fields['parent_comment_user'];
-		}
-		
-		return $return;
-	}
-	
-	/**
-	 * 获取一条评论
-	 * @param int $comment_id 评论ID
-	 * @param int $fields 返回字段
-	 *  - comment.*系列可指定post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
-	 *  - parent_comment.*系列可指定父评论post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-	 *  - parent_comment_user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
-	 */
-	public function get($comment_id, $fields = 'comment.id,comment.content,comment.parent,comment.create_time,user.id,user.nickname,user.avatar,parent_comment.id,parent_comment.content,parent_comment.create_time,parent_comment_user.id,parent_comment_user.nickname,parent_comment_user.avatar'){
-		$comment = Message::model()->get('\fay\models\tables\PostComments', $comment_id, $this->formatFieldForMessage($fields));
-		return $this->formatMessageToComment($comment);
 	}
 	
 	/**
@@ -124,7 +47,7 @@ class Comment extends MultiTree{
 			}
 		}
 		
-		$comment_id = $this->_create(array_merge($extra, array(
+		$comment_id = CommentModel::model()->create(array_merge($extra, array(
 			'post_id'=>$post_id,
 			'content'=>$content,
 			'status'=>$status,
@@ -136,7 +59,7 @@ class Comment extends MultiTree{
 		)), $parent);
 		
 		//更新文章评论数
-		$this->updatePostComments(array(array(
+		CommentModel::model()->updatePostComments(array(array(
 			'post_id'=>$post_id,
 			'status'=>$status,
 			'sockpuppet'=>$sockpuppet,
@@ -148,29 +71,6 @@ class Comment extends MultiTree{
 		));
 		
 		return $comment_id;
-	}
-	
-	/**
-	 * 判断当前登录用户是否对该文章有删除权限
-	 * @param int $comment_id 文章ID
-	 */
-	public function checkPermission($comment_id, $action = 'delete'){
-		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
-			//后台用户
-			//没有删除权限，直接返回错误
-			if(!\F::app()->checkPermission('admin/post-comment/' . $action)){
-				return false;
-			}
-			return true;
-		}else{
-			//前台用户，只能操作自己的评论
-			$comment = PostComments::model()->find($comment_id, 'user_id');
-			if($comment && $comment['user_id'] != \F::app()->current_user){
-				return false;
-			}else{
-				return true;
-			}
-		}
 	}
 	
 	/**
@@ -194,7 +94,7 @@ class Comment extends MultiTree{
 		), $comment_id);
 		
 		//更新文章评论数
-		$this->updatePostComments(array($comment), 'delete');
+		CommentModel::model()->updatePostComments(array($comment), 'delete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_deleted', array(
@@ -225,7 +125,7 @@ class Comment extends MultiTree{
 		));
 		
 		//更新文章评论数
-		$this->updatePostComments($comments, 'delete');
+		CommentModel::model()->updatePostComments($comments, 'delete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -257,7 +157,7 @@ class Comment extends MultiTree{
 		), $comment_id);
 		
 		//更新文章评论数
-		$this->updatePostComments(array($comment), 'undelete');
+		CommentModel::model()->updatePostComments(array($comment), 'undelete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_undeleted', array(
@@ -288,7 +188,7 @@ class Comment extends MultiTree{
 		));
 		
 		//更新文章评论数
-		$this->updatePostComments($comments, 'undelete');
+		CommentModel::model()->updatePostComments($comments, 'undelete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -329,7 +229,7 @@ class Comment extends MultiTree{
 			));
 			
 			//更新文章评论数
-			$this->updatePostComments($comments, 'delete');
+			CommentModel::model()->updatePostComments($comments, 'delete');
 			
 			//执行钩子
 			Hook::getInstance()->call('after_post_comment_batch_deleted', array(
@@ -357,11 +257,11 @@ class Comment extends MultiTree{
 			'comment_id'=>$comment_id,
 		));
 		
-		$this->_remove($comment);
+		CommentModel::model()->remove($comment);
 		
 		if(!$comment['deleted']){
 			//更新文章评论数
-			$this->updatePostComments(array($comment), 'remove');
+			CommentModel::model()->updatePostComments(array($comment), 'remove');
 		}
 		
 		return true;
@@ -397,30 +297,12 @@ class Comment extends MultiTree{
 			}
 		}
 		//更新文章评论数
-		$this->updatePostComments($undeleted_comments, 'remove');
+		CommentModel::model()->updatePostComments($undeleted_comments, 'remove');
 		
-		$this->_removeAll($comment);
+		//执行删除
+		CommentModel::model()->removeAll($comment);
 		
 		return $comment_ids;
-	}
-	
-	/**
-	 * 更新评论状态
-	 * @param int|array $comment_id 评论ID或由评论ID构成的一维数组
-	 * @param int $status 状态码
-	 */
-	public function setStatus($comment_id, $status){
-		if(is_array($comment_id)){
-			return PostComments::model()->update(array(
-				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
-			), array('id IN (?)'=>$comment_id));
-		}else{
-			return PostComments::model()->update(array(
-				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
-			), $comment_id);
-		}
 	}
 	
 	/**
@@ -439,10 +321,10 @@ class Comment extends MultiTree{
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		$this->setStatus($comment_id, PostComments::STATUS_APPROVED);
+		CommentModel::model()->setStatus($comment_id, PostComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		$this->updatePostComments(array($comment), 'approve');
+		CommentModel::model()->updatePostComments(array($comment), 'approve');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_approved', array(
@@ -466,10 +348,10 @@ class Comment extends MultiTree{
 		}
 		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
+		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		$this->updatePostComments($comments, 'approve');
+		CommentModel::model()->updatePostComments($comments, 'approve');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -497,10 +379,10 @@ class Comment extends MultiTree{
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		$this->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
+		CommentModel::model()->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		$this->updatePostComments(array($comment), 'disapprove');
+		CommentModel::model()->updatePostComments(array($comment), 'disapprove');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_disapproved', array(
@@ -524,10 +406,10 @@ class Comment extends MultiTree{
 		}
 		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
+		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		$this->updatePostComments($comments, 'disapprove');
+		CommentModel::model()->updatePostComments($comments, 'disapprove');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -635,7 +517,7 @@ class Comment extends MultiTree{
 			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
 		}
 		
-		return $this->_getTree($post_id,
+		return CommentModel::model()->getTree($post_id,
 			$page_size,
 			($page - 1) * $page_size,
 			$fields,

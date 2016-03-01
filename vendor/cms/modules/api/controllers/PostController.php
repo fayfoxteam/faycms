@@ -64,7 +64,7 @@ class PostController extends ApiController{
 	 * @param string $fields 可指定返回文章字段（只允许$this->allowed_fields中的字段）
 	 * @param int|string $cat 指定分类（可选），若指定分类，则文章若不属于该分类，返回404
 	 */
-	public function item(){
+	public function get(){
 		if($this->form()->setRules(array(
 			array(array('id'), 'required'),
 			array(array('id'), 'int', array('min'=>1)),

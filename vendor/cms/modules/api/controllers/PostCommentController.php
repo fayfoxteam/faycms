@@ -3,9 +3,11 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\services\post\Comment;
+use fay\models\post\Comment as CommentModel;
 use fay\core\Response;
 use fay\models\tables\Posts;
 use fay\helpers\FieldHelper;
+use fay\core\HttpException;
 
 class PostCommentController extends ApiController{
 	/**
@@ -17,6 +19,14 @@ class PostCommentController extends ApiController{
 		),
 		'user'=>array(
 			'id', 'nickname', 'avatar',
+		),
+		'parent'=>array(
+			'comment'=>array(
+				'id', 'content', 'parent', 'create_time',
+			),
+			'user'=>array(
+				'id', 'nickname', 'avatar',
+			),
 		),
 	);
 	
@@ -30,6 +40,16 @@ class PostCommentController extends ApiController{
 		'user'=>array(
 			'id', 'username', 'nickname', 'avatar', 'roles'=>array(
 				'id', 'title',
+			),
+		),
+		'parent'=>array(
+			'comment'=>array(
+				'id', 'content', 'parent', 'create_time',
+			),
+			'user'=>array(
+				'id', 'username', 'nickname', 'avatar', 'roles'=>array(
+					'id', 'title',
+				),
 			),
 		),
 	);
@@ -73,7 +93,22 @@ class PostCommentController extends ApiController{
 				$this->form()->getData('parent', 0)
 			);
 			
-			$comment = Comment::model()->get($comment_id);
+			$comment = CommentModel::model()->get($comment_id, array(
+				'comment'=>array(
+					'id', 'content', 'parent', 'create_time',
+				),
+				'user'=>array(
+					'id', 'nickname', 'avatar',
+				),
+				'parent'=>array(
+					'comment'=>array(
+						'id', 'content', 'parent', 'create_time',
+					),
+					'user'=>array(
+						'id', 'nickname', 'avatar',
+					),
+				),
+			));
 			
 			//格式化一下空数组的问题，保证返回给客户端的数据类型一致
 			if(isset($comment['parent_comment']) && empty($comment['parent_comment'])){
@@ -265,6 +300,52 @@ class PostCommentController extends ApiController{
 						$fields
 					)));
 					break;
+			}
+		}else{
+			$error = $this->form()->getFirstError();
+			Response::notify('error', array(
+				'message'=>$error['message'],
+				'code'=>$error['code'],
+			));
+		}
+	}
+	
+	public function get(){
+		if($this->form()->setRules(array(
+			array(array('id'), 'required'),
+			array(array('id'), 'int', array('min'=>1)),
+		))->setFilters(array(
+			'id'=>'intval',
+			'fields'=>'trim',
+			'cat'=>'trim',
+		))->setLabels(array(
+			'id'=>'评论ID',
+		))->check()){
+			$id = $this->form()->getData('id');
+			$fields = $this->form()->getData('fields');
+				
+			if($fields){
+				//过滤字段，移除那些不允许的字段
+				$fields = FieldHelper::process($fields, 'post', $this->allowed_fields);
+			}else{
+				//若未指定$fields，取默认值
+				$fields = $this->default_fields;
+			}
+				
+			$comment = CommentModel::model()->get($id, $fields);
+			
+			//处理下空数组问题
+			if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){
+				$comment['parent']['comment'] = new \stdClass();
+			}
+			if(isset($comment['parent']['user']) && empty($comment['parent']['user'])){
+				$comment['parent']['user'] = new \stdClass();
+			}
+			
+			if($comment){
+				Response::json($comment);
+			}else{
+				throw new HttpException('评论ID不存在');
 			}
 		}else{
 			$error = $this->form()->getFirstError();

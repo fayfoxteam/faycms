@@ -24,11 +24,15 @@ class AdminController extends Widget{
 		$files = $this->input->post('files', 'intval', array());
 		$links = $this->input->post('links', 'trim');
 		$titles = $this->input->post('titles', 'trim');
+		$start_times = $this->input->post('start_time', 'trim|strtotime');
+		$end_times = $this->input->post('end_time', 'trim|strtotime');
 		foreach($files as $p){
 			$data['files'][] = array(
 				'file_id'=>$p,
 				'link'=>$links[$p],
 				'title'=>$titles[$p],
+				'start_time'=>$start_times[$p] ? $start_times[$p] : 0,
+				'end_time'=>$end_times[$p] ? $end_times[$p] : 0,
 			);
 		}
 		$this->setConfig($data);
@@ -38,6 +42,8 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array(array('width', 'height'), 'int', array('min'=>1)),
+			array(array('start_time', 'end_time'), 'datetime'),
+			array('links', 'url'),
 		);
 	}
 	
@@ -46,6 +52,9 @@ class AdminController extends Widget{
 			'template'=>'模版',
 			'width'=>'图片宽度',
 			'height'=>'图片高度',
+			'links'=>'链接',
+			'start_time'=>'生效时间',
+			'end_time'=>'过期时间',
 		);
 	}
 	

@@ -102,10 +102,11 @@ var uploader = {
 	 * options.cat: 上传文件所属分类。默认为other
 	 * options.input_name: 用于记录文件id的输入框名称（会随着其他内容一起提交给服务端）。默认为files
 	 * options.image_only: 若为true，则仅允许上传图片。默认为false
-	 * options.file_info: 文件附加信息。description, title, link可选，默认为description。
+	 * options.file_info: 文件附加信息。description, title, link, validity可选，默认为description。
 	 * options.description_name: 用于记录文件描述的文本域名称（会随着其他内容一起提交给服务端）。默认为description
 	 * options.title_name: 用于记录文件标题的输入框名称（会随着其他内容一起提交给服务端）。默认为titles
 	 * options.link_name: 用于记录文件链接地址的输入框名称（会随着其他内容一起提交给服务端）。默认为links
+	 * options.valid_date: 是否显示有效期。默认为false
 	 */
 	'files': function(options){
 		options = options || {};
@@ -120,7 +121,9 @@ var uploader = {
 			'file_info': ['description'],
 			'description_name': 'description',
 			'title_name': 'titles',
-			'link_name': 'links'
+			'link_name': 'links',
+			'starttime_name': 'start_time',
+			'endtime_name': 'end_time'
 		};
 		$.each(options, function(i, n){
 			settings[i] = n;
@@ -176,6 +179,10 @@ var uploader = {
 										if(system.inArray('link', settings.file_info)){
 											html.push('<input type="text" class="file-link mb5 form-control" placeholder="链接地址" />');
 										}
+										if(system.inArray('validity', settings.file_info)){
+											html.push('<input type="text" class="file-starttime datetimepicker mb5 form-control wp49 fl" placeholder="生效时间" autocomplete="off" />');
+											html.push('<input type="text" class="file-endtime datetimepicker mb5 form-control wp49 fr" placeholder="过期时间" autocomplete="off" />');
+										}
 										return html.join('');
 									}()),
 								'</div>',
@@ -200,6 +207,8 @@ var uploader = {
 					$file.find('.file-desc').attr('name', settings.description_name+'['+resp.data.id+']').autosize();
 					$file.find('.file-title').attr('name', settings.title_name+'['+resp.data.id+']');
 					$file.find('.file-link').attr('name', settings.link_name+'['+resp.data.id+']');
+					$file.find('.file-starttime').attr('name', settings.starttime_name+'['+resp.data.id+']');
+					$file.find('.file-endtime').attr('name', settings.endtime_name+'['+resp.data.id+']');
 					
 					$file.append('<input type="hidden" name="'+settings.input_name+'[]" value="'+resp.data.id+'" />');
 					$file.prepend('<a class="file-rm" href="javascript:;"></a>');
@@ -228,6 +237,11 @@ var uploader = {
 								'<img src="', resp.data.thumbnail, '" />',
 							'</a>'
 						].join(''));
+					}
+					
+					if(system.inArray('validity', settings.file_info)){
+						//如果存在日起选择，则重新绑定日期选择插件
+						common.datepicker();
 					}
 				}else{
 					//非json数据，上传出错

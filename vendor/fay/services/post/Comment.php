@@ -519,7 +519,7 @@ class Comment extends Model{
 		
 		return CommentModel::model()->getTree($post_id,
 			$page_size,
-			($page - 1) * $page_size,
+			$page,
 			$fields,
 			$conditions
 		);

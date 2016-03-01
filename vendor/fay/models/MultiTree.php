@@ -6,6 +6,9 @@ use fay\core\db\Expr;
 use fay\core\ErrorException;
 use fay\helpers\FieldHelper;
 use fay\helpers\ArrayHelper;
+use fay\core\Sql;
+use fay\common\ListView;
+use fay\models\tables\PostComments;
 
 /**
  * 基于左右值的多树操作
@@ -282,14 +285,14 @@ abstract class MultiTree extends Model{
 	 * 以树的方式返回
 	 * @param int $value 字段值，例如：文章ID
 	 * @param int $count 返回根记录数（回复有多少返回多少，不分页）
-	 * @param int $offset 偏移量（根据页码在调用前算好
+	 * @param int $page 页码
 	 * @param string $fields 可指定返回字段（虽然把user等字段放这里会让model看起来不纯，但是性能上会好很多）
 	 *  - 无前缀系列可指定$model表返回字段，若未指定，默认为*
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param string $order 排序条件
 	 */
-	public function getTree($value, $count = 10, $offset = 0, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
+	public function getTree($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
 		//解析$fields
 		$fields = FieldHelper::process($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
@@ -307,11 +310,20 @@ abstract class MultiTree extends Model{
 		}
 		
 		//得到根节点
-		$root_nodes = \F::model($this->model)->fetchCol('root', array(
-			"{$this->foreign_key} = ?"=>$value,
-			'left_value = 1',
-		) + $conditions, $order, $count, $offset);
+		$sql = new Sql();
+		$sql->from(\F::model($this->model)->getName(), 't', 'root')
+			->where(array(
+				"{$this->foreign_key} = ?"=>$value,
+				'status = ' . PostComments::STATUS_APPROVED,
+				'deleted = 0',
+				'left_value = 1',
+			) + $conditions);
+		$listview = new ListView($sql, array(
+			'current_page'=>$page,
+			'page_size'=>$count,
+		));
 		
+		$root_nodes = ArrayHelper::column($listview->getData(), 'root');
 		if($root_nodes){
 			//搜索所有节点
 			$nodes = \F::model($this->model)->fetchAll(array(
@@ -337,9 +349,15 @@ abstract class MultiTree extends Model{
 				
 				$sub_tree[] = $n;
 			}
-			return array_merge($tree, $this->renderTree($sub_tree, $fields, 0, $extra));
+			return array(
+				'comments'=>array_merge($tree, $this->renderTree($sub_tree, $fields, 0, $extra)),
+				'pager'=>$listview->getPager(),
+			);
 		}else{
-			return array();
+			return array(
+				'comments'=>array(),
+				'pager'=>$listview->getPager(),
+			);
 		}
 	}
 	

@@ -13,7 +13,7 @@ use fay\models\tables\Roles;
 	</div>
 </div>
 <div class="dragsort-list file-list">
-<?php if(isset($config['files'])){?>
+<?php if(!empty($config['files'])){?>
 <?php foreach($config['files'] as $d){?>
 	<div class="dragsort-item <?php if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time'])){
 		echo 'bl-yellow';

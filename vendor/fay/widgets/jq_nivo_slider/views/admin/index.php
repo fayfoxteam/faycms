@@ -14,7 +14,11 @@ use fay\models\File;
 <div class="dragsort-list file-list">
 <?php if(!empty($config['files'])){?>
 <?php foreach($config['files'] as $d){?>
-	<div class="dragsort-item">
+	<div class="dragsort-item <?php if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time'])){
+		echo 'bl-yellow';
+	}else if(!empty($d['end_time']) && \F::app()->current_time > $d['end_time']){
+		echo 'bl-red';
+	}?>">
 		<?php echo Html::inputHidden('files[]', $d['file_id'])?>
 		<a class="dragsort-rm" href="javascript:;"></a>
 		<a class="dragsort-item-selector"></a>
@@ -36,6 +40,16 @@ use fay\models\File;
 				<?php echo Html::inputText("links[{$d['file_id']}]", $d['link'], array(
 					'class'=>'photo-link mb5 form-control',
 					'placeholder'=>'链接地址',
+				))?>
+				<?php echo Html::inputText("start_time[{$d['file_id']}]", $d['start_time'] ? date('Y-m-d H:i:s', $d['start_time']) : '', array(
+					'class'=>'file-starttime datetimepicker mb5 form-control wp49 fl',
+					'placeholder'=>'生效时间',
+					'autocomplete'=>'off',
+				))?>
+				<?php echo Html::inputText("end_time[{$d['file_id']}]", $d['end_time'] ? date('Y-m-d H:i:s', $d['end_time']) : '', array(
+					'class'=>'file-endtime datetimepicker mb5 form-control wp49 fr',
+					'placeholder'=>'过期时间',
+					'autocomplete'=>'off',
 				))?>
 			</div>
 			<div class="clear"></div>
@@ -67,7 +81,7 @@ var widget_slides = {
 				'drop_element': 'drag-drop-area',
 				'cat': 'widget',
 				'image_only': true,
-				'file_info': ['title', 'link']
+				'file_info': ['title', 'link', 'validity']
 			});
 		});
 	},

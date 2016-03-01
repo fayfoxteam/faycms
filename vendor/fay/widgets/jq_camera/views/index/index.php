@@ -7,8 +7,8 @@ use fay\helpers\StringHelper;
 ?>
 <div class="jq-camera-container">
 	<div class="camera_wrap camera_azure_skin jq-camera">
-	<?php foreach($config['files'] as $d){
-		$file = Files::model()->find($d['file_id']);
+	<?php foreach($files as $f){
+		$file = Files::model()->find($f['file_id']);
 		if($file['qiniu']){
 			$data_src = Qiniu::model()->getUrl($file);
 		}else{
@@ -16,7 +16,7 @@ use fay\helpers\StringHelper;
 		}
 		echo Html::tag('div', array(
 			'data-src'=>$data_src,
-			'data-link'=>empty($d['link']) ? false : $d['link'],
+			'data-link'=>empty($f['link']) ? false : $f['link'],
 		), '');
 	}?>
 	</div>

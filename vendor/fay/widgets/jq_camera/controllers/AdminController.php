@@ -16,11 +16,15 @@ class AdminController extends Widget{
 		$files = $this->input->post('files', 'intval', array());
 		$links = $this->input->post('links', 'trim');
 		$titles = $this->input->post('titles', 'trim');
+		$start_times = $this->input->post('start_time', 'trim|strtotime');
+		$end_times = $this->input->post('end_time', 'trim|strtotime');
 		foreach($files as $p){
 			$data['files'][] = array(
 				'file_id'=>$p,
 				'link'=>$links[$p],
 				'title'=>$titles[$p],
+				'start_time'=>$start_times[$p] ? $start_times[$p] : 0,
+				'end_time'=>$end_times[$p] ? $end_times[$p] : 0,
 			);
 		}
 		$this->setConfig($data);
@@ -40,6 +44,8 @@ class AdminController extends Widget{
 			'height'=>'高度',
 			'transPeriod'=>'过渡动画时长',
 			'time'=>'播放间隔时长',
+			'start_time'=>'生效时间',
+			'end_time'=>'过期时间',
 		);
 	}
 	

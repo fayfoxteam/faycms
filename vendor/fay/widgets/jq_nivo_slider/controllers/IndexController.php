@@ -7,8 +7,13 @@ use fay\models\File;
 class IndexController extends Widget{
 	public function getData($config){
 		$data = empty($config['files']) ? array() : $config['files'];
-		foreach($data as &$d){
-			$d['src'] = File::getUrl($d['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
+		foreach($data as $k => $d){
+			if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time']) ||
+				(!empty($d['end_time']) && \F::app()->current_time > $d['end_time'])){
+				unset($data[$k]);
+				continue;
+			}
+			$data[$k]['src'] = File::getUrl($d['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
 				'dw'=>empty($config['width']) ? false : $config['width'],
 				'dh'=>empty($config['height']) ?  false : $config['height'],
 			), true);
@@ -27,6 +32,7 @@ class IndexController extends Widget{
 		
 		$this->view->assign(array(
 			'config'=>$config,
+			'files'=>$this->getData($config),
 			'alias'=>$this->alias,
 			'_index'=>$this->_index,
 		))->render();

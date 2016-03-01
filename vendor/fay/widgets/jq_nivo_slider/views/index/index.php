@@ -6,18 +6,18 @@ $element_id = $config['element_id'] ? $config['element_id'] : $alias;
 ?>
 <div id="<?php echo $element_id?>">
 	<div class="nivo-slider">
-	<?php foreach($config['files'] as $d){
-		if(empty($d['link'])){
-			$d['link'] = 'javascript:;';
+	<?php foreach($files as $f){
+		if(empty($f['link'])){
+			$f['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($d['file_id'], ($config['width'] || $config['height']) ? File::PIC_RESIZE : File::PIC_ORIGINAL, array(
-			'alt'=>Html::encode($d['title']),
-			'title'=>Html::encode($d['title']),
+		echo Html::link(Html::img($f['file_id'], ($config['width'] || $config['height']) ? File::PIC_RESIZE : File::PIC_ORIGINAL, array(
+			'alt'=>Html::encode($f['title']),
+			'title'=>Html::encode($f['title']),
 			'dw'=>empty($config['width']) ? false : $config['width'],
 			'dh'=>empty($config['height']) ?  false : $config['height'],
-		)), $d['link'], array(
+		)), $f['link'], array(
 			'encode'=>false,
-			'title'=>Html::encode($d['title']),
+			'title'=>Html::encode($f['title']),
 		));
 	}?>
 	</div>

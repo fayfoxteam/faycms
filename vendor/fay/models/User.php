@@ -277,7 +277,8 @@ class User extends Model{
 		}
 		
 		$remove_id_field = false;
-		if((!empty($fields['props']) || !empty($fields['roles']) || !empty($fields['profile'])) && !in_array('id', $fields['user'])){
+		if(!in_array('id', $fields['user'])){
+			//id总是需要先搜出来的，返回的时候要作为索引
 			$fields['user'][] = 'id';
 			$remove_id_field = true;
 		}

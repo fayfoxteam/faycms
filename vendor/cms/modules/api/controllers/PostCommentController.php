@@ -300,6 +300,14 @@ class PostCommentController extends ApiController{
 						$fields
 					));
 					break;
+				case 'list':
+					Response::json(CommentModel::model()->getList(
+						$this->form()->getData('post_id'),
+						$this->form()->getData('page_size', 20),
+						$this->form()->getData('page', 1),
+						$fields
+					));
+					break;
 			}
 		}else{
 			$error = $this->form()->getFirstError();

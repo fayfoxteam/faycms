@@ -7,6 +7,9 @@ use fay\helpers\FieldHelper;
 use fay\models\Option;
 use fay\models\tables\PostMeta;
 use fay\models\User;
+use fay\core\Sql;
+use fay\common\ListView;
+use fay\helpers\ArrayHelper;
 
 class Comment extends MultiTree{
 	/**
@@ -250,7 +253,7 @@ class Comment extends MultiTree{
 	}
 	
 	/**
-	 * 根据文章ID，以树的形式返回评论
+	 * 根据文章ID，以树的形式（体现层级结构）返回评论
 	 * @param int $post_id 文章ID
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
@@ -271,5 +274,68 @@ class Comment extends MultiTree{
 			$fields,
 			$conditions
 		);
+	}
+	
+	/**
+	 * 根据文章ID，以列表的形式（俗称“盖楼”）返回评论
+	 * @param int $post_id 文章ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param string $fields 字段
+	 */
+	public function getList($post_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
+		//解析$fields
+		$fields = FieldHelper::process($fields, $this->field_key);
+		if(empty($fields['comment']) || in_array('*', $fields['comment'])){
+			$fields['comment'] = PostComments::model()->getFields();
+		}
+		
+		$comment_fields = $fields['comment'];
+		if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
+			//若需要获取用户信息，但评论字段未指定user_id，则插入user_id
+			$comment_fields[] = 'user_id';
+		}
+		
+		$parent_comment_fields = array();
+		if(!empty($fields['parent'])){
+			if(empty($fields['parent']['comment']) || in_array('*', $fields['parent']['comment'])){
+				$fields['parent']['comment'] = PostComments::model()->getFields();
+			}
+			$parent_comment_fields = $fields['parent']['comment'];
+			if(!empty($fields['parent']['user']) && in_array('user_id', $fields['parent']['comment'])){
+				//若需要获取父节点用户信息，但父节点评论字段未指定user_id，则插入user_id
+				$parent_comment_fields[] = 'user_id';
+			}
+		}
+		
+		$sql = new Sql();
+		$sql->from('post_comments', 'pc', $comment_fields)
+			->where('pc.deleted = 0')
+			->order('pc.id DESC')
+		;
+		if(Option::get('system:post_comment_verify')){
+			//开启审核，仅返回通过审核的评论
+			$sql->joinLeft('post_comments', 'pc2', 'pc.parent = pc2.id AND pc2.Deleted = 0 AND pc2.status = ' . PostComments::STATUS_APPROVED, $parent_comment_fields)
+				->where('status = ' . PostComments::STATUS_APPROVED);
+		}else{
+			//未开启审核，返回全部未删除评论
+			$sql->joinLeft('post_comments', 'pc2', 'pc.parent = pc2.id AND pc2.Deleted = 0', $parent_comment_fields);
+		}
+		
+		$listview = new ListView($sql, array(
+			'current_page'=>$page,
+			'page_size'=>$page_size,
+		));
+		
+		$data = $listview->getData();
+		if($fields['user']){
+			//获取评论用户信息集合
+			$users = User::model()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
+		}
+		if($fields['parent']['user']){
+			//获取父节点评论用户信息集合
+			$parent_users = User::model()->mget(ArrayHelper::column($data, 'user_id2'), $fields['parent']['user']);
+		}
+		$comments = array();
 	}
 }

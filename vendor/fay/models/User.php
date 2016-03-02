@@ -250,6 +250,10 @@ class User extends Model{
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
 	 */
 	public function mget($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
+		if(empty($ids)){
+			return array();
+		}
+		
 		//解析$ids
 		is_array($ids) || $ids = explode(',', $ids);
 		

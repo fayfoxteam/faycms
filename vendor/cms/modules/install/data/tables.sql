@@ -20,7 +20,7 @@ CREATE TABLE `{{$prefix}}actions` (
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
   PRIMARY KEY (`id`),
   KEY `router` (`router`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_caches`;
 CREATE TABLE `{{$prefix}}analyst_caches` (
@@ -113,7 +113,7 @@ CREATE TABLE `{{$prefix}}categories` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`),
   KEY `alias` (`alias`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}cities`;
 CREATE TABLE `{{$prefix}}cities` (
@@ -262,7 +262,7 @@ CREATE TABLE `{{$prefix}}files` (
   `qiniu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Qiniu',
   PRIMARY KEY (`id`),
   KEY `raw_name` (`raw_name`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}follows`;
 CREATE TABLE `{{$prefix}}follows` (
@@ -487,7 +487,7 @@ CREATE TABLE `{{$prefix}}menus` (
   `target` varchar(30) NOT NULL DEFAULT '' COMMENT '打开方式',
   PRIMARY KEY (`id`),
   KEY `alias` (`alias`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}messages`;
 CREATE TABLE `{{$prefix}}messages` (
@@ -596,7 +596,7 @@ CREATE TABLE `{{$prefix}}pages` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   `abstract` text NOT NULL COMMENT '摘要',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}pages_categories`;
 CREATE TABLE `{{$prefix}}pages_categories` (
@@ -655,7 +655,7 @@ CREATE TABLE `{{$prefix}}posts` (
   KEY `user` (`user_id`),
   KEY `cat` (`cat_id`),
   KEY `deleted-status-publish_time` (`deleted`,`status`,`publish_time`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;
 CREATE TABLE `{{$prefix}}posts_categories` (
@@ -682,7 +682,7 @@ CREATE TABLE `{{$prefix}}post_comments` (
   `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_files`;
 CREATE TABLE `{{$prefix}}posts_files` (
@@ -888,7 +888,7 @@ CREATE TABLE `{{$prefix}}users` (
   `admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为管理员',
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users_notifications`;
 CREATE TABLE `{{$prefix}}users_notifications` (
@@ -961,7 +961,7 @@ CREATE TABLE `{{$prefix}}feed_comments` (
   `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态评论表';
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态评论表';
 
 DROP TABLE IF EXISTS `{{$prefix}}feed_likes`;
 CREATE TABLE `{{$prefix}}feed_likes` (
@@ -983,7 +983,7 @@ CREATE TABLE `{{$prefix}}feed_meta` (
   `likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
   `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
   PRIMARY KEY (`feed_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='动态扩展信息表';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态扩展信息表';
 
 DROP TABLE IF EXISTS `{{$prefix}}feeds`;
 CREATE TABLE `{{$prefix}}feeds` (
@@ -1001,7 +1001,7 @@ CREATE TABLE `{{$prefix}}feeds` (
   `latitude` float(9,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
   `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='动态表';
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态表';
 
 DROP TABLE IF EXISTS `{{$prefix}}feeds_tags`;
 CREATE TABLE `{{$prefix}}feeds_tags` (

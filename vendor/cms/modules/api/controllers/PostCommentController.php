@@ -293,7 +293,7 @@ class PostCommentController extends ApiController{
 			
 			switch($this->form()->getData('mode')){
 				case 'tree':
-					Response::json(Comment::model()->getTree(
+					Response::json(CommentModel::model()->getTree(
 						$this->form()->getData('post_id'),
 						$this->form()->getData('page_size', 20),
 						$this->form()->getData('page', 1),

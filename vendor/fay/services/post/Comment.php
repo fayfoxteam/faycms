@@ -507,22 +507,4 @@ class Comment extends Model{
 			}
 		}
 	}
-	
-	public function getTree($post_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
-		$conditions = array(
-			'deleted = 0',
-		);
-		if(Option::get('system:post_comment_verify')){
-			//开启了评论审核
-			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
-		}
-		
-		return CommentModel::model()->getTree($post_id,
-			$page_size,
-			$page,
-			$fields,
-			$conditions
-		);
-		
-	}
 }

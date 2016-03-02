@@ -25,6 +25,7 @@ use fay\models\Category;
 use fay\models\post\Tag;
 use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
+use fay\helpers\Request;
 
 class Post extends Model{
 	
@@ -53,6 +54,7 @@ class Post extends Model{
 		$post['user_id'] = \F::app()->current_user;
 		$post['publish_time'] || $post['publish_time'] = \F::app()->current_time;
 		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
+		$post['ip_int'] = Request::ip2int(\F::app()->ip);
 		
 		//过滤掉多余的数据
 		$post = Posts::model()->fillData($post, false);

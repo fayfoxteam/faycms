@@ -651,6 +651,7 @@ CREATE TABLE `{{$prefix}}posts` (
   `seo_title` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(100) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
   KEY `cat` (`cat_id`),

@@ -23,10 +23,10 @@ use fay\core\db\Table;
  * @property int $thumbnail 缩略图
  * @property string $abstract 摘要
  * @property int $sort 排序
- * @property int $real_likes 真实点赞数
  * @property string $seo_title Seo Title
  * @property string $seo_keywords Seo Keywords
  * @property string $seo_description Seo Description
+ * @property int $ip_int IP
  */
 class Posts extends Table{
 	/**
@@ -113,6 +113,7 @@ class Posts extends Table{
 			'seo_title'=>'Seo Title',
 			'seo_keywords'=>'Seo Keywords',
 			'seo_description'=>'Seo Description',
+			'ip_int'=>'IP',
 		);
 	}
 
@@ -138,6 +139,7 @@ class Posts extends Table{
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',
 			'seo_description'=>'trim',
+			'ip_int'=>'intval',
 		);
 	}
 }

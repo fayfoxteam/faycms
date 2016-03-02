@@ -942,3 +942,70 @@ CREATE TABLE `{{$prefix}}widgets` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}feed_comments`;
+CREATE TABLE `{{$prefix}}feed_comments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `feed_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `content` text COMMENT '内容',
+  `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父ID',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
+  `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',
+  `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
+  PRIMARY KEY (`id`),
+  KEY `parent` (`parent`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态评论表';
+
+DROP TABLE IF EXISTS `{{$prefix}}feed_likes`;
+CREATE TABLE `{{$prefix}}feed_likes` (
+  `feed_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点赞时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '马甲信息',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
+  PRIMARY KEY (`feed_id`,`user_id`),
+  KEY `likes` (`user_id`,`feed_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态点赞记录表';
+
+DROP TABLE IF EXISTS `{{$prefix}}feed_meta`;
+CREATE TABLE `{{$prefix}}feed_meta` (
+  `feed_id` int(10) unsigned NOT NULL COMMENT 'Feed Id',
+  `comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '评论数',
+  `real_comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '真实评论数',
+  `likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
+  `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
+  PRIMARY KEY (`feed_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='动态扩展信息表';
+
+DROP TABLE IF EXISTS `{{$prefix}}feeds`;
+CREATE TABLE `{{$prefix}}feeds` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `content` text COMMENT '内容',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
+  `publish_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '发布日期',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
+  `deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `longitude` float(9,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
+  `latitude` float(9,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
+  `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='动态表';
+
+DROP TABLE IF EXISTS `{{$prefix}}feeds_tags`;
+CREATE TABLE `{{$prefix}}feeds_tags` (
+  `feed_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
+  `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
+  PRIMARY KEY (`feed_id`,`tag_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态标签关联关系';

@@ -7,9 +7,6 @@ use fay\helpers\FieldHelper;
 use fay\models\Option;
 use fay\models\tables\PostMeta;
 use fay\models\User;
-use fay\core\Sql;
-use fay\common\ListView;
-use fay\helpers\ArrayHelper;
 
 class Comment extends MultiTree{
 	/**
@@ -333,4 +330,40 @@ class Comment extends MultiTree{
 			'pager'=>$result['pager'],
 		);
 	}
+	
+	/**
+	 * 根据文章ID，以树的形式（体现层级结构）返回评论
+	 * @param int $post_id 文章ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param string $fields 字段
+	 */
+	public function getChats($post_id, $page_size = 10, $page = 1, $fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+	)){
+			$conditions = array(
+				'deleted = 0',
+			);
+			if(Option::get('system:post_comment_verify')){
+				//开启了评论审核
+				$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
+			}
+	
+			$result = $this->_getChats($post_id,
+				$page_size,
+				$page,
+				$fields,
+				$conditions
+			);
+	
+			return array(
+				'comments'=>$result['data'],
+				'pager'=>$result['pager'],
+			);
+		}
 }

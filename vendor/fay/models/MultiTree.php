@@ -298,15 +298,15 @@ abstract class MultiTree extends Model{
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
 			$fields[$this->field_key] = \F::model($this->model)->getFields();
 		}
-		$tree_fields = $fields[$this->field_key];
+		$node_fields = $fields[$this->field_key];
 		//一些需要用到，但未指定返回的字段特殊处理下
 		foreach(array('root', 'left_value', 'right_value', 'parent') as $key){
-			if(!in_array($key, $tree_fields)){
-				$tree_fields[] = $key;
+			if(!in_array($key, $node_fields)){
+				$node_fields[] = $key;
 			}
 		}
-		if(!empty($fields['user']) && !in_array('user_id', $tree_fields)){
-			$tree_fields[] = 'user_id';
+		if(!empty($fields['user']) && !in_array('user_id', $node_fields)){
+			$node_fields[] = 'user_id';
 		}
 		
 		//得到根节点
@@ -327,7 +327,7 @@ abstract class MultiTree extends Model{
 			//搜索所有节点
 			$nodes = \F::model($this->model)->fetchAll(array_merge(array(
 				'root IN (?)'=>$root_nodes,
-			), $conditions), $tree_fields, $order);
+			), $conditions), $node_fields, $order);
 			
 			//像user这种附加信息，可以一次性获取以提升性能
 			$extra = array();
@@ -513,5 +513,111 @@ abstract class MultiTree extends Model{
 			'data'=>$comments,
 			'pager'=>$listview->getPager(),
 		);
+	}
+	
+	/**
+	 * 
+	 * @param int $value 关联ID，例如：文章ID
+	 * @param int $count
+	 * @param int $page
+	 * @param string $fields
+	 * @param array $conditions
+	 * @param string $order
+	 */
+	protected function _getChats($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
+		//解析$fields
+		$fields = FieldHelper::process($fields, $this->field_key);
+		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
+			$fields[$this->field_key] = \F::model($this->model)->getFields();
+		}
+		$node_fields = $fields[$this->field_key];
+		//一些需要用到，但未指定返回的字段特殊处理下
+		foreach(array('root', 'left_value', 'right_value', 'parent') as $key){
+			if(!in_array($key, $node_fields)){
+				$node_fields[] = $key;
+			}
+		}
+		if(!empty($fields['user']) && !in_array('user_id', $node_fields)){
+			$node_fields[] = 'user_id';
+		}
+		
+		//得到根节点
+		$sql = new Sql();
+		$sql->from(\F::model($this->model)->getName(), 't', 'root')
+			->where(array(
+				"{$this->foreign_key} = ?"=>$value,
+				'left_value = 1',
+			))
+			->where($conditions);
+		$listview = new ListView($sql, array(
+			'current_page'=>$page,
+			'page_size'=>$count,
+		));
+		
+		$root_nodes = ArrayHelper::column($listview->getData(), 'root');
+		if($root_nodes){
+			//搜索所有节点
+			$nodes = \F::model($this->model)->fetchAll(array_merge(array(
+				'root IN (?)'=>$root_nodes,
+			), $conditions), $node_fields, $order);
+				
+			//用户信息
+			$users = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
+				
+			//一棵一棵渲染
+			$sub_tree = array();
+			$last_root = $nodes[0]['root'];
+			$chats = array();
+			$chat = array();
+			foreach($nodes as $n){
+				if($n['left_value'] == 1){//根节点
+					//若遇到下一个根节点，则将以渲染好的会话挂载到会话列表中
+					if(!empty($chat)){
+						$chats[] = $chat;
+					}
+					$chat = array(
+						$this->field_key=>array(),
+						'children'=>array(),
+					);
+					//评论字段
+					foreach($fields[$this->field_key] as $cf){
+						$chat[$this->field_key][$cf] = $n[$cf];
+					}
+						
+					//作者字段
+					if(!empty($fields['user'])){
+						$chat['user'] = $users[$n['user_id']];
+					}
+				}else{
+					$sub_chat = array(
+						'children'=>array(),//这里写死一个children是为了每项返回的数据结构一致
+					);
+					//评论字段
+					foreach($fields[$this->field_key] as $cf){
+						$sub_chat[$this->field_key][$cf] = $n[$cf];
+					}
+					
+					//作者字段
+					if(!empty($fields['user'])){
+						$sub_chat['user'] = $users[$n['user_id']];
+					}
+					$chat['children'][] = $sub_chat;
+				}
+			}
+			if(!empty($chat)){
+				//最后一个会话挂载到会话列表
+				$chats[] = $chat;
+			}
+			
+			return array(
+				'data'=>$chats,
+				'pager'=>$listview->getPager(),
+			);
+		}else{
+			return array(
+				'data'=>array(),
+				'pager'=>$listview->getPager(),
+			);
+		}
 	}
 }

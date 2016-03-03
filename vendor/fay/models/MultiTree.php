@@ -283,7 +283,7 @@ abstract class MultiTree extends Model{
 	
 	/**
 	 * 以树的方式返回
-	 * @param int $value 字段值，例如：文章ID
+	 * @param int $value 关联ID，例如：文章ID
 	 * @param int $count 返回根记录数（回复有多少返回多少，不分页）
 	 * @param int $page 页码
 	 * @param string $fields 可指定返回字段（虽然把user等字段放这里会让model看起来不纯，但是性能上会好很多）
@@ -349,12 +349,12 @@ abstract class MultiTree extends Model{
 				$sub_tree[] = $n;
 			}
 			return array(
-				'comments'=>array_merge($tree, $this->renderTree($sub_tree, $fields, 0, $extra)),
+				'data'=>array_merge($tree, $this->renderTree($sub_tree, $fields, 0, $extra)),
 				'pager'=>$listview->getPager(),
 			);
 		}else{
 			return array(
-				'comments'=>array(),
+				'data'=>array(),
 				'pager'=>$listview->getPager(),
 			);
 		}
@@ -398,5 +398,120 @@ abstract class MultiTree extends Model{
 			}
 		}
 		return $tree;
+	}
+	
+	/**
+	 * 根据文章ID，以列表的形式（俗称“盖楼”）返回评论
+	 * @param int $value 关联ID，例如：文章ID
+	 * @param int $count
+	 * @param int $page
+	 * @param string $fields
+	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
+	 * @param array $join_conditions 若fields指定父节点信息，则需要自连接，该条件用于自连接时的附加条件
+	 * @param string $order
+	 */
+	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'create_time DESC'){
+		//解析$fields
+		$fields = FieldHelper::process($fields, $this->field_key);
+		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
+			$fields[$this->field_key] = PostComments::model()->getFields();
+		}
+		
+		$comment_fields = $fields[$this->field_key];
+		if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
+			//若需要获取用户信息，但评论字段未指定user_id，则插入user_id
+			$comment_fields[] = 'user_id';
+		}
+		
+		if(!empty($fields['parent'])){
+			if(!empty($fields['parent'][$this->field_key]) && in_array('*', $fields['parent'][$this->field_key])){
+				$fields['parent'][$this->field_key] = PostComments::model()->getFields();
+			}
+			$parent_comment_fields = empty($fields['parent'][$this->field_key]) ? array() : $fields['parent'][$this->field_key];
+			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
+				//若需要获取父节点用户信息，但父节点评论字段未指定user_id，则插入user_id
+				$parent_comment_fields[] = 'user_id';
+			}
+		}
+		
+		$sql = new Sql();
+		$sql->from(\F::model($this->model)->getName(), 'c', $comment_fields)
+			->where("c.{$this->foreign_key} = ?", $value)
+			->order('c.id DESC')
+		;
+		
+		if($conditions){
+			$sql->where($conditions);
+		}
+		
+		if($parent_comment_fields){
+			//表自连接，字段名都是一样的，需要设置别名
+			foreach($parent_comment_fields as $key => $f){
+				$parent_comment_fields[$key] = $f . ' AS parent_' . $f;
+			}
+			
+			$_join_conditions = array(
+				'c.parent = c2.id',
+			);
+			if($join_conditions){
+				//开启审核，仅返回通过审核的评论
+				$_join_conditions = array_merge($_join_conditions, $join_conditions);
+			}
+			$sql->joinLeft(\F::model($this->model)->getName(), 'c2', $_join_conditions, $parent_comment_fields);
+		}
+		
+		$listview = new ListView($sql, array(
+			'current_page'=>$page,
+			'page_size'=>$count,
+		));
+		
+		$data = $listview->getData();
+		
+		if(!empty($fields['user'])){
+			//获取评论用户信息集合
+			$users = User::model()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
+		}
+		if(!empty($fields['parent']['user'])){
+			//获取父节点评论用户信息集合
+			$parent_users = User::model()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
+		}
+		$comments = array();
+		
+		foreach($data as $k => $d){
+			$comment = array();
+			//评论字段
+			foreach($fields[$this->field_key] as $cf){
+				$comment[$this->field_key][$cf] = $d[$cf];
+			}
+			
+			//作者字段
+			if(!empty($fields['user'])){
+				$comment['user'] = $users[$d['user_id']];
+			}
+			
+			//父评论字段
+			if(!empty($fields['parent'][$this->field_key])){
+				if($d['parent_' . $fields['parent'][$this->field_key][0]] === null){
+					//为null的话意味着父节点不存在或已删除（数据库字段一律非null）
+					$comment['parent'][$this->field_key] = array();
+				}else{
+					foreach($fields['parent'][$this->field_key] as $pcf){
+						$comment['parent'][$this->field_key][$pcf] = $d['parent_' . $pcf];
+					}
+				}
+			}
+			
+			//父评论作者字段
+			if(!empty($fields['parent']['user'])){
+				$comment['parent']['user'] = $parent_users[$d['parent_user_id']];
+			}
+			
+			$comments[] = $comment;
+		}
+		
+		return array(
+			'data'=>$comments,
+			'pager'=>$listview->getPager(),
+		);
 	}
 }

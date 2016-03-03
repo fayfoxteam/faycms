@@ -301,12 +301,23 @@ class PostCommentController extends ApiController{
 					));
 					break;
 				case 'list':
-					Response::json(CommentModel::model()->getList(
+					$result = CommentModel::model()->getList(
 						$this->form()->getData('post_id'),
 						$this->form()->getData('page_size', 20),
 						$this->form()->getData('page', 1),
 						$fields
-					));
+					);
+					//将空数组转为空对象，保证给客户端的类型一致
+					foreach($result['comments'] as &$r){
+						if(isset($r['parent']['comment']) && !$r['parent']['comment']){
+							$r['parent']['comment'] = new \stdClass();
+						}
+						if(isset($r['parent']['user']) && !$r['parent']['user']){
+							$r['parent']['user'] = new \stdClass();
+						}
+					}
+					
+					Response::json($result);
 					break;
 			}
 		}else{

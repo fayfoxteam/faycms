@@ -423,7 +423,7 @@ class Db{
 		if(is_array($message)){
 			$message = implode(' - ', $message);
 		}
-		throw new ErrorException($message, $sql ? '<code>'.SqlHelper::nice($sql, $params).'</code>' : '');
+		throw new ErrorException($message, $sql ? '<code>'.SqlHelper::bind($sql, $params).'</code>' : '');
 	}
 	
 	/**

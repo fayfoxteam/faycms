@@ -258,6 +258,11 @@ class PostCommentController extends ApiController{
 	
 	/**
 	 * 评论列表
+	 * @param int $post_id 文章ID
+	 * @param string $mode 模式
+	 * @param string $fields 制定字段
+	 * @param int $page 页码
+	 * @param int $page_size 分页大小
 	 */
 	public function listAction(){
 		if($this->form()->setRules(array(

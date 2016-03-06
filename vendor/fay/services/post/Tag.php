@@ -35,6 +35,8 @@ class Tag extends Model{
 				}else{//不存在，插入新tag
 					$input_tag_ids[] = Tags::model()->insert(array(
 						'title'=>$tag_title,
+						'user_id'=>\F::app()->current_user,
+						'create_time'=>\F::app()->current_time,
 					));
 				}
 			}

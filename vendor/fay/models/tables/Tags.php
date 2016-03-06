@@ -9,6 +9,9 @@ use fay\core\db\Table;
  * @property int $id Id
  * @property string $title 标签
  * @property int $sort 排序值
+ * @property int $user_id 用户ID
+ * @property int $create_time 创建时间
+ * @property int $status 状态
  * @property string $seo_title Seo Title
  * @property string $seo_keywords Seo Keywords
  * @property string $seo_description Seo Description
@@ -16,6 +19,16 @@ use fay\core\db\Table;
  * @property int $feed_count 动态数
  */
 class Tags extends Table{
+	/**
+	 * 状态-禁用
+	 */
+	const STATUS_DISABLED = 0;
+	
+	/**
+	 * 状态-启用
+	 */
+	const STATUS_ENABLED = 1;
+	
 	protected $_name = 'tags';
 	
 	/**
@@ -27,7 +40,7 @@ class Tags extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('post_count', 'feed_count'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>50)),
@@ -35,6 +48,7 @@ class Tags extends Table{
 			
 			array(array('title'), 'unique', array('table'=>'tags', 'except'=>'id', 'ajax'=>array('api/tag/is-tag-not-exist'))),
 			array(array('title'), 'required'),
+			array(array('status'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -43,6 +57,9 @@ class Tags extends Table{
 			'id'=>'Id',
 			'title'=>'标签',
 			'sort'=>'排序值',
+			'user_id'=>'用户ID',
+			'create_time'=>'创建时间',
+			'status'=>'状态',
 			'seo_title'=>'Seo Title',
 			'seo_keywords'=>'Seo Keywords',
 			'seo_description'=>'Seo Description',
@@ -56,6 +73,9 @@ class Tags extends Table{
 			'id'=>'intval',
 			'title'=>'trim',
 			'sort'=>'intval',
+			'user_id'=>'intval',
+			'create_time'=>'',
+			'status'=>'intval',
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',
 			'seo_description'=>'trim',

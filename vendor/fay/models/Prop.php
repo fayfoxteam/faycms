@@ -389,19 +389,20 @@ class Prop extends Model{
 		foreach($props as $p){
 			switch($p['element']){
 				case Props::ELEMENT_TEXT:
-					/*
-					 * 如果存在，则更新，不存在，则插入
-					 */
-					if(\F::model($models['varchar'])->fetchRow(array(
+					//如果存在，且值有变化，则更新；不存在，则插入
+					$record = \F::model($models['varchar'])->fetchRow(array(
 						"{$field} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
-					))){
-						\F::model($models['varchar'])->update(array(
-							'content'=>$data[$p['id']],
-						), array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						));
+					), 'content');
+					if($record){
+						if($record['content'] != $data[$p['id']]){
+							\F::model($models['varchar'])->update(array(
+								'content'=>$data[$p['id']],
+							), array(
+								"{$field} = ?"=>$refer,
+								'prop_id = ?'=>$p['id'],
+							));
+						}
 					}else{
 						\F::model($models['varchar'])->insert(array(
 							$field=>$refer,
@@ -411,20 +412,29 @@ class Prop extends Model{
 					}
 					break;
 				case Props::ELEMENT_RADIO:
-					if(!empty($data[$p['id']])){
-						/*
-						 * 如果存在，则更新，不存在，则插入
-						*/
-						if(\F::model($models['int'])->fetchRow(array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						))){
-							\F::model($models['int'])->update(array(
-								'content'=>intval($data[$p['id']]),
-							), array(
+					$record = \F::model($models['int'])->fetchRow(array(
+						"{$field} = ?"=>$refer,
+						'prop_id = ?'=>$p['id'],
+					), 'content');
+					if(empty($data[$p['id']])){
+						//若无提交值，且原先有值，则删除以前的值
+						if($record){
+							\F::model($models['int'])->delete(array(
 								"{$field} = ?"=>$refer,
 								'prop_id = ?'=>$p['id'],
 							));
+						}
+					}else{
+						//如果存在，且值有变化，则更新；不存在，则插入
+						if($record){
+							if($record['content'] != $data[$p['id']]){
+								\F::model($models['int'])->update(array(
+									'content'=>intval($data[$p['id']]),
+								), array(
+									"{$field} = ?"=>$refer,
+									'prop_id = ?'=>$p['id'],
+								));
+							}
 						}else{
 							\F::model($models['int'])->insert(array(
 								$field=>$refer,
@@ -432,29 +442,32 @@ class Prop extends Model{
 								'content'=>intval($data[$p['id']]),
 							));
 						}
-					}else{
-						//若无提交值，则删除以前的值
-						\F::model($models['int'])->delete(array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						));
 					}
 					break;
 				case Props::ELEMENT_SELECT:
-					if(!empty($data[$p['id']])){
-						/*
-						 * 如果存在，则更新，不存在，则插入
-						*/
-						if(\F::model($models['int'])->fetchRow(array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						))){
-							\F::model($models['int'])->update(array(
-								'content'=>intval($data[$p['id']]),
-							), array(
+					$record = \F::model($models['int'])->fetchRow(array(
+						"{$field} = ?"=>$refer,
+						'prop_id = ?'=>$p['id'],
+					), 'content');
+					if(empty($data[$p['id']])){
+						//若无提交值，且原先有值，则删除以前的值
+						if($record){
+							\F::model($models['int'])->delete(array(
 								"{$field} = ?"=>$refer,
 								'prop_id = ?'=>$p['id'],
 							));
+						}
+					}else{
+						//如果存在，且值有变化，则更新；不存在，则插入
+						if($record){
+							if($record['content'] != $data[$p['id']]){
+								\F::model($models['int'])->update(array(
+									'content'=>intval($data[$p['id']]),
+								), array(
+									"{$field} = ?"=>$refer,
+									'prop_id = ?'=>$p['id'],
+								));
+							}
 						}else{
 							\F::model($models['int'])->insert(array(
 								$field=>$refer,
@@ -462,30 +475,29 @@ class Prop extends Model{
 								'content'=>intval($data[$p['id']]),
 							));
 						}
-					}else{
-						//若无提交值，则删除以前的值
-						\F::model($models['int'])->delete(array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						));
 					}
 					break;
 				case Props::ELEMENT_CHECKBOX:
+					//获取已存在的项
+					$old_options = \F::model($models['int'])->fetchCol('content', array(
+						"{$field} = ?"=>$refer,
+						'prop_id = ?'=>$p['id'],
+					));
 					if(isset($data[$p['id']])){
 						//删除已经不存在的项
-						\F::model($models['int'])->delete(array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-							'content NOT IN ('.implode(',', \F::filter('intval', $data[$p['id']])).')',
-						));
-						//获取已存在的项
-						$old_options = \F::model($models['int'])->fetchCol('content', array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						));
+						$delete_options = array_diff($old_options, $data[$p['id']]);
+						if($delete_options){
+							\F::model($models['int'])->delete(array(
+								"{$field} = ?"=>$refer,
+								'prop_id = ?'=>$p['id'],
+								'content IN (?)'=>$delete_options,
+							));
+						}
+						
 						//插入新增项
-						foreach($data[$p['id']] as $p_value){
-							if(!in_array($p_value, $old_options)){
+						$new_options = array_diff($data[$p['id']], $old_options);
+						if($new_options){
+							foreach($new_options as $p_value){
 								\F::model($models['int'])->insert(array(
 									$field=>$refer,
 									'prop_id'=>$p['id'],
@@ -493,29 +505,31 @@ class Prop extends Model{
 								));
 							}
 						}
-		
 					}else{
-						//若无提交值，则删除以前的值
-						\F::model($models['int'])->delete(array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						));
+						//若无提交值，且原先有值，则删除以前的值
+						if($old_options){
+							\F::model($models['int'])->delete(array(
+								"{$field} = ?"=>$refer,
+								'prop_id = ?'=>$p['id'],
+							));
+						}
 					}
 					break;
 				case Props::ELEMENT_TEXTAREA:
-					/*
-					 * 如果存在，则更新，不存在，则插入
-					 */
-					if(\F::model($models['text'])->fetchRow(array(
+					$record = \F::model($models['text'])->fetchRow(array(
 						"{$field} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
-					))){
-						\F::model($models['text'])->update(array(
-							'content'=>$data[$p['id']],
-						), array(
-							"{$field} = ?"=>$refer,
-							'prop_id = ?'=>$p['id'],
-						));
+					), 'content');
+					//如果存在，且值有变化，则更新；不存在，则插入
+					if($record){
+						if($record['content'] != $data[$p['id']]){
+							\F::model($models['text'])->update(array(
+								'content'=>$data[$p['id']],
+							), array(
+								"{$field} = ?"=>$refer,
+								'prop_id = ?'=>$p['id'],
+							));
+						}
 					}else{
 						\F::model($models['text'])->insert(array(
 							$field=>$refer,

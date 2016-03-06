@@ -2,26 +2,25 @@
 use fay\helpers\Date;
 use fay\helpers\Html;
 use fay\models\tables\Messages;
-use fay\models\Post;
 ?>
 <div class="col-main">
 	<article class="post-item">
 		<header>
 			<div class="post-meta">
-				发表于<time><?php echo Date::format($post['publish_time'])?></time>
+				发表于<time><?php echo Date::format($post['post']['publish_time'])?></time>
 			</div>
-			<h1><?php echo Html::encode($post['title'])?></h1>
+			<h1><?php echo Html::encode($post['post']['title'])?></h1>
 		</header>
 		<div class="post-content">
-			<?php echo Post::formatContent($post)?>
+			<?php echo $post['post']['content']?>
 		</div>
 		<div class="post-tags">
-			<?php echo Html::link('<span>#'.Html::encode($post['cat_title']).'</span>', array('cat/'.$post['cat_id']), array(
+			<?php echo Html::link('<span>#'.Html::encode($post['category']['title']).'</span>', array('cat/'.$post['category']['id']), array(
 				'class'=>'post-type',
 				'encode'=>false,
-				'title'=>Html::encode($post['cat_title']),
+				'title'=>Html::encode($post['category']['title']),
 			));?>
-			<?php foreach($post['ext_cats'] as $pc){
+			<?php foreach($post['categories'] as $pc){
 				echo Html::link('<span>#'.Html::encode($pc['title']).'</span>', array('cat/'.$pc['id']), array(
 					'class'=>'post-type',
 					'encode'=>false,
@@ -76,7 +75,7 @@ use fay\models\Post;
 	<?php echo F::widget()->render('contact')?>
 	<?php echo F::widget()->render('fay/category_posts', array(
 		'title'=>'相关文章',
-		'top'=>$post['cat_id'],
+		'top'=>$post['post']['cat_id'],
 		'subclassification'=>true,
 		'order'=>'rand',
 	))?>

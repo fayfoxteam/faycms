@@ -9,8 +9,8 @@ use fay\helpers\Html;
 		<ul>
 		<?php foreach($posts as $p){?>
 			<li><?php
-				echo Html::link($p['title'], $p['link']);
-				echo $p['format_publish_time'];
+				echo Html::link($p['post']['title'], $p['post']['link']);
+				echo $p['post']['format_publish_time'];
 			?></li>
 		<?php }?>
 		</ul>

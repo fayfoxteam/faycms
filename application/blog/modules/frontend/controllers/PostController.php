@@ -23,7 +23,7 @@ class PostController extends FrontController{
 			throw new HttpException('异常的请求');
 		}
 		
-		$post = Post::model()->get($this->input->get('id', 'intval'), 'messages,nav,categories');
+		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav.*,categories.*,category.*');
 		if(!$post){
 			throw new HttpException('文章不存在', 404);
 		}
@@ -32,9 +32,9 @@ class PostController extends FrontController{
 		//@todo 高亮作品tab
 		
 		//设置页面SEO信息
-		$this->layout->title = $post['seo_title'];
-		$this->layout->keywords = $post['seo_keywords'];
-		$this->layout->description = $post['seo_description'];
+		$this->layout->title = $post['post']['seo_title'];
+		$this->layout->keywords = $post['post']['seo_keywords'];
+		$this->layout->description = $post['post']['seo_description'];
 		
 		$this->layout->qr_data = 'http://m.fayfox.com/post/'.$post['id'];
 		

@@ -12,7 +12,8 @@ use fay\models\tables\PostPropVarchar;
 use fay\models\tables\PostPropText;
 use fay\models\tables\PostLikes;
 use fay\models\tables\PostMeta;
-use fay\models\Tag;
+use fay\models\post\Tag as PostTag;
+use fay\services\post\Tag;
 use fay\helpers\Request;
 use fay\models\Prop;
 use fay\models\Post as PostModel;
@@ -262,7 +263,7 @@ class Post extends Model{
 		PostMeta::model()->delete('post_id = ' . $post_id);
 		
 		//刷新对应tags的count值
-		Tag::model()->refreshCountByTagId($tag_ids);
+		PostTag::model()->refreshCountByTagId($tag_ids);
 	}
 	
 }

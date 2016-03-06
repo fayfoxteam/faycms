@@ -781,12 +781,14 @@ DROP TABLE IF EXISTS `{{$prefix}}tags`;
 CREATE TABLE `{{$prefix}}tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标签',
-  `count` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Count',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
-  PRIMARY KEY (`id`)
+  `post_count` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '文章数',
+  `feed_count` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '动态数',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}templates`;

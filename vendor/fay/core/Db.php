@@ -354,7 +354,7 @@ class Db{
 				}else{
 					$op = ' AND ';
 					if($condition != ''){$condition .= $op;}
-					if(StringHelper::isInt($key)){//'id = 1'
+					if(is_int($key)){//'id = 1'
 						$condition .= $value;
 					}else{//'id = ?'=>1
 						if(is_array($value)){
@@ -390,7 +390,7 @@ class Db{
 				$partial_condition[] = $partial['condition'];
 				$params = array_merge($params, $partial['params']);
 			}else{
-				if(StringHelper::isInt($key)){//'id = 1'
+				if(is_int($key)){//'id = 1'
 					$partial_condition[] = $value;
 				}else{//'id = ?'=>1
 					if(is_array($value)){

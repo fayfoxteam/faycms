@@ -18,6 +18,7 @@ use fay\core\HttpException;
 use fay\models\Option;
 use fay\models\Flash;
 use fay\models\tables\PostMeta;
+use fay\services\Post as PostService;
 
 class PostController extends AdminController{
 	/**
@@ -82,6 +83,10 @@ class PostController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
+		//先把可用boxes获取出来，post逻辑中要用到
+		$_setting_key = 'admin_post_boxes';
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		
 		$this->form()->setModel(Posts::model())
 			->setModel(PostsFiles::model());
 		if($this->input->post()){
@@ -89,6 +94,17 @@ class PostController extends AdminController{
 				//添加posts表
 				$data = Posts::model()->fillData($this->input->post());
 				isset($data['cat_id']) || $data['cat_id'] = $cat_id;
+				
+				//发布时间特殊处理
+				if(in_array('publish_time', $enabled_boxes)){
+					if(empty($data['publish_time'])){
+						$data['publish_time'] = $this->current_time;
+						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+					}else{
+						$data['publish_time'] = strtotime($data['publish_time']);
+						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+					}
+				}
 				
 				$extra = array();
 				//附加分类
@@ -112,7 +128,7 @@ class PostController extends AdminController{
 				//附加属性
 				$extra['props'] = $this->input->post('props', '', array());
 				
-				$post_id = Post::model()->create($data, $extra, $this->current_user);
+				$post_id = PostService::model()->create($data, $extra, $this->current_user);
 				
 				//hook
 				Hook::getInstance()->call('after_post_created', array(
@@ -141,10 +157,8 @@ class PostController extends AdminController{
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
 		$this->layout->_setting_panel = '_setting_edit';
-		$_setting_key = 'admin_post_boxes';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array();
-		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		$this->form('setting')
 			->setModel(Setting::model())
 			->setJsModel('setting')
@@ -431,7 +445,7 @@ class PostController extends AdminController{
 					$extra['props'] = $this->input->post('props');
 				}
 				
-				Post::model()->update($post_id, $data, $extra);
+				PostService::model()->update($post_id, $data, $extra);
 				
 				//hook
 				Hook::getInstance()->call('after_post_updated', array(
@@ -544,7 +558,7 @@ class PostController extends AdminController{
 	public function remove(){
 		$post_id = $this->input->get('id', 'intval');
 		
-		Post::model()->remove($post_id);
+		PostService::model()->remove($post_id);
 		
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章永久删除', $post_id);
 		
@@ -787,7 +801,7 @@ class PostController extends AdminController{
 				}
 				
 				foreach($ids as $id){
-					Post::model()->remove($id);
+					PostService::model()->remove($id);
 				}
 
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.count($ids).'篇文章被永久删除');

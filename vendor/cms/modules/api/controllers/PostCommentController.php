@@ -60,9 +60,11 @@ class PostCommentController extends ApiController{
 	 * @param int $parent 父评论ID
 	 */
 	public function create(){
+		//登录检查
 		$this->checkLogin();
 		
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('post_id', 'content'), 'required'),
 			array(array('post_id'), 'int', array('min'=>1)),
 			array(array('parent'), 'int', array('min'=>0)),
@@ -86,49 +88,43 @@ class PostCommentController extends ApiController{
 		))->setLabels(array(
 			'post_id'=>'文章ID',
 			'content'=>'评论内容',
-		))->check()){
-			$comment_id = Comment::model()->create(
-				$this->form()->getData('post_id'),
-				$this->form()->getData('content'),
-				$this->form()->getData('parent', 0)
-			);
-			
-			$comment = CommentModel::model()->get($comment_id, array(
+		))->check();
+		
+		$comment_id = Comment::model()->create(
+			$this->form()->getData('post_id'),
+			$this->form()->getData('content'),
+			$this->form()->getData('parent', 0)
+		);
+		
+		$comment = CommentModel::model()->get($comment_id, array(
+			'comment'=>array(
+				'id', 'content', 'parent', 'create_time',
+			),
+			'user'=>array(
+				'id', 'nickname', 'avatar',
+			),
+			'parent'=>array(
 				'comment'=>array(
 					'id', 'content', 'parent', 'create_time',
 				),
 				'user'=>array(
 					'id', 'nickname', 'avatar',
 				),
-				'parent'=>array(
-					'comment'=>array(
-						'id', 'content', 'parent', 'create_time',
-					),
-					'user'=>array(
-						'id', 'nickname', 'avatar',
-					),
-				),
-			));
-			
-			//格式化一下空数组的问题，保证返回给客户端的数据类型一致
-			if(isset($comment['parent_comment']) && empty($comment['parent_comment'])){
-				$comment['parent_comment'] = new \stdClass();
-			}
-			if(isset($comment['parent_comment_user']) && empty($comment['parent_comment_user'])){
-				$comment['parent_comment_user'] = new \stdClass();
-			}
-			
-			Response::notify('success', array(
-				'message'=>'评论成功',
-				'data'=>$comment,
-			));
-		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+			),
+		));
+		
+		//格式化一下空数组的问题，保证返回给客户端的数据类型一致
+		if(isset($comment['parent_comment']) && empty($comment['parent_comment'])){
+			$comment['parent_comment'] = new \stdClass();
 		}
+		if(isset($comment['parent_comment_user']) && empty($comment['parent_comment_user'])){
+			$comment['parent_comment_user'] = new \stdClass();
+		}
+		
+		Response::notify('success', array(
+			'message'=>'评论成功',
+			'data'=>$comment,
+		));
 	}
 	
 	/**
@@ -136,9 +132,11 @@ class PostCommentController extends ApiController{
 	 * @param int $comment_id 评论ID
 	 */
 	public function delete(){
+		//登录检查
 		$this->checkLogin();
 		
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('comment_id'), 'required'),
 			array(array('comment_id'), 'int', array('min'=>1)),
 			array(array('comment_id'), 'exist', array(
@@ -150,23 +148,17 @@ class PostCommentController extends ApiController{
 			'comment_id'=>'intval',
 		))->setLabels(array(
 			'comment_id'=>'评论ID',
-		))->check()){
-			$comment_id = $this->form()->getData('comment_id');
-			
-			if(Comment::model()->checkPermission($comment_id, 'delete')){
-				Comment::model()->delete($comment_id);
-				Response::notify('success', '评论删除成功');
-			}else{
-				Response::notify('error', array(
-					'message'=>'您无权操作该评论',
-					'code'=>'permission-denied',
-				));
-			}
+		))->check();
+		
+		$comment_id = $this->form()->getData('comment_id');
+		
+		if(Comment::model()->checkPermission($comment_id, 'delete')){
+			Comment::model()->delete($comment_id);
+			Response::notify('success', '评论删除成功');
 		}else{
-			$error = $this->form()->getFirstError();
 			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
+				'message'=>'您无权操作该评论',
+				'code'=>'permission-denied',
 			));
 		}
 	}
@@ -176,9 +168,11 @@ class PostCommentController extends ApiController{
 	 * @param int $comment_id 评论ID
 	 */
 	public function undelete(){
+		//登录检查
 		$this->checkLogin();
 		
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('comment_id'), 'required'),
 			array(array('comment_id'), 'int', array('min'=>1)),
 			array(array('comment_id'), 'exist', array(
@@ -190,23 +184,17 @@ class PostCommentController extends ApiController{
 			'comment_id'=>'intval',
 		))->setLabels(array(
 			'comment_id'=>'评论ID',
-		))->check()){
-			$comment_id = $this->form()->getData('comment_id');
-			
-			if(Comment::model()->checkPermission($comment_id, 'undelete')){
-				Comment::model()->undelete($comment_id);
-				Response::notify('success', '评论还原成功');
-			}else{
-				Response::notify('error', array(
-					'message'=>'您无权操作该评论',
-					'code'=>'permission-denied',
-				));
-			}
+		))->check();
+		
+		$comment_id = $this->form()->getData('comment_id');
+		
+		if(Comment::model()->checkPermission($comment_id, 'undelete')){
+			Comment::model()->undelete($comment_id);
+			Response::notify('success', '评论还原成功');
 		}else{
-			$error = $this->form()->getFirstError();
 			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
+				'message'=>'您无权操作该评论',
+				'code'=>'permission-denied',
 			));
 		}
 	}
@@ -217,8 +205,11 @@ class PostCommentController extends ApiController{
 	 * @param string $content 评论内容
 	 */
 	public function edit(){
+		//登录检查
 		$this->checkLogin();
-		if($this->form()->setRules(array(
+		
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('comment_id', 'content'), 'required'),
 			array(array('comment_id'), 'int', array('min'=>1)),
 			array(array('comment_id'), 'exist', array(
@@ -232,26 +223,20 @@ class PostCommentController extends ApiController{
 		))->setLabels(array(
 			'post_id'=>'文章ID',
 			'content'=>'评论内容',
-		))->check()){
-			$comment_id = $this->form()->getData('comment_id');
-			
-			if(Comment::model()->checkPermission($comment_id, 'edit')){
-				Comment::model()->update(
-					$comment_id,
-					$this->form()->getData('content')
-				);
-				Response::notify('success', '评论修改成功');
-			}else{
-				Response::notify('error', array(
-					'message'=>'您无权操作该评论',
-					'code'=>'permission-denied',
-				));
-			}
+		))->check();
+		
+		$comment_id = $this->form()->getData('comment_id');
+		
+		if(Comment::model()->checkPermission($comment_id, 'edit')){
+			Comment::model()->update(
+				$comment_id,
+				$this->form()->getData('content')
+			);
+			Response::notify('success', '评论修改成功');
 		}else{
-			$error = $this->form()->getFirstError();
 			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
+				'message'=>'您无权操作该评论',
+				'code'=>'permission-denied',
 			));
 		}
 	}
@@ -265,7 +250,8 @@ class PostCommentController extends ApiController{
 	 * @param int $page_size 分页大小
 	 */
 	public function listAction(){
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('post_id'), 'required'),
 			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('post_id'), 'exist', array(
@@ -287,63 +273,58 @@ class PostCommentController extends ApiController{
 			'post_id'=>'文章ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
-		))->check()){
-			$fields = $this->form()->getData('fields');
-			if($fields){
-				//过滤字段，移除那些不允许的字段
-				$fields = FieldHelper::process($fields, 'comment', $this->allowed_fields);
-			}else{
-				$fields = $this->default_fields;
-			}
-			
-			switch($this->form()->getData('mode')){
-				case 'tree':
-					Response::json(CommentModel::model()->getTree(
-						$this->form()->getData('post_id'),
-						$this->form()->getData('page_size', 20),
-						$this->form()->getData('page', 1),
-						$fields
-					));
-					break;
-				case 'chat':
-					Response::json(CommentModel::model()->getChats(
-						$this->form()->getData('post_id'),
-						$this->form()->getData('page_size', 20),
-						$this->form()->getData('page', 1),
-						$fields
-					));
-					break;
-				case 'list':
-					$result = CommentModel::model()->getList(
-						$this->form()->getData('post_id'),
-						$this->form()->getData('page_size', 20),
-						$this->form()->getData('page', 1),
-						$fields
-					);
-					//将空数组转为空对象，保证给客户端的类型一致
-					foreach($result['comments'] as &$r){
-						if(isset($r['parent']['comment']) && !$r['parent']['comment']){
-							$r['parent']['comment'] = new \stdClass();
-						}
-						if(isset($r['parent']['user']) && !$r['parent']['user']){
-							$r['parent']['user'] = new \stdClass();
-						}
-					}
-					
-					Response::json($result);
-					break;
-			}
+		))->check();
+		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'comment', $this->allowed_fields);
 		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+			$fields = $this->default_fields;
+		}
+		
+		switch($this->form()->getData('mode')){
+			case 'tree':
+				Response::json(CommentModel::model()->getTree(
+					$this->form()->getData('post_id'),
+					$this->form()->getData('page_size', 20),
+					$this->form()->getData('page', 1),
+					$fields
+				));
+				break;
+			case 'chat':
+				Response::json(CommentModel::model()->getChats(
+					$this->form()->getData('post_id'),
+					$this->form()->getData('page_size', 20),
+					$this->form()->getData('page', 1),
+					$fields
+				));
+				break;
+			case 'list':
+				$result = CommentModel::model()->getList(
+					$this->form()->getData('post_id'),
+					$this->form()->getData('page_size', 20),
+					$this->form()->getData('page', 1),
+					$fields
+				);
+				//将空数组转为空对象，保证给客户端的类型一致
+				foreach($result['comments'] as &$r){
+					if(isset($r['parent']['comment']) && !$r['parent']['comment']){
+						$r['parent']['comment'] = new \stdClass();
+					}
+					if(isset($r['parent']['user']) && !$r['parent']['user']){
+						$r['parent']['user'] = new \stdClass();
+					}
+				}
+				
+				Response::json($result);
+				break;
 		}
 	}
 	
 	public function get(){
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('id'), 'required'),
 			array(array('id'), 'int', array('min'=>1)),
 		))->setFilters(array(
@@ -352,39 +333,33 @@ class PostCommentController extends ApiController{
 			'cat'=>'trim',
 		))->setLabels(array(
 			'id'=>'评论ID',
-		))->check()){
-			$id = $this->form()->getData('id');
-			$fields = $this->form()->getData('fields');
-				
-			if($fields){
-				//过滤字段，移除那些不允许的字段
-				$fields = FieldHelper::process($fields, 'post', $this->allowed_fields);
-			}else{
-				//若未指定$fields，取默认值
-				$fields = $this->default_fields;
-			}
-				
-			$comment = CommentModel::model()->get($id, $fields);
+		))->check();
+		
+		$id = $this->form()->getData('id');
+		$fields = $this->form()->getData('fields');
 			
-			//处理下空数组问题
-			if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){
-				$comment['parent']['comment'] = new \stdClass();
-			}
-			if(isset($comment['parent']['user']) && empty($comment['parent']['user'])){
-				$comment['parent']['user'] = new \stdClass();
-			}
-			
-			if($comment){
-				Response::json($comment);
-			}else{
-				throw new HttpException('评论ID不存在');
-			}
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'post', $this->allowed_fields);
 		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+			//若未指定$fields，取默认值
+			$fields = $this->default_fields;
+		}
+			
+		$comment = CommentModel::model()->get($id, $fields);
+		
+		//处理下空数组问题
+		if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){
+			$comment['parent']['comment'] = new \stdClass();
+		}
+		if(isset($comment['parent']['user']) && empty($comment['parent']['user'])){
+			$comment['parent']['user'] = new \stdClass();
+		}
+		
+		if($comment){
+			Response::json($comment);
+		}else{
+			throw new HttpException('评论ID不存在');
 		}
 	}
 }

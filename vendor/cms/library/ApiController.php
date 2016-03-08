@@ -31,4 +31,17 @@ class ApiController extends Controller{
 			Response::json('', 0, '请先登录', 'login-request');
 		}
 	}
+	
+	/**
+	 * 表单验证，若发生错误，返回第一个报错信息
+	 * 调用该函数前需先设置表单验证规则
+	 * @param \fay\core\Form $form
+	 */
+	public function onFormError($form){
+		$error = $form->getFirstError();
+		Response::notify('error', array(
+			'message'=>$error['message'],
+			'code'=>$error['code'],
+		));
+	}
 }

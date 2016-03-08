@@ -65,7 +65,8 @@ class PostController extends ApiController{
 	 * @param int|string $cat 指定分类（可选），若指定分类，则文章若不属于该分类，返回404
 	 */
 	public function get(){
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('id'), 'required'),
 			array(array('id'), 'int', array('min'=>1)),
 		))->setFilters(array(
@@ -74,31 +75,25 @@ class PostController extends ApiController{
 			'cat'=>'trim',
 		))->setLabels(array(
 			'id'=>'文章ID',
-		))->check()){
-			$id = $this->form()->getData('id');
-			$fields = $this->form()->getData('fields');
-			$cat = $this->form()->getData('cat');
-			
-			if($fields){
-				//过滤字段，移除那些不允许的字段
-				$fields = FieldHelper::process($fields, 'post', $this->allowed_fields);
-			}else{
-				//若未指定$fields，取默认值
-				$fields = $this->default_fields;
-			}
-			
-			$post = Post::model()->get($id, $fields, $cat);
-			if($post){
-				Response::json($post);
-			}else{
-				throw new HttpException('您访问的页面不存在');
-			}
+		))->check();
+		
+		$id = $this->form()->getData('id');
+		$fields = $this->form()->getData('fields');
+		$cat = $this->form()->getData('cat');
+		
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'post', $this->allowed_fields);
 		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+			//若未指定$fields，取默认值
+			$fields = $this->default_fields;
+		}
+		
+		$post = Post::model()->get($id, $fields, $cat);
+		if($post){
+			Response::json($post);
+		}else{
+			throw new HttpException('您访问的页面不存在');
 		}
 	}
 	

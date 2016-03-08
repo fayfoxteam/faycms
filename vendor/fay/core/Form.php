@@ -454,6 +454,9 @@ class Form{
 			return true;
 		}else{
 			$this->_errors = $check;
+			if(method_exists(\F::app(), 'onFormError')){
+				\F::app()->onFormError($this);
+			}
 			return false;
 		}
 	}

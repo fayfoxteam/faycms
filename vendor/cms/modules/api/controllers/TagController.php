@@ -14,7 +14,8 @@ class TagController extends ApiController{
 	 * @param int $page_size 分页大小
 	 */
 	public function listAction(){
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array('type', 'range', array('range'=>array('feed', 'post'))),
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
 		))->setFilters(array(
@@ -27,35 +28,29 @@ class TagController extends ApiController{
 			'page'=>'页码',
 			'page_size'=>'分页大小',
 			'order'=>'排序方式',
-		))->check()){
-			$type = $this->form()->getData('type', 'post');
-			$order = $this->form()->getData('order', 'count');
-			
-			switch($order){
-				case 'create_time':
-					$order = 'create_time DESC';
-					break;
-				case 'hand':
-					$order = 'sort, {$type}_count DESC';
-					break;
-				case 'count':
-				default:
-					$order = '{$type}_count DESC';
-			}
-			
-			return Response::json(Tag::model()->getList(
-				$type,
-				$this->form()->getData('page_size', 20),
-				$this->form()->getData('page', 1),
-				$order
-			));
-		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+		))->check();
+		
+		$type = $this->form()->getData('type', 'post');
+		$order = $this->form()->getData('order', 'count');
+		
+		switch($order){
+			case 'create_time':
+				$order = 'create_time DESC';
+				break;
+			case 'hand':
+				$order = 'sort, {$type}_count DESC';
+				break;
+			case 'count':
+			default:
+				$order = '{$type}_count DESC';
 		}
+		
+		return Response::json(Tag::model()->getList(
+			$type,
+			$this->form()->getData('page_size', 20),
+			$this->form()->getData('page', 1),
+			$order
+		));
 	}
 	
 	/**
@@ -63,24 +58,19 @@ class TagController extends ApiController{
 	 * @param string $tag 标签
 	 */
 	public function isTagExist(){
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array('tag', 'required'),
 		))->setFilters(array(
 			'tag'=>'trim',
 		))->setLabels(array(
 			'tag'=>'标签',
-		))->check()){
-			if(Tag::isTagExist($this->form()->getData('tag'))){
-				Response::notify('error', '标签已存在');
-			}else{
-				Response::notify('success');
-			}
+		))->check();
+		
+		if(Tag::isTagExist($this->form()->getData('tag'))){
+			Response::notify('error', '标签已存在');
 		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+			Response::notify('success');
 		}
 	}
 }

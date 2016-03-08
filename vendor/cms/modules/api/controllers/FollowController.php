@@ -38,41 +38,38 @@ class FollowController extends ApiController{
 	 * @param int $user_id
 	 */
 	public function follow(){
+		//登录检查
 		$this->checkLogin();
-		if($this->form()->setRules(array(
+		
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('user_id'), 'required'),
-			array(array('user_id'), 'int', array('min'=>1)),
-			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
+			array('user_id', 'int', array('min'=>1)),
+			array('user_id', 'exist', array('table'=>'users', 'field'=>'id')),
+			array('user_id', 'compare', array(
+				'compare_value'=>$this->current_user,
+				'operator'=>'!=',
+				'code'=>'app-error:can-not-follow-yourself',
+				'message'=>'您不能关注自己',
+			))
 		))->setFilters(array(
 			'user_id'=>'intval',
 			'trackid'=>'trim',
 		))->setLabels(array(
 			'user_id'=>'用户ID',
-		))->check()){
-			$user_id = $this->form()->getData('user_id');
-			if($user_id == $this->current_user){
-				Response::notify('error', array(
-					'message'=>'您不能关注自己',
-					'code'=>'app-error:can-not-follow-yourself',
-				));
-			}
-			
-			if(Follow::isFollow($user_id)){
-				Response::notify('error', array(
-					'message'=>'您已关注过该用户',
-					'code'=>'app-error:already-followed',
-				));
-			}
-			
-			Follow::follow($user_id, $this->form()->getData('trackid', 'trim', ''));
-			Response::notify('success', '关注成功');
-		}else{
-			$error = $this->form()->getFirstError();
+		))->check();
+		
+		$user_id = $this->form()->getData('user_id');
+		
+		if(Follow::isFollow($user_id)){
 			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
+				'message'=>'您已关注过该用户',
+				'code'=>'app-error:already-followed',
 			));
 		}
+		
+		Follow::follow($user_id, $this->form()->getData('trackid', 'trim', ''));
+		Response::notify('success', '关注成功');
 	}
 	
 	/**
@@ -80,8 +77,11 @@ class FollowController extends ApiController{
 	 * @param int $user_id
 	 */
 	public function unfollow(){
+		//登录检查
 		$this->checkLogin();
-		if($this->form()->setRules(array(
+		
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('user_id'), 'required'),
 			array(array('user_id'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
@@ -89,25 +89,19 @@ class FollowController extends ApiController{
 			'user_id'=>'intval',
 		))->setLabels(array(
 			'user_id'=>'用户ID',
-		))->check()){
-			$user_id = $this->form()->getData('user_id');
-			
-			if(!Follow::isFollow($user_id)){
-				Response::notify('error', array(
-					'message'=>'您未关注过该用户',
-					'code'=>'app-error:not-followed',
-				));
-			}
-			
-			Follow::unfollow($user_id);
-			Response::notify('success', '取消关注成功');
-		}else{
-			$error = $this->form()->getFirstError();
+		))->check();
+		
+		$user_id = $this->form()->getData('user_id');
+		
+		if(!Follow::isFollow($user_id)){
 			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
+				'message'=>'您未关注过该用户',
+				'code'=>'app-error:not-followed',
 			));
 		}
+		
+		Follow::unfollow($user_id);
+		Response::notify('success', '取消关注成功');
 	}
 	
 	/**
@@ -115,28 +109,25 @@ class FollowController extends ApiController{
 	 * @param int $user_id
 	 */
 	public function isFollow(){
+		//登录检查
 		$this->checkLogin();
-		if($this->form()->setRules(array(
+		
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('user_id'), 'required'),
 			array(array('user_id'), 'int', array('min'=>1)),
 		))->setFilters(array(
 			'user_id'=>'intval',
 		))->setLabels(array(
 			'user_id'=>'用户ID',
-		))->check()){
-			$user_id = $this->form()->getData('user_id');
-				
-			if($is_follow = Follow::isFollow($user_id)){
-				Response::notify('success', array('data'=>$is_follow, 'message'=>'已关注', 'code'=>'followed'));
-			}else{
-				Response::notify('success', array('data'=>0, 'message'=>'未关注', 'code'=>'unfollowed'));
-			}
+		))->check();
+		
+		$user_id = $this->form()->getData('user_id');
+			
+		if($is_follow = Follow::isFollow($user_id)){
+			Response::notify('success', array('data'=>$is_follow, 'message'=>'已关注', 'code'=>'followed'));
 		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+			Response::notify('success', array('data'=>0, 'message'=>'未关注', 'code'=>'unfollowed'));
 		}
 	}
 	
@@ -145,27 +136,21 @@ class FollowController extends ApiController{
 	 * @param array|string $user_ids 用户ID，可以是数组的方式传入，也可以逗号分隔传入
 	 */
 	public function mIsFollow(){
-		$this->checkLogin();
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('user_ids'), 'required'),
 			array(array('user_ids'), 'int'),
 		))->setLabels(array(
 			'user_ids'=>'用户ID',
-		))->check()){
-			$user_ids = $this->form()->getData('user_ids');
-			if(!is_array($user_ids)){
-				$user_ids = explode(',', str_replace(' ', '', $user_ids));
-			}
-			
-			if($is_follow = Follow::mIsFollow($user_ids)){
-				Response::notify('success', array('data'=>$is_follow));
-			}
-		}else{
-			$error = $this->form()->getFirstError();
-			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
-			));
+		))->check();
+		
+		$user_ids = $this->form()->getData('user_ids');
+		if(!is_array($user_ids)){
+			$user_ids = explode(',', str_replace(' ', '', $user_ids));
+		}
+		
+		if($is_follow = Follow::mIsFollow($user_ids)){
+			Response::notify('success', array('data'=>$is_follow));
 		}
 	}
 	
@@ -177,7 +162,8 @@ class FollowController extends ApiController{
 	 * @param int $page_size 分页大小
 	 */
 	public function fans(){
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
 		))->setFilters(array(
@@ -189,35 +175,29 @@ class FollowController extends ApiController{
 			'user_id'=>'用户ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
-		))->check()){
-			$user_id = $this->form()->getData('user_id', $this->current_user);
-			if(!$user_id){
-				Response::notify('error', array(
-					'message'=>'未指定用户',
-					'code'=>'user_id:not-found',
-				));
-			}
-			
-			$fields = $this->form()->getData('fields');
-			if($fields){
-				//过滤字段，移除那些不允许的字段
-				$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
-			}else{
-				$fields = $this->default_fields;
-			}
-			
-			$fans = Follow::fans($user_id,
-				$fields,
-				$this->form()->getData('page', 1),
-				$this->form()->getData('page_size', 20));
-			Response::json($fans);
-		}else{
-			$error = $this->form()->getFirstError();
+		))->check();
+		
+		$user_id = $this->form()->getData('user_id', $this->current_user);
+		if(!$user_id){
 			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
+				'message'=>'未指定用户',
+				'code'=>'user_id:not-found',
 			));
 		}
+		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
+		}else{
+			$fields = $this->default_fields;
+		}
+		
+		$fans = Follow::fans($user_id,
+			$fields,
+			$this->form()->getData('page', 1),
+			$this->form()->getData('page_size', 20));
+		Response::json($fans);
 	}
 	
 	/**
@@ -228,7 +208,8 @@ class FollowController extends ApiController{
 	 * @param int $page_size 分页大小
 	 */
 	public function follows(){
-		if($this->form()->setRules(array(
+		//表单验证
+		$this->form()->setRules(array(
 			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
 		))->setFilters(array(
@@ -240,34 +221,28 @@ class FollowController extends ApiController{
 			'user_id'=>'用户ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
-		))->check()){
-			$user_id = $this->form()->getData('user_id', $this->current_user);
-			if(!$user_id){
-				Response::notify('error', array(
-					'message'=>'未指定用户',
-					'code'=>'user_id:not-found',
-				));
-			}
-			
-			$fields = $this->form()->getData('fields');
-			if($fields){
-				//过滤字段，移除那些不允许的字段
-				$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
-			}else{
-				$fields = $this->default_fields;
-			}
-				
-			$follows = Follow::follows($user_id,
-				$fields,
-				$this->form()->getData('page', 1),
-				$this->form()->getData('page_size', 20));
-			Response::json($follows);
-		}else{
-			$error = $this->form()->getFirstError();
+		))->check();
+		
+		$user_id = $this->form()->getData('user_id', $this->current_user);
+		if(!$user_id){
 			Response::notify('error', array(
-				'message'=>$error['message'],
-				'code'=>$error['code'],
+				'message'=>'未指定用户',
+				'code'=>'user_id:not-found',
 			));
 		}
+		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
+		}else{
+			$fields = $this->default_fields;
+		}
+			
+		$follows = Follow::follows($user_id,
+			$fields,
+			$this->form()->getData('page', 1),
+			$this->form()->getData('page_size', 20));
+		Response::json($follows);
 	}
 }

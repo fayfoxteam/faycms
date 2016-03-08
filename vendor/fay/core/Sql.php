@@ -1,8 +1,6 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\StringHelper;
-
 class Sql{
 	protected $fields = array();
 	
@@ -53,35 +51,47 @@ class Sql{
 		return $this;
 	}
 	
-	public function from($table, $alias = null, $fields = '*'){
-		$table_name = $this->db->{$table};
-		if($alias === null){
-			$this->from[] = $table_name;
-			$this->_field($fields, $table_name, $table);
+	public function from($table, $fields = '*'){
+		if(is_array($table)){
+			foreach($table as $a => $t){
+				//虽然这里用foreach，但其实只允许array('p'=>'posts')这样的单项数组，传入多项后面的会被无视
+				if(is_string($a)){
+					$alias = $a;
+				}else{
+					$alias = $t;
+				}
+				$short_name = $t;
+				break;
+			}
 		}else{
-			$this->from[] = "{$table_name} AS {$alias}";
-			$this->_field($fields, $alias, $table);
+			$short_name = $table;
+			$alias = $table;
 		}
+		
+		$full_table_name = $this->db->getTableName($short_name);
+		$this->from[] = "{$full_table_name} AS {$alias}";
+		$this->_field($fields, $alias, $short_name);
+		
 		return $this;
 	}
 	
-	public function join($table, $alias, $conditions, $fields = null){
-		$this->joinInner($table, $alias, $conditions, $fields);
+	public function join($table, $conditions, $fields = null){
+		$this->joinInner($table, $conditions, $fields);
 		return $this;
 	}
 	
-	public function joinInner($table, $alias, $conditions, $fields = null){
-		$this->_join('INNER JOIN', $table, $alias, $conditions, $fields);
+	public function joinInner($table, $conditions, $fields = null){
+		$this->_join('INNER JOIN', $table, $conditions, $fields);
 		return $this;
 	}
 	
-	public function joinLeft($table, $alias, $conditions, $fields = null){
-		$this->_join('LEFT JOIN', $table, $alias, $conditions, $fields);
+	public function joinLeft($table, $conditions, $fields = null){
+		$this->_join('LEFT JOIN', $table, $conditions, $fields);
 		return $this;
 	}
 	
-	public function joinRight($table, $alias, $conditions, $fields = null){
-		$this->_join('RIGHT JOIN', $table, $alias, $conditions, $fields);
+	public function joinRight($table, $conditions, $fields = null){
+		$this->_join('RIGHT JOIN', $table, $conditions, $fields);
 		return $this;
 	}
 	
@@ -363,18 +373,34 @@ class Sql{
 		}
 	}
 	
-	private function _join($type, $table, $alias, $conditions, $fields){
-		$table_name = $this->db->{$table};
+	private function _join($type, $table, $conditions, $fields){
+		if(is_array($table)){
+			foreach($table as $a => $t){
+				//虽然这里用foreach，但其实只允许array('p'=>'posts')这样的单项数组，传入多项后面的会被无视
+				if(is_string($a)){
+					$alias = $a;
+				}else{
+					$alias = $this->$t;
+				}
+				$short_name = $t;
+				break;
+			}
+		}else{
+			$short_name = $table;
+			$alias = $table;
+		}
+		
+		$full_table_name = $this->db->getTableName($short_name);
 		$where = $this->db->getWhere($conditions);
 		$this->join[] = array(
 			'type'=>$type,
-			'table'=>$table_name,
+			'table'=>$full_table_name,
 			'alias'=>$alias,
 			'condition'=>$where['condition'],
 			'params'=>$where['params'],
 		);
 		if(!empty($fields)){
-			$this->_field($fields, $alias ? $alias : $table_name, $table);
+			$this->_field($fields, $alias ? $alias : $full_table_name, $table);
 		}
 	}
 	

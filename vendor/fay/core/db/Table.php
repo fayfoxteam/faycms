@@ -119,7 +119,7 @@ class Table extends Model{
 	 */
 	public function find($primary, $fields = '*'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $this->formatFields($fields))
+		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->limit(1);
 		if(is_array($this->_primary)){
 			foreach($this->_primary as $k=>$pk){
@@ -142,7 +142,7 @@ class Table extends Model{
 	 */
 	public function fetchRow($conditions, $fields = '*', $order = false, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $this->formatFields($fields))
+		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions)
 			->limit(1);
 		if($order){
@@ -162,7 +162,7 @@ class Table extends Model{
 	 */
 	public function fetchAll($conditions = array(), $fields = '*', $order = false, $count = false, $offset = false, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $this->formatFields($fields))
+		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions);
 		if($order){
 			$this->_sql->order($order);

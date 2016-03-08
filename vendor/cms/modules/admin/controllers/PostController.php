@@ -226,7 +226,7 @@ class PostController extends AdminController{
 		$count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
 		$sql->from(array('p'=>'posts'), Posts::model()->formatFields('!content'))
 			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'));
-		$count_sql->from('posts', 'p', 'COUNT(*)');
+		$count_sql->from(array('p'=>'posts'), 'COUNT(*)');
 		
 		if(in_array('main_category', $_settings['cols'])){
 			$sql->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title');

@@ -38,9 +38,9 @@ class BlogController extends FrontController{
 		$this->layout->description = $cat['seo_description'];
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,title,abstract,publish_time,thumbnail,comments,user_id')
-			->joinLeft('users', 'u', 'p.user_id = u.id', 'nickname')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id')
+		$sql->from(array('p'=>'posts'), 'id,title,abstract,publish_time,thumbnail,comments,user_id')
+			->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'nickname')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')
 			->order('is_top DESC, p.sort, p.publish_time DESC')
 			->where(array(
 				'c.left_value >= '.$cat['left_value'],
@@ -98,10 +98,10 @@ class BlogController extends FrontController{
 		$this->layout->description = $post['seo_description'];
 		
 		$sql = new Sql();
-		$sql->from('messages', 'm')
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,avatar')
-			->joinLeft('messages', 'm2', 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id,status AS parent_status,deleted AS parent_deleted')
-			->joinLeft('users', 'u2', 'm2.user_id = u2.id', 'nickname AS parent_nickname')
+		$sql->from(array('m'=>'messages'))
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,avatar')
+			->joinLeft(array('m2'=>'messages'), 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id,status AS parent_status,deleted AS parent_deleted')
+			->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'nickname AS parent_nickname')
 			->where(array(
 				"m.target = {$id}",
 				'm.type = '.Messages::TYPE_POST_COMMENT,

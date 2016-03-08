@@ -124,8 +124,8 @@ class User extends Model{
 		if(!in_array(Roles::ITEM_SUPER_ADMIN, $role_ids)){
 			if($role_ids){
 				$sql = new Sql();
-				$actions = $sql->from('roles_actions', 'ra', '')
-					->joinLeft('actions', 'a', 'ra.action_id = a.id', 'router')
+				$actions = $sql->from(array('ra'=>'roles_actions'), '')
+					->joinLeft(array('a'=>'actions'), 'ra.action_id = a.id', 'router')
 					->where('ra.role_id IN ('.implode(',', $role_ids).')')
 					->group('a.router')
 					->fetchAll();

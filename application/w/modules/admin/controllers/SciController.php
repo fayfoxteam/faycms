@@ -21,7 +21,7 @@ class SciController extends AdminController{
 		$this->layout->subtitle = 'sci信息';
 
         $sql = new Sql();
-        $sql->from('sci', 's');
+        $sql->from(array('s'=>'sci'));
 
 //        $conditions = array();
 //        if($this->input->get('name')){

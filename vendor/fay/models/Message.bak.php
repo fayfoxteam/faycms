@@ -52,8 +52,8 @@ class Message extends Model{
 	public function getNextLevel($parent_id = 0, $fields = '*'){
 		//返回指定parent下的所有直接子节点的信息
 		$sql = new Sql();
-		return $sql->from('messages', 'm', $fields)
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
+		return $sql->from(array('m'=>'messages'), $fields)
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,realname,avatar')
 			->where("m.parent = {$parent_id}")
 			->fetchAll();
 	}
@@ -61,10 +61,10 @@ class Message extends Model{
 	
 	public function get($id, $fields = '*'){
 		$sql = new Sql();
-		return $sql->from('messages', 'm', $fields)
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->joinLeft('messages', 'm2', 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id')
-			->joinLeft('users', 'u2', 'm2.user_id = u2.id', 'username AS parent_username,realname AS parent_realname,nickname AS parent_nickname')
+		return $sql->from(array('m'=>'messages'), $fields)
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,realname,avatar')
+			->joinLeft(array('m2'=>'messages'), 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id')
+			->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'username AS parent_username,realname AS parent_realname,nickname AS parent_nickname')
 			->where("m.id = {$id}")
 			->fetchRow();
 	}
@@ -79,10 +79,10 @@ class Message extends Model{
 	 */
 	public function getAll($target, $type, $fields = '*'){
 		$sql = new Sql();
-		return $sql->from('messages', 'm', $fields)
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->joinLeft('messages', 'm2', 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id')
-			->joinLeft('users', 'u2', 'm2.user_id = u2.id', 'username AS username,realname AS parent_realname,nickname AS parent_nickname')
+		return $sql->from(array('m'=>'messages'), $fields)
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,realname,avatar')
+			->joinLeft(array('m2'=>'messages'), 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id')
+			->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'username AS username,realname AS parent_realname,nickname AS parent_nickname')
 			->where(array(
 				"m.target = {$target}",
 				"m.type = {$type}",

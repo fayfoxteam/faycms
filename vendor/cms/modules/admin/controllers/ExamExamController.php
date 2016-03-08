@@ -37,9 +37,9 @@ class ExamExamController extends AdminController{
 			));
 		
 		$sql = new Sql();
-		$sql->from('exam_exams', 'e')
-			->joinLeft('exam_papers', 'p', 'e.paper_id = p.id', 'title AS paper_title')
-			->joinLeft('users', 'u', 'e.user_id = u.id', 'username,nickname,realname')
+		$sql->from(array('e'=>'exam_exams'))
+			->joinLeft(array('p'=>'exam_papers'), 'e.paper_id = p.id', 'title AS paper_title')
+			->joinLeft(array('u'=>'users'), 'e.user_id = u.id', 'username,nickname,realname')
 			->order('id DESC')
 		;
 		
@@ -80,8 +80,8 @@ class ExamExamController extends AdminController{
 		$this->view->paper = ExamPapers::model()->find($exam['paper_id']);
 		
 		$sql = new Sql();
-		$this->view->exam_questions = $sql->from('exam_exams_questions', 'ea')
-			->joinLeft('exam_questions', 'q', 'ea.question_id = q.id', 'question,type')
+		$this->view->exam_questions = $sql->from(array('ea'=>'exam_exams_questions'))
+			->joinLeft(array('q'=>'exam_questions'), 'ea.question_id = q.id', 'question,type')
 			->where(array(
 				'ea.exam_id = ?'=>$id,
 			))

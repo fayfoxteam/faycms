@@ -56,8 +56,8 @@ class FoodController extends FrontController{
 			$prop_area_id = Prop::model()->getIdByAlias('area');
 			
 			$sql = new Sql();
-			$sql->from('posts', 'p', 'id,title,thumbnail,abstract,views')
-				->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+			$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,views')
+				->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 				->where(array(
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
@@ -70,7 +70,7 @@ class FoodController extends FrontController{
 			;
 			
 			if($area_id){
-				$sql->joinLeft('post_prop_int', 'pia', array(
+				$sql->joinLeft(array('pia'=>'post_prop_int'), array(
 					'pia.prop_id = '.$prop_area_id,
 					'pia.post_id = p.id',
 				))
@@ -83,7 +83,7 @@ class FoodController extends FrontController{
 			
 			if($month_id){
 				$prop_month_id = Prop::model()->getIdByAlias('month');
-				$sql->joinLeft('post_prop_int', 'pim', array(
+				$sql->joinLeft(array('pim'=>'post_prop_int'), array(
 					'pim.prop_id = '.$prop_month_id,
 					'pim.post_id = p.id',
 				))->where(array(

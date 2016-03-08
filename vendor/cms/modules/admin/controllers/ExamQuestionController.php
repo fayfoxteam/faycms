@@ -29,8 +29,8 @@ class ExamQuestionController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('exam_questions', 'q')
-			->joinLeft('categories', 'c', 'q.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('q'=>'exam_questions'))
+			->joinLeft(array('c'=>'categories'), 'q.cat_id = c.id', 'title AS cat_title')
 			->where('deleted = 0')
 			->order('id DESC');
 		
@@ -387,8 +387,8 @@ class ExamQuestionController extends AdminController{
 	public function getAll(){
 		$sql = new Sql();
 		
-		$sql->from('exam_questions', 'q')
-			->joinLeft('categories', 'c', 'q.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('q'=>'exam_questions'))
+			->joinLeft(array('c'=>'categories'), 'q.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'q.status = '.ExamQuestions::STATUS_ENABLED,
 				'q.deleted = 0',

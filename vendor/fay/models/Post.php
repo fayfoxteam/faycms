@@ -72,8 +72,8 @@ class Post extends Model{
 	 */
 	public function getCats($id, $fields = 'id,title,alias'){
 		$sql = new Sql();
-		return $sql->from('posts_categories', 'pc', '')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
+		return $sql->from(array('pc'=>'posts_categories'), '')
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', $fields)
 			->where(array('pc.post_id = ?'=>$id))
 			->order('c.sort')
 			->fetchAll();
@@ -160,7 +160,7 @@ class Post extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', $post_fields)
+		$sql->from(array('p'=>'posts'), $post_fields)
 			->where(array(
 				'p.id = ?'=>$id,
 			));
@@ -184,7 +184,7 @@ class Post extends Model{
 				//指定分类不存在
 				return false;
 			}
-			$sql->joinLeft('categories', 'c', 'p.cat_id = c.id')
+			$sql->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')
 				->where(array(
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
@@ -398,8 +398,8 @@ class Post extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', $post_fields)
-			->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
+		$sql->from(array('p'=>'posts'), $post_fields)
+			->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
 			->where(array(
 				'deleted = 0',
 				'publish_time < '.\F::app()->current_time,
@@ -570,7 +570,7 @@ class Post extends Model{
 		if(!in_array('publish_time', $post_fields)){
 			$post_fields[] = 'publish_time';
 		}
-		$prev_post = $sql->from('posts', 'p', $post_fields)
+		$prev_post = $sql->from(array('p'=>'posts'), $post_fields)
 			->where(array(
 				'p.cat_id = '.$post['cat_id'],
 				'p.deleted = 0',
@@ -585,7 +585,7 @@ class Post extends Model{
 		if($prev_post){
 			if($prev_post['publish_time'] == $post['publish_time'] && $prev_post['sort'] == $post['sort']){
 				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
-				$prev_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
+				$prev_post = $sql->from(array('p'=>'posts'), 'id,title,sort,publish_time')
 					->where(array(
 						'p.cat_id = '.$post['cat_id'],
 						'p.deleted = 0',
@@ -628,7 +628,7 @@ class Post extends Model{
 		if(!in_array('publish_time', $post_fields)){
 			$post_fields[] = 'publish_time';
 		}
-		$next_post = $sql->from('posts', 'p', $post_fields)
+		$next_post = $sql->from(array('p'=>'posts'), $post_fields)
 			->where(array(
 				'p.cat_id = '.$post['cat_id'],
 				'p.deleted = 0',
@@ -643,7 +643,7 @@ class Post extends Model{
 		if($next_post){
 			if($next_post['publish_time'] == $post['publish_time'] && $next_post['sort'] == $post['sort']){
 				//当排序值和发布时间都一样的情况下，可能出错，需要重新根据ID搜索（不太可能发布时间都一样的）
-				$next_post = $sql->from('posts', 'p', 'id,title,sort,publish_time')
+				$next_post = $sql->from(array('p'=>'posts'), 'id,title,sort,publish_time')
 					->where(array(
 						'p.cat_id = '.$post['cat_id'],
 						'p.deleted = 0',
@@ -680,15 +680,15 @@ class Post extends Model{
 			$prop = Prop::model()->getIdByAlias($prop);
 		}
 		$sql = new Sql();
-		$sql->from('posts', 'p', $field)
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('p'=>'posts'), $field)
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'p.deleted = 0',
 				'p.status = '.Posts::STATUS_PUBLISHED,
 				'p.publish_time < '.\F::app()->current_time,
 				'pi.content = '.$prop_value,
 			))
-			->joinLeft('post_prop_int', 'pi', array(
+			->joinLeft(array('pi'=>'post_prop_int'), array(
 				'pi.prop_id = '.$prop,
 				'pi.post_id = p.id',
 			))

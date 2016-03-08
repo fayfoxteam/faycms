@@ -11,8 +11,8 @@ class SearchController extends FrontController{
 		$keywords = $this->input->get('q', 'trim');
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,title,abstract,thumbnail,publish_time')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'alias AS cat_alias')
+		$sql->from(array('p'=>'posts'), 'id,title,abstract,thumbnail,publish_time')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'alias AS cat_alias')
 			->where(array(
 				'p.deleted = 0',
 				'p.status = '.Posts::STATUS_PUBLISHED,

@@ -19,7 +19,7 @@ class TemplateController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '模板管理';
 		$sql = new Sql();
-		$sql->from('templates', 't')
+		$sql->from(array('t'=>'templates'))
 			->where('deleted = 0')
 			->order('id DESC')
 		;

@@ -28,9 +28,9 @@ class BillController extends AdminController{
 		$this->view->cats = Category::model()->getTree('bill_out');
 		
 		$sql = new Sql();
-		$sql->from('blog_bills', 'b')
-			->joinLeft('users', 'u', 'b.user_id = u.id', 'realname')
-			->joinLeft('categories', 'c', 'b.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('b'=>'blog_bills'))
+			->joinLeft(array('u'=>'users'), 'b.user_id = u.id', 'realname')
+			->joinLeft(array('c'=>'categories'), 'b.cat_id = c.id', 'title AS cat_title')
 			->order('id DESC');
 		
 		if($this->input->get('user_id')){

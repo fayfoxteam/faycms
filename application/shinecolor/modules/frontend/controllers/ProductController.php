@@ -21,9 +21,9 @@ class ProductController extends FrontController{
 		$this->layout->current_header_menu = 'service';
 
 		$sql = new Sql();
-		$this->view->pages = $sql->from('pages_categories', 'pc', '')
-			->joinLeft('pages', 'p', 'pc.page_id = p.id', 'alias,title')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id')
+		$this->view->pages = $sql->from(array('pc'=>'pages_categories'), '')
+			->joinLeft(array('p'=>'pages'), 'pc.page_id = p.id', 'alias,title')
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id')
 			->where(array(
 				"c.alias = 'service'",
 				'p.deleted = 0',
@@ -50,8 +50,8 @@ class ProductController extends FrontController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,title,thumbnail')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id')
+		$sql->from(array('p'=>'posts'), 'id,title,thumbnail')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')
 			->where(array(
 				'p.deleted = 0',
 				'p.publish_time < '.\F::app()->current_time,

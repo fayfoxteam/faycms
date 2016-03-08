@@ -19,8 +19,8 @@ class Page extends Model{
 	
 	public function getPageCats($id, $fields = '*'){
 		$sql = new Sql();
-		return $sql->from('pages_categories', 'pc', '')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id', $fields)
+		return $sql->from(array('pc'=>'pages_categories'), '')
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', $fields)
 			->where("pc.page_id = {$id}")
 			->fetchAll();
 	}
@@ -43,8 +43,8 @@ class Page extends Model{
 		), 'id,left_value,right_value');
 		
 		$sql = new Sql();
-		$sql->from('pages', 'p', Pages::model()->formatFields($fields))
-			->joinLeft('pages_categories', 'pc', 'p.id = pc.page_id')
+		$sql->from(array('p'=>'pages'), Pages::model()->formatFields($fields))
+			->joinLeft(array('pc'=>'pages_categories'), 'p.id = pc.page_id')
 			->where(array(
 				'deleted = 0',
 				'status = '.Pages::STATUS_PUBLISHED,

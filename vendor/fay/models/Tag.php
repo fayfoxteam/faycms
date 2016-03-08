@@ -16,7 +16,7 @@ class Tag extends Model{
 	
 	public function getList($type, $page_size = 20, $page = 1, $sort = '{$type}_count DESC'){
 		$sql = new Sql();
-		$sql->from('tags', 't', 'id,title,post_count,feed_count')
+		$sql->from(array('t'=>'tags'), 'id,title,post_count,feed_count')
 			->where('status = ' . Tags::STATUS_ENABLED)
 			->order(str_replace('{$type}', $type, $sort));
 		$listview = new ListView($sql, array(

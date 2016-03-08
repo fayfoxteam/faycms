@@ -8,10 +8,10 @@ use fay\models\tables\Messages;
 $children = array();
 if(!$data['is_terminal']){
 	$sql = new Sql();
-	$children = $sql->from('messages', 'm')
-		->joinLeft('users', 'u', 'm.user_id = u.id', 'nickname,avatar,nickname')
-		->joinLeft('messages', 'm2', 'm.parent = m2.id', 'user_id AS parent_user_id')
-		->joinLeft('users', 'u2', 'm2.user_id = u2.id', 'nickname AS parent_nickname')
+	$children = $sql->from(array('m'=>'messages'))
+		->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'nickname,avatar,nickname')
+		->joinLeft(array('m2'=>'messages'), 'm.parent = m2.id', 'user_id AS parent_user_id')
+		->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'nickname AS parent_nickname')
 		->where(array(
 			'm.root = '.$data['id'],
 			'm.status = '.Messages::STATUS_APPROVED,

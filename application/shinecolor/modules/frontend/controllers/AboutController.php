@@ -29,9 +29,9 @@ class AboutController extends FrontController{
 		);
 		
 		$sql = new Sql();
-		$this->view->pages = $sql->from('pages_categories', 'pc')
-			->joinLeft('pages', 'p', 'pc.page_id = p.id', 'alias,title,content')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id')
+		$this->view->pages = $sql->from(array('pc'=>'pages_categories'))
+			->joinLeft(array('p'=>'pages'), 'pc.page_id = p.id', 'alias,title,content')
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id')
 			->where(array('c.alias = ?'=>'about'))
 			->order('p.sort')
 			->fetchAll();

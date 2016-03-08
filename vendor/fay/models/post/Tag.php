@@ -33,8 +33,8 @@ class Tag extends Model{
 			$fields = $this->default_fields;
 		}
 		$sql = new Sql();
-		return $sql->from('posts_tags', 'pt', '')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
+		return $sql->from(array('pt'=>'posts_tags'), '')
+			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array(
 				'pt.post_id = ?'=>$post_id,
 			))
@@ -54,8 +54,8 @@ class Tag extends Model{
 			$fields = $this->default_fields;
 		}
 		$sql = new Sql();
-		$tags = $sql->from('posts_tags', 'pt', 'post_id')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
+		$tags = $sql->from(array('pt'=>'posts_tags'), 'post_id')
+			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array('pt.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());
@@ -78,8 +78,8 @@ class Tag extends Model{
 		
 		if($tag_ids){
 			$sql = new Sql();
-			$posts_tags = $sql->from('posts_tags', 'pt', 'COUNT(*) AS count, tag_id')
-				->joinLeft('posts', 'p', 'pt.post_id = p.id')
+			$posts_tags = $sql->from(array('pt'=>'posts_tags'), 'COUNT(*) AS count, tag_id')
+				->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
 				->where(array(
 					'pt.tag_id IN (?)'=>$tag_ids,
 					'p.deleted = 0',

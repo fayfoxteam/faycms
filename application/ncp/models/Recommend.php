@@ -26,8 +26,8 @@ class Recommend extends Model{
 	public function getByCatAndArea($cat = null, $limit = 9, $days = 7, $area = 0, $not = null){
 		$sql = new Sql();
 		
-		$sql->from('posts', 'p', 'id,title,thumbnail,abstract,publish_time,views')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,publish_time,views')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'p.status = '.Posts::STATUS_PUBLISHED,
 				'p.deleted = 0',
@@ -51,7 +51,7 @@ class Recommend extends Model{
 		}
 		
 		if($area){
-			$sql->joinLeft('post_prop_int', 'pi', array(
+			$sql->joinLeft(array('pi'=>'post_prop_int'), array(
 				'pi.prop_id = '.$area,
 				'pi.post_id = p.id',
 			))->where('pi.content = '.$area);
@@ -74,8 +74,8 @@ class Recommend extends Model{
 		$result_count = count($result);
 		//指定时间内的文章不足
 		if($result_count < $limit && $days){
-			$sql->from('posts', 'p', 'id,title,thumbnail,abstract,publish_time,views')
-				->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+			$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,publish_time,views')
+				->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 				->where(array(
 					'p.deleted = 0',
 					'p.status = '.Posts::STATUS_PUBLISHED,
@@ -99,7 +99,7 @@ class Recommend extends Model{
 			}
 			
 			if($area){
-				$sql->joinLeft('post_prop_int', 'pi', array(
+				$sql->joinLeft(array('pi'=>'post_prop_int'), array(
 					'pi.prop_id = '.$area,
 					'pi.post_id = p.id',
 				))->where('pi.content = '.$area);

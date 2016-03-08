@@ -118,7 +118,7 @@ class PageController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('pages', 'p', Pages::model()->formatFields('!content'));
+		$sql->from(array('p'=>'pages'), Pages::model()->formatFields('!content'));
 		
 		if($this->input->get('deleted', 'intval') == 1){
 			$sql->where('p.deleted = 1');
@@ -147,7 +147,7 @@ class PageController extends AdminController{
 			));
 		}
 		if($cat_id){
-			$sql->joinLeft('pages_categories', 'pc', 'p.id = pc.page_id')
+			$sql->joinLeft(array('pc'=>'pages_categories'), 'p.id = pc.page_id')
 				->where(array(
 					'pc.cat_id = ?'=>$cat_id,
 				))

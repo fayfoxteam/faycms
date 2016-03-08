@@ -19,10 +19,10 @@ class IndexController extends FrontController{
 	
 	public function index(){
 		$sql = new Sql();
-		$sql->from('posts', 'p', Posts::model()->formatFields('!content'))
-			->joinLeft('users', 'u', 'p.user_id = u.id', 'nickname,avatar')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title, parent AS parent_cat_id')
-			->joinLeft('categories', 'pc', 'c.parent = pc.id', 'title AS parent_cat_title')
+		$sql->from(array('p'=>'posts'), Posts::model()->formatFields('!content'))
+			->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'nickname,avatar')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title, parent AS parent_cat_id')
+			->joinLeft(array('pc'=>'categories'), 'c.parent = pc.id', 'title AS parent_cat_title')
 			->order('is_top DESC, p.sort, p.publish_time DESC')
 			->where(array(
 				'p.deleted = 0',

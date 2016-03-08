@@ -16,9 +16,9 @@ class CommentController extends AdminController{
 		$this->layout->subtitle = '文章评论';
 		
 		$sql = new Sql();
-		$sql->from('messages', 'm')
-			->joinLeft('posts', 'p', 'm.target = p.id', 'title AS post_title, id AS post_id')
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'realname,username,nickname')
+		$sql->from(array('m'=>'messages'))
+			->joinLeft(array('p'=>'posts'), 'm.target = p.id', 'title AS post_title, id AS post_id')
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'realname,username,nickname')
 			->where('m.type = '.Messages::TYPE_POST_COMMENT)
 			->order('id DESC')
 		;

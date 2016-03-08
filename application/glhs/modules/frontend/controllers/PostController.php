@@ -29,7 +29,7 @@ class PostController extends FrontController{
 		$this->layout->description = $cat['seo_keywords'];
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,title,abstract,thumbnail,publish_time')
+		$sql->from(array('p'=>'posts'), 'id,title,abstract,thumbnail,publish_time')
 			->where(array(
 				'p.cat_id = '.$cat['id'],
 				'p.deleted = 0',

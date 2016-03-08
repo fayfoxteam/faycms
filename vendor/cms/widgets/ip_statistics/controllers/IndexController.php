@@ -13,7 +13,7 @@ class IndexController extends Widget{
 		$this->view->iplocation = new \IpLocation();
 		
 		$sql = new Sql();
-		$this->view->ips = $sql->from('analyst_visits', 'v', 'ip_int,COUNT(*) AS count')
+		$this->view->ips = $sql->from(array('v'=>'analyst_visits'), 'ip_int,COUNT(*) AS count')
 			->where(array(
 				'create_date = ?'=>date('Y-m-d'),
 			))

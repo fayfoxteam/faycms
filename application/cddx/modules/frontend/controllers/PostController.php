@@ -20,8 +20,8 @@ class PostController extends FrontController{
 		}
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('p'=>'posts'))
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'p.deleted = 0',
 				'p.status = '.Posts::STATUS_PUBLISHED,

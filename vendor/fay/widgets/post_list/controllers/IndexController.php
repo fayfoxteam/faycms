@@ -37,7 +37,7 @@ class IndexController extends Widget{
 		}
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract');
+		$sql->from(array('p'=>'posts'), 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract');
 		
 		//限制分类
 		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){

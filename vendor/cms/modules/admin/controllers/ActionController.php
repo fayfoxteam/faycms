@@ -152,10 +152,10 @@ class ActionController extends AdminController{
 	 */
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('actions', 'a')
-			->joinLeft('categories', 'c', 'a.cat_id = c.id', 'title AS cat_title')
-			->joinLeft('actions', 'pa', 'a.parent = pa.id', 'router AS parent_router,title AS parent_title')
-			->joinLeft('categories', 'pc', 'pa.cat_id = pc.id', 'title AS parent_cat_title')
+		$sql->from(array('a'=>'actions'))
+			->joinLeft(array('c'=>'categories'), 'a.cat_id = c.id', 'title AS cat_title')
+			->joinLeft(array('pa'=>'actions'), 'a.parent = pa.id', 'router AS parent_router,title AS parent_title')
+			->joinLeft(array('pc'=>'categories'), 'pa.cat_id = pc.id', 'title AS parent_cat_title')
 			->order('a.cat_id');
 		if($this->input->get('cat_id')){
 			$sql->where(array(

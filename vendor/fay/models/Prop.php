@@ -329,7 +329,7 @@ class Prop extends Model{
 					break;
 				case Props::ELEMENT_RADIO:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id')
+						->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id')
 						->where(array(
 							"pi.{$field} = ?"=>$refer,
 							'pi.prop_id = ?'=>$p['id'],
@@ -340,7 +340,7 @@ class Prop extends Model{
 					break;
 				case Props::ELEMENT_SELECT:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id')
+						->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id')
 						->where(array(
 							"pi.{$field} = ?"=>$refer,
 							'pi.prop_id = ?'=>$p['id'],
@@ -351,7 +351,7 @@ class Prop extends Model{
 					break;
 				case Props::ELEMENT_CHECKBOX:
 					$value = $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-						->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id')
+						->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id')
 						->where(array(
 							"pi.{$field} = ?"=>$refer,
 							'pi.prop_id = ?'=>$p['id'],
@@ -694,7 +694,7 @@ class Prop extends Model{
 				}
 			case Props::ELEMENT_RADIO:
 				return $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-					->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id,title')
+					->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
 					->where(array(
 						"pi.{$field} = ?"=>$refer,
 						'pi.prop_id = ?'=>$prop['id'],
@@ -703,7 +703,7 @@ class Prop extends Model{
 				;
 			case Props::ELEMENT_SELECT:
 				return $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-					->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id,title')
+					->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
 					->where(array(
 						"pi.{$field} = ?"=>$refer,
 						'pi.prop_id = ?'=>$prop['id'],
@@ -712,7 +712,7 @@ class Prop extends Model{
 				;
 			case Props::ELEMENT_CHECKBOX:
 				return $sql->from(\F::model($models['int'])->getName(), 'pi', '')
-					->joinLeft('prop_values', 'v', 'pi.content = v.id', 'id,title')
+					->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
 					->where(array(
 						"pi.{$field} = ?"=>$refer,
 						'pi.prop_id = ?'=>$prop['id'],

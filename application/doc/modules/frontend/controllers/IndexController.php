@@ -12,8 +12,8 @@ class IndexController extends FrontController{
 		$this->layout->page_title = Option::get('site:sitename');
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'cat_id')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'alias,title,description')
+		$sql->from(array('p'=>'posts'), 'cat_id')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'alias,title,description')
 			->order('last_modified_time DESC')
 			->limit(20)
 			->group('p.cat_id')

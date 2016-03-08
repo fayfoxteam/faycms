@@ -91,7 +91,7 @@ class KeywordController extends AdminController{
 	 */
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('keywords', 'k');
+		$sql->from(array('k'=>'keywords'));
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');

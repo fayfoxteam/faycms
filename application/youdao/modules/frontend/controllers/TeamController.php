@@ -43,7 +43,7 @@ class TeamController extends FrontController{
 		);
 
 		$sql = new Sql();
-		$this->view->team_members = $sql->from('posts', 'p')
+		$this->view->team_members = $sql->from(array('p'=>'posts'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 			->where(array(
 				'p.cat_id = '.$cat_team['id'],

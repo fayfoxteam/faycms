@@ -37,9 +37,9 @@ class PostCommentController extends AdminController{
 			));
 		
 		$sql = new Sql();
-		$sql->from('post_comments', 'pc')
-			->joinLeft('posts', 'p', 'pc.post_id = p.id', 'title AS post_title')
-			->joinLeft('users', 'u', 'pc.user_id = u.id', 'realname,username,nickname')
+		$sql->from(array('pc'=>'post_comments'))
+			->joinLeft(array('p'=>'posts'), 'pc.post_id = p.id', 'title AS post_title')
+			->joinLeft(array('u'=>'users'), 'pc.user_id = u.id', 'realname,username,nickname')
 			->order('id DESC')
 		;
 		if($this->input->get('deleted')){

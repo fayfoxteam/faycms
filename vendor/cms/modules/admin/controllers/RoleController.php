@@ -29,7 +29,7 @@ class RoleController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('roles', 'r')
+		$sql->from(array('r'=>'roles'))
 			->where(array(
 				'deleted = 0',
 			))
@@ -75,8 +75,8 @@ class RoleController extends AdminController{
 			}
 		}
 		$sql = new Sql();
-		$actions = $sql->from('actions', 'a')
-			->joinLeft('categories', 'c', 'a.cat_id = c.id', 'title AS cat_title')
+		$actions = $sql->from(array('a'=>'actions'))
+			->joinLeft(array('c'=>'categories'), 'a.cat_id = c.id', 'title AS cat_title')
 			->fetchAll();
 		
 		$actions_group = array();
@@ -161,8 +161,8 @@ class RoleController extends AdminController{
 		));
 		
 		$sql = new Sql();
-		$actions = $sql->from('actions', 'a')
-			->joinLeft('categories', 'c', 'a.cat_id = c.id', 'title AS cat_title')
+		$actions = $sql->from(array('a'=>'actions'))
+			->joinLeft(array('c'=>'categories'), 'a.cat_id = c.id', 'title AS cat_title')
 			->fetchAll();
 		
 		$actions_group = array();

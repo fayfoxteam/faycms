@@ -31,8 +31,8 @@ class Category extends Model{
 		}
 		
 		$sql = new Sql();
-		return $sql->from('posts_categories', 'pc', '')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
+		return $sql->from(array('pc'=>'posts_categories'), '')
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
 			->where(array('pc.post_id = ?'=>$post_id))
 			->fetchAll();
 	}
@@ -50,8 +50,8 @@ class Category extends Model{
 		}
 		
 		$sql = new Sql();
-		$cats = $sql->from('posts_categories', 'pc', 'post_id')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
+		$cats = $sql->from(array('pc'=>'posts_categories'), 'post_id')
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
 			->where(array('pc.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());

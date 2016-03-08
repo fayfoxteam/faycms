@@ -83,7 +83,7 @@ class AnalystSiteController extends AdminController{
 	
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('analyst_sites', 's')
+		$sql->from(array('s'=>'analyst_sites'))
 			->where('deleted = 0');
 	
 		$this->view->listview = new ListView($sql, array(

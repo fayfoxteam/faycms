@@ -272,8 +272,8 @@ class FileController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_file');
 		
 		$sql = new Sql();
-		$sql->from('files', 'f')
-			->joinLeft('users', 'u', 'u.id = f.user_id', 'username,nickname,realname')
+		$sql->from(array('f'=>'files'))
+			->joinLeft(array('u'=>'users'), 'u.id = f.user_id', 'username,nickname,realname')
 			->order('id DESC');
 		
 		if($this->input->get('keywords')){

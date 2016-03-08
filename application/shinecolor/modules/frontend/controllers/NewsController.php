@@ -61,8 +61,8 @@ class NewsController extends FrontController{
 		$this->view->children = Category::model()->getChildren('news', 'alias,title');
 		
 		$sql = new Sql();
-		$sql->from('posts', 'p', 'id,title,publish_time')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id')
+		$sql->from(array('p'=>'posts'), 'id,title,publish_time')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')
 			->where(array(
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],

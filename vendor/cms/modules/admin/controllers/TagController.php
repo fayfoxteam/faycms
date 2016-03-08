@@ -126,7 +126,7 @@ class TagController extends AdminController{
 	 */
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('tags', 't');
+		$sql->from(array('t'=>'tags'));
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');

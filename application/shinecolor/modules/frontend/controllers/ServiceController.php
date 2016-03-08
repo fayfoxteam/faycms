@@ -35,9 +35,9 @@ class ServiceController extends FrontController{
 		$this->layout->title = Html::encode($page['title']);
 		
 		$sql = new Sql();
-		$this->view->pages = $sql->from('pages_categories', 'pc')
-			->joinLeft('pages', 'p', 'pc.page_id = p.id', 'alias,title')
-			->joinLeft('categories', 'c', 'pc.cat_id = c.id')
+		$this->view->pages = $sql->from(array('pc'=>'pages_categories'))
+			->joinLeft(array('p'=>'pages'), 'pc.page_id = p.id', 'alias,title')
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id')
 			->where(array(
 				"c.alias = 'service'",
 				'p.deleted = 0',

@@ -26,8 +26,8 @@ class Exam extends Model{
 		$paper = ExamPapers::model()->find($id);
 		
 		$sql = new Sql();
-		$paper['questions'] = $sql->from('exam_paper_questions', 'pq', 'score')
-			->joinLeft('exam_questions', 'q', 'pq.question_id = q.id', 'id,question,type,rand')
+		$paper['questions'] = $sql->from(array('pq'=>'exam_paper_questions'), 'score')
+			->joinLeft(array('q'=>'exam_questions'), 'pq.question_id = q.id', 'id,question,type,rand')
 			->where('pq.paper_id = '.$paper['id'])
 			->order('pq.sort')
 			->fetchAll()

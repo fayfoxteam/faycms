@@ -224,16 +224,16 @@ class PostController extends AdminController{
 		
 		$sql = new Sql();
 		$count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
-		$sql->from('posts', 'p', Posts::model()->formatFields('!content'))
-			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'));
+		$sql->from(array('p'=>'posts'), Posts::model()->formatFields('!content'))
+			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'));
 		$count_sql->from('posts', 'p', 'COUNT(*)');
 		
 		if(in_array('main_category', $_settings['cols'])){
-			$sql->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title');
+			$sql->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title');
 		}
 		
 		if(in_array('user', $_settings['cols'])){
-			$sql->joinLeft('users', 'u', 'p.user_id = u.id', 'username,nickname,realname');
+			$sql->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'username,nickname,realname');
 		}
 		
 		//根据分类搜索
@@ -251,10 +251,10 @@ class PostController extends AdminController{
 						$orWhere[] = "pc.cat_id = {$c}";
 					}
 					//包含文章从分类搜索
-					$sql->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
+					$sql->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
 						->orWhere($orWhere)
 						->distinct(true);
-					$count_sql->joinLeft('posts_categories', 'pc', 'p.id = pc.post_id')
+					$count_sql->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
 						->orWhere($orWhere)
 						->countBy('DISTINCT p.id')
 					;
@@ -309,12 +309,12 @@ class PostController extends AdminController{
 		}
 		
 		if($tag_id = $this->input->get('tag_id', 'intval')){
-			$sql->joinLeft('posts_tags', 'pt', 'p.id = pt.post_id')
+			$sql->joinLeft(array('pt'=>'posts_tags'), 'p.id = pt.post_id')
 				->where(array(
 					'pt.tag_id = ?'=>$tag_id,
 				))
 				->distinct(true);
-			$count_sql->joinLeft('posts_tags', 'pt', 'p.id = pt.post_id')
+			$count_sql->joinLeft(array('pt'=>'posts_tags'), 'p.id = pt.post_id')
 				->where(array(
 					'pt.tag_id = ?'=>$tag_id,
 				))
@@ -460,8 +460,8 @@ class PostController extends AdminController{
 		}
 		
 		$sql = new Sql();
-		$post = $sql->from('posts', 'p', Posts::model()->getFields())
-			->joinLeft('post_meta', 'pm', 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'))
+		$post = $sql->from(array('p'=>'posts'), Posts::model()->getFields())
+			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'))
 			->where('p.id = ' . $post_id)
 			->fetchRow()
 		;
@@ -475,8 +475,8 @@ class PostController extends AdminController{
 		$post['post_category'] = Post::model()->getCatIds($post_id);
 		$post['publish_time'] = date('Y-m-d H:i:s', $post['publish_time']);
 		//文章对应标签
-		$tags = $sql->from('posts_tags', 'pt', '')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', 'title')
+		$tags = $sql->from(array('pt'=>'posts_tags'), '')
+			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', 'title')
 			->where('pt.post_id = '.$post_id)
 			->fetchAll();
 		$tags_arr = array();

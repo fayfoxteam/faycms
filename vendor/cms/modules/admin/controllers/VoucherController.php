@@ -49,10 +49,10 @@ class VoucherController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('vouchers', 'v')
+		$sql->from(array('v'=>'vouchers'))
 			->where(array('v.deleted = 0'))
 			->order('id DESC')
-			->joinLeft('categories', 'c', 'c.id = v.cat_id', 'title');
+			->joinLeft(array('c'=>'categories'), 'c.id = v.cat_id', 'title');
 		if($this->input->get('sn')){
 			$sql->where(array('v.sn LIKE ?'=>$this->input->get('sn').'%'));
 		}

@@ -35,8 +35,8 @@ class AnalystController extends AdminController{
 			));
 		
 		$sql = new Sql();
-		$sql->from('analyst_macs', 'm')
-			->joinLeft('analyst_sites', 's', 'm.site = s.id', 'title AS site_title')
+		$sql->from(array('m'=>'analyst_macs'))
+			->joinLeft(array('s'=>'analyst_sites'), 'm.site = s.id', 'title AS site_title')
 			->order('m.id DESC');
 		
 		if($this->input->get('start_time')){
@@ -107,8 +107,8 @@ class AnalystController extends AdminController{
 			));
 		
 		$sql = new Sql();
-		$sql->from('analyst_visits', 'v')
-			->joinLeft('analyst_sites', 's', 'v.site = s.id', 'title AS site_title')
+		$sql->from(array('v'=>'analyst_visits'))
+			->joinLeft(array('s'=>'analyst_sites'), 'v.site = s.id', 'title AS site_title')
 			->order('v.id DESC');
 		
 		if($this->input->get('start_time')){
@@ -159,8 +159,8 @@ class AnalystController extends AdminController{
 		$this->layout->subtitle = '页面PV量';
 		
 		$sql = new Sql();
-		$sql->from('analyst_visits', 'v', 'mac,url,SUM(views) AS pv,COUNT(DISTINCT mac) AS uv,COUNT(DISTINCT ip_int) AS ip')
-			->joinLeft('analyst_sites', 's', 'v.site = s.id', 'title AS site_title')
+		$sql->from(array('v'=>'analyst_visits'), 'mac,url,SUM(views) AS pv,COUNT(DISTINCT mac) AS uv,COUNT(DISTINCT ip_int) AS ip')
+			->joinLeft(array('s'=>'analyst_sites'), 'v.site = s.id', 'title AS site_title')
 			->group('short_url')
 			->countBy('DISTINCT short_url')
 		;

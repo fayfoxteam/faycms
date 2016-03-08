@@ -16,9 +16,9 @@ class ChatController extends FrontController{
 		$this->form()->setData($this->input->get());
 		
 		$sql = new Sql();
-		$sql->from('messages', 'm')
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'realname,username,avatar,nickname')
-			->joinLeft('users', 'u2', 'm.target = u2.id', 'username AS target_username,nickname AS target_nickname')
+		$sql->from(array('m'=>'messages'))
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'realname,username,avatar,nickname')
+			->joinLeft(array('u2'=>'users'), 'm.target = u2.id', 'username AS target_username,nickname AS target_nickname')
 			->where(array(
 				'm.type = '.Messages::TYPE_USER_MESSAGE,
 				'm.root = 0',

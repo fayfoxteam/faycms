@@ -41,10 +41,10 @@ class NotificationController extends AdminController{
 		$this->layout->subtitle = '我的消息';
 		
 		$sql = new Sql();
-		$sql->from('users_notifications', 'un', 'notification_id,read')
-			->joinLeft('notifications', 'n', 'un.notification_id = n.id', 'title,content,sender,publish_time')
-			->joinLeft('users', 'u', 'n.sender = u.id', 'username,nickname,realname')
-			->joinLeft('categories', 'c', 'n.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('un'=>'users_notifications'), 'notification_id,read')
+			->joinLeft(array('n'=>'notifications'), 'un.notification_id = n.id', 'title,content,sender,publish_time')
+			->joinLeft(array('u'=>'users'), 'n.sender = u.id', 'username,nickname,realname')
+			->joinLeft(array('c'=>'categories'), 'n.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'un.user_id = '.$this->current_user,
 				'n.publish_time <= '.$this->current_time,
@@ -104,8 +104,8 @@ class NotificationController extends AdminController{
 		
 		//获取未读消息数
 		$sql = new Sql();
-		$notifications = $sql->from('users_notifications', 'un', 'notification_id')
-			->joinLeft('notifications', 'n', 'un.notification_id = n.id', 'title,content,publish_time')
+		$notifications = $sql->from(array('un'=>'users_notifications'), 'notification_id')
+			->joinLeft(array('n'=>'notifications'), 'un.notification_id = n.id', 'title,content,publish_time')
 			->where(array(
 				"un.user_id = {$this->current_user}",
 				'un.`read` = 0',

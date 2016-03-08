@@ -26,8 +26,8 @@ class ExamPaperController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('exam_papers', 'p')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('p'=>'exam_papers'))
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'deleted = 0',
 			))
@@ -197,8 +197,8 @@ class ExamPaperController extends AdminController{
 		$this->form()->setData($paper);
 		
 		$sql = new Sql();
-		$this->view->questions = $sql->from('exam_paper_questions', 'pq')
-			->joinLeft('exam_questions', 'q', 'pq.question_id = q.id', 'question,type')
+		$this->view->questions = $sql->from(array('pq'=>'exam_paper_questions'))
+			->joinLeft(array('q'=>'exam_questions'), 'pq.question_id = q.id', 'question,type')
 			->where('pq.paper_id = '.$paper['id'])
 			->order('sort')
 			->fetchAll()

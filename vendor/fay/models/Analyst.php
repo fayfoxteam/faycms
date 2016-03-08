@@ -136,7 +136,7 @@ class Analyst extends Model{
 		if($this->getCache($date, $hour, $site)) return false;//不重复生成缓存
 		
 		$sql = new Sql();
-		$result = $sql->from('analyst_visits', 'v', 'SUM(views) AS pv,COUNT(DISTINCT mac) AS uv,COUNT(DISTINCT ip_int) AS ip')
+		$result = $sql->from(array('v'=>'analyst_visits'), 'SUM(views) AS pv,COUNT(DISTINCT mac) AS uv,COUNT(DISTINCT ip_int) AS ip')
 			->where(array(
 				'create_date = ?'=>$date,
 				'hour = ?'=>$hour,

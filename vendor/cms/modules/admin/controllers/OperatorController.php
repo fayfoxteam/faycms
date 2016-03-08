@@ -53,8 +53,8 @@ class OperatorController extends AdminController{
 		));
 		
 		$sql = new Sql();
-		$sql->from('users', 'u', '*')
-			->joinLeft('user_profile', 'up', 'u.id = up.user_id', '*')
+		$sql->from(array('u'=>'users'), '*')
+			->joinLeft(array('up'=>'user_profile'), 'u.id = up.user_id', '*')
 			->where('u.admin = 1')
 		;
 		
@@ -78,7 +78,7 @@ class OperatorController extends AdminController{
 		}
 		
 		if($this->input->get('role')){
-			$sql->joinLeft('users_roles', 'ur', 'u.id = ur.user_id')
+			$sql->joinLeft(array('ur'=>'users_roles'), 'u.id = ur.user_id')
 				->where(array(
 					'ur.role_id = ?' => $this->input->get('role', 'intval'),
 				));

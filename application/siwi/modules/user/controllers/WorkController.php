@@ -219,8 +219,8 @@ class WorkController extends UserController{
 		
 		//tags
 		$sql = new Sql();
-		$tags = $sql->from('posts_tags', 'pt', '')
-			->joinLeft('tags', 't', 'pt.tag_id = t.id', 'title')
+		$tags = $sql->from(array('pt'=>'posts_tags'), '')
+			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', 'title')
 			->where('pt.post_id = '.$post['id'])
 			->fetchAll();
 		$tag_titles = array();

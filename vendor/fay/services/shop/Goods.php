@@ -35,8 +35,8 @@ class Goods extends Model{
 			//属性
 			$goods['props'] = array();
 			$sql = new Sql();
-			$goods_props = $sql->from('goods_prop_values', 'gpv')
-				->joinLeft('goods_cat_props', 'cp', 'gpv.prop_id = cp.id', GoodsCatProps::model()->formatFields('!id'))
+			$goods_props = $sql->from(array('gpv'=>'goods_prop_values'))
+				->joinLeft(array('cp'=>'goods_cat_props'), 'gpv.prop_id = cp.id', GoodsCatProps::model()->formatFields('!id'))
 				->where(array(
 					'gpv.goods_id = ?'=>$id,
 					'cp.deleted = 0',

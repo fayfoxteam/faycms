@@ -17,8 +17,8 @@ class IndexController extends Widget{
 		empty($config['number']) && $config['number'] = 5;
 		
 		$sql = new Sql();
-		$pages = $sql->from('pages_categories', 'pc', '')
-			->joinLeft('pages', 'p', 'pc.page_id = p.id', 'id,title,alias,thumbnail,abstract')
+		$pages = $sql->from(array('pc'=>'pages_categories'), '')
+			->joinLeft(array('p'=>'pages'), 'pc.page_id = p.id', 'id,title,alias,thumbnail,abstract')
 			->where(array('pc.cat_id = ?'=>$$config['top']))
 			->fetchAll();
 		
@@ -53,8 +53,8 @@ class IndexController extends Widget{
 		isset($config['show_empty']) || $config['show_empty'] = 0;
 		
 		$sql = new Sql();
-		$pages = $sql->from('pages_categories', 'pc', '')
-			->joinLeft('pages', 'p', 'pc.page_id = p.id', 'id,title,alias,thumbnail,abstract')
+		$pages = $sql->from(array('pc'=>'pages_categories'), '')
+			->joinLeft(array('p'=>'pages'), 'pc.page_id = p.id', 'id,title,alias,thumbnail,abstract')
 			->where(array('pc.cat_id = ?'=>$config['top']))
 			->order('sort, id DESC')
 			->fetchAll();

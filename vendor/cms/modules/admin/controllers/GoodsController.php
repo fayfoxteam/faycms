@@ -291,8 +291,8 @@ class GoodsController extends AdminController{
 		$this->form()->setData($this->input->get());
 		
 		$sql = new Sql();
-		$sql->from('goods', 'g')
-			->joinLeft('categories', 'c', 'g.cat_id = c.id', 'title AS cat_title');
+		$sql->from(array('g'=>'goods'))
+			->joinLeft(array('c'=>'categories'), 'g.cat_id = c.id', 'title AS cat_title');
 		$sql->where('g.deleted = 0');
 		if($this->input->get('start_time')){
 			$sql->where(array("g.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time','strtotime')));
@@ -311,7 +311,7 @@ class GoodsController extends AdminController{
 		}
 		
 		if(in_array('user', $_settings['cols'])){
-			$sql->joinLeft('users', 'u', 'g.user_id = u.id', 'username,nickname,realname');
+			$sql->joinLeft(array('u'=>'users'), 'g.user_id = u.id', 'username,nickname,realname');
 		}
 		
 		$this->view->listview = new ListView($sql, array(

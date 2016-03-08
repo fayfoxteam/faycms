@@ -12,8 +12,8 @@ class IndexController extends Widget{
 		$cat_ids = Category::model()->getChildIds('_blog');
 
 		$sql = new Sql();
-		$this->view->posts = $sql->from('posts', 'p', 'id,title,user_id,comments,thumbnail')
-			->joinLeft('users', 'u', 'p.user_id = u.id', 'realname')
+		$this->view->posts = $sql->from(array('p'=>'posts'), 'id,title,user_id,comments,thumbnail')
+			->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'realname')
 			->where(array(
 				'p.cat_id IN (?)'=>$cat_ids,
 				'p.deleted = 0',

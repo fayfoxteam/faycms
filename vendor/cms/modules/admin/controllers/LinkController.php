@@ -94,8 +94,8 @@ class LinkController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('links', 'l')
-			->joinLeft('categories', 'c', 'l.cat_id = c.id', 'title AS cat_title');
+		$sql->from(array('l'=>'links'))
+			->joinLeft(array('c'=>'categories'), 'l.cat_id = c.id', 'title AS cat_title');
 		
 		if($this->input->get('title')){
 			$sql->where(array('l.title LIKE ?'=>'%'.$this->input->get('title', 'trim').'%'));

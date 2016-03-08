@@ -174,7 +174,7 @@ class Follow extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from('follows', 'f', $follows_fields)
+		$sql->from(array('f'=>'follows'), $follows_fields)
 			->where('fans_id = ?', $user_id)
 			->order('create_time DESC')
 		;
@@ -228,7 +228,7 @@ class Follow extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from('follows', 'f', $follows_fields)
+		$sql->from(array('f'=>'follows'), $follows_fields)
 			->where('user_id = ?', $user_id)
 			->order('create_time DESC')
 		;

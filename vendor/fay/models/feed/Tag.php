@@ -30,8 +30,8 @@ class Tag extends Model{
 			$fields = $this->default_fields;
 		}
 		$sql = new Sql();
-		return $sql->from('feeds_tags', 'ft', '')
-			->joinLeft('tags', 't', 'ft.tag_id = t.id', Tags::model()->formatFields($fields))
+		return $sql->from(array('ft'=>'feeds_tags'), '')
+			->joinLeft(array('t'=>'tags'), 'ft.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array(
 				'ft.feed_id = ?'=>$feed_id,
 			))
@@ -51,8 +51,8 @@ class Tag extends Model{
 			$fields = $this->default_fields;
 		}
 		$sql = new Sql();
-		$tags = $sql->from('feeds_tags', 'ft', 'feed_id')
-			->joinLeft('tags', 't', 'ft.tag_id = t.id', Tags::model()->formatFields($fields))
+		$tags = $sql->from(array('ft'=>'feeds_tags'), 'feed_id')
+			->joinLeft(array('t'=>'tags'), 'ft.tag_id = t.id', Tags::model()->formatFields($fields))
 			->where(array('ft.feed_id IN (?)'=>$feed_ids))
 			->fetchAll();
 		$return = array_fill_keys($feed_ids, array());

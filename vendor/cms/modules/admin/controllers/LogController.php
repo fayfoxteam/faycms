@@ -17,8 +17,8 @@ class LogController extends AdminController{
 		$this->layout->subtitle = '日志';
 		
 		$sql = new Sql();
-		$sql->from('logs', 'l')
-			->joinLeft('users', 'u', 'l.user_id = u.id', 'username')
+		$sql->from(array('l'=>'logs'))
+			->joinLeft(array('u'=>'users'), 'l.user_id = u.id', 'username')
 		;
 		
 		if($this->input->get('code')){
@@ -53,8 +53,8 @@ class LogController extends AdminController{
 	
 	public function get(){
 		$sql = new Sql();
-		$log = $sql->from('logs', 'l')
-			->joinLeft('users', 'u', 'l.user_id = u.id', 'username')
+		$log = $sql->from(array('l'=>'logs'))
+			->joinLeft(array('u'=>'users'), 'l.user_id = u.id', 'username')
 			->where(array('l.id = ?'=>$this->input->get('id', 'intval')))
 			->fetchRow()
 		;

@@ -41,8 +41,8 @@ class Role extends Model{
 			}
 		}
 		$sql = new Sql();
-		return $sql->from('users_roles', 'ur', '')
-			->joinLeft('roles', 'r', 'ur.role_id = r.id', Roles::model()->formatFields($fields))
+		return $sql->from(array('ur'=>'users_roles'), '')
+			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', Roles::model()->formatFields($fields))
 			->where('ur.user_id = ?', $user_id)
 			->where('r.deleted = 0')
 			->fetchAll();
@@ -69,8 +69,8 @@ class Role extends Model{
 			}
 		}
 		$sql = new Sql();
-		$roles = $sql->from('users_roles', 'ur', 'user_id')
-			->joinLeft('roles', 'r', 'ur.role_id = r.id', Roles::model()->formatFields($fields))
+		$roles = $sql->from(array('ur'=>'users_roles'), 'user_id')
+			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', Roles::model()->formatFields($fields))
 			->where('ur.user_id IN (?)', $user_ids)
 			->where('r.deleted = 0')
 			->fetchAll();

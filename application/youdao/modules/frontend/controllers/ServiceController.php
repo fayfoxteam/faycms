@@ -22,7 +22,7 @@ class ServiceController extends FrontController{
 		$this->layout->description = $cat_service['seo_description'];
 		
 		$sql = new Sql();
-		$services = $sql->from('posts', 'p', 'id,title')
+		$services = $sql->from(array('p'=>'posts'), 'id,title')
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 			->where(array(
 				'p.cat_id = '.$cat_service['id'],

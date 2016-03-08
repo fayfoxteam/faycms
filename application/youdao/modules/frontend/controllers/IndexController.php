@@ -23,8 +23,8 @@ class IndexController extends FrontController{
 		//资讯
 		$cat_post = Category::model()->getByAlias('_youdao_post', 'left_value,right_value');
 		$sql = new Sql();
-		$this->view->last_news = $sql->from('posts', 'p', 'id,title,publish_time,abstract,cat_id')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+		$this->view->last_news = $sql->from(array('p'=>'posts'), 'id,title,publish_time,abstract,cat_id')
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'c.left_value > '.$cat_post['left_value'],
 				'c.right_value < '.$cat_post['right_value'],

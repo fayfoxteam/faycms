@@ -53,8 +53,8 @@ class ProductController extends FrontController{
 			$prop_area_id = Prop::model()->getIdByAlias('area');
 			
 			$sql = new Sql();
-			$sql->from('posts', 'p', 'id,title,thumbnail')
-				->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+			$sql->from(array('p'=>'posts'), 'id,title,thumbnail')
+				->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 				->where(array(
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
@@ -62,11 +62,11 @@ class ProductController extends FrontController{
 					'p.deleted = 0',
 					'p.publish_time < '.$this->current_time,
 				))
-				->joinLeft('post_prop_int', 'pia', array(
+				->joinLeft(array('pia'=>'post_prop_int'), array(
 					'pia.prop_id = '.$prop_area_id,
 					'pia.post_id = p.id',
 				))
-				->joinLeft('prop_values', 'pva', 'pia.content = pva.id', 'title AS area')
+				->joinLeft(array('pva'=>'prop_values'), 'pia.content = pva.id', 'title AS area')
 				->order('p.is_top DESC, p.sort, p.publish_time DESC')
 				->group('p.id')
 			;
@@ -80,7 +80,7 @@ class ProductController extends FrontController{
 			}
 			if($month_id){
 				$prop_month_id = Prop::model()->getIdByAlias('month');
-				$sql->joinLeft('post_prop_int', 'pim', array(
+				$sql->joinLeft(array('pim'=>'post_prop_int'), array(
 					'pim.prop_id = '.$prop_month_id,
 					'pim.post_id = p.id',
 				))->where(array(

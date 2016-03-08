@@ -33,8 +33,8 @@ class SpecialController extends FrontController{
 			$this->layout->description = $cat['seo_description'];
 			
 			$sql = new Sql();
-			$sql->from('posts', 'p', 'id,title,thumbnail,abstract')
-				->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+			$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract')
+				->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 				->where(array(
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],

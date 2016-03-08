@@ -217,8 +217,8 @@ class RoleController extends AdminController{
 	
 	public function isTitleNotExist(){
 		if(Roles::model()->fetchRow(array(
-			'title = ?'=>$value = $this->input->post('value', 'trim'),
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'title = ?'=>$value = $this->input->request('title', 'trim'),
+			'id != ?'=>$this->input->request('id', 'intval', 0),
 		))){
 			Response::json('', 0, '角色已存在');
 		}else{

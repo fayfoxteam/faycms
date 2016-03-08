@@ -87,10 +87,9 @@ class OptionController extends AdminController{
 	}
 	
 	public function isOptionNotExist(){
-		$option_name = $this->input->post('value', 'trim');
 		if(Options::model()->fetchRow(array(
-			'option_name = ?'=>$option_name,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'option_name = ?'=>$this->input->request('option_name', 'trim'),
+			'id != ?'=>$this->input->request('id', 'intval', 0),
 		))){
 			Response::json('', 0, '参数名已存在');
 		}else{

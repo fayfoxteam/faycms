@@ -68,9 +68,9 @@ class TagController extends ApiController{
 		))->check();
 		
 		if(Tag::isTagExist($this->form()->getData('tag'))){
-			Response::notify('error', '标签已存在');
+			Response::json('', 0, '标签已存在');
 		}else{
-			Response::notify('success');
+			Response::json();
 		}
 	}
 }

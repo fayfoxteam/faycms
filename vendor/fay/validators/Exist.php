@@ -19,7 +19,7 @@ class Exist extends Validator{
 	public $table;
 	
 	/**
-	 * 字段名（选填，不填则默认为传入参数名
+	 * 字段名（选填，不填则默认为传入参数名）
 	 */
 	public $field;
 	
@@ -44,7 +44,7 @@ class Exist extends Validator{
 		}
 		
 		$sql = new Sql();
-		if($sql->from($this->table, $field)
+		if($sql->from($this->table, 't', $field)
 			->where(array(
 				"`{$field}` = ?"=>$value,
 			) + $this->conditions)

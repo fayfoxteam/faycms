@@ -77,7 +77,7 @@ class KeywordController extends AdminController{
 	
 	public function isKeywordNotExist(){
 		if(Keywords::model()->fetchRow(array(
-			'keyword = ?'=>$this->input->post('value', 'trim'),
+			'keyword = ?'=>$this->input->request('keyword', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
 			Response::json('', 0, '关键词已存在');

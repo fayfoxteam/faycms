@@ -311,7 +311,7 @@ abstract class MultiTree extends Model{
 		
 		//得到根节点
 		$sql = new Sql();
-		$sql->from(\F::model($this->model)->getName(), 't', 'root')
+		$sql->from(\F::model($this->model)->getName(), 'root')
 			->where(array(
 				"{$this->foreign_key} = ?"=>$value,
 				'left_value = 1',
@@ -435,7 +435,7 @@ abstract class MultiTree extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from(\F::model($this->model)->getName(), 'c', $comment_fields)
+		$sql->from(array('c'=>\F::model($this->model)->getName()), $comment_fields)
 			->where("c.{$this->foreign_key} = ?", $value)
 			->order('c.id DESC')
 		;
@@ -543,7 +543,7 @@ abstract class MultiTree extends Model{
 		
 		//得到根节点
 		$sql = new Sql();
-		$sql->from(\F::model($this->model)->getName(), 't', 'root')
+		$sql->from(\F::model($this->model)->getName(), 'root')
 			->where(array(
 				"{$this->foreign_key} = ?"=>$value,
 				'left_value = 1',

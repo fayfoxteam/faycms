@@ -128,7 +128,7 @@ class ActionController extends AdminController{
 	
 	public function isRouterNotExist(){
 		if(Actions::model()->fetchRow(array(
-			'router = ?'=>$this->input->post('value', 'trim'),
+			'router = ?'=>$this->input->request('router', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
 			echo Response::json('', 0, '该路由已存在');
@@ -139,7 +139,7 @@ class ActionController extends AdminController{
 	
 	public function isRouterExist(){
 		if(Actions::model()->fetchRow(array(
-			'router = ?'=>$this->input->post('value', 'trim'),
+			'router = ?'=>$this->input->request('router', 'trim'),
 		))){
 			echo Response::json('', 1, '路由已存在');
 		}else{

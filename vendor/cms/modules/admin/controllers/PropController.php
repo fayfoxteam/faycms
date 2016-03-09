@@ -10,9 +10,8 @@ use fay\models\tables\Props;
  */
 class PropController extends AdminController{
 	public function isAliasNotExist(){
-		$alias = $this->input->post('value', 'trim');
 		if(Props::model()->fetchRow(array(
-			'alias = ?'=>$alias,
+			'alias = ?'=>$this->input->request('alias', 'trim'),
 			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){
 			echo Response::json('', 0, '别名已存在');

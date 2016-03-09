@@ -662,8 +662,12 @@
 			'ajax':function(value, url, obj){
 				//ajax验证
 				var name = obj.attr('name'),
+					attrAjaxParamName = obj.attr('data-ajax-param-name'),
 					form = $(obj[0].form),
-					ajaxQueue = form.data('ajaxQueue');
+					ajaxQueue = form.data('ajaxQueue'),
+					ajaxParamName = attrAjaxParamName ? attrAjaxParamName : name,
+					data = {};
+				data[ajaxParamName] = value;
 				
 				if(ajaxQueue[name]){
 					ajaxQueue[name].abort();
@@ -673,9 +677,7 @@
 				ajaxQueue[name] = $.ajax({
 					'type': 'POST',
 					'url': url,
-					'data': {
-						'value':value
-					},
+					'data': data,
 					'dataType': 'json',
 					'cache': false,
 					'success': function(resp){

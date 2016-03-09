@@ -188,7 +188,7 @@ class Date{
 				//今年
 				return date('n月j日', $timestamp);
 			}else{
-				return date('y年n月j日', $timestamp);
+				return date('y年n月', $timestamp);
 			}
 		}
 	}

@@ -145,6 +145,11 @@ class FWidget{
 		$widget_config = Widgets::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		));
+		
+		if(!$widget_config){
+			throw new HttpException('Widget不存在或已被删除');
+		}
+		
 		if($widget_config['enabled']){
 			$widget_obj = $this->get($widget_config['widget_name']);
 			if($widget_obj == null){

@@ -7,6 +7,9 @@ use fay\models\Post;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 
+/**
+ * 文章
+ */
 class PostController extends ApiController{
 	/**
 	 * 默认返回字段

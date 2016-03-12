@@ -12,7 +12,25 @@ use fay\core\Loader;
 use fay\helpers\StringHelper;
 use fay\models\Option;
 
+/**
+ * 文件
+ */
 class FileController extends ApiController{
+	/**
+	 * 输出一张图片
+	 * @param int $f 文件ID
+	 * @param int $t 输出方式
+	 *  - 1: 原图
+	 *  - 2: 缩略图
+	 *  - 3: 裁剪图
+	 *  - 4: 缩放图
+	 * @param int $x 当$t=3时，裁剪起始x坐标点
+	 * @param int $y 当$t=3时，裁剪起始y坐标点
+	 * @param int $w 当$t=3时，裁剪宽度
+	 * @param int $h 当$t=3时，裁剪高度
+	 * @param int $dw 当$t=3或$t=4时候，图片输出宽度（原图尺寸不足时会被拉伸）
+	 * @param int $dh 当$t=3或$t=4时候，图片输出高度（原图尺寸不足时会被拉伸）
+	 */
 	public function pic(){
 		$validator = new Validator();
 		$check = $validator->check(array(
@@ -199,6 +217,12 @@ class FileController extends ApiController{
 		}
 	}
 	
+	/**
+	 * 显示一张验证码
+	 * @param int $l 验证码长度，默认4位
+	 * @param int $w 验证码宽度，默认110像素
+	 * @param int $h 验证码高度，默认40像素
+	 */
 	public function vcode(){
 		$sc = new SecurityCode($this->input->get('l', 'intval', 4), $this->input->get('w', 'intval', 110), $this->input->get('h', 'intval', 40));
 		//$sc->ext_line = false;
@@ -206,6 +230,10 @@ class FileController extends ApiController{
 		\F::session()->set('vcode', strtolower($sc->randnum));
 	}
 	
+	/**
+	 * 显示一张二维码
+	 * @param string $data 二维码内容，经base64编码后的字符串
+	 */
 	public function qrcode(){
 		Loader::vendor('phpqrcode/qrlib');
 		\QRcode::png(base64_decode($this->input->get('data')), false, QR_ECLEVEL_M, 4, 2);
@@ -213,6 +241,7 @@ class FileController extends ApiController{
 	
 	/**
 	 * 下载一个文件
+	 * @param int $id 文件ID
 	 */
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){

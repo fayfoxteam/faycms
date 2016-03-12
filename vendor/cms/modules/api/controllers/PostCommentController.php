@@ -9,6 +9,9 @@ use fay\models\tables\Posts;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 
+/**
+ * 文章评论
+ */
 class PostCommentController extends ApiController{
 	/**
 	 * 默认返回字段

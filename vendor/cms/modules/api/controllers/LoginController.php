@@ -5,7 +5,15 @@ use cms\library\ApiController;
 use fay\models\User;
 use fay\core\Response;
 
+/**
+ * 登录
+ */
 class LoginController extends ApiController{
+	/**
+	 * 登录
+	 * @param string $username 用户名
+	 * @param string $password 密码
+	 */
 	public function index(){
 		if($this->input->post()){
 			$username = $this->input->post('username');
@@ -30,9 +38,17 @@ class LoginController extends ApiController{
 					'code'=>isset($result['error_code']) ? $result['error_code'] : '',
 				));
 			}
+		}else{
+			Response::notify('error', array(
+				'message'=>'登录失败',
+				'code'=>'no-post-data',
+			));
 		}
 	}
 	
+	/**
+	 * 登出
+	 */
 	public function logout(){
 		User::model()->logout();
 		

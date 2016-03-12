@@ -5,6 +5,9 @@ use cms\library\ApiController;
 use fay\core\Response;
 use fay\models\Tag;
 
+/**
+ * 标签
+ */
 class TagController extends ApiController{
 	/**
 	 * 标签列表
@@ -54,10 +57,11 @@ class TagController extends ApiController{
 	}
 	
 	/**
-	 * 判断标签是否存在
+	 * 判断标签是否可用
+	 * 可用返回状态为1，不可用返回0，http状态码均为200
 	 * @param string $tag 标签
 	 */
-	public function isTagExist(){
+	public function isTagNotExist(){
 		//表单验证
 		$this->form()->setRules(array(
 			array('tag', 'required'),
@@ -71,6 +75,28 @@ class TagController extends ApiController{
 			Response::json('', 0, '标签已存在');
 		}else{
 			Response::json();
+		}
+	}
+	
+	/**
+	 * 判断标签是否存在
+	 * 存在返回状态为1，不存在返回0，http状态码均为200
+	 * @param string $tag 标签
+	 */
+	public function isTagExist(){
+		//表单验证
+		$this->form()->setRules(array(
+			array('tag', 'required'),
+		))->setFilters(array(
+			'tag'=>'trim',
+		))->setLabels(array(
+			'tag'=>'标签',
+		))->check();
+		
+		if(Tag::isTagExist($this->form()->getData('tag'))){
+			Response::json();
+		}else{
+			Response::json('', 0, '标签不存在');
 		}
 	}
 }

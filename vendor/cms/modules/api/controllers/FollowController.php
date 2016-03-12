@@ -6,6 +6,9 @@ use fay\core\Response;
 use fay\services\Follow;
 use fay\helpers\FieldHelper;
 
+/**
+ * 关注
+ */
 class FollowController extends ApiController{
 	/**
 	 * 默认返回字段

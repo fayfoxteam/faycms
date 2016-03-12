@@ -8,6 +8,9 @@ use fay\helpers\Date;
 use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
 
+/**
+ * 访问统计
+ */
 class AnalystController extends ApiController{
 	public $current_user = 0;
 	
@@ -111,7 +114,6 @@ class AnalystController extends ApiController{
 					setcookie('fmac', '', $this->current_time - 3600, '/', $this->config->get('tld'));
 				}
 			}
-
 		}
 		
 		header('Cache-Control: no-cache, must-revalidate');

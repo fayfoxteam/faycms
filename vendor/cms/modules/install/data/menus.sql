@@ -85,7 +85,7 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('842', '840', '', 'date', '', 'tools/function/date');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('843', '840', '', 'unserialize', '', 'tools/function/unserialize');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('844', '840', '', 'json', '', 'tools/function/json');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('845', '840', '', 'urldecode', '', 'tools/function/urldecode');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('845', '840', '', 'url', '', 'tools/function/urldecode');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('846', '840', '', 'string', '', 'tools/function/string');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('847', '840', '', 'ip', '', 'tools/function/ip');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('850', '800', 'memcache', 'Memcache', 'fa fa-inbox', 'tools/memcache/index');

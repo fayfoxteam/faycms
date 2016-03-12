@@ -15,7 +15,7 @@
 			<div class="box">
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
-					<div style="min-height:239px"><textarea class="form-control autosize"><?php var_export(json_decode(F::input()->post('json'), true));?></textarea></div>
+					<div style="min-height:239px"><textarea class="form-control h200 autosize"><?php var_export(json_decode(F::input()->post('json'), true));?></textarea></div>
 				</div>
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 			<div class="box">
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
-					<div style="min-height:239px"><textarea class="form-control autosize"><?php echo json_encode(eval('return '.F::input()->post('array').';'));?></textarea></div>
+					<div style="min-height:239px"><textarea class="form-control h200 autosize"><?php echo json_encode(eval('return '.F::input()->post('array').';'));?></textarea></div>
 				</div>
 			</div>
 		</div>

@@ -32,7 +32,7 @@ class FunctionController extends ToolsController{
 		$this->view->render();
 	}
 	
-	public function urldecode(){
+	public function url(){
 		$this->layout->subtitle = 'urldecode';
 		
 		$this->view->result = urldecode($this->input->post('key'));

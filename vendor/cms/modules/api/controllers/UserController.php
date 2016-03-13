@@ -4,11 +4,35 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\models\tables\Users;
 use fay\core\Response;
+use fay\helpers\FieldHelper;
+use fay\core\HttpException;
+use fay\models\User;
 
 /**
  * 用户
  */
 class UserController extends ApiController{
+	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array(
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		)
+	);
+	
+	/**
+	 * 可选字段
+	*/
+	private $allowed_fields = array(
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'roles'=>array(
+			'id', 'title',
+		),
+	);
+	
 	/**
 	 * 判断用户名是否可用
 	 * 可用返回状态为1，不可用返回0，http状态码均为200
@@ -57,6 +81,41 @@ class UserController extends ApiController{
 			Response::json();
 		}else{
 			Response::json('', 0, '该用户名不存在');
+		}
+	}
+	
+	/**
+	 * 返回单用户信息
+	 */
+	public function get(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('id'), 'required'),
+			array(array('id'), 'int', array('min'=>1)),
+		))->setFilters(array(
+			'id'=>'intval',
+			'fields'=>'trim',
+			'cat'=>'trim',
+		))->setLabels(array(
+			'id'=>'文章ID',
+		))->check();
+		
+		$id = $this->form()->getData('id');
+		$fields = $this->form()->getData('fields');
+		
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'user', $this->allowed_fields);
+		}else{
+			//若未指定$fields，取默认值
+			$fields = $this->default_fields;
+		}
+		
+		$post = User::model()->get($id, $fields);
+		if($post){
+			Response::json($post);
+		}else{
+			throw new HttpException('指定用户不存在');
 		}
 	}
 }

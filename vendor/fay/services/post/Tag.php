@@ -5,6 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Tags;
 use fay\models\tables\PostsTags;
 use fay\models\post\Tag as PostTag;
+use fay\services\Tag as TagService;
 
 class Tag extends Model{
 	/**
@@ -33,11 +34,7 @@ class Tag extends Model{
 				if($tag){//已存在，获取id
 					$input_tag_ids[] = $tag['id'];
 				}else{//不存在，插入新tag
-					$input_tag_ids[] = Tags::model()->insert(array(
-						'title'=>$tag_title,
-						'user_id'=>\F::app()->current_user,
-						'create_time'=>\F::app()->current_time,
-					));
+					$input_tag_ids[] = TagService::model()->create($tag_title);
 				}
 			}
 			

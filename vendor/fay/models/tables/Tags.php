@@ -15,8 +15,6 @@ use fay\core\db\Table;
  * @property string $seo_title Seo Title
  * @property string $seo_keywords Seo Keywords
  * @property string $seo_description Seo Description
- * @property int $post_count 文章数
- * @property int $feed_count 动态数
  */
 class Tags extends Table{
 	/**
@@ -41,7 +39,6 @@ class Tags extends Table{
 	public function rules(){
 		return array(
 			array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('post_count', 'feed_count'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>50)),
 			array(array('seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
@@ -63,8 +60,6 @@ class Tags extends Table{
 			'seo_title'=>'Seo Title',
 			'seo_keywords'=>'Seo Keywords',
 			'seo_description'=>'Seo Description',
-			'post_count'=>'文章数',
-			'feed_count'=>'动态数',
 		);
 	}
 
@@ -79,8 +74,6 @@ class Tags extends Table{
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',
 			'seo_description'=>'trim',
-			'post_count'=>'intval',
-			'feed_count'=>'intval',
 		);
 	}
 }

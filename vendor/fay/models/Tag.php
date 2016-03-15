@@ -33,6 +33,7 @@ class Tag extends Model{
 	/**
 	 * 判断一个标签是否存在（禁用的标签也视为存在）
 	 * @param string $title
+	 * @return 若存在，返回标签ID，若不存在，返回false
 	 */
 	public static function isTagExist($title){
 		if($title){
@@ -40,7 +41,7 @@ class Tag extends Model{
 				'title = ?'=>$title,
 			), 'id');
 			if($tag){
-				return true;
+				return $tag['id'];
 			}else{
 				return false;
 			}

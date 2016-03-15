@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\Category;
 use fay\models\tables\Posts;
-use fay\models\Tag;
+use fay\models\post\Tag;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
@@ -529,29 +529,39 @@ class PostController extends AdminController{
 		$this->view->render();
 	}
 	
+	/**
+	 * 删除
+	 * @param int $id 文章ID
+	 */
 	public function delete(){
-		$id = $this->input->get('id', 'intval');
-		Posts::model()->update(array('deleted'=>1), "id = {$id}");
-		Tag::model()->refreshCountByPostId($id);
-		$this->actionlog(Actionlogs::TYPE_POST, '将文章移入回收站', $id);
+		$post_id = $this->input->get('id', 'intval');
+		
+		PostService::model()->delete($post_id);
+		
+		$this->actionlog(Actionlogs::TYPE_POST, '将文章移入回收站', $post_id);
 		
 		Response::notify('success', array(
 			'message'=>'一篇文章被移入回收站 - '.Html::link('撤销', array('admin/post/undelete', array(
-				'id'=>$id,
+				'id'=>$post_id,
 			))),
-			'id'=>$id,
+			'id'=>$post_id,
 		));
 	}
 	
+	/**
+	 * 还原
+	 * @param int $id 文章ID
+	 */
 	public function undelete(){
-		$id = $this->input->get('id', 'intval');
-		Posts::model()->update(array('deleted'=>0), array('id = ?'=>$id));
-		Tag::model()->refreshCountByPostId($id);
-		$this->actionlog(Actionlogs::TYPE_POST, '将文章移出回收站', $id);
+		$post_id = $this->input->get('id', 'intval');
+		
+		PostService::model()->undelete($post_id);
+		
+		$this->actionlog(Actionlogs::TYPE_POST, '将文章移出回收站', $post_id);
 		
 		Response::notify('success', array(
 			'message'=>'一篇文章被还原',
-			'id'=>$id,
+			'id'=>$post_id,
 		));
 	}
 	

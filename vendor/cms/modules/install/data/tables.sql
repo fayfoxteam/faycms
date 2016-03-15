@@ -777,6 +777,14 @@ CREATE TABLE `{{$prefix}}spider_logs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}tag_counter`;
+CREATE TABLE `{{$prefix}}tag_counter` (
+  `tag_id` int(10) unsigned NOT NULL COMMENT '标签ID',
+  `posts` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章数',
+  `feeds` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '动态数',
+  PRIMARY KEY (`tag_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='标签计数器';
+
 DROP TABLE IF EXISTS `{{$prefix}}tags`;
 CREATE TABLE `{{$prefix}}tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -788,8 +796,6 @@ CREATE TABLE `{{$prefix}}tags` (
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Title',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
-  `post_count` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '文章数',
-  `feed_count` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '动态数',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

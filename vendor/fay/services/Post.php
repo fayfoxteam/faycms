@@ -12,12 +12,13 @@ use fay\models\tables\PostPropVarchar;
 use fay\models\tables\PostPropText;
 use fay\models\tables\PostLikes;
 use fay\models\tables\PostMeta;
-use fay\models\post\Tag as PostTag;
-use fay\services\post\Tag;
+use fay\models\post\Tag as PostTagModel;
 use fay\helpers\Request;
 use fay\models\Prop;
 use fay\models\Post as PostModel;
 use fay\models\File;
+use fay\models\tables\UserCounter;
+use fay\services\post\Tag as PostTagService;
 
 class Post extends Model{
 
@@ -40,21 +41,21 @@ class Post extends Model{
 	 */
 	public function create($post, $extra = array(), $user_id = 0){
 		$user_id || $user_id = \F::app()->current_user;
-	
+		
 		$post['create_time'] = \F::app()->current_time;
 		$post['last_modified_time'] = \F::app()->current_time;
-		$post['user_id'] = \F::app()->current_user;
+		$post['user_id'] = $user_id;
 		$post['publish_time'] || $post['publish_time'] = \F::app()->current_time;
 		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
 		$post['ip_int'] = Request::ip2int(\F::app()->ip);
-	
+		
 		//过滤掉多余的数据
 		$post = Posts::model()->fillData($post, false);
 		$post_id = Posts::model()->insert($post);
 		PostMeta::model()->insert(array(
 			'post_id'=>$post_id,
 		));
-	
+		
 		//文章分类
 		if(!empty($extra['categories'])){
 			if(!is_array($extra['categories'])){
@@ -69,9 +70,9 @@ class Post extends Model{
 		}
 		//添加到标签表
 		if($extra['tags']){
-			Tag::model()->set($extra['tags'], $post_id);
+			PostTagService::model()->set($extra['tags'], $post_id);
 		}
-	
+		
 		//设置附件
 		if($extra['files']){
 			$i = 0;
@@ -86,12 +87,15 @@ class Post extends Model{
 				));
 			}
 		}
-	
+		
 		//设置属性
 		if($extra['props']){
 			$this->createPropertySet($post_id, $extra['props']);
 		}
-	
+		
+		//用户文章数加一
+		UserCounter::model()->inc($user_id, 'posts', 1);
+		
 		return $post_id;
 	}
 	
@@ -152,7 +156,7 @@ class Post extends Model{
 	
 		//标签
 		if(isset($extra['tags'])){
-			Tag::model()->set($extra['tags'], $post_id);
+			PostTagService::model()->set($extra['tags'], $post_id);
 		}
 	
 		//附件
@@ -239,11 +243,26 @@ class Post extends Model{
 	 * 彻底删除一篇文章
 	 */
 	public function remove($post_id){
-		//先获取该篇文章对应的tags
-		$tag_ids = PostsTags::model()->fetchCol('tag_id', 'post_id = '.$post_id);
+		//获取文章删除状态
+		$post = Posts::model()->find($post_id, 'user_id,deleted');
+		if(!$post){
+			return false;
+		}
 		
 		//删除文章
 		Posts::model()->delete('id = '.$post_id);
+		
+		if(!$post['deleted']){//若文章未通过回收站被直接删除
+			//则作者文章数减一
+			UserCounter::model()->inc($post['user_id'], 'posts', -1);
+			
+			//获取该篇文章对应的tags
+			$tag_ids = PostTagModel::model()->getTagIds($post_id);
+			//@todo 相关标签文章数减一
+			PostTagModel::model()->refreshCountByTagId($tag_ids);
+			//删除文章与标签的关联关系
+			PostsTags::model()->delete(array('post_id = ' . $post_id));
+		}
 		
 		//删除文章对应的附加信息
 		PostsCategories::model()->delete('post_id = '.$post_id);
@@ -261,9 +280,49 @@ class Post extends Model{
 		
 		//删除文章meta信息
 		PostMeta::model()->delete('post_id = ' . $post_id);
-		
-		//刷新对应tags的count值
-		PostTag::model()->refreshCountByTagId($tag_ids);
 	}
 	
+	/**
+	 * 删除一篇文章
+	 * @param int $post_id 文章ID
+	 */
+	public function delete($post_id){
+		$post = Posts::model()->find($post_id, 'user_id');
+		if(!$post){
+			return false;
+		}
+		
+		//标记为已删除
+		Posts::model()->update(array(
+			'deleted'=>1
+		), $post_id);
+		
+		//用户文章数减一
+		UserCounter::model()->inc($post['user_id'], 'posts', -1);
+		
+		//@todo 相关标签文章数减一
+		PostTagModel::model()->refreshCountByPostId($post_id);
+	}
+	
+	/**
+	 * 还原一篇文章
+	 * @param int $post_id 文章ID
+	 */
+	public function undelete($post_id){
+		$post = Posts::model()->find($post_id, 'user_id');
+		if(!$post){
+			return false;
+		}
+		
+		//标记为未删除
+		Posts::model()->update(array(
+			'deleted'=>0
+		), $post_id);
+		
+		//用户文章数减一
+		UserCounter::model()->inc($post['user_id'], 'posts', 1);
+		
+		//@todo 相关标签文章数减一
+		PostTagModel::model()->refreshCountByPostId($post_id);
+	}
 }

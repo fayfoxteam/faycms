@@ -7,6 +7,7 @@ use fay\models\tables\Tags;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsTags;
+use fay\models\tables\TagCounter;
 
 class Tag extends Model{
 	/**
@@ -68,6 +69,17 @@ class Tag extends Model{
 	}
 	
 	/**
+	 * 根据文章ID，返回文章对应标签的ID
+	 * @param int $post_id 文章ID
+	 * @return array 标签ID构成的一维数组
+	 */
+	public function getTagIds($post_id){
+		return PostsTags::model()->fetchCol('tag_id', array(
+			'post_id = ?'=>$post_id,
+		));
+	}
+	
+	/**
 	 * 根据tag_id刷新该tag的count种值
 	 * @param int|array $tag_ids 可以传入单个ID或一维数组
 	 */
@@ -89,8 +101,8 @@ class Tag extends Model{
 				->fetchAll();
 			$posts_tags = ArrayHelper::column($posts_tags, 'count', 'tag_id');
 			foreach($tag_ids as $tag){
-				Tags::model()->update(array(
-					'post_count'=>empty($posts_tags[$tag]) ? 0 : $posts_tags[$tag],
+				TagCounter::model()->update(array(
+					'posts'=>empty($posts_tags[$tag]) ? 0 : $posts_tags[$tag],
 				), $tag);
 			}
 		}

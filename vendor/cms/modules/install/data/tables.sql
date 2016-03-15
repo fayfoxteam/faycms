@@ -826,6 +826,16 @@ CREATE TABLE `{{$prefix}}user_addresses` (
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}user_counter`;
+CREATE TABLE `{{$prefix}}user_counter` (
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `posts` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '文章数',
+  `feeds` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '动态数',
+  `follows` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关注数',
+  `fans` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '粉丝数',
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户计数器';
+
 DROP TABLE IF EXISTS `{{$prefix}}user_profile`;
 CREATE TABLE `{{$prefix}}user_profile` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',

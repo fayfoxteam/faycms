@@ -71,7 +71,7 @@ class FollowController extends ApiController{
 			));
 		}
 		
-		Follow::follow($user_id, $this->form()->getData('trackid', 'trim', ''));
+		Follow::follow($user_id, $this->form()->getData('trackid', ''));
 		Response::notify('success', '关注成功');
 	}
 	

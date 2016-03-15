@@ -44,7 +44,7 @@ class Exist extends Validator{
 		}
 		
 		$sql = new Sql();
-		if($sql->from($this->table, 't', $field)
+		if($sql->from($this->table, $field)
 			->where(array(
 				"`{$field}` = ?"=>$value,
 			) + $this->conditions)

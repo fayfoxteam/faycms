@@ -17,6 +17,7 @@ use fay\core\Hook;
 use fay\models\user\Profile;
 use fay\models\user\Role;
 use fay\models\user\Password;
+use fay\models\tables\UserCounter;
 
 class User extends Model{
 	/**
@@ -481,6 +482,10 @@ class User extends Model{
 			'reg_time'=>\F::app()->current_time,
 			'reg_ip'=>Request::ip2int(Request::getIP()),
 			'trackid'=>isset($extra['trackid']) ? $extra['trackid'] : '',
+		));
+		//插入用户计数表
+		UserCounter::model()->insert(array(
+			'user_id'=>$user_id,
 		));
 		
 		//插角色表

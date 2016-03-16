@@ -4,6 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\models\Tag;
+use fay\models\tables\TagCounter;
 
 /**
  * 标签
@@ -19,7 +20,7 @@ class TagController extends ApiController{
 	public function listAction(){
 		//表单验证
 		$this->form()->setRules(array(
-			array('type', 'range', array('range'=>array('feed', 'post'))),
+			array('type', 'range', array('range'=>TagCounter::model()->getFields('tag_id'))),
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
 		))->setFilters(array(
 			'type'=>'trim',
@@ -33,7 +34,7 @@ class TagController extends ApiController{
 			'order'=>'排序方式',
 		))->check();
 		
-		$type = $this->form()->getData('type', 'post');
+		$type = $this->form()->getData('type', 'posts');
 		$order = $this->form()->getData('order', 'count');
 		
 		switch($order){
@@ -41,11 +42,11 @@ class TagController extends ApiController{
 				$order = 'create_time DESC';
 				break;
 			case 'hand':
-				$order = 'sort, {$type}_count DESC';
+				$order = "t.sort, tc.{$type} DESC";
 				break;
 			case 'count':
 			default:
-				$order = '{$type}_count DESC';
+				$order = "tc.{$type} DESC";
 		}
 		
 		return Response::json(Tag::model()->getList(

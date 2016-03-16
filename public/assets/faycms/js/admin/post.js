@@ -64,7 +64,7 @@ var post = {
 	'autosize':function(){
 		if(!$('textarea.autosize').length && system.inArray('files', post.boxes)){
 			//页面没有autosize输入框，且附件box存在，则引入autosize输入框插件
-			system.getScript(system.assets('js/jquery.autosize.min.js'));
+			system.getScript(system.assets('js/autosize.min.js'));
 		}
 	},
 	'setRoleCats':function(){

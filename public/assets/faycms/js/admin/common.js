@@ -868,8 +868,8 @@ var common = {
 	},
 	'textAutosize': function(){
 		if($('textarea.autosize').length){
-			system.getScript(system.assets('js/jquery.autosize.min.js'), function(){
-				$('textarea.autosize').autosize();
+			system.getScript(system.assets('js/autosize.min.js'), function(){
+				autosize($('textarea.autosize'));
 			});
 		}
 	},

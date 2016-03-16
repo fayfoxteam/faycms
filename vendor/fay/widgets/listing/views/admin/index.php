@@ -79,7 +79,7 @@ $(function(){
 			'</div>',
 			'<div class="clear"></div>',
 		'</div>'].join(''));
-		$('#widget-listing-data .dragsort-item:last-child textarea').autosize();
+		autosize($('#widget-listing-data .dragsort-item:last-child textarea'));
 	});
 });
 </script>

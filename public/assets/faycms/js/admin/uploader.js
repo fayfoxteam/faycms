@@ -204,7 +204,7 @@ var uploader = {
 				var resp = $.parseJSON(response.response);
 				$file = $('#file-'+file.id);
 				if('raw_name' in resp.data){
-					$file.find('.file-desc').attr('name', settings.description_name+'['+resp.data.id+']').autosize();
+					autosize($file.find('.file-desc').attr('name', settings.description_name+'['+resp.data.id+']'));
 					$file.find('.file-title').attr('name', settings.title_name+'['+resp.data.id+']');
 					$file.find('.file-link').attr('name', settings.link_name+'['+resp.data.id+']');
 					$file.find('.file-starttime').attr('name', settings.starttime_name+'['+resp.data.id+']');

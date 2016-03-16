@@ -46,7 +46,8 @@ var cat = {
 									}else{
 										$("#cat-pic-for-edit-container").html('');
 									}
-									$("#edit-cat-dialog textarea[name='description']").val(resp.data.cat.description).trigger('autosize.resize');
+									$("#edit-cat-dialog textarea[name='description']").val(resp.data.cat.description);
+									autosize.update($("#edit-cat-dialog textarea[name='description']"));
 									$("#edit-cat-dialog input[name='sort']").val(resp.data.cat.sort);
 									$("#edit-cat-dialog input[name='seo_title']").val(resp.data.cat.seo_title);
 									$("#edit-cat-dialog input[name='seo_keywords']").val(resp.data.cat.seo_keywords);

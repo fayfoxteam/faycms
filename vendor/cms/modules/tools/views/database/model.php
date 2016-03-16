@@ -60,7 +60,7 @@ $(function(){
 			cache: false,
 			success: function(resp){
 				$("#code").val(resp);
-				$("#code").trigger('autosize.resize');
+				autosize.update($("#code"));
 			}
 		});
 		return false;

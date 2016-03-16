@@ -136,8 +136,10 @@ $(function(){
 							$("#log-detail-dialog").unblock();
 							if(resp.status){
 								$("#ld-code").val(resp.data.code);
-								$("#ld-data").val(resp.data.data).trigger('autosize.resize');
-								$("#ld-user_agent").val(resp.data.user_agent).trigger('autosize.resize');
+								$("#ld-data").val(resp.data.data);
+								$("#ld-user_agent").val(resp.data.user_agent);
+								autosize.update($("#ld-data"));
+								autosize.update($("#ld-user_agent"));
 								$("#ld-create_time").val(system.date(resp.data.create_time));
 								if(resp.data.user_id == 0){
 									$("#ld-username").val('系统');

@@ -323,7 +323,8 @@ $(function(){
 										'<td>', data.Comment, '</td>',
 									'</tr>'].join(''));
 								});
-								$('#ddl-code').val(resp.data.ddl).trigger('autosize.resize');
+								$('#ddl-code').val(resp.data.ddl);
+								autosize.update($('#ddl-code'));
 								$tbody.find('tr:even').addClass('alternate');
 								$.fancybox.center();
 							}

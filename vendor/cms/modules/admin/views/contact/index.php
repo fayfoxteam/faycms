@@ -75,7 +75,7 @@ var contact = {
 						}
 					},
 					'onComplete': function(o){
-						$('#contact-reply-dialog [name="reply"]').trigger('autosize.resize');
+						autosize.update($('#contact-reply-dialog [name="reply"]'));
 						$.fancybox.center(true);
 					}
 				});

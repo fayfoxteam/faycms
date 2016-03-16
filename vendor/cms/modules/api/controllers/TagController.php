@@ -50,10 +50,9 @@ class TagController extends ApiController{
 		}
 		
 		return Response::json(Tag::model()->getList(
-			$type,
+			$order,
 			$this->form()->getData('page_size', 20),
-			$this->form()->getData('page', 1),
-			$order
+			$this->form()->getData('page', 1)
 		));
 	}
 	

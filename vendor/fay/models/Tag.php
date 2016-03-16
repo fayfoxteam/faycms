@@ -25,7 +25,7 @@ class Tag extends Model{
 		$sql = new Sql();
 		$sql->from(array('t'=>'tags'), 'id,title')
 			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields('tag_id'))
-			->where('status = ' . Tags::STATUS_ENABLED)
+			->where('t.status = ' . Tags::STATUS_ENABLED)
 			->order($order);
 		;
 		$listview = new ListView($sql, array(

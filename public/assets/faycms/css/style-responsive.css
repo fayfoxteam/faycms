@@ -626,11 +626,10 @@ pre li:hover{background-color:#575757}
 .wp49{width:49% !important}
 .wp100{width:100% !important}
 
-.h40{height:30px}
-.h60{height:60px}
-.h90{height:90px}
-.h200{height:200px}
-.h350{height:350px}
+.h60{height:60px;min-height:60px}
+.h90{height:90px;min-height:90px}
+.h200{height:200px;min-height:200px}
+.h350{height:350px;min-height:350px}
 
 .mr5{margin-right:5px !important}
 .mb5{margin-bottom:5px !important}

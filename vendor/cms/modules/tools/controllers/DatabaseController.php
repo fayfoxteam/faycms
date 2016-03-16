@@ -19,8 +19,6 @@ class DatabaseController extends ToolsController{
 		$this->isLogin();
 		
 		$this->db = Db::getInstance();
-		
-		set_time_limit(0);//sql较多，可能会比较慢
 	}
 	
 	public function model(){

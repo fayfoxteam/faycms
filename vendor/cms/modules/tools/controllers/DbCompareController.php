@@ -60,6 +60,8 @@ class DbCompareController extends ToolsController{
 				'table_prefix'=>$this->db_config['right']['prefix'],
 			));
 		}
+		
+		set_time_limit(0);//sql较多，可能会比较慢
 	}
 	
 	/**

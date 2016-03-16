@@ -58,4 +58,33 @@ class Tag extends Model{
 			return false;
 		}
 	}
+	
+	/**
+	 * 递增一个或多个指定标签的计数
+	 * @param array|int $tag_ids
+	 * @param strin $field tag_counter表对应的列名
+	 * @param int $value 增量，默认为1，可以是负数
+	 */
+	public function incr($tag_ids, $field, $value = 1){
+		if(!$tag_ids){
+			return 0;
+		}
+		if(!is_array($tag_ids)){
+			$tag_ids = array($tag_ids);
+		}
+		
+		return TagCounter::model()->inc(array(
+			'tag_id IN (?)'=>$tag_ids,
+		), $field, $value);
+	}
+	
+	/**
+	 * 递减一个或多个指定标签的计数
+	 * @param array|int $tag_ids
+	 * @param strin $field tag_counter表对应的列名
+	 * @param int $value 增量，默认为-1，可以是正数
+	 */
+	public function decr($tag_ids, $field, $value = -1){
+		return $this->incr($tag_ids, $field, $value);
+	}
 }

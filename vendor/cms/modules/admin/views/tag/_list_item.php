@@ -19,7 +19,8 @@ use fay\helpers\Html;
 		?>
 		</div>
 	</td>
-	<td><?php echo $data['count']?></td>
+	<td><?php echo $data['posts']?></td>
+	<td><?php echo $data['feeds']?></td>
 	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,

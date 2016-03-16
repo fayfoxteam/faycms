@@ -6,6 +6,7 @@ use fay\models\tables\Tags;
 use fay\models\tables\PostsTags;
 use fay\models\post\Tag as PostTag;
 use fay\services\Tag as TagService;
+use fay\models\Tag as TagModel;
 
 class Tag extends Model{
 	/**
@@ -50,6 +51,7 @@ class Tag extends Model{
 					'tag_id IN (?)'=>$deleted_tag_ids
 				));
 			}
+			
 			//插入新的标签
 			$new_tag_ids = array_diff($input_tag_ids, $old_tag_ids);
 			if($new_tag_ids){
@@ -60,10 +62,13 @@ class Tag extends Model{
 					));
 				}
 			}
+			
 			//更新标签对应的文章数
-			$update_tag_ids = array_merge($deleted_tag_ids, $new_tag_ids);
-			if($update_tag_ids){
-				PostTag::model()->refreshCountByTagId($update_tag_ids);
+			if($new_tag_ids){
+				TagModel::model()->incr($new_tag_ids, 'posts');
+			}
+			if($deleted_tag_ids){
+				TagModel::model()->decr($deleted_tag_ids, 'posts');
 			}
 		}else{
 			//删除全部tag
@@ -74,7 +79,9 @@ class Tag extends Model{
 				PostsTags::model()->delete(array(
 					'post_id = ?'=>$post_id,
 				));
-				PostTag::model()->refreshCountByTagId($old_tag_ids);
+				if($old_tag_ids){
+					PostTag::model()->decr($old_tag_ids, 'posts');
+				}
 			}
 		}
 	}

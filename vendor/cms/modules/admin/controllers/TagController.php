@@ -10,6 +10,7 @@ use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\Flash;
+use fay\models\tables\TagCounter;
 
 class TagController extends AdminController{
 	public function __construct(){
@@ -126,7 +127,8 @@ class TagController extends AdminController{
 	 */
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from(array('t'=>'tags'));
+		$sql->from(array('t'=>'tags'))
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields('tag_id'));
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');

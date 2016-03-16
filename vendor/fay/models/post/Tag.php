@@ -8,6 +8,7 @@ use fay\helpers\ArrayHelper;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsTags;
 use fay\models\tables\TagCounter;
+use fay\models\Tag as TagModel;
 
 class Tag extends Model{
 	/**
@@ -122,5 +123,27 @@ class Tag extends Model{
 		));
 		
 		$this->refreshCountByTagId($tag_ids);
+	}
+	
+	/**
+	 * 递增一篇文章相关的标签文章数
+	 * @param int $post_id 文章ID
+	 */
+	public function incr($post_id){
+		$tag_ids = $this->getTagIds($post_id);
+		if($tag_ids){
+			TagModel::model()->incr($tag_ids, 'posts');
+		}
+	}
+	
+	/**
+	 * 递减一篇文章相关的标签文章数
+	 * @param int $post_id 文章ID
+	 */
+	public function decr($post_id){
+		$tag_ids = $this->getTagIds($post_id);
+		if($tag_ids){
+			TagModel::model()->decr($tag_ids, 'posts');
+		}
 	}
 }

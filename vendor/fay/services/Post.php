@@ -256,13 +256,11 @@ class Post extends Model{
 			//则作者文章数减一
 			UserCounter::model()->inc($post['user_id'], 'posts', -1);
 			
-			//获取该篇文章对应的tags
-			$tag_ids = PostTagModel::model()->getTagIds($post_id);
-			//@todo 相关标签文章数减一
-			PostTagModel::model()->refreshCountByTagId($tag_ids);
-			//删除文章与标签的关联关系
-			PostsTags::model()->delete(array('post_id = ' . $post_id));
+			//相关标签文章数减一
+			PostTagModel::model()->decr($post_id);
 		}
+		//删除文章与标签的关联关系
+		PostsTags::model()->delete(array('post_id = ' . $post_id));
 		
 		//删除文章对应的附加信息
 		PostsCategories::model()->delete('post_id = '.$post_id);
@@ -300,8 +298,8 @@ class Post extends Model{
 		//用户文章数减一
 		UserCounter::model()->inc($post['user_id'], 'posts', -1);
 		
-		//@todo 相关标签文章数减一
-		PostTagModel::model()->refreshCountByPostId($post_id);
+		//相关标签文章数减一
+		PostTagModel::model()->decr($post_id);
 	}
 	
 	/**
@@ -322,7 +320,7 @@ class Post extends Model{
 		//用户文章数减一
 		UserCounter::model()->inc($post['user_id'], 'posts', 1);
 		
-		//@todo 相关标签文章数减一
-		PostTagModel::model()->refreshCountByPostId($post_id);
+		//相关标签文章数加一
+		PostTagModel::model()->incr($post_id);
 	}
 }

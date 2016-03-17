@@ -36,9 +36,9 @@ class PostController extends FrontController{
 		$this->layout->keywords = $post['post']['seo_keywords'];
 		$this->layout->description = $post['post']['seo_description'];
 		
-		$this->layout->qr_data = 'http://m.fayfox.com/post/'.$post['id'];
+		$this->layout->qr_data = 'http://m.fayfox.com/post/'.$post['post']['id'];
 		
-		$this->layout->canonical = $this->view->url('post/'.$post['id']);
+		$this->layout->canonical = $this->view->url('post/'.$post['post']['id']);
 		
 		$this->view->render();
 	}

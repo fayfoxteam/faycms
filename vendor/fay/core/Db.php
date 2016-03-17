@@ -3,7 +3,6 @@ namespace fay\core;
 
 use fay\core\db\Expr;
 use fay\helpers\SqlHelper;
-use fay\helpers\StringHelper;
 
 class Db{
 	private $_host;
@@ -303,7 +302,7 @@ class Db{
 	 * @param string|array $fields 字段（可以是多个，多个字段以一维数组方式传入）
 	 * @param int $count 递增/递减值
 	 */
-	public function inc($table, $condition, $fields, $count){
+	public function incr($table, $condition, $fields, $value){
 		$where = $this->getWhere($condition);
 		
 		if(!is_array($fields)){
@@ -311,7 +310,7 @@ class Db{
 		}
 		$data = array();
 		foreach($fields as $f){
-			$data[$f] = new Expr("`{$f}` + {$count}");
+			$data[$f] = new Expr("`{$f}` + {$value}");
 		}
 		return $this->update($table, $data, $condition);
 	}

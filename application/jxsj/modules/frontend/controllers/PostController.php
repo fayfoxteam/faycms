@@ -14,7 +14,7 @@ class PostController extends FrontController{
 			throw new HttpException('页面不存在');
 		}
 		//阅读数
-		Posts::model()->inc($post['id'], 'views', 1);
+		Posts::model()->incr($post['id'], 'views', 1);
 		
 		//seo
 		$this->layout->title = $post['seo_title'];

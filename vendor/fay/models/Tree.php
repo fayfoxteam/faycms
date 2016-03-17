@@ -72,8 +72,8 @@ class Tree extends Model{
 			
 			if($right_node){
 				//存在右节点
-				\F::model($model)->inc('left_value >= ' . $right_node['left_value'], 'left_value', 2);
-				\F::model($model)->inc('right_value >= ' . $right_node['left_value'], 'right_value', 2);
+				\F::model($model)->incr('left_value >= ' . $right_node['left_value'], 'left_value', 2);
+				\F::model($model)->incr('right_value >= ' . $right_node['left_value'], 'right_value', 2);
 				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
@@ -98,8 +98,8 @@ class Tree extends Model{
 			
 			if($parent_node['right_value'] - $parent_node['left_value'] == 1){
 				//父节点本身是叶子节点，直接挂载
-				\F::model($model)->inc('left_value > ' . $parent_node['left_value'], 'left_value', 2);
-				\F::model($model)->inc('right_value > ' . $parent_node['left_value'], 'right_value', 2);
+				\F::model($model)->incr('left_value > ' . $parent_node['left_value'], 'left_value', 2);
+				\F::model($model)->incr('right_value > ' . $parent_node['left_value'], 'right_value', 2);
 				$node_id = \F::model($model)->insert(array_merge($data, array(
 					'sort'=>$sort,
 					'parent'=>$parent,
@@ -116,8 +116,8 @@ class Tree extends Model{
 				
 				if($left_node){
 					//存在左节点
-					\F::model($model)->inc('left_value > ' . $left_node['right_value'], 'left_value', 2);
-					\F::model($model)->inc('right_value > ' . $left_node['right_value'], 'right_value', 2);
+					\F::model($model)->incr('left_value > ' . $left_node['right_value'], 'left_value', 2);
+					\F::model($model)->incr('right_value > ' . $left_node['right_value'], 'right_value', 2);
 					$node_id = \F::model($model)->insert(array_merge($data, array(
 						'sort'=>$sort,
 						'parent'=>$parent,
@@ -126,8 +126,8 @@ class Tree extends Model{
 					)));
 				}else{
 					//不存在左节点，即在孩子的最前面插入
-					\F::model($model)->inc('left_value > ' . $parent_node['left_value'], 'left_value', 2);
-					\F::model($model)->inc('right_value > ' . $parent_node['left_value'], 'right_value', 2);
+					\F::model($model)->incr('left_value > ' . $parent_node['left_value'], 'left_value', 2);
+					\F::model($model)->incr('right_value > ' . $parent_node['left_value'], 'right_value', 2);
 					$node_id = \F::model($model)->insert(array_merge($data, array(
 						'sort'=>$sort,
 						'parent'=>$parent,

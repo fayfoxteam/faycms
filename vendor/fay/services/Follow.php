@@ -68,10 +68,10 @@ class Follow extends Model{
 		}
 		
 		//关注用户关注数+1
-		UserCounter::model()->inc($fan_id, 'follows', 1);
+		UserCounter::model()->incr($fan_id, 'follows', 1);
 		
 		//被关注用户粉丝数+1
-		UserCounter::model()->inc($user_id, 'fans', 1);
+		UserCounter::model()->incr($user_id, 'fans', 1);
 		
 		//执行钩子
 		Hook::getInstance()->call('after_follow');
@@ -108,10 +108,10 @@ class Follow extends Model{
 			}
 			
 			//关注用户关注数-1
-			UserCounter::model()->inc($fan_id, 'follows', -1);
+			UserCounter::model()->incr($fan_id, 'follows', -1);
 			
 			//被关注用户粉丝数-1
-			UserCounter::model()->inc($user_id, 'fans', -1);
+			UserCounter::model()->incr($user_id, 'fans', -1);
 			
 			//执行钩子
 			Hook::getInstance()->call('after_unfollow');

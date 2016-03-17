@@ -496,13 +496,13 @@ class Comment extends Model{
 			
 			if($comments && $comments == $real_comments){
 				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				PostMeta::model()->inc($post_id, array('comments', 'real_comments'), $comments);
+				PostMeta::model()->incr($post_id, array('comments', 'real_comments'), $comments);
 			}else{
 				if($comments){
-					PostMeta::model()->inc($post_id, array('comments'), $comments);
+					PostMeta::model()->incr($post_id, array('comments'), $comments);
 				}
 				if($real_comments){
-					PostMeta::model()->inc($post_id, array('real_comments'), $real_comments);
+					PostMeta::model()->incr($post_id, array('real_comments'), $real_comments);
 				}
 			}
 		}

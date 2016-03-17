@@ -90,7 +90,7 @@ class AnalystController extends ApiController{
 						'short_url = ?'=>$short_url,
 						'create_time > '.$today,
 					), 'id')){
-						AnalystVisits::model()->inc($record['id'], 'views', 1);
+						AnalystVisits::model()->incr($record['id'], 'views', 1);
 					}else{
 						AnalystVisits::model()->insert(array(
 							'mac'=>$mac['id'],

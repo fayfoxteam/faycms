@@ -107,11 +107,17 @@ class Table extends Model{
 		return $this->db->delete($this->_name, $where);
 	}
 	
-	public function inc($where, $fields, $count){
+	/**
+	 * 递增指定列
+	 * @param mix $where
+	 * @param string $fields 列名
+	 * @param int $value 增量（可以是负数）
+	 */
+	public function incr($where, $fields, $value){
 		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
-		$this->db->inc($this->_name, $where, $fields, $count);
+		$this->db->incr($this->_name, $where, $fields, $value);
 	}
 	
 	/**

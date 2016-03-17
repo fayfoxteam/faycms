@@ -73,7 +73,7 @@ class Tag extends Model{
 			$tag_ids = array($tag_ids);
 		}
 		
-		return TagCounter::model()->inc(array(
+		return TagCounter::model()->incr(array(
 			'tag_id IN (?)'=>$tag_ids,
 		), $field, $value);
 	}

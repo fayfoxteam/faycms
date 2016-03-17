@@ -29,7 +29,7 @@ class IndexController extends Widget{
 		}
 		
 		if($config['inc_views']){
-			Pages::model()->inc($page['id'], 'views', 1);
+			Pages::model()->incr($page['id'], 'views', 1);
 		}
 		
 		//template

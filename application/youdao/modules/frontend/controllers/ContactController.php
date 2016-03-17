@@ -11,7 +11,7 @@ class ContactController extends FrontController{
 	public function index(){
 		$page = Pages::model()->fetchRow(array('alias = ?'=>'contact'));
 		
-		Pages::model()->inc($page['id'], 'views', 1);
+		Pages::model()->incr($page['id'], 'views', 1);
 		$this->view->page = $page;
 
 		$this->layout->submenu = array(

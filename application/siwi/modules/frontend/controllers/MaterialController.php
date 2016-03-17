@@ -91,7 +91,7 @@ class MaterialController extends FrontController{
 		if(!$post){
 			throw new HttpException('页面不存在');
 		}
-		Posts::model()->inc($post['id'], 'views', 1);//阅读数
+		Posts::model()->incr($post['id'], 'views', 1);//阅读数
 		$this->view->post = $post;
 		
 		$this->layout->title = $post['seo_title'];

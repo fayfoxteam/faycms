@@ -20,7 +20,7 @@ class AboutController extends FrontController{
 		$this->layout->keywords = $page['seo_keywords'] ? $page['seo_keywords'] : $page['title'];
 		$this->layout->description = $page['seo_description'] ? $page['seo_description'] : $page['abstract'];
 		
-		Pages::model()->inc($page['id'], 'views', 1);
+		Pages::model()->incr($page['id'], 'views', 1);
 		
 		$this->layout->banner = 'about-banner.jpg';
 		$this->layout->current_directory = 'about';

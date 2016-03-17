@@ -38,7 +38,7 @@ class FileController extends UserController{
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){
 			if($file = Files::model()->find($file_id)){
-				Files::model()->inc($file_id, 'downloads', 1);
+				Files::model()->incr($file_id, 'downloads', 1);
 				$data = file_get_contents($file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');

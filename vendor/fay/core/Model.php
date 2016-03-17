@@ -3,7 +3,7 @@ namespace fay\core;
 
 class Model{
 	/**
-	 * @var fay\core\Db
+	 * @var \fay\core\Db
 	 */
 	public $db = null;
 	

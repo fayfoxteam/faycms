@@ -18,7 +18,7 @@ class PageController extends FrontController{
 		}
 		
 		if(isset($page) && $page){
-			Pages::model()->inc($page['id'], 'views', 1);
+			Pages::model()->incr($page['id'], 'views', 1);
 			$this->view->page = $page;
 		}else{
 			throw new HttpException('您请求的页面不存在');

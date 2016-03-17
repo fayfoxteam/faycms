@@ -84,11 +84,11 @@ abstract class MultiTree extends Model{
 			$parent_node = \F::model($this->model)->find($parent, 'id,root,left_value,right_value');
 			if($parent_node['right_value'] - $parent_node['left_value'] == 1){
 				//父节点是叶子节点
-				\F::model($this->model)->inc(array(
+				\F::model($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'left_value > ' . $parent_node['left_value'],
 				), 'left_value', 2);
-				\F::model($this->model)->inc(array(
+				\F::model($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'right_value > ' . $parent_node['left_value'],
 				), 'right_value', 2);
@@ -103,11 +103,11 @@ abstract class MultiTree extends Model{
 				$left_node = \F::model($this->model)->fetchRow(array(
 					'parent = ' . $parent,
 				), 'left_value,right_value', 'left_value DESC');
-				\F::model($this->model)->inc(array(
+				\F::model($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'left_value > ' . $left_node['right_value'],
 				), 'left_value', 2);
-				\F::model($this->model)->inc(array(
+				\F::model($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'right_value > ' . $left_node['right_value'],
 				), 'right_value', 2);
@@ -141,13 +141,13 @@ abstract class MultiTree extends Model{
 			if($node['right_value'] != 2){
 				//不是根节点（是根节点且是叶子节点的话，无需操作）
 				//所有后续节点左右值-2
-				\F::model($this->model)->inc(array(
+				\F::model($this->model)->incr(array(
 					'root = ' . $node['root'],
 					'right_value > ' . $node['right_value'],
 					'left_value > ' . $node['right_value'],
 				), array('left_value', 'right_value'), -2);
 				//所有父节点右值-2
-				\F::model($this->model)->inc(array(
+				\F::model($this->model)->incr(array(
 					'root = ' . $node['root'],
 					'right_value > ' . $node['right_value'],
 					'left_value < ' . $node['left_value'],
@@ -177,7 +177,7 @@ abstract class MultiTree extends Model{
 				'left_value > ' . $node['right_value'],
 				'right_value > ' . $node['right_value'],
 			));
-			\F::model($this->model)->inc(array(
+			\F::model($this->model)->incr(array(
 				'root = ' . $node['root'],
 				'left_value < ' . $node['left_value'],
 				'right_value > ' . $node['right_value'],
@@ -185,7 +185,7 @@ abstract class MultiTree extends Model{
 				'left_value', 'right_value'
 			), -2);
 			//所有父节点
-			\F::model($this->model)->inc(array(
+			\F::model($this->model)->incr(array(
 				'root = ' . $node['root'],
 				'left_value < ' . $node['left_value'],
 				'right_value > ' . $node['right_value'],

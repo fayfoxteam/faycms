@@ -14,7 +14,7 @@ class PageController extends FrontController{
 			throw new HttpException('页面不存在');
 		}
 		//阅读数
-		Pages::model()->inc($page['id'], 'views', 1);
+		Pages::model()->incr($page['id'], 'views', 1);
 		
 		//seo
 		$this->layout->title = $page['seo_title'];

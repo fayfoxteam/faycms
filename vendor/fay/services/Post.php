@@ -94,7 +94,7 @@ class Post extends Model{
 		}
 		
 		//用户文章数加一
-		UserCounter::model()->inc($user_id, 'posts', 1);
+		UserCounter::model()->incr($user_id, 'posts', 1);
 		
 		return $post_id;
 	}
@@ -254,7 +254,7 @@ class Post extends Model{
 		
 		if(!$post['deleted']){//若文章未通过回收站被直接删除
 			//则作者文章数减一
-			UserCounter::model()->inc($post['user_id'], 'posts', -1);
+			UserCounter::model()->incr($post['user_id'], 'posts', -1);
 			
 			//相关标签文章数减一
 			PostTagModel::model()->decr($post_id);
@@ -296,7 +296,7 @@ class Post extends Model{
 		), $post_id);
 		
 		//用户文章数减一
-		UserCounter::model()->inc($post['user_id'], 'posts', -1);
+		UserCounter::model()->incr($post['user_id'], 'posts', -1);
 		
 		//相关标签文章数减一
 		PostTagModel::model()->decr($post_id);
@@ -318,7 +318,7 @@ class Post extends Model{
 		), $post_id);
 		
 		//用户文章数减一
-		UserCounter::model()->inc($post['user_id'], 'posts', 1);
+		UserCounter::model()->incr($post['user_id'], 'posts', 1);
 		
 		//相关标签文章数加一
 		PostTagModel::model()->incr($post_id);

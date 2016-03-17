@@ -13,8 +13,10 @@ use fay\core\db\Table;
  * @property string $title 留言标题
  * @property string $country 国家
  * @property string $content 留言内容
- * @property int $create_time Create Time
+ * @property int $create_time 创建时间
+ * @property int $publish_time 发布时间
  * @property int $ip_int IP
+ * @property int $show_ip_int 显示给用户看的IP
  * @property int $parent Parent
  * @property int $status Status
  * @property string $reply 回复
@@ -32,12 +34,13 @@ class Contacts extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
+			array(array('ip_int', 'show_ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('name', 'phone', 'country'), 'string', array('max'=>50)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('is_read'), 'range', array('range'=>array(0, 1))),
+			array(array('publish_time'), 'datetime'),
 		);
 	}
 
@@ -50,8 +53,10 @@ class Contacts extends Table{
 			'title'=>'留言标题',
 			'country'=>'国家',
 			'content'=>'留言内容',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
+			'publish_time'=>'发布时间',
 			'ip_int'=>'IP',
+			'show_ip_int'=>'显示给用户看的IP',
 			'parent'=>'Parent',
 			'status'=>'Status',
 			'reply'=>'回复',
@@ -69,7 +74,9 @@ class Contacts extends Table{
 			'country'=>'trim',
 			'content'=>'',
 			'create_time'=>'',
+			'publish_time'=>'trim',
 			'ip_int'=>'intval',
+			'show_ip_int'=>'intval',
 			'parent'=>'intval',
 			'status'=>'intval',
 			'reply'=>'',

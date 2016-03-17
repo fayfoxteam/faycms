@@ -40,7 +40,7 @@ class CommentController extends AdminController{
 			'page_size'=>30,
 			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
-		$this->view->listview = $listview;			
+		$this->view->listview = $listview;
 		
 		$this->view->render();
 	}

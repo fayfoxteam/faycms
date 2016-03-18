@@ -136,12 +136,12 @@ CREATE TABLE `{{$prefix}}contacts` (
   `country` varchar(50) NOT NULL DEFAULT '' COMMENT '国家',
   `content` text NOT NULL COMMENT '留言内容',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
-  `show_ip_int` int(11) NOT NULL DEFAULT '0' COMMENT '显示给用户看的IP',
+  `publish_time` int(11) NOT NULL DEFAULT '0' COMMENT '发布时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT '真实IP',
+  `show_ip_int` int(11) NOT NULL DEFAULT '0' COMMENT '显示IP',
   `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Status',
   `reply` text NOT NULL COMMENT '回复',
+  `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT '前台显示',
   `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '已读标记',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

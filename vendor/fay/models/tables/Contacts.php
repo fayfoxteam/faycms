@@ -15,11 +15,11 @@ use fay\core\db\Table;
  * @property string $content 留言内容
  * @property int $create_time 创建时间
  * @property int $publish_time 发布时间
- * @property int $ip_int IP
- * @property int $show_ip_int 显示给用户看的IP
+ * @property int $ip_int 真实IP
+ * @property int $show_ip_int 显示IP
  * @property int $parent Parent
- * @property int $status Status
  * @property string $reply 回复
+ * @property int $is_show 前台显示
  * @property int $is_read 已读标记
  */
 class Contacts extends Table{
@@ -36,10 +36,9 @@ class Contacts extends Table{
 		return array(
 			array(array('ip_int', 'show_ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('name', 'phone', 'country'), 'string', array('max'=>50)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('is_read'), 'range', array('range'=>array(0, 1))),
+			array(array('is_show', 'is_read'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 		);
 	}
@@ -55,11 +54,11 @@ class Contacts extends Table{
 			'content'=>'留言内容',
 			'create_time'=>'创建时间',
 			'publish_time'=>'发布时间',
-			'ip_int'=>'IP',
-			'show_ip_int'=>'显示给用户看的IP',
+			'ip_int'=>'真实IP',
+			'show_ip_int'=>'显示IP',
 			'parent'=>'Parent',
-			'status'=>'Status',
 			'reply'=>'回复',
+			'is_show'=>'前台显示',
 			'is_read'=>'已读标记',
 		);
 	}
@@ -78,8 +77,8 @@ class Contacts extends Table{
 			'ip_int'=>'intval',
 			'show_ip_int'=>'intval',
 			'parent'=>'intval',
-			'status'=>'intval',
 			'reply'=>'',
+			'is_show'=>'intval',
 			'is_read'=>'intval',
 		);
 	}

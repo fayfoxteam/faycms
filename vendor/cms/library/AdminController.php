@@ -83,6 +83,21 @@ class AdminController extends Controller{
 	}
 	
 	/**
+	 * 表单验证，若发生错误，返回第一个报错信息
+	 * 调用该函数前需先设置表单验证规则
+	 * @param \fay\core\Form $form
+	 */
+	public function onFormError($form){
+		$errors = $form->getErrors();
+		
+		$html = '';
+		foreach($errors as $e){
+			$html .= "<p>{$e['message']}</p>";
+		}
+		Flash::set($html);
+	}
+	
+	/**
 	 * 后台管理员操作日志
 	 * @param string $type
 	 * @param string $note

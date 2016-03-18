@@ -29,8 +29,9 @@ class TagController extends AdminController{
 	}
 	
 	public function create(){
+		$this->form()->setModel(Tags::model());
 		if($this->input->post()){
-			if($this->form()->setModel(Tags::model())->check()){
+			if($this->form()->check()){
 				$data = Tags::model()->fillData($this->input->post());
 				$tag_id = Tags::model()->insert($data);
 				$this->actionlog(Actionlogs::TYPE_TAG, '创建了标签', $tag_id);
@@ -41,9 +42,7 @@ class TagController extends AdminController{
 					'tag'=>$tag,
 				));
 			}else{
-				Response::notify('error', array(
-					'message'=>$this->showDataCheckError($this->form()->getErrors(), true),
-				));
+				Response::goback();
 			}
 		}else{
 			Response::notify('error', array(
@@ -71,15 +70,10 @@ class TagController extends AdminController{
 		);
 		$tag_id = $this->input->get('id', 'intval');
 		$this->form()->setModel(Tags::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = Tags::model()->fillData($this->input->post());
-				Tags::model()->update($data, array('id = ?'=>$tag_id));
-				$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
-				Flash::set('一个标签被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			Tags::model()->update($this->form()->getAllData(), $tag_id, true);
+			$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
+			Flash::set('一个标签被编辑', 'success');
 		}
 		if($tag = Tags::model()->find($tag_id)){
 			$this->form()->setData($tag);

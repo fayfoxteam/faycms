@@ -24,12 +24,13 @@ class AnalystSiteController extends AdminController{
 	}
 	
 	public function create(){
+		$this->form()->setModel(AnalystSites::model());
 		if($this->input->post()){
-			if($this->form()->setModel(AnalystSites::model())->check()){
+			if($this->form()->check()){
 				AnalystSites::model()->insert($this->form()->getFilteredData());
 				Response::notify('success', '站点添加成功');
 			}else{
-				Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				Response::goback();
 			}
 		}else{
 			Response::notify('error', '无数据提交');
@@ -44,13 +45,9 @@ class AnalystSiteController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(AnalystSites::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				AnalystSites::model()->update($this->form()->getFilteredData(), $id);
-				Flash::set('站点编辑成功', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			AnalystSites::model()->update($this->form()->getFilteredData(), $id);
+			Flash::set('站点编辑成功', 'success');
 		}
 		
 		$site = AnalystSites::model()->find($id);

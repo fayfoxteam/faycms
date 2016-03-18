@@ -53,8 +53,6 @@ class ActionController extends AdminController{
 				$result = Actions::model()->insert($data);
 				$this->actionlog(Actionlogs::TYPE_ACTION, '添加权限', $result);
 				Response::notify('success', '权限添加成功');
-			}else{
-				Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
 			}
 		}else{
 			Response::notify('error', '不完整的请求');
@@ -95,8 +93,6 @@ class ActionController extends AdminController{
 				Actions::model()->update($data, "id = {$action_id}");
 				$this->actionlog(Actionlogs::TYPE_ACTION, '编辑管理员权限', $action_id);
 				Flash::set('权限编辑成功', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 

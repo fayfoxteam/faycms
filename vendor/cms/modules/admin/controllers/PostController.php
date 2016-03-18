@@ -454,8 +454,6 @@ class PostController extends AdminController{
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '编辑文章', $post_id);
 				Flash::set('一篇文章被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 		

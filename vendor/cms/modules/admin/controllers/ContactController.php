@@ -144,4 +144,8 @@ class ContactController extends AdminController{
 			'message'=>'',
 		));
 	}
+	
+	public function edit(){
+		
+	}
 }

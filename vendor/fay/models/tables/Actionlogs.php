@@ -105,7 +105,7 @@ class Actionlogs extends Table{
 	const TYPE_ROLE_PROP = 29;
 
 	/**
-	 * 用户留言
+	 * 访客留言
 	 */
 	const TYPE_CONTACT = 30;
 

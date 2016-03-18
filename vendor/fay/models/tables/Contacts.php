@@ -9,7 +9,7 @@ use fay\core\db\Table;
  * @property int $id Id
  * @property string $name 姓名
  * @property string $email Email
- * @property string $phone 电话
+ * @property string $mobile 电话
  * @property string $title 留言标题
  * @property string $country 国家
  * @property string $content 留言内容
@@ -34,12 +34,12 @@ class Contacts extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('ip_int', 'show_ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('name', 'phone', 'country'), 'string', array('max'=>50)),
+			array(array('name', 'country'), 'string', array('max'=>50)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('is_show', 'is_read'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
+			array(array('mobile'), 'mobile'),
 		);
 	}
 
@@ -48,7 +48,7 @@ class Contacts extends Table{
 			'id'=>'Id',
 			'name'=>'真名',
 			'email'=>'Email',
-			'phone'=>'电话',
+			'mobile'=>'电话',
 			'title'=>'留言标题',
 			'country'=>'国家',
 			'content'=>'留言内容',
@@ -68,14 +68,14 @@ class Contacts extends Table{
 			'id'=>'intval',
 			'name'=>'trim',
 			'email'=>'trim',
-			'phone'=>'trim',
+			'mobile'=>'trim',
 			'title'=>'trim',
 			'country'=>'trim',
 			'content'=>'',
 			'create_time'=>'',
 			'publish_time'=>'trim',
 			'ip_int'=>'intval',
-			'show_ip_int'=>'intval',
+			'show_ip_int'=>'trim|\fay\helpers\Request::ip2int',
 			'parent'=>'intval',
 			'reply'=>'',
 			'is_show'=>'intval',

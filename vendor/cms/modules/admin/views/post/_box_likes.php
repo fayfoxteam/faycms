@@ -7,10 +7,12 @@
 		<?php echo F::form()->inputText('likes', array(
 			'class'=>'form-control mw150',
 		))?>
+		<?php if(F::form()->getData('real_likes') !== null){?>
 		<p class="fc-grey">设定初始值，后续会按实际情况增减。</p>
-		<div class="misc-pub-section mt6 pl0">
+		<p class="misc-pub-section mt6 pl0">
 			<span>真实点赞数：</span>
 			<?php echo F::form()->getData('real_likes')?>
-		</div>
+		</p>
+		<?php }?>
 	</div>
 </div>

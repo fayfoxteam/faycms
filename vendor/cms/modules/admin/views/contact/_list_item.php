@@ -4,14 +4,14 @@ use fay\helpers\Date;
 ?>
 <li class="contact-item" id="contact-<?php echo $data['id']?>">
 	<div class="ci-options"><?php
-		if(F::app()->checkPermission('admin/contact/edit')){
-			echo Html::link('<i class="fa fa-pencil"></i>', '#contact-edit-dialog', array(
-				'data-id'=>$data['id'],
-				'class'=>'btn btn-grey edit-link',
-				'encode'=>false,
-				'title'=>'编辑',
-			));
-		}
+		echo Html::link('<i class="fa fa-pencil"></i>', array('admin/contact/edit', array(
+			'id'=>$data['id'],
+		)), array(
+			'data-id'=>$data['id'],
+			'class'=>'btn btn-grey edit-link',
+			'encode'=>false,
+			'title'=>'编辑',
+		), true);
 		if(F::app()->checkPermission('admin/contact/reply')){
 			echo Html::link('<i class="fa fa-reply-all"></i>', '#contact-reply-dialog', array(
 				'data-id'=>$data['id'],

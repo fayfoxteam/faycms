@@ -131,7 +131,7 @@ CREATE TABLE `{{$prefix}}contacts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '真名',
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT 'Email',
-  `phone` varchar(50) NOT NULL DEFAULT '' COMMENT '电话',
+  `mobile` varchar(50) NOT NULL DEFAULT '' COMMENT '电话',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '留言标题',
   `country` varchar(50) NOT NULL DEFAULT '' COMMENT '国家',
   `content` text NOT NULL COMMENT '留言内容',

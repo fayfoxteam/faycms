@@ -22,7 +22,7 @@ class Favorite extends Model{
 	 * @param int $post_id 文章ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
 	 */
-	public static function favorite($post_id, $user_id = null){
+	public static function favorite($post_id, $trackid = '', $user_id = null, $sockpuppet = 0){
 		if($user_id === null){
 			$user_id = \F::app()->current_user;
 		}else if(!User::isUserIdExist($user_id)){
@@ -41,6 +41,8 @@ class Favorite extends Model{
 			'user_id'=>$user_id,
 			'post_id'=>$post_id,
 			'create_time'=>\F::app()->current_time,
+			'trackid'=>$trackid,
+			'sockpuppet'=>$sockpuppet,
 		));
 		
 		Hook::getInstance()->call('after_post_favorite');

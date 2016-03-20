@@ -52,7 +52,7 @@ class FollowController extends ApiController{
 			array('user_id', 'compare', array(
 				'compare_value'=>$this->current_user,
 				'operator'=>'!=',
-				'code'=>'app-error:can-not-follow-yourself',
+				'code'=>'can-not-follow-yourself',
 				'message'=>'您不能关注自己',
 			))
 		))->setFilters(array(
@@ -67,7 +67,7 @@ class FollowController extends ApiController{
 		if(Follow::isFollow($user_id)){
 			Response::notify('error', array(
 				'message'=>'您已关注过该用户',
-				'code'=>'app-error:already-followed',
+				'code'=>'already-followed',
 			));
 		}
 		
@@ -99,7 +99,7 @@ class FollowController extends ApiController{
 		if(!Follow::isFollow($user_id)){
 			Response::notify('error', array(
 				'message'=>'您未关注过该用户',
-				'code'=>'app-error:not-followed',
+				'code'=>'not-followed',
 			));
 		}
 		

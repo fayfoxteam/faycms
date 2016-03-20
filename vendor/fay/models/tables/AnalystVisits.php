@@ -38,7 +38,7 @@ class AnalystVisits extends Table{
 			'short_url'=>'Short Url',
 			'trackid'=>'Trackid',
 			'user_id'=>'User Id',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'create_date'=>'Create Date',
 			'hour'=>'Hour',
 			'site'=>'Site',

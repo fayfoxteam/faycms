@@ -46,7 +46,7 @@ class Logs extends Table{
 			'code'=>'Code',
 			'data'=>'Data',
 			'create_date'=>'Create Date',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'ip_int'=>'IP',
 			'user_agent'=>'User Agent',
 		);

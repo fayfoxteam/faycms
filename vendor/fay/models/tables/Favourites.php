@@ -24,7 +24,7 @@ class Favourites extends Table{
 		return array(
 			'user_id'=>'User Id',
 			'post_id'=>'Post Id',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 		);
 	}
 

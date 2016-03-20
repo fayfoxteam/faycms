@@ -31,8 +31,8 @@ class Options extends Table{
 			'option_name'=>'参数名',
 			'option_value'=>'参数值',
 			'description'=>'Description',
-			'create_time'=>'Create Time',
-			'last_modified_time'=>'Last Modified Time',
+			'create_time'=>'创建时间',
+			'last_modified_time'=>'最后更新时间',
 			'is_system'=>'Is System',
 		);
 	}

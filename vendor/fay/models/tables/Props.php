@@ -83,7 +83,7 @@ class Props extends Table{
 			'alias'=>'别名',
 			'deleted'=>'删除标记',
 			'sort'=>'排序值',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'is_show'=>'Is Show',
 		);
 	}

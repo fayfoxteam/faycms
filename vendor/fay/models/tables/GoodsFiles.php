@@ -37,7 +37,7 @@ class GoodsFiles extends Table{
 			'file_id'=>'文件Id',
 			'description'=>'描述',
 			'sort'=>'排序',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 		);
 	}
 

@@ -47,7 +47,7 @@ class Vouchers extends Table{
 			'end_time'=>'结束时间',
 			'type'=>'类型',
 			'deleted'=>'Deleted',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'counts'=>'剩余次数',
 		);
 	}

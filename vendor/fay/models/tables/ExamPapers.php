@@ -49,8 +49,8 @@ class ExamPapers extends Table{
 			'start_time'=>'考试开始时间',
 			'end_time'=>'考试结束时间',
 			'repeatedly'=>'重复参考',
-			'create_time'=>'Create Time',
-			'last_modified_time'=>'Last Modified Time',
+			'create_time'=>'创建时间',
+			'last_modified_time'=>'最后更新时间',
 			'deleted'=>'删除',
 		);
 	}

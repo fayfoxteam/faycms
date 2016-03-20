@@ -31,7 +31,7 @@ class SpiderLogs extends Table{
 			'user_agent'=>'User Agent',
 			'ip_int'=>'IP',
 			'url'=>'Url',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 		);
 	}
 

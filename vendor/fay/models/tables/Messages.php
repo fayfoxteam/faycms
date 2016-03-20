@@ -59,7 +59,7 @@ class Messages extends Table{
 			'parent'=>'Parent',
 			'root'=>'Root',
 			'type'=>'Type',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'status'=>'审核状态 ',
 			'deleted'=>'Deleted',
 			'is_terminal'=>'判断是否为叶子节点',

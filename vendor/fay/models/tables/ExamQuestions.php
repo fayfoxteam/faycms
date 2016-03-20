@@ -64,7 +64,7 @@ class ExamQuestions extends Table{
 			'sort'=>'排序',
 			'status'=>'状态',
 			'rand'=>'随机答案顺序',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'deleted'=>'删除',
 		);
 	}

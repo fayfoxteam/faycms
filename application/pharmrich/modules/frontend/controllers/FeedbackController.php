@@ -16,7 +16,7 @@ class FeedbackController extends FrontController{
 	public function index(){
 		$sql = new Sql();
 		$sql->from('contacts')
-			->where("reply != ''")
+			//->where("reply != ''")
 			->order('id DESC');
 		
 		$this->form()->setModel(LeaveMessage::model());

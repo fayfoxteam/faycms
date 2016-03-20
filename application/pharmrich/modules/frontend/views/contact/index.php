@@ -1,6 +1,7 @@
 <div class="centered-wrapper cf mt30 contact">
 	<aside class="g-sd fl"><?php F::widget()->area('contact-sidebar')?></aside>
 	<div class="g-mn">
+		<?php \F::widget()->load('contact-map')?>
 		<div class="page-title">
 			<h1>Contact Us</h1>
 		</div>

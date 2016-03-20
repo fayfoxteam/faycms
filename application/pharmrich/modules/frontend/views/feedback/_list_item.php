@@ -16,13 +16,13 @@ use fay\helpers\Date;
 		), Html::encode($data['name']));
 		echo Html::tag('span', array(
 			'class'=>'ci-time',
-			'title'=>Date::format($data['create_time']),
+			'title'=>Date::format($data['publish_time']),
 			'prepend'=>array(
 				'tag'=>'i',
 				'class'=>'fa fa-calendar',
 				'text'=>'',
 			),
-		), date('d M Y', $data['create_time']));
+		), date('d M Y', $data['publish_time']));
 		if($data['country']){
 			echo Html::tag('span', array(
 				'class'=>'ci-country',
@@ -41,7 +41,7 @@ use fay\helpers\Date;
 				'class'=>'fa fa-map-marker',
 				'text'=>'',
 			),
-		), preg_replace('/(\d+)\.(\d+)\.(\d+)\.(\d+)/', '$1.$2.*.*', long2ip($data['ip_int'])));
+		), preg_replace('/(\d+)\.(\d+)\.(\d+)\.(\d+)/', '$1.$2.*.*', long2ip($data['show_ip_int'])));
 	?></div>
 	<div class="ci-content"><?php echo nl2br(Html::encode($data['content']))?></div>
 	<?php if($data['reply']){?>

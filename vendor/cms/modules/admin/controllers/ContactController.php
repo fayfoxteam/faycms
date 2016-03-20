@@ -12,7 +12,6 @@ use fay\helpers\Html;
 use fay\core\Loader;
 use fay\core\HttpException;
 use fay\helpers\Date;
-use fay\models\Flash;
 
 class ContactController extends AdminController{
 	/**
@@ -207,7 +206,7 @@ class ContactController extends AdminController{
 			}
 			Contacts::model()->update($data, $id);
 			$this->actionlog(Actionlogs::TYPE_CONTACT, '编辑了留言', $id);
-			Flash::set('编辑成功', 'success');
+			Response::notify('success', '编辑成功', false);
 		}
 		
 		//获取留言

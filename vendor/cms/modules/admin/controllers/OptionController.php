@@ -22,7 +22,7 @@ class OptionController extends AdminController{
 				$data = $this->form()->getFilteredData();
 				$data['create_time'] = $this->current_time;
 				$data['last_modified_time'] = $this->current_time;
-				Options::model()->insert($data);
+				$option_id = Options::model()->insert($data);
 				
 				$this->actionlog(Actionlogs::TYPE_OPTION, '添加了一个系统参数', $option_id);
 				
@@ -53,7 +53,7 @@ class OptionController extends AdminController{
 			$result = Options::model()->update($data, array('id = ?'=>$option_id));
 			
 			$this->actionlog(Actionlogs::TYPE_OPTION, '编辑了一个系统参数', $option_id);
-			Flash::set('一个参数被编辑', 'success');
+			Response::notify('success', '一个参数被编辑', false);
 		}
 		
 		if($option = Options::model()->find($option_id)){

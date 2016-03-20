@@ -13,7 +13,6 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
-use fay\models\Flash;
 use fay\models\tables\UserProfile;
 use fay\models\user\Role;
 
@@ -167,7 +166,7 @@ class UserController extends AdminController{
 			User::model()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $user_id);
-			Flash::set('修改成功', 'success');
+			Response::notify('success', '编辑成功', false);
 			
 			//置空密码字段
 			$this->form()->setData(array('password'=>''), true);

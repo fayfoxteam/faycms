@@ -11,7 +11,6 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Category;
 use fay\models\tables\RolesCats;
-use fay\models\Flash;
 use fay\models\Option;
 
 class RoleController extends AdminController{

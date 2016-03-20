@@ -5,9 +5,9 @@ use cms\library\AdminController;
 use fay\models\tables\Users;
 use fay\models\tables\Actionlogs;
 use fay\models\User;
-use fay\models\Flash;
 use fay\models\tables\Roles;
 use fay\models\user\Role;
+use fay\core\Response;
 
 class ProfileController extends AdminController{
 	public function __construct(){
@@ -30,7 +30,7 @@ class ProfileController extends AdminController{
 			User::model()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
-			Flash::set('修改成功', 'success');
+			Response::notify('success', '修改成功', false);
 			
 			//修改当前用户session
 			\F::session()->set('avatar', $data['avatar']);

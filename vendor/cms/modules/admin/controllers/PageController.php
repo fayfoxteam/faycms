@@ -13,7 +13,6 @@ use fay\models\Page;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
-use fay\models\Flash;
 
 class PageController extends AdminController{
 	public $boxes = array(
@@ -216,7 +215,7 @@ class PageController extends AdminController{
 			}
 			
 			$this->actionlog(Actionlogs::TYPE_PAGE, '编辑页面', $page_id);
-			Flash::set('一个页面被编辑', 'success');
+			Response::notify('success', '一个页面被编辑', false);
 		}
 		if($page = Pages::model()->find($page_id)){
 			$page['page_category'] = Page::model()->getPageCatIds($page_id);

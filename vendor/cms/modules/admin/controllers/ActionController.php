@@ -41,7 +41,6 @@ class ActionController extends AdminController{
 						'router = ?'=>$this->input->post('parent_router', 'trim'),
 					), 'id');
 					if(!$parent_router){
-						Flash::set('父级路由不存在');
 						Response::notify('error', '父级路由不存在');
 					}
 					$parent = $parent_router['id'];

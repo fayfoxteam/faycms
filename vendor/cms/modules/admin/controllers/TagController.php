@@ -9,7 +9,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\models\Flash;
 use fay\models\tables\TagCounter;
 
 class TagController extends AdminController{
@@ -73,7 +72,7 @@ class TagController extends AdminController{
 		if($this->input->post() && $this->form()->check()){
 			Tags::model()->update($this->form()->getAllData(), $tag_id, true);
 			$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
-			Flash::set('一个标签被编辑', 'success');
+			Response::notify('success', '一个标签被编辑', false);
 		}
 		if($tag = Tags::model()->find($tag_id)){
 			$this->form()->setData($tag);

@@ -8,7 +8,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\models\Category;
-use fay\models\Flash;
 
 class LinkController extends AdminController{
 	public function __construct(){
@@ -54,7 +53,7 @@ class LinkController extends AdminController{
 				$data['last_modified_time'] = $this->current_time;
 				Links::model()->update($data, array('id = ?'=>$id));
 				$this->actionlog(Actionlogs::TYPE_LINK, '编辑友情链接', $id);
-				Flash::set('一个链接被编辑', 'success');
+				Response::notify('success', '一个链接被编辑', false);
 			}
 		}
 		if($link = Links::model()->find($id)){

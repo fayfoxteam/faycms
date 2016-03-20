@@ -574,8 +574,8 @@ class GoodsController extends AdminController{
 				}
 			}
 			
-			Flash::set('一个商品被编辑', 'success');
 			$this->actionlog(Actionlogs::TYPE_GOODS, '编辑一个商品', $goods_id);
+			Response::notify('success', '一个商品被编辑', false);
 		}
 		
 		$goods = GoodsService::model()->get($goods_id);

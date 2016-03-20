@@ -64,16 +64,16 @@ use fay\helpers\Date;
 				),
 			), $data['country'] ? Html::encode($data['country']) : '未填写');
 		}
-		if(in_array('phone', $settings['cols'])){
+		if(in_array('mobile', $settings['cols'])){
 			echo Html::tag('span', array(
-				'class'=>'ci-phone',
+				'class'=>'ci-mobile',
 				'title'=>'电话',
 				'prepend'=>array(
 					'tag'=>'i',
 					'class'=>'fa fa-mobile-phone',
 					'text'=>'',
 				),
-			), $data['phone'] ? Html::encode($data['phone']) : '未填写');
+			), $data['mobile'] ? Html::encode($data['mobile']) : '未填写');
 		}
 		if(in_array('email', $settings['cols'])){
 			echo Html::tag('span', array(

@@ -172,13 +172,15 @@ class ContactController extends AdminController{
 	}
 	
 	public function edit(){
-		$this->layout->subtitle = '编辑留言';
+		$this->layout->subtitle = '编辑留言';//页面标题
+		$this->layout->_setting_panel = '_setting_edit';//设置模块
 		
 		//box排序
 		$_box_sort_settings = Setting::model()->get('admin_contact_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
+		//获取启用的编辑模块
 		$_setting_key = 'admin_contact_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		$_settings = Setting::model()->get($_setting_key);
@@ -214,7 +216,7 @@ class ContactController extends AdminController{
 			throw new HttpException('指定留言ID不存在');
 		}
 		
-
+		//格式化数据
 		$contact['publish_time'] = date('Y-m-d H:i:s', $contact['publish_time']);
 		$contact['create_time'] = Date::format($contact['create_time']);
 		$contact['ip_int'] = long2ip($contact['ip_int']);

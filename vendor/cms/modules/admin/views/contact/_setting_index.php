@@ -18,7 +18,7 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'country', array(
 			'label'=>'国家',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'phone', array(
+		echo F::form('setting')->inputCheckbox('cols[]', 'mobile', array(
 			'label'=>'电话',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'create_time', array(

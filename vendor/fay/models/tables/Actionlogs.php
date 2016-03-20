@@ -165,9 +165,7 @@ class Actionlogs extends Table{
 			'user_id'=>'intval',
 			'type'=>'intval',
 			'note'=>'trim',
-			'create_time'=>'',
 			'refer'=>'intval',
-			'ip_int'=>'intval',
 		);
 	}
 }

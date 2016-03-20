@@ -62,7 +62,6 @@ class Vouchers extends Table{
 			'end_time'=>'trim',
 			'type'=>'intval',
 			'deleted'=>'intval',
-			'create_time'=>'',
 			'counts'=>'intval',
 		);
 	}

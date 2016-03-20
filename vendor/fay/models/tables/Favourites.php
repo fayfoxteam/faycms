@@ -32,7 +32,6 @@ class Favourites extends Table{
 		return array(
 			'user_id'=>'intval',
 			'post_id'=>'intval',
-			'create_time'=>'',
 		);
 	}
 }

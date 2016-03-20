@@ -73,7 +73,6 @@ class UserAddresses extends Table{
 			'mobile'=>'trim',
 			'phone'=>'trim',
 			'zipcode'=>'trim',
-			'create_time'=>'',
 			'is_default'=>'intval',
 		);
 	}

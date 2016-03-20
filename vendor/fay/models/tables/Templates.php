@@ -59,7 +59,6 @@ class Templates extends Table{
 		return array(
 			'title'=>'trim',
 			'content'=>'',
-			'create_time'=>'',
 			'enable'=>'intval',
 			'deleted'=>'intval',
 			'description'=>'',

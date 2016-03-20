@@ -98,7 +98,6 @@ class Props extends Table{
 			'alias'=>'trim',
 			'deleted'=>'intval',
 			'sort'=>'intval',
-			'create_time'=>'',
 			'is_show'=>'intval',
 		);
 	}

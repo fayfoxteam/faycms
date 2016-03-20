@@ -42,8 +42,6 @@ class Options extends Table{
 			'option_name'=>'trim',
 			'option_value'=>'',
 			'description'=>'trim',
-			'create_time'=>'',
-			'last_modified_time'=>'',
 			'is_system'=>'intval',
 		);
 	}

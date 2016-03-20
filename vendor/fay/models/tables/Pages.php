@@ -90,8 +90,6 @@ class Pages extends Table{
 			'alias'=>'trim',
 			'content'=>'',
 			'author'=>'intval',
-			'create_time'=>'',
-			'last_modified_time'=>'',
 			'status'=>'intval',
 			'deleted'=>'intval',
 			'thumbnail'=>'intval',

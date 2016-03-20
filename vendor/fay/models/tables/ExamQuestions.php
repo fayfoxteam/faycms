@@ -78,7 +78,6 @@ class ExamQuestions extends Table{
 			'sort'=>'intval',
 			'status'=>'intval',
 			'rand'=>'intval',
-			'create_time'=>'',
 			'deleted'=>'intval',
 		);
 	}

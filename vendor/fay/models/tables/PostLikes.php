@@ -47,8 +47,6 @@ class PostLikes extends Table{
 		return array(
 			'post_id'=>'intval',
 			'user_id'=>'intval',
-			'create_time'=>'',
-			'ip_int'=>'intval',
 			'sockpuppet'=>'intval',
 			'trackid'=>'trim',
 		);

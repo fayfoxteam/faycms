@@ -69,7 +69,6 @@ class Tags extends Table{
 			'title'=>'trim',
 			'sort'=>'intval',
 			'user_id'=>'intval',
-			'create_time'=>'',
 			'status'=>'intval',
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',

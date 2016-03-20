@@ -59,8 +59,6 @@ class Logs extends Table{
 			'code'=>'trim',
 			'data'=>'',
 			'create_date'=>'',
-			'create_time'=>'',
-			'ip_int'=>'intval',
 			'user_agent'=>'trim',
 		);
 	}

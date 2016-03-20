@@ -68,8 +68,6 @@ class Links extends Table{
 			'visiable'=>'intval',
 			'user_id'=>'intval',
 			'target'=>'trim',
-			'create_time'=>'',
-			'last_modified_time'=>'',
 			'sort'=>'intval',
 			'logo'=>'intval',
 			'cat_id'=>'intval',

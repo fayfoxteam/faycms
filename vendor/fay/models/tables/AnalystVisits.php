@@ -52,13 +52,11 @@ class AnalystVisits extends Table{
 	public function filters(){
 		return array(
 			'mac'=>'intval',
-			'ip_int'=>'intval',
 			'refer'=>'trim',
 			'url'=>'trim',
 			'short_url'=>'trim',
 			'trackid'=>'trim',
 			'user_id'=>'intval',
-			'create_time'=>'',
 			'create_date'=>'',
 			'hour'=>'intval',
 			'site'=>'intval',

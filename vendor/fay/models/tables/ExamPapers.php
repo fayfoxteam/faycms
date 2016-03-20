@@ -66,8 +66,6 @@ class ExamPapers extends Table{
 			'start_time'=>'trim',
 			'end_time'=>'trim',
 			'repeatedly'=>'intval',
-			'create_time'=>'',
-			'last_modified_time'=>'',
 			'deleted'=>'intval',
 		);
 	}

@@ -47,8 +47,6 @@ class FeedLikes extends Table{
 		return array(
 			'feed_id'=>'intval',
 			'user_id'=>'intval',
-			'create_time'=>'',
-			'ip_int'=>'intval',
 			'sockpuppet'=>'intval',
 			'trackid'=>'trim',
 		);

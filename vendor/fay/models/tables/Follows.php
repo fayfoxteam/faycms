@@ -61,8 +61,6 @@ class Follows extends Table{
 		return array(
 			'fans_id'=>'intval',
 			'user_id'=>'intval',
-			'create_time'=>'',
-			'ip_int'=>'',
 			'relation'=>'intval',
 			'sockpuppet'=>'intval',
 			'trackid'=>'trim',

@@ -82,14 +82,9 @@ class PostComments extends Table{
 			'content'=>'',
 			'parent'=>'intval',
 			'status'=>'intval',
-			'create_time'=>'',
-			'last_modified_time'=>'',
-			'ip_int'=>'intval',
 			'sockpuppet'=>'intval',
 			'deleted'=>'intval',
 			'root'=>'intval',
-			'left_value'=>'intval',
-			'right_value'=>'intval',
 		);
 	}
 }

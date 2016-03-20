@@ -47,7 +47,6 @@ class GoodsFiles extends Table{
 			'file_id'=>'intval',
 			'description'=>'trim',
 			'sort'=>'intval',
-			'create_time'=>'',
 		);
 	}
 }

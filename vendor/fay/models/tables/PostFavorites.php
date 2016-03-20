@@ -47,8 +47,6 @@ class PostFavorites extends Table{
 		return array(
 			'user_id'=>'intval',
 			'post_id'=>'intval',
-			'create_time'=>'',
-			'ip_int'=>'intval',
 			'sockpuppet'=>'intval',
 			'trackid'=>'trim',
 		);

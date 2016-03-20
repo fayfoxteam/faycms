@@ -130,7 +130,6 @@ class Orders extends Table{
 			'receiver_name'=>'trim',
 			'receiver_mobile'=>'trim',
 			'receiver_phone'=>'trim',
-			'create_time'=>'',
 			'pay_time'=>'trim',
 			'consign_time'=>'trim',
 			'comfirm_time'=>'trim',

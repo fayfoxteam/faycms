@@ -57,8 +57,6 @@ class Categories extends Table{
 			'sort'=>'intval',
 			'description'=>'trim',
 			'is_nav'=>'intval',
-			'left_value'=>'intval',
-			'right_value'=>'intval',
 			'is_system'=>'intval',
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',

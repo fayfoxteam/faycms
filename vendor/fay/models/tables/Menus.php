@@ -75,8 +75,6 @@ class Menus extends Table{
 		return array(
 			'parent'=>'intval',
 			'sort'=>'intval',
-			'left_value'=>'intval',
-			'right_value'=>'intval',
 			'alias'=>'trim',
 			'title'=>'trim',
 			'sub_title'=>'trim',

@@ -39,9 +39,7 @@ class SpiderLogs extends Table{
 		return array(
 			'spider'=>'trim',
 			'user_agent'=>'trim',
-			'ip_int'=>'intval',
 			'url'=>'trim',
-			'create_time'=>'',
 		);
 	}
 }

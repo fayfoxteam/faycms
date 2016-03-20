@@ -125,8 +125,6 @@ class Posts extends Table{
 			'alias'=>'trim',
 			'content'=>'',
 			'content_type'=>'intval',
-			'create_time'=>'',
-			'last_modified_time'=>'',
 			'publish_date'=>'',
 			'publish_time'=>'trim',
 			'user_id'=>'intval',
@@ -139,7 +137,6 @@ class Posts extends Table{
 			'seo_title'=>'trim',
 			'seo_keywords'=>'trim',
 			'seo_description'=>'trim',
-			'ip_int'=>'intval',
 		);
 	}
 }

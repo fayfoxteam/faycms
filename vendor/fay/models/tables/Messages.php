@@ -74,7 +74,6 @@ class Messages extends Table{
 			'parent'=>'intval',
 			'root'=>'intval',
 			'type'=>'intval',
-			'create_time'=>'',
 			'status'=>'intval',
 			'deleted'=>'intval',
 			'is_terminal'=>'intval',

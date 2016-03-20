@@ -116,8 +116,6 @@ class Goods extends Table{
 			'cat_id'=>'intval',
 			'title'=>'trim',
 			'content'=>'',
-			'create_time'=>'',
-			'last_modified_time'=>'',
 			'publish_time'=>'trim',
 			'user_id'=>'intval',
 			'sub_stock'=>'intval',

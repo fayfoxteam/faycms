@@ -45,7 +45,6 @@ class Notifications extends Table{
 			'sender'=>'intval',
 			'cat_id'=>'intval',
 			'active_key'=>'trim',
-			'create_time'=>'',
 			'publish_time'=>'trim',
 			'validity_time'=>'trim',
 		);

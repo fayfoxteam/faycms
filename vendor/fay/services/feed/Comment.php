@@ -1,12 +1,12 @@
 <?php
-namespace fay\services\post;
+namespace fay\services\feed;
 
 use fay\core\Model;
-use fay\models\tables\PostComments;
+use fay\models\tables\FeedComments;
 use fay\core\Exception;
 use fay\core\Hook;
 use fay\models\Post;
-use fay\models\post\Comment as CommentModel;
+use fay\models\feed\Comment as CommentModel;
 use fay\models\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
@@ -22,7 +22,7 @@ class Comment extends Model{
 	
 	/**
 	 * 发表一条文章评论
-	 * @param int $post_id 文章ID
+	 * @param int $feed_id 文章ID
 	 * @param string $content 评论内容
 	 * @param int $parent 父ID，若是回复评论的评论，则带上被评论的评论ID，默认为0
 	 * @param int $status 状态（默认为待审核）
@@ -30,25 +30,25 @@ class Comment extends Model{
 	 * @param int $user_id 用户ID，若不指定，默认为当前登录用户ID
 	 * @param int $sockpuppet 马甲信息，若是真实用户，传入0，默认为0
 	 */
-	public function create($post_id, $content, $parent = 0, $status = PostComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
+	public function create($feed_id, $content, $parent = 0, $status = FeedComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
 		
-		if(!Post::isPostIdExist($post_id)){
-			throw new Exception('文章ID不存在', 'post_id-not-exist');
+		if(!Post::isPostIdExist($feed_id)){
+			throw new Exception('文章ID不存在', 'feed_id-not-exist');
 		}
 		
 		if($parent){
-			$parent_comment = PostComments::model()->find($parent, 'post_id,deleted');
+			$parent_comment = FeedComments::model()->find($parent, 'feed_id,deleted');
 			if(!$parent_comment || $parent_comment['deleted']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
 			}
-			if($parent_comment['post_id'] != $post_id){
-				throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'post_id-and-parent-not-match');
+			if($parent_comment['feed_id'] != $feed_id){
+				throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'feed_id-and-parent-not-match');
 			}
 		}
 		
 		$comment_id = CommentModel::model()->create(array_merge($extra, array(
-			'post_id'=>$post_id,
+			'feed_id'=>$feed_id,
 			'content'=>$content,
 			'status'=>$status,
 			'user_id'=>$user_id,
@@ -59,14 +59,14 @@ class Comment extends Model{
 		)), $parent);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array(array(
-			'post_id'=>$post_id,
+		CommentModel::model()->updateFeedComments(array(array(
+			'feed_id'=>$feed_id,
 			'status'=>$status,
 			'sockpuppet'=>$sockpuppet,
 		)), 'create');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_created', array(
+		Hook::getInstance()->call('after_feed_comment_created', array(
 			'comment_id'=>$comment_id,
 		));
 		
@@ -79,7 +79,7 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function delete($comment_id){
-		$comment = PostComments::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
+		$comment = FeedComments::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
@@ -88,16 +88,16 @@ class Comment extends Model{
 		}
 		
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
-		PostComments::model()->update(array(
+		FeedComments::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), $comment_id);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'delete');
+		CommentModel::model()->updateFeedComments(array($comment), 'delete');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_deleted', array(
+		Hook::getInstance()->call('after_feed_comment_deleted', array(
 			'comment_id'=>$comment_id,
 		));
 	}
@@ -107,17 +107,17 @@ class Comment extends Model{
 	 * @param array $comment_ids 由评论ID构成的一维数组
 	 */
 	public function batchDelete($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = FeedComments::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
 			'deleted = 0',
-		), 'id,post_id,sockpuppet,status');
+		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
 			return 0;
 		}
 		
 		//更新状态
-		$affected_rows = PostComments::model()->update(array(
+		$affected_rows = FeedComments::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -125,11 +125,11 @@ class Comment extends Model{
 		));
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'delete');
+		CommentModel::model()->updateFeedComments($comments, 'delete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_deleted', array(
+			Hook::getInstance()->call('after_feed_comment_deleted', array(
 				'comment_id'=>$c['id'],
 			));
 		}
@@ -142,7 +142,7 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function undelete($comment_id){
-		$comment = PostComments::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
+		$comment = FeedComments::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
@@ -151,16 +151,16 @@ class Comment extends Model{
 		}
 		
 		//还原不需要动树结构，只是把deleted字段标记一下即可
-		PostComments::model()->update(array(
+		FeedComments::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), $comment_id);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'undelete');
+		CommentModel::model()->updateFeedComments(array($comment), 'undelete');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_undeleted', array(
+		Hook::getInstance()->call('after_feed_comment_undeleted', array(
 			'comment_id'=>$comment_id,
 		));
 	}
@@ -170,17 +170,17 @@ class Comment extends Model{
 	 * @param array $comment_ids 由评论ID构成的一维数组
 	 */
 	public function batchUnelete($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = FeedComments::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
 			'deleted > 0',
-		), 'id,post_id,sockpuppet,status');
+		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
 			return 0;
 		}
 		
 		//更新状态
-		$affected_rows = PostComments::model()->update(array(
+		$affected_rows = FeedComments::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -188,11 +188,11 @@ class Comment extends Model{
 		));
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'undelete');
+		CommentModel::model()->updateFeedComments($comments, 'undelete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_undeleted', array(
+			Hook::getInstance()->call('after_feed_comment_undeleted', array(
 				'comment_id'=>$c['id'],
 			));
 		}
@@ -205,23 +205,23 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function deleteAll($comment_id){
-		$comment = PostComments::model()->find($comment_id, 'left_value,right_value,root');
+		$comment = FeedComments::model()->find($comment_id, 'left_value,right_value,root');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = FeedComments::model()->fetchAll(array(
 			'root = ?'=>$comment['root'],
 			'left_value >= ' . $comment['left_value'],
 			'right_value <= ' . $comment['right_value'],
 			'deleted = 0',
-		), 'id,post_id,status,sockpuppet');
+		), 'id,feed_id,status,sockpuppet');
 		
 		if($comments){
 			//如果存在待删除节点，则执行删除
 			$comment_ids = ArrayHelper::column($comments, 'id');
-			PostComments::model()->update(array(
+			FeedComments::model()->update(array(
 				'deleted'=>1,
 				'last_modified_time'=>\F::app()->current_time,
 			), array(
@@ -229,10 +229,10 @@ class Comment extends Model{
 			));
 			
 			//更新文章评论数
-			CommentModel::model()->updatePostComments($comments, 'delete');
+			CommentModel::model()->updateFeedComments($comments, 'delete');
 			
 			//执行钩子
-			Hook::getInstance()->call('after_post_comment_batch_deleted', array(
+			Hook::getInstance()->call('after_feed_comment_batch_deleted', array(
 				'comment_ids'=>$comment_ids,
 			));
 			
@@ -247,13 +247,13 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function remove($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = FeedComments::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//执行钩子，这个不能用after，记录都没了就没法找了
-		Hook::getInstance()->call('before_post_comment_removed', array(
+		Hook::getInstance()->call('before_feed_comment_removed', array(
 			'comment_id'=>$comment_id,
 		));
 		
@@ -261,7 +261,7 @@ class Comment extends Model{
 		
 		if(!$comment['deleted']){
 			//更新文章评论数
-			CommentModel::model()->updatePostComments(array($comment), 'remove');
+			CommentModel::model()->updateFeedComments(array($comment), 'remove');
 		}
 		
 		return true;
@@ -272,20 +272,20 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function removeAll($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = FeedComments::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = FeedComments::model()->fetchAll(array(
 			'root = ?'=>$comment['root'],
 			'left_value >= ' . $comment['left_value'],
 			'right_value <= ' . $comment['right_value'],
-		), 'id,post_id,status,sockpuppet');
+		), 'id,feed_id,status,sockpuppet');
 		$comment_ids = ArrayHelper::column($comments, 'id');
 		//执行钩子
-		Hook::getInstance()->call('before_post_comment_batch_removed', array(
+		Hook::getInstance()->call('before_feed_comment_batch_removed', array(
 			'comment_ids'=>$comment_ids,
 		));
 		
@@ -297,7 +297,7 @@ class Comment extends Model{
 			}
 		}
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($undeleted_comments, 'remove');
+		CommentModel::model()->updateFeedComments($undeleted_comments, 'remove');
 		
 		//执行删除
 		CommentModel::model()->removeAll($comment);
@@ -310,24 +310,24 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function approve($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = FeedComments::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
 		if($comment['deleted']){
 			throw new Exception('评论已删除', 'comment-deleted');
 		}
-		if($comment['status'] == PostComments::STATUS_APPROVED){
+		if($comment['status'] == FeedComments::STATUS_APPROVED){
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		CommentModel::model()->setStatus($comment_id, PostComments::STATUS_APPROVED);
+		CommentModel::model()->setStatus($comment_id, FeedComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'approve');
+		CommentModel::model()->updateFeedComments(array($comment), 'approve');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_approved', array(
+		Hook::getInstance()->call('after_feed_comment_approved', array(
 			'comment_id'=>$comment_id,
 		));
 		return true;
@@ -338,24 +338,24 @@ class Comment extends Model{
 	 * @param array $comment_ids 由评论ID构成的一维数组
 	 */
 	public function batchApprove($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = FeedComments::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'status != ' . PostComments::STATUS_APPROVED,
-		), 'id,post_id,sockpuppet,status');
+			'status != ' . FeedComments::STATUS_APPROVED,
+		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
 			return 0;
 		}
 		
 		//更新状态
-		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
+		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'approve');
+		CommentModel::model()->updateFeedComments($comments, 'approve');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_approved', array(
+			Hook::getInstance()->call('after_feed_comment_approved', array(
 				'comment_id'=>$c['id'],
 			));
 		}
@@ -368,24 +368,24 @@ class Comment extends Model{
 	 * @param int $comment_id 评论ID
 	 */
 	public function disapprove($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = FeedComments::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
 		if($comment['deleted']){
 			throw new Exception('评论已删除', 'comment-is-deleted');
 		}
-		if($comment['status'] == PostComments::STATUS_UNAPPROVED){
+		if($comment['status'] == FeedComments::STATUS_UNAPPROVED){
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		CommentModel::model()->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
+		CommentModel::model()->setStatus($comment_id, FeedComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'disapprove');
+		CommentModel::model()->updateFeedComments(array($comment), 'disapprove');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_disapproved', array(
+		Hook::getInstance()->call('after_feed_comment_disapproved', array(
 			'comment_id'=>$comment_id,
 		));
 		return true;
@@ -396,24 +396,24 @@ class Comment extends Model{
 	 * @param array $comment_ids 由评论ID构成的一维数组
 	 */
 	public function batchDisapprove($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = FeedComments::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'status != ' . PostComments::STATUS_UNAPPROVED,
-		), 'id,post_id,sockpuppet,status');
+			'status != ' . FeedComments::STATUS_UNAPPROVED,
+		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
 			return 0;
 		}
 		
 		//更新状态
-		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
+		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'disapprove');
+		CommentModel::model()->updateFeedComments($comments, 'disapprove');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_disapproved', array(
+			Hook::getInstance()->call('after_feed_comment_disapproved', array(
 				'comment_id'=>$c['id'],
 			));
 		}
@@ -427,7 +427,7 @@ class Comment extends Model{
 	 * @param string $content 评论内容
 	 */
 	public function update($comment_id, $content){
-		return PostComments::model()->update(array(
+		return FeedComments::model()->update(array(
 			'content'=>$content,
 		), $comment_id);
 	}
@@ -438,9 +438,9 @@ class Comment extends Model{
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 * @param mix $post_comment_verify 是否开启文章评论审核（视为bool）
 	 */
-	private function needChangePostComments($comment, $action, $post_comment_verify){
+	private function needChangeFeedComments($comment, $action, $post_comment_verify){
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($comment['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
+			if($comment['status'] == FeedComments::STATUS_APPROVED || !$post_comment_verify){
 				return true;
 			}
 		}else if($action == 'approve'){
@@ -450,7 +450,7 @@ class Comment extends Model{
 			}
 		}else if($action == 'disapprove'){
 			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
-			if($comment['status'] == PostComments::STATUS_APPROVED && $post_comment_verify){
+			if($comment['status'] == FeedComments::STATUS_APPROVED && $post_comment_verify){
 				return true;
 			}
 		}
@@ -459,33 +459,33 @@ class Comment extends Model{
 	}
 	
 	/**
-	 * 更post_meta表comments和real_comments字段。
-	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
+	 * 更feed_meta表comments和real_comments字段。
+	 * @param array $comments 相关评论（二维数组，每项必须包含feed_id,status,sockpuppet字段，且feed_id必须都相同）
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 */
-	private function updatePostComments($comments, $action){
+	private function updateFeedComments($comments, $action){
 		$post_comment_verify = Option::get('system:post_comment_verify');
-		$posts = array();
+		$feeds = array();
 		foreach($comments as $c){
-			if($this->needChangePostComments($c, $action, $post_comment_verify)){
+			if($this->needChangeFeedComments($c, $action, $post_comment_verify)){
 				//更新评论数
-				if(isset($posts[$c['post_id']]['comments'])){
-					$posts[$c['post_id']]['comments']++;
+				if(isset($feeds[$c['feed_id']]['comments'])){
+					$feeds[$c['feed_id']]['comments']++;
 				}else{
-					$posts[$c['post_id']]['comments'] = 1;
+					$feeds[$c['feed_id']]['comments'] = 1;
 				}
 				if(!$c['sockpuppet']){
 					//如果不是马甲，更新真实评论数
-					if(isset($posts[$c['post_id']]['real_comments'])){
-						$posts[$c['post_id']]['real_comments']++;
+					if(isset($feeds[$c['feed_id']]['real_comments'])){
+						$feeds[$c['feed_id']]['real_comments']++;
 					}else{
-						$posts[$c['post_id']]['real_comments'] = 1;
+						$feeds[$c['feed_id']]['real_comments'] = 1;
 					}
 				}
 			}
 		}
 		
-		foreach($posts as $post_id => $comment_count){
+		foreach($feeds as $feed_id => $comment_count){
 			$comments = isset($comment_count['comments']) ? $comment_count['comments'] : 0;
 			$real_comments = isset($comment_count['real_comments']) ? $comment_count['real_comments'] : 0;
 			if(in_array($action, array('delete', 'remove', 'disapprove'))){
@@ -496,13 +496,13 @@ class Comment extends Model{
 			
 			if($comments && $comments == $real_comments){
 				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				PostMeta::model()->incr($post_id, array('comments', 'real_comments'), $comments);
+				PostMeta::model()->incr($feed_id, array('comments', 'real_comments'), $comments);
 			}else{
 				if($comments){
-					PostMeta::model()->incr($post_id, array('comments'), $comments);
+					PostMeta::model()->incr($feed_id, array('comments'), $comments);
 				}
 				if($real_comments){
-					PostMeta::model()->incr($post_id, array('real_comments'), $real_comments);
+					PostMeta::model()->incr($feed_id, array('real_comments'), $real_comments);
 				}
 			}
 		}

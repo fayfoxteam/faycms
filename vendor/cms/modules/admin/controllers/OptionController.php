@@ -8,6 +8,7 @@ use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\Flash;
+use fay\models\tables\Actionlogs;
 
 class OptionController extends AdminController{
 	public function __construct(){
@@ -23,18 +24,18 @@ class OptionController extends AdminController{
 				$data['last_modified_time'] = $this->current_time;
 				Options::model()->insert($data);
 				
+				$this->actionlog(Actionlogs::TYPE_OPTION, '添加了一个系统参数', $option_id);
+				
 				Response::notify('success', array(
 					'message'=>'站点参数添加成功',
-				), array('admin/option/index'));
+				));
 			}else{
-				Response::notify('error', array(
-					'message'=>'参数异常',
-				), array('admin/option/index'));
+				Response::goback();
 			}
 		}else{
 			Response::notify('error', array(
 				'message'=>'不完整的请求',
-			), array('admin/option/index'));
+			));
 		}
 	}
 	
@@ -46,16 +47,15 @@ class OptionController extends AdminController{
 		);
 		$option_id = $this->input->get('id', 'intval');
 		$this->form()->setModel(Options::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				$data['last_modified_time'] = $this->current_time;
-				Options::model()->update($data, array('id = ?'=>$option_id));
-				Flash::set('一个参数被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			$data['last_modified_time'] = $this->current_time;
+			$result = Options::model()->update($data, array('id = ?'=>$option_id));
+			
+			$this->actionlog(Actionlogs::TYPE_OPTION, '编辑了一个系统参数', $option_id);
+			Flash::set('一个参数被编辑', 'success');
 		}
+		
 		if($option = Options::model()->find($option_id)){
 			$this->form()->setData($option);
 			$this->view->option = $option;
@@ -80,7 +80,21 @@ class OptionController extends AdminController{
 	}
 	
 	public function remove(){
-		Options::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
+		$option_id = $this->input->get('id', 'intval');
+		
+		if(!$option_id){
+			Response::notify('error', '未指定参数ID');
+		}
+		
+		$option = Options::model()->find($option_id);
+		if(!$option){
+			Response::notify('error', '指定参数ID不存在');
+		}
+		
+		Options::model()->delete(array('id = ?'=>$option_id));
+		
+		$this->actionlog(Actionlogs::TYPE_OPTION, '移除了一个系统参数', $option['option_name']);
+		
 		Response::notify('success', array(
 			'message'=>'一个参数被永久删除',
 		), array('admin/option/index', $this->input->get()));

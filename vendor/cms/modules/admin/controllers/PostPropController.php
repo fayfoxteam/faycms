@@ -64,10 +64,7 @@ class PostPropController extends AdminController{
 				'id'=>$prop_id,
 			));
 		}else{
-			Response::notify('error', array(
-				'message'=>$this->showDataCheckError($this->form()->getErrors(), true),
-				'id'=>$prop_id,
-			));
+			Response::goback();
 		}
 	}
 	
@@ -75,22 +72,18 @@ class PostPropController extends AdminController{
 		$prop_id = $this->input->get('id', 'intval');
 		
 		$check = $this->form()->setModel(Props::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$refer = $this->input->post('refer', 'intval');
-				$prop = $this->form()->getFilteredData();
-				isset($prop['required']) || $prop['required'] = 0;
-				
-				$prop_values = $this->input->post('prop_values', array());
-				$ids = $this->input->post('ids', 'intval', array('-1'));
-				
-				Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
-				
-				Flash::set('文章分类属性编辑成功', 'success');
-				$this->actionlog(Actionlogs::TYPE_POST_CAT, '编辑了文章分类属性信息', $prop_id);
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$refer = $this->input->post('refer', 'intval');
+			$prop = $this->form()->getFilteredData();
+			isset($prop['required']) || $prop['required'] = 0;
+			
+			$prop_values = $this->input->post('prop_values', array());
+			$ids = $this->input->post('ids', 'intval', array('-1'));
+			
+			Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
+			
+			Flash::set('文章分类属性编辑成功', 'success');
+			$this->actionlog(Actionlogs::TYPE_POST_CAT, '编辑了文章分类属性信息', $prop_id);
 		}
 		
 		$prop = Prop::model()->get($prop_id, Props::TYPE_POST_CAT);

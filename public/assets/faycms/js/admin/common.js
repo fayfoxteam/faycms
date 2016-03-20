@@ -515,6 +515,7 @@ var common = {
 		});
 	},
 	'validform': function(){
+		return false;
 		if($('form.validform').length){
 			system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
 				if(!$.isEmptyObject(common.validformParams.forms)){
@@ -916,9 +917,9 @@ var common = {
 					'positionClass': 'toast-top-right'
 				});
 			}else if(type == 'error'){
-				//报错，也在右上角，显示关闭按钮，8秒后消失
+				//报错，也在右上角，显示关闭按钮，不消失
 				$.toast(message, type, {
-					'timeOut': 8000,
+					'timeOut': 0,
 					'positionClass': 'toast-top-right'
 				});
 			}else if(type == 'alert'){

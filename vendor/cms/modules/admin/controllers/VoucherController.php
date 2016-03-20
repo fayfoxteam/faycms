@@ -19,21 +19,17 @@ class VoucherController extends AdminController{
 		$this->layout->subtitle = '添加优惠卷';
 		
 		$this->form()->setModel(Vouchers::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				for($i = 0; $i < $this->input->post('num'); $i++){
-					$data = Vouchers::model()->fillData($this->input->post());
-		
-					//拼接优惠码
-					$data['sn'] = $data['cat_id'] . StringHelper::random('numeric', 5);
-					$data['create_time'] = $this->current_time;
-					Vouchers::model()->insert($data);
-				}
-		
-				Flash::set($this->input->post('num').'个优惠码被添加','success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+		if($this->input->post() && $this->form()->check()){
+			for($i = 0; $i < $this->input->post('num'); $i++){
+				$data = Vouchers::model()->fillData($this->input->post());
+				
+				//拼接优惠码
+				$data['sn'] = $data['cat_id'] . StringHelper::random('numeric', 5);
+				$data['create_time'] = $this->current_time;
+				Vouchers::model()->insert($data);
 			}
+			
+			Flash::set($this->input->post('num').'个优惠码被添加','success');
 		}
 		
 		$this->view->cats = Category::model()->getNextLevel('_system_voucher');

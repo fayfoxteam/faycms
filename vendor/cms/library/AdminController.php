@@ -90,11 +90,9 @@ class AdminController extends Controller{
 	public function onFormError($form){
 		$errors = $form->getErrors();
 		
-		$html = '';
 		foreach($errors as $e){
-			$html .= "<p>{$e['message']}</p>";
+			Flash::set($e['message']);
 		}
-		Flash::set($html);
 	}
 	
 	/**

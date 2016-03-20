@@ -20,19 +20,15 @@ class LinkController extends AdminController{
 		$this->layout->subtitle = '添加链接';
 		
 		$this->form()->setModel(Links::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				isset($data['visiable']) || $data['visiable'] = 1;
-				$data['create_time'] = $this->current_time;
-				$data['user_id'] = $this->current_user;
-				$data['last_modified_time'] = $this->current_time;
-				$link_id = Links::model()->insert($data);
-				$this->actionlog(Actionlogs::TYPE_LINK, '添加友情链接', $link_id);
-				Response::notify('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			isset($data['visiable']) || $data['visiable'] = 1;
+			$data['create_time'] = $this->current_time;
+			$data['user_id'] = $this->current_user;
+			$data['last_modified_time'] = $this->current_time;
+			$link_id = Links::model()->insert($data);
+			$this->actionlog(Actionlogs::TYPE_LINK, '添加友情链接', $link_id);
+			Response::notify('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
 		}
 		
 		$this->view->cats = Category::model()->getTree('_system_link');

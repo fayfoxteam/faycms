@@ -30,6 +30,7 @@ class AnalystSiteController extends AdminController{
 				AnalystSites::model()->insert($this->form()->getFilteredData());
 				Response::notify('success', '站点添加成功');
 			}else{
+				//若表单验证出错，返回上一页
 				Response::goback();
 			}
 		}else{

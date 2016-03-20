@@ -123,6 +123,11 @@ class Actionlogs extends Table{
 	 * 文章评论
 	 */
 	const TYPE_POST_COMMENT = 33;
+	
+	/**
+	 * 系统参数
+	 */
+	const TYPE_OPTION = 34;
 
 	protected $_name = 'actionlogs';
 	

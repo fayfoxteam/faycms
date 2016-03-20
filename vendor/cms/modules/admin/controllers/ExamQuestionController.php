@@ -77,71 +77,67 @@ class ExamQuestionController extends AdminController{
 		
 		$this->form()->setModel(ExamQuestions::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$question_id = ExamQuestions::model()->insert(array(
-					'question'=>$this->input->post('question'),
-					'cat_id'=>$this->input->post('cat_id', 'intval', 0),
-					'score'=>$this->input->post('score', 'floatval'),
-					'type'=>$this->input->post('type', 'intval'),
-					'sort'=>$this->input->post('sort', 'intval', 100),
-					'status'=>$this->input->post('status', 'intval'),
-					'rand'=>$this->input->post('rand', 'intval', 0),
-					'create_time'=>$this->current_time,
-				));
-	
-				switch($this->input->post('type', 'intval')){
-					case ExamQuestions::TYPE_SINGLE_ANSWER:
-					case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
-						//选择题
-						$selector_answers = $this->input->post('selector_answers');
-						$selector_right_answers = $this->input->post('selector_right_answers');
-						$i = 0;
-						foreach($selector_answers as $k=>$a){
-							ExamAnswers::model()->insert(array(
-								'question_id'=>$question_id,
-								'answer'=>$a,
-								'is_right_answer'=>in_array($k, $selector_right_answers) ? 1 : 0,
-								'sort'=>++$i,
-							));
-						}
-					break;
-					case ExamQuestions::TYPE_INPUT:
-						//填空题
+		if($this->input->post() && $this->form()->check()){
+			$question_id = ExamQuestions::model()->insert(array(
+				'question'=>$this->input->post('question'),
+				'cat_id'=>$this->input->post('cat_id', 'intval', 0),
+				'score'=>$this->input->post('score', 'floatval'),
+				'type'=>$this->input->post('type', 'intval'),
+				'sort'=>$this->input->post('sort', 'intval', 100),
+				'status'=>$this->input->post('status', 'intval'),
+				'rand'=>$this->input->post('rand', 'intval', 0),
+				'create_time'=>$this->current_time,
+			));
+
+			switch($this->input->post('type', 'intval')){
+				case ExamQuestions::TYPE_SINGLE_ANSWER:
+				case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
+					//选择题
+					$selector_answers = $this->input->post('selector_answers');
+					$selector_right_answers = $this->input->post('selector_right_answers');
+					$i = 0;
+					foreach($selector_answers as $k=>$a){
 						ExamAnswers::model()->insert(array(
 							'question_id'=>$question_id,
-							'answer'=>$this->input->post('input_answer'),
-							'is_right_answer'=>1,
-							'sort'=>1,
+							'answer'=>$a,
+							'is_right_answer'=>in_array($k, $selector_right_answers) ? 1 : 0,
+							'sort'=>++$i,
 						));
-					break;
-					case ExamQuestions::TYPE_TRUE_OR_FALSE:
-						//判断题
-						$true_or_false_answer = $this->input->post('true_or_false_answer');
-						ExamAnswers::model()->insert(array(
-							'question_id'=>$question_id,
-							'answer'=>'正确',
-							'is_right_answer'=>$true_or_false_answer ? 1 : 0,
-							'sort'=>1,
-						));
-						ExamAnswers::model()->insert(array(
-							'question_id'=>$question_id,
-							'answer'=>'错误',
-							'is_right_answer'=>$true_or_false_answer ? 0 : 1,
-							'sort'=>2,
-						));
-					break;
-				}
-				$this->actionlog(Actionlogs::TYPE_EXAM, '创建了一个试题', $question_id);
-				
-				Response::notify('success', '一个试题被添加', array(
-					'admin/exam-question/edit', array(
-						'id'=>$question_id,
-					)
-				));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+					}
+				break;
+				case ExamQuestions::TYPE_INPUT:
+					//填空题
+					ExamAnswers::model()->insert(array(
+						'question_id'=>$question_id,
+						'answer'=>$this->input->post('input_answer'),
+						'is_right_answer'=>1,
+						'sort'=>1,
+					));
+				break;
+				case ExamQuestions::TYPE_TRUE_OR_FALSE:
+					//判断题
+					$true_or_false_answer = $this->input->post('true_or_false_answer');
+					ExamAnswers::model()->insert(array(
+						'question_id'=>$question_id,
+						'answer'=>'正确',
+						'is_right_answer'=>$true_or_false_answer ? 1 : 0,
+						'sort'=>1,
+					));
+					ExamAnswers::model()->insert(array(
+						'question_id'=>$question_id,
+						'answer'=>'错误',
+						'is_right_answer'=>$true_or_false_answer ? 0 : 1,
+						'sort'=>2,
+					));
+				break;
 			}
+			$this->actionlog(Actionlogs::TYPE_EXAM, '创建了一个试题', $question_id);
+			
+			Response::notify('success', '一个试题被添加', array(
+				'admin/exam-question/edit', array(
+					'id'=>$question_id,
+				)
+			));
 		}
 		
 		//分类树
@@ -158,148 +154,144 @@ class ExamQuestionController extends AdminController{
 		
 		$this->form()->setModel(ExamQuestions::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$old_question = ExamQuestions::model()->find($id, 'type');
-				$new_question_type = $this->input->post('type', 'intval', $old_question['type']);
-				ExamQuestions::model()->update(array(
-					'question'=>$this->input->post('question'),
-					'cat_id'=>$this->input->post('cat_id', 'intval'),
-					'score'=>$this->input->post('score', 'floatval'),
-					'type'=>$new_question_type,
-					'sort'=>$this->input->post('sort', 'intval', 100),
-					'status'=>$this->input->post('status', 'intval'),
-					'rand'=>$this->input->post('rand', 'intval', 0),
-				), $id);
-				
-				switch($new_question_type){
-					//选择题
-					case ExamQuestions::TYPE_SINGLE_ANSWER:
-					case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
+		if($this->input->post() && $this->form()->check()){
+			$old_question = ExamQuestions::model()->find($id, 'type');
+			$new_question_type = $this->input->post('type', 'intval', $old_question['type']);
+			ExamQuestions::model()->update(array(
+				'question'=>$this->input->post('question'),
+				'cat_id'=>$this->input->post('cat_id', 'intval'),
+				'score'=>$this->input->post('score', 'floatval'),
+				'type'=>$new_question_type,
+				'sort'=>$this->input->post('sort', 'intval', 100),
+				'status'=>$this->input->post('status', 'intval'),
+				'rand'=>$this->input->post('rand', 'intval', 0),
+			), $id);
+			
+			switch($new_question_type){
+				//选择题
+				case ExamQuestions::TYPE_SINGLE_ANSWER:
+				case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
+					$selector_answers = $this->input->post('selector_answers');
+					$selector_right_answers = $this->input->post('selector_right_answers', 'intval', array());
+					
+					if($old_question['type'] != ExamQuestions::TYPE_SINGLE_ANSWER &&
+						$old_question['type'] != ExamQuestions::TYPE_MULTIPLE_ANSWERS){
+						//原先不是选择题，直接清空原有答案
+						ExamAnswers::model()->delete(array(
+							'question_id = ?'=>$id,
+						));
 						$selector_answers = $this->input->post('selector_answers');
-						$selector_right_answers = $this->input->post('selector_right_answers', 'intval', array());
-						
-						if($old_question['type'] != ExamQuestions::TYPE_SINGLE_ANSWER &&
-							$old_question['type'] != ExamQuestions::TYPE_MULTIPLE_ANSWERS){
-							//原先不是选择题，直接清空原有答案
-							ExamAnswers::model()->delete(array(
-								'question_id = ?'=>$id,
+						$i = 0;
+						foreach($selector_answers as $k=>$a){
+							ExamAnswers::model()->insert(array(
+								'question_id'=>$id,
+								'answer'=>$a,
+								'is_right_answer'=>in_array($k, $selector_right_answers),
+								'sort'=>++$i,
 							));
-							$selector_answers = $this->input->post('selector_answers');
-							$i = 0;
-							foreach($selector_answers as $k=>$a){
-								ExamAnswers::model()->insert(array(
+						}
+					}else{
+						//本来就是选择题，对原有数据进行更新
+						$answer_ids = array();
+						$i = 0;
+						foreach($selector_answers as $k=>$a){
+							if(StringHelper::isInt($k)){
+								//老记录，更新
+								$answer_ids[] = $k;
+								//更新记录
+								ExamAnswers::model()->update(array(
+									'answer'=>$a,
+									'sort'=>++$i,
+									'is_right_answer'=>in_array($k, $selector_right_answers) ? 1 : 0,
+								), $k);
+							}else{
+								//新纪录，插入
+								$answer_ids[] = ExamAnswers::model()->insert(array(
 									'question_id'=>$id,
 									'answer'=>$a,
-									'is_right_answer'=>in_array($k, $selector_right_answers),
+									'is_right_answer'=>in_array($k, $selector_right_answers) ? 1 : 0,
 									'sort'=>++$i,
 								));
 							}
-						}else{
-							//本来就是选择题，对原有数据进行更新
-							$answer_ids = array();
-							$i = 0;
-							foreach($selector_answers as $k=>$a){
-								if(StringHelper::isInt($k)){
-									//老记录，更新
-									$answer_ids[] = $k;
-									//更新记录
-									ExamAnswers::model()->update(array(
-										'answer'=>$a,
-										'sort'=>++$i,
-										'is_right_answer'=>in_array($k, $selector_right_answers) ? 1 : 0,
-									), $k);
-								}else{
-									//新纪录，插入
-									$answer_ids[] = ExamAnswers::model()->insert(array(
-										'question_id'=>$id,
-										'answer'=>$a,
-										'is_right_answer'=>in_array($k, $selector_right_answers) ? 1 : 0,
-										'sort'=>++$i,
-									));
-								}
-							}
-							//删除被删除了的答案
-							if($answer_ids){
-								//虽然没答案并不合常理，但这个不做强制检测
-								ExamAnswers::model()->delete(array(
-									'question_id = ?'=>$id,
-									'id NOT IN (?)'=>$answer_ids,
-								));
-							}else{
-								ExamAnswers::model()->delete(array(
-									'question_id = ?'=>$id,
-								));
-							}
 						}
-						break;
-					case ExamQuestions::TYPE_INPUT:
-						//填空题
-						if($old_question['type'] != ExamQuestions::TYPE_INPUT){
-							//原先不是填空题，直接清空原有答案
+						//删除被删除了的答案
+						if($answer_ids){
+							//虽然没答案并不合常理，但这个不做强制检测
+							ExamAnswers::model()->delete(array(
+								'question_id = ?'=>$id,
+								'id NOT IN (?)'=>$answer_ids,
+							));
+						}else{
 							ExamAnswers::model()->delete(array(
 								'question_id = ?'=>$id,
 							));
-							ExamAnswers::model()->insert(array(
-								'question_id'=>$id,
-								'answer'=>$this->input->post('input_answer'),
-								'is_right_answer'=>1,
-								'sort'=>1,
-							));
-						}else{
-							//更新答案
-							ExamAnswers::model()->update(array(
-								'answer'=>$this->input->post('input_answer'),
-								'is_right_answer'=>1,
-								'sort'=>1,
-							), array(
-								'question_id = ?'=>$id,
-							));
 						}
-						break;
-					case ExamQuestions::TYPE_TRUE_OR_FALSE:
-						//判断题
-						$true_or_false_answer = $this->input->post('true_or_false_answer');
-						if($old_question['type'] != ExamQuestions::TYPE_TRUE_OR_FALSE){
-							//原先不是判断题，直接清空原有答案
-							ExamAnswers::model()->delete(array(
-								'question_id = ?'=>$id,
-							));
-							ExamAnswers::model()->insert(array(
-								'question_id'=>$id,
-								'answer'=>'正确',
-								'is_right_answer'=>$true_or_false_answer ? 1 : 0,
-								'sort'=>1,
-							));
-							ExamAnswers::model()->insert(array(
-								'question_id'=>$id,
-								'answer'=>'错误',
-								'is_right_answer'=>$true_or_false_answer ? 0 : 1,
-								'sort'=>2,
-							));
-						}else{
-							//更新答案
-							ExamAnswers::model()->update(array(
-								'is_right_answer'=>$true_or_false_answer ? 1 : 0,
-							), array(
-								'question_id = ?'=>$id,
-								'sort = 1',
-							));
-							ExamAnswers::model()->update(array(
-								'is_right_answer'=>$true_or_false_answer ? 0 : 1,
-							), array(
-								'question_id = ?'=>$id,
-								'sort = 2',
-							));
-						}
-						break;
-				}
-				
-				$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一个试题', $id);
-				Flash::set('编辑成功', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+					}
+					break;
+				case ExamQuestions::TYPE_INPUT:
+					//填空题
+					if($old_question['type'] != ExamQuestions::TYPE_INPUT){
+						//原先不是填空题，直接清空原有答案
+						ExamAnswers::model()->delete(array(
+							'question_id = ?'=>$id,
+						));
+						ExamAnswers::model()->insert(array(
+							'question_id'=>$id,
+							'answer'=>$this->input->post('input_answer'),
+							'is_right_answer'=>1,
+							'sort'=>1,
+						));
+					}else{
+						//更新答案
+						ExamAnswers::model()->update(array(
+							'answer'=>$this->input->post('input_answer'),
+							'is_right_answer'=>1,
+							'sort'=>1,
+						), array(
+							'question_id = ?'=>$id,
+						));
+					}
+					break;
+				case ExamQuestions::TYPE_TRUE_OR_FALSE:
+					//判断题
+					$true_or_false_answer = $this->input->post('true_or_false_answer');
+					if($old_question['type'] != ExamQuestions::TYPE_TRUE_OR_FALSE){
+						//原先不是判断题，直接清空原有答案
+						ExamAnswers::model()->delete(array(
+							'question_id = ?'=>$id,
+						));
+						ExamAnswers::model()->insert(array(
+							'question_id'=>$id,
+							'answer'=>'正确',
+							'is_right_answer'=>$true_or_false_answer ? 1 : 0,
+							'sort'=>1,
+						));
+						ExamAnswers::model()->insert(array(
+							'question_id'=>$id,
+							'answer'=>'错误',
+							'is_right_answer'=>$true_or_false_answer ? 0 : 1,
+							'sort'=>2,
+						));
+					}else{
+						//更新答案
+						ExamAnswers::model()->update(array(
+							'is_right_answer'=>$true_or_false_answer ? 1 : 0,
+						), array(
+							'question_id = ?'=>$id,
+							'sort = 1',
+						));
+						ExamAnswers::model()->update(array(
+							'is_right_answer'=>$true_or_false_answer ? 0 : 1,
+						), array(
+							'question_id = ?'=>$id,
+							'sort = 2',
+						));
+					}
+					break;
 			}
+			
+			$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一个试题', $id);
+			Response::notify('success', '编辑成功', false);
 		}
 		
 		$question = ExamQuestions::model()->find($id);

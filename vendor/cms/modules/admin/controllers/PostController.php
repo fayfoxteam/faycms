@@ -90,59 +90,55 @@ class PostController extends AdminController{
 		
 		$this->form()->setModel(Posts::model())
 			->setModel(PostsFiles::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				//添加posts表
-				$data = Posts::model()->fillData($this->input->post());
-				isset($data['cat_id']) || $data['cat_id'] = $cat_id;
-				
-				//发布时间特殊处理
-				if(in_array('publish_time', $enabled_boxes)){
-					if(empty($data['publish_time'])){
-						$data['publish_time'] = $this->current_time;
-						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
-					}else{
-						$data['publish_time'] = strtotime($data['publish_time']);
-						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
-					}
+		if($this->input->post() && $this->form()->check()){
+			//添加posts表
+			$data = Posts::model()->fillData($this->input->post());
+			isset($data['cat_id']) || $data['cat_id'] = $cat_id;
+			
+			//发布时间特殊处理
+			if(in_array('publish_time', $enabled_boxes)){
+				if(empty($data['publish_time'])){
+					$data['publish_time'] = $this->current_time;
+					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+				}else{
+					$data['publish_time'] = strtotime($data['publish_time']);
+					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
 				}
-				
-				$extra = array();
-				//附加分类
-				if($post_category = $this->form()->getData('post_category')){
-					$extra['categories'] = $post_category;
-				}
-				
-				//标签
-				if($tags = $this->input->post('tags')){
-					$extra['tags'] = $tags;
-				}
-				
-				//附件
-				$description = $this->input->post('description');
-				$files = $this->input->post('files', 'intval', array());
-				$extra['files'] = array();
-				foreach($files as $f){
-					$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
-				}
-				
-				//附加属性
-				$extra['props'] = $this->input->post('props', '', array());
-				
-				$post_id = PostService::model()->create($data, $extra, $this->current_user);
-				
-				//hook
-				Hook::getInstance()->call('after_post_created', array(
-					'post_id'=>$post_id,
-				));
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '添加文章', $post_id);
-				Response::notify('success', '文章发布成功', array('admin/post/edit', array(
-					'id'=>$post_id,
-				)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			
+			$extra = array();
+			//附加分类
+			if($post_category = $this->form()->getData('post_category')){
+				$extra['categories'] = $post_category;
+			}
+			
+			//标签
+			if($tags = $this->input->post('tags')){
+				$extra['tags'] = $tags;
+			}
+			
+			//附件
+			$description = $this->input->post('description');
+			$files = $this->input->post('files', 'intval', array());
+			$extra['files'] = array();
+			foreach($files as $f){
+				$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
+			}
+			
+			//附加属性
+			$extra['props'] = $this->input->post('props', '', array());
+			
+			$post_id = PostService::model()->create($data, $extra, $this->current_user);
+			
+			//hook
+			Hook::getInstance()->call('after_post_created', array(
+				'post_id'=>$post_id,
+			));
+			
+			$this->actionlog(Actionlogs::TYPE_POST, '添加文章', $post_id);
+			Response::notify('success', '文章发布成功', array('admin/post/edit', array(
+				'id'=>$post_id,
+			)));
 		}
 		
 		//设置附加属性
@@ -392,70 +388,68 @@ class PostController extends AdminController{
 			->setModel(PostMeta::model())
 			->setModel(PostsFiles::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$new_cat_id = $this->form()->getData('cat_id');
-				$status = $this->form()->getData('status');
-				
-				//未开启审核，文章却被设置为审核状态，强制修改为草稿（一般是之前开启了审核，后来关掉了）
-				if(!$this->post_review && ($status == Posts::STATUS_REVIEWED || $status == Posts::STATUS_PENDING)){
-					$this->form()->setData(array(
-						'status'=>Posts::STATUS_DRAFT,
-					), true);
-					Flash::set('文章状态异常，被强制修改为“草稿”', 'info');
-				}
-				
-				//筛选出文章相关字段
-				$data = array_merge(Posts::model()->fillData($this->input->post()),
-					PostMeta::model()->fillData($this->input->post()));
-				//发布时间特殊处理
-				if(in_array('publish_time', $enabled_boxes)){
-					if(empty($data['publish_time'])){
-						$data['publish_time'] = $this->current_time;
-						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
-					}else{
-						$data['publish_time'] = strtotime($data['publish_time']);
-						$data['publish_date'] = date('Y-m-d', $data['publish_time']);
-					}
-				}
-				
-				$extra = array();
-				
-				//附件分类
-				if(in_array('category', $enabled_boxes)){
-					$extra['categories'] = $this->form()->getData('post_category', array(), 'intval');
-				}
-				
-				//标签
-				if(in_array('tags', $enabled_boxes)){
-					$extra['tags'] = $this->input->post('tags', 'trim', array());
-				}
-				
-				//附件
-				if(in_array('files', $enabled_boxes)){
-					$description = $this->input->post('description');
-					$files = $this->input->post('files', 'intval', array());
-					$extra['files'] = array();
-					foreach($files as $f){
-						$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
-					}
-				}
-				
-				//附加属性
-				if(in_array('props', $enabled_boxes)){
-					$extra['props'] = $this->input->post('props');
-				}
-				
-				PostService::model()->update($post_id, $data, $extra);
-				
-				//hook
-				Hook::getInstance()->call('after_post_updated', array(
-					'post_id'=>$post_id,
-				));
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '编辑文章', $post_id);
-				Flash::set('一篇文章被编辑', 'success');
+		if($this->input->post() && $this->form()->check()){
+			$new_cat_id = $this->form()->getData('cat_id');
+			$status = $this->form()->getData('status');
+			
+			//未开启审核，文章却被设置为审核状态，强制修改为草稿（一般是之前开启了审核，后来关掉了）
+			if(!$this->post_review && ($status == Posts::STATUS_REVIEWED || $status == Posts::STATUS_PENDING)){
+				$this->form()->setData(array(
+					'status'=>Posts::STATUS_DRAFT,
+				), true);
+				Flash::set('文章状态异常，被强制修改为“草稿”', 'info');
 			}
+			
+			//筛选出文章相关字段
+			$data = array_merge(Posts::model()->fillData($this->input->post()),
+				PostMeta::model()->fillData($this->input->post()));
+			//发布时间特殊处理
+			if(in_array('publish_time', $enabled_boxes)){
+				if(empty($data['publish_time'])){
+					$data['publish_time'] = $this->current_time;
+					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+				}else{
+					$data['publish_time'] = strtotime($data['publish_time']);
+					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
+				}
+			}
+			
+			$extra = array();
+			
+			//附件分类
+			if(in_array('category', $enabled_boxes)){
+				$extra['categories'] = $this->form()->getData('post_category', array(), 'intval');
+			}
+			
+			//标签
+			if(in_array('tags', $enabled_boxes)){
+				$extra['tags'] = $this->input->post('tags', 'trim', array());
+			}
+			
+			//附件
+			if(in_array('files', $enabled_boxes)){
+				$description = $this->input->post('description');
+				$files = $this->input->post('files', 'intval', array());
+				$extra['files'] = array();
+				foreach($files as $f){
+					$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
+				}
+			}
+			
+			//附加属性
+			if(in_array('props', $enabled_boxes)){
+				$extra['props'] = $this->input->post('props');
+			}
+			
+			PostService::model()->update($post_id, $data, $extra);
+			
+			//hook
+			Hook::getInstance()->call('after_post_updated', array(
+				'post_id'=>$post_id,
+			));
+			
+			$this->actionlog(Actionlogs::TYPE_POST, '编辑文章', $post_id);
+			Response::notify('success', '一篇文章被编辑', false);
 		}
 		
 		$sql = new Sql();

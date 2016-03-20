@@ -107,29 +107,25 @@ class OperatorController extends AdminController{
 				array(array('username', 'password'), 'required'),
 				array('roles', 'int'),
 			));
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = Users::model()->fillData($this->input->post());
-				isset($data['status']) || $data['status'] = Users::STATUS_VERIFIED;
-				
-				$extra = array(
-					'trackid'=>'admin_create:'.\F::session()->get('user.id'),
-					'roles'=>$this->input->post('roles', 'intval', array()),
-					'props'=>$this->input->post('props', '', array()),
-				);
-				
-				$user_id = User::model()->create($data, $extra, 1);
-				
-				$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
-				
-				Response::notify('success', '管理员添加成功， '.Html::link('继续添加', array('admin/operator/create', array(
-					'roles'=>$this->input->post('roles', 'intval', array()),
-				))), array('admin/operator/edit', array(
-					'id'=>$user_id,
-				)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = Users::model()->fillData($this->input->post());
+			isset($data['status']) || $data['status'] = Users::STATUS_VERIFIED;
+			
+			$extra = array(
+				'trackid'=>'admin_create:'.\F::session()->get('user.id'),
+				'roles'=>$this->input->post('roles', 'intval', array()),
+				'props'=>$this->input->post('props', '', array()),
+			);
+			
+			$user_id = User::model()->create($data, $extra, 1);
+			
+			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
+			
+			Response::notify('success', '管理员添加成功， '.Html::link('继续添加', array('admin/operator/create', array(
+				'roles'=>$this->input->post('roles', 'intval', array()),
+			))), array('admin/operator/edit', array(
+				'id'=>$user_id,
+			)));
 		}
 		$this->view->roles = Roles::model()->fetchAll(array(
 			'admin = 1',
@@ -152,25 +148,21 @@ class OperatorController extends AdminController{
 		$user_id = $this->input->request('id', 'intval');
 		$this->form()->setScene('edit')
 			->setModel(Users::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = Users::model()->fillData($this->input->post());
-				
-				$extra = array(
-					'roles'=>$this->input->post('roles', 'intval', array()),
-					'props'=>$this->input->post('props', '', array()),
-				);
-				
-				User::model()->update($user_id, $data, $extra);
-				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
-				Flash::set('修改成功', 'success');
-				
-				//置空密码字段
-				$this->form()->setData(array('password'=>''), true);
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = Users::model()->fillData($this->input->post());
+			
+			$extra = array(
+				'roles'=>$this->input->post('roles', 'intval', array()),
+				'props'=>$this->input->post('props', '', array()),
+			);
+			
+			User::model()->update($user_id, $data, $extra);
+			
+			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
+			Flash::set('修改成功', 'success');
+			
+			//置空密码字段
+			$this->form()->setData(array('password'=>''), true);
 		}
 		
 		$user = User::model()->get($user_id, 'user.*,profile.*');

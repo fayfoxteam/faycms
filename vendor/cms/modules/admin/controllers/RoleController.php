@@ -44,35 +44,31 @@ class RoleController extends AdminController{
 		$this->layout->subtitle = '添加角色';
 		
 		$this->form()->setModel(Roles::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$role_id = Roles::model()->insert($this->form()->getFilteredData());
-				
-				//操作权限
-				$actions = $this->input->post('actions', 'intval', array());
-				foreach($actions as $a){
-					RolesActions::model()->insert(array(
-						'role_id'=>$role_id,
-						'action_id'=>$a,
-					));
-				}
-				
-				//分类权限
-				$role_cats = $this->input->post('role_cats', 'intval', array());
-				foreach($role_cats as $rc){
-					RolesCats::model()->insert(array(
-						'role_id'=>$role_id,
-						'cat_id'=>$rc,
-					));
-				}
-				
-				$this->actionlog(Actionlogs::TYPE_ROLE, '添加了一个角色', $role_id);
-				Response::notify('success', '角色添加成功', array('admin/role/edit', array(
-					'id'=>$role_id,
-				)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+		if($this->input->post() && $this->form()->check()){
+			$role_id = Roles::model()->insert($this->form()->getFilteredData());
+			
+			//操作权限
+			$actions = $this->input->post('actions', 'intval', array());
+			foreach($actions as $a){
+				RolesActions::model()->insert(array(
+					'role_id'=>$role_id,
+					'action_id'=>$a,
+				));
 			}
+			
+			//分类权限
+			$role_cats = $this->input->post('role_cats', 'intval', array());
+			foreach($role_cats as $rc){
+				RolesCats::model()->insert(array(
+					'role_id'=>$role_id,
+					'cat_id'=>$rc,
+				));
+			}
+			
+			$this->actionlog(Actionlogs::TYPE_ROLE, '添加了一个角色', $role_id);
+			Response::notify('success', '角色添加成功', array('admin/role/edit', array(
+				'id'=>$role_id,
+			)));
 		}
 		$sql = new Sql();
 		$actions = $sql->from(array('a'=>'actions'))
@@ -105,53 +101,49 @@ class RoleController extends AdminController{
 		$role_id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(Roles::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				Roles::model()->update($this->form()->getFilteredData(), $role_id, true);
-				
-				//操作权限
-				$actions = $this->input->post('actions', 'intval', array(0));
-				RolesActions::model()->delete(array(
-					'role_id = ?'=>$role_id,
-					'action_id NOT IN (?)'=>$actions,
-				));
-				$old_actions = RolesActions::model()->fetchCol('action_id', array(
-					'role_id = ?'=>$role_id,
-				));
-				
-				foreach($actions as $a){
-					if(!in_array($a, $old_actions)){
-						RolesActions::model()->insert(array(
-							'role_id'=>$role_id,
-							'action_id'=>$a,
-						));
-					}
+		if($this->input->post() && $this->form()->check()){
+			Roles::model()->update($this->form()->getFilteredData(), $role_id, true);
+			
+			//操作权限
+			$actions = $this->input->post('actions', 'intval', array(0));
+			RolesActions::model()->delete(array(
+				'role_id = ?'=>$role_id,
+				'action_id NOT IN (?)'=>$actions,
+			));
+			$old_actions = RolesActions::model()->fetchCol('action_id', array(
+				'role_id = ?'=>$role_id,
+			));
+			
+			foreach($actions as $a){
+				if(!in_array($a, $old_actions)){
+					RolesActions::model()->insert(array(
+						'role_id'=>$role_id,
+						'action_id'=>$a,
+					));
 				}
-				
-				//分类权限
-				$role_cats = $this->input->post('role_cats', 'intval', array(0));
-				RolesCats::model()->delete(array(
-					'role_id = ?'=>$role_id,
-					'cat_id NOT IN (?)'=>$role_cats,
-				));
-				$old_role_cats = RolesCats::model()->fetchCol('cat_id', array(
-					'role_id = ?'=>$role_id,
-				));
-				
-				foreach($role_cats as $rc){
-					if(!in_array($rc, $old_role_cats)){
-						RolesCats::model()->insert(array(
-							'role_id'=>$role_id,
-							'cat_id'=>$rc,
-						));
-					}
-				}
-
-				$this->actionlog(Actionlogs::TYPE_ROLE, '编辑了一个角色', $role_id);
-				Flash::set('一个角色被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			
+			//分类权限
+			$role_cats = $this->input->post('role_cats', 'intval', array(0));
+			RolesCats::model()->delete(array(
+				'role_id = ?'=>$role_id,
+				'cat_id NOT IN (?)'=>$role_cats,
+			));
+			$old_role_cats = RolesCats::model()->fetchCol('cat_id', array(
+				'role_id = ?'=>$role_id,
+			));
+			
+			foreach($role_cats as $rc){
+				if(!in_array($rc, $old_role_cats)){
+					RolesCats::model()->insert(array(
+						'role_id'=>$role_id,
+						'cat_id'=>$rc,
+					));
+				}
+			}
+			
+			$this->actionlog(Actionlogs::TYPE_ROLE, '编辑了一个角色', $role_id);
+			Response::notify('success', '一个角色被编辑', false);
 		}
 		$role = Roles::model()->find($role_id);
 		$this->form()->setData($role);

@@ -65,19 +65,15 @@ class TemplateController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(Templates::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				if($data['type'] == Templates::TYPE_SMS){
-					$data['content'] = trim(strip_tags($data['content']));
-				}
-				Templates::model()->update($data, $id);
-				
-				Flash::set('一个模版被编辑', 'success');
-				$this->actionlog(Actionlogs::TYPE_TEMPLATE, '编辑了一个模版', $id);
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			if($data['type'] == Templates::TYPE_SMS){
+				$data['content'] = trim(strip_tags($data['content']));
 			}
+			Templates::model()->update($data, $id);
+			
+			Flash::set('一个模版被编辑', 'success');
+			$this->actionlog(Actionlogs::TYPE_TEMPLATE, '编辑了一个模版', $id);
 		}
 		
 		$this->view->template = Templates::model()->find($id);
@@ -94,22 +90,18 @@ class TemplateController extends AdminController{
 		);
 		
 		$this->form()->setModel(Templates::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				if($data['type'] == Templates::TYPE_SMS){
-					$data['content'] = trim(strip_tags($data['content']));
-				}
-				$data['create_time'] = $this->current_time;
-				$id = Templates::model()->insert($data);
-				
-				$this->actionlog(Actionlogs::TYPE_TEMPLATE, '添加了一个模版', $id);
-				Response::notify('success', '模版添加成功', array('admin/template/edit', array(
-					'id'=>$id,
-				)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			if($data['type'] == Templates::TYPE_SMS){
+				$data['content'] = trim(strip_tags($data['content']));
 			}
+			$data['create_time'] = $this->current_time;
+			$id = Templates::model()->insert($data);
+			
+			$this->actionlog(Actionlogs::TYPE_TEMPLATE, '添加了一个模版', $id);
+			Response::notify('success', '模版添加成功', array('admin/template/edit', array(
+				'id'=>$id,
+			)));
 		}
 		
 		$this->view->render();

@@ -45,31 +45,27 @@ class PageController extends AdminController{
 		
 		$this->form()->setModel(Pages::model())
 			->setData($this->input->request());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				$data['create_time'] = $this->current_time;
-				$data['last_modified_time'] = $this->current_time;
-				$data['author'] = $this->current_user;
-				$page_id = Pages::model()->insert($data);
-				
-				$page_category = $this->form()->getData('page_category');
-				if(!empty($page_category)){
-					foreach($page_category as $page_cat){
-						PagesCategories::model()->insert(array(
-							'page_id'=>$page_id,
-							'cat_id'=>$page_cat,
-						));
-					}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			$data['create_time'] = $this->current_time;
+			$data['last_modified_time'] = $this->current_time;
+			$data['author'] = $this->current_user;
+			$page_id = Pages::model()->insert($data);
+			
+			$page_category = $this->form()->getData('page_category');
+			if(!empty($page_category)){
+				foreach($page_category as $page_cat){
+					PagesCategories::model()->insert(array(
+						'page_id'=>$page_id,
+						'cat_id'=>$page_cat,
+					));
 				}
-				
-				$this->actionlog(Actionlogs::TYPE_PAGE, '添加页面', $page_id);
-				Response::notify('success', '页面发布成功', array('admin/page/edit', array(
-					'id'=>$page_id,
-				)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			
+			$this->actionlog(Actionlogs::TYPE_PAGE, '添加页面', $page_id);
+			Response::notify('success', '页面发布成功', array('admin/page/edit', array(
+				'id'=>$page_id,
+			)));
 		}
 		
 		$cat_id = $this->input->get('cat_id', 'intval');
@@ -201,30 +197,26 @@ class PageController extends AdminController{
 		
 		$this->form()->setModel(Pages::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				$data['last_modified_time'] = $this->current_time;
-				$result = Pages::model()->update($data, $page_id);
-				if(in_array('category', $enabled_boxes)){
-					PagesCategories::model()->delete("page_id = {$page_id}");
-					
-					$page_category = $this->form()->getData('page_category');
-					if(!empty($page_category)){
-						foreach($page_category as $page_cat){
-							PagesCategories::model()->insert(array(
-								'page_id'=>$page_id,
-								'cat_id'=>$page_cat,
-							));
-						}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			$data['last_modified_time'] = $this->current_time;
+			$result = Pages::model()->update($data, $page_id);
+			if(in_array('category', $enabled_boxes)){
+				PagesCategories::model()->delete("page_id = {$page_id}");
+				
+				$page_category = $this->form()->getData('page_category');
+				if(!empty($page_category)){
+					foreach($page_category as $page_cat){
+						PagesCategories::model()->insert(array(
+							'page_id'=>$page_id,
+							'cat_id'=>$page_cat,
+						));
 					}
 				}
-				
-				$this->actionlog(Actionlogs::TYPE_PAGE, '编辑页面', $page_id);
-				Flash::set('一个页面被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			
+			$this->actionlog(Actionlogs::TYPE_PAGE, '编辑页面', $page_id);
+			Flash::set('一个页面被编辑', 'success');
 		}
 		if($page = Pages::model()->find($page_id)){
 			$page['page_category'] = Page::model()->getPageCatIds($page_id);

@@ -125,13 +125,14 @@ select option[disabled]{text-decoration:line-through}
 .box.holder{border:2px dashed #DFDFDF !important}
 
 /* toast */
-.toast-container{position:fixed;z-index:999999}
+.toast-container{position:fixed;z-index:999999;opacity:0.85}
 .toast-top-right{top:12px;right:12px}
 .toast-bottom-right{bottom:12px;right:12px}
 .toast-bottom-middle{bottom:12px;left:50%;margin-left:-175px}
 .toast-container > div.toast{padding:12px 15px;width:350px;margin-bottom:10px;color:#fff}
-.toast-container > div i{margin-right:6px;font-family:FontAwesome;font-style:normal;width:1.25em;display:inline-block;float:left}
+.toast-container > div i{font-family:FontAwesome;font-style:normal;position:absolute}
 .toast-container > div:hover{cursor:pointer}
+.toast-container .toast-message p{text-indent:23px}
 .toast-warning{background-color:#ffba00}
 .toast-info{background-color:#40bbea}
 .toast-success{background-color:#8dc63f}

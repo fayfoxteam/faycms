@@ -31,7 +31,7 @@ class KeywordController extends AdminController{
 				Keywords::model()->insert($data);
 				Response::notify('success', '关键词添加成功', array('admin/keyword/index'));
 			}else{
-				Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				Response::goback();
 			}
 		}else{
 			Response::notify('error', '不完整的请求', array('admin/keyword/index'));
@@ -54,14 +54,10 @@ class KeywordController extends AdminController{
 		
 		$check = $this->form()->setModel(Keywords::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = Keywords::model()->fillData($this->input->post());
-				Keywords::model()->update($data, array('id = ?'=>$keyword_id));
-				Flash::set('一个关键词被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = Keywords::model()->fillData($this->input->post());
+			Keywords::model()->update($data, array('id = ?'=>$keyword_id));
+			Flash::set('一个关键词被编辑', 'success');
 		}
 		if($keyword = Keywords::model()->find($keyword_id)){
 			$this->form()->setData($keyword);

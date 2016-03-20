@@ -62,7 +62,8 @@ class RolePropController extends AdminController{
 				'id'=>$prop_id,
 			));
 		}else{
-			Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
+			//若表单验证出错，返回上一页
+			Response::goback();
 		}
 	}
 	
@@ -70,23 +71,19 @@ class RolePropController extends AdminController{
 		$prop_id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(Props::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$refer = $this->input->post('refer', 'intval');
-				$prop = $this->form()->getFilteredData();
-				isset($prop['required']) || $prop['required'] = 0;
-				isset($prop['is_show']) || $prop['is_show'] = 0;
-					
-				$prop_values = $this->input->post('prop_values', array());
-				$ids = $this->input->post('ids', 'intval', array('-1'));
-					
-				Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
+		if($this->input->post() && $this->form()->check()){
+			$refer = $this->input->post('refer', 'intval');
+			$prop = $this->form()->getFilteredData();
+			isset($prop['required']) || $prop['required'] = 0;
+			isset($prop['is_show']) || $prop['is_show'] = 0;
 				
-				Flash::set('角色属性编辑成功', 'success');
-				$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+			$prop_values = $this->input->post('prop_values', array());
+			$ids = $this->input->post('ids', 'intval', array('-1'));
+				
+			Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
+			
+			Flash::set('角色属性编辑成功', 'success');
+			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
 		}
 		
 		

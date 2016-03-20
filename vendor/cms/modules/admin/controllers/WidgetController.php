@@ -89,29 +89,25 @@ class WidgetController extends AdminController{
 			->setLabels($widget_admin->labels())
 			->setFilters($widget_admin->filters());
 		
-		if($this->input->post()){
-			if($this->form('widget')->check()){
-				$f_widget_cache = $this->input->post('f_widget_cache');
-				$f_widget_cache_expire = $this->input->post('f_widget_cache_expire', 'intval');
-				$alias = $this->input->post('f_widget_alias', 'trim');
-				Widgets::model()->update(array(
-					'alias'=>$alias,
-					'description'=>$this->input->post('f_widget_description', 'trim'),
-					'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
-					'ajax'=>$this->input->post('f_widget_ajax') ? 1 : 0,
-					'cache'=>$f_widget_cache && $f_widget_cache_expire >= 0 ? $f_widget_cache_expire : -1,
-					'widgetarea'=>$this->input->post('f_widget_widgetarea', 'trim'),
-				), $id);
-				
-				$widget_obj->alias = $alias;
-				if(method_exists($widget_obj, 'onPost')){
-					$widget_obj->onPost();
-				}
-				$widget = Widgets::model()->find($id);
-				\F::cache()->delete($alias);
-			}else{
-				$this->showDataCheckError($this->form('widget')->getErrors());
+		if($this->input->post() && $this->form('widget')->check()){
+			$f_widget_cache = $this->input->post('f_widget_cache');
+			$f_widget_cache_expire = $this->input->post('f_widget_cache_expire', 'intval');
+			$alias = $this->input->post('f_widget_alias', 'trim');
+			Widgets::model()->update(array(
+				'alias'=>$alias,
+				'description'=>$this->input->post('f_widget_description', 'trim'),
+				'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
+				'ajax'=>$this->input->post('f_widget_ajax') ? 1 : 0,
+				'cache'=>$f_widget_cache && $f_widget_cache_expire >= 0 ? $f_widget_cache_expire : -1,
+				'widgetarea'=>$this->input->post('f_widget_widgetarea', 'trim'),
+			), $id);
+			
+			$widget_obj->alias = $alias;
+			if(method_exists($widget_obj, 'onPost')){
+				$widget_obj->onPost();
 			}
+			$widget = Widgets::model()->find($id);
+			\F::cache()->delete($alias);
 		}
 		
 		$this->view->widget = $widget;

@@ -171,6 +171,10 @@ foreach($fields as $f){
 	public function filters(){
 		return array(
 <?php foreach($fields as $f){
+		if(in_array($f['Field'], array('create_time', 'ip_int', 'last_modified_time', 'left_value', 'right_value'))){
+			//这些字段肯定不会让用户来输入
+			continue;
+		}
 		//即便不需要filter，也要放个空字段，否则无法model无法自动匹配数据
 		$filter = array();
 		if(strpos($f['Type'], 'int') === 0 || strpos($f['Type'], 'mediumint') === 0 ||

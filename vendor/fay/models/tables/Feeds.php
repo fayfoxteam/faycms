@@ -21,6 +21,21 @@ use fay\core\db\Table;
  * @property string $address 地址
  */
 class Feeds extends Table{
+	/**
+	 * 文章状态-草稿
+	 */
+	const STATUS_DRAFT = 0;
+	
+	/**
+	 * 文章状态-已发布
+	 */
+	const STATUS_PUBLISHED = 1;
+	
+	/**
+	 * 文章状态-待审核
+	 */
+	const STATUS_PENDING = 2;
+	
 	protected $_name = 'feeds';
 	
 	/**

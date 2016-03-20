@@ -26,7 +26,7 @@ class FeedMeta extends Table{
 	public function rules(){
 		return array(
 			array(array('feed_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('likes', 'real_likes'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('likes', 'real_likes', 'favorites', 'real_favorites'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('comments', 'real_comments'), 'int', array('min'=>0, 'max'=>65535)),
 		);
 	}
@@ -38,6 +38,8 @@ class FeedMeta extends Table{
 			'real_comments'=>'真实评论数',
 			'likes'=>'点赞数',
 			'real_likes'=>'真实点赞数',
+			'favorites'=>'收藏数',
+			'real_favorites'=>'真实收藏数',
 		);
 	}
 
@@ -45,9 +47,8 @@ class FeedMeta extends Table{
 		return array(
 			'feed_id'=>'intval',
 			'comments'=>'intval',
-			'real_comments'=>'intval',
 			'likes'=>'intval',
-			'real_likes'=>'intval',
+			'favorites'=>'intval',
 		);
 	}
 }

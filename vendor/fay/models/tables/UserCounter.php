@@ -44,10 +44,6 @@ class UserCounter extends Table{
 	public function filters(){
 		return array(
 			'user_id'=>'intval',
-			'posts'=>'intval',
-			'feeds'=>'intval',
-			'follows'=>'intval',
-			'fans'=>'intval',
 		);
 	}
 }

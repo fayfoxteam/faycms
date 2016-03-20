@@ -38,8 +38,6 @@ class TagCounter extends Table{
 	public function filters(){
 		return array(
 			'tag_id'=>'intval',
-			'posts'=>'intval',
-			'feeds'=>'intval',
 		);
 	}
 }

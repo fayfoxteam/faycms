@@ -11,4 +11,12 @@ class FeedController extends ApiController{
 		$this->checkLogin();
 		
 	}
+	
+	/**
+	 * 点赞
+	 * @param int $id 动态ID
+	 */
+	public function like(){
+		
+	}
 }

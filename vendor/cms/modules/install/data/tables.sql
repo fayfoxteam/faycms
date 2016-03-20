@@ -407,13 +407,14 @@ CREATE TABLE `{{$prefix}}keywords` (
 
 DROP TABLE IF EXISTS `{{$prefix}}post_favorites`;
 CREATE TABLE `{{$prefix}}post_favorites` (
-  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
-  PRIMARY KEY (`user_id`,`post_id`)
+  PRIMARY KEY (`post_id`,`user_id`),
+  KEY `favorites` (`user_id`,`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_likes`;
@@ -438,6 +439,8 @@ CREATE TABLE `{{$prefix}}post_meta` (
   `real_comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '真实评论数',
   `likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
   `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
+  `favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数',
+  `real_favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实收藏数',
   PRIMARY KEY (`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -987,6 +990,18 @@ CREATE TABLE `{{$prefix}}feed_comments` (
   KEY `parent` (`parent`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态评论表';
 
+DROP TABLE IF EXISTS `{{$prefix}}feed_favorites`;
+CREATE TABLE `{{$prefix}}feed_favorites` (
+  `feed_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
+  PRIMARY KEY (`feed_id`,`user_id`),
+  KEY `favorites` (`user_id`,`feed_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
 DROP TABLE IF EXISTS `{{$prefix}}feed_likes`;
 CREATE TABLE `{{$prefix}}feed_likes` (
   `feed_id` int(10) unsigned NOT NULL COMMENT '文章ID',
@@ -1006,6 +1021,8 @@ CREATE TABLE `{{$prefix}}feed_meta` (
   `real_comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '真实评论数',
   `likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
   `real_likes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实点赞数',
+  `favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数',
+  `real_favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实收藏数',
   PRIMARY KEY (`feed_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态扩展信息表';
 

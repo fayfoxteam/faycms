@@ -118,8 +118,6 @@ class PostFavoriteController extends UserController{
 		$favorites = FavoriteModel::model()->getList($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
-		Response::json(array(
-			'favorites'=>$favorites,
-		));
+		Response::json($favorites);
 	}
 }

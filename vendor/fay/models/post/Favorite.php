@@ -91,6 +91,9 @@ class Favorite extends Model{
 			return array();
 		}
 		
-		return Post::model()->mget(ArrayHelper::column($favorites, 'post_id'), $fields);
+		return array(
+			'favorites'=>Post::model()->mget(ArrayHelper::column($favorites, 'post_id'), $fields),
+			'pager'=>$listview->getPager(),
+		);
 	}
 }

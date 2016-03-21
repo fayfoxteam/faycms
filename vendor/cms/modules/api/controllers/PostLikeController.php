@@ -3,7 +3,6 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\models\tables\Posts;
-use fay\serices\post\Favorite;
 use fay\core\Response;
 use fay\services\post\Like;
 

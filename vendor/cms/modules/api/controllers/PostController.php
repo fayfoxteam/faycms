@@ -92,6 +92,11 @@ class PostController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
+		//post字段若未指定，需要默认下
+		if(empty($fields['post'])){
+			$fields['post'] = $this->default_fields['post'];
+		}
+		
 		$post = Post::model()->get($id, $fields, $cat);
 		if($post){
 			Response::json($post);

@@ -1,5 +1,5 @@
 <?php
-namespace fay\serices\feed;
+namespace fay\services\feed;
 
 use fay\core\Model;
 use fay\core\Hook;

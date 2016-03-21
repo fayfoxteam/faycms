@@ -1,5 +1,5 @@
 <?php
-namespace fay\serices\post;
+namespace fay\services\post;
 
 use fay\core\Model;
 use fay\core\Hook;
@@ -8,6 +8,7 @@ use fay\models\User;
 use fay\models\Post;
 use fay\models\tables\PostFavorites;
 use fay\helpers\ArrayHelper;
+use fay\helpers\Request;
 
 class Favorite extends Model{
 	/**
@@ -40,9 +41,10 @@ class Favorite extends Model{
 		PostFavorites::model()->insert(array(
 			'user_id'=>$user_id,
 			'post_id'=>$post_id,
-			'create_time'=>\F::app()->current_time,
 			'trackid'=>$trackid,
 			'sockpuppet'=>$sockpuppet,
+			'create_time'=>\F::app()->current_time,
+			'ip_int'=>Request::ip2int(\F::app()->ip),
 		));
 		
 		Hook::getInstance()->call('after_post_favorite');
@@ -79,7 +81,7 @@ class Favorite extends Model{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(PostFavorites::model()->find(array($user_id, $post_id))){
+		if(PostFavorites::model()->find(array($post_id, $user_id))){
 			return true;
 		}else{
 			return false;

@@ -71,7 +71,7 @@ class FollowController extends ApiController{
 			));
 		}
 		
-		Follow::follow($user_id, $this->form()->getData('trackid', ''));
+		Follow::add($user_id, $this->form()->getData('trackid', ''));
 		Response::notify('success', '关注成功');
 	}
 	
@@ -103,7 +103,7 @@ class FollowController extends ApiController{
 			));
 		}
 		
-		Follow::unfollow($user_id);
+		Follow::remove($user_id);
 		Response::notify('success', '取消关注成功');
 	}
 	

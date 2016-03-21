@@ -45,7 +45,7 @@ class PostFavoriteController extends ApiController{
 			));
 		}
 		
-		Favorite::favorite($post_id, $this->form()->getData('trackid', ''));
+		Favorite::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '收藏成功');
 	}
@@ -76,7 +76,7 @@ class PostFavoriteController extends ApiController{
 			));
 		}
 		
-		Favorite::unfavorite($post_id);
+		Favorite::remove($post_id);
 		
 		Response::notify('success', '移除收藏成功');
 	}

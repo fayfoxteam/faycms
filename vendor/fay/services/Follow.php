@@ -27,7 +27,7 @@ class Follow extends Model{
 	 * @param null|int $fan_id 粉丝，默认为当前登陆用户
 	 * @param int $$sockpuppet 马甲信息
 	 */
-	public static function follow($user_id, $trackid = '', $fan_id = null, $sockpuppet = 0){
+	public static function add($user_id, $trackid = '', $fan_id = null, $sockpuppet = 0){
 		if($fan_id === null){
 			$fan_id = \F::app()->current_user;
 		}else if(!User::isUserIdExist($fan_id)){
@@ -84,7 +84,7 @@ class Follow extends Model{
 	 * @param int $user_id 取消关注的人
 	 * @param null|int $fan_id 粉丝，默认为当前登录用户
 	 */
-	public static function unfollow($user_id, $fan_id = null){
+	public static function remove($user_id, $fan_id = null){
 		$fan_id || $fan_id = \F::app()->current_user;
 		if(!$fan_id){
 			throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');

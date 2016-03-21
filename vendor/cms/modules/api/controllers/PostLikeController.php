@@ -46,7 +46,7 @@ class PostCommentController extends ApiController{
 			));
 		}
 		
-		Like::like($post_id, $this->form()->getData('trackid', ''));
+		Like::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '点赞成功');
 	}

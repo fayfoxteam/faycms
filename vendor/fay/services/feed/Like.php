@@ -24,7 +24,7 @@ class Like extends Model{
 	 * @param int $user_id 用户ID，默认为当前登录用户
 	 * @param bool $sockpuppet 马甲信息
 	 */
-	public static function like($feed_id, $trackid = '', $user_id = null, $sockpuppet = 0){
+	public static function add($feed_id, $trackid = '', $user_id = null, $sockpuppet = 0){
 		if($user_id === null){
 			$user_id = \F::app()->current_user;
 		}else if(!User::isUserIdExist($user_id)){
@@ -65,7 +65,7 @@ class Like extends Model{
 	 * @param int $feed_id 动态ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
 	 */
-	public static function unlike($feed_id, $user_id = null){
+	public static function remove($feed_id, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		if(!$user_id){
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');

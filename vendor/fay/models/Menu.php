@@ -7,7 +7,6 @@ use fay\helpers\StringHelper;
 
 class Menu extends Model{
 	/**
-	 * @param string $class_name
 	 * @return Menu
 	 */
 	public static function model($class_name = __CLASS__){

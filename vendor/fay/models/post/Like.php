@@ -5,6 +5,11 @@ use fay\core\Model;
 use fay\core\Exception;
 use fay\models\tables\PostLikes;
 use fay\helpers\ArrayHelper;
+use fay\core\Sql;
+use fay\models\tables\Posts;
+use fay\common\ListView;
+use fay\models\Post;
+use fay\models\User;
 
 class Like extends Model{
 	/**
@@ -25,7 +30,7 @@ class Like extends Model{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(PostLikes::model()->find(array($post_id, $user_id))){
+		if(PostLikes::model()->find(array($post_id, $user_id), 'create_time')){
 			return true;
 		}else{
 			return false;
@@ -60,5 +65,78 @@ class Like extends Model{
 		}
 		
 		return $return;
+	}
+	
+	/**
+	 * 获取文章点赞列表
+	 * @param string $fields 用户字段
+	 * @param int $user_id 用户ID，默认为当前登录用户
+	 */
+	public function getPostLikes($post_id, $fields, $page = 1, $page_size = 20){
+		$sql = new Sql();
+		$sql->from(array('pl'=>'post_likes'), 'user_id')
+			->joinLeft(array('p'=>'posts'), 'pl.post_id = p.id')
+			->where('pl.post_id = ?', $post_id)
+			->where(array(
+				'deleted = 0',
+				'publish_time < '.\F::app()->current_time,
+				'status = '.Posts::STATUS_PUBLISHED,
+			))
+			->order('pl.create_time DESC')
+		;
+		
+		$listview = new ListView($sql, array(
+			'page_size'=>$page_size,
+		));
+		
+		$likes = $listview->getData();
+		
+		if(!$likes){
+			return array();
+		}
+		
+		return array(
+			'likes'=>User::model()->mget(ArrayHelper::column($likes, 'user_id'), $fields),
+			'pager'=>$listview->getPager(),
+		);
+	}
+	
+	/**
+	 * 获取用户点赞列表
+	 * @param string $fields 文章字段
+	 * @param int $user_id 用户ID，默认为当前登录用户
+	 */
+	public function getUserLikes($fields, $page = 1, $page_size = 20, $user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		if(!$user_id){
+			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
+		}
+		
+		$sql = new Sql();
+		$sql->from(array('pl'=>'post_likes'), 'post_id')
+			->joinLeft(array('p'=>'posts'), 'pl.post_id = p.id')
+			->where('pl.user_id = ?', $user_id)
+			->where(array(
+				'deleted = 0',
+				'publish_time < '.\F::app()->current_time,
+				'status = '.Posts::STATUS_PUBLISHED,
+			))
+			->order('pl.create_time DESC')
+		;
+		
+		$listview = new ListView($sql, array(
+			'page_size'=>$page_size,
+		));
+		
+		$likes = $listview->getData();
+		
+		if(!$likes){
+			return array();
+		}
+		
+		return array(
+			'likes'=>Post::model()->mget(ArrayHelper::column($likes, 'post_id'), $fields),
+			'pager'=>$listview->getPager(),
+		);
 	}
 }

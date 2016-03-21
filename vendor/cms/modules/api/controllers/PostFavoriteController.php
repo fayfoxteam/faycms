@@ -13,22 +13,9 @@ use fay\helpers\FieldHelper;
  */
 class PostFavoriteController extends UserController{
 	/**
-	 * 默认返回字段
-	 */
-	private $default_fields = array(
-		'post'=>array(
-			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
-		),
-		'category'=>array(
-			'id', 'title', 'alias',
-		),
-		'user'=>array(
-			'id', 'nickname', 'avatar',
-		)
-	);
-	
-	/**
 	 * 收藏
+	 * @param int $post_id 文章ID
+	 * @param string $trackid 追踪ID
 	 */
 	public function add(){
 		//表单验证
@@ -65,6 +52,7 @@ class PostFavoriteController extends UserController{
 	
 	/**
 	 * 取消收藏
+	 * @param int $post_id 文章ID
 	 */
 	public function remove(){
 		//表单验证
@@ -93,6 +81,9 @@ class PostFavoriteController extends UserController{
 	
 	/**
 	 * 收藏列表
+	 * @param string $fields 字段
+	 * @param int $page 页码
+	 * @param int $page_size 分页大小
 	 */
 	public function listAction(){
 		//表单验证
@@ -112,7 +103,7 @@ class PostFavoriteController extends UserController{
 			//过滤字段，移除那些不允许的字段
 			$fields = FieldHelper::process($fields, 'post', Post::$public_fields);
 		}else{
-			$fields = $this->default_fields;
+			$fields = Post::$default_fields;
 		}
 		
 		$favorites = FavoriteModel::model()->getList($fields,

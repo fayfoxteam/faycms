@@ -21,7 +21,27 @@ use fay\models\tables\UserCounter;
 
 class User extends Model{
 	/**
-	 * @param string $class_name
+	 * 可选字段
+	*/
+	public static $public_fields = array(
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'roles'=>array(
+			'id', 'title',
+		),
+	);
+	
+	/**
+	 * 默认返回用户字段
+	 */
+	public static $default_fields = array(
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		)
+	);
+	
+	/**
 	 * @return User
 	 */
 	public static function model($class_name = __CLASS__){

@@ -8,6 +8,7 @@ use fay\models\tables\PostFavorites;
 use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\common\ListView;
+use fay\models\tables\Posts;
 
 class Favorite extends Model{
 	/**
@@ -28,7 +29,7 @@ class Favorite extends Model{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(PostFavorites::model()->find(array($post_id, $user_id))){
+		if(PostFavorites::model()->find(array($post_id, $user_id), 'create_time')){
 			return true;
 		}else{
 			return false;
@@ -77,7 +78,13 @@ class Favorite extends Model{
 		
 		$sql = new Sql();
 		$sql->from(array('pf'=>'post_favorites'), 'post_id')
+			->joinLeft(array('p'=>'posts'), 'pf.post_id = p.id')
 			->where('pf.user_id = ?', $user_id)
+			->where(array(
+				'deleted = 0',
+				'publish_time < '.\F::app()->current_time,
+				'status = '.Posts::STATUS_PUBLISHED,
+			))
 			->order('pf.create_time DESC')
 		;
 		

@@ -9,6 +9,8 @@ use fay\models\Post;
 use fay\models\tables\PostFavorites;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
+use fay\core\Sql;
+use fay\common\ListView;
 
 class Favorite extends Model{
 	/**
@@ -115,5 +117,30 @@ class Favorite extends Model{
 			$return[$p] = in_array($p, $favorite_map);
 		}
 		return $return;
+	}
+	
+	/**
+	 * 获取收藏列表
+	 * @param string $fields 文章字段
+	 * @param int $user_id 用户ID，默认为当前登录用户
+	 */
+	public function getList($fields, $page = 1, $page_size = 20, $user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		if(!$user_id){
+			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
+		}
+		
+		$sql = new Sql();
+		$sql->from(array('pf'=>'post_favorites'), 'post_id')
+			->where('pf.user_id = ?', $user_id)
+			->order('pf.create_time DESC')
+		;
+		
+		$listview = new ListView($sql, array(
+			'page_size'=>$page_size,
+		));
+		
+		$favorites = $listview->getData();
+		$posts = Post::model();
 	}
 }

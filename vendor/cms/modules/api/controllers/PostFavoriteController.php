@@ -1,8 +1,7 @@
 <?php
 namespace cms\modules\api\controllers;
 
-use cms\library\ApiController;
-use fay\models\tables\Posts;
+use cms\library\UserController;
 use fay\services\post\Favorite;
 use fay\core\Response;
 use fay\models\Post;
@@ -10,14 +9,11 @@ use fay\models\Post;
 /**
  * 文章收藏
  */
-class PostFavoriteController extends ApiController{
+class PostFavoriteController extends UserController{
 	/**
 	 * 收藏
 	 */
 	public function add(){
-		//登录检查
-		$this->checkLogin();
-		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id'), 'required'),
@@ -54,9 +50,6 @@ class PostFavoriteController extends ApiController{
 	 * 取消收藏
 	 */
 	public function remove(){
-		//登录检查
-		$this->checkLogin();
-		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id'), 'required'),
@@ -85,6 +78,18 @@ class PostFavoriteController extends ApiController{
 	 * 收藏列表
 	 */
 	public function listAction(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('page', 'page_size'), 'int', array('min'=>1)),
+		))->setFilters(array(
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check();
+		
 		
 	}
 }

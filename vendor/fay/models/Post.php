@@ -19,6 +19,38 @@ use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
 
 class Post extends Model{
+	/**
+	 * 允许在接口调用时返回的字段
+	 */
+	public static $allowed_fields = array(
+		'post'=>array(
+			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'seo_title', 'seo_keywords', 'seo_description',
+		),
+		'category'=>array(
+			'id', 'title', 'alias',
+		),
+		'categories'=>array(
+			'id', 'title', 'alias',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'nav'=>array(
+			'id', 'title',
+		),
+		'tags'=>array(
+			'id', 'title',
+		),
+		'files'=>array(
+			'file_id', 'description', 'is_image',
+		),
+		'props'=>array(
+			'*',//这里指定的是属性别名，取值视后台设定而定
+		),
+		'meta'=>array(
+			'comments', 'views', 'likes', 'favorites'
+		),
+	);
 	
 	/**
 	 * @return Post
@@ -986,5 +1018,122 @@ class Post extends Model{
 		}else{
 			return false;
 		}
+	}
+	
+	public function mget($post_ids, $fields){
+		//解析$fields
+		$fields = FieldHelper::process($fields, 'post');
+		if(empty($fields['post']) || in_array('*', $fields['post'])){
+			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
+			$fields['post'] = Posts::model()->getFields('content');
+		}
+		
+		$post_fields = $fields['post'];
+		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'user_id';
+		}
+		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$post_fields[] = 'cat_id';
+		}
+		if(!in_array('id', $fields['post'])){
+			//id字段无论如何都要返回，因为后面要用到
+			$post_fields[] = 'id';
+		}
+		
+		$posts = Posts::model()->fetchAll(array(
+			'id IN (?)'=>$post_ids,
+		), $post_fields);
+		
+		//meta
+		if(!empty($fields['meta'])){
+			$post_metas = Meta::model()->mget($post_ids, $fields['meta']);
+		}
+		
+		//标签
+		if(!empty($fields['tags'])){
+			$post_tags = PostTag::model()->mget($post_ids, $fields['tags']);
+		}
+		
+		//附件
+		if(!empty($fields['files'])){
+			$post_files = PostFile::model()->mget($post_ids, $fields['files']);
+		}
+		
+		//附加分类
+		if(!empty($fields['categories'])){
+			$post_categories = PostCategory::model()->mget($post_ids, $fields['categories']);
+		}
+		
+		//主分类
+		if(!empty($fields['category'])){
+			$cat_ids = ArrayHelper::column($posts, 'cat_id');
+			$post_category = Category::model()->mget(array_unique($cat_ids), $fields['category']);
+		}
+		
+		$return = array();
+		//以传入文章ID顺序返回文章结构
+		foreach($post_ids as $pid){
+			$p = null;
+			foreach($posts as $k => $pi){
+				//从$posts中获取当前文章ID
+				if($pid == $pi['id']){
+					$p = $pi;
+					unset($posts[$k]);
+					break;
+				}
+			}
+			if(!$p){
+				//文章不存在（一般不会发生）
+				continue;
+			}
+			$post['post'] = $p;
+			//meta
+			if(!empty($fields['meta'])){
+				$post['meta'] = $post_metas[$p['id']];
+			}
+				
+			//标签
+			if(!empty($fields['tags'])){
+				$post['tags'] = $post_tags[$p['id']];
+			}
+				
+			//附件
+			if(!empty($fields['files'])){
+				$post['files'] = $post_files[$p['id']];
+			}
+				
+			//附加分类
+			if(!empty($fields['categories'])){
+				$post['categories'] = $post_categories[$p['id']];
+			}
+				
+			//主分类
+			if(!empty($fields['category'])){
+				$post['category'] = $post_category[$p['cat_id']];
+			}
+				
+			//作者信息
+			if(!empty($fields['user'])){
+				$post['user'] = User::model()->get($p['user_id'], $fields['user']);
+			}
+				
+			//附加属性
+			if(!empty($fields['props'])){
+				$post['props'] = $this->getPropertySet($p['id'], in_array('*', $fields['props']) ? null : $fields['props']);
+			}
+				
+			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+			foreach(array('id', 'user_id', 'cat_id') as $f){
+				if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
+					unset($post['post'][$f]);
+				}
+			}
+				
+			$return[] = $post;
+		}
+		
+		return $return;
 	}
 }

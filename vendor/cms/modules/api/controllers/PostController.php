@@ -27,41 +27,6 @@ class PostController extends ApiController{
 	);
 	
 	/**
-	 * 可选字段
-	 */
-	private $allowed_fields = array(
-		'post'=>array(
-			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'seo_title', 'seo_keywords', 'seo_description',
-		),
-		'category'=>array(
-			'id', 'title', 'alias',
-		),
-		'categories'=>array(
-			'id', 'title', 'alias',
-		),
-		'user'=>array(
-			'id', 'username', 'nickname', 'avatar', 'roles'=>array(
-				'id', 'title',
-			),
-		),
-		'nav'=>array(
-			'id', 'title',
-		),
-		'tags'=>array(
-			'id', 'title',
-		),
-		'files'=>array(
-			'file_id', 'description', 'is_image',
-		),
-		'props'=>array(
-			'*',//这里指定的是属性别名，取值视后台设定而定
-		),
-		'meta'=>array(
-			'comments', 'views', 'likes',
-		),
-	);
-	
-	/**
 	 * 显示一篇文章
 	 * @param int $id 文章ID
 	 * @param string $fields 可指定返回文章字段（只允许$this->allowed_fields中的字段）
@@ -86,7 +51,7 @@ class PostController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'post', $this->allowed_fields);
+			$fields = FieldHelper::process($fields, 'post', Post::$allowed_fields);
 		}else{
 			//若未指定$fields，取默认值
 			$fields = $this->default_fields;

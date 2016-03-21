@@ -4,7 +4,8 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\models\tables\Posts;
 use fay\core\Response;
-use fay\services\post\Like;
+use fay\services\post\Like as LikeService;
+use fay\models\post\Like as LikeModel;
 
 /**
  * 文章点赞
@@ -39,14 +40,14 @@ class PostCommentController extends ApiController{
 		
 		$post_id = $this->form()->getData('post_id');
 		
-		if(!Like::isLiked($post_id)){
+		if(!LikeModel::isLiked($post_id)){
 			Response::notify('error', array(
 				'message'=>'您已赞过该文章',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		Like::add($post_id, $this->form()->getData('trackid', ''));
+		LikeService::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '点赞成功');
 	}

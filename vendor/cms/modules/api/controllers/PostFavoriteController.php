@@ -2,14 +2,31 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
-use fay\services\post\Favorite;
+use fay\services\post\Favorite as FavoriteService;
+use fay\models\post\Favorite as FavoriteModel;
 use fay\core\Response;
 use fay\models\Post;
+use fay\helpers\FieldHelper;
 
 /**
  * 文章收藏
  */
 class PostFavoriteController extends UserController{
+	/**
+	 * 默认返回字段
+	 */
+	private $default_fields = array(
+		'post'=>array(
+			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+		),
+		'category'=>array(
+			'id', 'title', 'alias',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		)
+	);
+	
 	/**
 	 * 收藏
 	 */
@@ -34,14 +51,14 @@ class PostFavoriteController extends UserController{
 			));
 		}
 		
-		if(Favorite::isFavorited($post_id)){
+		if(FavoriteModel::isFavorited($post_id)){
 			Response::notify('error', array(
 				'message'=>'您已收藏过该文章',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		Favorite::add($post_id, $this->form()->getData('trackid', ''));
+		FavoriteService::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '收藏成功');
 	}
@@ -62,14 +79,14 @@ class PostFavoriteController extends UserController{
 		
 		$post_id = $this->form()->getData('post_id');
 		
-		if(!Favorite::isFavorited($post_id)){
+		if(!FavoriteModel::isFavorited($post_id)){
 			Response::notify('error', array(
 				'message'=>'您未收藏过该文章',
 				'code'=>'not-favorited',
 			));
 		}
 		
-		Favorite::remove($post_id);
+		FavoriteService::remove($post_id);
 		
 		Response::notify('success', '移除收藏成功');
 	}
@@ -90,6 +107,19 @@ class PostFavoriteController extends UserController{
 			'page_size'=>'分页大小',
 		))->check();
 		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'post', Post::$public_fields);
+		}else{
+			$fields = $this->default_fields;
+		}
 		
+		$favorites = FavoriteModel::model()->getList($fields,
+			$this->form()->getData('page', 1),
+			$this->form()->getData('page_size', 20));
+		Response::json(array(
+			'favorites'=>$favorites,
+		));
 	}
 }

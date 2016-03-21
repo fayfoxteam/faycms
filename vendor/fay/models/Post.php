@@ -22,7 +22,7 @@ class Post extends Model{
 	/**
 	 * 允许在接口调用时返回的字段
 	 */
-	public static $allowed_fields = array(
+	public static $public_fields = array(
 		'post'=>array(
 			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'seo_title', 'seo_keywords', 'seo_description',
 		),
@@ -1020,7 +1020,15 @@ class Post extends Model{
 		}
 	}
 	
+	/**
+	 * 批量获取文章信息
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @param string $fields 返回字段
+	 */
 	public function mget($post_ids, $fields){
+		if(!$post_ids){
+			return array();
+		}
 		//解析$fields
 		$fields = FieldHelper::process($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
@@ -1045,6 +1053,10 @@ class Post extends Model{
 		$posts = Posts::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
 		), $post_fields);
+		
+		if(!$posts){
+			return array();
+		}
 		
 		//meta
 		if(!empty($fields['meta'])){

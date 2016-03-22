@@ -5,10 +5,11 @@ use fay\core\Model;
 use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\User;
-use fay\models\Post;
+use fay\models\Feed;
 use fay\models\tables\FeedFavorites;
 use fay\models\tables\FeedMeta;
 use fay\models\feed\Favorite as FavoriteModel;
+use fay\helpers\Request;
 
 class Favorite extends Model{
 	/**
@@ -30,7 +31,7 @@ class Favorite extends Model{
 			throw new Exception('指定用户ID不存在', 'the-given-user-id-is-not-exist');
 		}
 		
-		if(!Post::isPostIdExist($feed_id)){
+		if(!Feed::isFeedIdExist($feed_id)){
 			throw new Exception('指定的动态ID不存在', 'the-given-feed-id-is-not-exist');
 		}
 		
@@ -41,9 +42,10 @@ class Favorite extends Model{
 		FeedFavorites::model()->insert(array(
 			'user_id'=>$user_id,
 			'feed_id'=>$feed_id,
-			'create_time'=>\F::app()->current_time,
 			'trackid'=>$trackid,
 			'sockpuppet'=>$sockpuppet,
+			'create_time'=>\F::app()->current_time,
+			'ip_int'=>Request::ip2int(\F::app()->ip),
 		));
 		
 		//动态收藏数+1
@@ -69,20 +71,21 @@ class Favorite extends Model{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		$favorite = FeedFavorites::model()->find(array($feed_id, $user_id), 'sockpuppet');
+		$favorite = FeedFavorites::model()->find(array($user_id, $feed_id), 'sockpuppet');
 		if($favorite){
-			//删除点赞关系
+			//删除收藏关系
 			FeedFavorites::model()->delete(array(
 				'user_id = ?'=>$user_id,
 				'feed_id = ?'=>$feed_id,
 			));
-				
+			
+			//动态收藏数-1
 			if($favorite['sockpuppet']){
 				//非真实用户行为
 				FeedMeta::model()->incr($feed_id, array('favorites'), -1);
 			}else{
 				//真实用户行为
-				FeedMeta::model()->incr($feed_id, array('favorites', 'favorites'), -1);
+				FeedMeta::model()->incr($feed_id, array('favorites', 'real_favorites'), -1);
 			}
 				
 			//执行钩子
@@ -93,12 +96,6 @@ class Favorite extends Model{
 			//未点赞
 			return false;
 		}
-		
-		//删除收藏关系
-		FeedFavorites::model()->delete(array(
-			'user_id = ?'=>$user_id,
-			'feed_id = ?'=>$feed_id,
-		));
 		
 		Hook::getInstance()->call('after_feed_unfavorite');
 	}

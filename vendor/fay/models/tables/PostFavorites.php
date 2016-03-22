@@ -15,7 +15,7 @@ use fay\core\db\Table;
  */
 class PostFavorites extends Table{
 	protected $_name = 'post_favorites';
-	protected $_primary = array('post_id', 'user_id');
+	protected $_primary = array('user_id', 'post_id');
 	
 	/**
 	 * @return PostFavorites

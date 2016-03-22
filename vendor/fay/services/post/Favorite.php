@@ -9,6 +9,7 @@ use fay\models\Post;
 use fay\models\tables\PostFavorites;
 use fay\helpers\Request;
 use fay\models\post\Favorite as FavoriteModel;
+use fay\models\tables\PostMeta;
 
 class Favorite extends Model{
 	/**
@@ -47,6 +48,15 @@ class Favorite extends Model{
 			'ip_int'=>Request::ip2int(\F::app()->ip),
 		));
 		
+		//文章收藏数+1
+		if($sockpuppet){
+			//非真实用户行为
+			PostMeta::model()->incr($post_id, array('favorites'), 1);
+		}else{
+			//真实用户行为
+			PostMeta::model()->incr($post_id, array('favorites', 'real_favorites'), 1);
+		}
+		
 		Hook::getInstance()->call('after_post_favorite');
 	}
 	
@@ -61,11 +71,31 @@ class Favorite extends Model{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		//删除收藏关系
-		PostFavorites::model()->delete(array(
-			'user_id = ?'=>$user_id,
-			'post_id = ?'=>$post_id,
-		));
+		$favorite = PostFavorites::model()->find(array($user_id, $post_id), 'sockpuppet');
+		if($favorite){
+			//删除收藏关系
+			PostFavorites::model()->delete(array(
+				'user_id = ?'=>$user_id,
+				'post_id = ?'=>$post_id,
+			));
+			
+			//文章收藏数-1
+			if($favorite['sockpuppet']){
+				//非真实用户行为
+				PostMeta::model()->incr($post_id, array('favorites'), -1);
+			}else{
+				//真实用户行为
+				PostMeta::model()->incr($post_id, array('favorites', 'favorites'), -1);
+			}
+				
+			//执行钩子
+			Hook::getInstance()->call('after_post_unfavorite');
+				
+			return true;
+		}else{
+			//未点赞
+			return false;
+		}
 		
 		Hook::getInstance()->call('after_post_unfavorite');
 	}

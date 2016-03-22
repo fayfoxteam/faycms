@@ -53,7 +53,7 @@ class Post extends Model{
 	);
 	
 	/**
-	 * 默认返回文章字段
+	 * 默认接口返回字段
 	 */
 	public static $default_fields = array(
 		'post'=>array(

@@ -294,6 +294,7 @@ class AnalystController extends AdminController{
 		$this->view->listview = new ListView($sql, array(
 			'page_size'=>$this->form('setting')->getData('page_size', 30),
 			'item_view'=>'_spiderlog_list_item',
+			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		
 		//引入IP地址库

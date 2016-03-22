@@ -29,7 +29,7 @@ class Favorite extends Model{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(PostFavorites::model()->find(array($post_id, $user_id), 'create_time')){
+		if(PostFavorites::model()->find(array($user_id, $post_id), 'create_time')){
 			return true;
 		}else{
 			return false;

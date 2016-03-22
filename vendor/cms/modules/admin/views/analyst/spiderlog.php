@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="row">
 	<div class="col-12">
 		<?php echo F::form('search')->open(null, 'get', array(
@@ -24,7 +22,7 @@
 					));
 				?>
 			</div>
-			<div class="mb5">
+			<div>
 				访问时间
 				<?php echo F::form('search')->inputText('start_time', array(
 					'data-rule'=>'datetime',
@@ -37,13 +35,15 @@
 					'data-label'=>'时间',
 					'class'=>'form-control datetimepicker',
 				));?>
-			</div>
-			<div class="mb5">
 				<?php echo F::form('search')->submitLink('查询', array(
 					'class'=>'btn btn-sm',
 				))?>
 			</div>
 		<?php echo F::form('search')->close()?>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
 		<?php $listview->showPager();?>
 		<table class="list-table">
 			<thead>

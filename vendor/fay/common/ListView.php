@@ -44,7 +44,10 @@ class ListView{
 	public function init(){
 		$this->current_page = \F::app()->input->get($this->page_key, 'intval', 1);
 		
-		$this->total_records = $this->count();
+		if($this->total_records === null){
+			//有时候也可以在初始化的时候直接指定total_records值，例如粉丝数、关注数这些会有地方记录着，比COUNT()要快
+			$this->total_records = $this->count();
+		}
 		$this->total_pages = intval(ceil($this->total_records / $this->page_size));
 		$this->current_page > $this->total_pages ? $this->current_page = $this->total_pages : '';
 		$this->current_page < 1 ? $this->current_page = 1 : '';

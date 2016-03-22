@@ -6,8 +6,8 @@ use fay\core\db\Table;
 /**
  * Post Favorites model
  * 
- * @property int $post_id 文章ID
  * @property int $user_id 用户ID
+ * @property int $post_id 文章ID
  * @property int $create_time 收藏时间
  * @property int $ip_int IP
  * @property int $sockpuppet 马甲信息
@@ -34,8 +34,8 @@ class PostFavorites extends Table{
 
 	public function labels(){
 		return array(
-			'post_id'=>'文章ID',
 			'user_id'=>'用户ID',
+			'post_id'=>'文章ID',
 			'create_time'=>'收藏时间',
 			'ip_int'=>'IP',
 			'sockpuppet'=>'马甲信息',
@@ -45,8 +45,8 @@ class PostFavorites extends Table{
 
 	public function filters(){
 		return array(
-			'post_id'=>'intval',
 			'user_id'=>'intval',
+			'post_id'=>'intval',
 			'sockpuppet'=>'intval',
 			'trackid'=>'trim',
 		);

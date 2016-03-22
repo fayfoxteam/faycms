@@ -407,14 +407,13 @@ CREATE TABLE `{{$prefix}}keywords` (
 
 DROP TABLE IF EXISTS `{{$prefix}}post_favorites`;
 CREATE TABLE `{{$prefix}}post_favorites` (
-  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
-  PRIMARY KEY (`post_id`,`user_id`),
-  KEY `favorites` (`user_id`,`post_id`)
+  PRIMARY KEY (`user_id`,`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_likes`;
@@ -992,14 +991,13 @@ CREATE TABLE `{{$prefix}}feed_comments` (
 
 DROP TABLE IF EXISTS `{{$prefix}}feed_favorites`;
 CREATE TABLE `{{$prefix}}feed_favorites` (
-  `feed_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `feed_id` int(10) unsigned NOT NULL COMMENT '动态ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
-  PRIMARY KEY (`feed_id`,`user_id`),
-  KEY `favorites` (`user_id`,`feed_id`)
+  PRIMARY KEY (`user_id`,`feed_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}feed_likes`;

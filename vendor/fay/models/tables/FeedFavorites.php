@@ -6,8 +6,8 @@ use fay\core\db\Table;
 /**
  * Feed Favorites model
  * 
- * @property int $feed_id 动态ID
  * @property int $user_id 用户ID
+ * @property int $feed_id 动态ID
  * @property int $create_time 收藏时间
  * @property int $ip_int IP
  * @property int $sockpuppet 马甲信息
@@ -34,8 +34,8 @@ class FeedFavorites extends Table{
 
 	public function labels(){
 		return array(
-			'user_id'=>'用户ID',
 			'feed_id'=>'动态ID',
+			'user_id'=>'用户ID',
 			'create_time'=>'收藏时间',
 			'ip_int'=>'IP',
 			'sockpuppet'=>'马甲信息',
@@ -45,8 +45,8 @@ class FeedFavorites extends Table{
 
 	public function filters(){
 		return array(
-			'user_id'=>'intval',
 			'feed_id'=>'intval',
+			'user_id'=>'intval',
 			'sockpuppet'=>'intval',
 			'trackid'=>'trim',
 		);

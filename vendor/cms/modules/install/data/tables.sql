@@ -1042,6 +1042,15 @@ CREATE TABLE `{{$prefix}}feeds` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态表';
 
+DROP TABLE IF EXISTS `{{$prefix}}feeds_files`;
+CREATE TABLE `{{$prefix}}feeds_files` (
+  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '动态ID',
+  `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件ID',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
+  PRIMARY KEY (`post_id`,`file_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态图片';
+
 DROP TABLE IF EXISTS `{{$prefix}}feeds_tags`;
 CREATE TABLE `{{$prefix}}feeds_tags` (
   `feed_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',

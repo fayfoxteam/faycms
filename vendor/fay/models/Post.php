@@ -22,7 +22,7 @@ class Post extends Model{
 	/**
 	 * 允许在接口调用时返回的字段
 	 */
-	public static $allowed_fields = array(
+	public static $public_fields = array(
 		'post'=>array(
 			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'seo_title', 'seo_keywords', 'seo_description',
 		),
@@ -50,6 +50,21 @@ class Post extends Model{
 		'meta'=>array(
 			'comments', 'views', 'likes', 'favorites'
 		),
+	);
+	
+	/**
+	 * 默认返回文章字段
+	 */
+	public static $default_fields = array(
+		'post'=>array(
+			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+		),
+		'category'=>array(
+			'id', 'title', 'alias',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		)
 	);
 	
 	/**
@@ -227,7 +242,14 @@ class Post extends Model{
 		if(!$post){
 			return false;
 		}
-
+		
+		if(isset($post['thumbnail'])){
+			//如果有缩略图，将缩略图转为图片URL
+			$post['thumbnail_url'] = File::getUrl($post['thumbnail'], File::PIC_ORIGINAL, array(
+				'spare'=>'avatar',
+			));
+		}
+		
 		//设置一下SEO信息
 		if(in_array('seo_title', $fields['post']) && empty($post['seo_title'])){
 			$post['seo_title'] = $post['title'];
@@ -491,6 +513,13 @@ class Post extends Model{
 		
 		$return = array();
 		foreach($posts as $p){
+			if(isset($p['thumbnail'])){
+				//如果有缩略图，将缩略图转为图片URL
+				$p['thumbnail_url'] = File::getUrl($p['thumbnail'], File::PIC_ORIGINAL, array(
+					'spare'=>'avatar',
+				));
+			}
+			
 			$post['post'] = $p;
 			//meta
 			if(!empty($fields['meta'])){
@@ -1020,7 +1049,15 @@ class Post extends Model{
 		}
 	}
 	
+	/**
+	 * 批量获取文章信息
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @param string $fields 返回字段
+	 */
 	public function mget($post_ids, $fields){
+		if(!$post_ids){
+			return array();
+		}
 		//解析$fields
 		$fields = FieldHelper::process($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
@@ -1045,6 +1082,10 @@ class Post extends Model{
 		$posts = Posts::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
 		), $post_fields);
+		
+		if(!$posts){
+			return array();
+		}
 		
 		//meta
 		if(!empty($fields['meta'])){
@@ -1088,7 +1129,16 @@ class Post extends Model{
 				//文章不存在（一般不会发生）
 				continue;
 			}
+			
+			if(isset($p['thumbnail'])){
+				//如果有缩略图，将缩略图转为图片URL
+				$p['thumbnail_url'] = File::getUrl($p['thumbnail'], File::PIC_ORIGINAL, array(
+					'spare'=>'avatar',
+				));
+			}
+			
 			$post['post'] = $p;
+			
 			//meta
 			if(!empty($fields['meta'])){
 				$post['meta'] = $post_metas[$p['id']];

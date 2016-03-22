@@ -13,27 +13,6 @@ use fay\models\User;
  */
 class UserController extends ApiController{
 	/**
-	 * 默认返回字段
-	 */
-	private $default_fields = array(
-		'user'=>array(
-			'id', 'nickname', 'avatar',
-		)
-	);
-	
-	/**
-	 * 可选字段
-	*/
-	private $allowed_fields = array(
-		'user'=>array(
-			'id', 'nickname', 'avatar',
-		),
-		'roles'=>array(
-			'id', 'title',
-		),
-	);
-	
-	/**
 	 * 判断用户名是否可用
 	 * 可用返回状态为1，不可用返回0，http状态码均为200
 	 * @param string $username 用户名
@@ -105,10 +84,10 @@ class UserController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'user', $this->allowed_fields);
+			$fields = FieldHelper::process($fields, 'user', User::$public_fields);
 		}else{
 			//若未指定$fields，取默认值
-			$fields = $this->default_fields;
+			$fields = User::$default_fields;
 		}
 		
 		$post = User::model()->get($id, $fields);

@@ -39,6 +39,7 @@ class FollowController extends ApiController{
 	/**
 	 * 关注一个用户
 	 * @param int $user_id
+	 * @param string $trackid 追踪ID
 	 */
 	public function follow(){
 		//登录检查

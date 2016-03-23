@@ -15,9 +15,6 @@ use fay\core\db\Table;
  * @property string $publish_date 发布日期
  * @property int $status 状态
  * @property int $deleted 删除标记
- * @property int $ip_int IP
- * @property float $longitude 经度
- * @property float $latitude 纬度
  * @property string $address 地址
  */
 class Feeds extends Table{
@@ -47,11 +44,9 @@ class Feeds extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('address'), 'string', array('max'=>500)),
-			array(array('longitude', 'latitude'), 'float', array('length'=>9, 'decimal'=>6)),
 			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 		);
@@ -68,9 +63,6 @@ class Feeds extends Table{
 			'publish_date'=>'发布日期',
 			'status'=>'状态',
 			'deleted'=>'删除标记',
-			'ip_int'=>'IP',
-			'longitude'=>'经度',
-			'latitude'=>'纬度',
 			'address'=>'地址',
 		);
 	}
@@ -84,8 +76,6 @@ class Feeds extends Table{
 			'publish_date'=>'',
 			'status'=>'intval',
 			'deleted'=>'intval',
-			'longitude'=>'floatval',
-			'latitude'=>'floatval',
 			'address'=>'trim',
 		);
 	}

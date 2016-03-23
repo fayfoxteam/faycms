@@ -990,6 +990,15 @@ CREATE TABLE `{{$prefix}}feed_comments` (
   KEY `parent` (`parent`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态评论表';
 
+DROP TABLE IF EXISTS `{{$prefix}}feed_extra`;
+CREATE TABLE `{{$prefix}}feed_extra` (
+  `feed_id` int(10) unsigned NOT NULL COMMENT '动态ID',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `longitude` float(9,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
+  `latitude` float(9,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
+  PRIMARY KEY (`feed_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态表扩展信息';
+
 DROP TABLE IF EXISTS `{{$prefix}}feed_favorites`;
 CREATE TABLE `{{$prefix}}feed_favorites` (
   `feed_id` int(10) unsigned NOT NULL COMMENT '文章ID',

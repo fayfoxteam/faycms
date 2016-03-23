@@ -84,7 +84,7 @@ class Like extends Model{
 				FeedMeta::model()->incr($feed_id, array('likes'), -1);
 			}else{
 				//真实用户行为
-				FeedMeta::model()->incr($feed_id, array('likes', 'likes'), -1);
+				FeedMeta::model()->incr($feed_id, array('likes', 'real_likes'), -1);
 			}
 			
 			//执行钩子

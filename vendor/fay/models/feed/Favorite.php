@@ -25,7 +25,7 @@ class Favorite extends Model{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(FeedFavorites::model()->find(array($user_id, $feed_id))){
+		if(FeedFavorites::model()->find(array($user_id, $feed_id), 'create_time')){
 			return true;
 		}else{
 			return false;

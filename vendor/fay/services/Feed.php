@@ -38,21 +38,21 @@ class Feed extends Model{
 		$feed['user_id'] = $user_id;
 		$feed['create_time'] = \F::app()->current_time;
 		$feed['last_modified_time'] = \F::app()->current_time;
-		$feed['publish_time'] || $feed['publish_time'] = \F::app()->current_time;
+		empty($feed['publish_time']) && $feed['publish_time'] = \F::app()->current_time;
 		$feed['publish_date'] = date('Y-m-d', $feed['publish_time']);
 		
 		$feed_id = Feeds::model()->insert($feed, true);
 		
-		//动态计数表
+		//计数表
 		$feed_meta = array(
 			'feed_id'=>$feed_id,
 		);
 		if(isset($extra['meta'])){
-			$feed_meta = $feed_meta + $extra['extra'];
+			$feed_meta = $feed_meta + $extra['meta'];
 		}
 		FeedMeta::model()->insert($feed_meta, true);
 		
-		//动态扩展表
+		//扩展表
 		$feed_extra = array(
 			'feed_id'=>$feed_id,
 			'ip_int'=>Request::ip2int(\F::app()->ip),
@@ -63,7 +63,7 @@ class Feed extends Model{
 		FeedExtra::model()->insert($feed_extra, true);
 		
 		//标签
-		if(isset($extra['tags'])){
+		if($extra['tags']){
 			FeedTagService::model()->set($extra['tags'], $feed_id);
 		}
 		
@@ -100,11 +100,58 @@ class Feed extends Model{
 		//过滤掉多余的数据
 		Feeds::model()->update($data, $feed_id, true);
 		
-		$feed_meta = FeedMeta::model()->fillData($data, false);
-		if($feed_meta){
-			FeedMeta::model()->update($feed_meta, $feed_id);
+		//计数表
+		if($extra['meta']){
+			FeedMeta::model()->update($extra['meta'], $feed_id, true);
 		}
 		
+		//扩展表
+		if($extra['extra']){
+			FeedMeta::model()->update($extra['extra'], $feed_id, true);
+		}
 		
+		//标签
+		if(isset($extra['tags'])){
+			FeedTagService::model()->set($extra['tags'], $feed_id);
+		}
+		
+		//附件
+		if(isset($extra['files'])){
+			//删除已被删除的图片
+			if($extra['files']){
+				FeedsFiles::model()->delete(array(
+					'feed_id = ?'=>$feed_id,
+					'file_id NOT IN (?)'=>array_keys($extra['files']),
+				));
+			}else{
+				FeedsFiles::model()->delete(array(
+					'feed_id = ?'=>$feed_id,
+				));
+			}
+			//获取已存在的图片
+			$old_files_ids = FeedsFiles::model()->fetchCol('file_id', array(
+				'feed_id = ?'=>$feed_id,
+			));
+			$i = 0;
+			foreach($extra['files'] as $file_id => $description){
+				$i++;
+				if(in_array($file_id, $old_files_ids)){
+					FeedsFiles::model()->update(array(
+						'description'=>$description,
+						'sort'=>$i,
+					), array(
+						'feed_id = ?'=>$feed_id,
+						'file_id = ?'=>$file_id,
+					));
+				}else{
+					FeedsFiles::model()->insert(array(
+						'feed_id'=>$feed_id,
+						'file_id'=>$file_id,
+						'description'=>$description,
+						'sort'=>$i,
+					));
+				}
+			}
+		}
 	}
 }

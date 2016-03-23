@@ -27,16 +27,17 @@ class Table extends Model{
 	}
 	
 	/**
-	 * 根据表字段填充数据，仅$this->filters()中存在的字段会被返回
+	 * 根据表字段填充数据，仅$this->getFields()中存在的字段会被返回
 	 * @param array $data
 	 * @param bool $filter 若为true，则会根据$this->filters()中指定的过滤器进行过滤。默认为true
 	 */
 	public function fillData($data, $filter = true){
 		$filters = $this->filters();
+		$fields = $this->getFields();
 		$return = array();
 		foreach($data as $k => $v){
-			if(isset($filters[$k])){
-				$return[$k] = $filter ? \F::filter($filters[$k], $v) : $v;
+			if(in_array($k, $fields)){
+				$return[$k] = $filter && isset($filter[$k]) ? \F::filter($filters[$k], $v) : $v;
 			}
 		}
 		return $return;

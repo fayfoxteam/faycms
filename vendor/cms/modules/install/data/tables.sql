@@ -1044,16 +1044,13 @@ CREATE TABLE `{{$prefix}}feeds` (
   `publish_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '发布日期',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   `deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除标记',
-  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
-  `longitude` float(9,6) NOT NULL DEFAULT '0.000000' COMMENT '经度',
-  `latitude` float(9,6) NOT NULL DEFAULT '0.000000' COMMENT '纬度',
   `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态表';
 
 DROP TABLE IF EXISTS `{{$prefix}}feeds_files`;
 CREATE TABLE `{{$prefix}}feeds_files` (
-  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '动态ID',
+  `feed_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '动态ID',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件ID',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',

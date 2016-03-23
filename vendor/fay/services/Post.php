@@ -45,7 +45,7 @@ class Post extends Model{
 		$post['create_time'] = \F::app()->current_time;
 		$post['last_modified_time'] = \F::app()->current_time;
 		$post['user_id'] = $user_id;
-		$post['publish_time'] || $post['publish_time'] = \F::app()->current_time;
+		empty($post['publish_time']) && $post['publish_time'] = \F::app()->current_time;
 		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
 		$post['ip_int'] = Request::ip2int(\F::app()->ip);
 		
@@ -67,7 +67,7 @@ class Post extends Model{
 				));
 			}
 		}
-		//添加到标签表
+		//标签
 		if($extra['tags']){
 			PostTagService::model()->set($extra['tags'], $post_id);
 		}
@@ -151,12 +151,12 @@ class Post extends Model{
 				));
 			}
 		}
-	
+		
 		//标签
 		if(isset($extra['tags'])){
 			PostTagService::model()->set($extra['tags'], $post_id);
 		}
-	
+		
 		//附件
 		if(isset($extra['files'])){
 			//删除已被删除的图片

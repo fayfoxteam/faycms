@@ -8,6 +8,7 @@ use fay\core\Response;
 use fay\models\tables\Posts;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
+use fay\models\Post;
 
 /**
  * 文章评论
@@ -71,15 +72,6 @@ class PostCommentController extends ApiController{
 			array(array('post_id', 'content'), 'required'),
 			array(array('post_id'), 'int', array('min'=>1)),
 			array(array('parent'), 'int', array('min'=>0)),
-			array(array('post_id'), 'exist', array(
-				'table'=>'posts',
-				'field'=>'id',
-				'conditions'=>array(
-					'deleted = 0',
-					'status = '.Posts::STATUS_PUBLISHED,
-					'publish_time < '.\F::app()->current_time,
-				)
-			)),
 			array(array('parent'), 'exist', array(
 				'table'=>'post_comments',
 				'field'=>'id',
@@ -93,8 +85,17 @@ class PostCommentController extends ApiController{
 			'content'=>'评论内容',
 		))->check();
 		
+		$post_id = $this->form()->getData('post_id');
+		
+		if(!Post::isPostIdExist($post_id)){
+			Response::notify('error', array(
+				'message'=>'文章ID不存在',
+				'code'=>'invalid-parameter:post_id-is-not-exist',
+			));
+		}
+		
 		$comment_id = Comment::model()->create(
-			$this->form()->getData('post_id'),
+			$post_id,
 			$this->form()->getData('content'),
 			$this->form()->getData('parent', 0)
 		);

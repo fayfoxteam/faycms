@@ -39,7 +39,7 @@ class Post extends Model{
 	 *   - props 以属性ID为键，属性值为值构成的关联数组
 	 * @param int $user_id 作者ID
 	 */
-	public function create($post, $extra = array(), $user_id = 0){
+	public function create($post, $extra = array(), $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		
 		$post['create_time'] = \F::app()->current_time;
@@ -50,8 +50,7 @@ class Post extends Model{
 		$post['ip_int'] = Request::ip2int(\F::app()->ip);
 		
 		//过滤掉多余的数据
-		$post = Posts::model()->fillData($post, false);
-		$post_id = Posts::model()->insert($post);
+		$post_id = Posts::model()->insert($post, true);
 		PostMeta::model()->insert(array(
 			'post_id'=>$post_id,
 		));
@@ -73,7 +72,7 @@ class Post extends Model{
 			PostTagService::model()->set($extra['tags'], $post_id);
 		}
 		
-		//设置附件
+		//附件
 		if($extra['files']){
 			$i = 0;
 			foreach($extra['files'] as $file_id => $description){
@@ -112,8 +111,7 @@ class Post extends Model{
 	public function update($post_id, $data, $extra = array()){
 		$data['last_modified_time'] = \F::app()->current_time;
 		//过滤掉多余的数据
-		$post = Posts::model()->fillData($data, false);
-		Posts::model()->update($post, $post_id);
+		Posts::model()->update($data, $post_id, true);
 		$post_meta = PostMeta::model()->fillData($data, false);
 		if($post_meta){
 			PostMeta::model()->update($post_meta, $post_id);

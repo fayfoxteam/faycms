@@ -19,6 +19,7 @@ use fay\models\Post as PostModel;
 use fay\models\File;
 use fay\models\tables\UserCounter;
 use fay\services\post\Tag as PostTagService;
+use fay\core\Hook;
 
 class Post extends Model{
 
@@ -94,6 +95,11 @@ class Post extends Model{
 		
 		//用户文章数加一
 		UserCounter::model()->incr($user_id, 'posts', 1);
+			
+		//hook
+		Hook::getInstance()->call('after_post_created', array(
+			'post_id'=>$post_id,
+		));
 		
 		return $post_id;
 	}
@@ -201,6 +207,11 @@ class Post extends Model{
 		if(isset($extra['props'])){
 			$this->updatePropertySet($post_id, $extra['props']);
 		}
+		
+		//hook
+		Hook::getInstance()->call('after_post_updated', array(
+			'post_id'=>$post_id,
+		));
 	}
 	
 	/**

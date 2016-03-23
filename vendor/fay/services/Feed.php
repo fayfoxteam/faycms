@@ -9,6 +9,7 @@ use fay\models\tables\UserCounter;
 use fay\models\tables\FeedMeta;
 use fay\helpers\Request;
 use fay\models\tables\FeedExtra;
+use fay\core\Hook;
 
 /**
  * 动态
@@ -83,6 +84,11 @@ class Feed extends Model{
 		
 		//用户动态数加一
 		UserCounter::model()->incr($user_id, 'feeds', 1);
+		
+		//hook
+		Hook::getInstance()->call('after_feed_created', array(
+			'feed_id'=>$feed_id,
+		));
 	}
 	
 	/**
@@ -153,5 +159,10 @@ class Feed extends Model{
 				}
 			}
 		}
+		
+		//hook
+		Hook::getInstance()->call('after_feed_updated', array(
+			'feed_id'=>$feed_id,
+		));
 	}
 }

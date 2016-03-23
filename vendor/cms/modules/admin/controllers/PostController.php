@@ -130,11 +130,6 @@ class PostController extends AdminController{
 			
 			$post_id = PostService::model()->create($data, $extra, $this->current_user);
 			
-			//hook
-			Hook::getInstance()->call('after_post_created', array(
-				'post_id'=>$post_id,
-			));
-			
 			$this->actionlog(Actionlogs::TYPE_POST, '添加文章', $post_id);
 			Response::notify('success', '文章发布成功', array('admin/post/edit', array(
 				'id'=>$post_id,
@@ -442,11 +437,6 @@ class PostController extends AdminController{
 			}
 			
 			PostService::model()->update($post_id, $data, $extra);
-			
-			//hook
-			Hook::getInstance()->call('after_post_updated', array(
-				'post_id'=>$post_id,
-			));
 			
 			$this->actionlog(Actionlogs::TYPE_POST, '编辑文章', $post_id);
 			Response::notify('success', '一篇文章被编辑', false);

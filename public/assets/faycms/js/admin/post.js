@@ -5,7 +5,7 @@ var post = {
 		//设置缩略图
 		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
 			uploader.thumbnail({
-				'cat': 'post',
+				'cat': 'post'
 			});
 		});
 	},
@@ -13,7 +13,7 @@ var post = {
 		//附件
 		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
 			uploader.files({
-				'cat': 'post',
+				'cat': 'post'
 			});
 		});
 	},

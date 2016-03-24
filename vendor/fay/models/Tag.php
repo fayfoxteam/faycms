@@ -42,13 +42,14 @@ class Tag extends Model{
 	/**
 	 * 判断一个标签是否存在（禁用的标签也视为存在）
 	 * @param string $title
+	 * @param array $conditions 附加条件（例如编辑标签的时候，判断重复需要传入id != tag_id的条件）
 	 * @return 若存在，返回标签ID，若不存在，返回false
 	 */
-	public static function isTagExist($title){
+	public static function isTagExist($title, $conditions = array()){
 		if($title){
 			$tag = Tags::model()->fetchRow(array(
 				'title = ?'=>$title,
-			), 'id');
+			) + $conditions, 'id');
 			if($tag){
 				return $tag['id'];
 			}else{

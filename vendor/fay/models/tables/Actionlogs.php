@@ -128,6 +128,11 @@ class Actionlogs extends Table{
 	 * 系统参数
 	 */
 	const TYPE_OPTION = 34;
+	
+	/**
+	 * 动态管理
+	 */
+	const TYPE_FEED = 35;
 
 	protected $_name = 'actionlogs';
 	

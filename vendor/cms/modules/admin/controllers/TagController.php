@@ -32,9 +32,14 @@ class TagController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = Tags::model()->fillData($this->input->post());
+				$data['user_id'] = $this->current_user;
+				$data['create_time'] = $this->current_time;
 				$tag_id = Tags::model()->insert($data);
+				TagCounter::model()->insert(array(
+					'tag_id'=>$tag_id,
+				));
 				$this->actionlog(Actionlogs::TYPE_TAG, '创建了标签', $tag_id);
-
+				
 				$tag = Tags::model()->find($tag_id, 'id,title');
 				Response::notify('success', array(
 					'message'=>'标签创建成功',
@@ -140,7 +145,7 @@ class TagController extends AdminController{
 	public function search(){
 		$tags = Tags::model()->fetchAll(array(
 			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
-		), 'id,title', 'sort, count DESC', 20);
+		), 'id,title', 'sort', 20);
 		
 		Response::json($tags);
 	}

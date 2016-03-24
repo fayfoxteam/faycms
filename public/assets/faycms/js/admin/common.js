@@ -515,7 +515,6 @@ var common = {
 		});
 	},
 	'validform': function(){
-		return false;
 		if($('form.validform').length){
 			system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
 				if(!$.isEmptyObject(common.validformParams.forms)){

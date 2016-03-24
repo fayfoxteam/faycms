@@ -45,7 +45,7 @@ class FloatValidator extends Validator{
 	public $message = '{$attribute}必须是数字';
 	
 	public function validate($value){
-		if(!preg_match('/^\d+(\.\d+)?$/', $value)){
+		if(!preg_match('/^-?\d+(\.\d+)?$/', $value)){
 			return $this->addError($this->message);
 		}
 		

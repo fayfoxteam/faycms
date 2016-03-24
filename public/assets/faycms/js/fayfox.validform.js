@@ -149,7 +149,7 @@
 						'message':'{$attribute}必须是数字'
 					}, params);
 					
-					if(!/^\d+(\.\d+)?$/.test(value)){
+					if(!/^-?\d+(\.\d+)?$/.test(value)){
 						return $.validform._renderMsg(settings.message, {
 							'length':settings.length,
 							'decimal':settings.decimal,
@@ -158,6 +158,7 @@
 					}
 					
 					var pointPos = value.toString().indexOf('.');
+					alert(pointPos);
 					if(pointPos != -1 && value.toString().length - pointPos - 1 > settings.decimal){
 						return $.validform._renderMsg(settings.decimalTooLong, {
 							'length':settings.length,

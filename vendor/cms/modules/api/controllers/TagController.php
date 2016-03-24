@@ -60,18 +60,29 @@ class TagController extends ApiController{
 	 * 判断标签是否可用
 	 * 可用返回状态为1，不可用返回0，http状态码均为200
 	 * @param string $tag 标签
+	 * @param int $id 标签ID。若传入ID，则排除验证改ID对应的标签
 	 */
 	public function isTagNotExist(){
 		//表单验证
 		$this->form()->setRules(array(
 			array('tag', 'required'),
+			array('id', 'int', array('min'=>1)),
 		))->setFilters(array(
 			'tag'=>'trim',
+			'id'=>'intval',
 		))->setLabels(array(
 			'tag'=>'标签',
+			'id'=>'ID'
 		))->check();
 		
-		if(Tag::isTagExist($this->form()->getData('tag'))){
+		$conditions = array();
+		$id = $this->form()->getData('id');
+		if($id){
+			$conditions = array(
+				'id != ?'=>$id,
+			);
+		}
+		if(Tag::isTagExist($this->form()->getData('tag'), $conditions)){
 			Response::json('', 0, '标签已存在');
 		}else{
 			Response::json();

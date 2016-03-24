@@ -157,9 +157,8 @@
 						});
 					}
 					
-					var pointPos = value.toString().indexOf('.');
-					alert(pointPos);
-					if(pointPos != -1 && value.toString().length - pointPos - 1 > settings.decimal){
+					var pointPos = value.indexOf('.');
+					if(pointPos != -1 && value.length - pointPos - 1 > settings.decimal){
 						return $.validform._renderMsg(settings.decimalTooLong, {
 							'length':settings.length,
 							'decimal':settings.decimal,
@@ -169,7 +168,7 @@
 					
 					if(settings.length){
 						max = Math.pow(10, settings.length - settings.decimal);
-						if(parseFloat(value) > max){
+						if(parseFloat(value) > max || parseFloat(value) < -max){
 							return $.validform._renderMsg(settings.tooLong, {
 								'length':settings.length,
 								'decimal':settings.decimal,

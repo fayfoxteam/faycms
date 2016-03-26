@@ -22,24 +22,14 @@ use fay\models\File;
 					<a class="dragsort-rm" href="javascript:;"></a>
 					<a class="dragsort-item-selector"></a>
 					<div class="dragsort-item-container">
-						<span class="file-thumb">
-							<?php if($f['is_image']){
-								$full_file_path = File::getUrl($f['file_id']);
-								echo Html::link(Html::img($f['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
-									'class'=>'file-thumb-link fancybox-image',
-									'encode'=>false,
-									'title'=>false,
-								));
-							}else{
-								$full_file_path = File::getUrl($f['file_id']);
-								echo Html::link(Html::img(File::getThumbnailUrl($f['file_id']), File::PIC_THUMBNAIL), $full_file_path, array(
-									'class'=>'file-thumb-link',
-									'encode'=>false,
-									'title'=>$f['description'],
-									'target'=>false,
-								));
-							}?>
-						</span>
+						<span class="file-thumb"><?php
+							$full_file_path = File::getUrl($f['file_id']);
+							echo Html::link(Html::img($f['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
+								'class'=>'file-thumb-link fancybox-image',
+								'encode'=>false,
+								'title'=>false,
+							));
+						?></span>
 						<div class="file-desc-container">
 							<?php echo Html::textarea("description[{$f['file_id']}]", $f['description'], array(
 								'class'=>'form-control file-desc autosize',

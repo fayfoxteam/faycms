@@ -190,7 +190,7 @@ class PostController extends AdminController{
 		
 		$this->layout->sublink = array(
 			'uri'=>array('admin/post/create', $sub_link_params),
-			'text'=>'发布文章',
+			'text'=>'撰写文章',
 		);
 		
 		$this->layout->_setting_panel = '_setting_index';
@@ -336,10 +336,9 @@ class PostController extends AdminController{
 		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'page_size'=>$this->form('setting')->getData('page_size', 10),
+			'page_size'=>$this->form('setting')->getData('page_size', 20),
 			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
 		));
-		$this->view->listview->count_sql = $count_sql->getCountSql();
 		$this->view->render();
 	}
 	
@@ -351,7 +350,7 @@ class PostController extends AdminController{
 		//由于box可能被hook改掉，后面还会再获取一次enabled_boxes
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
-		$post_id = intval($this->input->get('id', 'intval'));
+		$post_id = $this->input->get('id', 'intval');
 		if(empty($post_id)){
 			throw new HttpException('参数不完整', 500);
 		}

@@ -13,6 +13,7 @@ use fay\core\db\Table;
  * @property int $last_modified_time 最后修改时间
  * @property int $publish_time 发布时间
  * @property string $publish_date 发布日期
+ * @property int $sort 排序值
  * @property int $status 状态
  * @property int $deleted 删除标记
  * @property string $address 地址
@@ -48,7 +49,7 @@ class Feeds extends Table{
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('address'), 'string', array('max'=>500)),
 			array(array('deleted'), 'range', array('range'=>array(0, 1))),
-			array(array('publish_time'), 'datetime'),
+			array(array('publish_time', 'timeline'), 'datetime'),
 		);
 	}
 
@@ -61,6 +62,7 @@ class Feeds extends Table{
 			'last_modified_time'=>'最后修改时间',
 			'publish_time'=>'发布时间',
 			'publish_date'=>'发布日期',
+			'timeline'=>'时间轴',
 			'status'=>'状态',
 			'deleted'=>'删除标记',
 			'address'=>'地址',
@@ -74,6 +76,7 @@ class Feeds extends Table{
 			'content'=>'',
 			'publish_time'=>'trim',
 			'publish_date'=>'',
+			'timeline'=>'',
 			'status'=>'intval',
 			'deleted'=>'intval',
 			'address'=>'trim',

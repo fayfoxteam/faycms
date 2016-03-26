@@ -1,7 +1,5 @@
 <?php
-use fay\models\Option;
 use fay\models\tables\Posts;
-use fay\models\tables\Roles;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -11,11 +9,6 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env"><?php echo F::form()->inputText('title', array(
-				'id'=>'title',
-				'class'=>'form-control bigtxt',
-				'placeholder'=>'在此键入标题',
-			))?></div>
 			<div class="postarea cf"><?php echo F::form()->textarea('content', array(
 				'class'=>'h200 form-control autosize',
 			));?></div>
@@ -111,7 +104,7 @@ $(function(){
 	common.dragsortKey = 'admin_feed_box_sort';
 	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'feed'});
 	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'feed'});
-	post.boxes = <?php echo json_encode($enabled_boxes)?>;
-	post.init();
+	feed.boxes = <?php echo json_encode($enabled_boxes)?>;
+	feed.init();
 });
 </script>

@@ -4,20 +4,8 @@
 		<label class="title bold">显示下列项目</label>
 		<?php
 		echo F::form('setting')->inputCheckbox('cols[]', 'id', array(
-			'label'=>'文章ID',
+			'label'=>'动态ID',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'thumbnail', array(
-			'label'=>'缩略图',
-		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'main_category', array(
-			'label'=>'主分类',
-		));
-		if(in_array('category', $enabled_boxes)){
-			//若附加分类的box被移除，则不显示该列
-			echo F::form('setting')->inputCheckbox('cols[]', 'category', array(
-				'label'=>'附加分类',
-			));
-		}
 		if(in_array('tags', $enabled_boxes)){
 			//若标签的box被移除，则不显示该列
 			echo F::form('setting')->inputCheckbox('cols[]', 'tags', array(
@@ -29,12 +17,6 @@
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'user', array(
 			'label'=>'作者',
-		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'views', array(
-			'label'=>'阅读数',
-		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'real_views', array(
-			'label'=>'真实阅读数',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'comments', array(
 			'label'=>'评论数',
@@ -50,9 +32,6 @@
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'publish_time', array(
 			'label'=>'发布时间',
-		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'last_view_time', array(
-			'label'=>'最后访问时间',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'last_modified_time', array(
 			'label'=>'最后修改时间',

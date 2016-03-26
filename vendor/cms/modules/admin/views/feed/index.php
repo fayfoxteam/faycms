@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Posts;
+use fay\models\tables\Feeds;
 use cms\helpers\ListTableHelper;
 
 $cols = F::form('setting')->getData('cols', array());
@@ -12,8 +12,8 @@ $cols = F::form('setting')->getData('cols', array());
 		))?>
 			<div class="mb5"><?php
 				echo F::form('search')->select('keywords_field', array(
-					'p.title'=>'文章标题',
-					'p.id'=>'文章ID',
+					'p.content'=>'内容',
+					'p.id'=>'动态ID',
 					'p.user_id'=>'作者ID',
 				), array(
 					'class'=>'form-control',
@@ -21,22 +21,6 @@ $cols = F::form('setting')->getData('cols', array());
 				'&nbsp;',
 				F::form('search')->inputText('keywords', array(
 					'class'=>'form-control w200',
-				)),
-				' | ',
-				F::form('search')->select('cat_id', array(
-					''=>'--分类--',
-				) + Html::getSelectOptions($cats, 'id', 'title'), array(
-					'class'=>'form-control',
-				));
-				if(in_array('category', $enabled_boxes)){
-					echo F::form('search')->inputCheckbox('with_slave', 1, array(
-						'label'=>'附加分类',
-						'title'=>'同时搜索文章主分类和附加分类',
-					));
-				}
-				echo F::form('search')->inputCheckbox('with_child', 1, array(
-					'label'=>'子分类',
-					'title'=>'符合所选分类子分类的文章也将被搜出',
 				));
 			?></div>
 			<div><?php
@@ -70,57 +54,57 @@ $cols = F::form('setting')->getData('cols', array());
 	<div class="col-12">
 		<ul class="subsubsub fl">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index')?>">全部</a>
-				<span class="fc-grey">(<span id="all-post-count">
+				<a href="<?php echo $this->url('admin/feed/index')?>">全部</a>
+				<span class="fc-grey">(<span id="all-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PUBLISHED))?>">已发布</a>
-				<span class="fc-grey">(<span id="published-post-count">
+			<li class="publish <?php if(F::app()->input->get('status') == Feeds::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_PUBLISHED))?>">已发布</a>
+				<span class="fc-grey">(<span id="published-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
 			<?php if(F::app()->post_review){//仅开启审核时显示?>
-			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
-				<span class="fc-grey">(<span id="pending-post-count">
+			<li class="pending <?php if(F::app()->input->get('status') == Feeds::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_PENDING))?>">待审核</a>
+				<span class="fc-grey">(<span id="pending-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_REVIEWED))?>">通过审核</a>
-				<span class="fc-grey">(<span id="reviewed-post-count">
+			<li class="reviewed <?php if(F::app()->input->get('status') == Feeds::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_REVIEWED))?>">通过审核</a>
+				<span class="fc-grey">(<span id="reviewed-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
 			<?php }?>
-			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
-				<span class="fc-grey">(<span id="draft-post-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
+			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Feeds::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_DRAFT))?>">草稿</a>
+				<span class="fc-grey">(<span id="draft-feed-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('deleted'=>1))?>">回收站</a>
-				<span class="fc-grey">(<span id="deleted-post-count">
+				<a href="<?php echo $this->url('admin/feed/index', array('deleted'=>1))?>">回收站</a>
+				<span class="fc-grey">(<span id="deleted-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 			</li>
 		</ul>
 	</div>
 </div>
-<form method="post" action="<?php echo $this->url('admin/post/batch')?>" id="batch-form" class="form-inline">
+<form method="post" action="<?php echo $this->url('admin/feed/batch')?>" id="batch-form" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
 				echo Html::select('', array(
 					''=>'批量操作',
-					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
-					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
+					'undelete'=>F::app()->checkPermission('admin/feed/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('admin/feed/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action',
@@ -128,12 +112,12 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo Html::select('', array(
 					''=>'批量操作',
-					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
-						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
-					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
-					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
-					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post/delete') ? '移入回收站' : false,
+					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/feed/publish')) ||
+						(!F::app()->post_review && F::app()->checkPermission('admin/feed/edit'))) ? '标记为已发布' : false,
+					'set-draft'=>F::app()->checkPermission('admin/feed/edit') ? '标记为草稿' : false,
+					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为待审核' : false,
+					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为通过审核' : false,
+					'delete'=>F::app()->checkPermission('admin/feed/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action',
@@ -153,18 +137,9 @@ $cols = F::form('setting')->getData('cols', array());
 					<tr>
 						<th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
 						<?php if(in_array('id', $cols)){?>
-						<th class="w70">文章ID</th>
+						<th class="w70">动态ID</th>
 						<?php }?>
-						<?php if(in_array('thumbnail', $cols)){?>
-						<th width="62">缩略图</th>
-						<?php }?>
-						<th>标题</th>
-						<?php if(in_array('main_category', $cols)){?>
-						<th>主分类</th>
-						<?php }?>
-						<?php if(in_array('category', $cols)){?>
-						<th>附加分类</th>
-						<?php }?>
+						<th>内容</th>
 						<?php if(in_array('tags', $cols)){?>
 						<th>标签</th>
 						<?php }?>
@@ -173,12 +148,6 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php }?>
 						<?php if(in_array('user', $cols)){?>
 						<th>作者</th>
-						<?php }?>
-						<?php if(in_array('views', $cols)){?>
-						<th class="w90"><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
-						<?php }?>
-						<?php if(in_array('real_views', $cols)){?>
-						<th class="w100"><?php echo ListTableHelper::getSortLink('real_views', '真实阅读')?></th>
 						<?php }?>
 						<?php if(in_array('comments', $cols)){?>
 						<th class="w90"><?php echo ListTableHelper::getSortLink('comments', '评论数')?></th>
@@ -195,9 +164,6 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php if(in_array('publish_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
 						<?php }?>
-						<?php if(in_array('last_view_time', $cols)){?>
-						<th><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>
-						<?php }?>
 						<?php if(in_array('last_modified_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
 						<?php }?>
@@ -213,18 +179,9 @@ $cols = F::form('setting')->getData('cols', array());
 					<tr>
 						<th><input type="checkbox" class="batch-ids-all" /></th>
 						<?php if(in_array('id', $cols)){?>
-						<th>文章ID</th>
-						<?php }?>
-						<?php if(in_array('thumbnail', $cols)){?>
-						<th>缩略图</th>
+						<th>动态ID</th>
 						<?php }?>
 						<th>标题</th>
-						<?php if(in_array('main_category', $cols)){?>
-						<th>主分类</th>
-						<?php }?>
-						<?php if(in_array('category', $cols)){?>
-						<th>附加分类</th>
-						<?php }?>
 						<?php if(in_array('tags', $cols)){?>
 						<th>标签</th>
 						<?php }?>
@@ -233,12 +190,6 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php }?>
 						<?php if(in_array('user', $cols)){?>
 						<th>作者</th>
-						<?php }?>
-						<?php if(in_array('views', $cols)){?>
-						<th><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
-						<?php }?>
-						<?php if(in_array('real_views', $cols)){?>
-						<th><?php echo ListTableHelper::getSortLink('real_views', '真实阅读')?></th>
 						<?php }?>
 						<?php if(in_array('comments', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('comments', '评论数')?></th>
@@ -254,9 +205,6 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php }?>
 						<?php if(in_array('publish_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
-						<?php }?>
-						<?php if(in_array('last_view_time', $cols)){?>
-						<th><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>
 						<?php }?>
 						<?php if(in_array('last_modified_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
@@ -281,8 +229,8 @@ $cols = F::form('setting')->getData('cols', array());
 			if(F::app()->input->get('deleted')){
 				echo Html::select('', array(
 					''=>'批量操作',
-					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
-					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
+					'undelete'=>F::app()->checkPermission('admin/feed/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('admin/feed/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action-2',
@@ -290,12 +238,12 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo Html::select('', array(
 					''=>'批量操作',
-					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
-						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
-					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
-					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
-					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post/delete') ? '移入回收站' : false,
+					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/feed/publish')) ||
+						(!F::app()->post_review && F::app()->checkPermission('admin/feed/edit'))) ? '标记为已发布' : false,
+					'set-draft'=>F::app()->checkPermission('admin/feed/edit') ? '标记为草稿' : false,
+					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为待审核' : false,
+					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为通过审核' : false,
+					'delete'=>F::app()->checkPermission('admin/feed/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action-2',
@@ -308,31 +256,26 @@ $cols = F::form('setting')->getData('cols', array());
 		?></div>
 	</div>
 </form>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
-	//显示各状态文章数
+	//显示各状态动态数
 	$.ajax({
 		'type': 'GET',
-		'url': system.url('admin/post/get-counts'),
+		'url': system.url('admin/feed/get-counts'),
 		'dataType': 'json',
 		'cache': false,
 		'success': function(resp){
-			$('#all-post-count').text(resp.data.all);
-			$('#published-post-count').text(resp.data.published);
-			$('#draft-post-count').text(resp.data.draft);
-			$('#deleted-post-count').text(resp.data.deleted);
+			$('#all-feed-count').text(resp.data.all);
+			$('#published-feed-count').text(resp.data.published);
+			$('#draft-feed-count').text(resp.data.draft);
+			$('#deleted-feed-count').text(resp.data.deleted);
 			if(resp.data.pending){
-				$('#pending-post-count').text(resp.data.pending);
+				$('#pending-feed-count').text(resp.data.pending);
 			}
 			if(resp.data.reviewed){
-				$('#reviewed-post-count').text(resp.data.reviewed);
+				$('#reviewed-feed-count').text(resp.data.reviewed);
 			}
 		}
-	});
-	
-	$(".post-sort").feditsort({
-		'url':system.url("admin/post/sort")
 	});
 });
 </script>

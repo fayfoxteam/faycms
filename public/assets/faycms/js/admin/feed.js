@@ -1,11 +1,11 @@
-var post = {
+var feed = {
 	'boxes':[],
 	'roleCats':null,
 	'files':function(){
 		//附件
 		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
 			uploader.files({
-				'cat': 'post',
+				'cat': 'feed',
 				'image_only': true
 			});
 		});
@@ -24,16 +24,16 @@ var post = {
 		});
 	},
 	'autosize':function(){
-		if(!$('textarea.autosize').length && system.inArray('files', post.boxes)){
+		if(!$('textarea.autosize').length && system.inArray('files', feed.boxes)){
 			//页面没有autosize输入框，且附件box存在，则引入autosize输入框插件
 			system.getScript(system.assets('js/autosize.min.js'));
 		}
 	},
 	'init':function(){
-		if(system.inArray('files', post.boxes)){
+		if(system.inArray('files', feed.boxes)){
 			this.files();
 		}
-		if(system.inArray('tags', post.boxes)){
+		if(system.inArray('tags', feed.boxes)){
 			system.getScript(system.assets('faycms/js/fayfox.textext.js'), function(){
 				$('#tags').ftextext({
 					'url':system.url('admin/tag/search'),

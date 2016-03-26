@@ -39,8 +39,9 @@ class Feed extends Model{
 		$feed['user_id'] = $user_id;
 		$feed['create_time'] = \F::app()->current_time;
 		$feed['last_modified_time'] = \F::app()->current_time;
-		empty($feed['publish_time']) && $feed['publish_time'] = \F::app()->current_time;
+		empty($feed['publish_time']) && $feed['publish_time'] = \F::app()->current_time;//发布时间默认为当前时间
 		$feed['publish_date'] = date('Y-m-d', $feed['publish_time']);
+		empty($feed['sort']) && $feed['sort'] = \F::app()->current_time;//排序值默认为当前时间
 		
 		$feed_id = Feeds::model()->insert($feed, true);
 		
@@ -107,13 +108,13 @@ class Feed extends Model{
 		Feeds::model()->update($data, $feed_id, true);
 		
 		//计数表
-		if($extra['meta']){
+		if(!empty($extra['meta'])){
 			FeedMeta::model()->update($extra['meta'], $feed_id, true);
 		}
 		
 		//扩展表
-		if($extra['extra']){
-			FeedMeta::model()->update($extra['extra'], $feed_id, true);
+		if(!empty($extra['extra'])){
+			FeedExtra::model()->update($extra['extra'], $feed_id, true);
 		}
 		
 		//标签

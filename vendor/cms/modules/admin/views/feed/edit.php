@@ -1,9 +1,7 @@
 <?php
-use fay\models\Option;
 use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
 use fay\helpers\Html;
-use fay\models\tables\Roles;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -12,11 +10,6 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env"><?php echo F::form()->inputText('title', array(
-				'id'=>'title',
-				'class'=>'form-control bigtxt',
-				'placeholder'=>'在此键入标题',
-			));?></div>
 			<div class="postarea"><?php echo F::form()->textarea('content', array(
 				'class'=>'h200 form-control autosize',
 			));?></div>
@@ -116,17 +109,14 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	</div>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/post.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/feed.js')?>"></script>
 <script>
 $(function(){
 	common.dragsortKey = 'admin_post_box_sort';
 	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'post'});
 	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
-	post.boxes = <?php echo json_encode($enabled_boxes)?>;
-	post.post_id = <?php echo $post['id']?>;
-	<?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) && Option::get('system:role_cats')){?>
-		post.roleCats = <?php echo json_encode(F::session()->get('role_cats'))?>;
-	<?php }?>
-	post.init();
+	feed.boxes = <?php echo json_encode($enabled_boxes)?>;
+	feed.feed_id = <?php echo \F::form()->getData('id')?>;
+	feed.init();
 });
 </script>

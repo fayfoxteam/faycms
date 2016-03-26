@@ -35,7 +35,6 @@ class Tag extends Model{
 			->where(array(
 				'ft.feed_id = ?'=>$feed_id,
 			))
-			->order('t.`count`')
 			->fetchAll();
 	}
 	

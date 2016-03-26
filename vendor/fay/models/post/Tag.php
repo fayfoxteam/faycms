@@ -40,7 +40,6 @@ class Tag extends Model{
 			->where(array(
 				'pt.post_id = ?'=>$post_id,
 			))
-			->order('t.`count`')
 			->fetchAll();
 	}
 	

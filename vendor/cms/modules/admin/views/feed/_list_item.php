@@ -1,11 +1,9 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
 use fay\models\tables\Roles;
-use fay\models\File;
-use fay\models\post\Tag as PostTag;
+use fay\models\feed\Tag as FeedTag;
 
 /**
  * 超级管理员或未开启分类权限或当前用户有此分类操作权限，则文章可编辑
@@ -21,7 +19,7 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 	$editable = false;
 }
 ?>
-<tr valign="top" id="post-<?php echo $data['id']?>">
+<tr valign="top" id="feed-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
 		'class'=>'batch-ids',
 		'disabled'=>$editable ? false : 'disabled',
@@ -29,89 +27,50 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 	<?php if(in_array('id', $cols)){?>
 	<td><?php echo $data['id']?></td>
 	<?php }?>
-	<?php if(in_array('thumbnail', $cols)){?>
-	<td class="align-center"><?php
-		if($data['thumbnail']){
-			echo Html::link(Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
-				'width'=>60,
-				'height'=>60,
-				'spare'=>'default',
-			)), File::getUrl($data['thumbnail']), array(
-				'class'=>'file-image fancybox-image',
-				'encode'=>false,
-				'title'=>Html::encode($data['title']),
-			));
-		}else{
-			echo Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
-				'width'=>60,
-				'height'=>60,
-				'spare'=>'default',
-			));
-		}
-	?></td>
-	<?php }?>
 	<td>
 		<strong><?php
 			if($editable){
-				echo Html::link($data['title'] ? $data['title'] : '--无标题--', array('admin/post/edit', array(
+				echo Html::link($data['content'], array('admin/feed/edit', array(
 					'id'=>$data['id'],
 				)));
 			}else{
-				echo Html::link($data['title'] ? $data['title'] : '--无标题--', 'javascript:;');
+				echo Html::link($data['content'], 'javascript:;');
 			}
 		?></strong>
 		<div class="row-actions">
 		<?php if($editable){
 			if($data['deleted'] == 0){
-				echo Html::link('编辑', array('admin/post/edit', array(
+				echo Html::link('编辑', array('admin/feed/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
-				echo Html::link('移入回收站', array('admin/post/delete', array(
+				echo Html::link('移入回收站', array('admin/feed/delete', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-red',
 				), true);
 			}else{
-				echo Html::link('还原', array('admin/post/undelete', array(
+				echo Html::link('还原', array('admin/feed/undelete', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'undelete-post',
+					'class'=>'undelete-feed',
 				), true);
-				echo Html::link('永久删除', array('admin/post/remove', array(
+				echo Html::link('永久删除', array('admin/feed/remove', array(
 					'id'=>$data['id'],
 				)), array(
-					'class'=>'delete-post fc-red remove-link',
+					'class'=>'delete-feed fc-red remove-link',
 				), true);
 			}
 		}?>
 		</div>
 	</td>
-	<?php if(in_array('main_category', $cols)){?>
-	<td><?php echo Html::link($data['cat_title'], array('admin/post/index', array(
-		'cat_id'=>$data['cat_id'],
-	)));?></td>
-	<?php }?>
-	<?php if(in_array('category', $cols)){?>
-	<td><?php
-		$cats = Post::model()->getCats($data['id']);
-		foreach($cats as $key => $cat){
-			if($key){
-				echo ', ';
-			}
-			echo Html::link($cat['title'], array('admin/post/index', array(
-				'cat_id'=>$cat['id'],
-			)));
-		}
-	?></td>
-	<?php }?>
 	<?php if(in_array('tags', $cols)){?>
 	<td><?php
-		$tags = PostTag::model()->get($data['id']);
+		$tags = FeedTag::model()->get($data['id']);
 		foreach($tags as $key => $tag){
 			if($key){
 				echo ', ';
 			}
-			echo Html::link($tag['title'], array('admin/post/index', array(
+			echo Html::link($tag['title'], array('admin/feed/index', array(
 				'tag_id'=>$tag['id'],
 			)));
 		}
@@ -122,19 +81,13 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 	<?php }?>
 	<?php if(in_array('user', $cols)){?>
 	<td><?php
-		echo Html::link($data[F::form('setting')->getData('display_name', 'username')], array(
-			'admin/post/index', array(
+		echo Html::link($data[F::form('setting')->getData('display_name', 'nickname')], array(
+			'admin/feed/index', array(
 				'keywords_field'=>'p.user_id',
 				'keywords'=>$data['user_id'],
 			),
 		));
 	?></td>
-	<?php }?>
-	<?php if(in_array('views', $cols)){?>
-	<td><?php echo $data['views']?></td>
-	<?php }?>
-	<?php if(in_array('real_views', $cols)){?>
-	<td><?php echo $data['real_views']?></td>
 	<?php }?>
 	<?php if(in_array('comments', $cols)){?>
 	<td><?php echo $data['comments']?></td>
@@ -155,17 +108,6 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 				echo Date::niceShort($data['publish_time']);
 			}else{
 				echo Date::format($data['publish_time']);
-			}?>
-		</abbr>
-	</td>
-	<?php }?>
-	<?php if(in_array('last_view_time', $cols)){?>
-	<td>
-		<abbr class="time" title="<?php echo Date::format($data['last_view_time'])?>">
-			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
-				echo Date::niceShort($data['last_view_time']);
-			}else{
-				echo Date::format($data['last_view_time']);
 			}?>
 		</abbr>
 	</td>
@@ -193,15 +135,14 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 	</td>
 	<?php }?>
 	<?php if(in_array('sort', $cols)){?>
-	<td><?php if($editable){
-		echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
-			'size'=>3,
-			'maxlength'=>3,
-			'data-id'=>$data['id'],
-			'class'=>'form-control w50 post-sort',
-		));
-	}else{
-		echo $data['sort'];
-	}?></td>
+	<td>
+		<abbr class="time" title="<?php echo Date::format($data['sort'])?>">
+			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
+				echo Date::niceShort($data['sort']);
+			}else{
+				echo Date::format($data['sort']);
+			}?>
+		</abbr>
+	</td>
 	<?php }?>
 </tr>

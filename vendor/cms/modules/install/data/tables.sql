@@ -1042,6 +1042,7 @@ CREATE TABLE `{{$prefix}}feeds` (
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
   `publish_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '发布日期',
+  `timeline` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序值',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   `deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除标记',
   `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址',

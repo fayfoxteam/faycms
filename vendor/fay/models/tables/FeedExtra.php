@@ -26,9 +26,8 @@ class FeedExtra extends Table{
 		return array(
 			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('feed_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('longitude', 'latitude'), 'float', array('length'=>9, 'decimal'=>6)),
-			array('longitude', 'float', array('min'=>-180, 'max'=>180)),
-			array('latitude', 'float', array('min'=>-90, 'max'=>90)),
+			array('longitude', 'float', array('length'=>9, 'decimal'=>6, 'min'=>-180, 'max'=>180)),
+			array('latitude', 'float', array('length'=>9, 'decimal'=>6, 'min'=>-90, 'max'=>90)),
 		);
 	}
 

@@ -116,6 +116,8 @@ class FeedController extends AdminController{
 	}
 	
 	public function edit(){
+		$this->layout->subtitle = '编辑动态';
+		
 		$this->form()->setModel(Feeds::model())
 			->setModel(FeedsFiles::model())
 			->setModel(FeedExtra::model());

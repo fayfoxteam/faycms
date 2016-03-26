@@ -6,6 +6,6 @@
 	<div class="box-content">
 		<?php echo F::form()->inputText('timeline', array('class'=>'form-control timepicker'))?>
 		<p class="fc-grey">以时间轴的方式设置排序，若设为将来时间，则在这个时间到来前，该动态都将置顶。</p>
-		<p class="fc-grey">留空默认为当前时间</p>
+		<p class="fc-grey">留空默认为发布时间</p>
 	</div>
 </div>

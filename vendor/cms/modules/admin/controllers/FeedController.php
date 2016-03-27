@@ -48,6 +48,12 @@ class FeedController extends AdminController{
 	 */
 	public function create(){
 		$this->layout->subtitle = '发布动态';
+		if($this->checkPermission('admin/feed/index')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/feed/index'),
+				'text'=>'所有动态',
+			);
+		}
 		
 		$this->form()->setModel(Feeds::model())
 			->setModel(FeedsFiles::model())
@@ -117,6 +123,12 @@ class FeedController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑动态';
+		if($this->checkPermission('admin/feed/create')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/feed/create'),
+				'text'=>'发布动态',
+			);
+		}
 		
 		$this->form()->setModel(Feeds::model())
 			->setModel(FeedsFiles::model())
@@ -229,10 +241,12 @@ class FeedController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '所有动态';
 		
-		$this->layout->sublink = array(
-			'uri'=>array('admin/feed/create'),
-			'text'=>'发布动态',
-		);
+		if($this->checkPermission('admin/feed/create')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/feed/create'),
+				'text'=>'发布动态',
+			);
+		}
 		
 		$this->layout->_setting_panel = '_setting_index';
 		$_setting_key = 'admin_feed_index';

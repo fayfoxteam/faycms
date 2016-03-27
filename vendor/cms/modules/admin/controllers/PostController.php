@@ -171,6 +171,13 @@ class PostController extends AdminController{
 			$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
 		}
 		
+		if($this->checkPermission('admin/post/index')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/post/index'),
+				'text'=>'所有文章',
+			);
+		}
+		
 		$this->layout->_help_panel = '_help';
 		
 		$this->view->render();
@@ -188,10 +195,12 @@ class PostController extends AdminController{
 			$sub_link_params = array();
 		}
 		
-		$this->layout->sublink = array(
-			'uri'=>array('admin/post/create', $sub_link_params),
-			'text'=>'撰写文章',
-		);
+		if($this->checkPermission('admin/post/create')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/post/create', $sub_link_params),
+				'text'=>'撰写文章',
+			);
+		}
 		
 		$this->layout->_setting_panel = '_setting_index';
 		$_setting_key = 'admin_post_index';
@@ -485,12 +494,14 @@ class PostController extends AdminController{
 		
 		$cat = Category::model()->get($post['cat_id'], 'title');
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
-		$this->layout->sublink = array(
-			'uri'=>array('admin/post/create', array(
-				'cat_id'=>$post['cat_id'],
-			)),
-			'text'=>'在此分类下发布文章',
-		);
+		if($this->checkPermission('admin/post/create')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/post/create', array(
+					'cat_id'=>$post['cat_id'],
+				)),
+				'text'=>'在此分类下发布文章',
+			);
+		}
 		
 		//box排序
 		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');

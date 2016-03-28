@@ -15,7 +15,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					'placeholder'=>'在此键入标题',
 				))?>
 			</div>
-			<div class="postarea">
+			<div class="mb30">
 				<?php echo F::form()->textarea('content', array(
 					'id'=>'visual-editor',
 					'class'=>'h350',

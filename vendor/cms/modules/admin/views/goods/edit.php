@@ -13,7 +13,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				'class'=>'form-control bigtxt',
 				'placeholder'=>'在此键入标题',
 			))?></div>
-			<div class="postarea cf"><?php $this->renderPartial('_content')?></div>
+			<div class="mb30 cf"><?php $this->renderPartial('_content')?></div>
 		</div>
 		<div class="postbox-container-1 dragsort" id="side">
 			<div class="box">

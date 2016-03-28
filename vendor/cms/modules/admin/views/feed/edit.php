@@ -10,7 +10,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="postarea"><?php echo F::form()->textarea('content', array(
+			<div class="mb30"><?php echo F::form()->textarea('content', array(
 				'class'=>'h200 form-control autosize',
 			));?></div>
 		</div>

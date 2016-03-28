@@ -30,11 +30,12 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						<?php
 							echo F::form()->select('status', array(
 								Feeds::STATUS_DRAFT=>'草稿',
-								Feeds::STATUS_VERIFIED=>'草稿',
-								Feeds::STATUS_VERIFY_FAILED=>'草稿',
+								Feeds::STATUS_PENDING=>'待审核',
+								Feeds::STATUS_APPROVED=>'通过审核',
+								Feeds::STATUS_UNAPPROVED=>'未通过审核',
 							), array(
 								'class'=>'form-control mw100 mt5 ib',
-							), Feeds::STATUS_REVIEWED);
+							), Feeds::STATUS_APPROVED);
 						?>
 					</div>
 					<div class="misc-pub-section">

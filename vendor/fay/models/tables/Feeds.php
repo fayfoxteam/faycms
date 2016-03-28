@@ -32,7 +32,12 @@ class Feeds extends Table{
 	/**
 	 * 动态状态-通过审核
 	 */
-	const STATUS_REVIEWED = 2;
+	const STATUS_APPROVED = 2;
+	
+	/**
+	 * 动态状态-未通过审核
+	 */
+	const STATUS_UNAPPROVED = 2;
 	
 	protected $_name = 'feeds';
 	

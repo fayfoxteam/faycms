@@ -112,6 +112,9 @@ use fay\helpers\ArrayHelper;
 			</div>
 			<div class="box-content">
 			<?php
+			if(!$user['props']){
+				echo '无附加属性';
+			}
 			$i = 0;
 			foreach($user['props'] as $p){
 				if($i++){

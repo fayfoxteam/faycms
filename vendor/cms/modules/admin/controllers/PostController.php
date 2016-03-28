@@ -465,7 +465,7 @@ class PostController extends AdminController{
 		
 		$post['post_category'] = Post::model()->getCatIds($post_id);
 		$post['publish_time'] = date('Y-m-d H:i:s', $post['publish_time']);
-		$post['create_time'] = Date::format($post['create_time']);
+		
 		//文章对应标签
 		$tags = $sql->from(array('pt'=>'posts_tags'), '')
 			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', 'title')

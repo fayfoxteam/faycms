@@ -515,6 +515,14 @@ select option[disabled]{text-decoration:line-through}
 #chat-dialog .cd-item:hover .cdi-line{visibility:visible}
 #chat-dialog .cdi-options i{margin-right:1px}
 
+.user-info{background-color:#fff;padding:20px}
+.user-info .user-avatar{float:left}
+.user-info .user-avatar img{display:block;border-radius:50%;width:70px;height:70px}
+.user-info .user-details p{margin-left:90px;font-size:12px;margin-bottom:6px}
+.user-info .user-nickname{color:#646565;font-size:14px}
+.user-info .user-nickname:hover{color:#d54e21}
+.user-info time{color:#b1b1b1}
+
 /* 阅卷 */
 .exam-question-list .exam-question-item{font-weight:bold;margin-bottom:8px}
 .exam-question-list .exam-question-answers{padding-left:10px}

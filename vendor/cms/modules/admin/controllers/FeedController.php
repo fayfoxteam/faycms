@@ -198,7 +198,6 @@ class FeedController extends AdminController{
 		
 		$feed['publish_time'] = date('Y-m-d H:i:s', $feed['publish_time']);
 		$feed['timeline'] = date('Y-m-d H:i:s', $feed['timeline']);
-		$feed['create_time'] = Date::format($feed['create_time']);
 		
 		//动态对应标签
 		$tags = $sql->from(array('ft'=>'feeds_tags'), '')
@@ -217,6 +216,7 @@ class FeedController extends AdminController{
 		), 'file_id,description', 'sort');
 		
 		$this->form()->setData($feed, true);
+		$this->view->feed = $feed;
 		
 		//可配置信息
 		$_box_sort_settings = Setting::model()->get('admin_feed_box_sort');

@@ -186,7 +186,7 @@ class OperatorController extends AdminController{
 			throw new HttpException('参数不完整', 500);
 		}
 		
-		$this->layout->subtitle = "用户 - {$this->view->user['user']['username']}";
+		$this->layout->subtitle = "管理员 - {$this->view->user['user']['username']}";
 		
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
@@ -194,7 +194,7 @@ class OperatorController extends AdminController{
 		if($this->checkPermission('admin/operator/edit')){
 			$this->layout->sublink = array(
 				'uri'=>array('admin/operator/edit', array('id'=>$id)),
-				'text'=>'编辑用户',
+				'text'=>'编辑管理员',
 			);
 		}
 		

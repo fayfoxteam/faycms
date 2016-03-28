@@ -4,6 +4,7 @@ use fay\models\tables\Posts;
 use fay\helpers\Html;
 use fay\models\User;
 use fay\models\File;
+use fay\helpers\Date;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -12,19 +13,63 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="mb30 user-info">
-				<?php
-					$user = User::model()->get(\F::form()->getData('user_id'), 'nickname,id,avatar,admin');
-					echo Html::link(Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
-						'spare'=>'avatar',
-					)), array('admin/user/item', array(
-						'id'=>$user['user']['id']
-					)), array(
-						'encode'=>false,
-						'title'=>Html::encode($user['user']['nickname']),
-						'class'=>'user-avatar',
-					));
-				?>
+			<div class="mb30 cf user-info"><?php
+				$user = User::model()->get($feed['user_id'], 'nickname,id,avatar,admin,roles.title');
+				
+				$user_detail_link = $user['user']['admin'] ? array('admin/operator/item', array(
+					'id'=>$user['user']['id'],
+				)) : array('admin/user/item', array(
+					'id'=>$user['user']['id'],
+				));
+				//头像
+				echo Html::link(Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
+					'spare'=>'avatar',
+				)), $user_detail_link, array(
+					'encode'=>false,
+					'title'=>Html::encode($user['user']['nickname']),
+					'class'=>'user-avatar',
+				));
+			?>
+				<div class="user-details">
+					<p><?php
+						//昵称
+						echo Html::link($user['user']['nickname'], $user_detail_link, array(
+							'class'=>'user-nickname',
+						));
+						
+						//角色
+						foreach($user['roles'] as $r){
+							echo Html::tag('sup', array(
+								'class'=>'bg-yellow title-sup ml5',
+							), Html::encode($r['title']));
+						}
+					?></p>
+					<p class="feed-meta">
+						<span>创建于：<?php
+							echo Html::tag('time', array(), Date::niceShort($feed['create_time']));
+						?></span>
+						<span class="pl11">最近更新于：<?php
+							echo Html::tag('time', array(), Date::niceShort($feed['last_modified_time']));
+						?></span>
+					</p>
+					<p class="feed-interaction">
+						<span>
+							<i class="fa fa-heart-o"></i>
+							点赞
+							<span class="fc-grey">(<?php echo $feed['likes']?>)</span>
+						</span>
+						<span class="pl11">
+							<i class="fa fa-comment-o"></i>
+							评论
+							<span class="fc-grey">(<?php echo $feed['comments']?>)</span>
+						</span>
+						<span class="pl11">
+							<i class="fa fa-star-o"></i>
+							收藏
+							<span class="fc-grey">(<?php echo $feed['favorites']?>)</span>
+						</span>
+					</p>
+				</div>
 			</div>
 			<div class="mb30"><?php echo F::form()->textarea('content', array(
 				'class'=>'h200 form-control autosize',

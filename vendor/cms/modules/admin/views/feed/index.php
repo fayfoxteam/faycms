@@ -60,13 +60,6 @@ $cols = F::form('setting')->getData('cols', array());
 				</span>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status') == Feeds::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_PUBLISHED))?>">已发布</a>
-				<span class="fc-grey">(<span id="published-feed-count">
-					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
-				</span>)</span>
-				|
-			</li>
 			<?php if(F::app()->post_review){//仅开启审核时显示?>
 			<li class="pending <?php if(F::app()->input->get('status') == Feeds::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_PENDING))?>">待审核</a>

@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Posts;
+use fay\models\tables\Feeds;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -28,24 +28,13 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					<div class="misc-pub-section mt6">
 						<strong>状态：</strong>
 						<?php
-							$options = array(Posts::STATUS_DRAFT=>'草稿');
-							$default = '';
-							if(F::app()->post_review){
-								//开启审核，显示待审核选项。若没有审核权限，默认为待审核
-								$options[Posts::STATUS_PENDING] = '待审核';
-								if(F::app()->checkPermission('admin/post/review')){
-									$options[Posts::STATUS_REVIEWED] = '通过审核';
-								}
-								$default = Posts::STATUS_PENDING;
-							}
-							if(!F::app()->post_review || F::app()->checkPermission('admin/post/publish')){
-								//未开启审核，或者有审核权限，显示发布按钮，并默认为“立即发布”
-								$options[Posts::STATUS_PUBLISHED] = '已发布';
-								$default = Posts::STATUS_PUBLISHED;
-							}
-							echo F::form()->select('status', $options, array(
+							echo F::form()->select('status', array(
+								Feeds::STATUS_DRAFT=>'草稿',
+								Feeds::STATUS_VERIFIED=>'草稿',
+								Feeds::STATUS_VERIFY_FAILED=>'草稿',
+							), array(
 								'class'=>'form-control mw100 mt5 ib',
-							), $default);
+							), Feeds::STATUS_REVIEWED);
 						?>
 					</div>
 					<div class="misc-pub-section">

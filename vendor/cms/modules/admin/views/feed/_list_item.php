@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use cms\helpers\PostHelper;
+use cms\helpers\FeedHelper;
 use fay\models\tables\Roles;
 use fay\models\feed\Tag as FeedTag;
 
@@ -77,7 +77,7 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td><?php echo PostHelper::getStatus($data['status'], $data['deleted']);?></td>
+	<td><?php echo FeedHelper::getStatus($data['status'], $data['deleted']);?></td>
 	<?php }?>
 	<?php if(in_array('user', $cols)){?>
 	<td><?php

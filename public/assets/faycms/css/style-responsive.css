@@ -426,10 +426,8 @@ select option[disabled]{text-decoration:line-through}
 /* 文章编辑框架 */
 .poststuff .post-body{margin-right:310px}
 .poststuff .post-body-content{width:100%;min-width:463px;float:left}
-.poststuff .post-body-content .postarea{margin-bottom:30px}
 .poststuff .postbox-container-1{float:right;margin-right:-310px;width:280px}
 .poststuff .postbox-container-2{float:left;width:100%}
-.poststuff .post-title-env{margin-bottom:30px}
 @media screen and (max-width:1140px){
 	.poststuff .post-body{margin-right:0}
 	.poststuff .post-body-content{min-width:0}
@@ -636,6 +634,7 @@ pre li:hover{background-color:#575757}
 .mr5{margin-right:5px !important}
 .mb5{margin-bottom:5px !important}
 .mb10{margin-bottom:10px !important}
+.mb30{margin-bottom:30px !important}
 .mt0{margin-top:0 !important}
 .mt5{margin-top:5px !important}
 .mt6{margin-top:6px !important}

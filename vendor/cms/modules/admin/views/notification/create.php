@@ -40,7 +40,7 @@ use fay\helpers\Html;
 			</div>
 		</div>
 		<div class="postbox-container-2">
-			<div class="post-title-env">
+			<div class="mb30">
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',
 					'class'=>'form-control bigtxt',

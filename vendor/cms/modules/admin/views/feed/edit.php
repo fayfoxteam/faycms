@@ -2,6 +2,8 @@
 use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
 use fay\helpers\Html;
+use fay\models\User;
+use fay\models\File;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -10,7 +12,21 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="postarea"><?php echo F::form()->textarea('content', array(
+			<div class="mb30 user-info">
+				<?php
+					$user = User::model()->get(\F::form()->getData('user_id'), 'nickname,id,avatar,admin');
+					echo Html::link(Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
+						'spare'=>'avatar',
+					)), array('admin/user/item', array(
+						'id'=>$user['user']['id']
+					)), array(
+						'encode'=>false,
+						'title'=>Html::encode($user['user']['nickname']),
+						'class'=>'user-avatar',
+					));
+				?>
+			</div>
+			<div class="mb30"><?php echo F::form()->textarea('content', array(
 				'class'=>'h200 form-control autosize',
 			));?></div>
 		</div>

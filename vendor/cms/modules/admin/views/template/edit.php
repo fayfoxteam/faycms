@@ -6,14 +6,14 @@ echo F::form()->open();
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env">
+			<div class="mb30">
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',
 					'class'=>'form-control bigtxt',
 					'placeholder'=>'在此键入标题',
 				))?>
 			</div>
-			<div class="postarea">
+			<div class="mb30">
 				<?php echo F::form()->textarea('content', array(
 					'id'=>'visual-editor',
 					'class'=>'h350',

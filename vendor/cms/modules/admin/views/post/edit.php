@@ -12,12 +12,12 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env"><?php echo F::form()->inputText('title', array(
+			<div class="mb30"><?php echo F::form()->inputText('title', array(
 				'id'=>'title',
 				'class'=>'form-control bigtxt',
 				'placeholder'=>'在此键入标题',
 			));?></div>
-			<div class="postarea"><?php $this->renderPartial('_content', array(
+			<div class="mb30"><?php $this->renderPartial('_content', array(
 				'post'=>$post,
 			))?></div>
 		</div>

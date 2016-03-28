@@ -90,6 +90,8 @@ class Feed extends Model{
 		Hook::getInstance()->call('after_feed_created', array(
 			'feed_id'=>$feed_id,
 		));
+		
+		return $feed_id;
 	}
 	
 	/**

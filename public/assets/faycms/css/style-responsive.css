@@ -428,7 +428,6 @@ select option[disabled]{text-decoration:line-through}
 .poststuff .post-body-content{width:100%;min-width:463px;float:left}
 .poststuff .postbox-container-1{float:right;margin-right:-310px;width:280px}
 .poststuff .postbox-container-2{float:left;width:100%}
-.poststuff .post-title-env{margin-bottom:30px}
 @media screen and (max-width:1140px){
 	.poststuff .post-body{margin-right:0}
 	.poststuff .post-body-content{min-width:0}

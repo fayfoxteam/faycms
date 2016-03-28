@@ -6,7 +6,7 @@ echo F::form()->open();
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env">
+			<div class="mb30">
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',
 					'class'=>'form-control bigtxt',

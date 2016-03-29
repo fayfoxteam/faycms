@@ -39,6 +39,12 @@ class PostHelper{
 				else
 					return '通过审核';
 				break;
+			default:
+				if($coloring)
+					return '<span class="fc-yellow">未知的状态</span>';
+				else
+					return '未知的状态';
+				break;
 		}
 	}
 }

@@ -30,11 +30,23 @@ class FeedHelper{
 				else
 					return '待审核';
 				break;
-			case Feeds::STATUS_REVIEWED:
+			case Feeds::STATUS_APPROVED:
 				if($coloring)
 					return '<span class="fc-green">通过审核</span>';
 				else
 					return '通过审核';
+				break;
+			case Feeds::STATUS_UNAPPROVED:
+				if($coloring)
+					return '<span class="fc-purple">未通过审核</span>';
+				else
+					return '未通过审核';
+				break;
+			default:
+				if($coloring)
+					return '<span class="fc-yellow">未知的状态</span>';
+				else
+					return '未知的状态';
 				break;
 		}
 	}

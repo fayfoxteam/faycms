@@ -55,9 +55,11 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 .fc-red{color:#d54e21 !important}
 .fc-red:hover{color:red !important}
 .fc-green{color:green !important}
-.fc-orange{color:orange !important}
+.fc-orange{color:#f7aa47 !important}
 .fc-blue{color:#21759B !important}
 .fc-grey{color:grey !important}
+.fc-yellow{color:#fcd036 !important}
+.fc-purple{color:#7c38bc !important}
 .required{color:red !important}
 
 .bl-yellow{border-left:4px solid #FFB848 !important}

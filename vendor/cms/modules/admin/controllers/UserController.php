@@ -120,6 +120,7 @@ class UserController extends AdminController{
 				array('roles', 'int'),
 			));
 		if($this->input->post() && $this->form()->check()){
+			$data = Users::model()->fillData($this->input->post());
 			isset($data['status']) || $data['status'] = Users::STATUS_VERIFIED;
 			
 			$extra = array(

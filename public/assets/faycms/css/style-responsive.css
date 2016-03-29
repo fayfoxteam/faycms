@@ -515,7 +515,7 @@ select option[disabled]{text-decoration:line-through}
 #chat-dialog .cd-item:hover .cdi-line{visibility:visible}
 #chat-dialog .cdi-options i{margin-right:1px}
 
-.user-info{background-color:#fff;padding:20px}
+.user-info{background-color:#fff;padding:20px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04);border:1px solid #DFDFDF}
 .user-info .user-avatar{float:left}
 .user-info .user-avatar img{display:block;border-radius:50%;width:70px;height:70px}
 .user-info .user-details p{margin-left:90px;font-size:12px;margin-bottom:6px}

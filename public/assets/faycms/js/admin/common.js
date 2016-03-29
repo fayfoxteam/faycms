@@ -907,6 +907,7 @@ var common = {
 	'notify': function(message, type){
 		type = type || 'success';
 		system.getScript(system.assets('faycms/js/fayfox.toast.js'), function(){
+			message = '<p>' + message + '</p>';
 			if(type == 'success'){
 				//成功的提醒5秒后自动消失，不出现关闭按钮，点击则直接消失
 				$.toast(message, type, {

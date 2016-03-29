@@ -61,7 +61,9 @@ class AdminController extends Controller{
 			throw new HttpException('您无权限做此操作', 403);
 		}
 		
-		$this->_left_menu = Menu::model()->getTree('_admin_main');
+		if(!$this->input->isAjaxRequest()){
+			$this->_left_menu = Menu::model()->getTree('_admin_main');
+		}
 	}
 	
 	/**

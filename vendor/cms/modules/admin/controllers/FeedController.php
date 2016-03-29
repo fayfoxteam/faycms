@@ -298,15 +298,17 @@ class FeedController extends AdminController{
 	 */
 	public function getCounts(){
 		$data = array(
-			'all'=>\cms\models\Post::model()->getCount(),
-			'published'=>\cms\models\Post::model()->getCount(Feeds::STATUS_PUBLISHED),
-			'draft'=>\cms\models\Post::model()->getCount(Feeds::STATUS_DRAFT),
-			'deleted'=>\cms\models\Post::model()->getDeletedCount(),
+			'all'=>\cms\models\Feed::model()->getCount(),
+			'approved'=>\cms\models\Feed::model()->getCount(Feeds::STATUS_APPROVED),
+			'unapproved'=>\cms\models\Feed::model()->getCount(Feeds::STATUS_UNAPPROVED),
+			'pending'=>\cms\models\Feed::model()->getCount(Feeds::STATUS_PENDING),
+			'draft'=>\cms\models\Feed::model()->getCount(Feeds::STATUS_DRAFT),
+			'deleted'=>\cms\models\Feed::model()->getDeletedCount(),
 		);
 		
 		if($this->post_review){
-			$data['pending'] = \cms\models\Post::model()->getCount(Feeds::STATUS_PENDING);
-			$data['reviewed'] = \cms\models\Post::model()->getCount(Feeds::STATUS_REVIEWED);
+			$data['pending'] = \cms\models\Feed::model()->getCount(Feeds::STATUS_PENDING);
+			$data['reviewed'] = \cms\models\Feed::model()->getCount(Feeds::STATUS_REVIEWED);
 		}
 		
 		Response::json($data);

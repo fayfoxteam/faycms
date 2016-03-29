@@ -1,7 +1,7 @@
 <?php
-use cms\helpers\PostHelper;
-use fay\models\tables\Posts;
+use cms\helpers\FeedHelper;
 use fay\helpers\Html;
+use fay\models\tables\Feeds;
 use fay\models\User;
 use fay\models\File;
 use fay\helpers\Date;
@@ -89,25 +89,17 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					</div>
 					<div class="misc-pub-section mt6">
 						<strong>当前状态：</strong>
-						<span id="crt-status"><?php echo PostHelper::getStatus(F::form()->getData('status'), 0, false)?></span>
+						<span id="crt-status"><?php echo FeedHelper::getStatus(F::form()->getData('status'), 0, false)?></span>
 						<a href="javascript:;" id="edit-status-link" class="ml5">编辑</a>
 						<?php echo F::form()->inputHidden('status')?>
 						<div class="hide" id="edit-status-container"><?php
-							$options = array(Posts::STATUS_DRAFT=>'草稿');
-							if(F::app()->post_review){
-								//开启审核，显示待审核选项
-								$options[Posts::STATUS_PENDING] = '待审核';
-								if(F::app()->checkPermission('admin/post/review')){
-									//若有审核权限，显示“通过审核”选项
-									$options[Posts::STATUS_REVIEWED] = '通过审核';
-								}
-							}
-							if(!F::app()->post_review || F::app()->checkPermission('admin/post/publish')){
-								//未开启审核，或者有发布权限，显示“已发布”选项
-								$options[Posts::STATUS_PUBLISHED] = '已发布';
-							}
-							echo Html::select('', $options, F::form()->getData('status'), array(
-								'class'=>'form-control mw100 mt5 ib',
+							echo Html::select('', array(
+								Feeds::STATUS_DRAFT => '草稿',
+								Feeds::STATUS_PENDING => '待审核',
+								Feeds::STATUS_APPROVED => '通过审核',
+								Feeds::STATUS_UNAPPROVED => '未通过审核',
+							), F::form()->getData('status'), array(
+								'class'=>'form-control mw110 mt5 ib',
 								'id'=>'edit-status-selector'
 							));
 							echo Html::link('确定', 'javascript:;', array(

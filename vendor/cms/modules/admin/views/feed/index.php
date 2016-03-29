@@ -60,7 +60,6 @@ $cols = F::form('setting')->getData('cols', array());
 				</span>)</span>
 				|
 			</li>
-			<?php if(F::app()->post_review){//仅开启审核时显示?>
 			<li class="pending <?php if(F::app()->input->get('status') == Feeds::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_PENDING))?>">待审核</a>
 				<span class="fc-grey">(<span id="pending-feed-count">
@@ -68,14 +67,20 @@ $cols = F::form('setting')->getData('cols', array());
 				</span>)</span>
 				|
 			</li>
-			<li class="reviewed <?php if(F::app()->input->get('status') == Feeds::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_REVIEWED))?>">通过审核</a>
-				<span class="fc-grey">(<span id="reviewed-feed-count">
+			<li class="approved <?php if(F::app()->input->get('status') == Feeds::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_APPROVED))?>">通过审核</a>
+				<span class="fc-grey">(<span id="approved-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<?php }?>
+			<li class="unapproved <?php if(F::app()->input->get('status') == Feeds::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_UNAPPROVED))?>">未通过审核</a>
+				<span class="fc-grey">(<span id="unapproved-feed-count">
+					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
+				</span>)</span>
+				|
+			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Feeds::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
 				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_DRAFT))?>">草稿</a>
 				<span class="fc-grey">(<span id="draft-feed-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
@@ -105,11 +110,10 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo Html::select('', array(
 					''=>'批量操作',
-					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/feed/publish')) ||
-						(!F::app()->post_review && F::app()->checkPermission('admin/feed/edit'))) ? '标记为已发布' : false,
 					'set-draft'=>F::app()->checkPermission('admin/feed/edit') ? '标记为草稿' : false,
-					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为待审核' : false,
-					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为通过审核' : false,
+					'set-pending'=>F::app()->checkPermission('admin/feed/approve') ? '标记为待审核' : false,
+					'set-approved'=>F::app()->checkPermission('admin/feed/approve') ? '通过审核' : false,
+					'set-unapproved'=>F::app()->checkPermission('admin/feed/approve') ? '未通过审核' : false,
 					'delete'=>F::app()->checkPermission('admin/feed/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
@@ -137,7 +141,7 @@ $cols = F::form('setting')->getData('cols', array());
 						<th>标签</th>
 						<?php }?>
 						<?php if(in_array('status', $cols)){?>
-						<th class="w70">状态</th>
+						<th class="w90">状态</th>
 						<?php }?>
 						<?php if(in_array('user', $cols)){?>
 						<th>作者</th>
@@ -231,11 +235,10 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo Html::select('', array(
 					''=>'批量操作',
-					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/feed/publish')) ||
-						(!F::app()->post_review && F::app()->checkPermission('admin/feed/edit'))) ? '标记为已发布' : false,
 					'set-draft'=>F::app()->checkPermission('admin/feed/edit') ? '标记为草稿' : false,
-					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为待审核' : false,
-					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/feed/review')) ? '标记为通过审核' : false,
+					'set-pending'=>F::app()->checkPermission('admin/feed/approve') ? '标记为待审核' : false,
+					'set-approved'=>F::app()->checkPermission('admin/feed/approve') ? '通过审核' : false,
+					'set-unapproved'=>F::app()->checkPermission('admin/feed/approve') ? '未通过审核' : false,
 					'delete'=>F::app()->checkPermission('admin/feed/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
@@ -259,15 +262,11 @@ $(function(){
 		'cache': false,
 		'success': function(resp){
 			$('#all-feed-count').text(resp.data.all);
-			$('#published-feed-count').text(resp.data.published);
 			$('#draft-feed-count').text(resp.data.draft);
 			$('#deleted-feed-count').text(resp.data.deleted);
-			if(resp.data.pending){
-				$('#pending-feed-count').text(resp.data.pending);
-			}
-			if(resp.data.reviewed){
-				$('#reviewed-feed-count').text(resp.data.reviewed);
-			}
+			$('#pending-feed-count').text(resp.data.pending);
+			$('#approved-feed-count').text(resp.data.approved);
+			$('#unapproved-feed-count').text(resp.data.unapproved);
 		}
 	});
 });

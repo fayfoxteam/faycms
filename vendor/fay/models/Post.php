@@ -795,7 +795,7 @@ class Post extends Model{
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
 			/**
 			 * 是否启用文章审核
 			 */
@@ -898,7 +898,7 @@ class Post extends Model{
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可删除
 			if($role_cats &&
 				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles')) &&
@@ -949,7 +949,7 @@ class Post extends Model{
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可还原
 			if($role_cats &&
 				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles')) &&
@@ -1000,7 +1000,7 @@ class Post extends Model{
 			/**
 			 * 是否启用分类权限
 			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:role_cats');
+			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
 			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可永久删除
 			if($role_cats &&
 				!in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles')) &&

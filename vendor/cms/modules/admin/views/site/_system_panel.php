@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\models\Option;
 ?>
-<form id="options-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
+<form id="system-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
 	<div class="row">
 		<div class="col-6">
 			<div class="form-field">
@@ -78,7 +78,7 @@ use fay\models\Option;
 	<div class="row">
 		<div class="col-12">
 			<div class="form-field">
-				<a href="javascript:;" id="options-form-submit" class="btn">提交保存</a>
+				<a href="javascript:;" id="system-form-submit" class="btn">提交保存</a>
 			</div>
 		</div>
 	</div>

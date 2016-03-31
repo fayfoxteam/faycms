@@ -10,6 +10,10 @@ use fay\models\tables\FeedMeta;
 use fay\helpers\Request;
 use fay\models\tables\FeedExtra;
 use fay\core\Hook;
+use fay\models\feed\Tag as FeedTagModel;
+use fay\models\tables\FeedsTags;
+use fay\models\tables\FeedLikes;
+use fay\models\tables\FeedFavorites;
 
 /**
  * 动态
@@ -167,5 +171,104 @@ class Feed extends Model{
 		Hook::getInstance()->call('after_feed_updated', array(
 			'feed_id'=>$feed_id,
 		));
+	}
+	
+	/**
+	 * 删除一篇动态
+	 * @param int $feed_id 动态ID
+	 */
+	public function delete($feed_id){
+		$feed = Feeds::model()->find($feed_id, 'user_id,deleted');
+		if(!$feed || $feed['deleted']){
+			return false;
+		}
+		
+		//标记为已删除
+		Feeds::model()->update(array(
+			'deleted'=>1
+		), $feed_id);
+		
+		//用户动态数减一
+		UserCounter::model()->incr($feed['user_id'], 'feeds', -1);
+		
+		//相关标签动态数减一
+		FeedTagModel::model()->decr($feed_id);
+		
+		//执行钩子
+		Hook::getInstance()->call('after_feed_deleted', array(
+			'feed_id'=>$feed_id,
+		));
+		
+		return true;
+	}
+	
+	/**
+	 * 还原一篇动态
+	 * @param int $feed_id 动态ID
+	 */
+	public function undelete($feed_id){
+		$feed = Feeds::model()->find($feed_id, 'user_id,deleted');
+		if(!$feed || !$feed['deleted']){
+			return false;
+		}
+		
+		//标记为未删除
+		Feeds::model()->update(array(
+			'deleted'=>0
+		), $feed_id);
+		
+		//用户动态数减一
+		UserCounter::model()->incr($feed['user_id'], 'feeds', 1);
+		
+		//相关标签动态数加一
+		FeedTagModel::model()->incr($feed_id);
+		
+		//执行钩子
+		Hook::getInstance()->call('after_feed_undeleted', array(
+			'feed_id'=>$feed_id,
+		));
+		
+		return true;
+	}
+	
+	/**
+	 * 彻底删除一篇动态
+	 */
+	public function remove($feed_id){
+		//获取动态删除状态
+		$feed = Feeds::model()->find($feed_id, 'user_id,deleted');
+		if(!$feed){
+			return false;
+		}
+		
+		//执行钩子
+		Hook::getInstance()->call('before_feed_removed', array(
+			'feed_id'=>$feed_id,
+		));
+		
+		//删除动态
+		Feeds::model()->delete($feed_id);
+		
+		if(!$feed['deleted']){//若动态未通过回收站被直接删除
+			//则作者动态数减一
+			UserCounter::model()->incr($feed['user_id'], 'feed', -1);
+			
+			//相关标签动态数减一
+			FeedTagModel::model()->decr($feed_id);
+		}
+		//删除动态与标签的关联关系
+		FeedsTags::model()->delete('feed_id = ' . $feed_id);
+		
+		//删除动态附件（只是删除对应关系，并不删除附件文件）
+		FeedsFiles::model()->delete('feed_id = '.$feed_id);
+		
+		//删除关注，收藏列表
+		FeedLikes::model()->delete('feed_id = '.$feed_id);
+		FeedFavorites::model()->delete('feed_id = '.$feed_id);
+		
+		//删除动态meta信息
+		FeedMeta::model()->delete('feed_id = ' . $feed_id);
+		
+		return true;
 	}
 }

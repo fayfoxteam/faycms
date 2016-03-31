@@ -13,6 +13,7 @@ use fay\core\Sql;
 use fay\models\tables\FeedMeta;
 use fay\common\ListView;
 use fay\helpers\Date;
+use fay\helpers\Html;
 
 class FeedController extends AdminController{
 	/**
@@ -273,6 +274,24 @@ class FeedController extends AdminController{
 			->joinLeft(array('fe'=>'feed_extra'), 'f.id = fe.feed_id', FeedExtra::model()->getFields('feed_id'))
 		;
 		
+		//文章状态
+		if($this->input->get('deleted', 'intval') == 1){
+			$sql->where('f.deleted = 1');
+		}else if($this->input->get('status', 'intval') !== null && $this->input->get('deleted', 'intval') != 1){
+			$sql->where(array(
+				'f.deleted != 1',
+				'f.status = ?'=>$this->input->get('status', 'intval'),
+			));
+		}else{
+			$sql->where('f.deleted = 0');
+		}
+		if($this->input->get('start_time')){
+			$sql->where(array("f.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
+		}
+		if($this->input->get('end_time')){
+			$sql->where(array("f.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
+		}
+		
 		if(in_array('user', $_settings['cols'])){
 			$sql->joinLeft(array('u'=>'users'), 'f.user_id = u.id', 'username,nickname,realname');
 		}
@@ -312,5 +331,54 @@ class FeedController extends AdminController{
 		}
 		
 		Response::json($data);
+	}
+	
+	/**
+	 * 删除
+	 * @param int $id 动态ID
+	 */
+	public function delete(){
+		$feed_id = $this->input->get('id', 'intval');
+		
+		FeedService::model()->delete($feed_id);
+		
+		$this->actionlog(Actionlogs::TYPE_FEED, '将动态移入回收站', $feed_id);
+		
+		Response::notify('success', array(
+			'message'=>'一篇动态被移入回收站 - '.Html::link('撤销', array('admin/feed/undelete', array(
+				'id'=>$feed_id,
+			))),
+			'id'=>$feed_id,
+		));
+	}
+	
+	/**
+	 * 还原
+	 * @param int $id 动态ID
+	 */
+	public function undelete(){
+		$feed_id = $this->input->get('id', 'intval');
+		
+		FeedService::model()->undelete($feed_id);
+		
+		$this->actionlog(Actionlogs::TYPE_FEED, '将动态移出回收站', $feed_id);
+		
+		Response::notify('success', array(
+			'message'=>'一篇动态被还原',
+			'id'=>$feed_id,
+		));
+	}
+	
+	public function remove(){
+		$feed_id = $this->input->get('id', 'intval');
+		
+		FeedService::model()->remove($feed_id);
+		
+		$this->actionlog(Actionlogs::TYPE_FEED, '将动态永久删除', $feed_id);
+		
+		Response::notify('success', array(
+			'message'=>'一篇动态被永久删除',
+			'id'=>$feed_id,
+		));
 	}
 }

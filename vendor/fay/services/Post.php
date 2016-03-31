@@ -5,7 +5,6 @@ use fay\core\Model;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
 use fay\models\tables\PostsFiles;
-use fay\models\tables\Favourites;
 use fay\models\tables\PostsTags;
 use fay\models\tables\PostPropInt;
 use fay\models\tables\PostPropVarchar;
@@ -20,6 +19,7 @@ use fay\models\File;
 use fay\models\tables\UserCounter;
 use fay\services\post\Tag as PostTagService;
 use fay\core\Hook;
+use fay\models\tables\PostFavorites;
 
 class Post extends Model{
 
@@ -258,8 +258,13 @@ class Post extends Model{
 			return false;
 		}
 		
+		//执行钩子
+		Hook::getInstance()->call('before_post_removed', array(
+			'post_id'=>$post_id,
+		));
+		
 		//删除文章
-		Posts::model()->delete('id = '.$post_id);
+		Posts::model()->delete($post_id);
 		
 		if(!$post['deleted']){//若文章未通过回收站被直接删除
 			//则作者文章数减一
@@ -269,12 +274,13 @@ class Post extends Model{
 			PostTagModel::model()->decr($post_id);
 		}
 		//删除文章与标签的关联关系
-		PostsTags::model()->delete(array('post_id = ' . $post_id));
+		PostsTags::model()->delete('post_id = ' . $post_id);
 		
-		//删除文章对应的附加信息
+		//删除文章附加分类
 		PostsCategories::model()->delete('post_id = '.$post_id);
+		
+		//删除文章附件（只是删除对应关系，并不删除附件文件）
 		PostsFiles::model()->delete('post_id = '.$post_id);
-		PostsTags::model()->delete('post_id = '.$post_id);
 		
 		//删除文章可能存在的自定义属性
 		PostPropInt::model()->delete('post_id = '.$post_id);
@@ -283,7 +289,7 @@ class Post extends Model{
 		
 		//删除关注，收藏列表
 		PostLikes::model()->delete('post_id = '.$post_id);
-		Favourites::model()->delete('post_id = '.$post_id);
+		PostFavorites::model()->delete('post_id = '.$post_id);
 		
 		//删除文章meta信息
 		PostMeta::model()->delete('post_id = ' . $post_id);
@@ -294,8 +300,8 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 */
 	public function delete($post_id){
-		$post = Posts::model()->find($post_id, 'user_id');
-		if(!$post){
+		$post = Posts::model()->find($post_id, 'user_id,deleted');
+		if(!$post || $post['deleted']){
 			return false;
 		}
 		
@@ -309,6 +315,13 @@ class Post extends Model{
 		
 		//相关标签文章数减一
 		PostTagModel::model()->decr($post_id);
+		
+		//执行钩子
+		Hook::getInstance()->call('after_post_deleted', array(
+			'post_id'=>$post_id,
+		));
+		
+		return true;
 	}
 	
 	/**
@@ -316,8 +329,8 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 */
 	public function undelete($post_id){
-		$post = Posts::model()->find($post_id, 'user_id');
-		if(!$post){
+		$post = Posts::model()->find($post_id, 'user_id,deleted');
+		if(!$post || !$post['deleted']){
 			return false;
 		}
 		
@@ -331,5 +344,12 @@ class Post extends Model{
 		
 		//相关标签文章数加一
 		PostTagModel::model()->incr($post_id);
+		
+		//执行钩子
+		Hook::getInstance()->call('after_post_undeleted', array(
+			'post_id'=>$post_id,
+		));
+		
+		return true;
 	}
 }

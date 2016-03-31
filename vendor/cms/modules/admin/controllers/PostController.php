@@ -19,7 +19,6 @@ use fay\models\Option;
 use fay\models\Flash;
 use fay\models\tables\PostMeta;
 use fay\services\Post as PostService;
-use fay\helpers\Date;
 
 class PostController extends AdminController{
 	/**

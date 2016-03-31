@@ -6,9 +6,7 @@ use fay\core\Uri;
 class Bootstrap{
 	public function init(){
 		//默认时区
-		$date = \F::config()->get('date');
-		$default_timezone = $date['default_timezone'];
-		date_default_timezone_set($default_timezone);
+		date_default_timezone_set(\F::config()->get('date.default_timezone'));
 		
 		//报错级别
 		switch (\F::config()->get('environment')){

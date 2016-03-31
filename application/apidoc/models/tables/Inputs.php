@@ -8,11 +8,14 @@ use fay\core\db\Table;
  * 
  * @property int $id Id
  * @property int $api_id 接口ID
- * @property string $title 标题
+ * @property string $name 名称
  * @property int $required 是否必须
  * @property int $type 参数类型
  * @property string $sample 示例值
  * @property string $description 描述
+ * @property int $create_time 创建时间
+ * @property int $last_modified_time 最后修改时间
+ * @property string $version 版本
  */
 class Inputs extends Table{
 	protected $_name = 'apidoc_inputs';
@@ -29,7 +32,8 @@ class Inputs extends Table{
 			array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('api_id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('required', 'type'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('title'), 'string', array('max'=>255)),
+			array(array('name'), 'string', array('max'=>255)),
+			array(array('version'), 'string', array('max'=>30)),
 		);
 	}
 
@@ -37,11 +41,14 @@ class Inputs extends Table{
 		return array(
 			'id'=>'Id',
 			'api_id'=>'接口ID',
-			'title'=>'标题',
+			'name'=>'名称',
 			'required'=>'是否必须',
 			'type'=>'参数类型',
 			'sample'=>'示例值',
 			'description'=>'描述',
+			'create_time'=>'创建时间',
+			'last_modified_time'=>'最后修改时间',
+			'version'=>'版本',
 		);
 	}
 
@@ -49,11 +56,12 @@ class Inputs extends Table{
 		return array(
 			'id'=>'intval',
 			'api_id'=>'intval',
-			'title'=>'trim',
+			'name'=>'trim',
 			'required'=>'intval',
 			'type'=>'intval',
 			'sample'=>'',
 			'description'=>'',
+			'version'=>'trim',
 		);
 	}
 }

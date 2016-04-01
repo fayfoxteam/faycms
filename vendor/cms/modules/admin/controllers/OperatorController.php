@@ -111,7 +111,9 @@ class OperatorController extends AdminController{
 			isset($data['status']) || $data['status'] = Users::STATUS_VERIFIED;
 			
 			$extra = array(
-				'trackid'=>'admin_create:'.\F::session()->get('user.id'),
+				'profile'=>array(
+					'trackid'=>'admin_create:'.\F::session()->get('user.id'),
+				),
 				'roles'=>$this->input->post('roles', 'intval', array()),
 				'props'=>$this->input->post('props', '', array()),
 			);

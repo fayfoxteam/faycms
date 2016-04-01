@@ -7,7 +7,7 @@ use fay\models\tables\Tags;
 use fay\models\tables\TagCounter;
 
 /**
- * 标签
+ * 标签服务
  */
 class Tag extends Model{
 	/**

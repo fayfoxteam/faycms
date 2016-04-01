@@ -2,8 +2,8 @@
 namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
-use fay\models\User;
 use fay\core\Response;
+use fay\services\User;
 
 class LogoutController extends UserController{
 	public function index(){

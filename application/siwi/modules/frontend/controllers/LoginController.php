@@ -2,7 +2,6 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\User;
 use fay\models\tables\Users;
 use fay\models\Email;
 use fay\helpers\StringHelper;
@@ -10,6 +9,7 @@ use fay\core\Response;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\models\Flash;
+use fay\services\User;
 
 class LoginController extends FrontController{
 	public function index(){

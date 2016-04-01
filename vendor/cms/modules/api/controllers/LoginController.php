@@ -2,8 +2,8 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\models\User;
 use fay\core\Response;
+use fay\services\User;
 
 /**
  * 登录

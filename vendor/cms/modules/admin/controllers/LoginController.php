@@ -2,11 +2,11 @@
 namespace cms\modules\admin\controllers;
 
 use fay\core\Controller;
-use fay\models\User;
 use fay\models\Log;
 use fay\core\Response;
 use fay\models\tables\Logs;
 use fay\core\Loader;
+use fay\services\User;
 
 class LoginController extends Controller{
 	public function __construct(){

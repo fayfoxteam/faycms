@@ -2,8 +2,8 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\User;
 use fay\core\Response;
+use fay\services\User;
 
 class LogoutController extends UserController{
 	public function index(){

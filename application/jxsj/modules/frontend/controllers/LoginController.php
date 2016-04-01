@@ -2,8 +2,8 @@
 namespace jxsj\modules\frontend\controllers;
 
 use jxsj\library\FrontController;
-use fay\models\User;
 use fay\core\Response;
+use fay\services\User;
 
 class LoginController extends FrontController{
 	public function index(){

@@ -7,7 +7,8 @@ use fay\core\Sql;
 use fay\models\tables\Roles;
 use fay\models\tables\Actionlogs;
 use fay\common\ListView;
-use fay\models\User;
+use fay\models\User as UserModel;
+use fay\services\User as UserService;
 use fay\models\Setting;
 use fay\core\Response;
 use fay\helpers\Html;
@@ -118,7 +119,7 @@ class OperatorController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			$user_id = User::model()->create($data, $extra, 1);
+			$user_id = UserService::model()->create($data, $extra, 1);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
 			
@@ -136,7 +137,7 @@ class OperatorController extends AdminController{
 		//有可能默认了某些角色
 		$role_ids = $this->input->get('roles', 'intval');
 		if($role_ids){
-			$this->view->prop_set = User::model()->getPropsByRoles($role_ids);
+			$this->view->prop_set = UserModel::model()->getPropsByRoles($role_ids);
 		}else{
 			$this->view->prop_set = array();
 		}
@@ -157,7 +158,7 @@ class OperatorController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			User::model()->update($user_id, $data, $extra);
+			UserService::model()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
 			Response::notify('success', '修改成功', false);
@@ -166,7 +167,7 @@ class OperatorController extends AdminController{
 			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = User::model()->get($user_id, 'user.*,profile.*');
+		$user = UserModel::model()->get($user_id, 'user.*,profile.*');
 		$user_role_ids = Role::model()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
@@ -177,13 +178,13 @@ class OperatorController extends AdminController{
 			'deleted = 0',
 		), 'id,title');	
 		
-		$this->view->prop_set = User::model()->getPropertySet($user_id);
+		$this->view->prop_set = UserModel::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id, 'user.*,props.*,roles.title,profile.*');
+			$this->view->user = UserModel::model()->get($id, 'user.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

@@ -7,7 +7,8 @@ use fay\core\Sql;
 use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\common\ListView;
-use fay\models\User;
+use fay\models\User as UserModel;
+use fay\services\User as UserService;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\Html;
@@ -131,7 +132,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			$user_id = User::model()->create($data, $extra);
+			$user_id = UserService::model()->create($data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个新用户', $user_id);
 			
@@ -166,7 +167,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			User::model()->update($user_id, $data, $extra);
+			UserService::model()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $user_id);
 			Response::notify('success', '编辑成功', false);
@@ -175,7 +176,7 @@ class UserController extends AdminController{
 			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = User::model()->get($user_id, 'user.*,profile.*');
+		$user = UserModel::model()->get($user_id, 'user.*,profile.*');
 		$user_role_ids = Role::model()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
@@ -186,13 +187,13 @@ class UserController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = User::model()->getPropertySet($user_id);
+		$this->view->prop_set = UserModel::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id, 'user.*,props.*,roles.title,profile.*');
+			$this->view->user = UserModel::model()->get($id, 'user.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}
@@ -217,13 +218,13 @@ class UserController extends AdminController{
 		$user_id = $this->input->get('user_id', 'intval');
 		
 		if($role_ids){
-			$props = User::model()->getPropsByRoles($role_ids);
+			$props = UserModel::model()->getPropsByRoles($role_ids);
 		}else{
 			$props = array();
 		}
 		
 		if(!empty($props) && $user_id){
-			$props = User::model()->getPropertySet($user_id, $props);
+			$props = UserModel::model()->getPropertySet($user_id, $props);
 		}
 		
 		$this->view->prop_set = $props;

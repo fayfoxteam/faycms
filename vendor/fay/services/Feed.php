@@ -16,7 +16,7 @@ use fay\models\tables\FeedLikes;
 use fay\models\tables\FeedFavorites;
 
 /**
- * 动态
+ * 动态服务
  */
 class Feed extends Model{
 

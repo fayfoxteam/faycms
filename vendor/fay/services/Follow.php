@@ -13,6 +13,9 @@ use fay\common\ListView;
 use fay\helpers\FieldHelper;
 use fay\models\tables\UserCounter;
 
+/**
+ * 关注服务
+ */
 class Follow extends Model{
 	/**
 	 * @return Follow

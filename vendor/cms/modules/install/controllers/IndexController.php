@@ -3,17 +3,14 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use fay\models\tables\Users;
-use fay\helpers\StringHelper;
 use fay\models\Option;
 use fay\models\File;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
 use fay\helpers\Request;
-use fay\models\tables\UserProfile;
-use fay\models\tables\UsersRoles;
 use fay\models\tables\Roles;
-use fay\models\User;
+use fay\services\User;
 
 class IndexController extends InstallController{
 	public function __construct(){

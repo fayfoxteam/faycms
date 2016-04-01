@@ -21,6 +21,9 @@ use fay\services\post\Tag as PostTagService;
 use fay\core\Hook;
 use fay\models\tables\PostFavorites;
 
+/**
+ * 文章服务
+ */
 class Post extends Model{
 
 	/**

@@ -493,16 +493,22 @@ class User extends Model{
 		
 		//过滤掉多余的数据
 		$user = Users::model()->fillData($user, false);
-		$user['admin'] = $is_admin;
+		$user['admin'] = $is_admin ? 1 : 0;
 		//插用户表
 		$user_id = Users::model()->insert($user);
+		
 		//插用户扩展表
-		UserProfile::model()->insert(array(
+		$user_profile = array(
 			'user_id'=>$user_id,
 			'reg_time'=>\F::app()->current_time,
 			'reg_ip'=>Request::ip2int(Request::getIP()),
 			'trackid'=>isset($extra['trackid']) ? $extra['trackid'] : '',
-		));
+		);
+		if(isset($extra['profile'])){
+			$user_profile = $user_profile + $extra['profile'];
+		}
+		UserProfile::model()->insert($user_profile, true);
+		
 		//插入用户计数表
 		UserCounter::model()->insert(array(
 			'user_id'=>$user_id,
@@ -525,7 +531,7 @@ class User extends Model{
 		}
 		
 		//设置属性
-		if($extra['props']){
+		if(isset($extra['props'])){
 			$this->createPropertySet($user_id, $extra['props']);
 		}
 		

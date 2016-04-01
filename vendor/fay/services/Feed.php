@@ -87,8 +87,26 @@ class Feed extends Model{
 			}
 		}
 		
-		//用户动态数加一
-		UserCounter::model()->incr($user_id, 'feeds', 1);
+		if(isset($feed['status'])){
+			//如果有传入动态状态，且动态状态不是“草稿”，用户动态数加一
+			if($feed['status'] != Feeds::STATUS_DRAFT){
+				//用户动态数加一
+				UserCounter::model()->incr($user_id, 'feeds', 1);
+				
+				//相关标签动态数加一
+				FeedTagModel::model()->incr($feed_id);
+			}
+		}else{
+			//如果未传入status，获取动态状态进行判断
+			$feed = Feeds::model()->find($feed_id, 'status');
+			if($feed['status'] != Feeds::STATUS_DRAFT){
+				//用户动态数加一
+				UserCounter::model()->incr($user_id, 'feeds', 1);
+				
+				//相关标签动态数加一
+				FeedTagModel::model()->incr($feed_id);
+			}
+		}
 		
 		//hook
 		Hook::getInstance()->call('after_feed_created', array(
@@ -109,9 +127,38 @@ class Feed extends Model{
 	 *   - extra feed_extra相关字段
 	 */
 	public function update($feed_id, $data, $extra = array()){
+		//获取原动态
+		$old_feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
+		if(!$old_feed){
+			return false;
+		}
+		
 		$data['last_modified_time'] = \F::app()->current_time;
+		if(isset($data['deleted'])){
+			//更新的时候，不允许修改deleted字段，删除有专门的删除服务
+			unset($data['deleted']);
+		}
+		
 		//过滤掉多余的数据
 		Feeds::model()->update($data, $feed_id, true);
+		
+		if(!$old_feed['deleted']){//若原动态未删除
+			if($old_feed['status'] == Feeds::STATUS_DRAFT &&
+				isset($data['status']) && $data['status'] != Feeds::STATUS_DRAFT){
+				//若原动态是“草稿”状态，且新状态不是“草稿”
+				UserCounter::model()->incr($old_feed['user_id'], 'feeds', 1);
+				
+				//相关标签动态数减一
+				FeedTagModel::model()->decr($feed_id);
+			}else if($old_feed['status'] != Feeds::STATUS_DRAFT &&
+				isset($data['status']) && $data['status'] == Feeds::STATUS_DRAFT){
+				//若原动态不是“草稿”状态，且新状态是“草稿”
+				UserCounter::model()->incr($old_feed['user_id'], 'feeds', -1);
+				
+				//相关标签动态数加一
+				FeedTagModel::model()->incr($feed_id);
+			}
+		}
 		
 		//计数表
 		if(!empty($extra['meta'])){
@@ -171,6 +218,8 @@ class Feed extends Model{
 		Hook::getInstance()->call('after_feed_updated', array(
 			'feed_id'=>$feed_id,
 		));
+		
+		return true;
 	}
 	
 	/**
@@ -178,7 +227,7 @@ class Feed extends Model{
 	 * @param int $feed_id 动态ID
 	 */
 	public function delete($feed_id){
-		$feed = Feeds::model()->find($feed_id, 'user_id,deleted');
+		$feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
 		if(!$feed || $feed['deleted']){
 			return false;
 		}
@@ -188,11 +237,14 @@ class Feed extends Model{
 			'deleted'=>1
 		), $feed_id);
 		
-		//用户动态数减一
-		UserCounter::model()->incr($feed['user_id'], 'feeds', -1);
-		
-		//相关标签动态数减一
-		FeedTagModel::model()->decr($feed_id);
+		//若被删除动态不是“草稿”
+		if($feed['status'] != Feeds::STATUS_DRAFT){
+			//用户动态数减一
+			UserCounter::model()->incr($feed['user_id'], 'feeds', -1);
+			
+			//相关标签动态数减一
+			FeedTagModel::model()->decr($feed_id);
+		}
 		
 		//执行钩子
 		Hook::getInstance()->call('after_feed_deleted', array(
@@ -217,11 +269,14 @@ class Feed extends Model{
 			'deleted'=>0
 		), $feed_id);
 		
-		//用户动态数减一
-		UserCounter::model()->incr($feed['user_id'], 'feeds', 1);
-		
-		//相关标签动态数加一
-		FeedTagModel::model()->incr($feed_id);
+		//若被还原动态不是“草稿”
+		if($feed['status'] != Feeds::STATUS_DRAFT){
+			//用户动态数减一
+			UserCounter::model()->incr($feed['user_id'], 'feeds', 1);
+			
+			//相关标签动态数加一
+			FeedTagModel::model()->incr($feed_id);
+		}
 		
 		//执行钩子
 		Hook::getInstance()->call('after_feed_undeleted', array(
@@ -236,7 +291,7 @@ class Feed extends Model{
 	 */
 	public function remove($feed_id){
 		//获取动态删除状态
-		$feed = Feeds::model()->find($feed_id, 'user_id,deleted');
+		$feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
 		if(!$feed){
 			return false;
 		}
@@ -249,7 +304,8 @@ class Feed extends Model{
 		//删除动态
 		Feeds::model()->delete($feed_id);
 		
-		if(!$feed['deleted']){//若动态未通过回收站被直接删除
+		//若动态未通过回收站被直接删除，且不是“草稿”
+		if(!$feed['deleted'] && $feed['status'] != Feeds::STATUS_DRAFT){
 			//则作者动态数减一
 			UserCounter::model()->incr($feed['user_id'], 'feed', -1);
 			

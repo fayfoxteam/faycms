@@ -97,17 +97,23 @@ class Post extends Model{
 		}
 		
 		if(isset($post['status'])){
-			//如果有传入文章状态，且文章状态为已发布，用户文章数加一
+			//如果有传入文章状态，且文章状态为“已发布”，用户文章数加一
 			if($post['status'] == Posts::STATUS_PUBLISHED){
 				//用户文章数加一
 				UserCounter::model()->incr($user_id, 'posts', 1);
+				
+				//相关标签文章数加一
+				PostTagModel::model()->incr($post_id);
 			}
 		}else{
-			//如果未传入status，获取文章动态进行判断
+			//如果未传入status，获取文章状态进行判断
 			$post = Posts::model()->find($post_id, 'status');
 			if($post['status'] == Posts::STATUS_PUBLISHED){
 				//用户文章数加一
 				UserCounter::model()->incr($user_id, 'posts', 1);
+				
+				//相关标签文章数加一
+				PostTagModel::model()->incr($post_id);
 			}
 		}
 			
@@ -130,14 +136,44 @@ class Post extends Model{
 	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
 	 */
 	public function update($post_id, $data, $extra = array()){
+		//获取原文章
+		$old_post = Posts::model()->find($post_id, 'user_id,deleted,status');
+		if(!$old_post){
+			return false;
+		}
+		
 		$data['last_modified_time'] = \F::app()->current_time;
+		
+		if(isset($data['deleted'])){
+			//更新的时候，不允许修改deleted字段，删除有专门的删除服务
+			unset($data['deleted']);
+		}
+		
 		//过滤掉多余的数据
 		Posts::model()->update($data, $post_id, true);
 		$post_meta = PostMeta::model()->fillData($data, false);
 		if($post_meta){
 			PostMeta::model()->update($post_meta, $post_id);
 		}
-	
+		
+		if(!$old_post['deleted']){//若原文章未删除
+			if($old_post['status'] == Posts::STATUS_PUBLISHED &&
+				isset($data['status']) && $data['status'] != Posts::STATUS_PUBLISHED){
+				//若原文章是“已发布”状态，且新状态不是“已发布”
+				UserCounter::model()->incr($old_post['user_id'], 'posts', -1);
+		
+				//相关标签文章数减一
+				PostTagModel::model()->decr($post_id);
+			}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
+				isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
+				//若原文章不是“已发布”状态，且新状态是“已发布”
+				UserCounter::model()->incr($old_post['user_id'], 'posts', 1);
+		
+				//相关标签文章数加一
+				PostTagModel::model()->incr($post_id);
+			}
+		}
+		
 		//附加分类
 		if(isset($extra['categories'])){
 			if(!is_array($extra['categories'])){
@@ -227,6 +263,8 @@ class Post extends Model{
 		Hook::getInstance()->call('after_post_updated', array(
 			'post_id'=>$post_id,
 		));
+		
+		return true;
 	}
 	
 	/**
@@ -268,7 +306,7 @@ class Post extends Model{
 	 */
 	public function remove($post_id){
 		//获取文章删除状态
-		$post = Posts::model()->find($post_id, 'user_id,deleted');
+		$post = Posts::model()->find($post_id, 'user_id,deleted,status');
 		if(!$post){
 			return false;
 		}
@@ -281,7 +319,8 @@ class Post extends Model{
 		//删除文章
 		Posts::model()->delete($post_id);
 		
-		if(!$post['deleted']){//若文章未通过回收站被直接删除
+		//若文章未通过回收站被直接删除，且文章“已发布”
+		if(!$post['deleted'] && $post['status'] == Posts::STATUS_PUBLISHED){
 			//则作者文章数减一
 			UserCounter::model()->incr($post['user_id'], 'posts', -1);
 			
@@ -325,11 +364,14 @@ class Post extends Model{
 			'deleted'=>1
 		), $post_id);
 		
-		//用户文章数减一
-		UserCounter::model()->incr($post['user_id'], 'posts', -1);
-		
-		//相关标签文章数减一
-		PostTagModel::model()->decr($post_id);
+		//若被删除文章是“已发布”状态
+		if($post['status'] == Posts::STATUS_PUBLISHED){
+			//用户文章数减一
+			UserCounter::model()->incr($post['user_id'], 'posts', -1);
+			
+			//相关标签文章数减一
+			PostTagModel::model()->decr($post_id);
+		}
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_deleted', array(
@@ -354,11 +396,14 @@ class Post extends Model{
 			'deleted'=>0
 		), $post_id);
 		
-		//用户文章数减一
-		UserCounter::model()->incr($post['user_id'], 'posts', 1);
-		
-		//相关标签文章数加一
-		PostTagModel::model()->incr($post_id);
+		//若被还原文章是“已发布”状态
+		if($post['status'] == Posts::STATUS_PUBLISHED){
+			//用户文章数减一
+			UserCounter::model()->incr($post['user_id'], 'posts', 1);
+			
+			//相关标签文章数加一
+			PostTagModel::model()->incr($post_id);
+		}
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_undeleted', array(

@@ -93,8 +93,20 @@ class Post extends Model{
 			$this->createPropertySet($post_id, $extra['props']);
 		}
 		
-		//用户文章数加一
-		UserCounter::model()->incr($user_id, 'posts', 1);
+		if(isset($post['status'])){
+			//如果有传入文章状态，且文章状态为已发布，用户文章数加一
+			if($post['status'] == Posts::STATUS_PUBLISHED){
+				//用户文章数加一
+				UserCounter::model()->incr($user_id, 'posts', 1);
+			}
+		}else{
+			//如果未传入status，获取文章动态进行判断
+			$post = Posts::model()->find($post_id, 'status');
+			if($post['status'] == Posts::STATUS_PUBLISHED){
+				//用户文章数加一
+				UserCounter::model()->incr($user_id, 'posts', 1);
+			}
+		}
 			
 		//hook
 		Hook::getInstance()->call('after_post_created', array(

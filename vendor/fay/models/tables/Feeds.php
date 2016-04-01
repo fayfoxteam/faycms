@@ -55,6 +55,8 @@ class Feeds extends Table{
 			array(array('address'), 'string', array('max'=>500)),
 			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time', 'timeline'), 'datetime'),
+
+			array(array('status'), 'range', array('range'=>array(self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_APPROVED, self::STATUS_UNAPPROVED))),
 		);
 	}
 

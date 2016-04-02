@@ -306,6 +306,7 @@ jQuery.fn.extend({
 						//已经空了，继续按退格键，则删除前一项
 						if(!app.input.val()){
 							app.input.parent().prev('.ftextext-choice').remove();
+							app.refreshChoices();
 						}
 					}
 				});

@@ -125,15 +125,19 @@ class Feed extends Model{
 	 *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
 	 *   - extra feed_extra相关字段
+	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
 	 */
-	public function update($feed_id, $data, $extra = array()){
+	public function update($feed_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原动态
 		$old_feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
 		if(!$old_feed){
 			return false;
 		}
 		
-		$data['last_modified_time'] = \F::app()->current_time;
+		if($update_last_modified_time){
+			$data['last_modified_time'] = \F::app()->current_time;
+		}
+		
 		if(isset($data['deleted'])){
 			//更新的时候，不允许修改deleted字段，删除有专门的删除服务
 			unset($data['deleted']);
@@ -142,7 +146,8 @@ class Feed extends Model{
 		//过滤掉多余的数据
 		Feeds::model()->update($data, $feed_id, true);
 		
-		if(!$old_feed['deleted']){//若原动态未删除
+		//若原动态未删除，更新用户及标签的动态数
+		if(!$old_feed['deleted']){
 			if($old_feed['status'] == Feeds::STATUS_DRAFT &&
 				isset($data['status']) && $data['status'] != Feeds::STATUS_DRAFT){
 				//若原动态是“草稿”状态，且新状态不是“草稿”

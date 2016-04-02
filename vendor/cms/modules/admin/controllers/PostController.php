@@ -106,6 +106,11 @@ class PostController extends AdminController{
 			}
 			
 			$extra = array();
+			
+			if($post_meta = PostMeta::model()->fillData($this->input->post())){
+				$extra['meta'] = $post_meta;
+			}
+			
 			//附加分类
 			if($post_category = $this->form()->getData('post_category')){
 				$extra['categories'] = $post_category;
@@ -403,8 +408,7 @@ class PostController extends AdminController{
 			}
 			
 			//筛选出文章相关字段
-			$data = array_merge(Posts::model()->fillData($this->input->post()),
-				PostMeta::model()->fillData($this->input->post()));
+			$data = Posts::model()->fillData($this->input->post());
 			//发布时间特殊处理
 			if(in_array('publish_time', $enabled_boxes)){
 				if(empty($data['publish_time'])){
@@ -417,6 +421,11 @@ class PostController extends AdminController{
 			}
 			
 			$extra = array();
+			
+			//计数表
+			if($post_meta = PostMeta::model()->fillData($this->input->post())){
+				$extra['meta'] = $post_meta;
+			}
 			
 			//附件分类
 			if(in_array('category', $enabled_boxes)){

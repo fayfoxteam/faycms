@@ -55,9 +55,15 @@ class Post extends Model{
 		
 		//过滤掉多余的数据
 		$post_id = Posts::model()->insert($post, true);
-		PostMeta::model()->insert(array(
+		
+		$post_meta = array(
 			'post_id'=>$post_id,
-		));
+		);
+		if(isset($extra['meta'])){
+			$post_meta = $post_meta + $extra['meta'];
+		}
+		
+		PostMeta::model()->insert($post_meta);
 		
 		//文章分类
 		if(!empty($extra['categories'])){
@@ -134,15 +140,18 @@ class Post extends Model{
 	 *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
 	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
+	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
 	 */
-	public function update($post_id, $data, $extra = array()){
+	public function update($post_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原文章
 		$old_post = Posts::model()->find($post_id, 'user_id,deleted,status');
 		if(!$old_post){
 			return false;
 		}
 		
-		$data['last_modified_time'] = \F::app()->current_time;
+		if($update_last_modified_time){
+			$data['last_modified_time'] = \F::app()->current_time;
+		}
 		
 		if(isset($data['deleted'])){
 			//更新的时候，不允许修改deleted字段，删除有专门的删除服务
@@ -151,12 +160,14 @@ class Post extends Model{
 		
 		//过滤掉多余的数据
 		Posts::model()->update($data, $post_id, true);
-		$post_meta = PostMeta::model()->fillData($data, false);
-		if($post_meta){
-			PostMeta::model()->update($post_meta, $post_id);
+		
+		//计数表
+		if(!empty($extra['meta'])){
+			PostMeta::model()->update($extra['meta'], $post_id, true);
 		}
 		
-		if(!$old_post['deleted']){//若原文章未删除
+		//若原文章未删除，更新用户及标签的文章数
+		if(!$old_post['deleted']){
 			if($old_post['status'] == Posts::STATUS_PUBLISHED &&
 				isset($data['status']) && $data['status'] != Posts::STATUS_PUBLISHED){
 				//若原文章是“已发布”状态，且新状态不是“已发布”

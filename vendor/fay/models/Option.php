@@ -7,6 +7,11 @@ use fay\helpers\ArrayHelper;
 
 class Option extends Model{
 	/**
+	 * 用于缓存
+	 */
+	private static $options = array();
+	
+	/**
 	 * @return Option
 	 */
 	public static function model($class_name = __CLASS__){
@@ -17,13 +22,23 @@ class Option extends Model{
 	 * 获取一个参数
 	 * @param string $name 参数名
 	 * @param string $default 若不存在，返回默认值
-	 * @return mixed
+	 * @param bool $no_cache 若为true，则强行从数据库获取，默认为false
 	 */
-	public static function get($name, $default = null){
+	public static function get($name, $default = null, $no_cache = false){
+		if(!$no_cache && key_exists($name, self::$options)){
+			if(self::$options[$name] !== null){
+				return self::$options[$name];
+			}else{
+				return $default;
+			}
+		}
+		
 		$option = Options::model()->fetchRow(array('option_name = ?'=>$name), 'option_value');
 		if($option){
+			self::$options[$name] = $option['option_value'];
 			return $option['option_value'];
 		}else{
+			self::$options[$name] = null;
 			return $default;
 		}
 	}

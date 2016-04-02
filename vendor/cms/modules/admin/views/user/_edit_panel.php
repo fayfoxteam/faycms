@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\File;
 use fay\models\tables\Users;
+use fay\models\Option;
 ?>
 <div class="form-field">
 	<label class="title bold">登录名<em class="required">*</em></label>
@@ -54,7 +55,9 @@ use fay\models\tables\Users;
 </div>
 <?php }?>
 <div class="form-field">
-	<label class="title bold">昵称</label>
+	<label class="title bold">昵称<?php if(Option::get('system:user_nickname_required')){?>
+		<em class="required">*</em>
+	<?php }?></label>
 	<?php echo F::form()->inputText('nickname', array('class'=>'form-control mw400'))?>
 </div>
 <div class="form-field">

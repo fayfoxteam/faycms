@@ -2,6 +2,7 @@
 namespace fay\models\tables;
 
 use fay\core\db\Table;
+use fay\models\Option;
 
 /**
  * Users model
@@ -71,7 +72,7 @@ class Users extends Table{
 	}
 	
 	public function rules(){
-		return array(
+		$rules = array(
 			array(array('id', 'avatar'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('parent'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
@@ -81,11 +82,23 @@ class Users extends Table{
 			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('mobile'), 'mobile'),
 
-			array(array('username'), 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('api/user/is-username-not-exist'))),
-			array(array('username'), 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-username-not-exist'))),
+			array('username', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('api/user/is-username-not-exist'))),
+			array('username', 'required', array('on'=>'create')),
+			array('username', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-username-not-exist'))),
 			array(array('email'), 'email'),
 			array(array('block', 'admin'), 'range', array('range'=>array(0, 1))),
 		);
+		
+		if(Option::get('system:user_nickname_required')){
+			$rules[] = array('nickname', 'required', array('on'=>'create'));
+		}
+		
+		if(Option::get('system:user_nickname_unique')){
+			$rules[] = array('nickname', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'nickname', 'ajax'=>array('api/user/is-nickname-not-exist')));
+			$rules[] = array('nickname', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-nickname-not-exist')));
+		}
+		
+		return $rules;
 	}
 
 	public function labels(){

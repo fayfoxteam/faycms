@@ -7,8 +7,6 @@ use fay\helpers\Html;
 use fay\core\Loader;
 use fay\models\tables\Posts;
 use fay\log\Logger;
-use fay\core\ErrorException;
-use fay\core\HttpException;
 use fay\core\Db;
 
 class TestController extends AdminController{

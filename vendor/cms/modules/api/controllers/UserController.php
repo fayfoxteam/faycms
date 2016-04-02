@@ -62,6 +62,56 @@ class UserController extends ApiController{
 			Response::json('', 0, '该用户名不存在');
 		}
 	}
+	/**
+	 * 判断昵称是否可用
+	 * 可用返回状态为1，不可用返回0，http状态码均为200
+	 * @param string $nickname 昵称
+	 */
+	public function isNicknameNotExist(){
+		//表单验证
+		$this->form()->setRules(array(
+			array('nickname', 'required'),
+		))->setFilters(array(
+			'nickname'=>'trim',
+		))->setLabels(array(
+			'nickname'=>'昵称',
+		))->check();
+		
+		if(Users::model()->fetchRow(array(
+			'nickname = ?'=>$this->form()->getData('nickname'),
+			'id != ?'=>$this->input->request('id', 'intval', false),
+		))){
+			Response::json('', 0, '昵称已存在');
+		}else{
+			Response::json();
+		}
+	}
+	
+	/**
+	 * 判断昵称是否存在
+	 * 存在返回状态为1，不存在返回0，http状态码均为200
+	 * @param string $nickname 昵称
+	 */
+	public function isNicknameExist(){
+		//表单验证
+		$this->form()->setRules(array(
+			array('nickname', 'required'),
+		))->setFilters(array(
+			'nickname'=>'trim',
+		))->setLabels(array(
+			'nickname'=>'昵称',
+		))->check();
+		
+		if(Users::model()->fetchRow(array(
+			'nickname = ?'=>$this->form()->getData('nickname'),
+			'deleted = 0',
+			'id != ?'=>$this->input->request('id', 'intval', false)
+		))){
+			Response::json();
+		}else{
+			Response::json('', 0, '该昵称不存在');
+		}
+	}
 	
 	/**
 	 * 返回单用户信息

@@ -53,7 +53,9 @@ use fay\models\File;
 	))?>
 </div>
 <div class="form-field">
-	<label class="title bold">昵称</label>
+	<label class="title bold">昵称<?php if(Option::get('system:user_nickname_required')){?>
+		<em class="required">*</em>
+	<?php }?></label>
 	<?php echo F::form()->inputText('nickname', array(
 		'class'=>'form-control mw400',
 	))?>

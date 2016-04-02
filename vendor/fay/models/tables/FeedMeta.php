@@ -51,4 +51,23 @@ class FeedMeta extends Table{
 			'favorites'=>'intval',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array(
+					'comments', 'real_comments',
+					'likes', 'real_likes',
+					'favorites', 'real_favorites',
+				);
+			case 'update':
+			default:
+				return array(
+					'feed_id',
+					'comments', 'real_comments',
+					'likes', 'real_likes',
+					'favorites', 'real_favorites',
+				);
+		}
+	}
 }

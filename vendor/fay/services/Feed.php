@@ -47,7 +47,7 @@ class Feed extends Model{
 		$feed['publish_date'] = date('Y-m-d', $feed['publish_time']);
 		empty($feed['sort']) && $feed['sort'] = \F::app()->current_time;//排序值默认为当前时间
 		
-		$feed_id = Feeds::model()->insert($feed, true, array('id'));
+		$feed_id = Feeds::model()->insert($feed, true);
 		
 		//计数表
 		$feed_meta = array(
@@ -141,7 +141,7 @@ class Feed extends Model{
 		}
 		
 		//过滤掉多余的数据
-		Feeds::model()->update($data, $feed_id, true, array('id', 'create_time', 'deleted'));
+		Feeds::model()->update($data, $feed_id, true);
 		
 		//若原动态未删除，更新用户及标签的动态数
 		if(!$old_feed['deleted']){

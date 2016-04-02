@@ -47,4 +47,16 @@ class FeedExtra extends Table{
 			'latitude'=>'floatval',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array();
+			case 'update':
+			default:
+				return array(
+					'feed_id', 'ip_int'
+				);
+		}
+	}
 }

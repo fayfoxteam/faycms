@@ -58,4 +58,25 @@ class PostMeta extends Table{
 			'likes'=>'intval',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array(
+					'last_view_time', 'real_views',
+					'comments', 'real_comments',
+					'likes', 'real_likes',
+					'favorites', 'real_favorites',
+				);
+			case 'update':
+			default:
+				return array(
+					'post_id',
+					'last_view_time', 'real_views',
+					'comments', 'real_comments',
+					'likes', 'real_likes',
+					'favorites', 'real_favorites',
+				);
+		}
+	}
 }

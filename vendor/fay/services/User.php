@@ -240,7 +240,7 @@ class User extends Model{
 		}
 		
 		//过滤掉多余的数据
-		$user = Users::model()->fillData($user, false, array('id'));
+		$user = Users::model()->fillData($user, false, 'insert');
 		$user['admin'] = $is_admin ? 1 : 0;
 		
 		//信息验证（用户信息很重要，在入库前必须再做一次验证）
@@ -332,7 +332,7 @@ class User extends Model{
 		}
 		
 		//过滤掉多余的数据
-		Users::model()->update($user, $user_id, true, array('id', 'username', 'admin'));
+		Users::model()->update($user, $user_id, true);
 		
 		if(isset($extra['roles'])){
 			if(!is_array($extra['roles'])){
@@ -364,6 +364,10 @@ class User extends Model{
 					'user_id = ?'=>$user_id,
 				));
 			}
+		}
+		
+		if(isset($extra['profile'])){
+			UserProfile::model()->update($extra['profile'], $user_id, true);
 		}
 		
 		//附加属性

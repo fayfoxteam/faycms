@@ -138,4 +138,18 @@ class Users extends Table{
 			'admin'=>'intval',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array(
+					'id',
+				);
+			case 'update':
+			default:
+				return array(
+					'id', 'username', 'admin'
+				);
+		}
+	}
 }

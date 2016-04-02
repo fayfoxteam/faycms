@@ -10,7 +10,7 @@ class Table extends Model{
 	protected $_name = '';
 	protected $_primary = 'id';//主键
 	/**
-	 * @var Sql
+	 * @var \fay\core\Sql
 	 */
 	protected $_sql;
 	
@@ -48,9 +48,9 @@ class Table extends Model{
 	 * 向当前表插入单行数据
 	 * @param array $data 一维数组
 	 * @param bool $filter 是否调用过滤器进行过滤
-	 * @param array|string 执行fillData时，过滤掉部分字段
+	 * @param array|string 若$fill为true，过滤掉部分表字段
 	 */
-	public function insert($data, $fill = false, $except = array()){
+	public function insert($data, $fill = false, $except = 'insert'){
 		if(!empty($data)){
 			if($fill){
 				$data = $this->fillData($data, false, $except);
@@ -84,9 +84,9 @@ class Table extends Model{
 	 * @param array $data
 	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
 	 * @param boolean $filter 若为true且$this->filters()中有设置过滤器，则进行过滤
-	 * @param array|string 执行fillData时，过滤掉部分字段
+	 * @param array|string 若$fill为true，过滤掉部分表字段
 	 */
-	public function update($data, $where, $fill = false, $except = array()){
+	public function update($data, $where, $fill = false, $except = 'update'){
 		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
@@ -202,8 +202,8 @@ class Table extends Model{
 	 */
 	public function getFields($except = array()){
 		if($except){
-			if(!is_array($except)){
-				$except = explode(',', $except);
+			if(is_string($except)){
+				$except = $this->getNotWritableFields($except);
 			}
 			$labels = $this->labels();
 			foreach($except as $e){
@@ -212,6 +212,21 @@ class Table extends Model{
 			return array_keys($labels);
 		}else{
 			return array_keys($this->labels());
+		}
+	}
+	
+	/**
+	 * 获取只读字段。
+	 * insert(), update()方法当$fill参数为true时，会自动调用此方法用于过滤字段。
+	 * 也可以手动调用此方法用于字段过滤处理。
+	 * @param mix $scene 场景
+	 */
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+			case 'update':
+			default:
+				return array();
 		}
 	}
 	

@@ -47,4 +47,15 @@ class Roles extends Table{
 			'admin'=>'intval',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+			case 'update':
+			default:
+				return array(
+					'id'
+				);
+		}
+	}
 }

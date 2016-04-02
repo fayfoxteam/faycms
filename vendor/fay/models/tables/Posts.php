@@ -139,4 +139,19 @@ class Posts extends Table{
 			'seo_description'=>'trim',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array('id');
+				break;
+			case 'update':
+				return array(
+					'id', 'create_time', 'ip_int', 'deleted'
+				);
+				break;
+			default:
+				return array();
+		}
+	}
 }

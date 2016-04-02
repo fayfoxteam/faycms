@@ -89,4 +89,19 @@ class Feeds extends Table{
 			'address'=>'trim',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array('id');
+				break;
+			case 'update':
+				return array(
+					'id', 'create_time', 'deleted'
+				);
+				break;
+			default:
+				return array();
+		}
+	}
 }

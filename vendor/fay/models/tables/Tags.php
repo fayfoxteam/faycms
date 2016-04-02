@@ -75,4 +75,18 @@ class Tags extends Table{
 			'seo_description'=>'trim',
 		);
 	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array(
+					'id'
+				);
+			case 'update':
+			default:
+				return array(
+					'id', 'user_id', 'create_time',
+				);
+		}
+	}
 }

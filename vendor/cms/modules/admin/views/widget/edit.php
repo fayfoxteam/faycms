@@ -49,7 +49,7 @@ use fay\helpers\Html;
 							'data-ajax'=>$this->url('admin/widget/is-alias-not-exist', array('id'=>$widget['id'])),
 							'class'=>'form-control',
 						))?>
-						<p class="fc-grey">
+						<p class="fc-grey mt5">
 							唯一的识别一个widget实例
 						</p>
 					</div>
@@ -58,7 +58,7 @@ use fay\helpers\Html;
 						<?php echo Html::select('f_widget_widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
 							'class'=>'form-control',
 						))?>
-						<p class="fc-grey">小工具可以属于一个域，通过调用域来显示一组小工具</p>
+						<p class="fc-grey mt5">小工具可以属于一个域，通过调用域来显示一组小工具</p>
 					</div>
 					<div class="form-field">
 						<label class="title bold pb0">描述</label>

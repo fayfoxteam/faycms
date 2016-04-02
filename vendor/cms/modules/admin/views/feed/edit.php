@@ -110,7 +110,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 								'class'=>'ml5',
 								'id'=>'cancel-status-editing',
 							));
-						?><p class="fc-grey">点击“确定”并提交修改后生效</p></div>
+						?><p class="fc-grey mt5">点击“确定”并提交修改后生效</p></div>
 					</div>
 					<div class="misc-pub-section">
 						<strong>是否置顶？</strong>

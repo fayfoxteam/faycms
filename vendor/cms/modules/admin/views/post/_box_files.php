@@ -9,7 +9,7 @@ use fay\models\File;
 	</div>
 	<div class="box-content">
 		<p class="fc-grey">附件的用途视主题而定，一般用于画廊效果</p>
-		<div id="upload-file-container">
+		<div id="upload-file-container" class="mt5">
 			<?php echo Html::link('上传附件', 'javascript:;', array(
 				'class'=>'btn',
 				'id'=>'upload-file-link',

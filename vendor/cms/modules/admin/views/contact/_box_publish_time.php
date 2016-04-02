@@ -5,7 +5,7 @@
 	</div>
 	<div class="box-content">
 		<?php echo F::form()->inputText('publish_time', array('class'=>'form-control timepicker'))?>
-		<p class="fc-grey">留空默认为当前时间</p>
+		<p class="fc-grey mt5">留空默认为当前时间</p>
 		<?php if(F::form()->getData('create_time') !== null){?>
 		<p class="misc-pub-section mt6 pl0">
 			<span>创建时间：</span>

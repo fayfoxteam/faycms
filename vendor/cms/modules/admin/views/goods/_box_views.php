@@ -9,6 +9,6 @@
 		<?php echo F::form()->inputText('views', array(
 			'class'=>'form-control mw150',
 		))?>
-		<p class="fc-grey">设定初始值，会按实际PV递增。</p>
+		<p class="fc-grey mt5">设定初始值，会按实际PV递增。</p>
 	</div>
 </div>

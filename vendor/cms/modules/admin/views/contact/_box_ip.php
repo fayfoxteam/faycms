@@ -5,7 +5,7 @@
 	</div>
 	<div class="box-content">
 		<?php echo F::form()->inputText('show_ip_int', array('class'=>'form-control'))?>
-		<p class="fc-grey">在前台显示的IP，可以不是真实IP</p>
+		<p class="fc-grey mt5">在前台显示的IP，可以不是真实IP</p>
 		<?php if(F::form()->getData('ip_int') !== null){?>
 		<p class="misc-pub-section mt6 pl0">
 			<span>真实IP：</span>

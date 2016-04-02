@@ -52,14 +52,29 @@ class Option extends Model{
 		if(is_string($names)){
 			$names = explode(',', str_replace(' ', '', $names));
 		}
-		$options = Options::model()->fetchAll(array('option_name IN (?)'=>$names), 'option_name,option_value');
-		$return = ArrayHelper::column($options, 'option_value', 'option_name');
-		foreach($names as $n){
-			if($n && !isset($return[$n])){
-				$return[$n] = null;
+		
+		$return = array();
+		//先试图从缓存获取
+		foreach($names as $k => $n){
+			if(key_exists($n, self::$options)){
+				$return[$n] = self::$options[$n];
+				unset($names[$k]);
 			}
 		}
-		return $return;
+		
+		$return2 = array();
+		//若有的key缓存里没有，从数据库里搜
+		if($names){
+			$options = Options::model()->fetchAll(array('option_name IN (?)'=>$names), 'option_name,option_value');
+			$return2 = ArrayHelper::column($options, 'option_value', 'option_name');
+			foreach($names as $n){
+				if($n && !isset($return[$n])){
+					$return2[$n] = null;
+				}
+				self::$options[$n] = $return2[$n];
+			}
+		}
+		return $return + $return2;
 	}
 	
 	/**

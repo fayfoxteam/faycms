@@ -26,7 +26,7 @@ class Controller{
 	 */
 	public $input;
 	/**
-	 * @var Config
+	 * @var \fay\core\Config
 	 */
 	public $config;
 	/**

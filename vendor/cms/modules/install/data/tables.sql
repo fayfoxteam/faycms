@@ -237,14 +237,6 @@ CREATE TABLE `{{$prefix}}exam_questions` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}favourites`;
-CREATE TABLE `{{$prefix}}favourites` (
-  `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
-  `post_id` int(10) unsigned NOT NULL COMMENT 'Post Id',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  PRIMARY KEY (`user_id`,`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
 DROP TABLE IF EXISTS `{{$prefix}}files`;
 CREATE TABLE `{{$prefix}}files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',

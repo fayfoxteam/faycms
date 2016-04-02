@@ -122,8 +122,9 @@ class DbController extends InstallController{
 	public function setCustom(){
 		if(file_exists(APPLICATION_PATH . 'data/custom.sql')){
 			$prefix = $this->config->get('db.table_prefix');
+			$charset = $this->config->get('db.charset');
 			if($sql = file_get_contents(APPLICATION_PATH . 'data/custom.sql')){
-				$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+				$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
 				$this->db->exec($sql, true);
 			}
 		}

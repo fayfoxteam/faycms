@@ -249,7 +249,6 @@ class User extends Model{
 			'user_id'=>$user_id,
 			'reg_time'=>\F::app()->current_time,
 			'reg_ip'=>Request::ip2int(Request::getIP()),
-			'trackid'=>isset($extra['trackid']) ? $extra['trackid'] : '',
 		);
 		if(isset($extra['profile'])){
 			$user_profile = $user_profile + $extra['profile'];

@@ -54,7 +54,7 @@ class Post extends Model{
 		$post['ip_int'] = Request::ip2int(\F::app()->ip);
 		
 		//过滤掉多余的数据
-		$post_id = Posts::model()->insert($post, true);
+		$post_id = Posts::model()->insert($post, true, array('id'));
 		
 		$post_meta = array(
 			'post_id'=>$post_id,
@@ -151,19 +151,23 @@ class Post extends Model{
 		
 		if($update_last_modified_time){
 			$data['last_modified_time'] = \F::app()->current_time;
-		}
-		
-		if(isset($data['deleted'])){
-			//更新的时候，不允许修改deleted字段，删除有专门的删除服务
-			unset($data['deleted']);
+		}else if(isset($data['last_modified_time'])){
+			unset($data['last_modified_time']);
 		}
 		
 		//过滤掉多余的数据
-		Posts::model()->update($data, $post_id, true);
+		Posts::model()->update($data, $post_id, true, array('create_time', 'deleted', 'ip_int'));
 		
 		//计数表
 		if(!empty($extra['meta'])){
-			PostMeta::model()->update($extra['meta'], $post_id, true);
+			//排除不可编辑的字段
+			PostMeta::model()->update($extra['meta'], $post_id, true, array(
+				'post_id',
+				'last_view_time', 'real_views',
+				'comments', 'real_comments',
+				'likes', 'real_likes',
+				'favorites', 'real_favorites',
+			));
 		}
 		
 		//若原文章未删除，更新用户及标签的文章数

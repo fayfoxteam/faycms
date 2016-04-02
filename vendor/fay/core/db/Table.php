@@ -30,10 +30,11 @@ class Table extends Model{
 	 * 根据表字段填充数据，仅$this->getFields()中存在的字段会被返回
 	 * @param array $data
 	 * @param bool $filter 若为true，则会根据$this->filters()中指定的过滤器进行过滤。默认为true
+	 * @param array|string $except 填充数据时，排序某些字段
 	 */
-	public function fillData($data, $filter = true){
+	public function fillData($data, $filter = true, $except = array()){
 		$filters = $this->filters();
-		$fields = $this->getFields();
+		$fields = $this->getFields($except);
 		$return = array();
 		foreach($data as $k => $v){
 			if(in_array($k, $fields)){
@@ -47,11 +48,12 @@ class Table extends Model{
 	 * 向当前表插入单行数据
 	 * @param array $data 一维数组
 	 * @param bool $filter 是否调用过滤器进行过滤
+	 * @param array|string 执行fillData时，过滤掉部分字段
 	 */
-	public function insert($data, $filter = false){
+	public function insert($data, $fill = false, $except = array()){
 		if(!empty($data)){
-			if($filter){
-				$data = $this->fillData($data, false);
+			if($fill){
+				$data = $this->fillData($data, false, $except);
 			}
 			return $this->db->insert($this->_name, $data);
 		}else{
@@ -82,14 +84,15 @@ class Table extends Model{
 	 * @param array $data
 	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
 	 * @param boolean $filter 若为true且$this->filters()中有设置过滤器，则进行过滤
+	 * @param array|string 执行fillData时，过滤掉部分字段
 	 */
-	public function update($data, $where, $filter = false){
+	public function update($data, $where, $fill = false, $except = array()){
 		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		if(!empty($data)){
-			if($filter){
-				$data = $this->fillData($data, false);
+			if($fill){
+				$data = $this->fillData($data, false, $except);
 			}
 			return $this->db->update($this->_name, $data, $where);
 		}else{

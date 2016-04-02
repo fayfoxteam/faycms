@@ -18,6 +18,7 @@ use fay\models\tables\UsersRoles;
 use fay\models\user\Password;
 use fay\models\tables\UserCounter;
 use fay\models\Prop;
+use fay\core\Exception;
 
 /**
  * 用户服务
@@ -239,8 +240,33 @@ class User extends Model{
 		}
 		
 		//过滤掉多余的数据
-		$user = Users::model()->fillData($user, false);
+		$user = Users::model()->fillData($user, false, array('id'));
 		$user['admin'] = $is_admin ? 1 : 0;
+		
+		//信息验证（用户信息很重要，在入库前必须再做一次验证）
+		$config = Option::mget(array(
+			'system:user_nickname_required',
+			'system:user_nickname_unique'
+		));
+		if(!isset($user['username']) || $user['username'] == ''){
+			throw new Exception('用户名不能为空', '', 'missing-parameter:username');
+		}
+		if($config['system:user_nickname_required'] && !isset($user['nickname']) || $user['nickname'] == ''){
+			throw new Exception('用户昵称不能为空', '', 'missing-parameter:nickname');
+		}
+		
+		if(Users::model()->fetchRow(array(
+			'username'=>$user['username'],
+		))){
+			throw new Exception('用户名已存在', '', 'invalid-parameter:username-is-exist');
+		}
+		
+		if($config['system:user_nickname_unique'] && Users::model()->fetchRow(array(
+			'nickname'=>$user['nickname'],
+		))){
+			throw new Exception('用户昵称已存在', '', 'invalid-parameter:username-is-exist');
+		}
+		
 		//插用户表
 		$user_id = Users::model()->insert($user);
 		
@@ -306,12 +332,7 @@ class User extends Model{
 		}
 		
 		//过滤掉多余的数据
-		$user = Users::model()->fillData($user, false);
-		
-		if($user){
-			//更新用户表（也有可能没数据提交不更新）
-			Users::model()->update($user, $user_id);
-		}
+		Users::model()->update($user, $user_id, true, array('id', 'username', 'admin'));
 		
 		if(isset($extra['roles'])){
 			if(!is_array($extra['roles'])){

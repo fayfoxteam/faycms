@@ -47,7 +47,7 @@ class Feed extends Model{
 		$feed['publish_date'] = date('Y-m-d', $feed['publish_time']);
 		empty($feed['sort']) && $feed['sort'] = \F::app()->current_time;//排序值默认为当前时间
 		
-		$feed_id = Feeds::model()->insert($feed, true);
+		$feed_id = Feeds::model()->insert($feed, true, array('id'));
 		
 		//计数表
 		$feed_meta = array(
@@ -136,15 +136,12 @@ class Feed extends Model{
 		
 		if($update_last_modified_time){
 			$data['last_modified_time'] = \F::app()->current_time;
-		}
-		
-		if(isset($data['deleted'])){
-			//更新的时候，不允许修改deleted字段，删除有专门的删除服务
-			unset($data['deleted']);
+		}else if(isset($data['last_modified_time'])){
+			unset($data['last_modified_time']);
 		}
 		
 		//过滤掉多余的数据
-		Feeds::model()->update($data, $feed_id, true);
+		Feeds::model()->update($data, $feed_id, true, array('id', 'create_time', 'deleted'));
 		
 		//若原动态未删除，更新用户及标签的动态数
 		if(!$old_feed['deleted']){

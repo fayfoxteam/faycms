@@ -190,18 +190,13 @@ class PostController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '所有文章';
 		
-		$cat_id = $this->input->get('cat_id', 'intval');
-		if($cat_id){
-			$sub_link_params = array(
-				'cat_id'=>$cat_id,
-			);
-		}else{
-			$sub_link_params = array();
-		}
+		$cat_id = $this->input->get('cat_id', 'intval', 0);
 		
 		if($this->checkPermission('admin/post/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/post/create', $sub_link_params),
+				'uri'=>array('admin/post/create', array(
+					'cat_id'=>$cat_id
+				)),
 				'text'=>'撰写文章',
 			);
 		}
@@ -291,7 +286,7 @@ class PostController extends AdminController{
 		if($this->input->get('deleted', 'intval') == 1){
 			$sql->where('p.deleted = 1');
 			$count_sql->where('p.deleted = 1');
-		}else if($this->input->get('status', 'intval') !== null && $this->input->get('deleted', 'intval') != 1){
+		}else if($this->input->get('status') !== null && $this->input->get('deleted', 'intval') != 1){
 			$sql->where(array(
 				'p.deleted != 1',
 				'p.status = ?'=>$this->input->get('status', 'intval'),
@@ -304,6 +299,8 @@ class PostController extends AdminController{
 			$sql->where('p.deleted = 0');
 			$count_sql->where('p.deleted = 0');
 		}
+		
+		//时间段
 		if($this->input->get('start_time')){
 			$sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
 			$count_sql->where(array("p.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));
@@ -340,6 +337,7 @@ class PostController extends AdminController{
 			}
 		}
 		
+		//排序
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
 			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';

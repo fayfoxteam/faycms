@@ -10,11 +10,51 @@ use fay\core\db\Table;
  * @property string $title 标题
  * @property string $router 路由
  * @property string $description 描述
+ * @property int $status 状态
+ * @property int $http_method HTTP请求方式
+ * @property int $need_login 是否需要登录
+ * @property int $cat_id 分类
+ * @property int $user_id 用户
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  * @property string $version 版本
  */
 class Apis extends Table{
+	/**
+	 * 状态 - 开发中
+	 */
+	const STATUS_DEVELOPING = 1;
+	
+	/**
+	 * 状态 - 测试版
+	 */
+	const STATUS_BETA = 2;
+	
+	/**
+	 * 状态 - 稳定版
+	 */
+	const STATUS_STABLE = 3;
+	
+	/**
+	 * 状态 - 已弃用
+	 */
+	const STATUS_DEPRECATED = 3;
+	
+	/**
+	 * HTTP请求方式 - GET
+	 */
+	const HTTP_METHOD_GET = 1;
+	
+	/**
+	 * HTTP请求方式 - POST
+	 */
+	const HTTP_METHOD_POST = 2;
+	
+	/**
+	 * HTTP请求方式 - GET/POST
+	 */
+	const HTTP_METHOD_BOTH = 3;
+	
 	protected $_name = 'apidoc_apis';
 	
 	/**
@@ -26,10 +66,19 @@ class Apis extends Table{
 	
 	public function rules(){
 		return array(
+			array(array('user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('router'), 'string', array('max'=>100)),
 			array(array('version'), 'string', array('max'=>30)),
+			
+			array('status', 'range', array('range'=>array(
+				self::STATUS_DEVELOPING, self::STATUS_BETA, self::STATUS_STABLE, self::STATUS_DEPRECATED
+			))),
+			array('http_method', 'range', array('range'=>array(
+				self::HTTP_METHOD_GET, self::HTTP_METHOD_POST, self::HTTP_METHOD_BOTH
+			)))
 		);
 	}
 
@@ -39,6 +88,11 @@ class Apis extends Table{
 			'title'=>'标题',
 			'router'=>'路由',
 			'description'=>'描述',
+			'status'=>'状态',
+			'http_method'=>'HTTP请求方式',
+			'need_login'=>'是否需要登录',
+			'cat_id'=>'分类',
+			'user_id'=>'用户',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 			'version'=>'版本',
@@ -51,7 +105,25 @@ class Apis extends Table{
 			'title'=>'trim',
 			'router'=>'trim',
 			'description'=>'',
+			'status'=>'intval',
+			'http_method'=>'intval',
+			'need_login'=>'intval',
+			'cat_id'=>'intval',
+			'user_id'=>'intval',
 			'version'=>'trim',
 		);
+	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array('id');
+			break;
+			case 'update':
+			default:
+				return array(
+					'id', 'create_time', 'user_id'
+				);
+		}
 	}
 }

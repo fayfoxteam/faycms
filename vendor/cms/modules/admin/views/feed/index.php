@@ -178,7 +178,7 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php if(in_array('id', $cols)){?>
 						<th>动态ID</th>
 						<?php }?>
-						<th>标题</th>
+						<th>内容</th>
 						<?php if(in_array('tags', $cols)){?>
 						<th>标签</th>
 						<?php }?>

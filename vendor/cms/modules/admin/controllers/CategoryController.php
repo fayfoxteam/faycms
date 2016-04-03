@@ -17,7 +17,7 @@ class CategoryController extends AdminController{
 	}
 	
 	public function index(){
-		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'warning');
 		$this->layout->subtitle = '分类管理';
 		$this->view->cats = Category::model()->getTree();
 		$this->view->root = 0;

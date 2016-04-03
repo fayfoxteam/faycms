@@ -18,7 +18,7 @@ class ActionController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '添加权限';
-		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
 		
 		$this->_setListview();
 
@@ -168,7 +168,7 @@ class ActionController extends AdminController{
 
 	public function cat(){
 		$this->layout->subtitle = '权限分类';
-		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
 		
 		$this->view->cats = Category::model()->getTree('_system_action');
 		$root_node = Category::model()->getByAlias('_system_action', 'id');

@@ -307,7 +307,7 @@ class ExamQuestionController extends AdminController{
 		//是否参与过考试
 		$this->view->is_examed = !!ExamExamsQuestions::model()->fetchRow('question_id = '.$id);
 		if($this->view->is_examed){
-			Flash::set('已参与考试的试题不能改变试题类型且不可删除已被用户选过的选项', 'attention');
+			Flash::set('已参与考试的试题不能改变试题类型且不可删除已被用户选过的选项', 'warning');
 		}
 		
 		$this->view->render();

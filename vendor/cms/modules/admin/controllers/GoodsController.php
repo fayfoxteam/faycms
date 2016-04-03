@@ -54,7 +54,7 @@ class GoodsController extends AdminController{
 		parent::__construct();
 		$this->layout->current_directory = 'goods';
 		if(!$this->input->isAjaxRequest()){
-			Flash::set('这个模块只是做着玩的，并没有实现购物功能。', 'attention');
+			Flash::set('这个模块只是做着玩的，并没有实现购物功能。', 'warning');
 		}
 	}
 	

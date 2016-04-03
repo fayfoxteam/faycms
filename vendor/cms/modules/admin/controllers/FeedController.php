@@ -12,7 +12,6 @@ use fay\models\tables\FeedExtra;
 use fay\core\Sql;
 use fay\models\tables\FeedMeta;
 use fay\common\ListView;
-use fay\helpers\Date;
 use fay\helpers\Html;
 
 class FeedController extends AdminController{

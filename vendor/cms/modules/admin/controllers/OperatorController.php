@@ -86,7 +86,7 @@ class OperatorController extends AdminController{
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("u.{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('u.id DESC');

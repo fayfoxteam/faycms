@@ -340,8 +340,8 @@ class PostController extends AdminController{
 		//排序
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
-			$sql->order("{$this->view->orderby} {$this->view->order}");
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
+			$sql->order("P.{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('p.id DESC');
 		}

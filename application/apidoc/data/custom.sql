@@ -55,3 +55,6 @@ CREATE TABLE `{{$prefix}}apidoc_outputs` (
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET={{$charset}} COMMENT='接口输出参数';
+
+-- API分类
+INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('1000', 'API分类', '_system_api', '0', '1');

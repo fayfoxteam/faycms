@@ -255,7 +255,7 @@
 				'datetime':function(value, params, attribute){
 					var settings = $.validform.merge({
 						'pattern':/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/,
-						'message':'{$attribute}日期格式不正确'
+						'message':'{$attribute}格式不正确'
 					}, params);
 					
 					if(settings.pattern.test(value)){

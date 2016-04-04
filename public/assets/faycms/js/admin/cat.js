@@ -32,17 +32,17 @@ var cat = {
 									}
 									if(resp.data.cat.file_id != 0){
 										$('#cat-pic-for-edit-container').html([
-		                       				'<a href="', system.url('file/pic', {
-		                       					't':1,
-		                       					'f':resp.data.cat.file_id
-		                       				}), '" class="fancybox-image" target="_blank">',
-		                       					'<img src="', system.url('file/pic', {
-		                       						't':2,
-		                       						'f':resp.data.cat.file_id
-		                       					}), '" width="100" />',
-		                       				'</a>',
-		                       				'<a href="javascript:;" class="remove-pic">移除插图</a>'
-		                       			].join(''));
+											'<a href="', system.url('file/pic', {
+												't':1,
+												'f':resp.data.cat.file_id
+											}), '" class="fancybox-image" target="_blank">',
+												'<img src="', system.url('file/pic', {
+													't':2,
+													'f':resp.data.cat.file_id
+												}), '" width="100" />',
+											'</a>',
+											'<a href="javascript:;" class="remove-pic">移除插图</a>'
+										].join(''));
 									}else{
 										$("#cat-pic-for-edit-container").html('');
 									}
@@ -154,7 +154,7 @@ var cat = {
 				'<a href="', resp.data.url, '" class="fancybox-image" target="_blank">',
 					'<img src="', resp.data.thumbnail, '" width="100" />',
 				'</a>',
-   				'<a href="javascript:;" class="remove-pic">移除插图</a>'
+				'<a href="javascript:;" class="remove-pic">移除插图</a>'
 			].join(''));
 		});
 
@@ -198,7 +198,7 @@ var cat = {
 				'<a href="', resp.data.url, '" class="fancybox-image" target="_blank">',
 					'<img src="', resp.data.thumbnail, '" width="100" />',
 				'</a>',
-   				'<a href="javascript:;" class="remove-pic">移除插图</a>'
+				'<a href="javascript:;" class="remove-pic">移除插图</a>'
 			].join(''));
 		});
 

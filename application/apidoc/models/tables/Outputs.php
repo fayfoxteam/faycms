@@ -14,7 +14,7 @@ use fay\core\db\Table;
  * @property int $parent 父节点
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
- * @property string $version 版本
+ * @property string $since 自从
  */
 class Outputs extends Table{
 	/**
@@ -71,7 +71,7 @@ class Outputs extends Table{
 			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('type'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('name'), 'string', array('max'=>255)),
-			array(array('version'), 'string', array('max'=>30)),
+			array(array('since'), 'string', array('max'=>30)),
 		);
 	}
 
@@ -85,7 +85,7 @@ class Outputs extends Table{
 			'parent'=>'父节点',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
-			'version'=>'版本',
+			'since'=>'自从',
 		);
 	}
 
@@ -97,7 +97,7 @@ class Outputs extends Table{
 			'sample'=>'',
 			'description'=>'',
 			'parent'=>'intval',
-			'version'=>'trim',
+			'since'=>'trim',
 		);
 	}
 }

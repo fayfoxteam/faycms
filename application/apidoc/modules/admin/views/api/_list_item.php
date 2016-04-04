@@ -27,17 +27,7 @@ use fay\helpers\Date;
 	<td><?php echo $data['cat_title']?></td>
 	<?php }?>
 	<?php if(in_array('http_method', $cols)){?>
-	<td><?php switch($data['http_method']){
-		case Apis::HTTP_METHOD_GET:
-			echo 'GET';
-		break;
-		case Apis::HTTP_METHOD_POST:
-			echo 'POST';
-		break;
-		case Apis::HTTP_METHOD_BOTH:
-			echo 'GET/POST';
-		break;
-	}?></td>
+	<td><?php echo $http_methods[$data['http_method']]?></td>
 	<?php }?>
 	<?php if(in_array('need_login', $cols)){?>
 	<td><?php echo $data['need_login'] ? '是' : '否'?></td>
@@ -52,8 +42,8 @@ use fay\helpers\Date;
 		));
 	?></td>
 	<?php }?>
-	<?php if(in_array('version', $cols)){?>
-	<td><?php echo $data['version']?></td>
+	<?php if(in_array('since', $cols)){?>
+	<td><?php echo $data['since']?></td>
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
 	<td>

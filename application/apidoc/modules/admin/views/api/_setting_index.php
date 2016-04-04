@@ -21,8 +21,8 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'user', array(
 			'label'=>'作者',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'version', array(
-			'label'=>'起始版本',
+		echo F::form('setting')->inputCheckbox('cols[]', 'since', array(
+			'label'=>'自从',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'last_modified_time', array(
 			'label'=>'最后修改时间',

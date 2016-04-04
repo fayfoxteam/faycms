@@ -11,7 +11,7 @@ CREATE TABLE `{{$prefix}}apidoc_apis` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
-  `version` varchar(30) NOT NULL DEFAULT '' COMMENT '版本',
+  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`id`),
   UNIQUE KEY `router` (`router`)
 ) ENGINE=MyISAM  DEFAULT CHARSET={{$charset}} COMMENT='接口';
@@ -23,7 +23,7 @@ CREATE TABLE `{{$prefix}}apidoc_apis_outputs` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
-  `version` varchar(30) NOT NULL DEFAULT '' COMMENT '版本',
+  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`api_id`,`output_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
@@ -38,7 +38,7 @@ CREATE TABLE `{{$prefix}}apidoc_inputs` (
   `description` text NOT NULL COMMENT '描述',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
-  `version` varchar(30) NOT NULL DEFAULT '' COMMENT '版本',
+  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口输入参数';
 
@@ -52,6 +52,6 @@ CREATE TABLE `{{$prefix}}apidoc_outputs` (
   `parent` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '父节点',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
-  `version` varchar(30) NOT NULL DEFAULT '' COMMENT '版本',
+  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET={{$charset}} COMMENT='接口输出参数';

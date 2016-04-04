@@ -39,13 +39,13 @@ $cols = F::form('setting')->getData('cols', array());
 				'&nbsp;',
 				F::form('search')->inputText('start_time', array(
 					'data-rule'=>'datetime',
-					'data-label'=>'时间',
+					'data-label'=>'开始时间',
 					'class'=>'form-control datetimepicker',
 				)),
 				' - ',
 				F::form('search')->inputText('end_time', array(
 					'data-rule'=>'datetime',
-					'data-label'=>'时间',
+					'data-label'=>'结束时间',
 					'class'=>'form-control datetimepicker',
 				)),
 				F::form('search')->submitLink('查询', array(
@@ -58,33 +58,22 @@ $cols = F::form('setting')->getData('cols', array());
 <div class="row">
 	<div class="col-5">
 		<ul class="subsubsub fl">
-			<li class="developing <?php if(F::app()->input->get('status') == Apis::STATUS_DEVELOPING)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/api/index', array('status'=>Apis::STATUS_DEVELOPING))?>">开发中</a>
-				<span class="fc-grey">(<span id="developing-api-count"><?php
-					echo isset($status_counts[Apis::STATUS_DEVELOPING]) ? $status_counts[Apis::STATUS_DEVELOPING] : 0;
-				?></span>)</span>
-				|
-			</li>
-			<li class="beta <?php if(F::app()->input->get('status') == Apis::STATUS_BETA)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/api/index', array('status'=>Apis::STATUS_BETA))?>">测试中</a>
-				<span class="fc-grey">(<span id="beta-api-count"><?php
-					echo isset($status_counts[Apis::STATUS_BETA]) ? $status_counts[Apis::STATUS_BETA] : 0;
-				?></span>)</span>
-				|
-			</li>
-			<li class="stable <?php if(F::app()->input->get('status') == Apis::STATUS_STABLE)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/api/index', array('status'=>Apis::STATUS_STABLE))?>">已上线</a>
-				<span class="fc-grey">(<span id="stable-api-count"><?php
-					echo isset($status_counts[Apis::STATUS_STABLE]) ? $status_counts[Apis::STATUS_STABLE] : 0;
-				?></span>)</span>
-				|
-			</li>
-			<li class="deprecated <?php if(F::app()->input->get('status') == Apis::STATUS_DEPRECATED)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/api/index', array('status'=>Apis::STATUS_DEPRECATED))?>">已弃用</a>
-				<span class="fc-grey">(<span id="deprecated-api-count"><?php
-					echo isset($status_counts[Apis::STATUS_DEPRECATED]) ? $status_counts[Apis::STATUS_DEVELOPING] : 0;
+			<li class="<?php if(F::app()->input->get('status') == null)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/api/index')?>">全部</a>
+				<span class="fc-grey">(<span id="api-count-0"><?php
+					echo array_sum($status_counts);
 				?></span>)</span>
 			</li>
+			<?php $status = Apis::getStatus();?>
+			<?php foreach($status as $k => $s){?>
+				<li <?php if(F::app()->input->get('status') == $k)echo 'class="sel"';?>>
+					|
+					<a href="<?php echo $this->url('admin/api/index', array('status'=>$k))?>"><?php echo $s?></a>
+					<span class="fc-grey">(<span id="api-count-<?php echo $k?>"><?php
+						echo isset($status_counts[$k]) ? $status_counts[$k] : 0;
+					?></span>)</span>
+				</li>
+			<?php }?>
 		</ul>
 	</div>
 	<div class="col-7"><?php $listview->showPager()?></div>
@@ -113,8 +102,8 @@ $cols = F::form('setting')->getData('cols', array());
 					<?php if(in_array('user', $cols)){?>
 					<th>作者</th>
 					<?php }?>
-					<?php if(in_array('version', $cols)){?>
-					<th>起始版本</th>
+					<?php if(in_array('since', $cols)){?>
+					<th>自从</th>
 					<?php }?>
 					<?php if(in_array('last_modified_time', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
@@ -145,8 +134,8 @@ $cols = F::form('setting')->getData('cols', array());
 					<?php if(in_array('user', $cols)){?>
 					<th>作者</th>
 					<?php }?>
-					<?php if(in_array('version', $cols)){?>
-					<th>起始版本</th>
+					<?php if(in_array('since', $cols)){?>
+					<th>自从</th>
 					<?php }?>
 					<?php if(in_array('last_modified_time', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
@@ -158,6 +147,7 @@ $cols = F::form('setting')->getData('cols', array());
 			</tfoot>
 			<tbody><?php $listview->showData(array(
 				'cols'=>$cols,
+				'http_methods'=>Apis::getHttpMethods(),
 			));?></tbody>
 		</table>
 	</div>

@@ -17,7 +17,7 @@ use fay\core\db\Table;
  * @property int $user_id 用户
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
- * @property string $version 版本
+ * @property string $since 自从
  */
 class Apis extends Table{
 	/**
@@ -38,7 +38,7 @@ class Apis extends Table{
 	/**
 	 * 状态 - 已弃用
 	 */
-	const STATUS_DEPRECATED = 3;
+	const STATUS_DEPRECATED = 4;
 	
 	/**
 	 * HTTP请求方式 - GET
@@ -71,8 +71,9 @@ class Apis extends Table{
 			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('router'), 'string', array('max'=>100)),
-			array(array('version'), 'string', array('max'=>30)),
+			array(array('since'), 'string', array('max'=>30)),
 			
+			array(array('title', 'router'), 'required'),
 			array('status', 'range', array('range'=>array(
 				self::STATUS_DEVELOPING, self::STATUS_BETA, self::STATUS_STABLE, self::STATUS_DEPRECATED
 			))),
@@ -95,7 +96,7 @@ class Apis extends Table{
 			'user_id'=>'用户',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
-			'version'=>'版本',
+			'since'=>'自从',
 		);
 	}
 
@@ -110,7 +111,7 @@ class Apis extends Table{
 			'need_login'=>'intval',
 			'cat_id'=>'intval',
 			'user_id'=>'intval',
-			'version'=>'trim',
+			'since'=>'trim',
 		);
 	}
 	
@@ -125,5 +126,28 @@ class Apis extends Table{
 					'id', 'create_time', 'user_id'
 				);
 		}
+	}
+	
+	/**
+	 * 返回状态位-状态描述数组
+	 */
+	public static function getStatus(){
+		return array(
+			self::STATUS_DEVELOPING => '开发中',
+			self::STATUS_BETA => '测试中',
+			self::STATUS_STABLE => '已上线',
+			self::STATUS_DEPRECATED => '已弃用',
+		);
+	}
+	
+	/**
+	 * 获取HTTP请求方式
+	 */
+	public static function getHttpMethods(){
+		return array(
+			self::HTTP_METHOD_GET => 'GET',
+			self::HTTP_METHOD_POST => 'POST',
+			self::HTTP_METHOD_BOTH => 'GET/POST',
+		);
 	}
 }

@@ -11,7 +11,7 @@ use fay\core\db\Table;
  * @property int $sort 排序值
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
- * @property string $version 版本
+ * @property string $since 自从
  */
 class ApiApisOutputs extends Table{
 	protected $_name = 'api_apis_outputs';
@@ -29,7 +29,7 @@ class ApiApisOutputs extends Table{
 			array(array('output_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('api_id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
-			array(array('version'), 'string', array('max'=>30)),
+			array(array('since'), 'string', array('max'=>30)),
 		);
 	}
 
@@ -40,7 +40,7 @@ class ApiApisOutputs extends Table{
 			'sort'=>'排序值',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
-			'version'=>'版本',
+			'since'=>'自从',
 		);
 	}
 
@@ -49,7 +49,7 @@ class ApiApisOutputs extends Table{
 			'api_id'=>'intval',
 			'output_id'=>'intval',
 			'sort'=>'intval',
-			'version'=>'trim',
+			'since'=>'trim',
 		);
 	}
 }

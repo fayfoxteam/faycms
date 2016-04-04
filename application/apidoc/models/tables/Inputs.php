@@ -15,9 +15,19 @@ use fay\core\db\Table;
  * @property string $description 描述
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
- * @property string $version 版本
+ * @property string $since 自从
  */
 class Inputs extends Table{
+/**
+	 * 类型 - 字符串
+	 */
+	const TYPE_STRING = 1;
+	
+	/**
+	 * 类型 - 数字
+	 */
+	const TYPE_NUMBER = 2;
+	
 	protected $_name = 'apidoc_inputs';
 	
 	/**
@@ -33,7 +43,12 @@ class Inputs extends Table{
 			array(array('api_id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('required', 'type'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('name'), 'string', array('max'=>255)),
-			array(array('version'), 'string', array('max'=>30)),
+			array(array('since'), 'string', array('max'=>30)),
+			
+			array('type', 'range', array('range'=>array(
+				self::TYPE_STRING, self::TYPE_NUMBER
+			))),
+			array(array('name', 'required', 'type'), 'required')
 		);
 	}
 
@@ -48,7 +63,7 @@ class Inputs extends Table{
 			'description'=>'描述',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
-			'version'=>'版本',
+			'since'=>'自从',
 		);
 	}
 
@@ -61,7 +76,27 @@ class Inputs extends Table{
 			'type'=>'intval',
 			'sample'=>'',
 			'description'=>'',
-			'version'=>'trim',
+			'since'=>'trim',
+		);
+	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array('id');
+			break;
+			case 'update':
+			default:
+				return array(
+					'id', 'api_id', 'create_time'
+				);
+		}
+	}
+	
+	public static function getTypes(){
+		return array(
+			self::TYPE_STRING => '字符串',
+			self::TYPE_NUMBER => '数字',
 		);
 	}
 }

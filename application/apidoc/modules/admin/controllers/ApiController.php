@@ -22,7 +22,7 @@ class ApiController extends AdminController{
 		array('name'=>'need_login', 'title'=>'是否需要登录'),
 		array('name'=>'since', 'title'=>'自从'),
 		array('name'=>'inputs', 'title'=>'请求参数'),
-		array('name'=>'outputs', 'title'=>'相应参数'),
+		array('name'=>'outputs', 'title'=>'响应参数'),
 	);
 	
 	/**

@@ -133,10 +133,10 @@ class Apis extends Table{
 	 */
 	public static function getStatus(){
 		return array(
-			self::STATUS_DEVELOPING => '开发中',
 			self::STATUS_BETA => '测试中',
-			self::STATUS_STABLE => '已上线',
 			self::STATUS_DEPRECATED => '已弃用',
+			self::STATUS_DEVELOPING => '开发中',
+			self::STATUS_STABLE => '已上线',
 		);
 	}
 	
@@ -145,9 +145,9 @@ class Apis extends Table{
 	 */
 	public static function getHttpMethods(){
 		return array(
+			self::HTTP_METHOD_BOTH => 'GET/POST',
 			self::HTTP_METHOD_GET => 'GET',
 			self::HTTP_METHOD_POST => 'POST',
-			self::HTTP_METHOD_BOTH => 'GET/POST',
 		);
 	}
 }

@@ -93,10 +93,13 @@ class Inputs extends Table{
 		}
 	}
 	
+	/**
+	 * 返回类型-类型描述数组
+	 */
 	public static function getTypes(){
 		return array(
-			self::TYPE_STRING => '字符串',
 			self::TYPE_NUMBER => '数字',
+			self::TYPE_STRING => '字符串',
 		);
 	}
 }

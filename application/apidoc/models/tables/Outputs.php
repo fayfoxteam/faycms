@@ -72,6 +72,8 @@ class Outputs extends Table{
 			array(array('type'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('name'), 'string', array('max'=>255)),
 			array(array('since'), 'string', array('max'=>30)),
+			
+			array(array('name', 'type'), 'required'),
 		);
 	}
 
@@ -98,6 +100,35 @@ class Outputs extends Table{
 			'description'=>'',
 			'parent'=>'intval',
 			'since'=>'trim',
+		);
+	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array('id');
+			break;
+			case 'update':
+			default:
+				return array(
+					'id', 'create_time'
+				);
+		}
+	}
+	
+	/**
+	 * 返回类型-类型描述数组
+	 */
+	public static function getTypes(){
+		return array(
+			self::TYPE_ARRAY => '数组',
+			self::TYPE_BINARY => '0/1标记位',
+			self::TYPE_BOOLEAN => '布尔',
+			self::TYPE_INT => '数字',
+			self::TYPE_NUMBER => '字符串类型的数字',
+			self::TYPE_OBJECT => '对象',
+			self::TYPE_PRICE => '价格',
+			self::TYPE_STRING => '字符串',
 		);
 	}
 }

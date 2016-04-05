@@ -287,7 +287,6 @@ class PageController extends AdminController{
 		$root_node = Category::model()->getByAlias('_system_page', 'id');
 		$this->view->root = $root_node['id'];
 	
-		$root_cat = Category::model()->getByAlias('_system_page', 'id');
 		if($this->checkPermission('admin/page/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -295,7 +294,7 @@ class PageController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'页面',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}

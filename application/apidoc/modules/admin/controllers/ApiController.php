@@ -288,4 +288,44 @@ class ApiController extends AdminController{
 		
 		$this->view->render();
 	}
+	
+	/**
+	 * 分类管理
+	 */
+	public function cat(){
+		$this->layout->current_directory = 'api';
+		$this->layout->_setting_panel = '_setting_cat';
+		
+		$_setting_key = 'admin_api_cat';
+		$_settings = Setting::model()->get($_setting_key);
+		$_settings || $_settings = array(
+			'default_dep'=>2,
+		);
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setData($_settings)
+			->setData(array(
+				'_key'=>$_setting_key
+			))
+			->setJsModel('setting');
+		
+		$this->layout->subtitle = 'API分类';
+		$this->view->cats = Category::model()->getTree('_system_api');
+		$root_node = Category::model()->getByAlias('_system_api', 'id');
+		$this->view->root = $root_node['id'];
+		
+		if($this->checkPermission('admin/api/cat-create')){
+			$this->layout->sublink = array(
+				'uri'=>'#create-cat-dialog',
+				'text'=>'添加分类',
+				'html_options'=>array(
+					'class'=>'create-cat-link',
+					'data-title'=>'API',
+					'data-id'=>$root_node['id'],
+				),
+			);
+		}
+		
+		$this->view->render();
+	}
 }

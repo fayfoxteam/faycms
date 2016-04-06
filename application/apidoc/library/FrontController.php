@@ -4,9 +4,31 @@ namespace apidoc\library;
 use fay\core\Controller;
 use fay\helpers\Request;
 use fay\models\tables\SpiderLogs;
+use fay\models\Menu;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
+	
+	public $_left_menu = array();
+	
+	public $_top_nav = array(
+		array(
+			'label'=>'站点首页',
+			'icon'=>'fa fa-home',
+			'router'=>null,
+			'target'=>'_blank',
+		),
+		array(
+			'label'=>'控制台',
+			'icon'=>'fa fa-dashboard',
+			'router'=>'admin/index/index',
+		),
+		array(
+			'label'=>'Tools',
+			'icon'=>'fa fa-wrench',
+			'router'=>'tools',
+		),
+	);
 	
 	public function __construct(){
 		parent::__construct();
@@ -23,5 +45,10 @@ class FrontController extends Controller{
 				'create_time'=>$this->current_time,
 			));
 		}
+		
+		$this->layout->current_directory = '';
+		$this->layout->subtitle = '';
+		
+		$this->_left_menu = Menu::model()->getTree('_admin_main');
 	}
 }

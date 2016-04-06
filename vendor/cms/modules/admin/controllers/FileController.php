@@ -402,7 +402,6 @@ class FileController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_file');
 		$root_node = Category::model()->getByAlias('_system_file', 'id');
 		$this->view->root = $root_node['id'];
-		$root_cat = Category::model()->getByAlias('_system_file', 'id');
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -410,7 +409,7 @@ class FileController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'文件分类',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}

@@ -153,7 +153,6 @@ class LinkController extends AdminController{
 		$root_node = Category::model()->getByAlias('_system_link', 'id');
 		$this->view->root = $root_node['id'];
 		
-		$root_cat = Category::model()->getByAlias('_system_link', 'id');
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -161,7 +160,7 @@ class LinkController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'友情链接',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}

@@ -174,14 +174,13 @@ class ActionController extends AdminController{
 		$root_node = Category::model()->getByAlias('_system_action', 'id');
 		$this->view->root = $root_node['id'];
 		
-		$root_cat = Category::model()->getByAlias('_system_action', 'id');
 		$this->layout->sublink = array(
 			'uri'=>'#create-cat-dialog',
 			'text'=>'添加权限分类',
 			'html_options'=>array(
 				'class'=>'create-cat-link',
 				'data-title'=>'权限分类',
-				'data-id'=>$root_cat['id'],
+				'data-id'=>$root_node['id'],
 			),
 		);
 		

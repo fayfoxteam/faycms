@@ -640,7 +640,6 @@ class PostController extends AdminController{
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->root = $root_node['id'];
 		
-		$root_cat = Category::model()->getByAlias('_system_post', 'id');
 		if($this->checkPermission('admin/post/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -648,7 +647,7 @@ class PostController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'文章',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}

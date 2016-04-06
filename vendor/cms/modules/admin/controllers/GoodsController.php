@@ -68,7 +68,6 @@ class GoodsController extends AdminController{
 		$root_node = Category::model()->getByAlias('_system_goods', 'id');
 		$this->view->root = $root_node['id'];
 		
-		$root_cat = Category::model()->getByAlias('_system_goods', 'id');
 		if($this->checkPermission('admin/goods/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -76,7 +75,7 @@ class GoodsController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'商品',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}

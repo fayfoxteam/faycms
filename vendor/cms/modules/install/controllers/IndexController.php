@@ -125,8 +125,8 @@ class IndexController extends InstallController{
 				$user_id = User::model()->create(array(
 					'username'=>$this->input->post('username', 'trim'),
 					'password'=>$this->input->post('password'),
+					'nickname'=>'系统管理员',//@todo 这里先默认一个，以后再完善下安装程序的界面
 					'status'=>Users::STATUS_VERIFIED,
-					'admin'=>1,
 				), array(
 					'profile'=>array(
 						'trackid'=>'install',

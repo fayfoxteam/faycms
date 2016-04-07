@@ -249,22 +249,22 @@ class User extends Model{
 			'system:user_nickname_unique'
 		));
 		if(!isset($user['username']) || $user['username'] == ''){
-			throw new Exception('用户名不能为空', '', 'missing-parameter:username');
+			throw new Exception('用户名不能为空', 'missing-parameter:username');
 		}
 		if($config['system:user_nickname_required'] && !isset($user['nickname']) || $user['nickname'] == ''){
-			throw new Exception('用户昵称不能为空', '', 'missing-parameter:nickname');
+			throw new Exception('用户昵称不能为空', 'missing-parameter:nickname');
 		}
 		
 		if(Users::model()->fetchRow(array(
 			'username'=>$user['username'],
 		))){
-			throw new Exception('用户名已存在', '', 'invalid-parameter:username-is-exist');
+			throw new Exception('用户名已存在', 'invalid-parameter:username-is-exist');
 		}
 		
 		if($config['system:user_nickname_unique'] && Users::model()->fetchRow(array(
 			'nickname'=>$user['nickname'],
 		))){
-			throw new Exception('用户昵称已存在', '', 'invalid-parameter:username-is-exist');
+			throw new Exception('用户昵称已存在', 'invalid-parameter:username-is-exist');
 		}
 		
 		//插用户表

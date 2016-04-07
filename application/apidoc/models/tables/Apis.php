@@ -18,6 +18,7 @@ use fay\core\db\Table;
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  * @property string $since 自从
+ * @property string $sample_response 响应示例
  */
 class Apis extends Table{
 	/**
@@ -97,6 +98,7 @@ class Apis extends Table{
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 			'since'=>'自从',
+			'sample_response'=>'响应示例',
 		);
 	}
 
@@ -112,6 +114,7 @@ class Apis extends Table{
 			'cat_id'=>'intval',
 			'user_id'=>'intval',
 			'since'=>'trim',
+			'sample_response'=>'',
 		);
 	}
 	
@@ -149,5 +152,9 @@ class Apis extends Table{
 			self::HTTP_METHOD_GET => 'GET',
 			self::HTTP_METHOD_POST => 'POST',
 		);
+	}
+	
+	public function getPublicFields(){
+		return $this->getFields(array('create_time', 'last_modified_time'));
 	}
 }

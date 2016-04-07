@@ -24,7 +24,7 @@ class Tag extends Model{
 	public function getList($order, $page_size = 20, $page = 1){
 		$sql = new Sql();
 		$sql->from(array('t'=>'tags'), 'id,title')
-			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields('tag_id'))
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')))
 			->where('t.status = ' . Tags::STATUS_ENABLED)
 			->order($order);
 		;

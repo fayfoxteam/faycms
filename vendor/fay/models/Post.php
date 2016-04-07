@@ -434,7 +434,7 @@ class Post extends Model{
 		$fields = FieldHelper::process($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
-			$fields['post'] = Posts::model()->getFields('content');
+			$fields['post'] = Posts::model()->getFields(array('content'));
 		}
 		
 		$post_fields = $fields['post'];
@@ -1062,7 +1062,7 @@ class Post extends Model{
 		$fields = FieldHelper::process($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
-			$fields['post'] = Posts::model()->getFields('content');
+			$fields['post'] = Posts::model()->getFields(array('content'));
 		}
 		
 		$post_fields = $fields['post'];

@@ -12,6 +12,7 @@ CREATE TABLE `{{$prefix}}apidoc_apis` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
+  `sample_response` text NOT NULL COMMENT '响应示例',
   PRIMARY KEY (`id`),
   UNIQUE KEY `router` (`router`)
 ) ENGINE=MyISAM  DEFAULT CHARSET={{$charset}} COMMENT='接口';

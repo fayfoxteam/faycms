@@ -4,31 +4,16 @@ namespace apidoc\library;
 use fay\core\Controller;
 use fay\helpers\Request;
 use fay\models\tables\SpiderLogs;
-use fay\models\Menu;
+use fay\models\Category;
+use apidoc\models\tables\Apis;
+use fay\helpers\Html;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
 	
 	public $_left_menu = array();
 	
-	public $_top_nav = array(
-		array(
-			'label'=>'站点首页',
-			'icon'=>'fa fa-home',
-			'router'=>null,
-			'target'=>'_blank',
-		),
-		array(
-			'label'=>'控制台',
-			'icon'=>'fa fa-dashboard',
-			'router'=>'admin/index/index',
-		),
-		array(
-			'label'=>'Tools',
-			'icon'=>'fa fa-wrench',
-			'router'=>'tools',
-		),
-	);
+	public $_top_nav = array();
 	
 	public function __construct(){
 		parent::__construct();
@@ -47,8 +32,49 @@ class FrontController extends Controller{
 		}
 		
 		$this->layout->current_directory = '';
+		$this->layout->title = '';
 		$this->layout->subtitle = '';
 		
-		$this->_left_menu = Menu::model()->getTree('_admin_main');
+		$this->_left_menu = $this->getLeftMenu();
+	}
+	
+	private function getLeftMenu(){
+		$api_cats = Category::model()->getNextLevel('_system_api', array('id', 'alias', 'title', 'description'));
+		$apis = Apis::model()->fetchAll(array(), 'id,title,router,cat_id', 'cat_id');
+		$menus = array();
+		foreach($api_cats as $c){
+			$menu = array(
+				'id'=>0,
+				'alias'=>$c['alias'],
+				'title'=>$c['title'],
+				'css_class'=>$c['description'],
+				'link'=>'javascript:;',
+				'target'=>'',
+				'children'=>array(),
+			);
+			
+			$start = false;
+			foreach($apis as $k => $a){
+				if($a['cat_id'] == $c['id']){
+					$start = true;
+					$menu['children'][] = array(
+						'id'=>$a['id'],
+						'alias'=>'',
+						'title'=>$a['router'] . '<br>' . Html::encode($a['title']),
+						'css_class'=>'',
+						'link'=>'item/' . $a['id'],
+						'target'=>'',
+						'children'=>array(),
+					);
+					unset($apis[$k]);
+				}else if($start){
+					break;
+				}
+			}
+			
+			$menus[] = $menu;
+		}
+		
+		return $menus;
 	}
 }

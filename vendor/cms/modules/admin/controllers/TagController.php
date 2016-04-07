@@ -126,7 +126,7 @@ class TagController extends AdminController{
 	private function _setListview(){
 		$sql = new Sql();
 		$sql->from(array('t'=>'tags'))
-			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields('tag_id'));
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')));
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');

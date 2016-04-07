@@ -256,13 +256,13 @@ class User extends Model{
 		}
 		
 		if(Users::model()->fetchRow(array(
-			'username'=>$user['username'],
+			'username = ?'=>$user['username'],
 		))){
 			throw new Exception('用户名已存在', 'invalid-parameter:username-is-exist');
 		}
 		
 		if($config['system:user_nickname_unique'] && Users::model()->fetchRow(array(
-			'nickname'=>$user['nickname'],
+			'nickname = ?'=>$user['nickname'],
 		))){
 			throw new Exception('用户昵称已存在', 'invalid-parameter:username-is-exist');
 		}

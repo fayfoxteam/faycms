@@ -23,6 +23,7 @@ class ApiController extends AdminController{
 		array('name'=>'since', 'title'=>'自从'),
 		array('name'=>'inputs', 'title'=>'请求参数'),
 		array('name'=>'outputs', 'title'=>'响应参数'),
+		array('name'=>'sample_response', 'title'=>'响应示例'),
 	);
 	
 	/**
@@ -33,7 +34,7 @@ class ApiController extends AdminController{
 			'router', 'category', 'http_method', 'need_login', 'since'
 		),
 		'normal'=>array(
-			'inputs', 'outputs',
+			'inputs', 'outputs', 'sample_response'
 		),
 	);
 	

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
-use apidoc\models\tables\Apis;
 use fay\helpers\Date;
+use apidoc\helpers\ApiHelper;
 ?>
 <tr valign="top">
 	<td>
@@ -21,7 +21,7 @@ use fay\helpers\Date;
 	<td><?php echo $data['router']?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td><?php echo $data['status']?></td>
+	<td><?php echo ApiHelper::getStatus($data['status'])?></td>
 	<?php }?>
 	<?php if(in_array('category', $cols)){?>
 	<td><?php echo $data['cat_title']?></td>

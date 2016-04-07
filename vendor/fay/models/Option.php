@@ -50,7 +50,7 @@ class Option extends Model{
 	 */
 	public static function mget($names){
 		if(is_string($names)){
-			$names = explode(',', str_replace(' ', '', $names));
+			$names = explode(',', $names);
 		}
 		
 		$return = array();

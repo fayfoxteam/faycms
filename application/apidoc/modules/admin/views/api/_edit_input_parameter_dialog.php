@@ -35,13 +35,13 @@ use apidoc\models\tables\Inputs;
 					<tr>
 						<th class="adaption">描述</th>
 						<td><?php echo F::form('input-parameter')->textarea('description', array(
-							'class'=>'form-control h60',
+							'class'=>'form-control h60 autosize',
 						))?></td>
 					</tr>
 					<tr>
 						<th class="adaption">示例值</th>
 						<td><?php echo F::form('input-parameter')->textarea('sample', array(
-							'class'=>'form-control h60',
+							'class'=>'form-control h60 autosize',
 						))?></td>
 					</tr>
 					<tr>

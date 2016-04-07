@@ -190,8 +190,8 @@ class FeedController extends AdminController{
 		
 		$sql = new Sql();
 		$feed = $sql->from(array('f'=>'feeds'), Feeds::model()->getFields())
-			->joinLeft(array('fm'=>'feed_meta'), 'f.id = fm.feed_id', FeedMeta::model()->getFields('feed_id'))
-			->joinLeft(array('fe'=>'feed_extra'), 'f.id = fe.feed_id', FeedExtra::model()->getFields('feed_id'))
+			->joinLeft(array('fm'=>'feed_meta'), 'f.id = fm.feed_id', FeedMeta::model()->getFields(array('feed_id')))
+			->joinLeft(array('fe'=>'feed_extra'), 'f.id = fe.feed_id', FeedExtra::model()->getFields(array('feed_id')))
 			->where('f.id = ' . $feed_id)
 			->fetchRow()
 		;
@@ -269,8 +269,8 @@ class FeedController extends AdminController{
 		
 		$sql = new Sql();
 		$sql->from(array('f'=>'feeds'))
-			->joinLeft(array('fm'=>'feed_meta'), 'f.id = fm.feed_id', FeedMeta::model()->getFields('feed_id'))
-			->joinLeft(array('fe'=>'feed_extra'), 'f.id = fe.feed_id', FeedExtra::model()->getFields('feed_id'))
+			->joinLeft(array('fm'=>'feed_meta'), 'f.id = fm.feed_id', FeedMeta::model()->getFields(array('feed_id')))
+			->joinLeft(array('fe'=>'feed_extra'), 'f.id = fe.feed_id', FeedExtra::model()->getFields(array('feed_id')))
 		;
 		
 		//文章状态

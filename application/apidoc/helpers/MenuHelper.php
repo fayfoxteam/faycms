@@ -54,7 +54,8 @@ class MenuHelper{
 				if(!empty($m['children'])){
 					$item['class'][] = 'has-sub';
 				}
-				if(($current_directory && $current_directory == $m['alias']) || Uri::getInstance()->router == $m['link']){
+				if(($current_directory && $current_directory == $m['alias']) ||
+					(Uri::getInstance()->router == 'frontend/api/item' && \F::input()->get('id') == $m['id'])){
 					$item['class'][] = 'opened';
 					$item['class'][] = 'expanded';
 					$item['class'][] = 'active';

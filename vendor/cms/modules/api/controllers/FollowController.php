@@ -41,7 +41,7 @@ class FollowController extends ApiController{
 	 * @param int $user_id
 	 * @param string $trackid 追踪ID
 	 */
-	public function follow(){
+	public function add(){
 		//登录检查
 		$this->checkLogin();
 		
@@ -80,7 +80,7 @@ class FollowController extends ApiController{
 	 * 取消关注一个用户
 	 * @param int $user_id
 	 */
-	public function unfollow(){
+	public function remove(){
 		//登录检查
 		$this->checkLogin();
 		

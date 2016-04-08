@@ -131,4 +131,8 @@ class Outputs extends Table{
 			self::TYPE_STRING => '字符串',
 		);
 	}
+	
+	public function getPublicFields(){
+		return $this->getFields(array('create_time', 'last_modified_time'));
+	}
 }

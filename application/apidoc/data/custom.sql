@@ -15,7 +15,7 @@ CREATE TABLE `{{$prefix}}apidoc_apis` (
   `sample_response` text NOT NULL COMMENT '响应示例',
   PRIMARY KEY (`id`),
   UNIQUE KEY `router` (`router`)
-) ENGINE=MyISAM  DEFAULT CHARSET={{$charset}} COMMENT='接口';
+) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='接口';
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_apis_outputs`;
 CREATE TABLE `{{$prefix}}apidoc_apis_outputs` (
@@ -26,7 +26,7 @@ CREATE TABLE `{{$prefix}}apidoc_apis_outputs` (
   `last_modified_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`api_id`,`output_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_inputs`;
 CREATE TABLE `{{$prefix}}apidoc_inputs` (
@@ -55,7 +55,7 @@ CREATE TABLE `{{$prefix}}apidoc_outputs` (
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET={{$charset}} COMMENT='接口输出参数';
+) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='接口输出参数';
 
 -- API分类
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('1000', 'API分类', '_system_api', '0', '1');

@@ -2,6 +2,8 @@
 namespace apidoc\helpers;
 
 use apidoc\models\tables\Apis;
+use apidoc\models\tables\Outputs;
+use apidoc\models\tables\Inputs;
 
 class ApiHelper{
 	/**
@@ -39,6 +41,86 @@ class ApiHelper{
 				else
 					return '未知的状态';
 				break;
+		}
+	}
+	
+	/**
+	 * 返回是否必填描述
+	 * @param bool $required 是否必填
+	 * @param bool $coloring 是否着色（带上html标签）
+	 */
+	public static function getRequired($required, $coloring = true){
+		if($required){
+			if($coloring){
+				return '<span class="required">是</span>';
+			}else{
+				return '是';
+			}
+		}else{
+			return '否';
+		}
+	}
+	
+	/**
+	 * 获取HTTP请求方式
+	 * @param int $http_method
+	 */
+	public static function getHttpMethod($http_method){
+		if($http_method == Apis::HTTP_METHOD_BOTH){
+			return 'GET/POST';
+		}else if($http_method == Apis::HTTP_METHOD_POST){
+			return 'POST';
+		}else if($http_method == Apis::HTTP_METHOD_GET){
+			return 'GET';
+		}else{
+			return 'OTHER';
+		}
+	}
+	
+	/**
+	 * 获取请求参数类型
+	 * @param int $type
+	 */
+	public static function getInputType($type){
+		if(Inputs::TYPE_NUMBER){
+			return 'Number';
+		}else if(Inputs::TYPE_STRING){
+			return 'String';
+		}else{
+			return 'Other';
+		}
+	}
+	
+	/**
+	 * 获取返回参数类型
+	 * @param int $type
+	 */
+	public static function getOutputType($type){
+		switch($type){
+			case Outputs::TYPE_ARRAY:
+				return 'Array';//@todo 需要返回每项的类型
+			break;
+			case Outputs::TYPE_BINARY:
+				return 'Binary';
+			break;
+			case Outputs::TYPE_BOOLEAN:
+				return 'Boolean';
+			break;
+			case Outputs::TYPE_INT:
+				return 'Int';
+			break;
+			case Outputs::TYPE_NUMBER:
+				return 'Number';
+			break;
+			case Outputs::TYPE_OBJECT:
+				return 'Object';//@todo 需要返回具体的模型名称
+			break;
+			case Outputs::TYPE_PRICE:
+				return 'Price';
+			break;
+			case Outputs::TYPE_STRING:
+				return 'String';
+			break;
 		}
 	}
 }

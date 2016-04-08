@@ -17,11 +17,12 @@ code,pre{font-family:monospace,monospace;font-size:1em}
 code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f8f8;border-radius:3px;color:#d14}
 
 .cb{clear:both}
-.cf,.page-title,.user-info-navbar{zoom:1;clear:left} 
+.cf,.page-title,.user-info-navbar,.form-group{zoom:1;clear:left} 
 .cf:before,.cf:after,
 .page-title:before,.page-title:after,
-.user-info-navbar:before,.user-info-navbar:after{content:"";display:table}
-.cf:after,.page-title:after,.user-info-navbar:after{clear: both}
+.user-info-navbar:before,.user-info-navbar:after
+.form-group:before,.form-group:after{content:"";display:table}
+.cf:after,.page-title:after,.user-info-navbar:after,.form-group:after{clear: both}
 .fl{float:left}
 .fr{float:right}
 .hide{display:none}
@@ -194,6 +195,14 @@ table th:after{content:'';display:block;position:absolute;left:0;right:0;bottom:
 	table td,table th{padding:6px 7px;}
 }
 
+.form-group{margin:0 -15px 15px}
+.form-group label{text-align:right;padding-top:7px;color:#23282d;font-weight:600}
+@media screen and (max-width:768px){
+	.form-group{margin-left:0;margin-right:0}
+	.form-group label{text-align:left}
+}
+.form-group-separator{height:1px;background-color:#eee;margin-bottom:15px}
+
 /* prettify */
 .prettyprinted code{border:0 none;background:none;padding:0;display:block}
 pre .str,code .str{color:#65b042}
@@ -224,3 +233,6 @@ ol.linenums{margin-top:0;margin-bottom:0;color:#aeaeae}
 }
 pre li.crt{background-color:#553B3B}
 pre li:hover{background-color:#575757}
+
+/* 工具类 */
+.pt7{padding-top:7px !important}

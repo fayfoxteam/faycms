@@ -73,7 +73,7 @@ code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f
 .sidebar-menu .logo-env .logo a:hover{text-decoration:none}
 .sidebar-menu .logo-env .logo a.logo-collapsed{display:none}
 .sidebar-menu .logo-env .toggle-mobile-menu{display:none}
-.sidebar-menu .sidebar-menu-inner .logo-env{margin-bottom:0;padding:19px 30px;border-bottom:1px solid #313437}
+.sidebar-menu .sidebar-menu-inner .logo-env{margin-bottom:0;padding:18px 30px;border-bottom:1px solid #313437}
 
 /* 左侧菜单基础效果 */
 .sidebar-menu .main-menu{padding:0 30px;margin-top:20px;margin-bottom:20px}

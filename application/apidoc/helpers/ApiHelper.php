@@ -98,7 +98,7 @@ class ApiHelper{
 	public static function getOutputType($type){
 		switch($type){
 			case Outputs::TYPE_ARRAY:
-				return 'Array';//@todo 需要返回每项的类型
+				return 'Array';
 			break;
 			case Outputs::TYPE_BINARY:
 				return 'Binary';
@@ -113,7 +113,7 @@ class ApiHelper{
 				return 'Number';
 			break;
 			case Outputs::TYPE_OBJECT:
-				return 'Object';//@todo 需要返回具体的模型名称
+				return 'Object';
 			break;
 			case Outputs::TYPE_PRICE:
 				return 'Price';

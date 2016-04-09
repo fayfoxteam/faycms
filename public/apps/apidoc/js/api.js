@@ -18,6 +18,14 @@ var api = {
 						$($(o).attr('href')).find('input,select,textarea').each(function(){
 							$(this).poshytip('hide');
 						});
+					},
+					'onStart':function(o){
+						//初始化编辑框
+						$('#add-input-parameter-form').find('[name="name"]').val('');
+						$('#add-input-parameter-form').find('[name="required"][value="0"]').attr('checked', 'checked');
+						$('#add-input-parameter-form').find('[name="description"]').val('');
+						$('#add-input-parameter-form').find('[name="sample"]').val('');
+						$('#add-input-parameter-form').find('[name="since"]').val('');
 					}
 				});
 			});

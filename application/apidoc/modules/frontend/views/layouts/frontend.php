@@ -1,5 +1,4 @@
 <?php 
-use fay\helpers\Html;
 use fay\models\Option;
 ?>
 <!DOCTYPE html>

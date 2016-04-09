@@ -189,6 +189,45 @@ var common = {
 	'alert': function(message){
 		this.notify(message, 'alert');
 	},
+	'json': {
+		'replacer': function(match, pIndent, pKey, pVal, pEnd) {
+			var key = '<span class=json-key>';
+			var val = '<span class=json-number>';
+			var str = '<span class=json-string>';
+			var r = pIndent || '';
+			if (pKey)
+				r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+			if (pVal)
+				r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+			return r + (pEnd || '');
+		},
+		'prettyPrint': function(obj) {
+			var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+			return JSON.stringify(obj, null, 3)
+				.replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+				.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+				.replace(jsonLine, common.json.replacer);
+		}
+	},
+	'prettyPrintResponse': function(){
+		$json = $('#sample_response');
+		if($json.length && $json.text()){
+			try{
+				var jsonObj = $.parseJSON($json.text());
+			}catch(e){
+				jsonObj = false;
+			}
+			if(jsonObj){
+				if(!($.browser.msie && $.browser.version < 9)){
+					system.getScript(system.assets('js/json2.js'), function(){
+						$json.html(common.json.prettyPrint(jsonObj));
+					});
+				}else{
+					$json.html(common.json.prettyPrint(jsonObj));
+				}
+			}
+		}
+	},
 	'init': function(){
 		this.menu();
 		this.events();
@@ -197,5 +236,6 @@ var common = {
 		this.tab();
 		this.textAutosize();
 		this.prettyPrint();
+		this.prettyPrintResponse();
 	}
 };

@@ -20,7 +20,7 @@ code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f
 .cf,.page-title,.user-info-navbar,.form-group{zoom:1;clear:left} 
 .cf:before,.cf:after,
 .page-title:before,.page-title:after,
-.user-info-navbar:before,.user-info-navbar:after
+.user-info-navbar:before,.user-info-navbar:after,
 .form-group:before,.form-group:after{content:"";display:table}
 .cf:after,.page-title:after,.user-info-navbar:after,.form-group:after{clear: both}
 .fl{float:left}
@@ -188,8 +188,9 @@ code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f
 }
 
 table{border-collapse:collapse;border-spacing:0;width:100%;max-width:100%;margin-bottom:10px;border:1px solid #eee;}
-table th,table td{border-bottom:1px solid #eee;padding:12px 15px;}
+table th,table td{border-bottom:1px solid #eee;padding:12px 15px;word-break:break-all;word-wrap:break-word;white-space:normal}
 table th{position:relative;text-align:left;color:#2c2e2f;}
+table td{vertical-align:text-top}
 table th:after{content:'';display:block;position:absolute;left:0;right:0;bottom:1px;height:1px;background-color:#eee;}
 @media screen and (max-width:1140px){
 	table td,table th{padding:6px 7px;}
@@ -233,6 +234,12 @@ ol.linenums{margin-top:0;margin-bottom:0;color:#aeaeae}
 }
 pre li.crt{background-color:#553B3B}
 pre li:hover{background-color:#575757}
+
+/* jsonview */
+.jsonview{font-family:Menlo, Monaco, Consolas, 'Courier New', monospace, 'Helvetica Neue', Helvetica, Arial, sans-serif}
+.jsonview .json-key{color:#92278f;font-weight:bold}
+.jsonview .json-string{color:#3ab54a;font-weight:bold}
+.jsonview .json-number{color:#25aae2;font-weight:bold}
 
 /* 工具类 */
 .pt7{padding-top:7px !important}

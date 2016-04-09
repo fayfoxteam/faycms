@@ -62,7 +62,7 @@ class FrontController extends Controller{
 						'alias'=>'',
 						'title'=>$a['router'] . '<br>' . Html::encode($a['title']),
 						'css_class'=>'',
-						'link'=>'item/' . $a['id'],
+						'link'=>'api/' . $a['id'],
 						'target'=>'',
 						'children'=>array(),
 					);

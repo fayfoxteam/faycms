@@ -5,6 +5,7 @@ use apidoc\models\tables\Inputs;
 use apidoc\models\tables\Apis;
 use apidoc\helpers\ApiHelper;
 use apidoc\models\tables\Outputs;
+use fay\helpers\StringHelper;
 ?>
 <?php if($api['api']['description']){?>
 <div class="panel panel-headerless">
@@ -46,11 +47,11 @@ use apidoc\models\tables\Outputs;
 		<table>
 			<thead>
 				<tr>
-					<th>名称</th>
-					<th>类型</th>
-					<th>是否必须</th>
-					<th>示例值</th>
-					<th>描述</th>
+					<th width="22%">名称</th>
+					<th width="15%">类型</th>
+					<th width="10%">是否必须</th>
+					<th width="12%">示例值</th>
+					<th width="36%">描述</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -60,7 +61,7 @@ use apidoc\models\tables\Outputs;
 					<td><?php echo ApiHelper::getInputType($input['type'])?></td>
 					<td><?php echo ApiHelper::getRequired($input['required'])?></td>
 					<td><?php echo Html::encode($input['sample'])?></td>
-					<td><?php echo Html::encode($input['description'])?></td>
+					<td><?php echo $input['description']?></td>
 				</tr>
 			<?php }?>
 			</tbody>
@@ -82,10 +83,22 @@ use apidoc\models\tables\Outputs;
 			<tbody>
 			<?php foreach($api['outputs'] as $output){?>
 				<tr>
-					<td><?php echo Html::encode($input['name'])?></td>
-					<td><?php echo ApiHelper::getOutputType($output['type'])?></td>
-					<td><?php echo Html::encode($input['sample'])?></td>
-					<td><?php echo Html::encode($input['description'])?></td>
+					<td><?php echo Html::encode($output['name'])?></td>
+					<td><?php
+						$type = ApiHelper::getOutputType($output['type']);
+						if($type == 'Object'){
+							//对象类型特殊处理
+							echo Html::link(StringHelper::underscore2case($output['name']), array(
+								'model/' . $output['id'], array(
+									'api_id'=>$api['api']['id'],
+								), false
+							));
+						}else{
+							echo $type;
+						}
+					?></td>
+					<td><?php echo Html::encode($output['sample'])?></td>
+					<td><?php echo $output['description']?></td>
 				</tr>
 			<?php }?>
 			</tbody>
@@ -96,9 +109,9 @@ use apidoc\models\tables\Outputs;
 	<div class="panel-header"><h2>响应示例</h2></div>
 	<div class="panel-body">
 	<?php if($api['api']['sample_response']){?>
-		<pre class="prettyprint json"><code><?php
-			echo $api['api']['sample_response'];
-		?></code></pre>
+		<pre id="sample_response" class="jsonview"><?php
+			echo Html::encode($api['api']['sample_response']);
+		?></pre>
 	<?php }else{?>
 		<span>无</span>
 	<?php }?>

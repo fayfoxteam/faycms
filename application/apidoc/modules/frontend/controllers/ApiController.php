@@ -13,19 +13,17 @@ class ApiController extends FrontController{
 	public function item(){
 		//表单验证
 		$this->form()->setRules(array(
-			array(array('id'), 'required'),
-			array(array('id'), 'int', array('min'=>1)),
+			array(array('api_id'), 'required'),
+			array(array('api_id'), 'int', array('min'=>1)),
 		))->setFilters(array(
-			'id'=>'intval',
-			'fields'=>'trim',
-			'cat'=>'trim',
+			'api_id'=>'intval',
 		))->setLabels(array(
-			'id'=>'接口ID',
+			'api_id'=>'接口ID',
 		))->check();
 		
-		$id = $this->form()->getData('id');
+		$api_id = $this->form()->getData('api_id');
 		
-		$api = Api::model()->get($id);
+		$api = Api::model()->get($api_id);
 		
 		if(!$api){
 			throw new HttpException('您访问的页面不存在');

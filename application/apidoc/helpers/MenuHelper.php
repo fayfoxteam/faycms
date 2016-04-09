@@ -7,7 +7,6 @@ class MenuHelper{
 	/**
 	 * 渲染一个导航栏
 	 * @param array $menus 菜单集
-	 * @param array $actions 用户权限
 	 * @param unknown $current_directory 当前页
 	 * @param number $dep 深度
 	 */
@@ -54,8 +53,7 @@ class MenuHelper{
 				if(!empty($m['children'])){
 					$item['class'][] = 'has-sub';
 				}
-				if(($current_directory && $current_directory == $m['alias']) ||
-					(Uri::getInstance()->router == 'frontend/api/item' && \F::input()->get('id') == $m['id'])){
+				if(($current_directory && $current_directory == $m['alias']) || \F::input()->get('api_id') == $m['id']){
 					$item['class'][] = 'opened';
 					$item['class'][] = 'expanded';
 					$item['class'][] = 'active';

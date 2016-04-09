@@ -42,7 +42,7 @@ class Inputs extends Table{
 			array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('api_id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('required', 'type'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('name'), 'string', array('max'=>255)),
+			array(array('name'), 'string', array('max'=>50)),
 			array(array('since'), 'string', array('max'=>30)),
 			
 			array('type', 'range', array('range'=>array(

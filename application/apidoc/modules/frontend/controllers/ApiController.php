@@ -31,6 +31,7 @@ class ApiController extends FrontController{
 		
 		//Layout 参数
 		$this->layout->assign(array(
+			'api_id'=>$api['api']['id'],
 			'current_directory'=>$api['category']['alias'],
 			'subtitle'=>$api['api']['router'],
 			'title'=>$api['api']['title'],

@@ -2,7 +2,6 @@
 namespace apidoc\helpers;
 
 use fay\helpers\Html;
-use fay\core\Uri;
 class MenuHelper{
 	/**
 	 * 渲染一个导航栏
@@ -27,7 +26,9 @@ class MenuHelper{
 						'tag'=>'a',
 						'href'=>$m['link'] == 'javascript:;' ? 'javascript:;'
 							//后台菜单配置比较特殊，系统自带的只有router部分，用户自定义部分可能会有完整url
-							: (strpos($m['link'], 'http://') === 0 ? $m['link'] : \F::app()->view->url($m['link'])),
+							: (strpos($m['link'], 'http://') === 0 ? $m['link'] : \F::app()->view->url($m['link'], array(
+								'trackid'=>TrackHelper::getTrackId(),
+							), false)),
 						'text'=>array(
 							//小图标
 							$m['css_class'] ? array(
@@ -53,7 +54,8 @@ class MenuHelper{
 				if(!empty($m['children'])){
 					$item['class'][] = 'has-sub';
 				}
-				if(($current_directory && $current_directory == $m['alias']) || \F::input()->get('api_id') == $m['id']){
+				if(($current_directory && $current_directory == $m['alias']) ||
+					($m['id'] && \F::app()->layout->api_id == $m['id'])){
 					$item['class'][] = 'opened';
 					$item['class'][] = 'expanded';
 					$item['class'][] = 'active';

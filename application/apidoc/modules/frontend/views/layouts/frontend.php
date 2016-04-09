@@ -51,5 +51,7 @@ $(function(){
 	common.init();
 });
 </script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
+<script>_fa.init();</script>
 </body>
 </html>

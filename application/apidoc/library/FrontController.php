@@ -31,9 +31,12 @@ class FrontController extends Controller{
 			));
 		}
 		
-		$this->layout->current_directory = '';
-		$this->layout->title = '';
-		$this->layout->subtitle = '';
+		$this->layout->assign(array(
+			'current_directory'=>'',
+			'title'=>'',
+			'subtitle'=>'',
+			'api_id'=>0,
+		));
 		
 		$this->_left_menu = $this->getLeftMenu();
 	}

@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace apidoc\helpers;
 
 use apidoc\models\tables\Apis;
@@ -82,9 +82,9 @@ class ApiHelper{
 	 * @param int $type
 	 */
 	public static function getInputType($type){
-		if(Inputs::TYPE_NUMBER){
+		if($type == Inputs::TYPE_NUMBER){
 			return 'Number';
-		}else if(Inputs::TYPE_STRING){
+		}else if($type == Inputs::TYPE_STRING){
 			return 'String';
 		}else{
 			return 'Other';

@@ -8,6 +8,7 @@ use apidoc\models\Output;
 use apidoc\models\tables\Outputs;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
+use apidoc\helpers\TrackHelper;
 
 class ModelController extends FrontController{
 	public function __construct(){
@@ -28,12 +29,13 @@ class ModelController extends FrontController{
 		))->check();
 		
 		//通过API ID确定展开的菜单页
-		$api_id = $this->form()->getData('api_id');
+		$api_id = TrackHelper::getApiId();
 		if($api_id){
 			$api = Apis::model()->find($api_id, 'cat_id');
 			if($api){
 				$category = Category::model()->get($api['cat_id'], 'alias');
 				$this->layout->current_directory = $category['alias'];
+				$this->layout->api_id = $api_id;
 			}
 		}
 		

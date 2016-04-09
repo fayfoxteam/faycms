@@ -4,22 +4,23 @@ namespace apidoc\models\tables;
 use fay\core\db\Table;
 
 /**
- * Apidoc Apis Objects model
+ * Apidoc Object Props model
  * 
- * @property int $api_id API ID
- * @property int $object_id 输出参数ID
- * @property string $name 参数名称
- * @property int $sort 排序值
+ * @property int $id Id
+ * @property int $object_id 所属对象ID
+ * @property string $name 属性名称
+ * @property int $type 类型
+ * @property string $sample 示例值
+ * @property string $description 描述
  * @property string $since 自从
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  */
-class Outputs extends Table{
-	protected $_name = 'apidoc_apis_objects';
-	protected $_primary = array('api_id', 'object_id');
+class ObjectProps extends Table{
+	protected $_name = 'apidoc_object_props';
 	
 	/**
-	 * @return ApisObjects
+	 * @return ObjectProps
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);
@@ -27,9 +28,8 @@ class Outputs extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('object_id'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('api_id'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('object_id', 'type'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('since'), 'string', array('max'=>30)),
 		);
@@ -37,10 +37,12 @@ class Outputs extends Table{
 
 	public function labels(){
 		return array(
-			'api_id'=>'API ID',
-			'object_id'=>'输出参数ID',
-			'name'=>'参数名称',
-			'sort'=>'排序值',
+			'id'=>'Id',
+			'object_id'=>'所属对象ID',
+			'name'=>'属性名称',
+			'type'=>'类型',
+			'sample'=>'示例值',
+			'description'=>'描述',
 			'since'=>'自从',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
@@ -49,10 +51,12 @@ class Outputs extends Table{
 
 	public function filters(){
 		return array(
-			'api_id'=>'intval',
+			'id'=>'intval',
 			'object_id'=>'intval',
 			'name'=>'trim',
-			'sort'=>'intval',
+			'type'=>'intval',
+			'sample'=>'',
+			'description'=>'',
 			'since'=>'trim',
 		);
 	}

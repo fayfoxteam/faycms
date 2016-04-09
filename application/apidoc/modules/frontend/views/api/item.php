@@ -1,11 +1,9 @@
 <?php
 use fay\core\Loader;
 use fay\helpers\Html;
-use apidoc\models\tables\Inputs;
-use apidoc\models\tables\Apis;
 use apidoc\helpers\ApiHelper;
-use apidoc\models\tables\Outputs;
 use fay\helpers\StringHelper;
+use apidoc\helpers\TrackHelper;
 ?>
 <?php if($api['api']['description']){?>
 <div class="panel panel-headerless">
@@ -90,14 +88,16 @@ use fay\helpers\StringHelper;
 							//对象类型特殊处理
 							echo Html::link(StringHelper::underscore2case($output['name']), array(
 								'model/' . $output['id'], array(
-									'api_id'=>$api['api']['id'],
+									'trackid'=>TrackHelper::getTrackId(),
 								), false
 							));
 						}else{
 							echo $type;
 						}
 					?></td>
-					<td><?php echo Html::encode($output['sample'])?></td>
+					<td><?php if($type != 'Object'){
+						echo Html::encode($output['sample']);
+					}?></td>
 					<td><?php echo $output['description']?></td>
 				</tr>
 			<?php }?>

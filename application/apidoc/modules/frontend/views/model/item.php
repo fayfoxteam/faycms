@@ -2,6 +2,7 @@
 use fay\helpers\StringHelper;
 use fay\helpers\Html;
 use apidoc\helpers\ApiHelper;
+use apidoc\helpers\TrackHelper;
 ?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php
@@ -30,7 +31,7 @@ use apidoc\helpers\ApiHelper;
 							//对象类型特殊处理
 							echo Html::link(StringHelper::underscore2case($p['name']), array(
 								'model/' . $p['id'], array(
-									'api_id'=>\F::input()->get('api_id', 'intval', false),
+									'trackid'=>TrackHelper::getTrackId(),
 								), false
 							));
 						}else{

@@ -218,7 +218,7 @@ var common = {
 				jsonObj = false;
 			}
 			if(jsonObj){
-				if(!($.browser.msie && $.browser.version < 9)){
+				if($.browser.msie && $.browser.version < 9){
 					system.getScript(system.assets('js/json2.js'), function(){
 						$json.html(common.json.prettyPrint(jsonObj));
 					});

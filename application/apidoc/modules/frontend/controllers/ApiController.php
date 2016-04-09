@@ -29,9 +29,13 @@ class ApiController extends FrontController{
 			throw new HttpException('您访问的页面不存在');
 		}
 		
-		$this->layout->current_directory = $api['category']['alias'];
-		$this->layout->subtitle = $api['api']['router'];
-		$this->layout->title = $api['api']['title'];
+		//Layout 参数
+		$this->layout->assign(array(
+			'current_directory'=>$api['category']['alias'],
+			'subtitle'=>$api['api']['router'],
+			'title'=>$api['api']['title'],
+			'canonical'=>$this->view->url('api/'.$api['api']['id']),
+		));
 		
 		$this->view->api = $api;
 		$this->view->render();

@@ -38,13 +38,19 @@ class ModelController extends FrontController{
 		}
 		
 		$model_id = $this->form()->getData('model_id');
-		$output = Output::model()->get($model_id, 'id,name,type,description');
+		$output = Output::model()->get($model_id, 'id,name,type,description,sample');
 		if(!$output || $output['type'] != Outputs::TYPE_OBJECT){
 			throw new HttpException('您访问的页面不存在');
 		}
-		$this->layout->subtitle = StringHelper::underscore2case($output['name']);
-		$this->layout->title = $output['description'];
 		
+		//Layout 参数
+		$this->layout->assign(array(
+			'subtitle'=>StringHelper::underscore2case($output['name']),
+			'title'=>$output['description'],
+			'canonical'=>$this->view->url('model/'.$output['id']),
+		));
+		
+		//View
 		$this->view->assign(array(
 			'output'=>$output,
 			'properties'=>Output::model()->getByParent($output['id'], Outputs::model()->getPublicFields()),

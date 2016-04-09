@@ -45,3 +45,15 @@ use apidoc\helpers\ApiHelper;
 		</table>
 	</div>
 </div>
+<div class="panel">
+	<div class="panel-header"><h2>示例</h2></div>
+	<div class="panel-body">
+	<?php if($output['sample']){?>
+		<pre id="sample_response" class="jsonview"><?php
+			echo Html::encode($output['sample']);
+		?></pre>
+	<?php }else{?>
+		<span>无</span>
+	<?php }?>
+	</div>
+</div>

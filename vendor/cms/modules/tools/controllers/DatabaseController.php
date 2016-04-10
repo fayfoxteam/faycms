@@ -210,7 +210,7 @@ class DatabaseController extends ToolsController{
 			$ddl = 'DROP TABLE IF EXISTS `'.str_replace($this->config->get('db.table_prefix'), '{{$prefix}}', $table_name).'`;'."\n".$ddl;
 				
 			$ddl = str_replace('CREATE TABLE `'.$this->config->get('db.table_prefix'), 'CREATE TABLE `{{$prefix}}', $ddl);
-			$ddl = preg_replace('/AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
+			$ddl = preg_replace('/ AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
 			$ddl = preg_replace('/ DEFAULT CHARSET=\w+/', ' DEFAULT CHARSET={{$charset}}', $ddl);//默认编码方式改为可配置
 			//$ddl = preg_replace("/ COMMENT '.+'/", '', $ddl);//删除注释
 			$ddls[] = $ddl.';';

@@ -17,18 +17,6 @@ CREATE TABLE `{{$prefix}}apidoc_apis` (
   UNIQUE KEY `router` (`router`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='接口';
 
-DROP TABLE IF EXISTS `{{$prefix}}apidoc_apis_objects`;
-CREATE TABLE `{{$prefix}}apidoc_apis_objects` (
-  `api_id` smallint(5) unsigned NOT NULL COMMENT 'API ID',
-  `object_id` mediumint(8) unsigned NOT NULL COMMENT '输出参数ID',
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '参数名称',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
-  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `last_modified_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
-  PRIMARY KEY (`api_id`,`object_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口响应字段';
-
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_inputs`;
 CREATE TABLE `{{$prefix}}apidoc_inputs` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -44,10 +32,10 @@ CREATE TABLE `{{$prefix}}apidoc_inputs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口输入参数';
 
-DROP TABLE IF EXISTS `{{$prefix}}apidoc_object_props`;
-CREATE TABLE `{{$prefix}}apidoc_object_props` (
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_model_props`;
+CREATE TABLE `{{$prefix}}apidoc_model_props` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `object_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '所属对象ID',
+  `model_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '数据模型ID',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称',
   `type` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
   `sample` text NOT NULL COMMENT '示例值',
@@ -56,19 +44,34 @@ CREATE TABLE `{{$prefix}}apidoc_object_props` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='对象属性';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='数据模型属性';
 
-DROP TABLE IF EXISTS `{{$prefix}}apidoc_objects`;
-CREATE TABLE `{{$prefix}}apidoc_objects` (
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_models`;
+CREATE TABLE `{{$prefix}}apidoc_models` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '对象名称',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '数据模型名称',
   `sample` text NOT NULL COMMENT '示例值',
   `description` text NOT NULL COMMENT '描述',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='对象';
+) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='数据模型';
+
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_outputs`;
+CREATE TABLE `{{$prefix}}apidoc_outputs` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `api_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'API ID',
+  `model_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '数据模型ID',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '参数名称',
+  `sample` text NOT NULL COMMENT '示例值',
+  `description` text NOT NULL COMMENT '描述',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
+  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口响应参数';
 
 
 -- API分类
@@ -83,10 +86,10 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5005', '5000', '', '新增响应参数', '', 'admin/output/create');
 
 -- 预定义特殊对象
-INSERT INTO `{{$prefix}}apidoc_objects` (`id`, `name`, `description`) VALUES ('1', 'String', '字符串');
-INSERT INTO `{{$prefix}}apidoc_objects` (`id`, `name`, `description`) VALUES ('2', 'Int', '数字');
-INSERT INTO `{{$prefix}}apidoc_objects` (`id`, `name`, `description`) VALUES ('3', 'Number', '字符串类型数字');
-INSERT INTO `{{$prefix}}apidoc_objects` (`id`, `name`, `description`) VALUES ('4', 'Boolean', '布尔');
-INSERT INTO `{{$prefix}}apidoc_objects` (`id`, `name`, `description`) VALUES ('5', 'Binary', '0，1标记');
-INSERT INTO `{{$prefix}}apidoc_objects` (`id`, `name`, `description`) VALUES ('6', 'Price', '价格');
-INSERT INTO `{{$prefix}}apidoc_objects` (`id`, `name`, `description`) VALUES ('7', 'Array', '数组');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('1', 'String', '字符串');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('2', 'Int', '数字');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('3', 'Number', '字符串类型数字');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('4', 'Boolean', '布尔');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('5', 'Binary', '0，1标记');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('6', 'Price', '价格');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('7', 'Array', '数组');

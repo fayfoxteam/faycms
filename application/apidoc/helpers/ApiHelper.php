@@ -2,8 +2,8 @@
 namespace apidoc\helpers;
 
 use apidoc\models\tables\Apis;
-use apidoc\models\tables\Outputs;
 use apidoc\models\tables\Inputs;
+use apidoc\models\tables\Models;
 
 class ApiHelper{
 	/**
@@ -97,28 +97,25 @@ class ApiHelper{
 	 */
 	public static function getOutputType($type){
 		switch($type){
-			case Outputs::TYPE_ARRAY:
+			case Models::ITEM_ARRAY:
 				return 'Array';
 			break;
-			case Outputs::TYPE_BINARY:
+			case Models::ITEM_BINARY:
 				return 'Binary';
 			break;
-			case Outputs::TYPE_BOOLEAN:
+			case Models::ITEM_BOOLEAN:
 				return 'Boolean';
 			break;
-			case Outputs::TYPE_INT:
+			case Models::ITEM_INT:
 				return 'Int';
 			break;
-			case Outputs::TYPE_NUMBER:
+			case Models::ITEM_NUMBER:
 				return 'Number';
 			break;
-			case Outputs::TYPE_OBJECT:
-				return 'Object';
-			break;
-			case Outputs::TYPE_PRICE:
+			case Models::ITEM_PRICE:
 				return 'Price';
 			break;
-			case Outputs::TYPE_STRING:
+			case Models::ITEM_STRING:
 				return 'String';
 			break;
 		}

@@ -83,21 +83,18 @@ use apidoc\helpers\TrackHelper;
 				<tr>
 					<td><?php echo Html::encode($output['name'])?></td>
 					<td><?php
-						$type = ApiHelper::getOutputType($output['type']);
-						if($type == 'Object'){
+						if($output['model_id'] >= 1000){
 							//对象类型特殊处理
-							echo Html::link(StringHelper::underscore2case($output['name']), array(
-								'model/' . $output['id'], array(
+							echo Html::link($output['model_name'], array(
+								'model/' . $output['model_id'], array(
 									'trackid'=>TrackHelper::getTrackId(),
 								), false
 							));
 						}else{
-							echo $type;
+							echo Html::encode($output['model_name']);
 						}
 					?></td>
-					<td><?php if($type != 'Object'){
-						echo Html::encode($output['sample']);
-					}?></td>
+					<td><?php echo Html::encode($output['sample'])?></td>
 					<td><?php echo $output['description']?></td>
 				</tr>
 			<?php }?>

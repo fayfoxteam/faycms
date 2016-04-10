@@ -6,7 +6,7 @@ use apidoc\helpers\TrackHelper;
 ?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php
-		echo StringHelper::nl2p($output['description']);
+		echo StringHelper::nl2p($model['description']);
 	?></div>
 </div>
 <div class="panel">
@@ -26,16 +26,15 @@ use apidoc\helpers\TrackHelper;
 				<tr>
 					<td><?php echo Html::encode($p['name'])?></td>
 					<td><?php
-						$type = ApiHelper::getOutputType($p['type']);
-						if($type == 'Object'){
+						if($p['type'] >= 1000){
 							//对象类型特殊处理
-							echo Html::link(StringHelper::underscore2case($p['name']), array(
-								'model/' . $p['id'], array(
+							echo Html::link($p['model_name'], array(
+								'model/' . $p['type'], array(
 									'trackid'=>TrackHelper::getTrackId(),
 								), false
 							));
 						}else{
-							echo $type;
+							echo Html::encode($p['model_name']);
 						}
 					?></td>
 					<td><?php echo Html::encode($p['sample'])?></td>
@@ -49,9 +48,9 @@ use apidoc\helpers\TrackHelper;
 <div class="panel">
 	<div class="panel-header"><h2>示例</h2></div>
 	<div class="panel-body">
-	<?php if($output['sample']){?>
+	<?php if($model['sample']){?>
 		<pre id="sample_response" class="jsonview"><?php
-			echo Html::encode($output['sample']);
+			echo Html::encode($model['sample']);
 		?></pre>
 	<?php }else{?>
 		<span>无</span>

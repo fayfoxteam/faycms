@@ -45,8 +45,9 @@ class View{
 				}
 			}else{
 				//对params部分不做url重写
-				if($params){
-					return $base_url . $router . $ext . '?' . http_build_query($params);
+				$query_string = http_build_query($params);
+				if($query_string){
+					return $base_url . $router . $ext . '?' . $query_string;
 				}else{
 					return $base_url . $router . $ext;
 				}

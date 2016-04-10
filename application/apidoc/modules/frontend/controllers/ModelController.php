@@ -9,6 +9,9 @@ use apidoc\models\tables\Outputs;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
 use apidoc\helpers\TrackHelper;
+use apidoc\models\tables\Models;
+use apidoc\models\tables\ModelProps;
+use fay\core\Sql;
 
 class ModelController extends FrontController{
 	public function __construct(){
@@ -40,22 +43,26 @@ class ModelController extends FrontController{
 		}
 		
 		$model_id = $this->form()->getData('model_id');
-		$output = Output::model()->get($model_id, 'id,name,type,description,sample');
-		if(!$output || $output['type'] != Outputs::TYPE_OBJECT){
+		$model = Models::model()->find($model_id);
+		if(!$model || $model['id'] < 1000){
 			throw new HttpException('您访问的页面不存在');
 		}
 		
 		//Layout 参数
 		$this->layout->assign(array(
-			'subtitle'=>StringHelper::underscore2case($output['name']),
-			'title'=>$output['description'],
-			'canonical'=>$this->view->url('model/'.$output['id']),
+			'subtitle'=>$model['name'],
+			'title'=>$model['description'],
+			'canonical'=>$this->view->url('model/'.$model['id']),
 		));
 		
+		$sql = new Sql();
 		//View
 		$this->view->assign(array(
-			'output'=>$output,
-			'properties'=>Output::model()->getByParent($output['id'], Outputs::model()->getPublicFields()),
+			'model'=>$model,
+			'properties'=>$sql->from(array('mp'=>'apidoc_model_props'), array('name', 'sample', 'description', 'type'))
+				->joinLeft(array('m'=>'apidoc_models'), 'mp.type = m.id', array('name AS model_name'))
+				->where('mp.model_id = ' . $model['id'])
+				->fetchAll(),
 		))->render();
 	}
 }

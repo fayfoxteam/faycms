@@ -5,7 +5,6 @@ use fay\core\Model;
 use apidoc\models\tables\Apis;
 use fay\models\Category;
 use apidoc\models\tables\Inputs;
-use apidoc\models\tables\Outputs;
 use fay\core\Sql;
 
 class Api extends Model{
@@ -23,15 +22,15 @@ class Api extends Model{
 		}
 		
 		$sql = new Sql();
-		$outputs = $sql->from(array('ao'=>'apidoc_apis_outputs'), '')
-			->joinLeft(array('o'=>'apidoc_outputs'), 'ao.output_id = o.id', Outputs::model()->getPublicFields())
-			->where('ao.api_id = ' . $id)
-			->fetchAll();
 		$return = array(
 			'api'=>$api,
 			'category'=>Category::model()->get($api['cat_id'], 'alias'),
 			'inputs'=>Inputs::model()->fetchAll('api_id = '.$id, '*', 'required DESC, name ASC'),
-			'outputs'=>$outputs,
+			'outputs'=>$sql->from(array('o'=>'apidoc_outputs'), array('name', 'sample', 'description', 'model_id'))
+				->joinLeft(array('ob'=>'apidoc_models'), 'o.model_id = ob.id', array('name AS model_name'))
+				->where('o.api_id = ' . $id)
+				->order('o.sort, o.name')
+				->fetchAll(),
 		);
 		return $return;
 	}

@@ -11,6 +11,7 @@ use fay\core\db\Table;
  * @property string $sample 示例值
  * @property string $description 描述
  * @property string $since 自从
+ * @property int $user_id 用户ID
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  */
@@ -74,6 +75,7 @@ class Models extends Table{
 			'sample'=>'示例值',
 			'description'=>'描述',
 			'since'=>'自从',
+			'user_id'=>'用户ID',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 		);
@@ -86,6 +88,7 @@ class Models extends Table{
 			'sample'=>'',
 			'description'=>'',
 			'since'=>'trim',
+			'user_id'=>'intval',
 		);
 	}
 	

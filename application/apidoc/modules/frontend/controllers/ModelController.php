@@ -4,13 +4,9 @@ namespace apidoc\modules\frontend\controllers;
 use apidoc\library\FrontController;
 use apidoc\models\tables\Apis;
 use fay\models\Category;
-use apidoc\models\Output;
-use apidoc\models\tables\Outputs;
 use fay\core\HttpException;
-use fay\helpers\StringHelper;
 use apidoc\helpers\TrackHelper;
 use apidoc\models\tables\Models;
-use apidoc\models\tables\ModelProps;
 use fay\core\Sql;
 
 class ModelController extends FrontController{

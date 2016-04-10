@@ -46,7 +46,7 @@ use apidoc\helpers\TrackHelper;
 	</div>
 </div>
 <div class="panel">
-	<div class="panel-header"><h2>示例</h2></div>
+	<div class="panel-header"><h2>示例值</h2></div>
 	<div class="panel-body">
 	<?php if($model['sample']){?>
 		<pre id="sample_response" class="jsonview"><?php

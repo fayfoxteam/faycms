@@ -29,5 +29,5 @@ return array(
 		'frontend'
 	),
 	
-	'debug'=>false,
+	//'debug'=>false,
 );

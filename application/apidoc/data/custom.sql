@@ -56,7 +56,8 @@ CREATE TABLE `{{$prefix}}apidoc_models` (
   `user_id` int(10) unsigned DEFAULT '0' COMMENT '用户ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='数据模型';
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_outputs`;

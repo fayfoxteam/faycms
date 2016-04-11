@@ -70,9 +70,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	</div>
 </div>
 <?php echo F::form()->close()?>
-<?php if(in_array('inputs', $enabled_boxes)){
-	$this->renderPartial('_add_input_parameter_dialog');
-	$this->renderPartial('_edit_input_parameter_dialog');
+<?php if(in_array('props', $enabled_boxes)){
+	$this->renderPartial('_add_prop_dialog');
+	$this->renderPartial('_edit_prop_dialog');
 }?>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/api.js')?>"></script>
 <script>

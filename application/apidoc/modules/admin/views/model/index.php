@@ -1,13 +1,10 @@
-<?php
-use fay\helpers\Html;
-?>
 <div class="row">
 	<div class="col-12">
 		<?php echo F::form('search')->open(null, 'get', array(
 			'class'=>'form-inline',
 		))?>
 			<div class="mb5">
-				试题
+				名称
 				<?php echo F::form('search')->inputText('keywords', array(
 					'class'=>'form-control w200',
 				))?>

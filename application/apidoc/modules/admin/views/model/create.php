@@ -1,6 +1,4 @@
 <?php
-use apidoc\models\tables\Apis;
-
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
 ?>
@@ -72,15 +70,15 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	</div>
 </div>
 <?php echo F::form()->close()?>
-<?php if(in_array('inputs', $enabled_boxes)){
-	$this->renderPartial('_add_input_parameter_dialog');
-	$this->renderPartial('_edit_input_parameter_dialog');
+<?php if(in_array('props', $enabled_boxes)){
+	$this->renderPartial('_add_prop_dialog');
+	$this->renderPartial('_edit_prop_dialog');
 }?>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/api.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/model.js')?>"></script>
 <script>
 $(function(){
-	common.dragsortKey = 'admin_api_box_sort';
-	api.boxes = <?php echo json_encode($enabled_boxes)?>;
-	api.init();
+	common.dragsortKey = 'admin_model_box_sort';
+	model.boxes = <?php echo json_encode($enabled_boxes)?>;
+	model.init();
 });
 </script>

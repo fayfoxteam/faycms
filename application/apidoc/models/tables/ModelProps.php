@@ -8,6 +8,7 @@ use fay\core\db\Table;
  * 
  * @property int $id Id
  * @property int $model_id 数据模型ID
+ * @property int $is_array 是否是数组
  * @property string $name 属性名称
  * @property int $type 类型
  * @property string $sample 示例值
@@ -32,6 +33,7 @@ class ModelProps extends Table{
 			array(array('model_id', 'type'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('since'), 'string', array('max'=>30)),
+			array(array('is_array'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -39,6 +41,7 @@ class ModelProps extends Table{
 		return array(
 			'id'=>'Id',
 			'model_id'=>'数据模型ID',
+			'is_array'=>'是否是数组',
 			'name'=>'属性名称',
 			'type'=>'类型',
 			'sample'=>'示例值',
@@ -53,6 +56,7 @@ class ModelProps extends Table{
 		return array(
 			'id'=>'intval',
 			'model_id'=>'intval',
+			'is_array'=>'intval',
 			'name'=>'trim',
 			'type'=>'intval',
 			'sample'=>'',

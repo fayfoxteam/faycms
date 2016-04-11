@@ -9,6 +9,7 @@ use fay\core\db\Table;
  * @property int $id Id
  * @property int $api_id API ID
  * @property int $model_id 数据模型ID
+ * @property int $is_array 是否是数组
  * @property string $name 参数名称
  * @property string $sample 示例值
  * @property string $description 描述
@@ -34,6 +35,7 @@ class Outputs extends Table{
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('since'), 'string', array('max'=>30)),
+			array(array('is_array'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -42,6 +44,7 @@ class Outputs extends Table{
 			'id'=>'Id',
 			'api_id'=>'API ID',
 			'model_id'=>'数据模型ID',
+			'is_array'=>'是否是数组',
 			'name'=>'参数名称',
 			'sample'=>'示例值',
 			'description'=>'描述',
@@ -57,6 +60,7 @@ class Outputs extends Table{
 			'id'=>'intval',
 			'api_id'=>'intval',
 			'model_id'=>'intval',
+			'is_array'=>'intval',
 			'name'=>'trim',
 			'sample'=>'',
 			'description'=>'',

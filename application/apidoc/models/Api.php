@@ -26,7 +26,7 @@ class Api extends Model{
 			'api'=>$api,
 			'category'=>Category::model()->get($api['cat_id'], 'alias'),
 			'inputs'=>Inputs::model()->fetchAll('api_id = '.$id, '*', 'required DESC, name ASC'),
-			'outputs'=>$sql->from(array('o'=>'apidoc_outputs'), array('name', 'sample', 'description', 'model_id'))
+			'outputs'=>$sql->from(array('o'=>'apidoc_outputs'), array('name', 'sample', 'description', 'model_id', 'is_array'))
 				->joinLeft(array('ob'=>'apidoc_models'), 'o.model_id = ob.id', array('name AS model_name'))
 				->where('o.api_id = ' . $id)
 				->order('o.sort, o.name')

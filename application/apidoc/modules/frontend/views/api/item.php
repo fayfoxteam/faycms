@@ -93,6 +93,9 @@ use apidoc\helpers\TrackHelper;
 						}else{
 							echo Html::encode($output['model_name']);
 						}
+						if($output['is_array']){
+							echo ' []';
+						}
 					?></td>
 					<td><?php echo Html::encode($output['sample'])?></td>
 					<td><?php echo $output['description']?></td>

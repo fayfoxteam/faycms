@@ -40,6 +40,9 @@ class Meta extends Model{
 	 * @return array 返回以文章ID为key的二维数组
 	 */
 	public function mget($post_ids, $fields = null){
+		if(!$post_ids){
+			return array();
+		}
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
 			$fields = $this->default_fields;

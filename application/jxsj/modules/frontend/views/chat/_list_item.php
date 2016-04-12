@@ -28,7 +28,7 @@ if(!$data['is_terminal']){
 		))?>
 	</div>
 	<div class="meta">
-		<?php echo Html::link($data['nickname'], array('u/'.$data['user_id']), array(
+		<?php echo Html::link($data['nickname'], 'javascript:;', array(
 			'class'=>'user-link',
 		))?>
 		<time class="time"><?php echo Date::niceShort($data['create_time'])?></time>
@@ -39,17 +39,11 @@ if(!$data['is_terminal']){
 		<li>
 			<span class="un"><?php
 				if($m['user_id'] == $m['parent_user_id']){
-					echo Html::link($m['nickname'], array(
-						'u/'.$m['user_id'],
-					)), ' : ';
+					echo Html::link($m['nickname'], 'javascript:;'), ' : ';
 				}else{
-					echo Html::link($m['nickname'], array(
-						'u/'.$m['user_id'],
-					)),
+					echo Html::link($m['nickname'], 'javascript:;'),
 					' 回复 ',
-					Html::link($m['parent_nickname'], array(
-						'u/'.$m['parent_user_id'],
-					)),
+					Html::link($m['parent_nickname'], 'javascript:;'),
 					' : ';
 				}
 			?></span>

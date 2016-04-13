@@ -103,67 +103,54 @@ var model = {
 					last.poshytip('destroy');
 				},
 				'beforeSubmit': function(form){
+					//获取输入值
+					var name = form.find('[name="name"]').val();
+					var model = form.find('[name="model"]').val();
+					var is_array = form.find('[name="is_array"]:checked').val();
+					var description = form.find('[name="description"]').val();
+					var sample = form.find('[name="sample"]').val();
+					var since = form.find('[name="since"]').val();
+					
 					if(form.attr('id').indexOf('add') == 0){
 						//添加
 						var timestamp = new Date().getTime();
-						//获取输入值
-						var name = form.find('[name="name"]').val();
-						var type = form.find('[name="type"]').val();
-						var required = form.find('[name="required"]:checked').val();
-						var description = form.find('[name="description"]').val();
-						var sample = form.find('[name="sample"]').val();
-						var since = form.find('[name="since"]').val();
 						
-						//插入表格行
-						$('#prop-table tbody').append(['<tr id="new-', timestamp, '" valign="top">',
-							'<td>',
-								'<input type="hidden" name="inputs[', timestamp, '][name]" value="', name, '" class="input-name" />',
-								'<input type="hidden" name="inputs[', timestamp, '][type]" value="', type, '" class="input-type" />',
-								'<input type="hidden" name="inputs[', timestamp, '][required]" value="', required, '" class="input-required" />',
-								'<input type="hidden" name="inputs[', timestamp, '][description]" value="', description, '" class="input-description" />',
-								'<input type="hidden" name="inputs[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
-								'<input type="hidden" name="inputs[', timestamp, '][since]" value="', since, '" class="input-since" />',
-								'<strong>', system.encode(name), '</strong>',
-								'<div class="row-actions">',
-									'<a href="#edit-prop-dialog" class="edit-prop-link">编辑</a>',
-									'<a href="javascript:;" class="fc-red remove-prop-link">删除</a>',
-								'</div>',
-							'</td>',
-							'<td>', model.typeMap[type], '</td>',
-							'<td>', (required == 1 ? '<span class="fc-green">是</span>' : '否'), '</td>',
-							'<td>', system.encode(since), '</td>',
-							'<td>', system.encode(description), '</td>',
-						'</tr>'].join(''));
+						//插入行
+						$('#model-list').append(['<div class="dragsort-item">',
+							'<input type="hidden" name="prop[', timestamp, '][name]" value="', name, '" class="input-name" />',
+							'<input type="hidden" name="prop[', timestamp, '][model]" value="', model, '" class="input-model" />',
+							'<input type="hidden" name="prop[', timestamp, '][is_array]" value="', is_array, '" class="input-is-array" />',
+							'<input type="hidden" name="prop[', timestamp, '][description]" value="', description, '" class="input-description" />',
+							'<input type="hidden" name="prop[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
+							'<input type="hidden" name="prop[', timestamp, '][since]" value="', since, '" class="input-since" />',
+							'<a class="dragsort-rm" href="javascript:;"></a>',
+							'<a class="dragsort-item-selector"></a>',
+							'<div class="dragsort-item-container">',
+								'<span class="ib wp25"><strong>', name, '</strong></span>',
+								'<span class="ib wp15">', model, (is_array == '1' ? ' []' : ''), '</span>',
+								'<span class="ib">', description, '</span>',
+							'</div>',
+						'</div>'].join(''));
 						model.editProp();
 						$('#prop-table tbody tr').removeClass('alternate');
 						$('#prop-table tbody tr:even').addClass('alternate');
 					}else{
 						//编辑
 						var selector = form.find('[name="selector"]').val();
-						$input = $('#'+selector);
-						//获取输入值
-						var name = form.find('[name="name"]').val();
-						var type = form.find('[name="type"]').val();
-						var required = form.find('[name="required"]:checked').val();
-						console.log(required);
-						var description = form.find('[name="description"]').val();
-						var sample = form.find('[name="sample"]').val();
-						var since = form.find('[name="since"]').val();
+						$prop = $('#'+selector);
 						
 						//编辑隐藏域
-						$input.find('.input-name').val(name);
-						$input.find('.input-type').val(type);
-						$input.find('.input-required').val(required);
-						$input.find('.input-description').val(description);
-						$input.find('.input-sample').val(sample);
-						$input.find('.input-since').val(since);
+						$prop.find('.input-name').val(name);
+						$prop.find('.input-model').val(model);
+						$prop.find('.input-is-array').val(is_array);
+						$prop.find('.input-description').val(description);
+						$prop.find('.input-sample').val(sample);
+						$prop.find('.input-since').val(since);
 						
-						//修改表格行显示
-						$input.find('td:eq(0) strong').text(name);
-						$input.find('td:eq(1)').text(model.typeMap[type]);
-						$input.find('td:eq(2)').html(required == 1 ? '<span class="fc-green">是</span>' : '否');
-						$input.find('td:eq(3)').text(since);
-						$input.find('td:eq(4)').text(description);
+						//修改行显示
+						$prop.find('span:eq(0) strong').text(name);
+						$prop.find('span:eq(1)').text(model + (is_array == '1' ? ' []' : ''));
+						$prop.find('span:eq(2)').text(description);
 					}
 					
 					$.fancybox.close();

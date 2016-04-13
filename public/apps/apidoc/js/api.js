@@ -89,16 +89,17 @@ var api = {
 					last.poshytip('destroy');
 				},
 				'beforeSubmit': function(form){
+					//获取输入值
+					var name = form.find('[name="name"]').val();
+					var type = form.find('[name="type"]').val();
+					var required = form.find('[name="required"]:checked').val();
+					var description = form.find('[name="description"]').val();
+					var sample = form.find('[name="sample"]').val();
+					var since = form.find('[name="since"]').val();
+					
 					if(form.attr('id').indexOf('add') == 0){
 						//添加
 						var timestamp = new Date().getTime();
-						//获取输入值
-						var name = form.find('[name="name"]').val();
-						var type = form.find('[name="type"]').val();
-						var required = form.find('[name="required"]:checked').val();
-						var description = form.find('[name="description"]').val();
-						var sample = form.find('[name="sample"]').val();
-						var since = form.find('[name="since"]').val();
 						
 						//插入表格行
 						$('#input-parameter-table tbody').append(['<tr id="new-', timestamp, '" valign="top">',
@@ -127,14 +128,6 @@ var api = {
 						//编辑
 						var selector = form.find('[name="selector"]').val();
 						$input = $('#'+selector);
-						//获取输入值
-						var name = form.find('[name="name"]').val();
-						var type = form.find('[name="type"]').val();
-						var required = form.find('[name="required"]:checked').val();
-						console.log(required);
-						var description = form.find('[name="description"]').val();
-						var sample = form.find('[name="sample"]').val();
-						var since = form.find('[name="since"]').val();
 						
 						//编辑隐藏域
 						$input.find('.input-name').val(name);

@@ -8,9 +8,9 @@ return array(
 	 * 数据库参数
 	*/
 	'db'=>array(
-		'host'=>'localhost',					//数据库服务器
-		'user'=>'faycms',//用户名
-		'password'=>'jDoBjHwVq6q2hQVN',//密码
+		'host'=>'112.124.64.22',					//数据库服务器
+		'user'=>'fayfox',//用户名
+		'password'=>'800998ecf8427e',//密码
 		'dbname'=>'faycms_jxsj',						//数据库名
 		'charset'=>'utf8',						//数据库编码方式
 		'table_prefix'=>'faycms_',					//数据库表前缀

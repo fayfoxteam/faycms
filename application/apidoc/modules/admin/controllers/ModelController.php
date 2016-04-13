@@ -9,6 +9,7 @@ use apidoc\models\tables\Models;
 use fay\core\Response;
 use fay\models\Setting;
 use fay\helpers\StringHelper;
+use apidoc\models\tables\ModelProps;
 
 /**
  * 数据模型
@@ -34,6 +35,11 @@ class ModelController extends AdminController{
 			'sample', 'props'
 		),
 	);
+	
+	public function __construct(){
+		parent::__construct();
+		$this->layout->current_directory = 'api';
+	}
 	
 	public function index(){
 		$this->layout->subtitle = '数据模型';
@@ -89,7 +95,21 @@ class ModelController extends AdminController{
 			$data['user_id'] = $this->current_user;
 			$model_id = Models::model()->insert($data);
 			
-			
+			$props = $this->input->post('props');
+			$i = 0;
+			foreach($props as $p){
+				$i++;
+				$type_model = Models::model()->fetchRow(array(
+					'name = ?'=>$p['model_name'],
+				), 'id');
+				$prop = ModelProps::model()->fillData($p, true, 'insert');
+				$prop['create_time'] = $this->current_time;
+				$prop['last_modified_time'] = $this->current_time;
+				$prop['model_id'] = $model_id;
+				$prop['type'] = $type_model['id'];
+				$prop['sort'] = $i;
+				ModelProps::model()->insert($prop);
+			}
 			
 			Response::notify('success', '数据模型添加成功', array('admin/model/edit', array(
 				'id'=>$model_id,
@@ -121,6 +141,14 @@ class ModelController extends AdminController{
 		}
 		$this->view->models = $modelMap;
 		
+		//属性表单规则
+		$this->form('prop')->setModel(ModelProps::model())
+			->setRule(array('model', 'required'))
+			->setRule(array('model', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
+			->setLabels(array(
+				'model'=>'类型',
+			));
+		
 		$this->view->render();
 	}
 	
@@ -146,9 +174,42 @@ class ModelController extends AdminController{
 			$data['last_modified_time'] = $this->current_time;
 			Models::model()->update($data, $model_id);
 			
+			$props = $this->input->post('props');
+			//删除已被删除的输入参数
+			if($props){
+				ModelProps::model()->delete(array(
+					'model_id = ?'=>$model_id,
+					'id NOT IN (?)'=>array_keys($props),
+				));
+			}else{
+				ModelProps::model()->delete(array(
+					'model_id = ?'=>$model_id,
+				));
+			}
+			//获取已存在的输入参数
+			$old_prop_ids = ModelProps::model()->fetchCol('id', array(
+				'model_id = ?'=>$model_id,
+			));
 			
+			$i = 0;
+			foreach($props as $prop_id => $prop){
+				$i++;
+				if(in_array($prop_id, $old_prop_ids)){
+					$prop = ModelProps::model()->fillData($prop, true, 'update');
+					$prop['sort'] = $i;
+					$prop['last_modified_time'] = $this->current_time;
+					ModelProps::model()->update($prop, $prop_id);
+				}else{
+					$prop = ModelProps::model()->fillData($prop, true, 'insert');
+					$prop['model_id'] = $model_id;
+					$prop['sort'] = $i;
+					$prop['create_time'] = $this->current_time;
+					$prop['last_modified_time'] = $this->current_time;
+					ModelProps::model()->insert($prop);
+				}
+			}
 			
-			Response::notify('success', '数据模型添加成功', array('admin/model/edit', array(
+			Response::notify('success', '数据模型编辑成功', array('admin/model/edit', array(
 				'id'=>$model_id,
 			)));
 		}
@@ -181,6 +242,23 @@ class ModelController extends AdminController{
 		}
 		$this->view->models = $modelMap;
 		
+		//属性表单规则
+		$this->form('prop')->setModel(ModelProps::model())
+			->setRule(array('model', 'required'))
+			->setRule(array('model', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
+			->setRule(array('model', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+			->setLabels(array(
+				'model'=>'类型',
+			));
+			
+		//原属性
+		$sql = new Sql();
+		$this->view->props = $sql->from(array('mp'=>ModelProps::model()->getName()))
+			->joinLeft(array('m'=>Models::model()->getName()), 'mp.type = m.id', 'name AS type_name')
+			->where('mp.model_id = ?', $model_id)
+			->order('mp.sort')
+			->fetchAll();
+		
 		$this->view->render();
 	}
 	
@@ -209,5 +287,15 @@ class ModelController extends AdminController{
 		}
 		
 		Response::json($modelMap);
+	}
+	
+	public function isNameExist(){
+		if(Models::model()->fetchRow(array(
+			'name = ?'=>$this->input->request('name', 'trim'),
+		))){
+			echo Response::json();
+		}else{
+			echo Response::json('', 0, '模型不存在');
+		}
 	}
 }

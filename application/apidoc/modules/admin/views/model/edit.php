@@ -74,11 +74,11 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	$this->renderPartial('_add_prop_dialog');
 	$this->renderPartial('_edit_prop_dialog');
 }?>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/api.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/model.js')?>"></script>
 <script>
 $(function(){
-	common.dragsortKey = 'admin_api_box_sort';
-	api.boxes = <?php echo json_encode($enabled_boxes)?>;
-	api.init();
+	common.dragsortKey = 'admin_model_box_sort';
+	model.boxes = <?php echo json_encode($enabled_boxes)?>;
+	model.init();
 });
 </script>

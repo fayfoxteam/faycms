@@ -15,10 +15,11 @@ use fay\helpers\Html;
 					</tr>
 					<tr>
 						<th class="adaption">类型<em class="required">*</em></th>
-						<td><?php echo F::form('prop')->inputText('model', array(
+						<td><?php echo F::form('prop')->inputText('type_name', array(
 							'class'=>'form-control',
-							'id'=>'add-prop-model',
-						));?></td>
+							'id'=>'add-prop-model-name',
+							'data-ajax-param-name'=>'name',
+						), 'String');?></td>
 					</tr>
 					<tr>
 						<th class="adaption">是否数组<em class="required">*</em></th>

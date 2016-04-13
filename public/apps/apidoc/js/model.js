@@ -47,13 +47,13 @@ var model = {
 						});
 					},
 					'onStart':function(o){
-						var $container = $(o).parent().parent();
+						var $container = $(o).parent().parent().parent().parent();
 						//初始化编辑框
 						$('#editing-prop-name').text($container.find('.input-name').val());
-						$('#edit-prop-form').find('[name="selector"]').val($container.parent().attr('id'));
+						$('#edit-prop-form').find('[name="selector"]').val($container.attr('id'));
 						$('#edit-prop-form').find('[name="name"]').val($container.find('.input-name').val());
-						$('#edit-prop-form').find('[name="type"]').val($container.find('.input-type').val());
-						$('#edit-prop-form').find('[name="required"][value="'+$container.find('.input-required').val()+'"]').attr('checked', 'checked');
+						$('#edit-prop-form').find('[name="model"]').val($container.find('.input-model').val());
+						$('#edit-prop-form').find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
 						$('#edit-prop-form').find('[name="description"]').val($container.find('.input-description').val());
 						$('#edit-prop-form').find('[name="sample"]').val($container.find('.input-sample').val());
 						$('#edit-prop-form').find('[name="since"]').val($container.find('.input-since').val());
@@ -67,7 +67,15 @@ var model = {
 	 */
 	'autocomplete': function(){
 		system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
-			$("#add-prop-model").autocomplete({
+			$("#add-prop-model-name").autocomplete({
+				"url" : system.url('admin/model/search'),
+				'startSuggestLength': 0,
+				'onSelect': function(obj, data){
+					obj.val(data.name);
+				},
+				'zindex': '1150'
+			});
+			$("#edit-prop-model-name").autocomplete({
 				"url" : system.url('admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
@@ -105,7 +113,7 @@ var model = {
 				'beforeSubmit': function(form){
 					//获取输入值
 					var name = form.find('[name="name"]').val();
-					var model = form.find('[name="model"]').val();
+					var type_name = form.find('[name="type_name"]').val();
 					var is_array = form.find('[name="is_array"]:checked').val();
 					var description = form.find('[name="description"]').val();
 					var sample = form.find('[name="sample"]').val();
@@ -116,24 +124,27 @@ var model = {
 						var timestamp = new Date().getTime();
 						
 						//插入行
-						$('#model-list').append(['<div class="dragsort-item">',
-							'<input type="hidden" name="prop[', timestamp, '][name]" value="', name, '" class="input-name" />',
-							'<input type="hidden" name="prop[', timestamp, '][model]" value="', model, '" class="input-model" />',
-							'<input type="hidden" name="prop[', timestamp, '][is_array]" value="', is_array, '" class="input-is-array" />',
-							'<input type="hidden" name="prop[', timestamp, '][description]" value="', description, '" class="input-description" />',
-							'<input type="hidden" name="prop[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
-							'<input type="hidden" name="prop[', timestamp, '][since]" value="', since, '" class="input-since" />',
+						$('#model-list').append(['<div class="dragsort-item" id="model-', timestamp, '">',
+							'<input type="hidden" name="props[', timestamp, '][name]" value="', name, '" class="input-name" />',
+							'<input type="hidden" name="props[', timestamp, '][type_name]" value="', type_name, '" class="input-model" />',
+							'<input type="hidden" name="props[', timestamp, '][is_array]" value="', is_array, '" class="input-is-array" />',
+							'<input type="hidden" name="props[', timestamp, '][description]" value="', description, '" class="input-description" />',
+							'<input type="hidden" name="props[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
+							'<input type="hidden" name="props[', timestamp, '][since]" value="', since, '" class="input-since" />',
 							'<a class="dragsort-rm" href="javascript:;"></a>',
 							'<a class="dragsort-item-selector"></a>',
 							'<div class="dragsort-item-container">',
-								'<span class="ib wp25"><strong>', name, '</strong></span>',
-								'<span class="ib wp15">', model, (is_array == '1' ? ' []' : ''), '</span>',
-								'<span class="ib">', description, '</span>',
+								'<span class="ib wp25">',
+									'<strong>', name, '</strong>',
+									'<p>',
+										'<a href="#edit-prop-dialog" class="edit-prop-link">编辑</a>',
+									'</p>',
+								'</span>',
+								'<span class="ib wp15 vat">', type_name, (is_array == '1' ? ' []' : ''), '</span>',
+								'<span class="ib vat">', description, '</span>',
 							'</div>',
 						'</div>'].join(''));
 						model.editProp();
-						$('#prop-table tbody tr').removeClass('alternate');
-						$('#prop-table tbody tr:even').addClass('alternate');
 					}else{
 						//编辑
 						var selector = form.find('[name="selector"]').val();
@@ -141,7 +152,7 @@ var model = {
 						
 						//编辑隐藏域
 						$prop.find('.input-name').val(name);
-						$prop.find('.input-model').val(model);
+						$prop.find('.input-model').val(type_name);
 						$prop.find('.input-is-array').val(is_array);
 						$prop.find('.input-description').val(description);
 						$prop.find('.input-sample').val(sample);
@@ -149,13 +160,13 @@ var model = {
 						
 						//修改行显示
 						$prop.find('span:eq(0) strong').text(name);
-						$prop.find('span:eq(1)').text(model + (is_array == '1' ? ' []' : ''));
+						$prop.find('span:eq(1)').text(type_name + (is_array == '1' ? ' []' : ''));
 						$prop.find('span:eq(2)').text(description);
 					}
 					
 					$.fancybox.close();
 					return false;
-				},
+				}
 			}, rules, labels);
 		});
 	},

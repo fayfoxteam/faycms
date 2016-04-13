@@ -228,6 +228,7 @@ class ApiController extends AdminController{
 			//删除已被删除的输入参数
 			if($inputs){
 				Inputs::model()->delete(array(
+					'api_id = ?'=>$api_id,
 					'id NOT IN (?)'=>array_keys($inputs),
 				));
 			}else{
@@ -253,7 +254,7 @@ class ApiController extends AdminController{
 				}
 			}
 			
-			Response::notify('success', 'API添加成功', array('admin/api/edit', array(
+			Response::notify('success', 'API编辑成功', array('admin/api/edit', array(
 				'id'=>$api_id,
 			)));
 		}

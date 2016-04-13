@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\Html;
-use apidoc\models\tables\Inputs;
 ?>
 <div class="hide">
 	<div id="edit-prop-dialog" class="dialog">
@@ -17,9 +16,11 @@ use apidoc\models\tables\Inputs;
 					</tr>
 					<tr>
 						<th class="adaption">类型<em class="required">*</em></th>
-						<td><?php echo F::form('prop')->select('type', Inputs::getTypes(), array(
-							'class'=>'form-control w150 ib',
-						), Inputs::TYPE_STRING)?></td>
+						<td><?php echo F::form('prop')->inputText('type_name', array(
+							'class'=>'form-control',
+							'id'=>'edit-prop-model-name',
+							'data-ajax-param-name'=>'name',
+						), 'String');?></td>
 					</tr>
 					<tr>
 						<th class="adaption">是否数组<em class="required">*</em></th>

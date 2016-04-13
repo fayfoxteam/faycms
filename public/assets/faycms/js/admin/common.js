@@ -667,7 +667,7 @@ var common = {
 										'</div>',
 									'</div>'].join(''))
 									.addClass('fl')
-									.parent().after('<div id="wmd-preview" class="wmd-preview h350"></div>');
+									.parent().after('<div id="wmd-preview" class="wmd-preview '+$('#wmd-input').attr('class')+'"></div>');
 								
 								$('#wmd-button-bar').on('click', '#wmd-edit-model', function(){
 									$('#wmd-input').show().css('width', '98.9%');

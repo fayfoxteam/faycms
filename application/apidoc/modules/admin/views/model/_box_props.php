@@ -14,55 +14,47 @@ use fay\helpers\Html;
 			))?>
 		</div>
 		<div class="dragsort-list" id="model-list">
-			<div class="dragsort-item">
-				<input type="hidden" name="prop[][name]" value="" />
-				<input type="hidden" name="prop[][model]" value="" />
-				<input type="hidden" name="prop[][is_array]" value="" />
-				<input type="hidden" name="prop[][description]" value="" />
-				<input type="hidden" name="prop[][sample]" value="" />
-				<input type="hidden" name="prop[][since]" value="" />
-				<a class="dragsort-rm" href="javascript:;"></a>
-				<a class="dragsort-item-selector"></a>
-				<div class="dragsort-item-container">
-					<span class="ib wp25"><strong>post</strong></span>
-					<span class="ib wp15">Post []</span>
-					<span class="ib">zsxcv</span>
-				</div>
-			</div>
 		<?php if(isset($props)){?>
 			<?php foreach($props as $p){?>
-			<div class="dragsort-item">
+			<div class="dragsort-item" id="model-<?php echo $p['id']?>">
 				<?php
-					echo Html::inputHidden("prop[{$p['id']}][name]", $p['name'], array(
+					echo Html::inputHidden("props[{$p['id']}][name]", $p['name'], array(
 						'class'=>'input-name',
 					));
-					echo Html::inputHidden("prop[{$p['id']}][model]", $p['model'], array(
+					echo Html::inputHidden("props[{$p['id']}][type_name]", $p['type_name'], array(
 						'class'=>'input-model',
 					));
-					echo Html::inputHidden("prop[{$p['id']}][is_array]", $p['is_array'], array(
+					echo Html::inputHidden("props[{$p['id']}][is_array]", $p['is_array'], array(
 						'class'=>'input-is-array',
 					));
-					echo Html::inputHidden("prop[{$p['id']}][description]", $p['description'], array(
+					echo Html::inputHidden("props[{$p['id']}][description]", $p['description'], array(
 						'class'=>'input-description',
 					));
-					echo Html::inputHidden("prop[{$p['id']}][sample]", $p['sample'], array(
+					echo Html::inputHidden("props[{$p['id']}][sample]", $p['sample'], array(
 						'class'=>'input-sample',
 					));
-					echo Html::inputHidden("prop[{$p['id']}][since]", $p['since'], array(
+					echo Html::inputHidden("props[{$p['id']}][since]", $p['since'], array(
 						'class'=>'input-since',
 					));
 				?>
 				<a class="dragsort-rm" href="javascript:;"></a>
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
-					<span class="ib wp25"><strong><?php echo Html::encode($p['name'])?></strong></span>
-					<span class="ib wp15"><?php
-						echo Html::encode($p['model_name']);
+					<span class="ib wp25">
+						<strong><?php echo Html::encode($p['name'])?></strong>
+						<p><?php
+							echo Html::link('编辑', '#edit-prop-dialog', array(
+								'class'=>'edit-prop-link',
+							));
+						?></p>
+					</span>
+					<span class="ib wp15 vat"><?php
+						echo Html::encode($p['type_name']);
 						if($p['is_array']){
 							echo ' []';
 						}
 					?></span>
-					<span><?php echo Html::encode($p['description'])?></span>
+					<span class="vat"><?php echo Html::encode($p['description'])?></span>
 				</div>
 			</div>
 			<?php }?>
@@ -70,3 +62,8 @@ use fay\helpers\Html;
 		</div>
 	</div>
 </div>
+<script>
+$(function(){
+	model.validProp(<?php echo json_encode(F::form('prop')->getJsRules())?>, <?php echo json_encode(F::form('prop')->getLabels())?>);
+});
+</script>

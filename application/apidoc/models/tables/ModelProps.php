@@ -14,6 +14,7 @@ use fay\core\db\Table;
  * @property string $sample 示例值
  * @property string $description 描述
  * @property string $since 自从
+ * @property int $sort 排序值
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  */
@@ -31,9 +32,12 @@ class ModelProps extends Table{
 		return array(
 			array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('model_id', 'type'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('since'), 'string', array('max'=>30)),
 			array(array('is_array'), 'range', array('range'=>array(0, 1))),
+			
+			array(array('name'), 'required'),
 		);
 	}
 
@@ -47,6 +51,7 @@ class ModelProps extends Table{
 			'sample'=>'示例值',
 			'description'=>'描述',
 			'since'=>'自从',
+			'sort'=>'排序值',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 		);
@@ -62,6 +67,7 @@ class ModelProps extends Table{
 			'sample'=>'',
 			'description'=>'',
 			'since'=>'trim',
+			'sort'=>'intval',
 		);
 	}
 	

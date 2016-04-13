@@ -1,7 +1,7 @@
 <?php
 echo F::form()->textarea('description', array(
 	'id'=>'wmd-input',
-	'class'=>'h350',
+	'class'=>'h200',
 	'style'=>'width:49%;',
 	'wrapper'=>array(
 		'tag'=>'div',

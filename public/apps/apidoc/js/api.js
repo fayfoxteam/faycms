@@ -147,7 +147,7 @@ var api = {
 					
 					$.fancybox.close();
 					return false;
-				},
+				}
 			}, rules, labels);
 		});
 	},

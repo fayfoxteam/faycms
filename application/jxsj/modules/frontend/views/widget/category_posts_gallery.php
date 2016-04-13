@@ -5,10 +5,10 @@ use fay\models\File;
 <div class="box" id="<?php echo Html::encode($alias);?>">
 	<div class="box-title">
 		<h3><?php
-			echo Html::link('', array('cat/'.$data['top']), array(
+			echo Html::link('', array('cat/'.$config['top']), array(
 				'class'=>'more-link',
 			));
-			echo Html::encode($data['title']);
+			echo Html::encode($config['title']);
 		?></h3>
 	</div>
 	<div class="box-content">
@@ -17,14 +17,14 @@ use fay\models\File;
 				<div class="box-gallery-container">
 					<ul class="box-gallery">
 					<?php foreach($posts as $p){
-						echo '<li>', Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+						echo '<li>', Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
 							'dw'=>203,
 							'dh'=>132,
-						)), array(str_replace('{$id}', $p['id'], $data['uri'])), array(
+						)), $p['post']['link'], array(
 							'encode'=>false,
-							'alt'=>$p['title'],
-							'title'=>$p['title'],
-						)), Html::link($p['title'], array(str_replace('{$id}', $p['id'], $data['uri'])), array(
+							'alt'=>$p['post']['title'],
+							'title'=>$p['post']['title'],
+						)), Html::link($p['post']['title'], $p['post']['link'], array(
 							'class'=>'title',
 						)), '</li>';
 					}?>

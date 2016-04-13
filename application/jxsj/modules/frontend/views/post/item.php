@@ -11,7 +11,7 @@ use fay\models\File;
 		<?php
 		//直接引用widget
 		F::widget()->render('fay/category_posts', array(
-			'top'=>$post['cat_id'],
+			'top'=>$post['post']['cat_id'],
 			'title'=>'最新添加',
 			'order'=>'publish_time',
 			'template'=>'frontend/widget/category_posts',
@@ -22,22 +22,22 @@ use fay\models\File;
 	<div class="ml240">
 		<div class="box" id="post-item">
 			<div class="box-title">
-				<h3><?php echo Html::link($post['cat_title'], array('cat/'.$post['cat_id']))?></h3>
+				<h3><?php echo Html::link($post['category']['title'], array('cat/'.$post['post']['cat_id']))?></h3>
 			</div>
 			<div class="box-content">
 				<div class="st"><div class="sl"><div class="sr"><div class="sb">
 					<div class="p16">
-						<h1><?php echo Html::encode($post['title'])?></h1>
+						<h1><?php echo Html::encode($post['post']['title'])?></h1>
 						<div class="meta">
-							发布时间：<?php echo Date::niceShort($post['publish_time'])?>
-							<span class="ml10">阅读数：<?php echo $post['views']?></span>
+							发布时间：<?php echo Date::niceShort($post['post']['publish_time'])?>
+							<span class="ml10">阅读数：<?php echo $post['meta']['views']?></span>
 						</div>
 						<div class="post-content">
 						<?php
-							if($post['thumbnail']){
-								echo Html::img($post['thumbnail'], File::PIC_ORIGINAL);
+							if($post['post']['thumbnail']){
+								echo Html::img($post['post']['thumbnail'], File::PIC_ORIGINAL);
 							}
-							echo $post['content'];
+							echo $post['post']['content'];
 							if(!empty($post['files'])){
 								echo '附件：';
 								foreach($post['files'] as $f){

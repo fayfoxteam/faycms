@@ -51,6 +51,21 @@ class Models extends Table{
 	 */
 	const ITEM_ARRAY = 7;
 	
+	/**
+	 * 特殊对象 - 网址
+	 */
+	const ITEM_URL = 8;
+	
+	/**
+	 * 特殊对象 - 小数
+	 */
+	const ITEM_FLOAT = 9;
+	
+	/**
+	 * 特殊对象 - 日期时间
+	 */
+	const ITEM_DATETIME = 10;
+	
 	protected $_name = 'apidoc_models';
 	
 	/**

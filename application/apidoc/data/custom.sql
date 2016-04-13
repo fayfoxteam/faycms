@@ -94,3 +94,6 @@ INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('4'
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('5', 'Binary', '0，1标记');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('6', 'Price', '价格');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('7', 'Array', '数组');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('8', 'Url', '网址');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('9', 'Float', '小数');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('10', 'Datetime', '日期时间');

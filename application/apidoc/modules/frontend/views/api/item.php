@@ -72,10 +72,10 @@ use apidoc\helpers\TrackHelper;
 		<table>
 			<thead>
 				<tr>
-					<th>名称</th>
-					<th>类型</th>
-					<th>示例值</th>
-					<th>描述</th>
+					<th width="25%">名称</th>
+					<th width="20%">类型</th>
+					<th width="15%">示例值</th>
+					<th width="40%">描述</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -92,6 +92,9 @@ use apidoc\helpers\TrackHelper;
 							));
 						}else{
 							echo Html::encode($output['model_name']);
+						}
+						if($output['is_array']){
+							echo ' []';
 						}
 					?></td>
 					<td><?php echo Html::encode($output['sample'])?></td>

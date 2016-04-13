@@ -2,9 +2,10 @@ jQuery.fn.extend({
 	autocomplete: function(options){
 		options = options || {};
 		var settings = {
-			'maxHeight':200,
-			'startSuggestLength':3,
-			'onSelect':function(obj, data){}//选中某项后执行
+			'maxHeight': 200,
+			'startSuggestLength': 3,
+			'zindex': null,
+			'onSelect': function(obj, data){}//选中某项后执行
 		};
 		$.each(options, function(i, n){
 			settings[i] = n;
@@ -37,7 +38,6 @@ jQuery.fn.extend({
 				s = s.replace(/ /g,"&nbsp;");
 				s = s.replace(/\'/g, "&#39;");
 				s = s.replace(/\"/g, "&quot;");
-				s = s.replace(/\n/g, "<br>");
 				return s;
 			},
 			'getSuggests':function(key){
@@ -93,7 +93,9 @@ jQuery.fn.extend({
 					app.container.find('ul').html('');
 					$.each(data, function(i, n){
 						if(app.lastText){
-							var text = app.encode(n.title).replace(eval('/'+app.lastText.replace(/\//g, '\\/')+'/g'), '<span class="highlight">'+app.lastText+'</span>');
+							var text = app.encode(n.title).replace(eval('/'+app.lastText.replace(/\//g, '\\/')+'/ig'), function(str){
+								return '<span class="highlight">'+str+'</span>'
+							});
 						}else{
 							var text = app.encode(n.title);
 						}
@@ -227,8 +229,12 @@ jQuery.fn.extend({
 			},
 			'init':function(){
 				app.obj.attr("autocomplete", "off");
+				var style = 'width:'+app.width+';top:'+app.top+';left:'+app.left+';';
+				if(settings.zindex){
+					style += 'z-index:'+settings.zindex+';';
+				}
 				$('body').append([
-					'<div class="fac-container" style="width:'+app.width+';top:'+app.top+';left:'+app.left+';">',
+					'<div class="fac-container" style="'+style+'">',
 						'<ul></ul>',
 					'</div>'
 				].join(''));

@@ -454,6 +454,7 @@ class Post extends Model{
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), $post_fields)
 			->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
+			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id', '')
 			->where(array(
 				'deleted = 0',
 				'publish_time < '.\F::app()->current_time,
@@ -483,6 +484,9 @@ class Post extends Model{
 			$sql->where($conditions);
 		}
 		$posts = $sql->fetchAll();
+		if(!$posts){
+			return array();
+		}
 		
 		$post_ids = ArrayHelper::column($posts, 'id');
 		//meta

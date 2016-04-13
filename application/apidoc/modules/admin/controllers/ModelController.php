@@ -8,6 +8,7 @@ use apidoc\models\tables\Outputs;
 use apidoc\models\tables\Models;
 use fay\core\Response;
 use fay\models\Setting;
+use fay\helpers\StringHelper;
 
 /**
  * 数据模型
@@ -112,6 +113,14 @@ class ModelController extends AdminController{
 				'enabled_boxes'=>$enabled_boxes,
 			));
 		
+		//所有数据模型
+		$models = Models::model()->fetchAll(array(), 'id,name,description');
+		$modelMap = array();
+		foreach($models as $m){
+			$modelMap[$m['id']] = $m['name'] . '(' . StringHelper::niceShort($m['description'], 10) . ')';
+		}
+		$this->view->models = $modelMap;
+		
 		$this->view->render();
 	}
 	
@@ -164,10 +173,41 @@ class ModelController extends AdminController{
 				'enabled_boxes'=>$enabled_boxes,
 			));
 		
+		//所有数据模型
+		$models = Models::model()->fetchAll(array(), 'id,name,description');
+		$modelMap = array();
+		foreach($models as $m){
+			$modelMap[$m['id']] = $m['name'] . '(' . StringHelper::niceShort($m['description'], 10) . ')';
+		}
+		$this->view->models = $modelMap;
+		
 		$this->view->render();
 	}
 	
 	public function remove(){
 		
+	}
+	
+	public function search(){
+		$keywords = $this->input->request('key', 'trim');
+		
+		$sql = new Sql();
+		$models = $sql->from(array('m'=>Models::model()->getName()), array('id', 'name', 'description'))
+			->orWhere(array(
+				'name LIKE ?'=>"%{$keywords}%",
+				'description LIKE ?'=>"%{$keywords}%",
+			))
+			->fetchAll();
+		
+		$modelMap = array();
+		foreach($models as $m){
+			$modelMap[] = array(
+				'id'=>$m['id'],
+				'name'=>$m['name'],
+				'title'=>$m['name'] . '(' . StringHelper::niceShort(strip_tags($m['description']), 10) . ')',
+			);
+		}
+		
+		Response::json($modelMap);
 	}
 }

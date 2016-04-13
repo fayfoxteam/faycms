@@ -9,6 +9,8 @@ use fay\models\Message;
 use fay\models\tables\Users;
 use fay\helpers\Request;
 use fay\core\Response;
+use fay\services\User;
+use fay\helpers\StringHelper;
 
 class ChatController extends FrontController{
 	public function index(){
@@ -39,12 +41,11 @@ class ChatController extends FrontController{
 	public function create(){
 		if($this->input->post('realname', 'trim') && $this->input->post('content', 'trim')){
 			//虚构一个用户
-			$user_id = Users::model()->insert(array(
-				'reg_time'=>$this->current_time,
-				'reg_ip'=>Request::ip2int(Request::getIP()),
+			$user_id = User::model()->create(array(
 				'status'=>Users::STATUS_NOT_VERIFIED,
 				'nickname'=>$this->input->post('realname', 'trim'),
 				'realname'=>$this->input->post('realname', 'trim'),
+				'username'=>StringHelper::random('uuid'),
 			));
 			
 			$content = $this->input->post('content', 'trim', '');

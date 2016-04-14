@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\File;
+use fay\models\Option;
 ?>
 <div class="form-field">
 	<label class="title bold">登录名</label>

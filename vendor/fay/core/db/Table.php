@@ -18,11 +18,17 @@ class Table extends Model{
 		parent::__construct();
 	}
 	
-	public function getName(){
+	/**
+	 * 获取表名（不带前缀）
+	 */
+	public function getTableName(){
 		return $this->_name;
 	}
-
-	public function tableName(){
+	
+	/**
+	 * 获取完整表名（带前缀）
+	 */
+	public function getFullTableName(){
 		return $this->db->{$this->_name};
 	}
 	

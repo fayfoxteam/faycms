@@ -254,8 +254,8 @@ class ModelController extends AdminController{
 			
 		//原属性
 		$sql = new Sql();
-		$this->view->props = $sql->from(array('mp'=>ModelProps::model()->getName()))
-			->joinLeft(array('m'=>Models::model()->getName()), 'mp.type = m.id', 'name AS type_name')
+		$this->view->props = $sql->from(array('mp'=>ModelProps::model()->getTableName()))
+			->joinLeft(array('m'=>Models::model()->getTableName()), 'mp.type = m.id', 'name AS type_name')
 			->where('mp.model_id = ?', $model_id)
 			->order('mp.sort')
 			->fetchAll();
@@ -271,7 +271,7 @@ class ModelController extends AdminController{
 		$keywords = $this->input->request('key', 'trim');
 		
 		$sql = new Sql();
-		$models = $sql->from(array('m'=>Models::model()->getName()), array('id', 'name', 'description'))
+		$models = $sql->from(array('m'=>Models::model()->getTableName()), array('id', 'name', 'description'))
 			->orWhere(array(
 				'name LIKE ?'=>"%{$keywords}%",
 				'description LIKE ?'=>"%{$keywords}%",

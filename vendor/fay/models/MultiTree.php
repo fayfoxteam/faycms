@@ -311,7 +311,7 @@ abstract class MultiTree extends Model{
 		
 		//得到根节点
 		$sql = new Sql();
-		$sql->from(\F::model($this->model)->getName(), 'root')
+		$sql->from(\F::model($this->model)->getTableName(), 'root')
 			->where(array(
 				"{$this->foreign_key} = ?"=>$value,
 				'left_value = 1',
@@ -435,7 +435,7 @@ abstract class MultiTree extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('c'=>\F::model($this->model)->getName()), $comment_fields)
+		$sql->from(array('c'=>\F::model($this->model)->getTableName()), $comment_fields)
 			->where("c.{$this->foreign_key} = ?", $value)
 			->order('c.id DESC')
 		;
@@ -457,7 +457,7 @@ abstract class MultiTree extends Model{
 				//开启审核，仅返回通过审核的评论
 				$_join_conditions = array_merge($_join_conditions, $join_conditions);
 			}
-			$sql->joinLeft(\F::model($this->model)->getName(), 'c2', $_join_conditions, $parent_comment_fields);
+			$sql->joinLeft(\F::model($this->model)->getTableName(), 'c2', $_join_conditions, $parent_comment_fields);
 		}
 		
 		$listview = new ListView($sql, array(
@@ -543,7 +543,7 @@ abstract class MultiTree extends Model{
 		
 		//得到根节点
 		$sql = new Sql();
-		$sql->from(\F::model($this->model)->getName(), 'root')
+		$sql->from(\F::model($this->model)->getTableName(), 'root')
 			->where(array(
 				"{$this->foreign_key} = ?"=>$value,
 				'left_value = 1',

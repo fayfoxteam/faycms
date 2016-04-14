@@ -310,8 +310,8 @@ class ApiController extends AdminController{
 			
 		//原属性
 		$sql = new Sql();
-		$this->view->outputs = $sql->from(array('o'=>Outputs::model()->getName()))
-			->joinLeft(array('m'=>Models::model()->getName()), 'o.model_id = m.id', 'name AS model_name')
+		$this->view->outputs = $sql->from(array('o'=>Outputs::model()->getTableName()))
+			->joinLeft(array('m'=>Models::model()->getTableName()), 'o.model_id = m.id', 'name AS model_name')
 			->where('o.api_id = ?', $api_id)
 			->order('o.sort')
 			->fetchAll();

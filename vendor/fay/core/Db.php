@@ -204,7 +204,7 @@ class Db{
 				$values[] = $v;
 			}
 		}
-		$sql = "INSERT INTO {$this->getTableName($table)} (".implode(',', $fields).') VALUES ('.implode(',', $pres).')';
+		$sql = "INSERT INTO {$this->getFullTableName($table)} (".implode(',', $fields).') VALUES ('.implode(',', $pres).')';
 		return $this->execute($sql, $values);
 	}
 	
@@ -244,7 +244,7 @@ class Db{
 			}
 			$bulk[] = implode(',', $pres);
 		}
-		$sql = "INSERT INTO {$this->getTableName($table)} (".implode(',', $fields).') VALUES ('.implode("),\n(", $bulk).')';
+		$sql = "INSERT INTO {$this->getFullTableName($table)} (".implode(',', $fields).') VALUES ('.implode("),\n(", $bulk).')';
 		return $this->execute($sql, $values);
 	}
 	
@@ -274,11 +274,11 @@ class Db{
 		}
 		
 		if($condition === false){
-			$sql = "UPDATE {$this->getTableName($table)} SET ".implode(',', $set);
+			$sql = "UPDATE {$this->getFullTableName($table)} SET ".implode(',', $set);
 			return $this->execute($sql, $values);
 		}else{
 			$where = $this->getWhere($condition);
-			$sql = "UPDATE {$this->getTableName($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
+			$sql = "UPDATE {$this->getFullTableName($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
 			return $this->execute($sql, array_merge($values, $where['params']));
 		}
 	}
@@ -291,7 +291,7 @@ class Db{
 	 */
 	public function delete($table, $condition){
 		$where = $this->getWhere($condition);
-		$sql = "DELETE FROM {$this->getTableName($table)} WHERE {$where['condition']}";
+		$sql = "DELETE FROM {$this->getFullTableName($table)} WHERE {$where['condition']}";
 		return $this->execute($sql, $where['params']);
 	}
 	
@@ -321,7 +321,7 @@ class Db{
 	 * @return string
 	 */
 	public function __get($table_name){
-		return $this->getTableName($table_name);
+		return $this->getFullTableName($table_name);
 	}
 	
 	/**
@@ -329,7 +329,7 @@ class Db{
 	 * @param string $table_name
 	 * @return string
 	 */
-	public function getTableName($table_name){
+	public function getFullTableName($table_name){
 		return $this->_table_prefix . $table_name;
 	}
 	

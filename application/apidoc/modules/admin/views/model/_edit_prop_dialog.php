@@ -18,7 +18,7 @@ use fay\helpers\Html;
 						<th class="adaption">类型<em class="required">*</em></th>
 						<td><?php echo F::form('prop')->inputText('type_name', array(
 							'class'=>'form-control',
-							'id'=>'edit-prop-model-name',
+							'id'=>'edit-prop-type-name',
 							'data-ajax-param-name'=>'name',
 						), 'String');?></td>
 					</tr>

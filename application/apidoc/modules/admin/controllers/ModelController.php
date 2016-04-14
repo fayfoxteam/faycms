@@ -143,8 +143,9 @@ class ModelController extends AdminController{
 		
 		//属性表单规则
 		$this->form('prop')->setModel(ModelProps::model())
-			->setRule(array('model', 'required'))
-			->setRule(array('model', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
+			->setRule(array('type_name', 'required'))
+			->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
+			->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
 			->setLabels(array(
 				'model'=>'类型',
 			));
@@ -244,11 +245,11 @@ class ModelController extends AdminController{
 		
 		//属性表单规则
 		$this->form('prop')->setModel(ModelProps::model())
-			->setRule(array('model', 'required'))
-			->setRule(array('model', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-			->setRule(array('model', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+			->setRule(array('type_name', 'required'))
+			->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
+			->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
 			->setLabels(array(
-				'model'=>'类型',
+				'type_name'=>'类型',
 			));
 			
 		//原属性

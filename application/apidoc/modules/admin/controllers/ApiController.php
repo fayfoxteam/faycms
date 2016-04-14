@@ -10,6 +10,7 @@ use fay\models\Category;
 use apidoc\models\tables\Apis;
 use apidoc\models\tables\Inputs;
 use fay\core\Response;
+use apidoc\models\tables\Outputs;
 
 class ApiController extends AdminController{
 	/**
@@ -200,6 +201,15 @@ class ApiController extends AdminController{
 		//输入参数表单规则
 		$this->form('input-parameter')->setModel(Inputs::model());
 		
+		//输出参数表单规则
+		$this->form('output')->setModel(Outputs::model())
+			->setRule(array('model_name', 'required'))
+			->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
+			->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+			->setLabels(array(
+				'model_name'=>'模型名称',
+			));
+		
 		$this->view->render();
 	}
 	
@@ -287,6 +297,15 @@ class ApiController extends AdminController{
 		
 		//输入参数表单规则
 		$this->form('input-parameter')->setModel(Inputs::model());
+		
+		//输出参数表单规则
+		$this->form('output')->setModel(Outputs::model())
+			->setRule(array('model_name', 'required'))
+			->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
+			->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+			->setLabels(array(
+				'model_name'=>'模型名称',
+			));
 		
 		$this->view->render();
 	}

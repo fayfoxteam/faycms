@@ -163,6 +163,174 @@ var api = {
 			}
 		})
 	},
+	/**
+	 * 添加属性
+	 */
+	'addOutput': function(){
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+				$('#add-output-link').fancybox({
+					'padding': 0,
+					'centerOnScroll': true,
+					'type' : 'inline',
+					'titleShow':false,
+					'onClosed': function(o){
+						$($(o).attr('href')).find('input,select,textarea').each(function(){
+							$(this).poshytip('hide');
+						});
+					},
+					'onStart':function(o){
+						//初始化编辑框
+						$('#add-output-form').find('[name="name"]').val('');
+						$('#add-output-form').find('[name="required"][value="0"]').attr('checked', 'checked');
+						$('#add-output-form').find('[name="description"]').val('');
+						$('#add-output-form').find('[name="sample"]').val('');
+						$('#add-output-form').find('[name="since"]').val('');
+					}
+				});
+			});
+		});
+	},
+	/**
+	 * 编辑属性
+	 */
+	'editOutput': function(){
+		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+				$('.edit-output-link').fancybox({
+					'padding': 0,
+					'centerOnScroll': true,
+					'type' : 'inline',
+					'titleShow':false,
+					'onClosed': function(o){
+						$($(o).attr('href')).find('input,select,textarea').each(function(){
+							$(this).poshytip('hide');
+						});
+					},
+					'onStart':function(o){
+						var $container = $(o).parent().parent().parent().parent();
+						//初始化编辑框
+						$('#editing-output-name').text($container.find('.input-name').val());
+						$('#edit-output-form').find('[name="selector"]').val($container.attr('id'));
+						$('#edit-output-form').find('[name="name"]').val($container.find('.input-name').val());
+						$('#edit-output-form').find('[name="model"]').val($container.find('.input-model').val());
+						$('#edit-output-form').find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
+						$('#edit-output-form').find('[name="description"]').val($container.find('.input-description').val());
+						$('#edit-output-form').find('[name="sample"]').val($container.find('.input-sample').val());
+						$('#edit-output-form').find('[name="since"]').val($container.find('.input-since').val());
+					}
+				});
+			});
+		});
+	},
+	/**
+	 * 模型选择自动补全
+	 */
+	'autocomplete': function(){
+		system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
+			$("#add-output-model-name").autocomplete({
+				"url" : system.url('admin/model/search'),
+				'startSuggestLength': 0,
+				'onSelect': function(obj, data){
+					obj.val(data.name);
+				},
+				'zindex': '1150'
+			});
+			$("#edit-output-model-name").autocomplete({
+				"url" : system.url('admin/model/search'),
+				'startSuggestLength': 0,
+				'onSelect': function(obj, data){
+					obj.val(data.name);
+				},
+				'zindex': '1150'
+			});
+		});
+	},
+	/**
+	 * 验证输入参数表单
+	 * 这个表单并不会被提交，只是做一下表单验证
+	 */
+	'validOutput': function(rules, labels){
+		system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
+			$('.output-form').validform({
+				'onError': function(obj, msg, rule){
+					var last = $.validform.getElementsByName(obj).last();
+					last.poshytip('destroy');
+					//报错
+					last.poshytip({
+						'className': 'tip-twitter',
+						'showOn': 'none',
+						'alignTo': 'target',
+						'alignX': 'inner-right',
+						'offsetX': -60,
+						'offsetY': 5,
+						'content': msg
+					}).poshytip('show');
+				},
+				'onSuccess': function(obj){
+					var last = $.validform.getElementsByName(obj).last();
+					last.poshytip('destroy');
+				},
+				'beforeSubmit': function(form){
+					//获取输入值
+					var name = form.find('[name="name"]').val();
+					var model_name = form.find('[name="model_name"]').val();
+					var is_array = form.find('[name="is_array"]:checked').val();
+					var description = form.find('[name="description"]').val();
+					var sample = form.find('[name="sample"]').val();
+					var since = form.find('[name="since"]').val();
+					
+					if(form.attr('id').indexOf('add') == 0){
+						//添加
+						var timestamp = new Date().getTime();
+						
+						//插入行
+						$('#model-list').append(['<div class="dragsort-item" id="model-', timestamp, '">',
+							'<input type="hidden" name="outputs[', timestamp, '][name]" value="', name, '" class="input-name" />',
+							'<input type="hidden" name="outputs[', timestamp, '][type_name]" value="', type_name, '" class="input-model" />',
+							'<input type="hidden" name="outputs[', timestamp, '][is_array]" value="', is_array, '" class="input-is-array" />',
+							'<input type="hidden" name="outputs[', timestamp, '][description]" value="', description, '" class="input-description" />',
+							'<input type="hidden" name="outputs[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
+							'<input type="hidden" name="outputs[', timestamp, '][since]" value="', since, '" class="input-since" />',
+							'<a class="dragsort-rm" href="javascript:;"></a>',
+							'<a class="dragsort-item-selector"></a>',
+							'<div class="dragsort-item-container">',
+								'<span class="ib wp25">',
+									'<strong>', name, '</strong>',
+									'<p>',
+										'<a href="#edit-output-dialog" class="edit-output-link">编辑</a>',
+									'</p>',
+								'</span>',
+								'<span class="ib wp15 vat">', type_name, (is_array == '1' ? ' []' : ''), '</span>',
+								'<span class="ib vat">', description, '</span>',
+							'</div>',
+						'</div>'].join(''));
+						model.editOutput();
+					}else{
+						//编辑
+						var selector = form.find('[name="selector"]').val();
+						$output = $('#'+selector);
+						
+						//编辑隐藏域
+						$output.find('.input-name').val(name);
+						$output.find('.input-model').val(type_name);
+						$output.find('.input-is-array').val(is_array);
+						$output.find('.input-description').val(description);
+						$output.find('.input-sample').val(sample);
+						$output.find('.input-since').val(since);
+						
+						//修改行显示
+						$output.find('span:eq(0) strong').text(name);
+						$output.find('span:eq(1)').text(type_name + (is_array == '1' ? ' []' : ''));
+						$output.find('span:eq(2)').text(description);
+					}
+					
+					$.fancybox.close();
+					return false;
+				}
+			}, rules, labels);
+		});
+	},
 	'init': function(){
 		this.addInputParameter();
 		this.editInputParameter();

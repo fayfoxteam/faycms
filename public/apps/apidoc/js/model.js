@@ -67,7 +67,7 @@ var model = {
 	 */
 	'autocomplete': function(){
 		system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
-			$("#add-prop-model-name").autocomplete({
+			$("#add-prop-type-name").autocomplete({
 				"url" : system.url('admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
@@ -75,7 +75,7 @@ var model = {
 				},
 				'zindex': '1150'
 			});
-			$("#edit-prop-model-name").autocomplete({
+			$("#edit-prop-type-name").autocomplete({
 				"url" : system.url('admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){

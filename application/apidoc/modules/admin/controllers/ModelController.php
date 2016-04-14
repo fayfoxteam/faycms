@@ -176,18 +176,18 @@ class ModelController extends AdminController{
 			Models::model()->update($data, $model_id);
 			
 			$props = $this->input->post('props');
-			//删除已被删除的输入参数
+			//删除已被删除的属性
 			if($props){
 				ModelProps::model()->delete(array(
 					'model_id = ?'=>$model_id,
 					'id NOT IN (?)'=>array_keys($props),
 				));
-			}else{
+			}else if(in_array('props', $enabled_boxes)){
 				ModelProps::model()->delete(array(
 					'model_id = ?'=>$model_id,
 				));
 			}
-			//获取已存在的输入参数
+			//获取已存在的属性
 			$old_prop_ids = ModelProps::model()->fetchCol('id', array(
 				'model_id = ?'=>$model_id,
 			));
@@ -195,15 +195,20 @@ class ModelController extends AdminController{
 			$i = 0;
 			foreach($props as $prop_id => $prop){
 				$i++;
+				$type_model = Models::model()->fetchRow(array(
+					'name = ?'=>$prop['model_name'],
+				), 'id');
 				if(in_array($prop_id, $old_prop_ids)){
 					$prop = ModelProps::model()->fillData($prop, true, 'update');
 					$prop['sort'] = $i;
+					$prop['type'] = $type_model['id'];
 					$prop['last_modified_time'] = $this->current_time;
 					ModelProps::model()->update($prop, $prop_id);
 				}else{
 					$prop = ModelProps::model()->fillData($prop, true, 'insert');
 					$prop['model_id'] = $model_id;
 					$prop['sort'] = $i;
+					$prop['type'] = $type_model['id'];
 					$prop['create_time'] = $this->current_time;
 					$prop['last_modified_time'] = $this->current_time;
 					ModelProps::model()->insert($prop);

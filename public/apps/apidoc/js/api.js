@@ -213,7 +213,7 @@ var api = {
 						$('#editing-output-name').text($container.find('.input-name').val());
 						$('#edit-output-form').find('[name="selector"]').val($container.attr('id'));
 						$('#edit-output-form').find('[name="name"]').val($container.find('.input-name').val());
-						$('#edit-output-form').find('[name="model"]').val($container.find('.input-model').val());
+						$('#edit-output-form').find('[name="model_name"]').val($container.find('.input-model-name').val());
 						$('#edit-output-form').find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
 						$('#edit-output-form').find('[name="description"]').val($container.find('.input-description').val());
 						$('#edit-output-form').find('[name="sample"]').val($container.find('.input-sample').val());
@@ -287,7 +287,7 @@ var api = {
 						//插入行
 						$('#model-list').append(['<div class="dragsort-item" id="model-', timestamp, '">',
 							'<input type="hidden" name="outputs[', timestamp, '][name]" value="', name, '" class="input-name" />',
-							'<input type="hidden" name="outputs[', timestamp, '][type_name]" value="', type_name, '" class="input-model" />',
+							'<input type="hidden" name="outputs[', timestamp, '][model_name]" value="', model_name, '" class="input-model-name" />',
 							'<input type="hidden" name="outputs[', timestamp, '][is_array]" value="', is_array, '" class="input-is-array" />',
 							'<input type="hidden" name="outputs[', timestamp, '][description]" value="', description, '" class="input-description" />',
 							'<input type="hidden" name="outputs[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
@@ -301,11 +301,11 @@ var api = {
 										'<a href="#edit-output-dialog" class="edit-output-link">编辑</a>',
 									'</p>',
 								'</span>',
-								'<span class="ib wp15 vat">', type_name, (is_array == '1' ? ' []' : ''), '</span>',
+								'<span class="ib wp15 vat">', model_name, (is_array == '1' ? ' []' : ''), '</span>',
 								'<span class="ib vat">', description, '</span>',
 							'</div>',
 						'</div>'].join(''));
-						model.editOutput();
+						api.editOutput();
 					}else{
 						//编辑
 						var selector = form.find('[name="selector"]').val();
@@ -313,7 +313,7 @@ var api = {
 						
 						//编辑隐藏域
 						$output.find('.input-name').val(name);
-						$output.find('.input-model').val(type_name);
+						$output.find('.input-model-name').val(model_name);
 						$output.find('.input-is-array').val(is_array);
 						$output.find('.input-description').val(description);
 						$output.find('.input-sample').val(sample);
@@ -321,7 +321,7 @@ var api = {
 						
 						//修改行显示
 						$output.find('span:eq(0) strong').text(name);
-						$output.find('span:eq(1)').text(type_name + (is_array == '1' ? ' []' : ''));
+						$output.find('span:eq(1)').text(model_name + (is_array == '1' ? ' []' : ''));
 						$output.find('span:eq(2)').text(description);
 					}
 					
@@ -335,5 +335,8 @@ var api = {
 		this.addInputParameter();
 		this.editInputParameter();
 		this.removeInputParameter();
+		this.addOutput();
+		this.editOutput();
+		this.autocomplete();
 	}
 }

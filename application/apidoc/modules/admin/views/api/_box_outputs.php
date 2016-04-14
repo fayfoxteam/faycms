@@ -8,7 +8,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="cf mt5">
-			<?php echo Html::link('新增属性', '#add-output-dialog', array(
+			<?php echo Html::link('新增响应参数', '#add-output-dialog', array(
 				'class'=>'btn',
 				'id'=>'add-output-link',
 			))?>
@@ -22,7 +22,7 @@ use fay\helpers\Html;
 						'class'=>'input-name',
 					));
 					echo Html::inputHidden("outputs[{$p['id']}][model_name]", $p['model_name'], array(
-						'class'=>'input-model',
+						'class'=>'input-model-name',
 					));
 					echo Html::inputHidden("outputs[{$p['id']}][is_array]", $p['is_array'], array(
 						'class'=>'input-is-array',
@@ -62,3 +62,8 @@ use fay\helpers\Html;
 		</div>
 	</div>
 </div>
+<script>
+$(function(){
+	api.validOutput(<?php echo json_encode(F::form('output')->getJsRules())?>, <?php echo json_encode(F::form('output')->getLabels())?>);
+});
+</script>

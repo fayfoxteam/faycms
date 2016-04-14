@@ -174,6 +174,22 @@ class ApiController extends AdminController{
 				Inputs::model()->insert($input);
 			}
 			
+			$outputs = $this->input->post('outputs');
+			$j = 0;
+			foreach($outputs as $o){
+				$j++;
+				$model = Models::model()->fetchRow(array(
+					'name = ?'=>$o['model_name'],
+				), 'id');
+				$output = Inputs::model()->fillData($o, true, 'insert');
+				$output['api_id'] = $api_id;
+				$output['sort'] = $j;
+				$output['model_id'] = $model['id'];
+				$output['create_time'] = $this->current_time;
+				$output['last_modified_time'] = $this->current_time;
+				Outputs::model()->insert($output);
+			}
+			
 			Response::notify('success', 'API添加成功', array('admin/api/edit', array(
 				'id'=>$api_id,
 			)));
@@ -235,6 +251,7 @@ class ApiController extends AdminController{
 			$data['last_modified_time'] = $this->current_time;
 			Apis::model()->update($data, $api_id);
 			
+			//输入参数处理
 			$inputs = $this->input->post('inputs');
 			//删除已被删除的输入参数
 			if($inputs){
@@ -242,7 +259,7 @@ class ApiController extends AdminController{
 					'api_id = ?'=>$api_id,
 					'id NOT IN (?)'=>array_keys($inputs),
 				));
-			}else{
+			}else if(in_array('inputs', $enabled_boxes)){
 				Inputs::model()->delete(array(
 					'api_id = ?'=>$api_id,
 				));
@@ -262,6 +279,46 @@ class ApiController extends AdminController{
 					$input['create_time'] = $this->current_time;
 					$input['last_modified_time'] = $this->current_time;
 					Inputs::model()->insert($input);
+				}
+			}
+			
+			//输出参数处理
+			$outputs = $this->input->post('outputs');
+			//删除已被删除的输出参数
+			if($outputs){
+				Outputs::model()->delete(array(
+					'api_id = ?'=>$api_id,
+					'id NOT IN (?)'=>array_keys($outputs),
+				));
+			}else if(in_array('outputs', $enabled_boxes)){
+				Outputs::model()->delete(array(
+					'api_id = ?'=>$api_id,
+				));
+			}
+			//获取已存在的输入参数
+			$old_input_parameter_ids = Outputs::model()->fetchCol('id', array(
+				'api_id = ?'=>$api_id,
+			));
+			$i = 0;
+			foreach($outputs as $output_parameter_id => $output){
+				$i++;
+				$model = Models::model()->fetchRow(array(
+					'name = ?'=>$output['model_name'],
+				), 'id');
+				if(in_array($output_parameter_id, $old_input_parameter_ids)){
+					$output = Outputs::model()->fillData($output, true, 'update');
+					$output['model_id'] = $model['id'];
+					$output['sort'] = $i;
+					$output['last_modified_time'] = $this->current_time;
+					Outputs::model()->update($output, $output_parameter_id);
+				}else{
+					$output = Outputs::model()->fillData($output, true, 'insert');
+					$output['api_id'] = $api_id;
+					$output['model_id'] = $model['id'];
+					$output['sort'] = $i;
+					$output['create_time'] = $this->current_time;
+					$output['last_modified_time'] = $this->current_time;
+					Outputs::model()->insert($output);
 				}
 			}
 			

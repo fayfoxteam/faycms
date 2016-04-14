@@ -36,6 +36,8 @@ class Outputs extends Table{
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('since'), 'string', array('max'=>30)),
 			array(array('is_array'), 'range', array('range'=>array(0, 1))),
+			
+			array(array('name'), 'required'),
 		);
 	}
 

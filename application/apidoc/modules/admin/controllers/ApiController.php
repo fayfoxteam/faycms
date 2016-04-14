@@ -11,6 +11,7 @@ use apidoc\models\tables\Apis;
 use apidoc\models\tables\Inputs;
 use fay\core\Response;
 use apidoc\models\tables\Outputs;
+use apidoc\models\tables\Models;
 
 class ApiController extends AdminController{
 	/**
@@ -306,6 +307,14 @@ class ApiController extends AdminController{
 			->setLabels(array(
 				'model_name'=>'模型名称',
 			));
+			
+		//原属性
+		$sql = new Sql();
+		$this->view->outputs = $sql->from(array('o'=>Outputs::model()->getName()))
+			->joinLeft(array('m'=>Models::model()->getName()), 'o.model_id = m.id', 'name AS model_name')
+			->where('o.api_id = ?', $api_id)
+			->order('o.sort')
+			->fetchAll();
 		
 		$this->view->render();
 	}

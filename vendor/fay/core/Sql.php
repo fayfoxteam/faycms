@@ -68,7 +68,7 @@ class Sql{
 			$alias = $table;
 		}
 		
-		$full_table_name = $this->db->getTableName($short_name);
+		$full_table_name = $this->db->getFullTableName($short_name);
 		$this->from[] = "{$full_table_name} AS {$alias}";
 		$this->_field($fields, $alias, $short_name);
 		
@@ -390,7 +390,7 @@ class Sql{
 			$alias = $table;
 		}
 		
-		$full_table_name = $this->db->getTableName($short_name);
+		$full_table_name = $this->db->getFullTableName($short_name);
 		$where = $this->db->getWhere($conditions);
 		$this->join[] = array(
 			'type'=>$type,

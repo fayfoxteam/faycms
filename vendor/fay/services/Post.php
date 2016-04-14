@@ -78,12 +78,12 @@ class Post extends Model{
 			}
 		}
 		//标签
-		if($extra['tags']){
+		if(isset($extra['tags'])){
 			PostTagService::model()->set($extra['tags'], $post_id);
 		}
 		
 		//附件
-		if($extra['files']){
+		if(isset($extra['files'])){
 			$i = 0;
 			foreach($extra['files'] as $file_id => $description){
 				$i++;
@@ -98,7 +98,7 @@ class Post extends Model{
 		}
 		
 		//设置属性
-		if($extra['props']){
+		if(isset($extra['props'])){
 			$this->createPropertySet($post_id, $extra['props']);
 		}
 		

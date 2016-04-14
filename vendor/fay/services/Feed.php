@@ -69,12 +69,12 @@ class Feed extends Model{
 		FeedExtra::model()->insert($feed_extra, true);
 		
 		//标签
-		if($extra['tags']){
+		if(isset($extra['tags'])){
 			FeedTagService::model()->set($extra['tags'], $feed_id);
 		}
 		
 		//附件
-		if($extra['files']){
+		if(isset($extra['files'])){
 			$i = 0;
 			foreach($extra['files'] as $file_id => $description){
 				$i++;

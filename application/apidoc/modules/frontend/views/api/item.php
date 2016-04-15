@@ -42,6 +42,7 @@ use apidoc\helpers\TrackHelper;
 <div class="panel">
 	<div class="panel-header"><h2>请求参数</h2></div>
 	<div class="panel-body">
+	<?php if($api['inputs']){?>
 		<table>
 			<thead>
 				<tr>
@@ -64,11 +65,15 @@ use apidoc\helpers\TrackHelper;
 			<?php }?>
 			</tbody>
 		</table>
+	<?php }else{?>
+		<span>无</span>
+	<?php }?>
 	</div>
 </div>
 <div class="panel">
 	<div class="panel-header"><h2>响应参数</h2></div>
 	<div class="panel-body">
+	<?php if($api['outputs']){?>
 		<table>
 			<thead>
 				<tr>
@@ -103,6 +108,9 @@ use apidoc\helpers\TrackHelper;
 			<?php }?>
 			</tbody>
 		</table>
+	<?php }else{?>
+		<span>无</span>
+	<?php }?>
 	</div>
 </div>
 <div class="panel">

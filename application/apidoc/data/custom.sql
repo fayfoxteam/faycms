@@ -65,6 +65,7 @@ CREATE TABLE `{{$prefix}}apidoc_outputs` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `api_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'API ID',
   `model_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '数据模型ID',
+  `is_array` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是数组',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '参数名称',
   `sample` text NOT NULL COMMENT '示例值',
   `description` text NOT NULL COMMENT '描述',

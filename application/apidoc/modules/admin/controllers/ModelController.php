@@ -305,6 +305,7 @@ class ModelController extends AdminController{
 	}
 	
 	public function isNameExist(){
+		sleep(2);
 		if(Models::model()->fetchRow(array(
 			'name = ?'=>$this->input->request('name', 'trim'),
 		))){

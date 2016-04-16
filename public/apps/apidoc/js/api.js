@@ -2,7 +2,8 @@
  * api管理
  */
 var api = {
-	'typeMap': {},
+	'inputTypeMap': {},
+	'outputForm': null,
 	/**
 	 * 添加请求参数
 	 */
@@ -116,7 +117,7 @@ var api = {
 									'<a href="javascript:;" class="fc-red remove-input-parameter-link">删除</a>',
 								'</div>',
 							'</td>',
-							'<td>', api.typeMap[type], '</td>',
+							'<td>', api.inputTypeMap[type], '</td>',
 							'<td>', (required == 1 ? '<span class="fc-green">是</span>' : '否'), '</td>',
 							'<td>', system.encode(since), '</td>',
 							'<td>', system.encode(description), '</td>',
@@ -139,7 +140,7 @@ var api = {
 						
 						//修改表格行显示
 						$input.find('td:eq(0) strong').text(name);
-						$input.find('td:eq(1)').text(api.typeMap[type]);
+						$input.find('td:eq(1)').text(api.inputTypeMap[type]);
 						$input.find('td:eq(2)').html(required == 1 ? '<span class="fc-green">是</span>' : '否');
 						$input.find('td:eq(3)').text(since);
 						$input.find('td:eq(4)').text(description);
@@ -233,6 +234,7 @@ var api = {
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
+					api.outputForm.check(obj);
 				},
 				'zindex': '1150'
 			});
@@ -241,6 +243,7 @@ var api = {
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
+					api.outputForm.check(obj);
 				},
 				'zindex': '1150'
 			});
@@ -252,7 +255,7 @@ var api = {
 	 */
 	'validOutput': function(rules, labels){
 		system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
-			$('.output-form').validform({
+			api.outputForm = $('.output-form').validform({
 				'onError': function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
@@ -266,10 +269,22 @@ var api = {
 						'offsetY': 5,
 						'content': msg
 					}).poshytip('show');
+					$('.dialog').unblock();
 				},
 				'onSuccess': function(obj){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
+				},
+				'beforeCheck': function(form){
+					if(form.attr('id').indexOf('add') == 0){
+						$('#add-output-dialog').block({
+							'zindex':1200
+						});
+					}else{
+						$('#edit-output-dialog').block({
+							'zindex':1200
+						});
+					}
 				},
 				'beforeSubmit': function(form){
 					//获取输入值
@@ -325,6 +340,7 @@ var api = {
 						$output.find('span:eq(2)').text(description);
 					}
 					
+					$('.dialog').unblock();
 					$.fancybox.close();
 					return false;
 				}

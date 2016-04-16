@@ -73,7 +73,7 @@ $type_map = Inputs::getTypes();
 </div>
 <script>
 $(function(){
-	api.typeMap = <?php echo json_encode($type_map)?>;
+	api.inputTypeMap = <?php echo json_encode($type_map)?>;
 	api.validInputParameter(<?php echo json_encode(F::form('input-parameter')->getJsRules())?>, <?php echo json_encode(F::form('input-parameter')->getLabels())?>);
 });
 </script>

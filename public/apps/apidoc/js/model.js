@@ -2,6 +2,7 @@
  * 数据模型管理
  */
 var model = {
+	'propForm': null,
 	/**
 	 * 添加属性
 	 */
@@ -72,6 +73,7 @@ var model = {
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
+					model.propForm.check(obj);
 				},
 				'zindex': '1150'
 			});
@@ -80,6 +82,7 @@ var model = {
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
+					model.propForm.check(obj);
 				},
 				'zindex': '1150'
 			});
@@ -91,7 +94,7 @@ var model = {
 	 */
 	'validProp': function(rules, labels){
 		system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
-			$('.prop-form').validform({
+			model.propForm = $('.prop-form').validform({
 				'onError': function(obj, msg, rule){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
@@ -105,10 +108,22 @@ var model = {
 						'offsetY': 5,
 						'content': msg
 					}).poshytip('show');
+					$('.dialog').unblock();
 				},
 				'onSuccess': function(obj){
 					var last = $.validform.getElementsByName(obj).last();
 					last.poshytip('destroy');
+				},
+				'beforeCheck': function(form){
+					if(form.attr('id').indexOf('add') == 0){
+						$('#add-prop-dialog').block({
+							'zindex':1200
+						});
+					}else{
+						$('#edit-prop-dialog').block({
+							'zindex':1200
+						});
+					}
 				},
 				'beforeSubmit': function(form){
 					//获取输入值
@@ -164,6 +179,7 @@ var model = {
 						$prop.find('span:eq(2)').text(description);
 					}
 					
+					$('.dialog').unblock();
 					$.fancybox.close();
 					return false;
 				}

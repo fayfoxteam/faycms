@@ -101,10 +101,10 @@ class ModelController extends AdminController{
 			foreach($props as $p){
 				$i++;
 				$type_model = Models::model()->fetchRow(array(
-					'name = ?'=>$p['model_name'],
+					'name = ?'=>$p['type_name'],
 				), 'id');
 				if(!$type_model){
-					throw new ErrorException('指定属性类型不存在', $p['model_name']);
+					throw new ErrorException('指定属性类型不存在', $p['type_name']);
 				}
 				
 				$prop = ModelProps::model()->fillData($p, true, 'insert');
@@ -201,10 +201,10 @@ class ModelController extends AdminController{
 			foreach($props as $prop_id => $p){
 				$i++;
 				$type_model = Models::model()->fetchRow(array(
-					'name = ?'=>$p['model_name'],
+					'name = ?'=>$p['type_name'],
 				), 'id');
 				if(!$type_model){
-					throw new ErrorException('指定属性类型不存在', $p['model_name']);
+					throw new ErrorException('指定属性类型不存在', $p['type_name']);
 				}
 				
 				if(in_array($prop_id, $old_prop_ids)){

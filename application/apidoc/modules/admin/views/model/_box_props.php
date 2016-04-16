@@ -22,7 +22,7 @@ use fay\helpers\Html;
 						'class'=>'input-name',
 					));
 					echo Html::inputHidden("props[{$p['id']}][type_name]", $p['type_name'], array(
-						'class'=>'input-model',
+						'class'=>'input-type-name',
 					));
 					echo Html::inputHidden("props[{$p['id']}][is_array]", $p['is_array'], array(
 						'class'=>'input-is-array',

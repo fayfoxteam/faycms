@@ -53,7 +53,7 @@ var model = {
 						$('#editing-prop-name').text($container.find('.input-name').val());
 						$('#edit-prop-form').find('[name="selector"]').val($container.attr('id'));
 						$('#edit-prop-form').find('[name="name"]').val($container.find('.input-name').val());
-						$('#edit-prop-form').find('[name="model"]').val($container.find('.input-model').val());
+						$('#edit-prop-form').find('[name="type_name"]').val($container.find('.input-type-name').val());
 						$('#edit-prop-form').find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
 						$('#edit-prop-form').find('[name="description"]').val($container.find('.input-description').val());
 						$('#edit-prop-form').find('[name="sample"]').val($container.find('.input-sample').val());
@@ -141,7 +141,7 @@ var model = {
 						//插入行
 						$('#model-list').append(['<div class="dragsort-item" id="model-', timestamp, '">',
 							'<input type="hidden" name="props[', timestamp, '][name]" value="', name, '" class="input-name" />',
-							'<input type="hidden" name="props[', timestamp, '][type_name]" value="', type_name, '" class="input-model" />',
+							'<input type="hidden" name="props[', timestamp, '][type_name]" value="', type_name, '" class="input-type-name" />',
 							'<input type="hidden" name="props[', timestamp, '][is_array]" value="', is_array, '" class="input-is-array" />',
 							'<input type="hidden" name="props[', timestamp, '][description]" value="', description, '" class="input-description" />',
 							'<input type="hidden" name="props[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
@@ -167,7 +167,7 @@ var model = {
 						
 						//编辑隐藏域
 						$prop.find('.input-name').val(name);
-						$prop.find('.input-model').val(type_name);
+						$prop.find('.input-type-name').val(type_name);
 						$prop.find('.input-is-array').val(is_array);
 						$prop.find('.input-description').val(description);
 						$prop.find('.input-sample').val(sample);

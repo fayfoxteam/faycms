@@ -12,6 +12,7 @@ use apidoc\models\tables\Inputs;
 use fay\core\Response;
 use apidoc\models\tables\Outputs;
 use apidoc\models\tables\Models;
+use fay\core\ErrorException;
 
 class ApiController extends AdminController{
 	/**
@@ -181,6 +182,10 @@ class ApiController extends AdminController{
 				$model = Models::model()->fetchRow(array(
 					'name = ?'=>$o['model_name'],
 				), 'id');
+				if(!$model){
+					throw new ErrorException('指定数据模型不存在', $o['model_name']);
+				}
+				
 				$output = Inputs::model()->fillData($o, true, 'insert');
 				$output['api_id'] = $api_id;
 				$output['sort'] = $j;
@@ -300,19 +305,23 @@ class ApiController extends AdminController{
 				'api_id = ?'=>$api_id,
 			));
 			$i = 0;
-			foreach($outputs as $output_parameter_id => $output){
+			foreach($outputs as $output_parameter_id => $o){
 				$i++;
 				$model = Models::model()->fetchRow(array(
-					'name = ?'=>$output['model_name'],
+					'name = ?'=>$o['model_name'],
 				), 'id');
+				if(!$model){
+					throw new ErrorException('指定数据模型不存在', $o['model_name']);
+				}
+				
 				if(in_array($output_parameter_id, $old_input_parameter_ids)){
-					$output = Outputs::model()->fillData($output, true, 'update');
+					$output = Outputs::model()->fillData($o, true, 'update');
 					$output['model_id'] = $model['id'];
 					$output['sort'] = $i;
 					$output['last_modified_time'] = $this->current_time;
 					Outputs::model()->update($output, $output_parameter_id);
 				}else{
-					$output = Outputs::model()->fillData($output, true, 'insert');
+					$output = Outputs::model()->fillData($o, true, 'insert');
 					$output['api_id'] = $api_id;
 					$output['model_id'] = $model['id'];
 					$output['sort'] = $i;
@@ -414,5 +423,30 @@ class ApiController extends AdminController{
 		}
 		
 		$this->view->render();
+	}
+	
+	/**
+	 * 判断API路由是否可用
+	 * 可用返回状态为1，不可用返回0，http状态码均为200
+	 * @param string $router 路由
+	 */
+	public function isRouterNotExist(){
+		//表单验证
+		$this->form()->setRules(array(
+			array('router', 'required'),
+		))->setFilters(array(
+			'router'=>'trim',
+		))->setLabels(array(
+			'router'=>'路由',
+		))->check();
+		
+		if(Apis::model()->fetchRow(array(
+			'router = ?'=>$this->form()->getData('router'),
+			'id != ?'=>$this->input->request('id', 'intval', false),
+		))){
+			Response::json('', 0, '接口路由已存在');
+		}else{
+			Response::json();
+		}
 	}
 }

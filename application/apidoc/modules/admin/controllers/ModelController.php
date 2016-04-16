@@ -10,6 +10,7 @@ use fay\core\Response;
 use fay\models\Setting;
 use fay\helpers\StringHelper;
 use apidoc\models\tables\ModelProps;
+use fay\core\ErrorException;
 
 /**
  * 数据模型
@@ -102,6 +103,10 @@ class ModelController extends AdminController{
 				$type_model = Models::model()->fetchRow(array(
 					'name = ?'=>$p['model_name'],
 				), 'id');
+				if(!$type_model){
+					throw new ErrorException('指定属性类型不存在', $p['model_name']);
+				}
+				
 				$prop = ModelProps::model()->fillData($p, true, 'insert');
 				$prop['create_time'] = $this->current_time;
 				$prop['last_modified_time'] = $this->current_time;
@@ -193,19 +198,23 @@ class ModelController extends AdminController{
 			));
 			
 			$i = 0;
-			foreach($props as $prop_id => $prop){
+			foreach($props as $prop_id => $p){
 				$i++;
 				$type_model = Models::model()->fetchRow(array(
-					'name = ?'=>$prop['model_name'],
+					'name = ?'=>$p['model_name'],
 				), 'id');
+				if(!$type_model){
+					throw new ErrorException('指定属性类型不存在', $p['model_name']);
+				}
+				
 				if(in_array($prop_id, $old_prop_ids)){
-					$prop = ModelProps::model()->fillData($prop, true, 'update');
+					$prop = ModelProps::model()->fillData($p, true, 'update');
 					$prop['sort'] = $i;
 					$prop['type'] = $type_model['id'];
 					$prop['last_modified_time'] = $this->current_time;
 					ModelProps::model()->update($prop, $prop_id);
 				}else{
-					$prop = ModelProps::model()->fillData($prop, true, 'insert');
+					$prop = ModelProps::model()->fillData($p, true, 'insert');
 					$prop['model_id'] = $model_id;
 					$prop['sort'] = $i;
 					$prop['type'] = $type_model['id'];

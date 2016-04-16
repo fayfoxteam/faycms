@@ -36,11 +36,13 @@ DROP TABLE IF EXISTS `{{$prefix}}apidoc_model_props`;
 CREATE TABLE `{{$prefix}}apidoc_model_props` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `model_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '数据模型ID',
+  `is_array` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是数组',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称',
   `type` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
   `sample` text NOT NULL COMMENT '示例值',
   `description` text NOT NULL COMMENT '描述',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
@@ -85,8 +87,8 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5001', '5000', '', 'API列表', '', 'admin/api/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5002', '5000', '', '新增API', '', 'admin/api/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5003', '5000', '', 'API分类', '', 'admin/api/cat');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5004', '5000', '', '响应参数列表', '', 'admin/output/index');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5005', '5000', '', '新增响应参数', '', 'admin/output/create');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5004', '5000', '', '数据模型列表', '', 'admin/model/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5005', '5000', '', '新增数据模型', '', 'admin/model/create');
 
 -- 预定义特殊对象
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('1', 'String', '字符串');

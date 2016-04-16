@@ -21,11 +21,12 @@ use apidoc\helpers\TrackHelper;
 				</tr>
 			</thead>
 			<tbody>
+			<?php $track_models = TrackHelper::getTrackModels()?>
 			<?php foreach($properties as $p){?>
 				<tr>
 					<td><?php echo Html::encode($p['name'])?></td>
 					<td><?php
-						if($p['type'] >= 1000){
+						if($p['type'] >= 1000 && !in_array($p['type'], $track_models)){
 							//对象类型特殊处理
 							echo Html::link($p['model_name'], array(
 								'model/' . $p['type'], array(

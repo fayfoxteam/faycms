@@ -39,4 +39,21 @@ class TrackHelper{
 		
 		return null;
 	}
+	
+	/**
+	 * 获取trackid中包含的model id
+	 * @return array
+	 */
+	public static function getTrackModels(){
+		$trackid = \F::input()->get('trackid', 'trim');
+		$tracks = explode('.', $trackid);
+		$models = array();
+		foreach($tracks as $t){
+			if(preg_match('/^m(\d+)$/', $t)){
+				$models[] = substr($t, 1);
+			}
+		}
+		
+		return $models;
+	}
 }

@@ -16,7 +16,7 @@ select{font-family:sans-serif}
 abbr[title],.abbr{border-bottom:1px dotted}
 mark{background:#ff0;color:#000}
 pre{overflow:auto}
-code,pre{font-family:monospace,monospace;font-size:1em}
+code,pre{font-family:Courier New,monospace,monospace;font-size:1em}
 code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f8f8;border-radius:3px;color:#d14}
 label{display:inline-block}
 table{border-spacing:0}

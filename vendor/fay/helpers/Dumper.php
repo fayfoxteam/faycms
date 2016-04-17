@@ -28,7 +28,7 @@ class Dumper{
 				self::$_output .= "<small>float</small> <font color=\"#f57900\">{$var}</font>";
 				break;
 			case 'string':
-				self::$_output .= "<small>string</small> <font color=\"#cc0000\">'{$var}'</font> <i>(length=".mb_strlen($var, 'utf-8').")</i>";
+				self::$_output .= "<small>string</small> <font color=\"#cc0000\">'".htmlentities($var, ENT_QUOTES, 'UTF-8')."'</font> <i>(length=".mb_strlen($var, 'utf-8').")</i>";
 				break;
 			case 'resource':
 				self::$_output .= '{resource}';

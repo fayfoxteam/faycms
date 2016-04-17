@@ -5,7 +5,7 @@
 			<div class="box">
 				<div class="box-title"><h3>Code</h3></div>
 				<div class="box-content">
-					<?php echo F::form()->textarea('key', array(
+					<?php echo F::form()->textarea('code', array(
 						'class'=>'hide',
 						'id'=>'key',
 					), "<?php\r\n");?>
@@ -19,7 +19,7 @@
 		<div class="box">
 			<div class="box-title"><h3>Result</h3></div>
 			<div class="box-content">
-				<div style="min-height:239px"><?php eval('?>'. $key);?></div>
+				<div style="min-height:239px" id="eval-result"></div>
 			</div>
 		</div>
 	</div>
@@ -62,4 +62,17 @@ editor.commands.addCommand({
     }
 });
 editor.setValue($('#key').val(), 1);
+
+$('#form').submit(function(){
+	$.ajax({
+		'type': 'POST',
+		'url': system.url('tools/function/do-eval'),
+		'data': $('#form').serialize(),
+		'cache': false,
+		'success': function(resp){
+			$('#eval-result').html(resp);
+		}
+	});
+	return false;
+});
 </script>

@@ -88,19 +88,17 @@ class FeedController extends ApiController{
 	public function get(){
 		//表单验证
 		$this->form()->setRules(array(
-			array(array('id'), 'required'),
-			array(array('id'), 'int', array('min'=>1)),
+			array(array('feed_id'), 'required'),
+			array(array('feed_id'), 'int', array('min'=>1)),
 		))->setFilters(array(
-			'id'=>'intval',
+			'feed_id'=>'intval',
 			'fields'=>'trim',
-			'cat'=>'trim',
 		))->setLabels(array(
-			'id'=>'动态ID',
+			'feed_id'=>'动态ID',
 		))->check();
 		
-		$id = $this->form()->getData('id');
+		$feed_id = $this->form()->getData('feed_id');
 		$fields = $this->form()->getData('fields');
-		$cat = $this->form()->getData('cat');
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
@@ -115,11 +113,40 @@ class FeedController extends ApiController{
 			$fields['post'] = $this->default_fields['post'];
 		}
 		
-		$feed = FeedModel::model()->get($id, $fields, $cat);
+		$feed = FeedModel::model()->get($feed_id, $fields, true);
 		if($feed){
 			Response::json($feed);
 		}else{
 			throw new HttpException('您访问的页面不存在');
+		}
+	}
+	
+	public function delete(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('feed_id'), 'required'),
+			array(array('feed_id'), 'int', array('min'=>1)),
+			array(array('feed_id'), 'exist', array(
+				'table'=>'feeds',
+				'field'=>'id',
+				'conditions'=>array('deleted = 0')
+			)),
+		))->setFilters(array(
+			'feed_id'=>'intval',
+		))->setLabels(array(
+			'feed_id'=>'动态',
+		))->check();
+		
+		$feed_id = $this->form()->getData('feed_id');
+		
+		if(FeedModel::model()->checkDeletePermission($feed_id)){
+			FeedService::model()->delete($feed_id);
+			Response::notify('success', '动态删除成功');
+		}else{
+			Response::notify('error', array(
+				'message'=>'您无权操作该动态',
+				'code'=>'permission-denied',
+			));
 		}
 	}
 }

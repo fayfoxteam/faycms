@@ -156,7 +156,7 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(Comment::model()->checkPermission($comment_id, 'delete')){
+		if(CommentModel::model()->checkPermission($comment_id, 'delete')){
 			Comment::model()->delete($comment_id);
 			Response::notify('success', '评论删除成功');
 		}else{
@@ -192,7 +192,7 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(Comment::model()->checkPermission($comment_id, 'undelete')){
+		if(CommentModel::model()->checkPermission($comment_id, 'undelete')){
 			Comment::model()->undelete($comment_id);
 			Response::notify('success', '评论还原成功');
 		}else{
@@ -231,7 +231,7 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(Comment::model()->checkPermission($comment_id, 'edit')){
+		if(CommentModel::model()->checkPermission($comment_id, 'edit')){
 			Comment::model()->update(
 				$comment_id,
 				$this->form()->getData('content')

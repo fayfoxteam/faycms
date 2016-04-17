@@ -4,6 +4,10 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Feeds;
 use fay\helpers\FieldHelper;
+use fay\core\Sql;
+use fay\models\feed\Meta;
+use fay\models\feed\Tag as FeedTag;
+use fay\models\feed\File as FeedFile;
 
 class Feed extends Model{
 	/**
@@ -46,6 +50,9 @@ class Feed extends Model{
 		'meta'=>array(
 			'comments', 'likes', 'favorites'
 		),
+		'tags'=>array(
+			'id', 'title',
+		),
 	);
 	
 	/**
@@ -73,15 +80,24 @@ class Feed extends Model{
 		}
 	}
 	
-	public function get($id, $fields){
-		
-	}
-	
-	public function mget($ids, $fields){
+	/**
+	 * 返回一篇动态
+	 * @param int $id 动态ID
+	 * @param string $fields 可指定返回字段
+	 *  - feeds.*系列可指定feeds表返回字段，若有一项为'feed.*'，则返回所有字段
+	 *  - meta.*系列可指定feed_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 * @param bool $only_publish 若为true，则只在已发布的动态里搜索。默认为true
+	 */
+	public function get($id, $fields = null, $only_published = true){
+		$fields || $fields = self::$default_fields;
 		//解析$fields
 		$fields = FieldHelper::process($fields, 'feed');
 		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
-			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
+			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
 			$fields['feed'] = Feeds::model()->getFields();
 		}
 		
@@ -90,13 +106,118 @@ class Feed extends Model{
 			//如果要获取作者信息，则必须搜出user_id
 			$feed_fields[] = 'user_id';
 		}
-		if(!empty($fields['category']) && !in_array('cat_id', $feed_fields)){
+		
+		$sql = new Sql();
+		$sql->from(array('f'=>Feeds::model()->getTableName()), $feed_fields)
+			->where('id = ?', $id);
+		
+		//仅搜索已发布的动态
+		if($only_published){
+			$sql->where(array(
+				'f.deleted = 0',
+				'f.status != '.Feeds::STATUS_DRAFT,
+				'f.publish_time < '.\F::app()->current_time,
+			));
+		}
+		
+		$feed = $sql->fetchRow();
+		if(!$feed){
+			return false;
+		}
+		
+		$return = array(
+			'feed'=>$feed,
+		);
+		
+		//meta
+		if(!empty($fields['meta'])){
+			$return['meta'] = Meta::model()->get($id, $fields['meta']);
+		}
+		
+		//作者信息
+		if(!empty($fields['user'])){
+			$return['user'] = User::model()->get($feed['user_id'], $fields['user']);
+		}
+		
+		//标签
+		if(!empty($fields['tags'])){
+			$return['tags'] = FeedTag::model()->get($id, $fields['tags']);
+		}
+		
+		//附件
+		if(!empty($fields['files'])){
+			$return['files'] = FeedFile::model()->get($id, $fields['files']);
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * 
+	 * @param array $feed_ids 动态ID构成的一维数组
+	 * @param string|array $fields
+	 *  - feeds.*系列可指定feeds表返回字段，若有一项为'feed.*'，则返回所有字段
+	 *  - meta.*系列可指定feed_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 * @param bool $only_publish 若为true，则只在已发布的动态里搜索。默认为true
+	 */
+	public function mget($feed_ids, $fields, $only_published = true){
+		//解析$fields
+		$fields = FieldHelper::process($fields, 'feed');
+		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
+			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
+			$fields['feed'] = Feeds::model()->getFields();
+		}
+		
+		$feed_fields = $fields['feed'];
+		if(!empty($fields['user']) && !in_array('user_id', $feed_fields)){
 			//如果要获取作者信息，则必须搜出user_id
-			$feed_fields[] = 'cat_id';
+			$feed_fields[] = 'user_id';
 		}
 		if(!in_array('id', $fields['feed'])){
 			//id字段无论如何都要返回，因为后面要用到
 			$feed_fields[] = 'id';
 		}
+		
+		$sql = new Sql();
+		$sql->from(array('p'=>Feeds::model()->getTableName()), $feed_fields)
+			->where('id IN (?)', $feed_ids);
+		
+		//仅搜索已发布的动态
+		if($only_published){
+			$sql->where(array(
+				'p.deleted = 0',
+				'p.status != '.Feeds::STATUS_DRAFT,
+				'p.publish_time < '.\F::app()->current_time,
+			));
+		}
+		
+		$feeds = $sql->fetchAll();
+		
+		if(!$feeds){
+			return array();
+		}
+		
+		//meta
+		if(!empty($fields['meta'])){
+			$feed_metas = Meta::model()->mget($feed_ids, $fields['meta']);
+		}
+		
+		//标签
+		if(!empty($fields['tags'])){
+			$feed_tags = FeedTag::model()->mget($feed_ids, $fields['tags']);
+		}
+		
+		//附件
+		if(!empty($fields['files'])){
+			$feed_files = FeedFile::model()->mget($feed_ids, $fields['files']);
+		}
+	}
+	
+	public function checkDeletePermission($feed_id, $user_id = null){
+		
 	}
 }

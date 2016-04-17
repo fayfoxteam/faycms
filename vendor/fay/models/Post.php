@@ -135,8 +135,8 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 返回一篇文章信息（返回字段已做去转义处理）
-	 * @param int $id
+	 * 返回一篇文章信息
+	 * @param int $id 文章ID
 	 * @param string $fields 可指定返回字段
 	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
 	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
@@ -150,7 +150,7 @@ class Post extends Model{
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
 	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
 	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
-	 * @param null|bool $only_publish 若为true，则只在已发布的文章里搜索
+	 * @param bool $only_publish 若为true，则只在已发布的文章里搜索。默认为true
 	 */
 	public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
 		//解析$fields
@@ -166,7 +166,7 @@ class Post extends Model{
 			$post_fields[] = 'user_id';
 		}
 		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
-			//如果要获取作者信息，则必须搜出user_id
+			//如果要获取分类信息，则必须搜出cat_id
 			$post_fields[] = 'cat_id';
 		}
 		
@@ -1056,9 +1056,19 @@ class Post extends Model{
 	/**
 	 * 批量获取文章信息
 	 * @param array $post_ids 文章ID构成的一维数组
-	 * @param string $fields 返回字段
+	 * @param string|array $fields 返回字段
+	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
+	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
+	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+	 * @param bool $only_publish 若为true，则只在已发布的文章里搜索。默认为true
 	 */
-	public function mget($post_ids, $fields){
+	public function mget($post_ids, $fields, $only_published = true){
 		if(!$post_ids){
 			return array();
 		}
@@ -1075,7 +1085,7 @@ class Post extends Model{
 			$post_fields[] = 'user_id';
 		}
 		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
-			//如果要获取作者信息，则必须搜出user_id
+			//如果要获取分类信息，则必须搜出cat_id
 			$post_fields[] = 'cat_id';
 		}
 		if(!in_array('id', $fields['post'])){
@@ -1083,9 +1093,20 @@ class Post extends Model{
 			$post_fields[] = 'id';
 		}
 		
-		$posts = Posts::model()->fetchAll(array(
-			'id IN (?)'=>$post_ids,
-		), $post_fields);
+		$sql = new Sql();
+		$sql->from(array('p'=>Posts::model()->getTableName()), $post_fields)
+			->where('id IN (?)', $post_ids);
+		
+		//仅搜索已发布的文章
+		if($only_published){
+			$sql->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			));
+		}
+		
+		$posts = $sql->fetchAll();
 		
 		if(!$posts){
 			return array();

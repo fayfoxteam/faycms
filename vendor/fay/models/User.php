@@ -95,7 +95,12 @@ class User extends Model{
 		$return['user'] = $user;
 		//角色属性
 		if(!empty($fields['props'])){
-			$return['props'] = $this->getPropertySet($id, in_array('*', $fields['props']) ? null : $fields['props']);
+			if(in_array('*', $fields['props'])){
+				$props = null;
+			}else{
+				$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_ROLE);
+			}
+			$return['props'] = $this->getPropertySet($id, $props);
 		}
 		
 		//角色
@@ -188,7 +193,12 @@ class User extends Model{
 			
 			//角色属性
 			if(!empty($fields['props'])){
-				$user['props'] = $this->getPropertySet($u['id'], in_array('*', $fields['props']) ? null : $fields['props']);
+				if(in_array('*', $fields['props'])){
+					$props = null;
+				}else{
+					$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_ROLE);
+				}
+				$user['props'] = $this->getPropertySet($u['id'], $props);
 			}
 			
 			if($remove_id_field){
@@ -210,8 +220,6 @@ class User extends Model{
 	public function getPropertySet($user_id, $props = null){
 		if($props === null){
 			$props = $this->getProps($user_id);
-		}else{
-			$props = Prop::model()->mgetByAlias($props, Props::TYPE_ROLE);
 		}
 		
 		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(
@@ -316,25 +324,25 @@ class User extends Model{
 		$roles = Role::model()->getIds($user_id, true);
 		if(in_array(Roles::ITEM_SUPER_ADMIN, $roles)){
 			//超级管理员无限制
-			$this->_allowed_routers[] = $router;
+			$this->_allowed_routers[$user_id][] = $router;
 			return true;
 		}
 		
 		$actions = Role::model()->getActions($user_id, true);
 		if(in_array($router, $actions)){
 			//用户有此权限
-			$this->_allowed_routers[] = $router;
+			$this->_allowed_routers[$user_id][] = $router;
 			return true;
 		}
 		
 		$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
 		//此路由并不在权限路由列表内，视为公共路由
 		if(!$action || $action['is_public']){
-			$this->_allowed_routers[] = $router;
+			$this->_allowed_routers[$user_id][] = $router;
 			return true;
 		}
 		
-		$this->_denied_routers[] = $router;
+		$this->_denied_routers[$user_id][] = $router;
 		return false;
 	}
 }

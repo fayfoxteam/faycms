@@ -102,9 +102,8 @@ class Post extends Model{
 	public function getPropertySet($post_id, $props = null){
 		if($props === null){
 			$props = $this->getProps($post_id);
-		}else{
-			$props = Prop::model()->mgetByAlias($props, Props::TYPE_POST_CAT);
 		}
+		
 		return Prop::model()->getPropertySet('post_id', $post_id, $props, array(
 			'varchar'=>'fay\models\tables\PostPropVarchar',
 			'int'=>'fay\models\tables\PostPropInt',
@@ -289,7 +288,12 @@ class Post extends Model{
 		
 		//附加属性
 		if(!empty($fields['props'])){
-			$return['props'] = $this->getPropertySet($id, in_array('*', $fields['props']) ? null : $fields['props']);
+			if(in_array('*', $fields['props'])){
+				$props = null;
+			}else{
+				$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_POST_CAT);
+			}
+			$return['props'] = $this->getPropertySet($id, $props);
 		}
 		
 		//附加分类
@@ -557,7 +561,12 @@ class Post extends Model{
 			
 			//附加属性
 			if(!empty($fields['props'])){
-				$post['props'] = $this->getPropertySet($p['id'], in_array('*', $fields['props']) ? null : $fields['props']);
+				if(in_array('*', $fields['props'])){
+					$props = null;
+				}else{
+					$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_POST_CAT);
+				}
+				$post['props'] = $this->getPropertySet($p['id'], $props);
 			}
 			
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
@@ -1196,7 +1205,12 @@ class Post extends Model{
 				
 			//附加属性
 			if(!empty($fields['props'])){
-				$post['props'] = $this->getPropertySet($p['id'], in_array('*', $fields['props']) ? null : $fields['props']);
+				if(in_array('*', $fields['props'])){
+					$props = null;
+				}else{
+					$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_POST_CAT);
+				}
+				$post['props'] = $this->getPropertySet($p['id'], $props);
 			}
 				
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段

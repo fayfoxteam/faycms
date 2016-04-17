@@ -126,18 +126,22 @@ class Role extends Model{
 		
 		//如果走缓存，则获取角色ID的时候也走缓存
 		$role_ids = $this->getIds($user_id, $cache);
-		$sql = new Sql();
-		$actions = $sql->from(array('ra'=>'roles_actions'), '')
-			->joinLeft(array('a'=>'actions'), 'ra.action_id = a.id', 'router')
-			->where('ra.role_id IN ('.implode(',', $role_ids).')')
-			->group('a.router')
-			->fetchAll();
+		if($role_ids){
+			$sql = new Sql();
+			$actions = $sql->from(array('ra'=>'roles_actions'), '')
+				->joinLeft(array('a'=>'actions'), 'ra.action_id = a.id', 'router')
+				->where('ra.role_id IN ('.implode(',', $role_ids).')')
+				->group('a.router')
+				->fetchAll();
+			
+			$routers = ArrayHelper::column($actions, 'router');
+		}else{
+			$routers = array();
+		}
 		
-		$routers = ArrayHelper::column($actions, 'router');
 		if($cache){
 			$this->_role_actions[$user_id] = $routers;
 		}
-		
 		return $routers;
 	}
 }

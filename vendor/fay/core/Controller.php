@@ -5,6 +5,7 @@ use fay\helpers\Request;
 use fay\models\tables\Actions;
 use fay\helpers\StringHelper;
 use fay\models\tables\Roles;
+use fay\models\User;
 
 /**
  * @property View $view 视图
@@ -14,7 +15,7 @@ class Controller{
 	/**
 	 * 检查过被阻止的路由
 	 */
-	protected $_deny_routers = array();
+	protected $_denied_routers = array();
 	
 	/**
 	 * 随机token，用于防止重复请求（并不一定用到）
@@ -89,10 +90,14 @@ class Controller{
 
 	/**
 	 * 根据路由做权限检查
+	 * 这里必然是对当前登录用户做检查，比fay\models\User::checkPermission()逻辑简单
 	 * @param string $router
 	 * @return boolean
 	 */
 	public function checkPermission($router){
+		return User::model()->checkPermission($router);
+		
+		//下面逻辑不会被执行，但是代码先保留
 		if(in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles', array()))){
 			//超级管理员无限制
 			return true;
@@ -100,7 +105,7 @@ class Controller{
 			//用户有此权限
 			return true;
 		}else{
-			if(in_array($router, $this->_deny_routers)){
+			if(in_array($router, $this->_denied_routers)){
 				//已经检查过此路由为不可访问路由
 				return false;
 			}
@@ -110,7 +115,7 @@ class Controller{
 				return true;
 			}
 		}
-		$this->_deny_routers[] = $router;
+		$this->_denied_routers[] = $router;
 		return false;
 	}
 	

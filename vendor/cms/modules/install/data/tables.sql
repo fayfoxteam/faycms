@@ -19,7 +19,7 @@ CREATE TABLE `{{$prefix}}actions` (
   `is_public` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为公共路由',
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
   PRIMARY KEY (`id`),
-  KEY `router` (`router`)
+  UNIQUE KEY `router` (`router`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_caches`;
@@ -724,7 +724,7 @@ CREATE TABLE `{{$prefix}}props` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
   PRIMARY KEY (`id`),
-  KEY `refer-type-deleted` (`refer`,`type`,`deleted`) USING BTREE
+  KEY `refer-type-deleted` (`refer`,`type`,`deleted`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
@@ -885,7 +885,7 @@ CREATE TABLE `{{$prefix}}user_settings` (
   `setting_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Setting Key',
   `setting_value` text NOT NULL COMMENT 'Setting Value',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id-setting_key` (`user_id`,`setting_key`) USING BTREE
+  UNIQUE KEY `user_id-setting_key` (`user_id`,`setting_key`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users`;

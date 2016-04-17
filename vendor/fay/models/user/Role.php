@@ -11,7 +11,17 @@ class Role extends Model{
 	/**
 	 * 默认返回字段
 	 */
-	private $public_fields = array('id', 'title', 'description');
+	public $public_fields = array('id', 'title', 'description');
+	
+	/**
+	 * 以用户为单位，缓存用户所属角色id数组
+	 */
+	private $_role_ids = array();
+	
+	/**
+	 * 以用户为单位，缓存用户权限路由数组
+	 */
+	private $_role_actions = array();
 	
 	/**
 	 * @return Role
@@ -86,10 +96,48 @@ class Role extends Model{
 	/**
 	 * 返回指定用户的角色ID
 	 * @param int $user_id 用户ID
+	 * @param bool $cache 若为true，则会在当前对象缓存一份结果，减少数据库请求。默认为false
 	 * @return array 角色ID构成的一维数组
 	 */
-	public function getIds($user_id){
+	public function getIds($user_id, $cache = false){
+		if($cache && isset($this->_role_ids[$user_id])){
+			return $this->_role_ids[$user_id];
+		}
+		
 		$user_roles = UsersRoles::model()->fetchAll(array('user_id = ?'=>$user_id), 'role_id');
-		return ArrayHelper::column($user_roles, 'role_id');
+		$role_ids = ArrayHelper::column($user_roles, 'role_id');
+		if($cache){
+			$this->_role_ids[$user_id] = $role_ids;
+		}
+		
+		return $role_ids;
+	}
+	
+	/**
+	 * 返回指定用户的权限路由（一维数组）
+	 * @param int $user_id 用户ID
+	 * @param bool $cache 若为true，则会在当前对象缓存一份结果，减少数据库请求。默认为false
+	 * @return array 角色ID构成的一维数组
+	 */
+	public function getActions($user_id, $cache = false){
+		if($cache && isset($this->_role_actions[$user_id])){
+			return $this->_role_actions[$user_id];
+		}
+		
+		//如果走缓存，则获取角色ID的时候也走缓存
+		$role_ids = $this->getIds($user_id, $cache);
+		$sql = new Sql();
+		$actions = $sql->from(array('ra'=>'roles_actions'), '')
+			->joinLeft(array('a'=>'actions'), 'ra.action_id = a.id', 'router')
+			->where('ra.role_id IN ('.implode(',', $role_ids).')')
+			->group('a.router')
+			->fetchAll();
+		
+		$routers = ArrayHelper::column($actions, 'router');
+		if($cache){
+			$this->_role_actions[$user_id] = $routers;
+		}
+		
+		return $routers;
 	}
 }

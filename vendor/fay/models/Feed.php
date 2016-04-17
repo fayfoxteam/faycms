@@ -8,6 +8,7 @@ use fay\core\Sql;
 use fay\models\feed\Meta;
 use fay\models\feed\Tag as FeedTag;
 use fay\models\feed\File as FeedFile;
+use fay\models\tables\Users;
 
 class Feed extends Model{
 	/**
@@ -217,7 +218,32 @@ class Feed extends Model{
 		}
 	}
 	
-	public function checkDeletePermission($feed_id, $user_id = null){
+	/**
+	 * 判断指定用户是否具备对指定动态的删除权限
+	 * @param int|array $feed 动态
+	 *  - 若是数组，视为动态表行记录，必须包含user_id字段
+	 *  - 若是数字，视为动态ID，会根据ID搜索数据库
+	 * @param string $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 */
+	public function checkDeletePermission($feed, $user_id = null){
+		if(!is_array($feed)){
+			$feed = Feeds::model()->find($feed, 'user_id');
+		}
+		$user_id || $user_id = \F::app()->current_user;
 		
+		if($feed['user_id'] == $user_id){
+			//自己的动态总是有权限删除的
+			return true;
+		}
+		
+		$user = Users::model()->find($user_id, 'admin');
+		if($user['admin']){
+			if(User::model()->checkPermission('admin/feed/delete', $user_id)){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

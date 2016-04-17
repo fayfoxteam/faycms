@@ -7,6 +7,8 @@ use fay\models\tables\Props;
 use fay\helpers\FieldHelper;
 use fay\models\user\Profile;
 use fay\models\user\Role;
+use fay\models\tables\Roles;
+use fay\models\tables\Actions;
 
 class User extends Model{
 	/**
@@ -29,6 +31,16 @@ class User extends Model{
 			'id', 'nickname', 'avatar',
 		)
 	);
+	
+	/**
+	 * 以用户为单位，缓存经检查允许的路由
+	 */
+	private $_allowed_routers = array();
+	
+	/**
+	 * 以用户为单位，缓存经检查不允许的路由
+	 */
+	private $_denied_routers = array();
 	
 	/**
 	 * @return User
@@ -278,5 +290,51 @@ class User extends Model{
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * 根据路由做权限检查
+	 * 从数据库中获取role.id和actions信息
+	 * @param string $router 路由
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 */
+	public function checkPermission($router, $user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		//已经检查过是允许的路由，直接返回true
+		if(isset($this->_allowed_routers[$user_id]) &&
+			in_array($router, $this->_allowed_routers[$user_id])){
+			return true;
+		}
+		
+		//已经检查过是不允许的路由，直接返回false
+		if(isset($this->_denied_routers[$user_id]) &&
+			in_array($router, $this->_denied_routers[$user_id])){
+			return false;
+		}
+		
+		$roles = Role::model()->getIds($user_id, true);
+		if(in_array(Roles::ITEM_SUPER_ADMIN, $roles)){
+			//超级管理员无限制
+			$this->_allowed_routers[] = $router;
+			return true;
+		}
+		
+		$actions = Role::model()->getActions($user_id, true);
+		if(in_array($router, $actions)){
+			//用户有此权限
+			$this->_allowed_routers[] = $router;
+			return true;
+		}
+		
+		$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
+		//此路由并不在权限路由列表内，视为公共路由
+		if(!$action || $action['is_public']){
+			$this->_allowed_routers[] = $router;
+			return true;
+		}
+		
+		$this->_denied_routers[] = $router;
+		return false;
 	}
 }

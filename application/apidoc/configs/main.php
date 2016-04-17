@@ -29,5 +29,5 @@ return array(
 		'frontend'
 	),
 	
-	//'debug'=>false,
+	'debug'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? false : true,
 );

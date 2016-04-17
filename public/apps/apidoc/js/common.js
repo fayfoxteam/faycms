@@ -209,24 +209,23 @@ var common = {
 				.replace(jsonLine, common.json.replacer);
 		}
 	},
-	'prettyPrintResponse': function(){
-		$json = $('#sample_response');
-		if($json.length && $json.text()){
+	'jsonView': function(){
+		$('.jsonview').each(function(){
 			try{
-				var jsonObj = $.parseJSON($json.text());
+				var jsonObj = $.parseJSON($(this).text());
 			}catch(e){
 				jsonObj = false;
 			}
 			if(jsonObj){
 				if($.browser.msie && $.browser.version < 9){
 					system.getScript(system.assets('js/json2.js'), function(){
-						$json.html(common.json.prettyPrint(jsonObj));
+						$(this).html(common.json.prettyPrint(jsonObj));
 					});
 				}else{
-					$json.html(common.json.prettyPrint(jsonObj));
+					$(this).html(common.json.prettyPrint(jsonObj));
 				}
 			}
-		}
+		});
 	},
 	'init': function(){
 		this.menu();
@@ -236,6 +235,6 @@ var common = {
 		this.tab();
 		this.textAutosize();
 		this.prettyPrint();
-		this.prettyPrintResponse();
+		this.jsonView();
 	}
 };

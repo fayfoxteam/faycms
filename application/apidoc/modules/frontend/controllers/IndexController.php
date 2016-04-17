@@ -3,6 +3,7 @@ namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
 use fay\models\Option;
+use apidoc\models\tables\Models;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -19,8 +20,13 @@ class IndexController extends FrontController{
 	}
 	
 	public function index(){
+		$this->layout->assign(array(
+			'title'=>Option::get('site:sitename'),
+			'canonical'=>$this->view->url(),
+		));
 		
-		
-		$this->view->render();
+		$this->view->assign(array(
+			'models'=>Models::model()->fetchAll('id < 1000', 'name,description,sample', 'id')
+		))->render();
 	}
 }

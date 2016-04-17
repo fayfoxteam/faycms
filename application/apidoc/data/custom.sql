@@ -91,18 +91,17 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5005', '5000', '', '新增数据模型', '', 'admin/model/create');
 
 -- 预定义特殊对象
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('1', 'String', '字符串');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('2', 'Int', '数字');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('3', 'sInt', '字符串类型的整数');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('4', 'Float', '小数');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('5', 'sFloat', '字符串类型的小数');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('6', 'Boolean', '布尔');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('7', 'Bit', '数字0/1');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('8', 'sBit', '字符串类型的0/1');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('9', 'Array', '数组');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('10', 'Datetime', '日期时间，所有日期时间不足2位均有前导0');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('11', 'Date', '日期（不带时间），月份日期不足2位均有前导0');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('12', 'Timestamp', '数字时间戳');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('13', 'sTimestamp', '字符串时间戳');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('14', 'Price', '价格。字符串类型数字，带2位小数');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `description`) VALUES ('15', 'Url', '网址');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('1', 'String', '\"Hello World\"', '字符串');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('2', 'Int', '10000', '数字');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('3', 'sInt', '\"10000\"', '字符串类型的整数');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('4', 'Float', '12.345', '小数');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('5', 'sFloat', '\"12.345\"', '字符串类型的小数');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('6', 'Boolean', 'true', '布尔');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('7', 'Bit', '0', '数字0/1');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('8', 'sBit', '\"1\"', '字符串类型的0/1');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('9', 'Datetime', '\"2016-04-17 19:24:14\"', '日期时间，所有日期时间不足2位均有前导0');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('10', 'Date', '\"2016-04-17\"', '日期（不带时间），月份日期不足2位均有前导0');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('11', 'Timestamp', '1460892254', '数字时间戳');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('12', 'sTimestamp', '\"1460892254\"', '字符串时间戳');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('13', 'Price', '\"112.38\"', '价格。字符串类型数字，带2位小数');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('14', 'Url', '\"http://www.faycms.com\"', '网址');

@@ -16,7 +16,7 @@
 		</form>
 	</div>
 	<div class="col-12">
-		<div class="box">
+		<div class="box" id="eval-result-box">
 			<div class="box-title"><h3>Result</h3></div>
 			<div class="box-content">
 				<div style="min-height:239px" id="eval-result"></div>
@@ -64,12 +64,19 @@ editor.commands.addCommand({
 editor.setValue($('#key').val(), 1);
 
 $('#form').submit(function(){
+	$('#eval-result-box').block();
 	$.ajax({
 		'type': 'POST',
 		'url': system.url('tools/function/do-eval'),
 		'data': $('#form').serialize(),
 		'cache': false,
+		'global': false,
+		'error': function(XMLHttpRequest, textStatus, errorThrown){
+			$('#eval-result-box').unblock();
+			$('#eval-result').html(errorThrown);
+		},
 		'success': function(resp){
+			$('#eval-result-box').unblock();
 			$('#eval-result').html(resp);
 		}
 	});

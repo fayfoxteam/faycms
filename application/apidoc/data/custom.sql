@@ -99,9 +99,9 @@ INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) V
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('6', 'Boolean', 'true', '布尔');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('7', 'Bit', '0', '数字0/1');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('8', 'sBit', '\"1\"', '字符串类型的0/1');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('9', 'Datetime', '\"2016-04-17 19:24:14\"', '日期时间，所有日期时间不足2位均有前导0');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('10', 'Date', '\"2016-04-17\"', '日期（不带时间），月份日期不足2位均有前导0');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('11', 'Timestamp', '1460892254', '数字时间戳');
-INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('12', 'sTimestamp', '\"1460892254\"', '字符串时间戳');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('9', 'Datetime', '\"2016-04-17 23:03:06\"', '日期时间');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('10', 'Date', '\"2016-04-17\"', '日期（不带时间）');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('11', 'Timestamp', '1460905386', '数字时间戳');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('12', 'sTimestamp', '\"1460905386\"', '字符串时间戳');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('13', 'Price', '\"112.38\"', '价格。字符串类型数字，带2位小数');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('14', 'Url', '\"http://www.faycms.com\"', '网址');

@@ -4,7 +4,7 @@ use fay\helpers\Html;
 <div class="hide">
 	<div id="edit-output-dialog" class="dialog">
 		<div class="dialog-content w600">
-			<h4>编辑模型 - <span class="fc-orange" id="editing-output-name"></span></h4>
+			<h4>编辑响应参数 - <span class="fc-orange" id="editing-output-name"></span></h4>
 			<form class="output-form" id="edit-output-form">
 				<input type="hidden" name="selector" />
 				<table class="form-table">

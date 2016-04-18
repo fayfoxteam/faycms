@@ -4,7 +4,7 @@ use fay\helpers\Html;
 <div class="hide">
 	<div id="add-output-dialog" class="dialog">
 		<div class="dialog-content w600">
-			<h4>添加模型</h4>
+			<h4>添加响应参数</h4>
 			<form class="output-form" id="add-output-form">
 				<table class="form-table">
 					<tr>

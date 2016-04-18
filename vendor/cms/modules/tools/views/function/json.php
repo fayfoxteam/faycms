@@ -82,6 +82,7 @@ $("[name='format_json']").on('keydown', function(event){
 			$("#formatted-json").val(JSON.stringify(jsonObj, null, 4));
 			autosize.update($("#formatted-json"));
 		}
+		return false;
 	}
 });
 $("[name='format_json']").on('blur', function(){

@@ -33,7 +33,7 @@ class UserController extends ApiController{
 		))){
 			Response::json('', 0, '用户名已存在');
 		}else{
-			Response::json();
+			Response::json('', 1, '用户名可用');
 		}
 	}
 	
@@ -57,9 +57,9 @@ class UserController extends ApiController{
 			'deleted = 0',
 			'id != ?'=>$this->input->request('id', 'intval', false)
 		))){
-			Response::json();
+			Response::json('', 1, '用户名存在');
 		}else{
-			Response::json('', 0, '该用户名不存在');
+			Response::json('', 0, '用户名不存在');
 		}
 	}
 	/**

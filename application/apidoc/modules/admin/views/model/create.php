@@ -9,7 +9,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 			<div class="mb30"><?php echo F::form()->inputText('name', array(
 				'id'=>'title',
 				'class'=>'form-control bigtxt',
-				'placeholder'=>'在此键入标题',
+				'placeholder'=>'模型名称',
 			))?></div>
 			<div class="mb30 cf"><?php $this->renderPartial('_description')?></div>
 		</div>

@@ -224,4 +224,33 @@ class AdminController extends Controller{
 			}
 		}
 	}
+	
+	/**
+	 * 初始化设置表单
+	 * @param string $key 设置key
+	 * @param string $panel 设置面板
+	 * @param mix $default 默认值
+	 * @param array $data 附加数据（函数内部会通过$key获取用户设置，有些特殊设置需要处理后传入，可以在这个参数传入）
+	 */
+	public function settingForm($key, $panel, $default = array(), $data = array()){
+		$this->layout->_setting_panel = $panel;
+		
+		$settings = Setting::model()->get($key);
+		$settings || $settings = $default;
+		
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setJsModel('setting')
+			->setData($settings)
+			->setData(array(
+				'_key'=>$key,
+			));
+		
+		if($data){
+			$this->form('setting')
+				->setData($data);
+		}
+		
+		return $this->form('setting')->getAllData(false);
+	}
 }

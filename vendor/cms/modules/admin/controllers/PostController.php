@@ -147,22 +147,16 @@ class PostController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
-		//可配置信息
+		//box排序
 		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		//页面设置
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		//所有文章分类
 		$this->view->cats = Category::model()->getTree('_system_post');
@@ -192,6 +186,7 @@ class PostController extends AdminController{
 		
 		$cat_id = $this->input->get('cat_id', 'intval', 0);
 		
+		//权限检查
 		if($this->checkPermission('admin/post/create')){
 			$this->layout->sublink = array(
 				'uri'=>array('admin/post/create', array(
@@ -201,23 +196,15 @@ class PostController extends AdminController{
 			);
 		}
 		
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_post_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$_settings = $this->settingForm('admin_post_index', '_setting_index', array(
 			'cols'=>array('main_category', 'status', 'publish_time', 'last_modified_time', 'create_time', 'sort'),
 			'display_name'=>'username',
 			'display_time'=>'short',
 			'page_size'=>10,
-		);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key
-			))
-			->setJsModel('setting');
+		));
 		
+		//列表页会根据enabled_boxes决定是否显示某些列
 		$this->view->enabled_boxes = $this->getEnabledBoxes('admin_post_boxes');
 		//查找文章分类
 		$this->view->cats = Category::model()->getTree('_system_post');
@@ -354,8 +341,6 @@ class PostController extends AdminController{
 	}
 	
 	public function edit(){
-		//可用的box
-		$this->layout->_setting_panel = '_setting_edit';
 		$_setting_key = 'admin_post_boxes';
 		//这里获取enabled_boxes是为了更新文章的时候用
 		//由于box可能被hook改掉，后面还会再获取一次enabled_boxes
@@ -492,7 +477,6 @@ class PostController extends AdminController{
 		), 'file_id,description,is_image', 'sort');
 
 		$this->form()->setData($post, true);
-		
 		$this->view->post = $post;
 		
 		//附加属性
@@ -514,17 +498,11 @@ class PostController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
+		//页面设置
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$this->view->render();
 	}

@@ -11,6 +11,7 @@ use fay\models\Menu;
 use fay\core\HttpException;
 use fay\models\Flash;
 use fay\models\tables\Roles;
+use fay\helpers\ArrayHelper;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -172,12 +173,11 @@ class AdminController extends Controller{
 	 * @return multitype:|multitype:Ambigous <>
 	 */
 	protected function getBoxNames(){
-		if(!$this->boxes)return array();
-		$names = array();
-		foreach($this->boxes as $box){
-			$names[] = $box['name'];
+		if(empty($this->boxes)){
+			return array();
+		}else{
+			return ArrayHelper::column($this->boxes, 'name');
 		}
-		return $names;
 	}
 	
 	/**

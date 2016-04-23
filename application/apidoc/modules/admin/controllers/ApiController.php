@@ -60,22 +60,13 @@ class ApiController extends AdminController{
 			);
 		}
 		
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_api_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$_settings = $this->settingForm('admin_api_index', '_setting_index', array(
 			'cols'=>array('router', 'status', 'category', 'since', 'create_time'),
 			'display_name'=>'nickname',
 			'display_time'=>'short',
 			'page_size'=>10,
-		);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key
-			))
-			->setJsModel('setting');
+		));
 		
 		$this->view->enabled_boxes = $this->getEnabledBoxes('admin_api_boxes');
 		
@@ -208,17 +199,11 @@ class ApiController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		//页面设置
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		//输入参数表单规则
 		$this->form('input-parameter')->setModel(Inputs::model());
@@ -350,17 +335,11 @@ class ApiController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		//页面设置
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		//输入参数表单规则
 		$this->form('input-parameter')->setModel(Inputs::model());
@@ -390,20 +369,11 @@ class ApiController extends AdminController{
 	 */
 	public function cat(){
 		$this->layout->current_directory = 'api';
-		$this->layout->_setting_panel = '_setting_cat';
 		
-		$_setting_key = 'admin_api_cat';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_api_cat', '_setting_cat', array(
 			'default_dep'=>2,
-		);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key
-			))
-			->setJsModel('setting');
+		));
 		
 		$this->layout->subtitle = 'API分类';
 		$this->view->cats = Category::model()->getTree('_system_api');

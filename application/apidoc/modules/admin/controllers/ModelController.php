@@ -126,17 +126,11 @@ class ModelController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		//页面设置
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		//所有数据模型
 		$models = Models::model()->fetchAll(array(), 'id,name,description');
@@ -237,17 +231,11 @@ class ModelController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		//页面设置
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		//所有数据模型
 		$models = Models::model()->fetchAll(array(), 'id,name,description');

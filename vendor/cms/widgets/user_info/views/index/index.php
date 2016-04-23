@@ -2,6 +2,7 @@
 use fay\helpers\Date;
 use fay\helpers\ArrayHelper;
 use fay\models\user\Role;
+use fay\models\User;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -11,7 +12,9 @@ use fay\models\user\Role;
 	</div>
 	<div class="box-content">
 		<table class="form-table">
-		<?php if(\F::session()->get('user.id', null, \F::config()->get('session_namespace').'_admin')){?>
+		<?php $user_id = \F::session()->get('user.id', null, \F::config()->get('session_namespace').'_admin');?>
+		<?php if($user_id){?>
+			<?php $last_login = User::model()->getLastLoginInfo(array('login_time', 'ip_int'), $user_id)?>
 			<tr>
 				<th>用户身份</th>
 				<td><?php
@@ -21,14 +24,16 @@ use fay\models\user\Role;
 			</tr>
 			<tr>
 				<th>上次登陆时间</th>
-				<td><?php echo Date::format(\F::session()->get('user.last_login_time', null, \F::config()->get('session_namespace').'_admin'))?></td>
+				<td><?php if($last_login){
+					echo Date::format($last_login['login_time']);
+				}?></td>
 			</tr>
 			<tr>
 				<th>上次登陆IP</th>
-				<td>
-					<?php echo \F::session()->get('user.last_login_ip', null, \F::config()->get('session_namespace').'_admin')?>
-					<em>( <?php echo $iplocation->getCountryAndArea(\F::session()->get('user.last_login_ip', null, \F::config()->get('session_namespace').'_admin'))?> )</em>
-				</td>
+				<td><?php if($last_login){?>
+					<?php echo long2ip($last_login['ip_int'])?>
+					<em>( <?php echo $iplocation->getCountryAndArea(long2ip($last_login['ip_int']))?> )</em>
+				<?php }?></td>
 			</tr>
 		<?php }?>
 			<tr>

@@ -9,6 +9,7 @@ use fay\models\user\Profile;
 use fay\models\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\Actions;
+use fay\models\tables\UserLogins;
 
 class User extends Model{
 	/**
@@ -344,5 +345,17 @@ class User extends Model{
 		
 		$this->_denied_routers[$user_id][] = $router;
 		return false;
+	}
+	
+	/**
+	 * 获取上一次登录信息（登录记录的倒数第二条）
+	 * @param int $user_id 用户ID
+	 */
+	public function getLastLoginInfo($fields = '*', $user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		return UserLogins::model()->fetchRow(array(
+			'user_id = ?'=>$user_id,
+		), $fields, 'id DESC', 1);
 	}
 }

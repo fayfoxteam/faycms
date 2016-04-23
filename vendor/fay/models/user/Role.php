@@ -144,4 +144,23 @@ class Role extends Model{
 		}
 		return $routers;
 	}
+	
+	/**
+	 * 判断一个用户是否属于指定角色
+	 * @param int $role_id 角色ID
+	 * @param int $user_id 用户ID
+	 * @param bool $cache 若为true，则会从缓存中获取用户角色，若为false，则会实时搜索数据库获取
+	 */
+	public function is($role_id, $user_id = null, $cache = true){
+		if($user_id === null){
+			$user_id = \F::app()->current_user;
+		}
+		
+		if($cache){
+			$user_roles = $this->getIds($user_id, true);
+			return in_array($role_id, $user_roles);
+		}else{
+			return !!UsersRoles::model()->find(array($user_id, $role_id));
+		}
+	}
 }

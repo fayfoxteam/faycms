@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\File;
 use fay\models\tables\Roles;
+use fay\models\user\Role;
 ?>
 <div class="drag-drop-area" id="drag-drop-area">
 	<div class="drag-drop-inside">
@@ -59,7 +60,7 @@ use fay\models\tables\Roles;
 <?php }?>
 <?php }?>
 </div>
-<div class="box <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')))echo 'closed';?>">
+<div class="box <?php if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN))echo 'closed';?>">
 	<div class="box-title">
 		<a class="tools toggle" title="点击以切换"></a>
 		<h4>渲染模版</h4>

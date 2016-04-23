@@ -2,43 +2,23 @@
 use fay\helpers\Html;
 use fay\helpers\Date;
 use cms\helpers\FeedHelper;
-use fay\models\tables\Roles;
 use fay\models\feed\Tag as FeedTag;
-
-/**
- * 超级管理员或未开启分类权限或当前用户有此分类操作权限，则文章可编辑
- */
-if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
-	!F::app()->role_cats ||
-	in_array($data['cat_id'], F::session()->get('role_cats', array()))){
-	/**
-	 * 是否有权限编辑（此处验证的是分类权限）
-	 */
-	$editable = true;
-}else{
-	$editable = false;
-}
 ?>
 <tr valign="top" id="feed-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
 		'class'=>'batch-ids',
-		'disabled'=>$editable ? false : 'disabled',
 	));?></td>
 	<?php if(in_array('id', $cols)){?>
 	<td><?php echo $data['id']?></td>
 	<?php }?>
 	<td>
 		<strong><?php
-			if($editable){
-				echo Html::link($data['content'], array('admin/feed/edit', array(
-					'id'=>$data['id'],
-				)));
-			}else{
-				echo Html::link($data['content'], 'javascript:;');
-			}
+			echo Html::link($data['content'], array('admin/feed/edit', array(
+				'id'=>$data['id'],
+			)));
 		?></strong>
 		<div class="row-actions">
-		<?php if($editable){
+		<?php
 			if($data['deleted'] == 0){
 				echo Html::link('编辑', array('admin/feed/edit', array(
 					'id'=>$data['id'],
@@ -60,7 +40,7 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
 					'class'=>'delete-feed fc-red remove-link',
 				), true);
 			}
-		}?>
+		?>
 		</div>
 	</td>
 	<?php if(in_array('tags', $cols)){?>

@@ -2,9 +2,7 @@
 namespace fay\core;
 
 use fay\helpers\Request;
-use fay\models\tables\Actions;
 use fay\helpers\StringHelper;
-use fay\models\tables\Roles;
 use fay\models\User;
 
 /**
@@ -96,27 +94,6 @@ class Controller{
 	 */
 	public function checkPermission($router){
 		return User::model()->checkPermission($router);
-		
-		//下面逻辑不会被执行，但是代码先保留
-		if(in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles', array()))){
-			//超级管理员无限制
-			return true;
-		}else if(in_array($router, \F::session()->get('actions', array()))){
-			//用户有此权限
-			return true;
-		}else{
-			if(in_array($router, $this->_denied_routers)){
-				//已经检查过此路由为不可访问路由
-				return false;
-			}
-			$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
-			//此路由并不在权限路由列表内，视为公共路由
-			if(!$action || $action['is_public']){
-				return true;
-			}
-		}
-		$this->_denied_routers[] = $router;
-		return false;
 	}
 	
 	/**

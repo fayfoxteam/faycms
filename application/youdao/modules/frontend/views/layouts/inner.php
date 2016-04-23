@@ -12,7 +12,7 @@ use fay\helpers\Html;
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
-system.user_id = '<?php echo F::session()->get('user.id', 0)?>';
+system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 <link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
 <meta content="<?php echo isset($keywords)? $keywords : ''?>" name="keywords" />

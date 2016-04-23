@@ -60,14 +60,14 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey hidden-not-lg">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) || !Option::get('system:post_role_cats') || in_array($c['id'], F::session()->get('role_cats'))){
+					<?php
 						echo Html::link('添加API', array('admin/api/create', array(
 							'cat_id'=>$c['id'],
 						)), array(
 							'class'=>'fc-green hover-link',
 							'prepend'=>'<i class="fa fa-pencil"></i>',
 						), true);
-					}?>
+					?>
 				</span>
 			</div>
 			<?php if(!empty($c['children'])){

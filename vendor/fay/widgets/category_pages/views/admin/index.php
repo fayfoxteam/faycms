@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\models\tables\Roles;
+use fay\models\user\Role;
 ?>
 <div class="box">
 	<div class="box-title">
@@ -38,7 +39,7 @@ use fay\models\tables\Roles;
 		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 		</div>
-		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')))echo 'hide';?>">
+		<div class="advance <?php if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php

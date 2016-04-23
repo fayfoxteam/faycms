@@ -1,7 +1,6 @@
 <?php
 use fay\helpers\Html;
 use fay\models\tables\Messages;
-use fay\models\Post;
 use fay\helpers\Date;
 ?>
 <tr valign="top" id="message-<?php echo $data['id']?>">

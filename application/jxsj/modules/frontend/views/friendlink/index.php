@@ -1,6 +1,3 @@
-<?php
-use fay\helpers\Html;
-?>
 <div id="banner">
 	<?php \F::widget()->load('index-slides')?>
 </div>

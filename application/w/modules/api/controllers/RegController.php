@@ -1,11 +1,8 @@
 <?php
 namespace w\modules\api\controllers;
 use fay\core\Controller;
-use fay\core\Loader;
 use fay\core\Response;
-use fay\core\Session;
 use fay\helpers\StringHelper;
-use fay\models\Sms;
 use fay\models\tables\Tokens;
 use fay\models\tables\Users;
 use fay\models\User;

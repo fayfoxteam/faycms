@@ -7,7 +7,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\Message;
 use fay\models\tables\Users;
-use fay\helpers\Request;
 use fay\core\Response;
 use fay\services\User;
 use fay\helpers\StringHelper;

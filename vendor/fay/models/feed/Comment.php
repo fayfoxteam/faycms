@@ -7,9 +7,6 @@ use fay\helpers\FieldHelper;
 use fay\models\Option;
 use fay\models\tables\PostMeta;
 use fay\models\User;
-use fay\core\Sql;
-use fay\common\ListView;
-use fay\helpers\ArrayHelper;
 
 class Comment extends MultiTree{
 	/**

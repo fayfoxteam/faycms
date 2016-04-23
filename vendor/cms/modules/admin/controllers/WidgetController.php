@@ -9,7 +9,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\File;
 use fay\core\Response;
-use fay\models\Setting;
 use fay\core\HttpException;
 use fay\core\Loader;
 

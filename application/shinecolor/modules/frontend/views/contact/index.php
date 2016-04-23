@@ -1,6 +1,3 @@
-<?php
-use fay\helpers\Html;
-?>
 <div class="w1000 clearfix col-2">
 	<div class="col-2-left">
 		<nav class="left-menu">

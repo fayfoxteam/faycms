@@ -1,7 +1,3 @@
-<?php
-use fay\helpers\Html;
-use w\models\tables\sci;
-?>
 <div class="col-2-3">
 	<div class="col-right">
 		<form method="get" class="form-inline validform" id="search-form">

@@ -1,6 +1,4 @@
 <?php
-use fay\core\Uri;
-
 return array(
 	/**
 	 * 刚开始无意义的加了个guide二级目录，已经被谷歌收录了，只好做个301重定向来弥补

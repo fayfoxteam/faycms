@@ -1,6 +1,4 @@
 <?php
-use fay\models\tables\Users;
-
 $rules = array(
 	array('username', 'string', array('min'=>2, 'max'=>5, 'format'=>'alias')),
 	array('username', 'required'),

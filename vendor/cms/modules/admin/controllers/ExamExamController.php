@@ -7,7 +7,6 @@ use fay\common\ListView;
 use fay\models\tables\ExamExams;
 use fay\models\tables\Users;
 use fay\models\tables\ExamPapers;
-use fay\models\Setting;
 use fay\models\tables\ExamExamsQuestions;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;

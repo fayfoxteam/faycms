@@ -9,7 +9,6 @@ use fay\models\tables\Actionlogs;
 use fay\common\ListView;
 use fay\models\User as UserModel;
 use fay\services\User as UserService;
-use fay\models\Setting;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;

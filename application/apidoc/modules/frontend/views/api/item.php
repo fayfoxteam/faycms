@@ -2,7 +2,6 @@
 use fay\core\Loader;
 use fay\helpers\Html;
 use apidoc\helpers\ApiHelper;
-use fay\helpers\StringHelper;
 use apidoc\helpers\TrackHelper;
 ?>
 <?php if($api['api']['description']){?>

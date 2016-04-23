@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
 use ncp\helpers\FriendlyLink;
 use fay\helpers\Date;
 ?>

@@ -2,12 +2,9 @@
 namespace w\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Category;
 use fay\core\Sql;
 use fay\common\ListView;
 use w\models\tables\Sci;
-use fay\helpers\Html;
-use fay\core\Response;
 use fay\core\HttpException;
 use fay\core\Validator;
 

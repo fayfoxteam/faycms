@@ -1,8 +1,4 @@
 <?php
-use cms\helpers\PostHelper;
-use fay\models\tables\Posts;
-use fay\helpers\Html;
-
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
 ?>

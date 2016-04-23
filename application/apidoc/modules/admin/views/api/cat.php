@@ -1,7 +1,5 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Option;
-use fay\models\tables\Roles;
 
 function showCats($cats, $dep = 0, $open_dep = 2){?>
 	<ul class="tree">

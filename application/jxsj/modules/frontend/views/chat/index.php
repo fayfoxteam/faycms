@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Users;
 ?>
 <div id="banner">
 	<?php \F::widget()->load('index-slides')?>

@@ -1,5 +1,4 @@
 <?php
-use fay\helpers\Date;
 use fay\helpers\Request;
 ?>
 <form method="post" id="form">

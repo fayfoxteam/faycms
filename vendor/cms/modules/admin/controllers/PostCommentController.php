@@ -6,7 +6,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\PostComments;
 use fay\core\Response;
-use fay\models\Setting;
 use fay\models\tables\Actionlogs;
 use fay\helpers\Html;
 use fay\services\post\Comment;

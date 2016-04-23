@@ -1,6 +1,4 @@
 <?php
-use w\models\tables\sci;
-use fay\helpers\Date;
 use fay\helpers\Html;
 ?>
 <tr>

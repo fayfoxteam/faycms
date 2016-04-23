@@ -6,11 +6,12 @@ use cms\helpers\PostHelper;
 use fay\models\tables\Roles;
 use fay\models\File;
 use fay\models\post\Tag as PostTag;
+use fay\models\user\Role;
 
 /**
  * 超级管理员或未开启分类权限或当前用户有此分类操作权限，则文章可编辑
  */
-if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('user.roles')) ||
+if(Role::model()->is(Roles::ITEM_SUPER_ADMIN) ||
 	!F::app()->role_cats ||
 	in_array($data['cat_id'], F::session()->get('role_cats', array()))){
 	/**

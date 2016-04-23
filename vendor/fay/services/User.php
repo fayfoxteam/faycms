@@ -130,23 +130,12 @@ class User extends Model{
 		//设置权限，超级管理员无需设置
 		if(!in_array(Roles::ITEM_SUPER_ADMIN, $role_ids)){
 			if($role_ids){
-				$sql = new Sql();
-				$actions = $sql->from(array('ra'=>'roles_actions'), '')
-					->joinLeft(array('a'=>'actions'), 'ra.action_id = a.id', 'router')
-					->where('ra.role_id IN ('.implode(',', $role_ids).')')
-					->group('a.router')
-					->fetchAll();
-				\F::session()->set('actions', ArrayHelper::column($actions, 'router'));
-					
 				//分类权限
 				if(Option::get('system:post_role_cats')){
 					//未分类文章任何人都有权限编辑
 					$post_root = Category::model()->get('_system_post', 'id');
 					\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $role_ids).')')));
 				}
-			}else{
-				//用户不属于任何角色，则角色权限为空
-				\F::session()->set('actions', array());
 			}
 		}
 		

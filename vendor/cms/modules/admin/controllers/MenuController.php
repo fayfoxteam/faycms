@@ -7,6 +7,7 @@ use fay\models\tables\Menus;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\models\tables\Roles;
+use fay\models\user\Role;
 
 class MenuController extends AdminController{
 	public function __construct(){
@@ -166,7 +167,7 @@ class MenuController extends AdminController{
 		$this->layout->subtitle = '后台导航栏';
 		$this->view->menus = Menu::model()->getTree('_admin_menu', false, false);
 		$this->view->root = Menu::model()->get('_admin_menu');
-		if(in_array(Roles::ITEM_SUPER_ADMIN, \F::session()->get('user.roles'))){
+		if(Role::model()->is(Roles::ITEM_SUPER_ADMIN)){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加菜单集',

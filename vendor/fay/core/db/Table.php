@@ -156,11 +156,11 @@ class Table extends Model{
 	 * @param string $order
 	 * @param string $style 返回结果集类型，默认为索引数组
 	 */
-	public function fetchRow($conditions, $fields = '*', $order = false, $style = 'assoc'){
+	public function fetchRow($conditions, $fields = '*', $order = false, $offset = null, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
 		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions)
-			->limit(1);
+			->limit(1, $offset);
 		if($order){
 			$this->_sql->order($order);
 		}

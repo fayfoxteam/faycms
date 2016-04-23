@@ -3,7 +3,7 @@ return array(
 	/**
 	 * 文章创建前执行
 	 */
-	'before_post_create'=>array(
+	'admin_before_post_create'=>array(
 		array(
 			'function'=>array('ncp\plugins\TourRoute', 'addBox'),
 		),
@@ -11,7 +11,7 @@ return array(
 	/**
 	 * 文章创建完成后执行
 	 */
-	'after_post_created'=>array(
+	'admin_after_post_created'=>array(
 		array(
 			'function'=>array('ncp\plugins\TourRoute', 'save'),
 		),
@@ -19,7 +19,7 @@ return array(
 	/**
 	 * 文章更新完成后执行
 	 */
-	'after_post_updated'=>array(
+	'admin_after_post_updated'=>array(
 		array(
 			'function'=>array('ncp\plugins\TourRoute', 'save'),
 		),
@@ -27,7 +27,7 @@ return array(
 	/**
 	 * 文章更新前执行
 	 */
-	'before_post_update'=>array(
+	'admin_before_post_update'=>array(
 		array(
 			'function'=>array('ncp\plugins\TourRoute', 'setRoutes'),
 		),

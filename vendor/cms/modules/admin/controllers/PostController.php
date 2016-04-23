@@ -79,7 +79,7 @@ class PostController extends AdminController{
 		}
 		
 		//hook
-		Hook::getInstance()->call('before_post_create', array(
+		Hook::getInstance()->call('admin_before_post_create', array(
 			'cat_id'=>$cat_id,
 		));
 		
@@ -449,7 +449,7 @@ class PostController extends AdminController{
 		;
 		
 		//hook
-		Hook::getInstance()->call('before_post_update', array(
+		Hook::getInstance()->call('admin_before_post_update', array(
 			'cat_id'=>$post['cat_id'],
 			'post_id'=>$post_id,
 		));

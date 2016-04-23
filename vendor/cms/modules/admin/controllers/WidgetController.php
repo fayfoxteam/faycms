@@ -176,19 +176,10 @@ class WidgetController extends AdminController{
 	public function instances(){
 		$this->layout->subtitle = '小工具实例';
 		
-		//自定义参数
-		$this->layout->_setting_panel = '_setting_instance';
-		$_setting_key = 'admin_widget_instances';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_widget_instances', '_setting_instance', array(
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		$sql = new Sql();
 		$sql->from('widgets')

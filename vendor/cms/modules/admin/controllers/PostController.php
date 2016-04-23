@@ -600,18 +600,10 @@ class PostController extends AdminController{
 		$this->layout->current_directory = 'post';
 		$this->layout->_setting_panel = '_setting_cat';
 		
-		$_setting_key = 'admin_post_cat';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_post_cat', '_setting_cat', array(
 			'default_dep'=>2,
-		);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key
-			))
-			->setJsModel('setting');
+		));
 		
 		$this->layout->subtitle = '文章分类';
 		$this->view->cats = Category::model()->getTree('_system_post');

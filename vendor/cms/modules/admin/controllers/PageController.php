@@ -76,15 +76,12 @@ class PageController extends AdminController{
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		
-		$this->layout->_setting_panel = '_setting_boxes';
+		//页面设置
 		$_setting_key = 'admin_page_boxes';
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$this->getEnabledBoxes($_setting_key),
-			));
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_boxes', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$this->view->render();
 	}
@@ -179,16 +176,12 @@ class PageController extends AdminController{
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		
-		$this->layout->_setting_panel = '_setting_boxes';
+		//页面设置
 		$_setting_key = 'admin_page_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		$this->settingForm($_setting_key, '_setting_boxes', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$page_id = intval($this->input->get('id', 'intval'));
 		

@@ -2,7 +2,6 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\AnalystSites;
@@ -19,20 +18,11 @@ class AnalystController extends AdminController{
 	public function visitor(){
 		$this->layout->subtitle = '访客统计';
 		
-		//自定义参数
-		$this->layout->_setting_panel = '_setting_visitor';
-		$_setting_key = 'admin_analyst_visitor';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_analyst_visitor', '_setting_visitor', array(
 			'cols'=>array('area', 'url', 'create_time', 'browser', 'shell', 'os', 'refer'),
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		$sql = new Sql();
 		$sql->from(array('m'=>'analyst_macs'))
@@ -91,20 +81,11 @@ class AnalystController extends AdminController{
 	public function views(){
 		$this->layout->subtitle = '访问日志';
 		
-		//自定义参数
-		$this->layout->_setting_panel = '_setting_views';
-		$_setting_key = 'admin_analyst_views';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_analyst_views', '_setting_views', array(
 			'cols'=>array('area', 'url', 'create_time', 'site', 'trackid', 'refer'),
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		$sql = new Sql();
 		$sql->from(array('v'=>'analyst_visits'))
@@ -247,21 +228,11 @@ class AnalystController extends AdminController{
 	public function spiderlog(){
 		$this->layout->subtitle = '蜘蛛爬行记录';
 		
-		//自定义参数
-		$this->layout->_setting_panel = '_setting_spiderlog';
-		$_setting_key = 'admin_analyst_spiderlog';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_analyst_spiderlog', '_setting_spiderlog', array(
 			'page_size'=>30,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
-
 		$sql = new Sql();
 		$sql->from('spider_logs')
 			->order('id DESC');

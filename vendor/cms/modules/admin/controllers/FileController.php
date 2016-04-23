@@ -267,8 +267,7 @@ class FileController extends AdminController{
 			->setData(array(
 				'_key'=>$_setting_key,
 			));
-
-
+		
 		$this->view->cats = Category::model()->getTree('_system_file');
 		
 		$sql = new Sql();

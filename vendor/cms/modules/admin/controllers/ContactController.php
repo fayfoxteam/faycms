@@ -44,21 +44,13 @@ class ContactController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '用户留言';
-		//用户自定义项
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_contact_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		
+		//页面设置
+		$this->settingForm('admin_contact_index', '_setting_index', array(
 			'cols'=>array('realname', 'email', 'phone', 'create_time', 'area'),
 			'display_time'=>'short',
 			'page_size'=>10,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		if(in_array('ip', $_settings['cols'])){
 			//引入IP地址库
@@ -172,26 +164,18 @@ class ContactController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑留言';//页面标题
-		$this->layout->_setting_panel = '_setting_edit';//设置模块
 		
 		//box排序
 		$_box_sort_settings = Setting::model()->get('admin_contact_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		//获取启用的编辑模块
+		//页面设置
 		$_setting_key = 'admin_contact_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$id = $this->input->get('id', 'intval');
 		$this->form()->setModel(Contacts::model());

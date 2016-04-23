@@ -25,14 +25,11 @@ class IndexController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '控制台';
-		//要显示的box
-		$this->layout->_setting_panel = '_setting_index';
+		
+		//页面设置
 		$_setting_key = 'admin_dashboard_boxes';
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_index');
 		$this->view->enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		//box排序

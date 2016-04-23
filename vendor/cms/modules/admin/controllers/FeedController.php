@@ -106,17 +106,10 @@ class FeedController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		//页面设置
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$this->view->render();
 	}
@@ -223,17 +216,10 @@ class FeedController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		//页面设置
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$this->view->render();
 	}
@@ -248,22 +234,13 @@ class FeedController extends AdminController{
 			);
 		}
 		
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_feed_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_feed_index', '_setting_edit', array(
 			'cols'=>array('user', 'status', 'publish_time', 'last_modified_time', 'create_time', 'timeline'),
 			'display_name'=>'nickname',
 			'display_time'=>'short',
 			'page_size'=>10,
-		);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key
-			))
-			->setJsModel('setting');
+		));
 		
 		$this->view->enabled_boxes = $this->getEnabledBoxes('admin_feed_boxes');
 		

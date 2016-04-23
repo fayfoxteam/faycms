@@ -4,7 +4,6 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Widgets;
 use fay\core\Response;
-use fay\models\Setting;
 
 class WidgetareaController extends AdminController{
 	public function __construct(){
@@ -20,19 +19,8 @@ class WidgetareaController extends AdminController{
 			'text'=>'创建小工具',
 		);
 		
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_widgetarea_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
-			'show_alias'=>'0',
-		);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key
-			))
-			->setJsModel('setting');
+		//页面设置
+		$this->settingForm('admin_widgetarea_index', '_setting_index');
 		
 		//小工具域
 		$this->view->widgetareas = $this->config->getFile('widgetareas');

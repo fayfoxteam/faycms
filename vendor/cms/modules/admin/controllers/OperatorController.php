@@ -30,21 +30,12 @@ class OperatorController extends AdminController{
 			'uri'=>array('admin/operator/create'),
 			'text'=>'添加管理员',
 		);
-
-		//自定义参数
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_operator_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		
+		//页面设置
+		$this->settingForm('admin_operator_index', '_setting_index', array(
 			'cols'=>array('roles', 'mobile', 'email', 'realname', 'reg_time'),
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		//查询所有管理员类型
 		$this->view->roles = Roles::model()->fetchAll(array(

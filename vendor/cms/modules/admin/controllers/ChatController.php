@@ -5,7 +5,6 @@ use cms\library\AdminController;
 use fay\core\Sql;
 use fay\models\tables\Messages;
 use fay\common\ListView;
-use fay\models\Setting;
 use fay\core\Response;
 
 class ChatController extends AdminController{
@@ -17,19 +16,11 @@ class ChatController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '会话';
 		
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_chat_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_chat_index', '_setting_index', array(
 			'display_name'=>'username',
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		$sql = new Sql();
 		$sql->from(array('m'=>'messages'))

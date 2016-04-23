@@ -240,24 +240,17 @@ class GoodsController extends AdminController{
 		
 		$this->view->props = $props;
 		
-		//可配置信息
+		//box排序
 		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
+		//页面设置
 		$_setting_key = 'admin_goods_boxes';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$this->view->render();
 	}
@@ -269,23 +262,14 @@ class GoodsController extends AdminController{
 			'uri'=>array('admin/goods/cat'),
 			'text'=>'添加商品',
 		);
-
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_goods_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		
+		//页面设置
+		$_settings = $this->settingForm('admin_goods_index', '_setting_index', array(
 			'cols'=>array('thumbnail', 'category', 'price', 'is_new', 'is_hot', 'sales', 'status', 'create_time', 'sort'),
 			'display_name'=>'username',
 			'display_time'=>'short',
 			'page_size'=>10,
-		);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key
-			))
-			->setJsModel('setting');
+		));
 
 		$this->form()->setData($this->input->get());
 		
@@ -613,18 +597,11 @@ class GoodsController extends AdminController{
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
-		$this->layout->_setting_panel = '_setting_edit';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array();
+		//页面设置
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$this->view->files = $goods['files'];
 		$this->view->goods = $goods;

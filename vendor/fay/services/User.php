@@ -19,6 +19,7 @@ use fay\models\user\Password;
 use fay\models\tables\UserCounter;
 use fay\models\Prop;
 use fay\core\Exception;
+use fay\models\tables\UserLogins;
 
 /**
  * 用户服务
@@ -74,7 +75,7 @@ class User extends Model{
 				'error_code'=>'password:not-match',
 			);
 		}
-	
+		
 		if($user['block']){
 			return array(
 				'status'=>0,
@@ -82,7 +83,7 @@ class User extends Model{
 				'error_code'=>'block:blocked',
 			);
 		}
-	
+		
 		if($user['status'] == Users::STATUS_UNCOMPLETED){
 			return array(
 				'status'=>0,
@@ -108,7 +109,7 @@ class User extends Model{
 				'error_code'=>'status:not-verified',
 			);
 		}
-	
+		
 		if($admin && $user['admin'] != $admin){
 			return array(
 				'status'=>0,
@@ -116,7 +117,7 @@ class User extends Model{
 				'error_code'=>'not-admin',
 			);
 		}
-	
+		
 		//重新获取用户信息，这次获取更全面的信息
 		$user = UserModel::model()->get($user['id'], array(
 			'user'=>array('id', 'username', 'nickname', 'avatar', 'status', 'admin'),
@@ -124,7 +125,7 @@ class User extends Model{
 			'roles'=>'id',
 		));
 		$this->setSessionInfo($user);
-	
+		
 		$role_ids = ArrayHelper::column($user['roles'], 'id');
 		//设置权限，超级管理员无需设置
 		if(!in_array(Roles::ITEM_SUPER_ADMIN, $role_ids)){
@@ -148,18 +149,26 @@ class User extends Model{
 				\F::session()->set('actions', array());
 			}
 		}
-	
+		
 		UserProfile::model()->update(array(
 			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>new Expr('login_times + 1'),
 		), $user['user']['id']);
-	
+		
+		//记录登录日志
+		UserLogins::model()->insert(array(
+			'user_id'=>$user['user']['id'],
+			'login_time'=>\F::app()->current_time,
+			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'mac'=>$_COOKIE['fmac'],
+		));
+		
 		Hook::getInstance()->call('after_login', array(
 			'user'=>$user,
 		));
-	
+		
 		return array(
 			'status'=>1,
 			'user'=>$user,

@@ -838,6 +838,17 @@ CREATE TABLE `{{$prefix}}user_counter` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户计数器';
 
+DROP TABLE IF EXISTS `{{$prefix}}user_logins`;
+CREATE TABLE `{{$prefix}}user_logins` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `login_time` int(11) NOT NULL DEFAULT '0' COMMENT '登录时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `mac` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '唯一标识',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户登录记录';
+
 DROP TABLE IF EXISTS `{{$prefix}}user_profile`;
 CREATE TABLE `{{$prefix}}user_profile` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',

@@ -176,8 +176,6 @@ class User extends Model{
 			'roles'=>ArrayHelper::column($user['roles'], 'id'),
 			'status'=>$user['user']['status'],
 			'admin'=>$user['user']['admin'],
-			'last_login_time'=>$user['profile']['last_login_time'],
-			'last_login_ip'=>long2ip($user['profile']['last_login_ip']),
 		));
 	}
 	

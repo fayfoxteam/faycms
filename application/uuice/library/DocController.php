@@ -14,7 +14,7 @@ class DocController extends Controller{
 		parent::__construct();
 		
 		//设置当前用户id
-		$this->current_user = \F::app()->current_user;
+		$this->current_user = \F::session()->get('user.id');
 		
 		if($spider = Request::isSpider()){//如果是蜘蛛，记录蜘蛛日志
 			SpiderLogs::model()->insert(array(

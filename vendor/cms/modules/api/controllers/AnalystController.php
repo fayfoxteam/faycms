@@ -16,7 +16,7 @@ class AnalystController extends ApiController{
 	
 	public function __construct(){
 		parent::__construct();
-		$this->current_user = \F::app()->current_user;
+		$this->current_user = \F::session()->get('user.id');
 	}
 	
 	public function visit(){

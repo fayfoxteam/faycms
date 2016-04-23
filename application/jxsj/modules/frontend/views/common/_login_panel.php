@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
+use fay\models\User;
 ?>
 <div class="box" id="login-panel">
 	<form id="login-form" action="<?php echo $this->url('login')?>" method="post">
@@ -8,7 +9,8 @@ use fay\helpers\Date;
 			<div class="st"><div class="sl"><div class="sr"><div class="sb">
 				<div class="p16 clearfix">
 					<h2>用户登录</h2>
-					<?php if(F::session()->get('user.id')){?>
+					<?php if(\F::app()->current_user){?>
+					<?php $last_login = User::model()->getLastLoginInfo('login_time')?>
 					<table>
 						<tr>
 							<th width="73">当前用户：</th>
@@ -16,7 +18,7 @@ use fay\helpers\Date;
 						</tr>
 						<tr>
 							<th>上次登录：</th>
-							<td><?php echo Date::format(F::session()->get('user.last_login_time'))?></td>
+							<td><?php echo Date::format($last_login['login_time'])?></td>
 						</tr>
 						<tr>
 							<td colspan="2"><?php 

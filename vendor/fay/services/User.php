@@ -151,7 +151,7 @@ class User extends Model{
 			'user_id'=>$user['user']['id'],
 			'login_time'=>\F::app()->current_time,
 			'ip_int'=>Request::ip2int(\F::app()->ip),
-			'mac'=>$_COOKIE['fmac'],
+			'mac'=>'',//@todo 通过fmac获取对应的id
 		));
 		
 		Hook::getInstance()->call('after_login', array(

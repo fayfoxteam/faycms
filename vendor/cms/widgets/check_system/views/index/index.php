@@ -129,6 +129,14 @@
 							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
+					<p>
+						<label class="w150 fl block">redis</label>
+						<?php if(in_array('redis', $extensions)){
+							echo '<span class="fc-green">支持</span>';
+						}else{
+							echo '<span class="fc-red">不支持</span>';
+						}?>
+					</p>
 				</td>
 			</tr>
 			<tr>

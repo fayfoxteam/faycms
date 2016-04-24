@@ -533,6 +533,13 @@ class PostController extends AdminController{
 	public function undelete(){
 		$post_id = $this->input->get('id', 'intval');
 		
+		$check = Post::checkUndeletePermission($post_id);
+		if(!$check['status']){
+			Response::notify('error', array(
+				'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
+				'error_code'=>'permission-denied',
+			));
+		}
 		PostService::model()->undelete($post_id);
 		
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章移出回收站', $post_id);

@@ -363,7 +363,7 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 */
 	public function delete($post_id){
-		$post = Posts::model()->find($post_id, 'user_id,deleted');
+		$post = Posts::model()->find($post_id, 'user_id,deleted,status');
 		if(!$post || $post['deleted']){
 			return false;
 		}
@@ -395,7 +395,7 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 */
 	public function undelete($post_id){
-		$post = Posts::model()->find($post_id, 'user_id,deleted');
+		$post = Posts::model()->find($post_id, 'user_id,deleted,status');
 		if(!$post || !$post['deleted']){
 			return false;
 		}

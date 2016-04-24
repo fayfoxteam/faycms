@@ -11,7 +11,6 @@ use fay\models\Option;
 use fay\models\Category;
 use fay\models\tables\RolesCats;
 use fay\models\tables\Roles;
-use fay\core\Sql;
 use fay\models\tables\Users;
 use fay\models\User as UserModel;
 use fay\models\tables\UsersRoles;

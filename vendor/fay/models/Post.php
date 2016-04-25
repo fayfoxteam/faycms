@@ -807,10 +807,6 @@ class Post extends Model{
 		if(\F::session()->get('user.admin')){
 			//后台用户
 			/**
-			 * 是否启用分类权限
-			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
-			/**
 			 * 是否启用文章审核
 			 */
 			$post_review = is_bool(\F::app()->post_review) ? \F::app()->post_review : Option::get('system:post_review');
@@ -824,10 +820,8 @@ class Post extends Model{
 			}
 			
 			$post = Posts::model()->find($post_id, 'status,cat_id');
-			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可编辑
-			if($role_cats &&
-				!Role::model()->is(Roles::ITEM_SUPER_ADMIN) &&
-				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
+			//分类权限判断
+			if(!PostCategory::model()->isAllowedCat($post['cat_id'])){
 				return array(
 					'status'=>0,
 					'message'=>'您无权编辑该分类下的文章！',
@@ -835,14 +829,11 @@ class Post extends Model{
 				);
 			}
 			
-			//文章分类被编辑，且当前用户不是超级管理员，且无权限对新分类进行编辑
-			if($new_cat_id &&
-				!Role::model()->is(Roles::ITEM_SUPER_ADMIN) &&
-				$role_cats &&
-				!in_array($new_cat_id, \F::session()->get('role_cats'))){
+			//文章分类被编辑，分类权限判断
+			if($new_cat_id && !PostCategory::model()->isAllowedCat($new_cat_id)){
 				return array(
 					'status'=>0,
-					'message'=>'您无权将该文章设置为当前分类',
+					'message'=>'您无权将该文章设置为指定分类',
 					'error_code'=>'permission-denied:category-denied',
 				);
 			}
@@ -907,22 +898,17 @@ class Post extends Model{
 					'error_code'=>'permission-denied:no-delete-action-allowed',
 				);
 			}
-			$post = Posts::model()->find($post_id, 'status,cat_id');
+			$post = Posts::model()->find($post_id, 'cat_id');
 			
-			/**
-			 * 是否启用分类权限
-			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
-			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可删除
-			if($role_cats &&
-				!Role::model()->is(Roles::ITEM_SUPER_ADMIN) &&
-				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
+			//分类权限判断
+			if(PostCategory::model()->isAllowedCat($post['cat_id'])){
 				return array(
 					'status'=>0,
 					'message'=>'您无权删除该分类下的文章！',
 					'error_code'=>'permission-denied:category-denied',
-				);
+				);;
 			}
+			
 			return array(
 				'status'=>1,
 			);
@@ -958,13 +944,9 @@ class Post extends Model{
 					'error_code'=>'permission-denied:no-delete-action-allowed',
 				);
 			}
-			$post = Posts::model()->find($post_id, 'status,cat_id');
+			$post = Posts::model()->find($post_id, 'cat_id');
 			
-			/**
-			 * 是否启用分类权限
-			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
-			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可还原
+			//分类权限判断
 			if(!PostCategory::model()->isAllowedCat($post['cat_id'])){
 				return array(
 					'status'=>0,
@@ -1008,22 +990,17 @@ class Post extends Model{
 					'error_code'=>'permission-denied:no-delete-action-allowed',
 				);
 			}
-			$post = Posts::model()->find($post_id, 'status,cat_id');
+			$post = Posts::model()->find($post_id, 'cat_id');
 			
-			/**
-			 * 是否启用分类权限
-			 */
-			$role_cats = is_bool(\F::app()->role_cats) ? \F::app()->role_cats : Option::get('system:post_role_cats');
-			//若系统开启分类权限且当前用户非超级管理员，且当前用户无此分类操作权限，则文章不可永久删除
-			if($role_cats &&
-				!Role::model()->is(Roles::ITEM_SUPER_ADMIN) &&
-				!in_array($post['cat_id'], \F::session()->get('role_cats'))){
+			//分类权限判断
+			if(!PostCategory::model()->isAllowedCat($post['cat_id'])){
 				return array(
 					'status'=>0,
 					'message'=>'您无权永久删除该分类下的文章！',
 					'error_code'=>'permission-denied:category-denied',
 				);
 			}
+			
 			return array(
 				'status'=>1,
 			);

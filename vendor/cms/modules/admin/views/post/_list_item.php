@@ -3,24 +3,12 @@ use fay\helpers\Html;
 use fay\models\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
-use fay\models\tables\Roles;
 use fay\models\File;
 use fay\models\post\Tag as PostTag;
-use fay\models\user\Role;
+use fay\models\post\Category as PostCategory;
 
-/**
- * 超级管理员或未开启分类权限或当前用户有此分类操作权限，则文章可编辑
- */
-if(Role::model()->is(Roles::ITEM_SUPER_ADMIN) ||
-	!F::app()->role_cats ||
-	in_array($data['cat_id'], F::session()->get('role_cats', array()))){
-	/**
-	 * 是否有权限编辑（此处验证的是分类权限）
-	 */
-	$editable = true;
-}else{
-	$editable = false;
-}
+//分类权限判断
+$editable = PostCategory::model()->isAllowedCat($data['cat_id']);
 ?>
 <tr valign="top" id="post-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(

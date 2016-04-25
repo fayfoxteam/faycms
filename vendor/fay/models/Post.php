@@ -9,7 +9,6 @@ use fay\models\tables\Categories;
 use fay\models\tables\Props;
 use fay\helpers\StringHelper;
 use fay\core\Loader;
-use fay\models\tables\Roles;
 use fay\helpers\FieldHelper;
 use fay\models\post\Meta;
 use fay\models\post\Category as PostCategory;
@@ -17,7 +16,6 @@ use fay\models\Category;
 use fay\models\post\Tag as PostTag;
 use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
-use fay\models\user\Role;
 
 class Post extends Model{
 	/**

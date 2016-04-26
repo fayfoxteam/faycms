@@ -12,6 +12,7 @@ use fay\core\HttpException;
 use fay\models\Flash;
 use fay\models\tables\Roles;
 use fay\helpers\ArrayHelper;
+use fay\models\User;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -48,12 +49,13 @@ class AdminController extends Controller{
 		//重置session_namespace
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
 		
-		//验证session中是否有值
-		if(!\F::session()->get('user.admin')){
-			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
-		}
 		//设置当前用户id
 		$this->current_user = \F::session()->get('user.id');
+		
+		//验证session中是否有值
+		if(!User::model()->isAdmin()){
+			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
+		}
 		$this->layout->current_directory = '';
 		$this->layout->subtitle = '';
 

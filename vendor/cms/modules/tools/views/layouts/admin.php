@@ -3,6 +3,7 @@ use fay\helpers\Html;
 use fay\models\Option;
 use fay\models\File;
 use fay\models\Flash;
+use fay\models\User;
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,10 +39,11 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
+					$user_roles = Role::model()->getIds();
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
-							if(!array_intersect(F::session()->get('user.roles', array()), $nav['roles'])){
+							if(!array_intersect($user_roles, $nav['roles'])){
 								continue;
 							}
 						}
@@ -89,13 +91,14 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 					</ul>
 				</li>
 				<li class="dropdown-container user-profile">
+					<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
-						echo Html::img(F::session()->get('user.avatar'), File::PIC_THUMBNAIL, array(
+						echo Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
 							'class'=>'circle',
 							'width'=>28,
 							'spare'=>'avatar',
 						))
-					?><span>您好，<?php echo F::session()->get('user.username')?><i class="fa fa-angle-down"></i></span></a>
+					?><span>您好，<?php echo $user['user']['username']?><i class="fa fa-angle-down"></i></span></a>
 					<ul class="dropdown-menu" id="user-profile-menu">
 						<li><?php
 							echo Html::link('我的个人信息', array('admin/profile/index'), array(

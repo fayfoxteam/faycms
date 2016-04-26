@@ -99,7 +99,13 @@ class Role extends Model{
 	 * @param bool $cache 若为true，则会在当前对象缓存一份结果，减少数据库请求。默认为false
 	 * @return array 角色ID构成的一维数组
 	 */
-	public function getIds($user_id, $cache = false){
+	public function getIds($user_id = null, $cache = true){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(!$user_id){
+			return array();
+		}
+		
 		if($cache && isset($this->_role_ids[$user_id])){
 			return $this->_role_ids[$user_id];
 		}
@@ -119,7 +125,13 @@ class Role extends Model{
 	 * @param bool $cache 若为true，则会在当前对象缓存一份结果，减少数据库请求。默认为false
 	 * @return array 角色ID构成的一维数组
 	 */
-	public function getActions($user_id, $cache = false){
+	public function getActions($user_id = null, $cache = true){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(!$user_id){
+			return array();
+		}
+		
 		if($cache && isset($this->_role_actions[$user_id])){
 			return $this->_role_actions[$user_id];
 		}

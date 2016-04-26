@@ -2,6 +2,7 @@
 use fay\models\Option;
 use fay\helpers\Html;
 use fay\models\File;
+use fay\models\User;
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,18 +117,19 @@ DD_belatedPNG.fix('fieldset,.ring');
 			</div>
 		</div>
 	</div>
-	<?php if(F::session()->get('user.id')){?>
+	<?php if(\F::app()->current_user){?>
+		<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
 		<div class="right top-to-bottom">
 			<div class="login-form-container">
 				<fieldset class="logo">Faycms</fieldset>
 				<fieldset class="user-info">
 					<div class="user-avatar">
-						<?php echo Html::img(\F::session()->get('user.avatar'), File::PIC_THUMBNAIL, array(
+						<?php echo Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
 							'spare'=>'avatar',
 						))?>
 					</div>
 					<div class="user-profile">
-						您好，<?php echo F::session()->get('user.username')?>
+						您好，<?php echo $user['user']['username']?>
 						<?php echo Html::link('更换账号登录', array('admin/login/logout'), array(
 							'class'=>'logout-link',
 						));?>

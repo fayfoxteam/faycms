@@ -11,10 +11,11 @@ use fay\models\User;
 					<h2>用户登录</h2>
 					<?php if(\F::app()->current_user){?>
 					<?php $last_login = User::model()->getLastLoginInfo('login_time')?>
+					<?php $user = User::model()->get(\F::app()->current_user, 'user.username')?>
 					<table>
 						<tr>
 							<th width="73">当前用户：</th>
-							<td><?php echo F::session()->get('user.username')?></td>
+							<td><?php echo Html::encode($user['user']['username'])?></td>
 						</tr>
 						<tr>
 							<th>上次登录：</th>

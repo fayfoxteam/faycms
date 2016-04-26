@@ -358,4 +358,20 @@ class User extends Model{
 			'user_id = ?'=>$user_id,
 		), $fields, 'id DESC', 1);
 	}
+	
+	/**
+	 * 判断指定用户是否是管理员
+	 * @param int $user_id
+	 */
+	public function isAdmin($user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if($user_id){
+			$user = $this->get($user_id, 'user.admin');
+			return !!$user['user']['admin'];
+		}else{
+			//未登录，返回false
+			return false;
+		}
+	}
 }

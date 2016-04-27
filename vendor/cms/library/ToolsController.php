@@ -52,16 +52,17 @@ class ToolsController extends Controller{
 	 * @throws \fay\core\HttpException
 	 */
 	public function isLogin(){
+		//设置当前用户id
+		$this->current_user = \F::session()->get('user.id');
+		
 		//验证session中是否有值
 		if(!User::model()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
-		if(Role::model()->is(Roles::ITEM_SUPER_ADMIN)){
+		
+		if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN)){
 			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
-		
-		//设置当前用户id
-		$this->current_user = \F::session()->get('user.id');
 	}
 	
 	public function getApps(){

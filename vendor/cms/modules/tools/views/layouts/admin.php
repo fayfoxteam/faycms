@@ -4,6 +4,7 @@ use fay\models\Option;
 use fay\models\File;
 use fay\models\Flash;
 use fay\models\User;
+use fay\models\user\Role;
 ?>
 <!DOCTYPE html>
 <html>

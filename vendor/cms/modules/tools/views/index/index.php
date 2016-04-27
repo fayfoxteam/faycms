@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-6">
 		<div class="col-content">
-			<?php echo F::widget()->render('cms/user_info', array(), true);?>
+			<?php echo F::widget()->render('cms/user_info');?>
 		</div>
 	</div>
 	<div class="col-6">

@@ -12,13 +12,12 @@ use fay\models\User;
 	</div>
 	<div class="box-content">
 		<table class="form-table">
-		<?php $user_id = \F::session()->get('user.id', null, \F::config()->get('session_namespace').'_admin');?>
-		<?php if($user_id){?>
-			<?php $last_login = User::model()->getLastLoginInfo(array('login_time', 'ip_int'), $user_id)?>
+		<?php if(\F::app()->current_user){?>
+			<?php $last_login = User::model()->getLastLoginInfo(array('login_time', 'ip_int'), \F::app()->current_user)?>
 			<tr>
 				<th>用户身份</th>
 				<td><?php
-					$user_roles = Role::model()->get(\F::session()->get('user.id', null, \F::config()->get('session_namespace').'_admin'));
+					$user_roles = Role::model()->get(\F::app()->current_user);
 					echo implode(', ', ArrayHelper::column($user_roles, 'title'));
 				?></td>
 			</tr>

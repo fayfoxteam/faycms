@@ -16,7 +16,7 @@ class IndexController extends AdminController{
 		array('name'=>'cms/admins_online', 'title'=>'在线管理员'),
 		array('name'=>'cms/feeds', 'title'=>'Feeds'),
 	);
-	public $ajax_boxes = array('cms/ip_statistics', 'cms/user_info');
+	public $ajax_boxes = array('cms/ip_statistics', 'cms/check_system');
 	
 	//不写构造函数的话，index方法会被认为是构造函数
 	public function __construct(){

@@ -7,6 +7,7 @@ class Cache{
 	public static $map = array(
 		'file'=>'fay\caching\File',
 		'memcache'=>'fay\caching\Memcache',
+		'array'=>'fay\caching\ArrayCache',
 	);
 	
 	public static $drivers = array();

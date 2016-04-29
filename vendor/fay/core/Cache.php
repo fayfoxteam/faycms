@@ -34,7 +34,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -56,7 +56,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -81,7 +81,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -105,7 +105,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -128,7 +128,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -151,7 +151,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -180,7 +180,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		return self::$drivers[$driver];

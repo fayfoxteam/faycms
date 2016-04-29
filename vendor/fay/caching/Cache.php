@@ -17,6 +17,7 @@ abstract class Cache{
 	 * File是"/"斜杠
 	 * Memcache是"."点号
 	 * Redis是":"冒号
+	 * Array是"_"下划线
 	 */
 	public $separator = '.';
 	

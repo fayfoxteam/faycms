@@ -6,6 +6,11 @@ namespace fay\caching;
  */
 class ArrayCache extends Cache{
 	/**
+	 * 作为缓存$key的分隔符。
+	 */
+	public $separator = '_';
+	
+	/**
 	 * 缓存
 	 */
 	private $_cache;

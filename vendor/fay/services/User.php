@@ -359,6 +359,10 @@ class User extends Model{
 					'user_id = ?'=>$user_id,
 				));
 			}
+			
+			//删除角色相关缓存
+			\F::cache()->delete("user.actions.{$user_id}");
+			\F::cache()->delete("user.role_ids.{$user_id}");
 		}
 		
 		if(isset($extra['profile'])){

@@ -96,7 +96,7 @@ class File extends Cache{
 	 * @see \fay\caching\Cache::flushValues()
 	 */
 	protected function flushValues($prefix = null){
-		$this->gc(true, false, $prefix);
+		$this->gc(true, false, $this->buildKey($prefix));
 		
 		return true;
 	}

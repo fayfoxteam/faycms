@@ -53,6 +53,7 @@ class ArrayCache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::flushValues()
+	 * @param $prefix 由于数组缓存成本很低，没必要弄太复杂，无视$prefix参数
 	 */
 	protected function flushValues($prefix = null){
 		$this->_cache = array();

@@ -322,14 +322,14 @@ class User extends Model{
 			return false;
 		}
 		
-		$roles = Role::model()->getIds($user_id, true);
+		$roles = Role::model()->getIds($user_id);
 		if(in_array(Roles::ITEM_SUPER_ADMIN, $roles)){
 			//超级管理员无限制
 			$this->_allowed_routers[$user_id][] = $router;
 			return true;
 		}
 		
-		$actions = Role::model()->getActions($user_id, true);
+		$actions = Role::model()->getActions($user_id);
 		if(in_array($router, $actions)){
 			//用户有此权限
 			$this->_allowed_routers[$user_id][] = $router;

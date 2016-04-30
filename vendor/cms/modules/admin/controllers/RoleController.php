@@ -141,6 +141,9 @@ class RoleController extends AdminController{
 				}
 			}
 			
+			//删除用户权限缓存
+			\F::cache()->flush('user.actions');
+			
 			$this->actionlog(Actionlogs::TYPE_ROLE, '编辑了一个角色', $role_id);
 			Response::notify('success', '一个角色被编辑', false);
 		}

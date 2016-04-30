@@ -95,7 +95,7 @@ class Category extends Model{
 		$post_root = CategoryModel::model()->get('_system_post', 'id');
 		
 		//获取用户角色ID
-		$role_ids = Role::model()->getIds($user_id, true);
+		$role_ids = Role::model()->getIds($user_id);
 		
 		//获取角色属性和0和
 		$allowed_cats = array_merge(

@@ -14,16 +14,6 @@ class Role extends Model{
 	public $public_fields = array('id', 'title', 'description');
 	
 	/**
-	 * 以用户为单位，缓存用户所属角色id数组
-	 */
-	private $_role_ids = array();
-	
-	/**
-	 * 以用户为单位，缓存用户权限路由数组
-	 */
-	private $_role_actions = array();
-	
-	/**
 	 * @return Role
 	 */
 	public static function model($class_name = __CLASS__){
@@ -96,25 +86,26 @@ class Role extends Model{
 	/**
 	 * 返回指定用户的角色ID
 	 * @param int $user_id 用户ID
-	 * @param bool $cache 若为true，则会在当前对象缓存一份结果，减少数据库请求。默认为false
 	 * @return array 角色ID构成的一维数组
 	 */
-	public function getIds($user_id = null, $cache = true){
+	public function getIds($user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(!$user_id){
 			return array();
 		}
 		
-		if($cache && isset($this->_role_ids[$user_id])){
-			return $this->_role_ids[$user_id];
+		//取缓存
+		$role_ids = \F::cache()->get("user.role_ids.{$user_id}");
+		if($role_ids){
+			return $role_ids;
 		}
 		
 		$user_roles = UsersRoles::model()->fetchAll(array('user_id = ?'=>$user_id), 'role_id');
 		$role_ids = ArrayHelper::column($user_roles, 'role_id');
-		if($cache){
-			$this->_role_ids[$user_id] = $role_ids;
-		}
+		
+		//设置缓存1小时
+		\F::cache()->set("user.role_ids.{$user_id}", $role_ids, 3600);
 		
 		return $role_ids;
 	}
@@ -122,22 +113,23 @@ class Role extends Model{
 	/**
 	 * 返回指定用户的权限路由（一维数组）
 	 * @param int $user_id 用户ID
-	 * @param bool $cache 若为true，则会在当前对象缓存一份结果，减少数据库请求。默认为false
 	 * @return array 角色ID构成的一维数组
 	 */
-	public function getActions($user_id = null, $cache = true){
+	public function getActions($user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(!$user_id){
 			return array();
 		}
 		
-		if($cache && isset($this->_role_actions[$user_id])){
-			return $this->_role_actions[$user_id];
+		//取缓存
+		$actions = \F::cache()->get("user.actions.{$user_id}");
+		if($actions){
+			return $actions;
 		}
 		
 		//如果走缓存，则获取角色ID的时候也走缓存
-		$role_ids = $this->getIds($user_id, $cache);
+		$role_ids = $this->getIds($user_id);
 		if($role_ids){
 			$sql = new Sql();
 			$actions = $sql->from(array('ra'=>'roles_actions'), '')
@@ -146,33 +138,28 @@ class Role extends Model{
 				->group('a.router')
 				->fetchAll();
 			
-			$routers = ArrayHelper::column($actions, 'router');
+			$actions = ArrayHelper::column($actions, 'router');
 		}else{
-			$routers = array();
+			$actions = array();
 		}
 		
-		if($cache){
-			$this->_role_actions[$user_id] = $routers;
-		}
-		return $routers;
+		//设置缓存1小时
+		\F::cache()->set("user.actions.{$user_id}", $actions, 3600);
+		
+		return $actions;
 	}
 	
 	/**
 	 * 判断一个用户是否属于指定角色
 	 * @param int $role_id 角色ID
 	 * @param int $user_id 用户ID
-	 * @param bool $cache 若为true，则会从缓存中获取用户角色，若为false，则会实时搜索数据库获取
 	 */
-	public function is($role_id, $user_id = null, $cache = true){
+	public function is($role_id, $user_id = null){
 		if($user_id === null){
 			$user_id = \F::app()->current_user;
 		}
 		
-		if($cache){
-			$user_roles = $this->getIds($user_id, true);
-			return in_array($role_id, $user_roles);
-		}else{
-			return !!UsersRoles::model()->find(array($user_id, $role_id));
-		}
+		$user_roles = $this->getIds($user_id);
+		return in_array($role_id, $user_roles);
 	}
 }

@@ -61,7 +61,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 				?>
 			</ul>
 			<ul class="user-info-menu fr">
-			<?php if(F::session()->get('user.id')){?>
+			<?php if(\F::app()->current_user){?>
 				<li class="dropdown-container hover-line message" id="faycms-message">
 					<?php echo Html::link('', '#faycms-messages-container', array(
 						'class'=>'dropdown',

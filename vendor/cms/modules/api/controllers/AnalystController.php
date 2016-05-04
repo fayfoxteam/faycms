@@ -12,8 +12,6 @@ use fay\models\tables\AnalystVisits;
  * 访问统计
  */
 class AnalystController extends ApiController{
-	public $current_user = 0;
-	
 	public function __construct(){
 		parent::__construct();
 		$this->current_user = \F::session()->get('user.id');

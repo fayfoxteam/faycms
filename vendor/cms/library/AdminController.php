@@ -16,11 +16,6 @@ use fay\models\User;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
-	/**
-	 * 当前用户id（users表中的ID）
-	 * @var int
-	 */
-	public $current_user = 0;
 	
 	public $_left_menu = array();
 	

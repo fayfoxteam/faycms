@@ -12,11 +12,6 @@ use fay\models\user\Role;
 
 class ToolsController extends Controller{
 	public $layout_template = 'admin';
-	/**
-	 * 当前用户id（users表中的ID）
-	 * @var int
-	 */
-	public $current_user = 0;
 	
 	public $_top_nav = array(
 		array(

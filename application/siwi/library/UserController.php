@@ -22,6 +22,6 @@ class UserController extends FrontController{
 			), false);
 		}
 		
-		$this->current_user = \F::session()->get('user.id');
+		$this->current_user = \F::session()->get('user.id', 0);
 	}
 }

@@ -12,11 +12,6 @@ use fay\models\tables\AnalystVisits;
  * 访问统计
  */
 class AnalystController extends ApiController{
-	public function __construct(){
-		parent::__construct();
-		$this->current_user = \F::session()->get('user.id');
-	}
-	
 	public function visit(){
 		//防止直接访问（虽然效果不大）
 		if(!empty($_SERVER['HTTP_USER_AGENT']) &&

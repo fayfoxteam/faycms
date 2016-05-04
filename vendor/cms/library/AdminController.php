@@ -50,7 +50,7 @@ class AdminController extends Controller{
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
 		
 		//设置当前用户id
-		$this->current_user = \F::session()->get('user.id');
+		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
 		if(!User::model()->isAdmin()){

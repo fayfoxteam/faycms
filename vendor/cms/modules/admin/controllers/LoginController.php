@@ -13,7 +13,7 @@ class LoginController extends Controller{
 		parent::__construct();
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
 		
-		$this->current_user = \F::session()->get('user.id');
+		$this->current_user = \F::session()->get('user.id', 0);
 	}
 	
 	public function index(){

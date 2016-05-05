@@ -136,7 +136,7 @@ class Comment extends MultiTree{
 	 * @param int $comment_id 文章ID
 	 */
 	public function checkPermission($comment_id, $action = 'delete'){
-		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
 			//后台用户
 			//没有删除权限，直接返回错误
 			if(!\F::app()->checkPermission('admin/post-comment/' . $action)){

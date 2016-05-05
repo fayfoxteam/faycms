@@ -16,11 +16,6 @@ use fay\models\User;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
-	/**
-	 * 当前用户id（users表中的ID）
-	 * @var int
-	 */
-	public $current_user = 0;
 	
 	public $_left_menu = array();
 	
@@ -50,7 +45,7 @@ class AdminController extends Controller{
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
 		
 		//设置当前用户id
-		$this->current_user = \F::session()->get('user.id');
+		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
 		if(!User::model()->isAdmin()){

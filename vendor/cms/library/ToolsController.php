@@ -12,11 +12,6 @@ use fay\models\user\Role;
 
 class ToolsController extends Controller{
 	public $layout_template = 'admin';
-	/**
-	 * 当前用户id（users表中的ID）
-	 * @var int
-	 */
-	public $current_user = 0;
 	
 	public $_top_nav = array(
 		array(
@@ -43,7 +38,7 @@ class ToolsController extends Controller{
 		//重置session_namespace
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
 		
-		$this->current_user = \F::session()->get('user.id');
+		$this->current_user = \F::session()->get('user.id', 0);
 		
 		$this->layout->current_directory = '';
 		$this->layout->subtitle = '';
@@ -55,7 +50,7 @@ class ToolsController extends Controller{
 	 */
 	public function isLogin(){
 		//设置当前用户id
-		$this->current_user = \F::session()->get('user.id');
+		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
 		if(!User::model()->isAdmin()){

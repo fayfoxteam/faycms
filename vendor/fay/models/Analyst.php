@@ -197,7 +197,6 @@ class Analyst extends Model{
 	 */
 	public function getMacId($fmac = null){
 		$fmac || $fmac = $this->getFMac();
-		dump($fmac);die;
 		$mac = AnalystMacs::model()->fetchRow(array(
 			'fmac = ?'=>$fmac,
 		), 'id');

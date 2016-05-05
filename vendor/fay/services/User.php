@@ -126,19 +126,6 @@ class User extends Model{
 		));
 		$this->setSessionInfo($user);
 		
-		$role_ids = ArrayHelper::column($user['roles'], 'id');
-		//设置权限，超级管理员无需设置
-		if(!in_array(Roles::ITEM_SUPER_ADMIN, $role_ids)){
-			if($role_ids){
-				//分类权限
-				if(Option::get('system:post_role_cats')){
-					//未分类文章任何人都有权限编辑
-					$post_root = Category::model()->get('_system_post', 'id');
-					\F::session()->set('role_cats', array_merge(array(0, $post_root['id']), RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $role_ids).')')));
-				}
-			}
-		}
-		
 		UserProfile::model()->update(array(
 			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
@@ -170,12 +157,6 @@ class User extends Model{
 	private function setSessionInfo($user){
 		\F::session()->set('user', array(
 			'id'=>$user['user']['id'],
-			'username'=>$user['user']['username'],
-			'nickname'=>$user['user']['nickname'],
-			'avatar'=>$user['user']['avatar'],
-			'roles'=>ArrayHelper::column($user['roles'], 'id'),
-			'status'=>$user['user']['status'],
-			'admin'=>$user['user']['admin'],
 		));
 	}
 	

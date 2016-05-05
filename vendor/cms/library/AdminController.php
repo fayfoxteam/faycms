@@ -41,8 +41,8 @@ class AdminController extends Controller{
 	
 	public function __construct(){
 		parent::__construct();
-		//重置session_namespace
-		$this->config->set('session_namespace', $this->config->get('session.namespace').'_admin');
+		//重置session.namespace
+		$this->config->set('session.namespace', $this->config->get('session.namespace').'_admin');
 		
 		//设置当前用户id
 		$this->current_user = \F::session()->get('user.id', 0);

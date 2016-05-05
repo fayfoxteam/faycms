@@ -27,10 +27,21 @@ return array(
 		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),
 	
-	/*
-	 * 用一个域名管理多个APP的时候，以此区分session，默认为APPLICATION
-	 */
-	'session_namespace'=>APPLICATION,
+	'session'=>array(
+		/*
+		 * 命名空间
+		 * 用一个域名管理多个APP的时候，以此区分session，默认为APPLICATION
+		 */
+		'namespace'=>APPLICATION,
+		'ini_set'=>array(
+			'use_cookies'=>1,//是否启用cookie存储session id
+			'use_only_cookies'=>0,//是否只允许用cookie存储session id
+			'name'=>'faysess',//session字段名称
+			'save_handler'=>'files',//存储方式，默认为files
+			'save_path'=>APPLICATION_PATH . 'runtimes/sessions',//session存储路径，必须保证此目录存在，系统不自动生成目录，若不存在的话会报错
+			'gc_maxlifetime'=>1440,//session过期时间
+		),
+	),
 	
 	/*
 	 * 用一个域名管理多个APP的时候，以此区分cookie，默认为APPLICATION加下划线

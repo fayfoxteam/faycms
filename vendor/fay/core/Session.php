@@ -10,6 +10,12 @@ class Session{
 	
 	public static function getInstance(){
 		if(!(self::$_instance instanceof self)){
+			$session_configs = \F::config()->get('session');
+			
+			foreach($session_configs['ini_set'] as $key => $config){
+				ini_set('session.' . $key, $config);
+			}
+			
 			session_start();
 			self::$_instance = new self();
 		}
@@ -20,36 +26,36 @@ class Session{
 	 * 设置Session
 	 * @param string $key Session名
 	 * @param mix $value Session值
-	 * @param string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
+	 * @param string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
-	public function set($key, $value, $session_namespace = null){
-		if($session_namespace === null){
-			$session_namespace = \F::config()->get('session_namespace');
+	public function set($key, $value, $namespace = null){
+		if($namespace === null){
+			$namespace = \F::config()->get('session.namespace');
 		}
-		$_SESSION[$session_namespace][$key] = $value;
+		$_SESSION[$namespace][$key] = $value;
 		return true;
 	}
 	
 	/**
 	 * 获取Session
 	 * @param string $key Session名
-	 *   - 若为null，则以键值数组返回所有指定$session_namespace下的Session，数组key为Session名
-	 *   - 若为数组，则以键值数组返回所有指定$session_namespace下符合条件的Session，数组key为Session名
-	 *   - 若为字符串，则返回有指定$session_namespace下对应的Session值
+	 *   - 若为null，则以键值数组返回所有指定$namespace下的Session，数组key为Session名
+	 *   - 若为数组，则以键值数组返回所有指定$namespace下符合条件的Session，数组key为Session名
+	 *   - 若为字符串，则返回有指定$namespace下对应的Session值
 	 * @param string $default
-	 * @param string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
+	 * @param string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
-	public function get($key = null, $default = null, $session_namespace = null){
-		if($session_namespace === null){
-			$session_namespace = \F::config()->get('session_namespace');
+	public function get($key = null, $default = null, $namespace = null){
+		if($namespace === null){
+			$namespace = \F::config()->get('session.namespace');
 		}
 		if($key === null){
-			return $_SESSION[$session_namespace];
+			return $_SESSION[$namespace];
 		}
 		$key_exploded = explode('.', $key);
 		$first_key_part = array_shift($key_exploded);
-		if(isset($_SESSION[$session_namespace][$first_key_part])){
-			$temp = $_SESSION[$session_namespace][$first_key_part];
+		if(isset($_SESSION[$namespace][$first_key_part])){
+			$temp = $_SESSION[$namespace][$first_key_part];
 			foreach($key_exploded as $k){
 				if(isset($temp[$k])){
 					$temp = $temp[$k];
@@ -66,27 +72,27 @@ class Session{
 	/**
 	 * 销毁指定命名空间下的session
 	 * @param string|null $key 若不指定或者指定为null，则删除所有session
-	 * @param string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
+	 * @param string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
-	public function remove($key = null, $session_namespace = null){
-		if($session_namespace === null){
-			$session_namespace = \F::config()->get('session_namespace');
+	public function remove($key = null, $namespace = null){
+		if($namespace === null){
+			$namespace = \F::config()->get('session.namespace');
 		}
 		if($key === null){
-			unset($_SESSION[$session_namespace]);
+			unset($_SESSION[$namespace]);
 		}else{
-			unset($_SESSION[$session_namespace][$key]);
+			unset($_SESSION[$namespace][$key]);
 		}
 		return true;
 	}
 	
 	/**
 	 * 销毁指定命名空间下的所有session
-	 * @param null|string $session_namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
+	 * @param null|string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
-	public function flush($session_namespace = null){
-		if($session_namespace === null){
-			$session_namespace = \F::config()->get('session_namespace');
+	public function flush($namespace = null){
+		if($namespace === null){
+			$namespace = \F::config()->get('session.namespace');
 		}
 		$this->remove();
 	}

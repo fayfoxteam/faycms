@@ -11,7 +11,7 @@ use fay\services\User;
 class LoginController extends Controller{
 	public function __construct(){
 		parent::__construct();
-		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
+		$this->config->set('session_namespace', $this->config->get('session.namespace').'_admin');
 		
 		$this->current_user = \F::session()->get('user.id', 0);
 	}

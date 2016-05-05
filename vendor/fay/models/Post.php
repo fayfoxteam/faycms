@@ -886,7 +886,7 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 */
 	public static function checkDeletePermission($post_id){
-		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
 			//后台用户
 			//没有删除权限，直接返回错误
 			if(!\F::app()->checkPermission('admin/post/delete')){
@@ -932,7 +932,7 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 */
 	public static function checkUndeletePermission($post_id){
-		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
 			//后台用户
 			//没有还原权限，直接返回错误
 			if(!\F::app()->checkPermission('admin/post/undelete')){
@@ -978,7 +978,7 @@ class Post extends Model{
 	 * @param int $post_id 文章ID
 	 */
 	public static function checkRemovePermission($post_id){
-		if(substr(\F::config()->get('session_namespace'), -6) == '_admin'){
+		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
 			//后台用户
 			//没有永久删除权限，直接返回错误
 			if(!\F::app()->checkPermission('admin/post/remove')){

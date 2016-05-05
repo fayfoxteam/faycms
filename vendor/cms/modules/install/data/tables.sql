@@ -52,14 +52,14 @@ CREATE TABLE `{{$prefix}}analyst_macs` (
   `refer` varchar(255) NOT NULL DEFAULT '' COMMENT '来源url',
   `se` varchar(10) NOT NULL DEFAULT '' COMMENT 'Se',
   `keywords` varchar(50) NOT NULL DEFAULT '' COMMENT 'Keywords',
-  `hash` char(32) NOT NULL DEFAULT '' COMMENT 'Hash',
+  `fmac` char(36) NOT NULL DEFAULT '' COMMENT 'FMac',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `create_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '创建日期',
   `hour` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT 'Hour',
   `trackid` varchar(30) NOT NULL DEFAULT '' COMMENT 'Trackid',
   `site` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Site',
   PRIMARY KEY (`id`),
-  KEY `hash` (`hash`),
+  KEY `fmac` (`fmac`),
   KEY `date` (`create_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 

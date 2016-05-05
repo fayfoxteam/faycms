@@ -19,6 +19,7 @@ use fay\models\tables\UserCounter;
 use fay\models\Prop;
 use fay\core\Exception;
 use fay\models\tables\UserLogins;
+use fay\models\Analyst;
 
 /**
  * 用户服务
@@ -31,8 +32,6 @@ class User extends Model{
 		return parent::model($class_name);
 	}
 	
-
-
 	/**
 	 * 用户登录
 	 * @param string $username 用户名
@@ -54,10 +53,12 @@ class User extends Model{
 				'error_code'=>'password:can-not-be-empty',
 			);
 		}
+		
 		$user = Users::model()->fetchRow(array(
 			'username = ?'=>$username,
 			'deleted = 0',
 		), 'id,password,salt,block,status,admin');
+		
 		//判断用户名是否存在
 		if(!$user){
 			return array(
@@ -150,7 +151,7 @@ class User extends Model{
 			'user_id'=>$user['user']['id'],
 			'login_time'=>\F::app()->current_time,
 			'ip_int'=>Request::ip2int(\F::app()->ip),
-			'mac'=>'',//@todo 通过fmac获取对应的id
+			'mac'=>Analyst::model()->getMacId(),//@todo 通过fmac获取对应的id
 		));
 		
 		Hook::getInstance()->call('after_login', array(

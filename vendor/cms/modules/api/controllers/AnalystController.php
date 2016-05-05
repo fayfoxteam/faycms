@@ -7,11 +7,19 @@ use fay\helpers\StringHelper;
 use fay\helpers\Date;
 use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
+use fay\models\Analyst;
 
 /**
  * 访问统计
  */
 class AnalystController extends ApiController{
+	public $current_user = 0;
+	
+	public function __construct(){
+		parent::__construct();
+		$this->current_user = \F::session()->get('user.id');
+	}
+	
 	public function visit(){
 		//防止直接访问（虽然效果不大）
 		if(!empty($_SERVER['HTTP_USER_AGENT']) &&
@@ -26,7 +34,7 @@ class AnalystController extends ApiController{
 			
 			if(empty($_COOKIE['fmac'])){
 				//首次访问
-				$fmac = StringHelper::random('unique');
+				$fmac = StringHelper::random('uuid');
 				//设置cookie
 				setcookie('fmac', $fmac, $this->current_time + 3600 * 24 * 365, '/', $this->config->get('tld'));
 				
@@ -46,7 +54,7 @@ class AnalystController extends ApiController{
 					'refer'=>$refer,
 					'se'=>isset($se['se']) ? $se['se'] : '',
 					'keywords'=>isset($se['keywords']) ? $se['keywords'] : '',
-					'hash'=>$fmac,
+					'fmac'=>$fmac,
 					'create_time'=>$this->current_time,
 					'create_date'=>$date,
 					'hour'=>$hour,
@@ -72,21 +80,21 @@ class AnalystController extends ApiController{
 				));
 			}else{
 				//非首次访问
-				$mac = AnalystMacs::model()->fetchRow(array(
-					'hash = ?'=>$_COOKIE['fmac'],
-				), 'id');
-				if($mac){
+				$fmac = Analyst::model()->getFMac();
+				$mac_id = Analyst::model()->getMacId($fmac);
+				if($mac_id){
 					$today = Date::today();
-					//当日重复访问不新增记录，仅递增views
+					//一小时内重复访问不新增记录，仅递增views
 					if($record = AnalystVisits::model()->fetchRow(array(
-						'mac = ?'=>$mac['id'],
+						'mac = ?'=>$mac_id,
 						'short_url = ?'=>$short_url,
-						'create_time > '.$today,
+						'create_date'=>$date,
+						'hour'=>$hour,
 					), 'id')){
 						AnalystVisits::model()->incr($record['id'], 'views', 1);
 					}else{
 						AnalystVisits::model()->insert(array(
-							'mac'=>$mac['id'],
+							'mac'=>$mac_id,
 							'ip_int'=>Request::ip2int($this->ip),
 							'refer'=>$refer,
 							'url'=>$url,

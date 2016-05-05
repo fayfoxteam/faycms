@@ -18,7 +18,7 @@ class Analyst extends Model{
 	
 	public function __construct(){
 		parent::__construct();
-		$this->today = date('Y-m-d');
+		$this->today = date('Y-m-d', \F::app()->current_time);
 	}
 	
 	/**
@@ -168,7 +168,7 @@ class Analyst extends Model{
 		return AnalystCaches::model()->fetchRow(array(
 			'date = ?'=>$date,
 			'hour = ?'=>$hour === false ? -1 : $hour,
-			'site = ?'=>$site ? $site : 0,	//site为0视为全站数据
+			'site = ?'=>$site ? $site : 0,//site为0视为全站数据
 		));
 	}
 	
@@ -181,7 +181,7 @@ class Analyst extends Model{
 		$result = AnalystCaches::model()->fetchAll(array(
 			'date = ?'=>$date,
 			'hour != -1',
-			'site = ?'=>$site ? $site : 0,	//site为0视为全站数据
+			'site = ?'=>$site ? $site : 0,//site为0视为全站数据
 		));
 		
 		$return = array();
@@ -189,5 +189,30 @@ class Analyst extends Model{
 			$return[$r['hour']] = $r;
 		}
 		return $return;
+	}
+	
+	/**
+	 * 根据客户端MAC地址获取对应记录ID
+	 * @param string $mac
+	 */
+	public function getMacId($fmac = null){
+		$fmac || $fmac = $this->getFMac();
+		dump($fmac);die;
+		$mac = AnalystMacs::model()->fetchRow(array(
+			'fmac = ?'=>$fmac,
+		), 'id');
+		
+		return $mac ? $mac['id'] : 0;
+	}
+	
+	/**
+	 * 获取客户端传过来的FMac
+	 */
+	public function getFMac(){
+		if(!empty($_REQUEST['fmac'])){
+			return $_REQUEST['fmac'];
+		}else if(!empty($_COOKIE['fmac'])){
+			return $_COOKIE['fmac'];
+		}
 	}
 }

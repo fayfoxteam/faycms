@@ -33,10 +33,6 @@ class ProfileController extends AdminController{
 			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
 			Response::notify('success', '修改成功', false);
 			
-			//修改当前用户session
-			\F::session()->set('avatar', $data['avatar']);
-			\F::session()->set('nickname', $data['nickname']);
-			
 			//置空密码字段
 			$this->form()->setData(array('password'=>''), true);
 		}

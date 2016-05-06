@@ -88,7 +88,7 @@ class Controller{
 
 	/**
 	 * 根据路由做权限检查
-	 * 这里必然是对当前登录用户做检查，比fay\models\User::checkPermission()逻辑简单
+	 * 这里必然是对当前登录用户做检查
 	 * @param string $router
 	 * @return boolean
 	 */

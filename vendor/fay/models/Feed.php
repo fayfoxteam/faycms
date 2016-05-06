@@ -9,6 +9,7 @@ use fay\models\feed\Meta;
 use fay\models\feed\Tag as FeedTag;
 use fay\models\feed\File as FeedFile;
 use fay\models\tables\Users;
+use fay\core\ErrorException;
 
 class Feed extends Model{
 	/**
@@ -232,13 +233,16 @@ class Feed extends Model{
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
+		if(empty($feed['user_id'])){
+			throw new ErrorException('指定动态不存在');
+		}
+		
 		if($feed['user_id'] == $user_id){
 			//自己的动态总是有权限删除的
 			return true;
 		}
 		
-		$user = Users::model()->find($user_id, 'admin');
-		if($user['admin']){
+		if(User::model()->isAdmin($user_id)){
 			if(User::model()->checkPermission('admin/feed/delete', $user_id)){
 				return true;
 			}

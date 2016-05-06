@@ -367,8 +367,8 @@ class User extends Model{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if($user_id){
-			$user = $this->get($user_id, 'user.admin');
-			return !!$user['user']['admin'];
+			$user = Users::model()->find($user_id, 'admin');
+			return !empty($user['admin']);
 		}else{
 			//未登录，返回false
 			return false;

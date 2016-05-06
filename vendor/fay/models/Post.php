@@ -16,6 +16,7 @@ use fay\models\Category;
 use fay\models\post\Tag as PostTag;
 use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
+use fay\core\ErrorException;
 
 class Post extends Model{
 	/**
@@ -797,226 +798,156 @@ class Post extends Model{
 	
 	/**
 	 * 判断当前登录用户是否对该文章有编辑权限
-	 * @param int $post_id 文章ID
+	 * @param int $post 文章
+	 *  - 若是数组，视为文章表行记录，必须包含user_id, status和cat_id字段
+	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
 	 * @param int $new_status 更新后的状态，不传则不做验证
 	 * @param int $new_cat_id 更新后的分类，不传则不做验证
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 */
-	public static function checkEditPermission($post_id, $new_status = null, $new_cat_id = null){
-		if(\F::session()->get('user.admin')){
-			//后台用户
-			/**
-			 * 是否启用文章审核
-			 */
-			$post_review = is_bool(\F::app()->post_review) ? \F::app()->post_review : Option::get('system:post_review');
-			//没有编辑权限，直接返回错误
-			if(!\F::app()->checkPermission('admin/post/edit')){
-				return array(
-					'status'=>0,
-					'message'=>'您无文章编辑权限！',
-					'error_code'=>'permission-denied:no-edit-action-allowed',
-				);
-			}
+	public static function checkEditPermission($post, $new_status = null, $new_cat_id = null, $user_id = null){
+		if(!is_array($post)){
+			$post = Posts::model()->find($post, 'user_id,cat_id,status');
+		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($post['user_id'])){
+			throw new ErrorException('指定文章不存在');
+		}
+		
+		if($post['user_id'] == $user_id){
+			//自己的文章总是有权限还原的
+			return true;
+		}
+		
+		if(User::model()->isAdmin($user_id) &&
+			User::model()->checkPermission('admin/post/edit', $user_id) &&
+			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			//是管理员，有还原权限，且有当前文章的分类权限
 			
-			$post = Posts::model()->find($post_id, 'status,cat_id');
-			//分类权限判断
-			if(!PostCategory::model()->isAllowedCat($post['cat_id'])){
-				return array(
-					'status'=>0,
-					'message'=>'您无权编辑该分类下的文章！',
-					'error_code'=>'permission-denied:category-denied',
-				);
-			}
-			
-			//文章分类被编辑，分类权限判断
-			if($new_cat_id && !PostCategory::model()->isAllowedCat($new_cat_id)){
-				return array(
-					'status'=>0,
-					'message'=>'您无权将该文章设置为指定分类',
-					'error_code'=>'permission-denied:category-denied',
-				);
+			if($new_cat_id && !PostCategory::model()->isAllowedCat($new_cat_id, $user_id)){
+				//若指定了新分类，判断用户是否对新分类有编辑权限
+				return false;
 			}
 			
 			//文章状态被编辑
 			if($new_status){
-				//若系统开启文章审核功能；且文章原状态不是“通过审核”，被修改为“通过审核”；且该用户无审核权限 - 报错
-				if($post_review &&
+				//若系统开启文章审核功能；且文章原状态不是“通过审核”，被修改为“通过审核”；且该用户无审核权限，返回false
+				if(Option::get('system:post_review') &&
 					$post['status'] != Posts::STATUS_REVIEWED && $new_status == Posts::STATUS_REVIEWED &&
 					!\F::app()->checkPermission('admin/post/review')
 				){
-					return array(
-						'status'=>0,
-						'message'=>'您无权将该文章设置为“通过审核”状态',
-						'error_code'=>'permission-denied:status-denied',
-					);
+					return false;
 				}
-				//若系统开启文章审核功能；文章原状态不是“已发布”，被修改为“已发布”；且该用户无发布权限- 报错
-				if($post_review &&
+				//若系统开启文章审核功能；文章原状态不是“已发布”，被修改为“已发布”；且该用户无发布权限，返回false
+				if(Option::get('system:post_review') &&
 					$post['status'] != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED &&
 					!\F::app()->checkPermission('admin/post/publish')
 				){
-					return array(
-						'status'=>0,
-						'message'=>'您无权将该文章设置为“已发布”状态',
-						'error_code'=>'permission-denied:status-denied',
-					);
+					return false;
 				}
 			}
-			return array(
-				'status'=>1,
-			);
-		}else{
-			//前台用户，只要是自己的文章都能编辑
-			$post = Posts::model()->find($post_id, 'user_id');
-			if($post['user_id'] != \F::app()->current_user){
-				return array(
-					'status'=>0,
-					'message'=>'您无权编辑该文章！',
-					'error_code'=>'permission-denied',
-				);
-			}else{
-				return array(
-					'status'=>1,
-				);
-			}
+			
+			return true;
 		}
+		
+		return false;
 	}
 	
 	/**
 	 * 判断当前登录用户是否对该文章有删除权限
-	 * @param int $post_id 文章ID
+	 * @param int $post 文章
+	 *  - 若是数组，视为文章表行记录，必须包含user_id和cat_id字段
+	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 */
-	public static function checkDeletePermission($post_id){
-		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
-			//后台用户
-			//没有删除权限，直接返回错误
-			if(!\F::app()->checkPermission('admin/post/delete')){
-				return array(
-					'status'=>0,
-					'message'=>'您无删除文章权限！',
-					'error_code'=>'permission-denied:no-delete-action-allowed',
-				);
-			}
-			$post = Posts::model()->find($post_id, 'cat_id');
-			
-			//分类权限判断
-			if(PostCategory::model()->isAllowedCat($post['cat_id'])){
-				return array(
-					'status'=>0,
-					'message'=>'您无权删除该分类下的文章！',
-					'error_code'=>'permission-denied:category-denied',
-				);;
-			}
-			
-			return array(
-				'status'=>1,
-			);
-		}else{
-			//前台用户，只要是自己的文章都能删除
-			$post = Posts::model()->find($post_id, 'user_id');
-			if($post['user_id'] != \F::app()->current_user){
-				return array(
-					'status'=>0,
-					'message'=>'您无权删除该文章！',
-					'error_code'=>'permission-denied',
-				);
-			}else{
-				return array(
-					'status'=>1,
-				);
-			}
+	public static function checkDeletePermission($post, $user_id = null){
+		if(!is_array($post)){
+			$post = Posts::model()->find($post, 'user_id,cat_id');
 		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($post['user_id'])){
+			throw new ErrorException('指定文章不存在');
+		}
+		
+		if($post['user_id'] == $user_id){
+			//自己的文章总是有权限删除的
+			return true;
+		}
+		
+		if(User::model()->isAdmin($user_id) &&
+			User::model()->checkPermission('admin/post/delete', $user_id) &&
+			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			//是管理员，有删除权限，且有当前文章的分类权限
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
 	 * 判断当前登录用户是否对该文章有还原权限
-	 * @param int $post_id 文章ID
+	 * @param int $post 文章
+	 *  - 若是数组，视为文章表行记录，必须包含user_id和cat_id字段
+	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 */
-	public static function checkUndeletePermission($post_id){
-		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
-			//后台用户
-			//没有还原权限，直接返回错误
-			if(!\F::app()->checkPermission('admin/post/undelete')){
-				return array(
-					'status'=>0,
-					'message'=>'您无删除文章权限！',
-					'error_code'=>'permission-denied:no-delete-action-allowed',
-				);
-			}
-			$post = Posts::model()->find($post_id, 'cat_id');
-			
-			//分类权限判断
-			if(!PostCategory::model()->isAllowedCat($post['cat_id'])){
-				return array(
-					'status'=>0,
-					'message'=>'您无权还原该分类下的文章！',
-					'error_code'=>'permission-denied:category-denied',
-				);
-			}
-			
-			return array(
-				'status'=>1,
-			);
-		}else{
-			//前台用户，只要是自己的文章都能还原
-			$post = Posts::model()->find($post_id, 'user_id');
-			if($post['user_id'] != \F::app()->current_user){
-				return array(
-					'status'=>0,
-					'message'=>'您无权还原该文章！',
-					'error_code'=>'permission-denied',
-				);
-			}else{
-				return array(
-					'status'=>1,
-				);
-			}
+	public static function checkUndeletePermission($post, $user_id = null){
+		if(!is_array($post)){
+			$post = Posts::model()->find($post, 'user_id,cat_id');
 		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($post['user_id'])){
+			throw new ErrorException('指定文章不存在');
+		}
+		
+		if($post['user_id'] == $user_id){
+			//自己的文章总是有权限还原的
+			return true;
+		}
+		
+		if(User::model()->isAdmin($user_id) &&
+			User::model()->checkPermission('admin/post/undelete', $user_id) &&
+			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			//是管理员，有还原权限，且有当前文章的分类权限
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
 	 * 判断当前登录用户是否对该文章有永久删除权限
-	 * @param int $post_id 文章ID
+	 * @param int $post 文章
+	 *  - 若是数组，视为文章表行记录，必须包含user_id和cat_id字段
+	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 */
-	public static function checkRemovePermission($post_id){
-		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
-			//后台用户
-			//没有永久删除权限，直接返回错误
-			if(!\F::app()->checkPermission('admin/post/remove')){
-				return array(
-					'status'=>0,
-					'message'=>'您无永久删除文章权限！',
-					'error_code'=>'permission-denied:no-delete-action-allowed',
-				);
-			}
-			$post = Posts::model()->find($post_id, 'cat_id');
-			
-			//分类权限判断
-			if(!PostCategory::model()->isAllowedCat($post['cat_id'])){
-				return array(
-					'status'=>0,
-					'message'=>'您无权永久删除该分类下的文章！',
-					'error_code'=>'permission-denied:category-denied',
-				);
-			}
-			
-			return array(
-				'status'=>1,
-			);
-		}else{
-			//前台用户，只要是自己的文章都能永久删除
-			$post = Posts::model()->find($post_id, 'user_id');
-			if($post['user_id'] != \F::app()->current_user){
-				return array(
-					'status'=>0,
-					'message'=>'您无权永久删除该文章！',
-					'error_code'=>'permission-denied',
-				);
-			}else{
-				return array(
-					'status'=>1,
-				);
-			}
+	public static function checkRemovePermission($post, $user_id = null){
+		if(!is_array($post)){
+			$post = Posts::model()->find($post, 'user_id,cat_id');
 		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($post['user_id'])){
+			throw new ErrorException('指定文章不存在');
+		}
+		
+		if($post['user_id'] == $user_id){
+			//自己的文章总是有权限永久删除的
+			return true;
+		}
+		
+		if(User::model()->isAdmin($user_id) &&
+			User::model()->checkPermission('admin/post/remove', $user_id) &&
+			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			//是管理员，有永久删除权限，且有当前文章的分类权限
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**

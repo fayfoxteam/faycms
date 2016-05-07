@@ -43,10 +43,10 @@ class ContactController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '用户留言';
+		$this->layout->subtitle = '联系我们';
 		
 		//页面设置
-		$this->settingForm('admin_contact_index', '_setting_index', array(
+		$_settings = $this->settingForm('admin_contact_index', '_setting_index', array(
 			'cols'=>array('realname', 'email', 'phone', 'create_time', 'area'),
 			'display_time'=>'short',
 			'page_size'=>10,

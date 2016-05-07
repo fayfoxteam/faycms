@@ -7,6 +7,7 @@ use fay\helpers\FieldHelper;
 use fay\models\Option;
 use fay\models\tables\PostMeta;
 use fay\models\User;
+use fay\core\ErrorException;
 
 class Comment extends MultiTree{
 	/**
@@ -132,26 +133,35 @@ class Comment extends MultiTree{
 	}
 	
 	/**
-	 * 判断当前登录用户是否对该动态有删除权限
-	 * @param int $comment_id 动态ID
+	 * 判断用户是否对该评论有删除权限
+	 * @param int $comment 评论
+	 *  - 若是数组，视为评论表行记录，必须包含user_id
+	 *  - 若是数字，视为评论ID，会根据ID搜索数据库
+	 * @param string 操作
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 */
-	public function checkPermission($comment_id, $action = 'delete'){
-		if(substr(\F::config()->get('session.namespace'), -6) == '_admin'){
-			//后台用户
-			//没有删除权限，直接返回错误
-			if(!\F::app()->checkPermission('admin/feed-comment/' . $action)){
-				return false;
-			}
-			return true;
-		}else{
-			//前台用户，只能操作自己的评论
-			$comment = FeedComments::model()->find($comment_id, 'user_id');
-			if($comment && $comment['user_id'] != \F::app()->current_user){
-				return false;
-			}else{
-				return true;
-			}
+	public function checkPermission($comment, $action = 'delete', $user_id = null){
+		if(!is_array($comment)){
+			$comment = FeedComments::model()->find($comment, 'user_id');
 		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($comment['user_id'])){
+			throw new ErrorException('指定动态评论不存在');
+		}
+		
+		if($comment['user_id'] == $user_id){
+			//自己的评论总是有权限操作的
+			return true;
+		}
+		
+		if(User::model()->isAdmin($user_id) &&
+			User::model()->checkPermission('admin/feed-comment/' . $action, $user_id)){
+			//是管理员，判断权限
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**

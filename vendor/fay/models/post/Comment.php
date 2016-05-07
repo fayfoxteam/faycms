@@ -38,8 +38,8 @@ class Comment extends MultiTree{
 	 * @param int $fields 返回字段
 	 *  - comment.*系列可指定post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
-	 *  - parent_comment.*系列可指定父评论post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-	 *  - parent_comment_user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
+	 *  - parent.comment.*系列可指定父评论post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
+	 *  - parent._user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
 	 */
 	public function get($comment_id, $fields = array(
 		'comment'=>array(
@@ -189,7 +189,8 @@ class Comment extends MultiTree{
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 * @param mix $post_comment_verify 是否开启文章评论审核（视为bool）
 	 */
-	private function needChangePostComments($comment, $action, $post_comment_verify){
+	private function needChangePostComments($comment, $action){
+		$post_comment_verify = Option::get('system:post_comment_verify');
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
 			if($comment['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
 				return true;
@@ -210,15 +211,14 @@ class Comment extends MultiTree{
 	}
 	
 	/**
-	 * 更posts表comments和real_comments字段。
-	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
+	 * 更post_meta表comments和real_comments字段。
+	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段）
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 */
 	public function updatePostComments($comments, $action){
-		$post_comment_verify = Option::get('system:post_comment_verify');
 		$posts = array();
 		foreach($comments as $c){
-			if($this->needChangePostComments($c, $action, $post_comment_verify)){
+			if($this->needChangePostComments($c, $action)){
 				//更新评论数
 				if(isset($posts[$c['post_id']]['comments'])){
 					$posts[$c['post_id']]['comments']++;

@@ -488,19 +488,23 @@ CREATE TABLE `{{$prefix}}menus` (
 DROP TABLE IF EXISTS `{{$prefix}}messages`;
 CREATE TABLE `{{$prefix}}messages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
-  `target` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '目标',
-  `content` text NOT NULL COMMENT '评论内容',
-  `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
-  `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Root',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Type',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态 ',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `is_terminal` tinyint(1) NOT NULL DEFAULT '1' COMMENT '判断是否为叶子节点',
+  `to_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '留言给用户ID',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `content` text COMMENT '内容',
+  `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父ID',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
+  `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',
+  `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
   PRIMARY KEY (`id`),
-  KEY `root` (`root`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+  KEY `parent` (`parent`),
+  KEY `post` (`to_user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}notifications`;
 CREATE TABLE `{{$prefix}}notifications` (
@@ -835,6 +839,8 @@ CREATE TABLE `{{$prefix}}user_counter` (
   `feeds` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '动态数',
   `follows` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关注数',
   `fans` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '粉丝数',
+  `messages` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '留言数',
+  `real_messages` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '真实留言数',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户计数器';
 

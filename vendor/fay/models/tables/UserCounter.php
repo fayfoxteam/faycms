@@ -11,6 +11,8 @@ use fay\core\db\Table;
  * @property int $feeds 动态数
  * @property int $follows 关注数
  * @property int $fans 粉丝数
+ * @property int $messages 留言数
+ * @property int $real_messages 真实留言数
  */
 class UserCounter extends Table{
 	protected $_name = 'user_counter';
@@ -26,7 +28,7 @@ class UserCounter extends Table{
 	public function rules(){
 		return array(
 			array(array('user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('follows', 'fans'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('follows', 'fans', 'messages', 'real_messages'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('posts', 'feeds'), 'int', array('min'=>0, 'max'=>65535)),
 		);
 	}
@@ -38,6 +40,8 @@ class UserCounter extends Table{
 			'feeds'=>'动态数',
 			'follows'=>'关注数',
 			'fans'=>'粉丝数',
+			'messages'=>'留言数',
+			'real_messages'=>'真实留言数',
 		);
 	}
 

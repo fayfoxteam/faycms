@@ -38,8 +38,8 @@ class Comment extends MultiTree{
 	 * @param int $fields 返回字段
 	 *  - comment.*系列可指定feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
-	 *  - parent_comment.*系列可指定父评论feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-	 *  - parent_comment_user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
+	 *  - parent.comment.*系列可指定父评论feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
+	 *  - parent.user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
 	 */
 	public function get($comment_id, $fields = array(
 		'comment'=>array(
@@ -189,7 +189,8 @@ class Comment extends MultiTree{
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 * @param mix $feed_comment_verify 是否开启动态评论审核（视为bool）
 	 */
-	private function needChangeFeedComments($comment, $action, $feed_comment_verify){
+	private function needChangeFeedComments($comment, $action){
+		$feed_comment_verify = Option::get('system:feed_comment_verify');
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
 			if($comment['status'] == FeedComments::STATUS_APPROVED || !$feed_comment_verify){
 				return true;
@@ -210,15 +211,14 @@ class Comment extends MultiTree{
 	}
 	
 	/**
-	 * 更feeds表comments和real_comments字段。
-	 * @param array $comments 相关评论（二维数组，每项必须包含feed_id,status,sockpuppet字段，且feed_id必须都相同）
+	 * 更feed_meta表comments和real_comments字段。
+	 * @param array $comments 相关评论（二维数组，每项必须包含feed_id,status,sockpuppet字段）
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 */
 	public function updateFeedComments($comments, $action){
-		$feed_comment_verify = Option::get('system:feed_comment_verify');
 		$feeds = array();
 		foreach($comments as $c){
-			if($this->needChangeFeedComments($c, $action, $feed_comment_verify)){
+			if($this->needChangeFeedComments($c, $action)){
 				//更新评论数
 				if(isset($feeds[$c['feed_id']]['comments'])){
 					$feeds[$c['feed_id']]['comments']++;

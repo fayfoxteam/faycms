@@ -457,7 +457,7 @@ abstract class MultiTree extends Model{
 				//开启审核，仅返回通过审核的评论
 				$_join_conditions = array_merge($_join_conditions, $join_conditions);
 			}
-			$sql->joinLeft(\F::model($this->model)->getTableName(), 'c2', $_join_conditions, $parent_comment_fields);
+			$sql->joinLeft(array('c2'=>\F::model($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
 		}
 		
 		$listview = new ListView($sql, array(

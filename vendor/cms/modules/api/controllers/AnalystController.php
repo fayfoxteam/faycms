@@ -88,8 +88,8 @@ class AnalystController extends ApiController{
 					if($record = AnalystVisits::model()->fetchRow(array(
 						'mac = ?'=>$mac_id,
 						'short_url = ?'=>$short_url,
-						'create_date'=>$date,
-						'hour'=>$hour,
+						'create_date = ?'=>$date,
+						'hour = ?'=>$hour,
 					), 'id')){
 						AnalystVisits::model()->incr($record['id'], 'views', 1);
 					}else{

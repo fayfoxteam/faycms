@@ -44,8 +44,15 @@ var uploader = {
 			
 			uploader.init();
 			uploader.bind('FilesAdded', function(up, files) {
-				$('#'+settings.preview_container).html('<img src="'+system.assets('images/loading.gif')+'" />');
+				$('#'+settings.preview_container).html([
+					'<img src="'+system.assets('images/loading.gif')+'" />',
+					'<p>上传进度：<span class="progress">0</span>%</p>',
+				].join(''));
 				uploader.start();
+			});
+			
+			uploader.bind('UploadProgress', function(up, file) {
+				$('#'+settings.preview_container).find('.progress').text(file.percent);
 			});
 			
 			uploader.bind('FileUploaded', function(up, file, response) {

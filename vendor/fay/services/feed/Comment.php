@@ -5,12 +5,12 @@ use fay\core\Model;
 use fay\models\tables\FeedComments;
 use fay\core\Exception;
 use fay\core\Hook;
-use fay\models\Post;
 use fay\models\feed\Comment as CommentModel;
 use fay\models\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
-use fay\models\tables\PostMeta;
+use fay\models\tables\FeedMeta;
+use fay\models\Feed;
 
 class Comment extends Model{
 	/**
@@ -33,7 +33,7 @@ class Comment extends Model{
 	public function create($feed_id, $content, $parent = 0, $status = FeedComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
 		
-		if(!Post::isPostIdExist($feed_id)){
+		if(!Feed::isFeedIdExist($feed_id)){
 			throw new Exception('文章ID不存在', 'feed_id-not-exist');
 		}
 		
@@ -436,21 +436,21 @@ class Comment extends Model{
 	 * 判断一条动态的改变是否需要改变文章评论数
 	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @param mix $post_comment_verify 是否开启文章评论审核（视为bool）
 	 */
-	private function needChangeFeedComments($comment, $action, $post_comment_verify){
+	private function needChangeFeedComments($comment, $action){
+		$feed_comment_verify = Option::get('system:feed_comment_verify');
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($comment['status'] == FeedComments::STATUS_APPROVED || !$post_comment_verify){
+			if($comment['status'] == FeedComments::STATUS_APPROVED || !$feed_comment_verify){
 				return true;
 			}
 		}else if($action == 'approve'){
 			//只要开启了评论审核，则必然在通过审核的时候文章评论数+1
-			if($post_comment_verify){
+			if($feed_comment_verify){
 				return true;
 			}
 		}else if($action == 'disapprove'){
 			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
-			if($comment['status'] == FeedComments::STATUS_APPROVED && $post_comment_verify){
+			if($comment['status'] == FeedComments::STATUS_APPROVED && $feed_comment_verify){
 				return true;
 			}
 		}
@@ -464,10 +464,9 @@ class Comment extends Model{
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 */
 	private function updateFeedComments($comments, $action){
-		$post_comment_verify = Option::get('system:post_comment_verify');
 		$feeds = array();
 		foreach($comments as $c){
-			if($this->needChangeFeedComments($c, $action, $post_comment_verify)){
+			if($this->needChangeFeedComments($c, $action)){
 				//更新评论数
 				if(isset($feeds[$c['feed_id']]['comments'])){
 					$feeds[$c['feed_id']]['comments']++;
@@ -496,13 +495,13 @@ class Comment extends Model{
 			
 			if($comments && $comments == $real_comments){
 				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				PostMeta::model()->incr($feed_id, array('comments', 'real_comments'), $comments);
+				FeedMeta::model()->incr($feed_id, array('comments', 'real_comments'), $comments);
 			}else{
 				if($comments){
-					PostMeta::model()->incr($feed_id, array('comments'), $comments);
+					FeedMeta::model()->incr($feed_id, array('comments'), $comments);
 				}
 				if($real_comments){
-					PostMeta::model()->incr($feed_id, array('real_comments'), $real_comments);
+					FeedMeta::model()->incr($feed_id, array('real_comments'), $real_comments);
 				}
 			}
 		}

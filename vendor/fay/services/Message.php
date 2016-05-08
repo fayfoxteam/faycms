@@ -439,9 +439,9 @@ class Message extends Model{
 	 * 判断一条动态的改变是否需要改变用户留言数
 	 * @param array $message 单条评论，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @param mix $user_message_verify 是否开启用户留言审核（视为bool）
 	 */
-	private function needChangeMessages($message, $action, $user_message_verify){
+	private function needChangeMessages($message, $action){
+		$user_message_verify = Option::get('system:user_message_verify');
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
 			if($message['status'] == Messages::STATUS_APPROVED || !$user_message_verify){
 				return true;
@@ -467,10 +467,9 @@ class Message extends Model{
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 */
 	private function updateMessages($messages, $action){
-		$user_message_verify = Option::get('system:user_message_verify');
 		$posts = array();
 		foreach($messages as $c){
-			if($this->needChangeMessages($c, $action, $user_message_verify)){
+			if($this->needChangeMessages($c, $action)){
 				//更新评论数
 				if(isset($posts[$c['to_user_id']]['messages'])){
 					$posts[$c['to_user_id']]['messages']++;

@@ -75,9 +75,9 @@ class RoleController extends AdminController{
 			->fetchAll();
 		
 		$actions_group = array();
+		//若未开启文章审核，过滤掉文章审核权限
+		$post_review = Option::get('system:post_review');
 		foreach($actions as $a){
-			//若未开启文章审核，过滤掉文章审核权限
-			$post_review = Option::get('system:post_review');
 			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
 				&& !$post_review){
 				continue;
@@ -160,9 +160,9 @@ class RoleController extends AdminController{
 			->fetchAll();
 		
 		$actions_group = array();
+		//若未开启文章审核，过滤掉文章审核权限
+		$post_review = Option::get('system:post_review');
 		foreach($actions as $a){
-			//若未开启文章审核，过滤掉文章审核权限
-			$post_review = Option::get('system:post_review');
 			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
 				&& !$post_review){
 				continue;

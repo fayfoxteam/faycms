@@ -252,7 +252,7 @@ class FileController extends AdminController{
 		);
 		
 		//如果未配置七牛参数，则强制不显示七牛那一列
-		if(!Option::getTeam('qiniu')){
+		if(!Option::getGroup('qiniu')){
 			foreach($_settings['cols'] as $k => $v){
 				if($v == 'qiniu'){
 					unset($_settings['cols'][$k]);

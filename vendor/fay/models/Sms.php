@@ -12,7 +12,7 @@ class Sms extends Model{
 	 * @param string $content 短信内容
 	 */
 	public static function send($to, $content, $template_id){
-		$config = Option::getTeam('ucpaas');
+		$config = Option::getGroup('ucpaas');
 		if($config['enabled'] == null || empty($config['accountsid']) || empty($config['token']) || empty($config['appid'])){
 			throw new ErrorException('云之讯参数未配置');
 		}else if(!$config['enabled']){

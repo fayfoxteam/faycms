@@ -104,7 +104,7 @@ class Option extends Model{
 	 * 根据配置项前缀获取配置（返回数组的key不会包含前缀部分）
 	 * @param 配置项前缀 $name
 	 */
-	public static function getTeam($name){
+	public static function getGroup($name){
 		$options = Options::model()->fetchAll(array('option_name LIKE ?'=>$name.'%'), 'option_name,option_value');
 		$return = array();
 		foreach($options as $o){

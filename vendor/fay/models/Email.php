@@ -13,7 +13,7 @@ class Email extends Model{
 	 * @param string $body 邮件内容
 	 */
 	public static function send($address, $subject, $body){
-		$config = Option::getTeam('email');
+		$config = Option::getGroup('email');
 		if($config['enabled'] === null || empty($config['Host']) ||
 			empty($config['Username']) || empty($config['Password']) ||
 			empty($config['Port'])){

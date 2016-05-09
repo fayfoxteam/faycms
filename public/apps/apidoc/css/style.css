@@ -14,8 +14,7 @@ a{color:#029bc1;text-decoration:none;transition:all 0.2s linear 0s}
 a:hover{color:#d54e21;text-decoration:none}
 pre{overflow:auto}
 code,pre{font-family:monospace,monospace;font-size:1em}
-code{background-color:#f7f7f7;font-size:.85em;padding:.2em}
-code:before,code:after{letter-spacing:-.2em;content:"\00a0"}
+code{background-color:#f7f7f7;font-size:.85em;padding:.2em .5em}
 
 .cb{clear:both}
 .cf,.page-title,.user-info-navbar,.form-group{zoom:1;clear:left} 

@@ -5,6 +5,7 @@ use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\Follow;
 use fay\helpers\FieldHelper;
+use fay\core\HttpException;
 
 /**
  * 关注
@@ -183,10 +184,7 @@ class FollowController extends ApiController{
 		
 		$user_id = $this->form()->getData('user_id', $this->current_user);
 		if(!$user_id){
-			Response::notify('error', array(
-				'message'=>'未指定用户',
-				'code'=>'user_id:not-found',
-			));
+			throw new HttpException('未指定用户', 404, 'user_id:not-found');
 		}
 		
 		$fields = $this->form()->getData('fields');
@@ -229,10 +227,7 @@ class FollowController extends ApiController{
 		
 		$user_id = $this->form()->getData('user_id', $this->current_user);
 		if(!$user_id){
-			Response::notify('error', array(
-				'message'=>'未指定用户',
-				'code'=>'user_id:not-found',
-			));
+			throw new HttpException('未指定用户', 404, 'user_id:not-found');
 		}
 		
 		$fields = $this->form()->getData('fields');

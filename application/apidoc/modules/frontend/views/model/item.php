@@ -1,11 +1,12 @@
 <?php
-use fay\helpers\StringHelper;
 use fay\helpers\Html;
 use apidoc\helpers\TrackHelper;
+use fay\core\Loader;
 ?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php
-		echo StringHelper::nl2p($model['description']);
+		Loader::vendor('Markdown/markdown');
+		echo Markdown($model['description']);
 	?></div>
 </div>
 <div class="panel">
@@ -41,7 +42,7 @@ use apidoc\helpers\TrackHelper;
 						}
 					?></td>
 					<td><?php echo Html::encode($p['sample'])?></td>
-					<td><?php echo $p['description']?></td>
+					<td><?php echo Markdown($p['description'])?></td>
 				</tr>
 			<?php }?>
 			</tbody>

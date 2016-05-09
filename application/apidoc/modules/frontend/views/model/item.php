@@ -41,7 +41,7 @@ use apidoc\helpers\TrackHelper;
 						}
 					?></td>
 					<td><?php echo Html::encode($p['sample'])?></td>
-					<td><?php echo $p['description']?></td>
+					<td><?php echo nl2br($p['description'])?></td>
 				</tr>
 			<?php }?>
 			</tbody>

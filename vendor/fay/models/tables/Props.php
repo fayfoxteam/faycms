@@ -64,7 +64,7 @@ class Props extends Table{
 			array(array('id', 'refer'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('type', 'element', 'sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('alias'), 'string', array('max'=>255, 'format'=>'alias')),
+			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
 			array(array('deleted', 'is_show', 'required'), 'range', array('range'=>array(0, 1))),
 
 			array('title', 'required'),

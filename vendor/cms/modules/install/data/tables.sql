@@ -580,7 +580,7 @@ DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(500) NOT NULL COMMENT '标题',
-  `alias` varchar(255) NOT NULL DEFAULT '' COMMENT '别名',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `content` text NOT NULL COMMENT '正文',
   `author` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '作者',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -722,7 +722,7 @@ CREATE TABLE `{{$prefix}}props` (
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '属性名称',
   `element` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Element',
   `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',
-  `alias` varchar(255) NOT NULL DEFAULT '' COMMENT '别名',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
@@ -965,7 +965,7 @@ CREATE TABLE `{{$prefix}}vouchers` (
 DROP TABLE IF EXISTS `{{$prefix}}widgets`;
 CREATE TABLE `{{$prefix}}widgets` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `alias` varchar(200) NOT NULL DEFAULT '' COMMENT '别名',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `options` text NOT NULL COMMENT '实例参数',
   `widget_name` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具描述',

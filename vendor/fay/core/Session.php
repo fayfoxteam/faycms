@@ -13,7 +13,9 @@ class Session{
 			$session_configs = \F::config()->get('session');
 			
 			foreach($session_configs['ini_set'] as $key => $config){
-				ini_set('session.' . $key, $config);
+				if($config !== null){
+					ini_set('session.' . $key, $config);
+				}
 			}
 			
 			session_start();

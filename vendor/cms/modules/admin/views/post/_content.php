@@ -12,8 +12,7 @@ if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 }else if($editor == Posts::CONTENT_TYPE_MARKDOWN){
 	echo F::form()->textarea('content', array(
 		'id'=>'wmd-input',
-		'class'=>'h350',
-		'style'=>'width:49%;',
+		'class'=>'h350 wp100',
 		'wrapper'=>array(
 			'tag'=>'div',
 			'id'=>'markdown-container',

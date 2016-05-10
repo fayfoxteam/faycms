@@ -79,7 +79,7 @@ class Posts extends Table{
 			array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'abstract'), 'string', array('max'=>500)),
-			array(array('alias'), 'string', array('max'=>50), 'format'=>'alias'),
+			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
 			array(array('seo_title', 'seo_keywords'), 'string', array('max'=>100)),
 			array(array('seo_description'), 'string', array('max'=>255)),
 			array(array('is_top', 'deleted'), 'range', array('range'=>array(0, 1))),

@@ -358,9 +358,8 @@ class PostController extends AdminController{
 		}
 		
 		//编辑权限检查
-		$edit_permission = Post::checkEditPermission($post_id, $this->input->post('status', 'intval'), $this->input->post('cat_id'));
-		if(!$edit_permission['status']){
-			throw new HttpException(empty($edit_permission['message']) ? '您无权限编辑该文章' : $edit_permission['message']);
+		if(!Post::checkEditPermission($post_id, $this->input->post('status', 'intval'), $this->input->post('cat_id'))){
+			throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 		}
 		
 		$cat = Category::model()->get($post['cat_id'], 'title,left_value,right_value');
@@ -533,12 +532,8 @@ class PostController extends AdminController{
 	public function undelete(){
 		$post_id = $this->input->get('id', 'intval');
 		
-		$check = Post::checkUndeletePermission($post_id);
-		if(!$check['status']){
-			Response::notify('error', array(
-				'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-				'error_code'=>'permission-denied',
-			));
+		if(!Post::checkUndeletePermission($post_id)){
+			throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 		}
 		PostService::model()->undelete($post_id);
 		
@@ -639,12 +634,8 @@ class PostController extends AdminController{
 		switch($action){
 			case 'set-published':
 				foreach($ids as $id){
-					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
-					if(!$check['status']){
-						Response::notify('error', array(
-							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-							'error_code'=>'permission-denied',
-						));
+					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
 				
@@ -662,12 +653,8 @@ class PostController extends AdminController{
 			break;
 			case 'set-draft':
 				foreach($ids as $id){
-					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
-					if(!$check['status']){
-						Response::notify('error', array(
-							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-							'error_code'=>'permission-denied',
-						));
+					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
 				
@@ -685,12 +672,8 @@ class PostController extends AdminController{
 			break;
 			case 'set-pending':
 				foreach($ids as $id){
-					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
-					if(!$check['status']){
-						Response::notify('error', array(
-							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-							'error_code'=>'permission-denied',
-						));
+					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
 				
@@ -708,12 +691,8 @@ class PostController extends AdminController{
 			break;
 			case 'set-reviewed':
 				foreach($ids as $id){
-					$check = Post::checkEditPermission($id, Posts::STATUS_PUBLISHED);
-					if(!$check['status']){
-						Response::notify('error', array(
-							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-							'error_code'=>'permission-denied',
-						));
+					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
 				
@@ -731,12 +710,8 @@ class PostController extends AdminController{
 			break;
 			case 'delete':
 				foreach($ids as $id){
-					$check = Post::checkDeletePermission($id);
-					if(!$check['status']){
-						Response::notify('error', array(
-							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-							'error_code'=>'permission-denied',
-						));
+					if(!Post::checkDeletePermission($id)){
+						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
 				
@@ -754,12 +729,8 @@ class PostController extends AdminController{
 			break;
 			case 'undelete':
 				foreach($ids as $id){
-					$check = Post::checkUndeletePermission($id);
-					if(!$check['status']){
-						Response::notify('error', array(
-							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-							'error_code'=>'permission-denied',
-						));
+					if(!Post::checkUndeletePermission($id)){
+						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
 				
@@ -777,12 +748,8 @@ class PostController extends AdminController{
 			break;
 			case 'remove':
 				foreach($ids as $id){
-					$check = Post::checkRemovePermission($id);
-					if(!$check['status']){
-						Response::notify('error', array(
-							'message'=>empty($check['message']) ? '权限不允许' : $check['message'],
-							'error_code'=>'permission-denied',
-						));
+					if(!Post::checkRemovePermission($id)){
+						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
 				

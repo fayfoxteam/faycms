@@ -652,92 +652,25 @@ var common = {
 	'markdownEditor': function(){
 		//Markdown编辑器
 		if($('#wmd-input').length){
-			system.getCss(system.assets('css/pagedown.css'));
-			system.getScript(system.assets('js/markdown/Markdown.Converter.js'), function(){
-				system.getScript(system.assets('js/markdown/Markdown.Sanitizer.js'), function(){
-					system.getScript(system.assets('js/markdown/Markdown.Editor.js'), function(){
-						system.getScript(system.assets('js/markdown/Markdown.Extra.js'), function(){
-							system.getScript(system.assets('js/prettify.js'), function(){
-								$('#wmd-input').wrap('<div class="wmd-panel"></div>')
-									.before(['<div id="wmd-button-bar">',
-										'<div id="wmd-model-links">',
-											'<a href="javascript:;" id="wmd-edit-model">编辑模式</a>',
-											'<a href="javascript:;" id="wmd-live-model">实况模式</a>',
-											'<a href="javascript:;" id="wmd-preview-model">预览模式</a>',
-										'</div>',
-									'</div>'].join(''))
-									.addClass('fl')
-									.parent().after('<div id="wmd-preview" class="wmd-preview '+$('#wmd-input').attr('class')+'"></div>');
-								
-								$('#wmd-button-bar').on('click', '#wmd-edit-model', function(){
-									$('#wmd-input').show().css('width', '98.9%');
-									$('#wmd-preview').hide();
-								}).on('click', '#wmd-live-model', function(){
-									$('#wmd-input').show().css('width', '49%');
-									$('#wmd-preview').show().css('width', '48.7%');
-								}).on('click', '#wmd-preview-model', function(){
-									$('#wmd-input').hide();
-									$('#wmd-preview').show().css('width', '98.9%');
-								});
-								
-								var converter = new Markdown.Converter();
-								Markdown.Extra.init(converter, {
-									highlighter: "prettify"
-								});
-
-								var options = {
-									strings: {
-										bold: '加粗 <strong> Ctrl+B',
-										boldexample: '加粗文字',
-											
-										italic: '斜体 <em> Ctrl+I',
-										italicexample: '斜体文字',
-	
-										link: '链接 <a> Ctrl+L',
-										linkdescription: '请输入链接描述',
-	
-										quote:  '引用 <blockquote> Ctrl+Q',
-										quoteexample: '引用文字',
-	
-										code: '代码 <pre><code> Ctrl+K',
-										codeexample: '请输入代码',
-	
-										image: '图片 <img> Ctrl+G',
-										imagedescription: '请输入图片描述',
-	
-										olist: '数字列表 <ol> Ctrl+O',
-										ulist: '普通列表 <ul> Ctrl+U',
-										litem: '列表项目',
-	
-										heading: '标题 <h1>/<h2> Ctrl+H',
-										headingexample: '标题文字',
-	
-										hr: '分割线 <hr> Ctrl+R',
-										more: '摘要分割线 <!--more--> Ctrl+M',
-	
-										undo: '撤销 - Ctrl+Z',
-										redo: '重做 - Ctrl+Y',
-										redomac: '重做 - Ctrl+Shift+Z',
-	
-										fullscreen: '全屏 - Ctrl+J',
-										exitFullscreen: '退出全屏 - Ctrl+E',
-										fullscreenUnsupport: '此浏览器不支持全屏操作',
-	
-										imagedialog: '<p><b>插入图片</b></p><p>请在下方的输入框内输入要插入的远程图片地址</p><p>您也可以使用附件功能插入上传的本地图片</p>',
-										linkdialog: '<p><b>插入链接</b></p><p>请在下方的输入框内输入要插入的链接地址</p>',
-	
-										ok: '确定',
-										cancel: '取消',
-	
-										help: 'Markdown语法帮助'
-									}
-								};
-								common.editorObj = new Markdown.Editor(converter, '', options);
-								common.editorObj.hooks.chain('onPreviewRefresh', prettyPrint);
-								common.editorObj.run();
-							});
-						});
-					});
+			system.getCss(system.assets('js/editor.md/css/editormd.min.css'));
+			system.getScript(system.assets('js/editor.md/editormd.min.js'), function(){
+				common.editorObj = editormd('markdown-container', {
+					height: 350,
+					syncScrolling: 'single',
+					path: system.assets('js/editor.md/lib/'),
+					toolbarIcons: function(){
+						return [
+							'undo', 'redo', '|',
+							'bold', 'del', 'italic', 'quote', '|',
+							'h1', 'h2', 'h3', '|',
+							'list-ul', 'list-ol', '|',
+							'link', 'image', 'code', 'table', '|',
+							'watch', 'search', 'preview'
+						]
+					},
+					imageUpload: common.filebrowserImageUploadUrl ? true : false,
+					imageFormats: ['jpg', 'jpeg', 'gif', 'png', 'webp'],
+					imageUploadURL: common.filebrowserImageUploadUrl
 				});
 			});
 		}

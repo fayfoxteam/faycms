@@ -62,6 +62,20 @@ class FileController extends AdminController{
 			}else{
 				echo '<script>common.alert("' . implode("\r\n", $data) . '");</script>';
 			}
+		}else if($this->input->request('guid')){
+			if($result['status']){
+				echo json_encode(array(
+					'success'=>1,
+					'message'=>'上传成功',
+					'url'=>$data['src'],
+				));
+			}else{
+				echo json_encode(array(
+					'success'=>0,
+					'message'=>'上传失败',
+					'url'=>'',
+				));
+			}
 		}else{
 			Response::json($data);
 		}
@@ -152,7 +166,7 @@ class FileController extends AdminController{
 		}
 		
 		set_time_limit(0);
-
+		
 		$cat = $this->input->request('cat');
 		if($cat){
 			$cat = Category::model()->get($cat, 'id,alias');
@@ -162,7 +176,7 @@ class FileController extends AdminController{
 		}else{
 			$cat = 0;
 		}
-
+		
 		$private = !!$this->input->get('p');
 		$result = File::model()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
 		$data = $result['data'];
@@ -176,6 +190,20 @@ class FileController extends AdminController{
 				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
 			}else{
 				echo '<script>common.alert("' . implode("\r\n", $data) . '");</script>';
+			}
+		}else if($this->input->request('guid')){
+			if($result['status']){
+				echo json_encode(array(
+					'success'=>1,
+					'message'=>'上传成功',
+					'url'=>$data['src'],
+				));
+			}else{
+				echo json_encode(array(
+					'success'=>0,
+					'message'=>'上传失败',
+					'url'=>'',
+				));
 			}
 		}else{
 			Response::json($data);

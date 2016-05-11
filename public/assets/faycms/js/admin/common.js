@@ -665,7 +665,7 @@ var common = {
 							'h1', 'h2', 'h3', '|',
 							'list-ul', 'list-ol', '|',
 							'link', 'image', 'code', 'table', '|',
-							'watch', 'search', 'preview'
+							'watch', 'preview', 'search', 'help'
 						]
 					},
 					imageUpload: common.filebrowserImageUploadUrl ? true : false,

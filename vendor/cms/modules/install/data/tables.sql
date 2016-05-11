@@ -685,6 +685,16 @@ CREATE TABLE `{{$prefix}}post_comments` (
   KEY `parent` (`parent`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}post_extra`;
+CREATE TABLE `{{$prefix}}post_extra` (
+  `post_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章ID',
+  `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
+  `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Descriotion',
+  `markdown` text COMMENT 'Markdown文本',
+  PRIMARY KEY (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+
 DROP TABLE IF EXISTS `{{$prefix}}posts_files`;
 CREATE TABLE `{{$prefix}}posts_files` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',

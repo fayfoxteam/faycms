@@ -579,7 +579,11 @@ ol.linenums{margin-top:0;margin-bottom:0;color:#aeaeae}
 	pre .atv,code .atv{color:#060}
 }
 pre li.crt{background-color:#553B3B}
-pre li:hover{background-color:#575757}
+pre li:hover{background-color:#575757 !important}
+pre li.L1,pre li.L3,pre li.L5,pre li.L7,pre li.L9 {background:none}
+
+/* editormd编辑器预览式样修正 */
+.editormd-preview-container pre,.editormd-html-preview pre{background:#333}
 
 /* 工具类 */
 .bold{font-weight:bold}

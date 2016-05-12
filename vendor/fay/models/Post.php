@@ -268,15 +268,15 @@ class Post extends Model{
 		}
 		
 		//设置一下SEO信息
-		if(in_array('seo_title', $fields['extra']) && empty($return['extra']['seo_title'])){
+		if(isset($fields['extra']) && in_array('seo_title', $fields['extra']) && empty($return['extra']['seo_title'])){
 			$return['extra']['seo_title'] = $post['title'];
 		}
-		if(in_array('seo_keywords', $fields['extra']) && empty($return['extra']['seo_keywords'])){
+		if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']) && empty($return['extra']['seo_keywords'])){
 			$return['extra']['seo_keywords'] = str_replace(array(
 				' ', '|', '，'
 			), ',', $post['title']);
 		}
-		if(in_array('seo_description', $fields['extra']) && empty($return['extra']['seo_description'])){
+		if(isset($fields['extra']) && in_array('seo_description', $fields['extra']) && empty($return['extra']['seo_description'])){
 			$return['extra']['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150));
 		}
 		

@@ -23,10 +23,6 @@ use fay\core\db\Table;
  * @property int $thumbnail 缩略图
  * @property string $abstract 摘要
  * @property int $sort 排序
- * @property string $seo_title Seo Title
- * @property string $seo_keywords Seo Keywords
- * @property string $seo_description Seo Description
- * @property int $ip_int IP
  */
 class Posts extends Table{
 	/**
@@ -80,8 +76,6 @@ class Posts extends Table{
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'abstract'), 'string', array('max'=>500)),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
-			array(array('seo_title', 'seo_keywords'), 'string', array('max'=>100)),
-			array(array('seo_description'), 'string', array('max'=>255)),
 			array(array('is_top', 'deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 
@@ -110,10 +104,6 @@ class Posts extends Table{
 			'thumbnail'=>'缩略图',
 			'abstract'=>'摘要',
 			'sort'=>'排序',
-			'seo_title'=>'Seo Title',
-			'seo_keywords'=>'Seo Keywords',
-			'seo_description'=>'Seo Description',
-			'ip_int'=>'IP',
 		);
 	}
 
@@ -134,9 +124,6 @@ class Posts extends Table{
 			'thumbnail'=>'intval',
 			'abstract'=>'trim',
 			'sort'=>'intval',
-			'seo_title'=>'trim',
-			'seo_keywords'=>'trim',
-			'seo_description'=>'trim',
 		);
 	}
 	
@@ -147,7 +134,7 @@ class Posts extends Table{
 				break;
 			case 'update':
 				return array(
-					'id', 'create_time', 'ip_int', 'deleted'
+					'id', 'create_time', 'deleted'
 				);
 				break;
 			default:

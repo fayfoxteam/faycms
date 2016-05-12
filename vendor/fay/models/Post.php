@@ -17,6 +17,7 @@ use fay\models\post\Tag as PostTag;
 use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
 use fay\core\ErrorException;
+use fay\models\post\Extra;
 
 class Post extends Model{
 	/**
@@ -24,7 +25,7 @@ class Post extends Model{
 	 */
 	public static $public_fields = array(
 		'post'=>array(
-			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'seo_title', 'seo_keywords', 'seo_description',
+			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
 		),
 		'category'=>array(
 			'id', 'title', 'alias',
@@ -48,7 +49,10 @@ class Post extends Model{
 			'*',//这里指定的是属性别名，取值视后台设定而定
 		),
 		'meta'=>array(
-			'comments', 'views', 'likes', 'favorites'
+			'comments', 'views', 'likes', 'favorites',
+		),
+		'extra'=>array(
+			'markdown', 'seo_title', 'seo_keywords', 'seo_description',
 		),
 	);
 	
@@ -187,15 +191,15 @@ class Post extends Model{
 			$post_fields[] = 'cat_id';
 		}
 		
-		if(in_array('seo_title', $post_fields) && !in_array('title', $post_fields)){
+		if(in_array('seo_title', $fields['extra']) && !in_array('title', $post_fields)){
 			//如果要获取seo_title，必须搜出title
 			$post_fields[] = 'title';
 		}
-		if(in_array('seo_keywords', $post_fields) && !in_array('title', $post_fields)){
+		if(in_array('seo_keywords', $fields['extra']) && !in_array('title', $post_fields)){
 			//如果要获取seo_title，必须搜出title
 			$post_fields[] = 'title';
 		}
-		if(in_array('seo_description', $post_fields)){
+		if(in_array('seo_description', $fields['extra'])){
 			//如果要获取seo_title，必须搜出title, content
 			if(!in_array('abstract', $post_fields)){
 				$post_fields[] = 'abstract';
@@ -249,19 +253,6 @@ class Post extends Model{
 			));
 		}
 		
-		//设置一下SEO信息
-		if(in_array('seo_title', $fields['post']) && empty($post['seo_title'])){
-			$post['seo_title'] = $post['title'];
-		}
-		if(in_array('seo_keywords', $fields['post']) && empty($post['seo_keywords'])){
-			$post['seo_keywords'] = str_replace(array(
-				' ', '|', '，'
-			), ',', $post['title']);
-		}
-		if(in_array('seo_description', $fields['post']) && empty($post['seo_description'])){
-			$post['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150));
-		}
-		
 		$return = array(
 			'post'=>$post,
 		);
@@ -269,6 +260,24 @@ class Post extends Model{
 		//meta
 		if(!empty($fields['meta'])){
 			$return['meta'] = Meta::model()->get($id, $fields['meta']);
+		}
+		
+		//扩展信息
+		if(!empty($fields['extra'])){
+			$return['extra'] = Extra::model()->get($id, $fields['extra']);
+		}
+		
+		//设置一下SEO信息
+		if(in_array('seo_title', $fields['extra']) && empty($return['extra']['seo_title'])){
+			$return['extra']['seo_title'] = $post['title'];
+		}
+		if(in_array('seo_keywords', $fields['extra']) && empty($return['extra']['seo_keywords'])){
+			$return['extra']['seo_keywords'] = str_replace(array(
+				' ', '|', '，'
+			), ',', $post['title']);
+		}
+		if(in_array('seo_description', $fields['extra']) && empty($return['extra']['seo_description'])){
+			$return['extra']['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150));
 		}
 		
 		//作者信息
@@ -497,6 +506,10 @@ class Post extends Model{
 		if(!empty($fields['meta'])){
 			$post_metas = Meta::model()->mget($post_ids, $fields['meta']);
 		}
+		//扩展信息
+		if(!empty($fields['extra'])){
+			$post_extras = Extra::model()->mget($post_ids, $fields['extra']);
+		}
 		
 		//标签
 		if(!empty($fields['tags'])){
@@ -532,6 +545,10 @@ class Post extends Model{
 			//meta
 			if(!empty($fields['meta'])){
 				$post['meta'] = $post_metas[$p['id']];
+			}
+			//扩展信息
+			if(!empty($fields['meta'])){
+				$post['extra'] = $post_extras[$p['id']];
 			}
 			
 			//标签
@@ -1032,6 +1049,11 @@ class Post extends Model{
 			$post_metas = Meta::model()->mget($post_ids, $fields['meta']);
 		}
 		
+		//扩展信息
+		if(!empty($fields['extra'])){
+			$post_extras = Meta::model()->mget($post_ids, $fields['extra']);
+		}
+		
 		//标签
 		if(!empty($fields['tags'])){
 			$post_tags = PostTag::model()->mget($post_ids, $fields['tags']);
@@ -1082,6 +1104,11 @@ class Post extends Model{
 			//meta
 			if(!empty($fields['meta'])){
 				$post['meta'] = $post_metas[$p['id']];
+			}
+			
+			//扩展信息
+			if(!empty($fields['extra'])){
+				$post['extra'] = $post_extras[$p['id']];
 			}
 				
 			//标签

@@ -11,6 +11,7 @@ use fay\core\db\Table;
  * @property string $seo_keywords SEO Keywords
  * @property string $seo_description SEO Descriotion
  * @property string $markdown Markdown文本
+ * @property int $ip_int IP
  */
 class PostExtra extends Table{
 	protected $_name = 'post_extra';
@@ -25,6 +26,7 @@ class PostExtra extends Table{
 	
 	public function rules(){
 		return array(
+			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('post_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('seo_title', 'seo_keywords'), 'string', array('max'=>255)),
 			array(array('seo_description'), 'string', array('max'=>500)),
@@ -38,6 +40,7 @@ class PostExtra extends Table{
 			'seo_keywords'=>'SEO Keywords',
 			'seo_description'=>'SEO Descriotion',
 			'markdown'=>'Markdown文本',
+			'ip_int'=>'IP',
 		);
 	}
 
@@ -58,7 +61,7 @@ class PostExtra extends Table{
 			case 'update':
 			default:
 				return array(
-					'post_id',
+					'post_id', 'ip_int'
 				);
 		}
 	}

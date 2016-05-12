@@ -19,6 +19,7 @@ use fay\models\Option;
 use fay\models\Flash;
 use fay\models\tables\PostMeta;
 use fay\services\Post as PostService;
+use fay\models\tables\PostExtra;
 
 class PostController extends AdminController{
 	/**
@@ -107,8 +108,14 @@ class PostController extends AdminController{
 			
 			$extra = array();
 			
+			//Meta信息
 			if($post_meta = PostMeta::model()->fillData($this->input->post())){
 				$extra['meta'] = $post_meta;
+			}
+			
+			//扩展信息
+			if($post_extra = PostExtra::model()->fillData($this->input->post())){
+				$extra['extra'] = $post_extra;
 			}
 			
 			//附加分类
@@ -407,6 +414,11 @@ class PostController extends AdminController{
 			//计数表
 			if($post_meta = PostMeta::model()->fillData($this->input->post())){
 				$extra['meta'] = $post_meta;
+			}
+			
+			//扩展信息
+			if($post_extra = PostExtra::model()->fillData($this->input->post())){
+				$extra['extra'] = $post_extra;
 			}
 			
 			//附件分类

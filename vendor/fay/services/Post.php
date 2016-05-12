@@ -20,6 +20,7 @@ use fay\models\tables\UserCounter;
 use fay\services\post\Tag as PostTagService;
 use fay\core\Hook;
 use fay\models\tables\PostFavorites;
+use fay\models\tables\PostExtra;
 
 /**
  * 文章服务
@@ -51,11 +52,11 @@ class Post extends Model{
 		$post['user_id'] = $user_id;
 		empty($post['publish_time']) && $post['publish_time'] = \F::app()->current_time;
 		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
-		$post['ip_int'] = Request::ip2int(\F::app()->ip);
 		
 		//过滤掉多余的数据
 		$post_id = Posts::model()->insert($post, true);
 		
+		//Meta
 		$post_meta = array(
 			'post_id'=>$post_id,
 		);
@@ -64,6 +65,21 @@ class Post extends Model{
 		}
 		
 		PostMeta::model()->insert($post_meta);
+		
+		//扩展信息
+		$post_extra = array(
+			'post_id'=>$post_id,
+			'ip_int'=>Request::ip2int(\F::app()->ip),
+		);
+		if(isset($extra['extra'])){
+			$post_extra = $post_extra + $extra['extra'];
+		}
+		//特殊处理下text字段
+		if(empty($post_extra['markdown'])){
+			$post_extra['markdown'] = '';
+		}
+		
+		PostExtra::model()->insert($post_extra);
 		
 		//文章分类
 		if(!empty($extra['categories'])){
@@ -162,6 +178,12 @@ class Post extends Model{
 		if(!empty($extra['meta'])){
 			//排除不可编辑的字段
 			PostMeta::model()->update($extra['meta'], $post_id, true);
+		}
+		
+		//扩展表
+		if(!empty($extra['extra'])){
+			//排除不可编辑的字段
+			PostExtra::model()->update($extra['extra'], $post_id, true);
 		}
 		
 		//若原文章未删除，更新用户及标签的文章数
@@ -356,6 +378,9 @@ class Post extends Model{
 		
 		//删除文章meta信息
 		PostMeta::model()->delete('post_id = ' . $post_id);
+		
+		//删除文章扩展信息
+		PostExtra::model()->delete('post_id = ' . $post_id);
 	}
 	
 	/**

@@ -689,7 +689,7 @@ CREATE TABLE `{{$prefix}}post_extra` (
   `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Descriotion',
   `markdown` text COMMENT 'Markdown文本',
   PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_files`;
 CREATE TABLE `{{$prefix}}posts_files` (

@@ -10,7 +10,7 @@ use fay\models\tables\PostMeta;
 class IndexController extends Widget{
 	private $fields = array(
 		'post'=>array(
-			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'seo_title', 'seo_keywords', 'seo_description',
+			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
 		),
 		'category'=>array(
 			'id', 'title', 'alias',
@@ -36,11 +36,17 @@ class IndexController extends Widget{
 		'meta'=>array(
 			'comments', 'views', 'likes',
 		),
+		'extra'=>array(
+			'seo_title', 'seo_keywords', 'seo_description',
+		)
 	);
 	
 	public function getData($config){
 		if(isset($config['fields'])){
-			$fields = $this->fields['post'];
+			$fields = array(
+				'post'=>$this->fields['post'],
+				'extra'=>$this->fields['extra'],
+			);
 			foreach($config['fields'] as $f){
 				$fields[$f] = $this->fields[$f];
 			}
@@ -91,9 +97,9 @@ class IndexController extends Widget{
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
-			\F::app()->layout->title = $post['post']['seo_title'];
-			\F::app()->layout->keywords = $post['post']['seo_keywords'];
-			\F::app()->layout->description = $post['post']['seo_description'];
+			\F::app()->layout->title = $post['post']['extra']['seo_title'];
+			\F::app()->layout->keywords = $post['post']['extra']['seo_keywords'];
+			\F::app()->layout->description = $post['post']['extra']['seo_description'];
 		}else{
 			//未传入ID字段或未设置ID字段名
 			$post = Post::model()->get($config['default_post_id'], $fields);

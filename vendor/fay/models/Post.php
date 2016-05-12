@@ -191,15 +191,15 @@ class Post extends Model{
 			$post_fields[] = 'cat_id';
 		}
 		
-		if($fields['extra'] && in_array('seo_title', $fields['extra']) && !in_array('title', $post_fields)){
+		if(isset($fields['extra']) && in_array('seo_title', $fields['extra']) && !in_array('title', $post_fields)){
 			//如果要获取seo_title，必须搜出title
 			$post_fields[] = 'title';
 		}
-		if($fields['extra'] && in_array('seo_keywords', $fields['extra']) && !in_array('title', $post_fields)){
+		if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']) && !in_array('title', $post_fields)){
 			//如果要获取seo_title，必须搜出title
 			$post_fields[] = 'title';
 		}
-		if($fields['extra'] && in_array('seo_description', $fields['extra'])){
+		if(isset($fields['extra']) && in_array('seo_description', $fields['extra'])){
 			//如果要获取seo_title，必须搜出title, content
 			if(!in_array('abstract', $post_fields)){
 				$post_fields[] = 'abstract';

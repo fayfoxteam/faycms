@@ -13,6 +13,11 @@ use fay\core\Validator;
  */
 class FloatValidator extends Validator{
 	/**
+	 * 若为true，允许传入数组，每个数组项都必须是小数
+	 */
+	public $allow_array = true;
+	
+	/**
 	 * 长度
 	 */
 	public $length;
@@ -45,13 +50,39 @@ class FloatValidator extends Validator{
 	public $message = '{$attribute}必须是数字';
 	
 	public function validate($value){
+		if($this->allow_array && is_array($value)){
+			//如果允许传入数组且传入的是数组
+			foreach($value as $v){
+				if($this->skip_on_empty && ($v === null || $v === '' || $v === array())){
+					//跳过为空的值
+					continue;
+				}
+				$check = $this->checkItem($v);
+				if($check !== true){
+					return $this->addError($check[0], $check[1], $check[2]);
+				}
+			}
+				
+			return true;
+		}
+		
+		//只允许纯字符串
+		$check = $this->checkItem($value);
+		if($check !== true){
+			return $this->addError($check[0], $check[1], $check[2]);
+		}
+			
+		return true;
+	}
+	
+	public function checkItem($value){
 		if(!preg_match('/^-?\d+(\.\d+)?$/', $value)){
-			return $this->addError($this->message);
+			return array($this->message, $this->code, array());
 		}
 		
 		$point_pos = strpos($value, '.');
 		if($point_pos && strlen($value) - $point_pos - 1 > $this->decimal){
-			return $this->addError($this->decimal_too_long, $this->code, array(
+			return array($this->decimal_too_long, $this->code, array(
 				'decimal'=>$this->decimal,
 			));
 		}
@@ -60,7 +91,7 @@ class FloatValidator extends Validator{
 		if($this->length){
 			$max = '1'.str_repeat('0', $this->length - $this->decimal);
 			if($value > $max || $value < -$max){
-				return $this->addError($this->too_long, $this->code, array(
+				return array($this->too_long, $this->code, array(
 					'max'=>($this->max !== null && $this->max < $max) ? $this->max : $max,
 					'min'=>($this->min !== null && $this->min > -$max) ? $this->min : -$max,
 					'decimal'=>$this->decimal,
@@ -69,13 +100,13 @@ class FloatValidator extends Validator{
 		}
 		
 		if($this->max !== null && $value > $this->max){
-			return $this->addError($this->too_big, $this->code, array(
+			return array($this->too_big, $this->code, array(
 				'max'=>$this->max,
 			));
 		}
 		
 		if($this->min !== null && $value < $this->min){
-			return $this->addError($this->too_small, $this->code, array(
+			return array($this->too_small, $this->code, array(
 				'min'=>$this->min,
 			));
 		}

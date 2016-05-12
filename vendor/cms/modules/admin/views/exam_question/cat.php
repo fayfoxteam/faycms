@@ -18,7 +18,7 @@ function showCats($cats, $dep = 0){?>
 					<?php if(F::app()->checkPermission('admin/exam-question/cat-create')){
 						echo Html::link('添加子节点', '#create-cat-dialog', array(
 							'class'=>'create-cat-link',
-							'data-title'=>F::app()->view->escape($c['title']),
+							'data-title'=>Html::encode($c['title']),
 							'data-id'=>$c['id'],
 						));
 					}
@@ -41,9 +41,9 @@ function showCats($cats, $dep = 0){?>
 					else
 						echo 'parent';?>">
 					<?php if(empty($c['children'])){?>
-						<?php echo F::app()->view->escape($c['title'])?>
+						<?php echo Html::encode($c['title'])?>
 					<?php }else{?>
-						<strong><?php echo F::app()->view->escape($c['title'])?></strong>
+						<strong><?php echo Html::encode($c['title'])?></strong>
 					<?php }?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>

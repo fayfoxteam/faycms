@@ -547,7 +547,7 @@ class Post extends Model{
 				$post['meta'] = $post_metas[$p['id']];
 			}
 			//扩展信息
-			if(!empty($fields['meta'])){
+			if(!empty($fields['extra'])){
 				$post['extra'] = $post_extras[$p['id']];
 			}
 			

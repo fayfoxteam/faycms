@@ -3,7 +3,6 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\core\Sql;
-use fay\models\tables\Messages;
 use fay\common\ListView;
 use fay\core\Response;
 
@@ -25,10 +24,9 @@ class ChatController extends AdminController{
 		$sql = new Sql();
 		$sql->from(array('m'=>'messages'))
 			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'realname,username,nickname,avatar')
-			->joinLeft(array('u2'=>'users'), 'm.target = u2.id', 'username AS target_username,nickname AS target_nickname,realname AS target_realname')
+			->joinLeft(array('u2'=>'users'), 'm.to_user_id = u2.id', 'username AS to_user_id_username,nickname AS to_user_id_nickname,realname AS to_user_id_realname')
 			->where(array(
-				'm.type = '.Messages::TYPE_USER_MESSAGE,
-				'm.root = 0',
+				'm.left_value = 1',
 			))
 			->order('id DESC')
 		;
@@ -49,7 +47,7 @@ class ChatController extends AdminController{
 		$listview = new ListView($sql, array(
 			'page_size'=>!empty($_settings['page_size']) ? $_settings['page_size'] : 20,
 		));
-		$this->view->listview = $listview;			
+		$this->view->listview = $listview;
 		
 		$this->view->render();
 	}
@@ -60,7 +58,7 @@ class ChatController extends AdminController{
 		$sql = new Sql();
 		$root = $sql->from(array('m'=>'messages'))
 			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->joinLeft(array('u2'=>'users'), 'm.target = u2.id', 'username AS target_username,nickname AS target_nickname,realname AS target_realname')
+			->joinLeft(array('u2'=>'users'), 'm.to_user_id = u2.id', 'username AS to_user_id_username,nickname AS to_user_id_nickname,realname AS to_user_id_realname')
 			->where(array(
 				'm.id = ?'=>$id,
 			))

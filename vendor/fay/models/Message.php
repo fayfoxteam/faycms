@@ -328,4 +328,19 @@ class Message extends MultiTree{
 			'pager'=>$result['pager'],
 		);
 	}
+	
+	/**
+	 * 获取回复数（不包含回收站里的）
+	 * @param int $id
+	 */
+	public function getReplyCount($id, $status = false){
+		$message = Messages::model()->find($id, 'root,left_value,right_value');
+		
+		$count = Messages::model()->fetchRow(array(
+			'root = ' . $message['root'],
+			'left_value > ' . $message['left_value'],
+			'right_value < ' . $message['right_value'],
+		), 'COUNT(*) AS count');
+		return $count['count'];
+	}
 }

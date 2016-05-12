@@ -35,7 +35,7 @@ $settings = F::form('setting')->getAllData();
 			<div class="reply-container <?php if(!F::app()->checkPermission('admin/chat/reply'))echo 'hide'?>">
 				<form id="reply-form">
 					<input type="hidden" name="parent" />
-					<input type="hidden" name="target" />
+					<input type="hidden" name="to_user_id" />
 					<textarea name="content" class="p5"></textarea>
 					<a href="javascript:;" id="reply-form-submit" class="btn fr mt5 mr10">回复</a>
 					<a href="javascript:;" class="btn btn-grey fr fancybox-close mt5 mr10">取消</a>

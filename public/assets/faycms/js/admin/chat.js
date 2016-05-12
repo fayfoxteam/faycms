@@ -39,7 +39,7 @@ var chat = {
 	 */
 	'showRoot':function(root){
 		$('#chat-dialog .cd-user').text(root[chat.display_name]);
-		$('#chat-dialog .cd-to').text(root['target_'+chat.display_name]);
+		$('#chat-dialog .cd-to').text(root['to_user_id_'+chat.display_name]);
 		$('#chat-dialog .cd-time').text(system.date(root.create_time));
 		$('#chat-dialog .cd-content').html(system.encode(root.content).replace(/\n/g, '<br />'));
 		$('#chat-dialog .cd-avatar').attr('src', system.url('file/pic', {
@@ -48,7 +48,7 @@ var chat = {
 			't':2
 		}));
 		$('#chat-dialog [name="content"]').attr('placeholder', '回复 '+root[chat.display_name]);
-		$('#chat-dialog [name="target"]').val(root.target);
+		$('#chat-dialog [name="to_user_id"]').val(root.to_user_id);
 		$('#chat-dialog [name="parent"]').val(root.id);
 		$('#chat-dialog .reply-root').attr('data-username', root[chat.display_name]);
 		$('#chat-dialog .reply-root').attr('data-id', root.id);

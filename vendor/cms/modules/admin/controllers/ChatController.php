@@ -16,7 +16,7 @@ class ChatController extends AdminController{
 		$this->layout->subtitle = '会话';
 		
 		//页面设置
-		$this->settingForm('admin_chat_index', '_setting_index', array(
+		$_settings = $this->settingForm('admin_chat_index', '_setting_index', array(
 			'display_name'=>'username',
 			'page_size'=>20,
 		));

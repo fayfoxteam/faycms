@@ -147,7 +147,7 @@ class Message extends MultiTree{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(empty($message['user_id'])){
-			throw new ErrorException('指定动态留言不存在');
+			throw new ErrorException('指定用户留言不存在');
 		}
 		
 		if($message['user_id'] == $user_id){
@@ -184,10 +184,10 @@ class Message extends MultiTree{
 	}
 	
 	/**
-	 * 判断一条动态的改变是否需要改变动态留言数
+	 * 判断一条用户的改变是否需要改变用户留言数
 	 * @param array $message 单条留言，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @param mix $user_message_verify 是否开启动态留言审核（视为bool）
+	 * @param mix $user_message_verify 是否开启用户留言审核（视为bool）
 	 */
 	private function needChangeMessages($message, $action){
 		$user_message_verify = Option::get('system:user_message_verify');
@@ -196,12 +196,12 @@ class Message extends MultiTree{
 				return true;
 			}
 		}else if($action == 'approve'){
-			//只要开启了留言审核，则必然在通过审核的时候动态留言数+1
+			//只要开启了留言审核，则必然在通过审核的时候用户留言数+1
 			if($user_message_verify){
 				return true;
 			}
 		}else if($action == 'disapprove'){
-			//如果留言原本是通过审核状态，且系统开启了动态留言审核，则当留言未通过审核时，相应动态留言数-1
+			//如果留言原本是通过审核状态，且系统开启了用户留言审核，则当留言未通过审核时，相应用户留言数-1
 			if($message['status'] == Messages::STATUS_APPROVED && $user_message_verify){
 				return true;
 			}
@@ -260,8 +260,8 @@ class Message extends MultiTree{
 	}
 	
 	/**
-	 * 根据动态ID，以树的形式（体现层级结构）返回留言
-	 * @param int $to_user_id 动态ID
+	 * 根据用户ID，以树的形式（体现层级结构）返回留言
+	 * @param int $to_user_id 用户ID
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
 	 * @param string $fields 字段
@@ -284,8 +284,8 @@ class Message extends MultiTree{
 	}
 	
 	/**
-	 * 根据动态ID，以列表的形式（俗称“盖楼”）返回留言
-	 * @param int $to_user_id 动态ID
+	 * 根据用户ID，以列表的形式（俗称“盖楼”）返回留言
+	 * @param int $to_user_id 用户ID
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
 	 * @param string $fields 字段
@@ -304,15 +304,15 @@ class Message extends MultiTree{
 		),
 	)){
 		$conditions = array(
-			'c.deleted = 0',
+			't.deleted = 0',
 		);
 		$join_conditions = array(
-			'c2.deleted = 0',
+			't2.deleted = 0',
 		);
 		if(Option::get('system:user_message_verify')){
 			//开启了留言审核
-			$conditions[] = 'c.status = '.Messages::STATUS_APPROVED;
-			$join_conditions[] = 'c2.status = '.Messages::STATUS_APPROVED;
+			$conditions[] = 't.status = '.Messages::STATUS_APPROVED;
+			$join_conditions[] = 't2.status = '.Messages::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getList($to_user_id,
@@ -321,6 +321,88 @@ class Message extends MultiTree{
 			$fields,
 			$conditions,
 			$join_conditions
+		);
+		
+		return array(
+			'messages'=>$result['data'],
+			'pager'=>$result['pager'],
+		);
+	}
+	
+	/**
+	 * 根据用户ID，以列表的形式（俗称“盖楼”）返回留言
+	 * @param int $to_user_id 用户ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param string $fields 字段
+	 */
+	public function getChildrenList($parent_id, $page_size = 10, $page = 1, $fields = array(
+		'message'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'parent'=>array(
+			'user'=>array(
+				'nickname',
+			),
+		),
+	)){
+		$conditions = array(
+			't.deleted = 0',
+		);
+		$join_conditions = array(
+			't2.deleted = 0',
+		);
+		if(Option::get('system:user_message_verify')){
+			//开启了留言审核
+			$conditions[] = 't.status = '.Messages::STATUS_APPROVED;
+			$join_conditions[] = 't2.status = '.Messages::STATUS_APPROVED;
+		}
+		
+		$result = $this->_getChildrenList($parent_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions,
+			$join_conditions
+		);
+		
+		return array(
+			'messages'=>$result['data'],
+			'pager'=>$result['pager'],
+		);
+	}
+	
+	/**
+	 * 根据用户ID，以二级树的形式（所有对留言的回复不再体现层级结构）返回留言
+	 * @param int $user_id 用户ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param string $fields 字段
+	 */
+	public function getChats($user_id, $page_size = 10, $page = 1, $fields = array(
+		'message'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+	)){
+		$conditions = array(
+			'deleted = 0',
+		);
+		if(Option::get('system:user_message_verify')){
+			//开启了评论审核
+			$conditions[] = 'status = '.Messages::STATUS_APPROVED;
+		}
+		
+		$result = $this->_getChats($user_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions
 		);
 		
 		return array(

@@ -342,7 +342,7 @@ class Comment extends MultiTree{
 	}
 	
 	/**
-	 * 根据文章ID，以树的形式（体现层级结构）返回评论
+	 * 根据文章ID，以二级树的形式（所有对评论的评论不再体现层级结构）返回评论
 	 * @param int $post_id 文章ID
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
@@ -356,24 +356,24 @@ class Comment extends MultiTree{
 			'id', 'nickname', 'avatar',
 		),
 	)){
-			$conditions = array(
-				'deleted = 0',
-			);
-			if(Option::get('system:post_comment_verify')){
-				//开启了评论审核
-				$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
-			}
-	
-			$result = $this->_getChats($post_id,
-				$page_size,
-				$page,
-				$fields,
-				$conditions
-			);
-	
-			return array(
-				'comments'=>$result['data'],
-				'pager'=>$result['pager'],
-			);
+		$conditions = array(
+			'deleted = 0',
+		);
+		if(Option::get('system:post_comment_verify')){
+			//开启了评论审核
+			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
 		}
+		
+		$result = $this->_getChats($post_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions
+		);
+		
+		return array(
+			'comments'=>$result['data'],
+			'pager'=>$result['pager'],
+		);
+	}
 }

@@ -8,7 +8,7 @@ var chat = {
 	'getChat':function(id){
 		$.ajax({
 			'type': 'GET',
-			'url': system.url('admin/chat/item', {
+			'url': system.url('admin/message/item', {
 				'id':id
 			}),
 			'dataType': 'json',
@@ -38,20 +38,20 @@ var chat = {
 	 * 显示根留言
 	 */
 	'showRoot':function(root){
-		$('#chat-dialog .cd-user').text(root[chat.display_name]);
-		$('#chat-dialog .cd-to').text(root['to_user_id_'+chat.display_name]);
-		$('#chat-dialog .cd-time').text(system.date(root.create_time));
-		$('#chat-dialog .cd-content').html(system.encode(root.content).replace(/\n/g, '<br />'));
+		$('#chat-dialog .cd-user').text(root.message[chat.display_name]);
+		$('#chat-dialog .cd-to').text(root.message.parent.user[chat.display_name]);
+		$('#chat-dialog .cd-time').text(system.date(root.message.create_time));
+		$('#chat-dialog .cd-content').html(system.encode(root.message.content).replace(/\n/g, '<br />'));
 		$('#chat-dialog .cd-avatar').attr('src', system.url('file/pic', {
-			'f':root.avatar,
+			'f':root.user.avatar,
 			's':'avatar',
 			't':2
 		}));
-		$('#chat-dialog [name="content"]').attr('placeholder', '回复 '+root[chat.display_name]);
-		$('#chat-dialog [name="to_user_id"]').val(root.to_user_id);
-		$('#chat-dialog [name="parent"]').val(root.id);
-		$('#chat-dialog .reply-root').attr('data-username', root[chat.display_name]);
-		$('#chat-dialog .reply-root').attr('data-id', root.id);
+		$('#chat-dialog [name="content"]').attr('placeholder', '回复 '+root.message.user[chat.display_name]);
+		$('#chat-dialog [name="to_user_id"]').val(root.message.to_user_id);
+		$('#chat-dialog [name="parent"]').val(root.message.id);
+		$('#chat-dialog .reply-root').attr('data-username', root.user[chat.display_name]);
+		$('#chat-dialog .reply-root').attr('data-id', root.message.id);
 	},
 	/**
 	 * 显示回复

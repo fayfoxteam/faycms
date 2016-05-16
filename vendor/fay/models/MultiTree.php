@@ -410,7 +410,7 @@ abstract class MultiTree extends Model{
 	 * @param array $join_conditions 若fields指定父节点信息，则需要自连接，该条件用于自连接时的附加条件
 	 * @param string $order
 	 */
-	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'create_time DESC'){
+	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'id DESC'){
 		//解析$fields
 		$fields = FieldHelper::process($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
@@ -435,9 +435,9 @@ abstract class MultiTree extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('c'=>\F::model($this->model)->getTableName()), $comment_fields)
-			->where("c.{$this->foreign_key} = ?", $value)
-			->order('c.id DESC')
+		$sql->from(array('t'=>\F::model($this->model)->getTableName()), $comment_fields)
+			->where("t.{$this->foreign_key} = ?", $value)
+			->order('t.id DESC')
 		;
 		
 		if($conditions){
@@ -451,13 +451,13 @@ abstract class MultiTree extends Model{
 			}
 			
 			$_join_conditions = array(
-				'c.parent = c2.id',
+				't.parent = t2.id',
 			);
 			if($join_conditions){
 				//开启审核，仅返回通过审核的评论
 				$_join_conditions = array_merge($_join_conditions, $join_conditions);
 			}
-			$sql->joinLeft(array('c2'=>\F::model($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
+			$sql->joinLeft(array('t2'=>\F::model($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
 		}
 		
 		$listview = new ListView($sql, array(
@@ -516,15 +516,15 @@ abstract class MultiTree extends Model{
 	}
 	
 	/**
-	 * 
+	 * 以2级树的形式返回
 	 * @param int $value 关联ID，例如：文章ID
 	 * @param int $count
 	 * @param int $page
 	 * @param string $fields
 	 * @param array $conditions
-	 * @param string $order
+	 * @param string $order 程序内部已经按照root DESC排序了，因为同一个会话必须在一起，否则无法渲染，可以附加其他排序条件
 	 */
-	protected function _getChats($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
+	protected function _getChats($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'id DESC'){
 		//解析$fields
 		$fields = FieldHelper::process($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
@@ -559,14 +559,14 @@ abstract class MultiTree extends Model{
 			//搜索所有节点
 			$nodes = \F::model($this->model)->fetchAll(array_merge(array(
 				'root IN (?)'=>$root_nodes,
-			), $conditions), $node_fields, $order);
+			), $conditions), $node_fields, 'root DESC' . ($order ? ", {$order}" : ''));
 				
 			//用户信息
-			$users = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
+			if(!empty($fields['user'])){
+				$users = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
+			}
 				
-			//一棵一棵渲染
-			$sub_tree = array();
-			$last_root = $nodes[0]['root'];
+			//一个会话一个会话渲染
 			$chats = array();
 			$chat = array();
 			foreach($nodes as $n){
@@ -619,5 +619,130 @@ abstract class MultiTree extends Model{
 				'pager'=>$listview->getPager(),
 			);
 		}
+	}
+	
+	/**
+	 * 通过父节点ID，以列表形式返回所有子节点
+	 * @param int $parent_id 父节点ID，不能为0
+	 * @param int $count
+	 * @param int $page
+	 * @param string $fields
+	 * @param array $conditions
+	 * @param string $order
+	 */
+	protected function _getChildrenList($parent_id, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'id DESC'){
+		if(!$parent_id){
+			throw new ErrorException('父节点不能为空');
+		}
+		
+		$node = \F::model($this->model)->find($parent_id, 'root,left_value,right_value');
+		if(!$node){
+			throw new ErrorException('指定父节点不存在');
+		}
+		
+		//解析$fields
+		$fields = FieldHelper::process($fields, $this->field_key);
+		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
+			$fields[$this->field_key] = PostComments::model()->getFields();
+		}
+		
+		$comment_fields = $fields[$this->field_key];
+		if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
+			//若需要获取用户信息，但评论字段未指定user_id，则插入user_id
+			$comment_fields[] = 'user_id';
+		}
+		
+		if(!empty($fields['parent'])){
+			if(!empty($fields['parent'][$this->field_key]) && in_array('*', $fields['parent'][$this->field_key])){
+				$fields['parent'][$this->field_key] = PostComments::model()->getFields();
+			}
+			$parent_comment_fields = empty($fields['parent'][$this->field_key]) ? array() : $fields['parent'][$this->field_key];
+			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
+				//若需要获取父节点用户信息，但父节点评论字段未指定user_id，则插入user_id
+				$parent_comment_fields[] = 'user_id';
+			}
+		}
+		
+		$sql = new Sql();
+		$sql->from(array('t'=>\F::model($this->model)->getTableName()), $comment_fields)
+			->where('t.root = ' . $node['root'])
+			->where('t.left_value > ' . $node['left_value'])
+			->where('t.right_value < ' . $node['right_value'])
+			->order('t.id DESC')
+		;
+		
+		if($conditions){
+			$sql->where($conditions);
+		}
+		
+		if($parent_comment_fields){
+			//表自连接，字段名都是一样的，需要设置别名
+			foreach($parent_comment_fields as $key => $f){
+				$parent_comment_fields[$key] = $f . ' AS parent_' . $f;
+			}
+			
+			$_join_conditions = array(
+				't.parent = t2.id',
+			);
+			if($join_conditions){
+				//开启审核，仅返回通过审核的评论
+				$_join_conditions = array_merge($_join_conditions, $join_conditions);
+			}
+			$sql->joinLeft(array('t2'=>\F::model($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
+		}
+		
+		$listview = new ListView($sql, array(
+			'current_page'=>$page,
+			'page_size'=>$count,
+		));
+		
+		$data = $listview->getData();
+		
+		if(!empty($fields['user'])){
+			//获取评论用户信息集合
+			$users = User::model()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
+		}
+		if(!empty($fields['parent']['user'])){
+			//获取父节点评论用户信息集合
+			$parent_users = User::model()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
+		}
+		$comments = array();
+		
+		foreach($data as $k => $d){
+			$comment = array();
+			//评论字段
+			foreach($fields[$this->field_key] as $cf){
+				$comment[$this->field_key][$cf] = $d[$cf];
+			}
+			
+			//作者字段
+			if(!empty($fields['user'])){
+				$comment['user'] = $users[$d['user_id']];
+			}
+			
+			//父评论字段
+			if(!empty($fields['parent'][$this->field_key])){
+				if($d['parent_' . $fields['parent'][$this->field_key][0]] === null){
+					//为null的话意味着父节点不存在或已删除（数据库字段一律非null）
+					$comment['parent'][$this->field_key] = array();
+				}else{
+					foreach($fields['parent'][$this->field_key] as $pcf){
+						$comment['parent'][$this->field_key][$pcf] = $d['parent_' . $pcf];
+					}
+				}
+			}
+			
+			//父评论作者字段
+			if(!empty($fields['parent']['user'])){
+				$comment['parent']['user'] = $parent_users[$d['parent_user_id']];
+			}
+			
+			$comments[] = $comment;
+		}
+		
+		return array(
+			'data'=>$comments,
+			'pager'=>$listview->getPager(),
+		);
 	}
 }

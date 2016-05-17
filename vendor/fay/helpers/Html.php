@@ -189,6 +189,7 @@ class Html{
 	 * @param string $key 参数
 	 * @param string $value 显示标题
 	 * @param int $dep 用于计算缩进，不需要手工设定
+	 * @return array
 	 */
 	public static function getSelectOptions($data, $key = 'id', $value = 'title', $dep = 0){
 		$return = array();
@@ -264,7 +265,7 @@ class Html{
 	/**
 	 * 构造一个超链接
 	 * @param string $text 链接描述。默认会对其做Html::encode处理，若不编码，则在html_options中设置encode为false
-	 * @param url|array $uri 链接地址
+	 * @param string|array $uri 链接地址
 	 *     若为数组，第0项为路由（router），第1项为参数（可为空），第2项为是否重写（默认为重写）
 	 *     若为字符串，则直接作为href属性
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
@@ -302,6 +303,7 @@ class Html{
 	 * @param string $text
 	 * @param string $url 包括http://在内的完整url
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
+	 * @return string
 	 */
 	public static function outsideLink($text, $url, $html_options = array()){
 		return self::link($text, array('redirect', array(
@@ -315,7 +317,8 @@ class Html{
 	 * 同时该函数不做参数格式正确性验证，传错了可能会出现报错
 	 * @param string $tag
 	 * @param array $html_options
-	 * @param string|false $text 若为false，则视为自封闭标签
+	 * @param bool|string $text 若为false，则视为自封闭标签
+	 * @return string
 	 */
 	public static function tag($tag, $html_options, $text = false){
 		$before = '';

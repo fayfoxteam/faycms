@@ -4,8 +4,9 @@ namespace fay\helpers;
 class SqlHelper{
 	/**
 	 * 简单的美化一下，必须结合faycms后台式样
-	 * @param sql $sql SQL
+	 * @param string $sql SQL
 	 * @param array $params 参数
+	 * @return string
 	 */
 	public static function nice($sql, $params = array()){
 		$keywords = array('FROM', 'WHERE',
@@ -45,6 +46,7 @@ class SqlHelper{
 	 * 将$sql中的问号替换为参数值，并将换行符移除
 	 * @param string $sql SQL
 	 * @param array $params 参数
+	 * @return string
 	 */
 	public static function bind($sql, $params = array()){
 		$sql = str_replace("\n", ' ', $sql);
@@ -61,6 +63,9 @@ class SqlHelper{
 	/**
 	 * 移除数组统一的前缀（前缀不符合的表将被舍弃）
 	 * 返回的数组会被重新索引
+	 * @param string $prefix
+	 * @param array $tables
+	 * @return array
 	 */
 	public static function removePrefix($prefix, $tables){
 		$prefix_length = strlen($prefix);

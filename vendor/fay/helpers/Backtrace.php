@@ -4,6 +4,7 @@ namespace fay\helpers;
 class Backtrace{
 	/**
 	 * 渲染一个堆栈的table
+	 * @param array $backtrace 堆栈数组
 	 */
 	public static function render($backtrace = null){
 		$base_path = dirname(BASEPATH);//除去最后的public/

@@ -7,6 +7,7 @@ class ArrayHelper{
 	 * 此方法用于兼容低版本
 	 * @param array $array
 	 * @param string $column_key
+	 * @param mix $index_key
 	 * @return array
 	 */
 	public static function column($array, $column_key, $index_key = null){
@@ -32,13 +33,14 @@ class ArrayHelper{
 			}
 		}
 	}
-	
+
 	/**
 	 * 多维数组取交集，返回在$array和$array2中都存在的项
 	 * array_intersect()函数并不支持多维数组的交集，且是强类型比较，但支持n个参数。
 	 * 此函数支持多维数组，且是若类型比较，但只能传2个参数
 	 * @param array $array
 	 * @param array $array2
+	 * @return array
 	 */
 	public static function intersect($array, $array2){
 		foreach($array as $k => $a){
@@ -61,7 +63,7 @@ class ArrayHelper{
 		
 		return $array;
 	}
-	
+
 	/**
 	 * 递归合并2个数组
 	 *  - 数组键是int
@@ -74,6 +76,7 @@ class ArrayHelper{
 	 * 而此函数对字符串的值做覆盖处理，重复的值不会重复出现
 	 * @param array $array
 	 * @param array $array2
+	 * @return array
 	 */
 	public static function merge($array, $array2){
 		foreach($array2 as $k => $v){

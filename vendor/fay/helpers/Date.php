@@ -66,18 +66,20 @@ class Date{
 	 * 默认为今年
 	 * @param int $month 月份（1-12）
 	 * @param int $year 年份，若为null，视为今年（默认为null）
+	 * @return array
 	 */
 	public static function month($month, $year = null){
 		$year || $year = date('y', \F::app()->current_time);
-		$result['first_day'] = mktime(0, 0, 0, $month, 1, $year);
-		$result['last_day'] = mktime(23, 59, 59, $month+1, 0, $year);
-		return $result;
-		
+		return array(
+			'first_day'=>mktime(0, 0, 0, $month, 1, $year),
+			'last_day'=>mktime(23, 59, 59, $month+1, 0, $year),
+		);
 	}
 	
 	/**
 	 * 判断是否是今天
-	 * @param string $timestamp Unix时间戳
+	 * @param int $timestamp Unix时间戳
+	 * @return bool
 	 */
 	public static function isToday($timestamp) {
 		return date('Ymd', $timestamp) == date('Ymd', \F::app()->current_time);
@@ -85,7 +87,8 @@ class Date{
 	
 	/**
 	 * 判断是否是本月
-	 * @param string $timestamp Unix时间戳
+	 * @param int $timestamp Unix时间戳
+	 * @return bool
 	 */
 	public static function isThisMonth($timestamp) {
 		return date('mY', $timestamp) == date('mY', \F::app()->current_time);
@@ -93,7 +96,8 @@ class Date{
 	
 	/**
 	 * 判断是否是今年
-	 * @param string $timestamp Unix时间戳
+	 * @param int $timestamp Unix时间戳
+	 * @return bool
 	 */
 	public static function isThisYear($timestamp) {
 		return date('Y', $timestamp) == date('Y', \F::app()->current_time);
@@ -101,7 +105,8 @@ class Date{
 	
 	/**
 	 * 判断是否是昨天
-	 * @param string $timestamp Unix时间戳
+	 * @param int $timestamp Unix时间戳
+	 * @return bool
 	 */
 	public static function isYesterday($timestamp) {
 		return date('Ymd', $timestamp) == date('Ymd', self::yesterday());
@@ -110,7 +115,8 @@ class Date{
 
 	/**
 	 * 判断是否是本周
-	 * @param string $timestamp Unix时间戳
+	 * @param int $timestamp Unix时间戳
+	 * @return bool
 	 */
 	public static function isThisWeek($timestamp){
 		$week = self::thisWeek();
@@ -119,7 +125,8 @@ class Date{
 	
 	/**
 	 * 根据main.php文件中设置的时间格式返回时间字符串
-	 * @param string $timestamp Unix时间戳
+	 * @param int $timestamp Unix时间戳
+	 * @return string
 	 */
 	public static function format($timestamp){
 		if($timestamp != 0){
@@ -139,7 +146,7 @@ class Date{
 	
 	/**
 	 * 返回一个简单美化过的时间，例如：“刚刚”，“10秒前”，“昨天 17:43”，“3天前”等。
-	 * @param string $timestamp 时间戳，若不指定或指定为等价于0的值，则返回null
+	 * @param int $timestamp 时间戳，若不指定或指定为等价于0的值，则返回null
 	 */
 	public static function niceShort($timestamp = null) {
 		if($timestamp == 0){
@@ -195,6 +202,9 @@ class Date{
 	
 	/**
 	 * 返回两个时间戳之间的时差，例如：“1分30秒”，“1小时20分6秒”，“1天3小时16分32秒”。
+	 * @param int $start_time 开始时间戳
+	 * @param int $end_time 结束时间戳
+	 * @return string
 	 */
 	public static function diff($start_time, $end_time){
 		$dv = $end_time - $start_time;
@@ -215,8 +225,8 @@ class Date{
 	
 	/**
 	 * 当输入为空字符串时，返回空字符串，其它返回时间戳
-	 * @param string $timestamp
-	 * @return empty_string|number
+	 * @param int $timestamp
+	 * @return int
 	 */
 	public static function strtotime($timestamp){
 		if($timestamp === ''){

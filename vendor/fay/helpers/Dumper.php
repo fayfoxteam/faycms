@@ -7,7 +7,9 @@ class Dumper{
 
 	/**
 	 * 相对于pr函数来说，dump更美观一些
-	 * @param mixed $var
+	 * @param mixed $var 需要打印的变量
+	 * @param int $depth 深度
+	 * @return string
 	 */
 	public static function dump($var, $depth = 10){
 		self::$_output = '';
@@ -16,6 +18,11 @@ class Dumper{
 		echo '<pre>', self::$_output, "\n</pre>";
 	}
 
+	/**
+	 * 递归打印变量
+	 * @param mixed $var 需要打印的变量
+	 * @param int $level 深度
+	 */
 	private static function dumpInternal($var, $level = 0){
 		switch (gettype($var)) {
 			case 'boolean':
@@ -91,9 +98,10 @@ class Dumper{
 
 	/**
 	 * 格式化输出一个变量
-	 * @param array $arr
+	 * @param array $var
 	 * @param boolean $encode 若此参数为true，则会对数组内容进行html实体转换
 	 * @param boolean $return 若此参数为true，则不直接输出数组，而是以变量的方式返回
+	 * @return string
 	 */
 	public static function pr($var, $encode = false, $return = false){
 		if($encode){

@@ -18,6 +18,7 @@ class FieldHelper{
 	 * @param string $fields
 	 * @param string|null $default_key 若设置了default_key，则不包含.(点号)的项会被归属到default_key下
 	 * @param array $allowed_fields 若该字段非空，则会调用self::filter方法对解析后的$fields进行过滤
+	 * @return array
 	 */
 	public static function process($fields, $default_key = null, $allowed_fields = array()){
 		if(is_array($fields) && $default_key){
@@ -59,6 +60,7 @@ class FieldHelper{
 	 * 从$fields中过滤出被允许的字段
 	 * @param array $fields 解析成数组后的用户指定字段
 	 * @param array $allowed_fields 允许的字段
+	 * @return array
 	 */
 	public static function filter($fields, $allowed_fields){
 		foreach($fields as $k => $v){
@@ -74,7 +76,9 @@ class FieldHelper{
 	
 	/**
 	 * 将self::process()解析出来的字符串拼凑回去
-	 * @param array $fields self::process()得到的结果
+	 * @param array $data self::process()得到的结果
+	 * @param string $prefix 前缀
+	 * @return string
 	 */
 	public static function join($data, $prefix = ''){
 		$return = array();

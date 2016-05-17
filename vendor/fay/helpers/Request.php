@@ -4,7 +4,6 @@ namespace fay\helpers;
 class Request{
 	/**
 	 * 获取客户端IP
-	 * @return ip
 	 */
 	public static function getIP(){
 		if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
@@ -26,7 +25,7 @@ class Request{
 	
 	/**
 	 * 将ip转换为int存储，返回32位机器的int值
-	 * @param ip $ip
+	 * @param string $ip
 	 * @return int
 	 */
 	public static function ip2int($ip){
@@ -112,7 +111,7 @@ class Request{
 	/**
 	 * 根据$_SERVER['HTTP_REFERER']判断来源是否是搜索引擎
 	 * @param string $refer
-	 * @return multitype:string
+	 * @return array
 	 */
 	public static function getSearchEngine($refer = null){
 		$refer === null && $refer = $_SERVER['HTTP_REFERER'];
@@ -266,6 +265,7 @@ class Request{
 	/**
 	 * 是否是IE浏览器（IE11也视为IE，因为有兼容模式，debug工具模拟什么的，无法确定到底是IE几）
 	 * @param string $user_agent
+	 * @return bool
 	 */
 	public static function isIE($user_agent = null){
 		$user_agent === null && $user_agent = $_SERVER['HTTP_USER_AGENT'];

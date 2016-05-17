@@ -4,6 +4,8 @@ namespace fay\helpers;
 class StringHelper{
 	/**
 	 * 类似PHP的nl2br函数，只是将回车转为p标签包裹
+	 * @param string $text
+	 * @return string
 	 */
 	public static function nl2p($text){
 		return "<p>" . str_replace(PHP_EOL, "</p><p>", $text) . "</p>";
@@ -45,7 +47,7 @@ class StringHelper{
 	
 	/**
 	 * 随机字符串
-	 * 
+	 *
 	 * @param string $type
 	 *  - alpha: 含有大小写字母。
 	 *  - alnum: 含有大小写字母以及数字。
@@ -54,6 +56,7 @@ class StringHelper{
 	 *  - unique: 用 MD5 and uniqid()加密的字符串。注意：第二个长度参数在这种类型无效。均返回一个32位长度的字符串。
 	 *  - uuid: 生成一个UUID。注意：第二个长度参数在这种类型无效。均返回一个36位长度的字符串。
 	 * @param int $length
+	 * @return string
 	 */
 	public static function random($type = 'alnum', $length = 16) {
 		switch ($type) {
@@ -126,6 +129,9 @@ class StringHelper{
 	/**
 	 * 下划线分割转大小写分割<br>
 	 * 若$ucfirst为false，首字母小写，默认为所有分词首字母大写
+	 * @param string $str
+	 * @param bool $ucfirst
+	 * @return string
 	 */
 	public static function underscore2case($str, $ucfirst = true){
 		$explodes = explode('_', $str);
@@ -138,7 +144,12 @@ class StringHelper{
 		}
 		return implode('', $explodes);
 	}
-	
+
+	/**
+	 * 大小写分割转下划线分割
+	 * @param string $str
+	 * @return string
+	 */
 	public static function case2underscore($str){
 		$new_str = '';
 		$str_length = strlen($str);
@@ -159,6 +170,9 @@ class StringHelper{
 	/**
 	 * 连字符（中横线）分割转大小写分割<br>
 	 * 若$ucfirst为false，首字母小写，默认为所有分词首字母大写
+	 * @param string $str
+	 * @param bool $ucfirst
+	 * @return string
 	 */
 	public static function hyphen2case($str, $ucfirst = true){
 		$explodes = explode('-', $str);
@@ -175,6 +189,9 @@ class StringHelper{
 	/**
 	 * 斜杠分割转大小写分割<br>
 	 * 若$ucfirst为false，首字母小写，默认为所有分词首字母大写
+	 * @param string $str
+	 * @param bool $ucfirst
+	 * @return string
 	 */
 	public static function slashes2case($str, $ucfirst = true){
 		$explodes = explode('/', $str);
@@ -193,7 +210,8 @@ class StringHelper{
 	 * 此函数不接受"+1"这样的正数写法，也不接受"00", "09"这样不符合正常习惯的前导0写法，"-0", "+0"也都是不行的。
 	 * 但如果是int类型的变量，则无法区分是否有前导0或者+。
 	 * @param int|string $str
-	 * @param string $natural_number_only 若为true，则只能是正整数或0（自然数），默认为true
+	 * @param bool $natural_number_only 若为true，则只能是正整数或0（自然数），默认为true
+	 * @return bool
 	 */
 	public static function isInt($str, $natural_number_only = true){
 		if(!is_string($str) && !is_int($str)){

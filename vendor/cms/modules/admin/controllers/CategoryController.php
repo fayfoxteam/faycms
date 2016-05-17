@@ -194,9 +194,9 @@ class CategoryController extends AdminController{
 			'alias = ?'=>$this->input->request('alias', 'trim'),
 			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){
-			echo Response::json('', 0, '别名已存在');
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo Response::json('', 1, '别名不存在');
+			Response::json('', 1, '别名不存在');
 		}
 	}
 }

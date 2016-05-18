@@ -29,7 +29,7 @@ abstract class Cache{
 	/**
 	 * 返回一个key
 	 * 若key_prefix不为空，则前缀上key_prefix.separator
-	 * @param mix $key
+	 * @param mixed $key
 	 * @return string
 	 */
 	protected function buildKey($key){
@@ -44,9 +44,9 @@ abstract class Cache{
 	
 	/**
 	 * 设置一个缓存
-	 * @param mix $key $key中若包含斜杠（/），点号（.），冒号（:）会被统一转为$this->separator
+	 * @param mixed $key $key中若包含斜杠（/），点号（.），冒号（:）会被统一转为$this->separator
 	 *   即仅这3个符号存在差别的key会被视为同一个key
-	 * @param mix $value
+	 * @param mixed $value
 	 * @param int $duration 缓存过期时间（单位：秒）
 	 */
 	public function set($key, $value, $duration = 0){
@@ -80,7 +80,7 @@ abstract class Cache{
 	
 	/**
 	 * 根据指定key从缓存中获取一个元素
-	 * @param mix $key
+	 * @param mixed $key
 	 * @return mix
 	 */
 	public function get($key){
@@ -122,7 +122,7 @@ abstract class Cache{
 	
 	/**
 	 * 删除一个缓存
-	 * @param mix $key
+	 * @param mixed $key
 	 */
 	public function delete($key){
 		$key = $this->buildKey($key);
@@ -132,7 +132,7 @@ abstract class Cache{
 	
 	/**
 	 * 判断缓存中某个key是否存在
-	 * @param mix $key
+	 * @param mixed $key
 	 * @return boolean
 	 */
 	public function exists($key){
@@ -152,15 +152,15 @@ abstract class Cache{
 	
 	/**
 	 * 设置单个缓存
-	 * @param mix $key
-	 * @param mix $value
+	 * @param mixed $key
+	 * @param mixed $value
 	 * @param int $duration 缓存过期时间（单位：秒）
 	 */
 	abstract protected function setValue($key, $value, $duration);
 	
 	/**
 	 * 获取单个缓存
-	 * @param mix $key
+	 * @param mixed $key
 	 */
 	abstract protected function getValue($key);
 	
@@ -179,7 +179,7 @@ abstract class Cache{
 	
 	/**
 	 * 删除单个缓存
-	 * @param mix $key
+	 * @param mixed $key
 	 */
 	abstract protected function deleteValue($key);
 	

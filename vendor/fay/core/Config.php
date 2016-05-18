@@ -21,6 +21,7 @@ class Config{
 	 * 获取配置文件配置项
 	 * @param string $item 可以点式操作，例如db.host获取二维数组db下的host
 	 * @param string $filename
+	 * @return mixed
 	 */
 	public function get($item, $filename = 'main'){
 		if($item == '*'){
@@ -44,6 +45,7 @@ class Config{
 	/**
 	 * 获取配置文件
 	 * @param String $filename 配置文件文件名
+	 * @return array
 	 */
 	public function getFile($filename = 'main'){
 		if(isset($this->_configs[$filename])){
@@ -66,9 +68,9 @@ class Config{
 	 * 运行中动态配置配置项
 	 * @param string $item 可以点式操作，例如db.host修改二维数组db下的host
 	 * @param mixed $value
-	 * @param string $filename
+	 * @param null|string $filename
 	 */
-	public function set($item, $value, $filename = false){
+	public function set($item, $value, $filename = null){
 		$filename || $filename = 'main';
 		if (!isset($this->_configs[$filename])){
 			$this->getFile($filename);

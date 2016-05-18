@@ -108,7 +108,7 @@ class Table extends Model{
 	
 	/**
 	 * 删除一条记录
-	 * @param mix $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
+	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
 	 */
 	public function delete($where){
 		if(StringHelper::isInt($where)){
@@ -119,7 +119,7 @@ class Table extends Model{
 	
 	/**
 	 * 递增指定列
-	 * @param mix $where
+	 * @param mixed $where
 	 * @param string $fields 列名
 	 * @param int $value 增量（可以是负数）
 	 */
@@ -225,7 +225,7 @@ class Table extends Model{
 	 * 获取只读字段。
 	 * insert(), update()方法当$fill参数为true时，会自动调用此方法用于过滤字段。
 	 * 也可以手动调用此方法用于字段过滤处理。
-	 * @param mix $scene 场景
+	 * @param mixed $scene 场景
 	 */
 	public function getNotWritableFields($scene){
 		switch($scene){

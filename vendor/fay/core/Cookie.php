@@ -24,10 +24,11 @@ class Cookie{
 	 *   - 若为null则随着浏览器关闭过期
 	 *   - 其他类型（字符串，布尔型等）立马过期
 	 * @param string $path 与系统setcookie函数参数一致
-	 * @param string $domain 与系统setcookie函数参数一致
+	 * @param bool|string $domain 与系统setcookie函数参数一致
 	 * @param string $secure 与系统setcookie函数参数一致
 	 * @param string $httponly 与系统setcookie函数参数一致
 	 * @param string $cookie_prefix Cookie前缀，若为null，则根据配置文件设置
+	 * @return bool
 	 */
 	public function set($name, $value = null, $expire = null, $path = '/', $domain = false, $secure = null, $httponly = null, $cookie_prefix = null){
 		if($cookie_prefix === null){
@@ -56,6 +57,7 @@ class Cookie{
 	 * @param string $filter 过滤器，与get/post参数一致
 	 * @param string $default 默认值，当指定Cookie不存在的时候返回默认值
 	 * @param string $cookie_prefix Cookie前缀，若为null，则根据配置文件设置
+	 * @return mixed
 	 */
 	public function get($key = null, $filter = null, $default = null, $cookie_prefix = null){
 		if($cookie_prefix === null){
@@ -99,9 +101,10 @@ class Cookie{
 	
 	/**
 	 * 移除指定Cookie
-	 * @param string $key 若不指定或者指定为null，则删除所有session
+	 * @param string $name
 	 * @param string $path 与系统setcookie函数参数一致
-	 * @param string $domain 与系统setcookie函数参数一致
+	 * @param bool|string $domain 与系统setcookie函数参数一致
+	 * @internal param string $key 若不指定或者指定为null，则删除所有session
 	 */
 	public function remove($name = '', $path = '/', $domain = false){
 		$this->set($name, '', '', $path, $domain);

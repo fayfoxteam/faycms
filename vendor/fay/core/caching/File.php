@@ -29,7 +29,7 @@ class File extends Cache{
 	
 	/**
 	 * 根据$key获取缓存文件路径
-	 * @param mix $key
+	 * @param mixed $key
 	 */
 	protected function getCacheFile($key){
 		return APPLICATION_PATH . 'runtimes' . DS . 'cache' . DS . $key;
@@ -43,7 +43,7 @@ class File extends Cache{
 	
 	/**
 	 * 获取单个缓存
-	 * @param mix $key
+	 * @param mixed $key
 	 */
 	protected function getValue($key){
 		$file = $this->getCacheFile($this->buildKey($key));
@@ -61,8 +61,8 @@ class File extends Cache{
 	
 	/**
 	 * 设置单个缓存
-	 * @param mix $key
-	 * @param mix $value
+	 * @param mixed $key
+	 * @param mixed $value
 	 * @param int $duration 缓存时间（单位：秒）
 	 */
 	protected function setValue($key, $value, $duration){
@@ -86,7 +86,7 @@ class File extends Cache{
 	
 	/**
 	 * 删除单个缓存
-	 * @param mix $key
+	 * @param mixed $key
 	 */
 	protected function deleteValue($key){
 		$file = $this->getCacheFile($key);

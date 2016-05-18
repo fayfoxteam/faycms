@@ -11,6 +11,9 @@ class Db{
 	private $_port = 3306;
 	private $_dbname;
 	private $_charset;
+	/**
+	 * @var \PDO
+	 */
 	private $_conn;
 	private $_table_prefix;
 	private $_debug = false;
@@ -41,6 +44,8 @@ class Db{
 	
 	/**
 	 * 初始化
+	 * @param array $config
+	 * @throws Exception
 	 */
 	public function init($config){
 		$db_config = \F::config()->get('db');
@@ -71,7 +76,9 @@ class Db{
 	/**
 	 * 执行一条sql语句，若是insert语句，则返回插入后产生的自递增id号，
 	 * 若是update或delete语句，则返回受影响的记录条数
-	 * @param String $sql
+	 * @param string $sql
+	 * @param array $params
+	 * @return int
 	 */
 	public function execute($sql, $params = array()){
 		$start_time = microtime(true);
@@ -93,6 +100,7 @@ class Db{
 	 * @param string $sql
 	 * @param bool $explode 默认为false。若为true，则会把"\r\n"替换为"\n"后根据";\n"分割为多个SQL依次执行
 	 * （这并不是很完美的解决方案，因为从语法上讲，SQL并不一定要一行一个，而且极端情况下可能出错。不过适用于数据导入等情况）
+	 * @return bool|int
 	 */
 	public function exec($sql, $explode = false){
 		if($explode){
@@ -125,6 +133,7 @@ class Db{
 	 * @param string $sql
 	 * @param array $params
 	 * @param string $style
+	 * @return array
 	 */
 	public function fetchAll($sql, $params = array(), $style = 'assoc'){
 		if($style == 'num'){

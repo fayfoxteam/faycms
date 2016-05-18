@@ -27,7 +27,7 @@ class Session{
 	/**
 	 * 设置Session
 	 * @param string $key Session名
-	 * @param mix $value Session值
+	 * @param mixed $value Session值
 	 * @param string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
 	 */
 	public function set($key, $value, $namespace = null){

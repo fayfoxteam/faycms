@@ -79,8 +79,9 @@ class Controller{
 	
 	/**
 	 * 获取一个表单实例，若name为null，返回第一个被实例化的表单。
-	 * 	若没有表单被实例化，实例化一个default
+	 *    若没有表单被实例化，实例化一个default
 	 * @param null|string $name 默认为第一个被实例化的表单
+	 * @return Form
 	 */
 	public function form($name = 'default'){
 		return \F::form($name);
@@ -111,7 +112,8 @@ class Controller{
 	
 	/**
 	 * 检查token防重复提交，每次校验都会重新生成一个token
-	 * @return boolean
+	 * @return bool
+	 * @throws Exception
 	 */
 	protected function checkToken(){
 		$token = $this->input->request('_token');

@@ -11,6 +11,8 @@ class ErrorException extends \ErrorException{
 	
 	/**
 	 * 判断是否为致命错误
+	 * @param array $error
+	 * @return bool
 	 */
 	public static function isFatalError($error){
 		return isset($error['type']) && in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING));

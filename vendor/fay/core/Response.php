@@ -77,11 +77,12 @@ class Response{
 		510 => 'Not Extended',
 		511 => 'Network Authentication Required',
 	);
-
+	
 	/**
 	 * 发送一个http头
 	 * @param int $code
 	 * @param string $text
+	 * @throws HttpException
 	 */
 	public static function setStatusHeader($code = 200, $text = ''){
 		if ($code == '' OR ! is_numeric($code)){
@@ -106,11 +107,12 @@ class Response{
 			header("HTTP/1.1 {$code} {$text}", TRUE, $code);
 		}
 	}
-
+	
 	/**
 	 * 页面跳转
 	 * @param string $uri
 	 * @param array $params
+	 * @param bool $url_rewrite
 	 */
 	public static function redirect($uri = null, $params = array(), $url_rewrite = true){
 		if($uri === null){
@@ -178,9 +180,10 @@ class Response{
 
 	/**
 	 * 用一个单页来做信息提示，并在$delay时间后跳转
-	 * @param unknown $message 信息
-	 * @param number $delay 停留时间
-	 * @param string $redirect 跳转的url，默认为回到上一页
+	 * @param string $message 信息
+	 * @param string $status
+	 * @param bool|string $redirect 跳转的url，默认为回到上一页
+	 * @param int $delay 停留时间
 	 */
 	public static function jump($message, $status = 'success', $redirect = false, $delay = 3){
 		if(!$redirect && !empty($_SERVER['HTTP_REFERER'])){
@@ -206,7 +209,7 @@ class Response{
 	
 	/**
 	 * 返回json
-	 * @param mixed $content 内容部分
+	 * @param mixed $data
 	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
 	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
 	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
@@ -217,7 +220,7 @@ class Response{
 			header('Content-Type:application/json; charset=utf-8');
 		}
 		if(\F::config()->get('debug')){
-			$sqls = \fay\core\Db::getInstance()->getSqlLogs();
+			$sqls = Db::getInstance()->getSqlLogs();
 			$sql_formats = array();
 			$sql_time = 0;
 			foreach($sqls as &$s){

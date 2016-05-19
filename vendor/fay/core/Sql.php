@@ -99,6 +99,7 @@ class Sql{
 	 * 默认情况下，以and方式连接各条件
 	 * 也可以指定，具体方法见Db::getWhere
 	 * @param array|string $where
+	 * @param string $params
 	 * @return Sql
 	 */
 	public function where($where, $params = ''){
@@ -168,6 +169,11 @@ class Sql{
 		return $this;
 	}
 	
+	/**
+	 * @param int $count 数量
+	 * @param null|int $offset 偏移
+	 * @return Sql
+	 */
 	public function limit($count, $offset = null){
 		$this->count = $count;
 		if($offset !== null && $offset !== false){
@@ -180,6 +186,7 @@ class Sql{
 	 * 指定count方法根据哪个字段进行计算<br>
 	 * 默认为COUNT(*)
 	 * @param string $by
+	 * @return Sql
 	 */
 	public function countBy($by){
 		$this->countBy = $by;
@@ -189,6 +196,8 @@ class Sql{
 	/**
 	 * 得到sql语句
 	 * 若传入$count参数，则无视前面设置的offset和count，主要用于fetchRow等特殊情况
+	 * @param null|int $count
+	 * @return string
 	 */
 	public function getSql($count = null){
 		//清空params，以免多次调用本函数造成params重复
@@ -347,9 +356,8 @@ class Sql{
 	 * 构造fields数组
 	 * @param string $fields 若传入的fields为反选类型，则必须传入表名（用于获取表结构）
 	 * @param string $alias 此处alias为表的别名
-	 * @param string $table 表名
 	 */
-	private function _field($fields, $alias = null, $table = null){
+	private function _field($fields, $alias = null){
 		if(!empty($fields)){
 			if(!is_array($fields)){
 				$fields = array($fields);
@@ -411,6 +419,7 @@ class Sql{
 	/**
 	 * 通过不停加后缀空格的方式，使关键词的键名不重名
 	 * @param string $key
+	 * @return string
 	 */
 	private function getConditionKey($key, $conditions){
 		if(isset($conditions[$key])){

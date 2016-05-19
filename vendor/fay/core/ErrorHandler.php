@@ -91,6 +91,10 @@ class ErrorHandler{
 	
 	/**
 	 * 处理php报错
+	 * @param int $code
+	 * @param string $message
+	 * @param string $file
+	 * @param int $line
 	 */
 	public function handleError($code, $message, $file, $line){
 		if(error_reporting() == 0){
@@ -121,7 +125,7 @@ class ErrorHandler{
 			\F::logger()->flush();
 			
 			if(\F::config()->get('environment') == 'production'){
-				$this->render500();
+				$this->render500($exception);
 			}else{
 				$this->renderDebug($exception);
 			}
@@ -164,6 +168,7 @@ class ErrorHandler{
 	
 	/**
 	 * 显示404页面（不包含错误信息）
+	 * @param HttpException $exception
 	 */
 	protected function render404($exception){
 		//清空缓冲区
@@ -181,6 +186,7 @@ class ErrorHandler{
 	
 	/**
 	 * 显示500页面（不包含错误信息）
+	 * @param ErrorException $exception
 	 */
 	protected function render500($exception){
 		//清空缓冲区

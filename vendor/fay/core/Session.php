@@ -29,6 +29,7 @@ class Session{
 	 * @param string $key Session名
 	 * @param mixed $value Session值
 	 * @param string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
+	 * @return bool
 	 */
 	public function set($key, $value, $namespace = null){
 		if($namespace === null){
@@ -46,6 +47,7 @@ class Session{
 	 *   - 若为字符串，则返回有指定$namespace下对应的Session值
 	 * @param string $default
 	 * @param string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
+	 * @return mixed
 	 */
 	public function get($key = null, $default = null, $namespace = null){
 		if($namespace === null){
@@ -75,6 +77,7 @@ class Session{
 	 * 销毁指定命名空间下的session
 	 * @param string|null $key 若不指定或者指定为null，则删除所有session
 	 * @param string $namespace 命名空间，实际上就是数组前缀。若为null，则根据配置文件设置
+	 * @return bool
 	 */
 	public function remove($key = null, $namespace = null){
 		if($namespace === null){
@@ -96,7 +99,7 @@ class Session{
 		if($namespace === null){
 			$namespace = \F::config()->get('session.namespace');
 		}
-		$this->remove();
+		$this->remove(null, $namespace);
 	}
 	
 	/**
@@ -111,6 +114,7 @@ class Session{
 	/**
 	 * 获取flash信息（获取的同时会删除该条flash信息）
 	 * @param string $key
+	 * @return bool|mixed
 	 */
 	public function getFlash($key){
 		if($flash = $this->get('flash_'.$key)){

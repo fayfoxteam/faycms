@@ -6,8 +6,9 @@ use fay\models\Flash;
 
 class AdminController extends Widget{
 	public function index($data){
-		$this->view->data = $data;
-		$this->view->render();
+		$this->view->assign(array(
+			'data'=>$data
+		))->render();
 	}
 	
 	public function onPost(){

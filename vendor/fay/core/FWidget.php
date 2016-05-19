@@ -17,8 +17,11 @@ class FWidget{
 		}
 		return self::$_instance;
 	}
+	
 	/**
 	 * 实例化一个widget，并返回实例
+	 * @param $name
+	 * @param bool $admin
 	 * @return Widget
 	 */
 	public function get($name, $admin = false){
@@ -91,7 +94,7 @@ class FWidget{
 	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
 	 */
 	public function render($name, $options = array(), $ajax = false, $cache = -1, $alias = '', $index = null){
-		if($alias && $cache >= 0 && $content = \F::app()->cache->get($alias)){
+		if($alias && $cache >= 0 && $content = \F::cache()->get($alias)){
 			echo $content;
 		}else{
 			$widget_obj = $this->get($name);
@@ -184,6 +187,7 @@ class FWidget{
 	/**
 	 * 渲染一个小工具域
 	 * @param string $alias 小工具域别名
+	 * @throws Exception
 	 */
 	public function area($alias){
 		if(empty($alias)){

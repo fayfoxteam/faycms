@@ -20,7 +20,7 @@ class HttpException extends \Exception{
 	}
 
 	/**
-	 * @return 返回一个状态码描述
+	 * @return string 返回一个状态码描述
 	 */
 	public function getLevel(){
 		if (isset(Response::$httpStatuses[$this->status_code])) {

@@ -121,7 +121,7 @@ class Db{
 		}else{
 			$result = $this->_conn->exec($sql);
 			if($result === false){
-				$this->error($this->_conn->errorInfo(), $s);
+				$this->error($this->_conn->errorInfo(), $sql);
 			}else{
 				return $result;
 			}
@@ -156,6 +156,7 @@ class Db{
 	 * @param string $col
 	 * @param string $sql
 	 * @param array $params
+	 * @return array
 	 */
 	public function fetchCol($col, $sql, $params = array()){
 		$start_time = microtime(true);
@@ -176,6 +177,7 @@ class Db{
 	 * @param string $sql
 	 * @param array $params
 	 * @param string $style
+	 * @return array|bool
 	 */
 	public function fetchRow($sql, $params = array(), $style = 'assoc'){
 		if($style == 'num'){
@@ -197,6 +199,7 @@ class Db{
 	 * 单条插入
 	 * @param string $table 表名
 	 * @param array $data 数据
+	 * @return int
 	 */
 	public function insert($table, $data){
 		$fields = array();
@@ -221,6 +224,7 @@ class Db{
 	 * 批量插入（要求二维数组所有数组项结构一致）
 	 * @param string $table 表名
 	 * @param array $data 插入数据
+	 * @return int
 	 */
 	public function bulkInsert($table, $data){
 		$fields = array();
@@ -263,7 +267,7 @@ class Db{
 	 * @param array $data 数据
 	 * @param false|array|string $condition 条件，若为false，则更新所有字段
 	 * @throws Exception
-	 * @return Ambigous <string, number>
+	 * @return int
 	 */
 	public function update($table, $data, $condition = false){
 		if(empty($data)){
@@ -296,7 +300,7 @@ class Db{
 	 * 根据条件删除行
 	 * @param string $table 表名
 	 * @param array|string $condition 条件，出于安全考虑，$condition不能为空，即不可全表删除
-	 * @return Ambigous <string, number>
+	 * @return int
 	 */
 	public function delete($table, $condition){
 		$where = $this->getWhere($condition);
@@ -309,11 +313,11 @@ class Db{
 	 * @param string $table 表名
 	 * @param array|string $condition where条件
 	 * @param string|array $fields 字段（可以是多个，多个字段以一维数组方式传入）
-	 * @param int $count 递增/递减值
+	 * @param $value
+	 * @return int
+	 * @throws Exception
 	 */
 	public function incr($table, $condition, $fields, $value){
-		$where = $this->getWhere($condition);
-		
 		if(!is_array($fields)){
 			$fields = explode(',', $fields);
 		}

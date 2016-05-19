@@ -102,7 +102,7 @@ class Uri{
 		
 		//匹配扩展名
 		$ext = \F::config()->get('url_suffix');
-		$exts = \F::config()->get('*', 'exts', 'merge_recursive');
+		$exts = \F::config()->get('*', 'exts');
 		foreach($exts as $key => $val){
 			foreach($val as $v){
 				if(preg_match('/^'.str_replace(array(

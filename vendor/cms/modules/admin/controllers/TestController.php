@@ -13,7 +13,7 @@ class TestController extends AdminController{
 	public function valid(){
 		$v = new Validator();
 		$v->skip_all_on_error = false;
-		$v->setLables(array(
+		$v->setLabels(array(
 			'email'=>'邮箱',
 			'i'=>'Int',
 			'f'=>'Float',

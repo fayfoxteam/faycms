@@ -4,7 +4,7 @@ namespace fay\core;
 use fay\helpers\Request;
 use fay\models\tables\Widgets;
 
-class Widget{
+abstract class Widget{
 	/**
 	 * 小工具名称（初始化时传入）
 	 */
@@ -39,11 +39,6 @@ class Widget{
 	 * @var Session
 	 */
 	public $session;
-	
-	/**
-	 * @var Flash
-	 */
-	public $flash;
 	
 	/**
 	 * @var Cache
@@ -120,6 +115,7 @@ class Widget{
 	
 	/**
 	 * 存储该widget实例的参数，参数以数组的方式传入
+	 * @param $data
 	 */
 	public function setConfig($data){
 		Widgets::model()->update(array(
@@ -142,6 +138,7 @@ class Widget{
 	/**
 	 * 获取一个表单实例，若不指定name，返回后台小工具编辑表单。
 	 * @param null|string $name 默认为后台小工具编辑表单
+	 * @return Form
 	 */
 	public function form($name = 'widget'){
 		return \F::form($name);
@@ -167,4 +164,9 @@ class Widget{
 	public function filters(){
 		return array();
 	}
+	
+	/**
+	 * 子类中实现，调用widget时自动执行此方法
+	 */
+	abstract public function index($config);
 }

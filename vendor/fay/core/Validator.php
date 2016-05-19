@@ -72,6 +72,7 @@ class Validator{
 	/**
 	 * Validator实例<br>
 	 * 所有在本类中被实例化的验证器实例都将包含此变量
+	 * @var Validator
 	 */
 	public $_object;
 	
@@ -98,7 +99,7 @@ class Validator{
 			$data = \F::app()->input->request();
 		}
 		
-		$this->setLables($labels);
+		$this->setLabels($labels);
 		
 		foreach($rules as $r){
 			if($this->skip_all_on_error && $this->errors){
@@ -124,7 +125,7 @@ class Validator{
 					 */
 					continue;
 				}
-				$validate->validate($value, $field);
+				$validate->validate($value);
 			}
 		}
 		
@@ -159,6 +160,7 @@ class Validator{
 	 * @param string $message 一个验证器可能有多种错误描述，所以不能直接通过$this->message获取
 	 * @param string $code 同上
 	 * @param array $params
+	 * @return string
 	 */
 	public function addError($message = null, $code = null, $params = array()){
 		//当直接实例化验证器时，$this->object为null
@@ -188,6 +190,7 @@ class Validator{
 	 * 验证一个字段<br>
 	 * 所有验证器需要实现此方法
 	 * @param mixed $value 字段值
+	 * @return bool
 	 */
 	public function validate($value){
 		return true;
@@ -197,7 +200,7 @@ class Validator{
 	 * 设置Labels
 	 * @param array $labels
 	 */
-	public function setLables($labels){
+	public function setLabels($labels){
 		$this->labels = array_merge($this->labels, $labels);
 	}
 	

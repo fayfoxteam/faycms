@@ -27,7 +27,8 @@ class Upload{
 	 * 执行上传操作
 	 * 若成功，则返回上传文件的各种属性信息
 	 * 若失败，则设置错误信息并返回false
-	 * @param string $field
+	 * @param bool|string $field
+	 * @return array|bool
 	 */
 	public function run($field = false){
 		if($field === false){
@@ -155,7 +156,7 @@ class Upload{
 	
 	/**
 	 * 判断上传的文件是否是允许的文件类型
-	 * @param string $type
+	 * @return bool
 	 */
 	private function isAllowedType(){
 		$ext = strtolower(ltrim($this->file_ext, '.'));
@@ -184,6 +185,7 @@ class Upload{
 	/**
 	 * 判断上传的文件大小是否符合设置
 	 * @param string $size
+	 * @return bool
 	 */
 	private function isAllowedSize($size){
 		if ($this->max_size != 0 && $size > $this->max_size){
@@ -204,6 +206,7 @@ class Upload{
 	/**
 	 * 获取图片相关属性数组，若不是图片则将is_image设为flase，不设置其他属性值
 	 * @param string $path
+	 * @return array
 	 */
 	private function setImgProperties($path){
 		$x = explode('.', $path);

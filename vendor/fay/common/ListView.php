@@ -49,8 +49,12 @@ class ListView{
 			$this->total_records = $this->count();
 		}
 		$this->total_pages = intval(ceil($this->total_records / $this->page_size));
-		$this->current_page > $this->total_pages ? $this->current_page = $this->total_pages : '';
-		$this->current_page < 1 ? $this->current_page = 1 : '';
+		if($this->current_page > $this->total_pages){
+			$this->current_page = $this->total_pages;
+		}
+		if($this->current_page < 1){
+			$this->current_page = 1;
+		}
 		$this->offset = ($this->current_page - 1) * $this->page_size;
 		$this->start_record = $this->total_records ? $this->offset + 1 : 0;
 		$this->offset + $this->page_size > $this->total_records ? $this->end_record = $this->total_records : $this->end_record = $this->offset + $this->page_size;

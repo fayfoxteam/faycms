@@ -187,7 +187,7 @@ class Message extends MultiTree{
 	 * 判断一条用户的改变是否需要改变用户留言数
 	 * @param array $message 单条留言，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @param mix $user_message_verify 是否开启用户留言审核（视为bool）
+	 * @param mixed $user_message_verify 是否开启用户留言审核（视为bool）
 	 */
 	private function needChangeMessages($message, $action){
 		$user_message_verify = Option::get('system:user_message_verify');

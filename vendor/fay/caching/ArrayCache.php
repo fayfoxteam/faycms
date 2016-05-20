@@ -17,6 +17,8 @@ class ArrayCache extends Cache{
 	
 	/**
 	 * 判断键是否存在
+	 * @param string $key
+	 * @return bool
 	 */
 	public function exists($key){
 		$key = $this->buildKey($key);
@@ -25,6 +27,8 @@ class ArrayCache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::getValue()
+	 * @param string $key
+	 * @return mixed
 	 */
 	protected function getValue($key){
 		if (isset($this->_cache[$key]) && ($this->_cache[$key][1] === 0 || $this->_cache[$key][1] > microtime(true))) {
@@ -37,6 +41,7 @@ class ArrayCache extends Cache{
 	/**
 	 * @see \fay\caching\Cache::setValue()
 	 * @param float $duration 由于一次请求时间本来就很短，所以过期时间支持毫秒级过期时间
+	 * @return bool
 	 */
 	protected function setValue($key, $value, $duration){
 		$this->_cache[$key] = array($value, $duration === 0 ? 0 : microtime(true) + $duration);
@@ -53,7 +58,8 @@ class ArrayCache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::flushValues()
-	 * @param $prefix 由于数组缓存成本很低，没必要弄太复杂，无视$prefix参数
+	 * @param string $prefix 由于数组缓存成本很低，没必要弄太复杂，无视$prefix参数
+	 * @return bool
 	 */
 	protected function flushValues($prefix = null){
 		$this->_cache = array();

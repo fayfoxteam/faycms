@@ -231,7 +231,7 @@ class File extends Model{
 	 * 获取文件缩略图路径（非图片类型没有缩略图，返回false；指定文件不存在返回null）
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
 	 * @param bool $realpath 若为true，返回完整路径，若为false，返回相对路径，默认为true
-	 * @return mix 图片类型返回缩略图路径；非图片类型没有缩略图，返回false；指定文件不存在返回null
+	 * @return mixed 图片类型返回缩略图路径；非图片类型没有缩略图，返回false；指定文件不存在返回null
 	 */
 	public static function getThumbnailPath($file, $realpath = true){
 		if(StringHelper::isInt($file)){

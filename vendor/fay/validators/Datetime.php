@@ -54,7 +54,7 @@ class Datetime extends Validator{
 	
 	/**
 	 * 判断一项是否符合标准
-	 * @param mix $item
+	 * @param mixed $item
 	 */
 	private function checkItem($item){
 		if($this->int && !is_int($item)){

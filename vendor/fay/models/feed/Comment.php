@@ -187,7 +187,7 @@ class Comment extends MultiTree{
 	 * 判断一条动态的改变是否需要改变动态评论数
 	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @param mix $feed_comment_verify 是否开启动态评论审核（视为bool）
+	 * @param mixed $feed_comment_verify 是否开启动态评论审核（视为bool）
 	 */
 	private function needChangeFeedComments($comment, $action){
 		$feed_comment_verify = Option::get('system:feed_comment_verify');

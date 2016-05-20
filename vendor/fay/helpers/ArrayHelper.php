@@ -7,7 +7,7 @@ class ArrayHelper{
 	 * 此方法用于兼容低版本
 	 * @param array $array
 	 * @param string $column_key
-	 * @param mix $index_key
+	 * @param mixed $index_key
 	 * @return array
 	 */
 	public static function column($array, $column_key, $index_key = null){

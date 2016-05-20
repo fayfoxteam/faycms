@@ -8,6 +8,7 @@ use fay\helpers\ArrayHelper;
 
 class Like extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Like
 	 */
 	public static function model($class_name = __CLASS__){
@@ -17,7 +18,9 @@ class Like extends Model{
 	/**
 	 * 判断是否赞过
 	 * @param int $feed_id 动态ID
-	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @param int|null $user_id 用户ID，默认为当前登录用户
+	 * @return bool
+	 * @throws Exception
 	 */
 	public static function isLiked($feed_id, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -36,6 +39,8 @@ class Like extends Model{
 	 * 批量判断是否赞过
 	 * @param array $feed_ids 由动态ID组成的一维数组
 	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @return array
+	 * @throws Exception
 	 */
 	public static function mIsLiked($feed_ids, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;

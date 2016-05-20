@@ -26,6 +26,7 @@ class Comment extends MultiTree{
 	protected $field_key = 'comment';
 	
 	/**
+	 * @param string $class_name
 	 * @return Comment
 	 */
 	public static function model($class_name = __CLASS__){
@@ -35,11 +36,12 @@ class Comment extends MultiTree{
 	/**
 	 * 获取一条评论
 	 * @param int $comment_id 评论ID
-	 * @param int $fields 返回字段
+	 * @param string|array $fields 返回字段
 	 *  - comment.*系列可指定feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - parent.comment.*系列可指定父评论feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
 	 *  - parent.user.*系列可指定父评论作者信息，格式参照\fay\models\User::get()
+	 * @return array
 	 */
 	public function get($comment_id, $fields = array(
 		'comment'=>array(
@@ -137,8 +139,10 @@ class Comment extends MultiTree{
 	 * @param int $comment 评论
 	 *  - 若是数组，视为评论表行记录，必须包含user_id
 	 *  - 若是数字，视为评论ID，会根据ID搜索数据库
-	 * @param string 操作
+	 * @param string $action 操作
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public function checkPermission($comment, $action = 'delete', $user_id = null){
 		if(!is_array($comment)){
@@ -168,6 +172,7 @@ class Comment extends MultiTree{
 	 * 更新评论状态
 	 * @param int|array $comment_id 评论ID或由评论ID构成的一维数组
 	 * @param int $status 状态码
+	 * @return int
 	 */
 	public function setStatus($comment_id, $status){
 		if(is_array($comment_id)){
@@ -187,7 +192,7 @@ class Comment extends MultiTree{
 	 * 判断一条动态的改变是否需要改变动态评论数
 	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @param mixed $feed_comment_verify 是否开启动态评论审核（视为bool）
+	 * @return bool
 	 */
 	private function needChangeFeedComments($comment, $action){
 		$feed_comment_verify = Option::get('system:feed_comment_verify');
@@ -265,6 +270,7 @@ class Comment extends MultiTree{
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
 	 * @param string $fields 字段
+	 * @return array
 	 */
 	public function getTree($feed_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
 		$conditions = array(
@@ -288,7 +294,8 @@ class Comment extends MultiTree{
 	 * @param int $feed_id 动态ID
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
-	 * @param string $fields 字段
+	 * @param array|string $fields 字段
+	 * @return array
 	 */
 	public function getList($feed_id, $page_size = 10, $page = 1, $fields = array(
 		'comment'=>array(

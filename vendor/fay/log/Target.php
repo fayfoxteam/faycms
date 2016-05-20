@@ -26,23 +26,26 @@ abstract class Target{
 	 * 同categories，except也可以使用通配符
 	 */
 	public $except = array();
-
+	
 	/**
 	 * 将日志写入容器
+	 * @param $messages
 	 */
 	abstract public function export($messages);
 	
 	/**
 	 * 初始化工作
+	 * @param array $options
 	 */
 	public function init($options){
 		foreach($options as $key => $option){
 			$this->{$key} = $option;
 		}
 	}
-
+	
 	/**
 	 * 过滤掉该容器不记录的日志，并将记录写入容器
+	 * @param string $messages
 	 */
 	public function collect($messages){
 		$messages = $this->filterMessages($messages);
@@ -52,13 +55,16 @@ abstract class Target{
 
 	/**
 	 * 获取当前日志容器会记录的日志等级
+	 * @return int
 	 */
 	public function getLevels(){
 		return $this->_levels;
 	}
-
+	
 	/**
 	 * 设置当前日志容器会记录的日志等级
+	 * @param int $levels
+	 * @throws ErrorException
 	 */
 	public function setLevels($levels){
 		static $levelMap = array(
@@ -79,9 +85,11 @@ abstract class Target{
 			$this->_levels = $levels;
 		}
 	}
-
+	
 	/**
 	 * 根据日志等级，过滤掉不需要记录的日志
+	 * @param array $messages
+	 * @return array
 	 */
 	public function filterMessages($messages){
 		foreach($messages as $i => $message){

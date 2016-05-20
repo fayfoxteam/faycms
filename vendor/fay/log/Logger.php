@@ -46,7 +46,7 @@ class Logger{
 		register_shutdown_function(array($this, 'flush'), true);
 		
 		//初始化日志容器
-		$config = \F::config()->get('*', 'logs', 'merge_recursive');
+		$config = \F::config()->get('*', 'logs');
 		foreach($config as $c){
 			/**
 			 * @var $target \fay\log\Target
@@ -100,7 +100,7 @@ class Logger{
 	
 	/**
 	 * 将日志信息写入容器
-	 * @param $messages 日志
+	 * @param array $messages 日志
 	 */
 	private function dispatch($messages){
 		foreach ($this->targets as $target) {
@@ -113,6 +113,7 @@ class Logger{
 	/**
 	 * 获取日志级别对应的名称
 	 * @param int $level
+	 * @return string
 	 */
 	public static function getLevelName($level){
 		static $levels = array(

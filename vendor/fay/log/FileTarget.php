@@ -19,9 +19,11 @@ class FileTarget extends Target{
 	 * 目录权限。若置顶的logFile在二级目录下，且此目录不存在，则会尝试创建，并通过chmod命令指定为此权限级别。
 	 */
 	public $dirMode = 0775;
-
+	
 	/**
 	 * 将日志写入文件
+	 * @param string $messages
+	 * @throws ErrorException
 	 */
 	public function export($messages){
 		if(!$messages){

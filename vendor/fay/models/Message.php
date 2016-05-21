@@ -26,6 +26,7 @@ class Message extends MultiTree{
 	protected $field_key = 'message';
 	
 	/**
+	 * @param string $class_name
 	 * @return Message
 	 */
 	public static function model($class_name = __CLASS__){
@@ -35,11 +36,13 @@ class Message extends MultiTree{
 	/**
 	 * 获取一条留言
 	 * @param int $message_id 留言ID
-	 * @param int $fields 返回字段
+	 * @param array|string $fields 返回字段
 	 *  - message.*系列可指定messages表返回字段，若有一项为'message.*'，则返回所有字段
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - to_user.*系列可指定被留言用户信息，格式参照\fay\models\User::get()
 	 *  - parent.message.*系列可指定父留言messages表返回字段，若有一项为'message.*'，则返回所有字段
 	 *  - parent.user.*系列可指定父留言作者信息，格式参照\fay\models\User::get()
+	 * @return array
 	 */
 	public function get($message_id, $fields = array(
 		'message'=>array(
@@ -47,6 +50,9 @@ class Message extends MultiTree{
 		),
 		'user'=>array(
 			'id', 'nickname', 'avatar',
+		),
+		'to_user'=>array(
+			'id', 'nickname',
 		),
 		'parent'=>array(
 			'message'=>array(
@@ -68,6 +74,10 @@ class Message extends MultiTree{
 			//如果要获取作者信息，则必须搜出user_id
 			$message_fields[] = 'user_id';
 		}
+		if(!empty($fields['to_user']) && !in_array('to_user_id', $message_fields)){
+			//如果要获取被留言用户信息，则必须搜出to_user_id
+			$message_fields[] = 'to_user_id';
+		}
 		if(!empty($fields['parent']) && !in_array('parent', $message_fields)){
 			//如果要获取作者信息，则必须搜出parent
 			$message_fields[] = 'parent';
@@ -85,9 +95,15 @@ class Message extends MultiTree{
 		$return = array(
 			'message'=>$message,
 		);
+		
 		//作者信息
 		if(!empty($fields['user'])){
 			$return['user'] = User::model()->get($message['user_id'], $fields['user']);
+		}
+		
+		//被回复用户信息
+		if(!empty($fields['to_user'])){
+			$return['to_user'] = User::model()->get($message['to_user_id'], $fields['to_user']);
 		}
 		
 		//父节点
@@ -123,7 +139,7 @@ class Message extends MultiTree{
 		}
 		
 		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
-		foreach(array('user_id', 'parent') as $f){
+		foreach(array('user_id', 'parent', 'to_user_id') as $f){
 			if(!in_array($f, $fields['message']) && in_array($f, $message_fields)){
 				unset($return['message'][$f]);
 			}
@@ -137,8 +153,10 @@ class Message extends MultiTree{
 	 * @param int $message 留言
 	 *  - 若是数组，视为留言表行记录，必须包含user_id
 	 *  - 若是数字，视为留言ID，会根据ID搜索数据库
-	 * @param string 操作
+	 * @param string $action 操作
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public function checkPermission($message, $action = 'delete', $user_id = null){
 		if(!is_array($message)){
@@ -168,6 +186,7 @@ class Message extends MultiTree{
 	 * 更新留言状态
 	 * @param int|array $message_id 留言ID或由留言ID构成的一维数组
 	 * @param int $status 状态码
+	 * @return int
 	 */
 	public function setStatus($message_id, $status){
 		if(is_array($message_id)){
@@ -187,7 +206,7 @@ class Message extends MultiTree{
 	 * 判断一条用户的改变是否需要改变用户留言数
 	 * @param array $message 单条留言，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @param mixed $user_message_verify 是否开启用户留言审核（视为bool）
+	 * @return bool
 	 */
 	private function needChangeMessages($message, $action){
 		$user_message_verify = Option::get('system:user_message_verify');
@@ -265,6 +284,7 @@ class Message extends MultiTree{
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
 	 * @param string $fields 字段
+	 * @return array
 	 */
 	public function getTree($to_user_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
 		$conditions = array(
@@ -288,7 +308,8 @@ class Message extends MultiTree{
 	 * @param int $to_user_id 用户ID
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
-	 * @param string $fields 字段
+	 * @param string|array $fields 字段
+	 * @return array
 	 */
 	public function getList($to_user_id, $page_size = 10, $page = 1, $fields = array(
 		'message'=>array(
@@ -331,10 +352,11 @@ class Message extends MultiTree{
 	
 	/**
 	 * 根据用户ID，以列表的形式（俗称“盖楼”）返回留言
-	 * @param int $to_user_id 用户ID
+	 * @param $parent_id
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
-	 * @param string $fields 字段
+	 * @param array|string $fields 字段
+	 * @return array
 	 */
 	public function getChildrenList($parent_id, $page_size = 10, $page = 1, $fields = array(
 		'message'=>array(
@@ -380,7 +402,8 @@ class Message extends MultiTree{
 	 * @param int $user_id 用户ID
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
-	 * @param string $fields 字段
+	 * @param string|array $fields 字段
+	 * @return array
 	 */
 	public function getChats($user_id, $page_size = 10, $page = 1, $fields = array(
 		'message'=>array(
@@ -415,7 +438,7 @@ class Message extends MultiTree{
 	 * 获取回复数（不包含回收站里的）
 	 * @param int $id
 	 */
-	public function getReplyCount($id, $status = false){
+	public function getReplyCount($id){
 		$message = Messages::model()->find($id, 'root,left_value,right_value');
 		
 		$count = Messages::model()->fetchRow(array(

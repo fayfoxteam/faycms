@@ -126,6 +126,8 @@ abstract class MultiTree extends Model{
 	 * 删除一个节点
 	 * 物理删除，其子节点会挂到其父节点上
 	 * @param int|array $node 节点ID或包含id,left_value,right_value,parent,root节点信息的数组
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public function remove($node){
 		//获取被删除节点
@@ -626,11 +628,13 @@ abstract class MultiTree extends Model{
 	 * @param int $parent_id 父节点ID，不能为0
 	 * @param int $count
 	 * @param int $page
-	 * @param string $fields
+	 * @param string|array $fields
 	 * @param array $conditions
-	 * @param string $order
+	 * @param array $join_conditions
+	 * @return array
+	 * @throws ErrorException
 	 */
-	protected function _getChildrenList($parent_id, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'id DESC'){
+	protected function _getChildrenList($parent_id, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array()){
 		if(!$parent_id){
 			throw new ErrorException('父节点不能为空');
 		}
@@ -675,7 +679,7 @@ abstract class MultiTree extends Model{
 			$sql->where($conditions);
 		}
 		
-		if($parent_comment_fields){
+		if(!empty($parent_comment_fields)){
 			//表自连接，字段名都是一样的，需要设置别名
 			foreach($parent_comment_fields as $key => $f){
 				$parent_comment_fields[$key] = $f . ' AS parent_' . $f;

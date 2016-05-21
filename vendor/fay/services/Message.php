@@ -11,6 +11,7 @@ use fay\models\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\UserCounter;
+use fay\models\User;
 
 /**
  * 留言服务
@@ -25,7 +26,7 @@ class Message extends Model{
 	
 	/**
 	 * 发表一条用户留言
-	 * @param int $to_user_id 文章ID
+	 * @param int $to_user_id 用户ID
 	 * @param string $content 评论内容
 	 * @param int $parent 父ID，若是回复评论的评论，则带上被评论的评论ID，默认为0
 	 * @param int $status 状态（默认为待审核）
@@ -36,17 +37,14 @@ class Message extends Model{
 	public function create($to_user_id, $content, $parent = 0, $status = Messages::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
 		
-		if(!Post::isPostIdExist($to_user_id)){
-			throw new Exception('文章ID不存在', 'to_user_id-not-exist');
+		if(!User::isUserIdExist($to_user_id)){
+			throw new Exception('用户ID不存在', 'to_user_id-not-exist');
 		}
 		
 		if($parent){
 			$parent_message = Messages::model()->find($parent, 'to_user_id,deleted');
 			if(!$parent_message || $parent_message['deleted']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
-			}
-			if($parent_message['to_user_id'] != $to_user_id){
-				throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'to_user_id-and-parent-not-match');
 			}
 		}
 		

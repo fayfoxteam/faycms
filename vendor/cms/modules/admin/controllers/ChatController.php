@@ -44,12 +44,11 @@ class ChatController extends AdminController{
 			$sql->where('m.deleted = 0');
 		}
 		
-		$listview = new ListView($sql, array(
-			'page_size'=>!empty($_settings['page_size']) ? $_settings['page_size'] : 20,
-		));
-		$this->view->listview = $listview;
-		
-		$this->view->render();
+		$this->view->assign(array(
+			'listview'=>new ListView($sql, array(
+				'page_size'=>!empty($_settings['page_size']) ? $_settings['page_size'] : 20,
+			)),
+		))->render();
 	}
 	
 	public function item(){

@@ -173,6 +173,9 @@ class MessageController extends AdminController{
 					'user'=>array(
 						'id', 'nickname', 'avatar', 'username', 'realname',
 					),
+					'to_user'=>array(
+						'id', 'nickname', 'username', 'realname',
+					),
 					'parent'=>array(
 						'message'=>array(
 							'id', 'content', 'parent', 'create_time',
@@ -190,9 +193,6 @@ class MessageController extends AdminController{
 						'id', 'nickname', 'avatar', 'username', 'realname',
 					),
 					'parent'=>array(
-						'message'=>array(
-							'id', 'content', 'parent', 'create_time',
-						),
 						'user'=>array(
 							'id', 'nickname', 'avatar', 'username', 'realname',
 						),

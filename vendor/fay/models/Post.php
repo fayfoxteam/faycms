@@ -72,6 +72,7 @@ class Post extends Model{
 	);
 	
 	/**
+	 * @param string $class_name
 	 * @return Post
 	 */
 	public static function model($class_name = __CLASS__){
@@ -81,6 +82,7 @@ class Post extends Model{
 	/**
 	 * 根据文章ID，获取文章对应属性（不带属性值）
 	 * @param int $post_id
+	 * @return array
 	 */
 	public function getProps($post_id){
 		$post = Posts::model()->find($post_id, 'cat_id');
@@ -93,6 +95,7 @@ class Post extends Model{
 	 *  - 数字:代表分类ID;
 	 *  - 字符串:分类别名;
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
+	 * @return array
 	 */
 	public function getPropsByCat($cat){
 		return Prop::model()->mget(Category::model()->getParentIds($cat, '_system_post'), Props::TYPE_POST_CAT);
@@ -102,6 +105,7 @@ class Post extends Model{
 	 * 根据文章ID，获取一个属性集
 	 * @param int $post_id 文章ID
 	 * @param null|array $props 属性别名。若为null，则根据文章ID获取所有属性
+	 * @return array
 	 */
 	public function getPropertySet($post_id, $props = null){
 		if($props === null){
@@ -118,7 +122,8 @@ class Post extends Model{
 	/**
 	 * 返回文章所属附加分类信息的二维数组
 	 * @param int $id 文章ID
-	 * @param int $fields categories表的字段
+	 * @param string|array $fields categories表的字段
+	 * @return array
 	 */
 	public function getCats($id, $fields = 'id,title,alias'){
 		$sql = new Sql();
@@ -132,6 +137,7 @@ class Post extends Model{
 	/**
 	 * 返回包含文章所属附加分类ID号的一维数组
 	 * @param int $id 文章ID
+	 * @return array
 	 */
 	public function getCatIds($id){
 		return PostsCategories::model()->fetchCol('cat_id', array('post_id = ?'=>$id));
@@ -140,7 +146,7 @@ class Post extends Model{
 	/**
 	 * 返回一篇文章信息
 	 * @param int $id 文章ID
-	 * @param string $fields 可指定返回字段
+	 * @param string|array $fields 可指定返回字段
 	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
 	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
@@ -151,9 +157,10 @@ class Post extends Model{
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
-	 * 	则只会在此分类及其子分类下搜索该篇文章<br>
-	 * 	该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
-	 * @param bool $only_publish 若为true，则只在已发布的文章里搜索。默认为true
+	 *    则只会在此分类及其子分类下搜索该篇文章<br>
+	 *    该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
+	 * @param bool $only_published 若为true，则只在已发布的文章里搜索。默认为true
+	 * @return array
 	 */
 	public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
 		//解析$fields
@@ -340,8 +347,8 @@ class Post extends Model{
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若为字符串，视为分类别名获取分类；
 	 *  - 若为数组，至少需要包括id,left_value,right_value信息；
-	 * @param number $limit 显示文章数若为0，则不限制
-	 * @param string $field 字段
+	 * @param int $limit 显示文章数若为0，则不限制
+	 * @param string|array $field 字段
 	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
 	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
@@ -353,6 +360,7 @@ class Post extends Model{
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
+	 * @return array
 	 */
 	public function getByCat($cat, $limit = 10, $field = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		if(is_array($cat)){
@@ -370,8 +378,8 @@ class Post extends Model{
 	/**
 	 * 根据分类别名获取对应的文章
 	 * @param string $alias 分类别名
-	 * @param number $limit 显示文章数若为0，则不限制
-	 * @param string $field 字段
+	 * @param int $limit 显示文章数若为0，则不限制
+	 * @param string|array $fields 字段
 	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
 	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
@@ -383,6 +391,7 @@ class Post extends Model{
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
+	 * @return array
 	 */
 	public function getByCatAlias($alias, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$cat = Categories::model()->fetchRow(array(
@@ -400,8 +409,8 @@ class Post extends Model{
 	/**
 	 * 根据分类ID获取对应的文章
 	 * @param string $cat_id 分类ID
-	 * @param number $limit 显示文章数若为0，则不限制
-	 * @param string $field 字段
+	 * @param int $limit 显示文章数若为0，则不限制
+	 * @param string|array $fields 字段
 	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
 	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
@@ -413,6 +422,7 @@ class Post extends Model{
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
+	 * @return array
 	 */
 	public function getByCatId($cat_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		$cat = Categories::model()->find($cat_id, 'id,left_value,right_value');
@@ -423,13 +433,13 @@ class Post extends Model{
 			return $this->getByCatArray($cat, $limit, $fields, $children, $order, $conditions);
 		}
 	}
-
-
+	
+	
 	/**
 	 * 根据分类数组获取对应的文章
 	 * @param array $cat 分类数组，至少需要包括id,left_value,right_value信息
-	 * @param number $limit 显示文章数若为0，则不限制
-	 * @param string $field 可指定返回字段
+	 * @param int $limit 显示文章数若为0，则不限制
+	 * @param string|array $fields 可指定返回字段
 	 *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
 	 *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
@@ -441,6 +451,7 @@ class Post extends Model{
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
 	 * @param string $order 排序字段
 	 * @param mixed $conditions 附加条件
+	 * @return array
 	 */
 	public function getByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		//解析$fields
@@ -602,7 +613,10 @@ class Post extends Model{
 	/**
 	 * 用于获取文章链接
 	 * 出于效率考虑，不对本函数做任何配置项，必要的时候，直接重写此函数
-	 * @param int|array $post文章ID或者包含文章信息的数组
+	 * @param $post
+	 * @param string $controller
+	 * @return string
+	 * @internal param array|int $post文章ID或者包含文章信息的数组
 	 */
 	public function getLink($post, $controller = 'post'){
 		if(is_array($post)){
@@ -618,7 +632,7 @@ class Post extends Model{
 	 * @param int $post_id
 	 * @param string $alias
 	 * @param mixed $value
-	 * @return boolean
+	 * @return bool
 	 */
 	public function setPropValueByAlias($alias, $value, $post_id){
 		return Prop::model()->setPropValueByAlias('post_id', $post_id, $alias, $value, array(
@@ -630,8 +644,9 @@ class Post extends Model{
 	
 	/**
 	 * 获取一个文章属性值
-	 * @param int $post_id
 	 * @param string $alias
+	 * @param int $post_id
+	 * @return mixed
 	 */
 	public function getPropValueByAlias($alias, $post_id){
 		return Prop::model()->getPropValueByAlias('post_id', $post_id, $alias, array(
@@ -645,7 +660,8 @@ class Post extends Model{
 	 * 获取当前文章上一篇文章
 	 * （此处上一篇是比当前文章新一点的那篇）
 	 * @param int $post_id 文章ID
-	 * @param string $fields 文章字段（posts表字段）
+	 * @param string|array $fields 文章字段（posts表字段）
+	 * @return array|bool
 	 */
 	public function getPrevPost($post_id, $fields = 'id,title'){
 		$sql = new Sql();
@@ -703,7 +719,8 @@ class Post extends Model{
 	 * 获取当前文章下一篇文章
 	 * （此处下一篇是比当前文章老一点的那篇）
 	 * @param int $post_id 文章ID
-	 * @param string $fields 文章字段（posts表字段）
+	 * @param string|array $fields 文章字段（posts表字段）
+	 * @return array|bool
 	 */
 	public function getNextPost($post_id, $fields = 'id,title'){
 		$sql = new Sql();
@@ -760,18 +777,21 @@ class Post extends Model{
 	/**
 	 * 根据文章属性、分类，获取对应的文章（仅支持下拉，多选属性，不支持文本属性）<br>
 	 * 分类包含所有子分类
-	 * @param int|string $prop_alias 可传入属性ID或者alias
+	 * @param $prop
 	 * @param string $prop_value 属性值
 	 * @param int $limit 返回文章数
-	 * @param string $field 返回posts表中的字段（cat_title）默认返回
+	 * @param int $cat_id
+	 * @param string|array $fields 返回posts表中的字段（cat_title）默认返回
 	 * @param string $order 排序字段
+	 * @return array
+	 * @internal param int|string $prop_alias 可传入属性ID或者alias
 	 */
-	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $field = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
+	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $fields = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
 		if(!StringHelper::isInt($prop)){
 			$prop = Prop::model()->getIdByAlias($prop);
 		}
 		$sql = new Sql();
-		$sql->from(array('p'=>'posts'), $field)
+		$sql->from(array('p'=>'posts'), $fields)
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'p.deleted = 0',
@@ -818,9 +838,11 @@ class Post extends Model{
 	 * @param int $post 文章
 	 *  - 若是数组，视为文章表行记录，必须包含user_id, status和cat_id字段
 	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
-	 * @param int $new_status 更新后的状态，不传则不做验证
-	 * @param int $new_cat_id 更新后的分类，不传则不做验证
-	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @param int|null $new_status 更新后的状态，不传则不做验证
+	 * @param int|null $new_cat_id 更新后的分类，不传则不做验证
+	 * @param int|null $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public static function checkEditPermission($post, $new_status = null, $new_cat_id = null, $user_id = null){
 		if(!is_array($post)){
@@ -877,6 +899,8 @@ class Post extends Model{
 	 *  - 若是数组，视为文章表行记录，必须包含user_id和cat_id字段
 	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public static function checkDeletePermission($post, $user_id = null){
 		if(!is_array($post)){
@@ -909,6 +933,8 @@ class Post extends Model{
 	 *  - 若是数组，视为文章表行记录，必须包含user_id和cat_id字段
 	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public static function checkUndeletePermission($post, $user_id = null){
 		if(!is_array($post)){
@@ -941,6 +967,8 @@ class Post extends Model{
 	 *  - 若是数组，视为文章表行记录，必须包含user_id和cat_id字段
 	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public static function checkRemovePermission($post, $user_id = null){
 		if(!is_array($post)){
@@ -998,7 +1026,8 @@ class Post extends Model{
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
-	 * @param bool $only_publish 若为true，则只在已发布的文章里搜索。默认为true
+	 * @param bool $only_published 若为true，则只在已发布的文章里搜索。默认为true
+	 * @return array
 	 */
 	public function mget($post_ids, $fields, $only_published = true){
 		if(!$post_ids){

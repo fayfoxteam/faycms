@@ -91,7 +91,7 @@ class Controller{
 	 * 根据路由做权限检查
 	 * 这里必然是对当前登录用户做检查
 	 * @param string $router
-	 * @return boolean
+	 * @return bool
 	 */
 	public function checkPermission($router){
 		return User::model()->checkPermission($router);

@@ -175,7 +175,7 @@ class Validator{
 	/**
 	 * 判断该字段是否已存在错误信息
 	 * @param string $field 字段名称
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasError($field){
 		foreach($this->errors as $e){
@@ -243,7 +243,7 @@ class Validator{
 	 * 是否跳过该字段验证
 	 * @param string $field 字段名
 	 * @param mixed $value 字段值
-	 * @return boolean
+	 * @return bool
 	 */
 	private function isSkip($field, $value){
 		if($this->skip_on_empty && ($value === null || $value === '' || $value === array())){

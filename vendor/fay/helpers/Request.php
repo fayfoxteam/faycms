@@ -219,7 +219,7 @@ class Request{
 	/**
 	 * 是否为安卓系统
 	 * @param string $user_agent
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isAndroid($user_agent = null){
 		$user_agent === null && $user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -230,7 +230,7 @@ class Request{
 	/**
 	 * 是否为苹果移动设备（不包含mac，但包含ipad）
 	 * @param string $user_agent
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isIOS($user_agent = null){
 		$user_agent === null && $user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -241,7 +241,7 @@ class Request{
 	/**
 	 * 是否为windows phone
 	 * @param string $user_agent
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isWP($user_agent = null){
 		$user_agent === null && $user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -253,7 +253,7 @@ class Request{
 	 * 是否为手机访问
 	 * ipad不作为手机
 	 * @param string $user_agent
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isMobile($user_agent = null){
 		$user_agent === null && $user_agent = $_SERVER['HTTP_USER_AGENT'];

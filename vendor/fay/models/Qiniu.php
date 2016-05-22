@@ -16,7 +16,9 @@ class Qiniu extends Model{
 	
 	/**
 	 * 根据本地文件ID，将本地文件上传至七牛云空间
-	 * @param int $file_id 本地文件ID
+	 * @param $file
+	 * @return array
+	 * @internal param int $file_id 本地文件ID
 	 */
 	public function put($file){
 		if(StringHelper::isInt($file)){
@@ -54,6 +56,7 @@ class Qiniu extends Model{
 	/**
 	 * 根据本地文件ID，删除对应七牛空间的文件
 	 * @param int $file_id 本地文件ID
+	 * @return bool
 	 */
 	public function delete($file){
 		if(StringHelper::isInt($file)){
@@ -85,9 +88,10 @@ class Qiniu extends Model{
 	 * 根据本地文件信息，获取七牛对应的文件路径
 	 * 若文件未被上传，返回false
 	 * 若传入宽高参数，则会调用七牛相应接口进行处理
-	 * 
-	 * @param $file 若为数字，视为files表ID；若为数组，直接使用
-	 * @param $options 包含宽高参数，若文件非图片，宽高参数无效
+	 *
+	 * @param int|array $file 若为数字，视为files表ID；若为数组，直接使用
+	 * @param array $options 包含宽高参数，若文件非图片，宽高参数无效
+	 * @return bool|string
 	 */
 	public function getUrl($file, $options = array()){
 		if(StringHelper::isInt($file)){

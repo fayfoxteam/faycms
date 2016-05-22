@@ -72,7 +72,7 @@ class Cache{
 	 * @param int $duration 缓存过期时间（单位：秒）
 	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
 	 * @throws \fay\core\ErrorException
-	 * @return boolean
+	 * @return bool
 	 */
 	public function set($key, $value, $duration = 0, $driver = null){
 		$driver || $driver = \F::config()->get('default_cache_driver');
@@ -96,7 +96,7 @@ class Cache{
 	 * @param int $duration 缓存过期时间（单位：秒）
 	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
 	 * @throws \fay\core\ErrorException
-	 * @return boolean
+	 * @return bool
 	 */
 	public function mset($data, $duration = 0, $driver = null){
 		$driver || $driver = \F::config()->get('default_cache_driver');

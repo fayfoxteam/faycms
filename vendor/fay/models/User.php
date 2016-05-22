@@ -252,7 +252,7 @@ class User extends Model{
 	 * @param int $user_id
 	 * @param string $alias
 	 * @param mixed $value
-	 * @return boolean
+	 * @return bool
 	 */
 	public function setPropValueByAlias($alias, $value, $user_id = null){
 		$user_id === null && $user_id = \F::app()->current_user;

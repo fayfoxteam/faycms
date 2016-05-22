@@ -46,6 +46,7 @@ class File extends Model{
 	/**
 	 * 根据文件的mimetype类型，获取对应的小图标
 	 * @param string $mimetype 例如：image/png
+	 * @return int|string
 	 */
 	public static function getIconByMimetype($mimetype){
 		$mimetypes = \F::config()->get('*', 'mimes');
@@ -79,9 +80,9 @@ class File extends Model{
 	 *   若是私有文件，或进行裁剪，返回图片file/pic方式的一个url（若上传到七牛，返回的是七牛的url）
 	 * 若不是图片，返回下载地址
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
-	 * @param int 返回图片类型。可选原图、缩略图、裁剪图和缩放图。（仅当指定文件是图片时有效）
-	 * @param array 图片的一些裁剪，缩放参数（仅当指定文件是图片时有效）
-	 * @return url 返回文件可访问的url，若指定文件不存在且未指定替代图，则返回null
+	 * @param int $type 返回图片类型。可选原图、缩略图、裁剪图和缩放图。（仅当指定文件是图片时有效）
+	 * @param array $options 图片的一些裁剪，缩放参数（仅当指定文件是图片时有效）
+	 * @return string url 返回文件可访问的url，若指定文件不存在且未指定替代图，则返回null
 	 */
 	public static function getUrl($file, $type = self::PIC_ORIGINAL, $options = array()){
 		if(StringHelper::isInt($file)){
@@ -179,6 +180,7 @@ class File extends Model{
 	 * 返回文件本地路径
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
 	 * @param bool $realpath 若为true，返回完整路径，若为false，返回相对路径，默认为true
+	 * @return string
 	 */
 	public static function getPath($file, $realpath = true){
 		if(StringHelper::isInt($file)){
@@ -198,6 +200,7 @@ class File extends Model{
 	 *   若是私有文件，返回图片file/pic方式的一个url
 	 * 若是其他类型文件，返回文件图标
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
+	 * @return string
 	 */
 	public static function getThumbnailUrl($file){
 		if(StringHelper::isInt($file)){
@@ -260,10 +263,11 @@ class File extends Model{
 	
 	/**
 	 * 执行上传
-	 * @param string $target uploads目录下的某个子目录
-	 * @param int|alias|array $cat 分类ID
-	 * @param string $private
-	 * @param string $allowed_types
+	 * @param int|string|array $cat 分类ID
+	 * @param bool $private
+	 * @param null|array $allowed_types
+	 * @return array
+	 * @throws ErrorException
 	 */
 	public function upload($cat = 0, $private = false, $allowed_types = null){
 		if($cat){
@@ -295,7 +299,7 @@ class File extends Model{
 		if($allowed_types !== null){
 			$upload_config['allowed_types'] = $allowed_types;
 		}
-		$result = self::createFolder($upload_config['upload_path']);
+		self::createFolder($upload_config['upload_path']);
 		$upload = new Upload($upload_config);
 		$result = $upload->run();
 		if($result !== false){
@@ -377,6 +381,8 @@ class File extends Model{
 	 *     $params['y'] 裁剪时y坐标点
 	 *     $params['w'] 裁剪时宽度
 	 *     $params['h'] 裁剪时高度
+	 * @return array|bool|int
+	 * @throws ErrorException
 	 */
 	public function edit($file, $handler, $params){
 		if(StringHelper::isInt($file)){
@@ -477,12 +483,13 @@ class File extends Model{
 		}
 		return $file;
 	}
-
+	
 	/**
 	 * 获取指定路径下的文件列表，如果第二个参数为true，
 	 * 则会递归的列出子目录下的文件
-	 * @param String $dir 目录
-	 * @param String $recursion
+	 * @param string $dir 目录
+	 * @param bool $recursion
+	 * @return array
 	 */
 	public static function getFileList($dir, $recursion = false){
 		$filelist = array();
@@ -519,21 +526,24 @@ class File extends Model{
 	 * 随机产生一个唯一的文件名<br>
 	 * 该方法区分大小写，若是windows系统，可修改files表结构，让raw_name字段不区分大小写<br>
 	 * 不过文件系统有文件夹分割，重名概率极低，一般问题不大
-	 * @param String $path
-	 * @param String $ext 扩展名
+	 * @param string $path
+	 * @param string $ext 扩展名
+	 * @param string $postfix 后缀，在随机文件名之后，扩展名之前
+	 * @return string
 	 */
-	public static function getFilename($path, $ext){
-		$filename = StringHelper::random('alnum', 5).$ext;
+	public static function getFilename($path, $ext, $postfix = ''){
+		$filename = StringHelper::random('alnum', 5).$postfix.$ext;
 		if (!file_exists($path.$filename)){
 			return $filename;
 		}else{
-			return self::getFilename($path, $ext);
+			return self::getFilename($path, $ext, $postfix);
 		}
 	}
 	
 	/**
-	 * 获取文件名扩展名
-	 * 强制转换为小写
+	 * 获取文件名扩展名并转换为小写
+	 * @param string $filename 文件名
+	 * @return string
 	 */
 	public static function getFileExt($filename){
 		return strtolower(strrchr($filename, '.'));
@@ -542,7 +552,8 @@ class File extends Model{
 	/**
 	 * 创建多级目录
 	 * @param string $path 目录
-	 * @param string $mode 模式
+	 * @param int $mode 模式
+	 * @return bool
 	 */
 	public static function createFolder($path, $mode = 0775){
 		if(is_dir($path)) {
@@ -562,9 +573,9 @@ class File extends Model{
 	 * 删除整个文件夹
 	 * 若第二个参数为true，则连同文件夹一同删除（包括自身）
 	 * @param string $path
-	 * @param string $del_dir
-	 * @param number $level
-	 * @return boolean
+	 * @param bool|string $del_dir
+	 * @param int $level
+	 * @return bool
 	 */
 	public static function deleteFiles($path, $del_dir = false, $level = 0){
 		// Trim the trailing slash
@@ -598,17 +609,18 @@ class File extends Model{
 	 * 获取文件的一行或前后N行
 	 * @param string $file 文件路径
 	 * @param int $line 行号
-	 * @param int $adjacents 前后行数
+	 * @param int $adjacent 前后行数
+	 * @return string
 	 */
-	public static function getFileLine($file, $line, $adjacents = 0){
+	public static function getFileLine($file, $line, $adjacent = 0){
 		if(!file_exists($file)){
 			return '';
 		}
 		$file = file($file);
-		if($adjacents){
-			$offset = $line - $adjacents - 1;//开始截取位置
+		if($adjacent){
+			$offset = $line - $adjacent - 1;//开始截取位置
 			$offset < 0 && $offset = 0;
-			$end = $line + $adjacents;//结束截取位置
+			$end = $line + $adjacent;//结束截取位置
 			$file_line_count = count($file);//文件行数
 			$end > $file_line_count && $end = $file_line_count;
 			
@@ -624,6 +636,9 @@ class File extends Model{
 	 *   若文件不存在，会先创建文件
 	 *   若文件存在，会覆盖
 	 *   若目录也不存在，则会先创建目录
+	 * @param string $file
+	 * @param string $data
+	 * @param int $mode
 	 */
 	public static function createFile($file, $data, $mode = 0775){
 		$dir = dirname($file);

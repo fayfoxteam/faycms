@@ -135,7 +135,7 @@ abstract class Cache{
 	/**
 	 * 判断缓存中某个key是否存在
 	 * @param mixed $key
-	 * @return boolean
+	 * @return bool
 	 */
 	public function exists($key){
 		$key = $this->buildKey($key);

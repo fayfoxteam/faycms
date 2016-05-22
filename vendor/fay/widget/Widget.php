@@ -1,6 +1,9 @@
 <?php
-namespace fay\core;
+namespace fay\widget;
 
+use fay\core\Config;
+use fay\core\Db;
+use fay\core\Input;
 use fay\helpers\Request;
 use fay\models\tables\Widgets;
 
@@ -26,38 +29,38 @@ abstract class Widget{
 	public $description = '暂无描述';
 	
 	/**
-	 * @var widget\View
+	 * @var View
 	 */
 	public $view;
 	
 	/**
-	 * @var Input
+	 * @var \fay\core\Input
 	 */
 	public $input;
 	
 	/**
-	 * @var Session
+	 * @var \fay\core\Session
 	 */
 	public $session;
 	
 	/**
-	 * @var Cache
+	 * @var \fay\core\Cache
 	 */
 	public $cache;
 	
 	/**
-	 * @var Config
+	 * @var \fay\core\Config
 	 */
 	public $config;
 	
 	/**
-	 * @var Db
+	 * @var \fay\core\Db
 	 */
 	public $db;
 	
 	/**
 	 * F::form('widget')
-	 * @var Form
+	 * @var \fay\core\Form
 	 */
 	public $form;
 	
@@ -92,8 +95,8 @@ abstract class Widget{
 			$this->description = trim($readme[1]);
 		}
 		
-		include_once 'widget/View.php';
-		$this->view = new widget\View($this->name, get_class($this));
+		include_once 'View.php';
+		$this->view = new View($this->name, get_class($this));
 		$this->input = Input::getInstance();
 		$this->config = Config::getInstance();
 		$this->db = Db::getInstance();
@@ -138,7 +141,7 @@ abstract class Widget{
 	/**
 	 * 获取一个表单实例，若不指定name，返回后台小工具编辑表单。
 	 * @param null|string $name 默认为后台小工具编辑表单
-	 * @return Form
+	 * @return \fay\core\Form
 	 */
 	public function form($name = 'widget'){
 		return \F::form($name);
@@ -167,6 +170,8 @@ abstract class Widget{
 	
 	/**
 	 * 子类中实现，调用widget时自动执行此方法
+	 * @param array $config
+	 * @return
 	 */
 	abstract public function index($config);
 }

@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\post_item\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Post;
 use fay\core\HttpException;
 use fay\core\db\Expr;

@@ -1,7 +1,7 @@
 <?php
 namespace blog\widgets\contact\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
 	

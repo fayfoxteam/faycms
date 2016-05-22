@@ -1,5 +1,5 @@
 <?php
-namespace fay\core\widget;
+namespace fay\widget;
 
 class View{
 	/**
@@ -27,6 +27,7 @@ class View{
 	/**
 	 * 向视图传递一堆参数
 	 * @param array $options
+	 * @return View
 	 */
 	public function assign($options){
 		$this->_view_data = array_merge($this->_view_data, $options);
@@ -100,10 +101,18 @@ class View{
 		}
 	}
 	
+	/**
+	 * @param $uri
+	 * @return string
+	 */
 	public function assets($uri){
 		return \F::app()->view->assets($uri);
 	}
 	
+	/**
+	 * @param $uri
+	 * @return string
+	 */
 	public function appStatic($uri){
 		return \F::app()->view->appStatic($uri);
 	}

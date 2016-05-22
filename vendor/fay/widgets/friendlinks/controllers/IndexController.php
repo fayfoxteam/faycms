@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\friendlinks\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Link;
 
 class IndexController extends Widget{

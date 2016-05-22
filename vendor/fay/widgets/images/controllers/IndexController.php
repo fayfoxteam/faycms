@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\images\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\File;
 
 class IndexController extends Widget{

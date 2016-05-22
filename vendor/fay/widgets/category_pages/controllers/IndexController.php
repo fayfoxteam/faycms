@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\category_pages\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Category;
 use fay\core\Sql;
 

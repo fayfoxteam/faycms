@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\listing\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
 	public function getData($config){

@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\jq_camera\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Flash;
 
 class AdminController extends Widget{

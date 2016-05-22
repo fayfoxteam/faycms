@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\baidu_map\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Flash;
 
 class AdminController extends Widget{

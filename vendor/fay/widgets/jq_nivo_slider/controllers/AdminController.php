@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\jq_nivo_slider\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Flash;
 
 class AdminController extends Widget{

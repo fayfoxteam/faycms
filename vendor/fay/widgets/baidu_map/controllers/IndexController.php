@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\baidu_map\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
 	public function index($config){

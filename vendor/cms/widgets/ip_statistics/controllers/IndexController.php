@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\ip_statistics\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\core\Sql;
 use fay\core\Loader;
 

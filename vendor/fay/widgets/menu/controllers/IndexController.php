@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\menu\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Menu;
 use fay\models\tables\Menus;
 

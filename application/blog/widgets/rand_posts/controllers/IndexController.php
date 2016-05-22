@@ -1,7 +1,7 @@
 <?php
 namespace blog\widgets\rand_posts\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\tables\Posts;
 use fay\core\Sql;
 

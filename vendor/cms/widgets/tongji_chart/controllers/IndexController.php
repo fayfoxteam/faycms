@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\tongji_chart\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Analyst;
 use fay\core\Response;
 

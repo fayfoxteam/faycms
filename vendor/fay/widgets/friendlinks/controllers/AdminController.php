@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\friendlinks\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Category;
 use fay\models\Flash;
 

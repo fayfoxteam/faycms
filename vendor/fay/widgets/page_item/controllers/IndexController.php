@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\page_item\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Page;
 use fay\core\HttpException;
 use fay\models\tables\Pages;

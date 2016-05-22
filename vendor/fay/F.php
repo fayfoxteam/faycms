@@ -8,7 +8,7 @@ use fay\core\Session;
 use fay\core\Config;
 use fay\core\Db;
 use fay\log\Logger;
-use fay\core\FWidget;
+use fay\widget\Loader as WidgetLoader;
 use fay\core\Cookie;
 
 /**
@@ -96,10 +96,10 @@ class F{
 	
 	/**
 	 * 获取F::app()->widget
-	 * @return \fay\core\FWidget
+	 * @return \fay\widget\Loader
 	 */
 	public static function widget(){
-		return FWidget::getInstance();
+		return WidgetLoader::getInstance();
 	}
 	
 	/**

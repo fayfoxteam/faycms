@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\change_app\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\File;
 use fay\core\Response;
 

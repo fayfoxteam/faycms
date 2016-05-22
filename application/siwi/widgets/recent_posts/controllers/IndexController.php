@@ -1,7 +1,7 @@
 <?php
 namespace siwi\widgets\recent_posts\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;

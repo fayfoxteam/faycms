@@ -1,10 +1,10 @@
 <?php
-namespace fay\core;
+namespace fay\widget;
 
 use fay\models\tables\Widgets;
 use fay\helpers\StringHelper;
 
-class FWidget{
+class Loader{
 	private static $_instance;
 	
 	private function __construct(){}

@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\categories\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Category;
 
 class IndexController extends Widget{

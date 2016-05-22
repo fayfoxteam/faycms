@@ -1,7 +1,7 @@
 <?php
 namespace siwi\widgets\recent_posts\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 
 class AdminController extends Widget{
 	

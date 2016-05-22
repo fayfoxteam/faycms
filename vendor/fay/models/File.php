@@ -33,6 +33,7 @@ class File extends Model{
 	const PIC_RESIZE = 4;
 	
 	/**
+	 * @param string $class_name
 	 * @return File
 	 */
 	public static function model($class_name = __CLASS__){
@@ -103,22 +104,6 @@ class File extends Model{
 		
 		if($file['is_image']){
 			switch($type){
-				case self::PIC_ORIGINAL://原图
-					if($file['qiniu'] && Option::get('qiniu:enabled')){
-						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						return Qiniu::model()->getUrl($file);
-					}else{
-						if(substr($file['file_path'], 0, 4) == './..'){
-							//私有文件，不能直接访问文件
-							return \F::app()->view->url('file/pic', array(
-								'f'=>$file['id'],
-							));
-						}else{
-							//公共文件，直接返回真实路径
-							return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
-						}
-					}
-				break;
 				case self::PIC_THUMBNAIL://缩略图
 					if($file['qiniu'] && Option::get('qiniu:enabled')){
 						//若开启了七牛云存储，且文件已上传，则显示七牛路径
@@ -167,6 +152,23 @@ class File extends Model{
 						isset($options['dh']) && $img_params['dh'] = $options['dh'];
 						
 						return \F::app()->view->url('file/pic/f/'.$file['id'], $img_params, false);
+					}
+				break;
+				case self::PIC_ORIGINAL://原图
+				default:
+					if($file['qiniu'] && Option::get('qiniu:enabled')){
+						//若开启了七牛云存储，且文件已上传，则显示七牛路径
+						return Qiniu::model()->getUrl($file);
+					}else{
+						if(substr($file['file_path'], 0, 4) == './..'){
+							//私有文件，不能直接访问文件
+							return \F::app()->view->url('file/pic', array(
+								'f'=>$file['id'],
+							));
+						}else{
+							//公共文件，直接返回真实路径
+							return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
+						}
 					}
 				break;
 			}

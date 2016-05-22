@@ -16,11 +16,19 @@ use fay\helpers\Html;
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+<?php if(\F::config()->get('debug')){?>
+	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+<?php }else{?>
+	<link type="text/css" rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.4.0/css/font-awesome.min.css" />
+<?php }?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.camera.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
 <?php echo $this->getCss()?>
-<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<?php if(\F::config()->get('debug')){?>
+	<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<?php }else{?>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+<?php }?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
 <script>

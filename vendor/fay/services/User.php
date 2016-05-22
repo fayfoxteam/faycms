@@ -138,7 +138,7 @@ class User extends Model{
 			'user_id'=>$user['user']['id'],
 			'login_time'=>\F::app()->current_time,
 			'ip_int'=>Request::ip2int(\F::app()->ip),
-			'mac'=>Analyst::model()->getMacId(),//@todo 通过fmac获取对应的id
+			'mac'=>Analyst::model()->getMacId(),
 		));
 		
 		Hook::getInstance()->call('after_login', array(

@@ -631,10 +631,11 @@ abstract class MultiTree extends Model{
 	 * @param string|array $fields
 	 * @param array $conditions
 	 * @param array $join_conditions
+	 * @param string $order 排序方式（ASC, DESC可选）
 	 * @return array
 	 * @throws ErrorException
 	 */
-	protected function _getChildrenList($parent_id, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array()){
+	protected function _getChildrenList($parent_id, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'ASC'){
 		if(!$parent_id){
 			throw new ErrorException('父节点不能为空');
 		}
@@ -672,7 +673,7 @@ abstract class MultiTree extends Model{
 			->where('t.root = ' . $node['root'])
 			->where('t.left_value > ' . $node['left_value'])
 			->where('t.right_value < ' . $node['right_value'])
-			->order('t.id DESC')
+			->order('t.id ' . ($order == 'DESC' ? 'DESC' : 'ASC'))
 		;
 		
 		if($conditions){

@@ -1,5 +1,6 @@
 <?php
 use fay\models\tables\Messages;
+use fay\models\User;
 
 $settings = F::form('setting')->getAllData();
 ?>
@@ -56,12 +57,12 @@ chat.status = {
 	'pending':'<?php echo Messages::STATUS_PENDING?>'
 };
 chat.display_name = '<?php echo $settings['display_name']?>';
-chat.permissions = {
-	'approve':<?php echo F::app()->checkPermission('admin/chat/approve') ? 'true' : 'false'?>,
-	'unapprove':<?php echo F::app()->checkPermission('admin/chat/unapprove') ? 'true' : 'false'?>,
-	'delete':<?php echo F::app()->checkPermission('admin/chat/delete') ? 'true' : 'false'?>,
-	'remove':<?php echo F::app()->checkPermission('admin/chat/remove') ? 'true' : 'false'?>,
-	'reply':<?php echo F::app()->checkPermission('admin/chat/reply') ? 'true' : 'false'?>
-};
+chat.permissions = <?php echo json_encode(array(
+	'approve'=>User::model()->checkPermission('admin/chat/approve'),
+	'unapprove'=>User::model()->checkPermission('admin/chat/unapprove'),
+	'delete'=>User::model()->checkPermission('admin/chat/delete'),
+	'remove'=>User::model()->checkPermission('admin/chat/remove'),
+	'reply'=>User::model()->checkPermission('admin/chat/reply'),
+))?>;
 chat.init();
 </script>

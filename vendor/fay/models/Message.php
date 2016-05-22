@@ -370,7 +370,7 @@ class Message extends MultiTree{
 				'nickname',
 			),
 		),
-	)){
+	), $order = 'ASC'){
 		$conditions = array(
 			't.deleted = 0',
 		);
@@ -388,7 +388,8 @@ class Message extends MultiTree{
 			$page,
 			$fields,
 			$conditions,
-			$join_conditions
+			$join_conditions,
+			$order
 		);
 		
 		return array(

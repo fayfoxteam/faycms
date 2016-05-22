@@ -1,7 +1,7 @@
 var chat = {
 	'status':{},
 	'display_name':'username',
-	'parmission':{},
+	'permissions':{},
 	/**
 	 * 获取一个会话，并调用渲染函数进行渲染
 	 */

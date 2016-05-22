@@ -24,7 +24,7 @@ class ChatController extends AdminController{
 		$sql = new Sql();
 		$sql->from(array('m'=>'messages'))
 			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'realname,username,nickname,avatar')
-			->joinLeft(array('u2'=>'users'), 'm.to_user_id = u2.id', 'username AS to_user_id_username,nickname AS to_user_id_nickname,realname AS to_user_id_realname')
+			->joinLeft(array('u2'=>'users'), 'm.to_user_id = u2.id', 'username AS to_username,nickname AS to_nickname,realname AS to_realname')
 			->where(array(
 				'm.left_value = 1',
 			))

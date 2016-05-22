@@ -38,25 +38,11 @@ abstract class Widget{
 	 */
 	public $input;
 	
-	/**
-	 * @var \fay\core\Session
-	 */
-	public $session;
-	
-	/**
-	 * @var \fay\core\Cache
-	 */
-	public $cache;
 	
 	/**
 	 * @var \fay\core\Config
 	 */
 	public $config;
-	
-	/**
-	 * @var \fay\core\Db
-	 */
-	public $db;
 	
 	/**
 	 * F::form('widget')

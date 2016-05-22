@@ -1,6 +1,8 @@
 <?php
 namespace fay\widget;
 
+use fay\core\Exception;
+use fay\core\HttpException;
 use fay\models\tables\Widgets;
 use fay\helpers\StringHelper;
 
@@ -60,11 +62,11 @@ class Loader{
 	 *  - 若为数字，视为数据库中的ID
 	 *  - 若为字符串，视为别名
 	 *  - 若为数组，视为已经从数据库中搜出对应行
-	 * @param bool $ajax 是否ajax调用
-	 * @param int $cache 缓存时间，若为负数，则不缓存，为0则缓存不过期。若开启缓存，则ajax参数无效
 	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
+	 * @param bool $ajax 是否ajax调用，若为null，默认采用widgets表设置。若存在启用缓存，则不会走ajax。
+	 * @throws HttpException
 	 */
-	public function load($widget, $ajax = false, $cache = -1, $index = null){
+	public function load($widget, $index = null, $ajax = null){
 		if(!is_array($widget)){
 			if(StringHelper::isInt($widget)){
 				$widget = Widgets::model()->find($widget);
@@ -76,11 +78,16 @@ class Loader{
 		}
 		
 		if($widget && $widget['enabled']){
-			if($cache >= 0 && $content = \F::cache()->get($widget['alias'])){
+			if($ajax === null){
+				$ajax = $widget['ajax'];
+			}
+			if($widget['cache'] >= 0 && $content = \F::cache()->get('widgets/' . $widget['alias'])){
 				echo $content;
 			}else{
-				$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $cache, $widget['alias'], $index);
+				$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $widget['cache'], $widget['alias'], $index);
 			}
+		}else{
+			throw new HttpException('Widget不存在或已被删除');
 		}
 	}
 	
@@ -94,7 +101,7 @@ class Loader{
 	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
 	 */
 	public function render($name, $options = array(), $ajax = false, $cache = -1, $alias = '', $index = null){
-		if($alias && $cache >= 0 && $content = \F::cache()->get($alias)){
+		if($alias && $cache >= 0 && $content = \F::cache()->get('widgets/' . $alias)){
 			echo $content;
 		}else{
 			$widget_obj = $this->get($name);
@@ -115,23 +122,41 @@ class Loader{
 						//若未定义，显示一个loading的图片
 						echo "<div id='{$id}'><img src='".\F::app()->view->assets('images/throbber.gif')."' /></div>";
 					}
-					echo '<script>
-						$.ajax({
-							type: "GET",
-							url: "'.\F::app()->view->url('widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
-							cache: false,
-							success: function(resp){
-								$("#'.$id.'").replaceWith(resp);
-							}
+					
+					if($alias){
+						echo '<script>
+						$(function(){
+							$.ajax({
+								type: "GET",
+								url: "'.\F::app()->view->url('widget/load', array('alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index), false).'",
+								cache: false,
+								success: function(resp){
+									$("#'.$id.'").replaceWith(resp);
+								}
+							});
 						});
-					</script>';
+						</script>';
+					}else{
+						echo '<script>
+						$(function(){
+							$.ajax({
+								type: "GET",
+								url: "'.\F::app()->view->url('widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
+								cache: false,
+								success: function(resp){
+									$("#'.$id.'").replaceWith(resp);
+								}
+							});
+						});
+						</script>';
+					}
 				}else{
 					ob_start();
 					$widget_obj->index($options);
 					$content = ob_get_contents();
 					ob_end_clean();
 					if($cache >= 0 && $alias){
-						\F::app()->cache->set($alias, $content, $cache);
+						\F::cache()->set('widgets/' . $alias, $content, $cache);
 					}
 					echo $content;
 				}
@@ -195,7 +220,7 @@ class Loader{
 		}
 		$widgets = Widgets::model()->fetchAll("widgetarea = '{$alias}'", '*', 'sort, id DESC');
 		foreach($widgets as $k => $w){
-			$this->load($w, $w['ajax'], $w['cache'], $k+1);
+			$this->load($w, $k+1);
 		}
 	}
 }

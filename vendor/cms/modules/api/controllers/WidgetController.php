@@ -13,7 +13,8 @@ use fay\core\Response;
 class WidgetController extends ApiController{
 	/**
 	 * 根据widget name及其他传入参数，渲染一个widget
-	 * @param string $name 小工具名称
+	 * @throws HttpException
+	 * @internal param string $name 小工具名称
 	 */
 	public function render(){
 		//表单验证
@@ -48,7 +49,8 @@ class WidgetController extends ApiController{
 	
 	/**
 	 * 根据别名渲染一个widget
-	 * @param string $alias 小工具别名
+	 * @throws HttpException
+	 * @internal param string $alias 小工具别名
 	 */
 	public function load(){
 		//表单验证
@@ -61,30 +63,14 @@ class WidgetController extends ApiController{
 		))->check();
 		
 		$alias = $this->form()->getData('alias');
-		$widget_config = Widgets::model()->fetchRow(array(
-			'alias = ?'=>$alias,
-		));
 		
-		if(!$widget_config){
-			throw new HttpException('Widget不存在或已被删除');
-		}
-		
-		if($widget_config['enabled']){
-			$widget_obj = \F::widget()->get($widget_config['widget_name']);
-			$widget_obj->alias = $alias;//别名
-			$action = $this->input->request('action', 'trim', 'index');
-			if($widget_obj == null){
-				throw new HttpException('Widget不存在或已被删除');
-			}
-			$widget_obj->{$action}(json_decode($widget_config['options'], true));
-		}else{
-			throw new HttpException('小工具未启用');
-		}
+		\F::widget()->load($alias, $this->form()->getData('_index'), false);
 	}
 	
 	/**
 	 * 获取widget实例参数，需要widget实现IndexController::getData()方法
-	 * @param string $alias 小工具别名
+	 * @throws HttpException
+	 * @internal param string $alias 小工具别名
 	 */
 	public function data(){
 		//表单验证

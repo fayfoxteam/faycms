@@ -530,15 +530,14 @@ class File extends Model{
 	 * 不过文件系统有文件夹分割，重名概率极低，一般问题不大
 	 * @param string $path
 	 * @param string $ext 扩展名
-	 * @param string $postfix 后缀，在随机文件名之后，扩展名之前
 	 * @return string
 	 */
-	public static function getFilename($path, $ext, $postfix = ''){
-		$filename = StringHelper::random('alnum', 5).$postfix.$ext;
+	public static function getFileName($path, $ext){
+		$filename = StringHelper::random('alnum', 5).$ext;
 		if (!file_exists($path.$filename)){
 			return $filename;
 		}else{
-			return self::getFilename($path, $ext, $postfix);
+			return self::getFileName($path, $ext);
 		}
 	}
 	

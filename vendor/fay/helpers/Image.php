@@ -15,14 +15,14 @@ class Image{
 		$img_mime = @strtolower($imageInfo['mime']);
 		switch ($img_mime) {
 			case 'image/gif':
-				$im = imagecreatefromgif($filename);
+				$im = \imagecreatefromgif($filename);
 				break;
 			case 'image/jpeg':
 			case 'image/jpg':
-				$im = imagecreatefromjpeg($filename);
+				$im = \imagecreatefromjpeg($filename);
 				break;
 			case 'image/png':
-				$im = imagecreatefrompng($filename);
+				$im = \imagecreatefrompng($filename);
 				break;
 			default:
 				$im = 'unknow';

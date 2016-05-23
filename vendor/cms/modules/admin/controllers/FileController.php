@@ -122,7 +122,7 @@ class FileController extends AdminController{
 		}
 		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
 			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
-		$filename = File::getFilename($upload_path, '.jpg');
+		$filename = File::getFileName($upload_path, '.jpg');
 		if(defined('NO_REWRITE')){
 			$destination = './public/'.$upload_path . $filename;
 		}else{

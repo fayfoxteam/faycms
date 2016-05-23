@@ -104,14 +104,8 @@ class Upload{
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
 		
 		$this->file_ext = File::getFileExt($file['name']);
-		//获取图片信息
-		$imgProps = $this->setImgProperties();
 		//随机一个唯一文件名
-		if($imgProps['is_image']){
-			$this->file_name = File::getFilename($this->upload_path, $this->file_ext, ".{$imgProps['image_width']}x{$imgProps['image_height']}");
-		}else{
-			$this->file_name = File::getFilename($this->upload_path, $this->file_ext);
-		}
+		$this->file_name = File::getFileName($this->upload_path, $this->file_ext);
 		
 		if(!$this->isAllowedType()){
 			$this->setErrorMsg('非法文件类型');
@@ -135,7 +129,7 @@ class Upload{
 				'full_path'=>$this->upload_path . $this->file_name,
 				'client_name'=>$file['name'],
 			);
-			$data = array_merge($data, $imgProps);
+			$data = array_merge($data, $this->setImgProperties($destination));
 			return $data;
 		}else{
 			$this->setErrorMsg('未知的错误类型');
@@ -221,11 +215,12 @@ class Upload{
 	
 	/**
 	 * 获取图片相关属性数组，若不是图片则将is_image设为false，不设置其他属性值
+	 * @param string $path
 	 * @return array
 	 */
-	private function setImgProperties(){
-		$x = explode('.', $this->client_name);
-		if(in_array(strtolower(array_pop($x)), array('jpg', 'png', 'jpeg', 'gif')) && false !== ($D = @getimagesize($this->file_temp))){
+	private function setImgProperties($path){
+		$x = explode('.', $path);
+		if(in_array(strtolower(array_pop($x)), array('jpg', 'png', 'jpeg', 'gif')) && false !== ($D = @getimagesize($path))){
 			$this->is_image = true;
 			$this->image_width = $D[0];
 			$this->image_height = $D[1];

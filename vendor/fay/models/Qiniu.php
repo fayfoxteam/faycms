@@ -122,9 +122,9 @@ class Qiniu extends Model{
 	 */
 	private function getKey($file){
 		if(substr($file['file_path'], 0, 4) == './..'){
-			return 'pri-'.str_replace('/', '-', substr($file['file_path'], strpos($file['file_path'], '/', 3)+1)).$file['raw_name'].$file['file_ext'];
+			return 'pri/'.substr($file['file_path'], strpos($file['file_path'], '/', 3)+1).$file['raw_name'].$file['file_ext'];
 		}else{
-			return str_replace('/', '-', substr($file['file_path'], strpos($file['file_path'], '/', 2)+1)).$file['raw_name'].$file['file_ext'];
+			return substr($file['file_path'], strpos($file['file_path'], '/', 2)+1).$file['raw_name'].$file['file_ext'];
 		}
 	}
 }

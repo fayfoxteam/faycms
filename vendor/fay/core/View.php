@@ -73,7 +73,7 @@ class View{
 	 * @return string
 	 */
 	public function assets($uri){
-		return \F::config()->get('base_url') . 'assets/' . $uri;
+		return \F::config()->get('assets_url') . 'assets/' . $uri;
 	}
 	
 	/**

@@ -82,6 +82,11 @@ class Uri{
 			\F::config()->set('base_url', $base_url);
 		}
 		
+		//若未设置静态文件路径，初始化为base_url
+		if(!\F::config()->get('assets_url')){
+			\F::config()->set('assets_url', $base_url);
+		}
+		
 		$base_url_params = parse_url($base_url);
 		$base_url_path_length = strlen($base_url_params['path']);
 		//过滤掉问号后面的部分

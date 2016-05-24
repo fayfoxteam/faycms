@@ -12,7 +12,7 @@ return array(
 	 * http://www.faycms.com/fayfox/
 	 * 注意不要忘了最后的斜杠
 	 */
-	//'base_url'=>'http://55.fayfox.com/fayfox/',
+	'base_url'=>null,
 	
 	/*
 	 * 静态资源URL，默认与base_url相同

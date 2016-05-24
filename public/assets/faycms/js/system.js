@@ -1,5 +1,7 @@
 var system = {
-	'user_id':0,
+	'user_id': 0,
+	'base_url': null,
+	'assets_url': null,
 	'loadingScripts' : {},
 	'loadingCss' : {},
 	'url' : function(router, params){
@@ -22,7 +24,8 @@ var system = {
 		}
 	},
 	'assets':function(uri){
-		return this.base_url + 'assets/' + uri;
+		this.assets_url = this.assets_url || this.base_url;
+		return this.assets_url + 'assets/' + uri;
 	},
 	'date' : function(timestamp){
 		var date = new Date(parseInt(timestamp) * 1000);
@@ -44,7 +47,7 @@ var system = {
 		var now_timestamp = parseInt(now.getTime() / 1000);
 		var dv = now_timestamp - timestamp;
 		var date = new Date(parseInt(timestamp) * 1000);
-		var today = new Date()
+		var today = new Date();
 		today.setHours(0);
 		today.setMinutes(0);
 		today.setSeconds(0);
@@ -237,4 +240,4 @@ var system = {
 			}
 		}
     }
-}
+};

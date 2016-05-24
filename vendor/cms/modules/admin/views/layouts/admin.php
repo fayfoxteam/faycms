@@ -20,7 +20,7 @@ use fay\models\User;
 <?php echo $this->getCss()?>
 
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->url('assets/faycms/js/system.min.js')?>"></script>
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->

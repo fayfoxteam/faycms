@@ -11,6 +11,7 @@ class Meta extends Model{
 	private $default_fields = array('comments', 'views', 'likes');
 	
 	/**
+	 * @param string $class_name
 	 * @return Meta
 	 */
 	public static function model($class_name = __CLASS__){

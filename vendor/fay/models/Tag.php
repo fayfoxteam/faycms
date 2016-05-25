@@ -9,6 +9,7 @@ use fay\models\tables\TagCounter;
 
 class Tag extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Tag
 	 */
 	public static function model($class_name = __CLASS__){
@@ -20,6 +21,7 @@ class Tag extends Model{
 	 * @param string $order 排序方式（例如t.sort这样完整的带表别名前缀的字段）
 	 * @param int $page_size
 	 * @param int $page
+	 * @return array
 	 */
 	public function getList($order, $page_size = 20, $page = 1){
 		$sql = new Sql();
@@ -43,7 +45,7 @@ class Tag extends Model{
 	 * 判断一个标签是否存在（禁用的标签也视为存在）
 	 * @param string $title
 	 * @param array $conditions 附加条件（例如编辑标签的时候，判断重复需要传入id != tag_id的条件）
-	 * @return 若存在，返回标签ID，若不存在，返回false
+	 * @return int|bool 若存在，返回标签ID，若不存在，返回false
 	 */
 	public static function isTagExist($title, $conditions = array()){
 		if($title){
@@ -63,8 +65,9 @@ class Tag extends Model{
 	/**
 	 * 递增一个或多个指定标签的计数
 	 * @param array|int $tag_ids
-	 * @param strin $field tag_counter表对应的列名
+	 * @param string $field tag_counter表对应的列名
 	 * @param int $value 增量，默认为1，可以是负数
+	 * @return int
 	 */
 	public function incr($tag_ids, $field, $value = 1){
 		if(!$tag_ids){
@@ -82,8 +85,9 @@ class Tag extends Model{
 	/**
 	 * 递减一个或多个指定标签的计数
 	 * @param array|int $tag_ids
-	 * @param strin $field tag_counter表对应的列名
+	 * @param string $field tag_counter表对应的列名
 	 * @param int $value 增量，默认为-1，可以是正数
+	 * @return int
 	 */
 	public function decr($tag_ids, $field, $value = -1){
 		return $this->incr($tag_ids, $field, $value);

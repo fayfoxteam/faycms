@@ -11,6 +11,7 @@ class Meta extends Model{
 	private $default_fields = array('comments', 'views', 'likes');
 	
 	/**
+	 * @param string $class_name
 	 * @return Meta
 	 */
 	public static function model($class_name = __CLASS__){
@@ -40,7 +41,7 @@ class Meta extends Model{
 	 * @return array 返回以动态ID为key的二维数组
 	 */
 	public function mget($feed_ids, $fields = null){
-		if(!$post_ids){
+		if(!$feed_ids){
 			return array();
 		}
 		if(empty($fields) || empty($fields[0])){

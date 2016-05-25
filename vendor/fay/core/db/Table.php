@@ -37,6 +37,7 @@ class Table extends Model{
 	 * @param array $data
 	 * @param bool $filter 若为true，则会根据$this->filters()中指定的过滤器进行过滤。默认为true
 	 * @param array|string $except 填充数据时，排序某些字段
+	 * @return array
 	 */
 	public function fillData($data, $filter = true, $except = array()){
 		$filters = $this->filters();
@@ -53,8 +54,9 @@ class Table extends Model{
 	/**
 	 * 向当前表插入单行数据
 	 * @param array $data 一维数组
-	 * @param bool $filter 是否调用过滤器进行过滤
-	 * @param array|string 若$fill为true，过滤掉部分表字段
+	 * @param bool $fill 是否进行字段过滤
+	 * @param string $except
+	 * @return int|null
 	 */
 	public function insert($data, $fill = false, $except = 'insert'){
 		if(!empty($data)){
@@ -71,6 +73,7 @@ class Table extends Model{
 	 * 向当前表批量插入
 	 * @param array $data 二维数组
 	 * @param bool $filter 是否调用过滤器进行过滤
+	 * @return int|null
 	 */
 	public function bulkInsert($data, $filter = false){
 		if(!empty($data)){
@@ -89,8 +92,10 @@ class Table extends Model{
 	 * 更新当前表记录
 	 * @param array $data
 	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
-	 * @param boolean $filter 若为true且$this->filters()中有设置过滤器，则进行过滤
-	 * @param array|string 若$fill为true，过滤掉部分表字段
+	 * @param bool $fill
+	 * @param string $except
+	 * @return int|null
+	 * @throws \fay\core\Exception
 	 */
 	public function update($data, $where, $fill = false, $except = 'update'){
 		if(StringHelper::isInt($where)){
@@ -109,6 +114,7 @@ class Table extends Model{
 	/**
 	 * 删除一条记录
 	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
+	 * @return int
 	 */
 	public function delete($where){
 		if(StringHelper::isInt($where)){
@@ -122,16 +128,20 @@ class Table extends Model{
 	 * @param mixed $where
 	 * @param string $fields 列名
 	 * @param int $value 增量（可以是负数）
+	 * @return int
 	 */
 	public function incr($where, $fields, $value){
 		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
-		$this->db->incr($this->_name, $where, $fields, $value);
+		return $this->db->incr($this->_name, $where, $fields, $value);
 	}
 	
 	/**
 	 * 根据主键查找数据
+	 * @param mixed $primary
+	 * @param string $fields
+	 * @return array|bool
 	 */
 	public function find($primary, $fields = '*'){
 		if(!$this->_sql)$this->_sql = new Sql();
@@ -153,8 +163,10 @@ class Table extends Model{
 	 * 获取一条记录
 	 * @param array $conditions
 	 * @param string $fields 可用 !id 表示除了id外的所有字段
-	 * @param string $order
+	 * @param bool|string $order
+	 * @param null $offset
 	 * @param string $style 返回结果集类型，默认为索引数组
+	 * @return array|bool
 	 */
 	public function fetchRow($conditions, $fields = '*', $order = false, $offset = null, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
@@ -171,10 +183,11 @@ class Table extends Model{
 	 * 获取所有数据
 	 * @param array $conditions
 	 * @param string $fields 可用 !id 表示除了id外的所有字段
-	 * @param string $order
-	 * @param int $count
-	 * @param int $offset
+	 * @param bool|string $order
+	 * @param bool|int $count
+	 * @param bool|int $offset
 	 * @param string $style 返回结果集类型，默认为索引数组
+	 * @return array
 	 */
 	public function fetchAll($conditions = array(), $fields = '*', $order = false, $count = false, $offset = false, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
@@ -192,8 +205,11 @@ class Table extends Model{
 	/**
 	 * 以一维数组的方式，返回一列结果
 	 * @param string $col
-	 * @param string $sql
-	 * @param array $params
+	 * @param array $conditions
+	 * @param bool $order
+	 * @param bool $count
+	 * @param bool $offset
+	 * @return array
 	 */
 	public function fetchCol($col, $conditions = array(), $order = false, $count = false, $offset = false){
 		$result = $this->fetchAll($conditions, $col, $order, $count, $offset);
@@ -226,6 +242,7 @@ class Table extends Model{
 	 * insert(), update()方法当$fill参数为true时，会自动调用此方法用于过滤字段。
 	 * 也可以手动调用此方法用于字段过滤处理。
 	 * @param mixed $scene 场景
+	 * @return array
 	 */
 	public function getNotWritableFields($scene){
 		switch($scene){

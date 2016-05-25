@@ -90,7 +90,7 @@ abstract class Cache{
 		$value = $this->getValue($key);
 		if($value === null || empty($this->serializer[1])){
 			return $value;
-		}else if(!empty($this->serializer[1])){
+		}else{
 			return $this->serializer[1]($value);
 		}
 	}

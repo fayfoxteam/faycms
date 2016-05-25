@@ -18,7 +18,6 @@ class Qiniu extends Model{
 	 * 根据本地文件ID，将本地文件上传至七牛云空间
 	 * @param $file
 	 * @return array
-	 * @internal param int $file_id 本地文件ID
 	 */
 	public function put($file){
 		if(StringHelper::isInt($file)){

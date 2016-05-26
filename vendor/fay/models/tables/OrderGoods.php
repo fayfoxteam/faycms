@@ -19,6 +19,7 @@ class OrderGoods extends Table{
 	protected $_name = 'order_goods';
 	
 	/**
+	 * @param string $class_name
 	 * @return OrderGoods
 	 */
 	public static function model($class_name = __CLASS__){

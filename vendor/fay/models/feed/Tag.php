@@ -17,6 +17,7 @@ class Tag extends Model{
 	private $default_fields = array('id', 'title');
 	
 	/**
+	 * @param string $class_name
 	 * @return Tag
 	 */
 	public static function model($class_name = __CLASS__){

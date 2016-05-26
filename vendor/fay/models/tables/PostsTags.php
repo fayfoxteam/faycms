@@ -8,6 +8,7 @@ class PostsTags extends Table{
 	protected $_primary = array('post_id', 'tag_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return PostsTags
 	 */
 	public static function model($class_name = __CLASS__){

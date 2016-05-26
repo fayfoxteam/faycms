@@ -7,6 +7,7 @@ class ItemPropValues extends Table{
 	protected $_name = 'item_prop_values';
 	
 	/**
+	 * @param string $class_name
 	 * @return ItemPropValues
 	 */
 	public static function model($class_name = __CLASS__){

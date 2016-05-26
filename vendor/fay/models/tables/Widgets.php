@@ -7,6 +7,7 @@ class Widgets extends Table{
 	protected $_name = 'widgets';
 	
 	/**
+	 * @param string $class_name
 	 * @return Widgets
 	 */
 	public static function model($class_name = __CLASS__){

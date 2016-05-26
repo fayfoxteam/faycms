@@ -18,6 +18,7 @@ class PostFavorites extends Table{
 	protected $_primary = array('user_id', 'post_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return PostFavorites
 	 */
 	public static function model($class_name = __CLASS__){

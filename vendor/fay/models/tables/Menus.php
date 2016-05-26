@@ -33,6 +33,7 @@ class Menus extends Table{
 	protected $_name = 'menus';
 	
 	/**
+	 * @param string $class_name
 	 * @return Menus
 	 */
 	public static function model($class_name = __CLASS__){

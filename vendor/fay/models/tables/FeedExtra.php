@@ -16,6 +16,7 @@ class FeedExtra extends Table{
 	protected $_primary = 'feed_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return FeedExtra
 	 */
 	public static function model($class_name = __CLASS__){

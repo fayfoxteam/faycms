@@ -29,6 +29,7 @@ class Follows extends Table{
 	protected $_primary = array('fans_id', 'user_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return Follows
 	 */
 	public static function model($class_name = __CLASS__){

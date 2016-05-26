@@ -42,6 +42,7 @@ class Feeds extends Table{
 	protected $_name = 'feeds';
 	
 	/**
+	 * @param string $class_name
 	 * @return Feeds
 	 */
 	public static function model($class_name = __CLASS__){

@@ -11,6 +11,7 @@ class File extends Model{
 	private $default_fields = array('file_id', 'description', 'is_image');
 	
 	/**
+	 * @param string $class_name
 	 * @return File
 	 */
 	public static function model($class_name = __CLASS__){
@@ -67,7 +68,7 @@ class File extends Model{
 			if($remove_post_id_field){
 				unset($f['post_id']);
 			}
-			$f['url'] = File::getUrl($f['file_id']);
+			$f['url'] = \fay\models\File::getUrl($f['file_id']);
 			$return[$p][] = $f;
 		}
 		return $return;

@@ -38,6 +38,7 @@ class <?php echo $class_name?> extends Table{
 <?php }?>
 	
 	/**
+	 * @param string $class_name
 	 * @return <?php echo $class_name?>
 
 	 */

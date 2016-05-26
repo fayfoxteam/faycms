@@ -7,6 +7,7 @@ class Keywords extends Table{
 	protected $_name = 'keywords';
 	
 	/**
+	 * @param string $class_name
 	 * @return Keywords
 	 */
 	public static function model($class_name = __CLASS__){

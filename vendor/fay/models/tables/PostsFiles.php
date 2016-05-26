@@ -8,6 +8,7 @@ class PostsFiles extends Table{
 	protected $_primary = array('post_id', 'file_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return PostsFiles
 	 */
 	public static function model($class_name = __CLASS__){

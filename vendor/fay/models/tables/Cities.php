@@ -7,6 +7,7 @@ class Cities extends Table{
 	protected $_name = 'cities';
 	
 	/**
+	 * @param string $class_name
 	 * @return Cities
 	 */
 	public static function model($class_name = __CLASS__){

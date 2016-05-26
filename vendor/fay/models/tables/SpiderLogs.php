@@ -7,6 +7,7 @@ class SpiderLogs extends Table{
 	protected $_name = 'spider_logs';
 	
 	/**
+	 * @param string $class_name
 	 * @return SpiderLogs
 	 */
 	public static function model($class_name = __CLASS__){

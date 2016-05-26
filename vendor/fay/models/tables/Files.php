@@ -7,6 +7,7 @@ class Files extends Table{
 	protected $_name = 'files';
 	
 	/**
+	 * @param string $class_name
 	 * @return Files
 	 */
 	public static function model($class_name = __CLASS__){

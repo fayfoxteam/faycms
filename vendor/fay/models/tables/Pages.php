@@ -38,6 +38,7 @@ class Pages extends Table{
 	protected $_name = 'pages';
 	
 	/**
+	 * @param string $class_name
 	 * @return Pages
 	 */
 	public static function model($class_name = __CLASS__){

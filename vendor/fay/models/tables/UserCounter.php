@@ -19,6 +19,7 @@ class UserCounter extends Table{
 	protected $_primary = 'user_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return UserCounter
 	 */
 	public static function model($class_name = __CLASS__){

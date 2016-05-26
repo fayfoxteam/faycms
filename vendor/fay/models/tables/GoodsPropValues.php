@@ -16,6 +16,7 @@ class GoodsPropValues extends Table{
 	protected $_primary = array('goods_id', 'prop_id', 'prop_value_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return GoodsPropValues
 	 */
 	public static function model($class_name = __CLASS__){

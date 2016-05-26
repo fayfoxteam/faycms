@@ -17,6 +17,7 @@ class Vouchers extends Table{
 	protected $_name = 'vouchers';
 
 	/**
+	 * @param string $class_name
 	 * @return Vouchers
 	 */
 	public static function model($class_name = __CLASS__){

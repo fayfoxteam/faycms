@@ -38,6 +38,7 @@ class PostComments extends Table{
 	protected $_name = 'post_comments';
 	
 	/**
+	 * @param string $class_name
 	 * @return PostComments
 	 */
 	public static function model($class_name = __CLASS__){

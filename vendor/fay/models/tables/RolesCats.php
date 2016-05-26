@@ -8,6 +8,7 @@ class RolesCats extends Table{
 	protected $_primary = array('role_id', 'cat_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return RolesCats
 	 */
 	public static function model($class_name = __CLASS__){

@@ -7,6 +7,7 @@ class Actions extends Table{
 	protected $_name = 'actions';
 	
 	/**
+	 * @param string $class_name
 	 * @return Actions
 	 */
 	public static function model($class_name = __CLASS__){

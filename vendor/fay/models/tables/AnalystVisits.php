@@ -7,6 +7,7 @@ class AnalystVisits extends Table{
 	protected $_name = 'analyst_visits';
 	
 	/**
+	 * @param string $class_name
 	 * @return AnalystVisits
 	 */
 	public static function model($class_name = __CLASS__){

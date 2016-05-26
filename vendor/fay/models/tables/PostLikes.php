@@ -18,6 +18,7 @@ class PostLikes extends Table{
 	protected $_primary = array('post_id', 'user_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return PostLikes
 	 */
 	public static function model($class_name = __CLASS__){

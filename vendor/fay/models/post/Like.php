@@ -13,6 +13,7 @@ use fay\models\User;
 
 class Like extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Like
 	 */
 	public static function model($class_name = __CLASS__){
@@ -23,6 +24,8 @@ class Like extends Model{
 	 * 判断是否赞过
 	 * @param int $post_id 文章ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @return bool
+	 * @throws Exception
 	 */
 	public static function isLiked($post_id, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -41,6 +44,8 @@ class Like extends Model{
 	 * 批量判断是否赞过
 	 * @param array $post_ids 由文章ID组成的一维数组
 	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @return array
+	 * @throws Exception
 	 */
 	public static function mIsLiked($post_ids, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -69,8 +74,12 @@ class Like extends Model{
 	
 	/**
 	 * 获取文章点赞列表
-	 * @param string $fields 用户字段
-	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @param $post_id
+	 * @param array|string $fields 用户字段
+	 * @param int $page
+	 * @param int $page_size
+	 * @return array
+	 * @internal param int $user_id 用户ID，默认为当前登录用户
 	 */
 	public function getPostLikes($post_id, $fields, $page = 1, $page_size = 20){
 		$sql = new Sql();
@@ -87,6 +96,7 @@ class Like extends Model{
 		
 		$listview = new ListView($sql, array(
 			'page_size'=>$page_size,
+			'current_page'=>$page,
 		));
 		
 		$likes = $listview->getData();
@@ -104,7 +114,11 @@ class Like extends Model{
 	/**
 	 * 获取用户点赞列表
 	 * @param string $fields 文章字段
+	 * @param int $page
+	 * @param int $page_size
 	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @return array
+	 * @throws Exception
 	 */
 	public function getUserLikes($fields, $page = 1, $page_size = 20, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -126,6 +140,7 @@ class Like extends Model{
 		
 		$listview = new ListView($sql, array(
 			'page_size'=>$page_size,
+			'current_page'=>$page,
 		));
 		
 		$likes = $listview->getData();

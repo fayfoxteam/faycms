@@ -22,6 +22,7 @@ class Category extends Model{
 	private $_user_allowed_cats = array();
 	
 	/**
+	 * @param string $class_name
 	 * @return Category
 	 */
 	public static function model($class_name = __CLASS__){
@@ -78,6 +79,7 @@ class Category extends Model{
 	 * 此函数并不检查“文章分类权限控制”开关是否打开
 	 * @param string $user_id 用户ID，默认为当前登录用户ID
 	 * @param bool $cache 是否缓存
+	 * @return array
 	 */
 	public function getAllowedCatIds($user_id = null, $cache = true){
 		$user_id || $user_id = \F::app()->current_user;
@@ -110,6 +112,7 @@ class Category extends Model{
 	 * 判断用户是否具备编辑指定分类的权限
 	 * @param int $cat_id 分类ID
 	 * @param int $user_id 用户ID，默认为当前登录用户ID
+	 * @return bool
 	 */
 	public function isAllowedCat($cat_id, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;

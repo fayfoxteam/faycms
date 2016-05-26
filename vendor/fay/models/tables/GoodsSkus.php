@@ -17,6 +17,7 @@ class GoodsSkus extends Table{
 	protected $_primary = array('goods_id', 'sku_key');
 	
 	/**
+	 * @param string $class_name
 	 * @return GoodsSkus
 	 */
 	public static function model($class_name = __CLASS__){

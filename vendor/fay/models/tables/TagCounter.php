@@ -15,6 +15,7 @@ class TagCounter extends Table{
 	protected $_primary = 'tag_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return TagCounter
 	 */
 	public static function model($class_name = __CLASS__){

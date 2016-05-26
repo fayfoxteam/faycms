@@ -26,6 +26,7 @@ class Contacts extends Table{
 	protected $_name = 'contacts';
 	
 	/**
+	 * @param string $class_name
 	 * @return Contacts
 	 */
 	public static function model($class_name = __CLASS__){

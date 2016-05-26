@@ -20,6 +20,7 @@ class PostMeta extends Table{
 	protected $_primary = 'post_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return PostMeta
 	 */
 	public static function model($class_name = __CLASS__){

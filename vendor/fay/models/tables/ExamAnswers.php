@@ -7,6 +7,7 @@ class ExamAnswers extends Table{
 	protected $_name = 'exam_answers';
 	
 	/**
+	 * @param string $class_name
 	 * @return ExamAnswers
 	 */
 	public static function model($class_name = __CLASS__){

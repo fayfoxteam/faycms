@@ -7,6 +7,7 @@ class PropValues extends Table{
 	protected $_name = 'prop_values';
 	
 	/**
+	 * @param string $class_name
 	 * @return PropValues
 	 */
 	public static function model($class_name = __CLASS__){

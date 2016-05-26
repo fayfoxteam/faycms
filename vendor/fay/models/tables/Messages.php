@@ -38,6 +38,7 @@ class Messages extends Table{
 	protected $_name = 'messages';
 	
 	/**
+	 * @param string $class_name
 	 * @return Messages
 	 */
 	public static function model($class_name = __CLASS__){

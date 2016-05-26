@@ -12,6 +12,7 @@ class Roles extends Table{
 	protected $_name = 'roles';
 	
 	/**
+	 * @param string $class_name
 	 * @return Roles
 	 */
 	public static function model($class_name = __CLASS__){

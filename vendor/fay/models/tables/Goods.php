@@ -58,6 +58,7 @@ class Goods extends Table{
 	protected $_name = 'goods';
 	
 	/**
+	 * @param string $class_name
 	 * @return Goods
 	 */
 	public static function model($class_name = __CLASS__){

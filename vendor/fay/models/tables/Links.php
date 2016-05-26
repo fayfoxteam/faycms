@@ -23,6 +23,7 @@ class Links extends Table{
 	protected $_name = 'links';
 	
 	/**
+	 * @param string $class_name
 	 * @return Links
 	 */
 	public static function model($class_name = __CLASS__){

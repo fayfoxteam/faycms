@@ -16,6 +16,7 @@ class FeedsFiles extends Table{
 	protected $_primary = array('feed_id', 'file_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return FeedsFiles
 	 */
 	public static function model($class_name = __CLASS__){

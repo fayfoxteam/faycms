@@ -7,6 +7,7 @@ class Regions extends Table{
 	protected $_name = 'regions';
 	
 	/**
+	 * @param string $class_name
 	 * @return Regions
 	 */
 	public static function model($class_name = __CLASS__){

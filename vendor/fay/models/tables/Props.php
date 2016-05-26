@@ -52,6 +52,7 @@ class Props extends Table{
 	protected $_name = 'props';
 	
 	/**
+	 * @param string $class_name
 	 * @return Props
 	 */
 	public static function model($class_name = __CLASS__){

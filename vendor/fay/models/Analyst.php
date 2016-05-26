@@ -10,6 +10,7 @@ use fay\models\tables\AnalystCaches;
 
 class Analyst extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Analyst
 	 */
 	public static function model($class_name = __CLASS__){
@@ -23,8 +24,10 @@ class Analyst extends Model{
 	
 	/**
 	 * 以天为单位，统计某一天的新访客，默认为今天
-	 * @param date $date
-	 * @param int $site
+	 * @param string $date
+	 * @param bool $hour
+	 * @param bool|int $site
+	 * @return int
 	 */
 	public function getNewVisitors($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
@@ -40,8 +43,10 @@ class Analyst extends Model{
 	
 	/**
 	 * 以天为单位，统计某一天的PV量，默认为今天
-	 * @param date $data
-	 * @param int $site
+	 * @param string $date
+	 * @param bool|int $hour
+	 * @param bool|int $site
+	 * @return int
 	 */
 	public function getPV($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
@@ -63,11 +68,13 @@ class Analyst extends Model{
 		
 		return empty($pv['sum']) ? 0 : $pv['sum'];
 	}
-
+	
 	/**
 	 * 以天为单位，统计某一天的UV量，默认为今天
-	 * @param date $data
-	 * @param int $site
+	 * @param string $date
+	 * @param bool|int $hour
+	 * @param bool|int $site
+	 * @return int
 	 */
 	public function getUV($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;

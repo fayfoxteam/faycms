@@ -18,6 +18,7 @@ class PostExtra extends Table{
 	protected $_primary = 'post_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return PostExtra
 	 */
 	public static function model($class_name = __CLASS__){

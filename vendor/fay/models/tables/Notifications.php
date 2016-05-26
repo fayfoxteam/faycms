@@ -7,6 +7,7 @@ class Notifications extends Table{
 	protected $_name = 'notifications';
 	
 	/**
+	 * @param string $class_name
 	 * @return Notifications
 	 */
 	public static function model($class_name = __CLASS__){

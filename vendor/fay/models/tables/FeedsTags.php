@@ -14,6 +14,7 @@ class FeedsTags extends Table{
 	protected $_primary = array('feed_id', 'tag_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return FeedsTags
 	 */
 	public static function model($class_name = __CLASS__){

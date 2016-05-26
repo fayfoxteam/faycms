@@ -8,6 +8,7 @@ class ExamExamQuestionAnswersInt extends Table{
 	protected $_primary = array('exam_question_id', 'user_answer_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return ExamExamQuestionAnswersInt
 	 */
 	public static function model($class_name = __CLASS__){

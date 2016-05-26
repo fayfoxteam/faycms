@@ -23,6 +23,7 @@ class UserAddresses extends Table{
 	protected $_name = 'user_addresses';
 	
 	/**
+	 * @param string $class_name
 	 * @return UserAddresses
 	 */
 	public static function model($class_name = __CLASS__){

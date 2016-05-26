@@ -15,6 +15,7 @@ class UserSettings extends Table{
 	protected $_primary = array('user_id', 'setting_key');
 	
 	/**
+	 * @param string $class_name
 	 * @return UserSettings
 	 */
 	public static function model($class_name = __CLASS__){

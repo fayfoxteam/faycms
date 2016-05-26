@@ -17,6 +17,7 @@ class ExamPapers extends Table{
 	protected $_name = 'exam_papers';
 	
 	/**
+	 * @param string $class_name
 	 * @return ExamPapers
 	 */
 	public static function model($class_name = __CLASS__){

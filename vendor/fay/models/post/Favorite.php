@@ -12,6 +12,7 @@ use fay\models\tables\Posts;
 
 class Favorite extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Favorite
 	 */
 	public static function model($class_name = __CLASS__){
@@ -22,6 +23,8 @@ class Favorite extends Model{
 	 * 判断是否收藏过
 	 * @param int $post_id 文章ID
 	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @return bool
+	 * @throws Exception
 	 */
 	public static function isFavorited($post_id, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -39,7 +42,9 @@ class Favorite extends Model{
 	/**
 	 * 批量判断是否收藏过
 	 * @param array $post_ids 由文章ID组成的一维数组
-	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @param int|null $user_id 用户ID，默认为当前登录用户
+	 * @return array
+	 * @throws Exception
 	 */
 	public static function mIsFavorited($post_ids, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -68,7 +73,11 @@ class Favorite extends Model{
 	/**
 	 * 获取收藏列表
 	 * @param string $fields 文章字段
-	 * @param int $user_id 用户ID，默认为当前登录用户
+	 * @param int $page
+	 * @param int $page_size
+	 * @param int|null $user_id 用户ID，默认为当前登录用户
+	 * @return array
+	 * @throws Exception
 	 */
 	public function getList($fields, $page = 1, $page_size = 20, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -90,6 +99,7 @@ class Favorite extends Model{
 		
 		$listview = new ListView($sql, array(
 			'page_size'=>$page_size,
+			'current_page'=>$page,
 		));
 		
 		$favorites = $listview->getData();

@@ -17,6 +17,7 @@ class GoodsFiles extends Table{
 	protected $_primary = array('goods_id', 'file_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return GoodsFiles
 	 */
 	public static function model($class_name = __CLASS__){

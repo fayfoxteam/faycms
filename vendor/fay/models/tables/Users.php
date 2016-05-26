@@ -65,6 +65,7 @@ class Users extends Table{
 	protected $_name = 'users';
 
 	/**
+	 * @param string $class_name
 	 * @return Users
 	 */
 	public static function model($class_name = __CLASS__){

@@ -7,6 +7,7 @@ class Options extends Table{
 	protected $_name = 'options';
 	
 	/**
+	 * @param string $class_name
 	 * @return Options
 	 */
 	public static function model($class_name = __CLASS__){

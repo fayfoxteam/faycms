@@ -6,7 +6,7 @@ use fay\core\Sql;
 use fay\core\Exception;
 
 class ListView{
-	public $current_page = 1;
+	public $current_page = null;
 	public $page_size = 10;
 	public $item_view = '_list_item';
 	public $sql;
@@ -27,6 +27,11 @@ class ListView{
 	 */
 	private $db;
 	
+	/**
+	 * ListView constructor.
+	 * @param Sql $sql
+	 * @param array $config
+	 */
 	public function __construct($sql = null, $config = array()){
 		foreach($config as $k => $c){
 			if(isset($this->{$k})){
@@ -42,7 +47,9 @@ class ListView{
 	}
 	
 	public function init(){
-		$this->current_page = \F::app()->input->get($this->page_key, 'intval', 1);
+		if($this->current_page === null){
+			$this->current_page = \F::app()->input->get($this->page_key, 'intval', 1);
+		}
 		
 		if($this->total_records === null){
 			//有时候也可以在初始化的时候直接指定total_records值，例如粉丝数、关注数这些会有地方记录着，比COUNT()要快

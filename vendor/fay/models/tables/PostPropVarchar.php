@@ -8,6 +8,7 @@ class PostPropVarchar extends Table{
 	protected $_primary = array('post_id', 'prop_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return PostPropVarchar
 	 */
 	public static function model($class_name = __CLASS__){

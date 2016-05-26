@@ -137,6 +137,8 @@ class Actionlogs extends Table{
 	protected $_name = 'actionlogs';
 	
 	/**
+	 * @param string $class_name
+	 * @param string $class_name
 	 * @return Actionlogs
 	 */
 	public static function model($class_name = __CLASS__){

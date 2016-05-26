@@ -7,6 +7,7 @@ class Categories extends Table{
 	protected $_name = 'categories';
 	
 	/**
+	 * @param string $class_name
 	 * @return Categories
 	 */
 	public static function model($class_name = __CLASS__){

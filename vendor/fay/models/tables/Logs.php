@@ -22,6 +22,7 @@ class Logs extends Table{
 	protected $_name = 'logs';
 	
 	/**
+	 * @param string $class_name
 	 * @return Logs
 	 */
 	public static function model($class_name = __CLASS__){

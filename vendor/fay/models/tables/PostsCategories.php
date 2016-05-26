@@ -8,6 +8,7 @@ class PostsCategories extends Table{
 	protected $_primary = array('post_id', 'cat_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return PostsCategories
 	 */
 	public static function model($class_name = __CLASS__){

@@ -30,6 +30,7 @@ class Tags extends Table{
 	protected $_name = 'tags';
 	
 	/**
+	 * @param string $class_name
 	 * @return Tags
 	 */
 	public static function model($class_name = __CLASS__){

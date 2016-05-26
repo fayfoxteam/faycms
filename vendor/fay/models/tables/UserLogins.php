@@ -16,6 +16,7 @@ class UserLogins extends Table{
 	protected $_name = 'user_logins';
 
 	/**
+	 * @param string $class_name
 	 * @return UserLogins
 	 */
 	public static function model($class_name = __CLASS__){

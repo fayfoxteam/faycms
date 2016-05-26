@@ -14,6 +14,7 @@ class UsersRoles extends Table{
 	protected $_primary = array('user_id', 'role_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return UsersRoles
 	 */
 	public static function model($class_name = __CLASS__){

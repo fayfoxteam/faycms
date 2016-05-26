@@ -7,6 +7,7 @@ class AnalystCaches extends Table{
 	protected $_name = 'analyst_caches';
 	
 	/**
+	 * @param string $class_name
 	 * @return AnalystCaches
 	 */
 	public static function model($class_name = __CLASS__){

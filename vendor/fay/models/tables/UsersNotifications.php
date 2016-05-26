@@ -8,6 +8,7 @@ class UsersNotifications extends Table{
 	protected $_primary = array('user_id', 'notification_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return UsersNotifications
 	 */
 	public static function model($class_name = __CLASS__){

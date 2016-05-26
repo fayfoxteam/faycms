@@ -18,6 +18,7 @@ class FeedFavorites extends Table{
 	protected $_primary = array('user_id', 'feed_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return FeedFavorites
 	 */
 	public static function model($class_name = __CLASS__){

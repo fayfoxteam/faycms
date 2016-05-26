@@ -17,6 +17,7 @@ class FeedMeta extends Table{
 	protected $_primary = 'feed_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return FeedMeta
 	 */
 	public static function model($class_name = __CLASS__){

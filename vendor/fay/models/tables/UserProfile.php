@@ -23,6 +23,7 @@ class UserProfile extends Table{
 	protected $_primary = 'user_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return UserProfile
 	 */
 	public static function model($class_name = __CLASS__){

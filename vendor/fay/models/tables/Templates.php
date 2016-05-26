@@ -22,6 +22,7 @@ class Templates extends Table{
 	protected $_name = 'templates';
 	
 	/**
+	 * @param string $class_name
 	 * @return Templates
 	 */
 	public static function model($class_name = __CLASS__){

@@ -11,6 +11,7 @@ class Extra extends Model{
 	private $default_fields = array('seo_title', 'seo_keywords', 'seo_description');
 	
 	/**
+	 * @param string $class_name
 	 * @return Meta
 	 */
 	public static function model($class_name = __CLASS__){

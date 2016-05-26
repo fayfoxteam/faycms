@@ -18,6 +18,7 @@ class FeedLikes extends Table{
 	protected $_primary = array('feed_id', 'user_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return FeedLikes
 	 */
 	public static function model($class_name = __CLASS__){

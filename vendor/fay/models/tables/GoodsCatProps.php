@@ -36,6 +36,7 @@ class GoodsCatProps extends Table{
 	protected $_name = 'goods_cat_props';
 	
 	/**
+	 * @param string $class_name
 	 * @return GoodsCatProps
 	 */
 	public static function model($class_name = __CLASS__){

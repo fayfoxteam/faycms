@@ -63,6 +63,7 @@ class Posts extends Table{
 	protected $_name = 'posts';
 
 	/**
+	 * @param string $class_name
 	 * @return Posts
 	 */
 	public static function model($class_name = __CLASS__){

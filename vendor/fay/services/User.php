@@ -2,15 +2,11 @@
 namespace fay\services;
 
 use fay\core\Model;
-use fay\helpers\ArrayHelper;
 use fay\core\Hook;
 use fay\helpers\Request;
 use fay\core\db\Expr;
 use fay\models\tables\UserProfile;
 use fay\models\Option;
-use fay\models\Category;
-use fay\models\tables\RolesCats;
-use fay\models\tables\Roles;
 use fay\models\tables\Users;
 use fay\models\User as UserModel;
 use fay\models\tables\UsersRoles;
@@ -26,6 +22,7 @@ use fay\models\Analyst;
  */
 class User extends Model{
 	/**
+	 * @param string $class_name
 	 * @return User
 	 */
 	public static function model($class_name = __CLASS__){
@@ -36,7 +33,8 @@ class User extends Model{
 	 * 用户登录
 	 * @param string $username 用户名
 	 * @param string $password 密码
-	 * @param string $admin 若为true，则限定为管理员登录（管理员也可以登录前台，但前后台的Session空间是分开的）
+	 * @param bool $admin 若为true，则限定为管理员登录（管理员也可以登录前台，但前后台的Session空间是分开的）
+	 * @return array
 	 */
 	public function login($username, $password, $admin = false){
 		if(!$username){
@@ -153,6 +151,7 @@ class User extends Model{
 	
 	/**
 	 * 设置登录session
+	 * @param $user
 	 */
 	private function setSessionInfo($user){
 		\F::session()->set('user', array(
@@ -208,6 +207,9 @@ class User extends Model{
 	 *  - roles 角色ID，逗号分隔或一维数组
 	 *  - props 以属性ID为键，属性值为值构成的关联数组
 	 *  - trackid 字符串，用于追踪用户来源的自定义标识码
+	 * @param int $is_admin
+	 * @return int|null
+	 * @throws Exception
 	 */
 	public function create($user, $extra = array(), $is_admin = 0){
 		if(!empty($user['password'])){
@@ -289,6 +291,7 @@ class User extends Model{
 	
 	/**
 	 * 更新一个用户
+	 * @param $user_id
 	 * @param array $user
 	 * @param array $extra 其它信息
 	 *  - roles 角色ID，逗号分隔或一维数组

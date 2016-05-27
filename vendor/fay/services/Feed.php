@@ -21,6 +21,7 @@ use fay\models\tables\FeedFavorites;
 class Feed extends Model{
 
 	/**
+	 * @param string $class_name
 	 * @return Feed
 	 */
 	public static function model($class_name = __CLASS__){
@@ -35,6 +36,7 @@ class Feed extends Model{
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组
 	 *   - extra feed_extra相关字段
 	 * @param int $user_id 用户ID
+	 * @return int 动态ID
 	 */
 	public function create($feed, $extra = array(), $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -119,13 +121,14 @@ class Feed extends Model{
 	/**
 	 * 更新一篇动态
 	 * @param int $feed_id 动态ID
-	 * @param array $feed feeds表相关字段
+	 * @param array $data feeds表相关字段
 	 * @param array $extra 其它字段
 	 *   - categories 附加分类ID，逗号分隔或一维数组。若不传，则不会更新，若传了空数组，则清空附加分类。
 	 *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
 	 *   - extra feed_extra相关字段
 	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
+	 * @return bool
 	 */
 	public function update($feed_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原动态
@@ -227,6 +230,7 @@ class Feed extends Model{
 	/**
 	 * 删除一篇动态
 	 * @param int $feed_id 动态ID
+	 * @return bool
 	 */
 	public function delete($feed_id){
 		$feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
@@ -259,6 +263,7 @@ class Feed extends Model{
 	/**
 	 * 还原一篇动态
 	 * @param int $feed_id 动态ID
+	 * @return bool
 	 */
 	public function undelete($feed_id){
 		$feed = Feeds::model()->find($feed_id, 'user_id,deleted');
@@ -290,6 +295,8 @@ class Feed extends Model{
 	
 	/**
 	 * 彻底删除一篇动态
+	 * @param $feed_id
+	 * @return bool
 	 */
 	public function remove($feed_id){
 		//获取动态删除状态

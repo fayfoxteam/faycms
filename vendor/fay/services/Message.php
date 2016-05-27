@@ -18,6 +18,7 @@ use fay\models\User;
  */
 class Message extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Message
 	 */
 	public static function model($class_name = __CLASS__){
@@ -33,6 +34,8 @@ class Message extends Model{
 	 * @param array $extra 扩展参数，二次开发时可能会用到
 	 * @param int $user_id 用户ID，若不指定，默认为当前登录用户ID
 	 * @param int $sockpuppet 马甲信息，若是真实用户，传入0，默认为0
+	 * @return int 消息ID
+	 * @throws Exception
 	 */
 	public function create($to_user_id, $content, $parent = 0, $status = Messages::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
@@ -78,6 +81,7 @@ class Message extends Model{
 	 * 软删除一条评论
 	 * 软删除不会修改parent标识，因为删除的东西随时都有可能会被恢复，而parent如果变了是无法被恢复的。
 	 * @param int $message_id 评论ID
+	 * @throws Exception
 	 */
 	public function delete($message_id){
 		$message = Messages::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
@@ -106,6 +110,7 @@ class Message extends Model{
 	/**
 	 * 批量删除
 	 * @param array $message_ids 由评论ID构成的一维数组
+	 * @return int|null
 	 */
 	public function batchDelete($message_ids){
 		$messages = Messages::model()->fetchAll(array(
@@ -141,6 +146,7 @@ class Message extends Model{
 	/**
 	 * 从回收站恢复一条评论
 	 * @param int $message_id 评论ID
+	 * @throws Exception
 	 */
 	public function undelete($message_id){
 		$message = Messages::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
@@ -169,6 +175,7 @@ class Message extends Model{
 	/**
 	 * 批量还原
 	 * @param array $message_ids 由评论ID构成的一维数组
+	 * @return int|null
 	 */
 	public function batchUnelete($message_ids){
 		$messages = Messages::model()->fetchAll(array(
@@ -204,6 +211,8 @@ class Message extends Model{
 	/**
 	 * 删除一条评论及所有回复该评论的评论
 	 * @param int $message_id 评论ID
+	 * @return array
+	 * @throws Exception
 	 */
 	public function deleteAll($message_id){
 		$message = Messages::model()->find($message_id, 'left_value,right_value,root');
@@ -246,6 +255,8 @@ class Message extends Model{
 	/**
 	 * 永久删除一条评论
 	 * @param int $message_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function remove($message_id){
 		$message = Messages::model()->find($message_id, '!content');
@@ -271,6 +282,8 @@ class Message extends Model{
 	/**
 	 * 物理删除一条评论及所有回复该评论的评论
 	 * @param int $message_id 评论ID
+	 * @return array
+	 * @throws Exception
 	 */
 	public function removeAll($message_id){
 		$message = Messages::model()->find($message_id, '!content');
@@ -309,6 +322,8 @@ class Message extends Model{
 	/**
 	 * 通过审核
 	 * @param int $message_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function approve($message_id){
 		$message = Messages::model()->find($message_id, '!content');
@@ -337,6 +352,7 @@ class Message extends Model{
 	/**
 	 * 批量通过审核
 	 * @param array $message_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchApprove($message_ids){
 		$messages = Messages::model()->fetchAll(array(
@@ -367,6 +383,8 @@ class Message extends Model{
 	/**
 	 * 不通过审核
 	 * @param int $message_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function disapprove($message_id){
 		$message = Messages::model()->find($message_id, '!content');
@@ -395,6 +413,7 @@ class Message extends Model{
 	/**
 	 * 批量不通过审核
 	 * @param array $message_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchDisapprove($message_ids){
 		$messages = Messages::model()->fetchAll(array(
@@ -426,85 +445,11 @@ class Message extends Model{
 	 * 编辑一条评论（只能编辑评论内容部分）
 	 * @param int $message_id 评论ID
 	 * @param string $content 评论内容
+	 * @return int|null
 	 */
 	public function update($message_id, $content){
 		return Messages::model()->update(array(
 			'content'=>$content,
 		), $message_id);
-	}
-	
-	/**
-	 * 判断一条动态的改变是否需要改变用户留言数
-	 * @param array $message 单条评论，必须包含status,sockpuppet字段
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 */
-	private function needChangeMessages($message, $action){
-		$user_message_verify = Option::get('system:user_message_verify');
-		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($message['status'] == Messages::STATUS_APPROVED || !$user_message_verify){
-				return true;
-			}
-		}else if($action == 'approve'){
-			//只要开启了评论审核，则必然在通过审核的时候用户留言数+1
-			if($user_message_verify){
-				return true;
-			}
-		}else if($action == 'disapprove'){
-			//如果评论原本是通过审核状态，且系统开启了用户留言审核，则当评论未通过审核时，相应用户留言数-1
-			if($message['status'] == Messages::STATUS_APPROVED && $user_message_verify){
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * 更post_meta表messages和real_messages字段。
-	 * @param array $messages 相关评论（二维数组，每项必须包含to_user_id,status,sockpuppet字段，且to_user_id必须都相同）
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 */
-	private function updateMessages($messages, $action){
-		$posts = array();
-		foreach($messages as $c){
-			if($this->needChangeMessages($c, $action)){
-				//更新评论数
-				if(isset($posts[$c['to_user_id']]['messages'])){
-					$posts[$c['to_user_id']]['messages']++;
-				}else{
-					$posts[$c['to_user_id']]['messages'] = 1;
-				}
-				if(!$c['sockpuppet']){
-					//如果不是马甲，更新真实评论数
-					if(isset($posts[$c['to_user_id']]['real_messages'])){
-						$posts[$c['to_user_id']]['real_messages']++;
-					}else{
-						$posts[$c['to_user_id']]['real_messages'] = 1;
-					}
-				}
-			}
-		}
-		
-		foreach($posts as $to_user_id => $message_count){
-			$messages = isset($message_count['messages']) ? $message_count['messages'] : 0;
-			$real_messages = isset($message_count['real_messages']) ? $message_count['real_messages'] : 0;
-			if(in_array($action, array('delete', 'remove', 'disapprove'))){
-				//如果是删除相关的操作，取反
-				$messages = - $messages;
-				$real_messages = - $real_messages;
-			}
-			
-			if($messages && $messages == $real_messages){
-				//如果全部评论都是真实评论，则一起更新real_messages和messages
-				UserCounter::model()->incr($to_user_id, array('messages', 'real_messages'), $messages);
-			}else{
-				if($messages){
-					UserCounter::model()->incr($to_user_id, array('messages'), $messages);
-				}
-				if($real_messages){
-					UserCounter::model()->incr($to_user_id, array('real_messages'), $real_messages);
-				}
-			}
-		}
 	}
 }

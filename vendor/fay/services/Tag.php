@@ -11,6 +11,7 @@ use fay\models\tables\TagCounter;
  */
 class Tag extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Post
 	 */
 	public static function model($class_name = __CLASS__){

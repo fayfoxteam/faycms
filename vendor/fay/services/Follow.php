@@ -18,6 +18,7 @@ use fay\models\tables\UserCounter;
  */
 class Follow extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Follow
 	 */
 	public static function model($class_name = __CLASS__){
@@ -27,8 +28,11 @@ class Follow extends Model{
 	/**
 	 * 关注一个用户
 	 * @param int $user_id 要关注的人
+	 * @param string $trackid
 	 * @param null|int $fan_id 粉丝，默认为当前登陆用户
-	 * @param int $$sockpuppet 马甲信息
+	 * @param int $sockpuppet 马甲信息
+	 * @return int
+	 * @throws Exception
 	 */
 	public static function add($user_id, $trackid = '', $fan_id = null, $sockpuppet = 0){
 		if($fan_id === null){
@@ -86,6 +90,8 @@ class Follow extends Model{
 	 * 取消关注（若实际在未关注状态，并不抛异常，返回false）
 	 * @param int $user_id 取消关注的人
 	 * @param null|int $fan_id 粉丝，默认为当前登录用户
+	 * @return bool
+	 * @throws Exception
 	 */
 	public static function remove($user_id, $fan_id = null){
 		$fan_id || $fan_id = \F::app()->current_user;
@@ -130,6 +136,7 @@ class Follow extends Model{
 	 * @param int $user_id 被关注的人ID
 	 * @param string $fan_id 粉丝ID，默认为当前登录用户
 	 * @return int 0-未关注;1-单向关注;2-双向关注
+	 * @throws Exception
 	 */
 	public static function isFollow($user_id, $fan_id = null){
 		$fan_id || $fan_id = \F::app()->current_user;
@@ -150,6 +157,7 @@ class Follow extends Model{
 	 * @param array $user_ids 由用户ID组成的一维数组
 	 * @param string $fan_id 粉丝ID，默认为当前登录用户
 	 * @return array 根据传入的$user_ids为数组的键，对应值为:0-未关注;1-单向关注;2-双向关注
+	 * @throws Exception
 	 */
 	public static function mIsFollow($user_ids, $fan_id = null){
 		$fan_id || $fan_id = \F::app()->current_user;
@@ -177,6 +185,7 @@ class Follow extends Model{
 	 * @param string $fields 字段
 	 * @param int $page 页码
 	 * @param int $page_size 分页大小
+	 * @return array
 	 */
 	public static function follows($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
@@ -231,6 +240,7 @@ class Follow extends Model{
 	 * @param string $fields 字段
 	 * @param int $page 页码
 	 * @param int $page_size 分页大小
+	 * @return array
 	 */
 	public static function fans($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;

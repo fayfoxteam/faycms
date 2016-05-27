@@ -14,6 +14,7 @@ class Role extends Model{
 	public $public_fields = array('id', 'title', 'description');
 	
 	/**
+	 * @param string $class_name
 	 * @return Role
 	 */
 	public static function model($class_name = __CLASS__){
@@ -153,6 +154,7 @@ class Role extends Model{
 	 * 判断一个用户是否属于指定角色
 	 * @param int $role_id 角色ID
 	 * @param int $user_id 用户ID
+	 * @return bool
 	 */
 	public function is($role_id, $user_id = null){
 		if($user_id === null){

@@ -28,6 +28,7 @@ use fay\models\tables\PostExtra;
 class Post extends Model{
 
 	/**
+	 * @param string $class_name
 	 * @return Post
 	 */
 	public static function model($class_name = __CLASS__){
@@ -43,6 +44,7 @@ class Post extends Model{
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组
 	 *   - props 以属性ID为键，属性值为值构成的关联数组
 	 * @param int $user_id 作者ID
+	 * @return int 文章ID
 	 */
 	public function create($post, $extra = array(), $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -150,13 +152,14 @@ class Post extends Model{
 	/**
 	 * 更新一篇文章
 	 * @param int $post_id 文章ID
-	 * @param array $post posts表相关字段
+	 * @param array $data posts表相关字段
 	 * @param array $extra 其它字段
 	 *   - categories 附加分类ID，逗号分隔或一维数组。若不传，则不会更新，若传了空数组，则清空附加分类。
 	 *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
 	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
 	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
+	 * @return bool
 	 */
 	public function update($post_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原文章
@@ -334,6 +337,8 @@ class Post extends Model{
 	
 	/**
 	 * 彻底删除一篇文章
+	 * @param $post_id
+	 * @return bool
 	 */
 	public function remove($post_id){
 		//获取文章删除状态
@@ -381,11 +386,14 @@ class Post extends Model{
 		
 		//删除文章扩展信息
 		PostExtra::model()->delete('post_id = ' . $post_id);
+		
+		return true;
 	}
 	
 	/**
 	 * 删除一篇文章
 	 * @param int $post_id 文章ID
+	 * @return bool
 	 */
 	public function delete($post_id){
 		$post = Posts::model()->find($post_id, 'user_id,deleted,status');
@@ -418,6 +426,7 @@ class Post extends Model{
 	/**
 	 * 还原一篇文章
 	 * @param int $post_id 文章ID
+	 * @return bool
 	 */
 	public function undelete($post_id){
 		$post = Posts::model()->find($post_id, 'user_id,deleted,status');

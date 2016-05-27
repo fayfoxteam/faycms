@@ -11,6 +11,7 @@ class Profile extends Model{
 	private $default_fields = array('reg_time', 'last_login_time', 'last_login_ip', 'last_time_online');
 	
 	/**
+	 * @param string $class_name
 	 * @return Profile
 	 */
 	public static function model($class_name = __CLASS__){

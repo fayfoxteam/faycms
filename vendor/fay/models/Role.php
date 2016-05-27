@@ -9,6 +9,7 @@ use fay\helpers\FieldHelper;
 
 class Role extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Role
 	 */
 	public static function model($class_name = __CLASS__){
@@ -19,6 +20,7 @@ class Role extends Model{
 	 * 获取一个或多个角色，fields可指定是否返回角色附加属性
 	 * @param int|array|string $ids 可以是数字id，或id组成的数组，或逗号分割的id字符串
 	 * @param string $fields
+	 * @return array
 	 */
 	public function get($ids, $fields = 'roles.*,props.*'){
 		$fields = FieldHelper::process($fields, 'roles');

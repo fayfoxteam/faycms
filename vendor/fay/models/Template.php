@@ -12,6 +12,7 @@ class Template extends Model{
 	public $templates = array();
 	
 	/**
+	 * @param string $class_name
 	 * @return Template
 	 */
 	public static function model($class_name = __CLASS__){
@@ -30,7 +31,6 @@ class Template extends Model{
 		
 		if($msg && $msg['enable']){
 			if(!empty($options)){
-				$msg['content'] = $msg['content'];
 				foreach ( $options as $key => $value ) {
 					$msg['content'] = str_replace ( '{$' . $key . '}', $value, $msg['content'] );
 				}

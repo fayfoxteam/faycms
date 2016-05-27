@@ -7,6 +7,7 @@ use fay\helpers\StringHelper;
 
 class Menu extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Menu
 	 */
 	public static function model($class_name = __CLASS__){
@@ -27,6 +28,7 @@ class Menu extends Model{
 	 * @param int $parent
 	 * @param int $sort
 	 * @param array $data
+	 * @return int
 	 */
 	public function create($parent, $sort = 100, $data = array()){
 		return Tree::model()->create('fay\models\tables\Menus', $parent, $sort, $data);
@@ -35,6 +37,7 @@ class Menu extends Model{
 	/**
 	 * 删除一个节点，其子节点将被挂载到父节点
 	 * @param int $id
+	 * @return bool
 	 */
 	public function remove($id){
 		return Tree::model()->remove('fay\models\tables\Menus', $id);
@@ -43,6 +46,7 @@ class Menu extends Model{
 	/**
 	 * 删除一个节点，及其所有子节点
 	 * @param int $id
+	 * @return bool
 	 */
 	public function removeAll($id){
 		return Tree::model()->removeAll('fay\models\tables\Menus', $id);
@@ -50,9 +54,10 @@ class Menu extends Model{
 	
 	/**
 	 * 更新一个节点
-	 * @param int $parent
-	 * @param int $sort
+	 * @param $id
 	 * @param array $data
+	 * @param int $sort
+	 * @param int $parent
 	 */
 	public function update($id, $data, $sort = null, $parent = null){
 		return Tree::model()->update('fay\models\tables\Menus', $id, $data, $sort, $parent);
@@ -71,6 +76,7 @@ class Menu extends Model{
 	 * 根据ID获取一个菜单项
 	 * @param int $id
 	 * @param string $fields
+	 * @return array|bool
 	 */
 	public function getById($id, $fields = 'id,parent,alias,title,sort'){
 		return Menus::model()->find($id, $fields);
@@ -94,6 +100,7 @@ class Menu extends Model{
 	 *  - 若为数字，视为分类ID获取菜单
 	 *  - 若为字符串，视为分类别名获取菜单
 	 * @param string $fields
+	 * @return array|bool
 	 */
 	public function get($menu, $fields = 'id,parent,alias,title,sort'){
 		if(StringHelper::isInt($menu)){
@@ -109,8 +116,8 @@ class Menu extends Model{
 	 * @param int|string|null $parent 父节点ID或别名
 	 *  - 若为数字，视为ID获取菜单；
 	 *  - 若为字符串，视为别名获取菜单；
-	 * @param $real_link 返回渲染后的真实url
-	 * @param $only_enabled 若为true，仅返回启用的菜单集
+	 * @param bool $real_link 返回渲染后的真实url
+	 * @param bool $only_enabled 若为true，仅返回启用的菜单集
 	 * @return array
 	 */
 	public function getTree($parent = null, $real_link = true, $only_enabled = true){
@@ -124,6 +131,10 @@ class Menu extends Model{
 	/**
 	 * 根据父节点别名，返回导航树
 	 * 若不指定别名，返回用户自定义菜单
+	 * @param mixed $alias
+	 * @param bool $real_link 返回渲染后的真实url
+	 * @param bool $only_enabled 若为true，仅返回启用的菜单集
+	 * @return array
 	 */
 	public function getTreeByParentAlias($alias = null, $real_link = true, $only_enabled = true){
 		if($alias === null){
@@ -141,6 +152,10 @@ class Menu extends Model{
 	/**
 	 * 根据父节点ID，返回导航树
 	 * 若不指定ID，返回用户自定义菜单
+	 * @param null $id
+	 * @param bool $real_link
+	 * @param bool $only_enabled
+	 * @return array
 	 */
 	public function getTreeByParentId($id = null, $real_link = true, $only_enabled = true){
 		$id === null && $id = Menus::ITEM_USER_MENU;
@@ -186,6 +201,8 @@ class Menu extends Model{
 	
 	/**
 	 * 将link替换为真实url
+	 * @param array $menus
+	 * @return array
 	 */
 	public function renderLink($menus){
 		foreach($menus as &$m){

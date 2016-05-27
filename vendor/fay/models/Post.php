@@ -12,7 +12,6 @@ use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\post\Meta;
 use fay\models\post\Category as PostCategory;
-use fay\models\Category;
 use fay\models\post\Tag as PostTag;
 use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;

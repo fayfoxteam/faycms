@@ -21,7 +21,7 @@ class LinkController extends AdminController{
 		$this->form()->setModel(Links::model());
 		if($this->input->post() && $this->form()->check()){
 			$data = $this->form()->getFilteredData();
-			isset($data['visiable']) || $data['visiable'] = 1;
+			isset($data['visible']) || $data['visible'] = 1;
 			$data['create_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
 			$data['last_modified_time'] = $this->current_time;
@@ -48,8 +48,8 @@ class LinkController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
-				isset($data['visiable']) || $data['visiable'] = 1;
-				$data['visiable'] = $this->input->post('visiable', 'intval', 1);
+				isset($data['visible']) || $data['visible'] = 1;
+				$data['visible'] = $this->input->post('visible', 'intval', 1);
 				$data['last_modified_time'] = $this->current_time;
 				Links::model()->update($data, array('id = ?'=>$id));
 				$this->actionlog(Actionlogs::TYPE_LINK, '编辑友情链接', $id);

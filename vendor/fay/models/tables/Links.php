@@ -10,7 +10,7 @@ use fay\core\db\Table;
  * @property string $title 标题
  * @property string $description 描述
  * @property string $url 网址
- * @property int $visiable 可见
+ * @property int $visible 可见
  * @property int $user_id 添加者
  * @property string $target 打开方式
  * @property int $create_time 创建时间
@@ -34,7 +34,7 @@ class Links extends Table{
 		return array(
 			array(array('user_id', 'logo'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('visiable'), 'int', array('min'=>-128, 'max'=>127)),
+			array(array('visible'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'description', 'url'), 'string', array('max'=>255)),
 			array(array('target'), 'string', array('max'=>25)),
@@ -50,7 +50,7 @@ class Links extends Table{
 			'title'=>'标题',
 			'description'=>'描述',
 			'url'=>'网址',
-			'visiable'=>'可见',
+			'visible'=>'可见',
 			'user_id'=>'用户ID',
 			'target'=>'打开方式',
 			'create_time'=>'创建时间',
@@ -66,7 +66,7 @@ class Links extends Table{
 			'title'=>'trim',
 			'description'=>'trim',
 			'url'=>'trim',
-			'visiable'=>'intval',
+			'visible'=>'intval',
 			'user_id'=>'intval',
 			'target'=>'trim',
 			'sort'=>'intval',

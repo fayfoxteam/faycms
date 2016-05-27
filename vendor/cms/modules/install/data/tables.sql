@@ -441,7 +441,7 @@ CREATE TABLE `{{$prefix}}links` (
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '网址',
-  `visiable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '可见',
+  `visible` tinyint(1) NOT NULL DEFAULT '1' COMMENT '可见',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `target` varchar(25) NOT NULL DEFAULT '' COMMENT '打开方式',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',

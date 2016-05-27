@@ -17,7 +17,7 @@ class ClientController extends FrontController{
 	
 	public function index(){
 		$this->view->links = Links::model()->fetchAll(array(
-			'visiable = 1',
+			'visible = 1',
 		), '*', 'sort');
 		
 		$this->layout->breadcrumbs = array(

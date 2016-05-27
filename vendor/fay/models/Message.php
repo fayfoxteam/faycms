@@ -1,10 +1,8 @@
 <?php
 namespace fay\models;
 
-use fay\models\MultiTree;
 use fay\models\tables\Messages;
 use fay\helpers\FieldHelper;
-use fay\models\Option;
 use fay\models\tables\UserCounter;
 use fay\models\User;
 use fay\core\ErrorException;
@@ -356,7 +354,9 @@ class Message extends MultiTree{
 	 * @param int $page_size 分页大小
 	 * @param int $page 页码
 	 * @param array|string $fields 字段
+	 * @param string $order
 	 * @return array
+	 * @throws ErrorException
 	 */
 	public function getChildrenList($parent_id, $page_size = 10, $page = 1, $fields = array(
 		'message'=>array(

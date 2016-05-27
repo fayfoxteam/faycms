@@ -11,6 +11,8 @@ class Email extends Model{
 	 * @param string|array $address 邮箱地址
 	 * @param string $subject 邮件标题
 	 * @param string $body 邮件内容
+	 * @return bool|string
+	 * @throws ErrorException
 	 */
 	public static function send($address, $subject, $body){
 		$config = Option::getGroup('email');

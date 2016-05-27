@@ -58,6 +58,7 @@ class Feed extends Model{
 	);
 	
 	/**
+	 * @param string $class_name
 	 * @return Feed
 	 */
 	public static function model($class_name = __CLASS__){
@@ -72,7 +73,7 @@ class Feed extends Model{
 	public static function isFeedIdExist($feed_id){
 		if($feed_id){
 			$feed = Feeds::model()->find($feed_id, 'deleted,publish_time,status');
-			if($feed['deleted'] || $feed['publish_time'] > \F::app()->current_time || $feed['status'] != Feeds::STATUS_PUBLISHED){
+			if($feed['deleted'] || $feed['publish_time'] > \F::app()->current_time || $feed['status'] == Feeds::STATUS_DRAFT){
 				return false;
 			}else{
 				return true;
@@ -92,7 +93,8 @@ class Feed extends Model{
 	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
-	 * @param bool $only_publish 若为true，则只在已发布的动态里搜索。默认为true
+	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
+	 * @return array|bool
 	 */
 	public function get($id, $fields = null, $only_published = true){
 		$fields || $fields = self::$default_fields;
@@ -155,7 +157,7 @@ class Feed extends Model{
 	}
 	
 	/**
-	 * 
+	 *
 	 * @param array $feed_ids 动态ID构成的一维数组
 	 * @param string|array $fields
 	 *  - feeds.*系列可指定feeds表返回字段，若有一项为'feed.*'，则返回所有字段
@@ -164,7 +166,8 @@ class Feed extends Model{
 	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
-	 * @param bool $only_publish 若为true，则只在已发布的动态里搜索。默认为true
+	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
+	 * @return array
 	 */
 	public function mget($feed_ids, $fields, $only_published = true){
 		//解析$fields
@@ -226,6 +229,7 @@ class Feed extends Model{
 	 *  - 若是数字，视为动态ID，会根据ID搜索数据库
 	 * @param string $user_id 用户ID，若为空，则默认为当前登录用户
 	 * @return bool
+	 * @throws ErrorException
 	 */
 	public function checkDeletePermission($feed, $user_id = null){
 		if(!is_array($feed)){

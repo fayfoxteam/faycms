@@ -55,6 +55,8 @@ class Exam extends Model{
 	
 	/**
 	 * 判断一个选择题的答案是否参与考试并且已被用户选中
+	 * @param $answer_id
+	 * @return bool
 	 */
 	public static function isAnswerExamed($answer_id){
 		return !!ExamExamQuestionAnswersInt::model()->fetchRow(array(
@@ -64,11 +66,12 @@ class Exam extends Model{
 	
 	/**
 	 * 记录一份大卷
-	 * @param int $paper_id
+	 * @param $paper
 	 * @param int $start_time
 	 * @param int $user_answers 用户作答，键值对形式
 	 * @param int $user_id
 	 * @return int
+	 * @internal param int $paper_id
 	 */
 	public function record($paper, $start_time, $user_answers, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;

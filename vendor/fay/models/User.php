@@ -44,6 +44,7 @@ class User extends Model{
 	private $_denied_routers = array();
 	
 	/**
+	 * @param string $class_name
 	 * @return User
 	 */
 	public static function model($class_name = __CLASS__){
@@ -125,6 +126,7 @@ class User extends Model{
 	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
+	 * @return array
 	 */
 	public function mget($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
 		if(empty($ids)){
@@ -217,6 +219,9 @@ class User extends Model{
 	 * 获取用户附加属性
 	 * 可传入props（并不一定真的是当前用户分类对应的属性，比如编辑用户所属分类的时候会传入其他属性）<br>
 	 * 若不传入，则会自动获取当前用户所属角色的属性集
+	 * @param int $user_id
+	 * @param array|null $props
+	 * @return array
 	 */
 	public function getPropertySet($user_id, $props = null){
 		if($props === null){
@@ -233,6 +238,7 @@ class User extends Model{
 	/**
 	 * 根据用户ID，获取用户对应属性（不带属性值）
 	 * @param int $user_id
+	 * @return array
 	 */
 	public function getProps($user_id){
 		$role_ids = Role::model()->getIds($user_id);
@@ -242,6 +248,7 @@ class User extends Model{
 	/**
 	 * 根据角色id，获取相关属性（不带属性值）
 	 * @param array $role_ids 由角色id构成的一维数组
+	 * @return array
 	 */
 	public function getPropsByRoles($role_ids){
 		return Prop::model()->mget($role_ids, Props::TYPE_ROLE);
@@ -267,6 +274,7 @@ class User extends Model{
 	 * 获取一个用户属性值
 	 * @param int $user_id
 	 * @param string $alias
+	 * @return mixed
 	 */
 	public function getPropValueByAlias($alias, $user_id = null){
 		$user_id === null && $user_id = \F::app()->current_user;
@@ -292,6 +300,7 @@ class User extends Model{
 	 * 判断一个用户ID是否存在，若为0或者其他等价于false的值，直接返回false。
 	 * 即便是deleted标记为已删除的用户，也被视为存着的用户ID
 	 * @param int $user_id
+	 * @return bool
 	 */
 	public static function isUserIdExist($user_id){
 		if($user_id){
@@ -306,6 +315,7 @@ class User extends Model{
 	 * 从数据库中获取role.id和actions信息
 	 * @param string $router 路由
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
 	 */
 	public function checkPermission($router, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -349,7 +359,9 @@ class User extends Model{
 	
 	/**
 	 * 获取上一次登录信息（登录记录的倒数第二条）
+	 * @param string $fields
 	 * @param int $user_id 用户ID
+	 * @return array|bool
 	 */
 	public function getLastLoginInfo($fields = '*', $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
@@ -362,6 +374,7 @@ class User extends Model{
 	/**
 	 * 判断指定用户是否是管理员
 	 * @param int $user_id
+	 * @return bool
 	 */
 	public function isAdmin($user_id = null){
 		$user_id || $user_id = \F::app()->current_user;

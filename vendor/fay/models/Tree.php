@@ -19,6 +19,7 @@ use fay\helpers\StringHelper;
  */
 class Tree extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Tree
 	 */
 	public static function model($class_name = __CLASS__){
@@ -30,8 +31,10 @@ class Tree extends Model{
 	 * @param string $model
 	 * @param int $parent
 	 * @param int $start_num
+	 * @param array $nodes
+	 * @return int
 	 */
-	public function buildIndex($model, $parent = 0, $start_num = 1, $nodes = null){
+	public function buildIndex($model, $parent = 0, $start_num = 1, $nodes = array()){
 		$nodes || $nodes = \F::model($model)->fetchAll('parent = ' . $parent, 'id', 'sort, id ASC');
 		foreach($nodes as $node){
 			$children = \F::model($model)->fetchAll('parent = ' . $node['id'], 'id', 'sort, id ASC');
@@ -61,6 +64,7 @@ class Tree extends Model{
 	 * @param int $sort 排序值
 	 * @param array $data 其它参数
 	 * @return int 节点ID
+	 * @throws Exception
 	 */
 	public function create($model, $parent, $sort, $data){
 		if($parent == 0){
@@ -314,11 +318,13 @@ class Tree extends Model{
 			$this->sort($model, $node, $sort);
 		}
 	}
-
+	
 	/**
 	 * 根据顶层节点ID返回一棵树，但并不包含顶层节点本身
 	 * @param string $model
 	 * @param int $parent
+	 * @param string $fields
+	 * @return array
 	 */
 	public function getTree($model, $parent = 0, $fields = '*'){
 		if($parent == 0){
@@ -330,14 +336,15 @@ class Tree extends Model{
 				'right_value < ' . $parent_node['right_value'],
 			), $fields, 'left_value');
 		}
-		return $this->renderTree($nodes, $parent);
+		return $this->renderTree($nodes);
 	}
 	
 	/**
 	 * 根据left_value和right_value渲染出一个多维数组
 	 * @param array $nodes
+	 * @return array
 	 */
-	public function renderTree($nodes, $parent = 0){
+	public function renderTree($nodes){
 		if(empty($nodes)) return array();
 		$level = 0;//下一根树枝要挂载的层级
 		$current_level = 0;//当前层级
@@ -389,6 +396,7 @@ class Tree extends Model{
 	 * @param array $branch
 	 * @param array $tree
 	 * @param int $level
+	 * @return array
 	 */
 	private function mountBranch($branch, $tree, $level){
 		if($level == 0){
@@ -407,6 +415,7 @@ class Tree extends Model{
 	 * 根据parent字段来渲染出一个多维数组
 	 * @param array $nodes
 	 * @param int $parent
+	 * @return array
 	 */
 	public function renderTreeByParent(&$nodes, $parent = 0){
 		$tree = array();
@@ -430,6 +439,7 @@ class Tree extends Model{
 	 * 删除一个节点，其子节点将被挂载到父节点
 	 * @param string $model 表模型
 	 * @param int $id 节点ID
+	 * @return bool
 	 */
 	public function remove($model, $id){
 		//获取被删除节点
@@ -471,6 +481,7 @@ class Tree extends Model{
 	 * 删除一个节点，及其所有子节点
 	 * @param string $model 表模型
 	 * @param int $id 节点ID
+	 * @return bool
 	 */
 	public function removeAll($model, $id){
 		//获取被删除节点
@@ -626,6 +637,7 @@ class Tree extends Model{
 	 * @param int|string|array $node2
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若是数组，必须包含left_value和right_value
+	 * @return bool
 	 */
 	public function isChild($model, $node1, $node2){
 		if(!is_array($node1)){

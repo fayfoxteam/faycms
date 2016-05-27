@@ -8,6 +8,7 @@ use fay\models\tables\UsersNotifications;
 
 class Notification extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Notification
 	 */
 	public static function model($class_name = __CLASS__){
@@ -17,10 +18,12 @@ class Notification extends Model{
 	/**
 	 * 发送一条notification
 	 * @param int|array $to
+	 * @param string $title
 	 * @param string $content
 	 * @param int $from
+	 * @param int $cat_id
 	 * @param int|null $publish_time
-	 * @return 消息id
+	 * @return int 消息id
 	 */
 	public function send($to, $title, $content, $from = Users::ITEM_SYSTEM_NOTIFICATION, $cat_id = 0, $publish_time = null){
 		if(!is_array($to)){

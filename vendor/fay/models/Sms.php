@@ -10,6 +10,10 @@ class Sms extends Model{
 	 * 发送一个短信
 	 * @param string $to 收短信手机
 	 * @param string $content 短信内容
+	 * @param $template_id
+	 * @return mixed
+	 * @throws ErrorException
+	 * @throws \Exception
 	 */
 	public static function send($to, $content, $template_id){
 		$config = Option::getGroup('ucpaas');

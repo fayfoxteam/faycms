@@ -8,6 +8,7 @@ use fay\helpers\StringHelper;
 
 class Qiniu extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Qiniu
 	 */
 	public static function model($class_name = __CLASS__){
@@ -54,7 +55,7 @@ class Qiniu extends Model{
 	
 	/**
 	 * 根据本地文件ID，删除对应七牛空间的文件
-	 * @param int $file_id 本地文件ID
+	 * @param $file
 	 * @return bool
 	 */
 	public function delete($file){

@@ -6,6 +6,7 @@ use fay\models\tables\UserSettings;
 
 class Setting extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Setting
 	 */
 	public static function model($class_name = __CLASS__){

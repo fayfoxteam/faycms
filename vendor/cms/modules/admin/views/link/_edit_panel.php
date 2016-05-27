@@ -38,7 +38,7 @@ use fay\helpers\Html;
 <div class="form-field">
 	<label class="title bold">可见性</label>
 	<p>
-		<?php echo F::form()->inputCheckbox('visiable', '0', array(
+		<?php echo F::form()->inputCheckbox('visible', '0', array(
 			'label'=>'将这个链接设置为不可见',
 		))?>
 	</p>

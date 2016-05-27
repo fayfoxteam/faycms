@@ -7,6 +7,7 @@ use fay\helpers\Request;
 
 class Log extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Log
 	 */
 	public static function model($class_name = __CLASS__){

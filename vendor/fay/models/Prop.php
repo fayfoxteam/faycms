@@ -10,6 +10,7 @@ use fay\helpers\ArrayHelper;
 
 class Prop extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Prop
 	 */
 	public static function model($class_name = __CLASS__){
@@ -108,6 +109,7 @@ class Prop extends Model{
 	/**
 	 * 获取一个属性，若其为可选属性，则同时获取所有可选项
 	 * @param int $id
+	 * @return array|bool
 	 */
 	public function get($id){
 		$prop = Props::model()->fetchRow(array(
@@ -136,7 +138,8 @@ class Prop extends Model{
 	 * 若fields字段包含values，则同时获取可选属性值
 	 * @param int|array $refer 引用
 	 * @param int $type
-	 * @param string $fields
+	 * @param bool $with_values
+	 * @return array
 	 */
 	public function mget($refer, $type, $with_values = true){
 		if(is_array($refer)){
@@ -171,9 +174,10 @@ class Prop extends Model{
 	/**
 	 * 获取一个或多个别名对应的属性
 	 * 若fields字段包含values，则同时获取可选属性值
-	 * @param string|array $alias 属性别名
+	 * @param array|string $aliases 属性别名
 	 * @param int $type
-	 * @param string $fields
+	 * @param bool $with_values
+	 * @return array
 	 */
 	public function mgetByAlias($aliases, $type, $with_values = true){
 		if(!is_array($aliases)){
@@ -206,6 +210,7 @@ class Prop extends Model{
 	/**
 	 * 为props附加可选值
 	 * @param array $props
+	 * @return array
 	 */
 	private function addValues($props){
 		//获取属性对应的可选属性值
@@ -310,6 +315,11 @@ class Prop extends Model{
 	
 	/**
 	 * 获取一个属性集
+	 * @param $field
+	 * @param $refer
+	 * @param $props
+	 * @param $models
+	 * @return array
 	 */
 	public function getPropertySet($field, $refer, $props, $models){
 		$property_set = array();
@@ -547,12 +557,13 @@ class Prop extends Model{
 	 * @param string $field 字段名，$refer对应的字段
 	 * @param int $refer 字段值
 	 * @param string $alias 属性别名
-* @param mixed $value 属性值<br>
+	 * @param mixed $value 属性值<br>
 	 * 若属性元素对应的是输入框，文本域或单选框，则直接更新属性值<br>
 	 * 若属性元素对应的是多选框：<br>
 	 *     当$value是数字的时候，仅做插入（已存在则无操作）操作，<br>
 	 *     当$value是数组的时候，将影响原有的属性值（不存在则删除，已存在则无操作）。
 	 * @param array $models varchar, int, text等字段类型对应的表模型
+	 * @return bool
 	 */
 	public function setPropValueByAlias($field, $refer, $alias, $value, $models){
 		$prop = Props::model()->fetchRow(array(
@@ -671,8 +682,11 @@ class Prop extends Model{
 	
 	/**
 	 * 获取一个用户属性值
-	 * @param int $user_id
+	 * @param $field
+	 * @param $refer
 	 * @param string $alias
+	 * @param $models
+	 * @return mixed
 	 */
 	public function getPropValueByAlias($field, $refer, $alias, $models){
 		$prop = Props::model()->fetchRow(array(
@@ -702,16 +716,16 @@ class Prop extends Model{
 					->fetchRow()
 				;
 			case Props::ELEMENT_SELECT:
-				return $sql->from(array('pi'=>\F::model($models['int'])->getTableName()), '')
-					->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
-					->where(array(
-						"pi.{$field} = ?"=>$refer,
-						'pi.prop_id = ?'=>$prop['id'],
-					))
-					->fetchRow()
-				;
 			case Props::ELEMENT_CHECKBOX:
-				return $sql->from(array('pi'=>\F::model($models['int'])->getTableName()), '')
+			return $sql->from(array('pi'=>\F::model($models['int'])->getTableName()), '')
+				->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
+				->where(array(
+					"pi.{$field} = ?"=>$refer,
+					'pi.prop_id = ?'=>$prop['id'],
+				))
+				->fetchRow()
+				;
+			return $sql->from(array('pi'=>\F::model($models['int'])->getTableName()), '')
 					->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
 					->where(array(
 						"pi.{$field} = ?"=>$refer,
@@ -734,6 +748,8 @@ class Prop extends Model{
 	
 	/**
 	 * 根据属性别名，获取可选的属性值
+	 * @param $alias
+	 * @return array|bool
 	 */
 	public function getPropOptionsByAlias($alias){
 		$prop = Props::model()->fetchRow(array(

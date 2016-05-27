@@ -44,6 +44,8 @@ abstract class MultiTree extends Model{
 	protected $field_key;
 	
 	public function __construct(){
+		parent::__construct();
+		
 		if(!$this->model){
 			throw new ErrorException(__CLASS__ . '::$model属性未指定');
 		}
@@ -56,6 +58,7 @@ abstract class MultiTree extends Model{
 	}
 	
 	/**
+	 * @param string $class_name
 	 * @return MultiTree
 	 */
 	public static function model($class_name = __CLASS__){
@@ -208,6 +211,8 @@ abstract class MultiTree extends Model{
 	/**
 	 * 删除一个节点，及其所有子节点
 	 * @param int|array $node 节点ID或包含id,left_value,right_value,root节点信息的数组
+	 * @return bool
+	 * @throws ErrorException
 	 */
 	public function removeAll($node){
 		//获取被删除节点
@@ -253,6 +258,7 @@ abstract class MultiTree extends Model{
 	 * @param int $parent
 	 * @param int $start_num
 	 * @param array $nodes 递归的时候，直接传入子节点，而不需要再搜一次
+	 * @return int
 	 */
 	public function buildIndex($root, $parent = 0, $start_num = 0, $nodes = null){
 		$nodes || $nodes = \F::model($this->model)->fetchAll(array(
@@ -293,6 +299,7 @@ abstract class MultiTree extends Model{
 	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param string $order 排序条件
+	 * @return array
 	 */
 	protected function _getTree($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
 		//解析$fields
@@ -369,6 +376,7 @@ abstract class MultiTree extends Model{
 	 * @param array $fields
 	 * @param int $parent
 	 * @param array $extra
+	 * @return array
 	 */
 	public function renderTree($nodes, $fields, $parent = 0, $extra = array()){
 		$tree = array();
@@ -411,6 +419,7 @@ abstract class MultiTree extends Model{
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param array $join_conditions 若fields指定父节点信息，则需要自连接，该条件用于自连接时的附加条件
 	 * @param string $order
+	 * @return array
 	 */
 	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'id DESC'){
 		//解析$fields
@@ -525,6 +534,7 @@ abstract class MultiTree extends Model{
 	 * @param string $fields
 	 * @param array $conditions
 	 * @param string $order 程序内部已经按照root DESC排序了，因为同一个会话必须在一起，否则无法渲染，可以附加其他排序条件
+	 * @return array
 	 */
 	protected function _getChats($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'id DESC'){
 		//解析$fields

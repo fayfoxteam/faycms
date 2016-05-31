@@ -1,27 +1,22 @@
 <?php
 namespace fay\models;
 
-use fay\core\Model;
 use fay\models\tables\Categories;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 
-class Category extends Model{
+class Category extends Tree{
+	/**
+	 * @see Tree::$model
+	 */
+	protected $model = '\fay\models\tables\Categories';
+	
 	/**
 	 * @param string $class_name
 	 * @return Category
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);
-	}
-	
-	/**
-	 * 索引记录
-	 * @param int $parent
-	 * @param int $start_num
-	 */
-	public function buildIndex($parent = 0, $start_num = 1){
-		Tree::model()->buildIndex('fay\models\tables\Categories', $parent, $start_num);
 	}
 	
 	/**
@@ -218,13 +213,13 @@ class Category extends Model{
 	 *  - 若为字符串，视为分类别名获取分类；
 	 * @return array
 	 */
-	public function getTree($parent = null){
+	public function getTree($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system'){
 		if($parent === null){
-			return Tree::model()->getTree('fay\models\tables\Categories');
+			return parent::getTree(0, $fields);
 		}else if(StringHelper::isInt($parent)){
-			return $this->getTreeByParentId($parent);
+			return $this->getTreeByParentId($parent, $fields);
 		}else{
-			return $this->getTreeByParentAlias($parent);
+			return $this->getTreeByParentAlias($parent, $fields);
 		}
 	}
 	
@@ -234,13 +229,13 @@ class Category extends Model{
 	 * @param string $alias
 	 * @return array
 	 */
-	public function getTreeByParentAlias($alias = null){
+	public function getTreeByParentAlias($alias = null, $fields = '!seo_title,seo_keywords,seo_description,is_system'){
 		if($alias === null){
-			return Tree::model()->getTree('fay\models\tables\Categories');
+			return parent::getTree(0, $fields);
 		}else{
 			$node = $this->getByAlias($alias, 'id');
 			if($node){
-				return Tree::model()->getTree('fay\models\tables\Categories', $node['id']);
+				return parent::getTree($node['id'], $fields);
 			}else{
 				return array();
 			}
@@ -255,7 +250,7 @@ class Category extends Model{
 	 * @return array
 	 */
 	public function getTreeByParentId($id = 0, $fields = '!seo_title,seo_keywords,seo_description,is_system'){
-		return Tree::model()->getTree('fay\models\tables\Categories', $id, $fields);
+		return parent::getTree($id, $fields);
 	}
 	
 	/**
@@ -336,55 +331,6 @@ class Category extends Model{
 	}
 	
 	/**
-	 * 修改一条记录的sort值，并修改左右值
-	 * @param int $id
-	 * @param int $sort
-	 */
-	public function sort($id, $sort){
-		Tree::model()->sort('fay\models\tables\Categories', $id, $sort);
-	}
-	
-	/**
-	 * 创建一个节点
-	 * @param int $parent
-	 * @param int $sort
-	 * @param array $data
-	 * @return int
-	 */
-	public function create($parent, $sort = 100, $data = array()){
-		return Tree::model()->create('fay\models\tables\Categories', $parent, $sort, $data);
-	}
-	
-	/**
-	 * 删除一个节点，其子节点将被挂载到父节点
-	 * @param int $id
-	 * @return bool
-	 */
-	public function remove($id){
-		return Tree::model()->remove('fay\models\tables\Categories', $id);
-	}
-	
-	/**
-	 * 删除一个节点，及其所有子节点
-	 * @param int $id
-	 * @return bool
-	 */
-	public function removeAll($id){
-		return Tree::model()->removeAll('fay\models\tables\Categories', $id);
-	}
-	
-	/**
-	 * 更新一个节点
-	 * @param $id
-	 * @param array $data
-	 * @param int $sort
-	 * @param int $parent
-	 */
-	public function update($id, $data, $sort = null, $parent = null){
-		return Tree::model()->update('fay\models\tables\Categories', $id, $data, $sort, $parent);
-	}
-	
-	/**
 	 * 判断$cat1是否为$cat2的子节点（是同一节点也返回true）
 	 * @param int|string|array $cat1
 	 *  - 若为数字，视为分类ID获取分类；
@@ -404,7 +350,7 @@ class Category extends Model{
 			$cat2 = $this->get($cat2, 'left_value,right_value');
 		}
 		
-		return Tree::model()->isChild('fay\models\tables\Categories', $cat1, $cat2);
+		return parent::isChild($cat1, $cat2);
 	}
 	
 	/**
@@ -427,7 +373,7 @@ class Category extends Model{
 			$root = $this->get($root, 'left_value,right_value');
 		}
 		
-		return Tree::model()->getParentIds('fay\models\tables\Categories', $cat, $root);
+		return parent::getParentIds($cat, $root);
 	}
 	
 	/**
@@ -449,7 +395,7 @@ class Category extends Model{
 			$root = $this->get($root, 'left_value,right_value');
 		}
 		
-		return Tree::model()->getParentIds('fay\models\tables\Categories', $cat, $root);
+		return parent::getParentIds($cat, $root);
 	}
 	
 	/**

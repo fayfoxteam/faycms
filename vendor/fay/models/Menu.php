@@ -1,75 +1,21 @@
 <?php
 namespace fay\models;
 
-use fay\core\Model;
 use fay\models\tables\Menus;
 use fay\helpers\StringHelper;
 
-class Menu extends Model{
+class Menu extends Tree{
+	/**
+	 * @see Tree::$model
+	 */
+	protected $model = '\fay\models\tables\Menus';
+	
 	/**
 	 * @param string $class_name
 	 * @return Menu
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);
-	}
-	
-	/**
-	 * 索引记录
-	 * @param int $parent
-	 * @param int $start_num
-	 */
-	public function buildIndex($parent = 0, $start_num = 1){
-		Tree::model()->buildIndex('fay\models\tables\Menus', $parent, $start_num);
-	}
-	
-	/**
-	 * 创建一个节点
-	 * @param int $parent
-	 * @param int $sort
-	 * @param array $data
-	 * @return int
-	 */
-	public function create($parent, $sort = 100, $data = array()){
-		return Tree::model()->create('fay\models\tables\Menus', $parent, $sort, $data);
-	}
-	
-	/**
-	 * 删除一个节点，其子节点将被挂载到父节点
-	 * @param int $id
-	 * @return bool
-	 */
-	public function remove($id){
-		return Tree::model()->remove('fay\models\tables\Menus', $id);
-	}
-	
-	/**
-	 * 删除一个节点，及其所有子节点
-	 * @param int $id
-	 * @return bool
-	 */
-	public function removeAll($id){
-		return Tree::model()->removeAll('fay\models\tables\Menus', $id);
-	}
-	
-	/**
-	 * 更新一个节点
-	 * @param $id
-	 * @param array $data
-	 * @param int $sort
-	 * @param int $parent
-	 */
-	public function update($id, $data, $sort = null, $parent = null){
-		return Tree::model()->update('fay\models\tables\Menus', $id, $data, $sort, $parent);
-	}
-	
-	/**
-	 * 修改一条记录的sort值，并修改左右值
-	 * @param int $id
-	 * @param int $sort
-	 */
-	public function sort($id, $sort){
-		Tree::model()->sort('fay\models\tables\Menus', $id, $sort);
 	}
 	
 	/**
@@ -160,7 +106,7 @@ class Menu extends Model{
 	public function getTreeByParentId($id = null, $real_link = true, $only_enabled = true){
 		$id === null && $id = Menus::ITEM_USER_MENU;
 		
-		$menu = Tree::model()->getTree('fay\models\tables\Menus', $id);
+		$menu = parent::getTree($id);
 		
 		//无法在搜索树的时候就删除关闭的菜单，在这里再循环移除
 		if($only_enabled){

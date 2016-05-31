@@ -28,7 +28,6 @@ class IndexController extends AdminController{
 		
 		//页面设置
 		$_setting_key = 'admin_dashboard_boxes';
-		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		$this->settingForm($_setting_key, '_setting_index');
 		$this->view->enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		

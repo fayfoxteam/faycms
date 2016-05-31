@@ -211,6 +211,7 @@ class Category extends Tree{
 	 * @param int|string $parent 父节点ID或别名
 	 *  - 若为数字，视为分类ID获取分类；
 	 *  - 若为字符串，视为分类别名获取分类；
+	 * @param string $fields
 	 * @return array
 	 */
 	public function getTree($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system'){
@@ -227,6 +228,7 @@ class Category extends Tree{
 	 * 根据父节点别名，获取分类树
 	 * 若不指定别名，返回整张表
 	 * @param string $alias
+	 * @param string $fields
 	 * @return array
 	 */
 	public function getTreeByParentAlias($alias = null, $fields = '!seo_title,seo_keywords,seo_description,is_system'){

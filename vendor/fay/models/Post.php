@@ -103,7 +103,7 @@ class Post extends Model{
 	/**
 	 * 根据文章ID，获取一个属性集
 	 * @param int $post_id 文章ID
-	 * @param null|array $props 属性别名。若为null，则根据文章ID获取所有属性
+	 * @param null|array $props 属性集。若为null，则根据文章ID获取所有属性
 	 * @return array
 	 */
 	public function getPropertySet($post_id, $props = null){

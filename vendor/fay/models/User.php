@@ -100,7 +100,7 @@ class User extends Model{
 			if(in_array('*', $fields['props'])){
 				$props = null;
 			}else{
-				$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_ROLE);
+				$props = Prop::model()->mget($fields['props']);
 			}
 			$return['props'] = $this->getPropertySet($id, $props);
 		}
@@ -199,7 +199,7 @@ class User extends Model{
 				if(in_array('*', $fields['props'])){
 					$props = null;
 				}else{
-					$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_ROLE);
+					$props = Prop::model()->mget($fields['props']);
 				}
 				$user['props'] = $this->getPropertySet($u['id'], $props);
 			}
@@ -251,7 +251,7 @@ class User extends Model{
 	 * @return array
 	 */
 	public function getPropsByRoles($role_ids){
-		return Prop::model()->mget($role_ids, Props::TYPE_ROLE);
+		return Prop::model()->getByRefer($role_ids, Props::TYPE_ROLE);
 	}
 	
 	/**
@@ -263,11 +263,7 @@ class User extends Model{
 	 */
 	public function setPropValueByAlias($alias, $value, $user_id = null){
 		$user_id === null && $user_id = \F::app()->current_user;
-		return Prop::model()->setPropValueByAlias('user_id', $user_id, $alias, $value, array(
-			'varchar'=>'fay\models\tables\UserPropVarchar',
-			'int'=>'fay\models\tables\UserPropInt',
-			'text'=>'fay\models\tables\UserPropText',
-		));
+		return Prop::model()->setPropValueByAlias($user_id, $alias, $value);
 	}
 	
 	/**
@@ -278,11 +274,7 @@ class User extends Model{
 	 */
 	public function getPropValueByAlias($alias, $user_id = null){
 		$user_id === null && $user_id = \F::app()->current_user;
-		return Prop::model()->getPropValueByAlias('user_id', $user_id, $alias, array(
-			'varchar'=>'fay\models\tables\UserPropVarchar',
-			'int'=>'fay\models\tables\UserPropInt',
-			'text'=>'fay\models\tables\UserPropText',
-		));
+		return Prop::model()->getPropValueByAlias($user_id, $alias);
 	}
 	
 	public function getPropOptionsByAlias($alias){

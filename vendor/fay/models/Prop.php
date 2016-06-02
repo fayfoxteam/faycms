@@ -94,7 +94,7 @@ abstract class Prop extends Model{
 	
 	/**
 	 * 更新属性
-	 * @param int $refer 引用
+	 * @param int $refer 引用（例如：角色ID，文章分类ID等）
 	 * @param int $prop_id 属性ID
 	 * @param array $prop 属性参数
 	 * @param array $values 属性值
@@ -175,28 +175,24 @@ abstract class Prop extends Model{
 	}
 	
 	/**
-	 * 获取一个或多个引用ID对应的属性
-	 * 若fields字段包含values，则同时获取可选属性值
-	 * @param int|array $refer 引用
-	 * @param bool $with_values
+	 * 根据引用（例如：文章分类ID，用户角色ID）获取多个属性
+	 * @param int|array $refer 引用ID或引用ID构成的一维数组
+	 * @param bool $with_values 若为true，则附加属性可选值。默认为true
 	 * @return array
 	 */
-	public function mget($refer, $with_values = true){
-		if(is_array($refer)){
-			$refer = implode(',', $refer);
-		}
+	public function getByRefer($refer, $with_values = true){
 		if(StringHelper::isInt($refer)){
 			//获取单个属性
 			$props = Props::model()->fetchAll(array(
 				'refer = ?'=>$refer,
-				'type = ?'=>$this->type,
+				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort, id');
 		}else if(!empty($refer)){
 			//一次获取多个属性
 			$props = Props::model()->fetchAll(array(
-				"refer IN ({$refer})",
-				'type = ?'=>$this->type,
+				'refer IN (?)'=>$refer,
+				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort, id');
 		}else{
@@ -213,27 +209,36 @@ abstract class Prop extends Model{
 	
 	/**
 	 * 获取一个或多个别名对应的属性
-	 * 若fields字段包含values，则同时获取可选属性值
-	 * @param array|string $aliases 属性别名
-	 * @param bool $with_values
+	 * @param array|string $props 属性别名或ID构成的一维数组或逗号分割字符串
+	 *  以第一项为判断依据
+	 *   - 若第一项是数字，视为id
+	 *   - 若第一项不是数字，视为别名
+	 * @param bool $with_values 若为true，则附加属性可选值。默认为true
 	 * @return array
 	 */
-	public function mgetByAlias($aliases, $with_values = true){
-		if(!is_array($aliases)){
-			$aliases = explode(',', $aliases);
+	public function mget($props, $with_values = true){
+		if(!is_array($props)){
+			$props = explode(',', $props);
 		}
-		if(isset($aliases[1])){
+		
+		if(StringHelper::isInt($props[0])){
+			$field = 'id';
+		}else{
+			$field = 'alias';
+		}
+		
+		if(isset($props[1])){
 			//如果有多项，搜索条件用IN
 			$props = Props::model()->fetchAll(array(
-				'alias IN (?)'=>$aliases,
-				'type = ?'=>$this->type,
+				"{$field} IN (?)"=>$props,
+				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort,id');
 		}else{
 			//如果只有一项，搜索条件直接用等于
 			$props = Props::model()->fetchAll(array(
-				'alias = ?'=>$aliases,
-				'type = ?'=>$this->type,
+				"{$field} = ?"=>$props[0],
+				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort,id');
 		}
@@ -587,16 +592,16 @@ abstract class Prop extends Model{
 	
 	/**
 	 * 根据属性别名，单一更新一个属性的属性值
-	 * @param int $refer 字段值
 	 * @param string $alias 属性别名
-	 * @param mixed $value 属性值<br>
-	 * 若属性元素对应的是输入框，文本域或单选框，则直接更新属性值<br>
-	 * 若属性元素对应的是多选框：<br>
-	 *     当$value是数字的时候，仅做插入（已存在则无操作）操作，<br>
-	 *     当$value是数组的时候，将影响原有的属性值（不存在则删除，已存在则无操作）。
+	 * @param mixed $value 属性值
+	 * 若属性元素对应的是输入框，文本域或单选框，则直接更新属性值
+	 * 若属性元素对应的是多选框：
+	 *  - 当$value是数字的时候，仅做插入（已存在则无操作）操作，
+	 *  - 当$value是数组的时候，将影响原有的属性值（不存在则删除，已存在则无操作）
+	 * @param int $refer 引用值（例如：文章ID，用户ID）
 	 * @return bool
 	 */
-	public function setPropValueByAlias($refer, $alias, $value){
+	public function setValue($alias, $value, $refer){
 		$prop = Props::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'id,element');
@@ -713,11 +718,11 @@ abstract class Prop extends Model{
 	
 	/**
 	 * 获取一个用户属性值
-	 * @param $refer
 	 * @param string $alias
+	 * @param int $refer 引用值（例如：文章ID，用户ID）
 	 * @return mixed
 	 */
-	public function getPropValueByAlias($refer, $alias){
+	public function getValue($alias, $refer){
 		$prop = Props::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'id,element');

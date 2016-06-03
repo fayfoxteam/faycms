@@ -10,6 +10,7 @@ use fay\models\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\Actions;
 use fay\models\tables\UserLogins;
+use fay\models\user\Prop;
 
 class User extends Model{
 	/**
@@ -102,7 +103,7 @@ class User extends Model{
 			}else{
 				$props = Prop::model()->mget($fields['props']);
 			}
-			$return['props'] = $this->getPropertySet($id, $props);
+			$return['props'] = Prop::model()->getPropertySet($id, $props);
 		}
 		
 		//角色
@@ -201,7 +202,7 @@ class User extends Model{
 				}else{
 					$props = Prop::model()->mget($fields['props']);
 				}
-				$user['props'] = $this->getPropertySet($u['id'], $props);
+				$user['props'] = Prop::model()->getPropertySet($u['id'], $props);
 			}
 			
 			if($remove_id_field){
@@ -213,26 +214,6 @@ class User extends Model{
 		}
 		
 		return $return;
-	}
-	
-	/**
-	 * 获取用户附加属性
-	 * 可传入props（并不一定真的是当前用户分类对应的属性，比如编辑用户所属分类的时候会传入其他属性）<br>
-	 * 若不传入，则会自动获取当前用户所属角色的属性集
-	 * @param int $user_id
-	 * @param array|null $props
-	 * @return array
-	 */
-	public function getPropertySet($user_id, $props = null){
-		if($props === null){
-			$props = $this->getProps($user_id);
-		}
-		
-		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(
-			'varchar'=>'fay\models\tables\UserPropVarchar',
-			'int'=>'fay\models\tables\UserPropInt',
-			'text'=>'fay\models\tables\UserPropText',
-		));
 	}
 	
 	/**
@@ -252,29 +233,6 @@ class User extends Model{
 	 */
 	public function getPropsByRoles($role_ids){
 		return Prop::model()->getByRefer($role_ids, Props::TYPE_ROLE);
-	}
-	
-	/**
-	 * 设置一个用户属性值
-	 * @param int $user_id
-	 * @param string $alias
-	 * @param mixed $value
-	 * @return bool
-	 */
-	public function setPropValueByAlias($alias, $value, $user_id = null){
-		$user_id === null && $user_id = \F::app()->current_user;
-		return Prop::model()->setPropValueByAlias($user_id, $alias, $value);
-	}
-	
-	/**
-	 * 获取一个用户属性值
-	 * @param int $user_id
-	 * @param string $alias
-	 * @return mixed
-	 */
-	public function getPropValueByAlias($alias, $user_id = null){
-		$user_id === null && $user_id = \F::app()->current_user;
-		return Prop::model()->getPropValueByAlias($user_id, $alias);
 	}
 	
 	public function getPropOptionsByAlias($alias){

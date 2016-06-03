@@ -7,6 +7,7 @@ use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\common\ListView;
 use fay\models\User as UserModel;
+use fay\models\user\Prop;
 use fay\services\User as UserService;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
@@ -177,7 +178,7 @@ class UserController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = UserModel::model()->getPropertySet($user_id);
+		$this->view->prop_set = Prop::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	

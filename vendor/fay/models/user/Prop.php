@@ -58,4 +58,30 @@ class Prop extends \fay\models\Prop{
 		$user_id || $user_id = \F::app()->current_user;
 		return parent::getValue($alias, $user_id);
 	}
+	
+	/**
+	 * 新增一个用户属性集
+	 * @param int $user_id 用户ID
+	 * @param array $data 以属性ID为键的属性键值数组
+	 * @param null|array $props 属性。若为null，则根据用户ID获取属性
+	 */
+	public function createPropertySet($user_id, $data, $props = null){
+		if($props === null){
+			$props = UserModel::model()->getProps($user_id);
+		}
+		Prop::model()->createPropertySet($user_id, $props, $data);
+	}
+	
+	/**
+	 * 更新一个用户属性集
+	 * @param int $user_id 用户ID
+	 * @param array $data 以属性ID为键的属性键值数组
+	 * @param null|array $props 属性。若为null，则根据用户ID获取属性
+	 */
+	public function updatePropertySet($user_id, $data, $props = null){
+		if($props === null){
+			$props = UserModel::model()->getProps($user_id);
+		}
+		Prop::model()->updatePropertySet($user_id, $props, $data);
+	}
 }

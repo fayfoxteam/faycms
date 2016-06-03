@@ -3,8 +3,10 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\Category;
+use fay\models\post\Prop;
 use fay\models\tables\Posts;
 use fay\models\post\Tag;
+use fay\models\tables\PostsCategories;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
@@ -385,7 +387,6 @@ class PostController extends AdminController{
 			->setModel(PostsFiles::model());
 		
 		if($this->input->post() && $this->form()->check()){
-			$new_cat_id = $this->form()->getData('cat_id');
 			$status = $this->form()->getData('status');
 			
 			//未开启审核，文章却被设置为审核状态，强制修改为草稿（一般是之前开启了审核，后来关掉了）
@@ -465,7 +466,7 @@ class PostController extends AdminController{
 			'post_id'=>$post_id,
 		));
 		
-		$post['post_category'] = Post::model()->getCatIds($post_id);
+		$post['post_category'] = PostsCategories::model()->fetchCol('cat_id', array('post_id = ?'=>$post_id));
 		$post['publish_time'] = date('Y-m-d H:i:s', $post['publish_time']);
 		
 		//文章对应标签
@@ -491,7 +492,7 @@ class PostController extends AdminController{
 		$this->view->post = $post;
 		
 		//附加属性
-		$this->view->prop_set = Post::model()->getPropertySet($post['id']);
+		$this->view->prop_set = Prop::model()->getPropertySet($post['id']);
 		
 		$cat = Category::model()->get($post['cat_id'], 'title');
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
@@ -520,7 +521,6 @@ class PostController extends AdminController{
 	
 	/**
 	 * 删除
-	 * @param int $id 文章ID
 	 */
 	public function delete(){
 		$post_id = $this->input->get('id', 'intval');
@@ -539,7 +539,6 @@ class PostController extends AdminController{
 	
 	/**
 	 * 还原
-	 * @param int $id 文章ID
 	 */
 	public function undelete(){
 		$post_id = $this->input->get('id', 'intval');
@@ -575,7 +574,7 @@ class PostController extends AdminController{
 	 */
 	public function sort(){
 		$post_id = $this->input->get('id', 'intval');
-		$result = Posts::model()->update(array(
+		Posts::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$post_id,

@@ -12,7 +12,7 @@ use fay\models\User as UserModel;
 use fay\models\tables\UsersRoles;
 use fay\models\user\Password;
 use fay\models\tables\UserCounter;
-use fay\models\Prop;
+use fay\models\user\Prop;
 use fay\core\Exception;
 use fay\models\tables\UserLogins;
 use fay\models\Analyst;
@@ -167,40 +167,6 @@ class User extends Model{
 	}
 	
 	/**
-	 * 新增一个用户属性集
-	 * @param int $user_id 用户ID
-	 * @param array $data 以属性ID为键的属性键值数组
-	 * @param null|array $props 属性。若为null，则根据用户ID获取属性
-	 */
-	public function createPropertySet($user_id, $data, $props = null){
-		if($props === null){
-			$props = UserModel::model()->getProps($user_id);
-		}
-		Prop::model()->createPropertySet('user_id', $user_id, $props, $data, array(
-			'varchar'=>'fay\models\tables\UserPropVarchar',
-			'int'=>'fay\models\tables\UserPropInt',
-			'text'=>'fay\models\tables\UserPropText',
-		));
-	}
-	
-	/**
-	 * 更新一个用户属性集
-	 * @param int $user_id 用户ID
-	 * @param array $data 以属性ID为键的属性键值数组
-	 * @param null|array $props 属性。若为null，则根据用户ID获取属性
-	 */
-	public function updatePropertySet($user_id, $data, $props = null){
-		if($props === null){
-			$props = UserModel::model()->getProps($user_id);
-		}
-		Prop::model()->updatePropertySet('user_id', $user_id, $props, $data, array(
-			'varchar'=>'fay\models\tables\UserPropVarchar',
-			'int'=>'fay\models\tables\UserPropInt',
-			'text'=>'fay\models\tables\UserPropText',
-		));
-	}
-	
-	/**
 	 * 创建一个用户
 	 * @param array $user
 	 * @param array $extra 其它信息
@@ -283,7 +249,7 @@ class User extends Model{
 		
 		//设置属性
 		if(isset($extra['props'])){
-			$this->createPropertySet($user_id, $extra['props']);
+			Prop::model()->createPropertySet($user_id, $extra['props']);
 		}
 		
 		return $user_id;
@@ -356,7 +322,7 @@ class User extends Model{
 		
 		//附加属性
 		if(isset($extra['props'])){
-			$this->updatePropertySet($user_id, $extra['props']);
+			Prop::model()->updatePropertySet($user_id, $extra['props']);
 		}
 	}
 }

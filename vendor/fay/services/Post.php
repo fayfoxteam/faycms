@@ -13,7 +13,7 @@ use fay\models\tables\PostLikes;
 use fay\models\tables\PostMeta;
 use fay\models\post\Tag as PostTagModel;
 use fay\helpers\Request;
-use fay\models\Prop;
+use fay\models\post\Prop;
 use fay\models\Post as PostModel;
 use fay\models\File;
 use fay\models\tables\UserCounter;
@@ -309,13 +309,9 @@ class Post extends Model{
 	 */
 	public function createPropertySet($post_id, $data, $props = null){
 		if($props === null){
-			$props = PostModel::model()->getProps($post_id);
+			$props = Prop::model()->getProps($post_id);
 		}
-		Prop::model()->createPropertySet('post_id', $post_id, $props, $data, array(
-			'varchar'=>'fay\models\tables\PostPropVarchar',
-			'int'=>'fay\models\tables\PostPropInt',
-			'text'=>'fay\models\tables\PostPropText',
-		));
+		Prop::model()->createPropertySet($post_id, $props, $data);
 	}
 	
 	/**
@@ -326,13 +322,9 @@ class Post extends Model{
 	 */
 	public function updatePropertySet($post_id, $data, $props = null){
 		if($props === null){
-			$props = PostModel::model()->getProps($post_id);
+			$props = Prop::model()->getProps($post_id);
 		}
-		Prop::model()->updatePropertySet('post_id', $post_id, $props, $data, array(
-			'varchar'=>'fay\models\tables\PostPropVarchar',
-			'int'=>'fay\models\tables\PostPropInt',
-			'text'=>'fay\models\tables\PostPropText',
-		));
+		Prop::model()->updatePropertySet($post_id, $props, $data);
 	}
 	
 	/**

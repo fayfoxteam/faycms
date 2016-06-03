@@ -17,6 +17,7 @@ use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
 use fay\core\ErrorException;
 use fay\models\post\Extra;
+use fay\models\post\Prop;
 
 class Post extends Model{
 	/**
@@ -79,46 +80,6 @@ class Post extends Model{
 	}
 	
 	/**
-	 * 根据文章ID，获取文章对应属性（不带属性值）
-	 * @param int $post_id
-	 * @return array
-	 */
-	public function getProps($post_id){
-		$post = Posts::model()->find($post_id, 'cat_id');
-		return $this->getPropsByCat($post['cat_id']);
-	}
-	
-	/**
-	 * 根据分类ID，获取相关属性（不带属性值）
-	 * @param int $cat
-	 *  - 数字:代表分类ID;
-	 *  - 字符串:分类别名;
-	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
-	 * @return array
-	 */
-	public function getPropsByCat($cat){
-		return Prop::model()->getByRefer(Category::model()->getParentIds($cat, '_system_post'), Props::TYPE_POST_CAT);
-	}
-	
-	/**
-	 * 根据文章ID，获取一个属性集
-	 * @param int $post_id 文章ID
-	 * @param null|array $props 属性集。若为null，则根据文章ID获取所有属性
-	 * @return array
-	 */
-	public function getPropertySet($post_id, $props = null){
-		if($props === null){
-			$props = $this->getProps($post_id);
-		}
-		
-		return Prop::model()->getPropertySet('post_id', $post_id, $props, array(
-			'varchar'=>'fay\models\tables\PostPropVarchar',
-			'int'=>'fay\models\tables\PostPropInt',
-			'text'=>'fay\models\tables\PostPropText',
-		));
-	}
-	
-	/**
 	 * 返回文章所属附加分类信息的二维数组
 	 * @param int $id 文章ID
 	 * @param string|array $fields categories表的字段
@@ -132,16 +93,7 @@ class Post extends Model{
 			->order('c.sort')
 			->fetchAll();
 	}
-	
-	/**
-	 * 返回包含文章所属附加分类ID号的一维数组
-	 * @param int $id 文章ID
-	 * @return array
-	 */
-	public function getCatIds($id){
-		return PostsCategories::model()->fetchCol('cat_id', array('post_id = ?'=>$id));
-	}
-	
+		
 	/**
 	 * 返回一篇文章信息
 	 * @param int $id 文章ID
@@ -624,35 +576,6 @@ class Post extends Model{
 			$post_id = $post;
 		}
 		return \F::app()->view->url($controller . '/' . $post_id);
-	}
-	
-	/**
-	 * 设置一个文章属性值
-	 * @param int $post_id
-	 * @param string $alias
-	 * @param mixed $value
-	 * @return bool
-	 */
-	public function setPropValueByAlias($alias, $value, $post_id){
-		return Prop::model()->setPropValueByAlias('post_id', $post_id, $alias, $value, array(
-			'varchar'=>'fay\models\tables\PostPropVarchar',
-			'int'=>'fay\models\tables\PostPropInt',
-			'text'=>'fay\models\tables\PostPropText',
-		));
-	}
-	
-	/**
-	 * 获取一个文章属性值
-	 * @param string $alias
-	 * @param int $post_id
-	 * @return mixed
-	 */
-	public function getPropValueByAlias($alias, $post_id){
-		return Prop::model()->getPropValueByAlias('post_id', $post_id, $alias, array(
-			'varchar'=>'fay\models\tables\PostPropVarchar',
-			'int'=>'fay\models\tables\PostPropInt',
-			'text'=>'fay\models\tables\PostPropText',
-		));
 	}
 	
 	/**

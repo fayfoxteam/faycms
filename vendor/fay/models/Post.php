@@ -97,7 +97,7 @@ class Post extends Model{
 	 * @return array
 	 */
 	public function getPropsByCat($cat){
-		return Prop::model()->mget(Category::model()->getParentIds($cat, '_system_post'), Props::TYPE_POST_CAT);
+		return Prop::model()->getByRefer(Category::model()->getParentIds($cat, '_system_post'), Props::TYPE_POST_CAT);
 	}
 	
 	/**
@@ -306,7 +306,7 @@ class Post extends Model{
 			if(in_array('*', $fields['props'])){
 				$props = null;
 			}else{
-				$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_POST_CAT);
+				$props = Prop::model()->mget($fields['props']);
 			}
 			$return['props'] = $this->getPropertySet($id, $props);
 		}
@@ -591,7 +591,7 @@ class Post extends Model{
 				if(in_array('*', $fields['props'])){
 					$props = null;
 				}else{
-					$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_POST_CAT);
+					$props = Prop::model()->mget($fields['props']);
 				}
 				$post['props'] = $this->getPropertySet($p['id'], $props);
 			}
@@ -1169,7 +1169,7 @@ class Post extends Model{
 				if(in_array('*', $fields['props'])){
 					$props = null;
 				}else{
-					$props = Prop::model()->mgetByAlias($fields['props'], Props::TYPE_POST_CAT);
+					$props = Prop::model()->mget($fields['props']);
 				}
 				$post['props'] = $this->getPropertySet($p['id'], $props);
 			}

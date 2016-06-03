@@ -5,7 +5,7 @@ use cms\library\AdminController;
 use fay\models\tables\Categories;
 use fay\helpers\Html;
 use fay\models\tables\Props;
-use fay\models\Prop;
+use fay\models\post\Prop;
 use fay\models\tables\Actionlogs;
 use fay\models\Category;
 use fay\core\Sql;
@@ -25,7 +25,7 @@ class PostPropController extends AdminController{
 			'text'=>'返回文章分类',
 		);
 		
-		$cat_id = $this->input->get('id', 'intval');
+		$cat_id = $this->input->get('cat_id', 'intval');
 		
 		$cat = Categories::model()->fetchRow(array(
 			'id = ?'=>$cat_id,
@@ -54,7 +54,7 @@ class PostPropController extends AdminController{
 			$refer = $this->input->post('refer', 'intval');
 			$prop = $this->form()->getFilteredData();
 			$values = $this->input->post('prop_values', array());
-			$prop_id = Prop::model()->create($refer, Props::TYPE_POST_CAT, $prop, $values);
+			$prop_id = Prop::model()->create($refer, $prop, $values);
 			
 			$this->actionlog(Actionlogs::TYPE_POST_CAT, '添加了一个文章分类属性', $prop_id);
 			
@@ -70,7 +70,7 @@ class PostPropController extends AdminController{
 	public function edit(){
 		$prop_id = $this->input->get('id', 'intval');
 		
-		$check = $this->form()->setModel(Props::model());
+		$this->form()->setModel(Props::model());
 		if($this->input->post() && $this->form()->check()){
 			$refer = $this->input->post('refer', 'intval');
 			$prop = $this->form()->getFilteredData();
@@ -86,7 +86,7 @@ class PostPropController extends AdminController{
 			Response::notify('success', '文章分类属性编辑成功', false);
 		}
 		
-		$prop = Prop::model()->get($prop_id, Props::TYPE_POST_CAT);
+		$prop = Prop::model()->get($prop_id);
 
 		if(!$prop){
 			throw new HttpException('所选文章分类属性不存在');
@@ -95,7 +95,7 @@ class PostPropController extends AdminController{
 		$this->view->prop = $prop;
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/post-prop/index', array('id'=>$prop['refer'])),
+			'uri'=>array('admin/post-prop/index', array('cat_id'=>$prop['refer'])),
 			'text'=>'添加文章分类属性',
 		);
 		$cat = Categories::model()->find($prop['refer'], 'title');
@@ -115,13 +115,13 @@ class PostPropController extends AdminController{
 		
 		//不能直接回到上一页，因为可能处在编辑状态
 		Response::notify('success', '一个文章分类属性被删除', array('admin/post-prop/index', array(
-			'id'=>$prop['refer'],
+			'cat_id'=>$prop['refer'],
 		)));
 	}
 
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		$result = Props::model()->update(array(
+		Props::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$id,
@@ -139,6 +139,7 @@ class PostPropController extends AdminController{
 	
 	/**
 	 * 设置右侧项目列表
+	 * @param int $cat_id
 	 */
 	private function _setListview($cat_id){
 		$cat = Category::model()->get($cat_id, 'left_value,right_value');

@@ -5,6 +5,14 @@ use fay\models\tables\Props;
 
 class Prop extends \fay\models\Prop{
 	/**
+	 * @param string $class_name
+	 * @return Prop
+	 */
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
+	}
+	
+	/**
 	 * @see Prop::$models
 	 * @var array
 	 */
@@ -35,6 +43,7 @@ class Prop extends \fay\models\Prop{
 	 */
 	public function setValue($alias, $value, $user_id = null)
 	{
+		$user_id || $user_id = \F::app()->current_user;
 		return parent::setValue($alias, $value, $user_id);
 	}
 	
@@ -46,6 +55,7 @@ class Prop extends \fay\models\Prop{
 	 */
 	public function getValue($alias, $user_id = null)
 	{
+		$user_id || $user_id = \F::app()->current_user;
 		return parent::getValue($alias, $user_id);
 	}
 }

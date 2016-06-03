@@ -4,6 +4,14 @@ namespace fay\models\post;
 use fay\models\tables\Props;
 
 class Prop extends \fay\models\Prop{
+    /**
+     * @param string $class_name
+     * @return Prop
+     */
+    public static function model($class_name = __CLASS__){
+        return parent::model($class_name);
+    }
+    
 	/**
 	 * @see Prop::$models
 	 * @var array

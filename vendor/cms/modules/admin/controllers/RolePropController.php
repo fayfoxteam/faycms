@@ -6,7 +6,7 @@ use fay\models\tables\Roles;
 use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\models\tables\Actionlogs;
-use fay\models\Prop;
+use fay\models\user\Prop;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -52,7 +52,7 @@ class RolePropController extends AdminController{
 			$refer = $this->input->post('refer', 'intval');
 			$prop = Props::model()->fillData($this->input->post());
 			$values = $this->input->post('prop_values', array());
-			$prop_id = Prop::model()->create($refer, Props::TYPE_ROLE, $prop, $values);
+			$prop_id = Prop::model()->create($refer, $prop, $values);
 			
 			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '添加了一个角色属性', $prop_id);
 	
@@ -87,7 +87,7 @@ class RolePropController extends AdminController{
 		}
 		
 		
-		$prop = Prop::model()->get($prop_id, Props::TYPE_ROLE);
+		$prop = Prop::model()->get($prop_id);
 
 		if(!$prop){
 			throw new HttpException('所选角色属性不存在');
@@ -97,7 +97,7 @@ class RolePropController extends AdminController{
 		$this->view->prop = $prop;
 
 		$this->layout->sublink = array(
-			'uri'=>array('admin/role-prop/index', array('id'=>$prop['refer'])),
+			'uri'=>array('admin/role-prop/index', array('role_id'=>$prop['refer'])),
 			'text'=>'添加角色属性',
 		);
 		
@@ -117,13 +117,13 @@ class RolePropController extends AdminController{
 		Response::notify('success', array(
 			'message'=>'删除了一个角色属性',
 		), array('admin/role-prop/index', array(
-			'id'=>$prop['refer'],
+			'role_id'=>$prop['refer'],
 		)));
 	}
 
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		$result = Props::model()->update(array(
+		Props::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$id,
@@ -139,6 +139,7 @@ class RolePropController extends AdminController{
 	
 	/**
 	 * 设置右侧属性列表
+	 * @param int $role_id
 	 */
 	private function _setListview($role_id){
 		$sql = new Sql();

@@ -31,7 +31,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 							'title'=>F::app()->checkPermission('admin/post/cat-edit') ? '点击可改变状态' : false,
 						));
 						echo Html::link('分类属性', array('admin/post-prop/index', array(
-							'id'=>$c['id'],
+							'cat_id'=>$c['id'],
 						)), array(), true);
 						echo Html::link('查看该分类', array('admin/post/index', array(
 							'cat_id'=>$c['id'],

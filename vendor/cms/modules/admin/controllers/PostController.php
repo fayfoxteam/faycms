@@ -2,6 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use fay\helpers\Request;
 use fay\models\Category;
 use fay\models\post\Prop;
 use fay\models\tables\Posts;
@@ -108,7 +109,17 @@ class PostController extends AdminController{
 				}
 			}
 			
-			$extra = array();
+			$extra = array(
+				'extra'=>array(
+					'ip_int'=>Request::ip2int($this->ip),
+				)
+			);
+			
+			//Markdown语法特殊处理
+			if($data['content_type'] == Posts::CONTENT_TYPE_MARKDOWN){
+				$extra['extra']['markdown'] = $data['content'];
+				$data['content'] = $this->input->post('markdown-container-html-code');
+			}
 			
 			//Meta信息
 			if($post_meta = PostMeta::model()->fillData($this->input->post())){
@@ -117,7 +128,7 @@ class PostController extends AdminController{
 			
 			//扩展信息
 			if($post_extra = PostExtra::model()->fillData($this->input->post())){
-				$extra['extra'] = $post_extra;
+				$extra['extra'] = array_merge($post_extra, $extra['extra']);
 			}
 			
 			//附加分类
@@ -150,7 +161,7 @@ class PostController extends AdminController{
 		}
 		
 		//设置附加属性
-		$this->view->prop_set = Post::model()->getPropsByCat($cat_id);
+		$this->view->prop_set = Prop::model()->getPropsByCat($cat_id);
 		
 		$this->form()->setData(array(
 			'cat_id'=>$cat_id,
@@ -412,6 +423,12 @@ class PostController extends AdminController{
 			
 			$extra = array();
 			
+			//Markdown语法特殊处理
+			if($data['content_type'] == Posts::CONTENT_TYPE_MARKDOWN){
+				$extra['extra']['markdown'] = $data['content'];
+				$data['content'] = $this->input->post('markdown-container-html-code');
+			}
+			
 			//计数表
 			if($post_meta = PostMeta::model()->fillData($this->input->post())){
 				$extra['meta'] = $post_meta;
@@ -419,7 +436,11 @@ class PostController extends AdminController{
 			
 			//扩展信息
 			if($post_extra = PostExtra::model()->fillData($this->input->post())){
-				$extra['extra'] = $post_extra;
+				if(!empty($extra['extra'])){
+					$extra['extra'] = array_merge($post_extra, $extra['extra']);
+				}else{
+					$extra['extra'] = $post_extra;
+				}
 			}
 			
 			//附件分类
@@ -456,7 +477,8 @@ class PostController extends AdminController{
 		$sql = new Sql();
 		$post = $sql->from(array('p'=>'posts'), Posts::model()->getFields())
 			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id', PostMeta::model()->formatFields('!post_id'))
-			->where('p.id = ' . $post_id)
+			->joinLeft(array('pe'=>'post_extra'), 'p.id = pe.post_id', PostExtra::model()->formatFields('!post_id'))
+			->where('p.id = ?', $post_id)
 			->fetchRow()
 		;
 		
@@ -596,9 +618,9 @@ class PostController extends AdminController{
 		$post_id = $this->input->get('post_id', 'intval');
 		
 		//文章对应附加属性值
-		$props = Post::model()->getPropsByCat($cat_id);
+		$props = Prop::model()->getPropsByCat($cat_id);
 		if($post_id){
-			$this->view->prop_set = Post::model()->getPropertySet($post_id, $props);
+			$this->view->prop_set = Prop::model()->getPropertySet($post_id, $props);
 		}else{
 			$this->view->prop_set = $props;
 		}

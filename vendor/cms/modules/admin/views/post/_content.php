@@ -10,7 +10,7 @@ if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 		'class'=>'h350 form-control autosize',
 	));
 }else if($editor == Posts::CONTENT_TYPE_MARKDOWN){
-	echo F::form()->textarea('content', array(
+	echo Html::textarea('content', F::form()->getData('markdown', '', false), array(
 		'id'=>'wmd-input',
 		'class'=>'h350 wp100',
 		'wrapper'=>array(

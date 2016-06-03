@@ -68,7 +68,16 @@ class FieldHelper{
 				unset($fields[$k]);
 				continue;
 			}
-			$fields[$k] = in_array('*', $v) ? $allowed_fields[$k] : ArrayHelper::intersect($allowed_fields[$k], $v);
+			if(in_array('*', $v)){
+				//若获取字段中包含*，则返回所有允许的字段
+				$fields[$k] = $allowed_fields[$k];
+			}else if(in_array('*', $allowed_fields[$k])){
+				//若允许的字段中包含*，则返回所有用户指定字段
+				$fields[$k] = $v;
+			}else{
+				//否则做将用户字段与允许的字段做交集
+				$fields[$k] = ArrayHelper::intersect($allowed_fields[$k], $v);
+			}
 		}
 		
 		return $fields;

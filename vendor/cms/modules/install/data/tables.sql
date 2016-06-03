@@ -688,6 +688,7 @@ CREATE TABLE `{{$prefix}}post_extra` (
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
   `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Descriotion',
   `markdown` text COMMENT 'Markdown文本',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   PRIMARY KEY (`post_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 

@@ -167,7 +167,7 @@ class AdminController extends Controller{
 	
 	/**
 	 * 将boxes二维数组转换为仅包含name值的一维数组返回
-	 * @return multitype:|multitype:Ambigous <>
+	 * @return array
 	 */
 	protected function getBoxNames(){
 		if(empty($this->boxes)){
@@ -179,10 +179,11 @@ class AdminController extends Controller{
 	
 	/**
 	 * 获取用户启用的boxes
-	 * 
+	 *
 	 * @param null|string|array $settings 若为null 会去View中获取key
-	 * 若是string 视为key
-	 * 若是array 视为传入配置数组
+	 *  - 若是string 视为key
+	 *  - 若是array 视为传入配置数组
+	 * @return array
 	 */
 	protected function getEnabledBoxes($settings = null){
 		$settings === null && $settings = $this->view->_setting_key;

@@ -60,6 +60,16 @@ class Prop extends \fay\models\Prop{
 	}
 	
 	/**
+	 * 根据用户ID，获取用户对应属性（不带属性值）
+	 * @param int $user_id
+	 * @return array
+	 */
+	public function getProps($user_id){
+		$role_ids = Role::model()->getIds($user_id);
+		return $this->getByRefer($role_ids);
+	}
+	
+	/**
 	 * 新增一个用户属性集
 	 * @param int $user_id 用户ID
 	 * @param array $data 以属性ID为键的属性键值数组
@@ -69,7 +79,7 @@ class Prop extends \fay\models\Prop{
 		if($props === null){
 			$props = UserModel::model()->getProps($user_id);
 		}
-		Prop::model()->createPropertySet($user_id, $props, $data);
+		parent::createPropertySet($user_id, $props, $data);
 	}
 	
 	/**
@@ -80,8 +90,22 @@ class Prop extends \fay\models\Prop{
 	 */
 	public function updatePropertySet($user_id, $data, $props = null){
 		if($props === null){
-			$props = UserModel::model()->getProps($user_id);
+			$props = $this->getProps($user_id);
 		}
-		Prop::model()->updatePropertySet($user_id, $props, $data);
+		parent::updatePropertySet($user_id, $props, $data);
+	}
+	
+	/**
+	 * @see \fay\models\Prop::getPropertySet()
+	 * @param int $post_id 文章ID
+	 * @param null|array $props 属性列表
+	 * @return array
+	 */
+	public function getPropertySet($user_id, $props = null){
+		if($props === null){
+			$props = $this->getProps($user_id);
+		}
+		
+		return parent::getPropertySet($user_id, $props);
 	}
 }

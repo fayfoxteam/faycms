@@ -209,13 +209,13 @@ class UserController extends AdminController{
 		$user_id = $this->input->get('user_id', 'intval');
 		
 		if($role_ids){
-			$props = UserModel::model()->getPropsByRoles($role_ids);
+			$props = Prop::model()->getByRefer($role_ids);
 		}else{
 			$props = array();
 		}
 		
 		if(!empty($props) && $user_id){
-			$props = UserModel::model()->getPropertySet($user_id, $props);
+			$props = Prop::model()->getPropertySet($user_id, $props);
 		}
 		
 		$this->view->prop_set = $props;

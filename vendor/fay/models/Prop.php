@@ -187,14 +187,14 @@ abstract class Prop extends Model{
 				'refer = ?'=>$refer,
 				'type = ' . $this->type,
 				'deleted = 0',
-			), 'id,title,type,required,element', 'sort, id');
+			), 'id,title,type,required,element,alias', 'sort, id');
 		}else if(!empty($refer)){
 			//一次获取多个属性
 			$props = Props::model()->fetchAll(array(
 				'refer IN (?)'=>$refer,
 				'type = ' . $this->type,
 				'deleted = 0',
-			), 'id,title,type,required,element', 'sort, id');
+			), 'id,title,type,required,element,alias', 'sort, id');
 		}else{
 			return array();
 		}

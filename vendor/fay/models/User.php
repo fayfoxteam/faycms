@@ -3,7 +3,6 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Users;
-use fay\models\tables\Props;
 use fay\helpers\FieldHelper;
 use fay\models\user\Profile;
 use fay\models\user\Role;
@@ -214,29 +213,6 @@ class User extends Model{
 		}
 		
 		return $return;
-	}
-	
-	/**
-	 * 根据用户ID，获取用户对应属性（不带属性值）
-	 * @param int $user_id
-	 * @return array
-	 */
-	public function getProps($user_id){
-		$role_ids = Role::model()->getIds($user_id);
-		return $this->getPropsByRoles($role_ids);
-	}
-	
-	/**
-	 * 根据角色id，获取相关属性（不带属性值）
-	 * @param array $role_ids 由角色id构成的一维数组
-	 * @return array
-	 */
-	public function getPropsByRoles($role_ids){
-		return Prop::model()->getByRefer($role_ids, Props::TYPE_ROLE);
-	}
-	
-	public function getPropOptionsByAlias($alias){
-		return Prop::model()->getPropOptionsByAlias($alias);
 	}
 	
 	public function getMemberCount($parent){

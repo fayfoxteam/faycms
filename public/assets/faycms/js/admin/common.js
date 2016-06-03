@@ -655,10 +655,10 @@ var common = {
 			system.getCss(system.assets('js/editor.md/css/editormd.min.css'));
 			system.getScript(system.assets('js/editor.md/editormd.min.js'), function(){
 				common.editorObj = editormd('markdown-container', {
-					height: 350,
-					syncScrolling: 'single',
-					path: system.assets('js/editor.md/lib/'),
-					toolbarIcons: function(){
+					'height': 350,
+					'syncScrolling': 'single',
+					'path': system.assets('js/editor.md/lib/'),
+					'toolbarIcons': function(){
 						return [
 							'undo', 'redo', '|',
 							'bold', 'del', 'italic', 'quote', '|',
@@ -668,9 +668,10 @@ var common = {
 							'watch', 'preview', 'search', 'help'
 						]
 					},
-					imageUpload: common.filebrowserImageUploadUrl ? true : false,
-					imageFormats: ['jpg', 'jpeg', 'gif', 'png', 'webp'],
-					imageUploadURL: common.filebrowserImageUploadUrl
+					'imageUpload': common.filebrowserImageUploadUrl ? true : false,
+					'imageFormats': ['jpg', 'jpeg', 'gif', 'png', 'webp'],
+					'imageUploadURL': common.filebrowserImageUploadUrl,
+					'saveHTMLToTextarea': true
 				});
 			});
 		}

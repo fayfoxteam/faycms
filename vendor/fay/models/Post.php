@@ -260,7 +260,7 @@ class Post extends Model{
 			}else{
 				$props = Prop::model()->mget($fields['props']);
 			}
-			$return['props'] = $this->getPropertySet($id, $props);
+			$return['props'] = Prop::model()->getPropertySet($id, $props);
 		}
 		
 		//附加分类

@@ -22,6 +22,9 @@ class User extends Model{
 		'roles'=>array(
 			'id', 'title',
 		),
+		'props'=>array(
+			'*',
+		)
 	);
 	
 	/**

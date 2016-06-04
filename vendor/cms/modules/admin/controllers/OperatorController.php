@@ -8,6 +8,7 @@ use fay\models\tables\Roles;
 use fay\models\tables\Actionlogs;
 use fay\common\ListView;
 use fay\models\User as UserModel;
+use fay\models\user\Prop;
 use fay\services\User as UserService;
 use fay\core\Response;
 use fay\helpers\Html;
@@ -127,7 +128,7 @@ class OperatorController extends AdminController{
 		//有可能默认了某些角色
 		$role_ids = $this->input->get('roles', 'intval');
 		if($role_ids){
-			$this->view->prop_set = UserModel::model()->getPropsByRoles($role_ids);
+			$this->view->prop_set = Prop::model()->getByRefer($role_ids);
 		}else{
 			$this->view->prop_set = array();
 		}
@@ -168,7 +169,7 @@ class OperatorController extends AdminController{
 			'deleted = 0',
 		), 'id,title');	
 		
-		$this->view->prop_set = UserModel::model()->getPropertySet($user_id);
+		$this->view->prop_set = Prop::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	

@@ -126,7 +126,7 @@ class UserController extends ApiController{
 			'fields'=>'trim',
 			'cat'=>'trim',
 		))->setLabels(array(
-			'id'=>'文章ID',
+			'id'=>'用户ID',
 		))->check();
 		
 		$id = $this->form()->getData('id');

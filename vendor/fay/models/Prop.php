@@ -31,8 +31,6 @@ abstract class Prop extends Model{
 	protected $type;
 	
 	public function __construct(){
-		parent::__construct();
-		
 		if(!$this->models){
 			throw new ErrorException(__CLASS__ . '::$models属性未指定');
 		}

@@ -44,8 +44,6 @@ abstract class MultiTree extends Model{
 	protected $field_key;
 	
 	public function __construct(){
-		parent::__construct();
-		
 		if(!$this->model){
 			throw new ErrorException(__CLASS__ . '::$model属性未指定');
 		}

@@ -10,6 +10,11 @@ use fay\models\tables\AnalystCaches;
 
 class Analyst extends Model{
 	/**
+	 * @var string Y-m-d日期格式
+	 */
+	public $today;
+	
+	/**
 	 * @param string $class_name
 	 * @return Analyst
 	 */
@@ -18,15 +23,14 @@ class Analyst extends Model{
 	}
 	
 	public function __construct(){
-		parent::__construct();
 		$this->today = date('Y-m-d', \F::app()->current_time);
 	}
 	
 	/**
 	 * 以天为单位，统计某一天的新访客，默认为今天
-	 * @param string $date
-	 * @param bool $hour
-	 * @param bool|int $site
+	 * @param string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool $hour 若为false，则不搜hour字段
+	 * @param bool|int $site 若为false，则不搜site字段
 	 * @return int
 	 */
 	public function getNewVisitors($date = null, $hour = false, $site = false){
@@ -43,9 +47,9 @@ class Analyst extends Model{
 	
 	/**
 	 * 以天为单位，统计某一天的PV量，默认为今天
-	 * @param string $date
-	 * @param bool|int $hour
-	 * @param bool|int $site
+	 * @param string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool|int $hour 若为false，则不搜hour字段
+	 * @param bool|int $site 若为false，则不搜site字段
 	 * @return int
 	 */
 	public function getPV($date = null, $hour = false, $site = false){
@@ -62,18 +66,19 @@ class Analyst extends Model{
 	
 	/**
 	 * 获取历史访问总量
+	 * return int
 	 */
 	public function getAllPV(){
 		$pv = AnalystVisits::model()->fetchRow(array(), 'SUM(views) AS sum');
 		
-		return empty($pv['sum']) ? 0 : $pv['sum'];
+		return empty($pv['sum']) ? '0' : $pv['sum'];
 	}
 	
 	/**
 	 * 以天为单位，统计某一天的UV量，默认为今天
-	 * @param string $date
-	 * @param bool|int $hour
-	 * @param bool|int $site
+	 * @param string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool|int $hour 若为false，则不搜hour字段
+	 * @param bool|int $site 若为false，则不搜site字段
 	 * @return int
 	 */
 	public function getUV($date = null, $hour = false, $site = false){
@@ -87,11 +92,13 @@ class Analyst extends Model{
 		
 		return $uv['count'];
 	}
-
+	
 	/**
-	 * 以天为单位，统计某一天的独立IP量，默认为今天
-	 * @param date $data
-	 * @param int $site
+	 * 获取某一时段内的独立IP数，默认为当日IP数
+	 * @param null|string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool|int $hour 若为false，则不搜hour字段
+	 * @param bool|int $site 若为false，则不搜site字段
+	 * @return int
 	 */
 	public function getIP($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
@@ -105,22 +112,29 @@ class Analyst extends Model{
 		return $ip['count'];
 	}
 	
+	/**
+	 * 获取某一时段内的跳出率，默认为当日跳出率
+	 * @param null|string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool|int $hour 若为false，则不搜hour字段
+	 * @param bool|int $site 若为false，则不搜site字段
+	 * @return int
+	 */
+	
 	public function getBounceRate($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
 		
-		$criteria = array(
-			'create_date = ?'=>$date,
-			'hour = ?'=>$hour,
-			'site = ?'=>$site,
-		);
-		$where = $this->db->getWhere($criteria);
-		
-		$sql = "SELECT COUNT(*) AS count FROM (
-			SELECT id FROM {$this->db->analyst_visits} WHERE {$where['condition']}
-				GROUP BY mac
-				HAVING COUNT(*) = 1
-			) AS t";
-		$result = $this->db->fetchRow($sql, $where['params']);
+		$sub_sql = new Sql();
+		$sub_sql->from('analyst_visits')
+			->where(array(
+				'create_date = ?'=>$date,
+				'hour = ?'=>$hour,
+				'site = ?'=>$site,
+			))
+			->group('mac')
+			->having('COUNT(*) = 1');
+		$sql = new Sql();
+		$result = $sql->from(array('t'=>$sub_sql), 'COUNT(*) AS count')
+			->fetchRow();
 		
 		$uv = $this->getUV($date, $hour, $site);
 		if($uv == 0){
@@ -132,9 +146,10 @@ class Analyst extends Model{
 	
 	/**
 	 * 缓存非当日的访问数据
-	 * @param date $date
-	 * @param int $hour
-	 * @param int $site
+	 * @param string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool|int $hour 若为false，则不搜hour字段
+	 * @param bool|int $site 若为false，则不搜site字段
+	 * @return array
 	 */
 	public function setCache($date, $hour = false, $site = false){
 		if(($date == $this->today && intval($hour) == date('G')) ||
@@ -167,9 +182,10 @@ class Analyst extends Model{
 	
 	/**
 	 * 获取一条缓存的访问数据
-	 * @param date $date
-	 * @param int $hour
-	 * @param int $site
+	 * @param string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool|int $hour 若为false，则不搜hour字段
+	 * @param bool|int $site 若为false，则不搜site字段
+	 * @return array|bool
 	 */
 	public function getCache($date, $hour = false, $site = false){
 		return AnalystCaches::model()->fetchRow(array(
@@ -181,8 +197,9 @@ class Analyst extends Model{
 	
 	/**
 	 * 获取某一天，以小时为单位的访问数据
-	 * @param date $date
-	 * @param int $site
+	 * @param string $date Y-m-d日期格式，若为null，则为null，则使用当前日期
+	 * @param bool|int $site 若为false，则不搜site字段
+	 * @return array
 	 */
 	public function getHourCacheByDay($date, $site = false){
 		$result = AnalystCaches::model()->fetchAll(array(
@@ -200,7 +217,8 @@ class Analyst extends Model{
 	
 	/**
 	 * 根据客户端MAC地址获取对应记录ID
-	 * @param string $mac
+	 * @param null|string $fmac
+	 * @return int
 	 */
 	public function getMacId($fmac = null){
 		$fmac || $fmac = $this->getFMac();
@@ -219,6 +237,8 @@ class Analyst extends Model{
 			return $_REQUEST['fmac'];
 		}else if(!empty($_COOKIE['fmac'])){
 			return $_COOKIE['fmac'];
+		}else{
+			return '';
 		}
 	}
 }

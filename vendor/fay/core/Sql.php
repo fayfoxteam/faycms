@@ -58,19 +58,36 @@ class Sql{
 				if(is_string($a)){
 					$alias = $a;
 				}else{
+					if($t instanceof Sql){
+						throw new ErrorException('子查询必须设置别名');
+					}
 					$alias = $t;
 				}
 				$short_name = $t;
 				break;
 			}
 		}else{
+			if($table instanceof Sql){
+				throw new ErrorException('子查询必须设置别名');
+			}
 			$short_name = $table;
 			$alias = $table;
 		}
 		
-		$full_table_name = $this->db->getFullTableName($short_name);
-		$this->from[] = "{$full_table_name} AS {$alias}";
-		$this->_field($fields, $alias, $short_name);
+		if($short_name instanceof Sql){
+			$this->from[] = array(
+				'table'=>'(' . $short_name->getSql() . ')',
+				'alias'=>$alias,
+				'params'=>$short_name->getParams(),
+			);
+		}else{
+			$this->from[] = array(
+				'table'=>$this->db->getFullTableName($short_name),
+				'alias'=>$alias,
+			);
+		}
+		
+		$this->_field($fields, $alias);
 		
 		return $this;
 	}
@@ -99,10 +116,10 @@ class Sql{
 	 * 默认情况下，以and方式连接各条件
 	 * 也可以指定，具体方法见Db::getWhere
 	 * @param array|string $where
-	 * @param string $params
+	 * @param null|string $params
 	 * @return Sql
 	 */
-	public function where($where, $params = ''){
+	public function where($where, $params = null){
 		if(is_array($where)){
 			//如果是数组，无视第二个参数
 			foreach($where as $k => $w){
@@ -113,7 +130,7 @@ class Sql{
 					$this->conditions = array_merge($this->conditions, array($k => $w));
 				}
 			}
-		}else if($params){
+		}else if($params !== null){
 			$this->conditions = array_merge($this->conditions, array($where => $params));
 		}else{
 			$this->conditions[] = $where;
@@ -204,23 +221,33 @@ class Sql{
 		$this->params = array();
 		
 		$sql = "SELECT \n";
+		
 		//distinct
 		if($this->distinct){
 			$sql .= "DISTINCT ";
 		}
 		
 		//select
-		if(empty($this->fields)){
-			$sql .= "* \n";
-		}else{
+		if($this->fields){
 			$sql .= implode(",\n", array_unique($this->fields)). "\n";
+		}else{
+			$sql .= "* \n";
 		}
+		
 		//from
 		if($this->from){
-			$sql .= "FROM \n".implode(', ', $this->from)."\n";
+			$sql .= "FROM \n";
+			foreach($this->from as $from){
+				$sql .= "{$from['table']} AS {$from['alias']}";
+				if(isset($from['params'])){
+					$this->params = array_merge($this->params, $from['params']);
+				}
+			}
+			$sql .= "\n";
 		}
+		
 		//join
-		if(!empty($this->join)){
+		if($this->join){
 			foreach($this->join as $j){
 				$sql .= "{$j['type']} {$j['table']} ";
 				if(!empty($j['alias'])){
@@ -231,24 +258,24 @@ class Sql{
 			}
 		}
 		//where
-		if(!empty($this->conditions)){
+		if($this->conditions){
 			$where = $this->db->getWhere($this->conditions);
 			$sql .= "WHERE \n{$where['condition']} \n";
 			$this->params = array_merge($this->params, $where['params']);
 		}
 		//group
-		if(!empty($this->group)){
+		if($this->group){
 			$sql .= "GROUP BY \n".implode(", \n", $this->group)." \n";
 		}
 		//having
-		if(!empty($this->having)){
+		if($this->having){
 			$having = $this->db->getWhere($this->having);
 			$sql .= "HAVING \n{$having['condition']} \n";
 			$this->params = array_merge($this->params, $having['params']);
 		}
 		
 		//order
-		if(!empty($this->order)){
+		if($this->order){
 			$sql .= "ORDER BY \n".implode(", \n", $this->order)." \n";
 		}
 		//limit
@@ -288,9 +315,19 @@ class Sql{
 		$sql = "SELECT COUNT({$this->countBy}) \n";
 		
 		//from
-		$sql .= "FROM \n".implode(', ', $this->from)."\n";
+		if($this->from){
+			$sql .= "FROM \n";
+			foreach($this->from as $from){
+				$sql .= "{$from['table']} AS {$from['alias']}";
+				if(isset($from['params'])){
+					$this->params = array_merge($this->params, $from['params']);
+				}
+			}
+			$sql .= "\n";
+		}
+		
 		//join
-		if(!empty($this->join)){
+		if($this->join){
 			foreach($this->join as $j){
 				$sql .= "{$j['type']} {$j['table']} ";
 				if(!empty($j['alias'])){
@@ -301,7 +338,7 @@ class Sql{
 			}
 		}
 		//where
-		if(!empty($this->conditions)){
+		if($this->conditions){
 			$where = $this->db->getWhere($this->conditions);
 			$sql .= "WHERE {$where['condition']} \n";
 			$this->params = array_merge($this->params, $where['params']);
@@ -412,7 +449,7 @@ class Sql{
 			'params'=>$where['params'],
 		);
 		if(!empty($fields)){
-			$this->_field($fields, $alias ? $alias : $full_table_name, $table);
+			$this->_field($fields, $alias ? $alias : $full_table_name);
 		}
 	}
 	

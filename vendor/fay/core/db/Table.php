@@ -14,10 +14,6 @@ class Table extends Model{
 	 */
 	protected $_sql;
 	
-	public function __construct(){
-		parent::__construct();
-	}
-	
 	/**
 	 * 获取表名（不带前缀）
 	 */

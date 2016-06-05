@@ -392,27 +392,27 @@ class Sql{
 	/**
 	 * 构造fields数组
 	 * @param string $fields 若传入的fields为反选类型，则必须传入表名（用于获取表结构）
-	 * @param string $alias 此处alias为表的别名
+	 * @param string $table 表的别名
 	 */
-	private function _field($fields, $alias = null){
+	private function _field($fields, $table = null){
 		if(!empty($fields)){
 			if(!is_array($fields)){
 				$fields = array($fields);
 			}
 			foreach($fields as $f){
 				$f_arr = explode(',', $f);
-				if(!empty($alias)){
+				if(!empty($table)){
 					foreach($f_arr as &$fa){
 						if(!preg_match('/^\w+\(.*\).*$/', $fa)){//聚合函数不加前缀
 							$fa = trim($fa);
 							if(strpos($fa, '`') !== 0 && $fa != '*'){//本身没加引号，且非通配符
 								if($pos = strpos($fa, ' ')){//存在空格，例如设置了AS
-									$fa = $alias . '.`' . substr($fa, 0, $pos) . '`' . substr($fa, $pos);
+									$fa = $table . '.`' . substr($fa, 0, $pos) . '`' . substr($fa, $pos);
 								}else{
-									$fa = "{$alias}.`{$fa}`";
+									$fa = "{$table}.`{$fa}`";
 								}
 							}else{
-								$fa = "{$alias}.{$fa}";
+								$fa = "{$table}.{$fa}";
 							}
 						}
 					}

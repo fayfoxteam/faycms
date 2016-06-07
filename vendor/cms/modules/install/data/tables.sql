@@ -276,30 +276,20 @@ CREATE TABLE `{{$prefix}}goods` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-  `content` text NOT NULL COMMENT '描述',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `sub_stock` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '何时减库存',
-  `weight` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:kg',
-  `size` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:立方米',
   `post_fee` decimal(6,2) NOT NULL DEFAULT '0.00' COMMENT '运费',
-  `sn` varchar(50) NOT NULL DEFAULT '' COMMENT '货号',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
   `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `price` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '价格',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态',
   `is_new` tinyint(1) NOT NULL DEFAULT '0' COMMENT '新品',
   `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '热销',
-  `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '浏览量',
-  `sales` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '总销量',
-  `comments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '评论数',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `sort` mediumint(8) unsigned NOT NULL DEFAULT '10000' COMMENT '排序值',
-  `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Title',
-  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Keywords',
-  `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
@@ -327,6 +317,34 @@ CREATE TABLE `{{$prefix}}goods_cat_props` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT '排序值',
   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}goods_counter`;
+CREATE TABLE `{{$prefix}}goods_counter` (
+  `goods_id` int(11) unsigned NOT NULL COMMENT '商品ID',
+  `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '浏览量',
+  `real_views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实浏览量',
+  `sales` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '总销量',
+  `real_sales` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实总销量',
+  `reviews` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '评价数',
+  `real_reviews` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实评价数',
+  `favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数',
+  `real_favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实收藏数',
+  PRIMARY KEY (`goods_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}goods_extra`;
+CREATE TABLE `{{$prefix}}goods_extra` (
+  `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
+  `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
+  `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Description',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `weight` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:kg',
+  `size` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:立方米',
+  `sn` varchar(50) NOT NULL DEFAULT '' COMMENT '货号',
+  `rich_text` text COMMENT '富文本描述',
+  PRIMARY KEY (`goods_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_files`;

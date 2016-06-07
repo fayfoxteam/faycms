@@ -61,6 +61,10 @@ class PostMeta extends Table{
 	}
 	
 	public function getNotWritableFields($scene){
+		/*
+		 * 这些计数虽然可以伪造，但也不是直接手工输入的，必须有马甲帐号做对应。
+		 * 所以这些字段不允许手工修改
+		 */
 		switch($scene){
 			case 'insert':
 				return array(

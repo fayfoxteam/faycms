@@ -1,6 +1,7 @@
 <?php
 namespace fay\core\db;
 
+use fay\core\Db;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -13,6 +14,15 @@ class Table extends Model{
 	 * @var \fay\core\Sql
 	 */
 	protected $_sql;
+	
+	/**
+	 * @var \fay\core\Db
+	 */
+	private $db = null;
+	
+	public function __construct(){
+		$this->db = Db::getInstance();
+	}
 	
 	/**
 	 * 获取表名（不带前缀）

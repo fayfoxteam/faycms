@@ -112,7 +112,7 @@ var goods = {
 			});
 		});
 		
-		if(!showTable || !props){
+		if(!showTable || !props.length){
 			//有sku属性未选中，或压根没有sku属性，不显示表格
 			return false;
 		}
@@ -124,7 +124,6 @@ var goods = {
 			rowspan *= props[j].values.length;
 		}
 		
-		console.log(props);
 		//绘制表格
 		var html = ['<table class="sku-edit-table border-table mt32">',
 			'<tr>',

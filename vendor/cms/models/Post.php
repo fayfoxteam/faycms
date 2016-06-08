@@ -7,6 +7,7 @@ use fay\models\tables\Posts;
 class Post extends Model{
 
 	/**
+	 * @param string $class_name
 	 * @return Post
 	 */
 	public static function model($class_name = __CLASS__){
@@ -16,6 +17,7 @@ class Post extends Model{
 	/**
 	 * 根据文章状态获取文章数
 	 * @param int $status 文章状态
+	 * @return string
 	 */
 	public function getCount($status = null){
 		$conditions = array('deleted = 0');
@@ -28,6 +30,7 @@ class Post extends Model{
 	
 	/**
 	 * 获取已删除的文章数
+	 * @return string
 	 */
 	public function getDeletedCount(){
 		$result = Posts::model()->fetchRow('deleted = 1', 'COUNT(*)');

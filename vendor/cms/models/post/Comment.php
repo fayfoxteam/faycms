@@ -14,9 +14,9 @@ class Comment extends Model{
 	}
 	
 	/**
-	 * 根据状态和类型，获取消息总数
+	 * 根据状态，获取文章评论数
 	 * @param int $status
-	 * @param int $type
+	 * @return string
 	 */
 	public function getCount($status = null){
 		$conditions = array('deleted = 0');
@@ -31,8 +31,8 @@ class Comment extends Model{
 	}
 	
 	/**
-	 * 根据给定的类型，获取回收站内消息总数
-	 * @param int $type
+	 * 获取回收站内文章评论数
+	 * @return string
 	 */
 	public function getDeletedCount(){
 		$result = PostComments::model()->fetchRow(array('deleted = 1'), 'COUNT(*)');

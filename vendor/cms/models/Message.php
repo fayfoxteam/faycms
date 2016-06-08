@@ -16,7 +16,8 @@ class Message extends Model{
 	/**
 	 * 根据状态和类型，获取消息总数
 	 * @param int $status
-	 * @param int $type
+	 * @param array|int $type
+	 * @return string
 	 */
 	public function getCount($status = null, $type = array()){
 		$conditions = array('deleted = 0');
@@ -36,6 +37,7 @@ class Message extends Model{
 	/**
 	 * 根据给定的类型，获取回收站内消息总数
 	 * @param int $type
+	 * @return string
 	 */
 	public function getDeletedCount($type = array()){
 		$conditions = array('deleted = 1');
@@ -52,6 +54,7 @@ class Message extends Model{
 	/**
 	 * 获取回复数（不包含回收站里的）
 	 * @param int $id
+	 * @return string
 	 */
 	public function getReplyCount($id, $status = false){
 		$message = Messages::model()->fetchRow(array(

@@ -7,6 +7,7 @@ use fay\models\tables\Feeds;
 class Feed extends Model{
 
 	/**
+	 * @param string $class_name
 	 * @return Feed
 	 */
 	public static function model($class_name = __CLASS__){

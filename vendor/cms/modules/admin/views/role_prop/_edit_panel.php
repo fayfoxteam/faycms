@@ -46,6 +46,9 @@ use fay\models\tables\Props;
 	<?php echo F::form()->inputRadio('element', Props::ELEMENT_TEXT, array(
 		'label'=>'输入框',
 	), true)?>
+	<?php echo F::form()->inputRadio('element', Props::ELEMENT_NUMBER, array(
+		'label'=>'数字输入框',
+	))?>
 	<?php echo F::form()->inputRadio('element', Props::ELEMENT_RADIO, array(
 		'label'=>'单选框',
 	))?>

@@ -349,6 +349,15 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
+				case Props::ELEMENT_NUMBER:
+					if(!empty($data[$p['id']])){
+						\F::model($this->models['int'])->insert(array(
+							$this->foreign_key=>$refer,
+							'prop_id'=>$p['id'],
+							'content'=>intval($data[$p['id']]),
+						));
+					}
+					break;
 			}
 		}
 	}
@@ -410,6 +419,17 @@ abstract class Prop extends Model{
 					break;
 				case Props::ELEMENT_TEXTAREA:
 					$value = \F::model($this->models['text'])->fetchRow(array(
+						"{$this->foreign_key} = ?"=>$refer,
+						'prop_id = ?'=>$p['id'],
+					), 'content');
+					if($value){
+						$p['value'] = $value['content'];
+					}else{
+						$p['value'] = '';
+					}
+					break;
+				case Props::ELEMENT_NUMBER:
+					$value = \F::model($this->models['int'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
 					), 'content');
@@ -584,6 +604,29 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
+				case Props::ELEMENT_NUMBER:
+					//如果存在，且值有变化，则更新；不存在，则插入
+					$record = \F::model($this->models['int'])->fetchRow(array(
+						"{$this->foreign_key} = ?"=>$refer,
+						'prop_id = ?'=>$p['id'],
+					), 'content');
+					if($record){
+						if($record['content'] != $data[$p['id']]){
+							\F::model($this->models['int'])->update(array(
+								'content'=>$data[$p['id']],
+							), array(
+								"{$this->foreign_key} = ?"=>$refer,
+								'prop_id = ?'=>$p['id'],
+							));
+						}
+					}else{
+						\F::model($this->models['int'])->insert(array(
+							$this->foreign_key=>$refer,
+							'prop_id'=>$p['id'],
+							'content'=>$data[$p['id']],
+						));
+					}
+					break;
 			}
 		}
 	}
@@ -604,62 +647,23 @@ abstract class Prop extends Model{
 			'alias = ?'=>$alias,
 		), 'id,element');
 		if(!$prop) return false;
-	
-		if(in_array($prop['element'], array(
-			Props::ELEMENT_RADIO,
-			Props::ELEMENT_SELECT,
-		))){
-			if(\F::model($this->models['int'])->fetchRow(array(
-				"{$this->foreign_key} = ?"=>$refer,
-				'prop_id = ?'=>$prop['id'],
-			))){
-				\F::model($this->models['int'])->update(array(
-					'content'=>intval($value),
-				), array(
+		
+		switch($prop['element']){
+			case Props::ELEMENT_RADIO:
+			case Props::ELEMENT_SELECT:
+				$record = \F::model($this->models['int'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
 				));
-			}else{
-				\F::model($this->models['int'])->insert(array(
-					$this->foreign_key=>$refer,
-					'prop_id'=>$prop['id'],
-					'content'=>intval($value),
-				));
-			}
-		}else if($prop['element'] == Props::ELEMENT_CHECKBOX){
-			if(is_array($value)){//$value是数组，完整更新
-				//删除已经不存在的项
-				\F::model($this->models['int'])->delete(array(
-					"{$this->foreign_key} = ?"=>$refer,
-					'prop_id = ?'=>$prop['id'],
-					'content NOT IN ('.implode(',', \F::filter('intval', $value)).')',
-				));
-				//获取已存在的项
-				$old_options = \F::model($this->models['int'])->fetchCol('content', array(
-					"{$this->foreign_key} = ?"=>$refer,
-					'prop_id = ?'=>$prop['id'],
-				));
-				//插入新增项
-				foreach($value as $p_value){
-					if(!in_array($p_value, $old_options)){
-						\F::model($this->models['int'])->insert(array(
-							$this->foreign_key=>$refer,
-							'prop_id'=>$prop['id'],
-							'content'=>intval($p_value),
+				if($record){
+					if($record['content'] != $value){
+						\F::model($this->models['int'])->update(array(
+							'content'=>intval($value),
+						), array(
+							"{$this->foreign_key} = ?"=>$refer,
+							'prop_id = ?'=>$prop['id'],
 						));
 					}
-				}
-			}else{//$value不是数组，仅更新一个属性值选项
-				if(\F::model($this->models['int'])->fetchRow(array(
-					"{$this->foreign_key} = ?"=>$refer,
-					'prop_id = ?'=>$prop['id'],
-				))){
-					\F::model($this->models['int'])->update(array(
-						'content'=>intval($value),
-					), array(
-						"{$this->foreign_key} = ?"=>$refer,
-						'prop_id = ?'=>$prop['id'],
-					));
 				}else{
 					\F::model($this->models['int'])->insert(array(
 						$this->foreign_key=>$refer,
@@ -667,50 +671,121 @@ abstract class Prop extends Model{
 						'content'=>intval($value),
 					));
 				}
-			}
-		}else if($prop['element'] == Props::ELEMENT_TEXT){
-			/*
-			 * 如果存在，则更新，不存在，则插入
-			 */
-			if(\F::model($this->models['varchar'])->fetchRow(array(
-				"{$this->foreign_key} = ?"=>$refer,
-				'prop_id = ?'=>$prop['id'],
-			))){
-				\F::model($this->models['varchar'])->update(array(
-					'content'=>$value,
-				), array(
+				break;
+			case Props::ELEMENT_CHECKBOX:
+				if(is_array($value)){//$value是数组，完整更新
+					//删除已经不存在的项
+					\F::model($this->models['int'])->delete(array(
+						"{$this->foreign_key} = ?"=>$refer,
+						'prop_id = ?'=>$prop['id'],
+						'content NOT IN ('.implode(',', \F::filter('intval', $value)).')',
+					));
+					//获取已存在的项
+					$old_options = \F::model($this->models['int'])->fetchCol('content', array(
+						"{$this->foreign_key} = ?"=>$refer,
+						'prop_id = ?'=>$prop['id'],
+					));
+					//插入新增项
+					foreach($value as $p_value){
+						if(!in_array($p_value, $old_options)){
+							\F::model($this->models['int'])->insert(array(
+								$this->foreign_key=>$refer,
+								'prop_id'=>$prop['id'],
+								'content'=>intval($p_value),
+							));
+						}
+					}
+				}else{//$value不是数组，仅更新一个属性值选项
+					if(\F::model($this->models['int'])->fetchRow(array(
+						"{$this->foreign_key} = ?"=>$refer,
+						'prop_id = ?'=>$prop['id'],
+					))){
+						\F::model($this->models['int'])->update(array(
+							'content'=>intval($value),
+						), array(
+							"{$this->foreign_key} = ?"=>$refer,
+							'prop_id = ?'=>$prop['id'],
+						));
+					}else{
+						\F::model($this->models['int'])->insert(array(
+							$this->foreign_key=>$refer,
+							'prop_id'=>$prop['id'],
+							'content'=>intval($value),
+						));
+					}
+				}
+				break;
+			case Props::ELEMENT_TEXT:
+				//如果存在，且值有变化，则更新；不存在，则插入
+				$record = \F::model($this->models['text'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
 				));
-			}else{
-				\F::model($this->models['varchar'])->insert(array(
-					$this->foreign_key=>$refer,
-					'prop_id'=>$prop['id'],
-					'content'=>$value,
-				));
-			}
-		}else{
-			/*
-			 * 如果存在，则更新，不存在，则插入
-			 */
-			if(\F::model($this->models['text'])->fetchRow(array(
-				"{$this->foreign_key} = ?"=>$refer,
-				'prop_id = ?'=>$prop['id'],
-			))){
-				\F::model($this->models['text'])->update(array(
-					'content'=>$value,
-				), array(
+				if($record){
+					if($record['content'] != $value){
+						\F::model($this->models['varchar'])->update(array(
+							'content' => $value,
+						), array(
+							"{$this->foreign_key} = ?" => $refer,
+							'prop_id = ?' => $prop['id'],
+						));
+					}
+				}else{
+					\F::model($this->models['varchar'])->insert(array(
+						$this->foreign_key=>$refer,
+						'prop_id'=>$prop['id'],
+						'content'=>$value,
+					));
+				}
+				break;
+			case Props::ELEMENT_TEXTAREA:
+				//如果存在，且值有变化，则更新；不存在，则插入
+				$record = \F::model($this->models['text'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
 				));
-			}else{
-				\F::model($this->models['text'])->insert(array(
-					$this->foreign_key=>$refer,
-					'prop_id'=>$prop['id'],
-					'content'=>$value,
+				if($record){
+					if($record['content'] != $value){
+						\F::model($this->models['text'])->update(array(
+							'content' => $value,
+						), array(
+							"{$this->foreign_key} = ?" => $refer,
+							'prop_id = ?' => $prop['id'],
+						));
+					}
+				}else{
+					\F::model($this->models['text'])->insert(array(
+						$this->foreign_key=>$refer,
+						'prop_id'=>$prop['id'],
+						'content'=>$value,
+					));
+				}
+				break;
+			case Props::ELEMENT_NUMBER:
+				//如果存在，且值有变化，则更新；不存在，则插入
+				$record = \F::model($this->models['int'])->fetchRow(array(
+					"{$this->foreign_key} = ?"=>$refer,
+					'prop_id = ?'=>$prop['id'],
 				));
-			}
+				if($record){
+					if($record['content'] != $value){
+						\F::model($this->models['int'])->update(array(
+							'content'=>$value,
+						), array(
+							"{$this->foreign_key} = ?"=>$refer,
+							'prop_id = ?'=>$prop['id'],
+						));
+					}
+				}else{
+					\F::model($this->models['int'])->insert(array(
+						$this->foreign_key=>$refer,
+						'prop_id'=>$prop['id'],
+						'content'=>$value,
+					));
+				}
+				break;
 		}
+		
 		return true;
 	}
 	
@@ -759,6 +834,16 @@ abstract class Prop extends Model{
 				;
 			case Props::ELEMENT_TEXTAREA:
 				$value = \F::model($this->models['text'])->fetchRow(array(
+					"{$this->foreign_key} = ?"=>$refer,
+					'prop_id = ?'=>$prop['id'],
+				), 'content');
+				if($value){
+					return $value['content'];
+				}else{
+					return '';
+				}
+			case Props::ELEMENT_NUMBER:
+				$value = \F::model($this->models['int'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
 				), 'content');

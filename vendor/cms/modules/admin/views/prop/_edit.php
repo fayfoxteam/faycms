@@ -60,7 +60,7 @@ use fay\helpers\ArrayHelper;
 			break;
 			case Props::ELEMENT_SELECT:
 				echo Html::select("props[{$prop['id']}]", array(''=>'--未选择--')+ArrayHelper::column($prop['options'], 'title', 'id'), isset($prop['value']) ? $prop['value'] : array(), array(
-					'datat-rule'=>'int',
+					'data-rule'=>'int',
 					'data-required'=>$prop['required'] ? 'required' : false,
 					'data-label'=>$prop['title'],
 					'class'=>'form-control wa',
@@ -96,6 +96,15 @@ use fay\helpers\ArrayHelper;
 					'data-label'=>$prop['title'],
 				));
 			break;
+			case Props::ELEMENT_NUMBER:
+				echo Html::inputText("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
+					'class'=>'form-control mw500',
+					'data-rule'=>'int',
+					'data-params'=>'{max:4294967295}',
+					'data-required'=>$prop['required'] ? 'required' : false,
+					'data-label'=>$prop['title'],
+				));
+				break;
 		}
 		?>
 	</div>

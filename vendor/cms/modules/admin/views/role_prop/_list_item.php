@@ -19,23 +19,7 @@ use fay\models\tables\Props;
 			))?>
 		</div>
 	</td>
-	<td><?php switch($data['element']){
-		case Props::ELEMENT_TEXT:
-			echo '文本框';
-		break;
-		case Props::ELEMENT_RADIO:
-			echo '单选框';
-		break;
-		case Props::ELEMENT_SELECT:
-			echo '下拉框';
-		break;
-		case Props::ELEMENT_CHECKBOX:
-			echo '多选框';
-		break;
-		case Props::ELEMENT_TEXTAREA:
-			echo '文本域';
-		break;
-	}?></td>
+	<td><?php PropHelper::getElement($data['element'])?></td>
 	<td><?php echo $data['required'] ? '是' : '否';?></td>
 	<td><?php echo $data['is_show'] ? '<span class="fc-green">是</span>' : '否';?></td>
 	<td class="w90"><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(

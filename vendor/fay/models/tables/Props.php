@@ -30,14 +30,19 @@ class Props extends Table{
 	const ELEMENT_TEXTAREA = 5;
 	
 	/**
-	 * 录入方式-文件
-	 */
-	const ELEMENT_FILE = 6;
-	
-	/**
 	 * 录入方式-纯数字输入框
 	 */
-	const ELEMENT_NUMBER = 7;
+	const ELEMENT_NUMBER = 6;
+	
+	/**
+	 * 录入方式-图片
+	 */
+	const ELEMENT_IMAGE = 7;
+	
+	/**
+	 * 录入方式-文件
+	 */
+	const ELEMENT_FILE = 8;
 
 	/**
 	 * 类型-文章分类属性

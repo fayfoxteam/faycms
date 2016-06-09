@@ -75,7 +75,7 @@
 						'tooLong':'{$attribute}不能超过{$max}个字符',
 						'tooShort':'{$attribute}不能少于{$min}个字符',
 						'notEqual':'{$attribute}长度必须为{$min}个字符',
-						'formatError':'{$attribute}格式不正确',
+						'formatError':'{$attribute}格式不正确'
 					}, params);
 					
 					var formats = {

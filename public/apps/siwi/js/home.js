@@ -24,7 +24,7 @@ var home = {
 								'<img src="', system.url('file/pic', {
 									't':2,
 									's':'avatar',
-									'f':resp.data.avatar,
+									'f':resp.data.avatar
 								}), '" />',
 							'</a>',
 						'</div>',

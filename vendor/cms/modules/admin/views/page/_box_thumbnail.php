@@ -30,8 +30,8 @@ use fay\models\File;
 </div>
 <script>
 system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
-	uploader.thumbnail({
-		'cat': 'page',
+	uploader.image({
+		'cat': 'page'
 	});
 });
 </script>

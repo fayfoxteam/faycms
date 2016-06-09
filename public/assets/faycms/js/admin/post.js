@@ -4,7 +4,7 @@ var post = {
 	'thumbnail':function(){
 		//设置缩略图
 		system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
-			uploader.thumbnail({
+			uploader.image({
 				'cat': 'post'
 			});
 		});

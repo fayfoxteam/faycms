@@ -13,7 +13,7 @@ var uploader = {
 	 * options.preview_container: 预览图外层div id。默认为thumbnail-preview-container
 	 * options.input_name: 用于记录缩略图图片id的输入框名称（会随着其他内容一起提交给服务端）。默认为thumbnail
 	 */
-	'thumbnail': function(options){
+	'image': function(options){
 		options = options || {};
 		var settings = {
 			'cat': 'other',
@@ -26,10 +26,10 @@ var uploader = {
 		$.each(options, function(i, n){
 			settings[i] = n;
 		});
-		var uploader;
+		
 		system.getScript(system.assets('js/plupload.full.js'), function(){
 			//设置缩略图
-			uploader = new plupload.Uploader({
+			var uploader = new plupload.Uploader({
 				'runtimes': 'html5,html4,flash,gears,silverlight',
 				'flash_swf_url': system.url()+'flash/plupload.flash.swf',
 				'silverlight_xap_url': system.url()+'js/plupload.silverlight.xap',
@@ -46,7 +46,7 @@ var uploader = {
 			uploader.bind('FilesAdded', function(up, files) {
 				$('#'+settings.preview_container).html([
 					'<img src="'+system.assets('images/loading.gif')+'" />',
-					'<p>上传进度：<span class="progress">0</span>%</p>',
+					'<p>上传进度：<span class="progress">0</span>%</p>'
 				].join(''));
 				uploader.start();
 			});
@@ -66,7 +66,7 @@ var uploader = {
 							'dw':257
 						}), '" />',
 					'</a>',
-					'<a href="javascript:;" id="remove-thumbnail">移除缩略图</a>',
+					'<a href="javascript:;" id="remove-thumbnail">移除缩略图</a>'
 				].join(''));
 				system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 					system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
@@ -97,7 +97,6 @@ var uploader = {
 		$('#'+settings.preview_container).on('click', '#remove-thumbnail', function(){
 			$('#'+settings.preview_container).html('<input type="hidden" name="thumbnail" value="0" />');
 		});
-		return uploader;
 	},
 	/**
 	 * 上传多个文件，可用于附件，画廊等需求
@@ -136,7 +135,6 @@ var uploader = {
 			settings[i] = n;
 		});
 		
-		var uploader;
 		system.getScript(system.assets('js/plupload.full.js'), function(){
 			var url, filters;
 			if(settings.image_only){
@@ -149,7 +147,7 @@ var uploader = {
 				filters = [];
 			}
 			
-			uploader = new plupload.Uploader({
+			var uploader = new plupload.Uploader({
 				'runtimes': 'html5,html4,flash,gears,silverlight',
 				'flash_swf_url': system.url()+'flash/plupload.flash.swf',
 				'silverlight_xap_url': system.url()+'js/plupload.silverlight.xap',
@@ -269,7 +267,5 @@ var uploader = {
 				}
 			});
 		});
-		
-		return uploader;
 	}
 };

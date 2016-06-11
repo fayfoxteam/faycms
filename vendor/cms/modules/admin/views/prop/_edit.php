@@ -2,8 +2,9 @@
 use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\helpers\ArrayHelper;
+use fay\models\File;
 ?>
-<?php if($prop_set){?>
+<?php if(!empty($prop_set)){?>
 <?php foreach($prop_set as $prop){?>
 	<div class="form-field">
 		<label class="title bold">
@@ -104,6 +105,44 @@ use fay\helpers\ArrayHelper;
 					'data-required'=>$prop['required'] ? 'required' : false,
 					'data-label'=>$prop['title'],
 				));
+				break;
+			case Props::ELEMENT_IMAGE:
+				echo Html::link('上传图片', 'javascript:;', array(
+					'id'=>"upload-prop-{$prop['id']}",
+					'class'=>'btn',
+					'wrapper'=>array(
+						'tag'=>'div',
+						'id'=>"prop-{$prop['id']}-container",
+						'class'=>'mb10',
+					)
+				));
+				echo "<div id=\"prop-{$prop['id']}-preview-container\">";
+				echo F::form()->inputHidden("props[{$prop['id']}]");
+				if(!empty($prop['value'])){
+					echo Html::link(Html::img($prop['value'], File::PIC_RESIZE, array(
+						'dw'=>257,
+					)), File::getUrl($prop['value']), array(
+						'encode'=>false,
+						'class'=>'fancybox-image block',
+						'title'=>false,
+					));
+					echo Html::link('移除图片', 'javascript:;', array(
+						'class'=>'remove-image-link'
+					));
+				}
+				echo '</div>';
+				echo "<script>
+					system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+						uploader.image({
+							'cat': 'post',
+							'browse_button': 'upload-prop-{$prop['id']}',
+							'container': 'prop-{$prop['id']}-container',
+							'preview_container': 'prop-{$prop['id']}-preview-container',
+							'input_name': 'props[{$prop['id']}]',
+							'remove_link_text': '移除图片'
+						});
+					});
+				</script>";
 				break;
 		}
 		?>

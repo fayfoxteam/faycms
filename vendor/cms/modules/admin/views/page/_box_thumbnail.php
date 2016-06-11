@@ -8,10 +8,10 @@ use fay\models\File;
 		<h4>缩略图</h4>
 	</div>
 	<div class="box-content">
-		<div id="thumbnail-container" style="margin-bottom:10px;"><a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a></div>
+		<div id="thumbnail-container" class="mb10"><a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a></div>
 		<div id="thumbnail-preview-container">
 		<?php 
-			echo F::form()->inputHidden('thumbnail', array('id'=>'thumbnail-id'));
+			echo F::form()->inputHidden('thumbnail');
 			if(!empty($page['thumbnail'])){
 				echo Html::link(Html::img($page['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>257,
@@ -21,7 +21,7 @@ use fay\models\File;
 					'title'=>false,
 				));
 				echo Html::link('移除缩略图', 'javascript:;', array(
-					'id'=>'remove-thumbnail'
+					'class'=>'remove-image-link'
 				));
 			}
 		?>

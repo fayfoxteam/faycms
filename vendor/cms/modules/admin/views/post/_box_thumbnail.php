@@ -13,7 +13,7 @@ use fay\models\File;
 		</div>
 		<div id="thumbnail-preview-container">
 		<?php 
-			echo F::form()->inputHidden('thumbnail', array('id'=>'thumbnail-id'));
+			echo F::form()->inputHidden('thumbnail');
 			$thumbnail = F::form()->getData('thumbnail', 0);
 			if(!empty($thumbnail)){
 				echo Html::link(Html::img($thumbnail, File::PIC_RESIZE, array(
@@ -24,7 +24,7 @@ use fay\models\File;
 					'title'=>'点击查看原图',
 				));
 				echo Html::link('移除缩略图', 'javascript:;', array(
-					'id'=>'remove-thumbnail'
+					'class'=>'remove-image-link'
 				));
 			}
 		?>

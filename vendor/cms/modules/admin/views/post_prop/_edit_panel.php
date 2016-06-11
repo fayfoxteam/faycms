@@ -30,24 +30,29 @@ use fay\helpers\Html;
 </div>
 <div class="form-field">
 	<label class="title bold">类型</label>
-	<?php echo F::form()->inputRadio('element', Props::ELEMENT_TEXT, array(
-		'label'=>'输入框',
-	), true)?>
-	<?php echo F::form()->inputRadio('element', Props::ELEMENT_NUMBER, array(
-		'label'=>'数字输入框',
-	))?>
-	<?php echo F::form()->inputRadio('element', Props::ELEMENT_RADIO, array(
-		'label'=>'单选框',
-	))?>
-	<?php echo F::form()->inputRadio('element', Props::ELEMENT_SELECT, array(
-		'label'=>'下拉框',
-	))?>
-	<?php echo F::form()->inputRadio('element', Props::ELEMENT_CHECKBOX, array(
-		'label'=>'多选框',
-	))?>
-	<?php echo F::form()->inputRadio('element', Props::ELEMENT_TEXTAREA, array(
-		'label'=>'文本域',
-	))?>
+	<?php
+		echo F::form()->inputRadio('element', Props::ELEMENT_TEXT, array(
+			'label'=>'输入框',
+		), true),
+		F::form()->inputRadio('element', Props::ELEMENT_NUMBER, array(
+			'label'=>'数字输入框',
+		)),
+		F::form()->inputRadio('element', Props::ELEMENT_RADIO, array(
+			'label'=>'单选框',
+		)),
+		F::form()->inputRadio('element', Props::ELEMENT_SELECT, array(
+			'label'=>'下拉框',
+		)),
+		F::form()->inputRadio('element', Props::ELEMENT_CHECKBOX, array(
+			'label'=>'多选框',
+		)),
+		F::form()->inputRadio('element', Props::ELEMENT_TEXTAREA, array(
+			'label'=>'文本域',
+		)),
+		F::form()->inputRadio('element', Props::ELEMENT_IMAGE, array(
+			'label'=>'图片',
+		));
+	?>
 </div>
 <div class="form-field <?php if(empty($prop['element']) || !in_array($prop['element'], array(
 	Props::ELEMENT_RADIO,

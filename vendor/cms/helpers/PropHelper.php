@@ -30,6 +30,9 @@ class PropHelper{
 			case Props::ELEMENT_NUMBER:
 				echo '数字文本框';
 				break;
+			case Props::ELEMENT_IMAGE:
+				echo '图片';
+				break;
 		}
 	}
 }

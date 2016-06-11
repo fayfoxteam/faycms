@@ -358,6 +358,15 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
+				case Props::ELEMENT_IMAGE:
+					if(!empty($data[$p['id']])){
+						\F::model($this->models['int'])->insert(array(
+							$this->foreign_key=>$refer,
+							'prop_id'=>$p['id'],
+							'content'=>intval($data[$p['id']]),
+						));
+					}
+					break;
 			}
 		}
 	}
@@ -437,6 +446,17 @@ abstract class Prop extends Model{
 						$p['value'] = $value['content'];
 					}else{
 						$p['value'] = '';
+					}
+					break;
+				case Props::ELEMENT_IMAGE:
+					$value = \F::model($this->models['int'])->fetchRow(array(
+						"{$this->foreign_key} = ?"=>$refer,
+						'prop_id = ?'=>$p['id'],
+					), 'content');
+					if($value){
+						$p['value'] = $value['content'];
+					}else{
+						$p['value'] = '0';
 					}
 					break;
 			}
@@ -627,6 +647,42 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
+				case Props::ELEMENT_IMAGE:
+					if(empty($data[$p['id']])){
+						//若没有传值过来或传了空值，且原先有记录，则删除记录
+						if(\F::model($this->models['int'])->fetchRow(array(
+							"{$this->foreign_key} = ?"=>$refer,
+							'prop_id = ?'=>$p['id'],
+						), 'content')){
+							\F::model($this->models['int'])->delete(array(
+								"{$this->foreign_key} = ?"=>$refer,
+								'prop_id = ?'=>$p['id'],
+							));
+						}
+					}else{
+						//如果存在，且值有变化，则更新；不存在，则插入
+						$record = \F::model($this->models['int'])->fetchRow(array(
+							"{$this->foreign_key} = ?"=>$refer,
+							'prop_id = ?'=>$p['id'],
+						), 'content');
+						if($record){
+							if($record['content'] != $data[$p['id']]){
+								\F::model($this->models['int'])->update(array(
+									'content'=>$data[$p['id']],
+								), array(
+									"{$this->foreign_key} = ?"=>$refer,
+									'prop_id = ?'=>$p['id'],
+								));
+							}
+						}else{
+							\F::model($this->models['int'])->insert(array(
+								$this->foreign_key=>$refer,
+								'prop_id'=>$p['id'],
+								'content'=>$data[$p['id']],
+							));
+						}
+					}
+					break;
 			}
 		}
 	}
@@ -784,6 +840,29 @@ abstract class Prop extends Model{
 					));
 				}
 				break;
+			case Props::ELEMENT_IMAGE:
+				//如果存在，且值有变化，则更新；不存在，则插入
+				$record = \F::model($this->models['int'])->fetchRow(array(
+					"{$this->foreign_key} = ?"=>$refer,
+					'prop_id = ?'=>$prop['id'],
+				));
+				if($record){
+					if($record['content'] != $value){
+						\F::model($this->models['int'])->update(array(
+							'content'=>$value,
+						), array(
+							"{$this->foreign_key} = ?"=>$refer,
+							'prop_id = ?'=>$prop['id'],
+						));
+					}
+				}else{
+					\F::model($this->models['int'])->insert(array(
+						$this->foreign_key=>$refer,
+						'prop_id'=>$prop['id'],
+						'content'=>$value,
+					));
+				}
+				break;
 		}
 		
 		return true;
@@ -852,6 +931,18 @@ abstract class Prop extends Model{
 				}else{
 					return '';
 				}
+			case Props::ELEMENT_IMAGE:
+				$value = \F::model($this->models['int'])->fetchRow(array(
+					"{$this->foreign_key} = ?"=>$refer,
+					'prop_id = ?'=>$prop['id'],
+				), 'content');
+				if($value){
+					return $value['content'];
+				}else{
+					return '0';
+				}
+			default:
+				return '';
 		}
 	}
 	

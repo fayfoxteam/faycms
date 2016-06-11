@@ -21,7 +21,8 @@ var uploader = {
 			'container': 'thumbnail-container',
 			'max_file_size': '2',
 			'preview_container': 'thumbnail-preview-container',
-			'input_name': 'thumbnail'
+			'input_name': 'thumbnail',
+			'remove_link_text': '移除缩略图'
 		};
 		$.each(options, function(i, n){
 			settings[i] = n;
@@ -59,14 +60,14 @@ var uploader = {
 				var resp = $.parseJSON(response.response);
 				$('#'+settings.preview_container).html([
 					'<input type="hidden" name="', settings.input_name, '" value="', resp.data.id, '" />',
-					'<a href="', resp.data.url, '" class="fancybox-image">',
+					'<a href="', resp.data.url, '" class="fancybox-image block">',
 						'<img src="', system.url('admin/file/pic', {
 							'f':resp.data.id,
 							't':4,
 							'dw':257
 						}), '" />',
 					'</a>',
-					'<a href="javascript:;" id="remove-thumbnail">移除缩略图</a>'
+					'<a href="javascript:;" class="remove-image-link">', settings.remove_link_text, '</a>'
 				].join(''));
 				system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 					system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
@@ -94,7 +95,7 @@ var uploader = {
 		});
 		
 		//移除缩略图事件
-		$('#'+settings.preview_container).on('click', '#remove-thumbnail', function(){
+		$('#'+settings.preview_container).on('click', '.remove-image-link', function(){
 			$('#'+settings.preview_container).html('<input type="hidden" name="thumbnail" value="0" />');
 		});
 	},

@@ -26,4 +26,9 @@ return array(
 	
 	//'debug'=>false,
 	//'environment'=>'production',
+	'session'=>array(
+		'ini_set'=>array(
+			'cookie_lifetime'=>86400,
+		),
+	),
 );

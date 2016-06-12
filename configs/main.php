@@ -45,6 +45,7 @@ return array(
 			'save_handler'=>null,//存储方式。若为null，则应用php.ini文件中的配置
 			'save_path'=>null,//session存储路径，必须保证此目录存在，系统不自动生成目录，若不存在的话会报错。若为null，则应用php.ini文件中的配置
 			'gc_maxlifetime'=>1440,//session过期时间
+			'cookie_lifetime'=>0,//若session id存放在cookie中，则设置cookie的过期时间，若为0，则浏览器关闭后失效
 		),
 	),
 	

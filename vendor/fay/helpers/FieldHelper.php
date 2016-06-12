@@ -3,17 +3,22 @@ namespace fay\helpers;
 
 class FieldHelper{
 	/**
-	 * 将users.username,users.nickname,users.id,props.*,users.role.id,users.role.title这样的字符串，
+	 * 将user.username,user.nickname,user.id,user.avatar:320x320,props.*,user.role.id,user.role.title这样的字符串，
 	 * 转换为如下格式的数组
 	 * array(
-	 *   'users'=>array(
+	 *   'user'=>array(
 	 *     'username', 'nickname', 'id', 'role'=>array(
-	 *       'id', 'title',
-	 *     ),
+	 *       'id', 'title'
+	 *     )
 	 *   ),
 	 *   'props'=>array(
-	 *     '*',
+	 *     '*'
 	 *   ),
+	 *   '_extra'=>array(
+	 *     'user'=>array(
+	 *       'avatar'=>'320x320'
+	 *     )
+	 *   )
 	 * )
 	 * @param string $fields
 	 * @param string|null $default_key 若设置了$default_key，则不包含.(点号)的项会被归属到$default_key下
@@ -33,17 +38,45 @@ class FieldHelper{
 		}else{
 			$fields = explode(',', $fields);
 			$return = array();
-			foreach($fields as $f){
-				$f = trim($f);
-				if(strpos($f, '.')){
-					$fa = explode('.', $f);
-					$fa_end = array_pop($fa);
-					eval('$return[\'' . implode("']['", $fa) . "'][]='{$fa_end}';");
-				}else if(!empty($f)){
+			foreach($fields as $field){
+				$field = trim($field);
+				if(strpos($field, '.')){
+					//如果带有点号，则归属到指定的数组项
+					$field_path = explode('.', $field);
+					$field = array_pop($field_path);//最后一项是字段值
+					
+					if(strpos($field, ':')){
+						//若存在冒号，则有附加信息
+						$field_extra = explode(':', $field, 2);
+						$field = $field_extra[0];
+						if(count($field_path) > 1){
+							//字段路径大于1个时，插入到倒数第二个层级
+							$field_path_copy = $field_path;
+							$parent_path = array_pop($field_path_copy);
+							eval('$return[\'' . implode("']['", $field_path_copy) . "']['_extra']['{$parent_path}']['{$field}']='{$field_extra[1]}';");
+						}else{
+							//字段路径只有1个，插入到顶级
+							$return['_extra'][$field_path[0]][$field] = $field_extra[1];
+						}
+					}
+					
+					eval('$return[\'' . implode("']['", $field_path) . "'][]='{$field}';");
+				}else if(!empty($field)){
+					//没有点好，且非空，则归属到顶级或默认键值下
+					if(strpos($field, ':')){
+						//若存在冒号，则有附加信息
+						$field_extra = explode(':', $field, 2);
+						$field = $field_extra[0];
+						if($default_key){
+							$return['_extra'][$default_key][$field] = $field_extra[1];
+						}else{
+							$return['_extra'][$field] = $field_extra[1];
+						}
+					}
 					if($default_key){
-						$return[$default_key][] = $f;
+						$return[$default_key][] = $field;
 					}else{
-						$return[] = $f;
+						$return[] = $field;
 					}
 				}
 			}
@@ -60,6 +93,10 @@ class FieldHelper{
 	 */
 	public static function filter($fields, $allowed_fields){
 		foreach($fields as $k => $v){
+			if($k == '_extra'){
+				//_extra是系统生成的扩展信息，不过滤
+				continue;
+			}
 			if(!isset($allowed_fields[$k])){
 				unset($fields[$k]);
 				continue;

@@ -16,8 +16,8 @@ class FieldHelper{
 	 *   ),
 	 * )
 	 * @param string $fields
-	 * @param string|null $default_key 若设置了default_key，则不包含.(点号)的项会被归属到default_key下
-	 * @param array $allowed_fields 若该字段非空，则会调用self::filter方法对解析后的$fields进行过滤
+	 * @param string|null $default_key 若设置了$default_key，则不包含.(点号)的项会被归属到$default_key下
+	 * @param array $allowed_fields 若该字段非空，则会调用self::filter()方法对解析后的$fields进行过滤
 	 * @return array
 	 */
 	public static function process($fields, $default_key = null, $allowed_fields = array()){
@@ -48,11 +48,7 @@ class FieldHelper{
 				}
 			}
 			
-			if($allowed_fields){
-				return self::filter($return, $allowed_fields);
-			}else{
-				return $return;
-			}
+			return $allowed_fields ? self::filter($return, $allowed_fields) : $return;
 		}
 	}
 	

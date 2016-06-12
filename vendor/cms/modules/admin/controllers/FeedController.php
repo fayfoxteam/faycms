@@ -235,7 +235,7 @@ class FeedController extends AdminController{
 		}
 		
 		//页面设置
-		$this->settingForm('admin_feed_index', '_setting_edit', array(
+		$_settings = $this->settingForm('admin_feed_index', '_setting_index', array(
 			'cols'=>array('user', 'status', 'publish_time', 'last_modified_time', 'create_time', 'timeline'),
 			'display_name'=>'nickname',
 			'display_time'=>'short',

@@ -49,7 +49,7 @@ class FieldHelper{
 						//若存在冒号，则有附加信息
 						$field_extra = explode(':', $field, 2);
 						$field = $field_extra[0];
-						if(count($field_path) > 1){
+						if(isset($field_path[1])){
 							//字段路径大于1个时，插入到倒数第二个层级
 							$field_path_copy = $field_path;
 							$parent_path = array_pop($field_path_copy);

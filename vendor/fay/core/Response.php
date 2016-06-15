@@ -280,26 +280,26 @@ class Response{
 	 * @param string $content
 	 */
 	public static function send($content){
-		$uri = Uri::getInstance();
+		$router = Uri::getInstance()->router;
 		
 		//根据router设置缓存
 		$cache_routers = \F::config()->get('*', 'pagecache');
 		$cache_routers_keys = array_keys($cache_routers);
-		if(in_array($uri->router, $cache_routers_keys)){
-			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
-			$cache_key = 'pages/' . $uri->router . '/' . $filename;
+		if(in_array($router, $cache_routers_keys)){
+			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$router]['params']) ? $cache_routers[$router]['params'] : array())));
+			$cache_key = 'pages/' . $router . '/' . $filename;
 			if(\F::input()->post()){
 				//有post数据的时候，是否更新页面
-				if(isset($cache_routers[$uri->router]['on_post'])){
-					if($cache_routers[$uri->router]['on_post'] == 'rebuild'){//刷新缓存
-						\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
-					}else if($cache_routers[$uri->router]['on_post'] == 'remove'){//删除缓存
+				if(isset($cache_routers[$router]['on_post'])){
+					if($cache_routers[$router]['on_post'] == 'rebuild'){//刷新缓存
+						\F::cache()->set($cache_key, $content, $cache_routers[$router]['ttl']);
+					}else if($cache_routers[$router]['on_post'] == 'remove'){//删除缓存
 						\F::cache()->delete($cache_key);
 					}
 				}
 			}else{
 				//没post数据的时候，直接重新生成页面缓存
-				\F::cache()->set($cache_key, $content, $cache_routers[$uri->router]['ttl']);
+				\F::cache()->set($cache_key, $content, $cache_routers[$router]['ttl']);
 			}
 		}
 		

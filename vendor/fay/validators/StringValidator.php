@@ -103,18 +103,18 @@ class StringValidator extends Validator{
 			return array($this->not_equal, $this->not_equal_code, array(
 				'equal'=>$this->equal,
 			));
-		}
-		
-		if($this->max !== null && $len > $this->max){
-			return array($this->too_long, $this->too_long_code, array(
-				'max'=>$this->max,
-			));
-		}
-
-		if($this->min !== null && $len < $this->min){
-			return array($this->too_short, $this->too_short_code, array(
-				'min'=>$this->min,
-			));
+		}else if(!$this->equal){
+			if($this->max !== null && $len > $this->max){
+				return array($this->too_long, $this->too_long_code, array(
+					'max'=>$this->max,
+				));
+			}
+	
+			if($this->min !== null && $len < $this->min){
+				return array($this->too_short, $this->too_short_code, array(
+					'min'=>$this->min,
+				));
+			}
 		}
 		
 		return true;

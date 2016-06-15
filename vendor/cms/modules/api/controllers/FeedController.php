@@ -20,7 +20,7 @@ class FeedController extends ApiController{
 	 * @param string $description 图片描述。目前只支持以数组方式传入
 	 * @param float $longitude 经度
 	 * @param float $latitude 纬度
-	 * @param string address 定位地址
+	 * @param string $address 定位地址
 	 */
 	public function create(){
 		//登录检查

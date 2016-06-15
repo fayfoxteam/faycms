@@ -62,9 +62,10 @@ class User extends Model{
 	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
+	 * @param array $extra 扩展信息。例如：头像缩略图尺寸
 	 * @return false|array 若用户ID不存在，返回false，否则返回数组
 	 */
-	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar'){
+	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar', $extra = array()){
 		//解析$fields
 		$fields = FieldHelper::process($fields, 'user');
 		if(empty($fields['user'])){
@@ -91,10 +92,16 @@ class User extends Model{
 		}
 		
 		if(isset($user['avatar'])){
-			//如果有头像，将头像转为图片URL
-			$user['avatar_url'] = File::getUrl($user['avatar'], File::PIC_ORIGINAL, array(
-				'spare'=>'avatar',
-			));
+			//如果有头像，将头像图片ID转化为图片对象
+			if(isset($extra['avatar']) && preg_match('/^(\d+)x(\d+)$/', $extra['avatar'], $avatar_params)){
+				$user['avatar'] = File::get($user['avatar'], array(
+					'spare'=>'avatar',
+					'dw'=>$avatar_params[1],
+					'dh'=>$avatar_params[2],
+				));
+			}else{
+				$user['avatar'] = File::get($user['avatar']);
+			}
 		}
 		
 		$return['user'] = $user;

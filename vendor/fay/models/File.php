@@ -98,7 +98,7 @@ class File extends Model{
 			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
 				return \F::app()->view->url($spare);
 			}else{
-				return null;
+				return '';
 			}
 		}
 		
@@ -196,22 +196,23 @@ class File extends Model{
 	}
 	
 	/**
-	 * 返回文件缩略图链接
+	 * 返回文件缩略图链接（此方法可指定缩略图尺寸）
 	 * 若是图片，返回图片缩略图路径
 	 *   若是公共文件，直接返回图片真实路径
 	 *   若是私有文件，返回图片file/pic方式的一个url
-	 * 若是其他类型文件，返回文件图标
+	 * 若是其他类型文件，返回文件图标（图标尺寸是固定的）
 	 * @param int|array $file 可以是文件ID或包含文件信息的数组
+	 * @param array $options 可以指定缩略图尺寸
 	 * @return string
 	 */
-	public static function getThumbnailUrl($file){
+	public static function getThumbnailUrl($file, $options = array()){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'id,file_type,raw_name,file_path,is_image');
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		
 		if(!$file){
 			//指定文件不存在，返回null
-			return null;
+			return '';
 		}
 		
 		if(!$file['is_image']){
@@ -220,15 +221,26 @@ class File extends Model{
 			return \F::app()->view->url() . 'assets/images/crystal/' . $icon . '.png';
 		}
 		
-		if(substr($file['file_path'], 0, 4) == './..'){
-			//私有文件，不能直接访问文件
-			return \F::app()->view->url('file/pic', array(
-				't'=>2,
-				'f'=>$file['id'],
-			));
+		if(isset($options['dw']) || isset($options['dh'])){
+			return self::getUrl($file, self::PIC_RESIZE, $options);
 		}else{
-			//公共文件，直接返回真实路径
-			return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+			if(substr($file['file_path'], 0, 4) == './..'){
+				//私有文件，不能直接访问文件
+				return \F::app()->view->url('file/pic', array(
+					't'=>2,
+					'f'=>$file['id'],
+				));
+			}else{
+				//公共文件，直接返回真实路径
+				if($file['qiniu']){
+					return Qiniu::model()->getUrl($file, array(
+						'dw'=>'100',
+						'dh'=>'100',
+					));
+				}else{
+					return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+				}
+			}
 		}
 	}
 	
@@ -240,12 +252,12 @@ class File extends Model{
 	 */
 	public static function getThumbnailPath($file, $realpath = true){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image');
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		
 		if(!$file){
 			//指定文件不存在，返回null
-			return null;
+			return '';
 		}
 		
 		
@@ -667,5 +679,50 @@ class File extends Model{
 	public static function isImage($file_id){
 		$file = Files::model()->find($file_id, 'is_image');
 		return $file['is_image'];
+	}
+	
+	/**
+	 * 返回一个包含文件id, url, thumbnail的数组
+	 * @param $file
+	 * @param array $options
+	 * @return array
+	 */
+	public static function get($file, $options = array()){
+		if(StringHelper::isInt($file)){
+			if($file <= 0){
+				//显然负数ID不存在，返回默认图数组
+				return array(
+					'id'=>'0',
+					'url'=>\F::app()->view->url('default'),
+					'thumbnail'=>\F::app()->view->url('default'),
+				);
+			}
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+		}
+		
+		if(!$file){
+			//指定文件不存在
+			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+				//若指定了默认图，则取默认图
+				return array(
+					'id'=>'0',
+					'url'=>\F::app()->view->url($spare),
+					'thumbnail'=>\F::app()->view->url($spare),
+				);
+			}else{
+				//若未指定默认图，返回默认图结构
+				return array(
+					'id'=>'0',
+					'url'=>\F::app()->view->url('default'),
+					'thumbnail'=>\F::app()->view->url('default'),
+				);
+			}
+		}
+		
+		return array(
+			'id'=>$file['id'],
+			'url'=>self::getUrl($file),
+			'thumbnail'=>self::getThumbnailUrl($file, $options),
+		);
 	}
 }

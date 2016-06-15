@@ -240,7 +240,7 @@ class Post extends Model{
 		
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::model()->get($post['user_id'], $fields['user']);
+			$return['user'] = User::model()->get($post['user_id'], $fields['user'], isset($fields['_extra']['user']) ? $fields['_extra']['user'] : array());
 		}
 		
 		//标签

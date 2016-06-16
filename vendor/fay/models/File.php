@@ -685,17 +685,28 @@ class File extends Model{
 	 * 返回一个包含文件id, url, thumbnail的数组
 	 * @param $file
 	 * @param array $options
+	 * @param bool $is_image 若为true，则返回字段中会有一个is_image标识文件是否为图片，默认为false
 	 * @return array
 	 */
-	public static function get($file, $options = array()){
-		if(StringHelper::isInt($file)){
+	public static function get($file, $options = array(), $is_image = false){
+		if(StringHelper::isInt($file, false)){
 			if($file <= 0){
 				//显然负数ID不存在，返回默认图数组
-				return array(
+				if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+					//若指定了默认图，则取默认图
+				}else{
+					//若未指定默认图，返回默认图
+					$spare = \F::config()->get('default', 'noimage');
+				}
+				$return = array(
 					'id'=>'0',
-					'url'=>\F::app()->view->url('default'),
-					'thumbnail'=>\F::app()->view->url('default'),
+					'url'=>\F::app()->view->url($spare),
+					'thumbnail'=>\F::app()->view->url($spare),
 				);
+				if($is_image){
+					$return['is_image'] = '0';
+				}
+				return $return;
 			}
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
@@ -704,25 +715,31 @@ class File extends Model{
 			//指定文件不存在
 			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
 				//若指定了默认图，则取默认图
-				return array(
-					'id'=>'0',
-					'url'=>\F::app()->view->url($spare),
-					'thumbnail'=>\F::app()->view->url($spare),
-				);
 			}else{
-				//若未指定默认图，返回默认图结构
-				return array(
-					'id'=>'0',
-					'url'=>\F::app()->view->url('default'),
-					'thumbnail'=>\F::app()->view->url('default'),
-				);
+				//若未指定默认图，返回默认图
+				$spare = \F::config()->get('default', 'noimage');
 			}
+			$return = array(
+				'id'=>'0',
+				'url'=>\F::app()->view->url($spare),
+				'thumbnail'=>\F::app()->view->url($spare),
+			);
+			if($is_image){
+				$return['is_image'] = '0';
+			}
+			
+			return $return;
 		}
 		
-		return array(
+		$return = array(
 			'id'=>$file['id'],
 			'url'=>self::getUrl($file),
 			'thumbnail'=>self::getThumbnailUrl($file, $options),
 		);
+		if($is_image){
+			$return['is_image'] = $file['is_image'];
+		}
+		
+		return $return;
 	}
 }

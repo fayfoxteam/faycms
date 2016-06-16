@@ -100,7 +100,9 @@ class User extends Model{
 					'dh'=>$avatar_params[2],
 				));
 			}else{
-				$user['avatar'] = File::get($user['avatar']);
+				$user['avatar'] = File::get($user['avatar'], array(
+					'spare'=>'avatar',
+				));
 			}
 		}
 		

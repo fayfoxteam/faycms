@@ -82,7 +82,10 @@ class IndexController extends Widget{
 	
 	public function index($config){
 		if(isset($config['fields'])){
-			$fields = $this->fields['post'];
+			$fields = array(
+				'post'=>$this->fields['post'],
+				'extra'=>$this->fields['extra'],
+			);
 			foreach($config['fields'] as $f){
 				$fields[$f] = $this->fields[$f];
 			}

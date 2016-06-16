@@ -124,7 +124,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 				<fieldset class="logo">Faycms</fieldset>
 				<fieldset class="user-info">
 					<div class="user-avatar">
-						<?php echo Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
+						<?php echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 							'spare'=>'avatar',
 						))?>
 					</div>

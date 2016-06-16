@@ -22,7 +22,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					'id'=>$user['user']['id'],
 				));
 				//头像
-				echo Html::link(Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
+				echo Html::link(Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 					'spare'=>'avatar',
 				)), $user_detail_link, array(
 					'encode'=>false,

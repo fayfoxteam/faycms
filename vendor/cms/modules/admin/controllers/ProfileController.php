@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use fay\models\tables\Users;
 use fay\models\tables\Actionlogs;
 use fay\models\User as UserModel;
+use fay\models\user\Prop;
 use fay\services\User as UserService;
 use fay\models\tables\Roles;
 use fay\models\user\Role;
@@ -17,7 +18,7 @@ class ProfileController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '编辑管理员信息';
+		$this->layout->subtitle = '编辑我的信息';
 		$user_id = $this->current_user;
 		$this->form()->setModel(Users::model());
 		if($this->input->post() && $this->form()->check()){
@@ -30,7 +31,7 @@ class ProfileController extends AdminController{
 			
 			UserService::model()->update($user_id, $data, $extra);
 			
-			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
+			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了自己的信息', $user_id);
 			Response::notify('success', '修改成功', false);
 			
 			//置空密码字段
@@ -48,7 +49,7 @@ class ProfileController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = UserModel::model()->getPropertySet($user_id);
+		$this->view->prop_set = Prop::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 }

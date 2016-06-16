@@ -187,9 +187,9 @@ class User extends Model{
 		$return = array_fill_keys($ids, array());
 		foreach($users as $u){
 			$user['user'] = $u;
-			if(isset($user['user']['avatar'])){
+			if(isset($user['user']['avatar']['thumbnail'])){
 				//如果有头像，将头像转为图片URL
-				$user['user']['avatar_url'] = File::getUrl($user['user']['avatar'], File::PIC_ORIGINAL, array(
+				$user['user']['avatar_url'] = File::getUrl($user['user']['avatar']['thumbnail'], File::PIC_ORIGINAL, array(
 					'spare'=>'avatar',
 				));
 			}

@@ -94,7 +94,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 				<li class="dropdown-container user-profile">
 					<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
-						echo Html::img($user['user']['avatar'], File::PIC_THUMBNAIL, array(
+						echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 							'class'=>'circle',
 							'width'=>28,
 							'spare'=>'avatar',

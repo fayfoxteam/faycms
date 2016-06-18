@@ -25,4 +25,6 @@ return array(
 	),
 	
 	'debug'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? false : true,
+	
+	'assets_url'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? 'http://static.faycms.com/' : '',
 );

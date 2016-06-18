@@ -49,7 +49,7 @@ class TagController extends ApiController{
 				$order = "tc.{$type} DESC";
 		}
 		
-		return Response::json(Tag::model()->getList(
+		Response::json(Tag::model()->getList(
 			$order,
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1)

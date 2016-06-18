@@ -1,15 +1,25 @@
 <?php 
 namespace fay\common;
 
-use fay\core\FBase;
 use fay\models\File;
 
-class Upload extends FBase{
+class Upload{
 	private $upload_path;
 	private $allowed_types = array();
 	private $max_size;
 	
 	private $error_msg = array();
+	
+	private $file_temp;//上传文件临时文件
+	private $file_size;//上传文件大小
+	private $file_type;//上传文件类型
+	private $file_ext;//扩展名
+	private $file_name;//随机文件名
+	private $is_image = false;//上传文件是否为图片
+	private $image_width = 0;//上传图片宽度
+	private $image_height = 0;//上传图片高度
+	private $image_mime_type;//上传图片mime type
+	private $client_name;//上传图片客户端文件名
 	
 	/**
 	 * 构造函数
@@ -28,7 +38,8 @@ class Upload extends FBase{
 	 * 执行上传操作
 	 * 若成功，则返回上传文件的各种属性信息
 	 * 若失败，则设置错误信息并返回false
-	 * @param string $field
+	 * @param bool|string $field
+	 * @return array|bool
 	 */
 	public function run($field = false){
 		if($field === false){
@@ -80,33 +91,42 @@ class Upload extends FBase{
 			return false;
 		}
 		
-		if(!$this->isAllowedType($file['type'])){
-			$this->setErrorMsg('非法文件类型');
-			return false;
-		}
-		
 		if(!$this->isAllowedSize($file['size'])){
 			$this->setErrorMsg('文件过大');
 			return false;
 		}
-		$ext = File::getFileExt($file['name']);
-		$filename = File::getFilename($this->upload_path, $ext);
+		
+		$this->file_temp = $file['tmp_name'];
+		$this->file_size = $file['size'];
+		//客户端文件名
+		$this->client_name = $file['name'];
+		$this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
+		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
+		
+		$this->file_ext = File::getFileExt($file['name']);
+		//随机一个唯一文件名
+		$this->file_name = File::getFileName($this->upload_path, $this->file_ext);
+		
+		if(!$this->isAllowedType()){
+			$this->setErrorMsg('非法文件类型');
+			return false;
+		}
 		
 		//没开启URL重写的话，"./uploads/"这样的路径就不是public下了
 		if(defined('NO_REWRITE')){
-			$destination = './public/'.$this->upload_path.$filename;
+			$destination = './public/'.$this->upload_path.$this->file_name;
 		}else{
-			$destination = $this->upload_path.$filename;
+			$destination = $this->upload_path.$this->file_name;
 		}
 		if( move_uploaded_file($file['tmp_name'], $destination)){
 			$data = array(
-				'file_name'=>$filename,
-				'raw_name'=>str_replace($ext, '', $filename),
-				'file_ext'=>$ext,
+				'file_name'=>$this->file_name,
+				'raw_name'=>substr($this->file_name, 0, 0 - strlen($this->file_ext)),
+				'file_ext'=>$this->file_ext,
 				'file_type'=>trim($file['type'], '"'),
 				'file_size'=>$file['size'],
 				'file_path'=>$this->upload_path,
-				'full_path'=>$this->upload_path . $filename,
+				'full_path'=>$this->upload_path . $this->file_name,
 				'client_name'=>$file['name'],
 			);
 			$data = array_merge($data, $this->setImgProperties($destination));
@@ -129,39 +149,53 @@ class Upload extends FBase{
 	 * 若为*，则允许所有类型的文件
 	 * $types参数为允许的文件类型数组，一般为文件扩展名
 	 * 自动读取config文件夹中的mimes.php文件，转换为标准mimetype类型
-	 * @param mix $types
+	 * @param mixed $types
 	 */
 	private function setAllowedTypes($types){
-		if(!is_array($types) && $types == '*'){
-			$this->allowed_types = '*';
+		if(is_array($types) || $types === '*'){
+			$this->allowed_types = $types;
 		}else{
-			$allowed_types_array = explode('|', $types);
-			$mimes = \F::app()->config->get('*', 'mimes');
-			foreach($allowed_types_array as $type){
-				if(is_array( $mimes[$type] )){
-					$this->allowed_types = array_merge($this->allowed_types, $mimes[$type]);
-				}else{
-					$this->allowed_types[] = $mimes[$type];
-				}
+			$types = explode('|', $types);
+			if(is_array($types)){
+				$this->allowed_types = $types;
+			}else{
+				$this->allowed_types = array();
 			}
 		}
 	}
 	
 	/**
 	 * 判断上传的文件是否是允许的文件类型
-	 * @param string $type
+	 * @return bool
 	 */
-	private function isAllowedType($type){
+	private function isAllowedType(){
+		$ext = strtolower(ltrim($this->file_ext, '.'));
+		
+		//任何情况下不允许直接上传php文件
+		if($ext == 'php'){
+			return false;
+		}
+		
 		if($this->allowed_types == '*'){
 			return true;
-		}else{
-			return in_array($type, $this->allowed_types);
 		}
+		
+		if (!in_array($ext, $this->allowed_types)){
+			return false;
+		}
+		
+		if(in_array($ext, array('gif', 'jpg', 'jpeg', 'jpe', 'png'), true) && @getimagesize($this->file_temp) === false){
+			return false;
+		}
+		
+		//不做mime type类型验证，因为无法确保能真的获取到
+		return true;
 	}
 	
 	/**
 	 * 判断上传的文件大小是否符合设置
 	 * @param string $size
+	 * @return bool
 	 */
 	private function isAllowedSize($size){
 		if ($this->max_size != 0 && $size > $this->max_size){
@@ -180,8 +214,9 @@ class Upload extends FBase{
 	}
 	
 	/**
-	 * 获取图片相关属性数组，若不是图片则将is_image设为flase，不设置其他属性值
+	 * 获取图片相关属性数组，若不是图片则将is_image设为false，不设置其他属性值
 	 * @param string $path
+	 * @return array
 	 */
 	private function setImgProperties($path){
 		$x = explode('.', $path);

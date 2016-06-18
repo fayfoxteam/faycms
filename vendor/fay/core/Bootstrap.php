@@ -1,18 +1,13 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-use fay\core\Uri;
-
-class Bootstrap extends FBase{
+class Bootstrap{
 	public function init(){
 		//默认时区
-		$date = $this->config('date');
-		$default_timezone = $date['default_timezone'];
-		date_default_timezone_set($default_timezone);
+		date_default_timezone_set(\F::config()->get('date.default_timezone'));
 		
 		//报错级别
-		switch ($this->config('environment')){
+		switch (\F::config()->get('environment')){
 			case 'development':
 				error_reporting(E_ALL);
 				break;
@@ -24,9 +19,8 @@ class Bootstrap extends FBase{
 		//路由
 		$uri = new Uri();
 		
-		if($this->config('hook')){
-			Hook::getInstance()->call('after_uri');
-		}
+		//hook
+		Hook::getInstance()->call('after_uri');
 		
 		if(!$uri->router){
 			//路由解析失败
@@ -35,16 +29,17 @@ class Bootstrap extends FBase{
 		
 		//根据router来读取缓存
 		if(!\F::input()->get('__r')){//强制跳过缓存，主要用于测试
-			$cache_routers = $this->config('*', 'cache');
+			$cache_routers = \F::config()->get('*', 'pagecache');
 			$cache_routers_keys = array_keys($cache_routers);
 			if(!Input::getInstance()->post() && in_array($uri->router, $cache_routers_keys)){
-				$filepath = APPLICATION_PATH.'runtimes/cache/pages/'.$uri->router;
-				$cache_file = $filepath . '/' . md5(json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
-				if(file_exists($cache_file) && ($cache_routers[$uri->router]['ttl'] == 0 || filemtime($cache_file) + $cache_routers[$uri->router]['ttl'] > time())){
-					if(!empty($cache_routers[$uri->router]['function'])){
-						$cache_routers[$uri->router]['function']();
+				$filename = md5(json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
+				$cache_key = 'pages/' . $uri->router . '/' . $filename;
+				$content = \F::cache()->get($cache_key);
+				if($content){
+					if(\F::config()->get('debug')){
+						echo '来自缓存';
 					}
-					readfile($cache_file);
+					echo $content;
 					die;
 				}
 			}
@@ -52,15 +47,16 @@ class Bootstrap extends FBase{
 		
 		$file = $this->getControllerAndAction($uri);
 		$controller = new $file['controller'];
-		if($this->config('hook')){
-			Hook::getInstance()->call('after_controller_constructor');
-		}
+		//hook
+		Hook::getInstance()->call('after_controller_constructor');
 		$controller->{$file['action']}();
-		
 	}
 	
 	/**
 	 * 查找对应的controller文件和action方法
+	 * @param Uri $uri
+	 * @return array
+	 * @throws HttpException
 	 */
 	private function getControllerAndAction($uri){
 		//先找当前app目录

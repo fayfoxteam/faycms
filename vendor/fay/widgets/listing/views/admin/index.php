@@ -3,18 +3,30 @@ use fay\helpers\Html;
 ?>
 <div class="box">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
-		<h4>列表</h4>
+		<h4>标题</h4>
+	</div>
+	<div class="box-content">
+		<div class="form-field">
+			<?php echo F::form('widget')->inputText('title', array(
+				'class'=>'form-control',
+			))?>
+			<p class="fc-grey">是否用到标题视模版而定，并不一定会显示。</p>
+		</div>
+	</div>
+</div>
+<div class="box">
+	<div class="box-title">
+		<h4>数据</h4>
 	</div>
 	<div class="box-content">
 		<div class="dragsort-list" id="widget-listing-values">
-		<?php if(!empty($data['values'])){?>
-			<?php foreach($data['values'] as $v){?>
+		<?php if(!empty($config['data'])){?>
+			<?php foreach($config['data'] as $v){?>
 				<div class="dragsort-item">
 					<a class="dragsort-rm" href="javascript:;"></a>
 					<a class="dragsort-item-selector"></a>
 					<div class="dragsort-item-container">
-						<?php echo Html::textarea("values[]", $v, array(
+						<?php echo Html::textarea("data[]", $v, array(
 							'class'=>'form-control h60 autosize',
 						));?>
 					</div>
@@ -26,7 +38,7 @@ use fay\helpers\Html;
 				<a class="dragsort-rm" href="javascript:;"></a>
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
-					<?php echo Html::textarea("values[]", '', array(
+					<?php echo Html::textarea("data[]", '', array(
 						'class'=>'form-control h60 autosize',
 					));?>
 				</div>
@@ -42,17 +54,17 @@ use fay\helpers\Html;
 </div>
 <div class="box">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
 		<h4>渲染模板</h4>
 	</div>
 	<div class="box-content">
-		<?php echo Html::textarea('template', isset($data['template']) ? $data['template'] : '', array(
+		<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 			'class'=>'form-control h90 autosize',
 		))?>
 		<p class="fc-grey mt5">
-			循环列表调用该模版渲染。
-			<span class="fc-orange">{$value}</span>代表“值”。
-			例如：<code><?php echo Html::encode('<p>{$value}</p>')?></code>
+			若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
+			即类似<code>frontend/widget/template</code><br />
+			则会调用当前application下符合该相对路径的view文件。<br />
+			否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
 		</p>
 	</div>
 </div>
@@ -63,11 +75,11 @@ $(function(){
 			'<a class="dragsort-rm" href="javascript:;"></a>',
 			'<a class="dragsort-item-selector"></a>',
 			'<div class="dragsort-item-container">',
-				'<textarea name="values[]" class="form-control h60 autosize"></textarea>',
+				'<textarea name="data[]" class="form-control h60 autosize"></textarea>',
 			'</div>',
 			'<div class="clear"></div>',
 		'</div>'].join(''));
-		$('#widget-listing-values .dragsort-item:last-child textarea').autosize();
+		autosize($('#widget-listing-data .dragsort-item:last-child textarea'));
 	});
 });
 </script>

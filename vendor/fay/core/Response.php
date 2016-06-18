@@ -1,9 +1,12 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
+use fay\models\Flash;
+use fay\helpers\StringHelper;
+use fay\helpers\SqlHelper;
+use fay\helpers\Request;
 
-class Response extends FBase{
+class Response{
 	/**
 	 * HTTP状态码
 	 */
@@ -74,11 +77,12 @@ class Response extends FBase{
 		510 => 'Not Extended',
 		511 => 'Network Authentication Required',
 	);
-
+	
 	/**
 	 * 发送一个http头
 	 * @param int $code
 	 * @param string $text
+	 * @throws HttpException
 	 */
 	public static function setStatusHeader($code = 200, $text = ''){
 		if ($code == '' OR ! is_numeric($code)){
@@ -103,11 +107,12 @@ class Response extends FBase{
 			header("HTTP/1.1 {$code} {$text}", TRUE, $code);
 		}
 	}
-
+	
 	/**
 	 * 页面跳转
 	 * @param string $uri
 	 * @param array $params
+	 * @param bool $url_rewrite
 	 */
 	public static function redirect($uri = null, $params = array(), $url_rewrite = true){
 		if($uri === null){
@@ -136,32 +141,29 @@ class Response extends FBase{
 	 * 若是浏览器访问，则设置flash后跳转
 	 * @param string $status 状态success, error
 	 * @param array|string $data
-	 * @param bool|array $redirect 跳转地址，若为false且是浏览器访问，则返回上一页
+	 * @param bool|array $redirect 跳转地址，若为true且是浏览器访问，则返回上一页。若为false，则不会跳转。若非布尔型，则视为跳转地址进行跳转
 	 */
-	public static function output($status = 'error', $data = array(), $redirect = false){
+	public static function notify($status = 'error', $data = array(), $redirect = true){
 		if(!is_array($data)){
 			$data = array(
 				'message'=>$data,
 			);
 		}
 		if(\F::app()->input->isAjaxRequest()){
-			echo json_encode(array(
-				'status'=>$status == 'success' ? 1 : 0,
-			)+$data);
-			die;
+			Response::json(isset($data['data']) ? $data['data'] : '', $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '', isset($data['code']) ? $data['code'] : '');
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash
-				\F::app()->flash->set($data['message'], $status);
+				Flash::set($data['message'], $status);
 			}else if($status == 'success'){
-				\F::app()->flash->set('操作成功', $status);
+				Flash::set('操作成功', $status);
 			}else{
-				\F::app()->flash->set('操作失败', $status);
+				Flash::set('操作失败', $status);
 			}
 
-			if($redirect === false){
+			if($redirect === true){
 				self::goback();
-			}else{
+			}else if($redirect !== false){
 				if(is_array($redirect)){
 					$redirect = \F::app()->view->url($redirect[0],
 						empty($redirect[1]) ? array() : $redirect[1],
@@ -175,9 +177,10 @@ class Response extends FBase{
 
 	/**
 	 * 用一个单页来做信息提示，并在$delay时间后跳转
-	 * @param unknown $message 信息
-	 * @param number $delay 停留时间
-	 * @param string $redirect 跳转的url，默认为回到上一页
+	 * @param string $message 信息
+	 * @param string $status
+	 * @param bool|string $redirect 跳转的url，默认为回到上一页
+	 * @param int $delay 停留时间
 	 */
 	public static function jump($message, $status = 'success', $redirect = false, $delay = 3){
 		if(!$redirect && !empty($_SERVER['HTTP_REFERER'])){
@@ -199,5 +202,104 @@ class Response extends FBase{
 		self::setStatusHeader(404);
 		\F::app()->view->render('common/404');
 		die;
+	}
+	
+	/**
+	 * 返回json
+	 * @param mixed $data
+	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
+	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
+	 */
+	public static function json($data = '', $status = 1, $message = '', $code = ''){
+		if(!Request::isIE()){
+			//IE浏览器不发送此header，否则IE会弹出下载
+			header('Content-Type:application/json; charset=utf-8');
+		}
+		if(\F::config()->get('debug')){
+			$sqls = Db::getInstance()->getSqlLogs();
+			$sql_formats = array();
+			$sql_time = 0;
+			foreach($sqls as &$s){
+				$sql_formats[] = array(
+					'time'=>StringHelper::money($s[2] * 1000).'ms',
+					'sql'=>SqlHelper::bind($s[0], $s[1]),
+				);
+				$sql_time += $s[2];
+			}
+			$content = json_encode(array(
+				'status'=>$status == 0 ? 0 : 1,
+				'data'=>$data,
+				'code'=>$code,
+				'message'=>$message,
+				'debug'=>array(
+					'sqls'=>$sql_formats,
+					'sql_time'=>StringHelper::money($sql_time * 1000).'ms',
+					'php_time'=>StringHelper::money((microtime(true) - START) * 1000).'ms',
+					'memory'=>round(memory_get_usage()/1024, 2).'KB',
+				),
+			));
+		}else{
+			$content = json_encode(array(
+				'status'=>$status == 0 ? 0 : 1,
+				'data'=>$data,
+				'code'=>$code,
+				'message'=>$message,
+			));
+		}
+		self::send($content);
+		die;
+	}
+
+	/**
+	 * 返回jsonp
+	 * @param string $func jsonp请求的回调函数名，在调用的地方，从请求中获取，例如jquery发送的请求：$func = $this->input->get('callback');！
+	 * @param mixed $content 内容部分
+	 * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
+	 * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
+	 * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
+	 */
+	public static function jsonp($func, $content, $status = 1, $message = '', $code = ''){
+		// 返回JSON数据格式到客户端 包含状态信息
+		header('Content-Type:application/javascript; charset=utf-8');
+		$content = $func.'('.json_encode(array(
+			'status'=>$status == 0 ? 0 : 1,
+			'content'=>$content,
+			'code'=>$code,
+			'message'=>$message
+		)).');';
+		self::send($content);
+		die;
+	}
+	
+	/**
+	 * 向浏览器输出
+	 * @param string $content
+	 */
+	public static function send($content){
+		$router = Uri::getInstance()->router;
+		
+		//根据router设置缓存
+		$cache_routers = \F::config()->get('*', 'pagecache');
+		$cache_routers_keys = array_keys($cache_routers);
+		if(in_array($router, $cache_routers_keys)){
+			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$router]['params']) ? $cache_routers[$router]['params'] : array())));
+			$cache_key = 'pages/' . $router . '/' . $filename;
+			if(\F::input()->post()){
+				//有post数据的时候，是否更新页面
+				if(isset($cache_routers[$router]['on_post'])){
+					if($cache_routers[$router]['on_post'] == 'rebuild'){//刷新缓存
+						\F::cache()->set($cache_key, $content, $cache_routers[$router]['ttl']);
+					}else if($cache_routers[$router]['on_post'] == 'remove'){//删除缓存
+						\F::cache()->delete($cache_key);
+					}
+				}
+			}else{
+				//没post数据的时候，直接重新生成页面缓存
+				\F::cache()->set($cache_key, $content, $cache_routers[$router]['ttl']);
+			}
+		}
+		
+		echo $content;
 	}
 }

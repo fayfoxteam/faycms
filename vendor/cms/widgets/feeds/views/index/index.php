@@ -50,7 +50,7 @@ use fay\models\tables\Logs;
 <script>
 $(function(){
 	if($('#system-log-container').height() > 250){
-		system.getScript(system.url('js/jquery.slimscroll.min.js'), function(){
+		system.getScript(system.assets('js/jquery.slimscroll.min.js'), function(){
 			$("#system-log-container").slimScroll({
 				'allowPageScroll':true,
 				'height':'250px',

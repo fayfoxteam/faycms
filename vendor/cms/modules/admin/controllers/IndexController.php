@@ -16,7 +16,7 @@ class IndexController extends AdminController{
 		array('name'=>'cms/admins_online', 'title'=>'在线管理员'),
 		array('name'=>'cms/feeds', 'title'=>'Feeds'),
 	);
-	public $ajax_boxes = array('cms/ip_statistics', 'cms/user_info');
+	public $ajax_boxes = array('cms/ip_statistics', 'cms/check_system');
 	
 	//不写构造函数的话，index方法会被认为是构造函数
 	public function __construct(){
@@ -25,14 +25,10 @@ class IndexController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '控制台';
-		//要显示的box
-		$this->layout->_setting_panel = '_setting_index';
+		
+		//页面设置
 		$_setting_key = 'admin_dashboard_boxes';
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		$this->settingForm($_setting_key, '_setting_index');
 		$this->view->enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		//box排序

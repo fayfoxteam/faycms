@@ -1,50 +1,49 @@
 <?php
 namespace fay\widgets\friendlinks\controllers;
 
-use fay\core\Widget;
-use fay\models\tables\Links;
+use fay\widget\Widget;
 use fay\models\Link;
 
 class IndexController extends Widget{
 	public $eval_cat_uri = '';
 	
-	public function index($data){
+	public function index($config){
 		//title
-		if(empty($data['title'])){
-			$data['title'] = '友情链接';
+		if(empty($config['title'])){
+			$config['title'] = '友情链接';
 		}
 		
-		if(empty($data['number'])){
-			$data['number'] = 5;
+		if(empty($config['number'])){
+			$config['number'] = 5;
 		}
 		
-		if(empty($data['cat_id'])){
-			$data['cat_id'] = 0;
+		if(empty($config['cat_id'])){
+			$config['cat_id'] = 0;
 		}
 		
-		$links = Link::model()->get($data['cat_id'], $data['number']);
+		$links = Link::model()->get($config['cat_id'], $config['number']);
 		
 		//若内容可显示，则不显示该widget
 		if(empty($links)){
 			return;
 		}
 		
-		if(empty($data['template'])){
+		if(empty($config['template'])){
 			$this->view->render('template', array(
 				'links'=>$links,
-				'data'=>$data,
+				'config'=>$config,
 				'alias'=>$this->alias,
 			));
 		}else{
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $data['template'])){
-				\F::app()->view->renderPartial($data['template'], array(
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
+				\F::app()->view->renderPartial($config['template'], array(
 					'links'=>$links,
-					'data'=>$data,
+					'config'=>$config,
 					'alias'=>$this->alias,
 				));
 			}else{
 				$alias = $this->alias;
-				eval('?>'.$data['template'].'<?php ');
+				eval('?>'.$config['template'].'<?php ');
 			}
 		}
 	}

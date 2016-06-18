@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Loader;
+use fay\core\Response;
 
 class LogController extends AdminController{
 	public function __construct(){
@@ -16,8 +17,8 @@ class LogController extends AdminController{
 		$this->layout->subtitle = '日志';
 		
 		$sql = new Sql();
-		$sql->from('logs', 'l')
-			->joinLeft('users', 'u', 'l.user_id = u.id', 'username')
+		$sql->from(array('l'=>'logs'))
+			->joinLeft(array('u'=>'users'), 'l.user_id = u.id', 'username')
 		;
 		
 		if($this->input->get('code')){
@@ -33,7 +34,7 @@ class LogController extends AdminController{
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('l.id DESC');
@@ -51,16 +52,16 @@ class LogController extends AdminController{
 	}
 	
 	public function get(){
-		$id = $this->input->get('id', 'intval');
 		$sql = new Sql();
-		$log = $sql->from('logs', 'l')
-			->joinLeft('users', 'u', 'l.user_id = u.id', 'username')
-			->where(array('l.id = ?'=>$id))
+		$log = $sql->from(array('l'=>'logs'))
+			->joinLeft(array('u'=>'users'), 'l.user_id = u.id', 'username')
+			->where(array('l.id = ?'=>$this->input->get('id', 'intval')))
 			->fetchRow()
 		;
-		echo json_encode(array(
-			'status'=>1,
-			'log'=>$log,
-		));
+		if($log){
+			Response::json($log);
+		}else{
+			Response::json('', 0, '指定日志不存在');
+		}
 	}
 }

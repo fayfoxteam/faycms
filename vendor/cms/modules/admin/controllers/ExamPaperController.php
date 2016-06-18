@@ -26,8 +26,8 @@ class ExamPaperController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('exam_papers', 'p')
-			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('p'=>'exam_papers'))
+			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'deleted = 0',
 			))
@@ -74,46 +74,42 @@ class ExamPaperController extends AdminController{
 		$this->form()->setModel(ExamPapers::model())
 			->setModel(ExamPaperQuestions::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$questions = $this->input->post('questions', 'intval');
-				$score = $this->input->post('score', 'floatval', array(0));
-				
-				$paper_id = ExamPapers::model()->insert(array(
-					'title'=>$this->input->post('title'),
-					'description'=>$this->input->post('description'),
-					'cat_id'=>$this->input->post('cat_id', 'intval', 0),
-					'rand'=>$this->input->post('rand', 'intval', 0),
-					'status'=>$this->input->post('status', 'intval', 1),
-					'start_time'=>$this->input->post('start_time', 'strtotime', 0),
-					'end_time'=>$this->input->post('end_time', 'strtotime', 0),
-					'repeatedly'=>$this->input->post('repeatedly', 'intval', 0),
-					'score'=>array_sum($score),
-					'create_time'=>$this->current_time,
+		if($this->input->post() && $this->form()->check()){
+			$questions = $this->input->post('questions', 'intval');
+			$score = $this->input->post('score', 'floatval', array(0));
+			
+			$paper_id = ExamPapers::model()->insert(array(
+				'title'=>$this->input->post('title'),
+				'description'=>$this->input->post('description'),
+				'cat_id'=>$this->input->post('cat_id', 'intval', 0),
+				'rand'=>$this->input->post('rand', 'intval', 0),
+				'status'=>$this->input->post('status', 'intval', 1),
+				'start_time'=>$this->input->post('start_time', 'strtotime', 0),
+				'end_time'=>$this->input->post('end_time', 'strtotime', 0),
+				'repeatedly'=>$this->input->post('repeatedly', 'intval', 0),
+				'score'=>array_sum($score),
+				'create_time'=>$this->current_time,
+			));
+			
+			$i = 0;
+			foreach($questions as $k => $q){
+				$i++;
+				ExamPaperQuestions::model()->insert(array(
+					'paper_id'=>$paper_id,
+					'question_id'=>$q,
+					'score'=>$score[$k],
+					'sort'=>$i,
 				));
-				
-				$i = 0;
-				foreach($questions as $k => $q){
-					$i++;
-					ExamPaperQuestions::model()->insert(array(
-						'paper_id'=>$paper_id,
-						'question_id'=>$q,
-						'score'=>$score[$k],
-						'sort'=>$i,
-					));
-				}
-				$this->actionlog(Actionlogs::TYPE_EXAM, '添加了一份试卷', $paper_id);
-				
-				Response::output('success', '试卷发布成功', array(
-					'admin/exam-paper/edit', array(
-						'id'=>$paper_id,
-					)
-				));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			$this->actionlog(Actionlogs::TYPE_EXAM, '添加了一份试卷', $paper_id);
+			
+			Response::notify('success', '试卷发布成功', array(
+				'admin/exam-paper/edit', array(
+					'id'=>$paper_id,
+				)
+			));
 		}
-
+		
 		//分类树
 		$this->view->cats = Category::model()->getTree('_system_exam_paper');
 		$this->view->question_cats = Category::model()->getTree('_system_exam_question');
@@ -123,72 +119,68 @@ class ExamPaperController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑试卷';
-		$this->layout->_help = '_help';
+		$this->layout->_help_panel = '_help';
 		
 		$id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(ExamPapers::model())
 			->setModel(ExamPaperQuestions::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$questions = $this->input->post('questions', 'intval');
-				$score = $this->input->post('score', 'floatval', array(0));
-				
-				ExamPapers::model()->update(array(
-					'title'=>$this->input->post('title'),
-					'description'=>$this->input->post('description'),
-					'cat_id'=>$this->input->post('cat_id', 'intval', 0),
-					'rand'=>$this->input->post('rand', 'intval', 0),
-					'status'=>$this->input->post('status', 'intval', 1),
-					'start_time'=>$this->input->post('start_time', 'strtotime', 0),
-					'end_time'=>$this->input->post('end_time', 'strtotime', 0),
-					'repeatedly'=>$this->input->post('repeatedly', 'intval', 0),
-					'score'=>array_sum($score),
-					'last_modified_time'=>$this->current_time,
-				), $id);
-				
-				//删除被删除的题目
-				if($questions){
-					ExamPaperQuestions::model()->delete(array(
+		if($this->input->post() && $this->form()->check()){
+			$questions = $this->input->post('questions', 'intval');
+			$score = $this->input->post('score', 'floatval', array(0));
+			
+			ExamPapers::model()->update(array(
+				'title'=>$this->input->post('title'),
+				'description'=>$this->input->post('description'),
+				'cat_id'=>$this->input->post('cat_id', 'intval', 0),
+				'rand'=>$this->input->post('rand', 'intval', 0),
+				'status'=>$this->input->post('status', 'intval', 1),
+				'start_time'=>$this->input->post('start_time', 'strtotime', 0),
+				'end_time'=>$this->input->post('end_time', 'strtotime', 0),
+				'repeatedly'=>$this->input->post('repeatedly', 'intval', 0),
+				'score'=>array_sum($score),
+				'last_modified_time'=>$this->current_time,
+			), $id);
+			
+			//删除被删除的题目
+			if($questions){
+				ExamPaperQuestions::model()->delete(array(
+					'paper_id = ?'=>$id,
+					'question_id NOT IN (?)'=>$questions,
+				));
+			}else{
+				ExamPaperQuestions::model()->delete(array(
+					'paper_id = ?'=>$id,
+				));
+			}
+
+			$i = 0;
+			foreach($questions as $k => $q){
+				$i++;
+				if(ExamPaperQuestions::model()->find(array(
+					'paper_id'=>$id,
+					'question_id'=>$q,
+				))){
+					ExamPaperQuestions::model()->update(array(
+						'score'=>$score[$k],
+						'sort'=>$i,
+					), array(
 						'paper_id = ?'=>$id,
-						'question_id NOT IN (?)'=>$questions,
+						'question_id = ?'=>$q,
 					));
 				}else{
-					ExamPaperQuestions::model()->delete(array(
-						'paper_id = ?'=>$id,
-					));
-				}
-	
-				$i = 0;
-				foreach($questions as $k => $q){
-					$i++;
-					if(ExamPaperQuestions::model()->find(array(
+					ExamPaperQuestions::model()->insert(array(
 						'paper_id'=>$id,
 						'question_id'=>$q,
-					))){
-						ExamPaperQuestions::model()->update(array(
-							'score'=>$score[$k],
-							'sort'=>$i,
-						), array(
-							'paper_id = ?'=>$id,
-							'question_id = ?'=>$q,
-						));
-					}else{
-						ExamPaperQuestions::model()->insert(array(
-							'paper_id'=>$id,
-							'question_id'=>$q,
-							'score'=>$score[$k],
-							'sort'=>$i,
-						));
-					}
+						'score'=>$score[$k],
+						'sort'=>$i,
+					));
 				}
-				
-				$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一份试卷', $id);
-				Response::output('success', '编辑成功');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			
+			$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一份试卷', $id);
+			Response::notify('success', '编辑成功');
 		}
 		
 		$paper = ExamPapers::model()->find($id);
@@ -197,8 +189,8 @@ class ExamPaperController extends AdminController{
 		$this->form()->setData($paper);
 		
 		$sql = new Sql();
-		$this->view->questions = $sql->from('exam_paper_questions', 'pq')
-			->joinLeft('exam_questions', 'q', 'pq.question_id = q.id', 'question,type')
+		$this->view->questions = $sql->from(array('pq'=>'exam_paper_questions'))
+			->joinLeft(array('q'=>'exam_questions'), 'pq.question_id = q.id', 'question,type')
 			->where('pq.paper_id = '.$paper['id'])
 			->order('sort')
 			->fetchAll()
@@ -218,7 +210,7 @@ class ExamPaperController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一份试卷被删除', $id);
 		
-		Response::output('success', '一份试卷被删除 - '.Html::link('撤销', array('admin/exam-paper/undelete', array(
+		Response::notify('success', '一份试卷被删除 - '.Html::link('撤销', array('admin/exam-paper/undelete', array(
 			'id'=>$id,
 		))));
 	}
@@ -230,7 +222,7 @@ class ExamPaperController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一份试卷被还原', $id);
 		
-		Response::output('success', '一份试卷被还原');
+		Response::notify('success', '一份试卷被还原');
 	}
 	
 	public function cat(){

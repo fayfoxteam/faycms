@@ -8,6 +8,7 @@ use fay\models\tables\Actionlogs;
 use fay\helpers\Pinyin;
 use fay\core\Response;
 use fay\helpers\Html;
+use fay\models\Flash;
 
 class CategoryController extends AdminController{
 	public function __construct(){
@@ -16,7 +17,7 @@ class CategoryController extends AdminController{
 	}
 	
 	public function index(){
-		$this->flash->set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'warning');
 		$this->layout->subtitle = '分类管理';
 		$this->view->cats = Category::model()->getTree();
 		$this->view->root = 0;
@@ -49,15 +50,15 @@ class CategoryController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_CATEGORY, '添加分类', $cat_id);
 				
 				$cat = Categories::model()->find($cat_id);
-				Response::output('success', array(
+				Response::notify('success', array(
 					'cat'=>$cat,
- 					'message'=>'分类'.$cat['title'].'添加成功',
+ 					'message'=>'分类“'.Html::encode($cat['title']).'”添加成功',
 				));
 			}else{
-				Response::output('error', '参数异常');
+				Response::notify('error', '参数异常');
 			}
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -76,6 +77,10 @@ class CategoryController extends AdminController{
 				return $title;
 			}
 		}
+		
+		//转为纯小写，空格替换为短横线
+		$spelling = str_replace(' ', '-', strtolower($spelling));
+		
 		$alias = $dep ? $spelling.'-'.$dep : $spelling;
 		$cat = Categories::model()->fetchRow(array('alias = ?'=>$alias), 'id');
 		if($cat){
@@ -83,11 +88,6 @@ class CategoryController extends AdminController{
 		}else{
 			return $alias;
 		}
-	}
-	
-	public function getSubcat(){
-		$cats = Category::model()->getNextLevelByParentId($this->input->get('id', 'intval'));
-		echo json_encode($cats);
 	}
 	
 	public function edit(){
@@ -106,15 +106,15 @@ class CategoryController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_CATEGORY, '修改分类', $cat_id);
 				
 				$cat = Categories::model()->find($cat_id);
-				Response::output('success', array(
-					'message'=>'分类'.Html::encode($cat['title']).'编辑成功',
+				Response::notify('success', array(
+					'message'=>'分类“'.Html::encode($cat['title']).'”编辑成功',
 					'cat'=>$cat,
 				));
 			}else{
-				Response::output('error', '参数异常');
+				Response::notify('error', '参数异常');
 			}
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -122,11 +122,11 @@ class CategoryController extends AdminController{
 		if(Category::model()->remove($this->input->get('id', 'intval'))){
 			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类', $this->input->get('id', 'intval'));
 			
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'一个分类被移除',
 			));
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -134,48 +134,26 @@ class CategoryController extends AdminController{
 		if(Category::model()->removeAll($this->input->get('id', 'intval'))){
 			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类及其所有子分类', $this->input->get('id', 'intval'));
 				
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'一个分类分支被移除',
 			));
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
-	public function goods(){
-		$this->layout->current_directory = 'goods';
-		
-		$this->layout->_help = 'goods/_help';
-
-		$this->layout->subtitle = '商品分类';
-		$this->view->cats = Category::model()->getTree('_system_goods');
-		$root_node = Category::model()->getByAlias('_system_goods', 'id');
-		$this->view->root = $root_node['id'];
-		
-		$root_cat = Category::model()->getByAlias('_system_goods', 'id');
-		if($this->checkPermission('admin/goods/cat-create')){
-			$this->layout->sublink = array(
-				'uri'=>'#create-cat-dialog',
-				'text'=>'添加商品分类',
-				'html_options'=>array(
-					'class'=>'create-cat-link',
-					'data-title'=>'商品',
-					'data-id'=>$root_cat['id'],
-				),
-			);
-		}
-		$this->view->render();
-	}
-	
+	/**
+	 * 获取指定id对应的分类，及该分类下的所有子分类
+	 */
 	public function get(){
 		$cat = Categories::model()->find($this->input->get('id', 'intval'));
 		$children = Categories::model()->fetchCol('id', array(
 			'left_value > '.$cat['left_value'],
 			'right_value < '.$cat['right_value'],
 		));
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$cat,
+		
+		Response::json(array(
+			'cat'=>$cat,
 			'children'=>$children,
 		));
 	}
@@ -186,8 +164,10 @@ class CategoryController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_CATEGORY, '改变了分类排序', $id);
 		
 		$node = Categories::model()->find($id, 'sort,title');
-		Response::output('success', array(
-			'sort'=>$node['sort'],
+		Response::notify('success', array(
+			'data'=>array(
+				'sort'=>$node['sort'],
+			),
 			'message'=>"分类{$node['title']}的排序值被修改为{$node['sort']}",
 		));
 	}
@@ -202,25 +182,21 @@ class CategoryController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		
 		$cat = Categories::model()->find($this->input->get('id', 'intval'), 'is_nav');
-		Response::output('success', array(
-			'is_nav'=>$cat['is_nav'],
+		Response::notify('success', array(
+			'data'=>array(
+				'is_nav'=>$cat['is_nav'],
+			),
 		));
 	}
 	
 	public function isAliasNotExist(){
-		$alias = $this->input->post('value', 'trim');
 		if(Categories::model()->fetchRow(array(
-			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'alias = ?'=>$this->input->request('alias', 'trim'),
+			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'别名已存在',
-			));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json('', 1, '别名不存在');
 		}
 	}
 }

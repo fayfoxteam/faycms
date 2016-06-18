@@ -9,15 +9,16 @@ use fay\models\tables\ExamAnswers;
 use fay\models\tables\ExamQuestions;
 use fay\models\tables\ExamPaperQuestions;
 use fay\models\tables\ExamExams;
-use fay\models\tables\ExamExamQuestions;
+use fay\models\tables\ExamExamsQuestions;
 use fay\models\tables\ExamExamQuestionAnswerText;
+use fay\helpers\StringHelper;
 
 class Exam extends Model{
 	/**
 	 * @return Exam
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	
@@ -25,8 +26,8 @@ class Exam extends Model{
 		$paper = ExamPapers::model()->find($id);
 		
 		$sql = new Sql();
-		$paper['questions'] = $sql->from('exam_paper_questions', 'pq', 'score')
-			->joinLeft('exam_questions', 'q', 'pq.question_id = q.id', 'id,question,type,rand')
+		$paper['questions'] = $sql->from(array('pq'=>'exam_paper_questions'), 'score')
+			->joinLeft(array('q'=>'exam_questions'), 'pq.question_id = q.id', 'id,question,type,rand')
 			->where('pq.paper_id = '.$paper['id'])
 			->order('pq.sort')
 			->fetchAll()
@@ -54,6 +55,8 @@ class Exam extends Model{
 	
 	/**
 	 * 判断一个选择题的答案是否参与考试并且已被用户选中
+	 * @param $answer_id
+	 * @return bool
 	 */
 	public static function isAnswerExamed($answer_id){
 		return !!ExamExamQuestionAnswersInt::model()->fetchRow(array(
@@ -63,16 +66,17 @@ class Exam extends Model{
 	
 	/**
 	 * 记录一份大卷
-	 * @param int $paper_id
+	 * @param $paper
 	 * @param int $start_time
 	 * @param int $user_answers 用户作答，键值对形式
 	 * @param int $user_id
 	 * @return int
+	 * @internal param int $paper_id
 	 */
 	public function record($paper, $start_time, $user_answers, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		
-		is_numeric($paper) && $paper = ExamPapers::model()->find($paper, 'id,rand');
+		StringHelper::isInt($paper) && $paper = ExamPapers::model()->find($paper, 'id,rand');
 		
 		$exam_id = ExamExams::model()->insert(array(
 			'user_id'=>$user_id,
@@ -108,7 +112,7 @@ class Exam extends Model{
 						//回答错误
 						$score = 0;
 					}
-					$exam_question_id = ExamExamQuestions::model()->insert(array(
+					$exam_question_id = ExamExamsQuestions::model()->insert(array(
 						'exam_id'=>$exam_id,
 						'question_id'=>$q['question_id'],
 						'total_score'=>$q['score'],
@@ -123,7 +127,7 @@ class Exam extends Model{
 				break;
 				case ExamQuestions::TYPE_INPUT:
 					//填空题默认为0分，由其他逻辑确定得分
-					$exam_question_id = ExamExamQuestions::model()->insert(array(
+					$exam_question_id = ExamExamsQuestions::model()->insert(array(
 						'exam_id'=>$exam_id,
 						'question_id'=>$q['question_id'],
 						'total_score'=>$q['score'],
@@ -149,7 +153,7 @@ class Exam extends Model{
 						$score = $q['score'];
 						$user_score += $q['score'];
 					}
-					$exam_question_id = ExamExamQuestions::model()->insert(array(
+					$exam_question_id = ExamExamsQuestions::model()->insert(array(
 						'exam_id'=>$exam_id,
 						'question_id'=>$q['question_id'],
 						'total_score'=>$q['score'],
@@ -175,7 +179,7 @@ class Exam extends Model{
 	}
 	
 	public function remove($exem_id){
-		$exam_question_ids = ExamExamQuestions::model()->fetchCol('id', 'exam_id = '.$exem_id);
+		$exam_question_ids = ExamExamsQuestions::model()->fetchCol('id', 'exam_id = '.$exem_id);
 		
 		//删除答案
 		ExamExamQuestionAnswersInt::model()->delete(array(
@@ -186,7 +190,7 @@ class Exam extends Model{
 		));
 		
 		//删除答案得分
-		ExamExamQuestions::model()->delete('exam_id = '.$exem_id);
+		ExamExamsQuestions::model()->delete('exam_id = '.$exem_id);
 		
 		//删除考卷信息
 		ExamExams::model()->delete('id = '.$exem_id);

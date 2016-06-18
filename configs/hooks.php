@@ -27,30 +27,34 @@
  *             '执行时间':'Controller被实例化之后执行',
  *             '传入参数':{}
  *         },
- *         'before_post_create':{
+ *         'admin_before_post_create':{
  *             '执行时间':'创建文章之前',
  *             '传入参数':{
  *                 cat_id:'分类ID'
  *             }
  *         },
- *         'after_post_created':{
+ *         'admin_after_post_created':{
  *             '执行时间':'创建文章之后',
  *             '传入参数':{
  *                 post_id:'文章ID'
  *             }
  *         },
- *         'before_post_update':{
+ *         'admin_before_post_update':{
  *             '执行时间':'编辑文章之前（如果有post提交的话，实际上是完成文章更新之后执行）',
  *             '传入参数':{
  *                 post_id:'文章ID',
  *                 cat_id:'分类ID'
  *             }
  *         },
- *         'after_post_updated':{
+ *         'admin_after_post_updated':{
  *             '执行时间':'文章更新之后',
  *             '传入参数':{
  *                 post_id:'文章ID'
  *             }
+ *         },
+ *         'before_render':{
+ *             '执行时间':'调用render方法前，若不调用render方法，不会执行该钩子',
+ *             '传入参数':{}
  *         }
  *     }
  * }

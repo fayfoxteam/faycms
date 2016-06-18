@@ -1,9 +1,8 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Config extends FBase{
+use fay\helpers\ArrayHelper;
+class Config{
 	private static $_instance;
 	private $_configs;
 	
@@ -22,14 +21,14 @@ class Config extends FBase{
 	 * 获取配置文件配置项
 	 * @param string $item 可以点式操作，例如db.host获取二维数组db下的host
 	 * @param string $filename
-	 * @param string $mode 仅第一次读取配置文件时，此参数有效
+	 * @return mixed
 	 */
-	public function get($item, $filename = 'main', $mode = 'merge'){
+	public function get($item, $filename = 'main'){
 		if($item == '*'){
-			return $this->getFile($filename, $mode);
+			return $this->getFile($filename);
 		}
 		if(!isset($this->_configs[$filename])){
-			$this->getFile($filename, $mode);
+			$this->getFile($filename);
 		}
 		$item = explode('.', $item);
 		$temp = $this->_configs[$filename];
@@ -46,12 +45,9 @@ class Config extends FBase{
 	/**
 	 * 获取配置文件
 	 * @param String $filename 配置文件文件名
-	 * @param String $mode 配置文件获取模式<br>
-	 *   overwrite 不获取系统本身的配置文件<br>
-	 *   merge 用array_merge函数进行合并<br>
-	 *   merge_recursive 用array_merge_recursive函数进行合并
+	 * @return array
 	 */
-	public function getFile($filename = 'main', $mode = 'merge'){
+	public function getFile($filename = 'main'){
 		if(isset($this->_configs[$filename])){
 			return $this->_configs[$filename];
 		}
@@ -61,12 +57,8 @@ class Config extends FBase{
 			$config = require APPLICATION_PATH . 'configs/' . $filename . '.php';
 		}
 		
-		if($mode != 'overwrite' && file_exists(BASEPATH . '../configs/' . $filename . '.php')){
-			if($mode == 'merge'){
-				$config = array_merge(require BASEPATH . '../configs/' . $filename . '.php', $config);
-			}else if($mode == 'merge_recursive'){
-				$config = array_merge_recursive(require BASEPATH . '../configs/' . $filename . '.php', $config);
-			}
+		if(file_exists(BASEPATH . '../configs/' . $filename . '.php')){
+			$config = ArrayHelper::merge(require BASEPATH . '../configs/' . $filename . '.php', $config);
 		}
 		
 		return $this->_configs[$filename] = $config;
@@ -75,10 +67,10 @@ class Config extends FBase{
 	/**
 	 * 运行中动态配置配置项
 	 * @param string $item 可以点式操作，例如db.host修改二维数组db下的host
-	 * @param mix $value
-	 * @param string $filename
+	 * @param mixed $value
+	 * @param null|string $filename
 	 */
-	public function set($item, $value, $filename = false){
+	public function set($item, $value, $filename = null){
 		$filename || $filename = 'main';
 		if (!isset($this->_configs[$filename])){
 			$this->getFile($filename);

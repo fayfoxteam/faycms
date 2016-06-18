@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\feeds\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\tables\Logs;
 
 class IndexController extends Widget{

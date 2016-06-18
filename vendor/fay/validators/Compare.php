@@ -8,8 +8,9 @@ use fay\core\Validator;
  * 可选择==, ===, !=, !==, >, >=, <, <=比较方式，通过operator指定
  */
 class Compare extends Validator{
-	public $message;
-	
+	/**
+	 * 比较符
+	 */
 	public $operator = '==';
 	
 	/**
@@ -34,7 +35,9 @@ class Compare extends Validator{
 		if($this->compareValues($this->operator, $value, $compare_value)){
 			return true;
 		}else{
-			return $this->message;
+			return $this->addError($this->message, $this->code, array(
+				'compare_attribute'=>$this->compare_attribute,
+			));
 		}
 	}
 	

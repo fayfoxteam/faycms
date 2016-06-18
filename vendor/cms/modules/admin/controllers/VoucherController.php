@@ -3,10 +3,11 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Vouchers;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\common\ListView;
+use fay\models\Flash;
 
 class VoucherController extends AdminController{
 	public function __construct(){
@@ -18,21 +19,17 @@ class VoucherController extends AdminController{
 		$this->layout->subtitle = '添加优惠卷';
 		
 		$this->form()->setModel(Vouchers::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				for($i = 0; $i < $this->input->post('num'); $i++){
-					$data = Vouchers::model()->setAttributes($this->input->post());
-		
-					//拼接优惠码
-					$data['sn'] = $data['cat_id'] . String::random('numeric', 5);
-					$data['create_time'] = $this->current_time;
-					Vouchers::model()->insert($data);
-				}
-		
-				$this->flash->set($this->input->post('num').'个优惠码被添加','success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+		if($this->input->post() && $this->form()->check()){
+			for($i = 0; $i < $this->input->post('num'); $i++){
+				$data = Vouchers::model()->fillData($this->input->post());
+				
+				//拼接优惠码
+				$data['sn'] = $data['cat_id'] . StringHelper::random('numeric', 5);
+				$data['create_time'] = $this->current_time;
+				Vouchers::model()->insert($data);
 			}
+			
+			Flash::set($this->input->post('num').'个优惠码被添加','success');
 		}
 		
 		$this->view->cats = Category::model()->getNextLevel('_system_voucher');
@@ -48,10 +45,10 @@ class VoucherController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('vouchers', 'v')
+		$sql->from(array('v'=>'vouchers'))
 			->where(array('v.deleted = 0'))
 			->order('id DESC')
-			->joinLeft('categories', 'c', 'c.id = v.cat_id', 'title');
+			->joinLeft(array('c'=>'categories'), 'c.id = v.cat_id', 'title');
 		if($this->input->get('sn')){
 			$sql->where(array('v.sn LIKE ?'=>$this->input->get('sn').'%'));
 		}

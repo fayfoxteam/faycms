@@ -1,21 +1,40 @@
 <?php
 namespace fay\widgets\jq_nivo_slider\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
+use fay\models\File;
 
 class IndexController extends Widget{
-	
-	public function index($data){
-		if(empty($data)){
-			$data = array();
+	public function getData($config){
+		$data = empty($config['files']) ? array() : $config['files'];
+		foreach($data as $k => $d){
+			if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time']) ||
+				(!empty($d['end_time']) && \F::app()->current_time > $d['end_time'])){
+				unset($data[$k]);
+				continue;
+			}
+			$data[$k]['src'] = File::getUrl($d['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
+				'dw'=>empty($config['width']) ? false : $config['width'],
+				'dh'=>empty($config['height']) ?  false : $config['height'],
+			), true);
 		}
-		empty($data['animSpeed']) && $data['animSpeed'] = 500;
-		empty($data['pauseTime']) && $data['pauseTime'] = 5000;
-		empty($data['effect']) && $data['effect'] = 'random';
-		empty($data['elementId']) && $data['elementId'] = 'slide';
-		isset($data['directionNav']) || $data['directionNav'] = '1';
+		return $data;
+	}
+	
+	public function index($config){
+		if(empty($config)){
+			$config = array();
+		}
+		empty($config['animSpeed']) && $config['animSpeed'] = 500;
+		empty($config['pauseTime']) && $config['pauseTime'] = 5000;
+		empty($config['effect']) && $config['effect'] = 'random';
+		isset($config['directionNav']) || $config['directionNav'] = '1';
 		
-		$this->view->data = $data;
-		$this->view->render();
+		$this->view->assign(array(
+			'config'=>$config,
+			'files'=>$this->getData($config),
+			'alias'=>$this->alias,
+			'_index'=>$this->_index,
+		))->render();
 	}
 }

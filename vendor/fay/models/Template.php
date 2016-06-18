@@ -10,12 +10,13 @@ class Template extends Model{
 	 * @var array
 	 */
 	public $templates = array();
+	
 	/**
-	 * @param string $className
+	 * @param string $class_name
 	 * @return Template
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function render($alias, $options = array()){
@@ -30,7 +31,6 @@ class Template extends Model{
 		
 		if($msg && $msg['enable']){
 			if(!empty($options)){
-				$msg['content'] = $msg['content'];
 				foreach ( $options as $key => $value ) {
 					$msg['content'] = str_replace ( '{$' . $key . '}', $value, $msg['content'] );
 				}

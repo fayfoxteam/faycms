@@ -4,8 +4,6 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class ExamPapers extends Table{
-	protected $_name = 'exam_papers';
-	
 	/**
 	 * 状态 - 激活
 	 */
@@ -16,11 +14,14 @@ class ExamPapers extends Table{
 	 */
 	const STATUS_DISABLED = 2;
 	
+	protected $_name = 'exam_papers';
+	
 	/**
+	 * @param string $class_name
 	 * @return ExamPapers
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -30,7 +31,7 @@ class ExamPapers extends Table{
 			array(array('rand', 'status', 'repeatedly'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('score'), 'float', array('length'=>5, 'decimal'=>2)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('start_time', 'end_time'), 'datetime'),
 			
 			array('title', 'required'),
@@ -49,8 +50,8 @@ class ExamPapers extends Table{
 			'start_time'=>'考试开始时间',
 			'end_time'=>'考试结束时间',
 			'repeatedly'=>'重复参考',
-			'create_time'=>'Create Time',
-			'last_modified_time'=>'Last Modified Time',
+			'create_time'=>'创建时间',
+			'last_modified_time'=>'最后更新时间',
 			'deleted'=>'删除',
 		);
 	}
@@ -66,8 +67,6 @@ class ExamPapers extends Table{
 			'start_time'=>'trim',
 			'end_time'=>'trim',
 			'repeatedly'=>'intval',
-			'create_time'=>'',
-			'last_modified_time'=>'',
 			'deleted'=>'intval',
 		);
 	}

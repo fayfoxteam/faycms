@@ -4,57 +4,123 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Goods;
 use fay\models\tables\GoodsFiles;
-use fay\models\tables\CatPropValues;
+use fay\models\tables\GoodsCatPropValues;
 use fay\models\tables\GoodsPropValues;
 use fay\models\tables\GoodsSkus;
 use fay\models\tables\Actionlogs;
 use fay\models\tables\Categories;
-use fay\models\tables\CatProps;
+use fay\models\tables\GoodsCatProps;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\Category;
 use fay\helpers\Date;
-use fay\models\GoodsModel;
+use fay\services\shop\Goods as GoodsService;
 use fay\core\Response;
 use fay\helpers\Html;
+use fay\models\Flash;
+use fay\models\Setting;
+use fay\core\HttpException;
 
 class GoodsController extends AdminController{
-	public $boxes = array('sku', 'guide', 'shipping', 'publish-time', 'thumbnail', 'seo',
-		'gallery');
+	/**
+	 * box列表
+	 */
+	public $boxes = array(
+		array('name'=>'sku', 'title'=>'SKU'),
+		array('name'=>'guide', 'title'=>'导购'),
+		array('name'=>'shipping', 'title'=>'物流参数'),
+		array('name'=>'publish_time', 'title'=>'发布时间'),
+		array('name'=>'thumbnail', 'title'=>'缩略图'),
+		array('name'=>'views', 'title'=>'浏览量'),
+		array('name'=>'seo', 'title'=>'SEO优化'),
+		array('name'=>'files', 'title'=>'画廊'),
+		array('name'=>'props', 'title'=>'商品属性'),
+		array('name'=>'sale_info', 'title'=>'销售属性'),
+	);
+	
+	/**
+	 * 默认box排序
+	 */
+	public $default_box_sort = array(
+		'side'=>array(
+			'publish-time', 'guide', 'shipping', 'thumbnail', 'views',
+		),
+		'normal'=>array(
+			'sku', 'props', 'files', 'seo'
+		),
+	);
 	
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'goods';
 		if(!$this->input->isAjaxRequest()){
-			$this->flash->set('这个模块只是做着玩的，并没有实现购物功能。', 'attention');
+			Flash::set('这个模块只是做着玩的，并没有实现购物功能。', 'warning');
 		}
 	}
 	
-	public function create(){
-		$this->layout->subtitle = '添加商品';
+	public function cat(){
+		$this->layout->current_directory = 'goods';
 		
+		$this->layout->_help_panel = '_help';
+		
+		$this->layout->subtitle = '商品分类';
+		$this->view->cats = Category::model()->getTree('_system_goods');
+		$root_node = Category::model()->getByAlias('_system_goods', 'id');
+		$this->view->root = $root_node['id'];
+		
+		if($this->checkPermission('admin/goods/cat-create')){
+			$this->layout->sublink = array(
+				'uri'=>'#create-cat-dialog',
+				'text'=>'添加商品分类',
+				'html_options'=>array(
+					'class'=>'create-cat-link',
+					'data-title'=>'商品',
+					'data-id'=>$root_node['id'],
+				),
+			);
+		}
+		$this->view->render();
+	}
+	
+	public function create(){
+		//获取分类
+		$cat = Category::model()->get($this->input->get('cat_id', 'intval'), 'id,title');
+		
+		if(!$cat){
+			throw new HttpException('未指定商品分类或指定分类不存在');
+		}
+		
+		$this->layout->subtitle = '添加商品 - 所属分类：'.$cat['title'];
+		$this->layout->sublink = array(
+			'uri'=>array('admin/goods/cat'),
+			'text'=>'商品分类',
+		);
+		
+		$this->form()->setModel(Goods::model());
 		if($this->input->post()){
 			//插入goods表
-			$goods_data = Goods::model()->setAttributes($this->input->post());
-			$goods_data['create_time'] = $this->current_time;
-			$goods_data['cat_id'] = $this->input->get('cid');
-			!empty($goods_data['publish_time']) || $goods_data['publish_time'] = $this->current_time;
-			!empty($goods_data['sub_stock']) || $goods_data['sub_stock'] = Goods::SUB_STOCK_PAY;
+			$data = Goods::model()->fillData($this->input->post());
+			$data['create_time'] = $this->current_time;
+			$data['last_modified_time'] = $this->current_time;
+			$data['user_id'] = $this->current_user;
+			$data['cat_id'] = $cat['id'];
+			empty($data['sub_stock']) && $data['sub_stock'] = Goods::SUB_STOCK_PAY;
+			empty($data['publish_time']) ? $data['publish_time'] = $this->current_time : $data['publish_time'] = strtotime($data['publish_time']);
 			
-			$goods_id = Goods::model()->insert($goods_data);
+			$goods_id = Goods::model()->insert($data);
 			
 			//设置gallery
-			$desc = $this->input->post('desc');
-			$photos = $this->input->post('photos', 'intval', array());
+			$description = $this->input->post('description');
+			$files = $this->input->post('files', 'intval', array());
 			$i = 0;
-			foreach($photos as $p){
+			foreach($files as $f){
 				$i++;
 				GoodsFiles::model()->insert(array(
-					'file_id'=>$p,
 					'goods_id'=>$goods_id,
-					'desc'=>$desc[$p],
-					'position'=>$i,
+					'file_id'=>$f,
+					'description'=>$description[$f],
 					'create_time'=>$this->current_time,
+					'sort'=>$i,
 				));
 			}
 			
@@ -71,7 +137,7 @@ class GoodsController extends AdminController{
 							$prop_value_alias = $cp_alias[$k][$v2];
 						}else{
 							//若没有属性值传过来，则以默认值作为属性值
-							$cat_prop_value = CatPropValues::model()->fetchRow(array(
+							$cat_prop_value = GoodsCatPropValues::model()->fetchRow(array(
 								'id = ?'=>$v2,
 							));
 							$prop_value_alias = $cat_prop_value['title'];
@@ -91,7 +157,7 @@ class GoodsController extends AdminController{
 							$prop_value_alias = $cp_alias[$k][$v];
 						}else{
 							//若没有属性值传过来，则以默认值作为属性值
-							$cat_prop_value = CatPropValues::model()->fetchRow(array(
+							$cat_prop_value = GoodsCatPropValues::model()->fetchRow(array(
 								'id = ?'=>$v,
 							));
 							$prop_value_alias = $cat_prop_value['title'];
@@ -139,7 +205,7 @@ class GoodsController extends AdminController{
 			foreach($prices as $k => $p){
 				GoodsSkus::model()->insert(array(
 					'goods_id'=>$goods_id,
-					'prop_value_ids'=>$k,
+					'sku_key'=>$k,
 					'price'=>$p,
 					'quantity'=>$quantities[$k],
 					'tsces'=>$tsces[$k],
@@ -150,19 +216,16 @@ class GoodsController extends AdminController{
 		}
 		$this->form()->setData($this->input->post());
 		
-		//获取分类
-		$cat = Categories::model()->find($this->input->get('cid', 'intval'), 'id,title');
-		$this->view->cat = $cat;
-		
+		$parentIds = Category::model()->getParentIds($cat['id']);
 		//props
-		$props = CatProps::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+		$props = GoodsCatProps::model()->fetchAll(array(
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'sort, id');
 		
 		//prop_values
-		$prop_values = CatPropValues::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+		$prop_values = GoodsCatPropValues::model()->fetchAll(array(
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'prop_id, sort');
 		
@@ -177,7 +240,18 @@ class GoodsController extends AdminController{
 		
 		$this->view->props = $props;
 		
-		$this->view->boxes = $this->boxes;
+		//box排序
+		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
+		$this->view->_box_sort_settings = $_box_sort_settings;
+		
+		//页面设置
+		$_setting_key = 'admin_goods_boxes';
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
+		
 		$this->view->render();
 	}
 	
@@ -185,37 +259,46 @@ class GoodsController extends AdminController{
 		$this->layout->subtitle = '商品';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/category/goods'),
+			'uri'=>array('admin/goods/cat'),
 			'text'=>'添加商品',
 		);
+		
+		//页面设置
+		$_settings = $this->settingForm('admin_goods_index', '_setting_index', array(
+			'cols'=>array('thumbnail', 'category', 'price', 'is_new', 'is_hot', 'sales', 'status', 'create_time', 'sort'),
+			'display_name'=>'username',
+			'display_time'=>'short',
+			'page_size'=>10,
+		));
 
 		$this->form()->setData($this->input->get());
 		
 		$sql = new Sql();
-		$sql->from('goods', 'g')
-			->joinLeft('categories', 'c', 'g.cat_id = c.id', 'title AS cat_title');
-		$conditions = array(
-			'g.deleted = 0',
-		);
-		if($this->input->get('keywords')){
-			$conditions["g.{$this->input->get("field")} like ?"] = '%'.$this->input->get('keywords').'%';
-		}
+		$sql->from(array('g'=>'goods'))
+			->joinLeft(array('c'=>'categories'), 'g.cat_id = c.id', 'title AS cat_title');
+		$sql->where('g.deleted = 0');
 		if($this->input->get('start_time')){
-			$conditions["g.{$this->input->get("time_field")} > ?"] = $this->input->get('start_time','strtotime');
+			$sql->where(array("g.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time','strtotime')));
 		}
 		if($this->input->get('end_time')){
-			$conditions["g.{$this->input->get("time_field")} < ?"] = $this->input->get('end_time', 'strtotime');
+			$sql->where(array("g.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time','strtotime')));
 		}
 		if($this->input->get('cat_id')){
-			$conditions['g.cat_id = ?'] = $this->input->get('cat_id', 'intval');
+			$sql->where(array('g.cat_id = ?'=>$this->input->get('cat_id', 'intval')));
 		}
 		if($this->input->get('status')){
-			$conditions['g.status = ?'] = $this->input->get('status', 'intval');
+			$sql->where(array('g.status = ?'=>$this->input->get('status', 'intval')));
 		}
-		$sql->where($conditions);
+		if($this->input->get('keywords')){
+			$sql->where(array("g.{$this->input->get('field')} like ?"=>'%'.$this->input->get('keywords').'%'));
+		}
+		
+		if(in_array('user', $_settings['cols'])){
+			$sql->joinLeft(array('u'=>'users'), 'g.user_id = u.id', 'username,nickname,realname');
+		}
 		
 		$this->view->listview = new ListView($sql, array(
-			'page_size'=>20,
+			'page_size'=>$this->form('setting')->getData('page_size', 20),
 		));
 
 		$this->view->cats = Category::model()->getTree('_system_goods');
@@ -227,20 +310,37 @@ class GoodsController extends AdminController{
 		
 		$goods_id = $this->input->get('id', 'intval');
 		
+		//这里获取enabled_boxes是为了更新商品的时候用
+		//由于box可能被hook改掉，后面还会再获取一次enabled_boxes
+		$_setting_key = 'admin_goods_boxes';
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		
 		if($this->input->post()){
 			//更新goods表
-			$goods_data = Goods::model()->setAttributes($this->input->post());
-			$goods_data['last_modified_time'] = $this->current_time;
-			Goods::model()->update($goods_data, $goods_id);
+			$data = Goods::model()->fillData($this->input->post());
+			$data['last_modified_time'] = $this->current_time;
+			
+			if(in_array('publish_time', $enabled_boxes)){
+				if(empty($data['publish_time'])){
+					$data['publish_time'] = $this->current_time;
+					$this->form()->setData(array(
+						'publish_time'=>date('Y-m-d H:i:s', $data['publish_time']),
+					));
+				}else{
+					$data['publish_time'] = strtotime($data['publish_time']);
+				}
+			}
+			
+			Goods::model()->update($data, $goods_id);
 			
 			//设置gallery
-			$desc = $this->input->post('desc');
-			$photos = $this->input->post('photos', 'intval', array());
+			$description = $this->input->post('description');
+			$files = $this->input->post('files', 'intval', array());
 			//删除已被删除的图片
-			if($photos){
+			if($files){
 				GoodsFiles::model()->delete(array(
 					'goods_id = ?'=>$goods_id,
-					'file_id NOT IN ('.implode(',', $photos).')',
+					'file_id NOT IN ('.implode(',', $files).')',
 				));
 			}else{
 				GoodsFiles::model()->delete(array(
@@ -252,22 +352,22 @@ class GoodsController extends AdminController{
 				'goods_id = ?'=>$goods_id,
 			));
 			$i = 0;
-			foreach($photos as $p){
+			foreach($files as $f){
 				$i++;
-				if(in_array($p, $old_files_ids)){
+				if(in_array($f, $old_files_ids)){
 					GoodsFiles::model()->update(array(
-						'desc'=>$desc[$p],
-						'position'=>$i,
+						'description'=>$description[$f],
+						'sort'=>$i,
 					), array(
 						'goods_id = ?'=>$goods_id,
-						'file_id = ?'=>$p,
+						'file_id = ?'=>$f,
 					));
 				}else{
 					GoodsFiles::model()->insert(array(
-						'file_id'=>$p,
+						'file_id'=>$f,
 						'goods_id'=>$goods_id,
-						'desc'=>$desc[$p],
-						'position'=>$i,
+						'description'=>$description[$f],
+						'sort'=>$i,
 						'create_time'=>$this->current_time,
 					));
 				}
@@ -276,7 +376,6 @@ class GoodsController extends AdminController{
 			//属性别名
 			$cp_alias = $this->input->post('cp_alias');
 			
-
 			$new_prop_values = array();//记录所有属性（普通属性+销售属性）
 			$old_prop_values = GoodsPropValues::model()->fetchCol('prop_value_id', array(
 				'goods_id = ?'=>$goods_id,
@@ -293,7 +392,7 @@ class GoodsController extends AdminController{
 							$prop_value_alias = $cp_alias[$k][$v2];
 						}else{
 							//若没有属性值传过来，则以默认值作为属性值
-							$cat_prop_value = CatPropValues::model()->fetchRow(array(
+							$cat_prop_value = GoodsCatPropValues::model()->fetchRow(array(
 								'id = ?'=>$v2,
 							));
 							$prop_value_alias = $cat_prop_value['title'];
@@ -323,7 +422,7 @@ class GoodsController extends AdminController{
 							$prop_value_alias = $cp_alias[$k][$v];
 						}else{
 							//若没有属性值传过来，则以默认值作为属性值
-							$cat_prop_value = CatPropValues::model()->fetchRow(array(
+							$cat_prop_value = GoodsCatPropValues::model()->fetchRow(array(
 								'id = ?'=>$v,
 							));
 							$prop_value_alias = $cat_prop_value['title'];
@@ -428,29 +527,29 @@ class GoodsController extends AdminController{
 			$prices = $this->input->post('prices', 'floatval', array());
 			$quantities = $this->input->post('quantities', 'intval', array());
 			$tsces = $this->input->post('tsces', array());
-			$old_skus = GoodsSkus::model()->fetchCol('prop_value_ids', array(
+			$old_skus = GoodsSkus::model()->fetchCol('sku_key', array(
 				'goods_id = ?'=>$goods_id,
 			));
 			//删除已被删除的sku
 			$new_sku_keys = array_keys($prices);
 			GoodsSkus::model()->delete(array(
 				'goods_id = ?'=>$goods_id,
-				"prop_value_ids NOT IN ('".implode("','", $new_sku_keys)."')"
+				"sku_key NOT IN ('".implode("','", $new_sku_keys)."')"
 			));
 			foreach($prices as $k => $p){
 				if(in_array($k, $old_skus)){
 					GoodsSkus::model()->update(array(
-						'goods_id'=>$goods_id,
 						'price'=>$p,
 						'quantity'=>$quantities[$k],
 						'tsces'=>$tsces[$k],
 					), array(
-						'prop_value_ids = ?'=>$k,
+						'goods_id = ?'=>$goods_id,
+						'sku_key = ?'=>$k,
 					));
 				}else{
 					GoodsSkus::model()->insert(array(
 						'goods_id'=>$goods_id,
-						'prop_value_ids'=>$k,
+						'sku_key'=>$k,
 						'price'=>$p,
 						'quantity'=>$quantities[$k],
 						'tsces'=>$tsces[$k],
@@ -458,26 +557,27 @@ class GoodsController extends AdminController{
 				}
 			}
 			
-			$this->flash->set('一个商品被编辑', 'success');
 			$this->actionlog(Actionlogs::TYPE_GOODS, '编辑一个商品', $goods_id);
+			Response::notify('success', '一个商品被编辑', false);
 		}
 		
-		$goods = GoodsModel::model()->get($goods_id);
+		$goods = GoodsService::model()->get($goods_id);
 		//做一些格式化处理
 		$goods['publish_time'] = Date::format($goods['publish_time']);
 		
 		//获取分类
 		$cat = Categories::model()->find($goods['cat_id'], 'id,title');
 		
+		$parentIds = Category::model()->getParentIds($cat['id']);
 		//props
-		$props = CatProps::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+		$props = GoodsCatProps::model()->fetchAll(array(
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'sort, id');
 		
 		//prop_values
-		$prop_values = CatPropValues::model()->fetchAll(array(
-			"cat_id = {$cat['id']}",
+		$prop_values = GoodsCatPropValues::model()->fetchAll(array(
+			'cat_id IN ('.implode(',', $parentIds).')',
 			'deleted = 0',
 		), '!deleted', 'prop_id, sort');
 		
@@ -492,10 +592,21 @@ class GoodsController extends AdminController{
 		
 		$this->view->props = $props;
 		
+		//可配置信息
+		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
+		$this->view->_box_sort_settings = $_box_sort_settings;
+		
+		//页面设置
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_edit', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
+		
+		$this->view->files = $goods['files'];
 		$this->view->goods = $goods;
 		$this->form()->setData($goods);
 
-		$this->view->boxes = $this->boxes;
 		$this->view->render();
 	}
 	
@@ -506,7 +617,7 @@ class GoodsController extends AdminController{
 		), $goods_id);
 		$this->actionlog(Actionlogs::TYPE_GOODS, '软删除一个商品', $goods_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个商品被移入回收站 - '.Html::link('撤销', array('admin/goods/undelete', array(
 				'id'=>$goods_id,
 			))),
@@ -521,7 +632,7 @@ class GoodsController extends AdminController{
 		), array('id = ?'=>$goods_id));
 		$this->actionlog(Actionlogs::TYPE_GOODS, '将商品移出回收站', $goods_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个商品被还原',
 			'id'=>$goods_id
 		));
@@ -537,9 +648,11 @@ class GoodsController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'is_new');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'',
-			'is_new'=>$goods['is_new'],
+			'data'=>array(
+				'is_new'=>$goods['is_new'],
+			),
 		));
 	}
 	
@@ -549,9 +662,11 @@ class GoodsController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'is_hot');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'',
-			'is_hot'=>$goods['is_hot'],
+			'data'=>array(
+				'is_hot'=>$goods['is_hot'],
+			),
 		));
 	}
 	
@@ -561,9 +676,11 @@ class GoodsController extends AdminController{
 		), $this->input->get('id', 'intval'));
 		$goods = Goods::model()->find($this->input->get('id', 'intval'), 'sort');
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个商品的排序值被编辑',
-			'sort'=>$goods['sort'],
+			'data'=>array(
+				'sort'=>$goods['sort'],
+			),
 		));
 	}
 }

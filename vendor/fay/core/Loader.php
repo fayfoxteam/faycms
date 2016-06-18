@@ -4,7 +4,8 @@ namespace fay\core;
 class Loader{
 	/**
 	 * 自动加载类库
-	 * @param String $class_name 类名
+	 * @param string $class_name 类名
+	 * @return bool
 	 */
 	public static function autoload($class_name){
 		if(strpos($class_name, 'fay') === 0 || strpos($class_name, 'cms') === 0 ){
@@ -25,7 +26,7 @@ class Loader{
 	/**
 	 * 引入一个第三方文件
 	 * 本质上是从vendor文件夹包含一个文件进来
-	 * @param unknown $name
+	 * @param string $name
 	 * @throws ErrorException
 	 */
 	public static function vendor($name){

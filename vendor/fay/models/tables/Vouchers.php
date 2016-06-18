@@ -4,23 +4,24 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class Vouchers extends Table{
-	protected $_name = 'vouchers';
-
 	/**
-	 * 现金卷
+	 * 类型-现金卷
 	 */
 	const TYPE_CASH = 1;
 
 	/**
-	 * 折扣卷
+	 * 类型-折扣卷
 	 */
 	const TYPE_DISCOUNT = 2;
+	
+	protected $_name = 'vouchers';
 
 	/**
+	 * @param string $class_name
 	 * @return Vouchers
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -31,7 +32,7 @@ class Vouchers extends Table{
 			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('sn'), 'string', array('max'=>30)),
 			array(array('amount'), 'float', array('length'=>6, 'decimal'=>2)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('start_time', 'end_time'), 'datetime'),
 		);
 	}
@@ -47,7 +48,7 @@ class Vouchers extends Table{
 			'end_time'=>'结束时间',
 			'type'=>'类型',
 			'deleted'=>'Deleted',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'counts'=>'剩余次数',
 		);
 	}
@@ -62,7 +63,6 @@ class Vouchers extends Table{
 			'end_time'=>'trim',
 			'type'=>'intval',
 			'deleted'=>'intval',
-			'create_time'=>'',
 			'counts'=>'intval',
 		);
 	}

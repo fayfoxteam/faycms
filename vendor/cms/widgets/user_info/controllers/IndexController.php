@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\user_info\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\core\Loader;
 
 class IndexController extends Widget{

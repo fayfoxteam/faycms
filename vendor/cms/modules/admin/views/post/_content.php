@@ -2,20 +2,17 @@
 use fay\models\tables\Posts;
 use fay\helpers\Html;
 
-if(isset($post['content_type'])){
-	$editor = $post['content_type'];
-}else{
-	$editor = F::form('setting')->getData('editor');
-}
+$editor = F::form()->getData('content_type');
+$editor || $editor = F::form('setting')->getData('editor');
+
 if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 	echo F::form()->textarea('content', array(
 		'class'=>'h350 form-control autosize',
 	));
 }else if($editor == Posts::CONTENT_TYPE_MARKDOWN){
-	echo F::form()->textarea('content', array(
+	echo Html::textarea('content', F::form()->getData('markdown', '', false), array(
 		'id'=>'wmd-input',
-		'class'=>'h350',
-		'style'=>'width:49%;',
+		'class'=>'h350 wp100',
 		'wrapper'=>array(
 			'tag'=>'div',
 			'id'=>'markdown-container',

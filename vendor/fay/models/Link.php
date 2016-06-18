@@ -3,41 +3,44 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Links;
+use fay\helpers\StringHelper;
 
 class Link extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Link
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**
 	 * 获取友链
-	 * @param int|string|array $cat
+	 * @param mixed $cat
 	 *  - 若为数字，视为分类ID
 	 *  - 若为字符串，视为分类别名
 	 *  - 若为数组，则至少包含id字段
 	 *  - 若等价于false，则不限制分类
 	 * @param int $limit 获取条数，若为0，则全部取出
-	 * @param 0|1|false $visiable
-	 *  - 1：仅返回允许显示的友链
-	 *  - 0：仅返回不允许显示的友链
-	 *  - false：不做限制
+	 * @param mixed $visible 可见性
+	 *  - true或等价于true：仅返回允许显示的友链
+	 *  - false或等价于false（但不包括null）：仅返回不允许显示的友链
+	 *  - null：不做限制
+	 * @return array
 	 */
-	public function get($cat = 0, $limit = 0, $visiable = 1){
-		if($cat == false){
-			return Links::model()->fetchAll(array(
-				'visiable = ?'=>$visiable,
-			), '*', false, $limit ? $limit : false);
-		}else{
-			if(is_numeric($cat)){
-				return $this->getByCatId($cat, $limit, $visiable);
+	public function get($cat = false, $limit = 0, $visible = true){
+		if($cat){
+			if(StringHelper::isInt($cat)){
+				return $this->getByCatId($cat, $limit, $visible);
 			}else if(is_array($cat)){
-				return $this->getByCat($cat, $limit, $visiable);
+				return $this->getByCat($cat, $limit, $visible);
 			}else{
-				return $this->getByCatAlias($cat, $limit, $visiable);
+				return $this->getByCatAlias($cat, $limit, $visible);
 			}
+		}else{
+			return Links::model()->fetchAll(array(
+				'visible = ?'=>$visible === null ? false : ($visible == true ? 1 : 0),
+			), '*', false, $limit ? $limit : false);
 		}
 	}
 	
@@ -45,55 +48,63 @@ class Link extends Model{
 	 * 根据分类ID获取友情链接
 	 * @param int $cat_id
 	 * @param int $limit 获取条数，若为0，则全部取出
-	 * @param 0|1|false $visiable
-	 *  - 1：仅返回允许显示的友链
-	 *  - 0：仅返回不允许显示的友链
-	 *  - false：不做限制
+	 * @param mixed $visible 可见性
+	 *  - true或等价于true：仅返回允许显示的友链
+	 *  - false或等价于false（但不包括null）：仅返回不允许显示的友链
+	 *  - null：不做限制
+	 * @return array
 	 */
-	public function getByCatId($cat_id, $limit = 0, $visiable = 1){
+	public function getByCatId($cat_id, $limit = 0, $visible = true){
 		return Links::model()->fetchAll(array(
-			'cat_id = '.$cat_id,
-			'visiable = ?'=>$visiable,
+			'cat_id = ' . $cat_id,
+			'visible = ?'=>$visible === null ? false : ($visible == true ? 1 : 0),
 		), '*', false, $limit ? $limit : false);
 	}
-
+	
 	/**
 	 * 根据分类别名获取友情链接
 	 * @param string $cat_alias
 	 * @param int $limit 获取条数，若为0，则全部取出
-	 * @param 0|1|false $visiable
-	 *  - 1：仅返回允许显示的友链
-	 *  - 0：仅返回不允许显示的友链
-	 *  - false：不做限制
+	 * @param mixed $visible 可见性
+	 *  - true或等价于true：仅返回允许显示的友链
+	 *  - false或等价于false（但不包括null）：仅返回不允许显示的友链
+	 *  - null：不做限制
+	 * @return array
+	 * @return array
 	 */
-	public function getByCatAlias($cat_alias, $limit = 0, $visiable = 1){
+	public function getByCatAlias($cat_alias, $limit = 0, $visible = true){
 		$cat = Category::model()->getByAlias($cat_alias, 'id');
-		return $this->getByCatId($cat['id'], $limit, $visiable);
+		return $this->getByCatId($cat['id'], $limit, $visible);
 	}
 
 	/**
 	 * 根据分类数组获取友情链接
 	 * @param array $cat
 	 * @param int $limit 获取条数，若为0，则全部取出
-	 * @param 0|1|false $visiable
-	 *  - 1：仅返回允许显示的友链
-	 *  - 0：仅返回不允许显示的友链
-	 *  - false：不做限制
+	 * @param mixed $visible 可见性
+	 *  - true或等价于true：仅返回允许显示的友链
+	 *  - false或等价于false（但不包括null）：仅返回不允许显示的友链
+	 *  - null：不做限制
+	 * @return array
 	 */
-	public function getByCat($cat, $limit = 0, $visiable = 1){
-		return $this->getByCatId($cat['id'], $limit, $visiable);
+	public function getByCat($cat, $limit = 0, $visible = true){
+		return $this->getByCatId($cat['id'], $limit, $visible);
 	}
 	
 	/**
 	 * 获取带有logo的链接
 	 * @param null|int $cat_id 若为null，则不限制分类
 	 * @param int $limit
-	 * @param int|false $visiable 若为false，则不限制
+	 * @param mixed $visible 可见性
+	 *  - true或等价于true：仅返回允许显示的友链
+	 *  - false或等价于false（但不包括null）：仅返回不允许显示的友链
+	 *  - null：不做限制
+	 * @return array
 	 */
-	public function getLinksHasLogo($cat_id = null, $limit = 0, $visiable = 1){
+	public function getLinksHasLogo($cat_id = null, $limit = 0, $visible = true){
 		$conditions = array(
 			'logo != 0',
-			'visiable = ?'=>$visiable,
+			'visible = ?'=>$visible === null ? false : ($visible == true ? 1 : 0),
 		);
 		if($cat_id){
 			$conditions[] = 'cat_id = '.$cat_id;

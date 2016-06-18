@@ -3,289 +3,228 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Users;
+use fay\helpers\FieldHelper;
+use fay\models\user\Profile;
+use fay\models\user\Role;
 use fay\models\tables\Roles;
-use fay\models\tables\Props;
-use fay\helpers\RequestHelper;
+use fay\models\tables\Actions;
+use fay\models\tables\UserLogins;
+use fay\models\user\Prop;
 
 class User extends Model{
 	/**
-	 * @param string $className
+	 * 可选字段
+	*/
+	public static $public_fields = array(
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'roles'=>array(
+			'id', 'title',
+		),
+		'props'=>array(
+			'*',
+		)
+	);
+	
+	/**
+	 * 默认返回用户字段
+	 */
+	public static $default_fields = array(
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		)
+	);
+	
+	/**
+	 * 以用户为单位，缓存经检查允许的路由
+	 */
+	private $_allowed_routers = array();
+	
+	/**
+	 * 以用户为单位，缓存经检查不允许的路由
+	 */
+	private $_denied_routers = array();
+	
+	/**
+	 * @param string $class_name
 	 * @return User
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
-	public function adminLogin($username, $password){
-		if(empty($username)){
-			return array(
-				'status'=>0,
-				'message'=>'用户名不能为空！',
-				'error_code'=>'username:can-not-be-empty',
+	/**
+	 * 返回单个用户
+	 * @param string|array $id 用户id
+	 * @param string $fields 可指定返回字段
+	 *  - user.*系列可指定users表返回字段，若有一项为'user.*'，则返回除密码字段外的所有字段
+	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
+	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
+	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
+	 * @param array $extra 扩展信息。例如：头像缩略图尺寸
+	 * @return false|array 若用户ID不存在，返回false，否则返回数组
+	 */
+	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar', $extra = array()){
+		//解析$fields
+		$fields = FieldHelper::process($fields, 'user');
+		if(empty($fields['user'])){
+			//若未指定返回字段，初始化
+			$fields['user'] = array(
+				'id', 'username', 'nickname', 'avatar',
 			);
-		}
-		if(empty($password)){
-			return array(
-				'status'=>0,
-				'message'=>'密码不能为空！',
-				'error_code'=>'password:can-not-be-empty',
-			);
-		}
-		$conditions = array(
-			'username = ?'=>$username,
-			'deleted = 0',
-		);
-		$user = Users::model()->fetchRow($conditions);
-		//判断用户名是否存在
-		if(!$user){
-			return array(
-				'status'=>0,
-				'message'=>'用户名不存在！',
-				'error_code'=>'username:not-exist',
-			);
-		}
-		$password = md5(md5($password).$user['salt']);
-		if($password != $user['password']){
-			return array(
-				'status'=>0,
-				'message'=>'密码错误！',
-				'error_code'=>'password:not-match',
-			);
-		}
-		
-		if($user['role'] < Users::ROLE_SYSTEM){
-			return array(
-				'status'=>0,
-				'message'=>'您不是管理员，不能登陆！',
-				'error_code'=>'not-admin',
-			);
-		}
-		
-		if($user['block']){
-			return array(
-				'status'=>0,
-				'message'=>'用户已锁定！',
-				'error_code'=>'block:blocked',
-			);
-		}
-		
-		\F::session()->set('id', $user['id']);
-		\F::session()->set('username', $user['username']);
-		\F::session()->set('nickname', $user['nickname']);
-		\F::session()->set('role', $user['role']);
-		\F::session()->set('last_login_time', $user['last_login_time']);
-		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
-		\F::session()->set('status', $user['status']);
-		\F::session()->set('avatar', $user['avatar']);
-		
-		//获取角色名称
-		$role = Roles::model()->find($user['role']);
-		\F::session()->set('role_title', $role['title']);
-		//设置权限，超级管理员无需设置
-		if($user['role'] != Users::ROLE_SUPERADMIN){
-			$sql = "SELECT
-				{$this->db->actions}.router
-				FROM
-				{$this->db->role_actions}
-				LEFT JOIN {$this->db->actions} ON {$this->db->role_actions}.action_id = {$this->db->actions}.id
-				WHERE
-				{$this->db->role_actions}.role_id = ".$user['role'];
-			$actions = $this->db->fetchAll($sql);
-			$action_routers = array();
-			foreach($actions as $a){
-				$action_routers[] = $a['router'];
+		}else if(in_array('*', $fields['user'])){
+			//若存在*，视为全字段搜索，但密码字段不会被返回
+			$fields['user'] = Users::model()->getFields(array('password', 'salt'));
+		}else{
+			//永远不会返回密码字段
+			foreach($fields['user'] as $k => $v){
+				if($v == 'password' || $v == 'salt'){
+					unset($fields['user'][$k]);
+				}
 			}
-			\F::session()->set('actions', $action_routers);
 		}
 		
-		Users::model()->update(array(
-			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
-			'last_login_time'=>\F::app()->current_time,
-			'last_time_online'=>\F::app()->current_time,
-			'login_times'=>$user['login_times'] + 1,
-		), $user['id']);
-		
-		return array(
-			'status'=>1,
-			'user'=>$user,
-		);
-			
-	}
-	
-	public function userLogin($username, $password, $role = null){
-		if($username == ''){
-			return array(
-				'status'=>0,
-				'message'=>'用户名不能为空！',
-				'error_code'=>'username:can-not-be-empty',
-			);
-		}
-		if($password == ''){
-			return array(
-				'status'=>0,
-				'message'=>'密码不能为空！',
-				'error_code'=>'password:can-not-be-empty',
-			);
-		}
-		$conditions = array(
-			'username = ?'=>$username,
-			'deleted = 0',
-		);
-		$user = Users::model()->fetchRow($conditions);
-		//判断用户名是否存在
-		if(!$user){
-			return array(
-				'status'=>0,
-				'message'=>'用户名不存在！',
-				'error_code'=>'username:not-exist',
-			);
-		}
-		$password = md5(md5($password).$user['salt']);
-		if($password != $user['password']){
-			return array(
-				'status'=>0,
-				'message'=>'密码错误！',
-				'error_code'=>'password:not-match',
-			);
-		}
-		
-		if($user['block']){
-			return array(
-				'status'=>0,
-				'message'=>'用户已锁定！',
-				'error_code'=>'block:blocked',
-			);
-		}
-		
-		if($user['status'] == Users::STATUS_UNCOMPLETED){
-			return array(
-				'status'=>0,
-				'message'=>'账号信息不完整，请走完注册流程',
-				'error_code'=>'status:uncompleted',
-			);
-		}else if($user['status'] == Users::STATUS_PENDING){
-			return array(
-				'status'=>0,
-				'message'=>'您的账号正在审核中，请稍后重试！',
-				'error_code'=>'status:pending',
-			);
-		}else if($user['status'] == Users::STATUS_VERIFY_FAILED){
-			return array(
-				'status'=>0,
-				'message'=>'您的账号未通过人工审核，请修改资料后重新提交审核！',
-				'error_code'=>'status:verify-failed',
-			);
-		}else if($user['status'] == Users::STATUS_NOT_VERIFIED){
-			return array(
-				'status'=>0,
-				'message'=>'请先验证邮箱！',
-				'error_code'=>'status:not-verified',
-			);
-		}
-		
-		$this->setSessionInfo($user);
-		
-		Users::model()->update(array(
-			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
-			'last_login_time'=>\F::app()->current_time,
-			'last_time_online'=>\F::app()->current_time,
-			'login_times'=>$user['login_times'] + 1,
-		),'id = '.$user['id']);
-		
-		return array(
-			'status'=>1,
-			'user'=>$user,
-		);
-		
-	}
-	
-	public function setSessionInfo($user){
-		\F::session()->set('id', $user['id']);
-		\F::session()->set('username', $user['username']);
-		\F::session()->set('nickname', $user['nickname']);
-		\F::session()->set('avatar', $user['avatar']);
-		\F::session()->set('role', $user['role']);
-		\F::session()->set('last_login_time', $user['last_login_time']);
-		\F::session()->set('last_login_ip', long2ip($user['last_login_ip']));
-		\F::session()->set('status', $user['status']);
-	}
-	
-	public function logout(){
-		\F::session()->remove();
-	}
-	
-	public function get($id, $fields = 'props'){
-		$fields = explode(',', $fields);
-		$user = Users::model()->find($id, '!password,salt');
+		$user = Users::model()->find($id, implode(',', $fields['user']));
 		
 		if(!$user){
 			return false;
 		}
 		
-		if(in_array('props', $fields)){
-			$props = Props::model()->fetchAll(array(
-				'refer = ?'=>$user['role'],
-				'type = '.Props::TYPE_ROLE,
-				'deleted = 0',
-			), 'id,title,element,required,is_show,alias', 'sort');
-			
-			$user['props'] = $this->getProps($id, $props);
+		if(isset($user['avatar'])){
+			//如果有头像，将头像图片ID转化为图片对象
+			if(isset($extra['avatar']) && preg_match('/^(\d+)x(\d+)$/', $extra['avatar'], $avatar_params)){
+				$user['avatar'] = File::get($user['avatar'], array(
+					'spare'=>'avatar',
+					'dw'=>$avatar_params[1],
+					'dh'=>$avatar_params[2],
+				));
+			}else{
+				$user['avatar'] = File::get($user['avatar'], array(
+					'spare'=>'avatar',
+				));
+			}
 		}
 		
-		return $user;
-	}
-
-
-	/**
-	 * 获取用户附加属性<br>
-	 * 可传入props（并不一定真的是当前用户分类对应的属性，比如编辑用户所属分类的时候会传入其他属性）<br>
-	 * 若不传入，则会自动获取当前用户所属分类的属性集
-	 */
-	public function getProps($user_id, $props = array()){
-		if(!$props){
-			$user = Users::model()->find($user_id, 'role');
-			$props = Prop::model()->getAll($user['role'], Props::TYPE_ROLE);
+		$return['user'] = $user;
+		//角色属性
+		if(!empty($fields['props'])){
+			if(in_array('*', $fields['props'])){
+				$props = null;
+			}else{
+				$props = Prop::model()->mget($fields['props']);
+			}
+			$return['props'] = Prop::model()->getPropertySet($id, $props);
 		}
-	
-		return Prop::model()->getPropertySet('user_id', $user_id, $props, array(
-			'varchar'=>'fay\models\tables\ProfileVarchar',
-			'int'=>'fay\models\tables\ProfileInt',
-			'text'=>'fay\models\tables\ProfileText',
-		));
+		
+		//角色
+		if(!empty($fields['roles'])){
+			$return['roles'] = Role::model()->get($id, $fields['roles']);
+		}
+		
+		//profile
+		if(!empty($fields['profile'])){
+			$return['profile'] = Profile::model()->get($id, $fields['profile']);
+		}
+		
+		return $return;
 	}
 	
 	/**
-	 * 设置一个用户属性值
-	 * @param int $user_id
-	 * @param string $alias
-	 * @param mix $value
-	 * @return boolean
+	 * 返回多个用户
+	 * @param string|array $ids 可以是逗号分割的id串，也可以是用户ID构成的一维数组
+	 * @param string $fields 可指定返回字段
+	 *  - user.*系列可指定users表返回字段，若有一项为'user.*'，则返回除密码字段外的所有字段
+	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
+	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
+	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
+	 * @return array
 	 */
-	public function setPropValueByAlias($alias, $value, $user_id = null){
-		$user_id === null && $user_id = \F::app()->current_user;
-		return Prop::model()->setPropValueByAlias('user_id', $user_id, $alias, $value, array(
-			'varchar'=>'fay\models\tables\ProfileVarchar',
-			'int'=>'fay\models\tables\ProfileInt',
-			'text'=>'fay\models\tables\ProfileText',
-		));
-	}
-	
-	/**
-	 * 获取一个用户属性值
-	 * @param int $user_id
-	 * @param string $alias
-	 */
-	public function getPropValueByAlias($alias, $user_id = null){
-		$user_id === null && $user_id = \F::app()->current_user;
-		return Prop::model()->getPropValueByAlias('user_id', $user_id, $alias, array(
-			'varchar'=>'fay\models\tables\ProfileVarchar',
-			'int'=>'fay\models\tables\ProfileInt',
-			'text'=>'fay\models\tables\ProfileText',
-		));
-	}
-	
-	public function getPropOptionsByAlias($alias){
-		return Prop::model()->getPropOptionsByAlias($alias);
+	public function mget($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
+		if(empty($ids)){
+			return array();
+		}
+		
+		//解析$ids
+		is_array($ids) || $ids = explode(',', $ids);
+		
+		//解析$fields
+		$fields = FieldHelper::process($fields, 'user');
+		if(empty($fields['user'])){
+			//若未指定返回字段，初始化
+			$fields['user'] = array(
+				'id', 'username', 'nickname', 'avatar',
+			);
+		}else if(in_array('*', $fields['user'])){
+			//若存在*，视为全字段搜索，但密码字段不会被返回
+			$fields['user'] = Users::model()->getFields(array('password', 'salt'));
+		}else{
+			//永远不会返回密码字段
+			foreach($fields['user'] as $k => $v){
+				if($v == 'password' || $v == 'salt'){
+					unset($fields['user'][$k]);
+				}
+			}
+		}
+		
+		$remove_id_field = false;
+		if(!in_array('id', $fields['user'])){
+			//id总是需要先搜出来的，返回的时候要作为索引
+			$fields['user'][] = 'id';
+			$remove_id_field = true;
+		}
+		$users = Users::model()->fetchAll(array(
+			'id IN (?)'=>$ids,
+		), $fields['user']);
+		
+		if(!empty($fields['profile'])){
+			//获取所有相关的profile
+			$profiles = Profile::model()->mget($ids, $fields['profile']);
+		}
+		if(!empty($fields['roles'])){
+			//获取所有相关的roles
+			$roles = Role::model()->mget($ids, $fields['roles']);
+		}
+		
+		$return = array_fill_keys($ids, array());
+		foreach($users as $u){
+			$user['user'] = $u;
+			if(isset($user['user']['avatar']['thumbnail'])){
+				//如果有头像，将头像转为图片URL
+				$user['user']['avatar_url'] = File::getUrl($user['user']['avatar']['thumbnail'], File::PIC_ORIGINAL, array(
+					'spare'=>'avatar',
+				));
+			}
+			
+			//profile
+			if(!empty($fields['profile'])){
+				$user['profile'] = $profiles[$u['id']];
+			}
+			
+			//角色
+			if(!empty($fields['roles'])){
+				$user['roles'] = $roles[$u['id']];
+			}
+			
+			//角色属性
+			if(!empty($fields['props'])){
+				if(in_array('*', $fields['props'])){
+					$props = null;
+				}else{
+					$props = Prop::model()->mget($fields['props']);
+				}
+				$user['props'] = Prop::model()->getPropertySet($u['id'], $props);
+			}
+			
+			if($remove_id_field){
+				//移除id字段
+				unset($user['user']['id']);
+			}
+			
+			$return[$u['id']] = $user;
+		}
+		
+		return $return;
 	}
 	
 	public function getMemberCount($parent){
@@ -293,5 +232,97 @@ class User extends Model{
 			'parent = ?'=>$parent,
 		), 'COUNT(*) AS count');
 		return $member['count'];
+	}
+	
+	/**
+	 * 判断一个用户ID是否存在，若为0或者其他等价于false的值，直接返回false。
+	 * 即便是deleted标记为已删除的用户，也被视为存着的用户ID
+	 * @param int $user_id
+	 * @return bool
+	 */
+	public static function isUserIdExist($user_id){
+		if($user_id){
+			return !!Users::model()->find($user_id, 'id');
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * 根据路由做权限检查
+	 * 从数据库中获取role.id和actions信息
+	 * @param string $router 路由
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 */
+	public function checkPermission($router, $user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		//已经检查过是允许的路由，直接返回true
+		if(isset($this->_allowed_routers[$user_id]) &&
+			in_array($router, $this->_allowed_routers[$user_id])){
+			return true;
+		}
+		
+		//已经检查过是不允许的路由，直接返回false
+		if(isset($this->_denied_routers[$user_id]) &&
+			in_array($router, $this->_denied_routers[$user_id])){
+			return false;
+		}
+		
+		$roles = Role::model()->getIds($user_id);
+		if(in_array(Roles::ITEM_SUPER_ADMIN, $roles)){
+			//超级管理员无限制
+			$this->_allowed_routers[$user_id][] = $router;
+			return true;
+		}
+		
+		$actions = Role::model()->getActions($user_id);
+		if(in_array($router, $actions)){
+			//用户有此权限
+			$this->_allowed_routers[$user_id][] = $router;
+			return true;
+		}
+		
+		$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
+		//此路由并不在权限路由列表内，视为公共路由
+		if(!$action || $action['is_public']){
+			$this->_allowed_routers[$user_id][] = $router;
+			return true;
+		}
+		
+		$this->_denied_routers[$user_id][] = $router;
+		return false;
+	}
+	
+	/**
+	 * 获取上一次登录信息（登录记录的倒数第二条）
+	 * @param string $fields
+	 * @param int $user_id 用户ID
+	 * @return array|bool
+	 */
+	public function getLastLoginInfo($fields = '*', $user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		return UserLogins::model()->fetchRow(array(
+			'user_id = ?'=>$user_id,
+		), $fields, 'id DESC', 1);
+	}
+	
+	/**
+	 * 判断指定用户是否是管理员
+	 * @param int $user_id
+	 * @return bool
+	 */
+	public function isAdmin($user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if($user_id){
+			$user = Users::model()->find($user_id, 'admin');
+			return !empty($user['admin']);
+		}else{
+			//未登录，返回false
+			return false;
+		}
 	}
 }

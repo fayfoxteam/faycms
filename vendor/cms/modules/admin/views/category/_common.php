@@ -6,8 +6,8 @@ F::form('create')->setModel(Categories::model());
 F::form('edit')->setModel(Categories::model());
 ?>
 <div class="hide">
-	<div id="edit-cat-dialog" class="common-dialog">
-		<div class="common-dialog-content w600">
+	<div id="edit-cat-dialog" class="dialog">
+		<div class="dialog-content w600">
 			<h4>编辑分类<em>（当前分类：<span id="edit-cat-title" class="fc-orange"></span>）</em></h4>
 			<?php echo F::form('edit')->open(array('admin/category/edit'))?>
 				<?php echo Html::inputHidden('id')?>
@@ -110,8 +110,8 @@ F::form('edit')->setModel(Categories::model());
 	</div>
 </div>
 <div class="hide">
-	<div id="create-cat-dialog" class="common-dialog">
-		<div class="common-dialog-content w600">
+	<div id="create-cat-dialog" class="dialog">
+		<div class="dialog-content w600">
 			<h4>添加子分类<em>（父分类：<span id="create-cat-parent" class="fc-orange"></span>）</em></h4>
 			<?php echo F::form('create')->open(array('admin/category/create'))?>
 				<?php echo Html::inputHidden('parent')?>
@@ -205,9 +205,9 @@ F::form('edit')->setModel(Categories::model());
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/plupload.full.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/fayfox.editsort.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/cat.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/cat.js')?>"></script>
 <script>
 $(function(){
 	cat.init();

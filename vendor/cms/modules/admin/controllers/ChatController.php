@@ -3,9 +3,8 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\core\Sql;
-use fay\models\tables\Messages;
 use fay\common\ListView;
-use fay\models\Setting;
+use fay\core\Response;
 
 class ChatController extends AdminController{
 	public function __construct(){
@@ -16,27 +15,18 @@ class ChatController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '会话';
 		
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_chat_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$_settings = $this->settingForm('admin_chat_index', '_setting_index', array(
 			'display_name'=>'username',
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		$sql = new Sql();
-		$sql->from('messages', 'm')
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'realname,username,nickname,avatar')
-			->joinLeft('users', 'u2', 'm.target = u2.id', 'username AS target_username,nickname AS target_nickname,realname AS target_realname')
+		$sql->from(array('m'=>'messages'))
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'realname,username,nickname,avatar')
+			->joinLeft(array('u2'=>'users'), 'm.to_user_id = u2.id', 'username AS to_username,nickname AS to_nickname,realname AS to_realname')
 			->where(array(
-				'm.type = '.Messages::TYPE_USER_MESSAGE,
-				'm.root = 0',
+				'm.left_value = 1',
 			))
 			->order('id DESC')
 		;
@@ -54,31 +44,30 @@ class ChatController extends AdminController{
 			$sql->where('m.deleted = 0');
 		}
 		
-		$listview = new ListView($sql, array(
-			'page_size'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 20,
-		));
-		$this->view->listview = $listview;			
-		
-		$this->view->render();
+		$this->view->assign(array(
+			'listview'=>new ListView($sql, array(
+				'page_size'=>!empty($_settings['page_size']) ? $_settings['page_size'] : 20,
+			)),
+		))->render();
 	}
 	
 	public function item(){
 		$this->layout_template = false;
 		$id = $this->input->get('id', 'intval');
 		$sql = new Sql();
-		$root = $sql->from('messages', 'm')
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->joinLeft('users', 'u2', 'm.target = u2.id', 'username AS target_username,nickname AS target_nickname,realname AS target_realname')
+		$root = $sql->from(array('m'=>'messages'))
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,realname,avatar')
+			->joinLeft(array('u2'=>'users'), 'm.to_user_id = u2.id', 'username AS to_user_id_username,nickname AS to_user_id_nickname,realname AS to_user_id_realname')
 			->where(array(
 				'm.id = ?'=>$id,
 			))
 			->fetchRow()
 		;
 		
-		$replies = $sql->from('messages', 'm')
-			->joinLeft('users', 'u', 'm.user_id = u.id', 'username,nickname,realname,avatar')
-			->joinLeft('messages', 'm2', 'm.parent = m2.id')
-			->joinLeft('users', 'u2', 'm2.user_id = u2.id', 'username AS parent_username,nickname AS parent_nickname,realname AS parent_realname')
+		$replies = $sql->from(array('m'=>'messages'))
+			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,realname,avatar')
+			->joinLeft(array('m2'=>'messages'), 'm.parent = m2.id')
+			->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'username AS parent_username,nickname AS parent_nickname,realname AS parent_realname')
 			->where(array(
 				'm.root = '.$root['id'],
 				'm.deleted = 0',
@@ -87,12 +76,9 @@ class ChatController extends AdminController{
 			->fetchAll()
 		;
 		
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>array(
-				'root'=>$root,
-				'replies'=>$replies,
-			),
+		Response::json(array(
+			'root'=>$root,
+			'replies'=>$replies,
 		));
 	}
 	

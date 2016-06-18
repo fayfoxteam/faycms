@@ -5,7 +5,6 @@
 				<tr>
 					<th class="wp30">角色</th>
 					<th>分类</th>
-					<th class="w50">可见</th>
 					<th>描述</th>
 				</tr>
 			</thead>
@@ -13,7 +12,6 @@
 				<tr>
 					<th>角色</th>
 					<th>分类</th>
-					<th>可见</th>
 					<th>描述</th>
 				</tr>
 			</tfoot>

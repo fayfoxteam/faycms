@@ -1,5 +1,8 @@
 <?php
 use fay\helpers\Date;
+use fay\helpers\ArrayHelper;
+use fay\models\user\Role;
+use fay\models\User;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -9,21 +12,27 @@ use fay\helpers\Date;
 	</div>
 	<div class="box-content">
 		<table class="form-table">
-		<?php if(\F::app()->session->get('id')){?>
+		<?php if(\F::app()->current_user){?>
+			<?php $last_login = User::model()->getLastLoginInfo(array('login_time', 'ip_int'), \F::app()->current_user)?>
 			<tr>
 				<th>用户身份</th>
-				<td><?php echo \F::app()->session->get('role_title')?></td>
+				<td><?php
+					$user_roles = Role::model()->get(\F::app()->current_user);
+					echo implode(', ', ArrayHelper::column($user_roles, 'title'));
+				?></td>
 			</tr>
 			<tr>
 				<th>上次登陆时间</th>
-				<td><?php echo Date::format(\F::app()->session->get('last_login_time'))?></td>
+				<td><?php if($last_login){
+					echo Date::format($last_login['login_time']);
+				}?></td>
 			</tr>
 			<tr>
 				<th>上次登陆IP</th>
-				<td>
-					<?php echo \F::app()->session->get('last_login_ip')?>
-					<em>( <?php echo $iplocation->getCountryAndArea(\F::app()->session->get('last_login_ip'))?> )</em>
-				</td>
+				<td><?php if($last_login){?>
+					<?php echo long2ip($last_login['ip_int'])?>
+					<em>( <?php echo $iplocation->getCountryAndArea(long2ip($last_login['ip_int']))?> )</em>
+				<?php }?></td>
 			</tr>
 		<?php }?>
 			<tr>
@@ -35,6 +44,10 @@ use fay\helpers\Date;
 				<td><span id="user-info-browser-shell"></span></td>
 			</tr>
 			<tr>
+				<th>操作系统</th>
+				<td><span id="user-info-os"></span></td>
+			</tr>
+			<tr>
 				<th>当前登陆IP</th>
 				<td>
 					<?php echo F::app()->ip?>
@@ -44,13 +57,15 @@ use fay\helpers\Date;
 		</table>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>
 $(function(){
 	var browser = _fa.getBrowser();
+	var os = _fa.getOS();
 	$('#user-info-browser').text(browser[0] + '/' + browser[1]);
 	if(browser[2]){
 		$('#user-info-browser-shell').text(browser[2] + '/' + browser[3]);
 	}
+	$('#user-info-os').text(os);
 });
 </script>

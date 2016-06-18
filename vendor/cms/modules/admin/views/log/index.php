@@ -64,8 +64,8 @@ use fay\models\tables\Logs;
 	</div>
 </div>
 <div class="hide">
-	<div id="log-detail-dialog" class="common-dialog">
-		<div class="common-dialog-content w600">
+	<div id="log-detail-dialog" class="dialog">
+		<div class="dialog-content w600">
 			<h4>日志</h4>
 			<table class="form-table">
 				<tr>
@@ -116,8 +116,8 @@ use fay\models\tables\Logs;
 </div>
 <script>
 $(function(){
-	system.getCss(system.url('css/jquery.fancybox-1.3.4.css'), function(){
-		system.getScript(system.url('js/jquery.fancybox-1.3.4.pack.js'), function(){
+	system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 			$(".quick-view").fancybox({
 				'padding':0,
 				'titleShow':false,
@@ -135,17 +135,19 @@ $(function(){
 						success: function(resp){
 							$("#log-detail-dialog").unblock();
 							if(resp.status){
-								$("#ld-code").val(resp.log.code);
-								$("#ld-data").val(resp.log.data).trigger('autosize.resize');
-								$("#ld-user_agent").val(resp.log.user_agent).trigger('autosize.resize');
-								$("#ld-create_time").val(system.date(resp.log.create_time));
-								if(resp.log.user_id == 0){
+								$("#ld-code").val(resp.data.code);
+								$("#ld-data").val(resp.data.data);
+								$("#ld-user_agent").val(resp.data.user_agent);
+								autosize.update($("#ld-data"));
+								autosize.update($("#ld-user_agent"));
+								$("#ld-create_time").val(system.date(resp.data.create_time));
+								if(resp.data.user_id == 0){
 									$("#ld-username").val('系统');
 								}else{
-									$("#ld-username").val(resp.log.username);
+									$("#ld-username").val(resp.data.username);
 								}
 							}else{
-								alert(resp.message);
+								common.alert(resp.message);
 							}
 						}
 					});

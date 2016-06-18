@@ -7,7 +7,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 <?php echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
-		<label class="title">显示下列项目</label>
+		<label class="title bold">显示下列项目</label>
 		<?php 
 		foreach(F::app()->boxes as $box){
 			echo Html::inputCheckbox('boxes[]', $box['name'],
@@ -18,7 +18,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">默认编辑器</label>
+		<label class="title bold">默认编辑器</label>
 		<p class="fc-grey">注意：该设置仅在创建文章时有效，编辑文章时强制为文章创建时所使用的编辑器进行编辑</p>
 		<?php
 			echo F::form('setting')->inputRadio('editor', Posts::CONTENT_TYPE_VISUAL_EDITOR, array(
@@ -29,7 +29,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 				),
 			), true);
 			echo F::form('setting')->inputRadio('editor', Posts::CONTENT_TYPE_MARKDOWN, array(
-				'after'=>'PageDown编辑器（Markdown语法，适用于写文档等，非专业人员不建议使用）',
+				'after'=>'Markdown语法编辑器（适用于写文档等，非专业人员不建议使用）',
 				'wrapper'=>array(
 					'tag'=>'label',
 					'wrapper'=>'p',

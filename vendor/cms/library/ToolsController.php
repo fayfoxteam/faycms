@@ -3,18 +3,15 @@ namespace cms\library;
 
 use fay\core\Controller;
 use fay\core\Uri;
-use fay\models\tables\Users;
 use fay\models\File;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\tables\Roles;
+use fay\models\User;
+use fay\models\user\Role;
 
 class ToolsController extends Controller{
 	public $layout_template = 'admin';
-	/**
-	 * 当前用户id（users表中的ID）
-	 * @var int
-	 */
-	public $current_user = 0;
 	
 	public $_top_nav = array(
 		array(
@@ -32,29 +29,37 @@ class ToolsController extends Controller{
 			'label'=>'Tools',
 			'icon'=>'fa fa-wrench',
 			'router'=>'tools',
-			'role'=>Users::ROLE_SUPERADMIN,
+			'roles'=>Roles::ITEM_SUPER_ADMIN,
 		),
 	);
 	
 	public function __construct(){
 		parent::__construct();
-		//重置session_namespace
-		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
+		//重置session.namespace
+		$this->config->set('session.namespace', $this->config->get('session.namespace').'_admin');
+		
+		$this->current_user = \F::session()->get('user.id', 0);
 		
 		$this->layout->current_directory = '';
 		$this->layout->subtitle = '';
 	}
 	
+	/**
+	 * 验证仅超级管理员可访问
+	 * @throws \fay\core\HttpException
+	 */
 	public function isLogin(){
+		//设置当前用户id
+		$this->current_user = \F::session()->get('user.id', 0);
+		
 		//验证session中是否有值
-		if(!$this->session->get('username')){
+		if(!User::model()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
-		if($this->session->get('role') != Users::ROLE_SUPERADMIN){
+		
+		if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN)){
 			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
-		//设置当前用户id
-		$this->current_user = $this->session->get('id');
 	}
 	
 	public function getApps(){

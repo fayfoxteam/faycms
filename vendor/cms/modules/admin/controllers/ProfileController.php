@@ -3,11 +3,13 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Users;
-use fay\helpers\String;
 use fay\models\tables\Actionlogs;
-use fay\models\User;
-use fay\models\Role;
-use fay\models\Prop;
+use fay\models\User as UserModel;
+use fay\models\user\Prop;
+use fay\services\User as UserService;
+use fay\models\tables\Roles;
+use fay\models\user\Role;
+use fay\core\Response;
 
 class ProfileController extends AdminController{
 	public function __construct(){
@@ -16,45 +18,38 @@ class ProfileController extends AdminController{
 	}
 	
 	public function index(){
-		$this->layout->subtitle = '编辑个人信息';
+		$this->layout->subtitle = '编辑我的信息';
+		$user_id = $this->current_user;
 		$this->form()->setModel(Users::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				//两次密码输入一致
-				$data = Users::model()->setAttributes($this->input->post());
-				if($password = $this->input->post('password')){
-					//生成五位随机数
-					$salt = String::random('alnum', 5);
-					//密码加密
-					$password = md5(md5($password).$salt);
-					$data['salt'] = $salt;
-					$data['password'] = $password;
-				}else{
-					unset($data['password']);
-				}
-				Users::model()->update($data, $this->current_user);
-				$this->session->set('avatar', $data['avatar']);
-				$this->session->set('nickname', $data['nickname']);
-				
-				//设置属性
-				$role = Role::model()->get($this->session->get('role'));
-				Prop::model()->updatePropertySet('user_id', $this->current_user, $role['props'], $this->input->post('props'), array(
-					'varchar'=>'fay\models\tables\ProfileVarchar',
-					'int'=>'fay\models\tables\ProfileInt',
-					'text'=>'fay\models\tables\ProfileText',
-				));
-				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了个人信息', $this->current_user);
-				$this->flash->set('修改成功', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			//两次密码输入一致
+			$data = Users::model()->fillData($this->input->post());
+			
+			$extra = array(
+				'props'=>$this->input->post('props', '', array()),
+			);
+			
+			UserService::model()->update($user_id, $data, $extra);
+			
+			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了自己的信息', $user_id);
+			Response::notify('success', '修改成功', false);
+			
+			//置空密码字段
+			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$this->view->user = User::model()->get($this->current_user);
-		$this->form()->setData($this->view->user);
+		$user = UserModel::model()->get($user_id, 'user.*,profile.*');
+		$user_role_ids = Role::model()->getIds($user_id);
+		$this->view->user = $user;
+		$this->form()->setData($user['user'])
+			->setData(array('roles'=>$user_role_ids));
 		
-		$this->view->role = Role::model()->get($this->view->user['role']);
+		$this->view->roles = Roles::model()->fetchAll(array(
+			'admin = 1',
+			'deleted = 0',
+		), 'id,title');
+		
+		$this->view->prop_set = Prop::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 }

@@ -3,22 +3,19 @@ namespace cms\library;
 
 use fay\core\Controller;
 use fay\core\Uri;
-use fay\helpers\RequestHelper;
-use fay\models\tables\Users;
-use fay\models\tables\Actions;
+use fay\helpers\Request;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
 use fay\core\Response;
 use fay\models\Menu;
 use fay\core\HttpException;
+use fay\models\Flash;
+use fay\models\tables\Roles;
+use fay\helpers\ArrayHelper;
+use fay\models\User;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
-	/**
-	 * 当前用户id（users表中的ID）
-	 * @var int
-	 */
-	public $current_user = 0;
 	
 	public $_left_menu = array();
 	
@@ -38,34 +35,33 @@ class AdminController extends Controller{
 			'label'=>'Tools',
 			'icon'=>'fa fa-wrench',
 			'router'=>'tools',
-			'role'=>Users::ROLE_SUPERADMIN,
+			'roles'=>Roles::ITEM_SUPER_ADMIN,
 		),
 	);
 	
 	public function __construct(){
 		parent::__construct();
-		//重置session_namespace
-		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
+		//重置session.namespace
+		$this->config->set('session.namespace', $this->config->get('session.namespace').'_admin');
+		
+		//设置当前用户id
+		$this->current_user = \F::session()->get('user.id', 0);
+		
 		//验证session中是否有值
-		if(!$this->session->get('role') || $this->session->get('role') <= Users::ROLE_SYSTEM){
+		if(!User::model()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
-		//设置当前用户id
-		$this->current_user = $this->session->get('id');
 		$this->layout->current_directory = '';
 		$this->layout->subtitle = '';
 
 		//权限判断
-		if($this->session->get('role') != Users::ROLE_SUPERADMIN){
-			$uri = Uri::getInstance();
-			$action = Actions::model()->fetchRow(array('router = ?'=>$uri->router), 'is_public');
-			//没设置权限的路由均默认为可访问路由
-			if($action && !$action['is_public'] && !in_array($uri->router, $this->session->get('actions', array()))){
-				throw new HttpException('您无权限做此操作', 403);
-			}
+		if(!$this->checkPermission(Uri::getInstance()->router)){
+			throw new HttpException('您无权限做此操作', 403);
 		}
 		
-		$this->_left_menu = Menu::model()->getTree('_admin_main');
+		if(!$this->input->isAjaxRequest()){
+			$this->_left_menu = Menu::model()->getTree('_admin_main');
+		}
 	}
 	
 	/**
@@ -77,12 +73,25 @@ class AdminController extends Controller{
 	public function showDataCheckError($check, $return = false){
 		$html = '';
 		foreach($check as $c){
-			$html .= "<p>{$c[2]}</p>";
+			$html .= "<p>{$c['message']}</p>";
 		}
 		if($return){
 			return $html;
 		}else{
-			$this->flash->set($html);
+			Flash::set($html);
+		}
+	}
+	
+	/**
+	 * 表单验证，若发生错误，返回第一个报错信息
+	 * 调用该函数前需先设置表单验证规则
+	 * @param \fay\core\Form $form
+	 */
+	public function onFormError($form){
+		$errors = $form->getErrors();
+		
+		foreach($errors as $e){
+			Flash::set($e['message']);
 		}
 	}
 	
@@ -96,10 +105,10 @@ class AdminController extends Controller{
 		Actionlogs::model()->insert(array(
 			'user_id'=>$this->current_user,
 			'create_time'=>$this->current_time,
-			'ip_int'=>RequestHelper::ip2int($this->ip),
+			'ip_int'=>Request::ip2int($this->ip),
 			'type'=>$type,
 			'note'=>$note,
-			'refer'=>$refer,
+			'refer'=>is_array($refer) ? implode(',', $refer) : $refer,
 		));
 	}
 	
@@ -158,23 +167,23 @@ class AdminController extends Controller{
 	
 	/**
 	 * 将boxes二维数组转换为仅包含name值的一维数组返回
-	 * @return multitype:|multitype:Ambigous <>
+	 * @return array
 	 */
 	protected function getBoxNames(){
-		if(!$this->boxes)return array();
-		$names = array();
-		foreach($this->boxes as $box){
-			$names[] = $box['name'];
+		if(empty($this->boxes)){
+			return array();
+		}else{
+			return ArrayHelper::column($this->boxes, 'name');
 		}
-		return $names;
 	}
 	
 	/**
 	 * 获取用户启用的boxes
-	 * 
+	 *
 	 * @param null|string|array $settings 若为null 会去View中获取key
-	 * 若是string 视为key
-	 * 若是array 视为传入配置数组
+	 *  - 若是string 视为key
+	 *  - 若是array 视为传入配置数组
+	 * @return array
 	 */
 	protected function getEnabledBoxes($settings = null){
 		$settings === null && $settings = $this->view->_setting_key;
@@ -212,5 +221,36 @@ class AdminController extends Controller{
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 初始化设置表单
+	 * @param string $key 设置key
+	 * @param string $panel 设置面板
+	 * @param array $default 默认值
+	 * @param array $data 附加数据（函数内部会通过$key获取用户设置，有些特殊设置需要处理后传入，可以在这个参数传入）
+	 * @return array|null
+	 * @throws \fay\core\Exception
+	 */
+	public function settingForm($key, $panel, $default = array(), $data = array()){
+		$this->layout->_setting_panel = $panel;
+		
+		$settings = Setting::model()->get($key);
+		$settings || $settings = $default;
+		
+		$this->form('setting')
+			->setModel(Setting::model())
+			->setJsModel('setting')
+			->setData($settings)
+			->setData(array(
+				'_key'=>$key,
+			));
+		
+		if($data){
+			$this->form('setting')
+				->setData($data);
+		}
+		
+		return $this->form('setting')->getAllData(false);
 	}
 }

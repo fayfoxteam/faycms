@@ -3,6 +3,27 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Goods model
+ *
+ * @property int $id Id
+ * @property int $cat_id 分类ID
+ * @property string $title 标题
+ * @property int $create_time 创建时间
+ * @property int $last_modified_time 最后修改时间
+ * @property int $publish_time 发布时间
+ * @property int $user_id 用户ID
+ * @property int $sub_stock 何时减库存
+ * @property float $post_fee 运费
+ * @property int $thumbnail 缩略图
+ * @property int $num 库存
+ * @property float $price 价格
+ * @property int $status 状态
+ * @property int $is_new 新品
+ * @property int $is_hot 热销
+ * @property int $deleted Deleted
+ * @property int $sort 排序值
+ */
 class Goods extends Table{
 	/**
 	 * 状态 - 销售中
@@ -27,65 +48,58 @@ class Goods extends Table{
 	protected $_name = 'goods';
 	
 	/**
+	 * @param string $class_name
 	 * @return Goods
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
 		return array(
-			array(array('create_time', 'last_modified_time', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
+			array(array('id', 'user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('cat_id', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('num'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('sub_stock', 'status', 'sort'), 'int', array('min'=>0, 'max'=>255)),
-			array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
-			array(array('sn'), 'string', array('max'=>50)),
-			array(array('weight', 'size', 'price'), 'float', array('length'=>8, 'decimal'=>2)),
-			array(array('is_new', 'is_hot', 'deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('sub_stock', 'status'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('title'), 'string', array('max'=>255)),
+			array(array('post_fee'), 'float', array('length'=>6, 'decimal'=>2)),
+			array(array('price'), 'float', array('length'=>8, 'decimal'=>2)),
+			array(array('is_new', 'is_hot', 'deleted'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 		);
 	}
-
+	
 	public function labels(){
 		return array(
 			'id'=>'Id',
+			'cat_id'=>'分类ID',
 			'title'=>'标题',
-			'description'=>'描述',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后修改时间',
 			'publish_time'=>'发布时间',
+			'user_id'=>'用户ID',
 			'sub_stock'=>'何时减库存',
-			'weight'=>'单位:kg',
-			'size'=>'单位:立方米',
-			'sn'=>'Sn',
-			'cat_id'=>'Cat Id',
-			'thumbnail'=>'Thumbnail',
+			'post_fee'=>'运费',
+			'thumbnail'=>'缩略图',
 			'num'=>'库存',
 			'price'=>'价格',
-			'status'=>'Status',
+			'status'=>'状态',
 			'is_new'=>'新品',
 			'is_hot'=>'热销',
 			'deleted'=>'Deleted',
-			'sort'=>'Sort',
-			'seo_title'=>'Seo Title',
-			'seo_keywords'=>'Seo Keywords',
-			'seo_description'=>'Seo Description',
+			'sort'=>'排序值',
 		);
 	}
-
+	
 	public function filters(){
 		return array(
-			'title'=>'trim',
-			'description'=>'',
-			'create_time'=>'',
-			'last_modified_time'=>'',
-			'publish_time'=>'trim',
-			'sub_stock'=>'intval',
-			'weight'=>'floatval',
-			'size'=>'floatval',
-			'sn'=>'trim',
+			'id'=>'intval',
 			'cat_id'=>'intval',
+			'title'=>'trim',
+			'publish_time'=>'trim',
+			'user_id'=>'intval',
+			'sub_stock'=>'intval',
+			'post_fee'=>'floatval',
 			'thumbnail'=>'intval',
 			'num'=>'intval',
 			'price'=>'floatval',
@@ -94,10 +108,20 @@ class Goods extends Table{
 			'is_hot'=>'intval',
 			'deleted'=>'intval',
 			'sort'=>'intval',
-			'seo_title'=>'trim',
-			'seo_keywords'=>'trim',
-			'seo_description'=>'trim',
 		);
+	}
 	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'update':
+				return array(
+					'id', 'create_time', 'last_modified_time'
+				);
+			case 'insert':
+			default:
+				return array(
+					'id', 'create_time', 'last_modified_time'
+				);
+		}
 	}
 }

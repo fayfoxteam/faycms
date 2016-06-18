@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="box" id="box-alias" data-name="alias">
 	<div class="box-title">
 		<a class="tools remove" title="隐藏"></a>
@@ -9,6 +7,6 @@
 		<?php echo F::form()->inputText('alias', array(
 			'class'=>'form-control',
 		))?>
-		<p class="fc-grey">别名不可包含特殊字符，可留空。</p>
+		<p class="fc-grey mt5">别名不可包含特殊字符，可留空。</p>
 	</div>
 </div>

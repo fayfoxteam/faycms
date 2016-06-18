@@ -65,6 +65,7 @@
 					<p><label class="w150 fl block">版本</label><?php echo $mysql_version?></p>
 					<p><label class="w150 fl block">主机</label><?php echo F::app()->config->get('db.host')?></p>
 					<p><label class="w150 fl block">数据库名</label><?php echo F::app()->config->get('db.dbname')?></p>
+					<p><label class="w150 fl block">编码方式</label><?php echo F::app()->config->get('db.charset')?></p>
 				</td>
 			</tr>
 			<tr>
@@ -128,6 +129,14 @@
 							echo '<span class="fc-red">不支持</span>';
 						}?>
 					</p>
+					<p>
+						<label class="w150 fl block">redis</label>
+						<?php if(in_array('redis', $extensions)){
+							echo '<span class="fc-green">支持</span>';
+						}else{
+							echo '<span class="fc-red">不支持</span>';
+						}?>
+					</p>
 				</td>
 			</tr>
 			<tr>
@@ -136,10 +145,9 @@
 					if(!in_array('memcache', $extensions)){
 						echo '<span class="fc-red">扩展未开启</span>';
 					}else{
-						$memcache = new Memcache();
-						$connect = @$memcache->connect(F::app()->config->get('memcache.host', 'memcache'), F::app()->config->get('memcache.port', 'memcache'));
-						if($connect){
-							echo '版本:', $memcache->getVersion();
+						$version = @F::cache()->getDriver('memcache')->_cache->getVersion();
+						if($version){
+							echo '版本:', $version;
 						}else{
 							echo '<span class="fc-red">连接失败</span>';
 						}

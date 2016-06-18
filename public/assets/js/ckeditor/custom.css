@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0;}
+article,aside,div,dt,figcaption,footer,form,header,hgroup,html,map,nav,section{display:block;}
+body{margin:10px;font-size:12px;font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol;}
+ul,ul li{list-style:none;}
+img{border:0;}
+
+.fc-red{color:red !important;}
+.fc-green{color:green !important;}
+.fc-orange{color:orange !important;}
+.fc-blue{color:#21759B !important;}
+.fc-grey{color:grey !important;}
+
+code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f8f8;border-radius:3px;color:#d14;}
+blockquote{border-left:4px solid #ddd;color:#777;padding:0 15px;margin-bottom:15px;}
+p{margin-bottom:7px;}
+
+pre.prettyprint{background:#f7f7f7;line-height:1.45;padding:16px;font-size:85%;border-radius:3px;border:0;}

@@ -3,6 +3,7 @@ use fay\models\tables\Users;
 use fay\helpers\Date;
 use fay\helpers\Html;
 use fay\models\File;
+use fay\models\user\Role;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
 	<?php if(in_array('avatar', $cols)){?>
@@ -28,6 +29,9 @@ use fay\models\File;
 		</strong>
 		<div class="row-actions">
 			<?php
+				echo Html::link('查看', array('admin/user/item', array(
+					'id'=>$data['id'],
+				)), array(), true);
 				echo Html::link('编辑', array('admin/user/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
@@ -35,12 +39,22 @@ use fay\models\File;
 		</div>
 	</td>
 	
-	<?php if(in_array('role', $cols)){?>
-	<td><?php echo Html::encode($data['role_title'])?></td>
+	<?php if(in_array('roles', $cols)){?>
+	<td><?php
+		$user_roles = Role::model()->get($data['id']);
+		foreach($user_roles as $k => $role){
+			if($k){
+				echo ', ';
+			}
+			echo Html::link($role['title'], array('admin/user/index', array(
+				'role'=>$role['id']
+			)));
+		}
+	?></td>
 	<?php }?>
 	
-	<?php if(in_array('cellphone', $cols)){?>
-	<td><?php echo Html::encode($data['cellphone'])?></td>
+	<?php if(in_array('mobile', $cols)){?>
+	<td><?php echo Html::encode($data['mobile'])?></td>
 	<?php }?>
 	
 	<?php if(in_array('email', $cols)){?>
@@ -51,10 +65,6 @@ use fay\models\File;
 	
 	<?php if(in_array('nickname', $cols)){?>
 	<td><?php echo Html::encode($data['nickname'])?></td>
-	<?php }?>
-	
-	<?php if(in_array('realname', $cols)){?>
-	<td><?php echo Html::encode($data['realname'])?></td>
 	<?php }?>
 	
 	<?php if(in_array('status', $cols)){?>

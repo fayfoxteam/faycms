@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\Category;
 use fay\models\tables\Pages;
-use fay\models\tables\PageCategories;
+use fay\models\tables\PagesCategories;
 use fay\models\tables\Actionlogs;
 use fay\models\Setting;
 use fay\core\Sql;
@@ -44,33 +44,27 @@ class PageController extends AdminController{
 		
 		$this->form()->setModel(Pages::model())
 			->setData($this->input->request());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				$data['create_time'] = $this->current_time;
-				$data['last_modified_time'] = 0;
-				$data['author'] = $this->current_user;
-				$page_id = Pages::model()->insert($data);
-				if(!empty($data['page_category'])){
-					foreach($data['page_category'] as $page_cat){
-						PageCategories::model()->insert(array(
-							'page_id'=>$page_id,
-							'cat_id'=>$page_cat,
-						));
-					}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			$data['create_time'] = $this->current_time;
+			$data['last_modified_time'] = $this->current_time;
+			$data['author'] = $this->current_user;
+			$page_id = Pages::model()->insert($data);
+			
+			$page_category = $this->form()->getData('page_category');
+			if(!empty($page_category)){
+				foreach($page_category as $page_cat){
+					PagesCategories::model()->insert(array(
+						'page_id'=>$page_id,
+						'cat_id'=>$page_cat,
+					));
 				}
-				
-				$this->actionlog(Actionlogs::TYPE_PAGE, '添加页面', $page_id);
-				Response::output('success', '页面发布成功 - '.Html::link('查看', array('page/item', array(
-					'id'=>$page_id,
-				)), array(
-					'target'=>'_blank',
-				)), array('admin/page/edit', array(
-					'id'=>$page_id,
-				)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			
+			$this->actionlog(Actionlogs::TYPE_PAGE, '添加页面', $page_id);
+			Response::notify('success', '页面发布成功', array('admin/page/edit', array(
+				'id'=>$page_id,
+			)));
 		}
 		
 		$cat_id = $this->input->get('cat_id', 'intval');
@@ -82,15 +76,12 @@ class PageController extends AdminController{
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		
-		$this->layout->_setting_panel = '_setting_boxes';
+		//页面设置
 		$_setting_key = 'admin_page_boxes';
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$this->getEnabledBoxes($_setting_key),
-			));
+		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+		$this->settingForm($_setting_key, '_setting_boxes', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$this->view->render();
 	}
@@ -119,7 +110,7 @@ class PageController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('pages', 'p', '!content');
+		$sql->from(array('p'=>'pages'), Pages::model()->formatFields('!content'));
 		
 		if($this->input->get('deleted', 'intval') == 1){
 			$sql->where('p.deleted = 1');
@@ -148,7 +139,7 @@ class PageController extends AdminController{
 			));
 		}
 		if($cat_id){
-			$sql->joinLeft('page_categories', 'pc', 'p.id = pc.page_id')
+			$sql->joinLeft(array('pc'=>'pages_categories'), 'p.id = pc.page_id')
 				->where(array(
 					'pc.cat_id = ?'=>$cat_id,
 				))
@@ -157,7 +148,7 @@ class PageController extends AdminController{
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("p.{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('p.id DESC');
@@ -185,16 +176,12 @@ class PageController extends AdminController{
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		
-		$this->layout->_setting_panel = '_setting_boxes';
+		//页面设置
 		$_setting_key = 'admin_page_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
-		$this->form('setting')
-			->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData(array(
-				'_key'=>$_setting_key,
-				'enabled_boxes'=>$enabled_boxes,
-			));
+		$this->settingForm($_setting_key, '_setting_boxes', array(), array(
+			'enabled_boxes'=>$enabled_boxes,
+		));
 		
 		$page_id = intval($this->input->get('id', 'intval'));
 		
@@ -202,28 +189,26 @@ class PageController extends AdminController{
 		
 		$this->form()->setModel(Pages::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				$data['last_modified_time'] = $this->current_time;
-				$result = Pages::model()->update($data, $page_id);
-				if(in_array('category', $enabled_boxes)){
-					PageCategories::model()->delete("page_id = {$page_id}");
-					if(!empty($data['page_category'])){
-						foreach($data['page_category'] as $page_cat){
-							PageCategories::model()->insert(array(
-								'page_id'=>$page_id,
-								'cat_id'=>$page_cat,
-							));
-						}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			$data['last_modified_time'] = $this->current_time;
+			$result = Pages::model()->update($data, $page_id);
+			if(in_array('category', $enabled_boxes)){
+				PagesCategories::model()->delete("page_id = {$page_id}");
+				
+				$page_category = $this->form()->getData('page_category');
+				if(!empty($page_category)){
+					foreach($page_category as $page_cat){
+						PagesCategories::model()->insert(array(
+							'page_id'=>$page_id,
+							'cat_id'=>$page_cat,
+						));
 					}
 				}
-				
-				$this->actionlog(Actionlogs::TYPE_PAGE, '编辑页面', $page_id);
-				$this->flash->set('一个页面被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
+			
+			$this->actionlog(Actionlogs::TYPE_PAGE, '编辑页面', $page_id);
+			Response::notify('success', '一个页面被编辑', false);
 		}
 		if($page = Pages::model()->find($page_id)){
 			$page['page_category'] = Page::model()->getPageCatIds($page_id);
@@ -240,7 +225,7 @@ class PageController extends AdminController{
 		$page_id = $this->input->get('id', 'intval');
 		Pages::model()->update(array('deleted'=>1), $page_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'id'=>$page_id,
 			'message'=>'一个页面被移入回收站 - '.Html::link('撤销', array('admin/page/undelete', array(
 				'id'=>$page_id,
@@ -253,17 +238,17 @@ class PageController extends AdminController{
 		Pages::model()->update(array('deleted'=>0), $page_id);
 		$this->actionlog(Actionlogs::TYPE_PAGE, '将页面移出回收站', $page_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个页面被移出回收站',
 		));
 	}
 	
 	public function remove(){
 		Pages::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
-		PageCategories::model()->delete(array('page_id = ?'=>$this->input->get('id', 'intval')));
+		PagesCategories::model()->delete(array('page_id = ?'=>$this->input->get('id', 'intval')));
 		$this->actionlog(Actionlogs::TYPE_PAGE, '将页面永久删除', $this->input->get('id', 'intval'));
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个页面被永久删除',
 		));
 	}
@@ -276,9 +261,11 @@ class PageController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_PAGE, '改变了页面排序', $page_id);
 		
 		$page = Pages::model()->find($page_id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个页面的排序值被编辑',
-			'sort'=>$page['sort'],
+			'data'=>array(
+				'sort'=>$page['sort'],
+			),
 		));
 	}
 
@@ -293,7 +280,6 @@ class PageController extends AdminController{
 		$root_node = Category::model()->getByAlias('_system_page', 'id');
 		$this->view->root = $root_node['id'];
 	
-		$root_cat = Category::model()->getByAlias('_system_page', 'id');
 		if($this->checkPermission('admin/page/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -301,7 +287,7 @@ class PageController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'页面',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}
@@ -309,19 +295,20 @@ class PageController extends AdminController{
 	}
 	
 	public function isAliasNotExist(){
-		$alias = $this->input->post('value', 'trim');
 		if(Pages::model()->fetchRow(array(
-			'alias = ?'=>$alias,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'alias = ?'=>$this->input->request('alias', 'trim'),
+			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'别名已存在',
-			));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
+	}
+	
+	public function search(){
+		$pages = Pages::model()->fetchAll(array(
+			'title LIKE ?'=>'%'.$this->input->request('key', false).'%'
+		), 'id,title', 'id DESC', 20);
+		Response::json($pages);
 	}
 }

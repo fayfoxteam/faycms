@@ -1,16 +1,13 @@
 <?php
 namespace fay\helpers;
 
-use fay\core\FBase;
-use fay\models\tables\Files;
 use fay\models\File;
-use fay\models\Qiniu;
 
 /**
  * 构造html元素
  * 该类不会对标签属性做任何转义处理
  */
-class Html extends FBase{
+class Html{
 	/**
 	 * 对字符串进行html实体转换（双引号和单引号都会被转换）
 	 * @param string $input
@@ -163,20 +160,20 @@ class Html extends FBase{
 		
 		$form = '<select name="' . $name . '"' . $extra . $multiple . ">\n";
 		
-		foreach( $options as $key => $val ){
+		foreach($options as $key => $val){
 			if($val === false) continue;
 			$key = (string) $key;
-			if(is_array( $val ) && ! empty( $val )){
+			if(is_array($val) && ! empty($val)){
 				$form .= '<optgroup label="' . $key . '">' . "\n";
-				foreach( $val as $optgroup_key => $optgroup_val ){
-					$sel =(in_array( $optgroup_key, $selected )) ? ' selected="selected"' : '';
+				foreach($val as $optgroup_key => $optgroup_val){
+					$sel = (in_array($optgroup_key, $selected)) ? ' selected="selected"' : '';
 						
-					$form .= '<option value="' . $optgroup_key . '"' . $sel . '>' .( string ) $optgroup_val . "</option>\n";
+					$form .= '<option value="' . $optgroup_key . '"' . $sel . '>' . (string) $optgroup_val . "</option>\n";
 				}
 				$form .= '</optgroup>' . "\n";
 			}else{
 				$sel = (in_array($key, $selected)) ? ' selected="selected"' : '';
-				$form .= '<option value="' . $key . '"' . $sel . '>' .( string ) $val . "</option>\n";
+				$form .= '<option value="' . $key . '"' . $sel . '>' . (string) $val . "</option>\n";
 			}
 		}
 		
@@ -192,6 +189,7 @@ class Html extends FBase{
 	 * @param string $key 参数
 	 * @param string $value 显示标题
 	 * @param int $dep 用于计算缩进，不需要手工设定
+	 * @return array
 	 */
 	public static function getSelectOptions($data, $key = 'id', $value = 'title', $dep = 0){
 		$return = array();
@@ -223,19 +221,18 @@ class Html extends FBase{
 	/**
 	 * 返回一张图片<br>
 	 * 需要跟FileController配合使用的一个方法
-	 * @param int $id 一般为系统图片ID，若传入url路径则第二个参数type无效
+	 * @param int $id 一般为系统图片ID，若传入url路径则参数$type和$html_options无效
 	 * @param int $type
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
 	 * @return string
 	 */
 	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array()){
-		if(is_numeric($id)){
+		if(StringHelper::isInt($id)){
 			if($id == 0){
 				//若有设置spares，返回对应的默认图片
 				//若未设置，返回空字符串
-				$spares = \F::app()->config->get('spares');
-				if(isset($html_options['spare']) && isset($spares[$html_options['spare']])){
-					$html = '<img src="'.\F::app()->view->url().$spares[$html_options['spare']].'"';
+				if(isset($html_options['spare']) && $spare = \F::config()->get($html_options['spare'], 'noimage')){
+					$html = '<img src="'.\F::app()->view->url($spare).'"';
 
 					if(isset($html_options['dw'])){
 						$html .= ' width="'.$html_options['dw'].'"';
@@ -255,101 +252,20 @@ class Html extends FBase{
 					return '';
 				}
 			}
-			$img_params = array('t'=>$type);
-			$file = Files::model()->find($id, 'raw_name,file_ext,file_path,image_width,image_height,qiniu,is_image,file_type');
-			switch($type){
-				case File::PIC_ORIGINAL:
-					if(substr($file['file_path'], 0, 4) == './..'){
-						//私有文件，不能直接访问文件
-						$src = \F::app()->view->url('file/pic', array(
-							'f'=>$id,
-						));
-					}else{
-						//公共文件，直接返回真实路径
-						if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
-							//若开启了七牛云存储，且文件已上传，则显示七牛路径
-							$src = Qiniu::model()->getUrl($file);
-						}else{
-							$src = \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
-						}
-					}
-					
-					isset($html_options['width']) || $html_options['width'] = $file['image_width'];
-					isset($html_options['height']) || $html_options['height'] = $file['image_height'];
-				break;
-				case File::PIC_THUMBNAIL:
-					//显示一张缩略图，若不是图片文件，显示一个图标
-					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu'] && $file['is_image']){
-						//若开启了七牛云存储，且文件已上传，则利用七牛在线裁剪为100x100图片
-						$src = Qiniu::model()->getUrl($file, array(
-							'dw'=>100,
-							'dh'=>100,
-						));
-					}else{
-						$src = File::model()->getThumbnailUrl($file);
-					}
-				break;
-				case File::PIC_CROP:
-					if(isset($html_options['x'])){
-						$img_params['x'] = $html_options['x'];
-						unset($html_options['x']);
-					}
-					if(isset($html_options['y'])){
-						$img_params['y'] = $html_options['y'];
-						unset($html_options['y']);
-					}
-					if(isset($html_options['dw'])){
-						$img_params['dw'] = $html_options['dw'];
-						unset($html_options['dw']);
-					}
-					if(isset($html_options['dh'])){
-						$img_params['dh'] = $html_options['dh'];
-						unset($html_options['dh']);
-					}
-					if(isset($html_options['w'])){
-						$img_params['w'] = $html_options['w'];
-						unset($html_options['w']);
-					}
-					if(isset($html_options['h'])){
-						$img_params['h'] = $html_options['h'];
-						unset($html_options['h']);
-					}
-					ksort($img_params);
-					$img_params['f'] = $id;
-					$src = \F::app()->view->url('file/pic', $img_params);
-				break;
-				case File::PIC_RESIZE:
-					if(\F::app()->config->get('*', 'qiniu') && $file['qiniu']){
-						//若开启了七牛云存储，且文件已上传，则利用七牛进行裁剪输出
-						$src = Qiniu::model()->getUrl($file, array(
-							'dw'=>isset($html_options['dw']) ? $html_options['dw'] : false,
-							'dh'=>isset($html_options['dh']) ? $html_options['dh'] : false,
-						));
-					}else{
-						if(isset($html_options['dw'])){
-							$img_params['dw'] = $html_options['dw'];
-						}
-						if(isset($html_options['dh'])){
-							$img_params['dh'] = $html_options['dh'];
-						}
-						ksort($img_params);
-						$img_params['f'] = $id;
-						$src = \F::app()->view->url('file/pic', $img_params);
-					}
-					unset($html_options['dw'], $html_options['dh']);
-				break;
-			}
-			unset($html_options['spare']);
-			return self::tag('img', array('src'=>$src)+$html_options);
+			
+			$src = File::getUrl($id, $type, $html_options);
+			
+			unset($html_options['spare'], $html_options['dw'], $html_options['dh'], $html_options['w'], $html_options['h'], $html_options['x'], $html_options['y']);
+			return self::tag('img', array('src'=>$src) + $html_options);
 		}else{
-			return self::tag('img', array('src'=>$id)+$html_options);
+			return self::tag('img', array('src'=>$id) + $html_options);
 		}
 	}
 	
 	/**
 	 * 构造一个超链接
 	 * @param string $text 链接描述。默认会对其做Html::encode处理，若不编码，则在html_options中设置encode为false
-	 * @param url|array $uri 链接地址
+	 * @param string|array $uri 链接地址
 	 *     若为数组，第0项为路由（router），第1项为参数（可为空），第2项为是否重写（默认为重写）
 	 *     若为字符串，则直接作为href属性
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
@@ -383,10 +299,11 @@ class Html extends FBase{
 	
 	/**
 	 * 跳转到站外地址。
-	 * 出于seo考虑，不直接显示站外地址，而是通过tools/redirect/index来跳转
+	 * 出于seo考虑，不直接显示站外地址，而是通过api/redirect/index来跳转
 	 * @param string $text
 	 * @param string $url 包括http://在内的完整url
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
+	 * @return string
 	 */
 	public static function outsideLink($text, $url, $html_options = array()){
 		return self::link($text, array('redirect', array(
@@ -400,7 +317,8 @@ class Html extends FBase{
 	 * 同时该函数不做参数格式正确性验证，传错了可能会出现报错
 	 * @param string $tag
 	 * @param array $html_options
-	 * @param string|false $text 若为false，则视为自封闭标签
+	 * @param bool|string $text 若为false，则视为自封闭标签
+	 * @return string
 	 */
 	public static function tag($tag, $html_options, $text = false){
 		$before = '';

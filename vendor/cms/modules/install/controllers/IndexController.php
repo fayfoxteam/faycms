@@ -3,12 +3,14 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use fay\models\tables\Users;
-use fay\helpers\String;
 use fay\models\Option;
 use fay\models\File;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
+use fay\helpers\Request;
+use fay\models\tables\Roles;
+use fay\services\User;
 
 class IndexController extends InstallController{
 	public function __construct(){
@@ -21,91 +23,137 @@ class IndexController extends InstallController{
 	}
 	
 	public function checkSystem(){
-		$this->isInstalled();
-
-		// /uploads
-		if(is_writable(BASEPATH.'../uploads')){
-			$uploads = true;
+		$is_installed = $this->isInstalled();
+		
+		if($is_installed == 'installation-completed'){
+			//全部安装已完成
+			throw new Exception('程序已完成安装，若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
+		}else if($is_installed == 'database-completed'){
+			//数据库已初始化，跳转至设置超级管理员界面
+			Response::redirect('install/index/settings', array(
+				'_token'=>$this->getToken(),
+			));
 		}else{
-			//尝试创建
-			File::createFolder(BASEPATH.'../uploads');
+			//其它情况下（例如数据库创建了一半）全新安装，环境检查
+			// /uploads
 			if(is_writable(BASEPATH.'../uploads')){
 				$uploads = true;
 			}else{
-				$uploads = false;
+				//尝试创建
+				File::createFolder(BASEPATH.'../uploads');
+				if(is_writable(BASEPATH.'../uploads')){
+					$uploads = true;
+				}else{
+					$uploads = false;
+				}
 			}
-		}
-		// /public/uploads
-		if(is_writable(BASEPATH.'uploads')){
-			$public_uploads = true;
-		}else{
-			//尝试创建
-			File::createFolder(BASEPATH.'uploads');
+			// /public/uploads
 			if(is_writable(BASEPATH.'uploads')){
 				$public_uploads = true;
 			}else{
-				$public_uploads = false;
+				//尝试创建
+				File::createFolder(BASEPATH.'uploads');
+				if(is_writable(BASEPATH.'uploads')){
+					$public_uploads = true;
+				}else{
+					$public_uploads = false;
+				}
 			}
-		}
-		// /public/uploads
-		if(is_writable(APPLICATION_PATH . 'runtimes')){
-			$runtimes = true;
-		}else{
-			//尝试创建
-			File::createFolder(APPLICATION_PATH . 'runtimes');
+			// /public/uploads
 			if(is_writable(APPLICATION_PATH . 'runtimes')){
 				$runtimes = true;
 			}else{
-				$runtimes = false;
+				//尝试创建
+				File::createFolder(APPLICATION_PATH . 'runtimes');
+				if(is_writable(APPLICATION_PATH . 'runtimes')){
+					$runtimes = true;
+				}else{
+					$runtimes = false;
+				}
 			}
+			$this->view->writable = array(
+				'/uploads'=>$uploads,
+				'/public/uploads'=>$public_uploads,
+				'/application/'.APPLICATION.'/runtimes'=>$runtimes,
+			);
+			
+			$this->view->extensions = get_loaded_extensions();
+			$this->view->render();
 		}
-		$this->view->writable = array(
-			'/uploads'=>$uploads,
-			'/public/uploads'=>$public_uploads,
-			'/application/'.APPLICATION.'/runtimes'=>$runtimes,
-		);
-		
-		$this->view->extensions = get_loaded_extensions();
-		$this->view->render();
 	}
 	
-	public function doing(){
-		$this->isInstalled();
-
-		$this->view->render();
+	public function database(){
+		try{
+			$this->checkToken();
+		}catch(Exception $e){
+			Response::redirect('install/index/index');
+		}
+		
+		//检测安装进度
+		$is_installed = $this->isInstalled();
+		
+		if($is_installed == 'installation-completed'){
+			//全部安装已完成
+			throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
+		}else if($is_installed == 'database-completed'){
+			//数据库安装完成，跳转到用户设置界面
+			Response::redirect('install/index/settings', array(
+				'_token'=>$this->getToken(),
+			));
+		}else{
+			//其它情况下（例如数据库创建了一半）重新创建数据库
+			$this->view->render();
+		}
 	}
 	
 	public function settings(){
-		if(Users::model()->fetchRow('role = '.Users::ROLE_SUPERADMIN)){
-			Response::redirect('a');
+		try{
+			$this->checkToken();
+		}catch(Exception $e){
+			Response::redirect('install/index/index');
 		}
-		if($this->input->post()){
-			$salt = String::random('alnum', 5);
-			$password = $this->input->post('password');
-			$password = md5(md5($password).$salt);
-			Users::model()->insert(array(
-				'username'=>$this->input->post('username'),
-				'password'=>$password,
-				'salt'=>$salt,
-				'role'=>Users::ROLE_SUPERADMIN,
-				'reg_time'=>$this->current_time,
-				'status'=>Users::STATUS_VERIFIED,
-			));
-			
-			Option::set('sitename', $this->input->post('sitename'));
-			Response::redirect('a');
+		
+		//检测安装进度
+		$is_installed = $this->isInstalled();
+		
+		if($is_installed == 'installation-completed'){
+			//全部安装已完成
+			throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
+		}else if($is_installed == 'database-completed'){
+			//数据库已初始化，跳转至设置超级管理员界面
+			if($this->input->post()){
+				$user_id = User::model()->create(array(
+					'username'=>$this->input->post('username', 'trim'),
+					'password'=>$this->input->post('password'),
+					'nickname'=>'系统管理员',//@todo 这里先默认一个，以后再完善下安装程序的界面
+					'status'=>Users::STATUS_VERIFIED,
+				), array(
+					'profile'=>array(
+						'trackid'=>'install',
+					),
+					'roles'=>array(
+						Roles::ITEM_SUPER_ADMIN,
+					)
+				), 1);
+				Option::set('site:sitename', $this->input->post('site:sitename', 'trim'));
+				
+				file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
+				
+				Response::redirect('a');
+			}
+			$this->view->render();
+		}else{
+			//其它状态（可能是数据库装一半断掉了）重新安装
+			Response::redirect('install/index/index');
 		}
-		$this->view->render();
 	}
 	
 	private function isInstalled(){
-		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
-		
-		$tbl_user = $this->db->fetchRow("SHOW TABLES LIKE '{$this->db->users}'");
-		$this->view->installed = !!$tbl_user;
-		
-		if($this->session->get('role') != Users::ROLE_SUPERADMIN && $this->view->installed){
-			throw new Exception('系统检测到users表已存在，我们将此作为系统数据库已成功安装的依据。<br>系统不允许重复安装，除非您先用超级管理员身份登陆后台！');
+		if(file_exists(APPLICATION_PATH . 'runtimes/installed.lock')){
+			$installed_file = file(APPLICATION_PATH . 'runtimes/installed.lock');
+			return array_pop($installed_file);
+		}else{
+			return 'new';
 		}
 	}
 }

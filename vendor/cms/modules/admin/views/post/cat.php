@@ -1,5 +1,8 @@
 <?php
 use fay\helpers\Html;
+use fay\models\Option;
+use fay\models\tables\Roles;
+use fay\models\post\Category;
 
 function showCats($cats, $dep = 0, $open_dep = 2){?>
 	<ul class="tree">
@@ -8,10 +11,10 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 			<div class="leaf">
 				<span class="fr options">
 					<?php if(F::app()->checkPermission('admin/post/cat-sort')){?>
-					<span class="w115 block fl">
+					<span class="w135 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
 						'data-id'=>$c['id'],
-						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
+						'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
 					<?php }?>
@@ -28,7 +31,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 							'title'=>F::app()->checkPermission('admin/post/cat-edit') ? '点击可改变状态' : false,
 						));
 						echo Html::link('分类属性', array('admin/post-prop/index', array(
-							'id'=>$c['id'],
+							'cat_id'=>$c['id'],
 						)), array(), true);
 						echo Html::link('查看该分类', array('admin/post/index', array(
 							'cat_id'=>$c['id'],
@@ -72,12 +75,14 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey hidden-not-lg">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php echo Html::link('发布文章', array('admin/post/create', array(
-						'cat_id'=>$c['id'],
-					)), array(
-						'class'=>'fc-green hover-link',
-						'prepend'=>'<i class="fa fa-pencil"></i>',
-					), true)?>
+					<?php if(Category::model()->isAllowedCat($c['id'])){
+						echo Html::link('发布文章', array('admin/post/create', array(
+							'cat_id'=>$c['id'],
+						)), array(
+							'class'=>'fc-green hover-link',
+							'prepend'=>'<i class="fa fa-pencil"></i>',
+						), true);
+					}?>
 				</span>
 			</div>
 			<?php if(!empty($c['children'])){

@@ -2,6 +2,7 @@
 namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
+use fay\core\Loader;
 
 class FunctionController extends ToolsController{
 	public function __construct(){
@@ -25,14 +26,13 @@ class FunctionController extends ToolsController{
 		$this->view->render();
 	}
 	
-	public function json_decode(){
-		$this->layout->subtitle = 'json_decode';
+	public function json(){
+		$this->layout->subtitle = 'JSON';
 		
-		$this->view->result = json_decode($this->input->post('key'));
 		$this->view->render();
 	}
 	
-	public function urldecode(){
+	public function url(){
 		$this->layout->subtitle = 'urldecode';
 		
 		$this->view->result = urldecode($this->input->post('key'));
@@ -49,5 +49,20 @@ class FunctionController extends ToolsController{
 		$this->layout->subtitle = 'string';
 		
 		$this->view->render();
+	}
+	
+	public function ip(){
+		$this->layout->subtitle = 'ip';
+		
+		//引入IP地址库
+		Loader::vendor('IpLocation/IpLocation.class');
+		$this->view->iplocation = new \IpLocation();
+		
+		$this->view->render();
+	}
+	
+	public function doEval(){
+		$code = $this->input->post('code', '', '');
+		echo eval('?>'. $code);
 	}
 }

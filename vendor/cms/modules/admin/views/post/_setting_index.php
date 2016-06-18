@@ -1,8 +1,14 @@
 <?php echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
-		<label class="title">显示下列项目</label>
+		<label class="title bold">显示下列项目</label>
 		<?php
+		echo F::form('setting')->inputCheckbox('cols[]', 'id', array(
+			'label'=>'文章ID',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'thumbnail', array(
+			'label'=>'缩略图',
+		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'main_category', array(
 			'label'=>'主分类',
 		));
@@ -27,8 +33,20 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'views', array(
 			'label'=>'阅读数',
 		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'real_views', array(
+			'label'=>'真实阅读数',
+		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'comments', array(
 			'label'=>'评论数',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'real_comments', array(
+			'label'=>'真实评论数',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'likes', array(
+			'label'=>'点赞数',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'real_likes', array(
+			'label'=>'真实点赞数',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'publish_time', array(
 			'label'=>'发布时间',
@@ -48,7 +66,7 @@
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">显示作者</label>
+		<label class="title bold">显示作者</label>
 		<?php
 		echo F::form('setting')->inputRadio('display_name', 'username', array(
 			'label'=>'用户名',
@@ -62,7 +80,7 @@
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">显示时间</label>
+		<label class="title bold">显示时间</label>
 		<?php
 		echo F::form('setting')->inputRadio('display_time', 'short', array(
 			'label'=>'简化时间',
@@ -73,7 +91,7 @@
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">分页大小</label>
+		<label class="title bold">分页大小</label>
 		<?php echo F::form('setting')->inputNumber('page_size', array(
 			'class'=>'form-control w50',
 			'min'=>1,

@@ -28,7 +28,7 @@ use fay\helpers\Date;
 			<div class="box">
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
-					<div style="min-height:200px"><?php if(F::app()->input->post('timestamps')){
+					<div style="min-height:239px"><?php if(F::app()->input->post('timestamps')){
 						$timestamps = explode("\r\n", F::app()->input->post('timestamps'));
 						foreach($timestamps as $t){
 							echo date('Y-m-d H:i:s', intval($t)), '<br />';
@@ -54,7 +54,7 @@ use fay\helpers\Date;
 			<div class="box">
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
-					<div style="min-height:200px"><?php if(F::app()->input->post('datetimes')){
+					<div style="min-height:239px"><?php if(F::app()->input->post('datetimes')){
 						$datetimes = explode("\r\n", F::app()->input->post('datetimes'));
 						foreach($datetimes as $d){
 							echo strtotime($d), '<br />';
@@ -66,7 +66,7 @@ use fay\helpers\Date;
 	</div>
 </form>
 <script>
-$("[name='key']").keydown(function(event){
+$("[name='timestamps'],[name='datetimes']").keydown(function(event){
 	if((event.keyCode == 82 || event.keyCode == 83) && event.ctrlKey){
 		$("#form").submit();
 		return false;

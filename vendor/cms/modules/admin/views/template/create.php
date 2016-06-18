@@ -6,14 +6,14 @@ echo F::form()->open();
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env">
+			<div class="mb30">
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',
 					'class'=>'form-control bigtxt',
 					'placeholder'=>'在此键入标题',
 				))?>
 			</div>
-			<div class="postarea">
+			<div class="mb30">
 				<?php echo F::form()->textarea('content', array(
 					'id'=>'visual-editor',
 					'class'=>'h350',
@@ -32,7 +32,7 @@ echo F::form()->open();
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>启用</strong>
 						<?php echo F::form()->inputRadio('enable', 1, array('label'=>'是'), true)?>
 						<?php echo F::form()->inputRadio('enable', 0, array('label'=>'否'))?>
@@ -89,6 +89,6 @@ echo F::form()->open();
 <?php echo F::form()->close()?>
 <script>
 $(function(){
-	common.filebrowserImageUploadUrl = system.url("admin/file/upload", {'t':'posts'});
+	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload');
 });
 </script>

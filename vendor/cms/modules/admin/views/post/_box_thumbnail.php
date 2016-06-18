@@ -9,21 +9,22 @@ use fay\models\File;
 	</div>
 	<div class="box-content">
 		<div id="thumbnail-container" class="mb10">
-			<a href="javascript:;" id="upload_thumbnail" class="btn">设置缩略图</a>
+			<a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a>
 		</div>
 		<div id="thumbnail-preview-container">
 		<?php 
-			echo F::form()->inputHidden('thumbnail', array('id'=>'thumbnail-id'));
-			if(!empty($post['thumbnail'])){
-				echo Html::link(Html::img($post['thumbnail'], File::PIC_RESIZE, array(
+			echo F::form()->inputHidden('thumbnail');
+			$thumbnail = F::form()->getData('thumbnail', 0);
+			if(!empty($thumbnail)){
+				echo Html::link(Html::img($thumbnail, File::PIC_RESIZE, array(
 					'dw'=>257,
-				)), File::model()->getUrl($post['thumbnail']), array(
+				)), File::getUrl($thumbnail), array(
 					'encode'=>false,
-					'class'=>'fancybox-image',
+					'class'=>'fancybox-image block',
 					'title'=>'点击查看原图',
 				));
 				echo Html::link('移除缩略图', 'javascript:;', array(
-					'id'=>'remove-thumbnail'
+					'class'=>'remove-image-link'
 				));
 			}
 		?>

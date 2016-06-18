@@ -1,62 +1,46 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\RequestHelper;
-use fay\models\tables\Actions;
-use fay\models\tables\Users;
+use fay\helpers\Request;
+use fay\helpers\StringHelper;
+use fay\models\User;
 
+/**
+ * @property View $view 视图
+ * @property Layout $layout 模版
+ */
 class Controller{
 	/**
 	 * 检查过被阻止的路由
 	 */
-	protected $_deny_routers = array();
+	protected $_denied_routers = array();
 	
 	/**
-	 * @var Uri
+	 * 随机token，用于防止重复请求（并不一定用到）
 	 */
-	public $uri;
+	private $token;
+	
 	/**
-	 * @var Input
+	 * @var \fay\core\Input
 	 */
 	public $input;
 	/**
-	 * @var Config
+	 * @var \fay\core\Config
 	 */
 	public $config;
-	/**
-	 * @var View
-	 */
-	public $view;
-	/**
-	 * @var Cache
-	 */
-	public $cache;
-	/**
-	 * @var Session
-	 */
-	public $session;
-	/**
-	 * @var Flash
-	 */
-	public $flash;
-	/**
-	 * @var FWidget
-	 */
-	public $widget;
-	/**
-	 * @var Layout
-	 */
-	public $layout;
 	/**
 	 * 模板文件
 	 * @var string
 	 */
 	public $layout_template;
 	/**
-	 * 当前时间
-	 * @var int
+	 * 当前时间时间戳
 	 */
 	public $current_time = 0;
+	/**
+	 * 当前登录用户ID
+	 */
+	public $current_user = 0;
 	/**
 	 * @var Controller
 	 */
@@ -69,19 +53,24 @@ class Controller{
 	
 	public function __construct(){
 		$this->input = Input::getInstance();
-		$this->view = new View();
-		$this->layout = new Layout();
-		$this->session = Session::getInstance();
-		$this->cache = new Cache();
-		$this->flash = new Flash();
 		$this->config = Config::getInstance();
 		$this->current_time = time();
-		$this->uri = Uri::getInstance();
-		$this->widget = new FWidget();
-		self::$_instance = $this;
-		
 		//当前用户登陆IP
-		$this->ip = RequestHelper::getIP();
+		$this->ip = Request::getIP();
+		
+		self::$_instance = $this;
+	}
+	
+	public function __get($key){
+		if($key == 'view'){
+			$this->view = new View();
+			return $this->view;
+		}else if($key == 'layout'){
+			$this->layout = new Layout();
+			return $this->layout;
+		}else{
+			return null;
+		}
 	}
 	
 	public static function getInstance(){
@@ -90,8 +79,9 @@ class Controller{
 	
 	/**
 	 * 获取一个表单实例，若name为null，返回第一个被实例化的表单。
-	 * 	若没有表单被实例化，实例化一个default
+	 *    若没有表单被实例化，实例化一个default
 	 * @param null|string $name 默认为第一个被实例化的表单
+	 * @return Form
 	 */
 	public function form($name = 'default'){
 		return \F::form($name);
@@ -99,31 +89,40 @@ class Controller{
 
 	/**
 	 * 根据路由做权限检查
+	 * 这里必然是对当前登录用户做检查
 	 * @param string $router
-	 * @return boolean
+	 * @return bool
 	 */
 	public function checkPermission($router){
-		if($this->session->get('role') == Users::ROLE_SUPERADMIN){
-			//超级管理员无限制
-			return true;
-		}else if(in_array($router, $this->session->get('actions', array()))){
-			//用户有此权限
+		return User::model()->checkPermission($router);
+	}
+	
+	/**
+	 * 生成一个token并返回。
+	 * 一次http请求只会生成一个token。
+	 */
+	public function getToken(){
+		if(!$this->token){
+			//设置token
+			$this->token = StringHelper::random();
+			\F::session()->set('_token', $this->token);
+		}
+		return $this->token;
+	}
+	
+	/**
+	 * 检查token防重复提交，每次校验都会重新生成一个token
+	 * @return bool
+	 * @throws Exception
+	 */
+	protected function checkToken(){
+		$token = $this->input->request('_token');
+		$last_token = \F::session()->get('_token');
+		$this->getToken();
+		if($token && $token == $last_token){
 			return true;
 		}else{
-			if(in_array($router, $this->_deny_routers)){
-				//已经检查过此路由为不可访问路由
-				return false;
-			}
-			$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
-			if($action['is_public']){
-				//此路由为公共路由
-				return true;
-			}else if(!$action){
-				//此路由并不在权限路由列表内，视为公共路由
-				return true;
-			}
+			throw new Exception('Token校验失败');
 		}
-		$this->_deny_routers[] = $router;
-		return false;
 	}
 }

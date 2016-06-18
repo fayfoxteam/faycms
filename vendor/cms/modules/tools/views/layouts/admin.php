@@ -2,31 +2,35 @@
 use fay\helpers\Html;
 use fay\models\Option;
 use fay\models\File;
+use fay\models\Flash;
+use fay\models\User;
+use fay\models\user\Role;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/admin/style-responsive.css" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/style-responsive.css')?>" />
 <?php echo $this->getCss()?>
 
-<script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
-system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
+system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/fayfox.block.js"></script>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/admin/common.js"></script>
-<title><?php echo $subtitle?> | <?php echo Option::get('sitename')?>后台</title>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
+<title><?php echo $subtitle?> | <?php echo Option::get('site:sitename')?>后台</title>
 </head>
 <body id="faycms">
 <div class="wrapper">
@@ -36,11 +40,11 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
+					$user_roles = Role::model()->getIds();
 					foreach(F::app()->_top_nav as $nav){
-						if(isset($nav['role'])){
-							if(is_array($nav['role']) && !in_array(F::app()->session->get('role'), $nav['role'])){
-								continue;
-							}else if(F::app()->session->get('role') != $nav['role']){
+						if(isset($nav['roles'])){
+							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
+							if(!array_intersect($user_roles, $nav['roles'])){
 								continue;
 							}
 						}
@@ -57,15 +61,45 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				?>
 			</ul>
 			<ul class="user-info-menu fr">
-			<?php if(F::session()->get('id')){?>
+			<?php if(F::session()->get('user.id')){?>
+				<li class="dropdown-container hover-line message" id="faycms-message">
+					<?php echo Html::link('', '#faycms-messages-container', array(
+						'class'=>'dropdown',
+						'prepend'=>array(
+							'tag'=>'i',
+							'class'=>'fa fa-bell-o',
+							'text'=>'',
+						),
+						'append'=>array(
+							'tag'=>'span',
+							'class'=>'badge badge-green hide',
+							'text'=>'0',
+						)
+					))?>
+					<ul class="dropdown-menu" id="faycms-messages-container">
+						<li>
+							<ul id="faycms-messages">
+								<li class="faycms-message-item"><span class="faycms-message-container">
+									<span class="ellipsis" title="">暂无未读信息</span>
+								</span></li>
+							</ul>
+						</li>
+						<li class="last"><?php
+							echo Html::link('查看全部', array('admin/notification/my'), array(
+								'target'=>'_blank',
+							));
+						?></li>
+					</ul>
+				</li>
 				<li class="dropdown-container user-profile">
+					<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
-						echo Html::img(F::session()->get('avatar'), File::PIC_THUMBNAIL, array(
+						echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 							'class'=>'circle',
 							'width'=>28,
 							'spare'=>'avatar',
 						))
-					?><span><?php echo F::session()->get('username')?><i class="fa fa-angle-down"></i></span></a>
+					?><span>您好，<?php echo $user['user']['username']?><i class="fa fa-angle-down"></i></span></a>
 					<ul class="dropdown-menu" id="user-profile-menu">
 						<li><?php
 							echo Html::link('我的个人信息', array('admin/profile/index'), array(
@@ -87,7 +121,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						?></li>
 					</ul>
 				</li>
-			<?php }?>
+				<?php }?>
 			</ul>
 		</nav>
 		<div class="page-title">
@@ -102,37 +136,73 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						}else{
 							$html_options['class'] = 'quick-link';
 						}
-
 						echo Html::link($sublink['text'], $sublink['uri'], $html_options);
 					}?></h1>
 			</div>
 			<div class="operate-env">
-				<div class="screen-meta-links">
-					<?php if(isset($_setting_panel)){
-						echo Html::link('', '#faycms-setting-content', array(
-							'class'=>'fa fa-cog faycms-setting-link',
-                            'title'=>'设置',
+				<div class="screen-meta-links"><?php
+					//帮助面板
+					if(isset($_help_panel)){
+						echo Html::link('', '#faycms-help-content', array(
+							'class'=>'fa fa-question-circle fa-2x faycms-help-link',
+							'title'=>'帮助',
 						));
 						echo Html::tag('div', array(
-							'id'=>'faycms-setting-content',
-                            'class'=>'dialog-content',
+							'id'=>'faycms-help-content',
+							'class'=>'dialog-content',
 							'wrapper'=>array(
 								'tag'=>'div',
 								'class'=>'dialog hide',
 							),
-                            'prepend'=>'<h4>设置</h4>',
+							'prepend'=>'<h4>设置</h4>',
+						), $this->renderPartial($_help_panel, array(), -1, true));
+					}
+					//帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的常见
+					if(isset($_help_content)){
+						echo Html::link('', '#faycms-help-content', array(
+							'class'=>'fa fa-question-circle fa-2x faycms-help-link',
+							'title'=>'帮助',
+						));
+						echo Html::tag('div', array(
+							'id'=>'faycms-help-content',
+							'class'=>'dialog-content',
+							'wrapper'=>array(
+								'tag'=>'div',
+								'class'=>'dialog hide',
+							),
+							'prepend'=>'<h4>帮助</h4>',
+						), $_help_content);
+					}
+					//页面设置
+					if(isset($_setting_panel)){
+						echo Html::link('', '#faycms-setting-content', array(
+							'class'=>'fa fa-cog fa-2x faycms-setting-link',
+							'title'=>'设置',
+						));
+						echo Html::tag('div', array(
+							'id'=>'faycms-setting-content',
+							'class'=>'dialog-content',
+							'wrapper'=>array(
+								'tag'=>'div',
+								'class'=>'dialog hide',
+							),
+							'prepend'=>'<h4>设置</h4>',
 						), $this->renderPartial($_setting_panel, array(), -1, true));
-					}?>
-				</div>
+					}?></div>
 			</div>
 		</div>
-		<?php echo F::app()->flash->get();?>
+		<?php echo Flash::get();?>
 		<?php echo $content?>
 	</div>
 </div>
 <script>
 $(function(){
 	//系统消息提示
+	if(system.user_id){
+		common.headerNotification();
+		setInterval(common.headerNotification, 30000);
+	}
+	
 	<?php
 		$forms = F::forms();
 		foreach($forms as $k=>$f){?>
@@ -146,8 +216,8 @@ $(function(){
 	common.init();
 });
 </script>
-<img src="<?php echo $this->url()?>images/throbber.gif" class="hide" />
-<img src="<?php echo $this->url()?>images/ajax-loading.gif" class="hide" />
-<img src="<?php echo $this->url()?>images/loading.gif" class="hide" />
+<img src="<?php echo $this->assets('images/throbber.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/ajax-loading.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/loading.gif" class="hide')?>" />
 </body>
 </html>

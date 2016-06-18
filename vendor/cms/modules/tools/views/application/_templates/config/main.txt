@@ -13,14 +13,9 @@ return array(
 		'password'=>'{{$password}}',							//密码
 		'port'=>{{$port}},							//端口
 		'dbname'=>'{{$dbname}}',					//数据库名
-		'charset'=>'utf8',						//数据库编码方式
+		'charset'=>'{{$charset}}',						//数据库编码方式
 		'table_prefix'=>'{{$table_prefix}}',				//数据库表前缀
 	),
-	
-	/*
-	 * 在一台服务器上跑多个cms的时候，以此区分session，可以随便设置一个
-	 */
-	'session_namespace'=>'{{$name}}',
 	
 	/*
 	 * 当前application包含的模块

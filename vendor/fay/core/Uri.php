@@ -1,20 +1,19 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 /**
  * 对url进行路由解析
  * @author karma
  *
  */
-class Uri extends FBase{
+class Uri{
 	public $router;
 	public $module;
 	
 	/**
-	 * 与$_SERVER['REQUEST_URI']想必，如果有二级或多级目录，会去掉目录
+	 * 与$_SERVER['REQUEST_URI']相比，如果有二级或多级目录，会去掉目录
 	 */
 	public $request_uri;
 	
@@ -32,7 +31,7 @@ class Uri extends FBase{
 	
 	public function __construct(){
 		$this->input = Input::getInstance();
-		$this->module = $this->config('default_router.module');
+		$this->module = \F::config()->get('default_router.module');
 		
 		$this->_setRouting();
 		
@@ -55,34 +54,37 @@ class Uri extends FBase{
 	
 	private function _parseHttpArgs(){
 		//若配置文件中未设置base_url，则系统猜测一个
-		$base_url = $this->config('base_url');
+		$base_url = \F::config()->get('base_url');
 		
 		if($base_url){
 			//若未开启伪静态，需要加上index.php/
 			if(defined('NO_REWRITE') && NO_REWRITE && substr($base_url, -10) != 'index.php/'){
 				$base_url .= 'index.php/';
-				$this->setConfig('base_url', $base_url);
+				\F::config()->set('base_url', $base_url);
 			}
 		}else{
-			$folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
+			$document_root = $_SERVER['DOCUMENT_ROOT'];
+			$document_root = trim($document_root, '\\/');//由于服务器配置不同，有的DOCUMENT_ROOT末尾带斜杠，有的不带，这里统一去掉末尾斜杠
+			$folder = dirname(str_replace($document_root, '', $_SERVER['SCRIPT_FILENAME']));
 			//所有斜杠都以正斜杠为准
 			$folder = str_replace('\\', '/', $folder);
 			if(substr($folder, -7) == '/public'){
 				$folder = substr($folder, 0, -7);
 			}
-			if($folder && substr($folder, 0, 1) != '/'){
-				//由于配置关系，有的DOCUMENT_ROOT最后有斜杠，有的没有
-				$folder = '/'.$folder;
-			}
 			if($folder == '/'){
-			    //仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
-			    $folder = '';
+				//仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
+				$folder = '';
 			}
 			$base_url = 'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$folder.'/';
 			if(defined('NO_REWRITE')){
 				$base_url .= 'index.php/';
 			}
-			$this->setConfig('base_url', $base_url);
+			\F::config()->set('base_url', $base_url);
+		}
+		
+		//若未设置静态文件路径，初始化为base_url
+		if(!\F::config()->get('assets_url')){
+			\F::config()->set('assets_url', $base_url);
 		}
 		
 		$base_url_params = parse_url($base_url);
@@ -98,14 +100,14 @@ class Uri extends FBase{
 		
 		if($request == ''){
 			//无路由信息，访问默认路由
-			$default_router = $this->config('default_router');
+			$default_router = \F::config()->get('default_router');
 			$this->_setRouter($default_router['module'], $default_router['controller'], $default_router['action']);
 			return;
 		}
 		
 		//匹配扩展名
-		$ext = $this->config('url_suffix');
-		$exts = $this->config('*', 'exts', 'merge_recursive');
+		$ext = \F::config()->get('url_suffix');
+		$exts = \F::config()->get('*', 'exts');
 		foreach($exts as $key => $val){
 			foreach($val as $v){
 				if(preg_match('/^'.str_replace(array(
@@ -129,13 +131,13 @@ class Uri extends FBase{
 		}
 		
 		//进行URL重写匹配
-		$routes = $this->config('*', 'routes');
+		$routes = \F::config()->get('*', 'routes');
 		if(!empty($routes)){
 			$request = preg_replace(array_keys($routes), array_values($routes), $request);
 		}
 		
 		$request_arr = explode('/', $request);
-		$modules = array_merge(array('admin', 'tools', 'install'), $this->config('modules'));
+		$modules = array_merge(array('admin', 'tools', 'install', 'api'), \F::config()->get('modules'));
 		if(in_array($request_arr[0], $modules)){
 			//前3级是路由
 			$this->_setRouter($request_arr[0], isset($request_arr[1]) ? $request_arr[1] : null, isset($request_arr[2]) ? $request_arr[2] : null);
@@ -163,15 +165,15 @@ class Uri extends FBase{
 	}
 	
 	private function _setRouter($module = null, $controller = null, $action = null){
-		$module || $module = $this->config('default_router.module');
+		$module || $module = \F::config()->get('default_router.module');
 		$controller || $controller = 'index';
 		$action || $action = 'index';
 		
 		$this->router = "{$module}/{$controller}/{$action}";
 			
 		$this->module = $module;
-		$this->controller = String::hyphen2case($controller);
-		$this->action = String::hyphen2case($action, false);
+		$this->controller = StringHelper::hyphen2case($controller);
+		$this->action = StringHelper::hyphen2case($action, false);
 	}
 	
 	/**
@@ -183,7 +185,7 @@ class Uri extends FBase{
 	private function _parseCliArgs(){
 		//第一个参数是路由信息
 		$router = explode('/', $_SERVER['argv'][1]);
-		$modules = array_merge(array('admin', 'tools'), $this->config('modules'));
+		$modules = array_merge(array('admin', 'tools'), \F::config()->get('modules'));
 		if(in_array($router[0], $modules)){
 			$this->_setRouter($router[0], isset($router[1]) ? $router[1] : null, isset($router[2]) ? $router[2] : null);
 		}else{

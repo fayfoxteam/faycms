@@ -18,7 +18,7 @@ class TemplateController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '模板管理';
 		$sql = new Sql();
-		$sql->from('templates', 't')
+		$sql->from(array('t'=>'templates'))
 			->where('deleted = 0')
 			->order('id DESC')
 		;
@@ -34,7 +34,7 @@ class TemplateController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_TEMPLATE, '删除模版', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个模板被删除 - '.Html::link('撤销', array('admin/template/undelete', array(
 				'id'=>$id,
 			))),
@@ -48,7 +48,7 @@ class TemplateController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_TEMPLATE, '还原模版', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个模板被还原',
 		));
 	}
@@ -56,22 +56,23 @@ class TemplateController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑模板';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/template/create'),
+			'text'=>'添加模版',
+		);
+		
 		$id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(Templates::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				if($data['type'] == Templates::TYPE_SMS){
-					$data['content'] = trim(strip_tags($data['content']));
-				}
-				Templates::model()->update($data, $id);
-				
-				$this->flash->set('一个模版被编辑', 'success');
-				$this->actionlog(Actionlogs::TYPE_TEMPLATE, '编辑了一个模版', $id);
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			if($data['type'] == Templates::TYPE_SMS){
+				$data['content'] = trim(strip_tags($data['content']));
 			}
+			Templates::model()->update($data, $id);
+			
+			$this->actionlog(Actionlogs::TYPE_TEMPLATE, '编辑了一个模版', $id);
+			Response::notify('success', '一个模版被编辑', false);
 		}
 		
 		$this->view->template = Templates::model()->find($id);
@@ -82,20 +83,24 @@ class TemplateController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '添加模板';
 		
+		$this->layout->sublink = array(
+			'uri'=>array('admin/template/index'),
+			'text'=>'模版列表',
+		);
+		
 		$this->form()->setModel(Templates::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				if($data['type'] == Templates::TYPE_SMS){
-					$data['content'] = trim(strip_tags($data['content']));
-				}
-				$data['create_time'] = $this->current_time;
-				$id = Templates::model()->insert($data);
-					
-				$this->actionlog(Actionlogs::TYPE_TEMPLATE, '添加了一个模版', $id);
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			if($data['type'] == Templates::TYPE_SMS){
+				$data['content'] = trim(strip_tags($data['content']));
 			}
+			$data['create_time'] = $this->current_time;
+			$id = Templates::model()->insert($data);
+			
+			$this->actionlog(Actionlogs::TYPE_TEMPLATE, '添加了一个模版', $id);
+			Response::notify('success', '模版添加成功', array('admin/template/edit', array(
+				'id'=>$id,
+			)));
 		}
 		
 		$this->view->render();
@@ -103,12 +108,12 @@ class TemplateController extends AdminController{
 	
 	public function isAliasNotExist(){
 		if(Templates::model()->fetchRow(array(
-			'alias = ?'=>$this->input->post('value', 'trim'),
+			'alias = ?'=>$this->input->request('alias', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo json_encode(array('status'=>0, 'message'=>'关键词已存在'));
+			Response::json('', 0, '别名已存在');
 		}else{
-			echo json_encode(array('status'=>1));
+			Response::json();
 		}
 	}
 	

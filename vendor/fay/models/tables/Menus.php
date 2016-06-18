@@ -3,9 +3,23 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Menus model
+ *
+ * @property int $id
+ * @property int $parent
+ * @property int $sort
+ * @property int $left_value
+ * @property int $right_value
+ * @property string $alias
+ * @property string $title
+ * @property string $sub_title
+ * @property string $css_class
+ * @property int $enabled
+ * @property string $link
+ * @property string $target
+ */
 class Menus extends Table{
-	protected $_name = 'menus';
-
 	/**
 	 * 后台菜单集合
 	 */
@@ -16,11 +30,14 @@ class Menus extends Table{
 	 */
 	const ITEM_USER_MENU = 2;
 	
+	protected $_name = 'menus';
+	
 	/**
+	 * @param string $class_name
 	 * @return Menus
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -59,8 +76,6 @@ class Menus extends Table{
 		return array(
 			'parent'=>'intval',
 			'sort'=>'intval',
-			'left_value'=>'intval',
-			'right_value'=>'intval',
 			'alias'=>'trim',
 			'title'=>'trim',
 			'sub_title'=>'trim',

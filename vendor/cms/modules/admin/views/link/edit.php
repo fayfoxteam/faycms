@@ -1,6 +1,3 @@
-<?php
-use fay\helpers\Html;
-?>
 <form id="form" action="" method="post" class="validform">
 	<?php $this->renderPartial('_edit_panel')?>
 	<div class="form-field">

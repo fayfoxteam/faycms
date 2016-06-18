@@ -1,16 +1,19 @@
 <?php
 namespace fay\core;
 
-use fay\core\db\Intact;
+use fay\core\db\Expr;
 use fay\helpers\SqlHelper;
 
-class Db extends FBase{
+class Db{
 	private $_host;
 	private $_user;
 	private $_pwd;
 	private $_port = 3306;
 	private $_dbname;
 	private $_charset;
+	/**
+	 * @var \PDO
+	 */
 	private $_conn;
 	private $_table_prefix;
 	private $_debug = false;
@@ -41,9 +44,11 @@ class Db extends FBase{
 	
 	/**
 	 * 初始化
+	 * @param array $config
+	 * @throws Exception
 	 */
 	public function init($config){
-		$db_config = $this->config('db');
+		$db_config = \F::config()->get('db');
 		$this->_host = isset($config['host']) ? $config['host'] : $db_config['host'];
 		$this->_user = isset($config['user']) ? $config['user'] : $db_config['user'];
  		$this->_pwd = isset($config['password']) ? $config['password'] : $db_config['password'];
@@ -51,7 +56,7 @@ class Db extends FBase{
 		$this->_dbname = isset($config['dbname']) ? $config['dbname'] : $db_config['dbname'];
 		$this->_charset = isset($config['charset']) ? $config['charset'] : $db_config['charset'];
 		$this->_table_prefix = isset($config['table_prefix']) ? $config['table_prefix'] : $db_config['table_prefix'];
-		$this->_debug = isset($config['debug']) ? $config['debug'] : $this->config('debug');
+		$this->_debug = isset($config['debug']) ? $config['debug'] : \F::config()->get('debug');
 		$this->getConn();
 	}
 	
@@ -71,7 +76,9 @@ class Db extends FBase{
 	/**
 	 * 执行一条sql语句，若是insert语句，则返回插入后产生的自递增id号，
 	 * 若是update或delete语句，则返回受影响的记录条数
-	 * @param String $sql
+	 * @param string $sql
+	 * @param array $params
+	 * @return int
 	 */
 	public function execute($sql, $params = array()){
 		$start_time = microtime(true);
@@ -88,10 +95,45 @@ class Db extends FBase{
 	}
 	
 	/**
+	 * 执行一条或多条SQL
+	 * 全部成功返回true，失败会抛出异常。
+	 * @param string $sql
+	 * @param bool $explode 默认为false。若为true，则会把"\r\n"替换为"\n"后根据";\n"分割为多个SQL依次执行
+	 * （这并不是很完美的解决方案，因为从语法上讲，SQL并不一定要一行一个，而且极端情况下可能出错。不过适用于数据导入等情况）
+	 * @return bool|int
+	 */
+	public function exec($sql, $explode = false){
+		if($explode){
+			$sqls = explode(";\n", str_replace("\r\n", "\n", $sql));
+			foreach($sqls as $s){
+				$s = trim($s);
+				if(!$s){
+					continue;
+				}
+				$start_time = microtime(true);
+				if($this->_conn->exec($s) === false){
+					$this->error($this->_conn->errorInfo(), $s);
+				}
+				self::$_count++;
+				$this->logSql($s, array(), microtime(true) - $start_time);
+			}
+			return true;
+		}else{
+			$result = $this->_conn->exec($sql);
+			if($result === false){
+				$this->error($this->_conn->errorInfo(), $sql);
+			}else{
+				return $result;
+			}
+		}
+	}
+	
+	/**
 	 * 返回所有查询数据，如果没有符合条件的数据，则返回空数组
 	 * @param string $sql
 	 * @param array $params
 	 * @param string $style
+	 * @return array
 	 */
 	public function fetchAll($sql, $params = array(), $style = 'assoc'){
 		if($style == 'num'){
@@ -114,6 +156,7 @@ class Db extends FBase{
 	 * @param string $col
 	 * @param string $sql
 	 * @param array $params
+	 * @return array
 	 */
 	public function fetchCol($col, $sql, $params = array()){
 		$start_time = microtime(true);
@@ -134,6 +177,7 @@ class Db extends FBase{
 	 * @param string $sql
 	 * @param array $params
 	 * @param string $style
+	 * @return array|bool
 	 */
 	public function fetchRow($sql, $params = array(), $style = 'assoc'){
 		if($style == 'num'){
@@ -151,13 +195,19 @@ class Db extends FBase{
 		return $sth->fetch($result_style);
 	}
 	
+	/**
+	 * 单条插入
+	 * @param string $table 表名
+	 * @param array $data 数据
+	 * @return int
+	 */
 	public function insert($table, $data){
 		$fields = array();
 		$pres = array();
 		$values = array();
 		foreach($data as $k => $v){
 			if($v === false)continue;
-			if($v instanceof Intact){
+			if($v instanceof Expr){
 				$fields[] = "`{$k}`";
 				$pres[] = $v->get();
 			}else{
@@ -166,10 +216,59 @@ class Db extends FBase{
 				$values[] = $v;
 			}
 		}
-		$sql = "INSERT INTO {$this->__get($table)} (".implode(',', $fields).') VALUES ('.implode(',', $pres).')';
+		$sql = "INSERT INTO {$this->getFullTableName($table)} (".implode(',', $fields).') VALUES ('.implode(',', $pres).')';
 		return $this->execute($sql, $values);
 	}
 	
+	/**
+	 * 批量插入（要求二维数组所有数组项结构一致）
+	 * @param string $table 表名
+	 * @param array $data 插入数据
+	 * @return int
+	 */
+	public function bulkInsert($table, $data){
+		$fields = array();
+		$pres = array();
+		$values = array();
+		$bulk = array();
+		//取第一项构造fields
+		$first_item = array_shift($data);
+		foreach($first_item as $k => $v){
+			if($v === false)continue;
+			if($v instanceof Expr){
+				$fields[] = "`{$k}`";
+				$pres[] = $v->get();
+			}else{
+				$fields[] = "`{$k}`";
+				$pres[] = '?';
+				$values[] = $v;
+			}
+		}
+		$bulk[] = implode(',', $pres);
+		foreach($data as $item){
+			$pres = array();
+			foreach($item as $i){
+				if($i instanceof Expr){
+					$pres[] = $i->get();
+				}else{
+					$pres[] = '?';
+					$values[] = $i;
+				}
+			}
+			$bulk[] = implode(',', $pres);
+		}
+		$sql = "INSERT INTO {$this->getFullTableName($table)} (".implode(',', $fields).') VALUES ('.implode("),\n(", $bulk).')';
+		return $this->execute($sql, $values);
+	}
+	
+	/**
+	 * 更新符合条件的记录
+	 * @param string $table 表名
+	 * @param array $data 数据
+	 * @param false|array|string $condition 条件，若为false，则更新所有字段
+	 * @throws Exception
+	 * @return int
+	 */
 	public function update($table, $data, $condition = false){
 		if(empty($data)){
 			throw new Exception('Db::update语句更新数据不能为空');
@@ -179,7 +278,7 @@ class Db extends FBase{
 		$values = array();
 		foreach($data as $k => $v){
 			if($v === false)continue;
-			if($v instanceof Intact){
+			if($v instanceof Expr){
 				$set[] = "`{$k}` = {$v->get()}";
 			}else{
 				$set[] = "`{$k}` = ?";
@@ -188,31 +287,62 @@ class Db extends FBase{
 		}
 		
 		if($condition === false){
-			$sql = "UPDATE {$this->__get($table)} SET ".implode(',', $set);
+			$sql = "UPDATE {$this->getFullTableName($table)} SET ".implode(',', $set);
 			return $this->execute($sql, $values);
 		}else{
 			$where = $this->getWhere($condition);
-			$sql = "UPDATE {$this->__get($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
+			$sql = "UPDATE {$this->getFullTableName($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
 			return $this->execute($sql, array_merge($values, $where['params']));
 		}
 	}
 	
+	/**
+	 * 根据条件删除行
+	 * @param string $table 表名
+	 * @param array|string $condition 条件，出于安全考虑，$condition不能为空，即不可全表删除
+	 * @return int
+	 */
 	public function delete($table, $condition){
 		$where = $this->getWhere($condition);
-		$sql = "DELETE FROM {$this->__get($table)} WHERE {$where['condition']}";
+		$sql = "DELETE FROM {$this->getFullTableName($table)} WHERE {$where['condition']}";
 		return $this->execute($sql, $where['params']);
 	}
 	
-	public function inc($table, $condition, $field, $count){
-		$where = $this->getWhere($condition);
-		if($count >= 0){
-			$count = '+'.$count;
+	/**
+	 * 递增/递减一个字段
+	 * @param string $table 表名
+	 * @param array|string $condition where条件
+	 * @param string|array $fields 字段（可以是多个，多个字段以一维数组方式传入）
+	 * @param $value
+	 * @return int
+	 * @throws Exception
+	 */
+	public function incr($table, $condition, $fields, $value){
+		if(!is_array($fields)){
+			$fields = explode(',', $fields);
 		}
-		$sql = "UPDATE {$this->__get($table)} SET `{$field}` = `{$field}` {$count} WHERE {$where['condition']}";
-		return $this->execute($sql, $where['params']);
+		$data = array();
+		foreach($fields as $f){
+			$data[$f] = new Expr("`{$f}` + {$value}");
+		}
+		return $this->update($table, $data, $condition);
 	}
 	
+	/**
+	 * 给传入字段加上表前缀后返回
+	 * @param string $table_name
+	 * @return string
+	 */
 	public function __get($table_name){
+		return $this->getFullTableName($table_name);
+	}
+	
+	/**
+	 * 给表名加上表名前缀
+	 * @param string $table_name
+	 * @return string
+	 */
+	public function getFullTableName($table_name){
 		return $this->_table_prefix . $table_name;
 	}
 	
@@ -236,7 +366,7 @@ class Db extends FBase{
 				}else{
 					$op = ' AND ';
 					if($condition != ''){$condition .= $op;}
-					if(is_numeric($key)){//'id = 1'
+					if(is_int($key)){//'id = 1'
 						$condition .= $value;
 					}else{//'id = ?'=>1
 						if(is_array($value)){
@@ -272,7 +402,7 @@ class Db extends FBase{
 				$partial_condition[] = $partial['condition'];
 				$params = array_merge($params, $partial['params']);
 			}else{
-				if(is_numeric($key)){//'id = 1'
+				if(is_int($key)){//'id = 1'
 					$partial_condition[] = $value;
 				}else{//'id = ?'=>1
 					if(is_array($value)){
@@ -294,19 +424,53 @@ class Db extends FBase{
 		);
 	}
 	
+	/**
+	 * 抛出一个错误异常
+	 * @param string $message
+	 * @param string $sql
+	 * @param array $params
+	 * @throws ErrorException
+	 */
 	public function error($message, $sql = '', $params = array()){
 		if(is_array($message)){
 			$message = implode(' - ', $message);
 		}
-		throw new ErrorException($message, $sql ? '<code>'.SqlHelper::nice($sql, $params).'</code>' : '');
+		throw new ErrorException($message, $sql ? '<code>'.SqlHelper::bind($sql, $params).'</code>' : '');
 	}
 	
+	/**
+	 * 启动一个事务
+	 */
+	public function beginTransaction(){
+		$this->_conn->beginTransaction();
+	}
+	
+	/**
+	 * 提交一个事务
+	 */
+	public function commit(){
+		$this->_conn->commit();
+	}
+	
+	/**
+	 * 回滚一个事务 
+	 */
+	public function rollBack(){
+		$this->_conn->rollBack();
+	}
+	
+	/**
+	 * 返回sql执行次数
+	 * @return number
+	 */
 	public function getCount(){
 		return self::$_count;
 	}
 	
 	private function logSql($sql, $params = array(), $time){
-		self::$_sqls[] = array($sql, $params, $time);
+		if($this->_debug){
+			self::$_sqls[] = array($sql, $params, $time);
+		}
 	}
 	
 	public function getSqlLogs(){

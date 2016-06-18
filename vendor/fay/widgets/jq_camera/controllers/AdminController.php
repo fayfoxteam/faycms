@@ -1,45 +1,34 @@
 <?php
 namespace fay\widgets\jq_camera\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '轮播图 - camera';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '轮播图 - jquery camera插件（自适应全屏轮播）';
-	
-	public function index($data){
-		$this->view->data = $data;
+	public function index($config){
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
 	public function onPost(){
 		$data = $this->form->getFilteredData();
 		
-		$photos = $this->input->post('photos', 'intval', array());
+		$files = $this->input->post('files', 'intval', array());
 		$links = $this->input->post('links', 'trim');
 		$titles = $this->input->post('titles', 'trim');
-		foreach($photos as $p){
+		$start_times = $this->input->post('start_time', 'trim|strtotime');
+		$end_times = $this->input->post('end_time', 'trim|strtotime');
+		foreach($files as $p){
 			$data['files'][] = array(
 				'file_id'=>$p,
 				'link'=>$links[$p],
 				'title'=>$titles[$p],
+				'start_time'=>$start_times[$p] ? $start_times[$p] : 0,
+				'end_time'=>$end_times[$p] ? $end_times[$p] : 0,
 			);
 		}
-		$this->saveData($data);
-		$this->flash->set('编辑成功', 'success');
-	}
-	
-	/**
-	 * 会在编辑界面的侧边栏出现
-	 * @param array $data 该widget实例的参数
-	 */
-	public function sidebar($data){
-		$this->view->data = $data;
-		
-		$this->view->render('sidebar');
+		$this->setConfig($data);
+		Flash::set('编辑成功', 'success');
 	}
 	
 	public function rules(){
@@ -55,6 +44,8 @@ class AdminController extends Widget{
 			'height'=>'高度',
 			'transPeriod'=>'过渡动画时长',
 			'time'=>'播放间隔时长',
+			'start_time'=>'生效时间',
+			'end_time'=>'过期时间',
 		);
 	}
 	

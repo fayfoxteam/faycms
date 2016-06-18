@@ -3,7 +3,7 @@ use fay\helpers\Html;
 ?>
 <div class="widget widget-friendlinks" id="<?php echo Html::encode($alias)?>">
 	<div class="widget-title">
-		<h3><?php echo Html::encode($data['title'])?></h3>
+		<h3><?php echo Html::encode($config['title'])?></h3>
 	</div>
 	<div class="widget-content">
 		<ul>

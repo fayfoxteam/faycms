@@ -2,119 +2,104 @@
 namespace fay\models\tables;
 
 use fay\core\db\Table;
+use fay\models\Option;
 
+/**
+ * Users model
+ * 
+ * @property int $id
+ * @property string $username
+ * @property string $email
+ * @property string $mobile
+ * @property string $password
+ * @property string $salt
+ * @property string $nickname
+ * @property int $avatar
+ * @property int $status
+ * @property int $block
+ * @property int $parent
+ * @property int $deleted
+ * @property int $admin
+ */
 class Users extends Table{
 	/**
-	 * 用户信息不完整
-	 * @var int
+	 * 状态-用户信息不完整
 	 */
 	const STATUS_UNCOMPLETED = 0;
 
 	/**
-	 * 等待人工审核
-	 * @var int
+	 * 状态-等待人工审核
 	 */
 	const STATUS_PENDING = 1;
 
 	/**
-	 * 未通过人工审核
-	 * @var int
+	 * 状态-未通过人工审核
 	 */
 	const STATUS_VERIFY_FAILED = 2;
 
 	/**
-	 * 通过审核
-	 * @var int
+	 * 状态-通过审核
 	 */
 	const STATUS_VERIFIED = 3;
 
 	/**
-	 * 未验证邮箱
-	 * @var int
+	 * 状态-未验证邮箱
 	 */
 	const STATUS_NOT_VERIFIED = 4;
 
 	/**
-	 * 普通用户
-	 * @var int
-	 */
-	const ROLE_USER = 1;
-
-	/**
-	 * 账单用户（定制化需求）
-	 * @var int
-	 */
-	const ROLE_BILL = 2;
-
-	/**
-	 * 系统
-	 * @var int
-	 */
-	const ROLE_SYSTEM = 100;
-	
-	/**
-	 * 超级管理员<br>
-	 * 100以上的角色为管理员角色
-	 * @var int
-	 */
-	const ROLE_SUPERADMIN = 101;
-
-	/**
-	 * 性别 - 男
-	 */
-	const SEX_MALE = 1;
-
-	/**
-	 * 性别 - 女
-	 */
-	const SEX_FEMALE = 2;
-	
-	/**
-	 * 系统用户
+	 * 特殊记录-系统用户
 	 */
 	const ITEM_SYSTEM = 1;
 	
 	/**
-	 * 用户留言收件人
+	 * 特殊记录-用户留言收件人
 	 */
 	const ITEM_USER_MESSAGE_RECEIVER = 2;
 	
 	/**
-	 * 系统消息用户
+	 * 特殊记录-系统消息用户
 	 */
 	const ITEM_SYSTEM_NOTIFICATION = 3;
 
 	protected $_name = 'users';
 
 	/**
+	 * @param string $class_name
 	 * @return Users
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
-		return array(
-			array(array('reg_ip', 'last_login_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-			array(array('id', 'avatar', 'active_expire', 'sms_expire', 'last_login_time', 'last_time_online'), 'int', array('min'=>0, 'max'=>4294967295)),
+		$rules = array(
+			array(array('id', 'avatar'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('parent'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('login_times'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('status', 'block'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('role'), 'int', array('min'=>0, 'max'=>255)),
-			array(array('username', 'realname', 'nickname', 'trackid'), 'string', array('max'=>50)),
-			array(array('password', 'active_key'), 'string', array('max'=>32)),
+			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
+			array(array('username', 'nickname', 'realname'), 'string', array('max'=>50)),
+			array(array('password'), 'string', array('max'=>32)),
 			array(array('salt'), 'string', array('max'=>5)),
-			array(array('sms_key'), 'string', array('max'=>6)),
-			array(array('refer', 'keywords'), 'string', array('max'=>255)),
-			array(array('se'), 'string', array('max'=>30)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
-			array(array('cellphone'), 'mobile'),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('mobile'), 'mobile'),
 
-			array(array('username'), 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('tools/user/is-username-not-exist'))),
-			array(array('username'), 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('tools/user/is-username-not-exist'))),
-			array(array('refer'), 'url'),
+			array('username', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('api/user/is-username-not-exist'))),
+			array('username', 'required', array('on'=>'create')),
+			array('username', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-username-not-exist'))),
 			array(array('email'), 'email'),
+			array(array('block', 'admin'), 'range', array('range'=>array(0, 1))),
 		);
+		
+		if(Option::get('system:user_nickname_required')){
+			$rules[] = array('nickname', 'required', array('on'=>'create'));
+		}
+		
+		if(Option::get('system:user_nickname_unique')){
+			$rules[] = array('nickname', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'nickname', 'ajax'=>array('api/user/is-nickname-not-exist')));
+			$rules[] = array('nickname', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-nickname-not-exist')));
+		}
+		
+		return $rules;
 	}
 
 	public function labels(){
@@ -122,63 +107,50 @@ class Users extends Table{
 			'id'=>'Id',
 			'username'=>'登录名',
 			'email'=>'邮箱',
-			'cellphone'=>'手机号码',
+			'mobile'=>'手机号码',
 			'password'=>'密码',
 			'salt'=>'五位随机数',
-			'realname'=>'用户名',
 			'nickname'=>'昵称',
+			'realname'=>'姓名',
 			'avatar'=>'头像',
-			'reg_time'=>'注册时间',
-			'reg_ip'=>'注册ip',
-			'login_times'=>'登陆次数',
-			'last_login_time'=>'最后登陆时间',
-			'last_login_ip'=>'最后登陆者ip',
-			'last_time_online'=>'最后在线时间',
 			'status'=>'用户审核状态',
 			'block'=>'屏蔽用户',
-			'role'=>'角色',
 			'parent'=>'父节点',
-			'active_key'=>'邮件验证码',
-			'active_expire'=>'邮件过期时间',
-			'sms_key'=>'Sms Key',
-			'sms_expire'=>'Sms Expire',
 			'deleted'=>'Deleted',
-			'trackid'=>'Trackid',
-			'refer'=>'来源URL',
-			'se'=>'搜索引擎',
-			'keywords'=>'搜索关键词',
+			'admin'=>'是否为管理员',
 		);
 	}
 
 	public function filters(){
 		return array(
+			'id'=>'intval',
 			'username'=>'trim',
 			'email'=>'trim',
-			'cellphone'=>'trim',
+			'mobile'=>'trim',
 			'password'=>'trim',
 			'salt'=>'trim',
-			'realname'=>'trim',
 			'nickname'=>'trim',
+			'realname'=>'trim',
 			'avatar'=>'intval',
-			'reg_time'=>'trim',
-			'reg_ip'=>'intval',
-			'login_times'=>'trim',
-			'last_login_time'=>'trim',
-			'last_login_ip'=>'intval',
-			'last_time_online'=>'trim',
 			'status'=>'intval',
 			'block'=>'intval',
-			'role'=>'intval',
 			'parent'=>'intval',
-			'active_key'=>'trim',
-			'active_expire'=>'intval',
-			'sms_key'=>'trim',
-			'sms_expire'=>'intval',
 			'deleted'=>'intval',
-			'trackid'=>'trim',
-			'refer'=>'trim',
-			'se'=>'trim',
-			'keywords'=>'trim',
+			'admin'=>'intval',
 		);
+	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array(
+					'id',
+				);
+			case 'update':
+			default:
+				return array(
+					'id', 'username', 'admin'
+				);
+		}
 	}
 }

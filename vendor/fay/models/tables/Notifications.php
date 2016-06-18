@@ -7,10 +7,11 @@ class Notifications extends Table{
 	protected $_name = 'notifications';
 	
 	/**
+	 * @param string $class_name
 	 * @return Notifications
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -45,7 +46,6 @@ class Notifications extends Table{
 			'sender'=>'intval',
 			'cat_id'=>'intval',
 			'active_key'=>'trim',
-			'create_time'=>'',
 			'publish_time'=>'trim',
 			'validity_time'=>'trim',
 		);

@@ -4,8 +4,6 @@ namespace fay\models\tables;
 use fay\core\db\Table;
 
 class ExamQuestions extends Table{
-	protected $_name = 'exam_questions';
-	
 	/**
 	 * 状态 - 激活
 	 */
@@ -36,11 +34,14 @@ class ExamQuestions extends Table{
 	 */
 	const TYPE_MULTIPLE_ANSWERS = 4;
 	
+	protected $_name = 'exam_questions';
+	
 	/**
+	 * @param string $class_name
 	 * @return ExamQuestions
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -50,7 +51,7 @@ class ExamQuestions extends Table{
 			array(array('type', 'status', 'rand'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('score'), 'float', array('length'=>5, 'decimal'=>2)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -64,7 +65,7 @@ class ExamQuestions extends Table{
 			'sort'=>'排序',
 			'status'=>'状态',
 			'rand'=>'随机答案顺序',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'deleted'=>'删除',
 		);
 	}
@@ -78,7 +79,6 @@ class ExamQuestions extends Table{
 			'sort'=>'intval',
 			'status'=>'intval',
 			'rand'=>'intval',
-			'create_time'=>'',
 			'deleted'=>'intval',
 		);
 	}

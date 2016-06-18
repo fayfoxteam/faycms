@@ -7,10 +7,11 @@ class AnalystVisits extends Table{
 	protected $_name = 'analyst_visits';
 	
 	/**
+	 * @param string $class_name
 	 * @return AnalystVisits
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -32,13 +33,13 @@ class AnalystVisits extends Table{
 		return array(
 			'id'=>'Id',
 			'mac'=>'Mac',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'refer'=>'Refer',
 			'url'=>'Url',
 			'short_url'=>'Short Url',
 			'trackid'=>'Trackid',
 			'user_id'=>'User Id',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'create_date'=>'Create Date',
 			'hour'=>'Hour',
 			'site'=>'Site',
@@ -52,13 +53,11 @@ class AnalystVisits extends Table{
 	public function filters(){
 		return array(
 			'mac'=>'intval',
-			'ip_int'=>'intval',
 			'refer'=>'trim',
 			'url'=>'trim',
 			'short_url'=>'trim',
 			'trackid'=>'trim',
 			'user_id'=>'intval',
-			'create_time'=>'',
 			'create_date'=>'',
 			'hour'=>'intval',
 			'site'=>'intval',

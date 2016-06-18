@@ -12,7 +12,12 @@ return array(
 	 * http://www.faycms.com/fayfox/
 	 * 注意不要忘了最后的斜杠
 	 */
-	//'base_url'=>'http://55.fayfox.com/fayfox/',
+	'base_url'=>null,
+	
+	/*
+	 * 静态资源URL，默认与base_url相同
+	 */
+	'assets_url'=>null,
 	
 	/*
 	 * 数据库参数
@@ -23,14 +28,31 @@ return array(
 		'password'=>'',							//密码
 		'port'=>3306,							//端口
 		'dbname'=>'fayfox_temp',				//数据库名
-		'charset'=>'utf8',						//数据库编码方式
+		'charset'=>'utf8',						//数据库编码方式（本产品不支持gb2312编码，但是可以选择utf8或者utf8mb4）
 		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),
 	
+	'session'=>array(
+		/*
+		 * 命名空间
+		 * 用一个域名管理多个APP的时候，以此区分session，默认为APPLICATION
+		 */
+		'namespace'=>APPLICATION,
+		'ini_set'=>array(
+			'use_cookies'=>1,//是否启用cookie存储session id
+			'use_only_cookies'=>0,//是否只允许用cookie存储session id
+			'name'=>'faysess',//session字段名称
+			'save_handler'=>null,//存储方式。若为null，则应用php.ini文件中的配置
+			'save_path'=>null,//session存储路径，必须保证此目录存在，系统不自动生成目录，若不存在的话会报错。若为null，则应用php.ini文件中的配置
+			'gc_maxlifetime'=>1440,//session过期时间
+			'cookie_lifetime'=>0,//若session id存放在cookie中，则设置cookie的过期时间，若为0，则浏览器关闭后失效
+		),
+	),
+	
 	/*
-	 * 在一台服务器上跑多个cms的时候，以此区分session，可以随便设置一个
+	 * 用一个域名管理多个APP的时候，以此区分cookie，默认为APPLICATION加下划线
 	 */
-	'session_namespace'=>'fayfox',
+	'cookie_prefix'=>APPLICATION . '_',
 	
 	/*
 	 * 默认url后缀
@@ -49,12 +71,6 @@ return array(
 	'debug'=>true,
 	
 	/*
-	 * 是否启用钩子，视application而定
-	 * 默认为false
-	 */
-	'hook'=>true,
-	
-	/*
 	 * 时间相关设置
 	 */
 	'date'=>array(
@@ -65,7 +81,7 @@ return array(
 	/*
 	 * 顶级域名，一般用于设置全局cookie，并不一定用到
 	 * 若为false，则为当前域名
-	 * 若是本地测试，需设为false，因为chrome不接受域名为localhost的cookie
+	 * 若是localhost本地测试，需设为false，因为chrome不接受域名为localhost的cookie
 	 */
 	'tld'=>false,
 	
@@ -94,40 +110,13 @@ return array(
 	),
 	
 	/*
-	 * 当图片不存在时，显示默认图片
-	 */
-	'spares' => array(							//当图片不存在时，显示的默认图片
-		'default'=>'images/no-image.jpg',
-		'avatar'=>'images/avatar.png',
-		'thumbnail'=>'images/thumbnail.jpg',
-	),
-	
-	/*
-	 * Email参数
-	 */
-	'email'=>array(
-		'Host'=>'smtp.163.com',
-		'Username'=>'public_fayfox@163.com',
-		'Password'=>'24631633',
-		'SMTPSecure'=>'',
-		'Port'=>25,
-		'CharSet'=>'utf8',
-		'From'=>'public_fayfox@163.com',
-		'FromName'=>'Fayfox',
-	),
-	
-	/*
-	 * 邮件开关，当设置为false时，不会发送任何邮件
-	 */
-	'send_email'=>true,
-	
-	/*
-	 * 短信开关，但事实上由于短信网关不统一，系统默认并未集成短信接口
-	 */
-	'send_sms'=>true,//短信开关
-	
-	/*
 	 * 若用到加密类，需要配置此key
 	 */
 	'encryption_key'=>'m3cQ3mFAuy6z7LF2',//加密用的密钥
+	
+	/*
+	 * 默认缓存方式
+	 * 若要禁用默认缓存，将这个值设为空即可
+	 */
+	'default_cache_driver'=>'file',
 );

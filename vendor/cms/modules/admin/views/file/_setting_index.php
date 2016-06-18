@@ -1,7 +1,8 @@
-<?php echo F::form('setting')->open(array('admin/system/setting'))?>
+<?php use fay\models\Option;
+echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
-		<label class="title">显示下列项目</label>
+		<label class="title bold">显示下列项目</label>
 		<?php 
 		echo F::form('setting')->inputCheckbox('cols[]', 'file_type', array(
 			'label'=>'文件类型',
@@ -15,7 +16,7 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'user', array(
 			'label'=>'用户',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'type', array(
+		echo F::form('setting')->inputCheckbox('cols[]', 'cat', array(
 			'label'=>'用于',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'downloads', array(
@@ -24,13 +25,15 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'upload_time', array(
 			'label'=>'上传时间',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'qiniu', array(
-			'label'=>'七牛',
-		));
+		if(Option::getGroup('qiniu')){
+			echo F::form('setting')->inputCheckbox('cols[]', 'qiniu', array(
+				'label'=>'七牛',
+			));
+		}
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">显示用户</label>
+		<label class="title bold">显示用户</label>
 		<?php
 		echo F::form('setting')->inputRadio('display_name', 'username', array(
 			'label'=>'用户名',
@@ -44,7 +47,7 @@
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">显示时间</label>
+		<label class="title bold">显示时间</label>
 		<?php
 		echo F::form('setting')->inputRadio('display_time', 'short', array(
 			'label'=>'简化时间',
@@ -55,7 +58,7 @@
 		?>
 	</div>
 	<div class="form-field">
-		<label class="title">分页大小</label>
+		<label class="title bold">分页大小</label>
 		<?php echo F::form('setting')->inputNumber('page_size', array(
 			'class'=>'form-control w50',
 			'min'=>1,

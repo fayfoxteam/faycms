@@ -1,32 +1,55 @@
 <?php
 namespace fay\widgets\listing\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '列表';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '存储一个一维的列表，并通过设定的模板进行渲染。';
-	
-	public function index($data){
-		$this->view->data = $data;
+	public function index($config){
+		//获取默认模版
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+			$this->form->setData(array(
+				'template'=>$config['template'],
+			), true);
+		}
+		
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
 	public function onPost(){
-		$keys = $this->input->post('keys', null, array());
-		$values = $this->input->post('values', null, array());
-		$data = array(
-			'values'=>array(),
-			'template'=>$this->input->post('template'),
-		);
+		$data = $this->form->getFilteredData();
 		
+		$values = $this->input->post('data', null, array());
+		$data['data'] = array();
 		foreach($values as $v){
-			$data['values'][] = $v;
+			$data['data'][] = $v;
 		}
-		$this->saveData($data);
-		$this->flash->set('编辑成功', 'success');
+		
+		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+			$data['template'] = '';
+		}
+		
+		$this->setConfig($data);
+		Flash::set('编辑成功', 'success');
+	}
+	
+	public function rules(){
+		return array();
+	}
+	
+	public function labels(){
+		return array(
+			'title'=>'标题',
+			'template'=>'模版',
+		);
+	}
+	
+	public function filters(){
+		return array(
+			'title'=>'trim',
+			'template'=>'trim',
+		);
 	}
 }

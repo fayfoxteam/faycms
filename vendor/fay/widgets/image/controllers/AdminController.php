@@ -1,18 +1,13 @@
 <?php
 namespace fay\widgets\image\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '图片';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '显示一张图片，一般用于顶部banner图';
-	
-	public function index($data){
-		isset($data['file_id']) || $data['file_id'] = 0;
-		$this->view->data = $data;
+	public function index($config){
+		isset($config['file_id']) || $config['file_id'] = 0;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -20,18 +15,8 @@ class AdminController extends Widget{
 	 * 当有post提交的时候，会自动调用此方法
 	 */
 	public function onPost(){
-		$this->saveData($this->form->getFilteredData());
-		$this->flash->set('编辑成功', 'success');
-	}
-	
-	/**
-	 * 会在编辑界面的侧边栏出现
-	 * @param array $data 该widget实例的参数
-	 */
-	public function sidebar($data){
-		$this->view->data = $data;
-		
-		$this->view->render('sidebar');
+		$this->setConfig($this->form->getFilteredData());
+		Flash::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

@@ -1,34 +1,36 @@
 <?php
 use fay\helpers\Html;
+use fay\models\File;
 
-$this->appendCss($this->url().'css/nivo-slider.css');
+$element_id = $config['element_id'] ? $config['element_id'] : $alias;
 ?>
-<div id="<?php echo $data['elementId']?>">
+<div id="<?php echo $element_id?>">
 	<div class="nivo-slider">
-	<?php foreach($data['files'] as $d){
-		if(empty($d['link'])){
-			$d['link'] = 'javascript:;';
+	<?php foreach($files as $f){
+		if(empty($f['link'])){
+			$f['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($d['file_id'], 1, array(
-			'alt'=>Html::encode($d['title']),
-			'title'=>Html::encode($d['title']),
-			'width'=>false,
-			'height'=>false,
-		)), $d['link'], array(
+		echo Html::link(Html::img($f['file_id'], ($config['width'] || $config['height']) ? File::PIC_RESIZE : File::PIC_ORIGINAL, array(
+			'alt'=>Html::encode($f['title']),
+			'title'=>Html::encode($f['title']),
+			'dw'=>empty($config['width']) ? false : $config['width'],
+			'dh'=>empty($config['height']) ?  false : $config['height'],
+		)), $f['link'], array(
 			'encode'=>false,
-			'title'=>Html::encode($d['title']),
+			'title'=>Html::encode($f['title']),
 		));
 	}?>
 	</div>
 </div>
-<script src="<?php echo $this->url()?>js/jquery.nivo.slider.pack.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/nivo-slider.css')?>" >
+<script src="<?php echo $this->assets('js/jquery.nivo.slider.pack.js')?>"></script>
 <script>
 $(function(){
-	$("#<?php echo $data['elementId']?> .nivo-slider").nivoSlider({
-		'animSpeed':<?php echo $data['animSpeed']?>,
-		'pauseTime':<?php echo $data['pauseTime']?>,
-		'directionNav':<?php echo $data['directionNav'] ? 'true' : 'false'?>,
-		'effect':'<?php echo $data['effect']?>'
+	$("#<?php echo $element_id?> .nivo-slider").nivoSlider({
+		'animSpeed':<?php echo $config['animSpeed']?>,
+		'pauseTime':<?php echo $config['pauseTime']?>,
+		'directionNav':<?php echo $config['directionNav'] ? 'true' : 'false'?>,
+		'effect':'<?php echo $config['effect']?>'
 	});
 });
 </script>

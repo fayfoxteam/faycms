@@ -9,6 +9,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
+use fay\models\tables\TagCounter;
 
 class TagController extends AdminController{
 	public function __construct(){
@@ -27,24 +28,28 @@ class TagController extends AdminController{
 	}
 	
 	public function create(){
+		$this->form()->setModel(Tags::model());
 		if($this->input->post()){
-			if($this->form()->setModel(Tags::model())->check()){
-				$data = Tags::model()->setAttributes($this->input->post());
+			if($this->form()->check()){
+				$data = Tags::model()->fillData($this->input->post());
+				$data['user_id'] = $this->current_user;
+				$data['create_time'] = $this->current_time;
 				$tag_id = Tags::model()->insert($data);
+				TagCounter::model()->insert(array(
+					'tag_id'=>$tag_id,
+				));
 				$this->actionlog(Actionlogs::TYPE_TAG, '创建了标签', $tag_id);
-
+				
 				$tag = Tags::model()->find($tag_id, 'id,title');
-				Response::output('success', array(
+				Response::notify('success', array(
 					'message'=>'标签创建成功',
 					'tag'=>$tag,
 				));
 			}else{
-				Response::output('error', array(
-					'message'=>$this->showDataCheckError($this->form()->getErrors(), true),
-				));
+				Response::goback();
 			}
 		}else{
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>'不完整的请求',
 			));
 		}
@@ -56,7 +61,7 @@ class TagController extends AdminController{
 		PostsTags::model()->delete(array('tag_id = ?'=>$tag_id));
 		$this->actionlog(Actionlogs::TYPE_TAG, '删除了标签', $tag_id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个标签被永久删除',
 		));
 	}
@@ -69,15 +74,10 @@ class TagController extends AdminController{
 		);
 		$tag_id = $this->input->get('id', 'intval');
 		$this->form()->setModel(Tags::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = Tags::model()->setAttributes($this->input->post());
-				Tags::model()->update($data, array('id = ?'=>$tag_id));
-				$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
-				$this->flash->set('一个标签被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			Tags::model()->update($this->form()->getAllData(), $tag_id, true);
+			$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
+			Response::notify('success', '一个标签被编辑', false);
 		}
 		if($tag = Tags::model()->find($tag_id)){
 			$this->form()->setData($tag);
@@ -98,14 +98,9 @@ class TagController extends AdminController{
 			'title = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$id,
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'标签已存在'
-			));
+			Response::json('', 0, '标签已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -119,7 +114,7 @@ class TagController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_TAG, '改变了标签排序', $tag_id);
 		
 		$tag = Tags::model()->find($tag_id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一篇标签的排序值被编辑',
 			'sort'=>$tag['sort'],
 		));
@@ -130,11 +125,12 @@ class TagController extends AdminController{
 	 */
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('tags', 't');
+		$sql->from(array('t'=>'tags'))
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')));
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("t.{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('t.id DESC');
@@ -149,10 +145,8 @@ class TagController extends AdminController{
 	public function search(){
 		$tags = Tags::model()->fetchAll(array(
 			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
-		), 'id,title', 'sort, count DESC', 20);
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$tags,
-		));
+		), 'id,title', 'sort', 20);
+		
+		Response::json($tags);
 	}
 }

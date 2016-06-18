@@ -105,7 +105,7 @@ class Actionlogs extends Table{
 	const TYPE_ROLE_PROP = 29;
 
 	/**
-	 * 用户留言
+	 * 访客留言
 	 */
 	const TYPE_CONTACT = 30;
 
@@ -118,24 +118,31 @@ class Actionlogs extends Table{
 	 * 试题管理
 	 */
 	const TYPE_EXAM = 32;
-
+	
 	/**
-	 * 得分权重
+	 * 文章评论
 	 */
-	const TYPE_SCORE = 101;
-
+	const TYPE_POST_COMMENT = 33;
+	
 	/**
-	 * 得分权重
+	 * 系统参数
 	 */
-	const TYPE_SET_SCORE = 102;
+	const TYPE_OPTION = 34;
+	
+	/**
+	 * 动态管理
+	 */
+	const TYPE_FEED = 35;
 
 	protected $_name = 'actionlogs';
 	
 	/**
+	 * @param string $class_name
+	 * @param string $class_name
 	 * @return Actionlogs
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -151,12 +158,12 @@ class Actionlogs extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'user_id'=>'User Id',
-			'type'=>'Type',
-			'note'=>'Note',
-			'create_time'=>'Create Time',
-			'refer'=>'Refer',
-			'ip_int'=>'Ip Int',
+			'user_id'=>'用户ID',
+			'type'=>'日志类型',
+			'note'=>'日志内容',
+			'create_time'=>'创建时间',
+			'refer'=>'关联ID',
+			'ip_int'=>'IP',
 		);
 	}
 
@@ -165,9 +172,7 @@ class Actionlogs extends Table{
 			'user_id'=>'intval',
 			'type'=>'intval',
 			'note'=>'trim',
-			'create_time'=>'',
 			'refer'=>'intval',
-			'ip_int'=>'intval',
 		);
 	}
 }

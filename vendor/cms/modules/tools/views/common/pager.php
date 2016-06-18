@@ -1,5 +1,13 @@
 <?php
 use fay\helpers\Html;
+
+//根据是否带有问号，构造出url的前面部分，用于构造页码url
+if(strpos($listview->reload, '?') !== false){
+	$reload = $listview->reload . '&';
+}else{
+	$reload = $listview->reload . '?';
+}
+
 if($listview->total_pages > 1){
 ?>
 <div class="pagination">
@@ -18,7 +26,7 @@ if($listview->total_pages > 1){
 			'encode'=>false,
 		));
 	}else if($listview->current_page > 2){
-		echo Html::link('上页', $listview->reload . '?page=' . ($listview->current_page - 1), array(
+		echo Html::link('上页', "{$reload}{$listview->page_key}=" . ($listview->current_page - 1), array(
 			'class'=>'page-numbers prev',
 			'title'=>'上一页',
 			'encode'=>false,
@@ -48,7 +56,7 @@ if($listview->total_pages > 1){
 				'class'=>'page-numbers',
 			));
 		}else{
-			echo Html::link($i, $listview->reload . '?page='.$i, array(
+			echo Html::link($i, "{$reload}{$listview->page_key}={$i}", array(
 				'class'=>'page-numbers',
 			));
 		}
@@ -62,20 +70,20 @@ if($listview->total_pages > 1){
 	
 	//末页
 	if($listview->current_page < $listview->total_pages - $listview->adjacents) {
-		echo Html::link($listview->total_pages, $listview->reload . '?page=' . $listview->total_pages, array(
+		echo Html::link($listview->total_pages, "{$reload}{$listview->page_key}={$listview->total_pages}", array(
 			'class'=>'page-numbers',
 		));
 	}
 	
 	//下一页
 	if($listview->current_page < $listview->total_pages){
-		echo Html::link('下页', $listview->reload . '?page=' . ($listview->current_page + 1), array(
+		echo Html::link('下页', "{$reload}{$listview->page_key}=" . ($listview->current_page + 1), array(
 			'class'=>'page-numbers next',
 			'title'=>'下一页',
 			'encode'=>false,
 		));
 	}
-	echo Html::link('末页', $listview->reload . '?page=' . $listview->total_pages, array(
+	echo Html::link('末页', "{$reload}{$listview->page_key}={$listview->total_pages}", array(
 		'class'=>'page-numbers end',
 		'title'=>'末页',
 		'encode'=>false,

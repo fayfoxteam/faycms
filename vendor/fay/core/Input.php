@@ -1,9 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
-
-class Input extends FBase{
+class Input{
 	private static $_instance;
 	private $_get = array();
 	private $_post = array();
@@ -30,8 +28,9 @@ class Input extends FBase{
 	 * @param string $key 键值
 	 * @param string $filter 适配器（其实就函数名，比如trim|intval），多个适配器以竖线分割
 	 * @param string $default 默认值
+	 * @return mixed
 	 */
-	public function get($key = null, $filter = null, $default = null){
+	public function get($key = null, $filter = '', $default = null){
 		if($filter){
 			$filters = explode('|', $filter);
 		}else{
@@ -43,7 +42,7 @@ class Input extends FBase{
 		if(is_array($key)){
 			$return = array();
 			foreach($key as $k){
-				isset($this->_get[$k]) ? $return[$k] = $this->filterR($filters, $this->_get[$k]) : $return[$k] = null;
+				$return[$k] = isset($this->_get[$k]) ? $this->filterR($filters, $this->_get[$k]) : null;
 			}
 			return $return;
 		}else if(isset($this->_get[$key])){
@@ -58,8 +57,9 @@ class Input extends FBase{
 	 * @param string $key 键值
 	 * @param string $filter 适配器（其实就函数名，比如intval），多个适配器以竖线分割
 	 * @param string $default 默认值
+	 * @return mixed
 	 */
-	public function post($key = null, $filter = null, $default = null){
+	public function post($key = null, $filter = '', $default = null){
 		if($filter){
 			$filters = explode('|', $filter);
 		}else{
@@ -71,7 +71,7 @@ class Input extends FBase{
 		if(is_array($key)){
 			$return = array();
 			foreach($key as $k){
-				isset($this->_post[$k]) ? $return[$k] = $this->filterR($filters, $this->_post[$k]) : $return[$k] = null;
+				$return[$k] = isset($this->_post[$k]) ? $this->filterR($filters, $this->_post[$k]) : null;
 			}
 			return $return;
 		}else if(isset($this->_post[$key])){
@@ -84,13 +84,15 @@ class Input extends FBase{
 	/**
 	 * 就是合并了下post和get
 	 * @param string $key
+	 * @param string $filter
 	 * @param string $default
+	 * @return mixed
 	 */
-	public function request($key = null, $filter = null, $default = null){
+	public function request($key = null, $filter = '', $default = null){
 		if($key){
-			if(($temp = $this->get($key, $filter)) !== null){
+			if(($temp = $this->post($key, $filter)) !== null){
 				return $temp;
-			}else if(($temp = $this->post($key, $filter)) !== null){
+			}else if(($temp = $this->get($key, $filter)) !== null){
 				return $temp;
 			}else{
 				return $default;
@@ -124,7 +126,9 @@ class Input extends FBase{
 		if($this->request('ajax')){
 			return true;
 		}else{
-			if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest'){
+			if((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') ||
+				isset($_SERVER['HTTP_POSTMAN_TOKEN'])//postman发起的请求视为ajax请求
+			){
 				return true;
 			}else{
 				return false;
@@ -137,8 +141,13 @@ class Input extends FBase{
 	 * @param array|string $filters 可以是数组，也可以是竖线分隔的字符串
 	 * @param array|string $data
 	 * @param string $fields 可以是数组，也可以是逗号分隔的字符串，但不可以有多余的空格
+	 * @param bool $skip_on_empty 若为true，则当值为空时不调用过滤器进行过滤，默认为true
+	 * @return mixed
 	 */
-	public function filterR($filters, $data, $fields = null){
+	public function filterR($filters, $data, $fields = null, $skip_on_empty = true){
+		if($skip_on_empty && ($data === '' || $data === null || $data === array())){
+			return $data;
+		}
 		if(is_string($filters)){
 			$filters = explode('|', $filters);
 		}

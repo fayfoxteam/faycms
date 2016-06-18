@@ -8,16 +8,14 @@ use fay\helpers\Date;
 		<h4>在线管理员</h4>
 	</div>
 	<div class="box-content">
-		<table class="form-table">
-			<tr>
-				<th>在线管理员总数</th>
-				<td><?php echo count($admins)?></td>
-			</tr>
-		</table>
 		<ul class="online-admins">
 		<?php foreach($admins as $a){?>
 			<li>
-				<span class="fl"><?php echo $a['username']?> - <?php echo $a['realname']?><em>(<?php echo $a['role_title']?>)</em></span>
+				<span class="fl"><?php
+					echo $a['username'];
+					echo $a['nickname'] ? ' - ' . $a['nickname'] : '';
+					echo ' (', long2ip($a['last_login_ip']), ')';
+				?></span>
 				<span class="fr"><?php echo Date::niceShort($a['last_login_time'])?></span>
 				<div class="clear"></div>
 			</li>

@@ -1,10 +1,9 @@
 <?php
 namespace fay\core;
 
-use fay\core\FBase;
 use fay\helpers\Html;
 
-class Form extends FBase{
+class Form{
 	private static $_forms = array();
 	private $_data = null;
 	private $_rules = array();
@@ -58,6 +57,8 @@ class Form extends FBase{
 	
 	/**
 	 * 设置场景
+	 * @param $scene
+	 * @return Form
 	 */
 	public function setScene($scene){
 		$this->scene = $scene;
@@ -75,7 +76,7 @@ class Form extends FBase{
 	/**
 	 * 设置js配置模式（得在js中做相关配置才有效果，可参考common.js的validformParams属性）
 	 * @param string $js_model
-	 * @return \fay\core\Form
+	 * @return Form
 	 */
 	public function setJsModel($js_model){
 		$this->js_model = $js_model;
@@ -98,8 +99,18 @@ class Form extends FBase{
 		}
 	}
 	
+	/**
+	 * 获取错误信息
+	 */
 	public function getErrors(){
 		return $this->_errors;
+	}
+	
+	/**
+	 * 获取第一条错误信息
+	 */
+	public function getFirstError(){
+		return isset($this->_errors[0]) ? $this->_errors[0] : null;
 	}
 	
 	/**
@@ -119,7 +130,8 @@ class Form extends FBase{
 	/**
 	 * @param array $data
 	 * @param bool $cover 如果key已存在，是否覆盖
-	 * @return \fay\core\Form
+	 * @return Form
+	 * @throws Exception
 	 */
 	public function setData($data, $cover = false){
 		if(!is_array($data)){
@@ -141,8 +153,9 @@ class Form extends FBase{
 	/**
 	 * 根据key获取单个表单数据
 	 * @param string $key
-	 * @param mix $default 若key不存在，返回默认值
+	 * @param mixed $default 若key不存在，返回默认值
 	 * @param bool $filter 若为true且$this->_filter中有设置过滤器，则进行过滤
+	 * @return mixed
 	 */
 	public function getData($key, $default = null, $filter = true){
 		if($this->_data === null){
@@ -164,6 +177,7 @@ class Form extends FBase{
 	 * 若$filter为true且有对应的$this->_filter，则对数据进行过滤
 	 * 若$filter为true但没有对应的$this->_filter，也会返回数据
 	 * @param bool $filter
+	 * @return array|null
 	 */
 	public function getAllData($filter = true){
 		if($this->_data === null){
@@ -243,7 +257,7 @@ class Form extends FBase{
 	 * @param array $rule
 	 * @return \fay\core\Form
 	 */
-	public function addRule($rule){
+	public function setRule($rule){
 		if(empty($rule[2]['on']) || $rule[2]['on'] == $this->scene){
 			$this->_rules[] = $rule;
 		}
@@ -260,6 +274,8 @@ class Form extends FBase{
 	public function open($action = null, $method = 'post', $html_options = array()){
 		if($action == null){
 			$action = '';
+		}else if(!is_array($action)){
+			$action = \F::app()->view->url($action);
 		}else{
 			$action = \F::app()->view->url($action[0], isset($action[1]) ? $action[1] : array());
 		}
@@ -295,14 +311,15 @@ class Form extends FBase{
 	 * @param string $name name属性
 	 * @param string $type type属性
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
+	 * @param string $default
 	 * @return string
 	 */
-	public function input($name, $type = 'text', $html_options = array()){
-		return Html::input($name, $this->getData($name, ''), $type, $html_options);
+	public function input($name, $type = 'text', $html_options = array(), $default = ''){
+		return Html::input($name, $this->getData($name, $default, false), $type, $html_options);
 	}
 	
 	public function inputText($name, $html_options = array(), $default = ''){
-		return Html::inputText($name, $this->getData($name, $default), $html_options);
+		return Html::inputText($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	public function inputPassword($name, $html_options = array()){
@@ -310,7 +327,7 @@ class Form extends FBase{
 	}
 	
 	public function inputHidden($name, $html_options = array(), $default = ''){
-		return Html::inputHidden($name, $this->getData($name, $default), $html_options);
+		return Html::inputHidden($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	/**
@@ -322,16 +339,16 @@ class Form extends FBase{
 	 * @return string
 	 */
 	public function inputNumber($name, $html_options = array(), $default = ''){
-		if($rule = $this->getRule('page_size', 'int')){
+		if($rule = $this->getRule($name, 'int')){
 			$html_options = array_merge($html_options, $rule);
 		}
-		return Html::inputNumber($name, $this->getData($name, $default), $html_options);
+		return Html::inputNumber($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	public function inputCheckbox($name, $value, $html_options = array(), $default = false){
 		$name1 = rtrim($name, '[]');
 		$checked = false;
-		$data = $this->getData($name1);
+		$data = $this->getData($name1, null, false);
 		if($data !== null){
 			if(is_array($data) && in_array($value, $data)){
 				$checked = true;
@@ -346,7 +363,7 @@ class Form extends FBase{
 	
 	public function inputRadio($name, $value, $html_options = array(), $default = false){
 		$name1 = rtrim($name, '[]');
-		$data = $this->getData($name1);
+		$data = $this->getData($name1, null, false);
 		if($data !== null && $value == $data){
 			$checked = true;
 		}else if($data === null && $default){
@@ -357,8 +374,8 @@ class Form extends FBase{
 		return Html::inputRadio($name, $value, $checked, $html_options);
 	}
 	
-	public function textarea($name, $html_options = array()){
-		return Html::textArea($name, $this->getData($name, ''), $html_options);
+	public function textarea($name, $html_options = array(), $default = ''){
+		return Html::textarea($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	/*
@@ -366,7 +383,7 @@ class Form extends FBase{
 	 */
 	public function select($name = '', $options = array(), $html_options = array(), $default = ''){
 		$name1 = rtrim($name, '[]');
-		$data = $this->getData($name1);
+		$data = $this->getData($name1, null, false);
 		$data !== null ? $selected = $data : $selected = $default;
 		return Html::select($name, $options, $selected, $html_options);
 	}
@@ -382,6 +399,8 @@ class Form extends FBase{
 	
 	/**
 	 * 格式化rules为以字段为单位的结构，方便js操作
+	 * @param null|array $rules
+	 * @return array
 	 */
 	public function getJsRules($rules = null){
 		$rules === null && $rules = $this->_rules;
@@ -419,6 +438,14 @@ class Form extends FBase{
 						'params'=>isset($r[2]) ? $r[2] : array(),
 					);
 				}
+				
+				//删除一些空字段，输出给js也是浪费流量
+				if(isset($js_rules[$field]['ajax']) && !$js_rules[$field]['ajax']){
+					unset($js_rules[$field]['ajax']);
+				}
+				if(isset($js_rules[$field]['validators']) && !$js_rules[$field]['validators']){
+					unset($js_rules[$field]['validators']);
+				}
 			}
 		}
 		return $js_rules;
@@ -426,15 +453,19 @@ class Form extends FBase{
 	
 	/**
 	 * 数据校验
-	 * @param string $filter 是否先用过滤器过滤再进行验证，默认为true
+	 * @param bool $filter 是否先用过滤器过滤再进行验证，默认为false
+	 * @return bool
 	 */
-	public function check($filter = true){
+	public function check($filter = false){
 		$validator = new Validator();
-		$check =  $validator->check($this->_rules, $this->_labels, $this->getAllData($filter));
+		$check = $validator->check($this->_rules, $this->_labels, $this->getAllData($filter));
 		if($check === true){
 			return true;
 		}else{
 			$this->_errors = $check;
+			if(method_exists(\F::app(), 'onFormError')){
+				\F::app()->onFormError($this);
+			}
 			return false;
 		}
 	}
@@ -445,6 +476,7 @@ class Form extends FBase{
 	 * @param string $validator
 	 *   - 若指定验证器，返回一条验证规则
 	 *   - 若不指定，返回所有该元素的验证规则
+	 * @return array
 	 */
 	public function getRule($element, $validator = null){
 		$rules = array();
@@ -472,8 +504,14 @@ class Form extends FBase{
 					}
 				}
 			}
-			
-			return $rules;
 		}
+		return $rules;
+	}
+	
+	/**
+	 * 获取当前表单对象所有验证规则
+	 */
+	public function getRules(){
+		return $this->_rules;
 	}
 }

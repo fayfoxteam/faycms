@@ -7,10 +7,11 @@ class SpiderLogs extends Table{
 	protected $_name = 'spider_logs';
 	
 	/**
+	 * @param string $class_name
 	 * @return SpiderLogs
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -29,9 +30,9 @@ class SpiderLogs extends Table{
 			'id'=>'Id',
 			'spider'=>'Spider',
 			'user_agent'=>'User Agent',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'url'=>'Url',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 		);
 	}
 
@@ -39,9 +40,7 @@ class SpiderLogs extends Table{
 		return array(
 			'spider'=>'trim',
 			'user_agent'=>'trim',
-			'ip_int'=>'intval',
 			'url'=>'trim',
-			'create_time'=>'',
 		);
 	}
 }

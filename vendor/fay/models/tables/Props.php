@@ -5,43 +5,63 @@ use fay\core\db\Table;
 
 class Props extends Table{
 	/**
-	 * 文本框
+	 * 录入方式-文本框
 	 */
 	const ELEMENT_TEXT = 1;
+	
 	/**
-	 * 单选框
+	 * 录入方式-单选框
 	 */
 	const ELEMENT_RADIO = 2;
+	
 	/**
-	 * 下拉框
+	 * 录入方式-下拉框
 	 */
 	const ELEMENT_SELECT = 3;
+	
 	/**
-	 * 多选框
+	 * 录入方式-多选框
 	 */
 	const ELEMENT_CHECKBOX = 4;
+	
 	/**
-	 * 文本域
+	 * 录入方式-文本域
 	 */
 	const ELEMENT_TEXTAREA = 5;
+	
+	/**
+	 * 录入方式-纯数字输入框
+	 */
+	const ELEMENT_NUMBER = 6;
+	
+	/**
+	 * 录入方式-图片
+	 */
+	const ELEMENT_IMAGE = 7;
+	
+	/**
+	 * 录入方式-文件
+	 */
+	const ELEMENT_FILE = 8;
 
 	/**
-	 * 文章分类属性
+	 * 类型-文章分类属性
 	 */
 	const TYPE_POST_CAT = 1;
 
 	/**
-	 * 角色附加属性
+	 * 类型-角色附加属性
 	 */
 	const TYPE_ROLE = 2;
 
 	protected $_name = 'props';
 	
 	/**
+	 * @param string $class_name
 	 * @return Props
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -50,8 +70,8 @@ class Props extends Table{
 			array(array('id', 'refer'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('type', 'element', 'sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('alias'), 'string', array('max'=>255, 'format'=>'alias')),
-			array(array('deleted', 'is_show', 'required'), 'range', array('range'=>array('0', '1'))),
+			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
+			array(array('deleted', 'is_show', 'required'), 'range', array('range'=>array(0, 1))),
 
 			array('title', 'required'),
 			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/prop/is-alias-not-exist'))),
@@ -69,7 +89,7 @@ class Props extends Table{
 			'alias'=>'别名',
 			'deleted'=>'删除标记',
 			'sort'=>'排序值',
-			'create_time'=>'Create Time',
+			'create_time'=>'创建时间',
 			'is_show'=>'Is Show',
 		);
 	}
@@ -84,7 +104,6 @@ class Props extends Table{
 			'alias'=>'trim',
 			'deleted'=>'intval',
 			'sort'=>'intval',
-			'create_time'=>'',
 			'is_show'=>'intval',
 		);
 	}

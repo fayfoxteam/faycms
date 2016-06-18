@@ -6,7 +6,7 @@ use fay\helpers\Html;
 		<div class="col-2-2-body-content">
 			<div class="mb10">
 				<h3>Design</h3>
-				<table border="0" cellpadding="0" cellspacing="0" class="list-table">
+				<table class="list-table">
 					<thead>
 						<tr>
 							<th>Field</th>
@@ -38,7 +38,7 @@ use fay\helpers\Html;
 				</table>
 			</div>
 			<h3>DDL</h3>
-			<?php echo Html::textarea('code', $ddl['Create Table'], array(
+			<?php echo Html::textarea('code', str_replace('CREATE TABLE `'.$prefix, 'CREATE TABLE `{{$prefix}}', $ddl['Create Table']), array(
 				'style'=>'font-family:Consolas,Monaco,monospace',
 				'id'=>'code',
 				'class'=>'form-control autosize',

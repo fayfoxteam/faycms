@@ -5,6 +5,7 @@ use cms\library\ToolsController;
 use fay\core\Response;
 use fay\helpers\SqlHelper;
 use fay\core\Db;
+use fay\core\Uri;
 
 class DbCompareController extends ToolsController{
 	/**
@@ -36,9 +37,9 @@ class DbCompareController extends ToolsController{
 		
 		$this->db = Db::getInstance();
 		
-		if($this->uri->router != 'tools/db-compare/index'){
-			if(!$this->db_config = $this->session->get('dbcompare')){
-				Response::output('error', 'Please set the database info!', array('tools/db-compare/index'));
+		if(Uri::getInstance()->router != 'tools/db-compare/index'){
+			if(!$this->db_config = \F::session()->get('dbcompare')){
+				Response::notify('error', 'Please set the database info!', array('tools/db-compare/index'));
 			}
 			
 			$this->view->db_config = $this->db_config;
@@ -59,6 +60,8 @@ class DbCompareController extends ToolsController{
 				'table_prefix'=>$this->db_config['right']['prefix'],
 			));
 		}
+		
+		set_time_limit(0);//sql较多，可能会比较慢
 	}
 	
 	/**
@@ -123,13 +126,13 @@ class DbCompareController extends ToolsController{
 				'prefix'=>$right_config['prefix'],
 			));
 			
-			$this->session->set('dbcompare', array(
+			\F::session()->set('dbcompare', array(
 				'left'=>$left_config,
 				'right'=>$right_config,
 			));
 		}
 		
-		if($this->session->get('dbcompare')){
+		if(\F::session()->get('dbcompare')){
 			Response::redirect('tools/db-compare/tables');
 		}
 		
@@ -140,7 +143,7 @@ class DbCompareController extends ToolsController{
 	 * 清除数据库参数信息
 	 */
 	public function clear(){
-		$this->session->remove('dbcompare');
+		\F::session()->remove('dbcompare');
 		Response::redirect('tools/db-compare/index');
 	}
 	
@@ -251,7 +254,7 @@ class DbCompareController extends ToolsController{
 		
 		$ddl = $db_obj->fetchRow("SHOW CREATE TABLE {$this->db_config[$db]['prefix']}{$name}");
 		
-		Response::output('success', array(
+		Response::json(array(
 			'fields'=>$db_obj->fetchAll("SHOW FULL FIELDS FROM {$this->db_config[$db]['prefix']}{$name}"),
 			'ddl'=>$ddl['Create Table'],
 		));
@@ -277,7 +280,7 @@ class DbCompareController extends ToolsController{
 			$right_fields_simple[] = $f['Field'];
 		}
 		
-		Response::output('success', array(
+		Response::json(array(
 			'common'=>array_values(array_intersect($left_fields_simple, $right_fields_simple)),
 			'left'=>array_values(array_diff($left_fields_simple, $right_fields_simple)),
 			'right'=>array_values(array_diff($right_fields_simple, $left_fields_simple)),
@@ -314,7 +317,7 @@ class DbCompareController extends ToolsController{
 			$to_obj->insert($name, $d);
 		}
 		
-		Response::output('success', '数据导入成功');
+		Response::notify('success', '数据导入成功');
 	}
 	
 	/**
@@ -342,7 +345,7 @@ class DbCompareController extends ToolsController{
 			);
 		}
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'result'=>$result,
 		));
 	}

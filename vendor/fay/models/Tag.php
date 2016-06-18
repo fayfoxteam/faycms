@@ -3,133 +3,93 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\models\tables\Tags;
-use fay\models\tables\PostsTags;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\common\ListView;
+use fay\models\tables\TagCounter;
 
 class Tag extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Tag
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**
-	 * 设置一篇文章的tags<br>
-	 * 传入的tags是逗号分隔的标签原文<br>
-	 * 若为空，则删除文章所有标签
-	 * @param string $tags
-	 * @param int $post_id
+	 * 获取标签列表
+	 * @param string $order 排序方式（例如t.sort这样完整的带表别名前缀的字段）
+	 * @param int $page_size
+	 * @param int $page
+	 * @return array
 	 */
-	public function set($tags, $post_id){
-		if($tags){
-			//将文章原先的标签和post提交过来的标签进行合并
-			$input_tags = explode(',', $tags);
-			$input_tag_ids = array();
-			foreach($input_tags as $nt){
-				if(!$nt = trim($nt))continue;
-				$tag = Tags::model()->fetchRow(array(
-					'title = ?'=>$nt,
-				), 'id');
-				if($tag){//已存在，获取id
-					$input_tag_ids[] = $tag['id'];
-				}else{//不存在，插入新tag
-					$input_tag_ids[] = Tags::model()->insert(array(
-						'title'=>$nt,
-					));
-				}
-			}
-			
-			$old_tag_ids = PostsTags::model()->fetchCol('tag_id', array(
-				'post_id = ?'=>$post_id,
-			));
-			
-			//删除已被删除的标签
-			$deleted_tag_ids = array_diff($old_tag_ids, $input_tag_ids);
-			if($deleted_tag_ids){
-				PostsTags::model()->delete(array(
-					'post_id = ?'=>$post_id,
-					'tag_id IN (?)'=>$deleted_tag_ids
-				));
-			}
-			//插入新的标签
-			$new_tag_ids = array_diff($input_tag_ids, $old_tag_ids);
-			if($new_tag_ids){
-				foreach($new_tag_ids as $v){
-					PostsTags::model()->insert(array(
-						'post_id'=>$post_id,
-						'tag_id'=>$v,
-					));
-				}
-			}
-			//更新标签对应的文章数
-			$update_tag_ids = array_merge($deleted_tag_ids, $new_tag_ids);
-			if($update_tag_ids){
-				$this->refreshCountByTagId($update_tag_ids);
+	public function getList($order, $page_size = 20, $page = 1){
+		$sql = new Sql();
+		$sql->from(array('t'=>'tags'), 'id,title')
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')))
+			->where('t.status = ' . Tags::STATUS_ENABLED)
+			->order($order);
+		;
+		$listview = new ListView($sql, array(
+			'page_size'=>$page_size,
+			'current_page'=>$page,
+		));
+		
+		return array(
+			'tags'=>$listview->getData(),
+			'pager'=>$listview->getPager(),
+		);
+	}
+	
+	/**
+	 * 判断一个标签是否存在（禁用的标签也视为存在）
+	 * @param string $title
+	 * @param array $conditions 附加条件（例如编辑标签的时候，判断重复需要传入id != tag_id的条件）
+	 * @return int|bool 若存在，返回标签ID，若不存在，返回false
+	 */
+	public static function isTagExist($title, $conditions = array()){
+		if($title){
+			$tag = Tags::model()->fetchRow(array(
+				'title = ?'=>$title,
+			) + $conditions, 'id');
+			if($tag){
+				return $tag['id'];
+			}else{
+				return false;
 			}
 		}else{
-			//删除全部tag
-			$old_tag_ids = PostsTags::model()->fetchCol('tag_id', array(
-				'post_id = ?'=>$post_id,
-			));
-			if($old_tag_ids){
-				PostsTags::model()->delete(array(
-					'post_id = ?'=>$post_id,
-				));
-				$this->refreshCountByTagId($old_tag_ids);
-			}
+			return false;
 		}
 	}
 	
 	/**
-	 * 根据tag_id刷新该tag的count种值
-	 * @param int|array $tag_ids 可以传入单个ID或一维数组
+	 * 递增一个或多个指定标签的计数
+	 * @param array|int $tag_ids
+	 * @param string $field tag_counter表对应的列名
+	 * @param int $value 增量，默认为1，可以是负数
+	 * @return int
 	 */
-	public function refreshCountByTagId($tag_ids){
+	public function incr($tag_ids, $field, $value = 1){
+		if(!$tag_ids){
+			return 0;
+		}
 		if(!is_array($tag_ids)){
 			$tag_ids = array($tag_ids);
 		}
 		
-		$sql = new Sql();
-		foreach($tag_ids as $tag){
-			//并不考虑定时发布的情况，因为没办法再定时触发这个统计
-			$posts_tags = $sql->from('posts_tags', 'pt', 'COUNT(*) AS count')
-				->joinLeft('posts', 'p', 'pt.post_id = p.id')
-				->where(array(
-					'pt.tag_id = '.$tag,
-					'p.deleted = 0',
-					'p.status = '.Posts::STATUS_PUBLISH,
-				))
-				->fetchRow();
-			Tags::model()->update(array(
-				'count'=>$posts_tags['count'],
-			), $tag);
-		}
+		return TagCounter::model()->incr(array(
+			'tag_id IN (?)'=>$tag_ids,
+		), $field, $value);
 	}
 	
 	/**
-	 * 根据文章ID，刷新该文章对应的tags的count值
-	 * @param int|array $post_id 可以传入单个ID或一维数组
+	 * 递减一个或多个指定标签的计数
+	 * @param array|int $tag_ids
+	 * @param string $field tag_counter表对应的列名
+	 * @param int $value 增量，默认为-1，可以是正数
+	 * @return int
 	 */
-	public function refreshCountByPostId($post_id){
-		if(!is_array($post_id)){
-			$post_id = array($post_id);
-		}
-		
-		$sql = new Sql();
-		$result = $sql->from('posts_tags', 'pt', 'tag_id')
-			->distinct(true)
-			->where(array(
-				'post_id IN (?)'=>$post_id,
-			))
-			->fetchAll();
-		
-		$tag_ids = array();
-		foreach($result as $r){
-			$tag_ids[] = $r['tag_id'];
-		}
-		
-		$this->refreshCountByTagId($tag_ids);
+	public function decr($tag_ids, $field, $value = -1){
+		return $this->incr($tag_ids, $field, $value);
 	}
 }

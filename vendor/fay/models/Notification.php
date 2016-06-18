@@ -4,23 +4,26 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Users;
 use fay\models\tables\Notifications;
-use fay\models\tables\UserNotifications;
+use fay\models\tables\UsersNotifications;
 
 class Notification extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Notification
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**
 	 * 发送一条notification
 	 * @param int|array $to
+	 * @param string $title
 	 * @param string $content
 	 * @param int $from
+	 * @param int $cat_id
 	 * @param int|null $publish_time
-	 * @return 消息id
+	 * @return int 消息id
 	 */
 	public function send($to, $title, $content, $from = Users::ITEM_SYSTEM_NOTIFICATION, $cat_id = 0, $publish_time = null){
 		if(!is_array($to)){
@@ -36,7 +39,7 @@ class Notification extends Model{
 			'publish_time'=>$publish_time ? $publish_time : \F::app()->current_time,
 		));
 		foreach($to as $t){
-			UserNotifications::model()->insert(array(
+			UsersNotifications::model()->insert(array(
 				'user_id'=>$t,
 				'notification_id'=>$notification_id,
 			));

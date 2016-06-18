@@ -7,10 +7,11 @@ class Actions extends Table{
 	protected $_name = 'actions';
 	
 	/**
+	 * @param string $class_name
 	 * @return Actions
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -18,7 +19,7 @@ class Actions extends Table{
 			array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('id', 'parent'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('title', 'router'), 'string', array('max'=>255)),
-			array(array('is_public'), 'range', array('range'=>array('0', '1'))),
+			array(array('is_public'), 'range', array('range'=>array(0, 1))),
 			
 			array(array('title', 'router'), 'required'),
 			array('router', 'unique', array('table'=>'actions', 'except'=>'id', 'ajax'=>array('admin/action/is-router-not-exist'))),

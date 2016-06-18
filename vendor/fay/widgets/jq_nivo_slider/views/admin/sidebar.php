@@ -4,10 +4,10 @@
 	</div>
 	<div class="box-content">
 		<div class="form-field pb0 pt0">
-			<label class="title pb0"><em class="required">*</em>外层元素ID（id）</label>
-			<?php echo F::form('widget')->inputText('elementId', array(
+			<label class="title pb0">外层元素ID（id）</label>
+			<?php echo F::form('widget')->inputText('element_id', array(
 				'class'=>'form-control',
-			), 'slide')?>
+			))?>
 			<span class="fc-grey">用于定制式样等</span>
 		</div>
 		<div class="form-field pb0">
@@ -55,6 +55,20 @@
 			<?php echo F::form('widget')->inputRadio('directionNav', 0, array(
 				'label'=>'否',
 			))?>
+		</div>
+		<div class="form-field pb0">
+			<label class="title pb0">图片宽度（单位：px）</label>
+			<?php echo F::form('widget')->inputText('width', array(
+				'class'=>'form-control',
+			))?>
+			<span class="fc-grey">图片会根据指定宽度裁剪，留空则不裁剪</span>
+		</div>
+		<div class="form-field pb0">
+			<label class="title pb0">图片高度（单位：px）</label>
+			<?php echo F::form('widget')->inputText('height', array(
+				'class'=>'form-control',
+			))?>
+			<span class="fc-grey">图片会根据指定高度裁剪，留空则不裁剪</span>
 		</div>
 	</div>
 </div>

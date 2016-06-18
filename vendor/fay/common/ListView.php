@@ -1,25 +1,24 @@
 <?php 
 namespace fay\common;
 
-use fay\core\FBase;
 use fay\core\Db;
 use fay\core\Sql;
 use fay\core\Exception;
 
-class ListView extends FBase{
-	public $current_page = 1;
+class ListView{
+	public $current_page = null;
 	public $page_size = 10;
 	public $item_view = '_list_item';
 	public $sql;
 	public $count_sql;
-	public $id;
+	public $page_key = 'page';//当前页参数
 	public $empty_text = '无相关记录！';
 	public $offset;
 	public $start_record;
 	public $end_record;
 	public $total_records;
 	public $total_pages;
-	public $reload = 'index';//加载地址，对于重写过的url，需要设置此项
+	public $reload = null;//加载地址，对于重写过的url，需要设置此项
 	public $adjacents = 2;//前后显示页数
 	public $params = array();
 	public $pager_view = 'common/pager';
@@ -28,6 +27,11 @@ class ListView extends FBase{
 	 */
 	private $db;
 	
+	/**
+	 * ListView constructor.
+	 * @param Sql $sql
+	 * @param array $config
+	 */
 	public function __construct($sql = null, $config = array()){
 		foreach($config as $k => $c){
 			if(isset($this->{$k})){
@@ -43,15 +47,21 @@ class ListView extends FBase{
 	}
 	
 	public function init(){
-		if(isset($this->id))
-			$this->current_page = \F::app()->input->get($this->id.'_page', 'intval', 1);
-		else
-			$this->current_page = \F::app()->input->get('page', 'intval', 1);
+		if($this->current_page === null){
+			$this->current_page = \F::app()->input->get($this->page_key, 'intval', 1);
+		}
 		
-		$this->total_records = $this->count();
-		$this->total_pages = ceil($this->total_records / $this->page_size);
-		$this->current_page > $this->total_pages ? $this->current_page = $this->total_pages : '';
-		$this->current_page < 1 ? $this->current_page = 1 : '';
+		if($this->total_records === null){
+			//有时候也可以在初始化的时候直接指定total_records值，例如粉丝数、关注数这些会有地方记录着，比COUNT()要快
+			$this->total_records = $this->count();
+		}
+		$this->total_pages = intval(ceil($this->total_records / $this->page_size));
+		if($this->current_page > $this->total_pages){
+			$this->current_page = $this->total_pages;
+		}
+		if($this->current_page < 1){
+			$this->current_page = 1;
+		}
 		$this->offset = ($this->current_page - 1) * $this->page_size;
 		$this->start_record = $this->total_records ? $this->offset + 1 : 0;
 		$this->offset + $this->page_size > $this->total_records ? $this->end_record = $this->total_records : $this->end_record = $this->offset + $this->page_size;
@@ -64,7 +74,7 @@ class ListView extends FBase{
 		
 		$sql = $this->sql." LIMIT {$this->offset}, {$this->page_size}";
 		$results = $this->db->fetchAll($sql, $this->params);
-		if(isset($results[0])){
+		if($results){
 			$i = 0;
 			foreach ($results as $data){
 				$i++;
@@ -90,6 +100,37 @@ class ListView extends FBase{
 		if($this->total_records === null){
 			$this->init();
 		}
+		
+		if($this->reload === null){
+			$folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
+			//所有斜杠都以正斜杠为准
+			$folder = str_replace('\\', '/', $folder);
+			if(substr($folder, -7) == '/public'){
+				$folder = substr($folder, 0, -7);
+			}
+			if($folder && substr($folder, 0, 1) != '/'){
+				//由于配置关系，有的DOCUMENT_ROOT最后有斜杠，有的没有
+				$folder = '/'.$folder;
+			}
+			if($folder == '/'){
+				//仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
+				$folder = '';
+			}
+			$request = substr($_SERVER['REQUEST_URI'], strlen($folder) + 1);
+			//去掉问号后面的部分
+			$pos = strpos($request, '?');
+			if($pos !== false){
+				$request = substr($request, 0, $pos);
+			}
+			
+			$gets = $_GET;
+			unset($gets[$this->page_key]);
+			if($gets){
+				$this->reload = \F::app()->view->url($request) . '?' . http_build_query($gets);
+			}else{
+				$this->reload = \F::app()->view->url($request);
+			}
+		}
 		$view_data['listview'] = $this;
 		\F::app()->view->renderPartial($this->pager_view, $view_data);
 	}
@@ -108,6 +149,7 @@ class ListView extends FBase{
 			'total_records'=>$this->total_records,
 			'total_pages'=>$this->total_pages,
 			'adjacents'=>$this->adjacents,
+			'page_key'=>$this->page_key,
 		);
 	}
 	
@@ -120,7 +162,7 @@ class ListView extends FBase{
 			$sql = preg_replace('/GROUP BY[\s\S]*/i', '', $sql);
 		}
 		$result = $this->db->fetchRow($sql, $this->params);
-		return array_shift($result);
+		return intval(array_shift($result));
 	}
 	
 	public function setSql($sql){

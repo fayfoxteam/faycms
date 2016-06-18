@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 
-$widget = F::app()->widget->get($data['widget_name'], true);
+$widget = F::widget()->get($data['widget_name'], true);
 ?>
 <tr valign="top">
 	<td>
@@ -17,8 +17,7 @@ $widget = F::app()->widget->get($data['widget_name'], true);
 			)), array(
 				'class'=>'fc-red remove-link',
 			), true);
-		?>
-		</div>
+		?></div>
 	</td>
 	<td><?php echo $data['alias']?></td>
 	<td><?php if($data['enabled']){

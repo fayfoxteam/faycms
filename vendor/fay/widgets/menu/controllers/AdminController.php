@@ -1,18 +1,13 @@
 <?php
 namespace fay\widgets\menu\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Menu;
 use fay\models\tables\Menus;
+use fay\models\Flash;
 
 class AdminController extends Widget{
-	
-	public $title = '导航菜单';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '以ul, li的方式渲染一个导航树';
-	
-	public function index($data){
+	public function index($config){
 		$this->view->menu = array(
 			array(
 				'id'=>Menus::ITEM_USER_MENU,
@@ -22,14 +17,14 @@ class AdminController extends Widget{
 		);
 		
 		//获取默认模版
-		if(empty($data['template'])){
-			$data['template'] = file_get_contents(dirname(__FILE__).'/../views/index/template.php');
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
-				'template'=>$data['template'],
+				'template'=>$config['template'],
 			), true);
 		}
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -43,14 +38,19 @@ class AdminController extends Widget{
 		}else if($this->input->post('other_uri')){
 			$uri = $this->input->post('other_uri');
 		}
-		$this->saveData(array(
+		//若模版与默认模版一致，不保存
+		$template = $this->input->post('template');
+		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+			$template = '';
+		}
+		$this->setConfig(array(
 			'hierarchical'=>$this->input->post('hierarchical', 'intval', 0),
 			'top'=>$this->input->post('top', 'intval', 0),
 			'title'=>$this->input->post('title', null, ''),
 			'uri'=>$uri,
-			'template'=>$this->input->post('template'),
+			'template'=>$template,
 		));
-		$this->flash->set('编辑成功', 'success');
+		Flash::set('编辑成功', 'success');
 	}
 	
 }

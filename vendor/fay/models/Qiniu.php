@@ -4,35 +4,38 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Files;
 use fay\core\Loader;
+use fay\helpers\StringHelper;
 
 class Qiniu extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Qiniu
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**
 	 * 根据本地文件ID，将本地文件上传至七牛云空间
-	 * @param int $file_id 本地文件ID
+	 * @param $file
+	 * @return array
 	 */
 	public function put($file){
-		if(is_numeric($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file);
 		}
 		
 		Loader::vendor('qiniu/io');
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = $this->config('*', 'qiniu');
+		$qiniu = Option::getGroup('qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$putPolicy = new \Qiniu_RS_PutPolicy($qiniu['bucket']);
 		$upToken = $putPolicy->Token(null);
 		$putExtra = new \Qiniu_PutExtra();
 		$putExtra->Crc32 = 1;
-		list($ret, $err) = Qiniu_PutFile($upToken, $this->getKey($file), File::model()->getPath($file), $putExtra);
+		list($ret, $err) = Qiniu_PutFile($upToken, $this->getKey($file), File::getPath($file), $putExtra);
 		
 		if($err !== null){
 			return array(
@@ -52,16 +55,17 @@ class Qiniu extends Model{
 	
 	/**
 	 * 根据本地文件ID，删除对应七牛空间的文件
-	 * @param int $file_id 本地文件ID
+	 * @param $file
+	 * @return bool
 	 */
 	public function delete($file){
-		if(is_numeric($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path');
 		}
 		
 		Loader::vendor('qiniu/rs');
 		
-		$qiniu = $this->config('*', 'qiniu');
+		$qiniu = Option::getGroup('qiniu');
 		
 		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
 		$client = new \Qiniu_MacHttpClient(null);
@@ -84,34 +88,28 @@ class Qiniu extends Model{
 	 * 根据本地文件信息，获取七牛对应的文件路径
 	 * 若文件未被上传，返回false
 	 * 若传入宽高参数，则会调用七牛相应接口进行处理
-	 * 
-	 * @param $file 若为数字，视为files表ID；若为数组，直接使用
-	 * @param $options 包含宽高参数，若文件非图片，宽高参数无效
+	 *
+	 * @param int|array $file 若为数字，视为files表ID；若为数组，直接使用
+	 * @param array $options 包含宽高参数，若文件非图片，宽高参数无效
+	 * @return bool|string
 	 */
 	public function getUrl($file, $options = array()){
-		if(is_numeric($file)){
-			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image,qiniu');
+		if(StringHelper::isInt($file)){
+			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		
 		if(!$file['qiniu']){
-			return '';
+			return false;
 		}
-		$domain = \F::app()->config->get('domain', 'qiniu');
-		$domain || $domain = 'http://'.\F::app()->config->get('bucket', 'qiniu').'.qiniudn.com/';
+		$domain = Option::get('qiniu:domain');
 		$src = $domain . $this->getKey($file);
 		
-		if($file['is_image'] && (isset($options['dw']) || isset($options['dh']))){
-			if(!empty($options['dw']) && !empty($options['dh'])){
-				$src .= '?imageView2/1';//裁剪
-			}else{
-				$src .= '?imageView2/0';//等比缩放
-			}
-			if(!empty($options['dw'])){
-				$src .= '/w/'.$options['dw'];
-			}
-			if(!empty($options['dh'])){
-				$src .= '/h/'.$options['dh'];
-			}
+		if($file['is_image'] && (!empty($options['dw']) || !empty($options['dh']))){
+			//由于七牛的缩放机制与系统不同，所以直接计算好宽高传过去，不让七牛自动算
+			empty($options['dw']) && $options['dw'] = intval($options['dh'] * ($file['image_width'] / $file['image_height']));
+			empty($options['dh']) && $options['dh'] = intval($options['dw'] * ($file['image_height'] / $file['image_width']));
+			
+			$src .= "?imageView2/1/w/{$options['dw']}/h/{$options['dh']}";//裁剪
 		}
 		
 		return $src;
@@ -124,9 +122,9 @@ class Qiniu extends Model{
 	 */
 	private function getKey($file){
 		if(substr($file['file_path'], 0, 4) == './..'){
-			return 'pri-'.str_replace('/', '-', substr($file['file_path'], strpos($file['file_path'], '/', 3)+1)).$file['raw_name'].$file['file_ext'];
+			return 'pri/'.substr($file['file_path'], strpos($file['file_path'], '/', 3)+1).$file['raw_name'].$file['file_ext'];
 		}else{
-			return str_replace('/', '-', substr($file['file_path'], strpos($file['file_path'], '/', 2)+1)).$file['raw_name'].$file['file_ext'];
+			return substr($file['file_path'], strpos($file['file_path'], '/', 2)+1).$file['raw_name'].$file['file_ext'];
 		}
 	}
 }

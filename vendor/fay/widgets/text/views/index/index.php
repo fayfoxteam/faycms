@@ -1,2 +1,2 @@
 <?php 
-echo $data['content'];
+echo $config['content'];

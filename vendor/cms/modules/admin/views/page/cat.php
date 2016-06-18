@@ -15,12 +15,7 @@ function showCats($cats, $dep = 0){?>
 						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
-					<?php echo Html::link('添加页面', array('admin/page/create', array(
-						'cat_id'=>$c['id'],
-					)), array(
-						'class'=>'fc-green',
-					), true);
-					echo Html::link('查看该分类', array('admin/page/index', array(
+					<?php echo Html::link('查看该分类', array('admin/page/index', array(
 						'cat_id'=>$c['id'],
 					)), array(), true);
 					if(F::app()->checkPermission('admin/page/cat-create')){
@@ -56,6 +51,12 @@ function showCats($cats, $dep = 0){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
+					<?php echo Html::link('添加页面', array('admin/page/create', array(
+						'page_category'=>$c['id'],
+					)), array(
+						'class'=>'fc-green hover-link',
+						'prepend'=>'<i class="fa fa-pencil"></i>',
+					), true)?>
 				</span>
 			</div>
 			<?php if(!empty($c['children'])){

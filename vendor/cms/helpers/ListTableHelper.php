@@ -2,6 +2,7 @@
 namespace cms\helpers;
 
 use fay\helpers\Html;
+use fay\core\Uri;
 
 class ListTableHelper{
 	/**
@@ -16,7 +17,7 @@ class ListTableHelper{
 		if(\F::app()->input->get('orderby') == $field){
 			$class .= ' sorted';
 		}
-		return Html::link($text, array(\F::app()->uri->router, array(
+		return Html::link($text, array(Uri::getInstance()->router, array(
 			'orderby'=>$field,
 			'order'=>\F::app()->input->get('order') == 'desc' ? 'asc' : 'desc',
 			'page'=>1,

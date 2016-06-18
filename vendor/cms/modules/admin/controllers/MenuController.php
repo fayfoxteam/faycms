@@ -6,7 +6,8 @@ use fay\models\Menu;
 use fay\models\tables\Menus;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
-use fay\models\tables\Users;
+use fay\models\tables\Roles;
+use fay\models\user\Role;
 
 class MenuController extends AdminController{
 	public function __construct(){
@@ -17,6 +18,7 @@ class MenuController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '导航栏';
 		$this->view->menus = Menu::model()->getTree('_user_menu', false, false);
+		$this->view->root = Menu::model()->get('_user_menu');
 		if($this->checkPermission('admin/menu/create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -45,15 +47,15 @@ class MenuController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_MENU, '添加菜单', $menu_id);
 				
 				$menu = Menus::model()->find($menu_id);
-				Response::output('success', array(
+				Response::notify('success', array(
 					'data'=>$menu,
 					'message'=>"菜单{$menu['title']}被添加",
 				));
 			}else{
-				Response::output('error', '参数异常');
+				Response::notify('error', '参数异常');
 			}
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -62,11 +64,11 @@ class MenuController extends AdminController{
 		if(Menu::model()->remove($id)){
 			$this->actionlog(Actionlogs::TYPE_MENU, '移除导航', $id);
 				
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'一个菜单被删除',
 			));
 		}else{
-			Response::output('error', '菜单不存在或已被删除');
+			Response::notify('error', '菜单不存在或已被删除');
 		}
 	}
 	
@@ -75,11 +77,11 @@ class MenuController extends AdminController{
 		if(Menu::model()->removeAll($id)){
 			$this->actionlog(Actionlogs::TYPE_MENU, '移除导航及其所有子节点', $id);
 		
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'一个菜单组被删除',
 			));
 		}else{
-			Response::output('error', '删除失败');
+			Response::notify('error', '删除失败');
 		}
 	}
 	
@@ -97,15 +99,15 @@ class MenuController extends AdminController{
 				$this->actionlog(Actionlogs::TYPE_MENU, '编辑了菜单', $id);
 				
 				$node = Menus::model()->find($id);
-				Response::output('success', array(
+				Response::notify('success', array(
 					'message'=>"菜单{$node['title']}被编辑",
 					'data'=>$node,
 				));
 			}else{
-				Response::output('error', '参数异常');
+				Response::notify('error', '参数异常');
 			}
 		}else{
-			Response::output('error', '请提交数据');
+			Response::notify('error', '请提交数据');
 		}
 	}
 	
@@ -115,9 +117,11 @@ class MenuController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_MENU, '改变了菜单排序', $id);
 		
 		$node = Menus::model()->find($id, 'sort,title');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>"菜单{$node['title']}的排序值被修改",
-			'sort'=>$node['sort'],
+			'data'=>array(
+				'sort'=>$node['sort'],
+			),
 		));
 	}
 	
@@ -130,9 +134,8 @@ class MenuController extends AdminController{
 			'left_value > '.$menu['left_value'],
 			'right_value < '.$menu['right_value'],
 		));
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$menu,
+		Response::json(array(
+			'menu'=>$menu,
 			'children'=>$children,
 		));
 	}
@@ -153,15 +156,18 @@ class MenuController extends AdminController{
 		));
 		
 		$menu = Menus::model()->find($this->input->get('id', 'intval'), 'enabled');
-		Response::output('success', array(
-			'enabled'=>$menu['enabled'],
+		Response::notify('success', array(
+			'data'=>array(
+				'enabled'=>$menu['enabled'],
+			),
 		));
 	}
 	
 	public function admin(){
 		$this->layout->subtitle = '后台导航栏';
 		$this->view->menus = Menu::model()->getTree('_admin_menu', false, false);
-		if($this->session->get('role') == Users::ROLE_SUPERADMIN){
+		$this->view->root = Menu::model()->get('_admin_menu');
+		if(Role::model()->is(Roles::ITEM_SUPER_ADMIN)){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加菜单集',

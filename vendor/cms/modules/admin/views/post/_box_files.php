@@ -9,7 +9,7 @@ use fay\models\File;
 	</div>
 	<div class="box-content">
 		<p class="fc-grey">附件的用途视主题而定，一般用于画廊效果</p>
-		<div id="upload-file-container">
+		<div id="upload-file-container" class="mt5">
 			<?php echo Html::link('上传附件', 'javascript:;', array(
 				'class'=>'btn',
 				'id'=>'upload-file-link',
@@ -17,34 +17,33 @@ use fay\models\File;
 		</div>
 		<div class="dragsort-list file-list">
 		<?php if(!empty($files)){?>
-			<?php foreach($files as $p){?>
+			<?php foreach($files as $f){?>
 				<div class="dragsort-item">
-					<?php echo Html::inputHidden('files[]', $p['file_id'])?>
+					<?php echo Html::inputHidden('files[]', $f['file_id'])?>
 					<a class="dragsort-rm" href="javascript:;"></a>
 					<a class="dragsort-item-selector"></a>
 					<div class="dragsort-item-container">
 						<span class="file-thumb">
-							<?php if($p['is_image']){
-								$full_file_path = File::model()->getUrl($p['file_id']);
-								echo Html::link(Html::img($p['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
+							<?php if($f['is_image']){
+								$full_file_path = File::getUrl($f['file_id']);
+								echo Html::link(Html::img($f['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link fancybox-image',
 									'encode'=>false,
-									'title'=>$p['description'],
+									'title'=>false,
 								));
 							}else{
-								$full_file_path = File::model()->getUrl($p['file_id']);
-								echo Html::link(Html::img($p['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
+								$full_file_path = File::getUrl($f['file_id']);
+								echo Html::link(Html::img(File::getThumbnailUrl($f['file_id']), File::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link',
 									'encode'=>false,
-									'title'=>$p['description'],
-									'target'=>'_blank',
+									'title'=>$f['description'],
+									'target'=>false,
 								));
 							}?>
 						</span>
 						<div class="file-desc-container">
-							<?php echo Html::textarea("description[{$p['file_id']}]", $p['description'], array(
+							<?php echo Html::textarea("description[{$f['file_id']}]", $f['description'], array(
 								'class'=>'form-control file-desc autosize',
-								'maxlength'=>240,
 								'placeholder'=>'照片描述',
 							));?>
 						</div>

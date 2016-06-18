@@ -15,7 +15,7 @@ use fay\helpers\Date;
 	</td>
 	<td><?php echo Html::encode($data['url'])?></td>
 	<td>
-		<?php if($data['visiable']){
+		<?php if($data['visible']){
 			echo '可见';
 		}else{
 			echo '不可见';

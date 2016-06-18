@@ -1,5 +1,4 @@
 <?php
-
 function listCats($cat_map, $dep = 0){
 	$pre = str_repeat(' - ', $dep);
 	$out = '';

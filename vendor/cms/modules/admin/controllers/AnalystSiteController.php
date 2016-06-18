@@ -7,7 +7,6 @@ use fay\helpers\Html;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\models\Flash;
 
 class AnalystSiteController extends AdminController{
 	public function __construct(){
@@ -24,15 +23,17 @@ class AnalystSiteController extends AdminController{
 	}
 	
 	public function create(){
+		$this->form()->setModel(AnalystSites::model());
 		if($this->input->post()){
-			if($this->form()->setModel(AnalystSites::model())->check()){
+			if($this->form()->check()){
 				AnalystSites::model()->insert($this->form()->getFilteredData());
-				Response::output('success', '站点添加成功');
+				Response::notify('success', '站点添加成功');
 			}else{
-				Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				//若表单验证出错，返回上一页
+				Response::goback();
 			}
 		}else{
-			Response::output('error', '无数据提交');
+			Response::notify('error', '无数据提交');
 		}
 	}
 	
@@ -44,13 +45,9 @@ class AnalystSiteController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(AnalystSites::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				AnalystSites::model()->update($this->form()->getFilteredData(), $id);
-				Flash::set('站点编辑成功', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			AnalystSites::model()->update($this->form()->getFilteredData(), $id);
+			Response::notify('success', '站点编辑成功', false);
 		}
 		
 		$site = AnalystSites::model()->find($id);
@@ -68,7 +65,7 @@ class AnalystSiteController extends AdminController{
 		AnalystSites::model()->update(array(
 			'deleted'=>1,
 		), $id);
-		Response::output('success', '一个站点被删除。'.Html::link('撤销', array('admin/analyst-site/undelete', array(
+		Response::notify('success', '一个站点被删除。'.Html::link('撤销', array('admin/analyst-site/undelete', array(
 			'id'=>$id,
 		))));
 	}
@@ -78,12 +75,12 @@ class AnalystSiteController extends AdminController{
 		AnalystSites::model()->update(array(
 			'deleted'=>0,
 		), $id);
-		Response::output('success', '一个站点被还原');
+		Response::notify('success', '一个站点被还原');
 	}
 	
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('analyst_sites', 's')
+		$sql->from(array('s'=>'analyst_sites'))
 			->where('deleted = 0');
 	
 		$this->view->listview = new ListView($sql, array(

@@ -1,5 +1,5 @@
 var _fa = {
-	'url':system.url('tools/analyst/visit'),
+	'url':system.url('api/analyst/visit'),
 	'params':{
 		'r':document.referrer,
 		'sw':window.screen.width,

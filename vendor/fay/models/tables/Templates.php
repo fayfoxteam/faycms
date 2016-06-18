@@ -6,27 +6,27 @@ use fay\core\db\Table;
 class Templates extends Table{
 	/**
 	 * 邮件
-	 * @var int
 	 */
 	const TYPE_EMAIL = 1;
+	
 	/**
 	 * 短信
-	 * @var int
 	 */
 	const TYPE_SMS = 2;
+	
 	/**
 	 * 站内信
-	 * @var int
 	 */
 	const TYPE_NOTIFICATION = 3;
 
 	protected $_name = 'templates';
 	
 	/**
+	 * @param string $class_name
 	 * @return Templates
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -36,7 +36,7 @@ class Templates extends Table{
 			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>500)),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			
 			array(array('alias'), 'unique', array('table'=>'templates', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/template/is-alias-not-exist'))),
 		);
@@ -60,7 +60,6 @@ class Templates extends Table{
 		return array(
 			'title'=>'trim',
 			'content'=>'',
-			'create_time'=>'',
 			'enable'=>'intval',
 			'deleted'=>'intval',
 			'description'=>'',

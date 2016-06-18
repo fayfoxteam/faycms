@@ -11,6 +11,7 @@ class InputController extends ToolsController{
 	}
 	
 	public function session(){
+		\F::session();//默认不开启session
 		$this->layout->subtitle = 'SESSION';
 		$this->layout->sublink = array(
 			'uri'=>array('tools/input/clearsession'),
@@ -35,8 +36,10 @@ class InputController extends ToolsController{
 	public function get(){
 		$this->layout->subtitle = 'GET';
 		if($this->input->isAjaxRequest()){
-			echo json_encode($this->input->get());
-			die;
+			Response::json(array(
+				'F::input()->get()'=>$this->input->get(),
+				'$_GET'=>$_GET,
+			));
 		}
 		$this->view->render();
 	}
@@ -44,8 +47,11 @@ class InputController extends ToolsController{
 	public function post(){
 		$this->layout->subtitle = 'POST';
 		if($this->input->isAjaxRequest()){
-			echo json_encode($this->input->post());
-			die;
+			Response::json(array(
+				'F::input()->post()'=>$this->input->post(),
+				'$_POST'=>$_POST,
+				'php://input'=>file_get_contents('php://input', 'r'),
+			));
 		}
 		$this->view->render();
 	}

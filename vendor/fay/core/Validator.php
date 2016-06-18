@@ -4,10 +4,10 @@ namespace fay\core;
 class Validator{
 	public static $map = array(
 		'email'=>'fay\validators\Email',
-		'string'=>'fay\validators\String',
+		'string'=>'fay\validators\StringValidator',
 		'required'=>'fay\validators\Required',
-		'int'=>'fay\validators\Int',
-		'float'=>'fay\validators\Float',
+		'int'=>'fay\validators\IntValidator',
+		'float'=>'fay\validators\FloatValidator',
 		'mobile'=>'fay\validators\Mobile',
 		'url'=>'fay\validators\Url',
 		'chinese'=>'fay\validators\Chinese',
@@ -23,6 +23,11 @@ class Validator{
 	 * 错误描述
 	 */
 	public $message = '{$attribute}字段不符合要求';
+	
+	/**
+	 * 错误码
+	 */
+	public $code = 'invalid-parameter:{$field}:{$rule}';
 	
 	/**
 	 * 字段标签
@@ -44,7 +49,7 @@ class Validator{
 	 * 当一个字段存在错误信息，则跳过所有验证
 	 * @var boolean
 	 */
-	public $skip_all_on_error = false;
+	public $skip_all_on_error = true;
 	
 	/**
 	 * 当一个字段为null时，跳过验证
@@ -59,8 +64,15 @@ class Validator{
 	public $_field;
 	
 	/**
+	 * 验证规则
+	 * 会根据self::$map自动设置（同一个验证器可以有不同的name）
+	 */
+	public $_rule;
+	
+	/**
 	 * Validator实例<br>
 	 * 所有在本类中被实例化的验证器实例都将包含此变量
+	 * @var Validator
 	 */
 	public $_object;
 	
@@ -87,7 +99,7 @@ class Validator{
 			$data = \F::app()->input->request();
 		}
 		
-		$this->setLables($labels);
+		$this->setLabels($labels);
 		
 		foreach($rules as $r){
 			if($this->skip_all_on_error && $this->errors){
@@ -99,35 +111,21 @@ class Validator{
 				$r[0] = array($r[0]);
 			}
 			
+			$validate = $this->createValidator($r[1], isset($r[2]) ? $r[2] : array());
 			foreach($r[0] as $field){
-				$validate = $this->createValidator($r[1], isset($r[2]) ? $r[2] : array());
 				if(!$validate)continue;//无法识别的验证器直接跳过
 				$validate->_field = $field;
 				$validate->_object = $this;
 				$value = isset($data[$field]) ? $data[$field] : null;
 				
-				if(is_array($value)){
-					foreach($value as $v){
-						if($validate->isSkip($field, $v)){
-							//该字段已经存在错误信息，跳过验证
-							continue;
-						}
-						$result = $validate->validate($v, $field);
-						if($result !== true && is_string($result)){
-							$this->_addError($field, $r[1], $result);
-							break;
-						}
-					}
-				}else{
-					if($validate->isSkip($field, $value)){
-						//该字段已经存在错误信息，跳过验证
-						continue;
-					}
-					$result = $validate->validate($value, $field);
-					if($result !== true && is_string($result)){
-						$this->_addError($field, $r[1], $result);
-					}
+				if($r[1] != 'required' && $validate->isSkip($field, $value)){
+					/*
+					 * required验证器肯定更不能跳过
+					 * 该字段已经存在错误信息，跳过验证
+					 */
+					continue;
 				}
+				$validate->validate($value);
 			}
 		}
 		
@@ -151,29 +149,33 @@ class Validator{
 			return false;
 		}
 		$instance->init($params);
+		$instance->_rule = $name;
+		//有些验证器支持传入数组，这时候在外面无法判断是否为空
+		$instance->skip_on_empty = $this->skip_on_empty;
 		return $instance;
 	}
 	
 	/**
 	 * 供子类调用的设置错误信息的方法
-	 * @param string $field
-	 * @param string $rule
-	 * @param string $message
+	 * @param string $message 一个验证器可能有多种错误描述，所以不能直接通过$this->message获取
+	 * @param string $code 同上
 	 * @param array $params
+	 * @return string
 	 */
-	public function addError($field, $rule, $message, $params = array()){
-		//当直接实例化验证器时，该属性为null
+	public function addError($message = null, $code = null, $params = array()){
+		//当直接实例化验证器时，$this->object为null
 		if($this->_object){
-			$this->_object->_addError($field, $rule, $message, $params);
+			$this->_object->_addError($this->_field, $this->_rule, $message === null ? $this->message : $message, $code === null ? $this->code : $code, $params);
 		}
 		
-		return false;
+		//返回错误描述，直接调用Validator时或许会有用
+		return $message;
 	}
 	
 	/**
 	 * 判断该字段是否已存在错误信息
 	 * @param string $field 字段名称
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasError($field){
 		foreach($this->errors as $e){
@@ -188,6 +190,7 @@ class Validator{
 	 * 验证一个字段<br>
 	 * 所有验证器需要实现此方法
 	 * @param mixed $value 字段值
+	 * @return bool
 	 */
 	public function validate($value){
 		return true;
@@ -197,7 +200,7 @@ class Validator{
 	 * 设置Labels
 	 * @param array $labels
 	 */
-	public function setLables($labels){
+	public function setLabels($labels){
 		$this->labels = array_merge($this->labels, $labels);
 	}
 	
@@ -216,30 +219,34 @@ class Validator{
 	 * @param string $rule 规则
 	 * @param string $message 错误描述
 	 */
-	private function _addError($field, $rule, $message, $params = array()){
+	private function _addError($field, $rule, $message, $code = '', $params = array()){
 		$params['attribute'] = isset($this->labels[$field]) ? $this->labels[$field] : $field;
-		$search= array();
+		$params['field'] = $field;
+		$params['rule'] = $rule;
+		$search = array();
 		$replace = array();
 		foreach($params as $k=>$p){
 			$search[] = "{\$$k}";
 			$replace[] = $p;
 		}
-		
+		$message = str_replace($search, $replace, $message);
+		$code = str_replace($search, $replace, $code);
 		$this->errors[] = array(
-			$field, $rule, str_replace($search, $replace, $message),
+			'field'=>$field,
+			'rule'=>$rule,
+			'message'=>$message,
+			'code'=>$code,
 		);
-		
-		return false;
 	}
 	
 	/**
 	 * 是否跳过该字段验证
 	 * @param string $field 字段名
 	 * @param mixed $value 字段值
-	 * @return boolean
+	 * @return bool
 	 */
 	private function isSkip($field, $value){
-		if($this->skip_on_empty && ($value === null || $value === '')){
+		if($this->skip_on_empty && ($value === null || $value === '' || $value === array())){
 			return true;
 		}
 		

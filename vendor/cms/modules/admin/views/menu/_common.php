@@ -24,6 +24,16 @@ F::form('edit')->setModel(Menus::model());
 						</td>
 					</tr>
 					<tr>
+						<th valign="top" class="adaption">链接地址</th>
+						<td>
+							<?php echo Html::inputText('link', '', array(
+								'class'=>'form-control wp100',
+							))?>
+							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
+							<p class="fc-grey">若是外站地址，不要忘了http://</p>
+						</td>
+					</tr>
+					<tr>
 						<th class="adaption">别名</th>
 						<td>
 							<?php echo Html::inputText('alias', '', array(
@@ -62,16 +72,6 @@ F::form('edit')->setModel(Menus::model());
 						?></td>
 					</tr>
 					<tr>
-						<th valign="top" class="adaption">链接地址</th>
-						<td>
-							<?php echo Html::inputText('link', '', array(
-								'class'=>'form-control wp100',
-							))?>
-							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
-							<p class="fc-grey">若是外站地址，不要忘了http://</p>
-						</td>
-					</tr>
-					<tr>
 						<th class="adaption">排序</th>
 						<td>
 							<?php echo Html::inputText('sort', '100', array(
@@ -97,7 +97,7 @@ F::form('edit')->setModel(Menus::model());
 						<th class="adaption">父节点</th>
 						<td>
 							<?php echo Html::select('parent', array(
-								Menus::ITEM_USER_MENU=>'根节点',
+								$root['id']=>'根节点',
 							)+Html::getSelectOptions($menus, 'id', 'title'), '', array(
 								'class'=>'form-control',
 							))?>
@@ -133,6 +133,16 @@ F::form('edit')->setModel(Menus::model());
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">主显标题</span>
+						</td>
+					</tr>
+					<tr>
+						<th valign="top" class="adaption">链接地址</th>
+						<td>
+							<?php echo Html::inputText('link', '{$base_url}', array(
+								'class'=>'form-control wp100',
+							))?>
+							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
+							<p class="fc-grey">若是外站地址，不要忘了http://</p>
 						</td>
 					</tr>
 					<tr>
@@ -172,16 +182,6 @@ F::form('edit')->setModel(Menus::model());
 								'label'=>'否',
 							));
 						?></td>
-					</tr>
-					<tr>
-						<th valign="top" class="adaption">链接地址</th>
-						<td>
-							<?php echo Html::inputText('link', '{$base_url}', array(
-								'class'=>'form-control wp100',
-							))?>
-							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
-							<p class="fc-grey">若是外站地址，不要忘了http://</p>
-						</td>
 					</tr>
 					<tr>
 						<th class="adaption">排序</th>
@@ -261,26 +261,26 @@ var menu = {
 							success: function(resp){
 								$("#edit-cat-dialog").unblock();
 								if(resp.status){
-									$("#edit-cat-title").text(resp.data.title);
-									$("#edit-cat-dialog input[name='id']").val(resp.data.id);
-									$("#edit-cat-dialog input[name='title']").val(resp.data.title);
-									$("#edit-cat-dialog input[name='sub_title']").val(resp.data.sub_title);
-									$("#edit-cat-dialog input[name='css_class']").val(resp.data.css_class);
-									$("#edit-cat-dialog input[name='enabled'][value='"+resp.data.enabled+"']").attr('checked', 'checked');
-									$("#edit-cat-dialog input[name='alias']").val(resp.data.alias);
-									$("#edit-cat-dialog input[name='sort']").val(resp.data.sort);
-									$("#edit-cat-dialog input[name='link']").val(resp.data.link);
-									$("#edit-cat-dialog select[name='target']").val(resp.data.target);
-									$("#edit-cat-dialog select[name='parent']").val(resp.data.parent);
+									$("#edit-cat-title").text(resp.data.menu.title);
+									$("#edit-cat-dialog input[name='id']").val(resp.data.menu.id);
+									$("#edit-cat-dialog input[name='title']").val(resp.data.menu.title);
+									$("#edit-cat-dialog input[name='sub_title']").val(resp.data.menu.sub_title);
+									$("#edit-cat-dialog input[name='css_class']").val(resp.data.menu.css_class);
+									$("#edit-cat-dialog input[name='enabled'][value='"+resp.data.menu.enabled+"']").attr('checked', 'checked');
+									$("#edit-cat-dialog input[name='alias']").val(resp.data.menu.alias);
+									$("#edit-cat-dialog input[name='sort']").val(resp.data.menu.sort);
+									$("#edit-cat-dialog input[name='link']").val(resp.data.menu.link);
+									$("#edit-cat-dialog select[name='target']").val(resp.data.menu.target);
+									$("#edit-cat-dialog select[name='parent']").val(resp.data.menu.parent);
 									//父节点不能被挂载到其子节点上
 									$("#edit-cat-dialog select[name='parent'] option").attr('disabled', false).each(function(){
-										if(system.inArray($(this).attr("value"), resp.children) || $(this).attr("value") == resp.data.id){
+										if(system.inArray($(this).attr("value"), resp.data.menu.children) || $(this).attr("value") == resp.data.menu.id){
 											$(this).attr('disabled', 'disabled');
 										}
 									});
 									
 								}else{
-									alert(resp.message);
+									common.alert(resp.message);
 								}
 							}
 						});
@@ -331,11 +331,11 @@ var menu = {
 					if(resp.status){
 						$(o).find('span').removeClass("tick-circle")
 							.removeClass("cross-circle")
-							.addClass(resp.enabled == 1 ? "tick-circle" : "cross-circle")
+							.addClass(resp.data.enabled == 1 ? "tick-circle" : "cross-circle")
 							.show()
 							.next("img").remove();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});

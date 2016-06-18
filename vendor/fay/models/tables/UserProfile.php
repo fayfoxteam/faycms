@@ -23,10 +23,11 @@ class UserProfile extends Table{
 	protected $_primary = 'user_id';
 	
 	/**
+	 * @param string $class_name
 	 * @return UserProfile
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -71,5 +72,21 @@ class UserProfile extends Table{
 			'se'=>'trim',
 			'keywords'=>'trim',
 		);
+	}
+	
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+				return array(
+					'login_times', 'last_login_time', 'last_login_ip', 'last_time_online',
+				);
+			case 'update':
+			default:
+				return array(
+					'user_id', 'reg_time', 'reg_ip',
+					'login_times', 'last_login_time', 'last_login_ip', 'last_time_online',
+					'trackid', 'refer', 'se', 'keywords'
+				);
+		}
 	}
 }

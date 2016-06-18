@@ -1,12 +1,18 @@
 <?php
 namespace fay\widgets\text\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
+	public function getData($config){
+		return $config['content'];
+	}
 	
-	public function index($options){
-		$this->view->data = $options;
-		$this->view->render();
+	public function index($config){
+		$this->view->assign(array(
+			'config'=>$config,
+			'alias'=>$this->alias,
+			'_index'=>$this->_index,
+		))->render();
 	}
 }

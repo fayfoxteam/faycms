@@ -8,6 +8,7 @@ use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\Flash;
+use fay\models\tables\Actionlogs;
 
 class OptionController extends AdminController{
 	public function __construct(){
@@ -20,41 +21,41 @@ class OptionController extends AdminController{
 			if($this->form()->setModel(Options::model())->check()){
 				$data = $this->form()->getFilteredData();
 				$data['create_time'] = $this->current_time;
-				Options::model()->insert($data);
+				$data['last_modified_time'] = $this->current_time;
+				$option_id = Options::model()->insert($data);
 				
-				Response::output('success', array(
+				$this->actionlog(Actionlogs::TYPE_OPTION, '添加了一个系统参数', $option_id);
+				
+				Response::notify('success', array(
 					'message'=>'站点参数添加成功',
-				), array('admin/option/index'));
+				));
 			}else{
-				Response::output('error', array(
-					'message'=>'参数异常',
-				), array('admin/option/index'));
+				Response::goback();
 			}
 		}else{
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>'不完整的请求',
-			), array('admin/option/index'));
+			));
 		}
 	}
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑参数';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/option/index', $this->input->get()),
+			'uri'=>array('admin/option/index', array('page'=>$this->input->get('page', 'intval', 1))),
 			'text'=>'添加参数',
 		);
 		$option_id = $this->input->get('id', 'intval');
 		$this->form()->setModel(Options::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				$data['last_modified_time'] = $this->current_time;
-				Options::model()->update($data, array('id = ?'=>$option_id));
-				Flash::set('一个参数被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			$data['last_modified_time'] = $this->current_time;
+			$result = Options::model()->update($data, array('id = ?'=>$option_id));
+			
+			$this->actionlog(Actionlogs::TYPE_OPTION, '编辑了一个系统参数', $option_id);
+			Response::notify('success', '一个参数被编辑', false);
 		}
+		
 		if($option = Options::model()->find($option_id)){
 			$this->form()->setData($option);
 			$this->view->option = $option;
@@ -68,7 +69,7 @@ class OptionController extends AdminController{
 	}
 	
 	public function index(){
-		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'warning');
 		$this->layout->subtitle = '添加参数';
 		
 		$this->_setListview();
@@ -79,26 +80,34 @@ class OptionController extends AdminController{
 	}
 	
 	public function remove(){
-		Options::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
-		Response::output('success', array(
+		$option_id = $this->input->get('id', 'intval');
+		
+		if(!$option_id){
+			Response::notify('error', '未指定参数ID');
+		}
+		
+		$option = Options::model()->find($option_id);
+		if(!$option){
+			Response::notify('error', '指定参数ID不存在');
+		}
+		
+		Options::model()->delete(array('id = ?'=>$option_id));
+		
+		$this->actionlog(Actionlogs::TYPE_OPTION, '移除了一个系统参数', $option['option_name']);
+		
+		Response::notify('success', array(
 			'message'=>'一个参数被永久删除',
 		), array('admin/option/index', $this->input->get()));
 	}
 	
 	public function isOptionNotExist(){
-		$option_name = $this->input->post('value', 'trim');
 		if(Options::model()->fetchRow(array(
-			'option_name = ?'=>$option_name,
-			'id != ?'=>$this->input->get('id', 'intval', 0),
+			'option_name = ?'=>$this->input->request('option_name', 'trim'),
+			'id != ?'=>$this->input->request('id', 'intval', 0),
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'参数名已存在',
-			));
+			Response::json('', 0, '参数名已存在');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -111,7 +120,7 @@ class OptionController extends AdminController{
 
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('id DESC');

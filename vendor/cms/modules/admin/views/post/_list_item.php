@@ -3,37 +3,52 @@ use fay\helpers\Html;
 use fay\models\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
-use fay\models\tables\Roles;
+use fay\models\File;
+use fay\models\post\Tag as PostTag;
+use fay\models\post\Category as PostCategory;
 
-/**
- * 超级管理员或未开启分类权限或当前用户有此分类操作权限，则文章可编辑
- */
-if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
-	!F::app()->role_cats ||
-	in_array($data['cat_id'], F::session()->get('role_cats', array()))){
-	/**
-	 * 是否有权限编辑（此处验证的是分类权限）
-	 */
-	$editable = true;
-}else{
-	$editable = false;
-}
+//分类权限判断
+$editable = PostCategory::model()->isAllowedCat($data['cat_id']);
 ?>
 <tr valign="top" id="post-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
 		'class'=>'batch-ids',
 		'disabled'=>$editable ? false : 'disabled',
 	));?></td>
+	<?php if(in_array('id', $cols)){?>
+	<td><?php echo $data['id']?></td>
+	<?php }?>
+	<?php if(in_array('thumbnail', $cols)){?>
+	<td class="align-center"><?php
+		if($data['thumbnail']){
+			echo Html::link(Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
+				'width'=>60,
+				'height'=>60,
+				'spare'=>'default',
+			)), File::getUrl($data['thumbnail']), array(
+				'class'=>'file-image fancybox-image',
+				'encode'=>false,
+				'title'=>Html::encode($data['title']),
+			));
+		}else{
+			echo Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
+				'width'=>60,
+				'height'=>60,
+				'spare'=>'default',
+			));
+		}
+	?></td>
+	<?php }?>
 	<td>
-		<strong>
-			<?php if($editable){
+		<strong><?php
+			if($editable){
 				echo Html::link($data['title'] ? $data['title'] : '--无标题--', array('admin/post/edit', array(
 					'id'=>$data['id'],
 				)));
 			}else{
 				echo Html::link($data['title'] ? $data['title'] : '--无标题--', 'javascript:;');
-			}?>
-		</strong>
+			}
+		?></strong>
 		<div class="row-actions">
 		<?php if($editable){
 			if($data['deleted'] == 0){
@@ -80,7 +95,7 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
 	<?php }?>
 	<?php if(in_array('tags', $cols)){?>
 	<td><?php
-		$tags = Post::model()->getTags($data['id']);
+		$tags = PostTag::model()->get($data['id']);
 		foreach($tags as $key => $tag){
 			if($key){
 				echo ', ';
@@ -92,18 +107,35 @@ if(in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) ||
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td>
-	<?php echo PostHelper::getStatus($data['status'], $data['deleted']);?>
-	</td>
+	<td><?php echo PostHelper::getStatus($data['status'], $data['deleted']);?></td>
 	<?php }?>
 	<?php if(in_array('user', $cols)){?>
-	<td><?php echo Html::encode($data[F::form('setting')->getData('display_name', 'username')])?></td>
+	<td><?php
+		echo Html::link($data[F::form('setting')->getData('display_name', 'username')], array(
+			'admin/post/index', array(
+				'keywords_field'=>'p.user_id',
+				'keywords'=>$data['user_id'],
+			),
+		));
+	?></td>
 	<?php }?>
 	<?php if(in_array('views', $cols)){?>
 	<td><?php echo $data['views']?></td>
 	<?php }?>
+	<?php if(in_array('real_views', $cols)){?>
+	<td><?php echo $data['real_views']?></td>
+	<?php }?>
 	<?php if(in_array('comments', $cols)){?>
 	<td><?php echo $data['comments']?></td>
+	<?php }?>
+	<?php if(in_array('real_comments', $cols)){?>
+	<td><?php echo $data['real_comments']?></td>
+	<?php }?>
+	<?php if(in_array('likes', $cols)){?>
+	<td><?php echo $data['likes']?></td>
+	<?php }?>
+	<?php if(in_array('real_likes', $cols)){?>
+	<td><?php echo $data['real_likes']?></td>
 	<?php }?>
 	<?php if(in_array('publish_time', $cols)){?>
 	<td>

@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\post_list\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Category;
 use fay\models\Flash;
 
@@ -41,7 +41,7 @@ class AdminController extends Widget{
 		if(empty($data['fields'])){
 			$data['fields'] = array();
 		}
-		$this->saveData($data);
+		$this->setConfig($data);
 		
 		Flash::set('编辑成功', 'success');
 	}

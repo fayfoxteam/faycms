@@ -2,9 +2,8 @@
 namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\Db;
-use fay\models\Flash;
 
 class DatabaseController extends ToolsController{
 	/**
@@ -52,9 +51,9 @@ class DatabaseController extends ToolsController{
 		$t_name = preg_replace("/^{$this->view->prefix}(.*)/", '$1', $table_name, 1);
 		
 		if(substr($t_name, 0, strpos($t_name, '_')) == APPLICATION){
-			$class_name = APPLICATION.'\models\tables\\'.String::underscore2case(substr($t_name, strpos($t_name, '_')));
+			$class_name = APPLICATION.'\models\tables\\'.StringHelper::underscore2case(substr($t_name, strpos($t_name, '_')));
 		}else{
-			$class_name = 'fay\models\tables\\'.String::underscore2case($t_name);
+			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name);
 		}
 		
 		$this->layout->subtitle = 'Data Dictionary - '.$t_name;
@@ -84,10 +83,10 @@ class DatabaseController extends ToolsController{
 		
 		//类名和命名空间
 		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
-			$this->view->class_name = String::underscore2case(substr($table_name, strpos($table_name, '_')));
+			$this->view->class_name = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_')));
 			$this->view->namespace = APPLICATION.'\models\tables';
 		}else{
-			$this->view->class_name = String::underscore2case($table_name);
+			$this->view->class_name = StringHelper::underscore2case($table_name);
 			$this->view->namespace = 'fay\models\tables';
 		}
 		
@@ -109,17 +108,17 @@ class DatabaseController extends ToolsController{
 		$this->view->primary = $primary;
 		
 		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
-			$filename = String::underscore2case(substr($table_name, strpos($table_name, '_')));
-			$this->view->class_name = String::underscore2case(substr($table_name, strpos($table_name, '_')));
+			$filename = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_')));
+			$this->view->class_name = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_')));
 			$this->view->namespace = APPLICATION.'\models\tables';
 		}else{
-			$filename = String::underscore2case($table_name);
-			$this->view->class_name = String::underscore2case($table_name);
+			$filename = StringHelper::underscore2case($table_name);
+			$this->view->class_name = StringHelper::underscore2case($table_name);
 			$this->view->namespace = 'fay\models\tables';
 		}
 		$this->view->table_name = $table_name;
 		
-		$content = $this->view->renderPartial('getmodel', array(), -1, true);
+		$content = $this->view->renderPartial('get_model', array(), -1, true);
 		
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 			header('Content-Type: "application/x-httpd-php"');
@@ -167,8 +166,12 @@ class DatabaseController extends ToolsController{
 			
 			//加载model，从model中获取label作为备注
 			$t_name = preg_replace("/^{$prefix}(.*)/", '$1', $table_name, 1);
-			$class_name = 'fay\models\tables\\'.String::underscore2case($t_name);
-			$labels = \F::model($class_name)->labels();
+			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name);
+			if(file_exists(SYSTEM_PATH . $class_name . '.php')){
+				$labels = \F::model($class_name)->labels();
+			}else{
+				$labels = array();
+			}
 			
 			$sql = "SHOW CREATE TABLE {$table_name}";
 			$ddl = $this->db->fetchRow($sql);
@@ -193,6 +196,7 @@ class DatabaseController extends ToolsController{
 			
 			$ddl = str_replace('CREATE TABLE `'.$this->config->get('db.table_prefix'), 'CREATE TABLE `{{$prefix}}', $ddl);
 			$ddl = preg_replace('/ AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
+			$ddl = preg_replace('/ DEFAULT CHARSET=\w+/', ' DEFAULT CHARSET={{$charset}}', $ddl);//默认编码方式改为可配置
 			//$ddl = preg_replace("/ COMMENT '.+'/", '', $ddl);//删除注释
 			$ddls[] = $ddl.';';
 		}
@@ -206,8 +210,9 @@ class DatabaseController extends ToolsController{
 			$ddl = 'DROP TABLE IF EXISTS `'.str_replace($this->config->get('db.table_prefix'), '{{$prefix}}', $table_name).'`;'."\n".$ddl;
 				
 			$ddl = str_replace('CREATE TABLE `'.$this->config->get('db.table_prefix'), 'CREATE TABLE `{{$prefix}}', $ddl);
-			$ddl = preg_replace('/AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
-			$ddl = preg_replace("/ COMMENT '.+'/", '', $ddl);//删除注释
+			$ddl = preg_replace('/ AUTO_INCREMENT=\d+/', '', $ddl);//删除自递增
+			$ddl = preg_replace('/ DEFAULT CHARSET=\w+/', ' DEFAULT CHARSET={{$charset}}', $ddl);//默认编码方式改为可配置
+			//$ddl = preg_replace("/ COMMENT '.+'/", '', $ddl);//删除注释
 			$ddls[] = $ddl.';';
 		}
 		
@@ -270,13 +275,12 @@ class DatabaseController extends ToolsController{
 		
 		if($this->input->post()){
 			$prefix = $this->config->get('db.table_prefix');
+			$charset = $this->config->get('db.charset');
 			$sql = $this->input->post('sql');
-			$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
+			$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
 			$sqltype = strtolower(substr(trim($sql), 0, 6));
 			$this->db->execute($sql);
 		}
-
-		Flash::set('It will replace {{$time}} to current timestamp and {{$prefix}} to table prefix set in system config.', 'attention');
 		
 		$this->view->render();
 	}

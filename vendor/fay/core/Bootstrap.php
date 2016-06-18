@@ -1,14 +1,10 @@
 <?php
 namespace fay\core;
 
-use fay\core\Uri;
-
 class Bootstrap{
 	public function init(){
 		//默认时区
-		$date = \F::config()->get('date');
-		$default_timezone = $date['default_timezone'];
-		date_default_timezone_set($default_timezone);
+		date_default_timezone_set(\F::config()->get('date.default_timezone'));
 		
 		//报错级别
 		switch (\F::config()->get('environment')){
@@ -58,6 +54,9 @@ class Bootstrap{
 	
 	/**
 	 * 查找对应的controller文件和action方法
+	 * @param Uri $uri
+	 * @return array
+	 * @throws HttpException
 	 */
 	private function getControllerAndAction($uri){
 		//先找当前app目录

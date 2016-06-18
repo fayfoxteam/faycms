@@ -6,21 +6,23 @@ use fay\core\ErrorException;
 class Image{
 	/**
 	 * 获取图片资源
+	 * @param $filename
 	 * @return resource
+	 * @throws ErrorException
 	 */
 	public static function getImage($filename){
 		$imageInfo = getimagesize($filename);
 		$img_mime = @strtolower($imageInfo['mime']);
 		switch ($img_mime) {
 			case 'image/gif':
-				$im = imagecreatefromgif($filename);
+				$im = \imagecreatefromgif($filename);
 				break;
 			case 'image/jpeg':
 			case 'image/jpg':
-				$im = imagecreatefromjpeg($filename);
+				$im = \imagecreatefromjpeg($filename);
 				break;
 			case 'image/png':
-				$im = imagecreatefrompng($filename);
+				$im = \imagecreatefrompng($filename);
 				break;
 			default:
 				$im = 'unknow';
@@ -67,7 +69,7 @@ class Image{
 	/**
 	 * 旋转一定角度，逆时针旋转
 	 * @param resource $src_img 原图片资源
-	 * @param int $angle 角度
+	 * @param int $degrees 角度
 	 * @return resource 新图片资源
 	 */
 	public static function rotate($src_img, $degrees){
@@ -101,7 +103,7 @@ class Image{
 	 * @return resource
 	 */
 	public static function crop($src_img, $x, $y, $width, $height){
-		$dst_img = ImageCreateTrueColor($width, $height);
+		$dst_img = imagecreatetruecolor($width, $height);
 		imagecopyresampled($dst_img, $src_img, 0, 0, $x, $y, $width, $height, $width, $height);
 		return $dst_img;
 	}
@@ -174,7 +176,7 @@ class Image{
 	 * @return resource
 	 */
 	public static function fillByImage($src_img, $img_file){
-		$mat_img = self::get_img($img_file);
+		$mat_img = self::getImage($img_file);
 		$mat_img_width = imagesx($mat_img);
 		$mat_img_height = imagesy($mat_img);
 		$src_width = imagesx($src_img);

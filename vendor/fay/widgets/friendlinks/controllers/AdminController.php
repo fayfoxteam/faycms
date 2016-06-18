@@ -1,12 +1,12 @@
 <?php
 namespace fay\widgets\friendlinks\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Category;
 use fay\models\Flash;
 
 class AdminController extends Widget{
-	public function index($data){
+	public function index($config){
 		$root_node = Category::model()->getByAlias('_system_link', 'id');
 		$this->view->cats = array(
 			array(
@@ -17,11 +17,11 @@ class AdminController extends Widget{
 		);
 		
 		//获取默认模版
-		if(empty($data['template'])){
-			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 		}
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		
 		$this->view->render();
 	}
@@ -41,7 +41,7 @@ class AdminController extends Widget{
 		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$template = '';
 		}
-		$this->saveData(array(
+		$this->setConfig(array(
 			'title'=>$this->input->post('title', null, ''),
 			'number'=>$this->input->post('number', 'intval', 5),
 			'cat_id'=>$this->input->post('cat_id', 'intval', 0),

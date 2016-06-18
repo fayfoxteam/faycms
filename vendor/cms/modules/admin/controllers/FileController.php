@@ -15,7 +15,7 @@ use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\models\Option;
 use fay\models\Category;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -60,10 +60,24 @@ class FileController extends AdminController{
 			if($result['status']){
 				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
 			}else{
-				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+				echo '<script>common.alert("' . implode("\r\n", $data) . '");</script>';
+			}
+		}else if($this->input->request('guid')){
+			if($result['status']){
+				echo json_encode(array(
+					'success'=>1,
+					'message'=>'上传成功',
+					'url'=>$data['src'],
+				));
+			}else{
+				echo json_encode(array(
+					'success'=>0,
+					'message'=>'上传失败',
+					'url'=>'',
+				));
 			}
 		}else{
-			echo json_encode($data);
+			Response::json($data);
 		}
 	}
 	
@@ -108,7 +122,7 @@ class FileController extends AdminController{
 		}
 		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
 			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
-		$filename = File::getFilename($upload_path, '.jpg');
+		$filename = File::getFileName($upload_path, '.jpg');
 		if(defined('NO_REWRITE')){
 			$destination = './public/'.$upload_path . $filename;
 		}else{
@@ -135,7 +149,7 @@ class FileController extends AdminController{
 		
 		$data = $this->afterUpload($data);
 		
-		echo json_encode($data);
+		Response::json($data);
 	}
 	
 	/**
@@ -152,7 +166,7 @@ class FileController extends AdminController{
 		}
 		
 		set_time_limit(0);
-
+		
 		$cat = $this->input->request('cat');
 		if($cat){
 			$cat = Category::model()->get($cat, 'id,alias');
@@ -162,7 +176,7 @@ class FileController extends AdminController{
 		}else{
 			$cat = 0;
 		}
-
+		
 		$private = !!$this->input->get('p');
 		$result = File::model()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
 		$data = $result['data'];
@@ -175,10 +189,24 @@ class FileController extends AdminController{
 			if($result['status']){
 				echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->request('CKEditorFuncNum')}, '{$data['src']}', '');</script>";
 			}else{
-				echo '<script>alert("' . implode("\r\n", $data) . '");</script>';
+				echo '<script>common.alert("' . implode("\r\n", $data) . '");</script>';
+			}
+		}else if($this->input->request('guid')){
+			if($result['status']){
+				echo json_encode(array(
+					'success'=>1,
+					'message'=>'上传成功',
+					'url'=>$data['src'],
+				));
+			}else{
+				echo json_encode(array(
+					'success'=>0,
+					'message'=>'上传失败',
+					'url'=>'',
+				));
 			}
 		}else{
-			echo json_encode($data);
+			Response::json($data);
 		}
 	}
 	
@@ -232,9 +260,9 @@ class FileController extends AdminController{
 			Files::model()->delete($file_id);
 			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
 			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
-			Response::output('success', '删除成功');
+			Response::notify('success', '删除成功');
 		}else{
-			Response::output('error', '参数不完整');
+			Response::notify('error', '参数不完整');
 		}
 	}
 	
@@ -252,7 +280,7 @@ class FileController extends AdminController{
 		);
 		
 		//如果未配置七牛参数，则强制不显示七牛那一列
-		if(!Option::getTeam('qiniu')){
+		if(!Option::getGroup('qiniu')){
 			foreach($_settings['cols'] as $k => $v){
 				if($v == 'qiniu'){
 					unset($_settings['cols'][$k]);
@@ -267,13 +295,12 @@ class FileController extends AdminController{
 			->setData(array(
 				'_key'=>$_setting_key,
 			));
-
-
+		
 		$this->view->cats = Category::model()->getTree('_system_file');
 		
 		$sql = new Sql();
-		$sql->from('files', 'f')
-			->joinLeft('users', 'u', 'u.id = f.user_id', 'username,nickname,realname')
+		$sql->from(array('f'=>'files'))
+			->joinLeft(array('u'=>'users'), 'u.id = f.user_id', 'username,nickname,realname')
 			->order('id DESC');
 		
 		if($this->input->get('keywords')){
@@ -325,7 +352,7 @@ class FileController extends AdminController{
 				}
 				
 				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
-				Response::output('success', $affected_rows.'个文件被删除');
+				Response::notify('success', $affected_rows.'个文件被删除');
 			break;
 			
 			//移动到目标分类图片
@@ -333,12 +360,12 @@ class FileController extends AdminController{
 				$cat_id = $this->input->post('cat_id', 'intval');
 				
 				if(!$cat_id){
-					Response::output('error', '未指定分类');
+					Response::notify('error', '未指定分类');
 				}
 			
 				$cat = Category::model()->get($cat_id,'title');
 				if(!$cat){
-					Response::output('error', '指定分类不存在');
+					Response::notify('error', '指定分类不存在');
 				}
 				
 				$affected_rows = Files::model()->update(array(
@@ -347,7 +374,7 @@ class FileController extends AdminController{
 					'id IN (?)'=>$ids,
 				));
 				$this->actionlog(Actionlogs::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
-				Response::output('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
+				Response::notify('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
 			break;
 		}
 	}
@@ -366,7 +393,7 @@ class FileController extends AdminController{
 					$filename = $file['raw_name'].$file['file_ext'];
 				}
 				
-				Files::model()->inc($file_id, 'downloads', 1);
+				Files::model()->incr($file_id, 'downloads', 1);
 				$data = file_get_contents((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');
@@ -402,7 +429,6 @@ class FileController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_file');
 		$root_node = Category::model()->getByAlias('_system_file', 'id');
 		$this->view->root = $root_node['id'];
-		$root_cat = Category::model()->getByAlias('_system_file', 'id');
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -410,7 +436,7 @@ class FileController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'文件分类',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}
@@ -427,8 +453,11 @@ class FileController extends AdminController{
 		));
 		
 		if($check !== true){
-			//@todo输出一张参数异常的图片
-			print_r($check);die;
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			header('Content-type: image/png');
+			readfile($spare);
+			die;
 		}
 		
 		//显示模式
@@ -436,8 +465,9 @@ class FileController extends AdminController{
 		
 		//文件名或文件id号
 		$f = $this->input->get('f');
-		if(String::isInt($f)){
+		if(StringHelper::isInt($f)){
 			if($f == 0){
+				//这里不直接返回图片不存在的提示，因为可能需要缩放，让后面的逻辑去处理
 				$file = false;
 			}else{
 				$file = Files::model()->find($f);
@@ -498,16 +528,14 @@ class FileController extends AdminController{
 	
 	private function _pic($file){
 		if($file !== false){
-			if(file_exists((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext'])){
-				header('Content-type: '.$file['file_type']);
-				readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-			}else{
-				header('Content-type: image/jpeg');
-				readfile(BASEPATH . '/images/no-image.jpg');
-			}
+			//出于性能考虑，这里不会去判断物理文件是否存在（除非服务器挂了，否则肯定存在）
+			header('Content-type: '.$file['file_type']);
+			readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 		}else{
-			header('Content-type: image/jpeg');
-			readfile(BASEPATH . '/images/no-image.jpg');
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			header('Content-type: image/png');
+			readfile($spare);
 		}
 	}
 	
@@ -516,9 +544,10 @@ class FileController extends AdminController{
 			header('Content-type: '.$file['file_type']);
 			readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
 		}else{
-			$img = file_get_contents('./images/thumbnail.jpg');
-			header('Content-type: image/jpeg');
-			echo $img;
+			$spare = $this->config->get($this->input->get('s', 'trim', 'thumbnail'), 'noimage');
+			$spare || $spare = $this->config->get('thumbnail', 'noimage');
+			header('Content-type: image/png');
+			readfile($spare);
 		}
 	}
 	
@@ -550,30 +579,21 @@ class FileController extends AdminController{
 			$img = Image::crop($img, $x, $y, $w, $h);
 			$img = Image::resize($img, $dw, $dh);
 		
-			header('Content-type: '.$file['file_type']);
-			switch ($file['file_type']) {
-				case 'image/gif':
-					imagegif($img);
-					break;
-				case 'image/jpeg':
-				case 'image/jpg':
-					imagejpeg($img);
-					break;
-				case 'image/png':
-					imagepng($img);
-					break;
-				default:
-					imagejpeg($img);
-					break;
-			}
+			//处理过的图片统一以jpg方式显示
+			header('Content-type: image/jpeg');
+			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
 		}else{
 			//图片不存在，显示一张默认图片吧
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			$img = Image::getImage($spare);
+			header('Content-type: image/jpeg');
+			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			imagejpeg($img);
 		}
 	}
 	
 	private function _resize($file){
-		$spares = $this->config->get('spares');
-		$spare = $spares[$this->input->get('s', null, 'default')];
 		//输出宽度
 		$dw = $this->input->get('dw', 'intval');
 		//输出高度
@@ -593,26 +613,15 @@ class FileController extends AdminController{
 			
 			$img = Image::resize($img, $dw, $dh);
 			
-			header('Content-type: '.$file['file_type']);
-			switch ($file['file_type']) {
-				case 'image/gif':
-					imagegif($img);
-					break;
-				case 'image/jpeg':
-				case 'image/jpg':
-					imagejpeg($img, null, $this->input->get('q', 'intval', 75));
-					break;
-				case 'image/png':
-					imagepng($img);
-					break;
-				default:
-					imagejpeg($img);
-					break;
-			}
-		}else{
-			$img = Image::getImage('assets/' . $spare);
+			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw, $dh);
+			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+		}else{
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			$img = Image::getImage($spare);
+			header('Content-type: image/jpeg');
+			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}

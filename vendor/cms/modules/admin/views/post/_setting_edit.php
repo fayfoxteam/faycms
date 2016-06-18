@@ -29,7 +29,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 				),
 			), true);
 			echo F::form('setting')->inputRadio('editor', Posts::CONTENT_TYPE_MARKDOWN, array(
-				'after'=>'PageDown编辑器（Markdown语法，适用于写文档等，非专业人员不建议使用）',
+				'after'=>'Markdown语法编辑器（适用于写文档等，非专业人员不建议使用）',
 				'wrapper'=>array(
 					'tag'=>'label',
 					'wrapper'=>'p',

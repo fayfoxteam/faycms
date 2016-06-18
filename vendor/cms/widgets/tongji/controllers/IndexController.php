@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\tongji\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Analyst;
 
 class IndexController extends Widget{

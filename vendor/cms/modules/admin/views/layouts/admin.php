@@ -3,6 +3,8 @@ use fay\helpers\Html;
 use fay\models\Option;
 use fay\models\File;
 use fay\models\Flash;
+use fay\models\user\Role;
+use fay\models\User;
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +26,8 @@ use fay\models\Flash;
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
-system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
+system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
+system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
@@ -38,10 +41,11 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
+					$user_roles = Role::model()->getIds();
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
-							if(!array_intersect(F::app()->session->get('roles'), $nav['roles'])){
+							if(!array_intersect($user_roles, $nav['roles'])){
 								continue;
 							}
 						}
@@ -58,7 +62,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				?>
 			</ul>
 			<ul class="user-info-menu fr">
-			<?php if(F::session()->get('id')){?>
+			<?php if(\F::app()->current_user){?>
 				<li class="dropdown-container hover-line message" id="faycms-message">
 					<?php echo Html::link('', '#faycms-messages-container', array(
 						'class'=>'dropdown',
@@ -89,13 +93,14 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 					</ul>
 				</li>
 				<li class="dropdown-container user-profile">
+					<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
-						echo Html::img(F::session()->get('avatar'), File::PIC_THUMBNAIL, array(
+						echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 							'class'=>'circle',
 							'width'=>28,
 							'spare'=>'avatar',
 						))
-					?><span>您好，<?php echo F::session()->get('username')?><i class="fa fa-angle-down"></i></span></a>
+					?><span>您好，<?php echo $user['user']['username']?><i class="fa fa-angle-down"></i></span></a>
 					<ul class="dropdown-menu" id="user-profile-menu">
 						<li><?php
 							echo Html::link('我的个人信息', array('admin/profile/index'), array(
@@ -132,7 +137,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						}else{
 							$html_options['class'] = 'quick-link';
 						}
-						echo Html::link($sublink['text'], $sublink['uri'], $html_options);
+						echo Html::link($sublink['text'], $sublink['uri'], $html_options, true);
 					}?></h1>
 			</div>
 			<div class="operate-env">
@@ -154,7 +159,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 						), $this->renderPartial($_help_panel, array(), -1, true));
 					}
 					//帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的常见
-					if(isset($_help_contet)){
+					if(isset($_help_content)){
 						echo Html::link('', '#faycms-help-content', array(
 							'class'=>'fa fa-question-circle fa-2x faycms-help-link',
 							'title'=>'帮助',
@@ -167,7 +172,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 								'class'=>'dialog hide',
 							),
 							'prepend'=>'<h4>帮助</h4>',
-						), $_help_contet);
+						), $_help_content);
 					}
 					//页面设置
 					if(isset($_setting_panel)){
@@ -212,8 +217,8 @@ $(function(){
 	common.init();
 });
 </script>
-<img src="<?php echo $this->assets('images/throbber.gif" class="hide')?>" />
-<img src="<?php echo $this->assets('images/ajax-loading.gif" class="hide')?>" />
-<img src="<?php echo $this->assets('images/loading.gif" class="hide')?>" />
+<img src="<?php echo $this->assets('images/throbber.gif')?>" class="hide" />
+<img src="<?php echo $this->assets('images/ajax-loading.gif')?>" class="hide" />
+<img src="<?php echo $this->assets('images/loading.gif')?>" class="hide" />
 </body>
 </html>

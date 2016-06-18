@@ -1,12 +1,12 @@
 <?php
 namespace fay\widgets\categories\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Category;
 use fay\models\Flash;
 
 class AdminController extends Widget{
-	public function index($data){
+	public function index($config){
 		$root_node = Category::model()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(
@@ -17,14 +17,14 @@ class AdminController extends Widget{
 		);
 		
 		//获取默认模版
-		if(empty($data['template'])){
-			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
-				'template'=>$data['template'],
+				'template'=>$config['template'],
 			), true);
 		}
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -40,7 +40,7 @@ class AdminController extends Widget{
 			$data['template'] = '';
 		}
 		
-		$this->saveData($data);
+		$this->setConfig($data);
 		Flash::set('编辑成功', 'success');
 	}
 	

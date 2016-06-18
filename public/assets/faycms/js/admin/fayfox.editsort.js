@@ -34,19 +34,19 @@ jQuery.fn.extend({
 							cache: false,
 							success: function(resp){
 								if(resp.status){
-									if(parseInt($(o).val()) == resp.sort){
-										$(o).val(resp.sort)
+									if(parseInt($(o).val()) == resp.data.sort){
+										$(o).val(resp.data.sort)
 											.next('img').attr('src', system.assets('images/tick-circle.png'))
 											.attr('title', '');
 									}else{
-										$(o).val(resp.sort)
+										$(o).val(resp.data.sort)
 											.next('img').attr('src', system.assets('images/exclamation.png'))
 											.attr('title', '排序字段取值为0-65535之间');;
 									}
 								}else{
 									$(o).next('img').attr('src', system.assets('images/cross-circle.png'))
 										.attr('title', resp.message);
-									alert(resp.message);
+									common.alert(resp.message);
 								}
 							}
 						});

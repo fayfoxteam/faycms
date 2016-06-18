@@ -4,9 +4,11 @@ namespace fay\helpers;
 class SqlHelper{
 	/**
 	 * 简单的美化一下，必须结合faycms后台式样
-	 * @param sql $sql
+	 * @param string $sql SQL
+	 * @param array $params 参数
+	 * @return string
 	 */
-	public static function nice($sql, $params){
+	public static function nice($sql, $params = array()){
 		$keywords = array('FROM', 'WHERE',
 			'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN',
 			'AS', 'LIMIT', 'ORDER BY', 'GROUP BY',
@@ -33,7 +35,25 @@ class SqlHelper{
 		
 		if(!empty($params)){
 			foreach($params as $p){
-				$sql = preg_replace('/\?/', is_numeric($p) ? $p : "'".Html::encode($p)."'", $sql, 1);
+				$sql = preg_replace('/\?/', is_int($p) ? $p : "'".Html::encode($p)."'", $sql, 1);
+			}
+		}
+		
+		return $sql;
+	}
+	
+	/**
+	 * 将$sql中的问号替换为参数值，并将换行符移除
+	 * @param string $sql SQL
+	 * @param array $params 参数
+	 * @return string
+	 */
+	public static function bind($sql, $params = array()){
+		$sql = str_replace("\n", ' ', $sql);
+		$sql = trim($sql);
+		if(!empty($params)){
+			foreach($params as $p){
+				$sql = preg_replace('/\?/', is_int($p) ? $p : "'{$p}'", $sql, 1);
 			}
 		}
 		
@@ -43,6 +63,9 @@ class SqlHelper{
 	/**
 	 * 移除数组统一的前缀（前缀不符合的表将被舍弃）
 	 * 返回的数组会被重新索引
+	 * @param string $prefix
+	 * @param array $tables
+	 * @return array
 	 */
 	public static function removePrefix($prefix, $tables){
 		$prefix_length = strlen($prefix);
@@ -57,41 +80,6 @@ class SqlHelper{
 			}else{
 				//前缀为空，则不判断，直接返回
 				$return[] = $table;
-			}
-		}
-		return $return;
-	}
-	
-	/**
-	 * （严格来说这不算是一个sql方法，只是写法上像sql的fields）
-	 * 将users.username,users.nickname,users.id,props.*这样的字符串，
-	 * 转换为如下格式的数组
-	 * array(
-	 *   'users'=>array(
-	 *     'username', 'nickname', 'id',
-	 *   ),
-	 *   'props'=>array(
-	 *     '*',
-	 *   ),
-	 * )
-	 * @param string $fields
-	 * @param string|null $default_key 若设置了default_key，则不包含.(点号)的项会被归属到default_key下
-	 */
-	public static function processFields($fields, $default_key = null){
-		$fields = explode(',', $fields);
-		$return = array();
-		foreach($fields as $f){
-			$f = trim($f);
-			if(strpos($f, '.')){
-				$fa = explode('.', $f);
-				$fa_end = array_pop($fa);
-				eval('$return[\'' . implode("']['", $fa) . "'][]='{$fa_end}';");
-			}else if(!empty($f)){
-				if($default_key){
-					$return[$default_key][] = $f;
-				}else{
-					$return[] = $f;
-				}
 			}
 		}
 		return $return;

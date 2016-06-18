@@ -1,8 +1,6 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\String;
-
 class Sql{
 	protected $fields = array();
 	
@@ -53,46 +51,77 @@ class Sql{
 		return $this;
 	}
 	
-	public function from($table, $alias = null, $fields = '*'){
-		$table_name = $this->db->{$table};
-		if($alias === null){
-			$this->from[] = $table_name;
-			$this->_field($fields, $table_name, $table);
+	public function from($table, $fields = '*'){
+		if(is_array($table)){
+			foreach($table as $a => $t){
+				//虽然这里用foreach，但其实只允许array('p'=>'posts')这样的单项数组，传入多项后面的会被无视
+				if(is_string($a)){
+					$alias = $a;
+				}else{
+					if($t instanceof Sql){
+						throw new ErrorException('子查询必须设置别名');
+					}
+					$alias = $t;
+				}
+				$short_name = $t;
+				break;
+			}
 		}else{
-			$this->from[] = "{$table_name} AS {$alias}";
-			$this->_field($fields, $alias, $table);
+			if($table instanceof Sql){
+				throw new ErrorException('子查询必须设置别名');
+			}
+			$short_name = $table;
+			$alias = $table;
 		}
+		
+		if($short_name instanceof Sql){
+			$this->from[] = array(
+				'table'=>'(' . $short_name->getSql() . ')',
+				'alias'=>$alias,
+				'params'=>$short_name->getParams(),
+			);
+		}else{
+			$this->from[] = array(
+				'table'=>$this->db->getFullTableName($short_name),
+				'alias'=>$alias,
+			);
+		}
+		
+		$this->_field($fields, $alias);
+		
 		return $this;
 	}
 	
-	public function join($table, $alias, $conditions, $fields = null){
-		$this->joinInner($table, $alias, $conditions, $fields);
+	public function join($table, $conditions, $fields = null){
+		$this->joinInner($table, $conditions, $fields);
 		return $this;
 	}
 	
-	public function joinInner($table, $alias, $conditions, $fields = null){
-		$this->_join('INNER JOIN', $table, $alias, $conditions, $fields);
+	public function joinInner($table, $conditions, $fields = null){
+		$this->_join('INNER JOIN', $table, $conditions, $fields);
 		return $this;
 	}
 	
-	public function joinLeft($table, $alias, $conditions, $fields = null){
-		$this->_join('LEFT JOIN', $table, $alias, $conditions, $fields);
+	public function joinLeft($table, $conditions, $fields = null){
+		$this->_join('LEFT JOIN', $table, $conditions, $fields);
 		return $this;
 	}
 	
-	public function joinRight($table, $alias, $conditions, $fields = null){
-		$this->_join('RIGHT JOIN', $table, $alias, $conditions, $fields);
+	public function joinRight($table, $conditions, $fields = null){
+		$this->_join('RIGHT JOIN', $table, $conditions, $fields);
 		return $this;
 	}
 	
 	/**
 	 * 默认情况下，以and方式连接各条件
 	 * 也可以指定，具体方法见Db::getWhere
-	 * @param array $where
+	 * @param array|string $where
+	 * @param null|string $params
 	 * @return Sql
 	 */
-	public function where($where){
+	public function where($where, $params = null){
 		if(is_array($where)){
+			//如果是数组，无视第二个参数
 			foreach($where as $k => $w){
 				if(in_array(strtoupper(trim($k)), $this->operators)){
 					//若key是关键词，即or，and这些
@@ -101,6 +130,8 @@ class Sql{
 					$this->conditions = array_merge($this->conditions, array($k => $w));
 				}
 			}
+		}else if($params !== null){
+			$this->conditions = array_merge($this->conditions, array($where => $params));
 		}else{
 			$this->conditions[] = $where;
 		}
@@ -155,6 +186,11 @@ class Sql{
 		return $this;
 	}
 	
+	/**
+	 * @param int $count 数量
+	 * @param null|int $offset 偏移
+	 * @return Sql
+	 */
 	public function limit($count, $offset = null){
 		$this->count = $count;
 		if($offset !== null && $offset !== false){
@@ -167,6 +203,7 @@ class Sql{
 	 * 指定count方法根据哪个字段进行计算<br>
 	 * 默认为COUNT(*)
 	 * @param string $by
+	 * @return Sql
 	 */
 	public function countBy($by){
 		$this->countBy = $by;
@@ -176,29 +213,41 @@ class Sql{
 	/**
 	 * 得到sql语句
 	 * 若传入$count参数，则无视前面设置的offset和count，主要用于fetchRow等特殊情况
+	 * @param null|int $count
+	 * @return string
 	 */
 	public function getSql($count = null){
 		//清空params，以免多次调用本函数造成params重复
 		$this->params = array();
 		
 		$sql = "SELECT \n";
+		
 		//distinct
 		if($this->distinct){
 			$sql .= "DISTINCT ";
 		}
 		
 		//select
-		if(empty($this->fields)){
-			$sql .= "* \n";
-		}else{
+		if($this->fields){
 			$sql .= implode(",\n", array_unique($this->fields)). "\n";
+		}else{
+			$sql .= "* \n";
 		}
+		
 		//from
 		if($this->from){
-			$sql .= "FROM \n".implode(', ', $this->from)."\n";
+			$sql .= "FROM \n";
+			foreach($this->from as $from){
+				$sql .= "{$from['table']} AS {$from['alias']}";
+				if(isset($from['params'])){
+					$this->params = array_merge($this->params, $from['params']);
+				}
+			}
+			$sql .= "\n";
 		}
+		
 		//join
-		if(!empty($this->join)){
+		if($this->join){
 			foreach($this->join as $j){
 				$sql .= "{$j['type']} {$j['table']} ";
 				if(!empty($j['alias'])){
@@ -209,39 +258,50 @@ class Sql{
 			}
 		}
 		//where
-		if(!empty($this->conditions)){
+		if($this->conditions){
 			$where = $this->db->getWhere($this->conditions);
 			$sql .= "WHERE \n{$where['condition']} \n";
 			$this->params = array_merge($this->params, $where['params']);
 		}
 		//group
-		if(!empty($this->group)){
+		if($this->group){
 			$sql .= "GROUP BY \n".implode(", \n", $this->group)." \n";
 		}
 		//having
-		if(!empty($this->having)){
+		if($this->having){
 			$having = $this->db->getWhere($this->having);
 			$sql .= "HAVING \n{$having['condition']} \n";
 			$this->params = array_merge($this->params, $having['params']);
 		}
 		
 		//order
-		if(!empty($this->order)){
+		if($this->order){
 			$sql .= "ORDER BY \n".implode(", \n", $this->order)." \n";
 		}
 		//limit
 		if($count !== null){
-			$sql .= "LIMIT {$count} \n";
+			if($this->offset !== null && $this->offset !== false){
+				$sql .= "LIMIT {$this->offset}, {$count} \n";
+			}else{
+				$sql .= "LIMIT {$count} \n";
+			}
 		}else{
 			if(!empty($this->count)){
 				if($this->offset !== null && $this->offset !== false){
-					$sql .= "LIMIT {$this->offset} {$this->count} \n";
+					$sql .= "LIMIT {$this->offset}, {$this->count} \n";
 				}else{
 					$sql .= "LIMIT {$this->count} \n";
 				}
 			}
 		}
 		return $sql;
+	}
+	
+	/**
+	 * 将类转换为字符串输出
+	 */
+	public function __toString(){
+		return $this->getSql();
 	}
 	
 	/**
@@ -255,9 +315,19 @@ class Sql{
 		$sql = "SELECT COUNT({$this->countBy}) \n";
 		
 		//from
-		$sql .= "FROM \n".implode(', ', $this->from)."\n";
+		if($this->from){
+			$sql .= "FROM \n";
+			foreach($this->from as $from){
+				$sql .= "{$from['table']} AS {$from['alias']}";
+				if(isset($from['params'])){
+					$this->params = array_merge($this->params, $from['params']);
+				}
+			}
+			$sql .= "\n";
+		}
+		
 		//join
-		if(!empty($this->join)){
+		if($this->join){
 			foreach($this->join as $j){
 				$sql .= "{$j['type']} {$j['table']} ";
 				if(!empty($j['alias'])){
@@ -268,7 +338,7 @@ class Sql{
 			}
 		}
 		//where
-		if(!empty($this->conditions)){
+		if($this->conditions){
 			$where = $this->db->getWhere($this->conditions);
 			$sql .= "WHERE {$where['condition']} \n";
 			$this->params = array_merge($this->params, $where['params']);
@@ -322,37 +392,27 @@ class Sql{
 	/**
 	 * 构造fields数组
 	 * @param string $fields 若传入的fields为反选类型，则必须传入表名（用于获取表结构）
-	 * @param string $alias 此处alias为表的别名
-	 * @param string $table 表名
+	 * @param string $table 表的别名
 	 */
-	private function _field($fields, $alias = null, $table = null){
-		if(is_string($fields) && strpos($fields, '!') === 0){
-			$except_fields = explode(',', str_replace(' ', '', substr($fields, 1)));
-			if(strpos($table, APPLICATION.'_') === 0){
-				$all_fields = \F::model(APPLICATION.'\models\tables\\'.String::underscore2case($table))->getFields($except_fields);
-			}else{
-				$all_fields = \F::model('fay\models\tables\\'.String::underscore2case($table))->getFields($except_fields);
-			}
-			$fields = '`'.implode('`,`', $all_fields).'`';
-		}
+	private function _field($fields, $table = null){
 		if(!empty($fields)){
 			if(!is_array($fields)){
 				$fields = array($fields);
 			}
 			foreach($fields as $f){
 				$f_arr = explode(',', $f);
-				if(!empty($alias)){
+				if(!empty($table)){
 					foreach($f_arr as &$fa){
 						if(!preg_match('/^\w+\(.*\).*$/', $fa)){//聚合函数不加前缀
 							$fa = trim($fa);
 							if(strpos($fa, '`') !== 0 && $fa != '*'){//本身没加引号，且非通配符
 								if($pos = strpos($fa, ' ')){//存在空格，例如设置了AS
-									$fa = $alias . '.`' . substr($fa, 0, $pos) . '`' . substr($fa, $pos);
+									$fa = $table . '.`' . substr($fa, 0, $pos) . '`' . substr($fa, $pos);
 								}else{
-									$fa = "{$alias}.`{$fa}`";
+									$fa = "{$table}.`{$fa}`";
 								}
 							}else{
-								$fa = "{$alias}.{$fa}";
+								$fa = "{$table}.{$fa}";
 							}
 						}
 					}
@@ -362,24 +422,41 @@ class Sql{
 		}
 	}
 	
-	private function _join($type, $table, $alias, $conditions, $fields){
-		$table_name = $this->db->{$table};
+	private function _join($type, $table, $conditions, $fields){
+		if(is_array($table)){
+			foreach($table as $a => $t){
+				//虽然这里用foreach，但其实只允许array('p'=>'posts')这样的单项数组，传入多项后面的会被无视
+				if(is_string($a)){
+					$alias = $a;
+				}else{
+					$alias = $this->$t;
+				}
+				$short_name = $t;
+				break;
+			}
+		}else{
+			$short_name = $table;
+			$alias = $table;
+		}
+		
+		$full_table_name = $this->db->getFullTableName($short_name);
 		$where = $this->db->getWhere($conditions);
 		$this->join[] = array(
 			'type'=>$type,
-			'table'=>$table_name,
+			'table'=>$full_table_name,
 			'alias'=>$alias,
 			'condition'=>$where['condition'],
 			'params'=>$where['params'],
 		);
 		if(!empty($fields)){
-			$this->_field($fields, $alias ? $alias : $table_name, $table);
+			$this->_field($fields, $alias ? $alias : $full_table_name);
 		}
 	}
 	
 	/**
 	 * 通过不停加后缀空格的方式，使关键词的键名不重名
 	 * @param string $key
+	 * @return string
 	 */
 	private function getConditionKey($key, $conditions){
 		if(isset($conditions[$key])){

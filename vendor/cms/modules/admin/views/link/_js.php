@@ -25,9 +25,9 @@ var link = {
 		link.uploadObj.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 			var html = [
-				'<input type="hidden" name="logo" value="', resp.id, '" />',
-				'<a href="', resp.url, '" class="fancybox-image">',
-					'<img src="', resp.url, '" />',
+				'<input type="hidden" name="logo" value="', resp.data.id, '" />',
+				'<a href="', resp.data.url, '" class="fancybox-image">',
+					'<img src="', resp.data.url, '" />',
 				'</a>'
 			].join('');
 			$('#upload-logo-preview').html(html);
@@ -35,13 +35,13 @@ var link = {
 
 		link.uploadObj.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert('文件大小不能超过'+(parseInt(link.uploadObj.settings.max_file_size) / (1024 * 1024))+'M');
+				common.alert('文件大小不能超过'+(parseInt(link.uploadObj.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
-				alert('非法的文件类型');
+				common.alert('非法的文件类型');
 				return false;
 			}else{
-				alert(error.message);
+				common.alert(error.message);
 			}
 		});
 	},

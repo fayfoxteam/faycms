@@ -3,6 +3,12 @@
 	<div class="form-field">
 		<label class="title bold">显示下列项目</label>
 		<?php
+		echo F::form('setting')->inputCheckbox('cols[]', 'id', array(
+			'label'=>'文章ID',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'thumbnail', array(
+			'label'=>'缩略图',
+		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'main_category', array(
 			'label'=>'主分类',
 		));
@@ -27,8 +33,20 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'views', array(
 			'label'=>'阅读数',
 		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'real_views', array(
+			'label'=>'真实阅读数',
+		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'comments', array(
 			'label'=>'评论数',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'real_comments', array(
+			'label'=>'真实评论数',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'likes', array(
+			'label'=>'点赞数',
+		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'real_likes', array(
+			'label'=>'真实点赞数',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'publish_time', array(
 			'label'=>'发布时间',

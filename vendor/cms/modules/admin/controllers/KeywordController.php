@@ -7,7 +7,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\models\Flash;
 
 class KeywordController extends AdminController{
 	public function __construct(){
@@ -27,21 +26,21 @@ class KeywordController extends AdminController{
 	public function create(){
 		if($this->input->post()){
 			if($this->form()->setModel(Keywords::model())->check()){
-				$data = Keywords::model()->setAttributes($this->input->post());
+				$data = Keywords::model()->fillData($this->input->post());
 				Keywords::model()->insert($data);
-				Response::output('success', '关键词添加成功', array('admin/keyword/index'));
+				Response::notify('success', '关键词添加成功', array('admin/keyword/index'));
 			}else{
-				Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				Response::goback();
 			}
 		}else{
-			Response::output('error', '不完整的请求', array('admin/keyword/index'));
+			Response::notify('error', '不完整的请求', array('admin/keyword/index'));
 		}
 	}
 	
 	public function remove(){
 		Keywords::model()->delete($this->input->get('id', 'intval'));
 		
-		Response::output('success', '一个关键词被永久删除', array('admin/keyword/index', $this->input->get()));
+		Response::notify('success', '一个关键词被永久删除', array('admin/keyword/index', $this->input->get()));
 	}
 	
 	public function edit(){
@@ -54,14 +53,10 @@ class KeywordController extends AdminController{
 		
 		$check = $this->form()->setModel(Keywords::model());
 		
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = Keywords::model()->setAttributes($this->input->post());
-				Keywords::model()->update($data, array('id = ?'=>$keyword_id));
-				Flash::set('一个关键词被编辑', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = Keywords::model()->fillData($this->input->post());
+			Keywords::model()->update($data, array('id = ?'=>$keyword_id));
+			Response::notify('success', '一个关键词被编辑', false);
 		}
 		if($keyword = Keywords::model()->find($keyword_id)){
 			$this->form()->setData($keyword);
@@ -77,12 +72,12 @@ class KeywordController extends AdminController{
 	
 	public function isKeywordNotExist(){
 		if(Keywords::model()->fetchRow(array(
-			'keyword = ?'=>$this->input->post('value', 'trim'),
+			'keyword = ?'=>$this->input->request('keyword', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo json_encode(array('status'=>0, 'message'=>'关键词已存在'));
+			Response::json('', 0, '关键词已存在');
 		}else{
-			echo json_encode(array('status'=>1));
+			Response::json();
 		}
 	}
 	
@@ -91,11 +86,11 @@ class KeywordController extends AdminController{
 	 */
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('keywords', 'k');
+		$sql->from(array('k'=>'keywords'));
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("k.{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('k.id DESC');

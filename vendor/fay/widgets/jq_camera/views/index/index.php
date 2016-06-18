@@ -3,20 +3,20 @@ use fay\models\File;
 use fay\models\tables\Files;
 use fay\models\Qiniu;
 use fay\helpers\Html;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 ?>
 <div class="jq-camera-container">
 	<div class="camera_wrap camera_azure_skin jq-camera">
-	<?php foreach($config['files'] as $d){
-		$file = Files::model()->find($d['file_id']);
+	<?php foreach($files as $f){
+		$file = Files::model()->find($f['file_id']);
 		if($file['qiniu']){
 			$data_src = Qiniu::model()->getUrl($file);
 		}else{
-			$data_src = File::model()->getUrl($file);
+			$data_src = File::getUrl($file);
 		}
 		echo Html::tag('div', array(
 			'data-src'=>$data_src,
-			'data-link'=>empty($d['link']) ? false : $d['link'],
+			'data-link'=>empty($f['link']) ? false : $f['link'],
 		), '');
 	}?>
 	</div>
@@ -27,7 +27,7 @@ use fay\helpers\String;
 <script>
 $(function(){
 	$(".jq-camera").camera({
-		'height':'<?php echo String::isInt($config['height']) ? $config['height'].'px' : $config['height']?>',
+		'height':'<?php echo StringHelper::isInt($config['height']) ? $config['height'].'px' : $config['height']?>',
 		'easing':'swing',
 		'loader':'none',
 		'pagination':false,

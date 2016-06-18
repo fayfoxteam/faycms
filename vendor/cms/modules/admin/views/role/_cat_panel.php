@@ -10,8 +10,10 @@ function showCats($tree, $dep = 0){?>
 						echo 'terminal';
 					else
 						echo 'parent';?>">
-					<?php
-						echo F::form()->inputCheckbox('role_cats[]', $node['id']);
+					<label><?php
+						echo F::form()->inputCheckbox('role_cats[]', $node['id'], array(
+							'class'=>'role-cats',
+						));
 						
 						if(empty($node['children'])){
 							echo Html::encode($node['title']);
@@ -22,9 +24,14 @@ function showCats($tree, $dep = 0){?>
 					<?php if($node['alias']){?>
 						<em class="fc-grey">[ <?php echo $node['alias']?> ]</em>
 					<?php }?>
+					</label>
 					<?php if(!empty($node['children'])){
-						echo Html::link('全选子项', 'javascript:;', array(
+						echo Html::link('全选', 'javascript:;', array(
 							'class'=>'select-all-children',
+						)),
+						' | ',
+						Html::link('不选', 'javascript:;', array(
+							'class'=>'unselect-all-children',
 						));
 					}?>
 				</span>

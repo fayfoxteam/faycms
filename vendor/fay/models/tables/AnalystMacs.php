@@ -7,10 +7,11 @@ class AnalystMacs extends Table{
 	protected $_name = 'analyst_macs';
 	
 	/**
+	 * @param string $class_name
 	 * @return AnalystMacs
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -36,7 +37,7 @@ class AnalystMacs extends Table{
 			'shell'=>'浏览器套壳',
 			'shell_version'=>'套壳版本',
 			'os'=>'操作系统',
-			'ip_int'=>'Ip Int',
+			'ip_int'=>'IP',
 			'screen_width'=>'屏幕宽度',
 			'screen_height'=>'屏幕高度',
 			'url'=>'Url',
@@ -60,7 +61,6 @@ class AnalystMacs extends Table{
 			'shell'=>'trim',
 			'shell_version'=>'trim',
 			'os'=>'trim',
-			'ip_int'=>'intval',
 			'screen_width'=>'intval',
 			'screen_height'=>'intval',
 			'url'=>'trim',
@@ -68,7 +68,6 @@ class AnalystMacs extends Table{
 			'se'=>'trim',
 			'keywords'=>'trim',
 			'hash'=>'trim',
-			'create_time'=>'',
 			'create_date'=>'',
 			'hour'=>'intval',
 			'trackid'=>'trim',

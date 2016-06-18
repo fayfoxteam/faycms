@@ -134,13 +134,11 @@ $cols = F::form('setting')->getData('cols');
 					}?>
 				</tr>
 			</tfoot>
-			<tbody>
-		<?php
-			$listview->showData(array(
-				'cols'=>$cols,
-			));
-		?>
-			</tbody>
+			<tbody><?php
+				$listview->showData(array(
+					'cols'=>$cols,
+				));
+			?></tbody>
 		</table>
 		<?php $listview->showPager();?>
 	</div>

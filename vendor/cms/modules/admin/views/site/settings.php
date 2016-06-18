@@ -3,6 +3,7 @@
 		<div class="tabbable">
 			<ul class="nav-tabs">
 				<li class="active"><a href="#options-panel">站点参数</a></li>
+				<li><a href="#system-panel">系统参数</a></li>
 				<li><a href="#email-panel">邮箱参数</a></li>
 				<li><a href="#qiniu-panel">七牛参数</a></li>
 				<li><a href="#ucpaas-panel">云之讯参数</a></li>
@@ -10,6 +11,9 @@
 			<div class="tab-content">
 				<div id="options-panel" class="tab-pane p5">
 					<?php $this->renderPartial('_options_panel')?>
+				</div>
+				<div id="system-panel" class="tab-pane p5 hide">
+					<?php $this->renderPartial('_system_panel')?>
 				</div>
 				<div id="email-panel" class="tab-pane p5 hide">
 					<?php $this->renderPartial('_email_panel')?>
@@ -62,7 +66,8 @@ $(function(){
 				last.poshytip('destroy');
 			},
 			'afterAjaxSubmit':function(resp){
-				$('body').unblock()
+				$('body').unblock();
+				common.notify('保存成功', 'success');
 			}
 		});
 	});

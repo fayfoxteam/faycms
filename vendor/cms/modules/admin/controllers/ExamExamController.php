@@ -7,7 +7,6 @@ use fay\common\ListView;
 use fay\models\tables\ExamExams;
 use fay\models\tables\Users;
 use fay\models\tables\ExamPapers;
-use fay\models\Setting;
 use fay\models\tables\ExamExamsQuestions;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
@@ -22,24 +21,16 @@ class ExamExamController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '用户答卷';
 		
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_exam_exam_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
+		//页面设置
+		$this->settingForm('admin_exam_exam_index', '_setting_index', array(
 			'display_name'=>'username',
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		$sql = new Sql();
-		$sql->from('exam_exams', 'e')
-			->joinLeft('exam_papers', 'p', 'e.paper_id = p.id', 'title AS paper_title')
-			->joinLeft('users', 'u', 'e.user_id = u.id', 'username,nickname,realname')
+		$sql->from(array('e'=>'exam_exams'))
+			->joinLeft(array('p'=>'exam_papers'), 'e.paper_id = p.id', 'title AS paper_title')
+			->joinLeft(array('u'=>'users'), 'e.user_id = u.id', 'username,nickname,realname')
 			->order('id DESC')
 		;
 		
@@ -80,8 +71,8 @@ class ExamExamController extends AdminController{
 		$this->view->paper = ExamPapers::model()->find($exam['paper_id']);
 		
 		$sql = new Sql();
-		$this->view->exam_questions = $sql->from('exam_exams_questions', 'ea')
-			->joinLeft('exam_questions', 'q', 'ea.question_id = q.id', 'question,type')
+		$this->view->exam_questions = $sql->from(array('ea'=>'exam_exams_questions'))
+			->joinLeft(array('q'=>'exam_questions'), 'ea.question_id = q.id', 'question,type')
 			->where(array(
 				'ea.exam_id = ?'=>$id,
 			))
@@ -100,7 +91,7 @@ class ExamExamController extends AdminController{
 		$exam_question = ExamExamsQuestions::model()->find($id, 'id,exam_id,total_score');
 		
 		if($score > $exam_question['total_score']){
-			Response::output('error', array(
+			Response::notify('error', array(
 				'message'=>'所设得分不能高于总分',
 			));
 		}
@@ -117,7 +108,7 @@ class ExamExamController extends AdminController{
 
 		$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一个答题的得分', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'分数设置成功',
 			'score'=>$score,
 			'id'=>$id,
@@ -132,7 +123,7 @@ class ExamExamController extends AdminController{
 		
 		$this->actionlog(Actionlogs::TYPE_EXAM, '将用户答卷永久删除', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一份答卷被永久删除',
 			'id'=>$id,
 		));

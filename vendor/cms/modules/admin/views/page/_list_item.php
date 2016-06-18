@@ -1,12 +1,13 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Page;
 use fay\helpers\Date;
+use cms\helpers\PageHelper;
+use fay\models\Page;
 ?>
 <tr valign="top" id="page-<?php echo $data['id']?>">
 	<td>
 		<strong>
-			<?php echo Html::link($data['title'], array('page/item', array(
+			<?php echo Html::link($data['title'], array('admin/page/edit', array(
 				'id'=>$data['id'],
 			)), array(
 				'target'=>'_blank',
@@ -48,7 +49,7 @@ use fay\helpers\Date;
 	?></td>
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('status', $_settings['cols'])){?>
-	<td class="wp10"><?php echo Page::getPageStatus($data['status'], $data['deleted']);?></td>
+	<td class="wp10"><?php echo PageHelper::getStatus($data['status'], $data['deleted']);?></td>
 	<?php }?>
 	<?php if(!isset($_settings['cols']) || in_array('alias', $_settings['cols'])){?>
 	<td><?php echo $data['alias']?></td>

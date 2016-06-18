@@ -6,11 +6,14 @@ use fay\core\Validator;
 use fay\helpers\Html;
 use fay\core\Loader;
 use fay\models\tables\Posts;
+use fay\log\Logger;
+use fay\core\Db;
 
 class TestController extends AdminController{
 	public function valid(){
 		$v = new Validator();
-		$v->setLables(array(
+		$v->skip_all_on_error = false;
+		$v->setLabels(array(
 			'email'=>'邮箱',
 			'i'=>'Int',
 			'f'=>'Float',
@@ -51,7 +54,7 @@ class TestController extends AdminController{
 			array('refer', 'string', array('min'=>2, 'max'=>5)),
 			array('cat_id', 'int', array('min'=>2, 'max'=>4)),
 			array('cat_id', 'range', array('range'=>array('2', '3'))),
-			array('username', 'unique', array('table'=>'users', 'field'=>'username', 'ajax'=>array('tools/user/is-username-not-exist'))),
+			array('username', 'unique', array('table'=>'users', 'field'=>'username', 'ajax'=>array('api/user/is-username-not-exist'))),
 			array('datetime', 'datetime', array('int'=>true)),
 		);
 		
@@ -67,7 +70,7 @@ class TestController extends AdminController{
 				pr($this->input->post());
 			}else{
 				//Flash::set(pr($valid, true, true));
-				$this->showDataCheckError($this->form()->getErrors());
+				dump($this->form()->getErrors());
 			}
 		}
 		
@@ -303,5 +306,62 @@ class TestController extends AdminController{
 		dump($rand);
 		echo microtime(true) - $start_time;
 		dump(Posts::model()->db->getSqlLogs());
+	}
+	
+	/**
+	 * 日志测试
+	 */
+	public function log(){
+		//这行不注释则是语法错误
+		//$this->a();
+		//throw new ErrorException('这是一个自定义的错误异常');
+		//throw new HttpException('这是一个404异常');
+		//throw new HttpException('这是一个500异常', 500);
+		\F::logger()->log('haha', Logger::LEVEL_ERROR);
+		\F::logger()->log('hehe', Logger::LEVEL_INFO);
+		\F::logger()->flush();
+	}
+	
+	/**
+	 * 批量执行SQL测试
+	 */
+	public function db(){
+		$db = Db::getInstance();
+		$sql = '-- 页面
+INSERT INTO `faycms_pages` (title, alias) VALUES (\'关于我们\', \'about\');
+
+--　基础分类
+INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES (\'1000\', \'师资力量\', \'teacher\', \'1\', \'1\', \'1\');
+INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is_system`) VALUES (\'1001\', \'学生作品\', \'works\', \'1\', \'1\', \'1\');';
+		
+// 		$sql = ';UPDATE faycms_categories SET alias = \'about\' WHERE id = 1';
+		$db->exec($sql, true);
+		
+		dump($db->getSqlLogs());
+	}
+	
+	public function postCats(){
+		set_time_limit(0);
+		$p = 0;
+		$cats = array();
+		for($c = 10000; $c <= 10100; $c++){
+			$cats[] = $c;
+		}
+		
+		for($i = 0; $i < 10000; $i++){
+			$data = array();
+			for($j = 0; $j < 1000; $j++){
+				$p++;
+				$rand_keys = array_rand($cats, mt_rand(2, 5));
+				foreach($rand_keys as $k){
+					$data[] = array(
+						'post_id'=>$p,
+						'cat_id'=>$cats[$k],
+					);
+				}
+			}
+			//dump($data);die;
+			\fay\models\tables\PostsCategories::model()->bulkInsert($data);
+		}
 	}
 }

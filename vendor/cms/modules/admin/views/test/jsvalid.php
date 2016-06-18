@@ -8,7 +8,7 @@ $rules = array(
 // 	array('refer', 'string', array('min'=>2, 'max'=>5)),
 // 	array('cat_id', 'int', array('min'=>2, 'max'=>4)),
 // 	array('cat_id', 'range', array('range'=>array('2', '3'))),
-	array('username', 'ajax', array('url'=>array('tools/user/is-username-not-exist'))),
+	array('username', 'ajax', array('url'=>array('api/user/is-username-not-exist'))),
 );
 
 $js_rules = F::form()->getJsRules($rules);
@@ -47,7 +47,7 @@ $labels = array(
 			<h2>自定义属性方式</h2>
 			<hr>
 			<h3>输入框(username2)</h3>
-			<input type="text" name="username2" data-required="1" data-rule="string" data-params="{min:2,max:5}" data-ajax="<?php echo $this->url('tools/user/is-username-exist')?>" />
+			<input type="text" name="username2" data-required="1" data-rule="string" data-params="{min:2,max:5}" data-ajax="<?php echo $this->url('api/user/is-username-exist')?>" />
 			<h3>单选框(role2)</h3>
 			<label><input type="radio" name="role2" value="1" />1</label>
 			<label><input type="radio" name="role2" value="2" />2</label>
@@ -97,6 +97,6 @@ $(function(){
 	}]});
 	demo.addLabels({'username2':'asdf'});
 
-	demo.addValidator('test', function(){alert('123')});
+	demo.addValidator('test', function(){common.alert('123')});
 });
 </script>

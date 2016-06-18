@@ -32,7 +32,8 @@ class File extends Cache{
 	
 	/**
 	 * 根据$key获取缓存文件路径
-	 * @param mix $key
+	 * @param mixed $key
+	 * @return string
 	 */
 	protected function getCacheFile($key){
 		return APPLICATION_PATH . 'runtimes' . DS . 'cache' . DS . $key;
@@ -46,6 +47,8 @@ class File extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::getValue()
+	 * @param mixed $key
+	 * @return mixed
 	 */
 	protected function getValue($key){
 		$file = $this->getCacheFile($this->buildKey($key));
@@ -63,6 +66,10 @@ class File extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::setValue()
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $duration
+	 * @return bool
 	 */
 	protected function setValue($key, $value, $duration){
 		$file = $this->getCacheFile($key);
@@ -85,6 +92,8 @@ class File extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::deleteValue()
+	 * @param string $key
+	 * @return bool
 	 */
 	protected function deleteValue($key){
 		$file = $this->getCacheFile($key);
@@ -94,9 +103,11 @@ class File extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::flushValues()
+	 * @param null|string $prefix
+	 * @return bool
 	 */
 	protected function flushValues($prefix = null){
-		$this->gc(true, false, $prefix);
+		$this->gc(true, false, $this->buildKey($prefix));
 		
 		return true;
 	}
@@ -117,8 +128,8 @@ class File extends Cache{
 	
 	/**
 	 * 执行缓存清理
+	 * @param string $path
 	 * @param bool $expired_only 若为true，只清理已过期的缓存文件；若为false，则清空所有缓存文件
-	 * @param string $prefix 若非空，则清理以$prefix为前缀的部分子目录
 	 */
 	protected function gcRecursive($path, $expired_only){
 		if(($handle = opendir($path)) !== false){

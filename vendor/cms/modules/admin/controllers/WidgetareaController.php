@@ -19,6 +19,9 @@ class WidgetareaController extends AdminController{
 			'text'=>'创建小工具',
 		);
 		
+		//页面设置
+		$this->settingForm('admin_widgetarea_index', '_setting_index');
+		
 		//小工具域
 		$this->view->widgetareas = $this->config->getFile('widgetareas');
 		
@@ -53,6 +56,6 @@ class WidgetareaController extends AdminController{
 				), $w);
 			}
 		}
-		Response::output('success', '修改成功');
+		Response::notify('success', '修改成功');
 	}
 }

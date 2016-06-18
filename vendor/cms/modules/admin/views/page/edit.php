@@ -8,14 +8,14 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env">
+			<div class="mb30">
 				<?php echo F::form()->inputText('title', array(
 					'id'=>'title',
 					'class'=>'form-control bigtxt',
 					'placeholder'=>'在此键入标题',
 				))?>
 			</div>
-			<div class="postarea">
+			<div class="mb30">
 				<?php echo F::form()->textarea('content', array(
 					'id'=>'visual-editor',
 					'class'=>'h350',
@@ -34,7 +34,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>状态</strong>
 						<?php echo F::form()->inputRadio('status', Pages::STATUS_PUBLISHED, array('label'=>'已发布'))?>
 						<?php echo F::form()->inputRadio('status', Pages::STATUS_DRAFT, array('label'=>'草稿'))?>
@@ -48,7 +48,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						if(isset(F::app()->boxes[$k]['view'])){
 							$this->renderPartial(F::app()->boxes[$k]['view']);
 						}else{
-							$this->renderPartial('_box_'.str_replace('-', '_', $box));
+							$this->renderPartial('_box_'.$box);
 						}
 						unset($boxes_cp[$k]);
 					}
@@ -63,7 +63,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						if(isset(F::app()->boxes[$k]['view'])){
 							$this->renderPartial(F::app()->boxes[$k]['view']);
 						}else{
-							$this->renderPartial('_box_'.str_replace('-', '_', $box));
+							$this->renderPartial('_box_'.$box);
 						}
 						unset($boxes_cp[$k]);
 					}
@@ -75,7 +75,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				if(isset(F::app()->boxes[$k]['view'])){
 					$this->renderPartial(F::app()->boxes[$k]['view']);
 				}else{
-					$this->renderPartial('_box_'.str_replace('-', '_', $box));
+					$this->renderPartial('_box_'.$box);
 				}
 			}
 		?></div>

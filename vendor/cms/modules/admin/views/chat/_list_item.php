@@ -4,8 +4,6 @@ use fay\helpers\Date;
 use fay\models\File;
 use fay\models\Message;
 use fay\models\tables\Messages;
-
-$settings = F::form('setting')->getAllData();
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
 	<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
@@ -25,7 +23,7 @@ $settings = F::form('setting')->getAllData();
 				<?php echo Html::encode($data[$settings['display_name']])?>
 			</span>
 			留言给<span class="ci-to"><?php
-				echo Html::encode($data['target_'.$settings['display_name']]);
+				echo empty($data['to_'.$settings['display_name']]) ? '匿名' : Html::encode($data['to_'.$settings['display_name']]);
 			?></span>
 			<abbr class="ci-time" title="<?php echo Date::format($data['create_time'])?>"><?php
 				echo Date::niceShort($data['create_time']);

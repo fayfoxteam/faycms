@@ -9,9 +9,16 @@ use fay\core\Validator;
  */
 class Url extends Validator{
 	/**
+	 * 若为true，允许传入数组，每个数组项都必须是数字
+	 */
+	public $allow_array = true;
+	
+	/**
 	 * Url正则，不建议修改
 	 */
 	public $pattern = '/^(http|https):\/\/\w+.*$/';
+	
+	public $code = 'invalid-parameter:{$field}-should-be-a-url';
 	
 	/**
 	 * 错误描述
@@ -19,10 +26,39 @@ class Url extends Validator{
 	public $message = '{$attribute}格式不正确';
 	
 	public function validate($value){
-		if(preg_match($this->pattern, $value)){
+		if($this->allow_array && is_array($value)){
+			//如果允许传入数组且传入的是数组
+			foreach($value as $v){
+				if($this->skip_on_empty && ($v === null || $v === '' || $v === array())){
+					//跳过为空的值
+					continue;
+				}
+				$check = $this->checkItem($v);
+				if($check !== true){
+					return $this->addError($check[0], $check[1], $check[2]);
+				}
+			}
+			
 			return true;
 		}else{
-			return $this->message;
+			$check = $this->checkItem($value);
+			if($check !== true){
+				return $this->addError($check[0], $check[1], $check[2]);
+			}
+				
+			return true;
+		}
+	}
+	
+	/**
+	 * 判断一项是否符合标准
+	 * @param int $item
+	 */
+	private function checkItem($item){
+		if(is_string($item) && preg_match($this->pattern, $item)){
+			return true;
+		}else{
+			return array($this->message, $this->code, array());
 		}
 	}
 }

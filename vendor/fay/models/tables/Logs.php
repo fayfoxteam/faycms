@@ -8,10 +8,12 @@ class Logs extends Table{
 	 * 类型 - 正常
 	 */
 	const TYPE_NORMAL = 1;
+	
 	/**
 	 * 类型 - 严重错误
 	 */
 	const TYPE_ERROR = 2;
+	
 	/**
 	 * 类型 - 警告
 	 */
@@ -20,10 +22,11 @@ class Logs extends Table{
 	protected $_name = 'logs';
 	
 	/**
+	 * @param string $class_name
 	 * @return Logs
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -44,8 +47,8 @@ class Logs extends Table{
 			'code'=>'Code',
 			'data'=>'Data',
 			'create_date'=>'Create Date',
-			'create_time'=>'Create Time',
-			'ip_int'=>'Ip Int',
+			'create_time'=>'创建时间',
+			'ip_int'=>'IP',
 			'user_agent'=>'User Agent',
 		);
 	}
@@ -57,8 +60,6 @@ class Logs extends Table{
 			'code'=>'trim',
 			'data'=>'',
 			'create_date'=>'',
-			'create_time'=>'',
-			'ip_int'=>'intval',
 			'user_agent'=>'trim',
 		);
 	}

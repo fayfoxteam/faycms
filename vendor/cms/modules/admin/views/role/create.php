@@ -75,6 +75,7 @@ $col_left_count = floor($action_cat_count / 2);
 var role = {
 	'events':function(){
 		$(".select-all").change(function(){
+			console.log($(this).attr("checked"));
 			if($(this).attr("checked")){
 				$(this).parent().parent().next(".box-content").find("input[type='checkbox']").attr("checked", "checked");
 			}else{
@@ -109,8 +110,14 @@ var role = {
 					$li.addClass("close");
 				});
 			}
+		}).on('click', '.leaf-title.parent label', function(){
+			$(this).find('input[type="checkbox"]').attr('checked', !$(this).find('input[type="checkbox"]').attr('checked'));
+			return false;
 		}).on('click', '.select-all-children', function(){
 			$(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', 'checked');
+			return false;
+		}).on('click', '.unselect-all-children', function(){
+			$(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', false);
 			return false;
 		});
 	},

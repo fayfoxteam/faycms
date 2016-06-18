@@ -8,10 +8,11 @@ class PostPropInt extends Table{
 	protected $_primary = array('post_id', 'prop_id', 'content');
 	
 	/**
+	 * @param string $class_name
 	 * @return PostPropInt
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){

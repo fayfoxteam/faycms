@@ -8,7 +8,7 @@
 					foreach($boxes_cp as $k =>$v){
 						if($box == $v){
 							$ajax = in_array($box, F::app()->ajax_boxes) ? true : false;
-							F::app()->widget->render($box, array(), $ajax);
+							F::widget()->render($box, array(), $ajax);
 							unset($boxes_cp[$k]);
 							break;
 						}
@@ -26,7 +26,7 @@
 					foreach($boxes_cp as $k =>$v){
 						if($box == $v){
 							$ajax = in_array($box, F::app()->ajax_boxes) ? true : false;
-							F::app()->widget->render($box, array(), $ajax);
+							F::widget()->render($box, array(), $ajax);
 							unset($boxes_cp[$k]);
 							break;
 						}
@@ -36,7 +36,7 @@
 			
 			foreach($boxes_cp as $box){
 				$ajax = in_array($box, F::app()->ajax_boxes) ? true : false;
-				F::app()->widget->render($box, array(), $ajax);
+				F::widget()->render($box, array(), $ajax);
 			}
 			?>
 		</div>

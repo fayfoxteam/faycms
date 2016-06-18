@@ -1,14 +1,14 @@
 var chat = {
 	'status':{},
 	'display_name':'username',
-	'parmission':{},
+	'permissions':{},
 	/**
 	 * 获取一个会话，并调用渲染函数进行渲染
 	 */
 	'getChat':function(id){
 		$.ajax({
 			'type': 'GET',
-			'url': system.url('admin/chat/item', {
+			'url': system.url('admin/message/item', {
 				'id':id
 			}),
 			'dataType': 'json',
@@ -16,8 +16,8 @@ var chat = {
 			'success': function(resp){
 				$('#chat-dialog').unblock();
 				if(resp.status){
-					chat.showRoot(resp.data.root);
-					chat.showReplies(resp.data.replies);
+					chat.showMessage(resp.data.message);
+					chat.showReplies(resp.data.children);
 					
 					system.getScript(system.assets('js/jquery.slimscroll.min.js'), function(){
 						$("#chat-dialog .cd-reply-list").slimScroll({
@@ -29,7 +29,7 @@ var chat = {
 						$.fancybox.center(true);
 					});
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});
@@ -37,65 +37,66 @@ var chat = {
 	/**
 	 * 显示根留言
 	 */
-	'showRoot':function(root){
-		$('#chat-dialog .cd-user').text(root[chat.display_name]);
-		$('#chat-dialog .cd-to').text(root['target_'+chat.display_name]);
-		$('#chat-dialog .cd-time').text(system.date(root.create_time));
-		$('#chat-dialog .cd-content').html(system.encode(root.content).replace(/\n/g, '<br />'));
-		$('#chat-dialog .cd-avatar').attr('src', system.url('file/pic', {
-			'f':root.avatar,
-			's':'avatar',
-			't':2
-		}));
-		$('#chat-dialog [name="content"]').attr('placeholder', '回复 '+root[chat.display_name]);
-		$('#chat-dialog [name="target"]').val(root.target);
-		$('#chat-dialog [name="parent"]').val(root.id);
-		$('#chat-dialog .reply-root').attr('data-username', root[chat.display_name]);
-		$('#chat-dialog .reply-root').attr('data-id', root.id);
+	'showMessage':function(message){
+		$chatDialog = $('#chat-dialog');
+		$chatDialog.find('.cd-user').text(message.user.user[chat.display_name]);
+		$chatDialog.find('.cd-to').text(message.to_user.user[chat.display_name]);
+		$chatDialog.find('.cd-time').text(system.date(message.message.create_time));
+		$chatDialog.find('.cd-content').html(system.encode(message.message.content));
+		$chatDialog.find('.cd-avatar').attr('src', message.user.user.avatar_url);
+		$chatDialog.find('[name="content"]').attr('placeholder', '回复 '+message.user.user[chat.display_name]);
+		$chatDialog.find('[name="to_user_id"]').val(message.user.user.id);
+		$chatDialog.find('[name="parent"]').val(message.message.id);
+		$chatDialog.find('.reply-root').attr({
+			'data-username': message.user.user[chat.display_name],
+			'data-id': message.message.id
+		});
 	},
 	/**
 	 * 显示回复
 	 */
 	'showReplies':function(replies){
-		$.each(replies, function(i, data){
-			$('#chat-dialog .cd-timeline').append(chat.showOneReply(data));
+		var $container = $('#chat-dialog .cd-timeline');
+		$.each(replies.messages, function(i, data){
+			$container.append(chat.showOneReply(data));
 		});
 	},
 	'showOneReply':function(data){
+		console.log(data);
 		return ['<li class="cd-item" id="reply-', data.id, '">',
 			'<div class="cdi-line"></div>',
 			'<div class="cdi-header">',
-			'<span class="cdi-user">', data[chat.display_name], '</span>',
+			'<span class="cdi-user">', data.user.user[chat.display_name], '</span>',
 			' 回复 ',
-			'<span class="cdi-user">', data['parent_'+chat.display_name], '</span>',
-				'<span class="cdi-time" title="', system.date(data.create_time), '">',
-					system.shortDate(data.create_time),
+			'<span class="cdi-user">', data.parent.user.user[chat.display_name], '</span>',
+				'<span class="cdi-time" title="', system.date(data.message.create_time), '">',
+					system.shortDate(data.message.create_time),
 				'</span>',
-				'<span class="cdi-status">', chat.status[data.status], '</span>',
+				'<span class="cdi-status">', chat.status[data.message.status], '</span>',
 			'</div>',
-			'<div class="cdi-content">', system.encode(data.content).replace(/\n/g, '<br />'), '</div>',
+			'<div class="cdi-content">', system.encode(data.message.content), '</div>',
 			'<div class="cdi-options">',
 			(function(){
 				return chat.permissions.approve ?
-					['<a href="javascript:;" class="reply-link" data-id="', data.id, '" data-username="', data[chat.display_name], '">',
+					['<a href="javascript:;" class="reply-link" data-id="', data.message.id, '" data-username="', data.user.user[chat.display_name], '">',
 						'<i class="icon-reply"></i>回复',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions.approve ?
-					['<a href="javascript:;" class="fc-green approve-link', data.status == chat.status.approved ? ' hide' : '', '" data-id="', data.id, '">',
+					['<a href="javascript:;" class="fc-green approve-link', data.message.status == chat.status.approved ? ' hide' : '', '" data-id="', data.message.id, '">',
 						'<i class="icon-eye"></i>批准',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions.unapprove ?
-					['<a href="javascript:;" class="fc-orange unapprove-link', data.status == chat.status.unapproved ? ' hide' : '', '" data-id="', data.id, '">',
+					['<a href="javascript:;" class="fc-orange unapprove-link', data.message.status == chat.status.unapproved ? ' hide' : '', '" data-id="', data.message.id, '">',
 						'<i class="icon-eye-slash"></i>驳回',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions['delete'] ?
-					['<a href="javascript:;" class="fc-red delete-link" data-id="', data.id, '">',
+					['<a href="javascript:;" class="fc-red delete-link" data-id="', data.message.id, '">',
 						'<i class="icon-trash"></i>回收站',
 					'</a>'].join('') : ''
 			}()),
@@ -106,11 +107,12 @@ var chat = {
 	 * 清空dialog数据
 	 */
 	'reset':function(){
-		$('#chat-dialog .cd-user').text('');
-		$('#chat-dialog .cd-to').text('');
-		$('#chat-dialog .cd-time').text('');
-		$('#chat-dialog .cd-content').html('');
-		$('#chat-dialog .cd-timeline').html('');
+		var $chatDialog = $('#chat-dialog');
+		$chatDialog.find('.cd-user').text('');
+		$chatDialog.find('.cd-to').text('');
+		$chatDialog.find('.cd-time').text('');
+		$chatDialog.find('.cd-content').html('');
+		$chatDialog.find('.cd-timeline').html('');
 	},
 	/**
 	 * 绑定回复事件
@@ -121,7 +123,6 @@ var chat = {
 				$('.ci-reply-link').fancybox({
 					'padding':0,
 					'titleShow':false,
-					'centerOnScroll':true,
 					'onStart':function(){
 						chat.reset();
 					},
@@ -148,20 +149,18 @@ var chat = {
 					'dataType': 'json',
 					'cache': false,
 					'success': function(resp){
-						$('#chat-'+resp.id).unblock();
+						$('#chat-'+resp.data.id).unblock();
 						if(resp.status){
-							$('#chat-'+resp.id).fadeOut('normal', function(){
+							$('#chat-'+resp.data.id).fadeOut('normal', function(){
 								$(this).remove();
 							});
 						}else{
-							alert(resp.message);
+							common.alert(resp.message);
 						}
 					}
 				});
 			}
-		});
-		
-		$('.chats-list').on('click', '.approve-link', function(){
+		}).on('click', '.approve-link', function(){
 			$('#chat-'+$(this).attr('data-id')).block();
 			$.ajax({
 				'type': 'GET',
@@ -171,19 +170,18 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#chat-'+resp.id).unblock();
+					var $chat = $('#chat-'+resp.data.id);
+					$chat.unblock();
 					if(resp.status){
-						$('#chat-'+resp.id).find('.ci-status').html(chat.status[resp.message_status]);
-						$('#chat-'+resp.id).find('.approve-link').hide()
-						$('#chat-'+resp.id).find('.unapprove-link').show();
+						$chat.find('.ci-status').html(chat.status[resp.data.status]);
+						$chat.find('.approve-link').hide();
+						$chat.find('.unapprove-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
-		});
-		
-		$('.chats-list').on('click', '.unapprove-link', function(){
+		}).on('click', '.unapprove-link', function(){
 			$('#chat-'+$(this).attr('data-id')).block();
 			$.ajax({
 				'type': 'GET',
@@ -193,19 +191,18 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#chat-'+resp.id).unblock();
+					var $chat = $('#chat-'+resp.data.id);
+					$chat.unblock();
 					if(resp.status){
-						$('#chat-'+resp.id).find('.ci-status').html(chat.status[resp.message_status]);
-						$('#chat-'+resp.id).find('.unapprove-link').hide()
-						$('#chat-'+resp.id).find('.approve-link').show();
+						$chat.find('.ci-status').html(chat.status[resp.data.status]);
+						$chat.find('.unapprove-link').hide();
+						$chat.find('.approve-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
-		});
-		
-		$('.chats-list').on('click', '.delete-link', function(){
+		}).on('click', '.delete-link', function(){
 			$('#chat-'+$(this).attr('data-id')).block();
 			$.ajax({
 				'type': 'GET',
@@ -215,13 +212,14 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#chat-'+resp.id).unblock();
+					var $chat = $('#chat-'+resp.data.id);
+					$chat.unblock();
 					if(resp.status){
-						$('#chat-'+resp.id).fadeOut('normal', function(){
+						$chat.fadeOut('normal', function(){
 							$(this).remove();
 						});
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -239,19 +237,18 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#reply-'+resp.id).unblock();
+					var $chat = $('#reply-'+resp.data.id);
+					$chat.unblock();
 					if(resp.status){
-						$('#reply-'+resp.id).find('.cdi-status').html(chat.status[resp.message_status]);
-						$('#reply-'+resp.id).find('.approve-link').hide()
-						$('#reply-'+resp.id).find('.unapprove-link').show();
+						$chat.find('.cdi-status').html(chat.status[resp.data.id]);
+						$chat.find('.approve-link').hide();
+						$chat.find('.unapprove-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
-		});
-		
-		$(document).on('click', '.cd-item .unapprove-link', function(){
+		}).on('click', '.cd-item .unapprove-link', function(){
 			$('#reply-'+$(this).attr('data-id')).block({
 				'zindex':1200
 			});
@@ -263,19 +260,18 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#reply-'+resp.id).unblock();
+					var $chat = $('#reply-'+resp.data.id);
+					$chat.unblock();
 					if(resp.status){
-						$('#reply-'+resp.id).find('.cdi-status').html(chat.status[resp.message_status]);
-						$('#reply-'+resp.id).find('.unapprove-link').hide()
-						$('#reply-'+resp.id).find('.approve-link').show();
+						$chat.find('.cdi-status').html(chat.status[resp.data.id]);
+						$chat.find('.unapprove-link').hide();
+						$chat.find('.approve-link').show();
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});
-		});
-		
-		$(document).on('click', '.cd-item .delete-link', function(){
+		}).on('click', '.cd-item .delete-link', function(){
 			if(confirm('确定要将该条留言放入回收站吗？')){
 				$('#reply-'+$(this).attr('data-id')).block({
 					'zindex':1200
@@ -288,25 +284,22 @@ var chat = {
 					'dataType': 'json',
 					'cache': false,
 					'success': function(resp){
-						$('#reply-'+resp.id).unblock();
+						var $chat = $('#reply-'+resp.data.id);
+						$chat.unblock();
 						if(resp.status){
-							$('#reply-'+resp.id).fadeOut('normal', function(){
+							$chat.fadeOut('normal', function(){
 								$(this).remove();
 							});
 						}else{
-							alert(resp.message);
+							common.alert(resp.message);
 						}
 					}
 				});
 			}
-		});
-		
-		$(document).on('click', '#chat-dialog .reply-link', function(){
+		}).on('click', '#chat-dialog .reply-link', function(){
 			$('#chat-dialog [name="parent"]').val($(this).attr('data-id'));
 			$('#chat-dialog [name="content"]').attr('placeholder', '回复 '+$(this).attr('data-username')).focus();
-		});
-		
-		$(document).on('submit', '#reply-form', function(){
+		}).on('submit', '#reply-form', function(){
 			$('#chat-dialog').block({
 				'zindex':1200
 			});
@@ -317,16 +310,17 @@ var chat = {
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){
-					$('#chat-dialog').unblock();
+					var $chatDialog = $('#chat-dialog');
+					$chatDialog.unblock();
 					if(resp.status){
-						$('#chat-dialog [name="content"]').val('');
-						$('#chat-dialog .cd-timeline').prepend(chat.showOneReply(resp.data));
-						$("#chat-dialog .cd-reply-list").slimScroll({
+						$chatDialog.find('[name="content"]').val('');
+						$chatDialog.find('.cd-timeline').prepend(chat.showOneReply(resp.data));
+						$chatDialog.find('.cd-reply-list').slimScroll({
 							'scrollTo':'0px',
 							'animate':true
 						});
 					}else{
-						alert(resp.message);
+						common.alert(resp.message);
 					}
 				}
 			});

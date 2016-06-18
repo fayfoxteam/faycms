@@ -5,59 +5,81 @@
 			<div class="box">
 				<div class="box-title"><h3>Code</h3></div>
 				<div class="box-content">
-					<?php echo F::form()->textarea('key', array(
-						'class'=>'form-control h200 autosize',
-					));?>
+					<?php echo F::form()->textarea('code', array(
+						'class'=>'hide',
+						'id'=>'key',
+					), "<?php\r\n");?>
+					<pre id="php-code"></pre>
 					<a href="javascript:;" id="form-submit" class="btn mt5">Run</a>
-					<a href="javascript:;" id="form-reset" class="btn btn-grey mt5">Reset</a>
 				</div>
 			</div>
 		</form>
 	</div>
 	<div class="col-12">
-		<div class="box">
+		<div class="box" id="eval-result-box">
 			<div class="box-title"><h3>Result</h3></div>
 			<div class="box-content">
-				<div style="min-height:239px"><?php eval($key . '?>');?></div>
+				<div style="min-height:239px" id="eval-result"></div>
 			</div>
 		</div>
 	</div>
 </div>
+<style type="text/css" media="screen">
+.ace_editor {
+	border: 1px solid lightgray;
+	height: 200px;
+}
+</style>
+<script type="text/javascript" src="<?php echo $this->assets('js/ace/src-min/ace.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/ace/src-min/ext-language_tools.js')?>"></script>
 <script>
-(function($){
-	$.fn.extend({
-		insertAtCaret: function(myValue){
-			var $t=$(this)[0];
-			if(document.selection){
-				this.focus();
-				sel = document.selection.createRange();
-				sel.text = myValue;
-				this.focus();
-			}else if($t.selectionStart || $t.selectionStart == '0'){
-				var startPos = $t.selectionStart;
-				var endPos = $t.selectionEnd;
-				var scrollTop = $t.scrollTop;
-				$t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length);
-				this.focus();
-				$t.selectionStart = startPos + myValue.length;
-				$t.selectionEnd = startPos + myValue.length;
-				$t.scrollTop = scrollTop;
-			}
-			else {
-				this.value += myValue;
-				this.focus();
-			}
+var editor = ace.edit('php-code');
+editor.setTheme('ace/theme/monokai');
+editor.session.setMode('ace/mode/php');
+editor.setAutoScrollEditorIntoView(true);
+editor.setOptions({
+	enableBasicAutocompletion: true,
+	enableSnippets: true,
+	enableLiveAutocompletion: true,
+	maxLines: 30,
+	minLines: 10
+});
+editor.getSession().on('change', function(e) {
+	$('#key').val(editor.getValue());
+});
+editor.commands.addCommand({
+    name: 'run-s',
+    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+    exec: function(editor) {
+        $('#form').submit();
+    }
+});
+editor.commands.addCommand({
+    name: 'run-r',
+    bindKey: {win: 'Ctrl-R',  mac: 'Command-R'},
+    exec: function(editor) {
+        $('#form').submit();
+    }
+});
+editor.setValue($('#key').val(), 1);
+
+$('#form').submit(function(){
+	$('#eval-result-box').block();
+	$.ajax({
+		'type': 'POST',
+		'url': system.url('tools/function/do-eval'),
+		'data': $('#form').serialize(),
+		'cache': false,
+		'global': false,
+		'error': function(XMLHttpRequest, textStatus, errorThrown){
+			$('#eval-result-box').unblock();
+			$('#eval-result').html(errorThrown);
+		},
+		'success': function(resp){
+			$('#eval-result-box').unblock();
+			$('#eval-result').html(resp);
 		}
-	})
-})(jQuery);
-$("[name='key']").keydown(function(event){
-	if(event.keyCode == 9){
-		$(this).insertAtCaret('  ');
-		return false;
-	}
-	if((event.keyCode == 82 || event.keyCode == 83) && event.ctrlKey){
-		$("#form").submit();
-		return false;
-	}
+	});
+	return false;
 });
 </script>

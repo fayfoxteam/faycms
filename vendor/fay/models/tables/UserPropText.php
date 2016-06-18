@@ -15,10 +15,11 @@ class UserPropText extends Table{
 	protected $_primary = array('user_id', 'prop_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return UserPropText
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){

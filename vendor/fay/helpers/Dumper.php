@@ -3,17 +3,26 @@ namespace fay\helpers;
 
 class Dumper{
 	private static $_output;
+    private static $_depth;
 
 	/**
 	 * 相对于pr函数来说，dump更美观一些
-	 * @param mixed $var
+	 * @param mixed $var 需要打印的变量
+	 * @param int $depth 深度
+	 * @return string
 	 */
-	public static function dump($var){
+	public static function dump($var, $depth = 10){
 		self::$_output = '';
+		self::$_depth = $depth;
 		self::dumpInternal($var);
 		echo '<pre>', self::$_output, "\n</pre>";
 	}
 
+	/**
+	 * 递归打印变量
+	 * @param mixed $var 需要打印的变量
+	 * @param int $level 深度
+	 */
 	private static function dumpInternal($var, $level = 0){
 		switch (gettype($var)) {
 			case 'boolean':
@@ -26,7 +35,7 @@ class Dumper{
 				self::$_output .= "<small>float</small> <font color=\"#f57900\">{$var}</font>";
 				break;
 			case 'string':
-				self::$_output .= "<small>string</small> <font color=\"#cc0000\">'{$var}'</font> <i>(length=".mb_strlen($var, 'utf-8').")</i>";
+				self::$_output .= "<small>string</small> <font color=\"#cc0000\">'".htmlentities($var, ENT_QUOTES, 'UTF-8')."'</font> <i>(length=".mb_strlen($var, 'utf-8').")</i>";
 				break;
 			case 'resource':
 				self::$_output .= '{resource}';
@@ -38,7 +47,9 @@ class Dumper{
 				self::$_output .= '{unknown}';
 				break;
 			case 'array':
-				if(empty($var)){
+				if($level >= self::$_depth){
+					self::$_output .= "<b>array</b>\n".str_repeat(' ', ($level + 1) * 4)."<i><font>[...]</font></i>";
+				}else if(empty($var)){
 					self::$_output .= "<b>array</b>\n".str_repeat(' ', ($level + 1) * 4)."<i><font color=\"#888a85\">empty</font></i>";
 				}else{
 					$keys = array_keys($var);
@@ -56,35 +67,41 @@ class Dumper{
 					}
 				}
 				break;
-			case 'object':
+			case 'object':{
 				$class_name = get_class($var);
-				self::$_output .= "<b>object</b>(<i>".$class_name."</i>)";
-				$spaces = str_repeat(' ', ($level + 1) * 4);
-				foreach ((array) $var as $key => $value) {
-					$key = trim($key);
-					$pre = substr($key, 0, strpos($key, "\0"));
-					if($pre == $class_name){
-						//private
-						self::$_output .= "\n{$spaces}<i>private</i> '".substr($key, strpos($key, "\0"))."'";
-					}else if($pre == '*'){
-						//protected
-						self::$_output .= "\n{$spaces}<i>protected</i> '".substr($key, 1)."'";
-					}else{
-						//public
-						self::$_output .= "\n{$spaces}<i>public</i> '{$key}'";
+				if($level >= self::$_depth){
+					self::$_output .= "<b>object</b>(<i>".$class_name."</i>)\n".str_repeat(' ', ($level + 1) * 4)."<i><font>(...)</font></i>";
+				}else{
+					self::$_output .= "<b>object</b>(<i>".$class_name."</i>)";
+					$spaces = str_repeat(' ', ($level + 1) * 4);
+					foreach ((array) $var as $key => $value) {
+						$key = trim($key);
+						$pre = substr($key, 0, strpos($key, "\0"));
+						if($pre == $class_name){
+							//private
+							self::$_output .= "\n{$spaces}<i>private</i> '".substr($key, strpos($key, "\0"))."'";
+						}else if($pre == '*'){
+							//protected
+							self::$_output .= "\n{$spaces}<i>protected</i> '".substr($key, 1)."'";
+						}else{
+							//public
+							self::$_output .= "\n{$spaces}<i>public</i> '{$key}'";
+						}
+						self::$_output .= ' <font color=\"#888a85\">=&gt;</font> ';
+						self::dumpInternal($value, $level + 1);
 					}
-					self::$_output .= ' <font color=\"#888a85\">=&gt;</font> ';
-					self::dumpInternal($value, $level + 1);
 				}
 				break;
+			}
 		}
 	}
 
 	/**
 	 * 格式化输出一个变量
-	 * @param array $arr
+	 * @param array $var
 	 * @param boolean $encode 若此参数为true，则会对数组内容进行html实体转换
 	 * @param boolean $return 若此参数为true，则不直接输出数组，而是以变量的方式返回
+	 * @return string
 	 */
 	public static function pr($var, $encode = false, $return = false){
 		if($encode){

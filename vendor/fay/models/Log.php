@@ -7,16 +7,17 @@ use fay\helpers\Request;
 
 class Log extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Log
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**
 	 * 记录日志
 	 * @param string $code 错误码
-* @param mixed $data 相关数据(若为数组，会被转为json存储)
+	 * @param mixed $data 相关数据(若为数组，会被转为json存储)
 	 * @param int $type 错误级别，在Logs中定义错误级别常量
 	 */
 	public static function set($code, $data, $type = Logs::TYPE_NORMAL){

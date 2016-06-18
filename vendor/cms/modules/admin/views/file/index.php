@@ -185,7 +185,7 @@ var file = {
 				if(data.status){
 					$('#file-'+file_id+' td').addClass('bg-red').fadeOut('slow');
 				}else{
-					alert(data.message);
+					common.alert(data.message);
 				}
 			}
 		});
@@ -202,14 +202,14 @@ var file = {
 					'id':file_id
 				},
 				dataType: 'json',
-				success: function(data){
-					if(data.status){
+				success: function(resp){
+					if(resp.status){
 						$container.attr('data-qiniu', '1');
 						$container.find('.qiniu-uploaded').show();
 						$container.find('.loading').hide();
-						$container.find('.show-qiniu-file').attr('href', data.url);
+						$container.find('.show-qiniu-file').attr('href', resp.data.url);
 					}else{
-						alert(data.message);
+						common.alert(resp.message);
 					}
 				}
 			});
@@ -225,14 +225,14 @@ var file = {
 					'id':file_id
 				},
 				dataType: 'json',
-				success: function(data){
-					if(data.status){
+				success: function(resp){
+					if(resp.status){
 						$container.attr('data-qiniu', '0');
 						$container.find('.qiniu-not-upload').show();
 						$container.find('.loading').hide();
 						$container.find('.show-qiniu-file').attr('href', '');
 					}else{
-						alert(data.message);
+						common.alert(resp.message);
 					}
 				}
 			});

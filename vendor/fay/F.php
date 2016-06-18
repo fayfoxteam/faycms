@@ -7,6 +7,9 @@ use fay\core\Cache;
 use fay\core\Session;
 use fay\core\Config;
 use fay\core\Db;
+use fay\log\Logger;
+use fay\widget\Loader as WidgetLoader;
+use fay\core\Cookie;
 
 /**
  * 超级类，可以在任何地方获取各种方法
@@ -14,7 +17,7 @@ use fay\core\Db;
 class F{
 	/**
 	 * 获取当前Controller实例
-	 * @return Controller
+	 * @return \fay\core\Controller
 	 */
 	public static function app(){
 		return Controller::getInstance();
@@ -34,6 +37,14 @@ class F{
 	 */
 	public static function session(){
 		return Session::getInstance();
+	}
+	
+	/**
+	 * 获取Cookie类实例
+	 * @return \fay\core\Cookie
+	 */
+	public static function cookie(){
+		return Cookie::getInstance();
 	}
 	
 	/**
@@ -85,10 +96,10 @@ class F{
 	
 	/**
 	 * 获取F::app()->widget
-	 * @return \fay\core\FWidget
+	 * @return \fay\widget\Loader
 	 */
 	public static function widget(){
-		return self::app()->widget;
+		return WidgetLoader::getInstance();
 	}
 	
 	/**
@@ -109,4 +120,12 @@ class F{
 	public static function filter($filters, $data, $fields = null){
 		return Input::getInstance()->filterR($filters, $data, $fields);
 	}
+	
+	/**
+	 * 获取日志驱动
+	 */
+	public static function logger(){
+		return Logger::getInstance();
+	}
+	
 }

@@ -5,7 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Files;
 use fay\common\Upload;
 use fay\helpers\Image;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\core\ErrorException;
 
 /**
@@ -33,17 +33,23 @@ class File extends Model{
 	const PIC_RESIZE = 4;
 	
 	/**
+	 * @param string $class_name
 	 * @return File
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function getIconById($id){
 		
 	}
 	
-	public function getIconByMimetype($mimetype){
+	/**
+	 * 根据文件的mimetype类型，获取对应的小图标
+	 * @param string $mimetype 例如：image/png
+	 * @return int|string
+	 */
+	public static function getIconByMimetype($mimetype){
 		$mimetypes = \F::config()->get('*', 'mimes');
 		$types = array(
 			'image'=>array('jpeg', 'jpg', 'jpe', 'png', 'bmp', 'gif'),
@@ -68,65 +74,156 @@ class File extends Model{
 	}
 
 	/**
-	 * <pre>
-	 * 返回一个可访问的文件url
+	 * 返回一个可访问的url
+	 * 若指定文件不存在，返回null
 	 * 若是图片
-	 *   若是公共文件，直接返回图片真实路径
-	 *   若是私有文件，返回图片file/pic方式的一个url
+	 *   若是公共文件，且不裁剪，返回图片真实url（若上传到七牛，返回的是七牛的url）
+	 *   若是私有文件，或进行裁剪，返回图片file/pic方式的一个url（若上传到七牛，返回的是七牛的url）
 	 * 若不是图片，返回下载地址
-	 * 若第二个参数为false，返回相对路径
-	 * </pre>
+	 * @param int|array $file 可以是文件ID或包含文件信息的数组
+	 * @param int $type 返回图片类型。可选原图、缩略图、裁剪图和缩放图。（仅当指定文件是图片时有效）
+	 * @param array $options 图片的一些裁剪，缩放参数（仅当指定文件是图片时有效）
+	 * @return string url 返回文件可访问的url，若指定文件不存在且未指定替代图，则返回null
 	 */
-	public function getUrl($file, $full_url = true){
-		if(String::isInt($file)){
-			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image');
-		}
-		if($full_url){
-			if($file['is_image']){
-				if(substr($file['file_path'], 0, 4) == './..'){
-					//私有文件，不能直接访问文件
-					return \F::app()->view->url('file/pic', array(
-						'f'=>$file['id'],
-					));
-				}else{
-					//公共文件，直接返回真实路径
-					return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
-				}
-			}else{
-				return \F::app()->view->url('file/download', array('id'=>$file['id']));
+	public static function getUrl($file, $type = self::PIC_ORIGINAL, $options = array()){
+		if(StringHelper::isInt($file)){
+			if($file <= 0){
+				return '';
 			}
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+		}
+		
+		if(!$file){
+			//指定文件不存在，返回null
+			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+				return \F::app()->view->url($spare);
+			}else{
+				return '';
+			}
+		}
+		
+		if($file['is_image']){
+			switch($type){
+				case self::PIC_THUMBNAIL://缩略图
+					if($file['qiniu'] && Option::get('qiniu:enabled')){
+						//若开启了七牛云存储，且文件已上传，则显示七牛路径
+						return Qiniu::model()->getUrl($file, array(
+							'dw'=>'100',
+							'dh'=>'100',
+						));
+					}else{
+						if(substr($file['file_path'], 0, 4) == './..'){
+							//私有文件，不能直接访问文件
+							return \F::app()->view->url('file/pic', array(
+								't'=>self::PIC_THUMBNAIL,
+								'f'=>$file['id'],
+							));
+						}else{
+							//公共文件，直接返回真实路径
+							return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+						}
+					}
+				break;
+				case self::PIC_CROP://裁剪
+					$img_params = array(
+						't'=>self::PIC_CROP,
+					);
+					isset($options['x']) && $img_params['x'] = $options['x'];
+					isset($options['y']) && $img_params['y'] = $options['y'];
+					isset($options['dw']) && $img_params['dw'] = $options['dw'];
+					isset($options['dh']) && $img_params['dh'] = $options['dh'];
+					isset($options['w']) && $img_params['w'] = $options['w'];
+					isset($options['h']) && $img_params['h'] = $options['h'];
+					
+					ksort($img_params);
+					
+					return \F::app()->view->url('file/pic/f/'.$file['id'], $img_params, false);
+				break;
+				case self::PIC_RESIZE://缩放
+					if($file['qiniu'] && Option::get('qiniu:enabled')){
+						//若开启了七牛云存储，且文件已上传，则显示七牛路径
+						return Qiniu::model()->getUrl($file, array(
+							'dw'=>isset($options['dw']) ? $options['dw'] : false,
+							'dh'=>isset($options['dh']) ? $options['dh'] : false,
+						));
+					}else{
+						$img_params = array('t'=>self::PIC_RESIZE);
+						isset($options['dw']) && $img_params['dw'] = $options['dw'];
+						isset($options['dh']) && $img_params['dh'] = $options['dh'];
+						
+						return \F::app()->view->url('file/pic/f/'.$file['id'], $img_params, false);
+					}
+				break;
+				case self::PIC_ORIGINAL://原图
+				default:
+					if($file['qiniu'] && Option::get('qiniu:enabled')){
+						//若开启了七牛云存储，且文件已上传，则显示七牛路径
+						return Qiniu::model()->getUrl($file);
+					}else{
+						if(substr($file['file_path'], 0, 4) == './..'){
+							//私有文件，不能直接访问文件
+							return \F::app()->view->url('file/pic', array(
+								'f'=>$file['id'],
+							));
+						}else{
+							//公共文件，直接返回真实路径
+							return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
+						}
+					}
+				break;
+			}
+			
+		}else{
+			return \F::app()->view->url('file/download', array('id'=>$file['id']));
+		}
+	}
+	
+	/**
+	 * 返回文件本地路径
+	 * @param int|array $file 可以是文件ID或包含文件信息的数组
+	 * @param bool $realpath 若为true，返回完整路径，若为false，返回相对路径，默认为true
+	 * @return string
+	 */
+	public static function getPath($file, $realpath = true){
+		if(StringHelper::isInt($file)){
+			$file = Files::model()->find($file, 'raw_name,file_ext,file_path');
+		}
+		if($realpath){
+			return realpath($file['file_path'] . $file['raw_name'] . $file['file_ext']);
 		}else{
 			return $file['file_path'] . $file['raw_name'] . $file['file_ext'];
 		}
 	}
 	
 	/**
-	 * 返回文件本地完整路径
-	 */
-	public function getPath($file){
-		if(String::isInt($file)){
-			$file = Files::model()->find($file, 'raw_name,file_ext,file_path');
-		}
-		return realpath($file['file_path'] . $file['raw_name'] . $file['file_ext']);
-	}
-	
-	/**
-	 * 返回文件缩略图路径
+	 * 返回文件缩略图链接（此方法可指定缩略图尺寸）
 	 * 若是图片，返回图片缩略图路径
 	 *   若是公共文件，直接返回图片真实路径
 	 *   若是私有文件，返回图片file/pic方式的一个url
-	 * 若是其他类型文件，返回文件图标
+	 * 若是其他类型文件，返回文件图标（图标尺寸是固定的）
+	 * @param int|array $file 可以是文件ID或包含文件信息的数组
+	 * @param array $options 可以指定缩略图尺寸
+	 * @return string
 	 */
-	public function getThumbnailUrl($file, $fullpath = true){
-		if(String::isInt($file)){
-			$file = Files::model()->find($file, 'id,file_type,raw_name,file_path,is_image');
+	public static function getThumbnailUrl($file, $options = array()){
+		if(StringHelper::isInt($file)){
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
+		
+		if(!$file){
+			//指定文件不存在，返回null
+			return '';
+		}
+		
 		if(!$file['is_image']){
 			//不是图片，返回一张文件类型对应的小图标
-			$icon = File::model()->getIconByMimetype($file['file_type']);
+			$icon = self::getIconByMimetype($file['file_type']);
 			return \F::app()->view->url() . 'assets/images/crystal/' . $icon . '.png';
 		}
-		if($fullpath){
+		
+		if(isset($options['dw']) || isset($options['dh'])){
+			return self::getUrl($file, self::PIC_RESIZE, $options);
+		}else{
 			if(substr($file['file_path'], 0, 4) == './..'){
 				//私有文件，不能直接访问文件
 				return \F::app()->view->url('file/pic', array(
@@ -135,19 +232,56 @@ class File extends Model{
 				));
 			}else{
 				//公共文件，直接返回真实路径
-				return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+				if($file['qiniu']){
+					return Qiniu::model()->getUrl($file, array(
+						'dw'=>'100',
+						'dh'=>'100',
+					));
+				}else{
+					return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+				}
 			}
+		}
+	}
+	
+	/**
+	 * 获取文件缩略图路径（非图片类型没有缩略图，返回false；指定文件不存在返回null）
+	 * @param int|array $file 可以是文件ID或包含文件信息的数组
+	 * @param bool $realpath 若为true，返回完整路径，若为false，返回相对路径，默认为true
+	 * @return mixed 图片类型返回缩略图路径；非图片类型没有缩略图，返回false；指定文件不存在返回null
+	 */
+	public static function getThumbnailPath($file, $realpath = true){
+		if(StringHelper::isInt($file)){
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+		}
+		
+		if(!$file){
+			//指定文件不存在，返回null
+			return '';
+		}
+		
+		
+		if(!$file['is_image']){
+			//非图片类型返回false
+			return false;
+		}
+		
+		if($realpath){
+			//返回完整路径
+			return realpath($file['file_path'] . $file['raw_name'] . '-100x100.jpg');
 		}else{
-			return $file['file_path'].$file['raw_name'].'-100x100.jpg';
+			//返回相对路径
+			return $file['file_path'] . $file['raw_name'] . '-100x100.jpg';
 		}
 	}
 	
 	/**
 	 * 执行上传
-	 * @param string $target uploads目录下的某个子目录
-	 * @param int|alias|array $cat 分类ID
-	 * @param string $private
-	 * @param string $allowed_types
+	 * @param int|string|array $cat 分类ID
+	 * @param bool $private
+	 * @param null|array $allowed_types
+	 * @return array
+	 * @throws ErrorException
 	 */
 	public function upload($cat = 0, $private = false, $allowed_types = null){
 		if($cat){
@@ -179,7 +313,7 @@ class File extends Model{
 		if($allowed_types !== null){
 			$upload_config['allowed_types'] = $allowed_types;
 		}
-		$result = self::createFolder($upload_config['upload_path']);
+		self::createFolder($upload_config['upload_path']);
 		$upload = new Upload($upload_config);
 		$result = $upload->run();
 		if($result !== false){
@@ -229,7 +363,7 @@ class File extends Model{
 				);
 				$data['id'] = Files::model()->insert($data);
 				
-				$icon = File::model()->getIconByMimetype($data['file_type']);
+				$icon = self::getIconByMimetype($data['file_type']);
 				$data['thumbnail'] = \F::app()->view->url().'assets/images/crystal/'.$icon.'.png';
 				//下载地址
 				$data['url'] = \F::app()->view->url('file/download', array(
@@ -261,9 +395,11 @@ class File extends Model{
 	 *     $params['y'] 裁剪时y坐标点
 	 *     $params['w'] 裁剪时宽度
 	 *     $params['h'] 裁剪时高度
+	 * @return array|bool|int
+	 * @throws ErrorException
 	 */
 	public function edit($file, $handler, $params){
-		if(String::isInt($file)){
+		if(StringHelper::isInt($file)){
 			$file = Files::model()->find($file);
 		}
 		
@@ -361,12 +497,13 @@ class File extends Model{
 		}
 		return $file;
 	}
-
+	
 	/**
 	 * 获取指定路径下的文件列表，如果第二个参数为true，
 	 * 则会递归的列出子目录下的文件
-	 * @param String $dir 目录
-	 * @param String $recursion
+	 * @param string $dir 目录
+	 * @param bool $recursion
+	 * @return array
 	 */
 	public static function getFileList($dir, $recursion = false){
 		$filelist = array();
@@ -403,21 +540,23 @@ class File extends Model{
 	 * 随机产生一个唯一的文件名<br>
 	 * 该方法区分大小写，若是windows系统，可修改files表结构，让raw_name字段不区分大小写<br>
 	 * 不过文件系统有文件夹分割，重名概率极低，一般问题不大
-	 * @param String $path
-	 * @param String $ext 扩展名
+	 * @param string $path
+	 * @param string $ext 扩展名
+	 * @return string
 	 */
-	public static function getFilename($path, $ext){
-		$filename = String::random('alnum', 5).$ext;
+	public static function getFileName($path, $ext){
+		$filename = StringHelper::random('alnum', 5).$ext;
 		if (!file_exists($path.$filename)){
 			return $filename;
 		}else{
-			return self::getFilename($path, $ext);
+			return self::getFileName($path, $ext);
 		}
 	}
 	
 	/**
-	 * 获取文件名扩展名
-	 * 强制转换为小写
+	 * 获取文件名扩展名并转换为小写
+	 * @param string $filename 文件名
+	 * @return string
 	 */
 	public static function getFileExt($filename){
 		return strtolower(strrchr($filename, '.'));
@@ -426,7 +565,8 @@ class File extends Model{
 	/**
 	 * 创建多级目录
 	 * @param string $path 目录
-	 * @param string $mode 模式
+	 * @param int $mode 模式
+	 * @return bool
 	 */
 	public static function createFolder($path, $mode = 0775){
 		if(is_dir($path)) {
@@ -446,9 +586,9 @@ class File extends Model{
 	 * 删除整个文件夹
 	 * 若第二个参数为true，则连同文件夹一同删除（包括自身）
 	 * @param string $path
-	 * @param string $del_dir
-	 * @param number $level
-	 * @return boolean
+	 * @param bool|string $del_dir
+	 * @param int $level
+	 * @return bool
 	 */
 	public static function deleteFiles($path, $del_dir = false, $level = 0){
 		// Trim the trailing slash
@@ -482,17 +622,18 @@ class File extends Model{
 	 * 获取文件的一行或前后N行
 	 * @param string $file 文件路径
 	 * @param int $line 行号
-	 * @param int $adjacents 前后行数
+	 * @param int $adjacent 前后行数
+	 * @return string
 	 */
-	public static function getFileLine($file, $line, $adjacents = 0){
+	public static function getFileLine($file, $line, $adjacent = 0){
 		if(!file_exists($file)){
 			return '';
 		}
 		$file = file($file);
-		if($adjacents){
-			$offset = $line - $adjacents - 1;//开始截取位置
+		if($adjacent){
+			$offset = $line - $adjacent - 1;//开始截取位置
 			$offset < 0 && $offset = 0;
-			$end = $line + $adjacents;//结束截取位置
+			$end = $line + $adjacent;//结束截取位置
 			$file_line_count = count($file);//文件行数
 			$end > $file_line_count && $end = $file_line_count;
 			
@@ -508,6 +649,9 @@ class File extends Model{
 	 *   若文件不存在，会先创建文件
 	 *   若文件存在，会覆盖
 	 *   若目录也不存在，则会先创建目录
+	 * @param string $file
+	 * @param string $data
+	 * @param int $mode
 	 */
 	public static function createFile($file, $data, $mode = 0775){
 		$dir = dirname($file);
@@ -525,5 +669,77 @@ class File extends Model{
 	public static function getDownloads($file_id){
 		$file = Files::model()->find($file_id, 'downloads');
 		return $file['downloads'];
+	}
+	
+	/**
+	 * 返回指定文件是否是图片
+	 * @param int $file_id
+	 * @return int 返回0|1
+	 */
+	public static function isImage($file_id){
+		$file = Files::model()->find($file_id, 'is_image');
+		return $file['is_image'];
+	}
+	
+	/**
+	 * 返回一个包含文件id, url, thumbnail的数组
+	 * @param $file
+	 * @param array $options
+	 * @param bool $is_image 若为true，则返回字段中会有一个is_image标识文件是否为图片，默认为false
+	 * @return array
+	 */
+	public static function get($file, $options = array(), $is_image = false){
+		if(StringHelper::isInt($file, false)){
+			if($file <= 0){
+				//显然负数ID不存在，返回默认图数组
+				if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+					//若指定了默认图，则取默认图
+				}else{
+					//若未指定默认图，返回默认图
+					$spare = \F::config()->get('default', 'noimage');
+				}
+				$return = array(
+					'id'=>'0',
+					'url'=>\F::app()->view->url($spare),
+					'thumbnail'=>\F::app()->view->url($spare),
+				);
+				if($is_image){
+					$return['is_image'] = '0';
+				}
+				return $return;
+			}
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+		}
+		
+		if(!$file){
+			//指定文件不存在
+			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+				//若指定了默认图，则取默认图
+			}else{
+				//若未指定默认图，返回默认图
+				$spare = \F::config()->get('default', 'noimage');
+			}
+			$return = array(
+				'id'=>'0',
+				'url'=>\F::app()->view->url($spare),
+				'thumbnail'=>\F::app()->view->url($spare),
+			);
+			if($is_image){
+				$return['is_image'] = '0';
+			}
+			
+			return $return;
+		}
+		
+		$return = array(
+			'id'=>$file['id'],
+			'url'=>self::getUrl($file),
+			'thumbnail'=>self::getThumbnailUrl($file, $options),
+		);
+		if($is_image){
+			$return['is_image'] = $file['is_image'];
+		}
+		
+		return $return;
 	}
 }

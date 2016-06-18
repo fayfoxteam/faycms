@@ -7,10 +7,11 @@ class ExamExamsQuestions extends Table{
 	protected $_name = 'exam_exams_questions';
 	
 	/**
+	 * @param string $class_name
 	 * @return ExamExamsQuestions
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){

@@ -18,7 +18,7 @@ class ActionController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '添加权限';
-		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
 		
 		$this->_setListview();
 
@@ -41,8 +41,7 @@ class ActionController extends AdminController{
 						'router = ?'=>$this->input->post('parent_router', 'trim'),
 					), 'id');
 					if(!$parent_router){
-						Flash::set('父级路由不存在');
-						Response::output('error', '父级路由不存在');
+						Response::notify('error', '父级路由不存在');
 					}
 					$parent = $parent_router['id'];
 				}else{
@@ -52,12 +51,10 @@ class ActionController extends AdminController{
 				$data['parent'] = $parent;
 				$result = Actions::model()->insert($data);
 				$this->actionlog(Actionlogs::TYPE_ACTION, '添加权限', $result);
-				Response::output('success', '权限添加成功');
-			}else{
-				Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+				Response::notify('success', '权限添加成功');
 			}
 		}else{
-			Response::output('error', '不完整的请求');
+			Response::notify('error', '不完整的请求');
 		}
 	}
 	
@@ -95,8 +92,6 @@ class ActionController extends AdminController{
 				Actions::model()->update($data, "id = {$action_id}");
 				$this->actionlog(Actionlogs::TYPE_ACTION, '编辑管理员权限', $action_id);
 				Flash::set('权限编辑成功', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
 			}
 		}
 
@@ -115,37 +110,35 @@ class ActionController extends AdminController{
 		Actions::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
 		$this->actionlog(Actionlogs::TYPE_ACTION, '删除权限', $this->input->get('id', 'intval'));
 		
-		Response::output('success', '一个权限被删除', $this->view->url('admin/action/index', $this->input->get()));
+		Response::notify('success', '一个权限被删除', $this->view->url('admin/action/index', $this->input->get()));
 	}
 	
 	public function search(){
 		$actions = Actions::model()->fetchAll(array(
 			'router LIKE ?'=>'%'.$this->input->get('key', false).'%'
 		), 'id,router AS title', 'title', 20);
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$actions,
-		));
+		
+		echo Response::json($actions);
 	}
 	
 	public function isRouterNotExist(){
 		if(Actions::model()->fetchRow(array(
-			'router = ?'=>$this->input->post('value', 'trim'),
+			'router = ?'=>$this->input->request('router', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo json_encode(array('status'=>0, 'message'=>'该路由已存在'));
+			echo Response::json('', 0, '该路由已存在');
 		}else{
-			echo json_encode(array('status'=>1));
+			echo Response::json('', 1, '路由不存在');
 		}
 	}
 	
 	public function isRouterExist(){
 		if(Actions::model()->fetchRow(array(
-			'router = ?'=>$this->input->post('value', 'trim'),
+			'router = ?'=>$this->input->request('router', 'trim'),
 		))){
-			echo json_encode(array('status'=>1));
+			echo Response::json('', 1, '路由已存在');
 		}else{
-			echo json_encode(array('status'=>0, 'message'=>'路由不存在'));
+			echo Response::json('', 0, '路由不存在');
 		}
 	}
 	
@@ -154,10 +147,10 @@ class ActionController extends AdminController{
 	 */
 	private function _setListview(){
 		$sql = new Sql();
-		$sql->from('actions', 'a')
-			->joinLeft('categories', 'c', 'a.cat_id = c.id', 'title AS cat_title')
-			->joinLeft('actions', 'pa', 'a.parent = pa.id', 'router AS parent_router,title AS parent_title')
-			->joinLeft('categories', 'pc', 'pa.cat_id = pc.id', 'title AS parent_cat_title')
+		$sql->from(array('a'=>'actions'))
+			->joinLeft(array('c'=>'categories'), 'a.cat_id = c.id', 'title AS cat_title')
+			->joinLeft(array('pa'=>'actions'), 'a.parent = pa.id', 'router AS parent_router,title AS parent_title')
+			->joinLeft(array('pc'=>'categories'), 'pa.cat_id = pc.id', 'title AS parent_cat_title')
 			->order('a.cat_id');
 		if($this->input->get('cat_id')){
 			$sql->where(array(
@@ -175,20 +168,19 @@ class ActionController extends AdminController{
 
 	public function cat(){
 		$this->layout->subtitle = '权限分类';
-		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'attention');
+		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
 		
 		$this->view->cats = Category::model()->getTree('_system_action');
 		$root_node = Category::model()->getByAlias('_system_action', 'id');
 		$this->view->root = $root_node['id'];
 		
-		$root_cat = Category::model()->getByAlias('_system_action', 'id');
 		$this->layout->sublink = array(
 			'uri'=>'#create-cat-dialog',
 			'text'=>'添加权限分类',
 			'html_options'=>array(
 				'class'=>'create-cat-link',
 				'data-title'=>'权限分类',
-				'data-id'=>$root_cat['id'],
+				'data-id'=>$root_node['id'],
 			),
 		);
 		

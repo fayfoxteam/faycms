@@ -12,7 +12,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setCities(resp._token);
+					install.setCities(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -31,7 +31,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setRegions(resp._token);
+					install.setRegions(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -50,7 +50,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setCats(resp._token);
+					install.setCats(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -69,7 +69,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setActions(resp._token);
+					install.setActions(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -88,7 +88,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setMenus(resp._token);
+					install.setMenus(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -107,7 +107,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setSystem(resp._token);
+					install.setSystem(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -126,7 +126,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.setCustom(resp._token);
+					install.setCustom(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -145,7 +145,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					install.indexCats(resp._token);
+					install.indexCats(resp.data._token);
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')
 				}
@@ -165,7 +165,7 @@ var install = {
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
 					window.location.href = system.url('install/index/settings', {
-						'_token':resp._token
+						'_token':resp.data._token
 					});
 				}else{
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-red">[失败：'+resp.message+']</span>')

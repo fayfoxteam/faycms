@@ -4,7 +4,7 @@ namespace cms\modules\tools\controllers;
 use cms\library\ToolsController;
 use fay\models\File;
 use fay\models\Category;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 use fay\models\tables\Users;
 use fay\models\Menu;
 use fay\models\tables\Categories;
@@ -13,6 +13,7 @@ use fay\models\Flash;
 use fay\models\Option;
 use fay\helpers\Request;
 use fay\models\tables\Roles;
+use fay\core\Response;
 
 class ApplicationController extends ToolsController{
 	public function __construct(){
@@ -32,7 +33,7 @@ class ApplicationController extends ToolsController{
 	public function create(){
 		$this->layout->subtitle = '创建项目';
 		
-		Flash::set('此工具用于快速创建一个application项目', 'attention');
+		Flash::set('此工具用于快速创建一个application项目', 'info');
 		if(!is_writable(BASEPATH.'..'.DS.'application')){
 			Flash::set('application目录不可写！用此功能创建项目，请确保系统对application目录拥有写权限。');
 		}
@@ -104,7 +105,7 @@ class ApplicationController extends ToolsController{
 				$this->indexCats();
 				$this->indexMenus();
 				
-				$salt = String::random('alnum', 5);
+				$salt = StringHelper::random('alnum', 5);
 				$password = $this->input->post('user_password');
 				$password = md5(md5($password).$salt);
 				$user_id = $this->db->insert('users', array(
@@ -129,7 +130,7 @@ class ApplicationController extends ToolsController{
 				
 				Option::set('site:sitename', $this->input->post('sitename'));
 				
-				file_put_contents(BASEPATH.'..'.DS.'application/'.$app_name.'/installed.lock', date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
+				File::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed");
 			}
 		}
 		
@@ -142,16 +143,10 @@ class ApplicationController extends ToolsController{
 		$apps = File::getFileList(APPLICATION_PATH.'..');
 		foreach($apps as $app){
 			if($value == $app['name']){
-				echo json_encode(array(
-					'status'=>0,
-					'message'=>'项目名已存在',
-				));
-				die;
+				Response::json('', 0, '项目名已存在');
 			}
 		}
-		echo json_encode(array(
-			'status'=>1,
-		));
+		Response::json();
 	}
 	
 	private function createTables($prefix, $charset){

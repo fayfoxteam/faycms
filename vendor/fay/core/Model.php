@@ -2,20 +2,12 @@
 namespace fay\core;
 
 class Model{
-	/**
-	 * @var fay\core\Db
-	 */
-	public $db = null;
-	
 	private static $_models = array();
-	
-	public function __construct(){
-		$this->db = Db::getInstance();
-	}
 	
 	/**
 	 * 获取一个model实例（单例模式）
 	 * @param string $class_name
+	 * @return mixed
 	 */
 	public static function model($class_name = __CLASS__){
 		if(isset(self::$_models[$class_name])){

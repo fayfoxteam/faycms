@@ -4,6 +4,8 @@ use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
 use fay\helpers\Html;
 use fay\models\tables\Roles;
+use fay\models\user\Role;
+use fay\models\post\Category;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -12,12 +14,12 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content">
-			<div class="post-title-env"><?php echo F::form()->inputText('title', array(
+			<div class="mb30"><?php echo F::form()->inputText('title', array(
 				'id'=>'title',
 				'class'=>'form-control bigtxt',
 				'placeholder'=>'在此键入标题',
 			));?></div>
-			<div class="postarea"><?php $this->renderPartial('_content', array(
+			<div class="mb30"><?php $this->renderPartial('_content', array(
 				'post'=>$post,
 			))?></div>
 		</div>
@@ -33,7 +35,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							'class'=>'btn',
 						))?>
 					</div>
-					<div class="misc-pub-section">
+					<div class="misc-pub-section mt6">
 						<strong>当前状态：</strong>
 						<span id="crt-status"><?php echo PostHelper::getStatus(F::form()->getData('status'), 0, false)?></span>
 						<a href="javascript:;" id="edit-status-link" class="ml5">编辑</a>
@@ -64,9 +66,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 								'class'=>'ml5',
 								'id'=>'cancel-status-editing',
 							));
-						?><p class="fc-grey">点击“确定”并提交修改后生效</p></div>
+						?><p class="fc-grey mt5">点击“确定”并提交修改后生效</p></div>
 					</div>
-					<div class="misc-pub-section mt0">
+					<div class="misc-pub-section">
 						<strong>是否置顶？</strong>
 						<?php echo F::form()->inputRadio('is_top', 1, array('label'=>'是'))?>
 						<?php echo F::form()->inputRadio('is_top', 0, array('label'=>'否'), true)?>
@@ -81,7 +83,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							if(isset(F::app()->boxes[$k]['view'])){
 								$this->renderPartial(F::app()->boxes[$k]['view']);
 							}else{
-								$this->renderPartial('_box_'.str_replace('-', '_', $box));
+								$this->renderPartial('_box_'.$box);
 							}
 							unset($boxes_cp[$k]);
 						}
@@ -97,7 +99,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						if(isset(F::app()->boxes[$k]['view'])){
 							$this->renderPartial(F::app()->boxes[$k]['view']);
 						}else{
-							$this->renderPartial('_box_'.str_replace('-', '_', $box));
+							$this->renderPartial('_box_'.$box);
 						}
 						unset($boxes_cp[$k]);
 					}
@@ -109,14 +111,13 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 				if(isset(F::app()->boxes[$k]['view'])){
 					$this->renderPartial(F::app()->boxes[$k]['view']);
 				}else{
-					$this->renderPartial('_box_'.str_replace('-', '_', $box));
+					$this->renderPartial('_box_'.$box);
 				}
 			}
 		?></div>
 	</div>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/post.js')?>"></script>
 <script>
 $(function(){
@@ -125,8 +126,8 @@ $(function(){
 	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
 	post.post_id = <?php echo $post['id']?>;
-	<?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')) && Option::get('system:role_cats')){?>
-		post.roleCats = <?php echo json_encode(F::session()->get('role_cats'))?>;
+	<?php if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN) && Option::get('system:post_role_cats')){?>
+		post.roleCats = <?php echo json_encode(Category::model()->getAllowedCatIds())?>;
 	<?php }?>
 	post.init();
 });

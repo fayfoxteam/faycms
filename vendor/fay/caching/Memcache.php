@@ -56,7 +56,7 @@ class Memcache extends Cache{
 	/**
 	 * @param \Memcache|\Memcached $cache
 	 * @param array $servers
-	 * @throws InvalidConfigException
+	 * @throws ErrorException
 	 */
 	protected function addServers($cache, $servers)
 	{
@@ -145,6 +145,7 @@ class Memcache extends Cache{
 	/**
 	 * 获取Memcache实例
 	 * @return \Memcache|\Memcached
+	 * @throws ErrorException
 	 */
 	public function getMemcache(){
 		if ($this->_cache === null) {
@@ -209,6 +210,9 @@ class Memcache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::setValues()
+	 * @param array $data
+	 * @param int $duration
+	 * @return array
 	 */
 	protected function setValues($data, $duration){
 		if($this->use_memcached){
@@ -222,6 +226,8 @@ class Memcache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::deleteValue()
+	 * @param string $key
+	 * @return bool
 	 */
 	protected function deleteValue($key){
 		return $this->_cache->delete($key, 0);

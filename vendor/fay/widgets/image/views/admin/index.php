@@ -6,11 +6,11 @@ use fay\helpers\Html;
 #file-preview img{max-width:100%;}
 </style>
 <div class="box">
-	<div class="box-content" id="file-preview" <?php if(!$data['file_id'])echo 'style="display:none;"'?>>
-		<?php echo Html::img($data['file_id'])?>
+	<div class="box-content" id="file-preview" <?php if(!$config['file_id'])echo 'style="display:none;"'?>>
+		<?php echo Html::img($config['file_id'])?>
 	</div>
 </div>
-<input type="hidden" value="<?php echo intval($data['file_id'])?>" name="file_id" id="file_id" />
+<input type="hidden" value="<?php echo intval($config['file_id'])?>" name="file_id" id="file_id" />
 <div class="margin-top-20">
 	<a href="javascript:;" class="btn btn-grey" id="widget-form-upload">上传</a>
 </div>
@@ -57,10 +57,10 @@ $(function(){
 	
 	uploader.bind('FileUploaded', function(up, file, response) {
 		var resp = $.parseJSON(response.response);
-		$('#file_id').val(resp.id);
-		$('#file-preview').html('<img src="'+resp.url+'" />');
-		$("input[name='width']").val(resp.image_width);
-		$("input[name='height']").val(resp.image_height);
+		$('#file_id').val(resp.data.id);
+		$('#file-preview').html('<img src="'+resp.data.url+'" />');
+		$("input[name='width']").val(resp.data.image_width);
+		$("input[name='height']").val(resp.data.image_height);
 	});
 	
 });

@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Users;
 ?>
 <tr valign="top" id="role-<?php echo $data['id']?>">
 	<td>

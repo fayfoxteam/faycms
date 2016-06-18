@@ -8,10 +8,11 @@ class UsersNotifications extends Table{
 	protected $_primary = array('user_id', 'notification_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return UsersNotifications
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){
@@ -19,7 +20,7 @@ class UsersNotifications extends Table{
 			array(array('user_id', 'notification_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('read', 'processed', 'ignored'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('option'), 'string', array('max'=>255)),
-			array(array('deleted'), 'range', array('range'=>array('0', '1'))),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 

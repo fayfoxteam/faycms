@@ -1,13 +1,13 @@
 <?php
 namespace fay\widgets\menu\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Menu;
 use fay\models\tables\Menus;
 use fay\models\Flash;
 
 class AdminController extends Widget{
-	public function index($data){
+	public function index($config){
 		$this->view->menu = array(
 			array(
 				'id'=>Menus::ITEM_USER_MENU,
@@ -17,14 +17,14 @@ class AdminController extends Widget{
 		);
 		
 		//获取默认模版
-		if(empty($data['template'])){
-			$data['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
 			$this->form->setData(array(
-				'template'=>$data['template'],
+				'template'=>$config['template'],
 			), true);
 		}
 		
-		$this->view->data = $data;
+		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -43,7 +43,7 @@ class AdminController extends Widget{
 		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$template = '';
 		}
-		$this->saveData(array(
+		$this->setConfig(array(
 			'hierarchical'=>$this->input->post('hierarchical', 'intval', 0),
 			'top'=>$this->input->post('top', 'intval', 0),
 			'title'=>$this->input->post('title', null, ''),

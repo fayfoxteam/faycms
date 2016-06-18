@@ -5,23 +5,25 @@ use fay\core\Model;
 use fay\models\tables\Roles;
 use fay\models\tables\Props;
 use fay\models\tables\PropValues;
-use fay\helpers\SqlHelper;
+use fay\helpers\FieldHelper;
 
 class Role extends Model{
 	/**
+	 * @param string $class_name
 	 * @return Role
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	/**
 	 * 获取一个或多个角色，fields可指定是否返回角色附加属性
 	 * @param int|array|string $ids 可以是数字id，或id组成的数组，或逗号分割的id字符串
 	 * @param string $fields
+	 * @return array
 	 */
 	public function get($ids, $fields = 'roles.*,props.*'){
-		$fields = SqlHelper::processFields($fields, 'roles');
+		$fields = FieldHelper::process($fields, 'roles');
 		
 		if(is_array($ids)){
 			$ids = implode(',', $ids);

@@ -6,12 +6,11 @@ use fay\models\tables\Roles;
 use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\models\tables\Actionlogs;
-use fay\models\Prop;
+use fay\models\user\Prop;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\models\Flash;
 
 class RolePropController extends AdminController{
 	public function __construct(){
@@ -51,18 +50,19 @@ class RolePropController extends AdminController{
 		
 		if($this->form()->setModel(Props::model())->check()){
 			$refer = $this->input->post('refer', 'intval');
-			$prop = Props::model()->setAttributes($this->input->post());
+			$prop = Props::model()->fillData($this->input->post());
 			$values = $this->input->post('prop_values', array());
-			$prop_id = Prop::model()->create($refer, Props::TYPE_ROLE, $prop, $values);
+			$prop_id = Prop::model()->create($refer, $prop, $values);
 			
 			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '添加了一个角色属性', $prop_id);
 	
-			Response::output('success', array(
+			Response::notify('success', array(
 				'message'=>'角色属性添加成功',
 				'id'=>$prop_id,
 			));
 		}else{
-			Response::output('error', $this->showDataCheckError($this->form()->getErrors(), true));
+			//若表单验证出错，返回上一页
+			Response::goback();
 		}
 	}
 	
@@ -70,27 +70,24 @@ class RolePropController extends AdminController{
 		$prop_id = $this->input->get('id', 'intval');
 		
 		$this->form()->setModel(Props::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$refer = $this->input->post('refer', 'intval');
-				$prop = $this->form()->getFilteredData();
-				isset($prop['required']) || $prop['required'] = 0;
-				isset($prop['is_show']) || $prop['is_show'] = 0;
-					
-				$prop_values = $this->input->post('prop_values', array());
-				$ids = $this->input->post('ids', 'intval', array('-1'));
-					
-				Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
+		if($this->input->post() && $this->form()->check()){
+			$refer = $this->input->post('refer', 'intval');
+			$prop = $this->form()->getFilteredData();
+			isset($prop['required']) || $prop['required'] = 0;
+			isset($prop['is_show']) || $prop['is_show'] = 0;
 				
-				Flash::set('角色属性编辑成功', 'success');
-				$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+			$prop_values = $this->input->post('prop_values', array());
+			$ids = $this->input->post('ids', 'intval', array('-1'));
+				
+			Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
+			
+			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
+			
+			Response::notify('success', '角色属性编辑成功', false);
 		}
 		
 		
-		$prop = Prop::model()->get($prop_id, Props::TYPE_ROLE);
+		$prop = Prop::model()->get($prop_id);
 
 		if(!$prop){
 			throw new HttpException('所选角色属性不存在');
@@ -100,7 +97,7 @@ class RolePropController extends AdminController{
 		$this->view->prop = $prop;
 
 		$this->layout->sublink = array(
-			'uri'=>array('admin/role-prop/index', array('id'=>$prop['refer'])),
+			'uri'=>array('admin/role-prop/index', array('role_id'=>$prop['refer'])),
 			'text'=>'添加角色属性',
 		);
 		
@@ -117,16 +114,16 @@ class RolePropController extends AdminController{
 		$prop = Props::model()->find($id, 'refer');
 		Prop::model()->delete($id);
 
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'删除了一个角色属性',
 		), array('admin/role-prop/index', array(
-			'id'=>$prop['refer'],
+			'role_id'=>$prop['refer'],
 		)));
 	}
 
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		$result = Props::model()->update(array(
+		Props::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$id,
@@ -134,7 +131,7 @@ class RolePropController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '改变了角色属性排序', $id);
 		
 		$data = Props::model()->find($id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一个角色属性的排序值被编辑',
 			'sort'=>$data['sort'],
 		));
@@ -142,6 +139,7 @@ class RolePropController extends AdminController{
 	
 	/**
 	 * 设置右侧属性列表
+	 * @param int $role_id
 	 */
 	private function _setListview($role_id){
 		$sql = new Sql();

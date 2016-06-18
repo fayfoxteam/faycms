@@ -2,6 +2,26 @@
 	<div class="row">
 		<div class="col-6">
 			<div class="box">
+				<div class="box-title"><h3>format</h3></div>
+				<div class="box-content">
+					<?php echo F::form()->textarea('format_json', array(
+						'class'=>'form-control h200 autosize',
+					));?>
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="box">
+				<div class="box-title"><h3>Result</h3></div>
+				<div class="box-content">
+					<div><textarea class="form-control h200 autosize" id="formatted-json"></textarea></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			<div class="box">
 				<div class="box-title"><h3>json_decode</h3></div>
 				<div class="box-content">
 					<?php echo F::form()->textarea('json', array(
@@ -15,7 +35,7 @@
 			<div class="box">
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
-					<div style="min-height:239px"><pre><?php var_export(json_decode(F::input()->post('json'), true));?></pre></div>
+					<div style="min-height:239px"><textarea class="form-control h200 autosize"><?php var_export(json_decode(F::input()->post('json'), true));?></textarea></div>
 				</div>
 			</div>
 		</div>
@@ -37,17 +57,44 @@
 			<div class="box">
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
-					<div style="min-height:239px"><pre><?php echo json_encode(eval('return '.F::input()->post('array').';'));?></pre></div>
+					<div style="min-height:239px"><textarea class="form-control h200 autosize"><?php echo json_encode(eval('return '.F::input()->post('array').';'));?></textarea></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </form>
 <script>
-$("[name='json'],[name='array']").keydown(function(event){
+$("[name='json'],[name='array']").on('keydown', function(event){
 	if((event.keyCode == 82 || event.keyCode == 83) && event.ctrlKey){
 		$("#form").submit();
 		return false;
+	}
+});
+$("[name='format_json']").on('keydown', function(event){
+	if((event.keyCode == 82 || event.keyCode == 83) && event.ctrlKey){
+		try{
+			var jsonObj = $.parseJSON($("[name='format_json']").val());
+		}catch(e){
+			jsonObj = false;
+		}
+		
+		if(jsonObj){
+			$("#formatted-json").val(JSON.stringify(jsonObj, null, 4));
+			autosize.update($("#formatted-json"));
+		}
+		return false;
+	}
+});
+$("[name='format_json']").on('blur', function(){
+	try{
+		var jsonObj = $.parseJSON($("[name='format_json']").val());
+	}catch(e){
+		jsonObj = false;
+	}
+	
+	if(jsonObj){
+		$("#formatted-json").val(JSON.stringify(jsonObj, null, 4));
+		autosize.update($("#formatted-json"));
 	}
 });
 </script>

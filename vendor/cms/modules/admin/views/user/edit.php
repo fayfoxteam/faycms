@@ -5,10 +5,7 @@ echo F::form()->open()?>
 		<?php $this->renderPartial('_edit_panel')?>
 	</div>
 	<div class="col-6" id="prop-panel">
-		<?php $this->renderPartial('prop/_edit', array(
-			'props'=>$props,
-			'data'=>$user['props'],
-		))?>
+		<?php $this->renderPartial('prop/_edit')?>
 	</div>
 </div>
 <div class="form-field">
@@ -18,9 +15,8 @@ echo F::form()->open()?>
 </div>
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->assets('js/browserplus-min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>
 <script>
-user.user_id = <?php echo $user['id']?>;
+user.user_id = <?php echo F::form()->getData('id')?>;
 user.init();
 </script>

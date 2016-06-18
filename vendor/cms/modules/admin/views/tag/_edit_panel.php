@@ -2,6 +2,7 @@
 	<label class="title bold">名称<em class="required">*</em></label>
 	<?php echo F::form()->inputText('title', array(
 		'class'=>'form-control',
+		'data-ajax-param-name'=>'tag',
 	))?>
 </div>
 <div class="form-field">

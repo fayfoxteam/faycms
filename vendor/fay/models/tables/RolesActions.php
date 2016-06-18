@@ -7,10 +7,11 @@ class RolesActions extends Table{
 	protected $_name = 'roles_actions';
 	
 	/**
+	 * @param string $class_name
 	 * @return RolesActions
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){

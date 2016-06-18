@@ -25,7 +25,7 @@ echo F::form('setting')->open(array('admin/system/setting'))?>
 		echo F::form('setting')->inputCheckbox('cols[]', 'upload_time', array(
 			'label'=>'上传时间',
 		));
-		if(Option::getTeam('qiniu')){
+		if(Option::getGroup('qiniu')){
 			echo F::form('setting')->inputCheckbox('cols[]', 'qiniu', array(
 				'label'=>'七牛',
 			));

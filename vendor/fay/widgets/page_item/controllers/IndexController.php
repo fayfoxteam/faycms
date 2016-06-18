@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\page_item\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Page;
 use fay\core\HttpException;
 use fay\models\tables\Pages;
@@ -9,16 +9,19 @@ use fay\models\tables\Pages;
 class IndexController extends Widget{
 	public function index($config){
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
+			//根据页面ID访问
 			$page = Page::model()->get($this->input->get($config['id_key'], 'intval'));
 			if(!$page){
 				throw new HttpException('您访问的页面不存在');
 			}
 		}else if(!empty($config['alias_key']) && $this->input->get($config['alias_key'])){
+			//根据页面别名访问
 			$page = Page::model()->get($this->input->get($config['alias_key'], 'trim'));
 			if(!$page){
 				throw new HttpException('您访问的页面不存在');
 			}
 		}else if($config['default_page_id']){
+			//默认显示页面（若为设置默认显示页面，则返回空，不报错）
 			$page = Page::model()->get($config['default_page_id']);
 			if(!$page){
 				return '';
@@ -26,7 +29,7 @@ class IndexController extends Widget{
 		}
 		
 		if($config['inc_views']){
-			Pages::model()->inc($page['id'], 'views', 1);
+			Pages::model()->incr($page['id'], 'views', 1);
 		}
 		
 		//template
@@ -37,7 +40,7 @@ class IndexController extends Widget{
 				'alias'=>$this->alias,
 			));
 		}else{
-			if(preg_match('/^[\w_-]+\/[\w_-]+\/[\w_-]+$/', $config['template'])){
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
 				\F::app()->view->renderPartial($config['template'], array(
 					'page'=>$page,
 					'config'=>$config,

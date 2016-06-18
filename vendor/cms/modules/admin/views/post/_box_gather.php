@@ -8,7 +8,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<a href="#gather-dialog" class="btn fancybox-inline">采集页面</a>
-		<div class="fc-grey">利用jquery选择器，进行单页面采集</div>
+		<p class="fc-grey mt5">利用jquery选择器，进行单页面采集</p>
 	</div>
 </div>
 <div class="hide">

@@ -1,43 +1,57 @@
 <?php
 namespace fay\core\db;
 
+use fay\core\Db;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Table extends Model{
 	protected $_name = '';
 	protected $_primary = 'id';//主键
 	/**
-	 * @var Sql
+	 * @var \fay\core\Sql
 	 */
 	protected $_sql;
 	
+	/**
+	 * @var \fay\core\Db
+	 */
+	private $db = null;
+	
 	public function __construct(){
-		parent::__construct();
+		$this->db = Db::getInstance();
 	}
 	
-	public function getName(){
+	/**
+	 * 获取表名（不带前缀）
+	 */
+	public function getTableName(){
 		return $this->_name;
 	}
-
-	public function tableName(){
+	
+	/**
+	 * 获取完整表名（带前缀）
+	 */
+	public function getFullTableName(){
 		return $this->db->{$this->_name};
 	}
 	
 	/**
-	 * 根据filters返回的参数列表，设置table相关参数
-	 * 并进行相关的filter处理
-	 * 没有设置filter的数据将不会被返回
+	 * 根据表字段填充数据，仅$this->getFields()中存在的字段会被返回
 	 * @param array $data
+	 * @param bool $filter 若为true，则会根据$this->filters()中指定的过滤器进行过滤。默认为true
+	 * @param array|string $except 填充数据时，排序某些字段
+	 * @return array
 	 */
-	public function setAttributes($data){
+	public function fillData($data, $filter = true, $except = array()){
 		$filters = $this->filters();
+		$fields = $this->getFields($except);
 		$return = array();
 		foreach($data as $k => $v){
-			if(isset($filters[$k])){
-				$return[$k] = \F::filter($filters[$k], $v);
+			if(in_array($k, $fields)){
+				$return[$k] = $filter && isset($filter[$k]) ? \F::filter($filters[$k], $v) : $v;
 			}
 		}
 		return $return;
@@ -46,12 +60,14 @@ class Table extends Model{
 	/**
 	 * 向当前表插入单行数据
 	 * @param array $data 一维数组
-	 * @param bool $filter 是否调用过滤器进行过滤
+	 * @param bool $fill 是否进行字段过滤
+	 * @param string $except
+	 * @return int|null
 	 */
-	public function insert($data, $filter = false){
+	public function insert($data, $fill = false, $except = 'insert'){
 		if(!empty($data)){
-			if($filter){
-				$data = $this->setAttributes($data);
+			if($fill){
+				$data = $this->fillData($data, false, $except);
 			}
 			return $this->db->insert($this->_name, $data);
 		}else{
@@ -63,16 +79,13 @@ class Table extends Model{
 	 * 向当前表批量插入
 	 * @param array $data 二维数组
 	 * @param bool $filter 是否调用过滤器进行过滤
+	 * @return int|null
 	 */
 	public function bulkInsert($data, $filter = false){
 		if(!empty($data)){
 			$insert_data = array();
 			foreach($data as $d){
-				if($filter){
-					$insert_data[] = $this->setAttributes($d);
-				}else{
-					$insert_data[] = $d;
-				}
+				$insert_data[] = $filter ? $this->fillData($d) : $d;
 			}
 			
 			return $this->db->bulkInsert($this->_name, $insert_data);
@@ -85,15 +98,18 @@ class Table extends Model{
 	 * 更新当前表记录
 	 * @param array $data
 	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
-	 * @param boolean $filter 若为true且$this->filters()中有设置过滤器，则进行过滤
+	 * @param bool $fill
+	 * @param string $except
+	 * @return int|null
+	 * @throws \fay\core\Exception
 	 */
-	public function update($data, $where, $filter = false){
-		if(String::isInt($where)){
+	public function update($data, $where, $fill = false, $except = 'update'){
+		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		if(!empty($data)){
-			if($filter){
-				$data = $this->setAttributes($data);
+			if($fill){
+				$data = $this->fillData($data, false, $except);
 			}
 			return $this->db->update($this->_name, $data, $where);
 		}else{
@@ -103,28 +119,39 @@ class Table extends Model{
 	
 	/**
 	 * 删除一条记录
-	 * @param mix $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
+	 * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
+	 * @return int
 	 */
 	public function delete($where){
-		if(String::isInt($where)){
+		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
 		return $this->db->delete($this->_name, $where);
 	}
 	
-	public function inc($where, $field, $count){
-		if(String::isInt($where)){
+	/**
+	 * 递增指定列
+	 * @param mixed $where
+	 * @param string $fields 列名
+	 * @param int $value 增量（可以是负数）
+	 * @return int
+	 */
+	public function incr($where, $fields, $value){
+		if(StringHelper::isInt($where)){
 			$where = array("{$this->_primary} = ?" => $where);
 		}
-		$this->db->inc($this->_name, $where, $field, $count);
+		return $this->db->incr($this->_name, $where, $fields, $value);
 	}
 	
 	/**
 	 * 根据主键查找数据
+	 * @param mixed $primary
+	 * @param string $fields
+	 * @return array|bool
 	 */
 	public function find($primary, $fields = '*'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $fields)
+		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->limit(1);
 		if(is_array($this->_primary)){
 			foreach($this->_primary as $k=>$pk){
@@ -142,14 +169,16 @@ class Table extends Model{
 	 * 获取一条记录
 	 * @param array $conditions
 	 * @param string $fields 可用 !id 表示除了id外的所有字段
-	 * @param string $order
+	 * @param bool|string $order
+	 * @param null $offset
 	 * @param string $style 返回结果集类型，默认为索引数组
+	 * @return array|bool
 	 */
-	public function fetchRow($conditions, $fields = '*', $order = false, $style = 'assoc'){
+	public function fetchRow($conditions, $fields = '*', $order = false, $offset = null, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $fields)
+		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions)
-			->limit(1);
+			->limit(1, $offset);
 		if($order){
 			$this->_sql->order($order);
 		}
@@ -160,14 +189,15 @@ class Table extends Model{
 	 * 获取所有数据
 	 * @param array $conditions
 	 * @param string $fields 可用 !id 表示除了id外的所有字段
-	 * @param string $order
-	 * @param int $count
-	 * @param int $offset
+	 * @param bool|string $order
+	 * @param bool|int $count
+	 * @param bool|int $offset
 	 * @param string $style 返回结果集类型，默认为索引数组
+	 * @return array
 	 */
 	public function fetchAll($conditions = array(), $fields = '*', $order = false, $count = false, $offset = false, $style = 'assoc'){
 		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->_name, $fields)
+		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions);
 		if($order){
 			$this->_sql->order($order);
@@ -181,8 +211,11 @@ class Table extends Model{
 	/**
 	 * 以一维数组的方式，返回一列结果
 	 * @param string $col
-	 * @param string $sql
-	 * @param array $params
+	 * @param array $conditions
+	 * @param bool $order
+	 * @param bool $count
+	 * @param bool $offset
+	 * @return array
 	 */
 	public function fetchCol($col, $conditions = array(), $order = false, $count = false, $offset = false){
 		$result = $this->fetchAll($conditions, $col, $order, $count, $offset);
@@ -197,8 +230,8 @@ class Table extends Model{
 	 */
 	public function getFields($except = array()){
 		if($except){
-			if(!is_array($except)){
-				$except = explode(',', $except);
+			if(is_string($except)){
+				$except = $this->getNotWritableFields($except);
 			}
 			$labels = $this->labels();
 			foreach($except as $e){
@@ -207,6 +240,47 @@ class Table extends Model{
 			return array_keys($labels);
 		}else{
 			return array_keys($this->labels());
+		}
+	}
+	
+	/**
+	 * 获取只读字段。
+	 * insert(), update()方法当$fill参数为true时，会自动调用此方法用于过滤字段。
+	 * 也可以手动调用此方法用于字段过滤处理。
+	 * @param mixed $scene 场景
+	 * @return array
+	 */
+	public function getNotWritableFields($scene){
+		switch($scene){
+			case 'insert':
+			case 'update':
+			default:
+				return array();
+		}
+	}
+	
+	/**
+	 * 格式化传入字段
+	 * @param string|array $fields 若是字符串，先逗号分割为数组。当有一项是*，则返回全部字段。
+	 * @return array 表字段
+	 */
+	public function formatFields($fields){
+		if(!is_array($fields)){
+			if(is_string($fields) && strpos($fields, '!') === 0){
+				//若不是数组，且首字母是感叹号，则视为排除指定字段
+				$except_fields = explode(',', str_replace(' ', '', substr($fields, 1)));
+				return $this->getFields($except_fields);
+			}else{
+				//最常规的逗号分割，拆成数组后面处理
+				$fields = explode(',', $fields);
+			}
+		}
+		
+		if(in_array('*', $fields)){
+			//当有一项是*，则返回全部字段
+			return $this->getFields();
+		}else{
+			return $fields;
 		}
 	}
 }

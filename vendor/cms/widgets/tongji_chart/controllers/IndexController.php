@@ -1,8 +1,9 @@
 <?php
 namespace cms\widgets\tongji_chart\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Analyst;
+use fay\core\Response;
 
 class IndexController extends Widget{
 	public function init(){
@@ -87,15 +88,10 @@ class IndexController extends Widget{
 	public function getData(){
 		$type = $this->input->get('t');
 		if(!in_array($type, array('pv', 'uv', 'ip', 'new_visitors'))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'参数异常',
-			));
-			die;
+			Response::json('', 0, '参数异常');
 		}
 		$analyst = $this->getAnalyst($type);
-		echo json_encode(array(
-			'status'=>1,
+		Response::json(array(
 			'today'=>$analyst['today'],
 			'yesterday'=>$analyst['yesterday'],
 			'today_total'=>$analyst['today_total'],

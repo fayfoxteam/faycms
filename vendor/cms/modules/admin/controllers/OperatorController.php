@@ -5,21 +5,17 @@ use cms\library\AdminController;
 use fay\models\tables\Users;
 use fay\core\Sql;
 use fay\models\tables\Roles;
-use fay\helpers\String;
-use fay\models\Prop;
 use fay\models\tables\Actionlogs;
 use fay\common\ListView;
-use fay\models\User;
-use fay\models\Setting;
+use fay\models\User as UserModel;
+use fay\models\user\Prop;
+use fay\services\User as UserService;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
-use fay\models\Flash;
 use fay\models\tables\UserProfile;
-use fay\helpers\Request;
-use fay\models\tables\UsersRoles;
-use fay\models\tables\Props;
+use fay\models\user\Role;
 
 class OperatorController extends AdminController{
 	public function __construct(){
@@ -34,21 +30,12 @@ class OperatorController extends AdminController{
 			'uri'=>array('admin/operator/create'),
 			'text'=>'添加管理员',
 		);
-
-		//自定义参数
-		$this->layout->_setting_panel = '_setting_index';
-		$_setting_key = 'admin_operator_index';
-		$_settings = Setting::model()->get($_setting_key);
-		$_settings || $_settings = array(
-			'cols'=>array('roles', 'cellphone', 'email', 'cellphone', 'realname', 'reg_time'),
+		
+		//页面设置
+		$this->settingForm('admin_operator_index', '_setting_index', array(
+			'cols'=>array('roles', 'mobile', 'email', 'realname', 'reg_time'),
 			'page_size'=>20,
-		);
-		$this->form('setting')->setModel(Setting::model())
-			->setJsModel('setting')
-			->setData($_settings)
-			->setData(array(
-				'_key'=>$_setting_key,
-			));
+		));
 		
 		//查询所有管理员类型
 		$this->view->roles = Roles::model()->fetchAll(array(
@@ -57,8 +44,8 @@ class OperatorController extends AdminController{
 		));
 		
 		$sql = new Sql();
-		$sql->from('users', 'u', '*')
-			->joinLeft('user_profile', 'up', 'u.id = up.user_id', '*')
+		$sql->from(array('u'=>'users'), '*')
+			->joinLeft(array('up'=>'user_profile'), 'u.id = up.user_id', '*')
 			->where('u.admin = 1')
 		;
 		
@@ -82,7 +69,7 @@ class OperatorController extends AdminController{
 		}
 		
 		if($this->input->get('role')){
-			$sql->joinLeft('users_roles', 'ur', 'u.id = ur.user_id')
+			$sql->joinLeft(array('ur'=>'users_roles'), 'u.id = ur.user_id')
 				->where(array(
 					'ur.role_id = ?' => $this->input->get('role', 'intval'),
 				));
@@ -90,7 +77,7 @@ class OperatorController extends AdminController{
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("u.{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('u.id DESC');
@@ -111,177 +98,100 @@ class OperatorController extends AdminController{
 				array(array('username', 'password'), 'required'),
 				array('roles', 'int'),
 			));
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				$data['status'] = Users::STATUS_VERIFIED;
-				$data['salt'] = String::random('alnum', 5);
-				$data['password'] = md5(md5($data['password']).$data['salt']);
-				$data['admin'] = 1;
-				//插用户表
-				$user_id = Users::model()->insert($data);
-				//插用户扩展表
-				UserProfile::model()->insert(array(
-					'user_id'=>$user_id,
-					'reg_time'=>$this->current_time,
-					'reg_ip'=>Request::ip2int(Request::getIP()),
-					'trackid'=>'admin_create:'.$this->session->get('id'),
-				));
-				//插角色表
-				$roles = $this->input->post('roles', 'intval');
-				if($roles){
-					$user_roles = array();
-					foreach($roles as $r){
-						$user_roles[] = array(
-							'user_id'=>$user_id,
-							'role_id'=>$r,
-						);
-					}
-					UsersRoles::model()->bulkInsert($user_roles);
-				}
-				
-				//设置属性
-				if($roles){
-					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $user_id, $props, $this->input->post('props'), array(
-						'varchar'=>'fay\models\tables\UserPropVarchar',
-						'int'=>'fay\models\tables\UserPropInt',
-						'text'=>'fay\models\tables\UserPropText',
-					));
-				}
-				
-				$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
-				
-				Response::output('success', '管理员添加成功， '.Html::link('继续添加', array('admin/operator/create')), array('admin/operator/edit', array(
-					'id'=>$user_id,
-				)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = Users::model()->fillData($this->input->post());
+			isset($data['status']) || $data['status'] = Users::STATUS_VERIFIED;
+			
+			$extra = array(
+				'profile'=>array(
+					'trackid'=>'admin_create:'.\F::session()->get('user.id'),
+				),
+				'roles'=>$this->input->post('roles', 'intval', array()),
+				'props'=>$this->input->post('props', '', array()),
+			);
+			
+			$user_id = UserService::model()->create($data, $extra, 1);
+			
+			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
+			
+			Response::notify('success', '管理员添加成功， '.Html::link('继续添加', array('admin/operator/create', array(
+				'roles'=>$this->input->post('roles', 'intval', array()),
+			))), array('admin/operator/edit', array(
+				'id'=>$user_id,
+			)));
 		}
 		$this->view->roles = Roles::model()->fetchAll(array(
 			'admin = 1',
 			'deleted = 0',
 		), 'id,title');
 		
+		//有可能默认了某些角色
+		$role_ids = $this->input->get('roles', 'intval');
+		if($role_ids){
+			$this->view->prop_set = Prop::model()->getByRefer($role_ids);
+		}else{
+			$this->view->prop_set = array();
+		}
+		
 		$this->view->render();
 	}
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑管理员信息';
-		$id = $this->input->request('id', 'intval');
+		$user_id = $this->input->request('id', 'intval');
 		$this->form()->setScene('edit')
 			->setModel(Users::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				//两次密码输入一致
-				$data = Users::model()->setAttributes($this->input->post());
-				if($password = $this->input->post('password')){
-					//生成五位随机数
-					$salt = String::random('alnum', 5);
-					//密码加密
-					$password = md5(md5($password).$salt);
-					$data['salt'] = $salt;
-					$data['password'] = $password;
-				}else{
-					unset($data['password']);
-				}
-				Users::model()->update($data, $id);
-				
-				$roles = $this->form()->getData('roles');
-				if(!empty($roles)){
-					//删除被删除了的角色
-					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$id,
-						'role_id NOT IN (?)'=>$roles,
-					));
-					$user_roles = array();
-					foreach($roles as $r){
-						if(!UsersRoles::model()->fetchRow(array(
-							'user_id = ?'=>$id,
-							'role_id = ?'=>$r,
-						))){
-							//不存在，则插入
-							$user_roles[] = array(
-								'user_id'=>$id,
-								'role_id'=>$r,
-							);
-						}
-					}
-					UsersRoles::model()->bulkInsert($user_roles);
-				}else{
-					//删除全部角色
-					UsersRoles::model()->delete(array(
-						'user_id = ?'=>$id,
-					));
-				}
-				
-				//设置属性
-				if($roles){
-					$props = Prop::model()->mget($roles, Props::TYPE_ROLE);
-					Prop::model()->updatePropertySet('user_id', $id, $props, $this->input->post('props'), array(
-						'varchar'=>'fay\models\tables\UserPropVarchar',
-						'int'=>'fay\models\tables\UserPropInt',
-						'text'=>'fay\models\tables\UserPropText',
-					));
-				}
-				
-				$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $id);
-				Flash::set('修改成功', 'success');
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = Users::model()->fillData($this->input->post());
+			
+			$extra = array(
+				'roles'=>$this->input->post('roles', 'intval', array()),
+				'props'=>$this->input->post('props', '', array()),
+			);
+			
+			UserService::model()->update($user_id, $data, $extra);
+			
+			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
+			Response::notify('success', '修改成功', false);
+			
+			//置空密码字段
+			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = User::model()->get($id, 'users.*,props.*');
-		$user['roles'] = User::model()->getRoleIds($user['id']);
+		$user = UserModel::model()->get($user_id, 'user.*,profile.*');
+		$user_role_ids = Role::model()->getIds($user_id);
 		$this->view->user = $user;
-		$this->form()->setData($user);
+		$this->form()->setData($user['user'])
+			->setData(array('roles'=>$user_role_ids));
 		
 		$this->view->roles = Roles::model()->fetchAll(array(
 			'admin = 1',
 			'deleted = 0',
 		), 'id,title');	
 		
-		$this->view->props = Prop::model()->mget($user['roles'], Props::TYPE_ROLE);
+		$this->view->prop_set = Prop::model()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::model()->get($id, 'users.*');
+			$this->view->user = UserModel::model()->get($id, 'user.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}
 		
-		$this->layout->subtitle = "用户 - {$this->view->user['username']}";
+		$this->layout->subtitle = "管理员 - {$this->view->user['user']['username']}";
 		
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
+		if($this->checkPermission('admin/operator/edit')){
+			$this->layout->sublink = array(
+				'uri'=>array('admin/operator/edit', array('id'=>$id)),
+				'text'=>'编辑管理员',
+			);
+		}
+		
 		$this->view->render();
 	}
-	
-	public function setStatus(){
-		$id = $this->input->post('id', 'intval');
-		
-		$user = Users::model()->find($id, 'id,status,block');
-		if(!$user){
-			if($this->input->isAjaxRequest()){
-				echo json_encode(array(
-					'status'=>0,
-					'message'=>'指定的用户ID不存在',
-				));
-			}else{
-				throw new HttpException('指定的用户ID不存在');
-			}
-		}
-		Users::model()->update($this->input->post(), $id, true);
-
-		$this->actionlog(Actionlogs::TYPE_USERS, '编辑了管理员状态', $id);
-		Response::output('success', array(
-			'message'=>'管理员状态被编辑',
-		));
-	}
-	
 }

@@ -17,6 +17,7 @@ abstract class Cache{
 	 * File是"/"斜杠
 	 * Memcache是"."点号
 	 * Redis是":"冒号
+	 * Array是"_"下划线
 	 */
 	public $separator = '.';
 	
@@ -29,7 +30,7 @@ abstract class Cache{
 	/**
 	 * 返回一个key
 	 * 若key_prefix不为空，则前缀上key_prefix.separator
-	 * @param mix $key
+	 * @param string $key
 	 * @return string
 	 */
 	protected function buildKey($key){
@@ -44,9 +45,9 @@ abstract class Cache{
 	
 	/**
 	 * 设置一个缓存
-	 * @param mix $key $key中若包含斜杠（/），点号（.），冒号（:）会被统一转为$this->separator
+	 * @param string $key $key中若包含斜杠（/），点号（.），冒号（:）会被统一转为$this->separator
 	 *   即仅这3个符号存在差别的key会被视为同一个key
-	 * @param mix $value
+	 * @param mixed $value
 	 * @param int $duration 缓存时间（单位：秒）
 	 */
 	public function set($key, $value, $duration = 0){
@@ -63,6 +64,7 @@ abstract class Cache{
 	 * 设置多个缓存
 	 * @param array $items
 	 * @param int $duration 缓存时间（单位：秒）
+	 * @return array 设置缓存失败的项
 	 */
 	public function mset($items, $duration = 0){
 		$data = array();
@@ -80,15 +82,15 @@ abstract class Cache{
 	
 	/**
 	 * 根据指定key从缓存中获取一个元素
-	 * @param mix $key
-	 * @return mix
+	 * @param mixed $key
+	 * @return mixed
 	 */
 	public function get($key){
 		$key = $this->buildKey($key);
 		$value = $this->getValue($key);
 		if($value === null || empty($this->serializer[1])){
 			return $value;
-		}else if(!empty($this->serializer[1])){
+		}else{
 			return $this->serializer[1]($value);
 		}
 	}
@@ -96,7 +98,7 @@ abstract class Cache{
 	/**
 	 * 一次性获取多个缓存
 	 * @param array $keys，一维数组的方式传入多个key
-	 * @return 以传入$keys为键的数组，若某个缓存项不存在，则对应null
+	 * @return array 以传入$keys为键的数组，若某个缓存项不存在，则对应null
 	 */
 	public function mget($keys){
 		$key_map = array();
@@ -122,7 +124,7 @@ abstract class Cache{
 	
 	/**
 	 * 删除一个缓存
-	 * @param mix $key
+	 * @param mixed $key
 	 */
 	public function delete($key){
 		$key = $this->buildKey($key);
@@ -132,8 +134,8 @@ abstract class Cache{
 	
 	/**
 	 * 判断缓存中某个key是否存在
-	 * @param mix $key
-	 * @return boolean
+	 * @param mixed $key
+	 * @return bool
 	 */
 	public function exists($key){
 		$key = $this->buildKey($key);
@@ -144,7 +146,7 @@ abstract class Cache{
 	
 	/**
 	 * 清空部分或全部缓存
-	 * @param $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
+	 * @param string $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
 	 */
 	public function flush($prefix = null){
 		return $this->flushValues($prefix);
@@ -152,21 +154,22 @@ abstract class Cache{
 	
 	/**
 	 * 设置单个缓存
-	 * @param mix $key
-	 * @param mix $value
+	 * @param string $key
+	 * @param mixed $value
 	 * @param int $duration 缓存时间（单位：秒）
 	 */
 	abstract protected function setValue($key, $value, $duration);
 	
 	/**
 	 * 获取单个缓存
-	 * @param mix $key
+	 * @param string $key
 	 */
 	abstract protected function getValue($key);
 	
 	/**
 	 * 获取多个缓存值，若缓存机制允许一次性获取多个值，请重写此方法
 	 * @param array $keys
+	 * @return array
 	 */
 	protected function getValues($keys){
 		$results = array();
@@ -181,7 +184,7 @@ abstract class Cache{
 	 * 循环设置多个缓存，若缓存机制允许一次性写入多个值，请重写此方法
 	 * @param array $data
 	 * @param int $duration 缓存时间（单位：秒）
-	 * @return 设置缓存失败的项
+	 * @return array 设置缓存失败的项
 	 */
 	protected function setValues($data, $duration){
 		$failedKeys = array();
@@ -196,13 +199,13 @@ abstract class Cache{
 	
 	/**
 	 * 删除单个缓存
-	 * @param mix $key
+	 * @param string $key
 	 */
 	abstract protected function deleteValue($key);
 	
 	/**
 	 * 清空部分或全部缓存
-	 * @param $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
+	 * @param string $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
 	 */
 	abstract protected function flushValues($prefix = null);
 }

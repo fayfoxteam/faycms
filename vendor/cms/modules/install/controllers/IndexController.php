@@ -3,16 +3,14 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use fay\models\tables\Users;
-use fay\helpers\String;
 use fay\models\Option;
 use fay\models\File;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
 use fay\helpers\Request;
-use fay\models\tables\UserProfile;
-use fay\models\tables\UsersRoles;
 use fay\models\tables\Roles;
+use fay\services\User;
 
 class IndexController extends InstallController{
 	public function __construct(){
@@ -124,30 +122,20 @@ class IndexController extends InstallController{
 		}else if($is_installed == 'database-completed'){
 			//数据库已初始化，跳转至设置超级管理员界面
 			if($this->input->post()){
-				$salt = String::random('alnum', 5);
-				$password = $this->input->post('password');
-				$password = md5(md5($password).$salt);
-				$user_id = Users::model()->insert(array(
-					'username'=>$this->input->post('username'),
-					'password'=>$password,
-					'salt'=>$salt,
+				$user_id = User::model()->create(array(
+					'username'=>$this->input->post('username', 'trim'),
+					'password'=>$this->input->post('password'),
+					'nickname'=>'系统管理员',//@todo 这里先默认一个，以后再完善下安装程序的界面
 					'status'=>Users::STATUS_VERIFIED,
-					'admin'=>1,
-				));
-				
-				UserProfile::model()->insert(array(
-					'user_id'=>$user_id,
-					'reg_time'=>$this->current_time,
-					'reg_ip'=>Request::ip2int(Request::getIP()),
-					'trackid'=>'install',
-				));
-				
-				UsersRoles::model()->insert(array(
-					'user_id'=>$user_id,
-					'role_id'=>Roles::ITEM_SUPER_ADMIN,
-				));
-				
-				Option::set('site:sitename', $this->input->post('site:sitename'));
+				), array(
+					'profile'=>array(
+						'trackid'=>'install',
+					),
+					'roles'=>array(
+						Roles::ITEM_SUPER_ADMIN,
+					)
+				), 1);
+				Option::set('site:sitename', $this->input->post('site:sitename', 'trim'));
 				
 				file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
 				

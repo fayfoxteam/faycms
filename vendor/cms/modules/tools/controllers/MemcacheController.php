@@ -30,12 +30,12 @@ class MemcacheController extends ToolsController{
 	}
 	
 	public function delete(){
-		$this->cache->delete($this->input->get('key'));
+		\F::cache()->delete($this->input->get('key'), 'memcache');
 		Response::goback();
 	}
 	
 	public function flush(){
-		$this->cache->memcache()->flush();
+		\F::cache()->flush(null, 'memcache');
 		Response::goback();
 	}
 }

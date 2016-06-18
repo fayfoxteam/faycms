@@ -8,12 +8,12 @@ use fay\models\Option;
 			<div class="form-field">
 				<label class="title">是否启用<em class="required">*</em></label>
 				<?php
-					echo Html::inputRadio('qiniu:enabled', '1', Option::get('qiniu:enabled') == '1', array(
+					echo Html::inputRadio('ucpaas:enabled', '1', Option::get('ucpaas:enabled') == '1', array(
 						'label'=>'是',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',
 					));
-					echo Html::inputRadio('qiniu:enabled', '0', Option::get('qiniu:enabled') === '0', array(
+					echo Html::inputRadio('ucpaas:enabled', '0', Option::get('ucpaas:enabled') === '0', array(
 						'label'=>'否',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',

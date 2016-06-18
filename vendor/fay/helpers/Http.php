@@ -5,9 +5,10 @@ class Http{
 	
 	/**
 	 * 拼接url
-	 * @param string $baseURL 基于的url
+	 * @param string $base_url 基于的url
 	 * @param array $values 参数列表数组
 	 * @return string 返回拼接的url
+	 * @return string
 	 */
 	public static function combineURL($base_url, $values){
 		$combined = $base_url."?";
@@ -56,10 +57,11 @@ class Http{
 	
 	/**
 	 * post方式请求资源
-	 * @param $url 请求地址
-	 * @param $postFields 请求参数
+	 * @param string $url 请求地址
+	 * @param array $post_fields 请求参数
+	 * @return bool
 	 */
-	public static function post($url, $postFields = null){
+	public static function post($url, $post_fields = null){
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_FAILONERROR, false);
@@ -70,10 +72,10 @@ class Http{
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 		}
 		
-		if (is_array($postFields) && 0 < count($postFields)){
+		if (is_array($post_fields) && 0 < count($post_fields)){
 			$postBodyString = "";
 			$postMultipart = false;
-			foreach ($postFields as $k => $v){
+			foreach ($post_fields as $k => $v){
 				if("@" != substr($v, 0, 1)){//判断是不是文件上传
 					$postBodyString .= "$k=" . urlencode($v) . "&";
 				}else{//文件上传用multipart/form-data，否则用www-form-urlencoded
@@ -83,12 +85,12 @@ class Http{
 			unset($k, $v);
 			curl_setopt($ch, CURLOPT_POST, true);
 			if ($postMultipart){
-				curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
 			}else{
 				curl_setopt($ch, CURLOPT_POSTFIELDS, substr($postBodyString,0,-1));
 			}
 		}
-		$reponse = curl_exec($ch);
+		$response = curl_exec($ch);
 		
 		if (curl_errno($ch)){
 			return false;
@@ -97,10 +99,10 @@ class Http{
 			$httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			if (200 !== $httpStatusCode){
 				return $httpStatusCode;
-				//throw new Exception($reponse,$httpStatusCode);
+				//throw new Exception($response,$httpStatusCode);
 			}
 		}
 		curl_close($ch);
-		return $reponse;
+		return $response;
 	}
 }

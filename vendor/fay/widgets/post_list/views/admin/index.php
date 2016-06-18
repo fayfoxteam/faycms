@@ -1,8 +1,9 @@
 <?php
 use fay\helpers\Html;
 use fay\models\tables\Roles;
+use fay\models\user\Role;
 ?>
-<div class="box" id="box-abstract" data-name="abstract">
+<div class="box">
 	<div class="box-title">
 		<h4>配置参数</h4>
 	</div>
@@ -43,7 +44,7 @@ use fay\models\tables\Roles;
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
-		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
+		<div class="advance <?php if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">页码字段</label>
 				<?php echo F::form('widget')->inputText('page_key', array(
@@ -125,6 +126,9 @@ use fay\models\tables\Roles;
 					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
 						'label'=>'作者信息',
 					));
+					echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
+						'label'=>'计数（评论数/阅读数/点赞数）',
+					));
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>
@@ -134,7 +138,7 @@ use fay\models\tables\Roles;
 					'class'=>'form-control h90 autosize',
 				))?>
 				<p class="fc-grey mt5">
-					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
+					若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
 					即类似<code>frontend/widget/template</code><br />
 					则会调用当前application下符合该相对路径的view文件。<br />
 					否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
@@ -162,7 +166,7 @@ use fay\models\tables\Roles;
 						'class'=>'form-control h90 autosize',
 					))?>
 					<p class="fc-grey mt5">
-						若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
+						若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
 						即类似<code>frontend/widget/pager</code><br />
 						则会调用当前application下符合该相对路径的view文件。<br />
 						否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。

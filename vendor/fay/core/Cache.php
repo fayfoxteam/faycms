@@ -7,6 +7,7 @@ class Cache{
 	public static $map = array(
 		'file'=>'fay\caching\File',
 		'memcache'=>'fay\caching\Memcache',
+		'array'=>'fay\caching\ArrayCache',
 	);
 	
 	public static $drivers = array();
@@ -20,8 +21,9 @@ class Cache{
 	
 	/**
 	 * 获取缓存
-	 * @param mix $key
+	 * @param string $key
 	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
+	 * @return mixed
 	 * @throws \fay\core\ErrorException
 	 */
 	public function get($key, $driver = null){
@@ -33,7 +35,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -42,8 +44,9 @@ class Cache{
 	
 	/**
 	 * 一次性获取多个缓存
-	 * @param array $keys，一维数组的方式传入多个key
+	 * @param array $keys  一维数组的方式传入多个key
 	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
+	 * @return null
 	 * @throws \fay\core\ErrorException
 	 */
 	public function mget($keys, $driver = null){
@@ -55,7 +58,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -64,12 +67,12 @@ class Cache{
 	
 	/**
 	 * 设置缓存
-	 * @param mix $key
-	 * @param mix $value
+	 * @param string $key
+	 * @param mixed $value
 	 * @param int $duration 缓存过期时间（单位：秒）
 	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
 	 * @throws \fay\core\ErrorException
-	 * @return boolean
+	 * @return bool
 	 */
 	public function set($key, $value, $duration = 0, $driver = null){
 		$driver || $driver = \F::config()->get('default_cache_driver');
@@ -80,7 +83,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -89,11 +92,11 @@ class Cache{
 	
 	/**
 	 * 设置多个缓存
-	 * @param mix $data
+	 * @param mixed $data
 	 * @param int $duration 缓存过期时间（单位：秒）
 	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
 	 * @throws \fay\core\ErrorException
-	 * @return boolean
+	 * @return bool
 	 */
 	public function mset($data, $duration = 0, $driver = null){
 		$driver || $driver = \F::config()->get('default_cache_driver');
@@ -104,7 +107,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -113,8 +116,8 @@ class Cache{
 	
 	/**
 	 * 删除一个缓存
-	 * @param mix $key
-	 * @param $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
+	 * @param mixed $key
+	 * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
 	 * @throws \fay\core\ErrorException
 	 * @return bool
 	 */
@@ -127,7 +130,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -136,12 +139,12 @@ class Cache{
 	
 	/**
 	 * 清空缓存
-	 * @param string $prefix
-	 * @param $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
-	 * @throws \fay\core\ErrorException
+	 * @param string $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
+	 * @param null|string $driver
 	 * @return bool
+	 * @throws ErrorException
 	 */
-	public function flush($prefix, $driver = null){
+	public function flush($prefix = null, $driver = null){
 		$driver || $driver = \F::config()->get('default_cache_driver');
 		
 		if(empty($driver)){
@@ -150,7 +153,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		
@@ -179,7 +182,7 @@ class Cache{
 			throw new ErrorException("{$driver} 缓存方式未注册");
 		}
 		
-		if(!in_array($driver, self::$drivers)){
+		if(empty(self::$drivers[$driver])){
 			self::$drivers[$driver] = new self::$map[$driver];
 		}
 		return self::$drivers[$driver];

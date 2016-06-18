@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 use fay\models\File;
 use fay\models\tables\Users;
+use fay\models\Option;
 ?>
 <div class="form-field">
 	<label class="title bold">登录名<em class="required">*</em></label>
@@ -12,7 +13,13 @@ use fay\models\tables\Users;
 	))?>
 </div>
 <div class="form-field">
-	<label class="title bold">密码</label>
+	<label class="title bold">密码<?php
+		if(F::form()->getScene() == 'create'){
+			echo Html::tag('em', array(
+				'class'=>'required',
+			), '*');
+		}
+	?></label>
 	<?php
 		echo F::form()->inputText('password', array(
 			'class'=>'form-control mw400',
@@ -48,7 +55,9 @@ use fay\models\tables\Users;
 </div>
 <?php }?>
 <div class="form-field">
-	<label class="title bold">昵称</label>
+	<label class="title bold">昵称<?php if(Option::get('system:user_nickname_required')){?>
+		<em class="required">*</em>
+	<?php }?></label>
 	<?php echo F::form()->inputText('nickname', array('class'=>'form-control mw400'))?>
 </div>
 <div class="form-field">
@@ -71,7 +80,7 @@ use fay\models\tables\Users;
 				'class'=>'fc-green',
 			),
 			'after'=>'正常登录',
-		));
+		), true);
 		echo F::form()->inputRadio('block', 1, array(
 			'wrapper'=>array(
 				'tag'=>'label',
@@ -85,20 +94,20 @@ use fay\models\tables\Users;
 	<label class="title bold">头像</label>
 	<div id="avatar-container">
 		<?php 
-		echo F::form()->inputHidden('avatar', array('id'=>'avatar-id'));
-		if(!empty($user['avatar'])){
-			echo Html::link(Html::img($user['avatar'], File::PIC_RESIZE, array(
+		echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
+		if(!empty($user['user']['avatar']['id'])){
+			echo Html::link(Html::img($user['user']['avatar']['id'], File::PIC_RESIZE, array(
 				'dw'=>178,
 				'dh'=>178,
 				'id'=>'avatar-img',
-			)), File::model()->getUrl($user['avatar']), array(
+			)), $user['user']['avatar']['url'], array(
 				'encode'=>false,
 				'class'=>'fancybox-image',
 				'title'=>false,
 			));
-			echo Html::link(Html::img($user['avatar'], File::PIC_THUMBNAIL, array(
+			echo Html::link(Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 				'id'=>'avatar-img-circle',
-			)), File::model()->getUrl($user['avatar']), array(
+			)), $user['user']['avatar']['url'], array(
 				'encode'=>false,
 				'class'=>'fancybox-image',
 				'title'=>false,

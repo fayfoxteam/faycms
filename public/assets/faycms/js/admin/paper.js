@@ -35,11 +35,11 @@ var paper = {
 			'success': function(resp){
 				$('#question-dialog').unblock();
 				if(resp.status){
-					paper.renderQuestions(resp.data);
-					common.showPager('questions-list-pager', resp.pager);
+					paper.renderQuestions(resp.data.questions);
+					common.showPager('questions-list-pager', resp.data.pager);
 					$('#question-dialog .select-all').attr('checked', false);
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});
@@ -99,7 +99,7 @@ var paper = {
 					paper.getQuestions(paper.page);
 					paper.refreshScore();
 				}else{
-					alert(resp.message);
+					common.alert(resp.message);
 				}
 			}
 		});

@@ -20,9 +20,9 @@ class SiteController extends AdminController{
 			foreach($data as $key=>$value){
 				Option::set($key, $value);
 			}
-			Response::output('success', '保存成功');
+			Response::notify('success', '保存成功');
 		}
-		Response::output('error', '无数据提交');
+		Response::notify('error', '无数据提交');
 	}
 	
 	/**

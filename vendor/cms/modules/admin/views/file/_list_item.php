@@ -3,10 +3,9 @@ use fay\models\File;
 use fay\helpers\Html;
 use fay\helpers\Date;
 use fay\models\Qiniu;
-use fay\models\tables\Files;
 use fay\models\Category;
 
-$full_file_path = File::model()->getUrl($data);
+$full_file_path = File::getUrl($data);
 ?>
 <tr valign="top" id="file-<?php echo $data['id']?>" data-qiniu="<?php echo $data['qiniu']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
@@ -23,7 +22,7 @@ $full_file_path = File::model()->getUrl($data);
 			'title'=>$data['client_name'],
 		))?>
 	<?php }else{?>
-		<img src="<?php echo File::model()->getThumbnailUrl($data)?>" />
+		<img src="<?php echo File::getThumbnailUrl($data)?>" />
 	<?php }?>
 	</td>
 	<td>
@@ -69,7 +68,7 @@ $full_file_path = File::model()->getUrl($data);
 					'data-id'=>$data['id'],
 					'class'=>'qiniu-delete fc-red',
 					'title'=>'从七牛删除，本地图片会保留',
-				));
+				), true);
 			?></div>
 		</div>
 		<div class="qiniu-status qiniu-not-upload <?php if($data['qiniu']){echo 'hide';}?>">
@@ -80,7 +79,7 @@ $full_file_path = File::model()->getUrl($data);
 				)), array(
 					'data-id'=>$data['id'],
 					'class'=>'qiniu-put',
-				));
+				), true);
 			?></div>
 		</div>
 		<div class="loading hide">

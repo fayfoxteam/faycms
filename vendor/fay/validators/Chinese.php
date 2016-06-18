@@ -17,11 +17,16 @@ class Chinese extends Validator{
 	 */
 	public $message = '{$attribute}必须是中文';
 	
+	/**
+	 * 错误码
+	 */
+	public $code = 'invalid-parameter:{$field}:must-be-chinese';
+	
 	public function validate($value){
 		if(preg_match($this->pattern, $value)){
 			return true;
 		}else{
-			return $this->message;
+			return $this->addError($this->message, $this->code);
 		}
 	}
 }

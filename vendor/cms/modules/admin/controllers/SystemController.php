@@ -7,19 +7,14 @@ use fay\models\Setting;
 use fay\core\Response;
 
 class SystemController extends AdminController{
-	public function isCellphoneExist(){
+	public function isMoboleExist(){
 		if(Users::model()->fetchRow(array(
-			'cellphone = ?'=>$this->input->post('value', 'trim'),
+			'mobile = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'该手机号码已被注册',
-			));
+			Response::json('', 0, '该手机号码已被注册');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -28,14 +23,9 @@ class SystemController extends AdminController{
 			'email = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'该邮箱已被注册',
-			));
+			Response::json('', 0, '该邮箱已被注册');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -44,14 +34,9 @@ class SystemController extends AdminController{
 			'username = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
-			echo json_encode(array(
-				'status'=>0,
-				'message'=>'该用户名已被注册',
-			));
+			Response::json('', 0, '该用户名已被注册');
 		}else{
-			echo json_encode(array(
-				'status'=>1,
-			));
+			Response::json();
 		}
 	}
 	
@@ -62,14 +47,14 @@ class SystemController extends AdminController{
 				->check()){
 				$data = $this->form('setting')->getAllData();
 				$key = $data['_key'];
-				unset($data['_key']);
+				unset($data['_key'], $data['_submit']);
 				Setting::model()->set($key, $data);
-				Response::output('success', '设置保存成功');
+				Response::notify('success', '设置保存成功');
 			}else{
-				Response::output('error', '异常的数据格式');
+				Response::notify('error', '异常的数据格式');
 			}
 		}else{
-			Response::output('error', '无数据被提交');
+			Response::notify('error', '无数据被提交');
 		}
 	}
 }

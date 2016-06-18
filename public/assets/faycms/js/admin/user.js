@@ -23,35 +23,28 @@ var user = {
 		uploader.bind('FileUploaded', function(up, file, response) {
 			var resp = $.parseJSON(response.response);
 
-			$('#avatar-id').val(resp.id);
+			$('#avatar-id').val(resp.data.id);
 			$('#avatar-img').attr('src', system.url('admin/file/pic', {
-				'f':resp.id,
+				'f':resp.data.id,
 				't':4,
 				'dw':178,
 				'dh':178
 			}))
-			.parent().attr('href', system.url('admin/file/pic', {
-				'f':resp.id
-			}));
-			$('#avatar-img-circle').attr('src', system.url('admin/file/pic', {
-				'f':resp.id,
-				't':2
-			}))
-			.parent().attr('href', system.url('admin/file/pic', {
-				'f':resp.id
-			}));
+				.parent().attr('href', resp.data.src);
+			$('#avatar-img-circle').attr('src', resp.data.thumbnail)
+				.parent().attr('href', resp.data.src);
 			
 		});
 
 		uploader.bind('Error', function(up, error) {
 			if(error.code == -600){
-				alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
+				common.alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
 				return false;
 			}else if(error.code == -601){
-				alert('非法的文件类型');
+				common.alert('非法的文件类型');
 				return false;
 			}else{
-				alert(error.message);
+				common.alert(error.message);
 			}
 		});
 	},

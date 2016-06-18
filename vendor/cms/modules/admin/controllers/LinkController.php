@@ -8,7 +8,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\models\Category;
-use fay\models\Flash;
 
 class LinkController extends AdminController{
 	public function __construct(){
@@ -20,19 +19,15 @@ class LinkController extends AdminController{
 		$this->layout->subtitle = '添加链接';
 		
 		$this->form()->setModel(Links::model());
-		if($this->input->post()){
-			if($this->form()->check()){
-				$data = $this->form()->getFilteredData();
-				isset($data['visiable']) || $data['visiable'] = 1;
-				$data['create_time'] = $this->current_time;
-				$data['user_id'] = $this->current_user;
-				$data['last_modified_time'] = $this->current_time;
-				$link_id = Links::model()->insert($data);
-				$this->actionlog(Actionlogs::TYPE_LINK, '添加友情链接', $link_id);
-				Response::output('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
-			}else{
-				$this->showDataCheckError($this->form()->getErrors());
-			}
+		if($this->input->post() && $this->form()->check()){
+			$data = $this->form()->getFilteredData();
+			isset($data['visible']) || $data['visible'] = 1;
+			$data['create_time'] = $this->current_time;
+			$data['user_id'] = $this->current_user;
+			$data['last_modified_time'] = $this->current_time;
+			$link_id = Links::model()->insert($data);
+			$this->actionlog(Actionlogs::TYPE_LINK, '添加友情链接', $link_id);
+			Response::notify('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
 		}
 		
 		$this->view->cats = Category::model()->getTree('_system_link');
@@ -53,12 +48,12 @@ class LinkController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
-				isset($data['visiable']) || $data['visiable'] = 1;
-				$data['visiable'] = $this->input->post('visiable', 'intval', 1);
+				isset($data['visible']) || $data['visible'] = 1;
+				$data['visible'] = $this->input->post('visible', 'intval', 1);
 				$data['last_modified_time'] = $this->current_time;
 				Links::model()->update($data, array('id = ?'=>$id));
 				$this->actionlog(Actionlogs::TYPE_LINK, '编辑友情链接', $id);
-				Flash::set('一个链接被编辑', 'success');
+				Response::notify('success', '一个链接被编辑', false);
 			}
 		}
 		if($link = Links::model()->find($id)){
@@ -94,8 +89,8 @@ class LinkController extends AdminController{
 		);
 		
 		$sql = new Sql();
-		$sql->from('links', 'l')
-			->joinLeft('categories', 'c', 'l.cat_id = c.id', 'title AS cat_title');
+		$sql->from(array('l'=>'links'))
+			->joinLeft(array('c'=>'categories'), 'l.cat_id = c.id', 'title AS cat_title');
 		
 		if($this->input->get('title')){
 			$sql->where(array('l.title LIKE ?'=>'%'.$this->input->get('title', 'trim').'%'));
@@ -107,7 +102,7 @@ class LinkController extends AdminController{
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
-			$this->view->order = $this->input->get('order') == 'asc' ? 'asc' : 'desc';
+			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("{$this->view->orderby} {$this->view->order}");
 		}else{
 			$sql->order('id DESC');
@@ -128,7 +123,7 @@ class LinkController extends AdminController{
 		
 		$this->actionlog(Actionlogs::TYPE_LINK, '移除友情链接', $this->input->get('id', 'intval'));
 		
-		Response::output('success', '一个友情链接被永久删除', array('admin/link/index', $this->input->get()));
+		Response::notify('success', '一个友情链接被永久删除', array('admin/link/index', $this->input->get()));
 	}
 	
 	public function sort(){
@@ -141,7 +136,7 @@ class LinkController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_LINK, '改变了友情链接排序', $id);
 		
 		$link = Links::model()->find($id, 'sort');
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'改变了友情链接排序值',
 			'sort'=>$link['sort'],
 		));
@@ -158,7 +153,6 @@ class LinkController extends AdminController{
 		$root_node = Category::model()->getByAlias('_system_link', 'id');
 		$this->view->root = $root_node['id'];
 		
-		$root_cat = Category::model()->getByAlias('_system_link', 'id');
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -166,7 +160,7 @@ class LinkController extends AdminController{
 				'html_options'=>array(
 					'class'=>'create-cat-link',
 					'data-title'=>'友情链接',
-					'data-id'=>$root_cat['id'],
+					'data-id'=>$root_node['id'],
 				),
 			);
 		}

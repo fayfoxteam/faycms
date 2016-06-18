@@ -1,6 +1,8 @@
 <?php
 namespace fay\core;
 
+use fay\helpers\StringHelper;
+
 class View{
 	/**
 	 * 用于试图层的数据
@@ -21,7 +23,7 @@ class View{
 				$router = substr($router, strlen($default_module) + 1);
 			}
 			$ext = \F::config()->get('url_suffix');
-			$exts = \F::config()->get('*', 'exts', 'merge_recursive');
+			$exts = \F::config()->get('*', 'exts');
 			foreach($exts as $key => $val){
 				foreach($val as $v){
 					if(preg_match('/^'.str_replace(array(
@@ -44,8 +46,9 @@ class View{
 				}
 			}else{
 				//对params部分不做url重写
-				if($params){
-					return $base_url . $router . $ext . '?' . http_build_query($params);
+				$query_string = http_build_query($params);
+				if($query_string){
+					return $base_url . $router . $ext . '?' . $query_string;
 				}else{
 					return $base_url . $router . $ext;
 				}
@@ -70,18 +73,22 @@ class View{
 	 * @return string
 	 */
 	public function assets($uri){
-		return \F::config()->get('base_url') . 'assets/' . $uri;
+		return \F::config()->get('assets_url') . 'assets/' . $uri;
 	}
 	
 	/**
 	 * 向视图传递一堆参数
 	 * @param array $options
+	 * @return View
 	 */
 	public function assign($options){
 		$this->_view_data = array_merge($this->_view_data, $options);
 		return $this;
 	}
 	
+	/**
+	 * @return array
+	 */
 	public function getViewData(){
 		return $this->_view_data;
 	}
@@ -123,7 +130,9 @@ class View{
 	 *渲染一个视图
 	 * @param string $view 视图文件
 	 * @param string $layout 模板文件目录
-	 * @param array $layout_data 传递给模板的参数
+	 * @param bool $return
+	 * @return null|string
+	 * @throws Exception
 	 */
 	public function render($view = null, $layout = null, $return = false){
 		//hook
@@ -176,24 +185,25 @@ class View{
 	 * 不带layout渲染一个视图
 	 * @param string $view
 	 * @param array $view_data 传参
-	 * @param bool $return 若为true，则不输出而是返回渲染结果
-	 * @param int $cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
-	 * @return string|NULL
+	 * @param int $__cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
+	 * @param bool $__return 若为true，则不输出而是返回渲染结果
+	 * @return NULL|string
+	 * @throws ErrorException
 	 */
 	public function renderPartial($view = null, $view_data = array(), $__cache = -1, $__return = false){
 		$uri = Uri::getInstance();
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		//加载视图文件
 		if($view === null){
-			$view = strtolower($uri->action);
-			$controller = strtolower($uri->controller);
+			$view = StringHelper::case2underscore($uri->action);
+			$controller = StringHelper::case2underscore($uri->controller);
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$view}.php";
 		}else{
-			$view_arr = explode('/', $view);
+			$view_arr = explode('/', $view, 3);
 			
 			switch(count($view_arr)){
 				case 1:
-					$controller = strtolower($uri->controller);
+					$controller = $uri->controller;
 					$action = $view_arr[0];
 				break;
 				case 2:
@@ -207,6 +217,9 @@ class View{
 				break;
 			}
 			
+			//大小写分割转下划线分割
+			$controller = StringHelper::case2underscore($controller);
+			$action = StringHelper::case2underscore($action);
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}
 		
@@ -236,7 +249,7 @@ class View{
 		}
 		
 		if(!isset($view_path)){
-			throw new Exception('视图文件不存在', 'Relative Path: '.$view_relative_path);
+			throw new ErrorException('视图文件不存在', 'Relative Path: '.$view_relative_path);
 		}else{
 			extract(array_merge($this->getViewData(), $view_data));
 			ob_start();

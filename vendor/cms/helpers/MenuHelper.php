@@ -2,6 +2,7 @@
 namespace cms\helpers;
 
 use fay\helpers\Html;
+use fay\core\Uri;
 class MenuHelper{
 	/**
 	 * 渲染一个导航栏
@@ -10,7 +11,7 @@ class MenuHelper{
 	 * @param unknown $current_directory 当前页
 	 * @param number $dep 深度
 	 */
-	public static function render($menus, $role, $current_directory, $dep = 0){
+	public static function render($menus, $current_directory, $dep = 0){
 		$text = array();
 		foreach($menus as $m){
 			//以link属性是否为javascript:;来判断是否为叶子
@@ -30,7 +31,9 @@ class MenuHelper{
 				'text'=>array(
 					array(
 						'tag'=>'a',
-						'href'=>$m['link'] == 'javascript:;' ? 'javascript:;' : \F::app()->view->url($m['link']),
+						'href'=>$m['link'] == 'javascript:;' ? 'javascript:;'
+							//后台菜单配置比较特殊，系统自带的只有router部分，用户自定义部分可能会有完整url
+							: (strpos($m['link'], 'http://') === 0 ? $m['link'] : \F::app()->view->url($m['link'])),
 						'text'=>array(
 							//小图标
 							$m['css_class'] ? array(
@@ -47,7 +50,7 @@ class MenuHelper{
 						'target'=>$m['target'] ? $m['target'] : false,
 					),
 					//子菜单
-					empty($m['children']) ? false : self::render($m['children'], $role, $current_directory, $dep + 1),
+					empty($m['children']) ? false : self::render($m['children'], $current_directory, $dep + 1),
 				)
 			);
 			
@@ -56,7 +59,7 @@ class MenuHelper{
 				if(!empty($m['children'])){
 					$item['class'][] = 'has-sub';
 				}
-				if(($current_directory && $current_directory == $m['alias']) || \F::app()->uri->router == $m['link']){
+				if(($current_directory && $current_directory == $m['alias']) || Uri::getInstance()->router == $m['link']){
 					$item['class'][] = 'opened';
 					$item['class'][] = 'expanded';
 					$item['class'][] = 'active';

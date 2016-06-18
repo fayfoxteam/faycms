@@ -1,8 +1,9 @@
 <?php
 use fay\models\tables\Roles;
 use fay\helpers\Html;
+use fay\models\user\Role;
 ?>
-<div class="box" id="box-abstract" data-name="abstract">
+<div class="box">
 	<div class="box-title">
 		<h4>配置参数</h4>
 	</div>
@@ -24,7 +25,7 @@ use fay\helpers\Html;
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
-		<div class="advance <?php if(!in_array(Roles::ITEM_SUPER_ADMIN, F::session()->get('roles')))echo 'hide';?>">
+		<div class="advance <?php if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">ID字段</label>
 				<?php echo F::form('widget')->inputText('id_key', array(
@@ -40,20 +41,26 @@ use fay\helpers\Html;
 				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项可以避免文章在错误的界面显示。</p>
 			</div>
 			<div class="form-field">
-				<label class="title bold">递增阅读数</label>
+				<label class="title bold">更新访问信息</label>
 				<?php
 					echo F::form('widget')->inputRadio('inc_views', '1', array(
-						'label'=>'递增',
+						'label'=>'更新',
 					), true);
 					echo F::form('widget')->inputRadio('inc_views', '0', array(
-						'label'=>'不递增',
+						'label'=>'不更新',
 					));
 				?>
-				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项很有用。</p>
+				<p class="fc-grey">请求widget的时候同时更新阅读数和最后访问时间。</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
+					echo F::form('widget')->inputCheckbox('fields[]', 'category', array(
+						'label'=>'主分类',
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'categories', array(
+						'label'=>'附加分类',
+					), true);
 					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
 						'label'=>'作者信息',
 					), true);
@@ -62,19 +69,16 @@ use fay\helpers\Html;
 					), true);
 					echo F::form('widget')->inputCheckbox('fields[]', 'tags', array(
 						'label'=>'标签',
-					));
+					), true);
 					echo F::form('widget')->inputCheckbox('fields[]', 'files', array(
 						'label'=>'附件',
-					));
+					), true);
 					echo F::form('widget')->inputCheckbox('fields[]', 'props', array(
 						'label'=>'附加属性',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'categories', array(
-						'label'=>'附加分类',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'messages', array(
-						'label'=>'评论信息',
-					));
+					), true);
+					echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
+						'label'=>'计数（评论数/阅读数/点赞数）',
+					), true);
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>
@@ -84,7 +88,7 @@ use fay\helpers\Html;
 					'class'=>'form-control h90 autosize',
 				))?>
 				<p class="fc-grey mt5">
-					若模版内容符合正则<code>/^[\w_-]+\/[\w_-]+\/[\w_-]+$/</code>，
+					若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
 					即类似<code>frontend/widget/template</code><br />
 					则会调用当前application下符合该相对路径的view文件。<br />
 					否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。

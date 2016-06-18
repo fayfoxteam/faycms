@@ -41,10 +41,10 @@ class NotificationController extends AdminController{
 		$this->layout->subtitle = '我的消息';
 		
 		$sql = new Sql();
-		$sql->from('users_notifications', 'un', 'notification_id,read')
-			->joinLeft('notifications', 'n', 'un.notification_id = n.id', 'title,content,sender,publish_time')
-			->joinLeft('users', 'u', 'n.sender = u.id', 'username,nickname,realname')
-			->joinLeft('categories', 'c', 'n.cat_id = c.id', 'title AS cat_title')
+		$sql->from(array('un'=>'users_notifications'), 'notification_id,read')
+			->joinLeft(array('n'=>'notifications'), 'un.notification_id = n.id', 'title,content,sender,publish_time')
+			->joinLeft(array('u'=>'users'), 'n.sender = u.id', 'username,nickname,realname')
+			->joinLeft(array('c'=>'categories'), 'n.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'un.user_id = '.$this->current_user,
 				'n.publish_time <= '.$this->current_time,
@@ -71,7 +71,7 @@ class NotificationController extends AdminController{
 		));
 		$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '删除系统信息', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一条消息被移入回收站 - '.Html::link('撤销', array('admin/notification/undelete', array(
 				'id'=>$id,
 			))),
@@ -90,7 +90,7 @@ class NotificationController extends AdminController{
 		));
 		$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '还原系统信息', $id);
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'message'=>'一条消息被还原',
 			'id'=>$id,
 		));
@@ -104,8 +104,8 @@ class NotificationController extends AdminController{
 		
 		//获取未读消息数
 		$sql = new Sql();
-		$notifications = $sql->from('users_notifications', 'un', 'notification_id')
-			->joinLeft('notifications', 'n', 'un.notification_id = n.id', 'title,content,publish_time')
+		$notifications = $sql->from(array('un'=>'users_notifications'), 'notification_id')
+			->joinLeft(array('n'=>'notifications'), 'un.notification_id = n.id', 'title,content,publish_time')
 			->where(array(
 				"un.user_id = {$this->current_user}",
 				'un.`read` = 0',
@@ -115,7 +115,7 @@ class NotificationController extends AdminController{
 			->order('n.publish_time DESC')
 			->fetchAll();
 		
-		Response::output('success', array(
+		Response::notify('success', array(
 			'data'=>$notifications,
 		));
 	}
@@ -158,7 +158,7 @@ class NotificationController extends AdminController{
 			'notification_id = ?'=>$id,
 		));
 		
-		Response::output('success', '一条信息被标记为'.($read ? '已读' : '未读'));
+		Response::notify('success', '一条信息被标记为'.($read ? '已读' : '未读'));
 	}
 	
 	public function batch(){
@@ -173,7 +173,7 @@ class NotificationController extends AdminController{
 					"user_id = {$this->current_user}",
 					'notification_id IN (?)'=>$ids,
 				));
-				Response::output('success', $affected_rows.'条消息被标记为已读');
+				Response::notify('success', $affected_rows.'条消息被标记为已读');
 			break;
 			case 'set-unread':
 				$affected_rows = UsersNotifications::model()->update(array(
@@ -182,7 +182,7 @@ class NotificationController extends AdminController{
 					"user_id = {$this->current_user}",
 					'notification_id IN (?)'=>$ids,
 				));
-				Response::output('success', $affected_rows.'条消息被标记为未读');
+				Response::notify('success', $affected_rows.'条消息被标记为未读');
 			break;
 			case 'delete':
 				$affected_rows = UsersNotifications::model()->update(array(
@@ -191,7 +191,7 @@ class NotificationController extends AdminController{
 					"user_id = {$this->current_user}",
 					'notification_id IN (?)'=>$ids,
 				));
-				Response::output('success', $affected_rows.'条消息被删除');
+				Response::notify('success', $affected_rows.'条消息被删除');
 			break;
 		}
 	}

@@ -8,10 +8,11 @@ class RolesCats extends Table{
 	protected $_primary = array('role_id', 'cat_id');
 	
 	/**
+	 * @param string $class_name
 	 * @return RolesCats
 	 */
-	public static function model($className=__CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	public function rules(){

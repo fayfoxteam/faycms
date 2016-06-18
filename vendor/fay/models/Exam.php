@@ -11,14 +11,14 @@ use fay\models\tables\ExamPaperQuestions;
 use fay\models\tables\ExamExams;
 use fay\models\tables\ExamExamsQuestions;
 use fay\models\tables\ExamExamQuestionAnswerText;
-use fay\helpers\String;
+use fay\helpers\StringHelper;
 
 class Exam extends Model{
 	/**
 	 * @return Exam
 	 */
-	public static function model($className = __CLASS__){
-		return parent::model($className);
+	public static function model($class_name = __CLASS__){
+		return parent::model($class_name);
 	}
 	
 	
@@ -26,8 +26,8 @@ class Exam extends Model{
 		$paper = ExamPapers::model()->find($id);
 		
 		$sql = new Sql();
-		$paper['questions'] = $sql->from('exam_paper_questions', 'pq', 'score')
-			->joinLeft('exam_questions', 'q', 'pq.question_id = q.id', 'id,question,type,rand')
+		$paper['questions'] = $sql->from(array('pq'=>'exam_paper_questions'), 'score')
+			->joinLeft(array('q'=>'exam_questions'), 'pq.question_id = q.id', 'id,question,type,rand')
 			->where('pq.paper_id = '.$paper['id'])
 			->order('pq.sort')
 			->fetchAll()
@@ -55,6 +55,8 @@ class Exam extends Model{
 	
 	/**
 	 * 判断一个选择题的答案是否参与考试并且已被用户选中
+	 * @param $answer_id
+	 * @return bool
 	 */
 	public static function isAnswerExamed($answer_id){
 		return !!ExamExamQuestionAnswersInt::model()->fetchRow(array(
@@ -64,16 +66,17 @@ class Exam extends Model{
 	
 	/**
 	 * 记录一份大卷
-	 * @param int $paper_id
+	 * @param $paper
 	 * @param int $start_time
 	 * @param int $user_answers 用户作答，键值对形式
 	 * @param int $user_id
 	 * @return int
+	 * @internal param int $paper_id
 	 */
 	public function record($paper, $start_time, $user_answers, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		
-		String::isInt($paper) && $paper = ExamPapers::model()->find($paper, 'id,rand');
+		StringHelper::isInt($paper) && $paper = ExamPapers::model()->find($paper, 'id,rand');
 		
 		$exam_id = ExamExams::model()->insert(array(
 			'user_id'=>$user_id,

@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\page_item\controllers;
 
-use fay\core\Widget;
+use fay\widget\Widget;
 use fay\models\Flash;
 use fay\models\tables\Pages;
 
@@ -38,7 +38,7 @@ class AdminController extends Widget{
 			$data['template'] = '';
 		}
 		
-		$this->saveData($data);
+		$this->setConfig($data);
 		
 		Flash::set('编辑成功', 'success');
 	}

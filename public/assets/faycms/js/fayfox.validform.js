@@ -11,7 +11,7 @@
  *   }
  * }
  */
-;(function($) {
+;(function($){
 	$.extend({
 		'validform':{
 			//这是一堆验证器
@@ -75,11 +75,11 @@
 						'tooLong':'{$attribute}不能超过{$max}个字符',
 						'tooShort':'{$attribute}不能少于{$min}个字符',
 						'notEqual':'{$attribute}长度必须为{$min}个字符',
-						'formatError':'{$attribute}格式不正确',
+						'formatError':'{$attribute}格式不正确'
 					}, params);
 					
 					var formats = {
-						'alias':/^[a-zA-Z_0-9-]+$/,//数字，字母，下划线和中横线
+						'alias':/^[a-zA-Z][a-zA-Z_0-9-]{0,49}$/,//字母开头，不包含数字，字母，下划线和中横线以外的特殊字符
 						'numeric':/^\d+$/,//纯数字
 						'alnum':/^[a-zA-Z0-9]+$/,//数字+字母
 						'alias_space':/^[a-zA-Z_0-9- ]+$/,//数字，字母，下划线，中横线和空格
@@ -149,7 +149,7 @@
 						'message':'{$attribute}必须是数字'
 					}, params);
 					
-					if(!/^\d+(\.\d+)?$/.test(value)){
+					if(!/^-?\d+(\.\d+)?$/.test(value)){
 						return $.validform._renderMsg(settings.message, {
 							'length':settings.length,
 							'decimal':settings.decimal,
@@ -157,8 +157,8 @@
 						});
 					}
 					
-					var pointPos = value.toString().indexOf('.');
-					if(pointPos != -1 && value.toString().length - pointPos - 1 > settings.decimal){
+					var pointPos = value.indexOf('.');
+					if(pointPos != -1 && value.length - pointPos - 1 > settings.decimal){
 						return $.validform._renderMsg(settings.decimalTooLong, {
 							'length':settings.length,
 							'decimal':settings.decimal,
@@ -168,7 +168,7 @@
 					
 					if(settings.length){
 						max = Math.pow(10, settings.length - settings.decimal);
-						if(parseFloat(value) > max){
+						if(parseFloat(value) > max || parseFloat(value) < -max){
 							return $.validform._renderMsg(settings.tooLong, {
 								'length':settings.length,
 								'decimal':settings.decimal,
@@ -255,7 +255,7 @@
 				'datetime':function(value, params, attribute){
 					var settings = $.validform.merge({
 						'pattern':/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/,
-						'message':'{$attribute}日期格式不正确'
+						'message':'{$attribute}格式不正确'
 					}, params);
 					
 					if(settings.pattern.test(value)){
@@ -432,12 +432,20 @@
 					return true;
 				}
 				form.on('blur', 'select,input,textarea', function(){
-					if(_this.getValue($(this)) == '' || $(this).data('validate_status') == 'error'){
-						//为空或者之前验证状态为错误的情况下会再进行验证
+					if($(this).is(':radio') || $(this).is(':checkbox')){
+						//如果是复选框或者单选框，则每次失去焦点必然伴随着值改变，重新验证
 						_this.check($(this));
+					}else{
+						if(_this.getValue($(this)) == '' || $(this).data('validate_status') == 'error'){
+							//为空或者之前验证状态为错误的情况下，每次都执行验证
+							_this.check($(this));
+							$(this).data('validate_last_value', $(this).val());
+						}else if(!$(this).data('validate_last_value') || $(this).data('validate_last_value') != $(this).val()){
+							//如果值有改变或未记录之前的用户输入，则进行验证
+							_this.check($(this));
+							$(this).data('validate_last_value', $(this).val());
+						}
 					}
-				}).on('change', 'select,input,textarea', function(){
-					_this.check($(this));
 				}).on('change', 'select,input,textarea', function(){
 					if(form.data('status') == 'checking'){
 						//若是在最后验证ajax的时候，用户又改了某些输入框的值，则不能提交表单
@@ -496,15 +504,15 @@
 		}
 		
 		validform.prototype = {
+			/**
+			 * 传入jquery对象
+			 * 验证一个元素
+			 * 	返回null：没有设置name属性直接跳过
+			 * 	返回true：验证成功
+			 * 	返回"ajax"：本地验证通过，正在进行ajax验证
+			 * 	返回非ajax字符串：错误信息
+			 */
 			'check':function(obj){
-				/**
-				 * 传入jquery对象
-				 * 验证一个元素
-				 * 	返回null：没有设置name属性或者是不可见元素，直接跳过
-				 * 	返回true：验证成功
-				 * 	返回"ajax"：本地验证通过，正在进行ajax验证
-				 * 	返回非ajax字符串：错误信息
-				 */
 				if(this.settings.ignoreHidden && obj.is(':hidden')){
 					return true;//忽略隐藏元素
 				}
@@ -654,8 +662,12 @@
 			'ajax':function(value, url, obj){
 				//ajax验证
 				var name = obj.attr('name'),
+					attrAjaxParamName = obj.attr('data-ajax-param-name'),
 					form = $(obj[0].form),
-					ajaxQueue = form.data('ajaxQueue');
+					ajaxQueue = form.data('ajaxQueue'),
+					ajaxParamName = attrAjaxParamName ? attrAjaxParamName : name,
+					data = {};
+				data[ajaxParamName] = value;
 				
 				if(ajaxQueue[name]){
 					ajaxQueue[name].abort();
@@ -665,9 +677,7 @@
 				ajaxQueue[name] = $.ajax({
 					'type': 'POST',
 					'url': url,
-					'data': {
-						'value':value
-					},
+					'data': data,
 					'dataType': 'json',
 					'cache': false,
 					'success': function(resp){

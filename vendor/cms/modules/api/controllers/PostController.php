@@ -28,9 +28,9 @@ class PostController extends ApiController{
 	
 	/**
 	 * 获取一篇文章
-	 * @param int $id 文章ID
-	 * @param string $fields 可指定返回文章字段（只允许Post::$public_fields中的字段）
-	 * @param int|string $cat 指定分类（可选），若指定分类，则文章若不属于该分类，返回404
+	 * @parameter int $id 文章ID
+	 * @parameter string $fields 可指定返回文章字段（只允许Post::$public_fields中的字段）
+	 * @parameter int|string $cat 指定分类（可选），若指定分类，则文章若不属于该分类，返回404
 	 */
 	public function get(){
 		//表单验证

@@ -15,8 +15,8 @@ use fay\models\User;
 class PostLikeController extends ApiController{
 	/**
 	 * 点赞
-	 * @param int $post_id 文章ID
-	 * @param string $trackid 追踪ID
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $trackid 追踪ID
 	 */
 	public function add(){
 		//登录检查
@@ -56,7 +56,7 @@ class PostLikeController extends ApiController{
 	
 	/**
 	 * 取消点赞
-	 * @param int $post_id 文章ID
+	 * @parameter int $post_id 文章ID
 	 */
 	public function remove(){
 		//登录检查
@@ -88,10 +88,10 @@ class PostLikeController extends ApiController{
 	
 	/**
 	 * 文章点赞列表
-	 * @param int $post_id 文章ID
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function postLikes(){
 		//表单验证
@@ -133,9 +133,9 @@ class PostLikeController extends ApiController{
 	
 	/**
 	 * 我的点赞列表（api不支持获取别人的点赞列表）
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function userLikes(){
 		//登录检查

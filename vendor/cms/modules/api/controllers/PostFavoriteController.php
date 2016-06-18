@@ -14,8 +14,8 @@ use fay\helpers\FieldHelper;
 class PostFavoriteController extends UserController{
 	/**
 	 * 收藏
-	 * @param int $post_id 文章ID
-	 * @param string $trackid 追踪ID
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $trackid 追踪ID
 	 */
 	public function add(){
 		//表单验证
@@ -52,7 +52,7 @@ class PostFavoriteController extends UserController{
 	
 	/**
 	 * 取消收藏
-	 * @param int $post_id 文章ID
+	 * @parameter int $post_id 文章ID
 	 */
 	public function remove(){
 		//表单验证
@@ -81,9 +81,9 @@ class PostFavoriteController extends UserController{
 	
 	/**
 	 * 收藏列表
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function listAction(){
 		//表单验证

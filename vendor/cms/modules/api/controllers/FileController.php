@@ -18,18 +18,18 @@ use fay\models\Option;
 class FileController extends ApiController{
 	/**
 	 * 输出一张图片
-	 * @param int $f 文件ID
-	 * @param int $t 输出方式
+	 * @parameter int $f 文件ID
+	 * @parameter int $t 输出方式
 	 *  - 1: 原图
 	 *  - 2: 缩略图
 	 *  - 3: 裁剪图
 	 *  - 4: 缩放图
-	 * @param int $x 当$t=3时，裁剪起始x坐标点
-	 * @param int $y 当$t=3时，裁剪起始y坐标点
-	 * @param int $w 当$t=3时，裁剪宽度
-	 * @param int $h 当$t=3时，裁剪高度
-	 * @param int $dw 当$t=3或$t=4时候，图片输出宽度（原图尺寸不足时会被拉伸）
-	 * @param int $dh 当$t=3或$t=4时候，图片输出高度（原图尺寸不足时会被拉伸）
+	 * @parameter int $x 当$t=3时，裁剪起始x坐标点
+	 * @parameter int $y 当$t=3时，裁剪起始y坐标点
+	 * @parameter int $w 当$t=3时，裁剪宽度
+	 * @parameter int $h 当$t=3时，裁剪高度
+	 * @parameter int $dw 当$t=3或$t=4时候，图片输出宽度（原图尺寸不足时会被拉伸）
+	 * @parameter int $dh 当$t=3或$t=4时候，图片输出高度（原图尺寸不足时会被拉伸）
 	 */
 	public function pic(){
 		$validator = new Validator();
@@ -87,20 +87,20 @@ class FileController extends ApiController{
 			case File::PIC_CROP:
 				/**
 				 * 根据起始坐标，宽度及宽高比裁剪后输出图片
-				 * @param $_GET['x'] 起始点x坐标
-				 * @param $_GET['y'] 起始点y坐标
-				 * @param $_GET['dw'] 输出图像宽度
-				 * @param $_GET['dh'] 输出图像高度
-				 * @param $_GET['w'] 截图图片的宽度
-				 * @param $_GET['h'] 截图图片的高度
+				 * @parameter $_GET['x'] 起始点x坐标
+				 * @parameter $_GET['y'] 起始点y坐标
+				 * @parameter $_GET['dw'] 输出图像宽度
+				 * @parameter $_GET['dh'] 输出图像高度
+				 * @parameter $_GET['w'] 截图图片的宽度
+				 * @parameter $_GET['h'] 截图图片的高度
 				 */
 				$this->_crop($file);
 				break;
 			case File::PIC_RESIZE:
 				/**
 				 * 根据给定的宽高对图片进行裁剪后输出图片
-				 * @param $_GET['dw'] 输出图像宽度
-				 * @param $_GET['dh'] 输出图像高度
+				 * @parameter $_GET['dw'] 输出图像宽度
+				 * @parameter $_GET['dh'] 输出图像高度
 				 * 若仅指定高度或者宽度，则会按比例缩放
 				 * 若均不指定，则默认为200*200
 				 */
@@ -219,9 +219,9 @@ class FileController extends ApiController{
 	
 	/**
 	 * 显示一张验证码
-	 * @param int $l 验证码长度，默认4位
-	 * @param int $w 验证码宽度，默认110像素
-	 * @param int $h 验证码高度，默认40像素
+	 * @parameter int $l 验证码长度，默认4位
+	 * @parameter int $w 验证码宽度，默认110像素
+	 * @parameter int $h 验证码高度，默认40像素
 	 */
 	public function vcode(){
 		$sc = new SecurityCode($this->input->get('l', 'intval', 4), $this->input->get('w', 'intval', 110), $this->input->get('h', 'intval', 40));
@@ -232,7 +232,7 @@ class FileController extends ApiController{
 	
 	/**
 	 * 显示一张二维码
-	 * @param string $data 二维码内容，经base64编码后的字符串
+	 * @parameter string $data 二维码内容，经base64编码后的字符串
 	 */
 	public function qrcode(){
 		Loader::vendor('phpqrcode/qrlib');
@@ -241,7 +241,7 @@ class FileController extends ApiController{
 	
 	/**
 	 * 下载一个文件
-	 * @param int $id 文件ID
+	 * @parameter int $id 文件ID
 	 */
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){

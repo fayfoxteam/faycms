@@ -59,9 +59,9 @@ class MessageController extends ApiController{
 	);
 	/**
 	 * 发表留言
-	 * @param int $to_user_id 指定用户
-	 * @param string $content 留言内容
-	 * @param int $parent 父留言ID
+	 * @parameter int $to_user_id 指定用户
+	 * @parameter string $content 留言内容
+	 * @parameter int $parent 父留言ID
 	 */
 	public function create(){
 		//登录检查
@@ -133,7 +133,7 @@ class MessageController extends ApiController{
 	
 	/**
 	 * 删除留言
-	 * @param int $message_id 留言ID
+	 * @parameter int $message_id 留言ID
 	 */
 	public function delete(){
 		//登录检查
@@ -169,7 +169,7 @@ class MessageController extends ApiController{
 	
 	/**
 	 * 从回收站还原留言
-	 * @param int $message_id 留言ID
+	 * @parameter int $message_id 留言ID
 	 */
 	public function undelete(){
 		//登录检查
@@ -205,8 +205,8 @@ class MessageController extends ApiController{
 	
 	/**
 	 * 编辑留言
-	 * @param int $message_id 留言ID
-	 * @param string $content 留言内容
+	 * @parameter int $message_id 留言ID
+	 * @parameter string $content 留言内容
 	 */
 	public function edit(){
 		//登录检查
@@ -247,11 +247,11 @@ class MessageController extends ApiController{
 	
 	/**
 	 * 留言列表
-	 * @param int $to_user_id 指定用户
-	 * @param string $mode 模式
-	 * @param string $fields 制定字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $to_user_id 指定用户
+	 * @parameter string $mode 模式
+	 * @parameter string $fields 制定字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function listAction(){
 		//表单验证

@@ -11,8 +11,8 @@ use fay\services\User;
 class LoginController extends ApiController{
 	/**
 	 * 登录
-	 * @param string $username 用户名
-	 * @param string $password 密码
+	 * @parameter string $username 用户名
+	 * @parameter string $password 密码
 	 */
 	public function index(){
 		if($this->input->post()){

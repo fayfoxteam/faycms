@@ -59,9 +59,9 @@ class PostCommentController extends ApiController{
 	);
 	/**
 	 * 发表评论
-	 * @param int $post_id 文章ID
-	 * @param string $content 评论内容
-	 * @param int $parent 父评论ID
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $content 评论内容
+	 * @parameter int $parent 父评论ID
 	 */
 	public function create(){
 		//登录检查
@@ -133,7 +133,7 @@ class PostCommentController extends ApiController{
 	
 	/**
 	 * 删除评论
-	 * @param int $comment_id 评论ID
+	 * @parameter int $comment_id 评论ID
 	 */
 	public function delete(){
 		//登录检查
@@ -169,7 +169,7 @@ class PostCommentController extends ApiController{
 	
 	/**
 	 * 从回收站还原评论
-	 * @param int $comment_id 评论ID
+	 * @parameter int $comment_id 评论ID
 	 */
 	public function undelete(){
 		//登录检查
@@ -205,8 +205,8 @@ class PostCommentController extends ApiController{
 	
 	/**
 	 * 编辑评论
-	 * @param int $comment_id 评论ID
-	 * @param string $content 评论内容
+	 * @parameter int $comment_id 评论ID
+	 * @parameter string $content 评论内容
 	 */
 	public function edit(){
 		//登录检查
@@ -247,11 +247,11 @@ class PostCommentController extends ApiController{
 	
 	/**
 	 * 评论列表
-	 * @param int $post_id 文章ID
-	 * @param string $mode 模式
-	 * @param string $fields 制定字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $mode 模式
+	 * @parameter string $fields 制定字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function listAction(){
 		//表单验证

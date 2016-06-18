@@ -14,13 +14,21 @@ use fay\models\Feed as FeedModel;
  */
 class FeedController extends ApiController{
 	/**
+	 * 默认返回字段
+	 * @var array
+	 */
+	public $default_fields = array(
+		
+	);
+	
+	/**
 	 * 创建一篇动态
-	 * @param string $content 动态文本
-	 * @param int $files 配图。支持以数组方式传入，或逗号分割的方式传入
-	 * @param string $description 图片描述。目前只支持以数组方式传入
-	 * @param float $longitude 经度
-	 * @param float $latitude 纬度
-	 * @param string $address 定位地址
+	 * @parameter string $content 动态文本
+	 * @parameter int $files 配图。支持以数组方式传入，或逗号分割的方式传入
+	 * @parameter string $description 图片描述。目前只支持以数组方式传入
+	 * @parameter float $longitude 经度
+	 * @parameter float $latitude 纬度
+	 * @parameter string $address 定位地址
 	 */
 	public function create(){
 		//登录检查
@@ -63,7 +71,7 @@ class FeedController extends ApiController{
 		FeedService::model()->create(array(
 			'content'=>$this->form()->getData('content'),
 			'address'=>$this->form()->getData('address'),
-			'status'=>Feeds::STATUS_PUBLISHED,
+			'status'=>Feeds::STATUS_APPROVED,
 		), array(
 			'extra'=>array(
 				'longitude'=>$this->form()->getData('longitude', '0'),
@@ -81,9 +89,9 @@ class FeedController extends ApiController{
 	
 	/**
 	 * 获取一篇动态
-	 * @param int $id 动态ID
-	 * @param string $fields 可指定返回动态字段（只允许$this->allowed_fields中的字段）
-	 * @param int|string $cat 指定分类（可选），若指定分类，则动态若不属于该分类，返回404
+	 * @parameter int $id 动态ID
+	 * @parameter string $fields 可指定返回动态字段（只允许$this->allowed_fields中的字段）
+	 * @parameter int|string $cat 指定分类（可选），若指定分类，则动态若不属于该分类，返回404
 	 */
 	public function get(){
 		//表单验证

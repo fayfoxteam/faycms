@@ -15,7 +15,7 @@ class UserController extends ApiController{
 	/**
 	 * 判断用户名是否可用
 	 * 可用返回状态为1，不可用返回0，http状态码均为200
-	 * @param string $username 用户名
+	 * @parameter string $username 用户名
 	 */
 	public function isUsernameNotExist(){
 		//表单验证
@@ -40,7 +40,7 @@ class UserController extends ApiController{
 	/**
 	 * 判断用户名是否存在
 	 * 存在返回状态为1，不存在返回0，http状态码均为200
-	 * @param string $username 用户名
+	 * @parameter string $username 用户名
 	 */
 	public function isUsernameExist(){
 		//表单验证
@@ -65,7 +65,7 @@ class UserController extends ApiController{
 	/**
 	 * 判断昵称是否可用
 	 * 可用返回状态为1，不可用返回0，http状态码均为200
-	 * @param string $nickname 昵称
+	 * @parameter string $nickname 昵称
 	 */
 	public function isNicknameNotExist(){
 		//表单验证
@@ -90,7 +90,7 @@ class UserController extends ApiController{
 	/**
 	 * 判断昵称是否存在
 	 * 存在返回状态为1，不存在返回0，http状态码均为200
-	 * @param string $nickname 昵称
+	 * @parameter string $nickname 昵称
 	 */
 	public function isNicknameExist(){
 		//表单验证

@@ -39,8 +39,8 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 关注一个用户
-	 * @param int $user_id
-	 * @param string $trackid 追踪ID
+	 * @parameter int $user_id
+	 * @parameter string $trackid 追踪ID
 	 */
 	public function add(){
 		//登录检查
@@ -79,7 +79,7 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 取消关注一个用户
-	 * @param int $user_id
+	 * @parameter int $user_id
 	 */
 	public function remove(){
 		//登录检查
@@ -111,7 +111,7 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 判断当前登录用户是否关注指定用户
-	 * @param int $user_id
+	 * @parameter int $user_id
 	 */
 	public function isFollow(){
 		//登录检查
@@ -138,7 +138,7 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 批量判断当前用户与多个用户的关注关系
-	 * @param array|string $user_ids 用户ID，可以是数组的方式传入，也可以逗号分隔传入
+	 * @parameter array|string $user_ids 用户ID，可以是数组的方式传入，也可以逗号分隔传入
 	 */
 	public function mIsFollow(){
 		//表单验证
@@ -161,10 +161,10 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 粉丝列表
-	 * @param int $user_id 用户ID
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $user_id 用户ID
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function fans(){
 		//表单验证
@@ -204,10 +204,10 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 关注列表
-	 * @param int $user_id 用户ID
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $user_id 用户ID
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function follows(){
 		//表单验证

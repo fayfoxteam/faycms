@@ -76,7 +76,6 @@ class AnalystController extends ApiController{
 				$fmac = Analyst::model()->getFMac();
 				$mac_id = Analyst::model()->getMacId($fmac);
 				if($mac_id){
-					$today = Date::today();
 					//一小时内重复访问不新增记录，仅递增views
 					if($record = AnalystVisits::model()->fetchRow(array(
 						'mac = ?'=>$mac_id,

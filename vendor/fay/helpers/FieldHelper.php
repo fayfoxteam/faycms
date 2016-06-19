@@ -125,15 +125,34 @@ class FieldHelper{
 	public static function join($data, $prefix = ''){
 		$return = array();
 		foreach($data as $key => $fields){
+			if($key === '_extra'){
+				//用于存放扩展信息，不做解析
+				continue;
+			}
+			
 			if(is_int($key)){
 				//取process中的一部分的时候，会出现这种情况
-				$return[] = $prefix ? "{$prefix}.{$fields}" : $fields;
+				if(isset($data['_extra'])){
+					$return[] = ($prefix ? "{$prefix}.{$fields}" : "{$fields}") .//主体部分
+						(isset($data['_extra'][$fields]) ? ":{$data['_extra'][$fields]}" : '');//扩展信息部分
+				}else{
+					$return[] = $prefix ? "{$prefix}.{$fields}" : $fields;
+				}
 			}else{
 				foreach($fields as $k=>$f){
 					if(is_int($k)){
-						$return[] = $prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}";
+						if(isset($data['_extra'])){
+							$return[] = ($prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}") .//主体部分
+								(isset($data['_extra'][$key][$f]) ? ":{$data['_extra'][$key][$f]}" : '');//扩展信息部分
+						}else{
+							$return[] = ($prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}");
+						}
 					}else{
-						$return[] = self::join(array($k=>$f), $prefix ? "{$prefix}.{$key}" : $key);
+						$return[] = self::join(
+							$fields,
+							$prefix ? "{$prefix}.{$key}" : $key
+						);
+						continue 2;
 					}
 				}
 			}

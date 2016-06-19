@@ -167,33 +167,33 @@ code{background-color:#f7f7f7;font-size:.85em;padding:.2em .5em}
 .main-content .page-title .operate-env .faycms-help-link{transition:all 700ms ease-in-out;transform:rotateY(0deg)}
 .main-content .page-title .operate-env .faycms-help-link:hover{transform:rotateY(360deg)}
 
-.panel{position:relative;background:#fff;padding:20px 30px;margin-bottom:30px;}
-.panel .panel-header h2{font-size:17px;padding-bottom:15px;border-bottom:2px solid #f5f5f5;font-weight:normal;color:#2c2e2f;}
-.panel .panel-header h2 a{color:#373e4a;}
-.panel .panel-header h2 a:hover{color:#16191e;}
-.panel .panel-body{color:#7d7f7f;padding-top:20px;}
-.panel .panel-body p{margin:5px 0;}
-.panel.panel-headerless .panel-body{padding-top:0;}
-.panel .panel-body h3{color:#2c2e2f;margin-bottom:10px;font-weight:normal;font-size:16px;}
-.panel .panel-body ul,.panel .panel-body ol{padding-left:20px;margin-bottom:10px;}
-.panel .panel-body ol{padding-left:30px;margin-bottom:10px;}
-.panel .panel-body strong{color:#2c2e2f;font-weight:normal;font-size:15px;}
-.panel .panel-body ul > li{list-style-type:disc;}
-.panel .panel-body ul > li > ul > li{list-style-type:square;}
-.panel .panel-body ol li{list-style-type:decimal;}
-.panel .panel-body blockquote{padding:9px 11px;margin-bottom:18px;border-left:5px solid #eeeeee;}
-.panel .panel-body blockquote p:last-child,blockquote ul:last-child,blockquote ol:last-child{margin-bottom:0;}
+.panel{position:relative;background:#fff;padding:20px 30px;margin-bottom:30px}
+.panel .panel-header h2{font-size:17px;padding-bottom:15px;border-bottom:2px solid #f5f5f5;font-weight:normal;color:#2c2e2f}
+.panel .panel-header h2 a{color:#373e4a}
+.panel .panel-header h2 a:hover{color:#16191e}
+.panel .panel-body{color:#7d7f7f;padding-top:20px}
+.panel .panel-body p{margin:9px 0}
+.panel.panel-headerless .panel-body{padding-top:0}
+.panel .panel-body h3{color:#2c2e2f;margin-bottom:10px;font-weight:normal;font-size:16px}
+.panel .panel-body ul,.panel .panel-body ol{padding-left:20px;margin:9px}
+.panel .panel-body ul li,.panel .panel-body ol li{padding:3px 0}
+.panel .panel-body ol{padding-left:30px;margin-bottom:10px}
+.panel .panel-body strong{color:#2c2e2f;font-weight:normal;font-size:15px}
+.panel .panel-body ul > li{list-style-type:disc}
+.panel .panel-body ul > li > ul > li{list-style-type:square}
+.panel .panel-body ol li{list-style-type:decimal}
+.panel .panel-body blockquote{padding:1px 11px;border-left:5px solid #eeeeee}
 @media screen and (max-width:1140px){
-	.panel{margin-left:-30px;margin-right:-30px;}
+	.panel{margin-left:-30px;margin-right:-30px}
 }
 
-table{border-collapse:collapse;border-spacing:0;width:100%;max-width:100%;margin-bottom:10px;border:1px solid #eee;}
+table{border-collapse:collapse;border-spacing:0;width:100%;max-width:100%;margin-bottom:10px;border:1px solid #eee}
 table th,table td{border-bottom:1px solid #eee;padding:12px 15px;word-break:break-all;word-wrap:break-word;white-space:normal}
-table th{position:relative;text-align:left;color:#2c2e2f;}
+table th{position:relative;text-align:left;color:#2c2e2f}
 table td{vertical-align:text-top}
-table th:after{content:'';display:block;position:absolute;left:0;right:0;bottom:1px;height:1px;background-color:#eee;}
+table th:after{content:'';display:block;position:absolute;left:0;right:0;bottom:1px;height:1px;background-color:#eee}
 @media screen and (max-width:1140px){
-	table td,table th{padding:6px 7px;}
+	table td,table th{padding:6px 7px}
 }
 
 .form-group{margin:0 -15px 15px}

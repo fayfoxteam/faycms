@@ -246,9 +246,8 @@ class PostCommentController extends ApiController{
 	}
 	
 	/**
-	 * 评论列表
+	 * 评论列表（盖楼形式）
 	 * @parameter int $post_id 文章ID
-	 * @parameter string $mode 模式
 	 * @parameter string $fields 制定字段
 	 * @parameter int $page 页码
 	 * @parameter int $page_size 分页大小
@@ -271,7 +270,6 @@ class PostCommentController extends ApiController{
 			'post_id'=>'intval',
 			'page'=>'intval',
 			'page_size'=>'intval',
-			'mode'=>'trim',
 			'fields'=>'trim',
 		))->setLabels(array(
 			'post_id'=>'文章ID',
@@ -287,43 +285,121 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		switch($this->form()->getData('mode')){
-			case 'tree':
-				Response::json(CommentModel::model()->getTree(
-					$this->form()->getData('post_id'),
-					$this->form()->getData('page_size', 20),
-					$this->form()->getData('page', 1),
-					$fields
-				));
-				break;
-			case 'chat':
-				Response::json(CommentModel::model()->getChats(
-					$this->form()->getData('post_id'),
-					$this->form()->getData('page_size', 20),
-					$this->form()->getData('page', 1),
-					$fields
-				));
-				break;
-			case 'list':
-				$result = CommentModel::model()->getList(
-					$this->form()->getData('post_id'),
-					$this->form()->getData('page_size', 20),
-					$this->form()->getData('page', 1),
-					$fields
-				);
-				//将空数组转为空对象，保证给客户端的类型一致
-				foreach($result['comments'] as &$r){
-					if(isset($r['parent']['comment']) && !$r['parent']['comment']){
-						$r['parent']['comment'] = new \stdClass();
-					}
-					if(isset($r['parent']['user']) && !$r['parent']['user']){
-						$r['parent']['user'] = new \stdClass();
-					}
-				}
-				
-				Response::json($result);
-				break;
+		$result = CommentModel::model()->getList(
+			$this->form()->getData('post_id'),
+			$this->form()->getData('page_size', 20),
+			$this->form()->getData('page', 1),
+			$fields
+		);
+		//将空数组转为空对象，保证给客户端的类型一致
+		foreach($result['comments'] as &$r){
+			if(isset($r['parent']['comment']) && !$r['parent']['comment']){
+				$r['parent']['comment'] = new \stdClass();
+			}
+			if(isset($r['parent']['user']) && !$r['parent']['user']){
+				$r['parent']['user'] = new \stdClass();
+			}
 		}
+		
+		Response::json($result);
+	}
+	
+	/**
+	 * 评论列表（树形形式）
+	 * 层层递归的形式显示所有回复
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $fields 制定字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
+	 */
+	public function tree(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('post_id'), 'required'),
+			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array(array('post_id'), 'exist', array(
+				'table'=>'posts',
+				'field'=>'id',
+				'conditions'=>array(
+					'deleted = 0',
+					'status = '.Posts::STATUS_PUBLISHED,
+					'publish_time < '.\F::app()->current_time,
+				)
+			)),
+		))->setFilters(array(
+			'post_id'=>'intval',
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'post_id'=>'文章ID',
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check();
+		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'comment', $this->allowed_fields);
+		}else{
+			$fields = $this->default_fields;
+		}
+		
+		Response::json(CommentModel::model()->getTree(
+			$this->form()->getData('post_id'),
+			$this->form()->getData('page_size', 20),
+			$this->form()->getData('page', 1),
+			$fields
+		));
+	}
+	
+	/**
+	 * 评论列表（会话形式）
+	 * 二级回复模式，即QQ空间，微信朋友圈那种一条留言，下边以列表形式返回所有子留言的模式
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $fields 制定字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
+	 */
+	public function chat(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('post_id'), 'required'),
+			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array(array('post_id'), 'exist', array(
+				'table'=>'posts',
+				'field'=>'id',
+				'conditions'=>array(
+					'deleted = 0',
+					'status = '.Posts::STATUS_PUBLISHED,
+					'publish_time < '.\F::app()->current_time,
+				)
+			)),
+		))->setFilters(array(
+			'post_id'=>'intval',
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'post_id'=>'文章ID',
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check();
+		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'comment', $this->allowed_fields);
+		}else{
+			$fields = $this->default_fields;
+		}
+		
+		Response::json(CommentModel::model()->getChats(
+			$this->form()->getData('post_id'),
+			$this->form()->getData('page_size', 20),
+			$this->form()->getData('page', 1),
+			$fields
+		));
 	}
 	
 	public function get(){

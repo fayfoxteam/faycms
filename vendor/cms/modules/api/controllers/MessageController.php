@@ -248,7 +248,6 @@ class MessageController extends ApiController{
 	/**
 	 * 留言列表
 	 * @parameter int $to_user_id 指定用户
-	 * @parameter string $mode 模式
 	 * @parameter string $fields 制定字段
 	 * @parameter int $page 页码
 	 * @parameter int $page_size 分页大小
@@ -271,7 +270,6 @@ class MessageController extends ApiController{
 			'to_user_id'=>'intval',
 			'page'=>'intval',
 			'page_size'=>'intval',
-			'mode'=>'trim',
 			'fields'=>'trim',
 		))->setLabels(array(
 			'to_user_id'=>'指定用户',
@@ -287,43 +285,121 @@ class MessageController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		switch($this->form()->getData('mode')){
-			case 'tree':
-				Response::json(MessageModel::model()->getTree(
-					$this->form()->getData('to_user_id'),
-					$this->form()->getData('page_size', 20),
-					$this->form()->getData('page', 1),
-					$fields
-				));
-				break;
-			case 'chat':
-				Response::json(MessageModel::model()->getChats(
-					$this->form()->getData('to_user_id'),
-					$this->form()->getData('page_size', 20),
-					$this->form()->getData('page', 1),
-					$fields
-				));
-				break;
-			case 'list':
-				$result = MessageModel::model()->getList(
-					$this->form()->getData('to_user_id'),
-					$this->form()->getData('page_size', 20),
-					$this->form()->getData('page', 1),
-					$fields
-				);
-				//将空数组转为空对象，保证给客户端的类型一致
-				foreach($result['messages'] as &$r){
-					if(isset($r['parent']['message']) && !$r['parent']['message']){
-						$r['parent']['message'] = new \stdClass();
-					}
-					if(isset($r['parent']['user']) && !$r['parent']['user']){
-						$r['parent']['user'] = new \stdClass();
-					}
-				}
-				
-				Response::json($result);
-				break;
+		$result = MessageModel::model()->getList(
+			$this->form()->getData('to_user_id'),
+			$this->form()->getData('page_size', 20),
+			$this->form()->getData('page', 1),
+			$fields
+		);
+		//将空数组转为空对象，保证给客户端的类型一致
+		foreach($result['messages'] as &$r){
+			if(isset($r['parent']['message']) && !$r['parent']['message']){
+				$r['parent']['message'] = new \stdClass();
+			}
+			if(isset($r['parent']['user']) && !$r['parent']['user']){
+				$r['parent']['user'] = new \stdClass();
+			}
 		}
+		
+		Response::json($result);
+	}
+	
+	/**
+	 * 留言列表（树形形式）
+	 * 层层递归的形式显示所有回复
+	 * @parameter int $to_user_id 指定用户
+	 * @parameter string $fields 制定字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
+	 */
+	public function treeAction(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('to_user_id'), 'required'),
+			array(array('to_user_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array(array('to_user_id'), 'exist', array(
+				'table'=>'posts',
+				'field'=>'id',
+				'conditions'=>array(
+					'deleted = 0',
+					'status = '.Posts::STATUS_PUBLISHED,
+					'publish_time < '.\F::app()->current_time,
+				)
+			)),
+		))->setFilters(array(
+			'to_user_id'=>'intval',
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'to_user_id'=>'指定用户',
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check();
+		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'message', $this->allowed_fields);
+		}else{
+			$fields = $this->default_fields;
+		}
+		
+		Response::json(MessageModel::model()->getTree(
+			$this->form()->getData('to_user_id'),
+			$this->form()->getData('page_size', 20),
+			$this->form()->getData('page', 1),
+			$fields
+		));
+	}
+	
+	/**
+	 * 留言列表（树形形式）
+	 * 层层递归的形式显示所有回复
+	 * @parameter int $to_user_id 指定用户
+	 * @parameter string $fields 制定字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
+	 */
+	public function chatAction(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('to_user_id'), 'required'),
+			array(array('to_user_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array(array('to_user_id'), 'exist', array(
+				'table'=>'posts',
+				'field'=>'id',
+				'conditions'=>array(
+					'deleted = 0',
+					'status = '.Posts::STATUS_PUBLISHED,
+					'publish_time < '.\F::app()->current_time,
+				)
+			)),
+		))->setFilters(array(
+			'to_user_id'=>'intval',
+			'page'=>'intval',
+			'page_size'=>'intval',
+			'fields'=>'trim',
+		))->setLabels(array(
+			'to_user_id'=>'指定用户',
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check();
+		
+		$fields = $this->form()->getData('fields');
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'message', $this->allowed_fields);
+		}else{
+			$fields = $this->default_fields;
+		}
+		
+		Response::json(MessageModel::model()->getChats(
+			$this->form()->getData('to_user_id'),
+			$this->form()->getData('page_size', 20),
+			$this->form()->getData('page', 1),
+			$fields
+		));
 	}
 	
 	public function get(){

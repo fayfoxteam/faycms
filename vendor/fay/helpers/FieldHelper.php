@@ -93,26 +93,34 @@ class FieldHelper{
 	 */
 	public static function filter($fields, $allowed_fields){
 		foreach($fields as $k => $v){
-			if($k == '_extra'){
+			if($k === '_extra'){
 				//_extra是系统生成的扩展信息，不过滤
 				continue;
 			}
-			if(!isset($allowed_fields[$k])){
-				unset($fields[$k]);
-				continue;
-			}
-			if(in_array('*', $v)){
-				//若获取字段中包含*，则返回所有允许的字段
-				$fields[$k] = $allowed_fields[$k];
-			}else if(in_array('*', $allowed_fields[$k])){
-				//若允许的字段中包含*，则返回所有用户指定字段
-				$fields[$k] = $v;
+			
+			if(is_array($v)){
+				if(!isset($allowed_fields[$k])){
+					//如果键在允许字段中都不存在，直接删除该键
+					unset($fields[$k]);
+					continue;
+				}
+				if(in_array('*', $v)){
+					//若获取字段中包含*，则返回所有允许的字段
+					$fields[$k] = $allowed_fields[$k];
+				}else if(in_array('*', $allowed_fields[$k])){
+					//若允许的字段中包含*，则返回所有用户指定字段
+					$fields[$k] = $v;
+				}else{
+					//两边都没有星号，递归判断是否允许
+					$fields[$k] = self::filter($v, $allowed_fields[$k]);
+				}
 			}else{
-				//否则做将用户字段与允许的字段做交集
-				$fields[$k] = ArrayHelper::intersect($allowed_fields[$k], $v);
+				//值不是数组，判断是否允许该字段
+				if(!in_array($v, $allowed_fields)){
+					unset($fields[$k]);
+				}
 			}
 		}
-		
 		return $fields;
 	}
 	

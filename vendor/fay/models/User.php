@@ -138,9 +138,10 @@ class User extends Model{
 	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
+	 * @param array $extra 扩展信息。例如：头像缩略图尺寸
 	 * @return array
 	 */
-	public function mget($ids, $fields = 'user.username,user.nickname,user.id,user.avatar'){
+	public function mget($ids, $fields = 'user.username,user.nickname,user.id,user.avatar', $extra = array()){
 		if(empty($ids)){
 			return array();
 		}
@@ -189,12 +190,27 @@ class User extends Model{
 		$return = array_fill_keys($ids, array());
 		foreach($users as $u){
 			$user['user'] = $u;
-			if(isset($user['user']['avatar']['thumbnail'])){
-				//如果有头像，将头像转为图片URL
-				$user['user']['avatar_url'] = File::getUrl($user['user']['avatar']['thumbnail'], File::PIC_ORIGINAL, array(
-					'spare'=>'avatar',
-				));
+			if(isset($user['user']['avatar'])){
+				//如果有头像，将头像图片ID转化为图片对象
+				if(isset($extra['user']['avatar']) && preg_match('/^(\d+)x(\d+)$/', $extra['user']['avatar'], $avatar_params)){
+					$user['user']['avatar'] = File::get($u['avatar'], array(
+						'spare'=>'avatar',
+						'dw'=>$avatar_params[1],
+						'dh'=>$avatar_params[2],
+					));
+				}else{
+					$user['user']['avatar'] = File::get($u['avatar'], array(
+						'spare'=>'avatar',
+					));
+				}
 			}
+			
+//			if(isset($user['user']['avatar']['thumbnail'])){
+//				//如果有头像，将头像转为图片URL
+//				$user['user']['avatar_url'] = File::getUrl($user['user']['avatar']['thumbnail'], File::PIC_ORIGINAL, array(
+//					'spare'=>'avatar',
+//				));
+//			}
 			
 			//profile
 			if(!empty($fields['profile'])){

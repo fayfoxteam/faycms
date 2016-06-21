@@ -606,7 +606,9 @@ class PostController extends AdminController{
 		$post = Posts::model()->find($post_id, 'sort');
 		Response::notify('success', array(
 			'message'=>'一篇文章的排序值被编辑',
-			'sort'=>$post['sort'],
+			'data'=>array(
+				'sort'=>$post['sort'],
+			),
 		));
 	}
 	

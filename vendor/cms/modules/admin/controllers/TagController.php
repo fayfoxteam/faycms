@@ -106,7 +106,7 @@ class TagController extends AdminController{
 	
 	public function sort(){
 		$tag_id = $this->input->get('id', 'intval');
-		$result = Tags::model()->update(array(
+		Tags::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$tag_id,
@@ -116,7 +116,9 @@ class TagController extends AdminController{
 		$tag = Tags::model()->find($tag_id, 'sort');
 		Response::notify('success', array(
 			'message'=>'一篇标签的排序值被编辑',
-			'sort'=>$tag['sort'],
+			'data'=>array(
+				'sort'=>$tag['sort'],
+			),
 		));
 	}
 	

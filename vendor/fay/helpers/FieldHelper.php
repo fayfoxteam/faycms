@@ -93,26 +93,34 @@ class FieldHelper{
 	 */
 	public static function filter($fields, $allowed_fields){
 		foreach($fields as $k => $v){
-			if($k == '_extra'){
+			if($k === '_extra'){
 				//_extra是系统生成的扩展信息，不过滤
 				continue;
 			}
-			if(!isset($allowed_fields[$k])){
-				unset($fields[$k]);
-				continue;
-			}
-			if(in_array('*', $v)){
-				//若获取字段中包含*，则返回所有允许的字段
-				$fields[$k] = $allowed_fields[$k];
-			}else if(in_array('*', $allowed_fields[$k])){
-				//若允许的字段中包含*，则返回所有用户指定字段
-				$fields[$k] = $v;
+			
+			if(is_array($v)){
+				if(!isset($allowed_fields[$k])){
+					//如果键在允许字段中都不存在，直接删除该键
+					unset($fields[$k]);
+					continue;
+				}
+				if(in_array('*', $v)){
+					//若获取字段中包含*，则返回所有允许的字段
+					$fields[$k] = $allowed_fields[$k];
+				}else if(in_array('*', $allowed_fields[$k])){
+					//若允许的字段中包含*，则返回所有用户指定字段
+					$fields[$k] = $v;
+				}else{
+					//两边都没有星号，递归判断是否允许
+					$fields[$k] = self::filter($v, $allowed_fields[$k]);
+				}
 			}else{
-				//否则做将用户字段与允许的字段做交集
-				$fields[$k] = ArrayHelper::intersect($allowed_fields[$k], $v);
+				//值不是数组，判断是否允许该字段
+				if(!in_array($v, $allowed_fields)){
+					unset($fields[$k]);
+				}
 			}
 		}
-		
 		return $fields;
 	}
 	
@@ -125,15 +133,34 @@ class FieldHelper{
 	public static function join($data, $prefix = ''){
 		$return = array();
 		foreach($data as $key => $fields){
+			if($key === '_extra'){
+				//用于存放扩展信息，不做解析
+				continue;
+			}
+			
 			if(is_int($key)){
 				//取process中的一部分的时候，会出现这种情况
-				$return[] = $prefix ? "{$prefix}.{$fields}" : $fields;
+				if(isset($data['_extra'])){
+					$return[] = ($prefix ? "{$prefix}.{$fields}" : "{$fields}") .//主体部分
+						(isset($data['_extra'][$fields]) ? ":{$data['_extra'][$fields]}" : '');//扩展信息部分
+				}else{
+					$return[] = $prefix ? "{$prefix}.{$fields}" : $fields;
+				}
 			}else{
 				foreach($fields as $k=>$f){
 					if(is_int($k)){
-						$return[] = $prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}";
+						if(isset($data['_extra'])){
+							$return[] = ($prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}") .//主体部分
+								(isset($data['_extra'][$key][$f]) ? ":{$data['_extra'][$key][$f]}" : '');//扩展信息部分
+						}else{
+							$return[] = ($prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}");
+						}
 					}else{
-						$return[] = self::join(array($k=>$f), $prefix ? "{$prefix}.{$key}" : $key);
+						$return[] = self::join(
+							$fields,
+							$prefix ? "{$prefix}.{$key}" : $key
+						);
+						continue 2;
 					}
 				}
 			}

@@ -339,7 +339,11 @@ abstract class MultiTree extends Model{
 			//像user这种附加信息，可以一次性获取以提升性能
 			$extra = array();
 			if(!empty($fields['user'])){
-				$extra['users'] = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
+				$extra['users'] = User::model()->mget(
+					array_unique(ArrayHelper::column($nodes, 'user_id')),
+					$fields['user'],
+					isset($fields['_extra']) ? $fields['_extra'] : array()
+				);
 			}
 			
 			//一棵一棵渲染
@@ -416,10 +420,9 @@ abstract class MultiTree extends Model{
 	 * @param string $fields
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param array $join_conditions 若fields指定父节点信息，则需要自连接，该条件用于自连接时的附加条件
-	 * @param string $order
 	 * @return array
 	 */
-	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'id DESC'){
+	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array()){
 		//解析$fields
 		$fields = FieldHelper::process($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
@@ -478,11 +481,19 @@ abstract class MultiTree extends Model{
 		
 		if(!empty($fields['user'])){
 			//获取评论用户信息集合
-			$users = User::model()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
+			$users = User::model()->mget(
+				ArrayHelper::column($data, 'user_id'),
+				$fields['user'],
+				isset($fields['_extra']) ? $fields['_extra'] : array()
+			);
 		}
 		if(!empty($fields['parent']['user'])){
 			//获取父节点评论用户信息集合
-			$parent_users = User::model()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
+			$parent_users = User::model()->mget(
+				ArrayHelper::column($data, 'parent_user_id'),
+				$fields['parent']['user'],
+				isset($fields['parent']['_extra']) ? $fields['parent']['_extra'] : array()
+			);
 		}
 		$comments = array();
 		

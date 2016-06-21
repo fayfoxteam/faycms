@@ -323,15 +323,15 @@ class Comment extends MultiTree{
 		),
 	)){
 		$conditions = array(
-			'c.deleted = 0',
+			't.deleted = 0',
 		);
 		$js_conditions = array(
-			'c2.deleted = 0',
+			't2.deleted = 0',
 		);
 		if(Option::get('system:post_comment_verify')){
 			//开启了评论审核
-			$conditions[] = 'c.status = '.PostComments::STATUS_APPROVED;
-			$js_conditions[] = 'c2.status = '.PostComments::STATUS_APPROVED;
+			$conditions[] = 't.status = '.PostComments::STATUS_APPROVED;
+			$js_conditions[] = 't2.status = '.PostComments::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getList($post_id,

@@ -128,7 +128,7 @@ class LinkController extends AdminController{
 	
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		$result = Links::model()->update(array(
+		Links::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$id,

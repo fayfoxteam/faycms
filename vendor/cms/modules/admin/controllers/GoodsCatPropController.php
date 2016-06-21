@@ -196,7 +196,7 @@ class GoodsCatPropController extends AdminController{
 	
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		$result = GoodsCatProps::model()->update(array(
+		GoodsCatProps::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$id,

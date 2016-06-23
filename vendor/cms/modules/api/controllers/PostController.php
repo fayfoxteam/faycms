@@ -44,6 +44,7 @@ class PostController extends ApiController{
 			'cat'=>'trim',
 		))->setLabels(array(
 			'id'=>'文章ID',
+			'fields'=>'字段',
 		))->check();
 		
 		$id = $this->form()->getData('id');

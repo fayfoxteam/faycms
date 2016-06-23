@@ -97,6 +97,7 @@ class PostFavoriteController extends UserController{
 		))->setLabels(array(
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');

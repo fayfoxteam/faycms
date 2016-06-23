@@ -104,6 +104,7 @@ class FeedController extends ApiController{
 			'fields'=>'trim',
 		))->setLabels(array(
 			'feed_id'=>'动态ID',
+			'fields'=>'字段',
 		))->check();
 		
 		$feed_id = $this->form()->getData('feed_id');

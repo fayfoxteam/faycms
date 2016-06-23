@@ -182,6 +182,7 @@ class FollowController extends ApiController{
 			'user_id'=>'用户ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$user_id = $this->form()->getData('user_id', $this->current_user);
@@ -226,6 +227,7 @@ class FollowController extends ApiController{
 			'user_id'=>'用户ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$user_id = $this->form()->getData('user_id', $this->current_user);

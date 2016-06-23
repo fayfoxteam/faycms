@@ -23,7 +23,7 @@ class Sms extends Model{
 			return true;
 		}
 		
-		Loader::vendor('ucpaas/Ucpaas.class');
+		Loader::vendor('Ucpaas/Ucpaas.class');
 		
 		$ucpass = new \Ucpaas($config);
 		

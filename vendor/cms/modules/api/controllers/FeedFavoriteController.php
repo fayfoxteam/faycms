@@ -89,6 +89,7 @@ class FeedFavoriteController extends UserController{
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'page'=>'intval',
 			'page_size'=>'intval',
@@ -109,6 +110,7 @@ class FeedFavoriteController extends UserController{
 		$favorites = FavoriteModel::model()->getList($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
+		
 		Response::json($favorites);
 	}
 }

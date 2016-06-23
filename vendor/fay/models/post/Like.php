@@ -79,7 +79,6 @@ class Like extends Model{
 	 * @param int $page
 	 * @param int $page_size
 	 * @return array
-	 * @internal param int $user_id 用户ID，默认为当前登录用户
 	 */
 	public function getPostLikes($post_id, $fields, $page = 1, $page_size = 20){
 		$sql = new Sql();

@@ -56,7 +56,8 @@ class FollowController extends ApiController{
 				'operator'=>'!=',
 				'code'=>'can-not-follow-yourself',
 				'message'=>'您不能关注自己',
-			))
+			)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'user_id'=>'intval',
 			'trackid'=>'trim',
@@ -171,6 +172,7 @@ class FollowController extends ApiController{
 		$this->form()->setRules(array(
 			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'user_id'=>'intval',
 			'page'=>'intval',
@@ -214,6 +216,7 @@ class FollowController extends ApiController{
 		$this->form()->setRules(array(
 			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'user_id'=>'intval',
 			'page'=>'intval',

@@ -89,6 +89,7 @@ class PostFavoriteController extends UserController{
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'page'=>'intval',
 			'page_size'=>'intval',

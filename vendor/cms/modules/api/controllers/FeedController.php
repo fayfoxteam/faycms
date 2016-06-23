@@ -98,6 +98,7 @@ class FeedController extends ApiController{
 		$this->form()->setRules(array(
 			array(array('feed_id'), 'required'),
 			array(array('feed_id'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'feed_id'=>'intval',
 			'fields'=>'trim',

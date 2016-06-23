@@ -266,6 +266,7 @@ class PostCommentController extends ApiController{
 					'publish_time < '.\F::app()->current_time,
 				)
 			)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'post_id'=>'intval',
 			'page'=>'intval',
@@ -326,6 +327,7 @@ class PostCommentController extends ApiController{
 					'publish_time < '.\F::app()->current_time,
 				)
 			)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'post_id'=>'intval',
 			'page'=>'intval',
@@ -375,6 +377,7 @@ class PostCommentController extends ApiController{
 					'publish_time < '.\F::app()->current_time,
 				)
 			)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'post_id'=>'intval',
 			'page'=>'intval',
@@ -407,6 +410,7 @@ class PostCommentController extends ApiController{
 		$this->form()->setRules(array(
 			array(array('id'), 'required'),
 			array(array('id'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'id'=>'intval',
 			'fields'=>'trim',

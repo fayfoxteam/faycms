@@ -97,6 +97,7 @@ class PostLikeController extends ApiController{
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'post_id'=>'intval',
 			'page'=>'intval',
@@ -144,6 +145,7 @@ class PostLikeController extends ApiController{
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'page'=>'intval',
 			'page_size'=>'intval',

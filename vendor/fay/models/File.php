@@ -2,6 +2,7 @@
 namespace fay\models;
 
 use fay\core\Model;
+use fay\helpers\FieldHelper;
 use fay\models\tables\Files;
 use fay\common\Upload;
 use fay\helpers\Image;
@@ -685,58 +686,53 @@ class File extends Model{
 	 * 返回一个包含文件id, url, thumbnail的数组
 	 * @param $file
 	 * @param array $options
-	 * @param bool $is_image 若为true，则返回字段中会有一个is_image标识文件是否为图片，默认为false
+	 *  - spare 替代图片（当指定图片不存在时，使用配置的替代图）
+	 *  - dw 输出缩略图宽度
+	 *  - dh 输出缩略图高度
+	 * @param string|array $fields 返回字段，可指定id, url, thumbnail, is_image
 	 * @return array
 	 */
-	public static function get($file, $options = array(), $is_image = false){
-		if(StringHelper::isInt($file, false)){
-			if($file <= 0){
-				//显然负数ID不存在，返回默认图数组
-				if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
-					//若指定了默认图，则取默认图
-				}else{
-					//若未指定默认图，返回默认图
-					$spare = \F::config()->get('default', 'noimage');
-				}
-				$return = array(
-					'id'=>'0',
-					'url'=>\F::app()->view->url($spare),
-					'thumbnail'=>\F::app()->view->url($spare),
-				);
-				if($is_image){
-					$return['is_image'] = '0';
-				}
-				return $return;
-			}
-			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
-		}
-		
-		if(!$file){
-			//指定文件不存在
+	public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
+		$fields = FieldHelper::process($fields);
+		if((StringHelper::isInt($file, false) && $file <= 0) ||
+			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu')
+		){
+			//显然负数ID不存在，返回默认图数组
 			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
 				//若指定了默认图，则取默认图
 			}else{
 				//若未指定默认图，返回默认图
 				$spare = \F::config()->get('default', 'noimage');
 			}
-			$return = array(
-				'id'=>'0',
-				'url'=>\F::app()->view->url($spare),
-				'thumbnail'=>\F::app()->view->url($spare),
-			);
-			if($is_image){
+			
+			$return = array();
+			if(in_array('id', $fields)){
+				$return['id'] = '0';
+			}
+			if(in_array('url', $fields)){
+				$return['url'] = \F::app()->view->url($spare);
+			}
+			if(in_array('thumbnail', $fields)){
+				$return['thumbnail'] = \F::app()->view->url($spare);
+			}
+			if(in_array('is_image', $fields)){
 				$return['is_image'] = '0';
 			}
 			
 			return $return;
 		}
 		
-		$return = array(
-			'id'=>$file['id'],
-			'url'=>self::getUrl($file),
-			'thumbnail'=>self::getThumbnailUrl($file, $options),
-		);
-		if($is_image){
+		$return = array();
+		if(in_array('id', $fields)){
+			$return['id'] = $file['id'];
+		}
+		if(in_array('url', $fields)){
+			$return['url'] = self::getUrl($file);
+		}
+		if(in_array('thumbnail', $fields)){
+			$return['thumbnail'] = self::getThumbnailUrl($file, $options);
+		}
+		if(in_array('is_image', $fields)){
 			$return['is_image'] = $file['is_image'];
 		}
 		

@@ -89,12 +89,16 @@ class Comment extends MultiTree{
 		);
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::model()->get($comment['user_id'], $fields['user']);
+			$return['user'] = User::model()->get(
+				$comment['user_id'],
+				$fields['user'],
+				isset($fields['_extra']['user']) ? $fields['_extra']['user'] : array()
+			);
 		}
 		
 		//父节点
 		if(!empty($fields['parent'])){
-			$parent_comment_fields = $fields['parent']['comment'];
+			$parent_comment_fields = isset($fields['parent']['comment']) ? $fields['parent']['comment'] : array();
 			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
 				//如果要获取作者信息，则必须搜出user_id
 				$parent_comment_fields[] = 'user_id';
@@ -107,16 +111,26 @@ class Comment extends MultiTree{
 		
 			if($parent_comment){
 				//有父节点
-				$return['parent']['comment'] = $parent_comment;
 				if(!empty($fields['parent']['user'])){
-					$return['parent']['user'] = User::model()->get($parent_comment['user_id'], $fields['parent']['user']);
+					$return['parent']['user'] = User::model()->get(
+						$parent_comment['user_id'],
+						$fields['parent']['user'],
+						isset($fields['parent']['_extra']['user']) ? $fields['parent']['_extra']['user'] : array()
+					);
 				}
-				if(!in_array('user_id', $fields['parent']['comment']) && in_array('user_id', $parent_comment_fields)){
-					unset($return['parent']['comment']['user_id']);
+				if((!isset($fields['parent']['comment']) || !in_array('user_id', $fields['parent']['comment'])) &&
+					in_array('user_id', $parent_comment_fields)){
+					unset($parent_comment['user_id']);
+				}
+				
+				if($parent_comment){
+					$return['parent']['comment'] = $parent_comment;
 				}
 			}else{
 				//没有父节点，但是要求返回相关父节点字段，则返回空数组
-				$return['parent']['comment'] = array();
+				if(!empty($fields['parent']['comment'])){
+					$return['parent']['comment'] = array();
+				}
 		
 				if(!empty($fields['parent']['user'])){
 					$return['parent']['user'] = array();

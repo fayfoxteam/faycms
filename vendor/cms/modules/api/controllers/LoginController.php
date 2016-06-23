@@ -28,7 +28,6 @@ class LoginController extends ApiController{
 							'username'=>$result['user']['user']['username'],
 							'nickname'=>$result['user']['user']['nickname'],
 							'avatar'=>$result['user']['user']['avatar'],
-							'avatar_url'=>$result['user']['user']['avatar_url'],
 						),
 						\F::config()->get('session.ini_set.name')=>session_id(),
 					),

@@ -30,13 +30,13 @@ class User extends Model{
 	}
 	
 	/**
-	 * 用户登录
-	 * @param string $username 用户名
-	 * @param string $password 密码
+	 * 验证指定的用户名密码是否匹配
+	 * @param string $username
+	 * @param string $password
 	 * @param bool $admin 若为true，则限定为管理员登录（管理员也可以登录前台，但前后台的Session空间是分开的）
 	 * @return array
 	 */
-	public function login($username, $password, $admin = false){
+	public function checkPassword($username, $password, $admin = false){
 		if(!$username){
 			return array(
 				'status'=>0,
@@ -60,7 +60,7 @@ class User extends Model{
 		//判断用户名是否存在
 		if(!$user){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'用户名不存在',
 				'error_code'=>'username:not-exist',
 			);
@@ -68,7 +68,7 @@ class User extends Model{
 		$password = md5(md5($password).$user['salt']);
 		if($password != $user['password']){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'密码错误',
 				'error_code'=>'password:not-match',
 			);
@@ -76,7 +76,7 @@ class User extends Model{
 		
 		if($user['block']){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'用户已锁定',
 				'error_code'=>'block:blocked',
 			);
@@ -84,25 +84,25 @@ class User extends Model{
 		
 		if($user['status'] == Users::STATUS_UNCOMPLETED){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'账号信息不完整',
 				'error_code'=>'status:uncompleted',
 			);
 		}else if($user['status'] == Users::STATUS_PENDING){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'账号正在审核中',
 				'error_code'=>'status:pending',
 			);
 		}else if($user['status'] == Users::STATUS_VERIFY_FAILED){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'账号未通过审核',
 				'error_code'=>'status:verify-failed',
 			);
 		}else if($user['status'] == Users::STATUS_NOT_VERIFIED){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'请先验证邮箱',
 				'error_code'=>'status:not-verified',
 			);
@@ -110,18 +110,36 @@ class User extends Model{
 		
 		if($admin && $user['admin'] != $admin){
 			return array(
-				'status'=>0,
+				'user_id'=>0,
 				'message'=>'您不是管理员，不能登陆！',
 				'error_code'=>'not-admin',
 			);
 		}
 		
-		//重新获取用户信息，这次获取更全面的信息
-		$user = UserModel::model()->get($user['id'], array(
-			'user'=>array('id', 'username', 'nickname', 'avatar', 'status', 'admin'),
+		return array(
+			'user_id'=>$user['id'],
+			'message'=>'',
+			'error_code'=>'',
+		);
+	}
+	
+	/**
+	 * 用户登录
+	 * @param int $user_id 用户ID
+	 * @return array
+	 */
+	public function login($user_id){
+		//获取用户信息
+		$user = UserModel::model()->get($user_id, array(
+			'user'=>array('id', 'username', 'nickname', 'avatar', 'admin'),
 			'profile'=>array('last_login_time', 'last_login_ip'),
 			'roles'=>'id',
 		));
+		
+		if(!$user){
+			return false;
+		}
+		
 		$this->setSessionInfo($user);
 		
 		UserProfile::model()->update(array(
@@ -144,7 +162,6 @@ class User extends Model{
 		));
 		
 		return array(
-			'status'=>1,
 			'user'=>$user,
 		);
 	}

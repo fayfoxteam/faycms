@@ -23,7 +23,7 @@ class Role extends Model{
 	 * @return array
 	 */
 	public function get($ids, $fields = 'roles.*,props.*'){
-		$fields = FieldHelper::process($fields, 'roles');
+		$fields = FieldHelper::parse($fields, 'roles');
 		
 		if(is_array($ids)){
 			$ids = implode(',', $ids);

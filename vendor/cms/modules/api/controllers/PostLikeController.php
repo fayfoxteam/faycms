@@ -120,7 +120,7 @@ class PostLikeController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'post', User::$public_fields);
+			$fields = FieldHelper::parse($fields, 'post', User::$public_fields);
 		}else{
 			$fields = User::$default_fields;
 		}
@@ -158,7 +158,7 @@ class PostLikeController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'post', Post::$public_fields);
+			$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
 		}else{
 			$fields = Post::$default_fields;
 		}

@@ -25,7 +25,7 @@ class FieldHelper{
 	 * @param array $allowed_fields 若该字段非空，则会调用self::filter()方法对解析后的$fields进行过滤
 	 * @return array
 	 */
-	public static function process($fields, $default_key = null, $allowed_fields = array()){
+	public static function parse($fields, $default_key = null, $allowed_fields = array()){
 		if(is_array($fields) && $default_key){
 			//如果已经是数组，且有$default_key，则把索引数组项归类到$default_key下（当传入$fields是二次解析的数组时，可能存在此类情况）
 			foreach($fields as $k => $f){
@@ -130,7 +130,7 @@ class FieldHelper{
 	 * @param string $prefix 前缀
 	 * @return string
 	 */
-	public static function join($data, $prefix = ''){
+	public static function build($data, $prefix = ''){
 		$return = array();
 		foreach($data as $key => $fields){
 			if($key === '_extra'){

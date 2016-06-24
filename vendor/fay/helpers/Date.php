@@ -23,6 +23,7 @@ class Date{
 	/**
 	 * 返回n天后零点的时间戳
 	 * @param int $n 天数
+	 * @return int
 	 */
 	public static function daysLater($n){
 		return mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time) + $n, date('Y', \F::app()->current_time));
@@ -38,6 +39,7 @@ class Date{
 	/**
 	 * 返回相n天前零点的时间戳
 	 * @param int $n 天数
+	 * @return int
 	 */
 	public static function daysbefore($n){
 		return mktime(0, 0, 0, date('m', \F::app()->current_time), date('d', \F::app()->current_time) - $n, date('Y', \F::app()->current_time));
@@ -147,6 +149,7 @@ class Date{
 	/**
 	 * 返回一个简单美化过的时间，例如：“刚刚”，“10秒前”，“昨天 17:43”，“3天前”等。
 	 * @param int $timestamp 时间戳，若不指定或指定为等价于0的值，则返回null
+	 * @return null|string
 	 */
 	public static function niceShort($timestamp = null) {
 		if($timestamp == 0){

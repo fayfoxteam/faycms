@@ -59,7 +59,7 @@ class Comment extends MultiTree{
 			),
 		)
 	)){
-		$fields = FieldHelper::process($fields, 'comment');
+		$fields = FieldHelper::parse($fields, 'comment');
 		if(empty($fields['comment']) || in_array('*', $fields['comment'])){
 			//若未指定返回字段，初始化
 			$fields['comment'] = \F::model($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));

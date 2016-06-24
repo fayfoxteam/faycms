@@ -67,7 +67,7 @@ class User extends Model{
 	 */
 	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar', $extra = array()){
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'user');
+		$fields = FieldHelper::parse($fields, 'user');
 		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
 			$fields['user'] = array(
@@ -150,7 +150,7 @@ class User extends Model{
 		is_array($ids) || $ids = explode(',', $ids);
 		
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'user');
+		$fields = FieldHelper::parse($fields, 'user');
 		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
 			$fields['user'] = array(

@@ -61,7 +61,7 @@ class Message extends MultiTree{
 			),
 		)
 	)){
-		$fields = FieldHelper::process($fields, 'message');
+		$fields = FieldHelper::parse($fields, 'message');
 		if(empty($fields['message']) || in_array('*', $fields['message'])){
 			//若未指定返回字段，初始化
 			$fields['message'] = \F::model($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));

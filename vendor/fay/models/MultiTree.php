@@ -301,7 +301,7 @@ abstract class MultiTree extends Model{
 	 */
 	protected function _getTree($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
 			$fields[$this->field_key] = \F::model($this->model)->getFields();
 		}
@@ -424,7 +424,7 @@ abstract class MultiTree extends Model{
 	 */
 	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array()){
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
 			$fields[$this->field_key] = PostComments::model()->getFields();
 		}
@@ -547,7 +547,7 @@ abstract class MultiTree extends Model{
 	 */
 	protected function _getChats($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'id DESC'){
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
 			$fields[$this->field_key] = \F::model($this->model)->getFields();
 		}
@@ -665,7 +665,7 @@ abstract class MultiTree extends Model{
 		}
 		
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
 			$fields[$this->field_key] = PostComments::model()->getFields();
 		}

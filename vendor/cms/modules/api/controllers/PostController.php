@@ -52,7 +52,7 @@ class PostController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'post', Post::$public_fields);
+			$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
 		}else{
 			//若未指定$fields，取默认值
 			$fields = $this->default_fields;

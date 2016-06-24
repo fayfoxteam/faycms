@@ -693,7 +693,7 @@ class File extends Model{
 	 * @return array
 	 */
 	public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
-		$fields = FieldHelper::process($fields);
+		$fields = FieldHelper::parse($fields);
 		if((StringHelper::isInt($file, false) && $file <= 0) ||
 			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu')
 		){

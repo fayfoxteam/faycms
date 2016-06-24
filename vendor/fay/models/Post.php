@@ -115,7 +115,7 @@ class Post extends Model{
 	 */
 	public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'post');
+		$fields = FieldHelper::parse($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化
 			$fields['post'] = Posts::model()->getFields();
@@ -406,7 +406,7 @@ class Post extends Model{
 	 */
 	public function getByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'post');
+		$fields = FieldHelper::parse($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
 			$fields['post'] = Posts::model()->getFields(array('content'));
@@ -956,7 +956,7 @@ class Post extends Model{
 			return array();
 		}
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'post');
+		$fields = FieldHelper::parse($fields, 'post');
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
 			$fields['post'] = Posts::model()->getFields(array('content'));

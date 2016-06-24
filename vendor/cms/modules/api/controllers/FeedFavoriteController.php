@@ -102,7 +102,7 @@ class FeedFavoriteController extends UserController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'feed', Feed::$public_fields);
+			$fields = FieldHelper::parse($fields, 'feed', Feed::$public_fields);
 		}else{
 			$fields = Feed::$default_fields;
 		}

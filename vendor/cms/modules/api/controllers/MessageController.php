@@ -281,7 +281,7 @@ class MessageController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'message', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'message', $this->allowed_fields);
 		}else{
 			$fields = $this->default_fields;
 		}
@@ -342,7 +342,7 @@ class MessageController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'message', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'message', $this->allowed_fields);
 		}else{
 			$fields = $this->default_fields;
 		}
@@ -392,7 +392,7 @@ class MessageController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'message', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'message', $this->allowed_fields);
 		}else{
 			$fields = $this->default_fields;
 		}
@@ -424,7 +424,7 @@ class MessageController extends ApiController{
 			
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'post', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'post', $this->allowed_fields);
 		}else{
 			//若未指定$fields，取默认值
 			$fields = $this->default_fields;

@@ -192,7 +192,7 @@ class FollowController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'follows', $this->allowed_fields);
 		}else{
 			$fields = $this->default_fields;
 		}
@@ -236,7 +236,7 @@ class FollowController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'follows', $this->allowed_fields);
 		}else{
 			$fields = $this->default_fields;
 		}

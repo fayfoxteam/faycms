@@ -99,7 +99,7 @@ class Feed extends Model{
 	public function get($id, $fields = null, $only_published = true){
 		$fields || $fields = self::$default_fields;
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'feed');
+		$fields = FieldHelper::parse($fields, 'feed');
 		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
 			$fields['feed'] = Feeds::model()->getFields();
@@ -171,7 +171,7 @@ class Feed extends Model{
 	 */
 	public function mget($feed_ids, $fields, $only_published = true){
 		//解析$fields
-		$fields = FieldHelper::process($fields, 'feed');
+		$fields = FieldHelper::parse($fields, 'feed');
 		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
 			$fields['feed'] = Feeds::model()->getFields();

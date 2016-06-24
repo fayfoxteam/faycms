@@ -190,7 +190,7 @@ class Follow extends Model{
 	public static function follows($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
 		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
-		$fields = FieldHelper::process($fields, 'follows');
+		$fields = FieldHelper::parse($fields, 'follows');
 		
 		isset($fields['follows']) || $fields['follows'] = array();
 		$follows_fields = $fields['follows'];
@@ -245,7 +245,7 @@ class Follow extends Model{
 	public static function fans($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
 		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
-		$fields = FieldHelper::process($fields, 'follows');
+		$fields = FieldHelper::parse($fields, 'follows');
 		
 		isset($fields['follows']) || $fields['follows'] = array();
 		$follows_fields = $fields['follows'];

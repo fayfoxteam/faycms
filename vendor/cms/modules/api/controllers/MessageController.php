@@ -276,6 +276,7 @@ class MessageController extends ApiController{
 			'to_user_id'=>'指定用户',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');
@@ -337,6 +338,7 @@ class MessageController extends ApiController{
 			'to_user_id'=>'指定用户',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');
@@ -387,6 +389,7 @@ class MessageController extends ApiController{
 			'to_user_id'=>'指定用户',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');
@@ -414,9 +417,9 @@ class MessageController extends ApiController{
 		))->setFilters(array(
 			'id'=>'intval',
 			'fields'=>'trim',
-			'cat'=>'trim',
 		))->setLabels(array(
 			'id'=>'留言ID',
+			'fields'=>'字段',
 		))->check();
 		
 		$id = $this->form()->getData('id');

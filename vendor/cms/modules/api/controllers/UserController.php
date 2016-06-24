@@ -125,9 +125,9 @@ class UserController extends ApiController{
 		))->setFilters(array(
 			'id'=>'intval',
 			'fields'=>'trim',
-			'cat'=>'trim',
 		))->setLabels(array(
 			'id'=>'用户ID',
+			'fields'=>'字段',
 		))->check();
 		
 		$id = $this->form()->getData('id');

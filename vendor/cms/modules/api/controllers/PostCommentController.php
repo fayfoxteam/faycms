@@ -86,6 +86,7 @@ class PostCommentController extends ApiController{
 		))->check();
 		
 		$post_id = $this->form()->getData('post_id');
+		$fields = $this->form()->getData('fields');
 		
 		if(!Post::isPostIdExist($post_id)){
 			Response::notify('error', array(
@@ -100,34 +101,24 @@ class PostCommentController extends ApiController{
 			$this->form()->getData('parent', 0)
 		);
 		
-		$comment = CommentModel::model()->get($comment_id, array(
-			'comment'=>array(
-				'id', 'content', 'parent', 'create_time',
-			),
-			'user'=>array(
-				'id', 'nickname', 'avatar',
-			),
-			'parent'=>array(
-				'comment'=>array(
-					'id', 'content', 'parent', 'create_time',
-				),
-				'user'=>array(
-					'id', 'nickname', 'avatar',
-				),
-			),
-		));
-		
-		//格式化一下空数组的问题，保证返回给客户端的数据类型一致
-		if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){
-			$comment['parent']['comment'] = new \stdClass();
-		}
-		if(isset($comment['parent']['user']) && empty($comment['parent']['user'])){
-			$comment['parent']['user'] = new \stdClass();
+		if($fields){
+			//过滤字段，移除那些不允许的字段
+			$fields = FieldHelper::process($fields, 'comment', $this->allowed_fields);
+			
+			$comment = CommentModel::model()->get($comment_id, $fields);
+			
+			//格式化一下空数组的问题，保证返回给客户端的数据类型一致
+			if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){
+				$comment['parent']['comment'] = new \stdClass();
+			}
+			if(isset($comment['parent']['user']) && empty($comment['parent']['user'])){
+				$comment['parent']['user'] = new \stdClass();
+			}
 		}
 		
 		Response::notify('success', array(
 			'message'=>'评论成功',
-			'data'=>$comment,
+			'data'=>empty($comment) ? new \stdClass() : $comment,
 		));
 	}
 	
@@ -276,6 +267,7 @@ class PostCommentController extends ApiController{
 			'post_id'=>'文章ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');
@@ -337,6 +329,7 @@ class PostCommentController extends ApiController{
 			'post_id'=>'文章ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');
@@ -387,6 +380,7 @@ class PostCommentController extends ApiController{
 			'post_id'=>'文章ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');
@@ -414,14 +408,14 @@ class PostCommentController extends ApiController{
 		))->setFilters(array(
 			'id'=>'intval',
 			'fields'=>'trim',
-			'cat'=>'trim',
 		))->setLabels(array(
 			'id'=>'评论ID',
+			'fields'=>'字段',
 		))->check();
 		
 		$id = $this->form()->getData('id');
 		$fields = $this->form()->getData('fields');
-			
+		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
 			$fields = FieldHelper::parse($fields, 'post', $this->allowed_fields);
@@ -429,7 +423,7 @@ class PostCommentController extends ApiController{
 			//若未指定$fields，取默认值
 			$fields = $this->default_fields;
 		}
-			
+		
 		$comment = CommentModel::model()->get($id, $fields);
 		
 		//处理下空数组问题

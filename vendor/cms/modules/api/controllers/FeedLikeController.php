@@ -106,6 +106,7 @@ class FeedLikeController extends ApiController{
 		))->setLabels(array(
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$feed_id = $this->form()->getData('feed_id');
@@ -153,6 +154,7 @@ class FeedLikeController extends ApiController{
 		))->setLabels(array(
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');

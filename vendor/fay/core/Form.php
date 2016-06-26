@@ -2,6 +2,7 @@
 namespace fay\core;
 
 use fay\helpers\Html;
+use fay\helpers\UrlHelper;
 
 class Form{
 	private static $_forms = array();
@@ -275,9 +276,9 @@ class Form{
 		if($action == null){
 			$action = '';
 		}else if(!is_array($action)){
-			$action = \F::app()->view->url($action);
+			$action = UrlHelper::createUrl($action);
 		}else{
-			$action = \F::app()->view->url($action[0], isset($action[1]) ? $action[1] : array());
+			$action = UrlHelper::createUrl($action[0], isset($action[1]) ? $action[1] : array());
 		}
 		if(isset($html_options['id'])){
 			$id = $html_options['id'];
@@ -428,10 +429,10 @@ class Form{
 						if(isset($r[2]['except'])){
 							$params[$r[2]['except']] = \F::app()->input->request($r[2]['except']);
 						}
-						$js_rules[$field]['ajax'] = \F::app()->view->url($r[2]['ajax'][0], $params);
+						$js_rules[$field]['ajax'] = UrlHelper::createUrl($r[2]['ajax'][0], $params);
 					}
 				}else if($r[1] == 'ajax'){
-					$js_rules[$field]['ajax'] = \F::app()->view->url($r[2]['url'][0], isset($r[2]['url'][1]) ? $r[2]['url'][1] : array());
+					$js_rules[$field]['ajax'] = UrlHelper::createUrl($r[2]['url'][0], isset($r[2]['url'][1]) ? $r[2]['url'][1] : array());
 				}else{
 					$js_rules[$field]['validators'][] = array(
 						'name'=>$r[1],

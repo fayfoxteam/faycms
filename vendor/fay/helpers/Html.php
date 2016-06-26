@@ -232,7 +232,7 @@ class Html{
 				//若有设置spares，返回对应的默认图片
 				//若未设置，返回空字符串
 				if(isset($html_options['spare']) && $spare = \F::config()->get($html_options['spare'], 'noimage')){
-					$html = '<img src="'.\F::app()->view->url($spare).'"';
+					$html = '<img src="'.UrlHelper::createUrl($spare).'"';
 
 					if(isset($html_options['dw'])){
 						$html .= ' width="'.$html_options['dw'].'"';
@@ -279,11 +279,11 @@ class Html{
 					return '';
 				}
 			}
-			$uri = \F::app()->view->url(empty($uri[0]) ? null : $uri[0],
+			$uri = UrlHelper::createUrl(empty($uri[0]) ? null : $uri[0],
 				empty($uri[1]) ? array() : $uri[1],
 				isset($uri[2]) && $uri[2] === false ? false : true);
 		}else if($uri === null){
-			$uri = \F::app()->view->url();
+			$uri = UrlHelper::createUrl();
 		}
 		
 		$html_options['href'] = $uri;

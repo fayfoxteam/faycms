@@ -3,13 +3,16 @@ namespace cms\helpers;
 
 use fay\helpers\Html;
 use fay\core\Uri;
+use fay\helpers\UrlHelper;
+
 class MenuHelper{
 	/**
 	 * 渲染一个导航栏
 	 * @param array $menus 菜单集
 	 * @param array $actions 用户权限
-	 * @param unknown $current_directory 当前页
+	 * @param string $current_directory 当前页
 	 * @param number $dep 深度
+	 * @return mixed
 	 */
 	public static function render($menus, $current_directory, $dep = 0){
 		$text = array();
@@ -33,7 +36,7 @@ class MenuHelper{
 						'tag'=>'a',
 						'href'=>$m['link'] == 'javascript:;' ? 'javascript:;'
 							//后台菜单配置比较特殊，系统自带的只有router部分，用户自定义部分可能会有完整url
-							: (strpos($m['link'], 'http://') === 0 ? $m['link'] : \F::app()->view->url($m['link'])),
+							: (strpos($m['link'], 'http://') === 0 ? $m['link'] : UrlHelper::createUrl($m['link'])),
 						'text'=>array(
 							//小图标
 							$m['css_class'] ? array(

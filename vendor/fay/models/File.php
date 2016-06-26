@@ -3,6 +3,7 @@ namespace fay\models;
 
 use fay\core\Model;
 use fay\helpers\FieldHelper;
+use fay\helpers\UrlHelper;
 use fay\models\tables\Files;
 use fay\common\Upload;
 use fay\helpers\Image;
@@ -97,7 +98,7 @@ class File extends Model{
 		if(!$file){
 			//指定文件不存在，返回null
 			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
-				return \F::app()->view->url($spare);
+				return UrlHelper::createUrl($spare);
 			}else{
 				return '';
 			}
@@ -115,13 +116,13 @@ class File extends Model{
 					}else{
 						if(substr($file['file_path'], 0, 4) == './..'){
 							//私有文件，不能直接访问文件
-							return \F::app()->view->url('file/pic', array(
+							return UrlHelper::createUrl('file/pic', array(
 								't'=>self::PIC_THUMBNAIL,
 								'f'=>$file['id'],
 							));
 						}else{
 							//公共文件，直接返回真实路径
-							return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+							return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
 						}
 					}
 				break;
@@ -138,7 +139,7 @@ class File extends Model{
 					
 					ksort($img_params);
 					
-					return \F::app()->view->url('file/pic/f/'.$file['id'], $img_params, false);
+					return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
 				break;
 				case self::PIC_RESIZE://缩放
 					if($file['qiniu'] && Option::get('qiniu:enabled')){
@@ -152,7 +153,7 @@ class File extends Model{
 						isset($options['dw']) && $img_params['dw'] = $options['dw'];
 						isset($options['dh']) && $img_params['dh'] = $options['dh'];
 						
-						return \F::app()->view->url('file/pic/f/'.$file['id'], $img_params, false);
+						return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
 					}
 				break;
 				case self::PIC_ORIGINAL://原图
@@ -163,19 +164,19 @@ class File extends Model{
 					}else{
 						if(substr($file['file_path'], 0, 4) == './..'){
 							//私有文件，不能直接访问文件
-							return \F::app()->view->url('file/pic', array(
+							return UrlHelper::createUrl('file/pic', array(
 								'f'=>$file['id'],
 							));
 						}else{
 							//公共文件，直接返回真实路径
-							return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
+							return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
 						}
 					}
 				break;
 			}
 			
 		}else{
-			return \F::app()->view->url('file/download', array('id'=>$file['id']));
+			return UrlHelper::createUrl('file/download', array('id'=>$file['id']));
 		}
 	}
 	
@@ -219,7 +220,7 @@ class File extends Model{
 		if(!$file['is_image']){
 			//不是图片，返回一张文件类型对应的小图标
 			$icon = self::getIconByMimetype($file['file_type']);
-			return \F::app()->view->url() . 'assets/images/crystal/' . $icon . '.png';
+			return UrlHelper::createUrl() . 'assets/images/crystal/' . $icon . '.png';
 		}
 		
 		if(isset($options['dw']) || isset($options['dh'])){
@@ -227,7 +228,7 @@ class File extends Model{
 		}else{
 			if(substr($file['file_path'], 0, 4) == './..'){
 				//私有文件，不能直接访问文件
-				return \F::app()->view->url('file/pic', array(
+				return UrlHelper::createUrl('file/pic', array(
 					't'=>2,
 					'f'=>$file['id'],
 				));
@@ -239,7 +240,7 @@ class File extends Model{
 						'dh'=>'100',
 					));
 				}else{
-					return \F::app()->view->url() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+					return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
 				}
 			}
 		}
@@ -340,14 +341,14 @@ class File extends Model{
 				$data['error'] = 0;
 				if($private){
 					//私有文件通过file/pic访问
-					$data['url'] = \F::app()->view->url('file/pic', array('f'=>$data['id']));
-					$data['thumbnail'] = \F::app()->view->url('file/pic', array('t'=>2, 'f'=>$data['id']));
+					$data['url'] = UrlHelper::createUrl('file/pic', array('f'=>$data['id']));
+					$data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>2, 'f'=>$data['id']));
 				}else{
 					//公共文件直接给出真实路径
-					$data['url'] = \F::app()->view->url() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
-					$data['thumbnail'] = \F::app()->view->url() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100.jpg';
+					$data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
+					$data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100.jpg';
 					//真实存放路径（是图片的话与url路径相同）
-					$data['src'] = \F::app()->view->url() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
+					$data['src'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
 				}
 			}else{
 				$data = array(
@@ -365,13 +366,13 @@ class File extends Model{
 				$data['id'] = Files::model()->insert($data);
 				
 				$icon = self::getIconByMimetype($data['file_type']);
-				$data['thumbnail'] = \F::app()->view->url().'assets/images/crystal/'.$icon.'.png';
+				$data['thumbnail'] = UrlHelper::createUrl().'assets/images/crystal/'.$icon.'.png';
 				//下载地址
-				$data['url'] = \F::app()->view->url('file/download', array(
+				$data['url'] = UrlHelper::createUrl('file/download', array(
 					'id'=>$data['id'],
 				));
 				//真实存放路径
-				$data['src'] = \F::app()->view->url() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
+				$data['src'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
 			}
 			return array(
 				'status'=>1,
@@ -710,10 +711,10 @@ class File extends Model{
 				$return['id'] = '0';
 			}
 			if(in_array('url', $fields)){
-				$return['url'] = \F::app()->view->url($spare);
+				$return['url'] = UrlHelper::createUrl($spare);
 			}
 			if(in_array('thumbnail', $fields)){
-				$return['thumbnail'] = \F::app()->view->url($spare);
+				$return['thumbnail'] = UrlHelper::createUrl($spare);
 			}
 			if(in_array('is_image', $fields)){
 				$return['is_image'] = '0';

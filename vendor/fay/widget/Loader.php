@@ -5,6 +5,7 @@ use fay\core\Exception;
 use fay\core\HttpException;
 use fay\models\tables\Widgets;
 use fay\helpers\StringHelper;
+use fay\helpers\UrlHelper;
 
 class Loader{
 	private static $_instance;
@@ -128,7 +129,7 @@ class Loader{
 						$(function(){
 							$.ajax({
 								type: "GET",
-								url: "'.\F::app()->view->url('widget/load', array('alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index), false).'",
+								url: "'.UrlHelper::createUrl('widget/load', array('alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index), false).'",
 								cache: false,
 								success: function(resp){
 									$("#'.$id.'").replaceWith(resp);
@@ -141,7 +142,7 @@ class Loader{
 						$(function(){
 							$.ajax({
 								type: "GET",
-								url: "'.\F::app()->view->url('widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
+								url: "'.UrlHelper::createUrl('widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
 								cache: false,
 								success: function(resp){
 									$("#'.$id.'").replaceWith(resp);

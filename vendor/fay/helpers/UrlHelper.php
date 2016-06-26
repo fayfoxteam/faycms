@@ -2,7 +2,7 @@
 namespace fay\helpers;
 
 class UrlHelper{
-	public static function url($router = null, $params = array(), $url_rewrite = true){
+	public static function createUrl($router = null, $params = array(), $url_rewrite = true){
 		$base_url = \F::config()->get('base_url');
 		if(!$router){
 			return $base_url;

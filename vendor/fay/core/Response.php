@@ -1,6 +1,7 @@
 <?php
 namespace fay\core;
 
+use fay\helpers\UrlHelper;
 use fay\models\Flash;
 use fay\helpers\StringHelper;
 use fay\helpers\SqlHelper;
@@ -116,9 +117,9 @@ class Response{
 	 */
 	public static function redirect($uri = null, $params = array(), $url_rewrite = true){
 		if($uri === null){
-			header('location:'.\F::app()->view->url(null));
+			header('location:'.UrlHelper::createUrl(null));
 		}else{
-			header('location:'.\F::app()->view->url($uri, $params, $url_rewrite));
+			header('location:'.UrlHelper::createUrl($uri, $params, $url_rewrite));
 		}
 		die;
 	}
@@ -165,7 +166,7 @@ class Response{
 				self::goback();
 			}else if($redirect !== false){
 				if(is_array($redirect)){
-					$redirect = \F::app()->view->url($redirect[0],
+					$redirect = UrlHelper::createUrl($redirect[0],
 						empty($redirect[1]) ? array() : $redirect[1],
 						isset($redirect[2]) && $redirect[2] === false ? false : true);
 				}

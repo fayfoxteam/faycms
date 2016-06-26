@@ -1,12 +1,13 @@
 <?php
 namespace siwi\modules\user\controllers;
 
+use fay\core\Response;
 use siwi\library\UserController;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsFiles;
 use fay\models\Post;
 use fay\models\tables\Files;
-use fay\models\Tag;
+use fay\services\post\Tag;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
@@ -64,7 +65,7 @@ class PostController extends UserController{
 					}
 				}
 				
-				Tag::model()->set($this->input->post('tags'), $post_id);
+				Tag::service()->set($this->input->post('tags'), $post_id);
 	
 				Response::notify('success', '博文发布成功', array('user/post/edit', array(
 					'id'=>$post_id,
@@ -135,7 +136,7 @@ class PostController extends UserController{
 					PostsFiles::model()->delete('post_id = '.$post['id']);
 				}
 	
-				Tag::model()->set($this->input->post('tags'), $post['id']);
+				Tag::service()->set($this->input->post('tags'), $post['id']);
 				
 				Flash::set('文章编辑成功', 'success');
 				

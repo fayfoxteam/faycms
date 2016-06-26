@@ -4,7 +4,7 @@ namespace fay\models\feed;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\models\tables\Tags;
-use fay\models\Tag as TagModel;
+use fay\services\Tag as TagService;
 use fay\models\tables\FeedsTags;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\TagCounter;
@@ -132,7 +132,7 @@ class Tag extends Model{
 	public function incr($feed_id){
 		$tag_ids = $this->getTagIds($feed_id);
 		if($tag_ids){
-			TagModel::model()->incr($tag_ids, 'feeds');
+			TagService::service()->incr($tag_ids, 'feeds');
 		}
 	}
 	
@@ -143,7 +143,7 @@ class Tag extends Model{
 	public function decr($feed_id){
 		$tag_ids = $this->getTagIds($feed_id);
 		if($tag_ids){
-			TagModel::model()->decr($tag_ids, 'feeds');
+			TagService::service()->decr($tag_ids, 'feeds');
 		}
 	}
 }

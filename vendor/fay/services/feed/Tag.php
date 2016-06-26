@@ -4,9 +4,7 @@ namespace fay\services\feed;
 use fay\core\Service;
 use fay\models\tables\Tags;
 use fay\models\tables\FeedsTags;
-use fay\models\feed\Tag as FeedTag;
 use fay\services\Tag as TagService;
-use fay\models\Tag as TagModel;
 
 class Tag extends Service{
 	/**
@@ -35,7 +33,7 @@ class Tag extends Service{
 				if($tag){//已存在，获取id
 					$input_tag_ids[] = $tag['id'];
 				}else{//不存在，插入新tag
-					$input_tag_ids[] = TagService::model()->create($tag_title);
+					$input_tag_ids[] = TagService::service()->create($tag_title);
 				}
 			}
 			
@@ -65,10 +63,10 @@ class Tag extends Service{
 			
 			//更新标签对应的动态数
 			if($new_tag_ids){
-				TagModel::model()->incr($new_tag_ids, 'feeds');
+				TagService::service()->incr($new_tag_ids, 'feeds');
 			}
 			if($deleted_tag_ids){
-				TagModel::model()->decr($deleted_tag_ids, 'feeds');
+				TagService::service()->decr($deleted_tag_ids, 'feeds');
 			}
 		}else{
 			//删除全部tag
@@ -80,7 +78,7 @@ class Tag extends Service{
 					'feed_id = ?'=>$feed_id,
 				));
 				if($old_tag_ids){
-					FeedTag::model()->decr($old_tag_ids, 'feeds');
+					TagService::service()->decr($old_tag_ids, 'feeds');
 				}
 			}
 		}

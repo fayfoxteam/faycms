@@ -97,7 +97,7 @@ class Post extends Service{
 		}
 		//标签
 		if(isset($extra['tags'])){
-			PostTagService::model()->set($extra['tags'], $post_id);
+			PostTagService::service()->set($extra['tags'], $post_id);
 		}
 		
 		//附件
@@ -245,7 +245,7 @@ class Post extends Service{
 		
 		//标签
 		if(isset($extra['tags'])){
-			PostTagService::model()->set($extra['tags'], $post_id);
+			PostTagService::service()->set($extra['tags'], $post_id);
 		}
 		
 		//附件

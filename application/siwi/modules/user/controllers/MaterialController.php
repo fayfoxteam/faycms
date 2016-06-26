@@ -4,7 +4,7 @@ namespace siwi\modules\user\controllers;
 use siwi\library\UserController;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsFiles;
-use fay\models\Tag;
+use fay\services\post\Tag;
 use fay\models\tables\Files;
 use fay\models\Category;
 use fay\core\Sql;
@@ -60,7 +60,7 @@ class MaterialController extends UserController{
 					}
 				}
 		
-				Tag::model()->set($this->input->post('tags'), $post_id);
+				Tag::service()->set($this->input->post('tags'), $post_id);
 		
 				Flash::set('素材上传成功', 'success');
 			}else{
@@ -127,7 +127,7 @@ class MaterialController extends UserController{
 					PostsFiles::model()->delete('post_id = '.$post['id']);
 				}
 			
-				Tag::model()->set($this->input->post('tags'), $post['id']);
+				Tag::service()->set($this->input->post('tags'), $post['id']);
 			
 				Flash::set('文章编辑成功', 'success');
 			

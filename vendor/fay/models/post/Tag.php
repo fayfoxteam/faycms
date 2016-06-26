@@ -8,7 +8,7 @@ use fay\helpers\ArrayHelper;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsTags;
 use fay\models\tables\TagCounter;
-use fay\models\Tag as TagModel;
+use fay\services\Tag as TagService;
 
 class Tag extends Model{
 	/**
@@ -132,7 +132,7 @@ class Tag extends Model{
 	public function incr($post_id){
 		$tag_ids = $this->getTagIds($post_id);
 		if($tag_ids){
-			TagModel::model()->incr($tag_ids, 'posts');
+			TagService::service()->incr($tag_ids, 'posts');
 		}
 	}
 	
@@ -143,7 +143,7 @@ class Tag extends Model{
 	public function decr($post_id){
 		$tag_ids = $this->getTagIds($post_id);
 		if($tag_ids){
-			TagModel::model()->decr($tag_ids, 'posts');
+			TagService::service()->decr($tag_ids, 'posts');
 		}
 	}
 }

@@ -72,7 +72,7 @@ class Feed extends Service{
 		
 		//标签
 		if(isset($extra['tags'])){
-			FeedTagService::model()->set($extra['tags'], $feed_id);
+			FeedTagService::service()->set($extra['tags'], $feed_id);
 		}
 		
 		//附件
@@ -177,7 +177,7 @@ class Feed extends Service{
 		
 		//标签
 		if(isset($extra['tags'])){
-			FeedTagService::model()->set($extra['tags'], $feed_id);
+			FeedTagService::service()->set($extra['tags'], $feed_id);
 		}
 		
 		//附件

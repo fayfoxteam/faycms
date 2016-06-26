@@ -27,7 +27,7 @@ class NotificationController extends AdminController{
 			$operators = Users::model()->fetchCol('id', array(
 				'role IN (?)'=>$this->input->post('roles', 'intval'),
 			));
-			$notification_id = Notification::model()->send($operators, $this->input->post('title', 'trim'), $this->input->post('content', 'trim'), $this->current_user, $this->input->get('cat_id', null, 0));
+			$notification_id = Notification::service()->send($operators, $this->input->post('title', 'trim'), $this->input->post('content', 'trim'), $this->current_user, $this->input->get('cat_id', null, 0));
 			
 			$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '发送系统信息', $notification_id);
 			Flash::set('消息发送成功', 'success');

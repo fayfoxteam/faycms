@@ -2,7 +2,7 @@
 namespace fay\widgets\text\controllers;
 
 use fay\widget\Widget;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class AdminController extends Widget{
 	public function index($data){

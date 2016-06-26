@@ -4,7 +4,7 @@ namespace fay\widgets\menu\controllers;
 use fay\widget\Widget;
 use fay\models\Menu;
 use fay\models\tables\Menus;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class AdminController extends Widget{
 	public function index($config){

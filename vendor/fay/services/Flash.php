@@ -1,5 +1,5 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
 use fay\core\Session;
 

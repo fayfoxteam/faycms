@@ -3,7 +3,7 @@ namespace shinecolor\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\services\Option;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class YsiteController extends AdminController{
 	public function __construct(){

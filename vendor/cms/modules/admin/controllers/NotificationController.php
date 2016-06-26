@@ -12,7 +12,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Notification;
 use fay\core\Sql;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\models\tables\UserProfile;
 
 class NotificationController extends AdminController{

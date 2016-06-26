@@ -5,7 +5,7 @@ use glhs\library\FrontController;
 use fay\services\Email;
 use fay\models\tables\Pages;
 use fay\core\Response;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class ContactController extends FrontController{
 	public function index(){

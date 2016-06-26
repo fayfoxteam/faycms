@@ -10,7 +10,7 @@ use fay\models\Setting as SettingModel;
 use fay\core\Response;
 use fay\models\Menu;
 use fay\core\HttpException;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\models\tables\Roles;
 use fay\helpers\ArrayHelper;
 use fay\models\User;

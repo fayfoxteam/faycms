@@ -17,7 +17,7 @@ use fay\helpers\Date;
 use fay\services\shop\Goods as GoodsService;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\services\Setting;
 use fay\core\HttpException;
 

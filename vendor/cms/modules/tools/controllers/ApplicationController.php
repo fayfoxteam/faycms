@@ -10,7 +10,7 @@ use fay\models\tables\Users;
 use fay\models\Menu;
 use fay\models\tables\Categories;
 use fay\models\tables\Menus;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\services\Option;
 use fay\helpers\Request;
 use fay\models\tables\Roles;

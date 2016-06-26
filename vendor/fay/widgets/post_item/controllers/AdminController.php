@@ -2,7 +2,7 @@
 namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\models\tables\Posts;
 use fay\models\Category;
 

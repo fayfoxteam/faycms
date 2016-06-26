@@ -8,7 +8,7 @@ use fay\helpers\StringHelper;
 use fay\core\Response;
 use fay\core\Validator;
 use fay\core\HttpException;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\services\User;
 
 class LoginController extends FrontController{

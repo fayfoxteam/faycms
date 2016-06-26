@@ -7,7 +7,7 @@ use fay\helpers\StringHelper;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class VoucherController extends AdminController{
 	public function __construct(){

@@ -10,7 +10,7 @@ use fay\models\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
 use fay\core\Validator;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class MaterialController extends UserController{
 	private $rules = array(

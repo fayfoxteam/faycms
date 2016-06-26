@@ -10,7 +10,7 @@ use fay\models\Tag;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class PostController extends UserController{
 	private $rules = array(

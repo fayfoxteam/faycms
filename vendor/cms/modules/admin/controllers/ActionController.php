@@ -8,7 +8,7 @@ use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class ActionController extends AdminController{
 	public function __construct(){

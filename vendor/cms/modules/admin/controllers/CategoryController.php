@@ -8,7 +8,7 @@ use fay\models\tables\Actionlogs;
 use fay\helpers\Pinyin;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class CategoryController extends AdminController{
 	public function __construct(){

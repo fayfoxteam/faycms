@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\services\Option;
 use fay\services\File;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\models\User;
 use fay\models\user\Role;
 ?>

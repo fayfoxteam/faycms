@@ -1,6 +1,6 @@
 <?php
 use fay\services\Option;
-use fay\models\Flash;
+use fay\services\Flash;
 ?>
 <footer class="g-ft">
 	<div class="centered-wrapper cf">

@@ -3,7 +3,7 @@ namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
 use fay\models\tables\Contacts;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class ContactController extends FrontController{
 	public function __construct(){

@@ -2,7 +2,7 @@
 namespace fay\core;
 
 use fay\helpers\UrlHelper;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\helpers\StringHelper;
 use fay\helpers\SqlHelper;
 use fay\helpers\Request;

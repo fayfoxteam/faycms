@@ -1,7 +1,7 @@
 <?php
 use fay\services\Option;
 use fay\helpers\Html;
-use fay\models\Flash;
+use fay\services\Flash;
 ?>
 <!DOCTYPE html>
 <html>

@@ -11,7 +11,7 @@ use fay\models\Category;
 use fay\models\tables\ExamAnswers;
 use fay\core\Response;
 use fay\models\tables\ExamExamsQuestions;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\helpers\StringHelper;
 
 class ExamQuestionController extends AdminController{

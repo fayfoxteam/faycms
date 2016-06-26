@@ -1,6 +1,6 @@
 <?php
 
-use fay\models\Flash;
+use fay\services\Flash;
 $this->appendCss($this->appStatic('css/col2.css'));
 echo Flash::get();
 ?>

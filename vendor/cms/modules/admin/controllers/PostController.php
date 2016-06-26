@@ -10,7 +10,7 @@ use fay\models\post\Tag;
 use fay\models\tables\PostsCategories;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
-use fay\models\Setting;
+use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\Post;
@@ -168,7 +168,7 @@ class PostController extends AdminController{
 		));
 		
 		//box排序
-		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_post_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -528,7 +528,7 @@ class PostController extends AdminController{
 		}
 		
 		//box排序
-		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_post_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		

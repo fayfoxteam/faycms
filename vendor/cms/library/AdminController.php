@@ -5,7 +5,8 @@ use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\Request;
 use fay\models\tables\Actionlogs;
-use fay\models\Setting;
+use fay\services\Setting;
+use fay\models\Setting as SettingModel;
 use fay\core\Response;
 use fay\models\Menu;
 use fay\core\HttpException;
@@ -188,7 +189,7 @@ class AdminController extends Controller{
 	protected function getEnabledBoxes($settings = null){
 		$settings === null && $settings = $this->view->_setting_key;
 		if(!is_array($settings)){
-			$settings = Setting::model()->get($settings);
+			$settings = Setting::service()->get($settings);
 		}
 		if(!empty($settings['boxes'])){
 			return array_intersect($this->getBoxNames(), isset($settings['boxes']) ? $settings['boxes'] : array());
@@ -235,11 +236,11 @@ class AdminController extends Controller{
 	public function settingForm($key, $panel, $default = array(), $data = array()){
 		$this->layout->_setting_panel = $panel;
 		
-		$settings = Setting::model()->get($key);
+		$settings = Setting::service()->get($key);
 		$settings || $settings = $default;
 		
 		$this->form('setting')
-			->setModel(Setting::model())
+			->setModel(SettingModel::model())
 			->setJsModel('setting')
 			->setData($settings)
 			->setData(array(

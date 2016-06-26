@@ -4,7 +4,7 @@ namespace apidoc\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\Setting;
+use fay\services\Setting;
 use fay\helpers\ArrayHelper;
 use fay\models\Category;
 use apidoc\models\tables\Apis;
@@ -195,7 +195,7 @@ class ApiController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_api');
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_api_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_api_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -331,7 +331,7 @@ class ApiController extends AdminController{
 		$this->view->cats = Category::model()->getTree('_system_api');
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_api_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_api_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		

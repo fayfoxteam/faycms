@@ -18,7 +18,7 @@ use fay\services\shop\Goods as GoodsService;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Flash;
-use fay\models\Setting;
+use fay\services\Setting;
 use fay\core\HttpException;
 
 class GoodsController extends AdminController{
@@ -241,7 +241,7 @@ class GoodsController extends AdminController{
 		$this->view->props = $props;
 		
 		//box排序
-		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_goods_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -593,7 +593,7 @@ class GoodsController extends AdminController{
 		$this->view->props = $props;
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_goods_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		

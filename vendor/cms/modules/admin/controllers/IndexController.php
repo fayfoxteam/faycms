@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Setting;
+use fay\services\Setting;
 
 class IndexController extends AdminController{
 	//首页的boxes，本质上是widget
@@ -32,7 +32,7 @@ class IndexController extends AdminController{
 		$this->view->enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		//box排序
-		$this->view->_settings = Setting::model()->get('admin_dashboard_box_sort');
+		$this->view->_settings = Setting::service()->get('admin_dashboard_box_sort');
 		
 		if($this->view->_settings === null){
 			$this->view->_settings = array();

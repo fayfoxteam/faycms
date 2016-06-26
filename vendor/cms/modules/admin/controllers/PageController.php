@@ -6,7 +6,7 @@ use fay\models\Category;
 use fay\models\tables\Pages;
 use fay\models\tables\PagesCategories;
 use fay\models\tables\Actionlogs;
-use fay\models\Setting;
+use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\Page;
@@ -72,7 +72,7 @@ class PageController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
-		$_settings = Setting::model()->get('admin_page_box_sort');
+		$_settings = Setting::service()->get('admin_page_box_sort');
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		
@@ -89,7 +89,7 @@ class PageController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '所有页面';
 		$this->layout->_setting_panel = '_setting_index';
-		$this->view->_settings = Setting::model()->get('admin_page_index');
+		$this->view->_settings = Setting::service()->get('admin_page_index');
 		$this->view->_settings === null && $this->view->_settings = array(
 			'cols'=>array('category', 'status', 'alias', 'last_modified_time', 'create_time', 'sort'),
 			'page_size'=>10,
@@ -172,7 +172,7 @@ class PageController extends AdminController{
 			'text'=>'添加页面',
 		);
 		
-		$_settings = Setting::model()->get('admin_page_box_sort');
+		$_settings = Setting::service()->get('admin_page_box_sort');
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		

@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Feeds;
 use fay\models\tables\FeedsFiles;
-use fay\models\Setting;
+use fay\services\Setting;
 use fay\services\Feed as FeedService;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
@@ -102,7 +102,7 @@ class FeedController extends AdminController{
 		}
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_feed_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_feed_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -212,7 +212,7 @@ class FeedController extends AdminController{
 		$this->view->feed = $feed;
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_feed_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_feed_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		

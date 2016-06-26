@@ -7,7 +7,7 @@ use fay\common\ListView;
 use apidoc\models\tables\Outputs;
 use apidoc\models\tables\Models;
 use fay\core\Response;
-use fay\models\Setting;
+use fay\services\Setting;
 use fay\helpers\StringHelper;
 use apidoc\models\tables\ModelProps;
 use fay\core\ErrorException;
@@ -122,7 +122,7 @@ class ModelController extends AdminController{
 		}
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_model_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_model_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -227,7 +227,7 @@ class ModelController extends AdminController{
 		$this->form()->setData($model);
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_model_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_model_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		

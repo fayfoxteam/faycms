@@ -4,7 +4,8 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Files;
 use fay\models\File;
-use fay\models\Setting;
+use fay\models\Setting as SettingModel;
+use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\Image;
@@ -271,7 +272,7 @@ class FileController extends AdminController{
 		
 		$this->layout->_setting_panel = '_setting_index';
 		$_setting_key = 'admin_file_index';
-		$_settings = Setting::model()->get($_setting_key);
+		$_settings = Setting::service()->get($_setting_key);
 		$_settings || $_settings = array(
 			'cols'=>array('client_name', 'file_type', 'file_size', 'username', 'upload_time'),
 			'display_name'=>'username',
@@ -289,7 +290,7 @@ class FileController extends AdminController{
 			}
 		}
 		
-		$this->form('setting')->setModel(Setting::model())
+		$this->form('setting')->setModel(SettingModel::model())
 			->setJsModel('setting')
 			->setData($_settings)
 			->setData(array(

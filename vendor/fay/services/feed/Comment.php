@@ -6,7 +6,7 @@ use fay\models\tables\FeedComments;
 use fay\core\Exception;
 use fay\core\Hook;
 use fay\models\feed\Comment as CommentModel;
-use fay\models\Option;
+use fay\services\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\FeedMeta;

@@ -1,7 +1,7 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fay\helpers\UrlHelper;
 use fay\models\tables\Files;
@@ -9,11 +9,13 @@ use fay\common\Upload;
 use fay\helpers\Image;
 use fay\helpers\StringHelper;
 use fay\core\ErrorException;
+use fay\services\Qiniu;
+use fay\services\Option;
 
 /**
  * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储
  */
-class File extends Model{
+class File extends Service{
 	/**
 	 * 原图
 	 */
@@ -38,8 +40,8 @@ class File extends Model{
 	 * @param string $class_name
 	 * @return File
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	public function getIconById($id){
@@ -109,7 +111,7 @@ class File extends Model{
 				case self::PIC_THUMBNAIL://缩略图
 					if($file['qiniu'] && Option::get('qiniu:enabled')){
 						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						return Qiniu::model()->getUrl($file, array(
+						return Qiniu::service()->getUrl($file, array(
 							'dw'=>'100',
 							'dh'=>'100',
 						));
@@ -144,7 +146,7 @@ class File extends Model{
 				case self::PIC_RESIZE://缩放
 					if($file['qiniu'] && Option::get('qiniu:enabled')){
 						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						return Qiniu::model()->getUrl($file, array(
+						return Qiniu::service()->getUrl($file, array(
 							'dw'=>isset($options['dw']) ? $options['dw'] : false,
 							'dh'=>isset($options['dh']) ? $options['dh'] : false,
 						));
@@ -160,7 +162,7 @@ class File extends Model{
 				default:
 					if($file['qiniu'] && Option::get('qiniu:enabled')){
 						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						return Qiniu::model()->getUrl($file);
+						return Qiniu::service()->getUrl($file);
 					}else{
 						if(substr($file['file_path'], 0, 4) == './..'){
 							//私有文件，不能直接访问文件
@@ -235,7 +237,7 @@ class File extends Model{
 			}else{
 				//公共文件，直接返回真实路径
 				if($file['qiniu']){
-					return Qiniu::model()->getUrl($file, array(
+					return Qiniu::service()->getUrl($file, array(
 						'dw'=>'100',
 						'dh'=>'100',
 					));
@@ -292,7 +294,7 @@ class File extends Model{
 			}
 			
 			if(!$cat){
-				throw new ErrorException('fay\models\File::upload传入$cat不存在');
+				throw new ErrorException('fay\services\File::upload传入$cat不存在');
 			}
 		}else{
 			$cat = array(
@@ -449,7 +451,7 @@ class File extends Model{
 				break;
 			case 'crop':
 				if(!$params['x'] || !$params['y'] || !$params['w'] || !$params['h']){
-					throw new ErrorException('fay\models\File::edit方法crop处理缺少必要参数');
+					throw new ErrorException('fay\services\File::edit方法crop处理缺少必要参数');
 				}
 				
 				if($params['w'] && $params['h']){

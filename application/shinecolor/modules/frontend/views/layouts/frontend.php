@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Flash;
 use fay\core\Uri;
 ?>

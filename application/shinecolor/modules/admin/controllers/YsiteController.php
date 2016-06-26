@@ -2,7 +2,7 @@
 namespace shinecolor\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Flash;
 
 class YsiteController extends AdminController{

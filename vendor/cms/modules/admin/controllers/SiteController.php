@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Option;
+use fay\services\Option;
 use fay\core\Response;
 
 class SiteController extends AdminController{

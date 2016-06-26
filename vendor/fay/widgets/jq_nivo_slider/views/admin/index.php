@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div class="drag-drop-area" id="drag-drop-area">
 	<div class="drag-drop-inside">

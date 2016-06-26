@@ -8,7 +8,7 @@ use fay\core\Sql;
 use fay\models\Category;
 use fay\common\ListView;
 use ncp\models\Recommend;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Post;
 use fay\core\db\Expr;
 

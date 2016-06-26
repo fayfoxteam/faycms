@@ -2,7 +2,7 @@
 use fay\models\Category;
 use fay\models\Link;
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 
 $links_has_logo = Link::model()->getLinksHasLogo(null, 10);
 $link_cats = Category::model()->getChildren('_system_link');

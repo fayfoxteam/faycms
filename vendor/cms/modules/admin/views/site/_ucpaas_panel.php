@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <form id="ucpaas-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
 	<div class="row">

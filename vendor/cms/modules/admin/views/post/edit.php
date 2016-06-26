@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
 use fay\helpers\Html;

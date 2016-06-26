@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <header class="g-hd">
 	<div class="w1000">

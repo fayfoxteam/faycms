@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <form id="form" action="" method="post" class="validform">
 	<div class="col-2-1">

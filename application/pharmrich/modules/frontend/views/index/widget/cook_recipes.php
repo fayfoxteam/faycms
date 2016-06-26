@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <section class="box" id="<?php echo $alias?>">
 	<div class="box-title">

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div class="box" id="box-thumbnail" data-name="thumbnail">
 	<div class="box-title">

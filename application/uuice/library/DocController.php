@@ -4,7 +4,7 @@ namespace uuice\library;
 use fay\core\Controller;
 use fay\helpers\Request;
 use fay\models\tables\SpiderLogs;
-use fay\models\Option;
+use fay\services\Option;
 
 class DocController extends Controller{
 	public $layout_template = 'doc';

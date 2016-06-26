@@ -4,7 +4,7 @@ namespace fay\models\feed;
 use fay\models\MultiTree;
 use fay\models\tables\FeedComments;
 use fay\helpers\FieldHelper;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\tables\PostMeta;
 use fay\models\User;
 use fay\core\ErrorException;

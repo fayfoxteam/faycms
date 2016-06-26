@@ -5,7 +5,7 @@ use uuice\library\DocController;
 use fay\models\Category;
 use fay\core\HttpException;
 use fay\models\Post;
-use fay\models\Option;
+use fay\services\Option;
 
 class GuideController extends DocController{
 	public function index(){

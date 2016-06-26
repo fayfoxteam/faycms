@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-use fay\models\File;
+use fay\services\File;
 
 /**
  * 构造html元素

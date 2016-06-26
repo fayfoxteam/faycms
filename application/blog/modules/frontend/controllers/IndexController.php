@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\models\Option;
+use fay\services\Option;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;

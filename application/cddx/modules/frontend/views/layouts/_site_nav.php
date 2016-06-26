@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <div class="site-nav">
 	<div class="w1000">

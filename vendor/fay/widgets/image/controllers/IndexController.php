@@ -2,7 +2,7 @@
 namespace fay\widgets\image\controllers;
 
 use fay\widget\Widget;
-use fay\models\File;
+use fay\services\File;
 
 class IndexController extends Widget{
 	public function getData($config){

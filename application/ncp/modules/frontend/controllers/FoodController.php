@@ -14,7 +14,7 @@ use fay\models\tables\PropValues;
 use fay\core\db\Expr;
 use ncp\models\tables\TourRoute;
 use ncp\models\Recommend;
-use fay\models\Option;
+use fay\services\Option;
 
 class FoodController extends FrontController{
 	public function __construct(){

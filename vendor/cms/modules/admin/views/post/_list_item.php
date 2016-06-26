@@ -3,7 +3,7 @@ use fay\helpers\Html;
 use fay\models\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
-use fay\models\File;
+use fay\services\File;
 use fay\models\post\Tag as PostTag;
 use fay\models\post\Category as PostCategory;
 

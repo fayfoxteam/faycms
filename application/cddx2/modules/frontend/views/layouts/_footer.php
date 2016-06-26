@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <footer class="g-ft">
 	<div class="w1000">

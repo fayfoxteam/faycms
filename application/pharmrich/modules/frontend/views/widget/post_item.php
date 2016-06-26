@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div class="page-title">
 	<h1><?php echo Html::encode($post['post']['title'])?></h1>

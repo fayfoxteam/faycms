@@ -4,7 +4,7 @@ namespace fay\models\post;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\models\tables\Categories;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\RolesCats;

@@ -2,7 +2,7 @@
 use fay\models\Post;
 use fay\helpers\Date;
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 
 preg_match_all('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $data['content'], $matches);
 $post_cats = Post::model()->getCats($data['id']);

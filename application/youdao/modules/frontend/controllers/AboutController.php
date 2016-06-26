@@ -3,7 +3,7 @@ namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
 use fay\models\tables\Pages;
-use fay\models\Option;
+use fay\services\Option;
 use fay\core\HttpException;
 
 class AboutController extends FrontController{

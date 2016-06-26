@@ -6,7 +6,7 @@ use fay\core\Hook;
 use fay\helpers\Request;
 use fay\core\db\Expr;
 use fay\models\tables\UserProfile;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\tables\Users;
 use fay\models\User as UserModel;
 use fay\models\tables\UsersRoles;

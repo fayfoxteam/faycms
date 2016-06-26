@@ -1,7 +1,7 @@
 <?php 
 use fay\helpers\Html;
-use fay\models\Option;
-use fay\models\File;
+use fay\services\Option;
+use fay\services\File;
 use fay\models\Flash;
 use fay\models\user\Role;
 use fay\models\User;

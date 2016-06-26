@@ -3,8 +3,8 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use fay\models\tables\Users;
-use fay\models\Option;
-use fay\models\File;
+use fay\services\Option;
+use fay\services\File;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;

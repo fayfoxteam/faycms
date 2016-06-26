@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <footer id="footer">
 	<div class="copy-right">

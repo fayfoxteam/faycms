@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div class="box" id="<?php echo Html::encode($alias);?>">
 	<div class="box-title">

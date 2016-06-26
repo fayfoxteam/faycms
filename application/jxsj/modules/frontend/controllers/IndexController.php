@@ -2,7 +2,7 @@
 namespace jxsj\modules\frontend\controllers;
 
 use jxsj\library\FrontController;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Page;
 
 class IndexController extends FrontController{

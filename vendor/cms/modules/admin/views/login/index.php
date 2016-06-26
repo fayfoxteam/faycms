@@ -1,7 +1,7 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 use fay\models\User;
 ?>
 <!DOCTYPE html>

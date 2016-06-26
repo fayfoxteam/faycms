@@ -6,7 +6,7 @@ use fay\models\Prop;
 use fay\models\Category;
 use fay\models\Post;
 use ncp\models\Recommend;
-use fay\models\Option;
+use fay\services\Option;
 use fay\helpers\ArrayHelper;
 
 class IndexController extends FrontController{

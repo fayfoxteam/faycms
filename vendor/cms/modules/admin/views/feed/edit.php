@@ -3,7 +3,7 @@ use cms\helpers\FeedHelper;
 use fay\helpers\Html;
 use fay\models\tables\Feeds;
 use fay\models\User;
-use fay\models\File;
+use fay\services\File;
 use fay\helpers\Date;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');

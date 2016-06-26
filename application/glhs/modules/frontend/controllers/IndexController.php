@@ -2,7 +2,7 @@
 namespace glhs\modules\frontend\controllers;
 
 use glhs\library\FrontController;
-use fay\models\Option;
+use fay\services\Option;
 
 class IndexController extends FrontController{
 	public function __construct(){

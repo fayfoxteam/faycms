@@ -2,7 +2,7 @@
 namespace cddx2\modules\frontend\controllers;
 
 use cddx2\library\FrontController;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Menu;
 
 class IndexController extends FrontController{

@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\tables\Posts;
 use fay\models\tables\Roles;
 use fay\models\user\Role;

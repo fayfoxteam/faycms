@@ -3,18 +3,18 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Files;
-use fay\models\File;
+use fay\services\File;
 use fay\models\Setting as SettingModel;
 use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\Image;
-use fay\models\Qiniu;
+use fay\services\Qiniu;
 use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Category;
 use fay\helpers\StringHelper;
 
@@ -255,7 +255,7 @@ class FileController extends AdminController{
 		if($file_id = $this->input->get('id', 'intval')){
 			$file = Files::model()->find($file_id);
 			if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
-				Qiniu::model()->delete($file);
+				Qiniu::service()->delete($file);
 			}
 			
 			Files::model()->delete($file_id);
@@ -342,7 +342,7 @@ class FileController extends AdminController{
 					$file = Files::model()->find($id);
 					if($file){
 						if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
-							Qiniu::model()->delete($file);
+							Qiniu::service()->delete($file);
 						}
 							
 						Files::model()->delete($id);

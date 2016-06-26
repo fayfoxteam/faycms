@@ -7,7 +7,7 @@ use fay\core\Exception;
 use fay\core\Hook;
 use fay\models\Post;
 use fay\models\Message as MessageModel;
-use fay\models\Option;
+use fay\services\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\UserCounter;

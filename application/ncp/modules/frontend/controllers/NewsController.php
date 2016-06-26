@@ -10,7 +10,7 @@ use fay\models\Post;
 use fay\core\HttpException;
 use fay\core\db\Expr;
 use ncp\models\Recommend;
-use fay\models\Option;
+use fay\services\Option;
 
 class NewsController extends FrontController{
 	public function __construct(){

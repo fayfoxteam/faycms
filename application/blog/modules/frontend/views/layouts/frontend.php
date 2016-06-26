@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Option;
+use fay\services\Option;
 
 $menu = array(
 	array(

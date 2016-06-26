@@ -33,7 +33,7 @@ class File extends Model{
 			'post_id = ?'=>$post_id,
 		), $fields, 'sort');
 		foreach($files as &$f){
-			$f['url'] = \fay\models\File::getUrl($f['file_id']);
+			$f['url'] = \fay\services\File::getUrl($f['file_id']);
 		}
 		return $files;
 	}
@@ -68,7 +68,7 @@ class File extends Model{
 			if($remove_post_id_field){
 				unset($f['post_id']);
 			}
-			$f['url'] = \fay\models\File::getUrl($f['file_id']);
+			$f['url'] = \fay\services\File::getUrl($f['file_id']);
 			$return[$p][] = $f;
 		}
 		return $return;

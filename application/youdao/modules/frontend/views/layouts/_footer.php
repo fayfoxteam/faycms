@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <footer id="colophon">
 	<div id="footer-copyright-container">

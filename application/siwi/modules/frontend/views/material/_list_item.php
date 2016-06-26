@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 use siwi\helpers\FriendlyLink;
 ?>
 <article class="<?php if($index % 4 == 0)echo 'last'?>">

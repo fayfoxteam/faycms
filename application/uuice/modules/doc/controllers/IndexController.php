@@ -4,7 +4,7 @@ namespace uuice\modules\doc\controllers;
 use uuice\library\DocController;
 use fay\core\Sql;
 use fay\models\Post;
-use fay\models\Option;
+use fay\services\Option;
 
 class IndexController extends DocController{
 	public function index(){

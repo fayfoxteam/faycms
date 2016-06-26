@@ -1,8 +1,8 @@
 <?php
-use fay\models\File;
+use fay\services\File;
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\models\Qiniu;
+use fay\services\Qiniu;
 use fay\models\Category;
 
 $full_file_path = File::getUrl($data);
@@ -58,7 +58,7 @@ $full_file_path = File::getUrl($data);
 		<div class="qiniu-status qiniu-uploaded <?php if(!$data['qiniu']){echo 'hide';}?>">
 			<span class="fc-green">已上传</span>
 			<div class="row-actions"><?php
-				echo Html::link('查看', Qiniu::model()->getUrl($data), array(
+				echo Html::link('查看', Qiniu::service()->getUrl($data), array(
 					'target'=>'_blank',
 					'class'=>'show-qiniu-file',
 				));

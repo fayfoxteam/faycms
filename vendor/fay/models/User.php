@@ -10,6 +10,7 @@ use fay\models\tables\Roles;
 use fay\models\tables\Actions;
 use fay\models\tables\UserLogins;
 use fay\models\user\Prop;
+use fay\services\File;
 
 class User extends Model{
 	/**

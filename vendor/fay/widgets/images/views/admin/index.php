@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 use fay\models\tables\Roles;
 use fay\models\user\Role;
 ?>

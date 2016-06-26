@@ -2,7 +2,7 @@
 namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
-use fay\models\File;
+use fay\services\File;
 use fay\models\Category;
 use fay\helpers\StringHelper;
 use fay\models\tables\Users;
@@ -10,7 +10,7 @@ use fay\models\Menu;
 use fay\models\tables\Categories;
 use fay\models\tables\Menus;
 use fay\models\Flash;
-use fay\models\Option;
+use fay\services\Option;
 use fay\helpers\Request;
 use fay\models\tables\Roles;
 use fay\core\Response;

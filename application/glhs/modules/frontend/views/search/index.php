@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 use fay\helpers\Html;
 ?>
 <div class="page-title">

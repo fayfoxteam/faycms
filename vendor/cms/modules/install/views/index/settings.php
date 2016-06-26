@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <h1>初始化站点信息</h1>
 <form method="post">

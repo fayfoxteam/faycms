@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use ncp\helpers\FriendlyLink;
-use fay\models\File;
+use fay\services\File;
 
 $this->appendCss($this->appStatic('css/food.css'));
 ?>

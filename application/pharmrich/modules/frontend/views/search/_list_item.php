@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use pharmrich\helpers\PostHelper;
-use fay\models\File;
+use fay\services\File;
 use fay\helpers\StringHelper;
 
 $type = PostHelper::getType($data['cat_id']);

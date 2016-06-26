@@ -3,7 +3,7 @@ namespace cms\library;
 
 use fay\core\Controller;
 use fay\core\Uri;
-use fay\models\File;
+use fay\services\File;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\tables\Roles;

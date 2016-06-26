@@ -1,5 +1,5 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <footer class="main-footer">
 	<div class="footer-inner">

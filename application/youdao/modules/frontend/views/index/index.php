@@ -2,7 +2,7 @@
 use fay\helpers\Request;
 use fay\helpers\StringHelper;
 use fay\helpers\Html;
-use fay\models\Option;
+use fay\services\Option;
 
 $browser = Request::getBrowser();
 if($browser[0] == 'msie' && $browser[1] == '6.0'){

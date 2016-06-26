@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div id="quick-link">
 	<div class="ql-title"><img src="<?php echo $this->appStatic('images/quick-link.png')?>"></div>

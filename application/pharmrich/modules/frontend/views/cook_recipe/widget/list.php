@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <ul class="products-carousel">
 <?php foreach($posts as $p){?>

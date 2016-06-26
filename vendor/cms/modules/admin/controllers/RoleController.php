@@ -11,7 +11,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\models\Category;
 use fay\models\tables\RolesCats;
-use fay\models\Option;
+use fay\services\Option;
 
 class RoleController extends AdminController{
 	public function __construct(){

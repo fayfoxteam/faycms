@@ -13,7 +13,7 @@ use fay\helpers\ArrayHelper;
 use fay\models\tables\PropValues;
 use fay\core\db\Expr;
 use ncp\models\Recommend;
-use fay\models\Option;
+use fay\services\Option;
 
 class ProductController extends FrontController{
 	public function __construct(){

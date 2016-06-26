@@ -3,7 +3,7 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use fay\models\tables\Files;
-use fay\models\File;
+use fay\services\File;
 use fay\core\HttpException;
 use fay\models\Category;
 

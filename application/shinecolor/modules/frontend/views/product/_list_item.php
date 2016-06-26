@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div class="product-item <?php if($index % 3 == 0)echo 'last'?>">
 	<div class="thumbnail-container"><?php echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(

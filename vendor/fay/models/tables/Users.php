@@ -2,7 +2,7 @@
 namespace fay\models\tables;
 
 use fay\core\db\Table;
-use fay\models\Option;
+use fay\services\Option;
 
 /**
  * Users model

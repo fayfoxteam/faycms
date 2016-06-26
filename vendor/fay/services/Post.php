@@ -15,7 +15,7 @@ use fay\models\post\Tag as PostTagModel;
 use fay\helpers\Request;
 use fay\models\post\Prop;
 use fay\models\Post as PostModel;
-use fay\models\File;
+use fay\services\File;
 use fay\models\tables\UserCounter;
 use fay\services\post\Tag as PostTagService;
 use fay\core\Hook;

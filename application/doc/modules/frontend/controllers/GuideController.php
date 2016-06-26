@@ -5,7 +5,7 @@ use doc\library\FrontController;
 use fay\models\Category;
 use fay\core\HttpException;
 use fay\models\Post;
-use fay\models\Option;
+use fay\services\Option;
 
 class GuideController extends FrontController{
 	public function index(){

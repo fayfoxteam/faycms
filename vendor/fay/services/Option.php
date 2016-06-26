@@ -1,11 +1,11 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Options;
 use fay\helpers\ArrayHelper;
 
-class Option extends Model{
+class Option extends Service{
 	/**
 	 * 用于缓存
 	 */
@@ -15,8 +15,8 @@ class Option extends Model{
 	 * @param string $class_name
 	 * @return Option
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

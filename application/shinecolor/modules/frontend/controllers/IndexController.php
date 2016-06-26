@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Post;
 use fay\models\Category;
 use fay\models\tables\Posts;

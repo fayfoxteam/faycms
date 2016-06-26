@@ -18,7 +18,7 @@ use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\Hook;
 use fay\core\HttpException;
-use fay\models\Option;
+use fay\services\Option;
 use fay\models\Flash;
 use fay\models\tables\PostMeta;
 use fay\services\Post as PostService;

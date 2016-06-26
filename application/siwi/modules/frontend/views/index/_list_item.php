@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 use siwi\helpers\FriendlyLink;
 use siwi\models\Post;
 

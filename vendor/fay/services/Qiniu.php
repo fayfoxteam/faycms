@@ -1,18 +1,18 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Files;
 use fay\core\Loader;
 use fay\helpers\StringHelper;
 
-class Qiniu extends Model{
+class Qiniu extends Service{
 	/**
 	 * @param string $class_name
 	 * @return Qiniu
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

@@ -2,7 +2,7 @@
 namespace fay\log;
 
 use fay\core\ErrorException;
-use fay\models\File;
+use fay\services\File;
 
 class FileTarget extends Target{
 	/**

@@ -2,7 +2,7 @@
 namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
-use fay\models\Option;
+use fay\services\Option;
 use apidoc\models\tables\Models;
 
 class IndexController extends FrontController{

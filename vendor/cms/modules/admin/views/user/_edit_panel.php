@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 use fay\models\tables\Users;
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <div class="form-field">
 	<label class="title bold">登录名<em class="required">*</em></label>

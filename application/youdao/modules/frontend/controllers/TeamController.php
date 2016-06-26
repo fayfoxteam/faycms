@@ -5,7 +5,7 @@ use youdao\library\FrontController;
 use fay\models\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
-use fay\models\Option;
+use fay\services\Option;
 use fay\core\HttpException;
 
 class TeamController extends FrontController{

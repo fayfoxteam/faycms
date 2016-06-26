@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\models\File;
+use fay\services\File;
 use fay\models\tables\Files;
 use fay\helpers\Image;
 use fay\helpers\SecurityCode;
@@ -10,7 +10,7 @@ use fay\core\Validator;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\helpers\StringHelper;
-use fay\models\Option;
+use fay\services\Option;
 
 /**
  * 文件

@@ -1,10 +1,10 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Templates;
 
-class Template extends Model{
+class Template extends Service{
 	/**
 	 * 算是缓存吧
 	 * @var array
@@ -15,8 +15,8 @@ class Template extends Model{
 	 * @param string $class_name
 	 * @return Template
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	public function render($alias, $options = array()){

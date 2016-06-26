@@ -1,6 +1,7 @@
 <?php
 namespace cms\modules\tools\controllers;
 
+use cms\library\Db;
 use cms\library\ToolsController;
 use fay\services\File;
 use fay\models\Category;
@@ -16,6 +17,11 @@ use fay\models\tables\Roles;
 use fay\core\Response;
 
 class ApplicationController extends ToolsController{
+	/**
+	 * @var Db
+	 */
+	private $db;
+	
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'application';
@@ -195,8 +201,7 @@ class ApplicationController extends ToolsController{
 	 * 对categories表进行索引
 	 */
 	private function indexCats(){
-		Category::model()->db = $this->db;
-		Categories::model()->db = $this->db;
+		Categories::model()->setDb($this->db);
 		Category::model()->buildIndex();
 	}
 	
@@ -204,8 +209,7 @@ class ApplicationController extends ToolsController{
 	 * 对menus表进行索引
 	 */
 	private function indexMenus(){
-		Menu::model()->db = $this->db;
-		Menus::model()->db = $this->db;
+		Menus::model()->setDb($this->db);
 		Menu::model()->buildIndex();
 	}
 }

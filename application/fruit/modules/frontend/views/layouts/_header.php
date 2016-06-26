@@ -1,8 +1,8 @@
 <?php
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\helpers\Html;
 ?>
-<?php $menu = Menu::model()->getTree('_fruit_top');?>
+<?php $menu = Menu::service()->getTree('_fruit_top');?>
 <header class="g-top">
 	<div class="top-inner">
 		<div class="g-mn clearfix">

@@ -8,7 +8,7 @@ use fay\models\tables\Actionlogs;
 use fay\services\Setting;
 use fay\models\Setting as SettingModel;
 use fay\core\Response;
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\core\HttpException;
 use fay\services\Flash;
 use fay\models\tables\Roles;
@@ -61,7 +61,7 @@ class AdminController extends Controller{
 		}
 		
 		if(!$this->input->isAjaxRequest()){
-			$this->_left_menu = Menu::model()->getTree('_admin_main');
+			$this->_left_menu = Menu::service()->getTree('_admin_main');
 		}
 	}
 	

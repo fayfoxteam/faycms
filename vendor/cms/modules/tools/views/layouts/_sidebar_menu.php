@@ -2,7 +2,7 @@
 use cms\helpers\MenuHelper;
 use fay\helpers\Html;
 use fay\services\Setting;
-use fay\models\Menu;
+use fay\services\Menu;
 ?>
 <div class="sidebar-menu <?php
 	$admin_sidebar_class = Setting::service()->get('admin_sidebar_class');
@@ -28,6 +28,6 @@ use fay\models\Menu;
 				</a>
 			</div>
 		</header>
-		<?php MenuHelper::render(Menu::model()->getTree('_tools_main'), isset($current_directory) ? $current_directory : '')?>
+		<?php MenuHelper::render(Menu::service()->getTree('_tools_main'), isset($current_directory) ? $current_directory : '')?>
 	</div>
 </div>

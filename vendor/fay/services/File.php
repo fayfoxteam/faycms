@@ -495,7 +495,7 @@ class File extends Service{
 					//更新返回值字段
 					$file['image_width'] = $params['dw'];
 					$file['image_height'] = $params['dh'];
-					$file['file_size'] = $new_file_size;;
+					$file['file_size'] = $new_file_size;
 				}
 				break;
 		}

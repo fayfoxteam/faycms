@@ -3,7 +3,7 @@ namespace cddx2\modules\frontend\controllers;
 
 use cddx2\library\FrontController;
 use fay\services\Option;
-use fay\models\Menu;
+use fay\services\Menu;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -17,7 +17,7 @@ class IndexController extends FrontController{
 	}
 	
 	public function index(){
-		$this->view->menus = Menu::model()->getTree('_user_menu');
+		$this->view->menus = Menu::service()->getTree('_user_menu');
 		
 		$this->view->render();
 	}

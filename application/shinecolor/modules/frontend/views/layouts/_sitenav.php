@@ -1,8 +1,8 @@
 <?php
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\helpers\Html;
 
-$menu = Menu::model()->getTree('_top');
+$menu = Menu::service()->getTree('_top');
 ?>
 <nav id="header-menu" class="clearfix">
 	<div class="w1000">

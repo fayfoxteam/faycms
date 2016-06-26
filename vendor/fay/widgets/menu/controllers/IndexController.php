@@ -2,7 +2,7 @@
 namespace fay\widgets\menu\controllers;
 
 use fay\widget\Widget;
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\models\tables\Menus;
 
 class IndexController extends Widget{
@@ -11,7 +11,7 @@ class IndexController extends Widget{
 			$config['top'] = Menus::ITEM_USER_MENU;
 		}
 		
-		$menus = Menu::model()->getTree($config['top'], true, true);
+		$menus = Menu::service()->getTree($config['top'], true, true);
 		$this->removeFields($menus);
 		return $menus;
 	}
@@ -35,7 +35,7 @@ class IndexController extends Widget{
 			$config['top'] = Menus::ITEM_USER_MENU;
 		}
 		
-		$menus = Menu::model()->getTree($config['top'], true, true);
+		$menus = Menu::service()->getTree($config['top'], true, true);
 		
 		//若无分类可显示，则不显示该widget
 		if(empty($menus)){

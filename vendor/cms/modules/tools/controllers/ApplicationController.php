@@ -7,7 +7,7 @@ use fay\services\File;
 use fay\models\Category;
 use fay\helpers\StringHelper;
 use fay\models\tables\Users;
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\models\tables\Categories;
 use fay\models\tables\Menus;
 use fay\services\Flash;
@@ -210,6 +210,6 @@ class ApplicationController extends ToolsController{
 	 */
 	private function indexMenus(){
 		Menus::model()->setDb($this->db);
-		Menu::model()->buildIndex();
+		Menu::service()->buildIndex();
 	}
 }

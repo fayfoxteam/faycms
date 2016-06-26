@@ -1,10 +1,10 @@
 <?php
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\helpers\Html;
 use fay\models\Category;
 use fay\models\Page;
 
-$menu = Menu::model()->getTree('_jxsj_top');
+$menu = Menu::service()->getTree('_jxsj_top');
 ?>
 <nav class="g-nav">
 	<div class="w1000">

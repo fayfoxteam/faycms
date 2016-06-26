@@ -4,9 +4,7 @@ namespace fay\models;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\models\tables\Posts;
-use fay\models\tables\PostsCategories;
 use fay\models\tables\Categories;
-use fay\models\tables\Props;
 use fay\helpers\StringHelper;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
@@ -18,6 +16,7 @@ use fay\helpers\ArrayHelper;
 use fay\core\ErrorException;
 use fay\models\post\Extra;
 use fay\models\post\Prop;
+use fay\services\File;
 
 class Post extends Model{
 	/**

@@ -32,14 +32,6 @@ abstract class Tree extends Model{
 	}
 	
 	/**
-	 * @param string $class_name
-	 * @return Tree
-	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
-	}
-	
-	/**
 	 * 索引记录
 	 * @param int $parent
 	 * @param int $start_num

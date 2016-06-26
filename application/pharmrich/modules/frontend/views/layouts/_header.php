@@ -1,6 +1,6 @@
 <?php 
 use fay\helpers\Html;
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\services\Option;
 use fay\core\Uri;
 ?>
@@ -14,7 +14,7 @@ use fay\core\Uri;
 		</span>
 		<nav class="top-nav fr">
 			<ul><?php
-				$top_nav = Menu::model()->getTree('_top_nav');
+				$top_nav = Menu::service()->getTree('_top_nav');
 				foreach($top_nav as $nav){
 					echo Html::link($nav['title'], $nav['link'], array(
 						'target'=>$nav['target'],
@@ -50,7 +50,7 @@ use fay\core\Uri;
 <nav class="g-nav">
 	<div class="centered-wrapper">
 		<ul class="cf"><?php
-			$menus = Menu::model()->getTree('_menu');
+			$menus = Menu::service()->getTree('_menu');
 			foreach($menus as $menu){
 				echo Html::link($menu['title'], $menu['link'], array(
 					'class'=>isset($current_header_menu) && $current_header_menu == $menu['alias'] ? 'crt' : false,

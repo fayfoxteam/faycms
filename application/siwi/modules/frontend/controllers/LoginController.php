@@ -3,7 +3,7 @@ namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
 use fay\models\tables\Users;
-use fay\models\Email;
+use fay\services\Email;
 use fay\helpers\StringHelper;
 use fay\core\Response;
 use fay\core\Validator;

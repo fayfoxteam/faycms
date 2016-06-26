@@ -2,7 +2,7 @@
 namespace glhs\modules\frontend\controllers;
 
 use glhs\library\FrontController;
-use fay\models\Email;
+use fay\services\Email;
 use fay\models\tables\Pages;
 use fay\core\Response;
 use fay\models\Flash;

@@ -1,11 +1,11 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Loader;
 use fay\core\ErrorException;
 
-class Email extends Model{
+class Email extends Service{
 	/**
 	 * 发送一封邮件
 	 * @param string|array $address 邮箱地址

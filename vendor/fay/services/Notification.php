@@ -1,18 +1,18 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Users;
 use fay\models\tables\Notifications;
 use fay\models\tables\UsersNotifications;
 
-class Notification extends Model{
+class Notification extends Service{
 	/**
 	 * @param string $class_name
 	 * @return Notification
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

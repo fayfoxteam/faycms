@@ -10,7 +10,7 @@ use fay\models\Category;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\models\Notification;
+use fay\services\Notification;
 use fay\core\Sql;
 use fay\services\Flash;
 use fay\models\tables\UserProfile;

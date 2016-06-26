@@ -1,7 +1,7 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\ExamPapers;
 use fay\core\Sql;
 use fay\models\tables\ExamExamQuestionAnswersInt;
@@ -13,12 +13,12 @@ use fay\models\tables\ExamExamsQuestions;
 use fay\models\tables\ExamExamQuestionAnswerText;
 use fay\helpers\StringHelper;
 
-class Exam extends Model{
+class Exam extends Service{
 	/**
 	 * @return Exam
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	
@@ -71,7 +71,6 @@ class Exam extends Model{
 	 * @param int $user_answers 用户作答，键值对形式
 	 * @param int $user_id
 	 * @return int
-	 * @internal param int $paper_id
 	 */
 	public function record($paper, $start_time, $user_answers, $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;

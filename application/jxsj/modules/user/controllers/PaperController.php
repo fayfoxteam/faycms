@@ -2,7 +2,7 @@
 namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
-use fay\models\Exam;
+use fay\services\Exam;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -40,7 +40,7 @@ class PaperController extends UserController{
 			throw new HttpException('页面不存在');
 		}
 		
-		$this->view->paper = Exam::model()->getPaper($id);
+		$this->view->paper = Exam::service()->getPaper($id);
 		
 		if(!$this->view->paper['repeatedly']){
 			//不允许重复参考
@@ -81,7 +81,7 @@ class PaperController extends UserController{
 			Response::notify('error', '异常的请求');
 		}
 		
-		$exam_id = Exam::model()->record($paper, $exam_session[$paper_id]['start_time'], $answers);
+		$exam_id = Exam::service()->record($paper, $exam_session[$paper_id]['start_time'], $answers);
 		
 		\F::session()->set('exam', array(
 			$paper_id=>false,

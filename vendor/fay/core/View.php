@@ -2,6 +2,7 @@
 namespace fay\core;
 
 use fay\helpers\StringHelper;
+use fay\helpers\UrlHelper;
 
 class View{
 	/**
@@ -14,46 +15,7 @@ class View{
 	private $_css = array();
 	
 	public function url($router = null, $params = array(), $url_rewrite = true){
-		$base_url = \F::config()->get('base_url');
-		if(!$router){
-			return $base_url;
-		}else{
-			$default_module = \F::config()->get('default_router.module');
-			if(strpos($router, $default_module . '/') === 0){
-				$router = substr($router, strlen($default_module) + 1);
-			}
-			$ext = \F::config()->get('url_suffix');
-			$exts = \F::config()->get('*', 'exts');
-			foreach($exts as $key => $val){
-				foreach($val as $v){
-					if(preg_match('/^'.str_replace(array(
-						'/', '*',
-					), array(
-						'\/', '.*',
-					), $v).'$/i', $router)){
-						$ext = $key;
-						break 2;
-					}
-				}
-			}
-			
-			if($url_rewrite){
-				//完整的url重写
-				if($params){
-					return $base_url . $router . '/' . str_replace(array('=', '&'), '/', http_build_query($params)) . $ext;
-				}else{
-					return $base_url . $router . $ext;
-				}
-			}else{
-				//对params部分不做url重写
-				$query_string = http_build_query($params);
-				if($query_string){
-					return $base_url . $router . $ext . '?' . $query_string;
-				}else{
-					return $base_url . $router . $ext;
-				}
-			}
-		}
+		return UrlHelper::url($router, $params, $url_rewrite);
 	}
 	
 	/**
@@ -63,7 +25,7 @@ class View{
 	 * @return string
 	 */
 	public function appStatic($uri){
-		return \F::config()->get('base_url') . 'apps/' . APPLICATION . '/' . $uri;
+		return UrlHelper::appStatic($uri);
 	}
 	
 	/**
@@ -73,7 +35,7 @@ class View{
 	 * @return string
 	 */
 	public function assets($uri){
-		return \F::config()->get('assets_url') . 'assets/' . $uri;
+		return UrlHelper::assets($uri);
 	}
 	
 	/**
@@ -195,9 +157,9 @@ class View{
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		//加载视图文件
 		if($view === null){
-			$view = StringHelper::case2underscore($uri->action);
+			$action = StringHelper::case2underscore($uri->action);
 			$controller = StringHelper::case2underscore($uri->controller);
-			$view_relative_path = "modules/{$module}/views/{$controller}/{$view}.php";
+			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}else{
 			$view_arr = explode('/', $view, 3);
 			
@@ -211,6 +173,7 @@ class View{
 					$action = $view_arr[1];
 				break;
 				case 3:
+				default:
 					$module = $view_arr[0];
 					$controller = $view_arr[1];
 					$action = $view_arr[2];

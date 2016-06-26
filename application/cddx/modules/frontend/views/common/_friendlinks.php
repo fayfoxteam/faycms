@@ -1,10 +1,10 @@
 <?php
 use fay\models\Category;
-use fay\models\Link;
+use fay\services\Link;
 use fay\helpers\Html;
 use fay\services\File;
 
-$links_has_logo = Link::model()->getLinksHasLogo(null, 10);
+$links_has_logo = Link::service()->getLinksHasLogo(null, 10);
 $link_cats = Category::model()->getChildren('_system_link');
 ?>
 <div class="w1000">
@@ -24,7 +24,7 @@ $link_cats = Category::model()->getChildren('_system_link');
 			}?></p>
 			<p><?php
 				foreach($link_cats as $c){
-					$links = Link::model()->getByCat($c);
+					$links = Link::service()->getByCat($c);
 					echo Html::select('', array(''=>'------'.$c['title'].'------')+Html::getSelectOptions($links, 'url', 'title'));
 				}
 			?></p>

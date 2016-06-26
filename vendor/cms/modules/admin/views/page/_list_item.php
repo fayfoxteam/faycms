@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\helpers\Date;
 use cms\helpers\PageHelper;
-use fay\models\Page;
+use fay\services\Page;
 ?>
 <tr valign="top" id="page-<?php echo $data['id']?>">
 	<td>
@@ -37,7 +37,7 @@ use fay\models\Page;
 	</td>
 	<?php if(!isset($_settings['cols']) || in_array('category', $_settings['cols'])){?>
 	<td class="wp15"><?php 
-		$cats = Page::model()->getPageCats($data['id']);
+		$cats = Page::service()->getPageCats($data['id']);
 		foreach($cats as $key => $cat){
 			if($key){
 				echo ', ';

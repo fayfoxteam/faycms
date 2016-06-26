@@ -9,7 +9,7 @@ use fay\models\tables\Actionlogs;
 use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\Page;
+use fay\services\Page;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
@@ -211,7 +211,7 @@ class PageController extends AdminController{
 			Response::notify('success', '一个页面被编辑', false);
 		}
 		if($page = Pages::model()->find($page_id)){
-			$page['page_category'] = Page::model()->getPageCatIds($page_id);
+			$page['page_category'] = Page::service()->getPageCatIds($page_id);
 			$this->view->page = $page;
 			$this->form()->setData($page);
 		}else{

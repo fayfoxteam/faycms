@@ -1,21 +1,21 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Sql;
 use fay\models\tables\PagesCategories;
 use fay\models\tables\Pages;
 use fay\models\tables\Categories;
 use fay\helpers\StringHelper;
 
-class Page extends Model{
+class Page extends Service{
 	
 	/**
 	 * @param string $class_name
 	 * @return Page
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	public function getPageCats($id, $fields = '*'){

@@ -2,7 +2,7 @@
 namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
-use fay\models\Page;
+use fay\services\Page;
 use fay\models\Category;
 use fay\models\Post;
 
@@ -18,7 +18,7 @@ class IndexController extends FrontController{
 	}
 	
 	public function index(){
-		$page_about = Page::model()->getByAlias('about');
+		$page_about = Page::service()->getByAlias('about');
 		$cat_news = Category::model()->getByAlias('news');
 		$news = Post::model()->getByCat($cat_news, 6, 'id,title,abstract,publish_time', true);
 		

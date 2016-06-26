@@ -2,7 +2,7 @@
 use fay\services\Menu;
 use fay\helpers\Html;
 use fay\models\Category;
-use fay\models\Page;
+use fay\services\Page;
 
 $menu = Menu::service()->getTree('_jxsj_top');
 ?>
@@ -17,7 +17,7 @@ $menu = Menu::service()->getTree('_jxsj_top');
 			<?php
 				//静态页面
 				$cat_about = Category::model()->getByAlias('about', 'title');
-				$pages = Page::model()->getByCatAlias('about', 5);
+				$pages = Page::service()->getByCatAlias('about', 5);
 				echo '<li class="nav-i">', Html::link($cat_about['title'], 'javascript:;', array(
 					'class'=>'nav-p',
 					'title'=>false,

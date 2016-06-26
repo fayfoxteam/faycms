@@ -1,7 +1,7 @@
 <?php
 namespace fay\services\feed;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\FeedComments;
 use fay\core\Exception;
 use fay\core\Hook;
@@ -12,12 +12,12 @@ use fay\helpers\Request;
 use fay\models\tables\FeedMeta;
 use fay\models\Feed;
 
-class Comment extends Model{
+class Comment extends Service{
 	/**
 	 * @return Comment
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

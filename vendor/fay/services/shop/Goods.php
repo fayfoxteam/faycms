@@ -1,19 +1,19 @@
 <?php
 namespace fay\services\shop;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Goods as TableGoods;
 use fay\models\tables\GoodsFiles;
 use fay\core\Sql;
 use fay\models\tables\GoodsSkus;
 use fay\models\tables\GoodsCatProps;
 
-class Goods extends Model{
+class Goods extends Service{
 	/**
 	 * @return Goods
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	public function get($id, $fields = 'files,props,sku'){

@@ -1,7 +1,7 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Hook;
 use fay\helpers\Request;
 use fay\core\db\Expr;
@@ -20,13 +20,13 @@ use fay\models\Analyst;
 /**
  * 用户服务
  */
-class User extends Model{
+class User extends Service{
 	/**
 	 * @param string $class_name
 	 * @return User
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\Tag as TagModel;
 use fay\models\tables\Tags;
 use fay\models\tables\TagCounter;
@@ -9,13 +9,13 @@ use fay\models\tables\TagCounter;
 /**
  * 标签服务
  */
-class Tag extends Model{
+class Tag extends Service{
 	/**
 	 * @param string $class_name
 	 * @return Post
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

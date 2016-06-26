@@ -1,7 +1,7 @@
 <?php
 namespace fay\services\post;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\tables\PostLikes;
@@ -10,12 +10,12 @@ use fay\models\Post;
 use fay\models\tables\PostMeta;
 use fay\models\post\Like as LikeModel;
 
-class Like extends Model{
+class Like extends Service{
 	/**
 	 * @return Like
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

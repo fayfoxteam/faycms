@@ -1,7 +1,7 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Feeds;
 use fay\services\feed\Tag as FeedTagService;
 use fay\models\tables\FeedsFiles;
@@ -18,14 +18,14 @@ use fay\models\tables\FeedFavorites;
 /**
  * 动态服务
  */
-class Feed extends Model{
+class Feed extends Service{
 
 	/**
 	 * @param string $class_name
 	 * @return Feed
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

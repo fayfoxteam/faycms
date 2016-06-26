@@ -1,7 +1,7 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
 use fay\models\tables\PostsFiles;
@@ -25,14 +25,14 @@ use fay\models\tables\PostExtra;
 /**
  * 文章服务
  */
-class Post extends Model{
+class Post extends Service{
 
 	/**
 	 * @param string $class_name
 	 * @return Post
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

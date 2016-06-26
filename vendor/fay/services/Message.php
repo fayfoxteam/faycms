@@ -1,7 +1,7 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Messages;
 use fay\core\Exception;
 use fay\core\Hook;
@@ -16,13 +16,13 @@ use fay\models\User;
 /**
  * 留言服务
  */
-class Message extends Model{
+class Message extends Service{
 	/**
 	 * @param string $class_name
 	 * @return Message
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

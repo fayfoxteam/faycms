@@ -1,19 +1,19 @@
 <?php
 namespace fay\services\feed;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\Tags;
 use fay\models\tables\FeedsTags;
 use fay\models\feed\Tag as FeedTag;
 use fay\services\Tag as TagService;
 use fay\models\Tag as TagModel;
 
-class Tag extends Model{
+class Tag extends Service{
 	/**
 	 * @return Tag
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

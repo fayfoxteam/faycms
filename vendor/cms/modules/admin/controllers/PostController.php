@@ -152,7 +152,7 @@ class PostController extends AdminController{
 			//附加属性
 			$extra['props'] = $this->input->post('props', '', array());
 			
-			$post_id = PostService::model()->create($data, $extra, $this->current_user);
+			$post_id = PostService::service()->create($data, $extra, $this->current_user);
 			
 			$this->actionlog(Actionlogs::TYPE_POST, '添加文章', $post_id);
 			Response::notify('success', '文章发布成功', array('admin/post/edit', array(
@@ -468,7 +468,7 @@ class PostController extends AdminController{
 				$extra['props'] = $this->input->post('props');
 			}
 			
-			PostService::model()->update($post_id, $data, $extra);
+			PostService::service()->update($post_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_POST, '编辑文章', $post_id);
 			Response::notify('success', '一篇文章被编辑', false);
@@ -547,7 +547,7 @@ class PostController extends AdminController{
 	public function delete(){
 		$post_id = $this->input->get('id', 'intval');
 		
-		PostService::model()->delete($post_id);
+		PostService::service()->delete($post_id);
 		
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章移入回收站', $post_id);
 		
@@ -568,7 +568,7 @@ class PostController extends AdminController{
 		if(!Post::checkUndeletePermission($post_id)){
 			throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 		}
-		PostService::model()->undelete($post_id);
+		PostService::service()->undelete($post_id);
 		
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章移出回收站', $post_id);
 		
@@ -581,7 +581,7 @@ class PostController extends AdminController{
 	public function remove(){
 		$post_id = $this->input->get('id', 'intval');
 		
-		PostService::model()->remove($post_id);
+		PostService::service()->remove($post_id);
 		
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章永久删除', $post_id);
 		
@@ -789,7 +789,7 @@ class PostController extends AdminController{
 				}
 				
 				foreach($ids as $id){
-					PostService::model()->remove($id);
+					PostService::service()->remove($id);
 				}
 
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.count($ids).'篇文章被永久删除');

@@ -1,7 +1,7 @@
 <?php
 namespace fay\services\feed;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\User;
@@ -11,12 +11,12 @@ use fay\models\tables\FeedMeta;
 use fay\models\feed\Favorite as FavoriteModel;
 use fay\helpers\Request;
 
-class Favorite extends Model{
+class Favorite extends Service{
 	/**
 	 * @return Favorite
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

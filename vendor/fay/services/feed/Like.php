@@ -1,7 +1,7 @@
 <?php
 namespace fay\services\feed;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\tables\FeedLikes;
@@ -10,12 +10,12 @@ use fay\models\Feed;
 use fay\models\tables\FeedMeta;
 use fay\models\feed\Like as LikeModel;
 
-class Like extends Model{
+class Like extends Service{
 	/**
 	 * @return Like
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

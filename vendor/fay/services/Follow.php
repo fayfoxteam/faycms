@@ -1,7 +1,7 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\tables\Follows;
@@ -16,13 +16,13 @@ use fay\models\tables\UserCounter;
 /**
  * 关注服务
  */
-class Follow extends Model{
+class Follow extends Service{
 	/**
 	 * @param string $class_name
 	 * @return Follow
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

@@ -1,11 +1,11 @@
 <?php
 namespace fay\models;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Loader;
 use fay\core\ErrorException;
 
-class Sms extends Model{
+class Sms extends Service{
 	/**
 	 * 发送一个短信
 	 * @param string $to 收短信手机

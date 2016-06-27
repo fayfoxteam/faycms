@@ -1,13 +1,13 @@
 <?php
 use fay\services\Option;
-use fay\models\Analyst;
+use fay\services\Analyst;
 ?>
 <footer class="g-ft">
 	<div class="w1000">
 		<div class="ft-cp"><?php echo Option::get('site:copyright')?></div>
 		<div class="ft-power">
-			今日访问量：<span class="color-red"><?php echo Analyst::model()->getPV()?></span>
-			总访问量：<span class="color-red"><?php echo Analyst::model()->getAllPV()?></span>
+			今日访问量：<span class="color-red"><?php echo Analyst::service()->getPV()?></span>
+			总访问量：<span class="color-red"><?php echo Analyst::service()->getAllPV()?></span>
 			技术支持：<a href="http://www.fayfox.com/" target="_blank">Fayfox</a>
 		</div>
 	</div>

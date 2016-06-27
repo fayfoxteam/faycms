@@ -15,7 +15,7 @@ use fay\models\tables\UserCounter;
 use fay\services\user\Prop;
 use fay\core\Exception;
 use fay\models\tables\UserLogins;
-use fay\models\Analyst;
+use fay\services\Analyst;
 
 /**
  * 用户服务
@@ -154,7 +154,7 @@ class User extends Service{
 			'user_id'=>$user['user']['id'],
 			'login_time'=>\F::app()->current_time,
 			'ip_int'=>Request::ip2int(\F::app()->ip),
-			'mac'=>Analyst::model()->getMacId(),
+			'mac'=>Analyst::service()->getMacId(),
 		));
 		
 		Hook::getInstance()->call('after_login', array(

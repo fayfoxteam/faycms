@@ -1,14 +1,14 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
 use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
 use fay\models\tables\AnalystCaches;
 
-class Analyst extends Model{
+class Analyst extends Service{
 	/**
 	 * @var string Y-m-d日期格式
 	 */
@@ -18,8 +18,8 @@ class Analyst extends Model{
 	 * @param string $class_name
 	 * @return Analyst
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	public function __construct(){

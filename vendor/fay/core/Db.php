@@ -369,6 +369,10 @@ class Db{
 					if(is_int($key)){//'id = 1'
 						$condition .= $value;
 					}else{//'id = ?'=>1
+						if(!$this->_hasOperator($key)){//'id'=>1
+							//不带操作符的key，默认为等于
+							$key .= ' = ?';
+						}
 						if(is_array($value)){
 							$params = array_merge($params, $value);
 							if(substr_count($key, '?') == 1 && count($value) > 1){
@@ -391,6 +395,15 @@ class Db{
 				'params'=>array(),
 			);
 		}
+	}
+	
+	/**
+	 * 判断是否有SQL操作符
+	 * @param string $str
+	 * @return bool
+	 */
+	protected function _hasOperator($str){
+		return (bool) preg_match('/(<|>|!|=|\sIS NULL|\sIS NOT NULL|\sEXISTS|\sBETWEEN|\sLIKE|\sIN\s*\(|\s)/i', trim($str));
 	}
 	
 	private function getPartialCondition($op, $condition_arr){

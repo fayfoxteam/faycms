@@ -4,8 +4,8 @@ namespace fay\models;
 use fay\models\tables\Messages;
 use fay\helpers\FieldHelper;
 use fay\models\tables\UserCounter;
-use fay\models\User;
 use fay\core\ErrorException;
+use fay\services\Option;
 
 class Message extends MultiTree{
 	/**
@@ -64,7 +64,7 @@ class Message extends MultiTree{
 		$fields = FieldHelper::parse($fields, 'message');
 		if(empty($fields['message']) || in_array('*', $fields['message'])){
 			//若未指定返回字段，初始化
-			$fields['message'] = \F::model($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
+			$fields['message'] = \F::table($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
 		}
 		
 		$message_fields = $fields['message'];
@@ -81,7 +81,7 @@ class Message extends MultiTree{
 			$message_fields[] = 'parent';
 		}
 		
-		$message = \F::model($this->model)->fetchRow(array(
+		$message = \F::table($this->model)->fetchRow(array(
 			'id = ?'=>$message_id,
 			'deleted = 0',
 		), $message_fields);
@@ -112,7 +112,7 @@ class Message extends MultiTree{
 				$parent_message_fields[] = 'user_id';
 			}
 		
-			$parent_message = \F::model($this->model)->fetchRow(array(
+			$parent_message = \F::table($this->model)->fetchRow(array(
 				'id = ?'=>$message['parent'],
 				'deleted = 0',
 			), $parent_message_fields);

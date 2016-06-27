@@ -2,7 +2,6 @@
 namespace fay\models;
 
 use fay\core\Model;
-use fay\models\tables\UserSettings;
 
 class Setting extends Model{
 	/**

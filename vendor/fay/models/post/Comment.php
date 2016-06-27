@@ -62,7 +62,7 @@ class Comment extends MultiTree{
 		$fields = FieldHelper::parse($fields, 'comment');
 		if(empty($fields['comment']) || in_array('*', $fields['comment'])){
 			//若未指定返回字段，初始化
-			$fields['comment'] = \F::model($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
+			$fields['comment'] = \F::table($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
 		}
 		
 		$comment_fields = $fields['comment'];
@@ -75,7 +75,7 @@ class Comment extends MultiTree{
 			$comment_fields[] = 'parent';
 		}
 		
-		$comment = \F::model($this->model)->fetchRow(array(
+		$comment = \F::table($this->model)->fetchRow(array(
 			'id = ?'=>$comment_id,
 			'deleted = 0',
 		), $comment_fields);
@@ -104,7 +104,7 @@ class Comment extends MultiTree{
 				$parent_comment_fields[] = 'user_id';
 			}
 		
-			$parent_comment = \F::model($this->model)->fetchRow(array(
+			$parent_comment = \F::table($this->model)->fetchRow(array(
 				'id = ?'=>$comment['parent'],
 				'deleted = 0',
 			), $parent_comment_fields);

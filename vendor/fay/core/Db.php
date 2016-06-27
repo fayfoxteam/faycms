@@ -43,7 +43,7 @@ class Db{
 	}
 	
 	/**
-	 * 判断是否有实例化过
+	 * 判断是否有实例化过，即判断当前请求是否连接过数据库
 	 * @return bool
 	 */
 	public static function hasInstance(){

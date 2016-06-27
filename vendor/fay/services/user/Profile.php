@@ -1,10 +1,10 @@
 <?php
-namespace fay\models\user;
+namespace fay\services\user;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\UserProfile;
 
-class Profile extends Model{
+class Profile extends Service{
 	/**
 	 * 默认返回字段
 	 */
@@ -14,8 +14,8 @@ class Profile extends Model{
 	 * @param string $class_name
 	 * @return Profile
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

@@ -7,7 +7,7 @@ use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\common\ListView;
 use fay\models\User as UserModel;
-use fay\models\user\Prop;
+use fay\services\user\Prop;
 use fay\services\User as UserService;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
@@ -15,7 +15,7 @@ use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\tables\UserProfile;
-use fay\models\user\Role;
+use fay\services\user\Role;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -123,7 +123,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			$user_id = UserService::model()->create($data, $extra);
+			$user_id = UserService::service()->create($data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个新用户', $user_id);
 			
@@ -158,7 +158,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			UserService::model()->update($user_id, $data, $extra);
+			UserService::service()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $user_id);
 			Response::notify('success', '编辑成功', false);
@@ -168,7 +168,7 @@ class UserController extends AdminController{
 		}
 		
 		$user = UserModel::model()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = Role::model()->getIds($user_id);
+		$user_role_ids = Role::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));
@@ -178,7 +178,7 @@ class UserController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = Prop::model()->getPropertySet($user_id);
+		$this->view->prop_set = Prop::service()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
@@ -209,13 +209,13 @@ class UserController extends AdminController{
 		$user_id = $this->input->get('user_id', 'intval');
 		
 		if($role_ids){
-			$props = Prop::model()->getByRefer($role_ids);
+			$props = Prop::service()->getByRefer($role_ids);
 		}else{
 			$props = array();
 		}
 		
 		if(!empty($props) && $user_id){
-			$props = Prop::model()->getPropertySet($user_id, $props);
+			$props = Prop::service()->getPropertySet($user_id, $props);
 		}
 		
 		$this->view->prop_set = $props;

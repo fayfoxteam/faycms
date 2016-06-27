@@ -43,14 +43,6 @@ abstract class Prop extends Model{
 	}
 	
 	/**
-	 * @param string $class_name
-	 * @return Prop
-	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
-	}
-	
-	/**
 	 * @param $refer
 	 * @param $prop
 	 * @param array $values

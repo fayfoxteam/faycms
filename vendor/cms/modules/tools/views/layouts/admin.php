@@ -4,7 +4,7 @@ use fay\services\Option;
 use fay\services\File;
 use fay\services\Flash;
 use fay\models\User;
-use fay\models\user\Role;
+use fay\services\user\Role;
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,7 +40,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
-					$user_roles = Role::model()->getIds();
+					$user_roles = Role::service()->getIds();
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);

@@ -13,7 +13,7 @@ use fay\models\tables\PostLikes;
 use fay\models\tables\PostMeta;
 use fay\models\post\Tag as PostTagModel;
 use fay\helpers\Request;
-use fay\models\post\Prop;
+use fay\services\post\Prop;
 use fay\models\Post as PostModel;
 use fay\services\File;
 use fay\models\tables\UserCounter;
@@ -309,9 +309,9 @@ class Post extends Service{
 	 */
 	public function createPropertySet($post_id, $data, $props = null){
 		if($props === null){
-			$props = Prop::model()->getProps($post_id);
+			$props = Prop::service()->getProps($post_id);
 		}
-		Prop::model()->createPropertySet($post_id, $props, $data);
+		Prop::service()->createPropertySet($post_id, $props, $data);
 	}
 	
 	/**
@@ -322,9 +322,9 @@ class Post extends Service{
 	 */
 	public function updatePropertySet($post_id, $data, $props = null){
 		if($props === null){
-			$props = Prop::model()->getProps($post_id);
+			$props = Prop::service()->getProps($post_id);
 		}
-		Prop::model()->updatePropertySet($post_id, $props, $data);
+		Prop::service()->updatePropertySet($post_id, $props, $data);
 	}
 	
 	/**

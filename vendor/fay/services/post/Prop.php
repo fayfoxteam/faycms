@@ -1,6 +1,7 @@
 <?php
-namespace fay\models\post;
+namespace fay\services\post;
 
+use fay\core\Loader;
 use fay\services\Category;
 use fay\models\tables\Posts;
 use fay\models\tables\Props;
@@ -10,8 +11,8 @@ class Prop extends \fay\models\Prop{
 	 * @param string $class_name
 	 * @return Prop
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return Loader::singleton($class_name);
 	}
 	
 	/**
@@ -69,6 +70,6 @@ class Prop extends \fay\models\Prop{
 	 * @return array
 	 */
 	public function getPropsByCat($cat){
-		return Prop::model()->getByRefer(Category::service()->getParentIds($cat, '_system_post'));
+		return Prop::service()->getByRefer(Category::service()->getParentIds($cat, '_system_post'));
 	}
 }

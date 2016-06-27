@@ -50,7 +50,7 @@ class FileController extends AdminController{
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($cat, $private);
+		$result = File::service()->upload($cat, $private);
 		$data = $result['data'];
 		
 		if($result['status']){

@@ -1,13 +1,13 @@
 <?php
-namespace fay\models\user;
+namespace fay\services\user;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Sql;
 use fay\models\tables\Roles;
 use fay\models\tables\UsersRoles;
 use fay\helpers\ArrayHelper;
 
-class Role extends Model{
+class Role extends Service{
 	/**
 	 * 默认返回字段
 	 */
@@ -17,8 +17,8 @@ class Role extends Model{
 	 * @param string $class_name
 	 * @return Role
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

@@ -25,9 +25,9 @@ class FoodController extends FrontController{
 	
 	public function index(){
 		//全部地区
-		$areas = Prop::model()->getPropOptionsByAlias('area');
+		$areas = Prop::service()->getPropOptionsByAlias('area');
 		//全部月份
-		$monthes = Prop::model()->getPropOptionsByAlias('month');
+		$monthes = Prop::service()->getPropOptionsByAlias('month');
 		
 		//验证输入
 		if($this->form()->setRules(array(
@@ -53,7 +53,7 @@ class FoodController extends FrontController{
 			$month_id = $this->form()->getData('month', 0);
 			$keywords = $this->form()->getData('keywords', 0);
 			
-			$prop_area_id = Prop::model()->getIdByAlias('area');
+			$prop_area_id = Prop::service()->getIdByAlias('area');
 			
 			$sql = new Sql();
 			$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,views')
@@ -82,7 +82,7 @@ class FoodController extends FrontController{
 			}
 			
 			if($month_id){
-				$prop_month_id = Prop::model()->getIdByAlias('month');
+				$prop_month_id = Prop::service()->getIdByAlias('month');
 				$sql->joinLeft(array('pim'=>'post_prop_int'), array(
 					'pim.prop_id = '.$prop_month_id,
 					'pim.post_id = p.id',

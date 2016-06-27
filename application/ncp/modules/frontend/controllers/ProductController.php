@@ -24,9 +24,9 @@ class ProductController extends FrontController{
 	
 	public function index(){
 		//全部地区
-		$areas = Prop::model()->getPropOptionsByAlias('area');
+		$areas = Prop::service()->getPropOptionsByAlias('area');
 		//全部月份
-		$monthes = Prop::model()->getPropOptionsByAlias('month');
+		$monthes = Prop::service()->getPropOptionsByAlias('month');
 		
 		if($this->form()->setRules(array(
 			array(array('area_id', 'month', 'cat_id', 'page'), 'int'),
@@ -50,7 +50,7 @@ class ProductController extends FrontController{
 			$area_id = $this->form()->getData('area_id', 0);
 			$month_id = $this->form()->getData('month', 0);
 			
-			$prop_area_id = Prop::model()->getIdByAlias('area');
+			$prop_area_id = Prop::service()->getIdByAlias('area');
 			
 			$sql = new Sql();
 			$sql->from(array('p'=>'posts'), 'id,title,thumbnail')
@@ -79,7 +79,7 @@ class ProductController extends FrontController{
 				$this->layout->title .= '-'.$area['title'];
 			}
 			if($month_id){
-				$prop_month_id = Prop::model()->getIdByAlias('month');
+				$prop_month_id = Prop::service()->getIdByAlias('month');
 				$sql->joinLeft(array('pim'=>'post_prop_int'), array(
 					'pim.prop_id = '.$prop_month_id,
 					'pim.post_id = p.id',

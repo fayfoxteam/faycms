@@ -4,12 +4,12 @@ namespace fay\models;
 use fay\core\Model;
 use fay\models\tables\Users;
 use fay\helpers\FieldHelper;
-use fay\models\user\Profile;
-use fay\models\user\Role;
+use fay\services\user\Profile;
+use fay\services\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\Actions;
 use fay\models\tables\UserLogins;
-use fay\models\user\Prop;
+use fay\services\user\Prop;
 use fay\services\File;
 
 class User extends Model{
@@ -113,19 +113,19 @@ class User extends Model{
 			if(in_array('*', $fields['props'])){
 				$props = null;
 			}else{
-				$props = Prop::model()->mget($fields['props']);
+				$props = Prop::service()->mget($fields['props']);
 			}
-			$return['props'] = Prop::model()->getPropertySet($id, $props);
+			$return['props'] = Prop::service()->getPropertySet($id, $props);
 		}
 		
 		//角色
 		if(!empty($fields['roles'])){
-			$return['roles'] = Role::model()->get($id, $fields['roles']);
+			$return['roles'] = Role::service()->get($id, $fields['roles']);
 		}
 		
 		//profile
 		if(!empty($fields['profile'])){
-			$return['profile'] = Profile::model()->get($id, $fields['profile']);
+			$return['profile'] = Profile::service()->get($id, $fields['profile']);
 		}
 		
 		return $return;
@@ -181,11 +181,11 @@ class User extends Model{
 		
 		if(!empty($fields['profile'])){
 			//获取所有相关的profile
-			$profiles = Profile::model()->mget($ids, $fields['profile']);
+			$profiles = Profile::service()->mget($ids, $fields['profile']);
 		}
 		if(!empty($fields['roles'])){
 			//获取所有相关的roles
-			$roles = Role::model()->mget($ids, $fields['roles']);
+			$roles = Role::service()->mget($ids, $fields['roles']);
 		}
 		
 		$return = array_fill_keys($ids, array());
@@ -228,9 +228,9 @@ class User extends Model{
 				if(in_array('*', $fields['props'])){
 					$props = null;
 				}else{
-					$props = Prop::model()->mget($fields['props']);
+					$props = Prop::service()->mget($fields['props']);
 				}
-				$user['props'] = Prop::model()->getPropertySet($u['id'], $props);
+				$user['props'] = Prop::service()->getPropertySet($u['id'], $props);
 			}
 			
 			if($remove_id_field){
@@ -287,14 +287,14 @@ class User extends Model{
 			return false;
 		}
 		
-		$roles = Role::model()->getIds($user_id);
+		$roles = Role::service()->getIds($user_id);
 		if(in_array(Roles::ITEM_SUPER_ADMIN, $roles)){
 			//超级管理员无限制
 			$this->_allowed_routers[$user_id][] = $router;
 			return true;
 		}
 		
-		$actions = Role::model()->getActions($user_id);
+		$actions = Role::service()->getActions($user_id);
 		if(in_array($router, $actions)){
 			//用户有此权限
 			$this->_allowed_routers[$user_id][] = $router;

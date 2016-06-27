@@ -16,13 +16,13 @@ class LoginController extends ApiController{
 	 */
 	public function index(){
 		if($this->input->post()){
-			$result = User::model()->checkPassword(
+			$result = User::service()->checkPassword(
 				$this->input->post('username'),
 				$this->input->post('password')
 			);
 			
 			if($result['user_id']){
-				$user = User::model()->login($result['user_id']);
+				$user = User::service()->login($result['user_id']);
 			}else{
 				Response::notify('error', array(
 					'message'=>isset($result['message']) ? $result['message'] : '登录失败',
@@ -61,7 +61,7 @@ class LoginController extends ApiController{
 	 * 登出
 	 */
 	public function logout(){
-		User::model()->logout();
+		User::service()->logout();
 		
 		Response::notify('success', array(
 			'message'=>'退出登录',

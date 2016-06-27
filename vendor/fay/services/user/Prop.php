@@ -1,15 +1,16 @@
 <?php
-namespace fay\models\user;
+namespace fay\services\user;
 
 use fay\models\tables\Props;
+use fay\core\Loader;
 
 class Prop extends \fay\models\Prop{
 	/**
 	 * @param string $class_name
 	 * @return Prop
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return Loader::singleton($class_name);
 	}
 	
 	/**
@@ -65,7 +66,7 @@ class Prop extends \fay\models\Prop{
 	 * @return array
 	 */
 	public function getProps($user_id){
-		$role_ids = Role::model()->getIds($user_id);
+		$role_ids = Role::service()->getIds($user_id);
 		return $this->getByRefer($role_ids);
 	}
 	

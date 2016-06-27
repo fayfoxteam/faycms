@@ -12,11 +12,11 @@ use fay\services\post\Meta;
 use fay\services\Category;
 use fay\services\post\Category as PostCategory;
 use fay\models\post\Tag as PostTag;
-use fay\models\post\File as PostFile;
+use fay\services\post\File as PostFile;
 use fay\helpers\ArrayHelper;
 use fay\core\ErrorException;
 use fay\services\post\Extra;
-use fay\models\post\Prop;
+use fay\services\post\Prop;
 use fay\services\File;
 
 class Post extends Model{
@@ -250,7 +250,7 @@ class Post extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$return['files'] = PostFile::model()->get($id, $fields['files']);
+			$return['files'] = PostFile::service()->get($id, $fields['files']);
 		}
 		
 		//附加属性
@@ -258,9 +258,9 @@ class Post extends Model{
 			if(in_array('*', $fields['props'])){
 				$props = null;
 			}else{
-				$props = Prop::model()->mget($fields['props']);
+				$props = Prop::service()->mget($fields['props']);
 			}
-			$return['props'] = Prop::model()->getPropertySet($id, $props);
+			$return['props'] = Prop::service()->getPropertySet($id, $props);
 		}
 		
 		//附加分类
@@ -480,7 +480,7 @@ class Post extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$post_files = PostFile::model()->mget($post_ids, $fields['files']);
+			$post_files = PostFile::service()->mget($post_ids, $fields['files']);
 		}
 		
 		//附加分类
@@ -543,7 +543,7 @@ class Post extends Model{
 				if(in_array('*', $fields['props'])){
 					$props = null;
 				}else{
-					$props = Prop::model()->mget($fields['props']);
+					$props = Prop::service()->mget($fields['props']);
 				}
 				$post['props'] = $this->getPropertySet($p['id'], $props);
 			}
@@ -710,7 +710,7 @@ class Post extends Model{
 	 */
 	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $fields = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
 		if(!StringHelper::isInt($prop)){
-			$prop = Prop::model()->getIdByAlias($prop);
+			$prop = Prop::service()->getIdByAlias($prop);
 		}
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), $fields)
@@ -1012,7 +1012,7 @@ class Post extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$post_files = PostFile::model()->mget($post_ids, $fields['files']);
+			$post_files = PostFile::service()->mget($post_ids, $fields['files']);
 		}
 		
 		//附加分类
@@ -1092,7 +1092,7 @@ class Post extends Model{
 				if(in_array('*', $fields['props'])){
 					$props = null;
 				}else{
-					$props = Prop::model()->mget($fields['props']);
+					$props = Prop::service()->mget($fields['props']);
 				}
 				$post['props'] = $this->getPropertySet($p['id'], $props);
 			}

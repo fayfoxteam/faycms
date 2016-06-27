@@ -5,7 +5,7 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\models\tables\Categories;
 use fay\services\Option;
-use fay\models\user\Role;
+use fay\services\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\RolesCats;
 use fay\services\Category as CategoryService;
@@ -88,7 +88,7 @@ class Category extends Service{
 			return $this->_user_allowed_cats[$user_id];
 		}
 		
-		if(Role::model()->is(Roles::ITEM_SUPER_ADMIN, $user_id, true)){
+		if(Role::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id, true)){
 			//如果是超级管理员，设置一个*
 			return $this->_user_allowed_cats[$user_id] = array('*');
 		}
@@ -97,7 +97,7 @@ class Category extends Service{
 		$post_root = CategoryService::model()->get('_system_post', 'id');
 		
 		//获取用户角色ID
-		$role_ids = Role::model()->getIds($user_id);
+		$role_ids = Role::service()->getIds($user_id);
 		
 		//获取角色属性和0和
 		$allowed_cats = array_merge(
@@ -119,7 +119,7 @@ class Category extends Service{
 		
 		if(Option::get('system:post_role_cats')){
 			//开启了文章分类权限控制，进行验证
-			if(Role::model()->is(Roles::ITEM_SUPER_ADMIN, $user_id, true)){
+			if(Role::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id, true)){
 				//如果是超级管理员，返回true
 				return true;
 			}

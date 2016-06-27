@@ -10,9 +10,9 @@ use fay\services\Option;
 use fay\models\tables\Users;
 use fay\models\User as UserModel;
 use fay\models\tables\UsersRoles;
-use fay\models\user\Password;
+use fay\services\user\Password;
 use fay\models\tables\UserCounter;
-use fay\models\user\Prop;
+use fay\services\user\Prop;
 use fay\core\Exception;
 use fay\models\tables\UserLogins;
 use fay\models\Analyst;
@@ -196,9 +196,7 @@ class User extends Service{
 	 */
 	public function create($user, $extra = array(), $is_admin = 0){
 		if(!empty($user['password'])){
-			$auth_key = Password::model()->generate($user['password']);
-			$user['salt'] = $auth_key['salt'];
-			$user['password'] = $auth_key['password'];
+			list($user['salt'], $user['password']) = Password::service()->generate($user['password']);
 		}
 		
 		//过滤掉多余的数据
@@ -266,7 +264,7 @@ class User extends Service{
 		
 		//设置属性
 		if(isset($extra['props'])){
-			Prop::model()->createPropertySet($user_id, $extra['props']);
+			Prop::service()->createPropertySet($user_id, $extra['props']);
 		}
 		
 		return $user_id;
@@ -285,9 +283,7 @@ class User extends Service{
 		if(isset($user['password'])){
 			if($user['password']){
 				//非空，则更新密码字段
-				$auth_key = Password::model()->generate($user['password']);
-				$user['salt'] = $auth_key['salt'];
-				$user['password'] = $auth_key['password'];
+				list($user['salt'], $user['password']) = Password::service()->generate($user['password']);
 			}else{
 				//为空，则不更新密码字段
 				unset($user['password'], $user['salt']);
@@ -339,7 +335,7 @@ class User extends Service{
 		
 		//附加属性
 		if(isset($extra['props'])){
-			Prop::model()->updatePropertySet($user_id, $extra['props']);
+			Prop::service()->updatePropertySet($user_id, $extra['props']);
 		}
 	}
 }

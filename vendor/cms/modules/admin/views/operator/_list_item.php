@@ -2,7 +2,7 @@
 use fay\helpers\Date;
 use fay\helpers\Html;
 use fay\services\File;
-use fay\models\user\Role;
+use fay\services\user\Role;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
 	<?php if(in_array('avatar', $cols)){?>
@@ -40,7 +40,7 @@ use fay\models\user\Role;
 	
 	<?php if(in_array('roles', $cols)){?>
 	<td><?php
-		$user_roles = Role::model()->get($data['id']);
+		$user_roles = Role::service()->get($data['id']);
 		foreach($user_roles as $k => $role){
 			if($k){
 				echo ', ';

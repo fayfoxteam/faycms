@@ -96,7 +96,5 @@ class Favorite extends Service{
 			//未点赞
 			return false;
 		}
-		
-		Hook::getInstance()->call('after_post_unfavorite');
 	}
 }

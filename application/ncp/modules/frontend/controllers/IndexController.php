@@ -22,7 +22,7 @@ class IndexController extends FrontController{
 	
 	public function index(){
 		//全部地区
-		$areas = Prop::model()->getPropOptionsByAlias('area');
+		$areas = Prop::service()->getPropOptionsByAlias('area');
 		
 		$travels = array();
 		$foods = array();
@@ -32,7 +32,7 @@ class IndexController extends FrontController{
 		$food_cat = Category::service()->getByAlias('food');
 		$product_cat = Category::service()->getByAlias('product');
 		
-		$prop_area = Prop::model()->getIdByAlias('area');
+		$prop_area = Prop::service()->getIdByAlias('area');
 		
 		foreach($areas as $a){
 			$travel_top = Post::model()->getByProp($prop_area, $a['id'], 4, $travel_cat['id']);

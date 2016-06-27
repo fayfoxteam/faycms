@@ -1,16 +1,16 @@
 <?php
-namespace fay\models\user;
+namespace fay\services\user;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\helpers\StringHelper;
 
-class Password extends Model{
+class Password extends Service{
 	/**
 	 * @param string $class_name
 	 * @return Password
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**
@@ -21,8 +21,8 @@ class Password extends Model{
 	public function generate($password){
 		$salt = StringHelper::random('alnum', 5);
 		return array(
-			'salt'=>$salt,
-			'password'=>md5(md5($password) . $salt),
+			$salt,
+			md5(md5($password) . $salt),
 		);
 	}
 }

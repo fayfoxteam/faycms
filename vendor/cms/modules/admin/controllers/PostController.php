@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\helpers\Request;
 use fay\services\Category;
-use fay\models\post\Prop;
+use fay\services\post\Prop;
 use fay\models\tables\Posts;
 use fay\models\post\Tag;
 use fay\models\tables\PostsCategories;
@@ -161,7 +161,7 @@ class PostController extends AdminController{
 		}
 		
 		//设置附加属性
-		$this->view->prop_set = Prop::model()->getPropsByCat($cat_id);
+		$this->view->prop_set = Prop::service()->getPropsByCat($cat_id);
 		
 		$this->form()->setData(array(
 			'cat_id'=>$cat_id,
@@ -514,7 +514,7 @@ class PostController extends AdminController{
 		$this->view->post = $post;
 		
 		//附加属性
-		$this->view->prop_set = Prop::model()->getPropertySet($post['id']);
+		$this->view->prop_set = Prop::service()->getPropertySet($post['id']);
 		
 		$cat = Category::service()->get($post['cat_id'], 'title');
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
@@ -620,9 +620,9 @@ class PostController extends AdminController{
 		$post_id = $this->input->get('post_id', 'intval');
 		
 		//文章对应附加属性值
-		$props = Prop::model()->getPropsByCat($cat_id);
+		$props = Prop::service()->getPropsByCat($cat_id);
 		if($post_id){
-			$this->view->prop_set = Prop::model()->getPropertySet($post_id, $props);
+			$this->view->prop_set = Prop::service()->getPropertySet($post_id, $props);
 		}else{
 			$this->view->prop_set = $props;
 		}

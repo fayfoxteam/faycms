@@ -43,6 +43,14 @@ class Db{
 	}
 	
 	/**
+	 * 判断是否有实例化过
+	 * @return bool
+	 */
+	public static function hasInstance(){
+		return !empty(self::$_instance);
+	}
+	
+	/**
 	 * 初始化
 	 * @param array $config
 	 * @throws Exception

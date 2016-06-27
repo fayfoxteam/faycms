@@ -2,14 +2,14 @@
 namespace fay\widgets\category_pages\controllers;
 
 use fay\widget\Widget;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 
 class IndexController extends Widget{
 	public function getData($config){
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_page', 'id');
+			$root_node = Category::service()->getByAlias('_system_page', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
@@ -36,13 +36,13 @@ class IndexController extends Widget{
 	public function index($config){
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_page', 'id');
+			$root_node = Category::service()->getByAlias('_system_page', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
 		//title
 		if(empty($config['title'])){
-			$node = Category::model()->get($config['top'], 'title');
+			$node = Category::service()->get($config['top'], 'title');
 			$config['title'] = $node['title'];
 		}
 		

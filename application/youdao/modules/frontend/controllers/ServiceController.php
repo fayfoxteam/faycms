@@ -2,7 +2,7 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\models\Post;
@@ -15,7 +15,7 @@ class ServiceController extends FrontController{
 		$this->layout->subtitle = '服务介绍';
 		
 		//团队
-		$cat_service = Category::model()->getByAlias('_youdao_service', '*');
+		$cat_service = Category::service()->getByAlias('_youdao_service', '*');
 		//SEO
 		$this->layout->title = $cat_service['seo_title'];
 		$this->layout->keywords = $cat_service['seo_keywords'];

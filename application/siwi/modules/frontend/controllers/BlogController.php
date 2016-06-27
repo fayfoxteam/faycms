@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
@@ -26,11 +26,11 @@ class BlogController extends FrontController{
 		$params = FriendlyLink::getParams();
 		$this->view->params = $params;
 		if($params['cat_2']){
-			$cat = Category::model()->get($params['cat_2']);
+			$cat = Category::service()->get($params['cat_2']);
 		}else if($params['cat_1']){
-			$cat = Category::model()->get($params['cat_1']);
+			$cat = Category::service()->get($params['cat_1']);
 		}else{
-			$cat = Category::model()->getByAlias('_blog', '*');
+			$cat = Category::service()->getByAlias('_blog', '*');
 		}
 		$this->view->cat = $cat;
 		$this->layout->title = $cat['seo_title'];
@@ -77,7 +77,7 @@ class BlogController extends FrontController{
 			'reload'=>$this->view->url('blog'),
 		));
 		
-		$this->view->cat_tree = Category::model()->getTree('_blog');
+		$this->view->cat_tree = Category::service()->getTree('_blog');
 	
 		$this->view->render();
 	}

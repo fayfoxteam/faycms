@@ -3,7 +3,7 @@ use fay\services\File;
 use fay\helpers\Html;
 use fay\helpers\Date;
 use fay\services\Qiniu;
-use fay\models\Category;
+use fay\services\Category;
 
 $full_file_path = File::getUrl($data);
 ?>
@@ -102,7 +102,7 @@ $full_file_path = File::getUrl($data);
 	<?php if(in_array('cat', $cols)){?>
 	<td>
 		<?php
-		 $cat = Category::model()->get($data['cat_id'],'title');
+		 $cat = Category::service()->get($data['cat_id'],'title');
 		echo $cat['title'];
 		?>
 	</td>

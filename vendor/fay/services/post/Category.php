@@ -1,16 +1,16 @@
 <?php
-namespace fay\models\post;
+namespace fay\services\post;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Sql;
 use fay\models\tables\Categories;
 use fay\services\Option;
 use fay\models\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\RolesCats;
-use fay\models\Category as CategoryModel;
+use fay\services\Category as CategoryService;
 
-class Category extends Model{
+class Category extends Service{
 	/**
 	 * 默认返回字段
 	 */
@@ -25,8 +25,8 @@ class Category extends Model{
 	 * @param string $class_name
 	 * @return Category
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**
@@ -94,7 +94,7 @@ class Category extends Model{
 		}
 		
 		//获取文章根分类（未分类），任何人都可以编辑未分类文章
-		$post_root = CategoryModel::model()->get('_system_post', 'id');
+		$post_root = CategoryService::model()->get('_system_post', 'id');
 		
 		//获取用户角色ID
 		$role_ids = Role::model()->getIds($user_id);

@@ -4,7 +4,7 @@ namespace cddx\modules\frontend\controllers;
 use cddx\library\FrontController;
 use fay\models\tables\Pages;
 use fay\core\HttpException;
-use fay\models\Category;
+use fay\services\Category;
 
 class PageController extends FrontController{
 	public function __construct(){
@@ -29,9 +29,9 @@ class PageController extends FrontController{
 		$this->layout->keywords = $page['seo_keywords'] ? $page['seo_keywords'] : $page['title'];
 		$this->layout->description = $page['seo_description'] ? $page['seo_description'] : $page['abstract'];
 		
-		$root_cat = Category::model()->getByAlias('_system_post');
+		$root_cat = Category::service()->getByAlias('_system_post');
 		$left_cats = $root_cat;
-		$child_cats = Category::model()->getTreeByParentId($root_cat['id']);
+		$child_cats = Category::service()->getTreeByParentId($root_cat['id']);
 		$left_cats['children'] = $child_cats;
 		$this->view->left_cats = $left_cats;
 

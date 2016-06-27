@@ -2,17 +2,17 @@
 namespace pharmrich\helpers;
 
 
-use fay\models\Category;
+use fay\services\Category;
 class PostHelper{
 	/**
 	 * 获取根据文章分类ID，获取文章类型（商品/食谱/新闻）
 	 * @param int $cat_id 分类ID
 	 */
 	public static function getType($cat_id){
-		$cat = Category::model()->get($cat_id, 'left_value,right_value');
-		if(Category::model()->isChild($cat, 'products')){
+		$cat = Category::service()->get($cat_id, 'left_value,right_value');
+		if(Category::service()->isChild($cat, 'products')){
 			return 'product';
-		}else if(Category::model()->isChild($cat, 'cook-recipes')){
+		}else if(Category::service()->isChild($cat, 'cook-recipes')){
 			return 'cook-recipe';
 		}else{
 			return 'news';

@@ -2,14 +2,14 @@
 namespace siwi\widgets\recent_posts\controllers;
 
 use fay\widget\Widget;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 
 class IndexController extends Widget{
 	
 	public function index($options){
-		$cat_ids = Category::model()->getChildIds('_blog');
+		$cat_ids = Category::service()->getChildIds('_blog');
 
 		$sql = new Sql();
 		$this->view->posts = $sql->from(array('p'=>'posts'), 'id,title,user_id,comments,thumbnail')

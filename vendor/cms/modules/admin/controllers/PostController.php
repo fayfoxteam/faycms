@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\helpers\Request;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\post\Prop;
 use fay\models\tables\Posts;
 use fay\models\post\Tag;
@@ -75,8 +75,8 @@ class PostController extends AdminController{
 	
 	public function create(){
 		$cat_id = $this->input->get('cat_id', 'intval');
-		$cat_id || $cat_id = Category::model()->getIdByAlias('_system_post');
-		$cat = Category::model()->get($cat_id, 'title,left_value,right_value');
+		$cat_id || $cat_id = Category::service()->getIdByAlias('_system_post');
+		$cat = Category::service()->get($cat_id, 'title,left_value,right_value');
 		
 		if(!$cat){
 			throw new HttpException('所选分类不存在');
@@ -179,7 +179,7 @@ class PostController extends AdminController{
 		));
 		
 		//所有文章分类
-		$this->view->cats = Category::model()->getTree('_system_post');
+		$this->view->cats = Category::service()->getTree('_system_post');
 		
 		//标题
 		if(in_array('main_category', $enabled_boxes)){
@@ -227,7 +227,7 @@ class PostController extends AdminController{
 		//列表页会根据enabled_boxes决定是否显示某些列
 		$this->view->enabled_boxes = $this->getEnabledBoxes('admin_post_boxes');
 		//查找文章分类
-		$this->view->cats = Category::model()->getTree('_system_post');
+		$this->view->cats = Category::service()->getTree('_system_post');
 		
 		$sql = new Sql();
 		$count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
@@ -247,7 +247,7 @@ class PostController extends AdminController{
 		if($cat_id){
 			if($this->input->get('with_child')){
 				//包含子分类搜索
-				$cats = Category::model()->getChildIds($cat_id);
+				$cats = Category::service()->getChildIds($cat_id);
 				if($this->input->get('with_slave')){
 					$orWhere = array(
 						"p.cat_id = {$cat_id}",
@@ -382,11 +382,11 @@ class PostController extends AdminController{
 			throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 		}
 		
-		$cat = Category::model()->get($post['cat_id'], 'title,left_value,right_value');
+		$cat = Category::service()->get($post['cat_id'], 'title,left_value,right_value');
 		
 		//若分类已被删除，将文章归为根分类
 		if(!$cat){
-			$cat = Category::model()->getByAlias('_system_post', 'id,title,left_value,right_value');
+			$cat = Category::service()->getByAlias('_system_post', 'id,title,left_value,right_value');
 			Posts::model()->update(array(
 				'cat_id'=>$cat['id'],
 			), $post_id);
@@ -503,7 +503,7 @@ class PostController extends AdminController{
 		$this->form()->setData(array('tags'=>implode(',', $tags_arr)));
 		
 		//分类树
-		$this->view->cats = Category::model()->getTree('_system_post');
+		$this->view->cats = Category::service()->getTree('_system_post');
 		
 		//post files
 		$this->view->files = PostsFiles::model()->fetchAll(array(
@@ -516,7 +516,7 @@ class PostController extends AdminController{
 		//附加属性
 		$this->view->prop_set = Prop::model()->getPropertySet($post['id']);
 		
-		$cat = Category::model()->get($post['cat_id'], 'title');
+		$cat = Category::service()->get($post['cat_id'], 'title');
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
 		if($this->checkPermission('admin/post/create')){
 			$this->layout->sublink = array(
@@ -643,8 +643,8 @@ class PostController extends AdminController{
 		));
 		
 		$this->layout->subtitle = '文章分类';
-		$this->view->cats = Category::model()->getTree('_system_post');
-		$root_node = Category::model()->getByAlias('_system_post', 'id');
+		$this->view->cats = Category::service()->getTree('_system_post');
+		$root_node = Category::service()->getByAlias('_system_post', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/post/cat-create')){
@@ -823,7 +823,7 @@ class PostController extends AdminController{
 	 */
 	public function search(){
 		if($cat_id = $this->input->request('cat_id', 'intval')){
-			$cats = Category::model()->getChildIds($cat_id);
+			$cats = Category::service()->getChildIds($cat_id);
 			$cats[] = $cat_id;
 		}
 		$posts = Posts::model()->fetchAll(array(

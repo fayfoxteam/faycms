@@ -2,7 +2,7 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Posts;
 use fay\helpers\StringHelper;
 use fay\core\Sql;
@@ -23,7 +23,7 @@ class PostController extends FrontController{
 				'class'=>'sel',
 			),
 		);
-		$cats = Category::model()->getNextLevel('_system_post');
+		$cats = Category::service()->getNextLevel('_system_post');
 		foreach($cats as $c){
 			$submenu[] = array(
 				'title'=>$c['title'],
@@ -69,7 +69,7 @@ class PostController extends FrontController{
 	}
 	
 	public function index(){
-		$cat_post = Category::model()->getByAlias('_youdao_post', 'left_value,right_value');
+		$cat_post = Category::service()->getByAlias('_youdao_post', 'left_value,right_value');
 		
 		$submenu = array(
 			array(
@@ -78,7 +78,7 @@ class PostController extends FrontController{
 				'class'=>'sel',
 			),
 		);
-		$cats = Category::model()->getNextLevel('_youdao_post');
+		$cats = Category::service()->getNextLevel('_youdao_post');
 		foreach($cats as $c){
 			$submenu[] = array(
 				'title'=>$c['title'],

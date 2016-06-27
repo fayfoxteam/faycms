@@ -4,7 +4,7 @@ namespace shinecolor\modules\frontend\controllers;
 use shinecolor\library\FrontController;
 use fay\services\Option;
 use fay\models\Post;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Posts;
 
 class IndexController extends FrontController{
@@ -24,7 +24,7 @@ class IndexController extends FrontController{
 		
 		$this->view->news = Post::model()->getByCatAlias('news', 7, 'id,title,publish_time', true);
 		
-		$cat_product = Category::model()->getByAlias('product');
+		$cat_product = Category::service()->getByAlias('product');
 		$this->view->products = Posts::model()->fetchAll(array(
 			'cat_id = '.$cat_product['id'],
 		), 'id,title,thumbnail', 'is_top DESC, sort, publish_time DESC');

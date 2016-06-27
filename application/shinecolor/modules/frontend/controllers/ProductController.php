@@ -3,7 +3,7 @@ namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
 use fay\core\Sql;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Posts;
 use fay\common\ListView;
 use fay\models\Post;
@@ -33,7 +33,7 @@ class ProductController extends FrontController{
 	}
 	
 	public function index(){
-		$cat_product = Category::model()->getByAlias('product');
+		$cat_product = Category::service()->getByAlias('product');
 
 		$this->layout->title = $cat_product['seo_title'];
 		$this->layout->keywords = $cat_product['seo_keywords'];

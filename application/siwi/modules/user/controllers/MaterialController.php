@@ -6,7 +6,7 @@ use fay\models\tables\Posts;
 use fay\models\tables\PostsFiles;
 use fay\services\post\Tag;
 use fay\models\tables\Files;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
 use fay\core\Validator;
@@ -68,7 +68,7 @@ class MaterialController extends UserController{
 			}
 		}
 		
-		$this->view->cats = Category::model()->getNextLevel('_material');
+		$this->view->cats = Category::service()->getNextLevel('_material');
 		
 		$this->view->render();
 	}
@@ -140,7 +140,7 @@ class MaterialController extends UserController{
 		$this->form()->setData($post);
 		
 		//parent cat
-		$cat = Category::model()->get($post['cat_id'], 'parent');
+		$cat = Category::service()->get($post['cat_id'], 'parent');
 		$this->form()->setData(array('parent_cat'=>$cat['parent']));
 		
 		//tags
@@ -160,7 +160,7 @@ class MaterialController extends UserController{
 		$this->view->file = $file;
 		$this->form()->setData(array('file'=>isset($file['file_id']) ? $file['file_id'] : ''));
 		
-		$this->view->cats = Category::model()->getNextLevel('_material');
+		$this->view->cats = Category::service()->getNextLevel('_material');
 		$this->view->render();
 	}
 }

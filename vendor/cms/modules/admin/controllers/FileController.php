@@ -15,7 +15,7 @@ use fay\core\Validator;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
 use fay\services\Option;
-use fay\models\Category;
+use fay\services\Category;
 use fay\helpers\StringHelper;
 
 class FileController extends AdminController{
@@ -41,7 +41,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::model()->get($cat, 'id,alias');
+			$cat = Category::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -97,7 +97,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::model()->get($cat, 'id,alias');
+			$cat = Category::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -170,7 +170,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::model()->get($cat, 'id,alias');
+			$cat = Category::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -246,7 +246,7 @@ class FileController extends AdminController{
 	
 	public function doUpload(){
 		//获取文件类目树
-		$this->view->cats = Category::model()->getTree('_system_file');
+		$this->view->cats = Category::service()->getTree('_system_file');
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
@@ -297,7 +297,7 @@ class FileController extends AdminController{
 				'_key'=>$_setting_key,
 			));
 		
-		$this->view->cats = Category::model()->getTree('_system_file');
+		$this->view->cats = Category::service()->getTree('_system_file');
 		
 		$sql = new Sql();
 		$sql->from(array('f'=>'files'))
@@ -364,7 +364,7 @@ class FileController extends AdminController{
 					Response::notify('error', '未指定分类');
 				}
 			
-				$cat = Category::model()->get($cat_id,'title');
+				$cat = Category::service()->get($cat_id,'title');
 				if(!$cat){
 					Response::notify('error', '指定分类不存在');
 				}
@@ -427,8 +427,8 @@ class FileController extends AdminController{
 	public function cat(){
 		$this->layout->current_directory = 'file';
 		$this->layout->subtitle = '文件分类';
-		$this->view->cats = Category::model()->getTree('_system_file');
-		$root_node = Category::model()->getByAlias('_system_file', 'id');
+		$this->view->cats = Category::service()->getTree('_system_file');
+		$root_node = Category::service()->getByAlias('_system_file', 'id');
 		$this->view->root = $root_node['id'];
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(

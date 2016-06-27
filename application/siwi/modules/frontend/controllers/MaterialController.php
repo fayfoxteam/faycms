@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
@@ -26,11 +26,11 @@ class MaterialController extends FrontController{
 		$params = FriendlyLink::getParams();
 		$this->view->params = $params;
 		if($params['cat_2']){
-			$cat = Category::model()->get($params['cat_2']);
+			$cat = Category::service()->get($params['cat_2']);
 		}else if($params['cat_1']){
-			$cat = Category::model()->get($params['cat_1']);
+			$cat = Category::service()->get($params['cat_1']);
 		}else{
-			$cat = Category::model()->getByAlias('_material', '*');
+			$cat = Category::service()->getByAlias('_material', '*');
 		}
 		$this->view->cat = $cat;
 		$this->layout->title = $cat['seo_title'];
@@ -78,7 +78,7 @@ class MaterialController extends FrontController{
 			'page_size'=>2,
 		));
 		
-		$this->view->cat_tree = Category::model()->getTree('_material');
+		$this->view->cat_tree = Category::service()->getTree('_material');
 	
 		$this->view->render();
 	}

@@ -5,10 +5,10 @@ use fay\helpers\Date;
 use cms\helpers\PostHelper;
 use fay\services\File;
 use fay\models\post\Tag as PostTag;
-use fay\models\post\Category as PostCategory;
+use fay\services\post\Category as PostCategory;
 
 //分类权限判断
-$editable = PostCategory::model()->isAllowedCat($data['cat_id']);
+$editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 ?>
 <tr valign="top" id="post-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(

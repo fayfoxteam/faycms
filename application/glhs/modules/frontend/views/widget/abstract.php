@@ -1,10 +1,10 @@
 <?php
 use fay\helpers\Html;
 use fay\services\File;
-use fay\models\Category;
+use fay\services\Category;
 use fay\helpers\StringHelper;
 
-$cat = Category::model()->get($config['top']);
+$cat = Category::service()->get($config['top']);
 ?>
 <div class="teacher-list-container">
 	<h2><?php echo Html::encode($config['title'])?></h2>

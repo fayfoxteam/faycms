@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
@@ -23,7 +23,7 @@ class NewsController extends FrontController{
 	
 	public function index(){
 		$cat_alias = $this->input->get('alias', 'news');
-		$cat = Category::model()->getByAlias($cat_alias, '*');
+		$cat = Category::service()->getByAlias($cat_alias, '*');
 		
 		if(!$cat){
 			throw new HttpException('404页面不存在');
@@ -58,7 +58,7 @@ class NewsController extends FrontController{
 		$this->view->cat = $cat;
 		
 		//获取news下的所有子节点
-		$this->view->children = Category::model()->getChildren('news', 'alias,title');
+		$this->view->children = Category::service()->getChildren('news', 'alias,title');
 		
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), 'id,title,publish_time')
@@ -89,8 +89,8 @@ class NewsController extends FrontController{
 			throw new HttpException('404页面不存在');
 		}
 		
-		$this->view->children = Category::model()->getChildren('news');
-		$this->view->cat = Category::model()->get($post['cat_id']);
+		$this->view->children = Category::service()->getChildren('news');
+		$this->view->cat = Category::service()->get($post['cat_id']);
 		
 		$this->layout->breadcrumbs = array(
 			array(

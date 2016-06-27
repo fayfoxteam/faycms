@@ -3,7 +3,7 @@ namespace blog\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Users;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\common\ListView;
 use blog\models\tables\Bills;
@@ -25,7 +25,7 @@ class BillController extends AdminController{
 			'role = '.Users::ROLE_BILL,
 		), 'id,realname');
 		
-		$this->view->cats = Category::model()->getTree('bill_out');
+		$this->view->cats = Category::service()->getTree('bill_out');
 		
 		$sql = new Sql();
 		$sql->from(array('b'=>'blog_bills'))
@@ -107,7 +107,7 @@ class BillController extends AdminController{
 			die;
 		}
 		
-		$cats = Category::model()->getTree($cat_alias);
+		$cats = Category::service()->getTree($cat_alias);
 		echo json_encode(array(
 			'status'=>1,
 			'data'=>Html::getSelectOptions($cats, 'id', 'title')
@@ -118,8 +118,8 @@ class BillController extends AdminController{
 		$this->layout->current_directory = 'bill';
 
 		$this->layout->subtitle = '记账分类';
-		$this->view->cats = Category::model()->getTree('_system_bill');
-		$root_node = Category::model()->getByAlias('_system_bill', 'id');
+		$this->view->cats = Category::service()->getTree('_system_bill');
+		$root_node = Category::service()->getByAlias('_system_bill', 'id');
 		$this->view->root = $root_node['id'];
 		
 		$this->view->render();

@@ -3,7 +3,7 @@ namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
 use apidoc\models\tables\Apis;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\HttpException;
 use apidoc\helpers\TrackHelper;
 use apidoc\models\tables\Models;
@@ -32,7 +32,7 @@ class ModelController extends FrontController{
 		if($api_id){
 			$api = Apis::model()->find($api_id, 'cat_id');
 			if($api){
-				$category = Category::model()->get($api['cat_id'], 'alias');
+				$category = Category::service()->get($api['cat_id'], 'alias');
 				$this->layout->current_directory = $category['alias'];
 				$this->layout->api_id = $api_id;
 			}

@@ -4,7 +4,7 @@ namespace cms\modules\tools\controllers;
 use cms\library\Db;
 use cms\library\ToolsController;
 use fay\services\File;
-use fay\models\Category;
+use fay\services\Category;
 use fay\helpers\StringHelper;
 use fay\models\tables\Users;
 use fay\services\Menu;
@@ -202,7 +202,7 @@ class ApplicationController extends ToolsController{
 	 */
 	private function indexCats(){
 		Categories::model()->setDb($this->db);
-		Category::model()->buildIndex();
+		Category::service()->buildIndex();
 	}
 	
 	/**

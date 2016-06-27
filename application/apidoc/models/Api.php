@@ -3,7 +3,7 @@ namespace apidoc\models;
 
 use fay\core\Model;
 use apidoc\models\tables\Apis;
-use fay\models\Category;
+use fay\services\Category;
 use apidoc\models\tables\Inputs;
 use fay\core\Sql;
 
@@ -24,7 +24,7 @@ class Api extends Model{
 		$sql = new Sql();
 		$return = array(
 			'api'=>$api,
-			'category'=>Category::model()->get($api['cat_id'], 'alias'),
+			'category'=>Category::service()->get($api['cat_id'], 'alias'),
 			'inputs'=>Inputs::model()->fetchAll('api_id = '.$id, '*', 'required DESC, name ASC'),
 			'outputs'=>$sql->from(array('o'=>'apidoc_outputs'), array('name', 'sample', 'description', 'model_id', 'is_array'))
 				->joinLeft(array('ob'=>'apidoc_models'), 'o.model_id = ob.id', array('name AS model_name'))

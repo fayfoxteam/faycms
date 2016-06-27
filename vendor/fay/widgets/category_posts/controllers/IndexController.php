@@ -2,7 +2,7 @@
 namespace fay\widgets\category_posts\controllers;
 
 use fay\widget\Widget;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\Post;
 use fay\helpers\Date;
 
@@ -12,7 +12,7 @@ class IndexController extends Widget{
 		
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$root_node = Category::service()->getByAlias('_system_post', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
@@ -82,13 +82,13 @@ class IndexController extends Widget{
 		
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$root_node = Category::service()->getByAlias('_system_post', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
 		//title
 		if(empty($config['title'])){
-			$node = Category::model()->get($config['top'], 'title');
+			$node = Category::service()->get($config['top'], 'title');
 			$config['title'] = $node['title'];
 		}
 		

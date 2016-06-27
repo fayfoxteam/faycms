@@ -2,7 +2,7 @@
 namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
@@ -26,7 +26,7 @@ class NewsController extends FrontController{
 			'page'=>'intval',
 			'keywords'=>'trim',
 		))->check()){
-			$cat = Category::model()->getByAlias('news');
+			$cat = Category::service()->getByAlias('news');
 
 			$this->layout->title = $cat['title'];
 			$this->layout->keywords = $cat['seo_keywords'];
@@ -55,7 +55,7 @@ class NewsController extends FrontController{
 				'page_size'=>10,
 			));
 			
-			$product_cat = Category::model()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
+			$product_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
 			$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site:right_recommend_days'));
 			
 			$this->view->render();
@@ -82,7 +82,7 @@ class NewsController extends FrontController{
 		
 		$this->view->post = $post;
 		
-		$food_cat = Category::model()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
+		$food_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
 		$this->view->right_posts = Recommend::model()->getByCatAndArea($food_cat, 6, Option::get('site:right_recommend_days'));
 		
 		$this->view->render();

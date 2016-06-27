@@ -73,7 +73,7 @@ class Link extends Service{
 	 * @return array
 	 */
 	public function getByCatAlias($cat_alias, $limit = 0, $visible = true){
-		$cat = Category::model()->getByAlias($cat_alias, 'id');
+		$cat = Category::service()->getByAlias($cat_alias, 'id');
 		return $this->getByCatId($cat['id'], $limit, $visible);
 	}
 

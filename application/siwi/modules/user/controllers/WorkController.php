@@ -7,7 +7,7 @@ use fay\models\Post;
 use fay\models\tables\Files;
 use fay\models\tables\PostsFiles;
 use fay\models\Tag;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
 use fay\services\Flash;
@@ -89,7 +89,7 @@ class WorkController extends UserController{
 				Flash::set('参数异常');
 			}
 		}
-		$this->view->cats = Category::model()->getNextLevel('_work');
+		$this->view->cats = Category::service()->getNextLevel('_work');
 		
 		$this->view->render();
 	}
@@ -214,7 +214,7 @@ class WorkController extends UserController{
 		$this->form()->setData($post);
 		
 		//parent cat
-		$cat = Category::model()->get($post['cat_id'], 'parent');
+		$cat = Category::service()->get($post['cat_id'], 'parent');
 		$this->form()->setData(array('parent_cat'=>$cat['parent']));
 		
 		//tags
@@ -250,7 +250,7 @@ class WorkController extends UserController{
 		//video
 		$this->form()->setData(array('video'=>Post::model()->getPropValueByAlias('siwi_work_video', $post['id'])));
 		
-		$this->view->cats = Category::model()->getNextLevel('_work');
+		$this->view->cats = Category::service()->getNextLevel('_work');
 		$this->view->render();
 	}
 }

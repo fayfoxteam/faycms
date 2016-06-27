@@ -10,7 +10,7 @@ use fay\models\tables\GoodsCatProps;
 use fay\models\tables\GoodsCatPropValues;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\HttpException;
 
 /**
@@ -29,7 +29,7 @@ class GoodsCatPropController extends AdminController{
 		);
 		
 		$cat_id = $this->input->get('cat_id', 'intval');
-		$cat = Category::model()->get($cat_id, 'id,title');
+		$cat = Category::service()->get($cat_id, 'id,title');
 		if(!$cat){
 			throw new HttpException('指定商品分类不存在');
 		}
@@ -230,7 +230,7 @@ class GoodsCatPropController extends AdminController{
 		$sql->from('goods_cat_props')
 			->where(array(
 				'deleted = 0',
-				'cat_id IN ('.implode(',', Category::model()->getParentIds($cat_id)).')',
+				'cat_id IN ('.implode(',', Category::service()->getParentIds($cat_id)).')',
 			))
 			->order('sort, id DESC');
 		$listview = new ListView($sql, array(

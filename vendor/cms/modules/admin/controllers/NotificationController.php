@@ -6,7 +6,7 @@ use fay\models\tables\Users;
 use fay\models\tables\UsersNotifications;
 use fay\models\tables\Actionlogs;
 use fay\models\tables\Roles;
-use fay\models\Category;
+use fay\services\Category;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\helpers\Html;
@@ -32,7 +32,7 @@ class NotificationController extends AdminController{
 			$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '发送系统信息', $notification_id);
 			Flash::set('消息发送成功', 'success');
 		}
-		$this->view->notification_cats = Category::model()->getNextLevel('_system_notification');
+		$this->view->notification_cats = Category::service()->getNextLevel('_system_notification');
 		$this->view->roles = Roles::model()->fetchAll('deleted = 0');
 		$this->view->render();
 	}
@@ -128,8 +128,8 @@ class NotificationController extends AdminController{
 	
 	public function cat(){
 		$this->layout->subtitle = '消息分类';
-		$this->view->cats = Category::model()->getTree('_system_notification');
-		$root_node = Category::model()->getByAlias('_system_notification', 'id');
+		$this->view->cats = Category::service()->getTree('_system_notification');
+		$root_node = Category::service()->getByAlias('_system_notification', 'id');
 		$this->view->root = $root_node['id'];
 	
 		if($this->checkPermission('admin/notification/cat-create')){

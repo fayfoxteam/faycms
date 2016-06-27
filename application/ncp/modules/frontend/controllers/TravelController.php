@@ -2,7 +2,7 @@
 namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
@@ -41,9 +41,9 @@ class TravelController extends FrontController{
 			'keywords'=>'trim',
 		))->check()){
 			if($cat_id = $this->form()->getData('cat_id', 0)){
-				$cat = Category::model()->get($cat_id);
+				$cat = Category::service()->get($cat_id);
 			}else{
-				$cat = Category::model()->getByAlias('travel');
+				$cat = Category::service()->getByAlias('travel');
 			}
 			$this->layout->title = $cat['title'];
 			$this->layout->keywords = $cat['seo_keywords'];
@@ -103,7 +103,7 @@ class TravelController extends FrontController{
 			$this->view->assign(array(
 				'areas'=>$areas,
 				'monthes'=>$monthes,
-				'cats'=>Category::model()->getChildren('travel'),
+				'cats'=>Category::service()->getChildren('travel'),
 				'area_id'=>$area_id,
 				'month_id'=>$month_id,
 				'cat_id'=>$cat_id,
@@ -135,9 +135,9 @@ class TravelController extends FrontController{
 		
 		$area = Post::model()->getPropValueByAlias('area', $id);
 
-		$food_cat = Category::model()->getByAlias('food', 'id,left_value,right_value');//食品分类根目录
-		$product_cat = Category::model()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-		$travel_cat = Category::model()->getByAlias('travel', 'id,left_value,right_value');//旅游分类根目录
+		$food_cat = Category::service()->getByAlias('food', 'id,left_value,right_value');//食品分类根目录
+		$product_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
+		$travel_cat = Category::service()->getByAlias('travel', 'id,left_value,right_value');//旅游分类根目录
 		
 		$this->view->assign(array(
 			'post'=>$post,

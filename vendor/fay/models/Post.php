@@ -9,7 +9,8 @@ use fay\helpers\StringHelper;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\post\Meta;
-use fay\models\post\Category as PostCategory;
+use fay\services\Category;
+use fay\services\post\Category as PostCategory;
 use fay\models\post\Tag as PostTag;
 use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
@@ -184,7 +185,7 @@ class Post extends Model{
 		//若指定了分类，加上分类条件限制
 		if($cat){
 			if(!is_array($cat)){
-				$cat = Category::model()->get($cat, 'left_value,right_value');
+				$cat = Category::service()->get($cat, 'left_value,right_value');
 			}
 			
 			if(!$cat){
@@ -264,12 +265,12 @@ class Post extends Model{
 		
 		//附加分类
 		if(!empty($fields['categories'])){
-			$return['categories'] = PostCategory::model()->get($id, $fields['categories']);
+			$return['categories'] = PostCategory::service()->get($id, $fields['categories']);
 		}
 		
 		//主分类
 		if(!empty($fields['category'])){
-			$return['category'] = Category::model()->get($post['cat_id'], $fields['category']);
+			$return['category'] = Category::service()->get($post['cat_id'], $fields['category']);
 		}
 		
 		//前后一篇文章导航
@@ -484,13 +485,13 @@ class Post extends Model{
 		
 		//附加分类
 		if(!empty($fields['categories'])){
-			$post_categories = PostCategory::model()->mget($post_ids, $fields['categories']);
+			$post_categories = PostCategory::service()->mget($post_ids, $fields['categories']);
 		}
 		
 		//主分类
 		if(!empty($fields['category'])){
 			$cat_ids = ArrayHelper::column($posts, 'cat_id');
-			$post_category = Category::model()->mget(array_unique($cat_ids), $fields['category']);
+			$post_category = Category::service()->mget(array_unique($cat_ids), $fields['category']);
 		}
 		
 		$return = array();
@@ -729,7 +730,7 @@ class Post extends Model{
 			->limit($limit)
 		;
 		if(!empty($cat_id)){
-			$cat = Category::model()->get($cat_id);
+			$cat = Category::service()->get($cat_id);
 			$sql->where(array(
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
@@ -782,10 +783,10 @@ class Post extends Model{
 		
 		if(User::model()->isAdmin($user_id) &&
 			User::model()->checkPermission('admin/post/edit', $user_id) &&
-			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有还原权限，且有当前文章的分类权限
 			
-			if($new_cat_id && !PostCategory::model()->isAllowedCat($new_cat_id, $user_id)){
+			if($new_cat_id && !PostCategory::service()->isAllowedCat($new_cat_id, $user_id)){
 				//若指定了新分类，判断用户是否对新分类有编辑权限
 				return false;
 			}
@@ -840,7 +841,7 @@ class Post extends Model{
 		
 		if(User::model()->isAdmin($user_id) &&
 			User::model()->checkPermission('admin/post/delete', $user_id) &&
-			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有删除权限，且有当前文章的分类权限
 			return true;
 		}
@@ -874,7 +875,7 @@ class Post extends Model{
 		
 		if(User::model()->isAdmin($user_id) &&
 			User::model()->checkPermission('admin/post/undelete', $user_id) &&
-			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有还原权限，且有当前文章的分类权限
 			return true;
 		}
@@ -908,7 +909,7 @@ class Post extends Model{
 		
 		if(User::model()->isAdmin($user_id) &&
 			User::model()->checkPermission('admin/post/remove', $user_id) &&
-			PostCategory::model()->isAllowedCat($post['cat_id'], $user_id)){
+			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有永久删除权限，且有当前文章的分类权限
 			return true;
 		}
@@ -1016,13 +1017,13 @@ class Post extends Model{
 		
 		//附加分类
 		if(!empty($fields['categories'])){
-			$post_categories = PostCategory::model()->mget($post_ids, $fields['categories']);
+			$post_categories = PostCategory::service()->mget($post_ids, $fields['categories']);
 		}
 		
 		//主分类
 		if(!empty($fields['category'])){
 			$cat_ids = ArrayHelper::column($posts, 'cat_id');
-			$post_category = Category::model()->mget(array_unique($cat_ids), $fields['category']);
+			$post_category = Category::service()->mget(array_unique($cat_ids), $fields['category']);
 		}
 		
 		$return = array();

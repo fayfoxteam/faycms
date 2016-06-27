@@ -5,7 +5,7 @@ use glhs\library\FrontController;
 use fay\core\HttpException;
 use fay\models\Post;
 use fay\core\Validator;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Posts;
@@ -19,7 +19,7 @@ class PostController extends FrontController{
 			throw new HttpException('异常的请求', 404);
 		}
 		
-		$cat = Category::model()->get($this->input->get('alias'));
+		$cat = Category::service()->get($this->input->get('alias'));
 		if(!$cat){
 			throw new HttpException('文章不存在', 404);
 		}
@@ -56,7 +56,7 @@ class PostController extends FrontController{
 		}
 		
 		$id = $this->input->get('id', 'intval');
-		$cat = Category::model()->get($this->input->get('cat'));
+		$cat = Category::service()->get($this->input->get('cat'));
 		
 		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav.id,nav.title', $cat);
 		if(!$post){

@@ -6,7 +6,7 @@ use fay\services\Option;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\HttpException;
 
 class IndexController extends FrontController{
@@ -34,7 +34,7 @@ class IndexController extends FrontController{
 		
 		$reload = $this->view->url();
 		if($this->input->get('cat')){
-			$cat = Category::model()->get($this->input->get('cat', 'intval'));
+			$cat = Category::service()->get($this->input->get('cat', 'intval'));
 			if(!$cat){
 				throw new HttpException('分类不存在');
 			}
@@ -50,12 +50,12 @@ class IndexController extends FrontController{
 		if($this->input->get('type')){
 			if($this->input->get('type') == 'post'){
 				$reload = $this->view->url('post');
-				$cat = Category::model()->getByAlias('_blog');
+				$cat = Category::service()->getByAlias('_blog');
 				$this->layout->title = '博文';
 				$this->layout->current_directory = 'blog';
 			}else if($this->input->get('type') == 'work'){
 				$reload = $this->view->url('work');
-				$cat = Category::model()->getByAlias('_work');
+				$cat = Category::service()->getByAlias('_work');
 				$this->layout->title = '作品';
 				$this->layout->current_directory = 'work';
 			}
@@ -76,7 +76,7 @@ class IndexController extends FrontController{
 			$this->layout->canonical = $reload;
 		}
 		
-		$this->view->work_cat = Category::model()->getByAlias('_work');
+		$this->view->work_cat = Category::service()->getByAlias('_work');
 		
 		$this->view->render();
 	}

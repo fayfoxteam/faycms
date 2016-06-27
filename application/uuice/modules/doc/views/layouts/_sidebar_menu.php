@@ -1,8 +1,8 @@
 <?php
-use fay\models\Category;
+use fay\services\Category;
 use doc\helpers\MenuHelper;
 
-$cats = Category::model()->getTree('fayfox');
+$cats = Category::service()->getTree('fayfox');
 ?>
 <div class="sidebar-menu">
 	<div class="sidebar-menu-inner">

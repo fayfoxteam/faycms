@@ -4,7 +4,7 @@ namespace apidoc\library;
 use fay\core\Controller;
 use fay\helpers\Request;
 use fay\models\tables\SpiderLogs;
-use fay\models\Category;
+use fay\services\Category;
 use apidoc\models\tables\Apis;
 use fay\helpers\Html;
 
@@ -42,7 +42,7 @@ class FrontController extends Controller{
 	}
 	
 	private function getLeftMenu(){
-		$api_cats = Category::model()->getNextLevel('_system_api', array('id', 'alias', 'title', 'description'));
+		$api_cats = Category::service()->getNextLevel('_system_api', array('id', 'alias', 'title', 'description'));
 		$apis = Apis::model()->fetchAll(array(), 'id,title,router,cat_id', 'cat_id');
 		$menus = array();
 		foreach($api_cats as $c){

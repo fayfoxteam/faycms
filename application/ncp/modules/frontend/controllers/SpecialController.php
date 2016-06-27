@@ -5,7 +5,7 @@ use ncp\library\FrontController;
 use fay\core\HttpException;
 use fay\models\tables\Posts;
 use fay\core\Sql;
-use fay\models\Category;
+use fay\services\Category;
 use fay\common\ListView;
 use ncp\models\Recommend;
 use fay\services\Option;
@@ -26,7 +26,7 @@ class SpecialController extends FrontController{
 			'page'=>'intval',
 			'keywords'=>'trim',
 		))->check()){
-			$cat = Category::model()->getByAlias('special');
+			$cat = Category::service()->getByAlias('special');
 
 			$this->layout->title = $cat['title'];
 			$this->layout->keywords = $cat['seo_keywords'];
@@ -58,7 +58,7 @@ class SpecialController extends FrontController{
 			throw new HttpException('页面不存在');
 		}
 		
-		$product_cat = Category::model()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
+		$product_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
 		$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site:right_recommend_days'));
 		
 		$this->view->render();

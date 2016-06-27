@@ -6,7 +6,7 @@ use fay\models\tables\Posts;
 use fay\models\tables\Files;
 use fay\models\tables\PostsFiles;
 use fay\models\Tag;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\core\HttpException;
 use fay\services\Flash;
@@ -84,7 +84,7 @@ class SiteController extends UserController{
 				Flash::set('参数异常');
 			}
 		}
-		$this->view->cats = Category::model()->getNextLevel('_site');
+		$this->view->cats = Category::service()->getNextLevel('_site');
 		
 		$this->view->render();
 	}
@@ -206,7 +206,7 @@ class SiteController extends UserController{
 		$this->form()->setData($post);
 		
 		//parent cat
-		$cat = Category::model()->get($post['cat_id'], 'parent');
+		$cat = Category::service()->get($post['cat_id'], 'parent');
 		$this->form()->setData(array('parent_cat'=>$cat['parent']));
 		
 		//tags
@@ -236,7 +236,7 @@ class SiteController extends UserController{
 		), 'file_id,desc', 'sort');
 		$this->view->files = $files;
 		
-		$this->view->cats = Category::model()->getNextLevel('_site');
+		$this->view->cats = Category::service()->getNextLevel('_site');
 		$this->view->render();
 	}
 }

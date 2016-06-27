@@ -290,7 +290,7 @@ class File extends Service{
 	public function upload($cat = 0, $private = false, $allowed_types = null){
 		if($cat){
 			if(!is_array($cat)){
-				$cat = Category::model()->get($cat, 'id,alias', '_system_file');
+				$cat = Category::service()->get($cat, 'id,alias', '_system_file');
 			}
 			
 			if(!$cat){

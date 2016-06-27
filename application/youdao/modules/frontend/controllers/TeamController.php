@@ -2,7 +2,7 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\services\Option;
@@ -17,7 +17,7 @@ class TeamController extends FrontController{
 		$this->layout->current_directory = 'team';
 		
 		//团队
-		$cat_team = Category::model()->getByAlias('_youdao_team', '*');
+		$cat_team = Category::service()->getByAlias('_youdao_team', '*');
 		//SEO
 		$this->layout->title = $cat_team['seo_title'];
 		$this->layout->keywords = $cat_team['seo_keywords'];

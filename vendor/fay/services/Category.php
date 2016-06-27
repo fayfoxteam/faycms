@@ -1,9 +1,11 @@
 <?php
-namespace fay\models;
+namespace fay\services;
 
+use fay\core\Loader;
 use fay\models\tables\Categories;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
+use fay\models\Tree;
 
 class Category extends Tree{
 	/**
@@ -15,8 +17,8 @@ class Category extends Tree{
 	 * @param string $class_name
 	 * @return Category
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return Loader::singleton($class_name);
 	}
 	
 	/**

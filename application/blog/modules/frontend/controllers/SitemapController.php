@@ -3,7 +3,7 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use fay\models\tables\Posts;
-use fay\models\Category;
+use fay\services\Category;
 
 class SitemapController extends FrontController{
 	public function xml(){
@@ -15,7 +15,7 @@ class SitemapController extends FrontController{
 			'status = '.Posts::STATUS_PUBLISHED,
 		), 'id,title,publish_time', 'publish_time DESC');
 		
-		$this->view->cats = Category::model()->getNextLevel('_system_post');
+		$this->view->cats = Category::service()->getNextLevel('_system_post');
 		$this->view->render();
 	}
 	

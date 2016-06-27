@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Pages;
 use fay\models\tables\PagesCategories;
 use fay\models\tables\Actionlogs;
@@ -40,7 +40,7 @@ class PageController extends AdminController{
 	
 	public function create(){
 		$this->layout->subtitle = '添加页面';
-		$this->view->cats = Category::model()->getTree('_system_page');
+		$this->view->cats = Category::service()->getTree('_system_page');
 		
 		$this->form()->setModel(Pages::model())
 			->setData($this->input->request());
@@ -160,7 +160,7 @@ class PageController extends AdminController{
 		));
 		
 		//所有分类
-		$this->view->cats = Category::model()->getTree('_system_page');
+		$this->view->cats = Category::service()->getTree('_system_page');
 		
 		$this->view->render();
 	}
@@ -185,7 +185,7 @@ class PageController extends AdminController{
 		
 		$page_id = intval($this->input->get('id', 'intval'));
 		
-		$this->view->cats = Category::model()->getTree('_system_page');
+		$this->view->cats = Category::service()->getTree('_system_page');
 		
 		$this->form()->setModel(Pages::model());
 		
@@ -276,8 +276,8 @@ class PageController extends AdminController{
 		$this->layout->current_directory = 'page';
 	
 		$this->layout->subtitle = '页面分类';
-		$this->view->cats = Category::model()->getTree('_system_page');
-		$root_node = Category::model()->getByAlias('_system_page', 'id');
+		$this->view->cats = Category::service()->getTree('_system_page');
+		$root_node = Category::service()->getByAlias('_system_page', 'id');
 		$this->view->root = $root_node['id'];
 	
 		if($this->checkPermission('admin/page/cat-create')){

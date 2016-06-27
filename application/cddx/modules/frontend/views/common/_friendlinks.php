@@ -1,11 +1,11 @@
 <?php
-use fay\models\Category;
+use fay\services\Category;
 use fay\services\Link;
 use fay\helpers\Html;
 use fay\services\File;
 
 $links_has_logo = Link::service()->getLinksHasLogo(null, 10);
-$link_cats = Category::model()->getChildren('_system_link');
+$link_cats = Category::service()->getChildren('_system_link');
 ?>
 <div class="w1000">
 	<div class="box" id="footer-links">

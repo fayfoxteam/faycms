@@ -9,7 +9,7 @@ use fay\models\tables\RolesActions;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\RolesCats;
 use fay\services\Option;
 
@@ -86,7 +86,7 @@ class RoleController extends AdminController{
 			$actions_group[$a['cat_title']][] = $a;
 		}
 		$this->view->actions = $actions_group;
-		$this->view->cats = Category::model()->getTree('_system_post');
+		$this->view->cats = Category::service()->getTree('_system_post');
 		
 		$this->view->render();
 	}
@@ -176,7 +176,7 @@ class RoleController extends AdminController{
 				'role_id = ?'=>$role_id,
 			)),
 		));
-		$this->view->cats = Category::model()->getTree('_system_post');
+		$this->view->cats = Category::service()->getTree('_system_post');
 		
 		$this->view->render();
 	}

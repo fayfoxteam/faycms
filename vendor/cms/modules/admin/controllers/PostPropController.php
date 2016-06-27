@@ -7,7 +7,7 @@ use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\models\post\Prop;
 use fay\models\tables\Actionlogs;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -142,7 +142,7 @@ class PostPropController extends AdminController{
 	 * @param int $cat_id
 	 */
 	private function _setListview($cat_id){
-		$cat = Category::model()->get($cat_id, 'left_value,right_value');
+		$cat = Category::service()->get($cat_id, 'left_value,right_value');
 		$cat_parents = Categories::model()->fetchCol('id', array(
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],

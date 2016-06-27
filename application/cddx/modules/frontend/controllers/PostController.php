@@ -5,7 +5,7 @@ use cddx\library\FrontController;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\core\HttpException;
-use fay\models\Category;
+use fay\services\Category;
 use fay\common\ListView;
 use fay\core\db\Expr;
 use fay\models\Post;
@@ -15,7 +15,7 @@ class PostController extends FrontController{
 		$cat_id = $this->input->get('cat_id', 'intval');
 		
 		//获取分类
-		if(!$cat_id || !$cat = Category::model()->get($cat_id)){
+		if(!$cat_id || !$cat = Category::service()->get($cat_id)){
 			throw new HttpException('您请求的页面不存在');
 		}
 		
@@ -39,13 +39,13 @@ class PostController extends FrontController{
 		
 		if($cat['right_value'] - $cat['left_value'] == 1){
 			//叶子节点
-			$parent_cat = Category::model()->get($cat['parent']);
-			$child_cats = Category::model()->getTreeByParentId($cat['parent']);
+			$parent_cat = Category::service()->get($cat['parent']);
+			$child_cats = Category::service()->getTreeByParentId($cat['parent']);
 			$left_cats = $parent_cat;
 			$left_cats['children'] = $child_cats;
 		}else{
 			//父节点
-			$child_cats = Category::model()->getTreeByParentId($cat['id']);
+			$child_cats = Category::service()->getTreeByParentId($cat['id']);
 			$left_cats = $cat;
 			$left_cats['children'] = $child_cats;
 		}
@@ -75,16 +75,16 @@ class PostController extends FrontController{
 		$this->layout->keywords = $post['post']['seo_keywords'];
 		$this->layout->description = $post['post']['seo_description'];
 		
-		$cat = Category::model()->get($post['post']['cat_id']);
+		$cat = Category::service()->get($post['post']['cat_id']);
 		if($cat['right_value'] - $cat['left_value'] == 1){
 			//叶子节点
-			$parent_cat = Category::model()->get($cat['parent']);
-			$child_cats = Category::model()->getTreeByParentId($cat['parent']);
+			$parent_cat = Category::service()->get($cat['parent']);
+			$child_cats = Category::service()->getTreeByParentId($cat['parent']);
 			$left_cats = $parent_cat;
 			$left_cats['children'] = $child_cats;
 		}else{
 			//父节点
-			$child_cats = Category::model()->getTreeByParentId($cat['id']);
+			$child_cats = Category::service()->getTreeByParentId($cat['id']);
 			$left_cats = $cat;
 			$left_cats['children'] = $child_cats;
 		}

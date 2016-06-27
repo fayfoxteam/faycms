@@ -3,7 +3,7 @@ namespace ncp\models;
 
 use fay\core\Model;
 use fay\core\Sql;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Posts;
 
 class Recommend extends Model{
@@ -40,9 +40,9 @@ class Recommend extends Model{
 			if(is_array($cat)){
 				//无操作
 			}else if(is_numeric($cat)){
-				$cat = Category::model()->get($cat);
+				$cat = Category::service()->get($cat);
 			}else{
-				$cat = Category::model()->getByAlias($cat);
+				$cat = Category::service()->getByAlias($cat);
 			}
 			$sql->where(array(
 				'c.left_value >= '.$cat['left_value'],
@@ -88,9 +88,9 @@ class Recommend extends Model{
 				if(is_array($cat)){
 					//无操作
 				}else if(is_numeric($cat)){
-					$cat = Category::model()->get($cat);
+					$cat = Category::service()->get($cat);
 				}else{
-					$cat = Category::model()->getByAlias($cat);
+					$cat = Category::service()->getByAlias($cat);
 				}
 				$sql->where(array(
 					'c.left_value >= '.$cat['left_value'],

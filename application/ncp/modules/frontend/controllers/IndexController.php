@@ -3,7 +3,7 @@ namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
 use fay\models\Prop;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\Post;
 use ncp\models\Recommend;
 use fay\services\Option;
@@ -28,9 +28,9 @@ class IndexController extends FrontController{
 		$foods = array();
 		$products = array();
 
-		$travel_cat = Category::model()->getByAlias('travel');
-		$food_cat = Category::model()->getByAlias('food');
-		$product_cat = Category::model()->getByAlias('product');
+		$travel_cat = Category::service()->getByAlias('travel');
+		$food_cat = Category::service()->getByAlias('food');
+		$product_cat = Category::service()->getByAlias('product');
 		
 		$prop_area = Prop::model()->getIdByAlias('area');
 		

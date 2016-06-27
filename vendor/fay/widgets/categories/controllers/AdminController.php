@@ -2,17 +2,17 @@
 namespace fay\widgets\categories\controllers;
 
 use fay\widget\Widget;
-use fay\models\Category;
+use fay\services\Category;
 use fay\services\Flash;
 
 class AdminController extends Widget{
 	public function index($config){
-		$root_node = Category::model()->getByAlias('_system_post', 'id');
+		$root_node = Category::service()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(
 				'id'=>$root_node['id'],
 				'title'=>'顶级',
-				'children'=>Category::model()->getTreeByParentId($root_node['id']),
+				'children'=>Category::service()->getTreeByParentId($root_node['id']),
 			),
 		);
 		

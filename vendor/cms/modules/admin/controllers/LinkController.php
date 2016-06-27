@@ -7,7 +7,7 @@ use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\models\Category;
+use fay\services\Category;
 
 class LinkController extends AdminController{
 	public function __construct(){
@@ -30,7 +30,7 @@ class LinkController extends AdminController{
 			Response::notify('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
 		}
 		
-		$this->view->cats = Category::model()->getTree('_system_link');
+		$this->view->cats = Category::service()->getTree('_system_link');
 		$this->view->render();
 	}
 	
@@ -66,7 +66,7 @@ class LinkController extends AdminController{
 				'text'=>'同分类下新增链接',
 			);
 			
-			$this->view->cats = Category::model()->getTree('_system_link');
+			$this->view->cats = Category::service()->getTree('_system_link');
 			$this->view->render();
 		}
 	}
@@ -113,7 +113,7 @@ class LinkController extends AdminController{
 		));
 		$this->view->listview = $listview;
 		
-		$this->view->cats = Category::model()->getTree('_system_link');
+		$this->view->cats = Category::service()->getTree('_system_link');
 		
 		$this->view->render();
 	}
@@ -149,8 +149,8 @@ class LinkController extends AdminController{
 		$this->layout->current_directory = 'link';
 	
 		$this->layout->subtitle = '友情链接分类';
-		$this->view->cats = Category::model()->getTree('_system_link');
-		$root_node = Category::model()->getByAlias('_system_link', 'id');
+		$this->view->cats = Category::service()->getTree('_system_link');
+		$root_node = Category::service()->getByAlias('_system_link', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/link/cat-create')){

@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Vouchers;
 use fay\helpers\StringHelper;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\Flash;
@@ -32,7 +32,7 @@ class VoucherController extends AdminController{
 			Flash::set($this->input->post('num').'个优惠码被添加','success');
 		}
 		
-		$this->view->cats = Category::model()->getNextLevel('_system_voucher');
+		$this->view->cats = Category::service()->getNextLevel('_system_voucher');
 		
 		$this->view->render();
 	}
@@ -61,7 +61,7 @@ class VoucherController extends AdminController{
 		
 		$this->view->listview = new ListView($sql);
 
-		$this->view->cats = Category::model()->getNextLevel('_system_voucher');
+		$this->view->cats = Category::service()->getNextLevel('_system_voucher');
 		$this->view->render();
 	}
 	

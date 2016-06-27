@@ -2,7 +2,7 @@
 namespace uuice\modules\doc\controllers;
 
 use uuice\library\DocController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\HttpException;
 use fay\models\Post;
 use fay\services\Option;
@@ -10,7 +10,7 @@ use fay\services\Option;
 class GuideController extends DocController{
 	public function index(){
 		$cat = $this->input->get('cat', 'trim');
-		$cat = Category::model()->get($cat, '*', 'fayfox');
+		$cat = Category::service()->get($cat, '*', 'fayfox');
 		
 		if(empty($cat)){
 			throw new HttpException('页面不存在');
@@ -20,7 +20,7 @@ class GuideController extends DocController{
 		$this->layout->title = $cat['title'].' - '.Option::get('site:sitename');
 
 		$breadcrumb = array();
-		$parent_path = Category::model()->getParentPath($cat, 'fayfox');
+		$parent_path = Category::service()->getParentPath($cat, 'fayfox');
 		if($parent_path){
 			foreach($parent_path as $p){
 				$breadcrumb[] = array(
@@ -41,7 +41,7 @@ class GuideController extends DocController{
 			//非叶子
 			$this->view->assign(array(
 				'cat'=>$cat,
-				'cats'=>Category::model()->getNextLevelByParentId($cat['id']),
+				'cats'=>Category::service()->getNextLevelByParentId($cat['id']),
 				'posts'=>Post::model()->getByCat($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 			))->render('cats');
 		}

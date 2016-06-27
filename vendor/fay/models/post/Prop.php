@@ -1,7 +1,7 @@
 <?php
 namespace fay\models\post;
 
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Posts;
 use fay\models\tables\Props;
 
@@ -69,6 +69,6 @@ class Prop extends \fay\models\Prop{
 	 * @return array
 	 */
 	public function getPropsByCat($cat){
-		return Prop::model()->getByRefer(Category::model()->getParentIds($cat, '_system_post'));
+		return Prop::model()->getByRefer(Category::service()->getParentIds($cat, '_system_post'));
 	}
 }

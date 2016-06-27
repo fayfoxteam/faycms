@@ -8,14 +8,14 @@ use fay\models\tables\Categories;
 use fay\helpers\StringHelper;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
-use fay\models\post\Meta;
+use fay\services\post\Meta;
 use fay\services\Category;
 use fay\services\post\Category as PostCategory;
 use fay\models\post\Tag as PostTag;
 use fay\models\post\File as PostFile;
 use fay\helpers\ArrayHelper;
 use fay\core\ErrorException;
-use fay\models\post\Extra;
+use fay\services\post\Extra;
 use fay\models\post\Prop;
 use fay\services\File;
 
@@ -217,12 +217,12 @@ class Post extends Model{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			$return['meta'] = Meta::model()->get($id, $fields['meta']);
+			$return['meta'] = Meta::service()->get($id, $fields['meta']);
 		}
 		
 		//扩展信息
 		if(!empty($fields['extra'])){
-			$return['extra'] = Extra::model()->get($id, $fields['extra']);
+			$return['extra'] = Extra::service()->get($id, $fields['extra']);
 		}
 		
 		//设置一下SEO信息
@@ -466,11 +466,11 @@ class Post extends Model{
 		$post_ids = ArrayHelper::column($posts, 'id');
 		//meta
 		if(!empty($fields['meta'])){
-			$post_metas = Meta::model()->mget($post_ids, $fields['meta']);
+			$post_metas = Meta::service()->mget($post_ids, $fields['meta']);
 		}
 		//扩展信息
 		if(!empty($fields['extra'])){
-			$post_extras = Extra::model()->mget($post_ids, $fields['extra']);
+			$post_extras = Extra::service()->mget($post_ids, $fields['extra']);
 		}
 		
 		//标签
@@ -997,12 +997,12 @@ class Post extends Model{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			$post_metas = Meta::model()->mget($post_ids, $fields['meta']);
+			$post_metas = Meta::service()->mget($post_ids, $fields['meta']);
 		}
 		
 		//扩展信息
 		if(!empty($fields['extra'])){
-			$post_extras = Meta::model()->mget($post_ids, $fields['extra']);
+			$post_extras = Meta::service()->mget($post_ids, $fields['extra']);
 		}
 		
 		//标签

@@ -10,7 +10,7 @@ use fay\services\Category;
 use fay\models\User;
 use fay\helpers\Date;
 use fay\core\HttpException;
-use fay\models\post\Meta;
+use fay\services\post\Meta;
 
 class IndexController extends Widget{
 	public function index($config){
@@ -90,7 +90,7 @@ class IndexController extends Widget{
 			}
 			
 			if(in_array('meta', $config['fields'])){
-				$post_metas = Meta::model()->mget(ArrayHelper::column($posts, 'id'));
+				$post_metas = Meta::service()->mget(ArrayHelper::column($posts, 'id'));
 			}
 			
 			if(in_array('user', $config['fields'])){

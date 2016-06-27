@@ -5,7 +5,7 @@ use fay\core\Model;
 use fay\models\tables\Feeds;
 use fay\helpers\FieldHelper;
 use fay\core\Sql;
-use fay\models\feed\Meta;
+use fay\services\feed\Meta;
 use fay\models\feed\Tag as FeedTag;
 use fay\models\feed\File as FeedFile;
 use fay\models\tables\Users;
@@ -135,7 +135,7 @@ class Feed extends Model{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			$return['meta'] = Meta::model()->get($id, $fields['meta']);
+			$return['meta'] = Meta::service()->get($id, $fields['meta']);
 		}
 		
 		//作者信息
@@ -208,7 +208,7 @@ class Feed extends Model{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			$feed_metas = Meta::model()->mget($feed_ids, $fields['meta']);
+			$feed_metas = Meta::service()->mget($feed_ids, $fields['meta']);
 		}
 		
 		//标签

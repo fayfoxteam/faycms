@@ -1,10 +1,10 @@
 <?php
-namespace fay\models\post;
+namespace fay\services\post;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\PostExtra;
 
-class Extra extends Model{
+class Extra extends Service{
 	/**
 	 * 默认返回字段
 	 */
@@ -12,10 +12,10 @@ class Extra extends Model{
 	
 	/**
 	 * @param string $class_name
-	 * @return Meta
+	 * @return Extra
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

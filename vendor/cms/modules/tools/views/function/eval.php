@@ -1,4 +1,3 @@
-
 <div class="row">
 	<div class="col-12">
 		<form method="post" id="form">
@@ -44,6 +43,7 @@ editor.setOptions({
 	maxLines: 30,
 	minLines: 10
 });
+editor.renderer.setScrollMargin(10, 10);
 editor.getSession().on('change', function(e) {
 	$('#key').val(editor.getValue());
 });

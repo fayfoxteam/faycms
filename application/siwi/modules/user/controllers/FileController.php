@@ -27,7 +27,7 @@ class FileController extends UserController{
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($target, $cat_id, $private);
+		$result = File::service()->upload($target, $cat_id, $private);
 		if($this->input->get('CKEditorFuncNum')){
 			echo "<script>window.parent.CKEDITOR.tools.callFunction({$this->input->get('CKEditorFuncNum')}, '{$result['url']}', '');</script>";
 		}else{

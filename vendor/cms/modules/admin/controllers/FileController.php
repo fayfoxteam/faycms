@@ -179,7 +179,7 @@ class FileController extends AdminController{
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
+		$result = File::service()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
 		$data = $result['data'];
 		
 		if($result['status']){
@@ -220,7 +220,7 @@ class FileController extends AdminController{
 		if($data['is_image']){
 			switch($this->input->request('handler')){
 				case 'resize':
-					$data = File::model()->edit($data, 'resize', array(
+					$data = File::service()->edit($data, 'resize', array(
 						'dw'=>$this->input->request('dw', 'intval'),
 						'dh'=>$this->input->request('dh', 'intval'),
 					));
@@ -236,7 +236,7 @@ class FileController extends AdminController{
 					);
 					if($params['x'] && $params['y'] && $params['w'] && $params['h']){
 						//若参数不完整，则不裁剪
-						$data = File::model()->edit($data, 'crop', $params);
+						$data = File::service()->edit($data, 'crop', $params);
 					}
 				break;
 			}

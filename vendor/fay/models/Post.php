@@ -435,7 +435,7 @@ class Post extends Model{
 				'publish_time < '.\F::app()->current_time,
 				'status = '.Posts::STATUS_PUBLISHED,
 			))
-			->order($order)
+			->group('p.id')
 			->distinct(true);
 		if($limit){
 			$sql->limit($limit);

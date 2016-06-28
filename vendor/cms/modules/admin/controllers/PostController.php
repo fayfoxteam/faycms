@@ -92,7 +92,8 @@ class PostController extends AdminController{
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		$this->form()->setModel(Posts::model())
-			->setModel(PostsFiles::model());
+			->setModel(PostsFiles::model())
+			->setModel(PostMeta::model());
 		if($this->input->post() && $this->form()->check()){
 			//添加posts表
 			$data = Posts::model()->fillData($this->input->post());

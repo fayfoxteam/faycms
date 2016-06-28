@@ -23,12 +23,6 @@
 		</div>
 	</div>
 </div>
-<style type="text/css" media="screen">
-.ace_editor {
-	border: 1px solid lightgray;
-	height: 200px;
-}
-</style>
 <script type="text/javascript" src="<?php echo $this->assets('js/ace/src-min/ace.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('js/ace/src-min/ext-language_tools.js')?>"></script>
 <script>

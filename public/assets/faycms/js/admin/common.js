@@ -42,19 +42,20 @@ var common = {
 				}
 			},
 			'setting':{//管理员界面顶部设置表单
+				'settingForm': $('#setting-form-submit'),
 				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 					system.getScript(system.assets('js/jquery.poshytip.min.js'));
 				},
 				'ajaxSubmit': true,
 				'beforeSubmit': function(){
-					$('#setting-form-submit').nextAll('span').remove();
-					$('#setting-form-submit').after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
+					this.settingForm.nextAll('span').remove();
+					this.settingForm.after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
 				},
 				'afterAjaxSubmit': function(resp){
 					if(resp.status){
-						$('#setting-form-submit').nextAll('img,span,a').remove();
-						$('#setting-form-submit').after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
+						this.settingForm.nextAll('img,span,a').remove();
+						this.settingForm.after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
 					}else{
 						common.alert(resp.message);
 					}
@@ -143,7 +144,7 @@ var common = {
 				url: system.url('admin/notification/mute'),
 				dataType: 'json',
 				cache: false,
-				success: function(data){
+				success: function(resp){
 					common.headerNotification();
 				}
 			});
@@ -252,9 +253,9 @@ var common = {
 		$('#main-menu').on('click', '.has-sub > a', function(){
 			//非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
 			if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
-				var slideElapse = 300;//滑动效果持续
-				$li = $(this).parent();//父级li
-				$ul = $(this).next('ul');//子菜单的ul
+				var slideElapse = 300,//滑动效果持续
+				$li = $(this).parent(),//父级li
+				$ul = $(this).next('ul'),//子菜单的ul
 				$_li = $ul.children('li');//子菜单的li
 				if($li.hasClass('expanded')){
 					//关闭
@@ -449,17 +450,18 @@ var common = {
 			$box.slideUp('normal', function(){
 				$(this).remove();
 			});
-			var $setting_item = $("#setting-form input[name='boxes[]'][value='"+$box.attr('data-name')+"']");
-			if($setting_item.length){
-				$setting_item.attr('checked', false);
+			var $settingItem = $("#setting-form input[name='boxes[]'][value='"+$box.attr('data-name')+"']");
+			if($settingItem.length){
+				$settingItem.attr('checked', false);
 				$('#setting-form').submit();
 			}
 		});
 		//表单提交
 		$(document).on('click', 'a[id$="submit"]', function(){
-			$('form#'+$(this).attr('id').replace('-submit', '')).find('input[name="_export"]').remove();
-			$('form#'+$(this).attr('id').replace('-submit', '')).append('<input type="hidden" name="_submit" value="'+$(this).attr('id')+'">')
-			$('form#'+$(this).attr('id').replace('-submit', '')).submit();
+			var $form = $('form#'+$(this).attr('id').replace('-submit', ''));
+			$form.find('input[name="_export"]').remove();
+			$form.append('<input type="hidden" name="_submit" value="'+$(this).attr('id')+'">');
+			$form.submit();
 			return false;
 		});
 		//表单导出
@@ -519,14 +521,12 @@ var common = {
 			system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
 				if(!$.isEmptyObject(common.validformParams.forms)){
 					for(var k in common.validformParams.forms){
-						if(common.validformParams.forms[k].scene == 'default'){
-							var formId = 'form';
-						}else{
-							var formId = common.validformParams.forms[k].scene + '-form';
-						}
-						var settings = common.validformParams.settings[common.validformParams.forms[k].model];
-						settings.init();
-						common.validformParams.forms[k].obj = $('form#'+formId).validform(settings, common.validformParams.forms[k].rules, common.validformParams.forms[k].labels);
+						common.validformParams.settings[common.validformParams.forms[k].model].init();
+						common.validformParams.forms[k].obj = $('form#' + (common.validformParams.forms[k].scene == 'default' ?
+							'form' : common.validformParams.forms[k].scene + '-form')).validform(
+								common.validformParams.settings[common.validformParams.forms[k].model],
+								common.validformParams.forms[k].rules,
+								common.validformParams.forms[k].labels);
 					}
 				}
 				//剩余的一些可能是手工指定的form
@@ -764,16 +764,17 @@ var common = {
 		});
 	},
 	'dragsortList': function(){
-		if($('.dragsort-list').length){
+		var $dragsortList = $('.dragsort-list');
+		if($dragsortList.length){
 			//可拖拽的列表，例如文章附件
 			system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
-				$(".dragsort-list").dragsort({
+				$dragsortList.dragsort({
 					'itemSelector': 'div.dragsort-item',
 					'dragSelector': '.dragsort-item-selector',
 					'placeHolderTemplate': '<div class="dragsort-item holder"></div>',
 					'dragEnd': function(a, b, c){
 						//拖拽后poshytip需要重新定位
-						$('.dragsort-list').find('input,select,textarea').each(function(){
+						$dragsortList.find('input,select,textarea').each(function(){
 							if($(this).data('poshytip')){
 								$(this).poshytip('refresh');
 							}
@@ -782,7 +783,7 @@ var common = {
 				});
 			});
 			//删除
-			$(".dragsort-list").on('click', '.dragsort-rm', function(){
+			$dragsortList.on('click', '.dragsort-rm', function(){
 				$(this).parent().fadeOut('fast', function(){
 					//先复制出来，因为后面$(this)要被remove掉
 					var dragsort_list = $(this).parent();

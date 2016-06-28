@@ -7,10 +7,8 @@ use fay\core\Exception;
 use fay\core\Hook;
 use fay\models\Post;
 use fay\models\post\Comment as CommentModel;
-use fay\services\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
-use fay\models\tables\PostMeta;
 
 class Comment extends Service{
 	/**
@@ -450,81 +448,5 @@ class Comment extends Service{
 		return PostComments::model()->update(array(
 			'content'=>$content,
 		), $comment_id);
-	}
-	
-	/**
-	 * 判断一条动态的改变是否需要改变文章评论数
-	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 * @return bool
-	 */
-	private function needChangePostComments($comment, $action){
-		$post_comment_verify = Option::get('system:post_comment_verify');
-		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($comment['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
-				return true;
-			}
-		}else if($action == 'approve'){
-			//只要开启了评论审核，则必然在通过审核的时候文章评论数+1
-			if($post_comment_verify){
-				return true;
-			}
-		}else if($action == 'disapprove'){
-			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
-			if($comment['status'] == PostComments::STATUS_APPROVED && $post_comment_verify){
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * 更post_meta表comments和real_comments字段。
-	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 */
-	private function updatePostComments($comments, $action){
-		$posts = array();
-		foreach($comments as $c){
-			if($this->needChangePostComments($c, $action)){
-				//更新评论数
-				if(isset($posts[$c['post_id']]['comments'])){
-					$posts[$c['post_id']]['comments']++;
-				}else{
-					$posts[$c['post_id']]['comments'] = 1;
-				}
-				if(!$c['sockpuppet']){
-					//如果不是马甲，更新真实评论数
-					if(isset($posts[$c['post_id']]['real_comments'])){
-						$posts[$c['post_id']]['real_comments']++;
-					}else{
-						$posts[$c['post_id']]['real_comments'] = 1;
-					}
-				}
-			}
-		}
-		
-		foreach($posts as $post_id => $comment_count){
-			$comments = isset($comment_count['comments']) ? $comment_count['comments'] : 0;
-			$real_comments = isset($comment_count['real_comments']) ? $comment_count['real_comments'] : 0;
-			if(in_array($action, array('delete', 'remove', 'disapprove'))){
-				//如果是删除相关的操作，取反
-				$comments = - $comments;
-				$real_comments = - $real_comments;
-			}
-			
-			if($comments && $comments == $real_comments){
-				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				PostMeta::model()->incr($post_id, array('comments', 'real_comments'), $comments);
-			}else{
-				if($comments){
-					PostMeta::model()->incr($post_id, array('comments'), $comments);
-				}
-				if($real_comments){
-					PostMeta::model()->incr($post_id, array('real_comments'), $real_comments);
-				}
-			}
-		}
 	}
 }

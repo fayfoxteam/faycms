@@ -6,14 +6,13 @@ use fay\models\tables\FeedComments;
 use fay\core\Exception;
 use fay\core\Hook;
 use fay\models\feed\Comment as CommentModel;
-use fay\services\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
-use fay\models\tables\FeedMeta;
 use fay\models\Feed;
 
 class Comment extends Service{
 	/**
+	 * @param string $class_name
 	 * @return Comment
 	 */
 	public static function service($class_name = __CLASS__){
@@ -29,6 +28,8 @@ class Comment extends Service{
 	 * @param array $extra 扩展参数，二次开发时可能会用到
 	 * @param int $user_id 用户ID，若不指定，默认为当前登录用户ID
 	 * @param int $sockpuppet 马甲信息，若是真实用户，传入0，默认为0
+	 * @return int
+	 * @throws Exception
 	 */
 	public function create($feed_id, $content, $parent = 0, $status = FeedComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
@@ -77,6 +78,7 @@ class Comment extends Service{
 	 * 软删除一条评论
 	 * 软删除不会修改parent标识，因为删除的东西随时都有可能会被恢复，而parent如果变了是无法被恢复的。
 	 * @param int $comment_id 评论ID
+	 * @throws Exception
 	 */
 	public function delete($comment_id){
 		$comment = FeedComments::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
@@ -105,6 +107,7 @@ class Comment extends Service{
 	/**
 	 * 批量删除
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchDelete($comment_ids){
 		$comments = FeedComments::model()->fetchAll(array(
@@ -140,6 +143,7 @@ class Comment extends Service{
 	/**
 	 * 从回收站恢复一条评论
 	 * @param int $comment_id 评论ID
+	 * @throws Exception
 	 */
 	public function undelete($comment_id){
 		$comment = FeedComments::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
@@ -168,6 +172,7 @@ class Comment extends Service{
 	/**
 	 * 批量还原
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchUnelete($comment_ids){
 		$comments = FeedComments::model()->fetchAll(array(
@@ -203,6 +208,8 @@ class Comment extends Service{
 	/**
 	 * 删除一条评论及所有回复该评论的评论
 	 * @param int $comment_id 评论ID
+	 * @return array
+	 * @throws Exception
 	 */
 	public function deleteAll($comment_id){
 		$comment = FeedComments::model()->find($comment_id, 'left_value,right_value,root');
@@ -245,6 +252,8 @@ class Comment extends Service{
 	/**
 	 * 永久删除一条评论
 	 * @param int $comment_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function remove($comment_id){
 		$comment = FeedComments::model()->find($comment_id, '!content');
@@ -270,6 +279,8 @@ class Comment extends Service{
 	/**
 	 * 物理删除一条评论及所有回复该评论的评论
 	 * @param int $comment_id 评论ID
+	 * @return array
+	 * @throws Exception
 	 */
 	public function removeAll($comment_id){
 		$comment = FeedComments::model()->find($comment_id, '!content');
@@ -308,6 +319,8 @@ class Comment extends Service{
 	/**
 	 * 通过审核
 	 * @param int $comment_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function approve($comment_id){
 		$comment = FeedComments::model()->find($comment_id, '!content');
@@ -336,6 +349,7 @@ class Comment extends Service{
 	/**
 	 * 批量通过审核
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchApprove($comment_ids){
 		$comments = FeedComments::model()->fetchAll(array(
@@ -366,6 +380,8 @@ class Comment extends Service{
 	/**
 	 * 不通过审核
 	 * @param int $comment_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function disapprove($comment_id){
 		$comment = FeedComments::model()->find($comment_id, '!content');
@@ -394,6 +410,7 @@ class Comment extends Service{
 	/**
 	 * 批量不通过审核
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchDisapprove($comment_ids){
 		$comments = FeedComments::model()->fetchAll(array(
@@ -425,85 +442,11 @@ class Comment extends Service{
 	 * 编辑一条评论（只能编辑评论内容部分）
 	 * @param int $comment_id 评论ID
 	 * @param string $content 评论内容
+	 * @return int
 	 */
 	public function update($comment_id, $content){
 		return FeedComments::model()->update(array(
 			'content'=>$content,
 		), $comment_id);
-	}
-	
-	/**
-	 * 判断一条动态的改变是否需要改变文章评论数
-	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 */
-	private function needChangeFeedComments($comment, $action){
-		$feed_comment_verify = Option::get('system:feed_comment_verify');
-		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($comment['status'] == FeedComments::STATUS_APPROVED || !$feed_comment_verify){
-				return true;
-			}
-		}else if($action == 'approve'){
-			//只要开启了评论审核，则必然在通过审核的时候文章评论数+1
-			if($feed_comment_verify){
-				return true;
-			}
-		}else if($action == 'disapprove'){
-			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
-			if($comment['status'] == FeedComments::STATUS_APPROVED && $feed_comment_verify){
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * 更feed_meta表comments和real_comments字段。
-	 * @param array $comments 相关评论（二维数组，每项必须包含feed_id,status,sockpuppet字段，且feed_id必须都相同）
-	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
-	 */
-	private function updateFeedComments($comments, $action){
-		$feeds = array();
-		foreach($comments as $c){
-			if($this->needChangeFeedComments($c, $action)){
-				//更新评论数
-				if(isset($feeds[$c['feed_id']]['comments'])){
-					$feeds[$c['feed_id']]['comments']++;
-				}else{
-					$feeds[$c['feed_id']]['comments'] = 1;
-				}
-				if(!$c['sockpuppet']){
-					//如果不是马甲，更新真实评论数
-					if(isset($feeds[$c['feed_id']]['real_comments'])){
-						$feeds[$c['feed_id']]['real_comments']++;
-					}else{
-						$feeds[$c['feed_id']]['real_comments'] = 1;
-					}
-				}
-			}
-		}
-		
-		foreach($feeds as $feed_id => $comment_count){
-			$comments = isset($comment_count['comments']) ? $comment_count['comments'] : 0;
-			$real_comments = isset($comment_count['real_comments']) ? $comment_count['real_comments'] : 0;
-			if(in_array($action, array('delete', 'remove', 'disapprove'))){
-				//如果是删除相关的操作，取反
-				$comments = - $comments;
-				$real_comments = - $real_comments;
-			}
-			
-			if($comments && $comments == $real_comments){
-				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				FeedMeta::model()->incr($feed_id, array('comments', 'real_comments'), $comments);
-			}else{
-				if($comments){
-					FeedMeta::model()->incr($feed_id, array('comments'), $comments);
-				}
-				if($real_comments){
-					FeedMeta::model()->incr($feed_id, array('real_comments'), $real_comments);
-				}
-			}
-		}
 	}
 }

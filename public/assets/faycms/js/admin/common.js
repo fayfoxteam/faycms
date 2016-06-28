@@ -604,7 +604,8 @@ var common = {
 	},
 	'visualEditor': function(){
 		//此方法仅支持只有一个富文本编辑器的页面
-		if($('#visual-editor').length){
+		var $visualEditor = $('#visual-editor');
+		if($visualEditor.length){
 			window.CKEDITOR_BASEPATH = system.assets('js/ckeditor/');
 			system.getScript(system.assets('js/ckeditor/ckeditor.js'), function(){
 				//清空table的一些默认设置
@@ -625,7 +626,7 @@ var common = {
 				});
 				
 				var config = {
-					'height':$('#visual-editor').height()
+					'height':$visualEditor.height()
 				};
 				if(common.filebrowserImageUploadUrl){
 					config.filebrowserImageUploadUrl = common.filebrowserImageUploadUrl;
@@ -633,7 +634,7 @@ var common = {
 				if(common.filebrowserFlashUploadUrl){
 					config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
 				}
-				if($('#visual-editor').hasClass('visual-simple') || parseInt($(window).width()) < 743){
+				if($visualEditor.hasClass('visual-simple') || parseInt($(window).width()) < 743){
 					//简化模式
 					config.toolbar = [
 				  		['Source'],
@@ -735,31 +736,34 @@ var common = {
 	},
 	'batch': function(){
 		//批量操作表单提交
-		$('body').on('change', '.batch-ids-all', function(){
-			$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
-		}).on('click', '#batch-form-submit', function(){
-			if($('#batch-action').val() == ''){
-				common.alert('请选择操作');
-			}else{
-				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
-				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action').val()+'">')
-					.append('<input type="hidden" name="_submit" value="batch-form-submit">');
-				$('body').block();
-				$('#batch-form').submit();
-			}
-			return false;
-		}).on('click', '#batch-form-submit-2', function(){
-			if($('#batch-action-2').val() == ''){
-				common.alert('请选择操作');
-			}else{
-				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
-				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action-2').val()+'">')
-					.append('<input type="hidden" name="_submit" value="batch-form-submit-2">');
-				$('body').block();
-				$('#batch-form').submit();
-			}
-			return false;
-		});
+		var $batchForm = $('#batch-form');
+		if($batchForm.length){
+			$('body').on('change', '.batch-ids-all', function(){
+				$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
+			}).on('click', '#batch-form-submit', function(){
+				if($('#batch-action').val() == ''){
+					common.alert('请选择操作');
+				}else{
+					$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
+					$batchForm.append('<input type="hidden" name="batch_action" value="'+$('#batch-action').val()+'">')
+						.append('<input type="hidden" name="_submit" value="batch-form-submit">');
+					$('body').block();
+					$batchForm.submit();
+				}
+				return false;
+			}).on('click', '#batch-form-submit-2', function(){
+				if($('#batch-action-2').val() == ''){
+					common.alert('请选择操作');
+				}else{
+					$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
+					$batchForm.append('<input type="hidden" name="batch_action" value="'+$('#batch-action-2').val()+'">')
+						.append('<input type="hidden" name="_submit" value="batch-form-submit-2">');
+					$('body').block();
+					$batchForm.submit();
+				}
+				return false;
+			});
+		}
 	},
 	'dragsortList': function(){
 		var $dragsortList = $('.dragsort-list');

@@ -708,8 +708,8 @@ var common = {
 		});
 	},
 	'showPager': function(id, pager){
+		var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 		if(pager.total_pages > 1){
-			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 			//向前导航
 			if(pager.current_page == 1){
 				html.push('<a href="javascript:;" title="首页" class="page-numbers first disabled">&laquo;</a>');
@@ -730,8 +730,6 @@ var common = {
 				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev" data-page="' + (pager.current_page + 1) + '">&rsaquo;</a>');
 				html.push('<a href="javascript:;" title="末页" class="page-numbers first" data-page="' + pager.total_pages + '">&raquo;</a>');
 			}
-		}else{
-			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 		}
 		$('#'+id).html(html.join(''));
 	},

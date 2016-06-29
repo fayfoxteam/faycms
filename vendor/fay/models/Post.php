@@ -545,7 +545,7 @@ class Post extends Model{
 				}else{
 					$props = Prop::service()->mget($fields['props']);
 				}
-				$post['props'] = $this->getPropertySet($p['id'], $props);
+				$post['props'] = Prop::service()->getPropertySet($p['id'], $props);
 			}
 			
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
@@ -1094,7 +1094,7 @@ class Post extends Model{
 				}else{
 					$props = Prop::service()->mget($fields['props']);
 				}
-				$post['props'] = $this->getPropertySet($p['id'], $props);
+				$post['props'] = Prop::service()->getPropertySet($p['id'], $props);
 			}
 				
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段

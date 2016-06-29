@@ -3,8 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\post\Like as LikeService;
-use fay\models\post\Like as LikeModel;
+use fay\services\post\Like as PostLike;
 use fay\models\Post;
 use fay\helpers\FieldHelper;
 use fay\models\User;
@@ -42,14 +41,14 @@ class PostLikeController extends ApiController{
 			));
 		}
 		
-		if(LikeModel::isLiked($post_id)){
+		if(PostLike::isLiked($post_id)){
 			Response::notify('error', array(
 				'message'=>'您已赞过该文章',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		LikeService::add($post_id, $this->form()->getData('trackid', ''));
+		PostLike::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '点赞成功');
 	}
@@ -74,14 +73,14 @@ class PostLikeController extends ApiController{
 		
 		$post_id = $this->form()->getData('post_id');
 		
-		if(!LikeModel::isLiked($post_id)){
+		if(!PostLike::isLiked($post_id)){
 			Response::notify('error', array(
 				'message'=>'您未赞过该文章',
 				'code'=>'not-liked',
 			));
 		}
 		
-		LikeService::remove($post_id);
+		PostLike::remove($post_id);
 		
 		Response::notify('success', '取消点赞成功');
 	}
@@ -126,7 +125,7 @@ class PostLikeController extends ApiController{
 			$fields = User::$default_fields;
 		}
 		
-		$likes = LikeModel::model()->getPostLikes($post_id,
+		$likes = PostLike::service()->getPostLikes($post_id,
 			$fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
@@ -165,7 +164,7 @@ class PostLikeController extends ApiController{
 			$fields = Post::$default_fields;
 		}
 		
-		$likes = LikeModel::model()->getUserLikes($fields,
+		$likes = PostLike::service()->getUserLikes($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
 		Response::json($likes);

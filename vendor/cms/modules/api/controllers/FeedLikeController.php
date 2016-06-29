@@ -3,8 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\feed\Like as LikeService;
-use fay\models\feed\Like as LikeModel;
+use fay\services\feed\Like as FeedLike;
 use fay\models\Feed;
 use fay\helpers\FieldHelper;
 use fay\models\User;
@@ -42,14 +41,14 @@ class FeedLikeController extends ApiController{
 			));
 		}
 		
-		if(LikeModel::isLiked($feed_id)){
+		if(FeedLike::isLiked($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您已赞过该动态',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		LikeService::add($feed_id, $this->form()->getData('trackid', ''));
+		FeedLike::add($feed_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '点赞成功');
 	}
@@ -74,14 +73,14 @@ class FeedLikeController extends ApiController{
 		
 		$feed_id = $this->form()->getData('feed_id');
 		
-		if(!LikeModel::isLiked($feed_id)){
+		if(!FeedLike::isLiked($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您未赞过该动态',
 				'code'=>'not-liked',
 			));
 		}
 		
-		LikeService::remove($feed_id);
+		FeedLike::remove($feed_id);
 		
 		Response::notify('success', '取消点赞成功');
 	}
@@ -126,7 +125,7 @@ class FeedLikeController extends ApiController{
 			$fields = User::$default_fields;
 		}
 		
-		$likes = LikeModel::model()->getFeedLikes($feed_id,
+		$likes = FeedLike::service()->getFeedLikes($feed_id,
 			$fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
@@ -165,7 +164,7 @@ class FeedLikeController extends ApiController{
 			$fields = Feed::$default_fields;
 		}
 		
-		$likes = LikeModel::model()->getUserLikes($fields,
+		$likes = FeedLike::service()->getUserLikes($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
 		Response::json($likes);

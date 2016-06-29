@@ -2,8 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
-use fay\services\feed\Favorite as FavoriteService;
-use fay\models\feed\Favorite as FavoriteModel;
+use fay\services\feed\Favorite as FeedFavorite;
 use fay\core\Response;
 use fay\models\Feed;
 use fay\helpers\FieldHelper;
@@ -38,14 +37,14 @@ class FeedFavoriteController extends UserController{
 			));
 		}
 		
-		if(FavoriteModel::isFavorited($feed_id)){
+		if(FeedFavorite::isFavorited($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您已收藏过该动态',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		FavoriteService::add($feed_id, $this->form()->getData('trackid', ''));
+		FeedFavorite::add($feed_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '收藏成功');
 	}
@@ -67,14 +66,14 @@ class FeedFavoriteController extends UserController{
 		
 		$feed_id = $this->form()->getData('feed_id');
 		
-		if(!FavoriteModel::isFavorited($feed_id)){
+		if(!FeedFavorite::isFavorited($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您未收藏过该动态',
 				'code'=>'not-favorited',
 			));
 		}
 		
-		FavoriteService::remove($feed_id);
+		FeedFavorite::remove($feed_id);
 		
 		Response::notify('success', '移除收藏成功');
 	}
@@ -108,7 +107,7 @@ class FeedFavoriteController extends UserController{
 			$fields = Feed::$default_fields;
 		}
 		
-		$favorites = FavoriteModel::model()->getList($fields,
+		$favorites = FeedFavorite::service()->getList($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
 		

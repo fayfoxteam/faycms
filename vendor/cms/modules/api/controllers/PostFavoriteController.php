@@ -2,8 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
-use fay\services\post\Favorite as FavoriteService;
-use fay\models\post\Favorite as FavoriteModel;
+use fay\services\post\Favorite as PostFavorite;
 use fay\core\Response;
 use fay\models\Post;
 use fay\helpers\FieldHelper;
@@ -38,14 +37,14 @@ class PostFavoriteController extends UserController{
 			));
 		}
 		
-		if(FavoriteModel::isFavorited($post_id)){
+		if(PostFavorite::isFavorited($post_id)){
 			Response::notify('error', array(
 				'message'=>'您已收藏过该文章',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		FavoriteService::add($post_id, $this->form()->getData('trackid', ''));
+		PostFavorite::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '收藏成功');
 	}
@@ -67,14 +66,14 @@ class PostFavoriteController extends UserController{
 		
 		$post_id = $this->form()->getData('post_id');
 		
-		if(!FavoriteModel::isFavorited($post_id)){
+		if(!PostFavorite::isFavorited($post_id)){
 			Response::notify('error', array(
 				'message'=>'您未收藏过该文章',
 				'code'=>'not-favorited',
 			));
 		}
 		
-		FavoriteService::remove($post_id);
+		PostFavorite::remove($post_id);
 		
 		Response::notify('success', '移除收藏成功');
 	}
@@ -108,7 +107,7 @@ class PostFavoriteController extends UserController{
 			$fields = Post::$default_fields;
 		}
 		
-		$favorites = FavoriteModel::model()->getList($fields,
+		$favorites = PostFavorite::service()->getList($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
 		Response::json($favorites);

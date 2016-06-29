@@ -11,13 +11,11 @@ use fay\models\tables\PostPropVarchar;
 use fay\models\tables\PostPropText;
 use fay\models\tables\PostLikes;
 use fay\models\tables\PostMeta;
-use fay\models\post\Tag as PostTagModel;
 use fay\helpers\Request;
 use fay\services\post\Prop;
 use fay\models\Post as PostModel;
-use fay\services\File;
 use fay\models\tables\UserCounter;
-use fay\services\post\Tag as PostTagService;
+use fay\services\post\Tag as PostTag;
 use fay\core\Hook;
 use fay\models\tables\PostFavorites;
 use fay\models\tables\PostExtra;
@@ -97,7 +95,7 @@ class Post extends Service{
 		}
 		//标签
 		if(isset($extra['tags'])){
-			PostTagService::service()->set($extra['tags'], $post_id);
+			PostTag::service()->set($extra['tags'], $post_id);
 		}
 		
 		//附件
@@ -127,7 +125,7 @@ class Post extends Service{
 				UserCounter::model()->incr($user_id, 'posts', 1);
 				
 				//相关标签文章数加一
-				PostTagModel::model()->incr($post_id);
+				PostTag::service()->incr($post_id);
 			}
 		}else{
 			//如果未传入status，获取文章状态进行判断
@@ -137,7 +135,7 @@ class Post extends Service{
 				UserCounter::model()->incr($user_id, 'posts', 1);
 				
 				//相关标签文章数加一
-				PostTagModel::model()->incr($post_id);
+				PostTag::service()->incr($post_id);
 			}
 		}
 			
@@ -197,14 +195,14 @@ class Post extends Service{
 				UserCounter::model()->incr($old_post['user_id'], 'posts', -1);
 		
 				//相关标签文章数减一
-				PostTagModel::model()->decr($post_id);
+				PostTag::service()->decr($post_id);
 			}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
 				isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
 				//若原文章不是“已发布”状态，且新状态是“已发布”
 				UserCounter::model()->incr($old_post['user_id'], 'posts', 1);
 		
 				//相关标签文章数加一
-				PostTagModel::model()->incr($post_id);
+				PostTag::service()->incr($post_id);
 			}
 		}
 		
@@ -245,7 +243,7 @@ class Post extends Service{
 		
 		//标签
 		if(isset($extra['tags'])){
-			PostTagService::service()->set($extra['tags'], $post_id);
+			PostTag::service()->set($extra['tags'], $post_id);
 		}
 		
 		//附件
@@ -353,7 +351,7 @@ class Post extends Service{
 			UserCounter::model()->incr($post['user_id'], 'posts', -1);
 			
 			//相关标签文章数减一
-			PostTagModel::model()->decr($post_id);
+			PostTag::service()->decr($post_id);
 		}
 		//删除文章与标签的关联关系
 		PostsTags::model()->delete('post_id = ' . $post_id);
@@ -404,7 +402,7 @@ class Post extends Service{
 			UserCounter::model()->incr($post['user_id'], 'posts', -1);
 			
 			//相关标签文章数减一
-			PostTagModel::model()->decr($post_id);
+			PostTag::service()->decr($post_id);
 		}
 		
 		//执行钩子
@@ -437,7 +435,7 @@ class Post extends Service{
 			UserCounter::model()->incr($post['user_id'], 'posts', 1);
 			
 			//相关标签文章数加一
-			PostTagModel::model()->incr($post_id);
+			PostTag::service()->incr($post_id);
 		}
 		
 		//执行钩子

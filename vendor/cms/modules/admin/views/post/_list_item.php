@@ -4,7 +4,7 @@ use fay\models\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
 use fay\services\File;
-use fay\models\post\Tag as PostTag;
+use fay\services\post\Tag as PostTag;
 use fay\services\post\Category as PostCategory;
 
 //分类权限判断
@@ -95,7 +95,7 @@ $editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<?php if(in_array('tags', $cols)){?>
 	<td><?php
-		$tags = PostTag::model()->get($data['id']);
+		$tags = PostTag::service()->get($data['id']);
 		foreach($tags as $key => $tag){
 			if($key){
 				echo ', ';

@@ -3,14 +3,13 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\models\tables\Feeds;
-use fay\services\feed\Tag as FeedTagService;
+use fay\services\feed\Tag as FeedTag;
 use fay\models\tables\FeedsFiles;
 use fay\models\tables\UserCounter;
 use fay\models\tables\FeedMeta;
 use fay\helpers\Request;
 use fay\models\tables\FeedExtra;
 use fay\core\Hook;
-use fay\models\feed\Tag as FeedTagModel;
 use fay\models\tables\FeedsTags;
 use fay\models\tables\FeedLikes;
 use fay\models\tables\FeedFavorites;
@@ -72,7 +71,7 @@ class Feed extends Service{
 		
 		//标签
 		if(isset($extra['tags'])){
-			FeedTagService::service()->set($extra['tags'], $feed_id);
+			FeedTag::service()->set($extra['tags'], $feed_id);
 		}
 		
 		//附件
@@ -96,7 +95,7 @@ class Feed extends Service{
 				UserCounter::model()->incr($user_id, 'feeds', 1);
 				
 				//相关标签动态数加一
-				FeedTagModel::model()->incr($feed_id);
+				FeedTag::service()->incr($feed_id);
 			}
 		}else{
 			//如果未传入status，获取动态状态进行判断
@@ -106,7 +105,7 @@ class Feed extends Service{
 				UserCounter::model()->incr($user_id, 'feeds', 1);
 				
 				//相关标签动态数加一
-				FeedTagModel::model()->incr($feed_id);
+				FeedTag::service()->incr($feed_id);
 			}
 		}
 		
@@ -154,14 +153,14 @@ class Feed extends Service{
 				UserCounter::model()->incr($old_feed['user_id'], 'feeds', 1);
 				
 				//相关标签动态数减一
-				FeedTagModel::model()->decr($feed_id);
+				FeedTag::service()->decr($feed_id);
 			}else if($old_feed['status'] != Feeds::STATUS_DRAFT &&
 				isset($data['status']) && $data['status'] == Feeds::STATUS_DRAFT){
 				//若原动态不是“草稿”状态，且新状态是“草稿”
 				UserCounter::model()->incr($old_feed['user_id'], 'feeds', -1);
 				
 				//相关标签动态数加一
-				FeedTagModel::model()->incr($feed_id);
+				FeedTag::service()->incr($feed_id);
 			}
 		}
 		
@@ -177,7 +176,7 @@ class Feed extends Service{
 		
 		//标签
 		if(isset($extra['tags'])){
-			FeedTagService::service()->set($extra['tags'], $feed_id);
+			FeedTag::service()->set($extra['tags'], $feed_id);
 		}
 		
 		//附件
@@ -249,7 +248,7 @@ class Feed extends Service{
 			UserCounter::model()->incr($feed['user_id'], 'feeds', -1);
 			
 			//相关标签动态数减一
-			FeedTagModel::model()->decr($feed_id);
+			FeedTag::service()->decr($feed_id);
 		}
 		
 		//执行钩子
@@ -282,7 +281,7 @@ class Feed extends Service{
 			UserCounter::model()->incr($feed['user_id'], 'feeds', 1);
 			
 			//相关标签动态数加一
-			FeedTagModel::model()->incr($feed_id);
+			FeedTag::service()->incr($feed_id);
 		}
 		
 		//执行钩子
@@ -319,7 +318,7 @@ class Feed extends Service{
 			UserCounter::model()->incr($feed['user_id'], 'feed', -1);
 			
 			//相关标签动态数减一
-			FeedTagModel::model()->decr($feed_id);
+			FeedTag::service()->decr($feed_id);
 		}
 		//删除动态与标签的关联关系
 		FeedsTags::model()->delete('feed_id = ' . $feed_id);

@@ -11,7 +11,7 @@ use fay\helpers\FieldHelper;
 use fay\services\post\Meta;
 use fay\services\Category;
 use fay\services\post\Category as PostCategory;
-use fay\models\post\Tag as PostTag;
+use fay\services\post\Tag as PostTag;
 use fay\services\post\File as PostFile;
 use fay\helpers\ArrayHelper;
 use fay\core\ErrorException;
@@ -245,7 +245,7 @@ class Post extends Model{
 		
 		//标签
 		if(!empty($fields['tags'])){
-			$return['tags'] = PostTag::model()->get($id, $fields['tags']);
+			$return['tags'] = PostTag::service()->get($id, $fields['tags']);
 		}
 		
 		//附件
@@ -475,7 +475,7 @@ class Post extends Model{
 		
 		//标签
 		if(!empty($fields['tags'])){
-			$post_tags = PostTag::model()->mget($post_ids, $fields['tags']);
+			$post_tags = PostTag::service()->mget($post_ids, $fields['tags']);
 		}
 		
 		//附件
@@ -1007,7 +1007,7 @@ class Post extends Model{
 		
 		//标签
 		if(!empty($fields['tags'])){
-			$post_tags = PostTag::model()->mget($post_ids, $fields['tags']);
+			$post_tags = PostTag::service()->mget($post_ids, $fields['tags']);
 		}
 		
 		//附件

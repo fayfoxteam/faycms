@@ -6,7 +6,7 @@ use fay\helpers\Request;
 use fay\services\Category;
 use fay\services\post\Prop;
 use fay\models\tables\Posts;
-use fay\models\post\Tag;
+use fay\services\post\Tag;
 use fay\models\tables\PostsCategories;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
@@ -681,7 +681,7 @@ class PostController extends AdminController{
 				));
 				
 				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
+				Tag::service()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被发布');
 				Response::notify('success', $affected_rows.'篇文章被发布');
@@ -700,7 +700,7 @@ class PostController extends AdminController{
 				));
 				
 				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
+				Tag::service()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“草稿”');
 				Response::notify('success', $affected_rows.'篇文章被标记为“草稿”');
@@ -719,7 +719,7 @@ class PostController extends AdminController{
 				));
 				
 				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
+				Tag::service()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“待审核”');
 				Response::notify('success', $affected_rows.'篇文章被标记为“待审核”');
@@ -738,7 +738,7 @@ class PostController extends AdminController{
 				));
 				
 				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
+				Tag::service()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“通过审核”');
 				Response::notify('success', $affected_rows.'篇文章被标记为“通过审核”');
@@ -757,7 +757,7 @@ class PostController extends AdminController{
 				));
 				
 				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
+				Tag::service()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被移入回收站');
 				Response::notify('success', $affected_rows.'篇文章被移入回收站');
@@ -776,7 +776,7 @@ class PostController extends AdminController{
 				));
 
 				//刷新tags的count值
-				Tag::model()->refreshCountByPostId($ids);
+				Tag::service()->refreshCountByPostId($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被还原');
 				Response::notify('success', $affected_rows.'篇文章被还原');

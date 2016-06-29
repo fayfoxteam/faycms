@@ -6,9 +6,8 @@ use fay\models\tables\Feeds;
 use fay\helpers\FieldHelper;
 use fay\core\Sql;
 use fay\services\feed\Meta;
-use fay\models\feed\Tag as FeedTag;
+use fay\services\feed\Tag as FeedTag;
 use fay\models\feed\File as FeedFile;
-use fay\models\tables\Users;
 use fay\core\ErrorException;
 
 class Feed extends Model{
@@ -145,7 +144,7 @@ class Feed extends Model{
 		
 		//标签
 		if(!empty($fields['tags'])){
-			$return['tags'] = FeedTag::model()->get($id, $fields['tags']);
+			$return['tags'] = FeedTag::service()->get($id, $fields['tags']);
 		}
 		
 		//附件
@@ -213,7 +212,7 @@ class Feed extends Model{
 		
 		//标签
 		if(!empty($fields['tags'])){
-			$feed_tags = FeedTag::model()->mget($feed_ids, $fields['tags']);
+			$feed_tags = FeedTag::service()->mget($feed_ids, $fields['tags']);
 		}
 		
 		//附件

@@ -7,7 +7,7 @@ use fay\helpers\FieldHelper;
 use fay\core\Sql;
 use fay\services\feed\Meta;
 use fay\services\feed\Tag as FeedTag;
-use fay\models\feed\File as FeedFile;
+use fay\services\feed\File as FeedFile;
 use fay\core\ErrorException;
 
 class Feed extends Model{
@@ -149,7 +149,7 @@ class Feed extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$return['files'] = FeedFile::model()->get($id, $fields['files']);
+			$return['files'] = FeedFile::service()->get($id, $fields['files']);
 		}
 		
 		return $return;
@@ -217,7 +217,7 @@ class Feed extends Model{
 		
 		//附件
 		if(!empty($fields['files'])){
-			$feed_files = FeedFile::model()->mget($feed_ids, $fields['files']);
+			$feed_files = FeedFile::service()->mget($feed_ids, $fields['files']);
 		}
 	}
 	

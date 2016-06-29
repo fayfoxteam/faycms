@@ -35,6 +35,7 @@ use fay\models\user\Role;
 				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 					'class'=>'form-control h200 autosize',
+					'id'=>'code-editor',
 				))?>
 				<p class="fc-grey mt5">
 					若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，

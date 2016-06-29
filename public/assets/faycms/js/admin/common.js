@@ -1,11 +1,13 @@
 var common = {
-	'filebrowserImageUploadUrl':null,	//可视化编辑器的文件上传路径
-	'filebrowserFlashUploadUrl':null,	//可视化编辑器的Flash上传路径
-	'dragsortKey':null,	//用于自动保存dragsort排序
+	'filebrowserImageUploadUrl': null,//可视化编辑器的文件上传路径
+	'filebrowserFlashUploadUrl': null,//可视化编辑器的Flash上传路径
+	'dragsortKey': null,//用于自动保存dragsort排序
+	'markdownEditor': null,//Markdown编辑器实例
+	'visualEditor': null,//可视化编辑器实例
 	'validformParams':{
-		'forms':{},
-		'settings':{
-			'poshytip':{//利用poshytip插件报错
+		'forms': {},
+		'settings': {
+			'poshytip': {//利用poshytip插件报错
 				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 					system.getScript(system.assets('js/jquery.poshytip.min.js'));
@@ -41,7 +43,7 @@ var common = {
 					last.poshytip('destroy');
 				}
 			},
-			'setting':{//管理员界面顶部设置表单
+			'setting': {//管理员界面顶部设置表单
 				'settingForm': $('#setting-form-submit'),
 				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
@@ -602,7 +604,7 @@ var common = {
 			});
 		}
 	},
-	'visualEditor': function(){
+	'initVisualEditor': function(){
 		//此方法仅支持只有一个富文本编辑器的页面
 		var $visualEditor = $('#visual-editor');
 		if($visualEditor.length){
@@ -646,16 +648,16 @@ var common = {
 					config.enterMode = CKEDITOR.ENTER_BR;
 					config.shiftEnterMode = CKEDITOR.ENTER_P;
 				}
-				common.editorObj = CKEDITOR.replace('visual-editor', config);
+				common.visualEditor = CKEDITOR.replace('visual-editor', config);
 			});
 		}
 	},
-	'markdownEditor': function(){
-		//Markdown编辑器
+	'initMarkdownEditor': function(){
+		//Markdown编辑器（此方法仅支持只有一个编辑器的页面）
 		if($('#wmd-input').length){
 			system.getCss(system.assets('js/editor.md/css/editormd.min.css'));
 			system.getScript(system.assets('js/editor.md/editormd.min.js'), function(){
-				common.editorObj = editormd('markdown-container', {
+				common.markdownEditor = editormd('markdown-container', {
 					'height': 350,
 					'syncScrolling': 'single',
 					'path': system.assets('js/editor.md/lib/'),
@@ -677,8 +679,33 @@ var common = {
 			});
 		}
 	},
-	'removeEditor': function(){//移除富文本编辑器实例
-		common.editorObj.destroy();
+	'initCodeEditor': function(){
+		//代码编辑器（此方法仅支持只有一个编辑器的页面）
+		var $codeEditor = $('#code-editor');
+		if($codeEditor.length){
+			$codeEditor.addClass('hide').after('<pre id="code-editor-container"></pre>');
+			system.getScript(system.assets('js/ace/src-min/ace.js'), function(){
+				system.getScript(system.assets('js/ace/src-min/ext-language_tools.js'), function(){
+					ace.config.set('basePath', system.assets('js/ace/src-min/'));
+					common.codeEditor = ace.edit('code-editor-container');
+					common.codeEditor.setOptions({
+						enableBasicAutocompletion: true,
+						enableSnippets: true,
+						enableLiveAutocompletion: true,
+						maxLines: 30,
+						minLines: 10
+					});
+					common.codeEditor.setTheme('ace/theme/monokai');
+					common.codeEditor.session.setMode('ace/mode/php');
+					common.codeEditor.setAutoScrollEditorIntoView(true);
+					common.codeEditor.renderer.setScrollMargin(10, 10);
+					common.codeEditor.getSession().on('change', function(e) {
+						$codeEditor.val(common.codeEditor.getValue());
+					});
+					common.codeEditor.setValue($codeEditor.val(), 1);
+				});
+			});
+		}
 	},
 	'tab': function(){
 		$(document).on('click', '.tabbable .nav-tabs a', function(){
@@ -890,8 +917,9 @@ var common = {
 
 		this.fixContent();
 		this.validform();
-		this.visualEditor();
-		this.markdownEditor();
+		this.initVisualEditor();
+		this.initMarkdownEditor();
+		this.initCodeEditor();
 		this.tab();
 		this.dragsortList();
 		this.textAutosize();

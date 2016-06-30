@@ -1,22 +1,42 @@
 <?php
 namespace fay\services\feed;
 
-use fay\core\Service;
+use fay\core\ErrorException;
+use fay\core\Loader;
+use fay\helpers\FieldHelper;
+use fay\models\MultiTree;
 use fay\models\tables\FeedComments;
 use fay\core\Exception;
 use fay\core\Hook;
-use fay\models\feed\Comment as CommentModel;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\Feed;
+use fay\models\tables\FeedMeta;
+use fay\services\Option;
+use fay\services\User;
 
-class Comment extends Service{
+class Comment extends MultiTree{
+	/**
+	 * @see MultiTree::$model
+	 */
+	protected $model = '\fay\models\tables\FeedComments';
+	
+	/**
+	 * @see MultiTree::$foreign_key
+	 */
+	protected $foreign_key = 'feed_id';
+	
+	/**
+	 * @see MultiTree::$field_key
+	 */
+	protected $field_key = 'comment';
+	
 	/**
 	 * @param string $class_name
 	 * @return Comment
 	 */
 	public static function service($class_name = __CLASS__){
-		return parent::service($class_name);
+		return Loader::singleton($class_name);
 	}
 	
 	/**
@@ -48,7 +68,7 @@ class Comment extends Service{
 			}
 		}
 		
-		$comment_id = CommentModel::model()->create(array_merge($extra, array(
+		$comment_id = $this->_create(array_merge($extra, array(
 			'feed_id'=>$feed_id,
 			'content'=>$content,
 			'status'=>$status,
@@ -60,7 +80,7 @@ class Comment extends Service{
 		)), $parent);
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments(array(array(
+		$this->updateFeedComments(array(array(
 			'feed_id'=>$feed_id,
 			'status'=>$status,
 			'sockpuppet'=>$sockpuppet,
@@ -96,7 +116,7 @@ class Comment extends Service{
 		), $comment_id);
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments(array($comment), 'delete');
+		$this->updateFeedComments(array($comment), 'delete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_feed_comment_deleted', array(
@@ -128,7 +148,7 @@ class Comment extends Service{
 		));
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments($comments, 'delete');
+		$this->updateFeedComments($comments, 'delete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -161,7 +181,7 @@ class Comment extends Service{
 		), $comment_id);
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments(array($comment), 'undelete');
+		$this->updateFeedComments(array($comment), 'undelete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_feed_comment_undeleted', array(
@@ -193,7 +213,7 @@ class Comment extends Service{
 		));
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments($comments, 'undelete');
+		$this->updateFeedComments($comments, 'undelete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -236,7 +256,7 @@ class Comment extends Service{
 			));
 			
 			//更新文章评论数
-			CommentModel::model()->updateFeedComments($comments, 'delete');
+			$this->updateFeedComments($comments, 'delete');
 			
 			//执行钩子
 			Hook::getInstance()->call('after_feed_comment_batch_deleted', array(
@@ -266,11 +286,11 @@ class Comment extends Service{
 			'comment_id'=>$comment_id,
 		));
 		
-		CommentModel::model()->remove($comment);
+		$this->_remove($comment);
 		
 		if(!$comment['deleted']){
 			//更新文章评论数
-			CommentModel::model()->updateFeedComments(array($comment), 'remove');
+			$this->updateFeedComments(array($comment), 'remove');
 		}
 		
 		return true;
@@ -308,10 +328,10 @@ class Comment extends Service{
 			}
 		}
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments($undeleted_comments, 'remove');
+		$this->updateFeedComments($undeleted_comments, 'remove');
 		
 		//执行删除
-		CommentModel::model()->removeAll($comment);
+		$this->_removeAll($comment);
 		
 		return $comment_ids;
 	}
@@ -334,10 +354,10 @@ class Comment extends Service{
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		CommentModel::model()->setStatus($comment_id, FeedComments::STATUS_APPROVED);
+		$this->setStatus($comment_id, FeedComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments(array($comment), 'approve');
+		$this->updateFeedComments(array($comment), 'approve');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_feed_comment_approved', array(
@@ -362,10 +382,10 @@ class Comment extends Service{
 		}
 		
 		//更新状态
-		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_APPROVED);
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments($comments, 'approve');
+		$this->updateFeedComments($comments, 'approve');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -395,10 +415,10 @@ class Comment extends Service{
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		CommentModel::model()->setStatus($comment_id, FeedComments::STATUS_UNAPPROVED);
+		$this->setStatus($comment_id, FeedComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments(array($comment), 'disapprove');
+		$this->updateFeedComments(array($comment), 'disapprove');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_feed_comment_disapproved', array(
@@ -423,10 +443,10 @@ class Comment extends Service{
 		}
 		
 		//更新状态
-		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_UNAPPROVED);
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updateFeedComments($comments, 'disapprove');
+		$this->updateFeedComments($comments, 'disapprove');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -448,5 +468,308 @@ class Comment extends Service{
 		return FeedComments::model()->update(array(
 			'content'=>$content,
 		), $comment_id);
+	}
+	
+	/**
+	 * 获取一条评论
+	 * @param int $comment_id 评论ID
+	 * @param string|array $fields 返回字段
+	 *  - comment.*系列可指定feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
+	 *  - parent.comment.*系列可指定父评论feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
+	 *  - parent.user.*系列可指定父评论作者信息，格式参照\fay\services\User::get()
+	 * @return array
+	 */
+	public function get($comment_id, $fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'parent'=>array(
+			'comment'=>array(
+				'id', 'content', 'parent', 'create_time',
+			),
+			'user'=>array(
+				'id', 'nickname', 'avatar',
+			),
+		)
+	)){
+		$fields = FieldHelper::parse($fields, 'comment');
+		if(empty($fields['comment']) || in_array('*', $fields['comment'])){
+			//若未指定返回字段，初始化
+			$fields['comment'] = \F::table($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
+		}
+		
+		$comment_fields = $fields['comment'];
+		if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$comment_fields[] = 'user_id';
+		}
+		if(!empty($fields['parent']) && !in_array('parent', $comment_fields)){
+			//如果要获取作者信息，则必须搜出parent
+			$comment_fields[] = 'parent';
+		}
+		
+		$comment = \F::table($this->model)->fetchRow(array(
+			'id = ?'=>$comment_id,
+			'deleted = 0',
+		), $comment_fields);
+		
+		if(!$comment){
+			return false;
+		}
+		
+		$return = array(
+			'comment'=>$comment,
+		);
+		//作者信息
+		if(!empty($fields['user'])){
+			$return['user'] = User::service()->get($comment['user_id'], $fields['user']);
+		}
+		
+		//父节点
+		if(!empty($fields['parent'])){
+			$parent_comment_fields = $fields['parent']['comment'];
+			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
+				//如果要获取作者信息，则必须搜出user_id
+				$parent_comment_fields[] = 'user_id';
+			}
+			
+			$parent_comment = \F::table($this->model)->fetchRow(array(
+				'id = ?'=>$comment['parent'],
+				'deleted = 0',
+			), $parent_comment_fields);
+			
+			if($parent_comment){
+				//有父节点
+				$return['parent']['comment'] = $parent_comment;
+				if(!empty($fields['parent']['user'])){
+					$return['parent']['user'] = User::service()->get($parent_comment['user_id'], $fields['parent']['user']);
+				}
+				if(!in_array('user_id', $fields['parent']['comment']) && in_array('user_id', $parent_comment_fields)){
+					unset($return['parent']['comment']['user_id']);
+				}
+			}else{
+				//没有父节点，但是要求返回相关父节点字段，则返回空数组
+				$return['parent']['comment'] = array();
+				
+				if(!empty($fields['parent']['user'])){
+					$return['parent']['user'] = array();
+				}
+			}
+		}
+		
+		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+		foreach(array('user_id', 'parent') as $f){
+			if(!in_array($f, $fields['comment']) && in_array($f, $comment_fields)){
+				unset($return['comment'][$f]);
+			}
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * 判断用户是否对该评论有删除权限
+	 * @param int $comment 评论
+	 *  - 若是数组，视为评论表行记录，必须包含user_id
+	 *  - 若是数字，视为评论ID，会根据ID搜索数据库
+	 * @param string $action 操作
+	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
+	 */
+	public function checkPermission($comment, $action = 'delete', $user_id = null){
+		if(!is_array($comment)){
+			$comment = FeedComments::model()->find($comment, 'user_id');
+		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($comment['user_id'])){
+			throw new ErrorException('指定动态评论不存在');
+		}
+		
+		if($comment['user_id'] == $user_id){
+			//自己的评论总是有权限操作的
+			return true;
+		}
+		
+		if(User::service()->isAdmin($user_id) &&
+			User::service()->checkPermission('admin/feed-comment/' . $action, $user_id)){
+			//是管理员，判断权限
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 更新评论状态
+	 * @param int|array $comment_id 评论ID或由评论ID构成的一维数组
+	 * @param int $status 状态码
+	 * @return int
+	 */
+	public function setStatus($comment_id, $status){
+		if(is_array($comment_id)){
+			return FeedComments::model()->update(array(
+				'status'=>$status,
+				'last_modified_time'=>\F::app()->current_time,
+			), array('id IN (?)'=>$comment_id));
+		}else{
+			return FeedComments::model()->update(array(
+				'status'=>$status,
+				'last_modified_time'=>\F::app()->current_time,
+			), $comment_id);
+		}
+	}
+	
+	/**
+	 * 判断一条动态的改变是否需要改变动态评论数
+	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
+	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
+	 * @return bool
+	 */
+	private function needChangeFeedComments($comment, $action){
+		$feed_comment_verify = Option::get('system:feed_comment_verify');
+		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
+			if($comment['status'] == FeedComments::STATUS_APPROVED || !$feed_comment_verify){
+				return true;
+			}
+		}else if($action == 'approve'){
+			//只要开启了评论审核，则必然在通过审核的时候动态评论数+1
+			if($feed_comment_verify){
+				return true;
+			}
+		}else if($action == 'disapprove'){
+			//如果评论原本是通过审核状态，且系统开启了动态评论审核，则当评论未通过审核时，相应动态评论数-1
+			if($comment['status'] == FeedComments::STATUS_APPROVED && $feed_comment_verify){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 更feed_meta表comments和real_comments字段。
+	 * @param array $comments 相关评论（二维数组，每项必须包含feed_id,status,sockpuppet字段）
+	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
+	 */
+	public function updateFeedComments($comments, $action){
+		$feeds = array();
+		foreach($comments as $c){
+			if($this->needChangeFeedComments($c, $action)){
+				//更新评论数
+				if(isset($feeds[$c['feed_id']]['comments'])){
+					$feeds[$c['feed_id']]['comments']++;
+				}else{
+					$feeds[$c['feed_id']]['comments'] = 1;
+				}
+				if(!$c['sockpuppet']){
+					//如果不是马甲，更新真实评论数
+					if(isset($feeds[$c['feed_id']]['real_comments'])){
+						$feeds[$c['feed_id']]['real_comments']++;
+					}else{
+						$feeds[$c['feed_id']]['real_comments'] = 1;
+					}
+				}
+			}
+		}
+		
+		foreach($feeds as $feed_id => $comment_count){
+			$comments = isset($comment_count['comments']) ? $comment_count['comments'] : 0;
+			$real_comments = isset($comment_count['real_comments']) ? $comment_count['real_comments'] : 0;
+			if(in_array($action, array('delete', 'remove', 'disapprove'))){
+				//如果是删除相关的操作，取反
+				$comments = - $comments;
+				$real_comments = - $real_comments;
+			}
+			
+			if($comments && $comments == $real_comments){
+				//如果全部评论都是真实评论，则一起更新real_comments和comments
+				FeedMeta::model()->incr($feed_id, array('comments', 'real_comments'), $comments);
+			}else{
+				if($comments){
+					FeedMeta::model()->incr($feed_id, array('comments'), $comments);
+				}
+				if($real_comments){
+					FeedMeta::model()->incr($feed_id, array('real_comments'), $real_comments);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 根据动态ID，以树的形式（体现层级结构）返回评论
+	 * @param int $feed_id 动态ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param string $fields 字段
+	 * @return array
+	 */
+	public function getTree($feed_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
+		$conditions = array(
+			'deleted = 0',
+		);
+		if(Option::get('system:feed_comment_verify')){
+			//开启了评论审核
+			$conditions[] = 'status = '.FeedComments::STATUS_APPROVED;
+		}
+		
+		return $this->_getTree($feed_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions
+		);
+	}
+	
+	/**
+	 * 根据动态ID，以列表的形式（俗称“盖楼”）返回评论
+	 * @param int $feed_id 动态ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param array|string $fields 字段
+	 * @return array
+	 */
+	public function getList($feed_id, $page_size = 10, $page = 1, $fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'parent'=>array(
+			'user'=>array(
+				'nickname',
+			),
+		),
+	)){
+		$conditions = array(
+			'c.deleted = 0',
+		);
+		$js_conditions = array(
+			'c2.deleted = 0',
+		);
+		if(Option::get('system:post_comment_verify')){
+			//开启了评论审核
+			$conditions[] = 'c.status = '.FeedComments::STATUS_APPROVED;
+			$js_conditions[] = 'c2.status = '.FeedComments::STATUS_APPROVED;
+		}
+		
+		$result = $this->_getList($feed_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions,
+			$js_conditions
+		);
+		
+		return array(
+			'comments'=>$result['data'],
+			'pager'=>$result['pager'],
+		);
 	}
 }

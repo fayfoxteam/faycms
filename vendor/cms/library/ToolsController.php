@@ -7,7 +7,7 @@ use fay\services\File;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\tables\Roles;
-use fay\models\User;
+use fay\services\User;
 use fay\services\user\Role;
 
 class ToolsController extends Controller{
@@ -53,7 +53,7 @@ class ToolsController extends Controller{
 		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
-		if(!User::model()->isAdmin()){
+		if(!User::service()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		

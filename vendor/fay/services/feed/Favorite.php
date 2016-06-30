@@ -5,7 +5,7 @@ use fay\core\Service;
 use fay\core\Hook;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
-use fay\models\User;
+use fay\services\User;
 use fay\models\Feed;
 use fay\models\tables\FeedFavorites;
 use fay\models\tables\FeedMeta;

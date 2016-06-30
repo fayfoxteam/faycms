@@ -3,7 +3,7 @@ namespace fay\core;
 
 use fay\helpers\Request;
 use fay\helpers\StringHelper;
-use fay\models\User;
+use fay\services\User;
 
 /**
  * @property View $view 视图
@@ -94,7 +94,7 @@ class Controller{
 	 * @return bool
 	 */
 	public function checkPermission($router){
-		return User::model()->checkPermission($router);
+		return User::service()->checkPermission($router);
 	}
 	
 	/**

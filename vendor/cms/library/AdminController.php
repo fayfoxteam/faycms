@@ -13,7 +13,7 @@ use fay\core\HttpException;
 use fay\services\Flash;
 use fay\models\tables\Roles;
 use fay\helpers\ArrayHelper;
-use fay\models\User;
+use fay\services\User;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -49,7 +49,7 @@ class AdminController extends Controller{
 		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
-		if(!User::model()->isAdmin()){
+		if(!User::service()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		$this->layout->current_directory = '';

@@ -6,7 +6,7 @@ use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
-use fay\models\User;
+use fay\services\User;
 use fay\helpers\Request;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -215,7 +215,7 @@ class Follow extends Service{
 		);
 		
 		if($follows && !empty($fields['user'])){
-			$users = User::model()->mget(ArrayHelper::column($follows, 'user_id'), $fields['user']);
+			$users = User::service()->mget(ArrayHelper::column($follows, 'user_id'), $fields['user']);
 		}
 		
 		foreach($follows as $f){
@@ -270,7 +270,7 @@ class Follow extends Service{
 		);
 		
 		if($fans && !empty($fields['user'])){
-			$users = User::model()->mget(ArrayHelper::column($fans, 'fans_id'), $fields['user']);
+			$users = User::service()->mget(ArrayHelper::column($fans, 'fans_id'), $fields['user']);
 		}
 		
 		foreach($fans as $f){

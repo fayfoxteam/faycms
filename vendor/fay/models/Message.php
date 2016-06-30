@@ -36,10 +36,10 @@ class Message extends MultiTree{
 	 * @param int $message_id 留言ID
 	 * @param array|string $fields 返回字段
 	 *  - message.*系列可指定messages表返回字段，若有一项为'message.*'，则返回所有字段
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
-	 *  - to_user.*系列可指定被留言用户信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
+	 *  - to_user.*系列可指定被留言用户信息，格式参照\fay\services\User::get()
 	 *  - parent.message.*系列可指定父留言messages表返回字段，若有一项为'message.*'，则返回所有字段
-	 *  - parent.user.*系列可指定父留言作者信息，格式参照\fay\models\User::get()
+	 *  - parent.user.*系列可指定父留言作者信息，格式参照\fay\services\User::get()
 	 * @return array
 	 */
 	public function get($message_id, $fields = array(
@@ -96,12 +96,12 @@ class Message extends MultiTree{
 		
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::model()->get($message['user_id'], $fields['user']);
+			$return['user'] = User::service()->get($message['user_id'], $fields['user']);
 		}
 		
 		//被回复用户信息
 		if(!empty($fields['to_user'])){
-			$return['to_user'] = User::model()->get($message['to_user_id'], $fields['to_user']);
+			$return['to_user'] = User::service()->get($message['to_user_id'], $fields['to_user']);
 		}
 		
 		//父节点
@@ -121,7 +121,7 @@ class Message extends MultiTree{
 				//有父节点
 				$return['parent']['message'] = $parent_message;
 				if(!empty($fields['parent']['user'])){
-					$return['parent']['user'] = User::model()->get($parent_message['user_id'], $fields['parent']['user']);
+					$return['parent']['user'] = User::service()->get($parent_message['user_id'], $fields['parent']['user']);
 				}
 				if(!in_array('user_id', $fields['parent']['message']) && in_array('user_id', $parent_message_fields)){
 					unset($return['parent']['message']['user_id']);
@@ -171,8 +171,8 @@ class Message extends MultiTree{
 			return true;
 		}
 		
-		if(User::model()->isAdmin($user_id) &&
-			User::model()->checkPermission('admin/feed-message/' . $action, $user_id)){
+		if(User::service()->isAdmin($user_id) &&
+			User::service()->checkPermission('admin/feed-message/' . $action, $user_id)){
 			//是管理员，判断权限
 			return true;
 		}

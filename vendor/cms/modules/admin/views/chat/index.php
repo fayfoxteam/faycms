@@ -1,6 +1,6 @@
 <?php
 use fay\models\tables\Messages;
-use fay\models\User;
+use fay\services\User;
 
 $settings = F::form('setting')->getAllData();
 ?>
@@ -58,11 +58,11 @@ chat.status = {
 };
 chat.display_name = '<?php echo $settings['display_name']?>';
 chat.permissions = <?php echo json_encode(array(
-	'approve'=>User::model()->checkPermission('admin/chat/approve'),
-	'unapprove'=>User::model()->checkPermission('admin/chat/unapprove'),
-	'delete'=>User::model()->checkPermission('admin/chat/delete'),
-	'remove'=>User::model()->checkPermission('admin/chat/remove'),
-	'reply'=>User::model()->checkPermission('admin/chat/reply'),
+	'approve'=>User::service()->checkPermission('admin/chat/approve'),
+	'unapprove'=>User::service()->checkPermission('admin/chat/unapprove'),
+	'delete'=>User::service()->checkPermission('admin/chat/delete'),
+	'remove'=>User::service()->checkPermission('admin/chat/remove'),
+	'reply'=>User::service()->checkPermission('admin/chat/reply'),
 ))?>;
 chat.init();
 </script>

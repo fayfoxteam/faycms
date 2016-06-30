@@ -91,7 +91,7 @@ class Feed extends Model{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
 	 * @return array|bool
 	 */
@@ -139,7 +139,7 @@ class Feed extends Model{
 		
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::model()->get($feed['user_id'], $fields['user']);
+			$return['user'] = User::service()->get($feed['user_id'], $fields['user']);
 		}
 		
 		//标签
@@ -164,7 +164,7 @@ class Feed extends Model{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
 	 * @return array
 	 */
@@ -245,8 +245,8 @@ class Feed extends Model{
 			return true;
 		}
 		
-		if(User::model()->isAdmin($user_id)){
-			if(User::model()->checkPermission('admin/feed/delete', $user_id)){
+		if(User::service()->isAdmin($user_id)){
+			if(User::service()->checkPermission('admin/feed/delete', $user_id)){
 				return true;
 			}
 		}

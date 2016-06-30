@@ -8,7 +8,7 @@ use fay\core\Exception;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\Posts;
-use fay\models\User;
+use fay\services\User;
 use fay\models\Post;
 use fay\models\tables\PostFavorites;
 use fay\helpers\Request;

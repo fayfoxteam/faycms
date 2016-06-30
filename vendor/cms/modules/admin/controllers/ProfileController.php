@@ -4,9 +4,8 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Users;
 use fay\models\tables\Actionlogs;
-use fay\models\User as UserModel;
 use fay\services\user\Prop;
-use fay\services\User as UserService;
+use fay\services\User;
 use fay\models\tables\Roles;
 use fay\services\user\Role;
 use fay\core\Response;
@@ -29,7 +28,7 @@ class ProfileController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			UserService::service()->update($user_id, $data, $extra);
+			User::service()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了自己的信息', $user_id);
 			Response::notify('success', '修改成功', false);
@@ -38,7 +37,7 @@ class ProfileController extends AdminController{
 			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = UserModel::model()->get($user_id, 'user.*,profile.*');
+		$user = User::service()->get($user_id, 'user.*,profile.*');
 		$user_role_ids = Role::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])

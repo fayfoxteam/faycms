@@ -6,9 +6,8 @@ use fay\core\Sql;
 use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\common\ListView;
-use fay\models\User as UserModel;
 use fay\services\user\Prop;
-use fay\services\User as UserService;
+use fay\services\User as User;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\Html;
@@ -123,7 +122,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			$user_id = UserService::service()->create($data, $extra);
+			$user_id = User::service()->create($data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个新用户', $user_id);
 			
@@ -158,7 +157,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			UserService::service()->update($user_id, $data, $extra);
+			User::service()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $user_id);
 			Response::notify('success', '编辑成功', false);
@@ -167,7 +166,7 @@ class UserController extends AdminController{
 			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = UserModel::model()->get($user_id, 'user.*,profile.*');
+		$user = User::service()->get($user_id, 'user.*,profile.*');
 		$user_role_ids = Role::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
@@ -184,7 +183,7 @@ class UserController extends AdminController{
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = UserModel::model()->get($id, 'user.*,props.*,roles.title,profile.*');
+			$this->view->user = User::service()->get($id, 'user.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

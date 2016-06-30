@@ -9,7 +9,7 @@ use fay\models\tables\Posts;
 use fay\models\tables\Messages;
 use fay\common\ListView;
 use fay\models\tables\Followers;
-use fay\models\User;
+use fay\services\User;
 
 class UController extends FrontController{
 	/**
@@ -39,10 +39,10 @@ class UController extends FrontController{
 			$this->layout->is_follow = false;
 		}
 
-		$this->layout->popularity = intval(User::model()->getPropValueByAlias('popularity', $this->user_id));
-		$this->layout->creativity = intval(User::model()->getPropValueByAlias('creativity', $this->user_id));
-		$this->layout->fans = intval(User::model()->getPropValueByAlias('fans', $this->user_id));
-		$this->layout->follow = intval(User::model()->getPropValueByAlias('follow', $this->user_id));
+		$this->layout->popularity = intval(User::service()->getPropValueByAlias('popularity', $this->user_id));
+		$this->layout->creativity = intval(User::service()->getPropValueByAlias('creativity', $this->user_id));
+		$this->layout->fans = intval(User::service()->getPropValueByAlias('fans', $this->user_id));
+		$this->layout->follow = intval(User::service()->getPropValueByAlias('follow', $this->user_id));
 	}
 	
 	public function index(){

@@ -9,7 +9,7 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\PostLikes;
 use fay\models\tables\Posts;
-use fay\models\User;
+use fay\services\User;
 use fay\models\Post;
 use fay\models\tables\PostMeta;
 
@@ -190,7 +190,7 @@ class Like extends Service{
 		}
 		
 		return array(
-			'likes'=>User::model()->mget(ArrayHelper::column($likes, 'user_id'), $fields),
+			'likes'=>User::service()->mget(ArrayHelper::column($likes, 'user_id'), $fields),
 			'pager'=>$listview->getPager(),
 		);
 	}

@@ -11,7 +11,7 @@ use fay\services\Option;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\UserCounter;
-use fay\models\User;
+use fay\services\User;
 
 /**
  * 留言服务

@@ -6,7 +6,7 @@ use fay\core\Response;
 use fay\services\feed\Like as FeedLike;
 use fay\models\Feed;
 use fay\helpers\FieldHelper;
-use fay\models\User;
+use fay\services\User;
 
 /**
  * 动态点赞

@@ -7,7 +7,7 @@ use fay\common\ListView;
 use fay\models\tables\Posts;
 use fay\helpers\ArrayHelper;
 use fay\services\Category;
-use fay\models\User;
+use fay\services\User;
 use fay\helpers\Date;
 use fay\core\HttpException;
 use fay\services\post\Meta;
@@ -96,7 +96,7 @@ class IndexController extends Widget{
 			if(in_array('user', $config['fields'])){
 				//获取所有相关作者
 				$user_ids = ArrayHelper::column($posts, 'user_id');
-				$users = User::model()->mget(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
+				$users = User::service()->mget(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
 			}
 			
 			foreach($posts as $p){

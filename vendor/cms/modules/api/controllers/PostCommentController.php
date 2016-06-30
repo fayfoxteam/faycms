@@ -2,8 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\post\Comment as CommentService;
-use fay\models\post\Comment as CommentModel;
+use fay\services\post\Comment;
 use fay\core\Response;
 use fay\models\tables\Posts;
 use fay\helpers\FieldHelper;
@@ -95,7 +94,7 @@ class PostCommentController extends ApiController{
 			));
 		}
 		
-		$comment_id = CommentService::model()->create(
+		$comment_id = Comment::service()->create(
 			$post_id,
 			$this->form()->getData('content'),
 			$this->form()->getData('parent', 0)
@@ -103,9 +102,9 @@ class PostCommentController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'comment', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
 			
-			$comment = CommentModel::model()->get($comment_id, $fields);
+			$comment = Comment::service()->get($comment_id, $fields);
 			
 			//格式化一下空数组的问题，保证返回给客户端的数据类型一致
 			if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){
@@ -147,8 +146,8 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(CommentModel::model()->checkPermission($comment_id, 'delete')){
-			CommentService::model()->delete($comment_id);
+		if(Comment::service()->checkPermission($comment_id, 'delete')){
+			Comment::service()->delete($comment_id);
 			Response::notify('success', '评论删除成功');
 		}else{
 			Response::notify('error', array(
@@ -183,8 +182,8 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(CommentModel::model()->checkPermission($comment_id, 'undelete')){
-			CommentService::model()->undelete($comment_id);
+		if(Comment::service()->checkPermission($comment_id, 'undelete')){
+			Comment::service()->undelete($comment_id);
 			Response::notify('success', '评论还原成功');
 		}else{
 			Response::notify('error', array(
@@ -222,8 +221,8 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(CommentModel::model()->checkPermission($comment_id, 'edit')){
-			CommentService::model()->update(
+		if(Comment::service()->checkPermission($comment_id, 'edit')){
+			Comment::service()->update(
 				$comment_id,
 				$this->form()->getData('content')
 			);
@@ -278,7 +277,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		$result = CommentModel::model()->getList(
+		$result = Comment::service()->getList(
 			$this->form()->getData('post_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -340,7 +339,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		Response::json(CommentModel::model()->getTree(
+		Response::json(Comment::service()->getTree(
 			$this->form()->getData('post_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -391,7 +390,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		Response::json(CommentModel::model()->getChats(
+		Response::json(Comment::service()->getChats(
 			$this->form()->getData('post_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -424,7 +423,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		$comment = CommentModel::model()->get($id, $fields);
+		$comment = Comment::service()->get($id, $fields);
 		
 		//处理下空数组问题
 		if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){

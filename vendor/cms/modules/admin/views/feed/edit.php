@@ -2,7 +2,7 @@
 use cms\helpers\FeedHelper;
 use fay\helpers\Html;
 use fay\models\tables\Feeds;
-use fay\models\User;
+use fay\services\User;
 use fay\services\File;
 use fay\helpers\Date;
 
@@ -14,7 +14,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	<div class="post-body">
 		<div class="post-body-content">
 			<div class="mb30 cf user-info"><?php
-				$user = User::model()->get($feed['user_id'], 'nickname,id,avatar,admin,roles.title');
+				$user = User::service()->get($feed['user_id'], 'nickname,id,avatar,admin,roles.title');
 				
 				$user_detail_link = $user['user']['admin'] ? array('admin/operator/item', array(
 					'id'=>$user['user']['id'],

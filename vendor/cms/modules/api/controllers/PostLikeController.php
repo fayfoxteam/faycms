@@ -6,7 +6,7 @@ use fay\core\Response;
 use fay\services\post\Like as PostLike;
 use fay\models\Post;
 use fay\helpers\FieldHelper;
-use fay\models\User;
+use fay\services\User;
 
 /**
  * 文章点赞

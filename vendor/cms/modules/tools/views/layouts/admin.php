@@ -3,7 +3,7 @@ use fay\helpers\Html;
 use fay\services\Option;
 use fay\services\File;
 use fay\services\Flash;
-use fay\models\User;
+use fay\services\User;
 use fay\services\user\Role;
 ?>
 <!DOCTYPE html>
@@ -92,7 +92,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 					</ul>
 				</li>
 				<li class="dropdown-container user-profile">
-					<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
+					<?php $user = User::service()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
 						echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 							'class'=>'circle',

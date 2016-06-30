@@ -40,7 +40,7 @@ class ChatController extends FrontController{
 	public function create(){
 		if($this->input->post('realname', 'trim') && $this->input->post('content', 'trim')){
 			//虚构一个用户
-			$user_id = User::model()->create(array(
+			$user_id = User::service()->create(array(
 				'status'=>Users::STATUS_NOT_VERIFIED,
 				'nickname'=>$this->input->post('realname', 'trim'),
 				'realname'=>$this->input->post('realname', 'trim'),

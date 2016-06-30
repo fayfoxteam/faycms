@@ -104,7 +104,7 @@ class Post extends Model{
 	 *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param int|string|array $cat 若指定分类（可以是id，alias或者包含left_value, right_value值的数组），
@@ -240,7 +240,7 @@ class Post extends Model{
 		
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::model()->get($post['user_id'], $fields['user'], isset($fields['_extra']['user']) ? $fields['_extra']['user'] : array());
+			$return['user'] = User::service()->get($post['user_id'], $fields['user'], isset($fields['_extra']['user']) ? $fields['_extra']['user'] : array());
 		}
 		
 		//标签
@@ -305,7 +305,7 @@ class Post extends Model{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
@@ -336,7 +336,7 @@ class Post extends Model{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
@@ -367,7 +367,7 @@ class Post extends Model{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
@@ -396,7 +396,7 @@ class Post extends Model{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
@@ -535,7 +535,7 @@ class Post extends Model{
 			
 			//作者信息
 			if(!empty($fields['user'])){
-				$post['user'] = User::model()->get($p['user_id'], $fields['user']);
+				$post['user'] = User::service()->get($p['user_id'], $fields['user']);
 			}
 			
 			//附加属性
@@ -781,8 +781,8 @@ class Post extends Model{
 			return true;
 		}
 		
-		if(User::model()->isAdmin($user_id) &&
-			User::model()->checkPermission('admin/post/edit', $user_id) &&
+		if(User::service()->isAdmin($user_id) &&
+			User::service()->checkPermission('admin/post/edit', $user_id) &&
 			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有还原权限，且有当前文章的分类权限
 			
@@ -839,8 +839,8 @@ class Post extends Model{
 			return true;
 		}
 		
-		if(User::model()->isAdmin($user_id) &&
-			User::model()->checkPermission('admin/post/delete', $user_id) &&
+		if(User::service()->isAdmin($user_id) &&
+			User::service()->checkPermission('admin/post/delete', $user_id) &&
 			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有删除权限，且有当前文章的分类权限
 			return true;
@@ -873,8 +873,8 @@ class Post extends Model{
 			return true;
 		}
 		
-		if(User::model()->isAdmin($user_id) &&
-			User::model()->checkPermission('admin/post/undelete', $user_id) &&
+		if(User::service()->isAdmin($user_id) &&
+			User::service()->checkPermission('admin/post/undelete', $user_id) &&
 			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有还原权限，且有当前文章的分类权限
 			return true;
@@ -907,8 +907,8 @@ class Post extends Model{
 			return true;
 		}
 		
-		if(User::model()->isAdmin($user_id) &&
-			User::model()->checkPermission('admin/post/remove', $user_id) &&
+		if(User::service()->isAdmin($user_id) &&
+			User::service()->checkPermission('admin/post/remove', $user_id) &&
 			PostCategory::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有永久删除权限，且有当前文章的分类权限
 			return true;
@@ -945,7 +945,7 @@ class Post extends Model{
 	 *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定posts表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param bool $only_published 若为true，则只在已发布的文章里搜索。默认为true
@@ -1084,7 +1084,7 @@ class Post extends Model{
 				
 			//作者信息
 			if(!empty($fields['user'])){
-				$post['user'] = User::model()->get($p['user_id'], $fields['user']);
+				$post['user'] = User::service()->get($p['user_id'], $fields['user']);
 			}
 				
 			//附加属性

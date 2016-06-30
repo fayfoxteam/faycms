@@ -7,7 +7,7 @@ use fay\services\User;
 
 class LogoutController extends UserController{
 	public function index(){
-		User::model()->logout();
+		User::service()->logout();
 		
 		Response::redirect(null);
 	}

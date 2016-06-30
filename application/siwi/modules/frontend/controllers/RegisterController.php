@@ -39,7 +39,7 @@ class RegisterController extends FrontController{
 				
 				$user_id = Users::model()->insert($data);
 				
-				//User::model()->login($username, $this->input->post('password'));
+				//User::service()->login($username, $this->input->post('password'));
 			}else{
 				throw new HttpException('参数异常', 500);
 			}

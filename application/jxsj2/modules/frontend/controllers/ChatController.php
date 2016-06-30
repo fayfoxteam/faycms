@@ -5,7 +5,7 @@ use jxsj2\library\FrontController;
 use fay\models\tables\Messages;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\Message;
+use fay\services\Message;
 use fay\models\tables\Users;
 use fay\core\Response;
 use fay\services\User;
@@ -50,9 +50,9 @@ class ChatController extends FrontController{
 			$content = $this->input->post('content', 'trim', '');
 			$type = Messages::TYPE_USER_MESSAGE;
 			$parent = $this->input->post('parent', 'intval', 0);
-			$message_id = Message::model()->create(2, $content, $type, $parent, Messages::STATUS_APPROVED, $user_id);
+			$message_id = Message::service()->create(2, $content, $type, $parent, Messages::STATUS_APPROVED, $user_id);
 			
-			$message = Message::model()->get($message_id);
+			$message = Message::service()->get($message_id);
 			Response::notify('success', array(
 				'message'=>'回复留言成功',
 				'data'=>$message,

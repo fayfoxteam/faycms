@@ -2,8 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\Message as MessageService;
-use fay\models\Message as MessageModel;
+use fay\services\Message;
 use fay\core\Response;
 use fay\models\tables\Posts;
 use fay\helpers\FieldHelper;
@@ -94,13 +93,13 @@ class MessageController extends ApiController{
 			));
 		}
 		
-		$message_id = MessageService::model()->create(
+		$message_id = Message::service()->create(
 			$to_user_id,
 			$this->form()->getData('content'),
 			$this->form()->getData('parent', 0)
 		);
 		
-		$message = MessageModel::model()->get($message_id, array(
+		$message = Message::service()->get($message_id, array(
 			'message'=>array(
 				'id', 'content', 'parent', 'create_time',
 			),
@@ -156,8 +155,8 @@ class MessageController extends ApiController{
 		
 		$message_id = $this->form()->getData('message_id');
 		
-		if(MessageModel::model()->checkPermission($message_id, 'delete')){
-			MessageService::model()->delete($message_id);
+		if(Message::service()->checkPermission($message_id, 'delete')){
+			Message::service()->delete($message_id);
 			Response::notify('success', '留言删除成功');
 		}else{
 			Response::notify('error', array(
@@ -192,8 +191,8 @@ class MessageController extends ApiController{
 		
 		$message_id = $this->form()->getData('message_id');
 		
-		if(MessageModel::model()->checkPermission($message_id, 'undelete')){
-			MessageService::model()->undelete($message_id);
+		if(Message::service()->checkPermission($message_id, 'undelete')){
+			Message::service()->undelete($message_id);
 			Response::notify('success', '留言还原成功');
 		}else{
 			Response::notify('error', array(
@@ -231,8 +230,8 @@ class MessageController extends ApiController{
 		
 		$message_id = $this->form()->getData('message_id');
 		
-		if(MessageModel::model()->checkPermission($message_id, 'edit')){
-			MessageService::model()->update(
+		if(Message::service()->checkPermission($message_id, 'edit')){
+			Message::service()->update(
 				$message_id,
 				$this->form()->getData('content')
 			);
@@ -287,7 +286,7 @@ class MessageController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		$result = MessageModel::model()->getList(
+		$result = Message::service()->getList(
 			$this->form()->getData('to_user_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -349,7 +348,7 @@ class MessageController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		Response::json(MessageModel::model()->getTree(
+		Response::json(Message::service()->getTree(
 			$this->form()->getData('to_user_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -400,7 +399,7 @@ class MessageController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		Response::json(MessageModel::model()->getChats(
+		Response::json(Message::service()->getChats(
 			$this->form()->getData('to_user_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -433,7 +432,7 @@ class MessageController extends ApiController{
 			$fields = $this->default_fields;
 		}
 			
-		$message = MessageModel::model()->get($id, $fields);
+		$message = Message::service()->get($id, $fields);
 		
 		//处理下空数组问题
 		if(isset($message['parent']['message']) && empty($message['parent']['message'])){

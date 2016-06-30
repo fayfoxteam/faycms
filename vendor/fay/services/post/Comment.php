@@ -8,7 +8,7 @@ use fay\models\MultiTree;
 use fay\models\tables\PostComments;
 use fay\core\Exception;
 use fay\core\Hook;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\PostMeta;

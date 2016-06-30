@@ -13,7 +13,7 @@ use fay\models\tables\Actionlogs;
 use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\Hook;

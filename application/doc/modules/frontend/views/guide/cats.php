@@ -1,5 +1,5 @@
 <?php
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\Html;
 
 foreach($posts as $p){
@@ -7,7 +7,7 @@ foreach($posts as $p){
 		'id'=>$p['id'],
 		'title'=>$p['title'],
 		'body'=>Post::formatContent($p),
-		'file_link'=>Post::model()->getPropValueByAlias('file_link', $p['id']),
+		'file_link'=>Post::service()->getPropValueByAlias('file_link', $p['id']),
 	));
 }
 ?>

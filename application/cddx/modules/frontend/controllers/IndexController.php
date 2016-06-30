@@ -4,7 +4,7 @@ namespace cddx\modules\frontend\controllers;
 use cddx\library\FrontController;
 use fay\services\Page;
 use fay\services\Category;
-use fay\models\Post;
+use fay\services\Post;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -20,7 +20,7 @@ class IndexController extends FrontController{
 	public function index(){
 		$page_about = Page::service()->getByAlias('about');
 		$cat_news = Category::service()->getByAlias('news');
-		$news = Post::model()->getByCat($cat_news, 6, 'id,title,abstract,publish_time', true);
+		$news = Post::service()->getByCat($cat_news, 6, 'id,title,abstract,publish_time', true);
 		
 		$this->view->assign(array(
 			'about'=>$page_about,

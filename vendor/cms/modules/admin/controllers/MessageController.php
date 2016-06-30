@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Messages;
 use fay\models\tables\Actionlogs;
-use fay\models\Post;
+use fay\services\Post;
 use fay\models\Message as MessageModel;
 use fay\core\Response;
 use fay\helpers\Html;
@@ -86,7 +86,7 @@ class MessageController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_MESSAGE, '将留言永久删除', $id);
 		
 		if($message){
-			Post::model()->refreshComments($message['to_user_id']);
+			Post::service()->refreshComments($message['to_user_id']);
 		}
 		
 		Response::notify('success', array(

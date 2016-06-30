@@ -3,7 +3,7 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use fay\models\tables\Posts;
-use fay\models\Post;
+use fay\services\Post;
 use fay\models\tables\Files;
 use fay\models\tables\PostsFiles;
 use fay\models\Tag;
@@ -47,8 +47,8 @@ class WorkController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				));
 	
-				Post::model()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $post_id);
-				Post::model()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $post_id);
+				Post::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $post_id);
+				Post::service()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $post_id);
 				
 				if($f = $this->input->post('file', 'intval', 0)){
 					$file = Files::model()->find($f, 'client_name,is_image');
@@ -127,8 +127,8 @@ class WorkController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				), $id);
 				
-				Post::model()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $id);
-				Post::model()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $id);
+				Post::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $id);
+				Post::service()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $id);
 				
 				$f = $this->input->post('file', 'intval', 0);
 				if($f){
@@ -245,10 +245,10 @@ class WorkController extends UserController{
 		$this->view->files = $files;
 		
 		//copyright
-		$this->form()->setData(array('copyright'=>Post::model()->getPropValueByAlias('siwi_work_copyright', $post['id'])));
+		$this->form()->setData(array('copyright'=>Post::service()->getPropValueByAlias('siwi_work_copyright', $post['id'])));
 		
 		//video
-		$this->form()->setData(array('video'=>Post::model()->getPropValueByAlias('siwi_work_video', $post['id'])));
+		$this->form()->setData(array('video'=>Post::service()->getPropValueByAlias('siwi_work_video', $post['id'])));
 		
 		$this->view->cats = Category::service()->getNextLevel('_work');
 		$this->view->render();

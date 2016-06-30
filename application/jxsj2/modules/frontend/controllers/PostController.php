@@ -2,13 +2,13 @@
 namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\HttpException;
 use fay\models\tables\PostMeta;
 
 class PostController extends FrontController{
 	public function item(){
-		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav.id,nav.title,files.*,category.title,meta.views');
+		$post = Post::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title,files.*,category.title,meta.views');
 		
 		if(!$post){
 			throw new HttpException('页面不存在');

@@ -5,7 +5,7 @@ use fay\core\Response;
 use siwi\library\UserController;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsFiles;
-use fay\models\Post;
+use fay\services\Post;
 use fay\models\tables\Files;
 use fay\services\post\Tag;
 use fay\services\Category;
@@ -49,8 +49,8 @@ class PostController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				));
 	
-				Post::model()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $post_id);
-				Post::model()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $post_id);
+				Post::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $post_id);
+				Post::service()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $post_id);
 				
 				if($f = $this->input->post('file', 'intval', 0)){
 					$file = Files::model()->find($f, 'client_name,is_image');
@@ -113,8 +113,8 @@ class PostController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				), $id);
 				
-				Post::model()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $id);
-				Post::model()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $id);
+				Post::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $id);
+				Post::service()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $id);
 				
 				$f = $this->input->post('file', 'intval', 0);
 				if($f){
@@ -170,10 +170,10 @@ class PostController extends UserController{
 		$this->form()->setData(array('file'=>isset($file['file_id']) ? $file['file_id'] : ''));
 		
 		//copyright
-		$this->form()->setData(array('copyright'=>Post::model()->getPropValueByAlias('siwi_blog_copyright', $post['id'])));
+		$this->form()->setData(array('copyright'=>Post::service()->getPropValueByAlias('siwi_blog_copyright', $post['id'])));
 		
 		//video
-		$this->form()->setData(array('video'=>Post::model()->getPropValueByAlias('siwi_blog_video', $post['id'])));
+		$this->form()->setData(array('video'=>Post::service()->getPropValueByAlias('siwi_blog_video', $post['id'])));
 		
 		$this->view->cats = Category::service()->getNextLevel('_blog');
 		$this->view->render();

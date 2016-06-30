@@ -4,7 +4,7 @@ namespace uuice\modules\doc\controllers;
 use uuice\library\DocController;
 use fay\services\Category;
 use fay\core\HttpException;
-use fay\models\Post;
+use fay\services\Post;
 use fay\services\Option;
 
 class GuideController extends DocController{
@@ -35,14 +35,14 @@ class GuideController extends DocController{
 			//叶子节点
 			$this->view->assign(array(
 				'cat'=>$cat,
-				'posts'=>Post::model()->getByCat($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+				'posts'=>Post::service()->getByCat($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 			))->render('posts');
 		}else{
 			//非叶子
 			$this->view->assign(array(
 				'cat'=>$cat,
 				'cats'=>Category::service()->getNextLevelByParentId($cat['id']),
-				'posts'=>Post::model()->getByCat($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+				'posts'=>Post::service()->getByCat($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 			))->render('cats');
 		}
 	}

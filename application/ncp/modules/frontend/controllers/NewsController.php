@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\HttpException;
 use fay\core\db\Expr;
 use ncp\models\Recommend;
@@ -68,7 +68,7 @@ class NewsController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::model()->get($id, 'nav.id,nav.title', 'news')){
+		if(!$id || !$post = Post::service()->get($id, 'nav.id,nav.title', 'news')){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(

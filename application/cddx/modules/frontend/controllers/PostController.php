@@ -8,7 +8,7 @@ use fay\core\HttpException;
 use fay\services\Category;
 use fay\common\ListView;
 use fay\core\db\Expr;
-use fay\models\Post;
+use fay\services\Post;
 
 class PostController extends FrontController{
 	public function index(){
@@ -63,7 +63,7 @@ class PostController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::model()->get($id, 'files.file_id,files.description,user.id,user.username,user.nickname')){
+		if(!$id || !$post = Post::service()->get($id, 'files.file_id,files.description,user.id,user.username,user.nickname')){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(

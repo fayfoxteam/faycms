@@ -5,7 +5,7 @@ use youdao\library\FrontController;
 use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
-use fay\models\Post;
+use fay\services\Post;
 
 class ServiceController extends FrontController{
 	public $layout_template = 'inner';
@@ -49,9 +49,9 @@ class ServiceController extends FrontController{
 		$this->layout->submenu = $submenu;
 		
 		if($this->input->get('id')){
-			$post = Post::model()->get($this->input->get('id', 'intval'));
+			$post = Post::service()->get($this->input->get('id', 'intval'));
 		}else{
-			$post = Post::model()->get($services[0]['id']);
+			$post = Post::service()->get($services[0]['id']);
 		}
 		
 		$this->layout->breadcrumbs = array(

@@ -2,7 +2,7 @@
 use fay\services\Option;
 use fay\helpers\Html;
 use fay\services\File;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\StringHelper;
 ?>
 <div class="page-title">
@@ -37,7 +37,7 @@ use fay\helpers\StringHelper;
 						'tag'=>'li',
 						'append'=>array(
 							'tag'=>'span',
-							'text'=>Post::model()->getPropValueByAlias('teacher_job', $t['id']),
+							'text'=>Post::service()->getPropValueByAlias('teacher_job', $t['id']),
 							'class'=>'job',
 						),
 					),

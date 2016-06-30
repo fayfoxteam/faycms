@@ -9,7 +9,7 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\Posts;
 use fay\services\User;
-use fay\models\Post;
+use fay\services\Post;
 use fay\models\tables\PostFavorites;
 use fay\helpers\Request;
 use fay\models\tables\PostMeta;
@@ -197,7 +197,7 @@ class Favorite extends Service{
 		}
 		
 		return array(
-			'favorites'=>Post::model()->mget(ArrayHelper::column($favorites, 'post_id'), $fields),
+			'favorites'=>Post::service()->mget(ArrayHelper::column($favorites, 'post_id'), $fields),
 			'pager'=>$listview->getPager(),
 		);
 	}

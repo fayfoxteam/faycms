@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\models\Post;
+use fay\services\Post;
 use fay\models\tables\Messages;
 use fay\core\HttpException;
 use siwi\helpers\FriendlyLink;
@@ -85,7 +85,7 @@ class BlogController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		$post = Post::model()->get($id, 'nav,user,files');
+		$post = Post::service()->get($id, 'nav,user,files');
 		
 		if(!$post){
 			throw new HttpException('页面不存在');
@@ -110,13 +110,13 @@ class BlogController extends FrontController{
 			))
 			->order('create_time DESC');
 		
-		if(Post::model()->isLiked($id)){
+		if(Post::service()->isLiked($id)){
 			$this->view->liked = true;
 		}else{
 			$this->view->liked = false;
 		}
 		
-		if(Post::model()->isFavored($id)){
+		if(Post::service()->isFavored($id)){
 			$this->view->favored = true;
 		}else{
 			$this->view->favored = false;

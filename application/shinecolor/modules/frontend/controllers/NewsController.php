@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\Html;
 use fay\core\HttpException;
 
@@ -83,7 +83,7 @@ class NewsController extends FrontController{
 	
 	public function item(){
 		$id = $this->input->get('id', 'intval');
-		$post = Post::model()->get($id);
+		$post = Post::service()->get($id);
 		
 		if(!$post){
 			throw new HttpException('404页面不存在');

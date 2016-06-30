@@ -3,7 +3,7 @@ namespace fay\widgets\category_posts\controllers;
 
 use fay\widget\Widget;
 use fay\services\Category;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\Date;
 
 class IndexController extends Widget{
@@ -60,7 +60,7 @@ class IndexController extends Widget{
 		if(in_array('meta', $config['fields'])){
 			$fields['meta'] = array('views', 'likes', 'comments');
 		}
-		$posts = Post::model()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
+		$posts = Post::service()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		if($posts){
 			foreach($posts as &$p){
 				if($config['date_format'] == 'pretty'){
@@ -142,7 +142,7 @@ class IndexController extends Widget{
 		if(in_array('meta', $config['fields'])){
 			$fields['meta'] = array('views', 'likes', 'comments');
 		}
-		$posts = Post::model()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
+		$posts = Post::service()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
 		if(empty($posts) && !$config['show_empty']){

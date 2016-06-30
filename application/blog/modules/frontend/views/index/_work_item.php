@@ -1,11 +1,11 @@
 <?php
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\Date;
 use fay\helpers\Html;
 use fay\services\File;
 
 preg_match_all('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $data['content'], $matches);
-$post_cats = Post::model()->getCats($data['id']);
+$post_cats = Post::service()->getCats($data['id']);
 $work_files = array();
 $i = 0;
 foreach($matches[1] as $m){

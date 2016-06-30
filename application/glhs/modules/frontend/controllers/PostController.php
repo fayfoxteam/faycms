@@ -3,7 +3,7 @@ namespace glhs\modules\frontend\controllers;
 
 use glhs\library\FrontController;
 use fay\core\HttpException;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\Validator;
 use fay\services\Category;
 use fay\core\Sql;
@@ -58,7 +58,7 @@ class PostController extends FrontController{
 		$id = $this->input->get('id', 'intval');
 		$cat = Category::service()->get($this->input->get('cat'));
 		
-		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav.id,nav.title', $cat);
+		$post = Post::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title', $cat);
 		if(!$post){
 			throw new HttpException('文章不存在', 404);
 		}

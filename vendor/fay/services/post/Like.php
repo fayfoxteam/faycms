@@ -10,7 +10,7 @@ use fay\helpers\ArrayHelper;
 use fay\models\tables\PostLikes;
 use fay\models\tables\Posts;
 use fay\services\User;
-use fay\models\Post;
+use fay\services\Post;
 use fay\models\tables\PostMeta;
 
 class Like extends Service{
@@ -234,7 +234,7 @@ class Like extends Service{
 		}
 		
 		return array(
-			'likes'=>Post::model()->mget(ArrayHelper::column($likes, 'post_id'), $fields),
+			'likes'=>Post::service()->mget(ArrayHelper::column($likes, 'post_id'), $fields),
 			'pager'=>$listview->getPager(),
 		);
 	}

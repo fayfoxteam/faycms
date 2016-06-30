@@ -5,7 +5,7 @@ use siwi\library\UserController;
 use fay\models\tables\Messages;
 use fay\models\Message;
 use fay\helpers\Date;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\Validator;
 
 class CommentController extends UserController{
@@ -24,7 +24,7 @@ class CommentController extends UserController{
 			$parent = $this->input->post('parent', 'intval', 0);
 			$message_id = Message::model()->create($target, $content, $type, $parent);
 			//刷新文章评论数
-			Post::model()->refreshComments($target);
+			Post::service()->refreshComments($target);
 			
 			$message = Message::model()->get($message_id);
 			$message['date'] = Date::niceShort($message['create_time']);

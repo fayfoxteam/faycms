@@ -4,7 +4,7 @@ use fay\services\File;
 use siwi\helpers\FriendlyLink;
 use siwi\models\Post;
 
-$type = Post::model()->getType($data['cat_id']);
+$type = Post::service()->getType($data['cat_id']);
 $type_title = '';
 switch($type){
 	case 'blog':

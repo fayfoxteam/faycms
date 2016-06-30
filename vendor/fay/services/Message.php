@@ -5,7 +5,7 @@ use fay\core\Service;
 use fay\models\tables\Messages;
 use fay\core\Exception;
 use fay\core\Hook;
-use fay\models\Post;
+use fay\services\Post;
 use fay\models\Message as MessageModel;
 use fay\services\Option;
 use fay\helpers\ArrayHelper;

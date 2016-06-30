@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Post;
+use fay\services\Post;
 ?>
 <div id="index-slide">
 	<?php \F::widget()->load('index-slides-camera')?>
@@ -48,7 +48,7 @@ use fay\models\Post;
 			<ul class="news-list">
 			<?php foreach($news as $n){?>
 				<li class="disc">
-					<a href="<?php echo Post::model()->getLink($n, 'news')?>">
+					<a href="<?php echo Post::service()->getLink($n, 'news')?>">
 						<time class="fr"><?php echo date('Y-m-d', $n['publish_time'])?></time>
 						<span><?php echo Html::encode($n['title'])?></span>
 					</a>

@@ -4,7 +4,7 @@ namespace ncp\modules\frontend\controllers;
 use ncp\library\FrontController;
 use fay\models\Prop;
 use fay\services\Category;
-use fay\models\Post;
+use fay\services\Post;
 use ncp\models\Recommend;
 use fay\services\Option;
 use fay\helpers\ArrayHelper;
@@ -35,14 +35,14 @@ class IndexController extends FrontController{
 		$prop_area = Prop::service()->getIdByAlias('area');
 		
 		foreach($areas as $a){
-			$travel_top = Post::model()->getByProp($prop_area, $a['id'], 4, $travel_cat['id']);
+			$travel_top = Post::service()->getByProp($prop_area, $a['id'], 4, $travel_cat['id']);
 			$not = ArrayHelper::column($travel_top, 'id');
 			$travels[] = array(
 				'top'=>$travel_top,
 				'recommend'=>Recommend::model()->getByCatAndArea($travel_cat, 6, Option::get('site:index_travel_recommend_days'), $a['id'], $not),
 			);
-			$foods[] = Post::model()->getByProp($prop_area, $a['id'], 4, $food_cat['id']);
-			$products[] = Post::model()->getByProp($prop_area, $a['id'], 7, $product_cat['id']);
+			$foods[] = Post::service()->getByProp($prop_area, $a['id'], 4, $food_cat['id']);
+			$products[] = Post::service()->getByProp($prop_area, $a['id'], 7, $product_cat['id']);
 		}
 		
 		$this->view->assign(array(

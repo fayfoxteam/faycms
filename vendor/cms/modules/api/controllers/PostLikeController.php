@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\post\Like as PostLike;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\FieldHelper;
 use fay\services\User;
 

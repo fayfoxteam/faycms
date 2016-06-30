@@ -1,5 +1,5 @@
 <?php
-use fay\models\Post;
+use fay\services\Post;
 use doc\helpers\CodeFile;
 use fay\helpers\Html;
 
@@ -18,9 +18,9 @@ if(count($posts) > 2){
 	));
 }
 foreach($posts as $p){
-	$file_link = Post::model()->getPropValueByAlias('file_link', $p['id']);
+	$file_link = Post::service()->getPropValueByAlias('file_link', $p['id']);
 	if($file_link){
-		$function = Post::model()->getPropValueByAlias('file_function', $p['id']);
+		$function = Post::service()->getPropValueByAlias('file_function', $p['id']);
 		if($function){
 			$line = CodeFile::getLineByFunctionName($function, BASEPATH.'../'.$file_link);
 			if($line){

@@ -9,7 +9,7 @@ use fay\services\Category;
 use fay\common\ListView;
 use ncp\models\Recommend;
 use fay\services\Option;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\db\Expr;
 
 class SpecialController extends FrontController{
@@ -67,7 +67,7 @@ class SpecialController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::model()->get($id, '', 'special', true)){
+		if(!$id || !$post = Post::service()->get($id, '', 'special', true)){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(

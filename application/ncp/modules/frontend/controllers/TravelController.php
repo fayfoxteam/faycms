@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\HttpException;
 use fay\models\Prop;
 use fay\helpers\ArrayHelper;
@@ -121,7 +121,7 @@ class TravelController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::model()->get($id, '', 'travel', true)){
+		if(!$id || !$post = Post::service()->get($id, '', 'travel', true)){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
@@ -133,7 +133,7 @@ class TravelController extends FrontController{
 		$this->layout->keywords = $post['seo_keywords'];
 		$this->layout->description = $post['seo_description'];
 		
-		$area = Post::model()->getPropValueByAlias('area', $id);
+		$area = Post::service()->getPropValueByAlias('area', $id);
 
 		$food_cat = Category::service()->getByAlias('food', 'id,left_value,right_value');//食品分类根目录
 		$product_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录

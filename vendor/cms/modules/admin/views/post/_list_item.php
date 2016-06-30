@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
 use fay\services\File;
@@ -82,7 +82,7 @@ $editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<?php if(in_array('category', $cols)){?>
 	<td><?php
-		$cats = Post::model()->getCats($data['id']);
+		$cats = Post::service()->getCats($data['id']);
 		foreach($cats as $key => $cat){
 			if($key){
 				echo ', ';

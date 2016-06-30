@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\HttpException;
 use fay\models\Prop;
 use fay\helpers\ArrayHelper;
@@ -111,7 +111,7 @@ class ProductController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::model()->get($id, '', 'product', true)){
+		if(!$id || !$post = Post::service()->get($id, '', 'product', true)){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
@@ -123,7 +123,7 @@ class ProductController extends FrontController{
 		$this->layout->keywords = $post['seo_keywords'];
 		$this->layout->description = $post['seo_description'];
 		
-		$area = Post::model()->getPropValueByAlias('area', $id);
+		$area = Post::service()->getPropValueByAlias('area', $id);
 
 		$food_cat = Category::service()->getByAlias('food', 'id,left_value,right_value');//食品分类根目录
 		$travel_cat = Category::service()->getByAlias('travel', 'id,left_value,right_value');//旅游分类根目录
@@ -132,7 +132,7 @@ class ProductController extends FrontController{
 		$this->view->assign(array(
 			'post'=>$post,
 			'area'=>$area,
-			'buy_link'=>Post::model()->getPropValueByAlias('product_buy_link', $id),
+			'buy_link'=>Post::service()->getPropValueByAlias('product_buy_link', $id),
 			'food_posts'=>Recommend::model()->getByCatAndArea($food_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
 			'travel_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 9, Option::get('site:content_recommend_days'), $area['id']),
 			'right_posts'=>Recommend::model()->getByCatAndArea($food_cat, 6, Option::get('site:right_recommend_days')),

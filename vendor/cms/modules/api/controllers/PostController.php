@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 
@@ -64,7 +64,7 @@ class PostController extends ApiController{
 			$fields['post'] = $this->default_fields['post'];
 		}
 		
-		$post = Post::model()->get($id, $fields, $cat);
+		$post = Post::service()->get($id, $fields, $cat);
 		if($post){
 			Response::json($post);
 		}else{

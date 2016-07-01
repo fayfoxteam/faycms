@@ -863,7 +863,7 @@ class Post extends Service{
 				'status = '.Posts::STATUS_PUBLISHED,
 			))
 			->order($order)
-			->distinct(true);
+			->group('p.id');
 		if($limit){
 			$sql->limit($limit);
 		}

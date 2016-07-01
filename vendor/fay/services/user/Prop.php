@@ -78,7 +78,7 @@ class Prop extends \fay\models\Prop{
 	 */
 	public function createPropertySet($user_id, $data, $props = null){
 		if($props === null){
-			$props = UserModel::model()->getProps($user_id);
+			$props = $this->getProps($user_id);
 		}
 		parent::createPropertySet($user_id, $props, $data);
 	}
@@ -98,7 +98,7 @@ class Prop extends \fay\models\Prop{
 	
 	/**
 	 * @see \fay\models\Prop::getPropertySet()
-	 * @param int $post_id 文章ID
+	 * @param int $user_id 文章ID
 	 * @param null|array $props 属性列表
 	 * @return array
 	 */

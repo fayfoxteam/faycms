@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\tables\Props;
+use cms\helpers\PropHelper;
 ?>
 <tr valign="top">
 	<td>

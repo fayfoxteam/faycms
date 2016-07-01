@@ -1,5 +1,3 @@
-<?php
-?>
 <fieldset class="form-field">
 	<div class="title">
 		<label>视频分享:</label>

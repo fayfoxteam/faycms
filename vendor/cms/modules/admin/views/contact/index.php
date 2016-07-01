@@ -1,5 +1,3 @@
-<?php
-?>
 <style>
 .contact-item{margin-bottom:30px;background-color:#fff;padding:20px;}
 .contact-item .ci-header{color:#979898;}

@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="box" id="box-views" data-name="views">
 	<div class="box-title">
 		<a class="tools remove" title="隐藏"></a>

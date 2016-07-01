@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="color-red"><?php if(isset($error)){echo $error;}?></div>
 <form method="post" id="login-form" class="validform">
 	<div class="form-field username">

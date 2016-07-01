@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="clearfix">
 	<div class="half-left">
 	<?php

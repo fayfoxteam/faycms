@@ -1,5 +1,3 @@
-<?php
-?>
 <fieldset class="form-field">
 	<div class="title">
 		<label class="title">上传:</label>

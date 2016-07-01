@@ -13,7 +13,7 @@ use fay\services\File;
 		</div>
 		<div id="thumbnail-preview-container">
 		<?php 
-			echo F::form()->inputHidden('thumbnail');
+			echo F::form()->inputHidden('thumbnail', array(), 0);
 			$thumbnail = F::form()->getData('thumbnail', 0);
 			if(!empty($thumbnail)){
 				echo Html::link(Html::img($thumbnail, File::PIC_RESIZE, array(

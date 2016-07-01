@@ -65,7 +65,7 @@ use fay\helpers\Html;
 	<div id="upload-logo-preview">
 		<?php echo F::form()->inputHidden('logo', array(
 			'data-rule'=>'int',
-		));
+		), 0);
 		if(F::form()->getData('logo')){
 			echo Html::img(F::form()->getData('logo'));
 		}

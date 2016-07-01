@@ -1,5 +1,3 @@
-<?php
-?>
 <form method="post" id="register-form" class="validform">
 	<div class="form-field email">
 		<label for="email" class="title-prompt-text">您的用户名</label>

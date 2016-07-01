@@ -306,7 +306,7 @@ class FeedController extends AdminController{
 	
 	/**
 	 * 删除
-	 * @param int $id 动态ID
+	 * @parameter int $id 动态ID
 	 */
 	public function delete(){
 		$feed_id = $this->input->get('id', 'intval');
@@ -325,7 +325,7 @@ class FeedController extends AdminController{
 	
 	/**
 	 * 还原
-	 * @param int $id 动态ID
+	 * @parameter int $id 动态ID
 	 */
 	public function undelete(){
 		$feed_id = $this->input->get('id', 'intval');

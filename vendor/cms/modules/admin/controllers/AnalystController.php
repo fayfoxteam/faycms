@@ -140,10 +140,10 @@ class AnalystController extends AdminController{
 		$this->layout->subtitle = '页面PV量';
 		
 		$sql = new Sql();
-		$sql->from(array('v'=>'analyst_visits'), 'mac,url,SUM(views) AS pv,COUNT(DISTINCT mac) AS uv,COUNT(DISTINCT ip_int) AS ip')
+		$sql->from(array('v'=>'analyst_visits'), 'url,SUM(views) AS pv,COUNT(DISTINCT mac) AS uv,COUNT(DISTINCT ip_int) AS ip')
 			->joinLeft(array('s'=>'analyst_sites'), 'v.site = s.id', 'title AS site_title')
-			->group('short_url')
-			->countBy('DISTINCT short_url')
+			->group(array('url', 'v.site'))
+			->countBy('DISTINCT url')
 		;
 		
 		$this->view->today = Date::today();
@@ -204,7 +204,7 @@ class AnalystController extends AdminController{
 			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
 			$sql->order("{$this->view->orderby} {$this->view->order}");
 		}else{
-			$sql->order('v.id DESC');
+			$sql->order('MAX(v.id) DESC');
 		}
 
 		$this->view->listview = new ListView($sql, array(

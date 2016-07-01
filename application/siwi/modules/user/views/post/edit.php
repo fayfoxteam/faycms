@@ -1,5 +1,3 @@
-<?php
-?>
 <form method="post" id="form" class="validform">
 	<?php include '_edit_panel.php';?>
 	<div class="form-options clearfix">

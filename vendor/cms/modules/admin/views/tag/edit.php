@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="row">
 	<div class="col-6">
 		<form id="form" class="validform" action="<?php echo $this->url('admin/tag/edit', F::app()->input->get())?>" method="post">

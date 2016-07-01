@@ -1,6 +1,8 @@
 <?php
 namespace fay\widget;
 
+use fay\helpers\UrlHelper;
+
 class View{
 	/**
 	 * 用于视图层的数据
@@ -21,7 +23,7 @@ class View{
 	}
 	
 	public function url($router = false, $params = array(), $url_rewrite = true){
-		return \F::app()->view->url($router, $params, $url_rewrite);
+		return UrlHelper::createUrl($router, $params, $url_rewrite);
 	}
 	
 	/**

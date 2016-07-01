@@ -93,7 +93,7 @@ class PostCommentController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		try{
-			Comment::model()->approve($id);
+			Comment::service()->approve($id);
 				
 			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '审核通过了一条文章评论', $id);
 		
@@ -121,7 +121,7 @@ class PostCommentController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		try{
-			Comment::model()->disapprove($id);
+			Comment::service()->disapprove($id);
 		
 			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '审核拒绝了一条文章评论', $id);
 		
@@ -149,7 +149,7 @@ class PostCommentController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		try{
-			Comment::model()->delete($id);
+			Comment::service()->delete($id);
 			
 			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '将文章评论移入回收站', $id);
 				
@@ -179,7 +179,7 @@ class PostCommentController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		try{
-			Comment::model()->undelete($id);
+			Comment::service()->undelete($id);
 
 			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '将文章评论移出回收站', $id);
 				
@@ -209,7 +209,7 @@ class PostCommentController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		try{
-			Comment::model()->remove($id);
+			Comment::service()->remove($id);
 			
 			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '永久删除一条文章评论', $id);
 			
@@ -237,7 +237,7 @@ class PostCommentController extends AdminController{
 		switch($action){
 			case 'set-approved':
 				//通过审核
-				$affected_rows = Comment::model()->batchApprove($ids);
+				$affected_rows = Comment::service()->batchApprove($ids);
 				if($affected_rows){
 					Response::notify('success', $affected_rows.'条评论通过审核');
 				}else{
@@ -248,7 +248,7 @@ class PostCommentController extends AdminController{
 			break;
 			case 'set-disapproved':
 				//不通过审核
-				$affected_rows = Comment::model()->batchDisapprove($ids);
+				$affected_rows = Comment::service()->batchDisapprove($ids);
 				if($affected_rows){
 					Response::notify('success', $affected_rows.'条评论未通过审核');
 				}else{
@@ -263,7 +263,7 @@ class PostCommentController extends AdminController{
 			break;
 			case 'delete':
 				//放入回收站
-				$affected_rows = Comment::model()->batchDelete($ids);
+				$affected_rows = Comment::service()->batchDelete($ids);
 				if($affected_rows){
 					Response::notify('success', $affected_rows.'条评论被删除');
 				}else{
@@ -274,7 +274,7 @@ class PostCommentController extends AdminController{
 			break;
 			case 'undelete':
 				//从回收站还原
-				$affected_rows = Comment::model()->batchUnelete($ids);
+				$affected_rows = Comment::service()->batchUnelete($ids);
 				if($affected_rows){
 					Response::notify('success', $affected_rows.'条评论被还原');
 				}else{

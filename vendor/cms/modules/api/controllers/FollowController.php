@@ -39,8 +39,8 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 关注一个用户
-	 * @param int $user_id
-	 * @param string $trackid 追踪ID
+	 * @parameter int $user_id
+	 * @parameter string $trackid 追踪ID
 	 */
 	public function add(){
 		//登录检查
@@ -56,7 +56,8 @@ class FollowController extends ApiController{
 				'operator'=>'!=',
 				'code'=>'can-not-follow-yourself',
 				'message'=>'您不能关注自己',
-			))
+			)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'user_id'=>'intval',
 			'trackid'=>'trim',
@@ -79,7 +80,7 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 取消关注一个用户
-	 * @param int $user_id
+	 * @parameter int $user_id
 	 */
 	public function remove(){
 		//登录检查
@@ -111,7 +112,7 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 判断当前登录用户是否关注指定用户
-	 * @param int $user_id
+	 * @parameter int $user_id
 	 */
 	public function isFollow(){
 		//登录检查
@@ -138,7 +139,7 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 批量判断当前用户与多个用户的关注关系
-	 * @param array|string $user_ids 用户ID，可以是数组的方式传入，也可以逗号分隔传入
+	 * @parameter array|string $user_ids 用户ID，可以是数组的方式传入，也可以逗号分隔传入
 	 */
 	public function mIsFollow(){
 		//表单验证
@@ -161,16 +162,17 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 粉丝列表
-	 * @param int $user_id 用户ID
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $user_id 用户ID
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function fans(){
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'user_id'=>'intval',
 			'page'=>'intval',
@@ -180,6 +182,7 @@ class FollowController extends ApiController{
 			'user_id'=>'用户ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$user_id = $this->form()->getData('user_id', $this->current_user);
@@ -190,7 +193,7 @@ class FollowController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'follows', $this->allowed_fields);
 		}else{
 			$fields = $this->default_fields;
 		}
@@ -204,16 +207,17 @@ class FollowController extends ApiController{
 	
 	/**
 	 * 关注列表
-	 * @param int $user_id 用户ID
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $user_id 用户ID
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function follows(){
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('user_id', 'page', 'page_size'), 'int', array('min'=>1)),
 			array(array('user_id'), 'exist', array('table'=>'users', 'field'=>'id')),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'user_id'=>'intval',
 			'page'=>'intval',
@@ -223,6 +227,7 @@ class FollowController extends ApiController{
 			'user_id'=>'用户ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$user_id = $this->form()->getData('user_id', $this->current_user);
@@ -233,7 +238,7 @@ class FollowController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'follows', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'follows', $this->allowed_fields);
 		}else{
 			$fields = $this->default_fields;
 		}

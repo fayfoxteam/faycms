@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 
 $element_id = $config['element_id'] ? $config['element_id'] : $alias;
 ?>

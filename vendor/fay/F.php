@@ -1,7 +1,6 @@
 <?php
 use fay\core\Controller;
 use fay\core\Input;
-use fay\core\Model;
 use fay\core\Form;
 use fay\core\Cache;
 use fay\core\Session;
@@ -10,6 +9,7 @@ use fay\core\Db;
 use fay\log\Logger;
 use fay\widget\Loader as WidgetLoader;
 use fay\core\Cookie;
+use fay\core\Loader;
 
 /**
  * 超级类，可以在任何地方获取各种方法
@@ -48,12 +48,30 @@ class F{
 	}
 	
 	/**
-	 * 获取一个model实例
+	 * 获取一个Model实例（最终都是调用Loader::singleton，分开定义只是为了编辑器代码提示）
 	 * @param string $name
-	 * @return Model
+	 * @return \fay\core\Model
 	 */
 	public static function model($name){
-		return Model::model($name);
+		return Loader::singleton($name);
+	}
+	
+	/**
+	 * 获取一个Table实例（最终都是调用Loader::singleton，分开定义只是为了编辑器代码提示）
+	 * @param $name
+	 * @return \fay\core\db\Table
+	 */
+	public static function table($name){
+		return Loader::singleton($name);
+	}
+	
+	/**
+	 * 获取一个Service实例（最终都是调用Loader::singleton，分开定义只是为了编辑器代码提示）
+	 * @param $name
+	 * @return \fay\core\Service
+	 */
+	public static function service($name){
+		return Loader::singleton($name);
 	}
 	
 	/**
@@ -116,6 +134,7 @@ class F{
 	 * @param array|string $filters 可以是数组，也可以是竖线分隔的字符串
 	 * @param array|string $data
 	 * @param string $fields 可以是数组，也可以是逗号分隔的字符串，但不可以有多余的空格
+	 * @return mixed
 	 */
 	public static function filter($filters, $data, $fields = null){
 		return Input::getInstance()->filterR($filters, $data, $fields);

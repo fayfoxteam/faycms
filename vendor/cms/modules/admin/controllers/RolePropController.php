@@ -6,7 +6,7 @@ use fay\models\tables\Roles;
 use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\models\tables\Actionlogs;
-use fay\models\user\Prop;
+use fay\services\user\Prop;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -52,7 +52,7 @@ class RolePropController extends AdminController{
 			$refer = $this->input->post('refer', 'intval');
 			$prop = Props::model()->fillData($this->input->post());
 			$values = $this->input->post('prop_values', array());
-			$prop_id = Prop::model()->create($refer, $prop, $values);
+			$prop_id = Prop::service()->create($refer, $prop, $values);
 			
 			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '添加了一个角色属性', $prop_id);
 	
@@ -79,7 +79,7 @@ class RolePropController extends AdminController{
 			$prop_values = $this->input->post('prop_values', array());
 			$ids = $this->input->post('ids', 'intval', array('-1'));
 				
-			Prop::model()->update($refer, $prop_id, $prop, $prop_values, $ids);
+			Prop::service()->update($refer, $prop_id, $prop, $prop_values, $ids);
 			
 			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
 			
@@ -87,7 +87,7 @@ class RolePropController extends AdminController{
 		}
 		
 		
-		$prop = Prop::model()->get($prop_id);
+		$prop = Prop::service()->get($prop_id);
 
 		if(!$prop){
 			throw new HttpException('所选角色属性不存在');
@@ -112,7 +112,7 @@ class RolePropController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		$prop = Props::model()->find($id, 'refer');
-		Prop::model()->delete($id);
+		Prop::service()->delete($id);
 
 		Response::notify('success', array(
 			'message'=>'删除了一个角色属性',

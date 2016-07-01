@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\models\File;
-use fay\models\Message;
+use fay\services\File;
+use fay\services\Message;
 use fay\models\tables\Messages;
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
@@ -44,7 +44,7 @@ use fay\models\tables\Messages;
 		<div class="ci-footer">
 			<a href="#chat-dialog" class="ci-reply-link" data-id="<?php echo $data['id']?>">
 				<i class="fa fa-reply"></i>
-				<span>回复</span>(<em><?php echo Message::model()->getReplyCount($data['id'])?></em>)&nbsp;
+				<span>回复</span>(<em><?php echo Message::service()->getReplyCount($data['id'])?></em>)&nbsp;
 			</a>
 			<span class="ci-options"><?php
 			if(F::app()->checkPermission('admin/chat/approve')){

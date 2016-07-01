@@ -25,6 +25,22 @@ class Table extends Model{
 	}
 	
 	/**
+	 * 获取数据库链接实例
+	 * @return Db
+	 */
+	public function getDb(){
+		return $this->db;
+	}
+	
+	/**
+	 * 设置数据库链接实例
+	 * @param Db $db
+	 */
+	public function setDb($db){
+		$this->db = $db;
+	}
+	
+	/**
 	 * 获取表名（不带前缀）
 	 */
 	public function getTableName(){

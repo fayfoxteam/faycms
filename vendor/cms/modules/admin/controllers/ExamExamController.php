@@ -10,7 +10,7 @@ use fay\models\tables\ExamPapers;
 use fay\models\tables\ExamExamsQuestions;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
-use fay\models\Exam;
+use fay\services\Exam;
 
 class ExamExamController extends AdminController{
 	public function __construct(){
@@ -119,7 +119,7 @@ class ExamExamController extends AdminController{
 	public function remove(){
 		$id = $this->input->get('id', 'intval');
 		
-		Exam::model()->remove($id);
+		Exam::service()->remove($id);
 		
 		$this->actionlog(Actionlogs::TYPE_EXAM, '将用户答卷永久删除', $id);
 		

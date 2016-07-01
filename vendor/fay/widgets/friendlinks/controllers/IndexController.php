@@ -2,7 +2,7 @@
 namespace fay\widgets\friendlinks\controllers;
 
 use fay\widget\Widget;
-use fay\models\Link;
+use fay\services\Link;
 
 class IndexController extends Widget{
 	public $eval_cat_uri = '';
@@ -21,7 +21,7 @@ class IndexController extends Widget{
 			$config['cat_id'] = 0;
 		}
 		
-		$links = Link::model()->get($config['cat_id'], $config['number']);
+		$links = Link::service()->get($config['cat_id'], $config['number']);
 		
 		//若内容可显示，则不显示该widget
 		if(empty($links)){

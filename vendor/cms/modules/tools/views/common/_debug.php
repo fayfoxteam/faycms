@@ -8,7 +8,11 @@ use fay\helpers\SqlHelper;
 use fay\helpers\Html;
 use fay\core\Db;
 
-$db = Db::getInstance();
+if(Db::hasInstance()){
+	$db = Db::getInstance();;
+}else{
+	$db = null;
+}
 ?>
 <style>
 /* tab切换 */
@@ -52,7 +56,7 @@ $db = Db::getInstance();
 		<div class="tab-content">
 			<div id="debug-tab-1" class="tab-pane p5">
 				<div class="p5">
-					数据库操作:<?php echo $db->getCount()?>次
+					数据库操作:<?php echo $db ? $db->getCount() : 0?>次
 					|
 					内存使用:<?php echo round(memory_get_usage()/1024, 2)?>KB
 					|
@@ -61,7 +65,7 @@ $db = Db::getInstance();
 				<table class="debug-table">
 				<?php 
 					$total_db_time = 0;
-					$sqls = $db->getSqlLogs();
+					$sqls = $db ? $db->getSqlLogs() : array();
 					foreach($sqls as $k=>$s){
 						$total_db_time += $s[2]?>
 					<tr>

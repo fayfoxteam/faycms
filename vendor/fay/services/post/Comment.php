@@ -1,23 +1,42 @@
 <?php
 namespace fay\services\post;
 
-use fay\core\Model;
+use fay\core\ErrorException;
+use fay\core\Loader;
+use fay\helpers\FieldHelper;
+use fay\models\MultiTree;
 use fay\models\tables\PostComments;
 use fay\core\Exception;
 use fay\core\Hook;
-use fay\models\Post;
-use fay\models\post\Comment as CommentModel;
-use fay\models\Option;
+use fay\services\Post;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\PostMeta;
+use fay\services\Option;
+use fay\services\User;
 
-class Comment extends Model{
+class Comment extends MultiTree{
 	/**
+	 * @see MultiTree::$model
+	 */
+	protected $model = '\fay\models\tables\PostComments';
+	
+	/**
+	 * @see MultiTree::$foreign_key
+	 */
+	protected $foreign_key = 'post_id';
+	
+	/**
+	 * @see MultiTree::$field_key
+	 */
+	protected $field_key = 'comment';
+	
+	/**
+	 * @param string $class_name
 	 * @return Comment
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return Loader::singleton($class_name);
 	}
 	
 	/**
@@ -29,6 +48,8 @@ class Comment extends Model{
 	 * @param array $extra 扩展参数，二次开发时可能会用到
 	 * @param int $user_id 用户ID，若不指定，默认为当前登录用户ID
 	 * @param int $sockpuppet 马甲信息，若是真实用户，传入0，默认为0
+	 * @return int
+	 * @throws Exception
 	 */
 	public function create($post_id, $content, $parent = 0, $status = PostComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
@@ -47,7 +68,7 @@ class Comment extends Model{
 			}
 		}
 		
-		$comment_id = CommentModel::model()->create(array_merge($extra, array(
+		$comment_id = $this->_create(array_merge($extra, array(
 			'post_id'=>$post_id,
 			'content'=>$content,
 			'status'=>$status,
@@ -59,7 +80,7 @@ class Comment extends Model{
 		)), $parent);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array(array(
+		$this->updatePostComments(array(array(
 			'post_id'=>$post_id,
 			'status'=>$status,
 			'sockpuppet'=>$sockpuppet,
@@ -77,6 +98,7 @@ class Comment extends Model{
 	 * 软删除一条评论
 	 * 软删除不会修改parent标识，因为删除的东西随时都有可能会被恢复，而parent如果变了是无法被恢复的。
 	 * @param int $comment_id 评论ID
+	 * @throws Exception
 	 */
 	public function delete($comment_id){
 		$comment = PostComments::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
@@ -94,7 +116,7 @@ class Comment extends Model{
 		), $comment_id);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'delete');
+		$this->updatePostComments(array($comment), 'delete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_deleted', array(
@@ -105,6 +127,7 @@ class Comment extends Model{
 	/**
 	 * 批量删除
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchDelete($comment_ids){
 		$comments = PostComments::model()->fetchAll(array(
@@ -125,7 +148,7 @@ class Comment extends Model{
 		));
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'delete');
+		$this->updatePostComments($comments, 'delete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -140,6 +163,7 @@ class Comment extends Model{
 	/**
 	 * 从回收站恢复一条评论
 	 * @param int $comment_id 评论ID
+	 * @throws Exception
 	 */
 	public function undelete($comment_id){
 		$comment = PostComments::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
@@ -157,7 +181,7 @@ class Comment extends Model{
 		), $comment_id);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'undelete');
+		$this->updatePostComments(array($comment), 'undelete');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_undeleted', array(
@@ -168,6 +192,7 @@ class Comment extends Model{
 	/**
 	 * 批量还原
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchUnelete($comment_ids){
 		$comments = PostComments::model()->fetchAll(array(
@@ -188,7 +213,7 @@ class Comment extends Model{
 		));
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'undelete');
+		$this->updatePostComments($comments, 'undelete');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -203,6 +228,8 @@ class Comment extends Model{
 	/**
 	 * 删除一条评论及所有回复该评论的评论
 	 * @param int $comment_id 评论ID
+	 * @return array
+	 * @throws Exception
 	 */
 	public function deleteAll($comment_id){
 		$comment = PostComments::model()->find($comment_id, 'left_value,right_value,root');
@@ -229,7 +256,7 @@ class Comment extends Model{
 			));
 			
 			//更新文章评论数
-			CommentModel::model()->updatePostComments($comments, 'delete');
+			$this->updatePostComments($comments, 'delete');
 			
 			//执行钩子
 			Hook::getInstance()->call('after_post_comment_batch_deleted', array(
@@ -245,6 +272,8 @@ class Comment extends Model{
 	/**
 	 * 永久删除一条评论
 	 * @param int $comment_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function remove($comment_id){
 		$comment = PostComments::model()->find($comment_id, '!content');
@@ -257,11 +286,11 @@ class Comment extends Model{
 			'comment_id'=>$comment_id,
 		));
 		
-		CommentModel::model()->remove($comment);
+		$this->_remove($comment);
 		
 		if(!$comment['deleted']){
 			//更新文章评论数
-			CommentModel::model()->updatePostComments(array($comment), 'remove');
+			$this->updatePostComments(array($comment), 'remove');
 		}
 		
 		return true;
@@ -270,6 +299,8 @@ class Comment extends Model{
 	/**
 	 * 物理删除一条评论及所有回复该评论的评论
 	 * @param int $comment_id 评论ID
+	 * @return array
+	 * @throws Exception
 	 */
 	public function removeAll($comment_id){
 		$comment = PostComments::model()->find($comment_id, '!content');
@@ -297,10 +328,10 @@ class Comment extends Model{
 			}
 		}
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($undeleted_comments, 'remove');
+		$this->updatePostComments($undeleted_comments, 'remove');
 		
 		//执行删除
-		CommentModel::model()->removeAll($comment);
+		$this->_removeAll($comment);
 		
 		return $comment_ids;
 	}
@@ -308,6 +339,8 @@ class Comment extends Model{
 	/**
 	 * 通过审核
 	 * @param int $comment_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function approve($comment_id){
 		$comment = PostComments::model()->find($comment_id, '!content');
@@ -321,10 +354,10 @@ class Comment extends Model{
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		CommentModel::model()->setStatus($comment_id, PostComments::STATUS_APPROVED);
+		$this->setStatus($comment_id, PostComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'approve');
+		$this->updatePostComments(array($comment), 'approve');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_approved', array(
@@ -336,6 +369,7 @@ class Comment extends Model{
 	/**
 	 * 批量通过审核
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchApprove($comment_ids){
 		$comments = PostComments::model()->fetchAll(array(
@@ -348,10 +382,10 @@ class Comment extends Model{
 		}
 		
 		//更新状态
-		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'approve');
+		$this->updatePostComments($comments, 'approve');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -366,6 +400,8 @@ class Comment extends Model{
 	/**
 	 * 不通过审核
 	 * @param int $comment_id 评论ID
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function disapprove($comment_id){
 		$comment = PostComments::model()->find($comment_id, '!content');
@@ -379,10 +415,10 @@ class Comment extends Model{
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		CommentModel::model()->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
+		$this->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments(array($comment), 'disapprove');
+		$this->updatePostComments(array($comment), 'disapprove');
 		
 		//执行钩子
 		Hook::getInstance()->call('after_post_comment_disapproved', array(
@@ -394,6 +430,7 @@ class Comment extends Model{
 	/**
 	 * 批量不通过审核
 	 * @param array $comment_ids 由评论ID构成的一维数组
+	 * @return int
 	 */
 	public function batchDisapprove($comment_ids){
 		$comments = PostComments::model()->fetchAll(array(
@@ -406,10 +443,10 @@ class Comment extends Model{
 		}
 		
 		//更新状态
-		$affected_rows = CommentModel::model()->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
-		CommentModel::model()->updatePostComments($comments, 'disapprove');
+		$this->updatePostComments($comments, 'disapprove');
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
@@ -425,6 +462,7 @@ class Comment extends Model{
 	 * 编辑一条评论（只能编辑评论内容部分）
 	 * @param int $comment_id 评论ID
 	 * @param string $content 评论内容
+	 * @return int
 	 */
 	public function update($comment_id, $content){
 		return PostComments::model()->update(array(
@@ -433,9 +471,179 @@ class Comment extends Model{
 	}
 	
 	/**
+	 * 获取一条评论
+	 * @param int $comment_id 评论ID
+	 * @param array|string $fields 返回字段
+	 *  - comment.*系列可指定post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
+	 *  - parent.comment.*系列可指定父评论post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
+	 *  - parent._user.*系列可指定父评论作者信息，格式参照\fay\services\User::get()
+	 * @return array
+	 */
+	public function get($comment_id, $fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'parent'=>array(
+			'comment'=>array(
+				'id', 'content', 'parent', 'create_time',
+			),
+			'user'=>array(
+				'id', 'nickname', 'avatar',
+			),
+		)
+	)){
+		$fields = FieldHelper::parse($fields, 'comment');
+		if(empty($fields['comment']) || in_array('*', $fields['comment'])){
+			//若未指定返回字段，初始化
+			$fields['comment'] = \F::table($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
+		}
+		
+		$comment_fields = $fields['comment'];
+		if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$comment_fields[] = 'user_id';
+		}
+		if(!empty($fields['parent']) && !in_array('parent', $comment_fields)){
+			//如果要获取作者信息，则必须搜出parent
+			$comment_fields[] = 'parent';
+		}
+		
+		$comment = \F::table($this->model)->fetchRow(array(
+			'id = ?'=>$comment_id,
+			'deleted = 0',
+		), $comment_fields);
+		
+		if(!$comment){
+			return false;
+		}
+		
+		$return = array(
+			'comment'=>$comment,
+		);
+		//作者信息
+		if(!empty($fields['user'])){
+			$return['user'] = User::service()->get(
+				$comment['user_id'],
+				$fields['user'],
+				isset($fields['_extra']['user']) ? $fields['_extra']['user'] : array()
+			);
+		}
+		
+		//父节点
+		if(!empty($fields['parent'])){
+			$parent_comment_fields = isset($fields['parent']['comment']) ? $fields['parent']['comment'] : array();
+			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
+				//如果要获取作者信息，则必须搜出user_id
+				$parent_comment_fields[] = 'user_id';
+			}
+			
+			$parent_comment = \F::table($this->model)->fetchRow(array(
+				'id = ?'=>$comment['parent'],
+				'deleted = 0',
+			), $parent_comment_fields);
+			
+			if($parent_comment){
+				//有父节点
+				if(!empty($fields['parent']['user'])){
+					$return['parent']['user'] = User::service()->get(
+						$parent_comment['user_id'],
+						$fields['parent']['user'],
+						isset($fields['parent']['_extra']['user']) ? $fields['parent']['_extra']['user'] : array()
+					);
+				}
+				if((!isset($fields['parent']['comment']) || !in_array('user_id', $fields['parent']['comment'])) &&
+					in_array('user_id', $parent_comment_fields)){
+					unset($parent_comment['user_id']);
+				}
+				
+				if($parent_comment){
+					$return['parent']['comment'] = $parent_comment;
+				}
+			}else{
+				//没有父节点，但是要求返回相关父节点字段，则返回空数组
+				if(!empty($fields['parent']['comment'])){
+					$return['parent']['comment'] = array();
+				}
+				
+				if(!empty($fields['parent']['user'])){
+					$return['parent']['user'] = array();
+				}
+			}
+		}
+		
+		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+		foreach(array('user_id', 'parent') as $f){
+			if(!in_array($f, $fields['comment']) && in_array($f, $comment_fields)){
+				unset($return['comment'][$f]);
+			}
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * 判断用户是否对该评论有删除权限
+	 * @param int|array $comment 评论
+	 *  - 若是数组，视为评论表行记录，必须包含user_id
+	 *  - 若是数字，视为评论ID，会根据ID搜索数据库
+	 * @param string $action 操作
+	 * @param int|null $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
+	 */
+	public function checkPermission($comment, $action = 'delete', $user_id = null){
+		if(!is_array($comment)){
+			$comment = PostComments::model()->find($comment, 'user_id');
+		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($comment['user_id'])){
+			throw new ErrorException('指定文章评论不存在');
+		}
+		
+		if($comment['user_id'] == $user_id){
+			//自己的评论总是有权限操作的
+			return true;
+		}
+		
+		if(User::service()->isAdmin($user_id) &&
+			User::service()->checkPermission('admin/post-comment/' . $action, $user_id)){
+			//是管理员，判断权限
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 更新评论状态
+	 * @param int|array $comment_id 评论ID或由评论ID构成的一维数组
+	 * @param int $status 状态码
+	 * @return int
+	 */
+	public function setStatus($comment_id, $status){
+		if(is_array($comment_id)){
+			return PostComments::model()->update(array(
+				'status'=>$status,
+				'last_modified_time'=>\F::app()->current_time,
+			), array('id IN (?)'=>$comment_id));
+		}else{
+			return PostComments::model()->update(array(
+				'status'=>$status,
+				'last_modified_time'=>\F::app()->current_time,
+			), $comment_id);
+		}
+	}
+	
+	/**
 	 * 判断一条动态的改变是否需要改变文章评论数
 	 * @param array $comment 单条评论，必须包含status,sockpuppet字段
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
+	 * @return bool
 	 */
 	private function needChangePostComments($comment, $action){
 		$post_comment_verify = Option::get('system:post_comment_verify');
@@ -460,10 +668,10 @@ class Comment extends Model{
 	
 	/**
 	 * 更post_meta表comments和real_comments字段。
-	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段，且post_id必须都相同）
+	 * @param array $comments 相关评论（二维数组，每项必须包含post_id,status,sockpuppet字段）
 	 * @param string $action 操作（可选：delete/undelete/remove/create/approve/disapprove）
 	 */
-	private function updatePostComments($comments, $action){
+	public function updatePostComments($comments, $action){
 		$posts = array();
 		foreach($comments as $c){
 			if($this->needChangePostComments($c, $action)){
@@ -505,5 +713,126 @@ class Comment extends Model{
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 根据文章ID，以树的形式（体现层级结构）返回评论
+	 * @param int $post_id 文章ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param array|string $fields 字段
+	 * @return array
+	 */
+	public function getTree($post_id, $page_size = 10, $page = 1, $fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+	)){
+		$conditions = array(
+			'deleted = 0',
+		);
+		if(Option::get('system:post_comment_verify')){
+			//开启了评论审核
+			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
+		}
+		
+		$result = $this->_getTree($post_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions
+		);
+		
+		return array(
+			'comments'=>$result['data'],
+			'pager'=>$result['pager'],
+		);
+	}
+	
+	/**
+	 * 根据文章ID，以列表的形式（俗称“盖楼”）返回评论
+	 * @param int $post_id 文章ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param array|string $fields 字段
+	 * @return array
+	 */
+	public function getList($post_id, $page_size = 10, $page = 1, $fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'parent'=>array(
+			'user'=>array(
+				'nickname',
+			),
+		),
+	)){
+		$conditions = array(
+			't.deleted = 0',
+		);
+		$js_conditions = array(
+			't2.deleted = 0',
+		);
+		if(Option::get('system:post_comment_verify')){
+			//开启了评论审核
+			$conditions[] = 't.status = '.PostComments::STATUS_APPROVED;
+			$js_conditions[] = 't2.status = '.PostComments::STATUS_APPROVED;
+		}
+		
+		$result = $this->_getList($post_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions,
+			$js_conditions
+		);
+		
+		return array(
+			'comments'=>$result['data'],
+			'pager'=>$result['pager'],
+		);
+	}
+	
+	/**
+	 * 根据文章ID，以二级树的形式（所有对评论的评论不再体现层级结构）返回评论
+	 * @param int $post_id 文章ID
+	 * @param int $page_size 分页大小
+	 * @param int $page 页码
+	 * @param array|string $fields 字段
+	 * @return array
+	 */
+	public function getChats($post_id, $page_size = 10, $page = 1, $fields = array(
+		'comment'=>array(
+			'id', 'content', 'parent', 'create_time',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+	)){
+		$conditions = array(
+			'deleted = 0',
+		);
+		if(Option::get('system:post_comment_verify')){
+			//开启了评论审核
+			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
+		}
+		
+		$result = $this->_getChats($post_id,
+			$page_size,
+			$page,
+			$fields,
+			$conditions
+		);
+		
+		return array(
+			'comments'=>$result['data'],
+			'pager'=>$result['pager'],
+		);
 	}
 }

@@ -6,7 +6,7 @@
 	<div class="box-content">
 		<?php echo F::form()->inputText('likes', array(
 			'class'=>'form-control mw150',
-		))?>
+		), 0)?>
 		<?php if(F::form()->getData('real_likes') !== null){?>
 		<p class="fc-grey mt5">设定初始值，后续会按实际情况增减。</p>
 		<p class="misc-pub-section mt6 pl0">

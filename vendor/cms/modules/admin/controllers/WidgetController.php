@@ -7,7 +7,7 @@ use fay\helpers\StringHelper;
 use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\File;
+use fay\services\File;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\core\Loader;
@@ -157,7 +157,7 @@ class WidgetController extends AdminController{
 		if($this->input->post()){
 			$widget_instance_id = Widgets::model()->insert(array(
 				'widget_name'=>$this->input->post('widget_name'),
-				'alias'=>$this->input->post('alias') ? $this->input->post('alias') : uniqid(),
+				'alias'=>$this->input->post('alias') ? $this->input->post('alias') : 'w' . uniqid(),
 				'description'=>$this->input->post('description'),
 				'widgetarea'=>$this->input->post('widgetarea', 'trim'),
 				'options'=>'',
@@ -220,7 +220,7 @@ class WidgetController extends AdminController{
 		}
 		
 		$widget_id = Widgets::model()->insert(array(
-			'alias'=>uniqid(),
+			'alias'=>'w' . uniqid(),
 			'options'=>$widget['options'],
 			'widget_name'=>$widget['widget_name'],
 			'description'=>$widget['description'],

@@ -1,14 +1,14 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Post;
+use fay\services\Post;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
-use fay\models\File;
-use fay\models\post\Tag as PostTag;
-use fay\models\post\Category as PostCategory;
+use fay\services\File;
+use fay\services\post\Tag as PostTag;
+use fay\services\post\Category as PostCategory;
 
 //分类权限判断
-$editable = PostCategory::model()->isAllowedCat($data['cat_id']);
+$editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 ?>
 <tr valign="top" id="post-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
@@ -82,7 +82,7 @@ $editable = PostCategory::model()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<?php if(in_array('category', $cols)){?>
 	<td><?php
-		$cats = Post::model()->getCats($data['id']);
+		$cats = Post::service()->getCats($data['id']);
 		foreach($cats as $key => $cat){
 			if($key){
 				echo ', ';
@@ -95,7 +95,7 @@ $editable = PostCategory::model()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<?php if(in_array('tags', $cols)){?>
 	<td><?php
-		$tags = PostTag::model()->get($data['id']);
+		$tags = PostTag::service()->get($data['id']);
 		foreach($tags as $key => $tag){
 			if($key){
 				echo ', ';

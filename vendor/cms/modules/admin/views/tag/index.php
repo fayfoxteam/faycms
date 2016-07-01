@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="row">
 	<div class="col-5">
 		<form id="form" class="validform" action="<?php echo $this->url('admin/tag/create')?>" method="post">

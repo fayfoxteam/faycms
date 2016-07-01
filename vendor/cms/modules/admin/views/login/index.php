@@ -1,8 +1,8 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 use fay\helpers\Html;
-use fay\models\File;
-use fay\models\User;
+use fay\services\File;
+use fay\services\User;
 ?>
 <!DOCTYPE html>
 <html>
@@ -118,7 +118,7 @@ DD_belatedPNG.fix('fieldset,.ring');
 		</div>
 	</div>
 	<?php if(\F::app()->current_user){?>
-		<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
+		<?php $user = User::service()->get(\F::app()->current_user, 'avatar,username')?>
 		<div class="right top-to-bottom">
 			<div class="login-form-container">
 				<fieldset class="logo">Faycms</fieldset>

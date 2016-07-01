@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Option;
+use fay\services\Option;
 ?>
 <form id="ucpaas-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
 	<div class="row">
@@ -19,7 +19,7 @@ use fay\models\Option;
 						'data-label'=>'是否启用',
 					));
 				?>
-				<p class="description">若不启用，则调用<code>fay\model\Sms::send()</code>时直接返回true，不会真的发出短信。</p>
+				<p class="description">若不启用，则调用<code>fay\service\Sms::send()</code>时直接返回true，不会真的发出短信。</p>
 			</div>
 			<div class="form-field">
 				<label class="title">Account Sid<em class="required">*</em></label>

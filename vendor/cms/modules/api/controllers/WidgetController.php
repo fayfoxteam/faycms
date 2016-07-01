@@ -3,7 +3,6 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\helpers\StringHelper;
-use fay\models\tables\Widgets;
 use fay\core\HttpException;
 use fay\core\Response;
 
@@ -14,7 +13,7 @@ class WidgetController extends ApiController{
 	/**
 	 * 根据widget name及其他传入参数，渲染一个widget
 	 * @throws HttpException
-	 * @internal param string $name 小工具名称
+	 * @parameter string $name 小工具名称
 	 */
 	public function render(){
 		//表单验证

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div class="box" id="box-files" data-name="files">
 	<div class="box-title">

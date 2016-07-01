@@ -1,11 +1,13 @@
 var common = {
-	'filebrowserImageUploadUrl':null,	//可视化编辑器的文件上传路径
-	'filebrowserFlashUploadUrl':null,	//可视化编辑器的Flash上传路径
-	'dragsortKey':null,	//用于自动保存dragsort排序
+	'filebrowserImageUploadUrl': null,//可视化编辑器的文件上传路径
+	'filebrowserFlashUploadUrl': null,//可视化编辑器的Flash上传路径
+	'dragsortKey': null,//用于自动保存dragsort排序
+	'markdownEditor': null,//Markdown编辑器实例
+	'visualEditor': null,//可视化编辑器实例
 	'validformParams':{
-		'forms':{},
-		'settings':{
-			'poshytip':{//利用poshytip插件报错
+		'forms': {},
+		'settings': {
+			'poshytip': {//利用poshytip插件报错
 				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 					system.getScript(system.assets('js/jquery.poshytip.min.js'));
@@ -41,20 +43,21 @@ var common = {
 					last.poshytip('destroy');
 				}
 			},
-			'setting':{//管理员界面顶部设置表单
+			'setting': {//管理员界面顶部设置表单
+				'settingForm': $('#setting-form-submit'),
 				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 					system.getScript(system.assets('js/jquery.poshytip.min.js'));
 				},
 				'ajaxSubmit': true,
 				'beforeSubmit': function(){
-					$('#setting-form-submit').nextAll('span').remove();
-					$('#setting-form-submit').after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
+					this.settingForm.nextAll('span').remove();
+					this.settingForm.after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
 				},
 				'afterAjaxSubmit': function(resp){
 					if(resp.status){
-						$('#setting-form-submit').nextAll('img,span,a').remove();
-						$('#setting-form-submit').after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
+						this.settingForm.nextAll('img,span,a').remove();
+						this.settingForm.after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
 					}else{
 						common.alert(resp.message);
 					}
@@ -143,7 +146,7 @@ var common = {
 				url: system.url('admin/notification/mute'),
 				dataType: 'json',
 				cache: false,
-				success: function(data){
+				success: function(resp){
 					common.headerNotification();
 				}
 			});
@@ -252,9 +255,9 @@ var common = {
 		$('#main-menu').on('click', '.has-sub > a', function(){
 			//非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
 			if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
-				var slideElapse = 300;//滑动效果持续
-				$li = $(this).parent();//父级li
-				$ul = $(this).next('ul');//子菜单的ul
+				var slideElapse = 300,//滑动效果持续
+				$li = $(this).parent(),//父级li
+				$ul = $(this).next('ul'),//子菜单的ul
 				$_li = $ul.children('li');//子菜单的li
 				if($li.hasClass('expanded')){
 					//关闭
@@ -449,17 +452,18 @@ var common = {
 			$box.slideUp('normal', function(){
 				$(this).remove();
 			});
-			var $setting_item = $("#setting-form input[name='boxes[]'][value='"+$box.attr('data-name')+"']");
-			if($setting_item.length){
-				$setting_item.attr('checked', false);
+			var $settingItem = $("#setting-form input[name='boxes[]'][value='"+$box.attr('data-name')+"']");
+			if($settingItem.length){
+				$settingItem.attr('checked', false);
 				$('#setting-form').submit();
 			}
 		});
 		//表单提交
 		$(document).on('click', 'a[id$="submit"]', function(){
-			$('form#'+$(this).attr('id').replace('-submit', '')).find('input[name="_export"]').remove();
-			$('form#'+$(this).attr('id').replace('-submit', '')).append('<input type="hidden" name="_submit" value="'+$(this).attr('id')+'">')
-			$('form#'+$(this).attr('id').replace('-submit', '')).submit();
+			var $form = $('form#'+$(this).attr('id').replace('-submit', ''));
+			$form.find('input[name="_export"]').remove();
+			$form.append('<input type="hidden" name="_submit" value="'+$(this).attr('id')+'">');
+			$form.submit();
 			return false;
 		});
 		//表单导出
@@ -519,14 +523,12 @@ var common = {
 			system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
 				if(!$.isEmptyObject(common.validformParams.forms)){
 					for(var k in common.validformParams.forms){
-						if(common.validformParams.forms[k].scene == 'default'){
-							var formId = 'form';
-						}else{
-							var formId = common.validformParams.forms[k].scene + '-form';
-						}
-						var settings = common.validformParams.settings[common.validformParams.forms[k].model];
-						settings.init();
-						common.validformParams.forms[k].obj = $('form#'+formId).validform(settings, common.validformParams.forms[k].rules, common.validformParams.forms[k].labels);
+						common.validformParams.settings[common.validformParams.forms[k].model].init();
+						common.validformParams.forms[k].obj = $('form#' + (common.validformParams.forms[k].scene == 'default' ?
+							'form' : common.validformParams.forms[k].scene + '-form')).validform(
+								common.validformParams.settings[common.validformParams.forms[k].model],
+								common.validformParams.forms[k].rules,
+								common.validformParams.forms[k].labels);
 					}
 				}
 				//剩余的一些可能是手工指定的form
@@ -602,9 +604,10 @@ var common = {
 			});
 		}
 	},
-	'visualEditor': function(){
+	'initVisualEditor': function(){
 		//此方法仅支持只有一个富文本编辑器的页面
-		if($('#visual-editor').length){
+		var $visualEditor = $('#visual-editor');
+		if($visualEditor.length){
 			window.CKEDITOR_BASEPATH = system.assets('js/ckeditor/');
 			system.getScript(system.assets('js/ckeditor/ckeditor.js'), function(){
 				//清空table的一些默认设置
@@ -625,7 +628,7 @@ var common = {
 				});
 				
 				var config = {
-					'height':$('#visual-editor').height()
+					'height':$visualEditor.height()
 				};
 				if(common.filebrowserImageUploadUrl){
 					config.filebrowserImageUploadUrl = common.filebrowserImageUploadUrl;
@@ -633,7 +636,7 @@ var common = {
 				if(common.filebrowserFlashUploadUrl){
 					config.filebrowserFlashUploadUrl = common.filebrowserFlashUploadUrl;
 				}
-				if($('#visual-editor').hasClass('visual-simple') || parseInt($(window).width()) < 743){
+				if($visualEditor.hasClass('visual-simple') || parseInt($(window).width()) < 743){
 					//简化模式
 					config.toolbar = [
 				  		['Source'],
@@ -645,16 +648,16 @@ var common = {
 					config.enterMode = CKEDITOR.ENTER_BR;
 					config.shiftEnterMode = CKEDITOR.ENTER_P;
 				}
-				common.editorObj = CKEDITOR.replace('visual-editor', config);
+				common.visualEditor = CKEDITOR.replace('visual-editor', config);
 			});
 		}
 	},
-	'markdownEditor': function(){
-		//Markdown编辑器
+	'initMarkdownEditor': function(){
+		//Markdown编辑器（此方法仅支持只有一个编辑器的页面）
 		if($('#wmd-input').length){
 			system.getCss(system.assets('js/editor.md/css/editormd.min.css'));
 			system.getScript(system.assets('js/editor.md/editormd.min.js'), function(){
-				common.editorObj = editormd('markdown-container', {
+				common.markdownEditor = editormd('markdown-container', {
 					'height': 350,
 					'syncScrolling': 'single',
 					'path': system.assets('js/editor.md/lib/'),
@@ -676,8 +679,33 @@ var common = {
 			});
 		}
 	},
-	'removeEditor': function(){//移除富文本编辑器实例
-		common.editorObj.destroy();
+	'initCodeEditor': function(){
+		//代码编辑器（此方法仅支持只有一个编辑器的页面）
+		var $codeEditor = $('#code-editor');
+		if($codeEditor.length){
+			$codeEditor.addClass('hide').after('<pre id="code-editor-container"></pre>');
+			system.getScript(system.assets('js/ace/src-min/ace.js'), function(){
+				system.getScript(system.assets('js/ace/src-min/ext-language_tools.js'), function(){
+					ace.config.set('basePath', system.assets('js/ace/src-min/'));
+					common.codeEditor = ace.edit('code-editor-container');
+					common.codeEditor.setOptions({
+						enableBasicAutocompletion: true,
+						enableSnippets: true,
+						enableLiveAutocompletion: true,
+						maxLines: 30,
+						minLines: 10
+					});
+					common.codeEditor.setTheme('ace/theme/monokai');
+					common.codeEditor.session.setMode('ace/mode/php');
+					common.codeEditor.setAutoScrollEditorIntoView(true);
+					common.codeEditor.renderer.setScrollMargin(10, 10);
+					common.codeEditor.getSession().on('change', function(e) {
+						$codeEditor.val(common.codeEditor.getValue());
+					});
+					common.codeEditor.setValue($codeEditor.val(), 1);
+				});
+			});
+		}
 	},
 	'tab': function(){
 		$(document).on('click', '.tabbable .nav-tabs a', function(){
@@ -708,8 +736,8 @@ var common = {
 		});
 	},
 	'showPager': function(id, pager){
+		var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 		if(pager.total_pages > 1){
-			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 			//向前导航
 			if(pager.current_page == 1){
 				html.push('<a href="javascript:;" title="首页" class="page-numbers first disabled">&laquo;</a>');
@@ -730,50 +758,52 @@ var common = {
 				html.push('<a href="javascript:;" title="下一页" class="page-numbers prev" data-page="' + (pager.current_page + 1) + '">&rsaquo;</a>');
 				html.push('<a href="javascript:;" title="末页" class="page-numbers first" data-page="' + pager.total_pages + '">&raquo;</a>');
 			}
-		}else{
-			var html = ['<span class="summary">', pager.total_records, '条记录</span>'];
 		}
 		$('#'+id).html(html.join(''));
 	},
 	'batch': function(){
 		//批量操作表单提交
-		$('body').on('change', '.batch-ids-all', function(){
-			$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
-		}).on('click', '#batch-form-submit', function(){
-			if($('#batch-action').val() == ''){
-				common.alert('请选择操作');
-			}else{
-				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
-				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action').val()+'">')
-					.append('<input type="hidden" name="_submit" value="batch-form-submit">');
-				$('body').block();
-				$('#batch-form').submit();
-			}
-			return false;
-		}).on('click', '#batch-form-submit-2', function(){
-			if($('#batch-action-2').val() == ''){
-				common.alert('请选择操作');
-			}else{
-				$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
-				$('#batch-form').append('<input type="hidden" name="batch_action" value="'+$('#batch-action-2').val()+'">')
-					.append('<input type="hidden" name="_submit" value="batch-form-submit-2">');
-				$('body').block();
-				$('#batch-form').submit();
-			}
-			return false;
-		});
+		var $batchForm = $('#batch-form');
+		if($batchForm.length){
+			$('body').on('change', '.batch-ids-all', function(){
+				$('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
+			}).on('click', '#batch-form-submit', function(){
+				if($('#batch-action').val() == ''){
+					common.alert('请选择操作');
+				}else{
+					$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
+					$batchForm.append('<input type="hidden" name="batch_action" value="'+$('#batch-action').val()+'">')
+						.append('<input type="hidden" name="_submit" value="batch-form-submit">');
+					$('body').block();
+					$batchForm.submit();
+				}
+				return false;
+			}).on('click', '#batch-form-submit-2', function(){
+				if($('#batch-action-2').val() == ''){
+					common.alert('请选择操作');
+				}else{
+					$('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
+					$batchForm.append('<input type="hidden" name="batch_action" value="'+$('#batch-action-2').val()+'">')
+						.append('<input type="hidden" name="_submit" value="batch-form-submit-2">');
+					$('body').block();
+					$batchForm.submit();
+				}
+				return false;
+			});
+		}
 	},
 	'dragsortList': function(){
-		if($('.dragsort-list').length){
+		var $dragsortList = $('.dragsort-list');
+		if($dragsortList.length){
 			//可拖拽的列表，例如文章附件
 			system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
-				$(".dragsort-list").dragsort({
+				$dragsortList.dragsort({
 					'itemSelector': 'div.dragsort-item',
 					'dragSelector': '.dragsort-item-selector',
 					'placeHolderTemplate': '<div class="dragsort-item holder"></div>',
 					'dragEnd': function(a, b, c){
 						//拖拽后poshytip需要重新定位
-						$('.dragsort-list').find('input,select,textarea').each(function(){
+						$dragsortList.find('input,select,textarea').each(function(){
 							if($(this).data('poshytip')){
 								$(this).poshytip('refresh');
 							}
@@ -782,7 +812,7 @@ var common = {
 				});
 			});
 			//删除
-			$(".dragsort-list").on('click', '.dragsort-rm', function(){
+			$dragsortList.on('click', '.dragsort-rm', function(){
 				$(this).parent().fadeOut('fast', function(){
 					//先复制出来，因为后面$(this)要被remove掉
 					var dragsort_list = $(this).parent();
@@ -887,8 +917,9 @@ var common = {
 
 		this.fixContent();
 		this.validform();
-		this.visualEditor();
-		this.markdownEditor();
+		this.initVisualEditor();
+		this.initMarkdownEditor();
+		this.initCodeEditor();
 		this.tab();
 		this.dragsortList();
 		this.textAutosize();

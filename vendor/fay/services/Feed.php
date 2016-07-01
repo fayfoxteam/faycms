@@ -1,31 +1,79 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\ErrorException;
+use fay\core\Service;
+use fay\core\Sql;
+use fay\helpers\FieldHelper;
 use fay\models\tables\Feeds;
-use fay\services\feed\Tag as FeedTagService;
+use fay\services\feed\Meta;
+use fay\services\feed\Tag as FeedTag;
 use fay\models\tables\FeedsFiles;
 use fay\models\tables\UserCounter;
 use fay\models\tables\FeedMeta;
 use fay\helpers\Request;
 use fay\models\tables\FeedExtra;
 use fay\core\Hook;
-use fay\models\feed\Tag as FeedTagModel;
 use fay\models\tables\FeedsTags;
 use fay\models\tables\FeedLikes;
 use fay\models\tables\FeedFavorites;
+use fay\services\feed\File as FeedFile;
 
 /**
  * 动态服务
  */
-class Feed extends Model{
+class Feed extends Service{
+	/**
+	 * 允许在接口调用时返回的字段
+	 */
+	public static $public_fields = array(
+		'feed'=>array(
+			'id', 'content', 'publish_time', 'address'
+		),
+		'category'=>array(
+			'id', 'title', 'alias',
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'tags'=>array(
+			'id', 'title',
+		),
+		'files'=>array(
+			'file_id', 'description',
+		),
+		'meta'=>array(
+			'comments', 'likes', 'favorites'
+		),
+	);
+	
+	/**
+	 * 默认接口返回字段
+	 */
+	public static $default_fields = array(
+		'feed'=>array(
+			'id', 'content', 'publish_time', 'address'
+		),
+		'user'=>array(
+			'id', 'nickname', 'avatar',
+		),
+		'files'=>array(
+			'file_id', 'description',
+		),
+		'meta'=>array(
+			'comments', 'likes', 'favorites'
+		),
+		'tags'=>array(
+			'id', 'title',
+		),
+	);
 
 	/**
 	 * @param string $class_name
 	 * @return Feed
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**
@@ -72,7 +120,7 @@ class Feed extends Model{
 		
 		//标签
 		if(isset($extra['tags'])){
-			FeedTagService::model()->set($extra['tags'], $feed_id);
+			FeedTag::service()->set($extra['tags'], $feed_id);
 		}
 		
 		//附件
@@ -96,7 +144,7 @@ class Feed extends Model{
 				UserCounter::model()->incr($user_id, 'feeds', 1);
 				
 				//相关标签动态数加一
-				FeedTagModel::model()->incr($feed_id);
+				FeedTag::service()->incr($feed_id);
 			}
 		}else{
 			//如果未传入status，获取动态状态进行判断
@@ -106,7 +154,7 @@ class Feed extends Model{
 				UserCounter::model()->incr($user_id, 'feeds', 1);
 				
 				//相关标签动态数加一
-				FeedTagModel::model()->incr($feed_id);
+				FeedTag::service()->incr($feed_id);
 			}
 		}
 		
@@ -154,14 +202,14 @@ class Feed extends Model{
 				UserCounter::model()->incr($old_feed['user_id'], 'feeds', 1);
 				
 				//相关标签动态数减一
-				FeedTagModel::model()->decr($feed_id);
+				FeedTag::service()->decr($feed_id);
 			}else if($old_feed['status'] != Feeds::STATUS_DRAFT &&
 				isset($data['status']) && $data['status'] == Feeds::STATUS_DRAFT){
 				//若原动态不是“草稿”状态，且新状态是“草稿”
 				UserCounter::model()->incr($old_feed['user_id'], 'feeds', -1);
 				
 				//相关标签动态数加一
-				FeedTagModel::model()->incr($feed_id);
+				FeedTag::service()->incr($feed_id);
 			}
 		}
 		
@@ -177,7 +225,7 @@ class Feed extends Model{
 		
 		//标签
 		if(isset($extra['tags'])){
-			FeedTagService::model()->set($extra['tags'], $feed_id);
+			FeedTag::service()->set($extra['tags'], $feed_id);
 		}
 		
 		//附件
@@ -249,7 +297,7 @@ class Feed extends Model{
 			UserCounter::model()->incr($feed['user_id'], 'feeds', -1);
 			
 			//相关标签动态数减一
-			FeedTagModel::model()->decr($feed_id);
+			FeedTag::service()->decr($feed_id);
 		}
 		
 		//执行钩子
@@ -282,7 +330,7 @@ class Feed extends Model{
 			UserCounter::model()->incr($feed['user_id'], 'feeds', 1);
 			
 			//相关标签动态数加一
-			FeedTagModel::model()->incr($feed_id);
+			FeedTag::service()->incr($feed_id);
 		}
 		
 		//执行钩子
@@ -319,7 +367,7 @@ class Feed extends Model{
 			UserCounter::model()->incr($feed['user_id'], 'feed', -1);
 			
 			//相关标签动态数减一
-			FeedTagModel::model()->decr($feed_id);
+			FeedTag::service()->decr($feed_id);
 		}
 		//删除动态与标签的关联关系
 		FeedsTags::model()->delete('feed_id = ' . $feed_id);
@@ -335,5 +383,195 @@ class Feed extends Model{
 		FeedMeta::model()->delete('feed_id = ' . $feed_id);
 		
 		return true;
+	}
+	
+	/**
+	 * 判断一个动态ID是否存在（“已删除/未发布/未到定时发布时间”的动态都被视为不存在）
+	 * @param int $feed_id
+	 * @return bool 若动态已发布且未删除返回true，否则返回false
+	 */
+	public static function isFeedIdExist($feed_id){
+		if($feed_id){
+			$feed = Feeds::model()->find($feed_id, 'deleted,publish_time,status');
+			if($feed['deleted'] || $feed['publish_time'] > \F::app()->current_time || $feed['status'] == Feeds::STATUS_DRAFT){
+				return false;
+			}else{
+				return true;
+			}
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * 返回一篇动态
+	 * @param int $id 动态ID
+	 * @param string $fields 可指定返回字段
+	 *  - feeds.*系列可指定feeds表返回字段，若有一项为'feed.*'，则返回所有字段
+	 *  - meta.*系列可指定feed_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
+	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
+	 * @return array|bool
+	 */
+	public function get($id, $fields = null, $only_published = true){
+		$fields || $fields = self::$default_fields;
+		//解析$fields
+		$fields = FieldHelper::parse($fields, 'feed');
+		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
+			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
+			$fields['feed'] = Feeds::model()->getFields();
+		}
+		
+		$feed_fields = $fields['feed'];
+		if(!empty($fields['user']) && !in_array('user_id', $feed_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$feed_fields[] = 'user_id';
+		}
+		
+		$sql = new Sql();
+		$sql->from(array('f'=>Feeds::model()->getTableName()), $feed_fields)
+			->where('id = ?', $id);
+		
+		//仅搜索已发布的动态
+		if($only_published){
+			$sql->where(array(
+				'f.deleted = 0',
+				'f.status != '.Feeds::STATUS_DRAFT,
+				'f.publish_time < '.\F::app()->current_time,
+			));
+		}
+		
+		$feed = $sql->fetchRow();
+		if(!$feed){
+			return false;
+		}
+		
+		$return = array(
+			'feed'=>$feed,
+		);
+		
+		//meta
+		if(!empty($fields['meta'])){
+			$return['meta'] = Meta::service()->get($id, $fields['meta']);
+		}
+		
+		//作者信息
+		if(!empty($fields['user'])){
+			$return['user'] = User::service()->get($feed['user_id'], $fields['user']);
+		}
+		
+		//标签
+		if(!empty($fields['tags'])){
+			$return['tags'] = FeedTag::service()->get($id, $fields['tags']);
+		}
+		
+		//附件
+		if(!empty($fields['files'])){
+			$return['files'] = FeedFile::service()->get($id, $fields['files']);
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 *
+	 * @param array $feed_ids 动态ID构成的一维数组
+	 * @param string|array $fields
+	 *  - feeds.*系列可指定feeds表返回字段，若有一项为'feed.*'，则返回所有字段
+	 *  - meta.*系列可指定feed_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
+	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
+	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
+	 * @return array
+	 */
+	public function mget($feed_ids, $fields, $only_published = true){
+		//解析$fields
+		$fields = FieldHelper::parse($fields, 'feed');
+		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
+			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
+			$fields['feed'] = Feeds::model()->getFields();
+		}
+		
+		$feed_fields = $fields['feed'];
+		if(!empty($fields['user']) && !in_array('user_id', $feed_fields)){
+			//如果要获取作者信息，则必须搜出user_id
+			$feed_fields[] = 'user_id';
+		}
+		if(!in_array('id', $fields['feed'])){
+			//id字段无论如何都要返回，因为后面要用到
+			$feed_fields[] = 'id';
+		}
+		
+		$sql = new Sql();
+		$sql->from(array('p'=>Feeds::model()->getTableName()), $feed_fields)
+			->where('id IN (?)', $feed_ids);
+		
+		//仅搜索已发布的动态
+		if($only_published){
+			$sql->where(array(
+				'p.deleted = 0',
+				'p.status != '.Feeds::STATUS_DRAFT,
+				'p.publish_time < '.\F::app()->current_time,
+			));
+		}
+		
+		$feeds = $sql->fetchAll();
+		
+		if(!$feeds){
+			return array();
+		}
+		
+		//meta
+		if(!empty($fields['meta'])){
+			$feed_metas = Meta::service()->mget($feed_ids, $fields['meta']);
+		}
+		
+		//标签
+		if(!empty($fields['tags'])){
+			$feed_tags = FeedTag::service()->mget($feed_ids, $fields['tags']);
+		}
+		
+		//附件
+		if(!empty($fields['files'])){
+			$feed_files = FeedFile::service()->mget($feed_ids, $fields['files']);
+		}
+	}
+	
+	/**
+	 * 判断指定用户是否具备对指定动态的删除权限
+	 * @param int|array $feed 动态
+	 *  - 若是数组，视为动态表行记录，必须包含user_id字段
+	 *  - 若是数字，视为动态ID，会根据ID搜索数据库
+	 * @param string $user_id 用户ID，若为空，则默认为当前登录用户
+	 * @return bool
+	 * @throws ErrorException
+	 */
+	public function checkDeletePermission($feed, $user_id = null){
+		if(!is_array($feed)){
+			$feed = Feeds::model()->find($feed, 'user_id');
+		}
+		$user_id || $user_id = \F::app()->current_user;
+		
+		if(empty($feed['user_id'])){
+			throw new ErrorException('指定动态不存在');
+		}
+		
+		if($feed['user_id'] == $user_id){
+			//自己的动态总是有权限删除的
+			return true;
+		}
+		
+		if(User::service()->isAdmin($user_id)){
+			if(User::service()->checkPermission('admin/feed/delete', $user_id)){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

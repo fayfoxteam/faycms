@@ -1,17 +1,17 @@
 <?php
 namespace fay\services\shop;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\models\tables\GoodsCatProps;
 use fay\models\tables\GoodsPropValues;
 use fay\helpers\ArrayHelper;
 
-class Sku extends Model{
+class Sku extends Service{
 	/**
 	 * @return Sku
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**

@@ -2,13 +2,13 @@
 namespace fay\widgets\categories\controllers;
 
 use fay\widget\Widget;
-use fay\models\Category;
+use fay\services\Category;
 
 class IndexController extends Widget{
 	public function getData($config){
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$root_node = Category::service()->getByAlias('_system_post', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
@@ -18,9 +18,9 @@ class IndexController extends Widget{
 		}
 		
 		if(!empty($config['hierarchical'])){
-			$cats = Category::model()->getTree($config['top']);
+			$cats = Category::service()->getTree($config['top']);
 		}else{
-			$cats = Category::model()->getChildren($config['top']);
+			$cats = Category::service()->getChildren($config['top']);
 		}
 		
 		//格式化分类链接
@@ -32,13 +32,13 @@ class IndexController extends Widget{
 	public function index($config){
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$root_node = Category::service()->getByAlias('_system_post', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
 		//title
 		if(empty($config['title'])){
-			$node = Category::model()->get($config['top'], 'title');
+			$node = Category::service()->get($config['top'], 'title');
 			$config['title'] = $node['title'];
 		}
 		
@@ -48,9 +48,9 @@ class IndexController extends Widget{
 		}
 		
 		if(!empty($config['hierarchical'])){
-			$cats = Category::model()->getTree($config['top']);
+			$cats = Category::service()->getTree($config['top']);
 		}else{
-			$cats = Category::model()->getChildren($config['top']);
+			$cats = Category::service()->getChildren($config['top']);
 		}
 		
 		//格式化分类链接

@@ -1,7 +1,7 @@
 <?php
-use fay\models\File;
+use fay\services\File;
 use fay\models\tables\Files;
-use fay\models\Qiniu;
+use fay\services\Qiniu;
 use fay\helpers\Html;
 use fay\helpers\StringHelper;
 ?>
@@ -10,7 +10,7 @@ use fay\helpers\StringHelper;
 	<?php foreach($files as $f){
 		$file = Files::model()->find($f['file_id']);
 		if($file['qiniu']){
-			$data_src = Qiniu::model()->getUrl($file);
+			$data_src = Qiniu::service()->getUrl($file);
 		}else{
 			$data_src = File::getUrl($file);
 		}

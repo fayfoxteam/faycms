@@ -4,6 +4,7 @@ namespace fay\common;
 use fay\core\Db;
 use fay\core\Sql;
 use fay\core\Exception;
+use fay\helpers\UrlHelper;
 
 class ListView{
 	public $current_page = null;
@@ -126,9 +127,9 @@ class ListView{
 			$gets = $_GET;
 			unset($gets[$this->page_key]);
 			if($gets){
-				$this->reload = \F::app()->view->url($request) . '?' . http_build_query($gets);
+				$this->reload = UrlHelper::createUrl($request) . '?' . http_build_query($gets);
 			}else{
-				$this->reload = \F::app()->view->url($request);
+				$this->reload = UrlHelper::createUrl($request);
 			}
 		}
 		$view_data['listview'] = $this;

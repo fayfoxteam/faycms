@@ -3,18 +3,19 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Files;
-use fay\models\File;
-use fay\models\Setting;
+use fay\services\File;
+use fay\models\Setting as SettingModel;
+use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\Image;
-use fay\models\Qiniu;
+use fay\services\Qiniu;
 use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
-use fay\models\Option;
-use fay\models\Category;
+use fay\services\Option;
+use fay\services\Category;
 use fay\helpers\StringHelper;
 
 class FileController extends AdminController{
@@ -40,7 +41,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::model()->get($cat, 'id,alias');
+			$cat = Category::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -49,7 +50,7 @@ class FileController extends AdminController{
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($cat, $private);
+		$result = File::service()->upload($cat, $private);
 		$data = $result['data'];
 		
 		if($result['status']){
@@ -96,7 +97,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::model()->get($cat, 'id,alias');
+			$cat = Category::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -169,7 +170,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::model()->get($cat, 'id,alias');
+			$cat = Category::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -178,7 +179,7 @@ class FileController extends AdminController{
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::model()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
+		$result = File::service()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
 		$data = $result['data'];
 		
 		if($result['status']){
@@ -219,7 +220,7 @@ class FileController extends AdminController{
 		if($data['is_image']){
 			switch($this->input->request('handler')){
 				case 'resize':
-					$data = File::model()->edit($data, 'resize', array(
+					$data = File::service()->edit($data, 'resize', array(
 						'dw'=>$this->input->request('dw', 'intval'),
 						'dh'=>$this->input->request('dh', 'intval'),
 					));
@@ -235,7 +236,7 @@ class FileController extends AdminController{
 					);
 					if($params['x'] && $params['y'] && $params['w'] && $params['h']){
 						//若参数不完整，则不裁剪
-						$data = File::model()->edit($data, 'crop', $params);
+						$data = File::service()->edit($data, 'crop', $params);
 					}
 				break;
 			}
@@ -245,7 +246,7 @@ class FileController extends AdminController{
 	
 	public function doUpload(){
 		//获取文件类目树
-		$this->view->cats = Category::model()->getTree('_system_file');
+		$this->view->cats = Category::service()->getTree('_system_file');
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
@@ -254,7 +255,7 @@ class FileController extends AdminController{
 		if($file_id = $this->input->get('id', 'intval')){
 			$file = Files::model()->find($file_id);
 			if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
-				Qiniu::model()->delete($file);
+				Qiniu::service()->delete($file);
 			}
 			
 			Files::model()->delete($file_id);
@@ -271,7 +272,7 @@ class FileController extends AdminController{
 		
 		$this->layout->_setting_panel = '_setting_index';
 		$_setting_key = 'admin_file_index';
-		$_settings = Setting::model()->get($_setting_key);
+		$_settings = Setting::service()->get($_setting_key);
 		$_settings || $_settings = array(
 			'cols'=>array('client_name', 'file_type', 'file_size', 'username', 'upload_time'),
 			'display_name'=>'username',
@@ -289,14 +290,14 @@ class FileController extends AdminController{
 			}
 		}
 		
-		$this->form('setting')->setModel(Setting::model())
+		$this->form('setting')->setModel(SettingModel::model())
 			->setJsModel('setting')
 			->setData($_settings)
 			->setData(array(
 				'_key'=>$_setting_key,
 			));
 		
-		$this->view->cats = Category::model()->getTree('_system_file');
+		$this->view->cats = Category::service()->getTree('_system_file');
 		
 		$sql = new Sql();
 		$sql->from(array('f'=>'files'))
@@ -341,7 +342,7 @@ class FileController extends AdminController{
 					$file = Files::model()->find($id);
 					if($file){
 						if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
-							Qiniu::model()->delete($file);
+							Qiniu::service()->delete($file);
 						}
 							
 						Files::model()->delete($id);
@@ -363,7 +364,7 @@ class FileController extends AdminController{
 					Response::notify('error', '未指定分类');
 				}
 			
-				$cat = Category::model()->get($cat_id,'title');
+				$cat = Category::service()->get($cat_id,'title');
 				if(!$cat){
 					Response::notify('error', '指定分类不存在');
 				}
@@ -426,8 +427,8 @@ class FileController extends AdminController{
 	public function cat(){
 		$this->layout->current_directory = 'file';
 		$this->layout->subtitle = '文件分类';
-		$this->view->cats = Category::model()->getTree('_system_file');
-		$root_node = Category::model()->getByAlias('_system_file', 'id');
+		$this->view->cats = Category::service()->getTree('_system_file');
+		$root_node = Category::service()->getByAlias('_system_file', 'id');
 		$this->view->root = $root_node['id'];
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(

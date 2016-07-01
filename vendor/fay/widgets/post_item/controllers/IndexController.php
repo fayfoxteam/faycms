@@ -2,7 +2,7 @@
 namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
-use fay\models\Post;
+use fay\services\Post;
 use fay\core\HttpException;
 use fay\core\db\Expr;
 use fay\models\tables\PostMeta;
@@ -57,13 +57,13 @@ class IndexController extends Widget{
 		
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			//有设置ID字段名，且传入ID字段
-			$post = Post::model()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
+			$post = Post::service()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
 		}else{
 			//未传入ID字段或未设置ID字段名
-			$post = Post::model()->get($config['default_post_id'], $fields);
+			$post = Post::service()->get($config['default_post_id'], $fields);
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
@@ -96,7 +96,7 @@ class IndexController extends Widget{
 		
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			//有设置ID字段名，且传入ID字段
-			$post = Post::model()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
+			$post = Post::service()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
@@ -105,7 +105,7 @@ class IndexController extends Widget{
 			\F::app()->layout->description = $post['extra']['seo_description'];
 		}else{
 			//未传入ID字段或未设置ID字段名
-			$post = Post::model()->get($config['default_post_id'], $fields);
+			$post = Post::service()->get($config['default_post_id'], $fields);
 			if(!$post){
 				return '';
 			}

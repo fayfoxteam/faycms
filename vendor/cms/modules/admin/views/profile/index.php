@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 
 echo F::form()->open();
 ?>
@@ -47,8 +47,8 @@ echo F::form()->open();
 		</div>
 		<div class="form-field">
 			<label class="title bold">头像</label>
-			<div id="avatar-container">
-				<?php
+			<div id="avatar-container"><?php
+				echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
 				echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
 				if(!empty($user['user']['avatar']['id'])){
 					echo Html::link(Html::img($user['user']['avatar']['id'], File::PIC_RESIZE, array(
@@ -68,6 +68,7 @@ echo F::form()->open();
 						'title'=>false,
 					));
 				}else{
+					echo Html::inputHidden('avatar', '0', array('id'=>'avatar-id'));
 					echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
 						'id'=>'avatar-img',
 					)), $this->assets('images/avatar.png'), array(
@@ -87,8 +88,7 @@ echo F::form()->open();
 					'id'=>'upload-avatar',
 					'class'=>'btn btn-grey',
 				));
-				?>
-			</div>
+			?></div>
 		</div>
 	</div>
 	<div class="col-6" id="prop-panel">

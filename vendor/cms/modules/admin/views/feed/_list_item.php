@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\helpers\Date;
 use cms\helpers\FeedHelper;
-use fay\models\feed\Tag as FeedTag;
+use fay\services\feed\Tag as FeedTag;
 ?>
 <tr valign="top" id="feed-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
@@ -45,7 +45,7 @@ use fay\models\feed\Tag as FeedTag;
 	</td>
 	<?php if(in_array('tags', $cols)){?>
 	<td><?php
-		$tags = FeedTag::model()->get($data['id']);
+		$tags = FeedTag::service()->get($data['id']);
 		foreach($tags as $key => $tag){
 			if($key){
 				echo ', ';

@@ -1,12 +1,12 @@
 <?php
 namespace fay\services;
 
-use fay\core\Model;
+use fay\core\Service;
 use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
-use fay\models\User;
+use fay\services\User;
 use fay\helpers\Request;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -16,13 +16,13 @@ use fay\models\tables\UserCounter;
 /**
  * 关注服务
  */
-class Follow extends Model{
+class Follow extends Service{
 	/**
 	 * @param string $class_name
 	 * @return Follow
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	/**
@@ -190,7 +190,7 @@ class Follow extends Model{
 	public static function follows($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
 		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
-		$fields = FieldHelper::process($fields, 'follows');
+		$fields = FieldHelper::parse($fields, 'follows');
 		
 		isset($fields['follows']) || $fields['follows'] = array();
 		$follows_fields = $fields['follows'];
@@ -215,7 +215,7 @@ class Follow extends Model{
 		);
 		
 		if($follows && !empty($fields['user'])){
-			$users = User::model()->mget(ArrayHelper::column($follows, 'user_id'), $fields['user']);
+			$users = User::service()->mget(ArrayHelper::column($follows, 'user_id'), $fields['user']);
 		}
 		
 		foreach($follows as $f){
@@ -245,7 +245,7 @@ class Follow extends Model{
 	public static function fans($user_id = null, $fields = null, $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
 		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
-		$fields = FieldHelper::process($fields, 'follows');
+		$fields = FieldHelper::parse($fields, 'follows');
 		
 		isset($fields['follows']) || $fields['follows'] = array();
 		$follows_fields = $fields['follows'];
@@ -270,7 +270,7 @@ class Follow extends Model{
 		);
 		
 		if($fans && !empty($fields['user'])){
-			$users = User::model()->mget(ArrayHelper::column($fans, 'fans_id'), $fields['user']);
+			$users = User::service()->mget(ArrayHelper::column($fans, 'fans_id'), $fields['user']);
 		}
 		
 		foreach($fans as $f){

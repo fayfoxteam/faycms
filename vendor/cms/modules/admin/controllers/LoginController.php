@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use fay\core\Controller;
-use fay\models\Log;
+use fay\services\Log;
 use fay\core\Response;
 use fay\models\tables\Logs;
 use fay\core\Loader;
@@ -21,9 +21,21 @@ class LoginController extends Controller{
 		$this->config->set('debug', false);
 		
 		if($this->input->post()){
-			//获得用户名对应的密码后缀字母
-			$result = User::model()->login($this->input->post('username'), $this->input->post('password'), 1);
-			if($result['status']){
+			$result = User::service()->checkPassword(
+				$this->input->post('username'),
+				$this->input->post('password'),
+				true
+			);
+			
+			if($result['user_id']){
+				$user = User::service()->login($result['user_id']);
+			}else{
+				Response::notify('error', array(
+					'message'=>isset($result['message']) ? $result['message'] : '登录失败',
+					'code'=>isset($result['error_code']) ? $result['error_code'] : '',
+				));
+			}
+			if($user){
 				Log::set('admin:action:login.success', array(
 					'fmac'=>isset($_COOKIE['fmac']) ? $_COOKIE['fmac'] : '',
 					'username'=>$this->input->post('username'),
@@ -52,7 +64,7 @@ class LoginController extends Controller{
 	}
 	
 	public function logout(){
-		User::model()->logout();
+		User::service()->logout();
 		Response::redirect('admin/login/index');
 	}
 }

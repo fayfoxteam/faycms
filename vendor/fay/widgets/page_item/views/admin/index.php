@@ -1,6 +1,6 @@
 <?php
 use fay\models\tables\Roles;
-use fay\models\user\Role;
+use fay\services\user\Role;
 ?>
 <div class="box">
 	<div class="box-title">
@@ -26,7 +26,7 @@ use fay\models\user\Role;
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
-		<div class="advance <?php if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
+		<div class="advance <?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">ID字段</label>
 				<?php echo F::form('widget')->inputText('id_key', array(
@@ -60,6 +60,7 @@ use fay\models\user\Role;
 				<label class="title bold">渲染模版</label>
 				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',
+					'id'=>'code-editor',
 				))?>
 				<p class="fc-grey mt5">
 					若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，

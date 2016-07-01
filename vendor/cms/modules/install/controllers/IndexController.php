@@ -3,8 +3,8 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use fay\models\tables\Users;
-use fay\models\Option;
-use fay\models\File;
+use fay\services\Option;
+use fay\services\File;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
@@ -122,7 +122,7 @@ class IndexController extends InstallController{
 		}else if($is_installed == 'database-completed'){
 			//数据库已初始化，跳转至设置超级管理员界面
 			if($this->input->post()){
-				$user_id = User::model()->create(array(
+				$user_id = User::service()->create(array(
 					'username'=>$this->input->post('username', 'trim'),
 					'password'=>$this->input->post('password'),
 					'nickname'=>'系统管理员',//@todo 这里先默认一个，以后再完善下安装程序的界面

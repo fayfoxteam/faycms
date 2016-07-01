@@ -1,7 +1,7 @@
 <?php 
 namespace fay\common;
 
-use fay\models\File;
+use fay\services\File;
 
 class Upload{
 	private $upload_path;

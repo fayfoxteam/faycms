@@ -3,12 +3,12 @@ namespace cms\library;
 
 use fay\core\Controller;
 use fay\core\Uri;
-use fay\models\File;
+use fay\services\File;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\tables\Roles;
-use fay\models\User;
-use fay\models\user\Role;
+use fay\services\User;
+use fay\services\user\Role;
 
 class ToolsController extends Controller{
 	public $layout_template = 'admin';
@@ -53,11 +53,11 @@ class ToolsController extends Controller{
 		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
-		if(!User::model()->isAdmin()){
+		if(!User::service()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		
-		if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN)){
+		if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN)){
 			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
 	}

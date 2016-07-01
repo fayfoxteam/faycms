@@ -12,13 +12,13 @@ use fay\models\tables\Categories;
 use fay\models\tables\GoodsCatProps;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\Category;
+use fay\services\Category;
 use fay\helpers\Date;
 use fay\services\shop\Goods as GoodsService;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\models\Flash;
-use fay\models\Setting;
+use fay\services\Flash;
+use fay\services\Setting;
 use fay\core\HttpException;
 
 class GoodsController extends AdminController{
@@ -64,8 +64,8 @@ class GoodsController extends AdminController{
 		$this->layout->_help_panel = '_help';
 		
 		$this->layout->subtitle = '商品分类';
-		$this->view->cats = Category::model()->getTree('_system_goods');
-		$root_node = Category::model()->getByAlias('_system_goods', 'id');
+		$this->view->cats = Category::service()->getTree('_system_goods');
+		$root_node = Category::service()->getByAlias('_system_goods', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/goods/cat-create')){
@@ -84,7 +84,7 @@ class GoodsController extends AdminController{
 	
 	public function create(){
 		//获取分类
-		$cat = Category::model()->get($this->input->get('cat_id', 'intval'), 'id,title');
+		$cat = Category::service()->get($this->input->get('cat_id', 'intval'), 'id,title');
 		
 		if(!$cat){
 			throw new HttpException('未指定商品分类或指定分类不存在');
@@ -216,7 +216,7 @@ class GoodsController extends AdminController{
 		}
 		$this->form()->setData($this->input->post());
 		
-		$parentIds = Category::model()->getParentIds($cat['id']);
+		$parentIds = Category::service()->getParentIds($cat['id']);
 		//props
 		$props = GoodsCatProps::model()->fetchAll(array(
 			'cat_id IN ('.implode(',', $parentIds).')',
@@ -241,7 +241,7 @@ class GoodsController extends AdminController{
 		$this->view->props = $props;
 		
 		//box排序
-		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_goods_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -301,7 +301,7 @@ class GoodsController extends AdminController{
 			'page_size'=>$this->form('setting')->getData('page_size', 20),
 		));
 
-		$this->view->cats = Category::model()->getTree('_system_goods');
+		$this->view->cats = Category::service()->getTree('_system_goods');
 		$this->view->render();
 	}
 	
@@ -568,7 +568,7 @@ class GoodsController extends AdminController{
 		//获取分类
 		$cat = Categories::model()->find($goods['cat_id'], 'id,title');
 		
-		$parentIds = Category::model()->getParentIds($cat['id']);
+		$parentIds = Category::service()->getParentIds($cat['id']);
 		//props
 		$props = GoodsCatProps::model()->fetchAll(array(
 			'cat_id IN ('.implode(',', $parentIds).')',
@@ -593,7 +593,7 @@ class GoodsController extends AdminController{
 		$this->view->props = $props;
 		
 		//可配置信息
-		$_box_sort_settings = Setting::model()->get('admin_goods_box_sort');
+		$_box_sort_settings = Setting::service()->get('admin_goods_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		

@@ -2,9 +2,9 @@
 namespace fay\widgets\menu\controllers;
 
 use fay\widget\Widget;
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\models\tables\Menus;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class AdminController extends Widget{
 	public function index($config){
@@ -12,7 +12,7 @@ class AdminController extends Widget{
 			array(
 				'id'=>Menus::ITEM_USER_MENU,
 				'title'=>'顶级',
-				'children'=>Menu::model()->getTree(Menus::ITEM_USER_MENU, true, true),
+				'children'=>Menu::service()->getTree(Menus::ITEM_USER_MENU, true, true),
 			),
 		);
 		

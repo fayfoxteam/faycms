@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Template;
+use fay\services\Template;
 ?>
 <tr>
 	<td>
@@ -21,6 +21,6 @@ use fay\models\Template;
 		'class'=>'cross-circle is-enable-link',
 		'data-id'=>$data['id'],
 		'encode'=>false,
-	));;?></td>
+	));?></td>
 	<td><?php echo Template::getType($data['type'])?></td>
 </tr>

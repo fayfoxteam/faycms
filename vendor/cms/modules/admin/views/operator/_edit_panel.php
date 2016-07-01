@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
-use fay\models\Option;
+use fay\services\File;
+use fay\services\Option;
 ?>
 <div class="form-field">
 	<label class="title bold">登录名</label>
@@ -82,10 +82,9 @@ use fay\models\Option;
 </div>
 <div class="form-field">
 	<label class="title bold">头像</label>
-	<div id="avatar-container">
-		<?php
-		echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
+	<div id="avatar-container"><?php
 		if(!empty($user['user']['avatar']['id'])){
+			echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
 			echo Html::link(Html::img($user['user']['avatar']['id'], File::PIC_RESIZE, array(
 				'dw'=>178,
 				'dh'=>178,
@@ -103,6 +102,7 @@ use fay\models\Option;
 				'title'=>false,
 			));
 		}else{
+			echo Html::inputHidden('avatar', '0', array('id'=>'avatar-id'));
 			echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
 				'id'=>'avatar-img',
 			)), $this->assets('images/avatar.png'), array(
@@ -122,6 +122,5 @@ use fay\models\Option;
 			'id'=>'upload-avatar',
 			'class'=>'btn btn-grey',
 		));
-		?>
-	</div>
+	?></div>
 </div>

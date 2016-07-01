@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\models\Tag;
+use fay\services\Tag;
 use fay\models\tables\TagCounter;
 
 /**
@@ -12,10 +12,10 @@ use fay\models\tables\TagCounter;
 class TagController extends ApiController{
 	/**
 	 * 标签列表
-	 * @param string $type 类型
-	 * @param string $order 排序方式
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter string $type 类型
+	 * @parameter string $order 排序方式
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function listAction(){
 		//表单验证
@@ -49,7 +49,7 @@ class TagController extends ApiController{
 				$order = "tc.{$type} DESC";
 		}
 		
-		return Response::json(Tag::model()->getList(
+		Response::json(Tag::service()->getList(
 			$order,
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1)
@@ -59,8 +59,8 @@ class TagController extends ApiController{
 	/**
 	 * 判断标签是否可用
 	 * 可用返回状态为1，不可用返回0，http状态码均为200
-	 * @param string $tag 标签
-	 * @param int $id 标签ID。若传入ID，则排除验证改ID对应的标签
+	 * @parameter string $tag 标签
+	 * @parameter int $id 标签ID。若传入ID，则排除验证改ID对应的标签
 	 */
 	public function isTagNotExist(){
 		//表单验证
@@ -92,7 +92,7 @@ class TagController extends ApiController{
 	/**
 	 * 判断标签是否存在
 	 * 存在返回状态为1，不存在返回0，http状态码均为200
-	 * @param string $tag 标签
+	 * @parameter string $tag 标签
 	 */
 	public function isTagExist(){
 		//表单验证

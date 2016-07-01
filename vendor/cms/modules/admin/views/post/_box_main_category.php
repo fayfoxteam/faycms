@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\Category;
+use fay\services\Category;
 ?>
 <div class="box" id="box-main-category" data-name="main_category">
 	<div class="box-title">
@@ -9,7 +9,7 @@ use fay\models\Category;
 	</div>
 	<div class="box-content">
 		<?php echo F::form()->select('cat_id', array(
-			Category::model()->getIdByAlias('_system_post')=>'--未分类--',
+			Category::service()->getIdByAlias('_system_post')=>'--未分类--',
 		) + Html::getSelectOptions($cats), array(
 			'class'=>'form-control mw400',
 		))?>

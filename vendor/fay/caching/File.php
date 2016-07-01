@@ -74,7 +74,7 @@ class File extends Cache{
 	protected function setValue($key, $value, $duration){
 		$file = $this->getCacheFile($key);
 		
-		\fay\models\File::createFolder(dirname($file), $this->dir_mode);
+		\fay\services\File::createFolder(dirname($file), $this->dir_mode);
 		
 		if(@file_put_contents($file, $value, LOCK_EX)){
 			if($this->file_mode){

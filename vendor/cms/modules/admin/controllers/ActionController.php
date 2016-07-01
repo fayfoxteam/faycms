@@ -2,13 +2,13 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Actions;
 use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class ActionController extends AdminController{
 	public function __construct(){
@@ -22,7 +22,7 @@ class ActionController extends AdminController{
 		
 		$this->_setListview();
 
-		$this->view->cats = Category::model()->getTree('_system_action');
+		$this->view->cats = Category::service()->getTree('_system_action');
 		$this->form()->setModel(Actions::model())
 			->setRule(array('parent_router', 'ajax', array('url'=>array('admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'))
@@ -67,7 +67,7 @@ class ActionController extends AdminController{
 			'text'=>'添加权限',
 		);
 		$action_id = intval($this->input->get('id', 'intval'));
-		$this->view->cats = Category::model()->getNextLevel('_system_action');
+		$this->view->cats = Category::service()->getNextLevel('_system_action');
 		
 		$this->form()->setModel(Actions::model())
 			->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router', 'ajax'=>array('admin/action/is-router-exist'))))
@@ -170,8 +170,8 @@ class ActionController extends AdminController{
 		$this->layout->subtitle = '权限分类';
 		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
 		
-		$this->view->cats = Category::model()->getTree('_system_action');
-		$root_node = Category::model()->getByAlias('_system_action', 'id');
+		$this->view->cats = Category::service()->getTree('_system_action');
+		$root_node = Category::service()->getByAlias('_system_action', 'id');
 		$this->view->root = $root_node['id'];
 		
 		$this->layout->sublink = array(

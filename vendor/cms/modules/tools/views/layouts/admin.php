@@ -1,10 +1,10 @@
 <?php 
 use fay\helpers\Html;
-use fay\models\Option;
-use fay\models\File;
-use fay\models\Flash;
-use fay\models\User;
-use fay\models\user\Role;
+use fay\services\Option;
+use fay\services\File;
+use fay\services\Flash;
+use fay\services\User;
+use fay\services\user\Role;
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,7 +40,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
-					$user_roles = Role::model()->getIds();
+					$user_roles = Role::service()->getIds();
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
@@ -92,7 +92,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 					</ul>
 				</li>
 				<li class="dropdown-container user-profile">
-					<?php $user = User::model()->get(\F::app()->current_user, 'avatar,username')?>
+					<?php $user = User::service()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
 						echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
 							'class'=>'circle',

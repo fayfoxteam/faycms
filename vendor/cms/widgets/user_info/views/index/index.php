@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Date;
 use fay\helpers\ArrayHelper;
-use fay\models\user\Role;
-use fay\models\User;
+use fay\services\user\Role;
+use fay\services\User;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -13,11 +13,11 @@ use fay\models\User;
 	<div class="box-content">
 		<table class="form-table">
 		<?php if(\F::app()->current_user){?>
-			<?php $last_login = User::model()->getLastLoginInfo(array('login_time', 'ip_int'), \F::app()->current_user)?>
+			<?php $last_login = User::service()->getLastLoginInfo(array('login_time', 'ip_int'), \F::app()->current_user)?>
 			<tr>
 				<th>用户身份</th>
 				<td><?php
-					$user_roles = Role::model()->get(\F::app()->current_user);
+					$user_roles = Role::service()->get(\F::app()->current_user);
 					echo implode(', ', ArrayHelper::column($user_roles, 'title'));
 				?></td>
 			</tr>

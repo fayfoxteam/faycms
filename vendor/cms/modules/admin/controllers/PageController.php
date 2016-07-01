@@ -2,14 +2,14 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Pages;
 use fay\models\tables\PagesCategories;
 use fay\models\tables\Actionlogs;
-use fay\models\Setting;
+use fay\services\Setting;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\Page;
+use fay\services\Page;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
@@ -40,7 +40,7 @@ class PageController extends AdminController{
 	
 	public function create(){
 		$this->layout->subtitle = '添加页面';
-		$this->view->cats = Category::model()->getTree('_system_page');
+		$this->view->cats = Category::service()->getTree('_system_page');
 		
 		$this->form()->setModel(Pages::model())
 			->setData($this->input->request());
@@ -72,7 +72,7 @@ class PageController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
-		$_settings = Setting::model()->get('admin_page_box_sort');
+		$_settings = Setting::service()->get('admin_page_box_sort');
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		
@@ -89,7 +89,7 @@ class PageController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '所有页面';
 		$this->layout->_setting_panel = '_setting_index';
-		$this->view->_settings = Setting::model()->get('admin_page_index');
+		$this->view->_settings = Setting::service()->get('admin_page_index');
 		$this->view->_settings === null && $this->view->_settings = array(
 			'cols'=>array('category', 'status', 'alias', 'last_modified_time', 'create_time', 'sort'),
 			'page_size'=>10,
@@ -160,7 +160,7 @@ class PageController extends AdminController{
 		));
 		
 		//所有分类
-		$this->view->cats = Category::model()->getTree('_system_page');
+		$this->view->cats = Category::service()->getTree('_system_page');
 		
 		$this->view->render();
 	}
@@ -172,7 +172,7 @@ class PageController extends AdminController{
 			'text'=>'添加页面',
 		);
 		
-		$_settings = Setting::model()->get('admin_page_box_sort');
+		$_settings = Setting::service()->get('admin_page_box_sort');
 		$_settings || $_settings = $this->default_box_sort;
 		$this->view->_settings = $_settings;
 		
@@ -185,7 +185,7 @@ class PageController extends AdminController{
 		
 		$page_id = intval($this->input->get('id', 'intval'));
 		
-		$this->view->cats = Category::model()->getTree('_system_page');
+		$this->view->cats = Category::service()->getTree('_system_page');
 		
 		$this->form()->setModel(Pages::model());
 		
@@ -211,7 +211,7 @@ class PageController extends AdminController{
 			Response::notify('success', '一个页面被编辑', false);
 		}
 		if($page = Pages::model()->find($page_id)){
-			$page['page_category'] = Page::model()->getPageCatIds($page_id);
+			$page['page_category'] = Page::service()->getPageCatIds($page_id);
 			$this->view->page = $page;
 			$this->form()->setData($page);
 		}else{
@@ -276,8 +276,8 @@ class PageController extends AdminController{
 		$this->layout->current_directory = 'page';
 	
 		$this->layout->subtitle = '页面分类';
-		$this->view->cats = Category::model()->getTree('_system_page');
-		$root_node = Category::model()->getByAlias('_system_page', 'id');
+		$this->view->cats = Category::service()->getTree('_system_page');
+		$root_node = Category::service()->getByAlias('_system_page', 'id');
 		$this->view->root = $root_node['id'];
 	
 		if($this->checkPermission('admin/page/cat-create')){

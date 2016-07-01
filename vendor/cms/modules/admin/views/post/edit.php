@@ -1,11 +1,11 @@
 <?php
-use fay\models\Option;
+use fay\services\Option;
 use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
 use fay\helpers\Html;
 use fay\models\tables\Roles;
-use fay\models\user\Role;
-use fay\models\post\Category;
+use fay\services\user\Role;
+use fay\services\post\Category;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -126,8 +126,8 @@ $(function(){
 	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
 	post.post_id = <?php echo $post['id']?>;
-	<?php if(!Role::model()->is(Roles::ITEM_SUPER_ADMIN) && Option::get('system:post_role_cats')){?>
-		post.roleCats = <?php echo json_encode(Category::model()->getAllowedCatIds())?>;
+	<?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN) && Option::get('system:post_role_cats')){?>
+		post.roleCats = <?php echo json_encode(Category::service()->getAllowedCatIds())?>;
 	<?php }?>
 	post.init();
 });

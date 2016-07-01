@@ -1,21 +1,27 @@
 <?php
 namespace cms\modules\tools\controllers;
 
+use cms\library\Db;
 use cms\library\ToolsController;
-use fay\models\File;
-use fay\models\Category;
+use fay\services\File;
+use fay\services\Category;
 use fay\helpers\StringHelper;
 use fay\models\tables\Users;
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\models\tables\Categories;
 use fay\models\tables\Menus;
-use fay\models\Flash;
-use fay\models\Option;
+use fay\services\Flash;
+use fay\services\Option;
 use fay\helpers\Request;
 use fay\models\tables\Roles;
 use fay\core\Response;
 
 class ApplicationController extends ToolsController{
+	/**
+	 * @var Db
+	 */
+	private $db;
+	
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'application';
@@ -195,17 +201,15 @@ class ApplicationController extends ToolsController{
 	 * 对categories表进行索引
 	 */
 	private function indexCats(){
-		Category::model()->db = $this->db;
-		Categories::model()->db = $this->db;
-		Category::model()->buildIndex();
+		Categories::model()->setDb($this->db);
+		Category::service()->buildIndex();
 	}
 	
 	/**
 	 * 对menus表进行索引
 	 */
 	private function indexMenus(){
-		Menu::model()->db = $this->db;
-		Menus::model()->db = $this->db;
-		Menu::model()->buildIndex();
+		Menus::model()->setDb($this->db);
+		Menu::service()->buildIndex();
 	}
 }

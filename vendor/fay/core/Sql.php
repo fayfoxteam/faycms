@@ -53,19 +53,16 @@ class Sql{
 	
 	public function from($table, $fields = '*'){
 		if(is_array($table)){
-			foreach($table as $a => $t){
-				//虽然这里用foreach，但其实只允许array('p'=>'posts')这样的单项数组，传入多项后面的会被无视
-				if(is_string($a)){
-					$alias = $a;
-				}else{
-					if($t instanceof Sql){
-						throw new ErrorException('子查询必须设置别名');
-					}
-					$alias = $t;
+			list($a, $t) = each($table);
+			if(is_string($a)){
+				$alias = $a;
+			}else{
+				if($t instanceof Sql){
+					throw new ErrorException('子查询必须设置别名');
 				}
-				$short_name = $t;
-				break;
+				$alias = $t;
 			}
+			$short_name = $t;
 		}else{
 			if($table instanceof Sql){
 				throw new ErrorException('子查询必须设置别名');
@@ -424,16 +421,13 @@ class Sql{
 	
 	private function _join($type, $table, $conditions, $fields){
 		if(is_array($table)){
-			foreach($table as $a => $t){
-				//虽然这里用foreach，但其实只允许array('p'=>'posts')这样的单项数组，传入多项后面的会被无视
-				if(is_string($a)){
-					$alias = $a;
-				}else{
-					$alias = $this->$t;
-				}
-				$short_name = $t;
-				break;
+			list($a, $t) = each($table);
+			if(is_string($a)){
+				$alias = $a;
+			}else{
+				$alias = $this->$t;
 			}
+			$short_name = $t;
 		}else{
 			$short_name = $table;
 			$alias = $table;
@@ -456,6 +450,7 @@ class Sql{
 	/**
 	 * 通过不停加后缀空格的方式，使关键词的键名不重名
 	 * @param string $key
+	 * @param string $conditions
 	 * @return string
 	 */
 	private function getConditionKey($key, $conditions){

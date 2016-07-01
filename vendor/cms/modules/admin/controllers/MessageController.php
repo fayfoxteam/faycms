@@ -4,17 +4,16 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Messages;
 use fay\models\tables\Actionlogs;
-use fay\models\Post;
-use fay\models\Message as MessageModel;
+use fay\services\Post;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\services\Message as MessageService;
+use fay\services\Message;
 
 class MessageController extends AdminController{
 	public function approve(){
 		$id = $this->input->request('id', 'intval');
 		
-		MessageService::model()->approve($id);
+		Message::service()->approve($id);
 		
 		$this->actionlog(Actionlogs::TYPE_MESSAGE, '批准了一条留言', $id);
 		
@@ -31,7 +30,7 @@ class MessageController extends AdminController{
 	public function unapprove(){
 		$id = $this->input->get('id', 'intval');
 		
-		MessageService::model()->disapprove($id);
+		Message::service()->disapprove($id);
 		
 		$this->actionlog(Actionlogs::TYPE_MESSAGE, '驳回了一条留言', $id);
 		
@@ -48,7 +47,7 @@ class MessageController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		
-		MessageService::model()->delete($id);
+		Message::service()->delete($id);
 		
 		$this->actionlog(Actionlogs::TYPE_MESSAGE, '将留言移入回收站', $id);
 		
@@ -65,7 +64,7 @@ class MessageController extends AdminController{
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
 		
-		MessageService::model()->undelete($id);
+		Message::service()->undelete($id);
 		
 		$this->actionlog(Actionlogs::TYPE_MESSAGE, '还原一条留言', $id);
 		
@@ -82,12 +81,8 @@ class MessageController extends AdminController{
 
 		$message = Messages::model()->find($id, 'to_user_id');
 		
-		MessageService::model()->remove($id);
+		Message::service()->remove($id);
 		$this->actionlog(Actionlogs::TYPE_MESSAGE, '将留言永久删除', $id);
-		
-		if($message){
-			Post::model()->refreshComments($message['to_user_id']);
-		}
 		
 		Response::notify('success', array(
 			'data'=>array(
@@ -100,7 +95,7 @@ class MessageController extends AdminController{
 	public function removeAll(){
 		$id = $this->input->get('id', 'intval');
 		
-		$result = MessageService::model()->removeChat($id);
+		$result = Message::service()->removeAll($id);
 		if($result === false){
 			Response::notify('error', array(
 				'message'=>'该留言非会话根留言',
@@ -124,9 +119,9 @@ class MessageController extends AdminController{
 		}
 		$content = $this->input->post('content', null, '');
 		$parent = $this->input->post('parent', 'intval', 0);
-		$message_id = MessageService::model()->create($to_user_id, $content, $parent);
+		$message_id = Message::service()->create($to_user_id, $content, $parent);
 			
-		$message = MessageModel::model()->get($message_id, array(
+		$message = Message::service()->get($message_id, array(
 			'message'=>array(
 				'id', 'content', 'parent', 'create_time',
 			),
@@ -166,7 +161,7 @@ class MessageController extends AdminController{
 		
 		if($this->input->isAjaxRequest()){
 			Response::json(array(
-				'message'=>MessageModel::model()->get($id, array(
+				'message'=>Message::service()->get($id, array(
 					'message'=>array(
 						'id', 'content', 'parent', 'create_time',
 					),
@@ -185,7 +180,7 @@ class MessageController extends AdminController{
 						),
 					)
 				)),
-				'children'=>MessageModel::model()->getChildrenList($id, 100, 1, array(
+				'children'=>Message::service()->getChildrenList($id, 100, 1, array(
 					'message'=>array(
 						'id', 'content', 'parent', 'create_time',
 					),

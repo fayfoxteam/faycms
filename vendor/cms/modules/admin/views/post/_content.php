@@ -3,7 +3,7 @@ use fay\models\tables\Posts;
 use fay\helpers\Html;
 
 $editor = F::form()->getData('content_type');
-$editor || $editor = F::form('setting')->getData('editor');
+$editor || $editor = F::form('setting')->getData('editor', Posts::CONTENT_TYPE_VISUAL_EDITOR);
 
 if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 	echo F::form()->textarea('content', array(

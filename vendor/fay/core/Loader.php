@@ -3,6 +3,11 @@ namespace fay\core;
 
 class Loader{
 	/**
+	 * @var array
+	 */
+	private static $_instances = array();
+	
+	/**
 	 * 自动加载类库
 	 * @param string $class_name 类名
 	 * @return bool
@@ -36,6 +41,19 @@ class Loader{
 			require_once SYSTEM_PATH . "{$name}.php";
 		}else{
 			throw new ErrorException("File '{$name}' not found");
+		}
+	}
+	
+	/**
+	 * 获取一个单例（Model和Service事实上最终都是在调用此方法获取单例）
+	 * @param string $class_name
+	 * @return mixed
+	 */
+	public static function singleton($class_name = __CLASS__){
+		if(isset(self::$_instances[$class_name])){
+			return self::$_instances[$class_name];
+		}else{
+			return self::$_instances[$class_name] = new $class_name();
 		}
 	}
 }

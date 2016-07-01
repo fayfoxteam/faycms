@@ -2,25 +2,32 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\Feed as FeedService;
+use fay\services\Feed as Feed;
 use fay\models\tables\Feeds;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
-use fay\models\Feed as FeedModel;
 
 /**
  * 动态
  */
 class FeedController extends ApiController{
 	/**
+	 * 默认返回字段
+	 * @var array
+	 */
+	public $default_fields = array(
+		
+	);
+	
+	/**
 	 * 创建一篇动态
-	 * @param string $content 动态文本
-	 * @param int $files 配图。支持以数组方式传入，或逗号分割的方式传入
-	 * @param string $description 图片描述。目前只支持以数组方式传入
-	 * @param float $longitude 经度
-	 * @param float $latitude 纬度
-	 * @param string $address 定位地址
+	 * @parameter string $content 动态文本
+	 * @parameter int $files 配图。支持以数组方式传入，或逗号分割的方式传入
+	 * @parameter string $description 图片描述。目前只支持以数组方式传入
+	 * @parameter float $longitude 经度
+	 * @parameter float $latitude 纬度
+	 * @parameter string $address 定位地址
 	 */
 	public function create(){
 		//登录检查
@@ -60,10 +67,10 @@ class FeedController extends ApiController{
 			$extra_files[$f] = isset($description[$f]) ? $description[$f] : '';
 		}
 		
-		FeedService::model()->create(array(
+		Feed::service()->create(array(
 			'content'=>$this->form()->getData('content'),
 			'address'=>$this->form()->getData('address'),
-			'status'=>Feeds::STATUS_PUBLISHED,
+			'status'=>Feeds::STATUS_APPROVED,
 		), array(
 			'extra'=>array(
 				'longitude'=>$this->form()->getData('longitude', '0'),
@@ -81,20 +88,22 @@ class FeedController extends ApiController{
 	
 	/**
 	 * 获取一篇动态
-	 * @param int $id 动态ID
-	 * @param string $fields 可指定返回动态字段（只允许$this->allowed_fields中的字段）
-	 * @param int|string $cat 指定分类（可选），若指定分类，则动态若不属于该分类，返回404
+	 * @parameter int $id 动态ID
+	 * @parameter string $fields 可指定返回动态字段（只允许$this->allowed_fields中的字段）
+	 * @parameter int|string $cat 指定分类（可选），若指定分类，则动态若不属于该分类，返回404
 	 */
 	public function get(){
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('feed_id'), 'required'),
 			array(array('feed_id'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'feed_id'=>'intval',
 			'fields'=>'trim',
 		))->setLabels(array(
 			'feed_id'=>'动态ID',
+			'fields'=>'字段',
 		))->check();
 		
 		$feed_id = $this->form()->getData('feed_id');
@@ -102,7 +111,7 @@ class FeedController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'feed', FeedModel::$public_fields);
+			$fields = FieldHelper::parse($fields, 'feed', Feed::$public_fields);
 		}else{
 			//若未指定$fields，取默认值
 			$fields = $this->default_fields;
@@ -113,7 +122,7 @@ class FeedController extends ApiController{
 			$fields['post'] = $this->default_fields['post'];
 		}
 		
-		$feed = FeedModel::model()->get($feed_id, $fields, true);
+		$feed = Feed::service()->get($feed_id, $fields, true);
 		if($feed){
 			Response::json($feed);
 		}else{
@@ -139,8 +148,8 @@ class FeedController extends ApiController{
 		
 		$feed_id = $this->form()->getData('feed_id');
 		
-		if(FeedModel::model()->checkDeletePermission($feed_id)){
-			FeedService::model()->delete($feed_id);
+		if(Feed::service()->checkDeletePermission($feed_id)){
+			Feed::service()->delete($feed_id);
 			Response::notify('success', '动态删除成功');
 		}else{
 			Response::notify('error', array(

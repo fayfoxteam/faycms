@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\models\File;
+use fay\services\File;
 ?>
 <div class="box" id="box-thumbnail" data-name="thumbnail">
 	<div class="box-title">
@@ -11,7 +11,7 @@ use fay\models\File;
 		<div id="thumbnail-container" class="mb10"><a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a></div>
 		<div id="thumbnail-preview-container">
 		<?php 
-			echo F::form()->inputHidden('thumbnail');
+			echo F::form()->inputHidden('thumbnail', array(), 0);
 			if(!empty($page['thumbnail'])){
 				echo Html::link(Html::img($page['thumbnail'], File::PIC_RESIZE, array(
 					'dw'=>257,

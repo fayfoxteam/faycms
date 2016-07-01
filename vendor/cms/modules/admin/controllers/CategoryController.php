@@ -3,12 +3,12 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Categories;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\Actionlogs;
 use fay\helpers\Pinyin;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\models\Flash;
+use fay\services\Flash;
 
 class CategoryController extends AdminController{
 	public function __construct(){
@@ -19,7 +19,7 @@ class CategoryController extends AdminController{
 	public function index(){
 		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'warning');
 		$this->layout->subtitle = '分类管理';
-		$this->view->cats = Category::model()->getTree();
+		$this->view->cats = Category::service()->getTree();
 		$this->view->root = 0;
 		$this->layout->sublink = array(
 			'uri'=>'#create-cat-dialog',
@@ -45,7 +45,7 @@ class CategoryController extends AdminController{
 				$parent = $this->input->post('parent', 'intval', 0);
 				$sort = $this->input->post('sort', 'intval', 1000);
 				
-				$cat_id = Category::model()->create($parent, $sort, $data);
+				$cat_id = Category::service()->create($parent, $sort, $data);
 				
 				$this->actionlog(Actionlogs::TYPE_CATEGORY, '添加分类', $cat_id);
 				
@@ -101,7 +101,7 @@ class CategoryController extends AdminController{
 				$parent = $this->input->post('parent', 'intval', null);
 				$sort = $this->input->post('sort', 'intval', null);
 				
-				Category::model()->update($cat_id, $data, $sort, $parent);
+				Category::service()->update($cat_id, $data, $sort, $parent);
 				
 				$this->actionlog(Actionlogs::TYPE_CATEGORY, '修改分类', $cat_id);
 				
@@ -119,7 +119,7 @@ class CategoryController extends AdminController{
 	}
 	
 	public function remove(){
-		if(Category::model()->remove($this->input->get('id', 'intval'))){
+		if(Category::service()->remove($this->input->get('id', 'intval'))){
 			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类', $this->input->get('id', 'intval'));
 			
 			Response::notify('success', array(
@@ -131,7 +131,7 @@ class CategoryController extends AdminController{
 	}
 	
 	public function removeAll(){
-		if(Category::model()->removeAll($this->input->get('id', 'intval'))){
+		if(Category::service()->removeAll($this->input->get('id', 'intval'))){
 			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类及其所有子分类', $this->input->get('id', 'intval'));
 				
 			Response::notify('success', array(
@@ -160,7 +160,7 @@ class CategoryController extends AdminController{
 	
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		Category::model()->sort($id, $this->input->get('sort', 'intval'));
+		Category::service()->sort($id, $this->input->get('sort', 'intval'));
 		$this->actionlog(Actionlogs::TYPE_CATEGORY, '改变了分类排序', $id);
 		
 		$node = Categories::model()->find($id, 'sort,title');
@@ -173,7 +173,7 @@ class CategoryController extends AdminController{
 	}
 	
 	public function reindex(){
-		Category::model()->buildIndex();
+		Category::service()->buildIndex();
 	}
 	
 	public function setIsNav(){

@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\helpers\ArrayHelper;
-use fay\models\File;
+use fay\services\File;
 ?>
 <?php if(!empty($prop_set)){?>
 <?php foreach($prop_set as $prop){?>

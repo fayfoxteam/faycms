@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Actionlogs;
 use fay\helpers\Html;
-use fay\models\Category;
+use fay\services\Category;
 use fay\core\Response;
 use fay\models\tables\ExamPapers;
 use fay\models\tables\ExamPaperQuestions;
@@ -63,7 +63,7 @@ class ExamPaperController extends AdminController{
 		));
 
 		//分类树
-		$this->view->cats = Category::model()->getTree('_system_exam_paper');
+		$this->view->cats = Category::service()->getTree('_system_exam_paper');
 		
 		$this->view->render();
 	}
@@ -111,8 +111,8 @@ class ExamPaperController extends AdminController{
 		}
 		
 		//分类树
-		$this->view->cats = Category::model()->getTree('_system_exam_paper');
-		$this->view->question_cats = Category::model()->getTree('_system_exam_question');
+		$this->view->cats = Category::service()->getTree('_system_exam_paper');
+		$this->view->question_cats = Category::service()->getTree('_system_exam_question');
 		
 		$this->view->render('edit');
 	}
@@ -197,8 +197,8 @@ class ExamPaperController extends AdminController{
 		;
 		
 		//分类树
-		$this->view->cats = Category::model()->getTree('_system_exam_paper');
-		$this->view->question_cats = Category::model()->getTree('_system_exam_question');
+		$this->view->cats = Category::service()->getTree('_system_exam_paper');
+		$this->view->question_cats = Category::service()->getTree('_system_exam_question');
 		
 		$this->view->render();
 	}
@@ -227,8 +227,8 @@ class ExamPaperController extends AdminController{
 	
 	public function cat(){
 		$this->layout->subtitle = '试卷分类';
-		$this->view->cats = Category::model()->getTree('_system_exam_paper');
-		$root_node = Category::model()->getByAlias('_system_exam_paper', 'id');
+		$this->view->cats = Category::service()->getTree('_system_exam_paper');
+		$root_node = Category::service()->getByAlias('_system_exam_paper', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/exam-paper/cat-create')){

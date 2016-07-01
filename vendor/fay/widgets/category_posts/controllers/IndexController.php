@@ -2,8 +2,8 @@
 namespace fay\widgets\category_posts\controllers;
 
 use fay\widget\Widget;
-use fay\models\Category;
-use fay\models\Post;
+use fay\services\Category;
+use fay\services\Post;
 use fay\helpers\Date;
 
 class IndexController extends Widget{
@@ -12,7 +12,7 @@ class IndexController extends Widget{
 		
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$root_node = Category::service()->getByAlias('_system_post', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
@@ -60,7 +60,7 @@ class IndexController extends Widget{
 		if(in_array('meta', $config['fields'])){
 			$fields['meta'] = array('views', 'likes', 'comments');
 		}
-		$posts = Post::model()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
+		$posts = Post::service()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		if($posts){
 			foreach($posts as &$p){
 				if($config['date_format'] == 'pretty'){
@@ -82,13 +82,13 @@ class IndexController extends Widget{
 		
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::model()->getByAlias('_system_post', 'id');
+			$root_node = Category::service()->getByAlias('_system_post', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
 		//title
 		if(empty($config['title'])){
-			$node = Category::model()->get($config['top'], 'title');
+			$node = Category::service()->get($config['top'], 'title');
 			$config['title'] = $node['title'];
 		}
 		
@@ -142,7 +142,7 @@ class IndexController extends Widget{
 		if(in_array('meta', $config['fields'])){
 			$fields['meta'] = array('views', 'likes', 'comments');
 		}
-		$posts = Post::model()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
+		$posts = Post::service()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
 		if(empty($posts) && !$config['show_empty']){

@@ -5,14 +5,15 @@ use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\Request;
 use fay\models\tables\Actionlogs;
-use fay\models\Setting;
+use fay\services\Setting;
+use fay\models\Setting as SettingModel;
 use fay\core\Response;
-use fay\models\Menu;
+use fay\services\Menu;
 use fay\core\HttpException;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\models\tables\Roles;
 use fay\helpers\ArrayHelper;
-use fay\models\User;
+use fay\services\User;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -48,7 +49,7 @@ class AdminController extends Controller{
 		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
-		if(!User::model()->isAdmin()){
+		if(!User::service()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		$this->layout->current_directory = '';
@@ -60,7 +61,7 @@ class AdminController extends Controller{
 		}
 		
 		if(!$this->input->isAjaxRequest()){
-			$this->_left_menu = Menu::model()->getTree('_admin_main');
+			$this->_left_menu = Menu::service()->getTree('_admin_main');
 		}
 	}
 	
@@ -188,7 +189,7 @@ class AdminController extends Controller{
 	protected function getEnabledBoxes($settings = null){
 		$settings === null && $settings = $this->view->_setting_key;
 		if(!is_array($settings)){
-			$settings = Setting::model()->get($settings);
+			$settings = Setting::service()->get($settings);
 		}
 		if(!empty($settings['boxes'])){
 			return array_intersect($this->getBoxNames(), isset($settings['boxes']) ? $settings['boxes'] : array());
@@ -235,11 +236,11 @@ class AdminController extends Controller{
 	public function settingForm($key, $panel, $default = array(), $data = array()){
 		$this->layout->_setting_panel = $panel;
 		
-		$settings = Setting::model()->get($key);
+		$settings = Setting::service()->get($key);
 		$settings || $settings = $default;
 		
 		$this->form('setting')
-			->setModel(Setting::model())
+			->setModel(SettingModel::model())
 			->setJsModel('setting')
 			->setData($settings)
 			->setData(array(

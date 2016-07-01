@@ -7,11 +7,11 @@ use fay\common\ListView;
 use fay\models\tables\ExamQuestions;
 use fay\models\tables\Actionlogs;
 use fay\helpers\Html;
-use fay\models\Category;
+use fay\services\Category;
 use fay\models\tables\ExamAnswers;
 use fay\core\Response;
 use fay\models\tables\ExamExamsQuestions;
-use fay\models\Flash;
+use fay\services\Flash;
 use fay\helpers\StringHelper;
 
 class ExamQuestionController extends AdminController{
@@ -68,7 +68,7 @@ class ExamQuestionController extends AdminController{
 		));
 
 		//分类树
-		$this->view->cats = Category::model()->getTree('_system_exam_question');
+		$this->view->cats = Category::service()->getTree('_system_exam_question');
 		$this->view->render();
 	}
 	
@@ -141,7 +141,7 @@ class ExamQuestionController extends AdminController{
 		}
 		
 		//分类树
-		$this->view->cats = Category::model()->getTree('_system_exam_question');
+		$this->view->cats = Category::service()->getTree('_system_exam_question');
 		
 		$this->view->render();
 	}
@@ -302,7 +302,7 @@ class ExamQuestionController extends AdminController{
 		), '*', 'sort');
 		
 		//分类树
-		$this->view->cats = Category::model()->getTree('_system_exam_question');
+		$this->view->cats = Category::service()->getTree('_system_exam_question');
 		
 		//是否参与过考试
 		$this->view->is_examed = !!ExamExamsQuestions::model()->fetchRow('question_id = '.$id);
@@ -337,8 +337,8 @@ class ExamQuestionController extends AdminController{
 	
 	public function cat(){
 		$this->layout->subtitle = '试题分类';
-		$this->view->cats = Category::model()->getTree('_system_exam_question');
-		$root_node = Category::model()->getByAlias('_system_exam_question', 'id');
+		$this->view->cats = Category::service()->getTree('_system_exam_question');
+		$root_node = Category::service()->getByAlias('_system_exam_question', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/exam-question/cat-create')){

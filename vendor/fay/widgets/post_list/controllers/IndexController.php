@@ -6,11 +6,11 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Posts;
 use fay\helpers\ArrayHelper;
-use fay\models\Category;
-use fay\models\User;
+use fay\services\Category;
+use fay\services\User;
 use fay\helpers\Date;
 use fay\core\HttpException;
-use fay\models\post\Meta;
+use fay\services\post\Meta;
 
 class IndexController extends Widget{
 	public function index($config){
@@ -49,7 +49,7 @@ class IndexController extends Widget{
 		}
 		
 		if(!empty($cat_id)){
-			$cat = Category::model()->get($cat_id, '*', '_system_post');
+			$cat = Category::service()->get($cat_id, '*', '_system_post');
 			if(!$cat){
 				throw new HttpException('您访问的页面不存在');
 			}else{
@@ -59,7 +59,7 @@ class IndexController extends Widget{
 			}
 			if($config['subclassification']){
 				//包含子分类
-				$limit_cat_children = Category::model()->getChildIds($cat['id']);
+				$limit_cat_children = Category::service()->getChildIds($cat['id']);
 				$limit_cat_children[] = $cat['id'];//加上父节点
 				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
 			}else{
@@ -86,17 +86,17 @@ class IndexController extends Widget{
 			if(in_array('cat', $config['fields'])){
 				//获取所有相关分类
 				$cat_ids = ArrayHelper::column($posts, 'cat_id');
-				$cats = Category::model()->mget(array_unique($cat_ids), 'id,title,alias');
+				$cats = Category::service()->mget(array_unique($cat_ids), 'id,title,alias');
 			}
 			
 			if(in_array('meta', $config['fields'])){
-				$post_metas = Meta::model()->mget(ArrayHelper::column($posts, 'id'));
+				$post_metas = Meta::service()->mget(ArrayHelper::column($posts, 'id'));
 			}
 			
 			if(in_array('user', $config['fields'])){
 				//获取所有相关作者
 				$user_ids = ArrayHelper::column($posts, 'user_id');
-				$users = User::model()->mget(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
+				$users = User::service()->mget(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
 			}
 			
 			foreach($posts as $p){

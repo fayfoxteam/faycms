@@ -9,6 +9,7 @@ use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\PostComments;
+use fay\services\User;
 
 /**
  * 基于左右值的多树操作
@@ -56,44 +57,37 @@ abstract class MultiTree extends Model{
 	}
 	
 	/**
-	 * @param string $class_name
-	 * @return MultiTree
-	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
-	}
-	
-	/**
 	 * 创建一个节点
 	 * @param array $data 数据
 	 * @param int $parent 父节点
+	 * @return int
 	 */
-	public function create($data, $parent = 0){
+	protected function _create($data, $parent = 0){
 		if($parent == 0){
 			//插入根节点
-			$node_id = \F::model($this->model)->insert(array_merge($data, array(
+			$node_id = \F::table($this->model)->insert(array_merge($data, array(
 				'parent'=>$parent,
 				'left_value'=>1,
 				'right_value'=>2,
 			)));
 			//根节点是自己
-			\F::model($this->model)->update(array(
+			\F::table($this->model)->update(array(
 				'root'=>$node_id,
 			), $node_id);
 		}else{
 			//插入叶子节点
-			$parent_node = \F::model($this->model)->find($parent, 'id,root,left_value,right_value');
+			$parent_node = \F::table($this->model)->find($parent, 'id,root,left_value,right_value');
 			if($parent_node['right_value'] - $parent_node['left_value'] == 1){
 				//父节点是叶子节点
-				\F::model($this->model)->incr(array(
+				\F::table($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'left_value > ' . $parent_node['left_value'],
 				), 'left_value', 2);
-				\F::model($this->model)->incr(array(
+				\F::table($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'right_value > ' . $parent_node['left_value'],
 				), 'right_value', 2);
-				$node_id = \F::model($this->model)->insert(array_merge($data, array(
+				$node_id = \F::table($this->model)->insert(array_merge($data, array(
 					'parent'=>$parent,
 					'left_value'=>$parent_node['left_value'] + 1,
 					'right_value'=>$parent_node['left_value'] + 2,
@@ -101,18 +95,18 @@ abstract class MultiTree extends Model{
 				)));
 			}else{
 				//父节点非叶子节点，插入到最右侧（因为留言系统一般回复都是按时间正序排列的）
-				$left_node = \F::model($this->model)->fetchRow(array(
+				$left_node = \F::table($this->model)->fetchRow(array(
 					'parent = ' . $parent,
 				), 'left_value,right_value', 'left_value DESC');
-				\F::model($this->model)->incr(array(
+				\F::table($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'left_value > ' . $left_node['right_value'],
 				), 'left_value', 2);
-				\F::model($this->model)->incr(array(
+				\F::table($this->model)->incr(array(
 					'root = ' . $parent_node['root'],
 					'right_value > ' . $left_node['right_value'],
 				), 'right_value', 2);
-				$node_id = \F::model($this->model)->insert(array_merge($data, array(
+				$node_id = \F::table($this->model)->insert(array_merge($data, array(
 					'parent'=>$parent,
 					'root'=>$parent_node['root'],
 					'left_value'=>$left_node['right_value'] + 1,
@@ -130,10 +124,10 @@ abstract class MultiTree extends Model{
 	 * @return bool
 	 * @throws ErrorException
 	 */
-	public function remove($node){
+	protected function _remove($node){
 		//获取被删除节点
 		if(!is_array($node)){
-			$node = \F::model($this->model)->find($node, 'id,left_value,right_value,parent,root');
+			$node = \F::table($this->model)->find($node, 'id,left_value,right_value,parent,root');
 		}
 		if(!$node){
 			throw new ErrorException('节点不存在', 'node-not-exist');
@@ -144,13 +138,13 @@ abstract class MultiTree extends Model{
 			if($node['right_value'] != 2){
 				//不是根节点（是根节点且是叶子节点的话，无需操作）
 				//所有后续节点左右值-2
-				\F::model($this->model)->incr(array(
+				\F::table($this->model)->incr(array(
 					'root = ' . $node['root'],
 					'right_value > ' . $node['right_value'],
 					'left_value > ' . $node['right_value'],
 				), array('left_value', 'right_value'), -2);
 				//所有父节点右值-2
-				\F::model($this->model)->incr(array(
+				\F::table($this->model)->incr(array(
 					'root = ' . $node['root'],
 					'right_value > ' . $node['right_value'],
 					'left_value < ' . $node['left_value'],
@@ -158,12 +152,12 @@ abstract class MultiTree extends Model{
 			}
 			
 			//删除当前节点
-			\F::model($this->model)->delete($node['id']);
+			\F::table($this->model)->delete($node['id']);
 			
 			return true;
 		}else{
 			//所有子节点左右值-1
-			\F::model($this->model)->update(array(
+			\F::table($this->model)->update(array(
 				'left_value'=>new Expr('left_value - 1'),
 				'right_value'=>new Expr('right_value - 1'),
 			), array(
@@ -172,7 +166,7 @@ abstract class MultiTree extends Model{
 				'right_value < ' . $node['right_value'],
 			));
 			//所有后续节点左右值-2
-			\F::model($this->model)->update(array(
+			\F::table($this->model)->update(array(
 				'left_value'=>new Expr('left_value - 2'),
 				'right_value'=>new Expr('right_value - 2'),
 			), array(
@@ -180,7 +174,7 @@ abstract class MultiTree extends Model{
 				'left_value > ' . $node['right_value'],
 				'right_value > ' . $node['right_value'],
 			));
-			\F::model($this->model)->incr(array(
+			\F::table($this->model)->incr(array(
 				'root = ' . $node['root'],
 				'left_value < ' . $node['left_value'],
 				'right_value > ' . $node['right_value'],
@@ -188,19 +182,19 @@ abstract class MultiTree extends Model{
 				'left_value', 'right_value'
 			), -2);
 			//所有父节点
-			\F::model($this->model)->incr(array(
+			\F::table($this->model)->incr(array(
 				'root = ' . $node['root'],
 				'left_value < ' . $node['left_value'],
 				'right_value > ' . $node['right_value'],
 			), 'right_value', -2);
 			
 			//将所有父节点为该节点的parent字段指向其parent
-			\F::model($this->model)->update(array(
+			\F::table($this->model)->update(array(
 				'parent'=>$node['parent'],
 			), 'parent = ' . $node['id']);
 			
 			//删除当前节点
-			\F::model($this->model)->delete($node['id']);
+			\F::table($this->model)->delete($node['id']);
 			
 			return true;
 		}
@@ -212,17 +206,17 @@ abstract class MultiTree extends Model{
 	 * @return bool
 	 * @throws ErrorException
 	 */
-	public function removeAll($node){
+	protected function _removeAll($node){
 		//获取被删除节点
 		if(!is_array($node)){
-			$node = \F::model($this->model)->find($node, 'id,left_value,right_value,root');
+			$node = \F::table($this->model)->find($node, 'id,left_value,right_value,root');
 		}
 		if(!$node){
 			throw new ErrorException('节点不存在', 'node-not-exist');
 		}
 		
 		//删除所有树枝节点
-		\F::model($this->model)->delete(array(
+		\F::table($this->model)->delete(array(
 			'root = ' . $node['root'],
 			'left_value >= ' . $node['left_value'],
 			'right_value <= ' . $node['right_value'],
@@ -231,7 +225,7 @@ abstract class MultiTree extends Model{
 		//差值
 		$diff = $node['right_value'] - $node['left_value'] + 1;
 		//所有后续节点减去差值
-		\F::model($this->model)->update(array(
+		\F::table($this->model)->update(array(
 			'left_value'=>new Expr('left_value - ' . $diff),
 			'right_value'=>new Expr('right_value - ' . $diff),
 		), array(
@@ -240,7 +234,7 @@ abstract class MultiTree extends Model{
 			'right_value > ' . $node['right_value'],
 		));
 		//所有父节点的右节点减去差值
-		\F::model($this->model)->update(array(
+		\F::table($this->model)->update(array(
 			'right_value'=>new Expr('right_value - ' . $diff),
 		), array(
 			'root = ' . $node['root'],
@@ -259,12 +253,12 @@ abstract class MultiTree extends Model{
 	 * @return int
 	 */
 	public function buildIndex($root, $parent = 0, $start_num = 0, $nodes = null){
-		$nodes || $nodes = \F::model($this->model)->fetchAll(array(
+		$nodes || $nodes = \F::table($this->model)->fetchAll(array(
 			'root = ?'=>$root,
 			'parent = ?'=>$parent,
 		), 'id', 'id DESC');
 		foreach($nodes as $node){
-			$children = \F::model($this->model)->fetchAll(array(
+			$children = \F::table($this->model)->fetchAll(array(
 				'root = ?'=>$root,
 				'parent = ?'=>$node['id'],
 			), 'id', 'id DESC');
@@ -272,13 +266,13 @@ abstract class MultiTree extends Model{
 				//有孩子，先记录左节点，右节点待定
 				$left = ++$start_num;
 				$start_num = $this->buildIndex($root, $node['id'], $start_num, $children);
-				\F::model($this->model)->update(array(
+				\F::table($this->model)->update(array(
 					'left_value'=>$left,
 					'right_value'=>++$start_num,
 				), $node['id']);
 			}else{
 				//已经是叶子节点，直接记录左右节点
-				\F::model($this->model)->update(array(
+				\F::table($this->model)->update(array(
 					'left_value'=>++$start_num,
 					'right_value'=>++$start_num,
 				), $node['id']);
@@ -294,16 +288,16 @@ abstract class MultiTree extends Model{
 	 * @param int $page 页码
 	 * @param string $fields 可指定返回字段（虽然把user等字段放这里会让model看起来不纯，但是性能上会好很多）
 	 *  - 无前缀系列可指定$model表返回字段，若未指定，默认为*
-	 *  - user.*系列可指定作者信息，格式参照\fay\models\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param string $order 排序条件
 	 * @return array
 	 */
 	protected function _getTree($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
-			$fields[$this->field_key] = \F::model($this->model)->getFields();
+			$fields[$this->field_key] = \F::table($this->model)->getFields();
 		}
 		$node_fields = $fields[$this->field_key];
 		//一些需要用到，但未指定返回的字段特殊处理下
@@ -318,7 +312,7 @@ abstract class MultiTree extends Model{
 		
 		//得到根节点
 		$sql = new Sql();
-		$sql->from(\F::model($this->model)->getTableName(), 'root')
+		$sql->from(\F::table($this->model)->getTableName(), 'root')
 			->where(array(
 				"{$this->foreign_key} = ?"=>$value,
 				'left_value = 1',
@@ -332,14 +326,18 @@ abstract class MultiTree extends Model{
 		$root_nodes = ArrayHelper::column($listview->getData(), 'root');
 		if($root_nodes){
 			//搜索所有节点
-			$nodes = \F::model($this->model)->fetchAll(array_merge(array(
+			$nodes = \F::table($this->model)->fetchAll(array_merge(array(
 				'root IN (?)'=>$root_nodes,
 			), $conditions), $node_fields, $order);
 			
 			//像user这种附加信息，可以一次性获取以提升性能
 			$extra = array();
 			if(!empty($fields['user'])){
-				$extra['users'] = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
+				$extra['users'] = User::service()->mget(
+					array_unique(ArrayHelper::column($nodes, 'user_id')),
+					$fields['user'],
+					isset($fields['_extra']) ? $fields['_extra'] : array()
+				);
 			}
 			
 			//一棵一棵渲染
@@ -416,12 +414,11 @@ abstract class MultiTree extends Model{
 	 * @param string $fields
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param array $join_conditions 若fields指定父节点信息，则需要自连接，该条件用于自连接时的附加条件
-	 * @param string $order
 	 * @return array
 	 */
-	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'id DESC'){
+	protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array()){
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
 			$fields[$this->field_key] = PostComments::model()->getFields();
 		}
@@ -444,7 +441,7 @@ abstract class MultiTree extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('t'=>\F::model($this->model)->getTableName()), $comment_fields)
+		$sql->from(array('t'=>\F::table($this->model)->getTableName()), $comment_fields)
 			->where("t.{$this->foreign_key} = ?", $value)
 			->order('t.id DESC')
 		;
@@ -453,7 +450,7 @@ abstract class MultiTree extends Model{
 			$sql->where($conditions);
 		}
 		
-		if($parent_comment_fields){
+		if(!empty($parent_comment_fields)){
 			//表自连接，字段名都是一样的，需要设置别名
 			foreach($parent_comment_fields as $key => $f){
 				$parent_comment_fields[$key] = $f . ' AS parent_' . $f;
@@ -466,7 +463,7 @@ abstract class MultiTree extends Model{
 				//开启审核，仅返回通过审核的评论
 				$_join_conditions = array_merge($_join_conditions, $join_conditions);
 			}
-			$sql->joinLeft(array('t2'=>\F::model($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
+			$sql->joinLeft(array('t2'=>\F::table($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
 		}
 		
 		$listview = new ListView($sql, array(
@@ -478,11 +475,19 @@ abstract class MultiTree extends Model{
 		
 		if(!empty($fields['user'])){
 			//获取评论用户信息集合
-			$users = User::model()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
+			$users = User::service()->mget(
+				ArrayHelper::column($data, 'user_id'),
+				$fields['user'],
+				isset($fields['_extra']) ? $fields['_extra'] : array()
+			);
 		}
 		if(!empty($fields['parent']['user'])){
 			//获取父节点评论用户信息集合
-			$parent_users = User::model()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
+			$parent_users = User::service()->mget(
+				ArrayHelper::column($data, 'parent_user_id'),
+				$fields['parent']['user'],
+				isset($fields['parent']['_extra']) ? $fields['parent']['_extra'] : array()
+			);
 		}
 		$comments = array();
 		
@@ -536,9 +541,9 @@ abstract class MultiTree extends Model{
 	 */
 	protected function _getChats($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'id DESC'){
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
-			$fields[$this->field_key] = \F::model($this->model)->getFields();
+			$fields[$this->field_key] = \F::table($this->model)->getFields();
 		}
 		$node_fields = $fields[$this->field_key];
 		//一些需要用到，但未指定返回的字段特殊处理下
@@ -553,7 +558,7 @@ abstract class MultiTree extends Model{
 		
 		//得到根节点
 		$sql = new Sql();
-		$sql->from(\F::model($this->model)->getTableName(), 'root')
+		$sql->from(\F::table($this->model)->getTableName(), 'root')
 			->where(array(
 				"{$this->foreign_key} = ?"=>$value,
 				'left_value = 1',
@@ -567,13 +572,13 @@ abstract class MultiTree extends Model{
 		$root_nodes = ArrayHelper::column($listview->getData(), 'root');
 		if($root_nodes){
 			//搜索所有节点
-			$nodes = \F::model($this->model)->fetchAll(array_merge(array(
+			$nodes = \F::table($this->model)->fetchAll(array_merge(array(
 				'root IN (?)'=>$root_nodes,
 			), $conditions), $node_fields, 'root DESC' . ($order ? ", {$order}" : ''));
 				
 			//用户信息
 			if(!empty($fields['user'])){
-				$users = User::model()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
+				$users = User::service()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
 			}
 				
 			//一个会话一个会话渲染
@@ -648,13 +653,13 @@ abstract class MultiTree extends Model{
 			throw new ErrorException('父节点不能为空');
 		}
 		
-		$node = \F::model($this->model)->find($parent_id, 'root,left_value,right_value');
+		$node = \F::table($this->model)->find($parent_id, 'root,left_value,right_value');
 		if(!$node){
 			throw new ErrorException('指定父节点不存在');
 		}
 		
 		//解析$fields
-		$fields = FieldHelper::process($fields, $this->field_key);
+		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
 			$fields[$this->field_key] = PostComments::model()->getFields();
 		}
@@ -677,7 +682,7 @@ abstract class MultiTree extends Model{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('t'=>\F::model($this->model)->getTableName()), $comment_fields)
+		$sql->from(array('t'=>\F::table($this->model)->getTableName()), $comment_fields)
 			->where('t.root = ' . $node['root'])
 			->where('t.left_value > ' . $node['left_value'])
 			->where('t.right_value < ' . $node['right_value'])
@@ -701,7 +706,7 @@ abstract class MultiTree extends Model{
 				//开启审核，仅返回通过审核的评论
 				$_join_conditions = array_merge($_join_conditions, $join_conditions);
 			}
-			$sql->joinLeft(array('t2'=>\F::model($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
+			$sql->joinLeft(array('t2'=>\F::table($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
 		}
 		
 		$listview = new ListView($sql, array(
@@ -713,11 +718,11 @@ abstract class MultiTree extends Model{
 		
 		if(!empty($fields['user'])){
 			//获取评论用户信息集合
-			$users = User::model()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
+			$users = User::service()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
 		}
 		if(!empty($fields['parent']['user'])){
 			//获取父节点评论用户信息集合
-			$parent_users = User::model()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
+			$parent_users = User::service()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
 		}
 		$comments = array();
 		

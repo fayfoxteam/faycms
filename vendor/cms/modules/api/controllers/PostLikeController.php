@@ -3,11 +3,10 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\post\Like as LikeService;
-use fay\models\post\Like as LikeModel;
-use fay\models\Post;
+use fay\services\post\Like as PostLike;
+use fay\services\Post;
 use fay\helpers\FieldHelper;
-use fay\models\User;
+use fay\services\User;
 
 /**
  * 文章点赞
@@ -15,8 +14,8 @@ use fay\models\User;
 class PostLikeController extends ApiController{
 	/**
 	 * 点赞
-	 * @param int $post_id 文章ID
-	 * @param string $trackid 追踪ID
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $trackid 追踪ID
 	 */
 	public function add(){
 		//登录检查
@@ -42,21 +41,21 @@ class PostLikeController extends ApiController{
 			));
 		}
 		
-		if(LikeModel::isLiked($post_id)){
+		if(PostLike::isLiked($post_id)){
 			Response::notify('error', array(
 				'message'=>'您已赞过该文章',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		LikeService::add($post_id, $this->form()->getData('trackid', ''));
+		PostLike::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '点赞成功');
 	}
 	
 	/**
 	 * 取消点赞
-	 * @param int $post_id 文章ID
+	 * @parameter int $post_id 文章ID
 	 */
 	public function remove(){
 		//登录检查
@@ -74,29 +73,30 @@ class PostLikeController extends ApiController{
 		
 		$post_id = $this->form()->getData('post_id');
 		
-		if(!LikeModel::isLiked($post_id)){
+		if(!PostLike::isLiked($post_id)){
 			Response::notify('error', array(
 				'message'=>'您未赞过该文章',
 				'code'=>'not-liked',
 			));
 		}
 		
-		LikeService::remove($post_id);
+		PostLike::remove($post_id);
 		
 		Response::notify('success', '取消点赞成功');
 	}
 	
 	/**
 	 * 文章点赞列表
-	 * @param int $post_id 文章ID
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter int $post_id 文章ID
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function postLikes(){
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'post_id'=>'intval',
 			'page'=>'intval',
@@ -105,6 +105,7 @@ class PostLikeController extends ApiController{
 		))->setLabels(array(
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$post_id = $this->form()->getData('post_id');
@@ -119,12 +120,12 @@ class PostLikeController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'post', User::$public_fields);
+			$fields = FieldHelper::parse($fields, 'post', User::$public_fields);
 		}else{
 			$fields = User::$default_fields;
 		}
 		
-		$likes = LikeModel::model()->getPostLikes($post_id,
+		$likes = PostLike::service()->getPostLikes($post_id,
 			$fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
@@ -133,9 +134,9 @@ class PostLikeController extends ApiController{
 	
 	/**
 	 * 我的点赞列表（api不支持获取别人的点赞列表）
-	 * @param string $fields 字段
-	 * @param int $page 页码
-	 * @param int $page_size 分页大小
+	 * @parameter string $fields 字段
+	 * @parameter int $page 页码
+	 * @parameter int $page_size 分页大小
 	 */
 	public function userLikes(){
 		//登录检查
@@ -144,6 +145,7 @@ class PostLikeController extends ApiController{
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
+			array('fields', 'fields'),
 		))->setFilters(array(
 			'page'=>'intval',
 			'page_size'=>'intval',
@@ -151,17 +153,18 @@ class PostLikeController extends ApiController{
 		))->setLabels(array(
 			'page'=>'页码',
 			'page_size'=>'分页大小',
+			'fields'=>'字段',
 		))->check();
 		
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::process($fields, 'post', Post::$public_fields);
+			$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
 		}else{
 			$fields = Post::$default_fields;
 		}
 		
-		$likes = LikeModel::model()->getUserLikes($fields,
+		$likes = PostLike::service()->getUserLikes($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
 		Response::json($likes);

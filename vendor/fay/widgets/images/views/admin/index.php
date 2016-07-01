@@ -68,6 +68,7 @@ use fay\services\user\Role;
 	<div class="box-content">
 		<?php echo F::form('widget')->textarea('template', array(
 			'class'=>'form-control h90 autosize',
+			'id'=>'code-editor',
 		))?>
 		<p class="fc-grey mt5">
 			若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，

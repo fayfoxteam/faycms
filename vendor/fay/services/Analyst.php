@@ -124,7 +124,7 @@ class Analyst extends Service{
 		$date === null && $date = $this->today;
 		
 		$sub_sql = new Sql();
-		$sub_sql->from('analyst_visits')
+		$sub_sql->from('analyst_visits', 'mac')
 			->where(array(
 				'create_date = ?'=>$date,
 				'hour = ?'=>$hour,

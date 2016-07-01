@@ -73,6 +73,7 @@ use fay\services\user\Role;
 				<label class="title bold">渲染模版</label>
 				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
 					'class'=>'form-control h90 autosize',
+					'id'=>'code-editor',
 				))?>
 				<p class="fc-grey mt5">
 					若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，

@@ -19,7 +19,7 @@ class Comment extends MultiTree{
 	/**
 	 * @see MultiTree::$model
 	 */
-	protected $model = '\fay\models\tables\FeedComments';
+	protected $model = 'fay\models\tables\FeedComments';
 	
 	/**
 	 * @see MultiTree::$foreign_key

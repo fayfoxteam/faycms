@@ -21,7 +21,7 @@ class Message extends MultiTree{
 	/**
 	 * @see MultiTree::$model
 	 */
-	protected $model = '\fay\models\tables\Messages';
+	protected $model = 'fay\models\tables\Messages';
 	
 	/**
 	 * @see MultiTree::$foreign_key

@@ -11,7 +11,7 @@ class Category extends Tree{
 	/**
 	 * @see Tree::$model
 	 */
-	protected $model = '\fay\models\tables\Categories';
+	protected $model = 'fay\models\tables\Categories';
 	
 	/**
 	 * @param string $class_name

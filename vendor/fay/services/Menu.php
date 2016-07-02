@@ -10,7 +10,7 @@ class Menu extends Tree{
 	/**
 	 * @see Tree::$model
 	 */
-	protected $model = '\fay\models\tables\Menus';
+	protected $model = 'fay\models\tables\Menus';
 	
 	/**
 	 * @param string $class_name

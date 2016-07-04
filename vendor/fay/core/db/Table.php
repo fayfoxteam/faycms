@@ -191,7 +191,7 @@ class Table extends Model{
 	 * @return array|bool
 	 */
 	public function fetchRow($conditions, $fields = '*', $order = false, $offset = null, $style = 'assoc'){
-		if(!$this->_sql)$this->_sql = new Sql();
+		if(!$this->_sql)$this->_sql = new Sql($this->db);
 		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions)
 			->limit(1, $offset);
@@ -212,7 +212,7 @@ class Table extends Model{
 	 * @return array
 	 */
 	public function fetchAll($conditions = array(), $fields = '*', $order = false, $count = false, $offset = false, $style = 'assoc'){
-		if(!$this->_sql)$this->_sql = new Sql();
+		if(!$this->_sql)$this->_sql = new Sql($this->db);
 		$this->_sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions);
 		if($order){

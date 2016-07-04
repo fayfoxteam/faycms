@@ -9,6 +9,11 @@ use fay\helpers\Request;
 use fay\core\Response;
 
 class DbController extends InstallController{
+	/**
+	 * @var Db
+	 */
+	private $db;
+	
 	public function __construct(){
 		parent::__construct();
 		

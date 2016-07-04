@@ -65,6 +65,9 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('247', '245', '', '组卷', '', 'admin/exam-paper/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('248', '245', '', '阅卷', '', 'admin/exam-exam/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('249', '245', '', '试卷分类', '', 'admin/exam-paper/cat');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('260', '100', 'feed', '动态', 'fa fa-rss', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('261', '260', '', '所有动态', '', 'admin/feed/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('262', '260', '', '发布动态', '', 'admin/feed/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1000', '1', '_tools_main', 'Tools', '', '');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1010', '1000', 'input', 'Input', 'fa fa-download', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1011', '1010', '', 'SESSION', '', 'tools/input/session');
@@ -93,6 +96,3 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1061', '1060', '', 'List', '', 'tools/application/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1062', '1060', '', 'Create', '', 'tools/application/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1070', '1000', 'qrcode', 'Qrcode', 'fa fa-qrcode', 'tools/qrcode/index');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('260', '100', 'feed', '动态', 'fa fa-rss', 'javascript:;');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('261', '260', '', '所有动态', '', 'admin/feed/index');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('262', '260', '', '发布动态', '', 'admin/feed/create');

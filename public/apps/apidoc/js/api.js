@@ -22,11 +22,12 @@ var api = {
 					},
 					'onStart':function(o){
 						//初始化编辑框
-						$('#add-input-parameter-form').find('[name="name"]').val('');
-						$('#add-input-parameter-form').find('[name="required"][value="0"]').attr('checked', 'checked');
-						$('#add-input-parameter-form').find('[name="description"]').val('');
-						$('#add-input-parameter-form').find('[name="sample"]').val('');
-						$('#add-input-parameter-form').find('[name="since"]').val('');
+						var $addInputParameterForm = $('#add-input-parameter-form');
+						$addInputParameterForm.find('[name="name"]').val('');
+						$addInputParameterForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+						$addInputParameterForm.find('[name="description"]').val('');
+						$addInputParameterForm.find('[name="sample"]').val('');
+						$addInputParameterForm.find('[name="since"]').val('');
 					}
 				});
 			});
@@ -52,13 +53,14 @@ var api = {
 						var $container = $(o).parent().parent();
 						//初始化编辑框
 						$('#editing-input-parameter-name').text($container.find('.input-name').val());
-						$('#edit-input-parameter-form').find('[name="selector"]').val($container.parent().attr('id'));
-						$('#edit-input-parameter-form').find('[name="name"]').val($container.find('.input-name').val());
-						$('#edit-input-parameter-form').find('[name="type"]').val($container.find('.input-type').val());
-						$('#edit-input-parameter-form').find('[name="required"][value="'+$container.find('.input-required').val()+'"]').attr('checked', 'checked');
-						$('#edit-input-parameter-form').find('[name="description"]').val($container.find('.input-description').val());
-						$('#edit-input-parameter-form').find('[name="sample"]').val($container.find('.input-sample').val());
-						$('#edit-input-parameter-form').find('[name="since"]').val($container.find('.input-since').val());
+						var $editInputParameterForm = $('#edit-input-parameter-form');
+						$editInputParameterForm.find('[name="selector"]').val($container.parent().attr('id'));
+						$editInputParameterForm.find('[name="name"]').val($container.find('.input-name').val());
+						$editInputParameterForm.find('[name="type"]').val($container.find('.input-type').val());
+						$editInputParameterForm.find('[name="required"][value="'+$container.find('.input-required').val()+'"]').attr('checked', 'checked');
+						$editInputParameterForm.find('[name="description"]').val($container.find('.input-description').val());
+						$editInputParameterForm.find('[name="sample"]').val($container.find('.input-sample').val());
+						$editInputParameterForm.find('[name="since"]').val($container.find('.input-since').val());
 					}
 				});
 			});
@@ -182,11 +184,12 @@ var api = {
 					},
 					'onStart':function(o){
 						//初始化编辑框
-						$('#add-output-form').find('[name="name"]').val('');
-						$('#add-output-form').find('[name="required"][value="0"]').attr('checked', 'checked');
-						$('#add-output-form').find('[name="description"]').val('');
-						$('#add-output-form').find('[name="sample"]').val('');
-						$('#add-output-form').find('[name="since"]').val('');
+						var $addOutputForm = $('#add-output-form');
+						$addOutputForm.find('[name="name"]').val('');
+						$addOutputForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+						$addOutputForm.find('[name="description"]').val('');
+						$addOutputForm.find('[name="sample"]').val('');
+						$addOutputForm.find('[name="since"]').val('');
 					}
 				});
 			});
@@ -212,13 +215,14 @@ var api = {
 						var $container = $(o).parent().parent().parent().parent();
 						//初始化编辑框
 						$('#editing-output-name').text($container.find('.input-name').val());
-						$('#edit-output-form').find('[name="selector"]').val($container.attr('id'));
-						$('#edit-output-form').find('[name="name"]').val($container.find('.input-name').val());
-						$('#edit-output-form').find('[name="model_name"]').val($container.find('.input-model-name').val());
-						$('#edit-output-form').find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
-						$('#edit-output-form').find('[name="description"]').val($container.find('.input-description').val());
-						$('#edit-output-form').find('[name="sample"]').val($container.find('.input-sample').val());
-						$('#edit-output-form').find('[name="since"]').val($container.find('.input-since').val());
+						var $editOutputForm = $('#edit-output-form');
+						$editOutputForm.find('[name="selector"]').val($container.attr('id'));
+						$editOutputForm.find('[name="name"]').val($container.find('.input-name').val());
+						$editOutputForm.find('[name="model_name"]').val($container.find('.input-model-name').val());
+						$editOutputForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
+						$editOutputForm.find('[name="description"]').val($container.find('.input-description').val());
+						$editOutputForm.find('[name="sample"]').val($container.find('.input-sample').val());
+						$editOutputForm.find('[name="since"]').val($container.find('.input-since').val());
 					}
 				});
 			});
@@ -324,7 +328,7 @@ var api = {
 					}else{
 						//编辑
 						var selector = form.find('[name="selector"]').val();
-						$output = $('#'+selector);
+						var $output = $('#'+selector);
 						
 						//编辑隐藏域
 						$output.find('.input-name').val(name);
@@ -347,6 +351,21 @@ var api = {
 			}, rules, labels);
 		});
 	},
+	'autoFormatSampleResponse': function(){
+		var $sampleResponse = $('#sample-response');
+		$sampleResponse.on('blur', function(){
+			try{
+				var jsonObj = $.parseJSON($sampleResponse.val());
+			}catch(e){
+				jsonObj = false;
+			}
+
+			if(jsonObj){
+				$sampleResponse.val(JSON.stringify(jsonObj, null, 4));
+				autosize.update($sampleResponse);
+			}
+		});
+	},
 	'init': function(){
 		this.addInputParameter();
 		this.editInputParameter();
@@ -354,5 +373,6 @@ var api = {
 		this.addOutput();
 		this.editOutput();
 		this.autocomplete();
+		this.autoFormatSampleResponse();
 	}
-}
+};

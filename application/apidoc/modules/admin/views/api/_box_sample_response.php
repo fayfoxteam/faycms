@@ -6,6 +6,7 @@
 	<div class="box-content">
 		<?php echo F::form()->textarea('sample_response', array(
 			'class'=>'form-control h90 autosize',
+			'id'=>'sample-response',
 		))?>
 	</div>
 </div>

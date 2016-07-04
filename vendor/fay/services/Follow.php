@@ -205,6 +205,7 @@ class Follow extends Service{
 		;
 		$listview = new ListView($sql, array(
 			'page_size'=>$page_size,
+			'current_page'=>$page,
 		));
 		
 		$follows = $listview->getData();
@@ -224,7 +225,7 @@ class Follow extends Service{
 				$follow['follow'][$field] = $f[$field];
 			}
 			
-			if(!empty($fields['user'])){
+			if(isset($users)){
 				$follow['user'] = $users[$f['user_id']];
 			}
 			
@@ -260,6 +261,7 @@ class Follow extends Service{
 		;
 		$listview = new ListView($sql, array(
 			'page_size'=>$page_size,
+			'current_page'=>$page,
 		));
 		
 		$fans = $listview->getData();
@@ -279,7 +281,7 @@ class Follow extends Service{
 				$follow['follow'][$field] = $f[$field];
 			}
 			
-			if(!empty($fields['user'])){
+			if(isset($users)){
 				$follow['user'] = $users[$f['fans_id']];
 			}
 			

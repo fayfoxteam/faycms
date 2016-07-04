@@ -364,9 +364,10 @@ class Category extends Tree{
 	 *  - 数字:代表分类ID;
 	 *  - 字符串:分类别名;
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
-	 * } 
+	 * }
 	 * @param int|string|array $cat
 	 * @param int|string|array $root
+	 * @return array
 	 */
 	public function getParentPath($cat, $root = null){
 		if(!is_array($cat)){
@@ -389,6 +390,7 @@ class Category extends Tree{
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
 	 * @param int|string|array $cat
 	 * @param int|string|array $root
+	 * @return array
 	 */
 	public function getParentIds($cat, $root = null){
 		if(!is_array($cat)){

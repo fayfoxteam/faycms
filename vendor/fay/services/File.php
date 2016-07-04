@@ -9,8 +9,6 @@ use fay\common\Upload;
 use fay\helpers\Image;
 use fay\helpers\StringHelper;
 use fay\core\ErrorException;
-use fay\services\Qiniu;
-use fay\services\Option;
 
 /**
  * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储

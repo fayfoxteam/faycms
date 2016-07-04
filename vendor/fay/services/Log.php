@@ -44,6 +44,9 @@ class Log extends Service{
 			case Logs::TYPE_WARMING:
 				return '<span class="fc-orange">警告</span>';
 			break;
+			default:
+				return '<span>未知</span>';
+			break;
 		}
 	}
 }

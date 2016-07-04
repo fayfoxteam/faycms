@@ -15,6 +15,7 @@ use fay\helpers\StringHelper;
 
 class Exam extends Service{
 	/**
+	 * @param string $class_name
 	 * @return Exam
 	 */
 	public static function service($class_name = __CLASS__){

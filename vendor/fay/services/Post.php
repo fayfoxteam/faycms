@@ -932,31 +932,31 @@ class Post extends Service{
 			
 			$post['post'] = $p;
 			//meta
-			if(!empty($fields['meta'])){
+			if(isset($post_metas)){
 				$post['meta'] = $post_metas[$p['id']];
 			}
 			//扩展信息
-			if(!empty($fields['extra'])){
+			if(isset($post_extras)){
 				$post['extra'] = $post_extras[$p['id']];
 			}
 			
 			//标签
-			if(!empty($fields['tags'])){
+			if(isset($post_tags)){
 				$post['tags'] = $post_tags[$p['id']];
 			}
 			
 			//附件
-			if(!empty($fields['files'])){
+			if(isset($post_files)){
 				$post['files'] = $post_files[$p['id']];
 			}
 			
 			//附加分类
-			if(!empty($fields['categories'])){
+			if(isset($post_categories)){
 				$post['categories'] = $post_categories[$p['id']];
 			}
 			
 			//主分类
-			if(!empty($fields['category'])){
+			if(isset($post_category)){
 				$post['category'] = $post_category[$p['cat_id']];
 			}
 			
@@ -1480,32 +1480,32 @@ class Post extends Service{
 			$post['post'] = $p;
 			
 			//meta
-			if(!empty($fields['meta'])){
+			if(isset($post_metas)){
 				$post['meta'] = $post_metas[$p['id']];
 			}
 			
 			//扩展信息
-			if(!empty($fields['extra'])){
+			if(isset($post_extras)){
 				$post['extra'] = $post_extras[$p['id']];
 			}
 			
 			//标签
-			if(!empty($fields['tags'])){
+			if(isset($post_tags)){
 				$post['tags'] = $post_tags[$p['id']];
 			}
 			
 			//附件
-			if(!empty($fields['files'])){
+			if(isset($post_files)){
 				$post['files'] = $post_files[$p['id']];
 			}
 			
 			//附加分类
-			if(!empty($fields['categories'])){
+			if(isset($post_categories)){
 				$post['categories'] = $post_categories[$p['id']];
 			}
 			
 			//主分类
-			if(!empty($fields['category'])){
+			if(isset($post_category)){
 				$post['category'] = $post_category[$p['cat_id']];
 			}
 			

@@ -7,6 +7,7 @@ use fay\core\Response;
 use fay\models\tables\Logs;
 use fay\core\Loader;
 use fay\services\User;
+use fay\services\user\Password;
 
 class LoginController extends Controller{
 	public function __construct(){
@@ -21,7 +22,7 @@ class LoginController extends Controller{
 		$this->config->set('debug', false);
 		
 		if($this->input->post()){
-			$result = User::service()->checkPassword(
+			$result = Password::service()->checkPassword(
 				$this->input->post('username'),
 				$this->input->post('password'),
 				true

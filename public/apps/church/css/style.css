@@ -15,3 +15,11 @@ a:hover{color:#3799ab}
 /* 右侧侧边栏 */
 .widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555;}
 .widget-area .widget+.widget{margin-top:2em;padding-top:1.8em}
+
+/* 页面框架布局 */
+.page-header{}
+.page-content{padding:6em 0 6.2143em}
+.page-footer{color:#444;background-color:#f3f5f8;padding:6.7143em 0 5.0714em}
+
+/* 公共页脚 */
+.page-footer aside h4{margin-bottom:1.5em}

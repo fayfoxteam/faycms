@@ -17,5 +17,20 @@
 			))?>
 			<span class="fc-grey">图片会根据指定高度裁剪，留空则不裁剪</span>
 		</div>
+		<div class="form-field pb0">
+			<label class="title pb0">随机排序</label>
+			<?php echo F::form('widget')->inputRadio('random', 1, array(
+				'label'=>'是',
+			)), F::form('widget')->inputRadio('random', 0, array(
+				'label'=>'否',
+			), true)?>
+		</div>
+		<div class="form-field pb0">
+			<label class="title pb0">展示数量</label>
+			<?php echo F::form('widget')->inputText('limit', array(
+				'class'=>'form-control w100',
+			), 0)?>
+			<span class="fc-grey">若为0或留空，展示所有图片</span>
+		</div>
 	</div>
 </div>

@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol}
+/* 链接式样 */
+a{color:#1dc6df;transition:all 0.3s ease 0s;text-decoration:none}
+a:hover{color:#3799ab}
+
+/* 按钮式样 */
+[class^="btn-"],[class*=" btn-"]{padding:0.8333em 3em 0.9167em;margin-top:0.7em;display:inline-block;color:#fff;text-align:center;line-height:1.25em;font-size:0.8571em;}
+[class^="btn-"]:hover,[class*=" btn-"]:hover{color:#fff;}
+.btn-blue{background-size:210% 100%;background-position:98% 0;background-image:linear-gradient(90deg, #ffa800 0%, #ffa800 50%, #1DC6DF 50%, #1DC6DF 100%) !important;}
+.btn-blue:hover{background-position:0 0;}
+.btn-lg{padding:1.4167em 3.25em !important;}
+.btn-sm{height:30px;line-height:30px;font-size:12px;padding:0 11px;}
+
+/* 右侧侧边栏 */
+.widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555;}
+.widget-area .widget+.widget{margin-top:2em;padding-top:1.8em}

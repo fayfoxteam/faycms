@@ -221,7 +221,7 @@ class View{
 			ob_end_clean();
 		}
 		
-		if($__cache >= 0){
+		if(isset($cache_key)){
 			//设置缓存
 			\F::cache()->set($cache_key, $content, $__cache);
 		}

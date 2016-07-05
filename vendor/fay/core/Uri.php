@@ -63,22 +63,8 @@ class Uri{
 				\F::config()->set('base_url', $base_url);
 			}
 		}else{
-			$document_root = $_SERVER['DOCUMENT_ROOT'];
-			$document_root = trim($document_root, '\\/');//由于服务器配置不同，有的DOCUMENT_ROOT末尾带斜杠，有的不带，这里统一去掉末尾斜杠
-			$folder = dirname(str_replace($document_root, '', $_SERVER['SCRIPT_FILENAME']));
-			//所有斜杠都以正斜杠为准
-			$folder = str_replace('\\', '/', $folder);
-			if(substr($folder, -7) == '/public'){
-				$folder = substr($folder, 0, -7);
-			}
-			if($folder == '/'){
-				//仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
-				$folder = '';
-			}
-			$base_url = 'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$folder.'/';
-			if(defined('NO_REWRITE')){
-				$base_url .= 'index.php/';
-			}
+			//未设置$base_url，系统猜测一个
+			$base_url = Http::getBaseUrl();
 			\F::config()->set('base_url', $base_url);
 		}
 		

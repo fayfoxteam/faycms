@@ -3,6 +3,7 @@ namespace fay\core;
 
 use fay\core\db\Expr;
 use fay\helpers\SqlHelper;
+use fay\helpers\UrlHelper;
 
 class Db{
 	private $_host;
@@ -74,7 +75,7 @@ class Db{
 			try {
 				$this->_conn = new \PDO($dsn, $this->_user, $this->_pwd);
 			}catch(\PDOException $e){
-				throw new Exception($e->getMessage());
+				throw new ErrorException($e->getMessage(), '数据库链接失败，请确认configs/main.php中数据库配置正确');
 			}
 			$this->_conn->exec("SET NAMES {$this->_charset}");
 		}

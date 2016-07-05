@@ -31,4 +31,5 @@ return array(
 			'cookie_lifetime'=>86400,
 		),
 	),
+	//'enable_tools'=>false,
 );

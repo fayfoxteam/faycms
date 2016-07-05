@@ -697,12 +697,24 @@ var common = {
 						minLines: 10
 					});
 					common.codeEditor.setTheme('ace/theme/monokai');
-					common.codeEditor.session.setMode('ace/mode/php');
+					//设置语言模式
+					if($codeEditor.attr('data-mode')){
+						common.codeEditor.session.setMode('ace/mode/'+$codeEditor.attr('data-mode'));
+					}else{
+						common.codeEditor.session.setMode('ace/mode/php');
+					}
 					common.codeEditor.setAutoScrollEditorIntoView(true);
+					//设置上下外边距
 					common.codeEditor.renderer.setScrollMargin(10, 10);
+					//横向超出是否换行显示
+					if($codeEditor.attr('data-wrap-line')){
+						common.codeEditor.getSession().setUseWrapMode(true);
+					}
+					//当文本被编辑时，实时更新隐藏的文本域
 					common.codeEditor.getSession().on('change', function(e) {
 						$codeEditor.val(common.codeEditor.getValue());
 					});
+					//初始化编辑器内容
 					common.codeEditor.setValue($codeEditor.val(), 1);
 				});
 			});

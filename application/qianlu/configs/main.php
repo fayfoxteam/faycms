@@ -25,4 +25,6 @@ return array(
 	 * 可通过config/ext.php配置文件对单独的url再做设置
 	 */
 	'url_suffix'=>'.html',
+	
+	'assets_url'=>$_SERVER['HTTP_HOST'] == 'qianlu.fayfox.com' ? 'http://static.faycms.com/' : '',
 );

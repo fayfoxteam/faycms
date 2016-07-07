@@ -19,21 +19,21 @@ use fay\services\Option;
 	</div>
 	<div class="form-field">
 		<label class="title">电话</label>
-		<?php echo Html::inputText('site:youdao_phone', Option::get('site:youdao_phone'), array(
+		<?php echo Html::inputText('site:phone', Option::get('site:phone'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>
 	</div>
 	<div class="form-field">
 		<label class="title">传真</label>
-		<?php echo Html::inputText('site:youdao_fax', Option::get('site:youdao_fax'), array(
+		<?php echo Html::inputText('site:fax', Option::get('site:fax'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>
 	</div>
 	<div class="form-field">
 		<label class="title">电子邮箱</label>
-		<?php echo Html::inputText('site:youdao_email', Option::get('site:youdao_email'), array(
+		<?php echo Html::inputText('site:email', Option::get('site:email'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 			'datatype'=>'e',
@@ -41,7 +41,7 @@ use fay\services\Option;
 	</div>
 	<div class="form-field">
 		<label class="title">公司地址</label>
-		<?php echo Html::inputText('site:youdao_address', Option::get('site:youdao_address'), array(
+		<?php echo Html::inputText('site:address', Option::get('site:address'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>

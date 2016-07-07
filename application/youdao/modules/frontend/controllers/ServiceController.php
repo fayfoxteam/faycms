@@ -15,7 +15,7 @@ class ServiceController extends FrontController{
 		$this->layout->subtitle = '服务介绍';
 		
 		//团队
-		$cat_service = Category::service()->getByAlias('_youdao_service', '*');
+		$cat_service = Category::service()->getByAlias('service', '*');
 		//SEO
 		$this->layout->title = $cat_service['seo_title'];
 		$this->layout->keywords = $cat_service['seo_keywords'];

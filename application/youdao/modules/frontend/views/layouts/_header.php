@@ -1,3 +1,6 @@
+<?php
+use fay\services\Option;
+?>
 <header id="masthead">
 	<hgroup>
 		<h1 class="fixpng"><?php echo Option::get('site:sitename')?></h1>
@@ -6,7 +9,7 @@
 	<form id="searchform" method="get" action="<?php echo $this->url('post/index')?>">
 		<div id="searchform-container" class="titlediv">
 			<label for="searchform-input" class="title-prompt-text">搜索</label>
-			<input type="text" id="searchform-input" name="k" value="<?php echo $this->input->get('k')?>" />
+			<input type="text" id="searchform-input" name="k" value="<?php echo \F::input()->get('k')?>" />
 			<a href="javascript:;" id="searchform-submit"><img src="<?php echo $this->appStatic('images/search.png')?>" /></a>
 		</div>
 	</form>

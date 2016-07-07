@@ -21,7 +21,7 @@ class IndexController extends FrontController{
 		$this->view->about = Pages::model()->fetchRow(array('alias = ?'=>'about'), 'abstract');
 		
 		//资讯
-		$cat_post = Category::service()->getByAlias('_youdao_post', 'left_value,right_value');
+		$cat_post = Category::service()->getByAlias('post', 'left_value,right_value');
 		$sql = new Sql();
 		$this->view->last_news = $sql->from(array('p'=>'posts'), 'id,title,publish_time,abstract,cat_id')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')

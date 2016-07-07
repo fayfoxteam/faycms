@@ -1,7 +1,7 @@
 <?php
 use fay\services\Menu;
 
-$menu = Menu::service()->getTree('_youdao_top');
+$menu = Menu::service()->getTree('top');
 ?>
 
 <nav id="site-navigation">

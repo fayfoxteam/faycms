@@ -30,7 +30,6 @@ class CaseController extends FrontController{
 		$this->layout->current_directory = 'case';
 		
 		$this->view->cases = Posts::model()->fetchAll(array(
-			'type = ?'=>5,
 			'publish_time < '.$this->current_time,
 			'status = ?'=>Posts::STATUS_PUBLISHED,
 			'deleted = 0',

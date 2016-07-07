@@ -69,7 +69,7 @@ class PostController extends FrontController{
 	}
 	
 	public function index(){
-		$cat_post = Category::service()->getByAlias('_youdao_post', 'left_value,right_value');
+		$cat_post = Category::service()->getByAlias('post', 'left_value,right_value');
 		
 		$submenu = array(
 			array(
@@ -78,7 +78,7 @@ class PostController extends FrontController{
 				'class'=>'sel',
 			),
 		);
-		$cats = Category::service()->getNextLevel('_youdao_post');
+		$cats = Category::service()->getNextLevel('post');
 		foreach($cats as $c){
 			$submenu[] = array(
 				'title'=>$c['title'],

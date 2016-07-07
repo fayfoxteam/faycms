@@ -133,7 +133,7 @@ class AdminController extends Controller{
 	public function addMenuItem($sub_menu, $directory, $offset = -1){
 		foreach($this->_left_menu as $k => &$menu){
 			if($menu['alias'] == $directory){
-				array_splice($menu['sub'], $offset, 0, array($sub_menu));
+				array_splice($menu['children'], $offset, 0, array($sub_menu));
 			}
 		}
 	}

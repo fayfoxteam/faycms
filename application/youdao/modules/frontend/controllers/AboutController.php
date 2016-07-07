@@ -10,7 +10,7 @@ class AboutController extends FrontController{
 	public $layout_template = 'inner';
 	
 	public function index(){
-		$page = Pages::model()->fetchRow(array('alias = ?'=>$this->input->get('alias', 'about')));
+		$page = Pages::model()->fetchRow(array('alias = ?'=>$this->input->get('alias', 'trim', 'about')));
 		if(!$page){
 			throw new HttpException('您请求的页面不存在');
 		}

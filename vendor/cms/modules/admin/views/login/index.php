@@ -15,7 +15,6 @@ use fay\services\User;
 <![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/login.css')?>" />
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->assets('js/prefixfree.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';

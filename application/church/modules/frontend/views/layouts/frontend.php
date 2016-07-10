@@ -29,81 +29,129 @@ use fay\helpers\Html;
 <body>
 <div class="wrapper">
 	<header class="page-header">
-		<nav class="top"></nav>
-		<nav class="main-menu">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-5"></div>
-					<div class="col-md-7">
-						<ul class="main-menu">
-							<li><a href="<?php echo $this->url()?>">Home</a></li>
-							<li><a href="<?php echo $this->url()?>">Home</a></li>
-							<li><a href="<?php echo $this->url()?>">Home</a></li>
-							<li><a href="<?php echo $this->url()?>">Home</a></li>
-							<li><a href="<?php echo $this->url()?>">Home</a></li>
-						</ul>
-					</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5 logo-container">
+					<a href=""><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
 				</div>
+				<nav class="col-md-7 main-menu">
+					<ul>
+						<li><a href="<?php echo $this->url()?>">Home</a></li>
+						<li><a href="<?php echo $this->url()?>">Home</a></li>
+						<li><a href="<?php echo $this->url()?>">Home</a></li>
+						<li><a href="<?php echo $this->url()?>">Home</a></li>
+						<li><a href="<?php echo $this->url()?>">Home</a></li>
+					</ul>
+				</nav>
 			</div>
-		</nav>
+		</div>
 	</header>
-	<div class="banner">
+	<div class="page-banner">
 		
 	</div>
 	<div class="container page-content">
 		<div class="row">
 			<main class="col-md-8 post-list">
 				<article>
-					<div class="post-content">
-						
+					<div class="post-featured">
+						<div class="swiper-container post-files">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<img src="http://55.fayfox.com/fayfox/uploads/church/widget/2016/07/YDnvV.jpg" />
+								</div>
+								<div class="swiper-slide">
+									<img src="http://55.fayfox.com/fayfox/uploads/church/widget/2016/07/mFrEk.jpg" />
+								</div>
+								<div class="swiper-slide">
+									<img src="http://55.fayfox.com/fayfox/uploads/church/widget/2016/07/7dLBg.jpg" />
+								</div>
+							</div>
+							<div class="swiper-pagination"></div>
+							<div class="swiper-control-container">
+								<a class="swiper-btn-prev"></a>
+								<a class="swiper-btn-next"></a>
+							</div>
+						</div>
 					</div>
 					<div class="post-content">
-						<h2 class="post-title">带轮播图文章</h2>
+						<h2 class="post-title">
+							<a href="">带轮播图文章</a>
+						</h2>
 						<div class="post-meta">
-							<time class="post-meta-time">2天前</time>
-							<span class="post-meta-category">分类1</span>
-							<span class="post-meta-views">
+							<time class="post-meta-item post-meta-time">2天前</time>
+							<a href="" class="post-meta-item post-meta-category">分类1</a>
+							<span class="post-meta-item post-meta-views">
 								<span>阅读数</span>
 								<a href="">18</a>
 							</span>
 						</div>
 						<div class="post-description">
-							<p>这是一段简介</p>
+							<p>Duis auctor arcu ac mi bibendum posuere. Integer diam orci, faucibus ut mi sed, tincidunt vehicula erat. Sed ultricies tempor nunc, nec malesuada tortor vehicula ac. Curabitur imperdiet massa ac ex pretium, et mollis metus aliquet. Phasellus tempor nunc et odio interdum iaculis. Vestibulum ac pretium erat. Maecenas sollicitudin sagittis...</p>
+							<a href="" class="btn btn-lg btn-blue">阅读全文</a>
+						</div>
+					</div>
+				</article>
+				<article>
+					<div class="post-featured">
+						<div class="post-thumb">
+							<a href=""><img src="http://55.fayfox.com/fayfox/uploads/church/widget/2016/07/dTNBH.jpg" width="770" height="448" /></a>
+						</div>
+					</div>
+					<div class="post-content">
+						<h2 class="post-title">
+							<a href="">带缩略图文章</a>
+						</h2>
+						<div class="post-meta">
+							<time class="post-meta-item post-meta-time">2天前</time>
+							<a href="" class="post-meta-item post-meta-category">分类1</a>
+							<span class="post-meta-item post-meta-views">
+								<span>阅读数</span>
+								<a href="">18</a>
+							</span>
+						</div>
+						<div class="post-description">
+							<p>Duis auctor arcu ac mi bibendum posuere. Integer diam orci, faucibus ut mi sed, tincidunt vehicula erat. Sed ultricies tempor nunc, nec malesuada tortor vehicula ac. Curabitur imperdiet massa ac ex pretium, et mollis metus aliquet. Phasellus tempor nunc et odio interdum iaculis. Vestibulum ac pretium erat. Maecenas sollicitudin sagittis...</p>
 							<a href="" class="btn btn-lg btn-blue">阅读全文</a>
 						</div>
 					</div>
 				</article>
 			</main>
-			<aside class="col-md-4 widget-area">
-				<div class="widget">
-					<h5 class="widget-title">小工具标题</h5>
-				</div>
-				<div class="widget">
-					<h5 class="widget-title">小工具标题</h5>
-					<article>
-						<div class="post-thumb">
-							<a href=""><img src="http://55.fayfox.com/fayfox/file/pic/f/10000?t=4&dw=60&dh=60" /></a>
-						</div>
-						<div class="post-content">
-							<h5 class="post-title">这是一个文章标题</h5>
-							<div class="post-meta">
-								<span class="post-meta-category">分类1</span>
-								<time class="post-meta-time">3天前</time>
+			<aside class="col-md-4">
+				<div class="widget-area">
+					<div class="widget">
+						<h5 class="widget-title">小工具标题</h5>
+					</div>
+					<div class="widget">
+						<h5 class="widget-title">小工具标题</h5>
+						<article>
+							<div class="post-thumb">
+								<a href=""><img src="http://55.fayfox.com/fayfox/file/pic/f/10000?t=4&dw=60&dh=60" /></a>
 							</div>
-						</div>
-					</article>
-					<article>
-						<div class="post-thumb">
-							<a href=""><img src="http://55.fayfox.com/fayfox/file/pic/f/10000?t=4&dw=60&dh=60" /></a>
-						</div>
-						<div class="post-content">
-							<h5 class="post-title">这是一个文章标题</h5>
-							<div class="post-meta">
-								<span class="post-meta-category">分类1</span>
-								<time class="post-meta-time">3天前</time>
+							<div class="post-content">
+								<h5 class="post-title">
+									<a href="">这是一个文章标题</a>
+								</h5>
+								<div class="post-meta">
+									<span class="post-meta-category">分类1</span>
+									<time class="post-meta-time">3天前</time>
+								</div>
 							</div>
-						</div>
-					</article>
+						</article>
+						<article>
+							<div class="post-thumb">
+								<a href=""><img src="http://55.fayfox.com/fayfox/file/pic/f/10000?t=4&dw=60&dh=60" /></a>
+							</div>
+							<div class="post-content">
+								<h5 class="post-title">
+									<a href="">这是一个文章标题</a>
+								</h5>
+								<div class="post-meta">
+									<span class="post-meta-category">分类1</span>
+									<time class="post-meta-time">3天前</time>
+								</div>
+							</div>
+						</article>
+					</div>
 				</div>
 			</aside>
 		</div>
@@ -146,6 +194,16 @@ use fay\helpers\Html;
 			</div>
 		</div>
 	</footer>
+	<div class="page-copyright">
+		<span>Faycms © 2014 All Rights Reserved </span>
+	</div>
 </div>
+<a href="#" class="scroll-to-top" title="回到顶部"></a>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script>
+$(function(){
+	common.init();
+});
+</script>
 </body>
 </html>

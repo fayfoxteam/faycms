@@ -1,25 +1,93 @@
 @CHARSET "UTF-8";
-body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol}
+@font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.eot?90254311');
+    src: url('../font/fontello.eot?90254311#iefix') format('embedded-opentype'),
+    url('../font/fontello.woff2?90254311') format('woff2'),
+    url('../font/fontello.woff?90254311') format('woff'),
+    url('../font/fontello.ttf?90254311') format('truetype'),
+    url('../font/fontello.svg?90254311#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol;color:#555}
 /* 链接式样 */
-a{color:#1dc6df;transition:all 0.3s ease 0s;text-decoration:none}
+a{color:#1dc6df;transition:all ease .3s;text-decoration:none}
 a:hover{color:#3799ab}
+a:before,a:after{transition:all ease .3s;}
 
 /* 按钮式样 */
-[class^="btn-"],[class*=" btn-"]{padding:0.8333em 3em 0.9167em;margin-top:0.7em;display:inline-block;color:#fff;text-align:center;line-height:1.25em;font-size:0.8571em;}
+[class^="btn-"],[class*=" btn-"]{padding:0.8333em 3em 0.9167em;margin-top:0.7em;display:inline-block;color:#fff;text-align:center;line-height:1.25em;font-size:0.8571em;letter-spacing:0.1em}
 [class^="btn-"]:hover,[class*=" btn-"]:hover{color:#fff;}
-.btn-blue{background-size:210% 100%;background-position:98% 0;background-image:linear-gradient(90deg, #ffa800 0%, #ffa800 50%, #1DC6DF 50%, #1DC6DF 100%) !important;}
+.btn-blue{background-size:210% 100%;background-position:98% 0;background-image:linear-gradient(90deg, #ffa800 0%, #ffa800 50%, #1dc6df 50%, #1dc6df 100%) !important;}
 .btn-blue:hover{background-position:0 0;}
 .btn-lg{padding:1.4167em 3.25em !important;}
 .btn-sm{height:30px;line-height:30px;font-size:12px;padding:0 11px;}
-
-/* 右侧侧边栏 */
-.widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555;}
-.widget-area .widget+.widget{margin-top:2em;padding-top:1.8em}
 
 /* 页面框架布局 */
 .page-header{}
 .page-content{padding:6em 0 6.2143em}
 .page-footer{color:#444;background-color:#f3f5f8;padding:6.7143em 0 5.0714em}
 
+/* Logo */
+.logo-container{margin-top:2em;}
+
+/* 顶部导航式样 */
+.main-menu{margin-bottom:2.5em;margin-top:2.79em;}
+.main-menu ul li{float:left;z-index:20;position:relative;margin-bottom:0;margin-left:3.3em}
+.main-menu ul li a{display:block;color:#212121;padding:1.0833em 0 0.9167em;font-size:0.8571em;line-height:1.2857em;font-weight:700;}
+.main-menu ul li a:before{opacity:0;position:absolute;width:100%;height:2px;left:0;bottom:3px;background-color:#1dc6df;content:""}
+.main-menu ul li a:hover{color:#1dc6df;}
+.main-menu ul li a:hover:before{opacity:1}
+
+
+.page-banner{height:348px;padding:45px 0 50px;background:url(images/blog_top-page.jpg) repeat-x scroll center center transparent;}
+
 /* 公共页脚 */
 .page-footer aside h4{margin-bottom:1.5em}
+.page-copyright{background-color:#212121;padding:2.0714em 0 1.9286em;text-align:center;color:#fff}
+
+/* 回到顶部 */
+.scroll-to-top{background-color:#1dc6df;color:#fff;display:block;position:fixed;width:3em;height:3em;line-height:3em;text-align:center;bottom:-4em;right:2em;z-index:100001;opacity:0;}
+.scroll-to-top:before{font-family:"fontello";content:"\e804"}
+.scroll-to-top:hover{background-color:#ffa800;color:#fff;}
+.scroll-to-top.show{bottom:2em;opacity:1;}
+
+/* 文章列表 */
+.post-list article + article{margin-top:3.5714em;border-top:1px solid #e4e7e8;padding-top:3.5714em;}
+.post-list h2.post-title{margin-bottom:0.5em}
+.post-list h2.post-title a{color:#212121;font-size:1.4714em;}
+.post-list h2.post-title a:hover{color:#1dc6df;}
+.post-list .post-meta{color:#999;margin-bottom:1.5em}
+.post-list .post-meta .post-meta-item+.post-meta-item:before{display:inline-block;content:"/";vertical-align:top;margin:0 0.3077em}
+.post-list .post-featured{margin-bottom:2em;position:relative;overflow:hidden}
+.post-list .post-featured .swiper-container img{width:770px;height:448px}
+.post-list .post-featured .swiper-control-container{color:#fff;position:absolute;z-index:10;left:0;right:0;top:50%;margin-top:-29px;}
+.post-list .post-featured .swiper-control-container a{background-color:#1dc6df;color:#f1f4f6;display:block;text-align:center;font-size:1.1429em;line-height:3em;width:3.125em;height:3.125em;border-radius:100%;cursor:pointer;}
+.post-list .post-featured .swiper-control-container a:hover{background-color:#f1f4f6;color:#1dc6df;}
+.post-list .post-featured .swiper-control-container a.swiper-btn-prev{float:left;margin-left:-100px;padding-right:0.1429em}
+.post-list .post-featured .swiper-control-container a.swiper-btn-next{float:right;margin-right:-100px;padding-left:0.1429em}
+.post-list .post-featured .swiper-control-container a:before{content:"\e800";font-family:"fontello";transition:none;}
+.post-list .post-featured .swiper-control-container a.swiper-btn-next:before{content:"\e802";}
+.post-list .post-featured .swiper-container:hover .swiper-control-container a.swiper-btn-prev{margin-left:0.9375em}
+.post-list .post-featured .swiper-container:hover .swiper-control-container a.swiper-btn-next{margin-right:0.9375em}
+.post-list .post-featured .swiper-pagination-bullet{background-color:#d7d9db;}
+.post-list .post-featured .swiper-pagination-bullet-active{background-color:#fff !important;}
+.post-list .post-featured .post-thumb img{width:100%;display:block}
+.post-list .post-featured .post-thumb a:before{font-family:"fontello";content:"\e803";font-size:3em;color:#fff;text-shadow:-4px 3px 0 rgba(0, 0, 0, 0.2);cursor:pointer;position:absolute;z-index:10;left:50%;top:50%;transform:translateX(-50%) translateY(-50%);opacity:0;margin-top:100px}
+.post-list .post-featured .post-thumb a:after{opacity:0;background-color:rgba(29,198,223,0.8);position:absolute;top:0;left:0;width:105%;height:105%;z-index:1;content:""}
+.post-list .post-featured .post-thumb a:hover:before{opacity:1;margin-top:0}
+.post-list .post-featured .post-thumb a:hover:after{opacity:1}
+
+    /* 侧边栏小工具域 */
+.widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555;}
+.widget-area .widget+.widget{margin-top:2em;padding-top:1.8em}
+.widget-area h5.widget-title{color:#212121;margin-bottom:0.7778em;}
+.widget-area article{overflow:hidden}
+.widget-area article + article{margin-top:2px;padding-top:1em;}
+.widget-area article .post-title a{color:#212121;}
+.widget-area article .post-title a:hover{color:#1dc6df}
+.widget-area article .post-thumb{float:left;margin:2px 1em 2px 0;overflow:hidden;width:4.2857em;height:4.2857em;}
+.widget-area article .post-thumb img{width:100%;}
+.widget-area article .post-content{overflow:hidden;}
+.widget-area article .post-meta{color:#999;}

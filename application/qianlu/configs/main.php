@@ -26,7 +26,7 @@ return array(
 	 */
 	'url_suffix'=>'.html',
 	
-	'assets_url'=>$_SERVER['HTTP_HOST'] == 'qianlu.fayfox.com' ? 'http://qiniu.cdn.faycms.com/' : '',
+	'assets_url'=>$_SERVER['HTTP_HOST'] == 'qianlu.fayfox.com' ? 'http://baidu.cdn.faycms.com/' : '',
 	
 	'debug'=>false,
 );

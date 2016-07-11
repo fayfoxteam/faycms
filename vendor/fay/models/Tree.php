@@ -2,7 +2,6 @@
 namespace fay\models;
 
 use fay\core\ErrorException;
-use fay\core\Model;
 use fay\core\db\Expr;
 use fay\core\Exception;
 use fay\helpers\StringHelper;
@@ -18,7 +17,7 @@ use fay\helpers\StringHelper;
  *  - parent 父节点ID（parent可用于左右值索引出错后的修复依据，平时搜索时左右值已经包含了父子关系，不需要用到parent）
  *  - sort 排序值（sort可用于左右值索引出错后的修复一句，在平级内部起作用，不同层级之间的排序不受sort影响。平时搜索时左右值已经包含了排序，不需要用到sort）
  */
-abstract class Tree extends Model{
+abstract class Tree{
 	/**
 	 * 表结构模型（子类中必须指定）
 	 * @var string

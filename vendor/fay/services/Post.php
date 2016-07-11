@@ -113,8 +113,19 @@ class Post extends Service{
 		empty($post['publish_time']) && $post['publish_time'] = \F::app()->current_time;
 		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
 		
-		//过滤掉多余的数据
+		//过滤掉多余的数据，并插入文章表
 		$post_id = Posts::model()->insert($post, true);
+		//获取文章状态，后面有用
+		if(isset($post['status'])){
+			$post_status = $post['status'];
+		}else{
+			$db_post = Posts::model()->find($post_id, 'status');
+			$post_status = $db_post['status'];
+		}
+		//更新文章主分类文章数
+		if(!empty($post['cat_id'])){
+			PostCategory::service()->updatePrimaryCatCount(null, $post['cat_id'], null, $post_status);
+		}
 		
 		//Meta
 		$post_meta = array(
@@ -143,19 +154,17 @@ class Post extends Service{
 		
 		//文章分类
 		if(!empty($extra['categories'])){
-			if(!is_array($extra['categories'])){
-				$extra['categories'] = explode(',', $extra['categories']);
-			}
-			foreach($extra['categories'] as $cat_id){
-				PostsCategories::model()->insert(array(
-					'post_id'=>$post_id,
-					'cat_id'=>$cat_id,
-				));
-			}
+			PostCategory::service()->setSecondaryCats(
+				isset($post['cat_id']) ? $post['cat_id'] : 0,
+				$extra['categories'],
+				$post_id,
+				null,
+				$post_status
+			);
 		}
 		//标签
 		if(isset($extra['tags'])){
-			PostTag::service()->set($extra['tags'], $post_id);
+			PostTag::service()->set($extra['tags'], $post_id, null, $post_status);
 		}
 		
 		//附件
@@ -178,27 +187,14 @@ class Post extends Service{
 			$this->createPropertySet($post_id, $extra['props']);
 		}
 		
-		if(isset($post['status'])){
-			//如果有传入文章状态，且文章状态为“已发布”，用户文章数加一
-			if($post['status'] == Posts::STATUS_PUBLISHED){
-				//用户文章数加一
-				UserCounter::model()->incr($user_id, 'posts', 1);
-				
-				//相关标签文章数加一
-				PostTag::service()->incr($post_id);
-			}
-		}else{
-			//如果未传入status，获取文章状态进行判断
-			$post = Posts::model()->find($post_id, 'status');
-			if($post['status'] == Posts::STATUS_PUBLISHED){
-				//用户文章数加一
-				UserCounter::model()->incr($user_id, 'posts', 1);
-				
-				//相关标签文章数加一
-				PostTag::service()->incr($post_id);
-			}
-		}
+		if($post_status == Posts::STATUS_PUBLISHED){
+			//用户文章数加一
+			UserCounter::model()->incr($user_id, 'posts', 1);
 			
+			//相关标签文章数加一
+			PostCategory::service()->incr($post_id);
+		}
+		
 		//hook
 		Hook::getInstance()->call('after_post_created', array(
 			'post_id'=>$post_id,
@@ -218,12 +214,16 @@ class Post extends Service{
 	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
 	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
 	 * @return bool
+	 * @throws ErrorException
 	 */
 	public function update($post_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原文章
-		$old_post = Posts::model()->find($post_id, 'user_id,deleted,status');
+		$old_post = Posts::model()->find($post_id, 'cat_id,user_id,deleted,status');
 		if(!$old_post){
-			return false;
+			throw new ErrorException('指定文章不存在');
+		}
+		if($old_post['deleted']){
+			throw new ErrorException('已删除文章不允许编辑');
 		}
 		
 		if($update_last_modified_time){
@@ -232,8 +232,17 @@ class Post extends Service{
 			unset($data['last_modified_time']);
 		}
 		
-		//过滤掉多余的数据
+		//过滤掉多余的字段后更新
 		Posts::model()->update($data, $post_id, true);
+		
+		//更新主分类文章数
+		$primary_cat_id = isset($data['cat_id']) ? $data['cat_id'] : $old_post['cat_id'];
+		PostCategory::service()->updatePrimaryCatCount(
+			$old_post['cat_id'],
+			isset($data['cat_id']) ? $data['cat_id'] : null,
+			$old_post['status'],
+			isset($data['status']) ? $data['status'] : null
+		);
 		
 		//计数表
 		if(!empty($extra['meta'])){
@@ -248,62 +257,40 @@ class Post extends Service{
 		}
 		
 		//若原文章未删除，更新用户及标签的文章数
-		if(!$old_post['deleted']){
-			if($old_post['status'] == Posts::STATUS_PUBLISHED &&
-				isset($data['status']) && $data['status'] != Posts::STATUS_PUBLISHED){
-				//若原文章是“已发布”状态，且新状态不是“已发布”
-				UserCounter::model()->incr($old_post['user_id'], 'posts', -1);
-		
-				//相关标签文章数减一
-				PostTag::service()->decr($post_id);
-			}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
-				isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
-				//若原文章不是“已发布”状态，且新状态是“已发布”
-				UserCounter::model()->incr($old_post['user_id'], 'posts', 1);
-		
-				//相关标签文章数加一
-				PostTag::service()->incr($post_id);
-			}
+		if($old_post['status'] == Posts::STATUS_PUBLISHED &&
+			isset($data['status']) && $data['status'] != Posts::STATUS_PUBLISHED){
+			//若原文章是“已发布”状态，且新状态不是“已发布”
+			
+			//用户文章数减一
+			UserCounter::model()->incr($old_post['user_id'], 'posts', -1);
+		}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
+			isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
+			//若原文章不是“已发布”状态，且新状态是“已发布”
+			
+			//用户文章数加一
+			UserCounter::model()->incr($old_post['user_id'], 'posts', 1);
 		}
 		
 		//附加分类
 		if(isset($extra['categories'])){
-			if(!is_array($extra['categories'])){
-				$extra['categories'] = explode(',', $extra['categories']);
-			}
-			$post = Posts::model()->find($post_id, 'cat_id');
-			if(!empty($extra['categories'])){
-				//删除被删除了的分类
-				PostsCategories::model()->delete(array(
-					'post_id = ?'=>$post_id,
-					'or'=>array(
-						'cat_id NOT IN (?)'=>$extra['categories'],
-						'cat_id = ?'=>$post['cat_id'],//主属性不应出现在附加属性中
-					),
-				));
-				foreach($extra['categories'] as $cat_id){
-					if(!PostsCategories::model()->fetchRow(array(
-						'post_id = ?'=>$post_id,
-						'cat_id = ?'=>$cat_id,
-					))){
-						//不存在，则插入
-						PostsCategories::model()->insert(array(
-							'post_id'=>$post_id,
-							'cat_id'=>$cat_id,
-						));
-					}
-				}
-			}else{
-				//删除全部附加分类
-				PostsCategories::model()->delete(array(
-					'post_id = ?'=>$post_id,
-				));
-			}
+			//更新附加分类
+			PostCategory::service()->setSecondaryCats(
+				$primary_cat_id,
+				$extra['categories'],
+				$post_id,
+				$old_post['status'],
+				isset($data['status']) ? $data['status'] : null
+			);
 		}
 		
 		//标签
 		if(isset($extra['tags'])){
-			PostTag::service()->set($extra['tags'], $post_id);
+			PostTag::service()->set(
+				$extra['tags'],
+				$post_id,
+				$old_post['status'],
+				isset($data['status']) ? $data['status'] : null
+			);
 		}
 		
 		//附件
@@ -345,7 +332,7 @@ class Post extends Service{
 				}
 			}
 		}
-	
+		
 		//附加属性
 		if(isset($extra['props'])){
 			$this->updatePropertySet($post_id, $extra['props']);
@@ -412,6 +399,9 @@ class Post extends Service{
 			
 			//相关标签文章数减一
 			PostTag::service()->decr($post_id);
+			
+			//分类文章数减一
+			PostCategory::service()->decr($post_id);
 		}
 		//删除文章与标签的关联关系
 		PostsTags::model()->delete('post_id = ' . $post_id);
@@ -463,6 +453,9 @@ class Post extends Service{
 			
 			//相关标签文章数减一
 			PostTag::service()->decr($post_id);
+			
+			//相关分类文章数减一
+			PostCategory::service()->decr($post_id);
 		}
 		
 		//执行钩子
@@ -496,6 +489,9 @@ class Post extends Service{
 			
 			//相关标签文章数加一
 			PostTag::service()->incr($post_id);
+			
+			//相关分类文章数加一
+			PostCategory::service()->incr($post_id);
 		}
 		
 		//执行钩子

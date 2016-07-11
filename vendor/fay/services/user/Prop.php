@@ -14,7 +14,7 @@ class Prop extends \fay\models\Prop{
 	}
 	
 	/**
-	 * @see Prop::$models
+	 * @see \fay\models\Prop::$models
 	 * @var array
 	 */
 	protected $models = array(

@@ -77,7 +77,7 @@ class Tag extends Service{
 			return 0;
 		}
 		if(!is_array($tag_ids)){
-			$tag_ids = array($tag_ids);
+			$tag_ids = explode(',', $tag_ids);
 		}
 		
 		return TagCounter::model()->incr(array(

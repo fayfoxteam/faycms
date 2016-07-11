@@ -418,4 +418,33 @@ class Category extends Tree{
 			return false;
 		}
 	}
+	
+	/**
+	 * 递增一个或多个指定分类的计数
+	 * @param array|int $cat_ids
+	 * @param int $value 增量，默认为1，可以是负数
+	 * @return int
+	 */
+	public function incr($cat_ids, $value = 1){
+		if(!$cat_ids){
+			return 0;
+		}
+		if(!is_array($cat_ids)){
+			$cat_ids = explode(',', $cat_ids);
+		}
+		
+		return Categories::model()->incr(array(
+			'id IN (?)'=>$cat_ids,
+		), 'count', $value);
+	}
+	
+	/**
+	 * 递减一个或多个指定分类的计数
+	 * @param array|int $cat_ids
+	 * @param int $value 增量，默认为-1，可以是正数
+	 * @return int
+	 */
+	public function decr($cat_ids, $value = -1){
+		return $this->incr($cat_ids, $value);
+	}
 }

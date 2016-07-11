@@ -150,26 +150,37 @@ class Tag extends Service{
 	/**
 	 * 设置一篇文章的标签
 	 * @param string|array $tags 逗号分割的标签文本，或由标签文本构成的一维数组。若为空，则删除指定文章的所有标签
-	 * @param int $post_id
+	 * @param int $post_id 文章ID
+	 * @param int|null $old_status 文章原状态
+	 * @param int|null $new_status 文章新状态
 	 */
-	public function set($tags, $post_id){
+	public function set($tags, $post_id, $old_status, $new_status){
 		if($tags){
 			if(!is_array($tags)){
 				$tags = explode(',', $tags);
 			}
-			$input_tag_ids = array();
-			foreach($tags as $tag_title){
-				if(!$tag_title = trim($tag_title))continue;
-				$tag = Tags::model()->fetchRow(array(
-					'title = ?'=>$tag_title,
-				), 'id');
-				if($tag){//已存在，获取id
-					$input_tag_ids[] = $tag['id'];
-				}else{//不存在，插入新tag
-					$input_tag_ids[] = TagService::service()->create($tag_title);
-				}
+		}else{
+			$tags = array();
+		}
+		
+		//获取输入标签的ID
+		$input_tag_ids = array();
+		foreach($tags as $tag_title){
+			if(!$tag_title = trim($tag_title))continue;
+			$tag = Tags::model()->fetchRow(array(
+				'title = ?'=>$tag_title,
+			), 'id');
+			if($tag){//已存在，获取id
+				$input_tag_ids[] = $tag['id'];
+			}else{//不存在，插入新tag
+				$input_tag_ids[] = TagService::service()->create($tag_title);
 			}
-			
+		}
+		
+		$old_tag_ids = array();
+		$deleted_tag_ids = array();
+		if($old_status !== null){
+			//原状态非null，说明是编辑文章，需要获取文章原标签，删掉已经被删掉的标签
 			$old_tag_ids = PostsTags::model()->fetchCol('tag_id', array(
 				'post_id = ?'=>$post_id,
 			));
@@ -182,37 +193,47 @@ class Tag extends Service{
 					'tag_id IN (?)'=>$deleted_tag_ids
 				));
 			}
-			
-			//插入新的标签
+		}
+		
+		//插入新的标签
+		if($old_tag_ids){
 			$new_tag_ids = array_diff($input_tag_ids, $old_tag_ids);
-			if($new_tag_ids){
-				foreach($new_tag_ids as $v){
-					PostsTags::model()->insert(array(
-						'post_id'=>$post_id,
-						'tag_id'=>$v,
-					));
-				}
+		}else{
+			$new_tag_ids = $input_tag_ids;
+		}
+		if($new_tag_ids){
+			foreach($new_tag_ids as $v){
+				PostsTags::model()->insert(array(
+					'post_id'=>$post_id,
+					'tag_id'=>$v,
+				));
 			}
-			
-			//更新标签对应的文章数
+		}
+		
+		if($old_status === null && $new_status == Posts::STATUS_PUBLISHED){
+			//没有原状态，说明是新增文章，且文章状态为已发布：所有输入标签文章数加一
+			TagService::service()->incr($input_tag_ids, 'posts');
+		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status != Posts::STATUS_PUBLISHED){
+			//本来处于已发布状态，编辑后变成未发布：文章原标签文章数减一
+			TagService::service()->decr($old_tag_ids, 'posts');
+		}else if($old_status != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
+			//本来是未发布状态，编辑后变成已发布：所有输入标签文章数加一
+			TagService::service()->incr($input_tag_ids, 'posts');
+		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
+			//本来是已发布状态，编辑后还是已发布状态：新增标签文章数加一，被删除标签文章数减一
 			if($new_tag_ids){
 				TagService::service()->incr($new_tag_ids, 'posts');
 			}
 			if($deleted_tag_ids){
 				TagService::service()->decr($deleted_tag_ids, 'posts');
 			}
-		}else{
-			//删除全部tag
-			$old_tag_ids = PostsTags::model()->fetchCol('tag_id', array(
-				'post_id = ?'=>$post_id,
-			));
-			if($old_tag_ids){
-				PostsTags::model()->delete(array(
-					'post_id = ?'=>$post_id,
-				));
-				if($old_tag_ids){
-					TagService::service()->decr($old_tag_ids, 'posts');
-				}
+		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status === null){
+			//本来是已发布状态，编辑时并未编辑状态：新增标签文章数加一，被删除标签文章数减一
+			if($new_tag_ids){
+				TagService::service()->incr($new_tag_ids, 'posts');
+			}
+			if($deleted_tag_ids){
+				TagService::service()->decr($deleted_tag_ids, 'posts');
 			}
 		}
 	}

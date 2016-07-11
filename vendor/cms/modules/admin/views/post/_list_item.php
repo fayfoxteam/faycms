@@ -41,7 +41,7 @@ $editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<td>
 		<strong><?php
-			if($editable){
+			if($editable && !$data['deleted']){
 				echo Html::link($data['title'] ? $data['title'] : '--无标题--', array('admin/post/edit', array(
 					'id'=>$data['id'],
 				)));

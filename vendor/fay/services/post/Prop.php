@@ -2,7 +2,7 @@
 namespace fay\services\post;
 
 use fay\core\Loader;
-use fay\services\Category;
+use fay\services\Category as CategoryService;
 use fay\models\tables\Posts;
 use fay\models\tables\Props;
 
@@ -16,7 +16,7 @@ class Prop extends \fay\models\Prop{
 	}
 	
 	/**
-	 * @see Prop::$models
+	 * @see \fay\models\Prop::$models
 	 * @var array
 	 */
 	protected $models = array(
@@ -70,6 +70,6 @@ class Prop extends \fay\models\Prop{
 	 * @return array
 	 */
 	public function getPropsByCat($cat){
-		return Prop::service()->getByRefer(Category::service()->getParentIds($cat, '_system_post'));
+		return Prop::service()->getByRefer(CategoryService::service()->getParentIds($cat, '_system_post'));
 	}
 }

@@ -22,13 +22,13 @@ use fay\helpers\Request;
 use fay\services\post\Extra;
 use fay\services\post\Meta;
 use fay\services\post\Prop;
-use fay\models\tables\UserCounter;
 use fay\services\post\Tag as PostTag;
 use fay\core\Hook;
 use fay\models\tables\PostFavorites;
 use fay\models\tables\PostExtra;
 use fay\services\post\Category as PostCategory;
 use fay\services\post\File as PostFile;
+use fay\services\user\Counter as UserCounter;
 
 /**
  * 文章服务
@@ -189,10 +189,7 @@ class Post extends Service{
 		
 		if($post_status == Posts::STATUS_PUBLISHED){
 			//用户文章数加一
-			UserCounter::model()->incr($user_id, 'posts', 1);
-			
-			//相关标签文章数加一
-			PostCategory::service()->incr($post_id);
+			UserCounter::service()->incr($user_id, 'posts', 1);
 		}
 		
 		//hook
@@ -262,13 +259,13 @@ class Post extends Service{
 			//若原文章是“已发布”状态，且新状态不是“已发布”
 			
 			//用户文章数减一
-			UserCounter::model()->incr($old_post['user_id'], 'posts', -1);
+			UserCounter::service()->incr($old_post['user_id'], 'posts', -1);
 		}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
 			isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
 			//若原文章不是“已发布”状态，且新状态是“已发布”
 			
 			//用户文章数加一
-			UserCounter::model()->incr($old_post['user_id'], 'posts', 1);
+			UserCounter::service()->incr($old_post['user_id'], 'posts', 1);
 		}
 		
 		//附加分类
@@ -395,7 +392,7 @@ class Post extends Service{
 		//若文章未通过回收站被直接删除，且文章“已发布”
 		if(!$post['deleted'] && $post['status'] == Posts::STATUS_PUBLISHED){
 			//则作者文章数减一
-			UserCounter::model()->incr($post['user_id'], 'posts', -1);
+			UserCounter::service()->incr($post['user_id'], 'posts', -1);
 			
 			//相关标签文章数减一
 			PostTag::service()->decr($post_id);
@@ -449,7 +446,7 @@ class Post extends Service{
 		//若被删除文章是“已发布”状态
 		if($post['status'] == Posts::STATUS_PUBLISHED){
 			//用户文章数减一
-			UserCounter::model()->incr($post['user_id'], 'posts', -1);
+			UserCounter::service()->incr($post['user_id'], 'posts', -1);
 			
 			//相关标签文章数减一
 			PostTag::service()->decr($post_id);
@@ -485,7 +482,7 @@ class Post extends Service{
 		//若被还原文章是“已发布”状态
 		if($post['status'] == Posts::STATUS_PUBLISHED){
 			//用户文章数减一
-			UserCounter::model()->incr($post['user_id'], 'posts', 1);
+			UserCounter::service()->incr($post['user_id'], 'posts', 1);
 			
 			//相关标签文章数加一
 			PostTag::service()->incr($post_id);
@@ -1531,5 +1528,304 @@ class Post extends Service{
 		}
 		
 		return $return;
+	}
+	
+	/**
+	 * 批量发布
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @return array
+	 */
+	public function batchPublish($post_ids){
+		//获取未发布文章
+		$unpublished_posts = Posts::model()->fetchAll(array(
+			'id IN (?)'=>$post_ids,
+			'status != ' . Posts::STATUS_PUBLISHED,
+		), 'id,user_id');
+		if(!$unpublished_posts){
+			//没有符合条件的文章
+			return array();
+		}
+		
+		$unpublished_post_ids = ArrayHelper::column($unpublished_posts, 'id');
+		
+		Posts::model()->update(array(
+			'status'=>Posts::STATUS_PUBLISHED,
+		), array(
+			'id IN (?)'=>$unpublished_post_ids,
+		));
+		
+		//递增分类文章数
+		PostCategory::service()->incr($unpublished_post_ids);
+		
+		//递增标签文章数
+		PostTag::service()->incr($unpublished_post_ids);
+		
+		//递增用户文章数
+		$count_map = ArrayHelper::countValues(ArrayHelper::column($unpublished_posts, 'user_id'));
+		foreach($count_map as $num => $sub_user_ids){
+			UserCounter::service()->incr($sub_user_ids, 'posts', $num);
+		}
+		
+		return $unpublished_post_ids;
+	}
+	
+	/**
+	 * 批量标记为草稿
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @return array
+	 */
+	public function batchDraft($post_ids){
+		//获取不是草稿的文章
+		$not_draft_posts = Posts::model()->fetchAll(array(
+			'id IN (?)'=>$post_ids,
+			'status != ' . Posts::STATUS_DRAFT,
+		), 'id,status,user_id');
+		if(!$not_draft_posts){
+			//没有符合条件的文章
+			return array();
+		}
+		
+		$not_draft_post_ids = ArrayHelper::column($not_draft_posts, 'id');
+		
+		//更新文章状态
+		Posts::model()->update(array(
+			'status'=>Posts::STATUS_DRAFT,
+		), array(
+			'id IN (?)'=>$not_draft_post_ids,
+		));
+		
+		//获取这些文章中，是已发布状态的文章
+		$published_post_ids = array();
+		$published_user_ids = array();
+		foreach($not_draft_posts as $p){
+			if($p['status'] == Posts::STATUS_PUBLISHED){
+				$published_post_ids[] = $p['id'];
+				$published_user_ids[] = $p['user_id'];
+			}
+		}
+		
+		if($published_post_ids){
+			//递减分类文章数
+			PostCategory::service()->decr($published_post_ids);
+			
+			//递减标签文章数
+			PostTag::service()->decr($published_post_ids);
+			
+			//递减用户文章数
+			$count_map = ArrayHelper::countValues($published_user_ids);
+			foreach($count_map as $num => $sub_user_ids){
+				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+			}
+		}
+		
+		return $not_draft_post_ids;
+	}
+	
+	/**
+	 * 批量标记为待审核
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @return array
+	 */
+	public function batchPending($post_ids){
+		//获取不是待审核状态的文章
+		$not_pending_posts = Posts::model()->fetchAll(array(
+			'id IN (?)'=>$post_ids,
+			'status != ' . Posts::STATUS_PENDING,
+		), 'id,status,user_id');
+		if(!$not_pending_posts){
+			//没有符合条件的文章
+			return array();
+		}
+		
+		$not_pending_post_ids = ArrayHelper::column($not_pending_posts, 'id');
+		
+		//更新文章状态
+		Posts::model()->update(array(
+			'status'=>Posts::STATUS_PENDING,
+		), array(
+			'id IN (?)'=>$not_pending_post_ids,
+		));
+		
+		//获取这些文章中，是已发布状态的文章
+		$published_post_ids = array();
+		$published_user_ids = array();
+		foreach($not_pending_posts as $p){
+			if($p['status'] == Posts::STATUS_PUBLISHED){
+				$published_post_ids[] = $p['id'];
+				$published_user_ids[] = $p['user_id'];
+			}
+		}
+		
+		if($published_post_ids){
+			//递减分类文章数
+			PostCategory::service()->decr($published_post_ids);
+			
+			//递减标签文章数
+			PostTag::service()->decr($published_post_ids);
+			
+			//递减用户文章数
+			$count_map = ArrayHelper::countValues($published_user_ids);
+			foreach($count_map as $num => $sub_user_ids){
+				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+			}
+		}
+		
+		return $not_pending_post_ids;
+	}
+	
+	/**
+	 * 批量标记为已审核
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @return array
+	 */
+	public function batchReviewed($post_ids){
+		//获取不是已审核状态的文章
+		$not_reviewed_posts = Posts::model()->fetchAll(array(
+			'id IN (?)'=>$post_ids,
+			'status != ' . Posts::STATUS_REVIEWED,
+		), 'id,status,user_id');
+		if(!$not_reviewed_posts){
+			//没有符合条件的文章
+			return array();
+		}
+		
+		$not_reviewed_post_ids = ArrayHelper::column($not_reviewed_posts, 'id');
+		
+		//更新文章状态
+		Posts::model()->update(array(
+			'status'=>Posts::STATUS_REVIEWED,
+		), array(
+			'id IN (?)'=>$not_reviewed_post_ids,
+		));
+		
+		//获取这些文章中，是已发布状态的文章
+		$published_post_ids = array();
+		$published_user_ids = array();
+		foreach($not_reviewed_posts as $p){
+			if($p['status'] == Posts::STATUS_PUBLISHED){
+				$published_post_ids[] = $p['id'];
+				$published_user_ids[] = $p['user_id'];
+			}
+		}
+		
+		if($published_post_ids){
+			//递减分类文章数
+			PostCategory::service()->decr($published_post_ids);
+			
+			//递减标签文章数
+			PostTag::service()->decr($published_post_ids);
+			
+			//递减用户文章数
+			$count_map = ArrayHelper::countValues($published_user_ids);
+			foreach($count_map as $num => $sub_user_ids){
+				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+			}
+		}
+		
+		return $not_reviewed_post_ids;
+	}
+	
+	/**
+	 * 批量删除
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @return array
+	 */
+	public function batchDelete($post_ids){
+		//获取未删除的文章
+		$undelete_posts = Posts::model()->fetchAll(array(
+			'id IN (?)'=>$post_ids,
+			'deleted = 0',
+		), 'id,status,user_id');
+		if(!$undelete_posts){
+			//没有符合条件的文章
+			return array();
+		}
+		
+		$undelete_post_ids = ArrayHelper::column($undelete_posts, 'id');
+		
+		//软删除文章
+		Posts::model()->update(array(
+			'deleted'=>1,
+		), array(
+			'id IN (?)'=>$undelete_post_ids,
+		));
+		
+		//获取这些文章中，是已发布状态的文章
+		$published_post_ids = array();
+		$published_user_ids = array();
+		foreach($undelete_posts as $p){
+			if($p['status'] == Posts::STATUS_PUBLISHED){
+				$published_post_ids[] = $p['id'];
+				$published_user_ids[] = $p['user_id'];
+			}
+		}
+		
+		if($published_post_ids){
+			//递减分类文章数
+			PostCategory::service()->decr($published_post_ids);
+			
+			//递减标签文章数
+			PostTag::service()->decr($published_post_ids);
+			
+			//递减用户文章数
+			$count_map = ArrayHelper::countValues($published_user_ids);
+			foreach($count_map as $num => $sub_user_ids){
+				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+			}
+		}
+		
+		return $undelete_post_ids;
+	}
+	
+	/**
+	 * 批量删除
+	 * @param array $post_ids 文章ID构成的一维数组
+	 * @return array
+	 */
+	public function batchUndelete($post_ids){
+		//获取已删除的文章
+		$deleted_posts = Posts::model()->fetchAll(array(
+			'id IN (?)'=>$post_ids,
+			'deleted != 0',
+		), 'id,status,user_id');
+		if(!$deleted_posts){
+			//没有符合条件的文章
+			return array();
+		}
+		
+		$deleted_post_ids = ArrayHelper::column($deleted_posts, 'id');
+		
+		//还原文章
+		Posts::model()->update(array(
+			'deleted'=>1,
+		), array(
+			'id IN (?)'=>$deleted_post_ids,
+		));
+		
+		//获取这些文章中，是已发布状态的文章
+		$published_post_ids = array();
+		$published_user_ids = array();
+		foreach($deleted_posts as $p){
+			if($p['status'] == Posts::STATUS_PUBLISHED){
+				$published_post_ids[] = $p['id'];
+				$published_user_ids[] = $p['user_id'];
+			}
+		}
+		
+		if($published_post_ids){
+			//递增分类文章数
+			PostCategory::service()->incr($published_post_ids);
+			
+			//递增标签文章数
+			PostTag::service()->incr($published_post_ids);
+			
+			//递增用户文章数
+			$count_map = ArrayHelper::countValues($published_user_ids);
+			foreach($count_map as $num => $sub_user_ids){
+				UserCounter::service()->incr($sub_user_ids, 'posts', $num);
+			}
+		}
+		
+		return $deleted_post_ids;
 	}
 }

@@ -1,9 +1,9 @@
 <?php
 namespace fay\services\user;
-
-use fay\core\Service;
-use fay\helpers\StringHelper;
-use fay\models\tables\Users;
+	
+	use fay\core\Service;
+	use fay\helpers\StringHelper;
+	use fay\models\tables\Users;
 
 class Password extends Service{
 	/**

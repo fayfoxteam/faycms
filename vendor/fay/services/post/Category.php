@@ -4,6 +4,8 @@ namespace fay\services\post;
 use fay\core\ErrorException;
 use fay\core\Service;
 use fay\core\Sql;
+use fay\helpers\ArrayHelper;
+use fay\helpers\StringHelper;
 use fay\models\tables\Categories;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
@@ -78,24 +80,67 @@ class Category extends Service{
 	}
 	
 	/**
-	 * 获取文章附加分类ID
-	 * @param int $post_id 文章ID
-	 * @return array 由分类ID构成的一维数组
+	 * 获取一个或多个文章对应的附加分类ID
+	 * @param int|array|string $post_ids 文章ID，或文章ID构成的一维数组或逗号分割的字符串
+	 * @return array 由分类ID构成的一维数组（可能重复）
 	 */
-	public function getSecondaryCatIds($post_id){
-		return PostsCategories::model()->fetchCol('cat_id', array(
-			'post_id = ?'=>$post_id
-		));
+	public function getSecondaryCatIds($post_ids){
+		if(!$post_ids){
+			return array();
+		}
+		
+		if(StringHelper::isInt($post_ids)){
+			//单个ID
+			$post = PostsCategories::model()->fetchRow($post_ids, 'cat_id');
+			return array($post['cat_id']);
+		}else{
+			if(is_string($post_ids)){
+				//逗号分割的ID串
+				$post_ids = explode(',', $post_ids);
+			}
+			
+			return PostsCategories::model()->fetchCol('cat_id', array(
+				'post_id IN (?)'=>$post_ids,
+			));
+		}
 	}
 	
 	/**
-	 * 获取文章主分类ID
-	 * @param int $post_id 文章ID
-	 * @return int 分类ID
+	 * 获取一个或多个文章对应的主分类ID
+	 * @param int|array|string $post_ids 文章ID，或文章ID构成的一维数组或逗号分割的字符串
+	 * @return array 由分类ID构成的一维数组（可能重复）
 	 */
-	public function getPrimaryCatId($post_id){
-		$post = Posts::model()->find($post_id, 'cat_id');
-		return $post['cat_id'];
+	public function getPrimaryCatId($post_ids){
+		if(!$post_ids){
+			return array();
+		}
+		
+		if(StringHelper::isInt($post_ids)){
+			//单个ID
+			$post = Posts::model()->find($post_ids, 'cat_id');
+			return array($post['cat_id']);
+		}else{
+			if(is_string($post_ids)){
+				//逗号分割的ID串
+				$post_ids = explode(',', $post_ids);
+			}
+			
+			return Posts::model()->fetchCol('cat_id', array(
+				'id IN (?)'=>$post_ids,
+			));
+		}
+	}
+	
+	/**
+	 * 获取一个或多个文章对应的主附分类ID并集
+	 * @param int|array|string $post_ids 文章ID，或文章ID构成的一维数组或逗号分割的字符串
+	 * @return array 由分类ID构成的一维数组（可能重复）
+	 */
+	public function getAllCatIds($post_ids){
+		return array_merge(
+			$this->getPrimaryCatId($post_ids),
+			$this->getSecondaryCatIds($post_ids)
+		);
 	}
 	
 	/**
@@ -158,53 +203,47 @@ class Category extends Service{
 	}
 	
 	/**
-	 * 文章相关分类文章数加一（包含主分类和附加分类）
-	 * @param int $post_id 文章ID
-	 * @return int 受影响的分类数
+	 * 文章相关分类文章数递增（包含主分类和附加分类）
+	 * @param int|array|string $post_ids 文章ID，或文章ID构成的一维数组或逗号分割的字符串
+	 * @return bool
 	 */
-	public function incr($post_id){
-		//主分类
-		$primary_cat_id = $this->getPrimaryCatId($post_id);
-		//附加分类
-		$secondary_cat_id = $this->getSecondaryCatIds($post_id);
-		
-		if($primary_cat_id){
-			//若主分类非0，附加到附加分类里，等会儿一起更新
-			$secondary_cat_id[] = $primary_cat_id;
+	public function incr($post_ids){
+		if(!$post_ids){
+			return false;
 		}
 		
-		if($secondary_cat_id){
-			return Categories::model()->incr(array(
-				'id IN (?)'=>$secondary_cat_id
-			), 'count', 1);
-		}else{
-			return 0;
+		$cat_ids = $this->getAllCatIds($post_ids);
+		
+		$count_map = ArrayHelper::countValues($cat_ids);
+		foreach($count_map as $num => $sub_cat_ids){
+			Categories::model()->incr(array(
+				'id IN (?)'=>$sub_cat_ids
+			), 'count', $num);
 		}
+		
+		return true;
 	}
 	
 	/**
-	 * 文章相关分类文章数减一（包含主分类和附加分类）
-	 * @param int $post_id 文章ID
-	 * @return int 受影响的分类数
+	 * 文章相关分类文章数递减（包含主分类和附加分类）
+	 * @param int|array|string $post_ids 文章ID，或文章ID构成的一维数组或逗号分割的字符串
+	 * @return bool
 	 */
-	public function decr($post_id){
-		//主分类
-		$primary_cat_id = $this->getPrimaryCatId($post_id);
-		//附加分类
-		$secondary_cat_id = $this->getSecondaryCatIds($post_id);
-		
-		if($primary_cat_id){
-			//若主分类非0，附加到附加分类里，等会儿一起更新
-			$secondary_cat_id[] = $primary_cat_id;
+	public function decr($post_ids){
+		if(!$post_ids){
+			return false;
 		}
 		
-		if($secondary_cat_id){
-			return Categories::model()->incr(array(
-				'id IN (?)'=>$secondary_cat_id
-			), 'count', -1);
-		}else{
-			return 0;
+		$cat_ids = $this->getAllCatIds($post_ids);
+		
+		$count_map = ArrayHelper::countValues($cat_ids);
+		foreach($count_map as $num => $sub_cat_ids){
+			Categories::model()->incr(array(
+				'id IN (?)'=>$sub_cat_ids
+			), 'count', -$num);
 		}
+		
+		return true;
 	}
 	
 	/**

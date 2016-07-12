@@ -4,6 +4,7 @@ namespace fay\services\post;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
+use fay\helpers\StringHelper;
 use fay\models\tables\Posts;
 use fay\models\tables\TagCounter;
 use fay\models\tables\Tags;
@@ -70,14 +71,30 @@ class Tag extends Service{
 	}
 	
 	/**
-	 * 根据文章ID，返回文章对应标签的ID
-	 * @param int $post_id 文章ID
-	 * @return array 标签ID构成的一维数组
+	 * 根据一个或多个文章ID，返回文章对应标签的ID
+	 * @param int|array|string $post_ids 文章ID，或文章ID构成的一维数组或逗号分割的字符串
+	 * @return array 标签ID构成的一维数组（可能重复）
 	 */
-	public function getTagIds($post_id){
-		return PostsTags::model()->fetchCol('tag_id', array(
-			'post_id = ?'=>$post_id,
-		));
+	public function getTagIds($post_ids){
+		if(!$post_ids){
+			return array();
+		}
+		
+		if(StringHelper::isInt($post_ids)){
+			//单个ID
+			return PostsTags::model()->fetchCol('tag_id', array(
+				'post_id = ?'=>$post_ids,
+			));
+		}else{
+			if(is_string($post_ids)){
+				//逗号分割的ID串
+				$post_ids = explode(',', $post_ids);
+			}
+			
+			return PostsTags::model()->fetchCol('tag_id', array(
+				'post_id IN (?)'=>$post_ids,
+			));
+		}
 	}
 	
 	/**
@@ -127,24 +144,42 @@ class Tag extends Service{
 	
 	/**
 	 * 递增一篇文章相关的标签文章数
-	 * @param int $post_id 文章ID
+	 * @param int|array|string $post_ids 文章ID，或由文章ID构成的数组或逗号分割字符串
+	 * @return bool
 	 */
-	public function incr($post_id){
-		$tag_ids = $this->getTagIds($post_id);
-		if($tag_ids){
-			TagService::service()->incr($tag_ids, 'posts');
+	public function incr($post_ids){
+		if(!$post_ids){
+			return false;
 		}
+		
+		$tag_ids = $this->getTagIds($post_ids);
+		
+		$count_map = ArrayHelper::countValues($tag_ids);
+		foreach($count_map as $num => $sub_tag_ids){
+			TagService::service()->incr($sub_tag_ids, 'posts', $num);
+		}
+		
+		return true;
 	}
 	
 	/**
 	 * 递减一篇文章相关的标签文章数
-	 * @param int $post_id 文章ID
+	 * @param int|array|string $post_ids 文章ID，或由文章ID构成的数组或逗号分割字符串
+	 * @return bool
 	 */
-	public function decr($post_id){
-		$tag_ids = $this->getTagIds($post_id);
-		if($tag_ids){
-			TagService::service()->decr($tag_ids, 'posts');
+	public function decr($post_ids){
+		if(!$post_ids){
+			return false;
 		}
+		
+		$tag_ids = $this->getTagIds($post_ids);
+		
+		$count_map = ArrayHelper::countValues($tag_ids);
+		foreach($count_map as $num => $sub_tag_ids){
+			TagService::service()->decr($sub_tag_ids, 'posts', -$num);
+		}
+		
+		return true;
 	}
 	
 	/**

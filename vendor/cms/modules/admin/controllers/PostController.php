@@ -202,6 +202,33 @@ class PostController extends AdminController{
 	}
 	
 	public function index(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('status', 'range', array(
+				'range'=>array(
+					Posts::STATUS_PUBLISHED, Posts::STATUS_DRAFT,
+					Posts::STATUS_REVIEWED, Posts::STATUS_PENDING
+				),
+			)),
+			array('deleted', 'range', array(
+				'range'=>array(0, 1),
+			)),
+			array('time_field', 'range', array(
+				'range'=>array('publish_time', 'create_time', 'last_modified_time')
+			)),
+			array(array('start_time', 'end_time'), 'datetime'),
+			array('orderby', 'range', array(
+				'range'=>Posts::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('keywords_field', 'range', array(
+				'range'=>Posts::model()->getFields(),
+			)),
+			array('cat_id', 'int', array('min'=>1))
+		))->check();
+		
 		$this->layout->subtitle = '所有文章';
 		
 		$cat_id = $this->input->get('cat_id', 'intval', 0);
@@ -332,12 +359,12 @@ class PostController extends AdminController{
 		
 		//关键词搜索
 		if($this->input->get('keywords')){
-			if(in_array($this->input->get('keywords_field'), array('p.title'))){
-				$sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
-				$count_sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
-			}else if(in_array($this->input->get('keywords_field'), array('p.id', 'p.user_id'))){
-				$sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
-				$count_sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+			if(in_array($this->input->get('keywords_field'), array('title'))){
+				$sql->where(array("p.{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+				$count_sql->where(array("p.{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+			}else if(in_array($this->input->get('keywords_field'), array('id', 'user_id'))){
+				$sql->where(array("p.{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+				$count_sql->where(array("p.{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
 			}else{
 				$sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
 				$count_sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));

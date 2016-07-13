@@ -8,6 +8,7 @@ use fay\models\tables\AnalystSites;
 use fay\helpers\Date;
 use fay\helpers\Request;
 use fay\core\Loader;
+use fay\models\tables\AnalystVisits;
 
 class AnalystController extends AdminController{
 	public function __construct(){
@@ -137,6 +138,18 @@ class AnalystController extends AdminController{
 	}
 	
 	public function pv(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array(array('start_time', 'end_time'), 'datetime'),
+			array('orderby', 'range', array(
+				'range'=>AnalystVisits::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('site', 'int', array('min'=>1))
+		))->check();
+		
 		$this->layout->subtitle = '页面PV量';
 		
 		$sql = new Sql();

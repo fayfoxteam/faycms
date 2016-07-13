@@ -28,12 +28,12 @@ class Pages extends Table{
 	/**
 	 * 状态-草稿
 	 */
-	const STATUS_DRAFT = 0;
+	const STATUS_DRAFT = 1;
 	
 	/**
 	 * 状态-已发布
 	 */
-	const STATUS_PUBLISHED = 1;
+	const STATUS_PUBLISHED = 2;
 
 	protected $_name = 'pages';
 	
@@ -58,7 +58,7 @@ class Pages extends Table{
 			array(array('seo_title', 'seo_keywords'), 'string', array('max'=>100)),
 			array(array('deleted'), 'range', array('range'=>array(0, 1))),
 			
-			array(array('status'), 'range', array('range'=>array(0, 1))),
+			array(array('status'), 'range', array('range'=>array(self::STATUS_DRAFT, self::STATUS_PUBLISHED))),
 			array('alias', 'unique', array('table'=>'pages', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/page/is-alias-not-exist'))),
 		);
 	}

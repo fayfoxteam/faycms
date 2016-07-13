@@ -12,9 +12,9 @@ $cols = F::form('setting')->getData('cols', array());
 		))?>
 			<div class="mb5"><?php
 				echo F::form('search')->select('keywords_field', array(
-					'p.title'=>'文章标题',
-					'p.id'=>'文章ID',
-					'p.user_id'=>'作者ID',
+					'title'=>'文章标题',
+					'id'=>'文章ID',
+					'user_id'=>'作者ID',
 				), array(
 					'class'=>'form-control',
 				)),

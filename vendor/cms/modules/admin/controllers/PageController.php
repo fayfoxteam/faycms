@@ -87,6 +87,27 @@ class PageController extends AdminController{
 	}
 	
 	public function index(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('status', 'range', array(
+				'range'=>array(Pages::STATUS_PUBLISHED, Pages::STATUS_DRAFT),
+			)),
+			array('deleted', 'range', array(
+				'range'=>array(0, 1),
+			)),
+			array('time_field', 'range', array(
+				'range'=>array('create_time', 'last_modified_time')
+			)),
+			array(array('start_time', 'end_time'), 'datetime'),
+			array('orderby', 'range', array(
+				'range'=>Pages::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('cat_id', 'int', array('min'=>1))
+		))->check();
+		
 		$this->layout->subtitle = '所有页面';
 		$this->layout->_setting_panel = '_setting_index';
 		$this->view->_settings = Setting::service()->get('admin_page_index');

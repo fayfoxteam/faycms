@@ -225,6 +225,23 @@ class FeedController extends AdminController{
 	}
 	
 	public function index(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array(array('start_time', 'end_time'), 'datetime'),
+			array('orderby', 'range', array(
+				'range'=>Feeds::model()->getFields(),
+			)),
+			array('keywords_field', 'range', array(
+				'range'=>Feeds::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('time_field', 'range', array(
+				'range'=>array('publish_time', 'create_time', 'last_modified_time')
+			)),
+		))->check();
+		
 		$this->layout->subtitle = '所有动态';
 		
 		if($this->checkPermission('admin/feed/create')){

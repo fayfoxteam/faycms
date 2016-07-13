@@ -126,6 +126,16 @@ class TagController extends AdminController{
 	 * 设置右侧列表
 	 */
 	private function _setListview(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('orderby', 'range', array(
+				'range'=>Posts::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+		))->check();
+		
 		$sql = new Sql();
 		$sql->from(array('t'=>'tags'))
 			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')));

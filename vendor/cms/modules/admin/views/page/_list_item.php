@@ -35,7 +35,7 @@ use fay\services\Page;
 		}?>
 		</div>
 	</td>
-	<?php if(!isset($_settings['cols']) || in_array('category', $_settings['cols'])){?>
+	<?php if(in_array('category', $cols)){?>
 	<td class="wp15"><?php 
 		$cats = Page::service()->getPageCats($data['id']);
 		foreach($cats as $key => $cat){
@@ -48,30 +48,30 @@ use fay\services\Page;
 		}
 	?></td>
 	<?php }?>
-	<?php if(!isset($_settings['cols']) || in_array('status', $_settings['cols'])){?>
+	<?php if(in_array('status', $cols)){?>
 	<td class="wp10"><?php echo PageHelper::getStatus($data['status'], $data['deleted']);?></td>
 	<?php }?>
-	<?php if(!isset($_settings['cols']) || in_array('alias', $_settings['cols'])){?>
+	<?php if(in_array('alias', $cols)){?>
 	<td><?php echo $data['alias']?></td>
 	<?php }?>
-	<?php if(!isset($_settings['cols']) || in_array('views', $_settings['cols'])){?>
+	<?php if(in_array('views', $cols)){?>
 	<td><?php echo $data['views']?></td>
 	<?php }?>
-	<?php if(!isset($_settings['cols']) || in_array('last_modified_time', $_settings['cols'])){?>
+	<?php if(in_array('last_modified_time', $cols)){?>
 	<td class="col-date">
 		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
 			<?php echo Date::niceShort($data['last_modified_time'])?>
 		</abbr>
 	</td>
 	<?php }?>
-	<?php if(!isset($_settings['cols']) || in_array('create_time', $_settings['cols'])){?>
+	<?php if(in_array('create_time', $cols)){?>
 	<td class="col-date">
 		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
 			<?php echo Date::niceShort($data['create_time'])?>
 		</abbr>
 	</td>
 	<?php }?>
-	<?php if(!isset($_settings['cols']) || in_array('sort', $_settings['cols'])){?>
+	<?php if(in_array('sort', $cols)){?>
 	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,

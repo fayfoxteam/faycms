@@ -320,7 +320,7 @@ class Category extends Service{
 			CategoryService::service()->incr($secondary_cat_ids);
 		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status != Posts::STATUS_PUBLISHED){
 			//本来处于已发布状态，编辑后变成未发布：文章原分类文章数减一
-			CategoryService::service()->incr($old_cat_ids);
+			CategoryService::service()->decr($old_cat_ids);
 		}else if($old_status != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
 			//本来是未发布状态，编辑后变成已发布：所有输入分类文章数加一
 			CategoryService::service()->incr($secondary_cat_ids);

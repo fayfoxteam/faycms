@@ -1797,7 +1797,7 @@ class Post extends Service{
 		
 		//还原文章
 		Posts::model()->update(array(
-			'deleted'=>1,
+			'deleted'=>0,
 		), array(
 			'id IN (?)'=>$deleted_post_ids,
 		));

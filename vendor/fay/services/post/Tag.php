@@ -176,7 +176,7 @@ class Tag extends Service{
 		
 		$count_map = ArrayHelper::countValues($tag_ids);
 		foreach($count_map as $num => $sub_tag_ids){
-			TagService::service()->decr($sub_tag_ids, 'posts', -$num);
+			TagService::service()->decr($sub_tag_ids, 'posts', $num);
 		}
 		
 		return true;

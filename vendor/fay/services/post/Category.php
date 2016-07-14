@@ -372,4 +372,27 @@ class Category extends Service{
 			CategoryService::service()->incr($new_cat_id);
 		}
 	}
+	
+	/**
+	 * 通过计算获取指定分类下的文章数
+	 * @param int $cat_id 分类ID
+	 * @return int
+	 */
+	public function getPostCount($cat_id){
+		$sql = new Sql();
+		$result = $sql->from(array('p'=>'posts'), 'COUNT(DISTINCT p.id) AS count')
+			->joinLeft(array('pc'=>'posts_categories'), 'pc.post_id = p.id')
+			->orWhere(array(
+				'p.cat_id = ?'=>$cat_id,
+				'pc.cat_id = ?'=>$cat_id,
+			))
+			->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			))
+			->fetchRow();
+		
+		return $result['count'];
+	}
 }

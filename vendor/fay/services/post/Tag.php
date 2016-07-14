@@ -272,4 +272,23 @@ class Tag extends Service{
 			}
 		}
 	}
+	
+	/**
+	 * 通过计算获取指定标签下的文章数
+	 * @param int $tag_id 标签ID
+	 * @return int
+	 */
+	public function getPostCount($tag_id){
+		$sql = new Sql();
+		$result = $sql->from(array('pt'=>'posts_tags'), 'COUNT(*)')
+			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
+			->where('pt.tag_id = ?', $tag_id)
+			->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			))
+			->fetchRow();
+		return $result['COUNT(*)'];
+	}
 }

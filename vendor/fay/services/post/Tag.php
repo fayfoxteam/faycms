@@ -291,4 +291,32 @@ class Tag extends Service{
 			->fetchRow();
 		return $result['COUNT(*)'];
 	}
+	
+	/**
+	 * 重置标签文章数
+	 * （目前都是小网站，且只有出错的时候才需要回复，所以不做分批处理）
+	 */
+	public function resetPostCount(){
+		$sql = new Sql();
+		$results = $sql->from(array('pt'=>'posts_tags'), array('tag_id', 'COUNT(*) AS count'))
+			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
+			->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			))
+			->group('pt.tag_id')
+			->fetchAll();
+		
+		//先清零
+		TagCounter::model()->update(array(
+			'posts'=>0
+		), false);
+		
+		foreach($results as $r){
+			TagCounter::model()->update(array(
+				'posts'=>$r['count']
+			), $r['tag_id']);
+		}
+	}
 }

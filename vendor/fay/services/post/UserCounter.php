@@ -5,6 +5,7 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\services\user\Counter;
+use fay\models\tables\UserCounter as UserCounterModel;
 
 class UserCounter extends Service{
 	/**
@@ -51,5 +52,32 @@ class UserCounter extends Service{
 			))
 			->fetchRow();
 		return $result['COUNT(*)'];
+	}
+	
+	/**
+	 * 重置用户文章数
+	 * （目前都是小网站，且只有出错的时候才需要回复，所以不做分批处理）
+	 */
+	public function resetPostCount(){
+		$sql = new Sql();
+		$results = $result = $sql->from(array('p'=>'posts'), array('user_id', 'COUNT(*) AS count'))
+			->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			))
+			->group('p.user_id')
+			->fetchAll();
+		
+		//先清零
+		UserCounterModel::model()->update(array(
+			'posts'=>0
+		), false);
+		
+		foreach($results as $r){
+			UserCounterModel::model()->update(array(
+				'posts'=>$r['count']
+			), $r['user_id']);
+		}
 	}
 }

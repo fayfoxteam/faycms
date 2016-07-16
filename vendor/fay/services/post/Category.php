@@ -91,8 +91,7 @@ class Category extends Service{
 		
 		if(StringHelper::isInt($post_ids)){
 			//单个ID
-			$post = PostsCategories::model()->fetchRow($post_ids, 'cat_id');
-			return array($post['cat_id']);
+			return $post = PostsCategories::model()->fetchCol('cat_id', 'post_id = '.$post_ids);
 		}else{
 			if(is_string($post_ids)){
 				//逗号分割的ID串

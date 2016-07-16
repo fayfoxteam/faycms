@@ -172,10 +172,6 @@ class CategoryController extends AdminController{
 		));
 	}
 	
-	public function reindex(){
-		Category::service()->buildIndex();
-	}
-	
 	public function setIsNav(){
 		Categories::model()->update(array(
 			'is_nav'=>$this->input->get('is_nav', 'intval', 0),

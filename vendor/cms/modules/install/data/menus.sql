@@ -96,3 +96,10 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1061', '1060', '', 'List', '', 'tools/application/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1062', '1060', '', 'Create', '', 'tools/application/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1070', '1000', 'qrcode', 'Qrcode', 'fa fa-qrcode', 'tools/qrcode/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1080', '1000', 'reset', 'Reset', 'fa fa-refresh', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1081', '1080', '', 'Category', '', 'tools/reset/category');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1082', '1080', '', 'Menu', '', 'tools/reset/menu');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1083', '1080', '', 'Post Count', '', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1084', '1083', '', 'Category', '', 'tools/reset/category-post-count');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1085', '1083', '', 'Tag', '', 'tools/reset/tag-post-count');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1086', '1083', '', 'User', '', 'tools/reset/user-post-count');

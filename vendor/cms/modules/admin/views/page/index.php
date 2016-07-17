@@ -3,6 +3,8 @@ use fay\helpers\Html;
 use fay\models\tables\Pages;
 use cms\models\Page;
 use cms\helpers\ListTableHelper;
+
+$cols = F::form('setting')->getData('cols', array());
 ?>
 <div class="row">
 	<div class="col-12">
@@ -68,25 +70,25 @@ use cms\helpers\ListTableHelper;
 			<thead>
 				<tr>
 					<th>标题</th>
-					<?php if(!isset($_settings['cols']) || in_array('category', $_settings['cols'])){?>
+					<?php if(in_array('category', $cols)){?>
 					<th>分类</th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('status', $_settings['cols'])){?>
+					<?php if(in_array('status', $cols)){?>
 					<th>状态</th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('alias', $_settings['cols'])){?>
+					<?php if(in_array('alias', $cols)){?>
 					<th>别名</th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('views', $_settings['cols'])){?>
+					<?php if(in_array('views', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('last_modified_time', $_settings['cols'])){?>
+					<?php if(in_array('last_modified_time', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('create_time', $_settings['cols'])){?>
+					<?php if(in_array('create_time', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('sort', $_settings['cols'])){?>
+					<?php if(in_array('sort', $cols)){?>
 					<th class="w90"><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
 					<?php }?>
 				</tr>
@@ -94,32 +96,34 @@ use cms\helpers\ListTableHelper;
 			<tfoot>
 				<tr>
 					<th>标题</th>
-					<?php if(!isset($_settings['cols']) || in_array('category', $_settings['cols'])){?>
+					<?php if(in_array('category', $cols)){?>
 					<th>分类</th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('status', $_settings['cols'])){?>
+					<?php if(in_array('status', $cols)){?>
 					<th>状态</th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('alias', $_settings['cols'])){?>
+					<?php if(in_array('alias', $cols)){?>
 					<th>别名</th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('views', $_settings['cols'])){?>
+					<?php if(in_array('views', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('views', '阅读数')?></th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('last_modified_time', $_settings['cols'])){?>
+					<?php if(in_array('last_modified_time', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('create_time', $_settings['cols'])){?>
+					<?php if(in_array('create_time', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
 					<?php }?>
-					<?php if(!isset($_settings['cols']) || in_array('sort', $_settings['cols'])){?>
+					<?php if(in_array('sort', $cols)){?>
 					<th><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
 					<?php }?>
 				</tr>
 			</tfoot>
 			<tbody>
 		<?php
-			$listview->showData();
+			$listview->showData(array(
+				'cols'=>$cols,
+			));
 		?>
 			</tbody>
 		</table>

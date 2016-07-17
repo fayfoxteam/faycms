@@ -87,13 +87,37 @@ class PageController extends AdminController{
 	}
 	
 	public function index(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('keyword_field', 'range', array(
+				'range'=>Pages::model()->getFields(),
+			)),
+			array('status', 'range', array(
+				'range'=>array(Pages::STATUS_PUBLISHED, Pages::STATUS_DRAFT),
+			)),
+			array('deleted', 'range', array(
+				'range'=>array(0, 1),
+			)),
+			array('time_field', 'range', array(
+				'range'=>array('create_time', 'last_modified_time')
+			)),
+			array(array('start_time', 'end_time'), 'datetime'),
+			array('orderby', 'range', array(
+				'range'=>Pages::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('cat_id', 'int', array('min'=>1))
+		))->check();
+		
 		$this->layout->subtitle = '所有页面';
-		$this->layout->_setting_panel = '_setting_index';
-		$this->view->_settings = Setting::service()->get('admin_page_index');
-		$this->view->_settings === null && $this->view->_settings = array(
+		
+		//页面设置
+		$this->settingForm('admin_page_index', '_setting_index', array(
 			'cols'=>array('category', 'status', 'alias', 'last_modified_time', 'create_time', 'sort'),
 			'page_size'=>10,
-		);
+		));
 		
 		$cat_id = $this->input->get('cat_id', 'intval');
 		if($cat_id){
@@ -156,7 +180,7 @@ class PageController extends AdminController{
 		
 		$this->view->listview = new ListView($sql, array(
 			'page_size'=>!empty($this->view->_settings['page_size']) ? $this->view->_settings['page_size'] : 10,
-			'empty_text'=>'<tr><td colspan="'.(count($this->view->_settings['cols']) + 2).'" align="center">无相关记录！</td></tr>',
+			'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
 		));
 		
 		//所有分类

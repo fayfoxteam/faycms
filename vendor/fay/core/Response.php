@@ -150,7 +150,7 @@ class Response{
 				'message'=>$data,
 			);
 		}
-		if(\F::app()->input->isAjaxRequest()){
+		if(Http::isAjax()){
 			Response::json(isset($data['data']) ? $data['data'] : '', $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '', isset($data['code']) ? $data['code'] : '');
 		}else{
 			if(!empty($data['message'])){

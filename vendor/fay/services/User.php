@@ -66,101 +66,7 @@ class User extends Service{
 	}
 	
 	/**
-	 * 验证指定的用户名密码是否匹配
-	 * @param string $username
-	 * @param string $password
-	 * @param bool $admin 若为true，则限定为管理员登录（管理员也可以登录前台，但前后台的Session空间是分开的）
-	 * @return array
-	 */
-	public function checkPassword($username, $password, $admin = false){
-		if(!$username){
-			return array(
-				'status'=>0,
-				'message'=>'用户名不能为空',
-				'error_code'=>'username:can-not-be-empty',
-			);
-		}
-		if(!$password){
-			return array(
-				'status'=>0,
-				'message'=>'密码不能为空',
-				'error_code'=>'password:can-not-be-empty',
-			);
-		}
-		
-		$user = Users::model()->fetchRow(array(
-			'username = ?'=>$username,
-			'deleted = 0',
-		), 'id,password,salt,block,status,admin');
-		
-		//判断用户名是否存在
-		if(!$user){
-			return array(
-				'user_id'=>0,
-				'message'=>'用户名不存在',
-				'error_code'=>'username:not-exist',
-			);
-		}
-		$password = md5(md5($password).$user['salt']);
-		if($password != $user['password']){
-			return array(
-				'user_id'=>0,
-				'message'=>'密码错误',
-				'error_code'=>'password:not-match',
-			);
-		}
-		
-		if($user['block']){
-			return array(
-				'user_id'=>0,
-				'message'=>'用户已锁定',
-				'error_code'=>'block:blocked',
-			);
-		}
-		
-		if($user['status'] == Users::STATUS_UNCOMPLETED){
-			return array(
-				'user_id'=>0,
-				'message'=>'账号信息不完整',
-				'error_code'=>'status:uncompleted',
-			);
-		}else if($user['status'] == Users::STATUS_PENDING){
-			return array(
-				'user_id'=>0,
-				'message'=>'账号正在审核中',
-				'error_code'=>'status:pending',
-			);
-		}else if($user['status'] == Users::STATUS_VERIFY_FAILED){
-			return array(
-				'user_id'=>0,
-				'message'=>'账号未通过审核',
-				'error_code'=>'status:verify-failed',
-			);
-		}else if($user['status'] == Users::STATUS_NOT_VERIFIED){
-			return array(
-				'user_id'=>0,
-				'message'=>'请先验证邮箱',
-				'error_code'=>'status:not-verified',
-			);
-		}
-		
-		if($admin && $user['admin'] != $admin){
-			return array(
-				'user_id'=>0,
-				'message'=>'您不是管理员，不能登陆！',
-				'error_code'=>'not-admin',
-			);
-		}
-		
-		return array(
-			'user_id'=>$user['id'],
-			'message'=>'',
-			'error_code'=>'',
-		);
-	}
-	
-	/**
-	 * 用户登录
+	 * 用户登录（直接登陆指定用户ID，不做任何验证）
 	 * @param int $user_id 用户ID
 	 * @return array
 	 */
@@ -176,8 +82,12 @@ class User extends Service{
 			return false;
 		}
 		
-		$this->setSessionInfo($user);
+		//设置Session
+		\F::session()->set('user', array(
+			'id'=>$user['user']['id'],
+		));
 		
+		//更新用户最后登录信息
 		UserProfile::model()->update(array(
 			'last_login_ip'=>Request::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
@@ -200,16 +110,6 @@ class User extends Service{
 		return array(
 			'user'=>$user,
 		);
-	}
-	
-	/**
-	 * 设置登录session
-	 * @param $user
-	 */
-	private function setSessionInfo($user){
-		\F::session()->set('user', array(
-			'id'=>$user['user']['id'],
-		));
 	}
 	
 	/**
@@ -534,12 +434,12 @@ class User extends Service{
 //			}
 			
 			//profile
-			if(!empty($fields['profile'])){
+			if(isset($profiles)){
 				$user['profile'] = $profiles[$u['id']];
 			}
 			
 			//角色
-			if(!empty($fields['roles'])){
+			if(isset($roles)){
 				$user['roles'] = $roles[$u['id']];
 			}
 			

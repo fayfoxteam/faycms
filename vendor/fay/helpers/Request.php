@@ -278,21 +278,4 @@ class Request{
 		$user_agent === null && $user_agent = $_SERVER['HTTP_USER_AGENT'];
 		return !!(preg_match('/MSIE ([\d\.]+)/i', $user_agent) || preg_match('/rv:([\d\.]+)\) like gecko/i', $user_agent));
 	}
-	
-	/**
-	 * 判断是否为ajax访问
-	 */
-	public static function isAjax(){
-		if(\F::input()->request('ajax')){
-			return true;
-		}else{
-			if((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') ||
-					isset($_SERVER['HTTP_POSTMAN_TOKEN'])//postman发起的请求视为ajax请求
-			){
-				return true;
-			}else{
-				return false;
-			}
-		}
-	}
 }

@@ -1,6 +1,7 @@
 <?php
 namespace fay\core;
 
+use fay\core\db\Exception;
 use fay\core\db\Expr;
 use fay\helpers\SqlHelper;
 
@@ -74,7 +75,7 @@ class Db{
 			try {
 				$this->_conn = new \PDO($dsn, $this->_user, $this->_pwd);
 			}catch(\PDOException $e){
-				throw new Exception($e->getMessage());
+				throw new ErrorException($e->getMessage(), '数据库链接失败，请确认configs/main.php中数据库配置正确');
 			}
 			$this->_conn->exec("SET NAMES {$this->_charset}");
 		}
@@ -273,9 +274,9 @@ class Db{
 	 * 更新符合条件的记录
 	 * @param string $table 表名
 	 * @param array $data 数据
-	 * @param false|array|string $condition 条件，若为false，则更新所有字段
-	 * @throws Exception
+	 * @param array|bool|false|string $condition 条件，若为false，则更新所有字段
 	 * @return int
+	 * @throws Exception
 	 */
 	public function update($table, $data, $condition = false){
 		if(empty($data)){
@@ -450,13 +451,13 @@ class Db{
 	 * @param string $message
 	 * @param string $sql
 	 * @param array $params
-	 * @throws ErrorException
+	 * @throws Exception
 	 */
 	public function error($message, $sql = '', $params = array()){
 		if(is_array($message)){
 			$message = implode(' - ', $message);
 		}
-		throw new ErrorException($message, $sql ? '<code>'.SqlHelper::bind($sql, $params).'</code>' : '');
+		throw new Exception($message, $sql ? SqlHelper::bind($sql, $params) : '');
 	}
 	
 	/**

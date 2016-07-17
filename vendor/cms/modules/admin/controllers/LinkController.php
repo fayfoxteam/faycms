@@ -72,6 +72,19 @@ class LinkController extends AdminController{
 	}
 	
 	public function index(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('orderby', 'range', array(
+				'range'=>Links::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('time_field', 'range', array(
+				'range'=>array('publish_time', 'create_time', 'last_modified_time')
+			)),
+		))->check();
+		
 		$this->layout->subtitle = '链接';
 		
 		$cat_id = $this->input->get('cat_id', 'intval');

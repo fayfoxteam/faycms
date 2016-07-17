@@ -16,8 +16,19 @@ class IndexController extends Widget{
 			$data[$k]['src'] = File::getUrl($d['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
 				'dw'=>empty($config['width']) ? false : $config['width'],
 				'dh'=>empty($config['height']) ?  false : $config['height'],
-			), true);
+			));
 		}
+		
+		$data = array_values($data);
+		
+		if(!empty($config['random'])){
+			shuffle($data);
+		}
+		
+		if(!empty($config['limit'])){
+			$data = array_slice($data, 0, $config['limit']);
+		}
+		
 		return $data;
 	}
 	

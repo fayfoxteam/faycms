@@ -223,17 +223,6 @@ class TestController extends AdminController{
 		$this->view->render();
 	}
 	
-	public function redis(){
-		Loader::vendor('predis/predis/lib/Predis/Autoloader');
-		\Predis\Autoloader::register();
-		
-		$client = new \Predis\Client('tcp://114.215.134.73:6379');
-		$client->set('foo', 'bar');
-		$value = $client->get('foo');
-		
-		var_dump(Users9::model());
-	}
-	
 	public function in(){
 		//$ids = array(10086,20000,130001,200133,349985,858372,1139822,2993814,3482713,3898234);
 		$ids = array(/* 10086,20000,130001,200133,349985,858372,1139822,2993814,3482713,3898234, */
@@ -305,7 +294,7 @@ class TestController extends AdminController{
 		
 		dump($rand);
 		echo microtime(true) - $start_time;
-		dump(Posts::model()->db->getSqlLogs());
+		//dump(Posts::model()->db->getSqlLogs());
 	}
 	
 	/**

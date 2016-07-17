@@ -105,6 +105,7 @@ CREATE TABLE `{{$prefix}}categories` (
   `sort` smallint(5) unsigned NOT NULL DEFAULT '1000' COMMENT '排序值',
   `description` varchar(500) NOT NULL DEFAULT '' COMMENT '描述',
   `is_nav` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否导航栏显示',
+  `count` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '记录数',
   `left_value` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Left Value',
   `right_value` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Right Value',
   `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is System',

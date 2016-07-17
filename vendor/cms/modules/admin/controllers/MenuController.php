@@ -141,13 +141,6 @@ class MenuController extends AdminController{
 	}
 	
 	/**
-	 * 索引全表
-	 */
-	public function reindex(){
-		Menu::service()->buildIndex();
-	}
-	
-	/**
 	 * 设置启用状态
 	 */
 	public function setEnabled(){

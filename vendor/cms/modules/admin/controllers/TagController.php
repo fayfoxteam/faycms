@@ -126,6 +126,19 @@ class TagController extends AdminController{
 	 * 设置右侧列表
 	 */
 	private function _setListview(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('orderby', 'range', array(
+				'range'=>array_merge(
+					Tags::model()->getFields(),
+					TagCounter::model()->getFields()
+				),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+		))->check();
+		
 		$sql = new Sql();
 		$sql->from(array('t'=>'tags'))
 			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')));
@@ -133,7 +146,11 @@ class TagController extends AdminController{
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
 			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
-			$sql->order("t.{$this->view->orderby} {$this->view->order}");
+			if(in_array($this->view->orderby, TagCounter::model()->getFields())){
+				$sql->order("tc.{$this->view->orderby} {$this->view->order}");
+			}else{
+				$sql->order("t.{$this->view->orderby} {$this->view->order}");
+			}
 		}else{
 			$sql->order('t.id DESC');
 		}

@@ -110,6 +110,11 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1802', '添加模版', 'admin/template/create', '118', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1803', '添加模版', 'admin/template/edit', '118', '0', '1801');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1804', '删除模版', 'admin/template/delete', '118', '0', '1801');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9801', '重置分类表索引', 'admin/reset/category', '198', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9802', '重置菜单表索引', 'admin/reset/menu', '198', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9803', '重置分类文章数', 'admin/reset/category-post-count', '198', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9804', '重置标签文章数', 'admin/reset/tag-post-count', '198', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9805', '重置用户文章数', 'admin/reset/user-post-count', '198', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9901', '汇总分类管理', 'admin/category/index', '199', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9902', '系统参数列表', 'admin/option/index', '199', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('9903', '系统日志', 'admin/log/index', '199', '0', '0');

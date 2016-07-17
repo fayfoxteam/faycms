@@ -28,7 +28,7 @@ $cols = F::form('setting')->getData('cols');
 				));?>
 			</div>
 			<div class="mb5">
-				<?php echo F::form('search')->select('select-by', array(
+				<?php echo F::form('search')->select('keywords_field', array(
 					'username'=>'登陆名',
 					'nickname'=>'昵称',
 					'mobile'=>'手机号',

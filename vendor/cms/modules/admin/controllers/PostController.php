@@ -6,7 +6,6 @@ use fay\helpers\Request;
 use fay\services\Category;
 use fay\services\post\Prop;
 use fay\models\tables\Posts;
-use fay\services\post\Tag;
 use fay\models\tables\PostsCategories;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
@@ -203,6 +202,33 @@ class PostController extends AdminController{
 	}
 	
 	public function index(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('status', 'range', array(
+				'range'=>array(
+					Posts::STATUS_PUBLISHED, Posts::STATUS_DRAFT,
+					Posts::STATUS_REVIEWED, Posts::STATUS_PENDING
+				),
+			)),
+			array('deleted', 'range', array(
+				'range'=>array(0, 1),
+			)),
+			array('time_field', 'range', array(
+				'range'=>array('publish_time', 'create_time', 'last_modified_time')
+			)),
+			array(array('start_time', 'end_time'), 'datetime'),
+			array('orderby', 'range', array(
+				'range'=>Posts::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('keywords_field', 'range', array(
+				'range'=>Posts::model()->getFields(),
+			)),
+			array('cat_id', 'int', array('min'=>1))
+		))->check();
+		
 		$this->layout->subtitle = '所有文章';
 		
 		$cat_id = $this->input->get('cat_id', 'intval', 0);
@@ -333,12 +359,12 @@ class PostController extends AdminController{
 		
 		//关键词搜索
 		if($this->input->get('keywords')){
-			if(in_array($this->input->get('keywords_field'), array('p.title'))){
-				$sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
-				$count_sql->where(array("{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
-			}else if(in_array($this->input->get('keywords_field'), array('p.id', 'p.user_id'))){
-				$sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
-				$count_sql->where(array("{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+			if(in_array($this->input->get('keywords_field'), array('title'))){
+				$sql->where(array("p.{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+				$count_sql->where(array("p.{$this->input->get('keywords_field')} LIKE ?"=>'%'.$this->input->get('keywords').'%'));
+			}else if(in_array($this->input->get('keywords_field'), array('id', 'user_id'))){
+				$sql->where(array("p.{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
+				$count_sql->where(array("p.{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
 			}else{
 				$sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
 				$count_sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
@@ -675,17 +701,10 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Posts::model()->update(array(
-					'status'=>Posts::STATUS_PUBLISHED,
-				), array(
-					'id IN (?)'=>$ids,
-				));
+				$affected_rows = Post::service()->batchPublish($ids);
 				
-				//刷新tags的count值
-				Tag::service()->refreshCountByPostId($ids);
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被发布');
-				Response::notify('success', $affected_rows.'篇文章被发布');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被发布');
+				Response::notify('success', count($affected_rows) . '篇文章被发布');
 			break;
 			case 'set-draft':
 				foreach($ids as $id){
@@ -694,17 +713,10 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Posts::model()->update(array(
-					'status'=>Posts::STATUS_DRAFT,
-				), array(
-					'id IN (?)'=>$ids,
-				));
+				$affected_rows = Post::service()->batchDraft($ids);
 				
-				//刷新tags的count值
-				Tag::service()->refreshCountByPostId($ids);
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“草稿”');
-				Response::notify('success', $affected_rows.'篇文章被标记为“草稿”');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“草稿”');
+				Response::notify('success', count($affected_rows) . '篇文章被标记为“草稿”');
 			break;
 			case 'set-pending':
 				foreach($ids as $id){
@@ -713,17 +725,10 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Posts::model()->update(array(
-					'status'=>Posts::STATUS_PENDING,
-				), array(
-					'id IN (?)'=>$ids,
-				));
+				$affected_rows = Post::service()->batchPending($ids);
 				
-				//刷新tags的count值
-				Tag::service()->refreshCountByPostId($ids);
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“待审核”');
-				Response::notify('success', $affected_rows.'篇文章被标记为“待审核”');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“待审核”');
+				Response::notify('success', count($affected_rows) . '篇文章被标记为“待审核”');
 			break;
 			case 'set-reviewed':
 				foreach($ids as $id){
@@ -732,17 +737,10 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Posts::model()->update(array(
-					'status'=>Posts::STATUS_REVIEWED,
-				), array(
-					'id IN (?)'=>$ids,
-				));
+				$affected_rows = Post::service()->batchReviewed($ids);
 				
-				//刷新tags的count值
-				Tag::service()->refreshCountByPostId($ids);
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被标记为“通过审核”');
-				Response::notify('success', $affected_rows.'篇文章被标记为“通过审核”');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“通过审核”');
+				Response::notify('success', count($affected_rows) . '篇文章被标记为“通过审核”');
 			break;
 			case 'delete':
 				foreach($ids as $id){
@@ -751,17 +749,10 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Posts::model()->update(array(
-					'deleted'=>1,
-				), array(
-					'id IN (?)'=>$ids,
-				));
+				$affected_rows = Post::service()->batchDelete($ids);
 				
-				//刷新tags的count值
-				Tag::service()->refreshCountByPostId($ids);
-				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被移入回收站');
-				Response::notify('success', $affected_rows.'篇文章被移入回收站');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被移入回收站');
+				Response::notify('success', count($affected_rows) . '篇文章被移入回收站');
 			break;
 			case 'undelete':
 				foreach($ids as $id){
@@ -770,17 +761,10 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Posts::model()->update(array(
-					'deleted'=>0,
-				), array(
-					'id IN (?)'=>$ids,
-				));
-
-				//刷新tags的count值
-				Tag::service()->refreshCountByPostId($ids);
+				$affected_rows = Post::service()->batchUndelete($ids);
 				
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.$affected_rows.'篇文章被还原');
-				Response::notify('success', $affected_rows.'篇文章被还原');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被还原');
+				Response::notify('success', count($affected_rows) . '篇文章被还原');
 			break;
 			case 'remove':
 				foreach($ids as $id){
@@ -789,12 +773,15 @@ class PostController extends AdminController{
 					}
 				}
 				
+				$affected_rows = array();
 				foreach($ids as $id){
-					PostService::service()->remove($id);
+					if(PostService::service()->remove($id)){
+						$affected_rows[] = $id;
+					}
 				}
 
-				$this->actionlog(Actionlogs::TYPE_POST, '批处理：'.count($ids).'篇文章被永久删除');
-				Response::notify('success', count($ids).'篇文章被永久删除');
+				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被永久删除');
+				Response::notify('success', count($affected_rows) . '篇文章被永久删除');
 			break;
 			default:
 				Response::notify('error', array(

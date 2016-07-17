@@ -62,8 +62,7 @@ var chat = {
 		});
 	},
 	'showOneReply':function(data){
-		console.log(data);
-		return ['<li class="cd-item" id="reply-', data.id, '">',
+		return ['<li class="cd-item" id="reply-', data.message.id, '">',
 			'<div class="cdi-line"></div>',
 			'<div class="cdi-header">',
 			'<span class="cdi-user">', data.user.user[chat.display_name], '</span>',

@@ -47,6 +47,19 @@ class ErrorHandler{
 				//环境非production，显示debug页面
 				$this->renderDebug($exception);
 			}
+		}else if($exception instanceof db\Exception){//业务逻辑报错
+			//错误日志
+			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
+			
+			//自定义Http异常
+			Response::setStatusHeader(500);
+			
+			//自定义异常
+			if(\F::config()->get('environment') == 'production'){
+				$this->render500($exception);
+			}else{
+				$this->renderDebug($exception);
+			}
 		}else if($exception instanceof ErrorException){//php报错
 			//错误日志
 			\F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
@@ -192,12 +205,32 @@ class ErrorHandler{
 		//清空缓冲区
 		$this->clearOutput();
 		
-		if(\F::input()->isAjaxRequest()){
-			Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:500:internal_server_error');
+		if(\F::config()->get('environment') == 'production'){
+			if(\F::input()->isAjaxRequest()){
+				Response::json(
+					'',
+					0,
+					$exception instanceof db\Exception ? '数据库错误' : $exception->getMessage(),
+					$exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error'
+				);
+			}else{
+				$this->app->view->renderPartial('errors/500', array(
+					'message'=>$exception instanceof db\Exception ? '数据库错误' : $exception->getMessage(),
+				));
+			}
 		}else{
-			$this->app->view->renderPartial('errors/500', array(
-				'message'=>$exception->getMessage(),
-			));
+			if(\F::input()->isAjaxRequest()){
+				Response::json(
+					'',
+					0,
+					$exception->getMessage(),
+					$exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error'
+				);
+			}else{
+				$this->app->view->renderPartial('errors/500', array(
+					'message'=>$exception->getMessage(),
+				));
+			}
 		}
 		die;
 	}

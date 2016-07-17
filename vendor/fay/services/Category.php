@@ -11,7 +11,7 @@ class Category extends Tree{
 	/**
 	 * @see Tree::$model
 	 */
-	protected $model = '\fay\models\tables\Categories';
+	protected $model = 'fay\models\tables\Categories';
 	
 	/**
 	 * @param string $class_name
@@ -364,9 +364,10 @@ class Category extends Tree{
 	 *  - 数字:代表分类ID;
 	 *  - 字符串:分类别名;
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
-	 * } 
+	 * }
 	 * @param int|string|array $cat
 	 * @param int|string|array $root
+	 * @return array
 	 */
 	public function getParentPath($cat, $root = null){
 		if(!is_array($cat)){
@@ -389,6 +390,7 @@ class Category extends Tree{
 	 *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
 	 * @param int|string|array $cat
 	 * @param int|string|array $root
+	 * @return array
 	 */
 	public function getParentIds($cat, $root = null){
 		if(!is_array($cat)){
@@ -415,5 +417,34 @@ class Category extends Tree{
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * 递增一个或多个指定分类的计数
+	 * @param array|int $cat_ids
+	 * @param int $value 增量，默认为1，可以是负数
+	 * @return int
+	 */
+	public function incr($cat_ids, $value = 1){
+		if(!$cat_ids){
+			return 0;
+		}
+		if(!is_array($cat_ids)){
+			$cat_ids = explode(',', $cat_ids);
+		}
+		
+		return Categories::model()->incr(array(
+			'id IN (?)'=>$cat_ids,
+		), 'count', $value);
+	}
+	
+	/**
+	 * 递减一个或多个指定分类的计数
+	 * @param array|int $cat_ids
+	 * @param int $value 增量，默认为1，正数表示递减
+	 * @return int
+	 */
+	public function decr($cat_ids, $value = 1){
+		return $this->incr($cat_ids, -$value);
 	}
 }

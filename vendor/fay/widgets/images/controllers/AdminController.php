@@ -14,8 +14,9 @@ class AdminController extends Widget{
 			), true);
 		}
 		
-		$this->view->config = $config;
-		$this->view->render();
+		$this->view->assign(array(
+			'config'=>$config,
+		))->render();
 	}
 	
 	public function onPost(){
@@ -63,6 +64,8 @@ class AdminController extends Widget{
 			'template'=>'trim',
 			'width'=>'intval',
 			'height'=>'intval',
+			'random'=>'intval',
+			'limit'=>'intval',
 		);
 	}
 }

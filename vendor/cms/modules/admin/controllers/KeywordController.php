@@ -85,6 +85,16 @@ class KeywordController extends AdminController{
 	 * 设置右侧列表
 	 */
 	private function _setListview(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('orderby', 'range', array(
+				'range'=>Keywords::model()->getFields(),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+		))->check();
+		
 		$sql = new Sql();
 		$sql->from(array('k'=>'keywords'));
 		

@@ -44,20 +44,20 @@ var common = {
 				}
 			},
 			'setting': {//管理员界面顶部设置表单
-				'settingForm': $('#setting-form-submit'),
 				'init': function(){
 					system.getCss(system.assets('css/tip-twitter/tip-twitter.css'));
 					system.getScript(system.assets('js/jquery.poshytip.min.js'));
 				},
 				'ajaxSubmit': true,
 				'beforeSubmit': function(){
-					this.settingForm.nextAll('span').remove();
-					this.settingForm.after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
+					$settingFormSubmit = $('#setting-form-submit');
+					$settingFormSubmit.nextAll('span').remove();
+					$settingFormSubmit.after('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
 				},
 				'afterAjaxSubmit': function(resp){
 					if(resp.status){
-						this.settingForm.nextAll('img,span,a').remove();
-						this.settingForm.after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
+						$settingFormSubmit.nextAll('img,span,a').remove();
+						$settingFormSubmit.after('<span class="fc-green" style="margin-left:6px;">保存成功，刷新页面后生效。</span><a href="javascript:window.location.reload();">点此刷新</a>');
 					}else{
 						common.alert(resp.message);
 					}
@@ -462,6 +462,7 @@ var common = {
 		$(document).on('click', 'a[id$="submit"]', function(){
 			var $form = $('form#'+$(this).attr('id').replace('-submit', ''));
 			$form.find('input[name="_export"]').remove();
+			$form.find('[name="_submit"]').remove();
 			$form.append('<input type="hidden" name="_submit" value="'+$(this).attr('id')+'">');
 			$form.submit();
 			return false;
@@ -696,12 +697,24 @@ var common = {
 						minLines: 10
 					});
 					common.codeEditor.setTheme('ace/theme/monokai');
-					common.codeEditor.session.setMode('ace/mode/php');
+					//设置语言模式
+					if($codeEditor.attr('data-mode')){
+						common.codeEditor.session.setMode('ace/mode/'+$codeEditor.attr('data-mode'));
+					}else{
+						common.codeEditor.session.setMode('ace/mode/php');
+					}
 					common.codeEditor.setAutoScrollEditorIntoView(true);
+					//设置上下外边距
 					common.codeEditor.renderer.setScrollMargin(10, 10);
+					//横向超出是否换行显示
+					if($codeEditor.attr('data-wrap-line')){
+						common.codeEditor.getSession().setUseWrapMode(true);
+					}
+					//当文本被编辑时，实时更新隐藏的文本域
 					common.codeEditor.getSession().on('change', function(e) {
 						$codeEditor.val(common.codeEditor.getValue());
 					});
+					//初始化编辑器内容
 					common.codeEditor.setValue($codeEditor.val(), 1);
 				});
 			});

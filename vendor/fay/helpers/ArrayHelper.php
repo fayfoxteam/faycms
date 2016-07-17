@@ -100,4 +100,23 @@ class ArrayHelper{
 		
 		return $array;
 	}
+	
+	/**
+	 * 与array_count_values不同，会以出现次数为键，一维数组为值，合并所有出现次数相同的值
+	 * @param array $input 只允许一维数组（与array_count_values相同）
+	 * @return array (eg: array(
+	 *   '1'=>array('a', 'b')
+	 *   '3'=>array('c')
+	 * ))
+	 */
+	public static function countValues($input){
+		$array_count_values = array_count_values($input);
+		
+		$return = array();
+		foreach($array_count_values as $k => $v){
+			$return[$v][] = $k;
+		}
+		
+		return $return;
+	}
 }

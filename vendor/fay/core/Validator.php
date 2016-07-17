@@ -17,7 +17,7 @@ class Validator{
 		'datetime'=>'fay\validators\Datetime',
 		'range'=>'fay\validators\Range',
 		'compare'=>'fay\validators\Compare',
-		'fields'=>'fay\validators\fields',
+		'fields'=>'fay\validators\Fields',
 	);
 	
 	/**

@@ -69,7 +69,7 @@ class AdminController extends Controller{
 	 * 表单验证出错后的报错渲染
 	 * @param array $check
 	 * @param bool $return
-	 * @return string
+	 * @return string|null
 	 */
 	public function showDataCheckError($check, $return = false){
 		$html = '';
@@ -87,12 +87,18 @@ class AdminController extends Controller{
 	 * 表单验证，若发生错误，返回第一个报错信息
 	 * 调用该函数前需先设置表单验证规则
 	 * @param \fay\core\Form $form
+	 * @throws HttpException
 	 */
 	public function onFormError($form){
 		$errors = $form->getErrors();
 		
-		foreach($errors as $e){
-			Flash::set($e['message']);
+		if($form->getScene() == 'final'){
+			//final类型的场景，直接抛异常中断直行（一般是列表页参数错误）
+			throw new HttpException($errors[0]['message'], 404);
+		}else{
+			foreach($errors as $e){
+				Flash::set($e['message']);
+			}
 		}
 	}
 	
@@ -133,7 +139,7 @@ class AdminController extends Controller{
 	public function addMenuItem($sub_menu, $directory, $offset = -1){
 		foreach($this->_left_menu as $k => &$menu){
 			if($menu['alias'] == $directory){
-				array_splice($menu['sub'], $offset, 0, array($sub_menu));
+				array_splice($menu['children'], $offset, 0, array($sub_menu));
 			}
 		}
 	}

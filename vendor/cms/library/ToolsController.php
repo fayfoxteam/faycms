@@ -34,9 +34,12 @@ class ToolsController extends Controller{
 	);
 	
 	public function __construct(){
+		if(!\F::config()->get('enable_tools')){
+			throw new HttpException('系统禁用了Tools，可在configs/main.php中开启', 403);
+		}
 		parent::__construct();
 		//重置session.namespace
-		$this->config->set('session.namespace', $this->config->get('session.namespace').'_admin');
+		\F::config()->set('session.namespace', \F::config()->get('session.namespace').'_admin');
 		
 		$this->current_user = \F::session()->get('user.id', 0);
 		

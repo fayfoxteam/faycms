@@ -23,6 +23,25 @@ class UserController extends AdminController{
 	}
 	
 	public function index(){
+		//搜索条件验证，异常数据直接返回404
+		$this->form()->setScene('final')->setRules(array(
+			array('orderby', 'range', array(
+				'range'=>array_merge(
+					Users::model()->getFields(),
+					UserProfile::model()->getFields()
+				),
+			)),
+			array('order', 'range', array(
+				'range'=>array('asc', 'desc'),
+			)),
+			array('keywords_field', 'range', array(
+				'range'=>array_merge(
+					Users::model()->getFields(),
+					UserProfile::model()->getFields()
+				),
+			)),
+		))->check();
+		
 		$this->layout->subtitle = '所有用户';
 			
 		$this->layout->sublink = array(
@@ -48,7 +67,7 @@ class UserController extends AdminController{
 		
 		if($this->input->get('keywords')){
 			$sql->where(array(
-				"u.{$this->input->get('select-by')} LIKE ?" => "%{$this->input->get('keywords')}%",
+				"u.{$this->input->get('keywords_field')} LIKE ?" => "%{$this->input->get('keywords')}%",
 			));
 		}
 

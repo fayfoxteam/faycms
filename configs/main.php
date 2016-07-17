@@ -71,6 +71,14 @@ return array(
 	'debug'=>true,
 	
 	/*
+	 * 是否允许访问工具页面
+	 * 为了方便调试，若为true，则超级管理员有权限执行eval等比较危险的函数
+	 * （即便为true，非超级管理员也无权访问tools）
+	 * 线上项目建议设为false
+	 */
+	'enable_tools'=>true,
+	
+	/*
 	 * 时间相关设置
 	 */
 	'date'=>array(

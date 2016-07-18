@@ -28,7 +28,7 @@ use fay\models\tables\PostFavorites;
 use fay\models\tables\PostExtra;
 use fay\services\post\Category as PostCategory;
 use fay\services\post\File as PostFile;
-use fay\services\user\Counter as UserCounter;
+use fay\services\post\UserCounter;
 
 /**
  * 文章服务
@@ -189,7 +189,7 @@ class Post extends Service{
 		
 		if($post_status == Posts::STATUS_PUBLISHED){
 			//用户文章数加一
-			UserCounter::service()->incr($user_id, 'posts', 1);
+			UserCounter::service()->incr($user_id);
 		}
 		
 		//hook
@@ -259,13 +259,13 @@ class Post extends Service{
 			//若原文章是“已发布”状态，且新状态不是“已发布”
 			
 			//用户文章数减一
-			UserCounter::service()->incr($old_post['user_id'], 'posts', -1);
+			UserCounter::service()->decr($old_post['user_id']);
 		}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
 			isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
 			//若原文章不是“已发布”状态，且新状态是“已发布”
 			
 			//用户文章数加一
-			UserCounter::service()->incr($old_post['user_id'], 'posts', 1);
+			UserCounter::service()->incr($old_post['user_id']);
 		}
 		
 		//附加分类
@@ -392,7 +392,7 @@ class Post extends Service{
 		//若文章未通过回收站被直接删除，且文章“已发布”
 		if(!$post['deleted'] && $post['status'] == Posts::STATUS_PUBLISHED){
 			//则作者文章数减一
-			UserCounter::service()->incr($post['user_id'], 'posts', -1);
+			UserCounter::service()->decr($post['user_id']);
 			
 			//相关标签文章数减一
 			PostTag::service()->decr($post_id);
@@ -446,7 +446,7 @@ class Post extends Service{
 		//若被删除文章是“已发布”状态
 		if($post['status'] == Posts::STATUS_PUBLISHED){
 			//用户文章数减一
-			UserCounter::service()->incr($post['user_id'], 'posts', -1);
+			UserCounter::service()->decr($post['user_id']);
 			
 			//相关标签文章数减一
 			PostTag::service()->decr($post_id);
@@ -482,7 +482,7 @@ class Post extends Service{
 		//若被还原文章是“已发布”状态
 		if($post['status'] == Posts::STATUS_PUBLISHED){
 			//用户文章数减一
-			UserCounter::service()->incr($post['user_id'], 'posts', 1);
+			UserCounter::service()->incr($post['user_id']);
 			
 			//相关标签文章数加一
 			PostTag::service()->incr($post_id);
@@ -1563,7 +1563,7 @@ class Post extends Service{
 		//递增用户文章数
 		$count_map = ArrayHelper::countValues(ArrayHelper::column($unpublished_posts, 'user_id'));
 		foreach($count_map as $num => $sub_user_ids){
-			UserCounter::service()->incr($sub_user_ids, 'posts', $num);
+			UserCounter::service()->incr($sub_user_ids, $num);
 		}
 		
 		return $unpublished_post_ids;
@@ -1614,7 +1614,7 @@ class Post extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+				UserCounter::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1666,7 +1666,7 @@ class Post extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+				UserCounter::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1718,7 +1718,7 @@ class Post extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+				UserCounter::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1770,7 +1770,7 @@ class Post extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounter::service()->decr($sub_user_ids, 'posts', $num);
+				UserCounter::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1797,7 +1797,7 @@ class Post extends Service{
 		
 		//还原文章
 		Posts::model()->update(array(
-			'deleted'=>1,
+			'deleted'=>0,
 		), array(
 			'id IN (?)'=>$deleted_post_ids,
 		));
@@ -1822,7 +1822,7 @@ class Post extends Service{
 			//递增用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounter::service()->incr($sub_user_ids, 'posts', $num);
+				UserCounter::service()->incr($sub_user_ids, $num);
 			}
 		}
 		

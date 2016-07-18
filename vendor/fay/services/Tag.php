@@ -89,11 +89,11 @@ class Tag extends Service{
 	 * 递减一个或多个指定标签的计数
 	 * @param array|int $tag_ids
 	 * @param string $field tag_counter表对应的列名
-	 * @param int $value 增量，默认为-1，可以是正数
+	 * @param int $value 增量，默认为1，正数表示递减
 	 * @return int
 	 */
-	public function decr($tag_ids, $field, $value = -1){
-		return $this->incr($tag_ids, $field, $value);
+	public function decr($tag_ids, $field, $value = 1){
+		return $this->incr($tag_ids, $field, -$value);
 	}
 	
 	/**

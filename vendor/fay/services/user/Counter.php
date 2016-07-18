@@ -17,7 +17,7 @@ class Counter extends Service{
 	 * 递增一个或多个指定用户的计数
 	 * @param array|int $user_ids
 	 * @param string $field user_counter表对应的列名
-	 * @param int $value 增量，默认为1，可以是负数
+	 * @param int $value 增量，默认为1，正数表示递减
 	 * @return int
 	 */
 	public function incr($user_ids, $field, $value = 1){
@@ -37,10 +37,10 @@ class Counter extends Service{
 	 * 递减一个或多个指定用户的计数
 	 * @param array|int $user_ids
 	 * @param string $field user_counter表对应的列名
-	 * @param int $value 增量，默认为-1，可以是正数
+	 * @param int $value 增量，默认为1，正数表示递减
 	 * @return int
 	 */
-	public function decr($user_ids, $field, $value = -1){
-		return $this->incr($user_ids, $field, $value);
+	public function decr($user_ids, $field, $value = 1){
+		return $this->incr($user_ids, $field, -$value);
 	}
 }

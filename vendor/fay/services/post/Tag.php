@@ -176,7 +176,7 @@ class Tag extends Service{
 		
 		$count_map = ArrayHelper::countValues($tag_ids);
 		foreach($count_map as $num => $sub_tag_ids){
-			TagService::service()->decr($sub_tag_ids, 'posts', -$num);
+			TagService::service()->decr($sub_tag_ids, 'posts', $num);
 		}
 		
 		return true;
@@ -270,6 +270,53 @@ class Tag extends Service{
 			if($deleted_tag_ids){
 				TagService::service()->decr($deleted_tag_ids, 'posts');
 			}
+		}
+	}
+	
+	/**
+	 * 通过计算获取指定标签下的文章数
+	 * @param int $tag_id 标签ID
+	 * @return int
+	 */
+	public function getPostCount($tag_id){
+		$sql = new Sql();
+		$result = $sql->from(array('pt'=>'posts_tags'), 'COUNT(*)')
+			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
+			->where('pt.tag_id = ?', $tag_id)
+			->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			))
+			->fetchRow();
+		return $result['COUNT(*)'];
+	}
+	
+	/**
+	 * 重置标签文章数
+	 * （目前都是小网站，且只有出错的时候才需要回复，所以不做分批处理）
+	 */
+	public function resetPostCount(){
+		$sql = new Sql();
+		$results = $sql->from(array('pt'=>'posts_tags'), array('tag_id', 'COUNT(*) AS count'))
+			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
+			->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			))
+			->group('pt.tag_id')
+			->fetchAll();
+		
+		//先清零
+		TagCounter::model()->update(array(
+			'posts'=>0
+		), false);
+		
+		foreach($results as $r){
+			TagCounter::model()->update(array(
+				'posts'=>$r['count']
+			), $r['tag_id']);
 		}
 	}
 }

@@ -30,6 +30,7 @@ INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_syste
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('116', '试题', '_role_shiti', '3', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('117', '试卷', '_role_shijuan', '3', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('118', '模版', '_role_moban', '3', '1');
+INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('198', '系统修复（一般不分配）', '_role_xiufu', '3', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('199', '其它（一般不分配）', '_role_qita', '3', '1');
 
 -- 文件分类

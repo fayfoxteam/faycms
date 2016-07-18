@@ -441,10 +441,10 @@ class Category extends Tree{
 	/**
 	 * 递减一个或多个指定分类的计数
 	 * @param array|int $cat_ids
-	 * @param int $value 增量，默认为-1，可以是正数
+	 * @param int $value 增量，默认为1，正数表示递减
 	 * @return int
 	 */
-	public function decr($cat_ids, $value = -1){
-		return $this->incr($cat_ids, $value);
+	public function decr($cat_ids, $value = 1){
+		return $this->incr($cat_ids, -$value);
 	}
 }

@@ -91,8 +91,7 @@ class Category extends Service{
 		
 		if(StringHelper::isInt($post_ids)){
 			//单个ID
-			$post = PostsCategories::model()->fetchRow($post_ids, 'cat_id');
-			return array($post['cat_id']);
+			return $post = PostsCategories::model()->fetchCol('cat_id', 'post_id = '.$post_ids);
 		}else{
 			if(is_string($post_ids)){
 				//逗号分割的ID串
@@ -320,7 +319,7 @@ class Category extends Service{
 			CategoryService::service()->incr($secondary_cat_ids);
 		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status != Posts::STATUS_PUBLISHED){
 			//本来处于已发布状态，编辑后变成未发布：文章原分类文章数减一
-			CategoryService::service()->incr($old_cat_ids);
+			CategoryService::service()->decr($old_cat_ids);
 		}else if($old_status != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
 			//本来是未发布状态，编辑后变成已发布：所有输入分类文章数加一
 			CategoryService::service()->incr($secondary_cat_ids);
@@ -370,6 +369,51 @@ class Category extends Service{
 			//本来处于已发布状态，且编辑后还是已发布或未编辑状态，且编辑了主分类：原主分类文章数减一，新主分类文章数加一
 			CategoryService::service()->decr($old_cat_id);
 			CategoryService::service()->incr($new_cat_id);
+		}
+	}
+	
+	/**
+	 * 通过计算获取指定分类下的文章数
+	 * @param int $cat_id 分类ID
+	 * @return int
+	 */
+	public function getPostCount($cat_id){
+		$sql = new Sql();
+		$result = $sql->from(array('p'=>'posts'), 'COUNT(DISTINCT p.id) AS count')
+			->joinLeft(array('pc'=>'posts_categories'), 'pc.post_id = p.id')
+			->orWhere(array(
+				'p.cat_id = ?'=>$cat_id,
+				'pc.cat_id = ?'=>$cat_id,
+			))
+			->where(array(
+				'p.deleted = 0',
+				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.publish_time < '.\F::app()->current_time,
+			))
+			->fetchRow();
+		
+		return $result['count'];
+	}
+	
+	/**
+	 * 重置分类文章数
+	 * （目前都是小网站，且只有出错的时候才需要回复，所以不做分批处理）
+	 */
+	public function resetPostCount(){
+		//获取所有文章分类ID
+		$cats = CategoryService::service()->getChildIds('_system_post');
+		
+		//先清零
+		Categories::model()->update(array(
+			'count'=>0,
+		), array(
+			'id IN (?)'=>$cats,
+		));
+		
+		foreach($cats as $c){
+			Categories::model()->update(array(
+				'count'=>$this->getPostCount($c),
+			), 'id = '.$c);
 		}
 	}
 }

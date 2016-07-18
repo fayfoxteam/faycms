@@ -68,6 +68,13 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('260', '100', 'feed', '动态', 'fa fa-rss', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('261', '260', '', '所有动态', '', 'admin/feed/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('262', '260', '', '发布动态', '', 'admin/feed/create');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('900', '100', 'reset', '系统修复', 'fa fa-refresh', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('901', '900', '', '分类表索引', '', 'admin/reset/category');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('902', '900', '', '菜单表索引', '', 'admin/reset/menu');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('903', '900', '', '文章数统计', '', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('904', '903', '', '分类文章数', '', 'admin/reset/category-post-count');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('905', '903', '', '标签文章数', '', 'admin/reset/tag-post-count');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('906', '903', '', '用户文章数', '', 'admin/reset/user-post-count');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1000', '1', '_tools_main', 'Tools', '', '');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1010', '1000', 'input', 'Input', 'fa fa-download', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('1011', '1010', '', 'SESSION', '', 'tools/input/session');

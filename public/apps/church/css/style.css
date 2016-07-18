@@ -10,7 +10,7 @@
     font-weight: normal;
     font-style: normal;
 }
-body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol;color:#555}
+body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol;color:#555;font-size:14px !important;}
 /* 链接式样 */
 a{color:#1dc6df;transition:all ease .3s;text-decoration:none}
 a:hover{color:#3799ab}
@@ -39,6 +39,9 @@ a:before,a:after{transition:all ease .3s;}
 .main-menu ul li a:before{opacity:0;position:absolute;width:100%;height:2px;left:0;bottom:3px;background-color:#1dc6df;content:""}
 .main-menu ul li a:hover{color:#1dc6df;}
 .main-menu ul li a:hover:before{opacity:1}
+.main-menu ul li.has-children a:after{position:absolute;top:50%;right:-12px;line-height:1em;font-family:"fontello";content:"\e801";}
+.main-menu ul li ul{display:none;position:absolute;z-index:10000;}
+.main-menu > ul > li > ul{border-top:solid 3px #1dc6df;padding:1.7em 0 1.6em;}
 
 
 .page-banner{height:348px;padding:45px 0 50px;background:url(images/blog_top-page.jpg) repeat-x scroll center center transparent;}

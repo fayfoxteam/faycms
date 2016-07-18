@@ -36,7 +36,21 @@ use fay\helpers\Html;
 				</div>
 				<nav class="col-md-7 main-menu">
 					<ul>
-						<li><a href="<?php echo $this->url()?>">Home</a></li>
+						<li class="has-children">
+							<a href="<?php echo $this->url()?>">Home</a>
+							<ul>
+								<li><a href="">Home 1</a></li>
+								<li class="has-children">
+									<a href="">Home 2</a>
+									<ul>
+										<li><a href="">Home 2 - 1</a></li>
+										<li><a href="">Home 2 - 2</a></li>
+										<li><a href="">Home 2 - 3</a></li>
+									</ul>
+								</li>
+								<li><a href="">Home 3</a></li>
+							</ul>
+						</li>
 						<li><a href="<?php echo $this->url()?>">Home</a></li>
 						<li><a href="<?php echo $this->url()?>">Home</a></li>
 						<li><a href="<?php echo $this->url()?>">Home</a></li>

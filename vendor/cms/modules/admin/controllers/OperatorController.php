@@ -157,6 +157,11 @@ class OperatorController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑管理员信息';
 		$user_id = $this->input->request('id', 'intval');
+		
+		if(Role::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id) && !Role::service()->is(Roles::ITEM_SUPER_ADMIN)){
+			throw new HttpException('您无权编辑超级管理员账户', '403');
+		}
+		
 		$this->form()->setScene('edit')
 			->setModel(Users::model());
 		if($this->input->post() && $this->form()->check()){

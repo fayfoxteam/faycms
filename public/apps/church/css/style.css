@@ -14,7 +14,6 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 /* 链接式样 */
 a{color:#1dc6df;transition:all ease .3s;text-decoration:none}
 a:hover{color:#3799ab}
-a:before,a:after{transition:all ease .3s;}
 
 /* 按钮式样 */
 [class^="btn-"],[class*=" btn-"]{padding:0.8333em 3em 0.9167em;margin-top:0.7em;display:inline-block;color:#fff;text-align:center;line-height:1.25em;font-size:0.8571em;letter-spacing:0.1em}

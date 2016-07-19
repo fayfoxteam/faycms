@@ -1,5 +1,23 @@
 var common = {
 	/**
+	 * 顶部主导航
+	 */
+	'mainMenu': function(){
+		system.getScript(system.assets('js/superfish.js'), function(){
+			$('.main-menu').superfish({
+				delay: 500,
+				onBeforeShow: function(ul) {
+					$(this).removeClass('animated fast fadeOutDown');
+					$(this).addClass('animated fast fadeIn');
+				},
+				onBeforeHide: function(ul) {
+					$(this).removeClass('animated fast fadeIn');
+					$(this).addClass('animated fast fadeOutDown');
+				}
+			});
+		});
+	},
+	/**
 	 * 缓慢滚到顶部
 	 */
 	'scrollToTop': function(){
@@ -42,19 +60,22 @@ var common = {
 		});
 	},
 	'swiper': function(){
-		system.getCss(system.assets('js/swiper/css/swiper.min.css'));
-		system.getScript(system.assets('js/swiper/js/swiper.jquery.min.js'), function(){
-			var swiper = new Swiper('.swiper-container', {
-				pagination: '.swiper-pagination',
-				paginationClickable: true,
-				grabCursor: true,
-				loop: true,
-				nextButton: '.swiper-btn-next',
-				prevButton: '.swiper-btn-prev'
+		if($('.swiper-container').length){
+			system.getCss(system.assets('js/swiper/css/swiper.min.css'));
+			system.getScript(system.assets('js/swiper/js/swiper.jquery.min.js'), function(){
+				var swiper = new Swiper('.swiper-container', {
+					pagination: '.swiper-pagination',
+					paginationClickable: true,
+					grabCursor: true,
+					loop: true,
+					nextButton: '.swiper-btn-next',
+					prevButton: '.swiper-btn-prev'
+				});
 			});
-		});
+		}
 	},
 	'init': function(){
+		this.mainMenu();
 		this.scrollToTop();
 		this.scrollEvents();
 		this.swiper();

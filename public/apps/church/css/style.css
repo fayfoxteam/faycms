@@ -15,6 +15,13 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 a{color:#1dc6df;transition:all ease .3s;text-decoration:none}
 a:hover{color:#3799ab}
 
+/* 动画效果 */
+.animated{animation-duration:1s;animation-fill-mode:both}
+@keyframes fadeOutDown{from{opacity:1}to{opacity:0;transform:translate3d(0,100%,0)}}
+.fadeOutDown{animation-name:fadeOutDown}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fadeIn{animation-name:fadeIn}
+
 /* 按钮式样 */
 [class^="btn-"],[class*=" btn-"]{padding:0.8333em 3em 0.9167em;margin-top:0.7em;display:inline-block;color:#fff;text-align:center;line-height:1.25em;font-size:0.8571em;letter-spacing:0.1em}
 [class^="btn-"]:hover,[class*=" btn-"]:hover{color:#fff;}
@@ -32,15 +39,17 @@ a:hover{color:#3799ab}
 .logo-container{margin-top:2em;}
 
 /* 顶部导航式样 */
-.main-menu{margin-bottom:2.5em;margin-top:2.79em;}
-.main-menu ul li{float:left;z-index:20;position:relative;margin-bottom:0;margin-left:3.3em}
-.main-menu ul li a{display:block;color:#212121;padding:1.0833em 0 0.9167em;font-size:0.8571em;line-height:1.2857em;font-weight:700;}
-.main-menu ul li a:before{opacity:0;position:absolute;width:100%;height:2px;left:0;bottom:3px;background-color:#1dc6df;content:""}
-.main-menu ul li a:hover{color:#1dc6df;}
-.main-menu ul li a:hover:before{opacity:1}
-.main-menu ul li.has-children a:after{position:absolute;top:50%;right:-12px;line-height:1em;font-family:"fontello";content:"\e801";}
-.main-menu ul li ul{display:none;position:absolute;z-index:10000;}
-.main-menu > ul > li > ul{border-top:solid 3px #1dc6df;padding:1.7em 0 1.6em;}
+.main-menu-container{margin-bottom:2.5em;margin-top:2.79em;}
+.main-menu li{z-index:20;position:relative;margin-bottom:0;}
+.main-menu > li{margin-left:3.3em;float:left;}
+.main-menu li a{display:block;color:#212121;padding:1.0833em 0 0.9167em;line-height:1.2857em;font-weight:700;}
+.main-menu li a:hover{color:#1dc6df;}
+.main-menu li.has-children > a:after{position:absolute;top:50%;right:-14px;line-height:1em;font-family:"fontello";content:"\e801";font-size:0.8em;margin-top:-0.3em;}
+.main-menu li li.has-children > a:after{right:20px;content:"\e802";}
+.main-menu li ul{display:none;position:absolute;left:0;top:5.5em;z-index:10000;width:170px;background-color:#fff;padding:1.7em 0 1.6em;}
+.main-menu > li > ul{border-top:solid 3px #1dc6df;}
+.main-menu li li > a{display:block;padding:0.6364em 2.6em 0.7273em;}
+.main-menu > li > ul ul{left:174px;top:-22px;}
 
 
 .page-banner{height:348px;padding:45px 0 50px;background:url(images/blog_top-page.jpg) repeat-x scroll center center transparent;}
@@ -76,7 +85,7 @@ a:hover{color:#3799ab}
 .post-list .post-featured .swiper-pagination-bullet-active{background-color:#fff !important;}
 .post-list .post-featured .post-thumb img{width:100%;height:auto;display:block}
 .post-list .post-featured .post-thumb a:before{font-family:"fontello";content:"\e803";font-size:3em;color:#fff;text-shadow:-4px 3px 0 rgba(0, 0, 0, 0.2);cursor:pointer;position:absolute;z-index:10;left:50%;top:50%;transform:translateX(-50%) translateY(-50%);opacity:0;margin-top:100px}
-.post-list .post-featured .post-thumb a:after{opacity:0;background-color:rgba(29,198,223,0.8);position:absolute;top:0;left:0;width:105%;height:105%;z-index:1;content:""}
+.post-list .post-featured .post-thumb a:after{opacity:0;background-color:rgba(29,198,223,0.8);position:absolute;top:0;left:0;width:105%;height:105%;z-index:1;content:"";transition:all ease .3s;}
 .post-list .post-featured .post-thumb a:hover:before{opacity:1;margin-top:0}
 .post-list .post-featured .post-thumb a:hover:after{opacity:1}
 

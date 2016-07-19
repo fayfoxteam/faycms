@@ -34,8 +34,8 @@ use fay\helpers\Html;
 				<div class="col-md-5 logo-container">
 					<a href=""><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
 				</div>
-				<nav class="col-md-7 main-menu">
-					<ul>
+				<nav class="col-md-7 main-menu-container">
+					<ul class="main-menu">
 						<li class="has-children">
 							<a href="<?php echo $this->url()?>">Home</a>
 							<ul>

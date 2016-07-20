@@ -5,7 +5,7 @@ var common = {
 	'mainMenu': function(){
 		system.getScript(system.assets('js/superfish.js'), function(){
 			$('.main-menu').superfish({
-				delay: 500,
+				delay: 300,
 				onBeforeShow: function(ul) {
 					$(this).removeClass('animated fast fadeOutDown');
 					$(this).addClass('animated fast fadeIn');
@@ -42,11 +42,25 @@ var common = {
 		}
 	},
 	/**
+	 * 当页面往下滚动时，顶部导航固定
+	 */
+	'fixHeader': function(scrollOffset){
+		var $body = $('body');
+		if(scrollOffset > 70){
+			$body.addClass('header-fixed');
+			$('.page-header').addClass('animated fadeInDown');
+		}else{
+			$body.removeClass('header-fixed');
+			$('.page-header').removeClass('animated fadeInDown');
+		}
+	},
+	/**
 	 * 集中调用滚动时需要触发的函数
 	 */
 	'scrollActions': function(){
 		var scrollOffset = $(window).scrollTop();
 		this.showScrollToTopButton(scrollOffset);
+		this.fixHeader(scrollOffset);
 	},
 	/**
 	 * 网页滚动和调整大小时，触发注册的滚动事件

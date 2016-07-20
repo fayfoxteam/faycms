@@ -129,14 +129,39 @@ use fay\helpers\Html;
 						</div>
 					</div>
 				</article>
+				<nav class="pager">
+					<a href="" class="prev"></a>
+					<a href="" class="">1</a>
+					<span class="current">2</span>
+					<a href="" class="">3</a>
+					<a href="" class="next"></a>
+				</nav>
 			</main>
 			<aside class="col-md-4">
 				<div class="widget-area">
-					<div class="widget">
-						<h5 class="widget-title">小工具标题</h5>
+					<div class="widget widget-categories">
+						<h5 class="widget-title">分类</h5>
+						<ul>
+							<li>
+								<a href="">分类-1</a>
+								(10)
+							</li>
+							<li>
+								<a href="">分类-2</a>
+								(21)
+							</li>
+							<li>
+								<a href="">分类-3</a>
+								(32)
+							</li>
+							<li>
+								<a href="">分类-4</a>
+								(43)
+							</li>
+						</ul>
 					</div>
 					<div class="widget">
-						<h5 class="widget-title">小工具标题</h5>
+						<h5 class="widget-title">热门文章</h5>
 						<article>
 							<div class="post-thumb">
 								<a href=""><img src="http://55.fayfox.com/fayfox/file/pic/f/10000?t=4&dw=60&dh=60" /></a>
@@ -173,7 +198,7 @@ use fay\helpers\Html;
 	<footer class="page-footer">
 		<div class="container">
 			<div class="row">
-				<aside class="col-md-3">
+				<aside class="col-md-5">
 					<h4>关于我们</h4>
 					<div>
 						<p>We welcome visitors at NewLife Church and would love to have you join us in church this weekend.</p>
@@ -189,20 +214,13 @@ use fay\helpers\Html;
 							<b>L: <a href="#">Google Map</a></b></p>
 					</div>
 				</aside>
-				<aside class="col-md-3">
-					<h4>关于我们</h4>
+				<aside class="col-md-4">
+					<h4>社交媒体</h4>
 					<div>
-						<p>We welcome visitors at NewLife Church and would love to have you join us in church this weekend.</p>
-						<p><b>E: info@yoursite.com</b><br>
-							<b>L: <a href="#">Google Map</a></b></p>
-					</div>
-				</aside>
-				<aside class="col-md-3">
-					<h4>关于我们</h4>
-					<div>
-						<p>We welcome visitors at NewLife Church and would love to have you join us in church this weekend.</p>
-						<p><b>E: info@yoursite.com</b><br>
-							<b>L: <a href="#">Google Map</a></b></p>
+						<ul class="social-qr">
+							<li><img src="<?php echo $this->appStatic('images/weibo.jpg')?>" width="130" /></li>
+							<li><img src="<?php echo $this->appStatic('images/weixin.jpg')?>" width="130" /></li>
+						</ul>
 					</div>
 				</aside>
 			</div>

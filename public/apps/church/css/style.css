@@ -16,11 +16,13 @@ a{color:#1dc6df;transition:all ease .3s;text-decoration:none}
 a:hover{color:#3799ab}
 
 /* 动画效果 */
-.animated{animation-duration:1s;animation-fill-mode:both}
+.animated{animation-duration:500ms;animation-fill-mode:both}
 @keyframes fadeOutDown{from{opacity:1}to{opacity:0;transform:translate3d(0,100%,0)}}
 .fadeOutDown{animation-name:fadeOutDown}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .fadeIn{animation-name:fadeIn}
+@keyframes fadeInDown{from{opacity:0;transform:translate3d(0,-100%,0)}to{opacity:1;transform:none}}
+.fadeInDown{animation-name:fadeInDown}
 
 /* 按钮式样 */
 [class^="btn-"],[class*=" btn-"]{padding:0.8333em 3em 0.9167em;margin-top:0.7em;display:inline-block;color:#fff;text-align:center;line-height:1.25em;font-size:0.8571em;letter-spacing:0.1em}
@@ -30,8 +32,17 @@ a:hover{color:#3799ab}
 .btn-lg{padding:1.4167em 3.25em !important;}
 .btn-sm{height:30px;line-height:30px;font-size:12px;padding:0 11px;}
 
+/* 分页条 */
+.pager{text-align:center;padding-top:1.3571em;}
+.pager a,.pager span{display:inline-block;width:2.5em;height:2.5em;margin:0 4px 4px 0;text-align:center;font-size:1em;line-height:2.4em;border-radius:50%;}
+.pager a{background-color:#f3f5f8;color:#777;}
+.pager span,.pager a:hover{background-color:#1dc6df;color:#fff;}
+.pager .prev:before,.pager .next:before{font-family:"fontello"}
+.pager .prev:before{content:"\e800";}
+.pager .next:before{content:"\e802";}
+
 /* 页面框架布局 */
-.page-header{}
+.page-header{background-color:#fff;}
 .page-content{padding-top:6em;padding-bottom:6.2143em}
 .page-footer{color:#444;background-color:#f3f5f8;padding:6.7143em 0 5.0714em}
 
@@ -46,16 +57,23 @@ a:hover{color:#3799ab}
 .main-menu li a:hover{color:#1dc6df;}
 .main-menu li.has-children > a:after{position:absolute;top:50%;right:-14px;line-height:1em;font-family:"fontello";content:"\e801";font-size:0.8em;margin-top:-0.3em;}
 .main-menu li li.has-children > a:after{right:20px;content:"\e802";}
-.main-menu li ul{display:none;position:absolute;left:0;top:5.5em;z-index:10000;width:170px;background-color:#fff;padding:1.7em 0 1.6em;}
+.main-menu li ul{display:none;position:absolute;left:0;top:5.5em;z-index:10001;width:170px;background-color:#fff;padding:1.7em 0 1.6em;}
 .main-menu > li > ul{border-top:solid 3px #1dc6df;}
 .main-menu li li > a{display:block;padding:0.6364em 2.6em 0.7273em;}
-.main-menu > li > ul ul{left:174px;top:-22px;}
-
+.main-menu > li > ul ul{left:174px;top:-22px;background-color:#f3f5f8;}
+/* 固定在顶部的导航 */
+.header-fixed .page-header{position:fixed;top:0;left:0;right:0;z-index:10000;box-shadow:0px 3px 0px 0px rgba(0, 0, 0, 0.2);}
+.header-fixed .main-menu-container{margin-bottom:1em;margin-top:1em;}
+.header-fixed .logo-container{margin-top:1em;}
+.header-fixed .logo-container img{height:42px;}
+.header-fixed .main-menu li ul{top:4em;}
+.header-fixed .main-menu > li > ul ul{top:-22px;}
 
 .page-banner{height:348px;padding:45px 0 50px;background:url(images/blog_top-page.jpg) repeat-x scroll center center transparent;}
 
 /* 公共页脚 */
 .page-footer aside h4{margin-bottom:1.5em}
+.page-footer .social-qr li{float:left;margin-right:20px;}
 .page-copyright{background-color:#212121;padding:2.0714em 0 1.9286em;text-align:center;color:#fff}
 
 /* 回到顶部 */
@@ -89,10 +107,10 @@ a:hover{color:#3799ab}
 .post-list .post-featured .post-thumb a:hover:before{opacity:1;margin-top:0}
 .post-list .post-featured .post-thumb a:hover:after{opacity:1}
 
-    /* 侧边栏小工具域 */
+/* 侧边栏小工具域 */
 .widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555;}
 .widget-area .widget+.widget{margin-top:2em;padding-top:1.8em}
-.widget-area h5.widget-title{color:#212121;margin-bottom:0.7778em;}
+.widget-area h5.widget-title{color:#212121;margin-bottom:0.7778em;font-size:1.2em;}
 .widget-area article{overflow:hidden}
 .widget-area article + article{margin-top:2px;padding-top:1em;}
 .widget-area article .post-title a{color:#212121;}
@@ -101,3 +119,9 @@ a:hover{color:#3799ab}
 .widget-area article .post-thumb img{width:100%;}
 .widget-area article .post-content{overflow:hidden;}
 .widget-area article .post-meta{color:#999;}
+
+/* 侧边栏分类列表 */
+.widget-categories ul li{padding:13px 0 14px;color:#999;text-align:right;overflow:hidden;border-top:solid 1px #e3e9ed;}
+.widget-categories ul li:first-child{border-top:none;}
+.widget-categories ul li a{color:#555;float:left;max-width:80%;text-align:left;}
+.widget-categories ul li a:hover{color:#48c7de}

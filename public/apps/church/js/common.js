@@ -17,6 +17,37 @@ var common = {
 			});
 		});
 	},
+	'mobileMenu': function(){
+		var $mobilePageHeader = $('.mobile-page-header');
+		//打开菜单
+		$('.toggle-mobile-menu').on('click', function(){
+			$mobilePageHeader.find('.mask').addClass('show');
+			$mobilePageHeader.find('.mobile-menu-container').addClass('open');
+		});
+		//点击蒙板关闭菜单
+		$mobilePageHeader.find('.mask').on('click', function(){
+			$(this).removeClass('show');
+			$mobilePageHeader.find('.mobile-menu-container').removeClass('open');
+		});
+		//开关子菜单
+		var $mobileMenu = $('.mobile-menu');
+		$mobileMenu.find('a').on('click', function(){
+			var $parentLi = $(this).parent();
+			if($parentLi.hasClass('opened')){
+				//本来处于打开状态，现在关闭掉
+				$parentLi.removeClass('opened').children('ul').slideUp();
+			}else{
+				//本来出于关闭状态，现在打开
+				$parentLi.addClass('opened').children('ul').slideDown();
+				$parentLi.siblings('li').removeClass('opened').children('ul').slideUp();
+			}
+			
+			if($parentLi.hasClass('has-children')){
+				//若非叶子节点，不跳转
+				return false;
+			}
+		});
+	},
 	/**
 	 * 缓慢滚到顶部
 	 */
@@ -90,6 +121,7 @@ var common = {
 	},
 	'init': function(){
 		this.mainMenu();
+		this.mobileMenu();
 		this.scrollToTop();
 		this.scrollEvents();
 		this.swiper();

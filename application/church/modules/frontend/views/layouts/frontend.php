@@ -60,6 +60,56 @@ use fay\helpers\Html;
 			</div>
 		</div>
 	</header>
+	<div class="mobile-page-header">
+		<div class="container">
+			<div class="row">
+				<div class="logo">
+					<a href=""><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
+				</div>
+				<a href="javascript:;" class="toggle-mobile-menu"></a>
+			</div>
+		</div>
+		<div class="mobile-menu-container">
+			<nav>
+				<ul class="mobile-menu">
+					<li class="has-children">
+						<a href="<?php echo $this->url()?>">Home</a>
+						<ul>
+							<li><a href="">Home 1</a></li>
+							<li class="has-children">
+								<a href="">Home 2</a>
+								<ul>
+									<li><a href="">Home 2 - 1</a></li>
+									<li><a href="">Home 2 - 2</a></li>
+									<li><a href="">Home 2 - 3</a></li>
+								</ul>
+							</li>
+							<li><a href="">Home 3</a></li>
+						</ul>
+					</li>
+					<li class="has-children">
+						<a href="<?php echo $this->url()?>">Home</a>
+						<ul>
+							<li><a href="">Home 1</a></li>
+							<li class="has-children">
+								<a href="">Home 2</a>
+								<ul>
+									<li><a href="">Home 2 - 1</a></li>
+									<li><a href="">Home 2 - 2</a></li>
+									<li><a href="">Home 2 - 3</a></li>
+								</ul>
+							</li>
+							<li><a href="">Home 3</a></li>
+						</ul>
+					</li>
+					<li><a href="<?php echo $this->url()?>">Home</a></li>
+					<li><a href="<?php echo $this->url()?>">Home</a></li>
+					<li><a href="<?php echo $this->url()?>">Home</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="mask"></div>
+	</div>
 	<div class="page-banner">
 		
 	</div>

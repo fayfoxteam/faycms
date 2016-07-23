@@ -15,7 +15,7 @@ use fay\services\user\Password;
 use fay\models\tables\UserCounter;
 use fay\services\user\Profile;
 use fay\services\user\Prop;
-use fay\servcies\user\Exception as UserException;
+use fay\services\user\Exception as UserException;
 use fay\models\tables\UserLogins;
 use fay\services\user\Role;
 

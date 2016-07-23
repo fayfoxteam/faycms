@@ -15,7 +15,7 @@ use fay\services\user\Password;
 use fay\models\tables\UserCounter;
 use fay\services\user\Profile;
 use fay\services\user\Prop;
-use fay\core\Exception;
+use fay\servcies\user\Exception as UserException;
 use fay\models\tables\UserLogins;
 use fay\services\user\Role;
 
@@ -128,7 +128,7 @@ class User extends Service{
 	 *  - trackid 字符串，用于追踪用户来源的自定义标识码
 	 * @param int $is_admin
 	 * @return int|null
-	 * @throws Exception
+	 * @throws UserException
 	 */
 	public function create($user, $extra = array(), $is_admin = 0){
 		if(!empty($user['password'])){
@@ -145,22 +145,22 @@ class User extends Service{
 			'system:user_nickname_unique'
 		));
 		if(!isset($user['username']) || $user['username'] == ''){
-			throw new Exception('用户名不能为空', 'missing-parameter:username');
+			throw new UserException('用户名不能为空', 'missing-parameter:username');
 		}
 		if($config['system:user_nickname_required'] && !isset($user['nickname']) || $user['nickname'] == ''){
-			throw new Exception('用户昵称不能为空', 'missing-parameter:nickname');
+			throw new UserException('用户昵称不能为空', 'missing-parameter:nickname');
 		}
 		
 		if(Users::model()->fetchRow(array(
 			'username = ?'=>$user['username'],
 		))){
-			throw new Exception('用户名已存在', 'invalid-parameter:username-is-exist');
+			throw new UserException('用户名已存在', 'invalid-parameter:username-is-exist');
 		}
 		
 		if($config['system:user_nickname_unique'] && Users::model()->fetchRow(array(
 			'nickname = ?'=>$user['nickname'],
 		))){
-			throw new Exception('用户昵称已存在', 'invalid-parameter:username-is-exist');
+			throw new UserException('用户昵称已存在', 'invalid-parameter:username-is-exist');
 		}
 		
 		//插用户表

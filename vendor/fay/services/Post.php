@@ -1,7 +1,6 @@
 <?php
 namespace fay\services;
 
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
@@ -29,6 +28,7 @@ use fay\models\tables\PostExtra;
 use fay\services\post\Category as PostCategory;
 use fay\services\post\File as PostFile;
 use fay\services\post\UserCounter;
+use fay\services\post\Exception as PostException;
 
 /**
  * 文章服务
@@ -211,16 +211,16 @@ class Post extends Service{
 	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
 	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
 	 * @return bool
-	 * @throws ErrorException
+	 * @throws PostException
 	 */
 	public function update($post_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原文章
 		$old_post = Posts::model()->find($post_id, 'cat_id,user_id,deleted,status');
 		if(!$old_post){
-			throw new ErrorException('指定文章不存在');
+			throw new PostException('指定文章不存在');
 		}
 		if($old_post['deleted']){
-			throw new ErrorException('已删除文章不允许编辑');
+			throw new PostException('已删除文章不允许编辑');
 		}
 		
 		if($update_last_modified_time){
@@ -1184,7 +1184,7 @@ class Post extends Service{
 	 * @param int|null $new_cat_id 更新后的分类，不传则不做验证
 	 * @param int|null $user_id 用户ID，若为空，则默认为当前登录用户
 	 * @return bool
-	 * @throws ErrorException
+	 * @throws PostException
 	 */
 	public static function checkEditPermission($post, $new_status = null, $new_cat_id = null, $user_id = null){
 		if(!is_array($post)){
@@ -1193,7 +1193,7 @@ class Post extends Service{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(empty($post['user_id'])){
-			throw new ErrorException('指定文章不存在');
+			throw new PostException('指定文章不存在');
 		}
 		
 		if($post['user_id'] == $user_id){
@@ -1242,7 +1242,7 @@ class Post extends Service{
 	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 * @return bool
-	 * @throws ErrorException
+	 * @throws PostException
 	 */
 	public static function checkDeletePermission($post, $user_id = null){
 		if(!is_array($post)){
@@ -1251,7 +1251,7 @@ class Post extends Service{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(empty($post['user_id'])){
-			throw new ErrorException('指定文章不存在');
+			throw new PostException('指定文章不存在');
 		}
 		
 		if($post['user_id'] == $user_id){
@@ -1276,7 +1276,7 @@ class Post extends Service{
 	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 * @return bool
-	 * @throws ErrorException
+	 * @throws PostException
 	 */
 	public static function checkUndeletePermission($post, $user_id = null){
 		if(!is_array($post)){
@@ -1285,7 +1285,7 @@ class Post extends Service{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(empty($post['user_id'])){
-			throw new ErrorException('指定文章不存在');
+			throw new PostException('指定文章不存在');
 		}
 		
 		if($post['user_id'] == $user_id){
@@ -1310,7 +1310,7 @@ class Post extends Service{
 	 *  - 若是数字，视为文章ID，会根据ID搜索数据库
 	 * @param int $user_id 用户ID，若为空，则默认为当前登录用户
 	 * @return bool
-	 * @throws ErrorException
+	 * @throws PostException
 	 */
 	public static function checkRemovePermission($post, $user_id = null){
 		if(!is_array($post)){
@@ -1319,7 +1319,7 @@ class Post extends Service{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(empty($post['user_id'])){
-			throw new ErrorException('指定文章不存在');
+			throw new PostException('指定文章不存在');
 		}
 		
 		if($post['user_id'] == $user_id){

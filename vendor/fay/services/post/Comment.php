@@ -1,7 +1,6 @@
 <?php
 namespace fay\services\post;
 
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\MultiTree;
@@ -593,7 +592,7 @@ class Comment extends MultiTree{
 	 * @param string $action 操作
 	 * @param int|null $user_id 用户ID，若为空，则默认为当前登录用户
 	 * @return bool
-	 * @throws ErrorException
+	 * @throws Exception
 	 */
 	public function checkPermission($comment, $action = 'delete', $user_id = null){
 		if(!is_array($comment)){
@@ -602,7 +601,7 @@ class Comment extends MultiTree{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if(empty($comment['user_id'])){
-			throw new ErrorException('指定文章评论不存在');
+			throw new Exception('指定文章评论不存在');
 		}
 		
 		if($comment['user_id'] == $user_id){

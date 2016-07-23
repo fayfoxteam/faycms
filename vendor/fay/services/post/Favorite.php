@@ -4,7 +4,6 @@ namespace fay\services\post;
 use fay\common\ListView;
 use fay\core\Service;
 use fay\core\Hook;
-use fay\core\Exception;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\Posts;

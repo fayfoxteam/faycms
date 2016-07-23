@@ -1,7 +1,6 @@
 <?php
 namespace fay\services\post;
 
-use fay\core\ErrorException;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -252,7 +251,7 @@ class Category extends Service{
 	 * @param int $post_id 文章ID
 	 * @param int|null $old_status 文章原状态
 	 * @param int|null $new_status 文章新状态
-	 * @throws ErrorException
+	 * @throws Exception
 	 */
 	public function setSecondaryCats($primary_cat_id, $secondary_cat_ids, $post_id, $old_status, $new_status){
 		if($secondary_cat_ids){
@@ -274,7 +273,7 @@ class Category extends Service{
 			'id IN (?)'=>$secondary_cat_ids,
 		), 'id')) != count($secondary_cat_ids)){
 			//实际存在的分类记录数与输入记录数不相等，意味着有指定分类ID不存在
-			throw new ErrorException('指定附加分类不存在');
+			throw new Exception('指定附加分类不存在');
 		}
 		
 		$old_cat_ids = array();

@@ -3,6 +3,7 @@ namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
 use fay\core\Loader;
+use fay\core\Response;
 
 class FunctionController extends ToolsController{
 	public function __construct(){
@@ -64,5 +65,36 @@ class FunctionController extends ToolsController{
 	public function doEval(){
 		$code = $this->input->post('code', '', '');
 		echo eval('?>'. $code);
+	}
+	
+	/**
+	 * 对用户输入的php代码进行json_decode后返回
+	 * 返回的是php代码
+	 */
+	public function jsonDecode(){
+		Response::json(array(
+			'code'=>var_export(json_decode($this->input->request('code'), true), true)
+		));
+	}
+	
+	/**
+	 * 对用户输入的php代码进行json_encode后返回
+	 * 这个方法是有风险的，因为用了eval函数
+	 */
+	public function jsonEncode(){
+		//登陆检查，仅超级管理员可访问本模块
+		$this->isLogin();
+		
+		$array = $this->input->request('code');
+		if(defined(JSON_UNESCAPED_UNICODE)){
+			Response::json(array(
+				'code'=>json_encode(eval('return '.$array.';'), JSON_UNESCAPED_UNICODE)
+			));
+		}else{
+			//不做复杂处理，低版本php直接返回unicode后的中文
+			Response::json(array(
+				'code'=>json_encode(eval('return '.$array.';'))
+			));
+		}
 	}
 }

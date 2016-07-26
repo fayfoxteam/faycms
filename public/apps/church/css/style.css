@@ -31,6 +31,12 @@ a:hover{color:#3799ab}
 .btn-blue:hover{background-position:0 0;}
 .btn-lg{padding:1.4167em 3.25em !important;}
 .btn-sm{height:30px;line-height:30px;font-size:12px;padding:0 11px;}
+@media(max-width:992px){
+    [class^="btn-"],[class*=" btn-"]{display:block;max-width:280px;}
+}
+@media(max-width:479px){
+    [class^="btn-"],[class*=" btn-"]{display:block;max-width:none;}
+}
 
 /* 分页条 */
 .pager{text-align:center;padding-top:1.3571em;}
@@ -79,7 +85,7 @@ a:hover{color:#3799ab}
 .mobile-page-header .logo a img{height:53px;}
 .mobile-page-header .mask{position:fixed;top:0;left:0;bottom:0;cursor:pointer;z-index:1001;background-color:rgba(0,0,0,0.6)}
 .mobile-page-header .mask.show{right:0}
-.mobile-page-header .toggle-mobile-menu{position:absolute;left:30px;top:50%;margin-top:-13px;color:#212121;}
+.mobile-page-header .toggle-mobile-menu{position:absolute;left:30px;top:50%;margin-top:-13px;color:#212121;font-size:21px;}
 .mobile-page-header .toggle-mobile-menu:before{display:inline-block;font-family:"fontello";content:"\f0c9";}
 
 .mobile-menu-container{display:block;background-color:#1dc6df;color:#fff;position:fixed;top:0;left:-320px;width:320px;height:auto;bottom:0;overflow:hidden;overflow-y:scroll;z-index:10003;transition:left 0.3s linear;}
@@ -98,11 +104,26 @@ ul.mobile-menu li li li > a{padding-left:54px;}
     .page-header{display:none;}
     .mobile-page-header{display:block;}
 }
+@media(max-width:479px){
+    .mobile-page-header .logo{padding:19px 50px;text-align:left;}
+    .mobile-page-header .logo a img{height:40px;}
+    .mobile-page-header .toggle-mobile-menu{left:auto;right:50px;}
+    .mobile-menu-container{top:82px;width:100%;left:-100%;}
+    .mobile-page-header .mask.show{display:none !important;}
+}
 
 .page-banner{height:348px;padding:45px 0 50px;background:url(images/blog_top-page.jpg) repeat-x scroll center center transparent;}
+.page-banner .page-title-container{display:table-cell;width:100000px;height:253px;vertical-align:middle;text-align:center;}
+.page-banner .page-title{color:#f3f5f8;text-align:center;font-weight:700;font-size:3em;}
+@media (min-width:768px) and (max-width:992px){
+    .page-banner .page-title{font-size:2.5em;}
+}
+@media (max-width:768px){
+    .page-banner .page-title{font-size:2.1em;}
+}
 
 /* 公共页脚 */
-.page-footer aside h4{margin-bottom:1.5em}
+.page-footer aside h4{margin-bottom:1.8em}
 .page-footer .social-qr li{float:left;margin-right:20px;}
 .page-copyright{background-color:#212121;padding:2.0714em 0 1.9286em;text-align:center;color:#fff}
 
@@ -136,6 +157,7 @@ ul.mobile-menu li li li > a{padding-left:54px;}
 .post-list .post-featured .post-thumb a:after{opacity:0;background-color:rgba(29,198,223,0.8);position:absolute;top:0;left:0;width:105%;height:105%;z-index:1;content:"";transition:all ease .3s;}
 .post-list .post-featured .post-thumb a:hover:before{opacity:1;margin-top:0}
 .post-list .post-featured .post-thumb a:hover:after{opacity:1}
+.post-list .post-content{margin-bottom:3em;}
 
 /* 侧边栏小工具域 */
 .widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555;}
@@ -155,3 +177,4 @@ ul.mobile-menu li li li > a{padding-left:54px;}
 .widget-categories ul li:first-child{border-top:none;}
 .widget-categories ul li a{color:#555;float:left;max-width:80%;text-align:left;}
 .widget-categories ul li a:hover{color:#48c7de}
+.widget-categories ul li span{font-family:"Raleway", sans-serif !important;}

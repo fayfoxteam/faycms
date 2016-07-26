@@ -111,7 +111,9 @@ use fay\helpers\Html;
 		<div class="mask"></div>
 	</div>
 	<div class="page-banner">
-		
+		<div class="page-title-container">
+			<h1 class="page-title">Post formats</h1>
+		</div>
 	</div>
 	<div class="container page-content">
 		<div class="row">
@@ -194,19 +196,19 @@ use fay\helpers\Html;
 						<ul>
 							<li>
 								<a href="">分类-1</a>
-								(10)
+								<span>(10)</span>
 							</li>
 							<li>
 								<a href="">分类-2</a>
-								(21)
+								<span>(21)</span>
 							</li>
 							<li>
 								<a href="">分类-3</a>
-								(32)
+								<span>(32)</span>
 							</li>
 							<li>
 								<a href="">分类-4</a>
-								(43)
+								<span>(43)</span>
 							</li>
 						</ul>
 					</div>
@@ -248,7 +250,7 @@ use fay\helpers\Html;
 	<footer class="page-footer">
 		<div class="container">
 			<div class="row">
-				<aside class="col-md-5">
+				<aside class="col-md-5 col-sm-6">
 					<h4>关于我们</h4>
 					<div>
 						<p>We welcome visitors at NewLife Church and would love to have you join us in church this weekend.</p>
@@ -256,7 +258,7 @@ use fay\helpers\Html;
 							<b>L: <a href="#">Google Map</a></b></p>
 					</div>
 				</aside>
-				<aside class="col-md-3">
+				<aside class="col-md-3 col-sm-6">
 					<h4>关于我们</h4>
 					<div>
 						<p>We welcome visitors at NewLife Church and would love to have you join us in church this weekend.</p>

@@ -21,8 +21,13 @@ var common = {
 		var $mobilePageHeader = $('.mobile-page-header');
 		//打开菜单
 		$('.toggle-mobile-menu').on('click', function(){
-			$mobilePageHeader.find('.mask').addClass('show');
-			$mobilePageHeader.find('.mobile-menu-container').addClass('open');
+			if($mobilePageHeader.find('.mobile-menu-container').hasClass('open')){
+				$mobilePageHeader.find('.mask').removeClass('show');
+				$mobilePageHeader.find('.mobile-menu-container').removeClass('open');
+			}else{
+				$mobilePageHeader.find('.mask').addClass('show');
+				$mobilePageHeader.find('.mobile-menu-container').addClass('open');
+			}
 		});
 		//点击蒙板关闭菜单
 		$mobilePageHeader.find('.mask').on('click', function(){

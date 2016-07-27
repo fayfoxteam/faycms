@@ -34,8 +34,8 @@ use fay\helpers\Html;
 				<div class="col-md-5 logo-container">
 					<a href=""><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
 				</div>
-				<nav class="col-md-7 main-menu-container">
-					<ul class="main-menu">
+				<nav class="col-md-7 main-menu">
+					<ul>
 						<li class="has-children">
 							<a href="<?php echo $this->url()?>">Home</a>
 							<ul>
@@ -43,8 +43,20 @@ use fay\helpers\Html;
 								<li class="has-children">
 									<a href="">Home 2</a>
 									<ul>
-										<li><a href="">Home 2 - 1</a></li>
-										<li><a href="">Home 2 - 2</a></li>
+										<li>
+											<a href="">Home 2 - 1</a>
+										</li>
+										<li class="has-children">
+											<a href="">Home 2 - 2</a>
+											<ul>
+												<li>
+													<a href="">Home 2 - 1</a>
+												
+												</li>
+												<li><a href="">Home 2 - 2</a></li>
+												<li><a href="">Home 2 - 3</a></li>
+											</ul>
+										</li>
 										<li><a href="">Home 2 - 3</a></li>
 									</ul>
 								</li>
@@ -70,8 +82,8 @@ use fay\helpers\Html;
 			</div>
 		</div>
 		<div class="mobile-menu-container">
-			<nav>
-				<ul class="mobile-menu">
+			<nav class="mobile-menu">
+				<ul>
 					<li class="has-children">
 						<a href="<?php echo $this->url()?>">Home</a>
 						<ul>

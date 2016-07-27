@@ -18,21 +18,23 @@ var common = {
 		});
 	},
 	'mobileMenu': function(){
-		var $mobilePageHeader = $('.mobile-page-header');
+		var $pageHeader = $('.mobile-page-header');//手机版顶部
+		var $menuContainer = $pageHeader.find('.mobile-menu-container');//手机版菜单容器
+		var $mask = $pageHeader.find('.mask');//蒙板
 		//打开菜单
 		$('.toggle-mobile-menu').on('click', function(){
-			if($mobilePageHeader.find('.mobile-menu-container').hasClass('open')){
-				$mobilePageHeader.find('.mask').removeClass('show');
-				$mobilePageHeader.find('.mobile-menu-container').removeClass('open');
+			if($menuContainer.hasClass('open')){
+				$mask.removeClass('show');
+				$menuContainer.removeClass('open');
 			}else{
-				$mobilePageHeader.find('.mask').addClass('show');
-				$mobilePageHeader.find('.mobile-menu-container').addClass('open');
+				$mask.addClass('show');
+				$menuContainer.addClass('open');
 			}
 		});
 		//点击蒙板关闭菜单
-		$mobilePageHeader.find('.mask').on('click', function(){
+		$mask.on('click', function(){
 			$(this).removeClass('show');
-			$mobilePageHeader.find('.mobile-menu-container').removeClass('open');
+			$menuContainer.removeClass('open');
 		});
 		//开关子菜单
 		var $mobileMenu = $('.mobile-menu');

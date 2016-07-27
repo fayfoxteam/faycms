@@ -64,9 +64,9 @@ a:hover{color:#3799ab}
 .main-menu > ul > li{margin-left:3.3em;float:left;}
 .main-menu li a{display:block;color:#212121;padding:1.0833em 0 0.9167em;line-height:1.2857em;font-weight:700;}
 .main-menu a:hover{color:#1dc6df;}
-.main-menu li.has-children > a:after{position:absolute;top:50%;right:-14px;line-height:1em;font-family:"fontello";content:"\f107";font-size:0.8em;margin-top:-0.6em;}
-.main-menu > ul > li.has-children > a:after{margin-top:-0.3em}
-.main-menu li li.has-children > a:after{right:20px;content:"\f105";}
+.main-menu li.has-sub > a:after{position:absolute;top:50%;right:-14px;line-height:1em;font-family:"fontello";content:"\f107";font-size:0.8em;margin-top:-0.6em;}
+.main-menu > ul > li.has-sub > a:after{margin-top:-0.3em}
+.main-menu li li.has-sub > a:after{right:20px;content:"\f105";}
 .main-menu li ul{display:none;position:absolute;left:0;top:5.5em;z-index:10001;width:170px;background-color:#fff;padding:1.7em 0 1.6em;}
 .main-menu > ul > li > ul{border-top:solid 3px #1dc6df;}
 .main-menu li li > a{display:block;padding:0.6364em 2.6em 0.7273em;}
@@ -94,7 +94,7 @@ a:hover{color:#3799ab}
 .mobile-menu li{position:relative;}
 .mobile-menu > ul > li{border-bottom:1px solid rgba(0, 0, 0, 0.09);}
 .mobile-menu li a{display:block;color:#fff;padding:17px 35px;line-height:1.3em;font-weight:700;}
-.mobile-menu li.has-children > a:after{float:right;line-height:1em;font-family:"fontello";content:"\f107";font-size:0.8em;}
+.mobile-menu li.has-sub > a:after{float:right;line-height:1em;font-family:"fontello";content:"\f107";font-size:0.8em;}
 .mobile-menu li.opened > a:after{content:"\f106"}
 .mobile-menu li ul{background-color:#1ab4cb;display:none;}
 .mobile-menu li ul a:hover{background-color:#17a2b7;}

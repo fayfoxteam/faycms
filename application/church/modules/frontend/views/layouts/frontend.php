@@ -36,17 +36,17 @@ use fay\helpers\Html;
 				</div>
 				<nav class="col-md-7 main-menu">
 					<ul>
-						<li class="has-children">
+						<li class="has-sub">
 							<a href="<?php echo $this->url()?>">Home</a>
 							<ul>
 								<li><a href="">Home 1</a></li>
-								<li class="has-children">
+								<li class="has-sub">
 									<a href="">Home 2</a>
 									<ul>
 										<li>
 											<a href="">Home 2 - 1</a>
 										</li>
-										<li class="has-children">
+										<li class="has-sub">
 											<a href="">Home 2 - 2</a>
 											<ul>
 												<li>
@@ -84,11 +84,11 @@ use fay\helpers\Html;
 		<div class="mobile-menu-container">
 			<nav class="mobile-menu">
 				<ul>
-					<li class="has-children">
+					<li class="has-sub">
 						<a href="<?php echo $this->url()?>">Home</a>
 						<ul>
 							<li><a href="">Home 1</a></li>
-							<li class="has-children">
+							<li class="has-sub">
 								<a href="">Home 2</a>
 								<ul>
 									<li><a href="">Home 2 - 1</a></li>
@@ -99,11 +99,11 @@ use fay\helpers\Html;
 							<li><a href="">Home 3</a></li>
 						</ul>
 					</li>
-					<li class="has-children">
+					<li class="has-sub">
 						<a href="<?php echo $this->url()?>">Home</a>
 						<ul>
 							<li><a href="">Home 1</a></li>
-							<li class="has-children">
+							<li class="has-sub">
 								<a href="">Home 2</a>
 								<ul>
 									<li><a href="">Home 2 - 1</a></li>

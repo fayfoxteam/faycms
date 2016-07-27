@@ -49,7 +49,7 @@ var common = {
 				$parentLi.siblings('li').removeClass('opened').children('ul').slideUp();
 			}
 			
-			if($parentLi.hasClass('has-children')){
+			if($parentLi.hasClass('has-sub')){
 				//若非叶子节点，不跳转
 				return false;
 			}

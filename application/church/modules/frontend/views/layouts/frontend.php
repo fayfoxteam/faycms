@@ -127,6 +127,7 @@ use fay\helpers\Html;
 					<a href="" class="prev"></a>
 					<a href="" class="">1</a>
 					<span class="current">2</span>
+					<span>...</span>
 					<a href="" class="">3</a>
 					<a href="" class="next"></a>
 				</nav>

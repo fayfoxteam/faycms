@@ -42,7 +42,7 @@ a:hover{color:#3799ab}
 .pager{text-align:center;padding-top:1.3571em;}
 .pager a,.pager span{display:inline-block;width:2.5em;height:2.5em;margin:0 4px 4px 0;text-align:center;font-size:1em;line-height:2.4em;border-radius:50%;}
 .pager a{background-color:#f3f5f8;color:#777;}
-.pager span,.pager a:hover{background-color:#1dc6df;color:#fff;}
+.pager span.current,.pager a:hover{background-color:#1dc6df;color:#fff;}
 .pager .prev:before,.pager .next:before{font-family:"fontello"}
 .pager .prev:before{content:"\f104";}
 .pager .next:before{content:"\f105";}

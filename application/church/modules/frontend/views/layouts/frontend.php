@@ -35,39 +35,7 @@ use fay\helpers\Html;
 					<a href=""><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
 				</div>
 				<nav class="col-md-7 main-menu">
-					<ul>
-						<li class="has-sub">
-							<a href="<?php echo $this->url()?>">Home</a>
-							<ul>
-								<li><a href="">Home 1</a></li>
-								<li class="has-sub">
-									<a href="">Home 2</a>
-									<ul>
-										<li>
-											<a href="">Home 2 - 1</a>
-										</li>
-										<li class="has-sub">
-											<a href="">Home 2 - 2</a>
-											<ul>
-												<li>
-													<a href="">Home 2 - 1</a>
-												
-												</li>
-												<li><a href="">Home 2 - 2</a></li>
-												<li><a href="">Home 2 - 3</a></li>
-											</ul>
-										</li>
-										<li><a href="">Home 2 - 3</a></li>
-									</ul>
-								</li>
-								<li><a href="">Home 3</a></li>
-							</ul>
-						</li>
-						<li><a href="<?php echo $this->url()?>">Home</a></li>
-						<li><a href="<?php echo $this->url()?>">Home</a></li>
-						<li><a href="<?php echo $this->url()?>">Home</a></li>
-						<li><a href="<?php echo $this->url()?>">Home</a></li>
-					</ul>
+					<?php F::widget()->load('main-menu')?>
 				</nav>
 			</div>
 		</div>
@@ -83,50 +51,12 @@ use fay\helpers\Html;
 		</div>
 		<div class="mobile-menu-container">
 			<nav class="mobile-menu">
-				<ul>
-					<li class="has-sub">
-						<a href="<?php echo $this->url()?>">Home</a>
-						<ul>
-							<li><a href="">Home 1</a></li>
-							<li class="has-sub">
-								<a href="">Home 2</a>
-								<ul>
-									<li><a href="">Home 2 - 1</a></li>
-									<li><a href="">Home 2 - 2</a></li>
-									<li><a href="">Home 2 - 3</a></li>
-								</ul>
-							</li>
-							<li><a href="">Home 3</a></li>
-						</ul>
-					</li>
-					<li class="has-sub">
-						<a href="<?php echo $this->url()?>">Home</a>
-						<ul>
-							<li><a href="">Home 1</a></li>
-							<li class="has-sub">
-								<a href="">Home 2</a>
-								<ul>
-									<li><a href="">Home 2 - 1</a></li>
-									<li><a href="">Home 2 - 2</a></li>
-									<li><a href="">Home 2 - 3</a></li>
-								</ul>
-							</li>
-							<li><a href="">Home 3</a></li>
-						</ul>
-					</li>
-					<li><a href="<?php echo $this->url()?>">Home</a></li>
-					<li><a href="<?php echo $this->url()?>">Home</a></li>
-					<li><a href="<?php echo $this->url()?>">Home</a></li>
-				</ul>
+				<?php F::widget()->load('mobile-menu')?>
 			</nav>
 		</div>
 		<div class="mask"></div>
 	</div>
-	<div class="page-banner">
-		<div class="page-title-container">
-			<h1 class="page-title">Post formats</h1>
-		</div>
-	</div>
+	<?php F::widget()->load('banner')?>
 	<div class="container page-content">
 		<div class="row">
 			<main class="col-md-8 post-list">
@@ -203,27 +133,7 @@ use fay\helpers\Html;
 			</main>
 			<aside class="col-md-4">
 				<div class="widget-area">
-					<div class="widget widget-categories">
-						<h5 class="widget-title">分类</h5>
-						<ul>
-							<li>
-								<a href="">分类-1</a>
-								<span>(10)</span>
-							</li>
-							<li>
-								<a href="">分类-2</a>
-								<span>(21)</span>
-							</li>
-							<li>
-								<a href="">分类-3</a>
-								<span>(32)</span>
-							</li>
-							<li>
-								<a href="">分类-4</a>
-								<span>(43)</span>
-							</li>
-						</ul>
-					</div>
+					<?php F::widget()->area('index-sidebar')?>
 					<div class="widget">
 						<h5 class="widget-title">热门文章</h5>
 						<article>

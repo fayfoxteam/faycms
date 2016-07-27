@@ -1,19 +1,17 @@
-<form method="post" id="form">
-	<div class="row">
-		<div class="col-12">
-			<div class="box" id="formatter-box">
-				<div class="box-title"><h3>Formatter</h3></div>
-				<div class="box-content">
-					<pre id="formatter-json-editor"></pre>
-					<a href="javascript:;" id="format-link" class="btn mt5">格式化</a>
-					<a href="javascript:;" id="compress-link" class="btn mt5">压缩</a>
-					<a href="javascript:;" id="php-json-encode-link" class="btn mt5" title="将标准PHP语法的array解析为json">json_encode</a>
-					<a href="javascript:;" id="php-json-decode-link" class="btn mt5" title="将json解析成PHP array代码">json_decode</a>
-				</div>
+<div class="row">
+	<div class="col-12">
+		<div class="box" id="formatter-box">
+			<div class="box-title"><h3>Formatter</h3></div>
+			<div class="box-content">
+				<pre id="formatter-json-editor"></pre>
+				<a href="javascript:;" id="format-link" class="btn mt5">格式化</a>
+				<a href="javascript:;" id="compress-link" class="btn mt5">压缩</a>
+				<a href="javascript:;" id="php-json-encode-link" class="btn mt5" title="将标准PHP语法的array解析为json">json_encode</a>
+				<a href="javascript:;" id="php-json-decode-link" class="btn mt5" title="将json解析成PHP array代码">json_decode</a>
 			</div>
 		</div>
 	</div>
-</form>
+</div>
 <script>
 $(function(){
 	var toolsJson = {

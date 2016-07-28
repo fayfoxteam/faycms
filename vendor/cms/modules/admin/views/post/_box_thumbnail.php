@@ -11,8 +11,7 @@ use fay\services\File;
 		<div id="thumbnail-container" class="mb10">
 			<a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a>
 		</div>
-		<div id="thumbnail-preview-container">
-		<?php 
+		<div id="thumbnail-preview-container"><?php 
 			echo F::form()->inputHidden('thumbnail', array(), 0);
 			$thumbnail = F::form()->getData('thumbnail', 0);
 			if(!empty($thumbnail)){
@@ -27,7 +26,6 @@ use fay\services\File;
 					'class'=>'remove-image-link'
 				));
 			}
-		?>
-		</div>
+		?></div>
 	</div>
 </div>

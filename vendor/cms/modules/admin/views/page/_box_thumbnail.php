@@ -8,9 +8,10 @@ use fay\services\File;
 		<h4>缩略图</h4>
 	</div>
 	<div class="box-content">
-		<div id="thumbnail-container" class="mb10"><a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a></div>
-		<div id="thumbnail-preview-container">
-		<?php 
+		<div id="thumbnail-container" class="mb10">
+			<a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a>
+		</div>
+		<div id="thumbnail-preview-container"><?php 
 			echo F::form()->inputHidden('thumbnail', array(), 0);
 			if(!empty($page['thumbnail'])){
 				echo Html::link(Html::img($page['thumbnail'], File::PIC_RESIZE, array(
@@ -24,8 +25,7 @@ use fay\services\File;
 					'class'=>'remove-image-link'
 				));
 			}
-		?>
-		</div>
+		?></div>
 	</div>
 </div>
 <script>

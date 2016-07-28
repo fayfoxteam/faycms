@@ -35,6 +35,11 @@ class File extends Service{
 	const PIC_RESIZE = 4;
 	
 	/**
+	 * 切割
+	 */
+	const PIC_CUT = 5;
+	
+	/**
 	 * @param string $class_name
 	 * @return File
 	 */
@@ -156,6 +161,24 @@ class File extends Service{
 						return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
 					}
 				break;
+				case self::PIC_CUT://缩放
+					if($file['qiniu'] && Option::get('qiniu:enabled')){
+						//若开启了七牛云存储，且文件已上传，则显示七牛路径
+						empty($options['dw']) && $options['dw'] = $file['image_width'];
+						empty($options['dh']) && $options['dh'] = $file['image_height'];
+						
+						return Qiniu::service()->getUrl($file, array(
+							'dw'=>$options['dw'],
+							'dh'=>$options['dh'],
+						));
+					}else{
+						$img_params = array('t'=>self::PIC_RESIZE);
+						isset($options['dw']) && $img_params['dw'] = $options['dw'];
+						isset($options['dh']) && $img_params['dh'] = $options['dh'];
+						
+						return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+					}
+					break;
 				case self::PIC_ORIGINAL://原图
 				default:
 					if($file['qiniu'] && Option::get('qiniu:enabled')){

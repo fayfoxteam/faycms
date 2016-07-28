@@ -19,4 +19,8 @@ return array(
 		'alias'=>'index-sidebar',
 		'description'=>'首页侧边栏',
 	),
+	array(
+		'alias'=>'footer',
+		'description'=>'页脚',
+	),
 );

@@ -32,7 +32,14 @@ use fay\helpers\Html;
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5 logo-container">
-					<a href=""><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
+					<a href="<?php echo $this->url()?>"><?php
+						$logo = Option::get('site:logo');
+						if($logo){
+							echo Html::img($logo);
+						}else{
+							echo Html::img($this->appStatic('images/logo.png'));
+						}
+					?></a>
 				</div>
 				<nav class="col-md-7 main-menu">
 					<?php F::widget()->load('main-menu')?>
@@ -202,7 +209,7 @@ use fay\helpers\Html;
 		</div>
 	</footer>
 	<div class="page-copyright">
-		<span>Faycms © 2014 All Rights Reserved </span>
+		<span><?php echo Option::get('site:copyright')?></span>
 	</div>
 </div>
 <a href="#" class="scroll-to-top" title="回到顶部"></a>

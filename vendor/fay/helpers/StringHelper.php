@@ -33,7 +33,7 @@ class StringHelper{
 		$output = array();
 		for ($i = 0; $i < $subHexLen; $i++) {
 			$subHex = substr ($hex, $i * 8, 8);
-			$int = 0x3FFFFFFF & (1 * ('0x'.$subHex));
+			$int = 0x3FFFFFFF & (hexdec($subHex));
 			$out = '';
 			for ($j = 0; $j < 6; $j++) {
 				$val = 0x0000003D & $int;

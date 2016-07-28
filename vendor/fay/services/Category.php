@@ -137,7 +137,7 @@ class Category extends Tree{
 	 * @param string $order
 	 * @return array
 	 */
-	public function getChildren($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
+	public function getChildren($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'left_value'){
 		if($parent === null){
 			return Categories::model()->fetchAll(array(), $fields, $order);
 		}else if(StringHelper::isInt($parent)){

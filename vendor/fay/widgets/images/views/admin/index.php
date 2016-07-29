@@ -4,6 +4,11 @@ use fay\services\File;
 use fay\models\tables\Roles;
 use fay\services\user\Role;
 ?>
+<div class="mb30"><?php echo F::form('widget')->inputText('title', array(
+	'id'=>'title',
+	'class'=>'form-control bigtxt',
+	'placeholder'=>'在此键入标题，实际用途视主题而定',
+))?></div>
 <div class="drag-drop-area" id="drag-drop-area">
 	<div class="drag-drop-inside">
 		<p class="drag-drop-info">将文件拖拽至此</p>

@@ -50,6 +50,7 @@ class AdminController extends Widget{
 	
 	public function labels(){
 		return array(
+			'title'=>'标题',
 			'template'=>'模版',
 			'width'=>'图片宽度',
 			'height'=>'图片高度',
@@ -61,6 +62,7 @@ class AdminController extends Widget{
 	
 	public function filters(){
 		return array(
+			'title'=>'trim',
 			'template'=>'trim',
 			'width'=>'intval',
 			'height'=>'intval',

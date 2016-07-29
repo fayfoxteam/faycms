@@ -5,6 +5,7 @@
 
 - `$alias`：该小工具实例的别名
 - `$config`：本页面的配置信息
+- `$title`：标题
 - `$files`：图集中文件数组
   * `file_id`：文件ID
   * `link`：链接地址

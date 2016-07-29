@@ -180,14 +180,6 @@ use fay\helpers\Html;
 	<footer class="page-footer">
 		<div class="container">
 			<div class="row">
-				<aside class="col-md-5 col-sm-6">
-					<h4>关于我们</h4>
-					<div>
-						<p>We welcome visitors at NewLife Church and would love to have you join us in church this weekend.</p>
-						<p><b>E: info@yoursite.com</b><br>
-							<b>L: <a href="#">Google Map</a></b></p>
-					</div>
-				</aside>
 				<aside class="col-md-3 col-sm-6">
 					<h4>关于我们</h4>
 					<div>
@@ -196,15 +188,7 @@ use fay\helpers\Html;
 							<b>L: <a href="#">Google Map</a></b></p>
 					</div>
 				</aside>
-				<aside class="col-md-4">
-					<h4>社交媒体</h4>
-					<div>
-						<ul class="social-qr">
-							<li><img src="<?php echo $this->appStatic('images/weibo.jpg')?>" width="130" /></li>
-							<li><img src="<?php echo $this->appStatic('images/weixin.jpg')?>" width="130" /></li>
-						</ul>
-					</div>
-				</aside>
+				<?php F::widget()->area('footer')?>
 			</div>
 		</div>
 	</footer>

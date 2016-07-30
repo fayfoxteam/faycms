@@ -6,7 +6,9 @@ use fay\helpers\Html;
 	<div>
 		<ul class="social-qr">
 		<?php foreach($files as $f){?>
-			<li><img src="<?php echo $f['src']?>" width="130" /></li>
+			<li><?php echo Html::img($f['src'], 0, array(
+				'width'=>130,
+			))?><span><?php echo Html::encode($f['title'])?></span></li>
 		<?php }?>
 		</ul>
 	</div>

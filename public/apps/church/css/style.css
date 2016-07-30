@@ -1,12 +1,12 @@
 @CHARSET "UTF-8";
 @font-face {
     font-family: 'fontello';
-    src: url('../font/fontello.eot?90254311');
-    src: url('../font/fontello.eot?90254311#iefix') format('embedded-opentype'),
-    url('../font/fontello.woff2?90254311') format('woff2'),
-    url('../font/fontello.woff?90254311') format('woff'),
-    url('../font/fontello.ttf?90254311') format('truetype'),
-    url('../font/fontello.svg?90254311#fontello') format('svg');
+    src: url('../fonts/fontello.eot');
+    src: url('../fonts/fontello.eot#iefix') format('embedded-opentype'),
+    url('../fonts/fontello.woff2') format('woff2'),
+    url('../fonts/fontello.woff') format('woff'),
+    url('../fonts/fontello.ttf') format('truetype'),
+    url('../fonts/fontello.svg#fontello') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -127,6 +127,7 @@ a:hover{color:#3799ab}
 /* 公共页脚 */
 .page-footer aside h4{margin-bottom:1.8em}
 .page-footer .social-qr li{float:left;margin-right:20px}
+.page-footer .social-qr li span{display:block;text-align:center;}
 .page-copyright{background-color:#212121;padding:2.0714em 0 1.9286em;text-align:center;color:#fff}
 
 /* 回到顶部 */
@@ -179,3 +180,30 @@ a:hover{color:#3799ab}
 .widget-categories ul li:first-child{border-top:none}
 .widget-categories ul li a{color:#555;float:left;max-width:80%;text-align:left}
 .widget-categories ul li a:hover{color:#48c7de;padding-left:3px}
+
+/* 联系我们 - 地图 */
+@media (min-width:768px) and (max-width:992px) {
+    .contact-map .baidu-map{max-height:350px}
+}
+@media (min-width:480px) and (max-width:767px) {
+    .contact-map .baidu-map{max-height:250px}
+}
+@media (max-width:479px) {
+    .contact-map .baidu-map{max-height:200px}
+}
+/* 联系我们 - 描述 */
+.contact-page{text-align:center}
+.contact-page h2{color:#212121;font-weight:700;line-height:1.3333em;font-size:2em;}
+@media (min-width: 960px) and (max-width: 1023px){
+    .contact-page h2{font-size:1.3em;}
+}
+@media (max-width:767px) {
+    .contact-page h2{font-size:1.8571em;}
+}
+.contact-page .content{margin:2.5em 0 4.9286em}
+
+.contact-info p{margin-bottom:1.4286em;text-align:left;padding-left:2em;font-size:0.9286em}
+.contact-info p label{color:#555;display:block;font-weight:700;font-size:1.1429em;margin-bottom:0.2em}
+
+.contact-form fieldset{margin-bottom:0.7143em}
+.contact-form fieldset input, .contact-form fieldset textarea{padding:0.7857em 1.4286em;border:2px solid #f3f5f8;line-height:1.7857em;background-color:#f3f5f8;width:100%;}

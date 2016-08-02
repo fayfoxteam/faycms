@@ -1,6 +1,7 @@
 <div class="container page-content">
 	<div class="row">
 		<main class="col-md-8 post-list">
+			<?php F::widget()->load('post-list')?>
 			<article>
 				<div class="post-featured">
 					<div class="swiper-container post-files">

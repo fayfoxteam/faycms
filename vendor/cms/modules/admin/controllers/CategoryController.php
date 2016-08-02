@@ -2,6 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use fay\helpers\StringHelper;
 use fay\models\tables\Categories;
 use fay\services\Category;
 use fay\models\tables\Actionlogs;
@@ -64,6 +65,10 @@ class CategoryController extends AdminController{
 	
 	/**
 	 * 获取唯一的别名（遇到中文会将其转为拼音）
+	 * @param string $title
+	 * @param null|string $spelling
+	 * @param int $dep
+	 * @return string
 	 */
 	private function getCatAlias($title = '', $spelling = null, $dep = 0){
 		if(!$spelling){
@@ -78,13 +83,16 @@ class CategoryController extends AdminController{
 			}
 		}
 		
-		//转为纯小写，空格替换为短横线
+		//转为纯小写，空格替换为中横线
 		$spelling = str_replace(' ', '-', strtolower($spelling));
 		
 		$alias = $dep ? $spelling.'-'.$dep : $spelling;
 		$cat = Categories::model()->fetchRow(array('alias = ?'=>$alias), 'id');
 		if($cat){
-			return $this->getCatAlias('', $spelling, $dep+1);
+			return $this->getCatAlias('', $spelling, $dep + 1);
+		}else if(StringHelper::isInt($spelling)){
+			//若是数字，加c前缀，因为别名规则不允许纯数字
+			return 'c-' . $alias;
 		}else{
 			return $alias;
 		}

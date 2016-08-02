@@ -26,6 +26,7 @@ use fay\services\user\Role;
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
+system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>

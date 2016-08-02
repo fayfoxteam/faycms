@@ -71,5 +71,19 @@ $(function(){
 			}
 		});
 	});
+	
+	//logo上传
+	system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+		uploader.image({
+			'browse_button': 'upload-logo',
+			'container': 'logo-container',
+			'preview_container': 'logo-preview-container',
+			'input_name': 'site:logo',
+			'remove_link_text': '移除Logo',
+			'preview_image_params': {
+				't': 1
+			}
+		});
+	});
 });
 </script>

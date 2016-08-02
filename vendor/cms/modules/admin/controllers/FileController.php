@@ -449,7 +449,13 @@ class FileController extends AdminController{
 		$validator = new Validator();
 		$check = $validator->check(array(
 			array(array('f'), 'required'),
-			array(array('t'), 'range', array('range'=>array('1', '2', '3', '4'))),
+			array(array('t'), 'range', array('range'=>array(
+				File::PIC_ORIGINAL,
+				File::PIC_THUMBNAIL,
+				File::PIC_CROP,
+				File::PIC_RESIZE,
+				File::PIC_CUT
+			))),
 			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
 		));
 		
@@ -490,15 +496,15 @@ class FileController extends AdminController{
 		header('Etag:'.$file['raw_name']);
 		
 		switch ($t) {
-			case 1:
+			case File::PIC_ORIGINAL:
 				//直接输出图片
 				$this->_pic($file);
 				break;
-			case 2:
+			case File::PIC_THUMBNAIL:
 				//输出图片的缩略图
 				$this->_thumbnail($file);
 				break;
-			case 3:
+			case File::PIC_CROP:
 				/**
 				 * 根据起始坐标，宽度及宽高比裁剪后输出图片
 				 * @param $_GET['x'] 起始点x坐标
@@ -510,15 +516,25 @@ class FileController extends AdminController{
 				 */
 				$this->_crop($file);
 				break;
-			case 4:
+			case File::PIC_RESIZE:
 				/**
 				 * 根据给定的宽高对图片进行裁剪后输出图片
 				 * @param $_GET['dw'] 输出图像宽度
 				 * @param $_GET['dh'] 输出图像高度
 				 * 若仅指定高度或者宽度，则会按比例缩放
-				 * 若均不指定，则默认为200*200
+				 * 若均不指定，则默认输出原图
 				 */
 				$this->_resize($file);
+				break;
+			case File::PIC_CUT:
+				/**
+				 * 根据给定的宽高对图片进行裁剪后输出图片
+				 * @parameter $_GET['dw'] 输出图像宽度
+				 * @parameter $_GET['dh'] 输出图像高度
+				 * 若未指定高度或者宽度，则会取文件实际宽高（这与RESIZE不同）
+				 * 若均不指定，则默认输出原图
+				 */
+				$this->_cut($file);
 				break;
 		
 			default:
@@ -610,6 +626,33 @@ class FileController extends AdminController{
 		}
 		
 		if($file !== false){
+			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+			
+			$img = Image::resize($img, $dw, $dh);
+			
+			//处理过的图片统一以jpg方式显示
+			header('Content-type: image/jpeg');
+			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+		}else{
+			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
+			$spare || $spare = $this->config->get('default', 'noimage');
+			$img = Image::getImage($spare);
+			header('Content-type: image/jpeg');
+			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			imagejpeg($img);
+		}
+	}
+	
+	private function _cut($file){
+		//输出宽度
+		$dw = $this->input->get('dw', 'intval');
+		//输出高度
+		$dh = $this->input->get('dh', 'intval');
+		
+		if($file !== false){
+			$dw || $dw = $file['image_width'];
+			$dh || $dh = $file['image_height'];
+			
 			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			
 			$img = Image::resize($img, $dw, $dh);

@@ -57,6 +57,7 @@
 					<p><label class="w150 fl block">版本</label><?php echo PHP_VERSION?></p>
 					<p><label class="w150 fl block">upload_max_filesize</label><?php echo ini_get('upload_max_filesize')?></p>
 					<p><label class="w150 fl block">post_max_size</label><?php echo ini_get('post_max_size')?></p>
+					<p><label class="w150 fl block">memory_limit</label><?php echo ini_get('memory_limit')?></p>
 				</td>
 			</tr>
 			<tr>

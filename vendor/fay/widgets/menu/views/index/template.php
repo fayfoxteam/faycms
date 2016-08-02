@@ -1,5 +1,5 @@
 <?php
-namespace fay\widgets\categories\views\index;//一般不需要用命名空间，这里因为定义了一个函数，防止重名。
+namespace fay\widgets\categories\views\index;
 
 use fay\helpers\Html;
 
@@ -25,7 +25,5 @@ if(!function_exists('fay\widgets\categories\views\index\renderMenu')){
 		echo '</ul>';
 	}
 }
-?>
-<div class="widget widget-menu" id="widget-<?php Html::encode($alias)?>">
-	<?php renderMenu($menus)?>
-</div>
+
+renderMenu($menus);

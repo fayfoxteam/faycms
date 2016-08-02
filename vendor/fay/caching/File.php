@@ -132,7 +132,7 @@ class File extends Cache{
 	 * @param bool $expired_only 若为true，只清理已过期的缓存文件；若为false，则清空所有缓存文件
 	 */
 	protected function gcRecursive($path, $expired_only){
-		if(($handle = opendir($path)) !== false){
+		if(is_dir($path) && ($handle = opendir($path)) !== false){
 			while(($file = readdir($handle)) !== false){
 				if($file[0] === '.'){
 					continue;

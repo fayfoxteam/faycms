@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\services\Option;
+use fay\services\File;
 ?>
 <form id="options-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
 	<div class="row">
@@ -67,6 +68,26 @@ use fay\services\Option;
 				<?php echo Html::textarea('site:seo_index_description', Option::get('site:seo_index_description'), array(
 					'class'=>'form-control h90 autosize',
 				))?>
+			</div>
+			<div class="form-field">
+				<label class="title">Logo</label>
+				<div id="logo-container" class="mb10">
+					<a href="javascript:;" id="upload-logo" class="btn">上传Logo</a>
+				</div>
+				<div id="logo-preview-container"><?php
+					echo F::form()->inputHidden('site:logo', array(), 0);
+					$logo = Option::get('site:logo');
+					if(!empty($logo)){
+						echo Html::link(Html::img($logo, File::PIC_ORIGINAL, array()), 'javascript:;', array(
+							'encode'=>false,
+							'class'=>'block',
+							'title'=>false,
+						));
+						echo Html::link('移除Logo', 'javascript:;', array(
+							'class'=>'remove-image-link'
+						));
+					}
+					?></div>
 			</div>
 		</div>
 	</div>

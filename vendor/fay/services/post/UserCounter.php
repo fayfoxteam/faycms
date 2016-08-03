@@ -52,7 +52,7 @@ class UserCounter extends Service{
 	
 	/**
 	 * 重置用户文章数
-	 * （目前都是小网站，且只有出错的时候才需要回复，所以不做分批处理）
+	 * （目前都是小网站，且只有出错的时候才需要重置，所以不做分批处理）
 	 */
 	public function resetPostCount(){
 		$sql = new Sql();

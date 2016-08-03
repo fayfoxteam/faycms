@@ -392,7 +392,7 @@ class Category extends Service{
 	
 	/**
 	 * 重置分类文章数
-	 * （目前都是小网站，且只有出错的时候才需要回复，所以不做分批处理）
+	 * （目前都是小网站，且只有出错的时候才需要重置，所以不做分批处理）
 	 */
 	public function resetPostCount(){
 		//获取所有文章分类ID

@@ -192,7 +192,10 @@ class Favorite extends Service{
 		}
 		
 		return array(
-			'favorites'=>Post::service()->mget(ArrayHelper::column($favorites, 'post_id'), $fields),
+			'favorites'=>array_values(Post::service()->mget(
+				ArrayHelper::column($favorites, 'post_id'),
+				$fields
+			)),
 			'pager'=>$listview->getPager(),
 		);
 	}

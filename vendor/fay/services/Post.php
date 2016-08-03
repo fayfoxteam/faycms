@@ -1502,7 +1502,7 @@ class Post extends Service{
 				}
 			}
 			
-			$return[] = $post;
+			$return[$pid] = $post;
 		}
 		
 		return $return;

@@ -23,6 +23,18 @@ class IndexController extends Widget{
 		'user'=>array(
 			'id', 'username', 'nickname', 'avatar'
 		),
+		'meta'=>array(
+			'comments', 'views', 'likes'
+		),
+		'files'=>array(
+			'file_id', 'description', 'is_image',
+		),
+		'category'=>array(
+			'id', 'title', 'alias',
+		),
+		'tags'=>array(
+			'id', 'title',
+		),
 	);
 	
 	public function index($config){

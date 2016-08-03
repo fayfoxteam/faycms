@@ -24,11 +24,7 @@ class IndexController extends FrontController{
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'))
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
-			->where(array(
-				'deleted = 0',
-				'status = '.Posts::STATUS_PUBLISHED,
-				"publish_time < {$this->current_time}",
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;
 		

@@ -105,10 +105,8 @@ class PostController extends FrontController{
 			->where(array(
 				'c.left_value > '.$cat_post['left_value'],
 				'c.right_value < '.$cat_post['right_value'],
-				'p.deleted = 0',
-				"p.publish_time < {$this->current_time}",
-				'p.status = '.Posts::STATUS_PUBLISHED,
 			))
+			->where(Posts::getPublishedConditions('p'))
 		;
 		
 		if($this->input->get('k')){

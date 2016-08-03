@@ -10,7 +10,7 @@ use fay\helpers\Html;
 		<link rel="canonical" href="<?php echo $canonical?>" />
 	<?php }?>
 	<title><?php if(!empty($title)){
-			echo $title, '|';
+			echo $title, ' | ';
 		}
 		echo Option::get('site:sitename')?></title>
 	<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />

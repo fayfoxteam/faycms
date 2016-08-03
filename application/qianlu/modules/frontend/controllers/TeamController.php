@@ -47,10 +47,8 @@ class TeamController extends FrontController{
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 			->where(array(
 				'p.cat_id = '.$cat_team['id'],
-				'p.deleted = 0',
-				"p.publish_time < {$this->current_time}",
-				'p.status = '.Posts::STATUS_PUBLISHED,
 			))
+			->where(Posts::getPublishedConditions('p'))
 			->fetchAll();
 		;
 	

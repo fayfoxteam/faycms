@@ -10,11 +10,7 @@ class IndexController extends Widget{
 	public function index($options){
 		$sql = new Sql();
 		$this->view->posts = $sql->from(array('p'=>'posts'), 'id,title,publish_time,comments')
-			->where(array(
-				'deleted = 0',
-				"publish_time < {$this->current_time}",
-				'status = '.Posts::STATUS_PUBLISHED,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('RAND()')
 			->limit(5)
 			->fetchAll();

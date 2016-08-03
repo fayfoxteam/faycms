@@ -68,11 +68,8 @@ class IndexController extends Widget{
 			}
 		}
 		
-		$sql->where(array(
-			'p.deleted = 0',
-			'p.status = '.Posts::STATUS_PUBLISHED,
-			"p.publish_time < {$this->current_time}",
-		))->order($order);
+		$sql->where(Posts::getPublishedConditions('p'))
+			->order($order);
 		
 		$listview = new ListView($sql, array(
 			'page_size'=>$config['page_size'],

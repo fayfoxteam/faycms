@@ -23,12 +23,10 @@ class PostController extends FrontController{
 		$sql->from(array('p'=>'posts'))
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				"p.publish_time < {$this->current_time}",
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
 			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;
 			

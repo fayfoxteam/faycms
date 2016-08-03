@@ -8,7 +8,7 @@ class Meta extends Service{
 	/**
 	 * 默认返回字段
 	 */
-	private $default_fields = array('comments', 'views', 'likes');
+	public static $default_fields = array('comments', 'views', 'likes');
 	
 	/**
 	 * @param string $class_name
@@ -27,7 +27,7 @@ class Meta extends Service{
 	public function get($feed_id, $fields = null){
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = self::$default_fields;
 		}
 		return FeedMeta::model()->fetchRow(array(
 			'feed_id = ?'=>$feed_id,
@@ -46,7 +46,7 @@ class Meta extends Service{
 		}
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = self::$default_fields;
 		}
 		//批量搜索，必须先得到feed_id
 		if(!is_array($fields)){

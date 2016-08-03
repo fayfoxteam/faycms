@@ -15,7 +15,7 @@ class Tag extends Service{
 	/**
 	 * 默认返回字段
 	 */
-	private $default_fields = array('id', 'title');
+	public static $default_fields = array('id', 'title');
 	
 	/**
 	 * @param string $class_name
@@ -34,7 +34,7 @@ class Tag extends Service{
 	public function get($post_id, $fields = null){
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = self::$default_fields;
 		}
 		$sql = new Sql();
 		return $sql->from(array('pt'=>'posts_tags'), '')
@@ -54,7 +54,7 @@ class Tag extends Service{
 	public function mget($post_ids, $fields = null){
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = self::$default_fields;
 		}
 		$sql = new Sql();
 		$tags = $sql->from(array('pt'=>'posts_tags'), 'post_id')

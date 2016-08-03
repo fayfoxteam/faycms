@@ -13,6 +13,18 @@ use fay\core\HttpException;
 use fay\services\post\Meta;
 
 class IndexController extends Widget{
+	/**
+	 * 返回字段
+	 */
+	private $fields = array(
+		'post'=>array(
+			'id', 'cat_id', 'title', 'publish_time', 'user_id', 'is_top', 'thumbnail', 'abstract'
+		),
+		'user'=>array(
+			'id', 'username', 'nickname', 'avatar'
+		),
+	);
+	
 	public function index($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
 		empty($config['page_key']) && $config['page_key'] = 'page';

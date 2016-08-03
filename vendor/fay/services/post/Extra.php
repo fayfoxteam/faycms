@@ -8,7 +8,7 @@ class Extra extends Service{
 	/**
 	 * 默认返回字段
 	 */
-	private $default_fields = array('seo_title', 'seo_keywords', 'seo_description');
+	public static $default_fields = array('seo_title', 'seo_keywords', 'seo_description');
 	
 	/**
 	 * @param string $class_name
@@ -27,7 +27,7 @@ class Extra extends Service{
 	public function get($post_id, $fields = null){
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = self::$default_fields;
 		}
 		return PostExtra::model()->fetchRow(array(
 			'post_id = ?'=>$post_id,
@@ -46,7 +46,7 @@ class Extra extends Service{
 		}
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
-			$fields = $this->default_fields;
+			$fields = self::$default_fields;
 		}
 		//批量搜索，必须先得到post_id
 		if(!is_array($fields)){

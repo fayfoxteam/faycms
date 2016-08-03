@@ -142,4 +142,17 @@ class Posts extends Table{
 				return array();
 		}
 	}
+	
+	/**
+	 * 获取已发布条件
+	 * @param string $alias 表别名
+	 * @return array
+	 */
+	public static function getPublishedConditions($alias = ''){
+		return array(
+			($alias ? "{$alias}." : '') . 'deleted = 0',
+			($alias ? "{$alias}." : '') . 'publish_time < '.\F::app()->current_time,
+			($alias ? "{$alias}." : '') . 'status = '.Posts::STATUS_PUBLISHED,
+		);
+	}
 }

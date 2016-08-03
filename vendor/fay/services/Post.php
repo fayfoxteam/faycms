@@ -595,11 +595,7 @@ class Post extends Service{
 		
 		//仅搜索已发布的文章
 		if($only_published){
-			$sql->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
-			));
+			$sql->where(Posts::getPublishedConditions('p'));
 		}
 		
 		//若指定了分类，加上分类条件限制
@@ -850,11 +846,7 @@ class Post extends Service{
 		$sql->from(array('p'=>'posts'), $post_fields)
 			->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
 			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id', '')
-			->where(array(
-				'deleted = 0',
-				'publish_time < '.\F::app()->current_time,
-				'status = '.Posts::STATUS_PUBLISHED,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->order($order)
 			->group('p.id');
 		if($limit){
@@ -1022,13 +1014,11 @@ class Post extends Service{
 		$prev_post = $sql->from(array('p'=>'posts'), $post_fields)
 			->where(array(
 				'p.cat_id = '.$post['cat_id'],
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
 				"p.publish_time >= {$post['publish_time']}",
 				"p.sort <= {$post['sort']}",
 				"p.id != {$post['id']}",
 			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('is_top, sort DESC, publish_time')
 			->fetchRow();
 		if($prev_post){
@@ -1037,13 +1027,11 @@ class Post extends Service{
 				$prev_post = $sql->from(array('p'=>'posts'), 'id,title,sort,publish_time')
 					->where(array(
 						'p.cat_id = '.$post['cat_id'],
-						'p.deleted = 0',
-						'p.status = '.Posts::STATUS_PUBLISHED,
-						'p.publish_time < '.\F::app()->current_time,
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
 						"p.id > {$post['id']}",
 					))
+					->where(Posts::getPublishedConditions('p'))
 					->order('id ASC')
 					->fetchRow();
 			}
@@ -1081,13 +1069,11 @@ class Post extends Service{
 		$next_post = $sql->from(array('p'=>'posts'), $post_fields)
 			->where(array(
 				'p.cat_id = '.$post['cat_id'],
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
 				"p.publish_time <= {$post['publish_time']}",
 				"p.sort >= {$post['sort']}",
 				"p.id != {$post['id']}",
 			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('is_top, sort DESC, publish_time')
 			->fetchRow();
 		if($next_post){
@@ -1096,13 +1082,11 @@ class Post extends Service{
 				$next_post = $sql->from(array('p'=>'posts'), 'id,title,sort,publish_time')
 					->where(array(
 						'p.cat_id = '.$post['cat_id'],
-						'p.deleted = 0',
-						'p.status = '.Posts::STATUS_PUBLISHED,
-						'p.publish_time < '.\F::app()->current_time,
 						"p.publish_time = {$post['publish_time']}",
 						"p.sort = {$post['sort']}",
 						"p.id < {$post['id']}",
 					))
+					->where(Posts::getPublishedConditions('p'))
 					->order('id ASC')
 					->fetchRow();
 			}
@@ -1135,10 +1119,8 @@ class Post extends Service{
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), $fields)
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
+			->where(Posts::getPublishedConditions('p'))
 			->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
 				'pi.content = '.$prop_value,
 			))
 			->joinLeft(array('pi'=>'post_prop_int'), array(
@@ -1402,11 +1384,7 @@ class Post extends Service{
 		
 		//仅搜索已发布的文章
 		if($only_published){
-			$sql->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
-			));
+			$sql->where(Posts::getPublishedConditions('p'));
 		}
 		
 		$posts = $sql->fetchAll();

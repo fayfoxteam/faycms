@@ -176,11 +176,7 @@ class Favorite extends Service{
 		$sql->from(array('pf'=>'post_favorites'), 'post_id')
 			->joinLeft(array('p'=>'posts'), 'pf.post_id = p.id')
 			->where('pf.user_id = ?', $user_id)
-			->where(array(
-				'deleted = 0',
-				'publish_time < '.\F::app()->current_time,
-				'status = '.Posts::STATUS_PUBLISHED,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('pf.create_time DESC')
 		;
 		

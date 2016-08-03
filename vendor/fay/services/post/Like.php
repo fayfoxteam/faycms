@@ -169,11 +169,7 @@ class Like extends Service{
 		$sql->from(array('pl'=>'post_likes'), 'user_id')
 			->joinLeft(array('p'=>'posts'), 'pl.post_id = p.id')
 			->where('pl.post_id = ?', $post_id)
-			->where(array(
-				'deleted = 0',
-				'publish_time < '.\F::app()->current_time,
-				'status = '.Posts::STATUS_PUBLISHED,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('pl.create_time DESC')
 		;
 		
@@ -213,11 +209,7 @@ class Like extends Service{
 		$sql->from(array('pl'=>'post_likes'), 'post_id')
 			->joinLeft(array('p'=>'posts'), 'pl.post_id = p.id')
 			->where('pl.user_id = ?', $user_id)
-			->where(array(
-				'deleted = 0',
-				'publish_time < '.\F::app()->current_time,
-				'status = '.Posts::STATUS_PUBLISHED,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('pl.create_time DESC')
 		;
 		

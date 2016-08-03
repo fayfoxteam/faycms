@@ -53,12 +53,10 @@ class ProductController extends FrontController{
 		$sql->from(array('p'=>'posts'), 'id,title,thumbnail')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')
 			->where(array(
-				'p.deleted = 0',
-				'p.publish_time < '.\F::app()->current_time,
-				'p.status = '.Posts::STATUS_PUBLISHED,
 				'c.left_value >= '.$cat_product['left_value'],
 				'c.right_value <= '.$cat_product['right_value'],
 			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;
 		

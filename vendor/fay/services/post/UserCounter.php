@@ -45,11 +45,7 @@ class UserCounter extends Service{
 		$sql = new Sql();
 		$result = $sql->from(array('p'=>'posts'), 'COUNT(*)')
 			->where('p.user_id = ?', $user_id)
-			->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->fetchRow();
 		return $result['COUNT(*)'];
 	}
@@ -61,11 +57,7 @@ class UserCounter extends Service{
 	public function resetPostCount(){
 		$sql = new Sql();
 		$results = $result = $sql->from(array('p'=>'posts'), array('user_id', 'COUNT(*) AS count'))
-			->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->group('p.user_id')
 			->fetchAll();
 		

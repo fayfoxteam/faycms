@@ -259,11 +259,7 @@ class MessageController extends ApiController{
 			array(array('to_user_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>array(
-					'deleted = 0',
-					'status = '.Posts::STATUS_PUBLISHED,
-					'publish_time < '.\F::app()->current_time,
-				)
+				'conditions'=>Posts::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -321,11 +317,7 @@ class MessageController extends ApiController{
 			array(array('to_user_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>array(
-					'deleted = 0',
-					'status = '.Posts::STATUS_PUBLISHED,
-					'publish_time < '.\F::app()->current_time,
-				)
+				'conditions'=>Posts::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -372,11 +364,7 @@ class MessageController extends ApiController{
 			array(array('to_user_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>array(
-					'deleted = 0',
-					'status = '.Posts::STATUS_PUBLISHED,
-					'publish_time < '.\F::app()->current_time,
-				)
+				'conditions'=>Posts::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(

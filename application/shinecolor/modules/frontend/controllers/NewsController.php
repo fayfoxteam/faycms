@@ -66,10 +66,8 @@ class NewsController extends FrontController{
 			->where(array(
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
 			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;
 		

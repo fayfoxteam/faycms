@@ -28,11 +28,7 @@ class Recommend extends Model{
 		
 		$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,publish_time,views')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
-			->where(array(
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.deleted = 0',
-				'p.publish_time < '.\F::app()->current_time,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->order('RAND()')
 			->limit($limit);
 		
@@ -76,11 +72,7 @@ class Recommend extends Model{
 		if($result_count < $limit && $days){
 			$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,publish_time,views')
 				->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
-				->where(array(
-					'p.deleted = 0',
-					'p.status = '.Posts::STATUS_PUBLISHED,
-					'p.publish_time < '.\F::app()->current_time,
-				))
+				->where(Posts::getPublishedConditions('p'))
 				->order('RAND()')
 				->limit($limit - $result_count);
 			

@@ -384,11 +384,7 @@ class Category extends Service{
 				'p.cat_id = ?'=>$cat_id,
 				'pc.cat_id = ?'=>$cat_id,
 			))
-			->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->fetchRow();
 		
 		return $result['count'];

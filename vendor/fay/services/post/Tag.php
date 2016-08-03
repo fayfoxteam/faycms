@@ -283,11 +283,7 @@ class Tag extends Service{
 		$result = $sql->from(array('pt'=>'posts_tags'), 'COUNT(*)')
 			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
 			->where('pt.tag_id = ?', $tag_id)
-			->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->fetchRow();
 		return $result['COUNT(*)'];
 	}
@@ -300,11 +296,7 @@ class Tag extends Service{
 		$sql = new Sql();
 		$results = $sql->from(array('pt'=>'posts_tags'), array('tag_id', 'COUNT(*) AS count'))
 			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
-			->where(array(
-				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
-				'p.publish_time < '.\F::app()->current_time,
-			))
+			->where(Posts::getPublishedConditions('p'))
 			->group('pt.tag_id')
 			->fetchAll();
 		

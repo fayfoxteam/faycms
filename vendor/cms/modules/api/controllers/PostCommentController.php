@@ -250,11 +250,7 @@ class PostCommentController extends ApiController{
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>array(
-					'deleted = 0',
-					'status = '.Posts::STATUS_PUBLISHED,
-					'publish_time < '.\F::app()->current_time,
-				)
+				'conditions'=>Posts::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -312,11 +308,7 @@ class PostCommentController extends ApiController{
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>array(
-					'deleted = 0',
-					'status = '.Posts::STATUS_PUBLISHED,
-					'publish_time < '.\F::app()->current_time,
-				)
+				'conditions'=>Posts::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -363,11 +355,7 @@ class PostCommentController extends ApiController{
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>array(
-					'deleted = 0',
-					'status = '.Posts::STATUS_PUBLISHED,
-					'publish_time < '.\F::app()->current_time,
-				)
+				'conditions'=>Posts::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(

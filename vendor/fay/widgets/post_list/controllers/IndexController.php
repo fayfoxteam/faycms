@@ -10,7 +10,9 @@ use fay\services\Category;
 use fay\services\User;
 use fay\helpers\Date;
 use fay\core\HttpException;
-use fay\services\post\Meta;
+use fay\services\post\Meta as PostMeta;
+use fay\services\post\Category as PostCategory;
+use fay\services\post\User as PostUser;
 
 class IndexController extends Widget{
 	/**
@@ -61,7 +63,7 @@ class IndexController extends Widget{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('p'=>'posts'), 'id,cat_id,title,publish_time,user_id,is_top,thumbnail,abstract');
+		$sql->from(array('p'=>'posts'), $this->fields['post']);
 		
 		//限制分类
 		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
@@ -76,7 +78,7 @@ class IndexController extends Widget{
 			$cat = Category::service()->get($cat_id, '*', '_system_post');
 			if(!$cat){
 				throw new HttpException('您访问的页面不存在');
-			}else{
+			}else if($cat['alias'] != '_system_post'){
 				\F::app()->layout->title = empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'];
 				\F::app()->layout->keywords = empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'];
 				\F::app()->layout->description = empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'];
@@ -104,47 +106,37 @@ class IndexController extends Widget{
 		
 		$format_posts = array();
 		if($posts){
-			if(in_array('cat', $config['fields'])){
-				//获取所有相关分类
-				$cat_ids = ArrayHelper::column($posts, 'cat_id');
-				$cats = Category::service()->mget(array_unique($cat_ids), 'id,title,alias');
-			}
-			
-			if(in_array('meta', $config['fields'])){
-				$post_metas = Meta::service()->mget(ArrayHelper::column($posts, 'id'));
-			}
-			
-			if(in_array('user', $config['fields'])){
-				//获取所有相关作者
-				$user_ids = ArrayHelper::column($posts, 'user_id');
-				$users = User::service()->mget(array_unique($user_ids), 'users.username,users.nickname,users.id,users.avatar');
-			}
-			
 			foreach($posts as $p){
-				$format_post = array(
-					'post'=>$p,
-				);
-				if(in_array('cat', $config['fields'])){
-					$format_post['cat'] = $cats[$p['cat_id']];
-				}
-				if(in_array('user', $config['fields'])){
-					$format_post['user'] = $users[$p['user_id']];
-				}
-				if(in_array('meta', $config['fields'])){
-					$format_post['meta'] = $post_metas[$p['id']];
-				}
 				if($config['date_format'] == 'pretty'){
-					$format_post['post']['format_publish_time'] = Date::niceShort($p['publish_time']);
+					$p['format_publish_time'] = Date::niceShort($p['publish_time']);
 				}else if($config['date_format']){
-					$format_post['post']['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
+					$p['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
 				}else{
-					$format_post['post']['format_publish_time'] = '';
+					$p['format_publish_time'] = '';
 				}
 				
-				$format_post['post']['link'] = $this->view->url(str_replace('{$id}', $format_post['post']['id'], $config['uri']));
+				$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
 				
-				$format_posts[] = $format_post;
+				$format_posts[] = array(
+					'post' => $p,
+				);
 			}
+			
+			//主分类
+			if(in_array('cat', $config['fields'])){
+				PostCategory::service()->assemblePrimaryCat($format_posts, $this->fields['category']);
+			}
+			
+			//meta
+			if(in_array('meta', $config['fields'])){
+				PostMeta::service()->assemble($format_posts, $this->fields['meta']);
+			}
+			
+			//作者
+			if(in_array('user', $config['fields'])){
+				PostUser::service()->assemble($format_posts, $this->fields['user']);
+			}
+			
 			$posts = $format_posts;
 			
 			//template

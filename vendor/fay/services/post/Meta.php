@@ -78,9 +78,8 @@ class Meta extends Service{
 	 *   若包含$posts.post.id字段，则以此字段作为文章ID
 	 *   若不包含$posts.post.id，则以$posts的键作为文章ID
 	 * @param null|string $fields 字段（post_meta表字段）
-	 * @return array
 	 */
-	public function assemble($posts, $fields = null){
+	public function assemble(&$posts, $fields = null){
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
@@ -96,7 +95,7 @@ class Meta extends Service{
 			}
 		}
 		
-		$metas = $this->mget($post_ids, $fields);
+		$meta_map = $this->mget($post_ids, $fields);
 		
 		foreach($posts as $k => $p){
 			if(isset($p['post']['id'])){
@@ -105,11 +104,9 @@ class Meta extends Service{
 				$post_id = $k;
 			}
 			
-			$p['meta'] = $metas[$post_id];
+			$p['meta'] = $meta_map[$post_id];
 			
 			$posts[$k] = $p;
 		}
-		
-		return $posts;
 	}
 }

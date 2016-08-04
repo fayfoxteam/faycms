@@ -29,6 +29,7 @@ use fay\services\post\Category as PostCategory;
 use fay\services\post\File as PostFile;
 use fay\services\post\UserCounter;
 use fay\services\post\Exception as PostException;
+use fay\services\post\User as PostUser;
 
 /**
  * 文章服务
@@ -1393,108 +1394,59 @@ class Post extends Service{
 			return array();
 		}
 		
-		//meta
-		if(!empty($fields['meta'])){
-			$post_metas = Meta::service()->mget($post_ids, $fields['meta']);
-		}
-		
-		//扩展信息
-		if(!empty($fields['extra'])){
-			$post_extras = Meta::service()->mget($post_ids, $fields['extra']);
-		}
-		
-		//标签
-		if(!empty($fields['tags'])){
-			$post_tags = PostTag::service()->mget($post_ids, $fields['tags']);
-		}
-		
-		//附件
-		if(!empty($fields['files'])){
-			$post_files = PostFile::service()->mget($post_ids, $fields['files']);
-		}
-		
-		//附加分类
-		if(!empty($fields['categories'])){
-			$post_categories = PostCategory::service()->mget($post_ids, $fields['categories']);
-		}
-		
-		//主分类
-		if(!empty($fields['category'])){
-			$cat_ids = ArrayHelper::column($posts, 'cat_id');
-			$post_category = Category::service()->mget(array_unique($cat_ids), $fields['category']);
-		}
+		$posts = ArrayHelper::column($posts, null, 'id');
 		
 		$return = array();
 		//以传入文章ID顺序返回文章结构
 		foreach($post_ids as $pid){
-			$p = null;
-			foreach($posts as $k => $pi){
-				//从$posts中获取当前文章ID
-				if($pid == $pi['id']){
-					$p = $pi;
-					unset($posts[$k]);
-					break;
-				}
+			if(isset($posts[$pid])){
+				$return[$pid] = array(
+					'post'=>$posts[$pid]
+				);
 			}
-			if(!$p){
-				//文章不存在（一般不会发生）
-				continue;
-			}
-			
-			if(isset($p['thumbnail'])){
-				//如果有缩略图，将缩略图转为图片URL
-				$p['thumbnail_url'] = File::getUrl($p['thumbnail'], File::PIC_ORIGINAL, array(
-					'spare'=>'avatar',
-				));
-			}
-			
-			$post['post'] = $p;
-			
-			//meta
-			if(isset($post_metas)){
-				$post['meta'] = $post_metas[$p['id']];
-			}
-			
-			//扩展信息
-			if(isset($post_extras)){
-				$post['extra'] = $post_extras[$p['id']];
-			}
-			
-			//标签
-			if(isset($post_tags)){
-				$post['tags'] = $post_tags[$p['id']];
-			}
-			
-			//附件
-			if(isset($post_files)){
-				$post['files'] = $post_files[$p['id']];
-			}
-			
-			//附加分类
-			if(isset($post_categories)){
-				$post['categories'] = $post_categories[$p['id']];
-			}
-			
-			//主分类
-			if(isset($post_category)){
-				$post['category'] = $post_category[$p['cat_id']];
-			}
-			
-			//作者信息
-			if(!empty($fields['user'])){
-				$post['user'] = User::service()->get($p['user_id'], $fields['user']);
-			}
-			
-			//附加属性
-			if(!empty($fields['props'])){
-				if(in_array('*', $fields['props'])){
-					$props = null;
-				}else{
-					$props = Prop::service()->mget($fields['props']);
-				}
-				$post['props'] = Prop::service()->getPropertySet($p['id'], $props);
-			}
-			
+		}
+		
+		//meta
+		if(!empty($fields['meta'])){
+			Meta::service()->assemble($return, $fields['meta']);
+		}
+		
+		//扩展信息
+		if(!empty($fields['extra'])){
+			Extra::service()->assemble($return, $fields['extra']);
+		}
+		
+		//标签
+		if(!empty($fields['tags'])){
+			PostTag::service()->assemble($return, $fields['tags']);
+		}
+		
+		//附件
+		if(!empty($fields['files'])){
+			PostFile::service()->assemble($return, $fields['files']);
+		}
+		
+		//附加分类
+		if(!empty($fields['categories'])){
+			PostCategory::service()->assembleSecondaryCats($return, $fields['categories']);
+		}
+		
+		//主分类
+		if(!empty($fields['category'])){
+			PostCategory::service()->assemblePrimaryCat($return, $fields['category']);
+		}
+		
+		//附加属性
+		if(!empty($fields['props'])){
+			Prop::service()->assemble($return, $fields['props']);
+		}
+		
+		//作者信息
+		if(!empty($fields['user'])){
+			PostUser::service()->assemble($return, $fields['user']);
+		}
+		
+		foreach($return as $k => $post){
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
 			foreach(array('id', 'user_id', 'cat_id') as $f){
 				if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
@@ -1502,7 +1454,7 @@ class Post extends Service{
 				}
 			}
 			
-			$return[$pid] = $post;
+			$return[$k] = $post;
 		}
 		
 		return $return;

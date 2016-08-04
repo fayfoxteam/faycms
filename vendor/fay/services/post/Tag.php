@@ -311,4 +311,42 @@ class Tag extends Service{
 			), $r['tag_id']);
 		}
 	}
+	
+	/**
+	 * 将tag信息装配到$posts中
+	 * @param array $posts 包含文章信息的三维数组
+	 *   若包含$posts.post.id字段，则以此字段作为文章ID
+	 *   若不包含$posts.post.id，则以$posts的键作为文章ID
+	 * @param null|string $fields 字段（tags表字段）
+	 */
+	public function assemble(&$posts, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = self::$default_fields;
+		}
+		
+		//获取所有文章ID
+		$post_ids = array();
+		foreach($posts as $k => $p){
+			if(isset($p['post']['id'])){
+				$post_ids[] = $p['post']['id'];
+			}else{
+				$post_ids[] = $k;
+			}
+		}
+		
+		$tags_map = $this->mget($post_ids, $fields);
+		
+		foreach($posts as $k => $p){
+			if(isset($p['post']['id'])){
+				$post_id = $p['post']['id'];
+			}else{
+				$post_id = $k;
+			}
+			
+			$p['tags'] = $tags_map[$post_id];
+			
+			$posts[$k] = $p;
+		}
+	}
 }

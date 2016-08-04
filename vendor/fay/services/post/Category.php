@@ -411,4 +411,76 @@ class Category extends Service{
 			), 'id = '.$c);
 		}
 	}
+	
+	/**
+	 * 将category信息装配到$posts中
+	 * @param array $posts 包含文章信息的三维数组，且第三维必须包含cat_id字段
+	 *   若包含$posts.post.id字段，则以此字段作为文章ID
+	 *   若不包含$posts.post.id，则以$posts的键作为文章ID
+	 * @param null|string $fields 字段（categories表字段）
+	 * @throws Exception
+	 */
+	public function assemblePrimaryCat(&$posts, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = self::$default_fields;
+		}
+		
+		//获取所有分类ID
+		$cat_ids = array();
+		foreach($posts as $k => $p){
+			if(isset($p['post']['cat_id'])){
+				$cat_ids[] = $p['post']['cat_id'];
+			}else{
+				throw new Exception(__CLASS__.'::'.__FUNCTION__.'()方法$posts参数中，必须包含cat_id项');
+			}
+		}
+		
+		$category_map = CategoryService::service()->mget($cat_ids, $fields);
+		
+		foreach($posts as $k => $p){
+			$p['category'] = $category_map[$p['post']['cat_id']];
+			
+			$posts[$k] = $p;
+		}
+	}
+	
+	/**
+	 * 将categories信息装配到$posts中
+	 * @param array $posts 包含文章信息的三维数组
+	 *   若包含$posts.post.id字段，则以此字段作为文章ID
+	 *   若不包含$posts.post.id，则以$posts的键作为文章ID
+	 * @param null|string $fields 字段（categories表字段）
+	 * @throws Exception
+	 */
+	public function assembleSecondaryCats(&$posts, $fields = null){
+		if(empty($fields) || empty($fields[0])){
+			//若传入$fields为空，则返回默认字段
+			$fields = self::$default_fields;
+		}
+		
+		//获取所有文章ID
+		$post_ids = array();
+		foreach($posts as $k => $p){
+			if(isset($p['post']['id'])){
+				$post_ids[] = $p['post']['id'];
+			}else{
+				$post_ids[] = $k;
+			}
+		}
+		
+		$categories_map = $this->mget($post_ids, $fields);
+		
+		foreach($posts as $k => $p){
+			if(isset($p['post']['id'])){
+				$post_id = $p['post']['id'];
+			}else{
+				$post_id = $k;
+			}
+			
+			$p['categories'] = $categories_map[$post_id];
+			
+			$posts[$k] = $p;
+		}
+	}
 }

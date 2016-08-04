@@ -72,4 +72,31 @@ class Prop extends \fay\models\Prop{
 	public function getPropsByCat($cat){
 		return Prop::service()->getByRefer(CategoryService::service()->getParentIds($cat, '_system_post'));
 	}
+	
+	/**
+	 * 将props信息装配到$posts中
+	 * @param array $posts 包含文章信息的三维数组
+	 *   若包含$posts.post.id字段，则以此字段作为文章ID
+	 *   若不包含$posts.post.id，则以$posts的键作为文章ID
+	 * @param null|string $fields 属性列表
+	 */
+	public function assemble(&$posts, $fields = null){
+		if(in_array('*', $fields)){
+			$props = null;
+		}else{
+			$props = Prop::service()->mget($fields);
+		}
+		
+		foreach($posts as $k => $p){
+			if(isset($p['post']['id'])){
+				$post_id = $p['post']['id'];
+			}else{
+				$post_id = $k;
+			}
+			
+			$p['props'] = Prop::service()->getPropertySet($post_id, $props);
+			
+			$posts[$k] = $p;
+		}
+	}
 }

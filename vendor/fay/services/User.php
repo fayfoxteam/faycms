@@ -425,13 +425,6 @@ class User extends Service{
 					));
 				}
 			}
-
-//			if(isset($user['user']['avatar']['thumbnail'])){
-//				//如果有头像，将头像转为图片URL
-//				$user['user']['avatar_url'] = File::getUrl($user['user']['avatar']['thumbnail'], File::PIC_ORIGINAL, array(
-//					'spare'=>'avatar',
-//				));
-//			}
 			
 			//profile
 			if(isset($profiles)){

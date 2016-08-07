@@ -707,16 +707,17 @@ class File extends Service{
 	}
 	
 	/**
-	 * 返回一个包含文件id, url, thumbnail的数组
+	 * 返回一个包含指定字段文件信息的数组
 	 * @param $file
 	 * @param array $options
 	 *  - spare 替代图片（当指定图片不存在时，使用配置的替代图）
 	 *  - dw 输出缩略图宽度
 	 *  - dh 输出缩略图高度
-	 * @param string|array $fields 返回字段，可指定id, url, thumbnail, is_image
+	 * @param string|array $fields 返回字段，可指定id, url, thumbnail, is_image, width, height
+	 * @param string $description 图片描述 若传入图片描述，则会原样返回
 	 * @return array
 	 */
-	public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
+	public static function get($file, $options = array(), $fields = 'id,url,thumbnail', $description = null){
 		$fields = FieldHelper::parse($fields);
 		if((StringHelper::isInt($file, false) && $file <= 0) ||
 			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu')
@@ -748,6 +749,9 @@ class File extends Service{
 			if(in_array('height', $fields)){
 				$return['height'] = '0';
 			}
+			if($description !== null){
+				$return['description'] = $description;
+			}
 			
 			return $return;
 		}
@@ -770,6 +774,9 @@ class File extends Service{
 		}
 		if(in_array('height', $fields)){
 			$return['height'] = $file['image_height'];
+		}
+		if($description !== null){
+			$return['description'] = $description;
 		}
 		
 		return $return;

@@ -48,9 +48,8 @@ echo F::form()->open();
 		<div class="form-field">
 			<label class="title bold">头像</label>
 			<div id="avatar-container"><?php
-				echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
-				echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
 				if(!empty($user['user']['avatar']['id'])){
+					echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
 					echo Html::link(Html::img($user['user']['avatar']['id'], File::PIC_RESIZE, array(
 						'dw'=>178,
 						'dh'=>178,

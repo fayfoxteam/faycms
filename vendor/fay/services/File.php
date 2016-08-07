@@ -742,6 +742,12 @@ class File extends Service{
 			if(in_array('is_image', $fields)){
 				$return['is_image'] = '0';
 			}
+			if(in_array('width', $fields)){
+				$return['width'] = '0';
+			}
+			if(in_array('height', $fields)){
+				$return['height'] = '0';
+			}
 			
 			return $return;
 		}
@@ -758,6 +764,12 @@ class File extends Service{
 		}
 		if(in_array('is_image', $fields)){
 			$return['is_image'] = $file['is_image'];
+		}
+		if(in_array('width', $fields)){
+			$return['width'] = $file['image_width'];
+		}
+		if(in_array('height', $fields)){
+			$return['height'] = $file['image_height'];
 		}
 		
 		return $return;

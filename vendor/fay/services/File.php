@@ -2,6 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
+use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\UrlHelper;
 use fay\models\tables\Files;
@@ -713,14 +714,13 @@ class File extends Service{
 	 *  - spare 替代图片（当指定图片不存在时，使用配置的替代图）
 	 *  - dw 输出缩略图宽度
 	 *  - dh 输出缩略图高度
-	 * @param string|array $fields 返回字段，可指定id, url, thumbnail, is_image, width, height
-	 * @param string $description 图片描述 若传入图片描述，则会原样返回
+	 * @param string|array $fields 返回字段，可指定id, url, thumbnail, is_image, width, height, description
 	 * @return array
 	 */
-	public static function get($file, $options = array(), $fields = 'id,url,thumbnail', $description = null){
+	public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
 		$fields = FieldHelper::parse($fields);
-		if((StringHelper::isInt($file, false) && $file <= 0) ||
-			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu')
+		if(!is_array($file) && ($file <= 0 ||
+			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
 		){
 			//显然负数ID不存在，返回默认图数组
 			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
@@ -732,6 +732,7 @@ class File extends Service{
 			
 			$return = array();
 			if(in_array('id', $fields)){
+				//指定文件不存在，统一返回0
 				$return['id'] = '0';
 			}
 			if(in_array('url', $fields)){
@@ -749,8 +750,8 @@ class File extends Service{
 			if(in_array('height', $fields)){
 				$return['height'] = '0';
 			}
-			if($description !== null){
-				$return['description'] = $description;
+			if(in_array('description', $fields)){
+				$return['description'] = isset($file['description']) ? $file['description'] : '';
 			}
 			
 			return $return;
@@ -775,8 +776,48 @@ class File extends Service{
 		if(in_array('height', $fields)){
 			$return['height'] = $file['image_height'];
 		}
-		if($description !== null){
-			$return['description'] = $description;
+		if(in_array('description', $fields)){
+			$return['description'] = isset($file['description']) ? $file['description'] : '';
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * 批量获取图片对象
+	 * @param array $files 数组所有项必须一致（均为数字，或均为文件行数组）
+	 *  - 由文件ID构成的一维数组，则会根据文件ID进行搜索
+	 *  - 由文件信息对象（其实也是数组）构成的二维数组。至少包含id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu字段
+	 * @param array $options
+	 * @param string $fields 返回字段，可指定id, url, thumbnail, is_image, width, height, description
+	 * @return array
+	 */
+	public static function mget($files, $options, $fields = 'id,url,thumbnail'){
+		if(empty($files)){
+			return array();
+		}
+		
+		$return = array();
+		if(!is_array($files[0])){
+			//传入的是文件ID，通过ID获取文件信息
+			$file_rows = Files::model()->fetchAll(array(
+				'id IN (?)'=>$files,
+			), 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			$file_map = ArrayHelper::column($file_rows, null, 'id');
+			
+			foreach($files as $f){
+				if(isset($file_map[$f])){
+					$return[$f] = self::get($file_map[$f], $options, $fields);
+				}else{
+					//文件ID没搜出来（理论上其实不会这样的）
+					$return[$f] = self::get(-1, $options, $fields);
+				}
+			}
+		}else{
+			//传入的是文件行数组，无需再搜索数据库
+			foreach($files as $f){
+				$return[$f['id']] = self::get($f, $options, $fields);
+			}
 		}
 		
 		return $return;

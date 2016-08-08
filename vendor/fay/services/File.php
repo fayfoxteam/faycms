@@ -718,7 +718,9 @@ class File extends Service{
 	 * @return array
 	 */
 	public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
-		$fields = FieldHelper::parse($fields);
+		if(is_string($fields)){
+			$fields = explode(',', $fields);
+		}
 		if(!is_array($file) && ($file <= 0 ||
 			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
 		){

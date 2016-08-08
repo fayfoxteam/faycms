@@ -58,7 +58,7 @@ class Post extends Service{
 			'id', 'title',
 		),
 		'files'=>array(
-			'file_id', 'description', 'is_image',
+			'id', 'description', 'thumbnail', 'url', 'width', 'height', 'is_image',
 		),
 		'props'=>array(
 			'*',//这里指定的是属性别名，取值视后台设定而定
@@ -536,7 +536,7 @@ class Post extends Service{
 	 */
 	public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
 		//解析$fields
-		$fields = FieldHelper::parse($fields, 'post');
+		$fields = FieldHelper::parse($fields, 'post', self::$public_fields);
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化
 			$fields['post'] = Posts::model()->getFields();
@@ -823,7 +823,7 @@ class Post extends Service{
 	 */
 	public function getByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		//解析$fields
-		$fields = FieldHelper::parse($fields, 'post');
+		$fields = FieldHelper::parse($fields, 'post', self::$public_fields);
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
 			$fields['post'] = Posts::model()->getFields(array('content'));
@@ -1359,7 +1359,7 @@ class Post extends Service{
 			return array();
 		}
 		//解析$fields
-		$fields = FieldHelper::parse($fields, 'post');
+		$fields = FieldHelper::parse($fields, 'post', self::$public_fields);
 		if(empty($fields['post']) || in_array('*', $fields['post'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示文章详情的）
 			$fields['post'] = Posts::model()->getFields(array('content'));
@@ -1408,42 +1408,66 @@ class Post extends Service{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			Meta::service()->assemble($return, $fields['meta']);
+			Meta::service()->assemble(
+				$return,
+				in_array('*', $fields['meta']) ? self::$public_fields['meta'] : $fields['meta']
+			);
 		}
 		
 		//扩展信息
 		if(!empty($fields['extra'])){
-			Extra::service()->assemble($return, $fields['extra']);
+			Extra::service()->assemble(
+				$return,
+				in_array('*', $fields['extra']) ? self::$public_fields['extra'] : $fields['extra']
+			);
 		}
 		
 		//标签
 		if(!empty($fields['tags'])){
-			PostTag::service()->assemble($return, $fields['tags']);
+			PostTag::service()->assemble(
+				$return,
+				in_array('*', $fields['tags']) ? self::$public_fields['tags'] : $fields['tags']
+			);
 		}
 		
 		//附件
 		if(!empty($fields['files'])){
-			PostFile::service()->assemble($return, $fields['files']);
+			PostFile::service()->assemble(
+				$return,
+				in_array('*', $fields['files']) ? self::$public_fields['files'] : $fields['files']
+			);
 		}
 		
 		//附加分类
 		if(!empty($fields['categories'])){
-			PostCategory::service()->assembleSecondaryCats($return, $fields['categories']);
+			PostCategory::service()->assembleSecondaryCats(
+				$return,
+				in_array('*', $fields['categories']) ? self::$public_fields['categories'] : $fields['categories']
+			);
 		}
 		
 		//主分类
 		if(!empty($fields['category'])){
-			PostCategory::service()->assemblePrimaryCat($return, $fields['category']);
+			PostCategory::service()->assemblePrimaryCat(
+				$return,
+				in_array('*', $fields['category']) ? self::$public_fields['category'] : $fields['category']
+			);
 		}
 		
 		//附加属性
 		if(!empty($fields['props'])){
-			Prop::service()->assemble($return, $fields['props']);
+			Prop::service()->assemble(
+				$return,
+				in_array('*', $fields['props']) ? '*' : $fields['category']
+			);
 		}
 		
 		//作者信息
 		if(!empty($fields['user'])){
-			PostUser::service()->assemble($return, $fields['user']);
+			PostUser::service()->assemble(
+				$return,
+				$fields['user']
+			);
 		}
 		
 		foreach($return as $k => $post){

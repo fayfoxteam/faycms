@@ -2,13 +2,14 @@
 namespace fay\services\post;
 
 use fay\core\Service;
+use fay\core\Sql;
 use fay\models\tables\PostsFiles;
 
 class File extends Service{
 	/**
 	 * 默认返回字段
 	 */
-	public static $default_fields = array('file_id', 'description', 'is_image');
+	public static $default_fields = array('id', 'description', 'is_image', 'url');
 	
 	/**
 	 * @param string $class_name
@@ -40,11 +41,11 @@ class File extends Service{
 	
 	/**
 	 * 批量获取文章附件
-	 * @param array $post_id 文章ID构成的二维数组
+	 * @param array $post_ids 文章ID构成的二维数组
 	 * @param string $fields 附件字段（posts_files表字段）
 	 * @return array 返回以文章ID为key的三维数组
 	 */
-	public function mget($post_id, $fields = null){
+	public function mget($post_ids, $fields = null){
 		if(empty($fields) || empty($fields[0])){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
@@ -53,24 +54,20 @@ class File extends Service{
 		if(!is_array($fields)){
 			$fields = explode(',', $fields);
 		}
-		if(!in_array('post_id', $fields)){
-			$fields[] = 'post_id';
-			$remove_post_id_field = true;
-		}else{
-			$remove_post_id_field = false;
+		
+		$sql = new Sql();
+		$file_rows = $sql->from(array('pf'=>'posts_files'), 'post_id,description')
+			->joinLeft(array('f'=>'files'), 'pf.file_id = f.id', '*')
+			->where('post_id IN (?)', $post_ids)
+			->order('pf.post_id, pf.sort')
+			->fetchAll();
+		$files = \fay\services\File::mget($file_rows, array(), $fields);
+		
+		$return = array_fill_keys($post_ids, array());
+		foreach($file_rows as $fr){
+			$return[$fr['post_id']][] = $files[$fr['id']];
 		}
-		$files = PostsFiles::model()->fetchAll(array(
-			'post_id IN (?)'=>$post_id,
-		), $fields, 'post_id, sort');
-		$return = array_fill_keys($post_id, array());
-		foreach($files as $f){
-			$p = $f['post_id'];
-			if($remove_post_id_field){
-				unset($f['post_id']);
-			}
-			$f['url'] = \fay\services\File::getUrl($f['file_id']);
-			$return[$p][] = $f;
-		}
+		
 		return $return;
 	}
 	

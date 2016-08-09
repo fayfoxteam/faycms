@@ -120,17 +120,35 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
-					echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
-						'label'=>'分类详情',
-					), true);
-					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
-						'label'=>'作者信息',
-					));
-					echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
-						'label'=>'计数（评论数/阅读数/点赞数）',
-					));
+				echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
+					'label'=>'分类详情',
+				), true);
+				echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
+					'label'=>'作者信息',
+				));
+				echo F::form('widget')->inputCheckbox('fields[]', 'files', array(
+					'label'=>'附件',
+				));
+				echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
+					'label'=>'计数（评论数/阅读数/点赞数）',
+				));
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
+			</div>
+			<div class="form-field thumbnail-size-container <?php if(empty($config['fields']) || !in_array('files', $config['fields']))echo 'hide';?>">
+				<label class="title bold">附件缩略图尺寸</label>
+				<?php
+				echo F::form('widget')->inputText('file_thumbnail_width', array(
+					'placeholder'=>'宽度',
+					'class'=>'form-control w100 ib',
+				)),
+				' x ',
+				F::form('widget')->inputText('file_thumbnail_height', array(
+					'placeholder'=>'高度',
+					'class'=>'form-control w100 ib',
+				));
+				?>
+				<p class="fc-grey">若留空，则默认为100x100。</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">渲染模版</label>
@@ -182,12 +200,20 @@ $(function(){
 	$('.toggle-advance').on('click', function(){
 		$(".advance").toggle();
 	});
-
+	
 	$('input[name="pager"]').on('click', function(){
 		if($(this).val() == 'custom'){
 			$('#pager-template-container').show();
 		}else{
 			$('#pager-template-container').hide();
+		}
+	});
+	
+	$('input[name="fields[]"][value="files"]').on('click', function(){
+		if($(this).is(':checked')){
+			$('.thumbnail-size-container').show();
+		}else{
+			$('.thumbnail-size-container').hide();
 		}
 	});
 });

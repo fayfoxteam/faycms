@@ -1,5 +1,7 @@
 <?php
 use fay\helpers\Html;
+
+dump($posts);
 ?>
 <?php foreach($posts as $p){?>
 	<article class="post-list-item">
@@ -17,7 +19,7 @@ use fay\helpers\Html;
 		<div class="post-content"><?php echo nl2br($p['post']['abstract'])?></div>
 		<div class="post-tags">
 			<?php
-			echo Html::link($p['cat']['title'], array('cat/'.$p['post']['cat_id']), array(
+			echo Html::link($p['category']['title'], array('cat/'.$p['post']['cat_id']), array(
 				'class'=>'post-type',
 			));
 			

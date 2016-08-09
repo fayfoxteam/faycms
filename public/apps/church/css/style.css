@@ -68,7 +68,7 @@ a:hover{color:#3799ab}
 .main-menu li.has-sub > a:after{position:absolute;top:50%;right:-14px;line-height:1em;font-family:"fontello";content:"\f107";font-size:0.8em;margin-top:-0.6em}
 .main-menu > ul > li.has-sub > a:after{margin-top:-0.3em}
 .main-menu li li.has-sub > a:after{right:20px;content:"\f105"}
-.main-menu li ul{display:none;position:absolute;left:0;top:5.5em;z-index:10001;width:170px;background-color:#fff;padding:1.7em 0 1.6em}
+.main-menu li ul{display:none;position:absolute;left:0;top:5.5em;z-index:10001;width:170px;background-color:#fff;padding:1.7em 0 1.6em;box-shadow:0 6px 12px rgba(0, 0, 0, 0.175)}
 .main-menu > ul > li > ul{border-top:solid 3px #1dc6df}
 .main-menu li li > a{display:block;padding:0.6364em 2.6em 0.7273em}
 .main-menu ul ul ul{left:174px;top:-24px;background-color:#f3f5f8}

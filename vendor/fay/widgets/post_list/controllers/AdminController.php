@@ -49,6 +49,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array('page_size', 'int', array('min'=>1)),
+			array(array('file_thumbnail_width', 'file_thumbnail_height'), 'int', array('min'=>0)),
 			array('pager', 'range', array('range'=>array('system', 'custom'))),
 			array('cat_type', 'range', array('range'=>array('by_input', 'fixed_cat'))),
 			array('cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
@@ -82,6 +83,8 @@ class AdminController extends Widget{
 			'empty_text'=>'trim',
 			'cat_id'=>'intval',
 			'subclassification'=>'intval',
+			'file_thumbnail_width'=>'intval',
+			'file_thumbnail_height'=>'intval',
 		);
 	}
 }

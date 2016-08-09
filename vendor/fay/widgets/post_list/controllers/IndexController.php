@@ -1,11 +1,11 @@
 <?php
 namespace fay\widgets\post_list\controllers;
 
+use fay\models\tables\PostsFiles;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Posts;
-use fay\helpers\ArrayHelper;
 use fay\services\Category;
 use fay\services\User;
 use fay\helpers\Date;
@@ -13,6 +13,7 @@ use fay\core\HttpException;
 use fay\services\post\Meta as PostMeta;
 use fay\services\post\Category as PostCategory;
 use fay\services\post\User as PostUser;
+use fay\services\post\File as PostFile;
 
 class IndexController extends Widget{
 	/**
@@ -29,7 +30,7 @@ class IndexController extends Widget{
 			'comments', 'views', 'likes'
 		),
 		'files'=>array(
-			'file_id', 'description', 'is_image',
+			'id', 'description', 'url', 'thumbnail', 'is_image',
 		),
 		'category'=>array(
 			'id', 'title', 'alias',
@@ -135,6 +136,24 @@ class IndexController extends Widget{
 			//作者
 			if(in_array('user', $config['fields'])){
 				PostUser::service()->assemble($format_posts, $this->fields['user']);
+			}
+			
+			//附件
+			if(in_array('files', $config['fields'])){
+				if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
+					$extra = array(
+						'_extra'=>array(
+							'file'=>array(
+								'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
+									'x' .
+								(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
+							)
+						)
+					);
+				}else{
+					$extra = array();
+				}
+				PostFile::service()->assemble($format_posts, $this->fields['files'] + $extra);
 			}
 			
 			$posts = $format_posts;

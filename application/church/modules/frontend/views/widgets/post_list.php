@@ -1,32 +1,64 @@
 <?php
 use fay\helpers\Html;
-
-dump($posts);
+use fay\services\File;
+use fay\helpers\Date;
 ?>
 <?php foreach($posts as $p){?>
-	<article class="post-list-item">
-		<div class="post-title">
-			<h1><?php
-				echo Html::link($p['post']['title'], array(str_replace('{$id}', $p['post']['id'], $config['uri'])));
-				?></h1>
-			<?php if(!empty($config['date_format'])){?>
-				<span class="post-meta">
-			发表于 
-			<time><?php echo $p['post']['format_publish_time']?></time>
-		</span>
-			<?php }?>
+	<article>
+		<?php if($p['files']){?>
+		<div class="post-featured">
+			<div class="swiper-container post-files">
+				<div class="swiper-wrapper">
+				<?php foreach($p['files'] as $file){?>
+					<div class="swiper-slide">
+						<?php echo Html::img($file['thumbnail'], File::PIC_ORIGINAL, array(
+							'alt'=>$file['description'],
+						))?>
+					</div>
+				<?php }?>
+				</div>
+				<div class="swiper-pagination"></div>
+				<div class="swiper-control-container">
+					<a class="swiper-btn-prev"></a>
+					<a class="swiper-btn-next"></a>
+				</div>
+			</div>
 		</div>
-		<div class="post-content"><?php echo nl2br($p['post']['abstract'])?></div>
-		<div class="post-tags">
-			<?php
-			echo Html::link($p['category']['title'], array('cat/'.$p['post']['cat_id']), array(
-				'class'=>'post-type',
-			));
-			
-			echo Html::link('阅读全文', array('post/'.$p['post']['id']), array(
-				'class'=>'post-more-link',
-			));
-			?>
+		<?php }?>
+		<?php if(!$p['files'] && $p['post']['thumbnail']){?>
+		<div class="post-featured">
+			<div class="post-thumb">
+				<a href="<?php echo $p['post']['link']?>"><?php
+					echo Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
+						'dw'=>770,
+						'dh'=>448,
+					));
+				?></a>
+			</div>
+		</div>
+		<?php }?>
+		<div class="post-content">
+			<h2 class="post-title">
+				<a href="<?php echo $p['post']['link']?>"><?php
+					echo Html::encode($p['post']['title'])
+				?></a>
+			</h2>
+			<div class="post-meta">
+				<time class="post-meta-item post-meta-time"><?php
+					echo Date::niceShort($p['post']['publish_time'])
+				?></time>
+				<a href="" class="post-meta-item post-meta-category">分类1</a>
+				<span class="post-meta-item post-meta-views">
+					<span>阅读数</span>
+					<a href="<?php echo $p['post']['link']?>"><?php
+						echo $p['meta']['views']
+					?></a>
+				</span>
+			</div>
+			<div class="post-description">
+				<p><?php echo $p['post']['abstract']?></p>
+				<a href="<?php echo $p['post']['link']?>" class="btn btn-lg btn-blue">阅读全文</a>
+			</div>
 		</div>
 	</article>
 <?php }?>

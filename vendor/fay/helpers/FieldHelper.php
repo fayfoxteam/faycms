@@ -156,7 +156,7 @@ class FieldHelper{
 							$return[] = ($prefix ? "{$prefix}.{$key}.{$f}" : "{$key}.{$f}");
 						}
 					}else{
-						$return[] = self::join(
+						$return[] = self::build(
 							$fields,
 							$prefix ? "{$prefix}.{$key}" : $key
 						);

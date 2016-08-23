@@ -26,7 +26,7 @@ class FieldHelper{
 	 * @return array
 	 */
 	public static function parse($fields, $default_key = 'default', $allowed_fields = array()){
-		if(is_array($fields) && $default_key){
+		if(is_array($fields)){
 			$return = self::_parseArray($fields, $default_key);
 		}else{
 			//解析字符串

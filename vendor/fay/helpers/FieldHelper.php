@@ -38,19 +38,6 @@ class FieldHelper{
 	
 	/**
 	 * 将字符串解析为数组
-	 * //user.id,user.avatar:100x120,roles.id
-	 * array(
-	 *   'user'=>array(
-	 *     'fields'=>array('id', 'avatar'),
-	 *     'extra'=>array(
-	 *       'avatar'=>'100x120',
-	 *     )
-	 *   ),
-	 *   'roles'=>array(
-	 *     'fields'=>array('id')
-	 *   )
-	 * );
-	 *
 	 * //post.id,post.thumbnail:320x320,user.id,user.avatar:200x200,user.roles.id
 	 * array(
 	 *   'post'=>array(

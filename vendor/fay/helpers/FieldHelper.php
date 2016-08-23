@@ -25,64 +25,112 @@ class FieldHelper{
 	 * @param array $allowed_fields 若该字段非空，则会调用self::filter()方法对解析后的$fields进行过滤
 	 * @return array
 	 */
-	public static function parse($fields, $default_key = null, $allowed_fields = array()){
+	public static function parse($fields, $default_key = 'default', $allowed_fields = array()){
 		if(is_array($fields) && $default_key){
-			//如果已经是数组，且有$default_key，则把索引数组项归类到$default_key下（当传入$fields是二次解析的数组时，可能存在此类情况）
-			foreach($fields as $k => $f){
-				if(is_int($k)){
-					$fields[$default_key][] = $f;
-					unset($fields[$k]);
-				}
-			}
-			return $fields;
+			$return = self::_parseArray($fields, $default_key);
 		}else{
-			$fields = explode(',', $fields);
-			$return = array();
-			foreach($fields as $field){
-				$field = trim($field);
-				if(strpos($field, '.')){
-					//如果带有点号，则归属到指定的数组项
-					$field_path = explode('.', $field);
-					$field = array_pop($field_path);//最后一项是字段值
-					
-					if(strpos($field, ':')){
-						//若存在冒号，则有附加信息
-						$field_extra = explode(':', $field, 2);
-						$field = $field_extra[0];
-						if(isset($field_path[1])){
-							//字段路径大于1个时，插入到倒数第二个层级
-							$field_path_copy = $field_path;
-							$parent_path = array_pop($field_path_copy);
-							eval('$return[\'' . implode("']['", $field_path_copy) . "']['_extra']['{$parent_path}']['{$field}']='{$field_extra[1]}';");
-						}else{
-							//字段路径只有1个，插入到顶级
-							$return['_extra'][$field_path[0]][$field] = $field_extra[1];
-						}
-					}
-					
-					eval('$return[\'' . implode("']['", $field_path) . "'][]='{$field}';");
-				}else if(!empty($field)){
-					//没有点好，且非空，则归属到顶级或默认键值下
-					if(strpos($field, ':')){
-						//若存在冒号，则有附加信息
-						$field_extra = explode(':', $field, 2);
-						$field = $field_extra[0];
-						if($default_key){
-							$return['_extra'][$default_key][$field] = $field_extra[1];
-						}else{
-							$return['_extra'][$field] = $field_extra[1];
-						}
-					}
-					if($default_key){
-						$return[$default_key][] = $field;
-					}else{
-						$return[] = $field;
-					}
-				}
-			}
-			
-			return $allowed_fields ? self::filter($return, $allowed_fields) : $return;
+			//解析字符串
+			$return = self::_parseString($fields, $default_key);
 		}
+		
+		return $allowed_fields ? self::filter($return, $allowed_fields) : $return;
+	}
+	
+	/**
+	 * 将字符串解析为数组
+	 * //user.id,user.avatar:100x120,roles.id
+	 * array(
+	 *   'user'=>array(
+	 *     'fields'=>array('id', 'avatar'),
+	 *     'extra'=>array(
+	 *       'avatar'=>'100x120',
+	 *     )
+	 *   ),
+	 *   'roles'=>array(
+	 *     'fields'=>array('id')
+	 *   )
+	 * );
+	 *
+	 * //post.id,post.thumbnail:320x320,user.id,user.avatar:200x200,user.roles.id
+	 * array(
+	 *   'post'=>array(
+	 *     'fields'=>array('id', 'thumbnail'),
+	 *     'extra'=>array(
+	 *       'thumbnail'=>'320x320',
+	 *     )
+	 *   ),
+	 *   'user'=>array(
+	 *     'fields'=>array(
+	 *       'id',
+	 *       'avatar',
+	 *       'roles'=>array(
+	 *         'fields'=>array('id')
+	 *       )
+	 *     ),
+	 *     'extra'=>array(
+	 *       'avatar'=>'200x200',
+	 *     )
+	 *   )
+	 * )
+	 * @param string $string
+	 * @param string $default_key
+	 * @return array
+	 */
+	private static function _parseString($string, $default_key){
+		$fields = explode(',', $string);
+		$return = array();
+		foreach($fields as $field){
+			$field = trim($field);
+			if(strpos($field, '.')){
+				//如果带有点号，则归属到指定的数组项
+				$field_path = explode('.', $field);
+				$field = array_pop($field_path);//最后一项是字段值
+				
+				if(strpos($field, ':')){
+					//若存在冒号，则有附加信息
+					$field_extra = explode(':', $field, 2);
+					$field = $field_extra[0];
+					
+					eval('$return[\'' . implode("']['fields']['", $field_path) . "']['extra']['$field']='{$field_extra[1]}';");
+				}
+				
+				eval('$return[\'' . implode("']['fields']['", $field_path) . "']['fields'][]='{$field}';");
+			}else if(!empty($field)){
+				//没有点好，且非空，则归属到顶级或默认键值下
+				if(strpos($field, ':')){
+					//若存在冒号，则有附加信息
+					$field_extra = explode(':', $field, 2);
+					$field = $field_extra[0];
+					$return[$default_key]['extra'][$field] = $field_extra[1];
+				}
+				$return[$default_key]['fields'][] = $field;
+			}
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * 将数组（外层$fields解析后得到的）转换为标准结构
+	 * @param array $array
+	 * @param string $default_key
+	 * @return array
+	 */
+	private static function _parseArray($array, $default_key){
+		$return = array();
+		foreach($array['fields'] as $k => $field){
+			if(is_int($k)){
+				$return[$default_key]['fields'][] = $field;
+			}else{
+				$return[$k] = $field;
+			}
+		}
+		
+		if(isset($array['extra'])){
+			$return[$default_key]['extra'] = $array['extra'];
+		}
+		
+		return $return;
 	}
 	
 	/**
@@ -93,11 +141,6 @@ class FieldHelper{
 	 */
 	public static function filter($fields, $allowed_fields){
 		foreach($fields as $k => $v){
-			if($k === '_extra'){
-				//_extra是系统生成的扩展信息，不过滤
-				continue;
-			}
-			
 			if(is_array($v)){
 				if(!isset($allowed_fields[$k])){
 					//如果键在允许字段中都不存在，直接删除该键

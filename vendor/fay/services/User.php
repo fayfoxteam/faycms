@@ -292,21 +292,23 @@ class User extends Service{
 		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
 			$fields['user'] = array(
-				'id', 'username', 'nickname', 'avatar',
+				'fields'=>array(
+					'id', 'username', 'nickname', 'avatar',
+				)
 			);
 		}else if(in_array('*', $fields['user'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
-			$fields['user'] = Users::model()->getFields(array('password', 'salt'));
+			$fields['user']['fields'] = Users::model()->getFields(array('password', 'salt'));
 		}else{
 			//永远不会返回密码字段
-			foreach($fields['user'] as $k => $v){
+			foreach($fields['user']['fields'] as $k => $v){
 				if($v == 'password' || $v == 'salt'){
-					unset($fields['user'][$k]);
+					unset($fields['user']['fields'][$k]);
 				}
 			}
 		}
 		
-		$user = Users::model()->find($id, implode(',', $fields['user']));
+		$user = Users::model()->find($id, implode(',', $fields['user']['fields']));
 		
 		if(!$user){
 			return false;

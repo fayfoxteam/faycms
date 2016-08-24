@@ -715,15 +715,11 @@ class File extends Service{
 	 *  - dw 输出缩略图宽度
 	 *  - dh 输出缩略图高度
 	 * @param string|array $fields 返回字段，可指定id, url, thumbnail, is_image, width, height, description
-	 * @param array $extra
 	 * @return array
 	 */
-	public static function get($file, $options = array(), $fields = 'id,url,thumbnail', $extra = array()){
+	public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
 		//解析fields
 		$fields = FieldHelper::parse($fields, 'file');
-		if(isset($fields['_extra'])){
-			$extra = $extra + $fields['_extra'];
-		}
 		
 		if(!is_array($file) && ($file <= 0 ||
 			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
@@ -737,26 +733,26 @@ class File extends Service{
 			}
 			
 			$return = array();
-			if(in_array('id', $fields['file'])){
+			if(in_array('id', $fields['file']['fields'])){
 				//指定文件不存在，统一返回0
 				$return['id'] = '0';
 			}
-			if(in_array('url', $fields['file'])){
+			if(in_array('url', $fields['file']['fields'])){
 				$return['url'] = UrlHelper::createUrl($spare);
 			}
-			if(in_array('thumbnail', $fields['file'])){
+			if(in_array('thumbnail', $fields['file']['fields'])){
 				$return['thumbnail'] = UrlHelper::createUrl($spare);
 			}
-			if(in_array('is_image', $fields['file'])){
+			if(in_array('is_image', $fields['file']['fields'])){
 				$return['is_image'] = '0';
 			}
-			if(in_array('width', $fields['file'])){
+			if(in_array('width', $fields['file']['fields'])){
 				$return['width'] = '0';
 			}
-			if(in_array('height', $fields['file'])){
+			if(in_array('height', $fields['file']['fields'])){
 				$return['height'] = '0';
 			}
-			if(in_array('description', $fields['file'])){
+			if(in_array('description', $fields['file']['fields'])){
 				$return['description'] = isset($file['description']) ? $file['description'] : '';
 			}
 			
@@ -764,13 +760,13 @@ class File extends Service{
 		}
 		
 		$return = array();
-		if(in_array('id', $fields['file'])){
+		if(in_array('id', $fields['file']['fields'])){
 			$return['id'] = $file['id'];
 		}
-		if(in_array('url', $fields['file'])){
+		if(in_array('url', $fields['file']['fields'])){
 			$return['url'] = self::getUrl($file);
 		}
-		if(in_array('thumbnail', $fields['file'])){
+		if(in_array('thumbnail', $fields['file']['fields'])){
 			//如果有头像，将头像图片ID转化为图片对象
 			if(isset($extra['file']['thumbnail']) && preg_match('/^(\d+)x(\d+)$/', $extra['file']['thumbnail'], $thumbnail_params)){
 				$return['thumbnail'] = self::getThumbnailUrl($file, array(
@@ -781,16 +777,16 @@ class File extends Service{
 				$return['thumbnail'] = self::getThumbnailUrl($file, $options);
 			}
 		}
-		if(in_array('is_image', $fields['file'])){
+		if(in_array('is_image', $fields['file']['fields'])){
 			$return['is_image'] = $file['is_image'];
 		}
-		if(in_array('width', $fields['file'])){
+		if(in_array('width', $fields['file']['fields'])){
 			$return['width'] = $file['image_width'];
 		}
-		if(in_array('height', $fields['file'])){
+		if(in_array('height', $fields['file']['fields'])){
 			$return['height'] = $file['image_height'];
 		}
-		if(in_array('description', $fields['file'])){
+		if(in_array('description', $fields['file']['fields'])){
 			$return['description'] = isset($file['description']) ? $file['description'] : '';
 		}
 		

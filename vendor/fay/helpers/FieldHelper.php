@@ -20,8 +20,8 @@ class FieldHelper{
 	 *     )
 	 *   )
 	 * )
-	 * @param string $fields
-	 * @param string|null $default_key 若设置了$default_key，则不包含.(点号)的项会被归属到$default_key下
+	 * @param string|array $fields
+	 * @param string $default_key 不包含.(点号)的项会被归属到$default_key下
 	 * @param array $allowed_fields 若该字段非空，则会调用self::filter()方法对解析后的$fields进行过滤
 	 * @return array
 	 */

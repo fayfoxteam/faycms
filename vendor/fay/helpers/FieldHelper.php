@@ -127,30 +127,44 @@ class FieldHelper{
 	 * @return array
 	 */
 	public static function filter($fields, $allowed_fields){
-		foreach($fields as $k => $v){
-			if(is_array($v)){
-				if(!isset($allowed_fields[$k])){
-					//如果键在允许字段中都不存在，直接删除该键
-					unset($fields[$k]);
-					continue;
+		foreach($fields as $key => $section){
+			if(!isset($allowed_fields[$key])){
+				unset($fields[$key]);
+				continue;
+			}
+			
+			if(in_array('*', $section['fields'])){
+				//若获取字段中包含*，则返回所有允许的字段
+				$fields[$key]['fields'] = $allowed_fields[$key];
+			}else if(!in_array('*', $allowed_fields[$key])){
+				//若允许的字段中不包含*，则逐个判断是否允许的字段
+				foreach($section['fields'] as $k => $field){
+					if(is_array($field)){
+						//若是数组，则包含了子字段集
+						if(!isset($allowed_fields[$key][$k])){
+							//若允许的字段中并没有对应的key，直接跳过
+							unset($section['fields'][$k]);
+							continue;
+						}
+						$sub_filter = self::filter(array(
+							$k=>$field
+						), array(
+							$k=>$allowed_fields[$key][$k]
+						));
+						if(!empty($sub_filter[$k]['fields'])){
+							$section['fields'][$k] = $sub_filter[$k];
+						}else{
+							unset($section['fields'][$k]);
+						}
+					}else if(!in_array($field, $allowed_fields[$key])){
+						//不允许的字段，删掉
+						unset($section['fields'][$k]);
+					}
 				}
-				if(in_array('*', $v)){
-					//若获取字段中包含*，则返回所有允许的字段
-					$fields[$k] = $allowed_fields[$k];
-				}else if(in_array('*', $allowed_fields[$k])){
-					//若允许的字段中包含*，则返回所有用户指定字段
-					$fields[$k] = $v;
-				}else{
-					//两边都没有星号，递归判断是否允许
-					$fields[$k] = self::filter($v, $allowed_fields[$k]);
-				}
-			}else{
-				//值不是数组，判断是否允许该字段
-				if(!in_array($v, $allowed_fields)){
-					unset($fields[$k]);
-				}
+				$fields[$key] = $section;
 			}
 		}
+		
 		return $fields;
 	}
 	

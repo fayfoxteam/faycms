@@ -2,13 +2,16 @@
 namespace fay\services\user;
 
 use fay\core\Service;
+use fay\helpers\FieldHelper;
 use fay\models\tables\UserProfile;
 
 class Profile extends Service{
 	/**
 	 * 默认返回字段
 	 */
-	public static $default_fields = array('reg_time', 'last_login_time', 'last_login_ip', 'last_time_online');
+	public static $public_fields = array(
+		'reg_time', 'last_login_time', 'last_login_ip', 'last_time_online'
+	);
 	
 	/**
 	 * @param string $class_name
@@ -25,13 +28,19 @@ class Profile extends Service{
 	 * @return array 返回包含用户profile信息的二维数组
 	 */
 	public function get($user_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$public_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields, null, self::$public_fields);
 		}
+		
 		return UserProfile::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
-		), $fields);
+		), $fields['fields']);
 	}
 	
 	/**
@@ -41,23 +50,25 @@ class Profile extends Service{
 	 * @return array 返回以用户ID为key的三维数组
 	 */
 	public function mget($user_ids, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$public_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields, null, self::$public_fields);
 		}
-		//批量搜索，必须先得到user_id
-		if(!is_array($fields)){
-			$fields = explode(',', $fields);
-		}
-		if(!in_array('user_id', $fields)){
-			$fields[] = 'user_id';
+		
+		if(!in_array('user_id', $fields['fields'])){
+			$fields['fields'][] = 'user_id';
 			$remove_user_id = true;
 		}else{
 			$remove_user_id = false;
 		}
 		$profiles = UserProfile::model()->fetchAll(array(
 			'user_id IN (?)'=>$user_ids,
-		), $fields, 'user_id');
+		), $fields['fields'], 'user_id');
 		$return = array_fill_keys($user_ids, array());
 		foreach($profiles as $p){
 			$u = $p['user_id'];

@@ -73,9 +73,15 @@ class User extends Service{
 	public function login($user_id){
 		//获取用户信息
 		$user = $this->get($user_id, array(
-			'user'=>array('id', 'username', 'nickname', 'avatar', 'admin'),
-			'profile'=>array('last_login_time', 'last_login_ip'),
-			'roles'=>'id',
+			'user'=>array(
+				'fields'=>array('id', 'username', 'nickname', 'avatar', 'admin')
+			),
+			'profile'=>array(
+				'fields'=>array('last_login_time', 'last_login_ip')
+			),
+			'roles'=>array(
+				'fields'=>array('id')
+			),
 		));
 		
 		if(!$user){
@@ -332,7 +338,7 @@ class User extends Service{
 		$return['user'] = $user;
 		//角色属性
 		if(!empty($fields['props'])){
-			if(in_array('*', $fields['props'])){
+			if(in_array('*', $fields['props']['fields'])){
 				$props = null;
 			}else{
 				$props = Prop::service()->mget($fields['props']);
@@ -392,14 +398,14 @@ class User extends Service{
 		}
 		
 		$remove_id_field = false;
-		if(!in_array('id', $fields['user'])){
+		if(!in_array('id', $fields['user']['fields'])){
 			//id总是需要先搜出来的，返回的时候要作为索引
-			$fields['user'][] = 'id';
+			$fields['user']['fields'][] = 'id';
 			$remove_id_field = true;
 		}
 		$users = Users::model()->fetchAll(array(
 			'id IN (?)'=>$ids,
-		), $fields['user']);
+		), $fields['user']['fields']);
 		
 		if(!empty($fields['profile'])){
 			//获取所有相关的profile

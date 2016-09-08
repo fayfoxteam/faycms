@@ -113,8 +113,26 @@ class FieldHelper{
 	 */
 	private static function _parseArray($array, $default_key){
 		if(!isset($array['fields'])){
-			//重复解析，直接返回
-			return $array;
+			if($array){
+				list($key, $value) = each($array);
+				if(is_int($key) && !is_array($value)){
+					//传入一维数组，为了书写方便，不需要附加信息的时候，会直接使用一维数组代表fields字段
+					if($default_key === null){
+						return array(
+							'fields'=>$array,
+						);
+					}else{
+						return array(
+							$default_key=>array(
+								'fields'=>$array,
+							)
+						);
+					}
+				}else{
+					//重复解析，直接返回
+					return $array;
+				}
+			}
 		}
 		$return = array();
 		foreach($array['fields'] as $k => $field){

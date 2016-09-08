@@ -101,7 +101,7 @@ class Category extends Tree{
 		$remove_id = false;//最受是否删除id字段
 		if(!in_array('id', $table_fields)){
 			//id必须搜出，若为指定，则先插入id字段，到后面再unset掉
-			$fields[] = 'id';
+			$table_fields[] = 'id';
 			$remove_id = true;
 		}
 		if($root !== null && !is_array($root)){

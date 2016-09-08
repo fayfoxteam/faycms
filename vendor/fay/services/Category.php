@@ -33,6 +33,8 @@ class Category extends Tree{
 	 * @return array|bool
 	 */
 	public function getByAlias($alias, $fields = '*', $root = null){
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		
 		if($root !== null && !is_array($root)){
 			if(StringHelper::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
@@ -48,7 +50,7 @@ class Category extends Tree{
 			$conditions['left_value >= ?'] = $root['left_value'];
 			$conditions['right_value <= ?'] = $root['right_value'];
 		}
-		return Categories::model()->fetchRow($conditions, $fields);
+		return Categories::model()->fetchRow($conditions, $fields['fields']);
 	}
 	
 	/**
@@ -62,6 +64,8 @@ class Category extends Tree{
 	 * @return array|bool
 	 */
 	public function getById($id, $fields = '*', $root = null){
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		
 		if($root !== null && !is_array($root)){
 			if(StringHelper::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
@@ -77,7 +81,7 @@ class Category extends Tree{
 			$conditions['left_value >= ?'] = $root['left_value'];
 			$conditions['right_value <= ?'] = $root['right_value'];
 		}
-		return Categories::model()->fetchRow($conditions, $fields);
+		return Categories::model()->fetchRow($conditions, $fields['fields']);
 	}
 	
 	/**
@@ -271,10 +275,12 @@ class Category extends Tree{
 	 * @return array
 	 */
 	public function getNextLevel($parent, $fields = '*', $order = 'sort, id'){
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		
 		if(StringHelper::isInt($parent)){
-			return $this->getNextLevelByParentId($parent, $fields, $order);
+			return $this->getNextLevelByParentId($parent, $fields['fields'], $order);
 		}else{
-			return $this->getNextLevelByParentAlias($parent, $fields, $order);
+			return $this->getNextLevelByParentAlias($parent, $fields['fields'], $order);
 		}
 	}
 	
@@ -286,11 +292,13 @@ class Category extends Tree{
 	 * @return array
 	 */
 	public function getNextLevelByParentAlias($alias, $fields = '*', $order = 'sort, id'){
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		
 		$node = $this->getByAlias($alias, 'id');
 		if($node){
 			return Categories::model()->fetchAll(array(
 				'parent = ?'=>$node['id'],
-			), $fields, $order);
+			), $fields['fields'], $order);
 		}else{
 			return array();
 		}
@@ -304,9 +312,11 @@ class Category extends Tree{
 	 * @return array
 	 */
 	public function getNextLevelByParentId($id, $fields = '*', $order = 'sort, id'){
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		
 		return Categories::model()->fetchAll(array(
 			'parent = ?'=>$id,
-		), $fields, $order);
+		), $fields['fields'], $order);
 	}
 	
 	/**
@@ -323,7 +333,7 @@ class Category extends Tree{
 	 * @return array|bool
 	 */
 	public function get($cats, $fields = '*', $root = null){
-		$fields = FieldHelper::parse($fields);
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
 		
 		if($root !== null && !is_array($root)){
 			if(StringHelper::isInt($root)){

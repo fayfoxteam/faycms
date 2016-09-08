@@ -11,7 +11,7 @@ use fay\services\File;
 		<?php
 		//直接引用widget
 		F::widget()->render('fay/category_posts', array(
-			'top'=>$post['post']['cat_id'],
+			'top'=>$post['category']['id'],
 			'title'=>'最新添加',
 			'order'=>'publish_time',
 			'template'=>'frontend/widget/category_posts',
@@ -22,7 +22,7 @@ use fay\services\File;
 	<div class="ml240">
 		<div class="box" id="post-item">
 			<div class="box-title">
-				<h3><?php echo Html::link($post['category']['title'], array('cat/'.$post['post']['cat_id']))?></h3>
+				<h3><?php echo Html::link($post['category']['title'], array('cat/'.$post['category']['id']))?></h3>
 			</div>
 			<div class="box-content">
 				<div class="st"><div class="sl"><div class="sr"><div class="sb">

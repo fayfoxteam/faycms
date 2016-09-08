@@ -8,7 +8,7 @@ use fay\models\tables\PostMeta;
 
 class PostController extends FrontController{
 	public function item(){
-		$post = Post::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title,files.*,category.title,meta.views,extra.*');
+		$post = Post::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title,files.*,category.*,meta.views,extra.*');
 		
 		if(!$post){
 			throw new HttpException('页面不存在');

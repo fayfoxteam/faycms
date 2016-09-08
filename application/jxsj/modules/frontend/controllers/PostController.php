@@ -8,7 +8,7 @@ use fay\models\tables\PostMeta;
 
 class PostController extends FrontController{
 	public function item(){
-		$post = Post::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title,files.*,category.title,meta.views');
+		$post = Post::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title,files.*,category.title,meta.views,extra.*');
 		
 		if(!$post){
 			throw new HttpException('页面不存在');
@@ -17,9 +17,9 @@ class PostController extends FrontController{
 		PostMeta::model()->incr($post['post']['id'], 'views', 1);
 		
 		//seo
-		$this->layout->title = $post['post']['seo_title'];
-		$this->layout->keywords = $post['post']['seo_keywords'];
-		$this->layout->description = $post['post']['seo_description'];
+		$this->layout->title = $post['extra']['seo_title'];
+		$this->layout->keywords = $post['extra']['seo_keywords'];
+		$this->layout->description = $post['extra']['seo_description'];
 		
 		$this->view->post = $post;
 		$this->view->render();

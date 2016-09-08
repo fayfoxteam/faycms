@@ -131,16 +131,24 @@ class IndexController extends Widget{
 		}
 		
 		$fields = array(
-			'posts'=>array('id', 'title', 'user_id', 'thumbnail', 'publish_time', 'abstract'),
+			'posts'=>array(
+				'fields'=>array('id', 'title', 'user_id', 'thumbnail', 'publish_time', 'abstract')
+			),
 		);
 		if(in_array('user', $config['fields'])){
-			$fields['user'] = array('id', 'username', 'nickname', 'avatar');
+			$fields['user'] = array(
+				'fields'=>array('id', 'username', 'nickname', 'avatar')
+			);
 		}
 		if(in_array('category', $config['fields'])){
-			$fields['category'] = array('id', 'title', 'alias');
+			$fields['category'] = array(
+				'fields'=>array('id', 'title', 'alias')
+			);
 		}
 		if(in_array('meta', $config['fields'])){
-			$fields['meta'] = array('views', 'likes', 'comments');
+			$fields['meta'] = array(
+				'fields'=>array('views', 'likes', 'comments')
+			);
 		}
 		$posts = Post::service()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		

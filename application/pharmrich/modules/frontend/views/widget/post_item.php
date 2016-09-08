@@ -21,7 +21,7 @@ use fay\services\File;
 		<li>
 			<a href="<?php echo $f['url']?>" data-lightbox="products" title="<?php echo Html::encode($f['description'])?>">
 				<span class="item-on-hover"><span class="hover-image"></span></span>
-				<?php echo Html::img($f['file_id'], File::PIC_RESIZE, array(
+				<?php echo Html::img($f['id'], File::PIC_RESIZE, array(
 					'dw'=>200,
 					'dh'=>200,
 					'alt'=>Html::encode($f['description']),

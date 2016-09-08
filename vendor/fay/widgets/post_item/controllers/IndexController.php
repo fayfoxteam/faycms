@@ -41,7 +41,7 @@ class IndexController extends Widget{
 		),
 		'files'=>array(
 			'fields'=>array(
-				'file_id', 'description', 'is_image',
+				'*',
 			)
 		),
 		'props'=>array(

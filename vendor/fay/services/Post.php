@@ -842,7 +842,9 @@ class Post extends Service{
 		$fields = FieldHelper::parse($fields, 'post', self::$public_fields);
 		if(empty($fields['post'])){
 			//若未指定返回字段，返回所有允许的字段
-			$fields['post'] = self::$public_fields['post'];
+			$fields['post'] = array(
+				'fields'=>self::$public_fields['post']
+			);
 		}
 		
 		$post_fields = $fields['post'];
@@ -1378,7 +1380,9 @@ class Post extends Service{
 		$fields = FieldHelper::parse($fields, 'post', self::$public_fields);
 		if(empty($fields['post'])){
 			//若未指定返回字段，返回所有允许的字段
-			$fields['post'] = self::$public_fields['post'];
+			$fields['post'] = array(
+				'fields'=>self::$public_fields['post']
+			);
 		}
 		
 		$post_fields = $fields['post'];

@@ -76,13 +76,19 @@ class Post extends Service{
 	 */
 	public static $default_fields = array(
 		'post'=>array(
-			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+			'fields'=>array(
+				'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+			)
 		),
 		'category'=>array(
-			'id', 'title', 'alias',
+			'fields'=>array(
+				'id', 'title', 'alias',
+			)
 		),
 		'user'=>array(
-			'id', 'nickname', 'avatar',
+			'fields'=>array(
+				'id', 'nickname', 'avatar',
+			)
 		)
 	);
 

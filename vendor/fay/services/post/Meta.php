@@ -2,6 +2,7 @@
 namespace fay\services\post;
 
 use fay\core\Service;
+use fay\helpers\FieldHelper;
 use fay\models\tables\PostMeta;
 
 class Meta extends Service{
@@ -25,13 +26,19 @@ class Meta extends Service{
 	 * @return array 返回包含文章meta信息的一维数组
 	 */
 	public function get($post_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
+		
 		return PostMeta::model()->fetchRow(array(
 			'post_id = ?'=>$post_id,
-		), $fields);
+		), $fields['fields']);
 	}
 	
 	/**
@@ -44,23 +51,26 @@ class Meta extends Service{
 		if(!$post_ids){
 			return array();
 		}
-		if(empty($fields) || empty($fields[0])){
+		
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
-		//批量搜索，必须先得到post_id
-		if(!is_array($fields)){
-			$fields = explode(',', $fields);
-		}
-		if(!in_array('post_id', $fields)){
-			$fields[] = 'post_id';
+		
+		if(!in_array('post_id', $fields['fields'])){
+			$fields['fields'][] = 'post_id';
 			$remove_post_id = true;
 		}else{
 			$remove_post_id = false;
 		}
 		$metas = PostMeta::model()->fetchAll(array(
 			'post_id IN (?)'=>$post_ids,
-		), $fields, 'post_id');
+		), $fields['fields'], 'post_id');
 		$return = array_fill_keys($post_ids, array());
 		foreach($metas as $m){
 			$p = $m['post_id'];
@@ -80,7 +90,7 @@ class Meta extends Service{
 	 * @param null|string $fields 字段（post_meta表字段）
 	 */
 	public function assemble(&$posts, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}

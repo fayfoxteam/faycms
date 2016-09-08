@@ -4,6 +4,7 @@ namespace fay\services\post;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
+use fay\helpers\FieldHelper;
 use fay\helpers\StringHelper;
 use fay\models\tables\Posts;
 use fay\models\tables\TagCounter;
@@ -32,13 +33,19 @@ class Tag extends Service{
 	 * @return array 返回包含文章tag信息的二维数组
 	 */
 	public function get($post_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
+		
 		$sql = new Sql();
 		return $sql->from(array('pt'=>'posts_tags'), '')
-			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
+			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields['fields']))
 			->where(array(
 				'pt.post_id = ?'=>$post_id,
 			))
@@ -52,13 +59,19 @@ class Tag extends Service{
 	 * @return array 返回以文章ID为key的三维数组
 	 */
 	public function mget($post_ids, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
+		
 		$sql = new Sql();
 		$tags = $sql->from(array('pt'=>'posts_tags'), 'post_id')
-			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields))
+			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields['fields']))
 			->where(array('pt.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());
@@ -320,7 +333,7 @@ class Tag extends Service{
 	 * @param null|string $fields 字段（tags表字段）
 	 */
 	public function assemble(&$posts, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}

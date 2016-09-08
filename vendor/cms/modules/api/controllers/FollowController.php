@@ -16,16 +16,20 @@ class FollowController extends ApiController{
 	 */
 	private $default_fields = array(
 		'user'=>array(
-			'id', 'nickname', 'avatar',
+			'fields'=>array(
+				'id', 'nickname', 'avatar',
+			)
 		),
 		'follows'=>array(
-			'relation'
+			'fields'=>array(
+				'relation'
+			)
 		),
 	);
 	
 	/**
 	 * 可选字段
-	*/
+	 */
 	private $allowed_fields = array(
 		'user'=>array(
 			'id', 'username', 'nickname', 'avatar', 'roles'=>array(

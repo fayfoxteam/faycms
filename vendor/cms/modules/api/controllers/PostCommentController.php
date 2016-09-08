@@ -18,17 +18,27 @@ class PostCommentController extends ApiController{
 	 */
 	private $default_fields = array(
 		'comment'=>array(
-			'id', 'content', 'parent', 'create_time',
+			'fields'=>array(
+				'id', 'content', 'parent', 'create_time',
+			)
 		),
 		'user'=>array(
-			'id', 'nickname', 'avatar',
+			'fields'=>array(
+				'id', 'nickname', 'avatar',
+			)
 		),
 		'parent'=>array(
-			'comment'=>array(
-				'id', 'content', 'parent', 'create_time',
-			),
-			'user'=>array(
-				'id', 'nickname', 'avatar',
+			'fields'=>array(
+				'comment'=>array(
+					'fields'=>array(
+						'id', 'content', 'parent', 'create_time',
+					)
+				),
+				'user'=>array(
+					'fields'=>array(
+						'id', 'nickname', 'avatar',
+					)
+				),
 			),
 		),
 	);
@@ -405,7 +415,7 @@ class PostCommentController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::parse($fields, 'post', $this->allowed_fields);
+			$fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
 		}else{
 			//若未指定$fields，取默认值
 			$fields = $this->default_fields;

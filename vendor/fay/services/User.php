@@ -292,7 +292,7 @@ class User extends Service{
 	 * @param array $extra 扩展信息。例如：头像缩略图尺寸
 	 * @return false|array 若用户ID不存在，返回false，否则返回数组
 	 */
-	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar', $extra = array()){
+	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar'){
 		//解析$fields
 		$fields = FieldHelper::parse($fields, 'user');
 		if(empty($fields['user'])){
@@ -302,7 +302,7 @@ class User extends Service{
 					'id', 'username', 'nickname', 'avatar',
 				)
 			);
-		}else if(in_array('*', $fields['user'])){
+		}else if(in_array('*', $fields['user']['fields'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
 			$fields['user']['fields'] = Users::model()->getFields(array('password', 'salt'));
 		}else{
@@ -314,7 +314,7 @@ class User extends Service{
 			}
 		}
 		
-		$user = Users::model()->find($id, implode(',', $fields['user']['fields']));
+		$user = Users::model()->find($id, $fields['user']['fields']);
 		
 		if(!$user){
 			return false;
@@ -322,7 +322,7 @@ class User extends Service{
 		
 		if(isset($user['avatar'])){
 			//如果有头像，将头像图片ID转化为图片对象
-			if(isset($extra['avatar']) && preg_match('/^(\d+)x(\d+)$/', $extra['avatar'], $avatar_params)){
+			if(isset($fields['user']['extra']['avatar']) && preg_match('/^(\d+)x(\d+)$/', $fields['user']['extra']['avatar'], $avatar_params)){
 				$user['avatar'] = File::get($user['avatar'], array(
 					'spare'=>'avatar',
 					'dw'=>$avatar_params[1],

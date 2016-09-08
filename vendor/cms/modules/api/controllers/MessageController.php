@@ -18,18 +18,28 @@ class MessageController extends ApiController{
 	 */
 	private $default_fields = array(
 		'message'=>array(
-			'id', 'content', 'parent', 'create_time',
+			'fields'=>array(
+				'id', 'content', 'parent', 'create_time',
+			)
 		),
 		'user'=>array(
-			'id', 'nickname', 'avatar',
+			'fields'=>array(
+				'id', 'nickname', 'avatar',
+			)
 		),
 		'parent'=>array(
-			'message'=>array(
-				'id', 'content', 'parent', 'create_time',
-			),
-			'user'=>array(
-				'id', 'nickname', 'avatar',
-			),
+			'fields'=>array(
+				'message'=>array(
+					'fields'=>array(
+						'id', 'content', 'parent', 'create_time',
+					)
+				),
+				'user'=>array(
+					'fields'=>array(
+						'id', 'nickname', 'avatar',
+					)
+				)
+			)
 		),
 	);
 	

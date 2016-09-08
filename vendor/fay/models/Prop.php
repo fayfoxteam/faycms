@@ -3,6 +3,7 @@ namespace fay\models;
 
 use fay\core\ErrorException;
 use fay\core\Model;
+use fay\helpers\FieldHelper;
 use fay\models\tables\Props;
 use fay\models\tables\PropValues;
 use fay\core\Sql;
@@ -206,28 +207,26 @@ abstract class Prop extends Model{
 	 * @param bool $with_values 若为true，则附加属性可选值。默认为true
 	 * @return array
 	 */
-	public function mget($props, $with_values = true){
-		if(!is_array($props)){
-			$props = explode(',', $props);
-		}
+	public function mget($fields, $with_values = true){
+		$fields = FieldHelper::parse($fields);
 		
-		if(StringHelper::isInt($props[0])){
+		if(StringHelper::isInt($fields['fields'][0])){
 			$field = 'id';
 		}else{
 			$field = 'alias';
 		}
 		
-		if(isset($props[1])){
+		if(isset($fields['fields'][1])){
 			//如果有多项，搜索条件用IN
 			$props = Props::model()->fetchAll(array(
-				"{$field} IN (?)"=>$props,
+				"{$field} IN (?)"=>$fields['fields'],
 				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort,id');
 		}else{
 			//如果只有一项，搜索条件直接用等于
 			$props = Props::model()->fetchAll(array(
-				"{$field} = ?"=>$props[0],
+				"{$field} = ?"=>$fields['fields'][0],
 				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element', 'sort,id');

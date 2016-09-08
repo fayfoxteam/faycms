@@ -542,7 +542,7 @@ class Post extends Service{
 			$fields['post'] = self::$public_fields['post'];
 		}
 		
-		$post_fields = $fields['post'];
+		$post_fields = $fields['post']['fields'];
 		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$post_fields[] = 'user_id';
@@ -622,10 +622,18 @@ class Post extends Service{
 		}
 		
 		if(isset($post['thumbnail'])){
-			//如果有缩略图，将缩略图转为图片URL
-			$post['thumbnail_url'] = File::getUrl($post['thumbnail'], File::PIC_ORIGINAL, array(
-				'spare'=>'avatar',
-			));
+			//如果有缩略图，将缩略图图片ID转为图片对象
+			if(isset($fields['post']['extra']['thumbnail']) && preg_match('/^(\d+)x(\d+)$/', $fields['post']['extra']['thumbnail'], $avatar_params)){
+				$post['thumbnail'] = File::get($post['thumbnail'], array(
+					'spare'=>'post',
+					'dw'=>$avatar_params[1],
+					'dh'=>$avatar_params[2],
+				));
+			}else{
+				$post['thumbnail'] = File::get($post['thumbnail'], array(
+					'spare'=>'post',
+				));
+			}
 		}
 		
 		$return = array(
@@ -657,7 +665,7 @@ class Post extends Service{
 		
 		//作者信息
 		if(!empty($fields['user'])){
-			$return['user'] = User::service()->get($post['user_id'], $fields['user'], isset($fields['_extra']['user']) ? $fields['_extra']['user'] : array());
+			$return['user'] = User::service()->get($post['user_id'], $fields['user']);
 		}
 		
 		//标签
@@ -701,7 +709,7 @@ class Post extends Service{
 		
 		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
 		foreach(array('user_id', 'publish_time', 'sort', 'cat_id', 'title', 'abstract', 'content') as $f){
-			if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
+			if(!in_array($f, $fields['post']['fields']) && in_array($f, $post_fields)){
 				unset($return['post'][$f]);
 			}
 		}

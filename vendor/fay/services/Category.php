@@ -2,6 +2,7 @@
 namespace fay\services;
 
 use fay\core\Loader;
+use fay\helpers\FieldHelper;
 use fay\models\tables\Categories;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
@@ -93,9 +94,12 @@ class Category extends Tree{
 		if(!is_array($ids)){
 			$ids = explode(',', $ids);
 		}
-		$fields = Categories::model()->formatFields($fields);
+		
+		$fields = FieldHelper::parse($fields);
+		
+		$table_fields = Categories::model()->formatFields($fields['fields']);
 		$remove_id = false;//最受是否删除id字段
-		if(!in_array('id', $fields)){
+		if(!in_array('id', $table_fields)){
 			//id必须搜出，若为指定，则先插入id字段，到后面再unset掉
 			$fields[] = 'id';
 			$remove_id = true;
@@ -115,7 +119,7 @@ class Category extends Tree{
 			$conditions['left_value >= ?'] = $root['left_value'];
 			$conditions['right_value <= ?'] = $root['right_value'];
 		}
-		$cats = Categories::model()->fetchAll($conditions, $fields);
+		$cats = Categories::model()->fetchAll($conditions, $table_fields);
 		//根据传入ID顺序返回
 		$return = array();
 		foreach($cats as $c){
@@ -319,6 +323,8 @@ class Category extends Tree{
 	 * @return array|bool
 	 */
 	public function get($cats, $fields = '*', $root = null){
+		$fields = FieldHelper::parse($fields);
+		
 		if($root !== null && !is_array($root)){
 			if(StringHelper::isInt($root)){
 				$root = $this->getById($root, 'left_value,right_value');
@@ -328,9 +334,9 @@ class Category extends Tree{
 		}
 		
 		if(StringHelper::isInt($cats)){
-			return $this->getById($cats, $fields, $root);
+			return $this->getById($cats, $fields['fields'], $root);
 		}else{
-			return $this->getByAlias($cats, $fields, $root);
+			return $this->getByAlias($cats, $fields['fields'], $root);
 		}
 	}
 	

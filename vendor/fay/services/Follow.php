@@ -187,13 +187,14 @@ class Follow extends Service{
 	 * @param int $page_size 分页大小
 	 * @return array
 	 */
-	public static function follows($user_id = null, $fields = null, $page = 1, $page_size = 20){
+	public static function follows($user_id = null, $fields = 'follows.relation,user.id,user.nickname,user.avatar', $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
-		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
 		$fields = FieldHelper::parse($fields, 'follows');
 		
-		isset($fields['follows']) || $fields['follows'] = array();
-		$follows_fields = $fields['follows'];
+		isset($fields['follows']) || $fields['follows'] = array(
+			'fields'=>array()
+		);
+		$follows_fields = $fields['follows']['fields'];
 		if(isset($fields['user']) && !in_array('user_id', $follows_fields)){
 			$follows_fields[] = 'user_id';
 		}
@@ -221,7 +222,7 @@ class Follow extends Service{
 		
 		foreach($follows as $f){
 			$follow = array();
-			foreach($fields['follows'] as $field){
+			foreach($fields['follows']['fields'] as $field){
 				$follow['follow'][$field] = $f[$field];
 			}
 			
@@ -243,13 +244,12 @@ class Follow extends Service{
 	 * @param int $page_size 分页大小
 	 * @return array
 	 */
-	public static function fans($user_id = null, $fields = null, $page = 1, $page_size = 20){
+	public static function fans($user_id = null, $fields = 'follows.relation,user.id,user.nickname,user.avatar', $page = 1, $page_size = 20){
 		$user_id || $user_id = \F::app()->current_user;
-		$fields || $fields = 'follows.relation,user.id,user.nickname,user.avatar';
 		$fields = FieldHelper::parse($fields, 'follows');
 		
 		isset($fields['follows']) || $fields['follows'] = array();
-		$follows_fields = $fields['follows'];
+		$follows_fields = $fields['follows']['fields'];
 		if(isset($fields['user']) && !in_array('fans_id', $follows_fields)){
 			$follows_fields[] = 'fans_id';
 		}

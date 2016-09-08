@@ -26,16 +26,21 @@ class File extends Service{
 	 * @return array 返回包含文章附件信息的二维数组
 	 */
 	public function get($post_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
 		}
-		$files = PostsFiles::model()->fetchAll(array(
-			'post_id = ?'=>$post_id,
-		), $fields, 'sort');
-		foreach($files as &$f){
-			$f['url'] = \fay\services\File::getUrl($f['file_id']);
-		}
+		
+		$sql = new Sql();
+		$file_rows = $sql->from(array('pf'=>'posts_files'), 'post_id,description')
+			->joinLeft(array('f'=>'files'), 'pf.file_id = f.id', '*')
+			->where('post_id = ?', $post_id)
+			->order('pf.post_id, pf.sort')
+			->fetchAll();
+		$files = \fay\services\File::mget($file_rows, array(), $fields);
+		
 		return $files;
 	}
 	
@@ -46,9 +51,11 @@ class File extends Service{
 	 * @return array 返回以文章ID为key的三维数组
 	 */
 	public function mget($post_ids, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
 		}
 		
 		$sql = new Sql();
@@ -75,7 +82,7 @@ class File extends Service{
 	 * @param null|string $fields 字段（posts_files表字段）
 	 */
 	public function assemble(&$posts, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}

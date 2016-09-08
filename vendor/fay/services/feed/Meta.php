@@ -25,7 +25,7 @@ class Meta extends Service{
 	 * @return array 返回包含动态meta信息的一维数组
 	 */
 	public function get($feed_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}
@@ -44,7 +44,7 @@ class Meta extends Service{
 		if(!$feed_ids){
 			return array();
 		}
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}

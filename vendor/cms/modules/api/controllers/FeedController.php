@@ -118,8 +118,8 @@ class FeedController extends ApiController{
 		}
 		
 		//post字段若未指定，需要默认下
-		if(empty($fields['post'])){
-			$fields['post'] = $this->default_fields['post'];
+		if(empty($fields['feed'])){
+			$fields['feed'] = $this->default_fields['feed'];
 		}
 		
 		$feed = Feed::service()->get($feed_id, $fields, true);

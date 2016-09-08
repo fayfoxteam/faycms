@@ -2,6 +2,7 @@
 namespace fay\services\feed;
 
 use fay\core\Service;
+use fay\helpers\FieldHelper;
 use fay\models\tables\FeedsFiles;
 
 class File extends Service{
@@ -25,13 +26,13 @@ class File extends Service{
 	 * @return array 返回包含动态附件信息的二维数组
 	 */
 	public function get($feed_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}
 		$files = FeedsFiles::model()->fetchAll(array(
 			'feed_id = ?'=>$feed_id,
-		), $fields, 'sort');
+		), $fields['fields'], 'sort');
 		foreach($files as &$f){
 			$f['url'] = \fay\services\File::getUrl($f['file_id']);
 		}
@@ -45,23 +46,25 @@ class File extends Service{
 	 * @return array 返回以动态ID为key的三维数组
 	 */
 	public function mget($feed_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
+		}else if(!is_array($fields)){
+			$fields = FieldHelper::parse($fields, 'files');
 		}
 		//批量搜索，必须先得到feed_id
 		if(!is_array($fields)){
 			$fields = explode(',', $fields);
 		}
 		if(!in_array('feed_id', $fields)){
-			$fields[] = 'feed_id';
+			$fields['fields'][] = 'feed_id';
 			$remove_feed_id_field = true;
 		}else{
 			$remove_feed_id_field = false;
 		}
 		$files = FeedsFiles::model()->fetchAll(array(
 			'feed_id IN (?)'=>$feed_id,
-		), $fields, 'feed_id, sort');
+		), $fields['fields'], 'feed_id, sort');
 		$return = array_fill_keys($feed_id, array());
 		foreach($files as $f){
 			$p = $f['feed_id'];

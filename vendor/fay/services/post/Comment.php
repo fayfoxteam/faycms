@@ -481,18 +481,20 @@ class Comment extends MultiTree{
 	 */
 	public function get($comment_id, $fields = array(
 		'comment'=>array(
-			'id', 'content', 'parent', 'create_time',
+			'fields'=>array('id', 'content', 'parent', 'create_time'),
 		),
 		'user'=>array(
-			'id', 'nickname', 'avatar',
+			'fields'=>array('id', 'nickname', 'avatar'),
 		),
 		'parent'=>array(
-			'comment'=>array(
-				'id', 'content', 'parent', 'create_time',
-			),
-			'user'=>array(
-				'id', 'nickname', 'avatar',
-			),
+			'fields'=>array(
+				'comment'=>array(
+					'fields'=>array('id', 'content', 'parent', 'create_time'),
+				),
+				'user'=>array(
+					'fields'=>array('id', 'nickname', 'avatar'),
+				),
+			)
 		)
 	)){
 		$fields = FieldHelper::parse($fields, 'comment');
@@ -501,7 +503,7 @@ class Comment extends MultiTree{
 			$fields['comment'] = \F::table($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
 		}
 		
-		$comment_fields = $fields['comment'];
+		$comment_fields = $fields['comment']['fields'];
 		if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$comment_fields[] = 'user_id';
@@ -527,15 +529,14 @@ class Comment extends MultiTree{
 		if(!empty($fields['user'])){
 			$return['user'] = User::service()->get(
 				$comment['user_id'],
-				$fields['user'],
-				isset($fields['_extra']['user']) ? $fields['_extra']['user'] : array()
+				$fields['user']
 			);
 		}
 		
 		//父节点
 		if(!empty($fields['parent'])){
-			$parent_comment_fields = isset($fields['parent']['comment']) ? $fields['parent']['comment'] : array();
-			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
+			$parent_comment_fields = isset($fields['parent']['fields']['comment']['fields']) ? $fields['parent']['fields']['comment']['fields'] : array();
+			if(!empty($fields['parent']['fields']['user']) && !in_array('user_id', $parent_comment_fields)){
 				//如果要获取作者信息，则必须搜出user_id
 				$parent_comment_fields[] = 'user_id';
 			}
@@ -547,14 +548,13 @@ class Comment extends MultiTree{
 			
 			if($parent_comment){
 				//有父节点
-				if(!empty($fields['parent']['user'])){
+				if(!empty($fields['parent']['fields']['user'])){
 					$return['parent']['user'] = User::service()->get(
 						$parent_comment['user_id'],
-						$fields['parent']['user'],
-						isset($fields['parent']['_extra']['user']) ? $fields['parent']['_extra']['user'] : array()
+						$fields['parent']['fields']['user']
 					);
 				}
-				if((!isset($fields['parent']['comment']) || !in_array('user_id', $fields['parent']['comment'])) &&
+				if((!isset($fields['parent']['fields']['comment']) || !in_array('user_id', $fields['parent']['fields']['comment'])) &&
 					in_array('user_id', $parent_comment_fields)){
 					unset($parent_comment['user_id']);
 				}
@@ -564,11 +564,11 @@ class Comment extends MultiTree{
 				}
 			}else{
 				//没有父节点，但是要求返回相关父节点字段，则返回空数组
-				if(!empty($fields['parent']['comment'])){
+				if(!empty($fields['parent']['fields']['comment'])){
 					$return['parent']['comment'] = array();
 				}
 				
-				if(!empty($fields['parent']['user'])){
+				if(!empty($fields['parent']['fields']['user'])){
 					$return['parent']['user'] = array();
 				}
 			}
@@ -576,7 +576,7 @@ class Comment extends MultiTree{
 		
 		//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
 		foreach(array('user_id', 'parent') as $f){
-			if(!in_array($f, $fields['comment']) && in_array($f, $comment_fields)){
+			if(!in_array($f, $fields['comment']['fields']) && in_array($f, $comment_fields)){
 				unset($return['comment'][$f]);
 			}
 		}

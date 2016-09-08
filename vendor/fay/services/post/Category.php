@@ -4,6 +4,7 @@ namespace fay\services\post;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
+use fay\helpers\FieldHelper;
 use fay\helpers\StringHelper;
 use fay\models\tables\Categories;
 use fay\models\tables\Posts;
@@ -40,14 +41,19 @@ class Category extends Service{
 	 * @return array 返回包含分类信息的二维数组
 	 */
 	public function get($post_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
 		
 		$sql = new Sql();
 		return $sql->from(array('pc'=>'posts_categories'), '')
-			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields['fields']))
 			->where(array('pc.post_id = ?'=>$post_id))
 			->fetchAll();
 	}
@@ -59,14 +65,19 @@ class Category extends Service{
 	 * @return array 返回以文章ID为key的三维数组
 	 */
 	public function mget($post_ids, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
 		
 		$sql = new Sql();
 		$cats = $sql->from(array('pc'=>'posts_categories'), 'post_id')
-			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields))
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields['fields']))
 			->where(array('pc.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());
@@ -421,9 +432,14 @@ class Category extends Service{
 	 * @throws Exception
 	 */
 	public function assemblePrimaryCat(&$posts, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
 		
 		//获取所有分类ID
@@ -454,9 +470,14 @@ class Category extends Service{
 	 * @throws Exception
 	 */
 	public function assembleSecondaryCats(&$posts, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
+			$fields = array(
+				'fields'=>self::$default_fields
+			);
+		}else{
+			//格式化fields
+			$fields = FieldHelper::parse($fields);
 		}
 		
 		//获取所有文章ID

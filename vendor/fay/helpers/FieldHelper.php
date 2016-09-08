@@ -21,11 +21,11 @@ class FieldHelper{
 	 *   )
 	 * )
 	 * @param string|array $fields
-	 * @param string $default_key 不包含.(点号)的项会被归属到$default_key下
+	 * @param null|string $default_key 不包含.(点号)的项会被归属到$default_key下
 	 * @param array $allowed_fields 若该字段非空，则会调用self::filter()方法对解析后的$fields进行过滤
 	 * @return array
 	 */
-	public static function parse($fields, $default_key = 'default', $allowed_fields = array()){
+	public static function parse($fields, $default_key = null, $allowed_fields = array()){
 		if(is_array($fields)){
 			$return = self::_parseArray($fields, $default_key);
 		}else{
@@ -88,9 +88,17 @@ class FieldHelper{
 					//若存在冒号，则有附加信息
 					$field_extra = explode(':', $field, 2);
 					$field = $field_extra[0];
-					$return[$default_key]['extra'][$field] = $field_extra[1];
+					if($default_key === null){
+						$return['extra'][$field] = $field_extra[1];
+					}else{
+						$return[$default_key]['extra'][$field] = $field_extra[1];
+					}
 				}
-				$return[$default_key]['fields'][] = $field;
+				if($default_key === null){
+					$return['fields'][] = $field;
+				}else{
+					$return[$default_key]['fields'][] = $field;
+				}
 			}
 		}
 		
@@ -104,17 +112,29 @@ class FieldHelper{
 	 * @return array
 	 */
 	private static function _parseArray($array, $default_key){
+		if(!isset($array['fields'])){
+			//重复解析，直接返回
+			return $array;
+		}
 		$return = array();
 		foreach($array['fields'] as $k => $field){
 			if(is_int($k)){
-				$return[$default_key]['fields'][] = $field;
+				if($default_key !== null){
+					$return[$default_key]['fields'][] = $field;
+				}else{
+					$return['fields'][] = $field;
+				}
 			}else{
 				$return[$k] = $field;
 			}
 		}
 		
 		if(isset($array['extra'])){
-			$return[$default_key]['extra'] = $array['extra'];
+			if($default_key !== null){
+				$return[$default_key]['extra'] = $array['extra'];
+			}else{
+				$return['extra'] = $array['extra'];
+			}
 		}
 		
 		return $return;
@@ -127,6 +147,65 @@ class FieldHelper{
 	 * @return array
 	 */
 	public static function filter($fields, $allowed_fields){
+		if(isset($fields['fields'])){
+			return self::_filterSimpleSection($fields, $allowed_fields);
+		}else{
+			return self::_filterSections($fields, $allowed_fields);
+		}
+	}
+	
+	/**
+	 * 过滤单组字段，例如：
+	 * array(
+	 *   'fields'=>array('id', 'thumbnail'),
+	 *   'extra'=>array(
+	 *     'thumbnail'=>'320x320',
+	 *   )
+	 * )
+	 * @param array $fields
+	 * @param array $allowed_fields
+	 * @return array
+	 */
+	private static function _filterSimpleSection($fields, $allowed_fields){
+		//单组字段过滤
+		if(in_array('*', $fields['fields'])){
+			//指定字段中带有*，则返回所有允许的字段
+			$fields['fields'] = $allowed_fields;
+		}else if(!in_array('*', $allowed_fields)){
+			//允许的字段中不含信号，则做交集
+			$fields['fields'] = array_intersect($allowed_fields, $fields['fields']);
+		}
+		return $fields;
+	}
+	
+	/**
+	 * 过滤多组字段，例如：
+	 * array(
+	 *   'post'=>array(
+	 *     'fields'=>array('id', 'thumbnail'),
+	 *     'extra'=>array(
+	 *       'thumbnail'=>'320x320',
+	 *     )
+	 *   ),
+	 *   'user'=>array(
+	 *     'fields'=>array(
+	 *       'id',
+	 *       'avatar',
+	 *       'roles'=>array(
+	 *         'fields'=>array('id')
+	 *       )
+	 *     ),
+	 *     'extra'=>array(
+	 *       'avatar'=>'200x200',
+	 *     )
+	 *   )
+	 * )
+	 * @param array $fields
+	 * @param array $allowed_fields
+	 * @return array
+	 */
+	private static function _filterSections($fields, $allowed_fields){
+		//多组字段过滤
 		foreach($fields as $key => $section){
 			if(!isset($allowed_fields[$key])){
 				unset($fields[$key]);
@@ -147,9 +226,9 @@ class FieldHelper{
 							continue;
 						}
 						$sub_filter = self::filter(array(
-							$k=>$field
+							$k => $field
 						), array(
-							$k=>$allowed_fields[$key][$k]
+							$k => $allowed_fields[$key][$k]
 						));
 						if(!empty($sub_filter[$k]['fields'])){
 							$section['fields'][$k] = $sub_filter[$k];

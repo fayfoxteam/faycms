@@ -9,7 +9,9 @@ class User extends Service{
 	 */
 	public static $default_fields = array(
 		'user'=>array(
-			'id', 'nickname', 'avatar',
+			'fields'=>array(
+				'id', 'nickname', 'avatar',
+			)
 		)
 	);
 	
@@ -27,9 +29,10 @@ class User extends Service{
 	 *   若包含$posts.post.id字段，则以此字段作为文章ID
 	 *   若不包含$posts.post.id，则以$posts的键作为文章ID
 	 * @param null|string $fields
+	 * @throws Exception
 	 */
 	public function assemble(&$posts, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}

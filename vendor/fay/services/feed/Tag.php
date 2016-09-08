@@ -31,7 +31,7 @@ class Tag extends Service{
 	 * @return array 返回包含动态tag信息的二维数组
 	 */
 	public function get($feed_id, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}
@@ -51,7 +51,7 @@ class Tag extends Service{
 	 * @return array 返回以动态ID为key的三维数组
 	 */
 	public function mget($feed_ids, $fields = null){
-		if(empty($fields) || empty($fields[0])){
+		if(empty($fields)){
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}

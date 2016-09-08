@@ -142,18 +142,17 @@ class IndexController extends Widget{
 			if(in_array('files', $config['fields'])){
 				if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
 					$extra = array(
-						'_extra'=>array(
-							'file'=>array(
-								'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
-									'x' .
-								(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
-							)
-						)
+						'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
+							'x' .
+						(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
 					);
 				}else{
 					$extra = array();
 				}
-				PostFile::service()->assemble($format_posts, $this->fields['files'] + $extra);
+				PostFile::service()->assemble($format_posts, array(
+					'fields'=>$this->fields['files'],
+					'extra'=>$extra,
+				));
 			}
 			
 			$posts = $format_posts;

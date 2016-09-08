@@ -10,34 +10,54 @@ use fay\models\tables\PostMeta;
 class IndexController extends Widget{
 	private $fields = array(
 		'post'=>array(
-			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+			'fields'=>array(
+				'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+			)
 		),
 		'category'=>array(
-			'id', 'title', 'alias',
+			'fields'=>array(
+				'id', 'title', 'alias',
+			)
 		),
 		'categories'=>array(
-			'id', 'title', 'alias',
+			'fields'=>array(
+				'id', 'title', 'alias',
+			)
 		),
 		'user'=>array(
-			'id', 'username', 'nickname', 'avatar',
+			'fields'=>array(
+				'id', 'username', 'nickname', 'avatar',
+			)
 		),
 		'nav'=>array(
-			'id', 'title',
+			'fields'=>array(
+				'id', 'title',
+			)
 		),
 		'tags'=>array(
-			'id', 'title',
+			'fields'=>array(
+				'id', 'title',
+			)
 		),
 		'files'=>array(
-			'file_id', 'description', 'is_image',
+			'fields'=>array(
+				'file_id', 'description', 'is_image',
+			)
 		),
 		'props'=>array(
-			'*',//这里指定的是属性别名，取值视后台设定而定
+			'fields'=>array(
+				'*',//这里指定的是属性别名，取值视后台设定而定
+			)
 		),
 		'meta'=>array(
-			'comments', 'views', 'likes',
+			'fields'=>array(
+				'comments', 'views', 'likes',
+			)
 		),
 		'extra'=>array(
-			'seo_title', 'seo_keywords', 'seo_description',
+			'fields'=>array(
+				'seo_title', 'seo_keywords', 'seo_description',
+			)
 		)
 	);
 	

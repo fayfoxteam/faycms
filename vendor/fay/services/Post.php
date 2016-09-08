@@ -539,7 +539,9 @@ class Post extends Service{
 		$fields = FieldHelper::parse($fields, 'post', self::$public_fields);
 		if(empty($fields['post'])){
 			//若未指定返回字段，返回所有允许的字段
-			$fields['post'] = self::$public_fields['post'];
+			$fields['post'] = array(
+				'fields'=>self::$public_fields['post']
+			);
 		}
 		
 		$post_fields = $fields['post']['fields'];
@@ -1010,10 +1012,10 @@ class Post extends Service{
 		$sql = new Sql();
 		//根据文章ID获取当前文章
 		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
-		if(!is_array($fields)){
-			$fields = explode(',', $fields);
-		}
-		$post_fields = $fields;
+		//解析字段
+		$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
+		
+		$post_fields = $fields['post']['fields'];
 		if(!in_array('sort', $post_fields)){
 			$post_fields[] = 'sort';
 		}
@@ -1044,10 +1046,10 @@ class Post extends Service{
 					->order('id ASC')
 					->fetchRow();
 			}
-			if(!in_array('sort', $fields)){
+			if(!in_array('sort', $fields['post']['fields'])){
 				unset($prev_post['sort']);
 			}
-			if(!in_array('publish_time', $fields)){
+			if(!in_array('publish_time', $fields['post']['fields'])){
 				unset($prev_post['publish_time']);
 			}
 		}
@@ -1065,10 +1067,10 @@ class Post extends Service{
 		$sql = new Sql();
 		//根据文章ID获取当前文章
 		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
-		if(!is_array($fields)){
-			$fields = explode(',', $fields);
-		}
-		$post_fields = $fields;
+		//解析字段
+		$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
+		
+		$post_fields = $fields['post']['fields'];
 		if(!in_array('sort', $post_fields)){
 			$post_fields[] = 'sort';
 		}
@@ -1099,10 +1101,10 @@ class Post extends Service{
 					->order('id ASC')
 					->fetchRow();
 			}
-			if(!in_array('sort', $fields)){
+			if(!in_array('sort', $fields['post']['fields'])){
 				unset($next_post['sort']);
 			}
-			if(!in_array('publish_time', $fields)){
+			if(!in_array('publish_time', $fields['post']['fields'])){
 				unset($next_post['publish_time']);
 			}
 		}

@@ -39,7 +39,7 @@ class File extends Service{
 			->where('post_id = ?', $post_id)
 			->order('pf.post_id, pf.sort')
 			->fetchAll();
-		$files = \fay\services\File::mget($file_rows, array(), $fields);
+		$files = array_values(\fay\services\File::mget($file_rows, array(), $fields));
 		
 		return $files;
 	}

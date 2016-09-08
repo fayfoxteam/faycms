@@ -12,7 +12,7 @@ return array(
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
 		'port'=>3307,							//端口
-		'dbname'=>'faycms_church',					//数据库名
+		'dbname'=>$_SERVER['HTTP_HOST'] == 'pipi.fayfox.com' ? 'fayfox_pipi' : 'faycms_church',					//数据库名
 		'charset'=>'utf8',						//数据库编码方式
 		'table_prefix'=>'faycms_',				//数据库表前缀
 	),

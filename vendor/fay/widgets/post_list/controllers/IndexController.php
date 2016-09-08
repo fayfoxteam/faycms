@@ -1,7 +1,6 @@
 <?php
 namespace fay\widgets\post_list\controllers;
 
-use fay\models\tables\PostsFiles;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -80,9 +79,11 @@ class IndexController extends Widget{
 			if(!$cat){
 				throw new HttpException('您访问的页面不存在');
 			}else if($cat['alias'] != '_system_post'){
-				\F::app()->layout->title = empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'];
-				\F::app()->layout->keywords = empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'];
-				\F::app()->layout->description = empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'];
+				\F::app()->layout->assign(array(
+					'title'=>empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'],
+					'keywords'=>empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'],
+					'description'=>empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'],
+				));
 			}
 			if($config['subclassification']){
 				//包含子分类

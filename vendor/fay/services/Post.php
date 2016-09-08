@@ -847,7 +847,7 @@ class Post extends Service{
 			);
 		}
 		
-		$post_fields = $fields['post'];
+		$post_fields = $fields['post']['fields'];
 		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$post_fields[] = 'user_id';
@@ -981,7 +981,7 @@ class Post extends Service{
 			
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
 			foreach(array('id', 'user_id', 'cat_id') as $f){
-				if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
+				if(!in_array($f, $fields['post']['fields']) && in_array($f, $post_fields)){
 					unset($post['post'][$f]);
 				}
 			}
@@ -1385,7 +1385,7 @@ class Post extends Service{
 			);
 		}
 		
-		$post_fields = $fields['post'];
+		$post_fields = $fields['post']['fields'];
 		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
 			//如果要获取作者信息，则必须搜出user_id
 			$post_fields[] = 'user_id';
@@ -1469,7 +1469,7 @@ class Post extends Service{
 		foreach($return as $k => $post){
 			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
 			foreach(array('id', 'user_id', 'cat_id') as $f){
-				if(!in_array($f, $fields['post']) && in_array($f, $post_fields)){
+				if(!in_array($f, $fields['post']['fields']) && in_array($f, $post_fields)){
 					unset($post['post'][$f]);
 				}
 			}

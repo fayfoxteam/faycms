@@ -37,7 +37,7 @@ use fay\helpers\Date;
 			</div>
 		</div>
 		<?php }?>
-		<div class="post-content">
+		<div class="post-container">
 			<h2 class="post-title">
 				<a href="<?php echo $p['post']['link']?>"><?php
 					echo Html::encode($p['post']['title'])

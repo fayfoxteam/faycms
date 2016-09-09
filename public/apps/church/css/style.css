@@ -142,7 +142,7 @@ a:hover{color:#3799ab}
 .post-list h2.post-title a{color:#212121;font-size:1.4714em}
 .post-list h2.post-title a:hover{color:#1dc6df}
 .post-list .post-meta{color:#999;margin-bottom:1.5em}
-.post-list .post-meta .post-meta-item+.post-meta-item:before{display:inline-block;content:"/";vertical-align:top;margin:0 0.3077em}
+.post-list .post-meta .post-meta-item+.post-meta-item:before{display:inline-block;content:"/";vertical-align:top;margin:0 0.3077em;color:#999}
 .post-list .post-featured{margin-bottom:2em;position:relative;overflow:hidden}
 .post-list .post-featured .swiper-control-container{color:#fff;position:absolute;z-index:10;left:0;right:0;top:50%;margin-top:-29px}
 .post-list .post-featured .swiper-control-container a{background-color:#1dc6df;color:#f1f4f6;display:block;text-align:center;font-size:1.1429em;line-height:3em;width:3.125em;height:3.125em;border-radius:100%;cursor:pointer}
@@ -160,7 +160,7 @@ a:hover{color:#3799ab}
 .post-list .post-featured .post-thumb a:after{opacity:0;background-color:rgba(29,198,223,0.8);position:absolute;top:0;left:0;width:105%;height:105%;z-index:1;content:"";transition:all ease .3s}
 .post-list .post-featured .post-thumb a:hover:before{opacity:1;margin-top:0}
 .post-list .post-featured .post-thumb a:hover:after{opacity:1}
-.post-list .post-content{margin-bottom:3em}
+.post-list .post-container{margin-bottom:3em}
 
 /* 侧边栏小工具域 */
 .widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555}
@@ -172,7 +172,7 @@ a:hover{color:#3799ab}
 .widget-area article .post-title a:hover{color:#1dc6df}
 .widget-area article .post-thumb{float:left;margin:2px 1em 2px 0;overflow:hidden;width:4.2857em;height:4.2857em}
 .widget-area article .post-thumb img{width:100%}
-.widget-area article .post-content{overflow:hidden}
+.widget-area article .post-container{overflow:hidden}
 .widget-area article .post-meta{color:#999}
 
 /* 侧边栏分类列表 */

@@ -114,6 +114,14 @@ class IndexController extends Widget{
 			$fields = $this->fields;
 		}
 		
+		if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
+			$fields['files']['extra'] = array(
+				'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
+					'x' .
+					(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
+			);
+		}
+		
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			//有设置ID字段名，且传入ID字段
 			$post = Post::service()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);

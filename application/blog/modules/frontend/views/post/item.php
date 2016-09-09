@@ -51,7 +51,6 @@ use fay\models\tables\Messages;
 	<div class="leave-message">
 		<form id="leave-message-form">
 			<input type="hidden" name="target" value="<?php echo $post['id']?>" />
-			<input type="hidden" name="type" value="<?php echo Messages::TYPE_POST_COMMENT?>" />
 			<textarea class="leave-message-input" name="content"></textarea>
 		</form>
 		<div class="leave-message-submit-container">
@@ -71,16 +70,16 @@ use fay\models\tables\Messages;
 	</div>
 </div>
 <div class="col-side">
-	<?php echo F::widget()->render('profile')?>
-	<?php echo F::widget()->render('contact')?>
-	<?php echo F::widget()->render('fay/category_posts', array(
+	<?php F::widget()->render('profile')?>
+	<?php F::widget()->render('contact')?>
+	<?php F::widget()->render('fay/category_posts', array(
 		'title'=>'相关文章',
 		'top'=>$post['post']['cat_id'],
 		'subclassification'=>true,
 		'order'=>'rand',
 	))?>
 	<div class="fixed-content">
-		<?php echo F::widget()->load('categories')?>
+		<?php F::widget()->load('categories')?>
 	</div>
 </div>
 <div class="clear"></div>

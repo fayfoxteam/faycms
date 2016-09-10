@@ -21,7 +21,7 @@ class IndexController extends FrontController{
 		$this->view->last_modified_cats = $sql->fetchAll();
 		
 		$this->view->assign(array(
-			'posts'=>Post::service()->getByCatAlias('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+			'posts'=>\fay\services\post\Category::service()->getPosts('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 		))->render();
 	}
 	

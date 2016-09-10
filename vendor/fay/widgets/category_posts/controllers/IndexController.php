@@ -5,6 +5,7 @@ use fay\widget\Widget;
 use fay\services\Category;
 use fay\services\Post;
 use fay\helpers\Date;
+use fay\services\post\Category as PostCategory;
 
 class IndexController extends Widget{
 	public function getData($config){
@@ -60,7 +61,7 @@ class IndexController extends Widget{
 		if(in_array('meta', $config['fields'])){
 			$fields['meta'] = array('views', 'likes', 'comments');
 		}
-		$posts = Post::service()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
+		$posts = PostCategory::service()->getPosts($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		if($posts){
 			foreach($posts as &$p){
 				if($config['date_format'] == 'pretty'){
@@ -150,7 +151,7 @@ class IndexController extends Widget{
 				'fields'=>array('views', 'likes', 'comments')
 			);
 		}
-		$posts = Post::service()->getByCatId($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
+		$posts = PostCategory::service()->getPosts($config['top'], $config['number'], $fields, $config['subclassification'], $order, $conditions);
 		
 		//若无文章可显示，则不显示该widget
 		if(empty($posts) && !$config['show_empty']){

@@ -12,7 +12,7 @@ class TeacherController extends FrontController{
 		//师资力量分类
 		$this->view->cat_teacher = Category::service()->get('teacher', 'description');
 		//师资力量文章
-		$this->view->teachers = Post::service()->getByCat('teacher', 6, 'id,title,thumbnail');
+		$this->view->teachers = \fay\services\post\Category::service()->getPosts('teacher', 6, 'id,title,thumbnail');
 		
 		$this->view->render();
 	}

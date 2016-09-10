@@ -35,14 +35,14 @@ class GuideController extends FrontController{
 			//叶子节点
 			$this->view->assign(array(
 				'cat'=>$cat,
-				'posts'=>Post::service()->getByCat($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+				'posts'=>\fay\services\post\Category::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 			))->render('posts');
 		}else{
 			//非叶子
 			$this->view->assign(array(
 				'cat'=>$cat,
 				'cats'=>Category::service()->getNextLevelByParentId($cat['id']),
-				'posts'=>Post::service()->getByCat($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+				'posts'=>\fay\services\post\Category::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 			))->render('cats');
 		}
 	}

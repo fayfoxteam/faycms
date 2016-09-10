@@ -22,7 +22,7 @@ class IndexController extends FrontController{
 		$this->layout->keywords = Option::get('site:seo_index_keywords');
 		$this->layout->description = Option::get('site:seo_index_description');
 		
-		$this->view->news = Post::service()->getByCatAlias('news', 7, 'id,title,publish_time', true);
+		$this->view->news = \fay\services\post\Category::service()->getPosts('news', 7, 'id,title,publish_time', true);
 		
 		$cat_product = Category::service()->getByAlias('product');
 		$this->view->products = Posts::model()->fetchAll(array(

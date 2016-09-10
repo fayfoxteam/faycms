@@ -20,7 +20,7 @@ class IndexController extends FrontController{
 	public function index(){
 		$page_about = Page::service()->getByAlias('about');
 		$cat_news = Category::service()->getByAlias('news');
-		$news = Post::service()->getByCat($cat_news, 6, 'id,title,abstract,publish_time', true);
+		$news = \fay\services\post\Category::service()->getPosts($cat_news, 6, 'id,title,abstract,publish_time', true);
 		
 		$this->view->assign(array(
 			'about'=>$page_about,

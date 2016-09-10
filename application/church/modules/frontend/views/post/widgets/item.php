@@ -26,11 +26,11 @@ use fay\helpers\Date;
 				<div class="swiper-container post-files">
 					<div class="swiper-wrapper">
 						<?php foreach($post['files'] as $file){?>
-							<div class="swiper-slide">
-								<?php echo Html::img($file['thumbnail'], File::PIC_ORIGINAL, array(
+							<div class="swiper-slide"><?php
+								 echo Html::img($file['thumbnail'], File::PIC_ORIGINAL, array(
 									'alt'=>$file['description'],
-								))?>
-							</div>
+								))
+							?></div>
 						<?php }?>
 					</div>
 					<div class="swiper-pagination"></div>
@@ -49,13 +49,26 @@ use fay\helpers\Date;
 							'dw'=>770,
 							'dh'=>448,
 						));
-						?></a>
+					?></a>
 				</div>
 			</div>
 		<?php }?>
 		<div class="post-container">
 			<div class="post-content">
 				<p><?php echo $post['post']['content']?></p>
+			</div>
+			<div class="post-tags">
+				<p>
+					<span>标签：</span>
+					<?php
+						foreach($post['tags'] as $k => $tag){
+							if($k){
+								echo ', ';
+							}
+							echo Html::link($tag['title'], array('tag/'.urlencode($tag['title'])));
+						}
+					?>
+				</p>
 			</div>
 		</div>
 	</article>

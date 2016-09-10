@@ -725,22 +725,6 @@ class Post extends Service{
 	}
 	
 	/**
-	 * 用于获取文章链接
-	 * 出于效率考虑，不对本函数做任何配置项，必要的时候，直接重写此函数
-	 * @param array|int $post文章ID或者包含文章信息的数组
-	 * @param string $controller
-	 * @return string
-	 */
-	public function getLink($post, $controller = 'post'){
-		if(is_array($post)){
-			$post_id = $post['id'];
-		}else{
-			$post_id = $post;
-		}
-		return \F::app()->view->url($controller . '/' . $post_id);
-	}
-	
-	/**
 	 * 获取当前文章上一篇文章
 	 * （此处上一篇是比当前文章新一点的那篇）
 	 * @param int $post_id 文章ID

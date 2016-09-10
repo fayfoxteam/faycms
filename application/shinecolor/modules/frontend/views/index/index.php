@@ -48,7 +48,7 @@ use fay\services\Post;
 			<ul class="news-list">
 			<?php foreach($news as $n){?>
 				<li class="disc">
-					<a href="<?php echo Post::service()->getLink($n, 'news')?>">
+					<a href="<?php echo $this->url('news/'.$n['id']);?>">
 						<time class="fr"><?php echo date('Y-m-d', $n['publish_time'])?></time>
 						<span><?php echo Html::encode($n['title'])?></span>
 					</a>

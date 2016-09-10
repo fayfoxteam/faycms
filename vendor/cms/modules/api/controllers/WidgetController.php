@@ -49,7 +49,7 @@ class WidgetController extends ApiController{
 	/**
 	 * 根据别名渲染一个widget
 	 * @throws HttpException
-	 * @internal param string $alias 小工具别名
+	 * @parameter param string $alias 小工具别名
 	 */
 	public function load(){
 		//表单验证
@@ -69,7 +69,7 @@ class WidgetController extends ApiController{
 	/**
 	 * 获取widget实例参数，需要widget实现IndexController::getData()方法
 	 * @throws HttpException
-	 * @internal param string $alias 小工具别名
+	 * @parameter param string $alias 小工具别名
 	 */
 	public function data(){
 		//表单验证

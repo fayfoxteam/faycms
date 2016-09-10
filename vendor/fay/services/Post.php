@@ -844,7 +844,6 @@ class Post extends Service{
 	 * @param string|array $fields 返回posts表中的字段（cat_title）默认返回
 	 * @param string $order 排序字段
 	 * @return array
-	 * @internal param int|string $prop_alias 可传入属性ID或者alias
 	 */
 	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $fields = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
 		if(!StringHelper::isInt($prop)){

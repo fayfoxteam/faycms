@@ -104,7 +104,6 @@ class Cookie{
 	 * @param string $name
 	 * @param string $path 与系统setcookie函数参数一致
 	 * @param bool|string $domain 与系统setcookie函数参数一致
-	 * @internal param string $key 若不指定或者指定为null，则删除所有session
 	 */
 	public function remove($name = '', $path = '/', $domain = false){
 		$this->set($name, '', '', $path, $domain);

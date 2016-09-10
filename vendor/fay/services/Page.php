@@ -37,7 +37,6 @@ class Page extends Service{
 	 * @param mixed $fields
 	 * @param bool $children 若为true，则会返回该分类及其所有子分类对应的页面
 	 * @return array
-	 * @internal param string $field
 	 */
 	public function getByCatAlias($alias, $limit = 10, $fields = '!content', $children = false){
 		$cat = Categories::model()->fetchRow(array(

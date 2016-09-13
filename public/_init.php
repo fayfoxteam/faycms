@@ -19,7 +19,7 @@ spl_autoload_register('fay\core\Loader::autoload');
 
 //捕获报错
 $error_handler = new ErrorHandler();
-	$error_handler->register();
+$error_handler->register();
 
 /**
  * 定义一个快捷方式，方便调试

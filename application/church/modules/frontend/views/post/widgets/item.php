@@ -3,6 +3,9 @@ use fay\helpers\Html;
 use fay\services\File;
 use fay\helpers\Date;
 
+/**
+ * @var array $post 文章信息
+ */
 \F::app()->layout->assign(array(
 	'page_title'=>$post['post']['title']
 ));
@@ -12,14 +15,16 @@ use fay\helpers\Date;
 		<div class="post-meta">
 			<time class="post-meta-item post-meta-time"><?php
 				echo Date::niceShort($post['post']['publish_time'])
-				?></time>
-			<a href="" class="post-meta-item post-meta-category">分类1</a>
-					<span class="post-meta-item post-meta-views">
-						<span>阅读数</span>
-						<a><?php
-							echo $post['meta']['views']
-							?></a>
-					</span>
+			?></time>
+			<?php echo Html::link($post['category']['title'], array('cat/'.$post['category']['alias']), array(
+				'class'=>array('post-meta-item', 'post-meta-category'),
+			))?>
+			<span class="post-meta-item post-meta-views">
+				<span>阅读数</span>
+				<a><?php
+					echo $post['meta']['views']
+					?></a>
+			</span>
 		</div>
 		<?php if($post['files']){?>
 			<div class="post-featured">
@@ -57,6 +62,7 @@ use fay\helpers\Date;
 			<div class="post-content">
 				<p><?php echo $post['post']['content']?></p>
 			</div>
+			<?php if($post['tags']){?>
 			<div class="post-tags">
 				<p>
 					<span>标签：</span>
@@ -70,6 +76,7 @@ use fay\helpers\Date;
 					?>
 				</p>
 			</div>
+			<?php }?>
 		</div>
 	</article>
 </div>

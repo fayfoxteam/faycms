@@ -11,7 +11,10 @@ class FrontController extends Controller{
 	public function __construct(){
 		parent::__construct();
 		
-		$this->layout->show_banner = true;
+		$this->layout->assign(array(
+			'show_banner'=>true,
+			'page_title'=>'',
+		));
 		
 		if($spider = Request::isSpider()){//如果是蜘蛛，记录蜘蛛日志
 			SpiderLogs::model()->insert(array(

@@ -9,7 +9,7 @@ use fay\helpers\StringHelper;
 use fay\models\tables\Categories;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
-use fay\services\File;
+use fay\services\File as FileService;
 use fay\services\Option;
 use fay\services\Post;
 use fay\services\User;
@@ -714,7 +714,7 @@ class Category extends Service{
 		foreach($posts as $p){
 			if(isset($p['thumbnail'])){
 				//如果有缩略图，将缩略图转为图片URL
-				$p['thumbnail_url'] = File::getUrl($p['thumbnail'], File::PIC_ORIGINAL, array(
+				$p['thumbnail_url'] = FileService::getUrl($p['thumbnail'], File::PIC_ORIGINAL, array(
 					'spare'=>'avatar',
 				));
 			}

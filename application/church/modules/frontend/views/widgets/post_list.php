@@ -2,6 +2,10 @@
 use fay\helpers\Html;
 use fay\services\File;
 use fay\helpers\Date;
+
+/**
+ * @var array $posts
+ */
 ?>
 <?php foreach($posts as $p){?>
 	<article>

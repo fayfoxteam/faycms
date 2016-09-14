@@ -714,7 +714,7 @@ class Category extends Service{
 		foreach($posts as $p){
 			if(isset($p['thumbnail'])){
 				//如果有缩略图，将缩略图转为图片URL
-				$p['thumbnail_url'] = FileService::getUrl($p['thumbnail'], File::PIC_ORIGINAL, array(
+				$p['thumbnail_url'] = FileService::getUrl($p['thumbnail'], FileService::PIC_ORIGINAL, array(
 					'spare'=>'avatar',
 				));
 			}

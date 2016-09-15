@@ -137,9 +137,24 @@ use fay\services\user\Role;
 				</p>
 			</div>
 			<div class="form-field">
+				<label class="title bold">文章缩略图尺寸</label>
+				<?php
+				echo F::form('widget')->inputText('post_thumbnail_width', array(
+					'placeholder'=>'宽度',
+					'class'=>'form-control w100 ib',
+				)),
+				' x ',
+				F::form('widget')->inputText('post_thumbnail_height', array(
+					'placeholder'=>'高度',
+					'class'=>'form-control w100 ib',
+				));
+				?>
+				<p class="fc-grey">若留空，则返回默认尺寸缩略图。</p>
+			</div>
+			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
-				echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
+				echo F::form('widget')->inputCheckbox('fields[]', 'category', array(
 					'label'=>'分类详情',
 				), true);
 				echo F::form('widget')->inputCheckbox('fields[]', 'user', array(

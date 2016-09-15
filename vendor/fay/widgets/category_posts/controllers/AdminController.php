@@ -49,7 +49,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array('number', 'int', array('min'=>1)),
-			array('last_view_time', 'int', array('min'=>0)),
+			array(array('last_view_time', 'post_thumbnail_width', 'post_thumbnail_height'), 'int', array('min'=>0)),
 		);
 	}
 	
@@ -57,6 +57,8 @@ class AdminController extends Widget{
 		return array(
 			'number'=>'显示文章数',
 			'last_view_time'=>'最近访问',
+			'post_thumbnail_width'=>'文章缩略图宽度',
+			'post_thumbnail_height'=>'文章缩略图高度',
 		);
 	}
 	
@@ -75,6 +77,8 @@ class AdminController extends Widget{
 			'last_view_time'=>'intval',
 			'order'=>'trim',
 			'fields'=>'trim',
+			'post_thumbnail_width'=>'intval',
+			'post_thumbnail_height'=>'intval',
 		);
 	}
 }

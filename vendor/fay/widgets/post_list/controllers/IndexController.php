@@ -49,109 +49,81 @@ class IndexController extends Widget{
 		),
 	);
 	
+	/**
+	 * 排序方式
+	 */
 	private $order_map = array(
 		'hand'=>'is_top DESC, sort, publish_time DESC',
 		'publish_time'=>'publish_time DESC',
 		'views'=>'views DESC, publish_time DESC',
 	);
 	
+	/**
+	 * 配置信息
+	 */
+	private $config;
+	
 	public function index($config){
-		$config = $this->initConfig($config);
+		$this->initConfig($config);
 		
-		$listview = $this->getListView($config);
+		$listview = $this->getListView();
 		$posts = $listview->getData();
 		
 		if($posts){
-			$fields = array(
-				'post'=>$this->fields['post']
-			);
-			if(!empty($config['post_thumbnail_width']) || !empty($config['post_thumbnail_height'])){
-				$fields['post']['extra'] = array(
-					'thumbnail'=>(empty($config['post_thumbnail_width']) ? 0 : $config['post_thumbnail_width']) .
-						'x' .
-						(empty($config['post_thumbnail_height']) ? 0 : $config['post_thumbnail_height']),
-				);
-			}
-			
-			if(in_array('category', $config['fields'])){
-				$fields['category'] = $this->fields['category'];
-			}
-			if(in_array('meta', $config['fields'])){
-				$fields['meta'] = $this->fields['meta'];
-			}
-			if(in_array('user', $config['fields'])){
-				$fields['user'] = $this->fields['user'];
-			}
-			if(in_array('files', $config['fields'])){
-				$file_fields = $this->fields['files'];
-				if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
-					$file_fields['extra'] = array(
-						'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
-							'x' .
-							(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
-					);
-				}
-				$fields['files'] = $file_fields;
-			}
+			$fields = $this->getFields();
 			
 			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields, false);
-			foreach($posts as &$p){
-				//附加格式化日期
-				if($config['date_format'] == 'pretty'){
-					$p['post']['format_publish_time'] = Date::niceShort($p['post']['publish_time']);
-				}else if($config['date_format']){
-					$p['post']['format_publish_time'] = \date($config['date_format'], $p['post']['publish_time']);
-				}else{
-					$p['post']['format_publish_time'] = '';
-				}
-				
-				//附加文章链接
-				$p['post']['link'] = $this->view->url(str_replace('{$id}', $p['post']['id'], $config['uri']));
-			}
+			
+			$posts = $this->formatPosts($posts);
 			
 			//template
-			if(empty($config['template'])){
+			if(empty($this->config['template'])){
 				$this->view->render('template', array(
 					'posts'=>$posts,
-					'config'=>$config,
+					'config'=>$this->config,
 					'alias'=>$this->alias,
 					'listview'=>$listview,
 				));
 			}else{
-				if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
-					\F::app()->view->renderPartial($config['template'], array(
+				if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
+					\F::app()->view->renderPartial($this->config['template'], array(
 						'posts'=>$posts,
-						'config'=>$config,
+						'config'=>$this->config,
 						'alias'=>$this->alias,
 						'listview'=>$listview,
 					));
 				}else{
 					$alias = $this->alias;
-					eval('?>'.$config['template'].'<?php ');
+					eval('?>'.$this->config['template'].'<?php ');
 				}
 			}
 		}else{
-			echo $config['empty_text'];
+			echo $this->config['empty_text'];
 		}
 		
-		if($config['pager'] == 'system'){
+		if($this->config['pager'] == 'system'){
 			$listview->showPager();
 		}else{
 			$pager_data = $listview->getPager();
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['pager_template'])){
-				\F::app()->view->renderPartial($config['pager_template'], $pager_data + array(
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['pager_template'])){
+				\F::app()->view->renderPartial($this->config['pager_template'], $pager_data + array(
 					'listview'=>$listview,
-					'config'=>$config,
+					'config'=>$this->config,
 					'alias'=>$this->alias,
 				));
 			}else{
 				$alias = $this->alias;
 				extract($pager_data);
-				eval('?>'.$config['pager_template'].'<?php ');
+				eval('?>'.$this->config['pager_template'].'<?php ');
 			}
 		}
 	}
 	
+	/**
+	 * 初始化配置
+	 * @param array $config
+	 * @return array
+	 */
 	private function initConfig($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
 		empty($config['page_key']) && $config['page_key'] = 'page';
@@ -163,40 +135,78 @@ class IndexController extends Widget{
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
 		isset($config['subclassification']) || $config['subclassification'] = true;
 		
-		return $config;
+		return $this->config = $config;
 	}
 	
 	/**
 	 * 获取排序方式
-	 * @param array $config
 	 * @return string
 	 */
-	private function getOrder($config){
-		if(!empty($config['order']) && isset($this->order_map[$config['order']])){
-			return $this->order_map[$config['order']];
+	private function getOrder(){
+		if(!empty($this->config['order']) && isset($this->order_map[$this->config['order']])){
+			return $this->order_map[$this->config['order']];
 		}else{
 			return $this->order_map['hand'];
 		}
 	}
 	
 	/**
+	 * 获取$fields
+	 * @return array
+	 */
+	private function getFields(){
+		$fields = array(
+			'post'=>$this->fields['post']
+		);
+		if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){
+			$fields['post']['extra'] = array(
+				'thumbnail'=>(empty($this->config['post_thumbnail_width']) ? 0 : $this->config['post_thumbnail_width']) .
+					'x' .
+					(empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']),
+			);
+		}
+		
+		if(in_array('category', $this->config['fields'])){
+			$fields['category'] = $this->fields['category'];
+		}
+		if(in_array('meta', $this->config['fields'])){
+			$fields['meta'] = $this->fields['meta'];
+		}
+		if(in_array('user', $this->config['fields'])){
+			$fields['user'] = $this->fields['user'];
+		}
+		if(in_array('files', $this->config['fields'])){
+			$file_fields = $this->fields['files'];
+			if(!empty($this->config['file_thumbnail_width']) || !empty($this->config['file_thumbnail_height'])){
+				$file_fields['extra'] = array(
+					'thumbnail'=>(empty($this->config['file_thumbnail_width']) ? 0 : $this->config['file_thumbnail_width']) .
+						'x' .
+						(empty($this->config['file_thumbnail_height']) ? 0 : $this->config['file_thumbnail_height']),
+				);
+			}
+			$fields['files'] = $file_fields;
+		}
+		
+		return $fields;
+	}
+	
+	/**
 	 * 获取ListView对象
-	 * @param array $config
 	 * @return ListView
 	 * @throws HttpException
 	 * @throws \fay\core\ErrorException
 	 */
-	private function getListView($config){
+	private function getListView(){
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), 'id');
 		
 		//限制分类
-		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
-			$cat_id = $this->input->get($config['cat_id_key'], 'intval');
-		}else if(!empty($config['cat_alias_key']) && $this->input->get($config['cat_alias_key'])){
-			$cat_id = $this->input->get($config['cat_alias_key'], 'trim');
+		if(!empty($this->config['cat_id_key']) && $this->input->get($this->config['cat_id_key'])){
+			$cat_id = $this->input->get($this->config['cat_id_key'], 'intval');
+		}else if(!empty($this->config['cat_alias_key']) && $this->input->get($this->config['cat_alias_key'])){
+			$cat_id = $this->input->get($this->config['cat_alias_key'], 'trim');
 		}else{
-			$cat_id = isset($config['cat_id']) ? $config['cat_id'] : 0;
+			$cat_id = isset($this->config['cat_id']) ? $this->config['cat_id'] : 0;
 		}
 		
 		if(!empty($cat_id)){
@@ -210,7 +220,7 @@ class IndexController extends Widget{
 					'description'=>empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'],
 				));
 			}
-			if($config['subclassification']){
+			if($this->config['subclassification']){
 				//包含子分类
 				$limit_cat_children = Category::service()->getChildIds($cat['id']);
 				$limit_cat_children[] = $cat['id'];//加上父节点
@@ -222,14 +232,36 @@ class IndexController extends Widget{
 		}
 		
 		$sql->where(Posts::getPublishedConditions('p'))
-			->order($this->getOrder($config));
+			->order($this->getOrder());
 		
 		$listview = new ListView($sql, array(
-			'page_size'=>$config['page_size'],
-			'page_key'=>$config['page_key'],
+			'page_size'=>$this->config['page_size'],
+			'page_key'=>$this->config['page_key'],
 		));
-		$listview->empty_text = $config['empty_text'];
+		$listview->empty_text = $this->config['empty_text'];
 		
 		return $listview;
+	}
+	
+	/**
+	 * @param array $posts
+	 * @return array
+	 */
+	private function formatPosts($posts){
+		foreach($posts as &$p){
+			//附加格式化日期
+			if($this->config['date_format'] == 'pretty'){
+				$p['post']['format_publish_time'] = Date::niceShort($p['post']['publish_time']);
+			}else if($this->config['date_format']){
+				$p['post']['format_publish_time'] = \date($this->config['date_format'], $p['post']['publish_time']);
+			}else{
+				$p['post']['format_publish_time'] = '';
+			}
+			
+			//附加文章链接
+			$p['post']['link'] = $this->view->url(str_replace('{$id}', $p['post']['id'], $this->config['uri']));
+		}
+		
+		return $posts;
 	}
 }

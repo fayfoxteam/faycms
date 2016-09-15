@@ -38,12 +38,6 @@ abstract class Widget{
 	 */
 	public $input;
 	
-	
-	/**
-	 * @var \fay\core\Config
-	 */
-	public $config;
-	
 	/**
 	 * F::form('widget')
 	 * @var \fay\core\Form
@@ -84,7 +78,6 @@ abstract class Widget{
 		include_once 'View.php';
 		$this->view = new View($this->name, get_class($this));
 		$this->input = Input::getInstance();
-		$this->config = Config::getInstance();
 		$this->db = Db::getInstance();
 		$this->form = $this->form('widget');
 		

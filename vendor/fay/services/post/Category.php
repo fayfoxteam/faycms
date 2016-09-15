@@ -9,7 +9,6 @@ use fay\helpers\StringHelper;
 use fay\models\tables\Categories;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
-use fay\services\File as FileService;
 use fay\services\Option;
 use fay\services\Post;
 use fay\services\User;
@@ -17,8 +16,6 @@ use fay\services\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\RolesCats;
 use fay\services\Category as CategoryService;
-use fay\services\post\File as PostFile;
-use fay\services\post\Category as PostCategory;
 
 class Category extends Service{
 	/**
@@ -632,24 +629,10 @@ class Category extends Service{
 			);
 		}
 		
-		$post_fields = $fields['post']['fields'];
-		if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
-			//如果要获取作者信息，则必须搜出user_id
-			$post_fields[] = 'user_id';
-		}
-		if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
-			//如果要获取作者信息，则必须搜出user_id
-			$post_fields[] = 'cat_id';
-		}
-		if(!in_array('id', $fields['post'])){
-			//id字段无论如何都要返回，因为后面要用到
-			$post_fields[] = 'id';
-		}
-		
 		$sql = new Sql();
-		$sql->from(array('p'=>'posts'), $post_fields)
+		$sql->from(array('p'=>'posts'), 'id')
 			->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
-			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id', '')
+			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id')
 			->where(Posts::getPublishedConditions('p'))
 			->order($order)
 			->group('p.id');
@@ -679,101 +662,6 @@ class Category extends Service{
 			return array();
 		}
 		
-		$post_ids = ArrayHelper::column($posts, 'id');
-		//meta
-		if(!empty($fields['meta'])){
-			$post_metas = Meta::service()->mget($post_ids, $fields['meta']);
-		}
-		//扩展信息
-		if(!empty($fields['extra'])){
-			$post_extras = Extra::service()->mget($post_ids, $fields['extra']);
-		}
-		
-		//标签
-		if(!empty($fields['tags'])){
-			$post_tags = $this->mget($post_ids, $fields['tags']);
-		}
-		
-		//附件
-		if(!empty($fields['files'])){
-			$post_files = PostFile::service()->mget($post_ids, $fields['files']);
-		}
-		
-		//附加分类
-		if(!empty($fields['categories'])){
-			$post_categories = PostCategory::service()->mget($post_ids, $fields['categories']);
-		}
-		
-		//主分类
-		if(!empty($fields['category'])){
-			$cat_ids = ArrayHelper::column($posts, 'cat_id');
-			$post_category = Category::service()->mget(array_unique($cat_ids), $fields['category']);
-		}
-		
-		$return = array();
-		foreach($posts as $p){
-			if(isset($p['thumbnail'])){
-				//如果有缩略图，将缩略图转为图片URL
-				$p['thumbnail_url'] = FileService::getUrl($p['thumbnail'], FileService::PIC_ORIGINAL, array(
-					'spare'=>'avatar',
-				));
-			}
-			
-			$post['post'] = $p;
-			//meta
-			if(isset($post_metas)){
-				$post['meta'] = $post_metas[$p['id']];
-			}
-			//扩展信息
-			if(isset($post_extras)){
-				$post['extra'] = $post_extras[$p['id']];
-			}
-			
-			//标签
-			if(isset($post_tags)){
-				$post['tags'] = $post_tags[$p['id']];
-			}
-			
-			//附件
-			if(isset($post_files)){
-				$post['files'] = $post_files[$p['id']];
-			}
-			
-			//附加分类
-			if(isset($post_categories)){
-				$post['categories'] = $post_categories[$p['id']];
-			}
-			
-			//主分类
-			if(isset($post_category)){
-				$post['category'] = $post_category[$p['cat_id']];
-			}
-			
-			//作者信息
-			if(!empty($fields['user'])){
-				$post['user'] = User::service()->get($p['user_id'], $fields['user']);
-			}
-			
-			//附加属性
-			if(!empty($fields['props'])){
-				if(in_array('*', $fields['props'])){
-					$props = null;
-				}else{
-					$props = Prop::service()->mget($fields['props']);
-				}
-				$post['props'] = Prop::service()->getPropertySet($p['id'], $props);
-			}
-			
-			//过滤掉那些未指定返回，但出于某些原因先搜出来的字段
-			foreach(array('id', 'user_id', 'cat_id') as $f){
-				if(!in_array($f, $fields['post']['fields']) && in_array($f, $post_fields)){
-					unset($post['post'][$f]);
-				}
-			}
-			
-			$return[] = $post;
-		}
-		
-		return $return;
+		return Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields, false);
 	}
 }

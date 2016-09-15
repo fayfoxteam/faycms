@@ -630,17 +630,10 @@ class Post extends Service{
 		
 		if(isset($post['thumbnail'])){
 			//如果有缩略图，将缩略图图片ID转为图片对象
-			if(isset($fields['post']['extra']['thumbnail']) && preg_match('/^(\d+)x(\d+)$/', $fields['post']['extra']['thumbnail'], $avatar_params)){
-				$post['thumbnail'] = File::get($post['thumbnail'], array(
-					'spare'=>'post',
-					'dw'=>$avatar_params[1],
-					'dh'=>$avatar_params[2],
-				));
-			}else{
-				$post['thumbnail'] = File::get($post['thumbnail'], array(
-					'spare'=>'post',
-				));
-			}
+			$post['thumbnail'] = $this->formatThumbnail(
+				$post['thumbnail'],
+				isset($fields['post']['extra']['thumbnail']) ? $fields['post']['extra']['thumbnail'] : ''
+			);
 		}
 		
 		$return = array(
@@ -1134,6 +1127,13 @@ class Post extends Service{
 		//以传入文章ID顺序返回文章结构
 		foreach($post_ids as $pid){
 			if(isset($posts[$pid])){
+				if(isset($posts[$pid]['thumbnail'])){
+					//如果有缩略图，将缩略图图片ID转为图片对象
+					$posts[$pid]['thumbnail'] = $this->formatThumbnail(
+						$posts[$pid]['thumbnail'],
+						isset($fields['post']['extra']['thumbnail']) ? $fields['post']['extra']['thumbnail'] : ''
+					);
+				}
 				$return[$pid] = array(
 					'post'=>$posts[$pid]
 				);
@@ -1491,5 +1491,20 @@ class Post extends Service{
 		}
 		
 		return $deleted_post_ids;
+	}
+	
+	private function formatThumbnail($thumbnail, $extra = ''){
+		//如果有缩略图，将缩略图图片ID转为图片对象
+		if(preg_match('/^(\d+)x(\d+)$/', $extra, $avatar_params)){
+			return File::get($thumbnail, array(
+				'spare'=>'post',
+				'dw'=>$avatar_params[1],
+				'dh'=>$avatar_params[2],
+			));
+		}else{
+			return File::get($thumbnail, array(
+				'spare'=>'post',
+			));
+		}
 	}
 }

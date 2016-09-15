@@ -174,6 +174,7 @@ a:hover{color:#3799ab}
 .widget-area article .post-thumb img{width:100%}
 .widget-area article .post-container{overflow:hidden}
 .widget-area article .post-meta{color:#999}
+.widget-area article .post-meta .post-meta-time:before{display:inline-block;content:"/";vertical-align:top;margin:0 0.3077em;color:#999}
 
 /* 侧边栏分类列表 */
 .widget-categories ul li{padding:13px 0 14px;color:#999;text-align:right;overflow:hidden;border-top:solid 1px #e3e9ed}

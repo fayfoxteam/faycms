@@ -1,6 +1,8 @@
 <?php
 namespace fay\widgets\post_list\controllers;
 
+use fay\helpers\ArrayHelper;
+use fay\services\Post;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -9,10 +11,6 @@ use fay\services\Category;
 use fay\services\User;
 use fay\helpers\Date;
 use fay\core\HttpException;
-use fay\services\post\Meta as PostMeta;
-use fay\services\post\Category as PostCategory;
-use fay\services\post\User as PostUser;
-use fay\services\post\File as PostFile;
 
 class IndexController extends Widget{
 	/**
@@ -20,22 +18,34 @@ class IndexController extends Widget{
 	 */
 	private $fields = array(
 		'post'=>array(
-			'id', 'cat_id', 'title', 'publish_time', 'user_id', 'is_top', 'thumbnail', 'abstract'
+			'fields'=>array(
+				'id', 'cat_id', 'title', 'publish_time', 'user_id', 'is_top', 'thumbnail', 'abstract'
+			)
 		),
 		'user'=>array(
-			'id', 'username', 'nickname', 'avatar'
+			'fields'=>array(
+				'id', 'username', 'nickname', 'avatar'
+			)
 		),
 		'meta'=>array(
-			'comments', 'views', 'likes'
+			'fields'=>array(
+				'comments', 'views', 'likes'
+			)
 		),
 		'files'=>array(
-			'id', 'description', 'url', 'thumbnail', 'is_image',
+			'fields'=>array(
+				'id', 'description', 'url', 'thumbnail', 'is_image'
+			)
 		),
 		'category'=>array(
-			'id', 'title', 'alias',
+			'fields'=>array(
+				'id', 'title', 'alias'
+			)
 		),
 		'tags'=>array(
-			'id', 'title',
+			'fields'=>array(
+				'id', 'title',
+			)
 		),
 	);
 	
@@ -63,7 +73,7 @@ class IndexController extends Widget{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('p'=>'posts'), $this->fields['post']);
+		$sql->from(array('p'=>'posts'), 'id');
 		
 		//限制分类
 		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
@@ -106,57 +116,43 @@ class IndexController extends Widget{
 		$listview->empty_text = $config['empty_text'];
 		$posts = $listview->getData();
 		
-		$format_posts = array();
 		if($posts){
-			foreach($posts as $p){
-				if($config['date_format'] == 'pretty'){
-					$p['format_publish_time'] = Date::niceShort($p['publish_time']);
-				}else if($config['date_format']){
-					$p['format_publish_time'] = \date($config['date_format'], $p['publish_time']);
-				}else{
-					$p['format_publish_time'] = '';
-				}
-				
-				$p['link'] = $this->view->url(str_replace('{$id}', $p['id'], $config['uri']));
-				
-				$format_posts[] = array(
-					'post' => $p,
-				);
+			$fields = array();
+			if(in_array('category', $config['fields'])){
+				$fields['category'] = $this->fields['category'];
 			}
-			
-			//主分类
-			if(in_array('cat', $config['fields'])){
-				PostCategory::service()->assemblePrimaryCat($format_posts, $this->fields['category']);
-			}
-			
-			//meta
 			if(in_array('meta', $config['fields'])){
-				PostMeta::service()->assemble($format_posts, $this->fields['meta']);
+				$fields['meta'] = $this->fields['meta'];
 			}
-			
-			//作者
 			if(in_array('user', $config['fields'])){
-				PostUser::service()->assemble($format_posts, $this->fields['user']);
+				$fields['user'] = $this->fields['user'];
 			}
-			
-			//附件
 			if(in_array('files', $config['fields'])){
+				$file_fields = $this->fields['files'];
 				if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
-					$extra = array(
+					$file_fields['extra'] = array(
 						'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
 							'x' .
-						(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
+							(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
 					);
-				}else{
-					$extra = array();
 				}
-				PostFile::service()->assemble($format_posts, array(
-					'fields'=>$this->fields['files'],
-					'extra'=>$extra,
-				));
+				$fields['files'] = $file_fields;
 			}
 			
-			$posts = $format_posts;
+			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields, false);
+			foreach($posts as &$p){
+				//附加格式化日期
+				if($config['date_format'] == 'pretty'){
+					$p['post']['format_publish_time'] = Date::niceShort($p['post']['publish_time']);
+				}else if($config['date_format']){
+					$p['post']['format_publish_time'] = \date($config['date_format'], $p['post']['publish_time']);
+				}else{
+					$p['post']['format_publish_time'] = '';
+				}
+				
+				//附加文章链接
+				$p['post']['link'] = $this->view->url(str_replace('{$id}', $p['post']['id'], $config['uri']));
+			}
 			
 			//template
 			if(empty($config['template'])){

@@ -12,16 +12,16 @@ use fay\helpers\Html;
 		<article>
 			<div class="post-thumb">
 				<a href="<?php echo $p['post']['link']?>"><?php
-					echo Html::img($p['post'])
+					echo Html::img($p['post']['thumbnail']['thumbnail'])
 				?></a>
 			</div>
 			<div class="post-container">
-				<h5 class="post-title">
-					<a href="">这是一个文章标题</a>
-				</h5>
+				<h5 class="post-title"><?php
+					echo Html::link($p['post']['title'], $p['post']['link'])
+				?></h5>
 				<div class="post-meta">
 					<span class="post-meta-category">分类1</span>
-					<time class="post-meta-time">3天前</time>
+					<time class="post-meta-time"><?php echo $p['post']['format_publish_time']?></time>
 				</div>
 			</div>
 		</article>

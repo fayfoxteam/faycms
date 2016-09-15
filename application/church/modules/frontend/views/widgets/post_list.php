@@ -33,7 +33,7 @@ use fay\helpers\Date;
 		<div class="post-featured">
 			<div class="post-thumb">
 				<a href="<?php echo $p['post']['link']?>"><?php
-					echo Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
+					echo Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
 						'dw'=>770,
 						'dh'=>448,
 					));

@@ -11,7 +11,6 @@ use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
 use fay\services\Option;
 use fay\services\Post;
-use fay\services\User;
 use fay\services\user\Role;
 use fay\models\tables\Roles;
 use fay\models\tables\RolesCats;

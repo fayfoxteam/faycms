@@ -120,7 +120,7 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">附加字段</label>
 				<?php
-				echo F::form('widget')->inputCheckbox('fields[]', 'cat', array(
+				echo F::form('widget')->inputCheckbox('fields[]', 'category', array(
 					'label'=>'分类详情',
 				), true);
 				echo F::form('widget')->inputCheckbox('fields[]', 'user', array(

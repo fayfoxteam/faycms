@@ -49,71 +49,16 @@ class IndexController extends Widget{
 		),
 	);
 	
+	private $order_map = array(
+		'hand'=>'is_top DESC, sort, publish_time DESC',
+		'publish_time'=>'publish_time DESC',
+		'views'=>'views DESC, publish_time DESC',
+	);
+	
 	public function index($config){
-		empty($config['page_size']) && $config['page_size'] = 10;
-		empty($config['page_key']) && $config['page_key'] = 'page';
-		empty($config['uri']) && $config['uri'] = 'post/{$id}';
-		empty($config['date_format']) && $config['date_format'] = 'pretty';
-		isset($config['fields']) || $config['fields'] = array('cat');
-		empty($config['pager']) && $config['pager'] = 'system';
-		empty($config['pager_template']) && $config['pager_template'] = '';
-		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
-		isset($config['subclassification']) || $config['subclassification'] = true;
+		$config = $this->initConfig($config);
 		
-		//order
-		$orders = array(
-			'hand'=>'is_top DESC, sort, publish_time DESC',
-			'publish_time'=>'publish_time DESC',
-			'views'=>'views DESC, publish_time DESC',
-		);
-		if(!empty($config['order']) && isset($orders[$config['order']])){
-			$order = $orders[$config['order']];
-		}else{
-			$order = $orders['hand'];
-		}
-		
-		$sql = new Sql();
-		$sql->from(array('p'=>'posts'), 'id');
-		
-		//限制分类
-		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
-			$cat_id = $this->input->get($config['cat_id_key'], 'intval');
-		}else if(!empty($config['cat_alias_key']) && $this->input->get($config['cat_alias_key'])){
-			$cat_id = $this->input->get($config['cat_alias_key'], 'trim');
-		}else{
-			$cat_id = isset($config['cat_id']) ? $config['cat_id'] : 0;
-		}
-		
-		if(!empty($cat_id)){
-			$cat = Category::service()->get($cat_id, '*', '_system_post');
-			if(!$cat){
-				throw new HttpException('您访问的页面不存在');
-			}else if($cat['alias'] != '_system_post'){
-				\F::app()->layout->assign(array(
-					'title'=>empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'],
-					'keywords'=>empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'],
-					'description'=>empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'],
-				));
-			}
-			if($config['subclassification']){
-				//包含子分类
-				$limit_cat_children = Category::service()->getChildIds($cat['id']);
-				$limit_cat_children[] = $cat['id'];//加上父节点
-				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
-			}else{
-				//不包含子分类
-				$sql->where(array('cat_id = ?'=>$cat['id']));
-			}
-		}
-		
-		$sql->where(Posts::getPublishedConditions('p'))
-			->order($order);
-		
-		$listview = new ListView($sql, array(
-			'page_size'=>$config['page_size'],
-			'page_key'=>$config['page_key'],
-		));
-		$listview->empty_text = $config['empty_text'];
+		$listview = $this->getListView($config);
 		$posts = $listview->getData();
 		
 		if($posts){
@@ -205,6 +150,86 @@ class IndexController extends Widget{
 				eval('?>'.$config['pager_template'].'<?php ');
 			}
 		}
+	}
+	
+	private function initConfig($config){
+		empty($config['page_size']) && $config['page_size'] = 10;
+		empty($config['page_key']) && $config['page_key'] = 'page';
+		empty($config['uri']) && $config['uri'] = 'post/{$id}';
+		empty($config['date_format']) && $config['date_format'] = 'pretty';
+		isset($config['fields']) || $config['fields'] = array('cat');
+		empty($config['pager']) && $config['pager'] = 'system';
+		empty($config['pager_template']) && $config['pager_template'] = '';
+		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
+		isset($config['subclassification']) || $config['subclassification'] = true;
 		
+		return $config;
+	}
+	
+	/**
+	 * 获取排序方式
+	 * @param array $config
+	 * @return string
+	 */
+	private function getOrder($config){
+		if(!empty($config['order']) && isset($this->order_map[$config['order']])){
+			return $this->order_map[$config['order']];
+		}else{
+			return $this->order_map['hand'];
+		}
+	}
+	
+	/**
+	 * 获取ListView对象
+	 * @param array $config
+	 * @return ListView
+	 * @throws HttpException
+	 * @throws \fay\core\ErrorException
+	 */
+	private function getListView($config){
+		$sql = new Sql();
+		$sql->from(array('p'=>'posts'), 'id');
+		
+		//限制分类
+		if(!empty($config['cat_id_key']) && $this->input->get($config['cat_id_key'])){
+			$cat_id = $this->input->get($config['cat_id_key'], 'intval');
+		}else if(!empty($config['cat_alias_key']) && $this->input->get($config['cat_alias_key'])){
+			$cat_id = $this->input->get($config['cat_alias_key'], 'trim');
+		}else{
+			$cat_id = isset($config['cat_id']) ? $config['cat_id'] : 0;
+		}
+		
+		if(!empty($cat_id)){
+			$cat = Category::service()->get($cat_id, '*', '_system_post');
+			if(!$cat){
+				throw new HttpException('您访问的页面不存在');
+			}else if($cat['alias'] != '_system_post'){
+				\F::app()->layout->assign(array(
+					'title'=>empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'],
+					'keywords'=>empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'],
+					'description'=>empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'],
+				));
+			}
+			if($config['subclassification']){
+				//包含子分类
+				$limit_cat_children = Category::service()->getChildIds($cat['id']);
+				$limit_cat_children[] = $cat['id'];//加上父节点
+				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
+			}else{
+				//不包含子分类
+				$sql->where(array('cat_id = ?'=>$cat['id']));
+			}
+		}
+		
+		$sql->where(Posts::getPublishedConditions('p'))
+			->order($this->getOrder($config));
+		
+		$listview = new ListView($sql, array(
+			'page_size'=>$config['page_size'],
+			'page_key'=>$config['page_key'],
+		));
+		$listview->empty_text = $config['empty_text'];
+		
+		return $listview;
 	}
 }

@@ -117,7 +117,17 @@ class IndexController extends Widget{
 		$posts = $listview->getData();
 		
 		if($posts){
-			$fields = array();
+			$fields = array(
+				'post'=>$this->fields['post']
+			);
+			if(!empty($config['post_thumbnail_width']) || !empty($config['post_thumbnail_height'])){
+				$fields['post']['extra'] = array(
+					'thumbnail'=>(empty($config['post_thumbnail_width']) ? 0 : $config['post_thumbnail_width']) .
+						'x' .
+						(empty($config['post_thumbnail_height']) ? 0 : $config['post_thumbnail_height']),
+				);
+			}
+			
 			if(in_array('category', $config['fields'])){
 				$fields['category'] = $this->fields['category'];
 			}

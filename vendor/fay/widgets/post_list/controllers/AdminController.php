@@ -24,8 +24,9 @@ class AdminController extends Widget{
 			), true);
 		}
 		
-		$this->view->config = $config;
-		$this->view->render();
+		$this->view->assign(array(
+			'config'=>$config,
+		))->render();
 	}
 	
 	/**

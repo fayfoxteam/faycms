@@ -2,6 +2,7 @@
 use fay\helpers\Html;
 
 /**
+ * @var array $config
  * @var array $posts
  */
 ?>

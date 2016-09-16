@@ -17,9 +17,16 @@ use fay\services\user\Role;
 		</div>
 		<div class="form-field">
 			<label class="title bold">分类</label>
-			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats), array(
+			<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
 				'class'=>'form-control mw400',
 			))?>
+		</div>
+		<div class="form-field">
+			<label class="title bold">分类字段</label>
+			<?php echo F::form('widget')->inputText('cat_key', array(
+				'class'=>'form-control mw150',
+			), 'cat')?>
+			<p class="fc-grey">分类字段名（分类ID或者别名）</p>
 		</div>
 		<div class="form-field">
 			<label class="title bold">是否包含子分类下的文章</label>

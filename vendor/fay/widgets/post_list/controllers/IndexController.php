@@ -202,7 +202,7 @@ class IndexController extends Widget{
 		
 		//限制分类
 		if(!empty($this->config['cat_key']) && $this->input->get($this->config['cat_key'])){
-			$input_cat = $this->input->get($this->config['cat_key']);
+			$input_cat = $this->input->get($this->config['cat_key'], 'intval');
 		}else{
 			$input_cat = isset($this->config['cat_id']) ? $this->config['cat_id'] : 0;
 		}

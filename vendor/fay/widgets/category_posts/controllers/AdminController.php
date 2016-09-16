@@ -24,8 +24,9 @@ class AdminController extends Widget{
 			), true);
 		}
 		
-		$this->view->config = $config;
-		$this->view->render();
+		$this->view->assign(array(
+			'config'=>$config
+		))->render();
 	}
 	
 	/**
@@ -55,17 +56,19 @@ class AdminController extends Widget{
 	
 	public function labels(){
 		return array(
+			'cat_id'=>'分类',
 			'number'=>'显示文章数',
 			'last_view_time'=>'最近访问',
 			'post_thumbnail_width'=>'文章缩略图宽度',
 			'post_thumbnail_height'=>'文章缩略图高度',
+			'cat_key'=>'分类字段',
 		);
 	}
 	
 	public function filters(){
 		return array(
 			'subclassification'=>'intval',
-			'top'=>'intval',
+			'cat_id'=>'intval',
 			'title'=>'trim',
 			'show_empty'=>'intval',
 			'number'=>'intval',
@@ -79,6 +82,7 @@ class AdminController extends Widget{
 			'fields'=>'trim',
 			'post_thumbnail_width'=>'intval',
 			'post_thumbnail_height'=>'intval',
+			'cat_key'=>'trim',
 		);
 	}
 }

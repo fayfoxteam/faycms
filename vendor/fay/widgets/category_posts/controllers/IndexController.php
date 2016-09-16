@@ -63,15 +63,12 @@ class IndexController extends Widget{
 		
 		$conditions = $this->getConditions();
 		
-		$fields = $this->getFields();
-		$order = $this->getOrder();
-		
 		$posts = PostCategory::service()->getPosts(
-			$this->config['top'],
+			$this->getTopCategory(),
 			$this->config['number'],
-			$fields,
+			$this->getFields(),
 			$this->config['subclassification'],
-			$order,
+			$this->getOrder(),
 			$conditions
 		);
 		
@@ -83,15 +80,12 @@ class IndexController extends Widget{
 		
 		$conditions = $this->getConditions();
 		
-		$fields = $this->getFields();
-		$order = $this->getOrder();
-		
 		$posts = PostCategory::service()->getPosts(
-			$this->config['top'],
+			$this->getTopCategory(),
 			$this->config['number'],
-			$fields,
+			$this->getFields(),
 			$this->config['subclassification'],
-			$order,
+			$this->getOrder(),
 			$conditions
 		);
 		
@@ -136,14 +130,14 @@ class IndexController extends Widget{
 	 */
 	private function initConfig($config){
 		//root node
-		if(empty($config['top'])){
+		if(empty($config['cat_id'])){
 			$root_node = Category::service()->getByAlias('_system_post', 'id');
-			$config['top'] = $root_node['id'];
+			$config['cat_id'] = $root_node['id'];
 		}
 		
 		//title
 		if(empty($config['title'])){
-			$node = Category::service()->get($config['top'], 'title');
+			$node = Category::service()->get($config['cat_id'], 'title');
 			$config['title'] = $node['title'];
 		}
 		
@@ -171,6 +165,18 @@ class IndexController extends Widget{
 		empty($config['fields']) && $config['fields'] = array('meta');
 		
 		return $this->config = $config;
+	}
+	
+	/**
+	 * 获取分类
+	 */
+	private function getTopCategory(){
+		//限制分类
+		if(!empty($this->config['cat_key']) && $this->input->get($this->config['cat_key'])){
+			return $this->input->get($this->config['cat_key'], 'intval');
+		}else{
+			return isset($this->config['cat_id']) ? $this->config['cat_id'] : 0;
+		}
 	}
 	
 	/**

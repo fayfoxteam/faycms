@@ -656,6 +656,7 @@ class Category extends Service{
 		if(!empty($conditions)){
 			$sql->where($conditions);
 		}
+		
 		$posts = $sql->fetchAll();
 		if(!$posts){
 			return array();

@@ -3,6 +3,10 @@ use fay\helpers\Html;
 use pharmrich\helpers\PostHelper;
 use fay\services\File;
 use fay\helpers\StringHelper;
+
+/**
+ * @var array $posts
+ */
 ?>
 <div class="post-list">
 <?php foreach($posts as $p){?>
@@ -13,7 +17,7 @@ use fay\helpers\StringHelper;
 			<span class="post-meta">
 				<?php echo $p['post']['format_publish_time']?>
 				/
-				<?php echo Html::link($p['cat']['title'], array("$type/{$p['cat']['alias']}"), array(
+				<?php echo Html::link($p['category']['title'], array("$type/{$p['category']['alias']}"), array(
 					'class'=>'fc-red',
 				))?>
 				/

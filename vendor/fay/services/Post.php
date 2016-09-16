@@ -39,7 +39,7 @@ class Post extends Service{
 	 */
 	public static $public_fields = array(
 		'post'=>array(
-			'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+			'id', 'cat_id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
 		),
 		'category'=>array(
 			'id', 'title', 'alias',

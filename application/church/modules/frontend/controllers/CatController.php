@@ -7,8 +7,8 @@ use fay\services\Category;
 
 class CatController extends FrontController{
 	public function item(){
-		$cat_alias = $this->input->get('cat_alias', 'trim');
-		if(!$cat_alias || !$cat = Category::service()->get($cat_alias)){
+		$cat = $this->input->get('cat', 'trim');
+		if(!$cat || !$cat = Category::service()->get($cat)){
 			throw new HttpException('您请求的页面不存在');
 		}
 		

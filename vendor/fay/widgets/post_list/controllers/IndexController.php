@@ -129,7 +129,7 @@ class IndexController extends Widget{
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
 		empty($config['date_format']) && $config['date_format'] = 'pretty';
-		isset($config['fields']) || $config['fields'] = array('cat');
+		isset($config['fields']) || $config['fields'] = array('category');
 		empty($config['pager']) && $config['pager'] = 'system';
 		empty($config['pager_template']) && $config['pager_template'] = '';
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
@@ -201,16 +201,14 @@ class IndexController extends Widget{
 		$sql->from(array('p'=>'posts'), 'id');
 		
 		//限制分类
-		if(!empty($this->config['cat_id_key']) && $this->input->get($this->config['cat_id_key'])){
-			$cat_id = $this->input->get($this->config['cat_id_key'], 'intval');
-		}else if(!empty($this->config['cat_alias_key']) && $this->input->get($this->config['cat_alias_key'])){
-			$cat_id = $this->input->get($this->config['cat_alias_key'], 'trim');
+		if(!empty($this->config['cat_key']) && $this->input->get($this->config['cat_key'])){
+			$input_cat = $this->input->get($this->config['cat_key']);
 		}else{
-			$cat_id = isset($this->config['cat_id']) ? $this->config['cat_id'] : 0;
+			$input_cat = isset($this->config['cat_id']) ? $this->config['cat_id'] : 0;
 		}
 		
-		if(!empty($cat_id)){
-			$cat = Category::service()->get($cat_id, '*', '_system_post');
+		if(!empty($input_cat)){
+			$cat = Category::service()->get($input_cat, '*', '_system_post');
 			if(!$cat){
 				throw new HttpException('您访问的页面不存在');
 			}else if($cat['alias'] != '_system_post'){

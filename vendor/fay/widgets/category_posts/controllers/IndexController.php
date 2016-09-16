@@ -168,6 +168,8 @@ class IndexController extends Widget{
 		
 		isset($config['subclassification']) && $config['subclassification'] = true;
 		
+		empty($config['fields']) && $config['fields'] = array();
+		
 		return $this->config = $config;
 	}
 	

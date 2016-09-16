@@ -8,12 +8,12 @@ use fay\services\File;
 			<h2><?php echo Html::link($post['post']['title'], array('news/'.$post['post']['id']))?></h2>
 			<div class="meta">
 				<span>发布于：<?php echo $post['post']['format_publish_time']?></span>
-				<span>阅读数：<?php echo $post['post']['views']?></span>
+				<span>阅读数：<?php echo $post['meta']['views']?></span>
 			</div>
 		</header>
 		<?php if($post['post']['thumbnail']){?>
 		<figure><?php
-			echo Html::link(Html::img($post['post']['thumbnail'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($post['post']['thumbnail']['id'], File::PIC_RESIZE, array(
 				'dw'=>748,
 				'dh'=>286,
 				'alt'=>Html::encode($post['post']['title']),

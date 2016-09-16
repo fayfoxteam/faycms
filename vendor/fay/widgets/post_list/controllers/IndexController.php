@@ -257,7 +257,15 @@ class IndexController extends Widget{
 			}
 			
 			//附加文章链接
-			$p['post']['link'] = $this->view->url(str_replace('{$id}', $p['post']['id'], $this->config['uri']));
+			$p['post']['link'] = $this->view->url(str_replace(
+				array(
+					'{$id}', '{$cat_id}'
+				),
+				array(
+					$p['post']['id'], $p['post']['cat_id']
+				),
+				$this->config['uri']
+			));
 		}
 		
 		return $posts;

@@ -22,13 +22,6 @@ use fay\services\user\Role;
 			))?>
 		</div>
 		<div class="form-field">
-			<label class="title bold">分类字段</label>
-			<?php echo F::form('widget')->inputText('cat_key', array(
-				'class'=>'form-control mw150',
-			), 'cat')?>
-			<p class="fc-grey">分类字段名（分类ID或者别名）</p>
-		</div>
-		<div class="form-field">
 			<label class="title bold">是否包含子分类下的文章</label>
 			<?php echo F::form('widget')->inputRadio('subclassification', 1, array(
 				'label'=>'是',
@@ -99,6 +92,13 @@ use fay\services\user\Role;
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 		</div>
 		<div class="advance <?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
+			<div class="form-field">
+				<label class="title bold">分类字段</label>
+				<?php echo F::form('widget')->inputText('cat_key', array(
+					'class'=>'form-control mw150',
+				), 'cat')?>
+				<p class="fc-grey">若url中指定分类，则优先级高于后台指定的分类</p>
+			</div>
 			<div class="form-field">
 				<label class="title bold">最近访问</label>
 				<p><?php echo F::form('widget')->inputText('last_view_time', array(

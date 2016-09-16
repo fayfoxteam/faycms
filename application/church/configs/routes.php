@@ -1,7 +1,7 @@
 <?php
 return array(
 	//文章
-	'/^post\/(\d+)$/'=>'post/item/id/$1',
+	'/^(\d+)-(\d+)$/'=>'post/item/cat/$1/id/$2',
 	//分类
 	'/^cat\/([\w-]+)$/'=>'cat/item/cat/$1',
 	//标签

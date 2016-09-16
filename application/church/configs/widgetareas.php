@@ -23,4 +23,8 @@ return array(
 		'alias'=>'footer',
 		'description'=>'页脚',
 	),
+	array(
+		'alias'=>'post-item',
+		'description'=>'文章详情页',
+	)
 );

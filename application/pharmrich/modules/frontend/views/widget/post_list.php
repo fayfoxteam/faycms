@@ -20,8 +20,8 @@ use fay\helpers\StringHelper;
 				<span class="fc-red"><?php echo $p['meta']['views']?> Views</span>
 			</span>
 		</header>
-		<?php if($p['post']['thumbnail']){
-			echo Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
+		<?php if($p['post']['thumbnail']['id']){
+			echo Html::link(Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
 				'dw'=>300,
 				'dh'=>230,
 				'alt'=>Html::encode($p['post']['title']),

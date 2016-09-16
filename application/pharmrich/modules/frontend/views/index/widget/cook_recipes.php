@@ -15,7 +15,7 @@ use fay\services\File;
 			<li>
 				<a href="<?php echo $p['post']['link']?>">
 					<span class="item-on-hover"></span>
-					<?php echo Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
+					<?php echo Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
 						'dw'=>300,
 						'dh'=>245,
 						'alt'=>Html::encode($p['post']['title']),

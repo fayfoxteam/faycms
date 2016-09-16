@@ -6,8 +6,8 @@ use fay\services\File;
 	<h3><?php echo $config['title']?></h3>
 	<ul><?php foreach($posts as $p){?>
 		<li>
-			<?php if($p['post']['thumbnail']){
-				echo Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
+			<?php if($p['post']['thumbnail']['id']){
+				echo Html::link(Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
 					'dw'=>150,
 					'dh'=>115,
 					'alt'=>Html::encode($p['post']['title']),

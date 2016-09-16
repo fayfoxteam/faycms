@@ -11,8 +11,8 @@ use fay\services\File;
 	</div>
 	<div class="box-content">
 		<?php foreach($posts as $p){
-			if($p['post']['thumbnail']){
-				echo Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
+			if($p['post']['thumbnail']['id']){
+				echo Html::link(Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
 					'dw'=>234,
 					'dh'=>165,
 					'alt'=>Html::encode($p['post']['title']),

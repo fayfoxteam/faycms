@@ -16,7 +16,7 @@ class AdminController extends Widget{
 			), true);
 		}
 		
-		$this->view->config = $config;		
+		$this->view->config = $config;
 
 		if(!empty($config['default_post_id'])){
 			$post = Posts::model()->find($config['default_post_id'], 'title');
@@ -65,7 +65,7 @@ class AdminController extends Widget{
 	public function rules(){
 		return array(
 			array(array('default_post_id', 'under_cat_id'), 'int', array('min'=>1)),
-			array(array('file_thumbnail_width', 'file_thumbnail_height'), 'int', array('min'=>0)),
+			array(array('file_thumbnail_width', 'file_thumbnail_height', 'post_thumbnail_width', 'post_thumbnail_height'), 'int', array('min'=>0)),
 			array('inc_views', 'range', array('range'=>array('0', '1'))),
 			array('under_cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
 			array('default_post_id', 'exist', array('table'=>'posts', 'field'=>'id')),
@@ -76,6 +76,10 @@ class AdminController extends Widget{
 		return array(
 			'default_post_id'=>'默认文章',
 			'under_cat_id'=>'所属分类',
+			'post_thumbnail_width'=>'文章缩略图宽度',
+			'post_thumbnail_height'=>'文章缩略图高度',
+			'file_thumbnail_width'=>'附件缩略图宽度',
+			'file_thumbnail_height'=>'附件缩略图高度',
 		);
 	}
 	
@@ -87,6 +91,8 @@ class AdminController extends Widget{
 			'fields'=>'trim',
 			'under_cat_id'=>'intval',
 			'inc_views'=>'intval',
+			'post_thumbnail_width'=>'intval',
+			'post_thumbnail_height'=>'intval',
 			'file_thumbnail_width'=>'intval',
 			'file_thumbnail_height'=>'intval',
 		);

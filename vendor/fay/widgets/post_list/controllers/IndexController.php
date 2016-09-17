@@ -158,6 +158,8 @@ class IndexController extends Widget{
 		$fields = array(
 			'post'=>$this->fields['post']
 		);
+		
+		//文章缩略图
 		if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){
 			$fields['post']['extra'] = array(
 				'thumbnail'=>(empty($this->config['post_thumbnail_width']) ? 0 : $this->config['post_thumbnail_width']) .
@@ -165,16 +167,19 @@ class IndexController extends Widget{
 					(empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']),
 			);
 		}
-		
+		//分类信息
 		if(in_array('category', $this->config['fields'])){
 			$fields['category'] = $this->fields['category'];
 		}
+		//计数器
 		if(in_array('meta', $this->config['fields'])){
 			$fields['meta'] = $this->fields['meta'];
 		}
+		//用户信息
 		if(in_array('user', $this->config['fields'])){
 			$fields['user'] = $this->fields['user'];
 		}
+		//附件缩略图
 		if(in_array('files', $this->config['fields'])){
 			$file_fields = $this->fields['files'];
 			if(!empty($this->config['file_thumbnail_width']) || !empty($this->config['file_thumbnail_height'])){

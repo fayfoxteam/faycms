@@ -48,14 +48,9 @@ use fay\helpers\Date;
 		<?php }?>
 		<?php if(!$post['files'] && $post['post']['thumbnail']){?>
 			<div class="post-featured">
-				<div class="post-thumb">
-					<a href="<?php echo $post['post']['link']?>"><?php
-						echo Html::img($post['post']['thumbnail'], File::PIC_RESIZE, array(
-							'dw'=>770,
-							'dh'=>448,
-						));
-					?></a>
-				</div>
+				<div class="post-thumb"><?php
+					echo Html::img($post['post']['thumbnail']['thumbnail']);
+				?></div>
 			</div>
 		<?php }?>
 		<div class="post-container">

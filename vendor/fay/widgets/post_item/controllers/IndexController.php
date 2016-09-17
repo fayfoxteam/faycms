@@ -75,6 +75,24 @@ class IndexController extends Widget{
 			$fields = $this->fields;
 		}
 		
+		//文章缩略图
+		if(!empty($config['post_thumbnail_width']) || !empty($config['post_thumbnail_height'])){
+			$fields['post']['extra'] = array(
+				'thumbnail'=>(empty($config['post_thumbnail_width']) ? 0 : $config['post_thumbnail_width']) .
+					'x' .
+					(empty($config['post_thumbnail_height']) ? 0 : $config['post_thumbnail_height']),
+			);
+		}
+		
+		//附件缩略图
+		if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
+			$fields['files']['extra'] = array(
+				'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
+					'x' .
+					(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
+			);
+		}
+		
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			//有设置ID字段名，且传入ID字段
 			$post = Post::service()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
@@ -114,6 +132,16 @@ class IndexController extends Widget{
 			$fields = $this->fields;
 		}
 		
+		//文章缩略图
+		if(!empty($config['post_thumbnail_width']) || !empty($config['post_thumbnail_height'])){
+			$fields['post']['extra'] = array(
+				'thumbnail'=>(empty($config['post_thumbnail_width']) ? 0 : $config['post_thumbnail_width']) .
+					'x' .
+					(empty($config['post_thumbnail_height']) ? 0 : $config['post_thumbnail_height']),
+			);
+		}
+		
+		//附件缩略图
 		if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
 			$fields['files']['extra'] = array(
 				'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
@@ -128,9 +156,12 @@ class IndexController extends Widget{
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
-			\F::app()->layout->title = $post['extra']['seo_title'];
-			\F::app()->layout->keywords = $post['extra']['seo_keywords'];
-			\F::app()->layout->description = $post['extra']['seo_description'];
+			
+			\F::app()->layout->assign(array(
+				'title'=>$post['extra']['seo_title'],
+				'keywords'=>$post['extra']['seo_keywords'],
+				'description'=>$post['extra']['seo_description'],
+			));
 		}else{
 			//未传入ID字段或未设置ID字段名
 			$post = Post::service()->get($config['default_post_id'], $fields);

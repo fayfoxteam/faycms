@@ -653,7 +653,7 @@ class Category extends Service{
 				"p.cat_id = {$cat['id']}"
 			));
 		}
-		if(!empty($conditions)){
+		if($conditions){
 			$sql->where($conditions);
 		}
 		

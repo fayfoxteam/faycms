@@ -10,6 +10,7 @@ use fay\models\tables\Posts;
 use fay\models\tables\TagCounter;
 use fay\models\tables\Tags;
 use fay\models\tables\PostsTags;
+use fay\services\Post;
 use fay\services\Tag as TagService;
 
 class Tag extends Service{
@@ -361,5 +362,37 @@ class Tag extends Service{
 			
 			$posts[$k] = $p;
 		}
+	}
+	
+	/**
+	 * 根据指定标签ID，获取对应文章
+	 * @param $tag_id
+	 * @param int $limit 显示文章数若为0，则不限制
+	 * @param string $fields
+	 * @param string $order 排序条件
+	 * @param bool $conditions 附加条件
+	 * @return array
+	 * @throws \fay\core\ErrorException
+	 */
+	public function getPosts($tag_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $order = 'is_top DESC, sort, publish_time DESC', $conditions = false){
+		$sql = new Sql();
+		$sql->from(array('pt'=>'posts_tags'), '')
+			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id', 'id')
+			->where('pt.tag_id = ?', $tag_id)
+			->where(Posts::getPublishedConditions('p'))
+			->order($order)
+		;
+		
+		if($limit){
+			$sql->limit($limit);
+		}
+		
+		if($conditions){
+			$sql->where($conditions);
+		}
+		
+		$post_ids = $sql->fetchAll();
+		
+		return Post::service()->mget(ArrayHelper::column($post_ids, 'id'), $fields, false);
 	}
 }

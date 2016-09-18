@@ -2,6 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
+use fay\helpers\FieldHelper;
 use fay\models\tables\Tags;
 use fay\models\tables\TagCounter;
 use fay\core\Sql;
@@ -42,6 +43,21 @@ class Tag extends Service{
 			'tags'=>$listview->getData(),
 			'pager'=>$listview->getPager(),
 		);
+	}
+	
+	/**
+	 * 获取指定数量的标签
+	 * @param string|array $fields
+	 * @param int $limit
+	 * @param string $order
+	 * @return array
+	 */
+	public function getLimit($fields, $limit = 10, $order = 'sort'){
+		$fields = FieldHelper::parse($fields, null, Tags::model()->getFields());
+		
+		return Tags::model()->fetchAll(array(
+			'status = ' . Tags::STATUS_ENABLED,
+		), $fields['fields'], $order, $limit);
 	}
 	
 	/**

@@ -182,6 +182,10 @@ a:hover{color:#3799ab}
 .widget-categories ul li a{color:#555;float:left;max-width:80%;text-align:left}
 .widget-categories ul li a:hover{color:#48c7de;padding-left:3px}
 
+/* 标签云 */
+.widget-tag-cloud .tag-cloud a{display:block;float:left;padding:4px 18px 4px;margin:0 2px 2px 0;font-size:0.7143em !important;text-align:center;background-color:#ffffff !important;color:#999999 !important;font-weight:700;line-height:2em}
+.widget-tag-cloud .tag-cloud a:hover{background-color:#1dc6df !important;color:#fff !important}
+
 /* 联系我们 - 地图 */
 @media (min-width:768px) and (max-width:992px) {
     .contact-map .baidu-map{max-height:350px}

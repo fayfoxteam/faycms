@@ -1,32 +1,26 @@
 <?php
-namespace fay\widgets\categories\controllers;
+namespace fay\widgets\tags\controllers;
 
 use fay\widget\Widget;
 use fay\services\Category;
 
 class IndexController extends Widget{
 	public function getData($config){
-		//root node
-		if(empty($config['top'])){
-			$root_node = Category::service()->getByAlias('_system_post', 'id');
-			$config['top'] = $root_node['id'];
-		}
-		
 		//uri
 		if(empty($config['uri'])){
 			$config['uri'] = 'cat/{$id}';
 		}
 		
 		if(!empty($config['hierarchical'])){
-			$cats = Category::service()->getTree($config['top']);
+			$tags = Category::service()->getTree($config['top']);
 		}else{
-			$cats = Category::service()->getChildren($config['top']);
+			$tags = Category::service()->getChildren($config['top']);
 		}
 		
 		//格式化分类链接
-		$cats = $this->setLink($cats, $config['uri']);
+		$tags = $this->setLink($tags, $config['uri']);
 		
-		return $cats;
+		return $tags;
 	}
 	
 	public function index($config){
@@ -48,29 +42,29 @@ class IndexController extends Widget{
 		}
 		
 		if(!empty($config['hierarchical'])){
-			$cats = Category::service()->getTree($config['top']);
+			$tags = Category::service()->getTree($config['top']);
 		}else{
-			$cats = Category::service()->getChildren($config['top']);
+			$tags = Category::service()->getChildren($config['top']);
 		}
 		
 		//格式化分类链接
-		$cats = $this->setLink($cats, $config['uri']);
+		$tags = $this->setLink($tags, $config['uri']);
 		
 		//若无分类可显示，则不显示该widget
-		if(empty($cats)){
+		if(empty($tags)){
 			return;
 		}
 		
 		if(empty($config['template'])){
 			$this->view->render('template', array(
-				'cats'=>$cats,
+				'cats'=>$tags,
 				'config'=>$config,
 				'alias'=>$this->alias,
 			));
 		}else{
 			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
 				\F::app()->view->renderPartial($config['template'], array(
-					'cats'=>$cats,
+					'cats'=>$tags,
 					'config'=>$config,
 					'alias'=>$this->alias,
 				));
@@ -83,12 +77,12 @@ class IndexController extends Widget{
 	
 	/**
 	 * 为分类列表添加link字段
-	 * @param array $cats
+	 * @param array $tags
 	 * @param string $uri
 	 * @return array
 	 */
-	private function setLink($cats, $uri){
-		foreach($cats as &$c){
+	private function setLink($tags, $uri){
+		foreach($tags as &$c){
 			$c['link'] = $this->view->url(str_replace(array(
 				'{$id}', '{$alias}',
 			), array(
@@ -100,6 +94,6 @@ class IndexController extends Widget{
 			}
 		}
 		
-		return $cats;
+		return $tags;
 	}
 }

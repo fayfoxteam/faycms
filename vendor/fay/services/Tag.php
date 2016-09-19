@@ -61,7 +61,7 @@ class Tag extends Service{
 			'status = ' . Tags::STATUS_ENABLED,
 		), 'id', $order, $limit);
 		
-		return $this->mget(ArrayHelper::column($tags, 'id'), $fields);
+		return array_value($this->mget(ArrayHelper::column($tags, 'id'), $fields));
 	}
 	
 	public function mget($ids, $fields){

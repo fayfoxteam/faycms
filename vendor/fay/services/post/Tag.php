@@ -42,7 +42,7 @@ class Tag extends Service{
 			))
 			->fetchAll();
 		
-		return \fay\services\Tag::service()->mget(ArrayHelper::column($tags, 'tag_id'), $fields);
+		return array_values(TagService::service()->mget(ArrayHelper::column($tags, 'tag_id'), $fields));
 	}
 	
 	/**

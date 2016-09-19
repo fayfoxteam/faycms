@@ -433,16 +433,6 @@ class Category extends Service{
 	 * @throws Exception
 	 */
 	public function assemblePrimaryCat(&$posts, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$default_fields
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields);
-		}
-		
 		//获取所有分类ID
 		$cat_ids = array();
 		foreach($posts as $k => $p){
@@ -471,16 +461,6 @@ class Category extends Service{
 	 * @throws Exception
 	 */
 	public function assembleSecondaryCats(&$posts, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$default_fields
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields);
-		}
-		
 		//获取所有文章ID
 		$post_ids = array();
 		foreach($posts as $k => $p){

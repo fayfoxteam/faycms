@@ -53,7 +53,7 @@ class Tag extends Service{
 	 * @return array
 	 */
 	public function getLimit($fields, $limit = 10, $order = 'sort'){
-		$fields = FieldHelper::parse($fields, null, Tags::model()->getFields());
+		$fields = FieldHelper::parse($fields, 'tag');
 		
 		return Tags::model()->fetchAll(array(
 			'status = ' . Tags::STATUS_ENABLED,
@@ -79,37 +79,6 @@ class Tag extends Service{
 		}else{
 			return false;
 		}
-	}
-	
-	/**
-	 * 递增一个或多个指定标签的计数
-	 * @param array|int $tag_ids
-	 * @param string $field tag_counter表对应的列名
-	 * @param int $value 增量，默认为1，可以是负数
-	 * @return int
-	 */
-	public function incr($tag_ids, $field, $value = 1){
-		if(!$tag_ids){
-			return 0;
-		}
-		if(!is_array($tag_ids)){
-			$tag_ids = explode(',', $tag_ids);
-		}
-		
-		return TagCounter::model()->incr(array(
-			'tag_id IN (?)'=>$tag_ids,
-		), $field, $value);
-	}
-	
-	/**
-	 * 递减一个或多个指定标签的计数
-	 * @param array|int $tag_ids
-	 * @param string $field tag_counter表对应的列名
-	 * @param int $value 增量，默认为1，正数表示递减
-	 * @return int
-	 */
-	public function decr($tag_ids, $field, $value = 1){
-		return $this->incr($tag_ids, $field, -$value);
 	}
 	
 	/**

@@ -12,6 +12,7 @@ use fay\models\tables\Tags;
 use fay\models\tables\PostsTags;
 use fay\services\Post;
 use fay\services\Tag as TagService;
+use fay\services\tag\Counter as TagCounterService;
 
 class Tag extends Service{
 	/**
@@ -170,7 +171,7 @@ class Tag extends Service{
 		
 		$count_map = ArrayHelper::countValues($tag_ids);
 		foreach($count_map as $num => $sub_tag_ids){
-			TagService::service()->incr($sub_tag_ids, 'posts', $num);
+			TagCounterService::service()->incr($sub_tag_ids, 'posts', $num);
 		}
 		
 		return true;
@@ -190,7 +191,7 @@ class Tag extends Service{
 		
 		$count_map = ArrayHelper::countValues($tag_ids);
 		foreach($count_map as $num => $sub_tag_ids){
-			TagService::service()->decr($sub_tag_ids, 'posts', $num);
+			TagCounterService::service()->decr($sub_tag_ids, 'posts', $num);
 		}
 		
 		return true;
@@ -261,28 +262,28 @@ class Tag extends Service{
 		
 		if($old_status === null && $new_status == Posts::STATUS_PUBLISHED){
 			//没有原状态，说明是新增文章，且文章状态为已发布：所有输入标签文章数加一
-			TagService::service()->incr($input_tag_ids, 'posts');
+			TagCounterService::service()->incr($input_tag_ids, 'posts');
 		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status != Posts::STATUS_PUBLISHED){
 			//本来处于已发布状态，编辑后变成未发布：文章原标签文章数减一
-			TagService::service()->decr($old_tag_ids, 'posts');
+			TagCounterService::service()->decr($old_tag_ids, 'posts');
 		}else if($old_status != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
 			//本来是未发布状态，编辑后变成已发布：所有输入标签文章数加一
-			TagService::service()->incr($input_tag_ids, 'posts');
+			TagCounterService::service()->incr($input_tag_ids, 'posts');
 		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
 			//本来是已发布状态，编辑后还是已发布状态：新增标签文章数加一，被删除标签文章数减一
 			if($new_tag_ids){
-				TagService::service()->incr($new_tag_ids, 'posts');
+				TagCounterService::service()->incr($new_tag_ids, 'posts');
 			}
 			if($deleted_tag_ids){
-				TagService::service()->decr($deleted_tag_ids, 'posts');
+				TagCounterService::service()->decr($deleted_tag_ids, 'posts');
 			}
 		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status === null){
 			//本来是已发布状态，编辑时并未编辑状态：新增标签文章数加一，被删除标签文章数减一
 			if($new_tag_ids){
-				TagService::service()->incr($new_tag_ids, 'posts');
+				TagCounterService::service()->incr($new_tag_ids, 'posts');
 			}
 			if($deleted_tag_ids){
-				TagService::service()->decr($deleted_tag_ids, 'posts');
+				TagCounterService::service()->decr($deleted_tag_ids, 'posts');
 			}
 		}
 	}

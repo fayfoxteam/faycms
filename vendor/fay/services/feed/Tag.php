@@ -9,6 +9,7 @@ use fay\models\tables\TagCounter;
 use fay\models\tables\Tags;
 use fay\models\tables\FeedsTags;
 use fay\services\Tag as TagService;
+use fay\services\tag\Counter as TagCounterService;
 
 class Tag extends Service{
 	/**
@@ -132,7 +133,7 @@ class Tag extends Service{
 	public function incr($feed_id){
 		$tag_ids = $this->getTagIds($feed_id);
 		if($tag_ids){
-			TagService::service()->incr($tag_ids, 'feeds');
+			TagCounterService::service()->incr($tag_ids, 'feeds');
 		}
 	}
 	
@@ -143,7 +144,7 @@ class Tag extends Service{
 	public function decr($feed_id){
 		$tag_ids = $this->getTagIds($feed_id);
 		if($tag_ids){
-			TagService::service()->decr($tag_ids, 'feeds');
+			TagCounterService::service()->decr($tag_ids, 'feeds');
 		}
 	}
 	
@@ -196,10 +197,10 @@ class Tag extends Service{
 			
 			//更新标签对应的动态数
 			if($new_tag_ids){
-				TagService::service()->incr($new_tag_ids, 'feeds');
+				TagCounterService::service()->incr($new_tag_ids, 'feeds');
 			}
 			if($deleted_tag_ids){
-				TagService::service()->decr($deleted_tag_ids, 'feeds');
+				TagCounterService::service()->decr($deleted_tag_ids, 'feeds');
 			}
 		}else{
 			//删除全部tag
@@ -211,7 +212,7 @@ class Tag extends Service{
 					'feed_id = ?'=>$feed_id,
 				));
 				if($old_tag_ids){
-					TagService::service()->decr($old_tag_ids, 'feeds');
+					TagCounterService::service()->decr($old_tag_ids, 'feeds');
 				}
 			}
 		}

@@ -35,23 +35,14 @@ class Tag extends Service{
 	 * @return array 返回包含文章tag信息的二维数组
 	 */
 	public function get($post_id, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$default_fields
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields);
-		}
-		
 		$sql = new Sql();
-		return $sql->from(array('pt'=>'posts_tags'), '')
-			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields['fields']))
+		$tags = $sql->from(array('pt'=>'posts_tags'), 'tag_id')
 			->where(array(
 				'pt.post_id = ?'=>$post_id,
 			))
 			->fetchAll();
+		
+		return \fay\services\Tag::service()->mget(ArrayHelper::column($tags, 'tag_id'), $fields);
 	}
 	
 	/**

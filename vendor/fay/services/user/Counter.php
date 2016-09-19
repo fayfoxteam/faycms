@@ -55,7 +55,7 @@ class Counter extends Service{
 	/**
 	 * 获取用户信息
 	 * @param int $user_id 用户ID
-	 * @param string $fields 附件字段（user_profile表字段）
+	 * @param string $fields
 	 * @return array 返回包含用户profile信息的二维数组
 	 */
 	public function get($user_id, $fields = null){
@@ -73,7 +73,7 @@ class Counter extends Service{
 	/**
 	 * 批量获取用户信息
 	 * @param array $user_ids 用户ID一维数组
-	 * @param string $fields 附件字段（user_profile表字段）
+	 * @param string $fields
 	 * @return array 返回以用户ID为key的三维数组
 	 */
 	public function mget($user_ids, $fields = null){
@@ -89,16 +89,16 @@ class Counter extends Service{
 		}else{
 			$remove_user_id = false;
 		}
-		$profiles = UserCounter::model()->fetchAll(array(
+		$counters = UserCounter::model()->fetchAll(array(
 			'user_id IN (?)'=>$user_ids,
 		), $fields['fields'], 'user_id');
 		$return = array_fill_keys($user_ids, array());
-		foreach($profiles as $p){
-			$u = $p['user_id'];
+		foreach($counters as $c){
+			$u = $c['user_id'];
 			if($remove_user_id){
-				unset($p['user_id']);
+				unset($c['user_id']);
 			}
-			$return[$u] = $p;
+			$return[$u] = $c;
 		}
 		return $return;
 	}

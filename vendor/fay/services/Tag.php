@@ -2,11 +2,13 @@
 namespace fay\services;
 
 use fay\core\Service;
+use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\models\tables\Tags;
 use fay\models\tables\TagCounter;
 use fay\core\Sql;
 use fay\common\ListView;
+use fay\services\tag\Counter;
 
 /**
  * 标签服务
@@ -55,9 +57,69 @@ class Tag extends Service{
 	public function getLimit($fields, $limit = 10, $order = 'sort'){
 		$fields = FieldHelper::parse($fields, 'tag');
 		
-		return Tags::model()->fetchAll(array(
+		$tags = Tags::model()->fetchAll(array(
 			'status = ' . Tags::STATUS_ENABLED,
-		), $fields['fields'], $order, $limit);
+		), 'id', $order, $limit);
+		
+		return $this->mget(ArrayHelper::column($tags, 'id'), $fields);
+	}
+	
+	public function mget($ids, $fields){
+		if(empty($ids)){
+			return array();
+		}
+		
+		//解析$ids
+		is_array($ids) || $ids = explode(',', $ids);
+		
+		//解析$fields
+		$fields = FieldHelper::parse($fields, 'tag', array(
+			'tag'=>Tags::model()->getFields(),
+			'counter'=>TagCounter::model()->getFields(),
+		));
+		if(!empty($fields['tag']) && in_array('*', $fields['tag'])){
+			//若存在*，视为全字段搜索
+			$fields['tag'] = array(
+				'fields'=>Tags::model()->getFields()
+			);
+		}
+		
+		$remove_id_field = false;
+		if(empty($fields['tag']['fields']) || !in_array('id', $fields['tag']['fields'])){
+			//id总是需要先搜出来的，返回的时候要作为索引
+			$fields['tag']['fields'][] = 'id';
+			$remove_id_field = true;
+		}
+		$tags = Tags::model()->fetchAll(array(
+			'id IN (?)'=>$ids,
+		), $fields['tag']['fields']);
+		
+		if(!empty($fields['counter'])){
+			//获取所有相关的counter
+			$counters = Counter::service()->mget($ids, $fields['counter']);
+		}
+		
+		$return = array_fill_keys($ids, array());
+		foreach($tags as $t){
+			$tag['tag'] = $t;
+			
+			//counter
+			if(isset($counters)){
+				$tag['counter'] = $counters[$t['id']];
+			}
+			
+			if($remove_id_field){
+				//移除id字段
+				unset($tag['tag']['id']);
+				if(empty($tag['tag'])){
+					unset($tag['tag']);
+				}
+			}
+			
+			$return[$t['id']] = $tag;
+		}
+		
+		return $return;
 	}
 	
 	/**

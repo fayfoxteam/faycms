@@ -4,7 +4,6 @@ namespace fay\services\tag;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fay\models\tables\TagCounter;
-use fay\models\tables\UserCounter;
 
 class Counter extends Service{
 	/**
@@ -55,51 +54,51 @@ class Counter extends Service{
 	
 	/**
 	 * 获取标签信息
-	 * @param int $user_id 标签ID
-	 * @param string $fields 附件字段（user_profile表字段）
+	 * @param int $tag_id 标签ID
+	 * @param string $fields
 	 * @return array 返回包含标签profile信息的二维数组
 	 */
-	public function get($user_id, $fields = null){
+	public function get($tag_id, $fields = null){
 		//若传入$fields为空，则返回默认字段
 		$fields || $fields = self::$public_fields;
 		
 		//格式化fields
 		$fields = FieldHelper::parse($fields, null, self::$public_fields);
 		
-		return UserCounter::model()->fetchRow(array(
-			'user_id = ?'=>$user_id,
+		return TagCounter::model()->fetchRow(array(
+			'tag_id = ?'=>$tag_id,
 		), $fields['fields']);
 	}
 	
 	/**
 	 * 批量获取标签信息
-	 * @param array $user_ids 标签ID一维数组
-	 * @param string $fields 附件字段（user_profile表字段）
+	 * @param array $tag_ids 标签ID一维数组
+	 * @param string $fields
 	 * @return array 返回以标签ID为key的三维数组
 	 */
-	public function mget($user_ids, $fields = null){
+	public function mget($tag_ids, $fields = null){
 		//若传入$fields为空，则返回默认字段
 		$fields || $fields = self::$public_fields;
 		
 		//格式化fields
 		$fields = FieldHelper::parse($fields, null, self::$public_fields);
 		
-		if(!in_array('user_id', $fields['fields'])){
-			$fields['fields'][] = 'user_id';
-			$remove_user_id = true;
+		if(!in_array('tag_id', $fields['fields'])){
+			$fields['fields'][] = 'tag_id';
+			$remove_tag_id = true;
 		}else{
-			$remove_user_id = false;
+			$remove_tag_id = false;
 		}
-		$profiles = UserCounter::model()->fetchAll(array(
-			'user_id IN (?)'=>$user_ids,
-		), $fields['fields'], 'user_id');
-		$return = array_fill_keys($user_ids, array());
-		foreach($profiles as $p){
-			$u = $p['user_id'];
-			if($remove_user_id){
-				unset($p['user_id']);
+		$counters = TagCounter::model()->fetchAll(array(
+			'tag_id IN (?)'=>$tag_ids,
+		), $fields['fields'], 'tag_id');
+		$return = array_fill_keys($tag_ids, array());
+		foreach($counters as $c){
+			$u = $c['tag_id'];
+			if($remove_tag_id){
+				unset($c['tag_id']);
 			}
-			$return[$u] = $p;
+			$return[$u] = $c;
 		}
 		return $return;
 	}

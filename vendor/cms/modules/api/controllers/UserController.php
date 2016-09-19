@@ -141,9 +141,9 @@ class UserController extends ApiController{
 			$fields = User::$default_fields;
 		}
 		
-		$post = User::service()->get($id, $fields);
-		if($post){
-			Response::json($post);
+		$user = User::service()->get($id, $fields);
+		if($user){
+			Response::json($user);
 		}else{
 			throw new HttpException('指定用户不存在');
 		}

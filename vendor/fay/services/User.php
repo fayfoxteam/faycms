@@ -36,6 +36,9 @@ class User extends Service{
 		),
 		'props'=>array(
 			'*',
+		),
+		'counter'=>array(
+			'*',
 		)
 	);
 	
@@ -44,7 +47,9 @@ class User extends Service{
 	 */
 	public static $default_fields = array(
 		'user'=>array(
-			'id', 'nickname', 'avatar',
+			'fields'=>array(
+				'id', 'nickname', 'avatar',
+			)
 		)
 	);
 	
@@ -290,7 +295,6 @@ class User extends Service{
 	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
-	 * @param array $extra 扩展信息。例如：头像缩略图尺寸
 	 * @return false|array 若用户ID不存在，返回false，否则返回数组
 	 */
 	public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar'){

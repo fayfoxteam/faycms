@@ -29,15 +29,11 @@ class Role extends Service{
 	 * @return array 返回包含用户角色信息的二维数组
 	 */
 	public function get($user_id, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$public_fields,
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields, null, self::$public_fields);
-		}
+		//若传入$fields为空，则返回默认字段
+		$fields || $fields = self::$public_fields;
+		
+		//格式化fields
+		$fields = FieldHelper::parse($fields, null, self::$public_fields);
 		
 		$sql = new Sql();
 		return $sql->from(array('ur'=>'users_roles'), '')
@@ -54,13 +50,12 @@ class Role extends Service{
 	 * @return array 返回以用户ID为key的三维数组
 	 */
 	public function mget($user_ids, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = self::$public_fields;
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields, null, self::$public_fields);
-		}
+		//若传入$fields为空，则返回默认字段
+		$fields || $fields = self::$public_fields;
+		
+		//格式化fields
+		$fields = FieldHelper::parse($fields, null, self::$public_fields);
+		
 		$sql = new Sql();
 		$roles = $sql->from(array('ur'=>'users_roles'), 'user_id')
 			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', Roles::model()->formatFields($fields['fields']))

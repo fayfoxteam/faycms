@@ -11,6 +11,7 @@ use fay\models\tables\Roles;
 use fay\models\tables\UserProfile;
 use fay\models\tables\Users;
 use fay\models\tables\UsersRoles;
+use fay\services\user\Counter;
 use fay\services\user\Password;
 use fay\models\tables\UserCounter;
 use fay\services\user\Profile;
@@ -314,9 +315,13 @@ class User extends Service{
 			}
 		}
 		
-		$user = Users::model()->find($id, $fields['user']['fields']);
+		if(empty($fields['user']['fields'])){
+			$user = array();
+		}else{
+			$user = Users::model()->find($id, $fields['user']['fields']);
+		}
 		
-		if(!$user){
+		if($user === false){
 			return false;
 		}
 		
@@ -335,7 +340,12 @@ class User extends Service{
 			}
 		}
 		
-		$return['user'] = $user;
+		if($user){
+			$return['user'] = $user;
+		}else{
+			$return = array();
+		}
+		
 		//角色属性
 		if(!empty($fields['props'])){
 			if(in_array('*', $fields['props']['fields'])){
@@ -356,6 +366,11 @@ class User extends Service{
 			$return['profile'] = Profile::service()->get($id, $fields['profile']);
 		}
 		
+		//counter
+		if(!empty($fields['counter'])){
+			$return['counter'] = Counter::service()->get($id, $fields['counter']);
+		}
+		
 		return $return;
 	}
 	
@@ -367,6 +382,7 @@ class User extends Service{
 	 *  - roles.*系列可指定返回哪些角色字段，若有一项为'roles.*'，则返回所有角色字段
 	 *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
 	 *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
+	 *  - counter.*系列可指定返回哪些用户计数器，若有一项为'counter.*'，则返回所有计数字段
 	 * @param array $extra 扩展信息。例如：头像缩略图尺寸
 	 * @return array
 	 */
@@ -383,11 +399,15 @@ class User extends Service{
 		if(empty($fields['user'])){
 			//若未指定返回字段，初始化
 			$fields['user'] = array(
-				'id', 'username', 'nickname', 'avatar',
+				'fields'=>array(
+					'id', 'username', 'nickname', 'avatar',
+				)
 			);
 		}else if(in_array('*', $fields['user'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
-			$fields['user'] = Users::model()->getFields(array('password', 'salt'));
+			$fields['user'] = array(
+				'fields'=>Users::model()->getFields(array('password', 'salt'))
+			);
 		}else{
 			//永远不会返回密码字段
 			foreach($fields['user'] as $k => $v){
@@ -398,7 +418,7 @@ class User extends Service{
 		}
 		
 		$remove_id_field = false;
-		if(!in_array('id', $fields['user']['fields'])){
+		if(empty($fields['user']['fields']) || !in_array('id', $fields['user']['fields'])){
 			//id总是需要先搜出来的，返回的时候要作为索引
 			$fields['user']['fields'][] = 'id';
 			$remove_id_field = true;
@@ -414,6 +434,9 @@ class User extends Service{
 		if(!empty($fields['roles'])){
 			//获取所有相关的roles
 			$roles = Role::service()->mget($ids, $fields['roles']);
+		}
+		if(!empty($fields['counter'])){
+			$counters = Counter::service()->mget($ids, $fields['counter']);
 		}
 		
 		$return = array_fill_keys($ids, array());
@@ -444,6 +467,11 @@ class User extends Service{
 				$user['roles'] = $roles[$u['id']];
 			}
 			
+			//角色
+			if(isset($counters)){
+				$user['counter'] = $counters[$u['id']];
+			}
+			
 			//角色属性
 			if(!empty($fields['props'])){
 				if(in_array('*', $fields['props'])){
@@ -457,6 +485,9 @@ class User extends Service{
 			if($remove_id_field){
 				//移除id字段
 				unset($user['user']['id']);
+				if(empty($user['user'])){
+					unset($user['user']);
+				}
 			}
 			
 			$return[$u['id']] = $user;

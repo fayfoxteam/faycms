@@ -51,12 +51,12 @@ use fay\services\user\Role;
 					echo Html::inputRadio('uri', 'cat-{$alias}', isset($config['uri']) && $config['uri'] == 'cat-{$alias}', array(
 						'label'=>'cat-{$alias}',
 					));
-					echo Html::inputRadio('uri', '', isset($config['uri']) &&!in_array($config['uri'], array(
+					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($config['uri']) &&!in_array($config['uri'], array(
+					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
 					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',

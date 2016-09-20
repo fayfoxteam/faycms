@@ -57,11 +57,15 @@ class Tag extends Service{
 	public function getLimit($fields, $limit = 10, $order = 'sort'){
 		$fields = FieldHelper::parse($fields, 'tag');
 		
-		$tags = Tags::model()->fetchAll(array(
-			'status = ' . Tags::STATUS_ENABLED,
-		), 'id', $order, $limit);
+		$sql = new Sql();
+		$tags = $sql->from(array('t'=>'tags'), 'id')
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id')
+			->order($order)
+			->limit($limit)
+			->fetchAll()
+		;
 		
-		return array_value($this->mget(ArrayHelper::column($tags, 'id'), $fields));
+		return array_values($this->mget(ArrayHelper::column($tags, 'id'), $fields));
 	}
 	
 	public function mget($ids, $fields){

@@ -1,76 +1,86 @@
 <?php
 namespace fay\widgets\tags\controllers;
 
+use fay\services\Tag;
 use fay\widget\Widget;
 use fay\services\Category;
 
 class IndexController extends Widget{
+	private $fields = array(
+		'tag'=>array(
+			'fields'=>array(
+				'id', 'title'
+			)
+		),
+		'counter'=>array(
+			'fields'=>array(
+				'posts'
+			)
+		)
+	);
+	
+	/**
+	 * 排序方式
+	 */
+	private $order_map = array(
+		'sort'=>'t.sort, t.id DESC',
+		'posts'=>'tc.posts',
+		'create_time'=>'id DESC',
+	);
+	
+	/**
+	 * 配置信息
+	 */
+	private $config;
+	
 	public function getData($config){
-		//uri
-		if(empty($config['uri'])){
-			$config['uri'] = 'cat/{$id}';
-		}
+		$this->initConfig($config);
 		
-		if(!empty($config['hierarchical'])){
-			$tags = Category::service()->getTree($config['top']);
-		}else{
-			$tags = Category::service()->getChildren($config['top']);
-		}
+		$tags = Tag::service()->getLimit(
+			$this->fields,
+			$this->config['number'],
+			$this->getOrder()
+		);
 		
 		//格式化分类链接
-		$tags = $this->setLink($tags, $config['uri']);
+		$tags = $this->setLink($tags, $this->config['uri']);
 		
 		return $tags;
 	}
 	
 	public function index($config){
-		//root node
-		if(empty($config['top'])){
-			$root_node = Category::service()->getByAlias('_system_post', 'id');
-			$config['top'] = $root_node['id'];
-		}
+		$this->initConfig($config);
 		
-		//title
-		if(empty($config['title'])){
-			$node = Category::service()->get($config['top'], 'title');
-			$config['title'] = $node['title'];
-		}
-		
-		//uri
-		if(empty($config['uri'])){
-			$config['uri'] = 'cat/{$id}';
-		}
-		
-		if(!empty($config['hierarchical'])){
-			$tags = Category::service()->getTree($config['top']);
-		}else{
-			$tags = Category::service()->getChildren($config['top']);
-		}
+		$tags = Tag::service()->getLimit(
+			$this->fields,
+			$this->config['number'],
+			$this->getOrder()
+		);
 		
 		//格式化分类链接
-		$tags = $this->setLink($tags, $config['uri']);
+		$tags = $this->setLink($tags, $this->config['uri']);
 		
 		//若无分类可显示，则不显示该widget
 		if(empty($tags)){
 			return;
 		}
 		
-		if(empty($config['template'])){
+		if(empty($this->config['template'])){
 			$this->view->render('template', array(
-				'cats'=>$tags,
-				'config'=>$config,
+				'tags'=>$tags,
+				'config'=>$this->config,
 				'alias'=>$this->alias,
 			));
 		}else{
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
-				\F::app()->view->renderPartial($config['template'], array(
-					'cats'=>$tags,
-					'config'=>$config,
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
+				\F::app()->view->renderPartial($this->config['template'], array(
+					'tags'=>$tags,
+					'config'=>$this->config,
 					'alias'=>$this->alias,
 				));
 			}else{
 				$alias = $this->alias;
-				eval('?>'.$config['template'].'<?php ');
+				eval('?>'.$this->config['template'].'<?php ');
 			}
 		}
 	}
@@ -82,18 +92,47 @@ class IndexController extends Widget{
 	 * @return array
 	 */
 	private function setLink($tags, $uri){
-		foreach($tags as &$c){
-			$c['link'] = $this->view->url(str_replace(array(
-				'{$id}', '{$alias}',
+		foreach($tags as &$t){
+			$t['tag']['link'] = $this->view->url(str_replace(array(
+				'{$id}', '{$title}',
 			), array(
-				$c['id'], $c['alias'],
+				$t['tag']['id'], urlencode($t['tag']['title']),
 			), $uri));
-			
-			if(!empty($c['children'])){
-				$c['children'] = $this->setLink($c['children'], $uri);
-			}
 		}
 		
 		return $tags;
+	}
+	
+	/**
+	 * 初始化配置
+	 * @param array $config
+	 * @return array
+	 */
+	private function initConfig($config){
+		empty($config['number']) && $config['number'] = 10;
+		
+		//排序方式
+		if(!isset($config['sort']) || !in_array($config['sort'], array_keys($this->order_map))){
+			$config['sort'] = 'sort';
+		}
+		
+		//uri
+		if(empty($config['uri'])){
+			$config['uri'] = 'tag/{$title}';
+		}
+		
+		return $this->config = $config;
+	}
+	
+	/**
+	 * 获取排序方式
+	 * @return string
+	 */
+	private function getOrder(){
+		if(!empty($this->config['order']) && isset($this->order_map[$this->config['order']])){
+			return $this->order_map[$this->config['order']];
+		}else{
+			return $this->order_map['sort'];
+		}
 	}
 }

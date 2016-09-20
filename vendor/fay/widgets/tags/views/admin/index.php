@@ -21,6 +21,32 @@ use fay\services\user\Role;
 			), '10')?>
 		</div>
 		<div class="form-field">
+			<label class="title bold">排序规则</label>
+			<?php
+			echo F::form('widget')->inputRadio('order', 'sort', array(
+				'wrapper'=>array(
+					'tag'=>'label',
+					'wrapper'=>'p',
+				),
+				'after'=>'排序值+添加时间倒序（手工排序）',
+			), true);
+			echo F::form('widget')->inputRadio('order', 'posts', array(
+				'wrapper'=>array(
+					'tag'=>'label',
+					'wrapper'=>'p',
+				),
+				'after'=>'文章数排序',
+			));
+			echo F::form('widget')->inputRadio('order', 'create_time', array(
+				'wrapper'=>array(
+					'tag'=>'label',
+					'wrapper'=>'p',
+				),
+				'after'=>'id倒序（添加时间倒序）',
+			));
+			?>
+		</div>
+		<div class="form-field">
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
@@ -28,26 +54,26 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'tag/{$id}', !isset($config['uri']) || $config['uri'] == 'tag/{$id}', array(
+					echo Html::inputRadio('uri', 'tag/{$title}', !isset($config['uri']) || $config['uri'] == 'tag/{$title}', array(
+						'label'=>'tag/{$title}',
+					));
+					echo Html::inputRadio('uri', 'tag/{$id}', isset($config['uri']) && $config['uri'] == 'tag/{$id}', array(
 						'label'=>'tag/{$id}',
 					));
-					echo Html::inputRadio('uri', 'tag/{$name}', isset($config['uri']) && $config['uri'] == 'tag/{$name}', array(
-						'label'=>'tag/{$name}',
-					));
-					echo Html::inputRadio('uri', '', isset($config['uri']) &&!in_array($config['uri'], array(
-						'tag/{$id}', 'tag/{$name}',
+					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+						'tag/{$id}', 'tag/{$title}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($config['uri']) &&!in_array($config['uri'], array(
-						'tag/{$id}', 'tag/{$name}',
+					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+						'tag/{$id}', 'tag/{$title}',
 					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
 				<p class="fc-grey">
 					<code>{$id}</code>代表“标签ID”。
-					<code>{$name}</code>代表“标签名称”。
+					<code>{$title}</code>代表“标签名称”。
 					不要包含base_url部分。<br>
 					<span class="fc-orange">此配置项是否生效取决于模版代码</span>
 				</p>

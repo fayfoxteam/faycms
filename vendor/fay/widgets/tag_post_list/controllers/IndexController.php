@@ -1,7 +1,8 @@
 <?php
-namespace fay\widgets\post_list\controllers;
+namespace fay\widgets\tag_post_list\controllers;
 
 use fay\helpers\ArrayHelper;
+use fay\models\tables\Tags;
 use fay\services\Post;
 use fay\widget\Widget;
 use fay\core\Sql;
@@ -72,7 +73,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields, false);
+			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields, false);
 			
 			$posts = $this->formatPosts($posts);
 			
@@ -125,6 +126,8 @@ class IndexController extends Widget{
 	 * @return array
 	 */
 	private function initConfig($config){
+		empty($config['tag_title_key']) && $config['tag_title_key'] = 'tag_title';
+		empty($config['tag_id_key']) && $config['tag_id_key'] = 'tag_id';
 		empty($config['page_size']) && $config['page_size'] = 10;
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';
@@ -133,7 +136,7 @@ class IndexController extends Widget{
 		empty($config['pager']) && $config['pager'] = 'system';
 		empty($config['pager_template']) && $config['pager_template'] = '';
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
-		isset($config['subclassification']) || $config['subclassification'] = true;
+		empty($config['cat_id']) && $config['cat_id'] = 0;
 		
 		return $this->config = $config;
 	}
@@ -202,40 +205,37 @@ class IndexController extends Widget{
 	 * @throws \fay\core\ErrorException
 	 */
 	private function getListView(){
-		$sql = new Sql();
-		$sql->from(array('p'=>'posts'), 'id');
-		
-		//限制分类
-		if(!empty($this->config['cat_key']) && $this->input->get($this->config['cat_key'])){
-			$input_cat = $this->input->get($this->config['cat_key'], 'intval');
-		}else{
-			$input_cat = isset($this->config['cat_id']) ? $this->config['cat_id'] : 0;
-		}
-		
-		if(!empty($input_cat)){
-			$cat = Category::service()->get($input_cat, '*', '_system_post');
-			if(!$cat){
+		//获取标签
+		if(!empty($this->config['tag_id_key']) && $this->input->get($this->config['tag_id_key'])){
+			$tag_id = $this->input->get($this->config['tag_id_key'], 'intval');
+		}else if(!empty($this->config['tag_title_key']) && $this->input->get($this->config['tag_title_key'])){
+			$tag = Tags::model()->fetchRow(array(
+				'title = ?'=>$this->input->get($this->config['tag_title_key'])
+			), 'id');
+			if(!$tag){
 				throw new HttpException('您访问的页面不存在');
-			}else if($cat['alias'] != '_system_post'){
-				\F::app()->layout->assign(array(
-					'title'=>empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'],
-					'keywords'=>empty($cat['seo_keywords']) ? $cat['title'] : $cat['seo_keywords'],
-					'description'=>empty($cat['seo_description']) ? $cat['description'] : $cat['seo_description'],
-				));
 			}
-			if($this->config['subclassification']){
-				//包含子分类
-				$limit_cat_children = Category::service()->getChildIds($cat['id']);
-				$limit_cat_children[] = $cat['id'];//加上父节点
-				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
-			}else{
-				//不包含子分类
-				$sql->where(array('cat_id = ?'=>$cat['id']));
-			}
+			$tag_id = $tag['id'];
+		}else{
+			$tag_id = isset($this->config['tag_id']) ? $this->config['tag_id'] : 0;
 		}
 		
-		$sql->where(Posts::getPublishedConditions('p'))
-			->order($this->getOrder());
+		if(empty($tag_id)){
+			throw new HttpException('您访问的页面不存在');
+		}
+		
+		$sql = new Sql();
+		$sql->from(array('pt'=>'posts_tags'), 'post_id')
+			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
+			->where('tag_id = ?', $tag_id)
+			->where(Posts::getPublishedConditions('p'))
+			->order($this->getOrder())
+		;
+		if($this->config['cat_id']){
+			$cat_ids = Category::service()->getChildIds($this->config['cat_id']);
+			$cat_ids[] = $this->config['cat_id'];
+			$sql->where('p.cat_id IN (?)', $cat_ids);
+		}
 		
 		$listview = new ListView($sql, array(
 			'page_size'=>$this->config['page_size'],

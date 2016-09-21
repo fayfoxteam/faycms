@@ -1,5 +1,5 @@
 <?php
-namespace fay\widgets\post_list\controllers;
+namespace fay\widgets\tag_post_list\controllers;
 
 use fay\widget\Widget;
 use fay\services\Category;
@@ -10,8 +10,8 @@ class AdminController extends Widget{
 		$root_node = Category::service()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(
-				'id'=>$root_node['id'],
-				'title'=>'顶级',
+				'id'=>0,
+				'title'=>'不限制',
 				'children'=>Category::service()->getTreeByParentId($root_node['id']),
 			),
 		);
@@ -60,8 +60,10 @@ class AdminController extends Widget{
 		return array(
 			'page_size'=>'分页大小',
 			'page_key'=>'页码字段',
-			'cat_key'=>'分类字段',
-			'cat_id'=>'默认分类',
+			'tag_key'=>'分类字段',
+			'cat_id'=>'限定分类',
+			'tag_id_key'=>'标签ID字段',
+			'tag_title_key'=>'标签名称字段',
 			'post_thumbnail_width'=>'文章缩略图宽度',
 			'post_thumbnail_height'=>'文章缩略图高度',
 			'file_thumbnail_width'=>'附件缩略图宽度',
@@ -73,7 +75,6 @@ class AdminController extends Widget{
 		return array(
 			'page_size'=>'intval',
 			'page_key'=>'trim',
-			'cat_key'=>'trim',
 			'order'=>'trim',
 			'uri'=>'trim',
 			'other_uri'=>'trim',
@@ -85,6 +86,8 @@ class AdminController extends Widget{
 			'empty_text'=>'trim',
 			'cat_id'=>'intval',
 			'subclassification'=>'intval',
+			'tag_id_key'=>'trim',
+			'tag_title_key'=>'trim',
 			'post_thumbnail_width'=>'intval',
 			'post_thumbnail_height'=>'intval',
 			'file_thumbnail_width'=>'intval',

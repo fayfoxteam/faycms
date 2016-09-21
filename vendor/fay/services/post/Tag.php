@@ -35,6 +35,7 @@ class Tag extends Service{
 	 * @return array 返回包含文章tag信息的二维数组
 	 */
 	public function get($post_id, $fields = null){
+		$fields || $fields = self::$default_fields;
 		$sql = new Sql();
 		$tags = $sql->from(array('pt'=>'posts_tags'), 'tag_id')
 			->where(array(

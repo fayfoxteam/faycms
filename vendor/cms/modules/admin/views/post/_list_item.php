@@ -100,8 +100,8 @@ $editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 			if($key){
 				echo ', ';
 			}
-			echo Html::link($tag['title'], array('admin/post/index', array(
-				'tag_id'=>$tag['id'],
+			echo Html::link($tag['tag']['title'], array('admin/post/index', array(
+				'tag_id'=>$tag['tag']['id'],
 			)));
 		}
 	?></td>

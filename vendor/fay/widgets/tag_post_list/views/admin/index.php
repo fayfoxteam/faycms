@@ -46,33 +46,31 @@ use fay\services\user\Role;
 		</div>
 		<div class="advance <?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
+				<label class="title bold">标签名称字段</label>
+				<?php echo F::form('widget')->inputText('tag_title_key', array(
+					'class'=>'form-control mw150',
+				), 'tag_title')?>
+				<p class="fc-grey">标签名称字段名</p>
+			</div>
+			<div class="form-field">
+				<label class="title bold">标签ID字段</label>
+				<?php echo F::form('widget')->inputText('tag_id_key', array(
+					'class'=>'form-control mw150',
+				), 'tag_id')?>
+				<p class="fc-grey">标签ID字段名（若同时指定名称和ID，以ID为准）</p>
+			</div>
+			<div class="form-field">
 				<label class="title bold">页码字段</label>
 				<?php echo F::form('widget')->inputText('page_key', array(
 					'class'=>'form-control mw150',
 				), 'page')?>
 			</div>
 			<div class="form-field">
-				<label class="title bold">默认分类</label>
+				<label class="title bold">限定分类</label>
 				<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
 					'class'=>'form-control mw400',
 				))?>
-				<p class="fc-grey">没有传入分类字段的情况下显示此分类下的文章</p>
-			</div>
-			<div class="form-field">
-				<label class="title bold">分类字段</label>
-				<?php echo F::form('widget')->inputText('cat_key', array(
-					'class'=>'form-control mw150',
-				), 'cat')?>
-				<p class="fc-grey">分类字段名（分类ID或者别名）</p>
-			</div>
-			<div class="form-field">
-				<label class="title bold">是否包含子分类下的文章</label>
-				<?php echo F::form('widget')->inputRadio('subclassification', 1, array(
-					'label'=>'是',
-				), true)?>
-				<?php echo F::form('widget')->inputRadio('subclassification', 0, array(
-					'label'=>'否',
-				))?>
+				<p class="fc-grey">只查询该分类下的文章（包含子分类）</p>
 			</div>
 			<div class="form-field">
 				<label class="title bold">发布时间格式</label>
@@ -85,19 +83,19 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
-						'label'=>'post/{$id}',
+					echo Html::inputRadio('uri', 'tag/{$title}', !isset($config['uri']) || $config['uri'] == 'tag/{$title}', array(
+						'label'=>'tag/{$title}',
 					));
-					echo Html::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
-						'label'=>'post-{$id}',
+					echo Html::inputRadio('uri', 'tag/{$id}', isset($config['uri']) && $config['uri'] == 'tag/{$id}', array(
+						'label'=>'tag/{$id}',
 					));
 					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
-						'post/{$id}', 'post-{$id}',
+						'tag/{$title}', 'tag/{$id}',
 					)), array(
 						'label'=>'其它',
 					));
 					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
-						'post/{$id}', 'post-{$id}',
+						'tag/{$title}', 'tag/{$id}',
 					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));

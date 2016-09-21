@@ -17,7 +17,7 @@ use fay\helpers\Html;
 	<div class="post-content"><?php echo nl2br($p['post']['abstract'])?></div>
 	<div class="post-tags">
 		<?php
-		echo Html::link($p['cat']['title'], array('cat/'.$p['post']['cat_id']), array(
+		echo Html::link($p['category']['title'], array('cat/'.$p['post']['cat_id']), array(
 			'class'=>'post-type',
 		));
 		

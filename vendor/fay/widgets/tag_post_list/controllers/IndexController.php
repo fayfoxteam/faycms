@@ -65,16 +65,18 @@ class IndexController extends Widget{
 	private $config;
 	
 	public function getData($config){
+		//初始化配置
 		$this->initConfig($config);
 		
 		$listview = $this->getListView();
+		//获取符合条件的文章ID
 		$posts = $listview->getData();
 		
 		if($posts){
 			$fields = $this->getFields();
-			
+			//通过文章ID，获取文章信息结构
 			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
-			
+			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 		}
 		
@@ -85,16 +87,18 @@ class IndexController extends Widget{
 	}
 	
 	public function index($config){
+		//初始化配置
 		$this->initConfig($config);
 		
 		$listview = $this->getListView();
+		//获取符合条件的文章ID
 		$posts = $listview->getData();
 		
 		if($posts){
 			$fields = $this->getFields();
-			
+			//通过文章ID，获取文章信息结构
 			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
-			
+			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 			
 			//template

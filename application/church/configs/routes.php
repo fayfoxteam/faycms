@@ -5,5 +5,5 @@ return array(
 	//分类
 	'/^cat\/([\w-]+)$/'=>'cat/item/cat/$1',
 	//标签
-	'/^tag\/(.*)$/'=>'tag/item/tag/$1',
+	'/^tag\/(.*)$/'=>'tag/item/tag_title/$1',
 );

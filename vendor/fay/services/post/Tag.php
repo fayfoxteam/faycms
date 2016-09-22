@@ -386,6 +386,6 @@ class Tag extends Service{
 		
 		$post_ids = $sql->fetchAll();
 		
-		return Post::service()->mget(ArrayHelper::column($post_ids, 'id'), $fields, false);
+		return Post::service()->mget(ArrayHelper::column($post_ids, 'id'), $fields);
 	}
 }

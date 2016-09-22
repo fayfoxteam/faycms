@@ -72,7 +72,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields, false);
+			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields);
 			
 			$posts = $this->formatPosts($posts);
 			

@@ -225,10 +225,10 @@ class Like extends Service{
 		}
 		
 		return array(
-			'likes'=>array_values(Post::service()->mget(
+			'likes'=>Post::service()->mget(
 				ArrayHelper::column($likes, 'post_id'),
 				$fields
-			)),
+			),
 			'pager'=>$listview->getPager(),
 		);
 	}

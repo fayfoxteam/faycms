@@ -642,6 +642,6 @@ class Category extends Service{
 			return array();
 		}
 		
-		return Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields, false);
+		return Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields);
 	}
 }

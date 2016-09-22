@@ -1076,10 +1076,13 @@ class Post extends Service{
 	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
-	 * @param bool $only_published 若为true，则只在已发布的文章里搜索。默认为true
+	 * @param bool $only_published 若为true，则只在已发布的文章里搜索。默认为false
+	 * @param bool $index_key 是否用文章ID作为键返回，默认为false
 	 * @return array
+	 * @throws PostException
+	 * @throws \fay\core\ErrorException
 	 */
-	public function mget($post_ids, $fields, $only_published = true){
+	public function mget($post_ids, $fields, $only_published = false, $index_key = false){
 		if(!$post_ids){
 			return array();
 		}
@@ -1191,7 +1194,11 @@ class Post extends Service{
 			$return[$k] = $post;
 		}
 		
-		return $return;
+		if($index_key){
+			return $return;
+		}else{
+			return array_values($return);
+		}
 	}
 	
 	/**

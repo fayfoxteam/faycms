@@ -64,6 +64,26 @@ class IndexController extends Widget{
 	 */
 	private $config;
 	
+	public function getData($config){
+		$this->initConfig($config);
+		
+		$listview = $this->getListView();
+		$posts = $listview->getData();
+		
+		if($posts){
+			$fields = $this->getFields();
+			
+			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
+			
+			$posts = $this->formatPosts($posts);
+		}
+		
+		return array(
+			'data'=>$posts,
+			'pager'=>$listview->getPager(),
+		);
+	}
+	
 	public function index($config){
 		$this->initConfig($config);
 		
@@ -73,7 +93,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields, false);
+			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
 			
 			$posts = $this->formatPosts($posts);
 			

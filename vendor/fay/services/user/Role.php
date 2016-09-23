@@ -12,7 +12,7 @@ class Role extends Service{
 	/**
 	 * 默认返回字段
 	 */
-	public static $public_fields = array('id', 'title', 'description');
+	public static $default_fields = array('id', 'title', 'description');
 	
 	/**
 	 * @param string $class_name
@@ -30,10 +30,10 @@ class Role extends Service{
 	 */
 	public function get($user_id, $fields = null){
 		//若传入$fields为空，则返回默认字段
-		$fields || $fields = self::$public_fields;
+		$fields || $fields = self::$default_fields;
 		
 		//格式化fields
-		$fields = FieldHelper::parse($fields, null, self::$public_fields);
+		$fields = FieldHelper::parse($fields);
 		
 		$sql = new Sql();
 		return $sql->from(array('ur'=>'users_roles'), '')
@@ -51,10 +51,10 @@ class Role extends Service{
 	 */
 	public function mget($user_ids, $fields = null){
 		//若传入$fields为空，则返回默认字段
-		$fields || $fields = self::$public_fields;
+		$fields || $fields = self::$default_fields;
 		
 		//格式化fields
-		$fields = FieldHelper::parse($fields, null, self::$public_fields);
+		$fields = FieldHelper::parse($fields);
 		
 		$sql = new Sql();
 		$roles = $sql->from(array('ur'=>'users_roles'), 'user_id')

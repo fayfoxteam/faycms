@@ -25,7 +25,7 @@ use fay\services\user\Role;
  */
 class User extends Service{
 	/**
-	 * 可选字段
+	 * 公开字段（接口访问时，可以此判断是否可返回字段，服务自身不做判断）
 	 */
 	public static $public_fields = array(
 		'user'=>array(
@@ -39,6 +39,9 @@ class User extends Service{
 		),
 		'counter'=>array(
 			'*',
+		),
+		'profile'=>array(
+			'reg_time', 'reg_ip'
 		)
 	);
 	

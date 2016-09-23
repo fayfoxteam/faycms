@@ -32,7 +32,7 @@ class Profile extends Service{
 		$fields || $fields = self::$public_fields;
 		
 		//格式化fields
-		$fields = FieldHelper::parse($fields, null, self::$public_fields);
+		$fields = FieldHelper::parse($fields);
 		
 		return UserProfile::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,

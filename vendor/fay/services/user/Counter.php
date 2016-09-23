@@ -9,7 +9,7 @@ class Counter extends Service{
 	/**
 	 * 可返回字段
 	 */
-	public static $public_fields = array(
+	public static $default_fields = array(
 		'posts', 'feeds', 'follows', 'fans', 'messages'
 	);
 	
@@ -60,10 +60,10 @@ class Counter extends Service{
 	 */
 	public function get($user_id, $fields = null){
 		//若传入$fields为空，则返回默认字段
-		$fields || $fields = self::$public_fields;
+		$fields || $fields = self::$default_fields;
 		
 		//格式化fields
-		$fields = FieldHelper::parse($fields, null, self::$public_fields);
+		$fields = FieldHelper::parse($fields);
 		
 		return UserCounter::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
@@ -78,10 +78,10 @@ class Counter extends Service{
 	 */
 	public function mget($user_ids, $fields = null){
 		//若传入$fields为空，则返回默认字段
-		$fields || $fields = self::$public_fields;
+		$fields || $fields = self::$default_fields;
 		
 		//格式化fields
-		$fields = FieldHelper::parse($fields, null, self::$public_fields);
+		$fields = FieldHelper::parse($fields);
 		
 		if(!in_array('user_id', $fields['fields'])){
 			$fields['fields'][] = 'user_id';

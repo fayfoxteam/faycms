@@ -83,25 +83,25 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'tag/{$title}', !isset($config['uri']) || $config['uri'] == 'tag/{$title}', array(
-						'label'=>'tag/{$title}',
+					echo Html::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
+						'label'=>'post/{$id}',
 					));
-					echo Html::inputRadio('uri', 'tag/{$id}', isset($config['uri']) && $config['uri'] == 'tag/{$id}', array(
-						'label'=>'tag/{$id}',
+					echo Html::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
+						'label'=>'post-{$id}',
 					));
 					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
-						'tag/{$title}', 'tag/{$id}',
-					)), array(
+							'post/{$id}', 'post-{$id}',
+						)), array(
 						'label'=>'其它',
 					));
 					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
-						'tag/{$title}', 'tag/{$id}',
+						'post/{$id}', 'post-{$id}',
 					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
 				<p class="fc-grey">
-					<code>{$id}</code>代表“文章ID”。
+					<code>{$id}</code>代表“文章ID”，<code>{$cat_id}</code>代表“文章主分类ID”。
 					不要包含base_url部分
 				</p>
 			</div>

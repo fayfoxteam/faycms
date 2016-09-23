@@ -103,7 +103,7 @@ use fay\services\user\Role;
 					));
 				?>
 				<p class="fc-grey">
-					<code>{$id}</code>代表“文章ID”。
+					<code>{$id}</code>代表“文章ID”，<code>{$cat_id}</code>代表“文章主分类ID”。
 					不要包含base_url部分
 				</p>
 			</div>

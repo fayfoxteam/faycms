@@ -2,10 +2,21 @@
 namespace church\modules\frontend\controllers;
 
 use church\library\FrontController;
+use fay\core\HttpException;
+use fay\models\tables\Tags;
 
 class TagController extends FrontController{
 	public function item(){
-		dump($this->input->get('tag'));die;
+		$tag_title = $this->input->get('tag_title', 'trim');
+		if(!$tag_title || !$tag = Tags::model()->fetchRow(array(
+				'title = ?'=>$tag_title
+			))){
+			throw new HttpException('您请求的页面不存在');
+		}
+		
+		$this->layout->assign(array(
+			'page_title'=>$tag['title'],
+		));
 		
 		$this->view->render();
 	}

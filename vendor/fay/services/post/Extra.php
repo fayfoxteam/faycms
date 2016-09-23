@@ -26,15 +26,8 @@ class Extra extends Service{
 	 * @return array 返回包含文章meta信息的一维数组
 	 */
 	public function get($post_id, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$default_fields
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields);
-		}
+		$fields || $fields = self::$default_fields;
+		$fields = FieldHelper::parse($fields);
 		
 		return PostExtra::model()->fetchRow(array(
 			'post_id = ?'=>$post_id,
@@ -52,15 +45,8 @@ class Extra extends Service{
 			return array();
 		}
 		
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$default_fields
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields);
-		}
+		$fields || $fields = self::$default_fields;
+		$fields = FieldHelper::parse($fields);
 		
 		//批量搜索，必须先得到post_id
 		if(!in_array('post_id', $fields['fields'])){
@@ -91,10 +77,8 @@ class Extra extends Service{
 	 * @param null|string $fields 字段（post_extra表字段）
 	 */
 	public function assemble(&$posts, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
-		}
+		$fields || $fields = self::$default_fields;
+		$fields = FieldHelper::parse($fields);
 		
 		//获取所有文章ID
 		$post_ids = array();

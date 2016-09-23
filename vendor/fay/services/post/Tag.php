@@ -36,6 +36,7 @@ class Tag extends Service{
 	 */
 	public function get($post_id, $fields = null){
 		$fields || $fields = self::$default_fields;
+		
 		$sql = new Sql();
 		$tags = $sql->from(array('pt'=>'posts_tags'), 'tag_id')
 			->where(array(
@@ -327,10 +328,7 @@ class Tag extends Service{
 	 * @param null|string $fields 字段（tags表字段）
 	 */
 	public function assemble(&$posts, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = self::$default_fields;
-		}
+		$fields || $fields = self::$default_fields;
 		
 		//获取所有文章ID
 		$post_ids = array();

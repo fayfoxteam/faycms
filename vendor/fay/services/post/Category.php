@@ -42,15 +42,8 @@ class Category extends Service{
 	 * @return array 返回包含分类信息的二维数组
 	 */
 	public function get($post_id, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$default_fields
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields);
-		}
+		$fields || $fields = self::$default_fields;
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
 		
 		$sql = new Sql();
 		return $sql->from(array('pc'=>'posts_categories'), '')
@@ -66,15 +59,8 @@ class Category extends Service{
 	 * @return array 返回以文章ID为key的三维数组
 	 */
 	public function mget($post_ids, $fields = null){
-		if(empty($fields)){
-			//若传入$fields为空，则返回默认字段
-			$fields = array(
-				'fields'=>self::$default_fields
-			);
-		}else{
-			//格式化fields
-			$fields = FieldHelper::parse($fields);
-		}
+		$fields || $fields = self::$default_fields;
+		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
 		
 		$sql = new Sql();
 		$cats = $sql->from(array('pc'=>'posts_categories'), 'post_id')

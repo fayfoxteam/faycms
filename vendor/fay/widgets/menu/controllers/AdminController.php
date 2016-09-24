@@ -32,25 +32,36 @@ class AdminController extends Widget{
 	 * 当有post提交的时候，会自动调用此方法
 	 */
 	public function onPost(){
-		$uri = 'cat/{$id}';
-		if($this->input->post('uri')){
-			$uri = $this->input->post('uri');
-		}else if($this->input->post('other_uri')){
-			$uri = $this->input->post('other_uri');
-		}
 		//若模版与默认模版一致，不保存
 		$template = $this->input->post('template');
 		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$template = '';
 		}
 		$this->setConfig(array(
-			'hierarchical'=>$this->input->post('hierarchical', 'intval', 0),
 			'top'=>$this->input->post('top', 'intval', 0),
-			'title'=>$this->input->post('title', null, ''),
-			'uri'=>$uri,
 			'template'=>$template,
 		));
 		Flash::set('编辑成功', 'success');
+	}
+	
+	public function rules(){
+		return array(
+			array(array('top'), 'int', array('min'=>0))
+		);
+	}
+	
+	public function labels(){
+		return array(
+			'top'=>'顶级菜单',
+			'template'=>'渲染模版',
+		);
+	}
+	
+	public function filters(){
+		return array(
+			'top'=>'intval',
+			'template'=>'trim',
+		);
 	}
 	
 }

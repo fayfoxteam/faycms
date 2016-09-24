@@ -46,3 +46,6 @@ INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`) VALUES ('
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`) VALUES ('1006', '美妆', 'meizhuang', '1001');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`) VALUES ('1007', '美食', 'meishi', '1001');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`) VALUES ('1008', '数码', 'shuma', '1001');
+
+-- 关于我们页面
+INSERT INTO `{{$prefix}}pages` (`id`, `title`, `alias`, `abstract`) VALUES ('10000', '关于我们', 'about', '这是Faycms的一个测试站');

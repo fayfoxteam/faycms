@@ -29,7 +29,7 @@ use fay\helpers\Date;
 			</div>
 		</div>
 		<?php }?>
-		<?php if(!$p['files'] && $p['post']['thumbnail']){?>
+		<?php if(!$p['files'] && $p['post']['thumbnail']['id']){?>
 		<div class="post-featured">
 			<div class="post-thumb">
 				<a href="<?php echo $p['post']['link']?>"><?php

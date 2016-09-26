@@ -19,7 +19,7 @@ var uploader = {
 			'cat': 'other',
 			'browse_button': 'upload-thumbnail',
 			'container': 'thumbnail-container',
-			'max_file_size': '2',
+			'max_file_size': common.max_upload_file_size,
 			'preview_container': 'thumbnail-preview-container',
 			'input_name': 'thumbnail',
 			'remove_link_text': '移除缩略图',
@@ -43,7 +43,7 @@ var uploader = {
 				],
 				'browse_button': settings.browse_button,
 				'container': settings.container,
-				'max_file_size': settings.max_file_size + 'mb',
+				'max_file_size': settings.max_file_size,
 				'url': system.url('admin/file/img-upload', {'cat':settings.cat ? settings.cat : 'other'})
 			});
 			
@@ -57,6 +57,7 @@ var uploader = {
 			});
 			
 			uploader.bind('UploadProgress', function(up, file) {
+				console.log(file.percent);
 				$('#'+settings.preview_container).find('.progress').text(file.percent);
 			});
 			
@@ -123,7 +124,7 @@ var uploader = {
 			'browse_button': 'upload-file-link',
 			'container': 'upload-file-container',
 			'drop_element': null,
-			'max_file_size': '2',
+			'max_file_size': common.max_upload_file_size,
 			'cat': 'other',
 			'input_name': 'files',
 			'image_only': false,
@@ -157,7 +158,7 @@ var uploader = {
 				'browse_button': settings.browse_button,
 				'container': settings.container,
 				'drop_element': settings.drop_element,
-				'max_file_size': settings.max_file_size + 'mb',
+				'max_file_size': settings.max_file_size,
 				'url': url,
 				'filters': filters
 			});

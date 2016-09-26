@@ -99,7 +99,7 @@ return array(
 	'upload'=>array(							//文件上传类的相关配置
 		'upload_path'=>'./uploads/',			//文件上传路径
 		'allowed_types'=>'*',					//允许上传的文件类型，详见mimes.php，若为星号，则允许所有类型
-		'max_size'=>'20971520',					//这个最大值不能大于php.ini中设置的最大值
+		'max_size'=>20971520,					//这个最大值不能大于php.ini中设置的最大值
 	),
 
 	/*

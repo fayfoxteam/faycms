@@ -73,12 +73,16 @@ class FileController extends AdminController{
 			}else{
 				echo json_encode(array(
 					'success'=>0,
-					'message'=>'上传失败',
+					'message'=>'上传失败：'.implode("\r\n", $data),
 					'url'=>'',
 				));
 			}
 		}else{
-			Response::json($data);
+			if($result['status']){
+				Response::json($data);
+			}else{
+				Response::json(new \stdClass(), 0, '上传失败：'.implode("\r\n", $data));
+			}
 		}
 	}
 	
@@ -214,6 +218,7 @@ class FileController extends AdminController{
 	/**
 	 * 文件上传后的额外处理（例如裁剪、缩放等）
 	 * @param array $data 文件信息
+	 * @return array
 	 */
 	private function afterUpload($data){
 		//如果是图片，可能要缩放/裁剪处理

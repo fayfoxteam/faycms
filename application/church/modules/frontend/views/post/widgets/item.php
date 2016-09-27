@@ -50,9 +50,11 @@ use fay\helpers\Date;
 		<?php }?>
 		<?php if(!$post['files'] && $post['post']['thumbnail']['id']){?>
 			<div class="post-featured">
-				<div class="post-thumb"><?php
-					echo Html::img($post['post']['thumbnail']['thumbnail']);
-				?></div>
+				<div class="post-thumb">
+					<a href="<?php echo $post['post']['thumbnail']['url']?>" data-lightbox="files"><?php
+						echo Html::img($post['post']['thumbnail']['thumbnail']);
+					?></a>
+				</div>
 			</div>
 		<?php }?>
 		<div class="post-container">

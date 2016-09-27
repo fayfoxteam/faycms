@@ -30,13 +30,15 @@ use fay\helpers\Date;
 			<div class="post-featured">
 				<div class="swiper-container post-files">
 					<div class="swiper-wrapper">
-						<?php foreach($post['files'] as $file){?>
-							<div class="swiper-slide"><?php
+					<?php foreach($post['files'] as $file){?>
+						<div class="swiper-slide">
+							<a href="<?php echo $file['url']?>" title="<?php echo Html::encode($file['description'])?>" data-lightbox="files"><?php
 								 echo Html::img($file['thumbnail'], File::PIC_ORIGINAL, array(
 									'alt'=>$file['description'],
 								))
-							?></div>
-						<?php }?>
+							?></a>
+						</div>
+					<?php }?>
 					</div>
 					<div class="swiper-pagination"></div>
 					<div class="swiper-control-container">
@@ -75,3 +77,23 @@ use fay\helpers\Date;
 		</div>
 	</article>
 </div>
+<script>
+var post_item = {
+	'lightbox': function(){
+		if($('[data-lightbox]').length){
+			system.getCss(system.assets('css/lightbox/css/lightbox.css'), function(){
+				system.getScript(system.assets('js/lightbox.min.js'), function(){
+					lightbox.option({
+						'albumLabel': '',
+						'wrapAround': true
+					});
+				});
+			});
+		}
+	},
+	'init':function(){
+		this.lightbox();
+	}
+};
+post_item.init();
+</script>

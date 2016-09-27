@@ -73,7 +73,7 @@ a:hover{color:#3799ab}
 .main-menu li li > a{display:block;padding:0.6364em 2.6em 0.7273em}
 .main-menu ul ul ul{left:174px;top:-24px;background-color:#f3f5f8}
 /* 固定在顶部的导航 */
-.header-fixed .page-header{position:fixed;top:0;left:0;right:0;z-index:10000;box-shadow:0px 3px 0px 0px rgba(0, 0, 0, 0.2)}
+.header-fixed .page-header{position:fixed;top:0;left:0;right:0;z-index:9998;box-shadow:0px 3px 0px 0px rgba(0, 0, 0, 0.2)}
 .header-fixed .main-menu{margin-bottom:1em;margin-top:1em}
 .header-fixed .logo-container{margin-top:1em}
 .header-fixed .logo-container img{height:42px}

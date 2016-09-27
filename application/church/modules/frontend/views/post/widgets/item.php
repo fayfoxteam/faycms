@@ -16,7 +16,7 @@ use fay\helpers\Date;
 			<time class="post-meta-item post-meta-time"><?php
 				echo Date::niceShort($post['post']['publish_time'])
 			?></time>
-			<?php echo Html::link($post['category']['title'], array('cat/'.$post['category']['alias']), array(
+			<?php echo Html::link($post['category']['title'], array('cat/'.$post['category']['id']), array(
 				'class'=>array('post-meta-item', 'post-meta-category'),
 			))?>
 			<span class="post-meta-item post-meta-views">

@@ -1,6 +1,6 @@
 <div class="container page-content">
 	<div class="row">
-		<main class="col-md-8 post-list">
+		<main class="col-md-8 post-item">
 			<?php F::widget()->load('post-item')?>
 		</main>
 		<aside class="col-md-4">

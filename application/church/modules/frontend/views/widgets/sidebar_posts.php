@@ -20,7 +20,7 @@ use fay\helpers\Html;
 					echo Html::link($p['post']['title'], $p['post']['link'])
 				?></h5>
 				<div class="post-meta">
-					<?php echo Html::link($p['category']['title'], array('cat/'.$p['category']['alias']), array(
+					<?php echo Html::link($p['category']['title'], array('cat/'.$p['category']['id']), array(
 						'class'=>'post-meta-category',
 					))?>
 					<time class="post-meta-time"><?php echo $p['post']['format_publish_time']?></time>

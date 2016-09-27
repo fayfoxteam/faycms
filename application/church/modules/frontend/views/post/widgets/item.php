@@ -46,7 +46,7 @@ use fay\helpers\Date;
 				</div>
 			</div>
 		<?php }?>
-		<?php if(!$post['files'] && $post['post']['thumbnail']){?>
+		<?php if(!$post['files'] && $post['post']['thumbnail']['id']){?>
 			<div class="post-featured">
 				<div class="post-thumb"><?php
 					echo Html::img($post['post']['thumbnail']['thumbnail']);
@@ -66,7 +66,7 @@ use fay\helpers\Date;
 							if($k){
 								echo ', ';
 							}
-							echo Html::link($tag['title'], array('tag/'.urlencode($tag['title'])));
+							echo Html::link($tag['tag']['title'], array('tag/'.urlencode($tag['tag']['title'])));
 						}
 					?>
 				</p>

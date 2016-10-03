@@ -1,0 +1,92 @@
+<?php
+use fay\helpers\Html;
+
+function showCats($tree, $dep = 0){?>
+	<ul class="tree">
+	<?php foreach($tree as $k=>$node){?>
+		<li class="leaf-container <?php if(!$k)echo 'first';?>">
+			<div class="leaf">
+				<span class="fr options">
+					<span class="w115 block fl">
+					排序：<?php echo Html::inputText('sort[]', $node['sort'], array(
+						'size'=>3,
+						'maxlength'=>3,
+						'data-id'=>$node['id'],
+						'class'=>"form-control w50 edit-sort node-sort-{$node['id']}",
+					))?>
+					</span>
+					<?php
+						if(F::app()->checkPermission('admin/menu/create')){
+							echo Html::link('添加子节点', '#create-cat-dialog', array(
+								'class'=>'create-cat-link',
+								'data-title'=>Html::encode($node['title']),
+								'data-id'=>$node['id'],
+							));
+						}
+						if(F::app()->checkPermission('admin/menu/edit')){
+							echo Html::link('编辑', '#edit-cat-dialog', array(
+								'class'=>'edit-cat-link',
+								'data-id'=>$node['id'],
+							));
+						}
+						if(F::app()->checkPermission('admin/menu/remove')){
+							echo Html::link('删除', array('admin/menu/remove', array(
+								'id'=>$node['id'],
+							)), array(
+								'class'=>'remove-link fc-red',
+								'title'=>'删除该节点，其子节点将被挂载到其父节点',
+							));
+							echo Html::link('删除全部', array('admin/menu/remove-all', array(
+								'id'=>$node['id'],
+							)), array(
+								'class'=>'remove-link fc-red',
+								'title'=>'删除该节点及其所有子节点',
+							));
+						}
+					?>
+				</span>
+				<span class="leaf-title node-<?php echo $node['id']?> <?php if(empty($node['children']))
+						echo 'terminal';
+					else
+						echo 'parent';?>">
+					<?php
+					
+						echo $node['enabled'] ? Html::link('<span class="tick-circle"></span>', 'javascript:;', array(
+							'class'=>F::app()->checkPermission('admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
+							'data-id'=>$node['id'],
+							'encode'=>false,
+							'title'=>F::app()->checkPermission('admin/menu/edit') ? '是否启用（点击可改变状态）' : false,
+						)) : Html::link('<span class="cross-circle"></span>', 'javascript:;', array(
+							'class'=>F::app()->checkPermission('admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
+							'data-id'=>$node['id'],
+							'encode'=>false,
+							'title'=>F::app()->checkPermission('admin/post/cat-edit') ? '是否启用（点击可改变状态）' : false,
+						));
+						
+						if(empty($node['children'])){
+							echo Html::encode($node['title']);
+						}else{
+							echo Html::tag('strong', array(), $node['title']);
+						}
+					?>
+					<?php if($node['alias']){?>
+						<em class="fc-grey">[ <?php echo $node['alias']?> ]</em>
+					<?php }?>
+					<em class="fc-grey"><?php echo $node['link']?></em>
+				</span>
+			</div>
+			<?php if(!empty($node['children'])){
+				showCats($node['children'], $dep + 1);
+			}?>
+		</li>
+	<?php }?>
+	</ul>
+<?php }?>
+<div class="row">
+	<div class="col-12">
+		<div class="form-inline tree-container">
+			<?php showCats($menus)?>
+		</div>
+	</div>
+</div>
+<?php include '_common.php';?>

@@ -6,12 +6,13 @@ use fay\helpers\Dumper;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'application'.DS.APPLICATION).DS);
-define('SYSTEM_PATH', realpath(BASEPATH.'..'.DS.'vendor') . DS);
+define('VENDOR_PATH', realpath(BASEPATH.'..'.DS.'vendor') . DS);
+define('SYSTEM_PATH', realpath(VENDOR_PATH.'faysoft') . DS);
 define('BACKEND_PATH', realpath(SYSTEM_PATH.'cms').DS);
 define('MODULE_PATH', realpath(APPLICATION_PATH . 'modules') . DS);
 
+require VENDOR_PATH . 'autoload.php';
 //包含基础文件
-require SYSTEM_PATH.'fay/F.php';
 require SYSTEM_PATH.'fay/core/Loader.php';
 
 //注册自动加载

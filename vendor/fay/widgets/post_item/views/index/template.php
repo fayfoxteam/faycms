@@ -1,2 +1,0 @@
-<?php
-dump($post);

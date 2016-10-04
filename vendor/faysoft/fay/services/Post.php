@@ -874,7 +874,7 @@ class Post extends Service{
 	 */
 	public static function formatContent($post){
 		if($post['content_type'] == Posts::CONTENT_TYPE_MARKDOWN){
-			return \Michelf\MarkdownExtra::defaultTransform($post['content']);
+			return $post['content'];
 		}else if($post['content_type'] == Posts::CONTENT_TYPE_TEXTAREA){
 			return StringHelper::nl2p($post['content']);
 		}else{

@@ -210,6 +210,8 @@ var file = {
 						$container.find('.show-qiniu-file').attr('href', resp.data.url);
 					}else{
 						common.alert(resp.message);
+						$container.find('.qiniu-not-upload').show();
+						$container.find('.loading').hide();
 					}
 				}
 			});
@@ -233,6 +235,8 @@ var file = {
 						$container.find('.show-qiniu-file').attr('href', '');
 					}else{
 						common.alert(resp.message);
+						$container.find('.qiniu-uploaded').show();
+						$container.find('.loading').hide();
 					}
 				}
 			});

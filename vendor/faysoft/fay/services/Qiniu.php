@@ -5,6 +5,9 @@ use fay\core\Service;
 use fay\models\tables\Files;
 use fay\core\Loader;
 use fay\helpers\StringHelper;
+use Qiniu\Auth;
+use Qiniu\Storage\BucketManager;
+use Qiniu\Storage\UploadManager;
 
 class Qiniu extends Service{
 	/**
@@ -25,22 +28,28 @@ class Qiniu extends Service{
 			$file = Files::model()->find($file);
 		}
 		
-		Loader::vendor('qiniu/io');
-		Loader::vendor('qiniu/rs');
+		$qiniu_config = Option::getGroup('qiniu');
 		
-		$qiniu = Option::getGroup('qiniu');
+		// 构建鉴权对象
+		$auth = new Auth($qiniu_config['accessKey'], $qiniu_config['secretKey']);
 		
-		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
-		$putPolicy = new \Qiniu_RS_PutPolicy($qiniu['bucket']);
-		$upToken = $putPolicy->Token(null);
-		$putExtra = new \Qiniu_PutExtra();
-		$putExtra->Crc32 = 1;
-		list($ret, $err) = Qiniu_PutFile($upToken, $this->getKey($file), File::getPath($file), $putExtra);
+		// 生成上传 Token
+		$token = $auth->uploadToken($qiniu_config['bucket']);
+		
+		// 初始化 UploadManager 对象并进行文件的上传。
+		$uploadMgr = new UploadManager();
+		
+		// 调用 UploadManager 的 putFile 方法进行文件的上传。
+		list($ret, $err) = $uploadMgr->putFile(
+			$token,
+			$this->getKey($file),
+			File::getPath($file)
+		);
 		
 		if($err !== null){
 			return array(
 				'status'=>0,
-				'message'=>$err,
+				'message'=>$err->message(),
 			);
 		}else{
 			Files::model()->update(array(
@@ -63,22 +72,18 @@ class Qiniu extends Service{
 			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path');
 		}
 		
-		Loader::vendor('qiniu/rs');
+		$qiniu_config = Option::getGroup('qiniu');
 		
-		$qiniu = Option::getGroup('qiniu');
+		// 构建鉴权对象
+		$auth = new Auth($qiniu_config['accessKey'], $qiniu_config['secretKey']);
 		
-		Qiniu_SetKeys($qiniu['accessKey'], $qiniu['secretKey']);
-		$client = new \Qiniu_MacHttpClient(null);
+		//初始化BucketManager
+		$bucketMgr = new BucketManager($auth);
 		
-		$err = Qiniu_RS_Delete($client, $qiniu['bucket'], $this->getKey($file));
-		
-		//一般来说，出错是因为远程文件已被删除，所以此处直接将本地标记为未上传
-		Files::model()->update(array(
-			'qiniu'=>0,
-		), $file['id']);
+		$err = $bucketMgr->delete($qiniu_config['bucket'], $this->getKey($file));
 		
 		if($err !== null){
-			return $err;
+			return $err->message();
 		}else{
 			return true;
 		}

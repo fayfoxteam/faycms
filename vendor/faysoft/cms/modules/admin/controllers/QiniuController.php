@@ -17,7 +17,7 @@ class QiniuController extends AdminController{
 			));
 		}else{
 			Response::notify('error', array(
-				'message'=>'上传七牛出错'.$result['message']->Err,
+				'message'=>'上传七牛出错：'.$result['message'],
 			));
 		}
 	}
@@ -27,7 +27,7 @@ class QiniuController extends AdminController{
 		
 		if($result !== true){
 			Response::notify('error', array(
-				'message'=>'从七牛删除文件出错:'.$result->Err,
+				'message'=>'从七牛删除文件出错：'.$result,
 			));
 		}else{
 			Response::notify('success', array(

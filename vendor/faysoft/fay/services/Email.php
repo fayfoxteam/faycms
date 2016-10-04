@@ -2,7 +2,6 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\core\Loader;
 use fay\core\ErrorException;
 
 class Email extends Service{
@@ -24,10 +23,8 @@ class Email extends Service{
 			return true;
 		}
 		
-		Loader::vendor('PHPMailer/class.phpmailer');
-		
 		$mail = new \PHPMailer ();
-		$mail->IsSMTP ();
+		$mail->isSMTP ();
 		$mail->SMTPDebug = false;
 		$mail->Host = $config['Host'];
 		$mail->SMTPAuth = true;
@@ -40,18 +37,18 @@ class Email extends Service{
 		$mail->FromName = empty($config['FromName']) ? '' : $config['FromName'];
 		if(is_array($address)){
 			foreach($address as $a){
-				$mail->AddAddress($a);
+				$mail->addAddress($a);
 			}
 		}else{
-			$mail->AddAddress($address); // Add a recipient
+			$mail->addAddress($address); // Add a recipient
 		}
 	
-		$mail->IsHTML(true); // Set email format to HTML
+		$mail->isHTML(true); // Set email format to HTML
 	
 		$mail->Subject = $subject;
 		$mail->Body = $body;
 	
-		if (!$mail->Send ()){
+		if (!$mail->send ()){
 			return $mail->ErrorInfo;
 		}
 		return true;

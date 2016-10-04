@@ -5,8 +5,7 @@ use fay\core\Loader;
 ?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php
-		Loader::vendor('Markdown/markdown');
-		echo Markdown($model['description']);
+		echo \Michelf\MarkdownExtra::defaultTransform($model['description']);
 	?></div>
 </div>
 <div class="panel">
@@ -42,7 +41,7 @@ use fay\core\Loader;
 						}
 					?></td>
 					<td><?php echo Html::encode($p['sample'])?></td>
-					<td><?php echo Markdown($p['description'])?></td>
+					<td><?php echo \Michelf\MarkdownExtra::defaultTransform($p['description'])?></td>
 				</tr>
 			<?php }?>
 			</tbody>

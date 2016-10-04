@@ -134,9 +134,6 @@ $this->appendCss($this->assets('faycms/css/diff.css'))?>
 		</table>
 	</div>
 	<div class="col-12"><?php
-		Loader::vendor('phpspec/php-diff/lib/Diff');
-		Loader::vendor('phpspec/php-diff/lib/Diff/Renderer/Html/SideBySide');
-		
 		$diff = new Diff(explode("\n", $left_ddl), explode("\n", $right_ddl), array(
 			'context'=>10,
 		));

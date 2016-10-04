@@ -48,6 +48,7 @@ class DbCompareController extends ToolsController{
 				'host'=>$this->db_config['left']['host'],
 				'user'=>$this->db_config['left']['user'],
 				'password'=>$this->db_config['left']['password'],
+				'port'=>$this->db_config['left']['port'],
 				'dbname'=>$this->db_config['left']['dbname'],
 				'table_prefix'=>$this->db_config['left']['prefix'],
 			));
@@ -56,6 +57,7 @@ class DbCompareController extends ToolsController{
 				'host'=>$this->db_config['right']['host'],
 				'user'=>$this->db_config['right']['user'],
 				'password'=>$this->db_config['right']['password'],
+				'port'=>$this->db_config['right']['port'],
 				'dbname'=>$this->db_config['right']['dbname'],
 				'table_prefix'=>$this->db_config['right']['prefix'],
 			));
@@ -77,6 +79,7 @@ class DbCompareController extends ToolsController{
 					'host'=>$this->config->get('db.host'),
 					'user'=>$this->config->get('db.user'),
 					'password'=>$this->config->get('db.password'),
+					'port'=>$this->config->get('db.port'),
 					'dbname'=>$this->config->get('db.dbname'),
 					'prefix'=>$this->config->get('db.table_prefix'),
 				);
@@ -85,6 +88,7 @@ class DbCompareController extends ToolsController{
 					'host'=>$left_config['host'],
 					'user'=>$left_config['user'],
 					'password'=>$left_config['password'],
+					'port'=>$left_config['port'],
 					'dbname'=>$left_config['dbname'],
 					'prefix'=>$left_config['prefix'] ? $left_config['prefix'] : '',
 				);
@@ -96,6 +100,7 @@ class DbCompareController extends ToolsController{
 					'host'=>$this->config->get('db.host'),
 					'user'=>$this->config->get('db.user'),
 					'password'=>$this->config->get('db.password'),
+					'port'=>$this->config->get('db.port'),
 					'dbname'=>$this->config->get('db.dbname'),
 					'prefix'=>$this->config->get('db.table_prefix'),
 				);
@@ -104,6 +109,7 @@ class DbCompareController extends ToolsController{
 					'host'=>$right_config['host'],
 					'user'=>$right_config['user'],
 					'password'=>$right_config['password'],
+					'port'=>$right_config['port'],
 					'dbname'=>$right_config['dbname'],
 					'prefix'=>$right_config['prefix'] ? $right_config['prefix'] : '',
 				);
@@ -114,14 +120,16 @@ class DbCompareController extends ToolsController{
 				'host'=>$left_config['host'],
 				'user'=>$left_config['user'],
 				'password'=>$left_config['password'],
+				'port'=>$left_config['port'],
 				'dbname'=>$left_config['dbname'],
 				'prefix'=>$left_config['prefix'],
 			));
-				
+			
 			$this->right_db = new \cms\library\Db(array(
 				'host'=>$right_config['host'],
 				'user'=>$right_config['user'],
 				'password'=>$right_config['password'],
+				'port'=>$right_config['port'],
 				'dbname'=>$right_config['dbname'],
 				'prefix'=>$right_config['prefix'],
 			));

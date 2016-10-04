@@ -36,6 +36,13 @@ use fay\helpers\Html;
 					))?>
 				</div>
 				<div class="form-field">
+					<label class="title bold">Port</label>
+					<?php echo F::form()->inputText('left[port]', array(
+						'data-required'=>"Db Port can't be empty",
+						'class'=>'form-control mw400',
+					), 3306)?>
+				</div>
+				<div class="form-field">
 					<label class="title bold">Db Name<em class="fc-red">*</em></label>
 					<?php echo F::form()->inputText('left[dbname]', array(
 						'data-required'=>"Db Name can't be empty",
@@ -81,6 +88,13 @@ use fay\helpers\Html;
 					<?php echo F::form()->inputText('right[password]', array(
 						'class'=>'form-control mw400',
 					))?>
+				</div>
+				<div class="form-field">
+					<label class="title bold">Port</label>
+					<?php echo F::form()->inputText('right[port]', array(
+						'data-required'=>"Db Port can't be empty",
+						'class'=>'form-control mw400',
+					), 3306)?>
 				</div>
 				<div class="form-field">
 					<label class="title bold">Db Name<em class="fc-red">*</em></label>

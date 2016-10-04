@@ -1,5 +1,4 @@
 <?php
-use fay\core\Loader;
 use fay\helpers\Html;
 use apidoc\helpers\ApiHelper;
 use apidoc\helpers\TrackHelper;
@@ -7,8 +6,7 @@ use apidoc\helpers\TrackHelper;
 <?php if($api['api']['description']){?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php
-		Loader::vendor('Markdown/markdown');
-		echo Markdown($api['api']['description']);
+		echo \Michelf\MarkdownExtra::defaultTransform($api['api']['description']);
 	?></div>
 </div>
 <?php }?>

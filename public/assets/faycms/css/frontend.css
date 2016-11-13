@@ -3,14 +3,13 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0;font-size:100%}
 article,aside,div,dt,figcaption,footer,form,header,html,map,nav,section{display:block}
 body{background-color:#fff}
-html,body{width:100%;font-size:100%}
+html,body{width:100%}
 ul,ul li{list-style:none}
 img{border:0}
 table{border-spacing:0}
 *:focus{outline:none}
-*{box-sizing:border-box}
+*{box-sizing:border-box;font-size:100%;line-height:100%}
 *:before,*:after{box-sizing:border-box}
-p,blockquote{margin-bottom:1.4286em}
 
 /* 一些工具类 */
 .cb{clear:both}

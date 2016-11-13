@@ -1,15 +1,1 @@
 @CHARSET "UTF-8";
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0}
-article,aside,div,dt,figcaption,footer,form,header,hgroup,html,map,nav,section{display:block}
-ul,ul li{list-style:none}
-img{border:0}
-table{border-spacing:0}
-*:focus{outline:none}
-
-.cb{clear:both}
-.cf{zoom:1;clear:left} 
-.cf:before,.cf:after{content:"";display:table}
-.cf:after{clear: both}
-.fl{float:left}
-.fr{float:right}
-.hide{display:none}

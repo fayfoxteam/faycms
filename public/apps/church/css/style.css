@@ -14,6 +14,7 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 /* 链接式样 */
 a{color:#1dc6df;transition:all ease .3s;text-decoration:none}
 a:hover{color:#3799ab}
+p,blockquote{margin-bottom:1.4286em}
 
 /* 动画效果 */
 .animated{animation-duration:500ms;animation-fill-mode:both}

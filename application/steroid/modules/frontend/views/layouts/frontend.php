@@ -17,6 +17,7 @@ use fay\helpers\Html;
 	<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/animate/animate.min.css')?>" >
+	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" >
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
 	<?php echo $this->getCss()?>

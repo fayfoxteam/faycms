@@ -1,5 +1,4 @@
 <section class="section" id="section-banner">
-	<a href="javascript:;" class="section-anchor"></a>
 	<div class="bg" style="background-image:url(<?php echo $this->appStatic('images/HPLC_bd5djg.jpg')?>)">
 		<div class="container">
 			<div class="row">
@@ -87,7 +86,7 @@
 							<textarea name="message" placeholder="Message: It's highly appreciated to inquiry with product names, quantities and your country name, thanks."></textarea>
 						</fieldset>
 						<fieldset>
-							<a href="javascript:;" class="btn form-submit" id="contact-form-submit">SUBMIT</a>
+							<a href="javascript:;" class="btn btn-transparent" id="contact-form-submit">SUBMIT</a>
 						</fieldset>
 					</form>
 				</div>
@@ -181,6 +180,95 @@
 					</div>
 				</div>
 			</article>
+		</div>
+	</div>
+</section>
+<section class="section" id="section-blog">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title-group">
+					<h2 class="title">Community of Steroid Production</h2>
+					<div class="description">
+						<p>Join us with the process for producing finished injectables, capsules and tablets, etc.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row post-list">
+			<div class="col-md-12">
+				<article class="cf">
+					<div class="image-container">
+						<a href=""><img src="http://img.haimi.com/FqJcZ4iMbrhr-cCsfyxaJFTZ4BgN" width="80" height="80"></a>
+					</div>
+					<div class="post-info">
+						<h3 class="title">Anavar Raw Buy Oxandrolone Powder</h3>
+						<h6 class="description">September 6 · Buy Anavar Powder,Oxandrolone Powder,Oral Steroid Powder</h6>
+						<p class="abstract">Anavar - Highly Effective Yet Safe and Affordable Oxandrolone / Anavar for women is just as testosterone is for men; anavar is nearly the perfect oral steroid. If you want a highly effective yet safe and affordable anabolic steroid for cutting cycles, lean muscle building cycles, or fat loss...</p>
+					</div>
+				</article>
+				<article class="cf">
+					<div class="image-container">
+						<a href=""><img src="http://img.haimi.com/FqJcZ4iMbrhr-cCsfyxaJFTZ4BgN" width="80" height="80"></a>
+					</div>
+					<div class="post-info">
+						<h3 class="title">Anavar Raw Buy Oxandrolone Powder</h3>
+						<h6 class="description">September 6 · Buy Anavar Powder,Oxandrolone Powder,Oral Steroid Powder</h6>
+						<p class="abstract">Anavar - Highly Effective Yet Safe and Affordable Oxandrolone / Anavar for women is just as testosterone is for men; anavar is nearly the perfect oral steroid. If you want a highly effective yet safe and affordable anabolic steroid for cutting cycles, lean muscle building cycles, or fat loss...</p>
+					</div>
+				</article>
+				<article class="cf">
+					<div class="image-container">
+						<a href=""><img src="http://img.haimi.com/FqJcZ4iMbrhr-cCsfyxaJFTZ4BgN" width="80" height="80"></a>
+					</div>
+					<div class="post-info">
+						<h3 class="title">Anavar Raw Buy Oxandrolone Powder</h3>
+						<h6 class="description">September 6 · Buy Anavar Powder,Oxandrolone Powder,Oral Steroid Powder</h6>
+						<p class="abstract">Anavar - Highly Effective Yet Safe and Affordable Oxandrolone / Anavar for women is just as testosterone is for men; anavar is nearly the perfect oral steroid. If you want a highly effective yet safe and affordable anabolic steroid for cutting cycles, lean muscle building cycles, or fat loss...</p>
+					</div>
+				</article>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section" id="section-faq">
+	<div class="bg" style="background-image:url(<?php echo $this->appStatic('images/120.jpg')?>)">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="title-group">
+						<h2 class="title">Frequent Asked Questions</h2>
+						<div class="description">
+							<p>Do please read carefully before ordering, it will make your life a lot of easier.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row question-list">
+				<div class="col-md-12">
+					<article>
+						<strong>Q1 - How to place an order?</strong>
+						<p>First of all, please finish reading our FAQ. After that, please send your inquiry with the specified product names and their quantities by filling the inquiry form or to any contact method listed on our site. David Li will handle your order. We aim to reply within 1 to 12 hours. And David's only email address is david@pharmade.com. Please add David's email into your trust list, so he'll be sure to land in you inbox.</p>
+						<p>We will offer our best prices for your specified orders. After that, we will ask for payment upfront. Once that's done, orders will be sent out immediately within one working day. There will be a tracking number for each parcel, so you know where exact is your order. After the parcel passed the customs, your order will be delivered by your local post office.</p>
+					</article>
+					<article>
+						<strong>Q1 - How to place an order?</strong>
+						<p>We will offer our best prices for your specified orders. After that, we will ask for payment upfront. Once that's done, orders will be sent out immediately within one working day. There will be a tracking number for each parcel, so you know where exact is your order. After the parcel passed the customs, your order will be delivered by your local post office.</p>
+					</article>
+					<article>
+						<strong>Q1 - How to place an order?</strong>
+						<p>First of all, please finish reading our FAQ. After that, please send your inquiry with the specified product names and their quantities by filling the inquiry form or to any contact method listed on our site. David Li will handle your order. We aim to reply within 1 to 12 hours. And David's only email address is david@pharmade.com. Please add David's email into your trust list, so he'll be sure to land in you inbox.</p>
+					</article>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="separator-container">
+						<div class="separator"></div>
+					</div>
+					<a href="javascript:;" class="btn btn-transparent">Contact For More Questions?</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>

@@ -11,33 +11,35 @@ jQuery.fn.extend({
 	 */
 	'scrollIn': function(callback, offset){
 		offset = offset || 0;
-		
-		var _this = $(this);
-		if(!_this.length){
-			return _this;
-		}
-		var listen = function(){
-			var scrollOffset = $(window).scrollTop();
-			var elementOffset = _this.offset().top;
-			var windowHeight = $(window).height();
-			var elementHeight = _this.height();
 
-			if(scrollOffset + windowHeight > elementOffset + offset && scrollOffset < elementOffset + elementHeight - offset){
-				callback(_this);
+		this.each(function() {
+			var _this = $(this);
+			if (!_this.length) {
+				return _this;
 			}
-		};
+			var listen = function () {
+				var scrollOffset = $(window).scrollTop();
+				var elementOffset = _this.offset().top;
+				var windowHeight = $(window).height();
+				var elementHeight = _this.height();
+
+				if (scrollOffset + windowHeight > elementOffset + offset && scrollOffset < elementOffset + elementHeight - offset) {
+					callback(_this);
+				}
+			};
+
+			$(window).resize(function () {
+				listen();
+			});
+			$(window).scroll(function () {
+				listen();
+			});
+			$(document).ready(function () {
+				listen();
+			});
+		});
 		
-		$(window).resize(function(){
-			listen();
-		});
-		$(window).scroll(function(){
-			listen();
-		});
-		$(document).ready(function(){
-			listen();
-		});
-		
-		return _this;
+		return this;
 	},
 	/**
 	 * 选中元素离开视野后触发回调
@@ -48,33 +50,34 @@ jQuery.fn.extend({
 	 */
 	'scrollOut': function(callback, offset){
 		offset = offset || 0;
-		
-		var _this = $(this);
-		if(!_this.length){
-			return _this;
-		}
-		var listen = function(){
-			var scrollOffset = $(window).scrollTop();
-			var elementOffset = _this.offset().top;
-			var windowHeight = $(window).height();
-			var elementHeight = _this.height();
 
-			if(scrollOffset > elementOffset + elementHeight + offset || scrollOffset + windowHeight < elementOffset - offset){
-				console.log('out');
-				callback(_this);
+		this.each(function() {
+			var _this = $(this);
+			if (!_this.length) {
+				return _this;
 			}
-		};
+			var listen = function () {
+				var scrollOffset = $(window).scrollTop();
+				var elementOffset = _this.offset().top;
+				var windowHeight = $(window).height();
+				var elementHeight = _this.height();
 
-		$(window).resize(function(){
-			listen();
-		});
-		$(window).scroll(function(){
-			listen();
-		});
-		$(document).ready(function(){
-			listen();
+				if (scrollOffset > elementOffset + elementHeight + offset || scrollOffset + windowHeight < elementOffset - offset) {
+					callback(_this);
+				}
+			};
+
+			$(window).resize(function () {
+				listen();
+			});
+			$(window).scroll(function () {
+				listen();
+			});
+			$(document).ready(function () {
+				listen();
+			});
 		});
 
-		return _this;
+		return this;
 	}
 });

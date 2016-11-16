@@ -77,3 +77,16 @@ a.section-anchor{top:-56px;position:absolute;left:0;}
 .contact-form fieldset textarea{height:120px}
 .contact-form .form-submit{border:2px solid #fff;color:#fff;}
 .contact-form .form-submit:hover{background-color:rgba(255,255,255,0.1);}
+
+#section-ancillary{padding:80px 0;background-color:#fff;}
+#section-ancillary .title-group .title{font-size:2.57em;margin-bottom:1.1em;text-align:center;}
+#section-ancillary .title-group .description{color:#0dc5b9;text-align:center;margin-bottom:0.9em;font-size:1.45em;}
+#section-ancillary .ancillary-list{margin-top:50px;}
+#section-ancillary .ancillary-list article{margin-bottom:35px;}
+#section-ancillary .ancillary-list .image-container img{width:100%;}
+#section-ancillary .ancillary-list .ancillary-info{border:1px solid rgba(0,0,0,0.2);border-radius:3px;padding:23px 28px;}
+#section-ancillary .ancillary-list .title{font-size:1.71em;margin-bottom:15px;}
+#section-ancillary .ancillary-list .description{color:#0dc5b9;margin-bottom:15px;}
+#section-ancillary .ancillary-list .description a{color:#e40613;border-bottom:1px solid rgba(228,6,19,0.7);}
+#section-ancillary .ancillary-list .description a:hover{color:#2be5ff;border-bottom:1px solid #2be5ff;}
+#section-ancillary .ancillary-list .text{line-height:1.4em;}

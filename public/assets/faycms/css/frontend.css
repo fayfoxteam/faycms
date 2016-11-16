@@ -11,15 +11,6 @@ table{border-spacing:0}
 *{box-sizing:border-box;font-size:100%;line-height:100%}
 *:before,*:after{box-sizing:border-box}
 
-/* 一些工具类 */
-.cb{clear:both}
-.cf{zoom:1;clear:left}
-.cf:before,.cf:after{content:"";display:table}
-.cf:after{clear:both}
-.fl{float:left}
-.fr{float:right}
-.hide{display:none}
-
 /* 栅格布局 */
 .container{padding-right:30px;padding-left:30px;margin-right:auto;margin-left:auto}
 .container,.row{zoom:1;clear:left}
@@ -94,3 +85,12 @@ table{border-spacing:0}
     .col-lg-2{width:16.66666667%}
     .col-lg-1{width:8.33333333%}
 }
+
+/* 一些工具类 */
+.cb{clear:both}
+.cf{zoom:1;clear:left}
+.cf:before,.cf:after{content:"";display:table}
+.cf:after{clear:both}
+.fl{float:left}
+.fr{float:right}
+.hide{display:none}

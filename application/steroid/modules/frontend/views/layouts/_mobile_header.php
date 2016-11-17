@@ -6,7 +6,7 @@ use fay\helpers\Html;
 	<nav class="navigator">
 		<div class="nav-left">
 			<ul>
-				<li><a href="">Home</a></li>
+				<li><a href="#">Home</a></li>
 				<li><a href="">Home</a></li>
 				<li><a href="">Home</a></li>
 				<li><a href="">Home</a></li>
@@ -19,7 +19,7 @@ use fay\helpers\Html;
 		</div>
 		<div class="nav-right">
 			<ul>
-				<li><a href="">Home</a></li>
+				<li><a href="#section-blog">Blog</a></li>
 				<li><a href="">Home</a></li>
 				<li><a href="">Home</a></li>
 				<li><a href="">Home</a></li>

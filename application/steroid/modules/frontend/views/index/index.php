@@ -262,7 +262,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 center">
 					<div class="separator-container">
 						<div class="separator"></div>
 					</div>

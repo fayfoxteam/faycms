@@ -72,7 +72,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<form class="contact-form" id="contact-form">
+					<form class="contact-form" id="contact-form" action="<?php echo $this->url('contact/send')?>" method="post">
 						<fieldset>
 							<input name="name" placeholder="Your Name" />
 						</fieldset>
@@ -278,3 +278,28 @@
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </section>
+<script>
+	var contact = {
+		'validform': function(rules, labels){
+			system.getScript(system.assets('faycms/js/fayfox.validform.js'), function(){
+				$('#contact-form').validform({
+					'showAllErrors': false,
+					'onError': function(obj, msg, rule){
+						common.toast(msg, 'error');
+					},
+					'ajaxSubmit': true,
+					'afterAjaxSubmit': function(resp){
+						if(resp.status){
+							common.toast('Message has been send', 'success');
+						}else{
+							common.toast(resp.message, 'error');
+						}
+					}
+				}, rules, labels);
+			});
+		}
+	};
+	$(function(){
+		contact.validform(<?php echo json_encode(F::form()->getJsRules())?>, <?php echo json_encode(F::form()->getLabels())?>);
+	});
+</script>

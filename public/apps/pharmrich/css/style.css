@@ -90,7 +90,7 @@ h6{font-size:13px;line-height:20px;margin:30px 0 20px;font-weight:600;}
 .toast-close-link:hover{opacity:1;color:#fff}
 @media only screen and (max-width: 500px) {
 	.toast-container{width:100%;}
-	.toast-bottom-middle{margin:0 20px;width:100%;left:auto;}	
+	.toast-bottom-middle{margin:0 20px;width:100%;left:auto;}
 	.toast-container > div.toast{width:90%;}
 }
 

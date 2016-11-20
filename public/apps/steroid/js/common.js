@@ -70,8 +70,8 @@ var common = {
 			
 			//ancillary列表项滑入
 			$('.ancillary-list article').scrollIn(function(o){
-				$(o).find('.fr').addClass('animated fadeInRight');
-				$(o).find('.fl').addClass('animated fadeInLeft');
+				$(o).find('.col-md-4').addClass('animated fadeInRight');
+				$(o).find('.col-md-8').addClass('animated fadeInLeft');
 			});
 			
 			//faq

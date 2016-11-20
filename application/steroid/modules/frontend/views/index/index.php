@@ -145,10 +145,10 @@
 		</div>
 		<div class="row ancillary-list">
 			<article class="cf">
-				<div class="col-md-4 fr image-container">
+				<div class="col-md-4 col-sm-4 image-container">
 					<a href=""><img src="http://img.haimi.com/FqJcZ4iMbrhr-cCsfyxaJFTZ4BgN"></a>
 				</div>
-				<div class="col-md-8 fl">
+				<div class="col-md-8 col-sm-8">
 					<div class="ancillary-info">
 						<h3 class="title">Sex Enhancement Powders</h3>
 						<h6 class="description">Check full prices of <a href="">sex enhancers powders</a> we are offering:</h6>
@@ -157,10 +157,10 @@
 				</div>
 			</article>
 			<article class="cf">
-				<div class="col-md-4 fr image-container">
+				<div class="col-md-4 col-sm-4 image-container">
 					<a href=""><img src="http://img.haimi.com/FqJcZ4iMbrhr-cCsfyxaJFTZ4BgN"></a>
 				</div>
-				<div class="col-md-8 fl">
+				<div class="col-md-8 col-sm-8">
 					<div class="ancillary-info">
 						<h3 class="title">Sex Enhancement Powders</h3>
 						<h6 class="description">Check full prices of sex enhancers powders we are offering:</h6>
@@ -169,10 +169,10 @@
 				</div>
 			</article>
 			<article class="cf">
-				<div class="col-md-4 fr image-container">
+				<div class="col-md-4 col-sm-4 image-container">
 					<a href=""><img src="http://img.haimi.com/FqJcZ4iMbrhr-cCsfyxaJFTZ4BgN"></a>
 				</div>
-				<div class="col-md-8 fl">
+				<div class="col-md-8 col-sm-8">
 					<div class="ancillary-info">
 						<h3 class="title">Sex Enhancement Powders</h3>
 						<h6 class="description">Check full prices of sex enhancers powders we are offering:</h6>

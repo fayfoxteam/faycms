@@ -30,7 +30,8 @@ use fay\helpers\Html;
 <body>
 <div class="wrapper">
 	<?php $this->renderPartial('layouts/_header')?>
-	<?php $this->renderPartial('layouts/_mobile_header')?>
+	<?php $this->renderPartial('layouts/_fixed_header')?>
+	<?php $this->renderPartial('layouts/_mobile_nav')?>
 	<?php echo $content?>
 	<?php $this->renderPartial('layouts/_footer');?>
 	<div class="page-copyright">

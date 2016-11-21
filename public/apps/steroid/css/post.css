@@ -1,28 +1,53 @@
 @CHARSET "UTF-8";
-.blog-header{background:transparent url(images/10.jpg) no-repeat scroll center center;background-size:cover;position:relative;}
-.blog-header .return-to-site{position:absolute;top:30px;left:30px;box-shadow:inset 0 0 2px rgba(0,0,0,0.2);z-index:10;background:rgba(0,0,0,0.35);border-radius:3px;padding:8px 10px;color:#fff;display:inline-block;}
-.blog-header .post-title{padding:200px 0 80px;}
-.blog-header .post-title h1,.blog-header .post-title h2{text-shadow:0 1px 12px rgba(0,0,0,0.35);color:#fff;}
-.blog-header .post-title h1{line-height:1.25;margin-bottom:10px;font-size:45px;}
-.blog-header .post-title h2{font-size:24px;}
+.blog-header{background:transparent url(images/10.jpg) no-repeat scroll center center;background-size:cover;position:relative}
+.blog-header .return-to-site{position:absolute;top:30px;left:30px;box-shadow:inset 0 0 2px rgba(0,0,0,0.2);z-index:10;background:rgba(0,0,0,0.35);border-radius:3px;padding:8px 10px;color:#fff;display:inline-block}
+.blog-header .post-title{padding:200px 0 80px}
+.blog-header .post-title h1,.blog-header .post-title h2{text-shadow:0 1px 12px rgba(0,0,0,0.35);color:#fff}
+.blog-header .post-title h1{line-height:1.25;margin-bottom:10px;font-size:45px}
+.blog-header .post-title h2{font-size:24px}
 
-.post-meta{color:#999;border-bottom:1px solid #ddd;padding:12px 0;}
+.post-meta{color:#999;border-bottom:1px solid #ddd;padding:12px 0}
 .post-meta a.tag:after{content:","}
 .post-meta a.tag:last-child:after{content:""}
-.post-content{padding:40px 0;}
+.post-content{padding:40px 0}
 
-.separator-container{padding:16px 0;margin-bottom:35px;}
-.separator{height:3px;background-color:#ddd;width:240px;margin:10px auto;border-radius:2px;}
+.separator-container{padding:16px 0;margin-bottom:35px}
+.separator{height:3px;background-color:#ddd;width:240px;margin:10px auto;border-radius:2px}
 
-.post-nav{padding:22px 0;border-top:1px solid #ddd;color:#999;margin-top:100px;}
-.post-nav .previous a,.post-nav .next a{color:#999;}
-.post-nav .next{text-align:right;}
-.post-nav a.post-title{margin-top:5px;color:#000;font-weight:300;display:block;width:100%;font-size:24px;}
+.post-nav{padding:22px 0;border-top:1px solid #ddd;color:#999;margin-top:100px}
+.post-nav .previous a,.post-nav .next a{color:#999}
+.post-nav .next{text-align:right}
+.post-nav a.post-title{margin-top:5px;color:#000;font-weight:300;display:block;width:100%;font-size:24px}
 @media(max-width:992px){
-    .post-nav .next{text-align:left;margin-top:10px;}
+    .post-nav .next{text-align:left;margin-top:10px}
 }
 
+.blog-footer{padding-top:22px;padding-bottom:100px;border-top:1px solid #ddd}
+.blog-footer .return-to-site{color:#999}
+.blog-footer .copy-right{float:right;color:#bbb}
 
-.blog-footer{padding:22px 0;border-top:1px solid #ddd;}
-.blog-footer .return-to-site{color:#999;}
-.blog-footer .copy-right{float:right;color:#bbb;}
+.page-content{margin-top:6em;margin-bottom:6em;}
+
+/* 侧边栏小工具域 */
+.widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555}
+.widget-area .widget+.widget{margin-top:2em;padding-top:1.8em}
+.widget-area h5.widget-title{color:#212121;margin-bottom:0.7778em;font-size:1.2em;font-weight:bold}
+.widget-area article{overflow:hidden}
+.widget-area article + article{margin-top:2px;padding-top:1em}
+.widget-area article .post-title a{color:#212121}
+.widget-area article .post-title a:hover{color:#1dc6df}
+.widget-area article .post-thumb{float:left;margin:2px 1em 2px 0;overflow:hidden;width:4.2857em;height:4.2857em}
+.widget-area article .post-thumb img{width:100%}
+.widget-area article .post-container{overflow:hidden}
+.widget-area article .post-meta{color:#999}
+.widget-area article .post-meta .post-meta-time:before{display:inline-block;content:"/";vertical-align:top;margin:0 0.3077em;color:#999}
+
+/* 侧边栏分类列表 */
+.widget-categories ul li{padding:13px 0 14px;color:#999;text-align:right;overflow:hidden;border-top:solid 1px #e3e9ed}
+.widget-categories ul li:first-child{border-top:none}
+.widget-categories ul li a{color:#555;float:left;max-width:80%;text-align:left}
+.widget-categories ul li a:hover{color:#48c7de;padding-left:3px}
+
+/* 标签云 */
+.widget-tag-cloud .tag-cloud a{display:block;float:left;padding:4px 18px 4px;margin:0 2px 2px 0;font-size:0.7143em !important;text-align:center;background-color:#ffffff !important;color:#999999 !important;font-weight:700;line-height:2em}
+.widget-tag-cloud .tag-cloud a:hover{background-color:#ff0818 !important;color:#fff !important}

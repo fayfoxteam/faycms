@@ -38,15 +38,16 @@ var common = {
 	},
 	'scrollTo': function(){
 		system.getScript(system.assets('js/jquery.scrollTo.min.js'), function(){
-			$('a[href^="#"]').on('click', function(){
+			$(document).on('click', 'a[href^="#"]', function(){
 				var href = $(this).attr('href');
+				var offset = $(window).width() > 768 ? -60 : 0;
 				if(href == '#'){
 					$.scrollTo(0, 500, {
-						offset:-60
+						offset:0
 					});
 				}else{
 					$.scrollTo($(this).attr('href'), 500, {
-						offset:-60
+						offset:offset
 					});
 				}
 				
@@ -95,9 +96,23 @@ var common = {
 			});
 		});
 	},
+	'mobileNav': function(){
+		var $mobileNav = $('#mobile-nav');
+		$mobileNav.on('click', '.mobile-bar-container a', function(){
+			//点击开关按钮
+			$mobileNav.toggleClass('open');
+		}).on('click', '.navigator a', function(){
+			//点击菜单项
+			$mobileNav.removeClass('open');
+		}).on('click', '.mobile-nav-mask', function(){
+			//点击蒙板
+			$mobileNav.removeClass('open');
+		});
+	},
 	'init': function(){
 		this.form();
 		this.animate();
+		this.mobileNav();
 		this.scrollTo();
 	}
 };

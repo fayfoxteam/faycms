@@ -204,4 +204,132 @@ class Image{
 		imageline($src_img, 0, $src_height-1, $src_width-1, $src_height-1, $lincolor);	//下边
 		imageline($src_img, 0, 0, 0, $src_height-1, $lincolor);	//左边
 	}
+	
+	/**
+	 * 往图片上写一行字，居中对齐
+	 * @param resource $src_img 图像资源
+	 * @param float $size 字体大小
+	 * @param int $y 文字顶端距离图片顶部距离
+	 * @param int $color 见 imagecolorallocate()。
+	 * @param string $font_file 字体文件
+	 * @param string $text 文本
+	 * @param float $line_height 行高，例如：1.5代表1.5倍行高
+	 * @param int $lines 最大显示行数。为0则不限制行数
+	 * @param int $max_width 最大宽度，达到这个宽度后换行。为0则超过图片宽度时换行
+	 * @return resource
+	 */
+	public static function textCenter($src_img, $size, $y, $color, $font_file, $text, $line_height = 1.5, $lines = 0, $max_width = 0){
+		//图片宽度
+		$img_width = imagesx($src_img);
+		$max_width || $max_width = $img_width;
+		
+		$box = imagettfbbox($size, 0, $font_file, $text);
+		
+		//文字总宽高
+		$text_width = $box[2] - $box[0];
+		$text_height = $box[1] - $box[7];
+		
+		//第一行的y坐标点
+		$start_y = $y + $text_height;
+		
+		if($text_width < $max_width){
+			//文字宽度小于绘图区域宽度，直接一行写完就好了
+			//第一行的x坐标点
+			$start_x = intval(($img_width - $text_width) / 2);
+			
+			imagettftext($src_img, 14, 0, $start_x, $start_y, $color, $font_file, $text);
+		}else{
+			//文字宽度大于绘图区域宽度，进行拆分
+			$text_arr = self::splitByWidth($max_width, $size, $font_file, $text, $lines);
+			foreach($text_arr as $sub_text){
+				$box = imagettfbbox($size, 0, $font_file, $sub_text);
+				$text_width = $box[2] - $box[0];
+				//x坐标点
+				$start_x = intval(($img_width - $text_width) / 2);
+				
+				imagettftext($src_img, 14, 0, $start_x, $start_y, $color, $font_file, $sub_text);
+				$start_y += $text_height * $line_height;
+			}
+		}
+		
+		return $src_img;
+	}
+	
+	/**
+	 * 往图片上写一行字，居左对齐
+	 * @param resource $src_img 图像资源
+	 * @param float $size 字体大小
+	 * @param int $x 文字起始X坐标点
+	 * @param int $y 文字顶端距离图片顶部距离
+	 * @param int $color 见 imagecolorallocate()。
+	 * @param string $font_file 字体文件
+	 * @param string $text 文本
+	 * @param float $line_height 行高，例如：1.5代表1.5倍行高
+	 * @param int $lines 最大显示行数。为0则不限制行数
+	 * @param int $max_width 最大宽度，达到这个宽度后换行。为0则超过图片宽度时换行
+	 * @return resource
+	 */
+	public static function textLeft($src_img, $size, $x, $y, $color, $font_file, $text, $line_height = 1.5, $lines = 0, $max_width = 0){
+		//图片宽度
+		$img_width = imagesx($src_img);
+		$max_width || $max_width = $img_width;
+		
+		$box = imagettfbbox($size, 0, $font_file, $text);
+		
+		//文字总宽高
+		$text_width = $box[2] - $box[0];
+		$text_height = $box[1] - $box[7];
+		
+		//第一行的y坐标点
+		$start_y = $y + $text_height;
+		
+		if($text_width < $max_width){
+			//文字宽度小于绘图区域宽度，直接一行写完就好了
+			imagettftext($src_img, 14, 0, $x, $start_y, $color, $font_file, $text);
+		}else{
+			//文字宽度大于绘图区域宽度，进行拆分
+			$text_arr = self::splitByWidth($max_width, $size, $font_file, $text, $lines);
+			foreach($text_arr as $sub_text){
+				imagettftext($src_img, 14, 0, $x, $start_y, $color, $font_file, $sub_text);
+				$start_y += $text_height * $line_height;
+			}
+		}
+		
+		return $src_img;
+	}
+	
+	/**
+	 * 将一个字符串拆分，保证每项宽度都不超过$width
+	 * @param int $width
+	 * @param float $size
+	 * @param string $font_file 字体文件
+	 * @param string $text 文本
+	 * @return array
+	 */
+	private static function splitByWidth($width, $size, $font_file, $text, $lines = 0){
+		$return = array();
+		$sub_str = '';
+		$str_length = mb_strlen($text, 'utf-8');
+		for($i = 0; $i < $str_length; $i++){
+			$sub_str .= mb_substr($text, $i, 1, 'utf-8');
+			$box = imagettfbbox($size, 0, $font_file, $sub_str);
+			if($box[2] - $box[0] > $width){
+				//若字符串超出指定长度，截掉最后一个字，并放入待返回数组
+				$return[] = mb_substr($sub_str, 0, -1, 'utf-8');
+				if($lines && count($return) >= $lines){
+					//已达到指定行数，跳出循环
+					$sub_str = '';
+					break;
+				}
+				
+				$sub_str = mb_substr($text, $i, 1, 'utf-8');
+			}
+		}
+		
+		if($sub_str){
+			$return[] = $sub_str;
+		}
+		
+		return $return;
+	}
 }

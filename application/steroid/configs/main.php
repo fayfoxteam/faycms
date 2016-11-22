@@ -9,8 +9,8 @@ return array(
 	 */
 	'db'=>array(
 		'host'=>'localhost',					//数据库服务器
-		'user'=>'root',							//用户名
-		'password'=>'',							//密码
+		'user'=>'faycms',							//用户名
+		'password'=>'jDoBjHwVq6q2hQVN',							//密码
 		'port'=>3306,							//端口
 		'dbname'=>'faycms_steroid',					//数据库名
 		'charset'=>'utf8',						//数据库编码方式

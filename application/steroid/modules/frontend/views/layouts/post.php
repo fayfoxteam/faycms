@@ -30,7 +30,7 @@ use fay\helpers\Html;
 <body>
 <div class="wrapper">
 	<header class="blog-header">
-		<a href="" class="return-to-site">
+		<a href="<?php echo F::app()->view->url()?>" class="return-to-site">
 			<i class="fa fa-angle-left"></i>
 			Return to site
 		</a>

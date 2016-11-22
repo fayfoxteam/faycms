@@ -191,16 +191,3 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-faq .question-list article{margin-bottom:1.45em}
 #section-faq .question-list article strong{line-height:2.45}
 #section-faq .question-list article p{line-height:1.45}
-
-.post-list .post-featured{width:33.333333%;float:left;padding-right:30px;}
-.post-list .post-featured img{width:100%;}
-.post-list .post-container{width:66.666666%;float:right;}
-.post-list .post-container .post-description{color:#444;}
-.post-list .post-container h2 a{font-size:1.4em;color:#212121;}
-.post-list .post-meta{border-bottom:0;}
-.post-list .post-meta a{color:#999;}
-.post-list .post-meta a:hover{text-decoration:underline;}
-.post-list .post-meta .post-meta-item+.post-meta-item:before{display:inline-block;content:"/";vertical-align:top;margin:0 0.3077em;color:#999}
-.post-list article{position:relative;}
-.post-list article + article{border-top:1px solid #ddd;margin-top:3.5714em;padding-top:3.5714em;}
-.post-list article .post-link{position:absolute;right:10px;bottom:10px;color:#999;}

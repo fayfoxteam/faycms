@@ -237,7 +237,7 @@ class Image{
 			//第一行的x坐标点
 			$start_x = intval(($img_width - $text_width) / 2);
 			
-			imagettftext($src_img, 14, 0, $start_x, $start_y, $color, $font_file, $text);
+			imagettftext($src_img, $size, 0, $start_x, $start_y, $color, $font_file, $text);
 		}else{
 			//文字宽度大于绘图区域宽度，进行拆分
 			$text_arr = self::splitByWidth($max_width, $size, $font_file, $text, $lines);
@@ -247,7 +247,7 @@ class Image{
 				//x坐标点
 				$start_x = intval(($img_width - $text_width) / 2);
 				
-				imagettftext($src_img, 14, 0, $start_x, $start_y, $color, $font_file, $sub_text);
+				imagettftext($src_img, $size, 0, $start_x, $start_y, $color, $font_file, $sub_text);
 				$start_y += $text_height * $line_height;
 			}
 		}
@@ -285,12 +285,12 @@ class Image{
 		
 		if($text_width < $max_width){
 			//文字宽度小于绘图区域宽度，直接一行写完就好了
-			imagettftext($src_img, 14, 0, $x, $start_y, $color, $font_file, $text);
+			imagettftext($src_img, $size, 0, $x, $start_y, $color, $font_file, $text);
 		}else{
 			//文字宽度大于绘图区域宽度，进行拆分
 			$text_arr = self::splitByWidth($max_width, $size, $font_file, $text, $lines);
 			foreach($text_arr as $sub_text){
-				imagettftext($src_img, 14, 0, $x, $start_y, $color, $font_file, $sub_text);
+				imagettftext($src_img, $size, 0, $x, $start_y, $color, $font_file, $sub_text);
 				$start_y += $text_height * $line_height;
 			}
 		}

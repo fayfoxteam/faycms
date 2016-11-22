@@ -1,34 +1,13 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
 
 /**
  * @var array $posts
  */
 ?>
 <?php foreach($posts as $p){?>
-	<article>
-		<?php if($p['files']){?>
-		<div class="post-featured">
-			<div class="swiper-container post-files">
-				<div class="swiper-wrapper">
-				<?php foreach($p['files'] as $file){?>
-					<div class="swiper-slide">
-						<?php echo Html::img($file['thumbnail'], File::PIC_ORIGINAL, array(
-							'alt'=>$file['description'],
-						))?>
-					</div>
-				<?php }?>
-				</div>
-				<div class="swiper-pagination"></div>
-				<div class="swiper-control-container">
-					<a class="swiper-btn-prev"></a>
-					<a class="swiper-btn-next"></a>
-				</div>
-			</div>
-		</div>
-		<?php }?>
-		<?php if(!$p['files'] && $p['post']['thumbnail']['id']){?>
+	<article class="cf">
+		<?php if($p['post']['thumbnail']['id']){?>
 		<div class="post-featured">
 			<div class="post-thumb">
 				<a href="<?php echo $p['post']['link']?>"><?php
@@ -51,15 +30,15 @@ use fay\services\File;
 					'class'=>array('post-meta-item', 'post-meta-category'),
 				))?>
 				<span class="post-meta-item post-meta-views">
-					<span>阅读数</span>
+					<span>Reads</span>
 					<a href="<?php echo $p['post']['link']?>"><?php
 						echo $p['meta']['views']
 					?></a>
 				</span>
 			</div>
 			<div class="post-description">
-				<p><?php echo $p['post']['abstract']?></p>
-				<a href="<?php echo $p['post']['link']?>" class="btn btn-lg btn-blue">阅读全文</a>
+				<p><?php echo \fay\helpers\StringHelper::niceShort($p['post']['abstract'], 150)?></p>
+				<a href="<?php echo $p['post']['link']?>" class="post-link">Read More <span class="fa fa-angle-right"></span></a>
 			</div>
 		</div>
 	</article>

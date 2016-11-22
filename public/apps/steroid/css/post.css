@@ -46,7 +46,7 @@
 .widget-categories ul li{padding:13px 0 14px;color:#999;text-align:right;overflow:hidden;border-top:solid 1px #e3e9ed}
 .widget-categories ul li:first-child{border-top:none}
 .widget-categories ul li a{color:#555;float:left;max-width:80%;text-align:left}
-.widget-categories ul li a:hover{color:#48c7de;padding-left:3px}
+.widget-categories ul li a:hover{color:#ff0818;padding-left:3px}
 
 /* 标签云 */
 .widget-tag-cloud .tag-cloud a{display:block;float:left;padding:4px 18px 4px;margin:0 2px 2px 0;font-size:0.7143em !important;text-align:center;background-color:#ffffff !important;color:#999999 !important;font-weight:700;line-height:2em}

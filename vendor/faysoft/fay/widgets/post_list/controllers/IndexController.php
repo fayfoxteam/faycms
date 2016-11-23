@@ -74,7 +74,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			//通过文章ID，获取文章信息结构
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
+			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields);
 			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 		}
@@ -201,6 +201,18 @@ class IndexController extends Widget{
 		//用户信息
 		if(in_array('user', $this->config['fields'])){
 			$fields['user'] = $this->fields['user'];
+		}
+		//标签
+		if(in_array('tags', $this->config['fields'])){
+			$fields['tags'] = $this->fields['tags'];
+		}
+		//附加属性
+		if(in_array('props', $this->config['fields'])){
+			$fields['props'] = array(
+				'fields'=>array(
+					'*'
+				)
+			);
 		}
 		//附件缩略图
 		if(in_array('files', $this->config['fields'])){

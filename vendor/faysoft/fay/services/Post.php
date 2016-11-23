@@ -1,7 +1,6 @@
 <?php
 namespace fay\services;
 
-use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -1174,7 +1173,7 @@ class Post extends Service{
 		
 		//附加属性
 		if(!empty($fields['props'])){
-			Prop::service()->assemble($return, $fields['category']);
+			Prop::service()->assemble($return, $fields['props']);
 		}
 		
 		//作者信息

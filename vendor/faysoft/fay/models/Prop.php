@@ -200,7 +200,7 @@ abstract class Prop extends Model{
 	
 	/**
 	 * 获取一个或多个别名对应的属性
-	 * @param array|string $props 属性别名或ID构成的一维数组或逗号分割字符串
+	 * @param array|string $fields 属性别名或ID构成的一维数组或逗号分割字符串
 	 *  以第一项为判断依据
 	 *   - 若第一项是数字，视为id
 	 *   - 若第一项不是数字，视为别名
@@ -222,14 +222,14 @@ abstract class Prop extends Model{
 				"{$field} IN (?)"=>$fields['fields'],
 				'type = ' . $this->type,
 				'deleted = 0',
-			), 'id,title,type,required,element', 'sort,id');
+			), 'id,title,type,required,element,alias', 'sort,id');
 		}else{
 			//如果只有一项，搜索条件直接用等于
 			$props = Props::model()->fetchAll(array(
 				"{$field} = ?"=>$fields['fields'][0],
 				'type = ' . $this->type,
 				'deleted = 0',
-			), 'id,title,type,required,element', 'sort,id');
+			), 'id,title,type,required,element,alias', 'sort,id');
 		}
 		
 		if($with_values && $props){

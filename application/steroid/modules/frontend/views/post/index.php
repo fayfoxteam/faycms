@@ -5,7 +5,7 @@
 		</main>
 		<aside class="col-md-4">
 			<div class="widget-area">
-				<?php F::widget()->area('index-sidebar')?>
+				<?php F::widget()->area('post-list-sidebar')?>
 			</div>
 		</aside>
 	</div>

@@ -206,15 +206,29 @@ class IndexController extends Widget{
 					(empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']),
 			);
 		}
-		
+		//分类信息
 		if(in_array('category', $this->config['fields'])){
 			$fields['category'] = $this->fields['category'];
 		}
+		//计数器
 		if(in_array('meta', $this->config['fields'])){
 			$fields['meta'] = $this->fields['meta'];
 		}
+		//用户信息
 		if(in_array('user', $this->config['fields'])){
 			$fields['user'] = $this->fields['user'];
+		}
+		//标签
+		if(in_array('tags', $this->config['fields'])){
+			$fields['tags'] = $this->fields['tags'];
+		}
+		//附加属性
+		if(in_array('props', $this->config['fields'])){
+			$fields['props'] = array(
+				'fields'=>array(
+					'*'
+				)
+			);
 		}
 		if(in_array('files', $this->config['fields'])){
 			$file_fields = $this->fields['files'];

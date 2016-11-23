@@ -5,12 +5,7 @@ use fay\helpers\Html;
 <header class="page-header">
 	<nav class="navigator">
 		<div class="nav-left">
-			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="">Home</a></li>
-				<li><a href="">Home</a></li>
-				<li><a href="">Home</a></li>
-			</ul>
+			<?php F::widget()->load('nav-left');?>
 		</div>
 		<div class="nav-center">
 			<div class="logo">
@@ -21,12 +16,7 @@ use fay\helpers\Html;
 			</div>
 		</div>
 		<div class="nav-right">
-			<ul>
-				<li><a href="#section-blog">Blog</a></li>
-				<li><a href="">Home</a></li>
-				<li><a href="">Home</a></li>
-				<li><a href="">Home</a></li>
-			</ul>
+			<?php F::widget()->load('nav-right');?>
 		</div>
 	</nav>
 </header>

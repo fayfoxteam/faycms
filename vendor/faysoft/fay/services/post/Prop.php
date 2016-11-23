@@ -81,7 +81,7 @@ class Prop extends \fay\models\Prop{
 	 * @param null|string $fields 属性列表
 	 */
 	public function assemble(&$posts, $fields = null){
-		if(in_array('*', $fields)){
+		if(in_array('*', $fields['fields'])){
 			$props = null;
 		}else{
 			$props = Prop::service()->mget($fields);

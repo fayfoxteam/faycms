@@ -137,6 +137,12 @@ use fay\services\user\Role;
 				echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
 					'label'=>'计数（评论数/阅读数/点赞数）',
 				));
+				echo F::form('widget')->inputCheckbox('fields[]', 'tags', array(
+					'label'=>'标签',
+				));
+				echo F::form('widget')->inputCheckbox('fields[]', 'props', array(
+					'label'=>'附加属性',
+				));
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>

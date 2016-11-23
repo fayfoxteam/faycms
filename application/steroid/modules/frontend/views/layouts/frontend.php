@@ -33,9 +33,15 @@ use fay\helpers\Html;
 	<?php $this->renderPartial('layouts/_fixed_header')?>
 	<?php $this->renderPartial('layouts/_mobile_nav')?>
 	<?php echo $content?>
-	<?php $this->renderPartial('layouts/_footer');?>
 	<div class="page-copyright">
-		<span><?php echo Option::get('site:copyright')?></span>
+		<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+					<p>Shenzhen Shijingu Technology Co.,ltd - www.steroidsolution.com</p>
+					<p><?php echo Option::get('site:copyright')?></p>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>

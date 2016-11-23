@@ -206,6 +206,22 @@ class Image{
 	}
 	
 	/**
+	 * 获取指定文案被画到图片中后的宽高
+	 * @param $size
+	 * @param $font_file
+	 * @param $text
+	 * @return array
+	 */
+	public static function getTextSize($size, $font_file, $text){
+		$box = imagettfbbox($size, 0, $font_file, $text);
+		
+		return array(
+			'width'=>$box[2] - $box[0],
+			'height'=>$box[1] - $box[7],
+		);
+	}
+	
+	/**
 	 * 往图片上写一行字，居中对齐
 	 * @param resource $src_img 图像资源
 	 * @param float $size 字体大小
@@ -223,32 +239,28 @@ class Image{
 		$img_width = imagesx($src_img);
 		$max_width || $max_width = $img_width;
 		
-		$box = imagettfbbox($size, 0, $font_file, $text);
-		
 		//文字总宽高
-		$text_width = $box[2] - $box[0];
-		$text_height = $box[1] - $box[7];
+		$text_size = self::getTextSize($size, $font_file, $text);
 		
 		//第一行的y坐标点
-		$start_y = $y + $text_height;
+		$start_y = $y + $text_size['height'];
 		
-		if($text_width < $max_width){
+		if($text_size['width'] < $max_width){
 			//文字宽度小于绘图区域宽度，直接一行写完就好了
 			//第一行的x坐标点
-			$start_x = intval(($img_width - $text_width) / 2);
+			$start_x = intval(($img_width - $text_size['width']) / 2);
 			
 			imagettftext($src_img, $size, 0, $start_x, $start_y, $color, $font_file, $text);
 		}else{
 			//文字宽度大于绘图区域宽度，进行拆分
 			$text_arr = self::splitByWidth($max_width, $size, $font_file, $text, $lines);
 			foreach($text_arr as $sub_text){
-				$box = imagettfbbox($size, 0, $font_file, $sub_text);
-				$text_width = $box[2] - $box[0];
+				$sub_text_size = self::getTextSize($size, $font_file, $sub_text);
 				//x坐标点
-				$start_x = intval(($img_width - $text_width) / 2);
+				$start_x = intval(($img_width - $sub_text_size['width']) / 2);
 				
 				imagettftext($src_img, $size, 0, $start_x, $start_y, $color, $font_file, $sub_text);
-				$start_y += $text_height * $line_height;
+				$start_y += $text_size['height'] * $line_height;
 			}
 		}
 		
@@ -274,16 +286,13 @@ class Image{
 		$img_width = imagesx($src_img);
 		$max_width || $max_width = $img_width;
 		
-		$box = imagettfbbox($size, 0, $font_file, $text);
-		
 		//文字总宽高
-		$text_width = $box[2] - $box[0];
-		$text_height = $box[1] - $box[7];
+		$text_size = self::getTextSize($size, $font_file, $text);
 		
 		//第一行的y坐标点
-		$start_y = $y + $text_height;
+		$start_y = $y + $text_size['height'];
 		
-		if($text_width < $max_width){
+		if($text_size['width'] < $max_width){
 			//文字宽度小于绘图区域宽度，直接一行写完就好了
 			imagettftext($src_img, $size, 0, $x, $start_y, $color, $font_file, $text);
 		}else{
@@ -291,7 +300,7 @@ class Image{
 			$text_arr = self::splitByWidth($max_width, $size, $font_file, $text, $lines);
 			foreach($text_arr as $sub_text){
 				imagettftext($src_img, $size, 0, $x, $start_y, $color, $font_file, $sub_text);
-				$start_y += $text_height * $line_height;
+				$start_y += $text_size['height'] * $line_height;
 			}
 		}
 		
@@ -304,6 +313,7 @@ class Image{
 	 * @param float $size
 	 * @param string $font_file 字体文件
 	 * @param string $text 文本
+	 * @param int $lines 最大显示行数。为0则不限制行数
 	 * @return array
 	 */
 	private static function splitByWidth($width, $size, $font_file, $text, $lines = 0){

@@ -160,7 +160,7 @@ class IndexController extends Widget{
 			$config['thumbnail'] = true;
 		}
 		
-		isset($config['subclassification']) && $config['subclassification'] = true;
+		isset($config['subclassification']) || $config['subclassification'] = true;
 		
 		empty($config['fields']) && $config['fields'] = array('meta');
 		

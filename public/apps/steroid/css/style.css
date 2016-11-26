@@ -121,6 +121,8 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-products .description h2{color:#222;font-size:3em}
 #section-products .description .subtitle{color:#222;text-align:right}
 #section-products .description .subtitle p{margin-bottom:10px}
+#section-products .description .subtitle p a{color:#222}
+#section-products .description .subtitle p a:hover{text-decoration:underline}
 
 .product-list li{width:33.333%;padding-left:30px;float:left;margin-bottom:25px;display:inline-block}
 .product-list li .image{margin-bottom:15px}
@@ -193,5 +195,11 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-faq .question-list article strong{line-height:2.45}
 #section-faq .question-list article p{line-height:1.45}
 
-.page-copyright{padding:80px 0 120px;background-color:#e5ecf1;}
-.page-copyright p{text-align:right;color:#555;font-size:1.1em;line-height:1.5em;}
+#section-product-link{color:#fff}
+#section-product-link .bg{background-size:cover;background-position:50% 50%;background-color:transparent;padding:80px 0}
+#section-product-link .bg:before{content:"";display:block;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,10,0.6)}
+#section-product-link .title-group .title{font-size:2.57em;margin-bottom:0.5em}
+#section-product-link .title-group .description{margin-bottom:0.9em;font-size:1.43em}
+
+.page-copyright{padding:80px 0 120px;background-color:#e5ecf1}
+.page-copyright p{text-align:right;color:#555;font-size:1.1em;line-height:1.5em}

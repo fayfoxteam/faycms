@@ -52,38 +52,7 @@
 					<?php F::widget()->load('baidu-map')?>
 				</div>
 				<div class="col-md-4">
-					<div class="contact-info">
-						<div class="contact-info-item">
-							<i class="fa fa-map-marker"></i>
-							<div class="detail">Buji, Shenzhen, China</div>
-						</div>
-						<div class="contact-info-item">
-							<i class="fa fa-clock-o"></i>
-							<div class="detail">
-								Orders on Sunday are sent on Monday.
-								<br>
-								<br>
-								Rina 24*7 whatsapp: 8618038026406
-								<br>
-								Email: <a href="mailto:admin@fayfox.com">admin@fayfox.com</a>
-								<br>
-								<br>
-								David 24*7 whatsapp: 8618038192037
-								<br>
-								Skype: lee.liangqing1
-								<br>
-								Wickr: davidpharmade
-							</div>
-						</div>
-						<div class="contact-info-item">
-							<i class="fa fa-mobile"></i>
-							<div class="detail">86-18038192037</div>
-						</div>
-						<div class="contact-info-item">
-							<i class="fa fa-envelope-o"></i>
-							<div class="detail"><a href="mailto:admin@fayfox.com">admin@fayfox.com</a></div>
-						</div>
-					</div>
+					<?php F::widget()->load('contact-info')?>
 				</div>
 			</div>
 		</div>
@@ -91,6 +60,32 @@
 </section>
 <section class="section" id="section-ancillary">
 	<?php F::widget()->load('ancillary-list')?>
+</section>
+<section class="section" id="section-product-link">
+	<div class="bg" style="background-image:url(<?php echo $this->appStatic('images/148.jpg')?>)">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7">
+					<div class="title-group">
+						<h2 class="title">Full Prices of Steroid Oils</h2>
+						<div class="description">
+							<?php $post = \fay\models\tables\Posts::model()->fetchRow(
+								\fay\models\tables\Posts::getPublishedConditions(),
+								'publish_time',
+								'publish_time DESC'
+							)?>
+							<p>Last update <?php echo date('F j, Y', $post['publish_time'])?></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="product-link-container">
+						<a href="<?php echo $this->url('post')?>" class="btn btn-transparent">PRODUCT LIST</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 <section class="section" id="section-blog">
 	<?php F::widget()->load('blog-list')?>

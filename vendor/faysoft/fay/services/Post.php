@@ -679,7 +679,7 @@ class Post extends Service{
 		
 		//附加属性
 		if(!empty($fields['props'])){
-			if(in_array('*', $fields['props'])){
+			if(in_array('*', $fields['props']['fields'])){
 				$props = null;
 			}else{
 				$props = Prop::service()->mget($fields['props']);

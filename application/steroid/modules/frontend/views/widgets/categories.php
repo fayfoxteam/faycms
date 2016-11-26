@@ -7,7 +7,6 @@ use fay\helpers\Html;
 	<?php foreach($cats as $c){?>
 		<li>
 			<?php echo Html::link($c['title'], $c['link'])?>
-			<span>(<?php echo $c['count']?>)</span>
 		</li>
 	<?php }?>
 	</ul>

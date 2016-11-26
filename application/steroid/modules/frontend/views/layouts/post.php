@@ -38,8 +38,8 @@ use fay\helpers\Html;
 			<div class="row">
 				<div class="col-md-12">
 					<div class="post-title">
-						<h1>RAD 140 (Testolone) - SARM Powder</h1>
-						<h2>Buy SARMs - RAD-140 (a.k.a testolone) Powder Online</h2>
+						<h1><?php echo $title?></h1>
+						<h2><?php echo $subtitle?></h2>
 					</div>
 				</div>
 			</div>
@@ -49,13 +49,13 @@ use fay\helpers\Html;
 	<div class="container blog-footer">
 		<div class="row">
 			<div class="col-md-6">
-				<a href="" class=" return-to-site">
+				<a href="<?php echo $this->url()?>" class=" return-to-site">
 					<i class="fa fa-angle-left"></i>
 					Return to site
 				</a>
 			</div>
 			<div class="col-md-6">
-				<span class="copy-right">© 2015 - pharmrich.com</span>
+				<span class="copy-right"><?php echo Option::get('site:copyright')?></span>
 			</div>
 		</div>
 	</div>

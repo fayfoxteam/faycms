@@ -80,6 +80,7 @@ var common = {
 				$(o).find('.title-group, .question-list').addClass('animated fadeInUp');
 			});
 			
+			//blog
 			$('#section-blog').find('article').scrollIn(function(o){
 				$(o).addClass('animated pulse');
 			});
@@ -93,6 +94,10 @@ var common = {
 			});
 			$('#section-contact .contact-info').scrollIn(function(o){
 				$(o).addClass('animated fadeInRight');
+			});
+			
+			$('#section-product-link').scrollIn(function(o){
+				$(o).find('.col-md-7,.col-md-5').addClass('animated fadeInUp');
 			});
 		});
 	},

@@ -28,7 +28,7 @@ return array(
 	//'environment'=>'production',
 	'session'=>array(
 		'ini_set'=>array(
-			'cookie_lifetime'=>8640000,
+			'cookie_lifetime'=>864000,
 		),
 	),
 	//'enable_tools'=>false,

@@ -7,6 +7,8 @@
 .blog-header .post-title h2{font-size:24px}
 
 .post-meta{color:#999;border-bottom:1px solid #ddd;padding:12px 0}
+.post-meta a.tag{color:#999}
+.post-meta a.tag:hover{color:#e1472f}
 .post-meta a.tag:after{content:","}
 .post-meta a.tag:last-child:after{content:""}
 .post-content{padding:40px 0}

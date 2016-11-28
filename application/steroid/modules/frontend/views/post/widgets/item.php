@@ -16,7 +16,7 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 				<span class="time"><?php echo date('F j, Y', $post['post']['publish_time'])?></span>
 				<span class="dot"> · </span>
 				<?php foreach($post['tags'] as $tag){?>
-					<a class="tag"><?php echo \fay\helpers\Html::encode($tag['tag']['title'])?></a>
+					<a href="<?php echo $this->url('tag/'.urlencode($tag['tag']['title']))?>" class="tag"><?php echo \fay\helpers\Html::encode($tag['tag']['title'])?></a>
 				<?php }?>
 			</div>
 		</div>

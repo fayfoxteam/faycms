@@ -36,9 +36,11 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 			<a href="<?php echo $this->url()?>#section-contact" class="btn btn-blue">CONTACT US</a>
 		</div>
 	</div>
+	<?php if($post['nav']['prev'] || $post['nav']['next']){?>
 	<div class="row">
 		<nav class="cf post-nav">
 			<div class="col-md-6 previous">
+				<?php if($post['nav']['prev']){?>
 				<a href="<?php echo $this->url('post/'.$post['nav']['prev']['id'])?>">
 					<i class="fa fa-angle-left"></i>
 					Previous
@@ -46,8 +48,10 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 				<a href="<?php echo $this->url('post/'.$post['nav']['prev']['id'])?>" class="post-title">
 					<?php echo \fay\helpers\Html::encode($post['nav']['prev']['title'])?>
 				</a>
+				<?php }?>
 			</div>
 			<div class="col-md-6 next">
+				<?php if($post['nav']['next']){?>
 				<a href="<?php echo $this->url('post/'.$post['nav']['next']['id'])?>">
 					Next
 					<i class="fa fa-angle-right"></i>
@@ -55,7 +59,9 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 				<a href="<?php echo $this->url('post/'.$post['nav']['next']['id'])?>" class="post-title">
 					<?php echo \fay\helpers\Html::encode($post['nav']['next']['title'])?>
 				</a>
+				<?php }?>
 			</div>
 		</nav>
 	</div>
+	<?php }?>
 </main>

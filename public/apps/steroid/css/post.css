@@ -26,7 +26,7 @@
 .blog-footer .return-to-site{color:#999}
 .blog-footer .copy-right{float:right;color:#bbb}
 
-.page-content{margin-top:6em;margin-bottom:6em;}
+.page-content{margin-top:6em;margin-bottom:6em}
 
 /* 侧边栏小工具域 */
 .widget-area{padding:2.1429em 2.8571em 5em;background-color:#f3f5f8;color:#555}
@@ -52,15 +52,17 @@
 .widget-tag-cloud .tag-cloud a{display:block;float:left;padding:4px 18px 4px;margin:0 2px 2px 0;font-size:0.7143em !important;text-align:center;background-color:#ffffff !important;color:#999999 !important;font-weight:700;line-height:2em}
 .widget-tag-cloud .tag-cloud a:hover{background-color:#ff0818 !important;color:#fff !important}
 
-.post-list .post-featured{width:33.333333%;float:left;padding-right:30px;}
-.post-list .post-featured img{width:100%;}
-.post-list .post-container{width:66.666666%;float:right;}
-.post-list .post-container .post-description{color:#444;}
-.post-list .post-container h2 a{font-size:1.4em;color:#212121;}
-.post-list .post-meta{border-bottom:0;}
-.post-list .post-meta a{color:#999;}
-.post-list .post-meta a:hover{text-decoration:underline;}
+.post-list .post-featured{width:33.333333%;float:left;padding-right:30px}
+.post-list .post-featured img{width:100%}
+.post-list .post-container{width:66.666666%;float:right}
+.post-list .post-container .post-description{color:#444}
+.post-list .post-container h2 a{font-size:1.4em;color:#212121}
+.post-list .post-container h2 a:hover{color:#e1472f}
+.post-list .post-meta{border-bottom:0}
+.post-list .post-meta a{color:#999}
+.post-list .post-meta a:hover{text-decoration:underline}
 .post-list .post-meta .post-meta-item+.post-meta-item:before{display:inline-block;content:"/";vertical-align:top;margin:0 0.3077em;color:#999}
-.post-list article{position:relative;}
-.post-list article + article{border-top:1px solid #ddd;margin-top:3.5714em;padding-top:3.5714em;}
-.post-list article .post-link{position:absolute;right:10px;bottom:10px;color:#999;}
+.post-list article{position:relative}
+.post-list article + article{border-top:1px solid #ddd;margin-top:3.5714em;padding-top:3.5714em}
+.post-list article .post-link{position:absolute;right:10px;bottom:10px;color:#999}
+.post-list article .post-link:hover{color:#e1472f}

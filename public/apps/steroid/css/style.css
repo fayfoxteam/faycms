@@ -55,7 +55,7 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 .page-header .nav-left,.page-header .nav-right{margin-top:30px}
 .page-header .nav-left,.page-header .nav-right,.page-header .nav-center,.page-header-fixed .nav-left,.page-header-fixed .nav-right,.page-header-fixed .nav-center{display:inline-block}
 .page-header .nav-right,.page-header-fixed .nav-right{text-align:left}
-.page-header li,.page-header-fixed li{display:inline-block;padding:10px 25px}
+.page-header li,.page-header-fixed li{display:inline-block;padding:10px 14px}
 .page-header-fixed{background:#fff;position:fixed;z-index:210;top:-125px;opacity:0;box-shadow:0 1px 1px rgba(0,0,0,0.25);padding:9px 0 8px;transform:scale(1.065);transition:all .75s cubic-bezier(.7,0,.3,1)}
 .page-header-fixed.animated{top:-1px;opacity:1;transform:none}
 .page-header-fixed .nav-center img{width:40px;height:40px}
@@ -104,7 +104,7 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-banner .bg .row{position:relative}
 #section-banner .bg:before{content:"";display:block;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,10,0.4)}
 #section-banner h1{font-size:3.65em}
-#section-banner p{line-height:1.45;font-weight:normal}
+#section-banner p{line-height:1.45;font-weight:normal;font-size:20px}
 #section-banner .description{margin-bottom:3em}
 #section-banner .arrow{position:absolute;height:25px;width:100%;z-index:100;bottom:0}
 #section-banner .arrow .a1,#section-banner .arrow .a2{position:absolute;bottom:0;width:50%;height:0;border:25px solid #e5ecf1;border-top:none}
@@ -121,6 +121,8 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-products .description h2{color:#222;font-size:3em}
 #section-products .description .subtitle{color:#222;text-align:right}
 #section-products .description .subtitle p{margin-bottom:10px}
+#section-products .description .subtitle p a{color:#222}
+#section-products .description .subtitle p a:hover{text-decoration:underline}
 
 .product-list li{width:33.333%;padding-left:30px;float:left;margin-bottom:25px;display:inline-block}
 .product-list li .image{margin-bottom:15px}
@@ -180,6 +182,7 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-blog .post-list .image-container img{width:100%;border-radius:50%}
 #section-blog .post-list .post-info{margin-left:100px}
 #section-blog .post-list .title{font-weight:bold;font-size:1.857em;margin-bottom:5px}
+#section-blog .post-list .title a{color:#fff}
 #section-blog .post-list .abstract{margin:10px 0 6px;word-break:break-all;line-height:1.4}
 
 #section-faq{color:#fff}
@@ -191,3 +194,12 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-faq .question-list article{margin-bottom:1.45em}
 #section-faq .question-list article strong{line-height:2.45}
 #section-faq .question-list article p{line-height:1.45}
+
+#section-product-link{color:#fff}
+#section-product-link .bg{background-size:cover;background-position:50% 50%;background-color:transparent;padding:80px 0}
+#section-product-link .bg:before{content:"";display:block;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,10,0.6)}
+#section-product-link .title-group .title{font-size:2.57em;margin-bottom:0.5em}
+#section-product-link .title-group .description{margin-bottom:0.9em;font-size:1.43em}
+
+.page-copyright{padding:80px 0 120px;background-color:#e5ecf1}
+.page-copyright p{text-align:right;color:#555;font-size:1.1em;line-height:1.5em}

@@ -21,6 +21,10 @@ class PostController extends FrontController{
 		}
 		
 		$this->view->cat = $cat;
+		$this->layout->assign(array(
+			'title'=>$cat['title'],
+			'subtitle'=>$cat['description'],
+		));
 		
 		$this->view->render();
 	}

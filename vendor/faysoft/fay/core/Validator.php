@@ -18,6 +18,7 @@ class Validator{
 		'range'=>'fay\validators\Range',
 		'compare'=>'fay\validators\Compare',
 		'fields'=>'fay\validators\Fields',
+		'idcard'=>'fay\validators\IdCardValidator',
 	);
 	
 	/**

@@ -206,6 +206,18 @@ class IndexController extends Widget{
 		if(in_array('user', $this->config['fields'])){
 			$fields['user'] = $this->fields['user'];
 		}
+		//标签
+		if(in_array('tags', $this->config['fields'])){
+			$fields['tags'] = $this->fields['tags'];
+		}
+		//附加属性
+		if(in_array('props', $this->config['fields'])){
+			$fields['props'] = array(
+				'fields'=>array(
+					'*'
+				)
+			);
+		}
 		//附件缩略图
 		if(in_array('files', $this->config['fields'])){
 			$file_fields = $this->fields['files'];

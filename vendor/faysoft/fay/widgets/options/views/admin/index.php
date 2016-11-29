@@ -103,31 +103,37 @@ use fay\helpers\Html;
 	</div>
 </div>
 <script>
-var widget_options = {
+var widgetOptions = {
 	'addAttr':function(){
-		$(document).on('click', '#widget-add-attr-link', function(){
-			if($("#widget-add-attr-key").val() == ""){
+		$addAttrKey = $('#widget-add-attr-key');
+		$addAttrValue = $('#widget-add-attr-value');
+		$attrList = $('#widget-attr-list');
+		$('#widget-add-attr-link').on('click', function(){
+			if($addAttrKey.val() == ""){
 				common.alert('名称不能为空');
 			}else{
-				$('#widget-attr-list').append(['<div class="dragsort-item cf">',
+				$attrList.append(['<div class="dragsort-item cf">',
 					'<a class="dragsort-item-selector" style="cursor: pointer;"></a>',
 					'<div class="dragsort-item-container">',
 						'<span class="ib wp38 fl">',
-							'<input name="keys[]" type="text" class="form-control fl" placeholder="名称" value="', $("#widget-add-attr-key").val(), '">',
+							'<input name="keys[]" type="text" class="form-control fl" placeholder="名称" value="', $addAttrKey.val(), '">',
 						'</span>',
 						'<span class="ib wp62 fr pl20">',
 							'<textarea name="values[]" class="form-control autosize" placeholder="值">',
-								$("#widget-add-attr-value").val(),
+								$addAttrValue.val(),
 							'</textarea>',
 						'</span>',
 						'<a class="btn btn-grey mt5 btn-sm fl widget-remove-attr-link" href="javascript:;" title="删除">删除</a></div>',
 				'</div>'].join(''));
-				$("#widget-add-attr-key, #widget-add-attr-value").val('');
+				$addAttrKey.val('');
+				$addAttrValue.val('');
+				autosize($attrList.find('.autosize:last'));
+				autosize.update($addAttrValue);
 			}
 		});
 	},
 	'removeAttr':function(){
-		$(document).on('click', '.widget-remove-attr-link', function(){
+		$('#widget-attr-list').on('click', '.widget-remove-attr-link', function(){
 			if(confirm("您确定要删除此属性吗？")){
 				$(this).parent().parent().remove();
 			}
@@ -139,6 +145,6 @@ var widget_options = {
 	}
 };
 $(function(){
-	widget_options.init();
+	widgetOptions.init();
 });
 </script>

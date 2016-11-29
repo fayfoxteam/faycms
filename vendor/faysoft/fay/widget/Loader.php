@@ -219,7 +219,10 @@ class Loader{
 		if(empty($alias)){
 			throw new Exception('引用小工具域时，别名不能为空');
 		}
-		$widgets = Widgets::model()->fetchAll("widgetarea = '{$alias}'", '*', 'sort, id DESC');
+		$widgets = Widgets::model()->fetchAll(array(
+			'widgetarea = ?'=>$alias,
+			'enabled = 1',
+		), '*', 'sort, id DESC');
 		foreach($widgets as $k => $w){
 			$this->load($w, $k+1);
 		}

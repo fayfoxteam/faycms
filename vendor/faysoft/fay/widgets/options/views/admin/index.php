@@ -16,7 +16,6 @@ use fay\helpers\Html;
 </div>
 <div class="box">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
 		<h4>属性集</h4>
 	</div>
 	<div class="box-content">
@@ -54,7 +53,6 @@ use fay\helpers\Html;
 </div>
 <div class="box">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
 		<h4>添加属性</h4>
 	</div>
 	<div class="box-content">
@@ -86,7 +84,6 @@ use fay\helpers\Html;
 </div>
 <div class="box">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
 		<h4>渲染模板</h4>
 	</div>
 	<div class="box-content">

@@ -24,7 +24,6 @@ use fay\helpers\Html;
 </div>
 <div class="box" id="box-tags">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
 		<h4>图片大小</h4>
 	</div>
 	<div class="box-content">

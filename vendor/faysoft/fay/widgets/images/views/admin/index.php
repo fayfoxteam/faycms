@@ -67,7 +67,6 @@ use fay\services\user\Role;
 </div>
 <div class="box <?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'closed';?>">
 	<div class="box-title">
-		<a class="tools toggle" title="点击以切换"></a>
 		<h4>渲染模版</h4>
 	</div>
 	<div class="box-content">

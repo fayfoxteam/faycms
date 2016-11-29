@@ -4,7 +4,6 @@ use fay\helpers\Html;
 /**
  * @var array $posts
  */
-
 ?>
 <?php foreach($posts as $p){?>
 	<article class="cf">

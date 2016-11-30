@@ -1,5 +1,44 @@
 <?php
 use fay\helpers\Html;
+
+$elements = array(
+	array(
+		'name'=>'name',
+		'label'=>'姓名',
+		'required'=>true,
+		'checked'=>true,
+	),
+	array(
+		'name'=>'email',
+		'label'=>'邮箱',
+		'required'=>true,
+		'checked'=>true,
+	),
+	array(
+		'name'=>'content',
+		'label'=>'内容',
+		'required'=>true,
+		'checked'=>true,
+	),
+	array(
+		'name'=>'mobile',
+		'label'=>'电话',
+		'required'=>false,
+		'checked'=>false,
+	),
+	array(
+		'name'=>'title',
+		'label'=>'标题',
+		'required'=>false,
+		'checked'=>false,
+	),
+	array(
+		'name'=>'country',
+		'label'=>'国家',
+		'required'=>false,
+		'checked'=>false,
+	),
+);
 ?>
 <div class="box">
 	<div class="box-title">
@@ -21,53 +60,35 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="form-group">
-			<label class="col-2 title">勾选表单元素</label>
+			<label class="col-2 title">需要填写的表单元素</label>
 			<div class="col-10 pt7">
+			<?php foreach($elements as $element){?>
 				<span class="w135 ib"><?php
-					echo F::form('widget')->inputCheckbox('elements[]', 'name', array(
-						'label'=>'姓名'
-					), true);
+					echo F::form('widget')->inputCheckbox('elements[]', $element['name'], array(
+						'label'=>$element['label']
+					), $element['checked']);
 				?></span>
-				<span class="w135 ib"><?php
-					echo F::form('widget')->inputCheckbox('elements[]', 'email', array(
-						'label'=>'邮箱'
-					), true);
-				?></span>
-				<span class="w135 ib"><?php
-					echo F::form('widget')->inputCheckbox('elements[]', 'content', array(
-						'label'=>'内容'
-					), true);
-				?></span>
-				<span class="w135 ib"><?php
-					echo F::form('widget')->inputCheckbox('elements[]', 'mobile', array(
-						'label'=>'电话'
-					));
-				?></span>
-				<span class="w135 ib"><?php
-					echo F::form('widget')->inputCheckbox('elements[]', 'title', array(
-						'label'=>'标题'
-					));
-				?></span>
-				<span class="w135 ib"><?php
-					echo F::form('widget')->inputCheckbox('elements[]', 'country', array(
-						'label'=>'国家'
-					));
-				?></span>
+			<?php }?>
 			</div>
 		</div>
 		<div class="dragsort-list" id="widget-contact-elements">
-			<div class="dragsort-item cf">
+			<?php foreach($elements as $element){?>
+			<div class="dragsort-item cf" id="element-<?php echo $element['name']?>">
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
 					<div class="col-6">
-						<strong class="mb10">姓名</strong>
-						<input name="label[name]" type="text" class="form-control" placeholder="Label" />
+						<div class="ib mb5">
+							<strong><?php echo $element['label']?></strong>
+							<label><input type="checkbox" name="required[<?php echo $element['name']?>]" />必选</label>
+						</div>
+						<input name="label[<?php echo $element['name']?>]" type="text" class="form-control" placeholder="Label" />
 					</div>
 					<div class="col-6">
-						<textarea name="placeholder[name]" class="form-control autosize" placeholder="Placeholder"></textarea>
+						<textarea name="placeholder[<?php echo $element['name']?>]" class="form-control autosize" placeholder="Placeholder"></textarea>
 					</div>
 				</div>
 			</div>
+			<?php }?>
 		</div>
 	</div>
 </div>

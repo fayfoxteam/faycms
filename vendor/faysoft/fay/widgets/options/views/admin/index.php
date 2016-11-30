@@ -30,7 +30,7 @@ use fay\helpers\Html;
 						'placeholder'=>'名称',
 						'wrapper'=>array(
 							'tag'=>'span',
-							'class'=>'ib wp38 fl',
+							'class'=>'ib col-5 fl',
 						),
 					));
 					echo Html::textarea('values[]', $d['value'], array(
@@ -38,7 +38,7 @@ use fay\helpers\Html;
 						'placeholder'=>'值',
 						'wrapper'=>array(
 							'tag'=>'span',
-							'class'=>'ib wp62 fr pl20',
+							'class'=>'ib col-7 fr',
 						),
 					));
 					echo Html::link('删除', 'javascript:;', array(
@@ -63,7 +63,7 @@ use fay\helpers\Html;
 				'id'=>'widget-add-attr-key',
 				'wrapper'=>array(
 					'tag'=>'span',
-					'class'=>'ib wp38 fl',
+					'class'=>'ib col-5 fl',
 				),
 			));
 			echo Html::textarea('', '', array(
@@ -72,7 +72,7 @@ use fay\helpers\Html;
 				'id'=>'widget-add-attr-value',
 				'wrapper'=>array(
 					'tag'=>'span',
-					'class'=>'ib wp62 fr pl20',
+					'class'=>'ib col-7 fr',
 				),
 			));
 			echo Html::link('添加', 'javascript:;', array(
@@ -112,10 +112,10 @@ var widgetOptions = {
 				$attrList.append(['<div class="dragsort-item cf">',
 					'<a class="dragsort-item-selector" style="cursor: pointer;"></a>',
 					'<div class="dragsort-item-container">',
-						'<span class="ib wp38 fl">',
+						'<span class="ib col-5 fl">',
 							'<input name="keys[]" type="text" class="form-control fl" placeholder="名称" value="', $addAttrKey.val(), '">',
 						'</span>',
-						'<span class="ib wp62 fr pl20">',
+						'<span class="ib col-7 fr">',
 							'<textarea name="values[]" class="form-control autosize" placeholder="值">',
 								$addAttrValue.val(),
 							'</textarea>',

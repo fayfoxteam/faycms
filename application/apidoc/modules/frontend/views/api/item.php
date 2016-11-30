@@ -14,24 +14,24 @@ use apidoc\helpers\TrackHelper;
 	<div class="panel-header"><h2>请求说明</h2></div>
 	<div class="panel-body">
 		<div class="form-group">
-			<label class="col-2">HTTP请求方式</label>
+			<label class="col-2 title">HTTP请求方式</label>
 			<div class="col-10 pt7"><?php echo ApiHelper::getHttpMethod($api['api']['http_method']);?></div>
 		</div>
 		<div class="form-group-separator"></div>
 		<div class="form-group">
-			<label class="col-2">是否需要登录</label>
+			<label class="col-2 title">是否需要登录</label>
 			<div class="col-10 pt7"><?php
 				echo $api['api']['need_login'] ? '<span class="required">是</span>' : '否';
 			?></div>
 		</div>
 		<div class="form-group-separator"></div>
 		<div class="form-group">
-			<label class="col-2">状态</label>
+			<label class="col-2 title">状态</label>
 			<div class="col-10 pt7"><?php echo ApiHelper::getStatus($api['api']['status'])?></div>
 		</div>
 		<div class="form-group-separator"></div>
 		<div class="form-group">
-			<label class="col-2">自从</label>
+			<label class="col-2 title">自从</label>
 			<div class="col-10 pt7"><?php echo $api['api']['since']?></div>
 		</div>
 	</div>

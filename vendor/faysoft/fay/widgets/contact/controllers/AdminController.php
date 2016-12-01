@@ -14,31 +14,78 @@ class AdminController extends Widget{
 			), true);
 		}
 		
+		//默认表单元素
+		isset($config['elements']) || $config['elements'] = array(
+			'name', 'content', 'mobile',
+		);
+		
+		//默认必选项
+		isset($config['required']) || $config['required'] = array(
+			'name', 'content', 'mobile',
+		);
+		
+		//默认标签
+		isset($config['label']) || $config['label'] = array(
+			'name' => '称呼',
+			'email' => '邮箱',
+			'content' => '内容',
+			'mobile' => '电话',
+			'title' => '标题',
+			'country' => '国家',
+		);
+		
+		//默认占位符
+		isset($config['placeholder']) || $config['placeholder'] = $config['label'];
+		
 		$this->view->assign(array(
 			'config'=>$config
 		))->render();
 	}
 	
 	public function onPost(){
-		$this->setConfig($this->form->getFilteredData());
+		$data = $this->form->getFilteredData();
+		//格式化必选元素
+		$data['required'] = isset($data['required']) ? array_keys($data['required']) : array();
+		
+		if(isset($data['elements'])){
+			//对表单元素进行排序
+			$temp_elements = $data['elements'];
+			$data['elements'] = array();
+			foreach($data['label'] as $element => $label){
+				if(in_array($element, $temp_elements)){
+					$data['elements'][] = $element;
+				}
+			}
+		}else{
+			$data['elements'] = array();
+		}
+		$this->setConfig($data);
 		Flash::set('编辑成功', 'success');
 	}
 	
 	public function rules(){
 		return array(
-			array(array('alias'), 'required'),
+			
 		);
 	}
 	
 	public function labels(){
 		return array(
-			'alias'=>'小工具域',
+			'title'=>'标题',
+			'required'=>'必选标识',
+			'label'=>'标签',
+			'placeholder'=>'占位符',
+			'elements'=>'表单元素'
 		);
 	}
 	
 	public function filters(){
 		return array(
-			'alias'=>'trim',
+			'title'=>'trim',
+			'required'=>'intval',
+			'label'=>'trim',
+			'placeholder'=>'trim',
+			'elements'=>'trim',
 		);
 	}
 }

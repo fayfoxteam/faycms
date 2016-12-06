@@ -25,7 +25,13 @@ $elements = array(
 			<?php echo F::form('widget')->inputText('title', array(
 				'class'=>'form-control mw400',
 			))?>
-			<p class="fc-grey">若为空，则显示顶级分类的标题</p>
+			<p class="fc-grey">用途视渲染模版而定</p>
+		</div>
+		<div class="form-field">
+			<label class="title bold">提交按钮文案</label>
+			<?php echo F::form('widget')->inputText('submit_text', array(
+				'class'=>'form-control mw400',
+			), '发送')?>
 		</div>
 	</div>
 </div>

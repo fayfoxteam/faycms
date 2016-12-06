@@ -1,5 +1,11 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var string $alias
+ * @var array $config
+ * @var array $posts
+ */
 ?>
 <div class="widget widget-category-posts" id="widget-<?php echo Html::encode($alias)?>">
 	<div class="widget-title">

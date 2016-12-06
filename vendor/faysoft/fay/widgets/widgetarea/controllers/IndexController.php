@@ -9,7 +9,7 @@ class IndexController extends Widget{
 	}
 	
 	public function index($config){
-		if(!$config['alias']){
+		if(empty($config['alias'])){
 			return '';
 		}
 		

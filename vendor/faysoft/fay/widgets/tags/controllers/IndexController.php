@@ -106,7 +106,6 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
-	 * @return array
 	 */
 	private function initConfig($config){
 		empty($config['number']) && $config['number'] = 10;
@@ -121,7 +120,7 @@ class IndexController extends Widget{
 			$config['uri'] = 'tag/{$title}';
 		}
 		
-		return $this->config = $config;
+		$this->config = $config;
 	}
 	
 	/**

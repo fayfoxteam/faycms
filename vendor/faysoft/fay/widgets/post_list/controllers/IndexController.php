@@ -145,7 +145,6 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
-	 * @return array
 	 */
 	private function initConfig($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
@@ -158,7 +157,7 @@ class IndexController extends Widget{
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
 		isset($config['subclassification']) || $config['subclassification'] = true;
 		
-		return $this->config = $config;
+		$this->config = $config;
 	}
 	
 	/**

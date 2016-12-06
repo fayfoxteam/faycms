@@ -126,7 +126,6 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
-	 * @return array
 	 */
 	private function initConfig($config){
 		//root node
@@ -164,7 +163,7 @@ class IndexController extends Widget{
 		
 		empty($config['fields']) && $config['fields'] = array('meta');
 		
-		return $this->config = $config;
+		$this->config = $config;
 	}
 	
 	/**

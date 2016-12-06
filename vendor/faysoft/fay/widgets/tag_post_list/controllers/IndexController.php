@@ -147,7 +147,6 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
-	 * @return array
 	 */
 	private function initConfig($config){
 		empty($config['tag_title_key']) && $config['tag_title_key'] = 'tag_title';
@@ -162,7 +161,7 @@ class IndexController extends Widget{
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
 		empty($config['cat_id']) && $config['cat_id'] = 0;
 		
-		return $this->config = $config;
+		$this->config = $config;
 	}
 	
 	/**

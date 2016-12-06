@@ -18,7 +18,7 @@ class IdCardValidator extends Validator{
     public $code = 'invalid-parameter:{$field}:format-error';
     
     public function validate($value){
-        if(self::isValidityBirthBy18IdCard($value) && self::isTrueValidateCodeBy18IdCard($value)){
+        if(self::isValidityBirthBy18IdCard($value) && self::isTrueValidateCodeBy18IdCard(str_split($value))){
             return true;
         }else{
             return $this->addError($this->message, $this->code);

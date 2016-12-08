@@ -59,7 +59,7 @@ $elements = array(
 					<a class="dragsort-item-selector"></a>
 					<div class="dragsort-item-container">
 						<div class="col-6">
-							<div class="ib mb5">
+							<div class="ib mb10">
 								<strong><?php echo $elements[$element]?></strong>
 								<?php echo Html::inputCheckbox(
 									"required[{$element}]",
@@ -70,24 +70,45 @@ $elements = array(
 									)
 								)?>
 							</div>
+							<div class="mb5"><?php
+								echo Html::inputText(
+									"label[{$element}]",
+									isset($config['label'][$element]) ? $config['label'][$element] : '',
+									array(
+										'placeholder'=>'Label',
+										'class'=>'form-control',
+									)
+								);
+							?></div>
 							<?php echo Html::inputText(
-								"label[{$element}]",
-								isset($config['label'][$element]) ? $config['label'][$element] : '',
+								"require_message[{$element}]",
+								isset($config['require_message'][$element]) ? $config['require_message'][$element] : '{$attribute}不能为空',
 								array(
-									'placeholder'=>'Label',
+									'placeholder'=>'非空报错语',
 									'class'=>'form-control',
 								)
 							)?>
 						</div>
 						<div class="col-6">
-							<?php echo Html::textarea(
+							<div class="mb5"><?php echo Html::textarea(
 								"placeholder[{$element}]",
 								isset($config['placeholder'][$element]) ? $config['placeholder'][$element] : '',
 								array(
 									'placeholder'=>'Placeholder',
-									'class'=>'form-control autosize',
+									'class'=>'form-control h60 autosize',
 								)
-							)?>
+							)?></div>
+							<?php
+							if($element == 'email'){
+								echo Html::inputText(
+									"format_message[{$element}]",
+									isset($config['format_message'][$element]) ? $config['format_message'][$element] : '{$attribute}格式错误',
+									array(
+										'placeholder'=>'非空报错语',
+										'class'=>'form-control',
+									)
+								);
+							}?>
 						</div>
 					</div>
 				</div>
@@ -100,7 +121,7 @@ $elements = array(
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
 					<div class="col-6">
-						<div class="ib mb5">
+						<div class="ib mb10">
 							<strong><?php echo $label?></strong>
 							<?php echo Html::inputCheckbox(
 								"required[{$element}]",
@@ -111,24 +132,43 @@ $elements = array(
 								)
 							)?>
 						</div>
-						<?php echo Html::inputText(
+						<div class="mb5"><?php echo Html::inputText(
 							"label[{$element}]",
 							isset($config['label'][$element]) ? $config['label'][$element] : '',
 							array(
 								'placeholder'=>'Label',
 								'class'=>'form-control',
 							)
+						)?></div>
+						<?php echo Html::inputText(
+							"require_message[{$element}]",
+							isset($config['require_message'][$element]) ? $config['require_message'][$element] : '{$attribute}不能为空',
+							array(
+								'placeholder'=>'非空报错语',
+								'class'=>'form-control',
+							)
 						)?>
 					</div>
 					<div class="col-6">
-						<?php echo Html::textarea(
+						<div class="mb5"><?php echo Html::textarea(
 							"placeholder[{$element}]",
 							isset($config['placeholder'][$element]) ? $config['placeholder'][$element] : '',
 							array(
 								'placeholder'=>'Placeholder',
-								'class'=>'form-control autosize',
+								'class'=>'form-control h60 autosize',
 							)
-						)?>
+						)?></div>
+						<?php
+						if($element == 'email'){
+							echo Html::inputText(
+								"format_message[{$element}]",
+								isset($config['format_message'][$element]) ? $config['format_message'][$element] : '{$attribute}格式错误',
+								array(
+									'placeholder'=>'非空报错语',
+									'class'=>'form-control',
+								)
+							);
+						}?>
 					</div>
 				</div>
 			</div>

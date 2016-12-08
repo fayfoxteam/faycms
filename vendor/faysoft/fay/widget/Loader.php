@@ -67,7 +67,7 @@ class Loader{
 	 * @param bool $ajax 是否ajax调用，若为null，默认采用widgets表设置。若存在启用缓存，则不会走ajax。
 	 * @throws HttpException
 	 */
-	public function load($widget, $index = null, $ajax = null){
+	public function load($widget, $index = null, $ajax = null, $action = 'index'){
 		if(!is_array($widget)){
 			if(StringHelper::isInt($widget)){
 				$widget = Widgets::model()->find($widget);
@@ -85,7 +85,7 @@ class Loader{
 			if($widget['cache'] >= 0 && $content = \F::cache()->get('widgets/' . $widget['alias'])){
 				echo $content;
 			}else{
-				$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $widget['cache'], $widget['alias'], $index);
+				$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $widget['cache'], $widget['alias'], $index, $action);
 			}
 		}else{
 			throw new HttpException('Widget不存在或已被删除');
@@ -101,13 +101,16 @@ class Loader{
 	 * @param string $alias 别名，若直接调用，则别名为空
 	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
 	 */
-	public function render($name, $options = array(), $ajax = false, $cache = -1, $alias = '', $index = null){
+	public function render($name, $options = array(), $ajax = false, $cache = -1, $alias = '', $index = null, $action = 'index'){
 		if($alias && $cache >= 0 && $content = \F::cache()->get('widgets/' . $alias)){
 			echo $content;
 		}else{
+			$real_action = StringHelper::hyphen2case($action, false);
 			$widget_obj = $this->get($name);
 			if($widget_obj == null){
 				echo 'widget不存在或已被删除';
+			}else if(!method_exists($widget_obj, $real_action) && !method_exists($widget_obj, $real_action.'Action')){
+				echo 'widget方法不存在';
 			}else{
 				$widget_obj->alias = $alias;//别名
 				$widget_obj->_index = $index;//在小工具域中的位置，若不是小工具域中调用，则为null
@@ -129,7 +132,11 @@ class Loader{
 						$(function(){
 							$.ajax({
 								type: "GET",
-								url: "'.UrlHelper::createUrl('widget/load', array('alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index), false).'",
+								url: "'.UrlHelper::createUrl('widget/load', array(
+									'alias'=>$widget_obj->alias,
+									'action'=>$action,
+									'_index'=>$widget_obj->_index,
+								), false).'",
 								cache: false,
 								success: function(resp){
 									$("#'.$id.'").replaceWith(resp);
@@ -142,7 +149,12 @@ class Loader{
 						$(function(){
 							$.ajax({
 								type: "GET",
-								url: "'.UrlHelper::createUrl('widget/render', array('name'=>$name, '_alias'=>$widget_obj->alias, '_index'=>$widget_obj->_index) + $options, false).'",
+								url: "'.UrlHelper::createUrl('widget/render', array(
+									'name'=>$name,
+									'action'=>$action,
+									'_alias'=>$widget_obj->alias,
+									'_index'=>$widget_obj->_index
+								) + $options, false).'",
 								cache: false,
 								success: function(resp){
 									$("#'.$id.'").replaceWith(resp);
@@ -153,7 +165,11 @@ class Loader{
 					}
 				}else{
 					ob_start();
-					$widget_obj->index($options);
+					if(method_exists($widget_obj, $real_action)){
+						$widget_obj->{$real_action}($options);
+					}else{
+						$widget_obj->{$real_action.'Action'}($options);
+					}
 					$content = ob_get_contents();
 					ob_end_clean();
 					if($cache >= 0 && $alias){

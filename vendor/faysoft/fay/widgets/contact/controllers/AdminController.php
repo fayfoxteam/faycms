@@ -75,7 +75,9 @@ class AdminController extends Widget{
 			'required'=>'必选标识',
 			'label'=>'标签',
 			'placeholder'=>'占位符',
-			'elements'=>'表单元素'
+			'elements'=>'表单元素',
+			'require_message'=>'非空报错语',
+			'format_message'=>'格式报错语',
 		);
 	}
 	
@@ -86,6 +88,8 @@ class AdminController extends Widget{
 			'label'=>'trim',
 			'placeholder'=>'trim',
 			'elements'=>'trim',
+			'require_message'=>'trim',
+			'format_message'=>'trim',
 		);
 	}
 }

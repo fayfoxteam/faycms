@@ -8,7 +8,8 @@ return array(
 	
 	//根据widget别名加载
 	'/^widget\/load$/'=>'api/widget/load',//别名跟在问号后面参数中
-	'/^widget\/load\/(.+)$/'=>'api/widget/load/alias/$1',//别名包含在url重写中
+	'/^widget\/load\/([\w_-]+)$/'=>'api/widget/load/alias/$1',//别名包含在url重写中
+	'/^widget\/load\/([\w_-]+)\/([\w_-]+)$/'=>'api/widget/load/alias/$1/action/$2',//别名包含在url重写中
 	
 	//根据widget别名获取widget数据（不渲染，以ajax方式返回）
 	'/^widget\/data$/'=>'api/widget/data',//别名跟在问号后面参数中

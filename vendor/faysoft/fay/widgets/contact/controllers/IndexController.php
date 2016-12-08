@@ -13,6 +13,30 @@ class IndexController extends Widget{
 		$this->initConfig($config);
 	}
 	
+	public function send($config){
+		$this->form('widget')->setData($this->input->post());
+		foreach($config['elements'] as $element){
+			if($element == 'email'){
+				$this->form('widget')
+					->setRule(array($element, 'email'));
+			}
+			if(in_array($element, $config['required'])){
+				$this->form('widget')
+					->setRule(array($element, 'required'));
+			}
+			$this->form('widget')
+				->setFilters(array(
+					$element=>'trim',
+				))->setLabels(array(
+					$element=>$config['label'][$element],
+				));
+		}
+		//表单验证
+		$this->form('widget')->check();
+		
+		
+	}
+	
 	public function index($config){
 		$this->initConfig($config);
 		

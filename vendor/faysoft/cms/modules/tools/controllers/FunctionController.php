@@ -21,6 +21,7 @@ class FunctionController extends ToolsController{
 	public function evalAction(){
 		//登陆检查，仅超级管理员可访问本模块
 		$this->isLogin();
+		header('X-XSS-Protection: 0');
 		
 		$this->layout->subtitle = 'eval';
 		$this->view->key = $this->input->post('key');

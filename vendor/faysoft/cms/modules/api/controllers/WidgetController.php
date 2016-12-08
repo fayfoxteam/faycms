@@ -57,13 +57,18 @@ class WidgetController extends ApiController{
 			array(array('alias'), 'required'),
 		))->setFilters(array(
 			'alias'=>'trim',
+			'action'=>'trim',
 		))->setLabels(array(
 			'alias'=>'别名',
+			'action'=>'方法',
 		))->check();
 		
-		$alias = $this->form()->getData('alias');
-		
-		\F::widget()->load($alias, $this->form()->getData('_index'), false);
+		\F::widget()->load(
+			$this->form()->getData('alias'),
+			$this->form()->getData('_index'),
+			null,
+			$this->form()->getData('action', 'index')
+		);
 	}
 	
 	/**

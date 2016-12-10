@@ -41,6 +41,7 @@ class AdminController extends Widget{
 	public function filters(){
 		return array(
 			'alias'=>'trim',
+			'template'=>'trim',
 		);
 	}
 }

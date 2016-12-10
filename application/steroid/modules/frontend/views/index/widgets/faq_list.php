@@ -36,7 +36,7 @@ $cat = \fay\services\Category::service()->get($config['cat_id'], 'description');
 			<div class="separator-container">
 				<div class="separator"></div>
 			</div>
-			<a href="javascript:;" class="btn btn-transparent">Contact For More Questions?</a>
+			<a href="#section-contact" class="btn btn-transparent">Contact For More Questions?</a>
 		</div>
 	</div>
 </div>

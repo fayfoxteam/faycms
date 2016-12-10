@@ -6,7 +6,7 @@ use fay\helpers\Html;
 
 if($config['file_id']){
 	if(!empty($config['link'])){
-		echo Html::link(Html::img($config['file_id'], 1, array(
+		echo Html::link(Html::img($config['file_id'], \fay\services\File::PIC_ORIGINAL, array(
 			'width'=>$config['width'],
 			'height'=>$config['height'],
 		)), $config['link'], array(
@@ -15,7 +15,7 @@ if($config['file_id']){
 			'title'=>false
 		));
 	}else{
-		echo Html::img($config['file_id'], 1, array(
+		echo Html::img($config['file_id'], \fay\services\File::PIC_ORIGINAL, array(
 			'width'=>$config['width'],
 			'height'=>$config['height'],
 		));

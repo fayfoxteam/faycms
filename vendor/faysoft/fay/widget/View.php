@@ -90,7 +90,8 @@ class View{
 			}
 		}
 		
-		extract(array_merge($this->getViewData(), $view_data));
+		$this->assign($view_data);
+		extract($this->getViewData());
 		ob_start();
 		include $view_file;
 		$content = ob_get_contents();

@@ -104,6 +104,7 @@ class IndexController extends Widget{
 				'config'=>$this->config,
 				'alias'=>$this->alias,
 				'_index'=>$this->_index,
+				'widget'=>$this,
 			));
 		}else{
 			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
@@ -113,11 +114,13 @@ class IndexController extends Widget{
 					'config'=>$this->config,
 					'alias'=>$this->alias,
 					'_index'=>$this->_index,
+					'widget'=>$this,
 				));
 			}else{
 				//直接视为代码执行
 				$alias = $this->view->alias;
 				$_index = $this->_index;
+				$widget = $this;
 				eval('?>'.$this->config['template'].'<?php ');
 			}
 		}

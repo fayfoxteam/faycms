@@ -214,7 +214,8 @@ class View{
 		if(!isset($view_path)){
 			throw new ErrorException('视图文件不存在', 'Relative Path: '.$view_relative_path);
 		}else{
-			extract(array_merge($this->getViewData(), $view_data));
+			$this->assign($view_data);
+			extract($this->getViewData());
 			ob_start();
 			include $view_path;
 			$content = ob_get_contents();

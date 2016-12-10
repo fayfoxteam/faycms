@@ -9,6 +9,7 @@ class IndexController extends Widget{
 			'config'=>$config,
 			'alias'=>$this->alias,
 			'_index'=>$this->_index,
+			'widget'=>$this,
 		));
 	}
 }

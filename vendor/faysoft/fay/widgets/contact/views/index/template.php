@@ -1,28 +1,28 @@
 <?php
 /**
- * @var string $alias
+ * @var $widget
  * @var $config
  */
 ?>
-<form class="contact-form" id="widget-<?php echo $alias?>-form" action="<?php echo $this->url("widget/load/{$alias}/send")?>" method="post">
+<form class="contact-form" id="widget-<?php echo $widget->alias?>-form" action="<?php echo $this->url("widget/load/{$widget->alias}/send")?>" method="post">
 	<?php foreach($config['elements'] as $element){?>
 	<fieldset>
 	<?php
 		if(!empty($element['label'])){
 			echo \fay\helpers\Html::tag('label', array(
-				'for'=>'widget-' . $alias . '-field-' . $element['name'],
+				'for'=>'widget-' . $widget->alias . '-field-' . $element['name'],
 			), $element['label']);
 		}
 		if($element['name'] == 'content'){
 			//若是内容字段，输出文本域
 			echo \fay\helpers\Html::textarea($element['name'], '', array(
-				'id'=>'widget-' . $alias . '-field-' . $element['name'],
+				'id'=>'widget-' . $widget->alias . '-field-' . $element['name'],
 				'placeholder'=>empty($element['placeholder']) ? false : $element['placeholder']
 			));
 		}else{
 			//其他字段输出输入框
 			echo \fay\helpers\Html::inputText($element['name'], '', array(
-				'id'=>'widget-' . $alias . '-field-' . $element['name'],
+				'id'=>'widget-' . $widget->alias . '-field-' . $element['name'],
 				'placeholder'=>empty($element['placeholder']) ? false : $element['placeholder']
 			));
 		}
@@ -32,7 +32,7 @@
 	<fieldset>
 		<?php echo \fay\helpers\Html::link($config['submit_text'], 'javascript:;', array(
 			'class'=>$config['submit_btn_class'],
-			'id'=>'widget-' . $alias . '-form-submit'
+			'id'=>'widget-' . $widget->alias . '-form-submit'
 		))?>
 	</fieldset>
 </form>
@@ -41,7 +41,7 @@ $(function(){
 	var contact = {
 		'validform': function(rules, labels){
 			system.getScript(system.assets('faycms/js/fayfox.validform.js'), function(){
-				$('#widget-<?php echo $alias?>-form').validform({
+				$('#widget-<?php echo $widget->alias?>-form').validform({
 					'showAllErrors': false,
 					'onError': function(obj, msg){
 						contact.toast(msg, 'error');
@@ -83,8 +83,8 @@ $(function(){
 		},
 		'form': function(){
 			//表单提交
-			$('#widget-<?php echo $alias?>-form-submit').on('click', function(){
-				$('#widget-<?php echo $alias?>-form').submit();
+			$('#widget-<?php echo $widget->alias?>-form-submit').on('click', function(){
+				$('#widget-<?php echo $widget->alias?>-form').submit();
 				return false;
 			});
 		},

@@ -51,17 +51,17 @@ class IndexController extends Widget{
 		if(empty($this->config['template'])){
 			$this->view->render('template', array(
 				'config'=>$frontend_config,
-				'alias'=>$this->alias,
+				'widget'=>$this,
 			));
 		}else{
 			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
 				\F::app()->view->renderPartial($this->config['template'], array(
 					'config'=>$frontend_config,
-					'alias'=>$this->alias,
+					'widget'=>$this,
 				));
 			}else{
-				$alias = $this->alias;
 				$config = $frontend_config;
+				$widget = $this;
 				eval('?>'.$this->config['template'].'<?php ');
 			}
 		}

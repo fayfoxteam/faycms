@@ -14,48 +14,79 @@ class IndexController extends Widget{
 	}
 	
 	public function send($config){
-		$this->form('widget')->setData($this->input->post());
-		foreach($config['elements'] as $element){
-			if($element == 'email'){
-				$this->form('widget')
-					->setRule(array($element, 'email'));
-			}
-			if(in_array($element, $config['required'])){
-				$this->form('widget')
-					->setRule(array($element, 'required'));
-			}
-			$this->form('widget')
-				->setFilters(array(
-					$element=>'trim',
-				))->setLabels(array(
-					$element=>$config['label'][$element],
-				));
-		}
-		//表单验证
-		$this->form('widget')->check();
+		$this->initConfig($config);
+		$this->initForm();
 		
+		//表单验证
+		$this->form('widget_contact')->check();
 		
 	}
 	
 	public function index($config){
 		$this->initConfig($config);
+		$this->initForm();
+		
+		//重新组织配置信息，传递给前端
+		$frontend_config = array(
+			'elements'=>array(),
+			'submit_text'=>$this->config['submit_text'],
+			'submit_success'=>$this->config['submit_success'],
+			'submit_btn_class'=>$this->config['submit_btn_class'],
+		);
+		foreach($this->config['elements'] as $e){
+			$frontend_config['elements'][] = array(
+				'name'=>$e,
+				'label'=>isset($this->config['label'][$e]) ? $this->config['label'][$e] : '',
+				'placeholder'=>isset($this->config['placeholder'][$e]) ? $this->config['placeholder'][$e] : '',
+			);
+		}
 		
 		//template
 		if(empty($this->config['template'])){
 			$this->view->render('template', array(
-				'config'=>$this->config,
+				'config'=>$frontend_config,
 				'alias'=>$this->alias,
 			));
 		}else{
 			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
 				\F::app()->view->renderPartial($this->config['template'], array(
-					'config'=>$this->config,
+					'config'=>$frontend_config,
 					'alias'=>$this->alias,
 				));
 			}else{
 				$alias = $this->alias;
+				$config = $frontend_config;
 				eval('?>'.$this->config['template'].'<?php ');
 			}
+		}
+	}
+	
+	/**
+	 * 初始化表单验证
+	 * @throws \fay\core\Exception
+	 */
+	private function initForm(){
+		$this->form('widget_contact')->setData($this->input->post());
+		foreach($this->config['elements'] as $element){
+			if($element == 'email'){
+				$this->form('widget_contact')
+					->setRule(array($element, 'email', array(
+						'message'=>$this->config['format_message'][$element],
+					)));
+			}
+			if(isset($this->config['require_message'][$element])){
+				$this->form('widget_contact')
+					->setRule(array($element, 'required', array(
+						'message'=>$this->config['require_message'][$element],
+					)));
+			}
+			
+			$this->form('widget_contact')
+				->setFilters(array(
+					$element=>'trim',
+				))->setLabels(array(
+					$element=>$this->config['label'][$element],
+				));
 		}
 	}
 	
@@ -66,12 +97,7 @@ class IndexController extends Widget{
 	private function initConfig($config){
 		//默认表单元素
 		isset($config['elements']) || $config['elements'] = array(
-			'name', 'content', 'mobile',
-		);
-		
-		//默认必选项
-		isset($config['required']) || $config['required'] = array(
-			'name', 'content', 'mobile',
+			'name', 'email', 'content',
 		);
 		
 		//默认标签
@@ -89,6 +115,21 @@ class IndexController extends Widget{
 		
 		//提交按钮文案
 		empty($config['submit_text']) && $config['submit_text'] = '发送';
+		
+		//提交按钮CSS类
+		isset($config['submit_btn_class']) || $config['submit_btn_class'] = 'btn';
+		
+		//提交成功文案
+		empty($config['submit_success']) && $config['submit_success'] = '发送成功';
+		
+		//默认必填项
+		isset($config['require_message']) || $config['require_message'] = array(
+			'content'=>'内容不能为空'
+		);
+		
+		if(in_array('email', $config['elements']) && empty($config['format_message']['email'])){
+			$config['format_message']['email'] = '邮箱格式错误';
+		}
 		
 		$this->config = $config;
 	}

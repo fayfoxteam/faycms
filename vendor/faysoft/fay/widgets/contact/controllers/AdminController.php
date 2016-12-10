@@ -16,12 +16,7 @@ class AdminController extends Widget{
 		
 		//默认表单元素
 		isset($config['elements']) || $config['elements'] = array(
-			'name', 'content', 'mobile',
-		);
-		
-		//默认必选项
-		isset($config['required']) || $config['required'] = array(
-			'name', 'content', 'mobile',
+			'name', 'email', 'content',
 		);
 		
 		//默认标签
@@ -36,6 +31,11 @@ class AdminController extends Widget{
 		
 		//默认占位符
 		isset($config['placeholder']) || $config['placeholder'] = $config['label'];
+		
+		//默认必填项
+		isset($config['require_message']) || $config['require_message'] = array(
+			'content'=>'内容不能为空'
+		);
 		
 		$this->view->assign(array(
 			'config'=>$config
@@ -72,24 +72,28 @@ class AdminController extends Widget{
 	public function labels(){
 		return array(
 			'title'=>'标题',
-			'required'=>'必选标识',
 			'label'=>'标签',
 			'placeholder'=>'占位符',
 			'elements'=>'表单元素',
-			'require_message'=>'非空报错语',
+			'require_message'=>'必填报错语',
 			'format_message'=>'格式报错语',
+			'submit_text'=>'提交按钮文案',
+			'submit_btn_class'=>'提交按钮css类',
+			'submit_success'=>'提交成功文案',
 		);
 	}
 	
 	public function filters(){
 		return array(
 			'title'=>'trim',
-			'required'=>'intval',
 			'label'=>'trim',
 			'placeholder'=>'trim',
 			'elements'=>'trim',
 			'require_message'=>'trim',
 			'format_message'=>'trim',
+			'submit_text'=>'trim',
+			'submit_btn_class'=>'trim',
+			'submit_success'=>'trim',
 		);
 	}
 }

@@ -33,6 +33,18 @@ $elements = array(
 				'class'=>'form-control mw400',
 			), '发送')?>
 		</div>
+		<div class="form-field">
+			<label class="title bold">提交按钮CSS类</label>
+			<?php echo F::form('widget')->inputText('submit_btn_class', array(
+				'class'=>'form-control mw400',
+			), 'btn')?>
+		</div>
+		<div class="form-field">
+			<label class="title bold">提交成功文案</label>
+			<?php echo F::form('widget')->inputText('submit_success', array(
+				'class'=>'form-control mw400',
+			), '发送成功')?>
+		</div>
 	</div>
 </div>
 <div class="box">
@@ -41,7 +53,7 @@ $elements = array(
 	</div>
 	<div class="box-content">
 		<div class="form-group">
-			<label class="col-2 title">需要填写的表单元素</label>
+			<label class="col-2 title">表单元素</label>
 			<div class="col-10 pt7" id="widget-contact-element-options">
 			<?php foreach($elements as $element => $label){?>
 				<span class="w135 ib"><?php
@@ -61,14 +73,6 @@ $elements = array(
 						<div class="col-6">
 							<div class="ib mb10">
 								<strong><?php echo $elements[$element]?></strong>
-								<?php echo Html::inputCheckbox(
-									"required[{$element}]",
-									1,
-									isset($config['required']) && in_array($element, $config['required']),
-									array(
-										'label'=>'必选'
-									)
-								)?>
 							</div>
 							<div class="mb5"><?php
 								echo Html::inputText(
@@ -82,9 +86,9 @@ $elements = array(
 							?></div>
 							<?php echo Html::inputText(
 								"require_message[{$element}]",
-								isset($config['require_message'][$element]) ? $config['require_message'][$element] : '{$attribute}不能为空',
+								isset($config['require_message'][$element]) ? $config['require_message'][$element] : '',
 								array(
-									'placeholder'=>'非空报错语',
+									'placeholder'=>'必填报错语（留空则不做必填验证）',
 									'class'=>'form-control',
 								)
 							)?>
@@ -102,9 +106,12 @@ $elements = array(
 							if($element == 'email'){
 								echo Html::inputText(
 									"format_message[{$element}]",
-									isset($config['format_message'][$element]) ? $config['format_message'][$element] : '{$attribute}格式错误',
+									(isset($config['format_message'][$element]) ?
+										$config['format_message'][$element] : isset($config['label'][$element]) ?
+											$config['label'][$element] : isset($config['placeholder'][$element]) ?
+												$config['placeholder'][$element] : $element) . '格式错误',
 									array(
-										'placeholder'=>'非空报错语',
+										'placeholder'=>'格式报错语',
 										'class'=>'form-control',
 									)
 								);
@@ -123,14 +130,6 @@ $elements = array(
 					<div class="col-6">
 						<div class="ib mb10">
 							<strong><?php echo $label?></strong>
-							<?php echo Html::inputCheckbox(
-								"required[{$element}]",
-								1,
-								isset($config['required']) && in_array($element, $config['required']),
-								array(
-									'label'=>'必选'
-								)
-							)?>
 						</div>
 						<div class="mb5"><?php echo Html::inputText(
 							"label[{$element}]",
@@ -142,9 +141,9 @@ $elements = array(
 						)?></div>
 						<?php echo Html::inputText(
 							"require_message[{$element}]",
-							isset($config['require_message'][$element]) ? $config['require_message'][$element] : '{$attribute}不能为空',
+							isset($config['require_message'][$element]) ? $config['require_message'][$element] : '',
 							array(
-								'placeholder'=>'非空报错语',
+								'placeholder'=>'必填报错语（留空则不做必填验证）',
 								'class'=>'form-control',
 							)
 						)?>
@@ -162,9 +161,12 @@ $elements = array(
 						if($element == 'email'){
 							echo Html::inputText(
 								"format_message[{$element}]",
-								isset($config['format_message'][$element]) ? $config['format_message'][$element] : '{$attribute}格式错误',
+								(isset($config['format_message'][$element]) ?
+									$config['format_message'][$element] : isset($config['label'][$element]) ?
+										$config['label'][$element] : isset($config['placeholder'][$element]) ?
+											$config['placeholder'][$element] : $element) . '格式错误',
 								array(
-									'placeholder'=>'非空报错语',
+									'placeholder'=>'格式报错语',
 									'class'=>'form-control',
 								)
 							);

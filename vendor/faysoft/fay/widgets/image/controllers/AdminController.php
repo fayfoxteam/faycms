@@ -6,6 +6,14 @@ use fay\services\Flash;
 
 class AdminController extends Widget{
 	public function index($config){
+		//获取默认模版
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+			$this->form->setData(array(
+				'template'=>$config['template'],
+			), true);
+		}
+		
 		isset($config['file_id']) || $config['file_id'] = 0;
 		$this->view->config = $config;
 		$this->view->render();
@@ -41,6 +49,7 @@ class AdminController extends Widget{
 			'height'=>'intval',
 			'link'=>'trim',
 			'target'=>'trim',
+			'template'=>'trim',
 		);
 	}
 }

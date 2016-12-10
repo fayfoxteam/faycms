@@ -157,7 +157,7 @@ class IndexController extends Widget{
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
 		isset($config['subclassification']) || $config['subclassification'] = true;
 		
-		$this->config = $config;
+		return $this->config = $config;
 	}
 	
 	/**

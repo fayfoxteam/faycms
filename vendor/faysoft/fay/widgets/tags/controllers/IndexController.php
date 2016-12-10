@@ -120,7 +120,7 @@ class IndexController extends Widget{
 			$config['uri'] = 'tag/{$title}';
 		}
 		
-		$this->config = $config;
+		return $this->config = $config;
 	}
 	
 	/**

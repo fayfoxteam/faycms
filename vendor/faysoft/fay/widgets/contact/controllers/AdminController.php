@@ -92,6 +92,7 @@ class AdminController extends Widget{
 			'submit_text'=>'trim',
 			'submit_btn_class'=>'trim',
 			'submit_success'=>'trim',
+			'template'=>'trim',
 		);
 	}
 }

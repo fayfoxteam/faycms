@@ -31,11 +31,11 @@ use fay\helpers\Html;
 			<tr>
 				<th>宽x高</th>
 				<td>
-					<?php echo Html::inputText('width', isset($data['width']) ? $data['width'] : '', array(
+					<?php echo Html::inputText('width', isset($config['width']) ? $config['width'] : '', array(
 						'class'=>'form-control w50 ib',
 					))?>
 					x
-					<?php echo Html::inputText('height', isset($data['height']) ? $data['height'] : '', array(
+					<?php echo Html::inputText('height', isset($config['height']) ? $config['height'] : '', array(
 						'class'=>'form-control w50 ib',
 					))?>
 					<a href="javascript:;" title="原始尺寸" id="refresh-size"><i class="fa fa-refresh"></i></a>

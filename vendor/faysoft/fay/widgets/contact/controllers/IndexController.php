@@ -137,6 +137,6 @@ class IndexController extends Widget{
 			$config['format_message']['email'] = '邮箱格式错误';
 		}
 		
-		$this->config = $config;
+		return $this->config = $config;
 	}
 }

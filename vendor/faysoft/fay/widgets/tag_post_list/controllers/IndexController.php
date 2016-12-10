@@ -161,7 +161,7 @@ class IndexController extends Widget{
 		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
 		empty($config['cat_id']) && $config['cat_id'] = 0;
 		
-		$this->config = $config;
+		return $this->config = $config;
 	}
 	
 	/**

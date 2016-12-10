@@ -163,7 +163,7 @@ class IndexController extends Widget{
 		
 		empty($config['fields']) && $config['fields'] = array('meta');
 		
-		$this->config = $config;
+		return $this->config = $config;
 	}
 	
 	/**

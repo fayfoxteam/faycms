@@ -30,23 +30,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<form class="contact-form" id="contact-form" action="<?php echo $this->url('contact/send')?>" method="post">
-						<fieldset>
-							<input name="name" placeholder="Your Name" />
-						</fieldset>
-						<fieldset>
-							<input name="email" placeholder="Your Email" />
-						</fieldset>
-						<fieldset>
-							<input name="phone" placeholder="Your Phone" />
-						</fieldset>
-						<fieldset>
-							<textarea name="message" placeholder="Message: It's highly appreciated to inquiry with product names, quantities and your country name, thanks."></textarea>
-						</fieldset>
-						<fieldset>
-							<a href="javascript:;" class="btn btn-transparent" id="contact-form-submit">SUBMIT</a>
-						</fieldset>
-					</form>
+					<?php F::widget()->load('w584b9590ec91b')?>
 				</div>
 				<div class="col-md-4">
 					<?php F::widget()->load('baidu-map')?>
@@ -95,28 +79,3 @@
 		<?php F::widget()->load('faq-list')?>
 	</div>
 </section>
-<script>
-	var contact = {
-		'validform': function(rules, labels){
-			system.getScript(system.assets('faycms/js/fayfox.validform.js'), function(){
-				$('#contact-form').validform({
-					'showAllErrors': false,
-					'onError': function(obj, msg, rule){
-						common.toast(msg, 'error');
-					},
-					'ajaxSubmit': true,
-					'afterAjaxSubmit': function(resp){
-						if(resp.status){
-							common.toast('Message has been send', 'success');
-						}else{
-							common.toast(resp.message, 'error');
-						}
-					}
-				}, rules, labels);
-			});
-		}
-	};
-	$(function(){
-		contact.validform(<?php echo json_encode(F::form()->getJsRules())?>, <?php echo json_encode(F::form()->getLabels())?>);
-	});
-</script>

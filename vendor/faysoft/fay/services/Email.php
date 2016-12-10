@@ -6,6 +6,14 @@ use fay\core\ErrorException;
 
 class Email extends Service{
 	/**
+	 * @param string $class_name
+	 * @return Email
+	 */
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
+	}
+	
+	/**
 	 * 发送一封邮件
 	 * @param string|array $address 邮箱地址
 	 * @param string $subject 邮件标题

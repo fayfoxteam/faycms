@@ -4,7 +4,7 @@
  * @var $config
  */
 ?>
-<form class="contact-form" id="widget-<?php echo $alias?>-form" action="<?php echo $this->url('contact/send')?>" method="post">
+<form class="contact-form" id="widget-<?php echo $alias?>-form" action="<?php echo $this->url("widget/load/{$alias}/send")?>" method="post">
 	<?php foreach($config['elements'] as $element){?>
 	<fieldset>
 	<?php
@@ -41,7 +41,7 @@ $(function(){
 	var contact = {
 		'validform': function(rules, labels){
 			system.getScript(system.assets('faycms/js/fayfox.validform.js'), function(){
-				$('#contact-form').validform({
+				$('#widget-<?php echo $alias?>-form').validform({
 					'showAllErrors': false,
 					'onError': function(obj, msg){
 						contact.toast(msg, 'error');
@@ -57,7 +57,7 @@ $(function(){
 				}, rules, labels);
 			});
 		},
-		'toast':function(message, type){
+		'toast': function(message, type){
 			type = type || 'success';
 			system.getScript(system.assets('faycms/js/fayfox.toast.js'), function(){
 				if(type == 'success'){
@@ -81,14 +81,19 @@ $(function(){
 				}
 			});
 		},
-		'form':function(){
+		'form': function(){
 			//表单提交
 			$('#widget-<?php echo $alias?>-form-submit').on('click', function(){
 				$('#widget-<?php echo $alias?>-form').submit();
 				return false;
 			});
+		},
+		'init': function(){
+			this.form();
+			this.validform(<?php echo json_encode(F::form('widget_contact')->getJsRules())?>, <?php echo json_encode(F::form('widget_contact')->getLabels())?>);
 		}
 	};
-	contact.validform(<?php echo json_encode(F::form('widget_contact')->getJsRules())?>, <?php echo json_encode(F::form('widget_contact')->getLabels())?>);
+	
+	contact.init();
 });
 </script>

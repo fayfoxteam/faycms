@@ -44,8 +44,6 @@ class AdminController extends Widget{
 	
 	public function onPost(){
 		$data = $this->form->getFilteredData();
-		//格式化必选元素
-		$data['required'] = isset($data['required']) ? array_keys($data['required']) : array();
 		
 		if(isset($data['elements'])){
 			//对表单元素进行排序

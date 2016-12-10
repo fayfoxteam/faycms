@@ -106,8 +106,8 @@ $elements = array(
 							if($element == 'email'){
 								echo Html::inputText(
 									"format_message[{$element}]",
-									(isset($config['format_message'][$element]) ?
-										$config['format_message'][$element] : isset($config['label'][$element]) ?
+									isset($config['format_message'][$element]) ?
+										$config['format_message'][$element] : (isset($config['label'][$element]) ?
 											$config['label'][$element] : isset($config['placeholder'][$element]) ?
 												$config['placeholder'][$element] : $element) . '格式错误',
 									array(

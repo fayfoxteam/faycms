@@ -1,6 +1,8 @@
 <?php
 namespace fay\widgets\contact\controllers;
 
+use fay\core\Response;
+use fay\services\Contact;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
@@ -18,8 +20,12 @@ class IndexController extends Widget{
 		$this->initForm();
 		
 		//表单验证
-		$this->form('widget_contact')->check();
-		
+		if($this->form('widget_contact')->check()){
+			Contact::service()->create($this->form('widget_contact')->getAllData());
+			Response::notify('success', 'Message has been send.');
+		}else{
+			Response::notify('error', $this->form()->getFirstError());
+		}
 	}
 	
 	public function index($config){
@@ -85,7 +91,7 @@ class IndexController extends Widget{
 				->setFilters(array(
 					$element=>'trim',
 				))->setLabels(array(
-					$element=>$this->config['label'][$element],
+					$element=>!empty($this->config['label'][$element]) ? $this->config['label'][$element] : ucfirst($element),
 				));
 		}
 	}

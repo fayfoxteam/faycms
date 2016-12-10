@@ -65,7 +65,9 @@ class Loader{
 	 *  - 若为数组，视为已经从数据库中搜出对应行
 	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
 	 * @param bool $ajax 是否ajax调用，若为null，默认采用widgets表设置。若存在启用缓存，则不会走ajax。
+	 * @param string $action
 	 * @throws HttpException
+	 * @throws \fay\core\ErrorException
 	 */
 	public function load($widget, $index = null, $ajax = null, $action = 'index'){
 		if(!is_array($widget)){
@@ -100,6 +102,8 @@ class Loader{
 	 * @param int $cache 缓存时间，若为负数，则不缓存，为0则缓存不过期。若开启缓存，则ajax参数无效
 	 * @param string $alias 别名，若直接调用，则别名为空
 	 * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
+	 * @param string $action
+	 * @throws \fay\core\ErrorException
 	 */
 	public function render($name, $options = array(), $ajax = false, $cache = -1, $alias = '', $index = null, $action = 'index'){
 		if($alias && $cache >= 0 && $content = \F::cache()->get('widgets/' . $alias)){

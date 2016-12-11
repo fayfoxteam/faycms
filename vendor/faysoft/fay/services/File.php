@@ -233,7 +233,7 @@ class File extends Service{
 	 */
 	public static function getThumbnailUrl($file, $options = array()){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu,file_type');
 		}
 		
 		if(!$file){

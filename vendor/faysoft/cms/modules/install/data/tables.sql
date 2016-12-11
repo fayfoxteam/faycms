@@ -244,7 +244,7 @@ CREATE TABLE `{{$prefix}}files` (
   `raw_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Raw Name',
   `file_ext` varchar(10) NOT NULL DEFAULT '' COMMENT 'File Ext',
   `file_size` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'File Size',
-  `file_type` varchar(30) NOT NULL DEFAULT '' COMMENT 'File Type',
+  `file_type` varchar(255) NOT NULL DEFAULT '' COMMENT 'File Type',
   `file_path` varchar(255) NOT NULL DEFAULT '' COMMENT 'File Path',
   `client_name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Client Name',
   `is_image` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Image',

@@ -7,7 +7,7 @@
 //获取分类描述
 $cat = \fay\services\Category::service()->get($config['cat_id'], 'description');
 
-$bg_img = F::widget()->getData('faq-image');
+$bg_img = F::widget()->getData('faq-bg');
 ?>
 <section class="section" id="section-faq">
 	<div class="bg" style="background-image:url(<?php echo $bg_img['src']?>)">

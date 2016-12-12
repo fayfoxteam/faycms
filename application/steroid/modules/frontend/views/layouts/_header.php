@@ -8,11 +8,16 @@ use fay\helpers\Html;
 			<?php F::widget()->load('nav-left');?>
 		</div>
 		<div class="nav-center">
-			<div class="logo">
-				<img src="<?php echo $this->appStatic('images/logo.png')?>">
-			</div>
+			<div class="logo"><?php
+				$logo = Option::get('site:logo');
+				if($logo){
+					echo Html::img($logo);
+				}else{
+					echo Html::img($this->appStatic('images/logo.png'));
+				}
+			?></div>
 			<div class="title">
-				<span>SteroidSolution.com</span>
+				<span>Hgh-Steroid.com</span>
 			</div>
 		</div>
 		<div class="nav-right">

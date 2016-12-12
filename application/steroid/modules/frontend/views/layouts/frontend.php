@@ -37,7 +37,7 @@ use fay\helpers\Html;
 		<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-					<p>Shenzhen Shijingu Technology Co.,ltd - www.steroidsolution.com</p>
+					<p>Shenzhen RuiJin Pharmaceutical Co.,Ltd - www.hgh-steroid.com</p>
 					<p><?php echo Option::get('site:copyright')?></p>
 				</div>
 			</div>

@@ -40,7 +40,7 @@ class Link extends Service{
 		}else{
 			return Links::model()->fetchAll(array(
 				'visible = ?'=>$visible === null ? false : ($visible == true ? 1 : 0),
-			), '*', false, $limit ? $limit : false);
+			), '*', 'sort', $limit ? $limit : false);
 		}
 	}
 	
@@ -58,7 +58,7 @@ class Link extends Service{
 		return Links::model()->fetchAll(array(
 			'cat_id = ' . $cat_id,
 			'visible = ?'=>$visible === null ? false : ($visible == true ? 1 : 0),
-		), '*', false, $limit ? $limit : false);
+		), '*', 'sort', $limit ? $limit : false);
 	}
 	
 	/**

@@ -59,11 +59,6 @@ class IndexController extends Widget{
 		'views'=>'views DESC, publish_time DESC',
 	);
 	
-	/**
-	 * 配置信息
-	 */
-	private $config;
-	
 	public function getData($config){
 		//初始化配置
 		$this->initConfig($config);
@@ -147,8 +142,9 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
+	 * @return array
 	 */
-	private function initConfig($config){
+	protected function initConfig($config){
 		empty($config['tag_title_key']) && $config['tag_title_key'] = 'tag_title';
 		empty($config['tag_id_key']) && $config['tag_id_key'] = 'tag_id';
 		empty($config['page_size']) && $config['page_size'] = 10;

@@ -146,7 +146,7 @@ class IndexController extends Widget{
 	 * 初始化配置
 	 * @param array $config
 	 */
-	private function initConfig($config){
+	protected function initConfig($config){
 		empty($config['page_size']) && $config['page_size'] = 10;
 		empty($config['page_key']) && $config['page_key'] = 'page';
 		empty($config['uri']) && $config['uri'] = 'post/{$id}';

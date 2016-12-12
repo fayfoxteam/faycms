@@ -5,11 +5,6 @@ use fay\widget\Widget;
 use fay\services\File;
 
 class IndexController extends Widget{
-	/**
-	 * 配置信息
-	 */
-	private $config;
-	
 	public function getData($config){
 		$config = $this->initConfig($config);
 		
@@ -48,7 +43,7 @@ class IndexController extends Widget{
 	 * @param array $config
 	 * @return array
 	 */
-	private function initConfig($config){
+	protected function initConfig($config){
 		//默认表单元素
 		isset($config['file_id']) || $config['file_id'] = '0';
 		

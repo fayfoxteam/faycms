@@ -53,11 +53,6 @@ class IndexController extends Widget{
 		'views'=>'views DESC, publish_time DESC',
 	);
 	
-	/**
-	 * 配置信息
-	 */
-	private $config;
-	
 	public function getData($config){
 		$this->initConfig($config);
 		
@@ -129,8 +124,9 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
+	 * @return array
 	 */
-	private function initConfig($config){
+	protected function initConfig($config){
 		//root node
 		if(empty($config['cat_id'])){
 			$root_node = Category::service()->getByAlias('_system_post', 'id');

@@ -56,6 +56,11 @@ abstract class Widget{
 	public $_index;
 	
 	/**
+	 * 配置信息
+	 */
+	protected $config = array();
+	
+	/**
 	 * 当前时间
 	 * @var int
 	 */
@@ -109,6 +114,10 @@ abstract class Widget{
 	 * 获取该widget实例的参数，参数以数组方式返回，若未设置参数，返回空数组
 	 */
 	public function getConfig(){
+		if($this->config){
+			return $this->config;
+		}
+		
 		$widget = Widgets::model()->fetchRow("alias = '{$this->alias}'", 'options');
 		if(isset($widget['options']) && $widget['options']){
 			return json_decode($widget['options'], true);
@@ -145,6 +154,15 @@ abstract class Widget{
 	 */
 	public function filters(){
 		return array();
+	}
+	
+	/**
+	 * 初始化配置信息
+	 * @param $config
+	 * @return array
+	 */
+	public function initConfig($config){
+		return $this->config = $config ? $config : array();
 	}
 	
 	/**

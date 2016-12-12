@@ -6,11 +6,6 @@ use fay\services\Contact;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
-	/**
-	 * 配置信息
-	 */
-	private $config;
-	
 	public function getData($config){
 		$this->initConfig($config);
 	}
@@ -99,8 +94,9 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
+	 * @return array
 	 */
-	private function initConfig($config){
+	protected function initConfig($config){
 		//默认表单元素
 		isset($config['elements']) || $config['elements'] = array(
 			'name', 'email', 'content',

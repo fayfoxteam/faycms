@@ -28,11 +28,6 @@ class IndexController extends Widget{
 		'create_time'=>'id DESC',
 	);
 	
-	/**
-	 * 配置信息
-	 */
-	private $config;
-	
 	public function getData($config){
 		$this->initConfig($config);
 		
@@ -106,8 +101,9 @@ class IndexController extends Widget{
 	/**
 	 * 初始化配置
 	 * @param array $config
+	 * @return array
 	 */
-	private function initConfig($config){
+	protected function initConfig($config){
 		empty($config['number']) && $config['number'] = 10;
 		
 		//排序方式

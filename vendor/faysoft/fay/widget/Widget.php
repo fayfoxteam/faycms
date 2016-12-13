@@ -168,9 +168,30 @@ abstract class Widget{
 	}
 	
 	/**
+	 * 渲染模版
+	 * @param array $data
+	 * @throws \fay\core\ErrorException
+	 */
+	protected function renderTemplate($data = array()){
+		$this->view->assign($data);
+		
+		if(empty($this->config['template'])){
+			//未指定模版，渲染默认模版
+			$this->view->render('template');
+		}else{
+			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
+				//指定的是项目内的路径
+				\F::app()->view->renderPartial($this->config['template'], $this->view->getViewData());
+			}else{
+				//直接eval源码
+				$widget = $this->widget;
+				eval('?>'.$this->config['template'].'<?php ');
+			}
+		}
+	}
+	
+	/**
 	 * 子类中实现，调用widget时自动执行此方法
-	 * @param array $config
-	 * @return
 	 */
 	abstract public function index();
 }

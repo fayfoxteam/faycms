@@ -47,20 +47,9 @@ class IndexController extends Widget{
 			return;
 		}
 		
-		if(empty($config['template'])){
-			$this->view->render('template');
-		}else{
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
-				\F::app()->view->renderPartial($config['template'], array(
-					'cats'=>$cats,
-					'config'=>$config,
-					'alias'=>$this->alias,
-				));
-			}else{
-				$widget = $this->widget;
-				eval('?>'.$config['template'].'<?php ');
-			}
-		}
+		$this->renderTemplate(array(
+			'cats'=>$cats,
+		));
 	}
 	
 	/**

@@ -6,8 +6,7 @@ use fay\services\File;
 use fay\core\Response;
 
 class IndexController extends Widget{
-	
-	public function index($options){
+	public function index(){
 		$apps = File::getFileList(APPLICATION_PATH.'..');
 		$options = array();
 		foreach($apps as $app){

@@ -5,8 +5,7 @@ use fay\widget\Widget;
 use fay\services\Flash;
 
 class AdminController extends Widget{
-	public function index($data){
-		$this->view->data = $data;
+	public function index(){
 		$this->view->render();
 	}
 	

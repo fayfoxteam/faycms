@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\services\Flash;
 
 class AdminController extends Widget{
-	public function index($config){
+	public function index(){
 		$root_node = Category::service()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(

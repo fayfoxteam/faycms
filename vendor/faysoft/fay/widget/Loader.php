@@ -111,6 +111,7 @@ class Loader{
 		}else{
 			$real_action = StringHelper::hyphen2case($action, false);
 			$widget_obj = $this->get($name);
+			$widget_obj->initConfig($options);
 			if($widget_obj == null){
 				echo 'widget不存在或已被删除';
 			}else if(!method_exists($widget_obj, $real_action) && !method_exists($widget_obj, $real_action.'Action')){
@@ -170,9 +171,9 @@ class Loader{
 				}else{
 					ob_start();
 					if(method_exists($widget_obj, $real_action)){
-						$widget_obj->{$real_action}($options);
+						$widget_obj->{$real_action}();
 					}else{
-						$widget_obj->{$real_action.'Action'}($options);
+						$widget_obj->{$real_action.'Action'}();
 					}
 					$content = ob_get_contents();
 					ob_end_clean();
@@ -200,12 +201,15 @@ class Loader{
 		}
 		
 		if($widget_config['enabled']){
+			//获取widget实例
 			$widget_obj = $this->get($widget_config['widget_name']);
+			//初始化配置
+			$widget_obj->initConfig(json_decode($widget_config['options'], true));
 			if($widget_obj == null){
 				throw new HttpException('Widget不存在或已被删除');
 			}
 			if(method_exists($widget_obj, 'getData')){
-				return $widget_obj->getData(json_decode($widget_config['options'], true));
+				return $widget_obj->getData();
 			}else{
 				throw new HttpException('小工具未实现获取数据方法');
 			}

@@ -5,31 +5,7 @@ use fay\widget\Widget;
 use fay\services\Category;
 
 class IndexController extends Widget{
-	public function getData($config){
-		//root node
-		if(empty($config['top'])){
-			$root_node = Category::service()->getByAlias('_system_post', 'id');
-			$config['top'] = $root_node['id'];
-		}
-		
-		//uri
-		if(empty($config['uri'])){
-			$config['uri'] = 'cat/{$id}';
-		}
-		
-		if(!empty($config['hierarchical'])){
-			$cats = Category::service()->getTree($config['top']);
-		}else{
-			$cats = Category::service()->getChildren($config['top']);
-		}
-		
-		//格式化分类链接
-		$cats = $this->setLink($cats, $config['uri']);
-		
-		return $cats;
-	}
-	
-	public function index($config){
+	public function initConfig($config){
 		//root node
 		if(empty($config['top'])){
 			$root_node = Category::service()->getByAlias('_system_post', 'id');
@@ -47,6 +23,10 @@ class IndexController extends Widget{
 			$config['uri'] = 'cat/{$id}';
 		}
 		
+		return parent::initConfig($config);
+	}
+	
+	public function getData(){
 		if(!empty($config['hierarchical'])){
 			$cats = Category::service()->getTree($config['top']);
 		}else{
@@ -56,17 +36,19 @@ class IndexController extends Widget{
 		//格式化分类链接
 		$cats = $this->setLink($cats, $config['uri']);
 		
+		return $cats;
+	}
+	
+	public function index(){
+		$cats = $this->getData();
+		
 		//若无分类可显示，则不显示该widget
 		if(empty($cats)){
 			return;
 		}
 		
 		if(empty($config['template'])){
-			$this->view->render('template', array(
-				'cats'=>$cats,
-				'config'=>$config,
-				'alias'=>$this->alias,
-			));
+			$this->view->render('template');
 		}else{
 			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
 				\F::app()->view->renderPartial($config['template'], array(
@@ -75,7 +57,7 @@ class IndexController extends Widget{
 					'alias'=>$this->alias,
 				));
 			}else{
-				$alias = $this->alias;
+				$widget = $this->widget;
 				eval('?>'.$config['template'].'<?php ');
 			}
 		}

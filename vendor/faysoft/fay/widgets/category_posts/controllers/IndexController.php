@@ -53,7 +53,7 @@ class IndexController extends Widget{
 		'views'=>'views DESC, publish_time DESC',
 	);
 	
-	public function getData($config){
+	public function getData(){
 		$this->initConfig($config);
 		
 		$conditions = $this->getConditions();
@@ -70,7 +70,7 @@ class IndexController extends Widget{
 		return $posts;
 	}
 	
-	public function index($config){
+	public function index(){
 		$this->initConfig($config);
 		
 		$conditions = $this->getConditions();

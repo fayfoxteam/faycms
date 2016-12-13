@@ -6,7 +6,7 @@ use fay\core\Sql;
 
 class IndexController extends Widget{
 	
-	public function index($options){
+	public function index(){
 		//在线管理员数
 		$sql = new Sql();
 		$this->view->admins = $sql->from(array('u'=>'users'), 'id,username,avatar,nickname')

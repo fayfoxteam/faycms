@@ -5,8 +5,7 @@ use fay\widget\Widget;
 use fay\models\tables\Logs;
 
 class IndexController extends Widget{
-	
-	public function index($options){
+	public function index(){
 		$this->view->logs = Logs::model()->fetchAll(array(
 			'or'=>array(
 				'type = '.Logs::TYPE_ERROR,

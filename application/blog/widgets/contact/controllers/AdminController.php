@@ -11,5 +11,5 @@ class AdminController extends Widget{
 	public $description = '联系我';
 	public $screenshot = 'screenshot.jpg';
 	
-	public function index($configs){}
+	public function index(){}
 }

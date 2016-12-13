@@ -6,7 +6,7 @@ use fay\services\Menu;
 use fay\models\tables\Menus;
 
 class IndexController extends Widget{
-	public function getData($config){
+	public function getData(){
 		if(empty($config['top'])){
 			$config['top'] = Menus::ITEM_USER_MENU;
 		}
@@ -29,7 +29,7 @@ class IndexController extends Widget{
 		}
 	}
 	
-	public function index($config){
+	public function index(){
 		//root node
 		if(empty($config['top'])){
 			$config['top'] = Menus::ITEM_USER_MENU;

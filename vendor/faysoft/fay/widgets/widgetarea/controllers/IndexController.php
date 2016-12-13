@@ -4,11 +4,11 @@ namespace fay\widgets\widgetarea\controllers;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
-	public function getData($config){
+	public function getData(){
 		
 	}
 	
-	public function index($config){
+	public function index(){
 		if(empty($config['alias'])){
 			return '';
 		}

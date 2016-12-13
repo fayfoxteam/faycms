@@ -5,7 +5,7 @@ use fay\widget\Widget;
 use fay\services\File;
 
 class IndexController extends Widget{
-	public function getData($config){
+	public function getData(){
 		$config = $this->initConfig($config);
 		
 		$config['src'] = File::getUrl($config['file_id'], (empty($config['width']) && empty($config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
@@ -16,7 +16,7 @@ class IndexController extends Widget{
 		return $config;
 	}
 	
-	public function index($config){
+	public function index(){
 		$config = $this->initConfig($config);
 		
 		//template

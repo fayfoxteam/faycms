@@ -63,7 +63,7 @@ class IndexController extends Widget{
 	 */
 	private $config;
 	
-	public function getData($config){
+	public function getData(){
 		//初始化配置
 		$this->initConfig($config);
 		
@@ -85,7 +85,7 @@ class IndexController extends Widget{
 		);
 	}
 	
-	public function index($config){
+	public function index(){
 		//初始化配置
 		$this->initConfig($config);
 		

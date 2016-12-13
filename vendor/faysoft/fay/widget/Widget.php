@@ -58,7 +58,7 @@ abstract class Widget{
 	/**
 	 * 配置信息
 	 */
-	protected $config = array();
+	public $config = array();
 	
 	/**
 	 * 当前时间
@@ -81,7 +81,9 @@ abstract class Widget{
 		}
 		
 		include_once 'View.php';
-		$this->view = new View($this->name, get_class($this));
+		$this->view = new View($this->name);
+		//将Controller实例传递给view
+		$this->view->assign(array('widget'=>$this));
 		$this->input = Input::getInstance();
 		$this->db = Db::getInstance();
 		$this->form = $this->form('widget');
@@ -170,5 +172,5 @@ abstract class Widget{
 	 * @param array $config
 	 * @return
 	 */
-	abstract public function index($config);
+	abstract public function index();
 }

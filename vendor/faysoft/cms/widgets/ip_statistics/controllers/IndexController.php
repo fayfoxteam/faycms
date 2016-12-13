@@ -6,8 +6,7 @@ use fay\core\Sql;
 use fay\core\Loader;
 
 class IndexController extends Widget{
-	
-	public function index($options){
+	public function index(){
 		//引入IP地址库
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();

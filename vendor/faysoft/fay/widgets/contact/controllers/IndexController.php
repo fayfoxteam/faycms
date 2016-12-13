@@ -6,7 +6,7 @@ use fay\services\Contact;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
-	public function getData($config){
+	public function getData(){
 		$this->initConfig($config);
 	}
 	
@@ -23,7 +23,7 @@ class IndexController extends Widget{
 		}
 	}
 	
-	public function index($config){
+	public function index(){
 		$this->initConfig($config);
 		$this->initForm();
 		

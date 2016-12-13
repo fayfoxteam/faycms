@@ -7,7 +7,7 @@ use fay\services\Link;
 class IndexController extends Widget{
 	public $eval_cat_uri = '';
 	
-	public function index($config){
+	public function index(){
 		//title
 		if(empty($config['title'])){
 			$config['title'] = '友情链接';

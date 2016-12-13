@@ -7,7 +7,7 @@ use fay\core\HttpException;
 use fay\models\tables\Pages;
 
 class IndexController extends Widget{
-	public function index($config){
+	public function index(){
 		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
 			//根据页面ID访问
 			$page = Page::service()->get($this->input->get($config['id_key'], 'intval'));

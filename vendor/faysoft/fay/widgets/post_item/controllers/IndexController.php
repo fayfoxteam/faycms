@@ -61,7 +61,7 @@ class IndexController extends Widget{
 		)
 	);
 	
-	public function getData($config){
+	public function getData(){
 		if(isset($config['fields'])){
 			$fields = array(
 				'post'=>$this->fields['post'],
@@ -118,7 +118,7 @@ class IndexController extends Widget{
 		return $post;
 	}
 	
-	public function index($config){
+	public function index(){
 		if(isset($config['fields'])){
 			$fields = array(
 				'post'=>$this->fields['post'],

@@ -5,7 +5,7 @@ use fay\widget\Widget;
 use fay\services\Analyst;
 
 class IndexController extends Widget{
-	public function index($options){
+	public function index(){
 		$this->view->today = array(
 			'ip' => Analyst::service()->getIP(),
 			'pv' => Analyst::service()->getPV(),

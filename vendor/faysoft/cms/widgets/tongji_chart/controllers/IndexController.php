@@ -12,7 +12,7 @@ class IndexController extends Widget{
 		$this->yesterday_date = date('Y-m-d', strtotime('yesterday'));
 	}
 	
-	public function index($options){
+	public function index(){
 		$analyst = $this->getAnalyst('pv');
 		
 		$this->view->today = $analyst['today'];

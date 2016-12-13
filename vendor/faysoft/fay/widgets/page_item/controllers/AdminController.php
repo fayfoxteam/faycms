@@ -6,7 +6,7 @@ use fay\services\Flash;
 use fay\models\tables\Pages;
 
 class AdminController extends Widget{
-	public function index($config){
+	public function index(){
 		//获取默认模版
 		if(empty($config['template'])){
 			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');

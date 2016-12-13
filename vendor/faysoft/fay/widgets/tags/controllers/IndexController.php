@@ -28,7 +28,7 @@ class IndexController extends Widget{
 		'create_time'=>'id DESC',
 	);
 	
-	public function getData($config){
+	public function getData(){
 		$this->initConfig($config);
 		
 		$tags = Tag::service()->getLimit(
@@ -43,7 +43,7 @@ class IndexController extends Widget{
 		return $tags;
 	}
 	
-	public function index($config){
+	public function index(){
 		$this->initConfig($config);
 		
 		$tags = Tag::service()->getLimit(

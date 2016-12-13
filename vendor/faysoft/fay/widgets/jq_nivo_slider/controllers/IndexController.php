@@ -5,7 +5,7 @@ use fay\widget\Widget;
 use fay\services\File;
 
 class IndexController extends Widget{
-	public function getData($config){
+	public function getData(){
 		$data = empty($config['files']) ? array() : $config['files'];
 		foreach($data as $k => $d){
 			if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time']) ||
@@ -21,7 +21,7 @@ class IndexController extends Widget{
 		return $data;
 	}
 	
-	public function index($config){
+	public function index(){
 		if(empty($config)){
 			$config = array();
 		}

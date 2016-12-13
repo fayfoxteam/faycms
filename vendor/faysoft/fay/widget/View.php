@@ -15,11 +15,8 @@ class View{
 	 */
 	public $__name = '';
 	
-	private $_widget_class_name = '';
-	
-	public function __construct($name, $widget_class_name){
+	public function __construct($name){
 		$this->__name = $name;
-		$this->_widget_class_name = $widget_class_name;
 	}
 	
 	public function url($router = false, $params = array(), $url_rewrite = true){
@@ -67,8 +64,9 @@ class View{
 	
 	public function render($view = null, $view_data = array(), $return = false){
 		$view || $view = 'index';
+		$widget_class_name = get_class($this->widget);
 		//获取Controller名
-		$controller = strtolower(substr($this->_widget_class_name, strrpos($this->_widget_class_name, '\\')+1, -10));
+		$controller = strtolower(substr($widget_class_name, strrpos($widget_class_name, '\\')+1, -10));
 		//获取view文件相对路径
 		if(strpos($view, '/') === false){
 			$view = $controller . DS . $view;
@@ -81,7 +79,7 @@ class View{
 			//系统自带的widget name为cms/*或者fay/*
 			$name_explode = explode('/', $this->__name);
 			$pre = array_shift($name_explode);
-			if(substr($this->_widget_class_name, 0, strlen(APPLICATION)) == APPLICATION){
+			if(substr($widget_class_name, 0, strlen(APPLICATION)) == APPLICATION){
 				//app下自定义小工具
 				$view_file = APPLICATION_PATH.'widgets'.DS.implode(DS, $name_explode).DS.'views'.DS.$view.'.php';
 			}else{

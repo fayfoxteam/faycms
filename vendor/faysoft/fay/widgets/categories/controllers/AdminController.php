@@ -6,7 +6,19 @@ use fay\services\Category;
 use fay\services\Flash;
 
 class AdminController extends Widget{
-	public function index($config){
+	public function initConfig($config){
+		//获取默认模版
+		if(empty($config['template'])){
+			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
+			$this->form->setData(array(
+				'template'=>$config['template'],
+			), true);
+		}
+		
+		return parent::initConfig($config);
+	}
+	
+	public function index(){
 		$root_node = Category::service()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(
@@ -16,15 +28,6 @@ class AdminController extends Widget{
 			),
 		);
 		
-		//获取默认模版
-		if(empty($config['template'])){
-			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
-			$this->form->setData(array(
-				'template'=>$config['template'],
-			), true);
-		}
-		
-		$this->view->config = $config;
 		$this->view->render();
 	}
 	

@@ -7,7 +7,7 @@ use fay\core\Sql;
 
 class IndexController extends Widget{
 	
-	public function index($options){
+	public function index(){
 		$sql = new Sql();
 		$this->view->posts = $sql->from(array('p'=>'posts'), 'id,title,publish_time,comments')
 			->where(Posts::getPublishedConditions('p'))

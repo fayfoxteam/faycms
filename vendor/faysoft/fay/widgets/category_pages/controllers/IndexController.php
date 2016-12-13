@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\core\Sql;
 
 class IndexController extends Widget{
-	public function getData($config){
+	public function getData(){
 		//root node
 		if(empty($config['top'])){
 			$root_node = Category::service()->getByAlias('_system_page', 'id');
@@ -33,7 +33,7 @@ class IndexController extends Widget{
 		return $pages;
 	}
 	
-	public function index($config){
+	public function index(){
 		//root node
 		if(empty($config['top'])){
 			$root_node = Category::service()->getByAlias('_system_page', 'id');

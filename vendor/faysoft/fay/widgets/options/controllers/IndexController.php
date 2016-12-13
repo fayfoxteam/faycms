@@ -4,14 +4,14 @@ namespace fay\widgets\options\controllers;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
-	public function getData($config){
+	public function getData(){
 		return array(
 			'title'=>isset($config['title']) ? $config['title'] : '',
 			'data'=>isset($config['data']) && is_array($config['data']) ? $config['data'] : array(),
 		);
 	}
 	
-	public function index($config){
+	public function index(){
 		//template
 		if(empty($config['template'])){
 			//调用默认模版

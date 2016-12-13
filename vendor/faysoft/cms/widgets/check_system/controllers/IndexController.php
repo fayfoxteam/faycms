@@ -5,7 +5,7 @@ use fay\widget\Widget;
 
 class IndexController extends Widget{
 	
-	public function index($options){
+	public function index(){
 		$this->view->writable = array(
 			'uploads'=>is_writable('./../uploads'),
 			'public/uploads'=>is_writable('./uploads'),

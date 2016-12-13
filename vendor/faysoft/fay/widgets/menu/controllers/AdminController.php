@@ -7,7 +7,7 @@ use fay\models\tables\Menus;
 use fay\services\Flash;
 
 class AdminController extends Widget{
-	public function index($config){
+	public function index(){
 		$this->view->menu = array(
 			array(
 				'id'=>Menus::ITEM_USER_MENU,

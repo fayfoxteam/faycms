@@ -101,7 +101,7 @@ class View{
 		Hook::getInstance()->call('before_render');
 		
 		$uri = Uri::getInstance();
-		$content = $this->renderPartial($view, array(), -1, true);
+		$content = $this->renderPartial($view, $this->getViewData(), -1, true);
 		
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		if($layout !== false){
@@ -113,21 +113,19 @@ class View{
 			}
 			if(isset($layout_relative_path)){
 				if(file_exists(APPLICATION_PATH.$layout_relative_path)){
-					$__layout_path = APPLICATION_PATH.$layout_relative_path;
+					$layout_path = APPLICATION_PATH.$layout_relative_path;
 				}else if(file_exists(BACKEND_PATH.$layout_relative_path)){
-					$__layout_path = BACKEND_PATH.$layout_relative_path;
+					$layout_path = BACKEND_PATH.$layout_relative_path;
 				}else{
 					throw new Exception("Layout file \"{$layout_relative_path}\" not found");
 				}
 			}
 		}
-		if(isset($__layout_path)){
-			extract($this->getViewData(), EXTR_PREFIX_SAME, 'view');
-			extract(\F::app()->layout->getLayoutData(), EXTR_PREFIX_SAME, 'view');
-			ob_start();
-			include $__layout_path;
-			$content = ob_get_contents();
-			ob_end_clean();
+		if(isset($layout_path)){
+			$content = $this->obOutput($layout_path, array_merge(
+				$this->getViewData(),
+				\F::app()->layout->getLayoutData()
+			));
 		}
 		
 		if($return){
@@ -146,13 +144,13 @@ class View{
 	/**
 	 * 不带layout渲染一个视图
 	 * @param string $view
-	 * @param array $view_data 传参
-	 * @param int $__cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
-	 * @param bool $__return 若为true，则不输出而是返回渲染结果
+	 * @param array $view_data 传参（此函数不调用全局的传参，只认传入的参数）
+	 * @param int $cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
+	 * @param bool $return 若为true，则不输出而是返回渲染结果
 	 * @return NULL|string
 	 * @throws ErrorException
 	 */
-	public function renderPartial($view = null, $view_data = array(), $__cache = -1, $__return = false){
+	public function renderPartial($view = null, $view_data = array(), $cache = -1, $return = false){
 		$uri = Uri::getInstance();
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		//加载视图文件
@@ -186,12 +184,12 @@ class View{
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}
 		
-		if($__cache >= 0){
+		if($cache >= 0){
 			//从缓存获取
 			$cache_key = "partial/{$module}/{$controller}/{$action}";
 			$content = \F::cache()->get($cache_key);
 			if($content){
-				if($__return){
+				if($return){
 					return $content;
 				}else{
 					echo $content;
@@ -214,24 +212,35 @@ class View{
 		if(!isset($view_path)){
 			throw new ErrorException('视图文件不存在', 'Relative Path: '.$view_relative_path);
 		}else{
-			$this->assign($view_data);
-			extract($this->getViewData());
-			ob_start();
-			include $view_path;
-			$content = ob_get_contents();
-			ob_end_clean();
+			$content = $this->obOutput($view_path, $view_data);
 		}
 		
 		if(isset($cache_key)){
 			//设置缓存
-			\F::cache()->set($cache_key, $content, $__cache);
+			\F::cache()->set($cache_key, $content, $cache);
 		}
 		
-		if($__return){
+		if($return){
 			return $content;
 		}else{
 			echo $content;
 			return null;
 		}
+	}
+	
+	/**
+	 * 独立一个渲染函数，防止变量污染
+	 * @param string $__view_path__ 视图文件路径
+	 * @param array $view_data 传递变量
+	 * @return string
+	 */
+	private function obOutput($__view_path__, $view_data = array()){
+		extract($view_data);
+		ob_start();
+		include $__view_path__;
+		$content = ob_get_contents();
+		ob_end_clean();
+		
+		return $content;
 	}
 }

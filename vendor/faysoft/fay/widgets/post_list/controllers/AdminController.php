@@ -42,7 +42,7 @@ class AdminController extends Widget{
 		if(empty($data['fields'])){
 			$data['fields'] = array();
 		}
-		$this->setConfig($data);
+		$this->saveConfig($data);
 		
 		Flash::set('编辑成功', 'success');
 	}

@@ -104,7 +104,7 @@ abstract class Widget{
 	 * 存储该widget实例的参数，参数以数组的方式传入
 	 * @param $data
 	 */
-	public function setConfig($data){
+	public function saveConfig($data){
 		Widgets::model()->update(array(
 			'options'=>json_encode($data),
 		), "alias = '{$this->alias}'");

@@ -23,7 +23,7 @@ class AdminController extends Widget{
 	 * 当有post提交的时候，会自动调用此方法
 	 */
 	public function onPost(){
-		$this->setConfig($this->form->getFilteredData());
+		$this->saveConfig($this->form->getFilteredData());
 		Flash::set('编辑成功', 'success');
 	}
 	

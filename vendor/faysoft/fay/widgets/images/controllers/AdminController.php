@@ -36,7 +36,7 @@ class AdminController extends Widget{
 				'end_time'=>$end_times[$p] ? $end_times[$p] : 0,
 			);
 		}
-		$this->setConfig($data);
+		$this->saveConfig($data);
 		Flash::set('编辑成功', 'success');
 	}
 	

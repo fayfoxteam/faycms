@@ -28,7 +28,7 @@ class AdminController extends Widget{
 			);
 		}
 		
-		$this->setConfig($data);
+		$this->saveConfig($data);
 		Flash::set('编辑成功', 'success');
 	}
 	

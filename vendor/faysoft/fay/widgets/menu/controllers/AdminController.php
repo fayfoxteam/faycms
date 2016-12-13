@@ -37,7 +37,7 @@ class AdminController extends Widget{
 		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
 			$template = '';
 		}
-		$this->setConfig(array(
+		$this->saveConfig(array(
 			'top'=>$this->input->post('top', 'intval', 0),
 			'template'=>$template,
 		));

@@ -12,7 +12,7 @@ class AdminController extends Widget{
 	}
 	
 	public function onPost(){
-		$this->setConfig($this->form->getFilteredData());
+		$this->saveConfig($this->form->getFilteredData());
 		Flash::set('编辑成功', 'success');
 	}
 	

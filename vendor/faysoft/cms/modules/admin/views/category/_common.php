@@ -2,6 +2,11 @@
 use fay\helpers\Html;
 use fay\models\tables\Categories;
 
+/**
+ * @var $root int
+ * @var $cats array
+ */
+
 F::form('create')->setModel(Categories::model());
 F::form('edit')->setModel(Categories::model());
 ?>

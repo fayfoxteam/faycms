@@ -6,7 +6,7 @@ use fay\services\Category;
 use fay\core\Sql;
 
 class IndexController extends Widget{
-	public function getData(){
+	public function initConfig($config){
 		//root node
 		if(empty($config['top'])){
 			$root_node = Category::service()->getByAlias('_system_page', 'id');
@@ -15,30 +15,6 @@ class IndexController extends Widget{
 		
 		//number
 		empty($config['number']) && $config['number'] = 5;
-		
-		$sql = new Sql();
-		$pages = $sql->from(array('pc'=>'pages_categories'), '')
-			->joinLeft(array('p'=>'pages'), 'pc.page_id = p.id', 'id,title,alias,thumbnail,abstract')
-			->where(array('pc.cat_id = ?'=>$$config['top']))
-			->fetchAll();
-		
-		foreach($pages as &$p){
-			$p['link'] = $this->view->url(str_replace(array(
-				'{$id}', '{$alias}',
-			), array(
-				$p['id'], $p['alias'],
-			), $config['uri']));
-		}
-		
-		return $pages;
-	}
-	
-	public function index(){
-		//root node
-		if(empty($config['top'])){
-			$root_node = Category::service()->getByAlias('_system_page', 'id');
-			$config['top'] = $root_node['id'];
-		}
 		
 		//title
 		if(empty($config['title'])){
@@ -46,57 +22,40 @@ class IndexController extends Widget{
 			$config['title'] = $node['title'];
 		}
 		
-		//number
-		empty($config['number']) && $config['number'] = 5;
-		
 		//show_empty
-		isset($config['show_empty']) || $config['show_empty'] = 0;
+		isset($config['show_empty']) || $config['show_empty'] = '0';
 		
+		//设置模版
+		$this->form->setData(array(
+			'template'=>$this->getTemplate(),
+		), true);
+		
+		return $this->config = $config;
+	}
+	
+	public function getData(){
 		$sql = new Sql();
 		$pages = $sql->from(array('pc'=>'pages_categories'), '')
 			->joinLeft(array('p'=>'pages'), 'pc.page_id = p.id', 'id,title,alias,thumbnail,abstract')
-			->where(array('pc.cat_id = ?'=>$config['top']))
-			->order('sort, id DESC')
+			->where(array('pc.cat_id = ?'=>$this->config['top']))
 			->fetchAll();
-		
-		//若无文章可显示，则不显示该widget
-		if(empty($pages) && !$config['show_empty']){
-			return;
-		}
 		
 		foreach($pages as &$p){
 			$p['link'] = $this->view->url(str_replace(array(
 				'{$id}', '{$alias}',
 			), array(
 				$p['id'], $p['alias'],
-			), $config['uri']));
+			), $this->config['uri']));
 		}
 		
-		//template
-		if(empty($config['template'])){
-			//调用默认模版
-			$this->view->render('template', array(
-				'pages'=>$pages,
-				'config'=>$config,
-				'alias'=>$this->alias,
-				'_index'=>$this->_index,
-			));
-		}else{
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
-				//调用app的view文件
-				\F::app()->view->renderPartial($config['template'], array(
-					'pages'=>$pages,
-					'config'=>$config,
-					'alias'=>$this->alias,
-					'_index'=>$this->_index,
-				));
-			}else{
-				//直接视为代码执行
-				$alias = $this->view->alias;
-				$_index = $this->_index;
-				eval('?>'.$config['template'].'<?php ');
-			}
-		}
+		return $pages;
+	}
+	
+	public function index(){
+		$pages = $this->getData();
 		
+		$this->renderTemplate(array(
+			'pages'=>$pages,
+		));
 	}
 }

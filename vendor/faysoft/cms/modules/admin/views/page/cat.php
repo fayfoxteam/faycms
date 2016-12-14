@@ -1,6 +1,11 @@
 <?php
 use fay\helpers\Html;
 
+/**
+ * @var $cats array
+ * @var $root int 
+ */
+
 function showCats($cats, $dep = 0){?>
 	<ul class="tree">
 	<?php foreach($cats as $k=>$c){?>
@@ -74,4 +79,7 @@ function showCats($cats, $dep = 0){?>
 	</div>
 </div>
 
-<?php $this->renderPartial('category/_common');?>
+<?php $this->renderPartial('category/_common', array(
+	'root'=>$root,
+	'cats'=>$cats,
+));?>

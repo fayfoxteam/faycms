@@ -6,6 +6,15 @@ use fay\services\Category;
 use fay\services\Flash;
 
 class AdminController extends Widget{
+	public function initConfig($config){
+		//设置模版
+		$this->form->setData(array(
+			'template'=>$this->getTemplate(),
+		), true);
+		
+		return $this->config = $config;
+	}
+	
 	public function index(){
 		$root_node = Category::service()->getByAlias('_system_page', 'id');
 		$this->view->cats = array(

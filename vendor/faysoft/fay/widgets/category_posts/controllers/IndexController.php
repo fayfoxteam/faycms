@@ -54,8 +54,6 @@ class IndexController extends Widget{
 	);
 	
 	public function getData(){
-		$this->initConfig($config);
-		
 		$conditions = $this->getConditions();
 		
 		$posts = PostCategory::service()->getPosts(
@@ -66,59 +64,23 @@ class IndexController extends Widget{
 			$this->getOrder(),
 			$conditions
 		);
+		
+		$posts = $this->formatPosts($posts);
 		
 		return $posts;
 	}
 	
 	public function index(){
-		$this->initConfig($config);
-		
-		$conditions = $this->getConditions();
-		
-		$posts = PostCategory::service()->getPosts(
-			$this->getTopCategory(),
-			$this->config['number'],
-			$this->getFields(),
-			$this->config['subclassification'],
-			$this->getOrder(),
-			$conditions
-		);
+		$posts = $this->getData();
 		
 		//若无文章可显示，则不显示该widget
 		if(empty($posts) && !$this->config['show_empty']){
 			return;
 		}
 		
-		$posts = $this->formatPosts($posts);
-		
-		//template
-		if(empty($this->config['template'])){
-			//调用默认模版
-			$this->view->render('template', array(
-				'posts'=>$posts,
-				'config'=>$this->config,
-				'alias'=>$this->alias,
-				'_index'=>$this->_index,
-				'widget'=>$this,
-			));
-		}else{
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
-				//调用app的view文件
-				\F::app()->view->renderPartial($this->config['template'], array(
-					'posts'=>$posts,
-					'config'=>$this->config,
-					'alias'=>$this->alias,
-					'_index'=>$this->_index,
-					'widget'=>$this,
-				));
-			}else{
-				//直接视为代码执行
-				$alias = $this->view->alias;
-				$_index = $this->_index;
-				$widget = $this;
-				eval('?>'.$this->config['template'].'<?php ');
-			}
-		}
+		$this->renderTemplate(array(
+			'posts'=>$posts,
+		));
 	}
 	
 	/**
@@ -126,7 +88,7 @@ class IndexController extends Widget{
 	 * @param array $config
 	 * @return array
 	 */
-	protected function initConfig($config){
+	public function initConfig($config){
 		//root node
 		if(empty($config['cat_id'])){
 			$root_node = Category::service()->getByAlias('_system_post', 'id');
@@ -149,7 +111,7 @@ class IndexController extends Widget{
 		isset($config['show_empty']) || $config['show_empty'] = 0;
 		
 		//date format
-		empty($config['date_format']) && $config['date_format'] = '';
+		empty($config['date_format']) && $config['date_format'] = 'pretty';
 		
 		//仅返回有缩略图的文章
 		if(empty($config['thumbnail'])){

@@ -2,14 +2,13 @@
 use fay\helpers\Html;
 
 /**
- * @var string $alias
- * @var array $config
- * @var array $posts
+ * @var $widget fay\widgets\category_posts\controllers\IndexController
+ * @var $posts array
  */
 ?>
-<div class="widget widget-category-posts" id="widget-<?php echo Html::encode($alias)?>">
+<div class="widget widget-category-posts" id="widget-<?php echo Html::encode($widget->alias)?>">
 	<div class="widget-title">
-		<h3><?php echo Html::encode($config['title'])?></h3>
+		<h3><?php echo Html::encode($widget->config['title'])?></h3>
 	</div>
 	<div class="widget-content">
 		<ul>

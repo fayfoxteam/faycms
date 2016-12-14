@@ -2,6 +2,11 @@
 use cms\helpers\ListTableHelper;
 use fay\helpers\Html;
 use fay\models\tables\Logs;
+
+/**
+ * @var $iplocation \IpLocation
+ * @var $listview \fay\common\ListView
+ */
 ?>
 <div class="row">
 	<div class="col-7">
@@ -53,7 +58,9 @@ use fay\models\tables\Logs;
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php $listview->showData()?>
+				<?php $listview->showData(array(
+					'iplocation'=>$iplocation,
+				))?>
 			</tbody>
 		</table>
 	</div>

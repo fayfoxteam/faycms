@@ -124,7 +124,8 @@ class View{
 		if(isset($layout_path)){
 			$content = $this->obOutput($layout_path, array_merge(
 				$this->getViewData(),
-				\F::app()->layout->getLayoutData()
+				\F::app()->layout->getLayoutData(),
+				array('content'=>$content)
 			));
 		}
 		

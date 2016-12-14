@@ -3,6 +3,11 @@ namespace blog\modules\frontend\views\widget;
 
 use fay\helpers\Html;
 
+/**
+ * @var $widget
+ * @var array $cats
+ */
+
 if(!function_exists('blog\modules\frontend\views\widget\renderCats')){
 	function renderCats($cats, $uri, $dep = 0){
 		$html = '<ul';
@@ -26,6 +31,6 @@ if(!function_exists('blog\modules\frontend\views\widget\renderCats')){
 }
 ?>
 <aside class="widget category">
-	<div class="widget-title"><?php echo Html::encode($config['title'])?></div>
-	<?php echo renderCats($cats, $config['uri'])?>
+	<div class="widget-title"><?php echo Html::encode($widget->config['title'])?></div>
+	<?php echo renderCats($cats, $widget->config['uri'])?>
 </aside>

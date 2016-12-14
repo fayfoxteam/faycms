@@ -32,11 +32,11 @@ class AdminController extends Widget{
 	 * 当有post提交的时候，会自动调用此方法
 	 */
 	public function onPost(){
-		$data = $this->form()->getFilteredData();
+		$data = $this->form->getFilteredData();
 		$data['uri'] || $data['uri'] = $this->input->post('other_uri');
 		
 		//若模版与默认模版一致，不保存
-		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+		if($this->isDefaultTemplate($data['template'])){
 			$data['template'] = '';
 		}
 		

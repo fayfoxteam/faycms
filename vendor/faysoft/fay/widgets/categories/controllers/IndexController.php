@@ -23,18 +23,23 @@ class IndexController extends Widget{
 			$config['uri'] = 'cat/{$id}';
 		}
 		
-		return parent::initConfig($config);
+		//设置模版
+		$this->form->setData(array(
+			'template'=>$this->getTemplate(),
+		), true);
+		
+		return $this->config = $config;
 	}
 	
 	public function getData(){
-		if(!empty($config['hierarchical'])){
-			$cats = Category::service()->getTree($config['top']);
+		if(!empty($this->config['hierarchical'])){
+			$cats = Category::service()->getTree($this->config['top']);
 		}else{
-			$cats = Category::service()->getChildren($config['top']);
+			$cats = Category::service()->getChildren($this->config['top']);
 		}
 		
 		//格式化分类链接
-		$cats = $this->setLink($cats, $config['uri']);
+		$cats = $this->setLink($cats, $this->config['uri']);
 		
 		return $cats;
 	}

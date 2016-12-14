@@ -3,6 +3,11 @@ namespace fay\widgets\categories\views\index;
 
 use fay\helpers\Html;
 
+/**
+ * @var $widget \fay\widgets\categories\controllers\IndexController
+ * @var $cats array
+ */
+
 if(!function_exists('fay\widgets\categories\views\index\renderCats')){
 	function renderCats($cats, $dep = 0){
 		$html = '<ul';
@@ -21,9 +26,9 @@ if(!function_exists('fay\widgets\categories\views\index\renderCats')){
 	}
 }
 ?>
-<div class="widget widget-categories" id="widget-<?php echo Html::encode($alias)?>">
+<div class="widget widget-categories" id="widget-<?php echo Html::encode($widget->alias)?>">
 	<div class="widget-title">
-		<h3><?php echo Html::encode($config['title'])?></h3>
+		<h3><?php echo Html::encode($widget->config['title'])?></h3>
 	</div>
 	<div class="widget-content">
 		<?php echo renderCats($cats)?>

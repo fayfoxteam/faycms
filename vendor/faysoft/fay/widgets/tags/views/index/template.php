@@ -2,9 +2,9 @@
 use fay\helpers\Html;
 
 /**
- * @var string $alias
- * @var array $config
- * @var array $tags
+ * @var $alias string
+ * @var $config array
+ * @var $tags array
  */
 ?>
 <div class="widget widget-tags" id="widget-<?php echo Html::encode($alias)?>">

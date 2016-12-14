@@ -1,12 +1,17 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var fay\widget\Widget $widget_admin
+ */
 ?>
-<?php echo F::form('widget')->open()?>
+<?php echo F::form('edit_widget')->open()?>
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content"><?php
-		if(method_exists($widget_admin, 'index')){ 
-			echo $widget_admin->index($widget_config);
+		if(method_exists($widget_admin, 'index')){
+			//显示小工具配置面板
+			$widget_admin->index();
 		}else{?>
 			<div class="box">
 				<div class="box-content">该小工具无可配置项</div>
@@ -19,7 +24,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="box-content">
 					<div><?php
-						echo F::form('widget')->submitLink('保存', array(
+						echo F::form('edit_widget')->submitLink('保存', array(
 							'class'=>'btn',
 						));
 						echo Html::link('预览', array('widget/load/'.$widget['alias']), array(
@@ -94,7 +99,7 @@ use fay\helpers\Html;
 		</div>
 	</div>
 </div>
-<?php echo F::form('widget')->close()?>
+<?php echo F::form('edit_widget')->close()?>
 <script>
 $(function(){
 	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'widget'});

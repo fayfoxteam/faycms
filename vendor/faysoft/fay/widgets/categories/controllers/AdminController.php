@@ -7,15 +7,12 @@ use fay\services\Flash;
 
 class AdminController extends Widget{
 	public function initConfig($config){
-		//获取默认模版
-		if(empty($config['template'])){
-			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
-			$this->form->setData(array(
-				'template'=>$config['template'],
-			), true);
-		}
+		//设置模版
+		$this->form->setData(array(
+			'template'=>$this->getTemplate(),
+		), true);
 		
-		return parent::initConfig($config);
+		return $this->config = $config;
 	}
 	
 	public function index(){
@@ -35,11 +32,11 @@ class AdminController extends Widget{
 	 * 当有post提交的时候，会自动调用此方法
 	 */
 	public function onPost(){
-		$data = $this->form()->getFilteredData();
+		$data = $this->form->getFilteredData();
 		$data['uri'] || $data['uri'] = $this->input->post('other_uri');
 		
 		//若模版与默认模版一致，不保存
-		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+		if($this->isDefaultTemplate($data['template'])){
 			$data['template'] = '';
 		}
 		

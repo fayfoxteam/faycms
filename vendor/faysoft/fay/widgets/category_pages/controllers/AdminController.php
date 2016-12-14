@@ -35,7 +35,7 @@ class AdminController extends Widget{
 		$data = $this->form->getFilteredData();
 		$data['uri'] || $data['uri'] = empty($data['other_uri']) ? 'page/{$id}' : $data['other_uri'];
 		//若模版与默认模版一致，不保存
-		if(str_replace("\r", '', $data['template']) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
+		if($this->isDefaultTemplate($data['template'])){
 			$data['template'] = '';
 		}
 		$this->saveConfig($data);

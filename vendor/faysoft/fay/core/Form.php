@@ -226,6 +226,14 @@ class Form{
 	}
 	
 	/**
+	 * 获取所有过滤器
+	 * @return array
+	 */
+	public function getFilters(){
+		return $this->_filters;
+	}
+	
+	/**
 	 * @param array $labels
 	 * @return \fay\core\Form
 	 */
@@ -463,6 +471,7 @@ class Form{
 		if($check === true){
 			return true;
 		}else{
+			dump($this->getAllData($filter));die;
 			$this->_errors = $check;
 			if(method_exists(\F::app(), 'onFormError')){
 				\F::app()->onFormError($this);

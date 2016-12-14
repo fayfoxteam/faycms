@@ -191,6 +191,39 @@ abstract class Widget{
 	}
 	
 	/**
+	 * 获取显示模版。若不存在，返回空字符串
+	 * @return string
+	 */
+	protected function getTemplate(){
+		if(empty($this->config['template'])){
+			return $this->getDefaultTemplate();
+		}else{
+			return $this->config['template'];
+		}
+	}
+	
+	/**
+	 * 获取默认模版
+	 * @return string
+	 */
+	private function getDefaultTemplate(){
+		if(file_exists($this->path . 'views/index/template.php')){
+			return file_get_contents($this->path . 'views/index/template.php');
+		}else{
+			return '';
+		}
+	}
+	
+	/**
+	 * 判断指定模版与默认模版是否一致
+	 * @param $template
+	 * @return bool
+	 */
+	protected function isDefaultTemplate($template){
+		return str_replace("\r", '', $template) == str_replace("\r", '', $this->getDefaultTemplate());
+	}
+	
+	/**
 	 * 子类中实现，调用widget时自动执行此方法
 	 */
 	abstract public function index();

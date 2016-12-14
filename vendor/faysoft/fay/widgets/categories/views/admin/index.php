@@ -39,26 +39,26 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'cat/{$id}', !isset($config['uri']) || $config['uri'] == 'cat/{$id}', array(
+					echo Html::inputRadio('uri', 'cat/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'cat/{$id}', array(
 						'label'=>'cat/{$id}',
 					));
-					echo Html::inputRadio('uri', 'cat/{$alias}', isset($config['uri']) && $config['uri'] == 'cat/{$alias}', array(
+					echo Html::inputRadio('uri', 'cat/{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat/{$alias}', array(
 						'label'=>'cat/{$alias}',
 					));
-					echo Html::inputRadio('uri', 'cat-{$id}', isset($config['uri']) && $config['uri'] == 'cat-{$id}', array(
+					echo Html::inputRadio('uri', 'cat-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$id}', array(
 						'label'=>'cat-{$id}',
 					));
-					echo Html::inputRadio('uri', 'cat-{$alias}', isset($config['uri']) && $config['uri'] == 'cat-{$alias}', array(
+					echo Html::inputRadio('uri', 'cat-{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$alias}', array(
 						'label'=>'cat-{$alias}',
 					));
-					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+					echo Html::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+					echo Html::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
-					)) ? $config['uri'] : '', array(
+					)) ? $widget->config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
@@ -71,7 +71,7 @@ use fay\services\user\Role;
 			</div>
 			<div class="form-field">
 				<label class="title bold">渲染模版</label>
-				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
+				<?php echo Html::textarea('template', isset($widget->config['template']) ? $widget->config['template'] : '', array(
 					'class'=>'form-control h90 autosize',
 					'id'=>'code-editor',
 				))?>

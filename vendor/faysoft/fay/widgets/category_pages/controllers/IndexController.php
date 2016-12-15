@@ -26,8 +26,9 @@ class IndexController extends Widget{
 		isset($config['show_empty']) || $config['show_empty'] = '0';
 		
 		//设置模版
+		$config['template'] = $this->getTemplate();
 		$this->form->setData(array(
-			'template'=>$this->getTemplate(),
+			'template'=>$config['template'],
 		), true);
 		
 		return $this->config = $config;

@@ -6,6 +6,16 @@ use fay\services\Category;
 use fay\services\Flash;
 
 class AdminController extends Widget{
+	public function initConfig($config){
+		//设置模版
+		$config['template'] = $this->getTemplate();
+		$this->form->setData(array(
+			'template'=>$config['template'],
+		), true);
+		
+		return $this->config = $config;
+	}
+	
 	public function index(){
 		$root_node = Category::service()->getByAlias('_system_link', 'id');
 		$this->view->cats = array(
@@ -16,13 +26,6 @@ class AdminController extends Widget{
 			),
 		);
 		
-		//获取默认模版
-		if(empty($config['template'])){
-			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
-		}
-		
-		$this->view->config = $config;
-		
 		$this->view->render();
 	}
 	
@@ -30,29 +33,20 @@ class AdminController extends Widget{
 	 * 当有post提交的时候，会自动调用此方法
 	 */
 	public function onPost(){
-		$uri = 'cat/{$id}';
-		if($this->input->post('uri')){
-			$uri = $this->input->post('uri');
-		}else if($this->input->post('other_uri')){
-			$uri = $this->input->post('other_uri');
-		}
+		$data = $this->form->getFilteredData();
+		
 		//若模版与默认模版一致，不保存
-		$template = $this->input->post('template');
-		if(str_replace("\r", '', $template) == str_replace("\r", '', file_get_contents(__DIR__.'/../views/index/template.php'))){
-			$template = '';
+		if($this->isDefaultTemplate($data['template'])){
+			$data['template'] = '';
 		}
-		$this->saveConfig(array(
-			'title'=>$this->input->post('title', null, ''),
-			'number'=>$this->input->post('number', 'intval', 5),
-			'cat_id'=>$this->input->post('cat_id', 'intval', 0),
-			'template'=>$template,
-		));
+		
+		$this->saveConfig($data);
 		Flash::set('编辑成功', 'success');
 	}
 	
 	public function rules(){
 		return array(
-			array('number', 'int', array('min'=>1, 'max'=>20)),
+			array('number', 'int', array('min'=>1, 'max'=>50)),
 		);
 	}
 	
@@ -66,6 +60,7 @@ class AdminController extends Widget{
 		return array(
 			'title'=>'',
 			'number'=>'intval',
+			'cat_id'=>'intval',
 			'template'=>'trim',
 		);
 	}

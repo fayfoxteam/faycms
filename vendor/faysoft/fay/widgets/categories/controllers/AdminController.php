@@ -8,8 +8,9 @@ use fay\services\Flash;
 class AdminController extends Widget{
 	public function initConfig($config){
 		//设置模版
+		$config['template'] = $this->getTemplate();
 		$this->form->setData(array(
-			'template'=>$this->getTemplate(),
+			'template'=>$config['template'],
 		), true);
 		
 		return $this->config = $config;

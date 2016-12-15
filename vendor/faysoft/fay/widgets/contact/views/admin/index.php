@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 
 /**
- * @var $config
+ * @var $widget->config
  */
 
 $elements = array(
@@ -60,13 +60,13 @@ $elements = array(
 					echo F::form('widget')->inputCheckbox('elements[]', $element, array(
 						'label'=>$label,
 						'class'=>'element-options'
-					), in_array($element, $config['elements']));
+					), in_array($element, $widget->config['elements']));
 				?></span>
 			<?php }?>
 			</div>
 		</div>
 		<div class="dragsort-list" id="widget-contact-element-list">
-			<?php foreach($config['elements'] as $element){?>
+			<?php foreach($widget->config['elements'] as $element){?>
 				<div class="dragsort-item cf" id="element-<?php echo $element?>">
 					<a class="dragsort-item-selector"></a>
 					<div class="dragsort-item-container">
@@ -77,7 +77,7 @@ $elements = array(
 							<div class="mb5"><?php
 								echo Html::inputText(
 									"label[{$element}]",
-									isset($config['label'][$element]) ? $config['label'][$element] : '',
+									isset($widget->config['label'][$element]) ? $widget->config['label'][$element] : '',
 									array(
 										'placeholder'=>'Label',
 										'class'=>'form-control',
@@ -86,7 +86,7 @@ $elements = array(
 							?></div>
 							<?php echo Html::inputText(
 								"require_message[{$element}]",
-								isset($config['require_message'][$element]) ? $config['require_message'][$element] : '',
+								isset($widget->config['require_message'][$element]) ? $widget->config['require_message'][$element] : '',
 								array(
 									'placeholder'=>'必填报错语（留空则不做必填验证）',
 									'class'=>'form-control',
@@ -96,7 +96,7 @@ $elements = array(
 						<div class="col-6">
 							<div class="mb5"><?php echo Html::textarea(
 								"placeholder[{$element}]",
-								isset($config['placeholder'][$element]) ? $config['placeholder'][$element] : '',
+								isset($widget->config['placeholder'][$element]) ? $widget->config['placeholder'][$element] : '',
 								array(
 									'placeholder'=>'Placeholder',
 									'class'=>'form-control h60 autosize',
@@ -106,10 +106,10 @@ $elements = array(
 							if($element == 'email'){
 								echo Html::inputText(
 									"format_message[{$element}]",
-									isset($config['format_message'][$element]) ?
-										$config['format_message'][$element] : (isset($config['label'][$element]) ?
-											$config['label'][$element] : isset($config['placeholder'][$element]) ?
-												$config['placeholder'][$element] : $element) . '格式错误',
+									isset($widget->config['format_message'][$element]) ?
+										$widget->config['format_message'][$element] : (isset($widget->config['label'][$element]) ?
+											$widget->config['label'][$element] : isset($widget->config['placeholder'][$element]) ?
+												$widget->config['placeholder'][$element] : $element) . '格式错误',
 									array(
 										'placeholder'=>'格式报错语',
 										'class'=>'form-control',
@@ -121,7 +121,7 @@ $elements = array(
 				</div>
 			<?php }?>
 			<?php foreach($elements as $element => $label){?>
-			<?php if(in_array($element, $config['elements'])){
+			<?php if(in_array($element, $widget->config['elements'])){
 				continue;
 			}?>
 			<div class="dragsort-item cf hide" id="element-<?php echo $element?>">
@@ -133,7 +133,7 @@ $elements = array(
 						</div>
 						<div class="mb5"><?php echo Html::inputText(
 							"label[{$element}]",
-							isset($config['label'][$element]) ? $config['label'][$element] : '',
+							isset($widget->config['label'][$element]) ? $widget->config['label'][$element] : '',
 							array(
 								'placeholder'=>'Label',
 								'class'=>'form-control',
@@ -141,7 +141,7 @@ $elements = array(
 						)?></div>
 						<?php echo Html::inputText(
 							"require_message[{$element}]",
-							isset($config['require_message'][$element]) ? $config['require_message'][$element] : '',
+							isset($widget->config['require_message'][$element]) ? $widget->config['require_message'][$element] : '',
 							array(
 								'placeholder'=>'必填报错语（留空则不做必填验证）',
 								'class'=>'form-control',
@@ -151,7 +151,7 @@ $elements = array(
 					<div class="col-6">
 						<div class="mb5"><?php echo Html::textarea(
 							"placeholder[{$element}]",
-							isset($config['placeholder'][$element]) ? $config['placeholder'][$element] : '',
+							isset($widget->config['placeholder'][$element]) ? $widget->config['placeholder'][$element] : '',
 							array(
 								'placeholder'=>'Placeholder',
 								'class'=>'form-control h60 autosize',
@@ -161,10 +161,10 @@ $elements = array(
 						if($element == 'email'){
 							echo Html::inputText(
 								"format_message[{$element}]",
-								(isset($config['format_message'][$element]) ?
-									$config['format_message'][$element] : isset($config['label'][$element]) ?
-										$config['label'][$element] : isset($config['placeholder'][$element]) ?
-											$config['placeholder'][$element] : $element) . '格式错误',
+								(isset($widget->config['format_message'][$element]) ?
+									$widget->config['format_message'][$element] : isset($widget->config['label'][$element]) ?
+										$widget->config['label'][$element] : isset($widget->config['placeholder'][$element]) ?
+											$widget->config['placeholder'][$element] : $element) . '格式错误',
 								array(
 									'placeholder'=>'格式报错语',
 									'class'=>'form-control',
@@ -184,7 +184,7 @@ $elements = array(
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
+			<?php echo F::form('widget')->textarea('template', array(
 				'class'=>'form-control h90 autosize',
 				'id'=>'code-editor',
 			))?>

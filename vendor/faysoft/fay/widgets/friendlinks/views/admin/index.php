@@ -33,7 +33,7 @@ use fay\services\user\Role;
 		<div class="advance <?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">渲染模版<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
-				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
+				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h200 autosize',
 					'id'=>'code-editor',
 				))?>

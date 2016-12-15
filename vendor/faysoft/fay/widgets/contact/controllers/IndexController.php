@@ -6,10 +6,6 @@ use fay\services\Contact;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
-	public function getData(){
-		$this->initConfig($config);
-	}
-	
 	public function send($config){
 		$this->initConfig($config);
 		$this->initForm();
@@ -24,7 +20,6 @@ class IndexController extends Widget{
 	}
 	
 	public function index(){
-		$this->initConfig($config);
 		$this->initForm();
 		
 		//重新组织配置信息，传递给前端
@@ -42,24 +37,9 @@ class IndexController extends Widget{
 			);
 		}
 		
-		//template
-		if(empty($this->config['template'])){
-			$this->view->render('template', array(
-				'config'=>$frontend_config,
-				'widget'=>$this,
-			));
-		}else{
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
-				\F::app()->view->renderPartial($this->config['template'], array(
-					'config'=>$frontend_config,
-					'widget'=>$this,
-				));
-			}else{
-				$config = $frontend_config;
-				$widget = $this;
-				eval('?>'.$this->config['template'].'<?php ');
-			}
-		}
+		$this->renderTemplate(array(
+			'config'=>$frontend_config,
+		));
 	}
 	
 	/**
@@ -96,7 +76,7 @@ class IndexController extends Widget{
 	 * @param array $config
 	 * @return array
 	 */
-	protected function initConfig($config){
+	public function initConfig($config){
 		//默认表单元素
 		isset($config['elements']) || $config['elements'] = array(
 			'name', 'email', 'content',

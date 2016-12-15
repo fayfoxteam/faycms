@@ -5,15 +5,7 @@ use fay\widget\Widget;
 use fay\services\Flash;
 
 class AdminController extends Widget{
-	public function index(){
-		//获取默认模版
-		if(empty($config['template'])){
-			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
-			$this->form->setData(array(
-				'template'=>$config['template'],
-			), true);
-		}
-		
+	public function initConfig($config){
 		//默认表单元素
 		isset($config['elements']) || $config['elements'] = array(
 			'name', 'email', 'content',
@@ -37,9 +29,17 @@ class AdminController extends Widget{
 			'content'=>'内容不能为空'
 		);
 		
-		$this->view->assign(array(
-			'config'=>$config
-		))->render();
+		//设置模版
+		$config['template'] = $this->getTemplate();
+		$this->form->setData(array(
+			'template'=>$config['template'],
+		), true);
+		
+		return $this->config = $config;
+	}
+	
+	public function index(){
+		$this->view->render();
 	}
 	
 	public function onPost(){
@@ -57,6 +57,12 @@ class AdminController extends Widget{
 		}else{
 			$data['elements'] = array();
 		}
+		
+		//若模版与默认模版一致，不保存
+		if($this->isDefaultTemplate($data['template'])){
+			$data['template'] = '';
+		}
+		
 		$this->saveConfig($data);
 		Flash::set('编辑成功', 'success');
 	}

@@ -71,7 +71,7 @@ use fay\services\user\Role;
 			</div>
 			<div class="form-field">
 				<label class="title bold">渲染模版</label>
-				<?php echo Html::textarea('template', isset($widget->config['template']) ? $widget->config['template'] : '', array(
+				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',
 					'id'=>'code-editor',
 				))?>

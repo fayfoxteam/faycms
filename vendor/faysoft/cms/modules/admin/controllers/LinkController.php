@@ -151,7 +151,9 @@ class LinkController extends AdminController{
 		$link = Links::model()->find($id, 'sort');
 		Response::notify('success', array(
 			'message'=>'改变了友情链接排序值',
-			'sort'=>$link['sort'],
+			'data'=>array(
+				'sort'=>$link['sort'],
+			),
 		));
 	}
 	

@@ -156,10 +156,10 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 								'tag'=>'div',
 								'class'=>'dialog hide',
 							),
-							'prepend'=>'<h4>设置</h4>',
-						), $this->renderPartial($_help_panel, array(), -1, true));
+							'prepend'=>'<h4>帮助</h4>',
+						), $this->renderPartial($_help_panel, $this->getViewData(), -1, true));
 					}
-					//帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的常见
+					//帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的场景
 					if(isset($_help_content)){
 						echo Html::link('', '#faycms-help-content', array(
 							'class'=>'fa fa-question-circle fa-2x faycms-help-link',
@@ -189,7 +189,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 								'class'=>'dialog hide',
 							),
 							'prepend'=>'<h4>设置</h4>',
-						), $this->renderPartial($_setting_panel, array(), -1, true));
+						), $this->renderPartial($_setting_panel, $this->getViewData(), -1, true));
 					}?></div>
 			</div>
 		</div>

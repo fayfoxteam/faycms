@@ -6,13 +6,13 @@ use fay\helpers\Html;
 #file-preview img{max-width:100%;}
 </style>
 <div class="box">
-	<div class="box-content" id="file-preview" <?php if(!$config['file_id'])echo 'style="display:none;"'?>>
-		<?php echo Html::img($config['file_id'])?>
+	<div class="box-content" id="file-preview" <?php if(!$widget->config['file_id'])echo 'style="display:none;"'?>>
+		<?php echo Html::img($widget->config['file_id'])?>
 	</div>
 </div>
-<input type="hidden" value="<?php echo intval($config['file_id'])?>" name="file_id" id="file_id" />
-<div class="margin-top-20">
-	<a href="javascript:;" class="btn btn-grey" id="widget-form-upload">上传</a>
+<input type="hidden" value="<?php echo intval($widget->config['file_id'])?>" name="file_id" id="file_id" />
+<div class="margin-top-20" id="widget-image-upload-container">
+	<a href="javascript:;" class="btn btn-grey" id="widget-image-upload">上传</a>
 </div>
 <div class="fc-grey">提示：点击侧边栏“提交”后，修改才会生效</div>
 <div class="box">
@@ -21,7 +21,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="form-field">
-			<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
+			<?php echo F::form('widget')->textarea('template', array(
 				'class'=>'form-control h90 autosize',
 				'id'=>'code-editor',
 			))?>
@@ -38,10 +38,9 @@ use fay\helpers\Html;
 <script type="text/javascript">
 $(function(){
 	var uploader = new plupload.Uploader({
-		runtimes : 'html5,flash,gears,silverlight,browserplus',
-		browse_button : 'widget-form-upload',
-		container: 'widget-form',
-		drop_element: "drag_drop_area",
+		runtimes : 'html5,html4,flash,gears,silverlight,browserplus',
+		browse_button : 'widget-image-upload',
+		container: 'widget-image-upload-container',
 		max_file_size : '2mb',
 		url : system.url('admin/file/upload', {'cat':'widget'}),
 		flash_swf_url : system.url()+'flash/plupload.flash.swf',
@@ -81,6 +80,5 @@ $(function(){
 		$("input[name='width']").val(resp.data.image_width);
 		$("input[name='height']").val(resp.data.image_height);
 	});
-	
 });
 </script>

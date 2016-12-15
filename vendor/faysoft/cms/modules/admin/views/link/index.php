@@ -26,7 +26,7 @@ use fay\helpers\Html;
 </div>
 <div class="row">
 	<div class="col-12">
-		<table class="list-table">
+		<table class="list-table form-inline">
 			<thead>
 				<tr>
 					<th>标题</th>

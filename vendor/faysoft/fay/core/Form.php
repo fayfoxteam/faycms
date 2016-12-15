@@ -471,7 +471,6 @@ class Form{
 		if($check === true){
 			return true;
 		}else{
-			dump($this->getAllData($filter));die;
 			$this->_errors = $check;
 			if(method_exists(\F::app(), 'onFormError')){
 				\F::app()->onFormError($this);

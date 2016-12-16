@@ -1,8 +1,13 @@
 <?php
 use fay\helpers\Html;
 use fay\services\File;
+
+/**
+ * @var $widget \fay\widgets\images\controllers\IndexController
+ * @var $files array
+ */
 ?>
-<div class="widget widget-images" id="widget-<?php echo Html::encode($alias)?>">
+<div class="widget widget-images" id="widget-<?php echo Html::encode($widget->alias)?>">
 	<ul>
 	<?php foreach($files as $f){
 		if(empty($f['link'])){

@@ -19,41 +19,40 @@ use fay\services\user\Role;
 	</div>
 </div>
 <div class="dragsort-list file-list">
-<?php if(!empty($config['files'])){?>
-<?php foreach($config['files'] as $d){?>
-	<div class="dragsort-item <?php if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time'])){
+<?php foreach($widget->config['files'] as $f){?>
+	<div class="dragsort-item <?php if((!empty($f['start_time']) && \F::app()->current_time < $f['start_time'])){
 		echo 'bl-yellow';
-	}else if(!empty($d['end_time']) && \F::app()->current_time > $d['end_time']){
+	}else if(!empty($f['end_time']) && \F::app()->current_time > $f['end_time']){
 		echo 'bl-red';
 	}?>">
-		<?php echo Html::inputHidden('files[]', $d['file_id'])?>
+		<?php echo Html::inputHidden('files[]', $f['file_id'])?>
 		<a class="dragsort-rm" href="javascript:;"></a>
 		<a class="dragsort-item-selector"></a>
 		<div class="dragsort-item-container">
 			<span class="file-thumb">
 			<?php
-				echo Html::link(Html::img($d['file_id'], 2), File::getUrl($d['file_id']), array(
+				echo Html::link(Html::img($f['file_id'], 2), File::getUrl($f['file_id']), array(
 					'class'=>'photo-thumb-link',
 					'encode'=>false,
-					'title'=>Html::encode($d['title']),
+					'title'=>Html::encode($f['title']),
 				));
 			?>
 			</span>
 			<div class="file-desc-container">
-				<?php echo Html::inputText("titles[{$d['file_id']}]", $d['title'], array(
+				<?php echo Html::inputText("titles[{$f['file_id']}]", $f['title'], array(
 					'class'=>'file-title mb5 form-control',
 					'placeholder'=>'标题',
 				))?>
-				<?php echo Html::inputText("links[{$d['file_id']}]", $d['link'], array(
+				<?php echo Html::inputText("links[{$f['file_id']}]", $f['link'], array(
 					'class'=>'file-link mb5 form-control',
 					'placeholder'=>'链接地址',
 				))?>
-				<?php echo Html::inputText("start_time[{$d['file_id']}]", $d['start_time'] ? date('Y-m-d H:i:s', $d['start_time']) : '', array(
+				<?php echo Html::inputText("start_time[{$f['file_id']}]", $f['start_time'] ? date('Y-m-d H:i:s', $f['start_time']) : '', array(
 					'class'=>'file-starttime datetimepicker mb5 form-control wp49 fl',
 					'placeholder'=>'生效时间',
 					'autocomplete'=>'off',
 				))?>
-				<?php echo Html::inputText("end_time[{$d['file_id']}]", $d['end_time'] ? date('Y-m-d H:i:s', $d['end_time']) : '', array(
+				<?php echo Html::inputText("end_time[{$f['file_id']}]", $f['end_time'] ? date('Y-m-d H:i:s', $f['end_time']) : '', array(
 					'class'=>'file-endtime datetimepicker mb5 form-control wp49 fr',
 					'placeholder'=>'过期时间',
 					'autocomplete'=>'off',
@@ -63,9 +62,8 @@ use fay\services\user\Role;
 		</div>
 	</div>
 <?php }?>
-<?php }?>
 </div>
-<div class="box <?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'closed';?>">
+<div class="box">
 	<div class="box-title">
 		<h4>渲染模版</h4>
 	</div>
@@ -88,7 +86,7 @@ var jq_camera = {
 	'preview':function(){
 		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$(".photo-thumb-link").fancybox({
+				$('.photo-thumb-link').fancybox({
 					'transitionIn' : 'elastic',
 					'transitionOut' : 'elastic',
 					'type' : 'image',

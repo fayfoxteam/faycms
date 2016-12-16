@@ -5,8 +5,26 @@ use fay\widget\Widget;
 use fay\services\Flash;
 
 class AdminController extends Widget{
+	public function initConfig($config){
+		empty($config['files']) && $config['files'] = array();
+		isset($config['element_id']) || $config['element_id'] = '';
+		isset($config['animSpeed']) || $config['animSpeed'] = 500;
+		isset($config['pauseTime']) || $config['pauseTime'] = 5000;
+		isset($config['effect']) || $config['effect'] = 'random';
+		isset($config['directionNav']) || $config['directionNav'] = 1;
+		isset($config['width']) || $config['width'] = 0;
+		isset($config['height']) || $config['height'] = 0;
+		
+		//设置模版
+		$config['template'] = $this->getTemplate();
+		$this->form->setData(array(
+			'template'=>$config['template'],
+		), true);
+		
+		return $this->config = $config;
+	}
+	
 	public function index(){
-		$this->view->config = $config;
 		$this->view->render();
 	}
 	
@@ -26,6 +44,11 @@ class AdminController extends Widget{
 				'start_time'=>$start_times[$p] ? $start_times[$p] : 0,
 				'end_time'=>$end_times[$p] ? $end_times[$p] : 0,
 			);
+		}
+		
+		//若模版与默认模版一致，不保存
+		if($this->isDefaultTemplate($data['template'])){
+			$data['template'] = '';
 		}
 		
 		$this->saveConfig($data);

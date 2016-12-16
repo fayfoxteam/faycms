@@ -12,8 +12,7 @@ use fay\services\File;
 	</div>
 </div>
 <div class="dragsort-list file-list">
-<?php if(!empty($config['files'])){?>
-<?php foreach($config['files'] as $d){?>
+<?php foreach($widget->config['files'] as $d){?>
 	<div class="dragsort-item <?php if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time'])){
 		echo 'bl-yellow';
 	}else if(!empty($d['end_time']) && \F::app()->current_time > $d['end_time']){
@@ -56,7 +55,6 @@ use fay\services\File;
 		</div>
 	</div>
 <?php }?>
-<?php }?>
 </div>
 <script type="text/javascript">
 var widget_slides = {
@@ -64,7 +62,7 @@ var widget_slides = {
 	'preview':function(){
 		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-				$(".photo-thumb-link").fancybox({
+				$('.photo-thumb-link').fancybox({
 					'transitionIn' : 'elastic',
 					'transitionOut' : 'elastic',
 					'type' : 'image',

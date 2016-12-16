@@ -7,9 +7,7 @@ use fay\services\Flash;
 class AdminController extends Widget{
 	public function initConfig($config){
 		empty($config['files']) && $config['files'] = array();
-		
 		$config['random'] = empty($config['random']) ? 0 : 1;
-		
 		$config['limit'] = empty($config['limit']) ? 0 : $config['limit'];
 		
 		//设置模版

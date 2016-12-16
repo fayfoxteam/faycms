@@ -50,7 +50,6 @@
 				'topLeftBottomRight'=>'topLeftBottomRight',
 				'bottomRightTopLeft'=>'bottomRightTopLeft',
 				'bottomLeftTopRight'=>'bottomLeftTopRight',
-				'bottomLeftTopRight'=>'bottomLeftTopRight',
 			), array(
 				'class'=>'form-control'
 			), 'random')?>

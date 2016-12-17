@@ -13,7 +13,7 @@ class AdminController extends Widget{
 		isset($config['fx']) || $config['fx'] = 'random';
 		
 		//设置模版
-		$config['template'] = $this->getTemplate();
+		empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
 		$this->form->setData(array(
 			'template'=>$config['template'],
 		), true);
@@ -72,10 +72,12 @@ class AdminController extends Widget{
 	
 	public function filters(){
 		return array(
+			'element_id'=>'trim',
 			'height'=>'trim',
 			'transPeriod'=>'intval',
 			'time'=>'intval',
 			'fx'=>'trim',
+			'template'=>'trim',
 		);
 	}
 }

@@ -19,14 +19,14 @@ class IndexController extends Widget{
 	public function getData(){
 		$files = $this->config['files'];
 		
-		foreach($files as $k => $d){
-			if((!empty($d['start_time']) && \F::app()->current_time < $d['start_time']) ||
-				(!empty($d['end_time']) && \F::app()->current_time > $d['end_time'])){
+		foreach($files as $k => $f){
+			if((!empty($f['start_time']) && \F::app()->current_time < $f['start_time']) ||
+				(!empty($f['end_time']) && \F::app()->current_time > $f['end_time'])){
 				unset($files[$k]);
 				continue;
 			}
 			
-			$files[$k]['src'] = File::getUrl($d['file_id'], (empty($this->config['width']) && empty($this->config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
+			$files[$k]['src'] = File::getUrl($f['file_id'], (empty($this->config['width']) && empty($this->config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
 				'dw'=>empty($this->config['width']) ? false : $this->config['width'],
 				'dh'=>empty($this->config['height']) ?  false : $this->config['height'],
 			));

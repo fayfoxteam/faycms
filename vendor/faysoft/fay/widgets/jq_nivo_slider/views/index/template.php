@@ -18,8 +18,8 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
 		echo Html::link(Html::img($f['file_id'], ($widget->config['width'] || $widget->config['height']) ? File::PIC_RESIZE : File::PIC_ORIGINAL, array(
 			'alt'=>Html::encode($f['title']),
 			'title'=>Html::encode($f['title']),
-			'dw'=>empty($widget->config['width']) ? false : $widget->config['width'],
-			'dh'=>empty($widget->config['height']) ?  false : $widget->config['height'],
+			'dw'=>$widget->config['width'] ? $widget->config['width'] : false,
+			'dh'=>$widget->config['height'] ?  $widget->config['height'] : false,
 		)), $f['link'], array(
 			'encode'=>false,
 			'title'=>Html::encode($f['title']),

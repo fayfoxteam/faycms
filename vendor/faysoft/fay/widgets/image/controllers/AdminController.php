@@ -9,7 +9,7 @@ class AdminController extends Widget{
 		isset($config['file_id']) || $config['file_id'] = 0;
 		
 		//设置模版
-		$config['template'] = $this->getTemplate();
+		empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
 		$this->form->setData(array(
 			'template'=>$config['template'],
 		), true);

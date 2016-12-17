@@ -4,6 +4,13 @@
 	</div>
 	<div class="box-content">
 		<div class="form-field pb0 pt0">
+			<label class="title pb0">外层元素ID（id）</label>
+			<?php echo F::form('widget')->inputText('element_id', array(
+				'class'=>'form-control',
+			))?>
+			<span class="fc-grey">用于定制式样等</span>
+		</div>
+		<div class="form-field pb0">
 			<label class="title pb0">高度（height）</label>
 			<?php echo F::form('widget')->inputText('height', array(
 				'class'=>'form-control',

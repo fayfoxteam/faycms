@@ -1,7 +1,6 @@
 <?php
 namespace fay\widget;
 
-use fay\core\Config;
 use fay\core\Db;
 use fay\core\Input;
 use fay\helpers\Request;
@@ -184,9 +183,9 @@ abstract class Widget{
 				\F::app()->view->renderPartial($this->config['template'], $this->view->getViewData());
 			}else{
 				//直接eval源码
-				extract($data);
-				$widget = $this;
-				eval('?>'.$this->config['template'].'<?php ');
+				\F::app()->view->evalCode($this->config['template'], array(
+					'widget'=>$this,
+				));
 			}
 		}
 	}
@@ -207,7 +206,7 @@ abstract class Widget{
 	 * 获取默认模版
 	 * @return string
 	 */
-	private function getDefaultTemplate(){
+	public function getDefaultTemplate(){
 		if(file_exists($this->path . 'views/index/template.php')){
 			return file_get_contents($this->path . 'views/index/template.php');
 		}else{

@@ -16,7 +16,7 @@ class AdminController extends Widget{
 		isset($config['height']) || $config['height'] = 0;
 		
 		//设置模版
-		$config['template'] = $this->getTemplate();
+		empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
 		$this->form->setData(array(
 			'template'=>$config['template'],
 		), true);
@@ -78,13 +78,14 @@ class AdminController extends Widget{
 	
 	public function filters(){
 		return array(
+			'element_id'=>'trim',
 			'animSpeed'=>'intval',
 			'pauseTime'=>'intval',
 			'effect'=>'trim',
-			'element_id'=>'trim',
 			'directionNav'=>'intval',
 			'width'=>'intval',
 			'height'=>'intval',
+			'template'=>'trim',
 		);
 	}
 }

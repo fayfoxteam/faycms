@@ -230,6 +230,16 @@ class View{
 	}
 	
 	/**
+	 * eval执行一段代码，放在这个函数里是为了让eval的view层代码可以使用$this
+	 * @param $code
+	 * @param $data
+	 */
+	public function evalCode($code, $data){
+		extract($data);
+		eval('?>'.$code.'<?php ');
+	}
+	
+	/**
 	 * 独立一个渲染函数，防止变量污染
 	 * @param string $__view_path__ 视图文件路径
 	 * @param array $view_data 传递变量

@@ -11,7 +11,7 @@ class AdminController extends Widget{
 		$config['limit'] = empty($config['limit']) ? 0 : $config['limit'];
 		
 		//设置模版
-		$config['template'] = $this->getTemplate();
+		empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
 		$this->form->setData(array(
 			'template'=>$config['template'],
 		), true);
@@ -73,11 +73,11 @@ class AdminController extends Widget{
 	public function filters(){
 		return array(
 			'title'=>'trim',
-			'template'=>'trim',
 			'width'=>'intval',
 			'height'=>'intval',
 			'random'=>'intval',
 			'limit'=>'intval',
+			'template'=>'trim',
 		);
 	}
 }

@@ -1,5 +1,9 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var $cats array
+ */
 ?>
 <div class="form-field">
 	<label class="title bold">操作<em class="required">*</em></label>
@@ -27,6 +31,7 @@ use fay\helpers\Html;
 	<?php echo F::form()->inputText('parent_router', array(
 		'class'=>'form-control',
 		'id'=>'parent-router',
+		'data-ajax-param-name'=>'router',
 	));?>
 	<p class="description">
 		当该节点被选中时，其父节点也会被强制选中<br />
@@ -38,3 +43,16 @@ use fay\helpers\Html;
 		'label'=>'公共',
 	))?>
 </div>
+<script>
+$(function(){
+	system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
+		$("#parent-router").autocomplete({
+			"url" : system.url('admin/action/search'),
+			'startSuggestLength':7,
+			'onSelect':function(obj){
+				common.validformParams.forms.default.obj.check(obj);
+			}
+		});
+	});
+});
+</script>

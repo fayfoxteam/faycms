@@ -118,7 +118,7 @@ class ActionController extends AdminController{
 			'router LIKE ?'=>'%'.$this->input->get('key', false).'%'
 		), 'id,router AS title', 'title', 20);
 		
-		echo Response::json($actions);
+		Response::json($actions);
 	}
 	
 	public function isRouterNotExist(){
@@ -126,9 +126,9 @@ class ActionController extends AdminController{
 			'router = ?'=>$this->input->request('router', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
-			echo Response::json('', 0, '该路由已存在');
+			Response::json('', 0, '该路由已存在');
 		}else{
-			echo Response::json('', 1, '路由不存在');
+			Response::json('', 1, '路由不存在');
 		}
 	}
 	
@@ -136,9 +136,9 @@ class ActionController extends AdminController{
 		if(Actions::model()->fetchRow(array(
 			'router = ?'=>$this->input->request('router', 'trim'),
 		))){
-			echo Response::json('', 1, '路由已存在');
+			Response::json('', 1, '路由已存在');
 		}else{
-			echo Response::json('', 0, '路由不存在');
+			Response::json('', 0, '路由不存在');
 		}
 	}
 	

@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $actions array
+ */
+?>
 <div class="row">
 	<div class="col-6">
 		<div class="col-content">

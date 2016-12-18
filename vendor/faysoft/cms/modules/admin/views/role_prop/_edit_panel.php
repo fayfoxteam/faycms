@@ -104,20 +104,22 @@ use fay\models\tables\Props;
 <script>
 $(function(){
 	$('#add-prop-value-link').on('click', function(){
-		if($('#prop-title').val() == ''){
+		var $propTitle = $('#prop-title');
+		var $propList = $('#prop-list');
+		if($propTitle.val() == ''){
 			common.alert('属性值不能为空！');
 			return false;
 		}
-		$('#prop-list').append(['<div class="dragsort-item hide">',
+		$propList.append(['<div class="dragsort-item hide">',
 			'<input type="hidden" name="ids[]" value="" />',
 			'<a class="dragsort-rm" href="javascript:;"></a>',
 			'<a class="dragsort-item-selector"></a>',
 			'<div class="dragsort-item-container">',
-				'<input type="text" name="prop_values[]" value="'+system.encode($("#prop-title").val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" class="form-control" />',
+				'<input type="text" name="prop_values[]" value="'+system.encode($propTitle.val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" class="form-control" />',
 			'</div>',
 		'</div>'].join(''));
-		$('#prop-list .dragsort-item:last').fadeIn();
-		$('#prop-title').val('');
+		$propList.find('.dragsort-item:last').fadeIn();
+		$propTitle.val('');
 	});
 
 	$('input[name="element"]').on('change', function(){

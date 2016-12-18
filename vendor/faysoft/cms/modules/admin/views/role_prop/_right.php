@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $listview \fay\common\ListView
+ */
+?>
 <table class="list-table props">
 	<thead>
 		<tr>

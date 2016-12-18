@@ -3,6 +3,10 @@ use fay\helpers\Html;
 use fay\services\File;
 use fay\models\tables\Users;
 use fay\services\Option;
+
+/**
+ * @var $roles array
+ */
 ?>
 <div class="form-field">
 	<label class="title bold">登录名<em class="required">*</em></label>

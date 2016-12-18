@@ -8,6 +8,8 @@
 		</form>
 	</div>
 	<div class="col-7">
-		<?php $this->renderPartial('_right')?>
+		<?php $this->renderPartial('_right', array(
+			'listview'=>$listview,
+		))?>
 	</div>
 </div>

@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\Html;
 use cms\helpers\PropHelper;
+
+/**
+ * @var $data array
+ */
 ?>
 <tr valign="top">
 	<td>

@@ -1,5 +1,9 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var $data array
+ */
 ?>
 <tr valign="top" id="tag-<?php echo $data['id']?>">
 	<td>

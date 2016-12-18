@@ -1,4 +1,8 @@
 <?php
+/**
+ * @var $actions array
+ * @var $cats array
+ */
 $action_cat_count = count($actions);
 $col_left_count = floor($action_cat_count / 2);
 ?>
@@ -60,6 +64,7 @@ $col_left_count = floor($action_cat_count / 2);
 				<div id="action-panel" class="tab-pane p5">
 					<?php $this->renderPartial('_action_panel', array(
 						'col_left_count'=>$col_left_count,
+						'actions'=>$actions,
 					))?>
 				</div>
 				<div id="cats-panel" class="tab-pane p5">
@@ -100,7 +105,7 @@ var role = {
 		});
 
 		$(".tree-container").on('click', '.leaf-title.parent', function(){
-			$li = $(this).parent().parent();
+			var $li = $(this).parent().parent();
 			if($li.hasClass("close")){
 				$li.children('ul').slideDown(function(){
 					$li.removeClass("close");

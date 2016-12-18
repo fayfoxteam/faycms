@@ -2,7 +2,12 @@
 use fay\helpers\Html;
 use fay\services\File;
 use fay\services\Option;
+
+/**
+ * @var $roles array
+ */
 ?>
+
 <div class="form-field">
 	<label class="title bold">登录名<em class="required">*</em></label>
 	<?php echo F::form()->inputText('username', array(

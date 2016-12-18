@@ -82,15 +82,16 @@
 						'alias':/^[a-zA-Z][a-zA-Z_0-9-]{0,49}$/,//字母开头，不包含数字，字母，下划线和中横线以外的特殊字符
 						'numeric':/^\d+$/,//纯数字
 						'alnum':/^[a-zA-Z0-9]+$/,//数字+字母
-						'alias_space':/^[a-zA-Z_0-9- ]+$/,//数字，字母，下划线，中横线和空格
+						'alias_space':/^[a-zA-Z_0-9- ]+$///数字，字母，下划线，中横线和空格
 					};
 					
 					if(settings.format){
+						var pattern;
 						if(typeof(formats[settings.format]) != 'undefined'){
-							var pattern = formats[settings.format];
+							pattern = formats[settings.format];
 						}else{
 							if(typeof(settings.format) == 'object'){
-								var pattern = settings.format;
+								pattern = settings.format;
 							}else{
 								eval('pattern = '+settings.format);
 							}
@@ -167,7 +168,7 @@
 					}
 					
 					if(settings.length){
-						max = Math.pow(10, settings.length - settings.decimal);
+						var max = Math.pow(10, settings.length - settings.decimal);
 						if(parseFloat(value) > max || parseFloat(value) < -max){
 							return $.validform._renderMsg(settings.tooLong, {
 								'length':settings.length,
@@ -317,11 +318,9 @@
 						for ( var i = 0; i < 17; i++) {
 							sum += Wi[i] * a_idCard[i];// 加权求和
 						}
-						valCodePosition = sum % 11;// 得到验证码所位置
-						if (a_idCard[17] == ValideCode[valCodePosition]){
-							return true;
-						}
-						return false;
+						var valCodePosition = sum % 11;// 得到验证码所位置
+						return a_idCard[17] == ValideCode[valCodePosition];
+						
 					}
 					
 					function isValidityBrithBy18IdCard(idCard18){
@@ -330,10 +329,8 @@
 						var day = idCard18.substring(12,14);
 						var temp_date = new Date(year,parseFloat(month)-1,parseFloat(day));
 						// 这里用getFullYear()获取年份，避免千年虫问题
-						if(temp_date.getFullYear()!=parseFloat(year) || temp_date.getMonth()!=parseFloat(month)-1 || temp_date.getDate()!=parseFloat(day)){
-							return false;
-						}
-						return true;
+						return !(temp_date.getFullYear() != parseFloat(year) || temp_date.getMonth() != parseFloat(month) - 1 || temp_date.getDate() != parseFloat(day));
+						
 					}
 					
 					function isValidityBrithBy15IdCard(idCard15){
@@ -342,10 +339,8 @@
 						var day = idCard15.substring(10,12);
 						var temp_date = new Date(year,parseFloat(month)-1,parseFloat(day));
 						// 对于老身份证中的你年龄则不需考虑千年虫问题而使用getYear()方法
-						if(temp_date.getYear()!=parseFloat(year) || temp_date.getMonth()!=parseFloat(month)-1 || temp_date.getDate()!=parseFloat(day)){
-							return false;
-						}
-						return true;
+						return !(temp_date.getYear() != parseFloat(year) || temp_date.getMonth() != parseFloat(month) - 1 || temp_date.getDate() != parseFloat(day));
+						
 					}
 				}
 			},
@@ -501,7 +496,7 @@
 				.data('status', 'normal')
 				.data('ajaxQueue', []);
 			});
-		}
+		};
 		
 		validform.prototype = {
 			/**
@@ -688,7 +683,7 @@
 						if(resp.status){
 							obj.data('validate_status', 'success');
 							validform.prototype.settings.onSuccess(obj);
-							if(form.data('status') == 'checking' && $.isEmptyObject(this.ajaxQueue)){
+							if(form.data('status') == 'checking' && $.isEmptyObject(ajaxQueue)){
 								form.data('status', 'checked');
 								$(obj[0].form).submit();//等待提交且所有ajax都已经验证完成，则提交表单
 							}
@@ -703,17 +698,18 @@
 			},
 			'getValue':function(obj){
 				//获取一个元素的值
+				var value;
 				if(obj.is(':radio')){
-					var value = $(obj[0].form).find(':radio[name="'+obj.attr('name')+'"]:checked').val();
+					value = $(obj[0].form).find(':radio[name="'+obj.attr('name')+'"]:checked').val();
 					return value ? value : '';
 				}else if(obj.is(':checkbox')){
-					var value = [];
+					value = [];
 					$(obj[0].form).find(':checkbox[name="'+obj.attr('name')+'"]:checked').each(function(){ 
 						value.push($(this).val()); 
 					});
 					return value;
 				}else{
-					var value = obj.val();
+					value = obj.val();
 					return value ? value : '';
 				}
 			},

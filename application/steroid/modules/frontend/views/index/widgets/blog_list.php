@@ -1,18 +1,17 @@
 <?php
 /**
- * @var $config
- * @var $posts
+ * @var $posts array
  */
 
 //获取分类描述
-$cat = \fay\services\Category::service()->get($config['cat_id'], 'description');
+$cat = \fay\services\Category::service()->get($widget->config['cat_id'], 'description');
 ?>
 <section class="section" id="section-blog">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="title-group">
-					<h2 class="title"><?php echo \fay\helpers\Html::encode($config['title'])?></h2>
+					<h2 class="title"><?php echo \fay\helpers\Html::encode($widget->config['title'])?></h2>
 					<div class="description">
 						<p><?php echo \fay\helpers\Html::encode($cat['description'])?></p>
 					</div>

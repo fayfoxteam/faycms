@@ -1,5 +1,9 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var $widget \fay\widgets\options\controllers\AdminController
+ */
 ?>
 <div class="box">
 	<div class="box-title">
@@ -20,8 +24,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="dragsort-list" id="widget-attr-list">
-		<?php if(isset($config['data'])){?>
-			<?php foreach($config['data'] as $d){?>
+		<?php foreach($widget->config['data'] as $d){?>
 			<div class="dragsort-item cf">
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container"><?php 
@@ -46,7 +49,6 @@ use fay\helpers\Html;
 					));
 				?></div>
 			</div>
-			<?php }?>
 		<?php }?>
 		</div>
 	</div>
@@ -87,7 +89,7 @@ use fay\helpers\Html;
 		<h4>渲染模板</h4>
 	</div>
 	<div class="box-content">
-		<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
+		<?php echo F::form('widget')->textarea('template', array(
 			'class'=>'form-control h90 autosize',
 			'id'=>'code-editor',
 		))?>
@@ -102,9 +104,9 @@ use fay\helpers\Html;
 <script>
 var widgetOptions = {
 	'addAttr':function(){
-		$addAttrKey = $('#widget-add-attr-key');
-		$addAttrValue = $('#widget-add-attr-value');
-		$attrList = $('#widget-attr-list');
+		var $addAttrKey = $('#widget-add-attr-key');
+		var $addAttrValue = $('#widget-add-attr-value');
+		var $attrList = $('#widget-attr-list');
 		$('#widget-add-attr-link').on('click', function(){
 			if($addAttrKey.val() == ""){
 				common.alert('名称不能为空');

@@ -61,53 +61,63 @@ class IndexController extends Widget{
 		)
 	);
 	
+	public function initConfig($config){
+		isset($config['id_key']) || $config['id_key'] = 'id';
+		empty($config['default_post_id']) && $config['default_post_id'] = 0;
+		$config['inc_views'] = empty($config['inc_views']) ? 0 : 1;
+		empty($config['fields']) && $config['fields'] = array();
+		
+		return $this->config = $config;
+	}
+	
 	public function getData(){
-		if(isset($config['fields'])){
-			$fields = array(
-				'post'=>$this->fields['post'],
-				'extra'=>$this->fields['extra'],
-			);
-			foreach($config['fields'] as $f){
-				$fields[$f] = $this->fields[$f];
-			}
-		}else{
-			//若未配置，返回全部字段
-			$fields = $this->fields;
+		$fields = array(
+			'post'=>$this->fields['post'],
+			'extra'=>$this->fields['extra'],
+		);
+		foreach($this->config['fields'] as $f){
+			$fields[$f] = $this->fields[$f];
 		}
 		
 		//文章缩略图
-		if(!empty($config['post_thumbnail_width']) || !empty($config['post_thumbnail_height'])){
+		if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){
 			$fields['post']['extra'] = array(
-				'thumbnail'=>(empty($config['post_thumbnail_width']) ? 0 : $config['post_thumbnail_width']) .
+				'thumbnail'=>(empty($this->config['post_thumbnail_width']) ? 0 : $this->config['post_thumbnail_width']) .
 					'x' .
-					(empty($config['post_thumbnail_height']) ? 0 : $config['post_thumbnail_height']),
+					(empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']),
 			);
 		}
 		
 		//附件缩略图
-		if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
+		if(in_array('files', $this->config['fields']) &&
+			(!empty($this->config['file_thumbnail_width']) || !empty($this->config['file_thumbnail_height']))){
 			$fields['files']['extra'] = array(
-				'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
+				'thumbnail'=>(empty($this->config['file_thumbnail_width']) ? 0 : $this->config['file_thumbnail_width']) .
 					'x' .
-					(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
+					(empty($this->config['file_thumbnail_height']) ? 0 : $this->config['file_thumbnail_height']),
 			);
 		}
 		
-		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
+		if(!empty($this->config['id_key']) && $this->input->get($this->config['id_key'])){
 			//有设置ID字段名，且传入ID字段
-			$post = Post::service()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
+			$post = Post::service()->get(
+				$this->input->get($this->config['id_key'], 'intval'),
+				$fields,
+				isset($this->config['under_cat_id']) ? $this->config['under_cat_id'] : null
+			);
+			
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
 		}else{
 			//未传入ID字段或未设置ID字段名
-			$post = Post::service()->get($config['default_post_id'], $fields);
+			$post = Post::service()->get($this->config['default_post_id'], $fields);
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}
 		}
 		
-		if($config['inc_views']){
+		if($this->config['inc_views']){
 			PostMeta::model()->update(array(
 				'last_view_time'=>$this->current_time,
 				'views'=>new Expr('views + 1'),
@@ -119,87 +129,11 @@ class IndexController extends Widget{
 	}
 	
 	public function index(){
-		if(isset($config['fields'])){
-			$fields = array(
-				'post'=>$this->fields['post'],
-				'extra'=>$this->fields['extra'],
-			);
-			foreach($config['fields'] as $f){
-				$fields[$f] = $this->fields[$f];
-			}
-		}else{
-			//若未配置，返回全部字段
-			$fields = $this->fields;
-		}
+		$post = $this->getData();
 		
-		//文章缩略图
-		if(!empty($config['post_thumbnail_width']) || !empty($config['post_thumbnail_height'])){
-			$fields['post']['extra'] = array(
-				'thumbnail'=>(empty($config['post_thumbnail_width']) ? 0 : $config['post_thumbnail_width']) .
-					'x' .
-					(empty($config['post_thumbnail_height']) ? 0 : $config['post_thumbnail_height']),
-			);
-		}
-		
-		//附件缩略图
-		if(!empty($config['file_thumbnail_width']) || !empty($config['file_thumbnail_height'])){
-			$fields['files']['extra'] = array(
-				'thumbnail'=>(empty($config['file_thumbnail_width']) ? 0 : $config['file_thumbnail_width']) .
-					'x' .
-					(empty($config['file_thumbnail_height']) ? 0 : $config['file_thumbnail_height']),
-			);
-		}
-		
-		if(!empty($config['id_key']) && $this->input->get($config['id_key'])){
-			//有设置ID字段名，且传入ID字段
-			$post = Post::service()->get($this->input->get($config['id_key'], 'intval'), $fields, isset($config['under_cat_id']) ? $config['under_cat_id'] : null);
-			if(!$post){
-				throw new HttpException('您访问的页面不存在');
-			}
-			
-			\F::app()->layout->assign(array(
-				'title'=>$post['extra']['seo_title'],
-				'keywords'=>$post['extra']['seo_keywords'],
-				'description'=>$post['extra']['seo_description'],
-			));
-		}else{
-			//未传入ID字段或未设置ID字段名
-			$post = Post::service()->get($config['default_post_id'], $fields);
-			if(!$post){
-				return '';
-			}
-		}
-		
-		//格式化文章内容
-		$post['post']['content'] = Post::formatContent($post['post']);
-		
-		if($config['inc_views']){
-			PostMeta::model()->update(array(
-				'last_view_time'=>$this->current_time,
-				'views'=>new Expr('views + 1'),
-				'real_views'=>new Expr('real_views + 1'),
-			), $post['post']['id']);
-		}
-		
-		//template
-		if(empty($config['template'])){
-			$this->view->render('template', array(
-				'post'=>$post,
-				'config'=>$config,
-				'alias'=>$this->alias,
-			));
-		}else{
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
-				\F::app()->view->renderPartial($config['template'], array(
-					'post'=>$post,
-					'config'=>$config,
-					'alias'=>$this->alias,
-				));
-			}else{
-				$alias = $this->alias;
-				eval('?>'.$config['template'].'<?php ');
-			}
-		}
+		$this->renderTemplate(array(
+			'post'=>$post,
+		));
 		
 	}
 }

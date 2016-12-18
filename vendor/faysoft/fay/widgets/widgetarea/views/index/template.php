@@ -1,5 +1,5 @@
 <?php
 /**
- * @var $config
+ * @var $widget \fay\widgets\widgetarea\controllers\IndexController
  */
-F::widget()->area($config['alias']);
+F::widget()->area($widget->config['alias']);

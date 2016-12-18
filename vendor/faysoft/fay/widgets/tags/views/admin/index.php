@@ -2,6 +2,10 @@
 use fay\helpers\Html;
 use fay\models\tables\Roles;
 use fay\services\user\Role;
+
+/**
+ * @var $widget \fay\widgets\tags\controllers\IndexController
+ */
 ?>
 <div class="box">
 	<div class="box-title">
@@ -54,20 +58,20 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'tag/{$title}', !isset($config['uri']) || $config['uri'] == 'tag/{$title}', array(
+					echo Html::inputRadio('uri', 'tag/{$title}', !isset($widget->config['uri']) || $widget->config['uri'] == 'tag/{$title}', array(
 						'label'=>'tag/{$title}',
 					));
-					echo Html::inputRadio('uri', 'tag/{$id}', isset($config['uri']) && $config['uri'] == 'tag/{$id}', array(
+					echo Html::inputRadio('uri', 'tag/{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'tag/{$id}', array(
 						'label'=>'tag/{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+					echo Html::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'tag/{$id}', 'tag/{$title}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+					echo Html::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'tag/{$id}', 'tag/{$title}',
-					)) ? $config['uri'] : '', array(
+					)) ? $widget->config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
@@ -80,7 +84,7 @@ use fay\services\user\Role;
 			</div>
 			<div class="form-field">
 				<label class="title bold">渲染模版</label>
-				<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
+				<?php echo F::form('widget')->textarea('template', array(
 					'class'=>'form-control h90 autosize',
 					'id'=>'code-editor',
 				))?>

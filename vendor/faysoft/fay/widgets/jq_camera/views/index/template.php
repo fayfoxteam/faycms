@@ -6,7 +6,7 @@ use fay\helpers\Html;
 use fay\helpers\StringHelper;
 
 /**
- * @var $widget \fay\widgets\images\controllers\IndexController
+ * @var $widget \fay\widgets\jq_camera\controllers\IndexController
  * @var $files array
  */
 

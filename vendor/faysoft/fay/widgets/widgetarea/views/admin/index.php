@@ -1,6 +1,10 @@
 <?php
 use fay\models\tables\Roles;
 use fay\services\user\Role;
+
+/**
+ * @var $widgetareas array
+ */
 ?>
 <div class="box">
 	<div class="box-title">

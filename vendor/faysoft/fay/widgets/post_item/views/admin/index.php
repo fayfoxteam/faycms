@@ -45,7 +45,7 @@ use fay\services\user\Role;
 				<?php
 					echo F::form('widget')->inputRadio('inc_views', '1', array(
 						'label'=>'更新',
-					), true);
+					));
 					echo F::form('widget')->inputRadio('inc_views', '0', array(
 						'label'=>'不更新',
 					));
@@ -72,32 +72,32 @@ use fay\services\user\Role;
 				<?php
 					echo F::form('widget')->inputCheckbox('fields[]', 'category', array(
 						'label'=>'主分类',
-					), true);
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'categories', array(
 						'label'=>'附加分类',
-					), true);
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'user', array(
 						'label'=>'作者信息',
-					), true);
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'nav', array(
 						'label'=>'导航（上一篇|下一篇）',
-					), true);
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'tags', array(
 						'label'=>'标签',
-					), true);
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'files', array(
 						'label'=>'附件',
-					), true);
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'props', array(
 						'label'=>'附加属性',
-					), true);
+					));
 					echo F::form('widget')->inputCheckbox('fields[]', 'meta', array(
 						'label'=>'计数（评论数/阅读数/点赞数）',
-					), true);
+					));
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>
-			<div class="form-field thumbnail-size-container <?php if(empty($config['fields']) || !in_array('files', $config['fields']))echo 'hide';?>">
+			<div class="form-field thumbnail-size-container <?php if(empty($widget->config['fields']) || !in_array('files', $config['fields']))echo 'hide';?>">
 				<label class="title bold">附件缩略图尺寸</label>
 				<?php
 				echo F::form('widget')->inputText('file_thumbnail_width', array(

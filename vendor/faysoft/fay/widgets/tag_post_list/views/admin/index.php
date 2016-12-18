@@ -2,6 +2,11 @@
 use fay\helpers\Html;
 use fay\models\tables\Roles;
 use fay\services\user\Role;
+
+/**
+ * @var $widget \fay\widgets\tag_post_list\controllers\AdminController
+ * @var $cats array
+ */
 ?>
 <div class="box">
 	<div class="box-title">
@@ -83,20 +88,20 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
+					echo Html::inputRadio('uri', 'post/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
 					));
-					echo Html::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
+					echo Html::inputRadio('uri', 'post-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'post-{$id}', array(
 						'label'=>'post-{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+					echo Html::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 							'post/{$id}', 'post-{$id}',
 						)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+					echo Html::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'post/{$id}', 'post-{$id}',
-					)) ? $config['uri'] : '', array(
+					)) ? $widget->config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
 					));
 				?>
@@ -144,7 +149,7 @@ use fay\services\user\Role;
 				?>
 				<p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
 			</div>
-			<div class="form-field thumbnail-size-container <?php if(empty($config['fields']) || !in_array('files', $config['fields']))echo 'hide';?>">
+			<div class="form-field thumbnail-size-container <?php if(empty($widget->config['fields']) || !in_array('files', $widget->config['fields']))echo 'hide';?>">
 				<label class="title bold">附件缩略图尺寸</label>
 				<?php
 				echo F::form('widget')->inputText('file_thumbnail_width', array(
@@ -182,14 +187,14 @@ use fay\services\user\Role;
 			<div class="form-field">
 				<label class="title bold">分页条模版</label>
 				<p><?php
-					echo Html::inputRadio('pager', 'system', !isset($config['pager']) || $config['pager'] == 'system', array(
+					echo F::form('widget')->inputRadio('pager', 'system', array(
 						'label'=>'调用全局分页条',
 					));
-					echo Html::inputRadio('pager', 'custom', isset($config['pager']) && $config['pager'] == 'custom', array(
+					echo F::form('widget')->inputRadio('pager', 'custom', array(
 						'label'=>'小工具内自定义',
 					));
 				?></p>
-				<div id="pager-template-container" class="<?php if(!isset($config['pager']) || $config['pager'] == 'system')echo 'hide';?>">
+				<div id="pager-template-container" class="<?php if(!isset($widget->config['pager']) || $widget->config['pager'] == 'system')echo 'hide';?>">
 					<?php echo F::form('widget')->textarea('pager_template', array(
 						'class'=>'form-control h90 autosize',
 					))?>

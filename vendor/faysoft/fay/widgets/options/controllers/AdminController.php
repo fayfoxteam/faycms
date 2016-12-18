@@ -5,16 +5,17 @@ use fay\widget\Widget;
 use fay\services\Flash;
 
 class AdminController extends Widget{
-	public function index(){
-		//获取默认模版
-		if(empty($config['template'])){
-			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
-			$this->form->setData(array(
-				'template'=>$config['template'],
-			), true);
-		}
+	public function initConfig($config){
+		empty($config['title']) && $config['title'] = '';
+		empty($config['data']) && $config['data'] = array();
 		
-		$this->view->config = $config;
+		//设置模版
+		empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+		
+		return $this->config = $config;
+	}
+	
+	public function index(){
 		$this->view->render();
 	}
 	

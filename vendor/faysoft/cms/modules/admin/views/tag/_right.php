@@ -1,5 +1,9 @@
 <?php
 use cms\helpers\ListTableHelper;
+
+/**
+ * @var $listview \fay\common\ListView
+ */
 ?>
 <table class="list-table tags">
 	<thead>

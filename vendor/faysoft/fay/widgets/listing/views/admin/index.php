@@ -1,5 +1,9 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var $widget \fay\widgets\friendlinks\controllers\AdminController
+ */
 ?>
 <div class="box">
 	<div class="box-title">
@@ -20,25 +24,12 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="dragsort-list" id="widget-listing-values">
-		<?php if(!empty($config['data'])){?>
-			<?php foreach($config['data'] as $v){?>
-				<div class="dragsort-item">
-					<a class="dragsort-rm" href="javascript:;"></a>
-					<a class="dragsort-item-selector"></a>
-					<div class="dragsort-item-container">
-						<?php echo Html::textarea("data[]", $v, array(
-							'class'=>'form-control h60 autosize',
-						));?>
-					</div>
-					<div class="clear"></div>
-				</div>
-			<?php }?>
-		<?php }else{?>
+		<?php foreach($widget->config['data'] as $v){?>
 			<div class="dragsort-item">
 				<a class="dragsort-rm" href="javascript:;"></a>
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
-					<?php echo Html::textarea("data[]", '', array(
+					<?php echo Html::textarea("data[]", $v, array(
 						'class'=>'form-control h60 autosize',
 					));?>
 				</div>
@@ -57,7 +48,7 @@ use fay\helpers\Html;
 		<h4>渲染模板</h4>
 	</div>
 	<div class="box-content">
-		<?php echo Html::textarea('template', isset($config['template']) ? $config['template'] : '', array(
+		<?php echo F::form('widget')->textarea('template', array(
 			'class'=>'form-control h90 autosize',
 			'id'=>'code-editor',
 		))?>

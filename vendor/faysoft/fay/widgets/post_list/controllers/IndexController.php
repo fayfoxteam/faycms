@@ -58,15 +58,21 @@ class IndexController extends Widget{
 		'views'=>'views DESC, publish_time DESC',
 	);
 	
-	/**
-	 * 配置信息
-	 */
-	private $config;
+	public function initConfig($config){
+		empty($config['page_size']) && $config['page_size'] = 10;
+		empty($config['page_key']) && $config['page_key'] = 'page';
+		empty($config['uri']) && $config['uri'] = 'post/{$id}';
+		empty($config['date_format']) && $config['date_format'] = 'pretty';
+		isset($config['fields']) || $config['fields'] = array('category');
+		empty($config['pager']) && $config['pager'] = 'system';
+		empty($config['pager_template']) && $config['pager_template'] = '';
+		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
+		isset($config['subclassification']) || $config['subclassification'] = true;
+		
+		return $this->config = $config;
+	}
 	
 	public function getData(){
-		//初始化配置
-		$this->initConfig($config);
-		
 		$listview = $this->getListView();
 		//获取符合条件的文章ID
 		$posts = $listview->getData();
@@ -86,9 +92,6 @@ class IndexController extends Widget{
 	}
 	
 	public function index(){
-		//初始化配置
-		$this->initConfig($config);
-		
 		$listview = $this->getListView();
 		$posts = $listview->getData();
 		
@@ -99,27 +102,9 @@ class IndexController extends Widget{
 			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 			
-			//template
-			if(empty($this->config['template'])){
-				$this->view->render('template', array(
-					'posts'=>$posts,
-					'config'=>$this->config,
-					'alias'=>$this->alias,
-					'listview'=>$listview,
-				));
-			}else{
-				if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
-					\F::app()->view->renderPartial($this->config['template'], array(
-						'posts'=>$posts,
-						'config'=>$this->config,
-						'alias'=>$this->alias,
-						'listview'=>$listview,
-					));
-				}else{
-					$alias = $this->alias;
-					eval('?>'.$this->config['template'].'<?php ');
-				}
-			}
+			$this->renderTemplate(array(
+				'posts'=>$posts,
+			));
 		}else{
 			echo $this->config['empty_text'];
 		}
@@ -135,29 +120,11 @@ class IndexController extends Widget{
 					'alias'=>$this->alias,
 				));
 			}else{
-				$alias = $this->alias;
-				extract($pager_data);
-				eval('?>'.$this->config['pager_template'].'<?php ');
+				\F::app()->view->evalCode($this->config['pager_template'], array(
+					'widget'=>$this
+				) + $pager_data);
 			}
 		}
-	}
-	
-	/**
-	 * 初始化配置
-	 * @param array $config
-	 */
-	protected function initConfig($config){
-		empty($config['page_size']) && $config['page_size'] = 10;
-		empty($config['page_key']) && $config['page_key'] = 'page';
-		empty($config['uri']) && $config['uri'] = 'post/{$id}';
-		empty($config['date_format']) && $config['date_format'] = 'pretty';
-		isset($config['fields']) || $config['fields'] = array('category');
-		empty($config['pager']) && $config['pager'] = 'system';
-		empty($config['pager_template']) && $config['pager_template'] = '';
-		empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
-		isset($config['subclassification']) || $config['subclassification'] = true;
-		
-		return $this->config = $config;
 	}
 	
 	/**

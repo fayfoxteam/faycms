@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $listview \fay\common\ListView
+ */
+?>
 <div class="row">
 	<div class="col-5">
 		<form id="form" class="validform" action="<?php echo $this->url('admin/tag/create')?>" method="post">
@@ -8,7 +13,9 @@
 		</form>
 	</div>
 	<div class="col-7">
-		<?php $this->renderPartial('_right');?>
+		<?php $this->renderPartial('_right', array(
+			'listview'=>$listview
+		));?>
 	</div>
 </div>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>

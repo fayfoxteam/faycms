@@ -2,10 +2,11 @@
 use fay\helpers\Html;
 
 /**
- * @var fay\widget\Widget $widget_admin
+ * @var $widget_admin fay\widget\Widget
+ * @var $widgetareas array
  */
 ?>
-<?php echo F::form('edit_widget')->open()?>
+<?php echo F::form('widget')->open()?>
 <div class="poststuff">
 	<div class="post-body">
 		<div class="post-body-content"><?php
@@ -24,7 +25,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="box-content">
 					<div><?php
-						echo F::form('edit_widget')->submitLink('保存', array(
+						echo F::form('widget')->submitLink('保存', array(
 							'class'=>'btn',
 						));
 						echo Html::link('预览', array('widget/load/'.$widget['alias']), array(
@@ -99,7 +100,7 @@ use fay\helpers\Html;
 		</div>
 	</div>
 </div>
-<?php echo F::form('edit_widget')->close()?>
+<?php echo F::form('widget')->close()?>
 <script>
 $(function(){
 	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'widget'});

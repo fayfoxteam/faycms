@@ -6,24 +6,26 @@ use fay\services\Flash;
 use fay\models\tables\Pages;
 
 class AdminController extends Widget{
-	public function index(){
-		//获取默认模版
-		if(empty($config['template'])){
-			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
-			$this->form->setData(array(
-				'template'=>$config['template'],
-			), true);
-		}
+	public function initConfig($config){
+		isset($config['id_key']) || $config['id_key'] = 'page_id';
+		isset($config['alias_key']) || $config['alias_key'] = 'page_alias';
+		empty($config['default_page_id']) && $config['default_page_id'] = 0;
+		$config['inc_views'] = empty($config['inc_views']) ? 0 : 1;
 		
-		$this->view->config = $config;
-		
-		if(!empty($config['default_page_id'])){
+		if($config['default_page_id']){
 			$post = Pages::model()->find($config['default_page_id'], 'title');
 			$this->form->setData(array(
 				'page_title'=>$post['title'],
 			));
 		}
 		
+		//设置模版
+		empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+		
+		return $this->config = $config;
+	}
+	
+	public function index(){
 		$this->view->render();
 	}
 	
@@ -65,7 +67,6 @@ class AdminController extends Widget{
 			'alias_key'=>'trim',
 			'default_page_id'=>'intval',
 			'template'=>'trim',
-			'fields'=>'trim',
 			'inc_views'=>'intval',
 		);
 	}

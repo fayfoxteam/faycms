@@ -1,13 +1,17 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var $posts array
+ */
 ?>
 <?php foreach($posts as $p){?>
 <article class="post-list-item">
 	<div class="post-title">
 		<h1><?php
-			echo Html::link($p['post']['title'], array(str_replace('{$id}', $p['post']['id'], $config['uri'])));
+			echo Html::link($p['post']['title'], $p['post']['link'])
 		?></h1>
-		<?php if(!empty($config['date_format'])){?>
+		<?php if($p['post']['format_publish_time']){?>
 		<span class="post-meta">
 			发表于 
 			<time><?php echo $p['post']['format_publish_time']?></time>
@@ -15,16 +19,10 @@ use fay\helpers\Html;
 		<?php }?>
 	</div>
 	<div class="post-content"><?php echo nl2br($p['post']['abstract'])?></div>
-	<div class="post-tags">
-		<?php
-		echo Html::link($p['category']['title'], array('cat/'.$p['post']['cat_id']), array(
-			'class'=>'post-type',
-		));
-		
-		echo Html::link('阅读全文', array('post/'.$p['post']['id']), array(
+	<div class="post-tags"><?php
+		echo Html::link('阅读全文', $p['post']['link'], array(
 			'class'=>'post-more-link',
 		));
-		?>
-	</div>
+	?></div>
 </article>
 <?php }?>

@@ -1,8 +1,3 @@
-<?php
-/**
- * @var $config
- */
-?>
 <section class="section" id="section-contact">
 	<div class="bg">
 		<div class="container">
@@ -16,7 +11,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<?php F::widget()->area($config['alias']);?>
+				<?php F::widget()->area($widget->config['alias']);?>
 			</div>
 		</div>
 	</div>

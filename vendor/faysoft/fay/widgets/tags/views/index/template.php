@@ -2,14 +2,13 @@
 use fay\helpers\Html;
 
 /**
- * @var $alias string
- * @var $config array
+ * @var $widget \fay\widgets\tags\controllers\IndexController
  * @var $tags array
  */
 ?>
-<div class="widget widget-tags" id="widget-<?php echo Html::encode($alias)?>">
+<div class="widget widget-tags" id="widget-<?php echo Html::encode($widget->alias)?>">
 	<div class="widget-title">
-		<h3><?php echo Html::encode($config['title'])?></h3>
+		<h3><?php echo Html::encode($widget->config['title'])?></h3>
 	</div>
 	<div class="widget-content">
 		<div class="cf tag-cloud"><?php

@@ -1,17 +1,20 @@
 <?php
 namespace fay\widgets\menu\controllers;
 
+use fay\helpers\Html;
 use fay\widget\Widget;
 use fay\services\Menu;
 use fay\models\tables\Menus;
 
 class IndexController extends Widget{
-	public function getData(){
-		if(empty($config['top'])){
-			$config['top'] = Menus::ITEM_USER_MENU;
-		}
+	public function initConfig($config){
+		empty($config['top']) && $config['top'] = Menus::ITEM_USER_MENU;
 		
-		$menus = Menu::service()->getTree($config['top'], true, true);
+		return $this->config = $config;
+	}
+	
+	public function getData(){
+		$menus = Menu::service()->getTree($this->config['top'], true, true);
 		$this->removeFields($menus);
 		return $menus;
 	}
@@ -22,7 +25,7 @@ class IndexController extends Widget{
 	 */
 	private function removeFields(&$menus){
 		foreach($menus as &$m){
-			unset($m['left_value'],$m['right_value'],$m['sort']);
+			unset($m['left_value'], $m['right_value'], $m['sort']);
 			if(!empty($m['children'])){
 				$this->removeFields($m['children']);
 			}
@@ -30,36 +33,40 @@ class IndexController extends Widget{
 	}
 	
 	public function index(){
-		//root node
-		if(empty($config['top'])){
-			$config['top'] = Menus::ITEM_USER_MENU;
-		}
+		$menus = $this->getData();
 		
-		$menus = Menu::service()->getTree($config['top'], true, true);
-		
-		//若无分类可显示，则不显示该widget
+		//若无导航可显示，则不显示该widget
 		if(empty($menus)){
 			return;
 		}
 		
-		if(empty($config['template'])){
-			$this->view->render('template', array(
-				'menus'=>$menus,
-				'config'=>$config,
-				'alias'=>$this->alias,
-			));
-		}else{
-			if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
-				\F::app()->view->renderPartial($config['template'], array(
-					'menus'=>$menus,
-					'config'=>$config,
-					'alias'=>$this->alias,
-				));
-			}else{
-				$alias = $this->alias;
-				eval('?>'.$config['template'].'<?php ');
-			}
-		}
+		$this->renderTemplate(array(
+			'menus'=>$menus
+		));
 	}
 	
+	/**
+	 * 输出导航栏
+	 * @param $menus
+	 */
+	public function renderMenu($menus){
+		echo '<ul>';
+		foreach($menus as $m){
+			echo '<li'.(empty($m['children']) ? '' : ' class="has-sub"').'>';
+			echo Html::link('<span class="title">'.$m['title'].'</span>', $m['link'], array(
+				'encode'=>false,
+				'title'=>false,
+				'prepend'=>$m['css_class'] ? array(
+					'tag'=>'i',
+					'text'=>'',
+					'class'=>$m['css_class'],
+				) : false,
+			));
+			if(!empty($m['children'])){
+				$this->renderMenu($m['children']);
+			}
+			echo '</li>';
+		}
+		echo '</ul>';
+	}
 }

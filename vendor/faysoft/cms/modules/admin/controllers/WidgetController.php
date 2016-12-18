@@ -114,12 +114,12 @@ class WidgetController extends AdminController{
 		$this->view->widget = $widget;
 		if($widget['options']){
 			$this->view->widget_config = json_decode($widget['options'], true);
-			$this->form('widget')->setData($this->view->widget_config);
 		}else{
 			$this->view->widget_config = array();
 		}
 		
 		$widget_admin->initConfig(json_decode($widget['options'], true));
+		$this->form('widget')->setData($widget_admin->config, true);
 		$this->view->widget_admin = $widget_admin;
 		$this->layout->subtitle = '编辑小工具  - '.$this->view->widget_admin->title;
 

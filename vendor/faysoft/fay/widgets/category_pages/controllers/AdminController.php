@@ -9,9 +9,6 @@ class AdminController extends Widget{
 	public function initConfig($config){
 		//设置模版
 		empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
-		$this->form->setData(array(
-			'template'=>$config['template'],
-		), true);
 		
 		return $this->config = $config;
 	}
@@ -29,9 +26,6 @@ class AdminController extends Widget{
 		//获取默认模版
 		if(empty($config['template'])){
 			$config['template'] = file_get_contents(__DIR__.'/../views/index/template.php');
-			$this->form->setData(array(
-				'template'=>$config['template'],
-			), true);
 		}
 		
 		$this->view->config = $config;

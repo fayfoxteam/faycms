@@ -1,9 +1,13 @@
 <?php
 use fay\helpers\Html;
 
-echo Html::tag('h3', array(), Html::encode($title));
-if(isset($data) && is_array($data)){
-	foreach($data as $v){
-		echo Html::tag('p', array(), Html::encode($v));
-	}
+/**
+ * @var $widget \fay\widgets\friendlinks\controllers\IndexController
+ * @var $data array
+ */
+
+echo Html::encode($widget->config['title']);
+foreach($widget->config['data'] as $d){
+	echo Html::tag('p', array(), Html::encode($d));
 }
+?>

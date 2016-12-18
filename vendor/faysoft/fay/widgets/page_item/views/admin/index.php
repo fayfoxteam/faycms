@@ -12,7 +12,7 @@ use fay\services\user\Role;
 			<?php
 				echo F::form('widget')->inputHidden('default_page_id', array(
 					'id'=>'page-id',
-				));
+				), 0);
 				echo F::form('widget')->inputText('page_title', array(
 					'class'=>'form-control mw500',
 					'id'=>'page-title',
@@ -49,10 +49,10 @@ use fay\services\user\Role;
 				<?php
 					echo F::form('widget')->inputRadio('inc_views', '1', array(
 						'label'=>'递增',
-					), true);
+					));
 					echo F::form('widget')->inputRadio('inc_views', '0', array(
 						'label'=>'不递增',
-					));
+					), true);
 				?>
 				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项很有用。</p>
 			</div>

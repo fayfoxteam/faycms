@@ -66,7 +66,7 @@ class WidgetController extends ApiController{
 		\F::widget()->load(
 			$this->form()->getData('alias'),
 			$this->form()->getData('_index'),
-			null,
+			false,
 			$this->form()->getData('action', 'index')
 		);
 	}

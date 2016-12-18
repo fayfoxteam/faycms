@@ -1,9 +1,14 @@
 <?php
 use fay\helpers\Html;
 use fay\services\File;
+
+/**
+ * @var $widget
+ * @var $posts array
+ */
 ?>
 <div class="widget posts">
-	<h3><?php echo $config['title']?></h3>
+	<h3><?php echo $widget->config['title']?></h3>
 	<ul><?php foreach($posts as $p){?>
 		<li>
 			<?php if($p['post']['thumbnail']['id']){

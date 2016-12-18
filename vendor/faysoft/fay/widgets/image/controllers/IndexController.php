@@ -9,6 +9,7 @@ class IndexController extends Widget{
 	public function initConfig($config){
 		//默认表单元素
 		isset($config['file_id']) || $config['file_id'] = '0';
+		isset($config['target']) || $config['target'] = '_blank';
 		
 		return $this->config = $config;
 	}

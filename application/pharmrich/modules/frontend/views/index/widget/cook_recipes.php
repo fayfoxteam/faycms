@@ -1,10 +1,15 @@
 <?php
 use fay\helpers\Html;
 use fay\services\File;
+
+/**
+ * @var $widget
+ * @var $posts array
+ */
 ?>
-<section class="box" id="<?php echo $alias?>">
+<section class="box" id="<?php echo $widget->alias?>">
 	<div class="box-title">
-		<h2><?php echo $config['title']?></h2>
+		<h2><?php echo $widget->config['title']?></h2>
 		<?php echo Html::link('More', array('cook-recipe'), array(
 			'class'=>'more-link',
 		))?>

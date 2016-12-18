@@ -2,12 +2,12 @@
 use fay\helpers\Html;
 
 /**
- * @var array $config
- * @var array $posts
+ * @var $widget array
+ * @var $posts array
  */
 ?>
 <div class="widget">
-	<h5 class="widget-title"><?php echo Html::encode($config['title'])?></h5>
+	<h5 class="widget-title"><?php echo Html::encode($widget->config['title'])?></h5>
 	<?php foreach($posts as $p){?>
 		<article>
 			<div class="post-thumb">

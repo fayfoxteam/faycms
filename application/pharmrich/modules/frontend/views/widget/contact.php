@@ -1,10 +1,14 @@
 <?php
 use fay\helpers\Html;
+
+/**
+ * @var $widget
+ */
 ?>
 <div class="m-contact">
-	<h3><?php echo Html::encode($title)?></h3>
+	<h3><?php echo Html::encode($widget->config['title'])?></h3>
 	<ul><?php
-		foreach($data as $d){
+		foreach($widget->config['data'] as $d){
 			echo Html::tag('li', array(), "<span>{$d['key']}</span>: {$d['value']}");
 		}
 	?></ul>

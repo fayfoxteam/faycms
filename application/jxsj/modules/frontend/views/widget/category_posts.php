@@ -1,13 +1,13 @@
 <?php
 use fay\helpers\Html;
 ?>
-<div class="box category-post" id="<?php echo Html::encode($alias)?>">
+<div class="box category-post" id="<?php echo Html::encode($widget->alias)?>">
 	<div class="box-title">
 		<h3><?php
-			echo Html::link('', array('cat/'.$config['top']), array(
+			echo Html::link('', array('cat/'.$widget->config['top']), array(
 				'class'=>'more-link',
 			));
-			echo Html::encode($config['title']);
+			echo Html::encode($widget->config['title']);
 		?></h3>
 	</div>
 	<div class="box-content">

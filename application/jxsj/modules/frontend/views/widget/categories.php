@@ -19,7 +19,7 @@ function renderCats($cats, $dep = 0){
 ?>
 <div class="box category-post">
 	<div class="box-title">
-		<h3><?php echo Html::encode($config['title'])?></h3>
+		<h3><?php echo Html::encode($widget->config['title'])?></h3>
 	</div>
 	<div class="box-content">
 		<div class="st"><div class="sl"><div class="sr"><div class="sb">

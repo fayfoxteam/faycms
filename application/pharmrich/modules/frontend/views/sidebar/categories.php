@@ -3,6 +3,11 @@ namespace pharmrich\modules\frontend\views\sidebar;
 
 use fay\helpers\Html;
 
+/**
+ * @var $widget
+ * @var $cats array
+ */
+
 if(!function_exists('pharmrich\modules\frontend\views\sidebar\renderCats')){
 	function renderCats($cats, $dep = 0){
 		$html = '<ul';
@@ -22,6 +27,6 @@ if(!function_exists('pharmrich\modules\frontend\views\sidebar\renderCats')){
 }
 ?>
 <div class="widget categories">
-	<h3><?php echo $config['title']?></h3>
+	<h3><?php echo $widget->config['title']?></h3>
 	<?php echo renderCats($cats)?>
 </div>

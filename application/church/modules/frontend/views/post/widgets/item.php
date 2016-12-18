@@ -4,7 +4,7 @@ use fay\services\File;
 use fay\helpers\Date;
 
 /**
- * @var array $post 文章信息
+ * @var $post array 文章信息
  */
 \F::app()->layout->assign(array(
 	'page_title'=>$post['post']['title']

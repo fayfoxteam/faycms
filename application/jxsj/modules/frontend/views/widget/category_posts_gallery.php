@@ -2,13 +2,13 @@
 use fay\helpers\Html;
 use fay\services\File;
 ?>
-<div class="box" id="<?php echo Html::encode($alias);?>">
+<div class="box" id="<?php echo Html::encode($widget->alias);?>">
 	<div class="box-title">
 		<h3><?php
-			echo Html::link('', array('cat/'.$config['top']), array(
+			echo Html::link('', array('cat/'.$widget->config['top']), array(
 				'class'=>'more-link',
 			));
-			echo Html::encode($config['title']);
+			echo Html::encode($widget->config['title']);
 		?></h3>
 	</div>
 	<div class="box-content">
@@ -17,7 +17,7 @@ use fay\services\File;
 				<div class="box-gallery-container">
 					<ul class="box-gallery">
 					<?php foreach($posts as $p){
-						echo '<li>', Html::link(Html::img($p['post']['thumbnail'], File::PIC_RESIZE, array(
+						echo '<li>', Html::link(Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
 							'dw'=>203,
 							'dh'=>132,
 						)), $p['post']['link'], array(

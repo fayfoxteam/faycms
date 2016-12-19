@@ -20,6 +20,7 @@ class Bootstrap{
 		
 		//路由
 		$uri = new Uri();
+		Runtime::append(__FILE__, __LINE__, '路由解析完成');
 		
 		//hook
 		Hook::getInstance()->call('after_uri');
@@ -48,7 +49,7 @@ class Bootstrap{
 		}
 		
 		$file = $this->getControllerAndAction($uri);
-		Runtime::append(__FILE__, __LINE__, '路由解析完成');
+		Runtime::append(__FILE__, __LINE__, '获取控制器名称');
 		
 		$controller = new $file['controller'];
 		Runtime::append(__FILE__, __LINE__, '控制器被实例化');

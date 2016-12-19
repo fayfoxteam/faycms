@@ -4,7 +4,7 @@ use fay\services\File;
 ?>
 <div class="box right works">
 	<h3 class="box-title">
-		<span><?php echo Html::encode($config['title'])?></span>
+		<span><?php echo Html::encode($widget->config['title'])?></span>
 	</h3>
 	<div class="box-content">
 		<ul class="cf">

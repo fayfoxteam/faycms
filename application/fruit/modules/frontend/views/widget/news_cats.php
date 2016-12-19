@@ -3,7 +3,7 @@ use fay\helpers\Html;
 ?>
 <aside class="box">
 	<div class="box-title">
-		<h3 class="sub-title"><?php echo Html::encode($config['title'])?></h3>
+		<h3 class="sub-title"><?php echo Html::encode($widget->config['title'])?></h3>
 	</div>
 	<div class="box-content">
 		<ul class="box-cats">

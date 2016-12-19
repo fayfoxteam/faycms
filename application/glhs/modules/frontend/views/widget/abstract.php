@@ -4,10 +4,10 @@ use fay\services\File;
 use fay\services\Category;
 use fay\helpers\StringHelper;
 
-$cat = Category::service()->get($config['top']);
+$cat = Category::service()->get($widget->config['top']);
 ?>
 <div class="teacher-list-container">
-	<h2><?php echo Html::encode($config['title'])?></h2>
+	<h2><?php echo Html::encode($widget->config['title'])?></h2>
 	<div class="teacher-list">
 		<ul class="cf"><?php foreach($posts as $p){
 			echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(

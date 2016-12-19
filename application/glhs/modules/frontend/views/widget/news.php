@@ -3,7 +3,7 @@ use fay\helpers\Html;
 ?>
 <div class="box left news">
 	<h3 class="box-title">
-		<span><?php echo Html::encode($config['title'])?></span>
+		<span><?php echo Html::encode($widget->config['title'])?></span>
 	</h3>
 	<div class="box-content">
 		<ul><?php foreach($posts as $p){

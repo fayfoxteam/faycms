@@ -19,4 +19,5 @@ require __DIR__.'/_init.php';
 $bootstrap = new Bootstrap();
 //hook
 Hook::getInstance()->call('before_system');
+\fay\helpers\Runtime::append(__FILE__, __LINE__, '环境初始化完成');
 $bootstrap->init();

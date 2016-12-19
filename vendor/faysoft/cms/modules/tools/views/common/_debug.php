@@ -52,6 +52,7 @@ if(Db::hasInstance()){
 		<ul class="nav-tabs">
 			<li class="active"><a href="#debug-tab-1">Sql Log</a></li>
 			<li><a href="#debug-tab-2">Backtrace</a></li>
+			<li><a href="#debug-tab-3">Runtimes</a></li>
 		</ul>
 		<div class="tab-content">
 			<div id="debug-tab-1" class="tab-pane p5">
@@ -82,6 +83,9 @@ if(Db::hasInstance()){
 			</div>
 			<div id="debug-tab-2" class="tab-pane p5 hide" style="display:none;">
 				<?php Backtrace::render()?>
+			</div>
+			<div id="debug-tab-3" class="tab-pane p5 hide" style="display:none;">
+				<?php \fay\helpers\Runtime::render();?>
 			</div>
 		</div>
 	</div>

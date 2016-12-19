@@ -24,11 +24,19 @@ $error_handler->register();
 
 /**
  * 定义一个快捷方式，方便调试
+ * @param $var
+ * @param bool $encode
+ * @param bool $return
+ * @return string
  */
 function pr($var, $encode = false, $return = false){
 	return Dumper::pr($var, $encode, $return);
 }
 
+/**
+ * @param $var
+ * @param int $depth
+ */
 function dump($var, $depth = 10){
 	Dumper::dump($var, $depth);
 }

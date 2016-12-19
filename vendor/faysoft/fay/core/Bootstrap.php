@@ -1,6 +1,8 @@
 <?php
 namespace fay\core;
 
+use fay\helpers\Runtime;
+
 class Bootstrap{
 	public function init(){
 		//默认时区
@@ -46,10 +48,14 @@ class Bootstrap{
 		}
 		
 		$file = $this->getControllerAndAction($uri);
+		Runtime::append(__FILE__, __LINE__, '路由解析完成');
+		
 		$controller = new $file['controller'];
+		Runtime::append(__FILE__, __LINE__, '控制器被实例化');
 		//hook
 		Hook::getInstance()->call('after_controller_constructor');
 		$controller->{$file['action']}();
+		Runtime::append(__FILE__, __LINE__, '控制器方式执行完毕');
 	}
 	
 	/**

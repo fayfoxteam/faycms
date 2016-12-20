@@ -20,11 +20,11 @@ if(Db::hasInstance()){
 #debug-container .tabbable .nav-tabs{zoom:1;clear:left;padding:0;margin:0} 
 #debug-container .tabbable .nav-tabs:before, .tabbable .nav-tabs:after{content:"";display:table}
 #debug-container .tabbable .nav-tabs:after{clear: both}
-#debug-container .tabbable .nav-tabs li{display:block;float:left;margin-right:4px;margin-bottom:-1px;padding-top:1px;background-color:#FFFFFF;border:1px solid #DDDDDD}
-#debug-container .tabbable .nav-tabs li a{display:block;padding:3px 18px;transition:none;color:#AAAAAA}
+#debug-container .tabbable .nav-tabs li{display:block;float:left;margin-right:4px;margin-bottom:-1px;padding-top:1px;background-color:#fff;border:1px solid #ddd}
+#debug-container .tabbable .nav-tabs li a{display:block;padding:3px 18px;transition:none;color:#aaa;line-height:1.5}
 #debug-container .tabbable .nav-tabs li.active{font-weight:400;padding-top:0;border-bottom:0;border-top:0}
-#debug-container .tabbable .nav-tabs li.active a{background-color:#FFFFFF;border-top:3px solid #D12610;color:#000000}
-#debug-container .tabbable .tab-content{background-color:#FFFFFF;border:1px solid #DDDDDD;padding:10px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04)}
+#debug-container .tabbable .nav-tabs li.active a{background-color:#fff;border-top:3px solid #D12610;color:#000}
+#debug-container .tabbable .tab-content{background-color:#fff;border:1px solid #ddd;padding:10px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.04)}
 #debug-container .tabbable .tab-pane{position:relative}
 
 /* 常见的普通表格式样 */

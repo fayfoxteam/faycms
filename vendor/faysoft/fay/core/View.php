@@ -219,7 +219,6 @@ class View{
 		if(!isset($view_path)){
 			throw new ErrorException('视图文件不存在', 'Relative Path: '.$view_relative_path);
 		}else{
-			Runtime::append(__FILE__, __LINE__, "获得视图{$view}文件路径");
 			$content = $this->obOutput($view_path, $view_data);
 		}
 		

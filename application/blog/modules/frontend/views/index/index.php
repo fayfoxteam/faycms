@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \fay\common\ListView $listview
+ * @var $work_cat array
  */
 ?>
 <div class="col-main">
@@ -8,7 +9,9 @@
 	<?php if(isset($subtitle)){?>
 		<article class="post-list-header"><?php echo $subtitle?></article>
 	<?php }?>
-		<?php $listview->showData()?>
+		<?php $listview->showData(array(
+			'work_cat'=>$work_cat,
+		))?>
 	</section>
 	<?php $listview->showPager()?>
 </div>

@@ -25,31 +25,42 @@ class Event{
 	
 	/**
 	 * 绑定事件
-	 * @param string $event 事件
+	 * @param string $name 事件
 	 * @param callable $handler 回调函数
 	 * @param string $router 正则，若非空，则仅匹配的路由会执行事件
+	 * @param array $data 可以在绑定事件时传入一些参数
+	 * @param bool $append 若为true，则追加到最后，若为false，则插入在最前
 	 */
-	public function on($event, $handler, $router = ''){
-		self::$events[$event][] = array(
-			'handler'=>$handler,
-			'router'=>$router,
-		);
+	public function on($name, $handler, $router = '', $data = array(), $append = true){
+		if($append || empty(self::$events[$name])){
+			self::$events[$name][] = array(
+				'handler'=>$handler,
+				'router'=>$router,
+				'data'=>$data,
+			);
+		}else{
+			array_unshift(self::$events[$name], array(
+				'handler'=>$handler,
+				'router'=>$router,
+				'data'=>$data,
+			));
+		}
 	}
 	
 	/**
 	 * 触发事件
-	 * @param string $event 事件
+	 * @param string $name 事件
 	 * @param array $data 参数
 	 */
-	public function trigger($event, $data = array()){
-		if(isset(self::$events[$event])){
-			foreach(self::$events[$event] as $e){
+	public function trigger($name, $data = array()){
+		if(isset(self::$events[$name])){
+			foreach(self::$events[$name] as $e){
 				if(!empty($e['router']) && !preg_match($e['router'], Uri::getInstance()->router)){
 					//设置有路由正则，且正则不匹配当前路由，跳过
 					continue;
 				}
 				
-				call_user_func($e['handler'], $data);
+				call_user_func($e['handler'], array_merge($e['data'], $data));
 			}
 		}
 	}

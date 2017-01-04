@@ -48,6 +48,38 @@ class Event{
 	}
 	
 	/**
+	 * 解绑事件
+	 * @param string $name 事件名称
+	 * @param mixed $handler 若为null，则解绑所有事件
+	 * @return bool
+	 */
+	public function off($name, $handler = null){
+		if(empty(self::$events[$name])){
+			return false;
+		}
+		
+		if($handler === null){
+			unset(self::$events[$name]);
+			return true;
+		}else{
+			$removed = false;
+			
+			foreach(self::$events[$name] as $i => $event){
+				if($event['handler'] === $handler){
+					unset(self::$events[$name][$i]);
+					$removed = true;
+				}
+			}
+			
+			if($removed){
+				self::$events[$name] = array_values(self::$events[$name]);
+			}
+			
+			return $removed;
+		}
+	}
+	
+	/**
 	 * 触发事件
 	 * @param string $name 事件
 	 * @param array $data 参数
@@ -60,7 +92,11 @@ class Event{
 					continue;
 				}
 				
-				call_user_func($e['handler'], array_merge($e['data'], $data));
+				if(!empty($e['data'])){
+					$data = array_merge($e['data'], $data);
+				}
+				
+				call_user_func($e['handler'], $data);
 			}
 		}
 	}

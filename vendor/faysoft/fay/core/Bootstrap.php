@@ -23,7 +23,7 @@ class Bootstrap{
 		Runtime::append(__FILE__, __LINE__, '路由解析完成');
 		
 		//hook
-		Hook::getInstance()->call('after_uri');
+		\F::event()->trigger('after_uri');
 		
 		if(!$uri->router){
 			//路由解析失败
@@ -54,7 +54,7 @@ class Bootstrap{
 		$controller = new $file['controller'];
 		Runtime::append(__FILE__, __LINE__, '控制器被实例化');
 		//hook
-		Hook::getInstance()->call('after_controller_constructor');
+		\F::event()->trigger('after_controller_constructor');
 		$controller->{$file['action']}();
 		Runtime::append(__FILE__, __LINE__, '控制器方式执行完毕');
 	}

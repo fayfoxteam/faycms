@@ -2,7 +2,6 @@
 namespace fay\services\feed;
 
 use fay\core\Service;
-use fay\core\Hook;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\services\User;
@@ -61,7 +60,7 @@ class Favorite extends Service{
 			FeedMeta::model()->incr($feed_id, array('favorites', 'real_favorites'), 1);
 		}
 		
-		Hook::getInstance()->call('after_feed_favorite');
+		\F::event()->trigger('after_feed_favorite');
 	}
 	
 	/**
@@ -95,7 +94,7 @@ class Favorite extends Service{
 			}
 				
 			//执行钩子
-			Hook::getInstance()->call('after_feed_unfavorite');
+			\F::event()->trigger('after_feed_unfavorite');
 				
 			return true;
 		}else{

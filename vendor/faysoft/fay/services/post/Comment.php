@@ -6,7 +6,6 @@ use fay\helpers\FieldHelper;
 use fay\models\MultiTree;
 use fay\models\tables\PostComments;
 use fay\core\Exception;
-use fay\core\Hook;
 use fay\services\Post;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
@@ -86,7 +85,7 @@ class Comment extends MultiTree{
 		)), 'create');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_created', array(
+		\F::event()->trigger('after_post_comment_created', array(
 			'comment_id'=>$comment_id,
 		));
 		
@@ -118,7 +117,7 @@ class Comment extends MultiTree{
 		$this->updatePostComments(array($comment), 'delete');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_deleted', array(
+		\F::event()->trigger('after_post_comment_deleted', array(
 			'comment_id'=>$comment_id,
 		));
 	}
@@ -151,7 +150,7 @@ class Comment extends MultiTree{
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_deleted', array(
+			\F::event()->trigger('after_post_comment_deleted', array(
 				'comment_id'=>$c['id'],
 			));
 		}
@@ -183,7 +182,7 @@ class Comment extends MultiTree{
 		$this->updatePostComments(array($comment), 'undelete');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_undeleted', array(
+		\F::event()->trigger('after_post_comment_undeleted', array(
 			'comment_id'=>$comment_id,
 		));
 	}
@@ -216,7 +215,7 @@ class Comment extends MultiTree{
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_undeleted', array(
+			\F::event()->trigger('after_post_comment_undeleted', array(
 				'comment_id'=>$c['id'],
 			));
 		}
@@ -258,7 +257,7 @@ class Comment extends MultiTree{
 			$this->updatePostComments($comments, 'delete');
 			
 			//执行钩子
-			Hook::getInstance()->call('after_post_comment_batch_deleted', array(
+			\F::event()->trigger('after_post_comment_batch_deleted', array(
 				'comment_ids'=>$comment_ids,
 			));
 			
@@ -281,7 +280,7 @@ class Comment extends MultiTree{
 		}
 		
 		//执行钩子，这个不能用after，记录都没了就没法找了
-		Hook::getInstance()->call('before_post_comment_removed', array(
+		\F::event()->trigger('before_post_comment_removed', array(
 			'comment_id'=>$comment_id,
 		));
 		
@@ -315,7 +314,7 @@ class Comment extends MultiTree{
 		), 'id,post_id,status,sockpuppet');
 		$comment_ids = ArrayHelper::column($comments, 'id');
 		//执行钩子
-		Hook::getInstance()->call('before_post_comment_batch_removed', array(
+		\F::event()->trigger('before_post_comment_batch_removed', array(
 			'comment_ids'=>$comment_ids,
 		));
 		
@@ -359,7 +358,7 @@ class Comment extends MultiTree{
 		$this->updatePostComments(array($comment), 'approve');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_approved', array(
+		\F::event()->trigger('after_post_comment_approved', array(
 			'comment_id'=>$comment_id,
 		));
 		return true;
@@ -388,7 +387,7 @@ class Comment extends MultiTree{
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_approved', array(
+			\F::event()->trigger('after_post_comment_approved', array(
 				'comment_id'=>$c['id'],
 			));
 		}
@@ -420,7 +419,7 @@ class Comment extends MultiTree{
 		$this->updatePostComments(array($comment), 'disapprove');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_comment_disapproved', array(
+		\F::event()->trigger('after_post_comment_disapproved', array(
 			'comment_id'=>$comment_id,
 		));
 		return true;
@@ -449,7 +448,7 @@ class Comment extends MultiTree{
 		
 		foreach($comments as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_comment_disapproved', array(
+			\F::event()->trigger('after_post_comment_disapproved', array(
 				'comment_id'=>$c['id'],
 			));
 		}

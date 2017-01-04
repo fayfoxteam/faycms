@@ -15,7 +15,6 @@ use fay\common\ListView;
 use fay\services\Post;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\core\Hook;
 use fay\core\HttpException;
 use fay\services\Option;
 use fay\services\Flash;
@@ -82,7 +81,7 @@ class PostController extends AdminController{
 		}
 		
 		//hook
-		Hook::getInstance()->call('admin_before_post_create', array(
+		\F::event()->trigger('admin_before_post_create', array(
 			'cat_id'=>$cat_id,
 		));
 		
@@ -510,7 +509,7 @@ class PostController extends AdminController{
 		;
 		
 		//hook
-		Hook::getInstance()->call('admin_before_post_update', array(
+		\F::event()->trigger('admin_before_post_update', array(
 			'cat_id'=>$post['cat_id'],
 			'post_id'=>$post_id,
 		));

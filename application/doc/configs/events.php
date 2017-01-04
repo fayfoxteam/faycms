@@ -5,7 +5,7 @@ return array(
 	 */
 // 	'after_uri'=>array(
 // 		array(
-// 			'function'=>function(){
+// 			'handler'=>function(){
 // 				$request_uri = Uri::getInstance()->request_uri;
 // 				if(substr($request_uri, 0, 5) == 'guide'){
 // 					header('HTTP/1.1 301 Moved Permanently');

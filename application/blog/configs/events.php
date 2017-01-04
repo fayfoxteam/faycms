@@ -7,7 +7,7 @@ return array(
 		//Controller实例化后执行
 		array(
 			'router'=>'/^(admin)\/.*$/i',
-			'function'=>function(){
+			'handler'=>function(){
 				if(method_exists(\F::app(), 'addMenuTeam')){
 					\F::app()->addMenuTeam(array(
 						'title'=>'记账',

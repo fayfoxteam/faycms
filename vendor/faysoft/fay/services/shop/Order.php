@@ -2,7 +2,6 @@
 namespace fay\services\shop;
 
 use fay\core\Service;
-use fay\core\Hook;
 
 class Order extends Service{
 	/**
@@ -41,6 +40,6 @@ class Order extends Service{
 		//更新库存
 		
 		//执行钩子
-		Hook::getInstance()->call('after_order_created');
+		\F::event()->trigger('after_order_created');
 	}
 }

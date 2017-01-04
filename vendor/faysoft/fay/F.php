@@ -147,4 +147,11 @@ class F{
 		return Logger::getInstance();
 	}
 	
+	/**
+	 * 获取事件驱动
+	 * @return \fay\core\Event
+	 */
+	public static function event(){
+		return \fay\core\Event::getInstance();
+	}
 }

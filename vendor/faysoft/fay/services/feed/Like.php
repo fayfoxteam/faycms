@@ -2,7 +2,6 @@
 namespace fay\services\feed;
 
 use fay\core\Service;
-use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\tables\FeedLikes;
 use fay\services\User;
@@ -59,7 +58,7 @@ class Like extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('after_feed_like');
+		\F::event()->trigger('after_feed_like');
 	}
 	
 	/**
@@ -92,7 +91,7 @@ class Like extends Service{
 			}
 			
 			//执行钩子
-			Hook::getInstance()->call('after_feed_unlike');
+			\F::event()->trigger('after_feed_unlike');
 			
 			return true;
 		}else{

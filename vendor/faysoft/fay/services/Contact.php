@@ -1,7 +1,6 @@
 <?php
 namespace fay\services;
 
-use fay\core\Hook;
 use fay\core\Service;
 use fay\helpers\Request;
 use fay\models\tables\Contacts;
@@ -38,7 +37,7 @@ class Contact extends Service{
 		//入库
 		$contact_id = Contacts::model()->insert($data);
 		
-		Hook::getInstance()->call('after_contact_created', array(
+		\F::event()->trigger('after_contact_created', array(
 			'contact_id'=>$contact_id,
 		));
 	}

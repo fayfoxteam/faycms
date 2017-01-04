@@ -2,7 +2,6 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\core\Hook;
 use fay\helpers\FieldHelper;
 use fay\helpers\Request;
 use fay\core\db\Expr;
@@ -118,7 +117,7 @@ class User extends Service{
 			'mac'=>Analyst::service()->getMacId(),
 		));
 		
-		Hook::getInstance()->call('after_login', array(
+		\F::event()->trigger('after_login', array(
 			'user'=>$user,
 		));
 		

@@ -3,7 +3,6 @@ namespace fay\services\post;
 
 use fay\common\ListView;
 use fay\core\Service;
-use fay\core\Hook;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\Posts;
@@ -63,7 +62,7 @@ class Favorite extends Service{
 			PostMeta::model()->incr($post_id, array('favorites', 'real_favorites'), 1);
 		}
 		
-		Hook::getInstance()->call('after_post_favorite');
+		\F::event()->trigger('after_post_favorite');
 	}
 	
 	/**
@@ -97,7 +96,7 @@ class Favorite extends Service{
 			}
 				
 			//执行钩子
-			Hook::getInstance()->call('after_post_unfavorite');
+			\F::event()->trigger('after_post_unfavorite');
 				
 			return true;
 		}else{

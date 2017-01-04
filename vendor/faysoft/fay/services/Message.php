@@ -7,7 +7,6 @@ use fay\helpers\FieldHelper;
 use fay\models\MultiTree;
 use fay\models\tables\Messages;
 use fay\core\Exception;
-use fay\core\Hook;
 use fay\services\Post;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
@@ -86,7 +85,7 @@ class Message extends MultiTree{
 		)), 'create');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_message_created', array(
+		\F::event()->trigger('after_post_message_created', array(
 			'message_id'=>$message_id,
 		));
 		
@@ -118,7 +117,7 @@ class Message extends MultiTree{
 		$this->updateMessages(array($message), 'delete');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_message_deleted', array(
+		\F::event()->trigger('after_post_message_deleted', array(
 			'message_id'=>$message_id,
 		));
 	}
@@ -151,7 +150,7 @@ class Message extends MultiTree{
 		
 		foreach($messages as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_message_deleted', array(
+			\F::event()->trigger('after_post_message_deleted', array(
 				'message_id'=>$c['id'],
 			));
 		}
@@ -183,7 +182,7 @@ class Message extends MultiTree{
 		$this->updateMessages(array($message), 'undelete');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_message_undeleted', array(
+		\F::event()->trigger('after_post_message_undeleted', array(
 			'message_id'=>$message_id,
 		));
 	}
@@ -216,7 +215,7 @@ class Message extends MultiTree{
 		
 		foreach($messages as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_message_undeleted', array(
+			\F::event()->trigger('after_post_message_undeleted', array(
 				'message_id'=>$c['id'],
 			));
 		}
@@ -258,7 +257,7 @@ class Message extends MultiTree{
 			$this->updateMessages($messages, 'delete');
 			
 			//执行钩子
-			Hook::getInstance()->call('after_post_message_batch_deleted', array(
+			\F::event()->trigger('after_post_message_batch_deleted', array(
 				'message_ids'=>$message_ids,
 			));
 			
@@ -281,7 +280,7 @@ class Message extends MultiTree{
 		}
 		
 		//执行钩子，这个不能用after，记录都没了就没法找了
-		Hook::getInstance()->call('before_post_message_removed', array(
+		\F::event()->trigger('before_post_message_removed', array(
 			'message_id'=>$message_id,
 		));
 		
@@ -315,7 +314,7 @@ class Message extends MultiTree{
 		), 'id,to_user_id,status,sockpuppet');
 		$message_ids = ArrayHelper::column($messages, 'id');
 		//执行钩子
-		Hook::getInstance()->call('before_post_message_batch_removed', array(
+		\F::event()->trigger('before_post_message_batch_removed', array(
 			'message_ids'=>$message_ids,
 		));
 		
@@ -359,7 +358,7 @@ class Message extends MultiTree{
 		$this->updateMessages(array($message), 'approve');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_message_approved', array(
+		\F::event()->trigger('after_post_message_approved', array(
 			'message_id'=>$message_id,
 		));
 		return true;
@@ -388,7 +387,7 @@ class Message extends MultiTree{
 		
 		foreach($messages as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_message_approved', array(
+			\F::event()->trigger('after_post_message_approved', array(
 				'message_id'=>$c['id'],
 			));
 		}
@@ -420,7 +419,7 @@ class Message extends MultiTree{
 		$this->updateMessages(array($message), 'disapprove');
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_message_disapproved', array(
+		\F::event()->trigger('after_post_message_disapproved', array(
 			'message_id'=>$message_id,
 		));
 		return true;
@@ -449,7 +448,7 @@ class Message extends MultiTree{
 		
 		foreach($messages as $c){
 			//执行钩子（循环逐条执行）
-			Hook::getInstance()->call('after_post_message_disapproved', array(
+			\F::event()->trigger('after_post_message_disapproved', array(
 				'message_id'=>$c['id'],
 			));
 		}

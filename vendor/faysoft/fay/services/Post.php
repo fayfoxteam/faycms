@@ -20,7 +20,6 @@ use fay\services\post\Extra;
 use fay\services\post\Meta;
 use fay\services\post\Prop;
 use fay\services\post\Tag as PostTag;
-use fay\core\Hook;
 use fay\models\tables\PostFavorites;
 use fay\models\tables\PostExtra;
 use fay\services\post\Category as PostCategory;
@@ -198,7 +197,7 @@ class Post extends Service{
 		}
 		
 		//hook
-		Hook::getInstance()->call('after_post_created', array(
+		\F::event()->trigger('after_post_created', array(
 			'post_id'=>$post_id,
 		));
 		
@@ -341,7 +340,7 @@ class Post extends Service{
 		}
 		
 		//hook
-		Hook::getInstance()->call('after_post_updated', array(
+		\F::event()->trigger('after_post_updated', array(
 			'post_id'=>$post_id,
 		));
 		
@@ -387,7 +386,7 @@ class Post extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('before_post_removed', array(
+		\F::event()->trigger('before_post_removed', array(
 			'post_id'=>$post_id,
 		));
 		
@@ -461,7 +460,7 @@ class Post extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_deleted', array(
+		\F::event()->trigger('after_post_deleted', array(
 			'post_id'=>$post_id,
 		));
 		
@@ -497,7 +496,7 @@ class Post extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_undeleted', array(
+		\F::event()->trigger('after_post_undeleted', array(
 			'post_id'=>$post_id,
 		));
 		

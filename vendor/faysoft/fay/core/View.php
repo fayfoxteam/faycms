@@ -100,7 +100,7 @@ class View{
 	public function render($view = null, $layout = null, $return = false){
 		Runtime::append(__FILE__, __LINE__, '准备渲染视图');
 		//hook
-		Hook::getInstance()->call('before_render');
+		\F::event()->trigger('before_render');
 		
 		$uri = Uri::getInstance();
 		$content = $this->renderPartial($view, $this->getViewData(), -1, true);

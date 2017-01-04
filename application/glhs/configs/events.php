@@ -4,7 +4,7 @@ return array(
 		//Controller实例化后执行
 		array(
 			'router'=>'/^(admin)\/.*$/i',
-			'function'=>function(){
+			'handler'=>function(){
 				if(method_exists(\F::app(), 'removeMenuTeam')){
 					\F::app()->removeMenuTeam('goods');
 					\F::app()->removeMenuTeam('voucher');
@@ -18,16 +18,14 @@ return array(
 		),
 		array(
 			'router'=>'/^admin\/post\/(create|edit|index).*$/i',
-			'function'=>function(){
+			'handler'=>function(){
 				\F::app()->removeBox('alias');
 				\F::app()->removeBox('tags');
+				\F::app()->removeBox('files');
 				\F::app()->removeBox('keywords');
 				\F::app()->removeBox('category');
-				//\F::app()->removeBox('main-category');
 				\F::app()->removeBox('likes');
 				\F::app()->removeBox('gather');
-				//\F::app()->removeBox('props');
-				\F::app()->removeBox('thumbnail');
 			},
 		),
 	),

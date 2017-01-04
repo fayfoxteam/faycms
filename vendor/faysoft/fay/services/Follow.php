@@ -2,7 +2,6 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\core\Hook;
 use fay\core\Exception;
 use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
@@ -81,7 +80,7 @@ class Follow extends Service{
 		UserCounter::model()->incr($user_id, 'fans', 1);
 		
 		//执行钩子
-		Hook::getInstance()->call('after_follow');
+		\F::event()->trigger('after_follow');
 		
 		return $isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE;
 	}
@@ -123,7 +122,7 @@ class Follow extends Service{
 			UserCounter::model()->incr($user_id, 'fans', -1);
 			
 			//执行钩子
-			Hook::getInstance()->call('after_unfollow');
+			\F::event()->trigger('after_unfollow');
 			
 			return true;
 		}else{//不是关注状态，也不抛异常

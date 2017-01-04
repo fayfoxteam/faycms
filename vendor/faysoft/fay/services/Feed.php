@@ -13,7 +13,6 @@ use fay\models\tables\UserCounter;
 use fay\models\tables\FeedMeta;
 use fay\helpers\Request;
 use fay\models\tables\FeedExtra;
-use fay\core\Hook;
 use fay\models\tables\FeedsTags;
 use fay\models\tables\FeedLikes;
 use fay\models\tables\FeedFavorites;
@@ -159,7 +158,7 @@ class Feed extends Service{
 		}
 		
 		//hook
-		Hook::getInstance()->call('after_feed_created', array(
+		\F::event()->trigger('after_feed_created', array(
 			'feed_id'=>$feed_id,
 		));
 		
@@ -268,7 +267,7 @@ class Feed extends Service{
 		}
 		
 		//hook
-		Hook::getInstance()->call('after_feed_updated', array(
+		\F::event()->trigger('after_feed_updated', array(
 			'feed_id'=>$feed_id,
 		));
 		
@@ -301,7 +300,7 @@ class Feed extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('after_feed_deleted', array(
+		\F::event()->trigger('after_feed_deleted', array(
 			'feed_id'=>$feed_id,
 		));
 		
@@ -334,7 +333,7 @@ class Feed extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('after_feed_undeleted', array(
+		\F::event()->trigger('after_feed_undeleted', array(
 			'feed_id'=>$feed_id,
 		));
 		
@@ -354,7 +353,7 @@ class Feed extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('before_feed_removed', array(
+		\F::event()->trigger('before_feed_removed', array(
 			'feed_id'=>$feed_id,
 		));
 		

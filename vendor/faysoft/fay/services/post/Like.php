@@ -3,7 +3,6 @@ namespace fay\services\post;
 
 use fay\common\ListView;
 use fay\core\Service;
-use fay\core\Hook;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\PostLikes;
@@ -62,7 +61,7 @@ class Like extends Service{
 		}
 		
 		//执行钩子
-		Hook::getInstance()->call('after_post_like');
+		\F::event()->trigger('after_post_like');
 	}
 	
 	/**
@@ -95,7 +94,7 @@ class Like extends Service{
 			}
 				
 			//执行钩子
-			Hook::getInstance()->call('after_feed_unlike');
+			\F::event()->trigger('after_feed_unlike');
 				
 			return true;
 		}else{

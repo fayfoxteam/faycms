@@ -14,6 +14,16 @@ use fay\models\tables\PostMeta;
 
 class Favorite extends Service{
 	/**
+	 * 文章被收藏后事件
+	 */
+	const EVENT_FAVORITED = 'after_post_favorite';
+	
+	/**
+	 * 文章被取消收藏后事件
+	 */
+	const EVENT_CANCEL_FAVORITED = 'after_post_cancel_favorite';
+	
+	/**
 	 * @param string $class_name
 	 * @return Favorite
 	 */
@@ -62,7 +72,7 @@ class Favorite extends Service{
 			PostMeta::model()->incr($post_id, array('favorites', 'real_favorites'), 1);
 		}
 		
-		\F::event()->trigger('after_post_favorite');
+		\F::event()->trigger(self::EVENT_FAVORITED);
 	}
 	
 	/**
@@ -96,7 +106,7 @@ class Favorite extends Service{
 			}
 				
 			//执行钩子
-			\F::event()->trigger('after_post_unfavorite');
+			\F::event()->trigger(self::EVENT_CANCEL_FAVORITED);
 				
 			return true;
 		}else{

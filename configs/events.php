@@ -5,10 +5,10 @@
  * 匹配到的钩子会根据file信息调用，执行action方法
  * {
  *     '格式':{
- *         'function':{
+ *         'handler':{
  *             '描述':{
- *                 '类方法':'array('blog\plugins\AdminMenu', 'run')',
- *                 '静态方法':'blog\plugins\AdminMenu::run',
+ *                 '类方法':'array($obj, 'run')',
+ *                 '静态方法':'blog\plugins\AdminMenu::run' 或 array('blog\plugins\AdminMenu', 'run'),
  *                 '匿名函数':function(){...},
  *             },
  *             '必须':'是'

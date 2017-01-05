@@ -18,6 +18,36 @@ use fay\services\User;
  */
 class Message extends MultiTree{
 	/**
+	 * 评论创建后事件
+	 */
+	const EVENT_CREATED = 'after_user_message_created';
+	
+	/**
+	 * 评论被删除后事件
+	 */
+	const EVENT_DELETED = 'after_user_message_deleted';
+	
+	/**
+	 * 评论被还原后事件
+	 */
+	const EVENT_UNDELETE = 'after_user_message_undelete';
+	
+	/**
+	 * 评论被永久删除事件
+	 */
+	const EVENT_REMOVING = 'before_user_message_removed';
+	
+	/**
+	 * 评论通过审核事件
+	 */
+	const EVENT_APPROVED = 'after_user_message_approved';
+	
+	/**
+	 * 评论未通过审核事件
+	 */
+	const EVENT_DISAPPROVED = 'after_user_message_disapproved';
+	
+	/**
 	 * @see MultiTree::$model
 	 */
 	protected $model = 'fay\models\tables\Messages';
@@ -84,10 +114,8 @@ class Message extends MultiTree{
 			'sockpuppet'=>$sockpuppet,
 		)), 'create');
 		
-		//执行钩子
-		\F::event()->trigger('after_post_message_created', array(
-			'message_id'=>$message_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_CREATED, $message_id);
 		
 		return $message_id;
 	}
@@ -116,10 +144,8 @@ class Message extends MultiTree{
 		//更新用户留言数
 		$this->updateMessages(array($message), 'delete');
 		
-		//执行钩子
-		\F::event()->trigger('after_post_message_deleted', array(
-			'message_id'=>$message_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_DELETED, array($message_id));
 	}
 	
 	/**
@@ -137,23 +163,20 @@ class Message extends MultiTree{
 			return 0;
 		}
 		
+		$affected_message_ids = ArrayHelper::column($messages, 'id');
+		
 		//更新状态
 		$affected_rows = Messages::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
-			'id IN (?)'=>$message_ids,
+			'id IN (?)'=>$affected_message_ids,
 		));
 		
 		//更新用户留言数
 		$this->updateMessages($messages, 'delete');
 		
-		foreach($messages as $c){
-			//执行钩子（循环逐条执行）
-			\F::event()->trigger('after_post_message_deleted', array(
-				'message_id'=>$c['id'],
-			));
-		}
+		\F::event()->trigger(self::EVENT_DELETED, $affected_message_ids);
 		
 		return $affected_rows;
 	}
@@ -181,10 +204,8 @@ class Message extends MultiTree{
 		//更新用户留言数
 		$this->updateMessages(array($message), 'undelete');
 		
-		//执行钩子
-		\F::event()->trigger('after_post_message_undeleted', array(
-			'message_id'=>$message_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_UNDELETE, array($message_id));
 	}
 	
 	/**
@@ -202,23 +223,20 @@ class Message extends MultiTree{
 			return 0;
 		}
 		
+		$affected_message_ids = ArrayHelper::column($messages, 'id');
+		
 		//更新状态
 		$affected_rows = Messages::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
-			'id IN (?)'=>$message_ids,
+			'id IN (?)'=>$affected_message_ids,
 		));
 		
 		//更新用户留言数
 		$this->updateMessages($messages, 'undelete');
 		
-		foreach($messages as $c){
-			//执行钩子（循环逐条执行）
-			\F::event()->trigger('after_post_message_undeleted', array(
-				'message_id'=>$c['id'],
-			));
-		}
+		\F::event()->trigger(self::EVENT_UNDELETE, $affected_message_ids);
 		
 		return $affected_rows;
 	}
@@ -256,10 +274,8 @@ class Message extends MultiTree{
 			//更新用户留言数
 			$this->updateMessages($messages, 'delete');
 			
-			//执行钩子
-			\F::event()->trigger('after_post_message_batch_deleted', array(
-				'message_ids'=>$message_ids,
-			));
+			//触发事件
+			\F::event()->trigger(self::EVENT_DELETED, $message_ids);
 			
 			return $message_ids;
 		}else{
@@ -279,10 +295,8 @@ class Message extends MultiTree{
 			throw new Exception('指定评论ID不存在');
 		}
 		
-		//执行钩子，这个不能用after，记录都没了就没法找了
-		\F::event()->trigger('before_post_message_removed', array(
-			'message_id'=>$message_id,
-		));
+		//触发事件，这个不能用after，记录都没了就没法找了
+		\F::event()->trigger(self::EVENT_REMOVING, array($message_id));
 		
 		$this->_remove($message);
 		
@@ -313,10 +327,9 @@ class Message extends MultiTree{
 			'right_value <= ' . $message['right_value'],
 		), 'id,to_user_id,status,sockpuppet');
 		$message_ids = ArrayHelper::column($messages, 'id');
-		//执行钩子
-		\F::event()->trigger('before_post_message_batch_removed', array(
-			'message_ids'=>$message_ids,
-		));
+		
+		//触发事件
+		\F::event()->trigger(self::EVENT_REMOVING, $message_ids);
 		
 		//获取所有不在回收站内的节点（已删除的显然不需要再更新评论数了）
 		$undeleted_messages = array();
@@ -357,10 +370,8 @@ class Message extends MultiTree{
 		//更新用户留言数
 		$this->updateMessages(array($message), 'approve');
 		
-		//执行钩子
-		\F::event()->trigger('after_post_message_approved', array(
-			'message_id'=>$message_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_APPROVED, array($message_id));
 		return true;
 	}
 	
@@ -379,18 +390,16 @@ class Message extends MultiTree{
 			return 0;
 		}
 		
+		$affected_message_ids = ArrayHelper::column($messages, 'id');
+		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($messages, 'id'), Messages::STATUS_APPROVED);
+		$affected_rows = $this->setStatus($affected_message_ids, Messages::STATUS_APPROVED);
 		
 		//更新用户留言数
 		$this->updateMessages($messages, 'approve');
 		
-		foreach($messages as $c){
-			//执行钩子（循环逐条执行）
-			\F::event()->trigger('after_post_message_approved', array(
-				'message_id'=>$c['id'],
-			));
-		}
+		//触发事件
+		\F::event()->trigger(self::EVENT_APPROVED, $affected_message_ids);
 		
 		return $affected_rows;
 	}
@@ -418,10 +427,8 @@ class Message extends MultiTree{
 		//更新用户留言数
 		$this->updateMessages(array($message), 'disapprove');
 		
-		//执行钩子
-		\F::event()->trigger('after_post_message_disapproved', array(
-			'message_id'=>$message_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_DISAPPROVED, array($message_id));
 		return true;
 	}
 	
@@ -440,18 +447,15 @@ class Message extends MultiTree{
 			return 0;
 		}
 		
+		$affected_message_ids = ArrayHelper::column($messages, 'id');
+		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($messages, 'id'), Messages::STATUS_UNAPPROVED);
+		$affected_rows = $this->setStatus($affected_message_ids, Messages::STATUS_UNAPPROVED);
 		
 		//更新用户留言数
 		$this->updateMessages($messages, 'disapprove');
 		
-		foreach($messages as $c){
-			//执行钩子（循环逐条执行）
-			\F::event()->trigger('after_post_message_disapproved', array(
-				'message_id'=>$c['id'],
-			));
-		}
+		\F::event()->trigger(self::EVENT_DISAPPROVED, $affected_message_ids);
 		
 		return $affected_rows;
 	}

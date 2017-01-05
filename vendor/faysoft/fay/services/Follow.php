@@ -17,6 +17,16 @@ use fay\models\tables\UserCounter;
  */
 class Follow extends Service{
 	/**
+	 * 添加关注后事件
+	 */
+	const EVENT_FOLLOW = 'after_follow';
+	
+	/**
+	 * 取消关注后事件
+	 */
+	const EVENT_UNFOLLOW = 'after_unfollow';
+	
+	/**
 	 * @param string $class_name
 	 * @return Follow
 	 */
@@ -80,7 +90,10 @@ class Follow extends Service{
 		UserCounter::model()->incr($user_id, 'fans', 1);
 		
 		//执行钩子
-		\F::event()->trigger('after_follow');
+		\F::event()->trigger(self::EVENT_FOLLOW, array(
+			'user_id'=>$user_id,
+			'fan_id'=>$fan_id,
+		));
 		
 		return $isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE;
 	}
@@ -122,7 +135,10 @@ class Follow extends Service{
 			UserCounter::model()->incr($user_id, 'fans', -1);
 			
 			//执行钩子
-			\F::event()->trigger('after_unfollow');
+			\F::event()->trigger(self::EVENT_UNFOLLOW, array(
+				'user_id'=>$user_id,
+				'fan_id'=>$fan_id,
+			));
 			
 			return true;
 		}else{//不是关注状态，也不抛异常

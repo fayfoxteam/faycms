@@ -72,7 +72,7 @@ class Favorite extends Service{
 			PostMeta::model()->incr($post_id, array('favorites', 'real_favorites'), 1);
 		}
 		
-		\F::event()->trigger(self::EVENT_FAVORITED);
+		\F::event()->trigger(self::EVENT_FAVORITED, $post_id);
 	}
 	
 	/**
@@ -105,8 +105,8 @@ class Favorite extends Service{
 				PostMeta::model()->incr($post_id, array('favorites', 'favorites'), -1);
 			}
 				
-			//执行钩子
-			\F::event()->trigger(self::EVENT_CANCEL_FAVORITED);
+			//触发事件
+			\F::event()->trigger(self::EVENT_CANCEL_FAVORITED, $post_id);
 				
 			return true;
 		}else{

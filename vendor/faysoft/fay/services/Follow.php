@@ -89,7 +89,7 @@ class Follow extends Service{
 		//被关注用户粉丝数+1
 		UserCounter::model()->incr($user_id, 'fans', 1);
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger(self::EVENT_FOLLOW, array(
 			'user_id'=>$user_id,
 			'fan_id'=>$fan_id,
@@ -134,7 +134,7 @@ class Follow extends Service{
 			//被关注用户粉丝数-1
 			UserCounter::model()->incr($user_id, 'fans', -1);
 			
-			//执行钩子
+			//触发事件
 			\F::event()->trigger(self::EVENT_UNFOLLOW, array(
 				'user_id'=>$user_id,
 				'fan_id'=>$fan_id,

@@ -85,7 +85,7 @@ class Comment extends MultiTree{
 			'sockpuppet'=>$sockpuppet,
 		)), 'create');
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('after_feed_comment_created', array(
 			'comment_id'=>$comment_id,
 		));
@@ -117,7 +117,7 @@ class Comment extends MultiTree{
 		//更新文章评论数
 		$this->updateFeedComments(array($comment), 'delete');
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('after_feed_comment_deleted', array(
 			'comment_id'=>$comment_id,
 		));
@@ -150,7 +150,7 @@ class Comment extends MultiTree{
 		$this->updateFeedComments($comments, 'delete');
 		
 		foreach($comments as $c){
-			//执行钩子（循环逐条执行）
+			//触发事件（循环逐条执行）
 			\F::event()->trigger('after_feed_comment_deleted', array(
 				'comment_id'=>$c['id'],
 			));
@@ -182,7 +182,7 @@ class Comment extends MultiTree{
 		//更新文章评论数
 		$this->updateFeedComments(array($comment), 'undelete');
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('after_feed_comment_undeleted', array(
 			'comment_id'=>$comment_id,
 		));
@@ -215,7 +215,7 @@ class Comment extends MultiTree{
 		$this->updateFeedComments($comments, 'undelete');
 		
 		foreach($comments as $c){
-			//执行钩子（循环逐条执行）
+			//触发事件（循环逐条执行）
 			\F::event()->trigger('after_feed_comment_undeleted', array(
 				'comment_id'=>$c['id'],
 			));
@@ -257,7 +257,7 @@ class Comment extends MultiTree{
 			//更新文章评论数
 			$this->updateFeedComments($comments, 'delete');
 			
-			//执行钩子
+			//触发事件
 			\F::event()->trigger('after_feed_comment_batch_deleted', array(
 				'comment_ids'=>$comment_ids,
 			));
@@ -280,7 +280,7 @@ class Comment extends MultiTree{
 			throw new Exception('指定评论ID不存在');
 		}
 		
-		//执行钩子，这个不能用after，记录都没了就没法找了
+		//触发事件，这个不能用after，记录都没了就没法找了
 		\F::event()->trigger('before_feed_comment_removed', array(
 			'comment_id'=>$comment_id,
 		));
@@ -314,7 +314,7 @@ class Comment extends MultiTree{
 			'right_value <= ' . $comment['right_value'],
 		), 'id,feed_id,status,sockpuppet');
 		$comment_ids = ArrayHelper::column($comments, 'id');
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('before_feed_comment_batch_removed', array(
 			'comment_ids'=>$comment_ids,
 		));
@@ -358,7 +358,7 @@ class Comment extends MultiTree{
 		//更新文章评论数
 		$this->updateFeedComments(array($comment), 'approve');
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('after_feed_comment_approved', array(
 			'comment_id'=>$comment_id,
 		));
@@ -387,7 +387,7 @@ class Comment extends MultiTree{
 		$this->updateFeedComments($comments, 'approve');
 		
 		foreach($comments as $c){
-			//执行钩子（循环逐条执行）
+			//触发事件（循环逐条执行）
 			\F::event()->trigger('after_feed_comment_approved', array(
 				'comment_id'=>$c['id'],
 			));
@@ -419,7 +419,7 @@ class Comment extends MultiTree{
 		//更新文章评论数
 		$this->updateFeedComments(array($comment), 'disapprove');
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('after_feed_comment_disapproved', array(
 			'comment_id'=>$comment_id,
 		));
@@ -448,7 +448,7 @@ class Comment extends MultiTree{
 		$this->updateFeedComments($comments, 'disapprove');
 		
 		foreach($comments as $c){
-			//执行钩子（循环逐条执行）
+			//触发事件（循环逐条执行）
 			\F::event()->trigger('after_feed_comment_disapproved', array(
 				'comment_id'=>$c['id'],
 			));

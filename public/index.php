@@ -16,7 +16,7 @@ define('APPLICATION', isset($_COOKIE['__app']) ? $_COOKIE['__app'] : (isset($_SE
 require __DIR__.'/_init.php';
 
 $bootstrap = new Bootstrap();
-//hook
+//触发事件
 \F::event()->trigger('before_system');
 \fay\helpers\Runtime::append(__FILE__, __LINE__, '环境初始化完成');
 $bootstrap->init();

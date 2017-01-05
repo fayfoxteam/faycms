@@ -7,6 +7,11 @@ use fay\models\tables\Contacts;
 
 class Contact extends Service{
 	/**
+	 * 留言创建后事件
+	 */
+	const EVENT_CREATED = 'after_contact_created';
+	
+	/**
 	 * @param string $class_name
 	 * @return Contact
 	 */
@@ -37,8 +42,6 @@ class Contact extends Service{
 		//入库
 		$contact_id = Contacts::model()->insert($data);
 		
-		\F::event()->trigger('after_contact_created', array(
-			'contact_id'=>$contact_id,
-		));
+		\F::event()->trigger(self::EVENT_CREATED, $contact_id);
 	}
 }

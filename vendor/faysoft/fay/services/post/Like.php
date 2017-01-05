@@ -13,14 +13,14 @@ use fay\models\tables\PostMeta;
 
 class Like extends Service{
 	/**
-	 * 文章被收藏后事件
+	 * 文章被点赞后事件
 	 */
 	const EVENT_LIKE = 'after_post_like';
 	
 	/**
-	 * 文章被取消收藏后事件
+	 * 文章被取消点赞后事件
 	 */
-	const EVENT_UNLIKE = 'after_feed_unlike';
+	const EVENT_UNLIKE = 'after_post_unlike';
 	
 	/**
 	 * @param string $class_name
@@ -70,8 +70,8 @@ class Like extends Service{
 			PostMeta::model()->incr($post_id, array('likes', 'real_likes'), 1);
 		}
 		
-		//执行钩子
-		\F::event()->trigger(self::EVENT_LIKE);
+		//触发事件
+		\F::event()->trigger(self::EVENT_LIKE, $post_id);
 	}
 	
 	/**
@@ -103,8 +103,8 @@ class Like extends Service{
 				PostMeta::model()->incr($post_id, array('likes', 'real_likes'), -1);
 			}
 				
-			//执行钩子
-			\F::event()->trigger(self::EVENT_UNLIKE);
+			//触发事件
+			\F::event()->trigger(self::EVENT_UNLIKE, $post_id);
 				
 			return true;
 		}else{

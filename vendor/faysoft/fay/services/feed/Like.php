@@ -3,12 +3,23 @@ namespace fay\services\feed;
 
 use fay\core\Service;
 use fay\core\Exception;
+use fay\helpers\ArrayHelper;
 use fay\models\tables\FeedLikes;
 use fay\services\User;
-use fay\models\Feed;
+use fay\services\Feed;
 use fay\models\tables\FeedMeta;
 
 class Like extends Service{
+	/**
+	 * 动态被点赞后事件
+	 */
+	const EVENT_LIKE = 'after_feed_like';
+	
+	/**
+	 * 动态被取消点赞后事件
+	 */
+	const EVENT_UNLIKE = 'after_feed_unlike';
+	
 	/**
 	 * @param string $class_name
 	 * @return Like
@@ -57,8 +68,8 @@ class Like extends Service{
 			FeedMeta::model()->incr($feed_id, array('likes', 'real_likes'), 1);
 		}
 		
-		//执行钩子
-		\F::event()->trigger('after_feed_like');
+		//触发事件
+		\F::event()->trigger(self::EVENT_LIKE, $feed_id);
 	}
 	
 	/**
@@ -90,8 +101,8 @@ class Like extends Service{
 				FeedMeta::model()->incr($feed_id, array('likes', 'real_likes'), -1);
 			}
 			
-			//执行钩子
-			\F::event()->trigger('after_feed_unlike');
+			//触发事件
+			\F::event()->trigger(self::EVENT_UNLIKE, $feed_id);
 			
 			return true;
 		}else{

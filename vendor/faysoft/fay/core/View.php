@@ -59,7 +59,8 @@ class View{
 	/**
 	 * 指定视图参数
 	 * @param string $key
-	 * @param string $value
+	 * @param mixed $value
+	 * @return void
 	 */
 	public function __set($key, $value){
 		$this->_view_data[$key] = $value;
@@ -99,7 +100,7 @@ class View{
 	 */
 	public function render($view = null, $layout = null, $return = false){
 		Runtime::append(__FILE__, __LINE__, '准备渲染视图');
-		//hook
+		//触发事件
 		\F::event()->trigger('before_render');
 		
 		$uri = Uri::getInstance();

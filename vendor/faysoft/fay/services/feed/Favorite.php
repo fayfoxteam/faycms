@@ -5,12 +5,22 @@ use fay\core\Service;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\services\User;
-use fay\models\Feed;
+use fay\services\Feed;
 use fay\models\tables\FeedFavorites;
 use fay\models\tables\FeedMeta;
 use fay\helpers\Request;
 
 class Favorite extends Service{
+	/**
+	 * 动态被收藏后事件
+	 */
+	const EVENT_FAVORITED = 'after_feed_favorite';
+	
+	/**
+	 * 动态被取消收藏后事件
+	 */
+	const EVENT_CANCEL_FAVORITED = 'after_feed_cancel_favorite';
+	
 	/**
 	 * @param string $class_name
 	 * @return Favorite
@@ -60,7 +70,7 @@ class Favorite extends Service{
 			FeedMeta::model()->incr($feed_id, array('favorites', 'real_favorites'), 1);
 		}
 		
-		\F::event()->trigger('after_feed_favorite');
+		\F::event()->trigger(self::EVENT_FAVORITED, $feed_id);
 	}
 	
 	/**
@@ -93,8 +103,8 @@ class Favorite extends Service{
 				FeedMeta::model()->incr($feed_id, array('favorites', 'real_favorites'), -1);
 			}
 				
-			//执行钩子
-			\F::event()->trigger('after_feed_unfavorite');
+			//触发事件
+			\F::event()->trigger(self::EVENT_CANCEL_FAVORITED, $feed_id);
 				
 			return true;
 		}else{

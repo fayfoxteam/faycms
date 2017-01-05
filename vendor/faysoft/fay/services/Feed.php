@@ -157,7 +157,7 @@ class Feed extends Service{
 			}
 		}
 		
-		//hook
+		//触发事件
 		\F::event()->trigger('after_feed_created', array(
 			'feed_id'=>$feed_id,
 		));
@@ -266,7 +266,7 @@ class Feed extends Service{
 			}
 		}
 		
-		//hook
+		//触发事件
 		\F::event()->trigger('after_feed_updated', array(
 			'feed_id'=>$feed_id,
 		));
@@ -299,7 +299,7 @@ class Feed extends Service{
 			FeedTag::service()->decr($feed_id);
 		}
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('after_feed_deleted', array(
 			'feed_id'=>$feed_id,
 		));
@@ -332,7 +332,7 @@ class Feed extends Service{
 			FeedTag::service()->incr($feed_id);
 		}
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('after_feed_undeleted', array(
 			'feed_id'=>$feed_id,
 		));
@@ -352,7 +352,7 @@ class Feed extends Service{
 			return false;
 		}
 		
-		//执行钩子
+		//触发事件
 		\F::event()->trigger('before_feed_removed', array(
 			'feed_id'=>$feed_id,
 		));

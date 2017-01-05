@@ -5,6 +5,11 @@ use fay\core\Service;
 
 class Order extends Service{
 	/**
+	 * 留言创建后事件
+	 */
+	const EVENT_CREATED = 'after_order_created';
+	
+	/**
 	 * @return Order
 	 */
 	public static function service($class_name = __CLASS__){
@@ -39,7 +44,7 @@ class Order extends Service{
 		
 		//更新库存
 		
-		//执行钩子
-		\F::event()->trigger('after_order_created');
+		//触发事件
+		\F::event()->trigger(self::EVENT_CREATED);
 	}
 }

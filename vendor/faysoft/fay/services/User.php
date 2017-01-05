@@ -23,6 +23,9 @@ use fay\services\user\Role;
  * 用户服务
  */
 class User extends Service{
+	
+	const EVENT_LOGIN = 'after_login';
+	
 	/**
 	 * 公开字段（接口访问时，可以此判断是否可返回字段，服务自身不做判断）
 	 */
@@ -117,7 +120,7 @@ class User extends Service{
 			'mac'=>Analyst::service()->getMacId(),
 		));
 		
-		\F::event()->trigger('after_login', array(
+		\F::event()->trigger(self::EVENT_LOGIN, array(
 			'user'=>$user,
 		));
 		

@@ -80,7 +80,7 @@ class PostController extends AdminController{
 			throw new HttpException('所选分类不存在');
 		}
 		
-		//hook
+		//触发事件（可以定制一些box以扩展文章功能）
 		\F::event()->trigger('admin_before_post_create', array(
 			'cat_id'=>$cat_id,
 		));
@@ -508,7 +508,7 @@ class PostController extends AdminController{
 			->fetchRow()
 		;
 		
-		//hook
+		//触发事件（可以定制一些box以扩展文章功能）
 		\F::event()->trigger('admin_before_post_update', array(
 			'cat_id'=>$post['cat_id'],
 			'post_id'=>$post_id,

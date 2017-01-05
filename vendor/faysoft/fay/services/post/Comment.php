@@ -35,6 +35,16 @@ class Comment extends MultiTree{
 	const EVENT_REMOVING = 'before_post_comment_removed';
 	
 	/**
+	 * 评论通过审核事件
+	 */
+	const EVENT_APPROVED = 'after_post_comment_approved';
+	
+	/**
+	 * 评论未通过审核事件
+	 */
+	const EVENT_DISAPPROVED = 'after_post_comment_disapproved';
+	
+	/**
 	 * @see MultiTree::$model
 	 */
 	protected $model = 'fay\models\tables\PostComments';
@@ -105,9 +115,7 @@ class Comment extends MultiTree{
 		)), 'create');
 		
 		//触发事件
-		\F::event()->trigger(self::EVENT_CREATED, array(
-			'comment_id'=>$comment_id,
-		));
+		\F::event()->trigger(self::EVENT_CREATED, $comment_id);
 		
 		return $comment_id;
 	}
@@ -363,9 +371,7 @@ class Comment extends MultiTree{
 		$this->updatePostComments(array($comment), 'approve');
 		
 		//触发事件
-		\F::event()->trigger('after_post_comment_approved', array(
-			'comment_id'=>$comment_id,
-		));
+		\F::event()->trigger(self::EVENT_APPROVED, array($comment_id));
 		return true;
 	}
 	
@@ -384,18 +390,15 @@ class Comment extends MultiTree{
 			return 0;
 		}
 		
+		$affected_commend_ids = ArrayHelper::column($comments, 'id');
+		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_APPROVED);
+		$affected_rows = $this->setStatus($affected_commend_ids, PostComments::STATUS_APPROVED);
 		
 		//更新文章评论数
 		$this->updatePostComments($comments, 'approve');
 		
-		foreach($comments as $c){
-			//触发事件（循环逐条执行）
-			\F::event()->trigger('after_post_comment_approved', array(
-				'comment_id'=>$c['id'],
-			));
-		}
+		\F::event()->trigger(self::EVENT_APPROVED, $affected_commend_ids);
 		
 		return $affected_rows;
 	}
@@ -424,9 +427,7 @@ class Comment extends MultiTree{
 		$this->updatePostComments(array($comment), 'disapprove');
 		
 		//触发事件
-		\F::event()->trigger('after_post_comment_disapproved', array(
-			'comment_id'=>$comment_id,
-		));
+		\F::event()->trigger(self::EVENT_DISAPPROVED, array($comment_id));
 		return true;
 	}
 	
@@ -445,18 +446,15 @@ class Comment extends MultiTree{
 			return 0;
 		}
 		
+		$affected_commend_ids = ArrayHelper::column($comments, 'id');
+		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), PostComments::STATUS_UNAPPROVED);
+		$affected_rows = $this->setStatus($affected_commend_ids, PostComments::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
 		$this->updatePostComments($comments, 'disapprove');
 		
-		foreach($comments as $c){
-			//触发事件（循环逐条执行）
-			\F::event()->trigger('after_post_comment_disapproved', array(
-				'comment_id'=>$c['id'],
-			));
-		}
+		\F::event()->trigger(self::EVENT_DISAPPROVED, $affected_commend_ids);
 		
 		return $affected_rows;
 	}

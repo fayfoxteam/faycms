@@ -7,7 +7,7 @@ use fay\helpers\StringHelper;
 use fay\helpers\Date;
 use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
-use fay\services\Analyst;
+use fay\services\AnalystService;
 
 /**
  * 访问统计
@@ -73,8 +73,8 @@ class AnalystController extends ApiController{
 				));
 			}else{
 				//非首次访问
-				$fmac = Analyst::service()->getFMac();
-				$mac_id = Analyst::service()->getMacId($fmac);
+				$fmac = AnalystService::service()->getFMac();
+				$mac_id = AnalystService::service()->getMacId($fmac);
 				if($mac_id){
 					//一小时内重复访问不新增记录，仅递增views
 					if($record = AnalystVisits::model()->fetchRow(array(

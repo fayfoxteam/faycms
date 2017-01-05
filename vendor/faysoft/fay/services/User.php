@@ -117,7 +117,7 @@ class User extends Service{
 			'user_id'=>$user['user']['id'],
 			'login_time'=>\F::app()->current_time,
 			'ip_int'=>Request::ip2int(\F::app()->ip),
-			'mac'=>Analyst::service()->getMacId(),
+			'mac'=>AnalystService::service()->getMacId(),
 		));
 		
 		\F::event()->trigger(self::EVENT_LOGIN, array(

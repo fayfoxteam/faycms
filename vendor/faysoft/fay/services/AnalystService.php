@@ -8,7 +8,7 @@ use fay\models\tables\AnalystMacs;
 use fay\models\tables\AnalystVisits;
 use fay\models\tables\AnalystCaches;
 
-class Analyst extends Service{
+class AnalystService extends Service{
 	/**
 	 * @var string Y-m-d日期格式
 	 */
@@ -16,7 +16,7 @@ class Analyst extends Service{
 	
 	/**
 	 * @param string $class_name
-	 * @return Analyst
+	 * @return AnalystService
 	 */
 	public static function service($class_name = __CLASS__){
 		return parent::service($class_name);

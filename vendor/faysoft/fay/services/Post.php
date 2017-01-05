@@ -33,6 +33,31 @@ use fay\services\post\User as PostUser;
  */
 class Post extends Service{
 	/**
+	 * 文章创建后事件
+	 */
+	const EVENT_CREATED = 'after_post_created';
+	
+	/**
+	 * 文章更新后事件
+	 */
+	const EVENT_UPDATED = 'after_post_updated';
+	
+	/**
+	 * 文章被删除后事件
+	 */
+	const EVENT_DELETED = 'after_post_deleted';
+	
+	/**
+	 * 文章被还原后事件
+	 */
+	const EVENT_UNDELETE = 'after_post_undelete';
+	
+	/**
+	 * 文章被物理删除事件
+	 */
+	const EVENT_REMOVING = 'before_post_removed';
+	
+	/**
 	 * 允许在接口调用时返回的字段
 	 */
 	public static $public_fields = array(
@@ -196,10 +221,8 @@ class Post extends Service{
 			UserCounter::service()->incr($user_id);
 		}
 		
-		//hook
-		\F::event()->trigger('after_post_created', array(
-			'post_id'=>$post_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_CREATED, $post_id);
 		
 		return $post_id;
 	}
@@ -339,9 +362,10 @@ class Post extends Service{
 			$this->updatePropertySet($post_id, $extra['props']);
 		}
 		
-		//hook
-		\F::event()->trigger('after_post_updated', array(
+		//触发事件
+		\F::event()->trigger(self::EVENT_UPDATED, array(
 			'post_id'=>$post_id,
+			'old_status'=>$old_post['status'],
 		));
 		
 		return true;
@@ -385,10 +409,8 @@ class Post extends Service{
 			return false;
 		}
 		
-		//执行钩子
-		\F::event()->trigger('before_post_removed', array(
-			'post_id'=>$post_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_REMOVING, $post_id);
 		
 		//删除文章
 		Posts::model()->delete($post_id);
@@ -459,10 +481,8 @@ class Post extends Service{
 			PostCategory::service()->decr($post_id);
 		}
 		
-		//执行钩子
-		\F::event()->trigger('after_post_deleted', array(
-			'post_id'=>$post_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_DELETED, array($post_id));
 		
 		return true;
 	}
@@ -495,10 +515,8 @@ class Post extends Service{
 			PostCategory::service()->incr($post_id);
 		}
 		
-		//执行钩子
-		\F::event()->trigger('after_post_undeleted', array(
-			'post_id'=>$post_id,
-		));
+		//触发事件
+		\F::event()->trigger(self::EVENT_UNDELETE, array($post_id));
 		
 		return true;
 	}

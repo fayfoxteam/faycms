@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\Date;
 use fay\core\Sql;
 use fay\models\tables\Messages;
@@ -22,7 +22,7 @@ if(!$data['is_terminal']){
 }?>
 <li id="msg-<?php echo $data['id']?>">	
 	<div class="avatar">
-		<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
+		<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 			'alt'=>$data['nickname'],
 			'spare'=>'avatar',
 		)), array('u/'.$data['user_id']), array(

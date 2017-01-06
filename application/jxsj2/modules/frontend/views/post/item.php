@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div id="banner">
 	<?php \F::widget()->load('index-slides')?>
@@ -35,7 +35,7 @@ use fay\services\File;
 						<div class="post-content">
 						<?php
 							if($post['post']['thumbnail']){
-								echo Html::img($post['post']['thumbnail'], File::PIC_ORIGINAL);
+								echo Html::img($post['post']['thumbnail'], FileService::PIC_ORIGINAL);
 							}
 							echo $post['post']['content'];
 							if(!empty($post['files'])){

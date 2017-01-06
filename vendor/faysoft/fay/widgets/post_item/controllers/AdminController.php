@@ -2,9 +2,9 @@
 namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
-use fay\services\Flash;
+use fay\services\FlashService;
 use fay\models\tables\Posts;
-use fay\services\Category;
+use fay\services\CategoryService;
 
 class AdminController extends Widget{
 	public function initConfig($config){
@@ -28,12 +28,12 @@ class AdminController extends Widget{
 	
 	public function index(){
 		//所有分类
-		$root_node = Category::service()->getByAlias('_system_post', 'id');
+		$root_node = CategoryService::service()->getByAlias('_system_post', 'id');
 		$this->view->cats = array(
 			array(
 				'id'=>$root_node['id'],
 				'title'=>'顶级',
-				'children'=>Category::service()->getTreeByParentId($root_node['id']),
+				'children'=>CategoryService::service()->getTreeByParentId($root_node['id']),
 			),
 		);
 		
@@ -61,7 +61,7 @@ class AdminController extends Widget{
 		
 		$this->saveConfig($data);
 		
-		Flash::set('编辑成功', 'success');
+		FlashService::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

@@ -4,8 +4,8 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Http;
 use fay\core\Response;
-use fay\services\Category;
-use fay\services\Menu;
+use fay\services\CategoryService;
+use fay\services\MenuService;
 use fay\services\post\Category as PostCategory;
 use fay\services\post\Tag as PostTag;
 use fay\services\post\UserCounter as PostUserCounter;
@@ -23,7 +23,7 @@ class ResetController extends AdminController{
 		$this->layout->subtitle = '重置分类表索引';
 		
 		if(Http::isPost()){
-			Category::service()->buildIndex();
+			CategoryService::service()->buildIndex();
 			Response::json('', 1, '执行成功');
 		}
 		
@@ -37,7 +37,7 @@ class ResetController extends AdminController{
 		$this->layout->subtitle = '重置菜单表索引';
 		
 		if(Http::isPost()){
-			Menu::service()->buildIndex();
+			MenuService::service()->buildIndex();
 			Response::json('', 1, '执行成功');
 		}
 		
@@ -51,7 +51,7 @@ class ResetController extends AdminController{
 		$this->layout->subtitle = '重置分类文章数';
 		
 		if(Http::isPost()){
-			PostCategory::service()->resetPostCount();
+			PostCategoryService::service()->resetPostCount();
 			Response::json('', 1, '执行成功');
 		}
 		
@@ -65,7 +65,7 @@ class ResetController extends AdminController{
 		$this->layout->subtitle = '重置标签文章数';
 		
 		if(Http::isPost()){
-			PostTag::service()->resetPostCount();
+			PostTagService::service()->resetPostCount();
 			Response::json('', 1, '执行成功');
 		}
 		
@@ -79,7 +79,7 @@ class ResetController extends AdminController{
 		$this->layout->subtitle = '重置用户文章数';
 		
 		if(Http::isPost()){
-			PostUserCounter::service()->resetPostCount();
+			PostUserCounterService::service()->resetPostCount();
 			Response::json('', 1, '执行成功');
 		}
 		

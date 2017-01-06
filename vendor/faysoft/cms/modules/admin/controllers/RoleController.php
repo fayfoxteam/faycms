@@ -9,9 +9,9 @@ use fay\models\tables\RolesActions;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\models\tables\RolesCats;
-use fay\services\Option;
+use fay\services\OptionService;
 
 class RoleController extends AdminController{
 	public function __construct(){
@@ -76,7 +76,7 @@ class RoleController extends AdminController{
 		
 		$actions_group = array();
 		//若未开启文章审核，过滤掉文章审核权限
-		$post_review = Option::get('system:post_review');
+		$post_review = OptionService::get('system:post_review');
 		foreach($actions as $a){
 			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
 				&& !$post_review){
@@ -86,7 +86,7 @@ class RoleController extends AdminController{
 			$actions_group[$a['cat_title']][] = $a;
 		}
 		$this->view->actions = $actions_group;
-		$this->view->cats = Category::service()->getTree('_system_post');
+		$this->view->cats = CategoryService::service()->getTree('_system_post');
 		
 		$this->view->render();
 	}
@@ -161,7 +161,7 @@ class RoleController extends AdminController{
 		
 		$actions_group = array();
 		//若未开启文章审核，过滤掉文章审核权限
-		$post_review = Option::get('system:post_review');
+		$post_review = OptionService::get('system:post_review');
 		foreach($actions as $a){
 			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
 				&& !$post_review){
@@ -176,7 +176,7 @@ class RoleController extends AdminController{
 				'role_id = ?'=>$role_id,
 			)),
 		));
-		$this->view->cats = Category::service()->getTree('_system_post');
+		$this->view->cats = CategoryService::service()->getTree('_system_post');
 		
 		$this->view->render();
 	}

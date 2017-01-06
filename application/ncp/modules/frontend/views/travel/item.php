@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use ncp\helpers\FriendlyLink;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\StringHelper;
 
 $this->appendCss($this->appStatic('css/travel.css'));
@@ -36,7 +36,7 @@ $this->appendCss($this->appStatic('css/travel.css'));
 				</div>
 			</div>
 			<div class="tm-ser">
-				<?php echo Html::img($post['thumbnail'], File::PIC_RESIZE, array(
+				<?php echo Html::img($post['thumbnail'], FileService::PIC_RESIZE, array(
 					'dw'=>400,
 					'dh'=>300,
 				))?>
@@ -45,7 +45,7 @@ $this->appendCss($this->appStatic('css/travel.css'));
 				<h3>景点推荐</h3>
 				<ul>
 				<?php foreach($right_top_posts as $p){?>
-					<li><?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+					<li><?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 						'dw'=>180,
 						'dh'=>135,
 					)), FriendlyLink::getProductLink(array(
@@ -90,7 +90,7 @@ $this->appendCss($this->appStatic('css/travel.css'));
 					<?php foreach($food_posts as $p){?>
 						<li>
 							<div class="p-img">
-								<?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>280,
 									'dh'=>210,
 									'alt'=>Html::encode($p['title']),
@@ -128,7 +128,7 @@ $this->appendCss($this->appStatic('css/travel.css'));
 					<?php foreach($product_posts as $p){?>
 						<li>
 							<div class="p-img">
-								<?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>280,
 									'dh'=>210,
 								)), FriendlyLink::getProductLink(array(
@@ -167,7 +167,7 @@ $this->appendCss($this->appStatic('css/travel.css'));
 			<?php foreach($right_posts as $p){?>
 				<li>
 					<p class="p-img">
-						<?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+						<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 							'dw'=>180,
 							'dh'=>135,
 						)), FriendlyLink::getProductLink(array(

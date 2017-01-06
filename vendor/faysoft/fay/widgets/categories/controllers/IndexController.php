@@ -2,19 +2,19 @@
 namespace fay\widgets\categories\controllers;
 
 use fay\widget\Widget;
-use fay\services\Category;
+use fay\services\CategoryService;
 
 class IndexController extends Widget{
 	public function initConfig($config){
 		//root node
 		if(empty($config['top'])){
-			$root_node = Category::service()->getByAlias('_system_post', 'id');
+			$root_node = CategoryService::service()->getByAlias('_system_post', 'id');
 			$config['top'] = $root_node['id'];
 		}
 		
 		//title
 		if(empty($config['title'])){
-			$node = Category::service()->get($config['top'], 'title');
+			$node = CategoryService::service()->get($config['top'], 'title');
 			$config['title'] = $node['title'];
 		}
 		
@@ -31,9 +31,9 @@ class IndexController extends Widget{
 	
 	public function getData(){
 		if(!empty($this->config['hierarchical'])){
-			$cats = Category::service()->getTree($this->config['top']);
+			$cats = CategoryService::service()->getTree($this->config['top']);
 		}else{
-			$cats = Category::service()->getChildren($this->config['top']);
+			$cats = CategoryService::service()->getChildren($this->config['top']);
 		}
 		
 		//格式化分类链接

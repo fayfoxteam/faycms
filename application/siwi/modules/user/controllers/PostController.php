@@ -5,13 +5,13 @@ use fay\core\Response;
 use siwi\library\UserController;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsFiles;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\models\tables\Files;
 use fay\services\post\Tag;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class PostController extends UserController{
 	private $rules = array(
@@ -49,8 +49,8 @@ class PostController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				));
 	
-				Post::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $post_id);
-				Post::service()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $post_id);
+				PostService::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $post_id);
+				PostService::service()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $post_id);
 				
 				if($f = $this->input->post('file', 'intval', 0)){
 					$file = Files::model()->find($f, 'client_name,is_image');
@@ -65,16 +65,16 @@ class PostController extends UserController{
 					}
 				}
 				
-				Tag::service()->set($this->input->post('tags'), $post_id);
+				TagService::service()->set($this->input->post('tags'), $post_id);
 	
 				Response::notify('success', '博文发布成功', array('user/post/edit', array(
 					'id'=>$post_id,
 				)));
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
-		$this->view->cats = Category::service()->getNextLevel('_blog');
+		$this->view->cats = CategoryService::service()->getNextLevel('_blog');
 		
 		$this->view->render();
 	}
@@ -113,8 +113,8 @@ class PostController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				), $id);
 				
-				Post::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $id);
-				Post::service()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $id);
+				PostService::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $id);
+				PostService::service()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $id);
 				
 				$f = $this->input->post('file', 'intval', 0);
 				if($f){
@@ -136,20 +136,20 @@ class PostController extends UserController{
 					PostsFiles::model()->delete('post_id = '.$post['id']);
 				}
 	
-				Tag::service()->set($this->input->post('tags'), $post['id']);
+				TagService::service()->set($this->input->post('tags'), $post['id']);
 				
-				Flash::set('文章编辑成功', 'success');
+				FlashService::set('文章编辑成功', 'success');
 				
 				$post = Posts::model()->find($id);
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
 		
 		$this->form()->setData($post);
 		
 		//parent cat
-		$cat = Category::service()->get($post['cat_id'], 'parent');
+		$cat = CategoryService::service()->get($post['cat_id'], 'parent');
 		$this->form()->setData(array('parent_cat'=>$cat['parent']));
 		
 		//tags
@@ -170,12 +170,12 @@ class PostController extends UserController{
 		$this->form()->setData(array('file'=>isset($file['file_id']) ? $file['file_id'] : ''));
 		
 		//copyright
-		$this->form()->setData(array('copyright'=>Post::service()->getPropValueByAlias('siwi_blog_copyright', $post['id'])));
+		$this->form()->setData(array('copyright'=>PostService::service()->getPropValueByAlias('siwi_blog_copyright', $post['id'])));
 		
 		//video
-		$this->form()->setData(array('video'=>Post::service()->getPropValueByAlias('siwi_blog_video', $post['id'])));
+		$this->form()->setData(array('video'=>PostService::service()->getPropValueByAlias('siwi_blog_video', $post['id'])));
 		
-		$this->view->cats = Category::service()->getNextLevel('_blog');
+		$this->view->cats = CategoryService::service()->getNextLevel('_blog');
 		$this->view->render();
 	}
 }

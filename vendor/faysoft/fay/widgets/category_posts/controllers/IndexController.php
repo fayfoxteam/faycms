@@ -2,8 +2,8 @@
 namespace fay\widgets\category_posts\controllers;
 
 use fay\widget\Widget;
-use fay\services\Category;
-use fay\services\Post;
+use fay\services\CategoryService;
+use fay\services\PostService;
 use fay\helpers\Date;
 use fay\services\post\Category as PostCategory;
 
@@ -56,7 +56,7 @@ class IndexController extends Widget{
 	public function getData(){
 		$conditions = $this->getConditions();
 		
-		$posts = PostCategory::service()->getPosts(
+		$posts = PostCategoryService::service()->getPosts(
 			$this->getTopCategory(),
 			$this->config['number'],
 			$this->getFields(),
@@ -91,13 +91,13 @@ class IndexController extends Widget{
 	public function initConfig($config){
 		//root node
 		if(empty($config['cat_id'])){
-			$root_node = Category::service()->getByAlias('_system_post', 'id');
+			$root_node = CategoryService::service()->getByAlias('_system_post', 'id');
 			$config['cat_id'] = $root_node['id'];
 		}
 		
 		//title
 		if(empty($config['title'])){
-			$node = Category::service()->get($config['cat_id'], 'title');
+			$node = CategoryService::service()->get($config['cat_id'], 'title');
 			$config['title'] = $node['title'];
 		}
 		

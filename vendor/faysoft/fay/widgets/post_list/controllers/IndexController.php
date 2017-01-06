@@ -2,13 +2,13 @@
 namespace fay\widgets\post_list\controllers;
 
 use fay\helpers\ArrayHelper;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Posts;
-use fay\services\Category;
-use fay\services\User;
+use fay\services\CategoryService;
+use fay\services\UserService;
 use fay\helpers\Date;
 use fay\core\HttpException;
 
@@ -80,7 +80,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			//通过文章ID，获取文章信息结构
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields);
+			$posts = PostService::service()->mget(ArrayHelper::column($posts, 'id'), $fields);
 			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 		}
@@ -98,7 +98,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			//通过文章ID，获取文章信息结构
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'id'), $fields);
+			$posts = PostService::service()->mget(ArrayHelper::column($posts, 'id'), $fields);
 			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 			
@@ -214,7 +214,7 @@ class IndexController extends Widget{
 		}
 		
 		if(!empty($input_cat)){
-			$cat = Category::service()->get($input_cat, '*', '_system_post');
+			$cat = CategoryService::service()->get($input_cat, '*', '_system_post');
 			if(!$cat){
 				throw new HttpException('您访问的页面不存在');
 			}else if($cat['alias'] != '_system_post'){
@@ -226,7 +226,7 @@ class IndexController extends Widget{
 			}
 			if($this->config['subclassification']){
 				//包含子分类
-				$limit_cat_children = Category::service()->getChildIds($cat['id']);
+				$limit_cat_children = CategoryService::service()->getChildIds($cat['id']);
 				$limit_cat_children[] = $cat['id'];//加上父节点
 				$sql->where(array('cat_id IN (?)'=>$limit_cat_children));
 			}else{

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\Date;
 
 /**
@@ -33,7 +33,7 @@ use fay\helpers\Date;
 					<?php foreach($post['files'] as $file){?>
 						<div class="swiper-slide">
 							<a href="<?php echo $file['url']?>" title="<?php echo Html::encode($file['description'])?>" data-lightbox="files"><?php
-								 echo Html::img($file['thumbnail'], File::PIC_ORIGINAL, array(
+								 echo Html::img($file['thumbnail'], FileService::PIC_ORIGINAL, array(
 									'alt'=>$file['description'],
 								))
 							?></a>

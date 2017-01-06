@@ -2,7 +2,7 @@
 namespace fay\widgets\jq_camera\controllers;
 
 use fay\widget\Widget;
-use fay\services\File;
+use fay\services\FileService;
 
 class IndexController extends Widget{
 	public function initConfig($config){
@@ -26,7 +26,7 @@ class IndexController extends Widget{
 				continue;
 			}
 			
-			$files[$k]['src'] = File::getUrl($f['file_id'], (empty($this->config['width']) && empty($this->config['height'])) ? File::PIC_ORIGINAL : File::PIC_RESIZE, array(
+			$files[$k]['src'] = FileService::getUrl($f['file_id'], (empty($this->config['width']) && empty($this->config['height'])) ? FileService::PIC_ORIGINAL : FileService::PIC_RESIZE, array(
 				'dw'=>empty($this->config['width']) ? false : $this->config['width'],
 				'dh'=>empty($this->config['height']) ?  false : $this->config['height'],
 			));

@@ -3,13 +3,13 @@ namespace fay\widgets\tag_post_list\controllers;
 
 use fay\helpers\ArrayHelper;
 use fay\models\tables\Tags;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Posts;
-use fay\services\Category;
-use fay\services\User;
+use fay\services\CategoryService;
+use fay\services\UserService;
 use fay\helpers\Date;
 use fay\core\HttpException;
 
@@ -83,7 +83,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			//通过文章ID，获取文章信息结构
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
+			$posts = PostService::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
 			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 		}
@@ -102,7 +102,7 @@ class IndexController extends Widget{
 		if($posts){
 			$fields = $this->getFields();
 			//通过文章ID，获取文章信息结构
-			$posts = Post::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
+			$posts = PostService::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
 			//格式化返回数据结构
 			$posts = $this->formatPosts($posts);
 			
@@ -234,7 +234,7 @@ class IndexController extends Widget{
 			->order($this->getOrder())
 		;
 		if($this->config['cat_id']){
-			$cat_ids = Category::service()->getChildIds($this->config['cat_id']);
+			$cat_ids = CategoryService::service()->getChildIds($this->config['cat_id']);
 			$cat_ids[] = $this->config['cat_id'];
 			$sql->where('p.cat_id IN (?)', $cat_ids);
 		}

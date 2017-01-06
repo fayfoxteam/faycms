@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use pharmrich\helpers\PostHelper;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\StringHelper;
 
 $type = PostHelper::getType($data['cat_id']);
@@ -22,7 +22,7 @@ $type = PostHelper::getType($data['cat_id']);
 		</span>
 	</header>
 	<?php if($data['thumbnail']){
-		echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(
+		echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 			'dw'=>300,
 			'dh'=>230,
 			'alt'=>Html::encode($data['title']),

@@ -1,10 +1,10 @@
 <?php
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\Html;
 ?>
 <div class="page-banner" 
 <?php if(isset($files[0]['file_id'])){?>
-	style="background-image:url(<?php echo File::service()->getUrl($files[0]['file_id'], File::PIC_RESIZE, array(
+	style="background-image:url(<?php echo FileService::service()->getUrl($files[0]['file_id'], FileService::PIC_RESIZE, array(
 		'dh'=>443,
 		'dw'=>1920,
 	))?>)"

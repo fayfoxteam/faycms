@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\models\tables\Goods;
 use fay\helpers\Date;
 
@@ -16,7 +16,7 @@ $editable = F::app()->checkPermission('admin/goods/edit');
 	<?php }?>
 	<?php if(in_array('thumbnail', $cols)){?>
 	<td class="align-center">
-		<?php echo Html::link(Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
+		<?php echo Html::link(Html::img($data['thumbnail'], FileService::PIC_THUMBNAIL, array(
 			'width'=>60,
 			'height'=>60,
 			'spare'=>'thumbnail',

@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ use fay\helpers\Html;
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <?php include MODULE_PATH.'frontend/layouts/_header.php';?>

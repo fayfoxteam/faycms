@@ -9,7 +9,7 @@ use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\PostComments;
-use fay\services\User;
+use fay\services\UserService;
 
 /**
  * 基于左右值的多树操作
@@ -288,7 +288,7 @@ abstract class MultiTree extends Model{
 	 * @param int $page 页码
 	 * @param string $fields 可指定返回字段（虽然把user等字段放这里会让model看起来不纯，但是性能上会好很多）
 	 *  - 无前缀系列可指定$model表返回字段，若未指定，默认为*
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\User::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param string $order 排序条件
 	 * @return array
@@ -333,7 +333,7 @@ abstract class MultiTree extends Model{
 			//像user这种附加信息，可以一次性获取以提升性能
 			$extra = array();
 			if(!empty($fields['user'])){
-				$extra['users'] = User::service()->mget(
+				$extra['users'] = UserService::service()->mget(
 					array_unique(ArrayHelper::column($nodes, 'user_id')),
 					$fields['user'],
 					isset($fields['_extra']) ? $fields['_extra'] : array()
@@ -475,7 +475,7 @@ abstract class MultiTree extends Model{
 		
 		if(!empty($fields['user'])){
 			//获取评论用户信息集合
-			$users = User::service()->mget(
+			$users = UserService::service()->mget(
 				ArrayHelper::column($data, 'user_id'),
 				$fields['user'],
 				isset($fields['_extra']) ? $fields['_extra'] : array()
@@ -483,7 +483,7 @@ abstract class MultiTree extends Model{
 		}
 		if(!empty($fields['parent']['user'])){
 			//获取父节点评论用户信息集合
-			$parent_users = User::service()->mget(
+			$parent_users = UserService::service()->mget(
 				ArrayHelper::column($data, 'parent_user_id'),
 				$fields['parent']['user'],
 				isset($fields['parent']['_extra']) ? $fields['parent']['_extra'] : array()
@@ -578,7 +578,7 @@ abstract class MultiTree extends Model{
 				
 			//用户信息
 			if(!empty($fields['user'])){
-				$users = User::service()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
+				$users = UserService::service()->mget(array_unique(ArrayHelper::column($nodes, 'user_id')), $fields['user']);
 			}
 				
 			//一个会话一个会话渲染
@@ -718,11 +718,11 @@ abstract class MultiTree extends Model{
 		
 		if(!empty($fields['user'])){
 			//获取评论用户信息集合
-			$users = User::service()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
+			$users = UserService::service()->mget(ArrayHelper::column($data, 'user_id'), $fields['user']);
 		}
 		if(!empty($fields['parent']['user'])){
 			//获取父节点评论用户信息集合
-			$parent_users = User::service()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
+			$parent_users = UserService::service()->mget(ArrayHelper::column($data, 'parent_user_id'), $fields['parent']['user']);
 		}
 		$comments = array();
 		

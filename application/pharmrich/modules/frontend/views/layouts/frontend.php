@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!DOCTYPE html>
@@ -38,7 +38,7 @@ $(function(){
 	common.init();
 });
 </script>
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <?php $this->renderPartial('layouts/_header', array(

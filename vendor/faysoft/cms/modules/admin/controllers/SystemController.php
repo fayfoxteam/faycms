@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Users;
 use fay\models\Setting as SettingModel;
-use fay\services\Setting;
+use fay\services\SettingService;
 use fay\core\Response;
 
 class SystemController extends AdminController{
@@ -49,7 +49,7 @@ class SystemController extends AdminController{
 				$data = $this->form('setting')->getAllData();
 				$key = $data['_key'];
 				unset($data['_key'], $data['_submit']);
-				Setting::service()->set($key, $data);
+				SettingService::service()->set($key, $data);
 				Response::notify('success', '设置保存成功');
 			}else{
 				Response::notify('error', '异常的数据格式');

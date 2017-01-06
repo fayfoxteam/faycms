@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <h1>初始化站点信息</h1>
 <form method="post">
@@ -7,7 +7,7 @@ use fay\services\Option;
 	<table class="form-table">
 		<tr>
 			<th>站点名称</th>
-			<td><input type="text" name="site:sitename" datatype="*1-50" value="<?php echo Option::get('site:sitename')?>" /></td>
+			<td><input type="text" name="site:sitename" datatype="*1-50" value="<?php echo OptionService::get('site:sitename')?>" /></td>
 			<td><span class="desc Validform_checktip">后期可修改</span></td>
 		</tr>
 		<tr>

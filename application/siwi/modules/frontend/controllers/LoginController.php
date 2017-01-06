@@ -3,20 +3,20 @@ namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
 use fay\models\tables\Users;
-use fay\services\Email;
+use fay\services\EmailService;
 use fay\helpers\StringHelper;
 use fay\core\Response;
 use fay\core\Validator;
 use fay\core\HttpException;
-use fay\services\Flash;
-use fay\services\User;
+use fay\services\FlashService;
+use fay\services\UserService;
 
 class LoginController extends FrontController{
 	public function index(){
 		if($this->input->post()){
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-			$result = User::service()->login($username, $password);
+			$result = UserService::service()->login($username, $password);
 			if($result['status']){
 				if($this->input->get('redirect')){
 					header('location:'.base64_decode($this->input->get('redirect')));
@@ -43,7 +43,7 @@ class LoginController extends FrontController{
 		if($this->input->post()){
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-			$result = User::service()->login($username, $password);
+			$result = UserService::service()->login($username, $password);
 			if($result['status']){
 				echo '<script>parent.common.afterLogin('.json_encode(array(
 					'user_id'=>$result['user']['id'],
@@ -73,7 +73,7 @@ class LoginController extends FrontController{
 				'username = ?'=>$email,
 			), 'id');
 			if(!$user){
-				Flash::set('您所提交的Email未在本平台注册');
+				FlashService::set('您所提交的Email未在本平台注册');
 				Response::goback();
 			}
 			
@@ -92,8 +92,8 @@ class LoginController extends FrontController{
       因应您曾提出忘记登录密码事宜，大赛平台自动发出此电子邮件。<br>
       请在24小时内点击以下链接重新设置密码：（{$url}），您也可以将链接复制到浏览器地址栏进行访问。<br>
       感谢您对大赛平台的支持！";
-			Email::send($email, $subject, $body);
-			Flash::set('邮件发送成功，请登陆您的邮箱查看！', 'success');
+			EmailService::send($email, $subject, $body);
+			FlashService::set('邮件发送成功，请登陆您的邮箱查看！', 'success');
 		}
 		
 		$this->view->render();
@@ -120,7 +120,7 @@ class LoginController extends FrontController{
 				
 				if($this->input->post()){
 					if($this->input->post('password') != $this->input->post('repassword')){
-						Flash::set('两次输入密码不一致，请重新输入');
+						FlashService::set('两次输入密码不一致，请重新输入');
 					}else{
 						$salt = StringHelper::random('alnum', 5);
 						$password = md5(md5($this->input->post('password')).$salt);
@@ -129,7 +129,7 @@ class LoginController extends FrontController{
 							'password'=>$password,
 							'salt'=>$salt,
 						), $user['id']);
-						Flash::set('密码修改成功，请用新密码登陆', 'success');
+						FlashService::set('密码修改成功，请用新密码登陆', 'success');
 					}
 				}
 			}else{

@@ -2,7 +2,7 @@
 namespace jxsj\modules\frontend\controllers;
 
 use jxsj\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
@@ -10,7 +10,7 @@ use fay\core\HttpException;
 
 class CatController extends FrontController{
 	public function index(){
-		$cat = Category::service()->get($this->input->get('id', 'intval'));
+		$cat = CategoryService::service()->get($this->input->get('id', 'intval'));
 		
 		if(!$cat){
 			throw new HttpException('页面不存在');

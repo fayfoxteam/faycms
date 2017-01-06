@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Log;
+use fay\services\LogService;
 use fay\helpers\StringHelper;
 use fay\helpers\Date;
 ?>

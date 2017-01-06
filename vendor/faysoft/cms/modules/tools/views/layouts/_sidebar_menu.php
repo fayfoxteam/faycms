@@ -1,11 +1,11 @@
 <?php
 use cms\helpers\MenuHelper;
 use fay\helpers\Html;
-use fay\services\Setting;
-use fay\services\Menu;
+use fay\services\SettingService;
+use fay\services\MenuService;
 ?>
 <div class="sidebar-menu <?php
-	$admin_sidebar_class = Setting::service()->get('admin_sidebar_class');
+	$admin_sidebar_class = SettingService::service()->get('admin_sidebar_class');
 	echo $admin_sidebar_class['class'];
 	if(!F::config()->get('debug'))echo ' fixed';
 ?>" id="sidebar-menu">
@@ -28,6 +28,6 @@ use fay\services\Menu;
 				</a>
 			</div>
 		</header>
-		<?php MenuHelper::render(Menu::service()->getTree('_tools_main'), isset($current_directory) ? $current_directory : '')?>
+		<?php MenuHelper::render(MenuService::service()->getTree('_tools_main'), isset($current_directory) ? $current_directory : '')?>
 	</div>
 </div>

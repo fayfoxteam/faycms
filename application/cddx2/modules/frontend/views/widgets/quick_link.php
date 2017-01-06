@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div id="quick-link">
 	<div class="ql-title"><img src="<?php echo $this->appStatic('images/quick-link.png')?>"></div>
@@ -9,7 +9,7 @@ use fay\services\File;
 		if(empty($f['link'])){
 			$f['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($f['file_id'], File::PIC_ORIGINAL, array(
+		echo Html::link(Html::img($f['file_id'], FileService::PIC_ORIGINAL, array(
 			'width'=>false,
 			'height'=>false,
 			'alt'=>Html::encode($f['title']),

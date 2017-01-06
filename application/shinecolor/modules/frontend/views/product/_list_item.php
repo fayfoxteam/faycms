@@ -1,9 +1,9 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div class="product-item <?php if($index % 3 == 0)echo 'last'?>">
-	<div class="thumbnail-container"><?php echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(
+	<div class="thumbnail-container"><?php echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 		'dw'=>243,
 		'dh'=>183,
 	)), array('product/'.$data['id']), array(

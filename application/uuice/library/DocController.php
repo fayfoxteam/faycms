@@ -4,7 +4,7 @@ namespace uuice\library;
 use fay\core\Controller;
 use fay\helpers\Request;
 use fay\models\tables\SpiderLogs;
-use fay\services\Option;
+use fay\services\OptionService;
 
 class DocController extends Controller{
 	public $layout_template = 'doc';
@@ -26,7 +26,7 @@ class DocController extends Controller{
 			));
 		}
 		
-		$this->layout->keywords = Option::get('site:seo_index_keywords');
-		$this->layout->description = Option::get('site:seo_index_description');
+		$this->layout->keywords = OptionService::get('site:seo_index_keywords');
+		$this->layout->description = OptionService::get('site:seo_index_description');
 	}
 }

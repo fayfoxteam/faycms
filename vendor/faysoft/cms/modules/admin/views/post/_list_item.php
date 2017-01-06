@@ -1,14 +1,14 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\helpers\Date;
 use cms\helpers\PostHelper;
-use fay\services\File;
+use fay\services\FileService;
 use fay\services\post\Tag as PostTag;
 use fay\services\post\Category as PostCategory;
 
 //分类权限判断
-$editable = PostCategory::service()->isAllowedCat($data['cat_id']);
+$editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 ?>
 <tr valign="top" id="post-<?php echo $data['id']?>">
 	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
@@ -21,17 +21,17 @@ $editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 	<?php if(in_array('thumbnail', $cols)){?>
 	<td class="align-center"><?php
 		if($data['thumbnail']){
-			echo Html::link(Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
+			echo Html::link(Html::img($data['thumbnail'], FileService::PIC_THUMBNAIL, array(
 				'width'=>60,
 				'height'=>60,
 				'spare'=>'default',
-			)), File::getUrl($data['thumbnail']), array(
+			)), FileService::getUrl($data['thumbnail']), array(
 				'class'=>'file-image fancybox-image',
 				'encode'=>false,
 				'title'=>Html::encode($data['title']),
 			));
 		}else{
-			echo Html::img($data['thumbnail'], File::PIC_THUMBNAIL, array(
+			echo Html::img($data['thumbnail'], FileService::PIC_THUMBNAIL, array(
 				'width'=>60,
 				'height'=>60,
 				'spare'=>'default',
@@ -82,7 +82,7 @@ $editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<?php if(in_array('category', $cols)){?>
 	<td><?php
-		$cats = Post::service()->getCats($data['id']);
+		$cats = PostService::service()->getCats($data['id']);
 		foreach($cats as $key => $cat){
 			if($key){
 				echo ', ';
@@ -95,7 +95,7 @@ $editable = PostCategory::service()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<?php if(in_array('tags', $cols)){?>
 	<td><?php
-		$tags = PostTag::service()->get($data['id']);
+		$tags = PostTagService::service()->get($data['id']);
 		foreach($tags as $key => $tag){
 			if($key){
 				echo ', ';

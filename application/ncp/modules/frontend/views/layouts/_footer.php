@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <div class="footer">
 	<div class="footer_info"> 
@@ -9,7 +9,7 @@ use fay\services\Option;
 			<a href="newncp.html" target="_blank">最新更新</a>
 		</div>
 		<p><?php
-			echo Option::get(site.copyright), ' ', Option::get(site.beian);
+			echo OptionService::get(site.copyright), ' ', OptionService::get(site.beian);
 		?></p>
 	 </div>
 </div>

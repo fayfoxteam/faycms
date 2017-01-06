@@ -1,9 +1,9 @@
 <?php
-use fay\services\Post;
+use fay\services\PostService;
 use fay\helpers\Date;
 use fay\helpers\Html;
 
-$post_cats = Post::service()->getCats($data['id']);
+$post_cats = PostService::service()->getCats($data['id']);
 ?>
 <article class="post-list-item">
 	<div class="post-title">

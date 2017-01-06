@@ -4,7 +4,7 @@ namespace glhs\modules\frontend\controllers;
 use glhs\library\FrontController;
 use fay\core\Validator;
 use fay\core\HttpException;
-use fay\services\Page;
+use fay\services\PageService;
 
 class PageController extends FrontController{
 	public function __construct(){
@@ -24,7 +24,7 @@ class PageController extends FrontController{
 		));
 		
 		if($check === true){
-			$page = Page::service()->get($this->input->get('alias'));
+			$page = PageService::service()->get($this->input->get('alias'));
 			if($page){
 				$this->view->page = $page;
 				$this->layout->title = $page['seo_title'] ? $page['seo_title'] : $page['title'];

@@ -4,12 +4,12 @@ namespace siwi\modules\frontend\controllers;
 use siwi\library\FrontController;
 use fay\models\tables\Users;
 use fay\core\Sql;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\models\tables\Posts;
 use fay\models\tables\Messages;
 use fay\common\ListView;
 use fay\models\tables\Followers;
-use fay\services\User;
+use fay\services\UserService;
 
 class UController extends FrontController{
 	/**
@@ -39,10 +39,10 @@ class UController extends FrontController{
 			$this->layout->is_follow = false;
 		}
 
-		$this->layout->popularity = intval(User::service()->getPropValueByAlias('popularity', $this->user_id));
-		$this->layout->creativity = intval(User::service()->getPropValueByAlias('creativity', $this->user_id));
-		$this->layout->fans = intval(User::service()->getPropValueByAlias('fans', $this->user_id));
-		$this->layout->follow = intval(User::service()->getPropValueByAlias('follow', $this->user_id));
+		$this->layout->popularity = intval(UserService::service()->getPropValueByAlias('popularity', $this->user_id));
+		$this->layout->creativity = intval(UserService::service()->getPropValueByAlias('creativity', $this->user_id));
+		$this->layout->fans = intval(UserService::service()->getPropValueByAlias('fans', $this->user_id));
+		$this->layout->follow = intval(UserService::service()->getPropValueByAlias('follow', $this->user_id));
 	}
 	
 	public function index(){
@@ -50,7 +50,7 @@ class UController extends FrontController{
 		$sql = new Sql();
 		
 		//素材
-		$cat_work = Category::service()->getByAlias('_material', 'left_value,right_value');
+		$cat_work = CategoryService::service()->getByAlias('_material', 'left_value,right_value');
 		$this->view->works = $sql->from(array('p'=>'posts'), 'id,title,abstract,publish_time,thumbnail,comments,user_id,cat_id')
 			->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'nickname')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title, parent AS parent_cat_id')
@@ -68,7 +68,7 @@ class UController extends FrontController{
 		;
 		
 		//博文
-		$cat_blog = Category::service()->getByAlias('_blog', 'left_value,right_value');
+		$cat_blog = CategoryService::service()->getByAlias('_blog', 'left_value,right_value');
 		$this->view->posts = $sql->from(array('p'=>'posts'), 'id,title,abstract,publish_time,thumbnail,comments,user_id')
 			->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'nickname')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')

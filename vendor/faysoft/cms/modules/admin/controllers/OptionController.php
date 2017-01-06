@@ -7,7 +7,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\services\Flash;
+use fay\services\FlashService;
 use fay\models\tables\Actionlogs;
 
 class OptionController extends AdminController{
@@ -69,7 +69,7 @@ class OptionController extends AdminController{
 	}
 	
 	public function index(){
-		Flash::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'warning');
+		FlashService::set('这是一个汇总表，如果您不清楚它的含义，请不要随意修改，后果可能很严重！', 'warning');
 		$this->layout->subtitle = '添加参数';
 		
 		$this->_setListview();

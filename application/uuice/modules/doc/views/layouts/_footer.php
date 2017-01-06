@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <footer class="main-footer">
 	<div class="footer-inner">
@@ -7,7 +7,7 @@ use fay\services\Option;
 			<a href="#" rel="go-top"><i class="icon-angle-up"></i></a>
 		</div>
 		<div class="copyright">
-			<?php echo Option::get('site:copyright')?>
+			<?php echo OptionService::get('site:copyright')?>
 		</div>
 	</div>
 </footer>

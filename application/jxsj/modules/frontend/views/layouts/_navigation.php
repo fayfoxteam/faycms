@@ -1,10 +1,10 @@
 <?php
-use fay\services\Menu;
+use fay\services\MenuService;
 use fay\helpers\Html;
-use fay\services\Category;
-use fay\services\Page;
+use fay\services\CategoryService;
+use fay\services\PageService;
 
-$menu = Menu::service()->getTree('_jxsj_top');
+$menu = MenuService::service()->getTree('_jxsj_top');
 ?>
 <nav class="g-nav">
 	<div class="w1000">
@@ -16,8 +16,8 @@ $menu = Menu::service()->getTree('_jxsj_top');
 			</li>
 			<?php
 				//静态页面
-				$cat_about = Category::service()->getByAlias('about', 'title');
-				$pages = Page::service()->getByCatAlias('about', 5);
+				$cat_about = CategoryService::service()->getByAlias('about', 'title');
+				$pages = PageService::service()->getByCatAlias('about', 5);
 				echo '<li class="nav-i">', Html::link($cat_about['title'], 'javascript:;', array(
 					'class'=>'nav-p',
 					'title'=>false,
@@ -31,7 +31,7 @@ $menu = Menu::service()->getTree('_jxsj_top');
 				echo '</ul>';
 				echo '</li>';
 				//文章分类列表
-				$cats = Category::service()->getTree('_system_post');
+				$cats = CategoryService::service()->getTree('_system_post');
 				foreach($cats as $cat){
 					if(!$cat['is_nav'])continue;
 					echo '<li class="nav-i">', Html::link($cat['title'], array('cat/'.$cat['id']), array(

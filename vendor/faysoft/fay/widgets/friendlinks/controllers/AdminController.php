@@ -2,8 +2,8 @@
 namespace fay\widgets\friendlinks\controllers;
 
 use fay\widget\Widget;
-use fay\services\Category;
-use fay\services\Flash;
+use fay\services\CategoryService;
+use fay\services\FlashService;
 
 class AdminController extends Widget{
 	public function initConfig($config){
@@ -14,12 +14,12 @@ class AdminController extends Widget{
 	}
 	
 	public function index(){
-		$root_node = Category::service()->getByAlias('_system_link', 'id');
+		$root_node = CategoryService::service()->getByAlias('_system_link', 'id');
 		$this->view->cats = array(
 			array(
 				'id'=>0,
 				'title'=>'不限制分类',
-				'children'=>Category::service()->getTreeByParentId($root_node['id']),
+				'children'=>CategoryService::service()->getTreeByParentId($root_node['id']),
 			),
 		);
 		
@@ -38,7 +38,7 @@ class AdminController extends Widget{
 		}
 		
 		$this->saveConfig($data);
-		Flash::set('编辑成功', 'success');
+		FlashService::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div class="box" id="<?php echo Html::encode($widget->alias);?>">
 	<div class="box-title">
@@ -17,7 +17,7 @@ use fay\services\File;
 				<div class="box-gallery-container">
 					<ul class="box-gallery">
 					<?php foreach($posts as $p){
-						echo '<li>', Html::link(Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
+						echo '<li>', Html::link(Html::img($p['post']['thumbnail']['id'], FileService::PIC_RESIZE, array(
 							'dw'=>203,
 							'dh'=>132,
 						)), $p['post']['link'], array(

@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\Setting;
+use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Contacts;
@@ -166,7 +166,7 @@ class ContactController extends AdminController{
 		$this->layout->subtitle = '编辑留言';//页面标题
 		
 		//box排序
-		$_box_sort_settings = Setting::service()->get('admin_contact_box_sort');
+		$_box_sort_settings = SettingService::service()->get('admin_contact_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		

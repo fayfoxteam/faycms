@@ -1,7 +1,7 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
-use fay\services\Flash;
+use fay\services\FlashService;
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
-<title><?php if(!empty($title))echo $title . '_'?><?php echo Option::get('site:sitename')?></title>
+<title><?php if(!empty($title))echo $title . '_'?><?php echo OptionService::get('site:sitename')?></title>
 <style>
 body{background-position:center 112px;}
 </style>
@@ -40,7 +40,7 @@ body{background-position:center 112px;}
 		</div>
 	</div>
 	<?php include '_footer.php'?>
-	<?php echo Flash::get();?>
+	<?php echo FlashService::get();?>
 </div>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
 <script>

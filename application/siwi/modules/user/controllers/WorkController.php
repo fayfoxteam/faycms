@@ -3,14 +3,14 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use fay\models\tables\Posts;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\models\tables\Files;
 use fay\models\tables\PostsFiles;
 use fay\models\Tag;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class WorkController extends UserController{
 	private $rules = array(
@@ -47,8 +47,8 @@ class WorkController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				));
 	
-				Post::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $post_id);
-				Post::service()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $post_id);
+				PostService::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $post_id);
+				PostService::service()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $post_id);
 				
 				if($f = $this->input->post('file', 'intval', 0)){
 					$file = Files::model()->find($f, 'client_name,is_image');
@@ -86,10 +86,10 @@ class WorkController extends UserController{
 					'id'=>$post_id,
 				)));
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
-		$this->view->cats = Category::service()->getNextLevel('_work');
+		$this->view->cats = CategoryService::service()->getNextLevel('_work');
 		
 		$this->view->render();
 	}
@@ -127,8 +127,8 @@ class WorkController extends UserController{
 					'status'=>Posts::STATUS_PUBLISHED,
 				), $id);
 				
-				Post::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $id);
-				Post::service()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $id);
+				PostService::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $id);
+				PostService::service()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $id);
 				
 				$f = $this->input->post('file', 'intval', 0);
 				if($f){
@@ -203,18 +203,18 @@ class WorkController extends UserController{
 	
 				Tag::model()->set($this->input->post('tags'), $post['id']);
 				
-				Flash::set('作品编辑成功', 'success');
+				FlashService::set('作品编辑成功', 'success');
 				
 				$post = Posts::model()->find($id);
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
 		
 		$this->form()->setData($post);
 		
 		//parent cat
-		$cat = Category::service()->get($post['cat_id'], 'parent');
+		$cat = CategoryService::service()->get($post['cat_id'], 'parent');
 		$this->form()->setData(array('parent_cat'=>$cat['parent']));
 		
 		//tags
@@ -245,12 +245,12 @@ class WorkController extends UserController{
 		$this->view->files = $files;
 		
 		//copyright
-		$this->form()->setData(array('copyright'=>Post::service()->getPropValueByAlias('siwi_work_copyright', $post['id'])));
+		$this->form()->setData(array('copyright'=>PostService::service()->getPropValueByAlias('siwi_work_copyright', $post['id'])));
 		
 		//video
-		$this->form()->setData(array('video'=>Post::service()->getPropValueByAlias('siwi_work_video', $post['id'])));
+		$this->form()->setData(array('video'=>PostService::service()->getPropValueByAlias('siwi_work_video', $post['id'])));
 		
-		$this->view->cats = Category::service()->getNextLevel('_work');
+		$this->view->cats = CategoryService::service()->getNextLevel('_work');
 		$this->view->render();
 	}
 }

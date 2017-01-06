@@ -3,7 +3,7 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use fay\models\tables\Likes;
-use fay\services\Post;
+use fay\services\PostService;
 
 class LikeController extends UserController{
 	public function __construct(){
@@ -30,7 +30,7 @@ class LikeController extends UserController{
 				'post_id'=>$id,
 				'create_time'=>$this->current_time,
 			));
-			Post::service()->incLikes($id);
+			PostService::service()->incLikes($id);
 			echo json_encode(array(
 				'status'=>1,
 			));
@@ -50,7 +50,7 @@ class LikeController extends UserController{
 				'user_id'=>$this->current_user,
 				'post_id'=>$id,
 			));
-			Post::service()->decLikes($id);
+			PostService::service()->decLikes($id);
 			echo json_encode(array(
 				'status'=>1,
 			));

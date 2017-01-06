@@ -1,7 +1,7 @@
 <?php
-use fay\services\File;
+use fay\services\FileService;
 use fay\models\tables\Files;
-use fay\services\Qiniu;
+use fay\services\QiniuService;
 use fay\helpers\Html;
 use fay\helpers\StringHelper;
 
@@ -17,9 +17,9 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
 	<?php foreach($files as $f){
 		$file = Files::model()->find($f['file_id']);
 		if($file['qiniu']){
-			$data_src = Qiniu::service()->getUrl($file);
+			$data_src = QiniuService::service()->getUrl($file);
 		}else{
-			$data_src = File::getUrl($file);
+			$data_src = FileService::getUrl($file);
 		}
 		echo Html::tag('div', array(
 			'data-src'=>$data_src,

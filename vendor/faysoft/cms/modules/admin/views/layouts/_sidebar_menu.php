@@ -1,10 +1,10 @@
 <?php
 use cms\helpers\MenuHelper;
 use fay\helpers\Html;
-use fay\services\Setting;
+use fay\services\SettingService;
 ?>
 <div class="sidebar-menu <?php
-	$admin_sidebar_class = Setting::service()->get('admin_sidebar_class');
+	$admin_sidebar_class = SettingService::service()->get('admin_sidebar_class');
 	echo $admin_sidebar_class['class'];
 	if(!F::config()->get('debug'))echo ' fixed';
 ?>" id="sidebar-menu">

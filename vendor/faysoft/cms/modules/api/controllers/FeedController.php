@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\Feed as Feed;
+use fay\services\FeedService;
 use fay\models\tables\Feeds;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
@@ -67,7 +67,7 @@ class FeedController extends ApiController{
 			$extra_files[$f] = isset($description[$f]) ? $description[$f] : '';
 		}
 		
-		Feed::service()->create(array(
+		FeedService::service()->create(array(
 			'content'=>$this->form()->getData('content'),
 			'address'=>$this->form()->getData('address'),
 			'status'=>Feeds::STATUS_APPROVED,
@@ -111,7 +111,7 @@ class FeedController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::parse($fields, 'feed', Feed::$public_fields);
+			$fields = FieldHelper::parse($fields, 'feed', FeedService::$public_fields);
 		}else{
 			//若未指定$fields，取默认值
 			$fields = $this->default_fields;
@@ -122,7 +122,7 @@ class FeedController extends ApiController{
 			$fields['feed'] = $this->default_fields['feed'];
 		}
 		
-		$feed = Feed::service()->get($feed_id, $fields, true);
+		$feed = FeedService::service()->get($feed_id, $fields, true);
 		if($feed){
 			Response::json($feed);
 		}else{
@@ -148,8 +148,8 @@ class FeedController extends ApiController{
 		
 		$feed_id = $this->form()->getData('feed_id');
 		
-		if(Feed::service()->checkDeletePermission($feed_id)){
-			Feed::service()->delete($feed_id);
+		if(FeedService::service()->checkDeletePermission($feed_id)){
+			FeedService::service()->delete($feed_id);
 			Response::notify('success', '动态删除成功');
 		}else{
 			Response::notify('error', array(

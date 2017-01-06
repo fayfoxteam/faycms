@@ -5,7 +5,7 @@ use fay\core\Response;
 use fay\helpers\StringHelper;
 use fay\models\tables\Tokens;
 use fay\models\tables\Users;
-use fay\services\User;
+use fay\services\UserService;
 
 class RegController extends Controller {
     public function index(){
@@ -64,7 +64,7 @@ class RegController extends Controller {
             $user_id = Users::model()->insert($data);
             //Response::json(array(),'1','注册成功','reg:success');
             if($user_id){
-                $user = User::service()->get($user_id);
+                $user = UserService::service()->get($user_id);
                 $token_data['user_id'] = $user['id'];
                 $token_data['token'] = md5(md5($this->input->post('uuid')).$user['salt'].$user['id']);
                 $token_data['creat_time'] = $this->current_time;

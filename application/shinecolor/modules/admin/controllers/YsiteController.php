@@ -2,8 +2,8 @@
 namespace shinecolor\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\Option;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FlashService;
 
 class YsiteController extends AdminController{
 	public function __construct(){
@@ -16,9 +16,9 @@ class YsiteController extends AdminController{
 		
 		if($this->input->post()){
 			foreach($this->input->post() as $key=>$value){
-				Option::set($key, $value);
+				OptionService::set($key, $value);
 			}
-			Flash::set('更新成功', 'success');
+			FlashService::set('更新成功', 'success');
 		}
 		
 		$this->view->render();

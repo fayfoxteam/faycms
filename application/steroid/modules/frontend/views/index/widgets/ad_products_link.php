@@ -1,5 +1,5 @@
 <section class="section" id="section-product-link">
-	<div class="bg" style="background-image:url(<?php echo \fay\services\File::getUrl($widget->config['file_id'])?>)">
+	<div class="bg" style="background-image:url(<?php echo \fay\services\FileService::getUrl($widget->config['file_id'])?>)">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-7">

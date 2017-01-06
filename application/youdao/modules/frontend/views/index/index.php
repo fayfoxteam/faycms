@@ -2,7 +2,7 @@
 use fay\helpers\Request;
 use fay\helpers\StringHelper;
 use fay\helpers\Html;
-use fay\services\Option;
+use fay\services\OptionService;
 
 $browser = Request::getBrowser();
 if($browser[0] == 'msie' && $browser[1] == '6.0'){
@@ -103,10 +103,10 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 				为企业发展保驾护航
 			</p>
 			<div id="contact">
-				<p class="phone bold"><?php echo Option::get('site:phone')?></p>
-				<p>传真：<?php echo Option::get('site:fax')?></p>
-				<p>邮箱：<a href="mailto:<?php echo Option::get('site:email')?>"><?php echo Option::get('site:email')?></a></p>
-				<p>地址：<?php echo Option::get('site:address')?></p>
+				<p class="phone bold"><?php echo OptionService::get('site:phone')?></p>
+				<p>传真：<?php echo OptionService::get('site:fax')?></p>
+				<p>邮箱：<a href="mailto:<?php echo OptionService::get('site:email')?>"><?php echo OptionService::get('site:email')?></a></p>
+				<p>地址：<?php echo OptionService::get('site:address')?></p>
 			</div>
 		</div>
 	</section>

@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,7 @@ use fay\services\Option;
 <![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/login.css')?>" />
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <div id="wrapper">

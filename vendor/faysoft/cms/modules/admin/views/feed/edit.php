@@ -2,8 +2,8 @@
 use cms\helpers\FeedHelper;
 use fay\helpers\Html;
 use fay\models\tables\Feeds;
-use fay\services\User;
-use fay\services\File;
+use fay\services\UserService;
+use fay\services\FileService;
 use fay\helpers\Date;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
@@ -14,7 +14,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 	<div class="post-body">
 		<div class="post-body-content">
 			<div class="mb30 cf user-info"><?php
-				$user = User::service()->get($feed['user_id'], 'nickname,id,avatar,admin,roles.title');
+				$user = UserService::service()->get($feed['user_id'], 'nickname,id,avatar,admin,roles.title');
 				
 				$user_detail_link = $user['user']['admin'] ? array('admin/operator/item', array(
 					'id'=>$user['user']['id'],
@@ -22,7 +22,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					'id'=>$user['user']['id'],
 				));
 				//头像
-				echo Html::link(Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
+				echo Html::link(Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 					'spare'=>'avatar',
 				)), $user_detail_link, array(
 					'encode'=>false,

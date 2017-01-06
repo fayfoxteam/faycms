@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <section class="box" id="<?php echo $alias?>">
 	<div class="box-title">
@@ -11,7 +11,7 @@ use fay\services\File;
 	</div>
 	<div class="box-content"><?php
 		if($page['thumbnail']){
-			echo Html::link(Html::img($page['thumbnail'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($page['thumbnail'], FileService::PIC_RESIZE, array(
 				'dw'=>156,
 				'dh'=>110,
 				'alt'=>Html::encode($page['title']),

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use pharmrich\helpers\PostHelper;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\StringHelper;
 
 /**
@@ -25,7 +25,7 @@ use fay\helpers\StringHelper;
 			</span>
 		</header>
 		<?php if($p['post']['thumbnail']['id']){
-			echo Html::link(Html::img($p['post']['thumbnail']['id'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($p['post']['thumbnail']['id'], FileService::PIC_RESIZE, array(
 				'dw'=>300,
 				'dh'=>230,
 				'alt'=>Html::encode($p['post']['title']),

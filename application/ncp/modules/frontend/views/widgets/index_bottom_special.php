@@ -1,11 +1,11 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use ncp\helpers\FriendlyLink;
 ?>
 <ul>
 <?php foreach($posts as $p){?>
-	<li><?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+	<li><?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 		'dw'=>220,
 		'dh'=>120,
 		'alt'=>Html::encode($p['title']),

@@ -1,13 +1,13 @@
 <?php
 use fay\helpers\Date;
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\services\user\Role;
 use fay\models\tables\Roles;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
 	<?php if(in_array('avatar', $cols)){?>
-	<td><?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
+	<td><?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 		'width'=>40,
 		'height'=>40,
 		'class'=>'circle',
@@ -32,7 +32,7 @@ use fay\models\tables\Roles;
 				echo Html::link('查看', array('admin/operator/item', array(
 					'id'=>$data['id'],
 				)), array(), true);
-				if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN, $data['id']) || Role::service()->is(Roles::ITEM_SUPER_ADMIN)){
+				if(!RoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $data['id']) || RoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
 					echo Html::link('编辑', array('admin/operator/edit', array(
 						'id'=>$data['id'],
 					)), array(), true);
@@ -43,7 +43,7 @@ use fay\models\tables\Roles;
 	
 	<?php if(in_array('roles', $cols)){?>
 	<td><?php
-		$user_roles = Role::service()->get($data['id']);
+		$user_roles = RoleService::service()->get($data['id']);
 		foreach($user_roles as $k => $role){
 			if($k){
 				echo ', ';

@@ -1,13 +1,13 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Post;
+use fay\services\PostService;
 
 foreach($posts as $p){
 	$this->renderPartial('guide/_panel', array(
 		'id'=>$p['id'],
 		'title'=>$p['title'],
 		'body'=>Post::formatContent($p),
-		'file_link'=>Post::service()->getPropValueByAlias('file_link', $p['id']),
+		'file_link'=>PostService::service()->getPropValueByAlias('file_link', $p['id']),
 	));
 }
 ?>

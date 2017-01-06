@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <form id="ucpaas-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
 	<div class="row">
@@ -8,12 +8,12 @@ use fay\services\Option;
 			<div class="form-field">
 				<label class="title">是否启用<em class="required">*</em></label>
 				<?php
-					echo Html::inputRadio('ucpaas:enabled', '1', Option::get('ucpaas:enabled') == '1', array(
+					echo Html::inputRadio('ucpaas:enabled', '1', OptionService::get('ucpaas:enabled') == '1', array(
 						'label'=>'是',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',
 					));
-					echo Html::inputRadio('ucpaas:enabled', '0', Option::get('ucpaas:enabled') === '0', array(
+					echo Html::inputRadio('ucpaas:enabled', '0', OptionService::get('ucpaas:enabled') === '0', array(
 						'label'=>'否',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',
@@ -23,7 +23,7 @@ use fay\services\Option;
 			</div>
 			<div class="form-field">
 				<label class="title">Account Sid<em class="required">*</em></label>
-				<?php echo Html::inputText('ucpaas:accountsid', Option::get('ucpaas:accountsid'), array(
+				<?php echo Html::inputText('ucpaas:accountsid', OptionService::get('ucpaas:accountsid'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'Account Sid',
@@ -32,7 +32,7 @@ use fay\services\Option;
 			</div>
 			<div class="form-field">
 				<label class="title">Auth Token<em class="required">*</em></label>
-				<?php echo Html::inputText('ucpaas:token', Option::get('ucpaas:token'), array(
+				<?php echo Html::inputText('ucpaas:token', OptionService::get('ucpaas:token'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'Auth Token',
@@ -41,7 +41,7 @@ use fay\services\Option;
 			</div>
 			<div class="form-field">
 				<label class="title">APP ID<em class="required">*</em></label>
-				<?php echo Html::inputText('ucpaas:appid', Option::get('ucpaas:appid'), array(
+				<?php echo Html::inputText('ucpaas:appid', OptionService::get('ucpaas:appid'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'APP ID',

@@ -3,9 +3,9 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use fay\models\tables\Messages;
-use fay\services\Message;
+use fay\services\MessageService;
 use fay\helpers\Date;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\core\Validator;
 
 class CommentController extends UserController{
@@ -22,11 +22,11 @@ class CommentController extends UserController{
 			$content = $this->input->post('content');
 			$type = Messages::TYPE_POST_COMMENT;
 			$parent = $this->input->post('parent', 'intval', 0);
-			$message_id = Message::service()->create($target, $content, $type, $parent);
+			$message_id = MessageService::service()->create($target, $content, $type, $parent);
 			//刷新文章评论数
-			Post::service()->refreshComments($target);
+			PostService::service()->refreshComments($target);
 			
-			$message = Message::service()->get($message_id);
+			$message = MessageService::service()->get($message_id);
 			$message['date'] = Date::niceShort($message['create_time']);
 			if($this->input->isAjaxRequest()){
 				echo json_encode(array('status'=>1, 'data'=>$message));

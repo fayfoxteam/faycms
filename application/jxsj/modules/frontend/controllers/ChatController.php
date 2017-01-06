@@ -5,10 +5,10 @@ use jxsj\library\FrontController;
 use fay\models\tables\Messages;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\Message;
+use fay\services\MessageService;
 use fay\models\tables\Users;
 use fay\core\Response;
-use fay\services\User;
+use fay\services\UserService;
 use fay\helpers\StringHelper;
 
 class ChatController extends FrontController{
@@ -40,7 +40,7 @@ class ChatController extends FrontController{
 	public function create(){
 		if($this->input->post('realname', 'trim') && $this->input->post('content', 'trim')){
 			//虚构一个用户
-			$user_id = User::service()->create(array(
+			$user_id = UserService::service()->create(array(
 				'status'=>Users::STATUS_NOT_VERIFIED,
 				'nickname'=>$this->input->post('realname', 'trim'),
 				'realname'=>$this->input->post('realname', 'trim'),
@@ -50,9 +50,9 @@ class ChatController extends FrontController{
 			$content = $this->input->post('content', 'trim', '');
 			$type = Messages::TYPE_USER_MESSAGE;
 			$parent = $this->input->post('parent', 'intval', 0);
-			$message_id = Message::service()->create(2, $content, $type, $parent, Messages::STATUS_APPROVED, $user_id);
+			$message_id = MessageService::service()->create(2, $content, $type, $parent, Messages::STATUS_APPROVED, $user_id);
 			
-			$message = Message::service()->get($message_id);
+			$message = MessageService::service()->get($message_id);
 			Response::notify('success', array(
 				'message'=>'回复留言成功',
 				'data'=>$message,

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <header class="g-hd" id="g-hd">
 	<div class="hd-bar-shadow"></div>
@@ -46,7 +46,7 @@ use fay\services\File;
 	</div>
 	<div class="uhd-info">
 		<div class="uhd-avatar">
-			<?php echo Html::img($user['avatar'], File::PIC_RESIZE, array(
+			<?php echo Html::img($user['avatar'], FileService::PIC_RESIZE, array(
 				'spare'=>'avatar',
 				'dw'=>178,
 				'dh'=>178,

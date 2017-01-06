@@ -2,8 +2,8 @@
 namespace jxsj\modules\frontend\controllers;
 
 use jxsj\library\FrontController;
-use fay\services\Option;
-use fay\services\Page;
+use fay\services\OptionService;
+use fay\services\PageService;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -15,10 +15,10 @@ class IndexController extends FrontController{
 	}
 	
 	public function index(){
-		$this->layout->keywords = Option::get('site:seo_index_keywords');
-		$this->layout->description = Option::get('site:seo_index_description');
+		$this->layout->keywords = OptionService::get('site:seo_index_keywords');
+		$this->layout->description = OptionService::get('site:seo_index_description');
 		
-		$this->view->about = Page::service()->getByAlias('about');
+		$this->view->about = PageService::service()->getByAlias('about');
 		
 		$this->view->render();
 	}

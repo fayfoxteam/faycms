@@ -1,11 +1,11 @@
 <?php
-use fay\services\Post;
+use fay\services\PostService;
 use fay\helpers\Date;
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 
 preg_match_all('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $data['content'], $matches);
-$post_cats = Post::service()->getCats($data['id']);
+$post_cats = PostService::service()->getCats($data['id']);
 $work_files = array();
 $i = 0;
 foreach($matches[1] as $m){
@@ -32,7 +32,7 @@ foreach($matches[1] as $m){
 	<?php foreach($work_files as $wf){?>
 		<div class="work-file-item">
 			<a href="<?php echo $this->url('file/pic', array('t'=>1, 'f'=>$wf))?>">
-				<?php echo Html::img($wf, File::PIC_RESIZE, array(
+				<?php echo Html::img($wf, FileService::PIC_RESIZE, array(
 					'dw'=>147,
 					'dh'=>147,
 				))?>

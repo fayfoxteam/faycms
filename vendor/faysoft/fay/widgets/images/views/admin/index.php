@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\models\tables\Roles;
 use fay\services\user\Role;
 ?>
@@ -31,7 +31,7 @@ use fay\services\user\Role;
 		<div class="dragsort-item-container">
 			<span class="file-thumb">
 			<?php
-				echo Html::link(Html::img($f['file_id'], 2), File::getUrl($f['file_id']), array(
+				echo Html::link(Html::img($f['file_id'], 2), FileService::getUrl($f['file_id']), array(
 					'class'=>'photo-thumb-link',
 					'encode'=>false,
 					'title'=>Html::encode($f['title']),

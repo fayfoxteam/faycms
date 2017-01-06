@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Category;
+use fay\services\CategoryService;
 
-$cats = Category::service()->getTree('__root__');
+$cats = CategoryService::service()->getTree('__root__');
 ?>
 <header class="w1000 g-hd">
 	<div class="hd-search-bar">

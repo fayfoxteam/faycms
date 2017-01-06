@@ -1,11 +1,11 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use ncp\helpers\FriendlyLink;
 ?>
 <li>
 	<div class="sp_img flrwyj">
-		<?php echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(
+		<?php echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 			'dw'=>400,
 			'dh'=>284,
 			'alt'=>Html::encode($data['title']),

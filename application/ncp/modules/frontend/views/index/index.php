@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use ncp\helpers\FriendlyLink;
-use fay\services\File;
+use fay\services\FileService;
 $this->appendCss($this->appStatic('css/index.css'));
 ?>
 
@@ -21,7 +21,7 @@ $this->appendCss($this->appStatic('css/index.css'));
 				$top_post = array_shift($v);
 				?>
 				<li class="s">
-					<?php echo Html::link(Html::img($top_post['thumbnail'], File::PIC_RESIZE, array(
+					<?php echo Html::link(Html::img($top_post['thumbnail'], FileService::PIC_RESIZE, array(
 						'dw'=>386,
 						'dh'=>272,
 						'alt'=>Html::encode($top_post['title']),
@@ -80,7 +80,7 @@ $this->appendCss($this->appStatic('css/index.css'));
 					<?php foreach($t['top'] as $p){?>
 						<li>
 							<div class="j_img">
-								<?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>239,
 									'dh'=>140,
 									'alt'=>Html::encode($p['title']),
@@ -149,7 +149,7 @@ $this->appendCss($this->appStatic('css/index.css'));
 					<?php foreach($f as $p){?>
 						<li>
 							<div class="j_img">
-								<?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>239,
 									'dh'=>140,
 									'alt'=>Html::encode($p['title']),

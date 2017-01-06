@@ -141,7 +141,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			$user_id = User::service()->create($data, $extra);
+			$user_id = UserService::service()->create($data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个新用户', $user_id);
 			
@@ -176,7 +176,7 @@ class UserController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			User::service()->update($user_id, $data, $extra);
+			UserService::service()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '修改个人信息', $user_id);
 			Response::notify('success', '编辑成功', false);
@@ -185,8 +185,8 @@ class UserController extends AdminController{
 			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = User::service()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = Role::service()->getIds($user_id);
+		$user = UserService::service()->get($user_id, 'user.*,profile.*');
+		$user_role_ids = RoleService::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));
@@ -196,13 +196,13 @@ class UserController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = Prop::service()->getPropertySet($user_id);
+		$this->view->prop_set = PropService::service()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::service()->get($id, 'user.*,props.*,roles.title,profile.*');
+			$this->view->user = UserService::service()->get($id, 'user.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}
@@ -227,13 +227,13 @@ class UserController extends AdminController{
 		$user_id = $this->input->get('user_id', 'intval');
 		
 		if($role_ids){
-			$props = Prop::service()->getByRefer($role_ids);
+			$props = PropService::service()->getByRefer($role_ids);
 		}else{
 			$props = array();
 		}
 		
 		if(!empty($props) && $user_id){
-			$props = Prop::service()->getPropertySet($user_id, $props);
+			$props = PropService::service()->getPropertySet($user_id, $props);
 		}
 		
 		$this->view->prop_set = $props;

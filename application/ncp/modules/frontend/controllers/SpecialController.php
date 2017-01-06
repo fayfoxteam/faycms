@@ -5,11 +5,11 @@ use ncp\library\FrontController;
 use fay\core\HttpException;
 use fay\models\tables\Posts;
 use fay\core\Sql;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\common\ListView;
 use ncp\models\Recommend;
-use fay\services\Option;
-use fay\services\Post;
+use fay\services\OptionService;
+use fay\services\PostService;
 use fay\core\db\Expr;
 
 class SpecialController extends FrontController{
@@ -26,7 +26,7 @@ class SpecialController extends FrontController{
 			'page'=>'intval',
 			'keywords'=>'trim',
 		))->check()){
-			$cat = Category::service()->getByAlias('special');
+			$cat = CategoryService::service()->getByAlias('special');
 
 			$this->layout->title = $cat['title'];
 			$this->layout->keywords = $cat['seo_keywords'];
@@ -58,8 +58,8 @@ class SpecialController extends FrontController{
 			throw new HttpException('页面不存在');
 		}
 		
-		$product_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-		$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site:right_recommend_days'));
+		$product_cat = CategoryService::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
+		$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, OptionService::get('site:right_recommend_days'));
 		
 		$this->view->render();
 	}
@@ -67,7 +67,7 @@ class SpecialController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::service()->get($id, '', 'special', true)){
+		if(!$id || !$post = PostService::service()->get($id, '', 'special', true)){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(

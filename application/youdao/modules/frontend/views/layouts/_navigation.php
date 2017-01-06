@@ -1,7 +1,7 @@
 <?php
-use fay\services\Menu;
+use fay\services\MenuService;
 
-$menu = Menu::service()->getTree('top');
+$menu = MenuService::service()->getTree('top');
 ?>
 
 <nav id="site-navigation">

@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Category;
+use fay\services\CategoryService;
 
-$cats = Category::service()->getTree('__root__');
+$cats = CategoryService::service()->getTree('__root__');
 ?>
 <nav class="g-nav">
 	<div class="w1000">

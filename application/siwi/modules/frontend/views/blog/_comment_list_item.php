@@ -1,12 +1,12 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\Date;
 use fay\models\tables\Messages;
 ?>
 <li>	
 	<div class="avatar">
-		<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
+		<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 			'alt'=>$data['nickname'],
 			'spare'=>'avatar',
 		)), array('u/'.$data['user_id']), array(

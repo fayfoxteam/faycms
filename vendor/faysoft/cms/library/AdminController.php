@@ -5,15 +5,15 @@ use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\Request;
 use fay\models\tables\Actionlogs;
-use fay\services\Setting;
+use fay\services\SettingService;
 use fay\models\Setting as SettingModel;
 use fay\core\Response;
-use fay\services\Menu;
+use fay\services\MenuService;
 use fay\core\HttpException;
-use fay\services\Flash;
+use fay\services\FlashService;
 use fay\models\tables\Roles;
 use fay\helpers\ArrayHelper;
-use fay\services\User;
+use fay\services\UserService;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';
@@ -49,7 +49,7 @@ class AdminController extends Controller{
 		$this->current_user = \F::session()->get('user.id', 0);
 		
 		//验证session中是否有值
-		if(!User::service()->isAdmin()){
+		if(!UserService::service()->isAdmin()){
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		$this->layout->current_directory = '';
@@ -61,7 +61,7 @@ class AdminController extends Controller{
 		}
 		
 		if(!$this->input->isAjaxRequest()){
-			$this->_left_menu = Menu::service()->getTree('_admin_main');
+			$this->_left_menu = MenuService::service()->getTree('_admin_main');
 		}
 	}
 	
@@ -79,7 +79,7 @@ class AdminController extends Controller{
 		if($return){
 			return $html;
 		}else{
-			Flash::set($html);
+			FlashService::set($html);
 		}
 	}
 	
@@ -97,7 +97,7 @@ class AdminController extends Controller{
 			throw new HttpException($errors[0]['message'], 404);
 		}else{
 			foreach($errors as $e){
-				Flash::set($e['message']);
+				FlashService::set($e['message']);
 			}
 		}
 	}
@@ -195,7 +195,7 @@ class AdminController extends Controller{
 	protected function getEnabledBoxes($settings = null){
 		$settings === null && $settings = $this->view->_setting_key;
 		if(!is_array($settings)){
-			$settings = Setting::service()->get($settings);
+			$settings = SettingService::service()->get($settings);
 		}
 		if(!empty($settings['boxes'])){
 			return array_intersect($this->getBoxNames(), isset($settings['boxes']) ? $settings['boxes'] : array());
@@ -242,7 +242,7 @@ class AdminController extends Controller{
 	public function settingForm($key, $panel, $default = array(), $data = array()){
 		$this->layout->_setting_panel = $panel;
 		
-		$settings = Setting::service()->get($key);
+		$settings = SettingService::service()->get($key);
 		$settings || $settings = $default;
 		
 		$this->form('setting')

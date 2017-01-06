@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div class="drag-drop-area" id="drag-drop-area">
 	<div class="drag-drop-inside">
@@ -24,7 +24,7 @@ use fay\services\File;
 		<div class="dragsort-item-container">
 			<span class="file-thumb">
 			<?php 
-				echo Html::link(Html::img($f['file_id'], 2), File::getUrl($f['file_id']), array(
+				echo Html::link(Html::img($f['file_id'], 2), FileService::getUrl($f['file_id']), array(
 					'class'=>'photo-thumb-link',
 					'encode'=>false,
 					'title'=>Html::encode($f['title']),

@@ -6,10 +6,10 @@ use fay\models\tables\Posts;
 use fay\models\tables\Files;
 use fay\models\tables\PostsFiles;
 use fay\models\Tag;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class SiteController extends UserController{
 	private $rules = array(
@@ -81,10 +81,10 @@ class SiteController extends UserController{
 					'id'=>$post_id,
 				)));
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
-		$this->view->cats = Category::service()->getNextLevel('_site');
+		$this->view->cats = CategoryService::service()->getNextLevel('_site');
 		
 		$this->view->render();
 	}
@@ -195,18 +195,18 @@ class SiteController extends UserController{
 	
 				Tag::model()->set($this->input->post('tags'), $post['id']);
 				
-				Flash::set('作品编辑成功', 'success');
+				FlashService::set('作品编辑成功', 'success');
 				
 				$post = Posts::model()->find($id);
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
 		
 		$this->form()->setData($post);
 		
 		//parent cat
-		$cat = Category::service()->get($post['cat_id'], 'parent');
+		$cat = CategoryService::service()->get($post['cat_id'], 'parent');
 		$this->form()->setData(array('parent_cat'=>$cat['parent']));
 		
 		//tags
@@ -236,7 +236,7 @@ class SiteController extends UserController{
 		), 'file_id,desc', 'sort');
 		$this->view->files = $files;
 		
-		$this->view->cats = Category::service()->getNextLevel('_site');
+		$this->view->cats = CategoryService::service()->getNextLevel('_site');
 		$this->view->render();
 	}
 }

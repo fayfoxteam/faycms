@@ -3,19 +3,19 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Files;
-use fay\services\File;
+use fay\services\FileService;
 use fay\models\Setting as SettingModel;
-use fay\services\Setting;
+use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\Image;
-use fay\services\Qiniu;
+use fay\services\QiniuService;
 use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
-use fay\services\Option;
-use fay\services\Category;
+use fay\services\OptionService;
+use fay\services\CategoryService;
 use fay\helpers\StringHelper;
 
 class FileController extends AdminController{
@@ -41,7 +41,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::service()->get($cat, 'id,alias');
+			$cat = CategoryService::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -50,7 +50,7 @@ class FileController extends AdminController{
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::service()->upload($cat, $private);
+		$result = FileService::service()->upload($cat, $private);
 		$data = $result['data'];
 		
 		if($result['status']){
@@ -101,7 +101,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::service()->get($cat, 'id,alias');
+			$cat = CategoryService::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -127,7 +127,7 @@ class FileController extends AdminController{
 		}
 		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
 			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
-		$filename = File::getFileName($upload_path, '.jpg');
+		$filename = FileService::getFileName($upload_path, '.jpg');
 		if(defined('NO_REWRITE')){
 			$destination = './public/'.$upload_path . $filename;
 		}else{
@@ -174,7 +174,7 @@ class FileController extends AdminController{
 		
 		$cat = $this->input->request('cat');
 		if($cat){
-			$cat = Category::service()->get($cat, 'id,alias');
+			$cat = CategoryService::service()->get($cat, 'id,alias');
 			if(!$cat){
 				throw new HttpException('指定的文件分类不存在');
 			}
@@ -183,7 +183,7 @@ class FileController extends AdminController{
 		}
 		
 		$private = !!$this->input->get('p');
-		$result = File::service()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
+		$result = FileService::service()->upload($cat, $private, array('gif', 'jpg', 'jpeg', 'jpe', 'png'));
 		$data = $result['data'];
 		
 		if($result['status']){
@@ -225,7 +225,7 @@ class FileController extends AdminController{
 		if($data['is_image']){
 			switch($this->input->request('handler')){
 				case 'resize':
-					$data = File::service()->edit($data, 'resize', array(
+					$data = FileService::service()->edit($data, 'resize', array(
 						'dw'=>$this->input->request('dw', 'intval'),
 						'dh'=>$this->input->request('dh', 'intval'),
 					));
@@ -241,7 +241,7 @@ class FileController extends AdminController{
 					);
 					if($params['x'] && $params['y'] && $params['w'] && $params['h']){
 						//若参数不完整，则不裁剪
-						$data = File::service()->edit($data, 'crop', $params);
+						$data = FileService::service()->edit($data, 'crop', $params);
 					}
 				break;
 			}
@@ -251,7 +251,7 @@ class FileController extends AdminController{
 	
 	public function doUpload(){
 		//获取文件类目树
-		$this->view->cats = Category::service()->getTree('_system_file');
+		$this->view->cats = CategoryService::service()->getTree('_system_file');
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
@@ -260,7 +260,7 @@ class FileController extends AdminController{
 		if($file_id = $this->input->get('id', 'intval')){
 			$file = Files::model()->find($file_id);
 			if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
-				Qiniu::service()->delete($file);
+				QiniuService::service()->delete($file);
 			}
 			
 			Files::model()->delete($file_id);
@@ -277,7 +277,7 @@ class FileController extends AdminController{
 		
 		$this->layout->_setting_panel = '_setting_index';
 		$_setting_key = 'admin_file_index';
-		$_settings = Setting::service()->get($_setting_key);
+		$_settings = SettingService::service()->get($_setting_key);
 		$_settings || $_settings = array(
 			'cols'=>array('client_name', 'file_type', 'file_size', 'username', 'upload_time'),
 			'display_name'=>'username',
@@ -286,7 +286,7 @@ class FileController extends AdminController{
 		);
 		
 		//如果未配置七牛参数，则强制不显示七牛那一列
-		if(!Option::getGroup('qiniu')){
+		if(!OptionService::getGroup('qiniu')){
 			foreach($_settings['cols'] as $k => $v){
 				if($v == 'qiniu'){
 					unset($_settings['cols'][$k]);
@@ -302,7 +302,7 @@ class FileController extends AdminController{
 				'_key'=>$_setting_key,
 			));
 		
-		$this->view->cats = Category::service()->getTree('_system_file');
+		$this->view->cats = CategoryService::service()->getTree('_system_file');
 		
 		$sql = new Sql();
 		$sql->from(array('f'=>'files'))
@@ -347,7 +347,7 @@ class FileController extends AdminController{
 					$file = Files::model()->find($id);
 					if($file){
 						if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
-							Qiniu::service()->delete($file);
+							QiniuService::service()->delete($file);
 						}
 							
 						Files::model()->delete($id);
@@ -369,7 +369,7 @@ class FileController extends AdminController{
 					Response::notify('error', '未指定分类');
 				}
 			
-				$cat = Category::service()->get($cat_id,'title');
+				$cat = CategoryService::service()->get($cat_id,'title');
 				if(!$cat){
 					Response::notify('error', '指定分类不存在');
 				}
@@ -432,8 +432,8 @@ class FileController extends AdminController{
 	public function cat(){
 		$this->layout->current_directory = 'file';
 		$this->layout->subtitle = '文件分类';
-		$this->view->cats = Category::service()->getTree('_system_file');
-		$root_node = Category::service()->getByAlias('_system_file', 'id');
+		$this->view->cats = CategoryService::service()->getTree('_system_file');
+		$root_node = CategoryService::service()->getByAlias('_system_file', 'id');
 		$this->view->root = $root_node['id'];
 		if($this->checkPermission('admin/link/cat-create')){
 			$this->layout->sublink = array(
@@ -455,11 +455,11 @@ class FileController extends AdminController{
 		$check = $validator->check(array(
 			array(array('f'), 'required'),
 			array(array('t'), 'range', array('range'=>array(
-				File::PIC_ORIGINAL,
-				File::PIC_THUMBNAIL,
-				File::PIC_CROP,
-				File::PIC_RESIZE,
-				File::PIC_CUT
+				FileService::PIC_ORIGINAL,
+				FileService::PIC_THUMBNAIL,
+				FileService::PIC_CROP,
+				FileService::PIC_RESIZE,
+				FileService::PIC_CUT
 			))),
 			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
 		));
@@ -501,15 +501,15 @@ class FileController extends AdminController{
 		header('Etag:'.$file['raw_name']);
 		
 		switch ($t) {
-			case File::PIC_ORIGINAL:
+			case FileService::PIC_ORIGINAL:
 				//直接输出图片
 				$this->_pic($file);
 				break;
-			case File::PIC_THUMBNAIL:
+			case FileService::PIC_THUMBNAIL:
 				//输出图片的缩略图
 				$this->_thumbnail($file);
 				break;
-			case File::PIC_CROP:
+			case FileService::PIC_CROP:
 				/**
 				 * 根据起始坐标，宽度及宽高比裁剪后输出图片
 				 * @param $_GET['x'] 起始点x坐标
@@ -521,7 +521,7 @@ class FileController extends AdminController{
 				 */
 				$this->_crop($file);
 				break;
-			case File::PIC_RESIZE:
+			case FileService::PIC_RESIZE:
 				/**
 				 * 根据给定的宽高对图片进行裁剪后输出图片
 				 * @param $_GET['dw'] 输出图像宽度
@@ -531,7 +531,7 @@ class FileController extends AdminController{
 				 */
 				$this->_resize($file);
 				break;
-			case File::PIC_CUT:
+			case FileService::PIC_CUT:
 				/**
 				 * 根据给定的宽高对图片进行裁剪后输出图片
 				 * @parameter $_GET['dw'] 输出图像宽度
@@ -603,7 +603,7 @@ class FileController extends AdminController{
 		
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+			imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
 		}else{
 			//图片不存在，显示一张默认图片吧
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
@@ -637,7 +637,7 @@ class FileController extends AdminController{
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+			imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
@@ -664,7 +664,7 @@ class FileController extends AdminController{
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+			imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');

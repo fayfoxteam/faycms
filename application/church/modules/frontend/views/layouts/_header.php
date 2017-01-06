@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <header class="page-header">
@@ -7,7 +7,7 @@ use fay\helpers\Html;
 		<div class="row">
 			<div class="col-md-5 logo-container">
 				<a href="<?php echo $this->url()?>"><?php
-					$logo = Option::get('site:logo');
+					$logo = OptionService::get('site:logo');
 					if($logo){
 						echo Html::img($logo);
 					}else{

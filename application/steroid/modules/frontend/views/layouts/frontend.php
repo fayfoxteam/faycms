@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ use fay\helpers\Html;
 	<title><?php if(!empty($title)){
 			echo $title, ' | ';
 		}
-		echo Option::get('site:sitename')?></title>
+		echo OptionService::get('site:sitename')?></title>
 	<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 	<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -38,14 +38,14 @@ use fay\helpers\Html;
 		<div class="row">
 			<div class="col-md-12">
 					<p>
-						<?php echo Option::get('site:sitename')?>
+						<?php echo OptionService::get('site:sitename')?>
 						-
 						<?php
 							$base_url = parse_url(F::config()->get('base_url'));
 							echo $base_url['host'];
 						?>
 					</p>
-					<p><?php echo Option::get('site:copyright')?></p>
+					<p><?php echo OptionService::get('site:copyright')?></p>
 				</div>
 			</div>
 		</div>

@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\User;
+use fay\services\UserService;
 use fay\services\user\Password;
 
 /**
@@ -17,13 +17,13 @@ class LoginController extends ApiController{
 	 */
 	public function index(){
 		if($this->input->post()){
-			$result = Password::service()->checkPassword(
+			$result = PasswordService::service()->checkPassword(
 				$this->input->post('username'),
 				$this->input->post('password')
 			);
 			
 			if($result['user_id']){
-				$user = User::service()->login($result['user_id']);
+				$user = UserService::service()->login($result['user_id']);
 			}else{
 				Response::notify('error', array(
 					'message'=>isset($result['message']) ? $result['message'] : '登录失败',
@@ -62,7 +62,7 @@ class LoginController extends ApiController{
 	 * 登出
 	 */
 	public function logout(){
-		User::service()->logout();
+		UserService::service()->logout();
 		
 		Response::notify('success', array(
 			'message'=>'退出登录',

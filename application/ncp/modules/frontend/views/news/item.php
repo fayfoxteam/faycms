@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use ncp\helpers\FriendlyLink;
-use fay\services\File;
+use fay\services\FileService;
 
 $this->appendCss($this->appStatic('css/news.css'));
 ?>
@@ -47,7 +47,7 @@ $this->appendCss($this->appStatic('css/news.css'));
 			<?php foreach($right_posts as $p){?>
 				<li>
 					<p class="p-img">
-						<?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+						<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 							'dw'=>180,
 							'dh'=>135,
 						)), FriendlyLink::getProductLink(array(

@@ -4,8 +4,8 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Feeds;
 use fay\models\tables\FeedsFiles;
-use fay\services\Setting;
-use fay\services\Feed;
+use fay\services\SettingService;
+use fay\services\FeedService;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\models\tables\FeedExtra;
@@ -93,7 +93,7 @@ class FeedController extends AdminController{
 				$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
 			}
 			
-			$feed_id = Feed::service()->create($data, $extra, $this->current_user);
+			$feed_id = FeedService::service()->create($data, $extra, $this->current_user);
 			
 			$this->actionlog(Actionlogs::TYPE_FEED, '添加动态', $feed_id);
 			Response::notify('success', '动态发布成功', array('admin/feed/edit', array(
@@ -102,7 +102,7 @@ class FeedController extends AdminController{
 		}
 		
 		//可配置信息
-		$_box_sort_settings = Setting::service()->get('admin_feed_box_sort');
+		$_box_sort_settings = SettingService::service()->get('admin_feed_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -175,7 +175,7 @@ class FeedController extends AdminController{
 				$extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
 			}
 			
-			Feed::service()->update($feed_id, $data, $extra);
+			FeedService::service()->update($feed_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_FEED, '编辑动态', $feed_id);
 			Response::notify('success', '动态编辑成功', false);
@@ -212,7 +212,7 @@ class FeedController extends AdminController{
 		$this->view->feed = $feed;
 		
 		//可配置信息
-		$_box_sort_settings = Setting::service()->get('admin_feed_box_sort');
+		$_box_sort_settings = SettingService::service()->get('admin_feed_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -328,7 +328,7 @@ class FeedController extends AdminController{
 	public function delete(){
 		$feed_id = $this->input->get('id', 'intval');
 		
-		Feed::service()->delete($feed_id);
+		FeedService::service()->delete($feed_id);
 		
 		$this->actionlog(Actionlogs::TYPE_FEED, '将动态移入回收站', $feed_id);
 		
@@ -347,7 +347,7 @@ class FeedController extends AdminController{
 	public function undelete(){
 		$feed_id = $this->input->get('id', 'intval');
 		
-		Feed::service()->undelete($feed_id);
+		FeedService::service()->undelete($feed_id);
 		
 		$this->actionlog(Actionlogs::TYPE_FEED, '将动态移出回收站', $feed_id);
 		
@@ -360,7 +360,7 @@ class FeedController extends AdminController{
 	public function remove(){
 		$feed_id = $this->input->get('id', 'intval');
 		
-		Feed::service()->remove($feed_id);
+		FeedService::service()->remove($feed_id);
 		
 		$this->actionlog(Actionlogs::TYPE_FEED, '将动态永久删除', $feed_id);
 		

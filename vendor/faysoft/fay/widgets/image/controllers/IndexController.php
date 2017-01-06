@@ -3,7 +3,7 @@ namespace fay\widgets\image\controllers;
 
 use fay\models\tables\Files;
 use fay\widget\Widget;
-use fay\services\File;
+use fay\services\FileService;
 
 class IndexController extends Widget{
 	public function initConfig($config){
@@ -28,22 +28,22 @@ class IndexController extends Widget{
 		
 		if(!$file){
 			//图片不存在
-			$src = File::getUrl($file, File::PIC_ORIGINAL, array(
+			$src = FileService::getUrl($file, FileService::PIC_ORIGINAL, array(
 				'spare'=>'default',
 			));
 		}else if(!$file['is_image']){
 			//该文件不是图片
-			$src = File::getThumbnailUrl($file);
+			$src = FileService::getThumbnailUrl($file);
 		}else if(!empty($this->config['width']) &&
 			!empty($this->config['height']) &&
 			$this->config['width'] == $file['image_width'] &&
 			$this->config['height'] == $file['image_height']
 		){
 			//有设置宽高，且宽高等于图片真实宽高，直接返回原图
-			$src = File::getUrl($file, File::PIC_ORIGINAL);
+			$src = FileService::getUrl($file, FileService::PIC_ORIGINAL);
 		}else{
 			//返回缩略图
-			$src = File::getUrl($file, File::PIC_RESIZE, array(
+			$src = FileService::getUrl($file, FileService::PIC_RESIZE, array(
 				'dw'=>empty($this->config['width']) ? false : $this->config['width'],
 				'dh'=>empty($this->config['height']) ?  false : $this->config['height'],
 			));

@@ -2,7 +2,7 @@
 namespace fay\models\tables;
 
 use fay\core\db\Table;
-use fay\services\Option;
+use fay\services\OptionService;
 
 /**
  * Users model
@@ -90,11 +90,11 @@ class Users extends Table{
 			array(array('block', 'admin'), 'range', array('range'=>array(0, 1))),
 		);
 		
-		if(Option::get('system:user_nickname_required')){
+		if(OptionService::get('system:user_nickname_required')){
 			$rules[] = array('nickname', 'required', array('on'=>'create'));
 		}
 		
-		if(Option::get('system:user_nickname_unique')){
+		if(OptionService::get('system:user_nickname_unique')){
 			$rules[] = array('nickname', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'nickname', 'ajax'=>array('api/user/is-nickname-not-exist')));
 			$rules[] = array('nickname', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-nickname-not-exist')));
 		}

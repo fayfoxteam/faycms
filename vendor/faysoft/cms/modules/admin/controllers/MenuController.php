@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\Menu;
+use fay\services\MenuService;
 use fay\models\tables\Menus;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
@@ -17,8 +17,8 @@ class MenuController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '导航栏';
-		$this->view->menus = Menu::service()->getTree('_user_menu', false, false);
-		$this->view->root = Menu::service()->get('_user_menu');
+		$this->view->menus = MenuService::service()->getTree('_user_menu', false, false);
+		$this->view->root = MenuService::service()->get('_user_menu');
 		if($this->checkPermission('admin/menu/create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
@@ -42,7 +42,7 @@ class MenuController extends AdminController{
 				$parent = $this->input->post('parent', 'intval', 0);
 				$sort = $this->input->post('sort', 'intval', 100);
 				
-				$menu_id = Menu::service()->create($parent, $sort, $data);
+				$menu_id = MenuService::service()->create($parent, $sort, $data);
 				
 				$this->actionlog(Actionlogs::TYPE_MENU, '添加菜单', $menu_id);
 				
@@ -61,7 +61,7 @@ class MenuController extends AdminController{
 	
 	public function remove(){
 		$id = $this->input->get('id', 'intval');
-		if(Menu::service()->remove($id)){
+		if(MenuService::service()->remove($id)){
 			$this->actionlog(Actionlogs::TYPE_MENU, '移除导航', $id);
 				
 			Response::notify('success', array(
@@ -74,7 +74,7 @@ class MenuController extends AdminController{
 	
 	public function removeAll(){
 		$id = $this->input->get('id', 'intval');
-		if(Menu::service()->removeAll($id)){
+		if(MenuService::service()->removeAll($id)){
 			$this->actionlog(Actionlogs::TYPE_MENU, '移除导航及其所有子节点', $id);
 		
 			Response::notify('success', array(
@@ -94,7 +94,7 @@ class MenuController extends AdminController{
 				$parent = $this->input->post('parent', 'intval', null);
 				$sort = $this->input->post('sort', 'intval', null);
 					
-				Menu::service()->update($id, $data, $sort, $parent);
+				MenuService::service()->update($id, $data, $sort, $parent);
 				
 				$this->actionlog(Actionlogs::TYPE_MENU, '编辑了菜单', $id);
 				
@@ -113,7 +113,7 @@ class MenuController extends AdminController{
 	
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		Menu::service()->sort($id, $this->input->get('sort', 'intval'));
+		MenuService::service()->sort($id, $this->input->get('sort', 'intval'));
 		$this->actionlog(Actionlogs::TYPE_MENU, '改变了菜单排序', $id);
 		
 		$node = Menus::model()->find($id, 'sort,title');
@@ -144,7 +144,7 @@ class MenuController extends AdminController{
 	 * 设置启用状态
 	 */
 	public function setEnabled(){
-		Menu::service()->update($this->input->get('id', 'intval'), array(
+		MenuService::service()->update($this->input->get('id', 'intval'), array(
 			'enabled'=>$this->input->get('enabled', 'intval', 0),
 		));
 		
@@ -158,9 +158,9 @@ class MenuController extends AdminController{
 	
 	public function admin(){
 		$this->layout->subtitle = '后台导航栏';
-		$this->view->menus = Menu::service()->getTree('_admin_menu', false, false);
-		$this->view->root = Menu::service()->get('_admin_menu');
-		if(Role::service()->is(Roles::ITEM_SUPER_ADMIN)){
+		$this->view->menus = MenuService::service()->getTree('_admin_menu', false, false);
+		$this->view->root = MenuService::service()->get('_admin_menu');
+		if(RoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加菜单集',

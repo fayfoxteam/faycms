@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <div class="page-header-fixed">
@@ -9,7 +9,7 @@ use fay\helpers\Html;
 		</div>
 		<div class="nav-center">
 			<div class="logo"><?php
-				$logo = Option::get('site:logo');
+				$logo = OptionService::get('site:logo');
 				if($logo){
 					echo Html::img($logo);
 				}else{

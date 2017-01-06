@@ -7,7 +7,7 @@ use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\services\post\Prop;
 use fay\models\tables\Actionlogs;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -54,7 +54,7 @@ class PostPropController extends AdminController{
 			$refer = $this->input->post('refer', 'intval');
 			$prop = $this->form()->getFilteredData();
 			$values = $this->input->post('prop_values', array());
-			$prop_id = Prop::service()->create($refer, $prop, $values);
+			$prop_id = PropService::service()->create($refer, $prop, $values);
 			
 			$this->actionlog(Actionlogs::TYPE_POST_CAT, '添加了一个文章分类属性', $prop_id);
 			
@@ -79,14 +79,14 @@ class PostPropController extends AdminController{
 			$prop_values = $this->input->post('prop_values', array());
 			$ids = $this->input->post('ids', 'intval', array('-1'));
 			
-			Prop::service()->update($refer, $prop_id, $prop, $prop_values, $ids);
+			PropService::service()->update($refer, $prop_id, $prop, $prop_values, $ids);
 			
 			$this->actionlog(Actionlogs::TYPE_POST_CAT, '编辑了文章分类属性信息', $prop_id);
 			
 			Response::notify('success', '文章分类属性编辑成功', false);
 		}
 		
-		$prop = Prop::service()->get($prop_id);
+		$prop = PropService::service()->get($prop_id);
 
 		if(!$prop){
 			throw new HttpException('所选文章分类属性不存在');
@@ -110,7 +110,7 @@ class PostPropController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		$prop = Props::model()->find($id, 'refer');
-		Prop::service()->delete($id);
+		PropService::service()->delete($id);
 		$this->actionlog(Actionlogs::TYPE_POST_CAT, '删除了一个文章分类属性', $id);
 		
 		//不能直接回到上一页，因为可能处在编辑状态
@@ -142,7 +142,7 @@ class PostPropController extends AdminController{
 	 * @param int $cat_id
 	 */
 	private function _setListview($cat_id){
-		$cat = Category::service()->get($cat_id, 'left_value,right_value');
+		$cat = CategoryService::service()->get($cat_id, 'left_value,right_value');
 		$cat_parents = Categories::model()->fetchCol('id', array(
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],

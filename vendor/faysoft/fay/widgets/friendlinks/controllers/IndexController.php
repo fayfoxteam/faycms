@@ -2,7 +2,7 @@
 namespace fay\widgets\friendlinks\controllers;
 
 use fay\widget\Widget;
-use fay\services\Link;
+use fay\services\LinkService;
 
 class IndexController extends Widget{
 	/**
@@ -31,7 +31,7 @@ class IndexController extends Widget{
 	}
 	
 	public function index(){
-		$links = Link::service()->get($this->config['cat_id'], $this->config['number']);
+		$links = LinkService::service()->get($this->config['cat_id'], $this->config['number']);
 		
 		//若内容可显示，则不显示该widget
 		if(empty($links)){

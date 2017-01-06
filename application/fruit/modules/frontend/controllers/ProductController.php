@@ -2,7 +2,7 @@
 namespace fruit\modules\frontend\controllers;
 
 use fruit\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 
 class ProductController extends FrontController{
 	public function __construct(){
@@ -17,7 +17,7 @@ class ProductController extends FrontController{
 	}
 	
 	public function item(){
-		$this->view->cats = Category::service()->getChildren('product');
+		$this->view->cats = CategoryService::service()->getChildren('product');
 		
 		$this->view->render();
 	}

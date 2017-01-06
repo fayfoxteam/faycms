@@ -2,7 +2,7 @@
 namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
-use fay\services\Option;
+use fay\services\OptionService;
 use apidoc\models\tables\Models;
 
 class IndexController extends FrontController{
@@ -21,7 +21,7 @@ class IndexController extends FrontController{
 	
 	public function index(){
 		$this->layout->assign(array(
-			'title'=>Option::get('site:sitename'),
+			'title'=>OptionService::get('site:sitename'),
 			'canonical'=>$this->view->url(),
 		));
 		

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div>
 	<div id="index-slide">
@@ -16,7 +16,7 @@ use fay\services\File;
 			<h3 class="sec-title"><span>我们的故事</span></h3>
 			<div class="clearfix item-content">
 				<figure>
-					<?php echo Html::img($about['thumbnail'], File::PIC_ORIGINAL, array(
+					<?php echo Html::img($about['thumbnail'], FileService::PIC_ORIGINAL, array(
 						'width'=>false,
 						'height'=>false,
 					))?>
@@ -30,7 +30,7 @@ use fay\services\File;
 				<ul class="clearfix" id="product-list">
 				<?php foreach($products as $p){?>
 					<li><a href="<?php echo $this->url('product/'.$p['id'])?>"
-						title="<?php echo Html::encode($p['title'])?>"><?php echo Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+						title="<?php echo Html::encode($p['title'])?>"><?php echo Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 						'dw'=>268,
 						'dh'=>242,
 						'alt'=>Html::encode($p['title']),

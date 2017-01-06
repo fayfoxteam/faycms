@@ -4,9 +4,9 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\post\Like as PostLike;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\helpers\FieldHelper;
-use fay\services\User;
+use fay\services\UserService;
 
 /**
  * 文章点赞
@@ -125,7 +125,7 @@ class PostLikeController extends ApiController{
 			$fields = User::$default_fields;
 		}
 		
-		$likes = PostLike::service()->getPostLikes($post_id,
+		$likes = PostLikeService::service()->getPostLikes($post_id,
 			$fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
@@ -164,7 +164,7 @@ class PostLikeController extends ApiController{
 			$fields = Post::$default_fields;
 		}
 		
-		$likes = PostLike::service()->getUserLikes($fields,
+		$likes = PostLikeService::service()->getUserLikes($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
 		Response::json($likes);

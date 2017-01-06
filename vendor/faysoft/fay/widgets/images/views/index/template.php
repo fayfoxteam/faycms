@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 
 /**
  * @var $widget \fay\widgets\images\controllers\IndexController
@@ -13,7 +13,7 @@ use fay\services\File;
 		if(empty($f['link'])){
 			$f['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($f['file_id'], File::PIC_ORIGINAL, array(
+		echo Html::link(Html::img($f['file_id'], FileService::PIC_ORIGINAL, array(
 			'width'=>false,
 			'height'=>false,
 			'alt'=>Html::encode($f['title']),

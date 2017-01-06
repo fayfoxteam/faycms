@@ -1,11 +1,11 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <li>
 	<div class="avatar">
-		<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
+		<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 			'alt'=>$data['nickname'],
 			'spare'=>'avatar',
 		)), array('u/'.$data['user_id']), array(

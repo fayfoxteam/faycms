@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <div class="g-con">
 	<div class="g-mn">
@@ -52,7 +52,7 @@ $(function(){
 	map.addOverlay(marker1);              // 将标注添加到地图中
 
 	//创建信息窗口
-	var infoWindow1 = new BMap.InfoWindow("<?php echo Option::get('site:sitename')?>");
+	var infoWindow1 = new BMap.InfoWindow("<?php echo OptionService::get('site:sitename')?>");
 	marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
 
 

@@ -2,7 +2,7 @@
 namespace fay\widgets\baidu_map\controllers;
 
 use fay\widget\Widget;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class AdminController extends Widget{
 	public function index(){
@@ -11,7 +11,7 @@ class AdminController extends Widget{
 	
 	public function onPost(){
 		$this->saveConfig($this->form->getFilteredData());
-		Flash::set('编辑成功', 'success');
+		FlashService::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

@@ -138,7 +138,7 @@ class SciController extends AdminController{
 //			die;
 //		}
 //
-//		$cats = Category::service()->getTree($cat_alias);
+//		$cats = CategoryService::service()->getTree($cat_alias);
 //		echo json_encode(array(
 //			'status'=>1,
 //			'data'=>Html::getSelectOptions($cats, 'id', 'title')
@@ -149,8 +149,8 @@ class SciController extends AdminController{
 //		$this->layout->current_directory = 'bill';
 //
 //		$this->layout->subtitle = '记账分类';
-//		$this->view->cats = Category::service()->getTree('_system_bill');
-//		$root_node = Category::service()->getByAlias('_system_bill', 'id');
+//		$this->view->cats = CategoryService::service()->getTree('_system_bill');
+//		$root_node = CategoryService::service()->getByAlias('_system_bill', 'id');
 //		$this->view->root = $root_node['id'];
 //
 //		$this->view->render();

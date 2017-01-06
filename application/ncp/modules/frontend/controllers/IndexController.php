@@ -3,10 +3,10 @@ namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
 use fay\models\Prop;
-use fay\services\Category;
-use fay\services\Post;
+use fay\services\CategoryService;
+use fay\services\PostService;
 use ncp\models\Recommend;
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\ArrayHelper;
 
 class IndexController extends FrontController{
@@ -22,27 +22,27 @@ class IndexController extends FrontController{
 	
 	public function index(){
 		//全部地区
-		$areas = Prop::service()->getPropOptionsByAlias('area');
+		$areas = PropService::service()->getPropOptionsByAlias('area');
 		
 		$travels = array();
 		$foods = array();
 		$products = array();
 
-		$travel_cat = Category::service()->getByAlias('travel');
-		$food_cat = Category::service()->getByAlias('food');
-		$product_cat = Category::service()->getByAlias('product');
+		$travel_cat = CategoryService::service()->getByAlias('travel');
+		$food_cat = CategoryService::service()->getByAlias('food');
+		$product_cat = CategoryService::service()->getByAlias('product');
 		
-		$prop_area = Prop::service()->getIdByAlias('area');
+		$prop_area = PropService::service()->getIdByAlias('area');
 		
 		foreach($areas as $a){
-			$travel_top = Post::service()->getByProp($prop_area, $a['id'], 4, $travel_cat['id']);
+			$travel_top = PostService::service()->getByProp($prop_area, $a['id'], 4, $travel_cat['id']);
 			$not = ArrayHelper::column($travel_top, 'id');
 			$travels[] = array(
 				'top'=>$travel_top,
-				'recommend'=>Recommend::model()->getByCatAndArea($travel_cat, 6, Option::get('site:index_travel_recommend_days'), $a['id'], $not),
+				'recommend'=>Recommend::model()->getByCatAndArea($travel_cat, 6, OptionService::get('site:index_travel_recommend_days'), $a['id'], $not),
 			);
-			$foods[] = Post::service()->getByProp($prop_area, $a['id'], 4, $food_cat['id']);
-			$products[] = Post::service()->getByProp($prop_area, $a['id'], 7, $product_cat['id']);
+			$foods[] = PostService::service()->getByProp($prop_area, $a['id'], 4, $food_cat['id']);
+			$products[] = PostService::service()->getByProp($prop_area, $a['id'], 7, $product_cat['id']);
 		}
 		
 		$this->view->assign(array(

@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\core\Response;
 
 class SiteController extends AdminController{
@@ -18,7 +18,7 @@ class SiteController extends AdminController{
 			$data = $this->input->post();
 			unset($data['_submit']);//提交按钮不用保存
 			foreach($data as $key=>$value){
-				Option::set($key, $value);
+				OptionService::set($key, $value);
 			}
 			Response::notify('success', '保存成功');
 		}

@@ -69,7 +69,7 @@ class TestController extends AdminController{
 			if($valid === true){
 				pr($this->input->post());
 			}else{
-				//Flash::set(pr($valid, true, true));
+				//FlashService::set(pr($valid, true, true));
 				dump($this->form()->getErrors());
 			}
 		}

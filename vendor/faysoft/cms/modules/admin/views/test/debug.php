@@ -1,5 +1,5 @@
 <?php
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\Html;
 use fay\core\Uri;
 
@@ -35,7 +35,7 @@ $_backtrace = debug_backtrace(false);
 			</div>
 			<div class="code-wrap" <?php if(!$k)echo 'style="display:block"'?>>
 				<pre class="prettyprint linenums:<?php echo $b['line'] - 10 < 1 ? 1 : $b['line'] - 10?>" data-line="<?php echo $b['line']?>"><?php
-					echo Html::encode(File::getFileLine($b['file'], $b['line'], 10));
+					echo Html::encode(FileService::getFileLine($b['file'], $b['line'], 10));
 				?></pre>
 			</div>
 		</div>

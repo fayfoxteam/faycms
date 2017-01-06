@@ -1,39 +1,39 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <form id="form" action="" method="post" class="validform">
 	<div class="form-field">
 		<label class="title">站点名称</label>
-		<?php echo Html::inputText('site:sitename', Option::get('site:sitename'), array(
+		<?php echo Html::inputText('site:sitename', OptionService::get('site:sitename'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>
 	</div>
 	<div class="form-field">
 		<label class="title">版权信息</label>
-		<?php echo Html::inputText('site:copyright', Option::get('site:copyright'), array(
+		<?php echo Html::inputText('site:copyright', OptionService::get('site:copyright'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>
 	</div>
 	<div class="form-field">
 		<label class="title">电话</label>
-		<?php echo Html::inputText('site:phone', Option::get('site:phone'), array(
+		<?php echo Html::inputText('site:phone', OptionService::get('site:phone'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>
 	</div>
 	<div class="form-field">
 		<label class="title">传真</label>
-		<?php echo Html::inputText('site:fax', Option::get('site:fax'), array(
+		<?php echo Html::inputText('site:fax', OptionService::get('site:fax'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>
 	</div>
 	<div class="form-field">
 		<label class="title">电子邮箱</label>
-		<?php echo Html::inputText('site:email', Option::get('site:email'), array(
+		<?php echo Html::inputText('site:email', OptionService::get('site:email'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 			'datatype'=>'e',
@@ -41,7 +41,7 @@ use fay\services\Option;
 	</div>
 	<div class="form-field">
 		<label class="title">公司地址</label>
-		<?php echo Html::inputText('site:address', Option::get('site:address'), array(
+		<?php echo Html::inputText('site:address', OptionService::get('site:address'), array(
 			'class'=>'w300',
 			'ignore'=>'ignore',
 		))?>

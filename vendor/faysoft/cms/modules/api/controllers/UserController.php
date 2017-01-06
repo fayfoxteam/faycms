@@ -6,7 +6,7 @@ use fay\models\tables\Users;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
-use fay\services\User;
+use fay\services\UserService;
 
 /**
  * 用户
@@ -141,7 +141,7 @@ class UserController extends ApiController{
 			$fields = User::$default_fields;
 		}
 		
-		$user = User::service()->get($id, $fields);
+		$user = UserService::service()->get($id, $fields);
 		if($user){
 			Response::json($user);
 		}else{

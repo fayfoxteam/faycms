@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
 use fay\helpers\Html;
@@ -126,8 +126,8 @@ $(function(){
 	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
 	post.post_id = <?php echo $post['id']?>;
-	<?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN) && Option::get('system:post_role_cats')){?>
-		post.roleCats = <?php echo json_encode(Category::service()->getAllowedCatIds())?>;
+	<?php if(!RoleService::service()->is(Roles::ITEM_SUPER_ADMIN) && OptionService::get('system:post_role_cats')){?>
+		post.roleCats = <?php echo json_encode(CategoryService::service()->getAllowedCatIds())?>;
 	<?php }?>
 	post.init();
 });

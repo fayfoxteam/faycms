@@ -1,13 +1,13 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <div class="page-title">
 	<div class="container">
 		<h1><?php echo Html::encode($page['title'])?></h1>
 		<div class="breadcrumbs">
 			<ol>
-				<li><?php echo Html::link(Option::get('site:sitename'), null)?></li>
+				<li><?php echo Html::link(OptionService::get('site:sitename'), null)?></li>
 				<li>关于我们</li>
 			</ol>
 		</div>

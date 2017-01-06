@@ -1,5 +1,5 @@
 <?php 
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\Html;
 use fay\helpers\StringHelper;
 ?>
@@ -10,7 +10,7 @@ use fay\helpers\StringHelper;
 		<li class="clearfix">
 			<?php 
 			if($p['thumbnail']){
-				echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+				echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 					'dw'=>100,
 					'dh'=>78,
 					'alt'=>Html::encode($p['title']),

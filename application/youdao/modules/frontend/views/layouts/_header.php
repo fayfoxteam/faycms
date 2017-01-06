@@ -1,9 +1,9 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <header id="masthead">
 	<hgroup>
-		<h1 class="fixpng"><?php echo Option::get('site:sitename')?></h1>
+		<h1 class="fixpng"><?php echo OptionService::get('site:sitename')?></h1>
 		<h2 class="fixpng">诚信为本 合作共赢 专业团队 验厂无忧</h2>
 	</hgroup>
 	<form id="searchform" method="get" action="<?php echo $this->url('post/index')?>">
@@ -16,7 +16,7 @@ use fay\services\Option;
 	<div id="header-options">
 		<a onclick="homePage(this)" href="#">设为首页</a>
 		|
-		<a onclick="AddFavorite('<?php echo $this->url()?>', '<?php echo Option::get('site:sitename')?>')" href="javascript:void(0);">加入收藏</a>
+		<a onclick="AddFavorite('<?php echo $this->url()?>', '<?php echo OptionService::get('site:sitename')?>')" href="javascript:void(0);">加入收藏</a>
 	</div>
 	<?php include '_navigation.php'?>
 </header>

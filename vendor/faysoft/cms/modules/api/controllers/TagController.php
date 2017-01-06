@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\Tag;
+use fay\services\TagService;
 use fay\models\tables\TagCounter;
 
 /**
@@ -49,7 +49,7 @@ class TagController extends ApiController{
 				$order = "tc.{$type} DESC";
 		}
 		
-		Response::json(Tag::service()->getList(
+		Response::json(TagService::service()->getList(
 			$order,
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1)

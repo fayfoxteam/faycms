@@ -1,12 +1,12 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <ul class="clearfix">
 <?php foreach($posts as $post){?>
 	<li>
 		<div class="inner">
-			<figure><?php echo Html::img($post['post']['thumbnail'], File::PIC_RESIZE, array(
+			<figure><?php echo Html::img($post['post']['thumbnail'], FileService::PIC_RESIZE, array(
 				'dw'=>362,
 				'dh'=>240,
 			))?></figure>

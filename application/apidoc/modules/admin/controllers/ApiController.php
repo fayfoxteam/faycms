@@ -4,9 +4,9 @@ namespace apidoc\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\Setting;
+use fay\services\SettingService;
 use fay\helpers\ArrayHelper;
-use fay\services\Category;
+use fay\services\CategoryService;
 use apidoc\models\tables\Apis;
 use apidoc\models\tables\Inputs;
 use fay\core\Response;
@@ -130,7 +130,7 @@ class ApiController extends AdminController{
 		$this->view->status_counts = ArrayHelper::column($status_counts, 'count', 'status');
 		
 		//查找api分类
-		$this->view->cats = Category::service()->getTree('_system_api');
+		$this->view->cats = CategoryService::service()->getTree('_system_api');
 		
 		$this->view->render();
 	}
@@ -192,10 +192,10 @@ class ApiController extends AdminController{
 		}
 		
 		//分类树
-		$this->view->cats = Category::service()->getTree('_system_api');
+		$this->view->cats = CategoryService::service()->getTree('_system_api');
 		
 		//可配置信息
-		$_box_sort_settings = Setting::service()->get('admin_api_box_sort');
+		$_box_sort_settings = SettingService::service()->get('admin_api_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -328,10 +328,10 @@ class ApiController extends AdminController{
 		$this->view->inputs = Inputs::model()->fetchAll('api_id = '.$api_id, '*', 'required DESC, name ASC');
 		
 		//分类树
-		$this->view->cats = Category::service()->getTree('_system_api');
+		$this->view->cats = CategoryService::service()->getTree('_system_api');
 		
 		//可配置信息
-		$_box_sort_settings = Setting::service()->get('admin_api_box_sort');
+		$_box_sort_settings = SettingService::service()->get('admin_api_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -376,8 +376,8 @@ class ApiController extends AdminController{
 		));
 		
 		$this->layout->subtitle = 'API分类';
-		$this->view->cats = Category::service()->getTree('_system_api');
-		$root_node = Category::service()->getByAlias('_system_api', 'id');
+		$this->view->cats = CategoryService::service()->getTree('_system_api');
+		$root_node = CategoryService::service()->getByAlias('_system_api', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/api/cat-create')){

@@ -2,15 +2,15 @@
 namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\core\HttpException;
 use fay\core\db\Expr;
 use ncp\models\Recommend;
-use fay\services\Option;
+use fay\services\OptionService;
 
 class NewsController extends FrontController{
 	public function __construct(){
@@ -26,7 +26,7 @@ class NewsController extends FrontController{
 			'page'=>'intval',
 			'keywords'=>'trim',
 		))->check()){
-			$cat = Category::service()->getByAlias('news');
+			$cat = CategoryService::service()->getByAlias('news');
 
 			$this->layout->title = $cat['title'];
 			$this->layout->keywords = $cat['seo_keywords'];
@@ -55,8 +55,8 @@ class NewsController extends FrontController{
 				'page_size'=>10,
 			));
 			
-			$product_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-			$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, Option::get('site:right_recommend_days'));
+			$product_cat = CategoryService::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
+			$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, OptionService::get('site:right_recommend_days'));
 			
 			$this->view->render();
 			
@@ -68,7 +68,7 @@ class NewsController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::service()->get($id, 'nav.id,nav.title', 'news')){
+		if(!$id || !$post = PostService::service()->get($id, 'nav.id,nav.title', 'news')){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
@@ -82,8 +82,8 @@ class NewsController extends FrontController{
 		
 		$this->view->post = $post;
 		
-		$food_cat = Category::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-		$this->view->right_posts = Recommend::model()->getByCatAndArea($food_cat, 6, Option::get('site:right_recommend_days'));
+		$food_cat = CategoryService::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
+		$this->view->right_posts = Recommend::model()->getByCatAndArea($food_cat, 6, OptionService::get('site:right_recommend_days'));
 		
 		$this->view->render();
 	}

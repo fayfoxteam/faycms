@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!doctype html>
@@ -26,7 +26,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <title><?php if(!empty($title)){
 	echo $title, '_';
 }
-echo Option::get('site:sitename')?></title>
+echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <?php include '_site_nav.php'?>

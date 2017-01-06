@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <form id="system-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
 	<div class="row">
@@ -11,9 +11,9 @@ use fay\services\Option;
 			<div class="form-field">
 				<label class="title">是否启用文章审核功能</label>
 				<?php
-					echo Html::inputRadio('system:post_review', 1, Option::get('system:post_review') != 0, array(
+					echo Html::inputRadio('system:post_review', 1, OptionService::get('system:post_review') != 0, array(
 						'label'=>'是',
-					)), Html::inputRadio('system:post_review', 0, Option::get('system:post_review') == 0, array(
+					)), Html::inputRadio('system:post_review', 0, OptionService::get('system:post_review') == 0, array(
 						'label'=>'否',
 					));
 				?>
@@ -21,9 +21,9 @@ use fay\services\Option;
 			<div class="form-field">
 				<label class="title">是否启用角色文章分类权限控制</label>
 				<?php
-					echo Html::inputRadio('system:post_role_cats', 1, Option::get('system:post_role_cats') != 0, array(
+					echo Html::inputRadio('system:post_role_cats', 1, OptionService::get('system:post_role_cats') != 0, array(
 						'label'=>'是',
-					)), Html::inputRadio('system:post_role_cats', 0, Option::get('system:post_role_cats') == 0, array(
+					)), Html::inputRadio('system:post_role_cats', 0, OptionService::get('system:post_role_cats') == 0, array(
 						'label'=>'否',
 					));
 				?>
@@ -31,9 +31,9 @@ use fay\services\Option;
 			<div class="form-field">
 				<label class="title">是否仅显示通过审核的文章评论</label>
 				<?php
-					echo Html::inputRadio('system:post_comment_verify', 1, Option::get('system:post_comment_verify') != 0, array(
+					echo Html::inputRadio('system:post_comment_verify', 1, OptionService::get('system:post_comment_verify') != 0, array(
 						'label'=>'是',
-					)), Html::inputRadio('system:post_comment_verify', 0, Option::get('system:post_comment_verify') == 0, array(
+					)), Html::inputRadio('system:post_comment_verify', 0, OptionService::get('system:post_comment_verify') == 0, array(
 						'label'=>'否',
 					));
 				?>
@@ -43,7 +43,7 @@ use fay\services\Option;
 			</div>
 			<div class="form-field">
 				<label class="title">输出图片质量</label>
-				<?php echo Html::inputText('system:image_quality', Option::get('system:image_quality', 75), array(
+				<?php echo Html::inputText('system:image_quality', OptionService::get('system:image_quality', 75), array(
 					'class'=>'form-control mw200',
 				))?>
 			</div>
@@ -56,9 +56,9 @@ use fay\services\Option;
 			<div class="form-field">
 				<label class="title">用户昵称必填</label>
 				<?php
-					echo Html::inputRadio('system:user_nickname_required', 1, Option::get('system:user_nickname_required') != 0, array(
+					echo Html::inputRadio('system:user_nickname_required', 1, OptionService::get('system:user_nickname_required') != 0, array(
 						'label'=>'是',
-					)), Html::inputRadio('system:user_nickname_required', 0, Option::get('system:user_nickname_required') == 0, array(
+					)), Html::inputRadio('system:user_nickname_required', 0, OptionService::get('system:user_nickname_required') == 0, array(
 						'label'=>'否',
 					));
 				?>
@@ -66,9 +66,9 @@ use fay\services\Option;
 			<div class="form-field">
 				<label class="title">用户昵称唯一</label>
 				<?php
-					echo Html::inputRadio('system:user_nickname_unique', 1, Option::get('system:user_nickname_unique') != 0, array(
+					echo Html::inputRadio('system:user_nickname_unique', 1, OptionService::get('system:user_nickname_unique') != 0, array(
 						'label'=>'是',
-					)), Html::inputRadio('system:user_nickname_unique', 0, Option::get('system:user_nickname_unique') == 0, array(
+					)), Html::inputRadio('system:user_nickname_unique', 0, OptionService::get('system:user_nickname_unique') == 0, array(
 						'label'=>'否',
 					));
 				?>

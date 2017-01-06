@@ -67,14 +67,14 @@ class PostController extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'post';
-		$this->post_review = !!(Option::get('system:post_review'));
-		$this->role_cats = !!(Option::get('system:post_role_cats'));
+		$this->post_review = !!(OptionService::get('system:post_review'));
+		$this->role_cats = !!(OptionService::get('system:post_role_cats'));
 	}
 	
 	public function create(){
 		$cat_id = $this->input->get('cat_id', 'intval');
-		$cat_id || $cat_id = Category::service()->getIdByAlias('_system_post');
-		$cat = Category::service()->get($cat_id, 'title,left_value,right_value');
+		$cat_id || $cat_id = CategoryService::service()->getIdByAlias('_system_post');
+		$cat = CategoryService::service()->get($cat_id, 'title,left_value,right_value');
 		
 		if(!$cat){
 			throw new HttpException('所选分类不存在');
@@ -160,14 +160,14 @@ class PostController extends AdminController{
 		}
 		
 		//设置附加属性
-		$this->view->prop_set = Prop::service()->getPropsByCat($cat_id);
+		$this->view->prop_set = PropService::service()->getPropsByCat($cat_id);
 		
 		$this->form()->setData(array(
 			'cat_id'=>$cat_id,
 		));
 		
 		//box排序
-		$_box_sort_settings = Setting::service()->get('admin_post_box_sort');
+		$_box_sort_settings = SettingService::service()->get('admin_post_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -178,7 +178,7 @@ class PostController extends AdminController{
 		));
 		
 		//所有文章分类
-		$this->view->cats = Category::service()->getTree('_system_post');
+		$this->view->cats = CategoryService::service()->getTree('_system_post');
 		
 		//标题
 		if(in_array('main_category', $enabled_boxes)){
@@ -253,7 +253,7 @@ class PostController extends AdminController{
 		//列表页会根据enabled_boxes决定是否显示某些列
 		$this->view->enabled_boxes = $this->getEnabledBoxes('admin_post_boxes');
 		//查找文章分类
-		$this->view->cats = Category::service()->getTree('_system_post');
+		$this->view->cats = CategoryService::service()->getTree('_system_post');
 		
 		$sql = new Sql();
 		$count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
@@ -273,7 +273,7 @@ class PostController extends AdminController{
 		if($cat_id){
 			if($this->input->get('with_child')){
 				//包含子分类搜索
-				$cats = Category::service()->getChildIds($cat_id);
+				$cats = CategoryService::service()->getChildIds($cat_id);
 				if($this->input->get('with_slave')){
 					$orWhere = array(
 						"p.cat_id = {$cat_id}",
@@ -408,15 +408,15 @@ class PostController extends AdminController{
 			throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 		}
 		
-		$cat = Category::service()->get($post['cat_id'], 'title,left_value,right_value');
+		$cat = CategoryService::service()->get($post['cat_id'], 'title,left_value,right_value');
 		
 		//若分类已被删除，将文章归为根分类
 		if(!$cat){
-			$cat = Category::service()->getByAlias('_system_post', 'id,title,left_value,right_value');
+			$cat = CategoryService::service()->getByAlias('_system_post', 'id,title,left_value,right_value');
 			Posts::model()->update(array(
 				'cat_id'=>$cat['id'],
 			), $post_id);
-			Flash::set('文章所属分类不存在，请重新设置文章分类', 'info');
+			FlashService::set('文章所属分类不存在，请重新设置文章分类', 'info');
 		}
 		
 		$this->form()->setModel(Posts::model())
@@ -431,7 +431,7 @@ class PostController extends AdminController{
 				$this->form()->setData(array(
 					'status'=>Posts::STATUS_DRAFT,
 				), true);
-				Flash::set('文章状态异常，被强制修改为“草稿”', 'info');
+				FlashService::set('文章状态异常，被强制修改为“草稿”', 'info');
 			}
 			
 			//筛选出文章相关字段
@@ -529,7 +529,7 @@ class PostController extends AdminController{
 		$this->form()->setData(array('tags'=>implode(',', $tags_arr)));
 		
 		//分类树
-		$this->view->cats = Category::service()->getTree('_system_post');
+		$this->view->cats = CategoryService::service()->getTree('_system_post');
 		
 		//post files
 		$this->view->files = PostsFiles::model()->fetchAll(array(
@@ -540,9 +540,9 @@ class PostController extends AdminController{
 		$this->view->post = $post;
 		
 		//附加属性
-		$this->view->prop_set = Prop::service()->getPropertySet($post['id']);
+		$this->view->prop_set = PropService::service()->getPropertySet($post['id']);
 		
-		$cat = Category::service()->get($post['cat_id'], 'title');
+		$cat = CategoryService::service()->get($post['cat_id'], 'title');
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
 		if($this->checkPermission('admin/post/create')){
 			$this->layout->sublink = array(
@@ -554,7 +554,7 @@ class PostController extends AdminController{
 		}
 		
 		//box排序
-		$_box_sort_settings = Setting::service()->get('admin_post_box_sort');
+		$_box_sort_settings = SettingService::service()->get('admin_post_box_sort');
 		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
 		$this->view->_box_sort_settings = $_box_sort_settings;
 		
@@ -646,9 +646,9 @@ class PostController extends AdminController{
 		$post_id = $this->input->get('post_id', 'intval');
 		
 		//文章对应附加属性值
-		$props = Prop::service()->getPropsByCat($cat_id);
+		$props = PropService::service()->getPropsByCat($cat_id);
 		if($post_id){
-			$this->view->prop_set = Prop::service()->getPropertySet($post_id, $props);
+			$this->view->prop_set = PropService::service()->getPropertySet($post_id, $props);
 		}else{
 			$this->view->prop_set = $props;
 		}
@@ -669,8 +669,8 @@ class PostController extends AdminController{
 		));
 		
 		$this->layout->subtitle = '文章分类';
-		$this->view->cats = Category::service()->getTree('_system_post');
-		$root_node = Category::service()->getByAlias('_system_post', 'id');
+		$this->view->cats = CategoryService::service()->getTree('_system_post');
+		$root_node = CategoryService::service()->getByAlias('_system_post', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/post/cat-create')){
@@ -700,7 +700,7 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Post::service()->batchPublish($ids);
+				$affected_rows = PostService::service()->batchPublish($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被发布');
 				Response::notify('success', count($affected_rows) . '篇文章被发布');
@@ -712,7 +712,7 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Post::service()->batchDraft($ids);
+				$affected_rows = PostService::service()->batchDraft($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“草稿”');
 				Response::notify('success', count($affected_rows) . '篇文章被标记为“草稿”');
@@ -724,7 +724,7 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Post::service()->batchPending($ids);
+				$affected_rows = PostService::service()->batchPending($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“待审核”');
 				Response::notify('success', count($affected_rows) . '篇文章被标记为“待审核”');
@@ -736,7 +736,7 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Post::service()->batchReviewed($ids);
+				$affected_rows = PostService::service()->batchReviewed($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“通过审核”');
 				Response::notify('success', count($affected_rows) . '篇文章被标记为“通过审核”');
@@ -748,7 +748,7 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Post::service()->batchDelete($ids);
+				$affected_rows = PostService::service()->batchDelete($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被移入回收站');
 				Response::notify('success', count($affected_rows) . '篇文章被移入回收站');
@@ -760,7 +760,7 @@ class PostController extends AdminController{
 					}
 				}
 				
-				$affected_rows = Post::service()->batchUndelete($ids);
+				$affected_rows = PostService::service()->batchUndelete($ids);
 				
 				$this->actionlog(Actionlogs::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被还原');
 				Response::notify('success', count($affected_rows) . '篇文章被还原');
@@ -810,7 +810,7 @@ class PostController extends AdminController{
 	 */
 	public function search(){
 		if($cat_id = $this->input->request('cat_id', 'intval')){
-			$cats = Category::service()->getChildIds($cat_id);
+			$cats = CategoryService::service()->getChildIds($cat_id);
 			$cats[] = $cat_id;
 		}
 		$posts = Posts::model()->fetchAll(array(

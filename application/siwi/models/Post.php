@@ -2,7 +2,7 @@
 namespace siwi\models;
 
 use fay\core\Model;
-use fay\services\Category;
+use fay\services\CategoryService;
 
 class Post extends Model{
 	public $cats = array();
@@ -15,9 +15,9 @@ class Post extends Model{
 	}
 	
 	public function getType($cat_id){
-		$cat = Category::service()->get($cat_id, 'left_value,right_value');
+		$cat = CategoryService::service()->get($cat_id, 'left_value,right_value');
 		if(empty($this->cats)){
-			$this->cats = Category::service()->getNextLevel('_system_post', 'alias,left_value,right_value');
+			$this->cats = CategoryService::service()->getNextLevel('_system_post', 'alias,left_value,right_value');
 		}
 		
 		foreach($this->cats as $c){

@@ -1,12 +1,12 @@
 <?php
-use fay\services\Option;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FlashService;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo Option::get('site:sitename')?>--学生登录</title>
+<title><?php echo OptionService::get('site:sitename')?>--学生登录</title>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <link href="<?php echo $this->appStatic('css/login.css')?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo $this->appStatic('css/box.css')?>" rel="stylesheet" type="text/css" />
@@ -41,7 +41,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
                     </td>
 	        </tr>
     	    <tr>
-    	        <td height="40" colspan="2" align="center"><?php echo Option::get('site:copyright')?></td>
+    	        <td height="40" colspan="2" align="center"><?php echo OptionService::get('site:copyright')?></td>
     	        </tr>
 	    </table>
     </div>
@@ -51,6 +51,6 @@ system.user_id = '<?php echo \F::app()->current_user?>';
     <div id="BoxContents"></div>
     <div id="AlphaBox"></div>
 </div>
-<?php echo Flash::get();?>
+<?php echo FlashService::get();?>
 </body>
 </html>

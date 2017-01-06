@@ -2,13 +2,13 @@
 namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
-use fay\services\Page;
+use fay\services\PageService;
 use fay\models\tables\Pages;
 use fay\core\HttpException;
 
 class PageController extends FrontController{
 	public function item(){
-		$page = Page::service()->get($this->input->get('id', 'intval'));
+		$page = PageService::service()->get($this->input->get('id', 'intval'));
 		
 		if(!$page){
 			throw new HttpException('页面不存在');

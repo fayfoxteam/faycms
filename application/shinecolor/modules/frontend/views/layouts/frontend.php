@@ -1,6 +1,6 @@
 <?php
-use fay\services\Option;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FlashService;
 use fay\core\Uri;
 ?>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ system.current_user = '<?php echo \F::app()->current_user?>';
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get(site.sitename)?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get(site.sitename)?></title>
 </head>
 <body>
 <?php 
@@ -39,7 +39,7 @@ system.current_user = '<?php echo \F::app()->current_user?>';
 	}
 	echo $content;
 	include '_footer.php';
-	echo Flash::get();
+	echo FlashService::get();
 ?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>

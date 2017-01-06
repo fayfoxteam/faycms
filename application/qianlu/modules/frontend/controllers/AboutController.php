@@ -3,7 +3,7 @@ namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
 use fay\models\tables\Pages;
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\core\HttpException;
 
 class AboutController extends FrontController{
@@ -16,7 +16,7 @@ class AboutController extends FrontController{
 		}
 		$this->view->page = $page;
 		//SEO
-		$this->layout->title = $page['seo_title'] ? $page['seo_title'] : $page['title'] . ' | ' . Option::get('site:seo_index_title');
+		$this->layout->title = $page['seo_title'] ? $page['seo_title'] : $page['title'] . ' | ' . OptionService::get('site:seo_index_title');
 		$this->layout->keywords = $page['seo_keywords'] ? $page['seo_keywords'] : $page['title'];
 		$this->layout->description = $page['seo_description'] ? $page['seo_description'] : $page['abstract'];
 		

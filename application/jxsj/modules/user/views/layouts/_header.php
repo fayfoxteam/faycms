@@ -1,13 +1,13 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <header class="g-hd">
 	<div class="w1000">
-		<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo Option::get('site:sitename')?>" class="hd-logo" />
+		<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo OptionService::get('site:sitename')?>" class="hd-logo" />
 		<div class="hd-options">
 			<a onclick="homePage(this)" href="#">设为首页</a>
 			|
-			<a onclick="AddFavorite('<?php echo $this->url()?>', '<?php echo Option::get('site:sitename')?>')" href="javascript:void(0);">加入收藏</a>
+			<a onclick="AddFavorite('<?php echo $this->url()?>', '<?php echo OptionService::get('site:sitename')?>')" href="javascript:void(0);">加入收藏</a>
 			|
 			<a href="">联系我们</a>
 		</div>
@@ -21,7 +21,7 @@ function AddFavorite(sURL, sTitle){
 		try{
 			window.sidebar.addPanel(sTitle, sURL, "");
 		}catch (e){
-			alert("你的浏览器不支持加入收藏功能，请快捷键来CTRL+D来加入<?php echo Option::get('site:sitename')?>");
+			alert("你的浏览器不支持加入收藏功能，请快捷键来CTRL+D来加入<?php echo OptionService::get('site:sitename')?>");
 		}
 	}
 };

@@ -2,7 +2,7 @@
 namespace fay\core;
 
 use fay\helpers\UrlHelper;
-use fay\services\Flash;
+use fay\services\FlashService;
 use fay\helpers\StringHelper;
 use fay\helpers\SqlHelper;
 use fay\helpers\Request;
@@ -155,11 +155,11 @@ class Response{
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash
-				Flash::set($data['message'], $status);
+				FlashService::set($data['message'], $status);
 			}else if($status == 'success'){
-				Flash::set('操作成功', $status);
+				FlashService::set('操作成功', $status);
 			}else{
-				Flash::set('操作失败', $status);
+				FlashService::set('操作失败', $status);
 			}
 
 			if($redirect === true){

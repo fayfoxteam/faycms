@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ use fay\helpers\Html;
 	<title><?php if(!empty($title)){
 			echo $title, ' | ';
 		}
-		echo Option::get('site:sitename')?></title>
+		echo OptionService::get('site:sitename')?></title>
 	<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 	<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -36,7 +36,7 @@ use fay\helpers\Html;
 	<?php echo $content?>
 	<?php $this->renderPartial('layouts/_footer');?>
 	<div class="page-copyright">
-		<span><?php echo Option::get('site:copyright')?></span>
+		<span><?php echo OptionService::get('site:copyright')?></span>
 	</div>
 </div>
 <a href="#" class="scroll-to-top" title="回到顶部"></a>

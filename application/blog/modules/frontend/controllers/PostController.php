@@ -3,7 +3,7 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use fay\core\HttpException;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\helpers\StringHelper;
 
 class PostController extends FrontController{
@@ -23,7 +23,7 @@ class PostController extends FrontController{
 			throw new HttpException('异常的请求');
 		}
 		
-		$post = Post::service()->get($this->input->get('id', 'intval'), 'extra.*,nav.*,categories.*,category.*');
+		$post = PostService::service()->get($this->input->get('id', 'intval'), 'extra.*,nav.*,categories.*,category.*');
 		if(!$post){
 			throw new HttpException('文章不存在', 404);
 		}

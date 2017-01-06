@@ -17,7 +17,7 @@ use fay\services\user\Role;
 				'class'=>'form-control mw400',
 			))?>
 		</div>
-		<div class="advance <?php if(!Role::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
+		<div class="advance <?php if(!RoleService::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">渲染模版</label>
 				<?php echo F::form('widget')->textarea('template', array(

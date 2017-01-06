@@ -1,11 +1,11 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <footer id="footer">
 	<div class="copy-right">
 		<div class="w1000">
-			<p class="cp"><?php echo Option::get(site.shine_color_copyright)?></p>
-			<p class="beian"><?php echo Option::get(site.shine_color_beian)?>  技术支持：<a href="http://www.siwi.me" target="_blank">Siwi.Me</a></p>
+			<p class="cp"><?php echo OptionService::get(site.shine_color_copyright)?></p>
+			<p class="beian"><?php echo OptionService::get(site.shine_color_beian)?>  技术支持：<a href="http://www.siwi.me" target="_blank">Siwi.Me</a></p>
 		</div>
 	</div>
 </footer>

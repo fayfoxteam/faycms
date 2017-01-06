@@ -1,8 +1,8 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
-use fay\services\File;
-use fay\services\User;
+use fay\services\FileService;
+use fay\services\UserService;
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@ system.base_url = '<?php echo $this->url()?>';
 DD_belatedPNG.fix('fieldset,.ring');
 </script>
 <![endif]-->
-<title><?php echo Option::get('site:sitename')?>后台登陆</title>
+<title><?php echo OptionService::get('site:sitename')?>后台登陆</title>
 </head>
 <body>
 <div class="main">
@@ -118,13 +118,13 @@ DD_belatedPNG.fix('fieldset,.ring');
 		</div>
 	</div>
 	<?php if(\F::app()->current_user){?>
-		<?php $user = User::service()->get(\F::app()->current_user, 'avatar,username')?>
+		<?php $user = UserService::service()->get(\F::app()->current_user, 'avatar,username')?>
 		<div class="right top-to-bottom">
 			<div class="login-form-container">
 				<fieldset class="logo">Faycms</fieldset>
 				<fieldset class="user-info">
 					<div class="user-avatar">
-						<?php echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
+						<?php echo Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 							'spare'=>'avatar',
 						))?>
 					</div>

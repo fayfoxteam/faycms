@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-use fay\services\File;
+use fay\services\FileService;
 
 /**
  * 构造html元素
@@ -226,7 +226,7 @@ class Html{
 	 * @param array $html_options 其它html属性，可以是自定义属性或者html标准属性
 	 * @return string
 	 */
-	public static function img($id, $type = File::PIC_ORIGINAL, $html_options = array()){
+	public static function img($id, $type = FileService::PIC_ORIGINAL, $html_options = array()){
 		if(StringHelper::isInt($id)){
 			if($id == 0){
 				//若有设置spares，返回对应的默认图片
@@ -253,7 +253,7 @@ class Html{
 				}
 			}
 			
-			$src = File::getUrl($id, $type, $html_options);
+			$src = FileService::getUrl($id, $type, $html_options);
 			
 			unset($html_options['spare'], $html_options['dw'], $html_options['dh'], $html_options['w'], $html_options['h'], $html_options['x'], $html_options['y']);
 			return self::tag('img', array('src'=>$src) + $html_options);

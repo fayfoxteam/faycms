@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\models\tables\Roles;
 use fay\services\post\Category;
 
@@ -75,7 +75,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey hidden-not-lg">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php if(Category::service()->isAllowedCat($c['id'])){
+					<?php if(CategoryService::service()->isAllowedCat($c['id'])){
 						echo Html::link('发布文章', array('admin/post/create', array(
 							'cat_id'=>$c['id'],
 						)), array(

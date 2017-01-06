@@ -2,10 +2,10 @@
 namespace fruit\modules\frontend\controllers;
 
 use fruit\library\FrontController;
-use fay\services\Email;
+use fay\services\EmailService;
 use fay\models\tables\Pages;
 use fay\core\Response;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class ContactController extends FrontController{
 	public function index(){
@@ -23,13 +23,13 @@ class ContactController extends FrontController{
 	}
 	
 	public function markmessage(){
-		Email::send('369281831@qq.com', '网站留言', "
+		EmailService::send('369281831@qq.com', '网站留言', "
 			称呼：{$this->input->post('name')}<br />
 			联系电话：{$this->input->post('phone')}<br />
 			邮箱：{$this->input->post('email')}<br />
 			留言：{$this->input->post('message')}<br />
 		");
-		Flash::set('留言邮件已发送', 'success');
+		FlashService::set('留言邮件已发送', 'success');
 		Response::goback();
 	}
 }

@@ -1,7 +1,7 @@
 <?php 
 namespace fay\common;
 
-use fay\services\File;
+use fay\services\FileService;
 
 class Upload{
 	private $upload_path;
@@ -103,9 +103,9 @@ class Upload{
 		$this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
 		
-		$this->file_ext = File::getFileExt($file['name']);
+		$this->file_ext = FileService::getFileExt($file['name']);
 		//随机一个唯一文件名
-		$this->file_name = File::getFileName($this->upload_path, $this->file_ext);
+		$this->file_name = FileService::getFileName($this->upload_path, $this->file_ext);
 		
 		if(!$this->isAllowedType()){
 			$this->setErrorMsg('非法文件类型');

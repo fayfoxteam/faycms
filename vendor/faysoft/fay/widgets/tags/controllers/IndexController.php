@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\tags\controllers;
 
-use fay\services\Tag;
+use fay\services\TagService;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
@@ -41,7 +41,7 @@ class IndexController extends Widget{
 	);
 	
 	public function getData(){
-		$tags = Tag::service()->getLimit(
+		$tags = TagService::service()->getLimit(
 			$this->fields,
 			$this->config['number'],
 			$this->getOrder()

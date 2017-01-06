@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!doctype html>
@@ -12,7 +12,7 @@ use fay\helpers\Html;
 <title><?php if(!empty($title)){
 	echo $title, '_';
 }
-echo Option::get(site.sitename)?></title>
+echo OptionService::get(site.sitename)?></title>
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/gb.css')?>" >

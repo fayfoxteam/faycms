@@ -1,10 +1,10 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\StringHelper;
 ?>
 <article class="cf">
-	<?php echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(
+	<?php echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 		'dw'=>250,
 		'dh'=>195,
 		'alt'=>Html::encode($data['title']),

@@ -5,17 +5,17 @@ use cddx\library\FrontController;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\core\HttpException;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\common\ListView;
 use fay\core\db\Expr;
-use fay\services\Post;
+use fay\services\PostService;
 
 class PostController extends FrontController{
 	public function index(){
 		$cat_id = $this->input->get('cat_id', 'intval');
 		
 		//获取分类
-		if(!$cat_id || !$cat = Category::service()->get($cat_id)){
+		if(!$cat_id || !$cat = CategoryService::service()->get($cat_id)){
 			throw new HttpException('您请求的页面不存在');
 		}
 		
@@ -37,13 +37,13 @@ class PostController extends FrontController{
 		
 		if($cat['right_value'] - $cat['left_value'] == 1){
 			//叶子节点
-			$parent_cat = Category::service()->get($cat['parent']);
-			$child_cats = Category::service()->getTreeByParentId($cat['parent']);
+			$parent_cat = CategoryService::service()->get($cat['parent']);
+			$child_cats = CategoryService::service()->getTreeByParentId($cat['parent']);
 			$left_cats = $parent_cat;
 			$left_cats['children'] = $child_cats;
 		}else{
 			//父节点
-			$child_cats = Category::service()->getTreeByParentId($cat['id']);
+			$child_cats = CategoryService::service()->getTreeByParentId($cat['id']);
 			$left_cats = $cat;
 			$left_cats['children'] = $child_cats;
 		}
@@ -61,7 +61,7 @@ class PostController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		if(!$id || !$post = Post::service()->get($id, 'files.file_id,files.description,user.id,user.username,user.nickname')){
+		if(!$id || !$post = PostService::service()->get($id, 'files.file_id,files.description,user.id,user.username,user.nickname')){
 			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
@@ -73,16 +73,16 @@ class PostController extends FrontController{
 		$this->layout->keywords = $post['post']['seo_keywords'];
 		$this->layout->description = $post['post']['seo_description'];
 		
-		$cat = Category::service()->get($post['post']['cat_id']);
+		$cat = CategoryService::service()->get($post['post']['cat_id']);
 		if($cat['right_value'] - $cat['left_value'] == 1){
 			//叶子节点
-			$parent_cat = Category::service()->get($cat['parent']);
-			$child_cats = Category::service()->getTreeByParentId($cat['parent']);
+			$parent_cat = CategoryService::service()->get($cat['parent']);
+			$child_cats = CategoryService::service()->getTreeByParentId($cat['parent']);
 			$left_cats = $parent_cat;
 			$left_cats['children'] = $child_cats;
 		}else{
 			//父节点
-			$child_cats = Category::service()->getTreeByParentId($cat['id']);
+			$child_cats = CategoryService::service()->getTreeByParentId($cat['id']);
 			$left_cats = $cat;
 			$left_cats['children'] = $child_cats;
 		}

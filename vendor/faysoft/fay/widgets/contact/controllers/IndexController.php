@@ -2,7 +2,7 @@
 namespace fay\widgets\contact\controllers;
 
 use fay\core\Response;
-use fay\services\Contact;
+use fay\services\ContactService;
 use fay\widget\Widget;
 
 class IndexController extends Widget{
@@ -12,7 +12,7 @@ class IndexController extends Widget{
 		
 		//表单验证
 		if($this->form('widget_contact')->check()){
-			Contact::service()->create($this->form('widget_contact')->getAllData());
+			ContactService::service()->create($this->form('widget_contact')->getAllData());
 			Response::notify('success', 'Message has been send.');
 		}else{
 			Response::notify('error', $this->form()->getFirstError());

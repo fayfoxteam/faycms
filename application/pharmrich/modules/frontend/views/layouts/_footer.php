@@ -1,6 +1,6 @@
 <?php
-use fay\services\Option;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FlashService;
 ?>
 <footer class="g-ft">
 	<div class="centered-wrapper cf">
@@ -12,7 +12,7 @@ use fay\services\Flash;
 	<div class="g-fcp">
 		<div class="centered-wrapper">
 			<p class="tip"></p>
-			<p class="cp"><?php echo Option::get('site:copyright')?></p>
+			<p class="cp"><?php echo OptionService::get('site:copyright')?></p>
 		</div>
 	</div>
 </footer>
@@ -20,4 +20,4 @@ use fay\services\Flash;
 	<?php F::widget()->area('right-fix-toolbar')?>
 </div>
 <a href="#" title="Back to top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
-<?php echo Flash::get()?>
+<?php echo FlashService::get()?>

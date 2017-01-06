@@ -3,14 +3,14 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use fay\models\tables\Users;
-use fay\services\Option;
-use fay\services\File;
+use fay\services\OptionService;
+use fay\services\FileService;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
 use fay\helpers\Request;
 use fay\models\tables\Roles;
-use fay\services\User;
+use fay\services\UserService;
 
 class IndexController extends InstallController{
 	public function __construct(){
@@ -40,7 +40,7 @@ class IndexController extends InstallController{
 				$uploads = true;
 			}else{
 				//尝试创建
-				File::createFolder(BASEPATH.'../uploads');
+				FileService::createFolder(BASEPATH.'../uploads');
 				if(is_writable(BASEPATH.'../uploads')){
 					$uploads = true;
 				}else{
@@ -52,7 +52,7 @@ class IndexController extends InstallController{
 				$public_uploads = true;
 			}else{
 				//尝试创建
-				File::createFolder(BASEPATH.'uploads');
+				FileService::createFolder(BASEPATH.'uploads');
 				if(is_writable(BASEPATH.'uploads')){
 					$public_uploads = true;
 				}else{
@@ -64,7 +64,7 @@ class IndexController extends InstallController{
 				$runtimes = true;
 			}else{
 				//尝试创建
-				File::createFolder(APPLICATION_PATH . 'runtimes');
+				FileService::createFolder(APPLICATION_PATH . 'runtimes');
 				if(is_writable(APPLICATION_PATH . 'runtimes')){
 					$runtimes = true;
 				}else{
@@ -122,7 +122,7 @@ class IndexController extends InstallController{
 		}else if($is_installed == 'database-completed'){
 			//数据库已初始化，跳转至设置超级管理员界面
 			if($this->input->post()){
-				$user_id = User::service()->create(array(
+				$user_id = UserService::service()->create(array(
 					'username'=>$this->input->post('username', 'trim'),
 					'password'=>$this->input->post('password'),
 					'nickname'=>'系统管理员',//@todo 这里先默认一个，以后再完善下安装程序的界面
@@ -135,7 +135,7 @@ class IndexController extends InstallController{
 						Roles::ITEM_SUPER_ADMIN,
 					)
 				), 1);
-				Option::set('site:sitename', $this->input->post('site:sitename', 'trim'));
+				OptionService::set('site:sitename', $this->input->post('site:sitename', 'trim'));
 				
 				file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
 				

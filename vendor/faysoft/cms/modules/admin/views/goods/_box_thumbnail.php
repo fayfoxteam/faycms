@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div class="box" id="box-thumbnail" data-name="thumbnail">
 	<div class="box-title">
@@ -16,9 +16,9 @@ use fay\services\File;
 			echo F::form()->inputHidden('thumbnail', array(), 0);
 			$thumbnail = F::form()->getData('thumbnail', 0);
 			if(!empty($thumbnail)){
-				echo Html::link(Html::img($thumbnail, File::PIC_RESIZE, array(
+				echo Html::link(Html::img($thumbnail, FileService::PIC_RESIZE, array(
 					'dw'=>257,
-				)), File::getUrl($thumbnail), array(
+				)), FileService::getUrl($thumbnail), array(
 					'encode'=>false,
 					'class'=>'fancybox-image',
 					'title'=>'点击查看原图',

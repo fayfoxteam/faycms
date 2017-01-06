@@ -1,12 +1,12 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\services\File;
-use fay\services\Message;
+use fay\services\FileService;
+use fay\services\MessageService;
 use fay\models\tables\Messages;
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
-	<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
+	<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 		'width'=>40,
 		'height'=>40,
 		'class'=>'circle ci-avatar',
@@ -44,7 +44,7 @@ use fay\models\tables\Messages;
 		<div class="ci-footer">
 			<a href="#chat-dialog" class="ci-reply-link" data-id="<?php echo $data['id']?>">
 				<i class="fa fa-reply"></i>
-				<span>回复</span>(<em><?php echo Message::service()->getReplyCount($data['id'])?></em>)&nbsp;
+				<span>回复</span>(<em><?php echo MessageService::service()->getReplyCount($data['id'])?></em>)&nbsp;
 			</a>
 			<span class="ci-options"><?php
 			if(F::app()->checkPermission('admin/chat/approve')){

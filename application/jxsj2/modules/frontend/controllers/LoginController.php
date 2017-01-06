@@ -3,7 +3,7 @@ namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
 use fay\core\Response;
-use fay\services\User;
+use fay\services\UserService;
 
 class LoginController extends FrontController{
 	public function index(){
@@ -13,7 +13,7 @@ class LoginController extends FrontController{
 			}
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-			$result = User::service()->login($username, $password);
+			$result = UserService::service()->login($username, $password);
 			if($result['status']){
 				if($this->input->get('redirect')){
 					header('location:'.base64_decode($this->input->get('redirect')));

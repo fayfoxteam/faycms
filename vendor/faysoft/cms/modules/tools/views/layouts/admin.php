@@ -1,9 +1,9 @@
 <?php 
 use fay\helpers\Html;
-use fay\services\Option;
-use fay\services\File;
-use fay\services\Flash;
-use fay\services\User;
+use fay\services\OptionService;
+use fay\services\FileService;
+use fay\services\FlashService;
+use fay\services\UserService;
 use fay\services\user\Role;
 ?>
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
-<title><?php echo $subtitle?> | <?php echo Option::get('site:sitename')?>后台</title>
+<title><?php echo $subtitle?> | <?php echo OptionService::get('site:sitename')?>后台</title>
 </head>
 <body id="faycms">
 <div class="wrapper">
@@ -41,7 +41,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
-					$user_roles = Role::service()->getIds();
+					$user_roles = RoleService::service()->getIds();
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
@@ -93,9 +93,9 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 					</ul>
 				</li>
 				<li class="dropdown-container user-profile">
-					<?php $user = User::service()->get(\F::app()->current_user, 'avatar,username')?>
+					<?php $user = UserService::service()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
-						echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
+						echo Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 							'class'=>'circle',
 							'width'=>28,
 							'spare'=>'avatar',
@@ -192,7 +192,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 					}?></div>
 			</div>
 		</div>
-		<?php echo Flash::get();?>
+		<?php echo FlashService::get();?>
 		<?php echo $content?>
 	</div>
 </div>

@@ -1,10 +1,10 @@
 <?php 
 use fay\helpers\Html;
-use fay\services\Option;
-use fay\services\File;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FileService;
+use fay\services\FlashService;
 use fay\services\user\Role;
-use fay\services\User;
+use fay\services\UserService;
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@ system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
 system.user_id = <?php echo \F::app()->current_user?>;
 common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>b';
 </script>
-<title><?php echo $subtitle?> | <?php echo Option::get('site:sitename')?>后台</title>
+<title><?php echo $subtitle?> | <?php echo OptionService::get('site:sitename')?>后台</title>
 </head>
 <body id="faycms">
 <div class="wrapper">
@@ -42,7 +42,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
-					$user_roles = Role::service()->getIds();
+					$user_roles = RoleService::service()->getIds();
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);
@@ -94,9 +94,9 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 					</ul>
 				</li>
 				<li class="dropdown-container user-profile">
-					<?php $user = User::service()->get(\F::app()->current_user, 'avatar,username')?>
+					<?php $user = UserService::service()->get(\F::app()->current_user, 'avatar,username')?>
 					<a href="#user-profile-menu" class="dropdown"><?php 
-						echo Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
+						echo Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 							'class'=>'circle',
 							'width'=>28,
 							'spare'=>'avatar',
@@ -193,7 +193,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 					}?></div>
 			</div>
 		</div>
-		<?php echo Flash::get();?>
+		<?php echo FlashService::get();?>
 		<?php echo $content?>
 	</div>
 </div>

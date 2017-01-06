@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,7 +23,7 @@ system.base_url = '<?php echo $this->url()?>';
 DD_belatedPNG.fix('fieldset,.ring');
 </script>
 <![endif]-->
-<title><?php echo Option::get('sitename')?>后台登陆</title>
+<title><?php echo OptionService::get('sitename')?>后台登陆</title>
 </head>
 <body>
 <div class="main">

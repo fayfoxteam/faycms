@@ -7,10 +7,9 @@ use fay\helpers\StringHelper;
 use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\File;
+use fay\services\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\core\Loader;
 
 class WidgetController extends AdminController{
 	public function __construct(){
@@ -29,13 +28,13 @@ class WidgetController extends AdminController{
 		$widget_instances = array();
 		
 		//获取当前application下的widgets
-		$app_widgets = File::getFileList(APPLICATION_PATH . 'widgets');
+		$app_widgets = FileService::getFileList(APPLICATION_PATH . 'widgets');
 		foreach($app_widgets as $w){
 			$widget_instances[] = \F::widget()->get($w['name'], true);
 		}
 		
 		//获取系统公用widgets
-		$common_widgets = File::getFileList(SYSTEM_PATH . 'fay' . DS . 'widgets');
+		$common_widgets = FileService::getFileList(SYSTEM_PATH . 'fay' . DS . 'widgets');
 		foreach($common_widgets as $w){
 			$widget_instances[] = \F::widget()->get('fay/'.$w['name'], true);
 		}

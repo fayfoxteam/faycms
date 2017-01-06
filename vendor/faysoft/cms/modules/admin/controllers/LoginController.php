@@ -2,11 +2,11 @@
 namespace cms\modules\admin\controllers;
 
 use fay\core\Controller;
-use fay\services\Log;
+use fay\services\LogService;
 use fay\core\Response;
 use fay\models\tables\Logs;
 use fay\core\Loader;
-use fay\services\User;
+use fay\services\UserService;
 use fay\services\user\Password;
 
 class LoginController extends Controller{
@@ -22,14 +22,14 @@ class LoginController extends Controller{
 		$this->config->set('debug', false);
 		
 		if($this->input->post()){
-			$result = Password::service()->checkPassword(
+			$result = PasswordService::service()->checkPassword(
 				$this->input->post('username'),
 				$this->input->post('password'),
 				true
 			);
 			
 			if($result['user_id']){
-				$user = User::service()->login($result['user_id']);
+				$user = UserService::service()->login($result['user_id']);
 			}else{
 				Response::notify('error', array(
 					'message'=>isset($result['message']) ? $result['message'] : '登录失败',
@@ -65,7 +65,7 @@ class LoginController extends Controller{
 	}
 	
 	public function logout(){
-		User::service()->logout();
+		UserService::service()->logout();
 		Response::redirect('admin/login/index');
 	}
 }

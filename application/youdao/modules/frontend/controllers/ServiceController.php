@@ -2,10 +2,10 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\models\tables\Posts;
-use fay\services\Post;
+use fay\services\PostService;
 
 class ServiceController extends FrontController{
 	public $layout_template = 'inner';
@@ -15,7 +15,7 @@ class ServiceController extends FrontController{
 		$this->layout->subtitle = '服务介绍';
 		
 		//团队
-		$cat_service = Category::service()->getByAlias('service', '*');
+		$cat_service = CategoryService::service()->getByAlias('service', '*');
 		//SEO
 		$this->layout->title = $cat_service['seo_title'];
 		$this->layout->keywords = $cat_service['seo_keywords'];
@@ -47,9 +47,9 @@ class ServiceController extends FrontController{
 		$this->layout->submenu = $submenu;
 		
 		if($this->input->get('id')){
-			$post = Post::service()->get($this->input->get('id', 'intval'));
+			$post = PostService::service()->get($this->input->get('id', 'intval'));
 		}else{
-			$post = Post::service()->get($services[0]['id']);
+			$post = PostService::service()->get($services[0]['id']);
 		}
 		
 		$this->layout->breadcrumbs = array(

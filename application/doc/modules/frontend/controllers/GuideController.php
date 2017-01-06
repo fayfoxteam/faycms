@@ -2,25 +2,25 @@
 namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\HttpException;
-use fay\services\Post;
-use fay\services\Option;
+use fay\services\PostService;
+use fay\services\OptionService;
 
 class GuideController extends FrontController{
 	public function index(){
 		$cat = $this->input->get('cat', 'trim');
-		$cat = Category::service()->get($cat, '*', 'fayfox');
+		$cat = CategoryService::service()->get($cat, '*', 'fayfox');
 		
 		if(empty($cat)){
 			throw new HttpException('页面不存在');
 		}
 		
 		$this->layout->page_title = $cat['description'] ? "{$cat['title']}（{$cat['description']}）" : $cat['title'];
-		$this->layout->title = $cat['title'].' - '.Option::get('site:sitename');
+		$this->layout->title = $cat['title'].' - '.OptionService::get('site:sitename');
 
 		$breadcrumb = array();
-		$parent_path = Category::service()->getParentPath($cat, 'fayfox');
+		$parent_path = CategoryService::service()->getParentPath($cat, 'fayfox');
 		if($parent_path){
 			foreach($parent_path as $p){
 				$breadcrumb[] = array(
@@ -35,14 +35,14 @@ class GuideController extends FrontController{
 			//叶子节点
 			$this->view->assign(array(
 				'cat'=>$cat,
-				'posts'=>\fay\services\post\Category::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+				'posts'=>\fay\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 			))->render('posts');
 		}else{
 			//非叶子
 			$this->view->assign(array(
 				'cat'=>$cat,
-				'cats'=>Category::service()->getNextLevelByParentId($cat['id']),
-				'posts'=>\fay\services\post\Category::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+				'cats'=>CategoryService::service()->getNextLevelByParentId($cat['id']),
+				'posts'=>\fay\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 			))->render('cats');
 		}
 	}

@@ -2,9 +2,9 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
-use fay\services\feed\Favorite as FeedFavorite;
+use fay\services\feed\FeedFavoriteService;
 use fay\core\Response;
-use fay\models\Feed;
+use fay\services\FeedService;
 use fay\helpers\FieldHelper;
 
 /**
@@ -30,21 +30,21 @@ class FeedFavoriteController extends UserController{
 		
 		$feed_id = $this->form()->getData('feed_id');
 		
-		if(!Feed::isFeedIdExist($feed_id)){
+		if(!FeedService::isFeedIdExist($feed_id)){
 			Response::notify('error', array(
 				'message'=>'动态ID不存在',
 				'code'=>'invalid-parameter:feed_id-is-not-exist',
 			));
 		}
 		
-		if(FeedFavorite::isFavorited($feed_id)){
+		if(FeedFavoriteService::isFavorited($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您已收藏过该动态',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		FeedFavorite::add($feed_id, $this->form()->getData('trackid', ''));
+		FeedFavoriteService::add($feed_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '收藏成功');
 	}
@@ -66,14 +66,14 @@ class FeedFavoriteController extends UserController{
 		
 		$feed_id = $this->form()->getData('feed_id');
 		
-		if(!FeedFavorite::isFavorited($feed_id)){
+		if(!FeedFavoriteService::isFavorited($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您未收藏过该动态',
 				'code'=>'not-favorited',
 			));
 		}
 		
-		FeedFavorite::remove($feed_id);
+		FeedFavoriteService::remove($feed_id);
 		
 		Response::notify('success', '移除收藏成功');
 	}
@@ -102,12 +102,12 @@ class FeedFavoriteController extends UserController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::parse($fields, 'feed', Feed::$public_fields);
+			$fields = FieldHelper::parse($fields, 'feed', FeedService::$public_fields);
 		}else{
-			$fields = Feed::$default_fields;
+			$fields = FeedService::$default_fields;
 		}
 		
-		$favorites = FeedFavorite::service()->getList($fields,
+		$favorites = FeedFavoriteService::service()->getList($fields,
 			$this->form()->getData('page', 1),
 			$this->form()->getData('page_size', 20));
 		

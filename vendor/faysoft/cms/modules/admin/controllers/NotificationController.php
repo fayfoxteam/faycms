@@ -6,13 +6,13 @@ use fay\models\tables\Users;
 use fay\models\tables\UsersNotifications;
 use fay\models\tables\Actionlogs;
 use fay\models\tables\Roles;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\helpers\Html;
-use fay\services\Notification;
+use fay\services\NotificationService;
 use fay\core\Sql;
-use fay\services\Flash;
+use fay\services\FlashService;
 use fay\models\tables\UserProfile;
 
 class NotificationController extends AdminController{
@@ -27,12 +27,12 @@ class NotificationController extends AdminController{
 			$operators = Users::model()->fetchCol('id', array(
 				'role IN (?)'=>$this->input->post('roles', 'intval'),
 			));
-			$notification_id = Notification::service()->send($operators, $this->input->post('title', 'trim'), $this->input->post('content', 'trim'), $this->current_user, $this->input->get('cat_id', null, 0));
+			$notification_id = NotificationService::service()->send($operators, $this->input->post('title', 'trim'), $this->input->post('content', 'trim'), $this->current_user, $this->input->get('cat_id', null, 0));
 			
 			$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '发送系统信息', $notification_id);
-			Flash::set('消息发送成功', 'success');
+			FlashService::set('消息发送成功', 'success');
 		}
-		$this->view->notification_cats = Category::service()->getNextLevel('_system_notification');
+		$this->view->notification_cats = CategoryService::service()->getNextLevel('_system_notification');
 		$this->view->roles = Roles::model()->fetchAll('deleted = 0');
 		$this->view->render();
 	}
@@ -128,8 +128,8 @@ class NotificationController extends AdminController{
 	
 	public function cat(){
 		$this->layout->subtitle = '消息分类';
-		$this->view->cats = Category::service()->getTree('_system_notification');
-		$root_node = Category::service()->getByAlias('_system_notification', 'id');
+		$this->view->cats = CategoryService::service()->getTree('_system_notification');
+		$root_node = CategoryService::service()->getByAlias('_system_notification', 'id');
 		$this->view->root = $root_node['id'];
 	
 		if($this->checkPermission('admin/notification/cat-create')){

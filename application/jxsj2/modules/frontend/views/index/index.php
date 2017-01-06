@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <style>
 #login-panel table{padding:13px 0;}
@@ -25,7 +25,7 @@ use fay\services\File;
 							<div class="st"><div class="sl"><div class="sr"><div class="sb">
 								<div class="p16 clearfix">
 									<div id="index-page">
-										<?php echo Html::link(Html::img($about['thumbnail'], File::PIC_ORIGINAL, array(
+										<?php echo Html::link(Html::img($about['thumbnail'], FileService::PIC_ORIGINAL, array(
 											'width'=>false,
 											'height'=>false,
 										)), array('page/'.$about['id']), array(

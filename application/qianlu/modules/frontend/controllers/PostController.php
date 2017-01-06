@@ -2,7 +2,7 @@
 namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\models\tables\Posts;
 use fay\helpers\StringHelper;
 use fay\core\Sql;
@@ -23,7 +23,7 @@ class PostController extends FrontController{
 				'class'=>'sel',
 			),
 		);
-		$cats = Category::service()->getNextLevel('_system_post');
+		$cats = CategoryService::service()->getNextLevel('_system_post');
 		foreach($cats as $c){
 			$submenu[] = array(
 				'title'=>$c['title'],
@@ -69,7 +69,7 @@ class PostController extends FrontController{
 	}
 	
 	public function index(){
-		$cat_post = Category::service()->getByAlias('post', 'left_value,right_value');
+		$cat_post = CategoryService::service()->getByAlias('post', 'left_value,right_value');
 		
 		$submenu = array(
 			array(
@@ -78,7 +78,7 @@ class PostController extends FrontController{
 				'class'=>'sel',
 			),
 		);
-		$cats = Category::service()->getNextLevel('post');
+		$cats = CategoryService::service()->getNextLevel('post');
 		foreach($cats as $c){
 			$submenu[] = array(
 				'title'=>$c['title'],

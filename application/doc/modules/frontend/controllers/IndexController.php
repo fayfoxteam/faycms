@@ -3,13 +3,13 @@ namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
 use fay\core\Sql;
-use fay\services\Post;
-use fay\services\Option;
+use fay\services\PostService;
+use fay\services\OptionService;
 
 class IndexController extends FrontController{
 	public function index(){
-		$this->layout->title = Option::get('site:sitename');
-		$this->layout->page_title = Option::get('site:sitename');
+		$this->layout->title = OptionService::get('site:sitename');
+		$this->layout->page_title = OptionService::get('site:sitename');
 		
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), 'cat_id')
@@ -21,7 +21,7 @@ class IndexController extends FrontController{
 		$this->view->last_modified_cats = $sql->fetchAll();
 		
 		$this->view->assign(array(
-			'posts'=>\fay\services\post\Category::service()->getPosts('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+			'posts'=>\fay\services\post\CategoryService::service()->getPosts('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
 		))->render();
 	}
 	

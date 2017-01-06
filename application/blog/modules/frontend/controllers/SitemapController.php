@@ -3,7 +3,7 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use fay\models\tables\Posts;
-use fay\services\Category;
+use fay\services\CategoryService;
 
 class SitemapController extends FrontController{
 	public function xml(){
@@ -15,7 +15,7 @@ class SitemapController extends FrontController{
 			'publish_time DESC'
 		);
 		
-		$this->view->cats = Category::service()->getNextLevel('_system_post');
+		$this->view->cats = CategoryService::service()->getNextLevel('_system_post');
 		$this->view->render();
 	}
 	

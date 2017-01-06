@@ -1,4 +1,4 @@
-<?php use fay\services\Option;
+<?php use fay\services\OptionService;
 echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
@@ -25,7 +25,7 @@ echo F::form('setting')->open(array('admin/system/setting'))?>
 		echo F::form('setting')->inputCheckbox('cols[]', 'upload_time', array(
 			'label'=>'上传时间',
 		));
-		if(Option::getGroup('qiniu')){
+		if(OptionService::getGroup('qiniu')){
 			echo F::form('setting')->inputCheckbox('cols[]', 'qiniu', array(
 				'label'=>'七牛',
 			));

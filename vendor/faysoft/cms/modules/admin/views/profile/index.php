@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 
 echo F::form()->open();
 ?>
@@ -50,7 +50,7 @@ echo F::form()->open();
 			<div id="avatar-container"><?php
 				if(!empty($user['user']['avatar']['id'])){
 					echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
-					echo Html::link(Html::img($user['user']['avatar']['id'], File::PIC_RESIZE, array(
+					echo Html::link(Html::img($user['user']['avatar']['id'], FileService::PIC_RESIZE, array(
 						'dw'=>178,
 						'dh'=>178,
 						'id'=>'avatar-img',
@@ -59,7 +59,7 @@ echo F::form()->open();
 						'class'=>'fancybox-image',
 						'title'=>false,
 					));
-					echo Html::link(Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
+					echo Html::link(Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 						'id'=>'avatar-img-circle',
 					)), $user['user']['avatar']['url'], array(
 						'encode'=>false,

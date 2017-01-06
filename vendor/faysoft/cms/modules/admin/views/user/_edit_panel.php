@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\models\tables\Users;
-use fay\services\Option;
+use fay\services\OptionService;
 
 /**
  * @var $roles array
@@ -59,7 +59,7 @@ use fay\services\Option;
 </div>
 <?php }?>
 <div class="form-field">
-	<label class="title bold">昵称<?php if(Option::get('system:user_nickname_required')){?>
+	<label class="title bold">昵称<?php if(OptionService::get('system:user_nickname_required')){?>
 		<em class="required">*</em>
 	<?php }?></label>
 	<?php echo F::form()->inputText('nickname', array('class'=>'form-control mw400'))?>
@@ -99,7 +99,7 @@ use fay\services\Option;
 	<div id="avatar-container"><?php
 		if(!empty($user['user']['avatar']['id'])){
 			echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
-			echo Html::link(Html::img($user['user']['avatar']['id'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($user['user']['avatar']['id'], FileService::PIC_RESIZE, array(
 				'dw'=>178,
 				'dh'=>178,
 				'id'=>'avatar-img',
@@ -108,7 +108,7 @@ use fay\services\Option;
 				'class'=>'fancybox-image',
 				'title'=>false,
 			));
-			echo Html::link(Html::img($user['user']['avatar']['thumbnail'], File::PIC_THUMBNAIL, array(
+			echo Html::link(Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 				'id'=>'avatar-img-circle',
 			)), $user['user']['avatar']['url'], array(
 				'encode'=>false,

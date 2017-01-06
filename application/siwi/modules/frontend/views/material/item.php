@@ -1,14 +1,14 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\services\File;
+use fay\services\FileService;
 
 $this->appendCss($this->appStatic('css/blog.css'));
 ?>
 <div class="g-sub-hd">
 	<div class="post-info">
 		<div class="avatar">
-			<?php echo Html::link(Html::img($post['avatar'], File::PIC_THUMBNAIL, array(
+			<?php echo Html::link(Html::img($post['avatar'], FileService::PIC_THUMBNAIL, array(
 				'alt'=>$post['nickname']
 			)), array('u/'.$post['user_id']), array(
 				'encode'=>false,

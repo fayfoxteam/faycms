@@ -2,10 +2,10 @@
 namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\models\tables\Posts;
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\core\HttpException;
 
 class TeamController extends FrontController{
@@ -17,7 +17,7 @@ class TeamController extends FrontController{
 		$this->layout->current_directory = 'team';
 		
 		//团队
-		$cat_team = Category::service()->getByAlias('team', '*');
+		$cat_team = CategoryService::service()->getByAlias('team', '*');
 		//SEO
 		$this->layout->title = $cat_team['seo_title'];
 		$this->layout->keywords = $cat_team['seo_keywords'];
@@ -62,7 +62,7 @@ class TeamController extends FrontController{
 				$this->view->member = $member;
 				
 				//SEO
-				$this->layout->title = $member['seo_title'] ? $member['seo_title'] : $member['title'] . ' | ' . Option::get('site:seo_team_title');
+				$this->layout->title = $member['seo_title'] ? $member['seo_title'] : $member['title'] . ' | ' . OptionService::get('site:seo_team_title');
 				$this->layout->keywords = $member['seo_keywords'] ? $member['seo_keywords'] : $member['title'];
 				$this->layout->description = $member['seo_description'] ? $member['seo_description'] : $member['abstract'];
 			}else{

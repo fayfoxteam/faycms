@@ -1,7 +1,7 @@
 <?php
 use fay\models\tables\ExamQuestions;
 use fay\helpers\Html;
-use fay\services\Exam;
+use fay\services\ExamService;
 
 echo F::form()->open();
 ?>

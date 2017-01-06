@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\StringHelper;
 use fay\helpers\Date;
 ?>
@@ -10,7 +10,7 @@ use fay\helpers\Date;
 			<h2>作品</h2>
 			<?php foreach($works as $k => $p){?>
 			<article class="<?php if(++$k % 3 == 0)echo 'last'?>">
-				<?php echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+				<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 					'dw'=>283,
 					'dh'=>217,
 					'alt'=>Html::encode($p['title']),
@@ -39,7 +39,7 @@ use fay\helpers\Date;
 			<article class="clearfix">
 				<div class="thumbnail"><?php 
 					if($p['thumbnail']){
-						echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+						echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 							'dw'=>300,
 							'dh'=>230,
 							'alt'=>Html::encode($p['title']),

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <?php foreach($posts as $post){?>
 	<article>
@@ -13,7 +13,7 @@ use fay\services\File;
 		</header>
 		<?php if($post['post']['thumbnail']){?>
 		<figure><?php
-			echo Html::link(Html::img($post['post']['thumbnail']['id'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($post['post']['thumbnail']['id'], FileService::PIC_RESIZE, array(
 				'dw'=>748,
 				'dh'=>286,
 				'alt'=>Html::encode($post['post']['title']),

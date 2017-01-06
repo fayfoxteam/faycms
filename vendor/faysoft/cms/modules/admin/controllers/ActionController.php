@@ -2,13 +2,13 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\models\tables\Actions;
 use fay\models\tables\Actionlogs;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class ActionController extends AdminController{
 	public function __construct(){
@@ -18,11 +18,11 @@ class ActionController extends AdminController{
 	
 	public function index(){
 		$this->layout->subtitle = '添加权限';
-		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
+		FlashService::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
 		
 		$this->_setListview();
 
-		$this->view->cats = Category::service()->getTree('_system_action');
+		$this->view->cats = CategoryService::service()->getTree('_system_action');
 		$this->form()->setModel(Actions::model())
 			->setRule(array('parent_router', 'ajax', array('url'=>array('admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'))
@@ -67,7 +67,7 @@ class ActionController extends AdminController{
 			'text'=>'添加权限',
 		);
 		$action_id = intval($this->input->get('id', 'intval'));
-		$this->view->cats = Category::service()->getNextLevel('_system_action');
+		$this->view->cats = CategoryService::service()->getNextLevel('_system_action');
 		
 		$this->form()->setModel(Actions::model())
 			->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router', 'ajax'=>array('admin/action/is-router-exist'))))
@@ -91,7 +91,7 @@ class ActionController extends AdminController{
 				isset($data['is_public']) || $data['is_public'] = 0;
 				Actions::model()->update($data, "id = {$action_id}");
 				$this->actionlog(Actionlogs::TYPE_ACTION, '编辑管理员权限', $action_id);
-				Flash::set('权限编辑成功', 'success');
+				FlashService::set('权限编辑成功', 'success');
 			}
 		}
 
@@ -168,10 +168,10 @@ class ActionController extends AdminController{
 
 	public function cat(){
 		$this->layout->subtitle = '权限分类';
-		Flash::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
+		FlashService::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
 		
-		$this->view->cats = Category::service()->getTree('_system_action');
-		$root_node = Category::service()->getByAlias('_system_action', 'id');
+		$this->view->cats = CategoryService::service()->getTree('_system_action');
+		$root_node = CategoryService::service()->getByAlias('_system_action', 'id');
 		$this->view->root = $root_node['id'];
 		
 		$this->layout->sublink = array(

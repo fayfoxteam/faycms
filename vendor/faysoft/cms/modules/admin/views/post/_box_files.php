@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div class="box" id="box-files" data-name="files">
 	<div class="box-title">
@@ -25,15 +25,15 @@ use fay\services\File;
 					<div class="dragsort-item-container">
 						<span class="file-thumb">
 							<?php if($f['is_image']){
-								$full_file_path = File::getUrl($f['file_id']);
-								echo Html::link(Html::img($f['file_id'], File::PIC_THUMBNAIL), $full_file_path, array(
+								$full_file_path = FileService::getUrl($f['file_id']);
+								echo Html::link(Html::img($f['file_id'], FileService::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link fancybox-image',
 									'encode'=>false,
 									'title'=>false,
 								));
 							}else{
-								$full_file_path = File::getUrl($f['file_id']);
-								echo Html::link(Html::img(File::getThumbnailUrl($f['file_id']), File::PIC_THUMBNAIL), $full_file_path, array(
+								$full_file_path = FileService::getUrl($f['file_id']);
+								echo Html::link(Html::img(FileService::getThumbnailUrl($f['file_id']), FileService::PIC_THUMBNAIL), $full_file_path, array(
 									'class'=>'file-thumb-link',
 									'encode'=>false,
 									'title'=>$f['description'],

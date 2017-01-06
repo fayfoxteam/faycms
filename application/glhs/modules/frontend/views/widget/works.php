@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div class="box right works">
 	<h3 class="box-title">
@@ -9,7 +9,7 @@ use fay\services\File;
 	<div class="box-content">
 		<ul class="cf">
 		<?php foreach($posts as $p){
-			echo Html::link(Html::img($p['thumbnail'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 				'dw'=>198,
 				'dh'=>156,
 				'alt'=>Html::encode($p['title']),

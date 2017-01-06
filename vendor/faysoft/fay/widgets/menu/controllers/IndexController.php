@@ -3,7 +3,7 @@ namespace fay\widgets\menu\controllers;
 
 use fay\helpers\Html;
 use fay\widget\Widget;
-use fay\services\Menu;
+use fay\services\MenuService;
 use fay\models\tables\Menus;
 
 class IndexController extends Widget{
@@ -14,7 +14,7 @@ class IndexController extends Widget{
 	}
 	
 	public function getData(){
-		$menus = Menu::service()->getTree($this->config['top'], true, true);
+		$menus = MenuService::service()->getTree($this->config['top'], true, true);
 		$this->removeFields($menus);
 		return $menus;
 	}

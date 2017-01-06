@@ -1,6 +1,6 @@
 <?php
-use fay\services\Option;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FlashService;
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,14 +25,14 @@ use fay\services\Flash;
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <div class="wrapper">
 	<?php include '_header.php';?>
 	<?php echo $content?>
 	<?php include '_footer.php';?>
-	<?php echo Flash::get();?>
+	<?php echo FlashService::get();?>
 </div>
 </body>
 </html>

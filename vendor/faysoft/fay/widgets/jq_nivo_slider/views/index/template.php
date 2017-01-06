@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 
 /**
  * @var $widget \fay\widgets\jq_nivo_slider\controllers\IndexController
@@ -15,7 +15,7 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
 		if(empty($f['link'])){
 			$f['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($f['file_id'], ($widget->config['width'] || $widget->config['height']) ? File::PIC_RESIZE : File::PIC_ORIGINAL, array(
+		echo Html::link(Html::img($f['file_id'], ($widget->config['width'] || $widget->config['height']) ? FileService::PIC_RESIZE : FileService::PIC_ORIGINAL, array(
 			'alt'=>Html::encode($f['title']),
 			'title'=>Html::encode($f['title']),
 			'dw'=>$widget->config['width'] ? $widget->config['width'] : false,

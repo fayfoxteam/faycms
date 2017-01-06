@@ -2,18 +2,18 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\Qiniu;
+use fay\services\QiniuService;
 use fay\core\Response;
 
 class QiniuController extends AdminController{
 	public function put(){
 		$file_id = $this->input->get('id', 'intval');
-		$result = Qiniu::service()->put($file_id);
+		$result = QiniuService::service()->put($file_id);
 		
 		if($result['status']){
 			Response::notify('success', array(
 				'message'=>'文件已被上传至七牛',
-				'data'=>$result['data'] + array('url'=>Qiniu::service()->getUrl($file_id)),
+				'data'=>$result['data'] + array('url'=>QiniuService::service()->getUrl($file_id)),
 			));
 		}else{
 			Response::notify('error', array(
@@ -23,7 +23,7 @@ class QiniuController extends AdminController{
 	}
 	
 	public function delete(){
-		$result = Qiniu::service()->delete($this->input->get('id', 'intval'));
+		$result = QiniuService::service()->delete($this->input->get('id', 'intval'));
 		
 		if($result !== true){
 			Response::notify('error', array(

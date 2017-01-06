@@ -2,7 +2,7 @@
 namespace church\modules\frontend\controllers;
 
 use church\library\FrontController;
-use fay\services\Page;
+use fay\services\PageService;
 
 class ContactController extends FrontController{
 	public function __construct(){
@@ -12,7 +12,7 @@ class ContactController extends FrontController{
 	}
 	
 	public function index(){
-		$page = Page::service()->get('contact');
+		$page = PageService::service()->get('contact');
 		
 		$this->layout->assign(array(
 			'page_title'=>$page['title'],

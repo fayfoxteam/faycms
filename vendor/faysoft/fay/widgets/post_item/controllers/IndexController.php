@@ -2,7 +2,7 @@
 namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\core\HttpException;
 use fay\core\db\Expr;
 use fay\models\tables\PostMeta;
@@ -100,7 +100,7 @@ class IndexController extends Widget{
 		
 		if(!empty($this->config['id_key']) && $this->input->get($this->config['id_key'])){
 			//有设置ID字段名，且传入ID字段
-			$post = Post::service()->get(
+			$post = PostService::service()->get(
 				$this->input->get($this->config['id_key'], 'intval'),
 				$fields,
 				isset($this->config['under_cat_id']) ? $this->config['under_cat_id'] : null
@@ -111,7 +111,7 @@ class IndexController extends Widget{
 			}
 		}else{
 			//未传入ID字段或未设置ID字段名
-			$post = Post::service()->get($this->config['default_post_id'], $fields);
+			$post = PostService::service()->get($this->config['default_post_id'], $fields);
 			if(!$post){
 				throw new HttpException('您访问的页面不存在');
 			}

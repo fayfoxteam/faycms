@@ -6,11 +6,11 @@ use fay\models\tables\Posts;
 use fay\models\tables\PostsFiles;
 use fay\services\post\Tag;
 use fay\models\tables\Files;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;
 use fay\core\Validator;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class MaterialController extends UserController{
 	private $rules = array(
@@ -60,15 +60,15 @@ class MaterialController extends UserController{
 					}
 				}
 		
-				Tag::service()->set($this->input->post('tags'), $post_id);
+				TagService::service()->set($this->input->post('tags'), $post_id);
 		
-				Flash::set('素材上传成功', 'success');
+				FlashService::set('素材上传成功', 'success');
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
 		
-		$this->view->cats = Category::service()->getNextLevel('_material');
+		$this->view->cats = CategoryService::service()->getNextLevel('_material');
 		
 		$this->view->render();
 	}
@@ -127,20 +127,20 @@ class MaterialController extends UserController{
 					PostsFiles::model()->delete('post_id = '.$post['id']);
 				}
 			
-				Tag::service()->set($this->input->post('tags'), $post['id']);
+				TagService::service()->set($this->input->post('tags'), $post['id']);
 			
-				Flash::set('文章编辑成功', 'success');
+				FlashService::set('文章编辑成功', 'success');
 			
 				$post = Posts::model()->find($id);
 			}else{
-				Flash::set('参数异常');
+				FlashService::set('参数异常');
 			}
 		}
 		
 		$this->form()->setData($post);
 		
 		//parent cat
-		$cat = Category::service()->get($post['cat_id'], 'parent');
+		$cat = CategoryService::service()->get($post['cat_id'], 'parent');
 		$this->form()->setData(array('parent_cat'=>$cat['parent']));
 		
 		//tags
@@ -160,7 +160,7 @@ class MaterialController extends UserController{
 		$this->view->file = $file;
 		$this->form()->setData(array('file'=>isset($file['file_id']) ? $file['file_id'] : ''));
 		
-		$this->view->cats = Category::service()->getNextLevel('_material');
+		$this->view->cats = CategoryService::service()->getNextLevel('_material');
 		$this->view->render();
 	}
 }

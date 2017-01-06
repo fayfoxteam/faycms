@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <fieldset class="form-field">
 	<div class="title">
@@ -11,10 +11,10 @@ use fay\services\File;
 		<?php 
 		echo \F::form()->inputHidden('thumbnail');
 		if(\F::form()->getData('thumbnail')){
-			echo Html::link(Html::img(\F::form()->getData('thumbnail'), File::PIC_RESIZE, array(
+			echo Html::link(Html::img(\F::form()->getData('thumbnail'), FileService::PIC_RESIZE, array(
 				'dw'=>257,
 				'dh'=>217,
-			)), File::getUrl(\F::form()->getData('thumbnail')), array(
+			)), FileService::getUrl(\F::form()->getData('thumbnail')), array(
 				'encode'=>false,
 				'class'=>'fancybox-image',
 				'title'=>false,

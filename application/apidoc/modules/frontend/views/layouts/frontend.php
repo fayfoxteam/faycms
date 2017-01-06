@@ -1,5 +1,5 @@
 <?php 
-use fay\services\Option;
+use fay\services\OptionService;
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@ system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
-<title><?php echo empty($title) ? '' : $title . ' | '?><?php echo Option::get('site:sitename')?></title>
+<title><?php echo empty($title) ? '' : $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body id="faycms">
 <div class="wrapper">

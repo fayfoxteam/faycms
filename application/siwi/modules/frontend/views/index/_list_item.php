@@ -1,10 +1,10 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use siwi\helpers\FriendlyLink;
 use siwi\models\Post;
 
-$type = Post::service()->getType($data['cat_id']);
+$type = PostService::service()->getType($data['cat_id']);
 $type_title = '';
 switch($type){
 	case 'blog':
@@ -20,7 +20,7 @@ switch($type){
 ?>
 <article class="<?php if($index % 4 == 0)echo 'last'?>">
 	<?php
-		echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(
+		echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 			'dw'=>283,
 			'dh'=>217,
 			'alt'=>Html::encode($data['title']),
@@ -51,7 +51,7 @@ switch($type){
 		</p>
 	</div>
 	<div class="cover">
-		<?php echo Html::link(Html::img($data['avatar'], File::PIC_THUMBNAIL, array(
+		<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 			'alt'=>Html::encode($data['nickname']),
 			'title'=>Html::encode($data['nickname']),
 			'spare'=>'avatar',

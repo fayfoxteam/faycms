@@ -3,7 +3,7 @@ namespace fruit\modules\frontend\controllers;
 
 use fruit\library\FrontController;
 use fay\models\tables\Pages;
-use fay\services\Post;
+use fay\services\PostService;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -19,7 +19,7 @@ class IndexController extends FrontController{
 	public function index(){
 		$this->view->about = Pages::model()->fetchRow("alias = 'about'", 'title,thumbnail,abstract,content');
 		
-		$this->view->products = \fay\services\post\Category::service()->getPosts('product', 7, 'id,title,thumbnail', true);
+		$this->view->products = \fay\services\post\CategoryService::service()->getPosts('product', 7, 'id,title,thumbnail', true);
 
 		$this->view->case_1 = Pages::model()->fetchRow("alias = 'case-1'", 'id,title,abstract');
 		$this->view->case_2 = Pages::model()->fetchRow("alias = 'case-2'", 'id,title,abstract');

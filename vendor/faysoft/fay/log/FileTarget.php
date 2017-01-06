@@ -2,7 +2,7 @@
 namespace fay\log;
 
 use fay\core\ErrorException;
-use fay\services\File;
+use fay\services\FileService;
 
 class FileTarget extends Target{
 	/**
@@ -34,7 +34,7 @@ class FileTarget extends Target{
 		
 		$logPath = dirname($this->logFile);
 		if (!is_dir($logPath)) {
-			File::createFolder($logPath, $this->dirMode);
+			FileService::createFolder($logPath, $this->dirMode);
 		}
 		
 		$text = implode("\n", array_map(array($this, 'formatMessage'), $messages)) . "\n";

@@ -2,14 +2,14 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\File;
+use fay\services\FileService;
 use fay\models\tables\Files;
 use fay\helpers\Image;
 use fay\helpers\SecurityCode;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
-use fay\services\Option;
+use fay\services\OptionService;
 
 /**
  * 文件
@@ -35,11 +35,11 @@ class FileController extends ApiController{
 		$check = $validator->check(array(
 			array(array('f'), 'required'),
 			array(array('t'), 'range', array('range'=>array(
-				File::PIC_ORIGINAL,
-				File::PIC_THUMBNAIL,
-				File::PIC_CROP,
-				File::PIC_RESIZE,
-				File::PIC_CUT
+				FileService::PIC_ORIGINAL,
+				FileService::PIC_THUMBNAIL,
+				FileService::PIC_CROP,
+				FileService::PIC_RESIZE,
+				FileService::PIC_CUT
 			))),
 			array(array('x','y', 'dw', 'dh', 'w', 'h'), 'int'),
 		));
@@ -53,7 +53,7 @@ class FileController extends ApiController{
 		}
 		
 		//显示模式
-		$t = $this->input->get('t', 'intval', File::PIC_ORIGINAL);
+		$t = $this->input->get('t', 'intval', FileService::PIC_ORIGINAL);
 		
 		//文件名或文件id号
 		$f = $this->input->get('f');
@@ -81,15 +81,15 @@ class FileController extends ApiController{
 		header('Etag:'.$file['raw_name']);
 		
 		switch ($t) {
-			case File::PIC_ORIGINAL:
+			case FileService::PIC_ORIGINAL:
 				//直接输出图片
 				$this->_pic($file);
 				break;
-			case File::PIC_THUMBNAIL:
+			case FileService::PIC_THUMBNAIL:
 				//输出图片的缩略图
 				$this->_thumbnail($file);
 				break;
-			case File::PIC_CROP:
+			case FileService::PIC_CROP:
 				/**
 				 * 根据起始坐标，宽度及宽高比裁剪后输出图片
 				 * @parameter $_GET['x'] 起始点x坐标
@@ -101,7 +101,7 @@ class FileController extends ApiController{
 				 */
 				$this->_crop($file);
 				break;
-			case File::PIC_RESIZE:
+			case FileService::PIC_RESIZE:
 				/**
 				 * 根据给定的宽高对图片进行裁剪后输出图片
 				 * @parameter $_GET['dw'] 输出图像宽度
@@ -111,7 +111,7 @@ class FileController extends ApiController{
 				 */
 				$this->_resize($file);
 				break;
-			case File::PIC_CUT:
+			case FileService::PIC_CUT:
 				/**
 				 * 根据给定的宽高对图片进行裁剪后输出图片
 				 * @parameter $_GET['dw'] 输出图像宽度
@@ -187,7 +187,7 @@ class FileController extends ApiController{
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+			imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
 		}else{
 			//图片不存在，显示一张默认图片吧
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
@@ -221,7 +221,7 @@ class FileController extends ApiController{
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+			imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
@@ -248,7 +248,7 @@ class FileController extends ApiController{
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
-			imagejpeg($img, null, $this->input->get('q', 'intval', Option::get('system:image_quality', 75)));
+			imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');

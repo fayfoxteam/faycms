@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <!--[if IE 6]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/DD_belatedPNG_0.0.8a-min.js')?>"></script>
 <![endif]-->
-<title><?php if(!empty($title))echo $title . ' | '?><?php echo Option::get('site:sitename')?></title>
+<title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <div class="wrapper" id="inner-page">

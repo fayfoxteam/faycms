@@ -7,11 +7,11 @@ use fay\common\ListView;
 use fay\models\tables\ExamQuestions;
 use fay\models\tables\Actionlogs;
 use fay\helpers\Html;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\models\tables\ExamAnswers;
 use fay\core\Response;
 use fay\models\tables\ExamExamsQuestions;
-use fay\services\Flash;
+use fay\services\FlashService;
 use fay\helpers\StringHelper;
 
 class ExamQuestionController extends AdminController{
@@ -68,7 +68,7 @@ class ExamQuestionController extends AdminController{
 		));
 
 		//分类树
-		$this->view->cats = Category::service()->getTree('_system_exam_question');
+		$this->view->cats = CategoryService::service()->getTree('_system_exam_question');
 		$this->view->render();
 	}
 	
@@ -141,7 +141,7 @@ class ExamQuestionController extends AdminController{
 		}
 		
 		//分类树
-		$this->view->cats = Category::service()->getTree('_system_exam_question');
+		$this->view->cats = CategoryService::service()->getTree('_system_exam_question');
 		
 		$this->view->render();
 	}
@@ -302,12 +302,12 @@ class ExamQuestionController extends AdminController{
 		), '*', 'sort');
 		
 		//分类树
-		$this->view->cats = Category::service()->getTree('_system_exam_question');
+		$this->view->cats = CategoryService::service()->getTree('_system_exam_question');
 		
 		//是否参与过考试
 		$this->view->is_examed = !!ExamExamsQuestions::model()->fetchRow('question_id = '.$id);
 		if($this->view->is_examed){
-			Flash::set('已参与考试的试题不能改变试题类型且不可删除已被用户选过的选项', 'warning');
+			FlashService::set('已参与考试的试题不能改变试题类型且不可删除已被用户选过的选项', 'warning');
 		}
 		
 		$this->view->render();
@@ -337,8 +337,8 @@ class ExamQuestionController extends AdminController{
 	
 	public function cat(){
 		$this->layout->subtitle = '试题分类';
-		$this->view->cats = Category::service()->getTree('_system_exam_question');
-		$root_node = Category::service()->getByAlias('_system_exam_question', 'id');
+		$this->view->cats = CategoryService::service()->getTree('_system_exam_question');
+		$root_node = CategoryService::service()->getByAlias('_system_exam_question', 'id');
 		$this->view->root = $root_node['id'];
 		
 		if($this->checkPermission('admin/exam-question/cat-create')){

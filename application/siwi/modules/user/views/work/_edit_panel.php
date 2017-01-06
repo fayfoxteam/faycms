@@ -32,7 +32,7 @@ use fay\helpers\Html;
 				<?php foreach($files as $f){?>
 				<div class="pic-item">
 					<?php echo Html::inputHidden('files[]', $f['file_id'])?>
-					<?php echo Html::img($f['file_id'], File::PIC_RESIZE, array(
+					<?php echo Html::img($f['file_id'], FileService::PIC_RESIZE, array(
 						'dw'=>239,
 						'dh'=>184,
 					))?>

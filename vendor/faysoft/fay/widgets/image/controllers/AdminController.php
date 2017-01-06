@@ -2,7 +2,7 @@
 namespace fay\widgets\image\controllers;
 
 use fay\widget\Widget;
-use fay\services\Flash;
+use fay\services\FlashService;
 
 class AdminController extends Widget{
 	public function initConfig($config){
@@ -31,7 +31,7 @@ class AdminController extends Widget{
 		
 		$this->saveConfig($data);
 		
-		Flash::set('编辑成功', 'success');
+		FlashService::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

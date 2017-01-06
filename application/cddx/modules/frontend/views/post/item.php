@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Html;
 use fay\helpers\Date;
-use fay\services\Post;
+use fay\services\PostService;
 ?>
 <div class="inner cf">
 	<div class="breadcrumbs">
@@ -31,9 +31,9 @@ use fay\services\Post;
 	<div class="g-mn">
 		<h1 class="post-title"><?php echo Html::encode($post['post']['title'])?></h1>
 		<div class="post-meta">
-			<span>发布部门：<?php $departmeng = Post::service()->getPropValueByAlias('department', $post['post']['id']);echo $departmeng['title']?></span>
+			<span>发布部门：<?php $departmeng = PostService::service()->getPropValueByAlias('department', $post['post']['id']);echo $departmeng['title']?></span>
 			<span>撰写人：<?php echo $post['user']['nickname'] ? : $post['user']['username']?></span>
-			<span>签发人：<?php echo Post::service()->getPropValueByAlias('reviewer', $post['post']['id'])?></span>
+			<span>签发人：<?php echo PostService::service()->getPropValueByAlias('reviewer', $post['post']['id'])?></span>
 			<span>发布时间：<?php echo Date::niceShort($post['post']['publish_time'])?></span>
 			<span>阅读数：<?php echo $post['post']['views']?></span>
 		</div>

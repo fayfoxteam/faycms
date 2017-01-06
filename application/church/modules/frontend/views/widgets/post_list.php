@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 
 /**
  * @var array $posts
@@ -14,7 +14,7 @@ use fay\services\File;
 				<div class="swiper-wrapper">
 				<?php foreach($p['files'] as $file){?>
 					<div class="swiper-slide">
-						<?php echo Html::img($file['thumbnail'], File::PIC_ORIGINAL, array(
+						<?php echo Html::img($file['thumbnail'], FileService::PIC_ORIGINAL, array(
 							'alt'=>$file['description'],
 						))?>
 					</div>

@@ -4,7 +4,7 @@ namespace glhs\library;
 use fay\core\Controller;
 use fay\helpers\Request;
 use fay\models\tables\SpiderLogs;
-use fay\services\Category;
+use fay\services\CategoryService;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
@@ -27,6 +27,6 @@ class FrontController extends Controller{
 		}
 		
 		//顶级分类
-		$this->layout->cats = Category::service()->getNextLevel('_system_post');
+		$this->layout->cats = CategoryService::service()->getNextLevel('_system_post');
 	}
 }

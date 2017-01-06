@@ -5,7 +5,7 @@ use cms\library\AdminController;
 use fay\models\tables\Users;
 use fay\models\tables\Actionlogs;
 use fay\services\user\Prop;
-use fay\services\User;
+use fay\services\UserService;
 use fay\models\tables\Roles;
 use fay\services\user\Role;
 use fay\core\Response;
@@ -28,7 +28,7 @@ class ProfileController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			User::service()->update($user_id, $data, $extra);
+			UserService::service()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了自己的信息', $user_id);
 			Response::notify('success', '修改成功', false);
@@ -37,8 +37,8 @@ class ProfileController extends AdminController{
 			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = User::service()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = Role::service()->getIds($user_id);
+		$user = UserService::service()->get($user_id, 'user.*,profile.*');
+		$user_role_ids = RoleService::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));
@@ -48,7 +48,7 @@ class ProfileController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = Prop::service()->getPropertySet($user_id);
+		$this->view->prop_set = PropService::service()->getPropertySet($user_id);
 		$this->view->render();
 	}
 }

@@ -1,10 +1,10 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use fay\models\tables\Files;
 
 if($data['thumbnail']){
-	$img = Html::img($data['thumbnail'], File::PIC_RESIZE, array(
+	$img = Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 		'dw'=>211,
 		'dh'=>155,
 	));
@@ -16,13 +16,13 @@ if($data['thumbnail']){
 		$file = Files::model()->fetchRow(array(
 			'raw_name = ?'=>$filename,
 		));
-		$img = Html::img($file['id'], File::PIC_RESIZE, array(
+		$img = Html::img($file['id'], FileService::PIC_RESIZE, array(
 			'dw'=>211,
 			'dh'=>155,
 		));
 	}else{
 		//默认图片
-		$img = Html::img(0, File::PIC_ORIGINAL, array(
+		$img = Html::img(0, FileService::PIC_ORIGINAL, array(
 			'spare'=>'default',
 		));
 	}

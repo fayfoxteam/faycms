@@ -1,5 +1,5 @@
 <?php
-use fay\services\File;
+use fay\services\FileService;
 use fay\helpers\Html;
 use fay\core\Uri;
 
@@ -48,7 +48,7 @@ if(method_exists($exception, 'getLevel')){
 		$code_count = 0;
 		foreach($_backtrace as $k => $b){
 			$code = '';
-			if(isset($b['file']) && $source = File::getFileLine($b['file'], $b['line'], 10)){
+			if(isset($b['file']) && $source = FileService::getFileLine($b['file'], $b['line'], 10)){
 				$code = Html::tag('pre', array(
 					'class'=>'prettyprint linenums:'.($b['line'] - 10 < 1 ? 1 : $b['line'] - 10),
 					'data-line'=>$b['line'],

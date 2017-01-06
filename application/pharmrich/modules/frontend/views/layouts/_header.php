@@ -1,20 +1,20 @@
 <?php 
 use fay\helpers\Html;
-use fay\services\Menu;
-use fay\services\Option;
+use fay\services\MenuService;
+use fay\services\OptionService;
 use fay\core\Uri;
 ?>
 <header class="g-top">
 	<div class="centered-wrapper">
 		<span class="top-logo">
 			<a href="<?php echo $this->url()?>">
-				<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo Option::get('site:sitename')?>" />
+				<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo OptionService::get('site:sitename')?>" />
 				<span>Pharmrich</span>
 			</a>
 		</span>
 		<nav class="top-nav fr">
 			<ul><?php
-				$top_nav = Menu::service()->getTree('_top_nav');
+				$top_nav = MenuService::service()->getTree('_top_nav');
 				foreach($top_nav as $nav){
 					echo Html::link($nav['title'], $nav['link'], array(
 						'target'=>$nav['target'],
@@ -23,7 +23,7 @@ use fay\core\Uri;
 					));
 				}
 			?>
-			<?php if($phone = Option::get('site:phone')){?>
+			<?php if($phone = OptionService::get('site:phone')){?>
 				<li class="phone-container"><span class="phone-number" style="display:none"><?php echo $phone?></span><span class="phone"></span></li>
 			<?php }?>
 				<li class="toggle-phone-menu"><a href="javascript:;"><i class="fa fa-bars"></i></a></li>
@@ -50,7 +50,7 @@ use fay\core\Uri;
 <nav class="g-nav">
 	<div class="centered-wrapper">
 		<ul class="cf"><?php
-			$menus = Menu::service()->getTree('_menu');
+			$menus = MenuService::service()->getTree('_menu');
 			foreach($menus as $menu){
 				echo Html::link($menu['title'], $menu['link'], array(
 					'class'=>isset($current_header_menu) && $current_header_menu == $menu['alias'] ? 'crt' : false,

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Template;
+use fay\services\TemplateService;
 ?>
 <tr>
 	<td>

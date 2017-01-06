@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\helpers\ArrayHelper;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <?php if(!empty($prop_set)){?>
 <?php foreach($prop_set as $prop){?>
@@ -119,9 +119,9 @@ use fay\services\File;
 				echo "<div id=\"prop-{$prop['id']}-preview-container\">";
 				echo F::form()->inputHidden("props[{$prop['id']}]");
 				if(!empty($prop['value'])){
-					echo Html::link(Html::img($prop['value'], File::PIC_RESIZE, array(
+					echo Html::link(Html::img($prop['value'], FileService::PIC_RESIZE, array(
 						'dw'=>257,
-					)), File::getUrl($prop['value']), array(
+					)), FileService::getUrl($prop['value']), array(
 						'encode'=>false,
 						'class'=>'fancybox-image block',
 						'title'=>false,

@@ -1,10 +1,10 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 use siwi\helpers\FriendlyLink;
 ?>
 <article class="<?php if($index % 4 == 0)echo 'last'?>">
-	<?php echo Html::link(Html::img($data['thumbnail'], File::PIC_RESIZE, array(
+	<?php echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 		'dw'=>283,
 		'dh'=>217,
 		'alt'=>Html::encode($data['title']),

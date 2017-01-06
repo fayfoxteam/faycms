@@ -2,9 +2,9 @@
 namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Db;
-use fay\services\Menu;
+use fay\services\MenuService;
 use fay\helpers\Request;
 use fay\core\Response;
 
@@ -146,8 +146,8 @@ class DbController extends InstallController{
 	 * 对categories表和menus表进行索引
 	 */
 	public function indexCats(){
-		Category::service()->buildIndex();
-		Menu::service()->buildIndex();
+		CategoryService::service()->buildIndex();
+		MenuService::service()->buildIndex();
 		
 		//安装日志
 		file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nindex-tree-tables-completed", FILE_APPEND);

@@ -2,8 +2,8 @@
 namespace fay\widgets\post_list\controllers;
 
 use fay\widget\Widget;
-use fay\services\Category;
-use fay\services\Flash;
+use fay\services\CategoryService;
+use fay\services\FlashService;
 
 class AdminController extends Widget{
 	public function initConfig($config){
@@ -14,13 +14,13 @@ class AdminController extends Widget{
 	}
 	
 	public function index(){
-		$root_node = Category::service()->getByAlias('_system_post', 'id');
+		$root_node = CategoryService::service()->getByAlias('_system_post', 'id');
 		$this->view->assign(array(
 			'cats'=>array(
 				array(
 					'id'=>$root_node['id'],
 					'title'=>'顶级',
-					'children'=>Category::service()->getTreeByParentId($root_node['id']),
+					'children'=>CategoryService::service()->getTreeByParentId($root_node['id']),
 				),
 			)
 		));
@@ -44,7 +44,7 @@ class AdminController extends Widget{
 		}
 		$this->saveConfig($data);
 		
-		Flash::set('编辑成功', 'success');
+		FlashService::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

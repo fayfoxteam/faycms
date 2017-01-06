@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\Html;
-use fay\services\Category;
+use fay\services\CategoryService;
 
-$cat = Category::service()->get($config['top'], 'title,alias');
+$cat = CategoryService::service()->get($config['top'], 'title,alias');
 ?>
 <div class="widget widget-category-posts" id="widget-<?php echo Html::encode($alias)?>">
 	<div class="box-2">

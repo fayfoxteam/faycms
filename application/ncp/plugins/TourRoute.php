@@ -2,12 +2,12 @@
 namespace ncp\plugins;
 
 use ncp\models\tables\TourRoute as Table_TourRoute;
-use fay\services\Category;
+use fay\services\CategoryService;
 
 class TourRoute{
 	public function addBox($params){
-		$travel_cat = Category::service()->getByAlias('travel', 'id');
-		if(Category::service()->isChild($params['cat_id'], $travel_cat['id'])){
+		$travel_cat = CategoryService::service()->getByAlias('travel', 'id');
+		if(CategoryService::service()->isChild($params['cat_id'], $travel_cat['id'])){
 			\F::app()->addBox(array(
 				'name'=>'tour-route',
 				'title'=>'路线攻略',
@@ -16,8 +16,8 @@ class TourRoute{
 	}
 	
 	public function setRoutes($params){
-		$travel_cat = Category::service()->getByAlias('travel', 'id');
-		if(Category::service()->isChild($params['cat_id'], $travel_cat['id'])){
+		$travel_cat = CategoryService::service()->getByAlias('travel', 'id');
+		if(CategoryService::service()->isChild($params['cat_id'], $travel_cat['id'])){
 			//验证规则
 			\F::form()->setModel(Table_TourRoute::model());
 			

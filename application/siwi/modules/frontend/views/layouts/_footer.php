@@ -1,6 +1,6 @@
 <?php
-use fay\services\Option;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FlashService;
 ?>
 <footer class="g-ft">
 	<div class="w1190">
@@ -41,7 +41,7 @@ use fay\services\Flash;
 	<div class="g-fcp">
 		<div class="w1190">
 			<p class="tip">最佳分辨率1280*800，建议使用Chrome、Firefox、Safari、ie10版本浏览器</p>
-			<p class="cp"><?php echo Option::get('site:copyright')?></p>
+			<p class="cp"><?php echo OptionService::get('site:copyright')?></p>
 		</div>
 	</div>
 </footer>
@@ -49,4 +49,4 @@ use fay\services\Flash;
 <script>common.init();</script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>_fa.init();</script>
-<?php echo Flash::get()?>
+<?php echo FlashService::get()?>

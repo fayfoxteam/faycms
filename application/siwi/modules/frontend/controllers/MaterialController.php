@@ -2,11 +2,11 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\models\tables\Messages;
 use fay\core\HttpException;
 use siwi\helpers\FriendlyLink;
@@ -26,11 +26,11 @@ class MaterialController extends FrontController{
 		$params = FriendlyLink::getParams();
 		$this->view->params = $params;
 		if($params['cat_2']){
-			$cat = Category::service()->get($params['cat_2']);
+			$cat = CategoryService::service()->get($params['cat_2']);
 		}else if($params['cat_1']){
-			$cat = Category::service()->get($params['cat_1']);
+			$cat = CategoryService::service()->get($params['cat_1']);
 		}else{
-			$cat = Category::service()->getByAlias('_material', '*');
+			$cat = CategoryService::service()->getByAlias('_material', '*');
 		}
 		$this->view->cat = $cat;
 		$this->layout->title = $cat['seo_title'];
@@ -78,7 +78,7 @@ class MaterialController extends FrontController{
 			'page_size'=>2,
 		));
 		
-		$this->view->cat_tree = Category::service()->getTree('_material');
+		$this->view->cat_tree = CategoryService::service()->getTree('_material');
 	
 		$this->view->render();
 	}
@@ -86,7 +86,7 @@ class MaterialController extends FrontController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		$post = Post::service()->get($id, 'nav,user');
+		$post = PostService::service()->get($id, 'nav,user');
 		
 		if(!$post){
 			throw new HttpException('页面不存在');
@@ -111,13 +111,13 @@ class MaterialController extends FrontController{
 			))
 			->order('create_time DESC');
 		
-		if(Post::service()->isLiked($id)){
+		if(PostService::service()->isLiked($id)){
 			$this->view->liked = true;
 		}else{
 			$this->view->liked = false;
 		}
 		
-		if(Post::service()->isFavored($id)){
+		if(PostService::service()->isFavored($id)){
 			$this->view->favored = true;
 		}else{
 			$this->view->favored = false;

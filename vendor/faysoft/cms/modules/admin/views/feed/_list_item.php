@@ -45,7 +45,7 @@ use fay\services\feed\Tag as FeedTag;
 	</td>
 	<?php if(in_array('tags', $cols)){?>
 	<td><?php
-		$tags = FeedTag::service()->get($data['id']);
+		$tags = FeedTagService::service()->get($data['id']);
 		foreach($tags as $key => $tag){
 			if($key){
 				echo ', ';

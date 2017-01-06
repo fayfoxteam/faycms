@@ -2,11 +2,11 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\helpers\Html;
 use fay\core\HttpException;
 
@@ -23,7 +23,7 @@ class NewsController extends FrontController{
 	
 	public function index(){
 		$cat_alias = $this->input->get('alias', 'news');
-		$cat = Category::service()->getByAlias($cat_alias, '*');
+		$cat = CategoryService::service()->getByAlias($cat_alias, '*');
 		
 		if(!$cat){
 			throw new HttpException('404页面不存在');
@@ -58,7 +58,7 @@ class NewsController extends FrontController{
 		$this->view->cat = $cat;
 		
 		//获取news下的所有子节点
-		$this->view->children = Category::service()->getChildren('news', 'alias,title');
+		$this->view->children = CategoryService::service()->getChildren('news', 'alias,title');
 		
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), 'id,title,publish_time')
@@ -81,14 +81,14 @@ class NewsController extends FrontController{
 	
 	public function item(){
 		$id = $this->input->get('id', 'intval');
-		$post = Post::service()->get($id);
+		$post = PostService::service()->get($id);
 		
 		if(!$post){
 			throw new HttpException('404页面不存在');
 		}
 		
-		$this->view->children = Category::service()->getChildren('news');
-		$this->view->cat = Category::service()->get($post['cat_id']);
+		$this->view->children = CategoryService::service()->getChildren('news');
+		$this->view->cat = CategoryService::service()->get($post['cat_id']);
 		
 		$this->layout->breadcrumbs = array(
 			array(

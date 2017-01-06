@@ -8,7 +8,7 @@ use fay\models\tables\Roles;
 use fay\models\tables\Actionlogs;
 use fay\common\ListView;
 use fay\services\user\Prop;
-use fay\services\User;
+use fay\services\UserService;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
@@ -128,7 +128,7 @@ class OperatorController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			$user_id = User::service()->create($data, $extra, 1);
+			$user_id = UserService::service()->create($data, $extra, 1);
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
 			
@@ -146,7 +146,7 @@ class OperatorController extends AdminController{
 		//有可能默认了某些角色
 		$role_ids = $this->input->get('roles', 'intval');
 		if($role_ids){
-			$this->view->prop_set = Prop::service()->getByRefer($role_ids);
+			$this->view->prop_set = PropService::service()->getByRefer($role_ids);
 		}else{
 			$this->view->prop_set = array();
 		}
@@ -158,7 +158,7 @@ class OperatorController extends AdminController{
 		$this->layout->subtitle = '编辑管理员信息';
 		$user_id = $this->input->request('id', 'intval');
 		
-		if(Role::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id) && !Role::service()->is(Roles::ITEM_SUPER_ADMIN)){
+		if(RoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id) && !RoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
 			throw new HttpException('您无权编辑超级管理员账户', '403');
 		}
 		
@@ -172,7 +172,7 @@ class OperatorController extends AdminController{
 				'props'=>$this->input->post('props', '', array()),
 			);
 			
-			User::service()->update($user_id, $data, $extra);
+			UserService::service()->update($user_id, $data, $extra);
 			
 			$this->actionlog(Actionlogs::TYPE_PROFILE, '编辑了管理员信息', $user_id);
 			Response::notify('success', '修改成功', false);
@@ -181,8 +181,8 @@ class OperatorController extends AdminController{
 			$this->form()->setData(array('password'=>''), true);
 		}
 		
-		$user = User::service()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = Role::service()->getIds($user_id);
+		$user = UserService::service()->get($user_id, 'user.*,profile.*');
+		$user_role_ids = RoleService::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));
@@ -192,13 +192,13 @@ class OperatorController extends AdminController{
 			'deleted = 0',
 		), 'id,title');	
 		
-		$this->view->prop_set = Prop::service()->getPropertySet($user_id);
+		$this->view->prop_set = PropService::service()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
 	public function item(){
 		if($id = $this->input->get('id', 'intval')){
-			$this->view->user = User::service()->get($id, 'user.*,props.*,roles.title,profile.*');
+			$this->view->user = UserService::service()->get($id, 'user.*,props.*,roles.title,profile.*');
 		}else{
 			throw new HttpException('参数不完整', 500);
 		}

@@ -2,12 +2,12 @@
 namespace cms\widgets\change_app\controllers;
 
 use fay\widget\Widget;
-use fay\services\File;
+use fay\services\FileService;
 use fay\core\Response;
 
 class IndexController extends Widget{
 	public function index(){
-		$apps = File::getFileList(APPLICATION_PATH.'..');
+		$apps = FileService::getFileList(APPLICATION_PATH.'..');
 		$options = array();
 		foreach($apps as $app){
 			if($app['is_dir']){

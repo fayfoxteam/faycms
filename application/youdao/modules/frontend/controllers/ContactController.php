@@ -3,7 +3,7 @@ namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
 use fay\models\tables\Pages;
-use fay\services\Option;
+use fay\services\OptionService;
 
 class ContactController extends FrontController{
 	public $layout_template = 'inner';
@@ -53,16 +53,16 @@ class ContactController extends FrontController{
 		$this->layout->banner = 'contact-banner.jpg';
 		$this->layout->current_directory = 'contact';
 
-		$this->layout->title = Option::get('site:seo_contact_title');
-		$this->layout->keywords = Option::get('site:seo_contact_keywords');
-		$this->layout->description = Option::get('site:seo_contact_description');
+		$this->layout->title = OptionService::get('site:seo_contact_title');
+		$this->layout->keywords = OptionService::get('site:seo_contact_keywords');
+		$this->layout->description = OptionService::get('site:seo_contact_description');
 		
 		$this->view->render();
 	}
 	
 	public function markmessage(){
 		sleep(3);
-// 		Email::send('369281831@qq.com', '网站留言', "姓名：{$this->input->post('realname')}<br />
+// 		EmailService::send('369281831@qq.com', '网站留言', "姓名：{$this->input->post('realname')}<br />
 // 			联系电话：{$this->input->post('phone')}<br />
 // 			邮箱：{$this->input->post('email')}<br />
 // 			单位：{$this->input->post('company')}<br />

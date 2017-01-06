@@ -2,7 +2,7 @@
 namespace fay\widgets\page_item\controllers;
 
 use fay\widget\Widget;
-use fay\services\Flash;
+use fay\services\FlashService;
 use fay\models\tables\Pages;
 
 class AdminController extends Widget{
@@ -42,7 +42,7 @@ class AdminController extends Widget{
 		
 		$this->saveConfig($data);
 		
-		Flash::set('编辑成功', 'success');
+		FlashService::set('编辑成功', 'success');
 	}
 	
 	public function rules(){

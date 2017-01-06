@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\Html;
-use fay\services\File;
+use fay\services\FileService;
 ?>
 <div id="index-small-slide">
 	<div class="big-img">
@@ -10,14 +10,14 @@ use fay\services\File;
 	<div class="small-img-list">
 		<ul>
 		<?php foreach($files as $k=>$f){
-			echo Html::link(Html::img($f['file_id'], File::PIC_RESIZE, array(
+			echo Html::link(Html::img($f['file_id'], FileService::PIC_RESIZE, array(
 				'dw'=>76,
 				'dh'=>58,
 				'class'=>$k ? 'ml6' : false,
 			)), 'javascript:;', array(
 				'encode'=>false,
 				'title'=>false,
-				'data-src'=>File::getUrl($f['file_id']),
+				'data-src'=>FileService::getUrl($f['file_id']),
 				'data-link'=>$f['link'] ? $f['link'] : 'javascript:;',
 				'data-title'=>$f['title'],
 			));

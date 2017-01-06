@@ -3,10 +3,10 @@ namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
 use fay\core\Sql;
-use fay\services\Category;
+use fay\services\CategoryService;
 use fay\models\tables\Posts;
 use fay\common\ListView;
-use fay\services\Post;
+use fay\services\PostService;
 use fay\helpers\Html;
 use fay\core\HttpException;
 
@@ -33,7 +33,7 @@ class ProductController extends FrontController{
 	}
 	
 	public function index(){
-		$cat_product = Category::service()->getByAlias('product');
+		$cat_product = CategoryService::service()->getByAlias('product');
 
 		$this->layout->title = $cat_product['seo_title'];
 		$this->layout->keywords = $cat_product['seo_keywords'];
@@ -69,7 +69,7 @@ class ProductController extends FrontController{
 	
 	public function item(){
 		$id = $this->input->get('id', 'intval');
-		$post = Post::service()->get($id);
+		$post = PostService::service()->get($id);
 		
 		if(!$post){
 			throw new HttpException('文章不存在');

@@ -1,5 +1,5 @@
 <?php
-use fay\services\Option;
+use fay\services\OptionService;
 use fay\helpers\Html;
 ?>
 <!DOCTYPE html>
@@ -14,7 +14,7 @@ use fay\helpers\Html;
 <title><?php if(!empty($title)){
 	echo $title, '_';
 }
-echo Option::get('site:sitename')?></title>
+echo OptionService::get('site:sitename')?></title>
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
@@ -44,19 +44,19 @@ echo '.g-footer{background-image:url('.$footer_image['src'].')}';
 			<nav class="top-nav fr">
 				<ul>
 					<li><?php
-						echo Html::link('官方店铺', Option::get('site:weibo'), array(
+						echo Html::link('官方店铺', OptionService::get('site:weibo'), array(
 							'target'=>'_blank',
 						));
 					?></li>
 					<li><?php
-						echo Html::link('在线咨询', 'http://wpa.qq.com/msgrd?v=3&uin='.Option::get('site:qq').'&site=qq&menu=yes', array(
+						echo Html::link('在线咨询', 'http://wpa.qq.com/msgrd?v=3&uin='.OptionService::get('site:qq').'&site=qq&menu=yes', array(
 							'target'=>'_blank',
 						));
 					?></li>
 					<li><?php
 						echo Html::link('联系我们', array('contact'));
 					?></li>
-					<li class="phone-container"><span class="phone-number" style="display:none"><?php echo Option::get('site:phone')?></span><span class="phone"></span></li>
+					<li class="phone-container"><span class="phone-number" style="display:none"><?php echo OptionService::get('site:phone')?></span><span class="phone"></span></li>
 				</ul>
 			</nav>
 		</div>
@@ -97,7 +97,7 @@ echo '.g-footer{background-image:url('.$footer_image['src'].')}';
 	<?php echo $content?>
 	<footer class="g-footer">
 	<?php
-		echo Html::link('在线留言', 'http://wpa.qq.com/msgrd?v=3&uin='.Option::get('site:qq').'&site=qq&menu=yes', array(
+		echo Html::link('在线留言', 'http://wpa.qq.com/msgrd?v=3&uin='.OptionService::get('site:qq').'&site=qq&menu=yes', array(
 			'target'=>'_blank',
 			'class'=>'message-link',
 		));

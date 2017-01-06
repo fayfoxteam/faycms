@@ -5,12 +5,12 @@
 ?>
 <div class="row">
 	<div class="col-5">
-		<form id="form" class="validform" action="<?php echo $this->url('admin/tag/create')?>" method="post">
+		<?php echo F::form()->open(array('admin/tag/create'))?>
 			<?php $this->renderPartial('_edit_panel');?>
 			<div class="form-field">
 				<a href="javascript:;" class="btn" id="form-submit">添加新标签</a>
 			</div>
-		</form>
+		<?php echo F::form()->close()?>
 	</div>
 	<div class="col-7">
 		<?php $this->renderPartial('_right', array(

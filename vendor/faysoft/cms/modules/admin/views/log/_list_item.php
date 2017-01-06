@@ -3,6 +3,11 @@ use fay\helpers\HtmlHelper;
 use fay\services\LogService;
 use fay\helpers\StringHelper;
 use fay\helpers\DateHelper;
+
+/**
+ * @var $data array
+ * @var $iplocation \IpLocation
+ */
 ?>
 <tr valign="top" id="link-<?php echo $data['id']?>">
 	<td><strong><?php echo $data['code']?></strong>
@@ -13,7 +18,7 @@ use fay\helpers\DateHelper;
 			))?>
 		</div>
 	</td>
-	<td><?php echo Log::getType($data['type'])?></td>
+	<td><?php echo LogService::getType($data['type'])?></td>
 	<td><abbr title="<?php echo HtmlHelper::encode($data['data'])?>">
 		<?php echo StringHelper::niceShort($data['data'], 60, true)?>
 	</abbr></td>

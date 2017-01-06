@@ -3,23 +3,23 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\helpers\RequestHelper;
-use fay\services\Category;
-use fay\services\post\Prop;
+use fay\services\CategoryService;
+use fay\services\post\PostPropService;
 use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
 use fay\models\tables\PostsFiles;
 use fay\models\tables\Actionlogs;
-use fay\services\Setting;
+use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\Post;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
-use fay\services\Option;
-use fay\services\Flash;
+use fay\services\OptionService;
+use fay\services\FlashService;
 use fay\models\tables\PostMeta;
-use fay\services\Post as PostService;
+use fay\services\PostService;
 use fay\models\tables\PostExtra;
 
 class PostController extends AdminController{
@@ -160,7 +160,7 @@ class PostController extends AdminController{
 		}
 		
 		//设置附加属性
-		$this->view->prop_set = PropService::service()->getPropsByCat($cat_id);
+		$this->view->prop_set = PostPropService::service()->getPropsByCat($cat_id);
 		
 		$this->form()->setData(array(
 			'cat_id'=>$cat_id,
@@ -202,7 +202,7 @@ class PostController extends AdminController{
 	
 	public function index(){
 		//搜索条件验证，异常数据直接返回404
-		$this->form()->setScene('final')->setRules(array(
+		$this->form('search')->setScene('final')->setRules(array(
 			array('status', 'range', array(
 				'range'=>array(
 					Posts::STATUS_PUBLISHED, Posts::STATUS_DRAFT,
@@ -404,7 +404,7 @@ class PostController extends AdminController{
 		}
 		
 		//编辑权限检查
-		if(!Post::checkEditPermission($post_id, $this->input->post('status', 'intval'), $this->input->post('cat_id'))){
+		if(!PostService::checkEditPermission($post_id, $this->input->post('status', 'intval'), $this->input->post('cat_id'))){
 			throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 		}
 		
@@ -540,7 +540,7 @@ class PostController extends AdminController{
 		$this->view->post = $post;
 		
 		//附加属性
-		$this->view->prop_set = PropService::service()->getPropertySet($post['id']);
+		$this->view->prop_set = PostPropService::service()->getPropertySet($post['id']);
 		
 		$cat = CategoryService::service()->get($post['cat_id'], 'title');
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
@@ -591,7 +591,7 @@ class PostController extends AdminController{
 	public function undelete(){
 		$post_id = $this->input->get('id', 'intval');
 		
-		if(!Post::checkUndeletePermission($post_id)){
+		if(!PostService::checkUndeletePermission($post_id)){
 			throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 		}
 		PostService::service()->undelete($post_id);
@@ -646,9 +646,9 @@ class PostController extends AdminController{
 		$post_id = $this->input->get('post_id', 'intval');
 		
 		//文章对应附加属性值
-		$props = PropService::service()->getPropsByCat($cat_id);
+		$props = PostPropService::service()->getPropsByCat($cat_id);
 		if($post_id){
-			$this->view->prop_set = PropService::service()->getPropertySet($post_id, $props);
+			$this->view->prop_set = PostPropService::service()->getPropertySet($post_id, $props);
 		}else{
 			$this->view->prop_set = $props;
 		}
@@ -695,7 +695,7 @@ class PostController extends AdminController{
 		switch($action){
 			case 'set-published':
 				foreach($ids as $id){
-					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+					if(!PostService::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
 						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
@@ -707,7 +707,7 @@ class PostController extends AdminController{
 			break;
 			case 'set-draft':
 				foreach($ids as $id){
-					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+					if(!PostService::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
 						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
@@ -719,7 +719,7 @@ class PostController extends AdminController{
 			break;
 			case 'set-pending':
 				foreach($ids as $id){
-					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+					if(!PostService::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
 						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
@@ -731,7 +731,7 @@ class PostController extends AdminController{
 			break;
 			case 'set-reviewed':
 				foreach($ids as $id){
-					if(!Post::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
+					if(!PostService::checkEditPermission($id, Posts::STATUS_PUBLISHED)){
 						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
@@ -743,7 +743,7 @@ class PostController extends AdminController{
 			break;
 			case 'delete':
 				foreach($ids as $id){
-					if(!Post::checkDeletePermission($id)){
+					if(!PostService::checkDeletePermission($id)){
 						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
@@ -755,7 +755,7 @@ class PostController extends AdminController{
 			break;
 			case 'undelete':
 				foreach($ids as $id){
-					if(!Post::checkUndeletePermission($id)){
+					if(!PostService::checkUndeletePermission($id)){
 						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}
@@ -767,7 +767,7 @@ class PostController extends AdminController{
 			break;
 			case 'remove':
 				foreach($ids as $id){
-					if(!Post::checkRemovePermission($id)){
+					if(!PostService::checkRemovePermission($id)){
 						throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
 					}
 				}

@@ -2,7 +2,11 @@
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
 use cms\helpers\FeedHelper;
-use fay\services\feed\Tag as FeedTag;
+use fay\services\feed\FeedTagService;
+
+/**
+ * @var $data array
+ */
 ?>
 <tr valign="top" id="feed-<?php echo $data['id']?>">
 	<td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(

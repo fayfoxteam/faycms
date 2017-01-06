@@ -4,9 +4,12 @@ use fay\services\PostService;
 use fay\helpers\DateHelper;
 use cms\helpers\PostHelper;
 use fay\services\FileService;
-use fay\services\post\Tag as PostTag;
-use fay\services\post\Category as PostCategory;
+use fay\services\post\PostTagService;
+use fay\services\post\PostCategoryService;
 
+/**
+ * @var $data array
+ */
 //分类权限判断
 $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 ?>

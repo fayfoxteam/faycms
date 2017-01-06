@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\post\Like as PostLike;
+use fay\services\post\PostLikeService;
 use fay\services\PostService;
 use fay\helpers\FieldHelper;
 use fay\services\UserService;
@@ -41,14 +41,14 @@ class PostLikeController extends ApiController{
 			));
 		}
 		
-		if(PostLike::isLiked($post_id)){
+		if(PostLikeService::isLiked($post_id)){
 			Response::notify('error', array(
 				'message'=>'您已赞过该文章',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		PostLike::add($post_id, $this->form()->getData('trackid', ''));
+		PostLikeService::add($post_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '点赞成功');
 	}
@@ -73,14 +73,14 @@ class PostLikeController extends ApiController{
 		
 		$post_id = $this->form()->getData('post_id');
 		
-		if(!PostLike::isLiked($post_id)){
+		if(!PostLikeService::isLiked($post_id)){
 			Response::notify('error', array(
 				'message'=>'您未赞过该文章',
 				'code'=>'not-liked',
 			));
 		}
 		
-		PostLike::remove($post_id);
+		PostLikeService::remove($post_id);
 		
 		Response::notify('success', '取消点赞成功');
 	}
@@ -120,9 +120,9 @@ class PostLikeController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::parse($fields, 'post', User::$public_fields);
+			$fields = FieldHelper::parse($fields, 'post', UserService::$public_fields);
 		}else{
-			$fields = User::$default_fields;
+			$fields = UserService::$default_fields;
 		}
 		
 		$likes = PostLikeService::service()->getPostLikes($post_id,

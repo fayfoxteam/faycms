@@ -61,9 +61,11 @@ class TagController extends AdminController{
 		PostsTags::model()->delete(array('tag_id = ?'=>$tag_id));
 		$this->actionlog(Actionlogs::TYPE_TAG, '删除了标签', $tag_id);
 		
+		$gets = $this->input->get();
+		unset($gets['tag_id']);
 		Response::notify('success', array(
 			'message'=>'一个标签被永久删除',
-		));
+		), array('admin/link/edit', $gets));
 	}
 	
 	public function edit(){
@@ -91,19 +93,6 @@ class TagController extends AdminController{
 		}
 	}
 	
-	public function isTagNotExist(){
-		$id = $this->input->get('id', 'intval');
-		$id || $id = false;
-		if(Tags::model()->fetchRow(array(
-			'title = ?'=>$this->input->post('value', 'trim'),
-			'id != ?'=>$id,
-		))){
-			Response::json('', 0, '标签已存在');
-		}else{
-			Response::json();
-		}
-	}
-	
 	public function sort(){
 		$tag_id = $this->input->get('id', 'intval');
 		Tags::model()->update(array(
@@ -127,7 +116,7 @@ class TagController extends AdminController{
 	 */
 	private function _setListview(){
 		//搜索条件验证，异常数据直接返回404
-		$this->form()->setScene('final')->setRules(array(
+		$this->form('search')->setScene('final')->setRules(array(
 			array('orderby', 'range', array(
 				'range'=>array_merge(
 					Tags::model()->getFields(),

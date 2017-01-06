@@ -86,7 +86,7 @@ class KeywordController extends AdminController{
 	 */
 	private function _setListview(){
 		//搜索条件验证，异常数据直接返回404
-		$this->form()->setScene('final')->setRules(array(
+		$this->form('search')->setScene('final')->setRules(array(
 			array('orderby', 'range', array(
 				'range'=>Keywords::model()->getFields(),
 			)),

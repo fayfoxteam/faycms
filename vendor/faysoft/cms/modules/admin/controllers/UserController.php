@@ -7,7 +7,7 @@ use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\common\ListView;
 use fay\services\user\UserPropService;
-use fay\services\User as User;
+use fay\services\UserService;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
@@ -24,7 +24,7 @@ class UserController extends AdminController{
 	
 	public function index(){
 		//搜索条件验证，异常数据直接返回404
-		$this->form()->setScene('final')->setRules(array(
+		$this->form('search')->setScene('final')->setRules(array(
 			array('orderby', 'range', array(
 				'range'=>array_merge(
 					Users::model()->getFields(),
@@ -196,7 +196,7 @@ class UserController extends AdminController{
 			'deleted = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = PropService::service()->getPropertySet($user_id);
+		$this->view->prop_set = UserPropService::service()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	
@@ -227,13 +227,13 @@ class UserController extends AdminController{
 		$user_id = $this->input->get('user_id', 'intval');
 		
 		if($role_ids){
-			$props = PropService::service()->getByRefer($role_ids);
+			$props = UserPropService::service()->getByRefer($role_ids);
 		}else{
 			$props = array();
 		}
 		
 		if(!empty($props) && $user_id){
-			$props = PropService::service()->getPropertySet($user_id, $props);
+			$props = UserPropService::service()->getPropertySet($user_id, $props);
 		}
 		
 		$this->view->prop_set = $props;

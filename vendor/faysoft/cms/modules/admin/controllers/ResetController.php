@@ -6,9 +6,9 @@ use fay\core\Http;
 use fay\core\Response;
 use fay\services\CategoryService;
 use fay\services\MenuService;
-use fay\services\post\Category as PostCategory;
-use fay\services\post\Tag as PostTag;
-use fay\services\post\UserCounter as PostUserCounter;
+use fay\services\post\PostCategoryService;
+use fay\services\post\PostTagService;
+use fay\services\post\PostUserCounterService;
 
 class ResetController extends AdminController{
 	public function __construct(){

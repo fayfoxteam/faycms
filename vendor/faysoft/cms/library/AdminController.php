@@ -69,7 +69,7 @@ class AdminController extends Controller{
 	 * 表单验证出错后的报错渲染
 	 * @param array $check
 	 * @param bool $return
-	 * @return string|null
+	 * @return string
 	 */
 	public function showDataCheckError($check, $return = false){
 		$html = '';
@@ -80,6 +80,7 @@ class AdminController extends Controller{
 			return $html;
 		}else{
 			FlashService::set($html);
+			return '';
 		}
 	}
 	
@@ -121,6 +122,8 @@ class AdminController extends Controller{
 	
 	/**
 	 * 添加一个菜单组，一次只能添加一组
+	 * @param $menu
+	 * @param null $offset
 	 */
 	public function addMenuTeam($menu, $offset = null){
 		if($offset === null){
@@ -147,6 +150,8 @@ class AdminController extends Controller{
 	/**
 	 * 根据directory删除一组菜单，若指定index，则只删除指定的某个菜单项。
 	 * index从0开始
+	 * @param $directory
+	 * @param null $index
 	 */
 	public function removeMenuTeam($directory, $index = null){
 		foreach($this->_left_menu as $k => &$menu){
@@ -163,6 +168,8 @@ class AdminController extends Controller{
 	
 	/**
 	 * 添加一个顶部菜单
+	 * @param $menu
+	 * @param null $offset
 	 */
 	public function addTopNav($menu, $offset = null){
 		if($offset === null){
@@ -206,6 +213,8 @@ class AdminController extends Controller{
 	
 	/**
 	 * 添加一个box
+	 * @param $box
+	 * @param null $offset
 	 */
 	public function addBox($box, $offset = null){
 		if($offset === null){
@@ -218,6 +227,7 @@ class AdminController extends Controller{
 	
 	/**
 	 * 根据box name删除一个box
+	 * @param $name
 	 */
 	public function removeBox($name){
 		if(isset($this->boxes) && is_array($this->boxes)){

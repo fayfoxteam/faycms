@@ -3,8 +3,8 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\feed\Like as FeedLike;
-use fay\models\Feed;
+use fay\services\feed\FeedLikeService;
+use fay\services\FeedService;
 use fay\helpers\FieldHelper;
 use fay\services\UserService;
 
@@ -41,14 +41,14 @@ class FeedLikeController extends ApiController{
 			));
 		}
 		
-		if(FeedLike::isLiked($feed_id)){
+		if(FeedLikeService::isLiked($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您已赞过该动态',
 				'code'=>'already-favorited',
 			));
 		}
 		
-		FeedLike::add($feed_id, $this->form()->getData('trackid', ''));
+		FeedLikeService::add($feed_id, $this->form()->getData('trackid', ''));
 		
 		Response::notify('success', '点赞成功');
 	}
@@ -73,14 +73,14 @@ class FeedLikeController extends ApiController{
 		
 		$feed_id = $this->form()->getData('feed_id');
 		
-		if(!FeedLike::isLiked($feed_id)){
+		if(!FeedLikeService::isLiked($feed_id)){
 			Response::notify('error', array(
 				'message'=>'您未赞过该动态',
 				'code'=>'not-liked',
 			));
 		}
 		
-		FeedLike::remove($feed_id);
+		FeedLikeService::remove($feed_id);
 		
 		Response::notify('success', '取消点赞成功');
 	}
@@ -122,7 +122,7 @@ class FeedLikeController extends ApiController{
 			//过滤字段，移除那些不允许的字段
 			$fields = FieldHelper::parse($fields, 'feed', User::$public_fields);
 		}else{
-			$fields = User::$default_fields;
+			$fields = UserService::$default_fields;
 		}
 		
 		$likes = FeedLikeService::service()->getFeedLikes($feed_id,

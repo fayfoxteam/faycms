@@ -50,7 +50,7 @@ class OptionController extends AdminController{
 		if($this->input->post() && $this->form()->check()){
 			$data = $this->form()->getFilteredData();
 			$data['last_modified_time'] = $this->current_time;
-			$result = Options::model()->update($data, array('id = ?'=>$option_id));
+			Options::model()->update($data, array('id = ?'=>$option_id));
 			
 			$this->actionlog(Actionlogs::TYPE_OPTION, '编辑了一个系统参数', $option_id);
 			Response::notify('success', '一个参数被编辑', false);
@@ -116,7 +116,7 @@ class OptionController extends AdminController{
 	 */
 	private function _setListview(){
 		//搜索条件验证，异常数据直接返回404
-		$this->form()->setScene('final')->setRules(array(
+		$this->form('search')->setScene('final')->setRules(array(
 			array('orderby', 'range', array(
 				'range'=>Options::model()->getFields(),
 			)),

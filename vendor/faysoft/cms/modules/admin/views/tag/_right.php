@@ -5,7 +5,7 @@ use cms\helpers\ListTableHelper;
  * @var $listview \fay\common\ListView
  */
 ?>
-<table class="list-table tags">
+<table class="list-table tags form-inline">
 	<thead>
 		<tr>
 			<th>名称</th>

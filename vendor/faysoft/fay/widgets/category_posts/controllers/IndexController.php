@@ -3,9 +3,8 @@ namespace fay\widgets\category_posts\controllers;
 
 use fay\widget\Widget;
 use fay\services\CategoryService;
-use fay\services\PostService;
 use fay\helpers\DateHelper;
-use fay\services\post\Category as PostCategory;
+use fay\services\post\PostCategoryService;
 
 class IndexController extends Widget{
 	/**

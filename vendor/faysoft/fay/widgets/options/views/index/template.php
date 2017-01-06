@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $widget fay\widgets\options\controllers\IndexController
+ */
+
 if(!empty($widget->config['title'])){
 	echo HtmlHelper::tag('h3', array(), HtmlHelper::encode($widget->config['title']));
 }

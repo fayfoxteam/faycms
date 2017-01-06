@@ -6,6 +6,7 @@ use fay\models\tables\UserAddresses;
 
 class ShopAddressService extends Service{
 	/**
+	 * @param string $class_name
 	 * @return ShopAddressService
 	 */
 	public static function service($class_name = __CLASS__){
@@ -16,6 +17,7 @@ class ShopAddressService extends Service{
 	 * 添加一个地址
 	 * @param array $data 地址相关参数，此函数会对多余参数进行过滤，但不会进行校验
 	 * @param int $user_id 用户ID
+	 * @return int
 	 */
 	public function create($data, $user_id = null){
 		$data = UserAddresses::model()->fillData($data, false);
@@ -32,6 +34,7 @@ class ShopAddressService extends Service{
 	 * 删除一个地址。
 	 * 直接根据地址ID物理删除，此函数不做权限验证。
 	 * @param int $address_id 地址ID
+	 * @return int
 	 */
 	public function remove($address_id){
 		return UserAddresses::model()->delete($address_id);
@@ -42,6 +45,7 @@ class ShopAddressService extends Service{
 	 * 直接根据地址ID进行跟新，此函数不做权限验证
 	 * @param int $address_id
 	 * @param array $data 地址相关参数，此函数会对多余参数进行过滤，但不会进行校验
+	 * @return int
 	 */
 	public function edit($address_id, $data){
 		$data = UserAddresses::model()->fillData($data, false);
@@ -54,6 +58,7 @@ class ShopAddressService extends Service{
 	 * 根据地址ID，将一个地址设为默认地址。
 	 * 该函数不会验证给定地址id是否为当前登录用户所有，但是会把所有此id对用user_id的其他地址标记为非默认地址
 	 * @param int $address_id 地址ID
+	 * @return bool
 	 */
 	public function setDefault($address_id){
 		$address = UserAddresses::model()->find($address_id);

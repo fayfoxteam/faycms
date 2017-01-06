@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\post\Comment;
+use fay\services\post\PostCommentService;
 use fay\core\Response;
 use fay\models\tables\Posts;
 use fay\helpers\FieldHelper;
@@ -97,7 +97,7 @@ class PostCommentController extends ApiController{
 		$post_id = $this->form()->getData('post_id');
 		$fields = $this->form()->getData('fields');
 		
-		if(!Post::isPostIdExist($post_id)){
+		if(!PostService::isPostIdExist($post_id)){
 			Response::notify('error', array(
 				'message'=>'文章ID不存在',
 				'code'=>'invalid-parameter:post_id-is-not-exist',

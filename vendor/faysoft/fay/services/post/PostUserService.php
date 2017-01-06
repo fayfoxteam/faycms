@@ -2,6 +2,7 @@
 namespace fay\services\post;
 
 use fay\core\Service;
+use fay\services\UserService;
 
 class PostUserService extends Service{
 	/**
@@ -29,7 +30,7 @@ class PostUserService extends Service{
 	 *   若包含$posts.post.id字段，则以此字段作为文章ID
 	 *   若不包含$posts.post.id，则以$posts的键作为文章ID
 	 * @param null|string $fields
-	 * @throws Exception
+	 * @throws PostException
 	 */
 	public function assemble(&$posts, $fields = null){
 		if(empty($fields)){
@@ -43,11 +44,11 @@ class PostUserService extends Service{
 			if(isset($p['post']['user_id'])){
 				$user_ids[] = $p['post']['user_id'];
 			}else{
-				throw new Exception(__CLASS__.'::'.__FUNCTION__.'()方法$posts参数中，必须包含user_id项');
+				throw new PostException(__CLASS__.'::'.__FUNCTION__.'()方法$posts参数中，必须包含user_id项');
 			}
 		}
 		
-		$user_map = \fay\services\UserService::service()->mget($user_ids, $fields);
+		$user_map = UserService::service()->mget($user_ids, $fields);
 		
 		foreach($posts as $k => $p){
 			$p['user'] = $user_map[$p['post']['user_id']];

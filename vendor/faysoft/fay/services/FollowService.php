@@ -5,7 +5,6 @@ use fay\core\Service;
 use fay\core\Exception;
 use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
-use fay\services\UserService;
 use fay\helpers\Request;
 use fay\core\Sql;
 use fay\common\ListView;

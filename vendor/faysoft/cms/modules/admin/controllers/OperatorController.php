@@ -7,14 +7,14 @@ use fay\core\Sql;
 use fay\models\tables\Roles;
 use fay\models\tables\Actionlogs;
 use fay\common\ListView;
-use fay\services\user\Prop;
+use fay\services\user\UserPropService;
 use fay\services\UserService;
 use fay\core\Response;
 use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\tables\UserProfile;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 
 class OperatorController extends AdminController{
 	public function __construct(){
@@ -158,7 +158,7 @@ class OperatorController extends AdminController{
 		$this->layout->subtitle = '编辑管理员信息';
 		$user_id = $this->input->request('id', 'intval');
 		
-		if(RoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id) && !RoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
+		if(UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id) && !UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
 			throw new HttpException('您无权编辑超级管理员账户', '403');
 		}
 		
@@ -182,7 +182,7 @@ class OperatorController extends AdminController{
 		}
 		
 		$user = UserService::service()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = RoleService::service()->getIds($user_id);
+		$user_role_ids = UserRoleService::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));

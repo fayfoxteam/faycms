@@ -6,8 +6,8 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldHelper;
 use fay\models\tables\Feeds;
-use fay\services\feed\Meta;
-use fay\services\feed\Tag as FeedTag;
+use fay\services\feed\FeedMetaService;
+use fay\services\feed\FeedTagService;
 use fay\models\tables\FeedsFiles;
 use fay\models\tables\UserCounter;
 use fay\models\tables\FeedMeta;
@@ -16,7 +16,7 @@ use fay\models\tables\FeedExtra;
 use fay\models\tables\FeedsTags;
 use fay\models\tables\FeedLikes;
 use fay\models\tables\FeedFavorites;
-use fay\services\feed\File as FeedFile;
+use fay\services\feed\FeedFileService;
 
 /**
  * 动态服务
@@ -454,7 +454,7 @@ class FeedService extends Service{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			$return['meta'] = MetaService::service()->get($id, $fields['meta']);
+			$return['meta'] = FeedMetaService::service()->get($id, $fields['meta']);
 		}
 		
 		//作者信息
@@ -527,7 +527,7 @@ class FeedService extends Service{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			$feed_metas = MetaService::service()->mget($feed_ids, $fields['meta']);
+			$feed_metas = FeedMetaService::service()->mget($feed_ids, $fields['meta']);
 		}
 		
 		//标签

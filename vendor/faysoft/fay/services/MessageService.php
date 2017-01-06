@@ -7,11 +7,9 @@ use fay\helpers\FieldHelper;
 use fay\models\MultiTree;
 use fay\models\tables\Messages;
 use fay\core\Exception;
-use fay\services\PostService;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
 use fay\models\tables\UserCounter;
-use fay\services\UserService;
 
 /**
  * 留言服务

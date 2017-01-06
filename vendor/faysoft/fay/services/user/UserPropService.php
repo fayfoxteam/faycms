@@ -1,10 +1,11 @@
 <?php
 namespace fay\services\user;
 
+use fay\models\Prop;
 use fay\models\tables\Props;
 use fay\core\Loader;
 
-class Prop extends \fay\models\Prop{
+class UserPropService extends Prop{
 	/**
 	 * @param string $class_name
 	 * @return UserPropService

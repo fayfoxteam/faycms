@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\Date;
 use fay\helpers\ArrayHelper;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 use fay\services\UserService;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
@@ -17,7 +17,7 @@ use fay\services\UserService;
 			<tr>
 				<th>用户身份</th>
 				<td><?php
-					$user_roles = RoleService::service()->get(\F::app()->current_user);
+					$user_roles = UserRoleService::service()->get(\F::app()->current_user);
 					echo implode(', ', ArrayHelper::column($user_roles, 'title'));
 				?></td>
 			</tr>

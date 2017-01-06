@@ -8,6 +8,7 @@ use fay\helpers\ArrayHelper;
 
 class ShopSkuService extends Service{
 	/**
+	 * @param string $class_name
 	 * @return ShopSkuService
 	 */
 	public static function service($class_name = __CLASS__){
@@ -18,6 +19,7 @@ class ShopSkuService extends Service{
 	 * 根据商品ID和Sku Key获取属性名和属性值
 	 * @param int $goods_id 商品ID
 	 * @param string $sku_key
+	 * @return string
 	 */
 	public static function getPropertiesNameByKey($goods_id, $sku_key){
 		$sku_items = explode(';', $sku_key);

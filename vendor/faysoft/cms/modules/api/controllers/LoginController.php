@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\UserService;
-use fay\services\user\Password;
+use fay\services\user\UserPasswordService;
 
 /**
  * 登录

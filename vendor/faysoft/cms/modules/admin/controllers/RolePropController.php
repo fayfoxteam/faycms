@@ -6,7 +6,7 @@ use fay\models\tables\Roles;
 use fay\helpers\Html;
 use fay\models\tables\Props;
 use fay\models\tables\Actionlogs;
-use fay\services\user\Prop;
+use fay\services\user\UserPropService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;

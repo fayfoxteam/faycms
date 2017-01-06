@@ -4,7 +4,7 @@ namespace fay\services\post;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\models\tables\Posts;
-use fay\services\user\Counter;
+use fay\services\user\UserCounterService;
 use fay\models\tables\UserCounter as UserCounterModel;
 
 class PostUserCounterService extends Service{
@@ -23,7 +23,7 @@ class PostUserCounterService extends Service{
 	 * @return int
 	 */
 	public function incr($user_ids, $value = 1){
-		CounterService::service()->incr($user_ids, 'posts', $value);
+		UserCounterService::service()->incr($user_ids, 'posts', $value);
 	}
 	
 	/**

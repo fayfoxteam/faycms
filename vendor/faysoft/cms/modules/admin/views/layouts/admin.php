@@ -3,7 +3,7 @@ use fay\helpers\Html;
 use fay\services\OptionService;
 use fay\services\FileService;
 use fay\services\FlashService;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 use fay\services\UserService;
 ?>
 <!DOCTYPE html>
@@ -42,7 +42,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 			<ul class="user-info-menu fl">
 				<li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
 				<?php
-					$user_roles = RoleService::service()->getIds();
+					$user_roles = UserRoleService::service()->getIds();
 					foreach(F::app()->_top_nav as $nav){
 						if(isset($nav['roles'])){
 							is_array($nav['roles']) || $nav['roles'] = array($nav['roles']);

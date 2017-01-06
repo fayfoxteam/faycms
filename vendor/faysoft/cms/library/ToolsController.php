@@ -8,7 +8,7 @@ use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\tables\Roles;
 use fay\services\UserService;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 
 class ToolsController extends Controller{
 	public $layout_template = 'admin';
@@ -60,7 +60,7 @@ class ToolsController extends Controller{
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		
-		if(!RoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
+		if(!UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
 			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
 	}

@@ -11,7 +11,7 @@ use fay\models\tables\Posts;
 use fay\models\tables\PostsCategories;
 use fay\services\OptionService;
 use fay\services\PostService;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 use fay\models\tables\Roles;
 use fay\models\tables\RolesCats;
 use fay\services\Category as CategoryService;
@@ -153,7 +153,7 @@ class PostCategoryService extends Service{
 			return $this->_user_allowed_cats[$user_id];
 		}
 		
-		if(RoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id)){
+		if(UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id)){
 			//如果是超级管理员，设置一个*
 			return $this->_user_allowed_cats[$user_id] = array('*');
 		}
@@ -162,7 +162,7 @@ class PostCategoryService extends Service{
 		$post_root = CategoryService::service()->get('_system_post', 'id');
 		
 		//获取用户角色ID
-		$role_ids = RoleService::service()->getIds($user_id);
+		$role_ids = UserRoleService::service()->getIds($user_id);
 		
 		//获取角色属性和0和
 		$allowed_cats = array_merge(
@@ -184,7 +184,7 @@ class PostCategoryService extends Service{
 		
 		if(OptionService::get('system:post_role_cats')){
 			//开启了文章分类权限控制，进行验证
-			if(RoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id)){
+			if(UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id)){
 				//如果是超级管理员，返回true
 				return true;
 			}
@@ -586,11 +586,11 @@ class PostCategoryService extends Service{
 	 */
 	private function getPostsByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
 		//解析$fields
-		$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
+		$fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
 		if(empty($fields['post'])){
 			//若未指定返回字段，返回所有允许的字段
 			$fields['post'] = array(
-				'fields'=>Post::$public_fields['post']
+				'fields'=>PostService::$public_fields['post']
 			);
 		}
 		

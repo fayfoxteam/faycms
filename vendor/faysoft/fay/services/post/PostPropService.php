@@ -2,11 +2,12 @@
 namespace fay\services\post;
 
 use fay\core\Loader;
-use fay\services\Category as CategoryService;
+use fay\models\Prop;
+use fay\services\CategoryService;
 use fay\models\tables\Posts;
 use fay\models\tables\Props;
 
-class Prop extends \fay\models\Prop{
+class PostPropService extends Prop{
 	/**
 	 * @param string $class_name
 	 * @return PostPropService
@@ -70,7 +71,7 @@ class Prop extends \fay\models\Prop{
 	 * @return array
 	 */
 	public function getPropsByCat($cat){
-		return PropService::service()->getByRefer(CategoryService::service()->getParentIds($cat, '_system_post'));
+		return $this->getByRefer(CategoryService::service()->getParentIds($cat, '_system_post'));
 	}
 	
 	/**
@@ -84,7 +85,7 @@ class Prop extends \fay\models\Prop{
 		if(in_array('*', $fields['fields'])){
 			$props = null;
 		}else{
-			$props = PropService::service()->mget($fields);
+			$props = $this->mget($fields);
 		}
 		
 		foreach($posts as $k => $p){
@@ -94,7 +95,7 @@ class Prop extends \fay\models\Prop{
 				$post_id = $k;
 			}
 			
-			$p['props'] = PropService::service()->getPropertySet($post_id, $props);
+			$p['props'] = $this->getPropertySet($post_id, $props);
 			
 			$posts[$k] = $p;
 		}

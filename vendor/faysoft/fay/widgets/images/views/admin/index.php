@@ -2,7 +2,7 @@
 use fay\helpers\Html;
 use fay\services\FileService;
 use fay\models\tables\Roles;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 ?>
 <div class="mb30"><?php echo F::form('widget')->inputText('title', array(
 	'id'=>'title',

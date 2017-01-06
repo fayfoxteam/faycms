@@ -3,7 +3,6 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\models\tables\Files;
-use fay\core\Loader;
 use fay\helpers\StringHelper;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;

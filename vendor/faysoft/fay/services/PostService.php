@@ -16,17 +16,17 @@ use fay\models\tables\PostPropText;
 use fay\models\tables\PostLikes;
 use fay\models\tables\PostMeta;
 use fay\helpers\Request;
-use fay\services\post\Extra;
-use fay\services\post\Meta;
-use fay\services\post\Prop;
-use fay\services\post\Tag as PostTag;
+use fay\services\post\PostExtraService;
+use fay\services\post\PostMetaService;
+use fay\services\post\PostPropService;
+use fay\services\post\PostTagService;
 use fay\models\tables\PostFavorites;
 use fay\models\tables\PostExtra;
-use fay\services\post\Category as PostCategory;
-use fay\services\post\File as PostFile;
-use fay\services\post\UserCounter;
-use fay\services\post\Exception as PostException;
-use fay\services\post\User as PostUser;
+use fay\services\post\PostCategoryService;
+use fay\services\post\PostFileService;
+use fay\services\post\PostUserCounterService;
+use fay\services\post\PostException;
+use fay\services\post\PostUserService;
 
 /**
  * 文章服务
@@ -218,7 +218,7 @@ class PostService extends Service{
 		
 		if($post_status == Posts::STATUS_PUBLISHED){
 			//用户文章数加一
-			UserCounterService::service()->incr($user_id);
+			PostUserCounterService::service()->incr($user_id);
 		}
 		
 		//触发事件
@@ -286,13 +286,13 @@ class PostService extends Service{
 			//若原文章是“已发布”状态，且新状态不是“已发布”
 			
 			//用户文章数减一
-			UserCounterService::service()->decr($old_post['user_id']);
+			PostUserCounterService::service()->decr($old_post['user_id']);
 		}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
 			isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
 			//若原文章不是“已发布”状态，且新状态是“已发布”
 			
 			//用户文章数加一
-			UserCounterService::service()->incr($old_post['user_id']);
+			PostUserCounterService::service()->incr($old_post['user_id']);
 		}
 		
 		//附加分类
@@ -379,9 +379,9 @@ class PostService extends Service{
 	 */
 	public function createPropertySet($post_id, $data, $props = null){
 		if($props === null){
-			$props = PropService::service()->getProps($post_id);
+			$props = PostPropService::service()->getProps($post_id);
 		}
-		PropService::service()->createPropertySet($post_id, $props, $data);
+		PostPropService::service()->createPropertySet($post_id, $props, $data);
 	}
 	
 	/**
@@ -392,9 +392,9 @@ class PostService extends Service{
 	 */
 	public function updatePropertySet($post_id, $data, $props = null){
 		if($props === null){
-			$props = PropService::service()->getProps($post_id);
+			$props = PostPropService::service()->getProps($post_id);
 		}
-		PropService::service()->updatePropertySet($post_id, $props, $data);
+		PostPropService::service()->updatePropertySet($post_id, $props, $data);
 	}
 	
 	/**
@@ -418,7 +418,7 @@ class PostService extends Service{
 		//若文章未通过回收站被直接删除，且文章“已发布”
 		if(!$post['deleted'] && $post['status'] == Posts::STATUS_PUBLISHED){
 			//则作者文章数减一
-			UserCounterService::service()->decr($post['user_id']);
+			PostUserCounterService::service()->decr($post['user_id']);
 			
 			//相关标签文章数减一
 			PostTagService::service()->decr($post_id);
@@ -472,7 +472,7 @@ class PostService extends Service{
 		//若被删除文章是“已发布”状态
 		if($post['status'] == Posts::STATUS_PUBLISHED){
 			//用户文章数减一
-			UserCounterService::service()->decr($post['user_id']);
+			PostUserCounterService::service()->decr($post['user_id']);
 			
 			//相关标签文章数减一
 			PostTagService::service()->decr($post_id);
@@ -506,7 +506,7 @@ class PostService extends Service{
 		//若被还原文章是“已发布”状态
 		if($post['status'] == Posts::STATUS_PUBLISHED){
 			//用户文章数减一
-			UserCounterService::service()->incr($post['user_id']);
+			PostUserCounterService::service()->incr($post['user_id']);
 			
 			//相关标签文章数加一
 			PostTagService::service()->incr($post_id);
@@ -658,12 +658,12 @@ class PostService extends Service{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			$return['meta'] = MetaService::service()->get($id, $fields['meta']);
+			$return['meta'] = PostMetaService::service()->get($id, $fields['meta']);
 		}
 		
 		//扩展信息
 		if(!empty($fields['extra'])){
-			$return['extra'] = ExtraService::service()->get($id, $fields['extra']);
+			$return['extra'] = PostExtraService::service()->get($id, $fields['extra']);
 		}
 		
 		//设置一下SEO信息
@@ -699,9 +699,9 @@ class PostService extends Service{
 			if(in_array('*', $fields['props']['fields'])){
 				$props = null;
 			}else{
-				$props = PropService::service()->mget($fields['props']);
+				$props = PostPropService::service()->mget($fields['props']);
 			}
-			$return['props'] = PropService::service()->getPropertySet($id, $props);
+			$return['props'] = PostPropService::service()->getPropertySet($id, $props);
 		}
 		
 		//附加分类
@@ -745,7 +745,7 @@ class PostService extends Service{
 		//根据文章ID获取当前文章
 		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
 		//解析字段
-		$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
+		$fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
 		
 		$post_fields = $fields['post']['fields'];
 		if(!in_array('sort', $post_fields)){
@@ -800,7 +800,7 @@ class PostService extends Service{
 		//根据文章ID获取当前文章
 		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
 		//解析字段
-		$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
+		$fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
 		
 		$post_fields = $fields['post']['fields'];
 		if(!in_array('sort', $post_fields)){
@@ -856,7 +856,7 @@ class PostService extends Service{
 	 */
 	public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $fields = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
 		if(!StringHelper::isInt($prop)){
-			$prop = PropService::service()->getIdByAlias($prop);
+			$prop = PostPropService::service()->getIdByAlias($prop);
 		}
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), $fields)
@@ -1160,12 +1160,12 @@ class PostService extends Service{
 		
 		//meta
 		if(!empty($fields['meta'])){
-			MetaService::service()->assemble($return, $fields['meta']);
+			PostMetaService::service()->assemble($return, $fields['meta']);
 		}
 		
 		//扩展信息
 		if(!empty($fields['extra'])){
-			ExtraService::service()->assemble($return, $fields['extra']);
+			PostExtraService::service()->assemble($return, $fields['extra']);
 		}
 		
 		//标签
@@ -1190,7 +1190,7 @@ class PostService extends Service{
 		
 		//附加属性
 		if(!empty($fields['props'])){
-			PropService::service()->assemble($return, $fields['props']);
+			PostPropService::service()->assemble($return, $fields['props']);
 		}
 		
 		//作者信息
@@ -1249,7 +1249,7 @@ class PostService extends Service{
 		//递增用户文章数
 		$count_map = ArrayHelper::countValues(ArrayHelper::column($unpublished_posts, 'user_id'));
 		foreach($count_map as $num => $sub_user_ids){
-			UserCounterService::service()->incr($sub_user_ids, $num);
+			PostUserCounterService::service()->incr($sub_user_ids, $num);
 		}
 		
 		return $unpublished_post_ids;
@@ -1300,7 +1300,7 @@ class PostService extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounterService::service()->decr($sub_user_ids, $num);
+				PostUserCounterService::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1352,7 +1352,7 @@ class PostService extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounterService::service()->decr($sub_user_ids, $num);
+				PostUserCounterService::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1404,7 +1404,7 @@ class PostService extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounterService::service()->decr($sub_user_ids, $num);
+				PostUserCounterService::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1456,7 +1456,7 @@ class PostService extends Service{
 			//递减用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounterService::service()->decr($sub_user_ids, $num);
+				PostUserCounterService::service()->decr($sub_user_ids, $num);
 			}
 		}
 		
@@ -1508,7 +1508,7 @@ class PostService extends Service{
 			//递增用户文章数
 			$count_map = ArrayHelper::countValues($published_user_ids);
 			foreach($count_map as $num => $sub_user_ids){
-				UserCounterService::service()->incr($sub_user_ids, $num);
+				PostUserCounterService::service()->incr($sub_user_ids, $num);
 			}
 		}
 		

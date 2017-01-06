@@ -9,7 +9,7 @@ use fay\models\tables\FeedComments;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\Request;
-use fay\models\Feed;
+use fay\services\FeedService;
 use fay\models\tables\FeedMeta;
 use fay\services\OptionService;
 use fay\services\UserService;

@@ -8,7 +8,7 @@ use fay\models\tables\Tags;
 use fay\models\tables\TagCounter;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\tag\Counter;
+use fay\services\tag\TagCounterService;
 
 /**
  * 标签服务
@@ -100,7 +100,7 @@ class TagService extends Service{
 		
 		if(!empty($fields['counter'])){
 			//获取所有相关的counter
-			$counters = CounterService::service()->mget($ids, $fields['counter']);
+			$counters = TagCounterService::service()->mget($ids, $fields['counter']);
 		}
 		
 		$return = array_fill_keys($ids, array());

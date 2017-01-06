@@ -30,7 +30,7 @@ class PostFavoriteController extends UserController{
 		
 		$post_id = $this->form()->getData('post_id');
 		
-		if(!Post::isPostIdExist($post_id)){
+		if(!PostService::isPostIdExist($post_id)){
 			Response::notify('error', array(
 				'message'=>'文章ID不存在',
 				'code'=>'invalid-parameter:post_id-is-not-exist',
@@ -102,9 +102,9 @@ class PostFavoriteController extends UserController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::parse($fields, 'post', Post::$public_fields);
+			$fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
 		}else{
-			$fields = Post::$default_fields;
+			$fields = PostService::$default_fields;
 		}
 		
 		$favorites = PostFavoriteService::service()->getList($fields,

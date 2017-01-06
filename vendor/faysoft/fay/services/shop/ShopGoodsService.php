@@ -10,6 +10,7 @@ use fay\models\tables\GoodsCatProps;
 
 class ShopGoodsService extends Service{
 	/**
+	 * @param string $class_name
 	 * @return ShopGoodsService
 	 */
 	public static function service($class_name = __CLASS__){

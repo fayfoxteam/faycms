@@ -6,7 +6,7 @@ use fay\core\Sql;
 use fay\models\tables\Users;
 use fay\models\tables\Roles;
 use fay\common\ListView;
-use fay\services\user\Prop;
+use fay\services\user\UserPropService;
 use fay\services\User as User;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
@@ -14,7 +14,7 @@ use fay\helpers\Html;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\tables\UserProfile;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -186,7 +186,7 @@ class UserController extends AdminController{
 		}
 		
 		$user = UserService::service()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = RoleService::service()->getIds($user_id);
+		$user_role_ids = UserRoleService::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));

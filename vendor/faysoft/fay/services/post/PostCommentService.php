@@ -82,7 +82,7 @@ class PostCommentService extends MultiTree{
 	public function create($post_id, $content, $parent = 0, $status = PostComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
 		
-		if(!Post::isPostIdExist($post_id)){
+		if(!PostService::isPostIdExist($post_id)){
 			throw new Exception('文章ID不存在', 'post_id-not-exist');
 		}
 		

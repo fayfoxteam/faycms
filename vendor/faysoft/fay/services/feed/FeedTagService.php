@@ -8,8 +8,8 @@ use fay\models\tables\Feeds;
 use fay\models\tables\TagCounter;
 use fay\models\tables\Tags;
 use fay\models\tables\FeedsTags;
-use fay\services\Tag as TagService;
-use fay\services\tag\Counter as TagCounterService;
+use fay\services\TagService;
+use fay\services\tag\TagCounterService;
 
 class FeedTagService extends Service{
 	/**

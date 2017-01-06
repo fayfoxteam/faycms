@@ -3,7 +3,7 @@ namespace fay\services\post;
 
 use fay\core\Service;
 use fay\core\Sql;
-use fay\models\tables\PostsFiles;
+use fay\services\FileService;
 
 class PostFileService extends Service{
 	/**
@@ -39,7 +39,7 @@ class PostFileService extends Service{
 			->where('post_id = ?', $post_id)
 			->order('pf.post_id, pf.sort')
 			->fetchAll();
-		$files = array_values(\fay\services\FileService::mget($file_rows, array(), $fields));
+		$files = array_values(FileService::mget($file_rows, array(), $fields));
 		
 		return $files;
 	}
@@ -64,7 +64,7 @@ class PostFileService extends Service{
 			->where('post_id IN (?)', $post_ids)
 			->order('pf.post_id, pf.sort')
 			->fetchAll();
-		$files = \fay\services\FileService::mget($file_rows, array(), $fields);
+		$files = FileService::mget($file_rows, array(), $fields);
 		
 		$return = array_fill_keys($post_ids, array());
 		foreach($file_rows as $fr){

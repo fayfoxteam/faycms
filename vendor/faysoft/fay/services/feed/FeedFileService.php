@@ -4,6 +4,7 @@ namespace fay\services\feed;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fay\models\tables\FeedsFiles;
+use fay\services\FileService;
 
 class FeedFileService extends Service{
 	/**
@@ -34,7 +35,7 @@ class FeedFileService extends Service{
 			'feed_id = ?'=>$feed_id,
 		), $fields['fields'], 'sort');
 		foreach($files as &$f){
-			$f['url'] = \fay\services\FileService::getUrl($f['file_id']);
+			$f['url'] = FileService::getUrl($f['file_id']);
 		}
 		return $files;
 	}
@@ -71,7 +72,7 @@ class FeedFileService extends Service{
 			if($remove_feed_id_field){
 				unset($f['feed_id']);
 			}
-			$f['url'] = \fay\services\FileService::getUrl($f['file_id']);
+			$f['url'] = FileService::getUrl($f['file_id']);
 			$return[$p][] = $f;
 		}
 		return $return;

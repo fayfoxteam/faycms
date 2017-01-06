@@ -4,10 +4,10 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\Users;
 use fay\models\tables\Actionlogs;
-use fay\services\user\Prop;
+use fay\services\user\UserPropService;
 use fay\services\UserService;
 use fay\models\tables\Roles;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 use fay\core\Response;
 
 class ProfileController extends AdminController{
@@ -38,7 +38,7 @@ class ProfileController extends AdminController{
 		}
 		
 		$user = UserService::service()->get($user_id, 'user.*,profile.*');
-		$user_role_ids = RoleService::service()->getIds($user_id);
+		$user_role_ids = UserRoleService::service()->getIds($user_id);
 		$this->view->user = $user;
 		$this->form()->setData($user['user'])
 			->setData(array('roles'=>$user_role_ids));

@@ -46,7 +46,7 @@ class PostFavoriteService extends Service{
 			throw new Exception('指定用户ID不存在', 'the-given-user-id-is-not-exist');
 		}
 		
-		if(!Post::isPostIdExist($post_id)){
+		if(!PostService::isPostIdExist($post_id)){
 			throw new Exception('指定的文章ID不存在', 'the-given-post-id-is-not-exist');
 		}
 		

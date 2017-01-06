@@ -10,14 +10,14 @@ use fay\models\tables\Roles;
 use fay\models\tables\UserProfile;
 use fay\models\tables\Users;
 use fay\models\tables\UsersRoles;
-use fay\services\user\Counter;
-use fay\services\user\Password;
+use fay\services\user\UserCounterService;
+use fay\services\user\UserPasswordService;
 use fay\models\tables\UserCounter;
-use fay\services\user\Profile;
-use fay\services\user\Prop;
-use fay\services\user\Exception as UserException;
+use fay\services\user\UserProfileService;
+use fay\services\user\UserPropService;
+use fay\services\user\UserException;
 use fay\models\tables\UserLogins;
-use fay\services\user\Role;
+use fay\services\user\UserRoleService;
 
 /**
  * 用户服务
@@ -149,7 +149,7 @@ class UserService extends Service{
 	 */
 	public function create($user, $extra = array(), $is_admin = 0){
 		if(!empty($user['password'])){
-			list($user['salt'], $user['password']) = PasswordService::service()->generate($user['password']);
+			list($user['salt'], $user['password']) = UserPasswordService::service()->generate($user['password']);
 		}
 		
 		//过滤掉多余的数据
@@ -157,7 +157,7 @@ class UserService extends Service{
 		$user['admin'] = $is_admin ? 1 : 0;
 		
 		//信息验证（用户信息很重要，在入库前必须再做一次验证）
-		$config = Option::mget(array(
+		$config = OptionService::mget(array(
 			'system:user_nickname_required',
 			'system:user_nickname_unique'
 		));
@@ -217,7 +217,7 @@ class UserService extends Service{
 		
 		//设置属性
 		if(isset($extra['props'])){
-			PropService::service()->createPropertySet($user_id, $extra['props']);
+			UserPropService::service()->createPropertySet($user_id, $extra['props']);
 		}
 		
 		return $user_id;
@@ -236,7 +236,7 @@ class UserService extends Service{
 		if(isset($user['password'])){
 			if($user['password']){
 				//非空，则更新密码字段
-				list($user['salt'], $user['password']) = PasswordService::service()->generate($user['password']);
+				list($user['salt'], $user['password']) = UserPasswordService::service()->generate($user['password']);
 			}else{
 				//为空，则不更新密码字段
 				unset($user['password'], $user['salt']);
@@ -288,7 +288,7 @@ class UserService extends Service{
 		
 		//附加属性
 		if(isset($extra['props'])){
-			PropService::service()->updatePropertySet($user_id, $extra['props']);
+			UserPropService::service()->updatePropertySet($user_id, $extra['props']);
 		}
 	}
 	
@@ -360,24 +360,24 @@ class UserService extends Service{
 			if(in_array('*', $fields['props']['fields'])){
 				$props = null;
 			}else{
-				$props = PropService::service()->mget($fields['props']);
+				$props = UserPropService::service()->mget($fields['props']);
 			}
-			$return['props'] = PropService::service()->getPropertySet($id, $props);
+			$return['props'] = UserPropService::service()->getPropertySet($id, $props);
 		}
 		
 		//角色
 		if(!empty($fields['roles'])){
-			$return['roles'] = RoleService::service()->get($id, $fields['roles']);
+			$return['roles'] = UserRoleService::service()->get($id, $fields['roles']);
 		}
 		
 		//profile
 		if(!empty($fields['profile'])){
-			$return['profile'] = ProfileService::service()->get($id, $fields['profile']);
+			$return['profile'] = UserProfileService::service()->get($id, $fields['profile']);
 		}
 		
 		//counter
 		if(!empty($fields['counter'])){
-			$return['counter'] = CounterService::service()->get($id, $fields['counter']);
+			$return['counter'] = UserCounterService::service()->get($id, $fields['counter']);
 		}
 		
 		return $return;
@@ -438,14 +438,14 @@ class UserService extends Service{
 		
 		if(!empty($fields['profile'])){
 			//获取所有相关的profile
-			$profiles = ProfileService::service()->mget($ids, $fields['profile']);
+			$profiles = UserProfileService::service()->mget($ids, $fields['profile']);
 		}
 		if(!empty($fields['roles'])){
 			//获取所有相关的roles
-			$roles = RoleService::service()->mget($ids, $fields['roles']);
+			$roles = UserRoleService::service()->mget($ids, $fields['roles']);
 		}
 		if(!empty($fields['counter'])){
-			$counters = CounterService::service()->mget($ids, $fields['counter']);
+			$counters = UserCounterService::service()->mget($ids, $fields['counter']);
 		}
 		
 		$return = array_fill_keys($ids, array());
@@ -486,9 +486,9 @@ class UserService extends Service{
 				if(in_array('*', $fields['props'])){
 					$props = null;
 				}else{
-					$props = PropService::service()->mget($fields['props']);
+					$props = UserPropService::service()->mget($fields['props']);
 				}
-				$user['props'] = PropService::service()->getPropertySet($u['id'], $props);
+				$user['props'] = UserPropService::service()->getPropertySet($u['id'], $props);
 			}
 			
 			if($remove_id_field){
@@ -548,14 +548,14 @@ class UserService extends Service{
 			return false;
 		}
 		
-		$roles = RoleService::service()->getIds($user_id);
+		$roles = UserRoleService::service()->getIds($user_id);
 		if(in_array(Roles::ITEM_SUPER_ADMIN, $roles)){
 			//超级管理员无限制
 			$this->_allowed_routers[$user_id][] = $router;
 			return true;
 		}
 		
-		$actions = RoleService::service()->getActions($user_id);
+		$actions = UserRoleService::service()->getActions($user_id);
 		if(in_array($router, $actions)){
 			//用户有此权限
 			$this->_allowed_routers[$user_id][] = $router;

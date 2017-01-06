@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Posts;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
@@ -10,7 +10,7 @@ $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 		<label class="title bold">显示下列项目</label>
 		<?php 
 		foreach(F::app()->boxes as $box){
-			echo Html::inputCheckbox('boxes[]', $box['name'],
+			echo HtmlHelper::inputCheckbox('boxes[]', $box['name'],
 				isset($enabled_boxes) && in_array($box['name'], $enabled_boxes) ? true : false, array(
 					'label'=>$box['title'],
 			));

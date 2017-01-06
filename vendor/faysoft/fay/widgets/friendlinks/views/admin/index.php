@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 ?>
@@ -17,7 +17,7 @@ use fay\services\user\UserRoleService;
 		</div>
 		<div class="form-field">
 			<label class="title bold">分类</label>
-			<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
+			<?php echo F::form('widget')->select('cat_id', HtmlHelper::getSelectOptions($cats), array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>

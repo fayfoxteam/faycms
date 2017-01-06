@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div class="drag-drop-area" id="drag-drop-area">
@@ -18,34 +18,34 @@ use fay\services\FileService;
 	}else if(!empty($f['end_time']) && \F::app()->current_time > $f['end_time']){
 		echo 'bl-red';
 	}?>">
-		<?php echo Html::inputHidden('files[]', $f['file_id'])?>
+		<?php echo HtmlHelper::inputHidden('files[]', $f['file_id'])?>
 		<a class="dragsort-rm" href="javascript:;"></a>
 		<a class="dragsort-item-selector"></a>
 		<div class="dragsort-item-container">
 			<span class="file-thumb">
 			<?php 
-				echo Html::link(Html::img($f['file_id'], 2), FileService::getUrl($f['file_id']), array(
+				echo HtmlHelper::link(HtmlHelper::img($f['file_id'], 2), FileService::getUrl($f['file_id']), array(
 					'class'=>'photo-thumb-link',
 					'encode'=>false,
-					'title'=>Html::encode($f['title']),
+					'title'=>HtmlHelper::encode($f['title']),
 				));
 			?>
 			</span>
 			<div class="file-desc-container">
-				<?php echo Html::inputText("titles[{$f['file_id']}]", $f['title'], array(
+				<?php echo HtmlHelper::inputText("titles[{$f['file_id']}]", $f['title'], array(
 					'class'=>'photo-title mb5 form-control',
 					'placeholder'=>'标题',
 				))?>
-				<?php echo Html::inputText("links[{$f['file_id']}]", $f['link'], array(
+				<?php echo HtmlHelper::inputText("links[{$f['file_id']}]", $f['link'], array(
 					'class'=>'photo-link mb5 form-control',
 					'placeholder'=>'链接地址',
 				))?>
-				<?php echo Html::inputText("start_time[{$f['file_id']}]", $f['start_time'] ? date('Y-m-d H:i:s', $f['start_time']) : '', array(
+				<?php echo HtmlHelper::inputText("start_time[{$f['file_id']}]", $f['start_time'] ? date('Y-m-d H:i:s', $f['start_time']) : '', array(
 					'class'=>'file-starttime datetimepicker mb5 form-control wp49 fl',
 					'placeholder'=>'生效时间',
 					'autocomplete'=>'off',
 				))?>
-				<?php echo Html::inputText("end_time[{$f['file_id']}]", $f['end_time'] ? date('Y-m-d H:i:s', $f['end_time']) : '', array(
+				<?php echo HtmlHelper::inputText("end_time[{$f['file_id']}]", $f['end_time'] ? date('Y-m-d H:i:s', $f['end_time']) : '', array(
 					'class'=>'file-endtime datetimepicker mb5 form-control wp49 fr',
 					'placeholder'=>'过期时间',
 					'autocomplete'=>'off',

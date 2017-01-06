@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Actionlogs;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 use fay\core\Response;
 use fay\models\tables\ExamPapers;
@@ -210,7 +210,7 @@ class ExamPaperController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一份试卷被删除', $id);
 		
-		Response::notify('success', '一份试卷被删除 - '.Html::link('撤销', array('admin/exam-paper/undelete', array(
+		Response::notify('success', '一份试卷被删除 - '.HtmlHelper::link('撤销', array('admin/exam-paper/undelete', array(
 			'id'=>$id,
 		))));
 	}

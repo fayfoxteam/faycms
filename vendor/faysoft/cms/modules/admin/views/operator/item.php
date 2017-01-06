@@ -1,7 +1,7 @@
 <?php
 use fay\models\tables\Users;
-use fay\helpers\Date;
-use fay\helpers\Html;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 use fay\helpers\ArrayHelper;
 ?>
 <div class="row">
@@ -78,7 +78,7 @@ use fay\helpers\ArrayHelper;
 			<div class="box-content">
 				<div class="form-group">
 					<label class="col-2 title">注册时间</label>
-					<div class="col-10 pt7"><?php echo Date::format($user['profile']['reg_time'])?></div>
+					<div class="col-10 pt7"><?php echo DateHelper::format($user['profile']['reg_time'])?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
@@ -90,7 +90,7 @@ use fay\helpers\ArrayHelper;
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2 title">最后登陆时间</label>
-					<div class="col-10 pt7"><?php echo Date::format($user['profile']['last_login_time'])?></div>
+					<div class="col-10 pt7"><?php echo DateHelper::format($user['profile']['last_login_time'])?></div>
 				</div>
 				<div class="form-group-separator"></div>
 				<div class="form-group">
@@ -102,7 +102,7 @@ use fay\helpers\ArrayHelper;
 				<div class="form-group-separator"></div>
 				<div class="form-group">
 					<label class="col-2 title">最后在线时间</label>
-					<div class="col-10 pt7"><?php echo Date::format($user['profile']['last_time_online'])?></div>
+					<div class="col-10 pt7"><?php echo DateHelper::format($user['profile']['last_time_online'])?></div>
 				</div>
 			</div>
 		</div>
@@ -118,7 +118,7 @@ use fay\helpers\ArrayHelper;
 			$i = 0;
 			foreach($user['props'] as $p){
 				if($i++){
-					echo Html::tag('div', array('class'=>'form-group-separator'), '');
+					echo HtmlHelper::tag('div', array('class'=>'form-group-separator'), '');
 				}?>
 				<div class="form-group">
 					<label class="col-2 title"><?php echo $p['title']?></label>
@@ -131,12 +131,12 @@ use fay\helpers\ArrayHelper;
 								//多选
 								$values = array();
 								foreach($p['value'] as $k => $v){
-									$values[] = Html::encode($v['title']);
+									$values[] = HtmlHelper::encode($v['title']);
 								}
 								echo implode(', ', $values);
 							}
 						}else{
-							echo Html::encode($p['value']);
+							echo HtmlHelper::encode($p['value']);
 						}
 					?></div>
 				</div>

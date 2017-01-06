@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 ?>
@@ -17,7 +17,7 @@ use fay\services\user\UserRoleService;
 		</div>
 		<div class="form-field">
 			<label class="title bold">分类</label>
-			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats), array(
+			<?php echo F::form('widget')->select('top', HtmlHelper::getSelectOptions($cats), array(
 				'class'=>'form-control mw400',
 			))?>
 		</div>
@@ -43,24 +43,24 @@ use fay\services\user\UserRoleService;
 			<div class="form-field">
 				<label class="title bold">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
 				<?php
-					echo Html::inputRadio('uri', 'page/{$id}', !isset($config['uri']) || $config['uri'] == 'page/{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'page/{$id}', !isset($config['uri']) || $config['uri'] == 'page/{$id}', array(
 						'label'=>'page/{$id}',
 					));
-					echo Html::inputRadio('uri', 'page/{$alias}', isset($config['uri']) && $config['uri'] == 'page/{$alias}', array(
+					echo HtmlHelper::inputRadio('uri', 'page/{$alias}', isset($config['uri']) && $config['uri'] == 'page/{$alias}', array(
 						'label'=>'page/{$alias}',
 					));
-					echo Html::inputRadio('uri', 'page-{$id}', isset($config['uri']) && $config['uri'] == 'page-{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'page-{$id}', isset($config['uri']) && $config['uri'] == 'page-{$id}', array(
 						'label'=>'page-{$id}',
 					));
-					echo Html::inputRadio('uri', 'page-{$alias}', isset($config['uri']) && $config['uri'] == 'page-{$alias}', array(
+					echo HtmlHelper::inputRadio('uri', 'page-{$alias}', isset($config['uri']) && $config['uri'] == 'page-{$alias}', array(
 						'label'=>'page-{$alias}',
 					));
-					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+					echo HtmlHelper::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
 						'page/{$id}', 'page-{$id}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+					echo HtmlHelper::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
 						'page/{$id}', 'page/{$alias}', 'page-{$id}', 'page-{$alias}',
 					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',

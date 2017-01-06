@@ -1,23 +1,23 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\helpers\StringHelper;
 ?>
 <article class="cf">
-	<?php echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
+	<?php echo HtmlHelper::link(HtmlHelper::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 		'dw'=>250,
 		'dh'=>195,
-		'alt'=>Html::encode($data['title']),
+		'alt'=>HtmlHelper::encode($data['title']),
 	)), array("{$data['cat_alias']}-{$data['id']}"), array(
 		'encode'=>false,
-		'title'=>Html::encode($data['title']),
+		'title'=>HtmlHelper::encode($data['title']),
 		'class'=>'thumbnail',
 	));?>
 	<div class="post-info">
-		<h2><?php echo Html::link($data['title'], array("{$data['cat_alias']}-{$data['id']}"))?></h2>
+		<h2><?php echo HtmlHelper::link($data['title'], array("{$data['cat_alias']}-{$data['id']}"))?></h2>
 		<time class="publish-time"><?php echo date('Y年m月d日', $data['publish_time'])?></time>
-		<div class="abstract"><?php echo StringHelper::nl2p(Html::encode($data['abstract']))?></div>
-		<?php echo Html::link('Read More', array("{$data['cat_alias']}-{$data['id']}"), array(
+		<div class="abstract"><?php echo StringHelper::nl2p(HtmlHelper::encode($data['abstract']))?></div>
+		<?php echo HtmlHelper::link('Read More', array("{$data['cat_alias']}-{$data['id']}"), array(
 			'class'=>'read-more',
 		))?>
 	</div>

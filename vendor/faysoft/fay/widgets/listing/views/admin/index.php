@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget \fay\widgets\friendlinks\controllers\AdminController
@@ -29,7 +29,7 @@ use fay\helpers\Html;
 				<a class="dragsort-rm" href="javascript:;"></a>
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
-					<?php echo Html::textarea("data[]", $v, array(
+					<?php echo HtmlHelper::textarea("data[]", $v, array(
 						'class'=>'form-control h60 autosize',
 					));?>
 				</div>
@@ -37,7 +37,7 @@ use fay\helpers\Html;
 			</div>
 		<?php }?>
 		</div>
-		<?php echo Html::link('添加', 'javascript:;', array(
+		<?php echo HtmlHelper::link('添加', 'javascript:;', array(
 			'class'=>'btn mt5',
 			'id'=>'widget-add-value-link',
 		))?>

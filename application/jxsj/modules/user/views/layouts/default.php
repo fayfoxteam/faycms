@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FlashService;
 ?>
 <!DOCTYPE html>
@@ -19,8 +19,8 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <!--[if IE 6]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/DD_belatedPNG_0.0.8a-min.js')?>"></script>
 <![endif]-->
-<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
-<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
+<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
+<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->

@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 use fay\services\FileService;
 
 $this->appendCss($this->appStatic('css/blog.css'));
@@ -8,7 +8,7 @@ $this->appendCss($this->appStatic('css/blog.css'));
 <div class="g-sub-hd">
 	<div class="post-info">
 		<div class="avatar">
-			<?php echo Html::link(Html::img($post['avatar'], FileService::PIC_THUMBNAIL, array(
+			<?php echo HtmlHelper::link(HtmlHelper::img($post['avatar'], FileService::PIC_THUMBNAIL, array(
 				'alt'=>$post['nickname']
 			)), array('u/'.$post['user_id']), array(
 				'encode'=>false,
@@ -16,13 +16,13 @@ $this->appendCss($this->appStatic('css/blog.css'));
 			))?>
 		</div>
 		<div class="info">
-			<h1><?php echo Html::encode($post['title'])?></h1>
+			<h1><?php echo HtmlHelper::encode($post['title'])?></h1>
 			<span class="meta">
-				作者：<?php echo Html::link($post['nickname'], array('u/'.$post['user_id']))?>
+				作者：<?php echo HtmlHelper::link($post['nickname'], array('u/'.$post['user_id']))?>
 				|
-				<?php echo Date::niceShort($post['publish_time'])?>
+				<?php echo DateHelper::niceShort($post['publish_time'])?>
 				<br />
-				<?php echo Html::link($post['cat_title'], array('c/'.$post['cat_id']))?>
+				<?php echo HtmlHelper::link($post['cat_title'], array('c/'.$post['cat_id']))?>
 			</span>
 		</div>
 		<div class="clear"></div>
@@ -35,17 +35,17 @@ $this->appendCss($this->appStatic('css/blog.css'));
 			<div class="share-container">
 				<a href="" class="icon-download" title="下载附件"></a>
 				<?php
-				echo Html::link('', 'javascript:;', array(
+				echo HtmlHelper::link('', 'javascript:;', array(
 					'class'=>'check-login icon-heart like-link'.($liked ? ' liked' : ''),
 					'title'=>'赞',
 					'data-id'=>$post['id'],
 				));
-				echo Html::link('', 'javascript:;', array(
+				echo HtmlHelper::link('', 'javascript:;', array(
 					'class'=>'check-login icon-star favourite-link'.($favored ? ' favored' : ''),
 					'title'=>'收藏',
 					'data-id'=>$post['id'],
 				));
-				echo Html::link('', 'http://www.jiathis.com/share', array(
+				echo HtmlHelper::link('', 'http://www.jiathis.com/share', array(
 					'class'=>'jiathis jiathis_separator jtico_jiathis icon-share',
 					'target'=>'_blank',
 					'title'=>false,
@@ -56,8 +56,8 @@ $this->appendCss($this->appStatic('css/blog.css'));
 		<div class="clearfix create-comment">
 			<h2>发表评论</h2>
 			<form id="create-comment-form">
-				<?php echo Html::inputHidden('target', $post['id'])?>
-				<?php echo Html::inputHidden('parent', 0)?>
+				<?php echo HtmlHelper::inputHidden('target', $post['id'])?>
+				<?php echo HtmlHelper::inputHidden('parent', 0)?>
 				<textarea name="content"></textarea>
 				<a href="javascript:;" class="btn-red check-login fr" id="create-comment-form-submit">发表评论</a>
 			</form>

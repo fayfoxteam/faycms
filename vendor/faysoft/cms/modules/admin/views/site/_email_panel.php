@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
 ?>
 <form id="email-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
@@ -8,12 +8,12 @@ use fay\services\OptionService;
 			<div class="form-field">
 				<label class="title">是否启用<em class="required">*</em></label>
 				<?php
-					echo Html::inputRadio('email:enabled', '1', OptionService::get('email:enabled') == '1', array(
+					echo HtmlHelper::inputRadio('email:enabled', '1', OptionService::get('email:enabled') == '1', array(
 						'label'=>'是',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',
 					));
-					echo Html::inputRadio('email:enabled', '0', OptionService::get('email:enabled') === '0', array(
+					echo HtmlHelper::inputRadio('email:enabled', '0', OptionService::get('email:enabled') === '0', array(
 						'label'=>'否',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',
@@ -23,7 +23,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">主机名<em class="required">*</em></label>
-				<?php echo Html::inputText('email:Host', OptionService::get('email:Host'), array(
+				<?php echo HtmlHelper::inputText('email:Host', OptionService::get('email:Host'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'主机名',
@@ -32,7 +32,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">用户名<em class="required">*</em></label>
-				<?php echo Html::inputText('email:Username', OptionService::get('email:Username'), array(
+				<?php echo HtmlHelper::inputText('email:Username', OptionService::get('email:Username'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'用户名',
@@ -41,7 +41,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">密码<em class="required">*</em></label>
-				<?php echo Html::inputText('email:Password', OptionService::get('email:Password'), array(
+				<?php echo HtmlHelper::inputText('email:Password', OptionService::get('email:Password'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'密码',
@@ -49,7 +49,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">加密方式</label>
-				<?php echo Html::select('email:SMTPSecure', array(
+				<?php echo HtmlHelper::select('email:SMTPSecure', array(
 					''=>'无',
 					'tls'=>'tls',
 					'ssl'=>'ssl',
@@ -60,7 +60,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">端口号<em class="required">*</em></label>
-				<?php echo Html::inputText('email:Port', OptionService::get('email:Port'), array(
+				<?php echo HtmlHelper::inputText('email:Port', OptionService::get('email:Port'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'端口号',
@@ -69,7 +69,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">显示名</label>
-				<?php echo Html::inputText('email:FromName', OptionService::get('email:FromName'), array(
+				<?php echo HtmlHelper::inputText('email:FromName', OptionService::get('email:FromName'), array(
 					'class'=>'form-control mw400',
 				))?>
 				<p class="description">你发出的所有邮件，发件人将显示此昵称</p>

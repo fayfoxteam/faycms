@@ -1,13 +1,13 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 use cms\helpers\PageHelper;
 use fay\services\PageService;
 ?>
 <tr valign="top" id="page-<?php echo $data['id']?>">
 	<td>
 		<strong>
-			<?php echo Html::link($data['title'], array('admin/page/edit', array(
+			<?php echo HtmlHelper::link($data['title'], array('admin/page/edit', array(
 				'id'=>$data['id'],
 			)), array(
 				'target'=>'_blank',
@@ -15,19 +15,19 @@ use fay\services\PageService;
 		</strong>
 		<div class="row-actions">
 		<?php if($data['deleted'] == 0){
-			echo Html::link('编辑', array('admin/page/edit', array(
+			echo HtmlHelper::link('编辑', array('admin/page/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo Html::link('移入回收站', array('admin/page/delete', array(
+			echo HtmlHelper::link('移入回收站', array('admin/page/delete', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'delete-page fc-red',
 			), true);
 		}else{
-			echo Html::link('还原', array('admin/page/undelete', array(
+			echo HtmlHelper::link('还原', array('admin/page/undelete', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo Html::link('永久删除', array('admin/page/remove', array(
+			echo HtmlHelper::link('永久删除', array('admin/page/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'delete-page fc-red remove-link',
@@ -42,7 +42,7 @@ use fay\services\PageService;
 			if($key){
 				echo ', ';
 			}
-			echo Html::link($cat['title'], array('admin/page/index', array(
+			echo HtmlHelper::link($cat['title'], array('admin/page/index', array(
 				'cat_id'=>$cat['id'],
 			)));
 		}
@@ -59,20 +59,20 @@ use fay\services\PageService;
 	<?php }?>
 	<?php if(in_array('last_modified_time', $cols)){?>
 	<td class="col-date">
-		<abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
-			<?php echo Date::niceShort($data['last_modified_time'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['last_modified_time'])?>">
+			<?php echo DateHelper::niceShort($data['last_modified_time'])?>
 		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
 	<td class="col-date">
-		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
-			<?php echo Date::niceShort($data['create_time'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['create_time'])?>">
+			<?php echo DateHelper::niceShort($data['create_time'])?>
 		</abbr>
 	</td>
 	<?php }?>
 	<?php if(in_array('sort', $cols)){?>
-	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
+	<td><?php echo HtmlHelper::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],

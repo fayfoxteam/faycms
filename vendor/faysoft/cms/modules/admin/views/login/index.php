@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\services\UserService;
 ?>
@@ -124,13 +124,13 @@ DD_belatedPNG.fix('fieldset,.ring');
 				<fieldset class="logo">Faycms</fieldset>
 				<fieldset class="user-info">
 					<div class="user-avatar">
-						<?php echo Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
+						<?php echo HtmlHelper::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 							'spare'=>'avatar',
 						))?>
 					</div>
 					<div class="user-profile">
 						您好，<?php echo $user['user']['username']?>
-						<?php echo Html::link('更换账号登录', array('admin/login/logout'), array(
+						<?php echo HtmlHelper::link('更换账号登录', array('admin/login/logout'), array(
 							'class'=>'logout-link',
 						));?>
 					</div>

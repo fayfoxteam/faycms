@@ -1,15 +1,15 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget
  */
 ?>
 <div class="m-contact">
-	<h3><?php echo Html::encode($widget->config['title'])?></h3>
+	<h3><?php echo HtmlHelper::encode($widget->config['title'])?></h3>
 	<ul><?php
 		foreach($widget->config['data'] as $d){
-			echo Html::tag('li', array(), "<span>{$d['key']}</span>: {$d['value']}");
+			echo HtmlHelper::tag('li', array(), "<span>{$d['key']}</span>: {$d['value']}");
 		}
 	?></ul>
 </div>

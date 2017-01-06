@@ -1,6 +1,6 @@
 <?php
 use cms\helpers\ListTableHelper;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Logs;
 
 /**
@@ -77,14 +77,14 @@ use fay\models\tables\Logs;
 			<table class="form-table">
 				<tr>
 					<th class="adaption">Code</th>
-					<td><?php echo Html::inputText('', '', array(
+					<td><?php echo HtmlHelper::inputText('', '', array(
 						'class'=>'form-control',
 						'id'=>'ld-code',
 					))?></td>
 				</tr>
 				<tr>
 					<th valign="top" class="adaption">Data</th>
-					<td><?php echo Html::textarea('', '', array(
+					<td><?php echo HtmlHelper::textarea('', '', array(
 						'class'=>'form-control h90 autosize',
 						'rows'=>5,
 						'id'=>'ld-data',
@@ -93,7 +93,7 @@ use fay\models\tables\Logs;
 				<tr>
 					<th class="adaption">Create Time</th>
 					<td>
-						<?php echo Html::inputText('', '', array(
+						<?php echo HtmlHelper::inputText('', '', array(
 							'class'=>'form-control',
 							'id'=>'ld-create_time',
 						))?>
@@ -102,7 +102,7 @@ use fay\models\tables\Logs;
 				<tr>
 					<th class="adaption">User</th>
 					<td>
-						<?php echo Html::inputText('', '', array(
+						<?php echo HtmlHelper::inputText('', '', array(
 							'class'=>'form-control',
 							'id'=>'ld-username',
 						))?>
@@ -111,7 +111,7 @@ use fay\models\tables\Logs;
 				<tr>
 					<th class="adaption">User Agent</th>
 					<td>
-						<?php echo Html::textarea('', '', array(
+						<?php echo HtmlHelper::textarea('', '', array(
 							'class'=>'form-control autosize',
 							'id'=>'ld-user_agent',
 						))?>

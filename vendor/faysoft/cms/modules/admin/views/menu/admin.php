@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 function showCats($tree, $dep = 0){?>
 	<ul class="tree">
@@ -8,7 +8,7 @@ function showCats($tree, $dep = 0){?>
 			<div class="leaf">
 				<span class="fr options">
 					<span class="w115 block fl">
-					排序：<?php echo Html::inputText('sort[]', $node['sort'], array(
+					排序：<?php echo HtmlHelper::inputText('sort[]', $node['sort'], array(
 						'size'=>3,
 						'maxlength'=>3,
 						'data-id'=>$node['id'],
@@ -17,26 +17,26 @@ function showCats($tree, $dep = 0){?>
 					</span>
 					<?php
 						if(F::app()->checkPermission('admin/menu/create')){
-							echo Html::link('添加子节点', '#create-cat-dialog', array(
+							echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
 								'class'=>'create-cat-link',
-								'data-title'=>Html::encode($node['title']),
+								'data-title'=>HtmlHelper::encode($node['title']),
 								'data-id'=>$node['id'],
 							));
 						}
 						if(F::app()->checkPermission('admin/menu/edit')){
-							echo Html::link('编辑', '#edit-cat-dialog', array(
+							echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
 								'class'=>'edit-cat-link',
 								'data-id'=>$node['id'],
 							));
 						}
 						if(F::app()->checkPermission('admin/menu/remove')){
-							echo Html::link('删除', array('admin/menu/remove', array(
+							echo HtmlHelper::link('删除', array('admin/menu/remove', array(
 								'id'=>$node['id'],
 							)), array(
 								'class'=>'remove-link fc-red',
 								'title'=>'删除该节点，其子节点将被挂载到其父节点',
 							));
-							echo Html::link('删除全部', array('admin/menu/remove-all', array(
+							echo HtmlHelper::link('删除全部', array('admin/menu/remove-all', array(
 								'id'=>$node['id'],
 							)), array(
 								'class'=>'remove-link fc-red',
@@ -51,12 +51,12 @@ function showCats($tree, $dep = 0){?>
 						echo 'parent';?>">
 					<?php
 					
-						echo $node['enabled'] ? Html::link('<span class="tick-circle"></span>', 'javascript:;', array(
+						echo $node['enabled'] ? HtmlHelper::link('<span class="tick-circle"></span>', 'javascript:;', array(
 							'class'=>F::app()->checkPermission('admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
 							'data-id'=>$node['id'],
 							'encode'=>false,
 							'title'=>F::app()->checkPermission('admin/menu/edit') ? '是否启用（点击可改变状态）' : false,
-						)) : Html::link('<span class="cross-circle"></span>', 'javascript:;', array(
+						)) : HtmlHelper::link('<span class="cross-circle"></span>', 'javascript:;', array(
 							'class'=>F::app()->checkPermission('admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
 							'data-id'=>$node['id'],
 							'encode'=>false,
@@ -64,9 +64,9 @@ function showCats($tree, $dep = 0){?>
 						));
 						
 						if(empty($node['children'])){
-							echo Html::encode($node['title']);
+							echo HtmlHelper::encode($node['title']);
 						}else{
-							echo Html::tag('strong', array(), $node['title']);
+							echo HtmlHelper::tag('strong', array(), $node['title']);
 						}
 					?>
 					<?php if($node['alias']){?>

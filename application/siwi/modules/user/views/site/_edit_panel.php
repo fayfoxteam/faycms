@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="clearfix">
 	<div class="half-left">
@@ -29,8 +29,8 @@ use fay\helpers\Html;
 			<?php if(isset($files)){?>
 				<?php foreach($files as $f){?>
 				<div class="pic-item">
-					<?php echo Html::inputHidden('files[]', $f['file_id'])?>
-					<?php echo Html::img($f['file_id'], FileService::PIC_RESIZE, array(
+					<?php echo HtmlHelper::inputHidden('files[]', $f['file_id'])?>
+					<?php echo HtmlHelper::img($f['file_id'], FileService::PIC_RESIZE, array(
 						'dw'=>239,
 						'dh'=>184,
 					))?>

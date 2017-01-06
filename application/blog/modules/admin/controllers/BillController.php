@@ -7,7 +7,7 @@ use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;
 use blog\models\tables\Bills;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Response;
 use fay\core\HttpException;
 
@@ -110,7 +110,7 @@ class BillController extends AdminController{
 		$cats = CategoryService::service()->getTree($cat_alias);
 		echo json_encode(array(
 			'status'=>1,
-			'data'=>Html::getSelectOptions($cats, 'id', 'title')
+			'data'=>HtmlHelper::getSelectOptions($cats, 'id', 'title')
 		));
 	}
 	

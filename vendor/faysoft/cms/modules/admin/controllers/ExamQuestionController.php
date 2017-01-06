@@ -6,7 +6,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\ExamQuestions;
 use fay\models\tables\Actionlogs;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 use fay\models\tables\ExamAnswers;
 use fay\core\Response;
@@ -320,7 +320,7 @@ class ExamQuestionController extends AdminController{
 		), $id);
 		$this->actionlog(Actionlogs::TYPE_EXAM, '一个试题被删除', $id);
 		
-		Response::notify('success', '一个试题被删除 - '.Html::link('撤销', array('admin/exam-question/undelete', array(
+		Response::notify('success', '一个试题被删除 - '.HtmlHelper::link('撤销', array('admin/exam-question/undelete', array(
 			'id'=>$id,
 		))));
 	}

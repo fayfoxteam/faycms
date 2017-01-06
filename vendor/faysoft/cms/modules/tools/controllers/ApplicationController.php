@@ -12,7 +12,7 @@ use fay\models\tables\Categories;
 use fay\models\tables\Menus;
 use fay\services\FlashService;
 use fay\services\OptionService;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\Roles;
 use fay\core\Response;
 
@@ -125,7 +125,7 @@ class ApplicationController extends ToolsController{
 				$this->db->insert('user_profile', array(
 					'user_id'=>$user_id,
 					'reg_time'=>$this->current_time,
-					'reg_ip'=>Request::ip2int(Request::getIP()),
+					'reg_ip'=>RequestHelper::ip2int(RequestHelper::getIP()),
 					'trackid'=>'tools_create',
 				));
 				
@@ -136,7 +136,7 @@ class ApplicationController extends ToolsController{
 				
 				OptionService::set('site:sitename', $this->input->post('sitename'));
 				
-				FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed");
+				FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed");
 			}
 		}
 		

@@ -1,13 +1,13 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Vouchers;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 ?>
 <tr>
 	<td>
 		<?php echo $data['sn']?>
 		<div class="row-actions">
-			<?php echo Html::link('永久删除', array('admin/voucher/remove', array(
+			<?php echo HtmlHelper::link('永久删除', array('admin/voucher/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'fc-red remove-link',
@@ -16,23 +16,23 @@ use fay\helpers\Date;
 	</td>
 	<td>
 		<?php if($data['type'] == Vouchers::TYPE_CASH){
-			echo Html::link('现金卷', array('admin/voucher/index', array(
+			echo HtmlHelper::link('现金卷', array('admin/voucher/index', array(
 				'type'=>$data['type']
 			)));
 		}else if($data['type'] == Vouchers::TYPE_DISCOUNT){
-			echo Html::link('折扣卷', array('admin/voucher/index', array(
+			echo HtmlHelper::link('折扣卷', array('admin/voucher/index', array(
 				'type'=>$data['type']
 			)));
 		}?>
 	</td>
 	<td>
-		<?php echo Html::link($data['title'], array('admin/voucher/index', array(
+		<?php echo HtmlHelper::link($data['title'], array('admin/voucher/index', array(
 			'cat_id'=>$data['cat_id'],
 		)));?>
 	</td>
 	<td class="col-date">
 	<?php if($data['start_time']){?>
-		<abbr class="time" title="<?php echo Date::format($data['start_time'])?>">
+		<abbr class="time" title="<?php echo DateHelper::format($data['start_time'])?>">
 			<?php echo date('Y-m-d', $data['start_time'])?>
 		</abbr>
 	<?php }else{?>
@@ -41,7 +41,7 @@ use fay\helpers\Date;
 	</td>
 	<td class="col-date">
 	<?php if($data['end_time']){?>
-		<abbr class="time" title="<?php echo Date::format($data['end_time'])?>">
+		<abbr class="time" title="<?php echo DateHelper::format($data['end_time'])?>">
 			<?php echo date('Y-m-d', $data['end_time'])?>
 		</abbr>
 	<?php }else{?>
@@ -60,8 +60,8 @@ use fay\helpers\Date;
 		}?>
 	</td>
 	<td class="col-date">
-		<abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
-			<?php echo Date::niceShort($data['create_time'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['create_time'])?>">
+			<?php echo DateHelper::niceShort($data['create_time'])?>
 		</abbr>
 	</td>
 </tr>

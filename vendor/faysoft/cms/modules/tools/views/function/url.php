@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <form method="post" id="form">
 	<div class="row">
@@ -19,7 +19,7 @@ use fay\helpers\Html;
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
 					<div style="min-height:239px"><?php
-						echo Html::textarea('', urlencode(\F::input()->post('url')), array(
+						echo HtmlHelper::textarea('', urlencode(\F::input()->post('url')), array(
 							'class'=>'form-control h200 autosize',
 						));
 					?></div>
@@ -44,7 +44,7 @@ use fay\helpers\Html;
 				<div class="box-title"><h3>Result</h3></div>
 				<div class="box-content">
 					<div style="min-height:239px"><?php
-						echo Html::textarea('', urldecode(\F::input()->post('encode_url')), array(
+						echo HtmlHelper::textarea('', urldecode(\F::input()->post('encode_url')), array(
 							'class'=>'form-control h200 autosize',
 						));
 					?></div>

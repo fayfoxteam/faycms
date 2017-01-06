@@ -1,6 +1,6 @@
 <?php
 use fay\services\FileService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="page-banner" 
 <?php if(isset($files[0]['file_id'])){?>
@@ -11,6 +11,6 @@ use fay\helpers\Html;
 <?php }?>
 >
 	<div class="page-title-container">
-		<h1 class="page-title"><?php echo Html::encode(F::app()->layout->page_title)?></h1>
+		<h1 class="page-title"><?php echo HtmlHelper::encode(F::app()->layout->page_title)?></h1>
 	</div>
 </div>

@@ -9,7 +9,7 @@ use fay\models\tables\Posts;
 use fay\services\UserService;
 use fay\services\PostService;
 use fay\models\tables\PostFavorites;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\PostMeta;
 
 class PostFavoriteService extends Service{
@@ -60,7 +60,7 @@ class PostFavoriteService extends Service{
 			'trackid'=>$trackid,
 			'sockpuppet'=>$sockpuppet,
 			'create_time'=>\F::app()->current_time,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		));
 		
 		//文章收藏数+1

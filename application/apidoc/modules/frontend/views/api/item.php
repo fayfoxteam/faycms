@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use apidoc\helpers\ApiHelper;
 use apidoc\helpers\TrackHelper;
 ?>
@@ -53,10 +53,10 @@ use apidoc\helpers\TrackHelper;
 			<tbody>
 			<?php foreach($api['inputs'] as $input){?>
 				<tr>
-					<td><?php echo Html::encode($input['name'])?></td>
+					<td><?php echo HtmlHelper::encode($input['name'])?></td>
 					<td><?php echo ApiHelper::getInputType($input['type'])?></td>
 					<td><?php echo ApiHelper::getRequired($input['required'])?></td>
-					<td><?php echo Html::encode($input['sample'])?></td>
+					<td><?php echo HtmlHelper::encode($input['sample'])?></td>
 					<td><?php echo $input['description']?></td>
 				</tr>
 			<?php }?>
@@ -83,23 +83,23 @@ use apidoc\helpers\TrackHelper;
 			<tbody>
 			<?php foreach($api['outputs'] as $output){?>
 				<tr>
-					<td><?php echo Html::encode($output['name'])?></td>
+					<td><?php echo HtmlHelper::encode($output['name'])?></td>
 					<td><?php
 						if($output['model_id'] >= 1000){
 							//对象类型特殊处理
-							echo Html::link($output['model_name'], array(
+							echo HtmlHelper::link($output['model_name'], array(
 								'model/' . $output['model_id'], array(
 									'trackid'=>TrackHelper::getTrackId(),
 								), false
 							));
 						}else{
-							echo Html::encode($output['model_name']);
+							echo HtmlHelper::encode($output['model_name']);
 						}
 						if($output['is_array']){
 							echo ' []';
 						}
 					?></td>
-					<td><?php echo Html::encode($output['sample'])?></td>
+					<td><?php echo HtmlHelper::encode($output['sample'])?></td>
 					<td><?php echo $output['description']?></td>
 				</tr>
 			<?php }?>
@@ -115,7 +115,7 @@ use apidoc\helpers\TrackHelper;
 	<div class="panel-body">
 	<?php if($api['api']['sample_response']){?>
 		<pre id="sample_response" class="jsonview"><?php
-			echo Html::encode($api['api']['sample_response']);
+			echo HtmlHelper::encode($api['api']['sample_response']);
 		?></pre>
 	<?php }else{?>
 		<span>无</span>

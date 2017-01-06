@@ -4,7 +4,7 @@ namespace fay\helpers;
 /**
  * 记录系统运行到各个节点的时间，最后在debug中输出
  */
-class Runtime{
+class RuntimeHelper{
 	private static $runtimes = array();
 	
 	public static function append($file, $line, $note){

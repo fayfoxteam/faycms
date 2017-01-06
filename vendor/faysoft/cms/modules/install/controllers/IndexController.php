@@ -8,7 +8,7 @@ use fay\services\FileService;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\Roles;
 use fay\services\UserService;
 
@@ -137,7 +137,7 @@ class IndexController extends InstallController{
 				), 1);
 				OptionService::set('site:sitename', $this->input->post('site:sitename', 'trim'));
 				
-				file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
+				file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
 				
 				Response::redirect('a');
 			}

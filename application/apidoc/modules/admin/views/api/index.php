@@ -1,7 +1,7 @@
 <?php
 use cms\helpers\ListTableHelper;
 use apidoc\models\tables\Apis;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 $cols = F::form('setting')->getData('cols', array());
 ?>
@@ -25,7 +25,7 @@ $cols = F::form('setting')->getData('cols', array());
 				'&nbsp;',
 				F::form('search')->select('cat_id', array(
 					''=>'--分类--',
-				) + Html::getSelectOptions($cats, 'id', 'title'), array(
+				) + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 					'class'=>'form-control',
 				));
 			?></div>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
 
 $menu = array(
@@ -39,8 +39,8 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/menu.js')?>"></script>
 <link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
-<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
-<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
+<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
+<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <?php if(!empty($canonical)){?>
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>

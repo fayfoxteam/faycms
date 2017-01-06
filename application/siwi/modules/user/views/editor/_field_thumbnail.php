@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <fieldset class="form-field">
@@ -11,7 +11,7 @@ use fay\services\FileService;
 		<?php 
 		echo \F::form()->inputHidden('thumbnail');
 		if(\F::form()->getData('thumbnail')){
-			echo Html::link(Html::img(\F::form()->getData('thumbnail'), FileService::PIC_RESIZE, array(
+			echo HtmlHelper::link(HtmlHelper::img(\F::form()->getData('thumbnail'), FileService::PIC_RESIZE, array(
 				'dw'=>257,
 				'dh'=>217,
 			)), FileService::getUrl(\F::form()->getData('thumbnail')), array(
@@ -20,7 +20,7 @@ use fay\services\FileService;
 				'title'=>false,
 			));
 		}else{
-			echo Html::img($this->url().'static/siwi/images/avatar-preview.jpg');
+			echo HtmlHelper::img($this->url().'static/siwi/images/avatar-preview.jpg');
 		}?>
 		<div class="meta">
 			<h1 class="title"><?php echo \F::form()->getData('title')?></h1>

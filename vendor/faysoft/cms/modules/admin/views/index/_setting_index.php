@@ -1,5 +1,5 @@
 <?php 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <?php echo F::form('setting')->open(array('admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
@@ -7,7 +7,7 @@ use fay\helpers\Html;
 		<label class="title bold">显示下列项目</label>
 		<?php 
 		foreach(F::app()->boxes as $box){
-			echo Html::inputCheckbox('boxes[]', $box['name'],
+			echo HtmlHelper::inputCheckbox('boxes[]', $box['name'],
 				isset($enabled_boxes) && in_array($box['name'], $enabled_boxes) ? true : false, array(
 					'label'=>$box['title'],
 			));

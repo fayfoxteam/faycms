@@ -1,14 +1,14 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
-<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
-<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
+<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
+<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <?php if(!empty($canonical)){?>
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>

@@ -1,6 +1,6 @@
 <?php
 use fay\models\tables\Vouchers;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <form id="form" class="validform" action="" method="post">
 	<div class="form-field">
@@ -14,7 +14,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="form-field">
 		<label class="title bold">分类</label>
-		<?php echo F::form()->select('cat_id', Html::getSelectOptions($cats, 'id', 'title'))?>
+		<?php echo F::form()->select('cat_id', HtmlHelper::getSelectOptions($cats, 'id', 'title'))?>
 	</div>
 	<div class="form-field">
 		<label class="title bold">金额/折扣</label>

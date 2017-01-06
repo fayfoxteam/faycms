@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Vouchers;
 ?>
 <div class="row">
@@ -15,7 +15,7 @@ use fay\models\tables\Vouchers;
 					Vouchers::TYPE_DISCOUNT=>'折扣卷',
 				))?>
 				|
-				<?php echo F::form()->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($cats, 'id', 'title'))?>
+				<?php echo F::form()->select('cat_id', array(''=>'--分类--')+HtmlHelper::getSelectOptions($cats, 'id', 'title'))?>
 				<a href="javascript:;" class="btn btn-sm" id="form-submit">查询</a>
 			</div>
 			<table class="list-table">

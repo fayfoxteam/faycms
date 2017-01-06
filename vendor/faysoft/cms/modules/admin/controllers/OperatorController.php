@@ -10,7 +10,7 @@ use fay\common\ListView;
 use fay\services\user\UserPropService;
 use fay\services\UserService;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\models\tables\UserProfile;
@@ -132,7 +132,7 @@ class OperatorController extends AdminController{
 			
 			$this->actionlog(Actionlogs::TYPE_USERS, '添加了一个管理员', $user_id);
 			
-			Response::notify('success', '管理员添加成功， '.Html::link('继续添加', array('admin/operator/create', array(
+			Response::notify('success', '管理员添加成功， '.HtmlHelper::link('继续添加', array('admin/operator/create', array(
 				'roles'=>$this->input->post('roles', 'intval', array()),
 			))), array('admin/operator/edit', array(
 				'id'=>$user_id,

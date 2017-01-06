@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-class Http{
+class HttpHelper{
 	
 	/**
 	 * 拼接url

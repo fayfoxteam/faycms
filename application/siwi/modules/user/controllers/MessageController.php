@@ -4,7 +4,7 @@ namespace siwi\modules\user\controllers;
 use siwi\library\UserController;
 use fay\models\tables\Messages;
 use fay\services\MessageService;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 use fay\core\Validator;
 
 class MessageController extends UserController{
@@ -25,7 +25,7 @@ class MessageController extends UserController{
 			$message_id = MessageService::service()->create($target, $content, $type, $parent);
 			
 			$message = MessageService::service()->get($message_id);
-			$message['date'] = Date::niceShort($message['create_time']);
+			$message['date'] = DateHelper::niceShort($message['create_time']);
 			if($this->input->isAjaxRequest()){
 				echo json_encode(array('status'=>1, 'data'=>$message));
 			}

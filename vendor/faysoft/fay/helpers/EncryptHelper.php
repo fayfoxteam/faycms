@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-class Encrypt{
+class EncryptHelper{
 	public static function encode($data){
 		return base64_encode(self::mcrypt_encode($data, \F::config()->get('encryption_key')));
 	}

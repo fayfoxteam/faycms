@@ -3,7 +3,7 @@ namespace fay\widget;
 
 use fay\core\Exception;
 use fay\core\HttpException;
-use fay\helpers\Runtime;
+use fay\helpers\RuntimeHelper;
 use fay\models\tables\Widgets;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
@@ -88,9 +88,9 @@ class Loader{
 			if($widget['cache'] >= 0 && $content = \F::cache()->get('widgets/' . $widget['alias'])){
 				echo $content;
 			}else{
-				Runtime::append(__FILE__, __LINE__, "准备渲染小工具: {$widget['alias']}");
+				RuntimeHelper::append(__FILE__, __LINE__, "准备渲染小工具: {$widget['alias']}");
 				$this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $widget['cache'], $widget['alias'], $index, $action);
-				Runtime::append(__FILE__, __LINE__, "小工具: {$widget['alias']}渲染完成");
+				RuntimeHelper::append(__FILE__, __LINE__, "小工具: {$widget['alias']}渲染完成");
 			}
 		}else{
 			throw new HttpException('Widget不存在或已被删除');

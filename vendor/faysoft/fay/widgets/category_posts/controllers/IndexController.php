@@ -4,7 +4,7 @@ namespace fay\widgets\category_posts\controllers;
 use fay\widget\Widget;
 use fay\services\CategoryService;
 use fay\services\PostService;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 use fay\services\post\Category as PostCategory;
 
 class IndexController extends Widget{
@@ -231,7 +231,7 @@ class IndexController extends Widget{
 		foreach($posts as &$p){
 			//附加格式化日期
 			if($this->config['date_format'] == 'pretty'){
-				$p['post']['format_publish_time'] = Date::niceShort($p['post']['publish_time']);
+				$p['post']['format_publish_time'] = DateHelper::niceShort($p['post']['publish_time']);
 			}else if($this->config['date_format']){
 				$p['post']['format_publish_time'] = \date($this->config['date_format'], $p['post']['publish_time']);
 			}else{

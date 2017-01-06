@@ -1,17 +1,17 @@
 <?php
 use fay\models\tables\ExamQuestions;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box fl wp100">
 	<div class="box-title">
-		<h3><?php echo Html::encode($paper['title'])?></h3>
+		<h3><?php echo HtmlHelper::encode($paper['title'])?></h3>
 	</div>
 	<div class="box-content">
 		<div class="st"><div class="sl"><div class="sr"><div class="sb">
 			<div class="p16">
 				<form method="post" id="form" action="<?php echo $this->url('user/paper/create')?>">
-					<?php echo Html::inputHidden('paper_id', $paper['id'])?>
-					<?php echo Html::inputHidden('hash', $hash)?>
+					<?php echo HtmlHelper::inputHidden('paper_id', $paper['id'])?>
+					<?php echo HtmlHelper::inputHidden('hash', $hash)?>
 					<div class="paper-description"><?php echo $paper['description']?></div>
 					<div id="paper-question-list">
 					<?php foreach($paper['questions'] as $index => $eq){

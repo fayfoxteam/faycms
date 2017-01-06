@@ -35,7 +35,7 @@ class SqlHelper{
 		
 		if(!empty($params)){
 			foreach($params as $p){
-				$sql = preg_replace('/\?/', is_int($p) ? $p : "'".Html::encode($p)."'", $sql, 1);
+				$sql = preg_replace('/\?/', is_int($p) ? $p : "'".HtmlHelper::encode($p)."'", $sql, 1);
 			}
 		}
 		

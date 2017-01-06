@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
 use fay\services\FileService;
 $this->appendCss($this->appStatic('css/index.css'));
@@ -21,32 +21,32 @@ $this->appendCss($this->appStatic('css/index.css'));
 				$top_post = array_shift($v);
 				?>
 				<li class="s">
-					<?php echo Html::link(Html::img($top_post['thumbnail'], FileService::PIC_RESIZE, array(
+					<?php echo HtmlHelper::link(HtmlHelper::img($top_post['thumbnail'], FileService::PIC_RESIZE, array(
 						'dw'=>386,
 						'dh'=>272,
-						'alt'=>Html::encode($top_post['title']),
+						'alt'=>HtmlHelper::encode($top_post['title']),
 					)), FriendlyLink::getProductLink(array(
 						'id'=>$top_post['id'],
 					)), array(
-						'title'=>Html::encode($top_post['title']),
+						'title'=>HtmlHelper::encode($top_post['title']),
 						'encode'=>false,
 					))?>
 					<div class="con-box">
 						<a class="desc" href="<?php echo FriendlyLink::getProductLink(array(
 							'id'=>$top_post['id'],
 						))?>">
-							<p class="title"><?php echo Html::encode($top_post['title'])?></p>
-							<p class="sub-title"><?php echo Html::encode($top_post['abstract'])?></p>
+							<p class="title"><?php echo HtmlHelper::encode($top_post['title'])?></p>
+							<p class="sub-title"><?php echo HtmlHelper::encode($top_post['abstract'])?></p>
 						</a>
 						<div class="foods">
 							<ul class="clearfix">
 							<?php foreach($v as $p){?>
-								<li class="f-item fl"><?php echo Html::link("<span>{$p['title']}</span>", FriendlyLink::getProductLink(array(
+								<li class="f-item fl"><?php echo HtmlHelper::link("<span>{$p['title']}</span>", FriendlyLink::getProductLink(array(
 									'id'=>$p['id'],
 								)), array(
 									'target'=>'_blank',
 									'encode'=>false,
-									'title'=>Html::encode($p['title']),
+									'title'=>HtmlHelper::encode($p['title']),
 								))?></li>
 							<?php }?>
 							</ul>
@@ -61,13 +61,13 @@ $this->appendCss($this->appStatic('css/index.css'));
 		<div class="topic tabs">
 			<div class="topic_hd">
 				<h2>
-					<?php echo Html::link('农旅游', array('product'), array(
+					<?php echo HtmlHelper::link('农旅游', array('product'), array(
 						'target'=>'_blank',
 					))?>
 				</h2>
 				<h3 class="J_tabs">
 					<?php foreach($areas as $k => $a){
-						echo Html::link($a['title'], '#', array(
+						echo HtmlHelper::link($a['title'], '#', array(
 							'class'=>!$k ? 'cur' : false,
 						));
 					}?>
@@ -80,26 +80,26 @@ $this->appendCss($this->appStatic('css/index.css'));
 					<?php foreach($t['top'] as $p){?>
 						<li>
 							<div class="j_img">
-								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+								<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>239,
 									'dh'=>140,
-									'alt'=>Html::encode($p['title']),
+									'alt'=>HtmlHelper::encode($p['title']),
 								)), FriendlyLink::getTravelLink(array(
 									'id'=>$p['id'],
 								)), array(
-									'title'=>Html::encode($p['title']),
+									'title'=>HtmlHelper::encode($p['title']),
 									'encode'=>false,
 								))?>
 							</div>
 							<div class="j_name">
-								<?php echo Html::link($p['title'], FriendlyLink::getTravelLink(array(
+								<?php echo HtmlHelper::link($p['title'], FriendlyLink::getTravelLink(array(
 									'id'=>$p['id'],
 								)), array(
 									'target'=>'_blank',
 								))?>
 							</div>
 							<div class="j_info">
-								<?php echo $p['abstract'], Html::link('详细', FriendlyLink::getTravelLink(array(
+								<?php echo $p['abstract'], HtmlHelper::link('详细', FriendlyLink::getTravelLink(array(
 									'id'=>$p['id'],
 								)), array(
 									'target'=>'_blank',
@@ -112,7 +112,7 @@ $this->appendCss($this->appStatic('css/index.css'));
 						<h3>旅游推荐</h3>
 						<ul>
 						<?php foreach($t['recommend'] as $p){
-							echo Html::link($p['title'], FriendlyLink::getTravelLink(array(
+							echo HtmlHelper::link($p['title'], FriendlyLink::getTravelLink(array(
 								'id'=>$p['id'],
 							)), array(
 								'target'=>'_blank',
@@ -130,13 +130,13 @@ $this->appendCss($this->appStatic('css/index.css'));
 		<div class="topic meishi">
 			<div class="topic_hd">
 				<h2>
-					<?php echo Html::link('地方美食', array('food'), array(
+					<?php echo HtmlHelper::link('地方美食', array('food'), array(
 						'target'=>'_blank',
 					))?>
 				</h2>
 				<h3 class="city-box m_tabs">
 					<?php foreach($areas as $k => $a){
-						echo Html::link($a['title'], '#', array(
+						echo HtmlHelper::link($a['title'], '#', array(
 							'class'=>!$k ? 'cur' : false,
 						));
 					}?>
@@ -149,19 +149,19 @@ $this->appendCss($this->appStatic('css/index.css'));
 					<?php foreach($f as $p){?>
 						<li>
 							<div class="j_img">
-								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+								<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>239,
 									'dh'=>140,
-									'alt'=>Html::encode($p['title']),
+									'alt'=>HtmlHelper::encode($p['title']),
 								)), FriendlyLink::getFoodLink(array(
 									'id'=>$p['id'],
 								)), array(
-									'title'=>Html::encode($p['title']),
+									'title'=>HtmlHelper::encode($p['title']),
 									'encode'=>false,
 								))?>
 							</div>
 							<div class="j_name">
-								<?php echo Html::link($p['title'], FriendlyLink::getFoodLink(array(
+								<?php echo HtmlHelper::link($p['title'], FriendlyLink::getFoodLink(array(
 									'id'=>$p['id'],
 								)))?>
 							</div>

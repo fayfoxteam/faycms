@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 
 /**
@@ -14,7 +14,7 @@ use fay\services\FileService;
 				<div class="swiper-wrapper">
 				<?php foreach($p['files'] as $file){?>
 					<div class="swiper-slide">
-						<?php echo Html::img($file['thumbnail'], FileService::PIC_ORIGINAL, array(
+						<?php echo HtmlHelper::img($file['thumbnail'], FileService::PIC_ORIGINAL, array(
 							'alt'=>$file['description'],
 						))?>
 					</div>
@@ -32,7 +32,7 @@ use fay\services\FileService;
 		<div class="post-featured">
 			<div class="post-thumb">
 				<a href="<?php echo $p['post']['link']?>"><?php
-					echo Html::img($p['post']['thumbnail']['thumbnail']);
+					echo HtmlHelper::img($p['post']['thumbnail']['thumbnail']);
 				?></a>
 			</div>
 		</div>
@@ -40,14 +40,14 @@ use fay\services\FileService;
 		<div class="post-container">
 			<h2 class="post-title">
 				<a href="<?php echo $p['post']['link']?>"><?php
-					echo Html::encode($p['post']['title'])
+					echo HtmlHelper::encode($p['post']['title'])
 				?></a>
 			</h2>
 			<div class="post-meta">
 				<time class="post-meta-item post-meta-time"><?php
 					echo $p['post']['format_publish_time'];
 				?></time>
-				<?php echo Html::link($p['category']['title'], array('cat/'.$p['category']['id']), array(
+				<?php echo HtmlHelper::link($p['category']['title'], array('cat/'.$p['category']['id']), array(
 					'class'=>array('post-meta-item', 'post-meta-category'),
 				))?>
 				<span class="post-meta-item post-meta-views">

@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\Runtime;
+use fay\helpers\RuntimeHelper;
 
 class Bootstrap{
 	public function init(){
@@ -20,7 +20,7 @@ class Bootstrap{
 		
 		//路由
 		$uri = new Uri();
-		Runtime::append(__FILE__, __LINE__, '路由解析完成');
+		RuntimeHelper::append(__FILE__, __LINE__, '路由解析完成');
 		
 		//触发事件
 		\F::event()->trigger('after_uri');
@@ -49,14 +49,14 @@ class Bootstrap{
 		}
 		
 		$file = $this->getControllerAndAction($uri);
-		Runtime::append(__FILE__, __LINE__, '获取控制器名称');
+		RuntimeHelper::append(__FILE__, __LINE__, '获取控制器名称');
 		
 		$controller = new $file['controller'];
-		Runtime::append(__FILE__, __LINE__, '控制器被实例化');
+		RuntimeHelper::append(__FILE__, __LINE__, '控制器被实例化');
 		//触发事件
 		\F::event()->trigger('after_controller_constructor');
 		$controller->{$file['action']}();
-		Runtime::append(__FILE__, __LINE__, '控制器方式执行完毕');
+		RuntimeHelper::append(__FILE__, __LINE__, '控制器方式执行完毕');
 	}
 	
 	/**

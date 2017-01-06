@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\core\Validator;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Loader;
 use fay\models\tables\Posts;
 use fay\log\Logger;
@@ -78,7 +78,7 @@ class TestController extends AdminController{
 	}
 	
 	public function tag(){
-// 		echo Html::tag('a', array(
+// 		echo HtmlHelper::tag('a', array(
 // 			'href'=>'http://www.baidu.com',
 // 			'before'=>array(
 // 				'tag'=>'em',
@@ -110,11 +110,11 @@ class TestController extends AdminController{
 // 		));
 // 		echo "\r\n\r\n\r\n";
 		
-		echo Html::link('链接', array('admin/user/index'), array(
+		echo HtmlHelper::link('链接', array('admin/user/index'), array(
 			'prepend'=>'-->'
 		));
 		echo "\r\n<br>\r\n<br>\r\n";
-		echo Html::tag('a', array(
+		echo HtmlHelper::tag('a', array(
 			'href'=>'javascript',
 			'prepend'=>'{prepend}',
 			'before'=>'{before}',
@@ -129,7 +129,7 @@ class TestController extends AdminController{
 		/**
 		 * 生成完整表单
 		 */
-// 		echo Html::tag('form', array(
+// 		echo HtmlHelper::tag('form', array(
 // 			'method'=>'post',
 // 		), array(
 // 			array(

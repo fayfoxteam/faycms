@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\ExamQuestions;
 ?>
 
@@ -17,7 +17,7 @@ use fay\models\tables\ExamQuestions;
 			<?php if(!empty($questions)){?>
 				<?php foreach($questions as $q){?>
 					<div class="dragsort-item">
-						<?php echo Html::inputHidden('questions[]', $q['question_id'])?>
+						<?php echo HtmlHelper::inputHidden('questions[]', $q['question_id'])?>
 						<a class="dragsort-rm" href="javascript:;"></a>
 						<a class="dragsort-item-selector"></a>
 						<div class="dragsort-item-container mr10">
@@ -38,7 +38,7 @@ use fay\models\tables\ExamQuestions;
 										break;
 								}?></span>
 								|
-								<label>分值：<?php echo Html::inputText('score[]', $q['score'], array(
+								<label>分值：<?php echo HtmlHelper::inputText('score[]', $q['score'], array(
 									'class'=>'form-control mw100 ib',
 								))?></label>
 							</p>

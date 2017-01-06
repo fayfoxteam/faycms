@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
 use fay\models\tables\Roles;
 use fay\services\post\Category;
@@ -12,50 +12,50 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 				<span class="fr options">
 					<?php if(F::app()->checkPermission('admin/post/cat-sort')){?>
 					<span class="w135 block fl">
-					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
+					排序：<?php echo HtmlHelper::inputText('sort[]', $c['sort'], array(
 						'data-id'=>$c['id'],
 						'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
 					<?php }?>
 					<?php
-						echo $c['is_nav'] ? Html::link('导航:<span class="tick-circle"></span>', 'javascript:;', array(
+						echo $c['is_nav'] ? HtmlHelper::link('导航:<span class="tick-circle"></span>', 'javascript:;', array(
 							'class'=>F::app()->checkPermission('admin/post/cat-edit') ? 'is-nav-link' : '',
 							'data-id'=>$c['id'],
 							'encode'=>false,
 							'title'=>F::app()->checkPermission('admin/post/cat-edit') ? '点击可改变状态' : false,
-						)) : Html::link('导航:<span class="cross-circle"></span>', 'javascript:;', array(
+						)) : HtmlHelper::link('导航:<span class="cross-circle"></span>', 'javascript:;', array(
 							'class'=>F::app()->checkPermission('admin/post/cat-edit') ? 'is-nav-link' : '',
 							'data-id'=>$c['id'],
 							'encode'=>false,
 							'title'=>F::app()->checkPermission('admin/post/cat-edit') ? '点击可改变状态' : false,
 						));
-						echo Html::link('分类属性', array('admin/post-prop/index', array(
+						echo HtmlHelper::link('分类属性', array('admin/post-prop/index', array(
 							'cat_id'=>$c['id'],
 						)), array(), true);
-						echo Html::link('查看该分类', array('admin/post/index', array(
+						echo HtmlHelper::link('查看该分类', array('admin/post/index', array(
 							'cat_id'=>$c['id'],
 						)), array(), true);
 						if(F::app()->checkPermission('admin/post/cat-create')){
-							echo Html::link('添加子节点', '#create-cat-dialog', array(
+							echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
 								'class'=>'create-cat-link',
-								'data-title'=>Html::encode($c['title']),
+								'data-title'=>HtmlHelper::encode($c['title']),
 								'data-id'=>$c['id'],
 							));
 						}
 						if(F::app()->checkPermission('admin/post/cat-edit')){
-							echo Html::link('编辑', '#edit-cat-dialog', array(
+							echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
 								'class'=>'edit-cat-link',
 								'data-id'=>$c['id'],
 							));
 						}
 						if(F::app()->checkPermission('admin/post/cat-remove')){
-							echo Html::link('删除', array('admin/category/remove', array(
+							echo HtmlHelper::link('删除', array('admin/category/remove', array(
 								'id'=>$c['id'],
 							)), array(
 								'class'=>'remove-link fc-red',
 							));
-							echo Html::link('删除全部', array('admin/category/remove-all', array(
+							echo HtmlHelper::link('删除全部', array('admin/category/remove-all', array(
 								'id'=>$c['id'],
 							)), array(
 								'class'=>'remove-link fc-red',
@@ -68,15 +68,15 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
 					else
 						echo 'parent';?>">
 					<?php if(empty($c['children'])){?>
-						<?php echo Html::encode($c['title'])?>
+						<?php echo HtmlHelper::encode($c['title'])?>
 					<?php }else{?>
-						<strong><?php echo Html::encode($c['title'])?></strong>
+						<strong><?php echo HtmlHelper::encode($c['title'])?></strong>
 					<?php }?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey hidden-not-lg">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
 					<?php if(CategoryService::service()->isAllowedCat($c['id'])){
-						echo Html::link('发布文章', array('admin/post/create', array(
+						echo HtmlHelper::link('发布文章', array('admin/post/create', array(
 							'cat_id'=>$c['id'],
 						)), array(
 							'class'=>'fc-green hover-link',

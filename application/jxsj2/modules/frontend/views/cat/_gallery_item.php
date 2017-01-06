@@ -1,10 +1,10 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\models\tables\Files;
 
 if($data['thumbnail']){
-	$img = Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
+	$img = HtmlHelper::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 		'dw'=>211,
 		'dh'=>155,
 	));
@@ -16,13 +16,13 @@ if($data['thumbnail']){
 		$file = Files::model()->fetchRow(array(
 			'raw_name = ?'=>$filename,
 		));
-		$img = Html::img($file['id'], FileService::PIC_RESIZE, array(
+		$img = HtmlHelper::img($file['id'], FileService::PIC_RESIZE, array(
 			'dw'=>211,
 			'dh'=>155,
 		));
 	}else{
 		//默认图片
-		$img = Html::img(0, FileService::PIC_ORIGINAL, array(
+		$img = HtmlHelper::img(0, FileService::PIC_ORIGINAL, array(
 			'spare'=>'default',
 		));
 	}
@@ -30,10 +30,10 @@ if($data['thumbnail']){
 ?>
 <div class="gallery-item">
 	<?php
-	echo Html::link($img, array('post/'.$data['id']), array(
+	echo HtmlHelper::link($img, array('post/'.$data['id']), array(
 		'encode'=>false,
-		'title'=>Html::encode($data['title']),
+		'title'=>HtmlHelper::encode($data['title']),
 	));
-	echo Html::link($data['title'], array('post/'.$data['id']));
+	echo HtmlHelper::link($data['title'], array('post/'.$data['id']));
 	?>
 </div>

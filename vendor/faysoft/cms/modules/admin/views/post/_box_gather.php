@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box" id="box-gather" data-name="gather">
 	<div class="box-title">
@@ -18,7 +18,7 @@ use fay\helpers\Html;
 			<div id="gather-form">
 				<div class="form-field">
 					<label class="title bold">链接地址</label>
-					<?php echo Html::inputText('', '', array(
+					<?php echo HtmlHelper::inputText('', '', array(
 						'class'=>'form-control',
 						'id'=>'gather-url',
 					))?>
@@ -26,7 +26,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="form-field">
 					<label class="title bold">选择器</label>
-					<?php echo Html::inputText('gather_rule', '', array(
+					<?php echo HtmlHelper::inputText('gather_rule', '', array(
 						'class'=>'form-control',
 						'id'=>'gather-rule',
 					))?>

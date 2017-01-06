@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\Date;
-use fay\helpers\Html;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\ExamQuestions;
 ?>
 <div class="row">
@@ -11,13 +11,13 @@ use fay\models\tables\ExamQuestions;
 					<tbody>
 						<tr>
 							<th>试卷名称</th>
-							<td colspan=3"><?php echo Html::encode($paper['title'])?></td>
+							<td colspan=3"><?php echo HtmlHelper::encode($paper['title'])?></td>
 						</tr>
 						<tr>
 							<th>考试时间</th>
-							<td colspan=3"><?php echo Date::diff($exam['start_time'], $exam['end_time']), ' ( ',
-								Date::format($exam['start_time']), ' 至 ',
-								Date::format($exam['end_time']), ' )'?></td>
+							<td colspan=3"><?php echo DateHelper::diff($exam['start_time'], $exam['end_time']), ' ( ',
+								DateHelper::format($exam['start_time']), ' 至 ',
+								DateHelper::format($exam['end_time']), ' )'?></td>
 						</tr>
 						<tr>
 							<th>得分</th>
@@ -31,9 +31,9 @@ use fay\models\tables\ExamQuestions;
 						</tr>
 						<tr>
 							<th>用户名</th>
-							<td><?php echo Html::encode($user['username'])?></td>
+							<td><?php echo HtmlHelper::encode($user['username'])?></td>
 							<th>用户昵称</th>
-							<td><?php echo Html::encode($user['nickname'])?></td>
+							<td><?php echo HtmlHelper::encode($user['nickname'])?></td>
 						</tr>
 					</tbody>
 				</table>

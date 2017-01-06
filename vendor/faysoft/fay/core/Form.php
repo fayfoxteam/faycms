@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\helpers\UrlHelper;
 
 class Form{
@@ -324,19 +324,19 @@ class Form{
 	 * @return string
 	 */
 	public function input($name, $type = 'text', $html_options = array(), $default = ''){
-		return Html::input($name, $this->getData($name, $default, false), $type, $html_options);
+		return HtmlHelper::input($name, $this->getData($name, $default, false), $type, $html_options);
 	}
 	
 	public function inputText($name, $html_options = array(), $default = ''){
-		return Html::inputText($name, $this->getData($name, $default, false), $html_options);
+		return HtmlHelper::inputText($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	public function inputPassword($name, $html_options = array()){
-		return Html::inputPassword($name, '', $html_options);
+		return HtmlHelper::inputPassword($name, '', $html_options);
 	}
 	
 	public function inputHidden($name, $html_options = array(), $default = ''){
-		return Html::inputHidden($name, $this->getData($name, $default, false), $html_options);
+		return HtmlHelper::inputHidden($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	/**
@@ -351,7 +351,7 @@ class Form{
 		if($rule = $this->getRule($name, 'int')){
 			$html_options = array_merge($html_options, $rule);
 		}
-		return Html::inputNumber($name, $this->getData($name, $default, false), $html_options);
+		return HtmlHelper::inputNumber($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	public function inputCheckbox($name, $value, $html_options = array(), $default = false){
@@ -367,7 +367,7 @@ class Form{
 		}else if($default){
 			$checked = true;
 		}
-		return Html::inputCheckbox($name, $value, $checked, $html_options);
+		return HtmlHelper::inputCheckbox($name, $value, $checked, $html_options);
 	}
 	
 	public function inputRadio($name, $value, $html_options = array(), $default = false){
@@ -380,11 +380,11 @@ class Form{
 		}else{
 			$checked = false;
 		}
-		return Html::inputRadio($name, $value, $checked, $html_options);
+		return HtmlHelper::inputRadio($name, $value, $checked, $html_options);
 	}
 	
 	public function textarea($name, $html_options = array(), $default = ''){
-		return Html::textarea($name, $this->getData($name, $default, false), $html_options);
+		return HtmlHelper::textarea($name, $this->getData($name, $default, false), $html_options);
 	}
 	
 	/*
@@ -394,7 +394,7 @@ class Form{
 		$name1 = rtrim($name, '[]');
 		$data = $this->getData($name1, null, false);
 		$data !== null ? $selected = $data : $selected = $default;
-		return Html::select($name, $options, $selected, $html_options);
+		return HtmlHelper::select($name, $options, $selected, $html_options);
 	}
 	
 	public function submitLink($text, $html_options = array()){
@@ -403,7 +403,7 @@ class Form{
 		}else{
 			$html_options['id'] = $this->scene . '-form-submit';
 		}
-		return Html::link($text, 'javascript:;', $html_options);
+		return HtmlHelper::link($text, 'javascript:;', $html_options);
 	}
 	
 	/**

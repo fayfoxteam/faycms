@@ -1,14 +1,14 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="page-title">
 	<div class="container">
-		<h1><?php echo Html::encode($keywords)?></h1>
+		<h1><?php echo HtmlHelper::encode($keywords)?></h1>
 		<div class="breadcrumbs">
 			<ol>
-				<li><?php echo Html::link(OptionService::get('site:sitename'), null)?></li>
-				<li><?php echo Html::encode($keywords)?></li>
+				<li><?php echo HtmlHelper::link(OptionService::get('site:sitename'), null)?></li>
+				<li><?php echo HtmlHelper::encode($keywords)?></li>
 			</ol>
 		</div>
 	</div>

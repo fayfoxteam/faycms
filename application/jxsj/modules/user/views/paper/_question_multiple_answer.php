@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="bd multiple-answer">
 	<div class="clearfix exam-question-item">
@@ -9,8 +9,8 @@ use fay\helpers\Html;
 	</div>
 	<ul class="exam-question-answers">
 	<?php foreach($question['answers'] as $a){?>
-		<li><?php echo Html::inputCheckbox("answers[{$question['id']}][]", $a['id'], false, array(
-			'label'=>Html::encode($a['answer']),
+		<li><?php echo HtmlHelper::inputCheckbox("answers[{$question['id']}][]", $a['id'], false, array(
+			'label'=>HtmlHelper::encode($a['answer']),
 		))?></li>
 	<?php }?>
 	</ul>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Props;
 use fay\helpers\ArrayHelper;
 use fay\services\FileService;
@@ -8,7 +8,7 @@ use fay\services\FileService;
 <?php foreach($prop_set as $prop){?>
 	<div class="form-field">
 		<label class="title bold">
-			<?php echo Html::encode($prop['title']);?>
+			<?php echo HtmlHelper::encode($prop['title']);?>
 			<?php if($prop['required']){?>
 				<em class="fc-red">(必选)</em>
 			<?php }?>
@@ -16,7 +16,7 @@ use fay\services\FileService;
 		<?php 
 		switch($prop['element']){
 			case Props::ELEMENT_TEXT:
-				echo Html::inputText("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
+				echo HtmlHelper::inputText("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
 					'class'=>'form-control mw500',
 					'data-rule'=>'string',
 					'data-params'=>'{max:255}',
@@ -31,7 +31,7 @@ use fay\services\FileService;
 					}else{
 						$checked = false;
 					}
-					echo Html::inputRadio("props[{$prop['id']}]", $v['id'], $checked, array(
+					echo HtmlHelper::inputRadio("props[{$prop['id']}]", $v['id'], $checked, array(
 						'datat-rule'=>'int',
 						'data-required'=>$prop['required'] ? 'required' : false,
 						'data-label'=>$prop['title'],
@@ -47,7 +47,7 @@ use fay\services\FileService;
 				}
 				if(!$prop['required']){
 					//非比选，多一个清空选项
-					echo Html::inputRadio("props[{$prop['id']}]", '', false, array(
+					echo HtmlHelper::inputRadio("props[{$prop['id']}]", '', false, array(
 						'wrapper'=>array(
 							'tag'=>'label',
 							'wrapper'=>array(
@@ -60,7 +60,7 @@ use fay\services\FileService;
 				}
 			break;
 			case Props::ELEMENT_SELECT:
-				echo Html::select("props[{$prop['id']}]", array(''=>'--未选择--')+ArrayHelper::column($prop['options'], 'title', 'id'), isset($prop['value']) ? $prop['value'] : array(), array(
+				echo HtmlHelper::select("props[{$prop['id']}]", array(''=>'--未选择--')+ArrayHelper::column($prop['options'], 'title', 'id'), isset($prop['value']) ? $prop['value'] : array(), array(
 					'data-rule'=>'int',
 					'data-required'=>$prop['required'] ? 'required' : false,
 					'data-label'=>$prop['title'],
@@ -75,7 +75,7 @@ use fay\services\FileService;
 					}else{
 						$checked = false;
 					}
-					echo Html::inputCheckbox("props[{$prop['id']}][]", $v['id'], $checked, array(
+					echo HtmlHelper::inputCheckbox("props[{$prop['id']}][]", $v['id'], $checked, array(
 						'datat-rule'=>'int',
 						'data-required'=>$prop['required'] ? 'required' : false,
 						'data-label'=>$prop['title'],
@@ -91,14 +91,14 @@ use fay\services\FileService;
 				}
 			break;
 			case Props::ELEMENT_TEXTAREA:
-				echo Html::textarea("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
+				echo HtmlHelper::textarea("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
 					'class'=>'form-control h90',
 					'data-required'=>$prop['required'] ? 'required' : false,
 					'data-label'=>$prop['title'],
 				));
 			break;
 			case Props::ELEMENT_NUMBER:
-				echo Html::inputText("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
+				echo HtmlHelper::inputText("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
 					'class'=>'form-control mw500',
 					'data-rule'=>'int',
 					'data-params'=>'{max:4294967295}',
@@ -107,7 +107,7 @@ use fay\services\FileService;
 				));
 				break;
 			case Props::ELEMENT_IMAGE:
-				echo Html::link('上传图片', 'javascript:;', array(
+				echo HtmlHelper::link('上传图片', 'javascript:;', array(
 					'id'=>"upload-prop-{$prop['id']}",
 					'class'=>'btn',
 					'wrapper'=>array(
@@ -119,14 +119,14 @@ use fay\services\FileService;
 				echo "<div id=\"prop-{$prop['id']}-preview-container\">";
 				echo F::form()->inputHidden("props[{$prop['id']}]");
 				if(!empty($prop['value'])){
-					echo Html::link(Html::img($prop['value'], FileService::PIC_RESIZE, array(
+					echo HtmlHelper::link(HtmlHelper::img($prop['value'], FileService::PIC_RESIZE, array(
 						'dw'=>257,
 					)), FileService::getUrl($prop['value']), array(
 						'encode'=>false,
 						'class'=>'fancybox-image block',
 						'title'=>false,
 					));
-					echo Html::link('移除图片', 'javascript:;', array(
+					echo HtmlHelper::link('移除图片', 'javascript:;', array(
 						'class'=>'remove-image-link'
 					));
 				}

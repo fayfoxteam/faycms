@@ -1,13 +1,13 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box left news">
 	<h3 class="box-title">
-		<span><?php echo Html::encode($widget->config['title'])?></span>
+		<span><?php echo HtmlHelper::encode($widget->config['title'])?></span>
 	</h3>
 	<div class="box-content">
 		<ul><?php foreach($posts as $p){
-			echo Html::link($p['title'], array('news-'.$p['id']), array(
+			echo HtmlHelper::link($p['title'], array('news-'.$p['id']), array(
 				'before'=>array(
 					'tag'=>'time',
 					'text'=>$p['format_publish_time'],
@@ -15,7 +15,7 @@ use fay\helpers\Html;
 				'wrapper'=>'li',
 			));
 		}?></ul>
-		<?php echo Html::link('+MORE', array('news'), array(
+		<?php echo HtmlHelper::link('+MORE', array('news'), array(
 			'class'=>'more-link',
 		))?>
 	</div>

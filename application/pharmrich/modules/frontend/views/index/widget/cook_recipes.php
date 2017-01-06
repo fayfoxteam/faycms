@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 
 /**
@@ -10,7 +10,7 @@ use fay\services\FileService;
 <section class="box" id="<?php echo $widget->alias?>">
 	<div class="box-title">
 		<h2><?php echo $widget->config['title']?></h2>
-		<?php echo Html::link('More', array('cook-recipe'), array(
+		<?php echo HtmlHelper::link('More', array('cook-recipe'), array(
 			'class'=>'more-link',
 		))?>
 	</div>
@@ -20,14 +20,14 @@ use fay\services\FileService;
 			<li>
 				<a href="<?php echo $p['post']['link']?>">
 					<span class="item-on-hover"></span>
-					<?php echo Html::img($p['post']['thumbnail']['id'], FileService::PIC_RESIZE, array(
+					<?php echo HtmlHelper::img($p['post']['thumbnail']['id'], FileService::PIC_RESIZE, array(
 						'dw'=>300,
 						'dh'=>245,
-						'alt'=>Html::encode($p['post']['title']),
+						'alt'=>HtmlHelper::encode($p['post']['title']),
 					))?>
 				</a>
 				<div class="posts-carousel-details">
-					<?php echo Html::link($p['post']['title'], $p['post']['link'], array(
+					<?php echo HtmlHelper::link($p['post']['title'], $p['post']['link'], array(
 						'wrapper'=>'h2',
 					))?>
 					<div class="carousel-meta">
@@ -38,7 +38,7 @@ use fay\services\FileService;
 							<span class="views"><?php echo $p['meta']['views']?> Views</span>
 						</span>
 					</div>
-					<p><?php echo Html::encode($p['post']['abstract'])?></p>
+					<p><?php echo HtmlHelper::encode($p['post']['abstract'])?></p>
 				</div>
 			</li>
 		<?php }?>

@@ -1,6 +1,6 @@
 <?php
 use apidoc\helpers\MenuHelper;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="sidebar-menu <?php if(!F::config()->get('debug'))echo ' fixed';
 ?>" id="sidebar-menu">
@@ -8,10 +8,10 @@ use fay\helpers\Html;
 		<header class="logo-env">
 			<div class="logo">
 				<?php
-					echo Html::link('Faycms', array(), array(
+					echo HtmlHelper::link('Faycms', array(), array(
 						'class'=>'logo-expanded',
 					));
-					echo Html::link('F', array(), array(
+					echo HtmlHelper::link('F', array(), array(
 						'class'=>'logo-collapsed',
 					));
 				?>

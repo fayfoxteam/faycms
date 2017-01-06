@@ -1,18 +1,18 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 $widget = F::widget()->get($data['widget_name'], true);
 ?>
 <tr valign="top">
 	<td>
 		<strong><?php
-			echo $data['description'] ? Html::encode($data['description']) : '&nbsp';
+			echo $data['description'] ? HtmlHelper::encode($data['description']) : '&nbsp';
 		?></strong>
 		<div class="row-actions"><?php
-			echo Html::link('编辑', array('admin/widget/edit', array(
+			echo HtmlHelper::link('编辑', array('admin/widget/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo Html::link('删除', array('admin/widget/remove-instance', array(
+			echo HtmlHelper::link('删除', array('admin/widget/remove-instance', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'fc-red remove-link',

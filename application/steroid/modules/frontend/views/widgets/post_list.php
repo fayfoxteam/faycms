@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var array $posts
@@ -11,7 +11,7 @@ use fay\helpers\Html;
 		<div class="post-featured">
 			<div class="post-thumb">
 				<a href="<?php echo $p['post']['link']?>"><?php
-					echo Html::img($p['post']['thumbnail']['thumbnail']);
+					echo HtmlHelper::img($p['post']['thumbnail']['thumbnail']);
 				?></a>
 			</div>
 		</div>
@@ -19,14 +19,14 @@ use fay\helpers\Html;
 		<div class="post-container">
 			<h2 class="post-title">
 				<a href="<?php echo $p['post']['link']?>"><?php
-					echo Html::encode($p['post']['title'])
+					echo HtmlHelper::encode($p['post']['title'])
 				?></a>
 			</h2>
 			<div class="post-meta">
 				<time class="post-meta-item post-meta-time"><?php
 					echo $p['post']['format_publish_time'];
 				?></time>
-				<?php echo Html::link($p['category']['title'], array('cat/'.$p['category']['id']), array(
+				<?php echo HtmlHelper::link($p['category']['title'], array('cat/'.$p['category']['id']), array(
 					'class'=>array('post-meta-item', 'post-meta-category'),
 				))?>
 				<span class="post-meta-item post-meta-views">

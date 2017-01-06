@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<div class="col-9">
@@ -38,7 +38,7 @@ use fay\helpers\Html;
 				</table>
 			</div>
 			<h3>DDL</h3>
-			<?php echo Html::textarea('code', str_replace('CREATE TABLE `'.$prefix, 'CREATE TABLE `{{$prefix}}', $ddl['Create Table']), array(
+			<?php echo HtmlHelper::textarea('code', str_replace('CREATE TABLE `'.$prefix, 'CREATE TABLE `{{$prefix}}', $ddl['Create Table']), array(
 				'style'=>'font-family:Consolas,Monaco,monospace',
 				'id'=>'code',
 				'class'=>'form-control autosize',
@@ -59,12 +59,12 @@ use fay\helpers\Html;
 			<?php if($t_name == $current_table){
 				echo $t_name;
 			}else{
-				echo Html::link($t_name, array('tools/database/dd', array(
+				echo HtmlHelper::link($t_name, array('tools/database/dd', array(
 					't'=>$t_name,
 				)));
 			}?>
 			<span class="fr">
-				<?php echo Html::link('model', array('tools/database/model', array(
+				<?php echo HtmlHelper::link('model', array('tools/database/model', array(
 					't'=>$t_name,
 				)))?>
 			</span>

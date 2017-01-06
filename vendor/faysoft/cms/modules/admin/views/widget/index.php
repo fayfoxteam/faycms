@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<div class="col-12">
@@ -23,7 +23,7 @@ use fay\helpers\Html;
 				<tr>
 					<td>
 						<strong><?php echo $w->title?></strong>
-						<div class="row-actions"><?php echo Html::link('创建实例', '#create-instance-dialog', array(
+						<div class="row-actions"><?php echo HtmlHelper::link('创建实例', '#create-instance-dialog', array(
 							'title'=>$w->title,
 							'class'=>'create-instance-link',
 							'data-name'=>$w->name
@@ -45,20 +45,20 @@ use fay\helpers\Html;
 				<input type="hidden" name="widget_name" id="widget-name" />
 				<div class="form-field">
 					<label class="title bold">描述</label>
-					<?php echo Html::inputText('description', '', array(
+					<?php echo HtmlHelper::inputText('description', '', array(
 						'class'=>'form-control w400',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title bold">所属域</label>
-					<?php echo Html::select('widgetarea', array(''=>'--所属小工具域--') + $widgetareas, '', array(
+					<?php echo HtmlHelper::select('widgetarea', array(''=>'--所属小工具域--') + $widgetareas, '', array(
 						'class'=>'form-control',
 					))?>
 					<p class="description">将小工具指定到域，可以通过域来调用一组小工具。</p>
 				</div>
 				<div class="form-field">
 					<label class="title bold">别名</label>
-					<?php echo Html::inputText('alias', '', array(
+					<?php echo HtmlHelper::inputText('alias', '', array(
 						'data-rule'=>'string',
 						'data-label'=>'别名',
 						'data-params'=>'{max:255,format:\'alias\'}',

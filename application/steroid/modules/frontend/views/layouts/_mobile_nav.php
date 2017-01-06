@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="mobile-nav" id="mobile-nav">
 	<div class="mobile-bar-container">

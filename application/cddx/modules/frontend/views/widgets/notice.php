@@ -1,21 +1,21 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 ?>
-<div class="box" id="widget-<?php echo Html::encode($alias)?>">
+<div class="box" id="widget-<?php echo HtmlHelper::encode($alias)?>">
 	<header class="box-title">
-		<?php echo Html::link('More..', array('cat-'.$config['top']), array(
+		<?php echo HtmlHelper::link('More..', array('cat-'.$config['top']), array(
 			'class'=>'more',
 		))?>
-		<h3><span><?php echo Html::encode($config['title'])?></span><em></em></h3>
+		<h3><span><?php echo HtmlHelper::encode($config['title'])?></span><em></em></h3>
 	</header>
 	<div class="box-content">
 		<marquee direction="up" onMouseOut="this.start()" onMouseOver="this.stop()" scrollamount="2">
 			<ul>
 			<?php foreach($posts as $p){?>
 				<li><?php
-					echo Html::link($p['title'], array(str_replace('{$id}', $p['id'], $config['uri'])));
-					if(Date::isThisMonth($p['publish_time'])){
+					echo HtmlHelper::link($p['title'], array(str_replace('{$id}', $p['id'], $config['uri'])));
+					if(DateHelper::isThisMonth($p['publish_time'])){
 						echo '<span class="fc-red">[new]</span>';
 					}
 					if(!empty($config['date_format'])){

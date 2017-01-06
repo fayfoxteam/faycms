@@ -1,6 +1,6 @@
 <?php
 use cms\helpers\MenuHelper;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\SettingService;
 use fay\services\MenuService;
 ?>
@@ -13,10 +13,10 @@ use fay\services\MenuService;
 		<header class="logo-env">
 			<div class="logo">
 				<?php
-					echo Html::link('Faycms', array('admin/index/index'), array(
+					echo HtmlHelper::link('Faycms', array('admin/index/index'), array(
 						'class'=>'logo-expanded',
 					));
-					echo Html::link('F', array('admin/index/index'), array(
+					echo HtmlHelper::link('F', array('admin/index/index'), array(
 						'class'=>'logo-collapsed',
 					));
 				?>

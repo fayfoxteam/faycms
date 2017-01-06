@@ -2,10 +2,10 @@
 /**
  * 开发模式或debug模式下，出现在页面底部的debug数据
  */
-use fay\helpers\Backtrace;
+use fay\helpers\BacktraceHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\SqlHelper;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Db;
 
 if(Db::hasInstance()){
@@ -71,7 +71,7 @@ if(Db::hasInstance()){
 						$total_db_time += $s[2]?>
 					<tr>
 						<td><?php echo $k+1?></td>
-						<td><?php echo SqlHelper::nice(Html::encode($s[0]), $s[1])?></td>
+						<td><?php echo SqlHelper::nice(HtmlHelper::encode($s[0]), $s[1])?></td>
 						<td class="time"><?php echo StringHelper::money($s[2] * 1000)?>ms</td>
 					</tr>
 				<?php }?>
@@ -82,10 +82,10 @@ if(Db::hasInstance()){
 				</table>
 			</div>
 			<div id="debug-tab-2" class="tab-pane p5 hide" style="display:none;">
-				<?php Backtrace::render()?>
+				<?php BacktraceHelper::render()?>
 			</div>
 			<div id="debug-tab-3" class="tab-pane p5 hide" style="display:none;">
-				<?php \fay\helpers\Runtime::render();?>
+				<?php \fay\helpers\RuntimeHelper::render();?>
 			</div>
 		</div>
 	</div>

@@ -3,7 +3,7 @@ namespace fay\widget;
 
 use fay\core\Db;
 use fay\core\Input;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\Widgets;
 
 abstract class Widget{
@@ -90,7 +90,7 @@ abstract class Widget{
 		$this->current_time = \F::app()->current_time;
 		
 		//当前用户登陆IP
-		$this->ip = Request::getIP();
+		$this->ip = RequestHelper::getIP();
 		
 		$this->init();
 	}

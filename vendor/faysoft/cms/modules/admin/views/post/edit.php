@@ -2,7 +2,7 @@
 use fay\services\OptionService;
 use cms\helpers\PostHelper;
 use fay\models\tables\Posts;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 use fay\services\post\Category;
@@ -54,15 +54,15 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 								//未开启审核，或者有发布权限，显示“已发布”选项
 								$options[Posts::STATUS_PUBLISHED] = '已发布';
 							}
-							echo Html::select('', $options, F::form()->getData('status'), array(
+							echo HtmlHelper::select('', $options, F::form()->getData('status'), array(
 								'class'=>'form-control mw100 mt5 ib',
 								'id'=>'edit-status-selector'
 							));
-							echo Html::link('确定', 'javascript:;', array(
+							echo HtmlHelper::link('确定', 'javascript:;', array(
 								'class'=>'btn btn-grey btn-sm ml5',
 								'id'=>'set-status-editing',
 							));
-							echo Html::link('取消', 'javascript:;', array(
+							echo HtmlHelper::link('取消', 'javascript:;', array(
 								'class'=>'ml5',
 								'id'=>'cancel-status-editing',
 							));

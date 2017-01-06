@@ -1,7 +1,7 @@
 <?php
 namespace doc\helpers;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 class MenuHelper{
 	/**
 	 * 渲染一个导航栏
@@ -27,9 +27,9 @@ class MenuHelper{
 				$class[] = 'active';
 			}
 			echo '<li class="'.implode(' ', $class).'">';
-			echo Html::link('<span class="title">'.$c['title'].($c['description'] ? "（{$c['description']}）" : '').'</span>', array($c['alias'] ? $c['alias'] : $c['id']), array(
+			echo HtmlHelper::link('<span class="title">'.$c['title'].($c['description'] ? "（{$c['description']}）" : '').'</span>', array($c['alias'] ? $c['alias'] : $c['id']), array(
 				'encode'=>false,
-				'title'=>Html::encode($c['title']),
+				'title'=>HtmlHelper::encode($c['title']),
 			));
 			if(!empty($c['children'])){
 				self::render($c['children'], $current_cat, $dep + 1);

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box" id="box-outputs" data-name="outputs">
 	<div class="box-title">
@@ -8,7 +8,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="cf mt5">
-			<?php echo Html::link('新增响应参数', '#add-output-dialog', array(
+			<?php echo HtmlHelper::link('新增响应参数', '#add-output-dialog', array(
 				'class'=>'btn',
 				'id'=>'add-output-link',
 			))?>
@@ -18,22 +18,22 @@ use fay\helpers\Html;
 			<?php foreach($outputs as $p){?>
 			<div class="dragsort-item" id="model-<?php echo $p['id']?>">
 				<?php
-					echo Html::inputHidden("outputs[{$p['id']}][name]", $p['name'], array(
+					echo HtmlHelper::inputHidden("outputs[{$p['id']}][name]", $p['name'], array(
 						'class'=>'input-name',
 					));
-					echo Html::inputHidden("outputs[{$p['id']}][model_name]", $p['model_name'], array(
+					echo HtmlHelper::inputHidden("outputs[{$p['id']}][model_name]", $p['model_name'], array(
 						'class'=>'input-model-name',
 					));
-					echo Html::inputHidden("outputs[{$p['id']}][is_array]", $p['is_array'], array(
+					echo HtmlHelper::inputHidden("outputs[{$p['id']}][is_array]", $p['is_array'], array(
 						'class'=>'input-is-array',
 					));
-					echo Html::inputHidden("outputs[{$p['id']}][description]", $p['description'], array(
+					echo HtmlHelper::inputHidden("outputs[{$p['id']}][description]", $p['description'], array(
 						'class'=>'input-description',
 					));
-					echo Html::inputHidden("outputs[{$p['id']}][sample]", $p['sample'], array(
+					echo HtmlHelper::inputHidden("outputs[{$p['id']}][sample]", $p['sample'], array(
 						'class'=>'input-sample',
 					));
-					echo Html::inputHidden("outputs[{$p['id']}][since]", $p['since'], array(
+					echo HtmlHelper::inputHidden("outputs[{$p['id']}][since]", $p['since'], array(
 						'class'=>'input-since',
 					));
 				?>
@@ -41,20 +41,20 @@ use fay\helpers\Html;
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">
 					<span class="ib wp25">
-						<strong><?php echo Html::encode($p['name'])?></strong>
+						<strong><?php echo HtmlHelper::encode($p['name'])?></strong>
 						<p><?php
-							echo Html::link('编辑', '#edit-output-dialog', array(
+							echo HtmlHelper::link('编辑', '#edit-output-dialog', array(
 								'class'=>'edit-output-link',
 							));
 						?></p>
 					</span>
 					<span class="ib wp15 vat"><?php
-						echo Html::encode($p['model_name']);
+						echo HtmlHelper::encode($p['model_name']);
 						if($p['is_array']){
 							echo ' []';
 						}
 					?></span>
-					<span class="vat"><?php echo Html::encode($p['description'])?></span>
+					<span class="vat"><?php echo HtmlHelper::encode($p['description'])?></span>
 				</div>
 			</div>
 			<?php }?>

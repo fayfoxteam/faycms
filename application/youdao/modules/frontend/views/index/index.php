@@ -1,10 +1,10 @@
 <?php
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
 
-$browser = Request::getBrowser();
+$browser = RequestHelper::getBrowser();
 if($browser[0] == 'msie' && $browser[1] == '6.0'){
 	$postfix = '-IE6';
 }else{
@@ -55,10 +55,10 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 			<?php $top_news = array_shift($last_news);?>
 			<div id="top-news">
 				<img src="<?php echo $this->appStatic('images/p2.jpg')?>" class="f-left" />
-				<h4><?php echo Html::link($top_news['title'], array('post/'.$top_news['id']))?></h4>
+				<h4><?php echo HtmlHelper::link($top_news['title'], array('post/'.$top_news['id']))?></h4>
 				<p>
 					<?php echo StringHelper::niceShort($top_news['abstract'], 60, true)?>
-					<?php echo Html::link('[详细]', array('post/'.$top_news['id'], array(
+					<?php echo HtmlHelper::link('[详细]', array('post/'.$top_news['id'], array(
 						'class'=>'color-red',
 					)))?>
 				</p>
@@ -67,10 +67,10 @@ if($browser[0] == 'msie' && $browser[1] == '6.0'){
 				<ul>
 				<?php foreach($last_news as $n){?>
 					<li>
-						<?php echo Html::link($n['cat_title'], array('c/'.$n['cat_id']), array(
+						<?php echo HtmlHelper::link($n['cat_title'], array('c/'.$n['cat_id']), array(
 							'class'=>'news-list-type f-left',
 						))?>
-						<a href="<?php echo $this->url("post/{$n['id']}")?>" class="news-list-title" title="<?php echo Html::encode($n['title'])?>">
+						<a href="<?php echo $this->url("post/{$n['id']}")?>" class="news-list-title" title="<?php echo HtmlHelper::encode($n['title'])?>">
 							<em class="f-right"><?php echo date('Y-m-d', $n['publish_time'])?></em>
 							<span>
 								<?php echo StringHelper::niceShort($n['title'], 40, true)?>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <fieldset class="form-field">
 	<div class="title">
@@ -9,7 +9,7 @@ use fay\helpers\Html;
 	<?php 
 	echo \F::form()->select('parent_cat', array(
 		''=>'--请选择分类--',
-	) + Html::getSelectOptions($cats), array(
+	) + HtmlHelper::getSelectOptions($cats), array(
 		'class'=>'inputxt short fl',
 	));
 	echo \F::form()->select('cat_id', array(

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="detail-panel">
 <?php foreach($slabs as $slabId => $slabMeta){
@@ -29,7 +29,7 @@ use fay\helpers\Html;
 					<td>
 						<span><?php echo $key?></span>
 						<div class="row-actions">
-							<?php echo Html::link('Delete', array('tools/memcache/delete', array(
+							<?php echo HtmlHelper::link('Delete', array('tools/memcache/delete', array(
 								'key'=>$key,
 							)), array(
 								'class'=>'fc-red',

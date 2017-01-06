@@ -1,7 +1,7 @@
 <?php
 namespace apidoc\helpers;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\helpers\UrlHelper;
 
 class MenuHelper{
@@ -9,7 +9,7 @@ class MenuHelper{
 	 * 渲染一个导航栏
 	 * @param array $menus 菜单集
 	 * @param string $current_directory 当前页
-	 * @param number $dep 深度
+	 * @param int $dep 深度
 	 * @return mixed
 	 */
 	public static function render($menus, $current_directory, $dep = 0){
@@ -90,7 +90,7 @@ class MenuHelper{
 				return false;
 			}
 		}else{
-			echo Html::tag('ul', array(
+			echo HtmlHelper::tag('ul', array(
 				'class'=>'main-menu',
 				'id'=>'main-menu',
 			), $text);

@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Roles;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Props;
 use fay\models\tables\Actionlogs;
 use fay\services\user\UserPropService;
@@ -33,7 +33,7 @@ class RolePropController extends AdminController{
 			->setData(array(
 				'refer'=>$role_id,
 			));
-		$this->layout->subtitle = '角色属性 - '.Html::encode($role['title']);
+		$this->layout->subtitle = '角色属性 - '.HtmlHelper::encode($role['title']);
 		$this->layout->sublink = array(
 			'text'=>'返回角色列表',
 			'uri'=>array('admin/role/index'),
@@ -103,7 +103,7 @@ class RolePropController extends AdminController{
 		
 		//获取角色标题
 		$role = Roles::model()->find($prop['refer'], 'title');
-		$this->layout->subtitle = '编辑角色属性 - '.Html::encode($role['title']).' - '.Html::encode($prop['title']);
+		$this->layout->subtitle = '编辑角色属性 - '.HtmlHelper::encode($role['title']).' - '.HtmlHelper::encode($prop['title']);
 
 		$this->_setListview($prop['refer']);
 		$this->view->render();

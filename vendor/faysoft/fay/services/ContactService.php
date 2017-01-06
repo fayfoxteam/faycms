@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\Contacts;
 
 class ContactService extends Service{
@@ -31,8 +31,8 @@ class ContactService extends Service{
 		
 		//附加默认字段
 		$data = array_merge($data, array(
-			'ip_int'=>Request::ip2int(\F::app()->ip),
-			'show_ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+			'show_ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 			'create_time'=>\F::app()->current_time,
 			'publish_time'=>\F::app()->current_time,
 			'is_show'=>$is_show,

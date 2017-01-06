@@ -3,7 +3,7 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\models\tables\Logs;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 
 class LogService extends Service{
 	/**
@@ -28,7 +28,7 @@ class LogService extends Service{
 			'user_id'=>isset(\F::app()->current_user) ? \F::app()->current_user : 0,
 			'create_time'=>\F::app()->current_time,
 			'create_date'=>date('Y-m-d'),
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 			'user_agent'=>isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		));
 	}

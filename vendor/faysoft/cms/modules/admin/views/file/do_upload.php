@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row mb5">
 	<div class="col-12">
@@ -10,7 +10,7 @@ use fay\helpers\Html;
 			文件上传分类选择 :
 			<?php echo F::form('search')->select('cat', array(
 					''=>'--分类--',
-				) + Html::getSelectOptions($cats, 'alias', 'title'), array(
+				) + HtmlHelper::getSelectOptions($cats, 'alias', 'title'), array(
 					'class'=>'form-control',
 					'id' => 'cat',
 				))?>

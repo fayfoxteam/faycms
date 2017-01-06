@@ -18,5 +18,5 @@ require __DIR__.'/_init.php';
 $bootstrap = new Bootstrap();
 //触发事件
 \F::event()->trigger('before_system');
-\fay\helpers\Runtime::append(__FILE__, __LINE__, '环境初始化完成');
+\fay\helpers\RuntimeHelper::append(__FILE__, __LINE__, '环境初始化完成');
 $bootstrap->init();

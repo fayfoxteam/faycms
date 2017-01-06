@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="hide">
 	<div id="edit-prop-dialog" class="dialog">
@@ -54,11 +54,11 @@ use fay\helpers\Html;
 					<tr>
 						<th class="adaption"></th>
 						<td><?php
-							echo Html::link('编辑', 'javascript:;', array(
+							echo HtmlHelper::link('编辑', 'javascript:;', array(
 								'class'=>'btn mr10',
 								'id'=>'edit-prop-form-submit',
 							));
-							echo Html::link('取消', 'javascript:;', array(
+							echo HtmlHelper::link('取消', 'javascript:;', array(
 								'class'=>'btn btn-grey fancybox-close',
 							));
 						?></td>

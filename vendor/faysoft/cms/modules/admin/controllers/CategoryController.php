@@ -6,9 +6,9 @@ use fay\helpers\StringHelper;
 use fay\models\tables\Categories;
 use fay\services\CategoryService;
 use fay\models\tables\Actionlogs;
-use fay\helpers\Pinyin;
+use fay\helpers\PinyinHelper;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FlashService;
 
 class CategoryController extends AdminController{
@@ -53,7 +53,7 @@ class CategoryController extends AdminController{
 				$cat = Categories::model()->find($cat_id);
 				Response::notify('success', array(
 					'cat'=>$cat,
- 					'message'=>'分类“'.Html::encode($cat['title']).'”添加成功',
+ 					'message'=>'分类“'.HtmlHelper::encode($cat['title']).'”添加成功',
 				));
 			}else{
 				Response::notify('error', '参数异常');
@@ -74,7 +74,7 @@ class CategoryController extends AdminController{
 		if(!$spelling){
 			if($title){
 				if(preg_match('/[^\x00-\x80]/', $title)){//如果包含中文，将中文转成拼音
-					$spelling = Pinyin::change($title);
+					$spelling = PinyinHelper::change($title);
 				}else{
 					$spelling = $title;
 				}
@@ -115,7 +115,7 @@ class CategoryController extends AdminController{
 				
 				$cat = Categories::model()->find($cat_id);
 				Response::notify('success', array(
-					'message'=>'分类“'.Html::encode($cat['title']).'”编辑成功',
+					'message'=>'分类“'.HtmlHelper::encode($cat['title']).'”编辑成功',
 					'cat'=>$cat,
 				));
 			}else{

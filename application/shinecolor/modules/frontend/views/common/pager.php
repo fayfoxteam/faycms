@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="pagenav">
 	<span class="pages">
@@ -15,11 +15,11 @@ use fay\helpers\Html;
 			<span class="current"><?php echo $i?></span>
 		<?php }else{
 			if($i > 1){
-				echo Html::link($i, "{$listview->reload}?page={$i}", array(
+				echo HtmlHelper::link($i, "{$listview->reload}?page={$i}", array(
 					'class'=>'page',
 				));
 			}else{
-				echo Html::link($i, $listview->reload, array(
+				echo HtmlHelper::link($i, $listview->reload, array(
 					'class'=>'page',
 				));
 			}

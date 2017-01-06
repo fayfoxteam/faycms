@@ -1,15 +1,15 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 ?>
 
 <article class="post-item">
 	<header>
-		<h1 class="post-title"><?php echo Html::encode($post['title'])?></h1>
+		<h1 class="post-title"><?php echo HtmlHelper::encode($post['title'])?></h1>
 	</header>
 	<div class="post-meta">
 		<span>
-			发布于：<?php echo Date::niceShort($post['publish_time'])?>
+			发布于：<?php echo DateHelper::niceShort($post['publish_time'])?>
 		</span>
 		<span>
 			阅读数：<?php echo $post['views']?>

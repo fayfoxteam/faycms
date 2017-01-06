@@ -1,21 +1,21 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div class="box right works">
 	<h3 class="box-title">
-		<span><?php echo Html::encode($widget->config['title'])?></span>
+		<span><?php echo HtmlHelper::encode($widget->config['title'])?></span>
 	</h3>
 	<div class="box-content">
 		<ul class="cf">
 		<?php foreach($posts as $p){
-			echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+			echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 				'dw'=>198,
 				'dh'=>156,
-				'alt'=>Html::encode($p['title']),
+				'alt'=>HtmlHelper::encode($p['title']),
 			)), array('works-'.$p['id']), array(
 				'encode'=>false,
-				'title'=>Html::encode($p['title']),
+				'title'=>HtmlHelper::encode($p['title']),
 				'append'=>array(
 					'tag'=>'span',
 					'class'=>'zoom-bg',

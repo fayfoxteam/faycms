@@ -11,7 +11,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\PageService;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 
 class PageController extends AdminController{
@@ -251,7 +251,7 @@ class PageController extends AdminController{
 		
 		Response::notify('success', array(
 			'id'=>$page_id,
-			'message'=>'一个页面被移入回收站 - '.Html::link('撤销', array('admin/page/undelete', array(
+			'message'=>'一个页面被移入回收站 - '.HtmlHelper::link('撤销', array('admin/page/undelete', array(
 				'id'=>$page_id,
 			))),
 		));

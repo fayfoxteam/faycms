@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<div class="col-12">
@@ -7,7 +7,7 @@ use fay\helpers\Html;
 			<div class="col-left">
 				<div class="form-field">
 					<label class="title bold">项目名称<em class="fc-red">*</em></label>
-					<?php echo Html::inputText('name', '', array(
+					<?php echo HtmlHelper::inputText('name', '', array(
 						'data-required'=>'required',
 						'data-rule'=>'string',
 						'data-params'=>'{format:\'alnum\'}',
@@ -19,7 +19,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="form-field">
 					<label class="title bold">主机<em class="fc-red">*</em></label>
-					<?php echo Html::inputText('host', 'localhost', array(
+					<?php echo HtmlHelper::inputText('host', 'localhost', array(
 						'data-required'=>'required',
 						'data-label'=>"主机",
 						'class'=>'form-control mw400',
@@ -27,7 +27,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="form-field">
 					<label class="title bold">用户名<em class="fc-red">*</em></label>
-					<?php echo Html::inputText('user', 'root', array(
+					<?php echo HtmlHelper::inputText('user', 'root', array(
 						'data-required'=>'required',
 						'data-label'=>'用户名',
 						'class'=>'form-control mw400',
@@ -35,13 +35,13 @@ use fay\helpers\Html;
 				</div>
 				<div class="form-field">
 					<label class="title bold">密码</label>
-					<?php echo Html::inputText('password', '', array(
+					<?php echo HtmlHelper::inputText('password', '', array(
 						'class'=>'form-control mw400',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title bold">端口</label>
-					<?php echo Html::inputText('port', 3306, array(
+					<?php echo HtmlHelper::inputText('port', 3306, array(
 						'class'=>'form-control mw400',
 						'data-rule'=>'int',
 						'data-label'=>'端口',
@@ -49,7 +49,7 @@ use fay\helpers\Html;
 				</div>
 				<div class="form-field">
 					<label class="title bold">数据库名<em class="fc-red">*</em></label>
-					<?php echo Html::inputText('dbname', '', array(
+					<?php echo HtmlHelper::inputText('dbname', '', array(
 						'data-required'=>'required',
 						'data-label'=>'数据库名',
 						'class'=>'form-control mw400',
@@ -57,13 +57,13 @@ use fay\helpers\Html;
 				</div>
 				<div class="form-field">
 					<label class="title bold">表前缀</label>
-					<?php echo Html::inputText('table_prefix', 'faycms_', array(
+					<?php echo HtmlHelper::inputText('table_prefix', 'faycms_', array(
 						'class'=>'form-control mw400',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title bold">编码方式</label>
-					<?php echo Html::select('charset', array(
+					<?php echo HtmlHelper::select('charset', array(
 						'utf8'=>'utf8',
 						'utf8mb4'=>'utf8mb4',
 					), '', array(
@@ -74,10 +74,10 @@ use fay\helpers\Html;
 				<div class="form-field">
 					<label class="title bold">是否创建数据库</label>
 					<?php
-						echo Html::inputRadio('database', '1', true, array(
+						echo HtmlHelper::inputRadio('database', '1', true, array(
 							'label'=>'现在创建',
 						));
-						echo Html::inputRadio('database', '0', false, array(
+						echo HtmlHelper::inputRadio('database', '0', false, array(
 							'label'=>'以后创建',
 						));
 					?>
@@ -86,7 +86,7 @@ use fay\helpers\Html;
 				<div id="install-db">
 					<div class="form-field">
 						<label class="title bold">站点名称<em class="fc-red">*</em></label>
-						<?php echo Html::inputText('sitename', '', array(
+						<?php echo HtmlHelper::inputText('sitename', '', array(
 							'data-required'=>'required',
 							'data-label'=>'站点名称',
 							'class'=>'form-control mw400',
@@ -94,7 +94,7 @@ use fay\helpers\Html;
 					</div>
 					<div class="form-field">
 						<label class="title bold">超级管理员:用户名<em class="fc-red">*</em></label>
-						<?php echo Html::inputText('user_username', '', array(
+						<?php echo HtmlHelper::inputText('user_username', '', array(
 							'data-required'=>'required',
 							'data-label'=>'用户名',
 							'class'=>'form-control mw400',
@@ -102,7 +102,7 @@ use fay\helpers\Html;
 					</div>
 					<div class="form-field">
 						<label class="title bold">超级管理员:密码<em class="fc-red">*</em></label>
-						<?php echo Html::inputText('user_password', '', array(
+						<?php echo HtmlHelper::inputText('user_password', '', array(
 							'data-required'=>'required',
 							'data-label'=>'密码',
 							'class'=>'form-control mw400',

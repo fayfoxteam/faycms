@@ -1,16 +1,16 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 ?>
 <tr valign="top">
 	<td>
-		<strong><?php echo Html::encode($data['name'])?></strong>
+		<strong><?php echo HtmlHelper::encode($data['name'])?></strong>
 		<div class="row-actions">
 			<?php 
-				echo Html::link('编辑', array('admin/model/edit', array(
+				echo HtmlHelper::link('编辑', array('admin/model/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
-				echo Html::link('删除', array('admin/model/remove', array(
+				echo HtmlHelper::link('删除', array('admin/model/remove', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-red remove-link',
@@ -18,12 +18,12 @@ use fay\helpers\Date;
 			?>
 		</div>
 	</td>
-	<td><?php echo Html::encode($data['description']);?></td>
-	<td><?php echo Html::encode($data['since']);?></td>
-	<td><abbr class="time" title="<?php echo Date::format($data['create_time'])?>">
-		<?php echo Date::niceShort($data['create_time'])?>
+	<td><?php echo HtmlHelper::encode($data['description']);?></td>
+	<td><?php echo HtmlHelper::encode($data['since']);?></td>
+	<td><abbr class="time" title="<?php echo DateHelper::format($data['create_time'])?>">
+		<?php echo DateHelper::niceShort($data['create_time'])?>
 	</abbr></td>
-	<td><abbr class="time" title="<?php echo Date::format($data['last_modified_time'])?>">
-		<?php echo Date::niceShort($data['last_modified_time'])?>
+	<td><abbr class="time" title="<?php echo DateHelper::format($data['last_modified_time'])?>">
+		<?php echo DateHelper::niceShort($data['last_modified_time'])?>
 	</abbr></td>
 </tr>

@@ -7,7 +7,7 @@ use fay\common\ListView;
 use fay\models\tables\Templates;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 class TemplateController extends AdminController{
 	public function __construct(){
@@ -35,7 +35,7 @@ class TemplateController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_TEMPLATE, '删除模版', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一个模板被删除 - '.Html::link('撤销', array('admin/template/undelete', array(
+			'message'=>'一个模板被删除 - '.HtmlHelper::link('撤销', array('admin/template/undelete', array(
 				'id'=>$id,
 			))),
 		));

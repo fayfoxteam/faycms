@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="panel">
 	<div class="panel-header"><h2>基础数据类型</h2></div>
@@ -17,7 +17,7 @@ use fay\helpers\Html;
 			<?php foreach($models as $m){?>
 				<tr>
 					<td><?php echo $m['name']?></td>
-					<td><?php echo Html::encode($m['sample'])?></td>
+					<td><?php echo HtmlHelper::encode($m['sample'])?></td>
 					<td><?php echo $m['description']?></td>
 				</tr>
 			<?php }?>

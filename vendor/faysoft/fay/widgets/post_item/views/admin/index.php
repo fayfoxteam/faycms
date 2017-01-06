@@ -1,6 +1,6 @@
 <?php
 use fay\models\tables\Roles;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\user\UserRoleService;
 ?>
 <div class="box">
@@ -35,7 +35,7 @@ use fay\services\user\UserRoleService;
 			</div>
 			<div class="form-field">
 				<label class="title bold">所属分类</label>
-				<?php echo F::form('widget')->select('under_cat_id', Html::getSelectOptions($cats), array(
+				<?php echo F::form('widget')->select('under_cat_id', HtmlHelper::getSelectOptions($cats), array(
 					'class'=>'form-control mw400',
 				))?>
 				<p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项可以避免文章在错误的界面显示。</p>

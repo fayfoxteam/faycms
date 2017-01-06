@@ -6,7 +6,7 @@ use fay\models\tables\Messages;
 use fay\models\tables\Actionlogs;
 use fay\services\PostService;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\MessageService;
 
 class MessageController extends AdminController{
@@ -55,7 +55,7 @@ class MessageController extends AdminController{
 			'data'=>array(
 				'id'=>$id,
 			),
-			'message'=>'一条留言被移入回收站 - '.Html::link('撤销', array('admin/message/undelete', array(
+			'message'=>'一条留言被移入回收站 - '.HtmlHelper::link('撤销', array('admin/message/undelete', array(
 				'id'=>$id,
 			)))
 		));

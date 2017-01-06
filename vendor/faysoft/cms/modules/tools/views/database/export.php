@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<div class="col-9">
@@ -28,7 +28,7 @@ use fay\helpers\Html;
 					<a href="javascript:;" id="form-submit" class="btn">提交</a>
 				</div>
 			</form>
-			<?php echo Html::textarea('code', $insert, array(
+			<?php echo HtmlHelper::textarea('code', $insert, array(
 				'style'=>'font-family:Consolas,Monaco,monospace',
 				'class'=>'form-control autosize h200',
 				'id'=>'code',
@@ -47,7 +47,7 @@ use fay\helpers\Html;
 			}
 		?>
 			<li class="<?php if(F::input()->get('t') == $t_name)echo 'bold'?>">
-				<?php echo Html::link($t_name, array('tools/database/export', array(
+				<?php echo HtmlHelper::link($t_name, array('tools/database/export', array(
 					't'=>$t_name,
 				)))?>
 			</li>

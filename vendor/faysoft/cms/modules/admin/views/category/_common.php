@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Categories;
 
 /**
@@ -15,18 +15,18 @@ F::form('edit')->setModel(Categories::model());
 		<div class="dialog-content w600">
 			<h4>编辑分类<em>（当前分类：<span id="edit-cat-title" class="fc-orange"></span>）</em></h4>
 			<?php echo F::form('edit')->open(array('admin/category/edit'))?>
-				<?php echo Html::inputHidden('id')?>
+				<?php echo HtmlHelper::inputHidden('id')?>
 				<table class="form-table">
 					<tr>
 						<th class="adaption">标题<em class="required">*</em></th>
-						<td><?php echo Html::inputText('title', '', array(
+						<td><?php echo HtmlHelper::inputText('title', '', array(
 							'class'=>'form-control',
 						))?></td>
 					</tr>
 					<tr>
 						<th class="adaption">别名</th>
 						<td>
-							<?php echo Html::inputText('alias', '', array(
+							<?php echo HtmlHelper::inputText('alias', '', array(
 								'class'=>'form-control w150 ib',
 							))?>
 							<span class="fc-grey">若您不确定它的用途，请不要修改</span>
@@ -34,14 +34,14 @@ F::form('edit')->setModel(Categories::model());
 					</tr>
 					<tr>
 						<th valign="top" class="adaption">描述</th>
-						<td><?php echo Html::textarea('description', '', array(
+						<td><?php echo HtmlHelper::textarea('description', '', array(
 							'class'=>'form-control h90 autosize',
 						))?></td>
 					</tr>
 					<tr>
 						<th class="adaption">排序</th>
 						<td>
-							<?php echo Html::inputText('sort', '1000', array(
+							<?php echo HtmlHelper::inputText('sort', '1000', array(
 								'class'=>'form-control w100 ib',
 							))?>
 							<span class="fc-grey">0-65535之间，数值越小，排序越靠前</span>
@@ -50,7 +50,7 @@ F::form('edit')->setModel(Categories::model());
 					<tr>
 						<th class="adaption">父节点</th>
 						<td>
-							<?php echo Html::select('parent', array($root=>'根节点')+Html::getSelectOptions($cats, 'id', 'title'), '', array(
+							<?php echo HtmlHelper::select('parent', array($root=>'根节点')+HtmlHelper::getSelectOptions($cats, 'id', 'title'), '', array(
 								'class'=>'form-control',
 							))?>
 						</td>
@@ -58,7 +58,7 @@ F::form('edit')->setModel(Categories::model());
 					<tr>
 						<th class="adaption">导航</th>
 						<td>
-							<?php echo Html::inputCheckbox('is_nav', '1', false, array(
+							<?php echo HtmlHelper::inputCheckbox('is_nav', '1', false, array(
 								'label'=>'在导航栏显示',
 							))?>
 							<span class="fc-grey">（该选项实际效果视主题而定）</span>
@@ -68,10 +68,10 @@ F::form('edit')->setModel(Categories::model());
 						<th valign="top" class="adaption">插图</th>
 						<td><div id="upload-cat-pic-for-edit-container">
 							<?php
-							echo Html::inputHidden('file_id', '', array(
+							echo HtmlHelper::inputHidden('file_id', '', array(
 								'id'=>'cat-pic-for-edit',
 							));
-							echo Html::link('上传插图', 'javascript:;', array(
+							echo HtmlHelper::link('上传插图', 'javascript:;', array(
 								'class'=>'upload-cat-pic btn btn-sm mb5',
 								'id'=>'upload-cat-pic-for-edit',
 							))?>
@@ -85,19 +85,19 @@ F::form('edit')->setModel(Categories::model());
 					</tr>
 					<tr class="hide toggle">
 						<th class="adaption">Title</th>
-						<td><?php echo Html::inputText('seo_title', '', array(
+						<td><?php echo HtmlHelper::inputText('seo_title', '', array(
 							'class'=>'form-control',
 						))?></td>
 					</tr>
 					<tr class="hide toggle">
 						<th class="adaption">Keywords</th>
-						<td><?php echo Html::inputText('seo_keywords', '', array(
+						<td><?php echo HtmlHelper::inputText('seo_keywords', '', array(
 							'class'=>'form-control',
 						))?></td>
 					</tr>
 					<tr class="hide toggle">
 						<th valign="top" class="adaption">Description</th>
-						<td><?php echo Html::textarea('seo_description', '', array(
+						<td><?php echo HtmlHelper::textarea('seo_description', '', array(
 							'class'=>'form-control',
 							'rows'=>5,
 						))?></td>
@@ -119,18 +119,18 @@ F::form('edit')->setModel(Categories::model());
 		<div class="dialog-content w600">
 			<h4>添加子分类<em>（父分类：<span id="create-cat-parent" class="fc-orange"></span>）</em></h4>
 			<?php echo F::form('create')->open(array('admin/category/create'))?>
-				<?php echo Html::inputHidden('parent')?>
+				<?php echo HtmlHelper::inputHidden('parent')?>
 				<table class="form-table">
 					<tr>
 						<th class="adaption">标题<em class="required">*</em></th>
-						<td><?php echo Html::inputText('title', '', array(
+						<td><?php echo HtmlHelper::inputText('title', '', array(
 							'class'=>'form-control',
 						))?></td>
 					</tr>
 					<tr>
 						<th class="adaption">别名</th>
 						<td>
-							<?php echo Html::inputText('alias', '', array(
+							<?php echo HtmlHelper::inputText('alias', '', array(
 								'class'=>'form-control w150 ib',
 							))?>
 							<span class="fc-grey">若您不确定它的用途，请不要修改</span>
@@ -138,14 +138,14 @@ F::form('edit')->setModel(Categories::model());
 					</tr>
 					<tr>
 						<th valign="top" class="adaption">描述</th>
-						<td><?php echo Html::textarea('description', '', array(
+						<td><?php echo HtmlHelper::textarea('description', '', array(
 							'class'=>'form-control h90 autosize',
 						))?></td>
 					</tr>
 					<tr>
 						<th class="adaption">排序</th>
 						<td>
-							<?php echo Html::inputText('sort', '1000', array(
+							<?php echo HtmlHelper::inputText('sort', '1000', array(
 								'class'=>'form-control w100 ib',
 							))?>
 							<span class="fc-grey">0-65535之间，数值越小，排序越靠前</span>
@@ -154,7 +154,7 @@ F::form('edit')->setModel(Categories::model());
 					<tr>
 						<th class="adaption">导航</th>
 						<td>
-							<?php echo Html::inputCheckbox('is_nav', '1', true, array(
+							<?php echo HtmlHelper::inputCheckbox('is_nav', '1', true, array(
 								'label'=>'在导航栏显示',
 							))?>
 							<span class="fc-grey">（该选项实际效果视主题而定）</span>
@@ -164,10 +164,10 @@ F::form('edit')->setModel(Categories::model());
 						<th valign="top" class="adaption">插图</th>
 						<td><div id="upload-cat-pic-for-create-container">
 							<?php
-							echo Html::inputHidden('file_id', '', array(
+							echo HtmlHelper::inputHidden('file_id', '', array(
 								'id'=>'cat-pic-for-create',
 							));
-							echo Html::link('上传插图', 'javascript:;', array(
+							echo HtmlHelper::link('上传插图', 'javascript:;', array(
 								'class'=>'upload-cat-pic',
 								'id'=>'upload-cat-pic-for-create',
 							))?>
@@ -181,19 +181,19 @@ F::form('edit')->setModel(Categories::model());
 					</tr>
 					<tr class="hide toggle">
 						<th class="adaption">Title</th>
-						<td><?php echo Html::inputText('seo_title', '', array(
+						<td><?php echo HtmlHelper::inputText('seo_title', '', array(
 							'class'=>'form-control',
 						))?></td>
 					</tr>
 					<tr class="hide toggle">
 						<th class="adaption">Keywords</th>
-						<td><?php echo Html::inputText('seo_keywords', '', array(
+						<td><?php echo HtmlHelper::inputText('seo_keywords', '', array(
 							'class'=>'form-control',
 						))?></td>
 					</tr>
 					<tr class="hide toggle">
 						<th valign="top" class="adaption">Description</th>
-						<td><?php echo Html::textarea('seo_description', '', array(
+						<td><?php echo HtmlHelper::textarea('seo_description', '', array(
 							'class'=>'form-control',
 							'rows'=>5,
 						))?></td>

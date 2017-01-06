@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\models\tables\Users;
 use fay\services\OptionService;
@@ -19,7 +19,7 @@ use fay\services\OptionService;
 <div class="form-field">
 	<label class="title bold">密码<?php
 		if(F::form()->getScene() == 'create'){
-			echo Html::tag('em', array(
+			echo HtmlHelper::tag('em', array(
 				'class'=>'required',
 			), '*');
 		}
@@ -29,7 +29,7 @@ use fay\services\OptionService;
 			'class'=>'form-control mw400',
 		));
 		if(F::form()->getScene() == 'edit'){
-			echo Html::tag('p', array(
+			echo HtmlHelper::tag('p', array(
 				'class'=>'description',
 			), '若为空，则不会修改密码字段');
 		}
@@ -98,8 +98,8 @@ use fay\services\OptionService;
 	<label class="title bold">头像</label>
 	<div id="avatar-container"><?php
 		if(!empty($user['user']['avatar']['id'])){
-			echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
-			echo Html::link(Html::img($user['user']['avatar']['id'], FileService::PIC_RESIZE, array(
+			echo HtmlHelper::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
+			echo HtmlHelper::link(HtmlHelper::img($user['user']['avatar']['id'], FileService::PIC_RESIZE, array(
 				'dw'=>178,
 				'dh'=>178,
 				'id'=>'avatar-img',
@@ -108,7 +108,7 @@ use fay\services\OptionService;
 				'class'=>'fancybox-image',
 				'title'=>false,
 			));
-			echo Html::link(Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
+			echo HtmlHelper::link(HtmlHelper::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 				'id'=>'avatar-img-circle',
 			)), $user['user']['avatar']['url'], array(
 				'encode'=>false,
@@ -116,15 +116,15 @@ use fay\services\OptionService;
 				'title'=>false,
 			));
 		}else{
-			echo Html::inputHidden('avatar', '0', array('id'=>'avatar-id'));
-			echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
+			echo HtmlHelper::inputHidden('avatar', '0', array('id'=>'avatar-id'));
+			echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
 				'id'=>'avatar-img',
 			)), $this->assets('images/avatar.png'), array(
 				'class'=>'fancybox-image',
 				'encode'=>false,
 				'title'=>false,
 			));
-			echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
+			echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
 				'id'=>'avatar-img-circle',
 			)), $this->assets('images/avatar.png'), array(
 				'class'=>'fancybox-image',
@@ -132,7 +132,7 @@ use fay\services\OptionService;
 				'title'=>false,
 			));
 		}
-		echo Html::link('上传头像', 'javascript:;', array(
+		echo HtmlHelper::link('上传头像', 'javascript:;', array(
 			'id'=>'upload-avatar',
 			'class'=>'btn btn-grey',
 		));

@@ -8,10 +8,10 @@ use fay\common\ListView;
 use fay\models\tables\Contacts;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Loader;
 use fay\core\HttpException;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 
 class ContactController extends AdminController{
 	/**
@@ -82,7 +82,7 @@ class ContactController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被标记为已读', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条留言被标记为已读 - '.Html::link('撤销', array('admin/contact/set-unread', array(
+			'message'=>'一条留言被标记为已读 - '.HtmlHelper::link('撤销', array('admin/contact/set-unread', array(
 				'id'=>$id,
 			))),
 		));
@@ -97,7 +97,7 @@ class ContactController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被标记为未读', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条留言被标记为未读 - '.Html::link('撤销', array('admin/contact/set-read', array(
+			'message'=>'一条留言被标记为未读 - '.HtmlHelper::link('撤销', array('admin/contact/set-read', array(
 				'id'=>$id,
 			))),
 		));
@@ -201,7 +201,7 @@ class ContactController extends AdminController{
 		
 		//格式化数据
 		$contact['publish_time'] = date('Y-m-d H:i:s', $contact['publish_time']);
-		$contact['create_time'] = Date::format($contact['create_time']);
+		$contact['create_time'] = DateHelper::format($contact['create_time']);
 		$contact['ip_int'] = long2ip($contact['ip_int']);
 		$contact['show_ip_int'] = long2ip($contact['show_ip_int']);
 		$this->form()->setData($contact);

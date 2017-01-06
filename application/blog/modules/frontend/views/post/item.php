@@ -1,30 +1,30 @@
 <?php
-use fay\helpers\Date;
-use fay\helpers\Html;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Messages;
 ?>
 <div class="col-main">
 	<article class="post-item">
 		<header>
 			<div class="post-meta">
-				发表于<time><?php echo Date::format($post['post']['publish_time'])?></time>
+				发表于<time><?php echo DateHelper::format($post['post']['publish_time'])?></time>
 			</div>
-			<h1><?php echo Html::encode($post['post']['title'])?></h1>
+			<h1><?php echo HtmlHelper::encode($post['post']['title'])?></h1>
 		</header>
 		<div class="post-content">
 			<?php echo $post['post']['content']?>
 		</div>
 		<div class="post-tags">
-			<?php echo Html::link('<span>#'.Html::encode($post['category']['title']).'</span>', array('cat/'.$post['category']['id']), array(
+			<?php echo HtmlHelper::link('<span>#'.HtmlHelper::encode($post['category']['title']).'</span>', array('cat/'.$post['category']['id']), array(
 				'class'=>'post-type',
 				'encode'=>false,
-				'title'=>Html::encode($post['category']['title']),
+				'title'=>HtmlHelper::encode($post['category']['title']),
 			));?>
 			<?php foreach($post['categories'] as $pc){
-				echo Html::link('<span>#'.Html::encode($pc['title']).'</span>', array('cat/'.$pc['id']), array(
+				echo HtmlHelper::link('<span>#'.HtmlHelper::encode($pc['title']).'</span>', array('cat/'.$pc['id']), array(
 					'class'=>'post-type',
 					'encode'=>false,
-					'title'=>Html::encode($pc['title']),
+					'title'=>HtmlHelper::encode($pc['title']),
 				));
 			}?>
 			<div class="clear"></div>
@@ -35,14 +35,14 @@ use fay\models\tables\Messages;
 		<span class="nav-previous">
 			<a rel="prev" href="<?php echo $this->url('post/'.$post['nav']['prev']['id'])?>">
 				<span class="meta-nav">←</span>
-				<?php echo Html::encode($post['nav']['prev']['title'])?>
+				<?php echo HtmlHelper::encode($post['nav']['prev']['title'])?>
 			</a>
 		</span>
 		<?php }?>
 		<?php if(!empty($post['nav']['next'])){?>
 		<span class="nav-next">
 			<a rel="next" href="<?php echo $this->url('post/'.$post['nav']['next']['id'])?>">
-				<?php echo Html::encode($post['nav']['next']['title'])?>
+				<?php echo HtmlHelper::encode($post['nav']['next']['title'])?>
 				<span class="meta-nav">→</span>
 			</a>
 		</span>
@@ -60,8 +60,8 @@ use fay\models\tables\Messages;
 			<ul>
 			<?php foreach($post['messages'] as $m){?>
 				<li>
-					<div class="message-time"><?php echo Date::format($m['create_time'])?></div>
-					<div class="message-content"><?php echo Html::encode($m['content'])?></div>
+					<div class="message-time"><?php echo DateHelper::format($m['create_time'])?></div>
+					<div class="message-content"><?php echo HtmlHelper::encode($m['content'])?></div>
 					<div class="clear"></div>
 				</li>
 			<?php }?>

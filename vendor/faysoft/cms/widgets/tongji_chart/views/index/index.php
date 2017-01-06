@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box" id="box-tongji-chart" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -9,16 +9,16 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="mb5">
-			<?php echo Html::inputRadio('chart_by', 'pv', true, array(
+			<?php echo HtmlHelper::inputRadio('chart_by', 'pv', true, array(
 				'label'=>'浏览量(PV)',
 			))?>
-			<?php echo Html::inputRadio('chart_by', 'uv', false, array(
+			<?php echo HtmlHelper::inputRadio('chart_by', 'uv', false, array(
 				'label'=>'访客数(UV)',
 			))?>
-			<?php echo Html::inputRadio('chart_by', 'ip', false, array(
+			<?php echo HtmlHelper::inputRadio('chart_by', 'ip', false, array(
 				'label'=>'IP数',
 			))?>
-			<?php echo Html::inputRadio('chart_by', 'new_visitors', false, array(
+			<?php echo HtmlHelper::inputRadio('chart_by', 'new_visitors', false, array(
 				'label'=>'新访客',
 			))?>
 		</div>

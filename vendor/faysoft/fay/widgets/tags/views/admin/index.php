@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 
@@ -58,18 +58,18 @@ use fay\services\user\UserRoleService;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'tag/{$title}', !isset($widget->config['uri']) || $widget->config['uri'] == 'tag/{$title}', array(
+					echo HtmlHelper::inputRadio('uri', 'tag/{$title}', !isset($widget->config['uri']) || $widget->config['uri'] == 'tag/{$title}', array(
 						'label'=>'tag/{$title}',
 					));
-					echo Html::inputRadio('uri', 'tag/{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'tag/{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'tag/{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'tag/{$id}', array(
 						'label'=>'tag/{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
+					echo HtmlHelper::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'tag/{$id}', 'tag/{$title}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
+					echo HtmlHelper::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'tag/{$id}', 'tag/{$title}',
 					)) ? $widget->config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',

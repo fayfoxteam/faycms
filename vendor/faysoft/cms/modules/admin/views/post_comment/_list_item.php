@@ -1,40 +1,40 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 use fay\models\tables\PostComments;
 use cms\helpers\PostCommentHelper;
 use fay\helpers\StringHelper;
 ?>
 <tr valign="top" id="message-<?php echo $data['id']?>">
-	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
+	<td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(
 		'class'=>'batch-ids',
 	));?></td>
 	<?php if(in_array('id', $cols)){?>
 		<td><?php echo $data['id']?></td>
 	<?php }?>
 	<td>
-		<?php echo Html::encode($data['content'])?>
+		<?php echo HtmlHelper::encode($data['content'])?>
 		<div class="row-actions">
 			<?php if(!$data['deleted']){
 				if($data['status'] == PostComments::STATUS_PENDING){
-					echo Html::link('批准', array('admin/post-comment/approve', array(
+					echo HtmlHelper::link('批准', array('admin/post-comment/approve', array(
 						'id'=>$data['id'],
 					)), array(
 						'class'=>'fc-green',
 					));
-					echo Html::link('驳回', array('admin/post-comment/disapprove', array(
+					echo HtmlHelper::link('驳回', array('admin/post-comment/disapprove', array(
 						'id'=>$data['id'],
 					)), array(
 						'class'=>'fc-orange',
 					));
 				}else if($data['status'] == PostComments::STATUS_APPROVED){
-					echo Html::link('驳回', array('admin/post-comment/disapprove', array(
+					echo HtmlHelper::link('驳回', array('admin/post-comment/disapprove', array(
 							'id'=>$data['id'],
 					)), array(
 							'class'=>'fc-orange',
 					));
 				}else if($data['status'] == PostComments::STATUS_UNAPPROVED){
-					echo Html::link('批准', array('admin/post-comment/approve', array(
+					echo HtmlHelper::link('批准', array('admin/post-comment/approve', array(
 						'id'=>$data['id'],
 					)), array(
 						'class'=>'fc-green',
@@ -43,18 +43,18 @@ use fay\helpers\StringHelper;
 			}
 			
 			if($data['deleted']){
-				echo Html::link('还原', array('admin/post-comment/undelete', array(
+				echo HtmlHelper::link('还原', array('admin/post-comment/undelete', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-green',
 				));
-				echo Html::link('永久删除', array('admin/post-comment/remove', array(
+				echo HtmlHelper::link('永久删除', array('admin/post-comment/remove', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'remove-link fc-red',
 				));
 			}else{
-				echo Html::link('回收站', array('admin/post-comment/delete', array(
+				echo HtmlHelper::link('回收站', array('admin/post-comment/delete', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-red',
@@ -64,16 +64,16 @@ use fay\helpers\StringHelper;
 	</td>
 	<?php if(in_array('user', $cols)){?>
 	<td>
-		<?php echo empty($data[$settings['display_name']]) ? '匿名' : Html::encode($data[$settings['display_name']]);?>
+		<?php echo empty($data[$settings['display_name']]) ? '匿名' : HtmlHelper::encode($data[$settings['display_name']]);?>
 	</td>
 	<?php }?>
 	<?php if(in_array('post', $cols)){?>
 	<td>
-		<?php echo Html::link(StringHelper::niceShort($data['post_title'], 40), array('admin/post/edit', array(
+		<?php echo HtmlHelper::link(StringHelper::niceShort($data['post_title'], 40), array('admin/post/edit', array(
 			'id'=>$data['post_id'],
 		)), array(
 			'target'=>'_blank',
-			'title'=>Html::encode($data['post_title']),
+			'title'=>HtmlHelper::encode($data['post_title']),
 		))?>
 	</td>
 	<?php }?>
@@ -82,8 +82,8 @@ use fay\helpers\StringHelper;
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
 	<td>
-		<abbr title="<?php echo Date::format($data['create_time'])?>">
-			<?php echo Date::niceShort($data['create_time'])?>
+		<abbr title="<?php echo DateHelper::format($data['create_time'])?>">
+			<?php echo DateHelper::niceShort($data['create_time'])?>
 		</abbr>
 	</td>
 	<?php }?>

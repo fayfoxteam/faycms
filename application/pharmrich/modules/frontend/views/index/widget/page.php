@@ -1,23 +1,23 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <section class="box" id="<?php echo $alias?>">
 	<div class="box-title">
 		<h2><?php echo $page['title']?></h2>
-		<?php echo Html::link('More', array($page['alias']), array(
+		<?php echo HtmlHelper::link('More', array($page['alias']), array(
 			'class'=>'more-link',
 		))?>
 	</div>
 	<div class="box-content"><?php
 		if($page['thumbnail']){
-			echo Html::link(Html::img($page['thumbnail'], FileService::PIC_RESIZE, array(
+			echo HtmlHelper::link(HtmlHelper::img($page['thumbnail'], FileService::PIC_RESIZE, array(
 				'dw'=>156,
 				'dh'=>110,
-				'alt'=>Html::encode($page['title']),
+				'alt'=>HtmlHelper::encode($page['title']),
 			)), array($page['alias']), array(
 				'encode'=>false,
-				'title'=>Html::encode($page['title']),
+				'title'=>HtmlHelper::encode($page['title']),
 			));
 		}
 		echo nl2br($page['abstract']);

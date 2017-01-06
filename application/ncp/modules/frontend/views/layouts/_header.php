@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <!--头部-->
 <div class="header_hd">
@@ -127,19 +127,19 @@ use fay\helpers\Html;
 			</div>
 		</div>
 		<ul class="nav_info fl">
-			<li><?php echo Html::link('农产品', array('product'), array(
+			<li><?php echo HtmlHelper::link('农产品', array('product'), array(
 				'target'=>'_blank',
 			))?></li>
-			<li><?php echo Html::link('农旅游', array('travel'), array(
+			<li><?php echo HtmlHelper::link('农旅游', array('travel'), array(
 				'target'=>'_blank',
 			))?></li>
-			<li><?php echo Html::link('农专题', array('special'), array(
+			<li><?php echo HtmlHelper::link('农专题', array('special'), array(
 				'target'=>'_blank',
 			))?></li>
-			<li><?php echo Html::link('农美食', array('food'), array(
+			<li><?php echo HtmlHelper::link('农美食', array('food'), array(
 				'target'=>'_blank',
 			))?></li>
-			<li><?php echo Html::link('农资讯', array('news'), array(
+			<li><?php echo HtmlHelper::link('农资讯', array('news'), array(
 				'target'=>'_blank',
 			))?></li>
 		</ul>

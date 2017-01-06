@@ -3,7 +3,7 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\core\db\Expr;
 use fay\models\tables\Actions;
 use fay\models\tables\Roles;
@@ -106,7 +106,7 @@ class UserService extends Service{
 		
 		//更新用户最后登录信息
 		UserProfile::model()->update(array(
-			'last_login_ip'=>Request::ip2int(\F::app()->ip),
+			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
 			'login_times'=>new Expr('login_times + 1'),
@@ -116,7 +116,7 @@ class UserService extends Service{
 		UserLogins::model()->insert(array(
 			'user_id'=>$user['user']['id'],
 			'login_time'=>\F::app()->current_time,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 			'mac'=>AnalystService::service()->getMacId(),
 		));
 		
@@ -187,7 +187,7 @@ class UserService extends Service{
 		$user_profile = array(
 			'user_id'=>$user_id,
 			'reg_time'=>\F::app()->current_time,
-			'reg_ip'=>Request::ip2int(Request::getIP()),
+			'reg_ip'=>RequestHelper::ip2int(RequestHelper::getIP()),
 		);
 		if(isset($extra['profile'])){
 			$user_profile = $user_profile + $extra['profile'];

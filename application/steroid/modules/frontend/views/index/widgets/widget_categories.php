@@ -1,8 +1,8 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 foreach($cats as $k => $c){
-	echo Html::link($c['title'], $c['link'], array(
+	echo HtmlHelper::link($c['title'], $c['link'], array(
 		'before'=>$k ? ', ' : ''
 	));
 }

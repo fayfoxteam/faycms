@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,22 +33,22 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 		<div class="shot-menu clearfix">
 			<ul>
 				<li>
-					<?php echo Html::link('发布作品', array('user/work/create'), array(
+					<?php echo HtmlHelper::link('发布作品', array('user/work/create'), array(
 						'class'=>(isset($current_directory) && $current_directory == 'work') ? 'crt' : '',
 					))?>
 				</li>
 				<li>
-					<?php echo Html::link('发布博文', array('user/post/create'), array(
+					<?php echo HtmlHelper::link('发布博文', array('user/post/create'), array(
 						'class'=>(isset($current_directory) && $current_directory == 'blog') ? 'crt' : '',
 					))?>
 				</li>
 				<li>
-					<?php echo Html::link('上传素材', array('user/material/create'), array(
+					<?php echo HtmlHelper::link('上传素材', array('user/material/create'), array(
 						'class'=>(isset($current_directory) && $current_directory == 'material') ? 'crt' : '',
 					))?>
 				</li>
 				<li>
-					<?php echo Html::link('收集网站', array('user/site/create'), array(
+					<?php echo HtmlHelper::link('收集网站', array('user/site/create'), array(
 						'class'=>(isset($current_directory) && $current_directory == 'site') ? 'crt' : '',
 					))?>
 				</li>

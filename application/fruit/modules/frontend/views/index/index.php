@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div>
@@ -16,7 +16,7 @@ use fay\services\FileService;
 			<h3 class="sec-title"><span>我们的故事</span></h3>
 			<div class="clearfix item-content">
 				<figure>
-					<?php echo Html::img($about['thumbnail'], FileService::PIC_ORIGINAL, array(
+					<?php echo HtmlHelper::img($about['thumbnail'], FileService::PIC_ORIGINAL, array(
 						'width'=>false,
 						'height'=>false,
 					))?>
@@ -30,10 +30,10 @@ use fay\services\FileService;
 				<ul class="clearfix" id="product-list">
 				<?php foreach($products as $p){?>
 					<li><a href="<?php echo $this->url('product/'.$p['id'])?>"
-						title="<?php echo Html::encode($p['title'])?>"><?php echo Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+						title="<?php echo HtmlHelper::encode($p['title'])?>"><?php echo HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 						'dw'=>268,
 						'dh'=>242,
-						'alt'=>Html::encode($p['title']),
+						'alt'=>HtmlHelper::encode($p['title']),
 						'width'=>268,
 					))?>
 						<span class="zoom-bg"></span>

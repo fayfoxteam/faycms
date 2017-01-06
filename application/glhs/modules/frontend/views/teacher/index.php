@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\services\PostService;
 use fay\helpers\StringHelper;
@@ -10,7 +10,7 @@ use fay\helpers\StringHelper;
 		<h1>师资力量</h1>
 		<div class="breadcrumbs">
 			<ol>
-				<li><?php echo Html::link(OptionService::get('site:sitename'))?></li>
+				<li><?php echo HtmlHelper::link(OptionService::get('site:sitename'))?></li>
 				<li>师资力量</li>
 			</ol>
 		</div>
@@ -18,21 +18,21 @@ use fay\helpers\StringHelper;
 </div>
 <div class="container">
 	<div class="page-content">
-		<div class="teacher-description"><?php echo StringHelper::nl2p(Html::encode($cat_teacher['description']))?></div>
+		<div class="teacher-description"><?php echo StringHelper::nl2p(HtmlHelper::encode($cat_teacher['description']))?></div>
 		<div class="teacher-list">
 			<ul class="cf"><?php foreach($teachers as $t){
-				echo Html::link(Html::img($t['thumbnail'], FileService::PIC_RESIZE, array(
+				echo HtmlHelper::link(HtmlHelper::img($t['thumbnail'], FileService::PIC_RESIZE, array(
 					'dw'=>180,
 					'dh'=>228,
-					'alt'=>Html::encode($t['title']),
+					'alt'=>HtmlHelper::encode($t['title']),
 					'after'=>array(
 						'tag'=>'span',
-						'text'=>Html::encode($t['title']),
+						'text'=>HtmlHelper::encode($t['title']),
 						'class'=>'name',
 					),
 				)), 'javascript:;', array(
 					'encode'=>false,
-					'title'=>Html::encode($t['title']),
+					'title'=>HtmlHelper::encode($t['title']),
 					'wrapper'=>array(
 						'tag'=>'li',
 						'append'=>array(

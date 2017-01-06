@@ -5,7 +5,7 @@ use fay\core\Service;
 use fay\core\Exception;
 use fay\models\tables\Follows;
 use fay\helpers\ArrayHelper;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\FieldHelper;
@@ -66,7 +66,7 @@ class FollowService extends Service{
 			'fans_id'=>$fan_id,
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 			'relation'=>$isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE,
 			'sockpuppet'=>$sockpuppet,
 			'trackid'=>$trackid,

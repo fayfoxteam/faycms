@@ -1,6 +1,6 @@
 <?php
 use fay\models\tables\Posts;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 $editor = F::form()->getData('content_type');
 $editor || $editor = F::form('setting')->getData('editor', Posts::CONTENT_TYPE_VISUAL_EDITOR);
@@ -10,7 +10,7 @@ if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 		'class'=>'h350 form-control autosize',
 	));
 }else if($editor == Posts::CONTENT_TYPE_MARKDOWN){
-	echo Html::textarea('content', F::form()->getData('markdown', '', false), array(
+	echo HtmlHelper::textarea('content', F::form()->getData('markdown', '', false), array(
 		'id'=>'wmd-input',
 		'class'=>'h350 wp100',
 		'wrapper'=>array(
@@ -25,4 +25,4 @@ if($editor == Posts::CONTENT_TYPE_TEXTAREA){
 		'class'=>'h350',
 	));
 }
-echo Html::inputHidden('content_type', $editor);
+echo HtmlHelper::inputHidden('content_type', $editor);

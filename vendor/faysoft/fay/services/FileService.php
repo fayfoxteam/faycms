@@ -7,7 +7,7 @@ use fay\helpers\FieldHelper;
 use fay\helpers\UrlHelper;
 use fay\models\tables\Files;
 use fay\common\Upload;
-use fay\helpers\Image;
+use fay\helpers\ImageHelper;
 use fay\helpers\StringHelper;
 use fay\core\ErrorException;
 
@@ -359,8 +359,8 @@ class FileService extends Service{
 					'cat_id'=>$cat['id'],
 				);
 				$data['id'] = Files::model()->insert($data);
-				$src_img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-				$img = Image::resize($src_img, 100, 100);
+				$src_img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
+				$img = ImageHelper::resize($src_img, 100, 100);
 				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
 				$data['error'] = 0;
 				if($private){
@@ -440,15 +440,15 @@ class FileService extends Service{
 					$params['dh'] = $file['image_height'];
 				}
 				
-				$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+				$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 				
-				$img = Image::resize($img, $params['dw'], $params['dh']);
+				$img = ImageHelper::resize($img, $params['dw'], $params['dh']);
 				
 				//处理过的图片统一以jpg方式保存
 				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
 				
 				//重新生成缩略图
-				$img = Image::resize($img, 100, 100);
+				$img = ImageHelper::resize($img, 100, 100);
 				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
 				
 				$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
@@ -478,7 +478,7 @@ class FileService extends Service{
 				
 				if($params['w'] && $params['h']){
 					//若参数不完整，则不处理
-					$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+					$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 					
 					if($params['dw'] == 0){
 						$params['dw'] = $params['w'];
@@ -486,17 +486,17 @@ class FileService extends Service{
 					if($params['dh'] == 0){
 						$params['dh'] = $params['h'];
 					}
-					$img = Image::crop($img, $params['x'], $params['y'], $params['w'], $params['h']);
+					$img = ImageHelper::crop($img, $params['x'], $params['y'], $params['w'], $params['h']);
 					if($params['dw'] != $params['w'] || $params['dh'] != $params['h']){
 						//如果完全一致，则不需要缩放，但依旧会进行清晰度处理
-						$img = Image::resize($img, $params['dw'], $params['dh']);
+						$img = ImageHelper::resize($img, $params['dw'], $params['dh']);
 					}
 					
 					//处理过的图片统一以jpg方式保存
 					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
 					
 					//重新生成缩略图
-					$img = Image::resize($img, 100, 100);
+					$img = ImageHelper::resize($img, 100, 100);
 					imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
 					
 					$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');

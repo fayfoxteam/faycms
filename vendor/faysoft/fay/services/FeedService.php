@@ -11,7 +11,7 @@ use fay\services\feed\FeedTagService;
 use fay\models\tables\FeedsFiles;
 use fay\models\tables\UserCounter;
 use fay\models\tables\FeedMeta;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\FeedExtra;
 use fay\models\tables\FeedsTags;
 use fay\models\tables\FeedLikes;
@@ -110,7 +110,7 @@ class FeedService extends Service{
 		//扩展表
 		$feed_extra = array(
 			'feed_id'=>$feed_id,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		);
 		if(isset($extra['extra'])){
 			$feed_extra = $feed_extra + $extra['extra'];

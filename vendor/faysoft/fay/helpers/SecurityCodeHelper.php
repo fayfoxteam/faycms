@@ -13,7 +13,7 @@ namespace fay\helpers;
  * 4.Y轴随机：$an->ext_rand_y = false; 值为false表示不支持图片Y轴随机
  * 5.图片背景：改变 $red $green $blue 三个成员变量的值即可
  */
-class SecurityCode{
+class SecurityCodeHelper{
 	// 图片对象、宽度、高度、验证码长度
 	private $im;
 	private $im_width;

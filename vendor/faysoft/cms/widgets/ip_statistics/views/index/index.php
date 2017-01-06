@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -21,7 +21,7 @@ use fay\helpers\Html;
 				foreach($ips as $ip){
 			?>
 				<tr class="order-desc">
-					<td><?php echo Html::link(long2ip($ip['ip_int']), array('admin/analyst/views', array(
+					<td><?php echo HtmlHelper::link(long2ip($ip['ip_int']), array('admin/analyst/views', array(
 						'ip'=>long2ip($ip['ip_int'])
 					)));?></td>
 					<td><?php echo $iplocation->getCountryAndArea(long2ip($ip['ip_int']))?></td>

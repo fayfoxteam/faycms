@@ -1,7 +1,7 @@
 <?php
 namespace blog\modules\frontend\views\widget;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget
@@ -15,7 +15,7 @@ if(!function_exists('blog\modules\frontend\views\widget\renderCats')){
 		$html .= '>';
 		foreach($cats as $c){
 			$html .= '<li>';
-			$html .= Html::link($c['title'], array(str_replace(array(
+			$html .= HtmlHelper::link($c['title'], array(str_replace(array(
 				'{$id}', '{$alias}',
 			), array(
 				$c['id'], $c['alias'],
@@ -31,6 +31,6 @@ if(!function_exists('blog\modules\frontend\views\widget\renderCats')){
 }
 ?>
 <aside class="widget category">
-	<div class="widget-title"><?php echo Html::encode($widget->config['title'])?></div>
+	<div class="widget-title"><?php echo HtmlHelper::encode($widget->config['title'])?></div>
 	<?php echo renderCats($cats, $widget->config['uri'])?>
 </aside>

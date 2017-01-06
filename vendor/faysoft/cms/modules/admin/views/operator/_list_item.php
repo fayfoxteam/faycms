@@ -1,13 +1,13 @@
 <?php
-use fay\helpers\Date;
-use fay\helpers\Html;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\services\user\UserRoleService;
 use fay\models\tables\Roles;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
 	<?php if(in_array('avatar', $cols)){?>
-	<td><?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
+	<td><?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 		'width'=>40,
 		'height'=>40,
 		'class'=>'circle',
@@ -23,17 +23,17 @@ use fay\models\tables\Roles;
 	<td>
 		<strong>
 			<?php if($data['username'])
-				echo Html::encode($data['username']);
+				echo HtmlHelper::encode($data['username']);
 			else
 				echo '&nbsp;';?>
 		</strong>
 		<div class="row-actions">
 			<?php
-				echo Html::link('查看', array('admin/operator/item', array(
+				echo HtmlHelper::link('查看', array('admin/operator/item', array(
 					'id'=>$data['id'],
 				)), array(), true);
 				if(!UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $data['id']) || UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
-					echo Html::link('编辑', array('admin/operator/edit', array(
+					echo HtmlHelper::link('编辑', array('admin/operator/edit', array(
 						'id'=>$data['id'],
 					)), array(), true);
 				}
@@ -48,7 +48,7 @@ use fay\models\tables\Roles;
 			if($k){
 				echo ', ';
 			}
-			echo Html::link($role['title'], array('admin/operator/index', array(
+			echo HtmlHelper::link($role['title'], array('admin/operator/index', array(
 				'role'=>$role['id']
 			)));
 		}
@@ -56,17 +56,17 @@ use fay\models\tables\Roles;
 	<?php }?>
 	
 	<?php if(in_array('mobile', $cols)){?>
-	<td><?php echo Html::encode($data['mobile'])?></td>
+	<td><?php echo HtmlHelper::encode($data['mobile'])?></td>
 	<?php }?>
 	
 	<?php if(in_array('email', $cols)){?>
 	<td>
-		<a href="mailto:<?php echo Html::encode($data['email'])?>"><?php echo Html::encode($data['email'])?></a>
+		<a href="mailto:<?php echo HtmlHelper::encode($data['email'])?>"><?php echo HtmlHelper::encode($data['email'])?></a>
 	</td>
 	<?php }?>
 	
 	<?php if(in_array('nickname', $cols)){?>
-	<td><?php echo Html::encode($data['nickname'])?></td>
+	<td><?php echo HtmlHelper::encode($data['nickname'])?></td>
 	<?php }?>
 	
 	<?php if(in_array('block', $cols)){?>
@@ -79,8 +79,8 @@ use fay\models\tables\Roles;
 	
 	<?php if(in_array('reg_time', $cols)){?>
 	<td>
-		<abbr class="time" title="<?php echo Date::format($data['reg_time'])?>">
-			<?php echo Date::niceShort($data['reg_time'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['reg_time'])?>">
+			<?php echo DateHelper::niceShort($data['reg_time'])?>
 		</abbr>
 	</td>
 	<?php }?>
@@ -95,8 +95,8 @@ use fay\models\tables\Roles;
 	
 	<?php if(in_array('last_login_time', $cols)){?>
 	<td>
-		<abbr class="time" title="<?php echo Date::format($data['last_login_time'])?>">
-			<?php echo Date::niceShort($data['last_login_time'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['last_login_time'])?>">
+			<?php echo DateHelper::niceShort($data['last_login_time'])?>
 		</abbr>
 	</td>
 	<?php }?>
@@ -111,8 +111,8 @@ use fay\models\tables\Roles;
 	
 	<?php if(in_array('last_time_online', $cols)){?>
 	<td>
-		<abbr class="time" title="<?php echo Date::format($data['last_time_online'])?>">
-			<?php echo Date::niceShort($data['last_time_online'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['last_time_online'])?>">
+			<?php echo DateHelper::niceShort($data['last_time_online'])?>
 		</abbr>
 	</td>
 	<?php }?>

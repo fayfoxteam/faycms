@@ -2,7 +2,7 @@
 use fay\services\FileService;
 use fay\models\tables\Files;
 use fay\services\QiniuService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
 
 /**
@@ -21,7 +21,7 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
 		}else{
 			$data_src = FileService::getUrl($file);
 		}
-		echo Html::tag('div', array(
+		echo HtmlHelper::tag('div', array(
 			'data-src'=>$data_src,
 			'data-link'=>empty($f['link']) ? false : $f['link'],
 		), '');

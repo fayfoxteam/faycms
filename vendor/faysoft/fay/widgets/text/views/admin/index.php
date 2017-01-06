@@ -1,5 +1,5 @@
 <?php 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 ?>
 <div class="mb30"><?php

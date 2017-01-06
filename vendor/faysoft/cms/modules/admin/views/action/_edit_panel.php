@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $cats array
@@ -22,7 +22,7 @@ use fay\helpers\Html;
 </div>
 <div class="form-field">
 	<label class="title bold">分类<em class="required">*</em></label>
-	<?php echo F::form()->select('cat_id', Html::getSelectOptions($cats, 'id', 'title'), array(
+	<?php echo F::form()->select('cat_id', HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 		'class'=>'form-control',
 	));?>
 </div>

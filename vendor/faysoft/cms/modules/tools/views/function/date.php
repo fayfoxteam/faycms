@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 ?>
 <form method="post" id="form">
 	<div class="row">
@@ -7,7 +7,7 @@ use fay\helpers\Date;
 			<div class="box">
 				<div class="box-content">
 					<p><strong>Current Timestamp</strong>: <em><?php echo F::app()->current_time?></em></p>
-					<p><strong>Current Time</strong>: <?php echo Date::format(F::app()->current_time)?></p>
+					<p><strong>Current Time</strong>: <?php echo DateHelper::format(F::app()->current_time)?></p>
 				</div>
 			</div>
 		</div>

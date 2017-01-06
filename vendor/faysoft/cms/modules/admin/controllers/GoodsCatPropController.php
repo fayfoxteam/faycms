@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Categories;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\GoodsCatProps;
@@ -36,7 +36,7 @@ class GoodsCatPropController extends AdminController{
 		
 		$this->form()->setModel(GoodsCatProps::model());
 		
-		$this->layout->subtitle = Html::encode($cat['title']) . ' - 分类属性';
+		$this->layout->subtitle = HtmlHelper::encode($cat['title']) . ' - 分类属性';
 		
 		$this->_setListview($cat_id);
 		$this->view->render();
@@ -92,7 +92,7 @@ class GoodsCatPropController extends AdminController{
 
 		$this->actionlog(Actionlogs::TYPE_GOODS_PROP, '软删除一个商品属性', $prop_id);
 
-		Response::notify('success', '一个商品属性被移入回收站 - '.Html::link('撤销', array('admin/goods-cat-prop/undelete', array(
+		Response::notify('success', '一个商品属性被移入回收站 - '.HtmlHelper::link('撤销', array('admin/goods-cat-prop/undelete', array(
 			'id'=>$prop_id,
 		))));
 	}
@@ -181,7 +181,7 @@ class GoodsCatPropController extends AdminController{
 			)),
 			'text'=>'返回属性列表',
 		);
-		$this->layout->subtitle = Html::encode($cat['title']) . ' - 分类属性 - ' . $prop['title'];
+		$this->layout->subtitle = HtmlHelper::encode($cat['title']) . ' - 分类属性 - ' . $prop['title'];
 		$this->view->prop_values = GoodsCatPropValues::model()->fetchAll(array(
 			'prop_id = ?'=>$prop['id'],
 			'deleted = 0',

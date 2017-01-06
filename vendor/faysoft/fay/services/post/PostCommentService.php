@@ -8,7 +8,7 @@ use fay\models\tables\PostComments;
 use fay\core\Exception;
 use fay\services\PostService;
 use fay\helpers\ArrayHelper;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\PostMeta;
 use fay\services\OptionService;
 use fay\services\UserService;
@@ -104,7 +104,7 @@ class PostCommentService extends MultiTree{
 			'sockpuppet'=>$sockpuppet,
 			'create_time'=>\F::app()->current_time,
 			'last_modified_time'=>\F::app()->current_time,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		)), $parent);
 		
 		//更新文章评论数

@@ -8,7 +8,7 @@ use fay\models\Setting as SettingModel;
 use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\helpers\Image;
+use fay\helpers\ImageHelper;
 use fay\services\QiniuService;
 use fay\core\HttpException;
 use fay\core\Validator;
@@ -590,7 +590,7 @@ class FileController extends AdminController{
 		if(!$h)throw new HttpException('不完整的请求', 500);
 		
 		if($file !== false){
-			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 		
 			if($dw == 0){
 				$dw = $w;
@@ -598,8 +598,8 @@ class FileController extends AdminController{
 			if($dh == 0){
 				$dh = $h;
 			}
-			$img = Image::crop($img, $x, $y, $w, $h);
-			$img = Image::resize($img, $dw, $dh);
+			$img = ImageHelper::crop($img, $x, $y, $w, $h);
+			$img = ImageHelper::resize($img, $dw, $dh);
 		
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
@@ -608,9 +608,9 @@ class FileController extends AdminController{
 			//图片不存在，显示一张默认图片吧
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
-			$img = Image::getImage($spare);
+			$img = ImageHelper::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			$img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}
@@ -631,9 +631,9 @@ class FileController extends AdminController{
 		}
 		
 		if($file !== false){
-			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			
-			$img = Image::resize($img, $dw, $dh);
+			$img = ImageHelper::resize($img, $dw, $dh);
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
@@ -641,9 +641,9 @@ class FileController extends AdminController{
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
-			$img = Image::getImage($spare);
+			$img = ImageHelper::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			$img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}
@@ -658,9 +658,9 @@ class FileController extends AdminController{
 			$dw || $dw = $file['image_width'];
 			$dh || $dh = $file['image_height'];
 			
-			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			
-			$img = Image::resize($img, $dw, $dh);
+			$img = ImageHelper::resize($img, $dw, $dh);
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
@@ -668,9 +668,9 @@ class FileController extends AdminController{
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
-			$img = Image::getImage($spare);
+			$img = ImageHelper::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			$img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}

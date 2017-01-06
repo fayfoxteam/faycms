@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\GoodsCatProps;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
@@ -69,7 +69,7 @@ use fay\models\tables\GoodsCatProps;
 	<?php if(!empty($prop_values)){?>
 		<?php foreach($prop_values as $pv){?>
 			<div class="dragsort-item">
-				<?php echo Html::inputHidden('old_prop_value_ids[]', $pv['id'])?>
+				<?php echo HtmlHelper::inputHidden('old_prop_value_ids[]', $pv['id'])?>
 				<a class="dragsort-rm" href="javascript:;"></a>
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container">

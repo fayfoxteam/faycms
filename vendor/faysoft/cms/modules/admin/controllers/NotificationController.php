@@ -9,7 +9,7 @@ use fay\models\tables\Roles;
 use fay\services\CategoryService;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\NotificationService;
 use fay\core\Sql;
 use fay\services\FlashService;
@@ -72,7 +72,7 @@ class NotificationController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '删除系统信息', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条消息被移入回收站 - '.Html::link('撤销', array('admin/notification/undelete', array(
+			'message'=>'一条消息被移入回收站 - '.HtmlHelper::link('撤销', array('admin/notification/undelete', array(
 				'id'=>$id,
 			))),
 			'id'=>$this->input->get('id', 'intval'),

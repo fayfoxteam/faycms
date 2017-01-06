@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 ?>
@@ -10,7 +10,7 @@ use fay\services\user\UserRoleService;
 	<div class="box-content">
 		<div class="form-field">
 			<label class="title bold">顶级菜单</label>
-			<?php echo F::form('widget')->select('top', Html::getSelectOptions($menu), array(
+			<?php echo F::form('widget')->select('top', HtmlHelper::getSelectOptions($menu), array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">仅显示所选菜单的子菜单（不包含所选菜单本身）</p>

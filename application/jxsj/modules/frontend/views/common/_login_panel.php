@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 use fay\services\UserService;
 ?>
 <div class="box" id="login-panel">
@@ -15,16 +15,16 @@ use fay\services\UserService;
 					<table>
 						<tr>
 							<th width="73">当前用户：</th>
-							<td><?php echo Html::encode($user['user']['username'])?></td>
+							<td><?php echo HtmlHelper::encode($user['user']['username'])?></td>
 						</tr>
 						<tr>
 							<th>上次登录：</th>
-							<td><?php echo Date::format($last_login['login_time'])?></td>
+							<td><?php echo DateHelper::format($last_login['login_time'])?></td>
 						</tr>
 						<tr>
 							<td colspan="2"><?php 
-								echo Html::link('前往考试', array('user/exam'));
-								echo Html::link('退出登录', array('user/logout'), array(
+								echo HtmlHelper::link('前往考试', array('user/exam'));
+								echo HtmlHelper::link('退出登录', array('user/logout'), array(
 									'style'=>'margin-left:10px;'
 								));
 							?></td>
@@ -50,7 +50,7 @@ use fay\services\UserService;
 								echo F::form()->inputText('vcode', array(
 									'class'=>'wp40',
 								));
-								echo Html::img($this->url('file/vcode', array(
+								echo HtmlHelper::img($this->url('file/vcode', array(
 									'w'=>64,
 									'h'=>23,
 								)).'?', 1, array(

@@ -1,10 +1,10 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <form id="batch-form" method="post" action="<?php echo $this->url('admin/notification/batch')?>" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
-			echo Html::select('', array(
+			echo HtmlHelper::select('', array(
 				''=>'批量操作',
 				'set-read'=>'标记为已读',
 				'set-unread'=>'标记为未读',
@@ -13,7 +13,7 @@ use fay\helpers\Html;
 				'class'=>'form-control',
 				'id'=>'batch-action',
 			));
-			echo Html::link('提交', 'javascript:;', array(
+			echo HtmlHelper::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit',
 				'class'=>'btn btn-sm ml5',
 			));
@@ -50,7 +50,7 @@ use fay\helpers\Html;
 			<?php $listview->showPager()?>
 		</div>
 		<div class="col-5"><?php
-			echo Html::select('', array(
+			echo HtmlHelper::select('', array(
 				''=>'批量操作',
 				'set-read'=>'标记为已读',
 				'set-unread'=>'标记为未读',
@@ -59,7 +59,7 @@ use fay\helpers\Html;
 				'class'=>'form-control',
 				'id'=>'batch-action-2',
 			));
-			echo Html::link('提交', 'javascript:;', array(
+			echo HtmlHelper::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit-2',
 				'class'=>'btn btn-sm ml5',
 			));

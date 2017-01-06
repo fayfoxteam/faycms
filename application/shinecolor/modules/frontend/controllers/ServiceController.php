@@ -3,7 +3,7 @@ namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
 use fay\models\tables\Pages;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\core\HttpException;
 
@@ -32,7 +32,7 @@ class ServiceController extends FrontController{
 		
 		$this->view->page = $page;
 		
-		$this->layout->title = Html::encode($page['title']);
+		$this->layout->title = HtmlHelper::encode($page['title']);
 		
 		$sql = new Sql();
 		$this->view->pages = $sql->from(array('pc'=>'pages_categories'))
@@ -51,7 +51,7 @@ class ServiceController extends FrontController{
 				'link'=>$this->view->url(),
 			),
 			array(
-				'label'=>Html::encode($page['title']),
+				'label'=>HtmlHelper::encode($page['title']),
 			),
 		);
 		$this->view->render();

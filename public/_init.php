@@ -2,7 +2,7 @@
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 use fay\core\ErrorHandler;
-use fay\helpers\Dumper;
+use fay\helpers\DumperHelper;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'application'.DS.APPLICATION).DS);
@@ -30,7 +30,7 @@ $error_handler->register();
  * @return string
  */
 function pr($var, $encode = false, $return = false){
-	return Dumper::pr($var, $encode, $return);
+	return DumperHelper::pr($var, $encode, $return);
 }
 
 /**
@@ -38,5 +38,5 @@ function pr($var, $encode = false, $return = false){
  * @param int $depth
  */
 function dump($var, $depth = 10){
-	Dumper::dump($var, $depth);
+	DumperHelper::dump($var, $depth);
 }

@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\menu\controllers;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\widget\Widget;
 use fay\services\MenuService;
 use fay\models\tables\Menus;
@@ -53,7 +53,7 @@ class IndexController extends Widget{
 		echo '<ul>';
 		foreach($menus as $m){
 			echo '<li'.(empty($m['children']) ? '' : ' class="has-sub"').'>';
-			echo Html::link('<span class="title">'.$m['title'].'</span>', $m['link'], array(
+			echo HtmlHelper::link('<span class="title">'.$m['title'].'</span>', $m['link'], array(
 				'encode'=>false,
 				'title'=>false,
 				'prepend'=>$m['css_class'] ? array(

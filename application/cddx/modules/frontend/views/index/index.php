@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
 ?>
 <div class="g-mn cf">
@@ -8,14 +8,14 @@ use fay\helpers\StringHelper;
 		<?php F::widget()->load('index-small-slide')?>
 		<div class="box" id="index-about">
 			<header class="box-title">
-				<?php echo Html::link('More..', array('page-'.$about['id']), array(
+				<?php echo HtmlHelper::link('More..', array('page-'.$about['id']), array(
 					'class'=>'more',
 				))?>
 				<h3><span>校院概况</span><em></em></h3>
 			</header>
 			<div class="box-content">
 			<?php
-				$text = StringHelper::niceShort($about['abstract'], 100, true) . Html::link('[详细]', array('page-'.$about['id']), array(
+				$text = StringHelper::niceShort($about['abstract'], 100, true) . HtmlHelper::link('[详细]', array('page-'.$about['id']), array(
 					'class'=>'fc-red',
 				));
 				echo StringHelper::nl2p($text);
@@ -26,7 +26,7 @@ use fay\helpers\StringHelper;
 	<section class="w437 fr">
 		<div class="box" id="index-news">
 			<header class="box-title">
-				<?php echo Html::link('More..', array('cat-'.$cat_news['id']), array(
+				<?php echo HtmlHelper::link('More..', array('cat-'.$cat_news['id']), array(
 					'class'=>'more',
 				))?>
 				<h3><span>新闻中心</span><em></em></h3>
@@ -36,21 +36,21 @@ use fay\helpers\StringHelper;
 					<?php
 						$top_news = array_shift($news);
 					?>
-					<h3><?php echo Html::link($top_news['title'], array('post-'.$top_news['id']))?></h3>
-					<p><?php echo StringHelper::niceShort($top_news['abstract'], 50), Html::link('[详情]', array('post-'.$top_news['id']), array(
+					<h3><?php echo HtmlHelper::link($top_news['title'], array('post-'.$top_news['id']))?></h3>
+					<p><?php echo StringHelper::niceShort($top_news['abstract'], 50), HtmlHelper::link('[详情]', array('post-'.$top_news['id']), array(
 						'class'=>'fc-red',
 					))?></p>
 				</div>
 				<ul class="post-list">
 				<?php foreach($news as $n){
-					echo Html::link('<span>'.Html::encode($n['title']).'</span>', array('post-'.$n['id']), array(
+					echo HtmlHelper::link('<span>'.HtmlHelper::encode($n['title']).'</span>', array('post-'.$n['id']), array(
 						'wrapper'=>'li',
 						'before'=>array(
 							'tag'=>'time',
 							'text'=>date('Y-m-d', $n['publish_time']),
 						),
 						'encode'=>false,
-						'title'=>Html::encode($n['title']),
+						'title'=>HtmlHelper::encode($n['title']),
 					));
 				}?>
 				</ul>

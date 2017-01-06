@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 function renderCats($cats, $dep = 0){
 	$html = '<ul';
@@ -7,7 +7,7 @@ function renderCats($cats, $dep = 0){
 	$html .= '>';
 	foreach($cats as $c){
 		$html .= '<li class="cat-item">';
-		$html .= Html::link($c['title'], $c['link']);
+		$html .= HtmlHelper::link($c['title'], $c['link']);
 		if(!empty($c['children'])){
 			$html .= renderCats($c['children'], ++$dep);
 		}
@@ -19,7 +19,7 @@ function renderCats($cats, $dep = 0){
 ?>
 <div class="box category-post">
 	<div class="box-title">
-		<h3><?php echo Html::encode($config['title'])?></h3>
+		<h3><?php echo HtmlHelper::encode($config['title'])?></h3>
 	</div>
 	<div class="box-content">
 		<div class="st"><div class="sl"><div class="sr"><div class="sb">

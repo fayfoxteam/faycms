@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 function showCats($tree, $dep = 0){?>
 	<ul class="tree">
@@ -16,9 +16,9 @@ function showCats($tree, $dep = 0){?>
 						));
 						
 						if(empty($node['children'])){
-							echo Html::encode($node['title']);
+							echo HtmlHelper::encode($node['title']);
 						}else{
-							echo Html::tag('strong', array(), $node['title']);
+							echo HtmlHelper::tag('strong', array(), $node['title']);
 						}
 					?>
 					<?php if($node['alias']){?>
@@ -26,11 +26,11 @@ function showCats($tree, $dep = 0){?>
 					<?php }?>
 					</label>
 					<?php if(!empty($node['children'])){
-						echo Html::link('全选', 'javascript:;', array(
+						echo HtmlHelper::link('全选', 'javascript:;', array(
 							'class'=>'select-all-children',
 						)),
 						' | ',
-						Html::link('不选', 'javascript:;', array(
+						HtmlHelper::link('不选', 'javascript:;', array(
 							'class'=>'unselect-all-children',
 						));
 					}?>

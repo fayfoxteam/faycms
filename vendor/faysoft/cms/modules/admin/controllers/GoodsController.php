@@ -13,10 +13,10 @@ use fay\models\tables\GoodsCatProps;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\CategoryService;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 use fay\services\shop\Goods as GoodsService;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FlashService;
 use fay\services\SettingService;
 use fay\core\HttpException;
@@ -563,7 +563,7 @@ class GoodsController extends AdminController{
 		
 		$goods = GoodsService::model()->get($goods_id);
 		//做一些格式化处理
-		$goods['publish_time'] = Date::format($goods['publish_time']);
+		$goods['publish_time'] = DateHelper::format($goods['publish_time']);
 		
 		//获取分类
 		$cat = Categories::model()->find($goods['cat_id'], 'id,title');
@@ -618,7 +618,7 @@ class GoodsController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_GOODS, '软删除一个商品', $goods_id);
 		
 		Response::notify('success', array(
-			'message'=>'一个商品被移入回收站 - '.Html::link('撤销', array('admin/goods/undelete', array(
+			'message'=>'一个商品被移入回收站 - '.HtmlHelper::link('撤销', array('admin/goods/undelete', array(
 				'id'=>$goods_id,
 			))),
 			'id'=>$goods_id

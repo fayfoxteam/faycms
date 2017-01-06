@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div id="banner">
 	<?php \F::widget()->load('index-slides')?>
@@ -18,7 +18,7 @@ use fay\helpers\Html;
 			<div class="box-content">
 				<div class="st"><div class="sl"><div class="sr"><div class="sb">
 					<div class="p16">
-						<h1><?php echo Html::encode($page['title'])?></h1>
+						<h1><?php echo HtmlHelper::encode($page['title'])?></h1>
 						<div class="meta">
 							<span class="ml10">阅读数：<?php echo $page['views']?></span>
 						</div>

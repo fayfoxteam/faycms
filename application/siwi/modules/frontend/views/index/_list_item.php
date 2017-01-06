@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use siwi\helpers\FriendlyLink;
 use siwi\models\Post;
@@ -20,48 +20,48 @@ switch($type){
 ?>
 <article class="<?php if($index % 4 == 0)echo 'last'?>">
 	<?php
-		echo Html::link(Html::img($data['thumbnail'], FileService::PIC_RESIZE, array(
+		echo HtmlHelper::link(HtmlHelper::img($data['thumbnail'], FileService::PIC_RESIZE, array(
 			'dw'=>283,
 			'dh'=>217,
-			'alt'=>Html::encode($data['title']),
-			'title'=>Html::encode($data['title']),
+			'alt'=>HtmlHelper::encode($data['title']),
+			'title'=>HtmlHelper::encode($data['title']),
 			'spare'=>'default',
 			'class'=>'thumbnail',
 		)), array('material/'.$data['id']) ,array(
 			'encode'=>false,
-			'title'=>Html::encode($data['title']),
+			'title'=>HtmlHelper::encode($data['title']),
 			'prepend'=>'<span class="overlay"></span>',
 		));
 	
-		echo Html::link('', array($type), array(
+		echo HtmlHelper::link('', array($type), array(
 			'class'=>'type type-'.$type,
 			'title'=>$type_title,
 		));
 	?>
 	<div class="meta">
-		<h3><?php echo Html::link($data['title'], array("{$type}/{$data['id']}"), array(
-			'title'=>Html::encode($data['title']),
+		<h3><?php echo HtmlHelper::link($data['title'], array("{$type}/{$data['id']}"), array(
+			'title'=>HtmlHelper::encode($data['title']),
 			'encode'=>false,
 			'target'=>'_blank',
 		))?></h3>
 		<p class="cat">
-			<?php echo Html::link($data['parent_cat_title'], FriendlyLink::get($type, $data['parent_cat_id']))?>
+			<?php echo HtmlHelper::link($data['parent_cat_title'], FriendlyLink::get($type, $data['parent_cat_id']))?>
 			-
-			<?php echo Html::link($data['cat_title'], FriendlyLink::get($type, $data['parent_cat_id'], $data['cat_id']))?>
+			<?php echo HtmlHelper::link($data['cat_title'], FriendlyLink::get($type, $data['parent_cat_id'], $data['cat_id']))?>
 		</p>
 	</div>
 	<div class="cover">
-		<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
-			'alt'=>Html::encode($data['nickname']),
-			'title'=>Html::encode($data['nickname']),
+		<?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
+			'alt'=>HtmlHelper::encode($data['nickname']),
+			'title'=>HtmlHelper::encode($data['nickname']),
 			'spare'=>'avatar',
 			'class'=>'avatar',
 		)), array('u/'.$data['user_id']) ,array(
 			'encode'=>false,
-			'title'=>Html::encode($data['title']),
+			'title'=>HtmlHelper::encode($data['title']),
 			'target'=>'_blank',
 		));?>
-		<?php echo Html::link($data['nickname'], array('u/'.$data['user_id']), array(
+		<?php echo HtmlHelper::link($data['nickname'], array('u/'.$data['user_id']), array(
 			'class'=>'nickname',
 			'target'=>'_blank',
 		))?>

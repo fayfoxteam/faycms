@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div class="box" id="box-files" data-name="files">
@@ -9,7 +9,7 @@ use fay\services\FileService;
 	</div>
 	<div class="box-content">
 		<div id="upload-file-container">
-			<?php echo Html::link('上传图片', 'javascript:;', array(
+			<?php echo HtmlHelper::link('上传图片', 'javascript:;', array(
 				'class'=>'btn',
 				'id'=>'upload-file-link',
 			))?>
@@ -18,20 +18,20 @@ use fay\services\FileService;
 		<?php if(!empty($files)){?>
 			<?php foreach($files as $f){?>
 				<div class="dragsort-item">
-					<?php echo Html::inputHidden('files[]', $f['file_id'])?>
+					<?php echo HtmlHelper::inputHidden('files[]', $f['file_id'])?>
 					<a class="dragsort-rm" href="javascript:;"></a>
 					<a class="dragsort-item-selector"></a>
 					<div class="dragsort-item-container">
 						<span class="file-thumb"><?php
 							$full_file_path = FileService::getUrl($f['file_id']);
-							echo Html::link(Html::img($f['file_id'], FileService::PIC_THUMBNAIL), $full_file_path, array(
+							echo HtmlHelper::link(HtmlHelper::img($f['file_id'], FileService::PIC_THUMBNAIL), $full_file_path, array(
 								'class'=>'file-thumb-link fancybox-image',
 								'encode'=>false,
 								'title'=>false,
 							));
 						?></span>
 						<div class="file-desc-container">
-							<?php echo Html::textarea("description[{$f['file_id']}]", $f['description'], array(
+							<?php echo HtmlHelper::textarea("description[{$f['file_id']}]", $f['description'], array(
 								'class'=>'form-control file-desc autosize',
 								'placeholder'=>'照片描述',
 							));?>

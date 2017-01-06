@@ -1,7 +1,7 @@
 <?php
 namespace cms\helpers;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Uri;
 use fay\helpers\UrlHelper;
 
@@ -94,7 +94,7 @@ class MenuHelper{
 				return false;
 			}
 		}else{
-			echo Html::tag('ul', array(
+			echo HtmlHelper::tag('ul', array(
 				'class'=>'main-menu',
 				'id'=>'main-menu',
 			), $text);

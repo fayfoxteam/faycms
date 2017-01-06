@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <header class="page-header">
 	<nav class="navigator">
@@ -11,9 +11,9 @@ use fay\helpers\Html;
 			<div class="logo"><?php
 				$logo = OptionService::get('site:logo');
 				if($logo){
-					echo Html::img($logo);
+					echo HtmlHelper::img($logo);
 				}else{
-					echo Html::img($this->appStatic('images/logo.png'));
+					echo HtmlHelper::img($this->appStatic('images/logo.png'));
 				}
 			?></div>
 			<div class="title">

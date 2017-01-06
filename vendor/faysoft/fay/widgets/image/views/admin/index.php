@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <style>
 #file-preview{text-align:center;}
@@ -7,7 +7,7 @@ use fay\helpers\Html;
 </style>
 <div class="box">
 	<div class="box-content" id="file-preview" <?php if(!$widget->config['file_id'])echo 'style="display:none;"'?>>
-		<?php echo Html::img($widget->config['file_id'])?>
+		<?php echo HtmlHelper::img($widget->config['file_id'])?>
 	</div>
 </div>
 <input type="hidden" value="<?php echo intval($widget->config['file_id'])?>" name="file_id" id="file_id" />

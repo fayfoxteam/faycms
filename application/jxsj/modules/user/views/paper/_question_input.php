@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="bd input">
 	<div class="clearfix exam-question-item">
@@ -8,7 +8,7 @@ use fay\helpers\Html;
 		<span>（共<?php echo $question['score']?> 分）</span>
 	</div>
 	<div class="">
-		<?php echo Html::textarea("answers[{$question['id']}]", '', array(
+		<?php echo HtmlHelper::textarea("answers[{$question['id']}]", '', array(
 			'style'=>'width:90%;height:100px;',
 		))?>
 	</div>

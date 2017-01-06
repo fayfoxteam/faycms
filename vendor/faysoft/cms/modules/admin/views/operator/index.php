@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use cms\helpers\ListTableHelper;
 
 $cols = F::form('setting')->getData('cols');
@@ -21,7 +21,7 @@ $cols = F::form('setting')->getData('cols');
 				))?>
 				<?php echo F::form('search')->inputText('keywords', array('class'=>'form-control w200'));?>
 				|
-				<?php echo F::form('search')->select('role', array(''=>'--角色--') + Html::getSelectOptions($roles, 'id', 'title'), array(
+				<?php echo F::form('search')->select('role', array(''=>'--角色--') + HtmlHelper::getSelectOptions($roles, 'id', 'title'), array(
 					'class'=>'form-control',
 				));?>
 				<?php echo F::form('search')->submitLink('查询', array(

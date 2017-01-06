@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,7 +36,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 						<ul>
 						<?php foreach($submenu as $s){?>
 							<li>
-								<?php echo Html::link($s['title'], $s['link'], array(
+								<?php echo HtmlHelper::link($s['title'], $s['link'], array(
 									'class'=>isset($s['class']) ? $s['class'] : false,
 								))?>
 							</li>

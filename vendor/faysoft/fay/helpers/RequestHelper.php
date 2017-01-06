@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-class Request{
+class RequestHelper{
 	/**
 	 * 获取客户端IP
 	 */

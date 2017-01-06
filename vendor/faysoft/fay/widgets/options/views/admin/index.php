@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget \fay\widgets\options\controllers\AdminController
@@ -28,7 +28,7 @@ use fay\helpers\Html;
 			<div class="dragsort-item cf">
 				<a class="dragsort-item-selector"></a>
 				<div class="dragsort-item-container"><?php 
-					echo Html::inputText('keys[]', $d['key'], array(
+					echo HtmlHelper::inputText('keys[]', $d['key'], array(
 						'class'=>'form-control fl',
 						'placeholder'=>'名称',
 						'wrapper'=>array(
@@ -36,7 +36,7 @@ use fay\helpers\Html;
 							'class'=>'ib col-5 fl',
 						),
 					));
-					echo Html::textarea('values[]', $d['value'], array(
+					echo HtmlHelper::textarea('values[]', $d['value'], array(
 						'class'=>'form-control autosize',
 						'placeholder'=>'值',
 						'wrapper'=>array(
@@ -44,7 +44,7 @@ use fay\helpers\Html;
 							'class'=>'ib col-7 fr',
 						),
 					));
-					echo Html::link('删除', 'javascript:;', array(
+					echo HtmlHelper::link('删除', 'javascript:;', array(
 						'class'=>'btn btn-grey mt5 btn-sm fl widget-remove-attr-link',
 					));
 				?></div>
@@ -59,7 +59,7 @@ use fay\helpers\Html;
 	</div>
 	<div class="box-content">
 		<div class="cf"><?php 
-			echo Html::inputText('', '', array(
+			echo HtmlHelper::inputText('', '', array(
 				'class'=>'form-control fl',
 				'placeholder'=>'名称',
 				'id'=>'widget-add-attr-key',
@@ -68,7 +68,7 @@ use fay\helpers\Html;
 					'class'=>'ib col-5 fl',
 				),
 			));
-			echo Html::textarea('', '', array(
+			echo HtmlHelper::textarea('', '', array(
 				'class'=>'form-control autosize',
 				'placeholder'=>'值',
 				'id'=>'widget-add-attr-value',
@@ -77,7 +77,7 @@ use fay\helpers\Html;
 					'class'=>'ib col-7 fr',
 				),
 			));
-			echo Html::link('添加', 'javascript:;', array(
+			echo HtmlHelper::link('添加', 'javascript:;', array(
 				'class'=>'btn mt5 btn-sm fl',
 				'id'=>'widget-add-attr-link',
 			));

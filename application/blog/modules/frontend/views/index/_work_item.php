@@ -1,7 +1,7 @@
 <?php
 use fay\services\PostService;
-use fay\helpers\Date;
-use fay\helpers\Html;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 
 preg_match_all('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $data['content'], $matches);
@@ -23,7 +23,7 @@ foreach($matches[1] as $m){
 		</h1>
 		<span class="post-meta">
 			发表于 
-			<time><?php echo Date::format($data['publish_time'])?></time>
+			<time><?php echo DateHelper::format($data['publish_time'])?></time>
 		</span>
 		<div class="clear"></div>
 	</div>
@@ -32,7 +32,7 @@ foreach($matches[1] as $m){
 	<?php foreach($work_files as $wf){?>
 		<div class="work-file-item">
 			<a href="<?php echo $this->url('file/pic', array('t'=>1, 'f'=>$wf))?>">
-				<?php echo Html::img($wf, FileService::PIC_RESIZE, array(
+				<?php echo HtmlHelper::img($wf, FileService::PIC_RESIZE, array(
 					'dw'=>147,
 					'dh'=>147,
 				))?>
@@ -43,19 +43,19 @@ foreach($matches[1] as $m){
 	</div>
 	<div class="post-tags">
 		<?php
-		echo Html::link('<span>#'.Html::encode($data['cat_title']).'</span>', array('cat/'.$data['cat_id']), array(
+		echo HtmlHelper::link('<span>#'.HtmlHelper::encode($data['cat_title']).'</span>', array('cat/'.$data['cat_id']), array(
 			'class'=>'post-type',
-			'title'=>Html::encode($data['cat_title']),
+			'title'=>HtmlHelper::encode($data['cat_title']),
 			'encode'=>false,
 		));
 		foreach($post_cats as $pc){
-			echo Html::link('<span>#'.Html::encode($pc['title']).'</span>', array('cat/'.$pc['id']), array(
+			echo HtmlHelper::link('<span>#'.HtmlHelper::encode($pc['title']).'</span>', array('cat/'.$pc['id']), array(
 				'class'=>'post-type',
-				'title'=>Html::encode($pc['title']),
+				'title'=>HtmlHelper::encode($pc['title']),
 				'encode'=>false,
 			));
 		}
-		echo Html::link('查看详细', array('work/'.$data['id']), array(
+		echo HtmlHelper::link('查看详细', array('work/'.$data['id']), array(
 			'class'=>'post-more-link',
 		));
 		?>

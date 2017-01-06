@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 use fay\services\FileService;
 ?>
 <div id="banner">
@@ -22,26 +22,26 @@ use fay\services\FileService;
 	<div class="ml240">
 		<div class="box" id="post-item">
 			<div class="box-title">
-				<h3><?php echo Html::link($post['category']['title'], array('cat/'.$post['post']['cat_id']))?></h3>
+				<h3><?php echo HtmlHelper::link($post['category']['title'], array('cat/'.$post['post']['cat_id']))?></h3>
 			</div>
 			<div class="box-content">
 				<div class="st"><div class="sl"><div class="sr"><div class="sb">
 					<div class="p16">
-						<h1><?php echo Html::encode($post['post']['title'])?></h1>
+						<h1><?php echo HtmlHelper::encode($post['post']['title'])?></h1>
 						<div class="meta">
-							发布时间：<?php echo Date::niceShort($post['post']['publish_time'])?>
+							发布时间：<?php echo DateHelper::niceShort($post['post']['publish_time'])?>
 							<span class="ml10">阅读数：<?php echo $post['meta']['views']?></span>
 						</div>
 						<div class="post-content">
 						<?php
 							if($post['post']['thumbnail']){
-								echo Html::img($post['post']['thumbnail'], FileService::PIC_ORIGINAL);
+								echo HtmlHelper::img($post['post']['thumbnail'], FileService::PIC_ORIGINAL);
 							}
 							echo $post['post']['content'];
 							if(!empty($post['files'])){
 								echo '附件：';
 								foreach($post['files'] as $f){
-									echo Html::link($f['description'], array('file/download', array(
+									echo HtmlHelper::link($f['description'], array('file/download', array(
 										'id'=>$f['file_id'],
 									)));
 								}
@@ -50,14 +50,14 @@ use fay\services\FileService;
 						</div>
 						<div class="post-nav">
 							<p>上一篇：<?php if($post['nav']['prev']){
-								echo Html::link($post['nav']['prev']['title'], array(
+								echo HtmlHelper::link($post['nav']['prev']['title'], array(
 									'post/'.$post['nav']['prev']['id'],
 								));
 							}else{
 								echo '没有了';
 							}?></p>
 							<p>下一篇：<?php if($post['nav']['next']){
-								echo Html::link($post['nav']['next']['title'], array(
+								echo HtmlHelper::link($post['nav']['next']['title'], array(
 									'post/'.$post['nav']['next']['id'],
 								));
 							}else{

@@ -12,7 +12,7 @@ use fay\models\tables\FeedExtra;
 use fay\core\Sql;
 use fay\models\tables\FeedMeta;
 use fay\common\ListView;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 class FeedController extends AdminController{
 	/**
@@ -333,7 +333,7 @@ class FeedController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_FEED, '将动态移入回收站', $feed_id);
 		
 		Response::notify('success', array(
-			'message'=>'一篇动态被移入回收站 - '.Html::link('撤销', array('admin/feed/undelete', array(
+			'message'=>'一篇动态被移入回收站 - '.HtmlHelper::link('撤销', array('admin/feed/undelete', array(
 				'id'=>$feed_id,
 			))),
 			'id'=>$feed_id,

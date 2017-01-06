@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\PostService;
 
 foreach($posts as $p){
@@ -17,7 +17,7 @@ foreach($posts as $p){
 	</div>
 	<div class="panel-body">
 		<ul><?php foreach($last_modified_cats as $c){
-			echo Html::link($c['title'].($c['description'] ? "（{$c['description']}）" : ''), array($c['alias'] == 'fayfox' ? null : $c['alias']), array(
+			echo HtmlHelper::link($c['title'].($c['description'] ? "（{$c['description']}）" : ''), array($c['alias'] == 'fayfox' ? null : $c['alias']), array(
 				'wrapper'=>'li',
 			));
 		}?></ul></div>

@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\Date;
-use fay\helpers\Html;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box" id="box-publish-time" data-name="publish_time">
 	<div class="box-title">
@@ -13,10 +13,10 @@ use fay\helpers\Html;
 		<?php if(F::form()->getData('create_time') !== null){?>
 		<p class="misc-pub-section mt6 pl0">
 			<span>创建时间：</span>
-			<?php echo Html::tag('abbr', array(
+			<?php echo HtmlHelper::tag('abbr', array(
 				'class'=>'time',
-				'title'=>Date::format($feed['create_time']),
-			), Date::niceShort($feed['create_time']))?>
+				'title'=>DateHelper::format($feed['create_time']),
+			), DateHelper::niceShort($feed['create_time']))?>
 		</p>
 		<?php }?>
 	</div>

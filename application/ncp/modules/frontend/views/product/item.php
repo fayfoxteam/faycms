@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
 use fay\services\FileService;
 
@@ -8,11 +8,11 @@ $this->appendCss($this->appStatic('css/product.css'));
 <div class="container containerbg">
 	<div class="curnav">
 		<strong>当前位置：</strong>
-		<?php echo Html::link('首页', $this->url())?>
+		<?php echo HtmlHelper::link('首页', $this->url())?>
 		&gt;
-		<?php echo Html::link('农产品', array('product'))?>
+		<?php echo HtmlHelper::link('农产品', array('product'))?>
 		&gt;
-		<span><?php echo Html::encode($post['title'])?></span>
+		<span><?php echo HtmlHelper::encode($post['title'])?></span>
 	</div>
 	<div id="J-detail">
 		<div class="tm-clear">
@@ -20,17 +20,17 @@ $this->appendCss($this->appStatic('css/product.css'));
 				<div class="tb-property">
 					<div class="tb-warp">
 						<div class="tb-hd">
-							<h1><?php echo Html::encode($post['title'])?></h1>
+							<h1><?php echo HtmlHelper::encode($post['title'])?></h1>
 						</div>
 						<div class="tb-info">
-							<p><?php echo Html::encode($post['abstract'])?></p>
+							<p><?php echo HtmlHelper::encode($post['abstract'])?></p>
 						</div>
 						<ul class="tb-s">
 							<li><label>分类：</label> <span><?php echo $post['cat_title']?></span></li>
 							<li><label>产地：</label> <span><?php echo $area['title']?></span></li>
 						</ul>
 						<div class="go-bth">
-							<?php echo Html::outsideLink('立即购买', $buy_link, array(
+							<?php echo HtmlHelper::outsideLink('立即购买', $buy_link, array(
 								'rel'=>'nofollow',
 								'target'=>'_blank',
 							))?>
@@ -39,7 +39,7 @@ $this->appendCss($this->appStatic('css/product.css'));
 				</div>
 			</div>
 			<div class="tm-ser">
-				<?php echo Html::img($post['thumbnail'], FileService::PIC_RESIZE, array(
+				<?php echo HtmlHelper::img($post['thumbnail'], FileService::PIC_RESIZE, array(
 					'dw'=>400,
 					'dh'=>300,
 				))?>
@@ -48,14 +48,14 @@ $this->appendCss($this->appStatic('css/product.css'));
 				<h3>商品推荐</h3>
 				<ul>
 				<?php foreach($right_top_posts as $p){?>
-					<li><?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+					<li><?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 						'dw'=>180,
 						'dh'=>135,
 					)), FriendlyLink::getProductLink(array(
 						'id'=>$p['id'],
 					)), array(
 						'encode'=>false,
-						'title'=>Html::encode($p['title']),
+						'title'=>HtmlHelper::encode($p['title']),
 					))?></li>
 				<?php }?>
 				</ul>
@@ -68,7 +68,7 @@ $this->appendCss($this->appStatic('css/product.css'));
 	<div class="detail-info mt10">
 		<div class="d-fl">
 			<div class="detail-hd">
-				<h3 class="cur"><?php echo Html::encode($post['title'])?>介绍</h3>
+				<h3 class="cur"><?php echo HtmlHelper::encode($post['title'])?>介绍</h3>
 				<h3><?php echo $area['title']?>美食</h3>
 				<h3><?php echo $area['title']?>旅游</h3>
 			</div>
@@ -81,29 +81,29 @@ $this->appendCss($this->appStatic('css/product.css'));
 					<?php foreach($food_posts as $p){?>
 						<li>
 							<div class="p-img">
-								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+								<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>280,
 									'dh'=>210,
-									'alt'=>Html::encode($p['title']),
+									'alt'=>HtmlHelper::encode($p['title']),
 								)), FriendlyLink::getFoodLink(array(
 									'id'=>$p['id'],
 								)), array(
 									'encode'=>false,
-									'title'=>Html::encode($p['title']),
+									'title'=>HtmlHelper::encode($p['title']),
 									'target'=>'_blank',
 								))?>
 							</div>
 							<div class="p-name">
-								<?php echo Html::link($p['title'], FriendlyLink::getFoodLink(array(
+								<?php echo HtmlHelper::link($p['title'], FriendlyLink::getFoodLink(array(
 									'id'=>$p['id'],
 								)), array(
 									'target'=>'_blank',
 								))?>
 							</div>
-							<div class="p-maoshu"><?php echo Html::encode($p['abstract'])?></div>
+							<div class="p-maoshu"><?php echo HtmlHelper::encode($p['abstract'])?></div>
 							<div class="p-st">
 								<span class="fl"><?php echo $p['views']?></span>
-								<span class="fr"><?php echo Html::link('我要吃', FriendlyLink::getFoodLink(array(
+								<span class="fr"><?php echo HtmlHelper::link('我要吃', FriendlyLink::getFoodLink(array(
 									'id'=>$p['id']
 								)), array(
 									'class'=>'gowhere',
@@ -119,28 +119,28 @@ $this->appendCss($this->appStatic('css/product.css'));
 					<?php foreach($travel_posts as $p){?>
 						<li>
 							<div class="p-img">
-								<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+								<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 									'dw'=>280,
 									'dh'=>210,
 								)), FriendlyLink::getTravelLink(array(
 									'id'=>$p['id'],
 								)), array(
 									'encode'=>false,
-									'title'=>Html::encode($p['title']),
+									'title'=>HtmlHelper::encode($p['title']),
 									'target'=>'_blank',
 								))?>
 							</div>
 							<div class="p-name">
-								<?php echo Html::link($p['title'], FriendlyLink::getTravelLink(array(
+								<?php echo HtmlHelper::link($p['title'], FriendlyLink::getTravelLink(array(
 									'id'=>$p['id'],
 								)), array(
 									'target'=>'_blank',
 								))?>
 							</div>
-							<div class="p-maoshu"><?php echo Html::encode($p['abstract'])?></div>
+							<div class="p-maoshu"><?php echo HtmlHelper::encode($p['abstract'])?></div>
 							<div class="p-st">
 								<span class="fl"><?php echo $p['views']?></span>
-								<span class="fr"><?php echo Html::link('去这里', FriendlyLink::getTravelLink(array(
+								<span class="fr"><?php echo HtmlHelper::link('去这里', FriendlyLink::getTravelLink(array(
 									'id'=>$p['id']
 								)), array(
 									'class'=>'gowhere',
@@ -158,18 +158,18 @@ $this->appendCss($this->appStatic('css/product.css'));
 			<?php foreach($right_posts as $p){?>
 				<li>
 					<p class="p-img">
-						<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+						<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 							'dw'=>180,
 							'dh'=>135,
 						)), FriendlyLink::getFoodLink(array(
 							'id'=>$p['id'],
 						)), array(
 							'encode'=>false,
-							'title'=>Html::encode($p['title']),
+							'title'=>HtmlHelper::encode($p['title']),
 						))?>
 					</p>
 					<p class="p-name">
-						<?php echo Html::link($p['title'], FriendlyLink::getFoodLink(array(
+						<?php echo HtmlHelper::link($p['title'], FriendlyLink::getFoodLink(array(
 							'id'=>$p['id'],
 						)))?>
 					</p>

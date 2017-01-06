@@ -9,19 +9,19 @@
 	<fieldset>
 	<?php
 		if(!empty($element['label'])){
-			echo \fay\helpers\Html::tag('label', array(
+			echo \fay\helpers\HtmlHelper::tag('label', array(
 				'for'=>'widget-' . $widget->alias . '-field-' . $element['name'],
 			), $element['label']);
 		}
 		if($element['name'] == 'content'){
 			//若是内容字段，输出文本域
-			echo \fay\helpers\Html::textarea($element['name'], '', array(
+			echo \fay\helpers\HtmlHelper::textarea($element['name'], '', array(
 				'id'=>'widget-' . $widget->alias . '-field-' . $element['name'],
 				'placeholder'=>empty($element['placeholder']) ? false : $element['placeholder']
 			));
 		}else{
 			//其他字段输出输入框
-			echo \fay\helpers\Html::inputText($element['name'], '', array(
+			echo \fay\helpers\HtmlHelper::inputText($element['name'], '', array(
 				'id'=>'widget-' . $widget->alias . '-field-' . $element['name'],
 				'placeholder'=>empty($element['placeholder']) ? false : $element['placeholder']
 			));
@@ -30,7 +30,7 @@
 	</fieldset>
 	<?php }?>
 	<fieldset>
-		<?php echo \fay\helpers\Html::link($config['submit_text'], 'javascript:;', array(
+		<?php echo \fay\helpers\HtmlHelper::link($config['submit_text'], 'javascript:;', array(
 			'class'=>$config['submit_btn_class'],
 			'id'=>'widget-' . $widget->alias . '-form-submit'
 		))?>
@@ -49,7 +49,7 @@ $(function(){
 					'ajaxSubmit': true,
 					'afterAjaxSubmit': function(resp){
 						if(resp.status){
-							contact.toast('<?php echo \fay\helpers\Html::encode($config['submit_success'])?>', 'success');
+							contact.toast('<?php echo \fay\helpers\HtmlHelper::encode($config['submit_success'])?>', 'success');
 						}else{
 							contact.toast(resp.message, 'error');
 						}

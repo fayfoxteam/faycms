@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <tr valign="top" id="option-<?php echo $data['id']?>">
 	<td>
@@ -11,7 +11,7 @@ use fay\helpers\Html;
 			<?php }?>
 		</div>
 	</td>
-	<td><?php echo Html::encode($data['option_value'])?></td>
+	<td><?php echo HtmlHelper::encode($data['option_value'])?></td>
 	<td><?php 
 		if($data['is_system'] == 1){
 			echo '是';

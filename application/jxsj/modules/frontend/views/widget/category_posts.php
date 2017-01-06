@@ -1,13 +1,13 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
-<div class="box category-post" id="<?php echo Html::encode($widget->alias)?>">
+<div class="box category-post" id="<?php echo HtmlHelper::encode($widget->alias)?>">
 	<div class="box-title">
 		<h3><?php
-			echo Html::link('', array('cat/'.$widget->config['top']), array(
+			echo HtmlHelper::link('', array('cat/'.$widget->config['top']), array(
 				'class'=>'more-link',
 			));
-			echo Html::encode($widget->config['title']);
+			echo HtmlHelper::encode($widget->config['title']);
 		?></h3>
 	</div>
 	<div class="box-content">
@@ -20,7 +20,7 @@ use fay\helpers\Html;
 							if(!empty($p['post']['format_publish_time'])){
 								echo '<span class="time">'.$p['post']['format_publish_time'].'</span>';
 							}
-							echo Html::link($p['post']['title'], $p['post']['link']);
+							echo HtmlHelper::link($p['post']['title'], $p['post']['link']);
 						?></li>
 					<?php }?>
 					</ul>

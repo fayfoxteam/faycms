@@ -3,7 +3,7 @@ namespace fay\helpers;
 
 use fay\core\ErrorException;
 
-class Image{
+class ImageHelper{
 	/**
 	 * 获取图片资源
 	 * @param $filename

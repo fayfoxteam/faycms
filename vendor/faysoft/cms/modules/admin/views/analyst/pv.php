@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use cms\helpers\ListTableHelper;
 ?>
 <div class="row">
@@ -18,7 +18,7 @@ use cms\helpers\ListTableHelper;
 					'class'=>'form-control',
 				))?>
 				|
-				<?php echo F::form('search')->select('site', array(''=>'--所有站点--')+Html::getSelectOptions($sites, 'id', 'title'), array(
+				<?php echo F::form('search')->select('site', array(''=>'--所有站点--')+HtmlHelper::getSelectOptions($sites, 'id', 'title'), array(
 					'class'=>'form-control',
 				))?>
 			</div>

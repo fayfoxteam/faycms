@@ -1,15 +1,15 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 if(!empty($widget->config['title'])){
-	echo Html::tag('h3', array(), Html::encode($widget->config['title']));
+	echo HtmlHelper::tag('h3', array(), HtmlHelper::encode($widget->config['title']));
 }
 
 foreach($widget->config['data'] as $d){
-	echo Html::tag('p', array(
+	echo HtmlHelper::tag('p', array(
 		'prepend'=>array(
 			'tag'=>'label',
-			'text'=>Html::encode($d['key']),
+			'text'=>HtmlHelper::encode($d['key']),
 		)
-	), Html::encode($d['value']));
+	), HtmlHelper::encode($d['value']));
 }

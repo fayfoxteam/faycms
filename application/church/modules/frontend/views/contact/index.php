@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="contact-map">
 	<?php F::widget()->load('contact-map');?>
@@ -8,7 +8,7 @@ use fay\helpers\Html;
 	<div class="row">
 		<div class="col-md-12">
 			<div class="contact-page">
-				<h2><?php echo Html::encode($page['title'])?></h2>
+				<h2><?php echo HtmlHelper::encode($page['title'])?></h2>
 				<div class="content">
 					<?php echo $page['content']?>
 				</div>

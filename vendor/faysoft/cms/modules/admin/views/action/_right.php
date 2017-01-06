@@ -1,11 +1,11 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <?php echo F::form('search')->open(null, 'get', array(
 	'class'=>'form-inline',
 ))?>
 	<div class="mb5">
-		<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($cats, 'id', 'title'), array(
+		<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 			'class'=>'form-control',
 		))?>
 		<?php /**

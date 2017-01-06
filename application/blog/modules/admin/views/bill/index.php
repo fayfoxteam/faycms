@@ -1,12 +1,12 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use blog\models\tables\Bills;
 ?>
 <div class="col-2-3">
 	<div class="col-right">
 		<form method="get" class="validform" id="search-form">
 			<div class="mb5">
-				<?php echo F::form()->select('user_id', array(''=>'--成员--') + Html::getSelectOptions($users, 'id', 'realname'))?>
+				<?php echo F::form()->select('user_id', array(''=>'--成员--') + HtmlHelper::getSelectOptions($users, 'id', 'realname'))?>
 				|
 				<?php echo F::form()->select('type', array(
 					''=>'--收支--',
@@ -49,7 +49,7 @@ use blog\models\tables\Bills;
 		<form id="form" action="<?php echo $this->url('admin/bill/create')?>" method="post" class="validform">
 			<div class="form-field">
 				<label class="title">成员</label>
-				<?php echo F::form()->select('user_id', Html::getSelectOptions($users, 'id', 'realname'))?>
+				<?php echo F::form()->select('user_id', HtmlHelper::getSelectOptions($users, 'id', 'realname'))?>
 			</div>
 			<div class="form-field">
 				<label class="title">支出/收入</label>
@@ -62,7 +62,7 @@ use blog\models\tables\Bills;
 			</div>
 			<div class="form-field">
 				<label class="title">分类</label>
-				<?php echo F::form()->select('cat_id', Html::getSelectOptions($cats, 'id', 'title'), array(
+				<?php echo F::form()->select('cat_id', HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 					'id'=>'cat_id',
 				))?>
 			</div>

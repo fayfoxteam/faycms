@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,8 +13,8 @@ use fay\helpers\Html;
 			echo $title, ' | ';
 		}
 		echo OptionService::get('site:sitename')?></title>
-	<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
-	<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
+	<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
+	<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/animate/animate.min.css')?>" >
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" >

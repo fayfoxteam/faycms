@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\Categories;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Props;
 use fay\services\post\Prop;
 use fay\models\tables\Actionlogs;
@@ -39,7 +39,7 @@ class PostPropController extends AdminController{
 				'refer'=>$cat_id,
 			));
 		
-		$this->layout->subtitle = '文章分类属性 - 分类: '.Html::encode($cat['title']);
+		$this->layout->subtitle = '文章分类属性 - 分类: '.HtmlHelper::encode($cat['title']);
 		
 		$this->_setListview($cat_id);
 		$this->view->render();
@@ -99,7 +99,7 @@ class PostPropController extends AdminController{
 			'text'=>'添加文章分类属性',
 		);
 		$cat = Categories::model()->find($prop['refer'], 'title');
-		$this->layout->subtitle = '编辑文章分类属性 - '.Html::encode($cat['title']).' - '.Html::encode($prop['title']);
+		$this->layout->subtitle = '编辑文章分类属性 - '.HtmlHelper::encode($cat['title']).' - '.HtmlHelper::encode($prop['title']);
 		
 		$this->_setListview($prop['refer']);
 		$this->view->refer = $prop['refer'];

@@ -1,15 +1,15 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <form method="post" action="" id="form" class="validform">
 	<div class="row">
 		<div class="col-6">
 			<div class="form-field">
-				<?php echo Html::inputRadio('left[from]', 'local', true, array(
+				<?php echo HtmlHelper::inputRadio('left[from]', 'local', true, array(
 					'label'=>'本地数据库',
 					'class'=>'left-from',
 				))?>
-				<?php echo Html::inputRadio('left[from]', 'other', false, array(
+				<?php echo HtmlHelper::inputRadio('left[from]', 'other', false, array(
 					'label'=>'第三方数据库',
 					'class'=>'left-from',
 				))?>
@@ -59,11 +59,11 @@ use fay\helpers\Html;
 		</div>
 		<div class="col-6">
 			<div class="form-field">
-				<?php echo Html::inputRadio('right[from]', 'local', false, array(
+				<?php echo HtmlHelper::inputRadio('right[from]', 'local', false, array(
 					'label'=>'本地数据库',
 					'class'=>'right-from',
 				))?>
-				<?php echo Html::inputRadio('right[from]', 'other', true, array(
+				<?php echo HtmlHelper::inputRadio('right[from]', 'other', true, array(
 					'label'=>'第三方数据库',
 					'class'=>'right-from',
 				))?>

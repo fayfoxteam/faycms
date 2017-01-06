@@ -1,11 +1,11 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 ?>
 <li class="contact-item" id="contact-<?php echo $data['id']?>">
-	<h3><?php echo Html::encode($data['title'])?></h3>
+	<h3><?php echo HtmlHelper::encode($data['title'])?></h3>
 	<div class="ci-header"><?php
-		echo Html::tag('span', array(
+		echo HtmlHelper::tag('span', array(
 			'class'=>'ci-name',
 			'title'=>'Name',
 			'prepend'=>array(
@@ -13,10 +13,10 @@ use fay\helpers\Date;
 				'class'=>'fa fa-user',
 				'text'=>'',
 			),
-		), Html::encode($data['name']));
-		echo Html::tag('span', array(
+		), HtmlHelper::encode($data['name']));
+		echo HtmlHelper::tag('span', array(
 			'class'=>'ci-time',
-			'title'=>Date::format($data['publish_time']),
+			'title'=>DateHelper::format($data['publish_time']),
 			'prepend'=>array(
 				'tag'=>'i',
 				'class'=>'fa fa-calendar',
@@ -24,7 +24,7 @@ use fay\helpers\Date;
 			),
 		), date('d M Y', $data['publish_time']));
 		if($data['country']){
-			echo Html::tag('span', array(
+			echo HtmlHelper::tag('span', array(
 				'class'=>'ci-country',
 				'title'=>'Country',
 				'prepend'=>array(
@@ -32,9 +32,9 @@ use fay\helpers\Date;
 					'class'=>'fa fa-location-arrow',
 					'text'=>'',
 				),
-			), Html::encode($data['country']));
+			), HtmlHelper::encode($data['country']));
 		}
-		echo Html::tag('span', array(
+		echo HtmlHelper::tag('span', array(
 			'class'=>'ci-time',
 			'prepend'=>array(
 				'tag'=>'i',
@@ -43,12 +43,12 @@ use fay\helpers\Date;
 			),
 		), preg_replace('/(\d+)\.(\d+)\.(\d+)\.(\d+)/', '$1.$2.*.*', long2ip($data['show_ip_int'])));
 	?></div>
-	<div class="ci-content"><?php echo nl2br(Html::encode($data['content']))?></div>
+	<div class="ci-content"><?php echo nl2br(HtmlHelper::encode($data['content']))?></div>
 	<?php if($data['reply']){?>
 		<div class="ci-reply"><?php if($data['reply']){
-			echo Html::tag('strong', array(), 'Reply：'), Html::tag('span', array(
+			echo HtmlHelper::tag('strong', array(), 'Reply：'), HtmlHelper::tag('span', array(
 				'class'=>'ci-reply-container',
-			), nl2br(Html::encode($data['reply'])));
+			), nl2br(HtmlHelper::encode($data['reply'])));
 		}?></div>
 	<?php }?>
 </li>

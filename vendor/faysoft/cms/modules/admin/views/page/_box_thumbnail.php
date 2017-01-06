@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div class="box" id="box-thumbnail" data-name="thumbnail">
@@ -14,14 +14,14 @@ use fay\services\FileService;
 		<div id="thumbnail-preview-container"><?php 
 			echo F::form()->inputHidden('thumbnail', array(), 0);
 			if(!empty($page['thumbnail'])){
-				echo Html::link(Html::img($page['thumbnail'], FileService::PIC_RESIZE, array(
+				echo HtmlHelper::link(HtmlHelper::img($page['thumbnail'], FileService::PIC_RESIZE, array(
 					'dw'=>257,
 				)), FileService::getUrl($page['thumbnail']), array(
 					'encode'=>false,
 					'class'=>'fancybox-image block',
 					'title'=>false,
 				));
-				echo Html::link('移除缩略图', 'javascript:;', array(
+				echo HtmlHelper::link('移除缩略图', 'javascript:;', array(
 					'class'=>'remove-image-link'
 				));
 			}

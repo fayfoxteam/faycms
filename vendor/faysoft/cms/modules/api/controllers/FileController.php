@@ -4,8 +4,8 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\services\FileService;
 use fay\models\tables\Files;
-use fay\helpers\Image;
-use fay\helpers\SecurityCode;
+use fay\helpers\ImageHelper;
+use fay\helpers\SecurityCodeHelper;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
@@ -172,7 +172,7 @@ class FileController extends ApiController{
 		}
 		
 		if($file !== false){
-			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			
 			if($dw == 0){
 				$dw = $w;
@@ -180,9 +180,9 @@ class FileController extends ApiController{
 			if($dh == 0){
 				$dh = $h;
 			}
-			$img = Image::crop($img, $x, $y, $w, $h);
+			$img = ImageHelper::crop($img, $x, $y, $w, $h);
 			if($dw != $w || $dh != $h){
-				$img = Image::resize($img, $dw, $dh);
+				$img = ImageHelper::resize($img, $dw, $dh);
 			}
 			
 			//处理过的图片统一以jpg方式显示
@@ -192,9 +192,9 @@ class FileController extends ApiController{
 			//图片不存在，显示一张默认图片吧
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
-			$img = Image::getImage($spare);
+			$img = ImageHelper::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			$img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}
@@ -215,9 +215,9 @@ class FileController extends ApiController{
 				$dh = $file['image_height'];
 			}
 			
-			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			
-			$img = Image::resize($img, $dw, $dh);
+			$img = ImageHelper::resize($img, $dw, $dh);
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
@@ -225,9 +225,9 @@ class FileController extends ApiController{
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
-			$img = Image::getImage($spare);
+			$img = ImageHelper::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			$img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}
@@ -242,9 +242,9 @@ class FileController extends ApiController{
 			$dw || $dw = $file['image_width'];
 			$dh || $dh = $file['image_height'];
 			
-			$img = Image::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			
-			$img = Image::resize($img, $dw, $dh);
+			$img = ImageHelper::resize($img, $dw, $dh);
 			
 			//处理过的图片统一以jpg方式显示
 			header('Content-type: image/jpeg');
@@ -252,9 +252,9 @@ class FileController extends ApiController{
 		}else{
 			$spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
 			$spare || $spare = $this->config->get('default', 'noimage');
-			$img = Image::getImage($spare);
+			$img = ImageHelper::getImage($spare);
 			header('Content-type: image/jpeg');
-			$img = Image::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
+			$img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
 			imagejpeg($img);
 		}
 	}
@@ -266,7 +266,7 @@ class FileController extends ApiController{
 	 * @parameter int $h 验证码高度，默认40像素
 	 */
 	public function vcode(){
-		$sc = new SecurityCode($this->input->get('l', 'intval', 4), $this->input->get('w', 'intval', 110), $this->input->get('h', 'intval', 40));
+		$sc = new SecurityCodeHelper($this->input->get('l', 'intval', 4), $this->input->get('w', 'intval', 110), $this->input->get('h', 'intval', 40));
 		//$sc->ext_line = false;
 		$sc->create();
 		\F::session()->set('vcode', strtolower($sc->randnum));

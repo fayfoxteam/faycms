@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 ?>
@@ -17,7 +17,7 @@ use fay\services\user\UserRoleService;
 		</div>
 		<div class="form-field">
 			<label class="title bold">顶级分类</label>
-			<?php echo F::form('widget')->select('top', Html::getSelectOptions($cats), array(
+			<?php echo F::form('widget')->select('top', HtmlHelper::getSelectOptions($cats), array(
 				'class'=>'form-control mw400',
 			))?>
 			<p class="fc-grey">仅显示所选分类的子分类（不包含所选分类本身）</p>
@@ -39,24 +39,24 @@ use fay\services\user\UserRoleService;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'cat/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'cat/{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'cat/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'cat/{$id}', array(
 						'label'=>'cat/{$id}',
 					));
-					echo Html::inputRadio('uri', 'cat/{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat/{$alias}', array(
+					echo HtmlHelper::inputRadio('uri', 'cat/{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat/{$alias}', array(
 						'label'=>'cat/{$alias}',
 					));
-					echo Html::inputRadio('uri', 'cat-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'cat-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$id}', array(
 						'label'=>'cat-{$id}',
 					));
-					echo Html::inputRadio('uri', 'cat-{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$alias}', array(
+					echo HtmlHelper::inputRadio('uri', 'cat-{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$alias}', array(
 						'label'=>'cat-{$alias}',
 					));
-					echo Html::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
+					echo HtmlHelper::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
+					echo HtmlHelper::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
 					)) ? $widget->config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',

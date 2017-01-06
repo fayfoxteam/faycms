@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\services\Category;
 use fay\services\post\Prop;
 use fay\models\tables\Posts;
@@ -14,7 +14,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\Post;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 use fay\services\Option;
 use fay\services\Flash;
@@ -110,7 +110,7 @@ class PostController extends AdminController{
 			
 			$extra = array(
 				'extra'=>array(
-					'ip_int'=>Request::ip2int($this->ip),
+					'ip_int'=>RequestHelper::ip2int($this->ip),
 				)
 			);
 			
@@ -578,7 +578,7 @@ class PostController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_POST, '将文章移入回收站', $post_id);
 		
 		Response::notify('success', array(
-			'message'=>'一篇文章被移入回收站 - '.Html::link('撤销', array('admin/post/undelete', array(
+			'message'=>'一篇文章被移入回收站 - '.HtmlHelper::link('撤销', array('admin/post/undelete', array(
 				'id'=>$post_id,
 			))),
 			'id'=>$post_id,

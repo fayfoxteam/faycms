@@ -16,7 +16,7 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 				<span class="time"><?php echo date('F j, Y', $post['post']['publish_time'])?></span>
 				<span class="dot"> · </span>
 				<?php foreach($post['tags'] as $tag){?>
-					<a href="<?php echo $this->url('tag/'.urlencode($tag['tag']['title']))?>" class="tag"><?php echo \fay\helpers\Html::encode($tag['tag']['title'])?></a>
+					<a href="<?php echo $this->url('tag/'.urlencode($tag['tag']['title']))?>" class="tag"><?php echo \fay\helpers\HtmlHelper::encode($tag['tag']['title'])?></a>
 				<?php }?>
 			</div>
 		</div>
@@ -46,7 +46,7 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 					Previous
 				</a>
 				<a href="<?php echo $this->url('post/'.$post['nav']['prev']['id'])?>" class="post-title">
-					<?php echo \fay\helpers\Html::encode($post['nav']['prev']['title'])?>
+					<?php echo \fay\helpers\HtmlHelper::encode($post['nav']['prev']['title'])?>
 				</a>
 				<?php }?>
 			</div>
@@ -57,7 +57,7 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 					<i class="fa fa-angle-right"></i>
 				</a>
 				<a href="<?php echo $this->url('post/'.$post['nav']['next']['id'])?>" class="post-title">
-					<?php echo \fay\helpers\Html::encode($post['nav']['next']['title'])?>
+					<?php echo \fay\helpers\HtmlHelper::encode($post['nav']['next']['title'])?>
 				</a>
 				<?php }?>
 			</div>

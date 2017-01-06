@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <aside class="widget recent-post">
 	<div class="widget-title">相关文章</div>
@@ -8,7 +8,7 @@ use fay\helpers\Html;
 		foreach($posts as $p){?>
 		<li>
 			<a href="<?php echo $this->url('post/'.$p['id'])?>">
-				<?php echo Html::encode($p['title'])?>
+				<?php echo HtmlHelper::encode($p['title'])?>
 			</a>
 		</li>
 	<?php }?>

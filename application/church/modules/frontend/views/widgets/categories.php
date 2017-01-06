@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget
@@ -7,11 +7,11 @@ use fay\helpers\Html;
  */
 ?>
 <div class="widget widget-categories">
-	<h5 class="widget-title"><?php echo Html::encode($widget->config['title'])?></h5>
+	<h5 class="widget-title"><?php echo HtmlHelper::encode($widget->config['title'])?></h5>
 	<ul>
 	<?php foreach($cats as $c){?>
 		<li>
-			<?php echo Html::link($c['title'], $c['link'])?>
+			<?php echo HtmlHelper::link($c['title'], $c['link'])?>
 			<span>(<?php echo $c['count']?>)</span>
 		</li>
 	<?php }?>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 function renderCats($cats, $uri, $dep = 0){
 	$html = '<ul';
@@ -7,7 +7,7 @@ function renderCats($cats, $uri, $dep = 0){
 	$html .= '>';
 	foreach($cats as $c){
 		$html .= '<li class="cat-item">';
-		$html .= Html::link($c['title'], array(str_replace(array(
+		$html .= HtmlHelper::link($c['title'], array(str_replace(array(
 			'{$id}', '{$alias}',
 		), array(
 			$c['id'], $c['alias'],
@@ -21,7 +21,7 @@ function renderCats($cats, $uri, $dep = 0){
 	return $html;
 }
 ?>
-<aside class="widget widget-categories" id="widget-<?php echo Html::encode($alias)?>">
+<aside class="widget widget-categories" id="widget-<?php echo HtmlHelper::encode($alias)?>">
 	<h2>分类目录</h2>
 	<?php echo renderCats($cats, $data['uri'])?>
 </aside>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 use fay\helpers\ArrayHelper;
 use fay\services\user\UserRoleService;
 use fay\services\UserService;
@@ -24,7 +24,7 @@ use fay\services\UserService;
 			<tr>
 				<th>上次登陆时间</th>
 				<td><?php if($last_login){
-					echo Date::format($last_login['login_time']);
+					echo DateHelper::format($last_login['login_time']);
 				}?></td>
 			</tr>
 			<tr>

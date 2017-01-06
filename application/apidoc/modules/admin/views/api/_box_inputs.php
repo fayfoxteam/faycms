@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use apidoc\models\tables\Inputs;
 
 $type_map = Inputs::getTypes();
@@ -11,7 +11,7 @@ $type_map = Inputs::getTypes();
 	</div>
 	<div class="box-content">
 		<div>
-			<?php echo Html::link('添加请求参数', '#add-input-parameter-dialog', array(
+			<?php echo HtmlHelper::link('添加请求参数', '#add-input-parameter-dialog', array(
 				'class'=>'btn ',
 				'id'=>'add-input-parameter-link',
 				'title'=>false,
@@ -32,39 +32,39 @@ $type_map = Inputs::getTypes();
 				<tr valign="top" id="old-<?php echo $i['id']?>">
 					<td>
 						<?php
-							echo Html::inputHidden("inputs[{$i['id']}][name]", $i['name'], array(
+							echo HtmlHelper::inputHidden("inputs[{$i['id']}][name]", $i['name'], array(
 								'class'=>'input-name',
 							));
-							echo Html::inputHidden("inputs[{$i['id']}][type]", $i['type'], array(
+							echo HtmlHelper::inputHidden("inputs[{$i['id']}][type]", $i['type'], array(
 								'class'=>'input-type',
 							));
-							echo Html::inputHidden("inputs[{$i['id']}][required]", $i['required'], array(
+							echo HtmlHelper::inputHidden("inputs[{$i['id']}][required]", $i['required'], array(
 								'class'=>'input-required',
 							));
-							echo Html::inputHidden("inputs[{$i['id']}][description]", $i['description'], array(
+							echo HtmlHelper::inputHidden("inputs[{$i['id']}][description]", $i['description'], array(
 								'class'=>'input-description',
 							));
-							echo Html::inputHidden("inputs[{$i['id']}][sample]", $i['sample'], array(
+							echo HtmlHelper::inputHidden("inputs[{$i['id']}][sample]", $i['sample'], array(
 								'class'=>'input-sample',
 							));
-							echo Html::inputHidden("inputs[{$i['id']}][since]", $i['since'], array(
+							echo HtmlHelper::inputHidden("inputs[{$i['id']}][since]", $i['since'], array(
 								'class'=>'input-since',
 							));
 						?>
-						<strong><?php echo Html::encode($i['name'])?></strong>
+						<strong><?php echo HtmlHelper::encode($i['name'])?></strong>
 						<div class="row-actions"><?php
-							echo Html::link('编辑', '#edit-input-parameter-dialog', array(
+							echo HtmlHelper::link('编辑', '#edit-input-parameter-dialog', array(
 								'class'=>'edit-input-parameter-link',
 							));
-							echo Html::link('删除', 'javascript:;', array(
+							echo HtmlHelper::link('删除', 'javascript:;', array(
 								'class'=>'fc-red remove-input-parameter-link',
 							));
 						?></div>
 					</td>
 					<td><?php echo $type_map[$i['type']]?></td>
 					<td><?php echo $i['required'] ? '<span class="fc-green">是</span>' : '否'?></td>
-					<td><?php echo Html::encode($i['since'])?></td>
-					<td><?php echo Html::encode($i['description'])?></td>
+					<td><?php echo HtmlHelper::encode($i['since'])?></td>
+					<td><?php echo HtmlHelper::encode($i['description'])?></td>
 				</tr>
 			<?php }?>
 			<?php }?></tbody>

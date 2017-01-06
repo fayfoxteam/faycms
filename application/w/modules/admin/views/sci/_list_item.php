@@ -1,11 +1,11 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <tr>
     <td><?php echo $data['id']?></td>
     <td>
         <?php
-        echo Html::link($data['name'], array('admin/sci/item', array(
+        echo HtmlHelper::link($data['name'], array('admin/sci/item', array(
         'id'=> $data['id'],
         )));
         ?>

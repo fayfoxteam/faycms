@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div id="index-small-slide">
@@ -10,7 +10,7 @@ use fay\services\FileService;
 	<div class="small-img-list">
 		<ul>
 		<?php foreach($files as $k=>$f){
-			echo Html::link(Html::img($f['file_id'], FileService::PIC_RESIZE, array(
+			echo HtmlHelper::link(HtmlHelper::img($f['file_id'], FileService::PIC_RESIZE, array(
 				'dw'=>76,
 				'dh'=>58,
 				'class'=>$k ? 'ml6' : false,

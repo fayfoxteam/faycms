@@ -1,9 +1,9 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <aside class="col-md-5 col-sm-6">
-	<h4><?php echo Html::encode($page['title'])?></h4>
+	<h4><?php echo HtmlHelper::encode($page['title'])?></h4>
 	<div>
-		<p><?php echo Html::encode($page['abstract'])?></p>
+		<p><?php echo HtmlHelper::encode($page['abstract'])?></p>
 	</div>
 </aside>

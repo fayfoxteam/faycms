@@ -1,6 +1,6 @@
 <?php
 use fay\services\MenuService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <?php $menu = MenuService::service()->getTree('_fruit_top');?>
 <header class="g-top">
@@ -14,11 +14,11 @@ use fay\helpers\Html;
 			<nav class="top-nav">
 				<ul>
 					<?php $first_menu = array_shift($menu)?>
-					<li <?php if(empty($current_header_menu) || $current_header_menu == 'home')echo 'class="crt"'?>><?php echo Html::link($first_menu['title'], $first_menu['link'], array(
+					<li <?php if(empty($current_header_menu) || $current_header_menu == 'home')echo 'class="crt"'?>><?php echo HtmlHelper::link($first_menu['title'], $first_menu['link'], array(
 						'encode'=>false,
 					))?></li>
 					<?php foreach($menu as $m){?>
-						<li <?php if(isset($current_header_menu) && $current_header_menu == $m['alias'])echo 'class="crt"'?>><?php echo Html::link($m['title'], $m['link'], array(
+						<li <?php if(isset($current_header_menu) && $current_header_menu == $m['alias'])echo 'class="crt"'?>><?php echo HtmlHelper::link($m['title'], $m['link'], array(
 							'encode'=>false,
 							'target'=>$m['target'] ? $m['target'] : false,
 						))?></li>

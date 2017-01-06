@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-class Dumper{
+class DumperHelper{
 	private static $_output;
     private static $_depth;
 
@@ -105,7 +105,7 @@ class Dumper{
 	 */
 	public static function pr($var, $encode = false, $return = false){
 		if($encode){
-			$var = \F::input()->filterR('fay\helpers\Html::encode', $var);
+			$var = \F::input()->filterR('fay\helpers\HtmlHelper::encode', $var);
 		}
 		if($return){
 			return '<pre>'.print_r($var, true).'</pre>';

@@ -1,19 +1,19 @@
 <?php
 use fay\services\FileService;
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 use fay\services\QiniuService;
 use fay\services\CategoryService;
 
 $full_file_path = FileService::getUrl($data);
 ?>
 <tr valign="top" id="file-<?php echo $data['id']?>" data-qiniu="<?php echo $data['qiniu']?>">
-	<td><?php echo Html::inputCheckbox('ids[]', $data['id'], false, array(
+	<td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(
 		'class'=>'batch-ids',
 	));?></td>
 	<td class="align-center">
 	<?php if($data['is_image']){?>
-		<?php echo Html::link(Html::img($data['id'], FileService::PIC_THUMBNAIL, array(
+		<?php echo HtmlHelper::link(HtmlHelper::img($data['id'], FileService::PIC_THUMBNAIL, array(
 			'width'=>60,
 			'height'=>60,
 		)), $full_file_path, array(
@@ -27,25 +27,25 @@ $full_file_path = FileService::getUrl($data);
 	</td>
 	<td>
 		<strong>
-			<?php echo Html::link($data['client_name'], $full_file_path, array(
+			<?php echo HtmlHelper::link($data['client_name'], $full_file_path, array(
 				'class'=>'row-title fancybox-image',
 			))?>
 		</strong>
 		<div class="row-actions">
 		<?php
 			if($data['is_image'] == 1){
-				echo Html::link('查看', $full_file_path, array(
+				echo HtmlHelper::link('查看', $full_file_path, array(
 					'class'=>'file-image',
 					'target'=>'_blank',
 				));
 			}
-			echo Html::link('物理删除', array('admin/file/remove', array(
+			echo HtmlHelper::link('物理删除', array('admin/file/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'delete-file fc-red',
 				'data-id'=>$data['id'],
 			));
-			echo Html::link('下载', array('admin/file/download', array(
+			echo HtmlHelper::link('下载', array('admin/file/download', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'download-file',
@@ -58,11 +58,11 @@ $full_file_path = FileService::getUrl($data);
 		<div class="qiniu-status qiniu-uploaded <?php if(!$data['qiniu']){echo 'hide';}?>">
 			<span class="fc-green">已上传</span>
 			<div class="row-actions"><?php
-				echo Html::link('查看', QiniuService::service()->getUrl($data), array(
+				echo HtmlHelper::link('查看', QiniuService::service()->getUrl($data), array(
 					'target'=>'_blank',
 					'class'=>'show-qiniu-file',
 				));
-				echo Html::link('删除', array('admin/qiniu/delete', array(
+				echo HtmlHelper::link('删除', array('admin/qiniu/delete', array(
 					'id'=>$data['id'],
 				)), array(
 					'data-id'=>$data['id'],
@@ -74,7 +74,7 @@ $full_file_path = FileService::getUrl($data);
 		<div class="qiniu-status qiniu-not-upload <?php if($data['qiniu']){echo 'hide';}?>">
 			<span class="fc-orange">未上传</span>
 			<div class="row-actions"><?php
-				echo Html::link('上传', array('admin/qiniu/put', array(
+				echo HtmlHelper::link('上传', array('admin/qiniu/put', array(
 					'id'=>$data['id'],
 				)), array(
 					'data-id'=>$data['id'],
@@ -111,11 +111,11 @@ $full_file_path = FileService::getUrl($data);
 	<td><?php echo $data['downloads']?></td>
 	<?php }?>
 	<?php if(in_array('upload_time', $cols)){?>
-	<td><abbr class="time" title="<?php echo Date::format($data['upload_time'])?>">
+	<td><abbr class="time" title="<?php echo DateHelper::format($data['upload_time'])?>">
 		<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
-			echo Date::niceShort($data['upload_time']);
+			echo DateHelper::niceShort($data['upload_time']);
 		}else{
-			echo Date::format($data['upload_time']);
+			echo DateHelper::format($data['upload_time']);
 		}?>
 	</abbr></td>
 	<?php }?>

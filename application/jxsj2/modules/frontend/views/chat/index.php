@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div id="banner">
 	<?php \F::widget()->load('index-slides')?>
@@ -26,7 +26,7 @@ use fay\helpers\Html;
 						<section class="clearfix create-message-container">
 							<h2>我要留言</h2>
 							<form id="create-message-form" action="<?php echo $this->url('chat/create')?>" method="post">
-								<?php echo Html::inputHidden('parent', 0)?>
+								<?php echo HtmlHelper::inputHidden('parent', 0)?>
 								<textarea name="content"></textarea>
 								<label>您的姓名</label><input type="text" name="realname" />
 								<input type="submit" value="发表评论" />

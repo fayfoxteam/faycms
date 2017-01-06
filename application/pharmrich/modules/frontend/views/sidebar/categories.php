@@ -1,7 +1,7 @@
 <?php
 namespace pharmrich\modules\frontend\views\sidebar;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget
@@ -15,7 +15,7 @@ if(!function_exists('pharmrich\modules\frontend\views\sidebar\renderCats')){
 		$html .= '>';
 		foreach($cats as $c){
 			$html .= '<li class="cat-item">';
-			$html .= Html::link($c['title'], $c['link']);
+			$html .= HtmlHelper::link($c['title'], $c['link']);
 			if(!empty($c['children'])){
 				$html .= renderCats($c['children'], ++$dep);
 			}

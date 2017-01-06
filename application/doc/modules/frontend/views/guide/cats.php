@@ -1,6 +1,6 @@
 <?php
 use fay\services\PostService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 foreach($posts as $p){
 	$this->renderPartial('_panel', array(
@@ -17,7 +17,7 @@ foreach($posts as $p){
 	</div>
 	<div class="panel-body">
 		<ul><?php foreach($cats as $c){
-			echo Html::link($c['title'].($c['description'] ? "（{$c['description']}）" : ''), array($c['alias']), array(
+			echo HtmlHelper::link($c['title'].($c['description'] ? "（{$c['description']}）" : ''), array($c['alias']), array(
 				'wrapper'=>'li',
 			));
 		}?></ul>

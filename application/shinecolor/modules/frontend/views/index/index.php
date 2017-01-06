@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\PostService;
 ?>
 <div id="index-slide">
@@ -50,7 +50,7 @@ use fay\services\PostService;
 				<li class="disc">
 					<a href="<?php echo $this->url('news/'.$n['id']);?>">
 						<time class="fr"><?php echo date('Y-m-d', $n['publish_time'])?></time>
-						<span><?php echo Html::encode($n['title'])?></span>
+						<span><?php echo HtmlHelper::encode($n['title'])?></span>
 					</a>
 				</li>
 			<?php }?>
@@ -70,13 +70,13 @@ use fay\services\PostService;
 					<ul>
 					<?php foreach($left_products as $p){?>
 						<li>
-							<?php echo Html::link(Html::img($p['thumbnail'], 4, array(
+							<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], 4, array(
 								'dw'=>243,
 								'dh'=>185,
-								'alt'=>Html::encode($p['title']),
+								'alt'=>HtmlHelper::encode($p['title']),
 							)), array('product/'.$p['id']), array(
 								'encode'=>false,
-								'title'=>Html::encode($p['title']),
+								'title'=>HtmlHelper::encode($p['title']),
 							))?>
 						</li>
 					<?php }?>
@@ -87,13 +87,13 @@ use fay\services\PostService;
 					<ul>
 					<?php foreach($right_products as $p){?>
 						<li>
-							<?php echo Html::link(Html::img($p['thumbnail'], 4, array(
+							<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], 4, array(
 								'dw'=>243,
 								'dh'=>185,
-								'alt'=>Html::encode($p['title']),
+								'alt'=>HtmlHelper::encode($p['title']),
 							)), array('product/'.$p['id']), array(
 								'encode'=>false,
-								'title'=>Html::encode($p['title']),
+								'title'=>HtmlHelper::encode($p['title']),
 							))?>
 						</li>
 					<?php }?>

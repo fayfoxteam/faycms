@@ -7,7 +7,7 @@ use fay\services\FileService;
  * 构造html元素
  * 该类不会对标签属性做任何转义处理
  */
-class Html{
+class HtmlHelper{
 	/**
 	 * 对字符串进行html实体转换（双引号和单引号都会被转换）
 	 * @param string $input
@@ -204,12 +204,12 @@ class Html{
 					$pre = '';
 				}
 				if($i == $data_length && empty($d['children'])){
-					$return[$d[$key]] = $pre.'└'.Html::encode($d[$value]);
+					$return[$d[$key]] = $pre.'└'.HtmlHelper::encode($d[$value]);
 				}else{
-					$return[$d[$key]] = $pre.'├'.Html::encode($d[$value]);
+					$return[$d[$key]] = $pre.'├'.HtmlHelper::encode($d[$value]);
 				}
 			}else{
-				$return[$d[$key]] = Html::encode($d[$value]);
+				$return[$d[$key]] = HtmlHelper::encode($d[$value]);
 			}
 			if(!empty($d['children'])){
 				$return = $return + self::getSelectOptions($d['children'], $key, $value, $dep + 1);
@@ -264,7 +264,7 @@ class Html{
 	
 	/**
 	 * 构造一个超链接
-	 * @param string $text 链接描述。默认会对其做Html::encode处理，若不编码，则在html_options中设置encode为false
+	 * @param string $text 链接描述。默认会对其做HtmlHelper::encode处理，若不编码，则在html_options中设置encode为false
 	 * @param string|array $uri 链接地址
 	 *     若为数组，第0项为路由（router），第1项为参数（可为空），第2项为是否重写（默认为重写）
 	 *     若为字符串，则直接作为href属性

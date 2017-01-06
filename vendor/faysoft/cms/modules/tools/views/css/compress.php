@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<?php echo F::form()->open()?>
@@ -17,7 +17,7 @@ use fay\helpers\Html;
 	<div class="col-6">
 		<div class="box">
 			<div class="box-title"><h3>before</h3></div>
-			<div class="box-content"><?php echo Html::textarea('after', $after_compress, array(
+			<div class="box-content"><?php echo HtmlHelper::textarea('after', $after_compress, array(
 				'class'=>'form-control h350',
 			))?></div>
 		</div>

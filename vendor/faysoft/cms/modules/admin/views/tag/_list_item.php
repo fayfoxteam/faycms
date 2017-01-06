@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $data array
@@ -7,15 +7,15 @@ use fay\helpers\Html;
 ?>
 <tr valign="top" id="tag-<?php echo $data['id']?>">
 	<td>
-		<strong><?php echo Html::encode($data['title'])?></strong>
+		<strong><?php echo HtmlHelper::encode($data['title'])?></strong>
 		<div class="row-actions"><?php
-			echo Html::link('查看文章', array('admin/post/index', array(
+			echo HtmlHelper::link('查看文章', array('admin/post/index', array(
 				'tag_id'=>$data['id'],
 			)));
-			echo Html::link('编辑', array('admin/tag/edit', array(
+			echo HtmlHelper::link('编辑', array('admin/tag/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo Html::link('永久删除', array('admin/tag/remove', array(
+			echo HtmlHelper::link('永久删除', array('admin/tag/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'fc-red remove-link',
@@ -25,7 +25,7 @@ use fay\helpers\Html;
 	</td>
 	<td><?php echo $data['posts']?></td>
 	<td><?php echo $data['feeds']?></td>
-	<td><?php echo Html::inputText("sort[{$data['id']}]", $data['sort'], array(
+	<td><?php echo HtmlHelper::inputText("sort[{$data['id']}]", $data['sort'], array(
 		'size'=>3,
 		'maxlength'=>3,
 		'data-id'=>$data['id'],

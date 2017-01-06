@@ -1,6 +1,6 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,8 +15,8 @@ use fay\helpers\Html;
 	echo $title, '_';
 }
 echo OptionService::get('site:sitename')?></title>
-<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
-<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
+<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
+<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.camera.css')?>" >
 <?php echo $this->getCss()?>
@@ -44,17 +44,17 @@ echo '.g-footer{background-image:url('.$footer_image['src'].')}';
 			<nav class="top-nav fr">
 				<ul>
 					<li><?php
-						echo Html::link('官方店铺', OptionService::get('site:weibo'), array(
+						echo HtmlHelper::link('官方店铺', OptionService::get('site:weibo'), array(
 							'target'=>'_blank',
 						));
 					?></li>
 					<li><?php
-						echo Html::link('在线咨询', 'http://wpa.qq.com/msgrd?v=3&uin='.OptionService::get('site:qq').'&site=qq&menu=yes', array(
+						echo HtmlHelper::link('在线咨询', 'http://wpa.qq.com/msgrd?v=3&uin='.OptionService::get('site:qq').'&site=qq&menu=yes', array(
 							'target'=>'_blank',
 						));
 					?></li>
 					<li><?php
-						echo Html::link('联系我们', array('contact'));
+						echo HtmlHelper::link('联系我们', array('contact'));
 					?></li>
 					<li class="phone-container"><span class="phone-number" style="display:none"><?php echo OptionService::get('site:phone')?></span><span class="phone"></span></li>
 				</ul>
@@ -67,11 +67,11 @@ echo '.g-footer{background-image:url('.$footer_image['src'].')}';
 	<div class="g-search mb30">
 		<h4>搜索 SEARCH</h4>
 		<form id="search-form" action="<?php echo $this->url('search')?>"><?php
-			echo Html::inputText('keywords', F::input()->get('keywords', 'trim'), array(
+			echo HtmlHelper::inputText('keywords', F::input()->get('keywords', 'trim'), array(
 				'placeholder'=>'输入关键词',
 				'id'=>'keywords',
 			));
-			echo Html::link('', 'javascript:;', array(
+			echo HtmlHelper::link('', 'javascript:;', array(
 				'id'=>'search-form-submit',
 			));
 		?></form>
@@ -79,15 +79,15 @@ echo '.g-footer{background-image:url('.$footer_image['src'].')}';
 	<nav class="g-nav mb30">
 		<div class="container">
 			<ul class="cf"><?php
-				echo Html::link('网站首页', array(), array(
+				echo HtmlHelper::link('网站首页', array(), array(
 					'wrapper'=>'li',
 				));
-				echo Html::link('关于我们', array('about'), array(
+				echo HtmlHelper::link('关于我们', array('about'), array(
 					'wrapper'=>'li',
 				));
 				foreach($cats as $c){
 					if(!$c['is_nav'])continue;
-					echo Html::link($c['title'], array($c['alias'] ? $c['alias'] : $c['id']), array(
+					echo HtmlHelper::link($c['title'], array($c['alias'] ? $c['alias'] : $c['id']), array(
 						'wrapper'=>'li',
 					));
 				}
@@ -97,11 +97,11 @@ echo '.g-footer{background-image:url('.$footer_image['src'].')}';
 	<?php echo $content?>
 	<footer class="g-footer">
 	<?php
-		echo Html::link('在线留言', 'http://wpa.qq.com/msgrd?v=3&uin='.OptionService::get('site:qq').'&site=qq&menu=yes', array(
+		echo HtmlHelper::link('在线留言', 'http://wpa.qq.com/msgrd?v=3&uin='.OptionService::get('site:qq').'&site=qq&menu=yes', array(
 			'target'=>'_blank',
 			'class'=>'message-link',
 		));
-		echo Html::link('联系我们', array('contact'), array(
+		echo HtmlHelper::link('联系我们', array('contact'), array(
 			'class'=>'contact-link',
 		));
 	?>

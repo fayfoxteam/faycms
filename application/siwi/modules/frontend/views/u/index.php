@@ -1,8 +1,8 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\helpers\StringHelper;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 ?>
 <div class="clearfix col2">
 	<div class="g-mnc">
@@ -10,24 +10,24 @@ use fay\helpers\Date;
 			<h2>作品</h2>
 			<?php foreach($works as $k => $p){?>
 			<article class="<?php if(++$k % 3 == 0)echo 'last'?>">
-				<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+				<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 					'dw'=>283,
 					'dh'=>217,
-					'alt'=>Html::encode($p['title']),
-					'title'=>Html::encode($p['title']),
+					'alt'=>HtmlHelper::encode($p['title']),
+					'title'=>HtmlHelper::encode($p['title']),
 				)), array('material/'.$p['id']) ,array(
 					'encode'=>false,
-					'title'=>Html::encode($p['title']),
+					'title'=>HtmlHelper::encode($p['title']),
 				));?>
 				<div class="meta">
-					<h3><?php echo Html::link($p['title'], array('material/'.$p['id']), array(
-						'title'=>Html::encode($p['title']),
+					<h3><?php echo HtmlHelper::link($p['title'], array('material/'.$p['id']), array(
+						'title'=>HtmlHelper::encode($p['title']),
 						'encode'=>false,
 					))?></h3>
 					<p class="cat">
-						<?php echo Html::link($p['parent_cat_title'], array('material/cat-'.$p['parent_cat_id']))?>
+						<?php echo HtmlHelper::link($p['parent_cat_title'], array('material/cat-'.$p['parent_cat_id']))?>
 						-
-						<?php echo Html::link($p['cat_title'], array('material/cat-'.$p['cat_id']))?>
+						<?php echo HtmlHelper::link($p['cat_title'], array('material/cat-'.$p['cat_id']))?>
 					</p>
 				</div>
 			</article>
@@ -39,41 +39,41 @@ use fay\helpers\Date;
 			<article class="clearfix">
 				<div class="thumbnail"><?php 
 					if($p['thumbnail']){
-						echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+						echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 							'dw'=>300,
 							'dh'=>230,
-							'alt'=>Html::encode($p['title']),
-							'title'=>Html::encode($p['title']),
+							'alt'=>HtmlHelper::encode($p['title']),
+							'title'=>HtmlHelper::encode($p['title']),
 						)), array('blog/'.$p['id']) ,array(
 							'encode'=>false,
-							'title'=>Html::encode($p['title']),
+							'title'=>HtmlHelper::encode($p['title']),
 						));
 					}else{
-						echo Html::link("<img src='{$this->url()}images/no-image.jpg' width='300' height='230' />", array('blog/'.$p['id']) ,array(
+						echo HtmlHelper::link("<img src='{$this->url()}images/no-image.jpg' width='300' height='230' />", array('blog/'.$p['id']) ,array(
 							'encode'=>false,
-							'title'=>Html::encode($p['title']),
+							'title'=>HtmlHelper::encode($p['title']),
 						));
 					}
 				?></div>
 				<div class="con">
 					<header>
-						<h3><?php echo Html::link(StringHelper::niceShort($p['title'], 38, true), array('blog/'.$p['id']), array(
-							'title'=>Html::encode($p['title']),
+						<h3><?php echo HtmlHelper::link(StringHelper::niceShort($p['title'], 38, true), array('blog/'.$p['id']), array(
+							'title'=>HtmlHelper::encode($p['title']),
 							'encode'=>false,
 						))?></h3>
 						<div class="meta">
 							<span class="author">
 								作者：
-								<?php echo Html::link($p['nickname'], array('u/'.$p['user_id']))?>
+								<?php echo HtmlHelper::link($p['nickname'], array('u/'.$p['user_id']))?>
 							</span>
 							|
-							<span class="date"><?php echo Date::niceShort($p['publish_time'])?></span>
+							<span class="date"><?php echo DateHelper::niceShort($p['publish_time'])?></span>
 							|
 							<span class="comment"><?php echo $p['comments']?> 评论</span>
 						</div>
 					</header>
-					<div class="abstract"><?php echo Html::encode($p['abstract'])?></div>
-					<?php echo Html::link('阅读全文', array('blog/'.$p['id']), array(
+					<div class="abstract"><?php echo HtmlHelper::encode($p['abstract'])?></div>
+					<?php echo HtmlHelper::link('阅读全文', array('blog/'.$p['id']), array(
 						'class'=>'fr btn-blue more-link',
 					))?>
 				</div>
@@ -90,8 +90,8 @@ use fay\helpers\Date;
 		<section class="clearfix create-message-container">
 			<h2>我要留言</h2>
 			<form id="create-message-form">
-				<?php echo Html::inputHidden('target', $this->user_id)?>
-				<?php echo Html::inputHidden('parent', 0)?>
+				<?php echo HtmlHelper::inputHidden('target', $this->user_id)?>
+				<?php echo HtmlHelper::inputHidden('parent', 0)?>
 				<textarea name="content"></textarea>
 				<a href="javascript:;" class="btn-red check-login fr" id="create-message-form-submit">发表评论</a>
 			</form>

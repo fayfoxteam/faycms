@@ -1,11 +1,11 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div id="login-panel">
 	<?php if(empty($error)){?>
 		<h1>登录平台账号</h1>
 	<?php }else{?>
-		<div id="error-msg" class="notification error"><?php echo Html::encode($error)?></div>
+		<div id="error-msg" class="notification error"><?php echo HtmlHelper::encode($error)?></div>
 	<?php }?>
 	<form method="post" id="login-form" class="validform">
 		<div id="login-form-container">

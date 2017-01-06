@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 
 $cats = CategoryService::service()->getTree('__root__');
@@ -9,7 +9,7 @@ $cats = CategoryService::service()->getTree('__root__');
 		<form action="<?php echo $this->url('search/index')?>">
 			<span><?php echo date('Y年m月d日')?></span>
 			<span class="sep">|</span>
-			<span><?php echo Html::inputText('q', F::app()->input->get('q', 'trim'), array(
+			<span><?php echo HtmlHelper::inputText('q', F::app()->input->get('q', 'trim'), array(
 				'placeholder'=>'请输入关键词',
 			))?></span>
 			<input type="submit" value="搜索" style="width:50px;height:20px;">
@@ -17,12 +17,12 @@ $cats = CategoryService::service()->getTree('__root__');
 	</div>
 	<nav class="g-nav">
 		<ul><?php
-			echo Html::link('网站首页', array(), array(
+			echo HtmlHelper::link('网站首页', array(), array(
 				'wrapper'=>'li',
 			));
 			foreach($cats as $c){
 				if(!$c['is_nav']) continue;
-				echo Html::link($c['title'], array('cat/'.$c['id']), array(
+				echo HtmlHelper::link($c['title'], array('cat/'.$c['id']), array(
 					'wrapper'=>'li',
 				));
 			}

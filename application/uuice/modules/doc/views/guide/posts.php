@@ -1,13 +1,13 @@
 <?php
 use fay\services\PostService;
 use doc\helpers\CodeFile;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 if(count($posts) > 2){
 	$panel_body = '';
 	foreach($posts as $p){
 		if(!$p['title'])continue;//标题为空的话列出来不好看
-		$panel_body .= Html::link($p['title'], '#part-'.$p['id'], array(
+		$panel_body .= HtmlHelper::link($p['title'], '#part-'.$p['id'], array(
 			'wrapper'=>'li',
 		));
 	}

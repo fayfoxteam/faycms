@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Pages;
 use cms\models\Page;
 use cms\helpers\ListTableHelper;
@@ -22,7 +22,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'class'=>'form-control w200',
 				));?>
 				|
-				<?php echo F::form('search')->select('cat_id', array(''=>'--分类--') + Html::getSelectOptions($cats, 'id', 'title'), array(
+				<?php echo F::form('search')->select('cat_id', array(''=>'--分类--') + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 					'class'=>'form-control'
 				))?>
 			</div>

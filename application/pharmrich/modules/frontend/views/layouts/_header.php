@@ -1,5 +1,5 @@
 <?php 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\MenuService;
 use fay\services\OptionService;
 use fay\core\Uri;
@@ -16,7 +16,7 @@ use fay\core\Uri;
 			<ul><?php
 				$top_nav = MenuService::service()->getTree('_top_nav');
 				foreach($top_nav as $nav){
-					echo Html::link($nav['title'], $nav['link'], array(
+					echo HtmlHelper::link($nav['title'], $nav['link'], array(
 						'target'=>$nav['target'],
 						'wrapper'=>'li',
 						'title'=>false,
@@ -37,11 +37,11 @@ use fay\core\Uri;
 <div class="g-search cf">
 	<h4>SEARCH</h4>
 	<form id="search-form" action="<?php echo $this->url('search')?>" method="get"><?php
-		echo Html::inputText('keywords', F::input()->get('keywords', 'trim'), array(
+		echo HtmlHelper::inputText('keywords', F::input()->get('keywords', 'trim'), array(
 			'placeholder'=>'Enter Keywords',
 			'id'=>'keywords',
 		));
-		echo Html::link('', 'javascript:;', array(
+		echo HtmlHelper::link('', 'javascript:;', array(
 			'id'=>'search-form-submit',
 			'title'=>false,
 		));
@@ -52,7 +52,7 @@ use fay\core\Uri;
 		<ul class="cf"><?php
 			$menus = MenuService::service()->getTree('_menu');
 			foreach($menus as $menu){
-				echo Html::link($menu['title'], $menu['link'], array(
+				echo HtmlHelper::link($menu['title'], $menu['link'], array(
 					'class'=>isset($current_header_menu) && $current_header_menu == $menu['alias'] ? 'crt' : false,
 					'target'=>$nav['target'],
 					'wrapper'=>'li',

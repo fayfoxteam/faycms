@@ -1,10 +1,10 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<div class="col-8">
 		<div class="col-2-2-body-content">
-			<?php echo Html::textarea('code', '', array(
+			<?php echo HtmlHelper::textarea('code', '', array(
 				'style'=>'font-family:Consolas,Monaco,monospace',
 				'id'=>'code',
 				'class'=>'form-control autosize',
@@ -25,18 +25,18 @@ use fay\helpers\Html;
 		?>
 			<li class="">
 				<span class="fr">
-					<?php echo Html::link('show', array('tools/database/get-model', array(
+					<?php echo HtmlHelper::link('show', array('tools/database/get-model', array(
 						't'=>$t_name,
 					)), array(
 						'class'=>'get-model',
 						'data-name'=>$t_name,
 					))?>
 					|
-					<?php echo Html::link('download', array('tools/database/download-model', array(
+					<?php echo HtmlHelper::link('download', array('tools/database/download-model', array(
 						't'=>$t_name,
 					)))?>
 					|
-					<?php echo Html::link('dd', array('tools/database/dd', array(
+					<?php echo HtmlHelper::link('dd', array('tools/database/dd', array(
 						't'=>$t_name,
 					)))?>
 				</span>

@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\AnalystSites;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -53,7 +53,7 @@ class AnalystSiteController extends AdminController{
 		$site = AnalystSites::model()->find($id);
 		$this->form()->setData($site);
 		
-		$this->layout->subtitle = '编辑统计站点 - '.Html::encode($this->form()->getData('title'));
+		$this->layout->subtitle = '编辑统计站点 - '.HtmlHelper::encode($this->form()->getData('title'));
 		
 		$this->_setListview();
 		
@@ -65,7 +65,7 @@ class AnalystSiteController extends AdminController{
 		AnalystSites::model()->update(array(
 			'deleted'=>1,
 		), $id);
-		Response::notify('success', '一个站点被删除。'.Html::link('撤销', array('admin/analyst-site/undelete', array(
+		Response::notify('success', '一个站点被删除。'.HtmlHelper::link('撤销', array('admin/analyst-site/undelete', array(
 			'id'=>$id,
 		))));
 	}

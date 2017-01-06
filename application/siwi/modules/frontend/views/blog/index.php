@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use siwi\helpers\FriendlyLink;
 
 $this->appendCss($this->appStatic('css/blog.css'));
@@ -8,23 +8,23 @@ $this->appendCss($this->appStatic('css/blog.css'));
 	<div class="shot-menu">
 		<ul>
 			<li>
-				<?php echo Html::link($cat['title'], 'javascript:;', array(
+				<?php echo HtmlHelper::link($cat['title'], 'javascript:;', array(
 					'class'=>'menu-item',
 				))?>
 				<ul class="sub">
 					<li>
-						<?php echo Html::link('全部', FriendlyLink::get('blog', 0, 0), array(
+						<?php echo HtmlHelper::link('全部', FriendlyLink::get('blog', 0, 0), array(
 							'class'=>'sub-1',
 						));?>
 					</li>
 				<?php foreach($cat_tree as $c){?>
 					<li>
-						<?php echo Html::link($c['title'], FriendlyLink::get('blog', $c['id']), array(
+						<?php echo HtmlHelper::link($c['title'], FriendlyLink::get('blog', $c['id']), array(
 							'class'=>'sub-1',
 						));?>
 						<ul class="sub-sub">
 							<?php foreach($c['children'] as $c2){?>
-								<li><?php echo Html::link($c2['title'], FriendlyLink::get('blog', $c['id'], $c2['id']), array(
+								<li><?php echo HtmlHelper::link($c2['title'], FriendlyLink::get('blog', $c['id'], $c2['id']), array(
 									'class'=>'sub-2',
 								));?></li>
 							<?php }?>
@@ -34,23 +34,23 @@ $this->appendCss($this->appStatic('css/blog.css'));
 				</ul>
 			</li>
 			<li>
-				<?php echo Html::link($time, 'javascript:;', array(
+				<?php echo HtmlHelper::link($time, 'javascript:;', array(
 					'class'=>'menu-item',
 				))?>
 				<ul class="sub">
-					<li><?php echo Html::link('不限', FriendlyLink::get('blog', -1, -1, 0), array(
+					<li><?php echo HtmlHelper::link('不限', FriendlyLink::get('blog', -1, -1, 0), array(
 						'class'=>'sub-1',
 					))?>
-					<li><?php echo Html::link('三天内', FriendlyLink::get('blog', -1, -1, 3), array(
+					<li><?php echo HtmlHelper::link('三天内', FriendlyLink::get('blog', -1, -1, 3), array(
 						'class'=>'sub-1',
 					))?>
-					<li><?php echo Html::link('一周内', FriendlyLink::get('blog', -1, -1, 7), array(
+					<li><?php echo HtmlHelper::link('一周内', FriendlyLink::get('blog', -1, -1, 7), array(
 						'class'=>'sub-1',
 					))?>
-					<li><?php echo Html::link('一个月内', FriendlyLink::get('blog', -1, -1, 30), array(
+					<li><?php echo HtmlHelper::link('一个月内', FriendlyLink::get('blog', -1, -1, 30), array(
 						'class'=>'sub-1',
 					))?>
-					<li><?php echo Html::link('一年内', FriendlyLink::get('blog', -1, -1, 365), array(
+					<li><?php echo HtmlHelper::link('一年内', FriendlyLink::get('blog', -1, -1, 365), array(
 						'class'=>'sub-1',
 					))?>
 				</ul>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div class="box" id="box-thumbnail" data-name="thumbnail">
@@ -16,14 +16,14 @@ use fay\services\FileService;
 			echo F::form()->inputHidden('thumbnail', array(), 0);
 			$thumbnail = F::form()->getData('thumbnail', 0);
 			if(!empty($thumbnail)){
-				echo Html::link(Html::img($thumbnail, FileService::PIC_RESIZE, array(
+				echo HtmlHelper::link(HtmlHelper::img($thumbnail, FileService::PIC_RESIZE, array(
 					'dw'=>257,
 				)), FileService::getUrl($thumbnail), array(
 					'encode'=>false,
 					'class'=>'fancybox-image',
 					'title'=>'点击查看原图',
 				));
-				echo Html::link('移除缩略图', 'javascript:;', array(
+				echo HtmlHelper::link('移除缩略图', 'javascript:;', array(
 					'class'=>'remove-image-link'
 				));
 			}

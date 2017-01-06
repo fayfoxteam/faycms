@@ -4,7 +4,7 @@ namespace siwi\modules\frontend\controllers;
 use siwi\library\FrontController;
 use fay\helpers\StringHelper;
 use fay\models\tables\Users;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\core\HttpException;
 use fay\core\Validator;
 
@@ -34,7 +34,7 @@ class RegisterController extends FrontController{
 					'password'=>$password,
 					'role'=>Users::ROLE_USER,
 					'reg_time'=>$this->current_time,
-					'reg_ip'=>Request::ip2int($this->ip),
+					'reg_ip'=>RequestHelper::ip2int($this->ip),
 				);
 				
 				$user_id = Users::model()->insert($data);

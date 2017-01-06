@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <header class="g-hd" id="g-hd">
@@ -10,33 +10,33 @@ use fay\services\FileService;
 		</div>
 		<div class="hd-bar-user" id="g-hdu-links">
 			<?php if(F::session()->get('user.avatar')){
-				echo Html::img(F::session()->get('user.avatar'), 2);
+				echo HtmlHelper::img(F::session()->get('user.avatar'), 2);
 			}?>
 			<em class="arrow"></em>
 			<ul class="sub">
 			<?php if($this->current_user){?>
-				<li><?php echo Html::link('发布作品', array('user/work/create'), array(
+				<li><?php echo HtmlHelper::link('发布作品', array('user/work/create'), array(
 					'class'=>'logout-link',
 					'title'=>false,
 				))?></li>
-				<li><?php echo Html::link('发布博文', array('user/post/create'), array(
+				<li><?php echo HtmlHelper::link('发布博文', array('user/post/create'), array(
 					'class'=>'logout-link',
 					'title'=>false,
 				))?></li>
-				<li><?php echo Html::link('上传素材', array('user/material/create'), array(
+				<li><?php echo HtmlHelper::link('上传素材', array('user/material/create'), array(
 					'class'=>'logout-link',
 					'title'=>false,
 				))?></li>
-				<li><?php echo Html::link('退出', array('user/logout'), array(
+				<li><?php echo HtmlHelper::link('退出', array('user/logout'), array(
 					'class'=>'logout-link',
 					'title'=>false,
 				))?></li>
 			<?php }else{?>
-				<li><?php echo Html::link('登陆', array('login-mini'), array(
+				<li><?php echo HtmlHelper::link('登陆', array('login-mini'), array(
 					'class'=>'login-link',
 					'title'=>false,
 				))?></li>
-				<li><?php echo Html::link('注册', array('register-mini'), array(
+				<li><?php echo HtmlHelper::link('注册', array('register-mini'), array(
 					'class'=>'register-link',
 					'title'=>false,
 				))?></li>
@@ -46,25 +46,25 @@ use fay\services\FileService;
 	</div>
 	<div class="uhd-info">
 		<div class="uhd-avatar">
-			<?php echo Html::img($user['avatar'], FileService::PIC_RESIZE, array(
+			<?php echo HtmlHelper::img($user['avatar'], FileService::PIC_RESIZE, array(
 				'spare'=>'avatar',
 				'dw'=>178,
 				'dh'=>178,
 			))?>
 			<div class="actions">
 				<?php if($is_follow){
-					echo Html::link('取消关注', 'javascript:;', array(
+					echo HtmlHelper::link('取消关注', 'javascript:;', array(
 						'class'=>'follow-link',
 						'data-followed'=>'1',
 					));
 				}else{
-					echo Html::link('添加关注', 'javascript:;', array(
+					echo HtmlHelper::link('添加关注', 'javascript:;', array(
 						'class'=>'follow-link',
 						'data-followed'=>'0',
 					));
 				}?>
 				|
-				<?php echo Html::link('发送信息')?>
+				<?php echo HtmlHelper::link('发送信息')?>
 			</div>
 		</div>
 		<div class="info">

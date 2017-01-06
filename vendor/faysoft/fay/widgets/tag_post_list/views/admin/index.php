@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 
@@ -72,7 +72,7 @@ use fay\services\user\UserRoleService;
 			</div>
 			<div class="form-field">
 				<label class="title bold">限定分类</label>
-				<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
+				<?php echo F::form('widget')->select('cat_id', HtmlHelper::getSelectOptions($cats), array(
 					'class'=>'form-control mw400',
 				))?>
 				<p class="fc-grey">只查询该分类下的文章（包含子分类）</p>
@@ -88,18 +88,18 @@ use fay\services\user\UserRoleService;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'post/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'post/{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'post/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
 					));
-					echo Html::inputRadio('uri', 'post-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'post-{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'post-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'post-{$id}', array(
 						'label'=>'post-{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
+					echo HtmlHelper::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 							'post/{$id}', 'post-{$id}',
 						)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
+					echo HtmlHelper::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
 						'post/{$id}', 'post-{$id}',
 					)) ? $widget->config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',

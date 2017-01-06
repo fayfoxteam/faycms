@@ -7,7 +7,7 @@ use fay\common\ListView;
 use fay\models\tables\PostComments;
 use fay\core\Response;
 use fay\models\tables\Actionlogs;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\post\PostCommentService;
 use fay\core\Exception;
 
@@ -157,7 +157,7 @@ class PostCommentController extends AdminController{
 				'data'=>array(
 					'id'=>$id,
 				),
-				'message'=>'一条留言被移入回收站 - '.Html::link('撤销', array('admin/post-comment/undelete', array(
+				'message'=>'一条留言被移入回收站 - '.HtmlHelper::link('撤销', array('admin/post-comment/undelete', array(
 					'id'=>$id,
 				)))
 			));
@@ -187,7 +187,7 @@ class PostCommentController extends AdminController{
 				'data'=>array(
 					'id'=>$id,
 				),
-				'message'=>'一条留言被移出回收站 - '.Html::link('撤销', array('admin/post-comment/delete', array(
+				'message'=>'一条留言被移出回收站 - '.HtmlHelper::link('撤销', array('admin/post-comment/delete', array(
 					'id'=>$id,
 				))),
 			));

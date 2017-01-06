@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="w1000 clearfix col-2">
 	<div class="col-2-left">
@@ -7,7 +7,7 @@ use fay\helpers\Html;
 			<ul>
 				<li><a href="<?php echo $this->url('product')?>">产品展示</a></li>
 			<?php foreach($pages as $p){?>
-				<li><a href="<?php echo $this->url('service/'.$p['alias'])?>"><?php echo Html::encode($p['title'])?></a></li>
+				<li><a href="<?php echo $this->url('service/'.$p['alias'])?>"><?php echo HtmlHelper::encode($p['title'])?></a></li>
 			<?php }?>
 			</ul>
 		</nav>

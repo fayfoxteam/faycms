@@ -5,7 +5,7 @@ use steroid\library\FrontController;
 use steroid\models\forms\LeaveMessage;
 use fay\core\Response;
 use fay\models\tables\Contacts;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 
 class ContactController extends FrontController{
 	public function send(){
@@ -18,8 +18,8 @@ class ContactController extends FrontController{
 					'email'=>$this->form()->getData('email'),
 					'mobile'=>$this->form()->getData('phone'),
 					'content'=>$this->form()->getData('message'),
-					'ip_int'=>Request::ip2int($this->ip),
-					'show_ip_int'=>Request::ip2int($this->ip),
+					'ip_int'=>RequestHelper::ip2int($this->ip),
+					'show_ip_int'=>RequestHelper::ip2int($this->ip),
 					'create_time'=>$this->current_time,
 					'publish_time'=>$this->current_time,
 				));

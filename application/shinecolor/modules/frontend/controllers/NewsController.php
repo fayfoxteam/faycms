@@ -7,7 +7,7 @@ use fay\core\Sql;
 use fay\models\tables\Posts;
 use fay\common\ListView;
 use fay\services\PostService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 
 class NewsController extends FrontController{
@@ -105,7 +105,7 @@ class NewsController extends FrontController{
 		);
 		
 		$this->layout->title = $post['seo_title'];
-		$this->layout->keywords = Html::encode($post['seo_keywords']);
+		$this->layout->keywords = HtmlHelper::encode($post['seo_keywords']);
 		$this->layout->description = $post['seo_description'];
 		
 		$this->view->post = $post;

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="w1000 clearfix col-2">
 	<div class="col-2-left">
@@ -18,7 +18,7 @@ use fay\helpers\Html;
 			<div class="content">
 				<ul id="client-list">
 				<?php foreach($links as $l){?>
-					<li><?php echo Html::link(Html::img($l['logo'], 1, array(
+					<li><?php echo HtmlHelper::link(HtmlHelper::img($l['logo'], 1, array(
 						'width'=>142,
 						'height'=>false,
 					)), $l['url'], array(

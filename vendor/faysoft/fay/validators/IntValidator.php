@@ -2,7 +2,7 @@
 namespace fay\validators;
 
 use fay\core\Validator;
-use fay\helpers\StringHelper as StringHelper;
+use fay\helpers\StringHelper;
 
 /**
  * 验证是否为整数

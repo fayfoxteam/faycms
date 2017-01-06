@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -16,7 +16,7 @@ use fay\helpers\Date;
 					echo $a['nickname'] ? ' - ' . $a['nickname'] : '';
 					echo ' (', long2ip($a['last_login_ip']), ')';
 				?></span>
-				<span class="fr"><?php echo Date::niceShort($a['last_login_time'])?></span>
+				<span class="fr"><?php echo DateHelper::niceShort($a['last_login_time'])?></span>
 				<div class="clear"></div>
 			</li>
 		<?php }?>

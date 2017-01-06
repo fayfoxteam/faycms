@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div id="quick-link">
@@ -9,13 +9,13 @@ use fay\services\FileService;
 		if(empty($f['link'])){
 			$f['link'] = 'javascript:;';
 		}
-		echo Html::link(Html::img($f['file_id'], FileService::PIC_ORIGINAL, array(
+		echo HtmlHelper::link(HtmlHelper::img($f['file_id'], FileService::PIC_ORIGINAL, array(
 			'width'=>false,
 			'height'=>false,
-			'alt'=>Html::encode($f['title']),
+			'alt'=>HtmlHelper::encode($f['title']),
 		)), str_replace('{$base_url}', \F::config()->get('base_url'), $f['link']), array(
 			'encode'=>false,
-			'title'=>Html::encode($f['title']),
+			'title'=>HtmlHelper::encode($f['title']),
 			'wrapper'=>'li',
 			'target'=>'_blank',
 		));

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div id="banner">
 	<?php \F::widget()->load('index-slides')?>
@@ -25,7 +25,7 @@ use fay\helpers\Html;
 	<div class="ml240">
 		<div class="box category-post fr wp100">
 			<div class="box-title">
-				<h3><?php echo Html::encode($cat['title'])?></h3>
+				<h3><?php echo HtmlHelper::encode($cat['title'])?></h3>
 			</div>
 			<div class="box-content">
 				<div class="st"><div class="sl"><div class="sr"><div class="sb">

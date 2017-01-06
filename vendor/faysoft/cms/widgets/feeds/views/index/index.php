@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 use fay\models\tables\Logs;
 ?>
 <style>
@@ -33,7 +33,7 @@ use fay\models\tables\Logs;
 										echo 'fa fa-bell-o bg-yellow';
 									break;
 								}?>"></i>
-								<span class="fr date" title="<?php echo Date::format($l['create_time'])?>"><?php echo Date::niceShort($l['create_time'])?></span>
+								<span class="fr date" title="<?php echo DateHelper::format($l['create_time'])?>"><?php echo DateHelper::niceShort($l['create_time'])?></span>
 								<span class="desc"><?php echo $l['code']?></span>
 							</li>
 						<?php }?>

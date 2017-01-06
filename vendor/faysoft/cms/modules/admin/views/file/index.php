@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 $cols = F::form('setting')->getData('cols');
 ?>
@@ -15,7 +15,7 @@ $cols = F::form('setting')->getData('cols');
 			|
 			<?php echo F::form('search')->select('cat_id', array(
 				''=>'--分类--',
-			) + Html::getSelectOptions($cats, 'id', 'title'), array(
+			) + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 				'class'=>'form-control',
 			))?>
 			|
@@ -44,7 +44,7 @@ $cols = F::form('setting')->getData('cols');
 <form method="post" action="<?php echo $this->url('admin/file/batch')?>" id="batch-form" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
-			echo Html::select('', array(
+			echo HtmlHelper::select('', array(
 				''=>'批量操作',
 				'upload-to-qiniu'=>(F::app()->checkPermission('admin/qiniu/put') && in_array('qiniu', $cols)) ? '上传至七牛' : false,
 				'remove-from-qiniu'=>(F::app()->checkPermission('admin/qiniu/delete') && in_array('qiniu', $cols)) ? '从七牛移除' : false,
@@ -57,12 +57,12 @@ $cols = F::form('setting')->getData('cols');
 
 			echo F::form('search')->select('', array(
 				''=>'--分类--',
-			) + Html::getSelectOptions($cats, 'id', 'title'), array(
+			) + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 				'class'=>'form-control fn-hide',
 				'id' => 'cat-id-1',
 			));
 
-			echo Html::link('提交', 'javascript:;', array(
+			echo HtmlHelper::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit',
 				'class'=>'btn btn-sm ml5',
 			));
@@ -146,7 +146,7 @@ $cols = F::form('setting')->getData('cols');
 	</div>
 	<div class="row">
 		<div class="col-5"><?php
-			echo Html::select('', array(
+			echo HtmlHelper::select('', array(
 				''=>'批量操作',
 				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
 				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
@@ -159,11 +159,11 @@ $cols = F::form('setting')->getData('cols');
 
 			echo F::form('search')->select('', array(
 				''=>'--分类--',
-			) + Html::getSelectOptions($cats, 'id', 'title'), array(
+			) + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 				'class'=>'form-control fn-hide',
 				'id' => 'cat-id-2',
 			));
-			echo Html::link('提交', 'javascript:;', array(
+			echo HtmlHelper::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit-2',
 				'class'=>'btn btn-sm ml5',
 			));

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
 ?>
 <form id="qiniu-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
@@ -8,12 +8,12 @@ use fay\services\OptionService;
 			<div class="form-field">
 				<label class="title">是否启用<em class="required">*</em></label>
 				<?php
-					echo Html::inputRadio('qiniu:enabled', '1', OptionService::get('qiniu:enabled') == '1', array(
+					echo HtmlHelper::inputRadio('qiniu:enabled', '1', OptionService::get('qiniu:enabled') == '1', array(
 						'label'=>'是',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',
 					));
-					echo Html::inputRadio('qiniu:enabled', '0', OptionService::get('qiniu:enabled') === '0', array(
+					echo HtmlHelper::inputRadio('qiniu:enabled', '0', OptionService::get('qiniu:enabled') === '0', array(
 						'label'=>'否',
 						'data-required'=>'required',
 						'data-label'=>'是否启用',
@@ -23,7 +23,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">accessKey<em class="required">*</em></label>
-				<?php echo Html::inputText('qiniu:accessKey', OptionService::get('qiniu:accessKey'), array(
+				<?php echo HtmlHelper::inputText('qiniu:accessKey', OptionService::get('qiniu:accessKey'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'accessKey',
@@ -32,7 +32,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">secretKey<em class="required">*</em></label>
-				<?php echo Html::inputText('qiniu:secretKey', OptionService::get('qiniu:secretKey'), array(
+				<?php echo HtmlHelper::inputText('qiniu:secretKey', OptionService::get('qiniu:secretKey'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'secretKey',
@@ -41,7 +41,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">bucket<em class="required">*</em></label>
-				<?php echo Html::inputText('qiniu:bucket', OptionService::get('qiniu:bucket'), array(
+				<?php echo HtmlHelper::inputText('qiniu:bucket', OptionService::get('qiniu:bucket'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'bucket',
@@ -50,7 +50,7 @@ use fay\services\OptionService;
 			</div>
 			<div class="form-field">
 				<label class="title">domain<em class="required">*</em></label>
-				<?php echo Html::inputText('qiniu:domain', OptionService::get('qiniu:domain'), array(
+				<?php echo HtmlHelper::inputText('qiniu:domain', OptionService::get('qiniu:domain'), array(
 					'class'=>'form-control mw400',
 					'data-required'=>'required',
 					'data-label'=>'domain',

@@ -1,7 +1,7 @@
 <?php
 use fay\services\CategoryService;
 use fay\services\LinkService;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 
 $links_has_logo = LinkService::service()->getLinksHasLogo(null, 10);
@@ -14,18 +14,18 @@ $link_cats = CategoryService::service()->getChildren('_system_link');
 		</div>
 		<div class="box-content">
 			<p><?php foreach($links_has_logo as $l){
-				echo Html::link(Html::img($l['logo'], FileService::PIC_ORIGINAL, array(
-					'alt'=>Html::encode($l['title']),
+				echo HtmlHelper::link(HtmlHelper::img($l['logo'], FileService::PIC_ORIGINAL, array(
+					'alt'=>HtmlHelper::encode($l['title']),
 				)), $l['url'], array(
 					'target'=>$l['target'],
 					'encode'=>false,
-					'title'=>Html::encode($l['title']),
+					'title'=>HtmlHelper::encode($l['title']),
 				));
 			}?></p>
 			<p><?php
 				foreach($link_cats as $c){
 					$links = LinkService::service()->getByCat($c);
-					echo Html::select('', array(''=>'------'.$c['title'].'------')+Html::getSelectOptions($links, 'url', 'title'));
+					echo HtmlHelper::select('', array(''=>'------'.$c['title'].'------')+HtmlHelper::getSelectOptions($links, 'url', 'title'));
 				}
 			?></p>
 		</div>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 ?>
 <div class="box" id="box-category" data-name="category">
@@ -10,7 +10,7 @@ use fay\services\CategoryService;
 	<div class="box-content">
 		<?php echo F::form()->select('cat_id', array(
 			CategoryService::service()->getIdByAlias('_system_api')=>'--未分类--',
-		) + Html::getSelectOptions($cats), array(
+		) + HtmlHelper::getSelectOptions($cats), array(
 			'class'=>'form-control mw400',
 		))?>
 	</div>

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 
 $cats = CategoryService::service()->getTree('__root__');
@@ -7,12 +7,12 @@ $cats = CategoryService::service()->getTree('__root__');
 <nav class="g-nav">
 	<div class="w1000">
 		<ul>
-			<li class="nav-i"><?php echo Html::link('网站首页', null)?></li>
+			<li class="nav-i"><?php echo HtmlHelper::link('网站首页', null)?></li>
 			<?php
 				//文章分类列表
 				foreach($cats as $m){
 					if(!$m['is_nav']) continue;
-					echo '<li class="nav-i">', Html::link($m['title'], $m['description'] ? $m['description'] : array('cat-'.$m['id']), array(
+					echo '<li class="nav-i">', HtmlHelper::link($m['title'], $m['description'] ? $m['description'] : array('cat-'.$m['id']), array(
 						'class'=>'nav-p',
 						'title'=>false,
 						'target'=>$m['description'] ? '_blank' : false,
@@ -21,7 +21,7 @@ $cats = CategoryService::service()->getTree('__root__');
 						echo '<ul class="nav-c">';
 						foreach($m['children'] as $m2){
 							if(!$m2['is_nav']) continue;
-							echo '<li>', Html::link($m2['title'], $m2['description'] ? $m2['description'] : array('cat-'.$m2['id']), array(
+							echo '<li>', HtmlHelper::link($m2['title'], $m2['description'] ? $m2['description'] : array('cat-'.$m2['id']), array(
 								'title'=>false,
 								'target'=>$m2['description'] ? '_blank' : false,
 							)), '</li>';

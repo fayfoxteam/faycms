@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="description">
-					<div class="title"><h2><?php echo \fay\helpers\Html::encode($widget->config['title'])?></h2></div>
+					<div class="title"><h2><?php echo \fay\helpers\HtmlHelper::encode($widget->config['title'])?></h2></div>
 					<div class="subtitle">
 						<p>Full Category: <?php F::widget()->load('widget-category-list')?></p>
 						<p><a href="<?php echo $this->url('post')?>">Click and check full prices of steroid powders.</a></p>
@@ -30,7 +30,7 @@
 							</div>
 							<div class="meta">
 								<h3 class="title"><a href="<?php echo $p['post']['link']?>"><?php
-									echo \fay\helpers\Html::encode($p['post']['title'])
+									echo \fay\helpers\HtmlHelper::encode($p['post']['title'])
 								?></a></h3>
 								<p class="price"><?php echo $props['price']['value']?></p>
 								<p class="props">Melting point: 33-35°C.</p>

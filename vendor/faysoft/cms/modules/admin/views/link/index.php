@@ -1,6 +1,6 @@
 <?php
 use cms\helpers\ListTableHelper;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<div class="col-12">
@@ -14,7 +14,7 @@ use fay\helpers\Html;
 				|
 				<?php echo F::form('search')->select('cat_id', array(
 					''=>'--分类--',
-				) + Html::getSelectOptions($cats, 'id', 'title'), array(
+				) + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
 					'class'=>'form-control',
 				))?>
 				<?php echo F::form('search')->submitLink('查询', array(

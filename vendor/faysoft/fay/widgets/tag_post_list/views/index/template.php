@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $posts array
@@ -9,7 +9,7 @@ use fay\helpers\Html;
 	<article class="post-list-item">
 		<div class="post-title">
 			<h1><?php
-				echo Html::link($p['post']['title'], $p['post']['link'])
+				echo HtmlHelper::link($p['post']['title'], $p['post']['link'])
 				?></h1>
 			<?php if($p['post']['format_publish_time']){?>
 				<span class="post-meta">
@@ -20,7 +20,7 @@ use fay\helpers\Html;
 		</div>
 		<div class="post-content"><?php echo nl2br($p['post']['abstract'])?></div>
 		<div class="post-tags"><?php
-			echo Html::link('阅读全文', $p['post']['link'], array(
+			echo HtmlHelper::link('阅读全文', $p['post']['link'], array(
 				'class'=>'post-more-link',
 			));
 			?></div>

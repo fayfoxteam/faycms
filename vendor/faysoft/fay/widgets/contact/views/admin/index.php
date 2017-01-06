@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget->config
@@ -75,7 +75,7 @@ $elements = array(
 								<strong><?php echo $elements[$element]?></strong>
 							</div>
 							<div class="mb5"><?php
-								echo Html::inputText(
+								echo HtmlHelper::inputText(
 									"label[{$element}]",
 									isset($widget->config['label'][$element]) ? $widget->config['label'][$element] : '',
 									array(
@@ -84,7 +84,7 @@ $elements = array(
 									)
 								);
 							?></div>
-							<?php echo Html::inputText(
+							<?php echo HtmlHelper::inputText(
 								"require_message[{$element}]",
 								isset($widget->config['require_message'][$element]) ? $widget->config['require_message'][$element] : '',
 								array(
@@ -94,7 +94,7 @@ $elements = array(
 							)?>
 						</div>
 						<div class="col-6">
-							<div class="mb5"><?php echo Html::textarea(
+							<div class="mb5"><?php echo HtmlHelper::textarea(
 								"placeholder[{$element}]",
 								isset($widget->config['placeholder'][$element]) ? $widget->config['placeholder'][$element] : '',
 								array(
@@ -104,7 +104,7 @@ $elements = array(
 							)?></div>
 							<?php
 							if($element == 'email'){
-								echo Html::inputText(
+								echo HtmlHelper::inputText(
 									"format_message[{$element}]",
 									isset($widget->config['format_message'][$element]) ?
 										$widget->config['format_message'][$element] : (isset($widget->config['label'][$element]) ?
@@ -131,7 +131,7 @@ $elements = array(
 						<div class="ib mb10">
 							<strong><?php echo $label?></strong>
 						</div>
-						<div class="mb5"><?php echo Html::inputText(
+						<div class="mb5"><?php echo HtmlHelper::inputText(
 							"label[{$element}]",
 							isset($widget->config['label'][$element]) ? $widget->config['label'][$element] : '',
 							array(
@@ -139,7 +139,7 @@ $elements = array(
 								'class'=>'form-control',
 							)
 						)?></div>
-						<?php echo Html::inputText(
+						<?php echo HtmlHelper::inputText(
 							"require_message[{$element}]",
 							isset($widget->config['require_message'][$element]) ? $widget->config['require_message'][$element] : '',
 							array(
@@ -149,7 +149,7 @@ $elements = array(
 						)?>
 					</div>
 					<div class="col-6">
-						<div class="mb5"><?php echo Html::textarea(
+						<div class="mb5"><?php echo HtmlHelper::textarea(
 							"placeholder[{$element}]",
 							isset($widget->config['placeholder'][$element]) ? $widget->config['placeholder'][$element] : '',
 							array(
@@ -159,7 +159,7 @@ $elements = array(
 						)?></div>
 						<?php
 						if($element == 'email'){
-							echo Html::inputText(
+							echo HtmlHelper::inputText(
 								"format_message[{$element}]",
 								(isset($widget->config['format_message'][$element]) ?
 									$widget->config['format_message'][$element] : isset($widget->config['label'][$element]) ?

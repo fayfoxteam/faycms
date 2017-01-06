@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <style>
@@ -45,7 +45,7 @@ use fay\services\FileService;
 							<div class="st"><div class="sl"><div class="sr"><div class="sb">
 								<div class="p16 clearfix">
 									<div id="index-page">
-										<?php echo Html::link(Html::img($about['thumbnail'], FileService::PIC_ORIGINAL, array(
+										<?php echo HtmlHelper::link(HtmlHelper::img($about['thumbnail'], FileService::PIC_ORIGINAL, array(
 											'width'=>false,
 											'height'=>false,
 										)), array('page/'.$about['id']), array(
@@ -54,8 +54,8 @@ use fay\services\FileService;
 											'alt'=>$about['title'],
 										))?>
 										<p><?php
-											echo Html::encode($about['abstract']);
-											echo Html::link('[查看详细]', array('page/'.$about['id']), array(
+											echo HtmlHelper::encode($about['abstract']);
+											echo HtmlHelper::link('[查看详细]', array('page/'.$about['id']), array(
 												'title'=>false,
 											));
 										?></p>

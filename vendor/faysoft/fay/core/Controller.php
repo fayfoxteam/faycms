@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
 use fay\services\UserService;
 
@@ -56,7 +56,7 @@ class Controller{
 		$this->config = Config::getInstance();
 		$this->current_time = time();
 		//当前用户登陆IP
-		$this->ip = Request::getIP();
+		$this->ip = RequestHelper::getIP();
 		
 		self::$_instance = $this;
 	}

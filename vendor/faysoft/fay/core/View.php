@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\helpers\Runtime;
+use fay\helpers\RuntimeHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
 
@@ -99,13 +99,13 @@ class View{
 	 * @throws Exception
 	 */
 	public function render($view = null, $layout = null, $return = false){
-		Runtime::append(__FILE__, __LINE__, '准备渲染视图');
+		RuntimeHelper::append(__FILE__, __LINE__, '准备渲染视图');
 		//触发事件
 		\F::event()->trigger('before_render');
 		
 		$uri = Uri::getInstance();
 		$content = $this->renderPartial($view, $this->getViewData(), -1, true);
-		Runtime::append(__FILE__, __LINE__, '视图渲染完成');
+		RuntimeHelper::append(__FILE__, __LINE__, '视图渲染完成');
 		
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		if($layout !== false){
@@ -126,13 +126,13 @@ class View{
 			}
 		}
 		if(isset($layout_path)){
-			Runtime::append(__FILE__, __LINE__, '准备渲染模版');
+			RuntimeHelper::append(__FILE__, __LINE__, '准备渲染模版');
 			$content = $this->obOutput($layout_path, array_merge(
 				$this->getViewData(),
 				\F::app()->layout->getLayoutData(),
 				array('content'=>$content)
 			));
-			Runtime::append(__FILE__, __LINE__, '模版渲染完成');
+			RuntimeHelper::append(__FILE__, __LINE__, '模版渲染完成');
 		}
 		
 		if($return){
@@ -158,7 +158,7 @@ class View{
 	 * @throws ErrorException
 	 */
 	public function renderPartial($view = null, $view_data = array(), $cache = -1, $return = false){
-		Runtime::append(__FILE__, __LINE__, '开始渲染视图: ' . $view);
+		RuntimeHelper::append(__FILE__, __LINE__, '开始渲染视图: ' . $view);
 		$uri = Uri::getInstance();
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
 		//加载视图文件

@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-class Backtrace{
+class BacktraceHelper{
 	/**
 	 * 渲染一个堆栈的table
 	 * @param array $backtrace 堆栈数组

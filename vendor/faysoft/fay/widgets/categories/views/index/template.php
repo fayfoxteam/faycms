@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\categories\views\index;
 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget \fay\widgets\categories\controllers\IndexController
@@ -15,7 +15,7 @@ if(!function_exists('fay\widgets\categories\views\index\renderCats')){
 		$html .= '>';
 		foreach($cats as $c){
 			$html .= '<li class="cat-item">';
-			$html .= Html::link($c['title'], $c['link']);
+			$html .= HtmlHelper::link($c['title'], $c['link']);
 			if(!empty($c['children'])){
 				$html .= renderCats($c['children'], ++$dep);
 			}
@@ -26,9 +26,9 @@ if(!function_exists('fay\widgets\categories\views\index\renderCats')){
 	}
 }
 ?>
-<div class="widget widget-categories" id="widget-<?php echo Html::encode($widget->alias)?>">
+<div class="widget widget-categories" id="widget-<?php echo HtmlHelper::encode($widget->alias)?>">
 	<div class="widget-title">
-		<h3><?php echo Html::encode($widget->config['title'])?></h3>
+		<h3><?php echo HtmlHelper::encode($widget->config['title'])?></h3>
 	</div>
 	<div class="widget-content">
 		<?php echo renderCats($cats)?>

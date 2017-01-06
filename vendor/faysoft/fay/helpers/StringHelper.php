@@ -112,7 +112,7 @@ class StringHelper{
 			$str = mb_substr($str, 0, $length, 'UTF-8').'...';
 		}
 		if($encode){
-			$str = Html::encode($str);
+			$str = HtmlHelper::encode($str);
 		}
 		return $str;
 	}

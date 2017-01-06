@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
 if($listview->total_pages > 1){
 
@@ -7,7 +7,7 @@ isset($params) || $params = array();
 ?>
 <div class="page1">
 	<?php
-	echo Html::link('首页', FriendlyLink::getLink($type, array(
+	echo HtmlHelper::link('首页', FriendlyLink::getLink($type, array(
 		'page'=>1
 	) + $params), array(
 		'class'=>'pg1',
@@ -16,7 +16,7 @@ isset($params) || $params = array();
 	));
 	//上一页
 	if($listview->current_page == 2){
-		echo Html::link('上一页', FriendlyLink::getLink($type, array(
+		echo HtmlHelper::link('上一页', FriendlyLink::getLink($type, array(
 			'page'=>1
 		) + $params), array(
 			'class'=>'prev',
@@ -24,7 +24,7 @@ isset($params) || $params = array();
 			'encode'=>false,
 		));
 	}else if($listview->current_page > 2){
-		echo Html::link('上页', FriendlyLink::getLink($type, array(
+		echo HtmlHelper::link('上页', FriendlyLink::getLink($type, array(
 			'page'=>$listview->current_page - 1
 		) + $params), array(
 			'class'=>'prev',
@@ -35,7 +35,7 @@ isset($params) || $params = array();
 	
 	//首页
 	if($listview->current_page > ($listview->adjacents + 1)) {
-		echo Html::link(1, FriendlyLink::getLink($type, array(
+		echo HtmlHelper::link(1, FriendlyLink::getLink($type, array(
 			'page'=>1
 		) + $params), array(
 			'class'=>'num',
@@ -54,13 +54,13 @@ isset($params) || $params = array();
 		if($i == $listview->current_page){
 			echo '<span class="num1">', $i, '</span>';
 		}else if($i == 1){
-			echo Html::link(1, FriendlyLink::getLink($type, array(
+			echo HtmlHelper::link(1, FriendlyLink::getLink($type, array(
 				'page'=>1
 			) + $params), array(
 				'class'=>'num',
 			));
 		}else{
-			echo Html::link($i, FriendlyLink::getLink($type, array(
+			echo HtmlHelper::link($i, FriendlyLink::getLink($type, array(
 				'page'=>$i
 			) + $params), array(
 				'class'=>'num',
@@ -76,7 +76,7 @@ isset($params) || $params = array();
 	
 	//尾页
 	if($listview->current_page < $listview->total_pages - $listview->adjacents) {
-		echo Html::link($listview->total_pages, FriendlyLink::getLink($type, array(
+		echo HtmlHelper::link($listview->total_pages, FriendlyLink::getLink($type, array(
 			'page'=>$listview->total_pages
 		) + $params), array(
 			'class'=>'num',
@@ -85,7 +85,7 @@ isset($params) || $params = array();
 	
 	//下一页
 	if($listview->current_page < $listview->total_pages){
-		echo Html::link('下一页', FriendlyLink::getLink($type, array(
+		echo HtmlHelper::link('下一页', FriendlyLink::getLink($type, array(
 			'page'=>$listview->current_page + 1
 		) + $params), array(
 			'class'=>'next',
@@ -93,7 +93,7 @@ isset($params) || $params = array();
 			'encode'=>false,
 		));
 	}
-	echo Html::link('尾页', FriendlyLink::getLink($type, array(
+	echo HtmlHelper::link('尾页', FriendlyLink::getLink($type, array(
 		'page'=>$listview->total_pages
 	) + $params), array(
 		'class'=>'pg1',

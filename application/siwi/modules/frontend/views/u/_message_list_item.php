@@ -1,7 +1,7 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 use fay\core\Sql;
 use fay\models\tables\Messages;
 
@@ -22,7 +22,7 @@ if(!$data['is_terminal']){
 }?>
 <li id="msg-<?php echo $data['id']?>">	
 	<div class="avatar">
-		<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
+		<?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 			'alt'=>$data['nickname'],
 			'spare'=>'avatar',
 		)), array('u/'.$data['user_id']), array(
@@ -31,34 +31,34 @@ if(!$data['is_terminal']){
 		))?>
 	</div>
 	<div class="meta">
-		<?php echo Html::link($data['nickname'], array('u/'.$data['user_id']), array(
+		<?php echo HtmlHelper::link($data['nickname'], array('u/'.$data['user_id']), array(
 			'class'=>'user-link',
 		))?>
-		<time class="time"><?php echo Date::niceShort($data['create_time'])?></time>
+		<time class="time"><?php echo DateHelper::niceShort($data['create_time'])?></time>
 	</div>
-	<div class="message-content"><?php echo nl2br(Html::encode($data['content']))?></div>
+	<div class="message-content"><?php echo nl2br(HtmlHelper::encode($data['content']))?></div>
 	<ul class="children-list">
 	<?php foreach($children as $m){?>
 		<li>
 			<span class="un"><?php
 				if($m['user_id'] == $m['parent_user_id']){
-					echo Html::link($m['nickname'], array(
+					echo HtmlHelper::link($m['nickname'], array(
 						'u/'.$m['user_id'],
 					)), ' : ';
 				}else{
-					echo Html::link($m['nickname'], array(
+					echo HtmlHelper::link($m['nickname'], array(
 						'u/'.$m['user_id'],
 					)),
 					' 回复 ',
-					Html::link($m['parent_nickname'], array(
+					HtmlHelper::link($m['parent_nickname'], array(
 						'u/'.$m['parent_user_id'],
 					)),
 					' : ';
 				}
 			?></span>
-			<p><?php echo nl2br(Html::encode($m['content']))?></p>
-			<time><?php echo Date::niceShort($m['create_time'])?></time>
-			<?php echo Html::link('', 'javascript:;', array(
+			<p><?php echo nl2br(HtmlHelper::encode($m['content']))?></p>
+			<time><?php echo DateHelper::niceShort($m['create_time'])?></time>
+			<?php echo HtmlHelper::link('', 'javascript:;', array(
 				'title'=>'回复',
 				'class'=>'icon-comment reply-child-link',
 				'data-parent'=>$m['id'],
@@ -66,7 +66,7 @@ if(!$data['is_terminal']){
 		</li>
 	<?php }?>
 	</ul>
-	<?php echo Html::link('', 'javascript:;', array(
+	<?php echo HtmlHelper::link('', 'javascript:;', array(
 		'title'=>'回复',
 		'class'=>'icon-reply reply-link',
 		'data-parent'=>$data['id'],

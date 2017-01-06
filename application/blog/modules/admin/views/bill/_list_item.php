@@ -1,6 +1,6 @@
 <?php
 use blog\models\tables\Bills;
-use fay\helpers\Date;
+use fay\helpers\DateHelper;
 ?><tr>
 	<td><?php echo $data['realname']?></td>
 	<td><?php if($data['type'] == Bills::TYPE_IN){
@@ -12,8 +12,8 @@ use fay\helpers\Date;
 	<td><?php echo $data['amount']?></td>
 	<td><?php echo $data['balance']?></td>
 	<td>
-		<span class="time abbr" title="<?php echo Date::format($data['create_time'])?>">
-			<?php echo Date::niceShort($data['create_time'])?>
+		<span class="time abbr" title="<?php echo DateHelper::format($data['create_time'])?>">
+			<?php echo DateHelper::niceShort($data['create_time'])?>
 		</span>
 	</td>
 </tr>

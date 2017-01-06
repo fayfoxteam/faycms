@@ -15,7 +15,7 @@ use fay\models\tables\PostPropVarchar;
 use fay\models\tables\PostPropText;
 use fay\models\tables\PostLikes;
 use fay\models\tables\PostMeta;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\services\post\PostExtraService;
 use fay\services\post\PostMetaService;
 use fay\services\post\PostPropService;
@@ -169,7 +169,7 @@ class PostService extends Service{
 		//扩展信息
 		$post_extra = array(
 			'post_id'=>$post_id,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		);
 		if(isset($extra['extra'])){
 			$post_extra = $post_extra + $extra['extra'];

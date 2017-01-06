@@ -8,7 +8,7 @@ use fay\models\MultiTree;
 use fay\models\tables\Messages;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 use fay\models\tables\UserCounter;
 
 /**
@@ -102,7 +102,7 @@ class MessageService extends MultiTree{
 			'sockpuppet'=>$sockpuppet,
 			'create_time'=>\F::app()->current_time,
 			'last_modified_time'=>\F::app()->current_time,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		)), $parent);
 		
 		//更新用户留言数

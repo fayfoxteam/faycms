@@ -1,12 +1,12 @@
 <?php
-use fay\helpers\Html;
-use fay\helpers\Date;
+use fay\helpers\HtmlHelper;
+use fay\helpers\DateHelper;
 use fay\services\FileService;
 use fay\services\MessageService;
 use fay\models\tables\Messages;
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
-	<?php echo Html::link(Html::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
+	<?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
 		'width'=>40,
 		'height'=>40,
 		'class'=>'circle ci-avatar',
@@ -20,13 +20,13 @@ use fay\models\tables\Messages;
 	<div class="chat-body">
 		<div class="ci-header">
 			<span class="ci-user">
-				<?php echo Html::encode($data[$settings['display_name']])?>
+				<?php echo HtmlHelper::encode($data[$settings['display_name']])?>
 			</span>
 			留言给<span class="ci-to"><?php
-				echo empty($data['to_'.$settings['display_name']]) ? '匿名' : Html::encode($data['to_'.$settings['display_name']]);
+				echo empty($data['to_'.$settings['display_name']]) ? '匿名' : HtmlHelper::encode($data['to_'.$settings['display_name']]);
 			?></span>
-			<abbr class="ci-time" title="<?php echo Date::format($data['create_time'])?>"><?php
-				echo Date::niceShort($data['create_time']);
+			<abbr class="ci-time" title="<?php echo DateHelper::format($data['create_time'])?>"><?php
+				echo DateHelper::niceShort($data['create_time']);
 			?></abbr>
 		</div>
 		<div class="ci-meta">
@@ -39,7 +39,7 @@ use fay\models\tables\Messages;
 			}?></span>
 		</div>
 		<div class="ci-content">
-			<p><?php echo nl2br(Html::encode($data['content']))?></p>
+			<p><?php echo nl2br(HtmlHelper::encode($data['content']))?></p>
 		</div>
 		<div class="ci-footer">
 			<a href="#chat-dialog" class="ci-reply-link" data-id="<?php echo $data['id']?>">
@@ -48,7 +48,7 @@ use fay\models\tables\Messages;
 			</a>
 			<span class="ci-options"><?php
 			if(F::app()->checkPermission('admin/chat/approve')){
-				echo Html::link('<span>批准</span>&nbsp;|&nbsp;', 'javascript:;', array(
+				echo HtmlHelper::link('<span>批准</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-green approve-link'.($data['status'] == Messages::STATUS_APPROVED ? ' hide' : ''),
 					'encode'=>false,
@@ -56,7 +56,7 @@ use fay\models\tables\Messages;
 				));
 			}
 			if(F::app()->checkPermission('admin/chat/unapprove')){
-				echo Html::link('<span>驳回</span>&nbsp;|&nbsp;', 'javascript:;', array(
+				echo HtmlHelper::link('<span>驳回</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-orange unapprove-link'.($data['status'] == Messages::STATUS_UNAPPROVED ? ' hide' : ''),
 					'encode'=>false,
@@ -64,7 +64,7 @@ use fay\models\tables\Messages;
 				));
 			}
 			if(F::app()->checkPermission('admin/chat/delete')){
-				echo Html::link('<span>回收站</span>&nbsp;|&nbsp;', 'javascript:;', array(
+				echo HtmlHelper::link('<span>回收站</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-red delete-link',
 					'encode'=>false,
@@ -72,7 +72,7 @@ use fay\models\tables\Messages;
 				));
 			}
 			if(F::app()->checkPermission('admin/chat/remove-all')){
-				echo Html::link('<span>删除会话</span>', 'javascript:;', array(
+				echo HtmlHelper::link('<span>删除会话</span>', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-red remove-all-link',
 					'encode'=>false,

@@ -1,13 +1,13 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget \fay\widgets\friendlinks\controllers\IndexController
  * @var $data array
  */
 
-echo Html::encode($widget->config['title']);
+echo HtmlHelper::encode($widget->config['title']);
 foreach($widget->config['data'] as $d){
-	echo Html::tag('p', array(), Html::encode($d));
+	echo HtmlHelper::tag('p', array(), HtmlHelper::encode($d));
 }
 ?>

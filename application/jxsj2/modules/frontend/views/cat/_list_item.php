@@ -1,7 +1,7 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <li>
-	<?php echo Html::link($data['title'], array('post/'.$data['id']))?>
+	<?php echo HtmlHelper::link($data['title'], array('post/'.$data['id']))?>
 	<span class="time"><?php echo date('[Y-m-d]', $data['publish_time'])?></span>
 </li>

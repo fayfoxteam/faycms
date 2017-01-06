@@ -8,7 +8,7 @@ use fay\models\tables\Roles;
 use fay\models\tables\RolesActions;
 use fay\models\tables\Actionlogs;
 use fay\core\Response;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 use fay\models\tables\RolesCats;
 use fay\services\OptionService;
@@ -189,7 +189,7 @@ class RoleController extends AdminController{
 		$this->actionlog(Actionlogs::TYPE_ROLE, '删除了一个角色', $role_id);
 
 		Response::notify('success', array(
-			'message'=>'一个角色被删除 - '.Html::link('撤销', array('admin/role/undelete', array(
+			'message'=>'一个角色被删除 - '.HtmlHelper::link('撤销', array('admin/role/undelete', array(
 				'id'=>$role_id,
 			))),
 			'id'=>$role_id,

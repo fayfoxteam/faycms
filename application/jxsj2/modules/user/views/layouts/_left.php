@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="w230 fl">
 	<div class="box category-post">
@@ -10,8 +10,8 @@ use fay\helpers\Html;
 			<div class="st"><div class="sl"><div class="sr"><div class="sb">
 				<div class="p16 clearfix">
 					<ul>
-						<li><?php echo Html::link('我的考卷', array('user/exam'))?></li>
-						<li><?php echo Html::link('试卷列表', array('user/paper'))?></li>
+						<li><?php echo HtmlHelper::link('我的考卷', array('user/exam'))?></li>
+						<li><?php echo HtmlHelper::link('试卷列表', array('user/paper'))?></li>
 					</ul>
 				</div>
 			</div></div></div></div>
@@ -25,17 +25,17 @@ use fay\helpers\Html;
 			<div class="st"><div class="sl"><div class="sr"><div class="sb">
 				<div class="p16 clearfix">
 					<ul>
-						<li><?php echo Html::link('个人资料', array(
+						<li><?php echo HtmlHelper::link('个人资料', array(
 							'user/profile'
 						), array(
 							'class'=>$current_directory == 'profile' ? 'crt' : '',
 						))?></li>
-						<li><?php echo Html::link('密码修改', array(
+						<li><?php echo HtmlHelper::link('密码修改', array(
 							'user/profile/password'
 						), array(
 							'class'=>$current_directory == 'password' ? 'crt' : '',
 						))?></li>
-						<li><?php echo Html::link('安全退出', array(
+						<li><?php echo HtmlHelper::link('安全退出', array(
 							'user/logout'
 						))?></li>
 					</ul>

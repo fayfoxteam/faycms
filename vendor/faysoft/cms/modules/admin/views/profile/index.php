@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 
 echo F::form()->open();
@@ -49,8 +49,8 @@ echo F::form()->open();
 			<label class="title bold">头像</label>
 			<div id="avatar-container"><?php
 				if(!empty($user['user']['avatar']['id'])){
-					echo Html::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
-					echo Html::link(Html::img($user['user']['avatar']['id'], FileService::PIC_RESIZE, array(
+					echo HtmlHelper::inputHidden('avatar', $user['user']['avatar']['id'], array('id'=>'avatar-id'));
+					echo HtmlHelper::link(HtmlHelper::img($user['user']['avatar']['id'], FileService::PIC_RESIZE, array(
 						'dw'=>178,
 						'dh'=>178,
 						'id'=>'avatar-img',
@@ -59,7 +59,7 @@ echo F::form()->open();
 						'class'=>'fancybox-image',
 						'title'=>false,
 					));
-					echo Html::link(Html::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
+					echo HtmlHelper::link(HtmlHelper::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
 						'id'=>'avatar-img-circle',
 					)), $user['user']['avatar']['url'], array(
 						'encode'=>false,
@@ -67,15 +67,15 @@ echo F::form()->open();
 						'title'=>false,
 					));
 				}else{
-					echo Html::inputHidden('avatar', '0', array('id'=>'avatar-id'));
-					echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
+					echo HtmlHelper::inputHidden('avatar', '0', array('id'=>'avatar-id'));
+					echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
 						'id'=>'avatar-img',
 					)), $this->assets('images/avatar.png'), array(
 						'class'=>'fancybox-image',
 						'encode'=>false,
 						'title'=>false,
 					));
-					echo Html::link(Html::img($this->assets('images/avatar.png'), 0, array(
+					echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
 						'id'=>'avatar-img-circle',
 					)), $this->assets('images/avatar.png'), array(
 						'class'=>'fancybox-image',
@@ -83,7 +83,7 @@ echo F::form()->open();
 						'title'=>false,
 					));
 				}
-				echo Html::link('上传头像', 'javascript:;', array(
+				echo HtmlHelper::link('上传头像', 'javascript:;', array(
 					'id'=>'upload-avatar',
 					'class'=>'btn btn-grey',
 				));

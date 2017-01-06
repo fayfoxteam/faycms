@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Feeds;
 use cms\helpers\ListTableHelper;
 
@@ -99,7 +99,7 @@ $cols = F::form('setting')->getData('cols', array());
 	<div class="row">
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
-				echo Html::select('', array(
+				echo HtmlHelper::select('', array(
 					''=>'批量操作',
 					'undelete'=>F::app()->checkPermission('admin/feed/undelete') ? '还原' : false,
 					'remove'=>F::app()->checkPermission('admin/feed/remove') ? '永久删除' : false,
@@ -108,7 +108,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'id'=>'batch-action',
 				));
 			}else{
-				echo Html::select('', array(
+				echo HtmlHelper::select('', array(
 					''=>'批量操作',
 					'set-draft'=>F::app()->checkPermission('admin/feed/edit') ? '标记为草稿' : false,
 					'set-pending'=>F::app()->checkPermission('admin/feed/approve') ? '标记为待审核' : false,
@@ -120,7 +120,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'id'=>'batch-action',
 				));
 			}
-			echo Html::link('提交', 'javascript:;', array(
+			echo HtmlHelper::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit',
 				'class'=>'btn btn-sm ml5',
 			));
@@ -224,7 +224,7 @@ $cols = F::form('setting')->getData('cols', array());
 		<div class="col-7 fr"><?php $listview->showPager()?></div>
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
-				echo Html::select('', array(
+				echo HtmlHelper::select('', array(
 					''=>'批量操作',
 					'undelete'=>F::app()->checkPermission('admin/feed/undelete') ? '还原' : false,
 					'remove'=>F::app()->checkPermission('admin/feed/remove') ? '永久删除' : false,
@@ -233,7 +233,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'id'=>'batch-action-2',
 				));
 			}else{
-				echo Html::select('', array(
+				echo HtmlHelper::select('', array(
 					''=>'批量操作',
 					'set-draft'=>F::app()->checkPermission('admin/feed/edit') ? '标记为草稿' : false,
 					'set-pending'=>F::app()->checkPermission('admin/feed/approve') ? '标记为待审核' : false,
@@ -245,7 +245,7 @@ $cols = F::form('setting')->getData('cols', array());
 					'id'=>'batch-action-2',
 				));
 			}
-			echo Html::link('提交', 'javascript:;', array(
+			echo HtmlHelper::link('提交', 'javascript:;', array(
 				'id'=>'batch-form-submit-2',
 				'class'=>'btn btn-sm ml5',
 			));

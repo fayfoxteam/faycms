@@ -2,7 +2,7 @@
 namespace fay\log;
 
 use fay\core\ErrorException;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 
 abstract class Target{
 	/**
@@ -136,7 +136,7 @@ abstract class Target{
 			$text = var_export($text, true);
 		}
 		
-		$ip = Request::getIP();
+		$ip = RequestHelper::getIP();
 		//并不是所有情况下都能获取到用户ID，所以这只是个参考
 		$user = empty(\F::app()->current_user) ? 'no login' : 'user:' . \F::app()->current_user;
 		

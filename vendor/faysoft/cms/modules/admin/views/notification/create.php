@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <?php echo F::form()->open()?>
 <div class="poststuff">
@@ -33,7 +33,7 @@ use fay\helpers\Html;
 					<h4>分类</h4>
 				</div>
 				<div class="box-content">
-					<?php echo Html::select('cat_id', Html::getSelectOptions($notification_cats), '', array(
+					<?php echo HtmlHelper::select('cat_id', HtmlHelper::getSelectOptions($notification_cats), '', array(
 						'class'=>'form-control',
 					))?>
 				</div>

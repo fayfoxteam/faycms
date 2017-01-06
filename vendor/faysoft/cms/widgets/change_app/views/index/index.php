@@ -1,5 +1,5 @@
 <?php 
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">
@@ -13,10 +13,10 @@ use fay\helpers\Html;
 			'action'=>'change',
 		), false)?>" method="post" id="change-app-form" class="form-inline">
 			<?php
-				echo Html::select('app', $options, APPLICATION, array(
+				echo HtmlHelper::select('app', $options, APPLICATION, array(
 					'class'=>'form-control',
 				));
-				echo Html::link('切换', 'javascript:;', array(
+				echo HtmlHelper::link('切换', 'javascript:;', array(
 					'id'=>'change-app-form-submit',
 					'class'=>'btn btn-sm',
 				));

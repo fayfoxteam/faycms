@@ -14,9 +14,9 @@ $bg_img = F::widget()->getData('faq-bg');
 			<div class="row">
 				<div class="col-md-12">
 					<div class="title-group">
-						<h2 class="title"><?php echo \fay\helpers\Html::encode($widget->config['title'])?></h2>
+						<h2 class="title"><?php echo \fay\helpers\HtmlHelper::encode($widget->config['title'])?></h2>
 						<div class="description">
-							<p><?php echo \fay\helpers\Html::encode($cat['description'])?></p>
+							<p><?php echo \fay\helpers\HtmlHelper::encode($cat['description'])?></p>
 						</div>
 					</div>
 				</div>
@@ -25,7 +25,7 @@ $bg_img = F::widget()->getData('faq-bg');
 				<div class="col-md-12">
 					<?php foreach($posts as $k => $p){?>
 						<article>
-							<strong>Q<?php echo $k+1?> - <?php echo \fay\helpers\Html::encode($p['post']['title'])?></strong>
+							<strong>Q<?php echo $k+1?> - <?php echo \fay\helpers\HtmlHelper::encode($p['post']['title'])?></strong>
 							<?php
 								$post = \fay\services\PostService::service()->get($p['post']['id'], 'content');
 								echo $post['post']['content'];

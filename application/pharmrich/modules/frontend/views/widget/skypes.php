@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget
@@ -10,7 +10,7 @@ use fay\helpers\Html;
 	<div class="wrap">
 		<ul><?php
 			foreach($widget->config['data'] as $d){
-				echo Html::link($d['key'], 'skype:'.$d['value'], array(
+				echo HtmlHelper::link($d['key'], 'skype:'.$d['value'], array(
 					'wrapper'=>'li',
 					'prepend'=>array(
 						'tag'=>'img',

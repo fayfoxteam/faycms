@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,8 +10,8 @@ use fay\helpers\Html;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <title><?php echo $title ? $title : ''?></title>
-<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
-<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
+<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
+<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
@@ -35,7 +35,7 @@ system.base_url = '<?php echo $this->url()?>';
 					<a href="<?php echo $this->assets('"><i class="icon-home')?>"></i>主页</a>
 				</li>
 				<?php foreach($breadcrumb as $b){?>
-				<li><?php echo Html::link($b['text'], $b['href'])?></li>
+				<li><?php echo HtmlHelper::link($b['text'], $b['href'])?></li>
 				<?php }?>
 			</ol>
 			<?php }?>

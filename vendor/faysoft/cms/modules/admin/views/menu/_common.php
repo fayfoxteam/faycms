@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Menus;
 
 F::form('create')->setModel(Menus::model());
@@ -12,12 +12,12 @@ F::form('edit')->setModel(Menus::model());
 			<?php echo F::form('edit')->open(array('admin/menu/edit'), 'post', array(
 				'class'=>'form-inline',
 			))?>
-				<?php echo Html::inputHidden('id')?>
+				<?php echo HtmlHelper::inputHidden('id')?>
 				<table class="form-table">
 					<tr>
 						<th class="adaption">标题<em class="required">*</em></th>
 						<td>
-							<?php echo Html::inputText('title', '', array(
+							<?php echo HtmlHelper::inputText('title', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">主显标题</span>
@@ -26,7 +26,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th valign="top" class="adaption">链接地址</th>
 						<td>
-							<?php echo Html::inputText('link', '', array(
+							<?php echo HtmlHelper::inputText('link', '', array(
 								'class'=>'form-control wp100',
 							))?>
 							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
@@ -36,7 +36,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">别名</th>
 						<td>
-							<?php echo Html::inputText('alias', '', array(
+							<?php echo HtmlHelper::inputText('alias', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">别名用于特殊调用，不可重复，可为空</span>
@@ -45,7 +45,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">二级标题</th>
 						<td>
-							<?php echo Html::inputText('sub_title', '', array(
+							<?php echo HtmlHelper::inputText('sub_title', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">该字段用途视主题而定</span>
@@ -54,7 +54,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">class</th>
 						<td>
-							<?php echo Html::inputText('css_class', '', array(
+							<?php echo HtmlHelper::inputText('css_class', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">该字段效果视主题而定</span>
@@ -63,10 +63,10 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">是否启用</th>
 						<td><?php
-							echo Html::inputRadio('enabled', 1, false, array(
+							echo HtmlHelper::inputRadio('enabled', 1, false, array(
 								'label'=>'是',
 							));
-							echo Html::inputRadio('enabled', 0, false, array(
+							echo HtmlHelper::inputRadio('enabled', 0, false, array(
 								'label'=>'否',
 							));
 						?></td>
@@ -74,7 +74,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">排序</th>
 						<td>
-							<?php echo Html::inputText('sort', '100', array(
+							<?php echo HtmlHelper::inputText('sort', '100', array(
 								'class'=>'form-control w100',
 							))?>
 							<span class="fc-grey">0-255之间，数值越小，排序越靠前</span>
@@ -83,7 +83,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">打开方式</th>
 						<td>
-							<?php echo Html::select('target', array(
+							<?php echo HtmlHelper::select('target', array(
 								''=>'默认',
 								'_blank'=>'_blank — 新窗口或新标签',
 								'_top'=>'_top — 不包含框架的当前窗口或标签',
@@ -96,9 +96,9 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">父节点</th>
 						<td>
-							<?php echo Html::select('parent', array(
+							<?php echo HtmlHelper::select('parent', array(
 								$root['id']=>'根节点',
-							)+Html::getSelectOptions($menus, 'id', 'title'), '', array(
+							)+HtmlHelper::getSelectOptions($menus, 'id', 'title'), '', array(
 								'class'=>'form-control',
 							))?>
 						</td>
@@ -124,12 +124,12 @@ F::form('edit')->setModel(Menus::model());
 			<?php echo F::form('create')->open(array('admin/menu/create'), 'post', array(
 				'class'=>'form-inline',
 			))?>
-				<?php echo Html::inputHidden('parent')?>
+				<?php echo HtmlHelper::inputHidden('parent')?>
 				<table class="form-table">
 					<tr>
 						<th class="adaption">标题<em class="required">*</em></th>
 						<td>
-							<?php echo Html::inputText('title', '', array(
+							<?php echo HtmlHelper::inputText('title', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">主显标题</span>
@@ -138,7 +138,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th valign="top" class="adaption">链接地址</th>
 						<td>
-							<?php echo Html::inputText('link', '{$base_url}', array(
+							<?php echo HtmlHelper::inputText('link', '{$base_url}', array(
 								'class'=>'form-control wp100',
 							))?>
 							<p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
@@ -148,7 +148,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">别名</th>
 						<td>
-							<?php echo Html::inputText('alias', '', array(
+							<?php echo HtmlHelper::inputText('alias', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">别名用于特殊调用，不可重复，可为空</span>
@@ -157,7 +157,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">二级标题</th>
 						<td>
-							<?php echo Html::inputText('sub_title', '', array(
+							<?php echo HtmlHelper::inputText('sub_title', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">该字段用途视主题而定</span>
@@ -166,7 +166,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">css class</th>
 						<td>
-							<?php echo Html::inputText('css_class', '', array(
+							<?php echo HtmlHelper::inputText('css_class', '', array(
 								'class'=>'form-control',
 							))?>
 							<span class="fc-grey">该字段效果视主题而定</span>
@@ -175,10 +175,10 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">是否启用</th>
 						<td><?php
-							echo Html::inputRadio('enabled', 1, true, array(
+							echo HtmlHelper::inputRadio('enabled', 1, true, array(
 								'label'=>'是',
 							));
-							echo Html::inputRadio('enabled', 0, false, array(
+							echo HtmlHelper::inputRadio('enabled', 0, false, array(
 								'label'=>'否',
 							));
 						?></td>
@@ -186,7 +186,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">排序</th>
 						<td>
-							<?php echo Html::inputText('sort', '100', array(
+							<?php echo HtmlHelper::inputText('sort', '100', array(
 								'class'=>'form-control w100',
 							))?>
 							<span class="fc-grey">0-255之间，数值越小，排序越靠前</span>
@@ -195,7 +195,7 @@ F::form('edit')->setModel(Menus::model());
 					<tr>
 						<th class="adaption">打开方式</th>
 						<td>
-							<?php echo Html::select('target', array(
+							<?php echo HtmlHelper::select('target', array(
 								''=>'默认',
 								'_blank'=>'_blank — 新窗口或新标签',
 								'_top'=>'_top — 不包含框架的当前窗口或标签',

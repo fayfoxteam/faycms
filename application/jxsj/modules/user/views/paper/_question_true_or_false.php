@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="bd true-or-false">
 	<div class="clearfix exam-question-item">
@@ -9,7 +9,7 @@ use fay\helpers\Html;
 	</div>
 	<ul class="exam-question-answers">
 	<?php foreach($question['answers'] as $a){?>
-		<li><?php echo Html::inputRadio("answers[{$question['id']}]", $a['id'], false, array(
+		<li><?php echo HtmlHelper::inputRadio("answers[{$question['id']}]", $a['id'], false, array(
 			'label'=>$a['answer'],
 		));?></li>
 	<?php }?>

@@ -1,6 +1,6 @@
 <?php
 use fay\models\tables\ExamQuestions;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
 	<div class="col-12">
@@ -13,7 +13,7 @@ use fay\helpers\Html;
 					'class'=>'form-control w200',
 				))?>
 				|
-				<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($cats), array(
+				<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+HtmlHelper::getSelectOptions($cats), array(
 					'class'=>'form-control',
 				));?>
 				|
@@ -44,7 +44,7 @@ use fay\helpers\Html;
 		<div class="clear"></div>
 		<form method="post" action="<?php echo $this->url('admin/exam-question/batch')?>" id="batch-form" class="form-inline">
 			<div class="fl mt5"><?php
-				echo Html::select('', array(
+				echo HtmlHelper::select('', array(
 					''=>'批量操作',
 					'set-enabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '启用' : false,
 					'set-disabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '禁用' : false,
@@ -53,7 +53,7 @@ use fay\helpers\Html;
 					'class'=>'form-control',
 					'id'=>'batch-action',
 				));
-				echo Html::link('提交', 'javascript:;', array(
+				echo HtmlHelper::link('提交', 'javascript:;', array(
 					'id'=>'batch-form-submit',
 					'class'=>'btn btn-sm ml5',
 				));
@@ -86,7 +86,7 @@ use fay\helpers\Html;
 				<tbody><?php $listview->showData();?></tbody>
 			</table>
 			<div class="fl mt5"><?php
-				echo Html::select('', array(
+				echo HtmlHelper::select('', array(
 					''=>'批量操作',
 					'set-enabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '启用' : false,
 					'set-disabled'=>F::app()->checkPermission('admin/exam-question/edit') ? '禁用' : false,
@@ -95,7 +95,7 @@ use fay\helpers\Html;
 					'class'=>'form-control',
 					'id'=>'batch-action-2',
 				));
-				echo Html::link('提交', 'javascript:;', array(
+				echo HtmlHelper::link('提交', 'javascript:;', array(
 					'id'=>'batch-form-submit-2',
 					'class'=>'btn btn-sm ml5',
 				));

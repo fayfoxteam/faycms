@@ -141,7 +141,7 @@ class SciController extends AdminController{
 //		$cats = CategoryService::service()->getTree($cat_alias);
 //		echo json_encode(array(
 //			'status'=>1,
-//			'data'=>Html::getSelectOptions($cats, 'id', 'title')
+//			'data'=>HtmlHelper::getSelectOptions($cats, 'id', 'title')
 //		));
 //	}
 //

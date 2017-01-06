@@ -1,6 +1,6 @@
 <?php
 use fay\models\tables\ExamQuestions;
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 
 echo F::form()->open();
 ?>
@@ -27,10 +27,10 @@ echo F::form()->open();
 									<a class="dragsort-item-selector"></a>
 									<div class="dragsort-item-container mr10">
 									<?php
-										echo Html::textarea("selector_answers[first]", '', array(
+										echo HtmlHelper::textarea("selector_answers[first]", '', array(
 											'class'=>'form-control autosize',
 										));
-										echo Html::inputRadio('selector_right_answers[]', 'first', false, array(
+										echo HtmlHelper::inputRadio('selector_right_answers[]', 'first', false, array(
 											'label'=>'正确答案',
 										));
 									?>
@@ -40,16 +40,16 @@ echo F::form()->open();
 							<div class="clear"></div>
 						</div>
 						<div id="input-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestions::TYPE_INPUT)echo 'class="hide"';?>>
-						<?php echo Html::textarea('input_answer', !empty($answers[0]['answer']) ? $answers[0]['answer'] : '', array(
+						<?php echo HtmlHelper::textarea('input_answer', !empty($answers[0]['answer']) ? $answers[0]['answer'] : '', array(
 							'class'=>'form-control h90 autosize',
 						))?>
 						</div>
 						<div id="true-or-false-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestions::TYPE_TRUE_OR_FALSE)echo 'class="hide"';?>>
 						<?php
-							echo Html::inputRadio('true_or_false_answer', 1, !empty($answers[0]['is_right_answer']) ? true : false, array(
+							echo HtmlHelper::inputRadio('true_or_false_answer', 1, !empty($answers[0]['is_right_answer']) ? true : false, array(
 								'label'=>'正确',
 							));
-							echo Html::inputRadio('true_or_false_answer', 0, empty($answers[0]['is_right_answer']) ? true : false, array(
+							echo HtmlHelper::inputRadio('true_or_false_answer', 0, empty($answers[0]['is_right_answer']) ? true : false, array(
 								'label'=>'错误',
 							));
 						?>

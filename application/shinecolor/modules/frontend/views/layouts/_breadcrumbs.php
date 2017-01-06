@@ -1,12 +1,12 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="w1000">
 	<div id="breadcrumbs">
 		当前位置：
 		<?php foreach($breadcrumbs as $b){
 			if(!empty($b['link'])){
-				echo Html::link($b['label'], $b['link']), ' &gt; ';
+				echo HtmlHelper::link($b['label'], $b['link']), ' &gt; ';
 			}else{
 				echo $b['label'];
 			}

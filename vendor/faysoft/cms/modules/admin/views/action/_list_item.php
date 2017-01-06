@@ -1,12 +1,12 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <tr valign="top" id="action-<?php echo $data['id']?>">
 	<td>
 		<strong><?php 
-			echo Html::encode($data['cat_title']),
+			echo HtmlHelper::encode($data['cat_title']),
 				' - ',
-				Html::encode($data['title']);
+				HtmlHelper::encode($data['title']);
 		?></strong>
 		<div class="row-actions">
 			<a href="<?php echo $this->url('admin/action/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
@@ -15,9 +15,9 @@ use fay\helpers\Html;
 	</td>
 	<td><?php echo $data['router']?></td>
 	<td><?php 
-		echo Html::encode($data['parent_router']);
+		echo HtmlHelper::encode($data['parent_router']);
 		if($data['parent_title']){
-			echo Html::tag('em', array('wrapper'=>'p'), Html::encode("({$data['parent_cat_title']} - {$data['parent_title']})"));
+			echo HtmlHelper::tag('em', array('wrapper'=>'p'), HtmlHelper::encode("({$data['parent_cat_title']} - {$data['parent_title']})"));
 		}
 	?></td>
 	<td><?php 

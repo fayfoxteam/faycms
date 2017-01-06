@@ -74,7 +74,7 @@ class Contacts extends Table{
 			'country'=>'trim',
 			'content'=>'',
 			'publish_time'=>'trim',
-			'show_ip_int'=>'trim|\fay\helpers\Request::ip2int',
+			'show_ip_int'=>'trim|\fay\helpers\RequestHelper::ip2int',
 			'parent'=>'intval',
 			'reply'=>'',
 			'is_show'=>'intval',

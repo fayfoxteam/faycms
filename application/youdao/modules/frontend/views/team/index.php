@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 ?>
 <div class="team-desc">
 	<p class="indent-2em">有多少教科书就有多少种关于团队的解释，这里把团队定义为：
@@ -15,7 +15,7 @@ foreach($team_members as $m){
 	$i++;?>
 	<li class="<?php if($i % 4 == 0)echo 'last';?>">
 		<a href="<?php echo $this->url('team/'.$m['id'])?>">
-			<?php echo Html::img($m['thumbnail'], 4, array(
+			<?php echo HtmlHelper::img($m['thumbnail'], 4, array(
 				'width'=>150,
 				'height'=>150,
 				'dw'=>150,

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\ExamQuestions;
 ?>
 <div class="hide">
@@ -15,7 +15,7 @@ use fay\models\tables\ExamQuestions;
 						'class'=>'form-control w200',
 					))?>
 					|
-					<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+Html::getSelectOptions($question_cats), array(
+					<?php echo F::form('search')->select('cat_id', array(''=>'--分类--')+HtmlHelper::getSelectOptions($question_cats), array(
 						'class'=>'form-control',
 					));?>
 					|

@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use fay\models\tables\Roles;
 use fay\services\user\UserRoleService;
 ?>
@@ -53,7 +53,7 @@ use fay\services\user\UserRoleService;
 			</div>
 			<div class="form-field">
 				<label class="title bold">默认分类</label>
-				<?php echo F::form('widget')->select('cat_id', Html::getSelectOptions($cats), array(
+				<?php echo F::form('widget')->select('cat_id', HtmlHelper::getSelectOptions($cats), array(
 					'class'=>'form-control mw400',
 				))?>
 				<p class="fc-grey">没有传入分类字段的情况下显示此分类下的文章</p>
@@ -85,18 +85,18 @@ use fay\services\user\UserRoleService;
 			<div class="form-field">
 				<label class="title bold">链接格式</label>
 				<?php
-					echo Html::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
 						'label'=>'post/{$id}',
 					));
-					echo Html::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
+					echo HtmlHelper::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
 						'label'=>'post-{$id}',
 					));
-					echo Html::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+					echo HtmlHelper::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
 					)), array(
 						'label'=>'其它',
 					));
-					echo Html::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+					echo HtmlHelper::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
 						'post/{$id}', 'post-{$id}',
 					)) ? $config['uri'] : '', array(
 						'class'=>'form-control mw150 ib',
@@ -184,10 +184,10 @@ use fay\services\user\UserRoleService;
 			<div class="form-field">
 				<label class="title bold">分页条模版</label>
 				<p><?php
-					echo Html::inputRadio('pager', 'system', !isset($config['pager']) || $config['pager'] == 'system', array(
+					echo HtmlHelper::inputRadio('pager', 'system', !isset($config['pager']) || $config['pager'] == 'system', array(
 						'label'=>'调用全局分页条',
 					));
-					echo Html::inputRadio('pager', 'custom', isset($config['pager']) && $config['pager'] == 'custom', array(
+					echo HtmlHelper::inputRadio('pager', 'custom', isset($config['pager']) && $config['pager'] == 'custom', array(
 						'label'=>'小工具内自定义',
 					));
 				?></p>

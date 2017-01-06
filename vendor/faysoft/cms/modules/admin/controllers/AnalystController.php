@@ -5,8 +5,8 @@ use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\AnalystSites;
-use fay\helpers\Date;
-use fay\helpers\Request;
+use fay\helpers\DateHelper;
+use fay\helpers\RequestHelper;
 use fay\core\Loader;
 use fay\models\tables\AnalystVisits;
 
@@ -47,7 +47,7 @@ class AnalystController extends AdminController{
 		}
 		if($this->input->get('ip')){
 			$sql->where(array(
-				'ip_int = ?'=>$this->input->get('ip', 'trim|Request::ip2int'),
+				'ip_int = ?'=>$this->input->get('ip', 'trim|RequestHelper::ip2int'),
 			));
 		}
 		if($this->input->get('site')){
@@ -110,7 +110,7 @@ class AnalystController extends AdminController{
 		}
 		if($this->input->get('ip')){
 			$sql->where(array(
-				'ip_int = ?'=>Request::ip2int($this->input->get('ip', 'trim')),
+				'ip_int = ?'=>RequestHelper::ip2int($this->input->get('ip', 'trim')),
 			));
 		}
 		if($this->input->get('site')){
@@ -159,10 +159,10 @@ class AnalystController extends AdminController{
 			->countBy('DISTINCT url')
 		;
 		
-		$this->view->today = Date::today();
-		$this->view->yesterday = Date::yesterday();
-		$this->view->week = Date::daysbefore(6);
-		$this->view->month = Date::daysbefore(29);
+		$this->view->today = DateHelper::today();
+		$this->view->yesterday = DateHelper::yesterday();
+		$this->view->week = DateHelper::daysbefore(6);
+		$this->view->month = DateHelper::daysbefore(29);
 		
 		if($this->input->get('start_time') || $this->input->get('end_time')){
 			$start_time = $this->input->get('start_time', 'strtotime');
@@ -203,7 +203,7 @@ class AnalystController extends AdminController{
 		}
 		if($this->input->get('ip')){
 			$sql->where(array(
-				'ip_int = ?'=>$this->input->get('ip', 'trim|Request::ip2int'),
+				'ip_int = ?'=>$this->input->get('ip', 'trim|RequestHelper::ip2int'),
 			));
 		}
 		if($this->input->get('site')){

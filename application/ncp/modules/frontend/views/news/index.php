@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
 use fay\services\FileService;
 $this->appendCss($this->appStatic('css/news.css'));
@@ -22,18 +22,18 @@ body{background:#e4e4e4}
 				<?php foreach($right_posts as $p){?>
 					<li>
 						<p class="p-img">
-							<?php echo Html::link(Html::img($p['thumbnail'], FileService::PIC_RESIZE, array(
+							<?php echo HtmlHelper::link(HtmlHelper::img($p['thumbnail'], FileService::PIC_RESIZE, array(
 								'dw'=>180,
 								'dh'=>135,
 							)), FriendlyLink::getProductLink(array(
 								'id'=>$p['id'],
 							)), array(
 								'encode'=>false,
-								'title'=>Html::encode($p['title']),
+								'title'=>HtmlHelper::encode($p['title']),
 							))?>
 						</p>
 						<p class="p-name">
-							<?php echo Html::link($p['title'], FriendlyLink::getProductLink(array(
+							<?php echo HtmlHelper::link($p['title'], FriendlyLink::getProductLink(array(
 								'id'=>$p['id'],
 							)))?>
 						</p>

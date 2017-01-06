@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\Html;
+use fay\helpers\HtmlHelper;
 use apidoc\helpers\TrackHelper;
 use fay\core\Loader;
 ?>
@@ -24,23 +24,23 @@ use fay\core\Loader;
 			<?php $track_models = TrackHelper::getTrackModels()?>
 			<?php foreach($properties as $p){?>
 				<tr>
-					<td><?php echo Html::encode($p['name'])?></td>
+					<td><?php echo HtmlHelper::encode($p['name'])?></td>
 					<td><?php
 						if($p['type'] >= 1000 && !in_array($p['type'], $track_models)){
 							//对象类型特殊处理
-							echo Html::link($p['model_name'], array(
+							echo HtmlHelper::link($p['model_name'], array(
 								'model/' . $p['type'], array(
 									'trackid'=>TrackHelper::getTrackId(),
 								), false
 							));
 						}else{
-							echo Html::encode($p['model_name']);
+							echo HtmlHelper::encode($p['model_name']);
 						}
 						if($p['is_array']){
 							echo ' []';
 						}
 					?></td>
-					<td><?php echo Html::encode($p['sample'])?></td>
+					<td><?php echo HtmlHelper::encode($p['sample'])?></td>
 					<td><?php echo \Michelf\MarkdownExtra::defaultTransform($p['description'])?></td>
 				</tr>
 			<?php }?>
@@ -53,7 +53,7 @@ use fay\core\Loader;
 	<div class="panel-body">
 	<?php if($model['sample']){?>
 		<pre id="sample_response" class="jsonview"><?php
-			echo Html::encode($model['sample']);
+			echo HtmlHelper::encode($model['sample']);
 		?></pre>
 	<?php }else{?>
 		<span>无</span>

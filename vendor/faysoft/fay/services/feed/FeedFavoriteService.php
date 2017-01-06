@@ -8,7 +8,7 @@ use fay\services\UserService;
 use fay\services\FeedService;
 use fay\models\tables\FeedFavorites;
 use fay\models\tables\FeedMeta;
-use fay\helpers\Request;
+use fay\helpers\RequestHelper;
 
 class FeedFavoriteService extends Service{
 	/**
@@ -58,7 +58,7 @@ class FeedFavoriteService extends Service{
 			'trackid'=>$trackid,
 			'sockpuppet'=>$sockpuppet,
 			'create_time'=>\F::app()->current_time,
-			'ip_int'=>Request::ip2int(\F::app()->ip),
+			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		));
 		
 		//动态收藏数+1

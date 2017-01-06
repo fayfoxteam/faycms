@@ -5,7 +5,7 @@ namespace fay\helpers;
  * 时间相关帮助方法
  * 此方法全面支持时间伪造，即通过修改F::app()->current_time修改系统当前时间，方便某些特殊场景的测试等需求。
  */
-class Date{
+class DateHelper{
 	/**
 	 * 返回今天零点的时间戳
 	 */

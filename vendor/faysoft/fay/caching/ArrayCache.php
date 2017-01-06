@@ -40,6 +40,8 @@ class ArrayCache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::setValue()
+	 * @param string $key
+	 * @param mixed $value
 	 * @param float $duration 由于一次请求时间本来就很短，所以过期时间支持毫秒级过期时间
 	 * @return bool
 	 */
@@ -50,6 +52,8 @@ class ArrayCache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::deleteValue()
+	 * @param string $key
+	 * @return bool
 	 */
 	protected function deleteValue($key){
 		unset($this->_cache[$key]);

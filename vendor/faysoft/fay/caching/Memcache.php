@@ -187,6 +187,8 @@ class Memcache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::getValue()
+	 * @param string $key
+	 * @return mixed
 	 */
 	protected function getValue($key){
 		return $this->_cache->get($key);
@@ -194,6 +196,8 @@ class Memcache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::getValues()
+	 * @param array $keys
+	 * @return mixed
 	 */
 	protected function getValues($keys){
 		return $this->use_memcached ? $this->_cache->getMulti($keys) : $this->_cache->get($keys);
@@ -201,6 +205,10 @@ class Memcache extends Cache{
 	
 	/**
 	 * @see \fay\caching\Cache::setValue()
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $duration
+	 * @return bool
 	 */
 	protected function setValue($key, $value, $duration){
 		$expire = $duration > 0 ? $duration + \F::app()->current_time : 0;
@@ -236,6 +244,8 @@ class Memcache extends Cache{
 	/**
 	 * memcache的方式不支持根据key前缀删除部分缓存，$prefix不会起作用
 	 * @see \fay\caching\Cache::flushValues()
+	 * @param null $prefix
+	 * @return bool
 	 */
 	protected function flushValues($prefix = null){
 		return $this->_cache->flush();

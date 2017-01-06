@@ -9,7 +9,6 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\Posts;
 use fay\services\CategoryService;
-use fay\services\UserService;
 use fay\helpers\Date;
 use fay\core\HttpException;
 

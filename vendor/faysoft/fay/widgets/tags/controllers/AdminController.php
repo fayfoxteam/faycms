@@ -2,7 +2,6 @@
 namespace fay\widgets\tags\controllers;
 
 use fay\widget\Widget;
-use fay\services\CategoryService;
 use fay\services\FlashService;
 
 class AdminController extends Widget{

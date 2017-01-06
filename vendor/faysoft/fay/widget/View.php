@@ -99,6 +99,7 @@ class View{
 			return $content;
 		}else{
 			echo $content;
+			return '';
 		}
 	}
 	

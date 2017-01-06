@@ -1,5 +1,6 @@
 <?php
 namespace fay\caching;
+use fay\services\FileService;
 
 /**
  * 文件缓存
@@ -74,7 +75,7 @@ class File extends Cache{
 	protected function setValue($key, $value, $duration){
 		$file = $this->getCacheFile($key);
 		
-		\fay\services\FileService::createFolder(dirname($file), $this->dir_mode);
+		FileService::createFolder(dirname($file), $this->dir_mode);
 		
 		if(@file_put_contents($file, $value, LOCK_EX)){
 			if($this->file_mode){

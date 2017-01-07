@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\services\FileService;
 use fay\core\HttpException;
 use fay\services\CategoryService;
@@ -37,8 +37,8 @@ class FileController extends UserController{
 	
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){
-			if($file = Files::model()->find($file_id)){
-				Files::model()->incr($file_id, 'downloads', 1);
+			if($file = FilesTable::model()->find($file_id)){
+				FilesTable::model()->incr($file_id, 'downloads', 1);
 				$data = file_get_contents($file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');

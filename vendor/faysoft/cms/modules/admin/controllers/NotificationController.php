@@ -2,10 +2,10 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Users;
-use fay\models\tables\UsersNotifications;
-use fay\models\tables\Actionlogs;
-use fay\models\tables\Roles;
+use fay\models\tables\UsersTable;
+use fay\models\tables\UsersNotificationsTable;
+use fay\models\tables\ActionlogsTable;
+use fay\models\tables\RolesTable;
 use fay\services\CategoryService;
 use fay\common\ListView;
 use fay\core\Response;
@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
 use fay\services\NotificationService;
 use fay\core\Sql;
 use fay\services\FlashService;
-use fay\models\tables\UserProfile;
+use fay\models\tables\UserProfileTable;
 
 class NotificationController extends AdminController{
 	public function __construct(){
@@ -24,16 +24,16 @@ class NotificationController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '发送系统消息';
 		if($this->input->post()){
-			$operators = Users::model()->fetchCol('id', array(
+			$operators = UsersTable::model()->fetchCol('id', array(
 				'role IN (?)'=>$this->input->post('roles', 'intval'),
 			));
 			$notification_id = NotificationService::service()->send($operators, $this->input->post('title', 'trim'), $this->input->post('content', 'trim'), $this->current_user, $this->input->get('cat_id', null, 0));
 			
-			$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '发送系统信息', $notification_id);
+			$this->actionlog(ActionlogsTable::TYPE_NOTIFICATION, '发送系统信息', $notification_id);
 			FlashService::set('消息发送成功', 'success');
 		}
 		$this->view->notification_cats = CategoryService::service()->getNextLevel('_system_notification');
-		$this->view->roles = Roles::model()->fetchAll('deleted = 0');
+		$this->view->roles = RolesTable::model()->fetchAll('deleted = 0');
 		$this->view->render();
 	}
 	
@@ -63,13 +63,13 @@ class NotificationController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		
-		UsersNotifications::model()->update(array(
+		UsersNotificationsTable::model()->update(array(
 			'deleted'=>1,
 		), array(
 			'user_id = '.$this->current_user,
 			'notification_id = ?'=>$id,
 		));
-		$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '删除系统信息', $id);
+		$this->actionlog(ActionlogsTable::TYPE_NOTIFICATION, '删除系统信息', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一条消息被移入回收站 - '.HtmlHelper::link('撤销', array('admin/notification/undelete', array(
@@ -82,13 +82,13 @@ class NotificationController extends AdminController{
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
 		
-		UsersNotifications::model()->update(array(
+		UsersNotificationsTable::model()->update(array(
 			'deleted'=>0,
 		), array(
 			'user_id = '.$this->current_user,
 			'notification_id = ?'=>$id,
 		));
-		$this->actionlog(Actionlogs::TYPE_NOTIFICATION, '还原系统信息', $id);
+		$this->actionlog(ActionlogsTable::TYPE_NOTIFICATION, '还原系统信息', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一条消息被还原',
@@ -98,7 +98,7 @@ class NotificationController extends AdminController{
 	
 	public function get(){
 		//刷新用户在线信息
-		UserProfile::model()->update(array(
+		UserProfileTable::model()->update(array(
 			'last_time_online'=>$this->current_time,
 		), $this->current_user);
 		
@@ -121,7 +121,7 @@ class NotificationController extends AdminController{
 	}
 	
 	public function mute(){
-		UsersNotifications::model()->update(array(
+		UsersNotificationsTable::model()->update(array(
 			'read'=>1,
 		), "user_id = {$this->current_user}");
 	}
@@ -151,7 +151,7 @@ class NotificationController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		$read = $this->input->get('read', 'intval');
 		
-		UsersNotifications::model()->update(array(
+		UsersNotificationsTable::model()->update(array(
 			'read'=>$read,
 		), array(
 			"user_id = {$this->current_user}",
@@ -167,7 +167,7 @@ class NotificationController extends AdminController{
 		
 		switch($action){
 			case 'set-read':
-				$affected_rows = UsersNotifications::model()->update(array(
+				$affected_rows = UsersNotificationsTable::model()->update(array(
 					'read'=>1,
 				), array(
 					"user_id = {$this->current_user}",
@@ -176,7 +176,7 @@ class NotificationController extends AdminController{
 				Response::notify('success', $affected_rows.'条消息被标记为已读');
 			break;
 			case 'set-unread':
-				$affected_rows = UsersNotifications::model()->update(array(
+				$affected_rows = UsersNotificationsTable::model()->update(array(
 					'read'=>0,
 				), array(
 					"user_id = {$this->current_user}",
@@ -185,7 +185,7 @@ class NotificationController extends AdminController{
 				Response::notify('success', $affected_rows.'条消息被标记为未读');
 			break;
 			case 'delete':
-				$affected_rows = UsersNotifications::model()->update(array(
+				$affected_rows = UsersNotificationsTable::model()->update(array(
 					'deleted'=>1,
 				), array(
 					"user_id = {$this->current_user}",

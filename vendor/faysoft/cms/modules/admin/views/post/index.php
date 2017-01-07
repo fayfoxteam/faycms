@@ -1,7 +1,11 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use cms\helpers\ListTableHelper;
+
+/**
+ * @var $listview \fay\common\ListView
+ */
 
 $cols = F::form('setting')->getData('cols', array());
 ?>
@@ -76,31 +80,31 @@ $cols = F::form('setting')->getData('cols', array());
 				</span>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PUBLISHED))?>">已发布</a>
+			<li class="publish <?php if(F::app()->input->get('status') == PostsTable::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_PUBLISHED))?>">已发布</a>
 				<span class="fc-grey">(<span id="published-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
 			<?php if(F::app()->post_review){//仅开启审核时显示?>
-			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_PENDING))?>">待审核</a>
+			<li class="publish <?php if(F::app()->input->get('status') == PostsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_PENDING))?>">待审核</a>
 				<span class="fc-grey">(<span id="pending-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status') == Posts::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_REVIEWED))?>">通过审核</a>
+			<li class="publish <?php if(F::app()->input->get('status') == PostsTable::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_REVIEWED))?>">通过审核</a>
 				<span class="fc-grey">(<span id="reviewed-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
 			<?php }?>
-			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Posts::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>Posts::STATUS_DRAFT))?>">草稿</a>
+			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostsTable::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_DRAFT))?>">草稿</a>
 				<span class="fc-grey">(<span id="draft-post-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
 				|
 			</li>

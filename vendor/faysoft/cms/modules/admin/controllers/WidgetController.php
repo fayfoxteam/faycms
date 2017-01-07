@@ -2,9 +2,9 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Widgets;
+use fay\models\tables\WidgetsTable;
 use fay\helpers\StringHelper;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\FileService;
@@ -63,7 +63,7 @@ class WidgetController extends AdminController{
 		
 		$id = $this->input->get('id', 'intval');
 
-		$widget = Widgets::model()->find($id);
+		$widget = WidgetsTable::model()->find($id);
 		if(!$widget){
 			throw new HttpException('指定的小工具ID不存在');
 		}
@@ -93,7 +93,7 @@ class WidgetController extends AdminController{
 			$f_widget_cache = $this->input->post('f_widget_cache');
 			$f_widget_cache_expire = $this->input->post('f_widget_cache_expire', 'intval');
 			$alias = $this->input->post('f_widget_alias', 'trim');
-			Widgets::model()->update(array(
+			WidgetsTable::model()->update(array(
 				'alias'=>$alias,
 				'description'=>$this->input->post('f_widget_description', 'trim'),
 				'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
@@ -106,7 +106,7 @@ class WidgetController extends AdminController{
 			if(method_exists($widget_obj, 'onPost')){
 				$widget_obj->onPost();
 			}
-			$widget = Widgets::model()->find($id);
+			$widget = WidgetsTable::model()->find($id);
 			\F::cache()->delete($alias);
 		}
 		
@@ -157,14 +157,14 @@ class WidgetController extends AdminController{
 	
 	public function createInstance(){
 		if($this->input->post()){
-			$widget_instance_id = Widgets::model()->insert(array(
+			$widget_instance_id = WidgetsTable::model()->insert(array(
 				'widget_name'=>$this->input->post('widget_name'),
 				'alias'=>$this->input->post('alias') ? $this->input->post('alias') : 'w' . uniqid(),
 				'description'=>$this->input->post('description'),
 				'widgetarea'=>$this->input->post('widgetarea', 'trim'),
 				'options'=>'',
 			));
-			$this->actionlog(Actionlogs::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
+			$this->actionlog(ActionlogsTable::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
 			
 			Response::notify('success', '小工具实例创建成功', array('admin/widget/edit', array(
 				'id'=>$widget_instance_id,
@@ -195,8 +195,8 @@ class WidgetController extends AdminController{
 	
 	public function removeInstance(){
 		$id = $this->input->get('id', 'intval');
-		Widgets::model()->delete($id);
-		$this->actionlog(Actionlogs::TYPE_WIDGET, '删除了一个小工具实例', $id);
+		WidgetsTable::model()->delete($id);
+		$this->actionlog(ActionlogsTable::TYPE_WIDGET, '删除了一个小工具实例', $id);
 
 		Response::notify('success', array(
 			'message'=>'一个小工具实例被删除',
@@ -204,7 +204,7 @@ class WidgetController extends AdminController{
 	}
 	
 	public function isAliasNotExist(){
-		if(Widgets::model()->fetchRow(array(
+		if(WidgetsTable::model()->fetchRow(array(
 			'alias = ?'=>$this->input->request('alias', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false)
 		))){
@@ -216,12 +216,12 @@ class WidgetController extends AdminController{
 	
 	public function copy(){
 		$id = $this->input->get('id', 'intval');
-		$widget = Widgets::model()->find($id);
+		$widget = WidgetsTable::model()->find($id);
 		if(!$widget){
 			throw new HttpException('指定小工具ID不存在');
 		}
 		
-		$widget_id = Widgets::model()->insert(array(
+		$widget_id = WidgetsTable::model()->insert(array(
 			'alias'=>'w' . uniqid(),
 			'options'=>$widget['options'],
 			'widget_name'=>$widget['widget_name'],
@@ -233,7 +233,7 @@ class WidgetController extends AdminController{
 			'cache'=>$widget['cache'],
 		));
 		
-		$this->actionlog(Actionlogs::TYPE_WIDGET, '复制了小工具实例' . $id, $widget_id);
+		$this->actionlog(ActionlogsTable::TYPE_WIDGET, '复制了小工具实例' . $id, $widget_id);
 		
 		Response::notify('success', array(
 			'message'=>'一个小工具实例被复制',

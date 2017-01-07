@@ -4,7 +4,7 @@ namespace jxsj\modules\frontend\controllers;
 use jxsj\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\core\HttpException;
 
@@ -30,7 +30,7 @@ class CatController extends FrontController{
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
 				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
 		;

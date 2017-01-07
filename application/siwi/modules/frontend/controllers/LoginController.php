@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\services\EmailService;
 use fay\helpers\StringHelper;
 use fay\core\Response;
@@ -69,7 +69,7 @@ class LoginController extends FrontController{
 		);
 		
 		if($email = $this->input->post('email')){
-			$user = Users::model()->fetchRow(array(
+			$user = UsersTable::model()->fetchRow(array(
 				'username = ?'=>$email,
 			), 'id');
 			if(!$user){
@@ -82,7 +82,7 @@ class LoginController extends FrontController{
 				'email'=>$email,
 				'active'=>$active_key,
 			), false);
-			Users::model()->update(array(
+			UsersTable::model()->update(array(
 				'active_key'=>$active_key,
 				'active_expire'=>$this->current_time + (3600 * 24),
 			), $user['id']);
@@ -107,7 +107,7 @@ class LoginController extends FrontController{
 		));
 		
 		if($check === true){
-			$user = Users::model()->fetchRow(array(
+			$user = UsersTable::model()->fetchRow(array(
 				'active_key = ?'=>$this->input->get('active'),
 				'active_expire > ?'=>$this->current_time,
 				'email = ?'=>$this->input->get('email'),
@@ -125,7 +125,7 @@ class LoginController extends FrontController{
 						$salt = StringHelper::random('alnum', 5);
 						$password = md5(md5($this->input->post('password')).$salt);
 						
-						Users::model()->update(array(
+						UsersTable::model()->update(array(
 							'password'=>$password,
 							'salt'=>$salt,
 						), $user['id']);

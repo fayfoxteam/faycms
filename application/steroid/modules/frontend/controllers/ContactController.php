@@ -4,16 +4,16 @@ namespace steroid\modules\frontend\controllers;
 use steroid\library\FrontController;
 use steroid\models\forms\LeaveMessage;
 use fay\core\Response;
-use fay\models\tables\Contacts;
+use fay\models\tables\ContactsTable;
 use fay\helpers\RequestHelper;
 
 class ContactController extends FrontController{
 	public function send(){
-		$this->form()->setModel(LeaveMessage::model());
+		$this->form()->setModel(LeaveMessageTable::model());
 		
 		if($this->input->post()){
 			if($this->form()->check()){
-				Contacts::model()->insert(array(
+				ContactsTable::model()->insert(array(
 					'name'=>$this->form()->getData('name'),
 					'email'=>$this->form()->getData('email'),
 					'mobile'=>$this->form()->getData('phone'),

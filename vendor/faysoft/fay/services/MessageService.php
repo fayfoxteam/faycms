@@ -5,11 +5,11 @@ use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\MultiTree;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
-use fay\models\tables\UserCounter;
+use fay\models\tables\UserCounterTable;
 
 /**
  * 留言服务
@@ -48,7 +48,7 @@ class MessageService extends MultiTree{
 	/**
 	 * @see MultiTree::$model
 	 */
-	protected $model = 'fay\models\tables\Messages';
+	protected $model = 'fay\models\tables\MessagesTable';
 	
 	/**
 	 * @see MultiTree::$foreign_key
@@ -80,7 +80,7 @@ class MessageService extends MultiTree{
 	 * @return int 消息ID
 	 * @throws Exception
 	 */
-	public function create($to_user_id, $content, $parent = 0, $status = Messages::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
+	public function create($to_user_id, $content, $parent = 0, $status = MessagesTable::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
 		
 		if(!UserService::isUserIdExist($to_user_id)){
@@ -88,7 +88,7 @@ class MessageService extends MultiTree{
 		}
 		
 		if($parent){
-			$parent_message = Messages::model()->find($parent, 'to_user_id,deleted');
+			$parent_message = MessagesTable::model()->find($parent, 'to_user_id,deleted');
 			if(!$parent_message || $parent_message['deleted']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
 			}
@@ -125,7 +125,7 @@ class MessageService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function delete($message_id){
-		$message = Messages::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
+		$message = MessagesTable::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
@@ -134,7 +134,7 @@ class MessageService extends MultiTree{
 		}
 		
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
-		Messages::model()->update(array(
+		MessagesTable::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), $message_id);
@@ -152,7 +152,7 @@ class MessageService extends MultiTree{
 	 * @return int|null
 	 */
 	public function batchDelete($message_ids){
-		$messages = Messages::model()->fetchAll(array(
+		$messages = MessagesTable::model()->fetchAll(array(
 			'id IN (?)'=>$message_ids,
 			'deleted = 0',
 		), 'id,to_user_id,sockpuppet,status');
@@ -164,7 +164,7 @@ class MessageService extends MultiTree{
 		$affected_message_ids = ArrayHelper::column($messages, 'id');
 		
 		//更新状态
-		$affected_rows = Messages::model()->update(array(
+		$affected_rows = MessagesTable::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -185,7 +185,7 @@ class MessageService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function undelete($message_id){
-		$message = Messages::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
+		$message = MessagesTable::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
@@ -194,7 +194,7 @@ class MessageService extends MultiTree{
 		}
 		
 		//还原不需要动树结构，只是把deleted字段标记一下即可
-		Messages::model()->update(array(
+		MessagesTable::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), $message_id);
@@ -212,7 +212,7 @@ class MessageService extends MultiTree{
 	 * @return int|null
 	 */
 	public function batchUnelete($message_ids){
-		$messages = Messages::model()->fetchAll(array(
+		$messages = MessagesTable::model()->fetchAll(array(
 			'id IN (?)'=>$message_ids,
 			'deleted > 0',
 		), 'id,to_user_id,sockpuppet,status');
@@ -224,7 +224,7 @@ class MessageService extends MultiTree{
 		$affected_message_ids = ArrayHelper::column($messages, 'id');
 		
 		//更新状态
-		$affected_rows = Messages::model()->update(array(
+		$affected_rows = MessagesTable::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -246,13 +246,13 @@ class MessageService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function deleteAll($message_id){
-		$message = Messages::model()->find($message_id, 'left_value,right_value,root');
+		$message = MessagesTable::model()->find($message_id, 'left_value,right_value,root');
 		if(!$message){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$messages = Messages::model()->fetchAll(array(
+		$messages = MessagesTable::model()->fetchAll(array(
 			'root = ?'=>$message['root'],
 			'left_value >= ' . $message['left_value'],
 			'right_value <= ' . $message['right_value'],
@@ -262,7 +262,7 @@ class MessageService extends MultiTree{
 		if($messages){
 			//如果存在待删除节点，则执行删除
 			$message_ids = ArrayHelper::column($messages, 'id');
-			Messages::model()->update(array(
+			MessagesTable::model()->update(array(
 				'deleted'=>1,
 				'last_modified_time'=>\F::app()->current_time,
 			), array(
@@ -288,7 +288,7 @@ class MessageService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function remove($message_id){
-		$message = Messages::model()->find($message_id, '!content');
+		$message = MessagesTable::model()->find($message_id, '!content');
 		if(!$message){
 			throw new Exception('指定评论ID不存在');
 		}
@@ -313,13 +313,13 @@ class MessageService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function removeAll($message_id){
-		$message = Messages::model()->find($message_id, '!content');
+		$message = MessagesTable::model()->find($message_id, '!content');
 		if(!$message){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$messages = Messages::model()->fetchAll(array(
+		$messages = MessagesTable::model()->fetchAll(array(
 			'root = ?'=>$message['root'],
 			'left_value >= ' . $message['left_value'],
 			'right_value <= ' . $message['right_value'],
@@ -352,18 +352,18 @@ class MessageService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function approve($message_id){
-		$message = Messages::model()->find($message_id, '!content');
+		$message = MessagesTable::model()->find($message_id, '!content');
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
 		if($message['deleted']){
 			throw new Exception('评论已删除', 'message-deleted');
 		}
-		if($message['status'] == Messages::STATUS_APPROVED){
+		if($message['status'] == MessagesTable::STATUS_APPROVED){
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		$this->setStatus($message_id, Messages::STATUS_APPROVED);
+		$this->setStatus($message_id, MessagesTable::STATUS_APPROVED);
 		
 		//更新用户留言数
 		$this->updateMessages(array($message), 'approve');
@@ -379,9 +379,9 @@ class MessageService extends MultiTree{
 	 * @return int
 	 */
 	public function batchApprove($message_ids){
-		$messages = Messages::model()->fetchAll(array(
+		$messages = MessagesTable::model()->fetchAll(array(
 			'id IN (?)'=>$message_ids,
-			'status != ' . Messages::STATUS_APPROVED,
+			'status != ' . MessagesTable::STATUS_APPROVED,
 		), 'id,to_user_id,sockpuppet,status');
 		if(!$messages){
 			//无符合条件的记录
@@ -391,7 +391,7 @@ class MessageService extends MultiTree{
 		$affected_message_ids = ArrayHelper::column($messages, 'id');
 		
 		//更新状态
-		$affected_rows = $this->setStatus($affected_message_ids, Messages::STATUS_APPROVED);
+		$affected_rows = $this->setStatus($affected_message_ids, MessagesTable::STATUS_APPROVED);
 		
 		//更新用户留言数
 		$this->updateMessages($messages, 'approve');
@@ -409,18 +409,18 @@ class MessageService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function disapprove($message_id){
-		$message = Messages::model()->find($message_id, '!content');
+		$message = MessagesTable::model()->find($message_id, '!content');
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
 		if($message['deleted']){
 			throw new Exception('评论已删除', 'message-is-deleted');
 		}
-		if($message['status'] == Messages::STATUS_UNAPPROVED){
+		if($message['status'] == MessagesTable::STATUS_UNAPPROVED){
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		$this->setStatus($message_id, Messages::STATUS_UNAPPROVED);
+		$this->setStatus($message_id, MessagesTable::STATUS_UNAPPROVED);
 		
 		//更新用户留言数
 		$this->updateMessages(array($message), 'disapprove');
@@ -436,9 +436,9 @@ class MessageService extends MultiTree{
 	 * @return int
 	 */
 	public function batchDisapprove($message_ids){
-		$messages = Messages::model()->fetchAll(array(
+		$messages = MessagesTable::model()->fetchAll(array(
 			'id IN (?)'=>$message_ids,
-			'status != ' . Messages::STATUS_UNAPPROVED,
+			'status != ' . MessagesTable::STATUS_UNAPPROVED,
 		), 'id,to_user_id,sockpuppet,status');
 		if(!$messages){
 			//无符合条件的记录
@@ -448,7 +448,7 @@ class MessageService extends MultiTree{
 		$affected_message_ids = ArrayHelper::column($messages, 'id');
 		
 		//更新状态
-		$affected_rows = $this->setStatus($affected_message_ids, Messages::STATUS_UNAPPROVED);
+		$affected_rows = $this->setStatus($affected_message_ids, MessagesTable::STATUS_UNAPPROVED);
 		
 		//更新用户留言数
 		$this->updateMessages($messages, 'disapprove');
@@ -465,7 +465,7 @@ class MessageService extends MultiTree{
 	 * @return int|null
 	 */
 	public function update($message_id, $content){
-		return Messages::model()->update(array(
+		return MessagesTable::model()->update(array(
 			'content'=>$content,
 		), $message_id);
 	}
@@ -597,7 +597,7 @@ class MessageService extends MultiTree{
 	 */
 	public function checkPermission($message, $action = 'delete', $user_id = null){
 		if(!is_array($message)){
-			$message = Messages::model()->find($message, 'user_id');
+			$message = MessagesTable::model()->find($message, 'user_id');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
@@ -627,12 +627,12 @@ class MessageService extends MultiTree{
 	 */
 	public function setStatus($message_id, $status){
 		if(is_array($message_id)){
-			return Messages::model()->update(array(
+			return MessagesTable::model()->update(array(
 				'status'=>$status,
 				'last_modified_time'=>\F::app()->current_time,
 			), array('id IN (?)'=>$message_id));
 		}else{
-			return Messages::model()->update(array(
+			return MessagesTable::model()->update(array(
 				'status'=>$status,
 				'last_modified_time'=>\F::app()->current_time,
 			), $message_id);
@@ -648,7 +648,7 @@ class MessageService extends MultiTree{
 	private function needChangeMessages($message, $action){
 		$user_message_verify = OptionService::get('system:user_message_verify');
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($message['status'] == Messages::STATUS_APPROVED || !$user_message_verify){
+			if($message['status'] == MessagesTable::STATUS_APPROVED || !$user_message_verify){
 				return true;
 			}
 		}else if($action == 'approve'){
@@ -658,7 +658,7 @@ class MessageService extends MultiTree{
 			}
 		}else if($action == 'disapprove'){
 			//如果留言原本是通过审核状态，且系统开启了用户留言审核，则当留言未通过审核时，相应用户留言数-1
-			if($message['status'] == Messages::STATUS_APPROVED && $user_message_verify){
+			if($message['status'] == MessagesTable::STATUS_APPROVED && $user_message_verify){
 				return true;
 			}
 		}
@@ -703,13 +703,13 @@ class MessageService extends MultiTree{
 			
 			if($messages && $messages == $real_messages){
 				//如果全部留言都是真实留言，则一起更新real_messages和messages
-				UserCounter::model()->incr($to_user_id, array('messages', 'real_messages'), $messages);
+				UserCounterTable::model()->incr($to_user_id, array('messages', 'real_messages'), $messages);
 			}else{
 				if($messages){
-					UserCounter::model()->incr($to_user_id, array('messages'), $messages);
+					UserCounterTable::model()->incr($to_user_id, array('messages'), $messages);
 				}
 				if($real_messages){
-					UserCounter::model()->incr($to_user_id, array('real_messages'), $real_messages);
+					UserCounterTable::model()->incr($to_user_id, array('real_messages'), $real_messages);
 				}
 			}
 		}
@@ -729,7 +729,7 @@ class MessageService extends MultiTree{
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了留言审核
-			$conditions[] = 'status = '.Messages::STATUS_APPROVED;
+			$conditions[] = 'status = '.MessagesTable::STATUS_APPROVED;
 		}
 		
 		return $this->_getTree($to_user_id,
@@ -769,8 +769,8 @@ class MessageService extends MultiTree{
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了留言审核
-			$conditions[] = 't.status = '.Messages::STATUS_APPROVED;
-			$join_conditions[] = 't2.status = '.Messages::STATUS_APPROVED;
+			$conditions[] = 't.status = '.MessagesTable::STATUS_APPROVED;
+			$join_conditions[] = 't2.status = '.MessagesTable::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getList($to_user_id,
@@ -818,8 +818,8 @@ class MessageService extends MultiTree{
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了留言审核
-			$conditions[] = 't.status = '.Messages::STATUS_APPROVED;
-			$join_conditions[] = 't2.status = '.Messages::STATUS_APPROVED;
+			$conditions[] = 't.status = '.MessagesTable::STATUS_APPROVED;
+			$join_conditions[] = 't2.status = '.MessagesTable::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getChildrenList($parent_id,
@@ -858,7 +858,7 @@ class MessageService extends MultiTree{
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了评论审核
-			$conditions[] = 'status = '.Messages::STATUS_APPROVED;
+			$conditions[] = 'status = '.MessagesTable::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getChats($user_id,
@@ -879,9 +879,9 @@ class MessageService extends MultiTree{
 	 * @param int $id
 	 */
 	public function getReplyCount($id){
-		$message = Messages::model()->find($id, 'root,left_value,right_value');
+		$message = MessagesTable::model()->find($id, 'root,left_value,right_value');
 		
-		$count = Messages::model()->fetchRow(array(
+		$count = MessagesTable::model()->fetchRow(array(
 			'root = ' . $message['root'],
 			'left_value > ' . $message['left_value'],
 			'right_value < ' . $message['right_value'],

@@ -69,7 +69,7 @@ class ModelController extends AdminController{
 			'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
 		));
 		
-		$this->form()->setModel(Outputs::model());
+		$this->form()->setModel(OutputsTable::model());
 		
 		$this->view->render();
 	}
@@ -83,37 +83,37 @@ class ModelController extends AdminController{
 			);
 		}
 		
-		$this->form()->setModel(Models::model());
+		$this->form()->setModel(ModelsTable::model());
 		
 		//启用的编辑框
 		$_setting_key = 'admin_model_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		if($this->input->post() && $this->form()->check()){
-			$data = Models::model()->fillData($this->input->post(), true, 'insert');
+			$data = ModelsTable::model()->fillData($this->input->post(), true, 'insert');
 			$data['create_time'] = $this->current_time;
 			$data['last_modified_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
-			$model_id = Models::model()->insert($data);
+			$model_id = ModelsTable::model()->insert($data);
 			
 			$props = $this->input->post('props');
 			$i = 0;
 			foreach($props as $p){
 				$i++;
-				$type_model = Models::model()->fetchRow(array(
+				$type_model = ModelsTable::model()->fetchRow(array(
 					'name = ?'=>$p['type_name'],
 				), 'id');
 				if(!$type_model){
 					throw new ErrorException('指定属性类型不存在', $p['type_name']);
 				}
 				
-				$prop = ModelProps::model()->fillData($p, true, 'insert');
+				$prop = ModelPropsTable::model()->fillData($p, true, 'insert');
 				$prop['create_time'] = $this->current_time;
 				$prop['last_modified_time'] = $this->current_time;
 				$prop['model_id'] = $model_id;
 				$prop['type'] = $type_model['id'];
 				$prop['sort'] = $i;
-				ModelProps::model()->insert($prop);
+				ModelPropsTable::model()->insert($prop);
 			}
 			
 			Response::notify('success', '数据模型添加成功', array('admin/model/edit', array(
@@ -133,7 +133,7 @@ class ModelController extends AdminController{
 		));
 		
 		//所有数据模型
-		$models = Models::model()->fetchAll(array(), 'id,name,description');
+		$models = ModelsTable::model()->fetchAll(array(), 'id,name,description');
 		$modelMap = array();
 		foreach($models as $m){
 			$modelMap[$m['id']] = $m['name'] . '(' . StringHelper::niceShort($m['description'], 10) . ')';
@@ -141,7 +141,7 @@ class ModelController extends AdminController{
 		$this->view->models = $modelMap;
 		
 		//属性表单规则
-		$this->form('prop')->setModel(ModelProps::model())
+		$this->form('prop')->setModel(ModelPropsTable::model())
 			->setRule(array('type_name', 'required'))
 			->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
 			->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
@@ -163,38 +163,38 @@ class ModelController extends AdminController{
 		
 		$model_id = $this->input->get('id', 'intval');
 		
-		$this->form()->setModel(Models::model());
+		$this->form()->setModel(ModelsTable::model());
 		
 		//启用的编辑框
 		$_setting_key = 'admin_model_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		if($this->input->post() && $this->form()->check()){
-			$data = Models::model()->fillData($this->input->post(), true, 'update');
+			$data = ModelsTable::model()->fillData($this->input->post(), true, 'update');
 			$data['last_modified_time'] = $this->current_time;
-			Models::model()->update($data, $model_id);
+			ModelsTable::model()->update($data, $model_id);
 			
 			$props = $this->input->post('props');
 			//删除已被删除的属性
 			if($props){
-				ModelProps::model()->delete(array(
+				ModelPropsTable::model()->delete(array(
 					'model_id = ?'=>$model_id,
 					'id NOT IN (?)'=>array_keys($props),
 				));
 			}else if(in_array('props', $enabled_boxes)){
-				ModelProps::model()->delete(array(
+				ModelPropsTable::model()->delete(array(
 					'model_id = ?'=>$model_id,
 				));
 			}
 			//获取已存在的属性
-			$old_prop_ids = ModelProps::model()->fetchCol('id', array(
+			$old_prop_ids = ModelPropsTable::model()->fetchCol('id', array(
 				'model_id = ?'=>$model_id,
 			));
 			
 			$i = 0;
 			foreach($props as $prop_id => $p){
 				$i++;
-				$type_model = Models::model()->fetchRow(array(
+				$type_model = ModelsTable::model()->fetchRow(array(
 					'name = ?'=>$p['type_name'],
 				), 'id');
 				if(!$type_model){
@@ -202,19 +202,19 @@ class ModelController extends AdminController{
 				}
 				
 				if(in_array($prop_id, $old_prop_ids)){
-					$prop = ModelProps::model()->fillData($p, true, 'update');
+					$prop = ModelPropsTable::model()->fillData($p, true, 'update');
 					$prop['sort'] = $i;
 					$prop['type'] = $type_model['id'];
 					$prop['last_modified_time'] = $this->current_time;
-					ModelProps::model()->update($prop, $prop_id);
+					ModelPropsTable::model()->update($prop, $prop_id);
 				}else{
-					$prop = ModelProps::model()->fillData($p, true, 'insert');
+					$prop = ModelPropsTable::model()->fillData($p, true, 'insert');
 					$prop['model_id'] = $model_id;
 					$prop['sort'] = $i;
 					$prop['type'] = $type_model['id'];
 					$prop['create_time'] = $this->current_time;
 					$prop['last_modified_time'] = $this->current_time;
-					ModelProps::model()->insert($prop);
+					ModelPropsTable::model()->insert($prop);
 				}
 			}
 			
@@ -223,7 +223,7 @@ class ModelController extends AdminController{
 			)));
 		}
 		
-		$model = Models::model()->find($model_id);
+		$model = ModelsTable::model()->find($model_id);
 		$this->form()->setData($model);
 		
 		//可配置信息
@@ -238,7 +238,7 @@ class ModelController extends AdminController{
 		));
 		
 		//所有数据模型
-		$models = Models::model()->fetchAll(array(), 'id,name,description');
+		$models = ModelsTable::model()->fetchAll(array(), 'id,name,description');
 		$modelMap = array();
 		foreach($models as $m){
 			$modelMap[$m['id']] = $m['name'] . '(' . StringHelper::niceShort($m['description'], 10) . ')';
@@ -246,7 +246,7 @@ class ModelController extends AdminController{
 		$this->view->models = $modelMap;
 		
 		//属性表单规则
-		$this->form('prop')->setModel(ModelProps::model())
+		$this->form('prop')->setModel(ModelPropsTable::model())
 			->setRule(array('type_name', 'required'))
 			->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
 			->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
@@ -256,8 +256,8 @@ class ModelController extends AdminController{
 			
 		//原属性
 		$sql = new Sql();
-		$this->view->props = $sql->from(array('mp'=>ModelProps::model()->getTableName()))
-			->joinLeft(array('m'=>Models::model()->getTableName()), 'mp.type = m.id', 'name AS type_name')
+		$this->view->props = $sql->from(array('mp'=>ModelPropsTable::model()->getTableName()))
+			->joinLeft(array('m'=>ModelsTable::model()->getTableName()), 'mp.type = m.id', 'name AS type_name')
 			->where('mp.model_id = ?', $model_id)
 			->order('mp.sort')
 			->fetchAll();
@@ -273,7 +273,7 @@ class ModelController extends AdminController{
 		$keywords = $this->input->request('key', 'trim');
 		
 		$sql = new Sql();
-		$models = $sql->from(array('m'=>Models::model()->getTableName()), array('id', 'name', 'description'))
+		$models = $sql->from(array('m'=>ModelsTable::model()->getTableName()), array('id', 'name', 'description'))
 			->orWhere(array(
 				'name LIKE ?'=>"%{$keywords}%",
 				'description LIKE ?'=>"%{$keywords}%",
@@ -293,7 +293,7 @@ class ModelController extends AdminController{
 	}
 	
 	public function isNameExist(){
-		if(Models::model()->fetchRow(array(
+		if(ModelsTable::model()->fetchRow(array(
 			'name = ?'=>$this->input->request('name', 'trim'),
 		))){
 			echo Response::json();

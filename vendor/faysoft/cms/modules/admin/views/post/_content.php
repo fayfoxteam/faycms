@@ -1,15 +1,15 @@
 <?php
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\helpers\HtmlHelper;
 
 $editor = F::form()->getData('content_type');
-$editor || $editor = F::form('setting')->getData('editor', Posts::CONTENT_TYPE_VISUAL_EDITOR);
+$editor || $editor = F::form('setting')->getData('editor', PostsTable::CONTENT_TYPE_VISUAL_EDITOR);
 
-if($editor == Posts::CONTENT_TYPE_TEXTAREA){
+if($editor == PostsTable::CONTENT_TYPE_TEXTAREA){
 	echo F::form()->textarea('content', array(
 		'class'=>'h350 form-control autosize',
 	));
-}else if($editor == Posts::CONTENT_TYPE_MARKDOWN){
+}else if($editor == PostsTable::CONTENT_TYPE_MARKDOWN){
 	echo HtmlHelper::textarea('content', F::form()->getData('markdown', '', false), array(
 		'id'=>'wmd-input',
 		'class'=>'h350 wp100',

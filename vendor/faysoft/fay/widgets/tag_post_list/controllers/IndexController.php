@@ -2,12 +2,12 @@
 namespace fay\widgets\tag_post_list\controllers;
 
 use fay\helpers\ArrayHelper;
-use fay\models\tables\Tags;
+use fay\models\tables\TagsTable;
 use fay\services\PostService;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\CategoryService;
 use fay\helpers\DateHelper;
 use fay\core\HttpException;
@@ -210,7 +210,7 @@ class IndexController extends Widget{
 		if(!empty($this->config['tag_id_key']) && $this->input->get($this->config['tag_id_key'])){
 			$tag_id = $this->input->get($this->config['tag_id_key'], 'intval');
 		}else if(!empty($this->config['tag_title_key']) && $this->input->get($this->config['tag_title_key'])){
-			$tag = Tags::model()->fetchRow(array(
+			$tag = TagsTable::model()->fetchRow(array(
 				'title = ?'=>$this->input->get($this->config['tag_title_key'])
 			), 'id');
 			if(!$tag){
@@ -229,7 +229,7 @@ class IndexController extends Widget{
 		$sql->from(array('pt'=>'posts_tags'), 'post_id')
 			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
 			->where('tag_id = ?', $tag_id)
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order($this->getOrder())
 		;
 		if($this->config['cat_id']){

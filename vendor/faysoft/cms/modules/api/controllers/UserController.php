@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
@@ -27,7 +27,7 @@ class UserController extends ApiController{
 			'username'=>'用户名',
 		))->check();
 		
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'username = ?'=>$this->form()->getData('username'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
@@ -52,7 +52,7 @@ class UserController extends ApiController{
 			'username'=>'用户名',
 		))->check();
 		
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'username = ?'=>$this->form()->getData('username'),
 			'deleted = 0',
 			'id != ?'=>$this->input->request('id', 'intval', false)
@@ -77,7 +77,7 @@ class UserController extends ApiController{
 			'nickname'=>'昵称',
 		))->check();
 		
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'nickname = ?'=>$this->form()->getData('nickname'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
@@ -102,7 +102,7 @@ class UserController extends ApiController{
 			'nickname'=>'昵称',
 		))->check();
 		
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'nickname = ?'=>$this->form()->getData('nickname'),
 			'deleted = 0',
 			'id != ?'=>$this->input->request('id', 'intval', false)

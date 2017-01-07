@@ -4,7 +4,7 @@ namespace siwi\widgets\recent_posts\controllers;
 use fay\widget\Widget;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 
 class IndexController extends Widget{
 	
@@ -18,7 +18,7 @@ class IndexController extends Widget{
 				'p.cat_id IN (?)'=>$cat_ids,
 				'p.deleted = 0',
 				'p.publish_time < '.$this->current_time,
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 			))
 			->order('p.publish_time DESC')
 			->limit(6)

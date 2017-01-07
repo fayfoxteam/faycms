@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\UserSettings;
+use fay\models\tables\UserSettingsTable;
 
 class SettingService extends Service{
 	/**
@@ -14,18 +14,18 @@ class SettingService extends Service{
 	}
 	
 	public function set($key, $value, $user_id = null){
-		if(UserSettings::model()->fetchRow(array(
+		if(UserSettingsTable::model()->fetchRow(array(
 			'user_id = ?'=>$user_id ? $user_id : \F::app()->current_user,
 			'setting_key = ?'=>$key,
 		), 'setting_key')){
-			UserSettings::model()->update(array(
+			UserSettingsTable::model()->update(array(
 				'setting_value'=>json_encode($value),
 			), array(
 				'user_id = ?'=>$user_id ? $user_id : \F::app()->current_user,
 				'setting_key = ?'=>$key,
 			));
 		}else{
-			UserSettings::model()->insert(array(
+			UserSettingsTable::model()->insert(array(
 				'user_id'=>$user_id ? $user_id : \F::app()->current_user,
 				'setting_key'=>$key,
 				'setting_value'=>json_encode($value),
@@ -34,7 +34,7 @@ class SettingService extends Service{
 	}
 	
 	public function get($key, $user_id = null){
-		$setting = UserSettings::model()->fetchRow(array(
+		$setting = UserSettingsTable::model()->fetchRow(array(
 			'user_id = ?'=>$user_id ? $user_id : \F::app()->current_user,
 			'setting_key = ?'=>$key,
 		), 'setting_value');

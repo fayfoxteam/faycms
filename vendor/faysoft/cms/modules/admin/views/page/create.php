@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -36,8 +36,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					</div>
 					<div class="misc-pub-section mt6">
 						<strong>状态</strong>
-						<?php echo F::form()->inputRadio('status', Pages::STATUS_PUBLISHED, array('label'=>'发布'), true)?>
-						<?php echo F::form()->inputRadio('status', Pages::STATUS_DRAFT, array('label'=>'草稿'))?>
+						<?php echo F::form()->inputRadio('status', PagesTable::STATUS_PUBLISHED, array('label'=>'发布'), true)?>
+						<?php echo F::form()->inputRadio('status', PagesTable::STATUS_DRAFT, array('label'=>'草稿'))?>
 					</div>
 				</div>
 			</div>

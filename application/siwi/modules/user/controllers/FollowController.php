@@ -2,8 +2,8 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\Followers;
-use fay\models\tables\Users;
+use fay\models\tables\FollowersTable;
+use fay\models\tables\UsersTable;
 use fay\core\Response;
 
 class FollowController extends UserController{
@@ -20,14 +20,14 @@ class FollowController extends UserController{
 			));
 		}
 		
-		if(!Users::model()->find($user_id, 'id')){
+		if(!UsersTable::model()->find($user_id, 'id')){
 			Response::notify('error', array(
 				'message'=>'用户不存在',
 				'error_code'=>'user-not-exist',
 			));
 		}
 		
-		if(Followers::model()->fetchRow(array(
+		if(FollowersTable::model()->fetchRow(array(
 			'follower = '.$this->current_user,
 			'user_id'=>$user_id,
 		))){
@@ -37,7 +37,7 @@ class FollowController extends UserController{
 			));
 		}
 		
-		Followers::model()->insert(array(
+		FollowersTable::model()->insert(array(
 			'user_id'=>$user_id,
 			'follower'=>$this->current_user,
 			'create_time'=>$this->current_time,
@@ -54,14 +54,14 @@ class FollowController extends UserController{
 	public function delete(){
 		$user_id = $this->input->get('id', 'intval');
 
-		if(!Users::model()->find($user_id, 'id')){
+		if(!UsersTable::model()->find($user_id, 'id')){
 			Response::notify('error', array(
 				'message'=>'用户不存在',
 				'error_code'=>'user-not-exist',
 			));
 		}
 		
-		if(!Followers::model()->fetchRow(array(
+		if(!FollowersTable::model()->fetchRow(array(
 			'follower = '.$this->current_user,
 			'user_id'=>$user_id,
 		))){
@@ -71,7 +71,7 @@ class FollowController extends UserController{
 			));
 		}
 		
-		Followers::model()->delete(array(
+		FollowersTable::model()->delete(array(
 			'follower = '.$this->current_user,
 			'user_id'=>$user_id,
 		));
@@ -85,14 +85,14 @@ class FollowController extends UserController{
 	public function isFollow(){
 		$user_id = $this->input->get('id', 'intval');
 		
-		if(!Users::model()->find($user_id, 'id')){
+		if(!UsersTable::model()->find($user_id, 'id')){
 			Response::notify('error', array(
 				'message'=>'用户不存在',
 				'error_code'=>'user-not-exist',
 			));
 		}
 		
-		if(Followers::model()->fetchRow(array(
+		if(FollowersTable::model()->fetchRow(array(
 			'follower = '.$this->current_user,
 			'user_id'=>$user_id,
 		))){

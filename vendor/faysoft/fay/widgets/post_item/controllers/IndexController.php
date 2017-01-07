@@ -5,7 +5,7 @@ use fay\widget\Widget;
 use fay\services\PostService;
 use fay\core\HttpException;
 use fay\core\db\Expr;
-use fay\models\tables\PostMeta;
+use fay\models\tables\PostMetaTable;
 
 class IndexController extends Widget{
 	private $fields = array(
@@ -118,7 +118,7 @@ class IndexController extends Widget{
 		}
 		
 		if($this->config['inc_views']){
-			PostMeta::model()->update(array(
+			PostMetaTable::model()->update(array(
 				'last_view_time'=>$this->current_time,
 				'views'=>new Expr('views + 1'),
 				'real_views'=>new Expr('real_views + 1'),

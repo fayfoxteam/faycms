@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\image\controllers;
 
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\widget\Widget;
 use fay\services\FileService;
 
@@ -24,7 +24,7 @@ class IndexController extends Widget{
 			);
 		}
 		
-		$file = Files::model()->find($this->config['file_id']);
+		$file = FilesTable::model()->find($this->config['file_id']);
 		
 		if(!$file){
 			//图片不存在

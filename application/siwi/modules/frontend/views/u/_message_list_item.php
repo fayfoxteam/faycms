@@ -3,7 +3,7 @@ use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\helpers\DateHelper;
 use fay\core\Sql;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 
 $children = array();
 if(!$data['is_terminal']){
@@ -14,7 +14,7 @@ if(!$data['is_terminal']){
 		->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'nickname AS parent_nickname')
 		->where(array(
 			'm.root = '.$data['id'],
-			'm.status = '.Messages::STATUS_APPROVED,
+			'm.status = '.MessagesTable::STATUS_APPROVED,
 			'm.deleted = 0',
 		))
 		->order('id')

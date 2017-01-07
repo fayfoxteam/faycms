@@ -3,7 +3,7 @@ namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\common\ListView;
 
 class IndexController extends FrontController{
@@ -19,14 +19,14 @@ class IndexController extends FrontController{
 	
 	public function index(){
 		$sql = new Sql();
-		$sql->from(array('p'=>'posts'), Posts::model()->formatFields('!content'))
+		$sql->from(array('p'=>'posts'), PostsTable::model()->formatFields('!content'))
 			->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'nickname,avatar')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title, parent AS parent_cat_id')
 			->joinLeft(array('pc'=>'categories'), 'c.parent = pc.id', 'title AS parent_cat_title')
 			->order('is_top DESC, p.sort, p.publish_time DESC')
 			->where(array(
 				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
 		;

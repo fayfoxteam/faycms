@@ -4,8 +4,8 @@ namespace fay\services\user;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldHelper;
-use fay\models\tables\Roles;
-use fay\models\tables\UsersRoles;
+use fay\models\tables\RolesTable;
+use fay\models\tables\UsersRolesTable;
 use fay\helpers\ArrayHelper;
 
 class UserRoleService extends Service{
@@ -37,7 +37,7 @@ class UserRoleService extends Service{
 		
 		$sql = new Sql();
 		return $sql->from(array('ur'=>'users_roles'), '')
-			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', Roles::model()->formatFields($fields['fields']))
+			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields['fields']))
 			->where('ur.user_id = ?', $user_id)
 			->where('r.deleted = 0')
 			->fetchAll();
@@ -58,7 +58,7 @@ class UserRoleService extends Service{
 		
 		$sql = new Sql();
 		$roles = $sql->from(array('ur'=>'users_roles'), 'user_id')
-			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', Roles::model()->formatFields($fields['fields']))
+			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields['fields']))
 			->where('ur.user_id IN (?)', $user_ids)
 			->where('r.deleted = 0')
 			->fetchAll();
@@ -89,7 +89,7 @@ class UserRoleService extends Service{
 			return $role_ids;
 		}
 		
-		$user_roles = UsersRoles::model()->fetchAll(array('user_id = ?'=>$user_id), 'role_id');
+		$user_roles = UsersRolesTable::model()->fetchAll(array('user_id = ?'=>$user_id), 'role_id');
 		$role_ids = ArrayHelper::column($user_roles, 'role_id');
 		
 		//设置缓存1小时

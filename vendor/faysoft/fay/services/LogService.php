@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\Logs;
+use fay\models\tables\LogsTable;
 use fay\helpers\RequestHelper;
 
 class LogService extends Service{
@@ -20,8 +20,8 @@ class LogService extends Service{
 	 * @param mixed $data 相关数据(若为数组，会被转为json存储)
 	 * @param int $type 错误级别，在Logs中定义错误级别常量
 	 */
-	public static function set($code, $data, $type = Logs::TYPE_NORMAL){
-		Logs::model()->insert(array(
+	public static function set($code, $data, $type = LogsTable::TYPE_NORMAL){
+		LogsTable::model()->insert(array(
 			'code'=>$code,
 			'data'=>is_array($data) ? json_encode($data) : $data,
 			'type'=>$type,
@@ -35,13 +35,13 @@ class LogService extends Service{
 	
 	public static function getType($type){
 		switch($type){
-			case Logs::TYPE_ERROR:
+			case LogsTable::TYPE_ERROR:
 				return '<span class="fc-red">错误</span>';
 			break;
-			case Logs::TYPE_NORMAL:
+			case LogsTable::TYPE_NORMAL:
 				return '<span>正常</span>';
 			break;
-			case Logs::TYPE_WARMING:
+			case LogsTable::TYPE_WARMING:
 				return '<span class="fc-orange">警告</span>';
 			break;
 			default:

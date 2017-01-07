@@ -5,7 +5,7 @@ use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\UrlHelper;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\common\Upload;
 use fay\helpers\ImageHelper;
 use fay\helpers\StringHelper;
@@ -98,7 +98,7 @@ class FileService extends Service{
 			if($file <= 0){
 				return '';
 			}
-			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		
 		if(!$file){
@@ -212,7 +212,7 @@ class FileService extends Service{
 	 */
 	public static function getPath($file, $realpath = true){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'raw_name,file_ext,file_path');
+			$file = FilesTable::model()->find($file, 'raw_name,file_ext,file_path');
 		}
 		if($realpath){
 			return realpath($file['file_path'] . $file['raw_name'] . $file['file_ext']);
@@ -233,7 +233,7 @@ class FileService extends Service{
 	 */
 	public static function getThumbnailUrl($file, $options = array()){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu,file_type');
+			$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu,file_type');
 		}
 		
 		if(!$file){
@@ -278,7 +278,7 @@ class FileService extends Service{
 	 */
 	public static function getThumbnailPath($file, $realpath = true){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		
 		if(!$file){
@@ -358,7 +358,7 @@ class FileService extends Service{
 					'user_id'=>\F::app()->current_user,
 					'cat_id'=>$cat['id'],
 				);
-				$data['id'] = Files::model()->insert($data);
+				$data['id'] = FilesTable::model()->insert($data);
 				$src_img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
 				$img = ImageHelper::resize($src_img, 100, 100);
 				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
@@ -387,7 +387,7 @@ class FileService extends Service{
 					'user_id'=>\F::app()->current_user,
 					'cat_id'=>$cat['id'],
 				);
-				$data['id'] = Files::model()->insert($data);
+				$data['id'] = FilesTable::model()->insert($data);
 				
 				$icon = self::getIconByMimetype($data['file_type']);
 				$data['thumbnail'] = UrlHelper::createUrl().'assets/images/crystal/'.$icon.'.png';
@@ -426,7 +426,7 @@ class FileService extends Service{
 	 */
 	public function edit($file, $handler, $params){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file);
+			$file = FilesTable::model()->find($file);
 		}
 		
 		switch($handler){
@@ -454,7 +454,7 @@ class FileService extends Service{
 				$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
 				
 				//更新数据库字段
-				Files::model()->update(array(
+				FilesTable::model()->update(array(
 					'file_ext'=>'.jpg',
 					'image_width'=>$params['dw'],
 					'image_height'=>$params['dh'],
@@ -502,7 +502,7 @@ class FileService extends Service{
 					$new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
 					
 					//更新数据库字段
-					Files::model()->update(array(
+					FilesTable::model()->update(array(
 						'file_ext'=>'.jpg',
 						'image_width'=>$params['dw'],
 						'image_height'=>$params['dh'],
@@ -693,7 +693,7 @@ class FileService extends Service{
 	 * @param int $file_id 文件ID
 	 */
 	public static function getDownloads($file_id){
-		$file = Files::model()->find($file_id, 'downloads');
+		$file = FilesTable::model()->find($file_id, 'downloads');
 		return $file['downloads'];
 	}
 	
@@ -703,7 +703,7 @@ class FileService extends Service{
 	 * @return int 返回0|1
 	 */
 	public static function isImage($file_id){
-		$file = Files::model()->find($file_id, 'is_image');
+		$file = FilesTable::model()->find($file_id, 'is_image');
 		return $file['is_image'];
 	}
 	
@@ -722,7 +722,7 @@ class FileService extends Service{
 		$fields = FieldHelper::parse($fields);
 		
 		if(!is_array($file) && ($file <= 0 ||
-			!$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
+			!$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
 		){
 			//显然负数ID不存在，返回默认图数组
 			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
@@ -810,7 +810,7 @@ class FileService extends Service{
 		$return = array();
 		if(!is_array($files[0])){
 			//传入的是文件ID，通过ID获取文件信息
-			$file_rows = Files::model()->fetchAll(array(
+			$file_rows = FilesTable::model()->fetchAll(array(
 				'id IN (?)'=>$files,
 			), 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 			$file_map = ArrayHelper::column($file_rows, null, 'id');

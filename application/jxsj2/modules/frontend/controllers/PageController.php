@@ -3,7 +3,7 @@ namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
 use fay\services\PageService;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\core\HttpException;
 
 class PageController extends FrontController{
@@ -14,7 +14,7 @@ class PageController extends FrontController{
 			throw new HttpException('页面不存在');
 		}
 		//阅读数
-		Pages::model()->incr($page['id'], 'views', 1);
+		PagesTable::model()->incr($page['id'], 'views', 1);
 		
 		//seo
 		$this->layout->title = $page['seo_title'];

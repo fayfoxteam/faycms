@@ -51,9 +51,9 @@ class DatabaseController extends ToolsController{
 		$t_name = preg_replace("/^{$this->view->prefix}(.*)/", '$1', $table_name, 1);
 		
 		if(substr($t_name, 0, strpos($t_name, '_')) == APPLICATION){
-			$class_name = APPLICATION.'\models\tables\\'.StringHelper::underscore2case(substr($t_name, strpos($t_name, '_')));
+			$class_name = APPLICATION.'\models\tables\\'.StringHelper::underscore2case(substr($t_name, strpos($t_name, '_'))).'Table';
 		}else{
-			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name);
+			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
 		}
 		
 		$this->layout->subtitle = 'Data Dictionary - '.$t_name;
@@ -92,7 +92,7 @@ class DatabaseController extends ToolsController{
 		
 		$this->view->table_name = $table_name;
 		
-		$this->view->renderPartial();
+		$this->view->renderPartial(null, $this->view->getViewData());
 	}
 	
 	public function downloadModel(){
@@ -118,7 +118,7 @@ class DatabaseController extends ToolsController{
 		}
 		$this->view->table_name = $table_name;
 		
-		$content = $this->view->renderPartial('get_model', array(), -1, true);
+		$content = $this->view->renderPartial('get_model', $this->view->getViewData(), -1, true);
 		
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 			header('Content-Type: "application/x-httpd-php"');
@@ -166,7 +166,7 @@ class DatabaseController extends ToolsController{
 			
 			//加载model，从model中获取label作为备注
 			$t_name = preg_replace("/^{$prefix}(.*)/", '$1', $table_name, 1);
-			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name);
+			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
 			if(file_exists(SYSTEM_PATH . $class_name . '.php')){
 				$labels = \F::model($class_name)->labels();
 			}else{

@@ -1,10 +1,10 @@
 <?php
-use fay\models\tables\ExamAnswers;
-use fay\models\tables\ExamExamQuestionAnswerText;
+use fay\models\tables\ExamAnswersTable;
+use fay\models\tables\ExamExamQuestionAnswerTextTable;
 use fay\helpers\HtmlHelper;
 
-$answer = ExamAnswers::model()->fetchRow('question_id = '.$exam_question['question_id']);
-$user_answer = ExamExamQuestionAnswerText::model()->fetchRow('exam_question_id = '.$exam_question['id']);
+$answer = ExamAnswersTable::model()->fetchRow('question_id = '.$exam_question['question_id']);
+$user_answer = ExamExamQuestionAnswerTextTable::model()->fetchRow('exam_question_id = '.$exam_question['id']);
 ?>
 <div class="bd" id="question-<?php echo $exam_question['id']?>">
 	<div class="cf exam-question-item">

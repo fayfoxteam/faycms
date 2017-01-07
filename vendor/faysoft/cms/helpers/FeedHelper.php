@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\Feeds;
+use fay\models\tables\FeedsTable;
 
 class FeedHelper{
 	/**
@@ -9,6 +9,7 @@ class FeedHelper{
 	 * @param int $status 文章状态码
 	 * @param int $delete 是否删除
 	 * @param bool $coloring 是否着色（带上html标签）
+	 * @return string
 	 */
 	public static function getStatus($status, $delete, $coloring = true){
 		if($delete == 1){
@@ -18,25 +19,25 @@ class FeedHelper{
 				return '回收站';
 		}
 		switch ($status) {
-			case Feeds::STATUS_DRAFT:
+			case FeedsTable::STATUS_DRAFT:
 				if($coloring)
 					return '<span class="fc-blue">草稿</span>';
 				else
 					return '草稿';
 				break;
-			case Feeds::STATUS_PENDING:
+			case FeedsTable::STATUS_PENDING:
 				if($coloring)
 					return '<span class="fc-orange">待审核</span>';
 				else
 					return '待审核';
 				break;
-			case Feeds::STATUS_APPROVED:
+			case FeedsTable::STATUS_APPROVED:
 				if($coloring)
 					return '<span class="fc-green">通过审核</span>';
 				else
 					return '通过审核';
 				break;
-			case Feeds::STATUS_UNAPPROVED:
+			case FeedsTable::STATUS_UNAPPROVED:
 				if($coloring)
 					return '<span class="fc-purple">未通过审核</span>';
 				else

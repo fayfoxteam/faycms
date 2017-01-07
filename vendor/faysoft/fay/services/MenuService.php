@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Loader;
-use fay\models\tables\Menus;
+use fay\models\tables\MenusTable;
 use fay\helpers\StringHelper;
 use fay\models\Tree;
 
@@ -10,7 +10,7 @@ class MenuService extends Tree{
 	/**
 	 * @see Tree::$model
 	 */
-	protected $model = 'fay\models\tables\Menus';
+	protected $model = 'fay\models\tables\MenusTable';
 	
 	/**
 	 * @param string $class_name
@@ -27,7 +27,7 @@ class MenuService extends Tree{
 	 * @return array|bool
 	 */
 	public function getById($id, $fields = 'id,parent,alias,title,sort'){
-		return Menus::model()->find($id, $fields);
+		return MenusTable::model()->find($id, $fields);
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class MenuService extends Tree{
 	 * @return array
 	 */
 	public function getByAlias($alias, $fields = 'id,parent,alias,title,sort'){
-		return Menus::model()->fetchRow(array(
+		return MenusTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), $fields);
 	}
@@ -86,7 +86,7 @@ class MenuService extends Tree{
 	 */
 	public function getTreeByParentAlias($alias = null, $real_link = true, $only_enabled = true){
 		if($alias === null){
-			return $this->getTreeByParentId(Menus::ITEM_USER_MENU, $real_link, $only_enabled);
+			return $this->getTreeByParentId(MenusTable::ITEM_USER_MENU, $real_link, $only_enabled);
 		}else{
 			$root = $this->getByAlias($alias, 'id');
 			if($root){
@@ -106,7 +106,7 @@ class MenuService extends Tree{
 	 * @return array
 	 */
 	public function getTreeByParentId($id = null, $real_link = true, $only_enabled = true){
-		$id === null && $id = Menus::ITEM_USER_MENU;
+		$id === null && $id = MenusTable::ITEM_USER_MENU;
 		
 		$menu = parent::getTree($id);
 		

@@ -5,8 +5,8 @@ use cms\library\AdminController;
 use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\Contacts;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ContactsTable;
+use fay\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\Loader;
@@ -75,11 +75,11 @@ class ContactController extends AdminController{
 	
 	public function setRead(){
 		$id = $this->input->get('id', 'intval');
-		Contacts::model()->update(array(
+		ContactsTable::model()->update(array(
 			'is_read'=>1,
 		), $id);
 		
-		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被标记为已读', $id);
+		$this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被标记为已读', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一条留言被标记为已读 - '.HtmlHelper::link('撤销', array('admin/contact/set-unread', array(
@@ -90,11 +90,11 @@ class ContactController extends AdminController{
 	
 	public function setUnread(){
 		$id = $this->input->get('id', 'intval');
-		Contacts::model()->update(array(
+		ContactsTable::model()->update(array(
 			'is_read'=>0,
 		), $id);
 		
-		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被标记为未读', $id);
+		$this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被标记为未读', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一条留言被标记为未读 - '.HtmlHelper::link('撤销', array('admin/contact/set-read', array(
@@ -105,9 +105,9 @@ class ContactController extends AdminController{
 	
 	public function remove(){
 		$id = $this->input->get('id', 'intval');
-		Contacts::model()->delete($id);
+		ContactsTable::model()->delete($id);
 		
-		$this->actionlog(Actionlogs::TYPE_CONTACT, '一条留言被永久删除', $id);
+		$this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被永久删除', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一条留言被永久删除',
@@ -117,13 +117,13 @@ class ContactController extends AdminController{
 	public function reply(){
 		$id = $this->input->request('id', 'intval');
 		$reply = $this->input->request('reply', 'trim');
-		Contacts::model()->update(array(
+		ContactsTable::model()->update(array(
 			'reply'=>$reply,
 			'is_read'=>1,
 		), $id);
 		
-		$contact = Contacts::model()->find($id, 'id,reply');
-		$this->actionlog(Actionlogs::TYPE_CONTACT, '回复了一条留言', $id);
+		$contact = ContactsTable::model()->find($id, 'id,reply');
+		$this->actionlog(ActionlogsTable::TYPE_CONTACT, '回复了一条留言', $id);
 		
 		Response::notify('success', array(
 			'message'=>'回复成功',
@@ -140,19 +140,19 @@ class ContactController extends AdminController{
 		
 		if($action && $ids){
 			if($action == 'read'){
-				Contacts::model()->update(array(
+				ContactsTable::model()->update(array(
 					'is_read'=>1,
 				), array(
 					'id IN (?)'=>$ids,
 				));
 			}else if($action == 'unread'){
-				Contacts::model()->update(array(
+				ContactsTable::model()->update(array(
 					'is_read'=>0,
 				), array(
 					'id IN (?)'=>$ids,
 				));
 			}else if($action == 'remove'){
-				Contacts::model()->delete(array(
+				ContactsTable::model()->delete(array(
 					'id IN (?)'=>$ids,
 				));
 			}
@@ -178,9 +178,9 @@ class ContactController extends AdminController{
 		));
 		
 		$id = $this->input->get('id', 'intval');
-		$this->form()->setModel(Contacts::model());
+		$this->form()->setModel(ContactsTable::model());
 		if($this->input->post() && $this->form()->check()){
-			$data = Contacts::model()->fillData($this->input->post());
+			$data = ContactsTable::model()->fillData($this->input->post());
 			if(in_array('publish_time', $enabled_boxes)){
 				if(empty($data['publish_time'])){
 					$data['publish_time'] = $this->current_time;
@@ -188,13 +188,13 @@ class ContactController extends AdminController{
 					$data['publish_time'] = strtotime($data['publish_time']);
 				}
 			}
-			Contacts::model()->update($data, $id);
-			$this->actionlog(Actionlogs::TYPE_CONTACT, '编辑了留言', $id);
+			ContactsTable::model()->update($data, $id);
+			$this->actionlog(ActionlogsTable::TYPE_CONTACT, '编辑了留言', $id);
 			Response::notify('success', '编辑成功', false);
 		}
 		
 		//获取留言
-		$contact = Contacts::model()->find($id);
+		$contact = ContactsTable::model()->find($id);
 		if(!$contact){
 			throw new HttpException('指定留言ID不存在');
 		}

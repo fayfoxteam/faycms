@@ -4,13 +4,13 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\Roles;
-use fay\models\tables\RolesActions;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\RolesTable;
+use fay\models\tables\RolesActionsTable;
+use fay\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
-use fay\models\tables\RolesCats;
+use fay\models\tables\RolesCatsTable;
 use fay\services\OptionService;
 
 class RoleController extends AdminController{
@@ -42,14 +42,14 @@ class RoleController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '添加角色';
 		
-		$this->form()->setModel(Roles::model());
+		$this->form()->setModel(RolesTable::model());
 		if($this->input->post() && $this->form()->check()){
-			$role_id = Roles::model()->insert($this->form()->getFilteredData());
+			$role_id = RolesTable::model()->insert($this->form()->getFilteredData());
 			
 			//操作权限
 			$actions = $this->input->post('actions', 'intval', array());
 			foreach($actions as $a){
-				RolesActions::model()->insert(array(
+				RolesActionsTable::model()->insert(array(
 					'role_id'=>$role_id,
 					'action_id'=>$a,
 				));
@@ -58,13 +58,13 @@ class RoleController extends AdminController{
 			//分类权限
 			$role_cats = $this->input->post('role_cats', 'intval', array());
 			foreach($role_cats as $rc){
-				RolesCats::model()->insert(array(
+				RolesCatsTable::model()->insert(array(
 					'role_id'=>$role_id,
 					'cat_id'=>$rc,
 				));
 			}
 			
-			$this->actionlog(Actionlogs::TYPE_ROLE, '添加了一个角色', $role_id);
+			$this->actionlog(ActionlogsTable::TYPE_ROLE, '添加了一个角色', $role_id);
 			Response::notify('success', '角色添加成功', array('admin/role/edit', array(
 				'id'=>$role_id,
 			)));
@@ -99,23 +99,23 @@ class RoleController extends AdminController{
 		);
 		$role_id = $this->input->get('id', 'intval');
 		
-		$this->form()->setModel(Roles::model());
+		$this->form()->setModel(RolesTable::model());
 		if($this->input->post() && $this->form()->check()){
-			Roles::model()->update($this->form()->getFilteredData(), $role_id, true);
+			RolesTable::model()->update($this->form()->getFilteredData(), $role_id, true);
 			
 			//操作权限
 			$actions = $this->input->post('actions', 'intval', array(0));
-			RolesActions::model()->delete(array(
+			RolesActionsTable::model()->delete(array(
 				'role_id = ?'=>$role_id,
 				'action_id NOT IN (?)'=>$actions,
 			));
-			$old_actions = RolesActions::model()->fetchCol('action_id', array(
+			$old_actions = RolesActionsTable::model()->fetchCol('action_id', array(
 				'role_id = ?'=>$role_id,
 			));
 			
 			foreach($actions as $a){
 				if(!in_array($a, $old_actions)){
-					RolesActions::model()->insert(array(
+					RolesActionsTable::model()->insert(array(
 						'role_id'=>$role_id,
 						'action_id'=>$a,
 					));
@@ -124,17 +124,17 @@ class RoleController extends AdminController{
 			
 			//分类权限
 			$role_cats = $this->input->post('role_cats', 'intval', array(0));
-			RolesCats::model()->delete(array(
+			RolesCatsTable::model()->delete(array(
 				'role_id = ?'=>$role_id,
 				'cat_id NOT IN (?)'=>$role_cats,
 			));
-			$old_role_cats = RolesCats::model()->fetchCol('cat_id', array(
+			$old_role_cats = RolesCatsTable::model()->fetchCol('cat_id', array(
 				'role_id = ?'=>$role_id,
 			));
 			
 			foreach($role_cats as $rc){
 				if(!in_array($rc, $old_role_cats)){
-					RolesCats::model()->insert(array(
+					RolesCatsTable::model()->insert(array(
 						'role_id'=>$role_id,
 						'cat_id'=>$rc,
 					));
@@ -144,14 +144,14 @@ class RoleController extends AdminController{
 			//删除用户权限缓存
 			\F::cache()->flush('user.actions');
 			
-			$this->actionlog(Actionlogs::TYPE_ROLE, '编辑了一个角色', $role_id);
+			$this->actionlog(ActionlogsTable::TYPE_ROLE, '编辑了一个角色', $role_id);
 			Response::notify('success', '一个角色被编辑', false);
 		}
-		$role = Roles::model()->find($role_id);
+		$role = RolesTable::model()->find($role_id);
 		$this->form()->setData($role);
 		
 		$this->form()->setData(array(
-			'actions'=>RolesActions::model()->fetchCol('action_id', array('role_id = ?'=>$role_id)),
+			'actions'=>RolesActionsTable::model()->fetchCol('action_id', array('role_id = ?'=>$role_id)),
 		));
 		
 		$sql = new Sql();
@@ -172,7 +172,7 @@ class RoleController extends AdminController{
 		}
 		$this->view->actions = $actions_group;
 		$this->form()->setData(array(
-			'role_cats'=>RolesCats::model()->fetchCol('cat_id', array(
+			'role_cats'=>RolesCatsTable::model()->fetchCol('cat_id', array(
 				'role_id = ?'=>$role_id,
 			)),
 		));
@@ -183,10 +183,10 @@ class RoleController extends AdminController{
 	
 	public function delete(){
 		$role_id = $this->input->get('id', 'intval');
-		Roles::model()->update(array(
+		RolesTable::model()->update(array(
 			'deleted'=>1,
 		), $role_id);
-		$this->actionlog(Actionlogs::TYPE_ROLE, '删除了一个角色', $role_id);
+		$this->actionlog(ActionlogsTable::TYPE_ROLE, '删除了一个角色', $role_id);
 
 		Response::notify('success', array(
 			'message'=>'一个角色被删除 - '.HtmlHelper::link('撤销', array('admin/role/undelete', array(
@@ -198,10 +198,10 @@ class RoleController extends AdminController{
 	
 	public function undelete(){
 		$role_id = $this->input->get('id', 'intval');
-		Roles::model()->update(array(
+		RolesTable::model()->update(array(
 			'deleted'=>0,
 		), $role_id);
-		$this->actionlog(Actionlogs::TYPE_ROLE, '还原了一个角色', $role_id);
+		$this->actionlog(ActionlogsTable::TYPE_ROLE, '还原了一个角色', $role_id);
 
 		Response::notify('success', array(
 			'message'=>'一个角色被还原',
@@ -210,7 +210,7 @@ class RoleController extends AdminController{
 	}
 	
 	public function isTitleNotExist(){
-		if(Roles::model()->fetchRow(array(
+		if(RolesTable::model()->fetchRow(array(
 			'title = ?'=>$value = $this->input->request('title', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', 0),
 		))){

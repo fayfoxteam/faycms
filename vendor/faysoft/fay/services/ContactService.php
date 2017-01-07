@@ -3,7 +3,7 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\helpers\RequestHelper;
-use fay\models\tables\Contacts;
+use fay\models\tables\ContactsTable;
 
 class ContactService extends Service{
 	/**
@@ -27,7 +27,7 @@ class ContactService extends Service{
 	 */
 	public function create($data, $is_show = 1, $is_read = 0){
 		//过滤数据
-		$data = Contacts::model()->fillData($data, true, array('reply'));
+		$data = ContactsTable::model()->fillData($data, true, array('reply'));
 		
 		//附加默认字段
 		$data = array_merge($data, array(
@@ -40,7 +40,7 @@ class ContactService extends Service{
 		));
 		
 		//入库
-		$contact_id = Contacts::model()->insert($data);
+		$contact_id = ContactsTable::model()->insert($data);
 		
 		\F::event()->trigger(self::EVENT_CREATED, $contact_id);
 	}

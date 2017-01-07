@@ -2,14 +2,14 @@
 namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\services\OptionService;
 use fay\services\FileService;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
 use fay\helpers\RequestHelper;
-use fay\models\tables\Roles;
+use fay\models\tables\RolesTable;
 use fay\services\UserService;
 
 class IndexController extends InstallController{
@@ -126,13 +126,13 @@ class IndexController extends InstallController{
 					'username'=>$this->input->post('username', 'trim'),
 					'password'=>$this->input->post('password'),
 					'nickname'=>'系统管理员',//@todo 这里先默认一个，以后再完善下安装程序的界面
-					'status'=>Users::STATUS_VERIFIED,
+					'status'=>UsersTable::STATUS_VERIFIED,
 				), array(
 					'profile'=>array(
 						'trackid'=>'install',
 					),
 					'roles'=>array(
-						Roles::ITEM_SUPER_ADMIN,
+						RolesTable::ITEM_SUPER_ADMIN,
 					)
 				), 1);
 				OptionService::set('site:sitename', $this->input->post('site:sitename', 'trim'));

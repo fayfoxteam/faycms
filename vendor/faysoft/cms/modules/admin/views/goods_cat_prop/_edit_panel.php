@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\GoodsCatProps;
+use fay\models\tables\GoodsCatPropsTable;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <?php echo F::form()->inputHidden('cat_id')?>
@@ -44,19 +44,19 @@ use fay\models\tables\GoodsCatProps;
 </div>
 <div class="form-field">
 	<label class="title bold">录入方式</label>
-	<?php echo F::form()->inputRadio('type', GoodsCatProps::TYPE_CHECK, array(
+	<?php echo F::form()->inputRadio('type', GoodsCatPropsTable::TYPE_CHECK, array(
 		'label'=>'多选',
 	), true)?>
-	<?php echo F::form()->inputRadio('type', GoodsCatProps::TYPE_OPTIONAL, array(
+	<?php echo F::form()->inputRadio('type', GoodsCatPropsTable::TYPE_OPTIONAL, array(
 		'label'=>'单选',
 		'disabled'=>F::form()->getData('is_sale_prop') ? 'disabled' : false,
 	))?>
-	<?php echo F::form()->inputRadio('type', GoodsCatProps::TYPE_INPUT, array(
+	<?php echo F::form()->inputRadio('type', GoodsCatPropsTable::TYPE_INPUT, array(
 		'label'=>'手工录入',
 		'disabled'=>F::form()->getData('is_sale_prop') ? 'disabled' : false,
 	))?>
 </div>
-<div class="form-field <?php if(F::form()->getData('type') == GoodsCatProps::TYPE_INPUT)echo 'hide';?>"
+<div class="form-field <?php if(F::form()->getData('type') == GoodsCatPropsTable::TYPE_INPUT)echo 'hide';?>"
 	id="prop-values-container">
 	<label class="title bold">属性值</label>
 	<?php echo F::form()->inputText('', array(
@@ -95,7 +95,7 @@ use fay\models\tables\GoodsCatProps;
 <script>
 $(function(){
 	$("#edit-prop-form").submit(function(){
-		if($("input[name='type']:checked").val() == <?php echo GoodsCatProps::TYPE_INPUT?>){
+		if($("input[name='type']:checked").val() == <?php echo GoodsCatPropsTable::TYPE_INPUT?>){
 			$("#prop-list").html("");
 		}
 	});
@@ -119,17 +119,17 @@ $(function(){
 	$("input[name='is_sale_prop']").change(function(){
 		if($(this).attr("checked")){
 			$("input[name='required']").attr("checked", "checked").attr("disabled", "disabled");
-			$("input[name='type'][value='<?php echo GoodsCatProps::TYPE_CHECK?>']").attr("checked", "checked");
-			$("input[name='type'][value!='<?php echo GoodsCatProps::TYPE_CHECK?>']").attr("disabled", "disabled");
+			$("input[name='type'][value='<?php echo GoodsCatPropsTable::TYPE_CHECK?>']").attr("checked", "checked");
+			$("input[name='type'][value!='<?php echo GoodsCatPropsTable::TYPE_CHECK?>']").attr("disabled", "disabled");
 			$("#prop-values-container").show();
 		}else{
 			$("input[name='required']").removeAttr("disabled");
-			$("input[name='type'][value!='<?php echo GoodsCatProps::TYPE_CHECK?>']").removeAttr("disabled");
+			$("input[name='type'][value!='<?php echo GoodsCatPropsTable::TYPE_CHECK?>']").removeAttr("disabled");
 		}
 	});
 
 	$("input[name='type']").change(function(){
-		if($(this).val() == <?php echo GoodsCatProps::TYPE_INPUT?>){
+		if($(this).val() == <?php echo GoodsCatPropsTable::TYPE_INPUT?>){
 			$("#prop-values-container").hide();
 		}else{
 			$("#prop-values-container").show();

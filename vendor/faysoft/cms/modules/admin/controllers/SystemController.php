@@ -2,14 +2,14 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\models\Setting as SettingModel;
 use fay\services\SettingService;
 use fay\core\Response;
 
 class SystemController extends AdminController{
 	public function isMoboleExist(){
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'mobile = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
@@ -20,7 +20,7 @@ class SystemController extends AdminController{
 	}
 	
 	public function isEmailExist(){
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'email = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){
@@ -31,7 +31,7 @@ class SystemController extends AdminController{
 	}
 	
 	public function isUsernameExist(){
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'username = ?'=>$this->input->post('value', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval')
 		))){

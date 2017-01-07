@@ -4,7 +4,7 @@ namespace shinecolor\modules\frontend\controllers;
 use shinecolor\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\services\PostService;
 use fay\helpers\HtmlHelper;
@@ -67,7 +67,7 @@ class NewsController extends FrontController{
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;
 		

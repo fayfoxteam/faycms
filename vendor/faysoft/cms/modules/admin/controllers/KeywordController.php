@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Keywords;
+use fay\models\tables\KeywordsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -19,15 +19,15 @@ class KeywordController extends AdminController{
 		
 		$this->_setListview();
 		
-		$this->form()->setModel(Keywords::model());
+		$this->form()->setModel(KeywordsTable::model());
 		$this->view->render();
 	}
 	
 	public function create(){
 		if($this->input->post()){
-			if($this->form()->setModel(Keywords::model())->check()){
-				$data = Keywords::model()->fillData($this->input->post());
-				Keywords::model()->insert($data);
+			if($this->form()->setModel(KeywordsTable::model())->check()){
+				$data = KeywordsTable::model()->fillData($this->input->post());
+				KeywordsTable::model()->insert($data);
 				Response::notify('success', '关键词添加成功', array('admin/keyword/index'));
 			}else{
 				Response::goback();
@@ -38,7 +38,7 @@ class KeywordController extends AdminController{
 	}
 	
 	public function remove(){
-		Keywords::model()->delete($this->input->get('id', 'intval'));
+		KeywordsTable::model()->delete($this->input->get('id', 'intval'));
 		
 		Response::notify('success', '一个关键词被永久删除', array('admin/keyword/index', $this->input->get()));
 	}
@@ -51,14 +51,14 @@ class KeywordController extends AdminController{
 		);
 		$keyword_id = $this->input->get('id', 'intval');
 		
-		$check = $this->form()->setModel(Keywords::model());
+		$check = $this->form()->setModel(KeywordsTable::model());
 		
 		if($this->input->post() && $this->form()->check()){
-			$data = Keywords::model()->fillData($this->input->post());
-			Keywords::model()->update($data, array('id = ?'=>$keyword_id));
+			$data = KeywordsTable::model()->fillData($this->input->post());
+			KeywordsTable::model()->update($data, array('id = ?'=>$keyword_id));
 			Response::notify('success', '一个关键词被编辑', false);
 		}
-		if($keyword = Keywords::model()->find($keyword_id)){
+		if($keyword = KeywordsTable::model()->find($keyword_id)){
 			$this->form()->setData($keyword);
 			$this->view->keyword = $keyword;
 			
@@ -71,7 +71,7 @@ class KeywordController extends AdminController{
 	}
 	
 	public function isKeywordNotExist(){
-		if(Keywords::model()->fetchRow(array(
+		if(KeywordsTable::model()->fetchRow(array(
 			'keyword = ?'=>$this->input->request('keyword', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
@@ -88,7 +88,7 @@ class KeywordController extends AdminController{
 		//搜索条件验证，异常数据直接返回404
 		$this->form('search')->setScene('final')->setRules(array(
 			array('orderby', 'range', array(
-				'range'=>Keywords::model()->getFields(),
+				'range'=>KeywordsTable::model()->getFields(),
 			)),
 			array('order', 'range', array(
 				'range'=>array('asc', 'desc'),

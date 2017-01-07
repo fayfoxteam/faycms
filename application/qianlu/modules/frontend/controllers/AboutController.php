@@ -2,7 +2,7 @@
 namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\services\OptionService;
 use fay\core\HttpException;
 
@@ -10,7 +10,7 @@ class AboutController extends FrontController{
 	public $layout_template = 'inner';
 	
 	public function index(){
-		$page = Pages::model()->fetchRow(array('alias = ?'=>$this->input->get('alias', 'trim', 'about')));
+		$page = PagesTable::model()->fetchRow(array('alias = ?'=>$this->input->get('alias', 'trim', 'about')));
 		if(!$page){
 			throw new HttpException('您请求的页面不存在');
 		}
@@ -20,7 +20,7 @@ class AboutController extends FrontController{
 		$this->layout->keywords = $page['seo_keywords'] ? $page['seo_keywords'] : $page['title'];
 		$this->layout->description = $page['seo_description'] ? $page['seo_description'] : $page['abstract'];
 		
-		Pages::model()->incr($page['id'], 'views', 1);
+		PagesTable::model()->incr($page['id'], 'views', 1);
 		
 		$this->layout->banner = 'about-banner.jpg';
 		$this->layout->current_directory = 'about';

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\models\tables\PostComments;
+use fay\models\tables\PostCommentsTable;
 use cms\helpers\PostCommentHelper;
 use fay\helpers\StringHelper;
 ?>
@@ -16,7 +16,7 @@ use fay\helpers\StringHelper;
 		<?php echo HtmlHelper::encode($data['content'])?>
 		<div class="row-actions">
 			<?php if(!$data['deleted']){
-				if($data['status'] == PostComments::STATUS_PENDING){
+				if($data['status'] == PostCommentsTable::STATUS_PENDING){
 					echo HtmlHelper::link('批准', array('admin/post-comment/approve', array(
 						'id'=>$data['id'],
 					)), array(
@@ -27,13 +27,13 @@ use fay\helpers\StringHelper;
 					)), array(
 						'class'=>'fc-orange',
 					));
-				}else if($data['status'] == PostComments::STATUS_APPROVED){
+				}else if($data['status'] == PostCommentsTable::STATUS_APPROVED){
 					echo HtmlHelper::link('驳回', array('admin/post-comment/disapprove', array(
 							'id'=>$data['id'],
 					)), array(
 							'class'=>'fc-orange',
 					));
-				}else if($data['status'] == PostComments::STATUS_UNAPPROVED){
+				}else if($data['status'] == PostCommentsTable::STATUS_UNAPPROVED){
 					echo HtmlHelper::link('批准', array('admin/post-comment/approve', array(
 						'id'=>$data['id'],
 					)), array(

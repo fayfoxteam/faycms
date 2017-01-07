@@ -144,46 +144,46 @@ class ApiController extends AdminController{
 			);
 		}
 		
-		$this->form()->setModel(Apis::model());
+		$this->form()->setModel(ApisTable::model());
 		
 		//启用的编辑框
 		$_setting_key = 'admin_api_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		if($this->input->post() && $this->form()->check()){
-			$data = Apis::model()->fillData($this->input->post(), true, 'insert');
+			$data = ApisTable::model()->fillData($this->input->post(), true, 'insert');
 			$data['create_time'] = $this->current_time;
 			$data['last_modified_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
-			$api_id = Apis::model()->insert($data);
+			$api_id = ApisTable::model()->insert($data);
 			
 			$inputs = $this->input->post('inputs');
 			foreach($inputs as $i){
-				$input = Inputs::model()->fillData($i, true, 'insert');
+				$input = InputsTable::model()->fillData($i, true, 'insert');
 				$input['api_id'] = $api_id;
 				$input['create_time'] = $this->current_time;
 				$input['last_modified_time'] = $this->current_time;
-				Inputs::model()->insert($input);
+				InputsTable::model()->insert($input);
 			}
 			
 			$outputs = $this->input->post('outputs');
 			$j = 0;
 			foreach($outputs as $o){
 				$j++;
-				$model = Models::model()->fetchRow(array(
+				$model = ModelsTable::model()->fetchRow(array(
 					'name = ?'=>$o['model_name'],
 				), 'id');
 				if(!$model){
 					throw new ErrorException('指定数据模型不存在', $o['model_name']);
 				}
 				
-				$output = Inputs::model()->fillData($o, true, 'insert');
+				$output = InputsTable::model()->fillData($o, true, 'insert');
 				$output['api_id'] = $api_id;
 				$output['sort'] = $j;
 				$output['model_id'] = $model['id'];
 				$output['create_time'] = $this->current_time;
 				$output['last_modified_time'] = $this->current_time;
-				Outputs::model()->insert($output);
+				OutputsTable::model()->insert($output);
 			}
 			
 			Response::notify('success', 'API添加成功', array('admin/api/edit', array(
@@ -206,10 +206,10 @@ class ApiController extends AdminController{
 		));
 		
 		//输入参数表单规则
-		$this->form('input-parameter')->setModel(Inputs::model());
+		$this->form('input-parameter')->setModel(InputsTable::model());
 		
 		//输出参数表单规则
-		$this->form('output')->setModel(Outputs::model())
+		$this->form('output')->setModel(OutputsTable::model())
 			->setRule(array('model_name', 'required'))
 			->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
 			->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
@@ -230,45 +230,45 @@ class ApiController extends AdminController{
 		}
 		
 		$api_id = $this->input->get('id', 'intval');
-		$this->form()->setModel(Apis::model());
+		$this->form()->setModel(ApisTable::model());
 		
 		//启用的编辑框
 		$_setting_key = 'admin_api_boxes';
 		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		if($this->input->post() && $this->form()->check()){
-			$data = Apis::model()->fillData($this->input->post(), true, 'update');
+			$data = ApisTable::model()->fillData($this->input->post(), true, 'update');
 			$data['last_modified_time'] = $this->current_time;
-			Apis::model()->update($data, $api_id);
+			ApisTable::model()->update($data, $api_id);
 			
 			//输入参数处理
 			$inputs = $this->input->post('inputs');
 			//删除已被删除的输入参数
 			if($inputs){
-				Inputs::model()->delete(array(
+				InputsTable::model()->delete(array(
 					'api_id = ?'=>$api_id,
 					'id NOT IN (?)'=>array_keys($inputs),
 				));
 			}else if(in_array('inputs', $enabled_boxes)){
-				Inputs::model()->delete(array(
+				InputsTable::model()->delete(array(
 					'api_id = ?'=>$api_id,
 				));
 			}
 			//获取已存在的输入参数
-			$old_input_parameter_ids = Inputs::model()->fetchCol('id', array(
+			$old_input_parameter_ids = InputsTable::model()->fetchCol('id', array(
 				'api_id = ?'=>$api_id,
 			));
 			foreach($inputs as $input_parameter_id => $input){
 				if(in_array($input_parameter_id, $old_input_parameter_ids)){
-					$input = Inputs::model()->fillData($input, true, 'update');
+					$input = InputsTable::model()->fillData($input, true, 'update');
 					$input['last_modified_time'] = $this->current_time;
-					Inputs::model()->update($input, $input_parameter_id);
+					InputsTable::model()->update($input, $input_parameter_id);
 				}else{
-					$input = Inputs::model()->fillData($input, true, 'insert');
+					$input = InputsTable::model()->fillData($input, true, 'insert');
 					$input['api_id'] = $api_id;
 					$input['create_time'] = $this->current_time;
 					$input['last_modified_time'] = $this->current_time;
-					Inputs::model()->insert($input);
+					InputsTable::model()->insert($input);
 				}
 			}
 			
@@ -276,23 +276,23 @@ class ApiController extends AdminController{
 			$outputs = $this->input->post('outputs');
 			//删除已被删除的输出参数
 			if($outputs){
-				Outputs::model()->delete(array(
+				OutputsTable::model()->delete(array(
 					'api_id = ?'=>$api_id,
 					'id NOT IN (?)'=>array_keys($outputs),
 				));
 			}else if(in_array('outputs', $enabled_boxes)){
-				Outputs::model()->delete(array(
+				OutputsTable::model()->delete(array(
 					'api_id = ?'=>$api_id,
 				));
 			}
 			//获取已存在的输入参数
-			$old_input_parameter_ids = Outputs::model()->fetchCol('id', array(
+			$old_input_parameter_ids = OutputsTable::model()->fetchCol('id', array(
 				'api_id = ?'=>$api_id,
 			));
 			$i = 0;
 			foreach($outputs as $output_parameter_id => $o){
 				$i++;
-				$model = Models::model()->fetchRow(array(
+				$model = ModelsTable::model()->fetchRow(array(
 					'name = ?'=>$o['model_name'],
 				), 'id');
 				if(!$model){
@@ -300,19 +300,19 @@ class ApiController extends AdminController{
 				}
 				
 				if(in_array($output_parameter_id, $old_input_parameter_ids)){
-					$output = Outputs::model()->fillData($o, true, 'update');
+					$output = OutputsTable::model()->fillData($o, true, 'update');
 					$output['model_id'] = $model['id'];
 					$output['sort'] = $i;
 					$output['last_modified_time'] = $this->current_time;
-					Outputs::model()->update($output, $output_parameter_id);
+					OutputsTable::model()->update($output, $output_parameter_id);
 				}else{
-					$output = Outputs::model()->fillData($o, true, 'insert');
+					$output = OutputsTable::model()->fillData($o, true, 'insert');
 					$output['api_id'] = $api_id;
 					$output['model_id'] = $model['id'];
 					$output['sort'] = $i;
 					$output['create_time'] = $this->current_time;
 					$output['last_modified_time'] = $this->current_time;
-					Outputs::model()->insert($output);
+					OutputsTable::model()->insert($output);
 				}
 			}
 			
@@ -321,11 +321,11 @@ class ApiController extends AdminController{
 			)));
 		}
 		
-		$api = Apis::model()->find($api_id);
+		$api = ApisTable::model()->find($api_id);
 		$this->form()->setData($api);
 		
 		//原输入参数
-		$this->view->inputs = Inputs::model()->fetchAll('api_id = '.$api_id, '*', 'required DESC, name ASC');
+		$this->view->inputs = InputsTable::model()->fetchAll('api_id = '.$api_id, '*', 'required DESC, name ASC');
 		
 		//分类树
 		$this->view->cats = CategoryService::service()->getTree('_system_api');
@@ -342,10 +342,10 @@ class ApiController extends AdminController{
 		));
 		
 		//输入参数表单规则
-		$this->form('input-parameter')->setModel(Inputs::model());
+		$this->form('input-parameter')->setModel(InputsTable::model());
 		
 		//输出参数表单规则
-		$this->form('output')->setModel(Outputs::model())
+		$this->form('output')->setModel(OutputsTable::model())
 			->setRule(array('model_name', 'required'))
 			->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
 			->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
@@ -355,8 +355,8 @@ class ApiController extends AdminController{
 			
 		//原属性
 		$sql = new Sql();
-		$this->view->outputs = $sql->from(array('o'=>Outputs::model()->getTableName()))
-			->joinLeft(array('m'=>Models::model()->getTableName()), 'o.model_id = m.id', 'name AS model_name')
+		$this->view->outputs = $sql->from(array('o'=>OutputsTable::model()->getTableName()))
+			->joinLeft(array('m'=>ModelsTable::model()->getTableName()), 'o.model_id = m.id', 'name AS model_name')
 			->where('o.api_id = ?', $api_id)
 			->order('o.sort')
 			->fetchAll();
@@ -410,7 +410,7 @@ class ApiController extends AdminController{
 			'router'=>'路由',
 		))->check();
 		
-		if(Apis::model()->fetchRow(array(
+		if(ApisTable::model()->fetchRow(array(
 			'router = ?'=>$this->form()->getData('router'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){

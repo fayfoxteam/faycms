@@ -2,11 +2,11 @@
 namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\MessageService;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\core\Response;
 use fay\services\UserService;
 use fay\helpers\StringHelper;
@@ -21,10 +21,10 @@ class ChatController extends FrontController{
 			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'realname,username,avatar,nickname')
 			->joinLeft(array('u2'=>'users'), 'm.target = u2.id', 'username AS target_username,nickname AS target_nickname')
 			->where(array(
-				'm.type = '.Messages::TYPE_USER_MESSAGE,
+				'm.type = '.MessagesTable::TYPE_USER_MESSAGE,
 				'm.root = 0',
 				'm.deleted = 0',
-				'm.status = '.Messages::STATUS_APPROVED,
+				'm.status = '.MessagesTable::STATUS_APPROVED,
 			))
 			->order('id DESC')
 		;
@@ -41,16 +41,16 @@ class ChatController extends FrontController{
 		if($this->input->post('realname', 'trim') && $this->input->post('content', 'trim')){
 			//虚构一个用户
 			$user_id = UserService::service()->create(array(
-				'status'=>Users::STATUS_NOT_VERIFIED,
+				'status'=>UsersTable::STATUS_NOT_VERIFIED,
 				'nickname'=>$this->input->post('realname', 'trim'),
 				'realname'=>$this->input->post('realname', 'trim'),
 				'username'=>StringHelper::random('uuid'),
 			));
 			
 			$content = $this->input->post('content', 'trim', '');
-			$type = Messages::TYPE_USER_MESSAGE;
+			$type = MessagesTable::TYPE_USER_MESSAGE;
 			$parent = $this->input->post('parent', 'intval', 0);
-			$message_id = MessageService::service()->create(2, $content, $type, $parent, Messages::STATUS_APPROVED, $user_id);
+			$message_id = MessageService::service()->create(2, $content, $type, $parent, MessagesTable::STATUS_APPROVED, $user_id);
 			
 			$message = MessageService::service()->get($message_id);
 			Response::notify('success', array(

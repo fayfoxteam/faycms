@@ -3,7 +3,7 @@ namespace fay\services\feed;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\FeedsFiles;
+use fay\models\tables\FeedsFilesTable;
 use fay\services\FileService;
 
 class FeedFileService extends Service{
@@ -31,7 +31,7 @@ class FeedFileService extends Service{
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}
-		$files = FeedsFiles::model()->fetchAll(array(
+		$files = FeedsFilesTable::model()->fetchAll(array(
 			'feed_id = ?'=>$feed_id,
 		), $fields['fields'], 'sort');
 		foreach($files as &$f){
@@ -63,7 +63,7 @@ class FeedFileService extends Service{
 		}else{
 			$remove_feed_id_field = false;
 		}
-		$files = FeedsFiles::model()->fetchAll(array(
+		$files = FeedsFilesTable::model()->fetchAll(array(
 			'feed_id IN (?)'=>$feed_id,
 		), $fields['fields'], 'feed_id, sort');
 		$return = array_fill_keys($feed_id, array());

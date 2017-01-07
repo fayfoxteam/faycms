@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 use fay\services\MessageService;
 use fay\helpers\DateHelper;
 use fay\services\PostService;
@@ -20,7 +20,7 @@ class CommentController extends UserController{
 			//插入评论
 			$target = $this->input->post('target', 'intval');
 			$content = $this->input->post('content');
-			$type = Messages::TYPE_POST_COMMENT;
+			$type = MessagesTable::TYPE_POST_COMMENT;
 			$parent = $this->input->post('parent', 'intval', 0);
 			$message_id = MessageService::service()->create($target, $content, $type, $parent);
 			//刷新文章评论数

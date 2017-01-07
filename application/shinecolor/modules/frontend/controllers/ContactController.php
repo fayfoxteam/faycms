@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\tables\Contacts;
+use fay\models\tables\ContactsTable;
 use fay\services\FlashService;
 
 class ContactController extends FrontController{
@@ -18,7 +18,7 @@ class ContactController extends FrontController{
 	
 	public function index(){
 		if($this->input->post()){
-			Contacts::model()->insert(array(
+			ContactsTable::model()->insert(array(
 				'realname'=>$this->input->post('realname'),
 				'email'=>$this->input->post('email'),
 				'phone'=>$this->input->post('phone'),

@@ -8,7 +8,7 @@ use fay\core\Validator;
 use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 
 class PostController extends FrontController{
 	public function cat(){
@@ -33,7 +33,7 @@ class PostController extends FrontController{
 			->where(array(
 				'p.cat_id = '.$cat['id'],
 				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
 			->order('is_top DESC, sort, publish_time DESC');

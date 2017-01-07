@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Props;
+use fay\models\tables\PropsTable;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <div class="form-field">
@@ -44,33 +44,33 @@ use fay\models\tables\Props;
 <div class="form-field">
 	<label class="title bold">类型</label>
 	<?php
-		echo F::form()->inputRadio('element', Props::ELEMENT_TEXT, array(
+		echo F::form()->inputRadio('element', PropsTable::ELEMENT_TEXT, array(
 			'label'=>'输入框',
 		), true),
-		F::form()->inputRadio('element', Props::ELEMENT_NUMBER, array(
+		F::form()->inputRadio('element', PropsTable::ELEMENT_NUMBER, array(
 			'label'=>'数字输入框',
 		)),
-		F::form()->inputRadio('element', Props::ELEMENT_RADIO, array(
+		F::form()->inputRadio('element', PropsTable::ELEMENT_RADIO, array(
 			'label'=>'单选框',
 		)),
-		F::form()->inputRadio('element', Props::ELEMENT_SELECT, array(
+		F::form()->inputRadio('element', PropsTable::ELEMENT_SELECT, array(
 			'label'=>'下拉框',
 		)),
-		F::form()->inputRadio('element', Props::ELEMENT_CHECKBOX, array(
+		F::form()->inputRadio('element', PropsTable::ELEMENT_CHECKBOX, array(
 			'label'=>'多选框',
 		)),
-		F::form()->inputRadio('element', Props::ELEMENT_TEXTAREA, array(
+		F::form()->inputRadio('element', PropsTable::ELEMENT_TEXTAREA, array(
 			'label'=>'文本域',
 		)),
-		F::form()->inputRadio('element', Props::ELEMENT_IMAGE, array(
+		F::form()->inputRadio('element', PropsTable::ELEMENT_IMAGE, array(
 			'label'=>'图片',
 		));
 	?>
 </div>
 <div class="form-field <?php if(empty($prop['element']) || !in_array($prop['element'], array(
-	Props::ELEMENT_RADIO,
-	Props::ELEMENT_SELECT,
-	Props::ELEMENT_CHECKBOX,
+	PropsTable::ELEMENT_RADIO,
+	PropsTable::ELEMENT_SELECT,
+	PropsTable::ELEMENT_CHECKBOX,
 ))) echo 'hide';?>" id="prop-values-container">
 	<label class="title bold">属性值</label>
 	<?php echo F::form()->inputText('', array(
@@ -123,9 +123,9 @@ $(function(){
 	});
 
 	$('input[name="element"]').on('change', function(){
-		if($(this).val() == <?php echo Props::ELEMENT_RADIO?> ||
-			$(this).val() == <?php echo Props::ELEMENT_SELECT?> ||
-			$(this).val() == <?php echo Props::ELEMENT_CHECKBOX?>){
+		if($(this).val() == <?php echo PropsTable::ELEMENT_RADIO?> ||
+			$(this).val() == <?php echo PropsTable::ELEMENT_SELECT?> ||
+			$(this).val() == <?php echo PropsTable::ELEMENT_CHECKBOX?>){
 			$('#prop-values-container').show();
 		}else{
 			$('#prop-values-container').hide();

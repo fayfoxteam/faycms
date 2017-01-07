@@ -5,12 +5,12 @@ use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\MultiTree;
-use fay\models\tables\FeedComments;
+use fay\models\tables\FeedCommentsTable;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use fay\services\FeedService;
-use fay\models\tables\FeedMeta;
+use fay\models\tables\FeedMetaTable;
 use fay\services\OptionService;
 use fay\services\UserService;
 
@@ -18,7 +18,7 @@ class FeedCommentService extends MultiTree{
 	/**
 	 * @see MultiTree::$model
 	 */
-	protected $model = 'fay\models\tables\FeedComments';
+	protected $model = 'fay\models\tables\FeedCommentsTable';
 	
 	/**
 	 * @see MultiTree::$foreign_key
@@ -50,7 +50,7 @@ class FeedCommentService extends MultiTree{
 	 * @return int
 	 * @throws Exception
 	 */
-	public function create($feed_id, $content, $parent = 0, $status = FeedComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
+	public function create($feed_id, $content, $parent = 0, $status = FeedCommentsTable::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
 		
 		if(!FeedService::isFeedIdExist($feed_id)){
@@ -58,7 +58,7 @@ class FeedCommentService extends MultiTree{
 		}
 		
 		if($parent){
-			$parent_comment = FeedComments::model()->find($parent, 'feed_id,deleted');
+			$parent_comment = FeedCommentsTable::model()->find($parent, 'feed_id,deleted');
 			if(!$parent_comment || $parent_comment['deleted']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
 			}
@@ -100,7 +100,7 @@ class FeedCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function delete($comment_id){
-		$comment = FeedComments::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
+		$comment = FeedCommentsTable::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
@@ -109,7 +109,7 @@ class FeedCommentService extends MultiTree{
 		}
 		
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
-		FeedComments::model()->update(array(
+		FeedCommentsTable::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), $comment_id);
@@ -129,7 +129,7 @@ class FeedCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchDelete($comment_ids){
-		$comments = FeedComments::model()->fetchAll(array(
+		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
 			'deleted = 0',
 		), 'id,feed_id,sockpuppet,status');
@@ -139,7 +139,7 @@ class FeedCommentService extends MultiTree{
 		}
 		
 		//更新状态
-		$affected_rows = FeedComments::model()->update(array(
+		$affected_rows = FeedCommentsTable::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -165,7 +165,7 @@ class FeedCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function undelete($comment_id){
-		$comment = FeedComments::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
+		$comment = FeedCommentsTable::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
@@ -174,7 +174,7 @@ class FeedCommentService extends MultiTree{
 		}
 		
 		//还原不需要动树结构，只是把deleted字段标记一下即可
-		FeedComments::model()->update(array(
+		FeedCommentsTable::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), $comment_id);
@@ -194,7 +194,7 @@ class FeedCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchUnelete($comment_ids){
-		$comments = FeedComments::model()->fetchAll(array(
+		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
 			'deleted > 0',
 		), 'id,feed_id,sockpuppet,status');
@@ -204,7 +204,7 @@ class FeedCommentService extends MultiTree{
 		}
 		
 		//更新状态
-		$affected_rows = FeedComments::model()->update(array(
+		$affected_rows = FeedCommentsTable::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -231,13 +231,13 @@ class FeedCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function deleteAll($comment_id){
-		$comment = FeedComments::model()->find($comment_id, 'left_value,right_value,root');
+		$comment = FeedCommentsTable::model()->find($comment_id, 'left_value,right_value,root');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$comments = FeedComments::model()->fetchAll(array(
+		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'root = ?'=>$comment['root'],
 			'left_value >= ' . $comment['left_value'],
 			'right_value <= ' . $comment['right_value'],
@@ -247,7 +247,7 @@ class FeedCommentService extends MultiTree{
 		if($comments){
 			//如果存在待删除节点，则执行删除
 			$comment_ids = ArrayHelper::column($comments, 'id');
-			FeedComments::model()->update(array(
+			FeedCommentsTable::model()->update(array(
 				'deleted'=>1,
 				'last_modified_time'=>\F::app()->current_time,
 			), array(
@@ -275,7 +275,7 @@ class FeedCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function remove($comment_id){
-		$comment = FeedComments::model()->find($comment_id, '!content');
+		$comment = FeedCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
@@ -302,13 +302,13 @@ class FeedCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function removeAll($comment_id){
-		$comment = FeedComments::model()->find($comment_id, '!content');
+		$comment = FeedCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$comments = FeedComments::model()->fetchAll(array(
+		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'root = ?'=>$comment['root'],
 			'left_value >= ' . $comment['left_value'],
 			'right_value <= ' . $comment['right_value'],
@@ -342,18 +342,18 @@ class FeedCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function approve($comment_id){
-		$comment = FeedComments::model()->find($comment_id, '!content');
+		$comment = FeedCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
 		if($comment['deleted']){
 			throw new Exception('评论已删除', 'comment-deleted');
 		}
-		if($comment['status'] == FeedComments::STATUS_APPROVED){
+		if($comment['status'] == FeedCommentsTable::STATUS_APPROVED){
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		$this->setStatus($comment_id, FeedComments::STATUS_APPROVED);
+		$this->setStatus($comment_id, FeedCommentsTable::STATUS_APPROVED);
 		
 		//更新文章评论数
 		$this->updateFeedComments(array($comment), 'approve');
@@ -371,9 +371,9 @@ class FeedCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchApprove($comment_ids){
-		$comments = FeedComments::model()->fetchAll(array(
+		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'status != ' . FeedComments::STATUS_APPROVED,
+			'status != ' . FeedCommentsTable::STATUS_APPROVED,
 		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
@@ -381,7 +381,7 @@ class FeedCommentService extends MultiTree{
 		}
 		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_APPROVED);
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedCommentsTable::STATUS_APPROVED);
 		
 		//更新文章评论数
 		$this->updateFeedComments($comments, 'approve');
@@ -403,18 +403,18 @@ class FeedCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function disapprove($comment_id){
-		$comment = FeedComments::model()->find($comment_id, '!content');
+		$comment = FeedCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
 		if($comment['deleted']){
 			throw new Exception('评论已删除', 'comment-is-deleted');
 		}
-		if($comment['status'] == FeedComments::STATUS_UNAPPROVED){
+		if($comment['status'] == FeedCommentsTable::STATUS_UNAPPROVED){
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		$this->setStatus($comment_id, FeedComments::STATUS_UNAPPROVED);
+		$this->setStatus($comment_id, FeedCommentsTable::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
 		$this->updateFeedComments(array($comment), 'disapprove');
@@ -432,9 +432,9 @@ class FeedCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchDisapprove($comment_ids){
-		$comments = FeedComments::model()->fetchAll(array(
+		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'status != ' . FeedComments::STATUS_UNAPPROVED,
+			'status != ' . FeedCommentsTable::STATUS_UNAPPROVED,
 		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
@@ -442,7 +442,7 @@ class FeedCommentService extends MultiTree{
 		}
 		
 		//更新状态
-		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedComments::STATUS_UNAPPROVED);
+		$affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedCommentsTable::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
 		$this->updateFeedComments($comments, 'disapprove');
@@ -464,7 +464,7 @@ class FeedCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function update($comment_id, $content){
-		return FeedComments::model()->update(array(
+		return FeedCommentsTable::model()->update(array(
 			'content'=>$content,
 		), $comment_id);
 	}
@@ -582,7 +582,7 @@ class FeedCommentService extends MultiTree{
 	 */
 	public function checkPermission($comment, $action = 'delete', $user_id = null){
 		if(!is_array($comment)){
-			$comment = FeedComments::model()->find($comment, 'user_id');
+			$comment = FeedCommentsTable::model()->find($comment, 'user_id');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
@@ -612,12 +612,12 @@ class FeedCommentService extends MultiTree{
 	 */
 	public function setStatus($comment_id, $status){
 		if(is_array($comment_id)){
-			return FeedComments::model()->update(array(
+			return FeedCommentsTable::model()->update(array(
 				'status'=>$status,
 				'last_modified_time'=>\F::app()->current_time,
 			), array('id IN (?)'=>$comment_id));
 		}else{
-			return FeedComments::model()->update(array(
+			return FeedCommentsTable::model()->update(array(
 				'status'=>$status,
 				'last_modified_time'=>\F::app()->current_time,
 			), $comment_id);
@@ -633,7 +633,7 @@ class FeedCommentService extends MultiTree{
 	private function needChangeFeedComments($comment, $action){
 		$feed_comment_verify = OptionService::get('system:feed_comment_verify');
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($comment['status'] == FeedComments::STATUS_APPROVED || !$feed_comment_verify){
+			if($comment['status'] == FeedCommentsTable::STATUS_APPROVED || !$feed_comment_verify){
 				return true;
 			}
 		}else if($action == 'approve'){
@@ -643,7 +643,7 @@ class FeedCommentService extends MultiTree{
 			}
 		}else if($action == 'disapprove'){
 			//如果评论原本是通过审核状态，且系统开启了动态评论审核，则当评论未通过审核时，相应动态评论数-1
-			if($comment['status'] == FeedComments::STATUS_APPROVED && $feed_comment_verify){
+			if($comment['status'] == FeedCommentsTable::STATUS_APPROVED && $feed_comment_verify){
 				return true;
 			}
 		}
@@ -688,13 +688,13 @@ class FeedCommentService extends MultiTree{
 			
 			if($comments && $comments == $real_comments){
 				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				FeedMeta::model()->incr($feed_id, array('comments', 'real_comments'), $comments);
+				FeedMetaTable::model()->incr($feed_id, array('comments', 'real_comments'), $comments);
 			}else{
 				if($comments){
-					FeedMeta::model()->incr($feed_id, array('comments'), $comments);
+					FeedMetaTable::model()->incr($feed_id, array('comments'), $comments);
 				}
 				if($real_comments){
-					FeedMeta::model()->incr($feed_id, array('real_comments'), $real_comments);
+					FeedMetaTable::model()->incr($feed_id, array('real_comments'), $real_comments);
 				}
 			}
 		}
@@ -714,7 +714,7 @@ class FeedCommentService extends MultiTree{
 		);
 		if(OptionService::get('system:feed_comment_verify')){
 			//开启了评论审核
-			$conditions[] = 'status = '.FeedComments::STATUS_APPROVED;
+			$conditions[] = 'status = '.FeedCommentsTable::STATUS_APPROVED;
 		}
 		
 		return $this->_getTree($feed_id,
@@ -754,8 +754,8 @@ class FeedCommentService extends MultiTree{
 		);
 		if(OptionService::get('system:post_comment_verify')){
 			//开启了评论审核
-			$conditions[] = 'c.status = '.FeedComments::STATUS_APPROVED;
-			$js_conditions[] = 'c2.status = '.FeedComments::STATUS_APPROVED;
+			$conditions[] = 'c.status = '.FeedCommentsTable::STATUS_APPROVED;
+			$js_conditions[] = 'c2.status = '.FeedCommentsTable::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getList($feed_id,

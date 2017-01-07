@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\Links;
+use fay\models\tables\LinksTable;
 use fay\helpers\StringHelper;
 
 class LinkService extends Service{
@@ -38,7 +38,7 @@ class LinkService extends Service{
 				return $this->getByCatAlias($cat, $limit, $visible);
 			}
 		}else{
-			return Links::model()->fetchAll(array(
+			return LinksTable::model()->fetchAll(array(
 				'visible = ?'=>$visible === null ? false : ($visible == true ? 1 : 0),
 			), '*', 'sort', $limit ? $limit : false);
 		}
@@ -55,7 +55,7 @@ class LinkService extends Service{
 	 * @return array
 	 */
 	public function getByCatId($cat_id, $limit = 0, $visible = true){
-		return Links::model()->fetchAll(array(
+		return LinksTable::model()->fetchAll(array(
 			'cat_id = ' . $cat_id,
 			'visible = ?'=>$visible === null ? false : ($visible == true ? 1 : 0),
 		), '*', 'sort', $limit ? $limit : false);
@@ -109,6 +109,6 @@ class LinkService extends Service{
 		if($cat_id){
 			$conditions[] = 'cat_id = '.$cat_id;
 		}
-		return Links::model()->fetchAll($conditions, '*', 'sort', $limit ? $limit : false);
+		return LinksTable::model()->fetchAll($conditions, '*', 'sort', $limit ? $limit : false);
 	}
 }

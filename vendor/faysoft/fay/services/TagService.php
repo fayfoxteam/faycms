@@ -4,8 +4,8 @@ namespace fay\services;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
-use fay\models\tables\Tags;
-use fay\models\tables\TagCounter;
+use fay\models\tables\TagsTable;
+use fay\models\tables\TagCounterTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\tag\TagCounterService;
@@ -32,8 +32,8 @@ class TagService extends Service{
 	public function getList($order, $page_size = 20, $page = 1){
 		$sql = new Sql();
 		$sql->from(array('t'=>'tags'), 'id,title')
-			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')))
-			->where('t.status = ' . Tags::STATUS_ENABLED)
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounterTable::model()->getFields(array('tag_id')))
+			->where('t.status = ' . TagsTable::STATUS_ENABLED)
 			->order($order);
 		;
 		$listview = new ListView($sql, array(
@@ -78,13 +78,13 @@ class TagService extends Service{
 		
 		//解析$fields
 		$fields = FieldHelper::parse($fields, 'tag', array(
-			'tag'=>Tags::model()->getFields(),
-			'counter'=>TagCounter::model()->getFields(),
+			'tag'=>TagsTable::model()->getFields(),
+			'counter'=>TagCounterTable::model()->getFields(),
 		));
 		if(!empty($fields['tag']) && in_array('*', $fields['tag'])){
 			//若存在*，视为全字段搜索
 			$fields['tag'] = array(
-				'fields'=>Tags::model()->getFields()
+				'fields'=>TagsTable::model()->getFields()
 			);
 		}
 		
@@ -94,7 +94,7 @@ class TagService extends Service{
 			$fields['tag']['fields'][] = 'id';
 			$remove_id_field = true;
 		}
-		$tags = Tags::model()->fetchAll(array(
+		$tags = TagsTable::model()->fetchAll(array(
 			'id IN (?)'=>$ids,
 		), $fields['tag']['fields']);
 		
@@ -134,7 +134,7 @@ class TagService extends Service{
 	 */
 	public static function isTagExist($title, $conditions = array()){
 		if($title){
-			$tag = Tags::model()->fetchRow(array(
+			$tag = TagsTable::model()->fetchRow(array(
 					'title = ?'=>$title,
 				) + $conditions, 'id');
 			if($tag){
@@ -159,13 +159,13 @@ class TagService extends Service{
 			return $tag;
 		}
 		
-		$tag_id = Tags::model()->insert(array(
+		$tag_id = TagsTable::model()->insert(array(
 			'title'=>$title,
 			'user_id'=>\F::app()->current_user,
 			'create_time'=>\F::app()->current_time,
 		));
 		
-		TagCounter::model()->insert(array(
+		TagCounterTable::model()->insert(array(
 			'tag_id'=>$tag_id,
 		));
 		

@@ -6,7 +6,7 @@ use fay\core\Uri;
 use fay\services\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\models\tables\Roles;
+use fay\models\tables\RolesTable;
 use fay\services\UserService;
 use fay\services\user\UserRoleService;
 
@@ -29,7 +29,7 @@ class ToolsController extends Controller{
 			'label'=>'Tools',
 			'icon'=>'fa fa-wrench',
 			'router'=>'tools',
-			'roles'=>Roles::ITEM_SUPER_ADMIN,
+			'roles'=>RolesTable::ITEM_SUPER_ADMIN,
 		),
 	);
 	
@@ -60,7 +60,7 @@ class ToolsController extends Controller{
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		
-		if(!UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
+		if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){
 			throw new HttpException('仅超级管理员可访问此模块', 403);
 		}
 	}

@@ -2,16 +2,16 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\services\OptionService;
 
 class ContactController extends FrontController{
 	public $layout_template = 'inner';
 	
 	public function index(){
-		$page = Pages::model()->fetchRow(array('alias = ?'=>'contact'));
+		$page = PagesTable::model()->fetchRow(array('alias = ?'=>'contact'));
 		
-		Pages::model()->incr($page['id'], 'views', 1);
+		PagesTable::model()->incr($page['id'], 'views', 1);
 		$this->view->page = $page;
 
 		$this->layout->submenu = array(

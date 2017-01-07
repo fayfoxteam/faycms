@@ -4,10 +4,10 @@ namespace fay\services\feed;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\models\tables\Feeds;
-use fay\models\tables\TagCounter;
-use fay\models\tables\Tags;
-use fay\models\tables\FeedsTags;
+use fay\models\tables\FeedsTable;
+use fay\models\tables\TagCounterTable;
+use fay\models\tables\TagsTable;
+use fay\models\tables\FeedsTagsTable;
 use fay\services\TagService;
 use fay\services\tag\TagCounterService;
 
@@ -38,7 +38,7 @@ class FeedTagService extends Service{
 		}
 		$sql = new Sql();
 		return $sql->from(array('ft'=>'feeds_tags'), '')
-			->joinLeft(array('t'=>'tags'), 'ft.tag_id = t.id', Tags::model()->formatFields($fields))
+			->joinLeft(array('t'=>'tags'), 'ft.tag_id = t.id', TagsTable::model()->formatFields($fields))
 			->where(array(
 				'ft.feed_id = ?'=>$feed_id,
 			))
@@ -58,7 +58,7 @@ class FeedTagService extends Service{
 		}
 		$sql = new Sql();
 		$tags = $sql->from(array('ft'=>'feeds_tags'), 'feed_id')
-			->joinLeft(array('t'=>'tags'), 'ft.tag_id = t.id', Tags::model()->formatFields($fields))
+			->joinLeft(array('t'=>'tags'), 'ft.tag_id = t.id', TagsTable::model()->formatFields($fields))
 			->where(array('ft.feed_id IN (?)'=>$feed_ids))
 			->fetchAll();
 		$return = array_fill_keys($feed_ids, array());
@@ -76,7 +76,7 @@ class FeedTagService extends Service{
 	 * @return array 标签ID构成的一维数组
 	 */
 	public function getTagIds($feed_id){
-		return FeedsTags::model()->fetchCol('tag_id', array(
+		return FeedsTagsTable::model()->fetchCol('tag_id', array(
 			'feed_id = ?'=>$feed_id,
 		));
 	}
@@ -97,13 +97,13 @@ class FeedTagService extends Service{
 				->where(array(
 					'pt.tag_id IN (?)'=>$tag_ids,
 					'p.deleted = 0',
-					'p.status = '.Feeds::STATUS_APPROVED,
+					'p.status = '.FeedsTable::STATUS_APPROVED,
 				))//这里不限制publish_time条件，因为定时发布后没逻辑来更新标签对应动态数
 				->group('pt.tag_id')
 				->fetchAll();
 			$feeds_tags = ArrayHelper::column($feeds_tags, 'count', 'tag_id');
 			foreach($tag_ids as $tag){
-				TagCounter::model()->update(array(
+				TagCounterTable::model()->update(array(
 					'feeds'=>empty($feeds_tags[$tag]) ? 0 : $feeds_tags[$tag],
 				), $tag);
 			}
@@ -119,7 +119,7 @@ class FeedTagService extends Service{
 			$feed_id = array($feed_id);
 		}
 		
-		$tag_ids = FeedsTags::model()->fetchCol('tag_id', array(
+		$tag_ids = FeedsTagsTable::model()->fetchCol('tag_id', array(
 			'feed_id IN (?)'=>$feed_id,
 		));
 		
@@ -161,7 +161,7 @@ class FeedTagService extends Service{
 			$input_tag_ids = array();
 			foreach($tags as $tag_title){
 				if(!$tag_title = trim($tag_title))continue;
-				$tag = Tags::model()->fetchRow(array(
+				$tag = TagsTable::model()->fetchRow(array(
 					'title = ?'=>$tag_title,
 				), 'id');
 				if($tag){//已存在，获取id
@@ -171,14 +171,14 @@ class FeedTagService extends Service{
 				}
 			}
 			
-			$old_tag_ids = FeedsTags::model()->fetchCol('tag_id', array(
+			$old_tag_ids = FeedsTagsTable::model()->fetchCol('tag_id', array(
 				'feed_id = ?'=>$feed_id,
 			));
 			
 			//删除已被删除的标签
 			$deleted_tag_ids = array_diff($old_tag_ids, $input_tag_ids);
 			if($deleted_tag_ids){
-				FeedsTags::model()->delete(array(
+				FeedsTagsTable::model()->delete(array(
 					'feed_id = ?'=>$feed_id,
 					'tag_id IN (?)'=>$deleted_tag_ids
 				));
@@ -188,7 +188,7 @@ class FeedTagService extends Service{
 			$new_tag_ids = array_diff($input_tag_ids, $old_tag_ids);
 			if($new_tag_ids){
 				foreach($new_tag_ids as $v){
-					FeedsTags::model()->insert(array(
+					FeedsTagsTable::model()->insert(array(
 						'feed_id'=>$feed_id,
 						'tag_id'=>$v,
 					));
@@ -204,11 +204,11 @@ class FeedTagService extends Service{
 			}
 		}else{
 			//删除全部tag
-			$old_tag_ids = FeedsTags::model()->fetchCol('tag_id', array(
+			$old_tag_ids = FeedsTagsTable::model()->fetchCol('tag_id', array(
 				'feed_id = ?'=>$feed_id,
 			));
 			if($old_tag_ids){
-				FeedsTags::model()->delete(array(
+				FeedsTagsTable::model()->delete(array(
 					'feed_id = ?'=>$feed_id,
 				));
 				if($old_tag_ids){

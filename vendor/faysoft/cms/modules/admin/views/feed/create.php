@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Feeds;
+use fay\models\tables\FeedsTable;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -28,13 +28,13 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						<strong>状态：</strong>
 						<?php
 							echo F::form()->select('status', array(
-								Feeds::STATUS_DRAFT=>'草稿',
-								Feeds::STATUS_PENDING=>'待审核',
-								Feeds::STATUS_APPROVED=>'通过审核',
-								Feeds::STATUS_UNAPPROVED=>'未通过审核',
+								FeedsTable::STATUS_DRAFT=>'草稿',
+								FeedsTable::STATUS_PENDING=>'待审核',
+								FeedsTable::STATUS_APPROVED=>'通过审核',
+								FeedsTable::STATUS_UNAPPROVED=>'未通过审核',
 							), array(
 								'class'=>'form-control mw100 mt5 ib',
-							), Feeds::STATUS_APPROVED);
+							), FeedsTable::STATUS_APPROVED);
 						?>
 					</div>
 					<div class="misc-pub-section">

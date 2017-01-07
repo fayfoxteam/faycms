@@ -3,13 +3,13 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\core\Exception;
-use fay\models\tables\Follows;
+use fay\models\tables\FollowsTable;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\FieldHelper;
-use fay\models\tables\UserCounter;
+use fay\models\tables\UserCounterTable;
 
 /**
  * 关注服务
@@ -62,7 +62,7 @@ class FollowService extends Service{
 		}
 		
 		$isFollow = self::isFollow($fan_id, $user_id);
-		Follows::model()->insert(array(
+		FollowsTable::model()->insert(array(
 			'fans_id'=>$fan_id,
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
@@ -74,7 +74,7 @@ class FollowService extends Service{
 		
 		if($isFollow){
 			//若存在反向关注，则将反向关注记录的relation也置为双向关注
-			Follows::model()->update(array(
+			FollowsTable::model()->update(array(
 				'relation'=>Follows::RELATION_BOTH,
 			), array(
 				'user_id = ?'=>$fan_id,
@@ -83,10 +83,10 @@ class FollowService extends Service{
 		}
 		
 		//关注用户关注数+1
-		UserCounter::model()->incr($fan_id, 'follows', 1);
+		UserCounterTable::model()->incr($fan_id, 'follows', 1);
 		
 		//被关注用户粉丝数+1
-		UserCounter::model()->incr($user_id, 'fans', 1);
+		UserCounterTable::model()->incr($user_id, 'fans', 1);
 		
 		//触发事件
 		\F::event()->trigger(self::EVENT_FOLLOW, array(
@@ -112,14 +112,14 @@ class FollowService extends Service{
 		
 		if(self::isFollow($user_id, $fan_id)){//是关注状态，执行取消关注
 			//删除关注关系
-			Follows::model()->delete(array(
+			FollowsTable::model()->delete(array(
 				'fans_id = ?'=>$fan_id,
 				'user_id = ?'=>$user_id,
 			));
 			
 			//若互相关注，则更新反向关注的关注关系
 			if(self::isFollow($fan_id, $user_id)){
-				Follows::model()->update(array(
+				FollowsTable::model()->update(array(
 					'relation'=>Follows::RELATION_SINGLE,
 				), array(
 					'fans_id = ?'=>$user_id,
@@ -128,10 +128,10 @@ class FollowService extends Service{
 			}
 			
 			//关注用户关注数-1
-			UserCounter::model()->incr($fan_id, 'follows', -1);
+			UserCounterTable::model()->incr($fan_id, 'follows', -1);
 			
 			//被关注用户粉丝数-1
-			UserCounter::model()->incr($user_id, 'fans', -1);
+			UserCounterTable::model()->incr($user_id, 'fans', -1);
 			
 			//触发事件
 			\F::event()->trigger(self::EVENT_UNFOLLOW, array(
@@ -158,7 +158,7 @@ class FollowService extends Service{
 			throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
 		}
 		
-		$follow = Follows::model()->find(array($fan_id, $user_id), 'relation');
+		$follow = FollowsTable::model()->find(array($fan_id, $user_id), 'relation');
 		if($follow){
 			return intval($follow['relation']);//为了保证返回字段类型一致，这里intval一下
 		}else{
@@ -179,7 +179,7 @@ class FollowService extends Service{
 			throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
 		}
 		
-		$follows = Follows::model()->fetchAll(array(
+		$follows = FollowsTable::model()->fetchAll(array(
 			'fans_id = ?'=>$fan_id,
 			'user_id IN (?)'=>$user_ids,
 		), 'user_id,relation');

@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Templates;
+use fay\models\tables\TemplatesTable;
 
 echo F::form()->open();
 ?>

@@ -30,7 +30,7 @@ class ModelController extends FrontController{
 		//通过API ID确定展开的菜单页
 		$api_id = TrackHelper::getApiId();
 		if($api_id){
-			$api = Apis::model()->find($api_id, 'cat_id');
+			$api = ApisTable::model()->find($api_id, 'cat_id');
 			if($api){
 				$category = CategoryService::service()->get($api['cat_id'], 'alias');
 				$this->layout->current_directory = $category['alias'];
@@ -39,7 +39,7 @@ class ModelController extends FrontController{
 		}
 		
 		$model_id = $this->form()->getData('model_id');
-		$model = Models::model()->find($model_id);
+		$model = ModelsTable::model()->find($model_id);
 		if(!$model || $model['id'] < 1000){
 			throw new HttpException('您访问的页面不存在');
 		}

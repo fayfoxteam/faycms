@@ -2,13 +2,13 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\core\Sql;
 use fay\services\CategoryService;
-use fay\models\tables\Posts;
-use fay\models\tables\Messages;
+use fay\models\tables\PostsTable;
+use fay\models\tables\MessagesTable;
 use fay\common\ListView;
-use fay\models\tables\Followers;
+use fay\models\tables\FollowersTable;
 use fay\services\UserService;
 
 class UController extends FrontController{
@@ -28,9 +28,9 @@ class UController extends FrontController{
 		$this->layout->current_directory = 'home';
 		
 		$this->user_id = $this->input->get('id', 'intval');
-		$this->layout->user = Users::model()->find($this->user_id, 'avatar,nickname');
+		$this->layout->user = UsersTable::model()->find($this->user_id, 'avatar,nickname');
 		
-		if(Followers::model()->fetchRow(array(
+		if(FollowersTable::model()->fetchRow(array(
 			'follower = '.$this->current_user,
 			'user_id'=>$this->user_id,
 		))){
@@ -61,7 +61,7 @@ class UController extends FrontController{
 				'c.left_value > '.$cat_work['left_value'],
 				'c.right_value < '.$cat_work['right_value'],
 				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
 			->fetchAll()
@@ -78,7 +78,7 @@ class UController extends FrontController{
 				'c.left_value > '.$cat_blog['left_value'],
 				'c.right_value < '.$cat_blog['right_value'],
 				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
 			->fetchAll()
@@ -90,8 +90,8 @@ class UController extends FrontController{
 			->where(array(
 				'm.target = '.$this->user_id,
 				'm.parent = 0',
-				'm.type = '.Messages::TYPE_USER_MESSAGE,
-				'm.status = '.Messages::STATUS_APPROVED,
+				'm.type = '.MessagesTable::TYPE_USER_MESSAGE,
+				'm.status = '.MessagesTable::STATUS_APPROVED,
 				'm.deleted = 0',
 			))
 			->order('id DESC');

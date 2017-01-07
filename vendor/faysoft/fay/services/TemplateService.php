@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\Templates;
+use fay\models\tables\TemplatesTable;
 
 class TemplateService extends Service{
 	/**
@@ -23,7 +23,7 @@ class TemplateService extends Service{
 		if(isset($this->templates[$alias])){
 			$msg = $this->templates[$alias];
 		}else{
-			$msg = Templates::model()->fetchRow(array(
+			$msg = TemplatesTable::model()->fetchRow(array(
 				'alias = ?'=>$alias,
 			));
 			$this->templates[$alias] = $msg;

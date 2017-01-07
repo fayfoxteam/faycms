@@ -6,7 +6,7 @@ use fay\services\PostService;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\CategoryService;
 use fay\helpers\DateHelper;
 use fay\core\HttpException;
@@ -234,7 +234,7 @@ class IndexController extends Widget{
 			}
 		}
 		
-		$sql->where(Posts::getPublishedConditions('p'))
+		$sql->where(PostsTable::getPublishedConditions('p'))
 			->order($this->getOrder());
 		
 		$listview = new ListView($sql, array(

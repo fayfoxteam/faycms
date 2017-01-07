@@ -2,10 +2,10 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Roles;
+use fay\models\tables\RolesTable;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Props;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\PropsTable;
+use fay\models\tables\ActionlogsTable;
 use fay\services\user\UserPropService;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -21,7 +21,7 @@ class RolePropController extends AdminController{
 	public function index(){
 		$role_id = $this->input->get('role_id', 'intval');
 		
-		$role = Roles::model()->fetchRow(array(
+		$role = RolesTable::model()->fetchRow(array(
 			'id = ?'=>$role_id,
 			'deleted = 0',
 		));
@@ -29,7 +29,7 @@ class RolePropController extends AdminController{
 			throw new HttpException('所选角色不存在');
 		}
 		
-		$this->form()->setModel(Props::model())
+		$this->form()->setModel(PropsTable::model())
 			->setData(array(
 				'refer'=>$role_id,
 			));
@@ -48,13 +48,13 @@ class RolePropController extends AdminController{
 			throw new HttpException('无数据提交', 500);
 		}
 		
-		if($this->form()->setModel(Props::model())->check()){
+		if($this->form()->setModel(PropsTable::model())->check()){
 			$refer = $this->input->post('refer', 'intval');
-			$prop = Props::model()->fillData($this->input->post());
+			$prop = PropsTable::model()->fillData($this->input->post());
 			$values = $this->input->post('prop_values', array());
 			$prop_id = PropService::service()->create($refer, $prop, $values);
 			
-			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '添加了一个角色属性', $prop_id);
+			$this->actionlog(ActionlogsTable::TYPE_ROLE_PROP, '添加了一个角色属性', $prop_id);
 	
 			Response::notify('success', array(
 				'message'=>'角色属性添加成功',
@@ -69,7 +69,7 @@ class RolePropController extends AdminController{
 	public function edit(){
 		$prop_id = $this->input->get('id', 'intval');
 		
-		$this->form()->setModel(Props::model());
+		$this->form()->setModel(PropsTable::model());
 		if($this->input->post() && $this->form()->check()){
 			$refer = $this->input->post('refer', 'intval');
 			$prop = $this->form()->getFilteredData();
@@ -81,7 +81,7 @@ class RolePropController extends AdminController{
 				
 			PropService::service()->update($refer, $prop_id, $prop, $prop_values, $ids);
 			
-			$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
+			$this->actionlog(ActionlogsTable::TYPE_ROLE_PROP, '编辑了角色属性信息', $prop_id);
 			
 			Response::notify('success', '角色属性编辑成功', false);
 		}
@@ -102,7 +102,7 @@ class RolePropController extends AdminController{
 		);
 		
 		//获取角色标题
-		$role = Roles::model()->find($prop['refer'], 'title');
+		$role = RolesTable::model()->find($prop['refer'], 'title');
 		$this->layout->subtitle = '编辑角色属性 - '.HtmlHelper::encode($role['title']).' - '.HtmlHelper::encode($prop['title']);
 
 		$this->_setListview($prop['refer']);
@@ -111,7 +111,7 @@ class RolePropController extends AdminController{
 
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
-		$prop = Props::model()->find($id, 'refer');
+		$prop = PropsTable::model()->find($id, 'refer');
 		PropService::service()->delete($id);
 
 		Response::notify('success', array(
@@ -123,14 +123,14 @@ class RolePropController extends AdminController{
 
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		Props::model()->update(array(
+		PropsTable::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$id,
 		));
-		$this->actionlog(Actionlogs::TYPE_ROLE_PROP, '改变了角色属性排序', $id);
+		$this->actionlog(ActionlogsTable::TYPE_ROLE_PROP, '改变了角色属性排序', $id);
 		
-		$data = Props::model()->find($id, 'sort');
+		$data = PropsTable::model()->find($id, 'sort');
 		Response::notify('success', array(
 			'message'=>'一个角色属性的排序值被编辑',
 			'sort'=>$data['sort'],
@@ -146,7 +146,7 @@ class RolePropController extends AdminController{
 		$sql->from('props')
 			->where(array(
 				'deleted = 0',
-				'type = '.Props::TYPE_ROLE,
+				'type = '.PropsTable::TYPE_ROLE,
 				"refer = {$role_id}",
 			))
 			->order('sort');

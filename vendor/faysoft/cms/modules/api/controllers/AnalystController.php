@@ -5,8 +5,8 @@ use cms\library\ApiController;
 use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\DateHelper;
-use fay\models\tables\AnalystMacs;
-use fay\models\tables\AnalystVisits;
+use fay\models\tables\AnalystMacsTable;
+use fay\models\tables\AnalystVisitsTable;
 use fay\services\AnalystService;
 
 /**
@@ -33,7 +33,7 @@ class AnalystController extends ApiController{
 				
 				//获取搜索引擎信息
 				$se = RequestHelper::getSearchEngine($refer);
-				$mac_id = AnalystMacs::model()->insert(array(
+				$mac_id = AnalystMacsTable::model()->insert(array(
 					'user_agent'=>$_SERVER['HTTP_USER_AGENT'],
 					'browser'=>$this->input->get('b'),
 					'browser_version'=>$this->input->get('bv'),
@@ -55,7 +55,7 @@ class AnalystController extends ApiController{
 					'site'=>$this->input->get('si', 'intval'),
 				));
 				
-				AnalystVisits::model()->insert(array(
+				AnalystVisitsTable::model()->insert(array(
 					'mac'=>$mac_id,
 					'ip_int'=>RequestHelper::ip2int($this->ip),
 					'refer'=>$refer,
@@ -77,15 +77,15 @@ class AnalystController extends ApiController{
 				$mac_id = AnalystService::service()->getMacId($fmac);
 				if($mac_id){
 					//一小时内重复访问不新增记录，仅递增views
-					if($record = AnalystVisits::model()->fetchRow(array(
+					if($record = AnalystVisitsTable::model()->fetchRow(array(
 						'mac = ?'=>$mac_id,
 						'short_url = ?'=>$short_url,
 						'create_date = ?'=>$date,
 						'hour = ?'=>$hour,
 					), 'id')){
-						AnalystVisits::model()->incr($record['id'], 'views', 1);
+						AnalystVisitsTable::model()->incr($record['id'], 'views', 1);
 					}else{
-						AnalystVisits::model()->insert(array(
+						AnalystVisitsTable::model()->insert(array(
 							'mac'=>$mac_id,
 							'ip_int'=>RequestHelper::ip2int($this->ip),
 							'refer'=>$refer,

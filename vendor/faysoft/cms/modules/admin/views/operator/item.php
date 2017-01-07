@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use fay\helpers\ArrayHelper;
@@ -42,19 +42,19 @@ use fay\helpers\ArrayHelper;
 				<div class="form-group">
 					<label class="col-2 title">审核状态</label>
 					<div class="col-10 pt7"><?php switch($user['user']['status']){
-						case Users::STATUS_UNCOMPLETED:
+						case UsersTable::STATUS_UNCOMPLETED:
 							echo '<span class="fc-blue">用户信息不完整</span>';
 						break;
-						case Users::STATUS_PENDING:
+						case UsersTable::STATUS_PENDING:
 							echo '<span class="fc-orange">待审核</span>';
 						break;
-						case Users::STATUS_VERIFY_FAILED:
+						case UsersTable::STATUS_VERIFY_FAILED:
 							echo '<span class="fc-red">未通过审核</span>';
 						break;
-						case Users::STATUS_VERIFIED:
+						case UsersTable::STATUS_VERIFIED:
 							echo '<span class="fc-green">通过审核</span>';
 						break;
-						case Users::STATUS_NOT_VERIFIED:
+						case UsersTable::STATUS_NOT_VERIFIED:
 							echo '<span class="fc-orange">未验证邮箱或手机</span>';
 						break;
 							

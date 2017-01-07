@@ -26,7 +26,7 @@ class IndexController extends FrontController{
 		));
 		
 		$this->view->assign(array(
-			'models'=>Models::model()->fetchAll('id < 1000', 'name,description,sample', 'id')
+			'models'=>ModelsTable::model()->fetchAll('id < 1000', 'name,description,sample', 'id')
 		))->render();
 	}
 }

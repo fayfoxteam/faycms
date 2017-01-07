@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Goods;
+use fay\models\tables\GoodsTable;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -31,11 +31,11 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						<strong>状态：</strong>
 						<?php
 							echo F::form()->select('status', array(
-								Goods::STATUS_ONSALE=>'销售中',
-								Goods::STATUS_INSTOCK=>'放入仓库',
+								GoodsTable::STATUS_ONSALE=>'销售中',
+								GoodsTable::STATUS_INSTOCK=>'放入仓库',
 							), array(
 								'class'=>'form-control mw100 ib',
-							), Goods::STATUS_ONSALE);
+							), GoodsTable::STATUS_ONSALE);
 						?>
 					</div>
 				</div>

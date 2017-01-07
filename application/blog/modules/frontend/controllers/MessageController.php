@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 use fay\core\Validator;
 
 class MessageController extends FrontController{
@@ -14,16 +14,16 @@ class MessageController extends FrontController{
 		));
 		
 		if($check === true){
-			$message_id = Messages::model()->insert(array(
+			$message_id = MessagesTable::model()->insert(array(
 				'target'=>$this->input->post('target', 'intval'),
 				'content'=>$this->input->post('content'),
 				'type'=>$this->input->post('type', 'intval'),
 				'parent'=>$this->input->post('parent', 'intval', 0),
 				'create_time'=>$this->current_time,
 				'user_id'=>$this->current_user,
-				'status'=>Messages::STATUS_PENDING,
+				'status'=>MessagesTable::STATUS_PENDING,
 			));
-			$message = Messages::model()->find($message_id, 'content,create_time');
+			$message = MessagesTable::model()->find($message_id, 'content,create_time');
 			if($this->input->isAjaxRequest()){
 				echo json_encode(array('status'=>1, 'message'=>$message));
 			}

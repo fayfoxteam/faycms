@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\services\post\PostCommentService;
 use fay\core\Response;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 use fay\services\PostService;
@@ -260,7 +260,7 @@ class PostCommentController extends ApiController{
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>Posts::getPublishedConditions(),
+				'conditions'=>PostsTable::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -318,7 +318,7 @@ class PostCommentController extends ApiController{
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>Posts::getPublishedConditions(),
+				'conditions'=>PostsTable::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -365,7 +365,7 @@ class PostCommentController extends ApiController{
 			array(array('post_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>Posts::getPublishedConditions(),
+				'conditions'=>PostsTable::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(

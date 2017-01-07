@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\helpers\StringHelper;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
@@ -24,7 +24,7 @@ class QiniuService extends Service{
 	 */
 	public function put($file){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file);
+			$file = FilesTable::model()->find($file);
 		}
 		
 		$qiniu_config = OptionService::getGroup('qiniu');
@@ -51,7 +51,7 @@ class QiniuService extends Service{
 				'message'=>$err->message(),
 			);
 		}else{
-			Files::model()->update(array(
+			FilesTable::model()->update(array(
 				'qiniu'=>1,
 			), $file['id']);
 			return array(
@@ -68,7 +68,7 @@ class QiniuService extends Service{
 	 */
 	public function delete($file){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'id,raw_name,file_ext,file_path');
+			$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path');
 		}
 		
 		$qiniu_config = OptionService::getGroup('qiniu');
@@ -99,7 +99,7 @@ class QiniuService extends Service{
 	 */
 	public function getUrl($file, $options = array()){
 		if(StringHelper::isInt($file)){
-			$file = Files::model()->find($file, 'raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			$file = FilesTable::model()->find($file, 'raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
 		}
 		
 		if(!$file['qiniu']){

@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\ExamQuestions;
+use fay\models\tables\ExamQuestionsTable;
 use fay\helpers\HtmlHelper;
 ?>
 <div class="box fl wp100">
@@ -16,25 +16,25 @@ use fay\helpers\HtmlHelper;
 					<div id="paper-question-list">
 					<?php foreach($paper['questions'] as $index => $eq){
 						switch($eq['type']){
-							case ExamQuestions::TYPE_SINGLE_ANSWER:
+							case ExamQuestionsTable::TYPE_SINGLE_ANSWER:
 								$this->renderPartial('_question_single_answer', array(
 									'index'=>$index,
 									'question'=>$eq,
 								));
 							break;
-							case ExamQuestions::TYPE_TRUE_OR_FALSE:
+							case ExamQuestionsTable::TYPE_TRUE_OR_FALSE:
 								$this->renderPartial('_question_true_or_false', array(
 									'index'=>$index,
 									'question'=>$eq,
 								));
 							break;
-							case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
+							case ExamQuestionsTable::TYPE_MULTIPLE_ANSWERS:
 								$this->renderPartial('_question_multiple_answer', array(
 									'index'=>$index,
 									'question'=>$eq,
 								));
 							break;
-							case ExamQuestions::TYPE_INPUT:
+							case ExamQuestionsTable::TYPE_INPUT:
 								$this->renderPartial('_question_input', array(
 									'index'=>$index,
 									'question'=>$eq,

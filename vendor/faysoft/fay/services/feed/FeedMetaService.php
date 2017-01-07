@@ -2,7 +2,7 @@
 namespace fay\services\feed;
 
 use fay\core\Service;
-use fay\models\tables\FeedMeta;
+use fay\models\tables\FeedMetaTable;
 
 class FeedMetaService extends Service{
 	/**
@@ -29,7 +29,7 @@ class FeedMetaService extends Service{
 			//若传入$fields为空，则返回默认字段
 			$fields = self::$default_fields;
 		}
-		return FeedMeta::model()->fetchRow(array(
+		return FeedMetaTable::model()->fetchRow(array(
 			'feed_id = ?'=>$feed_id,
 		), $fields);
 	}
@@ -58,7 +58,7 @@ class FeedMetaService extends Service{
 		}else{
 			$remove_feed_id = false;
 		}
-		$metas = FeedMeta::model()->fetchAll(array(
+		$metas = FeedMetaTable::model()->fetchAll(array(
 			'feed_id IN (?)'=>$feed_ids,
 		), $fields, 'feed_id');
 		$return = array_fill_keys($feed_ids, array());

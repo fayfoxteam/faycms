@@ -2,8 +2,8 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Messages;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\MessagesTable;
+use fay\models\tables\ActionlogsTable;
 use fay\services\PostService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
@@ -15,9 +15,9 @@ class MessageController extends AdminController{
 		
 		MessageService::service()->approve($id);
 		
-		$this->actionlog(Actionlogs::TYPE_MESSAGE, '批准了一条留言', $id);
+		$this->actionlog(ActionlogsTable::TYPE_MESSAGE, '批准了一条留言', $id);
 		
-		$message = Messages::model()->find($id, 'status');
+		$message = MessagesTable::model()->find($id, 'status');
 		
 		Response::notify('success', array(
 			'data'=>array(
@@ -32,9 +32,9 @@ class MessageController extends AdminController{
 		
 		MessageService::service()->disapprove($id);
 		
-		$this->actionlog(Actionlogs::TYPE_MESSAGE, '驳回了一条留言', $id);
+		$this->actionlog(ActionlogsTable::TYPE_MESSAGE, '驳回了一条留言', $id);
 		
-		$message = Messages::model()->find($id, 'status');
+		$message = MessagesTable::model()->find($id, 'status');
 		
 		Response::notify('success', array(
 			'data'=>array(
@@ -49,7 +49,7 @@ class MessageController extends AdminController{
 		
 		MessageService::service()->delete($id);
 		
-		$this->actionlog(Actionlogs::TYPE_MESSAGE, '将留言移入回收站', $id);
+		$this->actionlog(ActionlogsTable::TYPE_MESSAGE, '将留言移入回收站', $id);
 		
 		Response::notify('success', array(
 			'data'=>array(
@@ -66,7 +66,7 @@ class MessageController extends AdminController{
 		
 		MessageService::service()->undelete($id);
 		
-		$this->actionlog(Actionlogs::TYPE_MESSAGE, '还原一条留言', $id);
+		$this->actionlog(ActionlogsTable::TYPE_MESSAGE, '还原一条留言', $id);
 		
 		Response::notify('success', array(
 			'data'=>array(
@@ -79,10 +79,10 @@ class MessageController extends AdminController{
 	public function remove(){
 		$id = $this->input->get('id', 'intval');
 
-		$message = Messages::model()->find($id, 'to_user_id');
+		$message = MessagesTable::model()->find($id, 'to_user_id');
 		
 		MessageService::service()->remove($id);
-		$this->actionlog(Actionlogs::TYPE_MESSAGE, '将留言永久删除', $id);
+		$this->actionlog(ActionlogsTable::TYPE_MESSAGE, '将留言永久删除', $id);
 		
 		Response::notify('success', array(
 			'data'=>array(

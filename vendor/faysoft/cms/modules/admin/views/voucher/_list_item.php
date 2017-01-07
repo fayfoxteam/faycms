@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Vouchers;
+use fay\models\tables\VouchersTable;
 use fay\helpers\DateHelper;
 ?>
 <tr>

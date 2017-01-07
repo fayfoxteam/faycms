@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 
 class PostHelper{
 	/**
@@ -18,22 +18,22 @@ class PostHelper{
 				return '回收站';
 		}
 		switch ($status) {
-			case Posts::STATUS_PUBLISHED:
+			case PostsTable::STATUS_PUBLISHED:
 				return '已发布';
 				break;
-			case Posts::STATUS_DRAFT:
+			case PostsTable::STATUS_DRAFT:
 				if($coloring)
 					return '<span class="fc-blue">草稿</span>';
 				else
 					return '草稿';
 				break;
-			case Posts::STATUS_PENDING:
+			case PostsTable::STATUS_PENDING:
 				if($coloring)
 					return '<span class="fc-orange">待审核</span>';
 				else
 					return '待审核';
 				break;
-			case Posts::STATUS_REVIEWED:
+			case PostsTable::STATUS_REVIEWED:
 				if($coloring)
 					return '<span class="fc-green">通过审核</span>';
 				else

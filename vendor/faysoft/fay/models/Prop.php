@@ -4,8 +4,8 @@ namespace fay\models;
 use fay\core\ErrorException;
 use fay\core\Model;
 use fay\helpers\FieldHelper;
-use fay\models\tables\Props;
-use fay\models\tables\PropValues;
+use fay\models\tables\PropsTable;
+use fay\models\tables\PropValuesTable;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
@@ -50,7 +50,7 @@ abstract class Prop extends Model{
 	 * @return int
 	 */
 	public function create($refer, $prop, $values = array()){
-		$prop_id = Props::model()->insert(array(
+		$prop_id = PropsTable::model()->insert(array(
 			'refer'=>$refer,
 			'type'=>$this->type,
 			'title'=>$prop['title'],
@@ -63,15 +63,15 @@ abstract class Prop extends Model{
 		));
 		
 		if(in_array($prop['element'], array(
-			Props::ELEMENT_RADIO,
-			Props::ELEMENT_SELECT,
-			Props::ELEMENT_CHECKBOX,
+			PropsTable::ELEMENT_RADIO,
+			PropsTable::ELEMENT_SELECT,
+			PropsTable::ELEMENT_CHECKBOX,
 		))){
 			//设置可选属性值
 			$i = 0;
 			foreach($values as $pv){
 				$i++;
-				PropValues::model()->insert(array(
+				PropValuesTable::model()->insert(array(
 					'prop_id'=>$prop_id,
 					'title'=>$pv,
 					'sort'=>$i,
@@ -95,10 +95,10 @@ abstract class Prop extends Model{
 		$old_ids = array_filter($ids);
 		$old_ids || $old_ids = array('-1');
 		
-		Props::model()->update($prop, $prop_id);
+		PropsTable::model()->update($prop, $prop_id);
 		
 		//删除原有但现在没了的属性值
-		PropValues::model()->update(array(
+		PropValuesTable::model()->update(array(
 			'deleted'=>1,
 		),array(
 			'prop_id = ?'=>$prop_id,
@@ -106,22 +106,22 @@ abstract class Prop extends Model{
 		));
 		//设置属性值
 		if(in_array($prop['element'], array(
-			Props::ELEMENT_RADIO,
-			Props::ELEMENT_SELECT,
-			Props::ELEMENT_CHECKBOX,
+			PropsTable::ELEMENT_RADIO,
+			PropsTable::ELEMENT_SELECT,
+			PropsTable::ELEMENT_CHECKBOX,
 		))){//手工录入属性没有属性值
 			$i = 0;
 			foreach($values as $k => $v){
 				$i++;
 				if(!empty($ids[$k])){
-					PropValues::model()->update(array(
+					PropValuesTable::model()->update(array(
 						'title'=>$v,
 						'sort'=>$i,
 					), array(
 						'id = ?'=>$ids[$k],
 					));
 				}else{
-					PropValues::model()->insert(array(
+					PropValuesTable::model()->insert(array(
 						'prop_id'=>$prop_id,
 						'title'=>$v,
 						'sort'=>$i,
@@ -133,7 +133,7 @@ abstract class Prop extends Model{
 	}
 	
 	public function delete($id){
-		Props::model()->update(array(
+		PropsTable::model()->update(array(
 			'deleted'=>1,
 		), $id);
 	}
@@ -144,7 +144,7 @@ abstract class Prop extends Model{
 	 * @return array|bool
 	 */
 	public function get($id){
-		$prop = Props::model()->fetchRow(array(
+		$prop = PropsTable::model()->fetchRow(array(
 			'id = ?'=>$id,
 			'deleted = 0',
 		));
@@ -152,11 +152,11 @@ abstract class Prop extends Model{
 		if(!$prop) return array();
 		
 		if(in_array($prop['element'], array(
-			Props::ELEMENT_RADIO,
-			Props::ELEMENT_SELECT,
-			Props::ELEMENT_CHECKBOX,
+			PropsTable::ELEMENT_RADIO,
+			PropsTable::ELEMENT_SELECT,
+			PropsTable::ELEMENT_CHECKBOX,
 		))){
-			$prop['values'] = PropValues::model()->fetchAll(array(
+			$prop['values'] = PropValuesTable::model()->fetchAll(array(
 				'prop_id = ?'=>$prop['id'],
 				'deleted = 0',
 			), '*', 'sort');
@@ -174,14 +174,14 @@ abstract class Prop extends Model{
 	public function getByRefer($refer, $with_values = true){
 		if(StringHelper::isInt($refer)){
 			//获取单个属性
-			$props = Props::model()->fetchAll(array(
+			$props = PropsTable::model()->fetchAll(array(
 				'refer = ?'=>$refer,
 				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element,alias', 'sort, id');
 		}else if(!empty($refer)){
 			//一次获取多个属性
-			$props = Props::model()->fetchAll(array(
+			$props = PropsTable::model()->fetchAll(array(
 				'refer IN (?)'=>$refer,
 				'type = ' . $this->type,
 				'deleted = 0',
@@ -218,14 +218,14 @@ abstract class Prop extends Model{
 		
 		if(isset($fields['fields'][1])){
 			//如果有多项，搜索条件用IN
-			$props = Props::model()->fetchAll(array(
+			$props = PropsTable::model()->fetchAll(array(
 				"{$field} IN (?)"=>$fields['fields'],
 				'type = ' . $this->type,
 				'deleted = 0',
 			), 'id,title,type,required,element,alias', 'sort,id');
 		}else{
 			//如果只有一项，搜索条件直接用等于
-			$props = Props::model()->fetchAll(array(
+			$props = PropsTable::model()->fetchAll(array(
 				"{$field} = ?"=>$fields['fields'][0],
 				'type = ' . $this->type,
 				'deleted = 0',
@@ -249,12 +249,12 @@ abstract class Prop extends Model{
 		//获取属性对应的可选属性值
 		$prop_ids = ArrayHelper::column($props, 'id');
 		if(isset($prop_ids[1])){
-			$prop_values = PropValues::model()->fetchAll(array(
+			$prop_values = PropValuesTable::model()->fetchAll(array(
 				'prop_id IN (?)'=>$prop_ids,
 				'deleted = 0',
 			), 'id,title,prop_id', 'prop_id,sort');
 		}else{
-			$prop_values = PropValues::model()->fetchAll(array(
+			$prop_values = PropValuesTable::model()->fetchAll(array(
 				'prop_id = ?'=>$prop_ids,
 				'deleted = 0',
 			), 'id,title,prop_id', 'prop_id,sort');
@@ -263,9 +263,9 @@ abstract class Prop extends Model{
 			//保证各项返回数据字段一致性，没有选项的输入类型也返回空的options
 			$p['options'] = array();
 			if(in_array($p['element'], array(
-				Props::ELEMENT_RADIO,
-				Props::ELEMENT_SELECT,
-				Props::ELEMENT_CHECKBOX,
+				PropsTable::ELEMENT_RADIO,
+				PropsTable::ELEMENT_SELECT,
+				PropsTable::ELEMENT_CHECKBOX,
 			))){
 				$start = false;
 				foreach($prop_values as $k => $v){
@@ -295,14 +295,14 @@ abstract class Prop extends Model{
 	public function createPropertySet($refer, $props, $data){
 		foreach($props as $p){
 			switch($p['element']){
-				case Props::ELEMENT_TEXT:
+				case PropsTable::ELEMENT_TEXT:
 					\F::table($this->models['varchar'])->insert(array(
 						$this->foreign_key=>$refer,
 						'prop_id'=>$p['id'],
 						'content'=>$data[$p['id']],
 					));
 					break;
-				case Props::ELEMENT_RADIO:
+				case PropsTable::ELEMENT_RADIO:
 					if(isset($data[$p['id']])){
 						\F::table($this->models['int'])->insert(array(
 							$this->foreign_key=>$refer,
@@ -311,7 +311,7 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
-				case Props::ELEMENT_SELECT:
+				case PropsTable::ELEMENT_SELECT:
 					if(!empty($data[$p['id']])){
 						\F::table($this->models['int'])->insert(array(
 							$this->foreign_key=>$refer,
@@ -320,7 +320,7 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
-				case Props::ELEMENT_CHECKBOX:
+				case PropsTable::ELEMENT_CHECKBOX:
 					if(isset($data[$p['id']])){
 						foreach($data[$p['id']] as $v){
 							\F::table($this->models['int'])->insert(array(
@@ -331,7 +331,7 @@ abstract class Prop extends Model{
 						}
 					}
 					break;
-				case Props::ELEMENT_TEXTAREA:
+				case PropsTable::ELEMENT_TEXTAREA:
 					if(!empty($data[$p['id']])){
 						\F::table($this->models['text'])->insert(array(
 							$this->foreign_key=>$refer,
@@ -340,7 +340,7 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
-				case Props::ELEMENT_NUMBER:
+				case PropsTable::ELEMENT_NUMBER:
 					if(!empty($data[$p['id']])){
 						\F::table($this->models['int'])->insert(array(
 							$this->foreign_key=>$refer,
@@ -349,7 +349,7 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
-				case Props::ELEMENT_IMAGE:
+				case PropsTable::ELEMENT_IMAGE:
 					if(!empty($data[$p['id']])){
 						\F::table($this->models['int'])->insert(array(
 							$this->foreign_key=>$refer,
@@ -373,7 +373,7 @@ abstract class Prop extends Model{
 		$sql = new Sql();
 		foreach($props as $p){
 			switch($p['element']){
-				case Props::ELEMENT_TEXT:
+				case PropsTable::ELEMENT_TEXT:
 					$value = \F::table($this->models['varchar'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
@@ -384,7 +384,7 @@ abstract class Prop extends Model{
 						$p['value'] = '';
 					}
 					break;
-				case Props::ELEMENT_RADIO:
+				case PropsTable::ELEMENT_RADIO:
 					$value = $sql->from(array('pi'=>\F::table($this->models['int'])->getTableName()), '')
 						->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id')
 						->where(array(
@@ -395,7 +395,7 @@ abstract class Prop extends Model{
 					;
 					$p['value'] = $value['id'];
 					break;
-				case Props::ELEMENT_SELECT:
+				case PropsTable::ELEMENT_SELECT:
 					$value = $sql->from(array('pi'=>\F::table($this->models['int'])->getTableName()), '')
 						->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id')
 						->where(array(
@@ -406,7 +406,7 @@ abstract class Prop extends Model{
 					;
 					$p['value'] = $value['id'];
 					break;
-				case Props::ELEMENT_CHECKBOX:
+				case PropsTable::ELEMENT_CHECKBOX:
 					$value = $sql->from(array('pi'=>\F::table($this->models['int'])->getTableName()), '')
 						->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id')
 						->where(array(
@@ -417,7 +417,7 @@ abstract class Prop extends Model{
 					;
 					$p['value'] = implode(',', ArrayHelper::column($value, 'id'));
 					break;
-				case Props::ELEMENT_TEXTAREA:
+				case PropsTable::ELEMENT_TEXTAREA:
 					$value = \F::table($this->models['text'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
@@ -428,7 +428,7 @@ abstract class Prop extends Model{
 						$p['value'] = '';
 					}
 					break;
-				case Props::ELEMENT_NUMBER:
+				case PropsTable::ELEMENT_NUMBER:
 					$value = \F::table($this->models['int'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
@@ -439,7 +439,7 @@ abstract class Prop extends Model{
 						$p['value'] = '';
 					}
 					break;
-				case Props::ELEMENT_IMAGE:
+				case PropsTable::ELEMENT_IMAGE:
 					$value = \F::table($this->models['int'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
@@ -465,7 +465,7 @@ abstract class Prop extends Model{
 	public function updatePropertySet($refer, $props, $data){
 		foreach($props as $p){
 			switch($p['element']){
-				case Props::ELEMENT_TEXT:
+				case PropsTable::ELEMENT_TEXT:
 					//如果存在，且值有变化，则更新；不存在，则插入
 					$record = \F::table($this->models['varchar'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
@@ -488,7 +488,7 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
-				case Props::ELEMENT_RADIO:
+				case PropsTable::ELEMENT_RADIO:
 					$record = \F::table($this->models['int'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
@@ -521,7 +521,7 @@ abstract class Prop extends Model{
 						}
 					}
 					break;
-				case Props::ELEMENT_SELECT:
+				case PropsTable::ELEMENT_SELECT:
 					$record = \F::table($this->models['int'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
@@ -554,7 +554,7 @@ abstract class Prop extends Model{
 						}
 					}
 					break;
-				case Props::ELEMENT_CHECKBOX:
+				case PropsTable::ELEMENT_CHECKBOX:
 					//获取已存在的项
 					$old_options = \F::table($this->models['int'])->fetchCol('content', array(
 						"{$this->foreign_key} = ?"=>$refer,
@@ -592,7 +592,7 @@ abstract class Prop extends Model{
 						}
 					}
 					break;
-				case Props::ELEMENT_TEXTAREA:
+				case PropsTable::ELEMENT_TEXTAREA:
 					$record = \F::table($this->models['text'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
 						'prop_id = ?'=>$p['id'],
@@ -615,7 +615,7 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
-				case Props::ELEMENT_NUMBER:
+				case PropsTable::ELEMENT_NUMBER:
 					//如果存在，且值有变化，则更新；不存在，则插入
 					$record = \F::table($this->models['int'])->fetchRow(array(
 						"{$this->foreign_key} = ?"=>$refer,
@@ -638,7 +638,7 @@ abstract class Prop extends Model{
 						));
 					}
 					break;
-				case Props::ELEMENT_IMAGE:
+				case PropsTable::ELEMENT_IMAGE:
 					if(empty($data[$p['id']])){
 						//若没有传值过来或传了空值，且原先有记录，则删除记录
 						if(\F::table($this->models['int'])->fetchRow(array(
@@ -690,14 +690,14 @@ abstract class Prop extends Model{
 	 * @return bool
 	 */
 	public function setValue($alias, $value, $refer){
-		$prop = Props::model()->fetchRow(array(
+		$prop = PropsTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'id,element');
 		if(!$prop) return false;
 		
 		switch($prop['element']){
-			case Props::ELEMENT_RADIO:
-			case Props::ELEMENT_SELECT:
+			case PropsTable::ELEMENT_RADIO:
+			case PropsTable::ELEMENT_SELECT:
 				$record = \F::table($this->models['int'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
@@ -719,7 +719,7 @@ abstract class Prop extends Model{
 					));
 				}
 				break;
-			case Props::ELEMENT_CHECKBOX:
+			case PropsTable::ELEMENT_CHECKBOX:
 				if(is_array($value)){//$value是数组，完整更新
 					//删除已经不存在的项
 					\F::table($this->models['int'])->delete(array(
@@ -762,7 +762,7 @@ abstract class Prop extends Model{
 					}
 				}
 				break;
-			case Props::ELEMENT_TEXT:
+			case PropsTable::ELEMENT_TEXT:
 				//如果存在，且值有变化，则更新；不存在，则插入
 				$record = \F::table($this->models['text'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
@@ -785,7 +785,7 @@ abstract class Prop extends Model{
 					));
 				}
 				break;
-			case Props::ELEMENT_TEXTAREA:
+			case PropsTable::ELEMENT_TEXTAREA:
 				//如果存在，且值有变化，则更新；不存在，则插入
 				$record = \F::table($this->models['text'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
@@ -808,7 +808,7 @@ abstract class Prop extends Model{
 					));
 				}
 				break;
-			case Props::ELEMENT_NUMBER:
+			case PropsTable::ELEMENT_NUMBER:
 				//如果存在，且值有变化，则更新；不存在，则插入
 				$record = \F::table($this->models['int'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
@@ -831,7 +831,7 @@ abstract class Prop extends Model{
 					));
 				}
 				break;
-			case Props::ELEMENT_IMAGE:
+			case PropsTable::ELEMENT_IMAGE:
 				//如果存在，且值有变化，则更新；不存在，则插入
 				$record = \F::table($this->models['int'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
@@ -866,14 +866,14 @@ abstract class Prop extends Model{
 	 * @return mixed
 	 */
 	public function getValue($alias, $refer){
-		$prop = Props::model()->fetchRow(array(
+		$prop = PropsTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'id,element');
 		if(!$prop) return false;
 		
 		$sql = new Sql();
 		switch($prop['element']){
-			case Props::ELEMENT_TEXT:
+			case PropsTable::ELEMENT_TEXT:
 				$value = \F::table($this->models['varchar'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
@@ -883,7 +883,7 @@ abstract class Prop extends Model{
 				}else{
 					return '';
 				}
-			case Props::ELEMENT_RADIO:
+			case PropsTable::ELEMENT_RADIO:
 				return $sql->from(array('pi'=>\F::table($this->models['int'])->getTableName()), '')
 					->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
 					->where(array(
@@ -892,8 +892,8 @@ abstract class Prop extends Model{
 					))
 					->fetchRow()
 				;
-			case Props::ELEMENT_SELECT:
-			case Props::ELEMENT_CHECKBOX:
+			case PropsTable::ELEMENT_SELECT:
+			case PropsTable::ELEMENT_CHECKBOX:
 				return $sql->from(array('pi'=>\F::table($this->models['int'])->getTableName()), '')
 					->joinLeft(array('v'=>'prop_values'), 'pi.content = v.id', 'id,title')
 					->where(array(
@@ -902,7 +902,7 @@ abstract class Prop extends Model{
 					))
 					->fetchAll()
 				;
-			case Props::ELEMENT_TEXTAREA:
+			case PropsTable::ELEMENT_TEXTAREA:
 				$value = \F::table($this->models['text'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
@@ -912,7 +912,7 @@ abstract class Prop extends Model{
 				}else{
 					return '';
 				}
-			case Props::ELEMENT_NUMBER:
+			case PropsTable::ELEMENT_NUMBER:
 				$value = \F::table($this->models['int'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
@@ -922,7 +922,7 @@ abstract class Prop extends Model{
 				}else{
 					return '';
 				}
-			case Props::ELEMENT_IMAGE:
+			case PropsTable::ELEMENT_IMAGE:
 				$value = \F::table($this->models['int'])->fetchRow(array(
 					"{$this->foreign_key} = ?"=>$refer,
 					'prop_id = ?'=>$prop['id'],
@@ -943,12 +943,12 @@ abstract class Prop extends Model{
 	 * @return array|bool
 	 */
 	public function getPropOptionsByAlias($alias){
-		$prop = Props::model()->fetchRow(array(
+		$prop = PropsTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 			'deleted = 0',
 		), 'id');
 		if($prop){
-			return PropValues::model()->fetchAll(array(
+			return PropValuesTable::model()->fetchAll(array(
 				'prop_id = '.$prop['id'],
 				'deleted = 0',
 			), 'id,title,default', 'sort');
@@ -963,7 +963,7 @@ abstract class Prop extends Model{
 	 * @return int
 	 */
 	public function getIdByAlias($alias){
-		$prop = Props::model()->fetchRow(array(
+		$prop = PropsTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'id');
 		return $prop['id'];

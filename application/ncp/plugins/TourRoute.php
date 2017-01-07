@@ -19,11 +19,11 @@ class TourRoute{
 		$travel_cat = CategoryService::service()->getByAlias('travel', 'id');
 		if(CategoryService::service()->isChild($params['cat_id'], $travel_cat['id'])){
 			//验证规则
-			\F::form()->setModel(Table_TourRoute::model());
+			\F::form()->setModel(Table_TourRouteTable::model());
 			
 			//现有的路线
 			if(isset($params['post_id'])){
-				\F::app()->view->routes = Table_TourRoute::model()->fetchAll(array(
+				\F::app()->view->routes = Table_TourRouteTable::model()->fetchAll(array(
 					'post_id = ?'=>$params['post_id'],
 				), '*', 'sort');
 			}
@@ -35,13 +35,13 @@ class TourRoute{
 			$i = 0;
 			foreach($routes as $k => $v){
 				if(is_numeric($k)){
-					Table_TourRoute::model()->update(array(
+					Table_TourRouteTable::model()->update(array(
 						'post_id'=>$params['post_id'],
 						'route'=>$v,
 						'sort'=>++$i,
 					), $k);
 				}else{
-					Table_TourRoute::model()->insert(array(
+					Table_TourRouteTable::model()->insert(array(
 						'post_id'=>$params['post_id'],
 						'route'=>$v,
 						'sort'=>++$i,

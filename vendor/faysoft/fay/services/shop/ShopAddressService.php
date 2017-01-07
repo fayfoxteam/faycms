@@ -2,7 +2,7 @@
 namespace fay\services\shop;
 
 use fay\core\Service;
-use fay\models\tables\UserAddresses;
+use fay\models\tables\UserAddressesTable;
 
 class ShopAddressService extends Service{
 	/**
@@ -20,14 +20,14 @@ class ShopAddressService extends Service{
 	 * @return int
 	 */
 	public function create($data, $user_id = null){
-		$data = UserAddresses::model()->fillData($data, false);
+		$data = UserAddressesTable::model()->fillData($data, false);
 		if($user_id){
 			$data['user_id'] = $user_id;
 		}else if(empty($data['user_id'])){
 			$data['user_id'] = \F::app()->current_user;
 		}
 		$data['create_time'] = \F::app()->current_time;
-		return UserAddresses::model()->insert($data);
+		return UserAddressesTable::model()->insert($data);
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class ShopAddressService extends Service{
 	 * @return int
 	 */
 	public function remove($address_id){
-		return UserAddresses::model()->delete($address_id);
+		return UserAddressesTable::model()->delete($address_id);
 	}
 	
 	/**
@@ -48,8 +48,8 @@ class ShopAddressService extends Service{
 	 * @return int
 	 */
 	public function edit($address_id, $data){
-		$data = UserAddresses::model()->fillData($data, false);
-		return UserAddresses::model()->update($data, array(
+		$data = UserAddressesTable::model()->fillData($data, false);
+		return UserAddressesTable::model()->update($data, array(
 			'address_id = ?'=>$address_id,
 		));
 	}
@@ -61,7 +61,7 @@ class ShopAddressService extends Service{
 	 * @return bool
 	 */
 	public function setDefault($address_id){
-		$address = UserAddresses::model()->find($address_id);
+		$address = UserAddressesTable::model()->find($address_id);
 		if(!$address){
 			//指定地址ID不存在
 			return false;
@@ -72,14 +72,14 @@ class ShopAddressService extends Service{
 		}
 		
 		//将原来的默认地址置为非默认地址
-		UserAddresses::model()->update(array(
+		UserAddressesTable::model()->update(array(
 			'is_default'=>0,
 		), array(
 			'user_id = ' . $address['user_id'],
 			'is_default = 1'
 		));
 		
-		UserAddresses::model()->update(array(
+		UserAddressesTable::model()->update(array(
 			'is_default'=>1,
 		), array(
 			'address_id = ?'=>$address_id,
@@ -89,6 +89,6 @@ class ShopAddressService extends Service{
 	}
 	
 	public function get($address_id){
-		return UserAddresses::model()->find($address_id);
+		return UserAddressesTable::model()->find($address_id);
 	}
 }

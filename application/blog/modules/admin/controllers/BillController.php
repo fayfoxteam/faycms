@@ -2,7 +2,7 @@
 namespace blog\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -21,8 +21,8 @@ class BillController extends AdminController{
 		$this->layout->subtitle = '记账';
 		
 		//成员列表
-		$this->view->users = Users::model()->fetchAll(array(
-			'role = '.Users::ROLE_BILL,
+		$this->view->users = UsersTable::model()->fetchAll(array(
+			'role = '.UsersTable::ROLE_BILL,
 		), 'id,realname');
 		
 		$this->view->cats = CategoryService::service()->getTree('bill_out');
@@ -45,19 +45,19 @@ class BillController extends AdminController{
 		$listview->page_size = 15;
 		$this->view->listview = $listview;
 		
-		$this->form()->setModel(Bills::model());
+		$this->form()->setModel(BillsTable::model());
 		
 		$this->view->render();
 	}
 	
 	public function create(){
 		if($this->input->post()){
-			if($this->form()->setModel(Bills::model())->check()){
+			if($this->form()->setModel(BillsTable::model())->check()){
 				$user_id = $this->input->post('user_id', 'intval');
 				$amount = $this->input->post('amount', 'floatval');
 				$type = $this->input->post('type', 'intval');
 				
-				if($user = Bills::model()->fetchRow(array(
+				if($user = BillsTable::model()->fetchRow(array(
 					'user_id = ?'=>$user_id,
 				), 'balance', 'create_time DESC')){
 					//获取用户最后一条记录余额
@@ -73,7 +73,7 @@ class BillController extends AdminController{
 					$balance -= $amount;
 				}
 				
-				Bills::model()->insert(array(
+				BillsTable::model()->insert(array(
 					'user_id'=>$user_id,
 					'amount'=>$amount,
 					'balance'=>$balance,

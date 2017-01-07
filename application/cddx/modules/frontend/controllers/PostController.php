@@ -3,7 +3,7 @@ namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\core\HttpException;
 use fay\services\CategoryService;
 use fay\common\ListView;
@@ -26,7 +26,7 @@ class PostController extends FrontController{
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;
 			
@@ -64,7 +64,7 @@ class PostController extends FrontController{
 		if(!$id || !$post = PostService::service()->get($id, 'files.file_id,files.description,user.id,user.username,user.nickname')){
 			throw new HttpException('页面不存在');
 		}
-		Posts::model()->update(array(
+		PostsTable::model()->update(array(
 			'last_view_time'=>$this->current_time,
 			'views'=>new Expr('views + 1'),
 		), $id);

@@ -1,9 +1,9 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Menus;
+use fay\models\tables\MenusTable;
 
-F::form('create')->setModel(Menus::model());
-F::form('edit')->setModel(Menus::model());
+F::form('create')->setModel(MenusTable::model());
+F::form('edit')->setModel(MenusTable::model());
 ?>
 <div class="hide">
 	<div id="edit-cat-dialog" class="dialog">

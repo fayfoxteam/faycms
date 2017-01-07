@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 
 class PageHelper{
 	/**
@@ -18,10 +18,10 @@ class PageHelper{
 				return '回收站';
 		}
 		switch ($status) {
-			case Pages::STATUS_PUBLISHED:
+			case PagesTable::STATUS_PUBLISHED:
 				return '已发布';
 				break;
-			case Pages::STATUS_DRAFT:
+			case PagesTable::STATUS_DRAFT:
 				if($coloring)
 					return '<span class="fc-blue">草稿</span>';
 				else

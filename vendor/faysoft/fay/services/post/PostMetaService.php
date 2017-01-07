@@ -3,7 +3,7 @@ namespace fay\services\post;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\PostMeta;
+use fay\models\tables\PostMetaTable;
 
 class PostMetaService extends Service{
 	/**
@@ -27,9 +27,9 @@ class PostMetaService extends Service{
 	 */
 	public function get($post_id, $fields = null){
 		$fields || $fields = self::$default_fields;
-		$fields = FieldHelper::parse($fields, null, PostMeta::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, PostMetaTable::model()->getFields());
 		
-		return PostMeta::model()->fetchRow(array(
+		return PostMetaTable::model()->fetchRow(array(
 			'post_id = ?'=>$post_id,
 		), $fields['fields']);
 	}
@@ -46,7 +46,7 @@ class PostMetaService extends Service{
 		}
 		
 		$fields || $fields = self::$default_fields;
-		$fields = FieldHelper::parse($fields, null, PostMeta::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, PostMetaTable::model()->getFields());
 		
 		if(!in_array('post_id', $fields['fields'])){
 			$fields['fields'][] = 'post_id';
@@ -54,7 +54,7 @@ class PostMetaService extends Service{
 		}else{
 			$remove_post_id = false;
 		}
-		$metas = PostMeta::model()->fetchAll(array(
+		$metas = PostMetaTable::model()->fetchAll(array(
 			'post_id IN (?)'=>$post_ids,
 		), $fields['fields'], 'post_id');
 		$return = array_fill_keys($post_ids, array());

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Roles;
+use fay\models\tables\RolesTable;
 use fay\services\user\UserRoleService;
 ?>
 <div class="box">
@@ -44,7 +44,7 @@ use fay\services\user\UserRoleService;
 			<a href="javascript:;" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
 			<span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
 		</div>
-		<div class="advance <?php if(!UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN))echo 'hide';?>">
+		<div class="advance <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
 			<div class="form-field">
 				<label class="title bold">页码字段</label>
 				<?php echo F::form('widget')->inputText('page_key', array(

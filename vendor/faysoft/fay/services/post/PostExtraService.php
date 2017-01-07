@@ -3,7 +3,7 @@ namespace fay\services\post;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\PostExtra;
+use fay\models\tables\PostExtraTable;
 
 class PostExtraService extends Service{
 	/**
@@ -29,7 +29,7 @@ class PostExtraService extends Service{
 		$fields || $fields = self::$default_fields;
 		$fields = FieldHelper::parse($fields);
 		
-		return PostExtra::model()->fetchRow(array(
+		return PostExtraTable::model()->fetchRow(array(
 			'post_id = ?'=>$post_id,
 		), $fields['fields']);
 	}
@@ -55,7 +55,7 @@ class PostExtraService extends Service{
 		}else{
 			$remove_post_id = false;
 		}
-		$metas = PostExtra::model()->fetchAll(array(
+		$metas = PostExtraTable::model()->fetchAll(array(
 			'post_id IN (?)'=>$post_ids,
 		), $fields['fields'], 'post_id');
 		$return = array_fill_keys($post_ids, array());

@@ -4,7 +4,7 @@ namespace qianlu\modules\frontend\controllers;
 use qianlu\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\PostService;
 
 class ServiceController extends FrontController{
@@ -27,7 +27,7 @@ class ServiceController extends FrontController{
 			->where(array(
 				'p.cat_id = '.$cat_service['id'],
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->fetchAll();
 		;
 		$submenu = array(

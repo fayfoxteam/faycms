@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Vouchers;
+use fay\models\tables\VouchersTable;
 use fay\helpers\StringHelper;
 use fay\services\CategoryService;
 use fay\core\Sql;
@@ -18,15 +18,15 @@ class VoucherController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '添加优惠卷';
 		
-		$this->form()->setModel(Vouchers::model());
+		$this->form()->setModel(VouchersTable::model());
 		if($this->input->post() && $this->form()->check()){
 			for($i = 0; $i < $this->input->post('num'); $i++){
-				$data = Vouchers::model()->fillData($this->input->post());
+				$data = VouchersTable::model()->fillData($this->input->post());
 				
 				//拼接优惠码
 				$data['sn'] = $data['cat_id'] . StringHelper::random('numeric', 5);
 				$data['create_time'] = $this->current_time;
-				Vouchers::model()->insert($data);
+				VouchersTable::model()->insert($data);
 			}
 			
 			FlashService::set($this->input->post('num').'个优惠码被添加','success');

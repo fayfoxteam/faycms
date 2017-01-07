@@ -2,9 +2,9 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\Users;
-use fay\models\tables\Notifications;
-use fay\models\tables\UsersNotifications;
+use fay\models\tables\UsersTable;
+use fay\models\tables\NotificationsTable;
+use fay\models\tables\UsersNotificationsTable;
 
 class NotificationService extends Service{
 	/**
@@ -25,12 +25,12 @@ class NotificationService extends Service{
 	 * @param int|null $publish_time
 	 * @return int 消息id
 	 */
-	public function send($to, $title, $content, $from = Users::ITEM_SYSTEM_NOTIFICATION, $cat_id = 0, $publish_time = null){
+	public function send($to, $title, $content, $from = UsersTable::ITEM_SYSTEM_NOTIFICATION, $cat_id = 0, $publish_time = null){
 		if(!is_array($to)){
 			$to = array($to);
 		}
 		
-		$notification_id = Notifications::model()->insert(array(
+		$notification_id = NotificationsTable::model()->insert(array(
 			'title'=>$title,
 			'content'=>$content,
 			'create_time'=>\F::app()->current_time,
@@ -39,7 +39,7 @@ class NotificationService extends Service{
 			'publish_time'=>$publish_time ? $publish_time : \F::app()->current_time,
 		));
 		foreach($to as $t){
-			UsersNotifications::model()->insert(array(
+			UsersNotificationsTable::model()->insert(array(
 				'user_id'=>$t,
 				'notification_id'=>$notification_id,
 			));

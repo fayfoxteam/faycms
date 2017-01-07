@@ -3,14 +3,14 @@ namespace glhs\modules\frontend\controllers;
 
 use glhs\library\FrontController;
 use fay\services\EmailService;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\core\Response;
 use fay\services\FlashService;
 
 class ContactController extends FrontController{
 	public function index(){
-		$page = Pages::model()->fetchRow(array('alias = ?'=>'contact'));
-		Pages::model()->incr($page['id'], 'views', 1);
+		$page = PagesTable::model()->fetchRow(array('alias = ?'=>'contact'));
+		PagesTable::model()->incr($page['id'], 'views', 1);
 		$this->view->page = $page;
 
 		$this->layout->title = $page['seo_title'] ? $page['seo_title'] : $page['title'];

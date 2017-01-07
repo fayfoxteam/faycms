@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\services\FileService;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\services\OptionService;
 
 /**
@@ -67,13 +67,13 @@ use fay\services\OptionService;
 <div class="form-field">
 	<label class="title bold">审核状态</label>
 	<?php echo F::form()->select('status', array(
-		Users::STATUS_UNCOMPLETED=>'用户信息不完整',
-		Users::STATUS_PENDING=>'未审核',
-		Users::STATUS_VERIFIED=>'通过审核',
-		Users::STATUS_VERIFY_FAILED=>'未通过审核',
+		UsersTable::STATUS_UNCOMPLETED=>'用户信息不完整',
+		UsersTable::STATUS_PENDING=>'未审核',
+		UsersTable::STATUS_VERIFIED=>'通过审核',
+		UsersTable::STATUS_VERIFY_FAILED=>'未通过审核',
 	), array(
 		'class'=>'form-control mw400',
-	), Users::STATUS_VERIFIED)?>
+	), UsersTable::STATUS_VERIFIED)?>
 </div>
 <div class="form-field">
 	<label class="title bold">登陆状态</label>

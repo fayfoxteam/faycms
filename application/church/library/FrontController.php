@@ -3,7 +3,7 @@ namespace church\library;
 
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
-use fay\models\tables\SpiderLogs;
+use fay\models\tables\SpiderLogsTable;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
@@ -17,7 +17,7 @@ class FrontController extends Controller{
 		));
 		
 		if($spider = RequestHelper::isSpider()){//如果是蜘蛛，记录蜘蛛日志
-			SpiderLogs::model()->insert(array(
+			SpiderLogsTable::model()->insert(array(
 				'spider'=>$spider,
 				'url'=>'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$_SERVER['REQUEST_URI'],
 				'user_agent'=>isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',

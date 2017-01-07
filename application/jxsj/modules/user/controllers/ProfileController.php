@@ -2,7 +2,7 @@
 namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\helpers\StringHelper;
 use fay\services\FlashService;
 
@@ -14,7 +14,7 @@ class ProfileController extends UserController{
 		);
 		
 		if($this->input->post()){
-			Users::model()->update(array(
+			UsersTable::model()->update(array(
 				'email'=>$this->input->post('email'),
 				'mobile'=>$this->input->post('mobile'),
 				'realname'=>$this->input->post('realname'),
@@ -25,7 +25,7 @@ class ProfileController extends UserController{
 		}
 		
 		$this->layout->current_directory = 'profile';
-		$user = Users::model()->find(\F::session()->get('user.id'));
+		$user = UsersTable::model()->find(\F::session()->get('user.id'));
 		$this->form()->setData($user);
 		$this->view->render();
 	}
@@ -40,13 +40,13 @@ class ProfileController extends UserController{
 			if($this->input->post('password') != $this->input->post('repassword')){
 				FlashService::set('两次密码不一致');
 			}else{
-				$user = Users::model()->find(\F::session()->get('user.id'), 'password,salt');
+				$user = UsersTable::model()->find(\F::session()->get('user.id'), 'password,salt');
 				if($user['password'] != md5(md5($this->input->post('old_password')).$user['salt'])){
 					FlashService::set('原密码不正确');
 				}else{
 					$salt = StringHelper::random('alnum', 5);
 					$password = md5(md5($this->input->post('password')).$salt);
-					Users::model()->update(array(
+					UsersTable::model()->update(array(
 						'password'=>$password,
 						'salt'=>$salt,
 					), \F::session()->get('user.id'));

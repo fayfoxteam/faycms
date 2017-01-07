@@ -3,9 +3,9 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\helpers\StringHelper;
-use fay\models\tables\Categories;
+use fay\models\tables\CategoriesTable;
 use fay\services\CategoryService;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\helpers\PinyinHelper;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
@@ -35,7 +35,7 @@ class CategoryController extends AdminController{
 	}
 	
 	public function create(){
-		$this->form()->setModel(Categories::model());
+		$this->form()->setModel(CategoriesTable::model());
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
@@ -48,9 +48,9 @@ class CategoryController extends AdminController{
 				
 				$cat_id = CategoryService::service()->create($parent, $sort, $data);
 				
-				$this->actionlog(Actionlogs::TYPE_CATEGORY, '添加分类', $cat_id);
+				$this->actionlog(ActionlogsTable::TYPE_CATEGORY, '添加分类', $cat_id);
 				
-				$cat = Categories::model()->find($cat_id);
+				$cat = CategoriesTable::model()->find($cat_id);
 				Response::notify('success', array(
 					'cat'=>$cat,
  					'message'=>'分类“'.HtmlHelper::encode($cat['title']).'”添加成功',
@@ -87,7 +87,7 @@ class CategoryController extends AdminController{
 		$spelling = str_replace(' ', '-', strtolower($spelling));
 		
 		$alias = $dep ? $spelling.'-'.$dep : $spelling;
-		$cat = Categories::model()->fetchRow(array('alias = ?'=>$alias), 'id');
+		$cat = CategoriesTable::model()->fetchRow(array('alias = ?'=>$alias), 'id');
 		if($cat){
 			return $this->getCatAlias('', $spelling, $dep + 1);
 		}else if(StringHelper::isInt($spelling)){
@@ -100,7 +100,7 @@ class CategoryController extends AdminController{
 	
 	public function edit(){
 		if($this->input->post()){
-			if($this->form()->setModel(Categories::model())->check()){
+			if($this->form()->setModel(CategoriesTable::model())->check()){
 				$cat_id = $this->input->post('id', 'intval');
 				$data = $this->form()->getFilteredData();
 				empty($data['is_nav']) && $data['is_nav'] = 0;
@@ -111,9 +111,9 @@ class CategoryController extends AdminController{
 				
 				CategoryService::service()->update($cat_id, $data, $sort, $parent);
 				
-				$this->actionlog(Actionlogs::TYPE_CATEGORY, '修改分类', $cat_id);
+				$this->actionlog(ActionlogsTable::TYPE_CATEGORY, '修改分类', $cat_id);
 				
-				$cat = Categories::model()->find($cat_id);
+				$cat = CategoriesTable::model()->find($cat_id);
 				Response::notify('success', array(
 					'message'=>'分类“'.HtmlHelper::encode($cat['title']).'”编辑成功',
 					'cat'=>$cat,
@@ -128,7 +128,7 @@ class CategoryController extends AdminController{
 	
 	public function remove(){
 		if(CategoryService::service()->remove($this->input->get('id', 'intval'))){
-			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类', $this->input->get('id', 'intval'));
+			$this->actionlog(ActionlogsTable::TYPE_CATEGORY, '移除分类', $this->input->get('id', 'intval'));
 			
 			Response::notify('success', array(
 				'message'=>'一个分类被移除',
@@ -140,7 +140,7 @@ class CategoryController extends AdminController{
 	
 	public function removeAll(){
 		if(CategoryService::service()->removeAll($this->input->get('id', 'intval'))){
-			$this->actionlog(Actionlogs::TYPE_CATEGORY, '移除分类及其所有子分类', $this->input->get('id', 'intval'));
+			$this->actionlog(ActionlogsTable::TYPE_CATEGORY, '移除分类及其所有子分类', $this->input->get('id', 'intval'));
 				
 			Response::notify('success', array(
 				'message'=>'一个分类分支被移除',
@@ -154,8 +154,8 @@ class CategoryController extends AdminController{
 	 * 获取指定id对应的分类，及该分类下的所有子分类
 	 */
 	public function get(){
-		$cat = Categories::model()->find($this->input->get('id', 'intval'));
-		$children = Categories::model()->fetchCol('id', array(
+		$cat = CategoriesTable::model()->find($this->input->get('id', 'intval'));
+		$children = CategoriesTable::model()->fetchCol('id', array(
 			'left_value > '.$cat['left_value'],
 			'right_value < '.$cat['right_value'],
 		));
@@ -169,9 +169,9 @@ class CategoryController extends AdminController{
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
 		CategoryService::service()->sort($id, $this->input->get('sort', 'intval'));
-		$this->actionlog(Actionlogs::TYPE_CATEGORY, '改变了分类排序', $id);
+		$this->actionlog(ActionlogsTable::TYPE_CATEGORY, '改变了分类排序', $id);
 		
-		$node = Categories::model()->find($id, 'sort,title');
+		$node = CategoriesTable::model()->find($id, 'sort,title');
 		Response::notify('success', array(
 			'data'=>array(
 				'sort'=>$node['sort'],
@@ -181,11 +181,11 @@ class CategoryController extends AdminController{
 	}
 	
 	public function setIsNav(){
-		Categories::model()->update(array(
+		CategoriesTable::model()->update(array(
 			'is_nav'=>$this->input->get('is_nav', 'intval', 0),
 		), $this->input->get('id', 'intval'));
 		
-		$cat = Categories::model()->find($this->input->get('id', 'intval'), 'is_nav');
+		$cat = CategoriesTable::model()->find($this->input->get('id', 'intval'), 'is_nav');
 		Response::notify('success', array(
 			'data'=>array(
 				'is_nav'=>$cat['is_nav'],
@@ -194,7 +194,7 @@ class CategoryController extends AdminController{
 	}
 	
 	public function isAliasNotExist(){
-		if(Categories::model()->fetchRow(array(
+		if(CategoriesTable::model()->fetchRow(array(
 			'alias = ?'=>$this->input->request('alias', 'trim'),
 			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){

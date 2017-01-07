@@ -3,14 +3,14 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\core\Response;
-use fay\models\tables\Props;
+use fay\models\tables\PropsTable;
 
 /**
  * 通用分类属性
  */
 class PropController extends AdminController{
 	public function isAliasNotExist(){
-		if(Props::model()->fetchRow(array(
+		if(PropsTable::model()->fetchRow(array(
 			'alias = ?'=>$this->input->request('alias', 'trim'),
 			'id != ?'=>$this->input->get('id', 'intval', false),
 		))){

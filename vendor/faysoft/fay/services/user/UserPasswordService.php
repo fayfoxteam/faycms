@@ -3,7 +3,7 @@ namespace fay\services\user;
 	
 	use fay\core\Service;
 	use fay\helpers\StringHelper;
-	use fay\models\tables\Users;
+	use fay\models\tables\UsersTable;
 
 class UserPasswordService extends Service{
 	/**
@@ -50,7 +50,7 @@ class UserPasswordService extends Service{
 			);
 		}
 		
-		$user = Users::model()->fetchRow(array(
+		$user = UsersTable::model()->fetchRow(array(
 			'username = ?'=>$username,
 			'deleted = 0',
 		), 'id,password,salt,block,status,admin');
@@ -80,25 +80,25 @@ class UserPasswordService extends Service{
 			);
 		}
 		
-		if($user['status'] == Users::STATUS_UNCOMPLETED){
+		if($user['status'] == UsersTable::STATUS_UNCOMPLETED){
 			return array(
 				'user_id'=>0,
 				'message'=>'账号信息不完整',
 				'error_code'=>'status:uncompleted',
 			);
-		}else if($user['status'] == Users::STATUS_PENDING){
+		}else if($user['status'] == UsersTable::STATUS_PENDING){
 			return array(
 				'user_id'=>0,
 				'message'=>'账号正在审核中',
 				'error_code'=>'status:pending',
 			);
-		}else if($user['status'] == Users::STATUS_VERIFY_FAILED){
+		}else if($user['status'] == UsersTable::STATUS_VERIFY_FAILED){
 			return array(
 				'user_id'=>0,
 				'message'=>'账号未通过审核',
 				'error_code'=>'status:verify-failed',
 			);
-		}else if($user['status'] == Users::STATUS_NOT_VERIFIED){
+		}else if($user['status'] == UsersTable::STATUS_NOT_VERIFIED){
 			return array(
 				'user_id'=>0,
 				'message'=>'请先验证邮箱',

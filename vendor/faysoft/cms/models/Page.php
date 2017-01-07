@@ -2,7 +2,7 @@
 namespace cms\models;
 
 use fay\core\Model;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 
 class Page extends Model{
 
@@ -24,7 +24,7 @@ class Page extends Model{
 		if($status !== null){
 			$conditions['status = ?'] = $status;
 		}
-		$result = Pages::model()->fetchRow($conditions, 'COUNT(*)');
+		$result = PagesTable::model()->fetchRow($conditions, 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}
 	
@@ -33,7 +33,7 @@ class Page extends Model{
 	 * @return string
 	 */
 	public function getDeletedCount(){
-		$result = Pages::model()->fetchRow('deleted = 1', 'COUNT(*)');
+		$result = PagesTable::model()->fetchRow('deleted = 1', 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}
 }

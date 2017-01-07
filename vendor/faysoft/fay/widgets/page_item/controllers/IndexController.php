@@ -4,7 +4,7 @@ namespace fay\widgets\page_item\controllers;
 use fay\widget\Widget;
 use fay\services\PageService;
 use fay\core\HttpException;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 
 class IndexController extends Widget{
 	public function initConfig($config){
@@ -42,7 +42,7 @@ class IndexController extends Widget{
 		
 		if($this->config['inc_views']){
 			//递增浏览量
-			Pages::model()->incr($page['id'], 'views', 1);
+			PagesTable::model()->incr($page['id'], 'views', 1);
 		}
 		
 		return $page;

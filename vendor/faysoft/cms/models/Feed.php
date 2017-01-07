@@ -2,7 +2,7 @@
 namespace cms\models;
 
 use fay\core\Model;
-use fay\models\tables\Feeds;
+use fay\models\tables\FeedsTable;
 
 class Feed extends Model{
 
@@ -23,7 +23,7 @@ class Feed extends Model{
 		if($status !== null){
 			$conditions['status = ?'] = $status;
 		}
-		$result = Feeds::model()->fetchRow($conditions, 'COUNT(*)');
+		$result = FeedsTable::model()->fetchRow($conditions, 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}
 	
@@ -31,7 +31,7 @@ class Feed extends Model{
 	 * 获取已删除的动态数
 	 */
 	public function getDeletedCount(){
-		$result = Feeds::model()->fetchRow('deleted = 1', 'COUNT(*)');
+		$result = FeedsTable::model()->fetchRow('deleted = 1', 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}
 }

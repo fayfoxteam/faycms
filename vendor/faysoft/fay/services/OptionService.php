@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\Options;
+use fay\models\tables\OptionsTable;
 use fay\helpers\ArrayHelper;
 
 class OptionService extends Service{
@@ -35,7 +35,7 @@ class OptionService extends Service{
 			}
 		}
 		
-		$option = Options::model()->fetchRow(array('option_name = ?'=>$name), 'option_value');
+		$option = OptionsTable::model()->fetchRow(array('option_name = ?'=>$name), 'option_value');
 		if($option){
 			self::$options[$name] = $option['option_value'];
 			return $option['option_value'];
@@ -67,7 +67,7 @@ class OptionService extends Service{
 		$return2 = array();
 		//若有的key缓存里没有，从数据库里搜
 		if($names){
-			$options = Options::model()->fetchAll(array('option_name IN (?)'=>$names), 'option_name,option_value');
+			$options = OptionsTable::model()->fetchAll(array('option_name IN (?)'=>$names), 'option_name,option_value');
 			$return2 = ArrayHelper::column($options, 'option_value', 'option_name');
 			foreach($names as $n){
 				if($n && !isset($return[$n])){
@@ -85,16 +85,16 @@ class OptionService extends Service{
 	 * @param mixed $value 参数值
 	 */
 	public static function set($name, $value){
-		$option = Options::model()->fetchRow(array('option_name = ?'=>$name), 'option_value');
+		$option = OptionsTable::model()->fetchRow(array('option_name = ?'=>$name), 'option_value');
 		if($option){
-			Options::model()->update(array(
+			OptionsTable::model()->update(array(
 				'option_value'=>$value,
 				'last_modified_time'=>\F::app()->current_time,
 			), array(
 				'option_name = ?'=>$name,
 			));
 		}else{
-			Options::model()->insert(array(
+			OptionsTable::model()->insert(array(
 				'option_name'=>$name,
 				'option_value'=>$value,
 				'create_time'=>\F::app()->current_time,
@@ -108,7 +108,7 @@ class OptionService extends Service{
 	 * @return array
 	 */
 	public static function getGroup($name){
-		$options = Options::model()->fetchAll(array('option_name LIKE ?'=>$name.'%'), 'option_name,option_value');
+		$options = OptionsTable::model()->fetchAll(array('option_name LIKE ?'=>$name.'%'), 'option_name,option_value');
 		$return = array();
 		foreach($options as $o){
 			$return[substr($o['option_name'], strlen($name) + 1)] = $o['option_value'];

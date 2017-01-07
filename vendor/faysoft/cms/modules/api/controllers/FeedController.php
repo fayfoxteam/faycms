@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\services\FeedService;
-use fay\models\tables\Feeds;
+use fay\models\tables\FeedsTable;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
@@ -70,7 +70,7 @@ class FeedController extends ApiController{
 		FeedService::service()->create(array(
 			'content'=>$this->form()->getData('content'),
 			'address'=>$this->form()->getData('address'),
-			'status'=>Feeds::STATUS_APPROVED,
+			'status'=>FeedsTable::STATUS_APPROVED,
 		), array(
 			'extra'=>array(
 				'longitude'=>$this->form()->getData('longitude', '0'),

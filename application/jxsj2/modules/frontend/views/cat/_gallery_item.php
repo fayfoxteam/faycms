@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\services\FileService;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 
 if($data['thumbnail']){
 	$img = HtmlHelper::img($data['thumbnail'], FileService::PIC_RESIZE, array(
@@ -13,7 +13,7 @@ if($data['thumbnail']){
 	preg_match('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $data['content'], $matches);
 	if(isset($matches[1])){
 		$filename = substr(basename($matches[1]), 0, -4);
-		$file = Files::model()->fetchRow(array(
+		$file = FilesTable::model()->fetchRow(array(
 			'raw_name = ?'=>$filename,
 		));
 		$img = HtmlHelper::img($file['id'], FileService::PIC_RESIZE, array(

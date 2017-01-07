@@ -3,8 +3,8 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\services\CategoryService;
-use fay\models\tables\Actions;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionsTable;
+use fay\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -23,7 +23,7 @@ class ActionController extends AdminController{
 		$this->_setListview();
 
 		$this->view->cats = CategoryService::service()->getTree('_system_action');
-		$this->form()->setModel(Actions::model())
+		$this->form()->setModel(ActionsTable::model())
 			->setRule(array('parent_router', 'ajax', array('url'=>array('admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'))
 		;
@@ -32,12 +32,12 @@ class ActionController extends AdminController{
 	
 	public function create(){
 		if($this->input->post()){
-			if($this->form()->setModel(Actions::model())
+			if($this->form()->setModel(ActionsTable::model())
 				->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router')))
 				->setLabels(array('parent_router'=>'父级路由'))
 				->check()){
 				if($this->input->post('parent_router')){
-					$parent_router = Actions::model()->fetchRow(array(
+					$parent_router = ActionsTable::model()->fetchRow(array(
 						'router = ?'=>$this->input->post('parent_router', 'trim'),
 					), 'id');
 					if(!$parent_router){
@@ -49,8 +49,8 @@ class ActionController extends AdminController{
 				}
 				$data = $this->form()->getFilteredData();
 				$data['parent'] = $parent;
-				$result = Actions::model()->insert($data);
-				$this->actionlog(Actionlogs::TYPE_ACTION, '添加权限', $result);
+				$result = ActionsTable::model()->insert($data);
+				$this->actionlog(ActionlogsTable::TYPE_ACTION, '添加权限', $result);
 				Response::notify('success', '权限添加成功');
 			}
 		}else{
@@ -69,14 +69,14 @@ class ActionController extends AdminController{
 		$action_id = intval($this->input->get('id', 'intval'));
 		$this->view->cats = CategoryService::service()->getNextLevel('_system_action');
 		
-		$this->form()->setModel(Actions::model())
+		$this->form()->setModel(ActionsTable::model())
 			->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router', 'ajax'=>array('admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'));
 		
 		if($this->input->post()){
 			if($this->form()->check()){
 				if($this->input->post('parent_router')){
-					$parent_router = Actions::model()->fetchRow(array(
+					$parent_router = ActionsTable::model()->fetchRow(array(
 						'router = ?'=>$this->input->post('parent_router'),
 					), 'id');
 					if(!$parent_router){
@@ -89,15 +89,15 @@ class ActionController extends AdminController{
 				$data = $this->form()->getFilteredData();
 				$data['parent'] = $parent;
 				isset($data['is_public']) || $data['is_public'] = 0;
-				Actions::model()->update($data, "id = {$action_id}");
-				$this->actionlog(Actionlogs::TYPE_ACTION, '编辑管理员权限', $action_id);
+				ActionsTable::model()->update($data, "id = {$action_id}");
+				$this->actionlog(ActionlogsTable::TYPE_ACTION, '编辑管理员权限', $action_id);
 				FlashService::set('权限编辑成功', 'success');
 			}
 		}
 
-		$action = Actions::model()->find($action_id);
+		$action = ActionsTable::model()->find($action_id);
 		if($action['parent']){
-			$parent_action = Actions::model()->find($action['parent'], 'router');
+			$parent_action = ActionsTable::model()->find($action['parent'], 'router');
 			$action['parent_router'] = $parent_action['router'];
 		}
 		$this->form()->setData($action);
@@ -107,14 +107,14 @@ class ActionController extends AdminController{
 	}
 	
 	public function remove(){
-		Actions::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
-		$this->actionlog(Actionlogs::TYPE_ACTION, '删除权限', $this->input->get('id', 'intval'));
+		ActionsTable::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
+		$this->actionlog(ActionlogsTable::TYPE_ACTION, '删除权限', $this->input->get('id', 'intval'));
 		
 		Response::notify('success', '一个权限被删除', $this->view->url('admin/action/index', $this->input->get()));
 	}
 	
 	public function search(){
-		$actions = Actions::model()->fetchAll(array(
+		$actions = ActionsTable::model()->fetchAll(array(
 			'router LIKE ?'=>'%'.$this->input->get('key', false).'%'
 		), 'id,router AS title', 'title', 20);
 		
@@ -122,7 +122,7 @@ class ActionController extends AdminController{
 	}
 	
 	public function isRouterNotExist(){
-		if(Actions::model()->fetchRow(array(
+		if(ActionsTable::model()->fetchRow(array(
 			'router = ?'=>$this->input->request('router', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', false),
 		))){
@@ -133,7 +133,7 @@ class ActionController extends AdminController{
 	}
 	
 	public function isRouterExist(){
-		if(Actions::model()->fetchRow(array(
+		if(ActionsTable::model()->fetchRow(array(
 			'router = ?'=>$this->input->request('router', 'trim'),
 		))){
 			Response::json('', 1, '路由已存在');

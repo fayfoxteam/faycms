@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\services\FileService;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\helpers\ImageHelper;
 use fay\helpers\SecurityCodeHelper;
 use fay\core\Validator;
@@ -62,10 +62,10 @@ class FileController extends ApiController{
 				//这里不直接返回图片不存在的提示，因为可能需要缩放，让后面的逻辑去处理
 				$file = false;
 			}else{
-				$file = Files::model()->find($f);
+				$file = FilesTable::model()->find($f);
 			}
 		}else{
-			$file = Files::model()->fetchRow(array('raw = ?'=>$f));
+			$file = FilesTable::model()->fetchRow(array('raw = ?'=>$f));
 		}
 
 		if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && $file['raw_name'] == $_SERVER['HTTP_IF_NONE_MATCH']){
@@ -286,7 +286,7 @@ class FileController extends ApiController{
 	 */
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){
-			if($file = Files::model()->find($file_id)){
+			if($file = FilesTable::model()->find($file_id)){
 				if(substr((defined('NO_REWRITE') ? './public/' : '').$file['file_path'], 0, 4) == './..'){
 					//私有文件不允许在此方法下载
 					throw new HttpException('文件不存在');
@@ -303,7 +303,7 @@ class FileController extends ApiController{
 					$filename = $file['raw_name'].$file['file_ext'];
 				}
 				
-				Files::model()->incr($file_id, 'downloads', 1);
+				FilesTable::model()->incr($file_id, 'downloads', 1);
 				$data = file_get_contents((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');

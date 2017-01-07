@@ -6,14 +6,14 @@ use cms\library\ToolsController;
 use fay\services\FileService;
 use fay\services\CategoryService;
 use fay\helpers\StringHelper;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\services\MenuService;
-use fay\models\tables\Categories;
-use fay\models\tables\Menus;
+use fay\models\tables\CategoriesTable;
+use fay\models\tables\MenusTable;
 use fay\services\FlashService;
 use fay\services\OptionService;
 use fay\helpers\RequestHelper;
-use fay\models\tables\Roles;
+use fay\models\tables\RolesTable;
 use fay\core\Response;
 
 class ApplicationController extends ToolsController{
@@ -118,7 +118,7 @@ class ApplicationController extends ToolsController{
 					'username'=>$this->input->post('user_username'),
 					'password'=>$password,
 					'salt'=>$salt,
-					'status'=>Users::STATUS_VERIFIED,
+					'status'=>UsersTable::STATUS_VERIFIED,
 					'admin'=>1,
 				));
 				
@@ -131,7 +131,7 @@ class ApplicationController extends ToolsController{
 				
 				$this->db->insert('users_roles', array(
 					'user_id'=>$user_id,
-					'role_id'=>Roles::ITEM_SUPER_ADMIN,
+					'role_id'=>RolesTable::ITEM_SUPER_ADMIN,
 				));
 				
 				OptionService::set('site:sitename', $this->input->post('sitename'));
@@ -201,7 +201,7 @@ class ApplicationController extends ToolsController{
 	 * 对categories表进行索引
 	 */
 	private function indexCats(){
-		Categories::model()->setDb($this->db);
+		CategoriesTable::model()->setDb($this->db);
 		CategoryService::service()->buildIndex();
 	}
 	
@@ -209,7 +209,7 @@ class ApplicationController extends ToolsController{
 	 * 对menus表进行索引
 	 */
 	private function indexMenus(){
-		Menus::model()->setDb($this->db);
+		MenusTable::model()->setDb($this->db);
 		MenuService::service()->buildIndex();
 	}
 }

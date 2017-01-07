@@ -1,7 +1,7 @@
 <?php
 use cms\helpers\FeedHelper;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Feeds;
+use fay\models\tables\FeedsTable;
 use fay\services\UserService;
 use fay\services\FileService;
 use fay\helpers\DateHelper;
@@ -94,10 +94,10 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						<?php echo F::form()->inputHidden('status')?>
 						<div class="hide" id="edit-status-container"><?php
 							echo HtmlHelper::select('', array(
-								Feeds::STATUS_DRAFT => '草稿',
-								Feeds::STATUS_PENDING => '待审核',
-								Feeds::STATUS_APPROVED => '通过审核',
-								Feeds::STATUS_UNAPPROVED => '未通过审核',
+								FeedsTable::STATUS_DRAFT => '草稿',
+								FeedsTable::STATUS_PENDING => '待审核',
+								FeedsTable::STATUS_APPROVED => '通过审核',
+								FeedsTable::STATUS_UNAPPROVED => '未通过审核',
 							), F::form()->getData('status'), array(
 								'class'=>'form-control mw110 mt5 ib',
 								'id'=>'edit-status-selector'

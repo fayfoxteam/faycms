@@ -3,7 +3,7 @@ namespace fay\services\user;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\UserCounter;
+use fay\models\tables\UserCounterTable;
 
 class UserCounterService extends Service{
 	/**
@@ -36,7 +36,7 @@ class UserCounterService extends Service{
 			$user_ids = explode(',', $user_ids);
 		}
 		
-		return UserCounter::model()->incr(array(
+		return UserCounterTable::model()->incr(array(
 			'user_id IN (?)'=>$user_ids,
 		), $field, $value);
 	}
@@ -65,7 +65,7 @@ class UserCounterService extends Service{
 		//格式化fields
 		$fields = FieldHelper::parse($fields);
 		
-		return UserCounter::model()->fetchRow(array(
+		return UserCounterTable::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
 		), $fields['fields']);
 	}
@@ -89,7 +89,7 @@ class UserCounterService extends Service{
 		}else{
 			$remove_user_id = false;
 		}
-		$counters = UserCounter::model()->fetchAll(array(
+		$counters = UserCounterTable::model()->fetchAll(array(
 			'user_id IN (?)'=>$user_ids,
 		), $fields['fields'], 'user_id');
 		$return = array_fill_keys($user_ids, array());

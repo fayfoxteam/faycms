@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\ExamQuestions;
+use fay\models\tables\ExamQuestionsTable;
 use fay\helpers\DateHelper;
 ?>
 <tr valign="top">
@@ -25,24 +25,24 @@ use fay\helpers\DateHelper;
 	<td><?php echo HtmlHelper::encode($data['cat_title']);?></td>
 	<td><?php echo HtmlHelper::encode($data['score']);?></td>
 	<td><?php switch($data['type']){
-		case ExamQuestions::TYPE_SINGLE_ANSWER:
+		case ExamQuestionsTable::TYPE_SINGLE_ANSWER:
 			echo '单选题';
 			break;
-		case ExamQuestions::TYPE_MULTIPLE_ANSWERS:
+		case ExamQuestionsTable::TYPE_MULTIPLE_ANSWERS:
 			echo '多选题';
 			break;
-		case ExamQuestions::TYPE_INPUT:
+		case ExamQuestionsTable::TYPE_INPUT:
 			echo '输入题';
 			break;
-		case ExamQuestions::TYPE_TRUE_OR_FALSE:
+		case ExamQuestionsTable::TYPE_TRUE_OR_FALSE:
 			echo '判断题';
 			break;
 	}?></td>
 	<td><?php switch($data['status']){
-		case ExamQuestions::STATUS_ENABLED:
+		case ExamQuestionsTable::STATUS_ENABLED:
 			echo '<span class="fc-green">启用</span>';
 			break;
-		case ExamQuestions::STATUS_DISABLED:
+		case ExamQuestionsTable::STATUS_DISABLED:
 			echo '<span class="fc-red">禁用</span>';
 			break;
 	}?></td>

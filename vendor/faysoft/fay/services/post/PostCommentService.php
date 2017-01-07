@@ -4,12 +4,12 @@ namespace fay\services\post;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\MultiTree;
-use fay\models\tables\PostComments;
+use fay\models\tables\PostCommentsTable;
 use fay\core\Exception;
 use fay\services\PostService;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
-use fay\models\tables\PostMeta;
+use fay\models\tables\PostMetaTable;
 use fay\services\OptionService;
 use fay\services\UserService;
 
@@ -47,7 +47,7 @@ class PostCommentService extends MultiTree{
 	/**
 	 * @see MultiTree::$model
 	 */
-	protected $model = 'fay\models\tables\PostComments';
+	protected $model = 'fay\models\tables\PostCommentsTable';
 	
 	/**
 	 * @see MultiTree::$foreign_key
@@ -79,7 +79,7 @@ class PostCommentService extends MultiTree{
 	 * @return int
 	 * @throws Exception
 	 */
-	public function create($post_id, $content, $parent = 0, $status = PostComments::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
+	public function create($post_id, $content, $parent = 0, $status = PostCommentsTable::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
 		$user_id === null && $user_id = \F::app()->current_user;
 		
 		if(!PostService::isPostIdExist($post_id)){
@@ -87,7 +87,7 @@ class PostCommentService extends MultiTree{
 		}
 		
 		if($parent){
-			$parent_comment = PostComments::model()->find($parent, 'post_id,deleted');
+			$parent_comment = PostCommentsTable::model()->find($parent, 'post_id,deleted');
 			if(!$parent_comment || $parent_comment['deleted']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
 			}
@@ -127,7 +127,7 @@ class PostCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function delete($comment_id){
-		$comment = PostComments::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
+		$comment = PostCommentsTable::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
@@ -136,7 +136,7 @@ class PostCommentService extends MultiTree{
 		}
 		
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
-		PostComments::model()->update(array(
+		PostCommentsTable::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), $comment_id);
@@ -154,7 +154,7 @@ class PostCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchDelete($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = PostCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
 			'deleted = 0',
 		), 'id,post_id,sockpuppet,status');
@@ -166,7 +166,7 @@ class PostCommentService extends MultiTree{
 		//实际将被删除的评论（之前已被删除的评论不重复删除）
 		$affected_commend_ids = ArrayHelper::column($comments, 'id');
 		//更新状态
-		$affected_rows = PostComments::model()->update(array(
+		$affected_rows = PostCommentsTable::model()->update(array(
 			'deleted'=>1,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -188,7 +188,7 @@ class PostCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function undelete($comment_id){
-		$comment = PostComments::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
+		$comment = PostCommentsTable::model()->find($comment_id, 'deleted,post_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
@@ -197,7 +197,7 @@ class PostCommentService extends MultiTree{
 		}
 		
 		//还原不需要动树结构，只是把deleted字段标记一下即可
-		PostComments::model()->update(array(
+		PostCommentsTable::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), $comment_id);
@@ -215,7 +215,7 @@ class PostCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchUnelete($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = PostCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
 			'deleted > 0',
 		), 'id,post_id,sockpuppet,status');
@@ -227,7 +227,7 @@ class PostCommentService extends MultiTree{
 		//实际将被删除的评论（之前已被删除的评论不重复删除）
 		$affected_commend_ids = ArrayHelper::column($comments, 'id');
 		//更新状态
-		$affected_rows = PostComments::model()->update(array(
+		$affected_rows = PostCommentsTable::model()->update(array(
 			'deleted'=>0,
 			'last_modified_time'=>\F::app()->current_time,
 		), array(
@@ -249,13 +249,13 @@ class PostCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function deleteAll($comment_id){
-		$comment = PostComments::model()->find($comment_id, 'left_value,right_value,root');
+		$comment = PostCommentsTable::model()->find($comment_id, 'left_value,right_value,root');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = PostCommentsTable::model()->fetchAll(array(
 			'root = ?'=>$comment['root'],
 			'left_value >= ' . $comment['left_value'],
 			'right_value <= ' . $comment['right_value'],
@@ -265,7 +265,7 @@ class PostCommentService extends MultiTree{
 		if($comments){
 			//如果存在待删除节点，则执行删除
 			$comment_ids = ArrayHelper::column($comments, 'id');
-			PostComments::model()->update(array(
+			PostCommentsTable::model()->update(array(
 				'deleted'=>1,
 				'last_modified_time'=>\F::app()->current_time,
 			), array(
@@ -291,7 +291,7 @@ class PostCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function remove($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = PostCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
@@ -316,13 +316,13 @@ class PostCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function removeAll($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = PostCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在');
 		}
 		
 		//获取所有待删除节点
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = PostCommentsTable::model()->fetchAll(array(
 			'root = ?'=>$comment['root'],
 			'left_value >= ' . $comment['left_value'],
 			'right_value <= ' . $comment['right_value'],
@@ -354,18 +354,18 @@ class PostCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function approve($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = PostCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
 		if($comment['deleted']){
 			throw new Exception('评论已删除', 'comment-deleted');
 		}
-		if($comment['status'] == PostComments::STATUS_APPROVED){
+		if($comment['status'] == PostCommentsTable::STATUS_APPROVED){
 			throw new Exception('已通过审核，请勿重复操作', 'already-approved');
 		}
 		
-		$this->setStatus($comment_id, PostComments::STATUS_APPROVED);
+		$this->setStatus($comment_id, PostCommentsTable::STATUS_APPROVED);
 		
 		//更新文章评论数
 		$this->updatePostComments(array($comment), 'approve');
@@ -381,9 +381,9 @@ class PostCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchApprove($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = PostCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'status != ' . PostComments::STATUS_APPROVED,
+			'status != ' . PostCommentsTable::STATUS_APPROVED,
 		), 'id,post_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
@@ -393,7 +393,7 @@ class PostCommentService extends MultiTree{
 		$affected_commend_ids = ArrayHelper::column($comments, 'id');
 		
 		//更新状态
-		$affected_rows = $this->setStatus($affected_commend_ids, PostComments::STATUS_APPROVED);
+		$affected_rows = $this->setStatus($affected_commend_ids, PostCommentsTable::STATUS_APPROVED);
 		
 		//更新文章评论数
 		$this->updatePostComments($comments, 'approve');
@@ -410,18 +410,18 @@ class PostCommentService extends MultiTree{
 	 * @throws Exception
 	 */
 	public function disapprove($comment_id){
-		$comment = PostComments::model()->find($comment_id, '!content');
+		$comment = PostCommentsTable::model()->find($comment_id, '!content');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
 		if($comment['deleted']){
 			throw new Exception('评论已删除', 'comment-is-deleted');
 		}
-		if($comment['status'] == PostComments::STATUS_UNAPPROVED){
+		if($comment['status'] == PostCommentsTable::STATUS_UNAPPROVED){
 			throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
 		}
 		
-		$this->setStatus($comment_id, PostComments::STATUS_UNAPPROVED);
+		$this->setStatus($comment_id, PostCommentsTable::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
 		$this->updatePostComments(array($comment), 'disapprove');
@@ -437,9 +437,9 @@ class PostCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function batchDisapprove($comment_ids){
-		$comments = PostComments::model()->fetchAll(array(
+		$comments = PostCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'status != ' . PostComments::STATUS_UNAPPROVED,
+			'status != ' . PostCommentsTable::STATUS_UNAPPROVED,
 		), 'id,post_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
@@ -449,7 +449,7 @@ class PostCommentService extends MultiTree{
 		$affected_commend_ids = ArrayHelper::column($comments, 'id');
 		
 		//更新状态
-		$affected_rows = $this->setStatus($affected_commend_ids, PostComments::STATUS_UNAPPROVED);
+		$affected_rows = $this->setStatus($affected_commend_ids, PostCommentsTable::STATUS_UNAPPROVED);
 		
 		//更新文章评论数
 		$this->updatePostComments($comments, 'disapprove');
@@ -466,7 +466,7 @@ class PostCommentService extends MultiTree{
 	 * @return int
 	 */
 	public function update($comment_id, $content){
-		return PostComments::model()->update(array(
+		return PostCommentsTable::model()->update(array(
 			'content'=>$content,
 		), $comment_id);
 	}
@@ -598,7 +598,7 @@ class PostCommentService extends MultiTree{
 	 */
 	public function checkPermission($comment, $action = 'delete', $user_id = null){
 		if(!is_array($comment)){
-			$comment = PostComments::model()->find($comment, 'user_id');
+			$comment = PostCommentsTable::model()->find($comment, 'user_id');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
@@ -628,12 +628,12 @@ class PostCommentService extends MultiTree{
 	 */
 	public function setStatus($comment_id, $status){
 		if(is_array($comment_id)){
-			return PostComments::model()->update(array(
+			return PostCommentsTable::model()->update(array(
 				'status'=>$status,
 				'last_modified_time'=>\F::app()->current_time,
 			), array('id IN (?)'=>$comment_id));
 		}else{
-			return PostComments::model()->update(array(
+			return PostCommentsTable::model()->update(array(
 				'status'=>$status,
 				'last_modified_time'=>\F::app()->current_time,
 			), $comment_id);
@@ -649,7 +649,7 @@ class PostCommentService extends MultiTree{
 	private function needChangePostComments($comment, $action){
 		$post_comment_verify = OptionService::get('system:post_comment_verify');
 		if(in_array($action, array('delete', 'remove', 'undelete', 'create'))){
-			if($comment['status'] == PostComments::STATUS_APPROVED || !$post_comment_verify){
+			if($comment['status'] == PostCommentsTable::STATUS_APPROVED || !$post_comment_verify){
 				return true;
 			}
 		}else if($action == 'approve'){
@@ -659,7 +659,7 @@ class PostCommentService extends MultiTree{
 			}
 		}else if($action == 'disapprove'){
 			//如果评论原本是通过审核状态，且系统开启了文章评论审核，则当评论未通过审核时，相应文章评论数-1
-			if($comment['status'] == PostComments::STATUS_APPROVED && $post_comment_verify){
+			if($comment['status'] == PostCommentsTable::STATUS_APPROVED && $post_comment_verify){
 				return true;
 			}
 		}
@@ -704,13 +704,13 @@ class PostCommentService extends MultiTree{
 			
 			if($comments && $comments == $real_comments){
 				//如果全部评论都是真实评论，则一起更新real_comments和comments
-				PostMeta::model()->incr($post_id, array('comments', 'real_comments'), $comments);
+				PostMetaTable::model()->incr($post_id, array('comments', 'real_comments'), $comments);
 			}else{
 				if($comments){
-					PostMeta::model()->incr($post_id, array('comments'), $comments);
+					PostMetaTable::model()->incr($post_id, array('comments'), $comments);
 				}
 				if($real_comments){
-					PostMeta::model()->incr($post_id, array('real_comments'), $real_comments);
+					PostMetaTable::model()->incr($post_id, array('real_comments'), $real_comments);
 				}
 			}
 		}
@@ -737,7 +737,7 @@ class PostCommentService extends MultiTree{
 		);
 		if(OptionService::get('system:post_comment_verify')){
 			//开启了评论审核
-			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
+			$conditions[] = 'status = '.PostCommentsTable::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getTree($post_id,
@@ -782,8 +782,8 @@ class PostCommentService extends MultiTree{
 		);
 		if(OptionService::get('system:post_comment_verify')){
 			//开启了评论审核
-			$conditions[] = 't.status = '.PostComments::STATUS_APPROVED;
-			$js_conditions[] = 't2.status = '.PostComments::STATUS_APPROVED;
+			$conditions[] = 't.status = '.PostCommentsTable::STATUS_APPROVED;
+			$js_conditions[] = 't2.status = '.PostCommentsTable::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getList($post_id,
@@ -821,7 +821,7 @@ class PostCommentService extends MultiTree{
 		);
 		if(OptionService::get('system:post_comment_verify')){
 			//开启了评论审核
-			$conditions[] = 'status = '.PostComments::STATUS_APPROVED;
+			$conditions[] = 'status = '.PostCommentsTable::STATUS_APPROVED;
 		}
 		
 		$result = $this->_getChats($post_id,

@@ -5,7 +5,7 @@ use cms\library\AdminController;
 use fay\core\Validator;
 use fay\helpers\HtmlHelper;
 use fay\core\Loader;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\log\Logger;
 use fay\core\Db;
 
@@ -63,7 +63,7 @@ class TestController extends AdminController{
 				->setRules($rules)
 				->setFilters(array('datetime'=>'strtotime'))
 				->check();
-// 			$valid = $this->form()->setModel(Users::model())
+// 			$valid = $this->form()->setModel(UsersTable::model())
 // 				->setData($this->input->post())
 // 				->check(true);
 			if($valid === true){
@@ -228,7 +228,7 @@ class TestController extends AdminController{
 		$ids = array(/* 10086,20000,130001,200133,349985,858372,1139822,2993814,3482713,3898234, */
 			30000,30001,30002,30003,30004,30005,30006,30007,30008,30009);
 		$start = microtime(true);
-		$posts = \fay\models\tables\Posts::model()->fetchAll('id IN ('.implode(',', $ids).')');
+		$posts = \fay\models\tables\PostsTableTable::model()->fetchAll('id IN ('.implode(',', $ids).')');
 		//\fay\core\Db::getInstance()->fetchAll('SELECT id,title FROM posts_0 WHERE id IN ('.implode(',', $ids).')');
 		$in_cost = microtime(true) - $start;
 		echo 1000 * $in_cost, '<br>';
@@ -236,7 +236,7 @@ class TestController extends AdminController{
 		
 		$start = microtime(true);
 		foreach($ids as $id){
-			\fay\models\tables\Posts::model()->find($id);
+			\fay\models\tables\PostsTableTable::model()->find($id);
 			//\fay\core\Db::getInstance()->fetchRow('SELECT id,title FROM posts_0 WHERE id = '.$id);
 		}
 		$simple_cost = microtime(true) - $start;
@@ -287,14 +287,14 @@ class TestController extends AdminController{
 		
 		$start_time = microtime(true);
 		foreach($rand as $r){
-			Posts::model()->update(array(
+			PostsTable::model()->update(array(
 				'last_modified_time'=>time(),
 			), $r);
 		}
 		
 		dump($rand);
 		echo microtime(true) - $start_time;
-		//dump(Posts::model()->db->getSqlLogs());
+		//dump(PostsTable::model()->db->getSqlLogs());
 	}
 	
 	/**
@@ -350,7 +350,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
 				}
 			}
 			//dump($data);die;
-			\fay\models\tables\PostsCategories::model()->bulkInsert($data);
+			\fay\models\tables\PostsCategoriesTableTable::model()->bulkInsert($data);
 		}
 	}
 }

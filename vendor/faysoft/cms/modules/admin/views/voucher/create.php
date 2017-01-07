@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Vouchers;
+use fay\models\tables\VouchersTable;
 use fay\helpers\HtmlHelper;
 ?>
 <form id="form" class="validform" action="" method="post">

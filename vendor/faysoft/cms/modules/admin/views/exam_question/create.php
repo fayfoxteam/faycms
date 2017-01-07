@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\ExamQuestions;
+use fay\models\tables\ExamQuestionsTable;
 use fay\helpers\HtmlHelper;
 
 echo F::form()->open();
@@ -14,7 +14,7 @@ echo F::form()->open();
 						<h4>答案</h4>
 					</div>
 					<div class="box-content" id="answer-container">
-						<div id="selector-panel" <?php if(isset($question['type']) && $question['type'] != ExamQuestions::TYPE_SINGLE_ANSWER)echo 'class="hide"';?>>
+						<div id="selector-panel" <?php if(isset($question['type']) && $question['type'] != ExamQuestionsTable::TYPE_SINGLE_ANSWER)echo 'class="hide"';?>>
 							<a href="javascript:;" id="create-answer-link" class="btn">添加答案</a>
 							<label>
 								<?php echo F::form()->inputCheckbox('rand', 1)?>
@@ -39,12 +39,12 @@ echo F::form()->open();
 							</div>
 							<div class="clear"></div>
 						</div>
-						<div id="input-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestions::TYPE_INPUT)echo 'class="hide"';?>>
+						<div id="input-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestionsTable::TYPE_INPUT)echo 'class="hide"';?>>
 						<?php echo HtmlHelper::textarea('input_answer', !empty($answers[0]['answer']) ? $answers[0]['answer'] : '', array(
 							'class'=>'form-control h90 autosize',
 						))?>
 						</div>
-						<div id="true-or-false-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestions::TYPE_TRUE_OR_FALSE)echo 'class="hide"';?>>
+						<div id="true-or-false-panel" <?php if(!isset($question['type']) || $question['type'] != ExamQuestionsTable::TYPE_TRUE_OR_FALSE)echo 'class="hide"';?>>
 						<?php
 							echo HtmlHelper::inputRadio('true_or_false_answer', 1, !empty($answers[0]['is_right_answer']) ? true : false, array(
 								'label'=>'正确',
@@ -69,8 +69,8 @@ echo F::form()->open();
 					</div>
 					<div class="misc-pub-section mt6">
 						<strong>状态</strong>
-						<?php echo F::form()->inputRadio('status', ExamQuestions::STATUS_ENABLED, array('label'=>'启用'), true)?>
-						<?php echo F::form()->inputRadio('status', ExamQuestions::STATUS_DISABLED, array('label'=>'禁用'))?>
+						<?php echo F::form()->inputRadio('status', ExamQuestionsTable::STATUS_ENABLED, array('label'=>'启用'), true)?>
+						<?php echo F::form()->inputRadio('status', ExamQuestionsTable::STATUS_DISABLED, array('label'=>'禁用'))?>
 					</div>
 				</div>
 			</div>
@@ -86,10 +86,10 @@ echo F::form()->open();
 <script>
 common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'exam'});
 question.type = {
-	'true_or_false':<?php echo ExamQuestions::TYPE_TRUE_OR_FALSE?>,
-	'single_answer':<?php echo ExamQuestions::TYPE_SINGLE_ANSWER?>,
-	'input':<?php echo ExamQuestions::TYPE_INPUT?>,
-	'multiple_answers':<?php echo ExamQuestions::TYPE_MULTIPLE_ANSWERS?>
+	'true_or_false':<?php echo ExamQuestionsTable::TYPE_TRUE_OR_FALSE?>,
+	'single_answer':<?php echo ExamQuestionsTable::TYPE_SINGLE_ANSWER?>,
+	'input':<?php echo ExamQuestionsTable::TYPE_INPUT?>,
+	'multiple_answers':<?php echo ExamQuestionsTable::TYPE_MULTIPLE_ANSWERS?>
 };
 $(function(){
 	question.init();

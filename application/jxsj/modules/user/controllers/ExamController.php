@@ -2,8 +2,8 @@
 namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
-use fay\models\tables\ExamExams;
-use fay\models\tables\ExamPapers;
+use fay\models\tables\ExamExamsTable;
+use fay\models\tables\ExamPapersTable;
 use fay\core\Sql;
 use fay\common\ListView;
 
@@ -27,10 +27,10 @@ class ExamController extends UserController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		
-		$exam = ExamExams::model()->find($id);
+		$exam = ExamExamsTable::model()->find($id);
 		$this->view->exam = $exam;
 		
-		$this->view->paper = ExamPapers::model()->find($exam['paper_id']);
+		$this->view->paper = ExamPapersTable::model()->find($exam['paper_id']);
 		
 		$sql = new Sql();
 		$this->view->exam_questions = $sql->from(array('ea'=>'exam_exams_questions'))

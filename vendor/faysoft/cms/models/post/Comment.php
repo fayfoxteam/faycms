@@ -2,7 +2,7 @@
 namespace cms\models\post;
 
 use fay\core\Model;
-use fay\models\tables\PostComments;
+use fay\models\tables\PostCommentsTable;
 
 class Comment extends Model{
 	/**
@@ -23,7 +23,7 @@ class Comment extends Model{
 		if($status !== null){
 			$conditions['status = ?'] = $status;
 		}
-		$result = PostComments::model()->fetchRow(array(
+		$result = PostCommentsTable::model()->fetchRow(array(
 			'deleted = 0',
 			'status = ?'=>$status ? $status : false,
 		), 'COUNT(*)');
@@ -35,7 +35,7 @@ class Comment extends Model{
 	 * @return string
 	 */
 	public function getDeletedCount(){
-		$result = PostComments::model()->fetchRow(array('deleted = 1'), 'COUNT(*)');
+		$result = PostCommentsTable::model()->fetchRow(array('deleted = 1'), 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}	
 }

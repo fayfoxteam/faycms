@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Feeds;
+use fay\models\tables\FeedsTable;
 use cms\helpers\ListTableHelper;
 
 $cols = F::form('setting')->getData('cols', array());
@@ -60,29 +60,29 @@ $cols = F::form('setting')->getData('cols', array());
 				</span>)</span>
 				|
 			</li>
-			<li class="pending <?php if(F::app()->input->get('status') == Feeds::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_PENDING))?>">待审核</a>
+			<li class="pending <?php if(F::app()->input->get('status') == FeedsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>FeedsTable::STATUS_PENDING))?>">待审核</a>
 				<span class="fc-grey">(<span id="pending-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="approved <?php if(F::app()->input->get('status') == Feeds::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_APPROVED))?>">通过审核</a>
+			<li class="approved <?php if(F::app()->input->get('status') == FeedsTable::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>FeedsTable::STATUS_APPROVED))?>">通过审核</a>
 				<span class="fc-grey">(<span id="approved-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="unapproved <?php if(F::app()->input->get('status') == Feeds::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_UNAPPROVED))?>">未通过审核</a>
+			<li class="unapproved <?php if(F::app()->input->get('status') == FeedsTable::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>FeedsTable::STATUS_UNAPPROVED))?>">未通过审核</a>
 				<span class="fc-grey">(<span id="unapproved-feed-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="draft <?php if(F::app()->input->get('status', 'intval') === Feeds::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/feed/index', array('status'=>Feeds::STATUS_DRAFT))?>">草稿</a>
+			<li class="draft <?php if(F::app()->input->get('status', 'intval') === FeedsTable::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<a href="<?php echo $this->url('admin/feed/index', array('status'=>FeedsTable::STATUS_DRAFT))?>">草稿</a>
 				<span class="fc-grey">(<span id="draft-feed-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
 				|
 			</li>

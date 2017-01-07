@@ -3,7 +3,7 @@ namespace fruit\library;
 
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
-use fay\models\tables\SpiderLogs;
+use fay\models\tables\SpiderLogsTable;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
@@ -16,7 +16,7 @@ class FrontController extends Controller{
 		$this->current_user = \F::session()->get('user.id', 0);
 		
 		if($spider = RequestHelper::isSpider()){//如果是蜘蛛，记录蜘蛛日志
-			SpiderLogs::model()->insert(array(
+			SpiderLogsTable::model()->insert(array(
 				'spider'=>$spider,
 				'url'=>'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
 				'user_agent'=>$_SERVER['HTTP_USER_AGENT'],

@@ -4,7 +4,7 @@ namespace jxsj\modules\frontend\controllers;
 use jxsj\library\FrontController;
 use fay\services\PostService;
 use fay\core\HttpException;
-use fay\models\tables\PostMeta;
+use fay\models\tables\PostMetaTable;
 
 class PostController extends FrontController{
 	public function item(){
@@ -14,7 +14,7 @@ class PostController extends FrontController{
 			throw new HttpException('页面不存在');
 		}
 		//阅读数
-		PostMeta::model()->incr($post['post']['id'], 'views', 1);
+		PostMetaTable::model()->incr($post['post']['id'], 'views', 1);
 		
 		//seo
 		$this->layout->title = $post['extra']['seo_title'];

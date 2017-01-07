@@ -3,9 +3,9 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\core\Sql;
-use fay\models\tables\PagesCategories;
-use fay\models\tables\Pages;
-use fay\models\tables\Categories;
+use fay\models\tables\PagesCategoriesTable;
+use fay\models\tables\PagesTable;
+use fay\models\tables\CategoriesTable;
 use fay\helpers\StringHelper;
 
 class PageService extends Service{
@@ -27,7 +27,7 @@ class PageService extends Service{
 	}
 	
 	public function getPageCatIds($id){
-		return PagesCategories::model()->fetchCol('cat_id', "page_id = {$id}");
+		return PagesCategoriesTable::model()->fetchCol('cat_id', "page_id = {$id}");
 	}
 	
 	/**
@@ -39,22 +39,22 @@ class PageService extends Service{
 	 * @return array
 	 */
 	public function getByCatAlias($alias, $limit = 10, $fields = '!content', $children = false){
-		$cat = Categories::model()->fetchRow(array(
+		$cat = CategoriesTable::model()->fetchRow(array(
 			'alias = ?'=>$alias
 		), 'id,left_value,right_value');
 		
 		$sql = new Sql();
-		$sql->from(array('p'=>'pages'), Pages::model()->formatFields($fields))
+		$sql->from(array('p'=>'pages'), PagesTable::model()->formatFields($fields))
 			->joinLeft(array('pc'=>'pages_categories'), 'p.id = pc.page_id')
 			->where(array(
 				'deleted = 0',
-				'status = '.Pages::STATUS_PUBLISHED,
+				'status = '.PagesTable::STATUS_PUBLISHED,
 			))
 			->order('sort, id DESC')
 			->distinct(true)
 			->limit($limit);
 		if($children){
-			$all_cats = Categories::model()->fetchCol('id', array(
+			$all_cats = CategoriesTable::model()->fetchCol('id', array(
 				'left_value >= '.$cat['left_value'],
 				'right_value <= '.$cat['right_value'],
 			));
@@ -75,7 +75,7 @@ class PageService extends Service{
 	 * @return array|bool
 	 */
 	public function getByAlias($alias){
-		return Pages::model()->fetchRow(array(
+		return PagesTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		));
 	}
@@ -86,7 +86,7 @@ class PageService extends Service{
 	 * @return array|bool
 	 */
 	public function getById($id){
-		return Pages::model()->find($id);
+		return PagesTable::model()->find($id);
 	}
 	
 	/**

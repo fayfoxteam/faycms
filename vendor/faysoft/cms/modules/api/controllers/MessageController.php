@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\services\MessageService;
 use fay\core\Response;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 use fay\services\UserService;
@@ -269,7 +269,7 @@ class MessageController extends ApiController{
 			array(array('to_user_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>Posts::getPublishedConditions(),
+				'conditions'=>PostsTable::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -327,7 +327,7 @@ class MessageController extends ApiController{
 			array(array('to_user_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>Posts::getPublishedConditions(),
+				'conditions'=>PostsTable::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(
@@ -374,7 +374,7 @@ class MessageController extends ApiController{
 			array(array('to_user_id'), 'exist', array(
 				'table'=>'posts',
 				'field'=>'id',
-				'conditions'=>Posts::getPublishedConditions(),
+				'conditions'=>PostsTable::getPublishedConditions(),
 			)),
 			array('fields', 'fields'),
 		))->setFilters(array(

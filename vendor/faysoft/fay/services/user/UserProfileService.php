@@ -3,7 +3,7 @@ namespace fay\services\user;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\UserProfile;
+use fay\models\tables\UserProfileTable;
 
 class UserProfileService extends Service{
 	/**
@@ -34,7 +34,7 @@ class UserProfileService extends Service{
 		//格式化fields
 		$fields = FieldHelper::parse($fields);
 		
-		return UserProfile::model()->fetchRow(array(
+		return UserProfileTable::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
 		), $fields['fields']);
 	}
@@ -58,7 +58,7 @@ class UserProfileService extends Service{
 		}else{
 			$remove_user_id = false;
 		}
-		$profiles = UserProfile::model()->fetchAll(array(
+		$profiles = UserProfileTable::model()->fetchAll(array(
 			'user_id IN (?)'=>$user_ids,
 		), $fields['fields'], 'user_id');
 		$return = array_fill_keys($user_ids, array());

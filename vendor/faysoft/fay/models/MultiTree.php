@@ -8,7 +8,7 @@ use fay\helpers\FieldHelper;
 use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\PostComments;
+use fay\models\tables\PostCommentsTable;
 use fay\services\UserService;
 
 /**
@@ -420,7 +420,7 @@ abstract class MultiTree extends Model{
 		//解析$fields
 		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
-			$fields[$this->field_key] = PostComments::model()->getFields();
+			$fields[$this->field_key] = PostCommentsTable::model()->getFields();
 		}
 		
 		$comment_fields = $fields[$this->field_key];
@@ -431,7 +431,7 @@ abstract class MultiTree extends Model{
 		
 		if(!empty($fields['parent'])){
 			if(!empty($fields['parent'][$this->field_key]) && in_array('*', $fields['parent'][$this->field_key])){
-				$fields['parent'][$this->field_key] = PostComments::model()->getFields();
+				$fields['parent'][$this->field_key] = PostCommentsTable::model()->getFields();
 			}
 			$parent_comment_fields = empty($fields['parent'][$this->field_key]) ? array() : $fields['parent'][$this->field_key];
 			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
@@ -661,7 +661,7 @@ abstract class MultiTree extends Model{
 		//解析$fields
 		$fields = FieldHelper::parse($fields, $this->field_key);
 		if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
-			$fields[$this->field_key] = PostComments::model()->getFields();
+			$fields[$this->field_key] = PostCommentsTable::model()->getFields();
 		}
 		
 		$comment_fields = $fields[$this->field_key];
@@ -672,7 +672,7 @@ abstract class MultiTree extends Model{
 		
 		if(!empty($fields['parent'])){
 			if(!empty($fields['parent'][$this->field_key]) && in_array('*', $fields['parent'][$this->field_key])){
-				$fields['parent'][$this->field_key] = PostComments::model()->getFields();
+				$fields['parent'][$this->field_key] = PostCommentsTable::model()->getFields();
 			}
 			$parent_comment_fields = empty($fields['parent'][$this->field_key]) ? array() : $fields['parent'][$this->field_key];
 			if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){

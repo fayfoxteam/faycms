@@ -5,12 +5,12 @@ use fay\common\ListView;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\UserService;
 use fay\services\PostService;
-use fay\models\tables\PostFavorites;
+use fay\models\tables\PostFavoritesTable;
 use fay\helpers\RequestHelper;
-use fay\models\tables\PostMeta;
+use fay\models\tables\PostMetaTable;
 
 class PostFavoriteService extends Service{
 	/**
@@ -54,7 +54,7 @@ class PostFavoriteService extends Service{
 			throw new Exception('已收藏，不能重复收藏', 'already-favorited');
 		}
 		
-		PostFavorites::model()->insert(array(
+		PostFavoritesTable::model()->insert(array(
 			'user_id'=>$user_id,
 			'post_id'=>$post_id,
 			'trackid'=>$trackid,
@@ -66,10 +66,10 @@ class PostFavoriteService extends Service{
 		//文章收藏数+1
 		if($sockpuppet){
 			//非真实用户行为
-			PostMeta::model()->incr($post_id, array('favorites'), 1);
+			PostMetaTable::model()->incr($post_id, array('favorites'), 1);
 		}else{
 			//真实用户行为
-			PostMeta::model()->incr($post_id, array('favorites', 'real_favorites'), 1);
+			PostMetaTable::model()->incr($post_id, array('favorites', 'real_favorites'), 1);
 		}
 		
 		\F::event()->trigger(self::EVENT_FAVORITED, $post_id);
@@ -88,10 +88,10 @@ class PostFavoriteService extends Service{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		$favorite = PostFavorites::model()->find(array($user_id, $post_id), 'sockpuppet');
+		$favorite = PostFavoritesTable::model()->find(array($user_id, $post_id), 'sockpuppet');
 		if($favorite){
 			//删除收藏关系
-			PostFavorites::model()->delete(array(
+			PostFavoritesTable::model()->delete(array(
 				'user_id = ?'=>$user_id,
 				'post_id = ?'=>$post_id,
 			));
@@ -99,10 +99,10 @@ class PostFavoriteService extends Service{
 			//文章收藏数-1
 			if($favorite['sockpuppet']){
 				//非真实用户行为
-				PostMeta::model()->incr($post_id, array('favorites'), -1);
+				PostMetaTable::model()->incr($post_id, array('favorites'), -1);
 			}else{
 				//真实用户行为
-				PostMeta::model()->incr($post_id, array('favorites', 'favorites'), -1);
+				PostMetaTable::model()->incr($post_id, array('favorites', 'favorites'), -1);
 			}
 				
 			//触发事件
@@ -128,7 +128,7 @@ class PostFavoriteService extends Service{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(PostFavorites::model()->find(array($user_id, $post_id), 'create_time')){
+		if(PostFavoritesTable::model()->find(array($user_id, $post_id), 'create_time')){
 			return true;
 		}else{
 			return false;
@@ -152,7 +152,7 @@ class PostFavoriteService extends Service{
 			$post_ids = explode(',', str_replace(' ', '', $post_ids));
 		}
 		
-		$favorites = PostFavorites::model()->fetchAll(array(
+		$favorites = PostFavoritesTable::model()->fetchAll(array(
 			'user_id = ?'=>$user_id,
 			'post_id IN (?)'=>$post_ids,
 		), 'post_id');
@@ -185,7 +185,7 @@ class PostFavoriteService extends Service{
 		$sql->from(array('pf'=>'post_favorites'), 'post_id')
 			->joinLeft(array('p'=>'posts'), 'pf.post_id = p.id')
 			->where('pf.user_id = ?', $user_id)
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('pf.create_time DESC')
 		;
 		

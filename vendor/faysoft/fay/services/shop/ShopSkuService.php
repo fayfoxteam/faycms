@@ -2,8 +2,8 @@
 namespace fay\services\shop;
 
 use fay\core\Service;
-use fay\models\tables\GoodsCatProps;
-use fay\models\tables\GoodsPropValues;
+use fay\models\tables\GoodsCatPropsTable;
+use fay\models\tables\GoodsPropValuesTable;
 use fay\helpers\ArrayHelper;
 
 class ShopSkuService extends Service{
@@ -32,12 +32,12 @@ class ShopSkuService extends Service{
 		$props_ids = array_keys($sku_map);
 		$props_value_ids = array_values($sku_map);
 		
-		$props = GoodsCatProps::model()->fetchAll(array(
+		$props = GoodsCatPropsTable::model()->fetchAll(array(
 			'id IN (?)'=>$props_ids,
 		), 'id,title');
 		$prop_map = ArrayHelper::column($props, 'title', 'id');
 		
-		$values = GoodsPropValues::model()->fetchAll(array(
+		$values = GoodsPropValuesTable::model()->fetchAll(array(
 			'goods_id = ?'=>$goods_id,
 			'prop_id IN (?)'=>$props_ids,
 			'prop_value_id IN (?)'=>$props_value_ids,

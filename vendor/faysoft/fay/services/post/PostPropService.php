@@ -4,8 +4,8 @@ namespace fay\services\post;
 use fay\core\Loader;
 use fay\models\Prop;
 use fay\services\CategoryService;
-use fay\models\tables\Posts;
-use fay\models\tables\Props;
+use fay\models\tables\PostsTable;
+use fay\models\tables\PropsTable;
 
 class PostPropService extends Prop{
 	/**
@@ -21,9 +21,9 @@ class PostPropService extends Prop{
 	 * @var array
 	 */
 	protected $models = array(
-		'varchar'=>'fay\models\tables\PostPropVarchar',
-		'int'=>'fay\models\tables\PostPropInt',
-		'text'=>'fay\models\tables\PostPropText',
+		'varchar'=>'fay\models\tables\PostPropVarcharTable',
+		'int'=>'fay\models\tables\PostPropIntTable',
+		'text'=>'fay\models\tables\PostPropTextTable',
 	);
 	
 	/**
@@ -36,7 +36,7 @@ class PostPropService extends Prop{
 	 * @see Prop::$type
 	 * @var string
 	 */
-	protected $type = Props::TYPE_POST_CAT;
+	protected $type = PropsTable::TYPE_POST_CAT;
 	
 	/**
 	 * @see \fay\models\Prop::getPropertySet()
@@ -58,7 +58,7 @@ class PostPropService extends Prop{
 	 * @return array
 	 */
 	public function getProps($post_id){
-		$post = Posts::model()->find($post_id, 'cat_id');
+		$post = PostsTable::model()->find($post_id, 'cat_id');
 		return $this->getPropsByCat($post['cat_id']);
 	}
 	

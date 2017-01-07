@@ -3,7 +3,7 @@ namespace fay\services;
 
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
-use fay\models\tables\Categories;
+use fay\models\tables\CategoriesTable;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 use fay\models\Tree;
@@ -12,7 +12,7 @@ class CategoryService extends Tree{
 	/**
 	 * @see Tree::$model
 	 */
-	protected $model = 'fay\models\tables\Categories';
+	protected $model = 'fay\models\tables\CategoriesTable';
 	
 	/**
 	 * @param string $class_name
@@ -33,7 +33,7 @@ class CategoryService extends Tree{
 	 * @return array|bool
 	 */
 	public function getByAlias($alias, $fields = '*', $root = null){
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
 		if($root !== null && !is_array($root)){
 			if(StringHelper::isInt($root)){
@@ -50,7 +50,7 @@ class CategoryService extends Tree{
 			$conditions['left_value >= ?'] = $root['left_value'];
 			$conditions['right_value <= ?'] = $root['right_value'];
 		}
-		return Categories::model()->fetchRow($conditions, $fields['fields']);
+		return CategoriesTable::model()->fetchRow($conditions, $fields['fields']);
 	}
 	
 	/**
@@ -64,7 +64,7 @@ class CategoryService extends Tree{
 	 * @return array|bool
 	 */
 	public function getById($id, $fields = '*', $root = null){
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
 		if($root !== null && !is_array($root)){
 			if(StringHelper::isInt($root)){
@@ -81,7 +81,7 @@ class CategoryService extends Tree{
 			$conditions['left_value >= ?'] = $root['left_value'];
 			$conditions['right_value <= ?'] = $root['right_value'];
 		}
-		return Categories::model()->fetchRow($conditions, $fields['fields']);
+		return CategoriesTable::model()->fetchRow($conditions, $fields['fields']);
 	}
 	
 	/**
@@ -101,7 +101,7 @@ class CategoryService extends Tree{
 		
 		$fields = FieldHelper::parse($fields);
 		
-		$table_fields = Categories::model()->formatFields($fields['fields']);
+		$table_fields = CategoriesTable::model()->formatFields($fields['fields']);
 		$remove_id = false;//最受是否删除id字段
 		if(!in_array('id', $table_fields)){
 			//id必须搜出，若为指定，则先插入id字段，到后面再unset掉
@@ -123,7 +123,7 @@ class CategoryService extends Tree{
 			$conditions['left_value >= ?'] = $root['left_value'];
 			$conditions['right_value <= ?'] = $root['right_value'];
 		}
-		$cats = Categories::model()->fetchAll($conditions, $table_fields);
+		$cats = CategoriesTable::model()->fetchAll($conditions, $table_fields);
 		//根据传入ID顺序返回
 		$return = array();
 		foreach($cats as $c){
@@ -147,7 +147,7 @@ class CategoryService extends Tree{
 	 */
 	public function getChildren($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'left_value'){
 		if($parent === null){
-			return Categories::model()->fetchAll(array(), $fields, $order);
+			return CategoriesTable::model()->fetchAll(array(), $fields, $order);
 		}else if(StringHelper::isInt($parent)){
 			return $this->getChildrenByParentId($parent, $fields, $order);
 		}else{
@@ -165,11 +165,11 @@ class CategoryService extends Tree{
 	 */
 	public function getChildrenByParentAlias($alias = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($alias === null){
-			return Categories::model()->fetchAll(array(), $fields, $order);
+			return CategoriesTable::model()->fetchAll(array(), $fields, $order);
 		}else{
 			$node = $this->getByAlias($alias, 'left_value,right_value');
 			if($node){
-				return Categories::model()->fetchAll(array(
+				return CategoriesTable::model()->fetchAll(array(
 					'left_value > '.$node['left_value'],
 					'right_value < '.$node['right_value'],
 				), $fields, $order);
@@ -189,11 +189,11 @@ class CategoryService extends Tree{
 	 */
 	public function getChildrenByParentId($id = 0, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort'){
 		if($id == 0){
-			return Categories::model()->fetchAll(array(), $fields, $order);
+			return CategoriesTable::model()->fetchAll(array(), $fields, $order);
 		}else{
 			$node = $this->get($id, 'left_value,right_value');
 			if($node){
-				return Categories::model()->fetchAll(array(
+				return CategoriesTable::model()->fetchAll(array(
 					'left_value > '.$node['left_value'],
 					'right_value < '.$node['right_value'],
 				), $fields, $order);
@@ -275,7 +275,7 @@ class CategoryService extends Tree{
 	 * @return array
 	 */
 	public function getNextLevel($parent, $fields = '*', $order = 'sort, id'){
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
 		if(StringHelper::isInt($parent)){
 			return $this->getNextLevelByParentId($parent, $fields['fields'], $order);
@@ -292,11 +292,11 @@ class CategoryService extends Tree{
 	 * @return array
 	 */
 	public function getNextLevelByParentAlias($alias, $fields = '*', $order = 'sort, id'){
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
 		$node = $this->getByAlias($alias, 'id');
 		if($node){
-			return Categories::model()->fetchAll(array(
+			return CategoriesTable::model()->fetchAll(array(
 				'parent = ?'=>$node['id'],
 			), $fields['fields'], $order);
 		}else{
@@ -312,9 +312,9 @@ class CategoryService extends Tree{
 	 * @return array
 	 */
 	public function getNextLevelByParentId($id, $fields = '*', $order = 'sort, id'){
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
-		return Categories::model()->fetchAll(array(
+		return CategoriesTable::model()->fetchAll(array(
 			'parent = ?'=>$id,
 		), $fields['fields'], $order);
 	}
@@ -333,7 +333,7 @@ class CategoryService extends Tree{
 	 * @return array|bool
 	 */
 	public function get($cats, $fields = '*', $root = null){
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
 		if($root !== null && !is_array($root)){
 			if(StringHelper::isInt($root)){
@@ -449,7 +449,7 @@ class CategoryService extends Tree{
 			$cat_ids = explode(',', $cat_ids);
 		}
 		
-		return Categories::model()->incr(array(
+		return CategoriesTable::model()->incr(array(
 			'id IN (?)'=>$cat_ids,
 		), 'count', $value);
 	}

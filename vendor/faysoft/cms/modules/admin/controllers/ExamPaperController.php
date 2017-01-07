@@ -2,12 +2,12 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 use fay\core\Response;
-use fay\models\tables\ExamPapers;
-use fay\models\tables\ExamPaperQuestions;
+use fay\models\tables\ExamPapersTable;
+use fay\models\tables\ExamPaperQuestionsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 
@@ -71,14 +71,14 @@ class ExamPaperController extends AdminController{
 	public function create(){
 		$this->layout->subtitle = '组卷';
 		
-		$this->form()->setModel(ExamPapers::model())
-			->setModel(ExamPaperQuestions::model());
+		$this->form()->setModel(ExamPapersTable::model())
+			->setModel(ExamPaperQuestionsTable::model());
 		
 		if($this->input->post() && $this->form()->check()){
 			$questions = $this->input->post('questions', 'intval');
 			$score = $this->input->post('score', 'floatval', array(0));
 			
-			$paper_id = ExamPapers::model()->insert(array(
+			$paper_id = ExamPapersTable::model()->insert(array(
 				'title'=>$this->input->post('title'),
 				'description'=>$this->input->post('description'),
 				'cat_id'=>$this->input->post('cat_id', 'intval', 0),
@@ -94,14 +94,14 @@ class ExamPaperController extends AdminController{
 			$i = 0;
 			foreach($questions as $k => $q){
 				$i++;
-				ExamPaperQuestions::model()->insert(array(
+				ExamPaperQuestionsTable::model()->insert(array(
 					'paper_id'=>$paper_id,
 					'question_id'=>$q,
 					'score'=>$score[$k],
 					'sort'=>$i,
 				));
 			}
-			$this->actionlog(Actionlogs::TYPE_EXAM, '添加了一份试卷', $paper_id);
+			$this->actionlog(ActionlogsTable::TYPE_EXAM, '添加了一份试卷', $paper_id);
 			
 			Response::notify('success', '试卷发布成功', array(
 				'admin/exam-paper/edit', array(
@@ -123,14 +123,14 @@ class ExamPaperController extends AdminController{
 		
 		$id = $this->input->get('id', 'intval');
 		
-		$this->form()->setModel(ExamPapers::model())
-			->setModel(ExamPaperQuestions::model());
+		$this->form()->setModel(ExamPapersTable::model())
+			->setModel(ExamPaperQuestionsTable::model());
 		
 		if($this->input->post() && $this->form()->check()){
 			$questions = $this->input->post('questions', 'intval');
 			$score = $this->input->post('score', 'floatval', array(0));
 			
-			ExamPapers::model()->update(array(
+			ExamPapersTable::model()->update(array(
 				'title'=>$this->input->post('title'),
 				'description'=>$this->input->post('description'),
 				'cat_id'=>$this->input->post('cat_id', 'intval', 0),
@@ -145,12 +145,12 @@ class ExamPaperController extends AdminController{
 			
 			//删除被删除的题目
 			if($questions){
-				ExamPaperQuestions::model()->delete(array(
+				ExamPaperQuestionsTable::model()->delete(array(
 					'paper_id = ?'=>$id,
 					'question_id NOT IN (?)'=>$questions,
 				));
 			}else{
-				ExamPaperQuestions::model()->delete(array(
+				ExamPaperQuestionsTable::model()->delete(array(
 					'paper_id = ?'=>$id,
 				));
 			}
@@ -158,11 +158,11 @@ class ExamPaperController extends AdminController{
 			$i = 0;
 			foreach($questions as $k => $q){
 				$i++;
-				if(ExamPaperQuestions::model()->find(array(
+				if(ExamPaperQuestionsTable::model()->find(array(
 					'paper_id'=>$id,
 					'question_id'=>$q,
 				))){
-					ExamPaperQuestions::model()->update(array(
+					ExamPaperQuestionsTable::model()->update(array(
 						'score'=>$score[$k],
 						'sort'=>$i,
 					), array(
@@ -170,7 +170,7 @@ class ExamPaperController extends AdminController{
 						'question_id = ?'=>$q,
 					));
 				}else{
-					ExamPaperQuestions::model()->insert(array(
+					ExamPaperQuestionsTable::model()->insert(array(
 						'paper_id'=>$id,
 						'question_id'=>$q,
 						'score'=>$score[$k],
@@ -179,11 +179,11 @@ class ExamPaperController extends AdminController{
 				}
 			}
 			
-			$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一份试卷', $id);
+			$this->actionlog(ActionlogsTable::TYPE_EXAM, '编辑了一份试卷', $id);
 			Response::notify('success', '编辑成功');
 		}
 		
-		$paper = ExamPapers::model()->find($id);
+		$paper = ExamPapersTable::model()->find($id);
 		$paper['start_time'] ? $paper['start_time'] = date('Y-m-d H:i:s', $paper['start_time']) : $paper['start_time'] = '';
 		$paper['end_time'] ? $paper['end_time'] = date('Y-m-d H:i:s', $paper['end_time']) : $paper['end_time'] = '';
 		$this->form()->setData($paper);
@@ -205,10 +205,10 @@ class ExamPaperController extends AdminController{
 	
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
-		ExamPapers::model()->update(array(
+		ExamPapersTable::model()->update(array(
 			'deleted'=>1,
 		), $id);
-		$this->actionlog(Actionlogs::TYPE_EXAM, '一份试卷被删除', $id);
+		$this->actionlog(ActionlogsTable::TYPE_EXAM, '一份试卷被删除', $id);
 		
 		Response::notify('success', '一份试卷被删除 - '.HtmlHelper::link('撤销', array('admin/exam-paper/undelete', array(
 			'id'=>$id,
@@ -217,10 +217,10 @@ class ExamPaperController extends AdminController{
 	
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
-		ExamPapers::model()->update(array(
+		ExamPapersTable::model()->update(array(
 			'deleted'=>0,
 		), $id);
-		$this->actionlog(Actionlogs::TYPE_EXAM, '一份试卷被还原', $id);
+		$this->actionlog(ActionlogsTable::TYPE_EXAM, '一份试卷被还原', $id);
 		
 		Response::notify('success', '一份试卷被还原');
 	}

@@ -4,7 +4,7 @@ namespace ncp\models;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\services\CategoryService;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 
 class Recommend extends Model{
 	/**
@@ -28,7 +28,7 @@ class Recommend extends Model{
 		
 		$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,publish_time,views')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('RAND()')
 			->limit($limit);
 		
@@ -72,7 +72,7 @@ class Recommend extends Model{
 		if($result_count < $limit && $days){
 			$sql->from(array('p'=>'posts'), 'id,title,thumbnail,abstract,publish_time,views')
 				->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
-				->where(Posts::getPublishedConditions('p'))
+				->where(PostsTable::getPublishedConditions('p'))
 				->order('RAND()')
 				->limit($limit - $result_count);
 			

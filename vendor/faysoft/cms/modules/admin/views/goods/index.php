@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Goods;
+use fay\models\tables\GoodsTable;
 
 $cols = F::form('setting')->getData('cols', array());
 ?>
@@ -28,8 +28,8 @@ $cols = F::form('setting')->getData('cols', array());
 				|
 				<?php echo F::form('search')->select('status', array(
 					''=>'--状态--',
-					Goods::STATUS_INSTOCK=>'在库',
-					Goods::STATUS_ONSALE=>'销售中',
+					GoodsTable::STATUS_INSTOCK=>'在库',
+					GoodsTable::STATUS_ONSALE=>'销售中',
 				), array(
 					'class'=>'form-control',
 				))?>

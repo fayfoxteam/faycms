@@ -3,7 +3,7 @@ use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
 use fay\services\FileService;
 use fay\services\MessageService;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
 	<?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
@@ -30,11 +30,11 @@ use fay\models\tables\Messages;
 			?></abbr>
 		</div>
 		<div class="ci-meta">
-			<span class="ci-status"><?php if($data['status'] == Messages::STATUS_APPROVED){
+			<span class="ci-status"><?php if($data['status'] == MessagesTable::STATUS_APPROVED){
 				echo '<span class="fc-green">已通过</span>';
-			}else if($data['status'] == Messages::STATUS_UNAPPROVED){
+			}else if($data['status'] == MessagesTable::STATUS_UNAPPROVED){
 				echo '<span class="fc-red">已驳回</span>';
-			}else if($data['status'] == Messages::STATUS_PENDING){
+			}else if($data['status'] == MessagesTable::STATUS_PENDING){
 				echo '<span class="fc-orange">待审</span>';
 			}?></span>
 		</div>
@@ -50,7 +50,7 @@ use fay\models\tables\Messages;
 			if(F::app()->checkPermission('admin/chat/approve')){
 				echo HtmlHelper::link('<span>批准</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
-					'class'=>'fc-green approve-link'.($data['status'] == Messages::STATUS_APPROVED ? ' hide' : ''),
+					'class'=>'fc-green approve-link'.($data['status'] == MessagesTable::STATUS_APPROVED ? ' hide' : ''),
 					'encode'=>false,
 					'title'=>false,
 				));
@@ -58,7 +58,7 @@ use fay\models\tables\Messages;
 			if(F::app()->checkPermission('admin/chat/unapprove')){
 				echo HtmlHelper::link('<span>驳回</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
-					'class'=>'fc-orange unapprove-link'.($data['status'] == Messages::STATUS_UNAPPROVED ? ' hide' : ''),
+					'class'=>'fc-orange unapprove-link'.($data['status'] == MessagesTable::STATUS_UNAPPROVED ? ' hide' : ''),
 					'encode'=>false,
 					'title'=>false,
 				));

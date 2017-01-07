@@ -5,7 +5,7 @@ use shinecolor\library\FrontController;
 use fay\services\OptionService;
 use fay\services\PostService;
 use fay\services\CategoryService;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -25,7 +25,7 @@ class IndexController extends FrontController{
 		$this->view->news = \fay\services\post\CategoryService::service()->getPosts('news', 7, 'id,title,publish_time', true);
 		
 		$cat_product = CategoryService::service()->getByAlias('product');
-		$this->view->products = Posts::model()->fetchAll(array(
+		$this->view->products = PostsTable::model()->fetchAll(array(
 			'cat_id = '.$cat_product['id'],
 		), 'id,title,thumbnail', 'is_top DESC, sort, publish_time DESC');
 		

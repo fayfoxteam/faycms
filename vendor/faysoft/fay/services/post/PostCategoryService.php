@@ -6,14 +6,14 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\StringHelper;
-use fay\models\tables\Categories;
-use fay\models\tables\Posts;
-use fay\models\tables\PostsCategories;
+use fay\models\tables\CategoriesTable;
+use fay\models\tables\PostsTable;
+use fay\models\tables\PostsCategoriesTable;
 use fay\services\OptionService;
 use fay\services\PostService;
 use fay\services\user\UserRoleService;
-use fay\models\tables\Roles;
-use fay\models\tables\RolesCats;
+use fay\models\tables\RolesTable;
+use fay\models\tables\RolesCatsTable;
 use fay\services\CategoryService;
 
 class PostCategoryService extends Service{
@@ -43,11 +43,11 @@ class PostCategoryService extends Service{
 	 */
 	public function get($post_id, $fields = null){
 		$fields || $fields = self::$default_fields;
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
 		$sql = new Sql();
 		return $sql->from(array('pc'=>'posts_categories'), '')
-			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields['fields']))
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', CategoriesTable::model()->formatFields($fields['fields']))
 			->where(array('pc.post_id = ?'=>$post_id))
 			->fetchAll();
 	}
@@ -60,11 +60,11 @@ class PostCategoryService extends Service{
 	 */
 	public function mget($post_ids, $fields = null){
 		$fields || $fields = self::$default_fields;
-		$fields = FieldHelper::parse($fields, null, Categories::model()->getFields());
+		$fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
 		
 		$sql = new Sql();
 		$cats = $sql->from(array('pc'=>'posts_categories'), 'post_id')
-			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', Categories::model()->formatFields($fields['fields']))
+			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', CategoriesTable::model()->formatFields($fields['fields']))
 			->where(array('pc.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());
@@ -88,14 +88,14 @@ class PostCategoryService extends Service{
 		
 		if(StringHelper::isInt($post_ids)){
 			//单个ID
-			return $post = PostsCategories::model()->fetchCol('cat_id', 'post_id = '.$post_ids);
+			return $post = PostsCategoriesTable::model()->fetchCol('cat_id', 'post_id = '.$post_ids);
 		}else{
 			if(is_string($post_ids)){
 				//逗号分割的ID串
 				$post_ids = explode(',', $post_ids);
 			}
 			
-			return PostsCategories::model()->fetchCol('cat_id', array(
+			return PostsCategoriesTable::model()->fetchCol('cat_id', array(
 				'post_id IN (?)'=>$post_ids,
 			));
 		}
@@ -113,7 +113,7 @@ class PostCategoryService extends Service{
 		
 		if(StringHelper::isInt($post_ids)){
 			//单个ID
-			$post = Posts::model()->find($post_ids, 'cat_id');
+			$post = PostsTable::model()->find($post_ids, 'cat_id');
 			return array($post['cat_id']);
 		}else{
 			if(is_string($post_ids)){
@@ -121,7 +121,7 @@ class PostCategoryService extends Service{
 				$post_ids = explode(',', $post_ids);
 			}
 			
-			return Posts::model()->fetchCol('cat_id', array(
+			return PostsTable::model()->fetchCol('cat_id', array(
 				'id IN (?)'=>$post_ids,
 			));
 		}
@@ -153,7 +153,7 @@ class PostCategoryService extends Service{
 			return $this->_user_allowed_cats[$user_id];
 		}
 		
-		if(UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id)){
+		if(UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN, $user_id)){
 			//如果是超级管理员，设置一个*
 			return $this->_user_allowed_cats[$user_id] = array('*');
 		}
@@ -167,7 +167,7 @@ class PostCategoryService extends Service{
 		//获取角色属性和0和
 		$allowed_cats = array_merge(
 			array('0', $post_root['id']),
-			RolesCats::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $role_ids).')')
+			RolesCatsTable::model()->fetchCol('cat_id', 'role_id IN ('.implode(',', $role_ids).')')
 		);
 		
 		return $this->_user_allowed_cats[$user_id] = $allowed_cats;
@@ -184,7 +184,7 @@ class PostCategoryService extends Service{
 		
 		if(OptionService::get('system:post_role_cats')){
 			//开启了文章分类权限控制，进行验证
-			if(UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $user_id)){
+			if(UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN, $user_id)){
 				//如果是超级管理员，返回true
 				return true;
 			}
@@ -212,7 +212,7 @@ class PostCategoryService extends Service{
 		
 		$count_map = ArrayHelper::countValues($cat_ids);
 		foreach($count_map as $num => $sub_cat_ids){
-			Categories::model()->incr(array(
+			CategoriesTable::model()->incr(array(
 				'id IN (?)'=>$sub_cat_ids
 			), 'count', $num);
 		}
@@ -234,7 +234,7 @@ class PostCategoryService extends Service{
 		
 		$count_map = ArrayHelper::countValues($cat_ids);
 		foreach($count_map as $num => $sub_cat_ids){
-			Categories::model()->incr(array(
+			CategoriesTable::model()->incr(array(
 				'id IN (?)'=>$sub_cat_ids
 			), 'count', -$num);
 		}
@@ -267,7 +267,7 @@ class PostCategoryService extends Service{
 		}
 		
 		//验证分类ID是否存在
-		if($secondary_cat_ids && count(Categories::model()->fetchAll(array(
+		if($secondary_cat_ids && count(CategoriesTable::model()->fetchAll(array(
 			'id IN (?)'=>$secondary_cat_ids,
 		), 'id')) != count($secondary_cat_ids)){
 			//实际存在的分类记录数与输入记录数不相等，意味着有指定分类ID不存在
@@ -278,7 +278,7 @@ class PostCategoryService extends Service{
 		$deleted_cat_ids = array();
 		if($old_status !== null){
 			//原状态非null，说明是编辑文章，需要获取文章原标签，删掉已经被删掉的标签
-			$old_cat_ids = PostsCategories::model()->fetchCol('cat_id', array(
+			$old_cat_ids = PostsCategoriesTable::model()->fetchCol('cat_id', array(
 				'post_id = ?'=>$post_id,
 			));
 			
@@ -289,7 +289,7 @@ class PostCategoryService extends Service{
 				$deleted_cat_ids[] = $primary_cat_id;
 			}
 			if($deleted_cat_ids){
-				PostsCategories::model()->delete(array(
+				PostsCategoriesTable::model()->delete(array(
 					'post_id = ?'=>$post_id,
 					'cat_id IN (?)'=>$deleted_cat_ids
 				));
@@ -304,23 +304,23 @@ class PostCategoryService extends Service{
 		}
 		if($new_cat_ids){
 			foreach($new_cat_ids as $v){
-				PostsCategories::model()->insert(array(
+				PostsCategoriesTable::model()->insert(array(
 					'post_id'=>$post_id,
 					'cat_id'=>$v,
 				));
 			}
 		}
 		
-		if($old_status === null && $new_status == Posts::STATUS_PUBLISHED){
+		if($old_status === null && $new_status == PostsTable::STATUS_PUBLISHED){
 			//没有原状态，说明是新增文章，且文章状态为已发布：所有输入分类文章数加一
 			CategoryService::service()->incr($secondary_cat_ids);
-		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status != Posts::STATUS_PUBLISHED){
+		}else if($old_status == PostsTable::STATUS_PUBLISHED && $new_status != PostsTable::STATUS_PUBLISHED){
 			//本来处于已发布状态，编辑后变成未发布：文章原分类文章数减一
 			CategoryService::service()->decr($old_cat_ids);
-		}else if($old_status != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
+		}else if($old_status != PostsTable::STATUS_PUBLISHED && $new_status == PostsTable::STATUS_PUBLISHED){
 			//本来是未发布状态，编辑后变成已发布：所有输入分类文章数加一
 			CategoryService::service()->incr($secondary_cat_ids);
-		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
+		}else if($old_status == PostsTable::STATUS_PUBLISHED && $new_status == PostsTable::STATUS_PUBLISHED){
 			//本来是已发布状态，编辑后还是已发布状态：新增分类文章数加一，被删除分类文章数减一
 			if($new_cat_ids){
 				CategoryService::service()->incr($new_cat_ids);
@@ -328,7 +328,7 @@ class PostCategoryService extends Service{
 			if($deleted_cat_ids){
 				CategoryService::service()->decr($deleted_cat_ids);
 			}
-		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status === null){
+		}else if($old_status == PostsTable::STATUS_PUBLISHED && $new_status === null){
 			//本来是已发布状态，编辑时并未编辑状态：新增分类文章数加一，被删除分类文章数减一
 			if($new_cat_ids){
 				CategoryService::service()->incr($new_cat_ids);
@@ -348,19 +348,19 @@ class PostCategoryService extends Service{
 	 */
 	public function updatePrimaryCatCount($old_cat_id, $new_cat_id, $old_status, $new_status){
 		if($old_cat_id === null){
-			if($new_cat_id && $new_status == Posts::STATUS_PUBLISHED){
+			if($new_cat_id && $new_status == PostsTable::STATUS_PUBLISHED){
 				//$old_cat_id为null，说明是新增文章，若主分类非0，且文章状态为已发布，主分类文章数加一
 				CategoryService::service()->incr($new_cat_id);
 			}
 		//从这里开始，以下都是编辑文章的情况
-		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status != Posts::STATUS_PUBLISHED){
+		}else if($old_status == PostsTable::STATUS_PUBLISHED && $new_status != PostsTable::STATUS_PUBLISHED){
 			//本来处于已发布状态，编辑后变成未发布：原主分类文章数减一
 			CategoryService::service()->decr($old_cat_id);
-		}else if($old_status != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
+		}else if($old_status != PostsTable::STATUS_PUBLISHED && $new_status == PostsTable::STATUS_PUBLISHED){
 			//本来处于未发布状态，编辑后变成已发布：新主分类文章数加一
 			CategoryService::service()->incr($new_cat_id);
-		}else if($old_status == Posts::STATUS_PUBLISHED &&
-			($new_status == Posts::STATUS_PUBLISHED || $new_status === null) &&
+		}else if($old_status == PostsTable::STATUS_PUBLISHED &&
+			($new_status == PostsTable::STATUS_PUBLISHED || $new_status === null) &&
 			$old_cat_id != $new_cat_id
 		){
 			//本来处于已发布状态，且编辑后还是已发布或未编辑状态，且编辑了主分类：原主分类文章数减一，新主分类文章数加一
@@ -382,7 +382,7 @@ class PostCategoryService extends Service{
 				'p.cat_id = ?'=>$cat_id,
 				'pc.cat_id = ?'=>$cat_id,
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->fetchRow();
 		
 		return $result['count'];
@@ -397,14 +397,14 @@ class PostCategoryService extends Service{
 		$cats = CategoryService::service()->getChildIds('_system_post');
 		
 		//先清零
-		Categories::model()->update(array(
+		CategoriesTable::model()->update(array(
 			'count'=>0,
 		), array(
 			'id IN (?)'=>$cats,
 		));
 		
 		foreach($cats as $c){
-			Categories::model()->update(array(
+			CategoriesTable::model()->update(array(
 				'count'=>$this->getPostCount($c),
 			), 'id = '.$c);
 		}
@@ -525,7 +525,7 @@ class PostCategoryService extends Service{
 	 * @return array
 	 */
 	private function getPostsByCatAlias($alias, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
-		$cat = Categories::model()->fetchRow(array(
+		$cat = CategoriesTable::model()->fetchRow(array(
 			'alias = ?'=>$alias
 		), 'id,left_value,right_value');
 		
@@ -556,7 +556,7 @@ class PostCategoryService extends Service{
 	 * @return array
 	 */
 	private function getPostsByCatId($cat_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
-		$cat = Categories::model()->find($cat_id, 'id,left_value,right_value');
+		$cat = CategoriesTable::model()->find($cat_id, 'id,left_value,right_value');
 		if(!$cat){
 			//指定分类不存在，直接返回空数组
 			return array();
@@ -598,14 +598,14 @@ class PostCategoryService extends Service{
 		$sql->from(array('p'=>'posts'), 'id')
 			->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
 			->joinLeft(array('pm'=>'post_meta'), 'p.id = pm.post_id')
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order($order)
 			->group('p.id');
 		if($limit){
 			$sql->limit($limit);
 		}
 		if($children){
-			$all_cats = Categories::model()->fetchCol('id', array(
+			$all_cats = CategoriesTable::model()->fetchCol('id', array(
 				'left_value >= '.$cat['left_value'],
 				'right_value <= '.$cat['right_value'],
 			));

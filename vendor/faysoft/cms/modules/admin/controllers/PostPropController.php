@@ -2,11 +2,11 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Categories;
+use fay\models\tables\CategoriesTable;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Props;
+use fay\models\tables\PropsTable;
 use fay\services\post\Prop;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -27,14 +27,14 @@ class PostPropController extends AdminController{
 		
 		$cat_id = $this->input->get('cat_id', 'intval');
 		
-		$cat = Categories::model()->fetchRow(array(
+		$cat = CategoriesTable::model()->fetchRow(array(
 			'id = ?'=>$cat_id,
 		), 'title');
 		if(!$cat){
 			throw new HttpException('指定分类不存在');
 		}
 		
-		$this->form()->setModel(Props::model())
+		$this->form()->setModel(PropsTable::model())
 			->setData(array(
 				'refer'=>$cat_id,
 			));
@@ -50,13 +50,13 @@ class PostPropController extends AdminController{
 			throw new HttpException('无数据提交', 500);
 		}
 		
-		if($this->form()->setModel(Props::model())->check()){
+		if($this->form()->setModel(PropsTable::model())->check()){
 			$refer = $this->input->post('refer', 'intval');
 			$prop = $this->form()->getFilteredData();
 			$values = $this->input->post('prop_values', array());
 			$prop_id = PropService::service()->create($refer, $prop, $values);
 			
-			$this->actionlog(Actionlogs::TYPE_POST_CAT, '添加了一个文章分类属性', $prop_id);
+			$this->actionlog(ActionlogsTable::TYPE_POST_CAT, '添加了一个文章分类属性', $prop_id);
 			
 			Response::notify('success', array(
 				'message'=>'文章分类属性添加成功',
@@ -70,7 +70,7 @@ class PostPropController extends AdminController{
 	public function edit(){
 		$prop_id = $this->input->get('id', 'intval');
 		
-		$this->form()->setModel(Props::model());
+		$this->form()->setModel(PropsTable::model());
 		if($this->input->post() && $this->form()->check()){
 			$refer = $this->input->post('refer', 'intval');
 			$prop = $this->form()->getFilteredData();
@@ -81,7 +81,7 @@ class PostPropController extends AdminController{
 			
 			PropService::service()->update($refer, $prop_id, $prop, $prop_values, $ids);
 			
-			$this->actionlog(Actionlogs::TYPE_POST_CAT, '编辑了文章分类属性信息', $prop_id);
+			$this->actionlog(ActionlogsTable::TYPE_POST_CAT, '编辑了文章分类属性信息', $prop_id);
 			
 			Response::notify('success', '文章分类属性编辑成功', false);
 		}
@@ -98,7 +98,7 @@ class PostPropController extends AdminController{
 			'uri'=>array('admin/post-prop/index', array('cat_id'=>$prop['refer'])),
 			'text'=>'添加文章分类属性',
 		);
-		$cat = Categories::model()->find($prop['refer'], 'title');
+		$cat = CategoriesTable::model()->find($prop['refer'], 'title');
 		$this->layout->subtitle = '编辑文章分类属性 - '.HtmlHelper::encode($cat['title']).' - '.HtmlHelper::encode($prop['title']);
 		
 		$this->_setListview($prop['refer']);
@@ -109,9 +109,9 @@ class PostPropController extends AdminController{
 	
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
-		$prop = Props::model()->find($id, 'refer');
+		$prop = PropsTable::model()->find($id, 'refer');
 		PropService::service()->delete($id);
-		$this->actionlog(Actionlogs::TYPE_POST_CAT, '删除了一个文章分类属性', $id);
+		$this->actionlog(ActionlogsTable::TYPE_POST_CAT, '删除了一个文章分类属性', $id);
 		
 		//不能直接回到上一页，因为可能处在编辑状态
 		Response::notify('success', '一个文章分类属性被删除', array('admin/post-prop/index', array(
@@ -121,14 +121,14 @@ class PostPropController extends AdminController{
 
 	public function sort(){
 		$id = $this->input->get('id', 'intval');
-		Props::model()->update(array(
+		PropsTable::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$id,
 		));
-		$this->actionlog(Actionlogs::TYPE_POST_CAT, '改变了文章分类属性排序', $id);
+		$this->actionlog(ActionlogsTable::TYPE_POST_CAT, '改变了文章分类属性排序', $id);
 		
-		$data = Props::model()->find($id, 'sort');
+		$data = PropsTable::model()->find($id, 'sort');
 		Response::notify('success', array(
 			'message'=>'一个文章分类属性排序值被编辑',
 			'data'=>array(
@@ -143,7 +143,7 @@ class PostPropController extends AdminController{
 	 */
 	private function _setListview($cat_id){
 		$cat = CategoryService::service()->get($cat_id, 'left_value,right_value');
-		$cat_parents = Categories::model()->fetchCol('id', array(
+		$cat_parents = CategoriesTable::model()->fetchCol('id', array(
 			'left_value <= '.$cat['left_value'],
 			'right_value >= '.$cat['right_value'],
 		));
@@ -151,7 +151,7 @@ class PostPropController extends AdminController{
 		$sql->from('props')
 			->where(array(
 				'deleted = 0',
-				'type = '.Props::TYPE_POST_CAT,
+				'type = '.PropsTable::TYPE_POST_CAT,
 				'refer IN ('.implode(',', $cat_parents).')',
 			))
 			->order('sort, id DESC');

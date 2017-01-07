@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\Likes;
+use fay\models\tables\LikesTable;
 use fay\services\PostService;
 
 class LikeController extends UserController{
@@ -24,8 +24,8 @@ class LikeController extends UserController{
 	
 	public function add(){
 		$id = $this->input->get('id', 'intval');
-		if(!Likes::model()->find(array($this->current_user, $id))){
-			Likes::model()->insert(array(
+		if(!LikesTable::model()->find(array($this->current_user, $id))){
+			LikesTable::model()->insert(array(
 				'user_id'=>$this->current_user,
 				'post_id'=>$id,
 				'create_time'=>$this->current_time,
@@ -45,8 +45,8 @@ class LikeController extends UserController{
 	
 	public function remove(){
 		$id = $this->input->get('id', 'intval');
-		if(Likes::model()->find(array($this->current_user, $id))){
-			Likes::model()->delete(array(
+		if(LikesTable::model()->find(array($this->current_user, $id))){
+			LikesTable::model()->delete(array(
 				'user_id'=>$this->current_user,
 				'post_id'=>$id,
 			));

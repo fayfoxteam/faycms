@@ -54,7 +54,7 @@ class SciController extends AdminController{
 		$listview->page_size = 15;
 		$this->view->listview = $listview;
 		
-		$this->form()->setModel(Sci::model());
+		$this->form()->setModel(SciTable::model());
 		
 		$this->view->render();
 	}
@@ -67,7 +67,7 @@ class SciController extends AdminController{
         ));
 
         if($check === true){
-            $data = Sci::model()->fetchRow(array(
+            $data = SciTable::model()->fetchRow(array(
                 'id = ?'=>$this->input->get('id'),
             ));
             if($data){
@@ -83,12 +83,12 @@ class SciController extends AdminController{
 	
 //	public function create(){
 //		if($this->input->post()){
-//			if($this->form()->setModel(Bills::model())->check()){
+//			if($this->form()->setModel(BillsTable::model())->check()){
 //				$user_id = $this->input->post('user_id', 'intval');
 //				$amount = $this->input->post('amount', 'floatval');
 //				$type = $this->input->post('type', 'intval');
 //
-//				if($user = Bills::model()->fetchRow(array(
+//				if($user = BillsTable::model()->fetchRow(array(
 //					'user_id = ?'=>$user_id,
 //				), 'balance', 'create_time DESC')){
 //					//获取用户最后一条记录余额
@@ -104,7 +104,7 @@ class SciController extends AdminController{
 //					$balance -= $amount;
 //				}
 //
-//				Bills::model()->insert(array(
+//				BillsTable::model()->insert(array(
 //					'user_id'=>$user_id,
 //					'amount'=>$amount,
 //					'balance'=>$balance,

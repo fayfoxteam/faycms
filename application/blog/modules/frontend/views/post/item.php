@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 ?>
 <div class="col-main">
 	<article class="post-item">

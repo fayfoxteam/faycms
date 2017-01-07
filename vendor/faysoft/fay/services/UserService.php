@@ -5,18 +5,18 @@ use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fay\helpers\RequestHelper;
 use fay\core\db\Expr;
-use fay\models\tables\Actions;
-use fay\models\tables\Roles;
-use fay\models\tables\UserProfile;
-use fay\models\tables\Users;
-use fay\models\tables\UsersRoles;
+use fay\models\tables\ActionsTable;
+use fay\models\tables\RolesTable;
+use fay\models\tables\UserProfileTable;
+use fay\models\tables\UsersTable;
+use fay\models\tables\UsersRolesTable;
 use fay\services\user\UserCounterService;
 use fay\services\user\UserPasswordService;
-use fay\models\tables\UserCounter;
+use fay\models\tables\UserCounterTable;
 use fay\services\user\UserProfileService;
 use fay\services\user\UserPropService;
 use fay\services\user\UserException;
-use fay\models\tables\UserLogins;
+use fay\models\tables\UserLoginsTable;
 use fay\services\user\UserRoleService;
 
 /**
@@ -105,7 +105,7 @@ class UserService extends Service{
 		));
 		
 		//更新用户最后登录信息
-		UserProfile::model()->update(array(
+		UserProfileTable::model()->update(array(
 			'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
 			'last_login_time'=>\F::app()->current_time,
 			'last_time_online'=>\F::app()->current_time,
@@ -113,7 +113,7 @@ class UserService extends Service{
 		), $user['user']['id']);
 		
 		//记录登录日志
-		UserLogins::model()->insert(array(
+		UserLoginsTable::model()->insert(array(
 			'user_id'=>$user['user']['id'],
 			'login_time'=>\F::app()->current_time,
 			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
@@ -153,7 +153,7 @@ class UserService extends Service{
 		}
 		
 		//过滤掉多余的数据
-		$user = Users::model()->fillData($user, false, 'insert');
+		$user = UsersTable::model()->fillData($user, false, 'insert');
 		$user['admin'] = $is_admin ? 1 : 0;
 		
 		//信息验证（用户信息很重要，在入库前必须再做一次验证）
@@ -168,20 +168,20 @@ class UserService extends Service{
 			throw new UserException('用户昵称不能为空', 'missing-parameter:nickname');
 		}
 		
-		if(Users::model()->fetchRow(array(
+		if(UsersTable::model()->fetchRow(array(
 			'username = ?'=>$user['username'],
 		))){
 			throw new UserException('用户名已存在', 'invalid-parameter:username-is-exist');
 		}
 		
-		if($config['system:user_nickname_unique'] && Users::model()->fetchRow(array(
+		if($config['system:user_nickname_unique'] && UsersTable::model()->fetchRow(array(
 			'nickname = ?'=>$user['nickname'],
 		))){
 			throw new UserException('用户昵称已存在', 'invalid-parameter:username-is-exist');
 		}
 		
 		//插用户表
-		$user_id = Users::model()->insert($user);
+		$user_id = UsersTable::model()->insert($user);
 		
 		//插用户扩展表
 		$user_profile = array(
@@ -192,10 +192,10 @@ class UserService extends Service{
 		if(isset($extra['profile'])){
 			$user_profile = $user_profile + $extra['profile'];
 		}
-		UserProfile::model()->insert($user_profile, true);
+		UserProfileTable::model()->insert($user_profile, true);
 		
 		//插入用户计数表
-		UserCounter::model()->insert(array(
+		UserCounterTable::model()->insert(array(
 			'user_id'=>$user_id,
 		));
 		
@@ -211,7 +211,7 @@ class UserService extends Service{
 					'role_id'=>$r,
 				);
 			}
-			UsersRoles::model()->bulkInsert($user_roles);
+			UsersRolesTable::model()->bulkInsert($user_roles);
 			
 		}
 		
@@ -244,7 +244,7 @@ class UserService extends Service{
 		}
 		
 		//过滤掉多余的数据
-		Users::model()->update($user, $user_id, true);
+		UsersTable::model()->update($user, $user_id, true);
 		
 		if(isset($extra['roles'])){
 			if(!is_array($extra['roles'])){
@@ -252,13 +252,13 @@ class UserService extends Service{
 			}
 			if(!empty($extra['roles'])){
 				//删除被删除了的角色
-				UsersRoles::model()->delete(array(
+				UsersRolesTable::model()->delete(array(
 					'user_id = ?'=>$user_id,
 					'role_id NOT IN (?)'=>$extra['roles'],
 				));
 				$user_roles = array();
 				foreach($extra['roles'] as $r){
-					if(!UsersRoles::model()->fetchRow(array(
+					if(!UsersRolesTable::model()->fetchRow(array(
 						'user_id = ?'=>$user_id,
 						'role_id = ?'=>$r,
 					))){
@@ -269,10 +269,10 @@ class UserService extends Service{
 						);
 					}
 				}
-				UsersRoles::model()->bulkInsert($user_roles);
+				UsersRolesTable::model()->bulkInsert($user_roles);
 			}else{
 				//删除全部角色
-				UsersRoles::model()->delete(array(
+				UsersRolesTable::model()->delete(array(
 					'user_id = ?'=>$user_id,
 				));
 			}
@@ -283,7 +283,7 @@ class UserService extends Service{
 		}
 		
 		if(isset($extra['profile'])){
-			UserProfile::model()->update($extra['profile'], $user_id, true);
+			UserProfileTable::model()->update($extra['profile'], $user_id, true);
 		}
 		
 		//附加属性
@@ -314,7 +314,7 @@ class UserService extends Service{
 			);
 		}else if(in_array('*', $fields['user']['fields'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
-			$fields['user']['fields'] = Users::model()->getFields(array('password', 'salt'));
+			$fields['user']['fields'] = UsersTable::model()->getFields(array('password', 'salt'));
 		}else{
 			//永远不会返回密码字段
 			foreach($fields['user']['fields'] as $k => $v){
@@ -327,7 +327,7 @@ class UserService extends Service{
 		if(empty($fields['user']['fields'])){
 			$user = array();
 		}else{
-			$user = Users::model()->find($id, $fields['user']['fields']);
+			$user = UsersTable::model()->find($id, $fields['user']['fields']);
 		}
 		
 		if($user === false){
@@ -415,7 +415,7 @@ class UserService extends Service{
 		}else if(in_array('*', $fields['user'])){
 			//若存在*，视为全字段搜索，但密码字段不会被返回
 			$fields['user'] = array(
-				'fields'=>Users::model()->getFields(array('password', 'salt'))
+				'fields'=>UsersTable::model()->getFields(array('password', 'salt'))
 			);
 		}else{
 			//永远不会返回密码字段
@@ -432,7 +432,7 @@ class UserService extends Service{
 			$fields['user']['fields'][] = 'id';
 			$remove_id_field = true;
 		}
-		$users = Users::model()->fetchAll(array(
+		$users = UsersTable::model()->fetchAll(array(
 			'id IN (?)'=>$ids,
 		), $fields['user']['fields']);
 		
@@ -506,7 +506,7 @@ class UserService extends Service{
 	}
 	
 	public function getMemberCount($parent){
-		$member = Users::model()->fetchRow(array(
+		$member = UsersTable::model()->fetchRow(array(
 			'parent = ?'=>$parent,
 		), 'COUNT(*) AS count');
 		return $member['count'];
@@ -520,7 +520,7 @@ class UserService extends Service{
 	 */
 	public static function isUserIdExist($user_id){
 		if($user_id){
-			return !!Users::model()->find($user_id, 'id');
+			return !!UsersTable::model()->find($user_id, 'id');
 		}else{
 			return false;
 		}
@@ -549,7 +549,7 @@ class UserService extends Service{
 		}
 		
 		$roles = UserRoleService::service()->getIds($user_id);
-		if(in_array(Roles::ITEM_SUPER_ADMIN, $roles)){
+		if(in_array(RolesTable::ITEM_SUPER_ADMIN, $roles)){
 			//超级管理员无限制
 			$this->_allowed_routers[$user_id][] = $router;
 			return true;
@@ -562,7 +562,7 @@ class UserService extends Service{
 			return true;
 		}
 		
-		$action = Actions::model()->fetchRow(array('router = ?'=>$router), 'is_public');
+		$action = ActionsTable::model()->fetchRow(array('router = ?'=>$router), 'is_public');
 		//此路由并不在权限路由列表内，视为公共路由
 		if(!$action || $action['is_public']){
 			$this->_allowed_routers[$user_id][] = $router;
@@ -582,7 +582,7 @@ class UserService extends Service{
 	public function getLastLoginInfo($fields = '*', $user_id = null){
 		$user_id || $user_id = \F::app()->current_user;
 		
-		return UserLogins::model()->fetchRow(array(
+		return UserLoginsTable::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
 		), $fields, 'id DESC', 1);
 	}
@@ -596,7 +596,7 @@ class UserService extends Service{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		if($user_id){
-			$user = Users::model()->find($user_id, 'admin');
+			$user = UsersTable::model()->find($user_id, 'admin');
 			return !empty($user['admin']);
 		}else{
 			//未登录，返回false

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Props;
+use fay\models\tables\PropsTable;
 use fay\helpers\ArrayHelper;
 use fay\services\FileService;
 ?>
@@ -15,7 +15,7 @@ use fay\services\FileService;
 		</label>
 		<?php 
 		switch($prop['element']){
-			case Props::ELEMENT_TEXT:
+			case PropsTable::ELEMENT_TEXT:
 				echo HtmlHelper::inputText("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
 					'class'=>'form-control mw500',
 					'data-rule'=>'string',
@@ -24,7 +24,7 @@ use fay\services\FileService;
 					'data-label'=>$prop['title'],
 				));
 			break;
-			case Props::ELEMENT_RADIO:
+			case PropsTable::ELEMENT_RADIO:
 				foreach($prop['options'] as $k=>$v){
 					if(!empty($prop['value']) && $prop['value'] == $v['id']){
 						$checked = true;
@@ -59,7 +59,7 @@ use fay\services\FileService;
 					));
 				}
 			break;
-			case Props::ELEMENT_SELECT:
+			case PropsTable::ELEMENT_SELECT:
 				echo HtmlHelper::select("props[{$prop['id']}]", array(''=>'--未选择--')+ArrayHelper::column($prop['options'], 'title', 'id'), isset($prop['value']) ? $prop['value'] : array(), array(
 					'data-rule'=>'int',
 					'data-required'=>$prop['required'] ? 'required' : false,
@@ -67,7 +67,7 @@ use fay\services\FileService;
 					'class'=>'form-control wa',
 				));
 			break;
-			case Props::ELEMENT_CHECKBOX:
+			case PropsTable::ELEMENT_CHECKBOX:
 				$checked_values = empty($prop['value']) ? array() : explode(',', $prop['value']);
 				foreach($prop['options'] as $k=>$v){
 					if(in_array($v['id'], $checked_values)){
@@ -90,14 +90,14 @@ use fay\services\FileService;
 					));
 				}
 			break;
-			case Props::ELEMENT_TEXTAREA:
+			case PropsTable::ELEMENT_TEXTAREA:
 				echo HtmlHelper::textarea("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
 					'class'=>'form-control h90',
 					'data-required'=>$prop['required'] ? 'required' : false,
 					'data-label'=>$prop['title'],
 				));
 			break;
-			case Props::ELEMENT_NUMBER:
+			case PropsTable::ELEMENT_NUMBER:
 				echo HtmlHelper::inputText("props[{$prop['id']}]", isset($prop['value']) ? $prop['value'] : '', array(
 					'class'=>'form-control mw500',
 					'data-rule'=>'int',
@@ -106,7 +106,7 @@ use fay\services\FileService;
 					'data-label'=>$prop['title'],
 				));
 				break;
-			case Props::ELEMENT_IMAGE:
+			case PropsTable::ELEMENT_IMAGE:
 				echo HtmlHelper::link('上传图片', 'javascript:;', array(
 					'id'=>"upload-prop-{$prop['id']}",
 					'class'=>'btn',

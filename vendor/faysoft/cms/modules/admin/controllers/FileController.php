@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\services\FileService;
 use fay\models\Setting as SettingModel;
 use fay\services\SettingService;
@@ -13,7 +13,7 @@ use fay\services\QiniuService;
 use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\services\OptionService;
 use fay\services\CategoryService;
 use fay\helpers\StringHelper;
@@ -150,7 +150,7 @@ class FileController extends AdminController{
 			'user_id'=>\F::app()->current_user,
 			'cat_id'=>$cat['id'],
 		);
-		$data['id'] = Files::model()->insert($data);
+		$data['id'] = FilesTable::model()->insert($data);
 		
 		$data = $this->afterUpload($data);
 		
@@ -258,12 +258,12 @@ class FileController extends AdminController{
 	
 	public function remove(){
 		if($file_id = $this->input->get('id', 'intval')){
-			$file = Files::model()->find($file_id);
+			$file = FilesTable::model()->find($file_id);
 			if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
 				QiniuService::service()->delete($file);
 			}
 			
-			Files::model()->delete($file_id);
+			FilesTable::model()->delete($file_id);
 			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
 			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
 			Response::notify('success', '删除成功');
@@ -344,20 +344,20 @@ class FileController extends AdminController{
 			case 'remove':
 				$affected_rows = 0;
 				foreach($ids as $id){
-					$file = Files::model()->find($id);
+					$file = FilesTable::model()->find($id);
 					if($file){
 						if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
 							QiniuService::service()->delete($file);
 						}
 							
-						Files::model()->delete($id);
+						FilesTable::model()->delete($id);
 						@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
 						@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
 						$affected_rows++;
 					}
 				}
 				
-				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
+				$this->actionlog(ActionlogsTable::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
 				Response::notify('success', $affected_rows.'个文件被删除');
 			break;
 			
@@ -374,12 +374,12 @@ class FileController extends AdminController{
 					Response::notify('error', '指定分类不存在');
 				}
 				
-				$affected_rows = Files::model()->update(array(
+				$affected_rows = FilesTable::model()->update(array(
 					'cat_id'=>$cat_id,
 				), array(
 					'id IN (?)'=>$ids,
 				));
-				$this->actionlog(Actionlogs::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
+				$this->actionlog(ActionlogsTable::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
 				Response::notify('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
 			break;
 		}
@@ -387,7 +387,7 @@ class FileController extends AdminController{
 	
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){
-			if($file = Files::model()->find($file_id)){
+			if($file = FilesTable::model()->find($file_id)){
 				//可选下载文件名格式
 				if($this->input->get('name') == 'date'){
 					$filename = date('YmdHis', $file['upload_time']).$file['file_ext'];
@@ -399,7 +399,7 @@ class FileController extends AdminController{
 					$filename = $file['raw_name'].$file['file_ext'];
 				}
 				
-				Files::model()->incr($file_id, 'downloads', 1);
+				FilesTable::model()->incr($file_id, 'downloads', 1);
 				$data = file_get_contents((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');
@@ -482,10 +482,10 @@ class FileController extends AdminController{
 				//这里不直接返回图片不存在的提示，因为可能需要缩放，让后面的逻辑去处理
 				$file = false;
 			}else{
-				$file = Files::model()->find($f);
+				$file = FilesTable::model()->find($f);
 			}
 		}else{
-			$file = Files::model()->fetchRow(array('raw = ?'=>$f));
+			$file = FilesTable::model()->fetchRow(array('raw = ?'=>$f));
 		}
 
 		if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && $file['raw_name'] == $_SERVER['HTTP_IF_NONE_MATCH']){

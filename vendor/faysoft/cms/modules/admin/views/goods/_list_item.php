@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\services\FileService;
-use fay\models\tables\Goods;
+use fay\models\tables\GoodsTable;
 use fay\helpers\DateHelper;
 
 $editable = F::app()->checkPermission('admin/goods/edit');
@@ -89,9 +89,9 @@ $editable = F::app()->checkPermission('admin/goods/edit');
 	<td><?php echo $data['comments']?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td><?php if($data['status'] == Goods::STATUS_INSTOCK){
+	<td><?php if($data['status'] == GoodsTable::STATUS_INSTOCK){
 		echo '<span class="fc-orange">在库</span>';
-	}else if($data['status'] == Goods::STATUS_ONSALE){
+	}else if($data['status'] == GoodsTable::STATUS_ONSALE){
 		echo '<span class="fc-green">销售中</span>';
 	}?></td>
 	<?php }?>

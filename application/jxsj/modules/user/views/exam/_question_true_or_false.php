@@ -1,9 +1,9 @@
 <?php
-use fay\models\tables\ExamAnswers;
-use fay\models\tables\ExamExamQuestionAnswersInt;
+use fay\models\tables\ExamAnswersTable;
+use fay\models\tables\ExamExamQuestionAnswersIntTable;
 
-$answers = ExamAnswers::model()->fetchAll('question_id = '.$exam_question['question_id']);
-$user_answer = ExamExamQuestionAnswersInt::model()->fetchRow('exam_question_id = '.$exam_question['id']);
+$answers = ExamAnswersTable::model()->fetchAll('question_id = '.$exam_question['question_id']);
+$user_answer = ExamExamQuestionAnswersIntTable::model()->fetchRow('exam_question_id = '.$exam_question['id']);
 ?>
 <div class="bd">
 	<div class="clearfix exam-question-item">

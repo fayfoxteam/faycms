@@ -2,14 +2,14 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Tags;
-use fay\models\tables\Actionlogs;
-use fay\models\tables\PostsTags;
+use fay\models\tables\TagsTable;
+use fay\models\tables\ActionlogsTable;
+use fay\models\tables\PostsTagsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\models\tables\TagCounter;
+use fay\models\tables\TagCounterTable;
 
 class TagController extends AdminController{
 	public function __construct(){
@@ -22,25 +22,25 @@ class TagController extends AdminController{
 		
 		$this->_setListview();
 		
-		$this->form()->setModel(Tags::model());
+		$this->form()->setModel(TagsTable::model());
 		
 		$this->view->render();
 	}
 	
 	public function create(){
-		$this->form()->setModel(Tags::model());
+		$this->form()->setModel(TagsTable::model());
 		if($this->input->post()){
 			if($this->form()->check()){
-				$data = Tags::model()->fillData($this->input->post());
+				$data = TagsTable::model()->fillData($this->input->post());
 				$data['user_id'] = $this->current_user;
 				$data['create_time'] = $this->current_time;
-				$tag_id = Tags::model()->insert($data);
-				TagCounter::model()->insert(array(
+				$tag_id = TagsTable::model()->insert($data);
+				TagCounterTable::model()->insert(array(
 					'tag_id'=>$tag_id,
 				));
-				$this->actionlog(Actionlogs::TYPE_TAG, '创建了标签', $tag_id);
+				$this->actionlog(ActionlogsTable::TYPE_TAG, '创建了标签', $tag_id);
 				
-				$tag = Tags::model()->find($tag_id, 'id,title');
+				$tag = TagsTable::model()->find($tag_id, 'id,title');
 				Response::notify('success', array(
 					'message'=>'标签创建成功',
 					'tag'=>$tag,
@@ -57,9 +57,9 @@ class TagController extends AdminController{
 	
 	public function remove(){
 		$tag_id = $this->input->get('id', 'intval');
-		Tags::model()->delete(array('id = ?'=>$tag_id));
-		PostsTags::model()->delete(array('tag_id = ?'=>$tag_id));
-		$this->actionlog(Actionlogs::TYPE_TAG, '删除了标签', $tag_id);
+		TagsTable::model()->delete(array('id = ?'=>$tag_id));
+		PostsTagsTable::model()->delete(array('tag_id = ?'=>$tag_id));
+		$this->actionlog(ActionlogsTable::TYPE_TAG, '删除了标签', $tag_id);
 		
 		$gets = $this->input->get();
 		unset($gets['tag_id']);
@@ -75,13 +75,13 @@ class TagController extends AdminController{
 			'text'=>'添加标签',
 		);
 		$tag_id = $this->input->get('id', 'intval');
-		$this->form()->setModel(Tags::model());
+		$this->form()->setModel(TagsTable::model());
 		if($this->input->post() && $this->form()->check()){
-			Tags::model()->update($this->form()->getAllData(), $tag_id, true);
-			$this->actionlog(Actionlogs::TYPE_TAG, '编辑了标签', $tag_id);
+			TagsTable::model()->update($this->form()->getAllData(), $tag_id, true);
+			$this->actionlog(ActionlogsTable::TYPE_TAG, '编辑了标签', $tag_id);
 			Response::notify('success', '一个标签被编辑', false);
 		}
-		if($tag = Tags::model()->find($tag_id)){
+		if($tag = TagsTable::model()->find($tag_id)){
 			$this->form()->setData($tag);
 			$this->view->tag = $tag;
 			
@@ -95,14 +95,14 @@ class TagController extends AdminController{
 	
 	public function sort(){
 		$tag_id = $this->input->get('id', 'intval');
-		Tags::model()->update(array(
+		TagsTable::model()->update(array(
 			'sort'=>$this->input->get('sort', 'intval'),
 		), array(
 			'id = ?'=>$tag_id,
 		));
-		$this->actionlog(Actionlogs::TYPE_TAG, '改变了标签排序', $tag_id);
+		$this->actionlog(ActionlogsTable::TYPE_TAG, '改变了标签排序', $tag_id);
 		
-		$tag = Tags::model()->find($tag_id, 'sort');
+		$tag = TagsTable::model()->find($tag_id, 'sort');
 		Response::notify('success', array(
 			'message'=>'一篇标签的排序值被编辑',
 			'data'=>array(
@@ -119,8 +119,8 @@ class TagController extends AdminController{
 		$this->form('search')->setScene('final')->setRules(array(
 			array('orderby', 'range', array(
 				'range'=>array_merge(
-					Tags::model()->getFields(),
-					TagCounter::model()->getFields()
+					TagsTable::model()->getFields(),
+					TagCounterTable::model()->getFields()
 				),
 			)),
 			array('order', 'range', array(
@@ -130,12 +130,12 @@ class TagController extends AdminController{
 		
 		$sql = new Sql();
 		$sql->from(array('t'=>'tags'))
-			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounter::model()->getFields(array('tag_id')));
+			->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id', TagCounterTable::model()->getFields(array('tag_id')));
 		
 		if($this->input->get('orderby')){
 			$this->view->orderby = $this->input->get('orderby');
 			$this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
-			if(in_array($this->view->orderby, TagCounter::model()->getFields())){
+			if(in_array($this->view->orderby, TagCounterTable::model()->getFields())){
 				$sql->order("tc.{$this->view->orderby} {$this->view->order}");
 			}else{
 				$sql->order("t.{$this->view->orderby} {$this->view->order}");
@@ -151,7 +151,7 @@ class TagController extends AdminController{
 	}
 	
 	public function search(){
-		$tags = Tags::model()->fetchAll(array(
+		$tags = TagsTable::model()->fetchAll(array(
 			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
 		), 'id,title', 'sort', 20);
 		

@@ -4,7 +4,7 @@ namespace fay\widget;
 use fay\core\Exception;
 use fay\core\HttpException;
 use fay\helpers\RuntimeHelper;
-use fay\models\tables\Widgets;
+use fay\models\tables\WidgetsTable;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
 
@@ -73,9 +73,9 @@ class Loader{
 	public function load($widget, $index = null, $ajax = null, $action = 'index'){
 		if(!is_array($widget)){
 			if(StringHelper::isInt($widget)){
-				$widget = Widgets::model()->find($widget);
+				$widget = WidgetsTable::model()->find($widget);
 			}else{
-				$widget = Widgets::model()->fetchRow(array(
+				$widget = WidgetsTable::model()->fetchRow(array(
 					'alias = ?'=>$widget,
 				));
 			}
@@ -195,7 +195,7 @@ class Loader{
 	 * @throws HttpException
 	 */
 	public function getData($alias){
-		$widget_config = Widgets::model()->fetchRow(array(
+		$widget_config = WidgetsTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		));
 		
@@ -227,7 +227,7 @@ class Loader{
 	 * @return array
 	 */
 	public function getConfig($alias){
-		$widget = Widgets::model()->fetchRow(array(
+		$widget = WidgetsTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		), 'options');
 		if(isset($widget['options']) && $widget['options']){
@@ -246,7 +246,7 @@ class Loader{
 		if(empty($alias)){
 			throw new Exception('引用小工具域时，别名不能为空');
 		}
-		$widgets = Widgets::model()->fetchAll(array(
+		$widgets = WidgetsTable::model()->fetchAll(array(
 			'widgetarea = ?'=>$alias,
 			'enabled = 1',
 		), '*', 'sort, id DESC');

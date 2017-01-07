@@ -4,10 +4,10 @@ namespace fay\services\feed;
 use fay\core\Service;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
-use fay\models\tables\FeedLikes;
+use fay\models\tables\FeedLikesTable;
 use fay\services\UserService;
 use fay\services\FeedService;
-use fay\models\tables\FeedMeta;
+use fay\models\tables\FeedMetaTable;
 
 class FeedLikeService extends Service{
 	/**
@@ -51,7 +51,7 @@ class FeedLikeService extends Service{
 			throw new Exception('已赞过，不能重复点赞', 'already-liked');
 		}
 		
-		FeedLikes::model()->insert(array(
+		FeedLikesTable::model()->insert(array(
 			'feed_id'=>$feed_id,
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
@@ -62,10 +62,10 @@ class FeedLikeService extends Service{
 		//动态点赞数+1
 		if($sockpuppet){
 			//非真实用户行为
-			FeedMeta::model()->incr($feed_id, array('likes'), 1);
+			FeedMetaTable::model()->incr($feed_id, array('likes'), 1);
 		}else{
 			//真实用户行为
-			FeedMeta::model()->incr($feed_id, array('likes', 'real_likes'), 1);
+			FeedMetaTable::model()->incr($feed_id, array('likes', 'real_likes'), 1);
 		}
 		
 		//触发事件
@@ -85,20 +85,20 @@ class FeedLikeService extends Service{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		$like = FeedLikes::model()->find(array($feed_id, $user_id), 'sockpuppet');
+		$like = FeedLikesTable::model()->find(array($feed_id, $user_id), 'sockpuppet');
 		if($like){
 			//删除点赞关系
-			FeedLikes::model()->delete(array(
+			FeedLikesTable::model()->delete(array(
 				'user_id = ?'=>$user_id,
 				'feed_id = ?'=>$feed_id,
 			));
 			
 			if($like['sockpuppet']){
 				//非真实用户行为
-				FeedMeta::model()->incr($feed_id, array('likes'), -1);
+				FeedMetaTable::model()->incr($feed_id, array('likes'), -1);
 			}else{
 				//真实用户行为
-				FeedMeta::model()->incr($feed_id, array('likes', 'real_likes'), -1);
+				FeedMetaTable::model()->incr($feed_id, array('likes', 'real_likes'), -1);
 			}
 			
 			//触发事件
@@ -124,7 +124,7 @@ class FeedLikeService extends Service{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(FeedLikes::model()->find(array($feed_id, $user_id))){
+		if(FeedLikesTable::model()->find(array($feed_id, $user_id))){
 			return true;
 		}else{
 			return false;
@@ -148,7 +148,7 @@ class FeedLikeService extends Service{
 			$feed_ids = explode(',', str_replace(' ', '', $feed_ids));
 		}
 		
-		$likes = FeedLikes::model()->fetchAll(array(
+		$likes = FeedLikesTable::model()->fetchAll(array(
 			'user_id = ?'=>$user_id,
 			'feed_id IN (?)'=>$feed_ids,
 		), 'feed_id');

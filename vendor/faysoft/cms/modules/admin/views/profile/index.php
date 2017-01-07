@@ -91,7 +91,9 @@ echo F::form()->open();
 		</div>
 	</div>
 	<div class="col-6" id="prop-panel">
-		<?php $this->renderPartial('prop/_edit')?>
+		<?php $this->renderPartial('prop/_edit', array(
+			'prop_set'=>$prop_set,
+		))?>
 	</div>
 </div>
 <div class="form-field">

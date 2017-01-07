@@ -1,14 +1,14 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Categories;
+use fay\models\tables\CategoriesTable;
 
 /**
  * @var $root int
  * @var $cats array
  */
 
-F::form('create')->setModel(Categories::model());
-F::form('edit')->setModel(Categories::model());
+F::form('create')->setModel(CategoriesTable::model());
+F::form('edit')->setModel(CategoriesTable::model());
 ?>
 <div class="hide">
 	<div id="edit-cat-dialog" class="dialog">

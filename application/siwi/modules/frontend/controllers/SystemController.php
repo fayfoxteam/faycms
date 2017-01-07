@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 
 class SystemController extends FrontController{
 	public function isUsernameNotExist(){
@@ -14,7 +14,7 @@ class SystemController extends FrontController{
 		if($this->input->request('id')){
 			$conditions['id != ?'] = $this->input->request('id', 'intval');
 		}
-		$user = Users::model()->fetchRow($conditions);
+		$user = UsersTable::model()->fetchRow($conditions);
 		if($user){
 			echo '该用户名已被注册';
 		}else{
@@ -31,7 +31,7 @@ class SystemController extends FrontController{
 		if($this->input->request('id')){
 			$conditions['id != ?'] = $this->input->request('id', 'intval');
 		}
-		$user = Users::model()->fetchRow($conditions);
+		$user = UsersTable::model()->fetchRow($conditions);
 		if($user){
 			echo 'y';
 		}else{

@@ -2,10 +2,10 @@
 namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -18,7 +18,7 @@ class IndexController extends FrontController{
 	
 	public function index(){
 		//关于我们
-		$this->view->about = Pages::model()->fetchRow(array('alias = ?'=>'about'), 'abstract');
+		$this->view->about = PagesTable::model()->fetchRow(array('alias = ?'=>'about'), 'abstract');
 		
 		//资讯
 		$cat_post = CategoryService::service()->getByAlias('post', 'left_value,right_value');
@@ -29,7 +29,7 @@ class IndexController extends FrontController{
 				'c.left_value > '.$cat_post['left_value'],
 				'c.right_value < '.$cat_post['right_value'],
 				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')

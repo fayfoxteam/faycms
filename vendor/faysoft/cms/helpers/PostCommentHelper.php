@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\PostComments;
+use fay\models\tables\PostCommentsTable;
 
 class PostCommentHelper{
 	/**
@@ -18,16 +18,16 @@ class PostCommentHelper{
 				return '回收站';
 		}
 		switch ($status) {
-			case PostComments::STATUS_APPROVED:
+			case PostCommentsTable::STATUS_APPROVED:
 				return '通过审核';
 				break;
-			case PostComments::STATUS_UNAPPROVED:
+			case PostCommentsTable::STATUS_UNAPPROVED:
 				if($coloring)
 					return '<span class="fc-blue">未通过审核</span>';
 				else
 					return '未通过审核';
 				break;
-			case PostComments::STATUS_PENDING:
+			case PostCommentsTable::STATUS_PENDING:
 				if($coloring)
 					return '<span class="fc-orange">待审核</span>';
 				else

@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\core\HttpException;
@@ -23,7 +23,7 @@ class ServiceController extends FrontController{
 		if(!$alias){
 			throw new HttpException('未设置别名');
 		}
-		$page = Pages::model()->fetchRow(array(
+		$page = PagesTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		));
 		if(!$page){

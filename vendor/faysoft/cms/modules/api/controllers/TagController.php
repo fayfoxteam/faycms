@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\TagService;
-use fay\models\tables\TagCounter;
+use fay\models\tables\TagCounterTable;
 
 /**
  * 标签
@@ -20,7 +20,7 @@ class TagController extends ApiController{
 	public function listAction(){
 		//表单验证
 		$this->form()->setRules(array(
-			array('type', 'range', array('range'=>TagCounter::model()->getFields(array('tag_id')))),
+			array('type', 'range', array('range'=>TagCounterTable::model()->getFields(array('tag_id')))),
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
 		))->setFilters(array(
 			'type'=>'trim',

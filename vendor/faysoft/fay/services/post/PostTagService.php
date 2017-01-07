@@ -6,10 +6,10 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\StringHelper;
-use fay\models\tables\Posts;
-use fay\models\tables\TagCounter;
-use fay\models\tables\Tags;
-use fay\models\tables\PostsTags;
+use fay\models\tables\PostsTable;
+use fay\models\tables\TagCounterTable;
+use fay\models\tables\TagsTable;
+use fay\models\tables\PostsTagsTable;
 use fay\services\PostService;
 use fay\services\TagService;
 use fay\services\tag\TagCounterService;
@@ -66,7 +66,7 @@ class PostTagService extends Service{
 		
 		$sql = new Sql();
 		$tags = $sql->from(array('pt'=>'posts_tags'), 'post_id')
-			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', Tags::model()->formatFields($fields['fields']))
+			->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', TagsTable::model()->formatFields($fields['fields']))
 			->where(array('pt.post_id IN (?)'=>$post_ids))
 			->fetchAll();
 		$return = array_fill_keys($post_ids, array());
@@ -90,7 +90,7 @@ class PostTagService extends Service{
 		
 		if(StringHelper::isInt($post_ids)){
 			//单个ID
-			return PostsTags::model()->fetchCol('tag_id', array(
+			return PostsTagsTable::model()->fetchCol('tag_id', array(
 				'post_id = ?'=>$post_ids,
 			));
 		}else{
@@ -99,7 +99,7 @@ class PostTagService extends Service{
 				$post_ids = explode(',', $post_ids);
 			}
 			
-			return PostsTags::model()->fetchCol('tag_id', array(
+			return PostsTagsTable::model()->fetchCol('tag_id', array(
 				'post_id IN (?)'=>$post_ids,
 			));
 		}
@@ -121,13 +121,13 @@ class PostTagService extends Service{
 				->where(array(
 					'pt.tag_id IN (?)'=>$tag_ids,
 					'p.deleted = 0',
-					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.status = '.PostsTable::STATUS_PUBLISHED,
 				))//这里不限制publish_time条件，因为定时发布后没逻辑来更新标签对应文章数
 				->group('pt.tag_id')
 				->fetchAll();
 			$posts_tags = ArrayHelper::column($posts_tags, 'count', 'tag_id');
 			foreach($tag_ids as $tag){
-				TagCounter::model()->update(array(
+				TagCounterTable::model()->update(array(
 					'posts'=>empty($posts_tags[$tag]) ? 0 : $posts_tags[$tag],
 				), $tag);
 			}
@@ -143,7 +143,7 @@ class PostTagService extends Service{
 			$post_id = array($post_id);
 		}
 		
-		$tag_ids = PostsTags::model()->fetchCol('tag_id', array(
+		$tag_ids = PostsTagsTable::model()->fetchCol('tag_id', array(
 			'post_id IN (?)'=>$post_id,
 		));
 		
@@ -210,7 +210,7 @@ class PostTagService extends Service{
 		$input_tag_ids = array();
 		foreach($tags as $tag_title){
 			if(!$tag_title = trim($tag_title))continue;
-			$tag = Tags::model()->fetchRow(array(
+			$tag = TagsTable::model()->fetchRow(array(
 				'title = ?'=>$tag_title,
 			), 'id');
 			if($tag){//已存在，获取id
@@ -224,14 +224,14 @@ class PostTagService extends Service{
 		$deleted_tag_ids = array();
 		if($old_status !== null){
 			//原状态非null，说明是编辑文章，需要获取文章原标签，删掉已经被删掉的标签
-			$old_tag_ids = PostsTags::model()->fetchCol('tag_id', array(
+			$old_tag_ids = PostsTagsTable::model()->fetchCol('tag_id', array(
 				'post_id = ?'=>$post_id,
 			));
 			
 			//删除已被删除的标签
 			$deleted_tag_ids = array_diff($old_tag_ids, $input_tag_ids);
 			if($deleted_tag_ids){
-				PostsTags::model()->delete(array(
+				PostsTagsTable::model()->delete(array(
 					'post_id = ?'=>$post_id,
 					'tag_id IN (?)'=>$deleted_tag_ids
 				));
@@ -246,23 +246,23 @@ class PostTagService extends Service{
 		}
 		if($new_tag_ids){
 			foreach($new_tag_ids as $v){
-				PostsTags::model()->insert(array(
+				PostsTagsTable::model()->insert(array(
 					'post_id'=>$post_id,
 					'tag_id'=>$v,
 				));
 			}
 		}
 		
-		if($old_status === null && $new_status == Posts::STATUS_PUBLISHED){
+		if($old_status === null && $new_status == PostsTable::STATUS_PUBLISHED){
 			//没有原状态，说明是新增文章，且文章状态为已发布：所有输入标签文章数加一
 			TagCounterService::service()->incr($input_tag_ids, 'posts');
-		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status != Posts::STATUS_PUBLISHED){
+		}else if($old_status == PostsTable::STATUS_PUBLISHED && $new_status != PostsTable::STATUS_PUBLISHED){
 			//本来处于已发布状态，编辑后变成未发布：文章原标签文章数减一
 			TagCounterService::service()->decr($old_tag_ids, 'posts');
-		}else if($old_status != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
+		}else if($old_status != PostsTable::STATUS_PUBLISHED && $new_status == PostsTable::STATUS_PUBLISHED){
 			//本来是未发布状态，编辑后变成已发布：所有输入标签文章数加一
 			TagCounterService::service()->incr($input_tag_ids, 'posts');
-		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED){
+		}else if($old_status == PostsTable::STATUS_PUBLISHED && $new_status == PostsTable::STATUS_PUBLISHED){
 			//本来是已发布状态，编辑后还是已发布状态：新增标签文章数加一，被删除标签文章数减一
 			if($new_tag_ids){
 				TagCounterService::service()->incr($new_tag_ids, 'posts');
@@ -270,7 +270,7 @@ class PostTagService extends Service{
 			if($deleted_tag_ids){
 				TagCounterService::service()->decr($deleted_tag_ids, 'posts');
 			}
-		}else if($old_status == Posts::STATUS_PUBLISHED && $new_status === null){
+		}else if($old_status == PostsTable::STATUS_PUBLISHED && $new_status === null){
 			//本来是已发布状态，编辑时并未编辑状态：新增标签文章数加一，被删除标签文章数减一
 			if($new_tag_ids){
 				TagCounterService::service()->incr($new_tag_ids, 'posts');
@@ -291,7 +291,7 @@ class PostTagService extends Service{
 		$result = $sql->from(array('pt'=>'posts_tags'), 'COUNT(*)')
 			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
 			->where('pt.tag_id = ?', $tag_id)
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->fetchRow();
 		return $result['COUNT(*)'];
 	}
@@ -304,17 +304,17 @@ class PostTagService extends Service{
 		$sql = new Sql();
 		$results = $sql->from(array('pt'=>'posts_tags'), array('tag_id', 'COUNT(*) AS count'))
 			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->group('pt.tag_id')
 			->fetchAll();
 		
 		//先清零
-		TagCounter::model()->update(array(
+		TagCounterTable::model()->update(array(
 			'posts'=>0
 		), false);
 		
 		foreach($results as $r){
-			TagCounter::model()->update(array(
+			TagCounterTable::model()->update(array(
 				'posts'=>$r['count']
 			), $r['tag_id']);
 		}
@@ -370,7 +370,7 @@ class PostTagService extends Service{
 		$sql->from(array('pt'=>'posts_tags'), '')
 			->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id', 'id')
 			->where('pt.tag_id = ?', $tag_id)
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order($order)
 		;
 		

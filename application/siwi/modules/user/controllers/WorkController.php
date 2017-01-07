@@ -2,10 +2,10 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\PostService;
-use fay\models\tables\Files;
-use fay\models\tables\PostsFiles;
+use fay\models\tables\FilesTable;
+use fay\models\tables\PostsFilesTable;
 use fay\models\Tag;
 use fay\services\CategoryService;
 use fay\core\Sql;
@@ -36,7 +36,7 @@ class WorkController extends UserController{
 				$abstract = $this->input->post('abstract');
 				$content = $this->input->post('content');
 				$abstract || $abstract = mb_substr(strip_tags($content), 0, 100);
-				$post_id = Posts::model()->insert(array(
+				$post_id = PostsTable::model()->insert(array(
 					'title'=>$this->input->post('title'),
 					'cat_id'=>$this->input->post('cat_id', 'intval'),
 					'thumbnail'=>$this->input->post('thumbnail', 'intval', 0),
@@ -44,16 +44,16 @@ class WorkController extends UserController{
 					'create_time'=>$this->current_time,
 					'user_id'=>$this->current_user,
 					'publish_time'=>$this->current_time,
-					'status'=>Posts::STATUS_PUBLISHED,
+					'status'=>PostsTable::STATUS_PUBLISHED,
 				));
 	
 				PostService::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $post_id);
 				PostService::service()->setPropValueByAlias('siwi_work_copyright', $this->input->post('copyright'), $post_id);
 				
 				if($f = $this->input->post('file', 'intval', 0)){
-					$file = Files::model()->find($f, 'client_name,is_image');
+					$file = FilesTable::model()->find($f, 'client_name,is_image');
 					if($file){
-						PostsFiles::model()->insert(array(
+						PostsFilesTable::model()->insert(array(
 							'file_id'=>$f,
 							'post_id'=>$post_id,
 							'desc'=>$file['client_name'],
@@ -68,9 +68,9 @@ class WorkController extends UserController{
 				$i = 1;
 				foreach($files as $f){
 					$i++;
-					$file = Files::model()->find($f, 'is_image,client_name');
+					$file = FilesTable::model()->find($f, 'is_image,client_name');
 					if(!$file['is_image'])continue;
-					PostsFiles::model()->insert(array(
+					PostsFilesTable::model()->insert(array(
 						'file_id'=>$f,
 						'post_id'=>$post_id,
 						'desc'=>$file['client_name'],
@@ -80,7 +80,7 @@ class WorkController extends UserController{
 				}
 				
 				
-				Tag::model()->set($this->input->post('tags'), $post_id);
+				TagTable::model()->set($this->input->post('tags'), $post_id);
 	
 				Response::notify('success', '作品发布成功', array('user/work/edit', array(
 					'id'=>$post_id,
@@ -102,7 +102,7 @@ class WorkController extends UserController{
 			throw new HttpException('不完整的请求');
 		}
 		
-		$post = Posts::model()->find($id);
+		$post = PostsTable::model()->find($id);
 		if(!$post){
 			throw new HttpException('作品编号不存在');
 		}
@@ -116,7 +116,7 @@ class WorkController extends UserController{
 				$abstract = $this->input->post('abstract');
 				$content = $this->input->post('content');
 				$abstract || $abstract = mb_substr(strip_tags($content), 0, 100);
-				Posts::model()->update(array(
+				PostsTable::model()->update(array(
 					'title'=>$this->input->post('title'),
 					'cat_id'=>$this->input->post('cat_id', 'intval'),
 					'thumbnail'=>$this->input->post('thumbnail', 'intval', 0),
@@ -124,7 +124,7 @@ class WorkController extends UserController{
 					'create_time'=>$this->current_time,
 					'user_id'=>$this->current_user,
 					'publish_time'=>$this->current_time,
-					'status'=>Posts::STATUS_PUBLISHED,
+					'status'=>PostsTable::STATUS_PUBLISHED,
 				), $id);
 				
 				PostService::service()->setPropValueByAlias('siwi_work_video', $this->input->post('video'), $id);
@@ -132,18 +132,18 @@ class WorkController extends UserController{
 				
 				$f = $this->input->post('file', 'intval', 0);
 				if($f){
-					$file = PostsFiles::model()->fetchRow(array(
+					$file = PostsFilesTable::model()->fetchRow(array(
 						'post_id = '.$post['id'],
 						'is_image = 0',
 					), 'file_id');
 					if($f != $file['file_id']){
-						PostsFiles::model()->delete(array(
+						PostsFilesTable::model()->delete(array(
 							'post_id = '.$post['id'],
 							'is_image = 0',
 						));
-						$file = Files::model()->find($f, 'client_name,is_image');
+						$file = FilesTable::model()->find($f, 'client_name,is_image');
 						if($file){
-							PostsFiles::model()->insert(array(
+							PostsFilesTable::model()->insert(array(
 								'file_id'=>$f,
 								'post_id'=>$id,
 								'desc'=>$file['client_name'],
@@ -153,7 +153,7 @@ class WorkController extends UserController{
 						}
 					}
 				}else{
-					PostsFiles::model()->delete(array(
+					PostsFilesTable::model()->delete(array(
 						'post_id = '.$post['id'],
 						'is_image = 0',
 					));
@@ -162,19 +162,19 @@ class WorkController extends UserController{
 				$files = $this->input->post('files', 'intval', array());
 				//删除已被删除的图片
 				if($files){
-					PostsFiles::model()->delete(array(
+					PostsFilesTable::model()->delete(array(
 						'post_id = ?'=>$post['id'],
 						'file_id NOT IN ('.implode(',', $files).')',
 						'is_image = 1',
 					));
 				}else{
-					PostsFiles::model()->delete(array(
+					PostsFilesTable::model()->delete(array(
 						'post_id = ?'=>$post['id'],
 						'is_image = 1',
 					));
 				}
 				//获取已存在的图片
-				$old_files_ids = PostsFiles::model()->fetchCol('file_id', array(
+				$old_files_ids = PostsFilesTable::model()->fetchCol('file_id', array(
 					'post_id = ?'=>$post['id'],
 					'is_image = 1',
 				));
@@ -182,16 +182,16 @@ class WorkController extends UserController{
 				foreach($files as $f){
 					$i++;
 					if(in_array($f, $old_files_ids)){
-						PostsFiles::model()->update(array(
+						PostsFilesTable::model()->update(array(
 							'sort'=>$i,
 						), array(
 							'post_id = ?'=>$post['id'],
 							'file_id = ?'=>$f,
 						));
 					}else{
-						$file = Files::model()->find($f, 'is_image,client_name');
+						$file = FilesTable::model()->find($f, 'is_image,client_name');
 						if(!$file['is_image'])continue;
-						PostsFiles::model()->insert(array(
+						PostsFilesTable::model()->insert(array(
 							'file_id'=>$f,
 							'post_id'=>$post['id'],
 							'desc'=>$file['client_name'],
@@ -201,11 +201,11 @@ class WorkController extends UserController{
 					}
 				}
 	
-				Tag::model()->set($this->input->post('tags'), $post['id']);
+				TagTable::model()->set($this->input->post('tags'), $post['id']);
 				
 				FlashService::set('作品编辑成功', 'success');
 				
-				$post = Posts::model()->find($id);
+				$post = PostsTable::model()->find($id);
 			}else{
 				FlashService::set('参数异常');
 			}
@@ -230,7 +230,7 @@ class WorkController extends UserController{
 		$this->form()->setData(array('tags'=>implode(',', $tag_titles)));
 		
 		//file
-		$file = PostsFiles::model()->fetchRow(array(
+		$file = PostsFilesTable::model()->fetchRow(array(
 			'post_id = '.$post['id'],
 			'is_image = 0',
 		), 'file_id,desc');
@@ -238,7 +238,7 @@ class WorkController extends UserController{
 		$this->form()->setData(array('file'=>isset($file['file_id']) ? $file['file_id'] : ''));
 		
 		//files
-		$files = PostsFiles::model()->fetchAll(array(
+		$files = PostsFilesTable::model()->fetchAll(array(
 			'post_id = '.$post['id'],
 			'is_image = 1',
 		), 'file_id,desc', 'sort');

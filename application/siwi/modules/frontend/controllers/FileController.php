@@ -2,13 +2,13 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 
 class FileController extends FrontController{
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){
-			if($file = Files::model()->find($file_id)){
-				Files::model()->incr($file_id, 'downloads', 1);
+			if($file = FilesTable::model()->find($file_id)){
+				FilesTable::model()->incr($file_id, 'downloads', 1);
 				$data = file_get_contents($file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');

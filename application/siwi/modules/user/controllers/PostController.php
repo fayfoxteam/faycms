@@ -3,10 +3,10 @@ namespace siwi\modules\user\controllers;
 
 use fay\core\Response;
 use siwi\library\UserController;
-use fay\models\tables\Posts;
-use fay\models\tables\PostsFiles;
+use fay\models\tables\PostsTable;
+use fay\models\tables\PostsFilesTable;
 use fay\services\PostService;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\services\post\Tag;
 use fay\services\CategoryService;
 use fay\core\Sql;
@@ -37,7 +37,7 @@ class PostController extends UserController{
 				$abstract = $this->input->post('abstract');
 				$content = $this->input->post('content');
 				$abstract || $abstract = mb_substr(strip_tags($content), 0, 100);
-				$post_id = Posts::model()->insert(array(
+				$post_id = PostsTable::model()->insert(array(
 					'title'=>$this->input->post('title'),
 					'cat_id'=>$this->input->post('cat_id', 'intval'),
 					'thumbnail'=>$this->input->post('thumbnail', 'intval', 0),
@@ -46,16 +46,16 @@ class PostController extends UserController{
 					'create_time'=>$this->current_time,
 					'user_id'=>$this->current_user,
 					'publish_time'=>$this->current_time,
-					'status'=>Posts::STATUS_PUBLISHED,
+					'status'=>PostsTable::STATUS_PUBLISHED,
 				));
 	
 				PostService::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $post_id);
 				PostService::service()->setPropValueByAlias('siwi_blog_copyright', $this->input->post('copyright'), $post_id);
 				
 				if($f = $this->input->post('file', 'intval', 0)){
-					$file = Files::model()->find($f, 'client_name,is_image');
+					$file = FilesTable::model()->find($f, 'client_name,is_image');
 					if($file){
-						PostsFiles::model()->insert(array(
+						PostsFilesTable::model()->insert(array(
 							'file_id'=>$f,
 							'post_id'=>$post_id,
 							'desc'=>$file['client_name'],
@@ -87,7 +87,7 @@ class PostController extends UserController{
 			throw new HttpException('不完整的请求');
 		}
 		
-		$post = Posts::model()->find($id);
+		$post = PostsTable::model()->find($id);
 		if(!$post){
 			throw new HttpException('文章编号不存在');
 		}
@@ -101,7 +101,7 @@ class PostController extends UserController{
 				$abstract = $this->input->post('abstract');
 				$content = $this->input->post('content');
 				$abstract || $abstract = mb_substr(strip_tags($content), 0, 100);
-				Posts::model()->update(array(
+				PostsTable::model()->update(array(
 					'title'=>$this->input->post('title'),
 					'cat_id'=>$this->input->post('cat_id', 'intval'),
 					'thumbnail'=>$this->input->post('thumbnail', 'intval', 0),
@@ -110,7 +110,7 @@ class PostController extends UserController{
 					'create_time'=>$this->current_time,
 					'user_id'=>$this->current_user,
 					'publish_time'=>$this->current_time,
-					'status'=>Posts::STATUS_PUBLISHED,
+					'status'=>PostsTable::STATUS_PUBLISHED,
 				), $id);
 				
 				PostService::service()->setPropValueByAlias('siwi_blog_video', $this->input->post('video'), $id);
@@ -118,12 +118,12 @@ class PostController extends UserController{
 				
 				$f = $this->input->post('file', 'intval', 0);
 				if($f){
-					$file = PostsFiles::model()->fetchRow('post_id = '.$post['id'], 'file_id');
+					$file = PostsFilesTable::model()->fetchRow('post_id = '.$post['id'], 'file_id');
 					if($f != $file['file_id']){
-						PostsFiles::model()->delete('post_id = '.$post['id']);
-						$file = Files::model()->find($f, 'client_name,is_image');
+						PostsFilesTable::model()->delete('post_id = '.$post['id']);
+						$file = FilesTable::model()->find($f, 'client_name,is_image');
 						if($file){
-							PostsFiles::model()->insert(array(
+							PostsFilesTable::model()->insert(array(
 								'file_id'=>$f,
 								'post_id'=>$id,
 								'desc'=>$file['client_name'],
@@ -133,14 +133,14 @@ class PostController extends UserController{
 						}
 					}
 				}else{
-					PostsFiles::model()->delete('post_id = '.$post['id']);
+					PostsFilesTable::model()->delete('post_id = '.$post['id']);
 				}
 	
 				TagService::service()->set($this->input->post('tags'), $post['id']);
 				
 				FlashService::set('文章编辑成功', 'success');
 				
-				$post = Posts::model()->find($id);
+				$post = PostsTable::model()->find($id);
 			}else{
 				FlashService::set('参数异常');
 			}
@@ -165,7 +165,7 @@ class PostController extends UserController{
 		$this->form()->setData(array('tags'=>implode(',', $tag_titles)));
 		
 		//file
-		$file = PostsFiles::model()->fetchRow('post_id = '.$post['id'], 'file_id,desc');
+		$file = PostsFilesTable::model()->fetchRow('post_id = '.$post['id'], 'file_id,desc');
 		$this->view->file = $file;
 		$this->form()->setData(array('file'=>isset($file['file_id']) ? $file['file_id'] : ''));
 		

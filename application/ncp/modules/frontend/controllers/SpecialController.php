@@ -3,7 +3,7 @@ namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
 use fay\core\HttpException;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\core\Sql;
 use fay\services\CategoryService;
 use fay\common\ListView;
@@ -38,7 +38,7 @@ class SpecialController extends FrontController{
 				->where(array(
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
-					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.status = '.PostsTable::STATUS_PUBLISHED,
 					'p.deleted = 0',
 					'p.publish_time < '.$this->current_time,
 				))
@@ -59,7 +59,7 @@ class SpecialController extends FrontController{
 		}
 		
 		$product_cat = CategoryService::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-		$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, OptionService::get('site:right_recommend_days'));
+		$this->view->right_posts = RecommendTable::model()->getByCatAndArea($product_cat, 6, OptionService::get('site:right_recommend_days'));
 		
 		$this->view->render();
 	}
@@ -70,7 +70,7 @@ class SpecialController extends FrontController{
 		if(!$id || !$post = PostService::service()->get($id, '', 'special', true)){
 			throw new HttpException('页面不存在');
 		}
-		Posts::model()->update(array(
+		PostsTable::model()->update(array(
 			'last_view_time'=>$this->current_time,
 			'views'=>new Expr('views + 1'),
 		), $id);

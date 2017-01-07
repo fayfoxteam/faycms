@@ -4,11 +4,11 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\AnalystSites;
+use fay\models\tables\AnalystSitesTable;
 use fay\helpers\DateHelper;
 use fay\helpers\RequestHelper;
 use fay\core\Loader;
-use fay\models\tables\AnalystVisits;
+use fay\models\tables\AnalystVisitsTable;
 
 class AnalystController extends AdminController{
 	public function __construct(){
@@ -68,7 +68,7 @@ class AnalystController extends AdminController{
 		));
 		
 		//所有站点
-		$this->view->sites = AnalystSites::model()->fetchAll(array(
+		$this->view->sites = AnalystSitesTable::model()->fetchAll(array(
 			'deleted = 0',
 		), 'id,title');
 		
@@ -126,7 +126,7 @@ class AnalystController extends AdminController{
 		));
 
 		//所有站点
-		$this->view->sites = AnalystSites::model()->fetchAll(array(
+		$this->view->sites = AnalystSitesTable::model()->fetchAll(array(
 			'deleted = 0',
 		), 'id,title');
 		
@@ -142,7 +142,7 @@ class AnalystController extends AdminController{
 		$this->form('search')->setScene('final')->setRules(array(
 			array(array('start_time', 'end_time'), 'datetime'),
 			array('orderby', 'range', array(
-				'range'=>AnalystVisits::model()->getFields(),
+				'range'=>AnalystVisitsTable::model()->getFields(),
 			)),
 			array('order', 'range', array(
 				'range'=>array('asc', 'desc'),
@@ -227,7 +227,7 @@ class AnalystController extends AdminController{
 		));
 		
 		//所有站点
-		$this->view->sites = AnalystSites::model()->fetchAll(array(
+		$this->view->sites = AnalystSitesTable::model()->fetchAll(array(
 			'deleted = 0',
 		), 'id,title');
 		

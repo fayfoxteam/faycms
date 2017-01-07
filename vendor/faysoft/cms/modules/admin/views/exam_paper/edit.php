@@ -1,6 +1,6 @@
 <?php
-use fay\models\tables\ExamQuestions;
-use fay\models\tables\ExamPapers;
+use fay\models\tables\ExamQuestionsTable;
+use fay\models\tables\ExamPapersTable;
 
 echo F::form()->open();
 ?>
@@ -25,8 +25,8 @@ echo F::form()->open();
 					</div>
 					<div class="misc-pub-section mt6">
 						<strong>是否启用？</strong>
-						<?php echo F::form()->inputRadio('status', ExamPapers::STATUS_ENABLED, array('label'=>'是'), true)?>
-						<?php echo F::form()->inputRadio('status', ExamPapers::STATUS_DISABLED, array('label'=>'否'))?>
+						<?php echo F::form()->inputRadio('status', ExamPapersTable::STATUS_ENABLED, array('label'=>'是'), true)?>
+						<?php echo F::form()->inputRadio('status', ExamPapersTable::STATUS_DISABLED, array('label'=>'否'))?>
 					</div>
 				</div>
 			</div>
@@ -46,10 +46,10 @@ echo F::form()->open();
 <script>
 common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'exam'});
 paper.types = {
-	'<?php echo ExamQuestions::TYPE_TRUE_OR_FALSE?>':'判断题',
-	'<?php echo ExamQuestions::TYPE_SINGLE_ANSWER?>':'单选题',
-	'<?php echo ExamQuestions::TYPE_INPUT?>':'输入题',
-	'<?php echo ExamQuestions::TYPE_MULTIPLE_ANSWERS?>':'多选题'
+	'<?php echo ExamQuestionsTable::TYPE_TRUE_OR_FALSE?>':'判断题',
+	'<?php echo ExamQuestionsTable::TYPE_SINGLE_ANSWER?>':'单选题',
+	'<?php echo ExamQuestionsTable::TYPE_INPUT?>':'输入题',
+	'<?php echo ExamQuestionsTable::TYPE_MULTIPLE_ANSWERS?>':'多选题'
 }
 $(function(){
 	paper.init();

@@ -3,7 +3,7 @@ namespace fay\services\tag;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\TagCounter;
+use fay\models\tables\TagCounterTable;
 
 class TagCounterService extends Service{
 	/**
@@ -36,7 +36,7 @@ class TagCounterService extends Service{
 			$tag_ids = explode(',', $tag_ids);
 		}
 		
-		return TagCounter::model()->incr(array(
+		return TagCounterTable::model()->incr(array(
 			'tag_id IN (?)'=>$tag_ids,
 		), $field, $value);
 	}
@@ -65,7 +65,7 @@ class TagCounterService extends Service{
 		//格式化fields
 		$fields = FieldHelper::parse($fields, null, self::$public_fields);
 		
-		return TagCounter::model()->fetchRow(array(
+		return TagCounterTable::model()->fetchRow(array(
 			'tag_id = ?'=>$tag_id,
 		), $fields['fields']);
 	}
@@ -89,7 +89,7 @@ class TagCounterService extends Service{
 		}else{
 			$remove_tag_id = false;
 		}
-		$counters = TagCounter::model()->fetchAll(array(
+		$counters = TagCounterTable::model()->fetchAll(array(
 			'tag_id IN (?)'=>$tag_ids,
 		), $fields['fields'], 'tag_id');
 		$return = array_fill_keys($tag_ids, array());

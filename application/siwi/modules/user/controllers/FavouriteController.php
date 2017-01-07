@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\Favourites;
+use fay\models\tables\FavouritesTable;
 
 class FavouriteController extends UserController{
 	public function __construct(){
@@ -23,8 +23,8 @@ class FavouriteController extends UserController{
 	
 	public function add(){
 		$id = $this->input->get('id', 'intval');
-		if(!Favourites::model()->find(array($this->current_user, $id))){
-			Favourites::model()->insert(array(
+		if(!FavouritesTable::model()->find(array($this->current_user, $id))){
+			FavouritesTable::model()->insert(array(
 				'user_id'=>$this->current_user,
 				'post_id'=>$id,
 				'create_time'=>$this->current_time,
@@ -43,8 +43,8 @@ class FavouriteController extends UserController{
 	
 	public function remove(){
 		$id = $this->input->get('id', 'intval');
-		if(Favourites::model()->find(array($this->current_user, $id))){
-			Favourites::model()->delete(array(
+		if(FavouritesTable::model()->find(array($this->current_user, $id))){
+			FavouritesTable::model()->delete(array(
 				'user_id'=>$this->current_user,
 				'post_id'=>$id,
 			));

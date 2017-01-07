@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\PostComments;
+use fay\models\tables\PostCommentsTable;
 use cms\helpers\PostCommentHelper;
 
 $settings = F::form('setting')->getAllData();
@@ -57,27 +57,27 @@ $cols = F::form('setting')->getData('cols', array());
 				</span>)</span>
 				|
 			</li>
-			<li class="publish <?php if(F::app()->input->get('status', 'intval') === PostComments::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostComments::STATUS_PENDING, 0, false), array('admin/post-comment/index', array(
-					'status'=>PostComments::STATUS_PENDING,
+			<li class="publish <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_PENDING, 0, false), array('admin/post-comment/index', array(
+					'status'=>PostCommentsTable::STATUS_PENDING,
 				)));?>
 				<span class="fc-grey">(<span id="pending-post-comment-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostComments::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostComments::STATUS_APPROVED, 0, false), array('admin/post-comment/index', array(
-					'status'=>PostComments::STATUS_APPROVED,
+			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_APPROVED, 0, false), array('admin/post-comment/index', array(
+					'status'=>PostCommentsTable::STATUS_APPROVED,
 				)));?>
 				<span class="fc-grey">(<span id="approved-post-comment-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
-			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostComments::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostComments::STATUS_UNAPPROVED, 0, false), array('admin/post-comment/index', array(
-					'status'=>PostComments::STATUS_UNAPPROVED,
+			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_UNAPPROVED, 0, false), array('admin/post-comment/index', array(
+					'status'=>PostCommentsTable::STATUS_UNAPPROVED,
 				)));?>
 				<span class="fc-grey">(<span id="unapproved-post-comment-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />

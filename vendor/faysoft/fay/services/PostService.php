@@ -6,22 +6,22 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\StringHelper;
-use fay\models\tables\Posts;
-use fay\models\tables\PostsCategories;
-use fay\models\tables\PostsFiles;
-use fay\models\tables\PostsTags;
-use fay\models\tables\PostPropInt;
-use fay\models\tables\PostPropVarchar;
-use fay\models\tables\PostPropText;
-use fay\models\tables\PostLikes;
-use fay\models\tables\PostMeta;
+use fay\models\tables\PostsTable;
+use fay\models\tables\PostsCategoriesTable;
+use fay\models\tables\PostsFilesTable;
+use fay\models\tables\PostsTagsTable;
+use fay\models\tables\PostPropIntTable;
+use fay\models\tables\PostPropVarcharTable;
+use fay\models\tables\PostPropTextTable;
+use fay\models\tables\PostLikesTable;
+use fay\models\tables\PostMetaTable;
 use fay\helpers\RequestHelper;
 use fay\services\post\PostExtraService;
 use fay\services\post\PostMetaService;
 use fay\services\post\PostPropService;
 use fay\services\post\PostTagService;
-use fay\models\tables\PostFavorites;
-use fay\models\tables\PostExtra;
+use fay\models\tables\PostFavoritesTable;
+use fay\models\tables\PostExtraTable;
 use fay\services\post\PostCategoryService;
 use fay\services\post\PostFileService;
 use fay\services\post\PostUserCounterService;
@@ -143,12 +143,12 @@ class PostService extends Service{
 		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
 		
 		//过滤掉多余的数据，并插入文章表
-		$post_id = Posts::model()->insert($post, true);
+		$post_id = PostsTable::model()->insert($post, true);
 		//获取文章状态，后面有用
 		if(isset($post['status'])){
 			$post_status = $post['status'];
 		}else{
-			$db_post = Posts::model()->find($post_id, 'status');
+			$db_post = PostsTable::model()->find($post_id, 'status');
 			$post_status = $db_post['status'];
 		}
 		//更新文章主分类文章数
@@ -164,7 +164,7 @@ class PostService extends Service{
 			$post_meta = $post_meta + $extra['meta'];
 		}
 		
-		PostMeta::model()->insert($post_meta);
+		PostMetaTable::model()->insert($post_meta);
 		
 		//扩展信息
 		$post_extra = array(
@@ -179,7 +179,7 @@ class PostService extends Service{
 			$post_extra['markdown'] = '';
 		}
 		
-		PostExtra::model()->insert($post_extra);
+		PostExtraTable::model()->insert($post_extra);
 		
 		//文章分类
 		if(!empty($extra['categories'])){
@@ -201,7 +201,7 @@ class PostService extends Service{
 			$i = 0;
 			foreach($extra['files'] as $file_id => $description){
 				$i++;
-				PostsFiles::model()->insert(array(
+				PostsFilesTable::model()->insert(array(
 					'file_id'=>$file_id,
 					'post_id'=>$post_id,
 					'description'=>$description,
@@ -216,7 +216,7 @@ class PostService extends Service{
 			$this->createPropertySet($post_id, $extra['props']);
 		}
 		
-		if($post_status == Posts::STATUS_PUBLISHED){
+		if($post_status == PostsTable::STATUS_PUBLISHED){
 			//用户文章数加一
 			PostUserCounterService::service()->incr($user_id);
 		}
@@ -242,7 +242,7 @@ class PostService extends Service{
 	 */
 	public function update($post_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原文章
-		$old_post = Posts::model()->find($post_id, 'cat_id,user_id,deleted,status');
+		$old_post = PostsTable::model()->find($post_id, 'cat_id,user_id,deleted,status');
 		if(!$old_post){
 			throw new PostException('指定文章不存在');
 		}
@@ -257,7 +257,7 @@ class PostService extends Service{
 		}
 		
 		//过滤掉多余的字段后更新
-		Posts::model()->update($data, $post_id, true);
+		PostsTable::model()->update($data, $post_id, true);
 		
 		//更新主分类文章数
 		$primary_cat_id = isset($data['cat_id']) ? $data['cat_id'] : $old_post['cat_id'];
@@ -271,24 +271,24 @@ class PostService extends Service{
 		//计数表
 		if(!empty($extra['meta'])){
 			//排除不可编辑的字段
-			PostMeta::model()->update($extra['meta'], $post_id, true);
+			PostMetaTable::model()->update($extra['meta'], $post_id, true);
 		}
 		
 		//扩展表
 		if(!empty($extra['extra'])){
 			//排除不可编辑的字段
-			PostExtra::model()->update($extra['extra'], $post_id, true);
+			PostExtraTable::model()->update($extra['extra'], $post_id, true);
 		}
 		
 		//若原文章未删除，更新用户及标签的文章数
-		if($old_post['status'] == Posts::STATUS_PUBLISHED &&
-			isset($data['status']) && $data['status'] != Posts::STATUS_PUBLISHED){
+		if($old_post['status'] == PostsTable::STATUS_PUBLISHED &&
+			isset($data['status']) && $data['status'] != PostsTable::STATUS_PUBLISHED){
 			//若原文章是“已发布”状态，且新状态不是“已发布”
 			
 			//用户文章数减一
 			PostUserCounterService::service()->decr($old_post['user_id']);
-		}else if($old_post['status'] != Posts::STATUS_PUBLISHED &&
-			isset($data['status']) && $data['status'] == Posts::STATUS_PUBLISHED){
+		}else if($old_post['status'] != PostsTable::STATUS_PUBLISHED &&
+			isset($data['status']) && $data['status'] == PostsTable::STATUS_PUBLISHED){
 			//若原文章不是“已发布”状态，且新状态是“已发布”
 			
 			//用户文章数加一
@@ -321,24 +321,24 @@ class PostService extends Service{
 		if(isset($extra['files'])){
 			//删除已被删除的图片
 			if($extra['files']){
-				PostsFiles::model()->delete(array(
+				PostsFilesTable::model()->delete(array(
 					'post_id = ?'=>$post_id,
 					'file_id NOT IN (?)'=>array_keys($extra['files']),
 				));
 			}else{
-				PostsFiles::model()->delete(array(
+				PostsFilesTable::model()->delete(array(
 					'post_id = ?'=>$post_id,
 				));
 			}
 			//获取已存在的图片
-			$old_files_ids = PostsFiles::model()->fetchCol('file_id', array(
+			$old_files_ids = PostsFilesTable::model()->fetchCol('file_id', array(
 				'post_id = ?'=>$post_id,
 			));
 			$i = 0;
 			foreach($extra['files'] as $file_id => $description){
 				$i++;
 				if(in_array($file_id, $old_files_ids)){
-					PostsFiles::model()->update(array(
+					PostsFilesTable::model()->update(array(
 						'description'=>$description,
 						'sort'=>$i,
 					), array(
@@ -346,7 +346,7 @@ class PostService extends Service{
 						'file_id = ?'=>$file_id,
 					));
 				}else{
-					PostsFiles::model()->insert(array(
+					PostsFilesTable::model()->insert(array(
 						'post_id'=>$post_id,
 						'file_id'=>$file_id,
 						'description'=>$description,
@@ -404,7 +404,7 @@ class PostService extends Service{
 	 */
 	public function remove($post_id){
 		//获取文章删除状态
-		$post = Posts::model()->find($post_id, 'user_id,deleted,status');
+		$post = PostsTable::model()->find($post_id, 'user_id,deleted,status');
 		if(!$post){
 			return false;
 		}
@@ -413,10 +413,10 @@ class PostService extends Service{
 		\F::event()->trigger(self::EVENT_REMOVING, $post_id);
 		
 		//删除文章
-		Posts::model()->delete($post_id);
+		PostsTable::model()->delete($post_id);
 		
 		//若文章未通过回收站被直接删除，且文章“已发布”
-		if(!$post['deleted'] && $post['status'] == Posts::STATUS_PUBLISHED){
+		if(!$post['deleted'] && $post['status'] == PostsTable::STATUS_PUBLISHED){
 			//则作者文章数减一
 			PostUserCounterService::service()->decr($post['user_id']);
 			
@@ -427,28 +427,28 @@ class PostService extends Service{
 			PostCategoryService::service()->decr($post_id);
 		}
 		//删除文章与标签的关联关系
-		PostsTags::model()->delete('post_id = ' . $post_id);
+		PostsTagsTable::model()->delete('post_id = ' . $post_id);
 		
 		//删除文章附加分类
-		PostsCategories::model()->delete('post_id = '.$post_id);
+		PostsCategoriesTable::model()->delete('post_id = '.$post_id);
 		
 		//删除文章附件（只是删除对应关系，并不删除附件文件）
-		PostsFiles::model()->delete('post_id = '.$post_id);
+		PostsFilesTable::model()->delete('post_id = '.$post_id);
 		
 		//删除文章可能存在的自定义属性
-		PostPropInt::model()->delete('post_id = '.$post_id);
-		PostPropVarchar::model()->delete('post_id = '.$post_id);
-		PostPropText::model()->delete('post_id = '.$post_id);
+		PostPropIntTable::model()->delete('post_id = '.$post_id);
+		PostPropVarcharTable::model()->delete('post_id = '.$post_id);
+		PostPropTextTable::model()->delete('post_id = '.$post_id);
 		
 		//删除关注，收藏列表
-		PostLikes::model()->delete('post_id = '.$post_id);
-		PostFavorites::model()->delete('post_id = '.$post_id);
+		PostLikesTable::model()->delete('post_id = '.$post_id);
+		PostFavoritesTable::model()->delete('post_id = '.$post_id);
 		
 		//删除文章meta信息
-		PostMeta::model()->delete('post_id = ' . $post_id);
+		PostMetaTable::model()->delete('post_id = ' . $post_id);
 		
 		//删除文章扩展信息
-		PostExtra::model()->delete('post_id = ' . $post_id);
+		PostExtraTable::model()->delete('post_id = ' . $post_id);
 		
 		return true;
 	}
@@ -459,18 +459,18 @@ class PostService extends Service{
 	 * @return bool
 	 */
 	public function delete($post_id){
-		$post = Posts::model()->find($post_id, 'user_id,deleted,status');
+		$post = PostsTable::model()->find($post_id, 'user_id,deleted,status');
 		if(!$post || $post['deleted']){
 			return false;
 		}
 		
 		//标记为已删除
-		Posts::model()->update(array(
+		PostsTable::model()->update(array(
 			'deleted'=>1
 		), $post_id);
 		
 		//若被删除文章是“已发布”状态
-		if($post['status'] == Posts::STATUS_PUBLISHED){
+		if($post['status'] == PostsTable::STATUS_PUBLISHED){
 			//用户文章数减一
 			PostUserCounterService::service()->decr($post['user_id']);
 			
@@ -493,18 +493,18 @@ class PostService extends Service{
 	 * @return bool
 	 */
 	public function undelete($post_id){
-		$post = Posts::model()->find($post_id, 'user_id,deleted,status');
+		$post = PostsTable::model()->find($post_id, 'user_id,deleted,status');
 		if(!$post || !$post['deleted']){
 			return false;
 		}
 		
 		//标记为未删除
-		Posts::model()->update(array(
+		PostsTable::model()->update(array(
 			'deleted'=>0
 		), $post_id);
 		
 		//若被还原文章是“已发布”状态
-		if($post['status'] == Posts::STATUS_PUBLISHED){
+		if($post['status'] == PostsTable::STATUS_PUBLISHED){
 			//用户文章数减一
 			PostUserCounterService::service()->incr($post['user_id']);
 			
@@ -619,7 +619,7 @@ class PostService extends Service{
 		
 		//仅搜索已发布的文章
 		if($only_published){
-			$sql->where(Posts::getPublishedConditions('p'));
+			$sql->where(PostsTable::getPublishedConditions('p'));
 		}
 		
 		//若指定了分类，加上分类条件限制
@@ -743,7 +743,7 @@ class PostService extends Service{
 	public function getPrevPost($post_id, $fields = 'id,title'){
 		$sql = new Sql();
 		//根据文章ID获取当前文章
-		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
+		$post = PostsTable::model()->find($post_id, 'id,cat_id,publish_time,sort');
 		//解析字段
 		$fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
 		
@@ -761,7 +761,7 @@ class PostService extends Service{
 				"p.sort <= {$post['sort']}",
 				"p.id != {$post['id']}",
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('is_top, sort DESC, publish_time')
 			->fetchRow();
 		if($prev_post){
@@ -774,7 +774,7 @@ class PostService extends Service{
 						"p.sort = {$post['sort']}",
 						"p.id > {$post['id']}",
 					))
-					->where(Posts::getPublishedConditions('p'))
+					->where(PostsTable::getPublishedConditions('p'))
 					->order('id ASC')
 					->fetchRow();
 			}
@@ -798,7 +798,7 @@ class PostService extends Service{
 	public function getNextPost($post_id, $fields = 'id,title'){
 		$sql = new Sql();
 		//根据文章ID获取当前文章
-		$post = Posts::model()->find($post_id, 'id,cat_id,publish_time,sort');
+		$post = PostsTable::model()->find($post_id, 'id,cat_id,publish_time,sort');
 		//解析字段
 		$fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
 		
@@ -816,7 +816,7 @@ class PostService extends Service{
 				"p.sort >= {$post['sort']}",
 				"p.id != {$post['id']}",
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('is_top, sort DESC, publish_time')
 			->fetchRow();
 		if($next_post){
@@ -829,7 +829,7 @@ class PostService extends Service{
 						"p.sort = {$post['sort']}",
 						"p.id < {$post['id']}",
 					))
-					->where(Posts::getPublishedConditions('p'))
+					->where(PostsTable::getPublishedConditions('p'))
 					->order('id ASC')
 					->fetchRow();
 			}
@@ -861,7 +861,7 @@ class PostService extends Service{
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), $fields)
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->where(array(
 				'pi.content = '.$prop_value,
 			))
@@ -889,9 +889,9 @@ class PostService extends Service{
 	 * @return string
 	 */
 	public static function formatContent($post){
-		if($post['content_type'] == Posts::CONTENT_TYPE_MARKDOWN){
+		if($post['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
 			return $post['content'];
-		}else if($post['content_type'] == Posts::CONTENT_TYPE_TEXTAREA){
+		}else if($post['content_type'] == PostsTable::CONTENT_TYPE_TEXTAREA){
 			return StringHelper::nl2p($post['content']);
 		}else{
 			return $post['content'];
@@ -911,7 +911,7 @@ class PostService extends Service{
 	 */
 	public static function checkEditPermission($post, $new_status = null, $new_cat_id = null, $user_id = null){
 		if(!is_array($post)){
-			$post = Posts::model()->find($post, 'user_id,cat_id,status');
+			$post = PostsTable::model()->find($post, 'user_id,cat_id,status');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
@@ -938,14 +938,14 @@ class PostService extends Service{
 			if($new_status){
 				//若系统开启文章审核功能；且文章原状态不是“通过审核”，被修改为“通过审核”；且该用户无审核权限，返回false
 				if(OptionService::get('system:post_review') &&
-					$post['status'] != Posts::STATUS_REVIEWED && $new_status == Posts::STATUS_REVIEWED &&
+					$post['status'] != PostsTable::STATUS_REVIEWED && $new_status == PostsTable::STATUS_REVIEWED &&
 					!\F::app()->checkPermission('admin/post/review')
 				){
 					return false;
 				}
 				//若系统开启文章审核功能；文章原状态不是“已发布”，被修改为“已发布”；且该用户无发布权限，返回false
 				if(OptionService::get('system:post_review') &&
-					$post['status'] != Posts::STATUS_PUBLISHED && $new_status == Posts::STATUS_PUBLISHED &&
+					$post['status'] != PostsTable::STATUS_PUBLISHED && $new_status == PostsTable::STATUS_PUBLISHED &&
 					!\F::app()->checkPermission('admin/post/publish')
 				){
 					return false;
@@ -969,7 +969,7 @@ class PostService extends Service{
 	 */
 	public static function checkDeletePermission($post, $user_id = null){
 		if(!is_array($post)){
-			$post = Posts::model()->find($post, 'user_id,cat_id');
+			$post = PostsTable::model()->find($post, 'user_id,cat_id');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
@@ -1003,7 +1003,7 @@ class PostService extends Service{
 	 */
 	public static function checkUndeletePermission($post, $user_id = null){
 		if(!is_array($post)){
-			$post = Posts::model()->find($post, 'user_id,cat_id');
+			$post = PostsTable::model()->find($post, 'user_id,cat_id');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
@@ -1037,7 +1037,7 @@ class PostService extends Service{
 	 */
 	public static function checkRemovePermission($post, $user_id = null){
 		if(!is_array($post)){
-			$post = Posts::model()->find($post, 'user_id,cat_id');
+			$post = PostsTable::model()->find($post, 'user_id,cat_id');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		
@@ -1067,8 +1067,8 @@ class PostService extends Service{
 	 */
 	public static function isPostIdExist($post_id){
 		if($post_id){
-			$post = Posts::model()->find($post_id, 'deleted,publish_time,status');
-			if($post['deleted'] || $post['publish_time'] > \F::app()->current_time || $post['status'] != Posts::STATUS_PUBLISHED){
+			$post = PostsTable::model()->find($post_id, 'deleted,publish_time,status');
+			if($post['deleted'] || $post['publish_time'] > \F::app()->current_time || $post['status'] != PostsTable::STATUS_PUBLISHED){
 				return false;
 			}else{
 				return true;
@@ -1125,12 +1125,12 @@ class PostService extends Service{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('p'=>Posts::model()->getTableName()), $post_fields)
+		$sql->from(array('p'=>PostsTable::model()->getTableName()), $post_fields)
 			->where('id IN (?)', $post_ids);
 		
 		//仅搜索已发布的文章
 		if($only_published){
-			$sql->where(Posts::getPublishedConditions('p'));
+			$sql->where(PostsTable::getPublishedConditions('p'));
 		}
 		
 		$posts = $sql->fetchAll();
@@ -1223,9 +1223,9 @@ class PostService extends Service{
 	 */
 	public function batchPublish($post_ids){
 		//获取未发布文章
-		$unpublished_posts = Posts::model()->fetchAll(array(
+		$unpublished_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
-			'status != ' . Posts::STATUS_PUBLISHED,
+			'status != ' . PostsTable::STATUS_PUBLISHED,
 		), 'id,user_id');
 		if(!$unpublished_posts){
 			//没有符合条件的文章
@@ -1234,8 +1234,8 @@ class PostService extends Service{
 		
 		$unpublished_post_ids = ArrayHelper::column($unpublished_posts, 'id');
 		
-		Posts::model()->update(array(
-			'status'=>Posts::STATUS_PUBLISHED,
+		PostsTable::model()->update(array(
+			'status'=>PostsTable::STATUS_PUBLISHED,
 		), array(
 			'id IN (?)'=>$unpublished_post_ids,
 		));
@@ -1262,9 +1262,9 @@ class PostService extends Service{
 	 */
 	public function batchDraft($post_ids){
 		//获取不是草稿的文章
-		$not_draft_posts = Posts::model()->fetchAll(array(
+		$not_draft_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
-			'status != ' . Posts::STATUS_DRAFT,
+			'status != ' . PostsTable::STATUS_DRAFT,
 		), 'id,status,user_id');
 		if(!$not_draft_posts){
 			//没有符合条件的文章
@@ -1274,8 +1274,8 @@ class PostService extends Service{
 		$not_draft_post_ids = ArrayHelper::column($not_draft_posts, 'id');
 		
 		//更新文章状态
-		Posts::model()->update(array(
-			'status'=>Posts::STATUS_DRAFT,
+		PostsTable::model()->update(array(
+			'status'=>PostsTable::STATUS_DRAFT,
 		), array(
 			'id IN (?)'=>$not_draft_post_ids,
 		));
@@ -1284,7 +1284,7 @@ class PostService extends Service{
 		$published_post_ids = array();
 		$published_user_ids = array();
 		foreach($not_draft_posts as $p){
-			if($p['status'] == Posts::STATUS_PUBLISHED){
+			if($p['status'] == PostsTable::STATUS_PUBLISHED){
 				$published_post_ids[] = $p['id'];
 				$published_user_ids[] = $p['user_id'];
 			}
@@ -1314,9 +1314,9 @@ class PostService extends Service{
 	 */
 	public function batchPending($post_ids){
 		//获取不是待审核状态的文章
-		$not_pending_posts = Posts::model()->fetchAll(array(
+		$not_pending_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
-			'status != ' . Posts::STATUS_PENDING,
+			'status != ' . PostsTable::STATUS_PENDING,
 		), 'id,status,user_id');
 		if(!$not_pending_posts){
 			//没有符合条件的文章
@@ -1326,8 +1326,8 @@ class PostService extends Service{
 		$not_pending_post_ids = ArrayHelper::column($not_pending_posts, 'id');
 		
 		//更新文章状态
-		Posts::model()->update(array(
-			'status'=>Posts::STATUS_PENDING,
+		PostsTable::model()->update(array(
+			'status'=>PostsTable::STATUS_PENDING,
 		), array(
 			'id IN (?)'=>$not_pending_post_ids,
 		));
@@ -1336,7 +1336,7 @@ class PostService extends Service{
 		$published_post_ids = array();
 		$published_user_ids = array();
 		foreach($not_pending_posts as $p){
-			if($p['status'] == Posts::STATUS_PUBLISHED){
+			if($p['status'] == PostsTable::STATUS_PUBLISHED){
 				$published_post_ids[] = $p['id'];
 				$published_user_ids[] = $p['user_id'];
 			}
@@ -1366,9 +1366,9 @@ class PostService extends Service{
 	 */
 	public function batchReviewed($post_ids){
 		//获取不是已审核状态的文章
-		$not_reviewed_posts = Posts::model()->fetchAll(array(
+		$not_reviewed_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
-			'status != ' . Posts::STATUS_REVIEWED,
+			'status != ' . PostsTable::STATUS_REVIEWED,
 		), 'id,status,user_id');
 		if(!$not_reviewed_posts){
 			//没有符合条件的文章
@@ -1378,8 +1378,8 @@ class PostService extends Service{
 		$not_reviewed_post_ids = ArrayHelper::column($not_reviewed_posts, 'id');
 		
 		//更新文章状态
-		Posts::model()->update(array(
-			'status'=>Posts::STATUS_REVIEWED,
+		PostsTable::model()->update(array(
+			'status'=>PostsTable::STATUS_REVIEWED,
 		), array(
 			'id IN (?)'=>$not_reviewed_post_ids,
 		));
@@ -1388,7 +1388,7 @@ class PostService extends Service{
 		$published_post_ids = array();
 		$published_user_ids = array();
 		foreach($not_reviewed_posts as $p){
-			if($p['status'] == Posts::STATUS_PUBLISHED){
+			if($p['status'] == PostsTable::STATUS_PUBLISHED){
 				$published_post_ids[] = $p['id'];
 				$published_user_ids[] = $p['user_id'];
 			}
@@ -1418,7 +1418,7 @@ class PostService extends Service{
 	 */
 	public function batchDelete($post_ids){
 		//获取未删除的文章
-		$undelete_posts = Posts::model()->fetchAll(array(
+		$undelete_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
 			'deleted = 0',
 		), 'id,status,user_id');
@@ -1430,7 +1430,7 @@ class PostService extends Service{
 		$undelete_post_ids = ArrayHelper::column($undelete_posts, 'id');
 		
 		//软删除文章
-		Posts::model()->update(array(
+		PostsTable::model()->update(array(
 			'deleted'=>1,
 		), array(
 			'id IN (?)'=>$undelete_post_ids,
@@ -1440,7 +1440,7 @@ class PostService extends Service{
 		$published_post_ids = array();
 		$published_user_ids = array();
 		foreach($undelete_posts as $p){
-			if($p['status'] == Posts::STATUS_PUBLISHED){
+			if($p['status'] == PostsTable::STATUS_PUBLISHED){
 				$published_post_ids[] = $p['id'];
 				$published_user_ids[] = $p['user_id'];
 			}
@@ -1470,7 +1470,7 @@ class PostService extends Service{
 	 */
 	public function batchUndelete($post_ids){
 		//获取已删除的文章
-		$deleted_posts = Posts::model()->fetchAll(array(
+		$deleted_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
 			'deleted != 0',
 		), 'id,status,user_id');
@@ -1482,7 +1482,7 @@ class PostService extends Service{
 		$deleted_post_ids = ArrayHelper::column($deleted_posts, 'id');
 		
 		//还原文章
-		Posts::model()->update(array(
+		PostsTable::model()->update(array(
 			'deleted'=>0,
 		), array(
 			'id IN (?)'=>$deleted_post_ids,
@@ -1492,7 +1492,7 @@ class PostService extends Service{
 		$published_post_ids = array();
 		$published_user_ids = array();
 		foreach($deleted_posts as $p){
-			if($p['status'] == Posts::STATUS_PUBLISHED){
+			if($p['status'] == PostsTable::STATUS_PUBLISHED){
 				$published_post_ids[] = $p['id'];
 				$published_user_ids[] = $p['user_id'];
 			}

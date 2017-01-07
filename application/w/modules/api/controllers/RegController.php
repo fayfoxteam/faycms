@@ -3,8 +3,8 @@ namespace w\modules\api\controllers;
 use fay\core\Controller;
 use fay\core\Response;
 use fay\helpers\StringHelper;
-use fay\models\tables\Tokens;
-use fay\models\tables\Users;
+use fay\models\tables\TokensTable;
+use fay\models\tables\UsersTable;
 use fay\services\UserService;
 
 class RegController extends Controller {
@@ -37,7 +37,7 @@ class RegController extends Controller {
         $conditions = array(
             'cellphone = ?'=>$cellphone,
         );
-        $user = Users::model()->fetchRow($conditions);
+        $user = UsersTable::model()->fetchRow($conditions);
 
         //验证码错误
         if(!($cellphone == \F::session()->get('cellphone')) || !($sms ==\F::session()->get('sms'))){
@@ -48,7 +48,7 @@ class RegController extends Controller {
             $conditions = array(
                 'token = ?'=>$cellphone,
             );
-            // $user_id = Tokens::model()->fetchRow()
+            // $user_id = TokensTable::model()->fetchRow()
             //$token_data['token'] = md5(md5($this->input->post('uuid')).$user['salt'].$user['id']);
 
 
@@ -58,10 +58,10 @@ class RegController extends Controller {
             $data['username'] = $cellphone;
             $data['cellphone'] = $cellphone;
             $data['reg_time'] = $this->current_time;
-            $data['status'] = Users::STATUS_UNCOMPLETED;
+            $data['status'] = UsersTable::STATUS_UNCOMPLETED;
             $data['salt'] = StringHelper::random('alnum', 6);
             $data['password'] = md5($data['salt']);
-            $user_id = Users::model()->insert($data);
+            $user_id = UsersTable::model()->insert($data);
             //Response::json(array(),'1','注册成功','reg:success');
             if($user_id){
                 $user = UserService::service()->get($user_id);
@@ -69,7 +69,7 @@ class RegController extends Controller {
                 $token_data['token'] = md5(md5($this->input->post('uuid')).$user['salt'].$user['id']);
                 $token_data['creat_time'] = $this->current_time;
                 $token_data['uuid'] = $this->input->post('uuid');
-                Tokens::model()->insert($token_data);
+                TokensTable::model()->insert($token_data);
                 Response::jsonp(array('token'=>$token_data['token']),'1','注册成功','reg:success');
             }else{
                 Response::json(array(),'0','注册失败','reg:fail');

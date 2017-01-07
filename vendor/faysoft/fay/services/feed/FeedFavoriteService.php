@@ -6,8 +6,8 @@ use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\services\UserService;
 use fay\services\FeedService;
-use fay\models\tables\FeedFavorites;
-use fay\models\tables\FeedMeta;
+use fay\models\tables\FeedFavoritesTable;
+use fay\models\tables\FeedMetaTable;
 use fay\helpers\RequestHelper;
 
 class FeedFavoriteService extends Service{
@@ -52,7 +52,7 @@ class FeedFavoriteService extends Service{
 			throw new Exception('已收藏，不能重复收藏', 'already-favorited');
 		}
 		
-		FeedFavorites::model()->insert(array(
+		FeedFavoritesTable::model()->insert(array(
 			'user_id'=>$user_id,
 			'feed_id'=>$feed_id,
 			'trackid'=>$trackid,
@@ -64,10 +64,10 @@ class FeedFavoriteService extends Service{
 		//动态收藏数+1
 		if($sockpuppet){
 			//非真实用户行为
-			FeedMeta::model()->incr($feed_id, array('favorites'), 1);
+			FeedMetaTable::model()->incr($feed_id, array('favorites'), 1);
 		}else{
 			//真实用户行为
-			FeedMeta::model()->incr($feed_id, array('favorites', 'real_favorites'), 1);
+			FeedMetaTable::model()->incr($feed_id, array('favorites', 'real_favorites'), 1);
 		}
 		
 		\F::event()->trigger(self::EVENT_FAVORITE, $feed_id);
@@ -86,10 +86,10 @@ class FeedFavoriteService extends Service{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		$favorite = FeedFavorites::model()->find(array($user_id, $feed_id), 'sockpuppet');
+		$favorite = FeedFavoritesTable::model()->find(array($user_id, $feed_id), 'sockpuppet');
 		if($favorite){
 			//删除收藏关系
-			FeedFavorites::model()->delete(array(
+			FeedFavoritesTable::model()->delete(array(
 				'user_id = ?'=>$user_id,
 				'feed_id = ?'=>$feed_id,
 			));
@@ -97,10 +97,10 @@ class FeedFavoriteService extends Service{
 			//动态收藏数-1
 			if($favorite['sockpuppet']){
 				//非真实用户行为
-				FeedMeta::model()->incr($feed_id, array('favorites'), -1);
+				FeedMetaTable::model()->incr($feed_id, array('favorites'), -1);
 			}else{
 				//真实用户行为
-				FeedMeta::model()->incr($feed_id, array('favorites', 'real_favorites'), -1);
+				FeedMetaTable::model()->incr($feed_id, array('favorites', 'real_favorites'), -1);
 			}
 				
 			//触发事件
@@ -126,7 +126,7 @@ class FeedFavoriteService extends Service{
 			throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(FeedFavorites::model()->find(array($user_id, $feed_id), 'create_time')){
+		if(FeedFavoritesTable::model()->find(array($user_id, $feed_id), 'create_time')){
 			return true;
 		}else{
 			return false;
@@ -150,7 +150,7 @@ class FeedFavoriteService extends Service{
 			$feed_ids = explode(',', str_replace(' ', '', $feed_ids));
 		}
 		
-		$favorites = FeedFavorites::model()->fetchAll(array(
+		$favorites = FeedFavoritesTable::model()->fetchAll(array(
 			'user_id = ?'=>$user_id,
 			'feed_id IN (?)'=>$feed_ids,
 		), 'feed_id');

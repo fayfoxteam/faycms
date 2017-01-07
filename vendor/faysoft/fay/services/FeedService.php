@@ -5,17 +5,17 @@ use fay\core\ErrorException;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldHelper;
-use fay\models\tables\Feeds;
+use fay\models\tables\FeedsTable;
 use fay\services\feed\FeedMetaService;
 use fay\services\feed\FeedTagService;
-use fay\models\tables\FeedsFiles;
-use fay\models\tables\UserCounter;
-use fay\models\tables\FeedMeta;
+use fay\models\tables\FeedsFilesTable;
+use fay\models\tables\UserCounterTable;
+use fay\models\tables\FeedMetaTable;
 use fay\helpers\RequestHelper;
-use fay\models\tables\FeedExtra;
-use fay\models\tables\FeedsTags;
-use fay\models\tables\FeedLikes;
-use fay\models\tables\FeedFavorites;
+use fay\models\tables\FeedExtraTable;
+use fay\models\tables\FeedsTagsTable;
+use fay\models\tables\FeedLikesTable;
+use fay\models\tables\FeedFavoritesTable;
 use fay\services\feed\FeedFileService;
 
 /**
@@ -96,7 +96,7 @@ class FeedService extends Service{
 		$feed['publish_date'] = date('Y-m-d', $feed['publish_time']);
 		empty($feed['sort']) && $feed['sort'] = \F::app()->current_time;//排序值默认为当前时间
 		
-		$feed_id = Feeds::model()->insert($feed, true);
+		$feed_id = FeedsTable::model()->insert($feed, true);
 		
 		//计数表
 		$feed_meta = array(
@@ -105,7 +105,7 @@ class FeedService extends Service{
 		if(isset($extra['meta'])){
 			$feed_meta = $feed_meta + $extra['meta'];
 		}
-		FeedMeta::model()->insert($feed_meta, true);
+		FeedMetaTable::model()->insert($feed_meta, true);
 		
 		//扩展表
 		$feed_extra = array(
@@ -115,7 +115,7 @@ class FeedService extends Service{
 		if(isset($extra['extra'])){
 			$feed_extra = $feed_extra + $extra['extra'];
 		}
-		FeedExtra::model()->insert($feed_extra, true);
+		FeedExtraTable::model()->insert($feed_extra, true);
 		
 		//标签
 		if(isset($extra['tags'])){
@@ -127,7 +127,7 @@ class FeedService extends Service{
 			$i = 0;
 			foreach($extra['files'] as $file_id => $description){
 				$i++;
-				FeedsFiles::model()->insert(array(
+				FeedsFilesTable::model()->insert(array(
 					'file_id'=>$file_id,
 					'feed_id'=>$feed_id,
 					'description'=>$description,
@@ -138,19 +138,19 @@ class FeedService extends Service{
 		
 		if(isset($feed['status'])){
 			//如果有传入动态状态，且动态状态不是“草稿”，用户动态数加一
-			if($feed['status'] != Feeds::STATUS_DRAFT){
+			if($feed['status'] != FeedsTable::STATUS_DRAFT){
 				//用户动态数加一
-				UserCounter::model()->incr($user_id, 'feeds', 1);
+				UserCounterTable::model()->incr($user_id, 'feeds', 1);
 				
 				//相关标签动态数加一
 				FeedTagService::service()->incr($feed_id);
 			}
 		}else{
 			//如果未传入status，获取动态状态进行判断
-			$feed = Feeds::model()->find($feed_id, 'status');
-			if($feed['status'] != Feeds::STATUS_DRAFT){
+			$feed = FeedsTable::model()->find($feed_id, 'status');
+			if($feed['status'] != FeedsTable::STATUS_DRAFT){
 				//用户动态数加一
-				UserCounter::model()->incr($user_id, 'feeds', 1);
+				UserCounterTable::model()->incr($user_id, 'feeds', 1);
 				
 				//相关标签动态数加一
 				FeedTagService::service()->incr($feed_id);
@@ -179,7 +179,7 @@ class FeedService extends Service{
 	 */
 	public function update($feed_id, $data, $extra = array(), $update_last_modified_time = true){
 		//获取原动态
-		$old_feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
+		$old_feed = FeedsTable::model()->find($feed_id, 'user_id,deleted,status');
 		if(!$old_feed){
 			return false;
 		}
@@ -191,21 +191,21 @@ class FeedService extends Service{
 		}
 		
 		//过滤掉多余的数据
-		Feeds::model()->update($data, $feed_id, true);
+		FeedsTable::model()->update($data, $feed_id, true);
 		
 		//若原动态未删除，更新用户及标签的动态数
 		if(!$old_feed['deleted']){
-			if($old_feed['status'] == Feeds::STATUS_DRAFT &&
-				isset($data['status']) && $data['status'] != Feeds::STATUS_DRAFT){
+			if($old_feed['status'] == FeedsTable::STATUS_DRAFT &&
+				isset($data['status']) && $data['status'] != FeedsTable::STATUS_DRAFT){
 				//若原动态是“草稿”状态，且新状态不是“草稿”
-				UserCounter::model()->incr($old_feed['user_id'], 'feeds', 1);
+				UserCounterTable::model()->incr($old_feed['user_id'], 'feeds', 1);
 				
 				//相关标签动态数减一
 				FeedTagService::service()->decr($feed_id);
-			}else if($old_feed['status'] != Feeds::STATUS_DRAFT &&
-				isset($data['status']) && $data['status'] == Feeds::STATUS_DRAFT){
+			}else if($old_feed['status'] != FeedsTable::STATUS_DRAFT &&
+				isset($data['status']) && $data['status'] == FeedsTable::STATUS_DRAFT){
 				//若原动态不是“草稿”状态，且新状态是“草稿”
-				UserCounter::model()->incr($old_feed['user_id'], 'feeds', -1);
+				UserCounterTable::model()->incr($old_feed['user_id'], 'feeds', -1);
 				
 				//相关标签动态数加一
 				FeedTagService::service()->incr($feed_id);
@@ -214,12 +214,12 @@ class FeedService extends Service{
 		
 		//计数表
 		if(!empty($extra['meta'])){
-			FeedMeta::model()->update($extra['meta'], $feed_id, true);
+			FeedMetaTable::model()->update($extra['meta'], $feed_id, true);
 		}
 		
 		//扩展表
 		if(!empty($extra['extra'])){
-			FeedExtra::model()->update($extra['extra'], $feed_id, true);
+			FeedExtraTable::model()->update($extra['extra'], $feed_id, true);
 		}
 		
 		//标签
@@ -231,24 +231,24 @@ class FeedService extends Service{
 		if(isset($extra['files'])){
 			//删除已被删除的图片
 			if($extra['files']){
-				FeedsFiles::model()->delete(array(
+				FeedsFilesTable::model()->delete(array(
 					'feed_id = ?'=>$feed_id,
 					'file_id NOT IN (?)'=>array_keys($extra['files']),
 				));
 			}else{
-				FeedsFiles::model()->delete(array(
+				FeedsFilesTable::model()->delete(array(
 					'feed_id = ?'=>$feed_id,
 				));
 			}
 			//获取已存在的图片
-			$old_files_ids = FeedsFiles::model()->fetchCol('file_id', array(
+			$old_files_ids = FeedsFilesTable::model()->fetchCol('file_id', array(
 				'feed_id = ?'=>$feed_id,
 			));
 			$i = 0;
 			foreach($extra['files'] as $file_id => $description){
 				$i++;
 				if(in_array($file_id, $old_files_ids)){
-					FeedsFiles::model()->update(array(
+					FeedsFilesTable::model()->update(array(
 						'description'=>$description,
 						'sort'=>$i,
 					), array(
@@ -256,7 +256,7 @@ class FeedService extends Service{
 						'file_id = ?'=>$file_id,
 					));
 				}else{
-					FeedsFiles::model()->insert(array(
+					FeedsFilesTable::model()->insert(array(
 						'feed_id'=>$feed_id,
 						'file_id'=>$file_id,
 						'description'=>$description,
@@ -280,20 +280,20 @@ class FeedService extends Service{
 	 * @return bool
 	 */
 	public function delete($feed_id){
-		$feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
+		$feed = FeedsTable::model()->find($feed_id, 'user_id,deleted,status');
 		if(!$feed || $feed['deleted']){
 			return false;
 		}
 		
 		//标记为已删除
-		Feeds::model()->update(array(
+		FeedsTable::model()->update(array(
 			'deleted'=>1
 		), $feed_id);
 		
 		//若被删除动态不是“草稿”
-		if($feed['status'] != Feeds::STATUS_DRAFT){
+		if($feed['status'] != FeedsTable::STATUS_DRAFT){
 			//用户动态数减一
-			UserCounter::model()->incr($feed['user_id'], 'feeds', -1);
+			UserCounterTable::model()->incr($feed['user_id'], 'feeds', -1);
 			
 			//相关标签动态数减一
 			FeedTagService::service()->decr($feed_id);
@@ -313,20 +313,20 @@ class FeedService extends Service{
 	 * @return bool
 	 */
 	public function undelete($feed_id){
-		$feed = Feeds::model()->find($feed_id, 'user_id,deleted');
+		$feed = FeedsTable::model()->find($feed_id, 'user_id,deleted');
 		if(!$feed || !$feed['deleted']){
 			return false;
 		}
 		
 		//标记为未删除
-		Feeds::model()->update(array(
+		FeedsTable::model()->update(array(
 			'deleted'=>0
 		), $feed_id);
 		
 		//若被还原动态不是“草稿”
-		if($feed['status'] != Feeds::STATUS_DRAFT){
+		if($feed['status'] != FeedsTable::STATUS_DRAFT){
 			//用户动态数减一
-			UserCounter::model()->incr($feed['user_id'], 'feeds', 1);
+			UserCounterTable::model()->incr($feed['user_id'], 'feeds', 1);
 			
 			//相关标签动态数加一
 			FeedTagService::service()->incr($feed_id);
@@ -347,7 +347,7 @@ class FeedService extends Service{
 	 */
 	public function remove($feed_id){
 		//获取动态删除状态
-		$feed = Feeds::model()->find($feed_id, 'user_id,deleted,status');
+		$feed = FeedsTable::model()->find($feed_id, 'user_id,deleted,status');
 		if(!$feed){
 			return false;
 		}
@@ -358,28 +358,28 @@ class FeedService extends Service{
 		));
 		
 		//删除动态
-		Feeds::model()->delete($feed_id);
+		FeedsTable::model()->delete($feed_id);
 		
 		//若动态未通过回收站被直接删除，且不是“草稿”
-		if(!$feed['deleted'] && $feed['status'] != Feeds::STATUS_DRAFT){
+		if(!$feed['deleted'] && $feed['status'] != FeedsTable::STATUS_DRAFT){
 			//则作者动态数减一
-			UserCounter::model()->incr($feed['user_id'], 'feed', -1);
+			UserCounterTable::model()->incr($feed['user_id'], 'feed', -1);
 			
 			//相关标签动态数减一
 			FeedTagService::service()->decr($feed_id);
 		}
 		//删除动态与标签的关联关系
-		FeedsTags::model()->delete('feed_id = ' . $feed_id);
+		FeedsTagsTable::model()->delete('feed_id = ' . $feed_id);
 		
 		//删除动态附件（只是删除对应关系，并不删除附件文件）
-		FeedsFiles::model()->delete('feed_id = '.$feed_id);
+		FeedsFilesTable::model()->delete('feed_id = '.$feed_id);
 		
 		//删除关注，收藏列表
-		FeedLikes::model()->delete('feed_id = '.$feed_id);
-		FeedFavorites::model()->delete('feed_id = '.$feed_id);
+		FeedLikesTable::model()->delete('feed_id = '.$feed_id);
+		FeedFavoritesTable::model()->delete('feed_id = '.$feed_id);
 		
 		//删除动态meta信息
-		FeedMeta::model()->delete('feed_id = ' . $feed_id);
+		FeedMetaTable::model()->delete('feed_id = ' . $feed_id);
 		
 		return true;
 	}
@@ -391,8 +391,8 @@ class FeedService extends Service{
 	 */
 	public static function isFeedIdExist($feed_id){
 		if($feed_id){
-			$feed = Feeds::model()->find($feed_id, 'deleted,publish_time,status');
-			if($feed['deleted'] || $feed['publish_time'] > \F::app()->current_time || $feed['status'] == Feeds::STATUS_DRAFT){
+			$feed = FeedsTable::model()->find($feed_id, 'deleted,publish_time,status');
+			if($feed['deleted'] || $feed['publish_time'] > \F::app()->current_time || $feed['status'] == FeedsTable::STATUS_DRAFT){
 				return false;
 			}else{
 				return true;
@@ -421,7 +421,7 @@ class FeedService extends Service{
 		$fields = FieldHelper::parse($fields, 'feed');
 		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
-			$fields['feed'] = Feeds::model()->getFields();
+			$fields['feed'] = FeedsTable::model()->getFields();
 		}
 		
 		$feed_fields = $fields['feed'];
@@ -431,14 +431,14 @@ class FeedService extends Service{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('f'=>Feeds::model()->getTableName()), $feed_fields)
+		$sql->from(array('f'=>FeedsTable::model()->getTableName()), $feed_fields)
 			->where('id = ?', $id);
 		
 		//仅搜索已发布的动态
 		if($only_published){
 			$sql->where(array(
 				'f.deleted = 0',
-				'f.status != '.Feeds::STATUS_DRAFT,
+				'f.status != '.FeedsTable::STATUS_DRAFT,
 				'f.publish_time < '.\F::app()->current_time,
 			));
 		}
@@ -493,7 +493,7 @@ class FeedService extends Service{
 		$fields = FieldHelper::parse($fields, 'feed');
 		if(empty($fields['feed']) || in_array('*', $fields['feed'])){
 			//若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
-			$fields['feed'] = Feeds::model()->getFields();
+			$fields['feed'] = FeedsTable::model()->getFields();
 		}
 		
 		$feed_fields = $fields['feed'];
@@ -507,14 +507,14 @@ class FeedService extends Service{
 		}
 		
 		$sql = new Sql();
-		$sql->from(array('p'=>Feeds::model()->getTableName()), $feed_fields)
+		$sql->from(array('p'=>FeedsTable::model()->getTableName()), $feed_fields)
 			->where('id IN (?)', $feed_ids);
 		
 		//仅搜索已发布的动态
 		if($only_published){
 			$sql->where(array(
 				'p.deleted = 0',
-				'p.status != '.Feeds::STATUS_DRAFT,
+				'p.status != '.FeedsTable::STATUS_DRAFT,
 				'p.publish_time < '.\F::app()->current_time,
 			));
 		}
@@ -552,7 +552,7 @@ class FeedService extends Service{
 	 */
 	public function checkDeletePermission($feed, $user_id = null){
 		if(!is_array($feed)){
-			$feed = Feeds::model()->find($feed, 'user_id');
+			$feed = FeedsTable::model()->find($feed, 'user_id');
 		}
 		$user_id || $user_id = \F::app()->current_user;
 		

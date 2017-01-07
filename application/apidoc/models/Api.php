@@ -16,7 +16,7 @@ class Api extends Model{
 	}
 	
 	public function get($id){
-		$api = Apis::model()->find($id);
+		$api = ApisTable::model()->find($id);
 		if(!$api){
 			return false;
 		}
@@ -25,7 +25,7 @@ class Api extends Model{
 		$return = array(
 			'api'=>$api,
 			'category'=>CategoryService::service()->get($api['cat_id'], 'alias'),
-			'inputs'=>Inputs::model()->fetchAll('api_id = '.$id, '*', 'required DESC, name ASC'),
+			'inputs'=>InputsTable::model()->fetchAll('api_id = '.$id, '*', 'required DESC, name ASC'),
 			'outputs'=>$sql->from(array('o'=>'apidoc_outputs'), array('name', 'sample', 'description', 'model_id', 'is_array'))
 				->joinLeft(array('ob'=>'apidoc_models'), 'o.model_id = ob.id', array('name AS model_name'))
 				->where('o.api_id = ' . $id)

@@ -5,7 +5,7 @@ namespace <?php echo $namespace?>;
 use fay\core\db\Table;
 
 /**
- * <?php echo ucwords(str_replace('_', ' ', $table_name))?> model
+ * <?php echo ucwords(str_replace('_', ' ', $table_name))?> table model
  * <?php foreach($fields as $f){?>
 
  * @property <?php
@@ -27,7 +27,7 @@ use fay\core\db\Table;
 }?>
 
  */
-class <?php echo $class_name?> extends Table{
+class <?php echo $class_name?>Table extends Table{
 	protected $_name = '<?php echo $table_name?>';
 <?php if(count($primary) > 1){?>
 	protected $_primary = array('<?php echo implode("', '", $primary)?>');
@@ -39,7 +39,7 @@ class <?php echo $class_name?> extends Table{
 	
 	/**
 	 * @param string $class_name
-	 * @return <?php echo $class_name?>
+	 * @return <?php echo $class_name?>Table
 
 	 */
 	public static function model($class_name = __CLASS__){

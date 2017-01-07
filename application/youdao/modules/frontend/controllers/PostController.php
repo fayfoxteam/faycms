@@ -3,10 +3,10 @@ namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
 use fay\services\CategoryService;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\helpers\StringHelper;
 use fay\core\Sql;
-use fay\models\tables\Categories;
+use fay\models\tables\CategoriesTable;
 use fay\common\ListView;
 use fay\core\HttpException;
 
@@ -35,9 +35,9 @@ class PostController extends FrontController{
 	
 	public function item(){
 		if($this->input->get('alias')){
-			$post = Posts::model()->fetchRow(array('alias = ?'=>$this->input->get('alias')));
+			$post = PostsTable::model()->fetchRow(array('alias = ?'=>$this->input->get('alias')));
 		}else if($this->input->get('id')){
-			$post = Posts::model()->fetchRow(array('id = ?'=>$this->input->get('id', 'intval')));
+			$post = PostsTable::model()->fetchRow(array('id = ?'=>$this->input->get('id', 'intval')));
 		}
 	
 		if(isset($post) && $post){
@@ -106,7 +106,7 @@ class PostController extends FrontController{
 				'c.left_value > '.$cat_post['left_value'],
 				'c.right_value < '.$cat_post['right_value'],
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 		;
 		
 		if($this->input->get('k')){
@@ -116,7 +116,7 @@ class PostController extends FrontController{
 		}
 		
 		if($this->input->get('c')){
-			$cat = Categories::model()->fetchRow(array('alias = ?'=>$this->input->get('c')));
+			$cat = CategoriesTable::model()->fetchRow(array('alias = ?'=>$this->input->get('c')));
 			if($cat){
 				$breadcrumbs[] = array('title'=>$cat['title']);
 				//SEO

@@ -2,7 +2,7 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\helpers\StringHelper;
 use fay\core\HttpException;
 
@@ -29,9 +29,9 @@ class CaseController extends FrontController{
 		);
 		$this->layout->current_directory = 'case';
 		
-		$this->view->cases = Posts::model()->fetchAll(array(
+		$this->view->cases = PostsTable::model()->fetchAll(array(
 			'publish_time < '.$this->current_time,
-			'status = ?'=>Posts::STATUS_PUBLISHED,
+			'status = ?'=>PostsTable::STATUS_PUBLISHED,
 			'deleted = 0',
 		));
 		
@@ -40,9 +40,9 @@ class CaseController extends FrontController{
 
 	public function item(){
 		if($this->input->get('alias')){
-			$post = Posts::model()->fetchRow(array('alias = ?'=>$this->input->get('alias')));
+			$post = PostsTable::model()->fetchRow(array('alias = ?'=>$this->input->get('alias')));
 		}else if($this->input->get('id')){
-			$post = Posts::model()->fetchRow(array('id = ?'=>$this->input->get('id', 'intval')));
+			$post = PostsTable::model()->fetchRow(array('id = ?'=>$this->input->get('id', 'intval')));
 		}
 	
 		if(isset($post) && $post){

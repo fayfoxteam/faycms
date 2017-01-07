@@ -4,9 +4,9 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\PostComments;
+use fay\models\tables\PostCommentsTable;
 use fay\core\Response;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\helpers\HtmlHelper;
 use fay\services\post\PostCommentService;
 use fay\core\Exception;
@@ -78,11 +78,11 @@ class PostCommentController extends AdminController{
 	 */
 	public function getCounts(){
 		Response::json(array(
-			'all'=>\cms\models\post\Comment::model()->getCount(),
-			'approved'=>\cms\models\post\Comment::model()->getCount(PostComments::STATUS_APPROVED),
-			'unapproved'=>\cms\models\post\Comment::model()->getCount(PostComments::STATUS_UNAPPROVED),
-			'pending'=>\cms\models\post\Comment::model()->getCount(PostComments::STATUS_PENDING),
-			'deleted'=>\cms\models\post\Comment::model()->getDeletedCount(),
+			'all'=>\cms\models\post\CommentTable::model()->getCount(),
+			'approved'=>\cms\models\post\CommentTable::model()->getCount(PostCommentsTable::STATUS_APPROVED),
+			'unapproved'=>\cms\models\post\CommentTable::model()->getCount(PostCommentsTable::STATUS_UNAPPROVED),
+			'pending'=>\cms\models\post\CommentTable::model()->getCount(PostCommentsTable::STATUS_PENDING),
+			'deleted'=>\cms\models\post\CommentTable::model()->getDeletedCount(),
 		));
 	}
 	
@@ -95,7 +95,7 @@ class PostCommentController extends AdminController{
 		try{
 			PostCommentService::service()->approve($id);
 				
-			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '审核通过了一条文章评论', $id);
+			$this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '审核通过了一条文章评论', $id);
 		
 			Response::notify('success', array(
 				'data'=>array(
@@ -123,7 +123,7 @@ class PostCommentController extends AdminController{
 		try{
 			PostCommentService::service()->disapprove($id);
 		
-			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '审核拒绝了一条文章评论', $id);
+			$this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '审核拒绝了一条文章评论', $id);
 		
 			Response::notify('success', array(
 				'data'=>array(
@@ -151,7 +151,7 @@ class PostCommentController extends AdminController{
 		try{
 			PostCommentService::service()->delete($id);
 			
-			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '将文章评论移入回收站', $id);
+			$this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '将文章评论移入回收站', $id);
 				
 			Response::notify('success', array(
 				'data'=>array(
@@ -181,7 +181,7 @@ class PostCommentController extends AdminController{
 		try{
 			PostCommentService::service()->undelete($id);
 
-			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '将文章评论移出回收站', $id);
+			$this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '将文章评论移出回收站', $id);
 				
 			Response::notify('success', array(
 				'data'=>array(
@@ -211,7 +211,7 @@ class PostCommentController extends AdminController{
 		try{
 			PostCommentService::service()->remove($id);
 			
-			$this->actionlog(Actionlogs::TYPE_POST_COMMENT, '永久删除一条文章评论', $id);
+			$this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '永久删除一条文章评论', $id);
 			
 			Response::notify('success', array(
 				'data'=>array(

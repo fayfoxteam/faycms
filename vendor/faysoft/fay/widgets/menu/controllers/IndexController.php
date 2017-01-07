@@ -4,11 +4,11 @@ namespace fay\widgets\menu\controllers;
 use fay\helpers\HtmlHelper;
 use fay\widget\Widget;
 use fay\services\MenuService;
-use fay\models\tables\Menus;
+use fay\models\tables\MenusTable;
 
 class IndexController extends Widget{
 	public function initConfig($config){
-		empty($config['top']) && $config['top'] = Menus::ITEM_USER_MENU;
+		empty($config['top']) && $config['top'] = MenusTable::ITEM_USER_MENU;
 		
 		return $this->config = $config;
 	}

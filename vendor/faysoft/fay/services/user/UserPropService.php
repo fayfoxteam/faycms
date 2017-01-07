@@ -2,7 +2,7 @@
 namespace fay\services\user;
 
 use fay\models\Prop;
-use fay\models\tables\Props;
+use fay\models\tables\PropsTable;
 use fay\core\Loader;
 
 class UserPropService extends Prop{
@@ -19,9 +19,9 @@ class UserPropService extends Prop{
 	 * @var array
 	 */
 	protected $models = array(
-		'varchar'=>'fay\models\tables\UserPropVarchar',
-		'int'=>'fay\models\tables\UserPropInt',
-		'text'=>'fay\models\tables\UserPropText',
+		'varchar'=>'fay\models\tables\UserPropVarcharTable',
+		'int'=>'fay\models\tables\UserPropIntTable',
+		'text'=>'fay\models\tables\UserPropTextTable',
 	);
 	
 	/**
@@ -34,7 +34,7 @@ class UserPropService extends Prop{
 	 * @see Prop::$type
 	 * @var string
 	 */
-	protected $type = Props::TYPE_ROLE;
+	protected $type = PropsTable::TYPE_ROLE;
 	
 	/**
 	 * @see \fay\models\Prop::setValue()

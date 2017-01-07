@@ -3,9 +3,9 @@ namespace fay\services\post;
 
 use fay\core\Service;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\user\UserCounterService;
-use fay\models\tables\UserCounter as UserCounterModel;
+use fay\models\tables\UserCounterTable as UserCounterModel;
 
 class PostUserCounterService extends Service{
 	/**
@@ -45,7 +45,7 @@ class PostUserCounterService extends Service{
 		$sql = new Sql();
 		$result = $sql->from(array('p'=>'posts'), 'COUNT(*)')
 			->where('p.user_id = ?', $user_id)
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->fetchRow();
 		return $result['COUNT(*)'];
 	}
@@ -57,17 +57,17 @@ class PostUserCounterService extends Service{
 	public function resetPostCount(){
 		$sql = new Sql();
 		$results = $result = $sql->from(array('p'=>'posts'), array('user_id', 'COUNT(*) AS count'))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->group('p.user_id')
 			->fetchAll();
 		
 		//先清零
-		UserCounterModel::model()->update(array(
+		UserCounterModelTable::model()->update(array(
 			'posts'=>0
 		), false);
 		
 		foreach($results as $r){
-			UserCounterModel::model()->update(array(
+			UserCounterModelTable::model()->update(array(
 				'posts'=>$r['count']
 			), $r['user_id']);
 		}

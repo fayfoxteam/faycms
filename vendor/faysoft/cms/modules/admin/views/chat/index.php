@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 use fay\services\UserService;
 
 $settings = F::form('setting')->getAllData();
@@ -49,12 +49,12 @@ $settings = F::form('setting')->getAllData();
 <script src="<?php echo $this->assets('faycms/js/admin/chat.js')?>"></script>
 <script>
 chat.status = {
-	'<?php echo Messages::STATUS_APPROVED?>':'<span class="fc-green">已通过</span>',
-	'<?php echo Messages::STATUS_UNAPPROVED?>':'<span class="fc-red">已驳回</span>',
-	'<?php echo Messages::STATUS_PENDING?>':'<span class="fc-orange">待审</span>',
-	'approved':'<?php echo Messages::STATUS_APPROVED?>',
-	'unapproved':'<?php echo Messages::STATUS_UNAPPROVED?>',
-	'pending':'<?php echo Messages::STATUS_PENDING?>'
+	'<?php echo MessagesTable::STATUS_APPROVED?>':'<span class="fc-green">已通过</span>',
+	'<?php echo MessagesTable::STATUS_UNAPPROVED?>':'<span class="fc-red">已驳回</span>',
+	'<?php echo MessagesTable::STATUS_PENDING?>':'<span class="fc-orange">待审</span>',
+	'approved':'<?php echo MessagesTable::STATUS_APPROVED?>',
+	'unapproved':'<?php echo MessagesTable::STATUS_UNAPPROVED?>',
+	'pending':'<?php echo MessagesTable::STATUS_PENDING?>'
 };
 chat.display_name = '<?php echo $settings['display_name']?>';
 chat.permissions = <?php echo json_encode(array(

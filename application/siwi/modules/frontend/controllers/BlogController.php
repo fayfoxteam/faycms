@@ -4,10 +4,10 @@ namespace siwi\modules\frontend\controllers;
 use siwi\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\services\PostService;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 use fay\core\HttpException;
 use siwi\helpers\FriendlyLink;
 
@@ -46,7 +46,7 @@ class BlogController extends FrontController{
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
 				'p.deleted = 0',
-				'p.status = '.Posts::STATUS_PUBLISHED,
+				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
 		;
@@ -90,7 +90,7 @@ class BlogController extends FrontController{
 		if(!$post){
 			throw new HttpException('页面不存在');
 		}
-		Posts::model()->incr($post['id'], 'views', 1);//阅读数
+		PostsTable::model()->incr($post['id'], 'views', 1);//阅读数
 		$this->view->post = $post;
 		
 		$this->layout->title = $post['seo_title'];
@@ -104,9 +104,9 @@ class BlogController extends FrontController{
 			->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'nickname AS parent_nickname')
 			->where(array(
 				"m.target = {$id}",
-				'm.type = '.Messages::TYPE_POST_COMMENT,
+				'm.type = '.MessagesTable::TYPE_POST_COMMENT,
 				'm.deleted = 0',
-				'm.status = '.Messages::STATUS_APPROVED,
+				'm.status = '.MessagesTable::STATUS_APPROVED,
 			))
 			->order('create_time DESC');
 		

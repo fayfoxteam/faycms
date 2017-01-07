@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Widgets;
+use fay\models\tables\WidgetsTable;
 use fay\core\Response;
 
 class WidgetareaController extends AdminController{
@@ -26,7 +26,7 @@ class WidgetareaController extends AdminController{
 		$this->view->widgetareas = $this->config->getFile('widgetareas');
 		
 		//小工具实例
-		$this->view->widgets = Widgets::model()->fetchAll(array(), '*', 'widgetarea, sort, id DESC');
+		$this->view->widgets = WidgetsTable::model()->fetchAll(array(), '*', 'widgetarea, sort, id DESC');
 		
 		$this->view->render();
 	}
@@ -41,7 +41,7 @@ class WidgetareaController extends AdminController{
 			$i = 0;
 			$widgets = $this->input->post($wa['alias'], 'intval', array());
 			
-			Widgets::model()->update(array(
+			WidgetsTable::model()->update(array(
 				'widgetarea'=>'',
 				'sort'=>255,
 			), array(
@@ -50,7 +50,7 @@ class WidgetareaController extends AdminController{
 			));
 			foreach($widgets as $w){
 				$i++;
-				Widgets::model()->update(array(
+				WidgetsTable::model()->update(array(
 					'widgetarea'=>$wa['alias'],
 					'sort'=>$i,	
 				), $w);

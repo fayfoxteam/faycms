@@ -3,7 +3,7 @@ namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
 use fay\services\FlashService;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\CategoryService;
 
 class AdminController extends Widget{
@@ -14,7 +14,7 @@ class AdminController extends Widget{
 		empty($config['fields']) && $config['fields'] = array();
 		
 		if($config['default_post_id']){
-			$post = Posts::model()->find($config['default_post_id'], 'title');
+			$post = PostsTable::model()->find($config['default_post_id'], 'title');
 			$this->form->setData(array(
 				'fixed_title'=>$post['title'],
 			));

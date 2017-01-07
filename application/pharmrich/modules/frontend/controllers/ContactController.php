@@ -2,10 +2,10 @@
 namespace pharmrich\modules\frontend\controllers;
 
 use pharmrich\library\FrontController;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use pharmrich\models\forms\LeaveMessage;
 use fay\core\Response;
-use fay\models\tables\Contacts;
+use fay\models\tables\ContactsTable;
 use fay\helpers\RequestHelper;
 
 class ContactController extends FrontController{
@@ -16,25 +16,25 @@ class ContactController extends FrontController{
 	}
 	
 	public function index(){
-		$page = Pages::model()->fetchRow(array('alias = ?'=>'contact'));
-		Pages::model()->incr($page['id'], 'views', 1);
+		$page = PagesTable::model()->fetchRow(array('alias = ?'=>'contact'));
+		PagesTable::model()->incr($page['id'], 'views', 1);
 		$this->view->page = $page;
 
 		$this->layout->title = $page['seo_title'] ? $page['seo_title'] : $page['title'];
 		$this->layout->keywords = $page['seo_keywords'];
 		$this->layout->description = $page['seo_description'];
 		
-		$this->form()->setModel(LeaveMessage::model());
+		$this->form()->setModel(LeaveMessageTable::model());
 		
 		$this->view->render();
 	}
 	
 	public function send(){
-		$this->form()->setModel(LeaveMessage::model());
+		$this->form()->setModel(LeaveMessageTable::model());
 		
 		if($this->input->post()){
 			if($this->form()->check()){
-				Contacts::model()->insert(array(
+				ContactsTable::model()->insert(array(
 					'name'=>$this->form()->getData('name'),
 					'email'=>$this->form()->getData('email'),
 					'title'=>$this->form()->getData('subject'),

@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\Messages;
+use fay\models\tables\MessagesTable;
 use fay\services\MessageService;
 use fay\helpers\DateHelper;
 use fay\core\Validator;
@@ -20,7 +20,7 @@ class MessageController extends UserController{
 			//插入留言
 			$target = $this->input->post('target', 'intval');
 			$content = $this->input->post('content');
-			$type = Messages::TYPE_USER_MESSAGE;
+			$type = MessagesTable::TYPE_USER_MESSAGE;
 			$parent = $this->input->post('parent', 'intval', 0);
 			$message_id = MessageService::service()->create($target, $content, $type, $parent);
 			

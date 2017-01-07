@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use fay\core\Controller;
 use fay\services\LogService;
 use fay\core\Response;
-use fay\models\tables\Logs;
+use fay\models\tables\LogsTable;
 use fay\core\Loader;
 use fay\services\UserService;
 use fay\services\user\UserPasswordService;
@@ -52,7 +52,7 @@ class LoginController extends Controller{
 					'error_code'=>$result['error_code'],
 					'username'=>$this->input->post('username'),
 					'password'=>$this->input->post('password'),
-				), Logs::TYPE_WARMING);
+				), LogsTable::TYPE_WARMING);
 				$this->view->error = $result['message'];
 			}
 		}

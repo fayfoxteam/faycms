@@ -3,7 +3,7 @@ use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\services\user\UserRoleService;
-use fay\models\tables\Roles;
+use fay\models\tables\RolesTable;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
 	<?php if(in_array('avatar', $cols)){?>
@@ -32,7 +32,7 @@ use fay\models\tables\Roles;
 				echo HtmlHelper::link('查看', array('admin/operator/item', array(
 					'id'=>$data['id'],
 				)), array(), true);
-				if(!UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN, $data['id']) || UserRoleService::service()->is(Roles::ITEM_SUPER_ADMIN)){
+				if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN, $data['id']) || UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){
 					echo HtmlHelper::link('编辑', array('admin/operator/edit', array(
 						'id'=>$data['id'],
 					)), array(), true);

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\models\tables\ExamPapers;
+use fay\models\tables\ExamPapersTable;
 use fay\helpers\StringHelper;
 ?>
 <tr valign="top">
@@ -22,10 +22,10 @@ use fay\helpers\StringHelper;
 	</td>
 	<td><?php echo HtmlHelper::encode($data['cat_title']);?></td>
 	<td><?php switch($data['status']){
-		case ExamPapers::STATUS_ENABLED:
+		case ExamPapersTable::STATUS_ENABLED:
 			echo '<span class="fc-green">启用</span>';
 			break;
-		case ExamPapers::STATUS_DISABLED:
+		case ExamPapersTable::STATUS_DISABLED:
 			echo '<span class="fc-red">禁用</span>';
 			break;
 	}?></td>

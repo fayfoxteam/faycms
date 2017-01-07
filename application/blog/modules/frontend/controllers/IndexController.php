@@ -4,7 +4,7 @@ namespace blog\modules\frontend\controllers;
 use blog\library\FrontController;
 use fay\services\OptionService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\services\CategoryService;
 use fay\core\HttpException;
@@ -24,7 +24,7 @@ class IndexController extends FrontController{
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'))
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('p.is_top DESC, p.sort, p.publish_time DESC')
 		;
 		

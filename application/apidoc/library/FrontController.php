@@ -3,7 +3,7 @@ namespace apidoc\library;
 
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
-use fay\models\tables\SpiderLogs;
+use fay\models\tables\SpiderLogsTable;
 use fay\services\CategoryService;
 use apidoc\models\tables\Apis;
 use fay\helpers\HtmlHelper;
@@ -22,7 +22,7 @@ class FrontController extends Controller{
 		$this->current_user = \F::session()->get('user.id', 0);
 		
 		if($spider = RequestHelper::isSpider()){//如果是蜘蛛，记录蜘蛛日志
-			SpiderLogs::model()->insert(array(
+			SpiderLogsTable::model()->insert(array(
 				'spider'=>$spider,
 				'url'=>'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$_SERVER['REQUEST_URI'],
 				'user_agent'=>isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
@@ -43,7 +43,7 @@ class FrontController extends Controller{
 	
 	private function getLeftMenu(){
 		$api_cats = CategoryService::service()->getNextLevel('_system_api', array('id', 'alias', 'title', 'description'));
-		$apis = Apis::model()->fetchAll(array(), 'id,title,router,cat_id', 'cat_id');
+		$apis = ApisTable::model()->fetchAll(array(), 'id,title,router,cat_id', 'cat_id');
 		$menus = array();
 		foreach($api_cats as $c){
 			$menu = array(

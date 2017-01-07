@@ -4,7 +4,7 @@ namespace qianlu\modules\frontend\controllers;
 use qianlu\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\services\OptionService;
 use fay\core\HttpException;
 
@@ -48,7 +48,7 @@ class TeamController extends FrontController{
 			->where(array(
 				'p.cat_id = '.$cat_team['id'],
 			))
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->fetchAll();
 		;
 	
@@ -57,7 +57,7 @@ class TeamController extends FrontController{
 	
 	public function item(){
 		if($this->input->get('id')){
-			$member = Posts::model()->find($this->input->get('id', 'intval'));
+			$member = PostsTable::model()->find($this->input->get('id', 'intval'));
 			if($member){
 				$this->view->member = $member;
 				

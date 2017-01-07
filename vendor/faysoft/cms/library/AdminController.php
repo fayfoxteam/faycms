@@ -4,14 +4,14 @@ namespace cms\library;
 use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\RequestHelper;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\services\SettingService;
 use fay\models\Setting as SettingModel;
 use fay\core\Response;
 use fay\services\MenuService;
 use fay\core\HttpException;
 use fay\services\FlashService;
-use fay\models\tables\Roles;
+use fay\models\tables\RolesTable;
 use fay\helpers\ArrayHelper;
 use fay\services\UserService;
 
@@ -36,7 +36,7 @@ class AdminController extends Controller{
 			'label'=>'Tools',
 			'icon'=>'fa fa-wrench',
 			'router'=>'tools',
-			'roles'=>Roles::ITEM_SUPER_ADMIN,
+			'roles'=>RolesTable::ITEM_SUPER_ADMIN,
 		),
 	);
 	
@@ -110,7 +110,7 @@ class AdminController extends Controller{
 	 * @param int $refer 引用，例如操作为“编辑文章”则该字段为文章id
 	 */
 	public function actionlog($type, $note, $refer = 0){
-		Actionlogs::model()->insert(array(
+		ActionlogsTable::model()->insert(array(
 			'user_id'=>$this->current_user,
 			'create_time'=>$this->current_time,
 			'ip_int'=>RequestHelper::ip2int($this->ip),

@@ -4,9 +4,9 @@ namespace fay\services;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
-use fay\models\tables\AnalystMacs;
-use fay\models\tables\AnalystVisits;
-use fay\models\tables\AnalystCaches;
+use fay\models\tables\AnalystMacsTable;
+use fay\models\tables\AnalystVisitsTable;
+use fay\models\tables\AnalystCachesTable;
 
 class AnalystService extends Service{
 	/**
@@ -36,7 +36,7 @@ class AnalystService extends Service{
 	public function getNewVisitors($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
 		
-		$macs = AnalystMacs::model()->fetchRow(array(
+		$macs = AnalystMacsTable::model()->fetchRow(array(
 			'create_date = ?'=>$date,
 			'hour = ?'=>$hour,
 			'site = ?'=>$site,
@@ -55,7 +55,7 @@ class AnalystService extends Service{
 	public function getPV($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
 		
-		$pv = AnalystVisits::model()->fetchRow(array(
+		$pv = AnalystVisitsTable::model()->fetchRow(array(
 			'create_date = ?'=>$date,
 			'hour = ?'=>$hour,
 			'site = ?'=>$site,
@@ -69,7 +69,7 @@ class AnalystService extends Service{
 	 * return int
 	 */
 	public function getAllPV(){
-		$pv = AnalystVisits::model()->fetchRow(array(), 'SUM(views) AS sum');
+		$pv = AnalystVisitsTable::model()->fetchRow(array(), 'SUM(views) AS sum');
 		
 		return empty($pv['sum']) ? '0' : $pv['sum'];
 	}
@@ -84,7 +84,7 @@ class AnalystService extends Service{
 	public function getUV($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
 		
-		$uv = AnalystVisits::model()->fetchRow(array(
+		$uv = AnalystVisitsTable::model()->fetchRow(array(
 			'create_date = ?'=>$date,
 			'hour = ?'=>$hour,
 			'site = ?'=>$site,
@@ -103,7 +103,7 @@ class AnalystService extends Service{
 	public function getIP($date = null, $hour = false, $site = false){
 		$date === null && $date = $this->today;
 		
-		$ip = AnalystVisits::model()->fetchRow(array(
+		$ip = AnalystVisitsTable::model()->fetchRow(array(
 			'create_date = ?'=>$date,
 			'hour = ?'=>$hour,
 			'site = ?'=>$site,
@@ -176,7 +176,7 @@ class AnalystService extends Service{
 			'new_visitors'=>$this->getNewVisitors($date, $hour, $site),
 			'bounce_rate'=>$this->getBounceRate($date, $hour, $site),
 		);
-		AnalystCaches::model()->insert($data);
+		AnalystCachesTable::model()->insert($data);
 		return $data;
 	}
 	
@@ -188,7 +188,7 @@ class AnalystService extends Service{
 	 * @return array|bool
 	 */
 	public function getCache($date, $hour = false, $site = false){
-		return AnalystCaches::model()->fetchRow(array(
+		return AnalystCachesTable::model()->fetchRow(array(
 			'date = ?'=>$date,
 			'hour = ?'=>$hour === false ? -1 : $hour,
 			'site = ?'=>$site ? $site : 0,//site为0视为全站数据
@@ -202,7 +202,7 @@ class AnalystService extends Service{
 	 * @return array
 	 */
 	public function getHourCacheByDay($date, $site = false){
-		$result = AnalystCaches::model()->fetchAll(array(
+		$result = AnalystCachesTable::model()->fetchAll(array(
 			'date = ?'=>$date,
 			'hour != -1',
 			'site = ?'=>$site ? $site : 0,//site为0视为全站数据
@@ -222,7 +222,7 @@ class AnalystService extends Service{
 	 */
 	public function getMacId($fmac = null){
 		$fmac || $fmac = $this->getFMac();
-		$mac = AnalystMacs::model()->fetchRow(array(
+		$mac = AnalystMacsTable::model()->fetchRow(array(
 			'fmac = ?'=>$fmac,
 		), 'id');
 		

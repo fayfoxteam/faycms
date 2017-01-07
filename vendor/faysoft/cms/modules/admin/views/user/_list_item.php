@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\Users;
+use fay\models\tables\UsersTable;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use fay\services\FileService;
@@ -69,15 +69,15 @@ use fay\services\user\UserRoleService;
 	
 	<?php if(in_array('status', $cols)){?>
 	<td>
-		<?php if($data['status'] == Users::STATUS_PENDING){?>
+		<?php if($data['status'] == UsersTable::STATUS_PENDING){?>
 			<span class="fc-orange">未审核</span>
-		<?php }else if($data['status'] == Users::STATUS_VERIFIED){?>
+		<?php }else if($data['status'] == UsersTable::STATUS_VERIFIED){?>
 			<span class="fc-green">通过审核</span>
-		<?php }else if($data['status'] == Users::STATUS_VERIFY_FAILED){?>
+		<?php }else if($data['status'] == UsersTable::STATUS_VERIFY_FAILED){?>
 			<span class="fc-red">未通过审核</span>
-		<?php }else if($data['status'] == Users::STATUS_UNCOMPLETED){?>
+		<?php }else if($data['status'] == UsersTable::STATUS_UNCOMPLETED){?>
 			<span class="fc-orange">信息不完整</span>
-		<?php }else if($data['status'] == Users::STATUS_NOT_VERIFIED){?>
+		<?php }else if($data['status'] == UsersTable::STATUS_NOT_VERIFIED){?>
 			<span class="fc-orange">未验证邮箱</span>
 		<?php }?>
 	</td>

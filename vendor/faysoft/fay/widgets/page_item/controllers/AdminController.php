@@ -3,7 +3,7 @@ namespace fay\widgets\page_item\controllers;
 
 use fay\widget\Widget;
 use fay\services\FlashService;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 
 class AdminController extends Widget{
 	public function initConfig($config){
@@ -13,7 +13,7 @@ class AdminController extends Widget{
 		$config['inc_views'] = empty($config['inc_views']) ? 0 : 1;
 		
 		if($config['default_page_id']){
-			$post = Pages::model()->find($config['default_page_id'], 'title');
+			$post = PagesTable::model()->find($config['default_page_id'], 'title');
 			$this->form->setData(array(
 				'page_title'=>$post['title'],
 			));

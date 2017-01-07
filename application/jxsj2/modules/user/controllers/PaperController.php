@@ -6,9 +6,9 @@ use fay\services\ExamService;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\ExamPapers;
+use fay\models\tables\ExamPapersTable;
 use fay\helpers\StringHelper;
-use fay\models\tables\ExamExams;
+use fay\models\tables\ExamExamsTable;
 use fay\core\HttpException;
 
 class PaperController extends UserController{
@@ -18,7 +18,7 @@ class PaperController extends UserController{
 			->where(array(
 				'start_time < '.$this->current_time,
 				'deleted = 0',
-				'status = '.ExamPapers::STATUS_ENABLED,
+				'status = '.ExamPapersTable::STATUS_ENABLED,
 			))
 			->orWhere(array(
 				'end_time = 0',
@@ -44,7 +44,7 @@ class PaperController extends UserController{
 		
 		if(!$this->view->paper['repeatedly']){
 			//不允许重复参考
-			$exam = ExamExams::model()->fetchRow('paper_id = '.$this->view->paper['id']);
+			$exam = ExamExamsTable::model()->fetchRow('paper_id = '.$this->view->paper['id']);
 			if($exam){
 				Response::notify('error', array(
 					'message'=>'该试卷只允许参考一次',
@@ -69,7 +69,7 @@ class PaperController extends UserController{
 		$paper_id = $this->input->post('paper_id', 'intval');
 		$answers = $this->input->post('answers');
 		
-		$paper = ExamPapers::model()->find($paper_id);
+		$paper = ExamPapersTable::model()->find($paper_id);
 		if(!$paper){
 			Response::notify('error', '试卷不存在');
 		}else if($paper['start_time'] > $this->current_time){

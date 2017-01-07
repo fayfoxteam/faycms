@@ -2,13 +2,13 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\Options;
+use fay\models\tables\OptionsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\services\FlashService;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 
 class OptionController extends AdminController{
 	public function __construct(){
@@ -18,13 +18,13 @@ class OptionController extends AdminController{
 	
 	public function create(){
 		if($this->input->post()){
-			if($this->form()->setModel(Options::model())->check()){
+			if($this->form()->setModel(OptionsTable::model())->check()){
 				$data = $this->form()->getFilteredData();
 				$data['create_time'] = $this->current_time;
 				$data['last_modified_time'] = $this->current_time;
-				$option_id = Options::model()->insert($data);
+				$option_id = OptionsTable::model()->insert($data);
 				
-				$this->actionlog(Actionlogs::TYPE_OPTION, '添加了一个系统参数', $option_id);
+				$this->actionlog(ActionlogsTable::TYPE_OPTION, '添加了一个系统参数', $option_id);
 				
 				Response::notify('success', array(
 					'message'=>'站点参数添加成功',
@@ -46,17 +46,17 @@ class OptionController extends AdminController{
 			'text'=>'添加参数',
 		);
 		$option_id = $this->input->get('id', 'intval');
-		$this->form()->setModel(Options::model());
+		$this->form()->setModel(OptionsTable::model());
 		if($this->input->post() && $this->form()->check()){
 			$data = $this->form()->getFilteredData();
 			$data['last_modified_time'] = $this->current_time;
-			Options::model()->update($data, array('id = ?'=>$option_id));
+			OptionsTable::model()->update($data, array('id = ?'=>$option_id));
 			
-			$this->actionlog(Actionlogs::TYPE_OPTION, '编辑了一个系统参数', $option_id);
+			$this->actionlog(ActionlogsTable::TYPE_OPTION, '编辑了一个系统参数', $option_id);
 			Response::notify('success', '一个参数被编辑', false);
 		}
 		
-		if($option = Options::model()->find($option_id)){
+		if($option = OptionsTable::model()->find($option_id)){
 			$this->form()->setData($option);
 			$this->view->option = $option;
 			
@@ -74,7 +74,7 @@ class OptionController extends AdminController{
 		
 		$this->_setListview();
 		
-		$this->form()->setModel(Options::model());
+		$this->form()->setModel(OptionsTable::model());
 		
 		$this->view->render();
 	}
@@ -86,14 +86,14 @@ class OptionController extends AdminController{
 			Response::notify('error', '未指定参数ID');
 		}
 		
-		$option = Options::model()->find($option_id);
+		$option = OptionsTable::model()->find($option_id);
 		if(!$option){
 			Response::notify('error', '指定参数ID不存在');
 		}
 		
-		Options::model()->delete(array('id = ?'=>$option_id));
+		OptionsTable::model()->delete(array('id = ?'=>$option_id));
 		
-		$this->actionlog(Actionlogs::TYPE_OPTION, '移除了一个系统参数', $option['option_name']);
+		$this->actionlog(ActionlogsTable::TYPE_OPTION, '移除了一个系统参数', $option['option_name']);
 		
 		Response::notify('success', array(
 			'message'=>'一个参数被永久删除',
@@ -101,7 +101,7 @@ class OptionController extends AdminController{
 	}
 	
 	public function isOptionNotExist(){
-		if(Options::model()->fetchRow(array(
+		if(OptionsTable::model()->fetchRow(array(
 			'option_name = ?'=>$this->input->request('option_name', 'trim'),
 			'id != ?'=>$this->input->request('id', 'intval', 0),
 		))){
@@ -118,7 +118,7 @@ class OptionController extends AdminController{
 		//搜索条件验证，异常数据直接返回404
 		$this->form('search')->setScene('final')->setRules(array(
 			array('orderby', 'range', array(
-				'range'=>Options::model()->getFields(),
+				'range'=>OptionsTable::model()->getFields(),
 			)),
 			array('order', 'range', array(
 				'range'=>array('asc', 'desc'),

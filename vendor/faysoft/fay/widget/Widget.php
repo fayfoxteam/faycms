@@ -4,7 +4,7 @@ namespace fay\widget;
 use fay\core\Db;
 use fay\core\Input;
 use fay\helpers\RequestHelper;
-use fay\models\tables\Widgets;
+use fay\models\tables\WidgetsTable;
 
 abstract class Widget{
 	/**
@@ -106,7 +106,7 @@ abstract class Widget{
 	 * @param $data
 	 */
 	public function saveConfig($data){
-		Widgets::model()->update(array(
+		WidgetsTable::model()->update(array(
 			'options'=>json_encode($data),
 		), "alias = '{$this->alias}'");
 	}
@@ -119,7 +119,7 @@ abstract class Widget{
 			return $this->config;
 		}
 		
-		$widget = Widgets::model()->fetchRow("alias = '{$this->alias}'", 'options');
+		$widget = WidgetsTable::model()->fetchRow("alias = '{$this->alias}'", 'options');
 		if(isset($widget['options']) && $widget['options']){
 			return json_decode($widget['options'], true);
 		}else{

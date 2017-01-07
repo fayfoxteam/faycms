@@ -4,7 +4,7 @@ namespace ncp\modules\frontend\controllers;
 use ncp\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\Posts;
+use fay\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\services\PostService;
 use fay\core\HttpException;
@@ -38,7 +38,7 @@ class NewsController extends FrontController{
 				->where(array(
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
-					'p.status = '.Posts::STATUS_PUBLISHED,
+					'p.status = '.PostsTable::STATUS_PUBLISHED,
 					'p.deleted = 0',
 					'p.publish_time < '.$this->current_time,
 				))
@@ -56,7 +56,7 @@ class NewsController extends FrontController{
 			));
 			
 			$product_cat = CategoryService::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-			$this->view->right_posts = Recommend::model()->getByCatAndArea($product_cat, 6, OptionService::get('site:right_recommend_days'));
+			$this->view->right_posts = RecommendTable::model()->getByCatAndArea($product_cat, 6, OptionService::get('site:right_recommend_days'));
 			
 			$this->view->render();
 			
@@ -71,7 +71,7 @@ class NewsController extends FrontController{
 		if(!$id || !$post = PostService::service()->get($id, 'nav.id,nav.title', 'news')){
 			throw new HttpException('页面不存在');
 		}
-		Posts::model()->update(array(
+		PostsTable::model()->update(array(
 			'last_view_time'=>$this->current_time,
 			'views'=>new Expr('views + 1'),
 		), $id);
@@ -83,7 +83,7 @@ class NewsController extends FrontController{
 		$this->view->post = $post;
 		
 		$food_cat = CategoryService::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-		$this->view->right_posts = Recommend::model()->getByCatAndArea($food_cat, 6, OptionService::get('site:right_recommend_days'));
+		$this->view->right_posts = RecommendTable::model()->getByCatAndArea($food_cat, 6, OptionService::get('site:right_recommend_days'));
 		
 		$this->view->render();
 	}

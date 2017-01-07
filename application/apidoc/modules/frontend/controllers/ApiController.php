@@ -23,7 +23,7 @@ class ApiController extends FrontController{
 		
 		$api_id = $this->form()->getData('api_id');
 		
-		$api = Api::model()->get($api_id);
+		$api = ApiTable::model()->get($api_id);
 		
 		if(!$api){
 			throw new HttpException('您访问的页面不存在');

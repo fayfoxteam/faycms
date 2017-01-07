@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\ExamQuestions;
+use fay\models\tables\ExamQuestionsTable;
 use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
@@ -19,10 +19,10 @@ use fay\helpers\HtmlHelper;
 				|
 				<?php echo F::form('search')->select('type', array(
 					''=>'--类型--',
-					ExamQuestions::TYPE_TRUE_OR_FALSE=>'判断题',
-					ExamQuestions::TYPE_SINGLE_ANSWER=>'单选题',
-					ExamQuestions::TYPE_INPUT=>'输入题',
-					ExamQuestions::TYPE_MULTIPLE_ANSWERS=>'多选题',
+					ExamQuestionsTable::TYPE_TRUE_OR_FALSE=>'判断题',
+					ExamQuestionsTable::TYPE_SINGLE_ANSWER=>'单选题',
+					ExamQuestionsTable::TYPE_INPUT=>'输入题',
+					ExamQuestionsTable::TYPE_MULTIPLE_ANSWERS=>'多选题',
 				), array(
 					'class'=>'form-control',
 				))?>

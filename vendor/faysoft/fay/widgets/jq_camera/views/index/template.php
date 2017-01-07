@@ -1,6 +1,6 @@
 <?php
 use fay\services\FileService;
-use fay\models\tables\Files;
+use fay\models\tables\FilesTable;
 use fay\services\QiniuService;
 use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
@@ -15,7 +15,7 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
 <div class="jq-camera-container" id="<?php echo $element_id?>">
 	<div class="camera_wrap camera_azure_skin jq-camera">
 	<?php foreach($files as $f){
-		$file = Files::model()->find($f['file_id']);
+		$file = FilesTable::model()->find($f['file_id']);
 		if($file['qiniu']){
 			$data_src = QiniuService::service()->getUrl($file);
 		}else{

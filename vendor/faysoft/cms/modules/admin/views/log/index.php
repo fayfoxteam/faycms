@@ -1,7 +1,7 @@
 <?php
 use cms\helpers\ListTableHelper;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\Logs;
+use fay\models\tables\LogsTable;
 
 /**
  * @var $iplocation \IpLocation
@@ -20,9 +20,9 @@ use fay\models\tables\Logs;
 				|
 				<?php echo F::form('search')->select('type', array(
 					''=>'--类型--',
-					Logs::TYPE_NORMAL=>'正常',
-					Logs::TYPE_ERROR=>'错误',
-					Logs::TYPE_WARMING=>'警告',
+					LogsTable::TYPE_NORMAL=>'正常',
+					LogsTable::TYPE_ERROR=>'错误',
+					LogsTable::TYPE_WARMING=>'警告',
 				), array(
 					'class'=>'form-control',
 				))?>

@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\tables\Links;
+use fay\models\tables\LinksTable;
 
 class ClientController extends FrontController{
 	public function __construct(){
@@ -16,7 +16,7 @@ class ClientController extends FrontController{
 	}
 	
 	public function index(){
-		$this->view->links = Links::model()->fetchAll(array(
+		$this->view->links = LinksTable::model()->fetchAll(array(
 			'visible = 1',
 		), '*', 'sort');
 		

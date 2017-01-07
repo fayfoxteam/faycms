@@ -5,11 +5,11 @@ use fay\common\ListView;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\models\tables\PostLikes;
-use fay\models\tables\Posts;
+use fay\models\tables\PostLikesTable;
+use fay\models\tables\PostsTable;
 use fay\services\UserService;
 use fay\services\PostService;
-use fay\models\tables\PostMeta;
+use fay\models\tables\PostMetaTable;
 
 class PostLikeService extends Service{
 	/**
@@ -53,7 +53,7 @@ class PostLikeService extends Service{
 			throw new PostException('已赞过，不能重复点赞', 'already-liked');
 		}
 		
-		PostLikes::model()->insert(array(
+		PostLikesTable::model()->insert(array(
 			'post_id'=>$post_id,
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
@@ -64,10 +64,10 @@ class PostLikeService extends Service{
 		//文章点赞数+1
 		if($sockpuppet){
 			//非真实用户行为
-			PostMeta::model()->incr($post_id, array('likes'), 1);
+			PostMetaTable::model()->incr($post_id, array('likes'), 1);
 		}else{
 			//真实用户行为
-			PostMeta::model()->incr($post_id, array('likes', 'real_likes'), 1);
+			PostMetaTable::model()->incr($post_id, array('likes', 'real_likes'), 1);
 		}
 		
 		//触发事件
@@ -87,20 +87,20 @@ class PostLikeService extends Service{
 			throw new PostException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		$like = PostLikes::model()->find(array($post_id, $user_id), 'sockpuppet');
+		$like = PostLikesTable::model()->find(array($post_id, $user_id), 'sockpuppet');
 		if($like){
 			//删除点赞关系
-			PostLikes::model()->delete(array(
+			PostLikesTable::model()->delete(array(
 				'user_id = ?'=>$user_id,
 				'post_id = ?'=>$post_id,
 			));
 				
 			if($like['sockpuppet']){
 				//非真实用户行为
-				PostMeta::model()->incr($post_id, array('likes'), -1);
+				PostMetaTable::model()->incr($post_id, array('likes'), -1);
 			}else{
 				//真实用户行为
-				PostMeta::model()->incr($post_id, array('likes', 'real_likes'), -1);
+				PostMetaTable::model()->incr($post_id, array('likes', 'real_likes'), -1);
 			}
 				
 			//触发事件
@@ -126,7 +126,7 @@ class PostLikeService extends Service{
 			throw new PostException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		if(PostLikes::model()->find(array($post_id, $user_id), 'create_time')){
+		if(PostLikesTable::model()->find(array($post_id, $user_id), 'create_time')){
 			return true;
 		}else{
 			return false;
@@ -150,7 +150,7 @@ class PostLikeService extends Service{
 			$post_ids = explode(',', str_replace(' ', '', $post_ids));
 		}
 		
-		$likes = PostLikes::model()->fetchAll(array(
+		$likes = PostLikesTable::model()->fetchAll(array(
 			'user_id = ?'=>$user_id,
 			'post_id IN (?)'=>$post_ids,
 		), 'post_id');
@@ -178,7 +178,7 @@ class PostLikeService extends Service{
 		$sql->from(array('pl'=>'post_likes'), 'user_id')
 			->joinLeft(array('p'=>'posts'), 'pl.post_id = p.id')
 			->where('pl.post_id = ?', $post_id)
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('pl.create_time DESC')
 		;
 		
@@ -218,7 +218,7 @@ class PostLikeService extends Service{
 		$sql->from(array('pl'=>'post_likes'), 'post_id')
 			->joinLeft(array('p'=>'posts'), 'pl.post_id = p.id')
 			->where('pl.user_id = ?', $user_id)
-			->where(Posts::getPublishedConditions('p'))
+			->where(PostsTable::getPublishedConditions('p'))
 			->order('pl.create_time DESC')
 		;
 		

@@ -2,7 +2,7 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\core\HttpException;
 
 class PageController extends FrontController{
@@ -14,13 +14,13 @@ class PageController extends FrontController{
 	
 	public function item(){
 		if($this->input->get('alias')){
-			$page = Pages::model()->fetchRow(array('alias = ?'=>$this->input->get('alias')));
+			$page = PagesTable::model()->fetchRow(array('alias = ?'=>$this->input->get('alias')));
 		}else if($this->input->get('id')){
-			$page = Pages::model()->fetchRow(array('id = ?'=>$this->input->get('id', 'intval')));
+			$page = PagesTable::model()->fetchRow(array('id = ?'=>$this->input->get('id', 'intval')));
 		}
 		
 		if(isset($page) && $page){
-			Pages::model()->incr($page['id'], 'views', 1);
+			PagesTable::model()->incr($page['id'], 'views', 1);
 			$this->view->page = $page;
 		}else{
 			throw new HttpException('您请求的页面不存在');

@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\models\tables\Pages;
+use fay\models\tables\PagesTable;
 use fay\core\Validator;
 use fay\core\HttpException;
 
@@ -24,7 +24,7 @@ class PageController extends FrontController{
 		));
 		
 		if($check === true){
-			$page = Pages::model()->fetchRow(array(
+			$page = PagesTable::model()->fetchRow(array(
 				'alias = ?'=>$this->input->get('alias'),
 			));
 			if($page){

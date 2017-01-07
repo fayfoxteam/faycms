@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\AnalystSites;
+use fay\models\tables\AnalystSitesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -18,15 +18,15 @@ class AnalystSiteController extends AdminController{
 		$this->layout->subtitle = '统计站点';
 		$this->_setListview();
 		
-		$this->form()->setModel(AnalystSites::model());
+		$this->form()->setModel(AnalystSitesTable::model());
 		$this->view->render();
 	}
 	
 	public function create(){
-		$this->form()->setModel(AnalystSites::model());
+		$this->form()->setModel(AnalystSitesTable::model());
 		if($this->input->post()){
 			if($this->form()->check()){
-				AnalystSites::model()->insert($this->form()->getFilteredData());
+				AnalystSitesTable::model()->insert($this->form()->getFilteredData());
 				Response::notify('success', '站点添加成功');
 			}else{
 				//若表单验证出错，返回上一页
@@ -44,13 +44,13 @@ class AnalystSiteController extends AdminController{
 		);
 		$id = $this->input->get('id', 'intval');
 		
-		$this->form()->setModel(AnalystSites::model());
+		$this->form()->setModel(AnalystSitesTable::model());
 		if($this->input->post() && $this->form()->check()){
-			AnalystSites::model()->update($this->form()->getFilteredData(), $id);
+			AnalystSitesTable::model()->update($this->form()->getFilteredData(), $id);
 			Response::notify('success', '站点编辑成功', false);
 		}
 		
-		$site = AnalystSites::model()->find($id);
+		$site = AnalystSitesTable::model()->find($id);
 		$this->form()->setData($site);
 		
 		$this->layout->subtitle = '编辑统计站点 - '.HtmlHelper::encode($this->form()->getData('title'));
@@ -62,7 +62,7 @@ class AnalystSiteController extends AdminController{
 	
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
-		AnalystSites::model()->update(array(
+		AnalystSitesTable::model()->update(array(
 			'deleted'=>1,
 		), $id);
 		Response::notify('success', '一个站点被删除。'.HtmlHelper::link('撤销', array('admin/analyst-site/undelete', array(
@@ -72,7 +72,7 @@ class AnalystSiteController extends AdminController{
 	
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
-		AnalystSites::model()->update(array(
+		AnalystSitesTable::model()->update(array(
 			'deleted'=>0,
 		), $id);
 		Response::notify('success', '一个站点被还原');

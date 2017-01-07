@@ -4,12 +4,12 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\ExamExams;
-use fay\models\tables\Users;
-use fay\models\tables\ExamPapers;
-use fay\models\tables\ExamExamsQuestions;
+use fay\models\tables\ExamExamsTable;
+use fay\models\tables\UsersTable;
+use fay\models\tables\ExamPapersTable;
+use fay\models\tables\ExamExamsQuestionsTable;
 use fay\core\Response;
-use fay\models\tables\Actionlogs;
+use fay\models\tables\ActionlogsTable;
 use fay\services\ExamService;
 
 class ExamExamController extends AdminController{
@@ -65,10 +65,10 @@ class ExamExamController extends AdminController{
 		
 		$id = $this->input->get('id', 'intval');
 		
-		$exam = ExamExams::model()->find($id);
+		$exam = ExamExamsTable::model()->find($id);
 		$this->view->exam = $exam;
 		
-		$this->view->paper = ExamPapers::model()->find($exam['paper_id']);
+		$this->view->paper = ExamPapersTable::model()->find($exam['paper_id']);
 		
 		$sql = new Sql();
 		$this->view->exam_questions = $sql->from(array('ea'=>'exam_exams_questions'))
@@ -78,7 +78,7 @@ class ExamExamController extends AdminController{
 			))
 			->fetchAll()
 		;
-		$this->view->user = Users::model()->find($exam['user_id'], 'username,nickname');
+		$this->view->user = UsersTable::model()->find($exam['user_id'], 'username,nickname');
 		
 		$this->view->render();
 	}
@@ -88,7 +88,7 @@ class ExamExamController extends AdminController{
 		$score = $this->input->get('score', 'floatval');
 
 		//获取考试ID
-		$exam_question = ExamExamsQuestions::model()->find($id, 'id,exam_id,total_score');
+		$exam_question = ExamExamsQuestionsTable::model()->find($id, 'id,exam_id,total_score');
 		
 		if($score > $exam_question['total_score']){
 			Response::notify('error', array(
@@ -96,17 +96,17 @@ class ExamExamController extends AdminController{
 			));
 		}
 		
-		ExamExamsQuestions::model()->update(array(
+		ExamExamsQuestionsTable::model()->update(array(
 			'score'=>$score,
 		), $id);
 		//计算总分
-		$exam_score = ExamExamsQuestions::model()->fetchRow('exam_id = '.$exam_question['exam_id'], 'SUM(score) AS score');
+		$exam_score = ExamExamsQuestionsTable::model()->fetchRow('exam_id = '.$exam_question['exam_id'], 'SUM(score) AS score');
 		//更新总分
-		ExamExams::model()->update(array(
+		ExamExamsTable::model()->update(array(
 			'score'=>$exam_score['score'],
 		), $exam_question['exam_id']);
 
-		$this->actionlog(Actionlogs::TYPE_EXAM, '编辑了一个答题的得分', $id);
+		$this->actionlog(ActionlogsTable::TYPE_EXAM, '编辑了一个答题的得分', $id);
 		
 		Response::notify('success', array(
 			'message'=>'分数设置成功',
@@ -121,7 +121,7 @@ class ExamExamController extends AdminController{
 		
 		ExamService::service()->remove($id);
 		
-		$this->actionlog(Actionlogs::TYPE_EXAM, '将用户答卷永久删除', $id);
+		$this->actionlog(ActionlogsTable::TYPE_EXAM, '将用户答卷永久删除', $id);
 		
 		Response::notify('success', array(
 			'message'=>'一份答卷被永久删除',

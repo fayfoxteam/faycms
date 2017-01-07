@@ -3,7 +3,7 @@ namespace fay\validators;
 
 use fay\core\Validator;
 
-class Range extends Validator{
+class RangeValidator extends Validator{
 	public $message = '{$attribute}的取值非法';
 	
 	public $code = 'invalid-parameter:{$field}:not-in-range';

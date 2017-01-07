@@ -6,7 +6,7 @@ use fay\core\Validator;
 /**
  * 手机号码格式验证
  */
-class Mobile extends Validator{
+class MobileValidator extends Validator{
 	public $pattern = '/^1[0-9]{10}$/';
 	
 	public $message = '{$attribute}格式不正确';

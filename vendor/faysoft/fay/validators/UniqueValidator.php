@@ -10,7 +10,7 @@ use fay\core\ErrorException;
  * 该验证器必须传入table, field参数
  * conditions可选
  */
-class Unique extends Validator{
+class UniqueValidator extends Validator{
 	public $message = '{$attribute}已存在';
 	
 	public $code = 'invalid-parameter:{$field}-is-exist';

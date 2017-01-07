@@ -3,7 +3,7 @@ namespace fay\validators;
 
 use fay\core\Validator;
 
-class Email extends Validator{
+class EmailValidator extends Validator{
 	public $pattern = "/^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$/";
 	
 	public $message = '{$attribute}格式不正确';

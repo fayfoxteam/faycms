@@ -3,21 +3,21 @@ namespace fay\core;
 
 class Validator{
 	public static $map = array(
-		'email'=>'fay\validators\Email',
+		'email'=>'fay\validators\EmailValidator',
 		'string'=>'fay\validators\StringValidator',
-		'required'=>'fay\validators\Required',
+		'required'=>'fay\validators\RequiredValidator',
 		'int'=>'fay\validators\IntValidator',
 		'float'=>'fay\validators\FloatValidator',
-		'mobile'=>'fay\validators\Mobile',
-		'url'=>'fay\validators\Url',
-		'chinese'=>'fay\validators\Chinese',
-		'zh'=>'fay\validators\Chinese',
-		'exist'=>'fay\validators\Exist',
-		'unique'=>'fay\validators\Unique',
-		'datetime'=>'fay\validators\Datetime',
-		'range'=>'fay\validators\Range',
-		'compare'=>'fay\validators\Compare',
-		'fields'=>'fay\validators\Fields',
+		'mobile'=>'fay\validators\MobileValidator',
+		'url'=>'fay\validators\UrlValidator',
+		'chinese'=>'fay\validators\ChineseValidator',
+		'zh'=>'fay\validators\ChineseValidator',
+		'exist'=>'fay\validators\ExistValidator',
+		'unique'=>'fay\validators\UniqueValidator',
+		'datetime'=>'fay\validators\DatetimeValidator',
+		'range'=>'fay\validators\RangeValidator',
+		'compare'=>'fay\validators\CompareValidator',
+		'fields'=>'fay\validators\FieldsValidator',
 		'idcard'=>'fay\validators\IdCardValidator',
 	);
 	

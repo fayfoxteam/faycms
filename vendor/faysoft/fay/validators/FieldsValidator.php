@@ -7,7 +7,7 @@ use fay\core\Validator;
  * 验证输入fields字段格式是否正确
  * fields是本系统用于指定返回字段的自定义数据格式
  */
-class Fields extends Validator{
+class FieldsValidator extends Validator{
 	/**
 	 * 匹配如：id,content,publish_time,user.nickname,user.avatar:200x200,user.roles.*格式的fields字段
 	 */

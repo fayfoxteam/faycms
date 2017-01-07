@@ -7,7 +7,7 @@ use fay\core\Validator;
  * 验证输入是否为url，必须包含http或https协议名称。
  * 你也可以自己传入pattern字段修改正则，虽然我们不建议这么干。
  */
-class Url extends Validator{
+class UrlValidator extends Validator{
 	/**
 	 * 若为true，允许传入数组，每个数组项都必须是数字
 	 */
@@ -53,6 +53,7 @@ class Url extends Validator{
 	/**
 	 * 判断一项是否符合标准
 	 * @param int $item
+	 * @return array|bool
 	 */
 	private function checkItem($item){
 		if(is_string($item) && preg_match($this->pattern, $item)){

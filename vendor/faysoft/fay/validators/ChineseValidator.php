@@ -6,7 +6,7 @@ use fay\core\Validator;
 /**
  * 验证输入是否为纯中文
  */
-class Chinese extends Validator{
+class ChineseValidator extends Validator{
 	/**
 	 * 中文匹配正则，不建议修改
 	 */

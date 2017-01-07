@@ -7,7 +7,7 @@ use fay\core\Validator;
  * 比较一个输入是否与另一个输入或给定值（经典情况就是两次密码是否一致）。
  * 可选择==, ===, !=, !==, >, >=, <, <=比较方式，通过operator指定
  */
-class Compare extends Validator{
+class CompareValidator extends Validator{
 	/**
 	 * 比较符
 	 */

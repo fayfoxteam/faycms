@@ -9,7 +9,7 @@ use fay\core\Validator;
  * 前导0可省略
  * 若int为true，则可能是被转为时间戳的时间，此时只要是int类型都会返回true
  */
-class Datetime extends Validator{
+class DatetimeValidator extends Validator{
 	public $pattern = '/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/';
 	
 	public $message = '{$attribute}日期格式不正确';
@@ -55,6 +55,7 @@ class Datetime extends Validator{
 	/**
 	 * 判断一项是否符合标准
 	 * @param mixed $item
+	 * @return array|bool
 	 */
 	private function checkItem($item){
 		if($this->int && !is_int($item)){

@@ -6,7 +6,7 @@ use fay\core\Validator;
 /**
  * 非空验证
  */
-class Required extends Validator{
+class RequiredValidator extends Validator{
 	public $message = '{$attribute}不能为空';
 	
 	public $code = 'missing-parameter:{$field}';

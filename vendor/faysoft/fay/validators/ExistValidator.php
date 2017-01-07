@@ -8,7 +8,7 @@ use fay\core\ErrorException;
 /**
  * 该验证器必须传入table, field参数
  */
-class Exist extends Validator{
+class ExistValidator extends Validator{
 	public $message = '{$attribute}不存在';
 	
 	public $code = 'invalid-parameter:{$field}-is-not-exist';

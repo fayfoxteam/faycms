@@ -5,7 +5,7 @@ use fay\services\FileService;
 /**
  * 文件缓存
  */
-class File extends Cache{
+class FileCache extends Cache{
 	/**
 	 * 以某个几率自动删除过期的缓存文件（单位：%）
 	 */

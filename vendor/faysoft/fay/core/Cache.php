@@ -5,7 +5,7 @@ class Cache{
 	private static $_instance;
 	
 	public static $map = array(
-		'file'=>'fay\caching\File',
+		'file'=>'fay\caching\FileCache',
 		'memcache'=>'fay\caching\Memcache',
 		'array'=>'fay\caching\ArrayCache',
 	);

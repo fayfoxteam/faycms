@@ -310,12 +310,12 @@ class FeedController extends AdminController{
 	 */
 	public function getCounts(){
 		$data = array(
-			'all'=>\cms\models\Feed::model()->getCount(),
-			'approved'=>\cms\models\Feed::model()->getCount(FeedsTable::STATUS_APPROVED),
-			'unapproved'=>\cms\models\Feed::model()->getCount(FeedsTable::STATUS_UNAPPROVED),
-			'pending'=>\cms\models\Feed::model()->getCount(FeedsTable::STATUS_PENDING),
-			'draft'=>\cms\models\Feed::model()->getCount(FeedsTable::STATUS_DRAFT),
-			'deleted'=>\cms\models\Feed::model()->getDeletedCount(),
+			'all'=>\cms\services\FeedService::service()->getCount(),
+			'approved'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_APPROVED),
+			'unapproved'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_UNAPPROVED),
+			'pending'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_PENDING),
+			'draft'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_DRAFT),
+			'deleted'=>\cms\services\FeedService::service()->getDeletedCount(),
 		);
 		
 		Response::json($data);

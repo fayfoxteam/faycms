@@ -78,11 +78,11 @@ class PostCommentController extends AdminController{
 	 */
 	public function getCounts(){
 		Response::json(array(
-			'all'=>\cms\models\post\CommentTable::model()->getCount(),
-			'approved'=>\cms\models\post\CommentTable::model()->getCount(PostCommentsTable::STATUS_APPROVED),
-			'unapproved'=>\cms\models\post\CommentTable::model()->getCount(PostCommentsTable::STATUS_UNAPPROVED),
-			'pending'=>\cms\models\post\CommentTable::model()->getCount(PostCommentsTable::STATUS_PENDING),
-			'deleted'=>\cms\models\post\CommentTable::model()->getDeletedCount(),
+			'all'=>\cms\services\post\PostCommentService::service()->getCount(),
+			'approved'=>\cms\services\post\PostCommentService::service()->getCount(PostCommentsTable::STATUS_APPROVED),
+			'unapproved'=>\cms\services\post\PostCommentService::service()->getCount(PostCommentsTable::STATUS_UNAPPROVED),
+			'pending'=>\cms\services\post\PostCommentService::service()->getCount(PostCommentsTable::STATUS_PENDING),
+			'deleted'=>\cms\services\post\PostCommentService::service()->getDeletedCount(),
 		));
 	}
 	

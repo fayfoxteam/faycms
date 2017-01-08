@@ -825,15 +825,15 @@ class PostController extends AdminController{
 	 */
 	public function getCounts(){
 		$data = array(
-			'all'=>\cms\models\PostTable::model()->getCount(),
-			'published'=>\cms\models\PostTable::model()->getCount(PostsTable::STATUS_PUBLISHED),
-			'draft'=>\cms\models\PostTable::model()->getCount(PostsTable::STATUS_DRAFT),
-			'deleted'=>\cms\models\PostTable::model()->getDeletedCount(),
+			'all'=>\cms\services\PostService::service()->getCount(),
+			'published'=>\cms\services\PostService::service()->getCount(PostsTable::STATUS_PUBLISHED),
+			'draft'=>\cms\services\PostService::service()->getCount(PostsTable::STATUS_DRAFT),
+			'deleted'=>\cms\services\PostService::service()->getDeletedCount(),
 		);
 		
 		if($this->post_review){
-			$data['pending'] = \cms\models\PostTable::model()->getCount(PostsTable::STATUS_PENDING);
-			$data['reviewed'] = \cms\models\PostTable::model()->getCount(PostsTable::STATUS_REVIEWED);
+			$data['pending'] = \cms\services\PostService::service()->getCount(PostsTable::STATUS_PENDING);
+			$data['reviewed'] = \cms\services\PostService::service()->getCount(PostsTable::STATUS_REVIEWED);
 		}
 		
 		Response::json($data);

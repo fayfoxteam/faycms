@@ -24,13 +24,13 @@ class ContactController extends FrontController{
 		$this->layout->keywords = $page['seo_keywords'];
 		$this->layout->description = $page['seo_description'];
 		
-		$this->form()->setModel(LeaveMessageTable::model());
+		$this->form()->setModel(LeaveMessage::model());
 		
 		$this->view->render();
 	}
 	
 	public function send(){
-		$this->form()->setModel(LeaveMessageTable::model());
+		$this->form()->setModel(LeaveMessage::model());
 		
 		if($this->input->post()){
 			if($this->form()->check()){

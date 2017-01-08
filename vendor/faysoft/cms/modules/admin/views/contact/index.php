@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $listview \fay\common\ListView
+ */
+?>
 <style>
 .contact-item{margin-bottom:30px;background-color:#fff;padding:20px;}
 .contact-item .ci-header{color:#979898;}
@@ -18,6 +23,7 @@
 		<ul class="contact-list">
 			<?php $listview->showData(array(
 				'settings'=>F::form('setting')->getAllData(),
+				'iplocation'=>$iplocation,
 			));?>
 		</ul>
 		<?php $listview->showPager();?>

@@ -4,7 +4,6 @@ namespace doc\modules\frontend\controllers;
 use doc\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\HttpException;
-use fay\services\PostService;
 use fay\services\OptionService;
 
 class GuideController extends FrontController{

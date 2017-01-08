@@ -1,6 +1,11 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
+
+/**
+ * @var $data array
+ * @var $iplocation IpLocation
+ */
 ?>
 <li class="contact-item" id="contact-<?php echo $data['id']?>">
 	<div class="ci-options"><?php
@@ -88,8 +93,7 @@ use fay\helpers\DateHelper;
 		}
 		if(in_array('area', $settings['cols'])){
 			echo HtmlHelper::tag('span', array(
-				'class'=>'ci-email',
-				'title'=>'来源地区',
+				'class'=>'ci-area',
 				'prepend'=>array(
 					'tag'=>'i',
 					'class'=>'fa fa-map-marker',

@@ -1,7 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
 use apidoc\helpers\TrackHelper;
-use fay\core\Loader;
 ?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php

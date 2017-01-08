@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\HtmlHelper;
-use apidoc\models\tables\Inputs;
+use apidoc\models\tables\InputsTable;
 
-$type_map = Inputs::getTypes();
+$type_map = InputsTable::getTypes();
 ?>
 <div class="box" id="box-inputs" data-name="inputs">
 	<div class="box-title">

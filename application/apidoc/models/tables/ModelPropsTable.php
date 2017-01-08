@@ -4,7 +4,7 @@ namespace apidoc\models\tables;
 use fay\core\db\Table;
 
 /**
- * Apidoc Model Props model
+ * Apidoc model props table model
  * 
  * @property int $id Id
  * @property int $model_id 数据模型ID
@@ -18,11 +18,12 @@ use fay\core\db\Table;
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  */
-class ModelProps extends Table{
+class ModelPropsTable extends Table{
 	protected $_name = 'apidoc_model_props';
 	
 	/**
-	 * @return ModelProps
+	 * @param string $class_name
+	 * @return ModelPropsTable
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

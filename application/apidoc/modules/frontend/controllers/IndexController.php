@@ -3,7 +3,7 @@ namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
 use fay\services\OptionService;
-use apidoc\models\tables\Models;
+use apidoc\models\tables\ModelsTable;
 
 class IndexController extends FrontController{
 	public function __construct(){

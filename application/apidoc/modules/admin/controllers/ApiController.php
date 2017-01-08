@@ -7,11 +7,11 @@ use fay\common\ListView;
 use fay\services\SettingService;
 use fay\helpers\ArrayHelper;
 use fay\services\CategoryService;
-use apidoc\models\tables\Apis;
-use apidoc\models\tables\Inputs;
+use apidoc\models\tables\ApisTable;
+use apidoc\models\tables\InputsTable;
 use fay\core\Response;
-use apidoc\models\tables\Outputs;
-use apidoc\models\tables\Models;
+use apidoc\models\tables\OutputsTable;
+use apidoc\models\tables\ModelsTable;
 use fay\core\ErrorException;
 
 class ApiController extends AdminController{
@@ -398,7 +398,7 @@ class ApiController extends AdminController{
 	/**
 	 * 判断API路由是否可用
 	 * 可用返回状态为1，不可用返回0，http状态码均为200
-	 * @param string $router 路由
+	 * @parameter string $router 路由
 	 */
 	public function isRouterNotExist(){
 		//表单验证

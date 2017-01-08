@@ -5,7 +5,7 @@ use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogsTable;
 use fay\services\CategoryService;
-use apidoc\models\tables\Apis;
+use apidoc\models\tables\ApisTable;
 use fay\helpers\HtmlHelper;
 
 class FrontController extends Controller{

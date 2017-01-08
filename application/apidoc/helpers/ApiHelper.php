@@ -1,35 +1,36 @@
 <?php
 namespace apidoc\helpers;
 
-use apidoc\models\tables\Apis;
-use apidoc\models\tables\Inputs;
-use apidoc\models\tables\Models;
+use apidoc\models\tables\ApisTable;
+use apidoc\models\tables\InputsTable;
+use apidoc\models\tables\ModelsTable;
 
 class ApiHelper{
 	/**
 	 * 获取接口状态
 	 * @param int $status 接口状态码
 	 * @param bool $coloring 是否着色（带上html标签）
+	 * @return string
 	 */
 	public static function getStatus($status, $coloring = true){
 		switch ($status) {
-			case Apis::STATUS_DEVELOPING:
+			case ApisTable::STATUS_DEVELOPING:
 				if($coloring)
 					return '<span class="fc-orange">开发中</span>';
 				else
 					return '开发中';
 				break;
 				break;
-			case Apis::STATUS_BETA:
+			case ApisTable::STATUS_BETA:
 				if($coloring)
 					return '<span class="fc-green">测试中</span>';
 				else
 					return '测试中';
 				break;
-			case Apis::STATUS_STABLE:
+			case ApisTable::STATUS_STABLE:
 				return '已上线';
 				break;
-			case Apis::STATUS_DEPRECATED:
+			case ApisTable::STATUS_DEPRECATED:
 				if($coloring)
 					return '<span class="fc-red">已弃用</span>';
 				else
@@ -48,6 +49,7 @@ class ApiHelper{
 	 * 返回是否必填描述
 	 * @param bool $required 是否必填
 	 * @param bool $coloring 是否着色（带上html标签）
+	 * @return string
 	 */
 	public static function getRequired($required, $coloring = true){
 		if($required){
@@ -64,13 +66,14 @@ class ApiHelper{
 	/**
 	 * 获取HTTP请求方式
 	 * @param int $http_method
+	 * @return string
 	 */
 	public static function getHttpMethod($http_method){
-		if($http_method == Apis::HTTP_METHOD_BOTH){
+		if($http_method == ApisTable::HTTP_METHOD_BOTH){
 			return 'GET/POST';
-		}else if($http_method == Apis::HTTP_METHOD_POST){
+		}else if($http_method == ApisTable::HTTP_METHOD_POST){
 			return 'POST';
-		}else if($http_method == Apis::HTTP_METHOD_GET){
+		}else if($http_method == ApisTable::HTTP_METHOD_GET){
 			return 'GET';
 		}else{
 			return 'OTHER';
@@ -80,11 +83,12 @@ class ApiHelper{
 	/**
 	 * 获取请求参数类型
 	 * @param int $type
+	 * @return string
 	 */
 	public static function getInputType($type){
-		if($type == Inputs::TYPE_NUMBER){
+		if($type == InputsTable::TYPE_NUMBER){
 			return 'Number';
-		}else if($type == Inputs::TYPE_STRING){
+		}else if($type == InputsTable::TYPE_STRING){
 			return 'String';
 		}else{
 			return 'Other';
@@ -94,29 +98,33 @@ class ApiHelper{
 	/**
 	 * 获取返回参数类型
 	 * @param int $type
+	 * @return string
 	 */
 	public static function getOutputType($type){
 		switch($type){
-			case Models::ITEM_ARRAY:
+			case ModelsTable::ITEM_ARRAY:
 				return 'Array';
 			break;
-			case Models::ITEM_BINARY:
+			case ModelsTable::ITEM_BINARY:
 				return 'Binary';
 			break;
-			case Models::ITEM_BOOLEAN:
+			case ModelsTable::ITEM_BOOLEAN:
 				return 'Boolean';
 			break;
-			case Models::ITEM_INT:
+			case ModelsTable::ITEM_INT:
 				return 'Int';
 			break;
-			case Models::ITEM_NUMBER:
+			case ModelsTable::ITEM_NUMBER:
 				return 'Number';
 			break;
-			case Models::ITEM_PRICE:
+			case ModelsTable::ITEM_PRICE:
 				return 'Price';
 			break;
-			case Models::ITEM_STRING:
+			case ModelsTable::ITEM_STRING:
 				return 'String';
+			break;
+			default:
+				return 'Mixed';
 			break;
 		}
 	}

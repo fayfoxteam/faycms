@@ -1,6 +1,6 @@
 <?php
 use cms\helpers\ListTableHelper;
-use apidoc\models\tables\Apis;
+use apidoc\models\tables\ApisTable;
 use fay\helpers\HtmlHelper;
 
 $cols = F::form('setting')->getData('cols', array());
@@ -64,7 +64,7 @@ $cols = F::form('setting')->getData('cols', array());
 					echo array_sum($status_counts);
 				?></span>)</span>
 			</li>
-			<?php $status = Apis::getStatus();?>
+			<?php $status = ApisTable::getStatus();?>
 			<?php foreach($status as $k => $s){?>
 				<li <?php if(F::app()->input->get('status') == $k)echo 'class="sel"';?>>
 					|
@@ -147,7 +147,7 @@ $cols = F::form('setting')->getData('cols', array());
 			</tfoot>
 			<tbody><?php $listview->showData(array(
 				'cols'=>$cols,
-				'http_methods'=>Apis::getHttpMethods(),
+				'http_methods'=>ApisTable::getHttpMethods(),
 			));?></tbody>
 		</table>
 	</div>

@@ -4,7 +4,7 @@ namespace apidoc\models\tables;
 use fay\core\db\Table;
 
 /**
- * Apidoc Apis model
+ * Apidoc apis table model
  * 
  * @property int $id Id
  * @property string $title 标题
@@ -20,7 +20,7 @@ use fay\core\db\Table;
  * @property string $since 自从
  * @property string $sample_response 响应示例
  */
-class Apis extends Table{
+class ApisTable extends Table{
 	/**
 	 * 状态 - 开发中
 	 */
@@ -59,7 +59,8 @@ class Apis extends Table{
 	protected $_name = 'apidoc_apis';
 	
 	/**
-	 * @return Apis
+	 * @param string $class_name
+	 * @return ApisTable
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

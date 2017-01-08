@@ -1,18 +1,19 @@
 <?php
-namespace apidoc\models;
+namespace apidoc\services;
 
-use fay\core\Model;
-use apidoc\models\tables\Apis;
+use apidoc\models\tables\ApisTable;
+use fay\core\Service;
 use fay\services\CategoryService;
-use apidoc\models\tables\Inputs;
+use apidoc\models\tables\InputsTable;
 use fay\core\Sql;
 
-class Api extends Model{
+class ApiService extends Service{
 	/**
-	 * @return Api
+	 * @param string $class_name
+	 * @return ApiService
 	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
+	public static function service($class_name = __CLASS__){
+		return parent::service($class_name);
 	}
 	
 	public function get($id){

@@ -4,7 +4,7 @@ namespace apidoc\models\tables;
 use fay\core\db\Table;
 
 /**
- * Apidoc Models model
+ * Apidoc models table model
  * 
  * @property int $id Id
  * @property string $name 对象名称
@@ -15,7 +15,7 @@ use fay\core\db\Table;
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  */
-class Models extends Table{
+class ModelsTable extends Table{
 	/**
 	 * 特殊对象 - 字符串
 	 */
@@ -69,7 +69,8 @@ class Models extends Table{
 	protected $_name = 'apidoc_models';
 	
 	/**
-	 * @return Models
+	 * @param string $class_name
+	 * @return ModelsTable
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

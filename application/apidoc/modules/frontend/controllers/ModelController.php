@@ -2,11 +2,11 @@
 namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
-use apidoc\models\tables\Apis;
+use apidoc\models\tables\ApisTable;
 use fay\services\CategoryService;
 use fay\core\HttpException;
 use apidoc\helpers\TrackHelper;
-use apidoc\models\tables\Models;
+use apidoc\models\tables\ModelsTable;
 use fay\core\Sql;
 
 class ModelController extends FrontController{

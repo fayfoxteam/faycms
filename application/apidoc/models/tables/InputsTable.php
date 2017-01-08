@@ -4,7 +4,7 @@ namespace apidoc\models\tables;
 use fay\core\db\Table;
 
 /**
- * Apidoc Inputs model
+ * Apidoc inputs table model
  * 
  * @property int $id Id
  * @property int $api_id 接口ID
@@ -17,7 +17,7 @@ use fay\core\db\Table;
  * @property int $last_modified_time 最后修改时间
  * @property string $since 自从
  */
-class Inputs extends Table{
+class InputsTable extends Table{
 /**
 	 * 类型 - 字符串
 	 */
@@ -31,7 +31,8 @@ class Inputs extends Table{
 	protected $_name = 'apidoc_inputs';
 	
 	/**
-	 * @return Inputs
+	 * @param string $class_name
+	 * @return InputsTable
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

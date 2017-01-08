@@ -4,7 +4,7 @@ namespace apidoc\models\tables;
 use fay\core\db\Table;
 
 /**
- * Apidoc Outputs model
+ * Apidoc outputs table model
  * 
  * @property int $id Id
  * @property int $api_id API ID
@@ -18,11 +18,12 @@ use fay\core\db\Table;
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后修改时间
  */
-class Outputs extends Table{
+class OutputsTable extends Table{
 	protected $_name = 'apidoc_outputs';
 	
 	/**
-	 * @return Outputs
+	 * @param string $class_name
+	 * @return OutputsTable
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

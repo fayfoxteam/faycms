@@ -2,7 +2,7 @@
 namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
-use apidoc\models\Api;
+use apidoc\services\ApiService;
 use fay\core\HttpException;
 
 class ApiController extends FrontController{
@@ -23,7 +23,7 @@ class ApiController extends FrontController{
 		
 		$api_id = $this->form()->getData('api_id');
 		
-		$api = ApiTable::model()->get($api_id);
+		$api = ApiService::service()->get($api_id);
 		
 		if(!$api){
 			throw new HttpException('您访问的页面不存在');

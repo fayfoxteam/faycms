@@ -5,7 +5,7 @@ namespace <?php echo $namespace?>;
 use fay\core\db\Table;
 
 /**
- * <?php echo ucwords(str_replace('_', ' ', $table_name))?> table model
+ * <?php echo str_replace('_', ' ', ucfirst($table_name))?> table model
  * <?php foreach($fields as $f){?>
 
  * @property <?php

@@ -1,0 +1,25 @@
+{
+    "name": "faysoft/fay",
+    "type": "library",
+    "description": "Faycms框架部分",
+    "keywords": ["faysoft", "faycms", "fay"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fayfox",
+            "email": "admin@fayfox.com",
+            "homepage": "http://www.fayfox.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "ext-mbstring": "*",
+        "ext-gd": "*",
+        "michelf/php-markdown": "*",
+        "qiniu/php-sdk": "*"
+    },
+    "autoload": {
+        "psr-4": {"fay\\": ""},
+        "files": ["F.php"]
+    }
+}

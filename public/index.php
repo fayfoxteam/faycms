@@ -1,6 +1,5 @@
 <?php
 use fay\core\Bootstrap;
-use fay\core\Hook;
 
 define('START', microtime(true));
 define('BASEPATH', realpath(__DIR__).DIRECTORY_SEPARATOR);//定义程序根目录绝对路径
@@ -17,6 +16,7 @@ define('APPLICATION', isset($_COOKIE['__app']) ? $_COOKIE['__app'] : (isset($_SE
 require __DIR__.'/_init.php';
 
 $bootstrap = new Bootstrap();
-//hook
-Hook::getInstance()->call('before_system');
+//触发事件
+\F::event()->trigger('before_system');
+\fay\helpers\RuntimeHelper::append(__FILE__, __LINE__, '环境初始化完成');
 $bootstrap->init();

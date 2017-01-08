@@ -3,7 +3,7 @@
 *{box-sizing: border-box}
 *:before,*:after{box-sizing: border-box}
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0}
-article,aside,div,dt,figcaption,footer,form,header,hgroup,html,map,nav,section,main{display:block}
+article,aside,div,dt,figcaption,footer,form,header,html,map,nav,section,main{display:block}
 
 body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti,Segoe UI Emoji,Segoe UI Symbol;font-size:14px;line-height:1.42857143;color:#2c2e2f;background-color:#eee}
 ul,ul li{list-style:none}
@@ -42,13 +42,13 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 .col-2{width:16.66666667%}
 .col-1{width:8.33333333%}
 @media screen and (max-width:768px){
-	.col-2,.col-8{width:100%}
+	.col-2,.col-8{width:100%;margin-bottom:10px}
 }
 @media screen and (max-width:992px){
-	.col-5,.col-6,.col-7{width:100%}
+	.col-5,.col-6,.col-7{width:100%;margin-bottom:10px}
 }
 @media screen and (max-width:1140px){
-	.col-3,.col-4,.col-8,.col-9{width:100%}
+	.col-3,.col-4,.col-8,.col-9{width:100%;margin-bottom:10px}
 }
 
 /* 颜色 */
@@ -202,10 +202,10 @@ select option[disabled]{text-decoration:line-through}
 
 /* 跟上面的差不多，只不过不是以table的方式实现，能实现响应式 */
 .form-group{margin:0 -15px 15px}
-.form-group label{text-align:right;padding-top:7px;color:#23282d;font-weight:600}
+.form-group label.title{text-align:right;padding-top:7px;color:#23282d;font-weight:600}
 @media screen and (max-width:768px){
 	.form-group{margin-left:0;margin-right:0}
-	.form-group label{text-align:left}
+	.form-group label.title{text-align:left}
 }
 .form-group-separator{height:1px;background-color:#eee;margin-bottom:15px}
 

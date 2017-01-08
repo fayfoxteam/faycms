@@ -4,6 +4,7 @@ var common = {
 	'dragsortKey': null,//用于自动保存dragsort排序
 	'markdownEditor': null,//Markdown编辑器实例
 	'visualEditor': null,//可视化编辑器实例
+	'max_upload_file_size': '2mb',
 	'validformParams':{
 		'forms': {},
 		'settings': {

@@ -1,0 +1,24 @@
+{
+    "name": "faysoft/cms",
+    "type": "project",
+    "description": "Faycms后台及公共接口",
+    "keywords": ["faysoft", "faycms", "cms"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fayfox",
+            "email": "admin@fayfox.com",
+            "homepage": "http://www.fayfox.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "faysoft/fay": "*",
+        "phpspec/php-diff": "*",
+        "aferrandini/phpqrcode": "*",
+        "phpmailer/phpmailer": "*"
+    },
+    "autoload": {
+        "psr-4": {"cms\\": ""}
+    }
+}

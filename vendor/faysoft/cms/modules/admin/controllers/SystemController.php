@@ -2,8 +2,8 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use fay\models\forms\SettingForm;
 use fay\models\tables\UsersTable;
-use fay\models\Setting as SettingModel;
 use fay\services\SettingService;
 use fay\core\Response;
 
@@ -44,7 +44,7 @@ class SystemController extends AdminController{
 	public function setting(){
 		if($this->input->post()){
 			if($this->form('setting')
-				->setModel(SettingModel::model())
+				->setModel(SettingForm::model())
 				->check()){
 				$data = $this->form('setting')->getAllData();
 				$key = $data['_key'];

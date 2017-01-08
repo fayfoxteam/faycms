@@ -2,7 +2,7 @@
 namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
-use fay\models\Prop;
+use fay\models\PropModel;
 use fay\services\CategoryService;
 use fay\services\PostService;
 use ncp\models\Recommend;

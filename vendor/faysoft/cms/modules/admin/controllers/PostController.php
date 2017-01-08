@@ -647,13 +647,15 @@ class PostController extends AdminController{
 		
 		//文章对应附加属性值
 		$props = PostPropService::service()->getPropsByCat($cat_id);
-		if($post_id){
-			$this->view->prop_set = PostPropService::service()->getPropertySet($post_id, $props);
+		if(!empty($props) && $post_id){
+			$prop_set = PostPropService::service()->getPropertySet($post_id, $props);
 		}else{
-			$this->view->prop_set = $props;
+			$prop_set = $props;
 		}
 		
-		$this->view->renderPartial('_box_props');
+		$this->view->renderPartial('_box_props', array(
+			'prop_set'=>$prop_set,
+		));
 	}
 	
 	/**

@@ -1,12 +1,12 @@
 <?php
-namespace fay\models;
+namespace fay\models\forms;
 
 use fay\core\Model;
 
-class Setting extends Model{
+class SettingForm extends Model{
 	/**
 	 * @param string $class_name
-	 * @return Setting
+	 * @return SettingForm
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

@@ -1,11 +1,11 @@
 <?php
 namespace fay\services\user;
 
-use fay\models\Prop;
+use fay\models\PropModel;
 use fay\models\tables\PropsTable;
 use fay\core\Loader;
 
-class UserPropService extends Prop{
+class UserPropService extends PropModel{
 	/**
 	 * @param string $class_name
 	 * @return UserPropService
@@ -15,7 +15,7 @@ class UserPropService extends Prop{
 	}
 	
 	/**
-	 * @see \fay\models\Prop::$models
+	 * @see \fay\models\PropModel::$models
 	 * @var array
 	 */
 	protected $models = array(
@@ -37,7 +37,7 @@ class UserPropService extends Prop{
 	protected $type = PropsTable::TYPE_ROLE;
 	
 	/**
-	 * @see \fay\models\Prop::setValue()
+	 * @see \fay\models\PropModel::setValue()
 	 * @param string $alias
 	 * @param mixed $value
 	 * @param null|int $user_id 若为null，则默认为当前登录用户
@@ -50,7 +50,7 @@ class UserPropService extends Prop{
 	}
 	
 	/**
-	 * @see \fay\models\Prop::getValue()
+	 * @see \fay\models\PropModel::getValue()
 	 * @param string $alias
 	 * @param null|int $user_id 若为null，则默认为当前登录用户
 	 * @return mixed
@@ -98,7 +98,7 @@ class UserPropService extends Prop{
 	}
 	
 	/**
-	 * @see \fay\models\Prop::getPropertySet()
+	 * @see \fay\models\PropModel::getPropertySet()
 	 * @param int $user_id 文章ID
 	 * @param null|array $props 属性列表
 	 * @return array

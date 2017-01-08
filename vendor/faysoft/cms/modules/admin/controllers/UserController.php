@@ -233,11 +233,13 @@ class UserController extends AdminController{
 		}
 		
 		if(!empty($props) && $user_id){
-			$props = UserPropService::service()->getPropertySet($user_id, $props);
+			$prop_set = UserPropService::service()->getPropertySet($user_id, $props);
+		}else{
+			$prop_set = $props;
 		}
 		
 		$this->view->renderPartial('prop/_edit', array(
-			'prop_set'=>$props,
+			'prop_set'=>$prop_set,
 		));
 	}
 }

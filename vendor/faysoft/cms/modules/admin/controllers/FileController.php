@@ -2,9 +2,9 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use fay\models\forms\SettingForm;
 use fay\models\tables\FilesTable;
 use fay\services\FileService;
-use fay\models\Setting as SettingModel;
 use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -295,7 +295,7 @@ class FileController extends AdminController{
 			}
 		}
 		
-		$this->form('setting')->setModel(SettingModel::model())
+		$this->form('setting')->setModel(SettingForm::model())
 			->setJsModel('setting')
 			->setData($_settings)
 			->setData(array(

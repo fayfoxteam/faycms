@@ -4,7 +4,7 @@ namespace fay\services\feed;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
-use fay\models\MultiTree;
+use fay\models\MultiTreeModel;
 use fay\models\tables\FeedCommentsTable;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
@@ -14,19 +14,19 @@ use fay\models\tables\FeedMetaTable;
 use fay\services\OptionService;
 use fay\services\UserService;
 
-class FeedCommentService extends MultiTree{
+class FeedCommentService extends MultiTreeModel{
 	/**
-	 * @see MultiTree::$model
+	 * @see MultiTreeModel::$model
 	 */
 	protected $model = 'fay\models\tables\FeedCommentsTable';
 	
 	/**
-	 * @see MultiTree::$foreign_key
+	 * @see MultiTreeModel::$foreign_key
 	 */
 	protected $foreign_key = 'feed_id';
 	
 	/**
-	 * @see MultiTree::$field_key
+	 * @see MultiTreeModel::$field_key
 	 */
 	protected $field_key = 'comment';
 	

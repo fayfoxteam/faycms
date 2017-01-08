@@ -10,7 +10,7 @@ use fay\core\Sql;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 
-abstract class Prop extends Model{
+abstract class PropModel extends Model{
 	/**
 	 * 表模型，需要包含int，varchar，text3种类型
 	 * 此类表必须包含3个字段：{$this->foreign_key}, prop_id, content

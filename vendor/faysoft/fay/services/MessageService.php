@@ -4,7 +4,7 @@ namespace fay\services;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
-use fay\models\MultiTree;
+use fay\models\MultiTreeModel;
 use fay\models\tables\MessagesTable;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
@@ -14,7 +14,7 @@ use fay\models\tables\UserCounterTable;
 /**
  * 留言服务
  */
-class MessageService extends MultiTree{
+class MessageService extends MultiTreeModel{
 	/**
 	 * 评论创建后事件
 	 */
@@ -46,17 +46,17 @@ class MessageService extends MultiTree{
 	const EVENT_DISAPPROVED = 'after_user_message_disapproved';
 	
 	/**
-	 * @see MultiTree::$model
+	 * @see MultiTreeModel::$model
 	 */
 	protected $model = 'fay\models\tables\MessagesTable';
 	
 	/**
-	 * @see MultiTree::$foreign_key
+	 * @see MultiTreeModel::$foreign_key
 	 */
 	protected $foreign_key = 'to_user_id';
 	
 	/**
-	 * @see MultiTree::$field_key
+	 * @see MultiTreeModel::$field_key
 	 */
 	protected $field_key = 'message';
 	

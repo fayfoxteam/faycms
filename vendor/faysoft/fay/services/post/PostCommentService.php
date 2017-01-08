@@ -3,7 +3,7 @@ namespace fay\services\post;
 
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
-use fay\models\MultiTree;
+use fay\models\MultiTreeModel;
 use fay\models\tables\PostCommentsTable;
 use fay\core\Exception;
 use fay\services\PostService;
@@ -13,7 +13,7 @@ use fay\models\tables\PostMetaTable;
 use fay\services\OptionService;
 use fay\services\UserService;
 
-class PostCommentService extends MultiTree{
+class PostCommentService extends MultiTreeModel{
 	/**
 	 * 评论创建后事件
 	 */
@@ -45,17 +45,17 @@ class PostCommentService extends MultiTree{
 	const EVENT_DISAPPROVED = 'after_post_comment_disapproved';
 	
 	/**
-	 * @see MultiTree::$model
+	 * @see MultiTreeModel::$model
 	 */
 	protected $model = 'fay\models\tables\PostCommentsTable';
 	
 	/**
-	 * @see MultiTree::$foreign_key
+	 * @see MultiTreeModel::$foreign_key
 	 */
 	protected $foreign_key = 'post_id';
 	
 	/**
-	 * @see MultiTree::$field_key
+	 * @see MultiTreeModel::$field_key
 	 */
 	protected $field_key = 'comment';
 	

@@ -4,9 +4,9 @@ namespace cms\library;
 use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\RequestHelper;
+use fay\models\forms\SettingForm;
 use fay\models\tables\ActionlogsTable;
 use fay\services\SettingService;
-use fay\models\Setting as SettingModel;
 use fay\core\Response;
 use fay\services\MenuService;
 use fay\core\HttpException;
@@ -256,7 +256,7 @@ class AdminController extends Controller{
 		$settings || $settings = $default;
 		
 		$this->form('setting')
-			->setModel(SettingModel::model())
+			->setModel(SettingForm::model())
 			->setJsModel('setting')
 			->setData($settings)
 			->setData(array(

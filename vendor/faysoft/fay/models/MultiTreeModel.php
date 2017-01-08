@@ -25,7 +25,7 @@ use fay\services\UserService;
  *  - parent 父节点ID
  *  - root 根节点。多树模型，需要有个根节点来标识树之间的关系
  */
-abstract class MultiTree extends Model{
+abstract class MultiTreeModel extends Model{
 	/**
 	 * 表结构模型（子类中必须指定）
 	 * @var string

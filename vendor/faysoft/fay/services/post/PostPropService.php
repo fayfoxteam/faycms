@@ -2,12 +2,12 @@
 namespace fay\services\post;
 
 use fay\core\Loader;
-use fay\models\Prop;
+use fay\models\PropModel;
 use fay\services\CategoryService;
 use fay\models\tables\PostsTable;
 use fay\models\tables\PropsTable;
 
-class PostPropService extends Prop{
+class PostPropService extends PropModel{
 	/**
 	 * @param string $class_name
 	 * @return PostPropService
@@ -17,7 +17,7 @@ class PostPropService extends Prop{
 	}
 	
 	/**
-	 * @see \fay\models\Prop::$models
+	 * @see \fay\models\PropModel::$models
 	 * @var array
 	 */
 	protected $models = array(
@@ -39,7 +39,7 @@ class PostPropService extends Prop{
 	protected $type = PropsTable::TYPE_POST_CAT;
 	
 	/**
-	 * @see \fay\models\Prop::getPropertySet()
+	 * @see \fay\models\PropModel::getPropertySet()
 	 * @param int $post_id 文章ID
 	 * @param null|array $props 属性列表
 	 * @return array

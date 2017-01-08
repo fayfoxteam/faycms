@@ -6,9 +6,9 @@ use fay\helpers\FieldHelper;
 use fay\models\tables\CategoriesTable;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
-use fay\models\Tree;
+use fay\models\TreeModel;
 
-class CategoryService extends Tree{
+class CategoryService extends TreeModel{
 	/**
 	 * @see Tree::$model
 	 */

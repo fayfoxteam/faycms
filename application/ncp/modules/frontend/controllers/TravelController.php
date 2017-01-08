@@ -8,7 +8,7 @@ use fay\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\services\PostService;
 use fay\core\HttpException;
-use fay\models\Prop;
+use fay\models\PropModel;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\PropValuesTable;
 use fay\core\db\Expr;

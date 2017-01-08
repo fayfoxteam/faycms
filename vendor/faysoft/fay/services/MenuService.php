@@ -4,9 +4,9 @@ namespace fay\services;
 use fay\core\Loader;
 use fay\models\tables\MenusTable;
 use fay\helpers\StringHelper;
-use fay\models\Tree;
+use fay\models\TreeModel;
 
-class MenuService extends Tree{
+class MenuService extends TreeModel{
 	/**
 	 * @see Tree::$model
 	 */

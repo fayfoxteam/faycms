@@ -4,6 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.7.1.min.js')?>"></script>
+	<script type="text/javascript" src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
 </head>
 <body>
 <p><label>x轴加速度：</label><span id="acceleration-x"></span></p>
@@ -43,6 +44,8 @@ function deviceMotionHandler(event){
 	last_z = z;
 	
 }
+
+$.shake(function(){alert('asdf')});
 </script>
 </body>
 </html>

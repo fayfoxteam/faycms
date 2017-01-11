@@ -1,11 +1,17 @@
 /**
- * Toast插件，需要配合css
+ * 摇一摇插件
  */
 ;(function($){
 	$.extend({
 		'shake': function(callback, shakeThreshold){
 			if(typeof(shakeThreshold) == 'undefined'){
-				shakeThreshold = 3000;
+				/*
+				 * 数值越小，灵敏度越高
+				 * - `1000`的话基本上一直在触发，没法用
+				 * - `3000`差不多动一下会触发
+				 * - `5000`需要稍微甩一下
+				 */
+				shakeThreshold = 5000;
 			}
 
 			if (window.DeviceMotionEvent) {
@@ -13,30 +19,26 @@
 				window.addEventListener('devicemotion', deviceMotionHandler, false);
 			}
 
-			var x, y, z, last_x, last_y, last_z;
-			var last_update = 0;
+			var x, y, z, lastX, lastY, lastZ;
+			var lastUpdate = 0;
 			function deviceMotionHandler(event){
 				//获得重力加速
 				var acceleration =event.accelerationIncludingGravity;
 				var curTime = new Date().getTime();
-
-				$('#acceleration-x').text(acceleration.x);
-				$('#acceleration-y').text(acceleration.y);
-				$('#acceleration-z').text(acceleration.z);
-
-				var diffTime = curTime - last_update;
-				last_update = curTime;
+				var diffTime = curTime - lastUpdate;
+				
+				lastUpdate = curTime;
 				x = acceleration.x;
 				y = acceleration.y;
 				z = acceleration.z;
 
-				var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+				var speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
 				if(speed > shakeThreshold){
 					callback();
 				}
-				last_x = x;
-				last_y = y;
-				last_z = z;
+				lastX = x;
+				lastY = y;
+				lastZ = z;
 			}
 		}
 	})

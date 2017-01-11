@@ -24,6 +24,7 @@ var last_update = 0;
 function deviceMotionHandler(event){
 	//获得重力加速
 	var acceleration =event.accelerationIncludingGravity;
+	var curTime = new Date().getTime();
 	
 	$('#acceleration-x').text(acceleration.x);
 	$('#acceleration-y').text(acceleration.y);

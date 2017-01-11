@@ -3,16 +3,10 @@
  */
 ;(function($){
 	$.extend({
-		'shake': function(callback, options){
-			if(typeof(options) == 'undefined'){
-				options = {};
+		'shake': function(callback, shakeThreshold){
+			if(typeof(shakeThreshold) == 'undefined'){
+				shakeThreshold = 3000;
 			}
-			var settings = {
-				'shakeThreshold': 1000
-			};
-			$.each(options, function(i, n){
-				settings[i] = n;
-			});
 
 			if (window.DeviceMotionEvent) {
 				//若设备不支持获取加速信息，则不做任何操作
@@ -37,7 +31,7 @@
 				z = acceleration.z;
 
 				var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
-				if(speed > settings.shakeThreshold){
+				if(speed > shakeThreshold){
 					callback();
 				}
 				last_x = x;

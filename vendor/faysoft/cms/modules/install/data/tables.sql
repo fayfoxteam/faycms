@@ -370,7 +370,7 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
-  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
+  `sku_key` varchar(100) NOT NULL DEFAULT '' COMMENT 'SKU Key',
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
@@ -925,7 +925,7 @@ DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `setting_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Setting Key',
+  `setting_key` varchar(50) NOT NULL DEFAULT '' COMMENT 'Setting Key',
   `setting_value` text NOT NULL COMMENT 'Setting Value',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id-setting_key` (`user_id`,`setting_key`)

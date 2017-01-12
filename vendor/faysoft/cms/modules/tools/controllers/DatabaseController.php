@@ -108,11 +108,11 @@ class DatabaseController extends ToolsController{
 		$this->view->primary = $primary;
 		
 		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
-			$filename = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_')));
+			$filename = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_'))).'Table';
 			$this->view->class_name = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_')));
 			$this->view->namespace = APPLICATION.'\models\tables';
 		}else{
-			$filename = StringHelper::underscore2case($table_name);
+			$filename = StringHelper::underscore2case($table_name).'Table';
 			$this->view->class_name = StringHelper::underscore2case($table_name);
 			$this->view->namespace = 'fay\models\tables';
 		}

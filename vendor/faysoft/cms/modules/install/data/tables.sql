@@ -911,7 +911,7 @@ CREATE TABLE `{{$prefix}}user_prop_text` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` text NOT NULL COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_varchar`;
 CREATE TABLE `{{$prefix}}user_prop_varchar` (
@@ -919,7 +919,7 @@ CREATE TABLE `{{$prefix}}user_prop_varchar` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (

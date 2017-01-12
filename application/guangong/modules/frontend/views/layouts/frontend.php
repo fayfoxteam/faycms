@@ -1,6 +1,6 @@
 <?php
-use fay\services\Option;
-use fay\helpers\Html;
+use fay\services\OptionService;
+use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,9 +12,9 @@ use fay\helpers\Html;
 <title><?php if(!empty($title)){
 	echo $title, '_';
 }
-echo Option::get('site:sitename')?></title>
-<meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
-<meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
+echo OptionService::get('site:sitename')?></title>
+<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
+<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>

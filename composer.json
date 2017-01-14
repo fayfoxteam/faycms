@@ -5,7 +5,6 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3.0",
-        "faysoft/cms": "*",
-        "gregwar/captcha": "^1.1"
+        "faysoft/cms": "*"
     }
 }

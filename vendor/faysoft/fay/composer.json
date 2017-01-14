@@ -16,7 +16,8 @@
         "ext-mbstring": "*",
         "ext-gd": "*",
         "michelf/php-markdown": "*",
-        "qiniu/php-sdk": "*"
+        "qiniu/php-sdk": "*",
+        "gregwar/captcha": "1.*"
     },
     "autoload": {
         "psr-4": {"fay\\": ""},

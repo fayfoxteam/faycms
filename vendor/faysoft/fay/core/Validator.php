@@ -19,6 +19,7 @@ class Validator{
 		'compare'=>'fay\validators\CompareValidator',
 		'fields'=>'fay\validators\FieldsValidator',
 		'idcard'=>'fay\validators\IdCardValidator',
+		'captcha'=>'fay\validators\CaptchaValidator',
 	);
 	
 	/**

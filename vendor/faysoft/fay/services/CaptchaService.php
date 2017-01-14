@@ -25,11 +25,11 @@ class CaptchaService extends Service{
 	
 	/**
 	 * 验证指定验证码是否正确
-	 * @param string $field 验证码字段
+	 * @param $value
 	 * @return bool
 	 */
-	public static function check($field = 'captcha'){
+	public static function check($value){
 		$builder = new CaptchaBuilder(\F::session()->get('captcha'));
-		return $builder->testPhrase(\F::input()->request($field));
+		return $builder->testPhrase($value);
 	}
 }

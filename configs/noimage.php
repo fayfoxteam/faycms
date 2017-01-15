@@ -7,4 +7,5 @@ return array(
 	'default'=>'assets/images/no-image.jpg',
 	'avatar'=>'assets/images/avatar.png',
 	'thumbnail'=>'assets/images/thumbnail.png',
+	'none'=>'',
 );

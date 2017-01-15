@@ -151,7 +151,12 @@ class Response{
 			);
 		}
 		if(Http::isAjax()){
-			Response::json(isset($data['data']) ? $data['data'] : '', $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '', isset($data['code']) ? $data['code'] : '');
+			Response::json(
+				isset($data['data']) ? $data['data'] : '',
+				$status == 'success' ? 1 : 0,
+				isset($data['message']) ? $data['message'] : '',
+				isset($data['code']) ? $data['code'] : ''
+			);
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash

@@ -725,8 +725,13 @@ class FileService extends Service{
 			!$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
 		){
 			//显然负数ID不存在，返回默认图数组
-			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+			if(isset($options['spare'])){
 				//若指定了默认图，则取默认图
+				$spare = \F::config()->get($options['spare'], 'noimage');
+				if($spare === null){
+					//若指定的默认图不存在，返回默认图
+					$spare = \F::config()->get('default', 'noimage');
+				}
 			}else{
 				//若未指定默认图，返回默认图
 				$spare = \F::config()->get('default', 'noimage');
@@ -738,10 +743,18 @@ class FileService extends Service{
 				$return['id'] = '0';
 			}
 			if(in_array('url', $fields['fields'])){
-				$return['url'] = UrlHelper::createUrl($spare);
+				if($spare){
+					$return['url'] = UrlHelper::createUrl($spare);
+				}else{
+					$return['url'] = '';
+				}
 			}
 			if(in_array('thumbnail', $fields['fields'])){
-				$return['thumbnail'] = UrlHelper::createUrl($spare);
+				if($spare){
+					$return['thumbnail'] = UrlHelper::createUrl($spare);
+				}else{
+					$return['thumbnail'] = '';
+				}
 			}
 			if(in_array('is_image', $fields['fields'])){
 				$return['is_image'] = '0';

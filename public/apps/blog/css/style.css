@@ -13,8 +13,9 @@ a.btn-2{background:url("images/webim_minwin_bg.png") repeat-x scroll right -30px
 a.btn-2:hover{opacity:0.9;}
 body{background-color:#F0F0F0;font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;color:#454545;}
 .wrapper{min-height:100%;}
+.oauth{margin-top:32px;float:right;}
 .menu{background:url("images/bg-menu-main-tile.gif") repeat-x scroll center top transparent;height:86px;width:100%;}
-.menu .menu-in{background:url("images/bg-menu-main.gif") no-repeat scroll center top transparent;height:86px;margin:0 auto;padding:0 10px 0 9px;width:961px;}
+.menu .menu-in{background:url("images/bg-menu-main.gif") no-repeat scroll center top transparent;height:86px;margin:0 auto;width:980px;}
 .menu .menu-in .logo{margin-top:10px;background:url("images/logo.png") no-repeat scroll center top transparent;float:left;width:208px;height:75px;}
 .menu .menu-in .logo a{display:block;width:100%;height:100%;}
 .menu .menu-in .menu-links{margin-left:300px;}

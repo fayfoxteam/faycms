@@ -7,8 +7,8 @@ use fay\core\db\Table;
  * 军衔表
  *
  * @property int $id Id
- * @property string $name Name
- * @property string $captain Captain
+ * @property string $name 兵制
+ * @property string $captain 统兵官
  * @property int $soldiers 统领士兵数
  * @property int $months 获得军衔规则：月
  * @property int $times 获得军衔规则：累计次数
@@ -40,8 +40,8 @@ class GuangongRanksTable extends Table{
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'name'=>'Name',
-			'captain'=>'Captain',
+			'name'=>'兵制',
+			'captain'=>'统兵官',
 			'soldiers'=>'统领士兵数',
 			'months'=>'获得军衔规则：月',
 			'times'=>'获得军衔规则：累计次数',

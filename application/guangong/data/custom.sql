@@ -40,6 +40,7 @@ CREATE TABLE `{{$prefix}}guangong_user_extra` (
   `defence_area_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '防区ID',
   `hour_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '时辰ID',
   `attendances` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '总出勤次数',
+  `rank_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '军衔ID',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户扩展信息';
 
@@ -54,12 +55,13 @@ CREATE TABLE `{{$prefix}}guangong_hours` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='时辰表';
 
+
 DROP TABLE IF EXISTS `{{$prefix}}guangong_ranks`;
 CREATE TABLE `{{$prefix}}guangong_ranks` (
-  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) NOT NULL DEFAULT '',
-  `captain` varchar(20) NOT NULL,
-  `soldiers` mediumint(8) unsigned NOT NULL COMMENT '统领士兵数',
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL DEFAULT '' COMMENT '兵制',
+  `captain` varchar(20) NOT NULL DEFAULT '' COMMENT '统兵官',
+  `soldiers` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '统领士兵数',
   `months` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：月',
   `times` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：累计次数',
   `continuous` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：连续签到天数',

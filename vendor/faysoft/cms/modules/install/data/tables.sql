@@ -1105,11 +1105,15 @@ CREATE TABLE `{{$prefix}}user_connects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `third_party_app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '第三方应用ID',
-  `open_id` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用对外ID',
+  `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用对外ID',
+  `unionid` varchar(50) NOT NULL DEFAULT '' COMMENT 'Union ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `access_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Access Token',
+  `expires_in` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'access_token过期时间戳',
+  `refresh_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Refresh Token',
   PRIMARY KEY (`id`),
   UNIQUE KEY `third_party_app_id-user_id` (`third_party_app_id`,`user_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';
 
 DROP TABLE IF EXISTS `{{$prefix}}third_party_apps`;
 CREATE TABLE `{{$prefix}}third_party_apps` (

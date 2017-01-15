@@ -146,7 +146,7 @@ class PostsTable extends Table{
 	/**
 	 * 获取已发布条件
 	 * @param string $alias 表别名
-	 * @return arrayTable
+	 * @return array
 	 */
 	public static function getPublishedConditions($alias = ''){
 		return array(

@@ -1099,3 +1099,27 @@ CREATE TABLE `{{$prefix}}feeds_tags` (
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
   PRIMARY KEY (`feed_id`,`tag_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态标签关联关系';
+
+DROP TABLE IF EXISTS `{{$prefix}}user_connects`;
+CREATE TABLE `{{$prefix}}user_connects` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `third_party_app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '第三方应用ID',
+  `open_id` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用对外ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `third_party_app_id-user_id` (`third_party_app_id`,`user_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}third_party_apps`;
+CREATE TABLE `{{$prefix}}third_party_apps` (
+  `id` smallint(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `app_name` varchar(50) NOT NULL DEFAULT '' COMMENT '应用名称',
+  `app_code` varchar(50) NOT NULL DEFAULT '' COMMENT '应用编码，对应代码中的包名',
+  `app_id` varchar(50) NOT NULL DEFAULT '' COMMENT '从第三方平台申请到的应用ID',
+  `app_secret` varchar(100) NOT NULL DEFAULT '' COMMENT '从第三方平台申请到的应用密钥',
+  `configs` text NOT NULL COMMENT '配置信息',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

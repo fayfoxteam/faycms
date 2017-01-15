@@ -55,7 +55,6 @@ CREATE TABLE `{{$prefix}}guangong_hours` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='时辰表';
 
-
 DROP TABLE IF EXISTS `{{$prefix}}guangong_ranks`;
 CREATE TABLE `{{$prefix}}guangong_ranks` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -63,7 +62,7 @@ CREATE TABLE `{{$prefix}}guangong_ranks` (
   `captain` varchar(20) NOT NULL DEFAULT '' COMMENT '统兵官',
   `soldiers` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '统领士兵数',
   `months` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：月',
-  `times` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：累计次数',
+  `times` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：累计次数',
   `continuous` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：连续签到天数',
   `sort` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '军衔高低（值越高表示军衔越高）',
   PRIMARY KEY (`id`)

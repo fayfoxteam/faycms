@@ -30,8 +30,8 @@ class GuangongRanksTable extends Table{
 	public function rules(){
 		return array(
 			array(array('soldiers'), 'int', array('min'=>0, 'max'=>16777215)),
-			array(array('id', 'continuous', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('months', 'times'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('id', 'times', 'continuous', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('months'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('name'), 'string', array('max'=>10)),
 			array(array('captain'), 'string', array('max'=>20)),
 		);

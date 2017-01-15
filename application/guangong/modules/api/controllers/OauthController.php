@@ -2,6 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
+use fay\core\Response;
 use fay\services\oauth\weixin\WeixinClient;
 
 class OauthController extends ApiController{
@@ -11,10 +12,11 @@ class OauthController extends ApiController{
 		
 		$client = new WeixinClient($app_id, $app_secret);
 		if(!$code = $this->input->get('code')){
-			//跳转到微信拉去授权
-			$client->setScope('snsapi_userinfo');//需要获取用户信息（默认为：snsapi_base）
+			//需要获取用户信息（默认为：snsapi_base）
+			$client->setScope('snsapi_userinfo');
 			
-			header('location:' . $client->getAuthorizeUrl());
+			//跳转到微信拉去授权
+			Response::redirect($client->getAuthorizeUrl());
 		}
 		
 		$access_token = $client->getAccessToken($code);

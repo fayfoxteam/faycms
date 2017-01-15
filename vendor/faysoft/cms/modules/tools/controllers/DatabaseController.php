@@ -81,12 +81,12 @@ class DatabaseController extends ToolsController{
 		}
 		$this->view->primary = $primary;
 		
-		//类名和命名空间
+		//类名
+		$this->view->class_name = StringHelper::underscore2case($table_name);
+		//命名空间
 		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
-			$this->view->class_name = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_')));
 			$this->view->namespace = APPLICATION.'\models\tables';
 		}else{
-			$this->view->class_name = StringHelper::underscore2case($table_name);
 			$this->view->namespace = 'fay\models\tables';
 		}
 		
@@ -107,13 +107,11 @@ class DatabaseController extends ToolsController{
 		}
 		$this->view->primary = $primary;
 		
+		$this->view->class_name = StringHelper::underscore2case($table_name);
+		$filename = StringHelper::underscore2case($table_name).'Table';
 		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
-			$filename = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_'))).'Table';
-			$this->view->class_name = StringHelper::underscore2case(substr($table_name, strpos($table_name, '_')));
 			$this->view->namespace = APPLICATION.'\models\tables';
 		}else{
-			$filename = StringHelper::underscore2case($table_name).'Table';
-			$this->view->class_name = StringHelper::underscore2case($table_name);
 			$this->view->namespace = 'fay\models\tables';
 		}
 		$this->view->table_name = $table_name;

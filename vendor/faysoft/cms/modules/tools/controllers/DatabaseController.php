@@ -51,7 +51,7 @@ class DatabaseController extends ToolsController{
 		$t_name = preg_replace("/^{$this->view->prefix}(.*)/", '$1', $table_name, 1);
 		
 		if(substr($t_name, 0, strpos($t_name, '_')) == APPLICATION){
-			$class_name = APPLICATION.'\models\tables\\'.StringHelper::underscore2case(substr($t_name, strpos($t_name, '_'))).'Table';
+			$class_name = APPLICATION.'\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
 		}else{
 			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
 		}
@@ -67,57 +67,14 @@ class DatabaseController extends ToolsController{
 	}
 	
 	public function getModel(){
-		//表名，不带前缀
-		$table_name = $this->input->get('t');
-		$sql = "SHOW FULL FIELDS FROM {$this->db->{$table_name}}";
-		$this->view->fields = $this->db->fetchAll($sql);
-		$primary = array();
-		
-		//主键
-		foreach($this->view->fields as $f){
-			if(isset($f['Key']) && $f['Key'] == 'PRI'){
-				$primary[] = $f['Field'];
-			}
-		}
-		$this->view->primary = $primary;
-		
-		//类名
-		$this->view->class_name = StringHelper::underscore2case($table_name);
-		//命名空间
-		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
-			$this->view->namespace = APPLICATION.'\models\tables';
-		}else{
-			$this->view->namespace = 'fay\models\tables';
-		}
-		
-		$this->view->table_name = $table_name;
-		
-		$this->view->renderPartial(null, $this->view->getViewData());
+		$this->view->renderPartial(null, $this->getModelData());
 	}
 	
 	public function downloadModel(){
-		$table_name = $this->input->get('t');
-		$sql = "SHOW FULL FIELDS FROM {$this->db->{$table_name}}";
-		$this->view->fields = $this->db->fetchAll($sql);
-		$primary = array();
-		foreach($this->view->fields as $f){
-			if(isset($f['Key']) && $f['Key'] == 'PRI'){
-				$primary[] = $f['Field'];
-			}
-		}
-		$this->view->primary = $primary;
+		$data = $this->getModelData();
+		$content = $this->view->renderPartial('get_model', $data, -1, true);
 		
-		$this->view->class_name = StringHelper::underscore2case($table_name);
-		$filename = StringHelper::underscore2case($table_name).'Table';
-		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
-			$this->view->namespace = APPLICATION.'\models\tables';
-		}else{
-			$this->view->namespace = 'fay\models\tables';
-		}
-		$this->view->table_name = $table_name;
-		
-		$content = $this->view->renderPartial('get_model', $this->view->getViewData(), -1, true);
-		
+		$filename = StringHelper::underscore2case($data['table_name']).'Table';
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 			header('Content-Type: "application/x-httpd-php"');
 			header('Content-Disposition: attachment; filename="'.$filename.'.php"');
@@ -135,6 +92,47 @@ class DatabaseController extends ToolsController{
 			header("Content-Length: ".strlen($content));
 		}
 		echo $content;
+	}
+	
+	private function getModelData(){
+		//表名，不带前缀
+		$table_name = $this->input->get('t');
+		$sql = "SHOW FULL FIELDS FROM {$this->db->{$table_name}}";
+		$fields = $this->db->fetchAll($sql);
+		$primary = array();
+		
+		//主键
+		foreach($fields as $f){
+			if(isset($f['Key']) && $f['Key'] == 'PRI'){
+				$primary[] = $f['Field'];
+			}
+		}
+		
+		//类名
+		$class_name = StringHelper::underscore2case($table_name);
+		
+		//命名空间
+		if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
+			$namespace = APPLICATION.'\models\tables';
+		}else{
+			$namespace = 'fay\models\tables';
+		}
+		
+		//获取表注释
+		$create_table = $this->db->fetchRow("SHOW CREATE TABLE {$this->db->{$table_name}}");
+		$create_table = explode('\n', $create_table['Create Table']);
+		$create_table_last_line = array_pop($create_table);
+		preg_match('/COMMENT=\'(.*)\'/', $create_table_last_line, $table_comment);
+		$table_comment = isset($table_comment[1]) ? $table_comment[1] : '';
+		
+		return array(
+			'fields'=>$fields,
+			'primary'=>$primary,
+			'class_name'=>$class_name,
+			'namespace'=>$namespace,
+			'table_name'=>$table_name,
+			'table_comment'=>$table_comment,
+		);
 	}
 	
 	/**

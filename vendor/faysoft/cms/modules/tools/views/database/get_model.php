@@ -5,7 +5,14 @@ namespace <?php echo $namespace?>;
 use fay\core\db\Table;
 
 /**
- * <?php echo str_replace('_', ' ', ucfirst($table_name))?> table model
+ * <?php
+	if($table_comment){
+		echo $table_comment;
+	}else{
+		echo str_replace('_', ' ', ucfirst($table_name)), ' table model';
+	}
+?>
+
  * <?php foreach($fields as $f){?>
 
  * @property <?php

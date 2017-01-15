@@ -4,17 +4,17 @@ namespace guangong\models\tables;
 use fay\core\db\Table;
 
 /**
- * Guangong defence areas table model
+ * 防区表
  *
  * @property int $id 防区ID
  * @property string $name 防区名称
  */
-class DefenceAreasTable extends Table{
+class GuangongDefenceAreasTable extends Table{
 	protected $_name = 'guangong_defence_areas';
 	
 	/**
 	 * @param string $class_name
-	 * @return DefenceAreasTable
+	 * @return GuangongDefenceAreasTable
 	 
 	 */
 	public static function model($class_name = __CLASS__){

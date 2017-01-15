@@ -4,7 +4,7 @@ namespace guangong\models\tables;
 use fay\core\db\Table;
 
 /**
- * Guangong user extra table model
+ * 用户信息表
  *
  * @property int $user_id 用户ID
  * @property string $birthday 生日
@@ -15,13 +15,13 @@ use fay\core\db\Table;
  * @property int $defence_area_id 防区ID
  * @property int $attendances 总出勤次数
  */
-class UserExtraTable extends Table{
+class GuangongUserExtraTable extends Table{
 	protected $_name = 'guangong_user_extra';
 	protected $_primary = 'user_id';
 	
 	/**
 	 * @param string $class_name
-	 * @return UserExtraTable
+	 * @return GuangongUserExtraTable
 	 
 	 */
 	public static function model($class_name = __CLASS__){

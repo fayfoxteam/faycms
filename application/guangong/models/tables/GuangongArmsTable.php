@@ -4,18 +4,18 @@ namespace guangong\models\tables;
 use fay\core\db\Table;
 
 /**
- * Guangong arms table model
+ * 兵种表
  *
  * @property int $id Id
  * @property string $name 名称
  * @property int $picture Picture
  */
-class ArmsTable extends Table{
+class GuangongArmsTable extends Table{
 	protected $_name = 'guangong_arms';
 	
 	/**
 	 * @param string $class_name
-	 * @return ArmsTable
+	 * @return GuangongArmsTable
 	 
 	 */
 	public static function model($class_name = __CLASS__){

@@ -4,18 +4,18 @@ namespace guangong\models\tables;
 use fay\core\db\Table;
 
 /**
- * Guangong attendances table model
+ * 出勤记录表
  * 
  * @property int $id Id
  * @property int $user_id 用户ID
  * @property int $create_time 出勤时间
  */
-class AttendancesTable extends Table{
+class GuangongAttendancesTable extends Table{
 	protected $_name = 'guangong_attendances';
 	
 	/**
 	 * @param string $class_name
-	 * @return AttendancesTable
+	 * @return GuangongAttendancesTable
 
 	 */
 	public static function model($class_name = __CLASS__){

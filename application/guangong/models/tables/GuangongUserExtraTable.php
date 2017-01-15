@@ -4,7 +4,7 @@ namespace guangong\models\tables;
 use fay\core\db\Table;
 
 /**
- * 用户信息表
+ * 用户扩展信息表
  *
  * @property int $user_id 用户ID
  * @property string $birthday 生日
@@ -13,6 +13,7 @@ use fay\core\db\Table;
  * @property int $district 区/县
  * @property int $arm_id 兵种
  * @property int $defence_area_id 防区ID
+ * @property int $hour_id 时辰ID
  * @property int $attendances 总出勤次数
  */
 class GuangongUserExtraTable extends Table{
@@ -32,7 +33,7 @@ class GuangongUserExtraTable extends Table{
 		return array(
 			array(array('user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('state', 'city', 'district', 'defence_area_id', 'attendances'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('arm_id'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('arm_id', 'hour_id'), 'int', array('min'=>0, 'max'=>255)),
 		);
 	}
 	
@@ -45,6 +46,7 @@ class GuangongUserExtraTable extends Table{
 			'district'=>'区/县',
 			'arm_id'=>'兵种',
 			'defence_area_id'=>'防区ID',
+			'hour_id'=>'时辰ID',
 			'attendances'=>'总出勤次数',
 		);
 	}
@@ -58,6 +60,7 @@ class GuangongUserExtraTable extends Table{
 			'district'=>'intval',
 			'arm_id'=>'intval',
 			'defence_area_id'=>'intval',
+			'hour_id'=>'intval',
 			'attendances'=>'intval',
 		);
 	}

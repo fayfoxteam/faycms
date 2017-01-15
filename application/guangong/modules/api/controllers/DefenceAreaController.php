@@ -32,29 +32,11 @@ class DefenceAreaController extends ApiController{
 	}
 	
 	/**
-	 * 选定防区
-	 * @parameter int $area_id 防区ID
+	 * 选定防区（随机）
 	 */
 	public function set(){
 		//登录检查
 		$this->checkLogin();
-		
-		$this->form()->setData($this->input->post())
-			->setRules(array(
-				array('area_id', 'required'),
-				array('area_id', 'exist', array(
-					'table'=>GuangongDefenceAreasTable::model()->getTableName(),
-					'field'=>'id',
-				)),
-			))->check();
-		
-		$area = GuangongDefenceAreasTable::model()->find($this->form()->getData('area_id'), 'id,enabled');
-		if(!$area['enabled']){
-			Response::notify('error', array(
-				'message'=>'指定防区不存在',
-				'code'=>'invalid-parameter:area_id-is-not-exist',
-			));
-		}
 		
 		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id');
 		if($userExtra['defence_area_id']){
@@ -63,6 +45,9 @@ class DefenceAreaController extends ApiController{
 				'code'=>'arm-already-set'
 			));
 		}
+		
+		//随机一个防区
+		$area = GuangongDefenceAreasTable::model()->fetchRow('enabled = 1', 'id', 'RAND()');
 		
 		GuangongUserExtraTable::model()->update(array(
 			'defence_area_id'=>$area['id'],

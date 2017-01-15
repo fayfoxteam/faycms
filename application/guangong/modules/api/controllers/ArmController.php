@@ -32,29 +32,11 @@ class ArmController extends ApiController{
 	}
 	
 	/**
-	 * 选定兵种
-	 * @parameter int $arm_id 兵种ID
+	 * 选定兵种（随机）
 	 */
 	public function set(){
 		//登录检查
 		$this->checkLogin();
-		
-		$this->form()->setData($this->input->post())
-			->setRules(array(
-				array('arm_id', 'required'),
-				array('arm_id', 'exist', array(
-					'table'=>GuangongArmsTable::model()->getTableName(),
-					'field'=>'id',
-				)),
-			))->check();
-		
-		$arm = GuangongArmsTable::model()->find($this->form()->getData('arm_id'), 'id,enabled');
-		if(!$arm['enabled']){
-			Response::notify('error', array(
-				'message'=>'指定兵种不存在',
-				'code'=>'invalid-parameter:arm_id-is-not-exist',
-			));
-		}
 		
 		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'arm_id');
 		if($userExtra['arm_id']){
@@ -63,6 +45,9 @@ class ArmController extends ApiController{
 				'code'=>'arm-already-set'
 			));
 		}
+		
+		//随机一个兵种
+		$arm = GuangongArmsTable::model()->fetchRow('enabled = 1', 'id', 'RAND()');
 		
 		GuangongUserExtraTable::model()->update(array(
 			'arm_id'=>$arm['id'],

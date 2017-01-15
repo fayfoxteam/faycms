@@ -35,6 +35,18 @@ CREATE TABLE `{{$prefix}}guangong_user_extra` (
   `district` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '区/县',
   `arm_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '兵种',
   `defence_area_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '防区ID',
+  `hour_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '时辰ID',
   `attendances` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '总出勤次数',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户扩展信息';
+
+DROP TABLE IF EXISTS `{{$prefix}}guangong_hours`;
+CREATE TABLE `{{$prefix}}guangong_hours` (
+  `id` tinyint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL DEFAULT '' COMMENT '名称',
+  `start_hour` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '开始小时（一个时辰包含2个小时）',
+  `end_hour` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '结束小时（一个时辰包含2个小时）',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '描述',
+  `zodiac` varchar(500) NOT NULL DEFAULT '' COMMENT '生肖',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='时辰表';

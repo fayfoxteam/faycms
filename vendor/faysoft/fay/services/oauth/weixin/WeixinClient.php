@@ -60,7 +60,7 @@ class WeixinClient extends ClientAbstract{
 			'grant_type'=>'authorization_code',
 		));
 		
-		if($response['errcode'] != 0){
+		if(isset($response['errcode'])){
 			throw new OAuthException($response['errmsg'], $response['errcode']);
 		}
 		return new WeixinAccessToken($this->app_id, $response);

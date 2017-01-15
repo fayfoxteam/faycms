@@ -38,7 +38,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
 			'lang'=>$lang
 		));
 		
-		if($response['errcode'] != 0){
+		if(isset($response['errcode'])){
 			throw new OAuthException($response['errmsg'], $response['errcode']);
 		}
 		
@@ -57,7 +57,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
 			'refresh_token'=>$this->params['refresh_token'],
 		));
 		
-		if($response['errcode'] != 0){
+		if(isset($response['errcode'])){
 			throw new OAuthException($response['errmsg'], $response['errcode']);
 		}
 		

@@ -3,10 +3,10 @@ namespace guangong\models\forms;
 
 use fay\core\Model;
 
-class RegisterForm extends Model{
+class SignUpForm extends Model{
 	/**
 	 * @param string $class_name
-	 * @return RegisterForm
+	 * @return SignUpForm
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

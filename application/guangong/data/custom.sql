@@ -2,7 +2,9 @@ DROP TABLE IF EXISTS `{{$prefix}}guangong_arms`;
 CREATE TABLE `{{$prefix}}guangong_arms` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
-  `picture` int(10) unsigned NOT NULL DEFAULT '0',
+  `picture` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '图片',
+  `sort` tinyint(100) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='兵种表';
 
@@ -18,6 +20,9 @@ DROP TABLE IF EXISTS `{{$prefix}}guangong_defence_areas`;
 CREATE TABLE `{{$prefix}}guangong_defence_areas` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '防区ID',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '防区名称',
+  `picture` int(10) unsigned NOT NULL COMMENT '图片',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='防区表';
 

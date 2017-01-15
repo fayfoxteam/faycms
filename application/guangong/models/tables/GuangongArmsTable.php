@@ -9,6 +9,8 @@ use fay\core\db\Table;
  * @property int $id Id
  * @property string $name 名称
  * @property int $picture Picture
+ * @property int $sort 排序值
+ * @property int $enabled 是否启用
  */
 class GuangongArmsTable extends Table{
 	protected $_name = 'guangong_arms';
@@ -25,7 +27,8 @@ class GuangongArmsTable extends Table{
 	public function rules(){
 		return array(
 			array(array('picture'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('id'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('enabled'), 'int', array('min'=>-128, 'max'=>127)),
+			array(array('id', 'sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('name'), 'string', array('max'=>30)),
 		);
 	}
@@ -35,6 +38,8 @@ class GuangongArmsTable extends Table{
 			'id'=>'Id',
 			'name'=>'名称',
 			'picture'=>'Picture',
+			'sort'=>'排序值',
+			'enabled'=>'是否启用',
 		);
 	}
 	
@@ -43,6 +48,8 @@ class GuangongArmsTable extends Table{
 			'id'=>'intval',
 			'name'=>'trim',
 			'picture'=>'intval',
+			'sort'=>'intval',
+			'enabled'=>'intval',
 		);
 	}
 }

@@ -2,6 +2,7 @@
 namespace guangong\library;
 
 use fay\core\Controller;
+use fay\core\Http;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogsTable;
 
@@ -17,7 +18,7 @@ class FrontController extends Controller{
 		if($spider = RequestHelper::isSpider()){//如果是蜘蛛，记录蜘蛛日志
 			SpiderLogsTable::model()->insert(array(
 				'spider'=>$spider,
-				'url'=>'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$_SERVER['REQUEST_URI'],
+				'url'=>Http::getCurrentUrl(),
 				'user_agent'=>isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 				'ip_int'=>RequestHelper::ip2int($this->ip),
 				'create_time'=>$this->current_time,

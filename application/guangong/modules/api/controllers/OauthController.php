@@ -14,6 +14,8 @@ class OauthController extends ApiController{
 	}
 	
 	public function weixinUserInfo(){
-		
+		$client = new WeixinClient('wxad76a044d8fad0ed', '88efdec5df431446c3c42a8ee4004b9d');
+		$access_token = $client->getAccessToken($this->input->get('code'));
+		dump($access_token->getUser());
 	}
 }

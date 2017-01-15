@@ -15,7 +15,7 @@ class OauthController extends ApiController{
 			//需要获取用户信息（默认为：snsapi_base）
 			$client->setScope('snsapi_userinfo');
 			
-			//跳转到微信拉去授权
+			//跳转到微信拉取授权
 			Response::redirect($client->getAuthorizeUrl());
 		}
 		

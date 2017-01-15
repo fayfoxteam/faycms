@@ -10,6 +10,7 @@ class OauthController extends FrontController{
 	public function weixinGetCode(){
 		$client = new WeixinClient('wxfe1a287248f99621', 'ce5b4c1c736ef50c980ab8212e44169d');
 		$client->setRedirectUri(UrlHelper::createUrl('oauth/weixin-user-info'));
+		$client->setScope('snsapi_userinfo');//需要获取用户信息
 		
 		header('location:' . $client->getAuthorizeUrl());
 	}

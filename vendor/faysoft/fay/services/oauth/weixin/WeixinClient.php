@@ -42,7 +42,7 @@ class WeixinClient extends ClientAbstract{
 	 * @see \fay\services\oauth\ClientAbstract
 	 * @param string $code
 	 * @param null $state
-	 * @return AccessTokenAbstract
+	 * @return WeixinAccessToken
 	 * @throws OAuthException
 	 * @throws \fay\core\ErrorException
 	 */

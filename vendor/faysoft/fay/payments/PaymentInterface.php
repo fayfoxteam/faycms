@@ -3,12 +3,6 @@ namespace fay\payments;
 
 interface PaymentInterface{
 	/**
-	 * 构建支付数据
-	 * @return mixed
-	 */
-	public function build();
-	
-	/**
 	 * 第三方支付同步跳转
 	 * @return mixed
 	 */

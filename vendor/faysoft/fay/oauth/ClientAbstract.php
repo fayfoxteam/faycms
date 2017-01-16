@@ -1,5 +1,5 @@
 <?php
-namespace fay\services\oauth;
+namespace fay\oauth;
 
 abstract class ClientAbstract{
 	/**
@@ -45,6 +45,7 @@ abstract class ClientAbstract{
 	
 	/**
 	 * 设置 scope
+	 * @param string $scope
 	 */
 	public function setScope($scope){
 		$this->scope = $scope;
@@ -52,6 +53,7 @@ abstract class ClientAbstract{
 	
 	/**
 	 * 设置 state
+	 * @param string $state
 	 */
 	public function setState($state){
 		$this->state = $state;

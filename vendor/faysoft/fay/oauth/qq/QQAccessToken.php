@@ -1,9 +1,9 @@
 <?php
-namespace fay\services\oauth\qq;
+namespace fay\oauth\qq;
 
 use fay\helpers\HttpHelper;
-use fay\services\oauth\AccessTokenAbstract;
-use fay\services\oauth\OAuthException;
+use fay\oauth\AccessTokenAbstract;
+use fay\oauth\OAuthException;
 
 class QQAccessToken extends AccessTokenAbstract{
 	/**
@@ -27,7 +27,7 @@ class QQAccessToken extends AccessTokenAbstract{
 	}
 	
 	/**
-	 * @see \fay\services\oauth\AccessTokenAbstract::getUser()
+	 * @see \fay\oauth\AccessTokenAbstract::getUser()
 	 * @param string $lang 语言，默认为中文
 	 * @return array
 	 * @throws OAuthException
@@ -51,7 +51,7 @@ class QQAccessToken extends AccessTokenAbstract{
 	}
 	
 	/**
-	 * @see \fay\services\oauth\AccessTokenAbstract::refresh()
+	 * @see \fay\oauth\AccessTokenAbstract::refresh()
 	 * @return $this
 	 * @throws OAuthException
 	 */

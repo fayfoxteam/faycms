@@ -1,5 +1,5 @@
 <?php
-namespace fay\services\oauth;
+namespace fay\oauth;
 
 class StateManager{
 	private $session_key;

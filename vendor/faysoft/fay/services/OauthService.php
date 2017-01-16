@@ -3,8 +3,8 @@ namespace fay\services;
 
 use fay\core\Response;
 use fay\core\Service;
-use fay\services\oauth\OAuthException;
-use fay\services\oauth\weixin\WeixinClient;
+use fay\oauth\OAuthException;
+use fay\oauth\weixin\WeixinClient;
 
 class OauthService extends Service{
     /**
@@ -17,8 +17,8 @@ class OauthService extends Service{
     
     /**
      * 获取微信Access Token
-     * @return oauth\weixin\WeixinAccessToken
-     * @throws oauth\OAuthException
+     * @return \fay\oauth\weixin\WeixinAccessToken
+     * @throws OAuthException
      */
     public function getWeixinAccessToken(){
         $config = OptionService::getGroup('oauth:weixin');

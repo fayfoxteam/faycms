@@ -1,12 +1,11 @@
 <?php
-namespace fay\services\oauth\qq;
+namespace fay\oauth\qq;
 
 use fay\core\Http;
 use fay\helpers\HttpHelper;
 use fay\helpers\StringHelper;
-use fay\services\oauth\AccessTokenAbstract;
-use fay\services\oauth\ClientAbstract;
-use fay\services\oauth\OAuthException;
+use fay\oauth\ClientAbstract;
+use fay\oauth\OAuthException;
 
 class QQClient extends ClientAbstract{
 	/**
@@ -39,7 +38,7 @@ class QQClient extends ClientAbstract{
 	}
 	
 	/**
-	 * @see \fay\services\oauth\ClientAbstract
+	 * @see \fay\oauth\ClientAbstract
 	 * @param string $code
 	 * @param null $state
 	 * @return QQAccessToken

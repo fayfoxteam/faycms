@@ -5,7 +5,7 @@ use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use fay\helpers\UrlHelper;
 use fay\models\tables\SpiderLogsTable;
-use fay\services\oauth\qq\QQClient;
+use fay\oauth\qq\QQClient;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';

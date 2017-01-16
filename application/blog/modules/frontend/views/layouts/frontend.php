@@ -69,6 +69,9 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 				<?php }?>
 			<?php }?>
 			</ul>
+			<div class="oauth">
+				<a href="<?php echo $qq_oauth_url?>"><img src="<?php echo $this->appStatic('images/Connect_logo_3.png')?>"></a>
+			</div>
 		</div>
 	</div>
 	<div class="content-shade"></div>

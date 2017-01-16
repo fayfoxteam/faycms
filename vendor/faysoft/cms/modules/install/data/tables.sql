@@ -370,7 +370,7 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
-  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
+  `sku_key` varchar(100) NOT NULL DEFAULT '' COMMENT 'SKU Key',
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
@@ -911,7 +911,7 @@ CREATE TABLE `{{$prefix}}user_prop_text` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` text NOT NULL COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_varchar`;
 CREATE TABLE `{{$prefix}}user_prop_varchar` (
@@ -919,13 +919,13 @@ CREATE TABLE `{{$prefix}}user_prop_varchar` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `setting_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Setting Key',
+  `setting_key` varchar(50) NOT NULL DEFAULT '' COMMENT 'Setting Key',
   `setting_value` text NOT NULL COMMENT 'Setting Value',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id-setting_key` (`user_id`,`setting_key`)
@@ -1099,3 +1099,31 @@ CREATE TABLE `{{$prefix}}feeds_tags` (
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
   PRIMARY KEY (`feed_id`,`tag_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态标签关联关系';
+
+DROP TABLE IF EXISTS `{{$prefix}}user_connects`;
+CREATE TABLE `{{$prefix}}user_connects` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `third_party_app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '第三方应用ID',
+  `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用对外ID',
+  `unionid` varchar(50) NOT NULL DEFAULT '' COMMENT 'Union ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `access_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Access Token',
+  `expires_in` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'access_token过期时间戳',
+  `refresh_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Refresh Token',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `third_party_app_id-user_id` (`third_party_app_id`,`user_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';
+
+DROP TABLE IF EXISTS `{{$prefix}}third_party_apps`;
+CREATE TABLE `{{$prefix}}third_party_apps` (
+  `id` smallint(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `app_name` varchar(50) NOT NULL DEFAULT '' COMMENT '应用名称',
+  `app_code` varchar(50) NOT NULL DEFAULT '' COMMENT '应用编码，对应代码中的包名',
+  `app_id` varchar(50) NOT NULL DEFAULT '' COMMENT '从第三方平台申请到的应用ID',
+  `app_secret` varchar(100) NOT NULL DEFAULT '' COMMENT '从第三方平台申请到的应用密钥',
+  `configs` text NOT NULL COMMENT '配置信息',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};

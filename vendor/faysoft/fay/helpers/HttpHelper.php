@@ -1,6 +1,8 @@
 <?php
 namespace fay\helpers;
 
+use fay\core\ErrorException;
+
 class HttpHelper{
 	
 	/**
@@ -11,17 +13,7 @@ class HttpHelper{
 	 * @return string
 	 */
 	public static function combineURL($base_url, $values){
-		$combined = $base_url."?";
-		$value_arr = array();
-	
-		foreach($values as $key => $val){
-			$value_arr[] = "{$key}={$val}";
-		}
-	
-		$keyStr = implode("&", $value_arr);
-		$combined .= ($keyStr);
-	
-		return $combined;
+		return $base_url . '?' . http_build_query($values);
 	}
 	
 	/**
@@ -50,9 +42,32 @@ class HttpHelper{
 	 * @param array $values 参数列表数组
 	 * @return string 返回的资源内容
 	 */
-	public static function get($url, $values){
+	public static function get($url, $values = array()){
 		$combined = self::combineURL($url, $values);
 		return self::getContents($combined);
+	}
+	
+	/**
+	 * get方式请求json，解析成数组后返回（若服务端返回非json类型，会抛出一个异常）
+	 * @param string $url
+	 * @param array $values
+	 * @return mixed
+	 * @throws ErrorException
+	 */
+	public static function getJson($url, $values = array()){
+		$response = trim(self::get($url, $values));
+		
+		if($response == 'null'){
+			//若返回的json就是null，返回null
+			return null;
+		}
+		
+		$response = json_decode($response, true);
+		if(!$response){
+			throw new ErrorException('请求JSON数据格式异常');
+		}
+		
+		return $response;
 	}
 	
 	/**

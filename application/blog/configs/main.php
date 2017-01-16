@@ -31,7 +31,9 @@ return array(
 			'cookie_lifetime'=>864000,
 		),
 	),
+	
+	'debug'=>false,
 	//'enable_tools'=>false,
 	
-	'assets_url'=>preg_match('/^(\d+).fayfox.com$/', isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']) ? '' : 'http://static.faycms.com/',
+	//'assets_url'=>preg_match('/^(\d+).fayfox.com$/', isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']) ? '' : 'http://qiniu.cdn.faycms.com/',
 );

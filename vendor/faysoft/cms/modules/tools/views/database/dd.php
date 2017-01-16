@@ -38,11 +38,17 @@ use fay\helpers\HtmlHelper;
 				</table>
 			</div>
 			<h3>DDL</h3>
-			<?php echo HtmlHelper::textarea('code', str_replace('CREATE TABLE `'.$prefix, 'CREATE TABLE `{{$prefix}}', $ddl['Create Table']), array(
-				'style'=>'font-family:Consolas,Monaco,monospace',
-				'id'=>'code',
-				'class'=>'form-control autosize',
-			))?>
+			<?php
+				//将前缀替换为占位符
+				$create_table = str_replace('CREATE TABLE `'.$prefix, 'CREATE TABLE `{{$prefix}}', $ddl['Create Table']);
+				//将表编码替换为占位符
+				$create_table = preg_replace('/ DEFAULT CHARSET=\w+/', ' DEFAULT CHARSET={{$charset}}', $create_table);
+				echo HtmlHelper::textarea('code', $create_table, array(
+					'style'=>'font-family:Consolas,Monaco,monospace',
+					'id'=>'code',
+					'class'=>'form-control autosize',
+				));
+			?>
 		</div>
 	</div>
 	<div class="col-3">

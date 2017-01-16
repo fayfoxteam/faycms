@@ -1,6 +1,8 @@
 <?php
 namespace fay\services\post;
 
-class PostException extends \fay\core\Exception{
+use fay\core\Exception;
+
+class PostException extends Exception{
 	
 }

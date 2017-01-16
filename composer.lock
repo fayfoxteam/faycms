@@ -53,16 +53,16 @@
         },
         {
             "name": "faysoft/cms",
-            "version": "0.1.0",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fayfox/cms.git",
-                "reference": "ad49b80e58651316a7940934d77002955d0009d1"
+                "reference": "9976926f2f8a600bdd774ce80d39286d30b74007"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/fayfox/cms/ad49b80e58651316a7940934d77002955d0009d1.zip",
-                "reference": "ad49b80e58651316a7940934d77002955d0009d1",
+                "url": "https://packagist.phpcomposer.com/files/fayfox/cms/9976926f2f8a600bdd774ce80d39286d30b74007.zip",
+                "reference": "9976926f2f8a600bdd774ce80d39286d30b74007",
                 "shasum": ""
             },
             "require": {
@@ -95,25 +95,26 @@
                 "faycms",
                 "faysoft"
             ],
-            "time": "2016-10-03 09:16:17"
+            "time": "2017-01-14 06:04:17"
         },
         {
             "name": "faysoft/fay",
-            "version": "0.1.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fayfox/fay.git",
-                "reference": "bd26840710e2adc7ed5531cee4e5270faa1881b8"
+                "reference": "951652d67c5a1d055a24d0678aba511b70932722"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/fayfox/fay/bd26840710e2adc7ed5531cee4e5270faa1881b8.zip",
-                "reference": "bd26840710e2adc7ed5531cee4e5270faa1881b8",
+                "url": "https://packagist.phpcomposer.com/files/fayfox/fay/951652d67c5a1d055a24d0678aba511b70932722.zip",
+                "reference": "951652d67c5a1d055a24d0678aba511b70932722",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
                 "ext-mbstring": "*",
+                "gregwar/captcha": "1.*",
                 "michelf/php-markdown": "*",
                 "php": ">=5.3.3",
                 "qiniu/php-sdk": "*"
@@ -144,20 +145,68 @@
                 "faycms",
                 "faysoft"
             ],
-            "time": "2016-10-03 14:37:52"
+            "time": "2017-01-14 06:02:47"
         },
         {
-            "name": "michelf/php-markdown",
-            "version": "1.6.0",
+            "name": "gregwar/captcha",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "156e56ee036505ec637d761ee62dc425d807183c"
+                "url": "https://github.com/Gregwar/Captcha.git",
+                "reference": "1240ab993ca713680573b2d4166900da5f758623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/michelf/php-markdown/156e56ee036505ec637d761ee62dc425d807183c.zip",
-                "reference": "156e56ee036505ec637d761ee62dc425d807183c",
+                "url": "https://packagist.phpcomposer.com/files/Gregwar/Captcha/1240ab993ca713680573b2d4166900da5f758623.zip",
+                "reference": "1240ab993ca713680573b2d4166900da5f758623",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "captcha",
+            "autoload": {
+                "psr-4": {
+                    "Gregwar\\Captcha\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Passault",
+                    "email": "g.passault@gmail.com",
+                    "homepage": "http://www.gregwar.com/"
+                },
+                {
+                    "name": "Jeremy Livingston",
+                    "email": "jeremy.j.livingston@gmail.com"
+                }
+            ],
+            "description": "Captcha generator",
+            "homepage": "https://github.com/Gregwar/Captcha",
+            "keywords": [
+                "bot",
+                "captcha",
+                "spam"
+            ],
+            "time": "2015-09-11 15:23:20"
+        },
+        {
+            "name": "michelf/php-markdown",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michelf/php-markdown.git",
+                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/michelf/php-markdown/1f51cc520948f66cd2af8cbc45a5ee175e774220.zip",
+                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220",
                 "shasum": ""
             },
             "require": {
@@ -195,20 +244,20 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2015-12-24 01:37:31"
+            "time": "2016-10-29 18:58:20"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.16",
+            "version": "v5.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a"
+                "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/PHPMailer/PHPMailer/1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a.zip",
-                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
+                "url": "https://packagist.phpcomposer.com/files/PHPMailer/PHPMailer/b18cb98131bd83103ccb26a888fdfe3177b8a663.zip",
+                "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663",
                 "shasum": ""
             },
             "require": {
@@ -255,7 +304,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2016-06-06 09:09:37"
+            "time": "2017-01-09 09:33:47"
         },
         {
             "name": "phpspec/php-diff",
@@ -297,16 +346,16 @@
         },
         {
             "name": "qiniu/php-sdk",
-            "version": "v7.0.8",
+            "version": "v7.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/qiniu/php-sdk.git",
-                "reference": "d1bca450b56d85beb7ba21f374a47bfeb59c288b"
+                "reference": "b91653485e36b4797d7a302cc86c49695e47a642"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/qiniu/php-sdk/d1bca450b56d85beb7ba21f374a47bfeb59c288b.zip",
-                "reference": "d1bca450b56d85beb7ba21f374a47bfeb59c288b",
+                "url": "https://packagist.phpcomposer.com/files/qiniu/php-sdk/b91653485e36b4797d7a302cc86c49695e47a642.zip",
+                "reference": "b91653485e36b4797d7a302cc86c49695e47a642",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +393,7 @@
                 "sdk",
                 "storage"
             ],
-            "time": "2016-07-19 06:18:08"
+            "time": "2016-11-18 02:57:31"
         }
     ],
     "packages-dev": [],

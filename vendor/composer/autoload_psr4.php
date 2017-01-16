@@ -9,4 +9,5 @@ return array(
     'fay\\' => array($vendorDir . '/faysoft/fay'),
     'cms\\' => array($vendorDir . '/faysoft/cms'),
     'Qiniu\\' => array($vendorDir . '/qiniu/php-sdk/src/Qiniu'),
+    'Gregwar\\Captcha\\' => array($vendorDir . '/gregwar/captcha'),
 );

@@ -111,4 +111,12 @@ class Http{
 		
 		return $base_url;
 	}
+	
+	/**
+	 * 获取当前请求的url
+	 * @return string
+	 */
+	public static function getCurrentUrl(){
+		return self::getScheme() . '://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ?: $_SERVER['HTTP_HOST']).$_SERVER['REQUEST_URI'];
+	}
 }

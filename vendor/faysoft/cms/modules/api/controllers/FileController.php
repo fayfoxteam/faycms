@@ -2,10 +2,10 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
+use fay\services\CaptchaService;
 use fay\services\FileService;
 use fay\models\tables\FilesTable;
 use fay\helpers\ImageHelper;
-use fay\helpers\SecurityCodeHelper;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
@@ -259,17 +259,11 @@ class FileController extends ApiController{
 		}
 	}
 	
-	/**
-	 * 显示一张验证码
-	 * @parameter int $l 验证码长度，默认4位
-	 * @parameter int $w 验证码宽度，默认110像素
-	 * @parameter int $h 验证码高度，默认40像素
-	 */
-	public function vcode(){
-		$sc = new SecurityCodeHelper($this->input->get('l', 'intval', 4), $this->input->get('w', 'intval', 110), $this->input->get('h', 'intval', 40));
-		//$sc->ext_line = false;
-		$sc->create();
-		\F::session()->set('vcode', strtolower($sc->randnum));
+	public function captcha(){
+		CaptchaService::output(
+			$this->input->get('w', 'intval', 150),
+			$this->input->get('h', 'intval', 40)
+		);
 	}
 	
 	/**

@@ -117,7 +117,11 @@ class Response{
 	 */
 	public static function redirect($uri = null, $params = array(), $url_rewrite = true){
 		if($uri === null){
+			//跳转到首页
 			header('location:'.UrlHelper::createUrl(null));
+		}else if(preg_match('/^(http|https):\/\/\w+.*$/', $uri)){
+			//指定了一个完整的url，跳转到指定url
+			header('location:'.$uri);
 		}else{
 			header('location:'.UrlHelper::createUrl($uri, $params, $url_rewrite));
 		}
@@ -151,7 +155,12 @@ class Response{
 			);
 		}
 		if(Http::isAjax()){
-			Response::json(isset($data['data']) ? $data['data'] : '', $status == 'success' ? 1 : 0, isset($data['message']) ? $data['message'] : '', isset($data['code']) ? $data['code'] : '');
+			Response::json(
+				isset($data['data']) ? $data['data'] : '',
+				$status == 'success' ? 1 : 0,
+				isset($data['message']) ? $data['message'] : '',
+				isset($data['code']) ? $data['code'] : ''
+			);
 		}else{
 			if(!empty($data['message'])){
 				//若设置了空 的message，则不发flash

@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $listview \fay\common\ListView
+ */
+?>
 <div class="row">
 	<div class="col-12">
 		<table class="list-table">

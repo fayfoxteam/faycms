@@ -58,13 +58,13 @@ echo F::form()->open();
 					<h4>类型</h4>
 				</div>
 				<div class="box-content">
-					<p><?php echo F::form()->inputRadio('type', Templates::TYPE_EMAIL, array(
+					<p><?php echo F::form()->inputRadio('type', TemplatesTable::TYPE_EMAIL, array(
 						'label'=>'邮件',
 					), true)?></p>
-					<p><?php echo F::form()->inputRadio('type', Templates::TYPE_SMS, array(
+					<p><?php echo F::form()->inputRadio('type', TemplatesTable::TYPE_SMS, array(
 						'label'=>'短信',
 					))?></p>
-					<p><?php echo F::form()->inputRadio('type', Templates::TYPE_NOTIFICATION, array(
+					<p><?php echo F::form()->inputRadio('type', TemplatesTable::TYPE_NOTIFICATION, array(
 						'label'=>'站内信',
 					))?></p>
 					<div class="clear"></div>

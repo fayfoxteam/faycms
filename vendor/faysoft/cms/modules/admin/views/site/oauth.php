@@ -2,27 +2,11 @@
 	<div class="col-12">
 		<div class="tabbable">
 			<ul class="nav-tabs">
-				<li class="active"><a href="#options-panel">站点参数</a></li>
-				<li><a href="#system-panel">系统参数</a></li>
-				<li><a href="#email-panel">邮箱参数</a></li>
-				<li><a href="#qiniu-panel">七牛参数</a></li>
-				<li><a href="#ucpaas-panel">云之讯参数</a></li>
+				<li class="active"><a href="#options-panel">微信登录</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="options-panel" class="tab-pane p5">
-					<?php $this->renderPartial('_settings_options')?>
-				</div>
-				<div id="system-panel" class="tab-pane p5 hide">
-					<?php $this->renderPartial('_settings_system')?>
-				</div>
-				<div id="email-panel" class="tab-pane p5 hide">
-					<?php $this->renderPartial('_settings_email')?>
-				</div>
-				<div id="qiniu-panel" class="tab-pane p5 hide">
-					<?php $this->renderPartial('_settings_qiniu')?>
-				</div>
-				<div id="ucpaas-panel" class="tab-pane p5 hide">
-					<?php $this->renderPartial('_settings_ucpaas')?>
+					<?php $this->renderPartial('_oauth_weixin')?>
 				</div>
 			</div>
 		</div>
@@ -68,20 +52,6 @@ $(function(){
 			'afterAjaxSubmit':function(resp){
 				$('body').unblock();
 				common.notify('保存成功', 'success');
-			}
-		});
-	});
-	
-	//logo上传
-	system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
-		uploader.image({
-			'browse_button': 'upload-logo',
-			'container': 'logo-container',
-			'preview_container': 'logo-preview-container',
-			'input_name': 'site:logo',
-			'remove_link_text': '移除Logo',
-			'preview_image_params': {
-				't': 1
 			}
 		});
 	});

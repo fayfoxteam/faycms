@@ -26,10 +26,19 @@ class SiteController extends AdminController{
 	}
 	
 	/**
-	 * 配置项汇总
+	 * 系统参数
 	 */
 	public function settings(){
 		$this->layout->subtitle = '系统设置';
+		
+		$this->view->render();
+	}
+	
+	/**
+	 * 第三方登录参数
+	 */
+	public function oauth(){
+		$this->layout->subtitle = '第三方登录';
 		
 		$this->view->render();
 	}

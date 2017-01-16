@@ -1114,3 +1114,15 @@ CREATE TABLE `{{$prefix}}user_connects` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `third_party_app_id-user_id` (`third_party_app_id`,`user_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';
+
+DROP TABLE IF EXISTS `{{$prefix}}payments`;
+CREATE TABLE `{{$prefix}}payments` (
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL DEFAULT '' COMMENT '包名',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '描述',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  `config` text COMMENT '配置信息JSON',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';

@@ -3,6 +3,7 @@ namespace fay\services;
 
 use fay\core\Response;
 use fay\core\Service;
+use fay\services\oauth\OAuthException;
 use fay\services\oauth\weixin\WeixinClient;
 
 class OauthService extends Service{
@@ -20,10 +21,16 @@ class OauthService extends Service{
      * @throws oauth\OAuthException
      */
     public function getWeixinAccessToken(){
-        $app_id = 'wxad76a044d8fad0ed';
-        $app_secret = '88efdec5df431446c3c42a8ee4004b9d';
+        $config = OptionService::getGroup('oauth:weixin');
+        if(!$config){
+            throw new OAuthException('微信登录参数未设置');
+        }
+        
+        if(empty($config['enabled'])){
+            throw new OAuthException('微信登录已禁用');
+        }
     
-        $client = new WeixinClient($app_id, $app_secret);
+        $client = new WeixinClient($config['app_id'], $config['app_secret']);
         if(!$code = \F::input()->get('code')){
             //需要获取用户信息（默认为：snsapi_base）
             $client->setScope('snsapi_userinfo');

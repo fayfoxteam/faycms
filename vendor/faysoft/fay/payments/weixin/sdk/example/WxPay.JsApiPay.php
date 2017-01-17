@@ -31,6 +31,19 @@ class JsApiPay
 	public $data = null;
 	
 	/**
+	 * sdk自带的类常量的方式太无语了
+	 */
+	private $app_id;
+	
+	private $app_secret;
+	
+	public function __construct($app_id, $app_secret)
+	{
+		$this->app_id = $app_id;
+		$this->app_secret = $app_secret;
+	}
+	
+	/**
 	 * 
 	 * 通过跳转获取用户的openid，跳转流程如下：
 	 * 1、设置自己需要调回的url及其其他参数，跳转到微信服务器https://open.weixin.qq.com/connect/oauth2/authorize
@@ -38,13 +51,13 @@ class JsApiPay
 	 * 
 	 * @return 用户的openid
 	 */
-	public function GetOpenid($appid)
+	public function GetOpenid()
 	{
 		//通过code获得openid
 		if (!isset($_GET['code'])){
 			//触发微信返回code码
 			$baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].$_SERVER['QUERY_STRING']);
-			$url = $this->__CreateOauthUrlForCode($baseUrl, $appid);
+			$url = $this->__CreateOauthUrlForCode($baseUrl);
 			Header("Location: $url");
 			exit();
 		} else {
@@ -96,7 +109,7 @@ class JsApiPay
 		//初始化curl
 		$ch = curl_init();
 		//设置超时
-		curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,FALSE);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);
@@ -148,7 +161,7 @@ class JsApiPay
 	{	
 		$getData = $this->data;
 		$data = array();
-		$data["appid"] = WxPayConfig::APPID;
+		$data["appid"] = $this->app_id;
 		$data["url"] = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$time = time();
 		$data["timestamp"] = "$time";
@@ -162,7 +175,7 @@ class JsApiPay
 			"addrSign" => $addrSign,
 			"signType" => "sha1",
 			"scope" => "jsapi_address",
-			"appId" => WxPayConfig::APPID,
+			"appId" => $this->app_id,
 			"timeStamp" => $data["timestamp"],
 			"nonceStr" => $data["noncestr"]
 		);
@@ -177,9 +190,9 @@ class JsApiPay
 	 * 
 	 * @return 返回构造好的url
 	 */
-	private function __CreateOauthUrlForCode($redirectUrl, $appid)
+	private function __CreateOauthUrlForCode($redirectUrl)
 	{
-		$urlObj["appid"] = $appid;
+		$urlObj["appid"] = $this->app_id;
 		$urlObj["redirect_uri"] = "$redirectUrl";
 		$urlObj["response_type"] = "code";
 		$urlObj["scope"] = "snsapi_base";
@@ -197,8 +210,8 @@ class JsApiPay
 	 */
 	private function __CreateOauthUrlForOpenid($code)
 	{
-		$urlObj["appid"] = WxPayConfig::APPID;
-		$urlObj["secret"] = WxPayConfig::APPSECRET;
+		$urlObj["appid"] = $this->app_id;
+		$urlObj["secret"] = $this->app_secret;
 		$urlObj["code"] = $code;
 		$urlObj["grant_type"] = "authorization_code";
 		$bizString = $this->ToUrlParams($urlObj);

@@ -26,6 +26,16 @@ class PaymentConfig{
 	 */
 	private $mch_id;
 	
+	/**
+	 * @var string 商户支付密钥
+	 */
+	private $key;
+	
+	/**
+	 * @var string 公众帐号secert（微信JSAPI支付有这个参数）
+	 */
+	private $app_secret;
+	
 	public function __construct($mch_id){
 		$this->mch_id = $mch_id;
 	}
@@ -104,6 +114,42 @@ class PaymentConfig{
 	public function setMchId($mch_id)
 	{
 		$this->mch_id = $mch_id;
+		return $this;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getKey()
+	{
+		return $this->key;
+	}
+	
+	/**
+	 * @param string $key
+	 * @return PaymentConfig
+	 */
+	public function setKey($key)
+	{
+		$this->key = $key;
+		return $this;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAppSecret()
+	{
+		return $this->app_secret;
+	}
+	
+	/**
+	 * @param string $app_secret
+	 * @return PaymentConfig
+	 */
+	public function setAppSecret($app_secret)
+	{
+		$this->app_secret = $app_secret;
 		return $this;
 	}
 }

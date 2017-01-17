@@ -21,14 +21,14 @@ class WeixinPayment implements PaymentInterface{
 		), '微信JSAPI支付');
 		
 		$config->checkRequiredField(array(
-			'app_id', 'mch_id',
+			'app_id', 'mch_id', 'key', 'app_secret',
 		), '微信JSAPI支付');
 		
 		require_once __DIR__ . '/sdk/example/WxPay.JsApiPay.php';
         
 		//①、获取用户openid
-		$tools = new \JsApiPay();
-		$openId = $tools->GetOpenid($config->getAppId());
+		$tools = new \JsApiPay($config->getAppId(), $config->getAppSecret());
+		$openId = $tools->GetOpenid();
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();

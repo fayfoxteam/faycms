@@ -13,7 +13,7 @@ class PaymentController extends FrontController{
 		$trade->setNotifyUrl(UrlHelper::createUrl('payment/wx-notify'))
 			->setBody('fayfox测试订单');
 		
-		$config = new PaymentConfig('123');
+		$config = new PaymentConfig('1397762502');
 		$config->setAppId('wxad76a044d8fad0ed');
 		
 		$payment = new WeixinPayment();

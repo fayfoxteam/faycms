@@ -17,6 +17,7 @@ class PaymentController extends FrontController{
 		$config = new PaymentConfig('123');
 		$config->setAppId('wxad76a044d8fad0ed');
 		
-		(new WeixinPayment)->jsApi($trade, $config);
+		$payment = new WeixinPayment();
+		$payment->jsApi($trade, $config);
 	}
 }

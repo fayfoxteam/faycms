@@ -55,7 +55,7 @@ class WeixinPayment implements PaymentInterface{
 		}
 		
 		$order = \WxPayApi::unifiedOrder($input);
-		dump($order);
+		dump($order);die;
 		$jsApiParameters = $tools->GetJsApiParameters($order);
 		
 		require __DIR__ . '/views/jsapi.php';

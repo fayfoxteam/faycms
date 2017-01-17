@@ -32,7 +32,7 @@ class WeixinPayment implements PaymentInterface{
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();
-		$input->SetTrade_type("JSAPI");
+		$input->SetTrade_type('JSAPI');
 		$input->SetOpenid($openId);
 		$input->SetAppid($config->getAppId());
 		$input->SetMch_id($config->getMchId());

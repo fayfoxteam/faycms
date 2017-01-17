@@ -26,6 +26,7 @@ class LinkController extends AdminController{
 			$data['user_id'] = $this->current_user;
 			$data['last_modified_time'] = $this->current_time;
 			$link_id = LinksTable::model()->insert($data);
+			
 			$this->actionlog(ActionlogsTable::TYPE_LINK, '添加友情链接', $link_id);
 			Response::notify('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
 		}

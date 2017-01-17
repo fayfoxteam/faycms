@@ -144,6 +144,11 @@ class ActionlogsTable extends Table{
 	 * 动态管理
 	 */
 	const TYPE_FEED = 35;
+	
+	/**
+	 * 支付方式
+	 */
+	const TYPE_PAYMENT = 36;
 
 	protected $_name = 'actionlogs';
 	

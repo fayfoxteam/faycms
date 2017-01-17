@@ -1117,12 +1117,13 @@ CREATE TABLE `{{$prefix}}user_connects` (
 
 DROP TABLE IF EXISTS `{{$prefix}}payments`;
 CREATE TABLE `{{$prefix}}payments` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `code` varchar(20) NOT NULL DEFAULT '' COMMENT '包名',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
   `description` varchar(500) NOT NULL DEFAULT '' COMMENT '描述',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   `config` text COMMENT '配置信息JSON',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后编辑时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';

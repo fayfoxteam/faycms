@@ -47,7 +47,6 @@ class <?php echo $class_name?>Table extends Table{
 	/**
 	 * @param string $class_name
 	 * @return <?php echo $class_name?>Table
-
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

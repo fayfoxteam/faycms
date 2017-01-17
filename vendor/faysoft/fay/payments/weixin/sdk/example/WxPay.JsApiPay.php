@@ -38,13 +38,13 @@ class JsApiPay
 	 * 
 	 * @return 用户的openid
 	 */
-	public function GetOpenid()
+	public function GetOpenid($appid)
 	{
 		//通过code获得openid
 		if (!isset($_GET['code'])){
 			//触发微信返回code码
 			$baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].$_SERVER['QUERY_STRING']);
-			$url = $this->__CreateOauthUrlForCode($baseUrl);
+			$url = $this->__CreateOauthUrlForCode($baseUrl, $appid);
 			Header("Location: $url");
 			exit();
 		} else {
@@ -177,9 +177,9 @@ class JsApiPay
 	 * 
 	 * @return 返回构造好的url
 	 */
-	private function __CreateOauthUrlForCode($redirectUrl)
+	private function __CreateOauthUrlForCode($redirectUrl, $appid)
 	{
-		$urlObj["appid"] = WxPayConfig::APPID;
+		$urlObj["appid"] = $appid;
 		$urlObj["redirect_uri"] = "$redirectUrl";
 		$urlObj["response_type"] = "code";
 		$urlObj["scope"] = "snsapi_base";

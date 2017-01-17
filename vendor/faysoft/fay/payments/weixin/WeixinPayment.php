@@ -2,6 +2,7 @@
 namespace fay\payments\weixin;
 
 use fay\payments\PaymentConfig;
+use fay\payments\PaymentException;
 use fay\payments\PaymentInterface;
 use fay\payments\PaymentTrade;
 
@@ -10,27 +11,49 @@ class WeixinPayment implements PaymentInterface{
 	 * jsapi支付方式
 	 * @param PaymentTrade $trade
 	 * @param PaymentConfig $config
+	 * @throws PaymentException
 	 * @throws \WxPayException
 	 */
 	public function jsApi(PaymentTrade $trade, PaymentConfig $config){
+		//判断字段是否有值
+		$trade->checkRequiredField(array(
+			'body', 'out_trade_no', 'total_fee', 'notify_url',
+		), '微信JSAPI支付');
+		
+		$config->checkRequiredField(array(
+			'app_id', 'mch_id',
+		), '微信JSAPI支付');
+		
 		require_once __DIR__ . '/sdk/example/WxPay.JsApiPay.php';
         
 		//①、获取用户openid
 		$tools = new \JsApiPay();
-		$openId = $tools->GetOpenid();
+		$openId = $tools->GetOpenid($config->getAppId());
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();
-		$input->SetBody("test");
-		$input->SetAttach("test");
-		$input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
-		$input->SetTotal_fee("1");
-		$input->SetTime_start(date("YmdHis"));
-		$input->SetTime_expire(date("YmdHis", time() + 600));
-		$input->SetGoods_tag("test");
-		$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
 		$input->SetTrade_type("JSAPI");
 		$input->SetOpenid($openId);
+		$input->SetAppid($config->getAppId());
+		$input->SetMch_id($config->getMchId());
+		
+		//必填字段
+		$input->SetBody($trade->getBody());
+		$input->SetOut_trade_no($trade->getOutTradeNo());
+		$input->SetTotal_fee($trade->getTotalFee());
+		$input->SetNotify_url($trade->getNotifyUrl());
+		
+		//选填字段
+		if($attach = $trade->getAttach()){
+			$input->SetAttach($attach);
+		}
+		if($time_start = $trade->getTimeStart()){
+			$input->SetTime_start(date('YmdHis', strtotime($time_start)));
+		}
+		if($time_expire = $trade->getTimeExpire()){
+			$input->SetTime_expire(date('YmdHis', strtotime($time_expire)));
+		}
+		
 		$order = \WxPayApi::unifiedOrder($input);
 		dump($order);
 		$jsApiParameters = $tools->GetJsApiParameters($order);
@@ -42,26 +65,24 @@ class WeixinPayment implements PaymentInterface{
 	 * 第三方支付同步跳转
 	 * @return mixed
 	 */
-	public function callback()
-	{
-		// TODO: Implement callback() method.
+	public function callback(){
+		
 	}
 	
 	/**
 	 * 第三方支付异步回调
 	 * @return mixed
 	 */
-	public function notify()
-	{
-		// TODO: Implement notify() method.
+	public function notify(){
+		$notify = new WeixinNotify();
+		$notify->Handle(false);
 	}
 	
 	/**
 	 * 交易查询
 	 * @return mixed
 	 */
-	public function query()
-	{
+	public function query(){
 		// TODO: Implement query() method.
 	}
 	
@@ -69,8 +90,7 @@ class WeixinPayment implements PaymentInterface{
 	 * 退款
 	 * @return mixed
 	 */
-	public function refund()
-	{
+	public function refund(){
 		// TODO: Implement refund() method.
 	}
 }

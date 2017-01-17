@@ -6,16 +6,6 @@ namespace fay\payments;
  */
 class PaymentConfig{
 	/**
-	 * @var string 服务器异步通知页面路径
-	 */
-	private $notify_url;
-	
-	/**
-	 * @var string 页面跳转同步通知页面路径
-	 */
-	private $return_url;
-	
-	/**
 	 * @var string 签名方式（目前仅支付宝支持此参数）
 	 */
 	private $sign_type = 'MD5';
@@ -36,45 +26,31 @@ class PaymentConfig{
 	 */
 	private $mch_id;
 	
-	public function __construct($mch_id, $notify_url){
+	public function __construct($mch_id){
 		$this->mch_id = $mch_id;
-		$this->notify_url = $notify_url;
 	}
 	
 	/**
-	 * @return string
+	 * 判断传入字段是否都有值（不同支付方式，必选字段有所不同）。
+	 * 返回不满足条件的空字段一维数组，若返回空数组，代表验证成功。
+	 * @param array $fields
+	 * @param string $payment 支付访问，用于报错时明确错误
+	 * @return array
+	 * @throws PaymentException
 	 */
-	public function getNotifyUrl()
-	{
-		return $this->notify_url;
-	}
-	
-	/**
-	 * @param string $notify_url
-	 * @return PaymentConfig
-	 */
-	public function setNotifyUrl($notify_url)
-	{
-		$this->notify_url = $notify_url;
-		return $this;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getReturnUrl()
-	{
-		return $this->return_url;
-	}
-	
-	/**
-	 * @param string $return_url
-	 * @return PaymentConfig
-	 */
-	public function setReturnUrl($return_url)
-	{
-		$this->return_url = $return_url;
-		return $this;
+	public function checkRequiredField($fields, $payment){
+		$empty_fields = array();
+		foreach($fields as $f){
+			if(!$this->{$f}){
+				$empty_fields[] = $f;
+			}
+		}
+		
+		if($empty_fields){
+			throw new PaymentException($payment . '配置：字段[' . implode(', ', $empty_fields) . ']不能为空');
+		}
+		
+		return true;
 	}
 	
 	/**

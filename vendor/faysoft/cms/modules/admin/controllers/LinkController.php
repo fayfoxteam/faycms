@@ -49,7 +49,6 @@ class LinkController extends AdminController{
 		if($this->input->post()){
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
-				isset($data['visible']) || $data['visible'] = 1;
 				$data['visible'] = $this->input->post('visible', 'intval', 1);
 				$data['last_modified_time'] = $this->current_time;
 				LinksTable::model()->update($data, array('id = ?'=>$id));

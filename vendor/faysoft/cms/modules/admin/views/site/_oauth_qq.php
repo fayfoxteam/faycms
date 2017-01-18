@@ -27,7 +27,6 @@ use fay\services\OptionService;
 					'data-required'=>'required',
 					'data-label'=>'AppID',
 				))?>
-				<p class="description">格式：wx+16位数字字母组成</p>
 			</div>
 			<div class="form-field">
 				<label class="title">AppSecret<em class="required">*</em></label>
@@ -36,7 +35,6 @@ use fay\services\OptionService;
 					'data-required'=>'required',
 					'data-label'=>'AppSecret',
 				))?>
-				<p class="description">格式：32位数字字母组成</p>
 			</div>
 		</div>
 	</div>

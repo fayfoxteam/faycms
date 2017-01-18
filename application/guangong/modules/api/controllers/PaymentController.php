@@ -17,7 +17,7 @@ class PaymentController extends FrontController{
 		$config = new PaymentConfig('1397762502');
 		$config->setAppId('wxad76a044d8fad0ed')
 			->setAppSecret('88efdec5df431446c3c42a8ee4004b9d')
-			->setKey('')
+			->setKey('abcdefghijklmnopqrstuvwxyz123456')
 		;
 		
 		$payment = new WeixinPayment();

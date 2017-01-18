@@ -14,6 +14,7 @@ use fay\core\db\Table;
  * @property string $config 配置信息JSON
  * @property int $create_time 创建时间
  * @property int $last_modified_time 最后编辑时间
+ * @property int $deleted Deleted
  */
 class PaymentsTable extends Table{
 	protected $_name = 'payments';
@@ -37,19 +38,24 @@ class PaymentsTable extends Table{
 			array(array('code'), 'string', array('max'=>20)),
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('description'), 'string', array('max'=>500)),
+			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			
+			array(array('name', 'code', 'enabled'), 'required', array('on'=>'create')),
+			array(array('name', 'enabled'), 'required', array('on'=>'edit'))
 		);
 	}
 	
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'code'=>'包名',
-			'name'=>'名称',
-			'description'=>'描述',
+			'code'=>'支付编码',
+			'name'=>'支付名称',
+			'description'=>'支付描述',
 			'enabled'=>'是否启用',
 			'config'=>'配置信息JSON',
 			'create_time'=>'创建时间',
 			'last_modified_time'=>'最后编辑时间',
+			'deleted'=>'Deleted',
 		);
 	}
 	
@@ -60,7 +66,8 @@ class PaymentsTable extends Table{
 			'name'=>'trim',
 			'description'=>'trim',
 			'enabled'=>'intval',
-			'config'=>'',
+			'config'=>'trim',
+			'deleted'=>'intval',
 		);
 	}
 	

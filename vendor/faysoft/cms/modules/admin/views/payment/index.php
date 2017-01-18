@@ -26,6 +26,8 @@
 			</tfoot>
 			<tbody><?php $listview->showData()?></tbody>
 		</table>
-		<?php $listview->showPager();?>
 	</div>
+</div>
+<div class="row">
+	<div class="col-12"><?php $listview->showPager();?></div>
 </div>

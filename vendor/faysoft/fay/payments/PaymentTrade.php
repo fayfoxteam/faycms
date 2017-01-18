@@ -64,15 +64,6 @@ class PaymentTrade{
 	private $return_url;
 	
 	/**
-	 * @param string $out_trade_no
-	 * @param int $total_fee 以“分”为单位的整数金额
-	 */
-	public function __construct($out_trade_no, $total_fee){
-		$this->out_trade_no = $out_trade_no;
-		$this->total_fee = $total_fee;
-	}
-	
-	/**
 	 * 判断传入字段是否都有值（不同支付方式，必选字段有所不同）。
 	 * 返回不满足条件的空字段一维数组，若返回空数组，代表验证成功。
 	 * @param array $fields

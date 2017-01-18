@@ -36,10 +36,6 @@ class PaymentConfig{
 	 */
 	private $app_secret;
 	
-	public function __construct($mch_id){
-		$this->mch_id = $mch_id;
-	}
-	
 	/**
 	 * 判断传入字段是否都有值（不同支付方式，必选字段有所不同）。
 	 * 返回不满足条件的空字段一维数组，若返回空数组，代表验证成功。

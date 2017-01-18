@@ -564,7 +564,7 @@ CREATE TABLE `{{$prefix}}orders` (
   `shipping_fee` decimal(6,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '邮费',
   `adjust_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '卖家手工调整金额（差值）',
   `total_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '订单总价',
-  `payment` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实付金额',
+  `paid_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实付金额',
   `seller_rate` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否评价',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `receiver_state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在省',
@@ -1128,3 +1128,37 @@ CREATE TABLE `{{$prefix}}payments` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
+
+DROP TABLE IF EXISTS `{{$prefix}}trade_payments`;
+CREATE TABLE `{{$prefix}}trade_payments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `paid_time` int(11) NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  `payment_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
+  `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
+  `payer_account` varchar(50) NOT NULL DEFAULT '' COMMENT '付款人帐号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}trades`;
+CREATE TABLE `{{$prefix}}trades` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '交易类型',
+  `refer` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
+  `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '支付说明',
+  `body` varchar(255) NOT NULL DEFAULT '' COMMENT '支付描述',
+  `total_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '付款金额',
+  `paid_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '已付金额',
+  `trade_payment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付记录ID（付成功的那条）',
+  `refund_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '退款金额',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `expire_time` int(11) NOT NULL COMMENT 'Expire Time',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
+  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};

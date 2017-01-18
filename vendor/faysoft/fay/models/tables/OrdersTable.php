@@ -16,7 +16,7 @@ use fay\core\db\Table;
  * @property float $shipping_fee
  * @property float $adjust_fee
  * @property float $total_fee
- * @property float $payment
+ * @property float $paid_fee
  * @property int $seller_rate
  * @property string $title
  * @property int $receiver_state
@@ -73,7 +73,7 @@ class OrdersTable extends Table{
 			array(array('buyer_note', 'seller_note', 'title', 'receiver_address', 'close_reason'), 'string', array('max'=>255)),
 			array(array('receiver_name'), 'string', array('max'=>50)),
 			array(array('receiver_mobile', 'receiver_phone'), 'string', array('max'=>30)),
-			array(array('goods_fee', 'adjust_fee', 'total_fee', 'payment'), 'float', array('length'=>8, 'decimal'=>2)),
+			array(array('goods_fee', 'adjust_fee', 'total_fee', 'paid_fee'), 'float', array('length'=>8, 'decimal'=>2)),
 			array(array('shipping_fee'), 'float', array('length'=>6, 'decimal'=>2)),
 			array(array('pay_time', 'consign_time', 'comfirm_time'), 'datetime'),
 		);
@@ -91,7 +91,7 @@ class OrdersTable extends Table{
 			'shipping_fee'=>'邮费',
 			'adjust_fee'=>'卖家手工调整金额（差值）',
 			'total_fee'=>'订单总价',
-			'payment'=>'实付金额',
+			'paid_fee'=>'实付金额',
 			'seller_rate'=>'是否评价',
 			'title'=>'标题',
 			'receiver_state'=>'收货人所在省',
@@ -121,7 +121,7 @@ class OrdersTable extends Table{
 			'shipping_fee'=>'floatval',
 			'adjust_fee'=>'floatval',
 			'total_fee'=>'floatval',
-			'payment'=>'floatval',
+			'paid_fee'=>'floatval',
 			'seller_rate'=>'intval',
 			'title'=>'trim',
 			'receiver_state'=>'intval',

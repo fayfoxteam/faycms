@@ -36,6 +36,7 @@ class WeixinPayment implements PaymentInterface{
 		$input->SetOpenid($openId);
 		$input->SetAppid($config->getAppId());
 		$input->SetMch_id($config->getMchId());
+		$input->SetKey($config->getKey());
 		
 		//必填字段
 		$input->SetBody($trade->getBody());

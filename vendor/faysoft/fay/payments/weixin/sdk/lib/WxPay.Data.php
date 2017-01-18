@@ -117,7 +117,7 @@ class WxPayDataBase
 		$string = $this->ToUrlParams();
 		//签名步骤二：在string后加入KEY
 		if(!$this->key){
-			throw new WxPayException('Key未设置');
+			throw new WxPayException(__CLASS__ . '::key未设置');
 		}
 		$string = $string . "&key=".$this->key;
 		//签名步骤三：MD5加密

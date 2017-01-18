@@ -25,7 +25,13 @@ class WeixinPayment implements PaymentInterface{
 		), '微信JSAPI支付');
 		
 		require_once __DIR__ . '/sdk/example/WxPay.JsApiPay.php';
-        
+		
+		//初始化一下微信sdk的变态配置方式
+		\WxPayConfig::$KEY = $config->getKey();
+		\WxPayConfig::$APPID = $config->getAppId();
+		\WxPayConfig::$APPSECRET = $config->getAppSecret();
+		\WxPayConfig::$MCHID = $config->getMchId();
+		
 		//①、获取用户openid
 		$tools = new \JsApiPay($config->getAppId(), $config->getAppSecret());
 		$openId = $tools->GetOpenid();
@@ -36,7 +42,6 @@ class WeixinPayment implements PaymentInterface{
 		$input->SetOpenid($openId);
 		$input->SetAppid($config->getAppId());
 		$input->SetMch_id($config->getMchId());
-		$input->SetKey($config->getKey());
 		
 		//必填字段
 		$input->SetBody($trade->getBody());

@@ -14,8 +14,6 @@ require_once "WxPay.Exception.php";
  */
 class WxPayDataBase
 {
-	private $key;
-	
 	protected $values = array();
 	
 	/**
@@ -116,19 +114,12 @@ class WxPayDataBase
 		ksort($this->values);
 		$string = $this->ToUrlParams();
 		//签名步骤二：在string后加入KEY
-		if(!$this->key){
-			throw new WxPayException(get_class($this) . '::key未设置');
-		}
-		$string = $string . "&key=".$this->key;
+		$string = $string . "&key=".WxPayConfig::$KEY;
 		//签名步骤三：MD5加密
 		$string = md5($string);
 		//签名步骤四：所有字符转为大写
 		$result = strtoupper($string);
 		return $result;
-	}
-	
-	public function SetKey($key){
-		$this->key = $key;
 	}
 	
 	/**

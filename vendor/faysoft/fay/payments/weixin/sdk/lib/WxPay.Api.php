@@ -541,6 +541,9 @@ class WxPayApi
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		//要求结果为字符串且输出到屏幕上
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		
+		//老是提示curl错误码6，指定使用IPv4试试 by Fayfox
+		curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 	
 		if($useCert == true){
 			//设置证书

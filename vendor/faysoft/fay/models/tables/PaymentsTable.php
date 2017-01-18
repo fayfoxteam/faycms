@@ -20,7 +20,7 @@ class PaymentsTable extends Table{
 	protected $_name = 'payments';
 	
 	public static $codes = array(
-		'weixin:jsapi'=>'微信JsApi支付'
+		'weixin:jsapi'=>'微信JsApi支付（公众号支付）'
 	);
 	
 	/**

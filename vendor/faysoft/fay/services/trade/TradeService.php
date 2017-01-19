@@ -1,45 +1,49 @@
 <?php
 namespace fay\services;
 
-use fay\core\Service;
-use fay\helpers\NumberHelper;
 use fay\models\tables\TradesTable;
+use fay\services\trade\state\ClosedTrade;
+use fay\services\trade\state\CreateTrade;
+use fay\services\trade\state\PaidTrade;
+use fay\services\trade\state\StateInterface;
 
-class TradeService extends Service{
+class TradeService{
+	/**
+	 * @var StateInterface
+	 */
+	private $state;
 	
 	/**
-	 * @param string $class_name
-	 * @return TradeService
+	 * @var array 交易信息
 	 */
-	public static function service($class_name = __CLASS__){
-		return parent::service($class_name);
+	private $trade;
+	
+	public function __construct($trade_id){
+		$trade = TradesTable::model()->find($trade_id);
+		$this->trade = $trade;
+		
+		switch($trade['status']){
+			case TradesTable::STATUS_WAIT_PAY:
+				$this->state = new CreateTrade();
+				break;
+			case TradesTable::STATUS_PAID:
+				$this->state = new PaidTrade();
+				break;
+			case TradesTable::STATUS_CLOSED:
+				$this->state = new ClosedTrade();
+				break;
+		}
+	}
+	
+	public function setState(StateInterface $state){
+		$this->state = $state;
 	}
 	
 	/**
-	 * 获取支付方式
-	 * @param int $id 支付方式ID
-	 * @return array|bool
+	 * 执行支付
+	 * @param int $payment_id 支付方式ID
 	 */
-	public function get($id){
-		$trade = TradesTable::model()->find($id);
-		if(!$trade){
-			return false;
-		}
-		
-		
-		return $trade;
-	}
-	
-	/**
-	 * 构造外部订单号
-	 * @param $trade
-	 * @return string
-	 */
-	public function getOutTradeNo($trade){
-		if(NumberHelper::isInt($trade)){
-			$trade = $this->get($trade);
-		}
-		
-		return date('YmdHis', $trade['create_time']) . NumberHelper::toLength($trade['id'], 7);
+	public function pay($payment_id){
+		$this->state->pay($this, $payment_id);
 	}
 }

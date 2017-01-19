@@ -1,7 +1,7 @@
 <?php
 namespace guangong\modules\api\controllers;
 
-use fay\services\PaymentService;
+use fay\services\PaymentMethodService;
 use fay\services\TradeService;
 use guangong\library\FrontController;
 use fay\helpers\UrlHelper;
@@ -52,7 +52,7 @@ class PaymentController extends FrontController{
 			'id'=>'地区ID',
 		))->check();
 		
-		$payment = PaymentService::service()->get($this->form()->getData('payment_id'));
+		$payment = PaymentMethodService::service()->get($this->form()->getData('payment_id'));
 		$trade = TradeService::service()->get($this->form()->getData('trade_id'));
 		
 		$paymentTrade = new PaymentTrade();

@@ -34,7 +34,7 @@ class TradesTable extends Table{
 	/**
 	 * 状态 - 交易关闭
 	 */
-	const STATUS_CLOSE = 3;
+	const STATUS_CLOSED = 3;
 	
 	protected $_name = 'trades';
 	

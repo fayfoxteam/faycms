@@ -4,11 +4,14 @@ namespace fay\services;
 use fay\core\Service;
 use fay\models\tables\PaymentsTable;
 
-class PaymentService extends Service{
+/**
+ * 支付方式
+ */
+class PaymentMethodService extends Service{
 	
 	/**
 	 * @param string $class_name
-	 * @return PaymentService
+	 * @return PaymentMethodService
 	 */
 	public static function service($class_name = __CLASS__){
 		return parent::service($class_name);

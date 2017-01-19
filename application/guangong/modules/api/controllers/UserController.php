@@ -1,8 +1,10 @@
 <?php
 namespace guangong\modules\api\controllers;
 
-use fay\core\db\Exception;
 use fay\core\Response;
+use fay\core\Sql;
+use fay\models\tables\UsersTable;
+use fay\services\FileService;
 use fay\services\UserService;
 use guangong\models\forms\SignUpForm;
 use guangong\models\tables\GuangongUserExtraTable;
@@ -50,5 +52,38 @@ class UserController extends \cms\modules\api\controllers\UserController{
 		AttendanceService::service()->attend($this->current_user);
 		
 		Response::notify('success', '操作成功');
+	}
+	
+	/**
+	 * 军籍
+	 */
+	public function info(){
+		$user = UsersTable::model()->find($this->current_user, 'id,avatar');
+		$user['avatar'] = FileService::get($user['avatar'], array(
+			'spare'=>'avatar',
+		));
+		
+		$sql = new Sql();
+		$user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday'))
+			->joinLeft(array('r1'=>'regions'), 'ue.state = r1.id', array('name AS state_name'))
+			->joinLeft(array('r2'=>'regions'), 'ue.city = r2.id', array('name AS city_name'))
+			->joinLeft(array('r3'=>'regions'), 'ue.district = r3.id', array('name AS district_name'))
+			->joinLeft(array('a'=>'guangong_arms'), 'ue.arm_id = a.id', array('name AS arm_name'))
+			->joinLeft(array('r'=>'guangong_ranks'), 'ue.rank_id = r.id', array('name AS rank_name'))
+			->joinLeft(array('d'=>'guangong_defence_areas'), 'ue.defence_area_id = d.id', array('name AS defence_area_name'))
+			->where('ue.user_id = ?', $this->current_user)
+			->fetchRow();
+		
+		foreach($user_extra as &$e){
+			if(!$e){
+				//把null格式化为空字符串
+				$e = '';
+			}
+		}
+		
+		Response::json(array(
+			'user'=>$user,
+			'extra'=>$user_extra,
+		));
 	}
 }

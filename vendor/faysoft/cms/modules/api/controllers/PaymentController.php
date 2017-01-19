@@ -1,6 +1,8 @@
 <?php
 namespace guangong\modules\api\controllers;
 
+use fay\services\PaymentService;
+use fay\services\TradeService;
 use guangong\library\FrontController;
 use fay\helpers\UrlHelper;
 use fay\payments\PaymentConfig;
@@ -25,5 +27,34 @@ class PaymentController extends FrontController{
 		
 		$payment = new WeixinPayment();
 		$payment->jsApi($trade, $config);
+	}
+	
+	/**
+	 * @parameter int $trade_id
+	 * @parameter int $payment_id
+	 */
+	public function pay(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('trade_id', 'payment_id'), 'required'),
+			array(array('trade_id', 'payment_id'), 'int', array('min'=>1)),
+			array(array('trade_id'), 'exist', array(
+				'table'=>'trades',
+				'field'=>'id',
+			)),
+			array(array('payment_id'), 'exist', array(
+				'table'=>'trades',
+				'field'=>'id',
+			)),
+		))->setFilters(array(
+			'id'=>'intval',
+		))->setLabels(array(
+			'id'=>'地区ID',
+		))->check();
+		
+		$payment = PaymentService::service()->get($this->form()->getData('payment_id'));
+		$trade = TradeService::service()->get($this->form()->getData('trade_id'));
+		
+		$paymentTrade = new PaymentTrade();
 	}
 }

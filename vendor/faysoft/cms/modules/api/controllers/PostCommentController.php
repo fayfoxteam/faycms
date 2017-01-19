@@ -104,7 +104,7 @@ class PostCommentController extends ApiController{
 			));
 		}
 		
-		$comment_id = CommentService::service()->create(
+		$comment_id = PostCommentService::service()->create(
 			$post_id,
 			$this->form()->getData('content'),
 			$this->form()->getData('parent', 0)
@@ -114,7 +114,7 @@ class PostCommentController extends ApiController{
 			//过滤字段，移除那些不允许的字段
 			$fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
 			
-			$comment = CommentService::service()->get($comment_id, $fields);
+			$comment = PostCommentService::service()->get($comment_id, $fields);
 			
 			//格式化一下空数组的问题，保证返回给客户端的数据类型一致
 			if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){
@@ -156,8 +156,8 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(CommentService::service()->checkPermission($comment_id, 'delete')){
-			CommentService::service()->delete($comment_id);
+		if(PostCommentService::service()->checkPermission($comment_id, 'delete')){
+			PostCommentService::service()->delete($comment_id);
 			Response::notify('success', '评论删除成功');
 		}else{
 			Response::notify('error', array(
@@ -192,8 +192,8 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(CommentService::service()->checkPermission($comment_id, 'undelete')){
-			CommentService::service()->undelete($comment_id);
+		if(PostCommentService::service()->checkPermission($comment_id, 'undelete')){
+			PostCommentService::service()->undelete($comment_id);
 			Response::notify('success', '评论还原成功');
 		}else{
 			Response::notify('error', array(
@@ -231,8 +231,8 @@ class PostCommentController extends ApiController{
 		
 		$comment_id = $this->form()->getData('comment_id');
 		
-		if(CommentService::service()->checkPermission($comment_id, 'edit')){
-			CommentService::service()->update(
+		if(PostCommentService::service()->checkPermission($comment_id, 'edit')){
+			PostCommentService::service()->update(
 				$comment_id,
 				$this->form()->getData('content')
 			);
@@ -253,6 +253,9 @@ class PostCommentController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function listAction(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id'), 'required'),
@@ -283,7 +286,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		$result = CommentService::service()->getList(
+		$result = PostCommentService::service()->getList(
 			$this->form()->getData('post_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -311,6 +314,9 @@ class PostCommentController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function tree(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id'), 'required'),
@@ -341,7 +347,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		Response::json(CommentService::service()->getTree(
+		Response::json(PostCommentService::service()->getTree(
 			$this->form()->getData('post_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -358,6 +364,9 @@ class PostCommentController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function chat(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id'), 'required'),
@@ -388,7 +397,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		Response::json(CommentService::service()->getChats(
+		Response::json(PostCommentService::service()->getChats(
 			$this->form()->getData('post_id'),
 			$this->form()->getData('page_size', 20),
 			$this->form()->getData('page', 1),
@@ -397,6 +406,9 @@ class PostCommentController extends ApiController{
 	}
 	
 	public function get(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('id'), 'required'),
@@ -421,7 +433,7 @@ class PostCommentController extends ApiController{
 			$fields = $this->default_fields;
 		}
 		
-		$comment = CommentService::service()->get($id, $fields);
+		$comment = PostCommentService::service()->get($id, $fields);
 		
 		//处理下空数组问题
 		if(isset($comment['parent']['comment']) && empty($comment['parent']['comment'])){

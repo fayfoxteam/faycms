@@ -39,6 +39,9 @@ class PostController extends ApiController{
 	 * @parameter int|string $cat 指定分类（可选），若指定分类，则文章若不属于该分类，返回404
 	 */
 	public function get(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('id'), 'required'),

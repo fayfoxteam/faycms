@@ -93,6 +93,9 @@ class PostLikeController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function postLikes(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
@@ -139,6 +142,9 @@ class PostLikeController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function userLikes(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//登录检查
 		$this->checkLogin();
 		

@@ -31,6 +31,9 @@ class FileController extends ApiController{
 	 * @parameter int $dh 当$t=3或$t=4时候，图片输出高度（原图尺寸不足时会被拉伸）
 	 */
 	public function pic(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		$validator = new Validator();
 		$check = $validator->check(array(
 			array(array('f'), 'required'),

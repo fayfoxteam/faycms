@@ -117,6 +117,9 @@ class UserController extends ApiController{
 	 * 返回单用户信息
 	 */
 	public function get(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('id'), 'required'),

@@ -262,6 +262,9 @@ class MessageController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function listAction(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('to_user_id'), 'required'),

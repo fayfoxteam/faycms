@@ -47,6 +47,11 @@ class DatabaseController extends ToolsController{
 		$this->view->fields = $this->db->fetchAll("SHOW FULL FIELDS FROM {$table_name}");
 		
 		$this->view->ddl = $this->db->fetchRow("SHOW CREATE TABLE {$table_name}");
+		//获取表注释
+		$create_table = explode('\n', $this->view->ddl['Create Table']);
+		$create_table_last_line = array_pop($create_table);
+		preg_match('/COMMENT=\'(.*)\'/', $create_table_last_line, $table_comment);
+		$table_comment = isset($table_comment[1]) ? $table_comment[1] : '';
 		
 		$t_name = preg_replace("/^{$this->view->prefix}(.*)/", '$1', $table_name, 1);
 		
@@ -56,7 +61,7 @@ class DatabaseController extends ToolsController{
 			$class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
 		}
 		
-		$this->layout->subtitle = 'Data Dictionary - '.$t_name;
+		$this->layout->subtitle = 'Data Dictionary - ' . $t_name . ($table_comment ? " ($table_comment)" : '');
 		$this->view->current_table = $t_name;
 		
 		$this->view->labels = \F::model($class_name)->labels();

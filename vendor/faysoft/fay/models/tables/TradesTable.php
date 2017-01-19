@@ -8,8 +8,6 @@ use fay\core\db\Table;
  * 
  * @property int $id Id
  * @property int $user_id 用户ID
- * @property int $type 交易类型
- * @property int $refer 关联ID
  * @property string $subject 支付说明
  * @property string $body 支付描述
  * @property float $total_fee 付款金额
@@ -51,9 +49,8 @@ class TradesTable extends Table{
 	public function rules(){
 		return array(
 			array(array('create_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-			array(array('id', 'user_id', 'refer', 'trade_payment_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'user_id', 'trade_payment_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('subject', 'body'), 'string', array('max'=>255)),
 			array(array('total_fee', 'paid_fee', 'refund_fee'), 'float', array('length'=>8, 'decimal'=>2)),
 			array(array('expire_time', 'pay_time'), 'datetime'),
@@ -64,8 +61,6 @@ class TradesTable extends Table{
 		return array(
 			'id'=>'Id',
 			'user_id'=>'用户ID',
-			'type'=>'交易类型',
-			'refer'=>'关联ID',
 			'subject'=>'支付说明',
 			'body'=>'支付描述',
 			'total_fee'=>'付款金额',
@@ -84,8 +79,6 @@ class TradesTable extends Table{
 		return array(
 			'id'=>'intval',
 			'user_id'=>'intval',
-			'type'=>'intval',
-			'refer'=>'intval',
 			'subject'=>'trim',
 			'body'=>'trim',
 			'total_fee'=>'floatval',

@@ -1129,20 +1129,6 @@ CREATE TABLE `{{$prefix}}payments` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
 
-DROP TABLE IF EXISTS `{{$prefix}}trade_payments`;
-CREATE TABLE `{{$prefix}}trade_payments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `paid_time` int(11) NOT NULL DEFAULT '0' COMMENT '支付时间',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
-  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
-  `payment_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
-  `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
-  `payer_account` varchar(50) NOT NULL DEFAULT '' COMMENT '付款人帐号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
-
 DROP TABLE IF EXISTS `{{$prefix}}trades`;
 CREATE TABLE `{{$prefix}}trades` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -1162,3 +1148,28 @@ CREATE TABLE `{{$prefix}}trades` (
   `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}trade_refers`;
+CREATE TABLE `{{$prefix}}trade_refers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '交易类型',
+  `refer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
+  PRIMARY KEY (`id`),
+  KEY `trade_id` (`trade_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易引用关系表';
+
+DROP TABLE IF EXISTS `{{$prefix}}trade_payments`;
+CREATE TABLE `{{$prefix}}trade_payments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `paid_time` int(11) NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  `payment_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
+  `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
+  `payer_account` varchar(50) NOT NULL DEFAULT '' COMMENT '付款人帐号',
+  PRIMARY KEY (`id`),
+  KEY `trade_id` (`trade_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易支付记录表';

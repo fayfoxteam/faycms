@@ -31,6 +31,9 @@ class CreateTrade implements StateInterface{
 		
 		//生成支付记录
 		$trade_payment = $this->createTradePayment($trade, $payment['id']);
+		//将支付方式数组和交易详情传递给支付记录对象，免得再搜一次
+		$trade_payment->setPayment($payment);
+		$trade_payment->setTrade($trade);
 		
 		//调用支付
 		$trade_payment->pay();

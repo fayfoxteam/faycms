@@ -4,6 +4,7 @@ namespace fay\services\trade;
 use fay\helpers\NumberHelper;
 use fay\models\tables\PaymentsTable;
 use fay\models\tables\TradePaymentsTable;
+use fay\payments\PaymentService;
 use fay\services\trade\payment_state\ClosedTradePayment;
 use fay\services\trade\payment_state\CreateTradePayment;
 use fay\services\trade\payment_state\PaidAfterClosedTradePayment;
@@ -104,7 +105,7 @@ class TradePaymentItem{
 	 */
 	public function getPayment(){
 		//若未初始化，则根据交易记录中的payment_id初始化一个
-		$this->payment || $this->payment = PaymentsTable::model()->find($this->payment_id);
+		$this->payment || $this->payment = PaymentMethodService::service()->get($this->payment_id);
 		
 		return $this->payment;
 	}

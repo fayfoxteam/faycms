@@ -1,15 +1,14 @@
 <?php
-namespace fay\services;
+namespace fay\services\trade;
 
 use fay\helpers\NumberHelper;
 use fay\models\tables\PaymentsTable;
 use fay\models\tables\TradePaymentsTable;
-use fay\models\tables\TradesTable;
 use fay\services\trade\payment_state\ClosedTradePayment;
 use fay\services\trade\payment_state\CreateTradePayment;
+use fay\services\trade\payment_state\PaidAfterClosedTradePayment;
 use fay\services\trade\payment_state\PaidTradePayment;
 use fay\services\trade\payment_state\PaymentStateInterface;
-use fay\services\trade\TradeErrorException;
 
 class TradePaymentService{
 	/**
@@ -40,15 +39,20 @@ class TradePaymentService{
 		$this->trade_payment = $trade_payment;
 		
 		switch($trade_payment['status']){
-			case TradesTable::STATUS_WAIT_PAY:
+			case TradePaymentsTable::STATUS_WAIT_PAY:
 				$this->state = new CreateTradePayment();
 				break;
-			case TradesTable::STATUS_PAID:
+			case TradePaymentsTable::STATUS_PAID:
 				$this->state = new PaidTradePayment();
 				break;
-			case TradesTable::STATUS_CLOSED:
+			case TradePaymentsTable::STATUS_CLOSED:
 				$this->state = new ClosedTradePayment();
 				break;
+			case TradePaymentsTable::STATUS_PAID_AFTER_CLOSED:
+				$this->state = new PaidAfterClosedTradePayment();
+				break;
+			default:
+				throw new TradeErrorException('交易支付记录状态异常');
 		}
 	}
 	

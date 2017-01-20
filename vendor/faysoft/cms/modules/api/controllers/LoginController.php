@@ -17,7 +17,7 @@ class LoginController extends ApiController{
 	 */
 	public function index(){
 		if($this->input->post()){
-			$result = PasswordService::service()->checkPassword(
+			$result = UserPasswordService::service()->checkPassword(
 				$this->input->post('username'),
 				$this->input->post('password')
 			);

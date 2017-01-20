@@ -3,7 +3,7 @@ namespace fay\payments;
 
 use fay\core\Service;
 use fay\helpers\UrlHelper;
-use fay\services\TradePaymentService;
+use fay\services\trade\TradePaymentService;
 
 class PaymentService extends Service{
     /**

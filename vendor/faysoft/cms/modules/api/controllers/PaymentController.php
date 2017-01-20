@@ -1,11 +1,11 @@
 <?php
-namespace guangong\modules\api\controllers;
+namespace cms\modules\api\controllers;
 
+use cms\library\ApiController;
 use fay\core\HttpException;
-use fay\services\TradeService;
-use guangong\library\FrontController;
+use fay\services\trade\TradeService;
 
-class PaymentController extends FrontController{
+class PaymentController extends ApiController{
 	/**
 	 * 付款接口
 	 * @parameter int $trade_id

@@ -1,12 +1,11 @@
 <?php
-namespace fay\services;
+namespace fay\services\trade;
 
 use fay\models\tables\TradesTable;
 use fay\services\trade\state\ClosedTrade;
 use fay\services\trade\state\CreateTrade;
 use fay\services\trade\state\PaidTrade;
 use fay\services\trade\state\StateInterface;
-use fay\services\trade\TradeErrorException;
 
 class TradeService{
 	/**
@@ -36,6 +35,8 @@ class TradeService{
 			case TradesTable::STATUS_CLOSED:
 				$this->state = new ClosedTrade();
 				break;
+			default:
+				throw new TradeErrorException('交易状态异常');
 		}
 	}
 	

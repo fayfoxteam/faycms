@@ -1,5 +1,5 @@
 <?php
-namespace fay\services;
+namespace fay\services\trade;
 
 use fay\core\Service;
 use fay\models\tables\PaymentsTable;

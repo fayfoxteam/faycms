@@ -7,7 +7,14 @@ use fay\services\trade\TradePaymentItem;
  */
 interface PaymentStateInterface{
 	/**
-	 * 交易支付记录支付成功
+	 * 发起支付
+	 * @param TradePaymentItem $trade_payment
+	 * @return bool
+	 */
+	public function pay(TradePaymentItem $trade_payment);
+	
+	/**
+	 * 接收支付记录回调
 	 * @param TradePaymentItem $trade_payment
 	 * @return bool
 	 */

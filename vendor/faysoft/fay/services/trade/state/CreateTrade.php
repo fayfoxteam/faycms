@@ -8,6 +8,7 @@ use fay\services\trade\TradeErrorException;
 use fay\services\trade\TradeException;
 use fay\services\trade\TradePaymentItem;
 use fay\services\trade\TradeItem;
+use fay\services\trade\TradePaymentService;
 
 /**
  * 交易待支付状态
@@ -31,26 +32,18 @@ class CreateTrade implements StateInterface{
 		//生成支付记录
 		$trade_payment = $this->createTradePayment($trade, $payment['id']);
 		
-		PaymentService::service()->buildPay($trade_payment);
+		//调用支付
+		$trade_payment->pay();
 	}
 	
 	/**
+	 * 创建一个支付记录，并返回支付记录实例
 	 * @param TradeItem $trade
 	 * @param $payment_id
 	 * @return TradePaymentItem
 	 */
 	private function createTradePayment(TradeItem $trade, $payment_id){
-		$trade_payment_id =  TradePaymentsTable::model()->insert(array(
-			'trade_id'=>$trade->id,
-			'total_fee'=>$trade->total_fee,
-			'payment_id'=>$payment_id,
-			'create_time'=>\F::app()->current_time,
-			'status'=>TradePaymentsTable::STATUS_WAIT_PAY,
-			'create_ip'=>RequestHelper::ip2int(\F::app()->ip),
-			'trade_no'=>'',
-			'payer_account'=>'',
-			'paid_time'=>0,
-		));
+		$trade_payment_id = TradePaymentService::service()->create($trade->id, $trade->total_fee, $payment_id);
 		
 		return new TradePaymentItem($trade_payment_id);
 	}

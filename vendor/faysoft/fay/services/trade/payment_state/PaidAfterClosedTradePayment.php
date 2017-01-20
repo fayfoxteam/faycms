@@ -12,9 +12,18 @@ use fay\services\trade\TradePaymentItem;
  * 实际应用中一般不会有用户傻到一直付款，但还是存在这种可能性。
  */
 class PaidAfterClosedTradePayment implements PaymentStateInterface{
+	/**
+	 * 发起支付
+	 * @param TradePaymentItem $trade_payment
+	 * @throws TradeException
+	 * @return bool
+	 */
+	public function pay(TradePaymentItem $trade_payment){
+		throw new TradeException('已异常支付交易记录不能发起支付');
+	}
 	
 	/**
-	 * 交易支付记录支付成功
+	 * 接收支付记录回调
 	 * @param TradePaymentItem $trade_payment
 	 * @throws TradeException
 	 * @return bool

@@ -61,21 +61,6 @@ class TradePaymentItem{
 	}
 	
 	/**
-	 * 获取交易支付记录外部订单号
-	 */
-	public function getOutTradeNo(){
-		return date('Ymd') . NumberHelper::toLength($this->id, 7);
-	}
-	
-	/**
-	 * 接受支付回调
-	 */
-	public function onPaid(){
-		//@todo 需要传入各种参数
-		$this->state->onPaid($this);
-	}
-	
-	/**
 	 * 魔术方法获取交易信息
 	 * @param string $name
 	 * @return string
@@ -136,5 +121,24 @@ class TradePaymentItem{
 			throw new TradeErrorException('设置支付方式不匹配');
 		}
 		$this->payment = $payment;
+	}
+	
+	/**
+	 * 获取交易支付记录外部交易号
+	 */
+	public function getOutTradeNo(){
+		return date('Ymd') . NumberHelper::toLength($this->id, 7);
+	}
+	
+	/**
+	 * 接受支付回调
+	 */
+	public function onPaid(){
+		//@todo 需要传入各种参数
+		$this->state->onPaid($this);
+	}
+	
+	public function pay(){
+		$this->state->pay($this);
 	}
 }

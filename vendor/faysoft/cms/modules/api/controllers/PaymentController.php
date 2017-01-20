@@ -3,7 +3,9 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\HttpException;
+use fay\payments\PaymentService;
 use fay\services\trade\TradeItem;
+use fay\services\trade\TradePaymentService;
 
 class PaymentController extends ApiController{
 	/**
@@ -60,5 +62,11 @@ class PaymentController extends ApiController{
 		))->setLabels(array(
 			'id'=>'支付记录ID',
 		))->check();
+		
+		//获取支付记录实例
+		$trade_payment = TradePaymentService::service()->getItem($this->form()->getData('id'));
+		
+		//调用支付
+		$trade_payment->pay();
 	}
 }

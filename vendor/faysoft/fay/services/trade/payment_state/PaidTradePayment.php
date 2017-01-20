@@ -7,9 +7,18 @@ use fay\services\trade\TradePaymentItem;
  * 交易支付记录已付款状态
  */
 class PaidTradePayment implements PaymentStateInterface{
+	/**
+	 * 发起支付
+	 * @param TradePaymentItem $trade_payment
+	 * @throws TradeException
+	 * @return bool
+	 */
+	public function pay(TradePaymentItem $trade_payment){
+		throw new TradeException('已支付交易记录不能发起支付');
+	}
 	
 	/**
-	 * 交易支付记录支付成功
+	 * 接收支付记录回调
 	 * @param TradePaymentItem $trade_payment
 	 * @return bool
 	 * @throws TradeException

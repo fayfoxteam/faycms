@@ -64,6 +64,12 @@ class PaymentTradeModel{
 	private $return_url;
 	
 	/**
+	 * @var int 交易支付记录ID
+	 * （并不属于支付需要用到的字段，但是做微信支付OAuth认证的时候需要做跳转，要用到这个字段）
+	 */
+	private $trade_payment_id;
+	
+	/**
 	 * 判断传入字段是否都有值（不同支付方式，必选字段有所不同）。
 	 * 返回不满足条件的空字段一维数组，若返回空数组，代表验证成功。
 	 * @param array $fields
@@ -281,6 +287,24 @@ class PaymentTradeModel{
 	public function setReturnUrl($return_url)
 	{
 		$this->return_url = $return_url;
+		return $this;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getTradePaymentId()
+	{
+		return $this->trade_payment_id;
+	}
+	
+	/**
+	 * @param int $trade_payment_id
+	 * @return PaymentTradeModel
+	 */
+	public function setTradePaymentId($trade_payment_id)
+	{
+		$this->trade_payment_id = $trade_payment_id;
 		return $this;
 	}
 }

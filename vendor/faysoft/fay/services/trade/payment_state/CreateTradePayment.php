@@ -25,6 +25,7 @@ class CreateTradePayment implements PaymentStateInterface{
 			->setTotalFee($trade_payment->total_fee)
 			->setNotifyUrl(UrlHelper::createUrl('api/payment/notify'))
 			->setBody($trade->body)
+			->setTradePaymentId($trade_payment->id)
 		;
 		
 		//实例化用于支付的支付方式配置模型

@@ -1,6 +1,7 @@
 <?php
 namespace fay\payments\weixin;
 
+use fay\helpers\UrlHelper;
 use fay\payments\PaymentConfigModel;
 use fay\payments\PaymentException;
 use fay\payments\PaymentInterface;
@@ -34,7 +35,9 @@ class WeixinPayment implements PaymentInterface{
 		
 		//①、获取用户openid
 		$tools = new \JsApiPay($config->getAppId(), $config->getAppSecret());
-		$openId = $tools->GetOpenid();
+		$openId = $tools->GetOpenid(UrlHelper::createUrl('api/payment/pay-for-trade-payment', array(
+			'id'=>$trade->getTradePaymentId()
+		)));
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();

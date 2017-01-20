@@ -2,7 +2,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>微信支付样例-支付</title>
+	<title>微信支付-支付</title>
 	<script type="text/javascript">
 		//调用微信JS api 支付
 		function jsApiCall()

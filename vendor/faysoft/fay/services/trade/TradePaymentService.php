@@ -104,8 +104,12 @@ class TradePaymentService{
 	 * 为了解约开销，可以把交易信息传进来。
 	 * 获取时若未初始化，会根据交易记录里的trade_id初始化一个
 	 * @param TradeService $trade
+	 * @throws TradeErrorException
 	 */
 	public function setTrade(TradeService $trade){
+		if($this->trade_id != $trade->id){
+			throw new TradeErrorException('设置交易信息不匹配');
+		}
 		$this->trade = $trade;
 	}
 	
@@ -125,8 +129,12 @@ class TradePaymentService{
 	 * 为了节约开销，可以把支付方式信息传进来。
 	 * 获取时若未初始化，会根据交易记录里的payment_id初始化一个。
 	 * @param array $payment
+	 * @throws TradeErrorException
 	 */
 	public function setPayment(array $payment){
+		if($this->payment_id != $payment['id']){
+			throw new TradeErrorException('设置支付方式不匹配');
+		}
 		$this->payment = $payment;
 	}
 }

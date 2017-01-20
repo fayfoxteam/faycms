@@ -16,8 +16,6 @@ class WeixinPayment implements PaymentInterface{
 	 * @throws \WxPayException
 	 */
 	public function jsapi(PaymentTradeModel $trade, PaymentConfigModel $config){
-		dump($trade);
-		dump($config);die;
 		//判断字段是否有值
 		$trade->checkRequiredField(array(
 			'body', 'out_trade_no', 'total_fee', 'notify_url',

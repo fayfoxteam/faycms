@@ -67,7 +67,9 @@ class PaymentController extends AdminController{
 			$payment_id = PaymentsTable::model()->insert($data);
 			
 			$this->actionlog(ActionlogsTable::TYPE_PAYMENT, '添加支付方式', $payment_id);
-			Response::notify('success', '支付方式添加成功');
+			Response::notify('success', '支付方式添加成功', array(
+				'admin/payment/edit', array('id'=>$payment_id)
+			));
 		}
 		
 		$this->view->render();

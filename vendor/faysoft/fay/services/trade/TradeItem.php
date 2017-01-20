@@ -7,7 +7,7 @@ use fay\services\trade\state\CreateTrade;
 use fay\services\trade\state\PaidTrade;
 use fay\services\trade\state\StateInterface;
 
-class TradeService{
+class TradeItem{
 	/**
 	 * @var StateInterface
 	 */

@@ -1,7 +1,7 @@
 <?php
 namespace fay\services\trade\payment_state;
 use fay\services\trade\TradeException;
-use fay\services\trade\TradePaymentService;
+use fay\services\trade\TradePaymentItem;
 
 /**
  * 交易支付记录关闭后发生付款，这是一种异常状态。
@@ -15,31 +15,31 @@ class PaidAfterClosedTradePayment implements PaymentStateInterface{
 	
 	/**
 	 * 交易支付记录支付成功
-	 * @param TradePaymentService $trade_payment
+	 * @param TradePaymentItem $trade_payment
 	 * @throws TradeException
 	 * @return bool
 	 */
-	public function onPaid(TradePaymentService $trade_payment){
+	public function onPaid(TradePaymentItem $trade_payment){
 		throw new TradeException('已支付交易记录不能支付');
 	}
 	
 	/**
 	 * 交易支付记录执行退款
-	 * @param TradePaymentService $trade_payment
+	 * @param TradePaymentItem $trade_payment
 	 * @throws TradeException
 	 * @return bool
 	 */
-	public function refund(TradePaymentService $trade_payment){
+	public function refund(TradePaymentItem $trade_payment){
 		//@todo 执行退款
 	}
 	
 	/**
 	 * 交易支付记录关闭
-	 * @param TradePaymentService $trade_payment
+	 * @param TradePaymentItem $trade_payment
 	 * @throws TradeException
 	 * @return bool
 	 */
-	public function close(TradePaymentService $trade_payment){
+	public function close(TradePaymentItem $trade_payment){
 		//@todo 退款后可以关闭
 	}
 }

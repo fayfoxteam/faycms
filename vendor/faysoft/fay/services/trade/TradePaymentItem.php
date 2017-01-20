@@ -10,7 +10,7 @@ use fay\services\trade\payment_state\PaidAfterClosedTradePayment;
 use fay\services\trade\payment_state\PaidTradePayment;
 use fay\services\trade\payment_state\PaymentStateInterface;
 
-class TradePaymentService{
+class TradePaymentItem{
 	/**
 	 * @var PaymentStateInterface
 	 */
@@ -22,7 +22,7 @@ class TradePaymentService{
 	private $trade_payment;
 	
 	/**
-	 * @var TradeService 交易信息
+	 * @var TradeItem 交易信息
 	 */
 	private $trade;
 	
@@ -90,11 +90,11 @@ class TradePaymentService{
 	}
 	
 	/**
-	 * @return TradeService
+	 * @return TradeItem
 	 */
 	public function getTrade(){
 		//若未初始化，会根据交易记录里的trade_id初始化一个
-		$this->trade || $this->trade = new TradeService($this->trade_id);
+		$this->trade || $this->trade = new TradeItem($this->trade_id);
 		
 		return $this->trade;
 	}
@@ -103,10 +103,10 @@ class TradePaymentService{
 	 * 设置交易信息。
 	 * 为了解约开销，可以把交易信息传进来。
 	 * 获取时若未初始化，会根据交易记录里的trade_id初始化一个
-	 * @param TradeService $trade
+	 * @param TradeItem $trade
 	 * @throws TradeErrorException
 	 */
-	public function setTrade(TradeService $trade){
+	public function setTrade(TradeItem $trade){
 		if($this->trade_id != $trade->id){
 			throw new TradeErrorException('设置交易信息不匹配');
 		}

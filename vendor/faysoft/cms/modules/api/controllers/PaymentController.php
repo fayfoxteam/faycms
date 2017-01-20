@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\HttpException;
-use fay\services\trade\TradeService;
+use fay\services\trade\TradeItem;
 
 class PaymentController extends ApiController{
 	/**
@@ -32,7 +32,7 @@ class PaymentController extends ApiController{
 			'payment_id'=>'支付方式ID',
 		))->check();
 		
-		$trade = new TradeService($this->form()->getData('trade_id'));
+		$trade = new TradeItem($this->form()->getData('trade_id'));
 		if($trade->user_id != \F::app()->current_user){
 			throw new HttpException('您不能给该笔交易付款', 403);
 		}

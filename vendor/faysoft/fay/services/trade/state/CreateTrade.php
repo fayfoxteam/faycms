@@ -6,8 +6,8 @@ use fay\payments\PaymentService;
 use fay\services\trade\PaymentMethodService;
 use fay\services\trade\TradeErrorException;
 use fay\services\trade\TradeException;
-use fay\services\trade\TradePaymentService;
-use fay\services\trade\TradeService;
+use fay\services\trade\TradePaymentItem;
+use fay\services\trade\TradeItem;
 
 /**
  * 交易待支付状态
@@ -16,12 +16,12 @@ class CreateTrade implements StateInterface{
 	
 	/**
 	 * 执行支付
-	 * @param TradeService $trade
+	 * @param TradeItem $trade
 	 * @param int $payment_id 支付方式ID
 	 * @return bool
 	 * @throws TradeErrorException
 	 */
-	public function pay(TradeService $trade, $payment_id){
+	public function pay(TradeItem $trade, $payment_id){
 		//获取支付方式
 		$payment = PaymentMethodService::service()->get($payment_id);
 		if(!$payment){
@@ -35,11 +35,11 @@ class CreateTrade implements StateInterface{
 	}
 	
 	/**
-	 * @param TradeService $trade
+	 * @param TradeItem $trade
 	 * @param $payment_id
-	 * @return TradePaymentService
+	 * @return TradePaymentItem
 	 */
-	private function createTradePayment(TradeService $trade, $payment_id){
+	private function createTradePayment(TradeItem $trade, $payment_id){
 		$trade_payment_id =  TradePaymentsTable::model()->insert(array(
 			'trade_id'=>$trade->id,
 			'total_fee'=>$trade->total_fee,
@@ -52,25 +52,25 @@ class CreateTrade implements StateInterface{
 			'paid_time'=>0,
 		));
 		
-		return new TradePaymentService($trade_payment_id);
+		return new TradePaymentItem($trade_payment_id);
 	}
 	
 	/**
 	 * 交易执行退款
-	 * @param TradeService $trade
+	 * @param TradeItem $trade
 	 * @return bool
 	 * @throws TradeException
 	 */
-	public function refund(TradeService $trade){
+	public function refund(TradeItem $trade){
 		throw new TradeException('未支付交易不能退款');
 	}
 	
 	/**
 	 * 关闭交易
-	 * @param TradeService $trade
+	 * @param TradeItem $trade
 	 * @return bool
 	 */
-	public function close(TradeService $trade){
+	public function close(TradeItem $trade){
 		//@todo 正常关闭
 	}
 }

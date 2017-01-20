@@ -3,7 +3,7 @@ namespace fay\payments;
 
 use fay\core\Service;
 use fay\helpers\UrlHelper;
-use fay\services\trade\TradePaymentService;
+use fay\services\trade\TradePaymentItem;
 
 class PaymentService extends Service{
     /**
@@ -16,9 +16,9 @@ class PaymentService extends Service{
     
     /**
      * 构建支付请求
-     * @param TradePaymentService $trade_payment
+     * @param TradePaymentItem $trade_payment
      */
-    public function buildPay(TradePaymentService $trade_payment){
+    public function buildPay(TradePaymentItem $trade_payment){
         //实例化用于支付的交易数据模型
         $trade = $trade_payment->getTrade();
         $payment_trade = new PaymentTradeModel();

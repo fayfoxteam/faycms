@@ -20,11 +20,12 @@ class PaymentMethodService extends Service{
 	/**
 	 * 获取支付方式
 	 * @param int $id 支付方式ID
-	 * @return array|bool
+	 * @return array|false
 	 */
 	public function get($id){
 		$payment = PaymentsTable::model()->find($id);
-		if(!$payment){
+		//支付方式不存在、未启用或已删除，都返回false
+		if(!$payment || !$payment['enabled'] || $payment['deleted']){
 			return false;
 		}
 		

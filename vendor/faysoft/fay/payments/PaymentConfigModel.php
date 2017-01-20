@@ -4,7 +4,7 @@ namespace fay\payments;
 /**
  * 支付方式配置信息
  */
-class PaymentConfig{
+class PaymentConfigModel{
 	/**
 	 * @var string 签名方式（目前仅支付宝支持此参数）
 	 */
@@ -69,7 +69,7 @@ class PaymentConfig{
 	
 	/**
 	 * @param string $sign_type
-	 * @return PaymentConfig
+	 * @return PaymentConfigModel
 	 */
 	public function setSignType($sign_type)
 	{
@@ -87,7 +87,7 @@ class PaymentConfig{
 	
 	/**
 	 * @param string $app_id
-	 * @return PaymentConfig
+	 * @return PaymentConfigModel
 	 */
 	public function setAppId($app_id)
 	{
@@ -105,7 +105,7 @@ class PaymentConfig{
 	
 	/**
 	 * @param string $mch_id
-	 * @return PaymentConfig
+	 * @return PaymentConfigModel
 	 */
 	public function setMchId($mch_id)
 	{
@@ -123,7 +123,7 @@ class PaymentConfig{
 	
 	/**
 	 * @param string $key
-	 * @return PaymentConfig
+	 * @return PaymentConfigModel
 	 */
 	public function setKey($key)
 	{
@@ -141,7 +141,7 @@ class PaymentConfig{
 	
 	/**
 	 * @param string $app_secret
-	 * @return PaymentConfig
+	 * @return PaymentConfigModel
 	 */
 	public function setAppSecret($app_secret)
 	{

@@ -7,7 +7,7 @@ use fay\services\TradeService;
  */
 interface StateInterface{
 	/**
-	 * 交易支付成功
+	 * 执行支付
 	 * @param TradeService $trade
 	 * @param int $payment_id 支付方式ID
 	 * @return bool

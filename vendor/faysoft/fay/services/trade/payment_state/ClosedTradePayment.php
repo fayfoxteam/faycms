@@ -13,7 +13,7 @@ class ClosedTradePayment implements PaymentStateInterface{
 	 * @param TradePaymentService $trade_payment
 	 * @return bool
 	 */
-	public function pay(TradePaymentService $trade_payment){
+	public function onPaid(TradePaymentService $trade_payment){
 		/*
 		 * @todo 支付后变成PaidAfterClosed状态。
 		 * 因为理论上第三方支付不可避免的会存在重复支付的情况。

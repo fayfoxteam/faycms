@@ -14,7 +14,7 @@ class CreateTradePayment implements PaymentStateInterface{
 	 * @throws TradeException
 	 * @return bool
 	 */
-	public function pay(TradePaymentService $trade_payment){
+	public function onPaid(TradePaymentService $trade_payment){
 		//@todo 正常支付
 	}
 	

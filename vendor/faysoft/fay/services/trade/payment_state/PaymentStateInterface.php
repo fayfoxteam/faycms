@@ -11,7 +11,7 @@ interface PaymentStateInterface{
 	 * @param TradePaymentService $trade_payment
 	 * @return bool
 	 */
-	public function pay(TradePaymentService $trade_payment);
+	public function onPaid(TradePaymentService $trade_payment);
 	
 	/**
 	 * 交易支付记录执行退款

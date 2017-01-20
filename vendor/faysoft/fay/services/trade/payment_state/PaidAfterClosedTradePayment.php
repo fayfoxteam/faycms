@@ -19,7 +19,7 @@ class PaidAfterClosedTradePayment implements PaymentStateInterface{
 	 * @throws TradeException
 	 * @return bool
 	 */
-	public function pay(TradePaymentService $trade_payment){
+	public function onPaid(TradePaymentService $trade_payment){
 		throw new TradeException('已支付交易记录不能支付');
 	}
 	

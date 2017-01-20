@@ -1,20 +1,20 @@
 <?php
 namespace fay\payments\weixin;
 
-use fay\payments\PaymentConfig;
+use fay\payments\PaymentConfigModel;
 use fay\payments\PaymentException;
 use fay\payments\PaymentInterface;
-use fay\payments\PaymentTrade;
+use fay\payments\PaymentTradeModel;
 
 class WeixinPayment implements PaymentInterface{
 	/**
 	 * jsapi支付方式
-	 * @param PaymentTrade $trade
-	 * @param PaymentConfig $config
+	 * @param PaymentTradeModel $trade
+	 * @param PaymentConfigModel $config
 	 * @throws PaymentException
 	 * @throws \WxPayException
 	 */
-	public function jsApi(PaymentTrade $trade, PaymentConfig $config){
+	public function jsapi(PaymentTradeModel $trade, PaymentConfigModel $config){
 		//判断字段是否有值
 		$trade->checkRequiredField(array(
 			'body', 'out_trade_no', 'total_fee', 'notify_url',

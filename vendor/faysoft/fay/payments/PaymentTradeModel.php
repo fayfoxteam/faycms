@@ -4,7 +4,7 @@ namespace fay\payments;
 /**
  * 包含必要的交易信息
  */
-class PaymentTrade{
+class PaymentTradeModel{
 	/**
 	 * @var string 商户订单号
 	 */
@@ -96,7 +96,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $out_trade_no
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setOutTradeNo($out_trade_no)
 	{
@@ -114,7 +114,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param int $total_fee
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setTotalFee($total_fee)
 	{
@@ -132,7 +132,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $subject
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setSubject($subject)
 	{
@@ -150,7 +150,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $body
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setBody($body)
 	{
@@ -168,7 +168,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $show_url
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setShowUrl($show_url)
 	{
@@ -186,7 +186,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $it_b_pay
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setItBPay($it_b_pay)
 	{
@@ -204,7 +204,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $attach
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setAttach($attach)
 	{
@@ -222,7 +222,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $time_start
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setTimeStart($time_start)
 	{
@@ -240,7 +240,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $time_expire
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setTimeExpire($time_expire)
 	{
@@ -258,7 +258,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $notify_url
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setNotifyUrl($notify_url)
 	{
@@ -276,7 +276,7 @@ class PaymentTrade{
 	
 	/**
 	 * @param string $return_url
-	 * @return PaymentTrade
+	 * @return PaymentTradeModel
 	 */
 	public function setReturnUrl($return_url)
 	{

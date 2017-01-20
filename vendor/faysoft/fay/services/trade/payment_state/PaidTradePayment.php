@@ -14,7 +14,7 @@ class PaidTradePayment implements PaymentStateInterface{
 	 * @return bool
 	 * @throws TradeException
 	 */
-	public function pay(TradePaymentService $trade_payment){
+	public function onPaid(TradePaymentService $trade_payment){
 		throw new TradeException('已付款交易支付记录不能重复支付');
 	}
 	

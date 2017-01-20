@@ -9,7 +9,7 @@ use fay\services\TradeService;
 class PaidTrade implements StateInterface{
 	
 	/**
-	 * 交易支付成功
+	 * 执行支付
 	 * @param TradeService $trade
 	 * @param int $payment_id 支付方式ID
 	 * @throws TradeException

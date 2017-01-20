@@ -6,6 +6,7 @@ use fay\services\trade\state\ClosedTrade;
 use fay\services\trade\state\CreateTrade;
 use fay\services\trade\state\PaidTrade;
 use fay\services\trade\state\StateInterface;
+use fay\services\trade\TradeErrorException;
 
 class TradeService{
 	/**
@@ -20,6 +21,9 @@ class TradeService{
 	
 	public function __construct($trade_id){
 		$trade = TradesTable::model()->find($trade_id);
+		if(!$trade){
+			throw new TradeErrorException('指定交易ID不存在');
+		}
 		$this->trade = $trade;
 		
 		switch($trade['status']){
@@ -35,8 +39,20 @@ class TradeService{
 		}
 	}
 	
+	/**
+	 * 设置状态
+	 * @param StateInterface $state
+	 */
 	public function setState(StateInterface $state){
 		$this->state = $state;
+	}
+	
+	/**
+	 * 获取交易详情
+	 * @return array
+	 */
+	public function getTrade(){
+		return $this->trade;
 	}
 	
 	/**
@@ -45,5 +61,19 @@ class TradeService{
 	 */
 	public function pay($payment_id){
 		$this->state->pay($this, $payment_id);
+	}
+	
+	/**
+	 * 魔术方法获取交易信息
+	 * @param string $name
+	 * @return string
+	 * @throws TradeErrorException
+	 */
+	public function __get($name){
+		if(isset($this->trade[$name])){
+			return $this->trade[$name];
+		}else{
+			throw new TradeErrorException("交易信息{$name}字段不存在");
+		}
 	}
 }

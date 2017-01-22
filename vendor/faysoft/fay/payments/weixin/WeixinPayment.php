@@ -37,7 +37,7 @@ class WeixinPayment implements PaymentInterface{
 		$tools = new \JsApiPay($config->getAppId(), $config->getAppSecret());
 		$openId = $tools->GetOpenid(UrlHelper::createUrl('api/payment/pay-for-trade-payment', array(
 			'id'=>$trade->getTradePaymentId()
-		)));
+		), false));
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();

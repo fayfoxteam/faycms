@@ -32,7 +32,7 @@ class CreateTradePayment implements PaymentStateInterface{
 		$payment_trade = new PaymentTradeModel();
 		$payment_trade->setOutTradeNo($trade_payment->getOutTradeNo())
 			->setTotalFee($trade_payment->total_fee)
-			->setNotifyUrl(UrlHelper::createUrl('api/payment/notify/t/'.$payment['code']))
+			->setNotifyUrl(UrlHelper::createUrl('api/payment/notify/code/'.$payment['code']))
 			->setBody($trade->body)
 			->setTradePaymentId($trade_payment->id)
 		;

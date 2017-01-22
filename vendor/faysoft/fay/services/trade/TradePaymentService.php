@@ -7,6 +7,11 @@ use fay\models\tables\TradePaymentsTable;
 
 class TradePaymentService extends Service{
 	/**
+	 * 交易付款成功事件
+	 */
+	const EVENT_PAID = 'trade_paid';
+	
+	/**
 	 * @param string $class_name
 	 * @return TradePaymentService
 	 */
@@ -31,7 +36,7 @@ class TradePaymentService extends Service{
 			'create_ip'=>RequestHelper::ip2int(\F::app()->ip),
 			'trade_no'=>'',
 			'payer_account'=>'',
-			'paid_time'=>0,
+			'pay_time'=>0,
 		));
 	}
 	
@@ -42,5 +47,23 @@ class TradePaymentService extends Service{
 	 */
 	public function getItem($trade_payment_id){
 		return new TradePaymentItem($trade_payment_id);
+	}
+	
+	/**
+	 * 根据外部订单号，获取支付记录实例
+	 * @param string $out_trade_no 外部订单号
+	 * @return TradePaymentItem
+	 * @throws TradeErrorException
+	 */
+	public function getItemByOutTradeNo($out_trade_no){
+		$trade_payment_id = substr($out_trade_no, -7);
+		$trade_payment = $this->getItem($trade_payment_id);
+		if(date('Ymd', $trade_payment->create_time) != substr($out_trade_no, 0, 8)){
+			//系统暂时不支持1000万以上的自递增ID
+			//虽然可以做处理，但是没什么必要，真的到了千万级，肯定要改策略的
+			throw new TradeErrorException('支付记录自递增ID已经溢出');
+		}
+		
+		return $trade_payment;
 	}
 }

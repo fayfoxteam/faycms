@@ -11,7 +11,7 @@ use fay\core\db\Table;
  * @property int $total_fee 支付金额（单位：分）
  * @property int $create_time 创建时间
  * @property int $create_ip 创建IP
- * @property int $paid_time 支付时间
+ * @property int $pay_time 支付时间
  * @property int $status 支付状态
  * @property int $payment_id 支付方式ID
  * @property string $trade_no 第三方交易号
@@ -59,7 +59,7 @@ class TradePaymentsTable extends Table{
 			array(array('payment_id'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('trade_no'), 'string', array('max'=>255)),
 			array(array('payer_account'), 'string', array('max'=>50)),
-			array(array('paid_time'), 'datetime'),
+			array(array('pay_time'), 'datetime'),
 		);
 	}
 	
@@ -70,7 +70,7 @@ class TradePaymentsTable extends Table{
 			'total_fee'=>'支付金额（单位：分）',
 			'create_time'=>'创建时间',
 			'create_ip'=>'创建IP',
-			'paid_time'=>'支付时间',
+			'pay_time'=>'支付时间',
 			'status'=>'支付状态',
 			'payment_id'=>'支付方式ID',
 			'trade_no'=>'第三方交易号',
@@ -86,7 +86,7 @@ class TradePaymentsTable extends Table{
 			'trade_id'=>'intval',
 			'total_fee'=>'intval',
 			'create_ip'=>'intval',
-			'paid_time'=>'trim',
+			'pay_time'=>'trim',
 			'status'=>'intval',
 			'payment_id'=>'intval',
 			'trade_no'=>'trim',

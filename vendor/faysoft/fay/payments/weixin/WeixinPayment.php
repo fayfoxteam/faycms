@@ -6,6 +6,7 @@ use fay\payments\PaymentConfigModel;
 use fay\payments\PaymentException;
 use fay\payments\PaymentInterface;
 use fay\payments\PaymentTradeModel;
+use fay\services\trade\TradePaymentService;
 
 class WeixinPayment implements PaymentInterface{
 	/**
@@ -81,6 +82,18 @@ class WeixinPayment implements PaymentInterface{
 	 * @return mixed
 	 */
 	public function notify(){
+		//微信官方的sdk太恶心了。。有时间找找第三方的看
+		require_once __DIR__ . '/sdk/lib/WxPay.Api.php';
+		require_once __DIR__ . '/sdk/lib/WxPay.Notify.php';
+		
+		$notify_data = simplexml_load_string(file_get_contents('php://input', 'r'), 'SimpleXMLElement', LIBXML_NOCDATA);
+		$trade_payment = TradePaymentService::service()->getItemByOutTradeNo($notify_data->out_trade_no);
+		$payment = $trade_payment->getPayment();
+		\WxPayConfig::$KEY = $payment['config']['key'];
+		\WxPayConfig::$APPID = $payment['config']['app_id'];
+		\WxPayConfig::$APPSECRET = $payment['config']['app_secret'];
+		\WxPayConfig::$MCHID = $payment['config']['mch_id'];
+		
 		$notify = new WeixinNotify();
 		$notify->Handle(false);
 	}

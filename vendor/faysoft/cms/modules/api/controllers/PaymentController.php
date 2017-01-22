@@ -83,6 +83,6 @@ class PaymentController extends ApiController{
 			throw new PaymentException('不支持的支付编码');
 		}
 		
-		file_put_contents(APPLICATION_PATH . 'runtimes/temp.txt', file_get_contents('php://input', 'r'));
+		PaymentService::service()->notify($code);
 	}
 }

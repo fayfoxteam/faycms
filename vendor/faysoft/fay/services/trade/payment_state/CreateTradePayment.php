@@ -1,11 +1,15 @@
 <?php
 namespace fay\services\trade\payment_state;
+use fay\core\Exception;
 use fay\helpers\UrlHelper;
+use fay\models\tables\TradePaymentsTable;
+use fay\models\tables\TradesTable;
 use fay\payments\PaymentConfigModel;
 use fay\payments\PaymentService;
 use fay\payments\PaymentTradeModel;
 use fay\services\trade\TradeException;
 use fay\services\trade\TradePaymentItem;
+use fay\services\trade\TradePaymentService;
 
 /**
  * 交易支付记录待支付状态
@@ -44,11 +48,46 @@ class CreateTradePayment implements PaymentStateInterface{
 	/**
 	 * 接收支付记录回调
 	 * @param TradePaymentItem $trade_payment
-	 * @throws TradeException
+	 * @param string $trade_no 第三方交易号
+	 * @param string $payer_account 第三方付款帐号
+	 * @param int $paid_fee 第三方回调时传过来的实付金额（传进来的时候要确保单位已经转换为“分”）
 	 * @return bool
+	 * @throws Exception
 	 */
-	public function onPaid(TradePaymentItem $trade_payment){
-		//@todo 正常支付
+	public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee){
+		try{
+			\F::db()->beginTransaction();
+			
+			//将当前支付记录标记为已支付
+			$trade_payment->status = TradePaymentsTable::STATUS_PAID;
+			$trade_payment->trade_no = $trade_no;
+			$trade_payment->payer_account = $payer_account;
+			$trade_payment->paid_fee = $paid_fee;
+			$trade_payment->pay_time = \F::app()->current_time;
+			$trade_payment->save();
+			
+			//将相同交易的其它待支付记录标记为已关闭
+			TradePaymentsTable::model()->update(array(
+				'status'=>TradePaymentsTable::STATUS_CLOSED,
+			), array(
+				'trade_id = ' . $trade_payment->trade_id,
+				'status = ' . TradePaymentsTable::STATUS_WAIT_PAY,
+			));
+			
+			//将对应交易记录标记为已支付
+			$trade = $trade_payment->getTrade();
+			$trade->paid_fee = $paid_fee;
+			$trade->status = TradesTable::STATUS_PAID;
+			$trade->pay_time = \F::app()->current_time;
+			$trade->save();
+			
+			\F::db()->commit();
+		}catch(Exception $e){
+			\F::db()->rollBack();
+			throw $e;
+		}
+		
+		\F::event()->trigger(TradePaymentService::EVENT_PAID, $trade_payment);
 	}
 	
 	/**

@@ -39,7 +39,6 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('193', '190', '', '系统日志', '', 'admin/log/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('194', '190', '', '小工具域', '', 'admin/widgetarea/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('195', '190', '', '所有小工具', '', 'admin/widget/index');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('196', '190', '', '第三方登录', '', 'admin/site/oauth');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('200', '100', 'analyst', '访问统计', 'fa fa-bar-chart-o', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('201', '200', '', '访客统计', '', 'admin/analyst/visitor');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('202', '200', '', '访问日志', '', 'admin/analyst/views');
@@ -69,6 +68,9 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('260', '100', 'feed', '动态', 'fa fa-rss', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('261', '260', '', '所有动态', '', 'admin/feed/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('262', '260', '', '发布动态', '', 'admin/feed/create');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('270', '100', 'third-party', '第三方配置', 'fa fa-cloud', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('271', '270', '', '支付方式', '', 'admin/payment/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('272', '270', '', '第三方登录', '', 'admin/site/oauth');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('900', '100', 'reset', '系统修复', 'fa fa-refresh', 'javascript:;');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('901', '900', '', '分类表索引', '', 'admin/reset/category');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('902', '900', '', '菜单表索引', '', 'admin/reset/menu');

@@ -38,6 +38,7 @@ class SiteController extends AdminController{
 	 * 第三方登录参数
 	 */
 	public function oauth(){
+		$this->layout->current_directory = 'third-party';
 		$this->layout->subtitle = '第三方登录';
 		
 		$this->view->render();

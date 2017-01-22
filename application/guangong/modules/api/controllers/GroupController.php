@@ -2,12 +2,14 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
+use fay\common\ListView;
 use fay\core\Response;
+use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\UsersTable;
+use fay\services\UserService;
 use guangong\models\tables\GuangongUserGroupsTable;
 use guangong\models\tables\GuangongUserGroupUsersTable;
-use guangong\models\tables\GuangongVowsTable;
 
 class GroupController extends ApiController{
 	/**
@@ -171,5 +173,56 @@ class GroupController extends ApiController{
 		), $group_user['id']);
 		
 		Response::notify('success', '设置成功');
+	}
+	
+	/**
+	 * 我的结义列表
+	 */
+	public function index(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('page', 'page_size'), 'int', array('min'=>1)),
+		))->setFilters(array(
+			'page'=>'intval',
+			'page_size'=>'intval',
+		))->setLabels(array(
+			'page'=>'页码',
+			'page_size'=>'分页大小',
+		))->check();
+		
+		$page = $this->form()->getData('page', 1);
+		$page_size = $this->form()->getData('page_size', 20);
+		
+		$sql = new Sql();
+		$sql->from(array('ug'=>'guangong_user_groups'), array('id', 'name', 'vow', 'create_time', 'user_id'))
+			->where('user_id = ?', $this->current_user)
+			->order('id DESC');
+		
+		$listview = new ListView($sql, array(
+			'current_page'=>$page,
+			'page_size'=>$page_size,
+		));
+		
+		$groups = $listview->getData();
+		$user_map = UserService::service()->mget(
+			ArrayHelper::column($groups, 'user_id'),
+			'nickname,'
+		);
+		
+		$format_groups = array();
+		foreach($groups as $g){
+			$format_groups[] = array(
+				'group'=>$g,
+				'user'=>$user_map[$g['user_id']],
+			);
+		}
+		
+		Response::json(array(
+			'groups'=>$format_groups,
+			'pager'=>$listview->getPager(),
+		));
 	}
 }

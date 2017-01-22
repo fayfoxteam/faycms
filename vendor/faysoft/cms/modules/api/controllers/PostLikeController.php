@@ -106,6 +106,7 @@ class PostLikeController extends ApiController{
 			'page_size'=>'intval',
 			'fields'=>'trim',
 		))->setLabels(array(
+			'post_id'=>'文章ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
 			'fields'=>'字段',

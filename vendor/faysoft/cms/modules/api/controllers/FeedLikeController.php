@@ -103,6 +103,7 @@ class FeedLikeController extends ApiController{
 			'page_size'=>'intval',
 			'fields'=>'trim',
 		))->setLabels(array(
+			'feed_id'=>'动态ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
 			'fields'=>'字段',

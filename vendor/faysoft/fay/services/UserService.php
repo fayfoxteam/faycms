@@ -505,13 +505,6 @@ class UserService extends Service{
 		return $return;
 	}
 	
-	public function getMemberCount($parent){
-		$member = UsersTable::model()->fetchRow(array(
-			'parent = ?'=>$parent,
-		), 'COUNT(*) AS count');
-		return $member['count'];
-	}
-	
 	/**
 	 * 判断一个用户ID是否存在，若为0或者其他等价于false的值，直接返回false。
 	 * 即便是deleted标记为已删除的用户，也被视为存着的用户ID

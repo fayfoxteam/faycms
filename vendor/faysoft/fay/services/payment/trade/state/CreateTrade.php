@@ -1,14 +1,12 @@
 <?php
-namespace fay\services\trade\state;
-use fay\helpers\RequestHelper;
-use fay\models\tables\TradePaymentsTable;
-use fay\payments\PaymentService;
-use fay\services\trade\PaymentMethodService;
-use fay\services\trade\TradeErrorException;
-use fay\services\trade\TradeException;
-use fay\services\trade\TradePaymentItem;
-use fay\services\trade\TradeItem;
-use fay\services\trade\TradePaymentService;
+namespace fay\services\payment\trade\state;
+
+use fay\services\payment\methods\PaymentMethodService;
+use fay\services\payment\trade\TradeErrorException;
+use fay\services\payment\trade\TradeException;
+use fay\services\payment\trade\TradePaymentItem;
+use fay\services\payment\trade\TradeItem;
+use fay\services\payment\trade\TradePaymentService;
 
 /**
  * 交易待支付状态

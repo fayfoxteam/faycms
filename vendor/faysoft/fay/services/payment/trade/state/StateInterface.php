@@ -1,6 +1,7 @@
 <?php
-namespace fay\services\trade\state;
-use fay\services\trade\TradeItem;
+namespace fay\services\payment\trade\state;
+
+use fay\services\payment\trade\TradeItem;
 
 /**
  * 交易状态接口

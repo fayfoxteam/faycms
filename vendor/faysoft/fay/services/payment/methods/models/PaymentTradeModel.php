@@ -1,5 +1,7 @@
 <?php
-namespace fay\payments;
+namespace fay\services\payment\methods\models;
+
+use fay\services\payment\methods\PaymentMethodException;
 
 /**
  * 包含必要的交易信息
@@ -75,7 +77,7 @@ class PaymentTradeModel{
 	 * @param array $fields
 	 * @param string $payment 支付访问，用于报错时明确错误
 	 * @return array
-	 * @throws PaymentException
+	 * @throws PaymentMethodException
 	 */
 	public function checkRequiredField($fields, $payment){
 		$empty_fields = array();
@@ -86,7 +88,7 @@ class PaymentTradeModel{
 		}
 		
 		if($empty_fields){
-			throw new PaymentException($payment . '交易参数：字段[' . implode(', ', $empty_fields) . ']不能为空');
+			throw new PaymentMethodException($payment . '交易参数：字段[' . implode(', ', $empty_fields) . ']不能为空');
 		}
 		
 		return true;

@@ -9,7 +9,7 @@
 		<div class="post-body-content">
 			<div id="payment-config-panel"><?php
 				list($channel, $type) = explode(':', $payment['code']);
-				$setting_file = SYSTEM_PATH . "fay/payments/{$channel}/views/_setting_{$type}.php";
+				$setting_file = SYSTEM_PATH . "fay/services/payment/methods/{$channel}/views/_setting_{$type}.php";
 				if(file_exists($setting_file)){
 					include $setting_file;
 				}else{

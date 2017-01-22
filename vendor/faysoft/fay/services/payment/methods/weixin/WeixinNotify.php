@@ -1,7 +1,7 @@
 <?php
-namespace fay\payments\weixin;
+namespace fay\services\payment\methods\weixin;
 
-use fay\services\trade\TradePaymentService;
+use fay\services\payment\trade\TradePaymentService;
 
 require_once __DIR__ . '/sdk/lib/WxPay.Api.php';
 require_once __DIR__ . '/sdk/lib/WxPay.Notify.php';

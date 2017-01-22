@@ -2,13 +2,11 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\models\tables\PaymentsTable;
-use fay\payments\PaymentException;
-use fay\payments\PaymentService;
-use fay\services\trade\TradeItem;
-use fay\services\trade\TradePaymentService;
+use fay\services\payment\methods\PaymentMethodService;
+use fay\services\payment\trade\TradeItem;
+use fay\services\payment\trade\TradePaymentService;
 
 class PaymentController extends ApiController{
 	/**
@@ -81,6 +79,6 @@ class PaymentController extends ApiController{
 			'code'=>'支付编码',
 		))->check();
 		
-		PaymentService::service()->notify($this->form()->getData('code'));
+		PaymentMethodService::service()->notify($this->form()->getData('code'));
 	}
 }

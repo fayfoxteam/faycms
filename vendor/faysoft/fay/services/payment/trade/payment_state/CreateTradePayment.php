@@ -1,15 +1,16 @@
 <?php
-namespace fay\services\trade\payment_state;
+namespace fay\services\payment\trade\payment_state;
+
 use fay\core\Exception;
 use fay\helpers\UrlHelper;
 use fay\models\tables\TradePaymentsTable;
 use fay\models\tables\TradesTable;
-use fay\payments\PaymentConfigModel;
-use fay\payments\PaymentService;
-use fay\payments\PaymentTradeModel;
-use fay\services\trade\TradeException;
-use fay\services\trade\TradePaymentItem;
-use fay\services\trade\TradePaymentService;
+use fay\services\payment\methods\models\PaymentMethodConfigModel;
+use fay\services\payment\methods\models\PaymentTradeModel;
+use fay\services\payment\methods\PaymentMethodService;
+use fay\services\payment\trade\TradeException;
+use fay\services\payment\trade\TradePaymentItem;
+use fay\services\payment\trade\TradePaymentService;
 
 /**
  * 交易支付记录待支付状态
@@ -24,7 +25,7 @@ class CreateTradePayment implements PaymentStateInterface{
 	public function pay(TradePaymentItem $trade_payment){
 		//实例化用于支付的支付方式配置模型
 		$payment = $trade_payment->getPayment();
-		$payment_config = new PaymentConfigModel($payment['code']);
+		$payment_config = new PaymentMethodConfigModel($payment['code']);
 		$payment_config->setMchId($payment['config']['mch_id'])
 			->setAppId($payment['config']['app_id'])
 			->setAppSecret($payment['config']['app_secret'])
@@ -42,7 +43,7 @@ class CreateTradePayment implements PaymentStateInterface{
 		;
 		
 		//调用支付模块
-		PaymentService::service()->buildPay($payment_trade, $payment_config);
+		PaymentMethodService::service()->buildPay($payment_trade, $payment_config);
 	}
 	
 	/**

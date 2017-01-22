@@ -1,22 +1,22 @@
 <?php
-namespace fay\payments\weixin;
+namespace fay\services\payment\methods\weixin;
 
 use fay\helpers\UrlHelper;
-use fay\payments\PaymentConfigModel;
-use fay\payments\PaymentException;
-use fay\payments\PaymentInterface;
-use fay\payments\PaymentTradeModel;
-use fay\services\trade\TradePaymentService;
+use fay\services\payment\methods\models\PaymentMethodConfigModel;
+use fay\services\payment\methods\models\PaymentTradeModel;
+use fay\services\payment\methods\PaymentMethodException;
+use fay\services\payment\methods\PaymentMethodInterface;
+use fay\services\payment\trade\TradePaymentService;
 
-class WeixinPayment implements PaymentInterface{
+class WeixinPayment implements PaymentMethodInterface{
 	/**
 	 * jsapi支付方式
 	 * @param PaymentTradeModel $trade
-	 * @param PaymentConfigModel $config
-	 * @throws PaymentException
+	 * @param PaymentMethodConfigModel $config
+	 * @throws PaymentMethodException
 	 * @throws \WxPayException
 	 */
-	public function jsapi(PaymentTradeModel $trade, PaymentConfigModel $config){
+	public function jsapi(PaymentTradeModel $trade, PaymentMethodConfigModel $config){
 		//判断字段是否有值
 		$trade->checkRequiredField(array(
 			'body', 'out_trade_no', 'total_fee', 'notify_url',

@@ -1,5 +1,5 @@
 <?php
-namespace fay\services\trade;
+namespace fay\services\payment\trade;
 
 use fay\core\Service;
 

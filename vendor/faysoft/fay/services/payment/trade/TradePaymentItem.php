@@ -1,13 +1,14 @@
 <?php
-namespace fay\services\trade;
+namespace fay\services\payment\trade;
 
 use fay\helpers\NumberHelper;
 use fay\models\tables\TradePaymentsTable;
-use fay\services\trade\payment_state\ClosedTradePayment;
-use fay\services\trade\payment_state\CreateTradePayment;
-use fay\services\trade\payment_state\PaidAfterClosedTradePayment;
-use fay\services\trade\payment_state\PaidTradePayment;
-use fay\services\trade\payment_state\PaymentStateInterface;
+use fay\services\payment\methods\PaymentMethodService;
+use fay\services\payment\trade\payment_state\ClosedTradePayment;
+use fay\services\payment\trade\payment_state\CreateTradePayment;
+use fay\services\payment\trade\payment_state\PaidAfterClosedTradePayment;
+use fay\services\payment\trade\payment_state\PaidTradePayment;
+use fay\services\payment\trade\payment_state\PaymentStateInterface;
 
 class TradePaymentItem{
 	/**

@@ -3,9 +3,9 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use fay\helpers\UrlHelper;
-use fay\payments\PaymentConfigModel;
-use fay\payments\PaymentTradeModel;
-use fay\payments\weixin\WeixinPayment;
+use fay\services\payment\methods\models\PaymentMethodConfigModel;
+use fay\services\payment\methods\models\PaymentTradeModel;
+use fay\services\payment\methods\weixin\WeixinPayment;
 
 class PaymentController extends FrontController{
 	public function wxjsapi(){
@@ -14,7 +14,7 @@ class PaymentController extends FrontController{
 			->setBody('fayfox测试订单');
 		;
 		
-		$config = new PaymentConfigModel('123');
+		$config = new PaymentMethodConfigModel('123');
 		$config->setAppId('wxad76a044d8fad0ed');
 		
 		$payment = new WeixinPayment();

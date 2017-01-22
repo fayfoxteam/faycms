@@ -1,11 +1,11 @@
 <?php
-namespace fay\services\trade;
+namespace fay\services\payment\trade;
 
 use fay\models\tables\TradesTable;
-use fay\services\trade\state\ClosedTrade;
-use fay\services\trade\state\CreateTrade;
-use fay\services\trade\state\PaidTrade;
-use fay\services\trade\state\StateInterface;
+use fay\services\payment\trade\state\ClosedTrade;
+use fay\services\payment\trade\state\CreateTrade;
+use fay\services\payment\trade\state\PaidTrade;
+use fay\services\payment\trade\state\StateInterface;
 
 class TradeItem{
 	/**

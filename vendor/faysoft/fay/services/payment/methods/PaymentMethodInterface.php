@@ -1,7 +1,7 @@
 <?php
-namespace fay\payments;
+namespace fay\services\payment\methods;
 
-interface PaymentInterface{
+interface PaymentMethodInterface{
 	/**
 	 * 第三方支付同步跳转
 	 * @return mixed

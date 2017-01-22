@@ -1,7 +1,8 @@
 <?php
-namespace fay\services\trade\state;
-use fay\services\trade\TradeException;
-use fay\services\trade\TradeItem;
+namespace fay\services\payment\trade\state;
+
+use fay\services\payment\trade\TradeException;
+use fay\services\payment\trade\TradeItem;
 
 /**
  * 交易已付款状态

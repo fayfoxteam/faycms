@@ -1,10 +1,12 @@
 <?php
-namespace fay\payments;
+namespace fay\services\payment\methods\models;
+
+use fay\services\payment\methods\PaymentMethodException;
 
 /**
  * 支付方式配置信息
  */
-class PaymentConfigModel{
+class PaymentMethodConfigModel{
 	/**
 	 * @var string 支付编码。例如（weixin:jsapi）这样的格式
 	 */
@@ -54,7 +56,7 @@ class PaymentConfigModel{
 	 * @param array $fields
 	 * @param string $payment 支付访问，用于报错时明确错误
 	 * @return array
-	 * @throws PaymentException
+	 * @throws PaymentMethodException
 	 */
 	public function checkRequiredField($fields, $payment){
 		$empty_fields = array();
@@ -65,7 +67,7 @@ class PaymentConfigModel{
 		}
 		
 		if($empty_fields){
-			throw new PaymentException($payment . '配置：字段[' . implode(', ', $empty_fields) . ']不能为空');
+			throw new PaymentMethodException($payment . '配置：字段[' . implode(', ', $empty_fields) . ']不能为空');
 		}
 		
 		return true;
@@ -81,7 +83,7 @@ class PaymentConfigModel{
 	
 	/**
 	 * @param string $code
-	 * @return PaymentConfigModel
+	 * @return PaymentMethodConfigModel
 	 */
 	public function setCode($code)
 	{
@@ -99,7 +101,7 @@ class PaymentConfigModel{
 	
 	/**
 	 * @param string $sign_type
-	 * @return PaymentConfigModel
+	 * @return PaymentMethodConfigModel
 	 */
 	public function setSignType($sign_type)
 	{
@@ -117,7 +119,7 @@ class PaymentConfigModel{
 	
 	/**
 	 * @param string $app_id
-	 * @return PaymentConfigModel
+	 * @return PaymentMethodConfigModel
 	 */
 	public function setAppId($app_id)
 	{
@@ -135,7 +137,7 @@ class PaymentConfigModel{
 	
 	/**
 	 * @param string $mch_id
-	 * @return PaymentConfigModel
+	 * @return PaymentMethodConfigModel
 	 */
 	public function setMchId($mch_id)
 	{
@@ -153,7 +155,7 @@ class PaymentConfigModel{
 	
 	/**
 	 * @param string $key
-	 * @return PaymentConfigModel
+	 * @return PaymentMethodConfigModel
 	 */
 	public function setKey($key)
 	{
@@ -171,7 +173,7 @@ class PaymentConfigModel{
 	
 	/**
 	 * @param string $app_secret
-	 * @return PaymentConfigModel
+	 * @return PaymentMethodConfigModel
 	 */
 	public function setAppSecret($app_secret)
 	{

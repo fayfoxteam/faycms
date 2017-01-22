@@ -16,14 +16,25 @@ class PaymentService extends Service{
     
     /**
      * 构建支付请求
-     * @param string $code 支付编码，例如：weixin:jsapi
      * @param PaymentTradeModel $payment_trade
      * @param PaymentConfigModel $payment_config
      */
-	public function buildPay($code, PaymentTradeModel $payment_trade, PaymentConfigModel $payment_config){
+	public function buildPay(PaymentTradeModel $payment_trade, PaymentConfigModel $payment_config){
+		$code = $payment_config->getCode();
 		$payment_code = explode(':', $code);
 		$class_name = 'fay\\payments\\' . $payment_code[0] . '\\' . ucfirst($payment_code[0]) . 'Payment';
 		$payment_obj = new $class_name;
 		$payment_obj->{$payment_code[1]}($payment_trade, $payment_config);
+	}
+	
+	/**
+	 * 执行支付回调
+	 * @param string $code 支付方式编码
+	 */
+	public function notify($code){
+		$payment_code = explode(':', $code);
+		$class_name = 'fay\\payments\\' . $payment_code[0] . '\\' . ucfirst($payment_code[0]) . 'Payment';
+		$payment_obj = new $class_name;
+		$payment_obj->notify($code);
 	}
 }

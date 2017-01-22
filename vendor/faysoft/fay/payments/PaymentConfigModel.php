@@ -6,6 +6,11 @@ namespace fay\payments;
  */
 class PaymentConfigModel{
 	/**
+	 * @var string 支付编码。例如（weixin:jsapi）这样的格式
+	 */
+	private $code;
+	
+	/**
 	 * @var string 签名方式（目前仅支付宝支持此参数）
 	 */
 	private $sign_type = 'MD5';
@@ -37,6 +42,13 @@ class PaymentConfigModel{
 	private $app_secret;
 	
 	/**
+	 * @param string $code
+	 */
+	public function __construct($code){
+		$this->code = $code;
+	}
+	
+	/**
 	 * 判断传入字段是否都有值（不同支付方式，必选字段有所不同）。
 	 * 返回不满足条件的空字段一维数组，若返回空数组，代表验证成功。
 	 * @param array $fields
@@ -57,6 +69,24 @@ class PaymentConfigModel{
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCode()
+	{
+		return $this->code;
+	}
+	
+	/**
+	 * @param string $code
+	 * @return PaymentConfigModel
+	 */
+	public function setCode($code)
+	{
+		$this->code = $code;
+		return $this;
 	}
 	
 	/**

@@ -2,7 +2,10 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
+use fay\core\ErrorException;
 use fay\core\HttpException;
+use fay\models\tables\PaymentsTable;
+use fay\payments\PaymentException;
 use fay\payments\PaymentService;
 use fay\services\trade\TradeItem;
 use fay\services\trade\TradePaymentService;
@@ -68,5 +71,18 @@ class PaymentController extends ApiController{
 		
 		//调用支付
 		$trade_payment->pay();
+	}
+	
+	public function notify(){
+		$code = $this->input->get('code');
+		if(!$code){
+			throw new HttpException('缺少code参数');
+		}
+		
+		if(!isset(PaymentsTable::$codes[$code])){
+			throw new PaymentException('不支持的支付编码');
+		}
+		
+		file_put_contents(APPLICATION_PATH . 'runtimes/temp.txt', file_get_contents('php://input', 'r'));
 	}
 }

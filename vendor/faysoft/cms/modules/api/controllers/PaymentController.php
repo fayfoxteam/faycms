@@ -66,23 +66,21 @@ class PaymentController extends ApiController{
 			'id'=>'支付记录ID',
 		))->check();
 		
-		//获取支付记录实例
-		$trade_payment = TradePaymentService::service()->getItem($this->form()->getData('id'));
-		
 		//调用支付
-		$trade_payment->pay();
+		TradePaymentService::service()->getItem($this->form()->getData('id'))->pay();
 	}
 	
 	public function notify(){
-		$code = $this->input->get('code');
-		if(!$code){
-			throw new HttpException('缺少code参数');
-		}
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('code'), 'required'),
+			array(array('code'), 'range', array('range'=>array_keys(PaymentsTable::$codes))),
+		))->setFilters(array(
+			'code'=>'trim',
+		))->setLabels(array(
+			'code'=>'支付编码',
+		))->check();
 		
-		if(!isset(PaymentsTable::$codes[$code])){
-			throw new PaymentException('不支持的支付编码');
-		}
-		
-		PaymentService::service()->notify($code);
+		PaymentService::service()->notify($this->form()->getData('code'));
 	}
 }

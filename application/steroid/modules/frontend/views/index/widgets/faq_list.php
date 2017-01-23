@@ -27,7 +27,7 @@ $bg_img = F::widget()->getData('faq-bg');
 						<article>
 							<strong>Q<?php echo $k+1?> - <?php echo \fay\helpers\HtmlHelper::encode($p['post']['title'])?></strong>
 							<?php
-								$post = \fay\services\PostService::service()->get($p['post']['id'], 'content');
+								$post = \fay\services\post\PostService::service()->get($p['post']['id'], 'content');
 								echo $post['post']['content'];
 							?>
 						</article>

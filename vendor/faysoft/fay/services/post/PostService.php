@@ -1,5 +1,5 @@
 <?php
-namespace fay\services;
+namespace fay\services\post;
 
 use fay\core\Service;
 use fay\core\Sql;
@@ -16,17 +16,12 @@ use fay\models\tables\PostPropTextTable;
 use fay\models\tables\PostLikesTable;
 use fay\models\tables\PostMetaTable;
 use fay\helpers\RequestHelper;
-use fay\services\post\PostExtraService;
-use fay\services\post\PostMetaService;
-use fay\services\post\PostPropService;
-use fay\services\post\PostTagService;
 use fay\models\tables\PostFavoritesTable;
 use fay\models\tables\PostExtraTable;
-use fay\services\post\PostCategoryService;
-use fay\services\post\PostFileService;
-use fay\services\post\PostUserCounterService;
-use fay\services\post\PostException;
-use fay\services\post\PostUserService;
+use fay\services\CategoryService;
+use fay\services\FileService;
+use fay\services\OptionService;
+use fay\services\UserService;
 
 /**
  * 文章服务

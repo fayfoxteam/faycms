@@ -4,7 +4,7 @@ namespace uuice\modules\doc\controllers;
 use uuice\library\DocController;
 use fay\services\CategoryService;
 use fay\core\HttpException;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\services\OptionService;
 
 class GuideController extends DocController{

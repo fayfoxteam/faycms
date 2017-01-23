@@ -6,7 +6,6 @@ use fay\helpers\FieldHelper;
 use fay\models\MultiTreeModel;
 use fay\models\tables\PostCommentsTable;
 use fay\core\Exception;
-use fay\services\PostService;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use fay\models\tables\PostMetaTable;

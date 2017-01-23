@@ -6,7 +6,7 @@ use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\models\tables\PostsTable;
 use fay\common\ListView;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 

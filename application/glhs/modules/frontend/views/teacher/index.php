@@ -2,7 +2,7 @@
 use fay\services\OptionService;
 use fay\helpers\HtmlHelper;
 use fay\services\FileService;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\helpers\StringHelper;
 ?>
 <div class="page-title">

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\services\PostService;
+use fay\services\post\PostService;
 ?>
 <div class="inner cf">
 	<div class="breadcrumbs">

@@ -3,7 +3,7 @@ namespace glhs\modules\frontend\controllers;
 
 use glhs\library\FrontController;
 use fay\core\HttpException;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\core\Validator;
 use fay\services\CategoryService;
 use fay\core\Sql;

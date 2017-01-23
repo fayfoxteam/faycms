@@ -10,7 +10,6 @@ use fay\models\tables\CategoriesTable;
 use fay\models\tables\PostsTable;
 use fay\models\tables\PostsCategoriesTable;
 use fay\services\OptionService;
-use fay\services\PostService;
 use fay\services\user\UserRoleService;
 use fay\models\tables\RolesTable;
 use fay\models\tables\RolesCatsTable;

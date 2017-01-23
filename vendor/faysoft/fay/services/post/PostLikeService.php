@@ -8,7 +8,6 @@ use fay\helpers\ArrayHelper;
 use fay\models\tables\PostLikesTable;
 use fay\models\tables\PostsTable;
 use fay\services\UserService;
-use fay\services\PostService;
 use fay\models\tables\PostMetaTable;
 
 class PostLikeService extends Service{

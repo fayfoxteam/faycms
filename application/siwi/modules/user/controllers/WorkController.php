@@ -3,7 +3,7 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use fay\models\tables\PostsTable;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\models\tables\FilesTable;
 use fay\models\tables\PostsFilesTable;
 use fay\models\Tag;

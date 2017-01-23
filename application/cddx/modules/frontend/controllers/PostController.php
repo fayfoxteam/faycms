@@ -8,7 +8,7 @@ use fay\core\HttpException;
 use fay\services\CategoryService;
 use fay\common\ListView;
 use fay\core\db\Expr;
-use fay\services\PostService;
+use fay\services\post\PostService;
 
 class PostController extends FrontController{
 	public function index(){

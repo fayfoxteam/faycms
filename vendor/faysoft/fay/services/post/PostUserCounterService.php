@@ -5,7 +5,7 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\models\tables\PostsTable;
 use fay\services\user\UserCounterService;
-use fay\models\tables\UserCounterTable as UserCounterModel;
+use fay\models\tables\UserCounterTable;
 
 class PostUserCounterService extends Service{
 	/**
@@ -62,12 +62,12 @@ class PostUserCounterService extends Service{
 			->fetchAll();
 		
 		//先清零
-		UserCounterModelTable::model()->update(array(
+		UserCounterTable::model()->update(array(
 			'posts'=>0
 		), false);
 		
 		foreach($results as $r){
-			UserCounterModelTable::model()->update(array(
+			UserCounterTable::model()->update(array(
 				'posts'=>$r['count']
 			), $r['user_id']);
 		}

@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\UserController;
 use fay\services\post\PostFavoriteService;
 use fay\core\Response;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\helpers\FieldHelper;
 
 /**

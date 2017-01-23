@@ -3,7 +3,7 @@ namespace glhs\modules\frontend\controllers;
 
 use glhs\library\FrontController;
 use fay\services\CategoryService;
-use fay\services\PostService;
+use fay\services\post\PostService;
 
 class TeacherController extends FrontController{
 	public function index(){

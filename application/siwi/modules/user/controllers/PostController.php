@@ -5,7 +5,7 @@ use fay\core\Response;
 use siwi\library\UserController;
 use fay\models\tables\PostsTable;
 use fay\models\tables\PostsFilesTable;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\models\tables\FilesTable;
 use fay\services\post\Tag;
 use fay\services\CategoryService;

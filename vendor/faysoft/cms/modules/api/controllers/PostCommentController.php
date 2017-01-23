@@ -7,7 +7,7 @@ use fay\core\Response;
 use fay\models\tables\PostsTable;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
-use fay\services\PostService;
+use fay\services\post\PostService;
 
 /**
  * 文章评论

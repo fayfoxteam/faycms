@@ -3,7 +3,7 @@ namespace uuice\modules\doc\controllers;
 
 use uuice\library\DocController;
 use fay\core\Sql;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\services\OptionService;
 
 class IndexController extends DocController{

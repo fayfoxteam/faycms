@@ -3,7 +3,7 @@ namespace fay\widgets\tag_post_list\controllers;
 
 use fay\helpers\ArrayHelper;
 use fay\models\tables\TagsTable;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;

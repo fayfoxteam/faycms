@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\PostService;
+use fay\services\post\PostService;
 
 foreach($posts as $p){
 	$this->renderPartial('guide/_panel', array(

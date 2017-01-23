@@ -4,7 +4,7 @@ namespace cddx\modules\frontend\controllers;
 use cddx\library\FrontController;
 use fay\services\PageService;
 use fay\services\CategoryService;
-use fay\services\PostService;
+use fay\services\post\PostService;
 
 class IndexController extends FrontController{
 	public function __construct(){

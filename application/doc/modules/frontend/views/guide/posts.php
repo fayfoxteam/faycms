@@ -1,5 +1,5 @@
 <?php
-use fay\services\PostService;
+use fay\services\post\PostService;
 use doc\helpers\CodeFile;
 use fay\helpers\HtmlHelper;
 

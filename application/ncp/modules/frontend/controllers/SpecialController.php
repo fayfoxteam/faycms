@@ -9,7 +9,7 @@ use fay\services\CategoryService;
 use fay\common\ListView;
 use ncp\models\Recommend;
 use fay\services\OptionService;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\core\db\Expr;
 
 class SpecialController extends FrontController{

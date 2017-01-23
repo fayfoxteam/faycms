@@ -10,7 +10,6 @@ use fay\models\tables\PostsTable;
 use fay\models\tables\TagCounterTable;
 use fay\models\tables\TagsTable;
 use fay\models\tables\PostsTagsTable;
-use fay\services\PostService;
 use fay\services\TagService;
 use fay\services\tag\TagCounterService;
 

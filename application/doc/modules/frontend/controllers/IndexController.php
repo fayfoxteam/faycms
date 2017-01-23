@@ -3,7 +3,7 @@ namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
 use fay\core\Sql;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\services\OptionService;
 
 class IndexController extends FrontController{

@@ -3,7 +3,7 @@ namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
 use fay\services\OptionService;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\services\CategoryService;
 use fay\models\tables\PostsTable;
 

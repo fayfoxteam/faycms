@@ -19,7 +19,7 @@ use fay\core\HttpException;
 use fay\services\OptionService;
 use fay\services\FlashService;
 use fay\models\tables\PostMetaTable;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\models\tables\PostExtraTable;
 
 class PostController extends AdminController{

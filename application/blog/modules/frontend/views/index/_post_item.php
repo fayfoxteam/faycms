@@ -1,5 +1,5 @@
 <?php
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 

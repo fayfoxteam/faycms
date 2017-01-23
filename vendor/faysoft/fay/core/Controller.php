@@ -3,7 +3,7 @@ namespace fay\core;
 
 use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * @property View $view 视图

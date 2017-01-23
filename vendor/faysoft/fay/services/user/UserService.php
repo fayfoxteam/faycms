@@ -1,5 +1,5 @@
 <?php
-namespace fay\services;
+namespace fay\services\user;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
@@ -10,14 +10,11 @@ use fay\models\tables\RolesTable;
 use fay\models\tables\UserProfileTable;
 use fay\models\tables\UsersTable;
 use fay\models\tables\UsersRolesTable;
-use fay\services\user\UserCounterService;
-use fay\services\user\UserPasswordService;
 use fay\models\tables\UserCounterTable;
-use fay\services\user\UserProfileService;
-use fay\services\user\UserPropService;
-use fay\services\user\UserException;
 use fay\models\tables\UserLoginsTable;
-use fay\services\user\UserRoleService;
+use fay\services\AnalystService;
+use fay\services\FileService;
+use fay\services\OptionService;
 
 /**
  * 用户服务

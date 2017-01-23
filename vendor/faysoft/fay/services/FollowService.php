@@ -10,6 +10,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\FieldHelper;
 use fay\models\tables\UserCounterTable;
+use fay\services\user\UserService;
 
 /**
  * 关注服务
@@ -67,7 +68,7 @@ class FollowService extends Service{
 			'user_id'=>$user_id,
 			'create_time'=>\F::app()->current_time,
 			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
-			'relation'=>$isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE,
+			'relation'=>$isFollow ? FollowsTable::RELATION_BOTH : FollowsTable::RELATION_SINGLE,
 			'sockpuppet'=>$sockpuppet,
 			'trackid'=>$trackid,
 		));
@@ -75,7 +76,7 @@ class FollowService extends Service{
 		if($isFollow){
 			//若存在反向关注，则将反向关注记录的relation也置为双向关注
 			FollowsTable::model()->update(array(
-				'relation'=>Follows::RELATION_BOTH,
+				'relation'=>FollowsTable::RELATION_BOTH,
 			), array(
 				'user_id = ?'=>$fan_id,
 				'fans_id = ?'=>$user_id,
@@ -94,7 +95,7 @@ class FollowService extends Service{
 			'fan_id'=>$fan_id,
 		));
 		
-		return $isFollow ? Follows::RELATION_BOTH : Follows::RELATION_SINGLE;
+		return $isFollow ? FollowsTable::RELATION_BOTH : FollowsTable::RELATION_SINGLE;
 	}
 	
 	/**
@@ -120,7 +121,7 @@ class FollowService extends Service{
 			//若互相关注，则更新反向关注的关注关系
 			if(self::isFollow($fan_id, $user_id)){
 				FollowsTable::model()->update(array(
-					'relation'=>Follows::RELATION_SINGLE,
+					'relation'=>FollowsTable::RELATION_SINGLE,
 				), array(
 					'fans_id = ?'=>$user_id,
 					'user_id = ?'=>$fan_id,

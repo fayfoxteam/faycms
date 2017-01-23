@@ -8,7 +8,7 @@ use fay\common\ListView;
 use fay\services\MessageService;
 use fay\models\tables\UsersTable;
 use fay\core\Response;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\helpers\StringHelper;
 
 class ChatController extends FrontController{

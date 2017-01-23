@@ -43,13 +43,13 @@ class TemplateService extends Service{
 	
 	public static function getType($type){
 		switch($type){
-			case Templates::TYPE_EMAIL:
+			case TemplatesTable::TYPE_EMAIL:
 				return '邮件';
 			break;
-			case Templates::TYPE_NOTIFICATION:
+			case TemplatesTable::TYPE_NOTIFICATION:
 				return '站内信';
 			break;
-			case Templates::TYPE_SMS:
+			case TemplatesTable::TYPE_SMS:
 				return '短信';
 			break;
 			default:

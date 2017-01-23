@@ -9,7 +9,7 @@ use fay\models\tables\PostsTable;
 use fay\models\tables\MessagesTable;
 use fay\common\ListView;
 use fay\models\tables\FollowersTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 class UController extends FrontController{
 	/**

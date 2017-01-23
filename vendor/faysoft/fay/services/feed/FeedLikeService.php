@@ -5,7 +5,7 @@ use fay\core\Service;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\FeedLikesTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\services\FeedService;
 use fay\models\tables\FeedMetaTable;
 

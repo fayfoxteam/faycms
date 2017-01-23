@@ -5,7 +5,7 @@ use cms\library\AdminController;
 use fay\models\tables\UsersTable;
 use fay\models\tables\ActionlogsTable;
 use fay\services\user\UserPropService;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\models\tables\RolesTable;
 use fay\services\user\UserRoleService;
 use fay\core\Response;

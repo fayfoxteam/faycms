@@ -5,7 +5,7 @@ use fay\core\Response;
 use fay\helpers\StringHelper;
 use fay\models\tables\TokensTable;
 use fay\models\tables\UsersTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 class RegController extends Controller {
     public function index(){

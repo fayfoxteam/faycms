@@ -10,7 +10,7 @@ use fay\core\Db;
 use fay\core\Exception;
 use fay\helpers\RequestHelper;
 use fay\models\tables\RolesTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 class IndexController extends InstallController{
 	public function __construct(){

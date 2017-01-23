@@ -6,7 +6,7 @@ use fay\core\Response;
 use fay\services\feed\FeedLikeService;
 use fay\services\FeedService;
 use fay\helpers\FieldHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * 动态点赞

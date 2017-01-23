@@ -2,7 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * 测试Controller，上线前删除或禁用

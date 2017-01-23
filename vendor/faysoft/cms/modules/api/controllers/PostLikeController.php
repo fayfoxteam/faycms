@@ -6,7 +6,7 @@ use fay\core\Response;
 use fay\services\post\PostLikeService;
 use fay\services\post\PostService;
 use fay\helpers\FieldHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * 文章点赞

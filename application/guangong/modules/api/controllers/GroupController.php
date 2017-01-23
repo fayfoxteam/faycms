@@ -7,7 +7,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\UsersTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use guangong\models\tables\GuangongUserGroupsTable;
 use guangong\models\tables\GuangongUserGroupUsersTable;
 

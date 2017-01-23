@@ -9,7 +9,7 @@ use fay\core\Response;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\services\FlashService;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 class LoginController extends FrontController{
 	public function index(){

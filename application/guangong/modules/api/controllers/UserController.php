@@ -5,7 +5,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\models\tables\UsersTable;
 use fay\services\FileService;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use guangong\models\forms\SignUpForm;
 use guangong\models\tables\GuangongUserExtraTable;
 use guangong\services\AttendanceService;

@@ -6,7 +6,7 @@ use fay\services\LogService;
 use fay\core\Response;
 use fay\models\tables\LogsTable;
 use fay\core\Loader;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\services\user\UserPasswordService;
 
 class LoginController extends Controller{

@@ -484,7 +484,7 @@ class PostCategoryService extends Service{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
@@ -515,7 +515,7 @@ class PostCategoryService extends Service{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
@@ -546,7 +546,7 @@ class PostCategoryService extends Service{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
@@ -575,7 +575,7 @@ class PostCategoryService extends Service{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
 	 * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章

@@ -17,6 +17,7 @@ use fay\models\tables\FeedsTagsTable;
 use fay\models\tables\FeedLikesTable;
 use fay\models\tables\FeedFavoritesTable;
 use fay\services\feed\FeedFileService;
+use fay\services\user\UserService;
 
 /**
  * 动态服务
@@ -411,7 +412,7 @@ class FeedService extends Service{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
 	 * @return array|bool
 	 */
@@ -484,7 +485,7 @@ class FeedService extends Service{
 	 *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
 	 *  - files.*系列可指定feeds_files表返回字段，若有一项为'feeds_files.*'，则返回所有字段
 	 *  - props.*系列可指定返回哪些动态分类属性，若有一项为'props.*'，则返回所有动态分类属性
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 * @param bool $only_published 若为true，则只在已发布的动态里搜索。默认为true
 	 * @return array
 	 */

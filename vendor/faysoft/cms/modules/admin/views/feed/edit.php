@@ -2,7 +2,7 @@
 use cms\helpers\FeedHelper;
 use fay\helpers\HtmlHelper;
 use fay\models\tables\FeedsTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\services\FileService;
 use fay\helpers\DateHelper;
 

@@ -2,7 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\OauthService;
+use fay\services\oauth\OauthService;
 
 class OauthController extends ApiController{
 	public function weixin(){

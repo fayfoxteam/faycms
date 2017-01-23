@@ -1,10 +1,10 @@
 <?php
-namespace fay\services;
+namespace fay\services\oauth;
 
 use fay\core\Response;
 use fay\core\Service;
-use fay\oauth\OAuthException;
-use fay\oauth\weixin\WeixinClient;
+use fay\services\oauth\weixin\WeixinClient;
+use fay\services\OptionService;
 
 class OauthService extends Service{
     /**
@@ -17,7 +17,7 @@ class OauthService extends Service{
     
     /**
      * 获取微信Access Token
-     * @return \fay\oauth\weixin\WeixinAccessToken
+     * @return \fay\services\oauth\weixin\WeixinAccessToken
      * @throws OAuthException
      */
     public function getWeixinAccessToken(){

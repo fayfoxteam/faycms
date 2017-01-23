@@ -3,8 +3,8 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use fay\helpers\UrlHelper;
-use fay\oauth\qq\QQClient;
-use fay\oauth\weixin\WeixinClient;
+use fay\services\oauth\qq\QQClient;
+use fay\services\oauth\weixin\WeixinClient;
 
 class OauthController extends FrontController{
 	public function weixinGetCode(){

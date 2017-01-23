@@ -1,9 +1,9 @@
 <?php
-namespace fay\oauth\weixin;
+namespace fay\services\oauth\weixin;
 
 use fay\helpers\HttpHelper;
-use fay\oauth\AccessTokenAbstract;
-use fay\oauth\OAuthException;
+use fay\services\oauth\AccessTokenAbstract;
+use fay\services\oauth\OAuthException;
 
 class WeixinAccessToken extends AccessTokenAbstract{
 	/**
@@ -22,7 +22,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
 	const IS_VALID_URL = 'https://api.weixin.qq.com/sns/auth';
 	
 	/**
-	 * @see \fay\oauth\AccessTokenAbstract::getUser()
+	 * @see \fay\services\oauth\AccessTokenAbstract::getUser()
 	 * @param string $lang 语言，默认为中文
 	 * @return array
 	 * @throws OAuthException
@@ -46,7 +46,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
 	}
 	
 	/**
-	 * @see \fay\oauth\AccessTokenAbstract::refresh()
+	 * @see \fay\services\oauth\AccessTokenAbstract::refresh()
 	 * @return $this
 	 * @throws OAuthException
 	 */
@@ -68,7 +68,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
 	}
 	
 	/**
-	 * @see \fay\oauth\AccessTokenAbstract::check()
+	 * @see \fay\services\oauth\AccessTokenAbstract::check()
 	 * @return bool
 	 * @throws OAuthException
 	 */

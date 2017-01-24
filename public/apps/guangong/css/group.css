@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+.brand{right:28px;top:39px;}
+#step{width:33px;color:#7b3b1e;font-size:22px;font-weight:bold;}
+#step .number{display:inline-block;margin-bottom:25px;}
+.guangong{top:50%}
+@media all and (orientation : portrait){
+    #step{right:40px;}
+    .guangong{width:60%;left:12%;margin-top:-53%;}
+}
+@media all and (orientation : landscape){
+    #step{right:30%;}
+    .guangong{height:75%;left:35%;margin-top:-21%}
+    .guangong img{width:auto}
+}
+
+.groups .swiper-slide{background-image:url(../images/group/bg.jpg)}
+
+.groups #group-1 .layer-1{left:50%;top:50%;}
+
+.groups #group-2 .steps{top:50%;left:50%;margin-left:-142px;margin-top:-135px;}
+.groups #group-2 .steps .step{width:33px;padding:52px 0;text-align:center;background-color:#d2b882;color:#7b3b1e;display:inline-block;border-radius:4px;font-size:22px;margin-left:12px;font-weight:bold}
+.groups #group-2 .steps .step span{line-height:28px}
+.groups #group-2 .steps .step .number{display:inline-block;margin-bottom:25px;}
+.groups #group-2 .explain{bottom:57px;font-size:14px;text-align:left;margin-left:-105px;left:50%;}
+.groups #group-2 .explain p{margin-bottom:10px;color:#413d3c;}
+

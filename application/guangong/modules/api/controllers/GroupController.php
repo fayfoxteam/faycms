@@ -8,6 +8,7 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\models\tables\UsersTable;
 use fay\services\user\UserService;
+use guangong\models\forms\CreateGroupForm;
 use guangong\models\tables\GuangongUserGroupsTable;
 use guangong\models\tables\GuangongUserGroupUsersTable;
 
@@ -18,14 +19,14 @@ class GroupController extends ApiController{
 	public function create(){
 		$this->checkLogin();
 		
-		$this->form()->setModel(GuangongUserGroupsTable::model())
+		$this->form()->setModel(CreateGroupForm::model())
 			->check();
 		
 		$data = $this->form()->getAllData();
 		$data['create_time'] = $this->current_time;
 		$data['user_id'] = $this->current_user;
 		
-		$group_id = GuangongUserGroupsTable::model()->insert($data);
+		$group_id = GuangongUserGroupsTable::model()->insert($data, true);
 		
 		Response::notify('success', array(
 			'message'=>'成功发起结义',

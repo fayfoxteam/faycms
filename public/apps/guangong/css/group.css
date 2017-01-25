@@ -1,26 +1,47 @@
 @CHARSET "UTF-8";
-.brand{right:28px;top:39px;}
-#step{width:33px;color:#7b3b1e;font-size:22px;font-weight:bold;}
+html, body{font-family:"黑体"}
+.brand{right:28px;top:30px;width:26px}
+.subtitle{top:175px;right:28px;font-size:12px}
+.subtitle span{width:14px;display:inline-block;line-height:1.5;float:left;color:rgba(0,0,0,0.8);}
+.subtitle span.title{line-height:3;margin-top:-9px}
+#step{width:33px;color:#7b3b1e;font-size:22px;font-weight:bold;font-family:"宋体"}
 #step .number{display:inline-block;margin-bottom:25px;}
 .guangong{top:50%}
 @media all and (orientation : portrait){
     #step{right:40px;}
-    .guangong{width:60%;left:12%;margin-top:-53%;}
+    .guangong{width:60%;left:12%;margin-top:-61%;}
 }
 @media all and (orientation : landscape){
     #step{right:30%;}
     .guangong{height:75%;left:35%;margin-top:-21%}
     .guangong img{width:auto}
 }
+.explain p{text-align:left;font-size:14px;color:rgba(0,0,0,0.9);line-height:1.5;}
+.left-bottom{left:18px;bottom:28px;width:16px}
+.btn{color:#3b1d14;font-size:16px;background-image:url(images/btn.png);background-size:100% 100%;width:110px;padding:10px 0;display:inline-block;}
+
+fieldset{margin-bottom:18px;}
+fieldset .field-container{width:70%;display:inline-block;text-align:left;}
+fieldset .field-container .captcha{width:43%;display:inline-block;vertical-align:bottom;margin-left:7%}
+fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;}
+fieldset .form-control.short{width:50%}
+fieldset label{color:#231915;font-size:14px;display:inline-block;width:25%;padding-top:7px;text-align:right;}
+fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%;margin-left:29%;text-align:left}
 
 .groups .swiper-slide{background-image:url(../images/group/bg.jpg)}
 
 .groups #group-1 .layer-1{left:50%;top:50%;}
 
-.groups #group-2 .steps{top:50%;left:50%;margin-left:-142px;margin-top:-135px;}
+.groups #group-2 .steps{top:50%;left:50%;margin-left:-142px;margin-top:-135px;font-family:"宋体"}
 .groups #group-2 .steps .step{width:33px;padding:52px 0;text-align:center;background-color:#d2b882;color:#7b3b1e;display:inline-block;border-radius:4px;font-size:22px;margin-left:12px;font-weight:bold}
 .groups #group-2 .steps .step span{line-height:28px}
 .groups #group-2 .steps .step .number{display:inline-block;margin-bottom:25px;}
-.groups #group-2 .explain{bottom:57px;font-size:14px;text-align:left;margin-left:-105px;left:50%;}
-.groups #group-2 .explain p{margin-bottom:10px;color:#413d3c;}
+.groups #group-2 .explain{bottom:57px;margin-left:-105px;left:50%;}
+
+.groups #group-4 .explain{top:100px;left:50%;margin-left:-40%;width:70%}
+.groups #group-4 .explain p{text-indent:2em}
+.groups #group-4 .actions{bottom:45px;left:50%;margin-left:-55px;}
+.groups #group-4 .form{width:70%;left:50%;margin-left:-40%;top:50%;margin-top:-58px}
+
+.groups #group-21 .explain{bottom:38px;width:83%}
 

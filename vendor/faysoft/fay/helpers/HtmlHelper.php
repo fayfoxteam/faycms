@@ -298,6 +298,20 @@ class HtmlHelper{
 	}
 	
 	/**
+	 * 生成一张验证码
+	 * @param array $html_options
+	 * @return string
+	 */
+	public static function captcha($html_options = array()){
+		$img_params = array();
+		isset($html_options['dw']) && $img_params['w'] = $html_options['dw'];
+		isset($html_options['dh']) && $img_params['h'] = $html_options['dh'];
+		
+		unset($html_options['dw'], $html_options['dh']);
+		return self::img(UrlHelper::createUrl('api/file/captcha', $img_params), '', $html_options);
+	}
+	
+	/**
 	 * 跳转到站外地址。
 	 * 出于seo考虑，不直接显示站外地址，而是通过api/redirect/index来跳转
 	 * @param string $text

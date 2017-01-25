@@ -30,6 +30,7 @@ class CaptchaService extends Service{
 	 */
 	public static function check($value){
 		$builder = new CaptchaBuilder(\F::session()->get('captcha'));
+		\F::session()->remove('captcha');
 		return $builder->testPhrase($value);
 	}
 }

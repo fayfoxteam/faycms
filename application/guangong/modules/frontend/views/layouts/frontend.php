@@ -21,6 +21,7 @@ echo OptionService::get('site:sitename')?></title>
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-2.2.4.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
@@ -28,11 +29,12 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 </head>
 <body>
 <?php echo $content?>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
 <script>
-	$(function(){
-		common.init();
-	});
+$(function(){
+	common.form.labels = <?php echo json_encode(F::form()->getLabels())?>;
+	common.form.rules = <?php echo json_encode(F::form()->getJsRules())?>;
+	common.init();
+});
 </script>
 </body>
 </html>

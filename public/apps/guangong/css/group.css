@@ -1,6 +1,9 @@
 @CHARSET "UTF-8";
 html, body{font-family:"黑体"}
 .brand{right:28px;top:30px;width:26px}
+.groups .group-name{top:37px;left:42px}
+.groups .group-name h1{font-weight:normal}
+.groups .actions{bottom:45px;left:50%;margin-left:-55px;}
 .subtitle{top:175px;right:28px;font-size:12px}
 .subtitle span{width:14px;display:inline-block;line-height:1.5;float:left;color:rgba(0,0,0,0.8);}
 .subtitle span.title{line-height:3;margin-top:-9px}
@@ -19,6 +22,8 @@ html, body{font-family:"黑体"}
 .explain p{text-align:left;font-size:14px;color:rgba(0,0,0,0.9);line-height:1.5;}
 .left-bottom{left:18px;bottom:28px;width:16px}
 .btn{color:#3b1d14;font-size:16px;background-image:url(images/btn.png);background-size:100% 100%;width:110px;padding:10px 0;display:inline-block;}
+.btn-2{color:#FEFEFE;background-color:#936A32;font-size:14px;width:15px;padding:20px 10px;box-sizing:content-box;display:inline-block;vertical-align:top;float:right}
+.btn-3{color:#231915;background-color:#CFB679;padding:6px 20px;font-size:14px;float:left;margin-right:5px}
 
 fieldset{margin-bottom:18px;}
 fieldset .field-container{width:70%;display:inline-block;text-align:left;}
@@ -40,14 +45,10 @@ fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%
 
 .groups #group-4 .explain{top:100px;left:50%;margin-left:-40%;width:70%}
 .groups #group-4 .explain p{text-indent:2em}
-.groups #group-4 .actions{bottom:45px;left:50%;margin-left:-55px;}
 .groups #group-4 .form{width:70%;left:50%;margin-left:-40%;top:50%;margin-top:-58px}
 
 .groups #group-21 .explain{bottom:38px;width:83%}
 
-.groups #group-22 .group-name{top:37px;left:42px}
-.groups #group-22 .group-name h1{font-weight:normal}
-.groups #group-22 .actions{bottom:45px;left:50%;margin-left:-55px;}
 .groups #group-22 .user-list{top:50%;left:50%;width:80%;margin-left:-40%;}
 .groups #group-22 .user-list .avatar{margin-bottom:5px}
 .groups #group-22 .user-list fieldset{display:inline-block;margin:0 4% 30px;float:left}
@@ -60,3 +61,8 @@ fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%
 .groups #group-22 .users7,.groups #group-22 .users8,.groups #group-22 .users9{margin-top:-260px}
 .groups #group-22 .users5 fieldset,.groups #group-22 .users6 fieldset,.groups #group-22 .users7 fieldset,.groups #group-22 .users8 fieldset,.groups #group-22 .users9 fieldset{width:29%;margin:0 2% 10px}
 
+.groups #group-32 form fieldset label{display:block;text-align:left;margin-bottom:5px}
+.groups #group-32 .form{width:66%}
+.groups #group-32 .form .form-control{float:left;height:68px}
+.groups #group-32 .form #vows{width:84%}
+.groups #group-32 .form .description{text-align:right}

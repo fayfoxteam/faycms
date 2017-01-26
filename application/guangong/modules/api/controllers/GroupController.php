@@ -143,7 +143,7 @@ class GroupController extends ApiController{
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('id', 'word', 'secrecy_period'), 'required'),
-			array(array('words'), 'string', array('max'=>100)),
+			array(array('words'), 'string', array('max'=>200)),
 			array(array('secrecy_period'), 'range', array('range'=>array(365, 365 * 2, 365 * 3))),
 			array(array('id'), 'int', array('min'=>1)),
 			array(array('id'), 'exist', array(

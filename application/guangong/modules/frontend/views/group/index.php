@@ -58,7 +58,7 @@ $this->appendCss($this->appStatic('css/group.css'));
 				<p>本系统最多只支持9人(含)同时义结金兰，由发起者商定并启动结义程序。</p>
 			</div>
 			<div class="layer form">
-				<form id="form" action="<?php echo $this->url('api/group/create')?>">
+				<?php echo F::form()->open('api/group/create')?>
 					<fieldset>
 						<label>称&nbsp;谓</label>
 						<div class="field-container"><?php echo F::form()->inputText('name', array(
@@ -85,7 +85,7 @@ $this->appendCss($this->appStatic('css/group.css'));
 								'class'=>'form-control'
 							))?></div>
 					</fieldset>
-				</form>
+				<?php echo F::form()->close()?>
 			</div>
 			<div class="layer actions">
 				<?php echo F::form()->submitLink('提&nbsp;&nbsp;交', array(
@@ -99,7 +99,7 @@ $this->appendCss($this->appStatic('css/group.css'));
 <script>
 	common.form.afterAjaxSubmit = function(resp){
 		if(resp.status){
-			alert('准备跳转')
+			window.location.href = system.url('group/step2', {'group_id': resp.data.group.id});
 		}else{
 			common.toast(resp.message, 'error');
 		}

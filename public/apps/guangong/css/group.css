@@ -23,7 +23,7 @@ html, body{font-family:"黑体"}
 fieldset{margin-bottom:18px;}
 fieldset .field-container{width:70%;display:inline-block;text-align:left;}
 fieldset .field-container .captcha{width:43%;display:inline-block;vertical-align:bottom;margin-left:7%}
-fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;}
+fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;color:#717070}
 fieldset .form-control.short{width:50%}
 fieldset label{color:#231915;font-size:14px;display:inline-block;width:25%;padding-top:7px;text-align:right;}
 fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%;margin-left:29%;text-align:left}
@@ -44,4 +44,19 @@ fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%
 .groups #group-4 .form{width:70%;left:50%;margin-left:-40%;top:50%;margin-top:-58px}
 
 .groups #group-21 .explain{bottom:38px;width:83%}
+
+.groups #group-22 .group-name{top:37px;left:42px}
+.groups #group-22 .group-name h1{font-weight:normal}
+.groups #group-22 .actions{bottom:45px;left:50%;margin-left:-55px;}
+.groups #group-22 .user-list{top:50%;left:50%;width:80%;margin-left:-40%;}
+.groups #group-22 .user-list .avatar{margin-bottom:5px}
+.groups #group-22 .user-list fieldset{display:inline-block;margin:0 4% 30px;float:left}
+.groups #group-22 .users1{width:50%;margin-left:-25%;margin-top:-176px}
+.groups #group-22 .users1 fieldset{width:100%}
+.groups #group-22 .users2,.groups #group-22 .users3,.groups #group-22 .users4{margin-top:-95px}
+.groups #group-22 .users2 fieldset,.groups #group-22 .users3 fieldset,.groups #group-22 .users4 fieldset{width:42%}
+.groups #group-22 .users3,.groups #group-22 .users4{margin-top:-220px}
+.groups #group-22 .users5,.groups #group-22 .users6{margin-top:-184px}
+.groups #group-22 .users7,.groups #group-22 .users8,.groups #group-22 .users9{margin-top:-260px}
+.groups #group-22 .users5 fieldset,.groups #group-22 .users6 fieldset,.groups #group-22 .users7 fieldset,.groups #group-22 .users8 fieldset,.groups #group-22 .users9 fieldset{width:29%;margin:0 2% 10px}
 

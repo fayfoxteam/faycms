@@ -1,11 +1,39 @@
 <?php
 /**
  * @var $this \fay\core\View
+ * @var $group array
  */
 $this->appendCss($this->appStatic('css/group.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
+		<div class="swiper-slide" id="group-22">
+			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer subtitle">
+				<span class="title">拜帖</span>
+				<span>第二式</span>
+			</div>
+			<div class="layer left-bottom"><img src="<?php echo $this->appStatic('images/group/lb.png')?>"></div>
+			<div class="layer group-name"><h1><?php echo $group['name']?></h1></div>
+			<div class="layer user-list users<?php echo $group['count'] - 1?>">
+				<?php F::form()->open('api/group/add-user')?>
+				<?php for($i = 1; $i < $group['count']; $i++){?>
+				<fieldset>
+					<div class="avatar"><img src="<?php echo $this->appStatic('images/group/avatar.png')?>"></div>
+					<div class="mobile">
+						<?php echo F::form()->inputText('mobiles[]', array(
+							'class'=>'form-control small',
+							'placeholder'=>'对方手机号',
+						))?>
+					</div>
+				</fieldset>
+				<?php }?>
+				<?php echo F::form()->close()?>
+			</div>
+			<div class="layer actions"><?php echo F::form()->submitLink('拜帖排序', array(
+					'class'=>'btn btn-1',
+				))?></div>
+		</div>
 		<div class="swiper-slide" id="group-21">
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
 			<div class="layer" id="step">

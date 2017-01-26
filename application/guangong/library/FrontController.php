@@ -3,6 +3,7 @@ namespace guangong\library;
 
 use fay\core\Controller;
 use fay\core\Http;
+use fay\core\HttpException;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogsTable;
 
@@ -23,6 +24,17 @@ class FrontController extends Controller{
 				'ip_int'=>RequestHelper::ip2int($this->ip),
 				'create_time'=>$this->current_time,
 			));
+		}
+	}
+	
+	/**
+	 * @param \fay\core\Form $form
+	 */
+	public function onFormError($form){
+		$errors = $form->getErrors();
+		
+		if($errors){
+			die($errors[0]['message']);
 		}
 	}
 }

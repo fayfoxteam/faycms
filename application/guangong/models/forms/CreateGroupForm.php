@@ -17,6 +17,7 @@ class CreateGroupForm extends Model{
 			array(array('name', 'captcha', 'count'), 'required'),
 			array('captcha', 'captcha'),
 			array('name', 'chinese'),
+			array('count', 'int', array('min'=>2, 'max'=>10))
 		);
 	}
 	

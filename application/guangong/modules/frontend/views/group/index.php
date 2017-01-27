@@ -12,26 +12,26 @@ $this->appendCss($this->appStatic('css/group.css'));
 		<div class="swiper-slide" id="group-2">
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
 			<div class="layer steps">
-				<div class="step">
+				<a class="step" href="<?php echo $this->url('group/step4')?>">
 					<span class="number">第五式</span>
 					<span class="title">解密</span>
-				</div>
-				<div class="step">
+				</a>
+				<a class="step" href="<?php echo $this->url('group/step4')?>">
 					<span class="number">第四式</span>
 					<span class="title">兰谱</span>
-				</div>
-				<div class="step">
+				</a>
+				<a class="step" href="javascript:;">
 					<span class="number">第三式</span>
 					<span class="title">盟誓</span>
-				</div>
-				<div class="step">
+				</a>
+				<a class="step" href="javascript:;">
 					<span class="number">第二式</span>
 					<span class="title">拜帖</span>
-				</div>
-				<div class="step">
+				</a>
+				<a class="step swiper-to" href="javascript:;" data-slide="2">
 					<span class="number">第一式</span>
 					<span class="title">称谓</span>
-				</div>
+				</a>
 			</div>
 			<div class="layer explain">
 				<p>使用说明：</p>

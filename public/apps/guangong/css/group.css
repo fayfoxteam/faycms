@@ -24,6 +24,7 @@ html, body{font-family:"黑体"}
 .btn{color:#3b1d14;font-size:16px;background-image:url(images/btn.png);background-size:100% 100%;width:110px;padding:10px 0;display:inline-block;}
 .btn-2{color:#FEFEFE;background-color:#936A32;font-size:14px;width:15px;padding:20px 10px;box-sizing:content-box;display:inline-block;vertical-align:top;float:right}
 .btn-3{color:#231915;background-color:#CFB679;padding:6px 20px;font-size:14px;float:left;margin-right:5px}
+.dialog{height:200px;padding:20px 30px;}
 
 fieldset{margin-bottom:18px;}
 fieldset .field-container{width:70%;display:inline-block;text-align:left;}
@@ -49,20 +50,31 @@ fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%
 
 .groups #group-21 .explain{bottom:38px;width:83%}
 
-.groups #group-22 .user-list{top:50%;left:50%;width:80%;margin-left:-40%;}
-.groups #group-22 .user-list .avatar{margin-bottom:5px}
-.groups #group-22 .user-list fieldset{display:inline-block;margin:0 4% 30px;float:left}
-.groups #group-22 .users1{width:50%;margin-left:-25%;margin-top:-176px}
-.groups #group-22 .users1 fieldset{width:100%}
-.groups #group-22 .users2,.groups #group-22 .users3,.groups #group-22 .users4{margin-top:-95px}
-.groups #group-22 .users2 fieldset,.groups #group-22 .users3 fieldset,.groups #group-22 .users4 fieldset{width:42%}
-.groups #group-22 .users3,.groups #group-22 .users4{margin-top:-220px}
-.groups #group-22 .users5,.groups #group-22 .users6{margin-top:-184px}
-.groups #group-22 .users7,.groups #group-22 .users8,.groups #group-22 .users9{margin-top:-260px}
-.groups #group-22 .users5 fieldset,.groups #group-22 .users6 fieldset,.groups #group-22 .users7 fieldset,.groups #group-22 .users8 fieldset,.groups #group-22 .users9 fieldset{width:29%;margin:0 2% 10px}
+.groups .user-list{top:50%;left:50%;width:80%;margin-left:-42%;}
+.groups .user-list .avatar{margin-bottom:5px}
+.groups .user-list fieldset{display:inline-block;margin:0 4% 30px;float:left}
+.groups .user-list.users1{width:50%;margin-left:-25%;margin-top:-176px}
+.groups .user-list.users1 fieldset{width:100%}
+.groups .user-list.users2,.groups .user-list.users3,.groups .user-list.users4{margin-top:-95px}
+.groups .user-list.users2 fieldset,.groups .user-list.users3 fieldset,.groups .user-list.users4 fieldset{width:42%}
+.groups .user-list.users3,.groups .user-list.users4{margin-top:-220px}
+.groups .user-list.users5,.groups .user-list.users6{margin-top:-184px}
+.groups .user-list.users7,.groups .user-list.users8,.groups .user-list.users9{margin-top:-260px}
+.groups .user-list.users5 fieldset,.groups .user-list.users6 fieldset,.groups .user-list.users7 fieldset,.groups .user-list.users8 fieldset,.groups .user-list.users9 fieldset{width:29%;margin:0 2% 10px}
 
-.groups #group-32 form fieldset label{display:block;text-align:left;margin-bottom:5px}
+.groups #group-32 form fieldset label{display:block;text-align:left;margin-bottom:5px;width:100%}
 .groups #group-32 .form{width:66%}
 .groups #group-32 .form .form-control{float:left;height:68px}
 .groups #group-32 .form #vows{width:84%}
 .groups #group-32 .form .description{text-align:right}
+
+.groups #group-42 #group-list{width:70%;left:50%;margin-left:-40%;top:100px;text-align:left;}
+.groups #group-42 #group-list ul li{margin-bottom:20px}
+.groups #group-42 #group-list ul li .name{margin-bottom:10px}
+.groups #group-42 #group-list ul li i{font-size:14px;margin-right:5px;vertical-align:top}
+.groups #group-42 #group-list ul li span{margin-right:10px}
+.groups #group-42 #group-list ul li a{float:right}
+.groups #group-42 #group-list .meta{color:grey;}
+
+.groups #group-52 .user-list .nickname{color:#231915;background-color:#CFB679;padding:6px 0;font-size:12px;width:65%;display:inline-block;float:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.groups #group-52 .user-list .show-words-link{color:#FEFEFE;background-color:#936A32;font-size:12px;width:30%;padding:6px 0;display:inline-block;float:right}

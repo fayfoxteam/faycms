@@ -1,6 +1,5 @@
 <?php
 use fay\services\OptionService;
-use fay\helpers\HtmlHelper;
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,7 +18,7 @@ echo OptionService::get('site:sitename')?></title>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
 <?php echo $this->getCss()?>
-<script type="text/javascript" src="<?php echo $this->assets('js/jquery-2.2.4.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
 <script>

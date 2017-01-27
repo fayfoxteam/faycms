@@ -57,5 +57,3 @@ $this->appendCss($this->appStatic('css/group.css'));
 		}
 	}
 </script>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/group.js')?>"></script>
-<script>group.init();</script>

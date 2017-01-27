@@ -46,6 +46,8 @@ class GroupController extends ApiController{
 		
 		$group_id = $this->input->post('group_id');
 		$mobiles = $this->input->post('mobiles', 'trim');
+		//去重
+		$mobiles = array_unique($mobiles);
 		if(!$group_id){
 			Response::notify('error', array(
 				'message'=>'结义ID不能为空',
@@ -68,7 +70,7 @@ class GroupController extends ApiController{
 			));
 		}
 		
-		$user_ids = array();
+		$user_ids = array($this->current_user);//成员必然包含自己
 		foreach($mobiles as $m){
 			if(!$m){
 				Response::notify('error', array(
@@ -83,6 +85,11 @@ class GroupController extends ApiController{
 				Response::notify('error', array(
 					'message'=>'指定手机未注册此应用',
 					'code'=>'mobile-not-found',
+				));
+			}
+			if($user['id'] == $this->current_user){
+				Response::notify('error', array(
+					'message'=>'结义时不能邀请自己',
 				));
 			}
 			
@@ -142,30 +149,30 @@ class GroupController extends ApiController{
 		
 		//表单验证
 		$this->form()->setRules(array(
-			array(array('id', 'word', 'secrecy_period'), 'required'),
+			array(array('group_id', 'words', 'secrecy_period'), 'required'),
 			array(array('words'), 'string', array('max'=>200)),
 			array(array('secrecy_period'), 'range', array('range'=>array(365, 365 * 2, 365 * 3))),
-			array(array('id'), 'int', array('min'=>1)),
-			array(array('id'), 'exist', array(
-				'table'=>'guangong_user_group_users',
+			array(array('group_id'), 'int', array('min'=>1)),
+			array(array('group_id'), 'exist', array(
+				'table'=>'guangong_user_groups',
 				'field'=>'id',
 			)),
 		))->setFilters(array(
-			'id'=>'intval',
+			'group_id'=>'intval',
 			'words'=>'trim',
 			'secrecy_period'=>'intval',
 		))->setLabels(array(
-			'id'=>'结义成员ID',
+			'group_id'=>'结义ID',
 			'words'=>'我想对兄弟们说',
 			'secrecy_period'=>'保密期',
 		))->check();
 		
-		$group_user = GuangongUserGroupUsersTable::model()->find($this->form()->getData('id'));
-		if($group_user['user_id'] != $this->current_user){
-			Response::notify('error', array(
-				'message'=>'您无权操作指定结义',
-				'code'=>'permission-denied',
-			));
+		$group_user = GuangongUserGroupUsersTable::model()->fetchRow(array(
+			'group_id = ?'=>$this->form()->getData('group_id'),
+			'user_id = '.$this->current_user,
+		));
+		if(!$group_user){
+			Response::notify('error', '您不是该结义成员');
 		}
 		
 		GuangongUserGroupUsersTable::model()->update(array(

@@ -17,8 +17,13 @@ var common = {
 					//grabCursor: true,
 					//loop: true,
 					nextButton: '.swiper-btn-next',
-					prevButton: '.swiper-btn-prev'
+					prevButton: '.swiper-btn-prev',
+					'initialSlide': location.hash ? location.hash.substr(1) : 0
 				});
+				
+				$('.swiper-to').on('click', function(){
+					swiper.slideTo($(this).attr('data-slide'))
+				})
 			});
 		}
 	},

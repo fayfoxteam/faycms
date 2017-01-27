@@ -7,6 +7,14 @@ $this->appendCss($this->appStatic('css/group.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
+		<div class="swiper-slide" id="group-31">
+			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer" id="step">
+				<span class="number">第三式</span>
+				<span class="title">盟誓</span>
+			</div>
+			<div class="layer guangong"><img src="<?php echo $this->appStatic('images/group/guangong.png')?>"></div>
+		</div>
 		<div class="swiper-slide" id="group-32">
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
 			<div class="layer subtitle">
@@ -25,12 +33,12 @@ $this->appendCss($this->appStatic('css/group.css'));
 					</div>
 				</fieldset>
 				<fieldset>
-					<label for="vow" id="label-vow">内定誓词</label>
+					<label for="vow" id="label-vow">自创誓词</label>
 					<textarea name="vow" id="vow" class="form-control"></textarea>
 				</fieldset>
 				<fieldset>
 					<label for="words" id="label-words">我想对兄弟说</label>
-					<textarea name="words" id="words" class="form-control"></textarea>
+					<textarea name="words" id="words" class="form-control" placeholder="请留下对兄弟的心愿、祝福或心里话"></textarea>
 					<p class="description">限200字</p>
 				</fieldset>
 				<fieldset>
@@ -45,19 +53,12 @@ $this->appendCss($this->appStatic('css/group.css'));
 					'class'=>'btn btn-1',
 				))?></div>
 		</div>
-		<div class="swiper-slide" id="group-31">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
-			<div class="layer" id="step">
-				<span class="number">第三式</span>
-				<span class="title">盟誓</span>
-			</div>
-			<div class="layer guangong"><img src="<?php echo $this->appStatic('images/group/guangong.png')?>"></div>
-		</div>
 	</div>
 </div>
 <script>
 $(function(){
-	var vow = {
+	var step3 = {
+		'group_id': <?php echo $group['id']?>,
 		/**
 		 * 获取系统内置誓词
 		 */
@@ -86,14 +87,76 @@ $(function(){
 				$('#vow').val($('#vows').val());
 			});
 		},
+		/**
+		 * 提交表单
+		 */
+		'submit': function(){
+			$('#form-submit').on('click', function(){
+				var vow = $('#vow').val();
+				var words = $('#words').val();
+				if(vow == ''){
+					common.toast('请选择或自创誓词', 'error');
+					return false;
+				}
+				if(words == ''){
+					common.toast('请填写对兄弟们的祝福', 'error');
+					return false;
+				}
+				if(vow.length > 100){
+					common.toast('誓词不能超过100个字', 'error');
+					return false;
+				}
+				if(words.length > 200){
+					common.toast('“对兄弟们说”不能超过200个字', 'error');
+					return false;
+				}
+				
+				$.ajax({
+					'type': 'POST',
+					'url': system.url('api/vow/set-vow'),
+					'data': {
+						'vow': vow,
+						'group_id': step3.group_id
+					},
+					'dataType': 'json',
+					'cache': false,
+					'success': function(resp){
+						if(resp.status){
+							$.ajax({
+								'type': 'POST',
+								'url': system.url('api/word/set'),
+								'data': {
+									'words': words,
+									'group_id': step3.group_id,
+									'secrecy_period': 365
+								},
+								'dataType': 'json',
+								'cache': false,
+								'success': function(resp){
+									if(resp.status){
+										
+									}else{
+										common.toast(resp.message, 'error');
+									}
+								}
+							});
+						}else{
+							common.toast(resp.message, 'error');
+							return false;
+						}
+					}
+				});
+				
+				return false;
+			});
+		},
 		'init': function(){
 			this.getVows();
 			this.selectVow();
+			this.submit();
 		}
 	};
 	
-	vow.init();
+	step3.init();
 })
 </script>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/group.js')?>"></script>
-<script>group.init();</script>

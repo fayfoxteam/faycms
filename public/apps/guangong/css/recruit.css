@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+.swiper-slide{background:url(../images/recruit/bg.jpg) no-repeat center center transparent;background-size:cover}
+.brand{right:28px;top:50px;width:26px}
+.dadao{width:45px;height:382px;left:50%;top:50%;margin-left:-30px;margin-top:-196px}
+.title{width:20px;height:168px;left:50%;top:50%;margin-left:10px;margin-top:-25px}
+.description{bottom:50px;left:50%;margin-left:-155px;width:320px}
+.description p{text-align:left;font-size:12px;line-height:1.5}
+
+#recruit-1{background:url(../images/recruit/index.jpg) no-repeat center center transparent;background-size:cover}
+
+#recruit-2 .text{width:230px;left:50%;top:50%;margin-left:-115px;margin-top:-186px}
+#recruit-3 .steps{height:240px;width:300px;left:50%;top:50%;margin-left:-150px;margin-top:-120px;}
+#recruit-3 .steps img{width:43px;}
+
+#recruit-4 .description{width:254px;margin-left:-127px}
+
+#recruit-5 .zhaomuling{left:50%;top:50%;margin-left:-65px;margin-top:-310px}
+#recruit-5 .zhaomuling-text{width:250px;left:50%;top:50%;margin-left:-125px;margin-top:-240px}
+
+#recruit-6 .yi{left:50%;top:50%;margin-left:-44px;margin-top:-310px}
+#recruit-6 .yi-text{left:50%;top:50%;margin-left:-152px;margin-top:-180px}
+
+#recruit-8 .guangong{width:260px;left:50%;margin-left:-130px;top:50%;margin-top:-248px}
+#recruit-8 .steps{height:240px;width:240px;left:50%;top:50%;margin-left:-133px;margin-top:55px;}
+#recruit-8 .steps a{margin:0 12px}
+#recruit-8 .steps img{width:43px;}
+#recruit-8 .jiangjunshengping{height:93px;width:30px;left:50%;top:50%;margin-left:130px;margin-top:198px;}

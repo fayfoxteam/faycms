@@ -34,13 +34,13 @@ class OauthService extends Service{
 	
 		return $client->getAccessToken($code);
 	}
-    
-    /**
-     * 获取指定OAuth配置参数
-     * @param string $key
-     * @return array
-     * @throws OAuthException
-     */
+	
+	/**
+	 * 获取指定OAuth配置参数
+	 * @param string $key
+	 * @return array
+	 * @throws OAuthException
+	 */
 	private function getConfig($key){
 		$config = OptionService::getGroup($key);
 		if(!$config){
@@ -50,7 +50,7 @@ class OauthService extends Service{
 		if(empty($config['enabled'])){
 			throw new OAuthException("{{$key}}Oauth登录已禁用");
 		}
-        
-        return $config;
+		
+		return $config;
 	}
 }

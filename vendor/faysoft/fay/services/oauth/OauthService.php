@@ -6,6 +6,9 @@ use fay\core\Service;
 use fay\services\oauth\weixin\WeixinClient;
 use fay\services\OptionService;
 
+/**
+ * @todo 后期可以按登录方式再做一层拆分
+ */
 class OauthService extends Service{
 	/**
 	 * @param string $class_name
@@ -17,22 +20,42 @@ class OauthService extends Service{
 	
 	/**
 	 * 获取微信Access Token
-	 * @return \fay\services\oauth\weixin\WeixinAccessToken
+	 * @param string $scope
+	 *  - snsapi_base 只能获取openId，不需要用户授权，用户无感知
+	 *  - snsapi_userinfo 可以获取到用户昵称，头像等信息，需要用户授权
+	 * @return weixin\WeixinAccessToken
 	 * @throws OAuthException
 	 */
-	public function getWeixinAccessToken(){
+	public function getWeixinAccessToken($scope = 'snsapi_base'){
 		$config = $this->getConfig('oauth:weixin');
 	
 		$client = new WeixinClient($config['app_id'], $config['app_secret']);
 		if(!$code = \F::input()->get('code')){
 			//需要获取用户信息（默认为：snsapi_base）
-			$client->setScope('snsapi_userinfo');
+			$client->setScope($scope);
 		
 			//跳转到微信拉取授权
 			Response::redirect($client->getAuthorizeUrl());
 		}
 	
 		return $client->getAccessToken($code);
+	}
+	
+	/**
+	 * 获取微信用户信息
+	 * @return array
+	 * @throws OAuthException
+	 */
+	public function getWeixinUser(){
+		return $this->getWeixinAccessToken('snsapi_userinfo')->getUser();
+	}
+	
+	/**
+	 * 获取openId
+	 * @return string
+	 */
+	public function getWeixinOpenId(){
+		return $this->getWeixinAccessToken()->getOpenId();
 	}
 	
 	/**

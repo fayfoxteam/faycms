@@ -6,8 +6,7 @@ use fay\services\oauth\OauthService;
 
 class OauthController extends ApiController{
 	public function weixin(){
-		$access_token = OauthService::service()->getWeixinAccessToken();
-		$user = $access_token->getUser();
+		$user = OauthService::service()->getWeixinUser();
 		
 		var_dump($user);
 	}

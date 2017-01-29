@@ -31,6 +31,15 @@ abstract class AccessTokenAbstract{
 	}
 	
 	/**
+	 * 获取openId
+	 * QQ和微信字段名都叫openid，如果某些奇怪的第三方取了别的名字，可在子类中重写此方法。
+	 * @return array
+	 */
+	public function getOpenId(){
+		return $this->params['openid'];
+	}
+	
+	/**
 	 * 拉取用户信息
 	 * @return array
 	 */

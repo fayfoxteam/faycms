@@ -7,11 +7,12 @@ var common = {
 		'labels': {},
 		'afterAjaxSubmit': function(){}
 	},
-	'swiper': function(){
+	'swiper': null,
+	'_swiper': function(){
 		if($('.swiper-container').length){
 			system.getCss(system.assets('js/swiper/css/swiper.min.css'));
 			system.getScript(system.assets('js/swiper/js/swiper.jquery.min.js'), function(){
-				var swiper = new Swiper('.swiper-container', {
+				common.swiper = new Swiper('.swiper-container', {
 					pagination: '.swiper-pagination',
 					paginationClickable: true,
 					//grabCursor: true,
@@ -94,7 +95,7 @@ var common = {
 		});
 	},
 	'init': function(){
-		this.swiper();
+		this._swiper();
 		this.formSubmit();
 		this.captcha();
 		this.validform();

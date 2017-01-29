@@ -2,6 +2,8 @@
 namespace guangong\modules\frontend\controllers;
 
 use guangong\library\FrontController;
+use guangong\models\tables\GuangongHoursTable;
+use guangong\models\tables\GuangongUserExtraTable;
 
 /**
  * 关公点兵
@@ -32,7 +34,12 @@ class ArmController extends FrontController{
 	 * 排勤务
 	 */
 	public function setHour(){
-		
+		$user_extra = GuangongUserExtraTable::model()->find($this->current_user);
+		if($user_extra['hour_id']){
+			$this->view->hour = GuangongHoursTable::model()->find($user_extra['hour_id']);
+		}else{
+			$this->view->hour = array();
+		}
 		$this->view->render();
 	}
 	

@@ -31,7 +31,7 @@ class HourController extends ApiController{
 		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'hour_id');
 		if($userExtra['hour_id']){
 			Response::notify('error', array(
-				'message'=>'您已设置过时辰，不能重复设置',
+				'message'=>'您已设置过勤务，不能重复设置',
 				'code'=>'arm-already-set'
 			));
 		}
@@ -45,6 +45,9 @@ class HourController extends ApiController{
 			'user_id = ?'=>$this->current_user
 		));
 		
-		Response::notify('success', '时辰设置成功');
+		Response::notify('success', array(
+			'message'=>'勤务设置成功',
+			'data'=>$hour,
+		));
 	}
 }

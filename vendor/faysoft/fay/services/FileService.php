@@ -491,12 +491,12 @@ class FileService extends Service{
 	 * @param int|array $file 可以传入文件ID或包含足够信息的数组
 	 * @param string $handler 处理方式。resize(缩放)和crop(裁剪)可选
 	 * @param array $params
-	 *     $params['dw'] 输出宽度
-	 *     $params['dh'] 输出高度
-	 *     $params['x'] 裁剪时x坐标点
-	 *     $params['y'] 裁剪时y坐标点
-	 *     $params['w'] 裁剪时宽度
-	 *     $params['h'] 裁剪时高度
+	 *  - $params['dw'] 输出宽度
+	 *  - $params['dh'] 输出高度
+	 *  - $params['x'] 裁剪时x坐标点
+	 *  - $params['y'] 裁剪时y坐标点
+	 *  - $params['w'] 裁剪时宽度
+	 *  - $params['h'] 裁剪时高度
 	 * @return array|bool|int
 	 * @throws ErrorException
 	 */

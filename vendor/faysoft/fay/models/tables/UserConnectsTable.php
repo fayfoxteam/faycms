@@ -8,7 +8,7 @@ use fay\core\db\Table;
  *
  * @property int $id Id
  * @property int $user_id 用户ID
- * @property int $third_party_app_id 第三方应用ID
+ * @property int $app_id 第三方应用ID
  * @property string $openid 第三方应用对外ID
  * @property string $unionid Union ID
  * @property int $create_time 创建时间
@@ -31,7 +31,7 @@ class UserConnectsTable extends Table{
 	public function rules(){
 		return array(
 			array(array('id', 'user_id', 'expires_in'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('third_party_app_id'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('app_id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('openid', 'unionid'), 'string', array('max'=>50)),
 			array(array('access_token', 'refresh_token'), 'string', array('max'=>255)),
 		);
@@ -41,7 +41,7 @@ class UserConnectsTable extends Table{
 		return array(
 			'id'=>'Id',
 			'user_id'=>'用户ID',
-			'third_party_app_id'=>'第三方应用ID',
+			'app_id'=>'第三方应用ID',
 			'openid'=>'第三方应用对外ID',
 			'unionid'=>'Union ID',
 			'create_time'=>'创建时间',
@@ -55,7 +55,7 @@ class UserConnectsTable extends Table{
 		return array(
 			'id'=>'intval',
 			'user_id'=>'intval',
-			'third_party_app_id'=>'intval',
+			'app_id'=>'intval',
 			'openid'=>'trim',
 			'unionid'=>'trim',
 			'access_token'=>'trim',

@@ -4,6 +4,7 @@ namespace fay\services\oauth\qq;
 use fay\helpers\HttpHelper;
 use fay\services\oauth\AccessTokenAbstract;
 use fay\services\oauth\OAuthException;
+use fay\services\oauth\weixin\QQUser;
 
 class QQAccessToken extends AccessTokenAbstract{
 	/**
@@ -29,8 +30,9 @@ class QQAccessToken extends AccessTokenAbstract{
 	/**
 	 * @see \fay\services\oauth\AccessTokenAbstract::getUser()
 	 * @param string $lang 语言，默认为中文
-	 * @return array
+	 * @return QQUser
 	 * @throws OAuthException
+	 * @throws \fay\core\ErrorException
 	 */
 	public function getUser($lang = 'zh_CN'){
 		if(!$this->check()) {
@@ -47,7 +49,7 @@ class QQAccessToken extends AccessTokenAbstract{
 			throw new OAuthException($response['errmsg'], $response['errcode']);
 		}
 		
-		return $response;
+		return new QQUser($response, $this);
 	}
 	
 	/**

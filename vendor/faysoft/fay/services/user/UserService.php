@@ -139,7 +139,7 @@ class UserService extends Service{
 	 * @param array $extra 其它信息
 	 *  - roles 角色ID，逗号分隔或一维数组
 	 *  - props 以属性ID为键，属性值为值构成的关联数组
-	 *  - trackid 字符串，用于追踪用户来源的自定义标识码
+	 *  - profile 用户扩展信息
 	 * @param int $is_admin
 	 * @return int|null
 	 * @throws UserException
@@ -227,7 +227,7 @@ class UserService extends Service{
 	 * @param array $extra 其它信息
 	 *  - roles 角色ID，逗号分隔或一维数组
 	 *  - props 以属性ID为键，属性值为值构成的关联数组
-	 *  - trackid 字符串，用于追踪用户来源的自定义标识码
+	 *  - profile 用户扩展信息
 	 */
 	public function update($user_id, $user, $extra = array()){
 		if(isset($user['password'])){

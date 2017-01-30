@@ -32,16 +32,53 @@ abstract class AccessTokenAbstract{
 	
 	/**
 	 * 获取openId
-	 * QQ、微信、微博字段名都叫openid，如果某些奇怪的第三方取了别的名字，可在子类中重写此方法。
+	 * QQ、微信、微博字段名都叫openid。
+	 * 若第三方字段名特殊，可在子类中重写此方法。
 	 * @return array
 	 */
 	public function getOpenId(){
-		return $this->params['openid'];
+		return $this->getParam('openid');
+	}
+	
+	/**
+	 * 获取Access Token。
+	 * 若第三方字段名特殊，可在子类中重写此方法。
+	 * @return string
+	 */
+	public function getAccessToken(){
+		return $this->getParam('access_token');
+	}
+	
+	/**
+	 * 获取Access Token过期时间。
+	 * 若第三方字段名特殊，可在子类中重写此方法。
+	 * @return string
+	 */
+	public function getExpires(){
+		return $this->getParam('expires_in');
+	}
+	
+	/**
+	 * 获取Refresh Token。
+	 * 若第三方字段名特殊，可在子类中重写此方法。
+	 * @return string
+	 */
+	public function getRefreshToken(){
+		return $this->getParam('refresh_token');
+	}
+	
+	/**
+	 * 获取$this->params参数
+	 * @param string $key
+	 * @return string
+	 */
+	public function getParam($key){
+		return isset($this->params[$key]) ? $this->params[$key] : '';
 	}
 	
 	/**
 	 * 拉取用户信息
-	 * @return array
+	 * @return UserAbstract
 	 */
 	abstract public function getUser();
 	

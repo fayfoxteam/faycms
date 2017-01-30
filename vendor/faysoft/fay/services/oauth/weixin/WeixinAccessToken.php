@@ -24,7 +24,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
 	/**
 	 * @see \fay\services\oauth\AccessTokenAbstract::getUser()
 	 * @param string $lang 语言，默认为中文
-	 * @return array
+	 * @return WeixinUser
 	 * @throws OAuthException
 	 */
 	public function getUser($lang = 'zh_CN'){
@@ -42,7 +42,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
 			throw new OAuthException($response['errmsg'], $response['errcode']);
 		}
 		
-		return $response;
+		return new WeixinUser($response, $this);
 	}
 	
 	/**

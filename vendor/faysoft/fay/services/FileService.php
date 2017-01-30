@@ -286,7 +286,6 @@ class FileService extends Service{
 			return '';
 		}
 		
-		
 		if(!$file['is_image']){
 			//非图片类型返回false
 			return false;
@@ -366,7 +365,7 @@ class FileService extends Service{
 				if($private){
 					//私有文件通过file/pic访问
 					$data['url'] = UrlHelper::createUrl('file/pic', array('f'=>$data['id']));
-					$data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>2, 'f'=>$data['id']));
+					$data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>self::PIC_THUMBNAIL, 'f'=>$data['id']));
 				}else{
 					//公共文件直接给出真实路径
 					$data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];

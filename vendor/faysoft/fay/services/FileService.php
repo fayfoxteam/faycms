@@ -1,6 +1,7 @@
 <?php
 namespace fay\services;
 
+use fay\core\HttpException;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
@@ -407,6 +408,82 @@ class FileService extends Service{
 				'data'=>$upload->getErrorMsg(),
 			);
 		}
+	}
+	
+	public function uploadFromUrl($url, $cat = 0, $client_name = null, $private = false){
+		if($cat){
+			if(!is_array($cat)){
+				$cat = CategoryService::service()->get($cat, 'id,alias', '_system_file');
+			}
+			
+			if(!$cat){
+				throw new ErrorException('fay\services\FileService::upload传入$cat不存在');
+			}
+		}else{
+			$cat = array(
+				'id'=>0,
+				'alias'=>'',
+			);
+		}
+		$client_name || $client_name = $url;
+		
+		$file = @imagecreatefromstring(file_get_contents($url));
+		if(!$file){
+			throw new HttpException('获取远程文件失败', 500);
+		}
+		
+		$target = $cat['alias'];
+		if($target && substr($target, -1) != '/'){
+			//目标路径末尾不是斜杠的话，加上斜杠
+			$target .= '/';
+		}
+		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
+			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
+		$filename = self::getFileName($upload_path, '.jpg');
+		if(defined('NO_REWRITE')){
+			$destination = './public/'.$upload_path . $filename;
+		}else{
+			$destination = $upload_path . $filename;
+		}
+		
+		//存储原图
+		imagejpeg($file, $destination);
+		
+		$data = array(
+			'raw_name'=>substr($filename, 0, -4),
+			'file_ext'=>'.jpg',
+			'file_type'=>'image/jpeg',
+			'file_size'=>filesize($destination),
+			'file_path'=>$upload_path,
+			'client_name'=>$client_name,
+			'is_image'=>1,
+			'image_width'=>imagesx($file),
+			'image_height'=>imagesy($file),
+			'upload_time'=>\F::app()->current_time,
+			'user_id'=>\F::app()->current_user,
+			'cat_id'=>$cat['id'],
+		);
+		$data['id'] = FilesTable::model()->insert($data);
+		$img = ImageHelper::resize($file, 100, 100);
+		imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
+		
+		$data['error'] = 0;
+		if($private){
+			//私有文件通过file/pic访问
+			$data['url'] = UrlHelper::createUrl('file/pic', array('f'=>$data['id']));
+			$data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>self::PIC_THUMBNAIL, 'f'=>$data['id']));
+		}else{
+			//公共文件直接给出真实路径
+			$data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
+			$data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100.jpg';
+			//真实存放路径（是图片的话与url路径相同）
+			$data['src'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
+		}
+		
+		return array(
+			'status'=>1,
+			'data'=>$data,
+		);
 	}
 	
 	/**

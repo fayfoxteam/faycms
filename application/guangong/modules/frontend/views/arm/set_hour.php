@@ -20,7 +20,7 @@ $this->appendCss($this->appStatic('css/arm.css'));
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/arm/brand.png')?>"></div>
 			<div class="layer subtitle">排勤务</div>
 			<?php if($hour){?>
-			<div class="layer result"><span class="hour"><?php echo $hour['name']?></span></div>
+			<a class="layer result" href="#hour-dialog"><span class="hour"><?php echo $hour['name']?></span></a>
 			<?php }else{?>
 			<div class="layer qiantong"><img src="<?php echo $this->appStatic('images/arm/qiantong.png')?>"></div>
 			<?php }?>
@@ -31,6 +31,44 @@ $this->appendCss($this->appStatic('css/arm.css'));
 		</div>
 	</div>
 </div>
+<div class="hide">
+	<div id="hour-dialog" class="dialog">
+		<div class="dialog-content">
+			<div class="form-group">
+				<div class="content" id="hour-name">
+					<label class="label-title">古历时间</label>
+					<?php echo $hour['name']?>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="content" id="hour-time">
+					<label class="label-title">北京时间</label>
+					<?php
+						echo \fay\helpers\NumberHelper::toLength($hour['start_hour'], 2),
+							'时至',
+							\fay\helpers\NumberHelper::toLength($hour['end_hour'], 2),
+							'时'
+					?>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="content" id="hour-description">
+					<label class="label-title">时辰详情</label>
+					<?php echo $hour['description'], $hour['zodiac']?>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="content" id="hour-standard">
+					<label class="label-title">值勤规定</label>
+					值勤时间一经确定将计入档案，需按规则每天报到，方可有效晋升军职。具体值勤报到时间自行掌握。
+				</div>
+			</div>
+			<p class="bottom-description">不想当将军的士兵不是好士兵。</p>
+		</div>
+	</div>
+</div>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <?php if(!$hour){?>
 <script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
 <script>
@@ -56,3 +94,14 @@ $this->appendCss($this->appStatic('css/arm.css'));
 	});
 </script>
 <?php }?>
+<script>
+	$('#arm-8 .result').fancybox({
+		'transitionIn': 'elastic',
+		'transitionOut': 'elastic',
+		'type': 'inline',
+		'centerOnScroll': true,
+		'padding': 0,
+		'showCloseButton': false,
+		'width': '80%'
+	});
+</script>

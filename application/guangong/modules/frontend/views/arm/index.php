@@ -13,8 +13,8 @@ $this->appendCss($this->appStatic('css/arm.css'));
 		<div class="swiper-slide" id="arm-2">
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/arm/brand.png')?>"></div>
 			<div class="layer steps">
-				<a href="<?php echo $this->url('arm/set-job')?>"><img src="<?php echo $this->appStatic('images/arm/s5.png')?>"></a>
-				<a href="<?php echo $this->url('arm/set-info')?>"><img src="<?php echo $this->appStatic('images/arm/s4.png')?>"></a>
+				<a href="<?php echo $this->url('arm/job')?>"><img src="<?php echo $this->appStatic('images/arm/s5.png')?>"></a>
+				<a href="<?php echo $this->url('arm/info')?>"><img src="<?php echo $this->appStatic('images/arm/s4.png')?>"></a>
 				<a href="<?php echo $this->url('arm/set-hour')?>"><img src="<?php echo $this->appStatic('images/arm/s3.png')?>"></a>
 				<a href="<?php echo $this->url('arm/set-arm')?>"><img src="<?php echo $this->appStatic('images/arm/s2.png')?>"></a>
 				<a href="<?php echo $this->url('arm/set-defence')?>"><img src="<?php echo $this->appStatic('images/arm/s1.png')?>"></a>

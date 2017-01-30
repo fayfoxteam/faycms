@@ -50,4 +50,30 @@ class HourController extends ApiController{
 			'data'=>$hour,
 		));
 	}
+	
+	/**
+	 * 获取一个时辰描述
+	 */
+	public function get(){
+		//表单验证
+		$this->form()->setRules(array(
+			array(array('hour_id'), 'required'),
+			array(array('hour_id'), 'int', array('min'=>1)),
+			array(array('hour_id'), 'exist', array(
+				'table'=>'guangong_hours',
+				'field'=>'id',
+			)),
+		))->setFilters(array(
+			'id'=>'intval',
+		))->setLabels(array(
+			'id'=>'时辰ID',
+		))->check();
+		
+		$hour = GuangongHoursTable::model()->find($this->form()->getData('hour_id'));
+		if(!$hour){
+			Response::notify('error', '指定时辰不存在');
+		}
+		
+		Response::json($hour);
+	}
 }

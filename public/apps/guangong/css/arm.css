@@ -7,6 +7,12 @@
 .description{bottom:50px;left:50%;margin-left:-155px;width:320px}
 .description p{text-align:left;font-size:12px;line-height:1.5}
 .description p.center{text-align:center}
+.dialog-content{padding:40px 30px}
+#fancybox-wrap #fancybox-outer{background-color:transparent}
+#fancybox-wrap #fancybox-outer .fancybox-bg{background:none}
+.form-group{margin:0 13px}
+.form-group .content{line-height:2;font-family:arial;}
+.form-group .label-title{font-weight:bold;margin-right:10px;font-family:黑体}
 
 #arm-1{background:url(../images/arm/index-bg.jpg) no-repeat center center transparent;background-size:cover}
 #arm-1 .index-title{width:230px;left:50%;top:50%;margin-left:-115px;margin-top:-120px}
@@ -27,8 +33,10 @@
 #arm-6 .result{width:80%;left:10%;top:50%;margin-top:-185px}
 
 #arm-8 .qiantong{top:50%;width:180px;left:50%;margin-left:-90px;margin-top:-167px}
-#arm-8 .result{width:72px;height:400px;top:50%;left:50%;margin-left:-36px;margin-top:-230px;box-sizing:content-box;background-image:url(../images/arm/paizi.png)}
+#arm-8 .result{width:72px;height:400px;top:50%;left:50%;margin-left:-36px;margin-top:-230px;box-sizing:content-box;background-image:url(../images/arm/paizi.png);color:#000}
 #arm-8 .result .hour{display:inline-block;width:18px;line-height:1.5;top:120px;left:27px;position:absolute}
+#hour-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
+#hour-dialog .bottom-description{margin-top:30px;text-align:center}
 
 #arm-10 .juanzhou-he{width:122px;top:50%;left:50%;margin-top:-215px;margin-left:-61px}
 #arm-10 .shake{width:80px;top:50%;left:50%;margin-top:140px;margin-left:-40px}

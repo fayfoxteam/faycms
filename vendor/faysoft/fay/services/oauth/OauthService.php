@@ -1,79 +1,95 @@
 <?php
 namespace fay\services\oauth;
 
-use fay\core\Response;
-use fay\core\Service;
-use fay\services\oauth\weixin\WeixinClient;
-use fay\services\OptionService;
-
-/**
- * @todo 后期可以按登录方式再做一层拆分
- */
-class OauthService extends Service{
+abstract class OauthService{
+	private static $map = array(
+		'weixin'=>'fay\services\oauth\weixin\WeixinOauthService',
+	);
+	
 	/**
-	 * @param string $class_name
-	 * @return OauthService
+	 * @var string App Id
 	 */
-	public static function service($class_name = __CLASS__){
-		return parent::service($class_name);
+	protected $app_id;
+	
+	/**
+	 * @var string App Secret
+	 */
+	protected $app_secret;
+	
+	public static function getInstance($type, $app_id, $app_secret){
+		if(!isset(self::$map[$type])){
+			throw new OAuthException('不支持的第三方登录类型');
+		}
+		
+		/**
+		 * @var OauthService $instance
+		 */
+		$instance = new self::$map[$type];
+		
+		$instance->setAppId($app_id);
+		$instance->setAppSecret($app_secret);
+		
+		return $instance;
 	}
 	
 	/**
-	 * 获取微信Access Token
-	 * @param string $scope
-	 *  - snsapi_base 只能获取openId，不需要用户授权，用户无感知
-	 *  - snsapi_userinfo 可以获取到用户昵称，头像等信息，需要用户授权
-	 * @return weixin\WeixinAccessToken
+	 * 获取Access Token
+	 * @return AccessTokenAbstract
 	 * @throws OAuthException
 	 */
-	public function getWeixinAccessToken($scope = 'snsapi_base'){
-		$config = $this->getConfig('oauth:weixin');
-	
-		$client = new WeixinClient($config['app_id'], $config['app_secret']);
-		if(!$code = \F::input()->get('code')){
-			//需要获取用户信息（默认为：snsapi_base）
-			$client->setScope($scope);
-		
-			//跳转到微信拉取授权
-			Response::redirect($client->getAuthorizeUrl());
-		}
-	
-		return $client->getAccessToken($code);
-	}
+	abstract public function getAccessToken();
 	
 	/**
-	 * 获取微信用户信息
+	 * 获取用户信息
 	 * @return array
 	 * @throws OAuthException
 	 */
-	public function getWeixinUser(){
-		return $this->getWeixinAccessToken('snsapi_userinfo')->getUser();
-	}
+	abstract public function getUser();
 	
 	/**
 	 * 获取openId
 	 * @return string
+	 * @throws OAuthException
 	 */
-	public function getWeixinOpenId(){
-		return $this->getWeixinAccessToken()->getOpenId();
+	abstract public function getOpenId();
+	
+	/**
+	 * @return string
+	 * @throws OAuthException
+	 */
+	public function getAppId(){
+		if(!$this->app_id){
+			throw new OAuthException('未设置App Id');
+		}
+		return $this->app_id;
 	}
 	
 	/**
-	 * 获取指定OAuth配置参数
-	 * @param string $key
-	 * @return array
+	 * @param string $app_id
+	 * @return OauthService
+	 */
+	public function setAppId($app_id){
+		$this->app_id = $app_id;
+		return $this;
+	}
+	
+	/**
+	 * @return string
 	 * @throws OAuthException
 	 */
-	private function getConfig($key){
-		$config = OptionService::getGroup($key);
-		if(!$config){
-			throw new OAuthException("{{$key}}Oauth参数未设置");
+	public function getAppSecret(){
+		if(!$this->app_secret){
+			throw new OAuthException('未设置App Secret');
 		}
+		return $this->app_secret;
+	}
 	
-		if(empty($config['enabled'])){
-			throw new OAuthException("{{$key}}Oauth登录已禁用");
-		}
-		
-		return $config;
+	/**
+	 * @param string $app_secret
+	 * @return OauthService
+	 */
+	public function setAppSecret($app_secret){
+		$this->app_secret = $app_secret;
+		return $this;
 	}
 }

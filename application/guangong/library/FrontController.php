@@ -68,7 +68,7 @@ class FrontController extends Controller{
 			throw new OAuthException("{{$key}} Oauth登录已禁用");
 		}
 		
-		OauthService::getInstance('weixin', $config['app_id'], $config['app_secret'])
+		$this->current_user = OauthService::getInstance('weixin', $config['app_id'], $config['app_secret'])
 			->getAccessToken()//获取Access Token
 			->getUser()//获取第三方用户
 			->createLocalUser()//通过第三方用户，生成本地用户

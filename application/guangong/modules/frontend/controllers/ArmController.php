@@ -11,6 +11,12 @@ use guangong\models\tables\GuangongUserExtraTable;
  * 关公点兵
  */
 class ArmController extends FrontController{
+	public function __construct(){
+		parent::__construct();
+		
+		$this->checkLogin();
+	}
+	
 	public function index(){
 		
 		$this->view->render();

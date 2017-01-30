@@ -1,7 +1,9 @@
 <?php
 namespace guangong\modules\frontend\controllers;
 
+use fay\services\FileService;
 use guangong\library\FrontController;
+use guangong\models\tables\GuangongArmsTable;
 use guangong\models\tables\GuangongHoursTable;
 use guangong\models\tables\GuangongUserExtraTable;
 
@@ -26,7 +28,14 @@ class ArmController extends FrontController{
 	 * 选兵种
 	 */
 	public function setArm(){
-		
+		$user_extra = GuangongUserExtraTable::model()->find($this->current_user, 'arm_id');
+		if($user_extra['arm_id']){
+			$arm = GuangongArmsTable::model()->find($user_extra['arm_id']);
+			$arm['picture'] = FileService::service()->get($arm['picture']);
+			$this->view->arm = $arm;
+		}else{
+			$this->view->arm = array();
+		}
 		$this->view->render();
 	}
 	
@@ -34,7 +43,7 @@ class ArmController extends FrontController{
 	 * 排勤务
 	 */
 	public function setHour(){
-		$user_extra = GuangongUserExtraTable::model()->find($this->current_user);
+		$user_extra = GuangongUserExtraTable::model()->find($this->current_user, 'hour_id');
 		if($user_extra['hour_id']){
 			$this->view->hour = GuangongHoursTable::model()->find($user_extra['hour_id']);
 		}else{

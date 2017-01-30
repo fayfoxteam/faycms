@@ -24,7 +24,6 @@ class GuangongUserExtraTable extends Table{
 	/**
 	 * @param string $class_name
 	 * @return GuangongUserExtraTable
-	 
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

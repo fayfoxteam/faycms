@@ -7,7 +7,7 @@
 .description{bottom:50px;left:50%;margin-left:-155px;width:320px}
 .description p{text-align:left;font-size:12px;line-height:1.5}
 .description p.center{text-align:center}
-.dialog-content{padding:40px 30px}
+.dialog-content{padding:45px 30px}
 #fancybox-wrap #fancybox-outer{background-color:transparent}
 #fancybox-wrap #fancybox-outer .fancybox-bg{background:none}
 .form-group{margin:0 13px}
@@ -30,7 +30,10 @@
 #arm-6 .arms{width:100%;height:237px;top:50%;margin-top:-240px;left:0}
 #arm-6 .arm-text{width:271px;left:50%;top:50px;margin-left:-150px}
 #arm-6 .shake{width:135px;left:50%;top:50%;margin-left:-67px;margin-top:60px}
-#arm-6 .result{width:80%;left:10%;top:50%;margin-top:-185px}
+#arm-6 .result{width:80%;left:10%;top:50%;margin-top:-102px}
+#arm-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
+#arm-dialog h1{font-size:16px;margin-bottom:26px;text-align:center}
+#arm-dialog .arm-description p{text-indent:2em;line-height:1.2em;word-break:break-all}
 
 #arm-8 .qiantong{top:50%;width:180px;left:50%;margin-left:-90px;margin-top:-167px}
 #arm-8 .result{width:72px;height:400px;top:50%;left:50%;margin-left:-36px;margin-top:-230px;box-sizing:content-box;background-image:url(../images/arm/paizi.png);color:#000}

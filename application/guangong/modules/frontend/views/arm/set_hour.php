@@ -96,8 +96,6 @@ $this->appendCss($this->appStatic('css/arm.css'));
 <?php }?>
 <script>
 	$('#arm-8 .result').fancybox({
-		'transitionIn': 'elastic',
-		'transitionOut': 'elastic',
 		'type': 'inline',
 		'centerOnScroll': true,
 		'padding': 0,

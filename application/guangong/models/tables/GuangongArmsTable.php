@@ -11,6 +11,7 @@ use fay\core\db\Table;
  * @property int $picture Picture
  * @property int $sort 排序值
  * @property int $enabled 是否启用
+ * @property string $description 描述
  */
 class GuangongArmsTable extends Table{
 	protected $_name = 'guangong_arms';
@@ -18,7 +19,6 @@ class GuangongArmsTable extends Table{
 	/**
 	 * @param string $class_name
 	 * @return GuangongArmsTable
-	 
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);
@@ -40,6 +40,7 @@ class GuangongArmsTable extends Table{
 			'picture'=>'Picture',
 			'sort'=>'排序值',
 			'enabled'=>'是否启用',
+			'description'=>'描述',
 		);
 	}
 	
@@ -50,6 +51,7 @@ class GuangongArmsTable extends Table{
 			'picture'=>'intval',
 			'sort'=>'intval',
 			'enabled'=>'intval',
+			'description'=>'',
 		);
 	}
 }

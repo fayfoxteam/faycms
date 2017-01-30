@@ -21,7 +21,6 @@ class GuangongRanksTable extends Table{
 	/**
 	 * @param string $class_name
 	 * @return GuangongRanksTable
-	 
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

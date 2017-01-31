@@ -5,9 +5,11 @@ use fay\core\Controller;
 use fay\core\Http;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogsTable;
+use fay\models\tables\UserConnectsTable;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;
+use fay\services\user\UserOauthService;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
@@ -68,11 +70,33 @@ class FrontController extends Controller{
 			throw new OAuthException("{{$key}} Oauth登录已禁用");
 		}
 		
-		$this->current_user = OauthService::getInstance('weixin', $config['app_id'], $config['app_secret'])
-			->getAccessToken()//获取Access Token
-			->getUser()//获取第三方用户
-			->createLocalUser()//通过第三方用户，生成本地用户
-		;
+		$oauth = OauthService::getInstance(
+			UserConnectsTable::TYPE_WEIXIN,
+			$config['app_id'],
+			$config['app_secret']
+		);
+		
+		if(!$this->input->get('code')){
+			//获取code的时候会有一次跳转。防止重复尝试获取open id
+			$open_id = $oauth->getOpenId();
+			$user_connect = UserConnectsTable::model()->fetchRow(array(
+				'app_id = ?'=>$config['app_id'],
+				'open_id = ?'=>$open_id,
+			));
+		}
+		if(!empty($user_connect)){
+			$this->current_user = $user_connect['user_id'];
+		}else{
+			$oauth_user = OauthService::getInstance(
+				UserConnectsTable::TYPE_WEIXIN,
+				$config['app_id'],
+				$config['app_secret']
+			)
+				->getAccessToken()//获取Access Token
+				->getUser();
+			$this->current_user = UserOauthService::service()
+				->createUser($oauth_user);
+		}
 		
 		return false;
 	}

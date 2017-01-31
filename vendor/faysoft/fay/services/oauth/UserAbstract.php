@@ -1,14 +1,10 @@
 <?php
 namespace fay\services\oauth;
-use fay\models\tables\UserConnectsTable;
-use fay\models\tables\UsersTable;
-use fay\services\FileService;
-use fay\services\user\UserService;
 
 /**
  * 用于统一第三方登陆获取用户信息方式
  */
-class UserAbstract implements \ArrayAccess{
+abstract class UserAbstract implements \ArrayAccess{
 	/**
 	 * @var array
 	 */
@@ -25,30 +21,10 @@ class UserAbstract implements \ArrayAccess{
 	}
 	
 	/**
-	 * 创建本地用户，返回用户ID
-	 * @param int $status 默认用户状态
+	 * 第三方类型。对应user_connects表的type字段
 	 * @return int
-	 * @throws \fay\services\user\UserException
 	 */
-	public function createLocalUser($status = UsersTable::STATUS_VERIFIED){
-		$user_id = UserService::service()->create(array(
-			'status'=>$status,
-			'avatar'=>$this->getLocalAvatar(),
-			'nickname'=>$this->getNickName(),
-		));
-		UserConnectsTable::model()->insert(array(
-			'user_id'=>$user_id,
-			'openid'=>$this->getOpenId(),
-			'unionid'=>$this->getUnionId(),
-			'app_id'=>$this->getAccessToken()->getAppId(),
-			'access_token'=>$this->getAccessToken()->getAccessToken(),
-			'expires_in'=>$this->getAccessToken()->getExpires(),
-			'refresh_token'=>$this->getAccessToken()->getRefreshToken(),
-			'create_time'=>\F::app()->current_time,
-		));
-		
-		return $user_id;
-	}
+	abstract public function getType();
 	
 	/**
 	 * 获取Access Token
@@ -91,20 +67,6 @@ class UserAbstract implements \ArrayAccess{
 	 */
 	public function getAvatar(){
 		return $this->getParam('headimgurl');
-	}
-	
-	/**
-	 * 从远程将头像下载到本地后，返回本地文件ID
-	 * @return int
-	 */
-	public function getLocalAvatar(){
-		$avatar_url = $this->getAvatar();
-		if($avatar_url){
-			$avatar_file = FileService::service()->uploadFromUrl($avatar_url);
-			return $avatar_file['id'];
-		}else{
-			return '0';
-		}
 	}
 	
 	/**

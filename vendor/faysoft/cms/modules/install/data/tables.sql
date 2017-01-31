@@ -1106,7 +1106,7 @@ CREATE TABLE `{{$prefix}}user_connects` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类型（微信、qq等）',
   `app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '第三方应用ID',
-  `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用对外ID',
+  `open_id` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用对外ID',
   `unionid` varchar(50) NOT NULL DEFAULT '' COMMENT 'Union ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `access_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Access Token',

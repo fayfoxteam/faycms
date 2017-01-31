@@ -10,7 +10,7 @@ use fay\core\db\Table;
  * @property int $user_id 用户ID
  * @property int $type 类型（微信、qq等）
  * @property int $app_id 第三方应用ID
- * @property string $openid 第三方应用对外ID
+ * @property string $open_id 第三方应用对外ID
  * @property string $unionid Union ID
  * @property int $create_time 创建时间
  * @property string $access_token Access Token
@@ -48,7 +48,7 @@ class UserConnectsTable extends Table{
 		return array(
 			array(array('id', 'user_id', 'expires_in'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('app_id'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('openid', 'unionid'), 'string', array('max'=>50)),
+			array(array('open_id', 'unionid'), 'string', array('max'=>50)),
 			array(array('access_token', 'refresh_token'), 'string', array('max'=>255)),
 			
 			array('type', 'range', array('range'=>array(
@@ -63,7 +63,7 @@ class UserConnectsTable extends Table{
 			'user_id'=>'用户ID',
 			'type'=>'类型（微信、qq等）',
 			'app_id'=>'第三方应用ID',
-			'openid'=>'第三方应用对外ID',
+			'open_id'=>'第三方应用对外ID',
 			'unionid'=>'Union ID',
 			'create_time'=>'创建时间',
 			'access_token'=>'Access Token',
@@ -78,7 +78,7 @@ class UserConnectsTable extends Table{
 			'user_id'=>'intval',
 			'type'=>'intval',
 			'app_id'=>'intval',
-			'openid'=>'trim',
+			'open_id'=>'trim',
 			'unionid'=>'trim',
 			'access_token'=>'trim',
 			'expires_in'=>'intval',

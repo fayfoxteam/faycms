@@ -40,6 +40,6 @@ class WeixinOauthService extends OauthService{
 	 * @return string
 	 */
 	public function getOpenId(){
-		return $this->getAccessToken()->getOpenId();
+		return $this->getAccessToken('snsapi_base')->getOpenId();
 	}
 }

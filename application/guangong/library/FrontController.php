@@ -56,7 +56,7 @@ class FrontController extends Controller{
 	 * 若为注册，进行微信登录（需要用户授权）
 	 */
 	protected function checkLogin(){
-		if(!$this->isLogin()){
+		if($this->isLogin()){
 			return true;
 		}
 		

@@ -158,9 +158,6 @@ class UserService extends Service{
 			'system:user_nickname_required',
 			'system:user_nickname_unique'
 		));
-		if(!isset($user['username']) || $user['username'] == ''){
-			throw new UserException('用户名不能为空', 'missing-parameter:username');
-		}
 		if($config['system:user_nickname_required'] && !isset($user['nickname']) || $user['nickname'] == ''){
 			throw new UserException('用户昵称不能为空', 'missing-parameter:nickname');
 		}

@@ -1,9 +1,11 @@
 <?php
 namespace fay\services\oauth;
 
+use fay\models\tables\UserConnectsTable;
+
 abstract class OauthService{
 	private static $map = array(
-		'weixin'=>'fay\services\oauth\weixin\WeixinOauthService',
+		UserConnectsTable::TYPE_WEIXIN=>'fay\services\oauth\weixin\WeixinOauthService',
 	);
 	
 	/**

@@ -2,6 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
+use fay\models\tables\UserConnectsTable;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;
@@ -18,7 +19,11 @@ class OauthController extends ApiController{
 			throw new OAuthException("{{$key}} Oauth登录已禁用");
 		}
 		
-		$user = OauthService::getInstance('weixin', $config['app_id'], $config['app_secret'])->getUser();
+		$user = OauthService::getInstance(
+			UserConnectsTable::TYPE_WEIXIN,
+			$config['app_id'],
+			$config['app_secret']
+		)->getUser();
 		
 		var_dump($user);
 	}

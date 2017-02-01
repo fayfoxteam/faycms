@@ -13,7 +13,7 @@ class FileController extends \cms\modules\api\controllers\FileController{
 		$this->form()->setRules(array(
 			array(array('url'), 'required'),
 			array(array('url'), 'url'),
-			array(array('p', 'range', array('range'=>array('0', '1'))))
+			array(array('p'), 'range', array('range'=>array('0', '1')))
 		))->setFilters(array(
 			'url'=>'trim',
 			'cat'=>'trim',
@@ -34,5 +34,24 @@ class FileController extends \cms\modules\api\controllers\FileController{
 		
 		$data = FileService::service()->uploadFromUrl($url, $cat, $client_name, $private);
 		Response::json($data);
+	}
+	
+	public function test(){
+		header('Content-Type:image/jpeg');
+		echo file_get_contents('http://wx.qlogo.cn/mmopen/fHHbBcmoMRtU7dOgXbKkicspfGaMQqTkz0jXQrr1P3EBicJhtjTpjNAaXzt7C1drzxd6al1WoRoaCkH7J0h2XpOSrHW5P3shFX/0');
+		die;
+	}
+	
+	public function test2(){
+		$url = 'http://wx.qlogo.cn/mmopen/fHHbBcmoMRtU7dOgXbKkicspfGaMQqTkz0jXQrr1P3EBicJhtjTpjNAaXzt7C1drzxd6al1WoRoaCkH7J0h2XpOSrHW5P3shFX/0';
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		$response =  curl_exec($ch);
+		curl_close($ch);
+		
+		header('Content-Type:image/jpeg');
+		echo $response;
 	}
 }

@@ -10,6 +10,7 @@ use fay\core\Validator;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
 use fay\services\OptionService;
+use PHPQRCode\QRcode;
 
 /**
  * 文件
@@ -274,7 +275,7 @@ class FileController extends ApiController{
 	 * @parameter string $data 二维码内容，经base64编码后的字符串
 	 */
 	public function qrcode(){
-		\PHPQRCode\QRcode::png(base64_decode($this->input->get('data')), false, 'L', 4, 2);
+		QRcode::png(base64_decode($this->input->get('data')), false, 'L', 4, 2);
 	}
 	
 	/**

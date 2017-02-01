@@ -427,7 +427,15 @@ class FileService extends Service{
 		}
 		$client_name || $client_name = $url;
 		
-		$file = @imagecreatefromstring(file_get_contents($url));
+		//用file_get_contents获取就非常非常慢
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		$response =  curl_exec($ch);
+		curl_close($ch);
+		
+		$file = @imagecreatefromstring($response);
 		if(!$file){
 			throw new HttpException('获取远程文件失败', 500);
 		}
@@ -439,6 +447,8 @@ class FileService extends Service{
 		}
 		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
 			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
+		//若指定目录不存在，则创建目录
+		self::createFolder($upload_path);
 		$filename = self::getFileName($upload_path, '.jpg');
 		if(defined('NO_REWRITE')){
 			$destination = './public/'.$upload_path . $filename;

@@ -127,6 +127,8 @@ class FileController extends AdminController{
 		}
 		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
 			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
+		//若指定目录不存在，则创建目录
+		FileService::createFolder($upload_path);
 		$filename = FileService::getFileName($upload_path, '.jpg');
 		if(defined('NO_REWRITE')){
 			$destination = './public/'.$upload_path . $filename;

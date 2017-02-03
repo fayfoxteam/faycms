@@ -1165,7 +1165,8 @@ CREATE TABLE `{{$prefix}}trade_payments` (
   `total_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '支付金额（单位：分）',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
-  `paid_time` int(11) NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `notify_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '回调时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
   `payment_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
   `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
@@ -1173,5 +1174,5 @@ CREATE TABLE `{{$prefix}}trade_payments` (
   `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '实付金额（单位：分）',
   `refund_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '退款金额（单位：分）',
   PRIMARY KEY (`id`),
-  KEY `trade_id` (`trade_id`)
+  KEY `trade_id` (`trade_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易支付记录表';

@@ -24,9 +24,10 @@ class ClosedTradePayment implements PaymentStateInterface{
 	 * @param string $trade_no 第三方交易号
 	 * @param string $payer_account 第三方付款帐号
 	 * @param int $paid_fee 第三方回调时传过来的实付金额（单位：分）
+	 * @param int $pay_time 支付时间时间戳
 	 * @return bool
 	 */
-	public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee){
+	public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee, $pay_time = 0){
 		/*
 		 * @todo 支付后变成PaidAfterClosed状态。
 		 * 因为理论上第三方支付不可避免的会存在重复支付的情况，但是概率极低。

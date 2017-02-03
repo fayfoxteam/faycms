@@ -186,9 +186,10 @@ class TradePaymentItem{
 	 * @param string $trade_no 第三方交易号
 	 * @param string $payer_account 第三方付款帐号
 	 * @param int $paid_fee 第三方回调时传过来的实付金额（单位：分）
+	 * @param int|null $pay_time 支付时间时间戳
 	 */
-	public function onPaid($trade_no, $payer_account, $paid_fee){
-		$this->state->onPaid($this, $trade_no, $payer_account, $paid_fee);
+	public function onPaid($trade_no, $payer_account, $paid_fee, $pay_time = 0){
+		$this->state->onPaid($this, $trade_no, $payer_account, $paid_fee, $pay_time);
 	}
 	
 	public function pay(){

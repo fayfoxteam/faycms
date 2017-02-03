@@ -52,10 +52,13 @@ class CreateTradePayment implements PaymentStateInterface{
 	 * @param string $trade_no 第三方交易号
 	 * @param string $payer_account 第三方付款帐号
 	 * @param int $paid_fee 第三方回调时传过来的实付金额（传进来的时候要确保单位已经转换为“分”）
+	 * @param int $pay_time 支付时间时间戳
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee){
+	public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee, $pay_time = 0){
+		//能获取到准确支付时间的话，以支付时间为准，若不能获取到准确支付时间，默认为异步通知时间
+		$pay_time || $pay_time = \F::app()->current_time;
 		try{
 			\F::db()->beginTransaction();
 			
@@ -64,7 +67,8 @@ class CreateTradePayment implements PaymentStateInterface{
 			$trade_payment->trade_no = $trade_no;
 			$trade_payment->payer_account = $payer_account;
 			$trade_payment->paid_fee = $paid_fee;
-			$trade_payment->pay_time = \F::app()->current_time;
+			$trade_payment->notify_time = \F::app()->current_time;
+			$trade_payment->pay_time = $pay_time;
 			$trade_payment->save();
 			
 			//将相同交易的其它待支付记录标记为已关闭
@@ -79,10 +83,12 @@ class CreateTradePayment implements PaymentStateInterface{
 			$trade = $trade_payment->getTrade();
 			$trade->paid_fee = $paid_fee;
 			$trade->status = TradesTable::STATUS_PAID;
-			$trade->pay_time = \F::app()->current_time;
+			$trade->pay_time = $pay_time;
 			$trade->save();
 			
 			\F::db()->commit();
+			
+			$trade_payment->setState(new PaidTradePayment());
 		}catch(Exception $e){
 			\F::db()->rollBack();
 			throw $e;

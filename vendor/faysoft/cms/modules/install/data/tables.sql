@@ -1145,6 +1145,8 @@ CREATE TABLE `{{$prefix}}trades` (
   `expire_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '过期时间',
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
   `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  `show_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品展示网址',
+  `return_url` varchar(255) NOT NULL DEFAULT '' COMMENT '页面跳转同步通知地址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易记录';
 

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var $jsApiParameters string json字符串
+ * @var $trade \fay\services\payment\methods\models\PaymentTradeModel
+ */
+?>
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
@@ -14,9 +20,11 @@
 					if(res.err_msg=='get_brand_wcpay_request:cancel'){
 						//取消付款
 						alert('取消付款');
+						window.location.href = '<?php echo $trade->getReturnUrl()?>';
 					}else if(res.err_msg=='get_brand_wcpay_request:ok'){
 						//付款成功
 						alert('支付成功');
+						window.location.href = '<?php echo $trade->getReturnUrl()?>';
 					}else if(res.err_msg=='get_brand_wcpay_request:fail' && res.err_code==3 && "{$payUserAgent}"=="wap"){
 						//不允许跨号支付
 						alert('不允许跨号支付');

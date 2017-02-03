@@ -34,15 +34,18 @@ class TradeService extends Service{
 	 * 创建一笔交易
 	 * @param int $total_fee 支付金额（单位：分）
 	 * @param null|string $body 订单描述
-	 * @param array $refers 关联ID。每项必须包含type和refer_id字段
-	 * @param string $subject 订单描述
+	 * @param array $refers 关联ID。二维数组，每项必须包含type和refer_id字段
+	 * @param array $extra 扩展信息，可包含以下字段
+	 *  - subject 有些支付方式有body和subject2个字段，有些只有body，若不指定，则默认与body相同
+	 *  - expire_time 过期时间戳（为0则不过期）
+	 *  - return_url 页面跳转同步通知地址
+	 *  - show_url 商品展示网址
 	 * @param null|int $user_id 用户ID（默认为当前登录用户ID）
-	 * @param int $expire_time 过期时间戳（为0则不过期）
 	 * @return int 交易ID
 	 * @throws TradeErrorException
 	 */
-	public function create($total_fee, $body, array $refers, $subject = null, $user_id = null, $expire_time = 0){
-		$subject === null && $subject = $body;
+	public function create($total_fee, $body, array $refers, $extra = array(), $user_id = null){
+		empty($extra['subject']) && $subject = $body;
 		$user_id === null && $user_id = \F::app()->current_user;
 		
 		//简单验证一下$refers格式
@@ -59,10 +62,12 @@ class TradeService extends Service{
 		$trade_id = TradesTable::model()->insert(array(
 			//用户输入
 			'total_fee'=>$total_fee,
-			'subject'=>$subject,
+			'subject'=>$extra['subject'],
 			'body'=>$body,
 			'user_id'=>$user_id,
-			'expire_time'=>$expire_time,
+			'expire_time'=>isset($extra['expire_time']) ? $extra['expire_time'] : 0,
+			'return_url'=>isset($extra['return_url']) ? $extra['return_url'] : '',
+			'show_url'=>isset($extra['show_url']) ? $extra['show_url'] : '',
 			//系统自动填写
 			'create_time'=>\F::app()->current_time,
 			'create_ip'=>RequestHelper::ip2int(\F::app()->ip),

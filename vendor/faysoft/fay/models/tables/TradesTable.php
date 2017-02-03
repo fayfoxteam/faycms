@@ -19,6 +19,8 @@ use fay\core\db\Table;
  * @property int $expire_time 过期时间
  * @property int $pay_time 付款时间
  * @property int $create_ip 创建IP
+ * @property string $show_url 商品展示网址
+ * @property string $return_url 页面跳转同步通知地址
  */
 class TradesTable extends Table{
 	/**
@@ -52,7 +54,7 @@ class TradesTable extends Table{
 			array(array('id', 'user_id', 'trade_payment_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('total_fee', 'paid_fee', 'refund_fee'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('subject', 'body'), 'string', array('max'=>255)),
+			array(array('subject', 'body', 'show_url', 'return_url'), 'string', array('max'=>255)),
 			array(array('expire_time', 'pay_time'), 'datetime'),
 		);
 	}
@@ -72,6 +74,8 @@ class TradesTable extends Table{
 			'expire_time'=>'过期时间',
 			'pay_time'=>'付款时间',
 			'create_ip'=>'创建IP',
+			'show_url'=>'商品展示网址',
+			'return_url'=>'页面跳转同步通知地址',
 		);
 	}
 
@@ -89,6 +93,8 @@ class TradesTable extends Table{
 			'expire_time'=>'trim',
 			'pay_time'=>'trim',
 			'create_ip'=>'intval',
+			'show_url'=>'trim',
+			'return_url'=>'trim',
 		);
 	}
 }

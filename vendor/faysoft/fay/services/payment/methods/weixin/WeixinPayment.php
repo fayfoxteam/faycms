@@ -7,6 +7,7 @@ use fay\services\payment\methods\models\PaymentTradeModel;
 use fay\services\payment\methods\PaymentMethodException;
 use fay\services\payment\methods\PaymentMethodInterface;
 use fay\services\payment\trade\TradePaymentService;
+use fay\services\user\UserOauthService;
 
 class WeixinPayment implements PaymentMethodInterface{
 	/**
@@ -36,9 +37,13 @@ class WeixinPayment implements PaymentMethodInterface{
 		
 		//①、获取用户openid
 		$tools = new \JsApiPay($config->getAppId(), $config->getAppSecret());
-		$openId = $tools->GetOpenid(UrlHelper::createUrl('api/payment/pay-for-trade-payment', array(
-			'id'=>$trade->getTradePaymentId()
-		), false));
+		if(\F::app()->current_user && $openId = UserOauthService::service()->getOpenId($config->getAppId())){
+			//尝试根据当前用户，在本地获取用户的open id。若无法获取，则通过页面跳转去微信获取。
+		}else{
+			$openId = $tools->GetOpenid(UrlHelper::createUrl('api/payment/pay-for-trade-payment', array(
+				'id'=>$trade->getTradePaymentId()
+			), false));
+		}
 
 		//②、统一下单
 		$input = new \WxPayUnifiedOrder();

@@ -2,6 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use fay\core\Response;
+use fay\helpers\UrlHelper;
 use fay\services\payment\trade\TradeService;
 use guangong\models\PaymentModel;
 
@@ -22,7 +23,10 @@ class PaymentController extends \cms\modules\api\controllers\PaymentController{
 					'refer_id'=>\F::app()->current_user,
 				)
 			),
-			'关羽军团军费'
+			array(
+				'subject'=>'关羽军团军费',
+				'return_url'=>UrlHelper::createUrl('recruit/step3#2'),
+			)
 		);
 		
 		//跳转去支付

@@ -110,4 +110,25 @@ class UserOauthService extends Service{
 			return '0';
 		}
 	}
+	
+	/**
+	 * 根据App Id获取用户的Open Id
+	 * @param string $app_id 第三方App Id
+	 * @param null|int $user_id 用户ID（默认为当前登录用户ID）
+	 * @return string
+	 * @throws OAuthException
+	 */
+	public function getOpenId($app_id, $user_id = null){
+		$user_id || $user_id = \F::app()->current_user;
+		if(!$user_id){
+			throw new OAuthException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
+		}
+		
+		$connect = UserConnectsTable::model()->fetchRow(array(
+			'app_id = ?'=>$app_id,
+			'user_id = ?'=>$user_id,
+		));
+		
+		return $connect ? $connect['open_id'] : '';
+	}
 }

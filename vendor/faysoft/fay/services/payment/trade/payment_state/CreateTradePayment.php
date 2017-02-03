@@ -40,6 +40,8 @@ class CreateTradePayment implements PaymentStateInterface{
 			->setNotifyUrl(UrlHelper::createUrl('api/payment/notify/code/'.$payment['code']))
 			->setBody($trade->body)
 			->setTradePaymentId($trade_payment->id)
+			->setReturnUrl($trade->return_url)
+			->setShowUrl($trade->show_url)
 		;
 		
 		//调用支付模块

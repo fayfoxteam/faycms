@@ -135,6 +135,6 @@ class TradeItem{
 	 * @return array
 	 */
 	public function getRefers(){
-		return TradeRefersTable::model()->fetchAll('trade_id = ' . $this['id']);
+		return TradeRefersTable::model()->fetchAll('trade_id = ' . $this->id);
 	}
 }

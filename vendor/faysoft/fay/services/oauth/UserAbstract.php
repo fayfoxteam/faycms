@@ -15,7 +15,7 @@ abstract class UserAbstract implements \ArrayAccess{
 	 */
 	private $access_token;
 	
-	public function __construct($params, $access_token){
+	public function __construct(array $params, AccessTokenAbstract $access_token){
 		$this->params = $params;
 		$this->access_token = $access_token;
 	}

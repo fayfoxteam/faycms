@@ -156,7 +156,7 @@ class TradePaymentItem implements \ArrayAccess{
 	 */
 	public function getPaymentMethod(){
 		//若未初始化，则根据交易记录中的payment_id初始化一个
-		$this->payment_method || $this->payment_method = PaymentMethodService::service()->get($this->payment_id);
+		$this->payment_method || $this->payment_method = PaymentMethodService::service()->get($this->payment_method_id);
 		
 		return $this->payment_method;
 	}

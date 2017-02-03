@@ -30,7 +30,7 @@ class TradePaymentService extends Service{
 		return TradePaymentsTable::model()->insert(array(
 			'trade_id'=>$trade_id,
 			'total_fee'=>$total_fee,
-			'payment_id'=>$payment_method_id,
+			'payment_method_id'=>$payment_method_id,
 			'create_time'=>\F::app()->current_time,
 			'status'=>TradePaymentsTable::STATUS_WAIT_PAY,
 			'create_ip'=>RequestHelper::ip2int(\F::app()->ip),

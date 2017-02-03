@@ -79,9 +79,6 @@ class FrontController extends Controller{
 		if(!$this->input->get('code')){
 			//获取code的时候会有一次跳转。防止重复尝试获取open id
 			$open_id = $oauth->getOpenId();
-		}
-		
-		if(!empty($open_id)){
 			$user_connect = UserConnectsTable::model()->fetchRow(array(
 				'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($config['app_id']),
 				'open_id = ?'=>$open_id,
@@ -94,19 +91,6 @@ class FrontController extends Controller{
 				return false;
 			}
 		}
-//		if(!empty($user_connect)){
-//			$this->current_user = $user_connect['user_id'];
-//		}else{
-//			$oauth_user = OauthService::getInstance(
-//				UserConnectsTable::TYPE_WEIXIN,
-//				$config['app_id'],
-//				$config['app_secret']
-//			)
-//				->getAccessToken()//获取Access Token
-//				->getUser();
-//			$this->current_user = UserOauthService::service()
-//				->createUser($oauth_user);
-//		}
 		
 		return false;
 	}

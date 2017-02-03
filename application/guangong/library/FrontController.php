@@ -6,6 +6,7 @@ use fay\core\Http;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogsTable;
 use fay\models\tables\UserConnectsTable;
+use fay\services\oauth\OauthAppService;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;
@@ -82,13 +83,16 @@ class FrontController extends Controller{
 		
 		if(!empty($open_id)){
 			$user_connect = UserConnectsTable::model()->fetchRow(array(
-				'app_id = ?'=>$config['app_id'],
+				'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($config['app_id']),
 				'open_id = ?'=>$open_id,
 			));
 			
-			UserService::service()->login($user_connect['user_id']);
-			
-			return true;
+			if($user_connect){
+				UserService::service()->login($user_connect['user_id']);
+				return true;
+			}else{
+				return false;
+			}
 		}
 //		if(!empty($user_connect)){
 //			$this->current_user = $user_connect['user_id'];

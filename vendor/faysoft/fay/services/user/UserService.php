@@ -100,6 +100,7 @@ class UserService extends Service{
 		\F::session()->set('user', array(
 			'id'=>$user['user']['id'],
 		));
+		\F::app()->current_user = $user['user']['id'];
 		
 		//更新用户最后登录信息
 		UserProfileTable::model()->update(array(

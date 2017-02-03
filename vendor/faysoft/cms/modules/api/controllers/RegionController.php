@@ -35,8 +35,10 @@ class RegionController extends ApiController{
 		
 		$regions = RegionsTable::model()->fetchAll(array(
 			'parent_id = ?'=>$id
-		));
+		), 'id,name');
 		
-		Response::json($regions);
+		Response::json(array(
+			'regions'=>$regions,
+		));
 	}
 }

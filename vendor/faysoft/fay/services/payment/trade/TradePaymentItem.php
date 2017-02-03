@@ -178,7 +178,7 @@ class TradePaymentItem{
 	 * 获取交易支付记录外部交易号
 	 */
 	public function getOutTradeNo(){
-		return date('Ymd') . NumberHelper::toLength($this->id, 7);
+		return date('Ymd', $this->create_time) . NumberHelper::toLength($this->id, 7);
 	}
 	
 	/**
@@ -188,7 +188,6 @@ class TradePaymentItem{
 	 * @param int $paid_fee 第三方回调时传过来的实付金额（单位：分）
 	 */
 	public function onPaid($trade_no, $payer_account, $paid_fee){
-		//@todo 需要传入各种参数
 		$this->state->onPaid($this, $trade_no, $payer_account, $paid_fee);
 	}
 	

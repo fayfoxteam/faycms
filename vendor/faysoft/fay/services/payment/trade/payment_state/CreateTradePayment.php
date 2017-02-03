@@ -88,6 +88,7 @@ class CreateTradePayment implements PaymentStateInterface{
 			throw $e;
 		}
 		
+		//触发支付成功事件
 		\F::event()->trigger(TradePaymentService::EVENT_PAID, $trade_payment);
 	}
 	

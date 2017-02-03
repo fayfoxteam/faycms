@@ -83,9 +83,14 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 					<?php echo F::form()->close()?>
 				</div>
 			<?php }else{//还没微信登录过，需要微信授权登录创建用户?>
-				<div class="layer to-login"><a href="<?php
-					echo $this->url('api/oauth/weixin')
-				?>">微信登录</a></div>
+				<div class="layer to-login">
+					<fieldset>
+						<?php echo \fay\helpers\HtmlHelper::link(
+							'微信登录',
+							array('api/oauth/weixin')
+						)?>
+					</fieldset>
+				</div>
 			<?php }?>
 		</div>
 		<?php $this->renderPartial('_steps')?>

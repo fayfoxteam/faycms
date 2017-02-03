@@ -4,6 +4,7 @@ namespace fay\services\user;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Service;
+use fay\models\tables\OauthAppsTable;
 use fay\models\tables\UserConnectsTable;
 use fay\models\tables\UsersTable;
 use fay\services\FileService;
@@ -124,10 +125,18 @@ class UserOauthService extends Service{
 			throw new OAuthException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		$connect = UserConnectsTable::model()->fetchRow(array(
+		$oauth_app = OauthAppsTable::model()->fetchRow(array(
 			'app_id = ?'=>$app_id,
+		), 'id');
+		if(!$oauth_app){
+			//指定App Id不存在
+			return '';
+		}
+		
+		$connect = UserConnectsTable::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
-		));
+			'oauth_app_id = ?'=>$oauth_app['id'],
+		), 'open_id');
 		
 		return $connect ? $connect['open_id'] : '';
 	}

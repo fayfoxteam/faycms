@@ -21,5 +21,13 @@ return array(
 			
 			return false;
 		}
+	),
+	//关公点兵用户注册
+	\fay\services\user\UserService::EVENT_CREATED => array(
+		'handler'=>function($user_id){
+			\guangong\models\tables\GuangongUserExtraTable::model()->insert(array(
+				'user_id'=>$user_id,
+			));
+		}
 	)
 );

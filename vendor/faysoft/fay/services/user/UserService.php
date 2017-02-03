@@ -20,8 +20,15 @@ use fay\services\OptionService;
  * 用户服务
  */
 class UserService extends Service{
-	
+	/**
+	 * 用户登录事件
+	 */
 	const EVENT_LOGIN = 'after_login';
+	
+	/**
+	 * 用户被创建后
+	 */
+	const EVENT_CREATED = 'after_user_created';
 	
 	/**
 	 * 公开字段（接口访问时，可以此判断是否可返回字段，服务自身不做判断）
@@ -163,7 +170,7 @@ class UserService extends Service{
 			throw new UserException('用户昵称不能为空', 'missing-parameter:nickname');
 		}
 		
-		if(UsersTable::model()->fetchRow(array(
+		if(!empty($user['username']) && UsersTable::model()->fetchRow(array(
 			'username = ?'=>$user['username'],
 		))){
 			throw new UserException('用户名已存在', 'invalid-parameter:username-is-exist');
@@ -172,7 +179,7 @@ class UserService extends Service{
 		if($config['system:user_nickname_unique'] && UsersTable::model()->fetchRow(array(
 			'nickname = ?'=>$user['nickname'],
 		))){
-			throw new UserException('用户昵称已存在', 'invalid-parameter:username-is-exist');
+			throw new UserException('用户昵称已存在', 'invalid-parameter:nickname-is-exist');
 		}
 		
 		//插用户表
@@ -214,6 +221,9 @@ class UserService extends Service{
 		if(isset($extra['props'])){
 			UserPropService::service()->createPropertySet($user_id, $extra['props']);
 		}
+		
+		//触发事件
+		\F::event()->trigger(self::EVENT_CREATED, $user_id);
 		
 		return $user_id;
 	}

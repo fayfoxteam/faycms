@@ -21,21 +21,21 @@ class PaymentMethodService extends Service{
 	 * @return array|false
 	 */
 	public function get($id){
-		$payment = PaymentsTable::model()->find($id);
+		$payment_method = PaymentsTable::model()->find($id);
 		//支付方式不存在、未启用或已删除，都返回false
-		if(!$payment || !$payment['enabled'] || $payment['deleted']){
+		if(!$payment_method || !$payment_method['enabled'] || $payment_method['deleted']){
 			return false;
 		}
 		
-		if($payment['config']){
-			$payment['config'] = \json_decode($payment['config'], true);
+		if($payment_method['config']){
+			$payment_method['config'] = \json_decode($payment_method['config'], true);
 		}
 		
-		if(!$payment['config']){
-			$payment['config'] = array();
+		if(!$payment_method['config']){
+			$payment_method['config'] = array();
 		}
 		
-		return $payment;
+		return $payment_method;
 	}
     
     /**
@@ -58,7 +58,10 @@ class PaymentMethodService extends Service{
 	public function notify($code){
 		$payment_code = explode(':', $code);
 		$class_name = 'fay\\services\\payment\\methods\\' . $payment_code[0] . '\\' . ucfirst($payment_code[0]) . 'Payment';
+		/**
+		 * @var $payment_obj PaymentMethodInterface
+		 */
 		$payment_obj = new $class_name;
-		$payment_obj->notify($code);
+		$payment_obj->notify();
 	}
 }

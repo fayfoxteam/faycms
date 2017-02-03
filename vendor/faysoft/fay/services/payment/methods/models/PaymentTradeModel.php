@@ -75,7 +75,7 @@ class PaymentTradeModel{
 	 * 判断传入字段是否都有值（不同支付方式，必选字段有所不同）。
 	 * 返回不满足条件的空字段一维数组，若返回空数组，代表验证成功。
 	 * @param array $fields
-	 * @param string $payment 支付访问，用于报错时明确错误
+	 * @param string $payment 支付方式，仅用于报错时明确错误
 	 * @return array
 	 * @throws PaymentMethodException
 	 */

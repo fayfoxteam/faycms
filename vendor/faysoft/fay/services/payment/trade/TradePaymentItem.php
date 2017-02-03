@@ -36,7 +36,7 @@ class TradePaymentItem implements \ArrayAccess{
 	/**
 	 * @var array 支付方式信息
 	 */
-	private $payment;
+	private $payment_method;
 	
 	public function __construct($trade_payment_id){
 		$trade_payment = TradePaymentsTable::model()->find($trade_payment_id);
@@ -154,25 +154,25 @@ class TradePaymentItem implements \ArrayAccess{
 	 * 获取支付方式。
 	 * @return array
 	 */
-	public function getPayment(){
+	public function getPaymentMethod(){
 		//若未初始化，则根据交易记录中的payment_id初始化一个
-		$this->payment || $this->payment = PaymentMethodService::service()->get($this->payment_id);
+		$this->payment_method || $this->payment_method = PaymentMethodService::service()->get($this->payment_id);
 		
-		return $this->payment;
+		return $this->payment_method;
 	}
 	
 	/**
 	 * 设置支付方式。
 	 * 为了节约开销，可以把支付方式信息传进来。
 	 * 获取时若未初始化，会根据交易记录里的payment_id初始化一个。
-	 * @param array $payment
+	 * @param array $payment_method
 	 * @throws TradeErrorException
 	 */
-	public function setPayment(array $payment){
-		if($this->payment_id != $payment['id']){
+	public function setPaymentMethod(array $payment_method){
+		if($this->payment_method_id != $payment_method['id']){
 			throw new TradeErrorException('设置支付方式不匹配');
 		}
-		$this->payment = $payment;
+		$this->payment_method = $payment_method;
 	}
 	
 	/**

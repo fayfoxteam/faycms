@@ -24,12 +24,12 @@ class CreateTradePayment implements PaymentStateInterface{
 	 */
 	public function pay(TradePaymentItem $trade_payment){
 		//实例化用于支付的支付方式配置模型
-		$payment = $trade_payment->getPayment();
-		$payment_config = new PaymentMethodConfigModel($payment['code']);
-		$payment_config->setMchId($payment['config']['mch_id'])
-			->setAppId($payment['config']['app_id'])
-			->setAppSecret($payment['config']['app_secret'])
-			->setKey($payment['config']['key'])
+		$payment_method = $trade_payment->getPaymentMethod();
+		$payment_config = new PaymentMethodConfigModel($payment_method['code']);
+		$payment_config->setMchId($payment_method['config']['mch_id'])
+			->setAppId($payment_method['config']['app_id'])
+			->setAppSecret($payment_method['config']['app_secret'])
+			->setKey($payment_method['config']['key'])
 		;
 		
 		//实例化用于支付的交易数据模型
@@ -37,7 +37,7 @@ class CreateTradePayment implements PaymentStateInterface{
 		$payment_trade = new PaymentTradeModel();
 		$payment_trade->setOutTradeNo($trade_payment->getOutTradeNo())
 			->setTotalFee($trade_payment->total_fee)
-			->setNotifyUrl(UrlHelper::createUrl('api/payment/notify/code/'.$payment['code']))
+			->setNotifyUrl(UrlHelper::createUrl('api/payment/notify/code/'.$payment_method['code']))
 			->setBody($trade->body)
 			->setTradePaymentId($trade_payment->id)
 			->setReturnUrl($trade->return_url)

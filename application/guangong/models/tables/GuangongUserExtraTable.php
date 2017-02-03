@@ -16,6 +16,7 @@ use fay\core\db\Table;
  * @property int $hour_id 时辰ID
  * @property int $attendances 总出勤次数
  * @property int $rank_id 军衔ID
+ * @property int $military 缴纳军费（单位：分）
  */
 class GuangongUserExtraTable extends Table{
 	protected $_name = 'guangong_user_extra';
@@ -32,7 +33,7 @@ class GuangongUserExtraTable extends Table{
 	public function rules(){
 		return array(
 			array(array('user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('state', 'city', 'district', 'defence_area_id', 'attendances', 'rank_id'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('state', 'city', 'district', 'defence_area_id', 'attendances', 'rank_id', 'military'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('arm_id', 'hour_id'), 'int', array('min'=>0, 'max'=>255)),
 		);
 	}
@@ -49,6 +50,7 @@ class GuangongUserExtraTable extends Table{
 			'hour_id'=>'时辰ID',
 			'attendances'=>'总出勤次数',
 			'rank_id'=>'军衔ID',
+			'military'=>'缴纳军费（单位：分）',
 		);
 	}
 	
@@ -64,6 +66,7 @@ class GuangongUserExtraTable extends Table{
 			'hour_id'=>'intval',
 			'attendances'=>'intval',
 			'rank_id'=>'intval',
+			'military'=>'intval',
 		);
 	}
 }

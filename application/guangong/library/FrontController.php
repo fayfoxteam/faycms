@@ -9,7 +9,7 @@ use fay\models\tables\UserConnectsTable;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;
-use fay\services\user\UserOauthService;
+use fay\services\user\UserService;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';
@@ -52,8 +52,7 @@ class FrontController extends Controller{
 	
 	/**
 	 * 检查用户是否登录
-	 * 若未登录，尝试获取用户openid（用户无感知），判断用户是否已注册
-	 * 若为注册，进行微信登录（需要用户授权）
+	 * 若未登录，尝试获取用户openid（用户无感知），若该openid已注册，自动登录
 	 */
 	protected function checkLogin(){
 		if($this->isLogin()){
@@ -83,20 +82,24 @@ class FrontController extends Controller{
 				'app_id = ?'=>$config['app_id'],
 				'open_id = ?'=>$open_id,
 			));
+			
+			UserService::service()->login($user_connect['user_id']);
+			
+			return true;
 		}
-		if(!empty($user_connect)){
-			$this->current_user = $user_connect['user_id'];
-		}else{
-			$oauth_user = OauthService::getInstance(
-				UserConnectsTable::TYPE_WEIXIN,
-				$config['app_id'],
-				$config['app_secret']
-			)
-				->getAccessToken()//获取Access Token
-				->getUser();
-			$this->current_user = UserOauthService::service()
-				->createUser($oauth_user);
-		}
+//		if(!empty($user_connect)){
+//			$this->current_user = $user_connect['user_id'];
+//		}else{
+//			$oauth_user = OauthService::getInstance(
+//				UserConnectsTable::TYPE_WEIXIN,
+//				$config['app_id'],
+//				$config['app_secret']
+//			)
+//				->getAccessToken()//获取Access Token
+//				->getUser();
+//			$this->current_user = UserOauthService::service()
+//				->createUser($oauth_user);
+//		}
 		
 		return false;
 	}

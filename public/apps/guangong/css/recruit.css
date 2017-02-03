@@ -3,8 +3,18 @@
 .brand{right:28px;top:50px;width:26px}
 .dadao{width:45px;height:382px;left:50%;top:50%;margin-left:-30px;margin-top:-196px}
 .title{width:20px;height:168px;left:50%;top:50%;margin-left:10px;margin-top:-25px}
-.description{bottom:50px;left:50%;margin-left:-155px;width:320px}
+.description{bottom:23px;left:50%;margin-left:-40%;width:80%}
 .description p{text-align:left;font-size:12px;line-height:1.5}
+.btn-1{color:#280E04;font-size:20px;background-image:url(../images/recruit/btn-bg.jpg);background-size:100% 100%;padding:25px 35px;display:inline-block}
+
+fieldset{margin-bottom:18px;}
+fieldset .field-container{width:70%;display:inline-block;text-align:left;}
+fieldset .field-container .captcha{width:auto;height:30px;display:inline-block;vertical-align:bottom;margin-left:7%}
+fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;color:#717070}
+fieldset .form-control.short{width:50%}
+fieldset label{color:#231915;font-size:14px;display:inline-block;width:16%;padding-top:7px;text-align:right;}
+fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%;margin-left:29%;text-align:left}
+fieldset .form-control.ib{display:inline-block;width:auto}
 
 #recruit-1{background:url(../images/recruit/index.jpg) no-repeat center center transparent;background-size:cover}
 
@@ -17,11 +27,21 @@
 #recruit-5 .zhaomuling{left:50%;top:50%;margin-left:-65px;margin-top:-310px}
 #recruit-5 .zhaomuling-text{width:250px;left:50%;top:50%;margin-left:-125px;margin-top:-240px}
 
-#recruit-6 .yi{left:50%;top:50%;margin-left:-44px;margin-top:-310px}
-#recruit-6 .yi-text{left:50%;top:50%;margin-left:-152px;margin-top:-180px}
+#recruit-6 .yi{left:50%;top:50%;margin-left:-44px;margin-top:-260px}
+#recruit-6 .yi-text{width:280px;left:50%;top:50%;margin-left:-140px;margin-top:-147px}
 
 #recruit-8 .guangong{width:260px;left:50%;margin-left:-130px;top:50%;margin-top:-248px}
-#recruit-8 .steps{height:240px;width:240px;left:50%;top:50%;margin-left:-133px;margin-top:55px}
+#recruit-8 .steps{height:240px;width:240px;left:50%;top:50%;margin-left:-135px;margin-top:27px}
 #recruit-8 .steps a{margin:0 12px}
 #recruit-8 .steps img{width:43px}
-#recruit-8 .jiangjunshengping{height:93px;width:30px;left:50%;top:50%;margin-left:130px;margin-top:198px}
+#recruit-8 .jiangjunshengping{height:93px;width:30px;left:50%;top:50%;margin-left:104px;margin-top:171px}
+#shengping-dialog .dialog-content{background:url(../images/recruit/juanzhou-kai.png) no-repeat center center transparent;background-size:100% 100%;padding:60px 38px}
+#shengping-dialog .dialog-content img{width:100%}
+
+#recruit-32 .register-form{width:80%;max-width:320px}
+#recruit-32 .register-form .form-control.ib{margin-right:2px;width:68px}
+
+#recruit-42 .guangongdianbing{width:212px;top:100px;left:50%;margin-left:-106px}
+#recruit-42 .button{}
+#jiangjunmiling-dialog .dialog-content{background:url(../images/recruit/juanzhou-kai.png) no-repeat center center transparent;background-size:100% 100%;padding:60px 38px}
+#jiangjunmiling-dialog .dialog-content img{width:100%}

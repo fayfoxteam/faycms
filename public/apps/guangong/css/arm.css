@@ -8,8 +8,6 @@
 .description p{text-align:left;font-size:12px;line-height:1.5}
 .description p.center{text-align:center}
 .dialog-content{padding:45px 30px}
-#fancybox-wrap #fancybox-outer{background-color:transparent}
-#fancybox-wrap #fancybox-outer .fancybox-bg{background:none}
 .form-group{margin:0 13px}
 .form-group .content{line-height:2;font-family:arial;}
 .form-group .label-title{font-weight:bold;margin-right:10px;font-family:黑体}

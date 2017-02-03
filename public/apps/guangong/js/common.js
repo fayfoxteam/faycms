@@ -23,7 +23,7 @@ var common = {
 				});
 				
 				$('.swiper-to').on('click', function(){
-					swiper.slideTo($(this).attr('data-slide'))
+					common.swiper.slideTo($(this).attr('data-slide'))
 				})
 			});
 		}

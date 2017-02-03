@@ -2,10 +2,13 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
+use fay\core\Response;
 use fay\models\tables\UserConnectsTable;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;
+use fay\services\user\UserOauthService;
+use fay\services\user\UserService;
 
 class OauthController extends ApiController{
 	public function weixin(){
@@ -19,12 +22,18 @@ class OauthController extends ApiController{
 			throw new OAuthException("{{$key}} Oauth登录已禁用");
 		}
 		
-		$user = OauthService::getInstance(
+		$oauth_user = OauthService::getInstance(
 			UserConnectsTable::TYPE_WEIXIN,
 			$config['app_id'],
 			$config['app_secret']
-		)->getUser();
+		)
+			->getAccessToken()//获取Access Token
+			->getUser();
+		$user_id = UserOauthService::service()
+			->createUser($oauth_user);
 		
-		var_dump($user);
+		UserService::service()->login($user_id);
+		
+		Response::redirect('recruit/step3');
 	}
 }

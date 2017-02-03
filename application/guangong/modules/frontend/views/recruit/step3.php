@@ -1,0 +1,130 @@
+<?php
+/**
+ * @var $this \fay\core\View
+ * @var $user_extra array
+ * @var $states array
+ */
+$this->appendCss($this->appStatic('css/recruit.css'));
+?>
+<div class="swiper-container groups">
+	<div class="swiper-wrapper">
+		<?php $this->renderPartial('_steps')?>
+		<div class="swiper-slide" id="recruit-31">
+			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
+			<div class="layer dadao"><img src="<?php echo $this->appStatic('images/recruit/dadao.png')?>"></div>
+			<div class="layer title"><img src="<?php echo $this->appStatic('images/recruit/t3.png')?>"></div>
+			<div class="layer description">
+				<p>应征规则：</p>
+				<p>加入关于军团须提交相关个人信息纳入网络军籍存档，请保证档案信息真实性和严肃性；同时分担个位数小额军费。本系统按要求确保个人信息安全。</p>
+			</div>
+		</div>
+		<div class="swiper-slide" id="recruit-32">
+			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
+			<?php if($user_extra && $user_extra['military']){//已经缴纳军费?>
+				
+			<?php }else if($user_extra['state']){//已经微信注册，且填写了注册信息，但未缴纳军费?>
+				<div class="layer military">
+					
+				</div>
+			<?php }else if($user_extra){//已经微信登录过，但未填写注册信息?>
+				<div class="layer register-form">
+					<?php echo F::form()->open('api/recruit/sign-up')?>
+					<fieldset>
+						<label>识别号</label>
+						<div class="field-container"><?php echo F::form()->inputText('mobile', array(
+							'class'=>'form-control',
+							'placeholder'=>'手机号为身份识别号',
+						))?></div>
+					</fieldset>
+					<fieldset>
+						<label>出生期</label>
+						<div class="field-container"><?php echo F::form()->input('mobile', 'date', array(
+							'class'=>'form-control',
+						))?></div>
+					</fieldset>
+					<fieldset>
+						<label>所在地</label>
+						<div class="field-container"><?php
+							echo F::form()->select('state', array(''=>'-省-') + $states, array(
+									'class'=>'form-control ib',
+									'id'=>'reg-state',
+								)),
+								F::form()->select('city', array(''=>'-市-'), array(
+									'class'=>'form-control ib',
+									'id'=>'reg-city',
+								)),
+								F::form()->select('district', array(''=>'-区-'), array(
+									'class'=>'form-control ib',
+									'id'=>'reg-district',
+								));
+						?></div>
+					</fieldset>
+					<fieldset>
+						<label>验证码</label>
+						<div class="field-container"><?php
+							echo F::form()->inputText('captcha', array(
+								'class'=>'form-control short'
+							)),
+							F::form()->captcha(array(
+								'dw'=>85,
+								'dh'=>32,
+								'class'=>'captcha'
+							));
+							?></div>
+					</fieldset>
+					<?php echo F::form()->close()?>
+				</div>
+			<?php }else{//还没微信登录过，需要微信授权登录创建用户?>
+				<div class="layer to-login"><a href="<?php
+					echo $this->url('api/oauth/weixin')
+				?>">微信登录</a></div>
+			<?php }?>
+		</div>
+		<?php $this->renderPartial('_steps')?>
+	</div>
+</div>
+<script>
+$(function(){
+	$('#reg-state').on('change', function(){
+		$.ajax({
+			'type': 'GET',
+			'url': system.url('api/region/get-next-level'),
+			'data': {'id': $(this).val()},
+			'dataType': 'json',
+			'cache': false,
+			'success': function(resp){
+				if(resp.status){
+					var regCity = $('#reg-city');
+					regCity.html('');
+					$.each(resp.data.regions, function(i, n){
+						regCity.append('<option value="'+n.id+'">'+n.name+'</option>');
+					});
+					regCity.change();
+				}else{
+					common.toast(resp.mesage, 'error');
+				}
+			}
+		});
+	});
+	$('#reg-city').on('change', function(){
+		$.ajax({
+			'type': 'GET',
+			'url': system.url('api/region/get-next-level'),
+			'data': {'id': $(this).val()},
+			'dataType': 'json',
+			'cache': false,
+			'success': function(resp){
+				if(resp.status){
+					var regDistrict = $('#reg-district');
+					regDistrict.html('');
+					$.each(resp.data.regions, function(i, n){
+						regDistrict.append('<option value="'+n.id+'">'+n.name+'</option>');
+					});
+				}else{
+					common.toast(resp.mesage, 'error');
+				}
+			}
+		});
+	});
+});
+</script>

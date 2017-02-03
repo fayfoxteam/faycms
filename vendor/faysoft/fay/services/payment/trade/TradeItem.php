@@ -1,6 +1,7 @@
 <?php
 namespace fay\services\payment\trade;
 
+use fay\models\tables\TradeRefersTable;
 use fay\models\tables\TradesTable;
 use fay\services\payment\trade\state\ClosedTrade;
 use fay\services\payment\trade\state\CreateTrade;
@@ -127,5 +128,13 @@ class TradeItem{
 			//没有值被修改，直接返回true
 			return true;
 		}
+	}
+	
+	/**
+	 * 获取交易关联信息
+	 * @return array
+	 */
+	public function getRefers(){
+		return TradeRefersTable::model()->fetchAll('trade_id = ' . $this['id']);
 	}
 }

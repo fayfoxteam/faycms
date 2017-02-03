@@ -23,14 +23,14 @@ class TradePaymentService extends Service{
 	 * 创建一笔交易记录
 	 * @param int $trade_id 交易ID
 	 * @param int $total_fee 支付金额（单位：分）
-	 * @param int $payment_id 支付方式ID
+	 * @param int $payment_method_id 支付方式ID
 	 * @return int
 	 */
-	public function create($trade_id, $total_fee, $payment_id){
+	public function create($trade_id, $total_fee, $payment_method_id){
 		return TradePaymentsTable::model()->insert(array(
 			'trade_id'=>$trade_id,
 			'total_fee'=>$total_fee,
-			'payment_id'=>$payment_id,
+			'payment_id'=>$payment_method_id,
 			'create_time'=>\F::app()->current_time,
 			'status'=>TradePaymentsTable::STATUS_WAIT_PAY,
 			'create_ip'=>RequestHelper::ip2int(\F::app()->ip),

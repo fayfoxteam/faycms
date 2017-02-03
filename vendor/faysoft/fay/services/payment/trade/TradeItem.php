@@ -66,10 +66,10 @@ class TradeItem implements \ArrayAccess{
 	
 	/**
 	 * 执行支付
-	 * @param int $payment_id 支付方式ID
+	 * @param int $payment_method_id 支付方式ID
 	 */
-	public function pay($payment_id){
-		$this->state->pay($this, $payment_id);
+	public function pay($payment_method_id){
+		$this->state->pay($this, $payment_method_id);
 	}
 	
 	/**

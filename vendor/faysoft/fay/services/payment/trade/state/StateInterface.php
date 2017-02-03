@@ -10,10 +10,10 @@ interface StateInterface{
 	/**
 	 * 执行支付
 	 * @param TradeItem $trade
-	 * @param int $payment_id 支付方式ID
+	 * @param int $payment_method_id 支付方式ID
 	 * @return bool
 	 */
-	public function pay(TradeItem $trade, $payment_id);
+	public function pay(TradeItem $trade, $payment_method_id);
 	
 	/**
 	 * 交易执行退款

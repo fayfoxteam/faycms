@@ -1183,7 +1183,7 @@ CREATE TABLE `{{$prefix}}trade_payments` (
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
   `notify_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '回调时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
-  `payment_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
+  `payment_method_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
   `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
   `payer_account` varchar(50) NOT NULL DEFAULT '' COMMENT '付款人帐号',
   `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '实付金额（单位：分）',

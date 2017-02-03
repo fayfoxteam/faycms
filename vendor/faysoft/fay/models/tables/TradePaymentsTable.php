@@ -14,7 +14,7 @@ use fay\core\db\Table;
  * @property int $pay_time 支付时间
  * @property int $notify_time 回调时间
  * @property int $status 支付状态
- * @property int $payment_id 支付方式ID
+ * @property int $payment_method_id 支付方式ID
  * @property string $trade_no 第三方交易号
  * @property string $payer_account 付款人帐号
  * @property int $paid_fee 实付金额（单位：分）
@@ -57,7 +57,7 @@ class TradePaymentsTable extends Table{
 			array(array('id', 'trade_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('total_fee', 'paid_fee', 'refund_fee'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('payment_id'), 'int', array('min'=>0, 'max'=>255)),
+			array(array('payment_method_id'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('trade_no'), 'string', array('max'=>255)),
 			array(array('payer_account'), 'string', array('max'=>50)),
 		);
@@ -73,7 +73,7 @@ class TradePaymentsTable extends Table{
 			'pay_time'=>'支付时间',
 			'notify_time'=>'回调时间',
 			'status'=>'支付状态',
-			'payment_id'=>'支付方式ID',
+			'payment_method_id'=>'支付方式ID',
 			'trade_no'=>'第三方交易号',
 			'payer_account'=>'付款人帐号',
 			'paid_fee'=>'实付金额（单位：分）',
@@ -90,7 +90,7 @@ class TradePaymentsTable extends Table{
 			'pay_time'=>'trim',
 			'notify_time'=>'trim',
 			'status'=>'intval',
-			'payment_id'=>'intval',
+			'payment_method_id'=>'intval',
 			'trade_no'=>'trim',
 			'payer_account'=>'trim',
 			'paid_fee'=>'intval',

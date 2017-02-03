@@ -16,13 +16,13 @@ class CreateTrade implements StateInterface{
 	/**
 	 * 执行支付
 	 * @param TradeItem $trade
-	 * @param int $payment_id 支付方式ID
+	 * @param int $payment_method_id 支付方式ID
 	 * @return bool
 	 * @throws TradeErrorException
 	 */
-	public function pay(TradeItem $trade, $payment_id){
+	public function pay(TradeItem $trade, $payment_method_id){
 		//获取支付方式
-		$payment_method = PaymentMethodService::service()->get($payment_id);
+		$payment_method = PaymentMethodService::service()->get($payment_method_id);
 		if(!$payment_method){
 			throw new TradeErrorException('指定支付方方式不存在');
 		}
@@ -40,11 +40,11 @@ class CreateTrade implements StateInterface{
 	/**
 	 * 创建一个支付记录，并返回支付记录实例
 	 * @param TradeItem $trade
-	 * @param $payment_id
+	 * @param $payment_method_id
 	 * @return TradePaymentItem
 	 */
-	private function createTradePayment(TradeItem $trade, $payment_id){
-		$trade_payment_id = TradePaymentService::service()->create($trade->id, $trade->total_fee, $payment_id);
+	private function createTradePayment(TradeItem $trade, $payment_method_id){
+		$trade_payment_id = TradePaymentService::service()->create($trade->id, $trade->total_fee, $payment_method_id);
 		
 		return new TradePaymentItem($trade_payment_id);
 	}

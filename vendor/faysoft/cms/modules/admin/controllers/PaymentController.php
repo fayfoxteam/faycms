@@ -64,11 +64,11 @@ class PaymentController extends AdminController{
 			$data['create_time'] = $this->current_time;
 			$data['last_modified_time'] = $this->current_time;
 			$data['config'] = json_encode($data['config']);
-			$payment_id = PaymentsTable::model()->insert($data);
+			$payment_method_id = PaymentsTable::model()->insert($data);
 			
-			$this->actionlog(ActionlogsTable::TYPE_PAYMENT, '添加支付方式', $payment_id);
+			$this->actionlog(ActionlogsTable::TYPE_PAYMENT, '添加支付方式', $payment_method_id);
 			Response::notify('success', '支付方式添加成功', array(
-				'admin/payment/edit', array('id'=>$payment_id)
+				'admin/payment/edit', array('id'=>$payment_method_id)
 			));
 		}
 		

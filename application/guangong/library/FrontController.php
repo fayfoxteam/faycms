@@ -78,6 +78,9 @@ class FrontController extends Controller{
 		if(!$this->input->get('code')){
 			//获取code的时候会有一次跳转。防止重复尝试获取open id
 			$open_id = $oauth->getOpenId();
+		}
+		
+		if(!empty($open_id)){
 			$user_connect = UserConnectsTable::model()->fetchRow(array(
 				'app_id = ?'=>$config['app_id'],
 				'open_id = ?'=>$open_id,

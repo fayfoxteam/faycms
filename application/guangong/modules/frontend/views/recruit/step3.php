@@ -22,7 +22,7 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
 			<?php if($user_extra && $user_extra['military']){//已经缴纳军费?>
 				
-			<?php }else if($user['user']['mobile']){//已经微信注册，且填写了注册信息，但未缴纳军费?>
+			<?php }else if(!empty($user['user']['mobile'])){//已经微信注册，且填写了注册信息，但未缴纳军费?>
 				<div class="layer military"><a href="<?php
 					echo $this->url('api/payment/military')
 					?>">缴纳军费</a></div>

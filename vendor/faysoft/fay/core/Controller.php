@@ -35,6 +35,7 @@ class Controller{
 	public $layout_template;
 	/**
 	 * 当前时间时间戳
+	 * @var int
 	 */
 	public $current_time = 0;
 	/**

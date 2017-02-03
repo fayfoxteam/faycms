@@ -50,12 +50,13 @@ abstract class AccessTokenAbstract{
 	}
 	
 	/**
-	 * 获取Access Token过期时间。
+	 * 获取Access Token过期时间时间戳。
 	 * 若第三方字段名特殊，可在子类中重写此方法。
 	 * @return string
 	 */
 	public function getExpires(){
-		return $this->getParam('expires_in');
+		$expires = $this->getParam('expires_in');
+		return $expires ? intval($expires) + \F::app()->current_time : '';
 	}
 	
 	/**

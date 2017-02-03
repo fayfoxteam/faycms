@@ -15,7 +15,7 @@ return array(
 					//增加用户军费（理论上应该有张重置记录表，懒得弄了）
 					\guangong\models\tables\GuangongUserExtraTable::model()->update(array(
 						'military'=>new \fay\core\db\Expr('military + ' . $trade->paid_fee),
-					), $trade->id);
+					), $refers[0]['refer_id']);
 					
 					return true;
 				}

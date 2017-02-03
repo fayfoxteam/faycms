@@ -15,6 +15,13 @@ use fay\core\db\Table;
  * @property int $enabled 是否启用
  */
 class OauthAppsTable extends Table{
+	/**
+	 * @var array 登录方式编码
+	 */
+	public static $codes = array(
+		'weixin'=>'微信登录'
+	);
+	
 	protected $_name = 'oauth_apps';
 	
 	/**

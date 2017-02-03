@@ -19,6 +19,9 @@ use fay\core\db\Table;
 class PaymentsTable extends Table{
 	protected $_name = 'payments';
 	
+	/**
+	 * @var array 支付编码
+	 */
 	public static $codes = array(
 		'weixin:jsapi'=>'微信JsApi支付（公众号支付）'
 	);

@@ -23,7 +23,7 @@ class OauthController extends ApiController{
 		}
 		
 		$oauth_user = OauthService::getInstance(
-			UserConnectsTable::TYPE_WEIXIN,
+			'weixin',
 			$config['app_id'],
 			$config['app_secret']
 		)

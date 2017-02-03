@@ -4,7 +4,7 @@ namespace fay\services\oauth;
 /**
  * 用于统一第三方登陆获取用户信息方式
  */
-abstract class UserAbstract implements \ArrayAccess{
+class UserAbstract implements \ArrayAccess{
 	/**
 	 * @var array
 	 */
@@ -19,12 +19,6 @@ abstract class UserAbstract implements \ArrayAccess{
 		$this->params = $params;
 		$this->access_token = $access_token;
 	}
-	
-	/**
-	 * 第三方类型。对应user_connects表的type字段
-	 * @return int
-	 */
-	abstract public function getType();
 	
 	/**
 	 * 获取Access Token
@@ -114,7 +108,7 @@ abstract class UserAbstract implements \ArrayAccess{
 	 */
 	public function offsetGet($offset)
 	{
-		$this->getParam($offset);
+		return $this->getParam($offset);
 	}
 	
 	/**

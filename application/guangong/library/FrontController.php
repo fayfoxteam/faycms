@@ -70,7 +70,7 @@ class FrontController extends Controller{
 		}
 		
 		$oauth = OauthService::getInstance(
-			UserConnectsTable::TYPE_WEIXIN,
+			'weixin',
 			$config['app_id'],
 			$config['app_secret']
 		);

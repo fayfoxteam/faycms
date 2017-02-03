@@ -1,11 +1,9 @@
 <?php
 namespace fay\services\oauth;
 
-use fay\models\tables\UserConnectsTable;
-
 abstract class OauthService{
 	private static $map = array(
-		UserConnectsTable::TYPE_WEIXIN=>'fay\services\oauth\weixin\WeixinOauthService',
+		'weixin'=>'fay\services\oauth\weixin\WeixinOauthService',
 	);
 	
 	/**
@@ -18,15 +16,15 @@ abstract class OauthService{
 	 */
 	protected $app_secret;
 	
-	public static function getInstance($type, $app_id, $app_secret){
-		if(!isset(self::$map[$type])){
+	public static function getInstance($code, $app_id, $app_secret){
+		if(!isset(self::$map[$code])){
 			throw new OAuthException('不支持的第三方登录类型');
 		}
 		
 		/**
 		 * @var OauthService $instance
 		 */
-		$instance = new self::$map[$type];
+		$instance = new self::$map[$code];
 		
 		$instance->setAppId($app_id);
 		$instance->setAppSecret($app_secret);

@@ -14,7 +14,7 @@ class PaymentController extends \cms\modules\api\controllers\PaymentController{
 		
 		//创建交易
 		$trade_id = TradeService::service()->create(
-			99,
+			1,//测试完成后改成99
 			array(
 				'type'=>PaymentModel::TYPE_MILITARY,
 				'refer_id'=>\F::app()->current_user,

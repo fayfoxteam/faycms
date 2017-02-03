@@ -33,6 +33,6 @@ class PaymentController extends \cms\modules\api\controllers\PaymentController{
 		Response::redirect('api/payment/pay', array(
 			'trade_id'=>$trade_id,
 			'payment_id'=>1,//这个系统，写死就好了
-		));
+		), false);
 	}
 }

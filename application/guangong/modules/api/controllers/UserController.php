@@ -32,13 +32,15 @@ class UserController extends \cms\modules\api\controllers\UserController{
 			));
 			
 			GuangongUserExtraTable::model()->update(array(
-				'birthday'=>$this->form()->getData('birthday'),
+				'birthday'=>date('Y-m-d', strtotime($this->form()->getData('birthday'))),
 				'state'=>$this->form()->getData('state'),
 				'city'=>$this->form()->getData('city'),
 				'district'=>$this->form()->getData('district'),
 			), array(
 				'user_id = ?'=>$this->current_user,
 			));
+			
+			Response::notify('success', '注册成功');
 		}
 	}
 	

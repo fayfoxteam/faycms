@@ -5,6 +5,11 @@ use fay\services\FileService;
 use fay\services\FlashService;
 use fay\services\user\UserRoleService;
 use fay\services\user\UserService;
+
+/**
+ * @var $subtitle string
+ * @var $content string
+ */
 ?>
 <!DOCTYPE html>
 <html>

@@ -40,6 +40,10 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 
 #recruit-32 .register-form{width:80%;max-width:320px}
 #recruit-32 .register-form .form-control.ib{margin-right:2px;width:68px}
+#recruit-32 .avatar-container{text-align:center;margin-bottom:30px}
+#recruit-32 .avatar-container img{border-radius:50%;width:100px;height:100px;}
+#recruit-32 .submit-container{margin-top:80px;text-align:center}
+#recruit-32 .register-form .submit-link{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
 
 #recruit-42 .guangongdianbing{width:212px;top:100px;left:50%;margin-left:-106px}
 #recruit-42 .button{}

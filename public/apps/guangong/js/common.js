@@ -42,8 +42,11 @@ var common = {
 	 */
 	'captcha': function(){
 		$('.captcha').on('click', function(){
-			$(this).attr('src', $(this).attr('src') + '?' + Math.random());
+			common.changeCaptcha($(this));
 		})
+	},
+	'changeCaptcha': function(o){
+		$(o).attr('src', $(o).attr('src') + '?' + Math.random());
 	},
 	'validform': function(){
 		if($('#form').length){

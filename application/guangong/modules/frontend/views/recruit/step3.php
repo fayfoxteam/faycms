@@ -22,13 +22,16 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
 			<?php if($user_extra && $user_extra['military']){//已经缴纳军费?>
 				
-			<?php }else if($user_extra['state']){//已经微信注册，且填写了注册信息，但未缴纳军费?>
-				<div class="layer military">
-					
-				</div>
+			<?php }else if($user['user']['mobile']){//已经微信注册，且填写了注册信息，但未缴纳军费?>
+				<div class="layer military"><a href="<?php
+					echo $this->url('api/payment/military')
+					?>">缴纳军费</a></div>
 			<?php }else if($user_extra){//已经微信登录过，但未填写注册信息?>
 				<div class="layer register-form">
-					<?php echo F::form()->open('api/recruit/sign-up')?>
+					<?php echo F::form()->open('api/user/sign-up')?>
+					<fieldset class="avatar-container">
+						<img src="<?php echo $user['user']['avatar']['thumbnail']?>">
+					</fieldset>
 					<fieldset>
 						<label>识别号</label>
 						<div class="field-container"><?php echo F::form()->inputText('mobile', array(
@@ -38,7 +41,7 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 					</fieldset>
 					<fieldset>
 						<label>出生期</label>
-						<div class="field-container"><?php echo F::form()->input('mobile', 'date', array(
+						<div class="field-container"><?php echo F::form()->input('birthday', 'date', array(
 							'class'=>'form-control',
 						))?></div>
 					</fieldset>
@@ -71,6 +74,11 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 								'class'=>'captcha'
 							));
 							?></div>
+					</fieldset>
+					<fieldset class="submit-container">
+						<?php echo F::form()->submitLink('提交注册', array(
+							'class'=>'submit-link',
+						))?>
 					</fieldset>
 					<?php echo F::form()->close()?>
 				</div>
@@ -126,5 +134,14 @@ $(function(){
 			}
 		});
 	});
+	common.form.afterAjaxSubmit = function(resp){
+		if(resp.status){
+			//若用户未注册（已经完成微信登录），提交注册信息后，刷新页面，展示缴纳军费界面
+			window.location.reload();
+		}else{
+			common.toast(resp.message, 'error');
+			common.changeCaptcha($('.captcha'));
+		}
+	}
 });
 </script>

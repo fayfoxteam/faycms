@@ -79,7 +79,7 @@ class UserOauthService extends Service{
 		UserConnectsTable::model()->insert(array(
 			'user_id'=>$user_id,
 			'type'=>$user->getType(),
-			'openid'=>$user->getOpenId(),
+			'open_id'=>$user->getOpenId(),
 			'unionid'=>$user->getUnionId(),
 			'app_id'=>$user->getAccessToken()->getAppId(),
 			'access_token'=>$user->getAccessToken()->getAccessToken(),

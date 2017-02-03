@@ -76,20 +76,18 @@ class FrontController extends Controller{
 			$config['app_secret']
 		);
 		
-		if(!$this->input->get('code')){
-			//获取code的时候会有一次跳转。防止重复尝试获取open id
-			$open_id = $oauth->getOpenId();
-			$user_connect = UserConnectsTable::model()->fetchRow(array(
-				'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($config['app_id']),
-				'open_id = ?'=>$open_id,
-			));
-			
-			if($user_connect){
-				UserService::service()->login($user_connect['user_id']);
-				return true;
-			}else{
-				return false;
-			}
+		//获取code的时候会有一次跳转。防止重复尝试获取open id
+		$open_id = $oauth->getOpenId();
+		$user_connect = UserConnectsTable::model()->fetchRow(array(
+			'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($config['app_id']),
+			'open_id = ?'=>$open_id,
+		));
+		
+		if($user_connect){
+			UserService::service()->login($user_connect['user_id']);
+			return true;
+		}else{
+			return false;
 		}
 		
 		return false;

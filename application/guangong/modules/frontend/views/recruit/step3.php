@@ -20,7 +20,7 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 		</div>
 		<div class="swiper-slide" id="recruit-32">
 			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
-			<?php if($user_extra && $user_extra['military']){//已经缴纳军费?>
+			<?php if($user_extra && $user_extra['military'] > 99){//已经缴纳军费?>
 				
 			<?php }else if(!empty($user['user']['mobile'])){//已经微信注册，且填写了注册信息，但未缴纳军费?>
 				<div class="layer military"><a href="<?php

@@ -101,7 +101,11 @@ class UserOauthService extends Service{
 	public function getLocalAvatar($avatar_url){
 		if($avatar_url){
 			$avatar_file = FileService::service()->uploadFromUrl($avatar_url);
-			return $avatar_file['id'];
+			if($avatar_file['status']){
+				return $avatar_file['data']['id'];
+			}else{
+				return '0';
+			}
 		}else{
 			return '0';
 		}

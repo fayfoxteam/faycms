@@ -29,8 +29,12 @@ class OauthController extends ApiController{
 		)
 			->getAccessToken()//获取Access Token
 			->getUser();
-		$user_id = UserOauthService::service()
-			->createUser($oauth_user);
+		if($user_id = UserOauthService::service()->isLocalUser($oauth_user->getAccessToken()->getAppId(), $oauth_user->getOpenId())){
+			//若open id已存在，则不需要重复创建用户
+		}else{
+			$user_id = UserOauthService::service()
+				->createUser($oauth_user);
+		}
 		
 		UserService::service()->login($user_id);
 		

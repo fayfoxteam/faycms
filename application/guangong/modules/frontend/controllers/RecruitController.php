@@ -13,6 +13,12 @@ use guangong\models\tables\GuangongUserExtraTable;
  * 天下招募令
  */
 class RecruitController extends FrontController{
+	public function __construct(){
+		parent::__construct();
+		
+		$this->checkLogin();
+	}
+	
 	public function index(){
 		$this->view->render();
 	}

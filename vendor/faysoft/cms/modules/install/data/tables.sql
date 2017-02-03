@@ -1125,7 +1125,8 @@ CREATE TABLE `{{$prefix}}user_connects` (
   `expires_in` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'access_token过期时间戳',
   `refresh_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Refresh Token',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id-app_id` (`user_id`) USING BTREE
+  UNIQUE KEY `open_id` (`open_id`) USING BTREE,
+  UNIQUE KEY `user_id-oauth_app_id` (`user_id`,`oauth_app_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';
 
 DROP TABLE IF EXISTS `{{$prefix}}payments`;

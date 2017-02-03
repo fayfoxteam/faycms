@@ -20,5 +20,3 @@
 > 总结：`Client`和`AccessToken`类用于实现第三方登录。`OauthService`和`User`类用于统一调用和返回数据格式。
 
 扩展登录方式时，需要实现`AccessTokenAbstract`, `ClientAbstract`, `OauthService`, `UserAbstract`类。
-
-> 完善：目前系统不支持同一个第三方配置多个app id，暂时用getType来区分一下。后期优化为支持多组app id配置后，UserAbstract::getType()方法可移除

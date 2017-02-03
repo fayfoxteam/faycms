@@ -8,6 +8,7 @@ use fay\models\tables\OauthAppsTable;
 use fay\models\tables\UserConnectsTable;
 use fay\models\tables\UsersTable;
 use fay\services\FileService;
+use fay\services\oauth\OauthAppService;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\UserAbstract;
 
@@ -30,8 +31,8 @@ class UserOauthService extends Service{
 	 */
 	public function isLocalUser($app_id, $open_id){
 		$user = UserConnectsTable::model()->fetchRow(array(
-			'app_id = ?'=>$app_id,
 			'open_id = ?'=>$open_id,
+			'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($app_id),
 		), 'user_id');
 		
 		if($user){
@@ -61,7 +62,6 @@ class UserOauthService extends Service{
 			 */
 			$user_connect = UserConnectsTable::model()->fetchRow(array(
 				'unionid = ?'=>$user->getUnionId(),
-				'type = ?'=>$user->getType(),
 			));
 			if($user_connect){
 				$user_id = $user_connect['user_id'];
@@ -79,10 +79,9 @@ class UserOauthService extends Service{
 		
 		UserConnectsTable::model()->insert(array(
 			'user_id'=>$user_id,
-			'type'=>$user->getType(),
 			'open_id'=>$user->getOpenId(),
 			'unionid'=>$user->getUnionId(),
-			'app_id'=>$user->getAccessToken()->getAppId(),
+			'oauth_app_id'=>OauthAppService::service()->getIdByAppId($user->getAccessToken()->getAppId()),
 			'access_token'=>$user->getAccessToken()->getAccessToken(),
 			'expires_in'=>$user->getAccessToken()->getExpires(),
 			'refresh_token'=>$user->getAccessToken()->getRefreshToken(),
@@ -125,17 +124,14 @@ class UserOauthService extends Service{
 			throw new OAuthException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
 		}
 		
-		$oauth_app = OauthAppsTable::model()->fetchRow(array(
-			'app_id = ?'=>$app_id,
-		), 'id');
-		if(!$oauth_app){
-			//指定App Id不存在
+		$oauth_app_id = OauthAppService::service()->getIdByAppId($app_id);
+		if(!$oauth_app_id){
 			return '';
 		}
 		
 		$connect = UserConnectsTable::model()->fetchRow(array(
 			'user_id = ?'=>$user_id,
-			'oauth_app_id = ?'=>$oauth_app['id'],
+			'oauth_app_id = ?'=>$oauth_app_id,
 		), 'open_id');
 		
 		return $connect ? $connect['open_id'] : '';

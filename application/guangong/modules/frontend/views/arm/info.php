@@ -30,7 +30,41 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer subtitle">录军籍</div>
 			<div class="layer juanzhou-kai">
-				
+				<fieldset id="info-avatar">
+					<img src="">
+				</fieldset>
+				<fieldset>
+					<label class="label-title">识别号</label>
+					<span class="content" id="info-mobile"></span>
+				</fieldset>
+				<fieldset>
+					<label class="label-title">出生期</label>
+					<span class="content" id="info-birthday"></span>
+				</fieldset>
+				<fieldset>
+					<label class="label-title">所在地</label>
+					<span class="content" id="info-region"></span>
+				</fieldset>
+				<fieldset>
+					<label class="label-title">报名期</label>
+					<span class="content" id="info-sign-up-time"></span>
+				</fieldset>
+				<fieldset>
+					<label class="label-title">服役期</label>
+					<span class="content" id="info-army-time"></span>
+				</fieldset>
+				<fieldset>
+					<label class="label-title">防区</label>
+					<span class="content" id="info-defence-area"></span>
+				</fieldset>
+				<fieldset>
+					<label class="label-title">兵种</label>
+					<span class="content" id="info-arm"></span>
+				</fieldset>
+				<fieldset>
+					<label class="label-title">军职</label>
+					<span class="content" id="info-rank"></span>
+				</fieldset>
 			</div>
 			<div class="layer desc">
 				<p>这里，没有姓名、没有性别，只有代号。</p>
@@ -39,3 +73,32 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
+<script>
+$(function(){
+	//初始化用户信息
+	$.ajax({
+		'type': 'GET',
+		'url': system.url('api/user/info'),
+		'data': {'user_id': system.user_id},
+		'dataType': 'json',
+		'cache': false,
+		'success': function(resp){
+			if(resp.status){
+				$('#info-avatar img').attr('src', resp.data.user.avatar.thumbnail);
+				$('#info-mobile').text(resp.data.user.mobile);
+				$('#info-birthday').text(resp.data.extra.birthday);
+				$('#info-region').text(resp.data.extra.state_name + ' ' + resp.data.extra.city_name + ' ' + resp.data.extra.district_name);
+				if(resp.data.extra.sign_up_time != 0){
+					$('#info-sign-up-time').text(system.date(resp.data.extra.sign_up_time, true));
+					$('#info-army-time').text(system.date(parseInt(resp.data.extra.sign_up_time) + 86400 * 365, true));
+				}
+				$('#info-defence-area').text(resp.data.extra.defence_area_name);
+				$('#info-arm').text(resp.data.extra.arm_name);
+				$('#info-rank').text(resp.data.extra.rank_name);
+			}else{
+				common.toast(resp.message, 'error');
+			}
+		}
+	});
+});
+</script>

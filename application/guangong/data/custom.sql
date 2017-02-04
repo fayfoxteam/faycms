@@ -73,6 +73,7 @@ CREATE TABLE `{{$prefix}}guangong_user_extra` (
   `attendances` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '总出勤次数',
   `rank_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '军衔ID',
   `military` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '缴纳军费（单位：分）',
+  `sign_up_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报名时间',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户扩展信息';
 
@@ -107,3 +108,19 @@ INSERT INTO `{{$prefix}}guangong_tasks` (`id`, `name`) VALUES ('2', '分享朋�
 INSERT INTO `{{$prefix}}guangong_tasks` (`id`, `name`) VALUES ('3', '点阅资料库');
 INSERT INTO `{{$prefix}}guangong_tasks` (`id`, `name`) VALUES ('4', '传播正能量');
 
+-- 系统文件
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('1', 'bubing', '.png', '47098', 'image/png', './apps/guangong/images/arm/', '步兵', '1', '277', '296', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('2', 'chebing', '.png', '110453', 'image/png', './apps/guangong/images/arm/', '车兵', '1', '359', '279', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('3', 'nubing', '.png', '47197', 'image/png', './apps/guangong/images/arm/', '弩兵', '1', '354', '261', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('4', 'qibing', '.png', '118515', 'image/png', './apps/guangong/images/arm/', '骑兵', '1', '319', '297', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('5', 'shuijun', '.png', '272002', 'image/png', './apps/guangong/images/arm/', '水军', '1', '381', '373', '{{$time}}', '10000');
+
+-- 军衔制度
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('1', '五人为伍', '伍长', '5', '0', '0', '7', '1');
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('2', '两伍为一什', '什长', '10', '0', '0', '30', '2');
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('3', '五什为一队', '队长', '50', '2', '55', '0', '3');
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('4', '两队为一屯', '屯长', '100', '3', '80', '0', '4');
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('5', '两屯为一曲', '军侯', '200', '6', '160', '0', '5');
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('6', '两曲为一部', '军司马', '400', '10', '255', '0', '6');
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('7', '五部为一营', '校尉', '2000', '12', '300', '0', '7');
+INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('8', '五部为一营', '将军', '2000', '12', '330', '0', '8');

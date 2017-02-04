@@ -36,6 +36,7 @@ class UserController extends \cms\modules\api\controllers\UserController{
 				'state'=>$this->form()->getData('state'),
 				'city'=>$this->form()->getData('city'),
 				'district'=>$this->form()->getData('district'),
+				'sign_up_time'=>$this->current_time
 			), array(
 				'user_id = ?'=>$this->current_user,
 			));
@@ -61,13 +62,13 @@ class UserController extends \cms\modules\api\controllers\UserController{
 	 * 军籍
 	 */
 	public function info(){
-		$user = UsersTable::model()->find($this->current_user, 'id,avatar');
+		$user = UsersTable::model()->find($this->current_user, 'id,avatar,mobile');
 		$user['avatar'] = FileService::get($user['avatar'], array(
 			'spare'=>'avatar',
 		));
 		
 		$sql = new Sql();
-		$user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday'))
+		$user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday', 'sign_up_time'))
 			->joinLeft(array('r1'=>'regions'), 'ue.state = r1.id', array('name AS state_name'))
 			->joinLeft(array('r2'=>'regions'), 'ue.city = r2.id', array('name AS city_name'))
 			->joinLeft(array('r3'=>'regions'), 'ue.district = r3.id', array('name AS district_name'))
@@ -78,7 +79,7 @@ class UserController extends \cms\modules\api\controllers\UserController{
 			->fetchRow();
 		
 		foreach($user_extra as &$e){
-			if(!$e){
+			if($e === null){
 				//把null格式化为空字符串
 				$e = '';
 			}

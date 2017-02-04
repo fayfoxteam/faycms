@@ -17,6 +17,7 @@ use fay\core\db\Table;
  * @property int $attendances 总出勤次数
  * @property int $rank_id 军衔ID
  * @property int $military 缴纳军费（单位：分）
+ * @property int $sign_up_time 报名时间
  */
 class GuangongUserExtraTable extends Table{
 	protected $_name = 'guangong_user_extra';
@@ -51,6 +52,7 @@ class GuangongUserExtraTable extends Table{
 			'attendances'=>'总出勤次数',
 			'rank_id'=>'军衔ID',
 			'military'=>'缴纳军费（单位：分）',
+			'sign_up_time'=>'报名时间',
 		);
 	}
 	

@@ -25,7 +25,7 @@ var system = {
 	},
 	'assets':function(uri){
 		this.assets_url = this.assets_url || this.base_url;
-		return this.assets_url + 'assets/' + uri;
+		return this.assets_url + uri;
 	},
 	'date' : function(timestamp){
 		var date = new Date(parseInt(timestamp) * 1000);

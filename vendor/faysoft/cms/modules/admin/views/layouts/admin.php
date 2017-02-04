@@ -9,6 +9,7 @@ use fay\services\user\UserService;
 /**
  * @var $subtitle string
  * @var $content string
+ * @var $this \fay\core\View
  */
 ?>
 <!DOCTYPE html>

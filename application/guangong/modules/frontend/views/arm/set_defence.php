@@ -30,3 +30,29 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
+<?php if(!$defence){?>
+<script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
+<script>
+	$.shake(function(){
+		//摇一摇触发订防区
+		if(common.swiper.activeIndex == 2){
+			$.ajax({
+				'type': 'GET',
+				'url': system.url('api/arm/set'),
+				'dataType': 'json',
+				'cache': false,
+				'success': function(resp){
+					if(resp.status){
+						var $arm6 = $('#arm-6');
+						$arm6.find('.arms').remove();
+						$arm6.find('.shake').remove();
+						$arm6.append('<div class="layer result"><img src="'+resp.data.picture.url+'"></div>');
+					}else{
+						common.toast($resp.message, 'error');
+					}
+				}
+			});
+		}
+	});
+</script>
+<?php }?>

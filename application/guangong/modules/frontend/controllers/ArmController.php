@@ -4,6 +4,7 @@ namespace guangong\modules\frontend\controllers;
 use fay\services\FileService;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongArmsTable;
+use guangong\models\tables\GuangongDefenceAreasTable;
 use guangong\models\tables\GuangongHoursTable;
 use guangong\models\tables\GuangongUserExtraTable;
 
@@ -26,7 +27,13 @@ class ArmController extends FrontController{
 	 * 选防区
 	 */
 	public function setDefence(){
-		
+		$user_extra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id');
+		if($user_extra['arm_id']){
+			$defence = GuangongDefenceAreasTable::model()->find($user_extra['defence_area_id']);
+			$this->view->defence = $defence;
+		}else{
+			$this->view->defence = array();
+		}
 		$this->view->render();
 	}
 	

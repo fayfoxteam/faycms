@@ -51,7 +51,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 <script>
 	$.shake(function(){
 		//摇一摇触发排勤务
-		if(common.swiper.activeIndex == 1){
+		if(common.swiper.activeIndex == 2){
 			$.ajax({
 				'type': 'GET',
 				'url': system.url('api/arm/set'),

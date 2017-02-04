@@ -28,7 +28,7 @@ class ArmController extends FrontController{
 	 */
 	public function setDefence(){
 		$user_extra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id');
-		if($user_extra['arm_id']){
+		if($user_extra['defence_area_id']){
 			$defence = GuangongDefenceAreasTable::model()->find($user_extra['defence_area_id']);
 			$this->view->defence = $defence;
 		}else{

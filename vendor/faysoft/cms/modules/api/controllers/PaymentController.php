@@ -46,7 +46,7 @@ class PaymentController extends ApiController{
 	/**
 	 * 针对交易支付记录付款。
 	 * 像微信公众号支付这种需要先跳走再跳回来的方式，
-	 * 如果重复调用api/payment/pay会出现死循环。
+	 * 如果重复调用api/payment/pay会重复生成trade_payments。
 	 * @parameter int $id
 	 */
 	public function payForTradePayment(){

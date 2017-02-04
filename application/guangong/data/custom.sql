@@ -5,7 +5,6 @@ CREATE TABLE `{{$prefix}}guangong_arms` (
   `picture` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '图片',
   `sort` tinyint(100) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
-  `description` text COMMENT '描述',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='兵种表';
 
@@ -43,16 +42,23 @@ CREATE TABLE `{{$prefix}}guangong_hours` (
 
 DROP TABLE IF EXISTS `{{$prefix}}guangong_ranks`;
 CREATE TABLE `{{$prefix}}guangong_ranks` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) NOT NULL DEFAULT '' COMMENT '兵制',
-  `captain` varchar(20) NOT NULL DEFAULT '' COMMENT '统兵官',
-  `soldiers` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '统领士兵数',
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL DEFAULT '',
+  `captain` varchar(20) NOT NULL,
+  `soldiers` mediumint(8) unsigned NOT NULL COMMENT '统领士兵数',
   `months` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：月',
-  `times` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：累计次数',
+  `times` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：累计次数',
   `continuous` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：连续签到天数',
   `sort` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '军衔高低（值越高表示军衔越高）',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='军衔表';
+
+DROP TABLE IF EXISTS `{{$prefix}}guangong_tasks`;
+CREATE TABLE `{{$prefix}}guangong_tasks` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='任务';
 
 DROP TABLE IF EXISTS `{{$prefix}}guangong_user_extra`;
 CREATE TABLE `{{$prefix}}guangong_user_extra` (
@@ -66,36 +72,16 @@ CREATE TABLE `{{$prefix}}guangong_user_extra` (
   `hour_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '时辰ID',
   `attendances` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '总出勤次数',
   `rank_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '军衔ID',
+  `military` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '缴纳军费（单位：分）',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户扩展信息';
 
-DROP TABLE IF EXISTS `{{$prefix}}guangong_user_group_users`;
-CREATE TABLE `{{$prefix}}guangong_user_group_users` (
+DROP TABLE IF EXISTS `{{$prefix}}guangong_user_tasks`;
+CREATE TABLE `{{$prefix}}guangong_user_tasks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '结盟ID',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '成员ID',
-  `accept` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否接受邀请',
-  `words` varchar(255) NOT NULL DEFAULT '' COMMENT '我想对兄弟说',
-  `public_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公开时间',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `task_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '任务ID',
+  `date` date NOT NULL COMMENT '日期',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='结盟成员';
-
-DROP TABLE IF EXISTS `{{$prefix}}guangong_user_groups`;
-CREATE TABLE `{{$prefix}}guangong_user_groups` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '称谓',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发起者',
-  `vow` varchar(255) NOT NULL DEFAULT '' COMMENT '誓言',
-  `count` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '结义人数',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发起时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='结盟';
-
-DROP TABLE IF EXISTS `{{$prefix}}guangong_vows`;
-CREATE TABLE `{{$prefix}}guangong_vows` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '誓词',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
-  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='预定义誓词';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='用户任务记录表';

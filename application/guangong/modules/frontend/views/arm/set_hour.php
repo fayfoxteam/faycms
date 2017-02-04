@@ -3,26 +3,26 @@
  * @var $this \fay\core\View
  * @var $hour array
  */
-$this->appendCss($this->appStatic('css/arm.css'));
+$this->appendCss($this->appAssets('css/arm.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide" id="arm-7">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/arm/brand.png')?>"></div>
-			<div class="layer dadao"><img src="<?php echo $this->appStatic('images/arm/dadao.png')?>"></div>
-			<div class="layer title"><img src="<?php echo $this->appStatic('images/arm/t3.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
+			<div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
+			<div class="layer title"><img src="<?php echo $this->appAssets('images/arm/t3.png')?>"></div>
 			<div class="layer description">
 				<p class="center">有价值有深度的关公文化网络体验之旅</p>
 				<p class="center">为实战体验做战争准备</p>
 			</div>
 		</div>
 		<div class="swiper-slide" id="arm-8">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/arm/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer subtitle">排勤务</div>
 			<?php if($hour){?>
 			<a class="layer result" href="#hour-dialog"><span class="hour"><?php echo $hour['name']?></span></a>
 			<?php }else{?>
-			<div class="layer qiantong"><img src="<?php echo $this->appStatic('images/arm/qiantong.png')?>"></div>
+			<div class="layer qiantong"><img src="<?php echo $this->appAssets('images/arm/qiantong.png')?>"></div>
 			<?php }?>
 			<div class="layer description">
 				<p>规则说明：</p>

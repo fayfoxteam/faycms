@@ -96,7 +96,7 @@ if(in_array('outputs', $enabled_boxes)){
 	$this->renderPartial('_edit_output_dialog');
 }
 ?>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/api.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/api.js')?>"></script>
 <script>
 $(function(){
 	common.dragsortKey = 'admin_api_box_sort';

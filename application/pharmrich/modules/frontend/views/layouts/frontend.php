@@ -7,7 +7,7 @@ use fay\helpers\HtmlHelper;
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link type="image/x-icon" href="<?php echo $this->appStatic('favicon.ico')?>" rel="shortcut icon" />
+<link type="image/x-icon" href="<?php echo $this->appAssets('favicon.ico')?>" rel="shortcut icon" />
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <?php if(!empty($canonical)){?>
@@ -22,7 +22,7 @@ use fay\helpers\HtmlHelper;
 	<link type="text/css" rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.4.0/css/font-awesome.min.css" />
 <?php }?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.camera.css')?>" >
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" />
 <?php echo $this->getCss()?>
 <?php if(\F::config()->get('debug')){?>
 	<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
@@ -30,7 +30,7 @@ use fay\helpers\HtmlHelper;
 	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
 <?php }?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';

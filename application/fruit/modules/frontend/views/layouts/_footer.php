@@ -5,7 +5,7 @@ use fay\services\OptionService;
 	<div class="footer-row">
 		<div class="g-mn clearfix">
 			<div class="flogo">
-				<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appStatic('images/flogo.png')?>" /></a>
+				<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appAssets('images/flogo.png')?>" /></a>
 			</div>
 			<div class="flocation">
 				<h3>我们的位置</h3>

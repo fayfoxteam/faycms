@@ -16,7 +16,7 @@ echo OptionService::get('site:sitename')?></title>
 	
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/animate/animate.min.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
@@ -28,7 +28,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <body>
 <?php echo $content?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
 $(function(){
 	common.form.labels = <?php echo json_encode(F::form()->getLabels())?>;

@@ -6,7 +6,7 @@ use fay\helpers\HtmlHelper;
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" />
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.7.1.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
@@ -60,7 +60,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 				}?>
 			</div>
 			<?php if(!empty($banner)){?>
-				<div id="sub-banner"><img src="<?php echo $this->appStatic('images/'.$banner)?>" height="145" /></div>
+				<div id="sub-banner"><img src="<?php echo $this->appAssets('images/'.$banner)?>" height="145" /></div>
 			<?php }?>
 			<?php echo $content;?>
 		</div>

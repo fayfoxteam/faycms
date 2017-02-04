@@ -1,7 +1,7 @@
 <header id="header">
 	<div class="w1000">
 		<div id="header-logo">
-			<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appStatic('images/logo.jpg')?>" /></a>
+			<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appAssets('images/logo.jpg')?>" /></a>
 		</div>
 		<div id="header-options">
 			<a href="">加入收藏</a>

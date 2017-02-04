@@ -3,7 +3,7 @@ use fay\services\OptionService;
 ?>
 <header class="g-hd">
 	<div class="w1000">
-		<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo OptionService::get('site:sitename')?>" class="hd-logo" />
+		<img src="<?php echo $this->appAssets('images/logo.png')?>" alt="<?php echo OptionService::get('site:sitename')?>" class="hd-logo" />
 		<div class="hd-options">
 			<a onclick="homePage(this)" href="#">设为首页</a>
 			|

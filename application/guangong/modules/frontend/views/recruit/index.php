@@ -2,14 +2,14 @@
 /**
  * @var $this \fay\core\View
  */
-$this->appendCss($this->appStatic('css/recruit.css'));
+$this->appendCss($this->appAssets('css/recruit.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide" id="recruit-1"></div>
 		<div class="swiper-slide" id="recruit-2">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
-			<div class="layer text"><img src="<?php echo $this->appStatic('images/recruit/2.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
+			<div class="layer text"><img src="<?php echo $this->appAssets('images/recruit/2.png')?>"></div>
 		</div>
 		<?php $this->renderPartial('_steps')?>
 	</div>
@@ -17,7 +17,7 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 <div class="hide">
 	<div id="shengping-dialog" class="dialog">
 		<div class="dialog-content">
-			<img src="<?php echo $this->appStatic('images/recruit/shengping.png')?>">
+			<img src="<?php echo $this->appAssets('images/recruit/shengping.png')?>">
 		</div>
 	</div>
 </div>

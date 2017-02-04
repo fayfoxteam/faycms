@@ -12,7 +12,7 @@ use fay\helpers\HtmlHelper;
 <title><?php echo $title ? $title : ''?></title>
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
@@ -44,7 +44,7 @@ system.base_url = '<?php echo $this->url()?>';
 		<?php $this->renderPartial('layouts/_footer')?>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('js/prefixfree.min.js')?>"></script>
 <script>
 $(function(){

@@ -15,7 +15,7 @@ use fay\helpers\HtmlHelper;
 echo OptionService::get(site.sitename)?></title>
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/gb.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/gb.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
@@ -30,6 +30,6 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <?php echo $content?>
 <?php include '_footer.php';?>
 </div>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/gb.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/gb.js')?>"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
 use fay\services\FileService;
 
-$this->appendCss($this->appStatic('css/news.css'));
+$this->appendCss($this->appAssets('css/news.css'));
 ?>
 <div class="container containerbg">
 	<div class="curnav">

@@ -17,7 +17,7 @@ use fay\helpers\HtmlHelper;
 	<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
-	<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
+	<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 	<?php echo $this->getCss()?>
 	<script type="text/javascript" src="<?php echo $this->assets('js/jquery-2.2.4.min.js')?>"></script>
 	<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
@@ -40,7 +40,7 @@ use fay\helpers\HtmlHelper;
 	</div>
 </div>
 <a href="#" class="scroll-to-top" title="回到顶部"></a>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
 $(function(){
 	common.init();

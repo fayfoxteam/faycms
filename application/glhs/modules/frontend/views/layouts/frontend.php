@@ -7,7 +7,7 @@ use fay\helpers\HtmlHelper;
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link type="image/x-icon" href="<?php echo $this->appStatic('favicon.ico')?>" rel="shortcut icon" />
+<link type="image/x-icon" href="<?php echo $this->appAssets('favicon.ico')?>" rel="shortcut icon" />
 <?php if(!empty($canonical)){?>
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
@@ -17,7 +17,7 @@ use fay\helpers\HtmlHelper;
 echo OptionService::get('site:sitename')?></title>
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.camera.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>

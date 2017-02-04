@@ -71,9 +71,13 @@ class Uri{
 			\F::config()->set('base_url', $base_url);
 		}
 		
-		//若未设置静态文件路径，初始化为base_url
+		//若未设置静态文件路径，初始化
 		if(!\F::config()->get('assets_url')){
-			\F::config()->set('assets_url', $base_url);
+			\F::config()->set('assets_url', $base_url . 'assets/');
+		}
+		//若未设置app静态文件路径，初始化
+		if(!\F::config()->get('app_assets_url')){
+			\F::config()->set('app_assets_url', $base_url . 'apps/' . APPLICATION . '/');
 		}
 		
 		$base_url_params = parse_url($base_url);

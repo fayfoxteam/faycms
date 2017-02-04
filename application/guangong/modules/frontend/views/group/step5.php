@@ -4,26 +4,26 @@
  * @var $group array
  * @var $users array
  */
-$this->appendCss($this->appStatic('css/group.css'));
+$this->appendCss($this->appAssets('css/group.css'));
 $this->appendCss($this->assets('css/font-awesome.min.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide" id="group-51">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
 			<div class="layer" id="step">
 				<span class="number">第五式</span>
 				<span class="title">解密</span>
 			</div>
-			<div class="layer guangong"><img src="<?php echo $this->appStatic('images/group/guangong.png')?>"></div>
+			<div class="layer guangong"><img src="<?php echo $this->appAssets('images/group/guangong.png')?>"></div>
 		</div>
 		<div class="swiper-slide" id="group-52">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
 			<div class="layer subtitle">
 				<span class="title">解密</span>
 				<span>第五式</span>
 			</div>
-			<div class="layer left-bottom"><img src="<?php echo $this->appStatic('images/group/lb.png')?>"></div>
+			<div class="layer left-bottom"><img src="<?php echo $this->appAssets('images/group/lb.png')?>"></div>
 			<div class="layer group-name"><h1><?php echo $group['name']?></h1></div>
 			<div class="layer user-list users<?php echo count($users)?>">
 			<?php foreach($users as $user){?>
@@ -35,7 +35,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 								'dh'=>151,
 							));
 						}else{
-							echo \fay\helpers\HtmlHelper::img($this->appStatic('images/group/avatar.png'));
+							echo \fay\helpers\HtmlHelper::img($this->appAssets('images/group/avatar.png'));
 						}
 					?></div>
 					<div class="info">

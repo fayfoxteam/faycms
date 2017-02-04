@@ -5,7 +5,7 @@ use fay\helpers\HtmlHelper;
 <div class="header_hd">
 	<div class="header">
 		<div class="logo">
-			<img src="<?php echo $this->appStatic('img/h1_logo.gif')?>">
+			<img src="<?php echo $this->appAssets('img/h1_logo.gif')?>">
 		</div>
 	</div>
 </div>

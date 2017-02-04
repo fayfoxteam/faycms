@@ -8,7 +8,7 @@ use fay\core\Uri;
 	<div class="centered-wrapper">
 		<span class="top-logo">
 			<a href="<?php echo $this->url()?>">
-				<img src="<?php echo $this->appStatic('images/logo.png')?>" alt="<?php echo OptionService::get('site:sitename')?>" />
+				<img src="<?php echo $this->appAssets('images/logo.png')?>" alt="<?php echo OptionService::get('site:sitename')?>" />
 				<span>Pharmrich</span>
 			</a>
 		</span>

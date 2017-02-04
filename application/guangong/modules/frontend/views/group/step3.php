@@ -3,25 +3,25 @@
  * @var $this \fay\core\View
  * @var $group array
  */
-$this->appendCss($this->appStatic('css/group.css'));
+$this->appendCss($this->appAssets('css/group.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide" id="group-31">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
 			<div class="layer" id="step">
 				<span class="number">第三式</span>
 				<span class="title">盟誓</span>
 			</div>
-			<div class="layer guangong"><img src="<?php echo $this->appStatic('images/group/guangong.png')?>"></div>
+			<div class="layer guangong"><img src="<?php echo $this->appAssets('images/group/guangong.png')?>"></div>
 		</div>
 		<div class="swiper-slide" id="group-32">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
 			<div class="layer subtitle">
 				<span class="title">盟誓</span>
 				<span>第三式</span>
 			</div>
-			<div class="layer left-bottom"><img src="<?php echo $this->appStatic('images/group/lb.png')?>"></div>
+			<div class="layer left-bottom"><img src="<?php echo $this->appAssets('images/group/lb.png')?>"></div>
 			<div class="layer group-name"><h1><?php echo $group['name']?></h1></div>
 			<div class="layer form">
 			<?php echo F::form()->open()?>

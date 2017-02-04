@@ -2,22 +2,22 @@
 /**
  * @var $this \fay\core\View
  */
-$this->appendCss($this->appStatic('css/recruit.css'));
+$this->appendCss($this->appAssets('css/recruit.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
 		<?php $this->renderPartial('_steps')?>
 		<div class="swiper-slide" id="recruit-41">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
-			<div class="layer dadao"><img src="<?php echo $this->appStatic('images/recruit/dadao.png')?>"></div>
-			<div class="layer title"><img src="<?php echo $this->appStatic('images/recruit/t4.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
+			<div class="layer dadao"><img src="<?php echo $this->appAssets('images/recruit/dadao.png')?>"></div>
+			<div class="layer title"><img src="<?php echo $this->appAssets('images/recruit/t4.png')?>"></div>
 			<div class="layer description">
 				<p>体验规则：</p>
 				<p>完成报名手续并取得网络军籍之正式注册兵员访客接受将军密令，接受密令者需认真待之。</p>
 			</div>
 		</div>
 		<div class="swiper-slide" id="recruit-42">
-			<div class="layer guangongdianbing"><img src="<?php echo $this->appStatic('images/recruit/guangongdianbing.png')?>"></div>
+			<div class="layer guangongdianbing"><img src="<?php echo $this->appAssets('images/recruit/guangongdianbing.png')?>"></div>
 			<div class="layer button">
 				<?php if(\F::app()->current_user){?>
 					<a href="#jiangjunmiling-dialog" class="btn-1" id="jiangjunmiling-link">将军密令</a>
@@ -32,7 +32,7 @@ $this->appendCss($this->appStatic('css/recruit.css'));
 <div class="hide">
 	<div id="jiangjunmiling-dialog" class="dialog">
 		<div class="dialog-content">
-			<img src="<?php echo $this->appStatic('images/recruit/yinzhang-text.png')?>">
+			<img src="<?php echo $this->appAssets('images/recruit/yinzhang-text.png')?>">
 		</div>
 	</div>
 </div>

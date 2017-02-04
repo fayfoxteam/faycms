@@ -8,7 +8,7 @@ use fay\helpers\HtmlHelper;
 		<div class="g-mn clearfix">
 			<div class="top-logo">
 				<a href="<?php echo $this->url()?>">
-					<img src="<?php echo $this->appStatic('images/logo.png')?>" />
+					<img src="<?php echo $this->appAssets('images/logo.png')?>" />
 				</a>
 			</div>
 			<nav class="top-nav">

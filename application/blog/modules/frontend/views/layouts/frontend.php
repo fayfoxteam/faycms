@@ -30,14 +30,14 @@ $menu = array(
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" />
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.7.1.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/menu.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/menu.js')?>"></script>
 <link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
@@ -70,7 +70,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 			<?php }?>
 			</ul>
 			<div class="oauth">
-				<a href="<?php echo $qq_oauth_url?>"><img src="<?php echo $this->appStatic('images/Connect_logo_3.png')?>"></a>
+				<a href="<?php echo $qq_oauth_url?>"><img src="<?php echo $this->appAssets('images/Connect_logo_3.png')?>"></a>
 			</div>
 		</div>
 	</div>

@@ -11,7 +11,7 @@ use fay\services\OptionService;
 <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 <?php echo $this->getCss()?>
 
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
@@ -26,7 +26,7 @@ use fay\services\OptionService;
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <title><?php echo empty($title) ? '' : $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body id="faycms">

@@ -4,7 +4,7 @@ use ncp\helpers\FriendlyLink;
 use fay\services\FileService;
 use fay\helpers\StringHelper;
 
-$this->appendCss($this->appStatic('css/travel.css'));
+$this->appendCss($this->appAssets('css/travel.css'));
 ?>
 <div class="container containerbg">
 	<div class="curnav">

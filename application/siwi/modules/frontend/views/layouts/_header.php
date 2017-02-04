@@ -4,7 +4,7 @@ use fay\helpers\HtmlHelper;
 <header class="g-hd" id="g-hd">
 	<div class="w1190">
 		<div class="m-logo">
-			<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
+			<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appAssets('images/logo.png')?>" /></a>
 		</div>
 		<nav class="nav">
 			<ul>

@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="logo">
-				<a href=""><img src="<?php echo $this->appStatic('images/logo.png')?>" /></a>
+				<a href=""><img src="<?php echo $this->appAssets('images/logo.png')?>" /></a>
 			</div>
 			<a href="javascript:;" class="toggle-mobile-menu"></a>
 		</div>

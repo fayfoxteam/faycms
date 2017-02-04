@@ -19,7 +19,7 @@ use fay\helpers\HtmlHelper;
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/animate/animate.min.css')?>" >
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" >
 	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
-	<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" >
+	<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 	<?php echo $this->getCss()?>
 	<script type="text/javascript" src="<?php echo $this->assets('js/jquery-2.2.4.min.js')?>"></script>
 	<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
@@ -51,7 +51,7 @@ use fay\helpers\HtmlHelper;
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/common.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
 	$(function(){
 		common.init();

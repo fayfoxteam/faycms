@@ -1,5 +1,5 @@
 <?php use fay\services\FlashService;
-$this->appendCss($this->appStatic('css/col2.css'))?>
+$this->appendCss($this->appAssets('css/col2.css'))?>
 <?php echo FlashService::get();?>
 <div class="col2 pb30">
 	<div class="w1000 clearfix">

@@ -2,15 +2,15 @@
 /**
  * @var $this \fay\core\View
  */
-$this->appendCss($this->appStatic('css/group.css'));
+$this->appendCss($this->appAssets('css/group.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide" id="group-1">
-			<div class="layer layer-1"><img src="<?php echo $this->appStatic('images/group/1.png')?>"></div>
+			<div class="layer layer-1"><img src="<?php echo $this->appAssets('images/group/1.png')?>"></div>
 		</div>
 		<div class="swiper-slide" id="group-2">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
 			<div class="layer steps">
 				<a class="step" href="<?php echo $this->url('group/step4')?>">
 					<span class="number">第五式</span>
@@ -39,20 +39,20 @@ $this->appendCss($this->appStatic('css/group.css'));
 			</div>
 		</div>
 		<div class="swiper-slide" id="group-3">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
 			<div class="layer" id="step">
 				<span class="number">第一式</span>
 				<span class="title">称谓</span>
 			</div>
-			<div class="layer guangong"><img src="<?php echo $this->appStatic('images/group/guangong.png')?>"></div>
+			<div class="layer guangong"><img src="<?php echo $this->appAssets('images/group/guangong.png')?>"></div>
 		</div>
 		<div class="swiper-slide" id="group-4">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/group/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
 			<div class="layer subtitle">
 				<span class="title">称谓</span>
 				<span>第一式</span>
 			</div>
-			<div class="layer left-bottom"><img src="<?php echo $this->appStatic('images/group/lb.png')?>"></div>
+			<div class="layer left-bottom"><img src="<?php echo $this->appAssets('images/group/lb.png')?>"></div>
 			<div class="layer explain">
 				<p>为方便网络查询和身份识别，体现个性及涵养，请自行设计一款义结金兰称谓(雅号)。</p>
 				<p>本系统最多只支持9人(含)同时义结金兰，由发起者商定并启动结义程序。</p>
@@ -105,5 +105,5 @@ $this->appendCss($this->appStatic('css/group.css'));
 		}
 	}
 </script>
-<script type="text/javascript" src="<?php echo $this->appStatic('js/group.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->appAssets('js/group.js')?>"></script>
 <script>group.init();</script>

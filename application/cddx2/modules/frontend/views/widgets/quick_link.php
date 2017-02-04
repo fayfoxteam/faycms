@@ -3,7 +3,7 @@ use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 ?>
 <div id="quick-link">
-	<div class="ql-title"><img src="<?php echo $this->appStatic('images/quick-link.png')?>"></div>
+	<div class="ql-title"><img src="<?php echo $this->appAssets('images/quick-link.png')?>"></div>
 	<ul>
 	<?php foreach($files as $f){
 		if(empty($f['link'])){

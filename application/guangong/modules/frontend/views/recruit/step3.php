@@ -4,22 +4,22 @@
  * @var $user_extra array
  * @var $states array
  */
-$this->appendCss($this->appStatic('css/recruit.css'));
+$this->appendCss($this->appAssets('css/recruit.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
 		<?php $this->renderPartial('_steps')?>
 		<div class="swiper-slide" id="recruit-31">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
-			<div class="layer dadao"><img src="<?php echo $this->appStatic('images/recruit/dadao.png')?>"></div>
-			<div class="layer title"><img src="<?php echo $this->appStatic('images/recruit/t3.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
+			<div class="layer dadao"><img src="<?php echo $this->appAssets('images/recruit/dadao.png')?>"></div>
+			<div class="layer title"><img src="<?php echo $this->appAssets('images/recruit/t3.png')?>"></div>
 			<div class="layer description">
 				<p>应征规则：</p>
 				<p>加入关于军团须提交相关个人信息纳入网络军籍存档，请保证档案信息真实性和严肃性；同时分担个位数小额军费。本系统按要求确保个人信息安全。</p>
 			</div>
 		</div>
 		<div class="swiper-slide" id="recruit-32">
-			<div class="layer brand"><img src="<?php echo $this->appStatic('images/recruit/brand.png')?>"></div>
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
 			<?php if($user_extra && $user_extra['military'] > 99){//已经缴纳军费?>
 				
 			<?php }else if(!empty($user['user']['mobile'])){//已经微信注册，且填写了注册信息，但未缴纳军费?>

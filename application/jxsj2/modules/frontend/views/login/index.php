@@ -8,8 +8,8 @@ use fay\services\FlashService;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo OptionService::get('site:sitename')?>--学生登录</title>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-<link href="<?php echo $this->appStatic('css/login.css')?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo $this->appStatic('css/box.css')?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo $this->appAssets('css/login.css')?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo $this->appAssets('css/box.css')?>" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.7.1.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script>
@@ -34,9 +34,9 @@ system.user_id = '<?php echo \F::app()->current_user?>';
     	        <td><input type="password" name="password" id="Users_LoginPass" style="width:140px; height:20px;" /></td>
 	        </tr>
     	    <tr>
-    	        <td height="40" colspan="2" align="center"><input type="image" src="<?php echo $this->appStatic('images/Signin.jpg')?>" style="height:22px; width:81px; border:none;" />
+    	        <td height="40" colspan="2" align="center"><input type="image" src="<?php echo $this->appAssets('images/Signin.jpg')?>" style="height:22px; width:81px; border:none;" />
  
-                    &nbsp;&nbsp;<a href=""><img src="<?php echo $this->appStatic('images/reset.jpg')?>" width="81" height="22" /></a>
+                    &nbsp;&nbsp;<a href=""><img src="<?php echo $this->appAssets('images/reset.jpg')?>" width="81" height="22" /></a>
 
                     </td>
 	        </tr>

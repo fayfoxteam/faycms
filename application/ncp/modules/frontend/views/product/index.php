@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
-$this->appendCss($this->appStatic('css/product.css'));
+$this->appendCss($this->appAssets('css/product.css'));
 ?>
 <div class="container containerbg">
 	<div class="curnav">

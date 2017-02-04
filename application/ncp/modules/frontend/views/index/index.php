@@ -2,7 +2,7 @@
 use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
 use fay\services\FileService;
-$this->appendCss($this->appStatic('css/index.css'));
+$this->appendCss($this->appAssets('css/index.css'));
 ?>
 
 <div class="container">

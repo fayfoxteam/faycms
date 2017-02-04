@@ -2,7 +2,7 @@
 use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
 use fay\services\FileService;
-$this->appendCss($this->appStatic('css/special.css'));
+$this->appendCss($this->appAssets('css/special.css'));
 ?>
 <style type="text/css">
 body{background:#e4e4e4}

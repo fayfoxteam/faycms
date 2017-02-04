@@ -11,7 +11,7 @@
 	<div class="col-2-right">
 		<div id="contact">
 			<div id="contact-left">
-				<img src="<?php echo $this->appStatic('images/contact-logo.png')?>" />
+				<img src="<?php echo $this->appAssets('images/contact-logo.png')?>" />
 			</div>
 			<div id="contact-right">
 				<?php \F::widget()->load('contact')?>
@@ -21,7 +21,7 @@
 		<div id="location">
 			<h3>我们的地理位置</h3>
 			<p>
-				<img src="<?php echo $this->appStatic('images/location.jpg')?>" />
+				<img src="<?php echo $this->appAssets('images/location.jpg')?>" />
 			</p>
 		</div>
 		<div id="message">

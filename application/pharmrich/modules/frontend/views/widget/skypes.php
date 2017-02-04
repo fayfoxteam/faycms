@@ -14,7 +14,7 @@ use fay\helpers\HtmlHelper;
 					'wrapper'=>'li',
 					'prepend'=>array(
 						'tag'=>'img',
-						'src'=>$this->appStatic('images/skype.png'),
+						'src'=>$this->appAssets('images/skype.png'),
 					)
 				));
 			}

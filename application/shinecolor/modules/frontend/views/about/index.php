@@ -12,7 +12,7 @@ use fay\helpers\HtmlHelper;
 		</nav>
 	</div>
 	<div class="col-2-right">
-		<div id="about-banner"><img src="<?php echo $this->appStatic('images/about.png')?>" /></div>
+		<div id="about-banner"><img src="<?php echo $this->appAssets('images/about.png')?>" /></div>
 		<?php foreach($pages as $p){?>
 			<div class="page-item" id="page-<?php echo $p['alias']?>">
 				<header>

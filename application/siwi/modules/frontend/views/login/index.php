@@ -11,7 +11,7 @@ use fay\services\OptionService;
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/login.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/login.css')?>" />
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>

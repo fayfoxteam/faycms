@@ -106,7 +106,7 @@ use fay\services\post\PostService;
 </section>
 <section id="our-partners">
 	<div class="w1000 clearfix">
-		<img src="<?php echo $this->appStatic('images/our-partners.png')?>" />
+		<img src="<?php echo $this->appAssets('images/our-partners.png')?>" />
 	</div>
 </section>
 <script src="<?php echo $this->assets('js/jcarousellite_1.0.1.min.js')?>"></script>

@@ -1,6 +1,6 @@
 <aside class="widget profile">
 	<div class="profile-avatar">
-		<img src="<?php echo $this->appStatic('images/avatar.jpg')?>" width="190" height="190" alt="Fayfox" title="Fayfox" />
+		<img src="<?php echo $this->appAssets('images/avatar.jpg')?>" width="190" height="190" alt="Fayfox" title="Fayfox" />
 	</div>
 	<div class="profile-info">
 		<div class="profile-nickname">

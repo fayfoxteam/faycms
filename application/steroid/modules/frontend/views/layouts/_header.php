@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
 				if($logo){
 					echo HtmlHelper::img($logo);
 				}else{
-					echo HtmlHelper::img($this->appStatic('images/logo.png'));
+					echo HtmlHelper::img($this->appAssets('images/logo.png'));
 				}
 			?></div>
 			<div class="title">

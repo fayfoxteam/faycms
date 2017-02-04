@@ -3,7 +3,7 @@ use fay\helpers\HtmlHelper;
 use fay\services\FileService;
 use fay\helpers\DateHelper;
 
-$this->appendCss($this->appStatic('css/blog.css'));
+$this->appendCss($this->appAssets('css/blog.css'));
 ?>
 <div class="g-sub-hd">
 	<div class="post-info">

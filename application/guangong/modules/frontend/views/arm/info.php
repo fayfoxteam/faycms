@@ -6,6 +6,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
+		<?php $this->renderPartial('_steps')?>
 		<div class="swiper-slide" id="arm-9">
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
@@ -35,5 +36,6 @@ $this->appendCss($this->appAssets('css/arm.css'));
 				<p>这里，没有姓名、没有性别，只有代号。</p>
 			</div>
 		</div>
+		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>

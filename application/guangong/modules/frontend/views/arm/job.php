@@ -6,6 +6,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
+		<?php $this->renderPartial('_steps')?>
 		<div class="swiper-slide" id="arm-12">
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
@@ -37,5 +38,6 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			</div>
 			<div class="layer desc"><img src="<?php echo $this->appAssets('images/arm/junzhi-text.png')?>"></div>
 		</div>
+		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>

@@ -4,7 +4,7 @@
 .subtitle{top:168px;right:33px;font-size:14px;width:14px;color:rgba(0,0,0,0.8);line-height:1.2;z-index:100}
 .dadao{width:45px;height:382px;left:50%;top:50%;margin-left:-30px;margin-top:-196px}
 .title{width:20px;height:168px;left:50%;top:50%;margin-left:10px;margin-top:-25px}
-.description{bottom:50px;left:50%;margin-left:-155px;width:320px}
+.description{bottom:50px;left:50%;margin-left:-40%;width:80%}
 .description p{text-align:left;font-size:12px;line-height:1.5}
 .description p.center{text-align:center}
 .dialog-content{padding:45px 30px}
@@ -42,8 +42,8 @@
 #arm-10 .juanzhou-he{width:122px;top:50%;left:50%;margin-top:-215px;margin-left:-61px}
 #arm-10 .shake{width:80px;top:50%;left:50%;margin-top:140px;margin-left:-40px}
 
-#arm-11 .juanzhou-kai{width:260px;height:400px;top:50%;left:50%;margin-left:-148px;margin-top:-250px;background-image:url(../images/arm/juanzhou-kai.png);background-size:100% 100%}
-#arm-11 .desc{top:50%;left:50%;margin-left:-121px;margin-top:167px;font-size:12px}
+#arm-11 .juanzhou-kai{width:260px;height:400px;top:50%;left:50%;margin-left:-148px;margin-top:-210px;background-image:url(../images/arm/juanzhou-kai.png);background-size:100% 100%}
+#arm-11 .desc{left:50%;margin-left:-121px;font-size:12px;bottom:54px}
 
 #arm-13 .job-title{top:40px;left:50%;width:244px;margin-left:-140px}
 #arm-13 .jobs{left:50%;margin-left:-131px}

@@ -7,6 +7,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 ?>
 <div class="swiper-container groups">
 	<div class="swiper-wrapper">
+		<?php $this->renderPartial('_steps')?>
 		<div class="swiper-slide" id="arm-5">
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
@@ -32,6 +33,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 				<p>关羽军团所募兵员兵种分配采取随机分配原则，由手机摇一摇自行确定，一经确定不可更改，兵种分别为步兵、骑兵、水军、弩兵、车兵。</p>
 			</div>
 		</div>
+		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
 <div class="hide">

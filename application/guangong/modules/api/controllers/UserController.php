@@ -48,6 +48,7 @@ class UserController extends \cms\modules\api\controllers\UserController{
 	 * 出勤
 	 */
 	public function attendance(){
+		die;//要通过做任务来出勤。。
 		//登录检查
 		$this->checkLogin();
 		

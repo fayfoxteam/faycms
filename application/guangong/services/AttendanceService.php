@@ -17,7 +17,7 @@ class AttendanceService extends Service{
 	}
 	
 	/**
-	 * 出勤
+	 * 出勤（完成所有当日任务，算一次出勤）
 	 * @param null|int $user_id 用户ID，默认为当前登录用户ID
 	 * @throws ErrorException
 	 * @throws Exception

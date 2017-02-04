@@ -81,7 +81,29 @@ CREATE TABLE `{{$prefix}}guangong_user_tasks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `task_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '任务ID',
-  `date` date NOT NULL COMMENT '日期',
+  `create_date` date NOT NULL COMMENT '日期',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='用户任务记录表';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `day-task` (`user_id`,`date`,`task_id`) COMMENT '用户单日任务'
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户任务记录表';
+
+-- 初始化时辰表数据
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('1', '子时', '23', '1', '夜半，又名子夜、中夜：十二时辰的第一个时辰。', '老鼠在这时间最活跃。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('2', '丑时', '1', '3', '鸡鸣，又名荒鸡：十二时辰的第二个时辰。', '牛在这时候咀嚼白天没消化的食物。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('3', '寅时', '3', '5', '平旦，又称黎明、早晨、日旦等：时是夜与日的交替之际。', '老虎在此时最凶猛。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('4', '卯时', '5', '7', '日出，又名破晓、旭日等：指太阳刚刚露脸，冉冉初升的那段时间。', '月亮又称玉兔，这段时间在天上。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('5', '辰时', '7', '9', '食时，又名早食等：古人“朝食”之时也就是吃早饭时间。', '相传这是“群龙行雨”的时候。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('6', '巳时', '9', '11', '隅中，又名日禺等：临近中午的时候称为隅中。', '蛇在这时候隐蔽在草丛中。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('7', '午时', '11', '13', '日中，又名日正、中午等：这时候太阳最猛烈，阳气达到极限。', '这时阴气将产生，而马是阴类动物。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('8', '未时', '13', '15', '日昳，又名日跌、日央等：太阳偏西为日跌。', '羊在这段时间吃草。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('9', '申时', '15', '17', '哺时，又名日铺、夕食等。', '猴子喜欢在这时候啼叫。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('10', '酉时', '17', '19', '日入，又名日落、日沉、傍晚：意为太阳落山的时候。', '鸡於傍晚开始归巢。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('11', '戌时', '19', '21', '黄昏，又名日暮、日晚等：此时太阳已落山将黑未黑，天地昏黄万物朦胧，故称黄昏。', '狗开始守门口。');
+INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('12', '亥时', '21', '23', '人定，又名定昏等：此时夜色已深人们安歇睡眠了，人定也就是人静。', '夜深时分猪正在熟睡。');
+
+-- 初始化任务表数据
+INSERT INTO `{{$prefix}}guangong_tasks` (`id`, `name`) VALUES ('1', '天天报勤务');
+INSERT INTO `{{$prefix}}guangong_tasks` (`id`, `name`) VALUES ('2', '分享朋友圈');
+INSERT INTO `{{$prefix}}guangong_tasks` (`id`, `name`) VALUES ('3', '点阅资料库');
+INSERT INTO `{{$prefix}}guangong_tasks` (`id`, `name`) VALUES ('4', '传播正能量');
+

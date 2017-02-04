@@ -32,7 +32,14 @@ class RankService extends Service{
         
         //获取用户当前军衔
         $user = GuangongUserExtraTable::model()->find($user_id, 'rank_id');
-        $rank = GuangongRanksTable::model()->find($user['rank_id']);
+        if($user['rank_id']){
+            $rank = GuangongRanksTable::model()->find($user['rank_id'], 'sort');
+            if(!$rank){
+                throw new ErrorException("用户{$user_id}军衔异常");
+            }
+        }else{
+            $rank['sort'] = 0;
+        }
         
         //获取用户下一级军衔
         $next_rank = GuangongRanksTable::model()->fetchRow(array(

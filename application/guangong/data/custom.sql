@@ -124,3 +124,15 @@ INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `m
 INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('6', '两曲为一部', '军司马', '400', '10', '255', '0', '6');
 INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('7', '五部为一营', '校尉', '2000', '12', '300', '0', '7');
 INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`) VALUES ('8', '五部为一营', '将军', '2000', '12', '330', '0', '8');
+
+-- 防区
+INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `sort`, `enabled`) VALUES ('1', '南郡', '0', '100', '1');
+INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `sort`, `enabled`) VALUES ('2', '武陵郡', '10000', '99', '1');
+INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `sort`, `enabled`) VALUES ('3', '零陵郡', '0', '100', '1');
+
+-- 兵种
+INSERT INTO `{{$prefix}}guangong_arms` (`id`, `name`, `picture`, `sort`) VALUES ('1', '车兵', '2', '100');
+INSERT INTO `{{$prefix}}guangong_arms` (`id`, `name`, `picture`, `sort`) VALUES ('2', '水军', '5', '100');
+INSERT INTO `{{$prefix}}guangong_arms` (`id`, `name`, `picture`, `sort`) VALUES ('3', '骑兵', '4', '99');
+INSERT INTO `{{$prefix}}guangong_arms` (`id`, `name`, `picture`, `sort`) VALUES ('4', '弩兵', '3', '100');
+INSERT INTO `{{$prefix}}guangong_arms` (`id`, `name`, `picture`, `sort`) VALUES ('5', '步兵', '1', '100');

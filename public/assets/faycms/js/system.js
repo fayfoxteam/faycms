@@ -24,7 +24,7 @@ var system = {
 		}
 	},
 	'assets':function(uri){
-		this.assets_url = this.assets_url || this.base_url;
+		this.assets_url = this.assets_url || this.base_url + 'assets/';
 		return this.assets_url + uri;
 	},
 	'date' : function(timestamp){

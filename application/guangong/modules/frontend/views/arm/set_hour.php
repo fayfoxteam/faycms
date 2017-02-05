@@ -86,7 +86,14 @@ $this->appendCss($this->appAssets('css/arm.css'));
 					if(resp.status){
 						var $arm8 = $('#arm-8');
 						$arm8.find('.qiantong').remove();
-						$arm8.append('<div class="layer result"><span class="hour">'+resp.data.name+'</span></div>')
+						$arm8.append('<div class="layer result"><span class="hour">'+resp.data.name+'</span></div>');
+						$('#arm-8 .result').fancybox({
+							'type': 'inline',
+							'centerOnScroll': true,
+							'padding': 0,
+							'showCloseButton': false,
+							'width': '80%'
+						});
 					}else{
 						common.toast($resp.message, 'error');
 					}

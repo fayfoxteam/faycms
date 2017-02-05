@@ -47,14 +47,18 @@ class ArmController extends ApiController{
 		}
 		
 		//随机一个兵种
-		$arm = GuangongArmsTable::model()->fetchRow('enabled = 1', 'id', 'RAND()');
+		$arm = GuangongArmsTable::model()->fetchRow('enabled = 1', 'id,picture', 'RAND()');
 		
 		GuangongUserExtraTable::model()->update(array(
 			'arm_id'=>$arm['id'],
 		), array(
-			'user_id = ?'=>$this->current_user
+			$this->current_user
 		));
 		
-		Response::notify('success', '兵种设置成功');
+		$arm['picture'] = FileService::service()->get($arm['picture']);
+		Response::notify('success', array(
+			'message'=>'兵种设置成功',
+			'data'=>$arm,
+		));
 	}
 }

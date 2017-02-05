@@ -37,7 +37,7 @@ class HourController extends ApiController{
 		}
 		
 		//随机一个时辰
-		$hour = GuangongHoursTable::model()->fetchRow(array(), 'id', 'RAND()');
+		$hour = GuangongHoursTable::model()->fetchRow(array(), 'id,name', 'RAND()');
 		
 		GuangongUserExtraTable::model()->update(array(
 			'hour_id'=>$hour['id'],

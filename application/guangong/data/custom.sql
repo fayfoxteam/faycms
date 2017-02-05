@@ -57,6 +57,7 @@ DROP TABLE IF EXISTS `{{$prefix}}guangong_tasks`;
 CREATE TABLE `{{$prefix}}guangong_tasks` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='任务';
 
@@ -85,7 +86,7 @@ CREATE TABLE `{{$prefix}}guangong_user_tasks` (
   `create_date` date NOT NULL COMMENT '日期',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `day-task` (`user_id`,`date`,`task_id`) COMMENT '用户单日任务'
+  UNIQUE KEY `day-task` (`user_id`,`date`,`task_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户任务记录表';
 
 -- 初始化时辰表数据

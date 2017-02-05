@@ -12,6 +12,13 @@ var arm = {
 			$('.job-title').hide().removeClass('rubberBand animated');
 		}
 		
+		//兵种说明顶部文字
+		if($swiper.find('.arm-text').length){
+			$swiper.find('.arm-text').show().addClass('fadeInDown animated');
+		}else{
+			$('.arm-text').hide().removeClass('fadeInDown animated');
+		}
+		
 		//履军职任务列表
 		if($swiper.find('.jobs').length){
 			setTimeout(function(){

@@ -6,7 +6,7 @@
 .subtitle{top:175px;right:28px;font-size:12px}
 .subtitle span{width:14px;display:inline-block;line-height:1.5;float:left;color:rgba(0,0,0,0.8);}
 .subtitle span.title{line-height:3;margin-top:-9px}
-#step{width:33px;color:#7b3b1e;font-size:22px;font-weight:bold;font-family:"宋体"}
+#step{width:33px;color:#7b3b1e;font-size:22px;font-weight:bold;font-family:"宋体";top:50%;margin-top:-67px}
 #step .number{display:inline-block;margin-bottom:25px;}
 .guangong{top:50%}
 @media all and (orientation : portrait){

@@ -35,7 +35,7 @@ fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%
 
 .groups .swiper-slide{background-image:url(../images/group/bg.jpg)}
 
-.groups #group-1 .layer-1{left:50%;top:50%;width:70%;margin-left:-35%;margin-top:-63%}
+.groups #group-1 .layer-1{left:50%;top:50%;width:70%;transform:translate(-50%, -50%);max-width:290px}
 
 .groups #group-2 .steps{top:50%;left:50%;margin-left:-142px;margin-top:-135px;font-family:"宋体"}
 .groups #group-2 .steps .step{width:33px;padding:52px 0;text-align:center;background-color:#d2b882;color:#7b3b1e;display:inline-block;border-radius:4px;font-size:22px;margin-left:12px;font-weight:bold}

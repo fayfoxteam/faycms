@@ -137,9 +137,9 @@ var common = {
 
 		//关公像
 		if($swiper.find('.guangong').length){
-			$swiper.find('.guangong').show().addClass('zoomIn animated');
+			$swiper.find('.guangong').show().addClass('zoomInLeft animated');
 		}else{
-			$('.guangong').hide().removeClass('zoomIn animated');
+			$('.guangong').hide().removeClass('zoomInLeft animated');
 		}
 
 		//关公像右边步骤

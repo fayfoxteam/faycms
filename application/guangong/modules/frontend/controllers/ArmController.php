@@ -16,17 +16,19 @@ class ArmController extends FrontController{
 		parent::__construct();
 		
 		$this->checkLogin();
+		$this->layout->title = '网络体验';
 	}
 	
 	public function index(){
-		$this->layout->title = '网络体验';
 		$this->view->render();
 	}
 	
 	/**
-	 * 选防区
+	 * 定防区
 	 */
 	public function setDefence(){
+		$this->layout->title = '定防区';
+		
 		$user_extra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id');
 		if($user_extra['defence_area_id']){
 			$defence = GuangongDefenceAreasTable::model()->find($user_extra['defence_area_id']);
@@ -41,6 +43,8 @@ class ArmController extends FrontController{
 	 * 选兵种
 	 */
 	public function setArm(){
+		$this->layout->title = '选兵种';
+		
 		$user_extra = GuangongUserExtraTable::model()->find($this->current_user, 'arm_id');
 		if($user_extra['arm_id']){
 			$arm = GuangongArmsTable::model()->find($user_extra['arm_id']);
@@ -56,6 +60,8 @@ class ArmController extends FrontController{
 	 * 排勤务
 	 */
 	public function setHour(){
+		$this->layout->title = '排勤务';
+		
 		$user_extra = GuangongUserExtraTable::model()->find($this->current_user, 'hour_id');
 		if($user_extra['hour_id']){
 			$this->view->hour = GuangongHoursTable::model()->find($user_extra['hour_id']);
@@ -69,6 +75,8 @@ class ArmController extends FrontController{
 	 * 录军籍
 	 */
 	public function info(){
+		$this->layout->title = '录军籍';
+		
 		
 		$this->view->render();
 	}
@@ -77,6 +85,8 @@ class ArmController extends FrontController{
 	 * 履军职
 	 */
 	public function job(){
+		$this->layout->title = '履军职';
+		
 		
 		$this->view->render();
 	}

@@ -44,7 +44,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 					</li>
 				</ul>
 			</div>
-			<div class="layer desc"><img src="<?php echo $this->appAssets('images/arm/junzhi-text.png')?>"></div>
+			<div class="layer description"><img src="<?php echo $this->appAssets('images/arm/junzhi-text.png')?>"></div>
 		</div>
 		<?php $this->renderPartial('_steps')?>
 	</div>

@@ -26,9 +26,15 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 
 #recruit-5 .zhaomuling{left:50%;top:17px;margin-left:-65px}
 #recruit-5 .zhaomuling-text{width:65%;left:50%;bottom:20px;margin-left:-33%;max-width:280px}
+@media screen and (min-width:430px){
+    #recruit-5 .zhaomuling-text{margin-left:-150px}
+}
 
 #recruit-6 .yi{left:50%;top:25px;margin-left:-44px}
 #recruit-6 .yi-text{width:86%;left:50%;bottom:25px;margin-left:-43%;max-width:300px}
+@media screen and (min-width:348px){
+    #recruit-6 .yi-text{margin-left:-160px}
+}
 
 #recruit-8 .guangong{width:70%;left:50%;margin-left:-35%;top:50%;margin-top:-248px}
 #recruit-8 .steps{height:240px;width:240px;left:50%;top:50%;margin-left:-135px;margin-top:27px}

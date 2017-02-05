@@ -25,10 +25,10 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-4 .description{width:254px;margin-left:-127px}
 
 #recruit-5 .zhaomuling{left:50%;top:17px;margin-left:-65px}
-#recruit-5 .zhaomuling-text{width:65%;left:50%;bottom:20px;margin-left:-33%}
+#recruit-5 .zhaomuling-text{width:65%;left:50%;bottom:20px;margin-left:-33%;max-width:280px}
 
 #recruit-6 .yi{left:50%;top:25px;margin-left:-44px}
-#recruit-6 .yi-text{width:86%;left:50%;bottom:25px;margin-left:-43%}
+#recruit-6 .yi-text{width:86%;left:50%;bottom:25px;margin-left:-43%;max-width:300px}
 
 #recruit-8 .guangong{width:70%;left:50%;margin-left:-35%;top:50%;margin-top:-248px}
 #recruit-8 .steps{height:240px;width:240px;left:50%;top:50%;margin-left:-135px;margin-top:27px}

@@ -94,10 +94,71 @@ var common = {
 			}
 		});
 	},
+	/**
+	 * 动画效果
+	 */
+	'animate': function(){
+		var $swiper = $('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')');
+		
+		//步骤页面
+		$steps = $swiper.find('.steps');
+		if($steps.length){
+			//若是滑倒步骤页
+			$steps.find('a').hide();
+			$steps.find('a:hidden:last').fadeIn('normal', function(){
+				$steps.find('a:hidden:last').fadeIn('normal', function(){
+					$steps.find('a:hidden:last').fadeIn('normal', function(){
+						$steps.find('a:hidden:last').fadeIn('normal', function(){
+							$steps.find('a:hidden:last').fadeIn('normal');
+						})
+					})
+				});
+			})
+		}
+
+		//一把刀，一个标题的页面
+		if($swiper.find('.dadao').length){
+			$swiper.find('.dadao').show().addClass('rotateInDownRight animated');
+		}else{
+			$('.dadao').hide().removeClass('rotateInDownRight animated');
+		}
+		if($swiper.find('.title').length){
+			$swiper.find('.title').show().addClass('rotateInDownLeft animated');
+		}else{
+			$('.title').hide().removeClass('rotateInDownLeft animated');
+		}
+		
+		//关公像
+		
+		
+		//一些结果页
+		if($swiper.find('.result').length){
+			$swiper.find('.result').show().addClass('fadeIn animated');
+		}else{
+			$('.result').hide().removeClass('fadeIn animated');
+		}
+		
+		//底部描述
+		if($swiper.find('.description').length){
+			$swiper.find('.description').show().addClass('lightSpeedIn animated');
+		}else{
+			$('.description').hide().removeClass('lightSpeedIn animated');
+		}
+
+		//右上角小标题
+		if($swiper.find('.brand').length){
+			$swiper.find('.brand').removeClass('fadeInRight animated');
+			setTimeout(function(){
+				$swiper.find('.brand').addClass('fadeInRight animated');
+			}, 1);
+		}
+	},
 	'init': function(){
 		this._swiper();
 		this.formSubmit();
 		this.captcha();
 		this.validform();
+		this.animate();
+		common.swiper.on('SlideChangeStart', this.animate);
 	}
 };

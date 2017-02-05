@@ -3,44 +3,38 @@ var recruit = {
 	 * 动画效果
 	 */
 	'animate': function(){
-		$swiper = $('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')');
+		var $swiper = $('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')');
 		//首页第二屏
 		if($swiper.attr('id') == 'recruit-2'){
 			$('#recruit-2 .text').show().addClass('slideInDown animated');
 		}else{
 			$('#recruit-2 .text').hide().removeClass('slideInDown animated');
 		}
-		
-		//步骤页面
-		$steps = $swiper.find('.steps');
-		if($steps.length){
-			//若是滑倒步骤页
-			$steps.find('a').hide();
-			$steps.find('a:hidden:last').fadeIn('normal', function(){
-				$steps.find('a:hidden:last').fadeIn('normal', function(){
-					$steps.find('a:hidden:last').fadeIn('normal', function(){
-						$steps.find('a:hidden:last').fadeIn('normal', function(){
-							$steps.find('a:hidden:last').fadeIn('normal');
-						})
-					})
-				});
-			})
-		}
-		
-		//一把刀，一个标题的页面
-		if($swiper.find('.dadao').length){
-			$swiper.find('.dadao').show().addClass('rotateInDownRight animated');
+
+		if($swiper.find('.zhaomuling-text').length){
+			$swiper.find('.zhaomuling-text').fadeIn().addClass('slideInUp animated');
 		}else{
-			$('.dadao').hide().removeClass('rotateInDownRight animated');
+			$('.zhaomuling-text').hide().removeClass('slideInUp animated');
 		}
-		if($swiper.find('.title').length){
-			$swiper.find('.title').show().addClass('rotateInDownLeft animated');
+		if($swiper.find('.zhaomuling').length){
+			$swiper.find('.zhaomuling').fadeIn().addClass('slideInDown animated');
 		}else{
-			$('.title').hide().removeClass('rotateInDownLeft animated');
+			$('.zhaomuling').hide().removeClass('slideInDown animated');
+		}
+
+		if($swiper.find('.yi-text').length){
+			$swiper.find('.yi-text').fadeIn().addClass('slideInLeft animated');
+		}else{
+			$('.yi-text').hide().removeClass('slideInLeft animated');
+		}
+		if($swiper.find('.yi').length){
+			$swiper.find('.yi').fadeIn().addClass('flip animated');
+		}else{
+			$('.yi').hide().removeClass('flip animated');
 		}
 	},
 	'init': function(){
 		this.animate();
-		common.swiper.on('SlideChangeStart', recruit.animate)
+		common.swiper.on('SlideChangeStart', this.animate);
 	}
 };

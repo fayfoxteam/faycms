@@ -13,3 +13,4 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
+<?php $this->renderPartial('_js')?>

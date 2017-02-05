@@ -9,8 +9,8 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<?php $this->renderPartial('_steps')?>
 		<div class="swiper-slide" id="recruit-4">
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
-			<div class="layer dadao hide"><img src="<?php echo $this->appAssets('images/recruit/dadao.png')?>"></div>
-			<div class="layer title hide"><img src="<?php echo $this->appAssets('images/recruit/t1.png')?>"></div>
+			<div class="layer dadao"><img src="<?php echo $this->appAssets('images/recruit/dadao.png')?>"></div>
+			<div class="layer title"><img src="<?php echo $this->appAssets('images/recruit/t1.png')?>"></div>
 			<div class="layer description">
 				<p>体验规则：</p>
 				<p>凡入关羽军团者，请详读招募令并领会其意图。</p>
@@ -29,25 +29,3 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 	</div>
 </div>
 <?php $this->renderPartial('_js')?>
-<script>
-$(function(){
-	common.swiper.on('SlideChangeStart', function(swiper){
-		
-		if(swiper.activeIndex == 2){
-			$('.zhaomuling-text').fadeIn().addClass('slideInUp');
-			$('.zhaomuling').fadeIn().addClass('slideInDown');
-		}else{
-			$('.zhaomuling-text').hide().removeClass('slideInUp');
-			$('.zhaomuling').hide().removeClass('slideInDown');
-		}
-		
-		if(swiper.activeIndex == 3){
-			$('.yi-text').addClass('slideInLeft');
-			$('.yi').addClass('slideInRight');
-		}else{
-			$('.yi-text').removeClass('slideInLeft');
-			$('.yi').removeClass('slideInRight');
-		}
-	});
-});
-</script>

@@ -44,6 +44,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		</div>
 	</div>
 </div>
+<?php $this->renderPartial('_js')?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <?php if(!$arm){?>

@@ -9,7 +9,7 @@ use guangong\models\tables\GuangongHoursTable;
 use guangong\models\tables\GuangongUserExtraTable;
 
 /**
- * 关公点兵
+ * 网络体验
  */
 class ArmController extends FrontController{
 	public function __construct(){
@@ -19,7 +19,7 @@ class ArmController extends FrontController{
 	}
 	
 	public function index(){
-		
+		$this->layout->title = '网络体验';
 		$this->view->render();
 	}
 	

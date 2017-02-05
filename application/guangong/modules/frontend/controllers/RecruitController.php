@@ -17,6 +17,7 @@ class RecruitController extends FrontController{
 		parent::__construct();
 		
 		$this->checkLogin();
+		$this->layout->title = '天下招募令';
 	}
 	
 	public function index(){

@@ -10,21 +10,18 @@ var common = {
 	'swiper': null,
 	'_swiper': function(){
 		if($('.swiper-container').length){
-			system.getCss(system.assets('js/swiper/css/swiper.min.css'));
-			system.getScript(system.assets('js/swiper/js/swiper.jquery.min.js'), function(){
-				common.swiper = new Swiper('.swiper-container', {
-					pagination: '.swiper-pagination',
-					paginationClickable: true,
-					//grabCursor: true,
-					//loop: true,
-					nextButton: '.swiper-btn-next',
-					prevButton: '.swiper-btn-prev',
-					'initialSlide': location.hash ? location.hash.substr(1) : 0
-				});
-				
-				$('.swiper-to').on('click', function(){
-					common.swiper.slideTo($(this).attr('data-slide'))
-				})
+			common.swiper = new Swiper('.swiper-container', {
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				//grabCursor: true,
+				//loop: true,
+				nextButton: '.swiper-btn-next',
+				prevButton: '.swiper-btn-prev',
+				'initialSlide': location.hash ? location.hash.substr(1) : 0
+			});
+			
+			$('.swiper-to').on('click', function(){
+				common.swiper.slideTo($(this).attr('data-slide'))
 			});
 		}
 	},

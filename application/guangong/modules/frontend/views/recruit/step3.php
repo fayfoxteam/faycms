@@ -96,6 +96,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
+<?php $this->renderPartial('_js')?>
 <script>
 $(function(){
 	$('#reg-state').on('change', function(){

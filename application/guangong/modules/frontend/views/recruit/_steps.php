@@ -5,6 +5,6 @@
 		<a href="<?php echo $this->url('recruit/step4#1')?>"><img src="<?php echo $this->appAssets('images/recruit/s4.png')?>"></a>
 		<a href="<?php echo $this->url('recruit/step3#1')?>"><img src="<?php echo $this->appAssets('images/recruit/s3.png')?>"></a>
 		<a href="<?php echo $this->url('recruit/step2#1')?>"><img src="<?php echo $this->appAssets('images/recruit/s2.png')?>"></a>
-		<a href="javascript:;"><img src="<?php echo $this->appAssets('images/recruit/s1.png')?>"></a>
+		<a href="<?php echo $this->url('recruit/step1#1')?>"><img src="<?php echo $this->appAssets('images/recruit/s1.png')?>"></a>
 	</div>
 </div>

@@ -31,6 +31,27 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
+<div id="audio_btn" class="video_exist loading_background" style="display: block;">
+	<div id="yinfu" class="loading_yinfu"></div>
+	<audio loop="loop" src="http://changjingyouxi.b0.upaiyun.com/mp3/20161206/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3" id="media" autoplay="autoplay" preload=""></audio>
+</div>
+<script>
+	document.getElementById('media').addEventListener('loadedmetadata', function(){
+		$('#audio_btn').removeClass('loading_background').addClass('play_yinfu');
+		$('#yinfu').removeClass('loading_yinfu').addClass('rotate');
+	});
+	$('#audio_btn').on('click', function(){
+		if($(this).hasClass('play_yinfu')){
+			$(this).removeClass('play_yinfu').addClass('off');
+			$('#yinfu').removeClass('rotate');
+			document.getElementById('media').pause();
+		}else{
+			$(this).addClass('play_yinfu').removeClass('off');
+			$('#yinfu').addClass('rotate');
+			document.getElementById('media').play();
+		}
+	});
+</script>
 <div class="hide">
 	<div id="shengping-dialog" class="dialog">
 		<div class="dialog-content">
@@ -38,6 +59,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		</div>
 	</div>
 </div>
+<?php $this->renderPartial('_js')?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script>

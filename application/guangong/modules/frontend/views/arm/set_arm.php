@@ -53,7 +53,6 @@ $this->appendCss($this->appAssets('css/arm.css'));
 <script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
 <script>
 	$.shake(function(){
-		alert('摇一摇');
 		//摇一摇触发排勤务
 		if(arm.enableShake && common.swiper.activeIndex == 2){
 			arm.setArm();

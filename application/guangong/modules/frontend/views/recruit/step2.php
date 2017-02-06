@@ -33,7 +33,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 </div>
 <div id="audio_btn" class="video_exist loading_background" style="display: block;">
 	<div id="yinfu" class="loading_yinfu"></div>
-	<audio loop="loop" src="http://changjingyouxi.b0.upaiyun.com/mp3/20161206/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3" id="media" autoplay="autoplay" preload=""></audio>
+	<audio loop="loop" src="<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>" id="media" autoplay="autoplay" preload=""></audio>
 </div>
 <script>
 	document.getElementById('media').addEventListener('loadedmetadata', function(){

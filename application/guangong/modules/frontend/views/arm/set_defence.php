@@ -30,6 +30,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
+<?php $this->renderPartial('_js')?>
 <?php if(!$defence){?>
 <script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
 <script>

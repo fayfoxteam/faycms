@@ -23,7 +23,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<?php if($hour){?>
 			<a class="layer result" href="#hour-dialog"><span class="hour"><?php echo $hour['name']?></span></a>
 			<?php }else{?>
-			<div class="layer qiantong"><img src="<?php echo $this->appAssets('images/arm/qiantong.png')?>"></div>
+			<div class="layer qiantong shake"><img src="<?php echo $this->appAssets('images/arm/qiantong.png')?>"></div>
 			<?php }?>
 			<div class="layer description">
 				<p>规则说明：</p>
@@ -33,6 +33,21 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
+<?php $this->renderPartial('_js')?>
+<?php if(!$hour){?>
+<script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
+<script>
+	$.shake(function(){
+		//摇一摇触发排勤务
+		if(common.swiper.activeIndex == 2){
+			arm.setHour();
+		}
+	});
+	$('.shake').on('click', function(){
+		arm.setHour();
+	})
+</script>
+<?php }else{?>
 <div class="hide">
 	<div id="hour-dialog" class="dialog">
 		<div class="dialog-content">
@@ -46,10 +61,10 @@ $this->appendCss($this->appAssets('css/arm.css'));
 				<div class="content" id="hour-time">
 					<label class="label-title">北京时间</label>
 					<?php
-						echo \fay\helpers\NumberHelper::toLength($hour['start_hour'], 2),
-							'时至',
-							\fay\helpers\NumberHelper::toLength($hour['end_hour'], 2),
-							'时'
+					echo \fay\helpers\NumberHelper::toLength($hour['start_hour'], 2),
+					'时至',
+					\fay\helpers\NumberHelper::toLength($hour['end_hour'], 2),
+					'时'
 					?>
 				</div>
 			</div>
@@ -69,41 +84,8 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		</div>
 	</div>
 </div>
-<?php $this->renderPartial('_js')?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
-<?php if(!$hour){?>
-<script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
-<script>
-	$.shake(function(){
-		//摇一摇触发排勤务
-		if(common.swiper.activeIndex == 2){
-			$.ajax({
-				'type': 'GET',
-				'url': system.url('api/hour/set'),
-				'dataType': 'json',
-				'cache': false,
-				'success': function(resp){
-					if(resp.status){
-						var $arm8 = $('#arm-8');
-						$arm8.find('.qiantong').remove();
-						$arm8.append('<div class="layer result"><span class="hour">'+resp.data.name+'</span></div>');
-						$('#arm-8 .result').fancybox({
-							'type': 'inline',
-							'centerOnScroll': true,
-							'padding': 0,
-							'showCloseButton': false,
-							'width': '80%'
-						});
-					}else{
-						common.toast($resp.message, 'error');
-					}
-				}
-			});
-		}
-	});
-</script>
-<?php }?>
 <script>
 	$('#arm-8 .result').fancybox({
 		'type': 'inline',
@@ -113,3 +95,4 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		'width': '80%'
 	});
 </script>
+<?php }?>

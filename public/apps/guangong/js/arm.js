@@ -88,6 +88,23 @@ var arm = {
 			}
 		});
 	},
+	'setHour': function(){
+		$.ajax({
+			'type': 'GET',
+			'url': system.url('api/hour/set'),
+			'dataType': 'json',
+			'cache': false,
+			'success': function(resp){
+				if(resp.status){
+					var $arm8 = $('#arm-8');
+					$arm8.find('.qiantong').remove();
+					$arm8.append('<div class="layer result flip animated"><span class="hour">'+resp.data.name+'</span></div>');
+				}else{
+					common.toast($resp.message, 'error');
+				}
+			}
+		});
+	},
 	'init': function(){
 		this.animate();
 		this.interval();

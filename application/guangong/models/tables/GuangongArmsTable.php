@@ -11,7 +11,7 @@ use fay\core\db\Table;
  * @property int $picture Picture
  * @property int $sort 排序值
  * @property int $enabled 是否启用
- * @property string $description 描述
+ * @property int $description_picture 描述图片
  */
 class GuangongArmsTable extends Table{
 	protected $_name = 'guangong_arms';
@@ -26,7 +26,7 @@ class GuangongArmsTable extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('picture'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('picture', 'description_picture'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('enabled'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('id', 'sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('name'), 'string', array('max'=>30)),
@@ -40,7 +40,7 @@ class GuangongArmsTable extends Table{
 			'picture'=>'Picture',
 			'sort'=>'排序值',
 			'enabled'=>'是否启用',
-			'description'=>'描述',
+			'description_picture'=>'描述图片',
 		);
 	}
 	
@@ -51,7 +51,7 @@ class GuangongArmsTable extends Table{
 			'picture'=>'intval',
 			'sort'=>'intval',
 			'enabled'=>'intval',
-			'description'=>'',
+			'description_picture'=>'intval',
 		);
 	}
 }

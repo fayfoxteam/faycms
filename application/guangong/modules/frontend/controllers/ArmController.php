@@ -49,6 +49,7 @@ class ArmController extends FrontController{
 		if($user_extra['arm_id']){
 			$arm = GuangongArmsTable::model()->find($user_extra['arm_id']);
 			$arm['picture'] = FileService::service()->get($arm['picture']);
+			$arm['description_picture'] = FileService::service()->get($arm['description_picture']);
 			$this->view->arm = $arm;
 		}else{
 			$this->view->arm = array();

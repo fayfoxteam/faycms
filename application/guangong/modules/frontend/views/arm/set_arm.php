@@ -39,8 +39,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 <div class="hide">
 	<div id="arm-dialog" class="dialog">
 		<div class="dialog-content">
-			<h1><?php echo $arm['name']?>营</h1>
-			<div class="arm-description"><?php echo \fay\helpers\StringHelper::nl2p($arm['description'])?></div>
+			<div class="arm-description"><img src="<?php echo $arm['description_picture']['url']?>"></div>
 		</div>
 	</div>
 </div>

@@ -98,7 +98,7 @@ $(function(){
 	
 	$.shake(function(){
 		//摇一摇显示军籍
-		if(common.swiper.activeIndex == 2){
+		if(arm.enableShake && common.swiper.activeIndex == 2){
 			arm.showInfo();
 		}
 	});

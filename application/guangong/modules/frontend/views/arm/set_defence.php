@@ -45,7 +45,9 @@ $this->appendCss($this->appAssets('css/arm.css'));
 <script>
 	$.shake(function(){
 		//摇一摇触发定防区
-		arm.setDefenceArea();
+		if(arm.enableShake && common.swiper.activeIndex == 2) {
+			arm.setDefenceArea();
+		}
 	});
 	$('.shake').on('click', function(){
 		arm.setDefenceArea();

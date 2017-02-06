@@ -1,5 +1,13 @@
 var arm = {
 	/**
+	 * 正在发送ajax时，不再发起其他ajax，因为摇一摇太敏感了
+	 */
+	'ajaxing': false,
+	/**
+	 * 是否允许摇一摇，若为false，则不执行摇一摇回调
+	 */
+	'enableShake': true,
+	/**
 	 * 动画效果
 	 */
 	'animate': function(){
@@ -79,18 +87,25 @@ var arm = {
 		}
 	},
 	'setArm': function(){
+		if(this.ajaxing){
+			return false;
+		}
+		this.ajaxing = true;
 		$.ajax({
 			'type': 'GET',
 			'url': system.url('api/arm/set'),
 			'dataType': 'json',
 			'cache': false,
 			'success': function(resp){
+				arm.ajaxing = false;
 				if(resp.status){
 					var $arm6 = $('#arm-6');
 					$arm6.find('.arms,.shake,.arm-names').remove();
 					$arm6.append('<div class="layer result flip animated"><img src="'+resp.data.picture.url+'"></div>');
 					$arm6.append('<div class="layer next-link"><a href="'+system.url('arm/set-hour#1')+'" class="btn-1">排勤务</a></div>');
 					common.toast(resp.message, 'success');
+					//屏蔽摇一摇
+					arm.enableShake = false;
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -98,18 +113,25 @@ var arm = {
 		});
 	},
 	'setHour': function(){
+		if(this.ajaxing){
+			return false;
+		}
+		this.ajaxing = true;
 		$.ajax({
 			'type': 'GET',
 			'url': system.url('api/hour/set'),
 			'dataType': 'json',
 			'cache': false,
 			'success': function(resp){
+				arm.ajaxing = false;
 				if(resp.status){
 					var $arm8 = $('#arm-8');
 					$arm8.find('.qiantong').remove();
 					$arm8.append('<div class="layer result flip animated"><span class="hour">'+resp.data.name+'</span></div>');
 					$arm8.append('<div class="layer next-link"><a href="'+system.url('arm/info#1')+'" class="btn-1">录军籍</a></div>');
 					common.toast(resp.message, 'success');
+					//屏蔽摇一摇
+					arm.enableShake = false;
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -117,17 +139,24 @@ var arm = {
 		});
 	},
 	'setDefenceArea': function(){
+		if(this.ajaxing){
+			return false;
+		}
+		this.ajaxing = true;
 		$.ajax({
 			'type': 'GET',
 			'url': system.url('api/defence-area/set'),
 			'dataType': 'json',
 			'cache': false,
 			'success': function(resp){
+				arm.ajaxing = false;
 				if(resp.status){
 					var $arm4 = $('#arm-4');
 					$arm4.find('.shake').remove();
 					$arm4.append('<div class="layer next-link"><a href="'+system.url('arm/set-arm#1')+'" class="btn-1">选兵种</a></div>');
 					common.toast(resp.message, 'success');
+					//屏蔽摇一摇
+					arm.enableShake = false;
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -146,6 +175,7 @@ var arm = {
 			$arm10.find('.juanzhou-kai').show().addClass('zoomInUp animated');
 			$arm10.find('.juanzhou-he').remove();
 		}, 600);
+		arm.enableShake = false;
 	},
 	'init': function(){
 		this.animate();

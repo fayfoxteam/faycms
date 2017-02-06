@@ -82,8 +82,9 @@ var arm = {
 					var $arm6 = $('#arm-6');
 					$arm6.find('.arms,.shake,.arm-names').remove();
 					$arm6.append('<div class="layer result flip animated"><img src="'+resp.data.picture.url+'"></div>');
+					common.toast(resp.message, 'success');
 				}else{
-					common.toast($resp.message, 'error');
+					common.toast(resp.message, 'error');
 				}
 			}
 		});
@@ -99,8 +100,26 @@ var arm = {
 					var $arm8 = $('#arm-8');
 					$arm8.find('.qiantong').remove();
 					$arm8.append('<div class="layer result flip animated"><span class="hour">'+resp.data.name+'</span></div>');
+					common.toast(resp.message, 'success');
 				}else{
-					common.toast($resp.message, 'error');
+					common.toast(resp.message, 'error');
+				}
+			}
+		});
+	},
+	'setDefenceArea': function(){
+		$.ajax({
+			'type': 'GET',
+			'url': system.url('api/defence-area/set'),
+			'dataType': 'json',
+			'cache': false,
+			'success': function(resp){
+				if(resp.status){
+					var $arm4 = $('#arm-4');
+					$arm4.find('.shake').remove();
+					common.toast(resp.message, 'success');
+				}else{
+					common.toast(resp.message, 'error');
 				}
 			}
 		});

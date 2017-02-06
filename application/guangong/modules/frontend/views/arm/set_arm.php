@@ -55,7 +55,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	});
 	$('.shake').on('click', function(){
 		arm.setArm();
-	})
+	});
 </script>
 <?php }else{?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">

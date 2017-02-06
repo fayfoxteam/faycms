@@ -45,7 +45,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	});
 	$('.shake').on('click', function(){
 		arm.setHour();
-	})
+	});
 </script>
 <?php }else{?>
 <div class="hide">

@@ -23,22 +23,24 @@
 			var lastUpdate = 0;
 			function deviceMotionHandler(event){
 				//获得重力加速
-				var acceleration =event.accelerationIncludingGravity;
+				var acceleration = event.accelerationIncludingGravity;
 				var curTime = new Date().getTime();
 				var diffTime = curTime - lastUpdate;
 				
-				lastUpdate = curTime;
-				x = acceleration.x;
-				y = acceleration.y;
-				z = acceleration.z;
+				if(diffTime > 100){//100毫秒以内的放弃，否则会过于灵敏
+					lastUpdate = curTime;
+					x = acceleration.x;
+					y = acceleration.y;
+					z = acceleration.z;
 
-				var speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
-				if(speed > shakeThreshold){
-					callback();
+					var speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
+					if (speed > shakeThreshold) {
+						callback();
+					}
+					lastX = x;
+					lastY = y;
+					lastZ = z;
 				}
-				lastX = x;
-				lastY = y;
-				lastZ = z;
 			}
 		}
 	})

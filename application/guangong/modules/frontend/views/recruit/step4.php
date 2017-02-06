@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $this \fay\core\View
+ * @var $user array
  */
 $this->appendCss($this->appAssets('css/recruit.css'));
 ?>
@@ -19,7 +20,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<div class="swiper-slide" id="recruit-42">
 			<div class="layer guangongdianbing"><img src="<?php echo $this->appAssets('images/recruit/guangongdianbing.png')?>"></div>
 			<div class="layer button">
-				<?php if(\F::app()->current_user){?>
+				<?php if(!empty($user['user']['mobile'])){?>
 					<a href="#jiangjunmiling-dialog" class="btn-1" id="jiangjunmiling-link">将军密令</a>
 				<?php }else{?>
 					<a href="<?php echo $this->url('recruit/step3#1')?>" class="btn-1">我要加入</a>
@@ -32,7 +33,8 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 <div class="hide">
 	<div id="jiangjunmiling-dialog" class="dialog">
 		<div class="dialog-content">
-			<img src="<?php echo $this->appAssets('images/recruit/yinzhang-text.png')?>">
+			<img src="<?php echo $this->appAssets('images/recruit/yinzhang-text.png')?>" class="yinzhang-text">
+			<img src="<?php echo $this->appAssets('images/recruit/yinzhang.png')?>" class="yinzhang">
 		</div>
 	</div>
 </div>

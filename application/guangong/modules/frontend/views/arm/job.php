@@ -23,24 +23,16 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<div class="layer jobs">
 				<ul>
 					<li class="job-1">
-						<a href="<?php echo $this->url('api/task/do', array(
-							'task_id'=>1,
-						))?>" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
+						<a href="<?php echo $this->url()?>" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
 					</li>
 					<li class="job-2">
-						<a href="<?php echo $this->url('api/task/do', array(
-							'task_id'=>2,
-						))?>" class="task-link" data-task-id="2"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
+						<a href="<?php echo $this->url()?>" class="task-link" data-task-id="2"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
 					</li>
 					<li class="job-3">
-						<a href="<?php echo $this->url('api/task/do', array(
-							'task_id'=>3,
-						))?>" class="task-link" data-task-id="3"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
+						<a href="<?php echo $this->url()?>" class="task-link" data-task-id="3"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
 					</li>
 					<li class="job-4">
-						<a href="<?php echo $this->url('api/task/do', array(
-							'task_id'=>4,
-						))?>" class="task-link" data-task-id="4"><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
+						<a href="<?php echo $this->url()?>" class="task-link" data-task-id="4"><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
 					</li>
 				</ul>
 			</div>

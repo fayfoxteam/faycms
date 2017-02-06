@@ -16,7 +16,7 @@ class SignUpForm extends Model{
 		return array(
 			array(array('mobile', 'birthday', 'state', 'city', 'district', 'captcha'), 'required'),
 			array('mobile', 'mobile'),
-			array('captcha', 'captcha'),
+			//array('captcha', 'captcha'),
 		);
 	}
 	
@@ -27,7 +27,7 @@ class SignUpForm extends Model{
 			'state'=>'省',
 			'city'=>'市',
 			'district'=>'县',
-			'captcha'=>'验证码',
+			//'captcha'=>'验证码',
 		);
 	}
 	

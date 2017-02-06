@@ -51,7 +51,7 @@ class RecruitController extends FrontController{
 	}
 	
 	public function step4(){
-		
+		$this->view->user = UserService::service()->get($this->current_user, 'id,mobile');
 		$this->view->render();
 	}
 }

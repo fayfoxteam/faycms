@@ -22,6 +22,11 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<div class="layer subtitle">排勤务</div>
 			<?php if($hour){?>
 			<a class="layer result" href="#hour-dialog"><span class="hour"><?php echo $hour['name']?></span></a>
+			<div class="layer next-link"><?php
+				echo \fay\helpers\HtmlHelper::link('录军籍', array('arm/info#1'), array(
+					'class'=>'btn-1',
+				));
+			?></div>
 			<?php }else{?>
 			<div class="layer qiantong shake"><img src="<?php echo $this->appAssets('images/arm/qiantong.png')?>"></div>
 			<?php }?>

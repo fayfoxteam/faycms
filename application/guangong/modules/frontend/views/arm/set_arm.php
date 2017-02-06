@@ -23,6 +23,11 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<div class="layer mountain"><img src="<?php echo $this->appAssets('images/arm/mountain.png')?>"></div>
 			<?php if($arm){?>
 				<a class="layer result" href="#arm-dialog"><img src="<?php echo $arm['picture']['url']?>"></a>
+				<div class="layer next-link"><?php
+					echo \fay\helpers\HtmlHelper::link('排勤务', array('arm/set-hour#1'), array(
+						'class'=>'btn-1',
+					));
+				?></div>
 			<?php }else{?>
 				<div class="layer arms"><img src="<?php echo $this->appAssets('images/arm/arms.png')?>"></div>
 				<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>

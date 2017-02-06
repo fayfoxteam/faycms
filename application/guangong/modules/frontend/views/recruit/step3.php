@@ -62,19 +62,6 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 								));
 						?></div>
 					</fieldset>
-					<fieldset>
-						<label>验证码</label>
-						<div class="field-container"><?php
-							echo F::form()->inputText('captcha', array(
-								'class'=>'form-control short'
-							)),
-							F::form()->captcha(array(
-								'dw'=>85,
-								'dh'=>32,
-								'class'=>'captcha'
-							));
-							?></div>
-					</fieldset>
 					<fieldset class="submit-container">
 						<?php echo F::form()->submitLink('提交注册', array(
 							'class'=>'submit-link',

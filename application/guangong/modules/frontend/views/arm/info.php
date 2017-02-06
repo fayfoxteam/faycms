@@ -20,15 +20,6 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer subtitle">录军籍</div>
 			<div class="layer juanzhou-he"><img src="<?php echo $this->appAssets('images/arm/juanzhou-he.png')?>"></div>
-			<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
-			<div class="layer description">
-				<p>规则说明：</p>
-				<p>个人身份信息、防区、兵种确定后，即时输入网络军籍档案系统、信息不可更改。微官网可随时查询网络军籍档案。</p>
-			</div>
-		</div>
-		<div class="swiper-slide" id="arm-11">
-			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
-			<div class="layer subtitle">录军籍</div>
 			<div class="layer juanzhou-kai">
 				<fieldset id="info-avatar">
 					<img src="">
@@ -66,14 +57,17 @@ $this->appendCss($this->appAssets('css/arm.css'));
 					<span class="content" id="info-rank"></span>
 				</fieldset>
 			</div>
-			<div class="layer desc">
-				<p>这里，没有姓名、没有性别，只有代号。</p>
+			<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
+			<div class="layer description">
+				<p>规则说明：</p>
+				<p>个人身份信息、防区、兵种确定后，即时输入网络军籍档案系统、信息不可更改。微官网可随时查询网络军籍档案。</p>
 			</div>
 		</div>
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
 <?php $this->renderPartial('_js')?>
+<script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
 <script>
 $(function(){
 	//初始化用户信息
@@ -100,6 +94,16 @@ $(function(){
 				common.toast(resp.message, 'error');
 			}
 		}
+	});
+	
+	$.shake(function(){
+		//摇一摇显示军籍
+		if(common.swiper.activeIndex == 2){
+			arm.showInfo();
+		}
+	});
+	$('.shake').on('click', function(){
+		arm.showInfo();
 	});
 });
 </script>

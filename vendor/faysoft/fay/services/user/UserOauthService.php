@@ -4,7 +4,6 @@ namespace fay\services\user;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Service;
-use fay\models\tables\OauthAppsTable;
 use fay\models\tables\UserConnectsTable;
 use fay\models\tables\UsersTable;
 use fay\services\FileService;

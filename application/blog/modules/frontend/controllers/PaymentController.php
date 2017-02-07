@@ -3,8 +3,8 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use fay\helpers\UrlHelper;
-use fay\services\payment\methods\models\PaymentMethodConfigModel;
-use fay\services\payment\methods\models\PaymentTradeModel;
+use fay\services\payment\methods\PaymentMethodConfigModel;
+use fay\services\payment\methods\PaymentTradeModel;
 use fay\services\payment\methods\weixin\WeixinPayment;
 
 class PaymentController extends FrontController{

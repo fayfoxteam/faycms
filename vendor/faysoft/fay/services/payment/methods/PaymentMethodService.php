@@ -3,8 +3,6 @@ namespace fay\services\payment\methods;
 
 use fay\core\Service;
 use fay\models\tables\PaymentsTable;
-use fay\services\payment\methods\models\PaymentMethodConfigModel;
-use fay\services\payment\methods\models\PaymentTradeModel;
 
 class PaymentMethodService extends Service{
 	/**

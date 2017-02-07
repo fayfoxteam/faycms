@@ -1,7 +1,5 @@
 <?php
-namespace fay\services\payment\methods\models;
-
-use fay\services\payment\methods\PaymentMethodException;
+namespace fay\services\payment\methods;
 
 /**
  * 支付方式配置信息

@@ -2,8 +2,8 @@
 namespace fay\services\payment\methods\weixin;
 
 use fay\helpers\UrlHelper;
-use fay\services\payment\methods\models\PaymentMethodConfigModel;
-use fay\services\payment\methods\models\PaymentTradeModel;
+use fay\services\payment\methods\PaymentMethodConfigModel;
+use fay\services\payment\methods\PaymentTradeModel;
 use fay\services\payment\methods\PaymentMethodException;
 use fay\services\payment\methods\PaymentMethodInterface;
 use fay\services\payment\trade\TradePaymentService;

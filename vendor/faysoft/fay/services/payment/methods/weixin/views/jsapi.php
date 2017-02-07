@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $jsApiParameters string json字符串
- * @var $trade \fay\services\payment\methods\models\PaymentTradeModel
+ * @var $trade \fay\services\payment\methods\PaymentTradeModel
  */
 ?>
 <html>

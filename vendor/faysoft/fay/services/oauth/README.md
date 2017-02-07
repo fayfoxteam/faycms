@@ -1,6 +1,28 @@
 # 第三方登录模块
-
 此模块仅完成第三方登录信息获取，不涉及创建本地用户等业务逻辑操作。
+
+## 调用代码
+```php
+//获取OAuth实例
+$oauth = OauthService::getInstance(
+    'weixin',//登录方式代码，对应services\oauth下的文件夹名
+    {$app_id},//App Id
+    {$app_secret}//App Secret
+);
+//获取openId
+$open_id = $oauth->getOpenId();
+//获取第三方用户
+$user = $oauth->getUser();
+//获取第三方用户字段
+$user->getNickName();//获取第三方昵称
+$user->getAvatar();//获取第三方头像链接
+$user->getOpenId();//获取第三方对外id（Open Id）
+$user->getUnionId();//获取第三方Union Id（微信登录可能会有这个值）
+$user->getParam('city');//获取指定字段，根据第三方登录方式不同，字段有所差异
+$user->getParams();//获取所有第三方返回的用户字段
+```
+
+## 代码介绍
 
 - `ClientAbstract` 用于获取Access Token，state值校验等操作
 - `AccessTokenAbstract` Access Token实例，可通过此实例获取用户信息

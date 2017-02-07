@@ -3,7 +3,6 @@ namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\models\tables\UserConnectsTable;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;

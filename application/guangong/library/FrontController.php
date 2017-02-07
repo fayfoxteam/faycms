@@ -6,7 +6,7 @@ use fay\core\Http;
 use fay\helpers\RequestHelper;
 use fay\models\tables\SpiderLogsTable;
 use fay\models\tables\UserConnectsTable;
-use fay\services\oauth\OauthAppService;
+use fay\services\OauthAppService;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;

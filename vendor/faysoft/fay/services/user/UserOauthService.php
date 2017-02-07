@@ -7,7 +7,7 @@ use fay\core\Service;
 use fay\models\tables\UserConnectsTable;
 use fay\models\tables\UsersTable;
 use fay\services\FileService;
-use fay\services\oauth\OauthAppService;
+use fay\services\OauthAppService;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\UserAbstract;
 

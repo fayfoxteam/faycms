@@ -9,9 +9,9 @@
 				 * 数值越小，灵敏度越高
 				 * - `1000`的话基本上一直在触发，没法用
 				 * - `3000`差不多动一下会触发
-				 * - `8000`需要稍微甩一下
+				 * - `5000`需要稍微甩一下
 				 */
-				shakeThreshold = 8000;
+				shakeThreshold = 5000;
 			}
 
 			if (window.DeviceMotionEvent) {

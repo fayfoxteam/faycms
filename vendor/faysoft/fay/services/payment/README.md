@@ -41,6 +41,7 @@ $payment_config->setMchId($payment_method['config']['mch_id'])
     ->setKey($payment_method['config']['key'])
 ;
 
+//获取交易信息
 $trade = $trade_payment->getTrade();
 //实例化用于支付的交易数据模型
 $payment_trade = new PaymentTradeModel();

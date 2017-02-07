@@ -20,7 +20,7 @@ class TradePaymentService extends Service{
 	}
 	
 	/**
-	 * 创建一笔交易记录
+	 * 创建一条交易支付记录
 	 * @param int $trade_id 交易ID
 	 * @param int $total_fee 支付金额（单位：分）
 	 * @param int $payment_method_id 支付方式ID
@@ -45,7 +45,7 @@ class TradePaymentService extends Service{
 	 * @param int $trade_payment_id
 	 * @return TradePaymentItem
 	 */
-	public function getItem($trade_payment_id){
+	public function get($trade_payment_id){
 		return new TradePaymentItem($trade_payment_id);
 	}
 	
@@ -55,9 +55,9 @@ class TradePaymentService extends Service{
 	 * @return TradePaymentItem
 	 * @throws TradeErrorException
 	 */
-	public function getItemByOutTradeNo($out_trade_no){
+	public function getByOutTradeNo($out_trade_no){
 		$trade_payment_id = substr($out_trade_no, -7);
-		$trade_payment = $this->getItem($trade_payment_id);
+		$trade_payment = $this->get($trade_payment_id);
 		if(date('Ymd', $trade_payment->create_time) != substr($out_trade_no, 0, 8)){
 			//系统暂时不支持1000万以上的自递增ID
 			//虽然可以做处理，但是没什么必要，真的到了千万级，肯定要改策略的

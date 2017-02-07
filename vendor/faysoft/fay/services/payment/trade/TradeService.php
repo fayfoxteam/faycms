@@ -33,7 +33,7 @@ class TradeService extends Service{
 	/**
 	 * 创建一笔交易
 	 * @param int $total_fee 支付金额（单位：分）
-	 * @param null|string $body 订单描述
+	 * @param null|string $body 交易描述
 	 * @param array $refers 关联ID。二维数组，每项必须包含type和refer_id字段
 	 * @param array $extra 扩展信息，可包含以下字段
 	 *  - subject 有些支付方式有body和subject2个字段，有些只有body，若不指定，则默认与body相同

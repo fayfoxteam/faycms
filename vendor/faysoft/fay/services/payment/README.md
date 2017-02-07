@@ -6,6 +6,8 @@
 - 交易支付记录（TradePayment）：每次支付都会产生一笔支付记录。
 
 ## 支付方式（PaymentMethod）
+支付方式是一个独立的模块。支付方式是独立于交易（Trade）的，可以通过其他方式构造支付参数，发起支付。本系统出于业务逻辑考虑，都是由交易（Trade）模块调起支付。
+
 - `PaymentMethodConfigModel`：支付方式配置信息（在构建支付的时候传入此类实例）
  * `code`：支付方式编码。例如：`weixin:jsapi`（微信支付:jsapi支付）【必选】
  * `sign_type`：签名方式。有些字符方式有这个选项【可选】
@@ -58,3 +60,90 @@ $payment_trade->setOutTradeNo($trade_payment->getOutTradeNo())
 //调用支付模块。根据支付方式不同，此方法可能返回json数据，也可能直接跳转到支付页面
 PaymentMethodService::service()->buildPay($payment_trade, $payment_config);
 ```
+
+
+## 交易（Trade）
+### 订单实例（TradeItem）
+实现`ArrayAccess`接口和`__get()`/`__set()`方法。支持以数组或对象属性的方式获取或修改trades表对应字段信息。
+
+- `save()`：字段被修改后调用此方法可以保存到数据库
+- `getRefers()`：获取交易关联信息，对应trade_refers表字段
+- `getTrade()`：获取交易信息。对应trades表字段
+- `pay()`：发起支付
+
+### 交易服务（TradeService）
+与数据库打交道的服务类。用于创建、获取交易信息。
+
+- `get()`：根据交易ID，获取`TradeItem`实例
+- `create()`：创建一笔交易。参数含义如下：
+ * `$total_fee`：交易金额（单位：分）
+ * `$body`：交易描述
+ * `$refers`：关联信息。二维数组，每项必须包含`type`和`refer_id`字段
+ * `$extra`：键值数组，可选择包含字段：`subject`, `expire_time`, `return_url`, `show_url`
+ * `$user_id`：用户ID，若为null，则默认为当前登录用户
+
+### 交易状态模式
+交易状态变更采用状态模式设计。每个状态对应state文件夹下的状态类。状态类均继承自`StateInterface`接口。`StateInterface`接口含以下方法：
+
+- `pay()`：执行支付
+- `refund()`：执行退款
+- `close()`：交易关闭
+
+## 交易支付记录（TradePayment）
+### 支付记录实例（TradePaymentItem）
+实现`ArrayAccess`接口和`__get()`/`__set()`方法。支持以数组或对象属性的方式获取或修改trades表对应字段信息。
+
+- `save()`：字段被修改后调用此方法可以保存到数据库
+- `getTrade()`：获取交易信息，返回TradeItem实例
+- `setTrade()`：在实例化TradePayment时，并不会马上根据交易记录里的trade_id去初始化trade属性。为了节省开销，可以将已经实例化的TradeItem实例设置进去。若不设置，在调用`getTrade()`时会根据trade_id自动初始化。
+- `getPaymentMethod(TradeItem $trade)`：获取支付方式信息，返回`fay\services\payment\methods\PaymentMethodService::get()`的结果
+- `setPaymentMethod(array $payment_method)`：在实例化TradePayment时，并不会马上根据交易记录里的payment_method_id去初始化payment_method属性。为了节省开销，可以将已获取的支付方式信息设置进去。若不设置，在调用`getPaymentMethod()`时会根据payment_method_id自动初始化。
+- `getOutTradeNo()`：生成一个唯一的外部订单号
+- `onPaid()`：支付完成处理
+- `pay()`：发起支付
+
+### 支付记录服务（TradePaymentService）
+与数据库打交道的服务类。用于创建、获取交易支付记录。
+
+- `create()`：创建一条交易支付记录
+ * `$trade_id`：交易ID
+ * `$total_fee`：支付金额（单位：分）
+ * `$payment_method_id`：支付方式ID
+- `get()`：根据支付记录ID，获取一个支付记录实例（`TradePaymentItem`）
+- `getByOutTradeNo()`：根据外部订单号，获取支付记录实例（`TradePaymentItem`）
+
+### 支付记录状态模式
+支付记录状态变更采用状态模式设计。每个状态对应payment_state文件夹下的状态类。状态类均继承自`PaymentStateInterface`接口。`PaymentStateInterface`接口含以下方法：
+
+- `pay()`：执行支付
+- `onPaid()`：接受支付回调
+- `refund()`：交易支付记录执行退款（有可能是重复支付产生的退款，并不一定就是对交易进行退款）
+- `close()`：交易支付记录关闭
+
+> 交易（Trade）与交易支付记录（TradePayment）是一对多的关系。每发生一次支付行为，就会产生一条支付记录。当有一条支付记录变为已付款后，其他同交易的支付记录都会变为已关闭。
+
+## 附录（几种主流支付方式的主要配置参数列表）
+### 支付宝
+- `out_trade_no`: 外部订单号
+- `subject`: 标题
+- `body`: 简要描述
+- `total_fee`: 金额
+- `it_b_pay`: 有效期（取值比较奇特，参照官方文档）
+- `notify_url`: 回调地址
+- `return_url`: 同步跳转地址
+- `show_url`: 商户交易信息地址
+
+### 微信支付
+- `out_trade_no`: 外部订单号
+- `body`: 简要描述
+- `total_fee`: 金额
+- `notify_url`: 回调地址
+- `attach`: 透传字段
+
+### 银联支付
+- `frontUrl`: 同步跳转地址
+- `backUrl`: 异步回调地址
+- `orderId`: 外部订单号
+- `txnAmt`: 金额
+- `orderDesc`: 简要描述
+- `reqReserved`: 透传字段

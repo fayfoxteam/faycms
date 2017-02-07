@@ -183,7 +183,7 @@ class TradePaymentItem implements \ArrayAccess{
 	}
 	
 	/**
-	 * 接受支付回调
+	 * 支付完成处理
 	 * @param string $trade_no 第三方交易号
 	 * @param string $payer_account 第三方付款帐号
 	 * @param int $paid_fee 第三方回调时传过来的实付金额（单位：分）

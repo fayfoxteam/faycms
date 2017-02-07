@@ -92,7 +92,7 @@ class WeixinPayment implements PaymentMethodInterface{
 		require_once __DIR__ . '/sdk/lib/WxPay.Notify.php';
 		
 		$notify_data = simplexml_load_string(file_get_contents('php://input', 'r'), 'SimpleXMLElement', LIBXML_NOCDATA);
-		$trade_payment = TradePaymentService::service()->getItemByOutTradeNo($notify_data->out_trade_no);
+		$trade_payment = TradePaymentService::service()->getByOutTradeNo($notify_data->out_trade_no);
 		$payment_method = $trade_payment->getPaymentMethod();
 		\WxPayConfig::$KEY = $payment_method['config']['key'];
 		\WxPayConfig::$APPID = $payment_method['config']['app_id'];

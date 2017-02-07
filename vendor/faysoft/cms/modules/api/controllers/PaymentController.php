@@ -65,7 +65,7 @@ class PaymentController extends ApiController{
 		))->check();
 		
 		//调用支付
-		TradePaymentService::service()->getItem($this->form()->getData('id'))->pay();
+		TradePaymentService::service()->get($this->form()->getData('id'))->pay();
 	}
 	
 	public function notify(){

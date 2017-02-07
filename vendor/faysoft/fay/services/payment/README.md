@@ -1,5 +1,31 @@
 # 第三方支付模块
 
+## 调用代码
+先放调用代码，因为调用代码很简单。如果不扩展支付方式的话，后面那一大段都不需要看。
+### 创建交易
+```php
+//创建交易
+$trade_id = TradeService::service()->create(
+    1,//金额，单位：分
+    '测试订单',
+    array(
+        array(
+            'type'=>1,//类型，在业务中定义
+            'refer_id'=>123,//关联id，可以是用户Id，订单Id等，具体看业务逻辑
+        )
+    ),
+    array(//这里是可选参数，可以根据业务逻辑指定需要用到的字段
+        'return_url'=>UrlHelper::createUrl('test/pay-result'),//支付回调页
+    )
+);
+```
+
+### 发起支付
+直接通过api调用发起支付。该接口根据支付方式不同，可能返回json数据，也可能直接跳转到第三方支付页面。
+
+{$base_url}api/payment/pay?trade_id={$交易ID}&payment_id={$支付方式ID}
+
+
 ## 概念陈述
 - 支付方式（PaymentMethod）：微信支付、支付宝等。
 - 交易（Trade）：一笔支付对应一笔交易。

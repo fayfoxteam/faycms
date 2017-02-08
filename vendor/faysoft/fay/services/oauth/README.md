@@ -36,7 +36,10 @@ $user->getParams();//获取所有第三方返回的用户字段
  * `getOpenId()` 获取用户openId
  * `getUnionId()` 获取用户UnionId。目前好像就微信有这个值
  * `getAvatar()` 获取用户头像
- * `getType()` 获取登录方式类型，对应user_connects表的type字段。每个登录方式需要实现此方法。
+ * `getParams()` 获取所有原生第三方用户信息
+ * `getParam($name)` 根据原生第三方用户信息字段获取用户信息
+ * `__get()` 可以通过魔术方法调用`getParam()`
+ * `ArrayAccess` 可以通过数组的方式调用`getParam()`
 - `StateManager` 用于管理state
 
 > 总结：`Client`和`AccessToken`类用于实现第三方登录。`OauthService`和`User`类用于统一调用和返回数据格式。

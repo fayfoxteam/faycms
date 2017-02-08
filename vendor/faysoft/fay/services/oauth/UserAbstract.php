@@ -80,6 +80,10 @@ class UserAbstract implements \ArrayAccess{
 		return $this->params;
 	}
 	
+	public function __get($name){
+		return $this->getParam($name);
+	}
+	
 	/**
 	 * Whether a offset exists
 	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php

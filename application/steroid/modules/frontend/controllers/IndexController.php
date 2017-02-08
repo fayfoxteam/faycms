@@ -17,7 +17,7 @@ class IndexController extends FrontController{
 	}
 	
 	public function index(){
-		$this->form()->setModel(LeaveMessageTable::model());
+		$this->form()->setModel(LeaveMessage::model());
 		
 		$this->view->render();
 	}

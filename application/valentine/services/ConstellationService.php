@@ -8,10 +8,10 @@ use valentine\models\tables\ValentineConstellationsTable;
 /**
  * 星座
  */
-class Constellation extends Service{
+class ConstellationService extends Service{
 	/**
 	 * @param string $class_name
-	 * @return Constellation
+	 * @return ConstellationService
 	 */
 	public static function service($class_name = __CLASS__){
 		return parent::service($class_name);

@@ -1,7 +1,12 @@
 # 第三方支付模块
 
 ## 调用代码
-先放调用代码，因为调用代码很简单。如果不扩展支付方式的话，后面那一大段都不需要看。
+先放调用代码，因为调用代码很简单。如果不扩展支付方式的话，后面那一大段都不需要看。  
+调用代码分三步：
+- 创建交易
+- 发起支付
+- 监听支付成功事件
+
 ### 创建交易
 ```php
 //创建交易
@@ -23,8 +28,26 @@ $trade_id = TradeService::service()->create(
 ### 发起支付
 直接通过api调用发起支付。该接口根据支付方式不同，可能返回json数据，也可能直接跳转到第三方支付页面。
 
+```php
 {$base_url}api/payment/pay?trade_id={$交易ID}&payment_id={$支付方式ID}
+```
 
+> 根据支付方式不同，有的支付方式是通过ajax等方式请求接口，有的支付方式是将页面跳转到接口。
+
+### 监听支付成功事件
+通过configs/events.php注册监听事件
+```php
+return array(
+    //充值成功事件
+    \fay\services\payment\trade\TradePaymentService::EVENT_PAID => array(
+        array(
+            'handler'=>function(\fay\services\payment\trade\TradePaymentItem $tradePaymentItem){
+                //@todo 业务逻辑
+            }
+        ),
+    ),
+)
+```
 
 ## 概念陈述
 - 支付方式（PaymentMethod）：微信支付、支付宝等。

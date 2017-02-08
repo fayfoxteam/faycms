@@ -148,7 +148,80 @@ PaymentMethodService::service()->buildPay($payment_trade, $payment_config);
 
 > 交易（Trade）与交易支付记录（TradePayment）是一对多的关系。每发生一次支付行为，就会产生一条支付记录。当有一条支付记录变为已付款后，其他同交易的支付记录都会变为已关闭。
 
-## 附录（几种主流支付方式的主要配置参数列表）
+## 附录一：交易相关表结构
+### 支付方式表
+```sql
+DROP TABLE IF EXISTS `{{$prefix}}payments`;
+CREATE TABLE `{{$prefix}}payments` (
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `code` varchar(20) NOT NULL DEFAULT '' COMMENT '支付编码',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '支付名称',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '支付描述',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  `config` text COMMENT '配置信息JSON',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后编辑时间',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
+```
+
+### 交易记录表
+```sql
+DROP TABLE IF EXISTS `{{$prefix}}trades`;
+CREATE TABLE `{{$prefix}}trades` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '支付说明',
+  `body` varchar(255) NOT NULL DEFAULT '' COMMENT '支付描述',
+  `total_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '付款金额（单位：分）',
+  `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '已付金额（单位：分）',
+  `trade_payment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付记录ID（付成功的那条）',
+  `refund_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '退款金额（单位：分）',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `expire_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '过期时间',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
+  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易记录';
+```
+
+### 交易引用关系表
+```sql
+DROP TABLE IF EXISTS `{{$prefix}}trade_refers`;
+CREATE TABLE `{{$prefix}}trade_refers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '交易类型',
+  `refer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
+  PRIMARY KEY (`id`),
+  KEY `trade_id` (`trade_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易引用关系表';
+```
+
+### 交易支付记录表
+```sql
+DROP TABLE IF EXISTS `{{$prefix}}trade_payments`;
+CREATE TABLE `{{$prefix}}trade_payments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
+  `total_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '支付金额（单位：分）',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  `paid_time` int(11) NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `payment_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
+  `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
+  `payer_account` varchar(50) NOT NULL DEFAULT '' COMMENT '付款人帐号',
+  `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '实付金额（单位：分）',
+  `refund_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '退款金额（单位：分）',
+  PRIMARY KEY (`id`),
+  KEY `trade_id` (`trade_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易支付记录表';
+```
+
+## 附录二：几种主流支付方式的主要配置参数列表
 ### 支付宝
 - `out_trade_no`: 外部订单号
 - `subject`: 标题
@@ -165,6 +238,7 @@ PaymentMethodService::service()->buildPay($payment_trade, $payment_config);
 - `total_fee`: 金额
 - `notify_url`: 回调地址
 - `attach`: 透传字段
+- `trade_type`：交易类型：JSAPI，NATIVE，APP
 
 ### 银联支付
 - `frontUrl`: 同步跳转地址

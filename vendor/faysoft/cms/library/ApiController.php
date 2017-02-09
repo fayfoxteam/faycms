@@ -2,6 +2,7 @@
 namespace cms\library;
 
 use fay\core\Controller;
+use fay\core\Http;
 use fay\core\Response;
 
 /**
@@ -27,7 +28,6 @@ class ApiController extends Controller{
 	 */
 	protected function checkLogin(){
 		if(!$this->isLogin()){
-			Response::setStatusHeader(401);
 			Response::json('', 0, '请先登录', 'login-request');
 		}
 	}
@@ -43,5 +43,19 @@ class ApiController extends Controller{
 			'message'=>$error['message'],
 			'code'=>$error['code'],
 		));
+	}
+	
+	/**
+	 * 检查http method，若不符合，直接返回错误提示
+	 * @param string $method
+	 */
+	public function checkMethod($method){
+		$method = strtoupper($method);
+		if(Http::getMethod() != $method){
+			Response::notify('error', array(
+				'message'=>"请以{$method}方式发起请求",
+				'code'=>'http-method-error',
+			));
+		}
 	}
 }

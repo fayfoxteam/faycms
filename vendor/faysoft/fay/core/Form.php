@@ -397,6 +397,12 @@ class Form{
 		return HtmlHelper::select($name, $options, $selected, $html_options);
 	}
 	
+	/**
+	 * 生成一个a标签表单提交按钮
+	 * @param $text
+	 * @param array $html_options
+	 * @return string
+	 */
 	public function submitLink($text, $html_options = array()){
 		if($this->scene == 'default'){
 			$html_options['id'] = 'form-submit';
@@ -404,6 +410,15 @@ class Form{
 			$html_options['id'] = $this->scene . '-form-submit';
 		}
 		return HtmlHelper::link($text, 'javascript:;', $html_options);
+	}
+	
+	/**
+	 * 生成一张验证码图片
+	 * @param array $html_options
+	 * @return string
+	 */
+	public function captcha($html_options = array()){
+		return HtmlHelper::captcha($html_options);
 	}
 	
 	/**

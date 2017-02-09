@@ -9,7 +9,7 @@ use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\models\tables\PostCommentsTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * 基于左右值的多树操作
@@ -288,7 +288,7 @@ abstract class MultiTreeModel extends Model{
 	 * @param int $page 页码
 	 * @param string $fields 可指定返回字段（虽然把user等字段放这里会让model看起来不纯，但是性能上会好很多）
 	 *  - 无前缀系列可指定$model表返回字段，若未指定，默认为*
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 * @param array $conditions 附加条件（例如审核状态等与树结构本身无关的条件）
 	 * @param string $order 排序条件
 	 * @return array

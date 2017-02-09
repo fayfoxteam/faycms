@@ -2,7 +2,7 @@
 use fay\services\OptionService;
 use fay\helpers\HtmlHelper;
 use fay\services\FileService;
-use fay\services\UserService;
+use fay\services\user\UserService;
 ?>
 <!DOCTYPE html>
 <html>

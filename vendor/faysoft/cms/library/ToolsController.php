@@ -7,7 +7,7 @@ use fay\services\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
 use fay\models\tables\RolesTable;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\services\user\UserRoleService;
 
 class ToolsController extends Controller{

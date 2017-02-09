@@ -24,15 +24,17 @@ var system = {
 		}
 	},
 	'assets':function(uri){
-		this.assets_url = this.assets_url || this.base_url;
-		return this.assets_url + 'assets/' + uri;
+		this.assets_url = this.assets_url || this.base_url + 'assets/';
+		return this.assets_url + uri;
 	},
-	'date' : function(timestamp){
+	'date' : function(timestamp, only_date){
+		if(timestamp == 0)return '';
 		var date = new Date(parseInt(timestamp) * 1000);
 		var month = date.getMonth() + 1;
 		if(month < 10) month = '0' + month;
 		var day = date.getDate();
 		if(day < 10) day = '0' + day;
+		if(only_date)return date.getFullYear() + '-' + month + '-' + day;
 		var hour = date.getHours();
 		if(hour < 10) hour = '0' + hour;
 		var minute = date.getMinutes();

@@ -115,7 +115,7 @@ class View{
 	 * @param $uri
 	 * @return string
 	 */
-	public function appStatic($uri){
-		return \F::app()->view->appStatic($uri);
+	public function appAssets($uri){
+		return \F::app()->view->appAssets($uri);
 	}
 }

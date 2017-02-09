@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
+
+/**
+ * @var $data array
+ */
 ?>
 <tr valign="top" id="link-<?php echo $data['id']?>">
 	<td>

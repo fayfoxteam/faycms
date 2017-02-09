@@ -8,7 +8,7 @@ use fay\models\tables\RolesTable;
 use fay\models\tables\ActionlogsTable;
 use fay\common\ListView;
 use fay\services\user\UserPropService;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;

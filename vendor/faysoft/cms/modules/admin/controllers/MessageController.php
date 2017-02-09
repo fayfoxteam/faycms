@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\models\tables\MessagesTable;
 use fay\models\tables\ActionlogsTable;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\services\MessageService;

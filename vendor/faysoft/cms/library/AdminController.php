@@ -13,7 +13,7 @@ use fay\core\HttpException;
 use fay\services\FlashService;
 use fay\models\tables\RolesTable;
 use fay\helpers\ArrayHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 class AdminController extends Controller{
 	public $layout_template = 'admin';

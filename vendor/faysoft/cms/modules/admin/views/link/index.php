@@ -1,6 +1,10 @@
 <?php
 use cms\helpers\ListTableHelper;
 use fay\helpers\HtmlHelper;
+
+/**
+ * @var $listview \fay\common\ListView
+ */
 ?>
 <div class="row">
 	<div class="col-12">

@@ -6,7 +6,7 @@ use fay\models\tables\UsersTable;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * 用户
@@ -117,6 +117,9 @@ class UserController extends ApiController{
 	 * 返回单用户信息
 	 */
 	public function get(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('id'), 'required'),
@@ -135,10 +138,10 @@ class UserController extends ApiController{
 		
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::parse($fields, 'user', User::$public_fields);
+			$fields = FieldHelper::parse($fields, 'user', UserService::$public_fields);
 		}else{
 			//若未指定$fields，取默认值
-			$fields = User::$default_fields;
+			$fields = UserService::$default_fields;
 		}
 		
 		$user = UserService::service()->get($id, $fields);

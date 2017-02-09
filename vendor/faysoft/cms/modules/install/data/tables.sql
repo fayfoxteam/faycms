@@ -370,7 +370,7 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
-  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
+  `sku_key` varchar(100) NOT NULL DEFAULT '' COMMENT 'SKU Key',
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
   `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
   `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
@@ -564,7 +564,7 @@ CREATE TABLE `{{$prefix}}orders` (
   `shipping_fee` decimal(6,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '邮费',
   `adjust_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '卖家手工调整金额（差值）',
   `total_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '订单总价',
-  `payment` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实付金额',
+  `paid_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实付金额',
   `seller_rate` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否评价',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `receiver_state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在省',
@@ -911,7 +911,7 @@ CREATE TABLE `{{$prefix}}user_prop_text` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` text NOT NULL COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_varchar`;
 CREATE TABLE `{{$prefix}}user_prop_varchar` (
@@ -919,13 +919,13 @@ CREATE TABLE `{{$prefix}}user_prop_varchar` (
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `setting_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Setting Key',
+  `setting_key` varchar(50) NOT NULL DEFAULT '' COMMENT 'Setting Key',
   `setting_value` text NOT NULL COMMENT 'Setting Value',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id-setting_key` (`user_id`,`setting_key`)
@@ -1099,3 +1099,95 @@ CREATE TABLE `{{$prefix}}feeds_tags` (
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
   PRIMARY KEY (`feed_id`,`tag_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态标签关联关系';
+
+DROP TABLE IF EXISTS `{{$prefix}}oauth_apps`;
+CREATE TABLE `{{$prefix}}oauth_apps` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
+  `description` varchar(100) NOT NULL DEFAULT '' COMMENT '描述',
+  `code` varchar(20) NOT NULL DEFAULT '' COMMENT '登录方式编码',
+  `app_id` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用ID',
+  `app_secret` varchar(50) NOT NULL DEFAULT '' COMMENT 'App Secret',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app_id` (`app_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录方式';
+
+DROP TABLE IF EXISTS `{{$prefix}}user_connects`;
+CREATE TABLE `{{$prefix}}user_connects` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `oauth_app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'oauth_apps表ID',
+  `open_id` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用对外ID',
+  `unionid` varchar(50) NOT NULL DEFAULT '' COMMENT 'Union ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `access_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Access Token',
+  `expires_in` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'access_token过期时间戳',
+  `refresh_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Refresh Token',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `open_id` (`open_id`) USING BTREE,
+  UNIQUE KEY `user_id-oauth_app_id` (`user_id`,`oauth_app_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';
+
+DROP TABLE IF EXISTS `{{$prefix}}payments`;
+CREATE TABLE `{{$prefix}}payments` (
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `code` varchar(20) NOT NULL DEFAULT '' COMMENT '支付编码',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '支付名称',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '支付描述',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  `config` text COMMENT '配置信息JSON',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后编辑时间',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
+
+DROP TABLE IF EXISTS `{{$prefix}}trades`;
+CREATE TABLE `{{$prefix}}trades` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '支付说明',
+  `body` varchar(255) NOT NULL DEFAULT '' COMMENT '支付描述',
+  `total_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '付款金额（单位：分）',
+  `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '已付金额（单位：分）',
+  `trade_payment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付记录ID（付成功的那条）',
+  `refund_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '退款金额（单位：分）',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `expire_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '过期时间',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
+  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  `show_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品展示网址',
+  `return_url` varchar(255) NOT NULL DEFAULT '' COMMENT '页面跳转同步通知地址',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易记录';
+
+DROP TABLE IF EXISTS `{{$prefix}}trade_refers`;
+CREATE TABLE `{{$prefix}}trade_refers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '交易类型',
+  `refer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
+  PRIMARY KEY (`id`),
+  KEY `trade_id` (`trade_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易引用关系表';
+
+DROP TABLE IF EXISTS `{{$prefix}}trade_payments`;
+CREATE TABLE `{{$prefix}}trade_payments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
+  `total_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '支付金额（单位：分）',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
+  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `notify_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '回调时间',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `payment_method_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
+  `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
+  `payer_account` varchar(50) NOT NULL DEFAULT '' COMMENT '付款人帐号',
+  `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '实付金额（单位：分）',
+  `refund_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '退款金额（单位：分）',
+  PRIMARY KEY (`id`),
+  KEY `trade_id` (`trade_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易支付记录表';

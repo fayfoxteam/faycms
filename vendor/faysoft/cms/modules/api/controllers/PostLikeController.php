@@ -4,9 +4,9 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\post\PostLikeService;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\helpers\FieldHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * 文章点赞
@@ -93,6 +93,9 @@ class PostLikeController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function postLikes(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
@@ -103,6 +106,7 @@ class PostLikeController extends ApiController{
 			'page_size'=>'intval',
 			'fields'=>'trim',
 		))->setLabels(array(
+			'post_id'=>'文章ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
 			'fields'=>'字段',
@@ -139,6 +143,9 @@ class PostLikeController extends ApiController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function userLikes(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//登录检查
 		$this->checkLogin();
 		

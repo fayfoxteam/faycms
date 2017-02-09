@@ -5,7 +5,14 @@ namespace <?php echo $namespace?>;
 use fay\core\db\Table;
 
 /**
- * <?php echo str_replace('_', ' ', ucfirst($table_name))?> table model
+ * <?php
+	if($table_comment){
+		echo $table_comment;
+	}else{
+		echo str_replace('_', ' ', ucfirst($table_name)), ' table model';
+	}
+?>
+
  * <?php foreach($fields as $f){?>
 
  * @property <?php
@@ -40,7 +47,6 @@ class <?php echo $class_name?>Table extends Table{
 	/**
 	 * @param string $class_name
 	 * @return <?php echo $class_name?>Table
-
 	 */
 	public static function model($class_name = __CLASS__){
 		return parent::model($class_name);

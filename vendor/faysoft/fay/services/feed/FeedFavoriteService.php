@@ -4,7 +4,7 @@ namespace fay\services\feed;
 use fay\core\Service;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\services\FeedService;
 use fay\models\tables\FeedFavoritesTable;
 use fay\models\tables\FeedMetaTable;

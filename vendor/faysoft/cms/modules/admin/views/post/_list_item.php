@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\helpers\DateHelper;
 use cms\helpers\PostHelper;
 use fay\services\FileService;

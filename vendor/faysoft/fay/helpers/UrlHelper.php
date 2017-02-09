@@ -51,8 +51,8 @@ class UrlHelper{
 	 * @param string $uri
 	 * @return string
 	 */
-	public static function appStatic($uri){
-		return \F::config()->get('base_url') . 'apps/' . APPLICATION . '/' . $uri;
+	public static function appAssets($uri){
+		return \F::config()->get('app_assets_url') . $uri;
 	}
 	
 	/**
@@ -62,6 +62,6 @@ class UrlHelper{
 	 * @return string
 	 */
 	public static function assets($uri){
-		return \F::config()->get('assets_url') . 'assets/' . $uri;
+		return \F::config()->get('assets_url') . $uri;
 	}
 }

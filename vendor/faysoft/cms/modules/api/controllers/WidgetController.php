@@ -16,6 +16,9 @@ class WidgetController extends ApiController{
 	 * @parameter string $name 小工具名称
 	 */
 	public function render(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('name'), 'required'),
@@ -52,6 +55,9 @@ class WidgetController extends ApiController{
 	 * @parameter param string $alias 小工具别名
 	 */
 	public function load(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('alias'), 'required'),
@@ -77,6 +83,9 @@ class WidgetController extends ApiController{
 	 * @parameter param string $alias 小工具别名
 	 */
 	public function data(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('alias'), 'required'),

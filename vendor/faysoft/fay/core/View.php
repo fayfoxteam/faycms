@@ -25,8 +25,8 @@ class View{
 	 * @param string $uri
 	 * @return string
 	 */
-	public function appStatic($uri){
-		return UrlHelper::appStatic($uri);
+	public function appAssets($uri){
+		return UrlHelper::appAssets($uri);
 	}
 	
 	/**

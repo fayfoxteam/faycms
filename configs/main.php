@@ -10,14 +10,19 @@ return array(
 	 * http://www.faycms.com/
 	 * 若系统被放置在二级目录，则该参数格式或许是这个样子：
 	 * http://www.faycms.com/fayfox/
-	 * 注意不要忘了最后的斜杠
+	 * **注意不要忘了最后的斜杠**
 	 */
 	'base_url'=>null,
 	
 	/*
-	 * 静态资源URL，默认与base_url相同
+	 * 静态资源URL，默认为`{{$base_url}}assets/`（**注意不要忘了最后的斜杠**）
 	 */
 	'assets_url'=>null,
+	
+	/**
+	 * 项目私有的静态资源URL，默认为`{{$base_url}}apps/APPLICATION/`（**注意不要忘了最后的斜杠**）
+	 */
+	'app_assets_url'=>null,
 	
 	/*
 	 * 数据库参数

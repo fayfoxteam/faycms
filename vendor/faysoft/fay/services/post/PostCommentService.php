@@ -6,12 +6,11 @@ use fay\helpers\FieldHelper;
 use fay\models\MultiTreeModel;
 use fay\models\tables\PostCommentsTable;
 use fay\core\Exception;
-use fay\services\PostService;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use fay\models\tables\PostMetaTable;
 use fay\services\OptionService;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 class PostCommentService extends MultiTreeModel{
 	/**
@@ -476,9 +475,9 @@ class PostCommentService extends MultiTreeModel{
 	 * @param int $comment_id 评论ID
 	 * @param array|string $fields 返回字段
 	 *  - comment.*系列可指定post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
 	 *  - parent.comment.*系列可指定父评论post_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-	 *  - parent._user.*系列可指定父评论作者信息，格式参照\fay\services\UserService::get()
+	 *  - parent._user.*系列可指定父评论作者信息，格式参照\fay\services\user\UserService::get()
 	 * @return array
 	 */
 	public function get($comment_id, $fields = array(

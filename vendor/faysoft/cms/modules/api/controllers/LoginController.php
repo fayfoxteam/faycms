@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\UserService;
+use fay\services\user\UserService;
 use fay\services\user\UserPasswordService;
 
 /**
@@ -17,7 +17,7 @@ class LoginController extends ApiController{
 	 */
 	public function index(){
 		if($this->input->post()){
-			$result = PasswordService::service()->checkPassword(
+			$result = UserPasswordService::service()->checkPassword(
 				$this->input->post('username'),
 				$this->input->post('password')
 			);

@@ -1,6 +1,7 @@
 <?php
 namespace fay\services;
 
+use fay\core\HttpException;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
@@ -286,7 +287,6 @@ class FileService extends Service{
 			return '';
 		}
 		
-		
 		if(!$file['is_image']){
 			//非图片类型返回false
 			return false;
@@ -366,7 +366,7 @@ class FileService extends Service{
 				if($private){
 					//私有文件通过file/pic访问
 					$data['url'] = UrlHelper::createUrl('file/pic', array('f'=>$data['id']));
-					$data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>2, 'f'=>$data['id']));
+					$data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>self::PIC_THUMBNAIL, 'f'=>$data['id']));
 				}else{
 					//公共文件直接给出真实路径
 					$data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
@@ -410,17 +410,103 @@ class FileService extends Service{
 		}
 	}
 	
+	public function uploadFromUrl($url, $cat = 0, $client_name = null, $private = false){
+		if($cat){
+			if(!is_array($cat)){
+				$cat = CategoryService::service()->get($cat, 'id,alias', '_system_file');
+			}
+			
+			if(!$cat){
+				throw new ErrorException('fay\services\FileService::upload传入$cat不存在');
+			}
+		}else{
+			$cat = array(
+				'id'=>0,
+				'alias'=>'',
+			);
+		}
+		$client_name || $client_name = $url;
+		
+		//用file_get_contents获取就非常非常慢
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		$response =  curl_exec($ch);
+		curl_close($ch);
+		
+		$file = @imagecreatefromstring($response);
+		if(!$file){
+			throw new HttpException('获取远程文件失败', 500);
+		}
+		
+		$target = $cat['alias'];
+		if($target && substr($target, -1) != '/'){
+			//目标路径末尾不是斜杠的话，加上斜杠
+			$target .= '/';
+		}
+		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
+			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
+		//若指定目录不存在，则创建目录
+		self::createFolder($upload_path);
+		$filename = self::getFileName($upload_path, '.jpg');
+		if(defined('NO_REWRITE')){
+			$destination = './public/'.$upload_path . $filename;
+		}else{
+			$destination = $upload_path . $filename;
+		}
+		
+		//存储原图
+		imagejpeg($file, $destination);
+		
+		$data = array(
+			'raw_name'=>substr($filename, 0, -4),
+			'file_ext'=>'.jpg',
+			'file_type'=>'image/jpeg',
+			'file_size'=>filesize($destination),
+			'file_path'=>$upload_path,
+			'client_name'=>$client_name,
+			'is_image'=>1,
+			'image_width'=>imagesx($file),
+			'image_height'=>imagesy($file),
+			'upload_time'=>\F::app()->current_time,
+			'user_id'=>\F::app()->current_user,
+			'cat_id'=>$cat['id'],
+		);
+		$data['id'] = FilesTable::model()->insert($data);
+		$img = ImageHelper::resize($file, 100, 100);
+		imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
+		
+		$data['error'] = 0;
+		if($private){
+			//私有文件通过file/pic访问
+			$data['url'] = UrlHelper::createUrl('file/pic', array('f'=>$data['id']));
+			$data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>self::PIC_THUMBNAIL, 'f'=>$data['id']));
+		}else{
+			//公共文件直接给出真实路径
+			$data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
+			$data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100.jpg';
+			//真实存放路径（是图片的话与url路径相同）
+			$data['src'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
+		}
+		
+		return array(
+			'status'=>1,
+			'data'=>$data,
+		);
+	}
+	
 	/**
 	 * 编辑一张图片
 	 * @param int|array $file 可以传入文件ID或包含足够信息的数组
 	 * @param string $handler 处理方式。resize(缩放)和crop(裁剪)可选
 	 * @param array $params
-	 *     $params['dw'] 输出宽度
-	 *     $params['dh'] 输出高度
-	 *     $params['x'] 裁剪时x坐标点
-	 *     $params['y'] 裁剪时y坐标点
-	 *     $params['w'] 裁剪时宽度
-	 *     $params['h'] 裁剪时高度
+	 *  - $params['dw'] 输出宽度
+	 *  - $params['dh'] 输出高度
+	 *  - $params['x'] 裁剪时x坐标点
+	 *  - $params['y'] 裁剪时y坐标点
+	 *  - $params['w'] 裁剪时宽度
+	 *  - $params['h'] 裁剪时高度
 	 * @return array|bool|int
 	 * @throws ErrorException
 	 */
@@ -725,8 +811,13 @@ class FileService extends Service{
 			!$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
 		){
 			//显然负数ID不存在，返回默认图数组
-			if(isset($options['spare']) && $spare = \F::config()->get($options['spare'], 'noimage')){
+			if(isset($options['spare'])){
 				//若指定了默认图，则取默认图
+				$spare = \F::config()->get($options['spare'], 'noimage');
+				if($spare === null){
+					//若指定的默认图不存在，返回默认图
+					$spare = \F::config()->get('default', 'noimage');
+				}
 			}else{
 				//若未指定默认图，返回默认图
 				$spare = \F::config()->get('default', 'noimage');
@@ -738,10 +829,18 @@ class FileService extends Service{
 				$return['id'] = '0';
 			}
 			if(in_array('url', $fields['fields'])){
-				$return['url'] = UrlHelper::createUrl($spare);
+				if($spare){
+					$return['url'] = UrlHelper::createUrl($spare);
+				}else{
+					$return['url'] = '';
+				}
 			}
 			if(in_array('thumbnail', $fields['fields'])){
-				$return['thumbnail'] = UrlHelper::createUrl($spare);
+				if($spare){
+					$return['thumbnail'] = UrlHelper::createUrl($spare);
+				}else{
+					$return['thumbnail'] = '';
+				}
 			}
 			if(in_array('is_image', $fields['fields'])){
 				$return['is_image'] = '0';

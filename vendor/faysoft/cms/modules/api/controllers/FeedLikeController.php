@@ -6,7 +6,7 @@ use fay\core\Response;
 use fay\services\feed\FeedLikeService;
 use fay\services\FeedService;
 use fay\helpers\FieldHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * 动态点赞
@@ -103,6 +103,7 @@ class FeedLikeController extends ApiController{
 			'page_size'=>'intval',
 			'fields'=>'trim',
 		))->setLabels(array(
+			'feed_id'=>'动态ID',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
 			'fields'=>'字段',
@@ -120,7 +121,7 @@ class FeedLikeController extends ApiController{
 		$fields = $this->form()->getData('fields');
 		if($fields){
 			//过滤字段，移除那些不允许的字段
-			$fields = FieldHelper::parse($fields, 'feed', User::$public_fields);
+			$fields = FieldHelper::parse($fields, 'feed', UserService::$public_fields);
 		}else{
 			$fields = UserService::$default_fields;
 		}

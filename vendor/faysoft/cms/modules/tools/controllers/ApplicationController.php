@@ -134,7 +134,10 @@ class ApplicationController extends ToolsController{
 					'role_id'=>RolesTable::ITEM_SUPER_ADMIN,
 				));
 				
-				OptionService::set('site:sitename', $this->input->post('sitename'));
+				$this->db->insert('options', array(
+					'option_name'=>'site:sitename',
+					'option_value'=>$this->input->post('sitename'),
+				));
 				
 				FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed");
 			}

@@ -2,7 +2,7 @@
 namespace fay\services\post;
 
 use fay\core\Service;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 class PostUserService extends Service{
 	/**

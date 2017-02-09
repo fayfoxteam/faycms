@@ -10,10 +10,6 @@ use fay\helpers\StringHelper;
 class Table extends Model{
 	protected $_name = '';
 	protected $_primary = 'id';//主键
-	/**
-	 * @var \fay\core\Sql
-	 */
-	protected $_sql;
 	
 	/**
 	 * @var \fay\core\Db
@@ -166,19 +162,19 @@ class Table extends Model{
 	 * @return array|bool
 	 */
 	public function find($primary, $fields = '*'){
-		if(!$this->_sql)$this->_sql = new Sql();
-		$this->_sql->from($this->_name, $this->formatFields($fields))
+		$sql = new Sql($this->db);
+		$sql->from($this->_name, $this->formatFields($fields))
 			->limit(1);
 		if(is_array($this->_primary)){
 			foreach($this->_primary as $k=>$pk){
-				$this->_sql->where(array("$pk = ?"=>isset($primary[$pk]) ? $primary[$pk] : $primary[$k]));
+				$sql->where(array("$pk = ?"=>isset($primary[$pk]) ? $primary[$pk] : $primary[$k]));
 			}
 		}else{
-			$this->_sql->where(array(
+			$sql->where(array(
 				"{$this->_primary} = ?" => $primary,
 			));
 		}
-		return $this->_sql->fetchRow();
+		return $sql->fetchRow();
 	}
 	
 	/**
@@ -191,14 +187,14 @@ class Table extends Model{
 	 * @return array|bool
 	 */
 	public function fetchRow($conditions, $fields = '*', $order = false, $offset = null, $style = 'assoc'){
-		if(!$this->_sql)$this->_sql = new Sql($this->db);
-		$this->_sql->from($this->_name, $this->formatFields($fields))
+		$sql = new Sql($this->db);
+		$sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions)
 			->limit(1, $offset);
 		if($order){
-			$this->_sql->order($order);
+			$sql->order($order);
 		}
-		return $this->_sql->fetchRow(true, $style);
+		return $sql->fetchRow(true, $style);
 	}
 	
 	/**
@@ -212,16 +208,16 @@ class Table extends Model{
 	 * @return array
 	 */
 	public function fetchAll($conditions = array(), $fields = '*', $order = false, $count = false, $offset = false, $style = 'assoc'){
-		if(!$this->_sql)$this->_sql = new Sql($this->db);
-		$this->_sql->from($this->_name, $this->formatFields($fields))
+		$sql = new Sql($this->db);
+		$sql->from($this->_name, $this->formatFields($fields))
 			->where($conditions);
 		if($order){
-			$this->_sql->order($order);
+			$sql->order($order);
 		}
 		if($count){
-			$this->_sql->limit($count, $offset);
+			$sql->limit($count, $offset);
 		}
-		return $this->_sql->fetchAll(true, $style);
+		return $sql->fetchAll(true, $style);
 	}
 	
 	/**

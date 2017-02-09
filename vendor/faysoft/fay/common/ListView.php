@@ -35,7 +35,7 @@ class ListView{
 	 */
 	public function __construct($sql = null, $config = array()){
 		foreach($config as $k => $c){
-			if(isset($this->{$k})){
+			if($c && isset($this->{$k})){
 				$this->{$k} = $c;
 			}
 		}

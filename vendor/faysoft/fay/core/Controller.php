@@ -3,7 +3,7 @@ namespace fay\core;
 
 use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
-use fay\services\UserService;
+use fay\services\user\UserService;
 
 /**
  * @property View $view 视图
@@ -35,6 +35,7 @@ class Controller{
 	public $layout_template;
 	/**
 	 * 当前时间时间戳
+	 * @var int
 	 */
 	public $current_time = 0;
 	/**

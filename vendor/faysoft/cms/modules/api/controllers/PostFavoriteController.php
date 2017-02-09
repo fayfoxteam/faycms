@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\UserController;
 use fay\services\post\PostFavoriteService;
 use fay\core\Response;
-use fay\services\PostService;
+use fay\services\post\PostService;
 use fay\helpers\FieldHelper;
 
 /**
@@ -85,6 +85,9 @@ class PostFavoriteController extends UserController{
 	 * @parameter int $page_size 分页大小
 	 */
 	public function listAction(){
+		//验证必须get方式发起请求
+		$this->checkMethod('GET');
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('page', 'page_size'), 'int', array('min'=>1)),

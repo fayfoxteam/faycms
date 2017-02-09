@@ -2,7 +2,7 @@
 use fay\helpers\DateHelper;
 use fay\helpers\ArrayHelper;
 use fay\services\user\UserRoleService;
-use fay\services\UserService;
+use fay\services\user\UserService;
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
 	<div class="box-title">

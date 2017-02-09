@@ -10,6 +10,7 @@ use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use fay\models\tables\UserCounterTable;
+use fay\services\user\UserService;
 
 /**
  * 留言服务
@@ -475,10 +476,10 @@ class MessageService extends MultiTreeModel{
 	 * @param int $message_id 留言ID
 	 * @param array|string $fields 返回字段
 	 *  - message.*系列可指定messages表返回字段，若有一项为'message.*'，则返回所有字段
-	 *  - user.*系列可指定作者信息，格式参照\fay\services\UserService::get()
-	 *  - to_user.*系列可指定被留言用户信息，格式参照\fay\services\UserService::get()
+	 *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
+	 *  - to_user.*系列可指定被留言用户信息，格式参照\fay\services\user\UserService::get()
 	 *  - parent.message.*系列可指定父留言messages表返回字段，若有一项为'message.*'，则返回所有字段
-	 *  - parent.user.*系列可指定父留言作者信息，格式参照\fay\services\UserService::get()
+	 *  - parent.user.*系列可指定父留言作者信息，格式参照\fay\services\user\UserService::get()
 	 * @return array
 	 */
 	public function get($message_id, $fields = array(

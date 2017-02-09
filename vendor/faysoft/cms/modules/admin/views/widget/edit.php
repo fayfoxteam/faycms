@@ -49,10 +49,6 @@ use fay\helpers\HtmlHelper;
 					<div class="form-field pb0 pt0">
 						<label class="title bold pb0">别名</label>
 						<?php echo HtmlHelper::inputText('f_widget_alias', $widget['alias'], array(
-							'data-rule'=>'string',
-							'data-label'=>'别名',
-							'data-params'=>'{max:255,format:\'alias\'}',
-							'data-ajax'=>$this->url('admin/widget/is-alias-not-exist', array('id'=>$widget['id'])),
 							'class'=>'form-control',
 						))?>
 						<p class="fc-grey mt5">

@@ -1,6 +1,8 @@
 <?php
 namespace fay\services\user;
 
-class UserException extends \fay\core\Exception{
+use fay\core\Exception;
+
+class UserException extends Exception{
 	
 }

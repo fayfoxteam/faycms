@@ -104,11 +104,17 @@ class RoleController extends AdminController{
 			RolesTable::model()->update($this->form()->getFilteredData(), $role_id, true);
 			
 			//操作权限
-			$actions = $this->input->post('actions', 'intval', array(0));
-			RolesActionsTable::model()->delete(array(
-				'role_id = ?'=>$role_id,
-				'action_id NOT IN (?)'=>$actions,
-			));
+			$actions = $this->input->post('actions', 'intval', array());
+			if($actions){
+				RolesActionsTable::model()->delete(array(
+					'role_id = ?'=>$role_id,
+					'action_id NOT IN (?)'=>$actions,
+				));
+			}else{
+				RolesActionsTable::model()->delete(array(
+					'role_id = ?'=>$role_id,
+				));
+			}
 			$old_actions = RolesActionsTable::model()->fetchCol('action_id', array(
 				'role_id = ?'=>$role_id,
 			));

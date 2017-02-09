@@ -4,7 +4,13 @@ use fay\services\OptionService;
 use fay\services\FileService;
 use fay\services\FlashService;
 use fay\services\user\UserRoleService;
-use fay\services\UserService;
+use fay\services\user\UserService;
+
+/**
+ * @var $subtitle string
+ * @var $content string
+ * @var $this \fay\core\View
+ */
 ?>
 <!DOCTYPE html>
 <html>

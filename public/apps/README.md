@@ -7,5 +7,5 @@
 ```
 在view层中调用方式如下：
 ```php
-<link type="text/css" rel="stylesheet" href="<?php echo $this->appStatic('css/style.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" />
 ```

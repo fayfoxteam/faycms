@@ -56,6 +56,10 @@ $this->appendCss($this->appAssets('css/arm.css'));
 					<label class="label-title">军职</label>
 					<span class="content" id="info-rank"></span>
 				</fieldset>
+				<fieldset>
+					<label class="label-title">军团代号</label>
+					<span class="content" id="info-id"></span>
+				</fieldset>
 			</div>
 			<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
 			<div class="layer description">
@@ -90,6 +94,7 @@ $(function(){
 				$('#info-defence-area').text(resp.data.extra.defence_area_name);
 				$('#info-arm').text(resp.data.extra.arm_name);
 				$('#info-rank').text(resp.data.extra.rank_name ? resp.data.extra.rank_name : '士兵');
+				$('#info-id').text(resp.data.extra.arm_name ? '关羽军团'+resp.data.extra.arm_name+'营'+system.user_id : '')
 			}else{
 				common.toast(resp.message, 'error');
 			}

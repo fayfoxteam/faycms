@@ -89,7 +89,7 @@ $(function(){
 				}
 				$('#info-defence-area').text(resp.data.extra.defence_area_name);
 				$('#info-arm').text(resp.data.extra.arm_name);
-				$('#info-rank').text(resp.data.extra.rank_name);
+				$('#info-rank').text(resp.data.extra.rank_name ? resp.data.extra.rank_name : '士兵');
 			}else{
 				common.toast(resp.message, 'error');
 			}

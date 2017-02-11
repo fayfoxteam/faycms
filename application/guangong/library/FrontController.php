@@ -76,7 +76,6 @@ class FrontController extends Controller{
 			$config['app_secret']
 		);
 		
-		//获取code的时候会有一次跳转。防止重复尝试获取open id
 		$open_id = $oauth->getOpenId();
 		$user_connect = UserConnectsTable::model()->fetchRow(array(
 			'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($config['app_id']),
@@ -89,7 +88,5 @@ class FrontController extends Controller{
 		}else{
 			return false;
 		}
-		
-		return false;
 	}
 }

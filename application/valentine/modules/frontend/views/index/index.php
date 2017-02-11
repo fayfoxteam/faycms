@@ -3,39 +3,41 @@
  * @var $signature array 签名信息
  */
 ?>
-<form method="post">
-	<fieldset>
-		<input name="name" placeholder="组合名称" type="text">
-	</fieldset>
-	<fieldset>
-		<input name="photo" type="hidden">
-		<div id="img-local-id"></div>
-		<div id="img-server-id"></div>
-		<img src="" id="photo-preview">
-		<a href="javascript:;" id="upload-photo-link">点击上传照片</a>
-	</fieldset>
-	<fieldset>
-		<textarea name="blessing" placeholder="点击输入对公司祝福语"></textarea>
-	</fieldset>
-	<fieldset>
-		<h6>请选择参加组别</h6>
-		<label>
-			<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
-			最具夫妻相
-		</label>
-		<label>
-			<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY?>" type="radio">
-			最佳创意奖
-		</label>
-		<label>
-			<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
-			最赞祝福语
-		</label>
-	</fieldset>
-	<fieldset>
-		<a href="javascript:;" id="submit-link">点击提交</a>
-	</fieldset>
-</form>
+<div class="index-form">
+	<form method="post">
+		<fieldset>
+			<input name="name" placeholder="组合名称" type="text">
+		</fieldset>
+		<fieldset>
+			<input name="photo_server_id" type="hidden" id="photo-server-id">
+			<div id="img-local-id"></div>
+			<div id="img-server-id"></div>
+			<img src="" id="photo-preview">
+			<a href="javascript:;" id="upload-photo-link">点击上传照片</a>
+		</fieldset>
+		<fieldset>
+			<textarea name="blessing" placeholder="点击输入对公司祝福语"></textarea>
+		</fieldset>
+		<fieldset>
+			<h6>请选择参加组别</h6>
+			<label>
+				<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
+				最具夫妻相
+			</label>
+			<label>
+				<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY?>" type="radio">
+				最佳创意奖
+			</label>
+			<label>
+				<input name="type" checked="checked" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
+				最赞祝福语
+			</label>
+		</fieldset>
+		<fieldset>
+			<a href="javascript:;" id="submit-link">点击提交</a>
+		</fieldset>
+	</form>
+</div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 wx.config({
@@ -61,6 +63,7 @@ $(function(){
 					success: function(res){
 						var serverId = res.serverId; // 返回图片的服务器端ID
 						$('#img-server-id').text(serverId);
+						$('#photo-server-id').text(serverId);
 					}
 				});
 			}

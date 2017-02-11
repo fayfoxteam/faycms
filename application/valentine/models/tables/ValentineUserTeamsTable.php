@@ -9,8 +9,6 @@ use fay\core\db\Table;
  * @property int $id Id
  * @property string $name 组队名称
  * @property int $type 类型
- * @property int $user_id 用户1ID
- * @property int $user_id2 用户2ID
  * @property int $create_time 配对时间
  * @property int $photo 合影图片文件
  * @property string $blessing 对公司的祝福
@@ -44,12 +42,15 @@ class ValentineUserTeamsTable extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('user_id', 'user_id2', 'photo'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('photo'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('votes'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('name'), 'string', array('max'=>50)),
+			array(array('photo_server_id'), 'string', array('max'=>100)),
 			array(array('blessing'), 'string', array('max'=>255)),
+			
+			array(array('name', 'photo_server_id', 'blessing', 'type'), 'required'),
 		);
 	}
 	
@@ -58,10 +59,9 @@ class ValentineUserTeamsTable extends Table{
 			'id'=>'Id',
 			'name'=>'组队名称',
 			'type'=>'类型',
-			'user_id'=>'用户1ID',
-			'user_id2'=>'用户2ID',
 			'create_time'=>'配对时间',
 			'photo'=>'合影图片文件',
+			'photo_server_id'=>'微信服务器媒体ID',
 			'blessing'=>'对公司的祝福',
 			'votes'=>'得票数',
 		);
@@ -72,11 +72,9 @@ class ValentineUserTeamsTable extends Table{
 			'id'=>'intval',
 			'name'=>'trim',
 			'type'=>'intval',
-			'user_id'=>'intval',
-			'user_id2'=>'intval',
 			'photo'=>'intval',
+			'photo_server_id'=>'trim',
 			'blessing'=>'trim',
-			'votes'=>'intval',
 		);
 	}
 }

@@ -32,24 +32,22 @@ CREATE TABLE `{{$prefix}}valentine_user_teams` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '组队名称',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户1ID',
-  `user_id2` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户2ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '配对时间',
   `photo` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '合影图片文件',
+  `photo_server_id` varchar(100) NOT NULL DEFAULT '' COMMENT '微信服务器媒体ID',
   `blessing` varchar(255) NOT NULL DEFAULT '' COMMENT '对公司的祝福',
   `votes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '得票数',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id-user_id2` (`user_id`,`user_id2`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户配对表';
 
 DROP TABLE IF EXISTS `{{$prefix}}valentine_votes`;
 CREATE TABLE `{{$prefix}}valentine_votes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `team_id` smallint(6) NOT NULL,
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '投票人用户ID',
+  `team_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '组合ID',
+  `open_id` varchar(50) NOT NULL DEFAULT '' COMMENT '投票人OpenID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '投票时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`)
+  UNIQUE KEY `user_id` (`open_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='投票记录表';
 
 -- 星座表数据

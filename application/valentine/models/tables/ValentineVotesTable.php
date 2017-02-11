@@ -5,10 +5,10 @@ use fay\core\db\Table;
 
 /**
  * 投票记录表
- * 
+ *
  * @property int $id Id
- * @property int $team_id Team Id
- * @property int $user_id 投票人用户ID
+ * @property int $team_id 组合ID
+ * @property string $open_id 投票人OpenID
  * @property int $create_time 投票时间
  */
 class ValentineVotesTable extends Table{
@@ -24,25 +24,26 @@ class ValentineVotesTable extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('team_id'), 'int', array('min'=>-32768, 'max'=>32767)),
+			array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('team_id'), 'int', array('min'=>0, 'max'=>65535)),
+			array(array('open_id'), 'string', array('max'=>50)),
 		);
 	}
-
+	
 	public function labels(){
 		return array(
 			'id'=>'Id',
-			'team_id'=>'Team Id',
-			'user_id'=>'投票人用户ID',
+			'team_id'=>'组合ID',
+			'open_id'=>'投票人OpenID',
 			'create_time'=>'投票时间',
 		);
 	}
-
+	
 	public function filters(){
 		return array(
 			'id'=>'intval',
 			'team_id'=>'intval',
-			'user_id'=>'intval',
+			'open_id'=>'trim',
 		);
 	}
 }

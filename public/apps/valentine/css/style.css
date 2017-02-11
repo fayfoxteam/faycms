@@ -1,4 +1,37 @@
 @CHARSET "UTF-8";
-html,body{height:100%}
-body{background:url(images/bg.jpg) no-repeat center center transparent;background-size:cover}
-.wrap{width:100%;height:100%;position:relative;overflow:hidden;z-index:1;margin-left:auto;margin-right:auto}
+body{color:#333;font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;font-size:14px}
+a{color:#0088cc;text-decoration:none}
+.wrap{width:95%;margin:0 auto}
+.blockcell{border-bottom:1px solid #ececec;line-height:35px}
+input{background-color:#fff;border:1px solid #ccc;vertical-align:middle;transition:border linear 0.2s, box-shadow linear 0.2s;padding:4px 6px;color:#555;height:30px;line-height:30px;border-radius:4px;font-size:14px;display:inline-block}
+.btn{border:none;background:#34495e;color:#fff;font-size:14px;transition:0.25s;display:inline-block;padding:8px 15px;vertical-align:middle;text-align:center;border-radius:4px;text-decoration:none}
+.btn-blue{background-color:#3498db}
+.btn-blue:hover{background-color:#5dade2}
+.btn-grey{background-color:#95a5a6}
+.btn-grey:hover{background-color:#5dade2}
+i.fa{margin-right:3px}
+
+.w160{width:160px}
+.wp100{width:100%}
+
+.index-form{background:url(images/bg.jpg) no-repeat center center transparent;background-size:cover}
+
+.vote-title{margin:20px 0;font-weight:normal}
+.vote-title h1{font-size:16px;line-height:20px}
+
+.vote-info{background-color:#ececec;border-radius:5px;margin-bottom:10px}
+.vote-info ul li{width:32%;line-height:2;text-align:center;color:#000;font-size:12px;margin:8px 0 4px;display:inline-block}
+.vote-info ul li.left-border{border-left:1px solid #fff}
+.vote-info ul li label{display:block;margin-bottom:2px}
+.show-ranking-link{margin-top:8px}
+
+#search-form{margin:10px 0 5px}
+#search-form-submit{margin-left:5px}
+
+.vote-list{margin-top:20px}
+.vote-list article{background-color:#ececec;clear:left;margin-bottom:20px;padding-bottom:20px}
+.vote-list .img img{width:100%}
+.vote-list .vote-container{margin:5px 10px 0}
+.vote-list .blessing{margin:5px 10px 10px;line-height:1.3}
+.vote-list .meta{margin:5px 10px 0;line-height:2;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.vote-list .vote-result{margin-top:10px;text-align:center}

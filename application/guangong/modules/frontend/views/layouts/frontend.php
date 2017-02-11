@@ -1,6 +1,3 @@
-<?php
-use fay\services\OptionService;
-?>
 <!DOCTYPE html>
 <html>
 <head>

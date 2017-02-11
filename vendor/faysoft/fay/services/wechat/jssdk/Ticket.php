@@ -13,7 +13,7 @@ class Ticket{
 	/**
 	 * 获取Token Url
 	 */
-	const TICKET_URL = 'https://api.weixin.qq.com/cgi-bin/token';
+	const TICKET_URL = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
 	
 	/**
 	 * @var string 应用ID

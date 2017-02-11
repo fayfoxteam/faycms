@@ -27,7 +27,7 @@ class AccessToken{
 	/**
 	 * @var string 缓存键前缀
 	 */
-	protected $cache_key_prefix = APPLICATION . '.wechat.access_token.';
+	protected $cache_key_prefix = '.wechat.access_token.';
 	
 	/**
 	 * @var string 缓存key（若不指定，默认返回$this->cache_key_prefix . $this->app_id）
@@ -111,7 +111,7 @@ class AccessToken{
 	 */
 	protected function getCacheKey(){
 		if(!$this->cache_key){
-			return $this->cache_key_prefix . $this->app_id;
+			return APPLICATION . $this->cache_key_prefix . $this->app_id;
 		}
 		
 		return $this->cache_key;

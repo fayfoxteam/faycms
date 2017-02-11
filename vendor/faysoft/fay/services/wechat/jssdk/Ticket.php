@@ -28,7 +28,7 @@ class Ticket{
 	/**
 	 * @var string 缓存键前缀
 	 */
-	protected $cache_key_prefix = APPLICATION . '.wechat.ticket.';
+	protected $cache_key_prefix = '.wechat.ticket.';
 	
 	/**
 	 * @var string 缓存key（若不指定，默认返回$this->cache_key_prefix . $this->app_id）
@@ -111,7 +111,7 @@ class Ticket{
 	 */
 	protected function getCacheKey(){
 		if(!$this->cache_key){
-			return $this->cache_key_prefix . $this->app_id;
+			return APPLICATION . $this->cache_key_prefix . $this->app_id;
 		}
 		
 		return $this->cache_key;

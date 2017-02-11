@@ -4,6 +4,7 @@ namespace fay\services\wechat\jssdk;
 use fay\caching\Cache;
 use fay\core\ErrorException;
 use fay\helpers\HttpHelper;
+use fay\services\wechat\core\AccessToken;
 
 /**
  * 通过Access Token获取Ticket

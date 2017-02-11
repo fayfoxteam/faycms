@@ -3,17 +3,17 @@ namespace fay\services\oauth;
 
 abstract class ClientAbstract{
 	/**
-	 * 应用ID
+	 * @var string 应用ID
 	 */
 	protected $app_id;
 	
 	/**
-	 * 应用密钥
+	 * @var string 应用密钥
 	 */
 	protected $app_secret;
 	
 	/**
-	 * 回调地址
+	 * @var string 回调地址
 	 */
 	protected $redirect_uri;
 	
@@ -23,7 +23,7 @@ abstract class ClientAbstract{
 	protected $state_manager;
 	
 	/**
-	 * 授权的列表
+	 * @var string 授权的列表
 	 */
 	protected $scope;
 	

@@ -175,7 +175,9 @@ class Cache{
 	 * @throws \fay\core\ErrorException
 	 * @return \fay\caching\Cache
 	 */
-	public function getDriver($driver){
+	public function getDriver($driver = null){
+		$driver || $driver = \F::config()->get('default_cache_driver');
+		
 		if(empty($driver)){
 			return false;
 		}else if(!isset(self::$map[$driver])){

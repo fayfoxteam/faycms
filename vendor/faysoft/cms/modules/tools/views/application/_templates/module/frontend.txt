@@ -18,6 +18,7 @@ use fay\helpers\HtmlHelper;
 	echo $title, '_';
 }
 echo OptionService::get('site:sitename')?></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >

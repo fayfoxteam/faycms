@@ -30,6 +30,8 @@ CREATE TABLE `{{$prefix}}valentine_user_extra` (
 DROP TABLE IF EXISTS `{{$prefix}}valentine_user_teams`;
 CREATE TABLE `{{$prefix}}valentine_user_teams` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '组队名称',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户1ID',
   `user_id2` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户2ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '配对时间',

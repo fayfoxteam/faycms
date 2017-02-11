@@ -18,8 +18,8 @@ use fay\helpers\HtmlHelper;
 	echo $title, '_';
 }
 echo OptionService::get('site:sitename')?></title>
-<meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
-<meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 <?php echo $this->getCss()?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>

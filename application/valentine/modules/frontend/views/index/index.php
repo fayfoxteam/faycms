@@ -50,15 +50,15 @@ $(function(){
 	$('#upload-photo-link').on('click', function(){
 		wx.chooseImage({
 			'count': 1,
-			'success': function (res) {
+			'success': function(res){
 				var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 				$('#img-local-id').text(localIds);
 				//$('#photo-preview').attr('src', localIds);
 				
 				wx.uploadImage({
-					localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+					localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
 					isShowProgressTips: 1, // 默认为1，显示进度提示
-					success: function (res) {
+					success: function(res){
 						var serverId = res.serverId; // 返回图片的服务器端ID
 						$('#img-server-id').text(serverId);
 					}

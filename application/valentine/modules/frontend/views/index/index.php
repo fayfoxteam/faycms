@@ -10,6 +10,7 @@
 	<fieldset>
 		<input name="photo" type="hidden">
 		<div id="img-local-id"></div>
+		<img src="" id="photo-preview">
 		<a href="javascript:;" id="upload-photo-link">点击上传照片</a>
 	</fieldset>
 	<fieldset>
@@ -51,6 +52,7 @@ $(function(){
 			'success': function (res) {
 				var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 				$('#img-local-id').text(localIds);
+				$('#photo-preview').attr('src', localIds);
 			}
 		});
 	});

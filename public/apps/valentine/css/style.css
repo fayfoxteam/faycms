@@ -16,11 +16,11 @@ i.fa{margin-right:3px}
 
 .index .wrap{width:100%}
 .index-form{background:url(images/bg.jpg) no-repeat center center transparent;background-size:cover;padding:50px 30px}
-.index-form input[type="text"],.index-form textarea{border:1px solid #f905c2;color:#f905c2;width:100%;padding:14px 0;text-align:center;font-size:20px}
+.index-form input[type="text"],.index-form textarea{border:1px solid #f905c2;color:#f905c2;width:100%;padding:14px 0;text-align:center;font-size:20px;line-heigt:20px}
 .index-form fieldset{margin-bottom:15px}
 .index-form #upload-photo-link{display:block;border:1px solid #f905c2;color:#f905c2;text-align:center;padding:50px 0;font-size:20px}
-.index-form h6{margin-top:10px;font-size:18px;color:#f905c2;font-weight:normal}
-.index-form .radio-container{padding-left:50px;margin-top:20px}
+.index-form h6{margin-top:5px;font-size:18px;color:#f905c2;font-weight:normal}
+.index-form .radio-container{padding-left:40px;margin-top:10px}
 .index-form .radio-container label{display:block;font-size:18px;color:#f905c2;padding:8px 0}
 .index-form .submit-container{text-align:center;margin-top:50px}
 .index-form #submit-link{font-size:20px;color:#fff;background-color:#38f4d3;padding:12px 20px;}

@@ -16,17 +16,17 @@ use fay\core\db\Table;
  */
 class ValentineUserTeamsTable extends Table{
 	/**
-	 * 类型 - 最具夫妻相
+	 * 类型 - 最牛组合名
 	 */
 	const TYPE_COUPLE = 1;
 	
 	/**
-	 * 类型 - 最佳创意奖
+	 * 类型 - 最佳创意照
 	 */
 	const TYPE_ORIGINALITY = 2;
 	
 	/**
-	 * 类型 - 最赞祝福语
+	 * 类型 - 最美祝福语
 	 */
 	const TYPE_BLESSING = 3;
 	

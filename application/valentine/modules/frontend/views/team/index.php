@@ -23,7 +23,7 @@
 			<div class="radio-container">
 				<label>
 					<input name="type" checked="checked" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
-					最具夫妻相
+					最牛组合名
 					<?php echo \fay\helpers\HtmlHelper::link('（查看作品）', array('team/list', array(
 						'type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE,
 					), false), array(
@@ -32,7 +32,7 @@
 				</label>
 				<label>
 					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY?>" type="radio">
-					最佳创意奖
+					最佳创意照
 					<?php echo \fay\helpers\HtmlHelper::link('（查看作品）', array('team/list', array(
 						'type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY,
 					), false), array(
@@ -41,7 +41,7 @@
 				</label>
 				<label>
 					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
-					最赞祝福语
+					最美祝福语
 					<?php echo \fay\helpers\HtmlHelper::link('（查看作品）', array('team/list', array(
 						'type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING,
 					), false), array(

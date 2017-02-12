@@ -41,9 +41,9 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 </div>
 <div class="blockcell">
 	<i class="fa fa-sitemap"></i>
-	奖项设置：<a href="<?php echo $this->url('team/list', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE), false)?>">最具夫妻相</a>，
-		<a href="<?php echo $this->url('team/list', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY), false)?>">最佳创意奖</a>，
-		<a href="<?php echo $this->url('team/list', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING), false)?>">最赞祝福语</a>
+	奖项设置：<a href="<?php echo $this->url('team/list', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE), false)?>">最牛组合名</a>，
+		<a href="<?php echo $this->url('team/list', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY), false)?>">最佳创意照</a>，
+		<a href="<?php echo $this->url('team/list', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING), false)?>">最美祝福语</a>
 </div>
 <div class="blockcell">
 	<?php

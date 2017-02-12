@@ -71,8 +71,7 @@ $(function(){
 		autosize($('textarea.autosize'));
 	});
 	
-	//表单提交
-	$('#submit-link').on('click', function(){
+	$('#form').on('submit', function(){
 		if(!$('#name').val()){
 			common.toast('组合名称不能为空', 'error');
 			return false;
@@ -85,6 +84,10 @@ $(function(){
 			common.toast('请上传照片', 'error');
 			return false;
 		}
+	});
+	
+	//表单提交
+	$('#submit-link').on('click', function(){
 		$('#form').submit();
 	});
 	

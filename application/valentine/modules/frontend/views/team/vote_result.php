@@ -26,7 +26,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 		</li>
 		<li class="left-border">
 			<label>访问次数</label>
-			<span><?php echo \fay\services\OptionService::get('visits')?></span>
+			<span><?php echo \fay\services\OptionService::get('visits', 0)?></span>
 		</li>
 	</ul>
 </div>
@@ -52,7 +52,10 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 <div class="vote-result">
 	<div class="result-list">
 	<?php if(!$teams){echo '暂无组合参加';}?>
-	<?php $all_votes = array_sum(\fay\helpers\ArrayHelper::column($teams, 'votes'))?>
+	<?php
+		$all_votes = array_sum(\fay\helpers\ArrayHelper::column($teams, 'votes'));
+		$all_votes || $all_votes = 1;//这个值仅被用于计算百分比，若为0则会出现除以0的报错
+	?>
 	<?php foreach($teams as $t){?>
 		<article>
 			<span class="name"><?php

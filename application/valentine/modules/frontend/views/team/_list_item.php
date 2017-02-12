@@ -37,5 +37,5 @@
 			));
 		}
 	?></div>
-	<div class="vote-result"><?php echo $data['votes']?>票</div>
+	<div class="vote-count"><?php echo $data['votes']?>票</div>
 </article>

@@ -27,7 +27,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 		</li>
 		<li class="left-border">
 			<label>访问次数</label>
-			<span><?php echo \fay\services\OptionService::get('visits')?></span>
+			<span><?php echo \fay\services\OptionService::get('visits', 0)?></span>
 		</li>
 	</ul>
 </div>

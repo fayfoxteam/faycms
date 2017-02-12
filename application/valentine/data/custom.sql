@@ -45,9 +45,10 @@ CREATE TABLE `{{$prefix}}valentine_votes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `team_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '组合ID',
   `open_id` varchar(50) NOT NULL DEFAULT '' COMMENT '投票人OpenID',
+  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '类型',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '投票时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`open_id`)
+  UNIQUE KEY `user` (`open_id`,`type`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='投票记录表';
 
 -- 星座表数据

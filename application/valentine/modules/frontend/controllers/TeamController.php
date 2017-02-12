@@ -34,7 +34,7 @@ class TeamController extends FrontController{
 		ValentineUserTeamsTable::model()->insert($data);
 		
 		Response::notify('success', '组合创建成功', array(
-			'team', array('type'=>$data['type']),
+			'team', array('type'=>$data['type']), false
 		));
 	}
 	
@@ -47,17 +47,19 @@ class TeamController extends FrontController{
 			array(array('type'), 'required'),
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
 		))->setFilters(array(
+			'type'=>'intval',
 			'page'=>'intval',
 			'page_size'=>'intval',
 			'keywords'=>'trim',
 		))->setLabels(array(
+			'type'=>'奖项类型',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
 			'keywords'=>'关键词',
 		))->check();
 		
 		$page = $this->form('search')->getData('page', 1);
-		$page_size = $this->form('search')->getData('page_size', 20);
+		$page_size = $this->form('search')->getData('page_size', 1000);
 		$type = $this->form('search')->getData('type', '1');
 		$keywords = $this->form('search')->getData('keywords');
 		
@@ -89,6 +91,7 @@ class TeamController extends FrontController{
 			//若已获取Open Id，搜索我投票的组合，若未获取Open Id，就算了
 			$vote = ValentineVotesTable::model()->fetchRow(array(
 				'open_id = ?'=>$open_id,
+				'type = ?'=>$type,
 			));
 			
 			if($vote){
@@ -155,16 +158,80 @@ class TeamController extends FrontController{
 		$team_id = $this->form()->getData('id');
 		$team = ValentineUserTeamsTable::model()->find($team_id);
 		
+		if(ValentineVotesTable::model()->fetchRow(array(
+			'open_id = ?'=>$open_id,
+			'type = ' . $team['type']
+		))){
+			Response::notify('error', '您已投过该奖项，单用户只能投一次', array(
+				'team', array('type'=>$team['type']), false
+			));
+		}
+		
 		//插入投票记录
 		ValentineVotesTable::model()->insert(array(
 			'team_id'=>$team_id,
 			'open_id'=>$open_id,
+			'type'=>$team['type'],
 			'create_time'=>$this->current_time,
 		));
+		//组合得票数+1
+		ValentineUserTeamsTable::model()->incr($team_id, 'votes', 1);
 		
 		Response::notify('success', '投票成功', array(
-			'team', array('type'=>$team['type'], false)
+			'team', array('type'=>$team['type']), false
 		));
+	}
+	
+	/**
+	 * 投票结果
+	 */
+	public function voteResult(){
+		//表单验证
+		$this->form('search')->setRules(array(
+			array(array('type'), 'required'),
+		))->setFilters(array(
+			'type'=>'intval',
+		))->setLabels(array(
+			'type'=>'奖项类型',
+		))->check();
+		
+		$type = $this->form()->getData('type');
+		$this->view->type = $type;
+		
+		//组合数
+		$team_count = ValentineUserTeamsTable::model()->fetchRow(array(
+			'type = ?'=>$type
+		), 'COUNT(*)');
+		$this->view->team_count = $team_count['COUNT(*)'];
+		
+		//累计投票
+		$vote_count = ValentineUserTeamsTable::model()->fetchRow(array(
+			'type = ?'=>$type
+		), 'SUM(votes)');
+		$this->view->vote_count = $vote_count['SUM(votes)'];
+		
+		$this->view->teams = ValentineUserTeamsTable::model()->fetchAll(array(
+			'type = ?'=>$type,
+		), '*', 'votes DESC,id ASC');
+		
+		//活动结束时间
+		$this->view->end_time = OptionService::get('end_time');
+		
+		//我投票的组合
+		$this->view->vote = 0;
+		if($open_id = \F::session()->get('open_id')){
+			//若已获取Open Id，搜索我投票的组合，若未获取Open Id，就算了
+			$vote = ValentineVotesTable::model()->fetchRow(array(
+				'open_id = ?'=>$open_id,
+				'type = ?'=>$type,
+			));
+			
+			if($vote){
+				$this->view->vote = $vote['team_id'];
+			}
+		}
+		
+		$this->view->render();
 	}
 	
 	/**

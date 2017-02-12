@@ -6,6 +6,7 @@
  * @var $vote_count int
  * @var $end_time int
  * @var $access_token string
+ * @var $vote int
  */
 
 $this->appendCss($this->assets('css/font-awesome.min.css'));
@@ -32,7 +33,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 </div>
 <div class="blockcell">
 	<i class="fa fa-clock-o"></i>
-	投票截止时间<?php echo \fay\helpers\DateHelper::format($end_time)?>
+	投票截止时间：<?php echo \fay\helpers\DateHelper::format($end_time)?>
 </div>
 <div class="blockcell">
 	<i class="fa fa-warning"></i>
@@ -47,6 +48,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 <div class="blockcell">
 	<?php
 		echo F::form('search')->open(null, 'get');
+		echo \fay\helpers\HtmlHelper::inputHidden('type', $type);
 		echo F::form('search')->inputText('keywords', array(
 			'placeholder'=>'请输入组合名称或编号',
 			'class'=>'inputxt w160',
@@ -59,18 +61,44 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 	?>
 </div>
 <div class="blockcell">
-	<a href="" class="btn btn-blue wp100 show-ranking-link"><i class="fa fa-bar-chart"></i>查看排名</a>
+	<a href="<?php echo $this->url('team/vote-result', array(
+		'type'=>$type
+	))?>" class="btn btn-blue wp100 show-ranking-link"><i class="fa fa-bar-chart"></i>查看排名</a>
 </div>
 <div class="vote-list">
 	<?php $listview->showData(array(
 		'end_time'=>$end_time,
 		'access_token'=>$access_token,
+		'vote'=>$vote,
 	))?>
 </div>
 <script>
 $(function(){
 	$('#search-form-submit').on('click', function(){
 		$('#search-form').submit();
-	})
+	});
+	
+	$('.vote-link').on('click', function(){
+		if($(this).hasClass('btn-grey')){
+			//已经投过或者活动已过期，不能再投了
+			return false;
+		}
+		
+		$.ajax({
+			'type': 'POST',
+			'url': system.url('team/vote'),
+			'data': {'id': $(this).attr('data-id')},
+			'dataType': 'json',
+			'cache': false,
+			'success': function(resp){
+				if(resp.status){
+					common.toast('投票成功', 'success');
+					$('.vote-link').addClass('btn-grey');
+				}else{
+					common.toast(resp.message ? resp.message : '投票失败', 'error');
+				}
+			}
+		});
+	});
 });
 </script>

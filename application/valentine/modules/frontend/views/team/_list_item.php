@@ -3,6 +3,7 @@
  * @var $data array
  * @var $end_time int
  * @var $access_token string
+ * @var $vote int 我的投票
  */
 ?>
 <article>
@@ -23,12 +24,18 @@
 	<div class="blessing">
 		<?php echo \fay\helpers\HtmlHelper::encode($data['blessing'])?>
 	</div>
-	<div class="vote-container">
-		<?php echo \fay\helpers\HtmlHelper::link('投票', 'javascript:;', array(
-			'class'=>'btn wp100 vote-link ' . ($end_time < \F::app()->current_time ? 'btn-grey' : 'btn-blue'),
-			'data-id'=>$data['id'],
-			'prepend'=>'<i class="fa fa-thumbs-up"></i>',
-		))?>
-	</div>
+	<div class="vote-container"><?php
+		if($vote == $data['id']){
+			echo \fay\helpers\HtmlHelper::link('已投票', 'javascript:;', array(
+				'class'=>'btn wp100 btn-grey',
+			));
+		}else{
+			echo \fay\helpers\HtmlHelper::link('投票', 'javascript:;', array(
+				'class'=>'btn wp100 vote-link ' . ($vote || $end_time < \F::app()->current_time ? 'btn-grey' : 'btn-blue'),
+				'data-id'=>$data['id'],
+				'prepend'=>'<i class="fa fa-thumbs-up"></i>',
+			));
+		}
+	?></div>
 	<div class="vote-result"><?php echo $data['votes']?>票</div>
 </article>

@@ -1,7 +1,6 @@
 <?php
 namespace valentine\modules\frontend\controllers;
 
-use fay\common\ListView;
 use fay\core\Http;
 use fay\core\Response;
 use fay\core\Sql;
@@ -59,28 +58,36 @@ class TeamController extends FrontController{
 		//表单验证
 		$this->form('search')->setRules(array(
 			array(array('type'), 'required'),
+			array(array('last_id'), 'int'),
 			array(array('page', 'page_size'), 'int', array('min'=>1)),
 		))->setFilters(array(
 			'type'=>'intval',
+			'last_id'=>'intval',
 			'page'=>'intval',
 			'page_size'=>'intval',
 			'keywords'=>'trim',
 		))->setLabels(array(
+			'last_id'=>'ID号',
 			'type'=>'奖项类型',
 			'page'=>'页码',
 			'page_size'=>'分页大小',
 			'keywords'=>'关键词',
 		))->check();
 		
-		$page = $this->form('search')->getData('page', 1);
-		$page_size = $this->form('search')->getData('page_size', 1000);
+		$last_id = $this->form('search')->getData('last_id', 0);
+		$page_size = $this->form('search')->getData('page_size', 10);
 		$type = $this->form('search')->getData('type', '1');
 		$keywords = $this->form('search')->getData('keywords');
 		
 		$sql = new Sql();
 		$sql->from(array('ut'=>'valentine_user_teams'), '*')
 			->where('type = ?', $type)
-			->order('id');
+			->order('id')
+			->limit($page_size)
+		;
+		if($last_id){
+			$sql->where('id > ?', $last_id);
+		}
 		if($keywords){
 			if(NumberHelper::isInt($keywords)){
 				$sql->orWhere(array(
@@ -91,11 +98,7 @@ class TeamController extends FrontController{
 				$sql->where('name LIKE ?', "%{$keywords}%");
 			}
 		}
-		
-		$this->view->listview = new ListView($sql, array(
-			'current_page'=>$page,
-			'page_size'=>$page_size,
-		));
+		$this->view->teams = $sql->fetchAll();
 		
 		$this->view->type = $type;
 		
@@ -146,7 +149,11 @@ class TeamController extends FrontController{
 		//活动结束时间
 		$this->view->end_time = OptionService::get('end_time');
 		
-		$this->view->render();
+		if(Http::isAjax()){
+			$this->view->renderPartial('ajax_list', $this->view->getViewData());
+		}else{
+			$this->view->render();
+		}
 	}
 	
 	/**

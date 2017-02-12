@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $listview \fay\common\ListView
+ * @var $teams array
  * @var $type int
  * @var $team_count int
  * @var $vote_count int
@@ -66,11 +66,14 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 	))?>" class="btn btn-blue wp100 show-ranking-link"><i class="fa fa-bar-chart"></i>查看排名</a>
 </div>
 <div class="vote-list">
-	<?php $listview->showData(array(
-		'end_time'=>$end_time,
-		'access_token'=>$access_token,
-		'vote'=>$vote,
-	))?>
+	<?php foreach($teams as $data){
+		$this->renderPartial('_list_item', array(
+			'data'=>$data,
+			'end_time'=>$end_time,
+			'access_token'=>$access_token,
+			'vote'=>$vote,
+		));
+	}?>
 </div>
 <script>
 $(function(){
@@ -78,7 +81,7 @@ $(function(){
 		$('#search-form').submit();
 	});
 	
-	$('.vote-link').on('click', function(){
+	$(document).on('click', '.vote-link', function(){
 		if($(this).hasClass('btn-grey')){
 			//已经投过或者活动已过期，不能再投了
 			return false;
@@ -99,6 +102,35 @@ $(function(){
 				}
 			}
 		});
+	});
+	
+	var ajaxing = false;
+	var $voatList = $('.vote-list');
+	$(window).scroll(function(){
+		if(!ajaxing){
+			var scrollTop = $(this).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(this).height();
+			if(scrollHeight - scrollTop - windowHeight < 200){
+				ajaxing = true;
+				$voatList.append('<article class="loading" style="text-align:center;padding-top:20px">加载中...</article>');
+				$.ajax({
+					'type': 'GET',
+					'url': system.url('team/list', {'type': <?php echo $type?>}),
+					'data': {'last_id': $voatList.find('.vote-link:last').attr('data-id')},
+					'cache': false,
+					'success': function(resp){
+						$voatList.find('.loading').remove();
+						if(resp){
+							ajaxing = false;
+							$voatList.append(resp);
+						}else{
+							$voatList.append('<article style="text-align:center;padding-top:20px">没有了</article>');
+						}
+					}
+				});
+			}
+		}
 	});
 });
 </script>

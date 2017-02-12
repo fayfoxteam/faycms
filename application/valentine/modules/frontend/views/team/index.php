@@ -1,102 +1,109 @@
 <?php
 /**
- * @var $listview \fay\common\ListView
- * @var $type int
- * @var $team_count int
- * @var $vote_count int
- * @var $end_time int
- * @var $access_token string
- * @var $vote int
+ * @var $signature array 签名信息
  */
-
-$this->appendCss($this->assets('css/font-awesome.min.css'));
 ?>
-<div class="vote-title">
-	<h1><?php echo \fay\services\OptionService::get('site:sitename'), ' - ',
-		\valentine\helpers\TeamHelper::getTypeTitle($type)?></h1>
+<div class="index-form">
+	<form method="post" id="form" action="<?php echo $this->url('team/create')?>">
+		<fieldset>
+			<input name="name" placeholder="组合名称" type="text" id="name">
+		</fieldset>
+		<fieldset>
+			<input name="photo_server_id" type="hidden" id="photo-server-id">
+			<div id="upload-photo-container">
+				<img src="http://127.0.0.2/file/pic/f/10000?t=4&dw=400" id="photo-preview" class="hide">
+				<a href="javascript:;" id="upload-photo-link">点击上传照片</a>
+			</div>
+		</fieldset>
+		<fieldset>
+			<textarea name="blessing" id="blessing" class="autosize" placeholder="点击输入对公司祝福语"></textarea>
+		</fieldset>
+		<fieldset>
+			<h6>请选择参加组别</h6>
+			<div class="radio-container">
+				<label>
+					<input name="type" checked="checked" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
+					最具夫妻相
+					<?php echo \fay\helpers\HtmlHelper::link('（查看作品）', array('team/list', array(
+						'type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE,
+					), false), array(
+						'class'=>'show-teams'
+					))?>
+				</label>
+				<label>
+					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY?>" type="radio">
+					最佳创意奖
+					<?php echo \fay\helpers\HtmlHelper::link('（查看作品）', array('team/list', array(
+						'type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY,
+					), false), array(
+						'class'=>'show-teams'
+					))?>
+				</label>
+				<label>
+					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
+					最赞祝福语
+					<?php echo \fay\helpers\HtmlHelper::link('（查看作品）', array('team/list', array(
+						'type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING,
+					), false), array(
+						'class'=>'show-teams'
+					))?>
+				</label>
+			</div>
+		</fieldset>
+		<fieldset class="submit-container">
+			<a href="javascript:;" id="submit-link">点击提交</a>
+		</fieldset>
+	</form>
 </div>
-<div class="vote-info">
-	<ul>
-		<li>
-			<label>参与组合</label>
-			<span><?php echo $team_count?></span>
-		</li>
-		<li class="left-border">
-			<label>累计投票</label>
-			<span><?php echo $vote_count?></span>
-		</li>
-		<li class="left-border">
-			<label>访问次数</label>
-			<span><?php echo \fay\services\OptionService::get('visits', 0)?></span>
-		</li>
-	</ul>
-</div>
-<div class="blockcell">
-	<i class="fa fa-clock-o"></i>
-	投票截止时间：<?php echo \fay\helpers\DateHelper::format($end_time)?>
-</div>
-<div class="blockcell">
-	<i class="fa fa-warning"></i>
-	投票规则：每个微信对每个奖项限投1票
-</div>
-<div class="blockcell">
-	<i class="fa fa-sitemap"></i>
-	奖项设置：<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE), false)?>">最具夫妻相</a>，
-		<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY), false)?>">最佳创意奖</a>，
-		<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING), false)?>">最赞祝福语</a>
-</div>
-<div class="blockcell">
-	<?php
-		echo F::form('search')->open(null, 'get');
-		echo \fay\helpers\HtmlHelper::inputHidden('type', $type);
-		echo F::form('search')->inputText('keywords', array(
-			'placeholder'=>'请输入组合名称或编号',
-			'class'=>'inputxt w160',
-		));
-		echo F::form('search')->submitLink('搜索', array(
-			'class'=>'btn btn-blue',
-			'prepend'=>'<i class="fa fa-search"></i>'
-		));
-		echo F::form('search')->close();
-	?>
-</div>
-<div class="blockcell">
-	<a href="<?php echo $this->url('team/vote-result', array(
-		'type'=>$type
-	))?>" class="btn btn-blue wp100 show-ranking-link"><i class="fa fa-bar-chart"></i>查看排名</a>
-</div>
-<div class="vote-list">
-	<?php $listview->showData(array(
-		'end_time'=>$end_time,
-		'access_token'=>$access_token,
-		'vote'=>$vote,
-	))?>
-</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
+wx.config({
+	debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	appId: '<?php echo $signature['appId']?>', // 必填，公众号的唯一标识
+	timestamp: <?php echo $signature['timestamp']?>, // 必填，生成签名的时间戳
+	nonceStr: '<?php echo $signature['nonceStr']?>', // 必填，生成签名的随机串
+	signature: '<?php echo $signature['signature']?>',// 必填，签名，见附录1
+	jsApiList: ['chooseImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+});
 $(function(){
-	$('#search-form-submit').on('click', function(){
-		$('#search-form').submit();
+	//文本域自适应
+	system.getScript(system.assets('js/autosize.min.js'), function(){
+		autosize($('textarea.autosize'));
 	});
 	
-	$('.vote-link').on('click', function(){
-		if($(this).hasClass('btn-grey')){
-			//已经投过或者活动已过期，不能再投了
+	//表单提交
+	$('#submit-link').on('click', function(){
+		if(!$('#name').val()){
+			common.toast('组合名称不能为空', 'error');
 			return false;
 		}
-		
-		$.ajax({
-			'type': 'POST',
-			'url': system.url('team/vote'),
-			'data': {'id': $(this).attr('data-id')},
-			'dataType': 'json',
-			'cache': false,
-			'success': function(resp){
-				if(resp.status){
-					common.toast('投票成功', 'success');
-					$('.vote-link').addClass('btn-grey');
-				}else{
-					common.toast(resp.message ? resp.message : '投票失败', 'error');
-				}
+		if(!$('#blessing').val()){
+			common.toast('对公司的祝福不能为空', 'error');
+			return false;
+		}
+		if(!$('#photo-server-id').val()){
+			common.toast('请上传照片', 'error');
+			return false;
+		}
+		$('#form').submit();
+	});
+	
+	$('#upload-photo-link').on('click', function(){
+		wx.chooseImage({
+			'count': 1,
+			'success': function(res){
+				var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+				$('#img-local-id').text(localIds);
+				$('#photo-preview').attr('src', localIds.toString()).show();
+				
+				wx.uploadImage({
+					localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+					isShowProgressTips: 1, // 默认为1，显示进度提示
+					success: function(res){
+						var serverId = res.serverId; // 返回图片的服务器端ID
+						$('#photo-server-id').val(serverId.toString());
+					}
+				});
 			}
 		});
 	});

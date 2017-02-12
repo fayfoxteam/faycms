@@ -45,7 +45,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 		<a href="<?php echo $this->url('team/vote-result', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING), false)?>">最赞祝福语</a>
 </div>
 <div class="blockcell">
-	<a href="<?php echo $this->url('team', array(
+	<a href="<?php echo $this->url('team/list', array(
 		'type'=>$type
 	), false)?>" class="btn btn-blue wp100 show-ranking-link"><i class="fa fa-list"></i>去投票</a>
 </div>

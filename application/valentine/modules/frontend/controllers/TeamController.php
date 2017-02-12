@@ -2,6 +2,7 @@
 namespace valentine\modules\frontend\controllers;
 
 use fay\common\ListView;
+use fay\core\Http;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\NumberHelper;
@@ -10,11 +11,24 @@ use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;
 use fay\services\wechat\core\AccessToken;
+use fay\services\wechat\jssdk\JsSDK;
 use valentine\library\FrontController;
 use valentine\models\tables\ValentineUserTeamsTable;
 use valentine\models\tables\ValentineVotesTable;
 
 class TeamController extends FrontController{
+	public function index(){
+		$this->layout->body_class = 'index';
+		
+		$app_config = OptionService::getGroup('oauth:weixin');
+		
+		$signature = JsSDK::signature(Http::getCurrentUrl(), $app_config['app_id'], $app_config['app_secret']);
+		
+		$this->view->assign(array(
+			'signature'=>$signature,
+		))->render();
+	}
+	
 	/**
 	 * 创建组合
 	 * @parameter string $name
@@ -34,11 +48,11 @@ class TeamController extends FrontController{
 		ValentineUserTeamsTable::model()->insert($data);
 		
 		Response::notify('success', '组合创建成功', array(
-			'team', array('type'=>$data['type']), false
+			'team/list', array('type'=>$data['type']), false
 		));
 	}
 	
-	public function index(){
+	public function listAction(){
 		//先获取一下OpenId，后面投票的时候有用
 		$this->getOpenId();
 		
@@ -163,7 +177,7 @@ class TeamController extends FrontController{
 			'type = ' . $team['type']
 		))){
 			Response::notify('error', '您已投过该奖项，单用户只能投一次', array(
-				'team', array('type'=>$team['type']), false
+				'team/list', array('type'=>$team['type']), false
 			));
 		}
 		
@@ -178,7 +192,7 @@ class TeamController extends FrontController{
 		ValentineUserTeamsTable::model()->incr($team_id, 'votes', 1);
 		
 		Response::notify('success', '投票成功', array(
-			'team', array('type'=>$team['type']), false
+			'team/list', array('type'=>$team['type']), false
 		));
 	}
 	

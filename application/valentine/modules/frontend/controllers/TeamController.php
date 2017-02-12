@@ -163,7 +163,7 @@ class TeamController extends FrontController{
 		));
 		
 		Response::notify('success', '投票成功', array(
-			'team', array('type'=>$team['type'])
+			'team', array('type'=>$team['type'], false)
 		));
 	}
 	

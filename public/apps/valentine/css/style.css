@@ -14,11 +14,18 @@ i.fa{margin-right:3px}
 .w160{width:160px}
 .wp100{width:100%}
 
+/* toast */
+.toast-container{position:fixed;z-index:999999;bottom:80px;width:66%;margin-left:-33%;left:50%}
+.toast-container > div.toast{padding:12px 15px;text-align:center;margin-bottom:10px;color:#fff}
+.toast-warning,.toast-info,.toast-success,.toast-error,.toast-alert{background-color:rgba(0,0,0,0.7)}
+
 .index .wrap{width:100%}
 .index-form{background:url(images/bg.jpg) no-repeat center center transparent;background-size:cover;padding:50px 30px}
 .index-form input[type="text"],.index-form textarea{border:1px solid #f905c2;color:#f905c2;width:100%;padding:14px 0;text-align:center;font-size:20px;line-heigt:20px}
 .index-form fieldset{margin-bottom:15px}
-.index-form #upload-photo-link{display:block;border:1px solid #f905c2;color:#f905c2;text-align:center;padding:50px 0;font-size:20px}
+.index-form #upload-photo-container{border:1px solid #f905c2;position:relative;height:100px;overflow:hidden}
+.index-form #upload-photo-container img{width:100%;opacity:0.7}
+.index-form #upload-photo-link{display:block;color:#f905c2;text-align:center;font-size:20px;position:absolute;top:50%;margin-top:-10px;width:100%}
 .index-form h6{margin-top:5px;font-size:18px;color:#f905c2;font-weight:normal}
 .index-form .radio-container{padding-left:40px;margin-top:10px}
 .index-form .radio-container label{display:block;font-size:18px;color:#f905c2;padding:8px 0}

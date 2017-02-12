@@ -4,25 +4,25 @@
  */
 ?>
 <div class="index-form">
-	<form method="post">
+	<form method="post" id="form" action="<?php echo $this->url('team/create')?>">
 		<fieldset>
-			<input name="name" placeholder="组合名称" type="text">
+			<input name="name" placeholder="组合名称" type="text" id="name">
 		</fieldset>
 		<fieldset>
 			<input name="photo_server_id" type="hidden" id="photo-server-id">
-			<div id="img-local-id"></div>
-			<div id="img-server-id"></div>
-			<img src="" id="photo-preview">
-			<a href="javascript:;" id="upload-photo-link">点击上传照片</a>
+			<div id="upload-photo-container">
+				<img src="http://127.0.0.2/file/pic/f/10000?t=4&dw=400" id="photo-preview" class="hide">
+				<a href="javascript:;" id="upload-photo-link">点击上传照片</a>
+			</div>
 		</fieldset>
 		<fieldset>
-			<textarea name="blessing" class="autosize" placeholder="点击输入对公司祝福语"></textarea>
+			<textarea name="blessing" id="blessing" class="autosize" placeholder="点击输入对公司祝福语"></textarea>
 		</fieldset>
 		<fieldset>
 			<h6>请选择参加组别</h6>
 			<div class="radio-container">
 				<label>
-					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
+					<input name="type" checked="checked" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
 					最具夫妻相
 				</label>
 				<label>
@@ -30,7 +30,7 @@
 					最佳创意奖
 				</label>
 				<label>
-					<input name="type" checked="checked" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
+					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
 					最赞祝福语
 				</label>
 			</div>
@@ -56,21 +56,37 @@ $(function(){
 		autosize($('textarea.autosize'));
 	});
 	
+	//表单提交
+	$('#submit-link').on('click', function(){
+//		if(!$('#name').val()){
+//			common.toast('组合名称不能为空', 'error');
+//			return false;
+//		}
+//		if(!$('#blessing').val()){
+//			common.toast('对公司的祝福不能为空', 'error');
+//			return false;
+//		}
+//		if(!$('#photo-server-id').val()){
+//			common.toast('请上传照片', 'error');
+//			return false;
+//		}
+		$('#form').submit();
+	});
+	
 	$('#upload-photo-link').on('click', function(){
 		wx.chooseImage({
 			'count': 1,
 			'success': function(res){
 				var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 				$('#img-local-id').text(localIds);
-				//$('#photo-preview').attr('src', localIds);
+				$('#photo-preview').attr('src', localIds.toString()).show();
 				
 				wx.uploadImage({
 					localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
 					isShowProgressTips: 1, // 默认为1，显示进度提示
 					success: function(res){
 						var serverId = res.serverId; // 返回图片的服务器端ID
-						$('#img-server-id').text(serverId);
-						$('#photo-server-id').text(serverId);
+						$('#photo-server-id').val(serverId);
 					}
 				});
 			}

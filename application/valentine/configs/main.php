@@ -26,7 +26,5 @@ return array(
 	
 	'debug'=>false,
 	
-	'base_url'=>preg_match('/^(\d+).fayfox.com$/', isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']) ? null : 'http://valentine.faycms.com/',
-	
 	'assets_url'=>preg_match('/^(\d+).fayfox.com$/', isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']) ? null : 'http://qiniu.cdn.faycms.com/assets/',
 );

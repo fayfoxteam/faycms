@@ -36,6 +36,11 @@ class TeamController extends FrontController{
 	 * @parameter int $type
 	 */
 	public function create(){
+		$end_time = OptionService::get('end_time');
+		if($end_time && $end_time < $this->current_time){
+			Response::notify('error', '活动已截止');
+		}
+		
 		//表单验证
 		$this->form()->setModel(ValentineUserTeamsTable::model())->check();
 		
@@ -161,6 +166,11 @@ class TeamController extends FrontController{
 	 * @parameter int $id
 	 */
 	public function vote(){
+		$end_time = OptionService::get('end_time');
+		if($end_time && $end_time < $this->current_time){
+			Response::notify('error', '活动已截止');
+		}
+		
 		//表单验证
 		$this->form()->setRules(array(
 			array(array('id'), 'required'),

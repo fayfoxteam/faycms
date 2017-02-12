@@ -27,4 +27,15 @@ class FrontController extends Controller{
 		
 		$this->layout->body_class = '';
 	}
+	
+	/**
+	 * @param \fay\core\Form $form
+	 */
+	public function onFormError($form){
+		$errors = $form->getErrors();
+		
+		if($errors){
+			die($errors[0]['message']);
+		}
+	}
 }

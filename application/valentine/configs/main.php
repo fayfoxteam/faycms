@@ -25,4 +25,6 @@ return array(
 	),
 	
 	'debug'=>false,
+	
+	'base_url'=>'http://valentine.faycms.com/',
 );

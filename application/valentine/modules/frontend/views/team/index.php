@@ -16,7 +16,7 @@
 			</div>
 		</fieldset>
 		<fieldset>
-			<textarea name="blessing" id="blessing" class="autosize" placeholder="点击输入对公司祝福语"></textarea>
+			<textarea name="blessing" id="blessing" class="autosize" placeholder="亲，请点击这里，留下你们对公司最美好祝福吧"></textarea>
 		</fieldset>
 		<fieldset>
 			<h6>请选择参加组别</h6>

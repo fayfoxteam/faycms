@@ -7,7 +7,15 @@
  */
 ?>
 <article>
-	<div class="img"><a href=""><?php
+	<div class="img"><a href="<?php
+		if($data['photo']){
+			//已经下载到本地，从本地输出
+			echo \fay\services\FileService::getUrl($data['photo']);
+		}else{
+			//还在微信服务器，通过媒体ID输出
+			echo "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$data['photo_server_id']}";
+		}
+	?>" data-lightbox="teams"><?php
 		if($data['photo']){
 			//已经下载到本地，从本地输出
 			echo \fay\helpers\HtmlHelper::img($data['photo'], \fay\services\FileService::PIC_RESIZE, array(
@@ -19,7 +27,7 @@
 		}
 	?></a></div>
 	<div class="meta">
-		<a href=""><?php echo $data['id'], '.', \fay\helpers\HtmlHelper::encode($data['name'])?></a>
+		<a href="javascript:;"><?php echo $data['id'], '.', \fay\helpers\HtmlHelper::encode($data['name'])?></a>
 	</div>
 	<div class="blessing">
 		<?php echo \fay\helpers\HtmlHelper::encode($data['blessing'])?>

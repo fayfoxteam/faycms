@@ -59,7 +59,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 	<?php foreach($teams as $t){?>
 		<article>
 			<span class="name"><?php
-				echo \fay\helpers\HtmlHelper::encode($t['name']);
+				echo $t['id'], '.', \fay\helpers\HtmlHelper::encode($t['name']);
 				if($vote == $t['id']){
 					echo '（已选）';
 				}

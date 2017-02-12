@@ -35,5 +35,8 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <div class="wrap">
 <?php echo $content?>
 </div>
+<script>
+	common.init();
+</script>
 </body>
 </html>

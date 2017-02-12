@@ -5,6 +5,7 @@
  * @var $team_count int
  * @var $vote_count int
  * @var $end_time int
+ * @var $access_token string
  */
 
 $this->appendCss($this->assets('css/font-awesome.min.css'));
@@ -38,17 +39,17 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 	投票规则：每个微信对每个奖项限投1票
 </div>
 <div class="blockcell">
-	<i class="fa fa-arrows"></i>
-	奖项设置：<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE))?>">最具夫妻相</a>，
-		<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY))?>">最佳创意奖</a>，
-		<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING))?>">最赞祝福语</a>
+	<i class="fa fa-sitemap"></i>
+	奖项设置：<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE), false)?>">最具夫妻相</a>，
+		<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY), false)?>">最佳创意奖</a>，
+		<a href="<?php echo $this->url('team', array('type'=>\valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING), false)?>">最赞祝福语</a>
 </div>
 <div class="blockcell">
 	<?php
 		echo F::form('search')->open(null, 'get');
 		echo F::form('search')->inputText('keywords', array(
 			'placeholder'=>'请输入组合名称或编号',
-			'class'=>'w160',
+			'class'=>'inputxt w160',
 		));
 		echo F::form('search')->submitLink('搜索', array(
 			'class'=>'btn btn-blue',
@@ -62,7 +63,8 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 </div>
 <div class="vote-list">
 	<?php $listview->showData(array(
-		'end_time'=>$end_time
+		'end_time'=>$end_time,
+		'access_token'=>$access_token,
 	))?>
 </div>
 <script>

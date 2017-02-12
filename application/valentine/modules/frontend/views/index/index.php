@@ -16,24 +16,26 @@
 			<a href="javascript:;" id="upload-photo-link">点击上传照片</a>
 		</fieldset>
 		<fieldset>
-			<textarea name="blessing" placeholder="点击输入对公司祝福语"></textarea>
+			<textarea name="blessing" class="autosize" placeholder="点击输入对公司祝福语"></textarea>
 		</fieldset>
 		<fieldset>
 			<h6>请选择参加组别</h6>
-			<label>
-				<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
-				最具夫妻相
-			</label>
-			<label>
-				<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY?>" type="radio">
-				最佳创意奖
-			</label>
-			<label>
-				<input name="type" checked="checked" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
-				最赞祝福语
-			</label>
+			<div class="radio-container">
+				<label>
+					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_COUPLE?>" type="radio">
+					最具夫妻相
+				</label>
+				<label>
+					<input name="type" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_ORIGINALITY?>" type="radio">
+					最佳创意奖
+				</label>
+				<label>
+					<input name="type" checked="checked" value="<?php echo \valentine\models\tables\ValentineUserTeamsTable::TYPE_BLESSING?>" type="radio">
+					最赞祝福语
+				</label>
+			</div>
 		</fieldset>
-		<fieldset>
+		<fieldset class="submit-container">
 			<a href="javascript:;" id="submit-link">点击提交</a>
 		</fieldset>
 	</form>
@@ -49,6 +51,11 @@ wx.config({
 	jsApiList: ['chooseImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 });
 $(function(){
+	//文本域自适应
+	system.getScript(system.assets('js/autosize.min.js'), function(){
+		autosize($('textarea.autosize'));
+	});
+	
 	$('#upload-photo-link').on('click', function(){
 		wx.chooseImage({
 			'count': 1,

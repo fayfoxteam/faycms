@@ -39,6 +39,9 @@ class TeamController extends FrontController{
 	}
 	
 	public function index(){
+		//先获取一下OpenId，后面投票的时候有用
+		$this->getOpenId();
+		
 		//表单验证
 		$this->form('search')->setRules(array(
 			array(array('type'), 'required'),
@@ -100,12 +103,10 @@ class TeamController extends FrontController{
 		$this->view->team_count = $team_count['COUNT(*)'];
 		
 		//累计投票
-		$sql = new Sql();
-		$vote_count = $sql->from(array('v'=>'valentine_votes'), 'COUNT(*)')
-			->joinLeft(array('t'=>'valentine_user_teams'), 'v.team_id = t.id')
-			->where('t.type = ?', $type)
-			->fetchRow();
-		$this->view->vote_count = $vote_count['COUNT(*)'];
+		$vote_count = ValentineUserTeamsTable::model()->fetchRow(array(
+			'type = ?'=>$type
+		), 'SUM(votes)');
+		$this->view->vote_count = $vote_count['SUM(votes)'];
 		
 		//获取Access Token
 		$key = 'oauth:weixin';
@@ -126,7 +127,7 @@ class TeamController extends FrontController{
 		), 'option_value', 1);
 		
 		//活动结束时间
-		$this->view->end_time = \fay\services\OptionService::get('end_time');
+		$this->view->end_time = OptionService::get('end_time');
 		
 		$this->view->render();
 	}
@@ -150,6 +151,26 @@ class TeamController extends FrontController{
 			'id'=>'组合ID',
 		))->check();
 		
+		$open_id = $this->getOpenId();
+		$team_id = $this->form()->getData('id');
+		$team = ValentineUserTeamsTable::model()->find($team_id);
+		
+		//插入投票记录
+		ValentineVotesTable::model()->insert(array(
+			'team_id'=>$team_id,
+			'open_id'=>$open_id,
+			'create_time'=>$this->current_time,
+		));
+		
+		Response::notify('success', '投票成功', array(
+			'team', array('type'=>$team['type'])
+		));
+	}
+	
+	/**
+	 * 获取OpenId，若session中不存在，则跳转到微信获取
+	 */
+	private function getOpenId(){
 		if(!$open_id = \F::session()->get('open_id')){
 			//去微信授权
 			$key = 'oauth:weixin';
@@ -170,18 +191,7 @@ class TeamController extends FrontController{
 			$open_id = $oauth->getOpenId();
 			\F::session()->set('open_id', $open_id);
 		}
-		$team_id = $this->form()->getData('id');
-		$team = ValentineUserTeamsTable::model()->find($team_id);
 		
-		//插入投票记录
-		ValentineVotesTable::model()->insert(array(
-			'team_id'=>$team_id,
-			'open_id'=>$open_id,
-			'create_time'=>$this->current_time,
-		));
-		
-		Response::notify('success', '投票成功', array(
-			'team', array('type'=>$team['type'])
-		));
+		return $open_id;
 	}
 }

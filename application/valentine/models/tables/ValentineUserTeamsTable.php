@@ -23,12 +23,12 @@ class ValentineUserTeamsTable extends Table{
 	/**
 	 * 类型 - 最佳创意奖
 	 */
-	const TYPE_ORIGINALITY = 1;
+	const TYPE_ORIGINALITY = 2;
 	
 	/**
 	 * 类型 - 最赞祝福语
 	 */
-	const TYPE_BLESSING = 1;
+	const TYPE_BLESSING = 3;
 	
 	protected $_name = 'valentine_user_teams';
 	

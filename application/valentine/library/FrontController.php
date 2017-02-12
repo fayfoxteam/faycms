@@ -24,5 +24,7 @@ class FrontController extends Controller{
 				'create_time'=>$this->current_time,
 			));
 		}
+		
+		$this->layout->body_class = '';
 	}
 }

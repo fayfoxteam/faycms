@@ -2,8 +2,8 @@
 body{color:#333;font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;font-size:14px}
 a{color:#0088cc;text-decoration:none}
 .wrap{width:95%;margin:0 auto}
-.blockcell{border-bottom:1px solid #ececec;line-height:35px}
-input{background-color:#fff;border:1px solid #ccc;vertical-align:middle;transition:border linear 0.2s, box-shadow linear 0.2s;padding:4px 6px;color:#555;height:30px;line-height:30px;border-radius:4px;font-size:14px;display:inline-block}
+.blockcell{border-bottom:1px solid #ececec;line-height:20px;padding:8px 0 7px}
+input.inputxt{background-color:#fff;border:1px solid #ccc;vertical-align:middle;transition:border linear 0.2s, box-shadow linear 0.2s;padding:4px 6px;color:#555;height:30px;line-height:30px;border-radius:4px;font-size:14px;display:inline-block}
 .btn{border:none;background:#34495e;color:#fff;font-size:14px;transition:0.25s;display:inline-block;padding:8px 15px;vertical-align:middle;text-align:center;border-radius:4px;text-decoration:none}
 .btn-blue{background-color:#3498db}
 .btn-blue:hover{background-color:#5dade2}
@@ -14,7 +14,16 @@ i.fa{margin-right:3px}
 .w160{width:160px}
 .wp100{width:100%}
 
-.index-form{background:url(images/bg.jpg) no-repeat center center transparent;background-size:cover}
+.index .wrap{width:100%}
+.index-form{background:url(images/bg.jpg) no-repeat center center transparent;background-size:cover;padding:50px 30px}
+.index-form input[type="text"],.index-form textarea{border:1px solid #f905c2;color:#f905c2;width:100%;padding:14px 0;text-align:center;font-size:20px}
+.index-form fieldset{margin-bottom:15px}
+.index-form #upload-photo-link{display:block;border:1px solid #f905c2;color:#f905c2;text-align:center;padding:50px 0;font-size:20px}
+.index-form h6{margin-top:10px;font-size:18px;color:#f905c2;font-weight:normal}
+.index-form .radio-container{padding-left:50px;margin-top:20px}
+.index-form .radio-container label{display:block;font-size:18px;color:#f905c2;padding:8px 0}
+.index-form .submit-container{text-align:center;margin-top:50px}
+.index-form #submit-link{font-size:20px;color:#fff;background-color:#38f4d3;padding:12px 20px;}
 
 .vote-title{margin:20px 0;font-weight:normal}
 .vote-title h1{font-size:16px;line-height:20px}
@@ -23,9 +32,9 @@ i.fa{margin-right:3px}
 .vote-info ul li{width:32%;line-height:2;text-align:center;color:#000;font-size:12px;margin:8px 0 4px;display:inline-block}
 .vote-info ul li.left-border{border-left:1px solid #fff}
 .vote-info ul li label{display:block;margin-bottom:2px}
-.show-ranking-link{margin-top:8px}
+.show-ranking-link{margin-top:3px}
 
-#search-form{margin:10px 0 5px}
+#search-form{margin-top:5px}
 #search-form-submit{margin-left:5px}
 
 .vote-list{margin-top:20px}

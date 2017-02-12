@@ -8,6 +8,8 @@ use fay\services\OptionService;
 
 class IndexController extends FrontController{
 	public function index(){
+		$this->layout->body_class = 'index';
+		
 		$app_config = OptionService::getGroup('oauth:weixin');
 		
 		$signature = JsSDK::signature(Http::getCurrentUrl(), $app_config['app_id'], $app_config['app_secret']);

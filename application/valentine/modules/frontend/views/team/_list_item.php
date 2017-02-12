@@ -2,6 +2,7 @@
 /**
  * @var $data array
  * @var $end_time int
+ * @var $access_token string
  */
 ?>
 <article>
@@ -13,7 +14,7 @@
 			));
 		}else{
 			//还在微信服务器，通过媒体ID输出
-			echo \fay\helpers\HtmlHelper::img('');
+			echo \fay\helpers\HtmlHelper::img("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$data['photo_server_id']}");
 		}
 	?></a></div>
 	<div class="meta">

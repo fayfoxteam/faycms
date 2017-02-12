@@ -1,5 +1,5 @@
 <?php
-namespace valentine\modules\api\controllers;
+namespace valentine\modules\frontend\controllers;
 
 use cms\library\ApiController;
 

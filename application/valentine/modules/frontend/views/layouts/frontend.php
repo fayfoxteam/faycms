@@ -5,6 +5,7 @@ use fay\helpers\HtmlHelper;
 /**
  * @var $this \fay\core\View
  * @var $content string
+ * @var $body_class string
  */
 ?>
 <!DOCTYPE html>
@@ -29,7 +30,7 @@ system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 </head>
-<body>
+<body class="<?php echo $body_class?>">
 <div class="wrap">
 <?php echo $content?>
 </div>

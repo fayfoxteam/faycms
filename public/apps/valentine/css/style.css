@@ -27,8 +27,9 @@ i.fa{margin-right:3px}
 .index-form #upload-photo-container img{width:100%;opacity:0.7}
 .index-form #upload-photo-link{display:block;color:#f905c2;text-align:center;font-size:20px;position:absolute;top:50%;margin-top:-10px;width:100%}
 .index-form h6{margin-top:5px;font-size:18px;color:#f905c2;font-weight:normal}
-.index-form .radio-container{padding-left:40px;margin-top:10px}
+.index-form .radio-container{padding-left:10%;margin-top:10px}
 .index-form .radio-container label{display:block;font-size:18px;color:#f905c2;padding:8px 0}
+.index-form .show-teams{font-size:12px}
 .index-form .submit-container{text-align:center;margin-top:50px}
 .index-form #submit-link{font-size:20px;color:#fff;background-color:#38f4d3;padding:12px 20px;}
 

@@ -109,7 +109,7 @@ class TeamController extends FrontController{
 		$vote_count = ValentineUserTeamsTable::model()->fetchRow(array(
 			'type = ?'=>$type
 		), 'SUM(votes)');
-		$this->view->vote_count = $vote_count['SUM(votes)'];
+		$this->view->vote_count = $vote_count['SUM(votes)'] ?: 0;
 		
 		//获取Access Token
 		$key = 'oauth:weixin';
@@ -208,7 +208,7 @@ class TeamController extends FrontController{
 		$vote_count = ValentineUserTeamsTable::model()->fetchRow(array(
 			'type = ?'=>$type
 		), 'SUM(votes)');
-		$this->view->vote_count = $vote_count['SUM(votes)'];
+		$this->view->vote_count = $vote_count['SUM(votes)'] ?: 0;
 		
 		$this->view->teams = ValentineUserTeamsTable::model()->fetchAll(array(
 			'type = ?'=>$type,

@@ -47,7 +47,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 <div class="blockcell">
 	<a href="<?php echo $this->url('team', array(
 		'type'=>$type
-	), false)?>" class="btn btn-blue wp100 show-ranking-link"><i class="fa fa-bar-chart"></i>去投票</a>
+	), false)?>" class="btn btn-blue wp100 show-ranking-link"><i class="fa fa-list"></i>去投票</a>
 </div>
 <div class="vote-result">
 	<div class="result-list">

@@ -58,18 +58,18 @@ $(function(){
 	
 	//表单提交
 	$('#submit-link').on('click', function(){
-//		if(!$('#name').val()){
-//			common.toast('组合名称不能为空', 'error');
-//			return false;
-//		}
-//		if(!$('#blessing').val()){
-//			common.toast('对公司的祝福不能为空', 'error');
-//			return false;
-//		}
-//		if(!$('#photo-server-id').val()){
-//			common.toast('请上传照片', 'error');
-//			return false;
-//		}
+		if(!$('#name').val()){
+			common.toast('组合名称不能为空', 'error');
+			return false;
+		}
+		if(!$('#blessing').val()){
+			common.toast('对公司的祝福不能为空', 'error');
+			return false;
+		}
+		if(!$('#photo-server-id').val()){
+			common.toast('请上传照片', 'error');
+			return false;
+		}
 		$('#form').submit();
 	});
 	

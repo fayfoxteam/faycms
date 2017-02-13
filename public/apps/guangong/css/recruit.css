@@ -47,10 +47,10 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-32 .to-login,#recruit-32 .military{left:50%;top:50%;margin-left:-52px;margin-top:-23px;}
 #recruit-32 .to-login a,#recruit-32 .military a{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
 #recruit-32 .register-form{width:80%;max-width:320px;left:50%;margin-left:-40%;top:50%;margin-top:-215px}
-#recruit-32 .register-form .form-control.ib{margin-right:2px;width:auto}
+#recruit-32 .register-form .form-control.ib{margin-right:2px;width:auto;max-width:100%}
 #recruit-32 .avatar-container{text-align:center;margin-bottom:30px}
 #recruit-32 .avatar-container img{border-radius:50%;width:100px;height:100px;}
-.submit-container{bottom:60px;text-align:center}
+.submit-container{bottom:60px;text-align:center;left:50%;margin-left:-52px}
 .submit-link{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
 
 #recruit-42 .guangongdianbing{width:212px;top:100px;left:50%;margin-left:-106px}

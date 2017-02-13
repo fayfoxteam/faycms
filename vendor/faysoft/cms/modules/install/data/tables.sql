@@ -944,7 +944,7 @@ CREATE TABLE `{{$prefix}}users` (
   `avatar` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '头像',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户审核状态',
   `block` tinyint(1) NOT NULL DEFAULT '0' COMMENT '屏蔽用户',
-  `parent` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '父节点',
+  `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父节点',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   `admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为管理员',
   PRIMARY KEY (`id`),

@@ -31,6 +31,10 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 	</ul>
 </div>
 <div class="blockcell">
+	<i class="fa fa-home"></i>
+	主办：浙江平安产险工会、互联网创新部
+</div>
+<div class="blockcell">
 	<i class="fa fa-clock-o"></i>
 	投票截止时间：<?php echo \fay\helpers\DateHelper::format($end_time)?>
 </div>

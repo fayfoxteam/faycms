@@ -46,29 +46,37 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 						))?></div>
 					</fieldset>
 					<fieldset>
-						<label>所在地</label>
+						<label>省</label>
 						<div class="field-container"><?php
 							echo F::form()->select('state', array(''=>'-省-') + $states, array(
-									'class'=>'form-control ib',
-									'id'=>'reg-state',
-								)),
-								F::form()->select('city', array(''=>'-市-'), array(
-									'class'=>'form-control ib',
-									'id'=>'reg-city',
-								)),
-								F::form()->select('district', array(''=>'-区-'), array(
-									'class'=>'form-control ib',
-									'id'=>'reg-district',
-								));
+								'class'=>'form-control ib',
+								'id'=>'reg-state',
+							));
 						?></div>
 					</fieldset>
-					<fieldset class="submit-container">
-						<?php echo F::form()->submitLink('提交注册', array(
-							'class'=>'submit-link',
-						))?>
+					<fieldset>
+						<label>市</label>
+						<div class="field-container"><?php
+							echo F::form()->select('city', array(''=>'-市-'), array(
+								'class'=>'form-control ib',
+								'id'=>'reg-city',
+							));
+							?></div>
+					</fieldset>
+					<fieldset>
+						<label>区/县</label>
+						<div class="field-container"><?php
+							echo F::form()->select('district', array(''=>'-区-'), array(
+								'class'=>'form-control ib',
+								'id'=>'reg-district',
+							));
+							?></div>
 					</fieldset>
 					<?php echo F::form()->close()?>
 				</div>
+				<div class="layer submit-container"><?php echo F::form()->submitLink('提交注册', array(
+					'class'=>'submit-link',
+				))?></div>
 			<?php }else{//还没微信登录过，需要微信授权登录创建用户?>
 				<div class="layer to-login">
 					<fieldset>

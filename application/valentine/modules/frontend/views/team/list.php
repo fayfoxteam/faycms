@@ -86,6 +86,7 @@ $(function(){
 	});
 	
 	$(document).on('click', '.vote-link', function(){
+		var _this = $(this);
 		if($(this).hasClass('btn-grey')){
 			//已经投过或者活动已过期，不能再投了
 			return false;
@@ -101,6 +102,8 @@ $(function(){
 				if(resp.status){
 					common.toast('投票成功', 'success');
 					$('.vote-link').addClass('btn-grey');
+					var $votes = _this.parent().next('.vote-count').find('span');
+					$votes.text(parseInt($votes.text()) + 1);
 				}else{
 					common.toast(resp.message ? resp.message : '投票失败', 'error');
 				}

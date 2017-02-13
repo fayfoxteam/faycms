@@ -35,7 +35,8 @@
 	<div class="vote-container"><?php
 		if($vote == $data['id']){
 			echo \fay\helpers\HtmlHelper::link('已投票', 'javascript:;', array(
-				'class'=>'btn wp100 btn-grey',
+				'class'=>'btn wp100 btn-grey vote-link',
+				'data-id'=>$data['id'],
 			));
 		}else{
 			echo \fay\helpers\HtmlHelper::link('投票', 'javascript:;', array(
@@ -45,5 +46,5 @@
 			));
 		}
 	?></div>
-	<div class="vote-count"><?php echo $data['votes']?>票</div>
+	<div class="vote-count"><span><?php echo $data['votes']?></span>票</div>
 </article>

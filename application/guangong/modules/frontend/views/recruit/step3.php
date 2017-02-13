@@ -48,7 +48,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 					<fieldset>
 						<label>省</label>
 						<div class="field-container"><?php
-							echo F::form()->select('state', array(''=>'-省-') + $states, array(
+							echo F::form()->select('state', array(''=>'-请选择省-') + $states, array(
 								'class'=>'form-control ib',
 								'id'=>'reg-state',
 							));
@@ -57,7 +57,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 					<fieldset>
 						<label>市</label>
 						<div class="field-container"><?php
-							echo F::form()->select('city', array(''=>'-市-'), array(
+							echo F::form()->select('city', array(''=>'-请选择市-'), array(
 								'class'=>'form-control ib',
 								'id'=>'reg-city',
 							));
@@ -66,7 +66,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 					<fieldset>
 						<label>区/县</label>
 						<div class="field-container"><?php
-							echo F::form()->select('district', array(''=>'-区-'), array(
+							echo F::form()->select('district', array(''=>'-请选择区-'), array(
 								'class'=>'form-control ib',
 								'id'=>'reg-district',
 							));

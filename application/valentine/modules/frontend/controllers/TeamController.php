@@ -299,4 +299,14 @@ class TeamController extends FrontController{
 		
 		return $open_id;
 	}
+	
+	public function download(){
+		$app_config = OptionService::getGroup('oauth:weixin');
+		
+		$signature = JsSDK::signature(Http::getCurrentUrl(), $app_config['app_id'], $app_config['app_secret']);
+		
+		$this->view->assign(array(
+			'signature'=>$signature,
+		))->render();
+	}
 }

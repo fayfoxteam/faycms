@@ -12,6 +12,7 @@
 
     wx.downloadImage({
         'serverId': 'MS-rI3E5YDoKYZF8E867GIJ0ZbagaFprY6tP8W6KbDUDuAFCBel_oa-0Kq7aONZQ',
+        'isShowProgressTips': 1,
         'success': function(res){
             var localId = res.localId; // 返回图片下载后的本地ID
             $('#local-id').text(localId.toString());

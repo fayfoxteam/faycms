@@ -84,6 +84,13 @@ class TeamController extends FrontController{
 		$type = $this->form('search')->getData('type', '1');
 		$keywords = $this->form('search')->getData('keywords');
 		
+		if($this->input->get('code')){
+			//若是微信登录跳转后的页面，再跳一次，分享出去的链接有问题
+			Response::redirect('team/list', array(
+				'type'=>$type,
+			));
+		}
+		
 		$sql = new Sql();
 		$sql->from(array('ut'=>'valentine_user_teams'), '*')
 			->where('type = ?', $type)

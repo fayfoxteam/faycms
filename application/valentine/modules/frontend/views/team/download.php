@@ -1,3 +1,4 @@
+<a href="javascript:;" id="download-link">下载</a>
 <div id="local-id"></div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
@@ -9,13 +10,15 @@
         signature: '<?php echo $signature['signature']?>',// 必填，签名，见附录1
         jsApiList: ['chooseImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
-
-    wx.downloadImage({
-        'serverId': 'MS-rI3E5YDoKYZF8E867GIJ0ZbagaFprY6tP8W6KbDUDuAFCBel_oa-0Kq7aONZQ',
-        'isShowProgressTips': 1,
-        'success': function(res){
-            var localId = res.localId; // 返回图片下载后的本地ID
-            $('#local-id').text(localId.toString());
-        }
+    
+    $('#download-link').on('click', function(){
+        wx.downloadImage({
+            'serverId': 'MS-rI3E5YDoKYZF8E867GIJ0ZbagaFprY6tP8W6KbDUDuAFCBel_oa-0Kq7aONZQ',
+            'isShowProgressTips': 1,
+            'success': function(res){
+                var localId = res.localId; // 返回图片下载后的本地ID
+                $('#local-id').text(localId.toString());
+            }
+        });
     });
 </script>

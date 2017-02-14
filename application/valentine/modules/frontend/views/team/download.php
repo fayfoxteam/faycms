@@ -1,11 +1,5 @@
-<a href="javascript:;" id="download-link-1">下载</a>
-<img id="local-id-1" src="">
-<a href="javascript:;" id="download-link-2">下载</a>
-<img id="local-id-2" src="">
-<a href="javascript:;" id="download-link-3">下载</a>
-<img id="local-id-3" src="">
-<a href="javascript:;" id="download-link-4">下载</a>
-<img id="local-id-4" src="">
+<div id="images"></div>
+<a href="javascript:;" id="download-link">下载</a>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
     wx.config({
@@ -17,47 +11,38 @@
         jsApiList: ['chooseImage', 'uploadImage', 'downloadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     
-    $('#download-link-1').on('click', function(){
+    var serverIds = [
+        'I_x4hB8BYInpsnr0jH3eAxKbjw8CK8asufIXKTLpJAHjx0mvTq6Jni-F1433EBbi',
+        'mspgifEHoILlVPrE1Usp5TQDPfwk4Rg2b_kbC7_z7kYcN5XqlcpqKAzeFnxMotui',
+        'hzrIm0aL3JYuXynm8BJu6sz4E8Vyq1gwBpDFQWgyP9qP-s5fBOFho4fH8fau8kEy',
+        'gFie17X2HgX4IiJ7yeaoXaK5Nj6uVLqSZLx2PDSVH8yfcoU3vi6FDRfPEdoI3YK6',
+        'xcnbMRXjT7aa5hgBbowU54CtH8AYyOROejz1hYxNdKUraQengJZTQMQKz_wx2RMI',
+        'fhUjt21TerYyU2OxGiUBpyy3cfaocTcacd603-8w2Pe5VE6gaApFicMB0fVnXcKq',
+        '6fR8t9YtD8RNa0sA8fH_CgNs3NQtyZwOoJsyUw64OtmmUBbtrnYqof_M3eM66feH',
+        '5pyPwzkQJRirMreR2seEEX1F6NUPcfLETvw9B8VKm9TDOZmU5eeUYPPAN24vn1D8',
+        '76WxVEcsB6p2FXpuTLIXRyfqwWaX2xdIPjcSlJNvzod78iTllnuEL2xQaTuji9dz',
+        'xVFbgIvZIAn7F9J6DTvr4eZ7PPBkK-fpQFXUTD3MGAJq5qiLCM1Qy5-JZP-kUc0W'
+    ];
+    
+    var i = 0;
+    $('#download-link').on('click', function(){
+        download(i);
+    });
+    
+    function download(j){
         wx.downloadImage({
-            'serverId': '41RRkY0lHAjGJ0sBTq3zZEcNXvDAA16E1QTBPGL7GHwGQUXQi2I9SII9TQhOz5tM',
+            'serverId': serverIds[j],
             'isShowProgressTips': 1,
             'success': function(res){
                 var localId = res.localId; // 返回图片下载后的本地ID
-                $('#local-id-1').attr('src', localId.toString());
+                $('#images').append('<img src="'+localId.toString()+'">');
+                i++;
+                if(i <= serverIds.length){
+                    download(i);
+                }
             }
         });
-    });
+    }
 
-    $('#download-link-2').on('click', function(){
-        wx.downloadImage({
-            'serverId': 'co6w775aO0R782ArNol3Cbi1-36jzjhZ-jh0Y3oNfN0DnTBBU3Kdu35oiVoiYPDw',
-            'isShowProgressTips': 1,
-            'success': function(res){
-                var localId = res.localId; // 返回图片下载后的本地ID
-                $('#local-id-2').attr('src', localId.toString());
-            }
-        });
-    });
-
-    $('#download-link-3').on('click', function(){
-        wx.downloadImage({
-            'serverId': '2pnEXbJk9eA4WlNo442uVwSFuEUECEiu0F5e_Mw-zO4c_SL6qI5Z0pHhRfNoylgk',
-            'isShowProgressTips': 1,
-            'success': function(res){
-                var localId = res.localId; // 返回图片下载后的本地ID
-                $('#local-id-3').attr('src', localId.toString());
-            }
-        });
-    });
-
-    $('#download-link-4').on('click', function(){
-        wx.downloadImage({
-            'serverId': 'v0atRTqmjMdXDRQNF69EApkv0JEJnGhS1JrDuc1iDpMXCQPcMErFUYTml67U4lmH',
-            'isShowProgressTips': 1,
-            'success': function(res){
-                var localId = res.localId; // 返回图片下载后的本地ID
-                $('#local-id-4').attr('src', localId.toString());
-            }
-        });
-    });
+    
 </script>

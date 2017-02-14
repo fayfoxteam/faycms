@@ -11,7 +11,7 @@ define('BASEPATH', realpath(__DIR__).DIRECTORY_SEPARATOR);//定义程序根目�
  * Apache定义环境变量语法：SetEnv FAYCMS_APPLICATION doc
  * Nginx定义环境变量语法：fastcgi_param FAYCMS_APPLICATION 'doc';
  */
-if(strpos($_SERVER['REQUEST_URI'], '/team') || strpos($_SERVER['REQUEST_URI'], '/file') === 0){
+if(strpos($_SERVER['REQUEST_URI'], '/team') === 0 || strpos($_SERVER['REQUEST_URI'], '/file') === 0){
 	define('APPLICATION', 'valentine');
 }else{
 	define('APPLICATION', isset($_COOKIE['__app']) ? $_COOKIE['__app'] : (isset($_SERVER['FAYCMS_APPLICATION']) ? $_SERVER['FAYCMS_APPLICATION'] : 'blog'));

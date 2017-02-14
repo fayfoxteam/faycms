@@ -13,7 +13,7 @@
     
     $('#download-link').on('click', function(){
         wx.downloadImage({
-            'serverId': 'MS-rI3E5YDoKYZF8E867GIJ0ZbagaFprY6tP8W6KbDUDuAFCBel_oa-0Kq7aONZQ',
+            'serverId': 'G4ZQw-dxITg5m4Zc6Crk_2FJsXc34li7X4z1oZJTWb5MWiloh26-r1kxin70xvzg',
             'isShowProgressTips': 1,
             'success': function(res){
                 var localId = res.localId; // 返回图片下载后的本地ID

@@ -1,5 +1,5 @@
 <a href="javascript:;" id="download-link">下载</a>
-<div id="local-id"></div>
+<img id="local-id" src="">
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
     wx.config({
@@ -17,7 +17,7 @@
             'isShowProgressTips': 1,
             'success': function(res){
                 var localId = res.localId; // 返回图片下载后的本地ID
-                $('#local-id').text(localId.toString());
+                $('#local-id').attr('src', localId.toString());
             }
         });
     });

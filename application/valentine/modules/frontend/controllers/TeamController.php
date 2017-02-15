@@ -6,6 +6,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\NumberHelper;
 use fay\models\tables\OptionsTable;
+use fay\services\FileService;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;
@@ -308,5 +309,36 @@ class TeamController extends FrontController{
 		$this->view->assign(array(
 			'signature'=>$signature,
 		))->render();
+	}
+	
+	/**
+	 * 从微信服务器下载到本地
+	 */
+	public function downloadToLocal(){
+		$team = ValentineUserTeamsTable::model()->fetchRow('photo = 0');
+		
+		//获取Access Token
+		$key = 'oauth:weixin';
+		$config = OptionService::getGroup($key);
+		if(!$config){
+			throw new OAuthException("{{$key}} Oauth参数未设置");
+		}
+		
+		if(empty($config['enabled'])){
+			throw new OAuthException("{{$key}} Oauth登录已禁用");
+		}
+		$access_token = new AccessToken($config['app_id'], $config['app_secret']);
+		
+		$url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token->getToken()}&media_id={$team['photo_server_id']}";
+		$file = FileService::service()->uploadFromUrl($url);
+		if($file['status']){
+			ValentineUserTeamsTable::model()->update(array(
+				'photo'=>$file['data']['id']
+			), $team['id']);
+			
+			echo $team['id'];
+		}else{
+			dump($team);
+		}
 	}
 }

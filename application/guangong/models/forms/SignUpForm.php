@@ -14,7 +14,7 @@ class SignUpForm extends Model{
 	
 	public function rules(){
 		return array(
-			array(array('mobile', 'birthday', 'state', 'city', 'district', 'captcha'), 'required'),
+			array(array('mobile', 'birthday', 'state', 'city', 'district'), 'required'),
 			array('mobile', 'mobile'),
 			//array('captcha', 'captcha'),
 		);

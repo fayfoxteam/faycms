@@ -103,12 +103,15 @@ $(function(){
 	
 	$.shake(function(){
 		//摇一摇显示军籍
+		document.getElementById('shake-music').play();
 		if(arm.enableShake && common.swiper.activeIndex == 2){
 			arm.showInfo();
 		}
 	});
 	$('.shake').on('click', function(){
+		document.getElementById('shake-music').play();
 		arm.showInfo();
 	});
 });
 </script>
+<audio src="<?php echo $this->appAssets('music/5018.wav')?>" id="shake-music" preload=""></audio>

@@ -266,7 +266,8 @@ class FileController extends ApiController{
 	public function captcha(){
 		CaptchaService::output(
 			$this->input->get('w', 'intval', 150),
-			$this->input->get('h', 'intval', 40)
+			$this->input->get('h', 'intval', 40),
+			$this->input->get('length', 'intval', 4)
 		);
 	}
 	

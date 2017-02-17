@@ -51,6 +51,23 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 			document.getElementById('media').play();
 		}
 	});
+	
+	function autoPlayAudio() {
+		wx.ready(function() {
+			document.getElementById('media').play();
+		});
+		window.onload = function() {
+			$('#media').prop('autoplay',true);
+			document.getElementById('media').play();
+			// alert(typeof WeixinJSBridge);
+			WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+				// 在这里拿到 e.err_msg, 这里面就包含了所有的网络类型
+				// alert(e.err_msg);
+				document.getElementById('media').play();
+			});
+		};
+	}
+	autoPlayAudio();
 </script>
 <div class="hide">
 	<div id="shengping-dialog" class="dialog">

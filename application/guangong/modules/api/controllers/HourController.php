@@ -41,7 +41,9 @@ class HourController extends ApiController{
 		
 		GuangongUserExtraTable::model()->update(array(
 			'hour_id'=>$hour['id'],
-		), $this->current_user);
+		), array(
+			'user_id = ?'=>$this->current_user
+		));
 		
 		Response::notify('success', array(
 			'message'=>'勤务设置成功',

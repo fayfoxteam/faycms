@@ -42,7 +42,7 @@ $(function(){
 		$('#audio_btn').removeClass('loading_background');
 		$('#yinfu').removeClass('loading_yinfu');
 	});
-	document.getElementById('media').addEventListener('play', function(){
+	document.getElementById('media').addEventListener('playing', function(){
 		alert('开播啦');
 	});
 	$('#audio_btn').on('click', function(){

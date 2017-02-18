@@ -23,7 +23,8 @@ a{text-decoration:none}
 .loading_background{background-image:url(images/music_loading.gif);background-size:30px 30px;opacity:0.5;background-position:center center;}
 .loading_yinfu{position:absolute;left:10px;top:10px;width:30px;height:30px;background-image:url(images/yinfu.png);background-repeat:no-repeat;background-position:center center;}
 .play_yinfu{background-image:url(images/music.gif);background-repeat:no-repeat;background-position:center center;background-size:60px 60px;}
-.rotate{position:absolute;left:10px;top:10px;width:30px;height:30px;background-size:100% 100%;background-image:url(images/music_off.png);-webkit-animation:rotating 1.2s linear infinite;-moz-animation:rotating 1.2s linear infinite;-o-animation:rotating 1.2s linear infinite;animation:rotating 1.2s linear infinite;}
+#yinfu{position:absolute;left:10px;top:10px;width:30px;height:30px;background-size:100% 100%;background-image:url(images/music_off.png);}
+.rotate{-webkit-animation:rotating 1.2s linear infinite;-moz-animation:rotating 1.2s linear infinite;-o-animation:rotating 1.2s linear infinite;animation:rotating 1.2s linear infinite;}
 @-webkit-keyframes rotating{from{-webkit-transform:rotate(0deg);}
     to{-webkit-transform:rotate(360deg);}
 }

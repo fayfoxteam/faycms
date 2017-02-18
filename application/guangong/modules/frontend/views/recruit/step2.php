@@ -37,9 +37,13 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 </div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
+$(function(){
 	document.getElementById('media').addEventListener('loadedmetadata', function(){
-		$('#audio_btn').removeClass('loading_background').addClass('play_yinfu');
-		$('#yinfu').removeClass('loading_yinfu').addClass('rotate');
+		$('#audio_btn').removeClass('loading_background');
+		$('#yinfu').removeClass('loading_yinfu');
+	});
+	document.getElementById('media').addEventListener('play', function(){
+		alert('开播啦');
 	});
 	$('#audio_btn').on('click', function(){
 		if($(this).hasClass('play_yinfu')){
@@ -52,6 +56,16 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 			document.getElementById('media').play();
 		}
 	});
+	
+	common.swiper.on('SlideChangeStart', function(){
+		if(common.swiper.activeIndex == 2){
+			var $audioBtn = $('#audio_btn');
+			if(!$audioBtn.hasClass('play_yinfu')){
+				$audioBtn.click();
+			}
+		}
+	});
+});
 </script>
 <div class="hide">
 	<div id="shengping-dialog" class="dialog">

@@ -51,9 +51,7 @@ class ArmController extends ApiController{
 		
 		GuangongUserExtraTable::model()->update(array(
 			'arm_id'=>$arm['id'],
-		), array(
-			$this->current_user
-		));
+		), $this->current_user);
 		
 		$arm['picture'] = FileService::service()->get($arm['picture']);
 		Response::notify('success', array(

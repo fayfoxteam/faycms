@@ -51,9 +51,7 @@ class DefenceAreaController extends ApiController{
 		
 		GuangongUserExtraTable::model()->update(array(
 			'defence_area_id'=>$area['id'],
-		), array(
-			'user_id = ?'=>$this->current_user
-		));
+		), $this->current_user);
 		
 		Response::notify('success', '防区设置成功');
 	}

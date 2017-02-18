@@ -34,28 +34,27 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 <script>
 $(function(){
 	var audio = new Audio("<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>");
-	var stepTimer1, stepTimer2, stepTimer3;
+	audio.addEventListener('timeupdate', function(){
+		var $steps = $('.bai-ni-ma-bi-steps');
+		
+		if(audio.currentTime > 0.8 && !$steps.find('a:eq(2)').hasClass('animated')){
+			$steps.find('a:eq(2)').css({'visibility': 'visible'}).addClass('fadeIn animated');
+		}
+		if(audio.currentTime > 5.5 && !$steps.find('a:eq(1)').hasClass('animated')){
+			$steps.find('a:eq(1)').css({'visibility': 'visible'}).addClass('fadeIn animated');
+		}
+		if(audio.currentTime > 10.6 && !$steps.find('a:eq(0)').hasClass('animated')){
+			$steps.find('a:eq(0)').css({'visibility': 'visible'}).addClass('fadeIn animated');
+		}
+	});
 	
 	common.swiper.on('SlideChangeStart', function(){
 		if(common.swiper.activeIndex == 2){
 			audio.currentTime = 0;
 			audio.play();
-			clearTimeout(stepTimer1);
-			clearTimeout(stepTimer2);
-			clearTimeout(stepTimer3);
 			
 			var $steps = $('.bai-ni-ma-bi-steps');
 			$steps.find('a').css({'visibility': 'hidden'}).removeClass('fadeIn animated');
-			stepTimer1 = setTimeout(function(){
-				console.log($steps.find('a:eq(2)'));
-				$steps.find('a:eq(2)').css({'visibility': 'visible'}).addClass('fadeIn animated');
-			}, 900);
-			stepTimer2 = setTimeout(function(){
-				$steps.find('a:eq(1)').css({'visibility': 'visible'}).addClass('fadeIn animated');
-			}, 6000);
-			stepTimer3 = setTimeout(function(){
-				$steps.find('a:eq(0)').css({'visibility': 'visible'}).addClass('fadeIn animated');
-			}, 11000);
 		}else{
 			audio.play();
 			audio.pause();

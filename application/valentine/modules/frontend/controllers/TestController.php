@@ -28,7 +28,19 @@ class TestController extends ApiController{
 			if(!file_exists($file_path)){
 				dump($file_path);die;
 			}
-			copy($file_path, APPLICATION_PATH . "runtimes/files/{$team['id']}-{$team['name']}-{$team['type']}-{$team['votes']}.jpg");
+			
+			switch($team['type']){
+				case ValentineUserTeamsTable::TYPE_ORIGINALITY:
+					$type = '最佳创意照';
+				break;
+				case ValentineUserTeamsTable::TYPE_BLESSING:
+					$type = '最美祝福语';
+				break;
+				case ValentineUserTeamsTable::TYPE_COUPLE:
+					$type = '最牛组合名';
+				break;
+			}
+			copy($file_path, APPLICATION_PATH . "runtimes/files/{$type}-{$team['id']}-{$team['name']}-{$team['votes']}.jpg");
 		}
 	}
 }

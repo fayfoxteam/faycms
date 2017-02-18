@@ -41,6 +41,7 @@ $(function(){
 	document.getElementById('media').addEventListener('loadeddata', function(){
 		$('#audio_btn').removeClass('loading_background');
 		$('#yinfu').removeClass('loading_yinfu');
+		alert('loadedata');
 	});
 	
 	$('#audio_btn').on('click', function(){

@@ -31,37 +31,19 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
-<div id="audio_btn" class="video_exist loading_background" style="display: block;">
+<div id="audio_btn" class="video_exist loading_background" style="display:none;">
 	<div id="yinfu" class="loading_yinfu"></div>
 	<audio src="<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>" id="media"></audio>
 </div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 $(function(){
-	document.getElementById('media').addEventListener('canplay', function(){
-		$('#audio_btn').removeClass('loading_background');
-		$('#yinfu').removeClass('loading_yinfu');
-	});
-	document.getElementById('media').oncanplaythrough=alert("Can play through video without stopping");
-	
-	$('#audio_btn').on('click', function(){
-		if($(this).hasClass('play_yinfu')){
-			$(this).removeClass('play_yinfu').addClass('off');
-			$('#yinfu').removeClass('rotate');
-			document.getElementById('media').pause();
-		}else{
-			$(this).addClass('play_yinfu').removeClass('off');
-			$('#yinfu').addClass('rotate');
-			document.getElementById('media').play();
-		}
-	});
-	
 	common.swiper.on('SlideChangeStart', function(){
 		if(common.swiper.activeIndex == 2){
-			var $audioBtn = $('#audio_btn');
-			if(!$audioBtn.hasClass('play_yinfu')){
-				$audioBtn.click();
-			}
+			document.getElementById('media').play();
+		}else{
+			document.getElementById('media').play();
+			document.getElementById('media').pause();
 		}
 	});
 });

@@ -28,7 +28,7 @@ class TestController extends ApiController{
 			if(!file_exists($file_path)){
 				dump($file_path);die;
 			}
-			copy($file_path, APPLICATION_PATH . "runtimes/files/{$team['name']}-{$team['type']}-{$team['votes']}.jpg");
+			copy($file_path, APPLICATION_PATH . "runtimes/files/{$team['id']}-{$team['name']}-{$team['type']}-{$team['votes']}.jpg");
 		}
 	}
 }

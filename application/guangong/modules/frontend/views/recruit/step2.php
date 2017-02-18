@@ -56,7 +56,6 @@ $(function(){
 	});
 	
 	common.swiper.on('SlideChangeStart', function(){
-		document.getElementById('media').load();
 		if(common.swiper.activeIndex == 2){
 			var $audioBtn = $('#audio_btn');
 			if(!$audioBtn.hasClass('play_yinfu')){

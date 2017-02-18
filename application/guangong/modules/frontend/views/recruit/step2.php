@@ -38,13 +38,11 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 $(function(){
-	document.getElementById('media').addEventListener('loadedmetadata', function(){
+	document.getElementById('media').addEventListener('loadeddata', function(){
 		$('#audio_btn').removeClass('loading_background');
 		$('#yinfu').removeClass('loading_yinfu');
 	});
-	document.getElementById('media').addEventListener('playing', function(){
-		alert('开播啦');
-	});
+	
 	$('#audio_btn').on('click', function(){
 		if($(this).hasClass('play_yinfu')){
 			$(this).removeClass('play_yinfu').addClass('off');

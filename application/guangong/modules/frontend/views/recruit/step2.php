@@ -31,21 +31,10 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<?php $this->renderPartial('_steps')?>
 	</div>
 </div>
-<div id="audio_btn" class="video_exist loading_background" style="display:none;">
-	<div id="yinfu" class="loading_yinfu"></div>
-	<audio src="<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>" id="media"></audio>
-</div>
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 $(function(){
-	common.swiper.on('SlideChangeStart', function(){
-		if(common.swiper.activeIndex == 2){
-			document.getElementById('media').play();
-		}else{
-			document.getElementById('media').play();
-			document.getElementById('media').pause();
-		}
-	});
+	var audio = new Audio("<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>");
+	audio.play();
 });
 </script>
 <div class="hide">

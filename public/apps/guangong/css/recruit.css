@@ -37,9 +37,9 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 }
 
 #recruit-8 .guangong{width:70%;left:50%;top:50%;transform:translate(-50%, -67%);max-width:420px}
-#recruit-8 .steps{height:240px;width:240px;left:50%;top:50%;margin-left:-135px;margin-top:27px}
-#recruit-8 .steps a{margin:0 12px}
-#recruit-8 .steps img{width:43px}
+#recruit-8 .bai-ni-ma-bi-steps{height:240px;width:240px;left:50%;top:50%;margin-left:-135px;margin-top:27px}
+#recruit-8 .bai-ni-ma-bi-steps a{margin:0 12px;visibility:hidden}
+#recruit-8 .bai-ni-ma-bi-steps img{width:43px}
 #recruit-8 .jiangjunshengping{height:93px;width:30px;left:50%;top:50%;margin-left:104px;margin-top:171px}
 #shengping-dialog .dialog-content{background:url(../images/recruit/juanzhou-kai.png) no-repeat center center transparent;background-size:100% 100%;padding:60px 38px}
 #shengping-dialog .dialog-content img{width:100%}

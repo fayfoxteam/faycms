@@ -19,7 +19,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<div class="swiper-slide" id="recruit-8">
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
 			<div class="layer guangong"><img src="<?php echo $this->appAssets('images/group/guangong.png')?>"></div>
-			<div class="layer steps">
+			<div class="layer bai-ni-ma-bi-steps">
 				<a href="javascript:;"><img src="<?php echo $this->appAssets('images/recruit/2-3.png')?>"></a>
 				<a href="javascript:;"><img src="<?php echo $this->appAssets('images/recruit/2-2.png')?>"></a>
 				<a href="javascript:;"><img src="<?php echo $this->appAssets('images/recruit/2-1.png')?>"></a>
@@ -34,14 +34,30 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 <script>
 $(function(){
 	var audio = new Audio("<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>");
-	audio.load();
+	var stepTimer1, stepTimer2, stepTimer3;
 	
 	common.swiper.on('SlideChangeStart', function(){
 		if(common.swiper.activeIndex == 2){
 			audio.currentTime = 0;
 			audio.play();
+			clearTimeout(stepTimer1);
+			clearTimeout(stepTimer2);
+			clearTimeout(stepTimer3);
+			
+			var $steps = $('.bai-ni-ma-bi-steps');
+			$steps.find('a').css({'visibility': 'hidden'}).removeClass('fadeIn animated');
+			stepTimer1 = setTimeout(function(){
+				console.log($steps.find('a:eq(2)'));
+				$steps.find('a:eq(2)').css({'visibility': 'visible'}).addClass('fadeIn animated');
+			}, 900);
+			stepTimer2 = setTimeout(function(){
+				$steps.find('a:eq(1)').css({'visibility': 'visible'}).addClass('fadeIn animated');
+			}, 6000);
+			stepTimer3 = setTimeout(function(){
+				$steps.find('a:eq(0)').css({'visibility': 'visible'}).addClass('fadeIn animated');
+			}, 11000);
 		}else{
-//			audio.play();
+			audio.play();
 			audio.pause();
 		}
 	});

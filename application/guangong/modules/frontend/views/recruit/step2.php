@@ -38,10 +38,10 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 $(function(){
-	document.getElementById('media').addEventListener('loadeddata', function(){
+	document.getElementById('media').addEventListener('canplay', function(){
 		$('#audio_btn').removeClass('loading_background');
 		$('#yinfu').removeClass('loading_yinfu');
-		alert('loadedata');
+		alert('oncanplay');
 	});
 	
 	$('#audio_btn').on('click', function(){

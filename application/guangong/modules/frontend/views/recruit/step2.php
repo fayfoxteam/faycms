@@ -42,6 +42,7 @@ $(function(){
 		$('#audio_btn').removeClass('loading_background');
 		$('#yinfu').removeClass('loading_yinfu');
 	});
+	document.getElementById('media').oncanplaythrough=alert("Can play through video without stopping");
 	
 	$('#audio_btn').on('click', function(){
 		if($(this).hasClass('play_yinfu')){

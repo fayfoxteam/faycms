@@ -4,7 +4,9 @@ namespace guangong\modules\frontend\controllers;
 
 use fay\helpers\ArrayHelper;
 use fay\models\tables\RegionsTable;
+use fay\services\OptionService;
 use fay\services\user\UserService;
+use fay\services\wechat\jssdk\JsSDK;
 use guangong\library\FrontController;
 use guangong\models\forms\SignUpForm;
 use guangong\models\tables\GuangongUserExtraTable;
@@ -30,6 +32,11 @@ class RecruitController extends FrontController{
 	}
 	
 	public function step2(){
+//		$app_config = OptionService::getGroup('oauth:weixin');
+//		$js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
+//		$this->view->assign(array(
+//			'js_sdk_config'=>$js_sdk->getConfig(array()),
+//		));
 		
 		$this->view->render();
 	}

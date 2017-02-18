@@ -22,10 +22,10 @@ class TeamController extends FrontController{
 		
 		$app_config = OptionService::getGroup('oauth:weixin');
 		
-		$signature = JsSDK::signature(Http::getCurrentUrl(), $app_config['app_id'], $app_config['app_secret']);
+		$js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
 		
 		$this->view->assign(array(
-			'signature'=>$signature,
+			'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage', 'downloadImage')),
 		))->render();
 	}
 	

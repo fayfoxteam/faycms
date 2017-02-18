@@ -33,8 +33,9 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 </div>
 <div id="audio_btn" class="video_exist loading_background" style="display: block;">
 	<div id="yinfu" class="loading_yinfu"></div>
-	<audio loop="loop" src="<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>" id="media" autoplay="autoplay" preload=""></audio>
+	<audio src="<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>" id="media" preload=""></audio>
 </div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 	document.getElementById('media').addEventListener('loadedmetadata', function(){
 		$('#audio_btn').removeClass('loading_background').addClass('play_yinfu');
@@ -51,23 +52,6 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 			document.getElementById('media').play();
 		}
 	});
-	
-	function autoPlayAudio() {
-		wx.ready(function() {
-			document.getElementById('media').play();
-		});
-		window.onload = function() {
-			$('#media').prop('autoplay',true);
-			document.getElementById('media').play();
-			// alert(typeof WeixinJSBridge);
-			WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-				// 在这里拿到 e.err_msg, 这里面就包含了所有的网络类型
-				// alert(e.err_msg);
-				document.getElementById('media').play();
-			});
-		};
-	}
-	autoPlayAudio();
 </script>
 <div class="hide">
 	<div id="shengping-dialog" class="dialog">

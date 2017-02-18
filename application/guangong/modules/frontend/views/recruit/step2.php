@@ -33,7 +33,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 </div>
 <div id="audio_btn" class="video_exist loading_background" style="display: block;">
 	<div id="yinfu" class="loading_yinfu"></div>
-	<audio src="<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>" id="media" preload="auto"></audio>
+	<audio src="<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>" id="media"></audio>
 </div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
@@ -57,6 +57,7 @@ $(function(){
 	});
 	
 	common.swiper.on('SlideChangeStart', function(){
+		document.getElementById('media').load();
 		if(common.swiper.activeIndex == 2){
 			var $audioBtn = $('#audio_btn');
 			if(!$audioBtn.hasClass('play_yinfu')){

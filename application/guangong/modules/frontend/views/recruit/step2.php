@@ -34,13 +34,14 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 <script>
 $(function(){
 	var audio = new Audio("<?php echo $this->appAssets('music/dbe5bd2e67f9a27e623c1e8ed0f5549b.mp3')?>");
+	audio.load();
 	
 	common.swiper.on('SlideChangeStart', function(){
 		if(common.swiper.activeIndex == 2){
 			audio.currentTime = 0;
 			audio.play();
 		}else{
-			audio.play();
+//			audio.play();
 			audio.pause();
 		}
 	});

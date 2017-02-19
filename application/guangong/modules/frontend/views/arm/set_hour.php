@@ -39,22 +39,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	</div>
 </div>
 <?php $this->renderPartial('_js')?>
-<?php if(!$hour){?>
-<script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
-<script>
-	$.shake(function(){
-		//摇一摇触发排勤务
-		document.getElementById('shake-music').play();
-		if(arm.enableShake && common.swiper.activeIndex == 2){
-			arm.setHour();
-		}
-	});
-	$('.shake').on('click', function(){
-		document.getElementById('shake-music').play();
-		arm.setHour();
-	});
-</script>
-<?php }else{?>
+<?php if($hour){?>
 <div class="hide">
 	<div id="hour-dialog" class="dialog">
 		<div class="dialog-content">
@@ -103,4 +88,3 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	});
 </script>
 <?php }?>
-<audio src="<?php echo $this->appAssets('music/5018.wav')?>" id="shake-music" preload=""></audio>

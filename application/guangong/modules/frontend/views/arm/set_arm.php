@@ -49,22 +49,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	</div>
 </div>
 <?php $this->renderPartial('_js')?>
-<?php if(!$arm){?>
-<script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
-<script>
-	$.shake(function(){
-		//摇一摇触发排勤务
-		document.getElementById('shake-music').play();
-		if(arm.enableShake && common.swiper.activeIndex == 2){
-			arm.setArm();
-		}
-	});
-	$('.shake').on('click', function(){
-		document.getElementById('shake-music').play();
-		arm.setArm();
-	});
-</script>
-<?php }else{?>
+<?php if($arm){?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <div class="hide">
@@ -84,4 +69,3 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	});
 </script>
 <?php }?>
-<audio src="<?php echo $this->appAssets('music/5018.wav')?>" id="shake-music" preload=""></audio>

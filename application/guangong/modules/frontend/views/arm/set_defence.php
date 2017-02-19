@@ -40,20 +40,3 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	</div>
 </div>
 <?php $this->renderPartial('_js')?>
-<?php if(!$defence){?>
-<script src="<?php echo $this->assets('faycms/js/faycms.shake.js')?>"></script>
-<script>
-	$.shake(function(){
-		//摇一摇触发定防区
-		document.getElementById('shake-music').play();
-		if(arm.enableShake && common.swiper.activeIndex == 2) {
-			arm.setDefenceArea();
-		}
-	});
-	$('.shake').on('click', function(){
-		document.getElementById('shake-music').play();
-		arm.setDefenceArea();
-	});
-</script>
-<?php }?>
-<audio src="<?php echo $this->appAssets('music/5018.wav')?>" id="shake-music" preload=""></audio>

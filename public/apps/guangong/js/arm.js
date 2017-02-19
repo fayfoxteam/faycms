@@ -89,12 +89,14 @@ var arm = {
 		}
 	},
 	/**
-	 * 摇一摇
+	 * 绑定摇一摇事件
 	 */
 	'shake': function(){
-		$.shake(function(){
-			var $activeSlide = $('.swiper-wrapper').find('.swiper-slide:eq('+common.swiper.activeIndex+')');
-			$activeSlide.find('.shake').click();
+		system.getScript(system.assets('faycms/js/faycms.shake.js'), function(){
+			$.shake(function(){
+				var $activeSlide = $('.swiper-wrapper').find('.swiper-slide:eq('+common.swiper.activeIndex+')');
+				$activeSlide.find('.shake').click();
+			});
 		});
 	},
 	/**
@@ -224,6 +226,7 @@ var arm = {
 	'init': function(){
 		this.animate();
 		this.interval();
+		this.shake();
 		this.initShakeMusic();
 		common.swiper.on('SlideChangeStart', this.animate)
 	}

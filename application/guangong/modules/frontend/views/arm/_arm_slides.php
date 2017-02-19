@@ -17,7 +17,7 @@
 	<div class="layer subtitle">选兵种</div>
 	<div class="layer mountain"><img src="<?php echo $this->appAssets('images/arm/mountain.png')?>"></div>
 	<?php if($arm){?>
-		<a class="layer result" href="#arm-dialog"><img src="<?php echo $arm['picture']['url']?>"></a>
+		<a class="layer result fancybox-inline" href="#arm-dialog"><img src="<?php echo $arm['picture']['url']?>"></a>
 	<?php }else{?>
 		<div class="layer arms"><img src="<?php echo $this->appAssets('images/arm/arms.png')?>"></div>
 		<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>

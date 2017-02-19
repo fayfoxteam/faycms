@@ -111,6 +111,8 @@ var arm = {
 				arm.setDefenceArea();
 			}else if($activeSlide.hasClass('set-hour-slide')){
 				arm.setHour();
+			}else if($activeSlide.hasClass('show-info')){
+				arm.showInfo();
 			}
 		});
 	},
@@ -228,6 +230,7 @@ var arm = {
 		this.interval();
 		this.shake();
 		this.initShakeMusic();
+		this.clickShake();
 		common.swiper.on('SlideChangeStart', this.animate)
 	}
 };

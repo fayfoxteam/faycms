@@ -54,7 +54,7 @@
 #arm-10 .juanzhou-kai{display:none;font-size:14px;padding:70px 20px 0;text-align:left;width:275px;height:400px;top:50px;left:50%;margin-left:-148px;background-image:url(../images/arm/juanzhou-kai.png);background-size:100% 100%}
 #arm-10 .juanzhou-kai label.label-title{width:60px;display:inline-block;text-align:right;float:left}
 #arm-10 .juanzhou-kai .content{margin-left:10px;text-align:left;display:inline-block}
-#arm-10 .juanzhou-kai fieldset{margin-bottom:5px}
+#arm-10 .juanzhou-kai fieldset{margin-bottom:5px;font-size:12px}
 #arm-10 .juanzhou-kai #info-avatar{text-align:center;margin-bottom:20px}
 #arm-10 .juanzhou-kai #info-avatar img{width:70px;height:70px}
 #arm-11 .desc{left:50%;margin-left:-121px;font-size:12px;bottom:54px}

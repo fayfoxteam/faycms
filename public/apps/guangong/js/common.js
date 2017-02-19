@@ -179,12 +179,34 @@ var common = {
 			}, 10);
 		}
 	},
+	/**
+	 * 弹窗
+	 */
+	'fancybox': function(){
+		if($('.fancybox-inline').length){
+			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$('.fancybox-inline').fancybox({
+						'padding': 0,
+						'centerOnScroll': true,
+						'onClosed': function(o){
+							$($(o).attr('href')).find('input,select,textarea').each(function(){
+								$(this).poshytip('hide');
+							});
+						},
+						'type' : 'inline'
+					});
+				});
+			});
+		}
+	},
 	'init': function(){
 		this._swiper();
 		this.formSubmit();
 		this.captcha();
 		this.validform();
 		this.animate();
+		this.fancybox();
 		common.swiper.on('SlideChangeStart', this.animate);
 	}
 };

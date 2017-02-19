@@ -7,26 +7,30 @@
 	<div id="hour-dialog" class="dialog">
 		<div class="dialog-content">
 			<div class="form-group">
-				<div class="content" id="hour-name">
+				<div class="content">
 					<label class="label-title">古历时间</label>
-					<?php echo $hour['name']?>
+					<span id="hour-name"><?php echo $hour ? $hour['name']: ''?></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="content" id="hour-time">
+				<div class="content">
 					<label class="label-title">北京时间</label>
-					<?php
-					echo \fay\helpers\NumberHelper::toLength($hour['start_hour'], 2),
-					'时至',
-					\fay\helpers\NumberHelper::toLength($hour['end_hour'], 2),
-					'时'
-					?>
+					<span id="hour-time"><?php
+					if($hour){
+						echo \fay\helpers\NumberHelper::toLength($hour['start_hour'], 2),
+						'时至',
+						\fay\helpers\NumberHelper::toLength($hour['end_hour'], 2),
+						'时';
+					}
+					?></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="content" id="hour-description">
+				<div class="content">
 					<label class="label-title">时辰详情</label>
-					<?php echo $hour['description'], $hour['zodiac']?>
+					<span id="hour-description"><?php if($hour){
+						echo $hour['description'], $hour['zodiac'];
+					}?></span>
 				</div>
 			</div>
 			<div class="form-group">

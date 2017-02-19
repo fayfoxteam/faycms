@@ -13,8 +13,29 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<div class="layer index-title"><img src="<?php echo $this->appAssets('images/arm/index-title.png')?>"></div>
 			<div class="layer index-description"><img src="<?php echo $this->appAssets('images/arm/index-description.png')?>"></div>
 		</div>
+		<div class="swiper-slide" id="arm-2">
+			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
+			<div class="layer steps">
+				<?php if($hour){?>
+					<a href="javascript:;" class="swiper-to" data-slide="10"><img src="<?php echo $this->appAssets('images/arm/s5.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="8"><img src="<?php echo $this->appAssets('images/arm/s4.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="6"><img src="<?php echo $this->appAssets('images/arm/s3.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="4"><img src="<?php echo $this->appAssets('images/arm/s2.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s1.png')?>"></a>
+				<?php }else{?>
+					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s5.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s4.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s3.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s2.png')?>"></a>
+					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s1.png')?>"></a>
+				<?php }?>
+			</div>
+			<div class="layer description">
+				<p>体验规则：</p>
+				<p>点击依序进行选择，以摇令定之；前四项确定后存入档案不可更改；第五项每天按规履行军职，最高可晋升至将军。</p>
+			</div>
+		</div>
 		<?php
-			$this->renderPartial('_steps');
 			$this->renderPartial('_defence_slides', array(
 				'defence'=>$defence
 			));
@@ -24,13 +45,12 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			$this->renderPartial('_hour_slides', array(
 				'hour'=>$hour
 			));
+			$this->renderPartial('_info_slides');
+			$this->renderPartial('_job_slides');
 		?>
-		
 	</div>
 </div>
 <?php $this->renderPartial('_js')?>
-<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
-<script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <?php
 	$this->renderPartial('_arm_dialog', array(
 		'arm'=>$arm

@@ -58,33 +58,3 @@
 		<p>个人身份信息、防区、兵种确定后，即时输入网络军籍档案系统、信息不可更改。微官网可随时查询网络军籍档案。</p>
 	</div>
 </div>
-<script>
-$(function(){
-	//初始化用户信息
-	$.ajax({
-		'type': 'GET',
-		'url': system.url('api/user/info'),
-		'data': {'user_id': system.user_id},
-		'dataType': 'json',
-		'cache': false,
-		'success': function(resp){
-			if(resp.status){
-				$('#info-avatar img').attr('src', resp.data.user.avatar.thumbnail);
-				$('#info-mobile').text(resp.data.user.mobile);
-				$('#info-birthday').text(resp.data.extra.birthday);
-				$('#info-region').text(resp.data.extra.state_name + ' ' + resp.data.extra.city_name + ' ' + resp.data.extra.district_name);
-				if(resp.data.extra.sign_up_time != 0){
-					$('#info-sign-up-time').text(system.date(resp.data.extra.sign_up_time, true));
-					$('#info-army-time').text(system.date(parseInt(resp.data.extra.sign_up_time) + 86400 * 365, true));
-				}
-				$('#info-defence-area').text(resp.data.extra.defence_area_name);
-				$('#info-arm').text(resp.data.extra.arm_name);
-				$('#info-rank').text(resp.data.extra.rank_name ? resp.data.extra.rank_name : '士兵');
-				$('#info-id').text(resp.data.extra.arm_name ? '关羽军团'+resp.data.extra.arm_name+'营'+system.user_id : '')
-			}else{
-				common.toast(resp.message, 'error');
-			}
-		}
-	});
-});
-</script>

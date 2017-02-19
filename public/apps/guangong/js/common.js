@@ -17,7 +17,14 @@ var common = {
 				//loop: true,
 				nextButton: '.swiper-btn-next',
 				prevButton: '.swiper-btn-prev',
-				'initialSlide': location.hash ? location.hash.substr(1) : 0
+				'initialSlide': location.hash ? location.hash.substr(1) : 0,
+				'onSlideChangeEnd': function(swiper){
+					//若遇到stop-to-next，则阻止继续往右滑
+					var $activeSlide = $('.swiper-wrapper').find('.swiper-slide:eq('+swiper.activeIndex+')');
+					if(common.swiper){
+						common.swiper.params.allowSwipeToNext = !$activeSlide.hasClass('stop-to-next');
+					}
+				}
 			});
 			
 			$('.swiper-to').on('click', function(){

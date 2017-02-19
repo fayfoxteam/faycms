@@ -12,7 +12,7 @@
 		<p class="center">为实战体验做战争准备</p>
 	</div>
 </div>
-<div class="swiper-slide <?php if(!$arm){echo 'set-arm-slide';}?>" id="arm-6">
+<div class="swiper-slide <?php if(!$arm){echo 'set-arm-slide stop-to-next';}?>" id="arm-6">
 	<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 	<div class="layer subtitle">选兵种</div>
 	<div class="layer mountain"><img src="<?php echo $this->appAssets('images/arm/mountain.png')?>"></div>

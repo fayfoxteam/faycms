@@ -120,6 +120,7 @@ var arm = {
 	 * 播放摇一摇音效
 	 */
 	'shakeMusic': function(){
+		arm.shakeAudio.currentTime = 0;
 		arm.shakeAudio.play();
 	},
 	/**
@@ -148,10 +149,20 @@ var arm = {
 				if(resp.status){
 					var $setArmSlide = $('.set-arm-slide');
 					$setArmSlide.find('.arms,.shake,.arm-names').remove();
-					$setArmSlide.append('<div class="layer result flip animated"><img src="'+resp.data.picture.url+'"></div>');
-					$setArmSlide.append('<div class="layer next-link"><a href="'+system.url('arm/set-hour#1')+'" class="btn-1">排勤务</a></div>');
+					$setArmSlide.append('<a class="layer result fancybox-inline" href="#arm-dialog"><img src="'+resp.data.picture.url+'"></a>');
+					
+					//弹窗
+					$('#arm-dialog').find('.arm-description img').attr('src', resp.data.description_picture.url);
+					common.fancybox();
+					setTimeout(function(){
+						$('#arm-6').find('a.result').click();
+					}, 800);
+					
 					//移除class。摇一摇就失效了
 					$setArmSlide.removeClass('set-arm-slide');
+					//允许继续向后滑
+					$setArmSlide.removeClass('stop-to-next');
+					common.swiper.params.allowSwipeToNext = true;
 					common.toast(resp.message, 'success');
 				}else{
 					common.toast(resp.message, 'error');
@@ -175,11 +186,24 @@ var arm = {
 				if(resp.status){
 					var $arm8 = $('#arm-8');
 					$arm8.find('.qiantong').remove();
-					$arm8.append('<div class="layer result flip animated"><span class="hour">'+resp.data.name+'</span></div>');
-					$arm8.append('<div class="layer next-link"><a href="'+system.url('arm/info#1')+'" class="btn-1">录军籍</a></div>');
-					common.toast(resp.message, 'success');
+					$arm8.append('<a class="layer result fancybox-inline" href="#hour-dialog"><span class="hour">'+resp.data.name+'</span></a>');
+
+					//弹窗
+					var $hourDialog = $('#hour-dialog');
+					$hourDialog.find('#hour-name').text(resp.data.name);
+					$hourDialog.find('#hour-time').text(resp.data.start_hour + '时至' + resp.data.end_hour + '时');
+					$hourDialog.find('#hour-description').text(resp.data.description + resp.data.zodiac);
+					common.fancybox();
+					setTimeout(function(){
+						$arm8.find('a.result').click();
+					}, 800);
+					
 					//移除class。摇一摇就失效了
 					$('.set-hour-slide').removeClass('set-hour-slide');
+					//允许继续向后滑
+					$arm8.removeClass('stop-to-next');
+					common.swiper.params.allowSwipeToNext = true;
+					common.toast(resp.message, 'success');
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -202,10 +226,12 @@ var arm = {
 				if(resp.status){
 					var $arm4 = $('#arm-4');
 					$arm4.find('.shake').remove();
-					$arm4.append('<div class="layer next-link"><a href="'+system.url('arm/set-arm#1')+'" class="btn-1">选兵种</a></div>');
 					common.toast(resp.message, 'success');
 					//移除class。摇一摇就失效了
 					$('.set-defence-slide').removeClass('set-defence-slide');
+					//允许继续向后滑
+					$arm4.removeClass('stop-to-next');
+					common.swiper.params.allowSwipeToNext = true;
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -220,6 +246,33 @@ var arm = {
 		$arm10.find('.juanzhou-he').addClass('rotateOut animated');
 		$arm10.find('.juanzhou-he').removeClass('rollIn');
 		$arm10.find('.shake').remove();
+
+		$.ajax({
+			'type': 'GET',
+			'url': system.url('api/user/info'),
+			'data': {'user_id': system.user_id},
+			'dataType': 'json',
+			'cache': false,
+			'success': function(resp){
+				if(resp.status){
+					$('#info-avatar img').attr('src', resp.data.user.avatar.thumbnail);
+					$('#info-mobile').text(resp.data.user.mobile);
+					$('#info-birthday').text(resp.data.extra.birthday);
+					$('#info-region').text(resp.data.extra.state_name + ' ' + resp.data.extra.city_name + ' ' + resp.data.extra.district_name);
+					if(resp.data.extra.sign_up_time != 0){
+						$('#info-sign-up-time').text(system.date(resp.data.extra.sign_up_time, true));
+						$('#info-army-time').text(system.date(parseInt(resp.data.extra.sign_up_time) + 86400 * 365, true));
+					}
+					$('#info-defence-area').text(resp.data.extra.defence_area_name);
+					$('#info-arm').text(resp.data.extra.arm_name);
+					$('#info-rank').text(resp.data.extra.rank_name ? resp.data.extra.rank_name : '士兵');
+					$('#info-id').text(resp.data.extra.arm_name ? '关羽军团'+resp.data.extra.arm_name+'营'+system.user_id : '')
+				}else{
+					common.toast(resp.message, 'error');
+				}
+			}
+		});
+		
 		setTimeout(function(){
 			$arm10.find('.juanzhou-kai').show().addClass('zoomInUp animated');
 			$arm10.find('.juanzhou-he').remove();

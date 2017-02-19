@@ -12,7 +12,7 @@
 		<p class="center">为实战体验做战争准备</p>
 	</div>
 </div>
-<div class="swiper-slide <?php if(!$hour){echo 'set-hour-slide';}?>" id="arm-8">
+<div class="swiper-slide <?php if(!$hour){echo 'set-hour-slide stop-to-next';}?>" id="arm-8">
 	<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 	<div class="layer subtitle">排勤务</div>
 	<?php if($hour){?>

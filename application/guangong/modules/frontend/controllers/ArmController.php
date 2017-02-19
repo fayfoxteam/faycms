@@ -20,7 +20,20 @@ class ArmController extends FrontController{
 	}
 	
 	public function index(){
-		$this->view->render();
+		$user_extra = GuangongUserExtraTable::model()->find($this->current_user);
+		$defence = $user_extra['defence_area_id'] ? GuangongDefenceAreasTable::model()->find($user_extra['defence_area_id']) : array();
+		$arm = $user_extra['arm_id'] ? GuangongArmsTable::model()->find($user_extra['arm_id']) : array();
+		if($arm){
+			$arm['picture'] = FileService::service()->get($arm['picture']);
+			$arm['description_picture'] = FileService::service()->get($arm['description_picture']);
+		}
+		$hour = $user_extra['hour_id'] ? GuangongHoursTable::model()->find($user_extra['hour_id']) : array();
+		
+		$this->view->assign(array(
+			'defence'=>$defence,
+			'arm'=>$arm,
+			'hour'=>$hour,
+		))->render();
 	}
 	
 	/**

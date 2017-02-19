@@ -5,7 +5,7 @@
  */
 $this->appendCss($this->appAssets('css/arm.css'));
 ?>
-<div class="swiper-container groups">
+<div class="swiper-container">
 	<div class="swiper-wrapper">
 		<?php $this->renderPartial('_steps')?>
 		<div class="swiper-slide" id="arm-7">
@@ -17,7 +17,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 				<p class="center">为实战体验做战争准备</p>
 			</div>
 		</div>
-		<div class="swiper-slide" id="arm-8">
+		<div class="swiper-slide <?php if(!$hour){echo 'set-hour-slide';}?>" id="arm-8">
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer subtitle">排勤务</div>
 			<?php if($hour){?>

@@ -1,12 +1,14 @@
 var arm = {
 	/**
-	 * 正在发送ajax时，不再发起其他ajax，因为摇一摇太敏感了
+	 * 正在发送ajax时，不再发起其他ajax，防止摇一摇功能重复发送ajax
 	 */
 	'ajaxing': false,
+
 	/**
-	 * 是否允许摇一摇，若为false，则不执行摇一摇回调
+	 * 摇一摇音效实例
 	 */
-	'enableShake': true,
+	'shakeAudio': null,
+	
 	/**
 	 * 动画效果
 	 */
@@ -86,11 +88,52 @@ var arm = {
 			}, 1000);
 		}
 	},
+	/**
+	 * 摇一摇
+	 */
+	'shake': function(){
+		$.shake(function(){
+			var $activeSlide = $('.swiper-wrapper').find('.swiper-slide:eq('+common.swiper.activeIndex+')');
+			$activeSlide.find('.shake').click();
+		});
+	},
+	/**
+	 * 点击摇一摇按钮（效果等同于手机摇一摇）
+	 */
+	'clickShake': function(){
+		$(document).on('click', '.shake', function(){
+			var $activeSlide = $(this).parent();
+			if($activeSlide.hasClass('set-arm-slide')){
+				arm.setArm();
+			}else if($activeSlide.hasClass('set-defence-slide')){
+				arm.setDefenceArea();
+			}else if($activeSlide.hasClass('set-hour-slide')){
+				arm.setHour();
+			}
+		});
+	},
+	/**
+	 * 播放摇一摇音效
+	 */
+	'shakeMusic': function(){
+		arm.shakeAudio.play();
+	},
+	/**
+	 * 初始化摇一摇音效
+	 */
+	'initShakeMusic': function(){
+		this.shakeAudio = new Audio(system.url('apps/guangong/music/5018.wav'));
+		common.swiper.on('SlideChangeStart', function(){
+			arm.shakeAudio.play();
+			arm.shakeAudio.pause();
+		});
+	},
 	'setArm': function(){
 		if(this.ajaxing){
 			return false;
 		}
 		this.ajaxing = true;
+		this.shakeMusic();
 		$.ajax({
 			'type': 'GET',
 			'url': system.url('api/arm/set'),
@@ -99,13 +142,13 @@ var arm = {
 			'success': function(resp){
 				arm.ajaxing = false;
 				if(resp.status){
-					var $arm6 = $('#arm-6');
-					$arm6.find('.arms,.shake,.arm-names').remove();
-					$arm6.append('<div class="layer result flip animated"><img src="'+resp.data.picture.url+'"></div>');
-					$arm6.append('<div class="layer next-link"><a href="'+system.url('arm/set-hour#1')+'" class="btn-1">排勤务</a></div>');
+					var $setArmSlide = $('.set-arm-slide');
+					$setArmSlide.find('.arms,.shake,.arm-names').remove();
+					$setArmSlide.append('<div class="layer result flip animated"><img src="'+resp.data.picture.url+'"></div>');
+					$setArmSlide.append('<div class="layer next-link"><a href="'+system.url('arm/set-hour#1')+'" class="btn-1">排勤务</a></div>');
+					//移除class。摇一摇就失效了
+					$setArmSlide.removeClass('set-arm-slide');
 					common.toast(resp.message, 'success');
-					//屏蔽摇一摇
-					arm.enableShake = false;
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -117,6 +160,7 @@ var arm = {
 			return false;
 		}
 		this.ajaxing = true;
+		this.shakeMusic();
 		$.ajax({
 			'type': 'GET',
 			'url': system.url('api/hour/set'),
@@ -130,8 +174,8 @@ var arm = {
 					$arm8.append('<div class="layer result flip animated"><span class="hour">'+resp.data.name+'</span></div>');
 					$arm8.append('<div class="layer next-link"><a href="'+system.url('arm/info#1')+'" class="btn-1">录军籍</a></div>');
 					common.toast(resp.message, 'success');
-					//屏蔽摇一摇
-					arm.enableShake = false;
+					//移除class。摇一摇就失效了
+					$('.set-hour-slide').removeClass('set-hour-slide');
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -143,6 +187,7 @@ var arm = {
 			return false;
 		}
 		this.ajaxing = true;
+		this.shakeMusic();
 		$.ajax({
 			'type': 'GET',
 			'url': system.url('api/defence-area/set'),
@@ -155,8 +200,8 @@ var arm = {
 					$arm4.find('.shake').remove();
 					$arm4.append('<div class="layer next-link"><a href="'+system.url('arm/set-arm#1')+'" class="btn-1">选兵种</a></div>');
 					common.toast(resp.message, 'success');
-					//屏蔽摇一摇
-					arm.enableShake = false;
+					//移除class。摇一摇就失效了
+					$('.set-defence-slide').removeClass('set-defence-slide');
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -175,11 +220,11 @@ var arm = {
 			$arm10.find('.juanzhou-kai').show().addClass('zoomInUp animated');
 			$arm10.find('.juanzhou-he').remove();
 		}, 600);
-		arm.enableShake = false;
 	},
 	'init': function(){
 		this.animate();
 		this.interval();
+		this.initShakeMusic();
 		common.swiper.on('SlideChangeStart', this.animate)
 	}
 };

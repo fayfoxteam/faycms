@@ -5,14 +5,14 @@
 .title{width:20px;height:168px;left:50%;top:50%;margin-left:10px;margin-top:-25px}
 .description{bottom:23px;left:50%;margin-left:-40%;width:80%}
 .description p{text-align:left;font-size:12px;line-height:1.5}
-.btn-1{color:#280E04;font-size:20px;background-image:url(../images/recruit/btn-bg.jpg);background-size:100% 100%;padding:25px 35px;display:inline-block}
+.btn-1{color:#280E04;font-size:20px;background-image:url(../images/recruit/btn-bg.jpg);background-size:100% 100%;padding:8px 25px;display:inline-block}
 
 fieldset{margin-bottom:12px;}
 fieldset .field-container{width:70%;display:inline-block;text-align:left;}
 fieldset .field-container .captcha{width:auto;height:30px;display:inline-block;vertical-align:bottom;margin-left:7%}
 fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;color:#717070}
 fieldset .form-control.short{width:50%}
-fieldset label{color:#231915;font-size:14px;display:inline-block;width:16%;min-width:48px;padding-top:7px;text-align:right;}
+fieldset label{color:#231915;font-size:14px;display:inline-block;width:57px;min-width:48px;padding-top:7px;text-align:right;}
 fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%;margin-left:29%;text-align:left}
 fieldset .form-control.ib{display:inline-block;width:auto}
 
@@ -53,8 +53,8 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 .submit-container{bottom:60px;text-align:center;left:50%;margin-left:-52px}
 .submit-link{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
 
-#recruit-42 .guangongdianbing{width:212px;top:100px;left:50%;margin-left:-106px}
-#recruit-42 .button{}
+#recruit-42 .guangongdianbing{width:168px;top:75px;left:50%;margin-left:-84px}
+#recruit-42 .button{bottom:60px;left:50%;margin-left:-65px}
 #jiangjunmiling-dialog .dialog-content{background:url(../images/recruit/juanzhou-kai.png) no-repeat center center transparent;background-size:100% 100%;padding:73px 51px;text-align:center}
 #jiangjunmiling-dialog .dialog-content .yinzhang-text{width:100%;margin-bottom:15px}
 #jiangjunmiling-dialog .dialog-content .yinzhang{width:67px}

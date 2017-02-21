@@ -3,6 +3,7 @@
  * @var $this \fay\core\View
  * @var $user_extra array
  * @var $states array
+ * @var $arm array
  */
 $this->appendCss($this->appAssets('css/recruit.css'));
 ?>
@@ -23,6 +24,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		))?>
 		<?php $this->renderPartial('_step4', array(
 			'user'=>$user,
+			'arm'=>$arm,
 		))?>
 	</div>
 </div>

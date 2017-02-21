@@ -2,6 +2,7 @@
 /**
  * @var $this \fay\core\View
  * @var $user array
+ * @var $arm array
  */
 ?>
 <div class="swiper-slide" id="recruit-41">
@@ -15,9 +16,28 @@
 </div>
 <div class="swiper-slide" id="recruit-42">
 	<div class="layer guangongdianbing"><img src="<?php echo $this->appAssets('images/recruit/guangongdianbing.png')?>"></div>
+	<div class="layer user-info">
+		<fieldset>
+			<label>识&nbsp;别&nbsp;号</label>
+			<div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('mobile', $user['user']['mobile'], array(
+				'class'=>'form-control',
+				'placeholder'=>'手机号为身份识别号',
+			))?></div>
+		</fieldset>
+		<fieldset>
+			<label>军团代号</label>
+			<div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText(
+				'daihao',
+				$arm ? "关羽军团{$arm['name']}营{$user['user']['id']}" : '',
+				array(
+					'class'=>'form-control',
+					'placeholder'=>'手机号为身份识别号',
+				))?></div>
+		</fieldset>
+	</div>
 	<div class="layer button">
 		<?php if(!empty($user['user']['mobile'])){?>
-			<a href="#jiangjunmiling-dialog" class="btn-1" id="jiangjunmiling-link">将军密令</a>
+			<a href="#jiangjunmiling-dialog" class="btn-1" id="jiangjunmiling-link">将军密令<br>报名可阅</a>
 		<?php }else{?>
 			<a href="<?php echo $this->url('recruit/step3#1')?>" class="btn-1">我要加入</a>
 		<?php }?>

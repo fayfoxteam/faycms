@@ -4,11 +4,10 @@ namespace guangong\modules\frontend\controllers;
 
 use fay\helpers\ArrayHelper;
 use fay\models\tables\RegionsTable;
-use fay\services\OptionService;
 use fay\services\user\UserService;
-use fay\services\wechat\jssdk\JsSDK;
 use guangong\library\FrontController;
 use guangong\models\forms\SignUpForm;
+use guangong\models\tables\GuangongArmsTable;
 use guangong\models\tables\GuangongUserExtraTable;
 
 /**
@@ -26,9 +25,11 @@ class RecruitController extends FrontController{
 		if($this->current_user){
 			$this->view->user_extra = GuangongUserExtraTable::model()->find($this->current_user);
 			$this->view->user = UserService::service()->get($this->current_user, 'id,mobile,avatar');
+			$this->view->arm = GuangongArmsTable::model()->find($this->view->user_extra['arm_id']);
 		}else{
 			$this->view->user_extra = array();
 			$this->view->user = array();
+			$this->view->arm = array();
 		}
 		
 		$this->view->states = ArrayHelper::column(RegionsTable::model()->fetchAll('parent_id = 1', 'id,name'), 'name', 'id');

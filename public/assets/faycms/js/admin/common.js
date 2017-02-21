@@ -91,9 +91,9 @@ var common = {
 			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
 				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 					$('.fancybox-image').fancybox({
-						'transitionIn' : 'elastic',
-						'transitionOut' : 'elastic',
-						'type' : 'image',
+						'transitionIn': 'elastic',
+						'transitionOut': 'elastic',
+						'type': 'image',
 						'padding': 0,
 						'centerOnScroll': true
 					});
@@ -111,7 +111,7 @@ var common = {
 								$(this).poshytip('hide');
 							});
 						},
-						'type' : 'inline'
+						'type': 'inline'
 					});
 				});
 			});
@@ -121,9 +121,9 @@ var common = {
 				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
 					$('.fancybox-iframe').fancybox({
 						'centerOnScroll': true,
-						'type' : 'iframe',
-						'width' : 750,
-						'autoDimensions' : true
+						'type': 'iframe',
+						'width': 750,
+						'autoDimensions': true
 					});
 				});
 			});

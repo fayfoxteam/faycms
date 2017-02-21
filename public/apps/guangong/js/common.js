@@ -196,12 +196,8 @@ var common = {
 					$('.fancybox-inline').fancybox({
 						'padding': 0,
 						'centerOnScroll': true,
-						'onClosed': function(o){
-							$($(o).attr('href')).find('input,select,textarea').each(function(){
-								$(this).poshytip('hide');
-							});
-						},
-						'type' : 'inline'
+						'type': 'inline',
+						'width': '90%'
 					});
 				});
 			});

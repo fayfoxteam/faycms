@@ -23,6 +23,18 @@ class RecruitController extends FrontController{
 	}
 	
 	public function index(){
+		if($this->current_user){
+			$this->view->user_extra = GuangongUserExtraTable::model()->find($this->current_user);
+			$this->view->user = UserService::service()->get($this->current_user, 'id,mobile,avatar');
+		}else{
+			$this->view->user_extra = array();
+			$this->view->user = array();
+		}
+		
+		$this->view->states = ArrayHelper::column(RegionsTable::model()->fetchAll('parent_id = 1', 'id,name'), 'name', 'id');
+		
+		$this->form()->setModel(SignUpForm::model());
+		
 		$this->view->render();
 	}
 	

@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $defence array
+ * @var $user_extra array
  */
 ?>
 <div class="swiper-slide" id="arm-3">
@@ -15,10 +16,14 @@
 <div class="swiper-slide <?php if(!$defence){echo 'set-defence-slide stop-to-next';}?>" id="arm-4">
 	<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 	<div class="layer subtitle">定防区</div>
-	<div class="layer map"><img src="<?php echo $this->appAssets('images/arm/map.png')?>"></div>
 	<div class="layer defence-text"><img src="<?php echo $this->appAssets('images/arm/defence-text.png')?>"></div>
-	<?php if(!$defence){?>
-		<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
+	<?php if($user_extra){?>
+		<div class="layer map"><img src="<?php echo $this->appAssets('images/arm/map.png')?>"></div>
+		<?php if(!$defence){?>
+			<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
+		<?php }?>
+	<?php }else{?>
+		<div class="layer go-to-sign">您尚未加入关羽军团<br>请前往<a href="<?php echo $this->url('recruit')?>">天下招募令</a>参加招募</div>
 	<?php }?>
 	<div class="layer description">
 		<p>体验说明：</p>

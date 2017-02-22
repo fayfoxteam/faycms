@@ -4,6 +4,7 @@
  * @var $defence array
  * @var $arm array
  * @var $hour array
+ * @var $user_extra array
  */
 $this->appendCss($this->appAssets('css/arm.css'));
 ?>
@@ -37,7 +38,8 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		</div>
 		<?php
 			$this->renderPartial('_defence_slides', array(
-				'defence'=>$defence
+				'defence'=>$defence,
+				'user_extra'=>$user_extra,
 			));
 			$this->renderPartial('_arm_slides', array(
 				'arm'=>$arm

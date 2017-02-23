@@ -18,17 +18,17 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 			<div class="layer steps">
 				<?php if($hour){?>
-					<a href="javascript:;" class="swiper-to" data-slide="10"><img src="<?php echo $this->appAssets('images/arm/s5.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="8"><img src="<?php echo $this->appAssets('images/arm/s4.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="6"><img src="<?php echo $this->appAssets('images/arm/s3.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="4"><img src="<?php echo $this->appAssets('images/arm/s2.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s1.png')?>"></a>
+					<a href="#10" class="swiper-to" data-slide="10"><img src="<?php echo $this->appAssets('images/arm/s5.png')?>"></a>
+					<a href="#8" class="swiper-to" data-slide="8"><img src="<?php echo $this->appAssets('images/arm/s4.png')?>"></a>
+					<a href="#6" class="swiper-to" data-slide="6"><img src="<?php echo $this->appAssets('images/arm/s3.png')?>"></a>
+					<a href="#4" class="swiper-to" data-slide="4"><img src="<?php echo $this->appAssets('images/arm/s2.png')?>"></a>
+					<a href="#2" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s1.png')?>"></a>
 				<?php }else{?>
-					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s5.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s4.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s3.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s2.png')?>"></a>
-					<a href="javascript:;" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s1.png')?>"></a>
+					<a href="#2" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s5.png')?>"></a>
+					<a href="#2" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s4.png')?>"></a>
+					<a href="#2" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s3.png')?>"></a>
+					<a href="#2" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s2.png')?>"></a>
+					<a href="#2" class="swiper-to" data-slide="2"><img src="<?php echo $this->appAssets('images/arm/s1.png')?>"></a>
 				<?php }?>
 			</div>
 			<div class="layer description">
@@ -60,4 +60,5 @@ $this->appendCss($this->appAssets('css/arm.css'));
 	$this->renderPartial('_hour_dialog', array(
 		'hour'=>$hour
 	));
+	$this->renderPartial('_rank_dialog');
 ?>

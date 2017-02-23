@@ -39,3 +39,7 @@ body #fancybox-close:hover:before{color:#373e4a}
     to{-moz-transform:rotate(360deg);}
 }
 .off{background-image:url(images/music_off.png);background-size:30px 30px; background-repeat:no-repeat;background-position:center center;}
+
+#rank-dialog{background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%}
+#rank-dialog .yin{margin-bottom:20px;text-align:center}
+#rank-dialog .rank-description img{width:230px;max-width:100%}

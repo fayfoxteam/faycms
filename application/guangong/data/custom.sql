@@ -50,6 +50,7 @@ CREATE TABLE `{{$prefix}}guangong_ranks` (
   `times` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：累计次数',
   `continuous` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '获得军衔规则：连续签到天数',
   `sort` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '军衔高低（值越高表示军衔越高）',
+  `description_picture` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '描述图片',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='军衔表';
 

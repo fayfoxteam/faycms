@@ -203,6 +203,40 @@ var common = {
 			});
 		}
 	},
+	'rankDialog': function(){
+		if($('.rank-dialog-link').length){
+			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+					$('.rank-dialog-link').fancybox({
+						'padding': 0,
+						'centerOnScroll': true,
+						'type': 'inline',
+						'width': '90%',
+						'onStart': function(o){
+							var rank_id = $(o).attr('data-id');
+							if(rank_id == '0'){
+								return false;
+							}
+							$.ajax({
+								'type': 'GET',
+								'url': system.url('api/rank/get'),
+								'data': {'rank_id': rank_id},
+								'dataType': 'json',
+								'cache': false,
+								'success': function(resp){
+									if(resp.status){
+										$('#rank-dialog').find('.rank-description img').attr('src', resp.data.description_picture.url)
+									}else{
+										common.toast(resp.message, 'error');
+									}
+								}
+							});
+						}
+					});
+				});
+			});
+		}
+	},
 	'init': function(){
 		this._swiper();
 		this.formSubmit();
@@ -210,6 +244,7 @@ var common = {
 		this.validform();
 		this.animate();
 		this.fancybox();
+		this.rankDialog();
 		common.swiper.on('SlideChangeStart', this.animate);
 	}
 };

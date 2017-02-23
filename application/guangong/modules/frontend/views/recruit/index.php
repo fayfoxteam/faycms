@@ -7,7 +7,7 @@
  */
 $this->appendCss($this->appAssets('css/recruit.css'));
 ?>
-<div class="swiper-container groups">
+<div class="swiper-container">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide" id="recruit-1"></div>
 		<div class="swiper-slide" id="recruit-2">

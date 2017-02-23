@@ -68,12 +68,12 @@ class UserController extends \cms\modules\api\controllers\UserController{
 		));
 		
 		$sql = new Sql();
-		$user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday', 'sign_up_time'))
+		$user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday', 'sign_up_time', 'rank_id'))
 			->joinLeft(array('r1'=>'regions'), 'ue.state = r1.id', array('name AS state_name'))
 			->joinLeft(array('r2'=>'regions'), 'ue.city = r2.id', array('name AS city_name'))
 			->joinLeft(array('r3'=>'regions'), 'ue.district = r3.id', array('name AS district_name'))
 			->joinLeft(array('a'=>'guangong_arms'), 'ue.arm_id = a.id', array('name AS arm_name'))
-			->joinLeft(array('r'=>'guangong_ranks'), 'ue.rank_id = r.id', array('name AS rank_name'))
+			->joinLeft(array('r'=>'guangong_ranks'), 'ue.rank_id = r.id', array('captain AS rank_name'))
 			->joinLeft(array('d'=>'guangong_defence_areas'), 'ue.defence_area_id = d.id', array('name AS defence_area_name'))
 			->where('ue.user_id = ?', $this->current_user)
 			->fetchRow();

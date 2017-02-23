@@ -14,6 +14,7 @@ use fay\core\db\Table;
  * @property int $times 获得军衔规则：累计次数
  * @property int $continuous 获得军衔规则：连续签到天数
  * @property int $sort 军衔高低（值越高表示军衔越高）
+ * @property int $description_picture 描述图片
  */
 class GuangongRanksTable extends Table{
 	protected $_name = 'guangong_ranks';
@@ -28,6 +29,7 @@ class GuangongRanksTable extends Table{
 	
 	public function rules(){
 		return array(
+			array(array('description_picture'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('soldiers'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('id', 'times', 'continuous', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('months'), 'int', array('min'=>0, 'max'=>255)),
@@ -46,6 +48,7 @@ class GuangongRanksTable extends Table{
 			'times'=>'获得军衔规则：累计次数',
 			'continuous'=>'获得军衔规则：连续签到天数',
 			'sort'=>'军衔高低（值越高表示军衔越高）',
+			'description_picture'=>'描述图片',
 		);
 	}
 	
@@ -59,6 +62,7 @@ class GuangongRanksTable extends Table{
 			'times'=>'intval',
 			'continuous'=>'intval',
 			'sort'=>'intval',
+			'description_picture'=>'intval',
 		);
 	}
 }

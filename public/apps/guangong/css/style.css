@@ -43,3 +43,7 @@ body #fancybox-close:hover:before{color:#373e4a}
 #rank-dialog{background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%}
 #rank-dialog .yin{margin-bottom:20px;text-align:center}
 #rank-dialog .rank-description img{width:230px;max-width:100%}
+
+#attendance-dialog{text-align:center;background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%;padding:20px 0}
+#attendance-dialog .nickname,#attendance-dialog .sign-up-days{margin-bottom:14px}
+#attendance-dialog .attendance-count{margin-bottom:35px}

@@ -4,7 +4,10 @@
  * @var $defence array
  * @var $arm array
  * @var $hour array
+ * @var $user array
  * @var $user_extra array
+ * @var $attendances int
+ * @var $sign_up_days int
  */
 $this->appendCss($this->appAssets('css/arm.css'));
 ?>
@@ -61,4 +64,9 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		'hour'=>$hour
 	));
 	$this->renderPartial('_rank_dialog');
+	$this->renderPartial('_attendance_dialog', array(
+		'user'=>$user,
+		'attendances'=>$attendances,
+		'sign_up_days'=>$sign_up_days,
+	));
 ?>

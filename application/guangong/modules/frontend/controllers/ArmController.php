@@ -2,11 +2,13 @@
 namespace guangong\modules\frontend\controllers;
 
 use fay\services\FileService;
+use fay\services\user\UserService;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongArmsTable;
 use guangong\models\tables\GuangongDefenceAreasTable;
 use guangong\models\tables\GuangongHoursTable;
 use guangong\models\tables\GuangongUserExtraTable;
+use guangong\services\AttendanceService;
 
 /**
  * 网络体验
@@ -20,6 +22,7 @@ class ArmController extends FrontController{
 	
 	public function index(){
 		if($this->checkLogin()){
+			$user = UserService::service()->get($this->current_user, 'nickname');
 			$user_extra = GuangongUserExtraTable::model()->find($this->current_user);
 			if(!$user_extra['arm_id'] || !$user_extra['defence_area_id'] || !$user_extra['hour_id']){
 				//有一项没有完成，就要重新来过
@@ -43,15 +46,22 @@ class ArmController extends FrontController{
 				$arm['description_picture'] = FileService::service()->get($arm['description_picture']);
 			}
 			$hour = $user_extra['hour_id'] ? GuangongHoursTable::model()->find($user_extra['hour_id']) : array();
+			
+			$sign_up_days = ceil(($this->current_time - $user_extra['sign_up_time']) / 86400);
+			$attendances = AttendanceService::service()->getCount();
 		}else{
-			$user_extra = $defence = $arm = $hour = array();
+			$user = $user_extra = $defence = $arm = $hour = array();
+			$sign_up_days = $attendances = 0;
 		}
 		
 		$this->view->assign(array(
+			'user'=>$user,
 			'user_extra'=>$user_extra,
 			'defence'=>$defence,
 			'arm'=>$arm,
 			'hour'=>$hour,
+			'sign_up_days'=>$sign_up_days,
+			'attendances'=>$attendances,
 		))->render();
 	}
 	

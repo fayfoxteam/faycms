@@ -63,4 +63,23 @@ class AttendanceService extends Service{
 		//更新用户军衔
 		RankService::service()->update($user_id);
 	}
+	
+	/**
+	 * 获取总出勤次数
+	 * @param null|int $user_id
+	 * @throws ErrorException
+	 */
+	public function getCount($user_id = null){
+		if($user_id === null){
+			$user_id = \F::app()->current_user;
+		}else if(!UserService::isUserIdExist($user_id)){
+			throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
+		}
+		
+		$attendances = GuangongAttendancesTable::model()->fetchRow(array(
+			'user_id = ?'=>$user_id,
+		), 'COUNT(*)');
+		
+		return $attendances['COUNT(*)'];
+	}
 }

@@ -7,7 +7,7 @@
 		<p class="center">为实战体验做战争准备</p>
 	</div>
 </div>
-<div class="swiper-slide" id="arm-13">
+<div class="swiper-slide jobs-slide" id="arm-13">
 	<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 	<div class="layer subtitle">履军职</div>
 	<div class="layer job-title"><img src="<?php echo $this->appAssets('images/arm/junzhi-title.png')?>"></div>

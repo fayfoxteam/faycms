@@ -23,7 +23,6 @@ var common = {
 					var $activeSlide = $('.swiper-wrapper').find('.swiper-slide:eq('+swiper.activeIndex+')');
 					if(common.swiper){
 						common.swiper.params.allowSwipeToNext = !$activeSlide.hasClass('stop-to-next');
-						common.swiper.slideReset();
 					}
 				}
 			});

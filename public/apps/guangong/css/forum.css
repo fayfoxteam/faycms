@@ -1,0 +1,27 @@
+body{font-family:"微软雅黑";background-color:#F6F6F4;font-size:14px}
+
+.page-header{background-color:#BC825C;color:#fff}
+.header-content{width:280px;margin:0 auto;padding:20px 0 15px}
+.header-content div{float:left}
+.header-logo{margin-right:5px;}
+.header-logo img{width:30px;height:30px;vertical-align:bottom}
+.header-title{font-size:30px;}
+
+.main-content{margin:20px 0 40px}
+
+.messages{padding:0 20px}
+.messages article{margin-bottom:20px;}
+.messages .author{color:#CD8F56;margin-bottom:2px}
+.messages .author .time{margin-left:6px}
+.messages .reply{color:#CD8F56;margin-bottom:2px}
+.messages .author,.messages .reply{font-size:12px}
+.messages .content{margin-bottom:5px;padding:5px;border:1px solid #C3BFBA;background-color:#fff}
+.messages .reply-content{padding:5px;border:1px solid #C3BFBA;background-color:#fff}
+
+.reply-container{padding:0 50px;margin-top:60px}
+.reply-container fieldset{margin-bottom:10px;padding-top:10px;border-top:2px solid #A39E9B}
+.reply-container label{color:#CD8F56;font-size:16px;float:left;width:65px;margin-top:2px}
+.reply-container fieldset input{background-color:#fff;width:150px;border:0 none;padding:2px;color:grey}
+.reply-container #reply-form textarea{width:100%;height:200px;padding:8px 12px;font-size:12px;line-height:1.3}
+.reply-container .submit-container{margin-top:30px;text-align:center}
+.reply-container #reply-form-submit{background-color:#DA251C;color:#fff;font-size:18px;padding:6px 30px;text-align:center}

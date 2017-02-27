@@ -6,6 +6,7 @@ use fay\core\Sql;
 use fay\models\tables\UsersTable;
 use fay\services\FileService;
 use fay\services\user\UserService;
+use guangong\helpers\UserHelper;
 use guangong\models\forms\SignUpForm;
 use guangong\models\tables\GuangongUserExtraTable;
 use guangong\services\AttendanceService;
@@ -88,6 +89,7 @@ class UserController extends \cms\modules\api\controllers\UserController{
 		Response::json(array(
 			'user'=>$user,
 			'extra'=>$user_extra,
+			'code'=>UserHelper::getCode($this->current_user),
 		));
 	}
 }

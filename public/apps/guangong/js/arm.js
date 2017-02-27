@@ -267,7 +267,7 @@ var arm = {
 					$('#info-arm').text(resp.data.extra.arm_name);
 					$('#info-rank').text(resp.data.extra.rank_name ? resp.data.extra.rank_name : '士兵');
 					$('#info-rank').attr('data-id', resp.data.extra.rank_id);
-					$('#info-id').text(resp.data.extra.arm_name ? '关羽军团'+resp.data.extra.arm_name+'营'+system.user_id : '')
+					$('#info-id').text(resp.data.code)
 				}else{
 					common.toast(resp.message, 'error');
 				}

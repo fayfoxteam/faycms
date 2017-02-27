@@ -40,6 +40,20 @@ CREATE TABLE `{{$prefix}}guangong_hours` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='时辰表';
 
+DROP TABLE IF EXISTS `{{$prefix}}guangong_messages`;
+CREATE TABLE `{{$prefix}}guangong_messages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `content` text COMMENT '内容',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '留言时间',
+  `reply` text COMMENT '管理员回复',
+  `reply_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '回复时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='留言表';
+
 DROP TABLE IF EXISTS `{{$prefix}}guangong_ranks`;
 CREATE TABLE `{{$prefix}}guangong_ranks` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,

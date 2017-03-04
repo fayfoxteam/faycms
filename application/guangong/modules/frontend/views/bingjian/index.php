@@ -15,6 +15,9 @@
 	<div class="messages">
 		<?php $listview->showData()?>
 	</div>
+	<div class="message-pager">
+		<?php $listview->showPager()?>
+	</div>
 	<div class="reply-container">
 		<fieldset>
 			<label>识&nbsp;别&nbsp;号</label>

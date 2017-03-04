@@ -13,6 +13,7 @@
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/animate/animate.min.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('js/swiper/css/swiper.min.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
+<link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/fontello.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/forum.css')?>" >
 <?php echo $this->getCss()?>

@@ -1,5 +1,14 @@
 body{font-family:"微软雅黑";background-color:#F6F6F4;font-size:14px}
 
+/* 分页条 */
+.pager{text-align:center;padding-top:1.3571em}
+.pager a,.pager span{display:inline-block;width:2.5em;height:2.5em;margin:0 4px 4px 0;text-align:center;font-size:1em;line-height:2.4em}
+.pager a{background-color:#fff;color:#777}
+.pager span.current,.pager a:hover{background-color:#BC825C;color:#fff}
+.pager .prev:before,.pager .next:before{font-family:"fontello"}
+.pager .prev:before{content:"\f104"}
+.pager .next:before{content:"\f105"}
+
 .page-header{background-color:#BC825C;color:#fff}
 .header-content{width:280px;margin:0 auto;padding:20px 0 15px}
 .header-content div{float:left}
@@ -18,7 +27,7 @@ body{font-family:"微软雅黑";background-color:#F6F6F4;font-size:14px}
 .messages .content{margin-bottom:5px;padding:5px;border:1px solid #C3BFBA;background-color:#fff}
 .messages .reply-content{padding:5px;border:1px solid #C3BFBA;background-color:#fff}
 
-.reply-container{padding:0 50px;margin-top:60px}
+.reply-container{padding:0 50px;margin-top:40px}
 .reply-container fieldset{margin-bottom:10px;padding-top:10px;border-top:2px solid #A39E9B}
 .reply-container label{color:#CD8F56;font-size:16px;float:left;width:65px;margin-top:2px}
 .reply-container fieldset input{background-color:#fff;width:150px;border:0 none;padding:2px;color:grey}

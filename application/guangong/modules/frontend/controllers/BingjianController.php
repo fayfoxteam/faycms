@@ -29,7 +29,9 @@ class BingjianController extends FrontController{
 			->order('id DESC')
 		;
 		
-		$this->view->listview = new ListView($sql);
+		$this->view->listview = new ListView($sql, array(
+			'page_size'=>2
+		));
 		$this->view->render();
 	}
 }

@@ -23,5 +23,16 @@ class SpeakController extends FrontController{
 	
 	public function index(){
 		
+		$this->view->renderPartial();
+	}
+	
+	public function shared(){
+		
+		$this->view->renderPartial();
+	}
+	
+	public function create(){
+		
+		$this->view->renderPartial();
 	}
 }

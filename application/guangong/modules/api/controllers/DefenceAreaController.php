@@ -38,7 +38,15 @@ class DefenceAreaController extends ApiController{
 		//登录检查
 		$this->checkLogin();
 		
-		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id');
+		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id,military');
+		
+		if($userExtra['military'] < 990){
+			Response::notify('error', array(
+				'message'=>'请先参加天下招募令',
+				'code'=>'recruit-first'
+			));
+		}
+		
 		if($userExtra['defence_area_id']){
 			Response::notify('error', array(
 				'message'=>'您已设置过防区，不能重复设置',

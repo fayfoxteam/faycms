@@ -179,7 +179,7 @@ class Table extends Model{
 	
 	/**
 	 * 获取一条记录
-	 * @param array $conditions
+	 * @param array|string $conditions
 	 * @param string $fields 可用 !id 表示除了id外的所有字段
 	 * @param bool|string $order
 	 * @param null $offset

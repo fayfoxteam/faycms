@@ -39,7 +39,7 @@
 		.form fieldset{text-align:center;width:80%;margin:0 auto 20px}
 		.form fieldset input{padding:5px 10px;font-size:12px;}
 		.form fieldset #photo-preview{width:86px;height:104px;border:1px solid #888889}
-		.form fieldset .upload-link{font-size:12px;color:#888889}
+		.form fieldset #upload-photo-link{font-size:12px;margin-top:7px;display:block}
 		.form fieldset textarea{width:100%;height:60px;padding:5px}
 		.form fieldset label{display:block;text-align:left;margin-bottom:6px;}
 		.form fieldset .desc{color:#888889;text-align:center;margin-top:2px}
@@ -67,7 +67,7 @@
                 <textarea name="words" id="words" placeholder="一句话，由心生，正能量，短有力。（15字内）"></textarea>
             </fieldset>
             <fieldset>
-                <a href="javascript:;" class="btn btn-red" id="submit-link">立现我的代言海报</a>
+                <a href="javascript:" class="btn btn-red" id="submit-link">立现我的代言海报</a>
                 <div class="desc">代言后即履行承诺加入关羽军团</div>
             </fieldset>
         </form>

@@ -40,7 +40,7 @@ class SpeakController extends FrontController{
 		
 		
 		$this->view->renderPartial('create', array(
-			'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage', 'downloadImage')),
+			'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage')),
 		));
 	}
 }

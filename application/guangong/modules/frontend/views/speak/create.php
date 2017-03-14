@@ -56,6 +56,7 @@
             <fieldset>
                 <div id="avatar-container">
                     <input type="hidden" name="" id="photo-server-id">
+                    <div id="photo-preview-src"></div>
                     <img src="" id="photo-preview">
                 </div>
                 <a href="javascript:" id="upload-photo-link">点击+上传一张您的帅气英雄照</a>
@@ -104,6 +105,7 @@
 					'count': 1,
 					'success': function(res){
 						var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        $('#photo-preview-src').text(localIds.toString());
 						$('#photo-preview').attr('src', localIds.toString()).show();
 
 						wx.uploadImage({

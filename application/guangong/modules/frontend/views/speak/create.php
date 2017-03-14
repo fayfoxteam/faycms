@@ -57,6 +57,7 @@
                 <div id="avatar-container">
                     <input type="hidden" name="" id="photo-server-id">
                     <div id="photo-preview-src"></div>
+                    <div id="photo-server-id-div"></div>
                     <img src="" id="photo-preview">
                 </div>
                 <a href="javascript:" id="upload-photo-link">点击+上传一张您的帅气英雄照</a>
@@ -114,6 +115,7 @@
 							success: function(res){
 								var serverId = res.serverId; // 返回图片的服务器端ID
 								$('#photo-server-id').val(serverId.toString());
+								$('#photo-server-id-div').text(serverId.toString());
 							}
 						});
 					}

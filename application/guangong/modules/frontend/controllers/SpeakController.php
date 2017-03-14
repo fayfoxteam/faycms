@@ -36,7 +36,7 @@ class SpeakController extends FrontController{
 		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
 		$this->view->renderPartial('create', array(
 			'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage')),
-			'access_token'=>$access_token,
+			'access_token'=>$access_token->getToken(),
 		));
 	}
 }

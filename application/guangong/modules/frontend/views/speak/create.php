@@ -14,6 +14,13 @@
 			echo $title;
 		}?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
+    <script>
+		system.base_url = '<?php echo $this->url()?>';
+		system.user_id = '<?php echo \F::app()->current_user?>';
+    </script>
 	<?php echo $this->getCss()?>
 	<style>
 		html,body,h1,ul,li,fieldset{padding:0;margin:0;border:0 none;font-size:12px}
@@ -30,7 +37,7 @@
 		.form{margin-top:10px}
 		.form fieldset{text-align:center;width:80%;margin:0 auto 20px}
 		.form fieldset input{padding:5px 10px;font-size:12px;}
-		.form fieldset #avatar{width:86px;height:104px;border:1px solid #888889}
+		.form fieldset #photo-preview{width:86px;height:104px;border:1px solid #888889}
 		.form fieldset .upload-link{font-size:12px;color:#888889}
 		.form fieldset textarea{width:100%;height:60px;padding:5px}
 		.form fieldset label{display:block;text-align:left;margin-bottom:6px;}
@@ -43,22 +50,72 @@
 	<div class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/c-t1.png')?>"></div>
 	<div class="top-title-3"><img src="<?php echo $this->appAssets('images/speak/c-t2.png')?>"></div>
 	<div class="form">
-		<fieldset><input type="text" name="name" placeholder="填写您的名字"></fieldset>
+		<fieldset><input type="text" name="name" id="name" placeholder="填写您的名字"></fieldset>
 		<fieldset>
 			<div id="avatar-container">
-				<img src="" id="avatar">
+                <input type="hidden" name="" id="photo-server-id">
+				<img src="" id="photo-preview">
 			</div>
-			<a href="" class="upload-link">点击+上传一张您的帅气英雄照</a>
+			<a href="javascript:" id="upload-photo-link">点击+上传一张您的帅气英雄照</a>
 		</fieldset>
 		<fieldset>
 			<label>我的代言口号</label>
-			<textarea name="words" placeholder="一句话，由心生，正能量，短有力。（15字内）"></textarea>
+			<textarea name="words" id="words" placeholder="一句话，由心生，正能量，短有力。（15字内）"></textarea>
 		</fieldset>
 		<fieldset>
 			<a href="" class="btn btn-red">立现我的代言海报</a>
 			<div class="desc">代言后即履行承诺加入关羽军团</div>
 		</fieldset>
 	</div>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+		wx.config(<?php echo $js_sdk_config?>);
+		$(function(){
+			//文本域自适应
+			system.getScript(system.assets('js/autosize.min.js'), function(){
+				autosize($('textarea.autosize'));
+			});
+
+			$('#form').on('submit', function(){
+				if(!$('#name').val()){
+					common.toast('请填写您的名字', 'error');
+					return false;
+				}
+				if(!$('#words').val()){
+					common.toast('请填写代言口号', 'error');
+					return false;
+				}
+				if(!$('#photo-server-id').val()){
+					common.toast('请上传照片', 'error');
+					return false;
+				}
+			});
+
+			//表单提交
+			$('#submit-link').on('click', function(){
+				$('#form').submit();
+			});
+
+			$('#upload-photo-link').on('click', function(){
+				wx.chooseImage({
+					'count': 1,
+					'success': function(res){
+						var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+						$('#photo-preview').attr('src', localIds.toString()).show();
+
+						wx.uploadImage({
+							localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+							isShowProgressTips: 1, // 默认为1，显示进度提示
+							success: function(res){
+								var serverId = res.serverId; // 返回图片的服务器端ID
+								$('#photo-server-id').val(serverId.toString());
+							}
+						});
+					}
+				});
+			});
+		});
+    </script>
 </div>
 </body>
 </html>

@@ -25,7 +25,7 @@
 
     .wrapper{padding:20px 0}
     .top-title{font-size:12px;text-align:center}
-    .top-title-img{background-color:#E50012;padding:10px 20px;margin:0 auto;margin-top:6px;width:94%;text-align:center}
+    .top-title-img{background-color:#E50012;padding:10px 20px;margin:0 auto;margin-top:6px;text-align:center}
     .top-title-img img{width:100%}
 
     .img-box{border:1px solid #717070;width:84%;margin:0 auto;margin-top:20px;height:400px;position:relative}
@@ -35,7 +35,7 @@
     .desc{color:#B50006;text-align:center;margin-top:14px}
 
     .share-box .t3{font-weight:bold;font-size:14px;line-height:1.2}
-    .share-box{width:96%;margin:0 auto;border-top:2px solid #888889;border-bottom:2px solid #888889;padding:12px 20px;margin-top:15px;position:relative}
+    .share-box{margin:0 auto;border-top:2px solid #888889;border-bottom:2px solid #888889;padding:12px 20px;margin-top:15px;position:relative}
     .share-box .btns{margin-top:16px}
     .share-box .yin{width:22%;bottom:-20px;right:118px;position:absolute;}
     .share-box .qr-code{height:83px;float:right;margin-right:4px}

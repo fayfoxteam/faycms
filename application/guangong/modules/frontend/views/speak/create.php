@@ -50,22 +50,24 @@
 	<div class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/c-t1.png')?>"></div>
 	<div class="top-title-3"><img src="<?php echo $this->appAssets('images/speak/c-t2.png')?>"></div>
 	<div class="form">
-		<fieldset><input type="text" name="name" id="name" placeholder="填写您的名字"></fieldset>
-		<fieldset>
-			<div id="avatar-container">
-                <input type="hidden" name="" id="photo-server-id">
-				<img src="" id="photo-preview">
-			</div>
-			<a href="javascript:" id="upload-photo-link">点击+上传一张您的帅气英雄照</a>
-		</fieldset>
-		<fieldset>
-			<label>我的代言口号</label>
-			<textarea name="words" id="words" placeholder="一句话，由心生，正能量，短有力。（15字内）"></textarea>
-		</fieldset>
-		<fieldset>
-			<a href="" class="btn btn-red">立现我的代言海报</a>
-			<div class="desc">代言后即履行承诺加入关羽军团</div>
-		</fieldset>
+        <form id="form" method="post">
+            <fieldset><input type="text" name="name" id="name" placeholder="填写您的名字"></fieldset>
+            <fieldset>
+                <div id="avatar-container">
+                    <input type="hidden" name="" id="photo-server-id">
+                    <img src="" id="photo-preview">
+                </div>
+                <a href="javascript:" id="upload-photo-link">点击+上传一张您的帅气英雄照</a>
+            </fieldset>
+            <fieldset>
+                <label>我的代言口号</label>
+                <textarea name="words" id="words" placeholder="一句话，由心生，正能量，短有力。（15字内）"></textarea>
+            </fieldset>
+            <fieldset>
+                <a href="" class="btn btn-red" id="submit-link">立现我的代言海报</a>
+                <div class="desc">代言后即履行承诺加入关羽军团</div>
+            </fieldset>
+        </form>
 	</div>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script>

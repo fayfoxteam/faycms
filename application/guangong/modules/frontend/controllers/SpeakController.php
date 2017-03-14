@@ -1,15 +1,10 @@
 <?php
 namespace guangong\modules\frontend\controllers;
 
-use fay\helpers\ArrayHelper;
-use fay\models\tables\RegionsTable;
 use fay\services\OptionService;
-use fay\services\user\UserService;
+use fay\services\wechat\core\AccessToken;
 use fay\services\wechat\jssdk\JsSDK;
 use guangong\library\FrontController;
-use guangong\models\forms\SignUpForm;
-use guangong\models\tables\GuangongArmsTable;
-use guangong\models\tables\GuangongUserExtraTable;
 
 /**
  * 天下招募令
@@ -38,9 +33,10 @@ class SpeakController extends FrontController{
 		
 		$js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
 		
-		
+		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
 		$this->view->renderPartial('create', array(
 			'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage')),
+			'access_token'=>$access_token,
 		));
 	}
 }

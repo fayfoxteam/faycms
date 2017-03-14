@@ -21,6 +21,7 @@
 		system.base_url = '<?php echo $this->url()?>';
 		system.user_id = '<?php echo \F::app()->current_user?>';
     </script>
+    <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
 	<?php echo $this->getCss()?>
 	<style>
 		html,body,h1,ul,li,fieldset{padding:0;margin:0;border:0 none;font-size:12px}
@@ -50,7 +51,7 @@
 	<div class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/c-t1.png')?>"></div>
 	<div class="top-title-3"><img src="<?php echo $this->appAssets('images/speak/c-t2.png')?>"></div>
 	<div class="form">
-        <form id="form" method="post">
+        <form id="form" method="get">
             <fieldset><input type="text" name="name" id="name" placeholder="填写您的名字"></fieldset>
             <fieldset>
                 <div id="avatar-container">
@@ -64,7 +65,7 @@
                 <textarea name="words" id="words" placeholder="一句话，由心生，正能量，短有力。（15字内）"></textarea>
             </fieldset>
             <fieldset>
-                <a href="" class="btn btn-red" id="submit-link">立现我的代言海报</a>
+                <a href="javascript:;" class="btn btn-red" id="submit-link">立现我的代言海报</a>
                 <div class="desc">代言后即履行承诺加入关羽军团</div>
             </fieldset>
         </form>

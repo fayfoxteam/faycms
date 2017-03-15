@@ -31,9 +31,9 @@
     .top-title-img img{width:100%}
 
     .img-box{border:1px solid #717070;width:84%;margin:0 auto;margin-top:20px;height:400px;position:relative}
-    .img-box img{width:100%}
+    .img-box img{max-width:100%;max-height:100%}
     .img-box-title{position:absolute;bottom:10px;width:90%;left:5%}
-    .img-box-title img{max-width:100%;max-height:100%}
+    .img-box-title img{width:100%}
     .img-container{height:332px;text-align:center}
 
     .desc{color:#B50006;text-align:center;margin-top:14px}

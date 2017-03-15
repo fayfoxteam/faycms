@@ -427,7 +427,7 @@ class FileService extends Service{
 		}
 		$client_name || $client_name = $url;
 		
-		//用file_get_contents获取就非常非常慢
+		//用file_get_contents获取微信头像就非常非常慢
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);

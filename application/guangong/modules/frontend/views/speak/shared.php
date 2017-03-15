@@ -79,7 +79,7 @@
             <img src="<?php echo $this->appAssets('images/speak/qr.jpg')?>" class="qr-code">
 			<div class="t3">若每天一点正能量，<br>青春路上有阳光。</div>
 			<div class="btns">
-				<!--<a href="" class="btn btn-red">分享</a>-->
+				<a href="javascript:shareTimeline();" class="btn btn-red">分享</a>
 				<a href="<?php echo $this->url('speak/create')?>" class="btn btn-blue">我也要代言</a>
 			</div>
 			<img src="<?php echo $this->appAssets('images/speak/yin.png')?>" class="yin">

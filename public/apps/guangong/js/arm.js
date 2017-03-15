@@ -162,6 +162,7 @@ var arm = {
 					$setArmSlide.removeClass('set-arm-slide');
 					//允许继续向后滑
 					$setArmSlide.removeClass('stop-to-next');
+					$('.u-arrow-right').show();
 					common.swiper.params.allowSwipeToNext = true;
 					common.toast(resp.message, 'success');
 				}else{
@@ -202,6 +203,7 @@ var arm = {
 					$('.set-hour-slide').removeClass('set-hour-slide');
 					//允许继续向后滑
 					$arm8.removeClass('stop-to-next');
+					$('.u-arrow-right').show();
 					common.swiper.params.allowSwipeToNext = true;
 					common.toast(resp.message, 'success');
 				}else{
@@ -231,6 +233,7 @@ var arm = {
 					$('.set-defence-slide').removeClass('set-defence-slide');
 					//允许继续向后滑
 					$arm4.removeClass('stop-to-next');
+					$('.u-arrow-right').show();
 					common.swiper.params.allowSwipeToNext = true;
 				}else{
 					common.toast(resp.message, 'error');

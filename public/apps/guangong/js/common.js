@@ -22,6 +22,11 @@ var common = {
 					//若遇到stop-to-next，则阻止继续往右滑
 					var $activeSlide = $('.swiper-wrapper').find('.swiper-slide:eq('+swiper.activeIndex+')');
 					if(common.swiper){
+						if($activeSlide.hasClass('stop-to-next')){
+							$('.u-arrow-right').hide();
+						}else{
+							$('.u-arrow-right').show();
+						}
 						common.swiper.params.allowSwipeToNext = !$activeSlide.hasClass('stop-to-next');
 					}
 				}

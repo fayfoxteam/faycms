@@ -108,6 +108,15 @@
 				//_report('timeline', res.err_msg);
 			});
 		}
+
+		document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+			// 分享到朋友圈
+			WeixinJSBridge.on('menu:share:timeline', function(argv){
+				shareTimeline();
+			});
+		}, false);
+
+
     </script>
 </body>
 </html>

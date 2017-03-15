@@ -79,44 +79,12 @@
             <img src="<?php echo $this->appAssets('images/speak/qr.jpg')?>" class="qr-code">
 			<div class="t3">若每天一点正能量，<br>青春路上有阳光。</div>
 			<div class="btns">
-				<a href="javascript:shareTimeline();" class="btn btn-red">分享</a>
+<!--				<a href="javascript:" class="btn btn-red">分享</a>-->
 				<a href="<?php echo $this->url('speak/create')?>" class="btn btn-blue">我也要代言</a>
 			</div>
 			<img src="<?php echo $this->appAssets('images/speak/yin.png')?>" class="yin">
             <br class="clear">
 		</div>
 	</div>
-    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script>
-		wx.config(<?php echo $js_sdk_config?>);
-		var imgUrl = '<?php
-			if($speak['photo']){
-				//已经下载到本地，从本地输出
-				echo \fay\services\FileService::getUrl($speak['photo']);
-			}else{
-				//还在微信服务器，通过媒体ID输出
-				echo "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}";
-			}
-			?>';
-		function shareTimeline() {
-			WeixinJSBridge.invoke('shareTimeline',{
-				"img_url": imgUrl,
-				"img_width": "200",
-				"img_height": "200",
-				"title": '我为关公代言'
-			}, function(res) {
-				//_report('timeline', res.err_msg);
-			});
-		}
-
-		document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-			// 分享到朋友圈
-			WeixinJSBridge.on('menu:share:timeline', function(argv){
-				shareTimeline();
-			});
-		}, false);
-
-
-    </script>
 </body>
 </html>

@@ -46,14 +46,9 @@ class SpeakController extends FrontController{
 		$app_config = OptionService::getGroup('oauth:weixin');
 		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
 		
-		$app_config = OptionService::getGroup('oauth:weixin');
-		
-		$js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
-		
 		$this->view->renderPartial(null, array(
 			'speak'=>$speak,
 			'access_token'=>$access_token->getToken(),
-			'js_sdk_config'=>$js_sdk->getConfig(array('onMenuShareTimeline')),
 		));
 	}
 	

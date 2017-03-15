@@ -31,9 +31,9 @@ class GroupController extends FrontController{
 				'field'=>'id',
 			)),
 		))->setFilters(array(
-			'id'=>'intval',
+			'group_id'=>'intval',
 		))->setLabels(array(
-			'id'=>'结义ID',
+			'group_id'=>'结义ID',
 		))->check();
 		
 		$group = GuangongUserGroupsTable::model()->find($this->form()->getData('group_id'));

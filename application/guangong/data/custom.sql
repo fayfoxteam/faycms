@@ -69,6 +69,17 @@ CREATE TABLE `{{$prefix}}guangong_ranks` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='军衔表';
 
+DROP TABLE IF EXISTS `{{$prefix}}guangong_speaks`;
+CREATE TABLE `{{$prefix}}guangong_speaks` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `photo_server_id` varchar(100) NOT NULL DEFAULT '',
+  `photo` int(10) unsigned NOT NULL DEFAULT '0',
+  `words` varchar(100) NOT NULL DEFAULT '',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='代言表';
+
 DROP TABLE IF EXISTS `{{$prefix}}guangong_tasks`;
 CREATE TABLE `{{$prefix}}guangong_tasks` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,

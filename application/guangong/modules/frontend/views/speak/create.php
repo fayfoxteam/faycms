@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $this \fay\core\View
+ * @var $access_token string
  */
 ?>
 <!DOCTYPE html>
@@ -55,9 +56,7 @@
             <fieldset><input type="text" name="name" id="name" placeholder="填写您的名字"></fieldset>
             <fieldset>
                 <div id="avatar-container">
-                    <input type="hidden" name="" id="photo-server-id">
-                    <div id="photo-preview-src"></div>
-                    <div id="photo-server-id-div"></div>
+                    <input type="hidden" name="photo_server_id" id="photo-server-id">
                     <img src="" id="photo-preview">
                 </div>
                 <a href="javascript:" id="upload-photo-link">点击+上传一张您的帅气英雄照</a>
@@ -106,7 +105,6 @@
 					'count': 1,
 					'success': function(res){
 						var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        $('#photo-preview-src').text(localIds[0].toString());
 						$('#photo-preview').attr('src', localIds[0].toString());
 
 						wx.uploadImage({
@@ -115,7 +113,6 @@
 							success: function(res){
 								var serverId = res.serverId; // 返回图片的服务器端ID
 								$('#photo-server-id').val(serverId.toString());
-								$('#photo-server-id-div').text(serverId.toString());
                                 $('#photo-preview').attr('src', 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=<?php echo $access_token?>&media_id='+serverId.toString());
 							}
 						});

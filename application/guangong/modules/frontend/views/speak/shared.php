@@ -1,6 +1,8 @@
 <?php
 /**
  * @var $this \fay\core\View
+ * @var $speak array
+ * @var $access_token string
  */
 ?>
 <!DOCTYPE html>
@@ -29,6 +31,7 @@
     .top-title-img img{width:100%}
 
     .img-box{border:1px solid #717070;width:84%;margin:0 auto;margin-top:20px;height:400px;position:relative}
+    .img-box img{width:100%}
     .img-box-title{position:absolute;bottom:10px;width:90%;left:5%}
     .img-box-title img{width:100%}
 
@@ -47,10 +50,26 @@
 		<h1 class="top-title">关公点兵—关公文化体验旅游主题产品</h1>
 		<h2 class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/t1.png')?>"></h2>
 		<div class="img-box">
-			<img src="">
+            <a href="<?php
+			if($speak['photo']){
+				//已经下载到本地，从本地输出
+				echo \fay\services\FileService::getUrl($speak['photo']);
+			}else{
+				//还在微信服务器，通过媒体ID输出
+				echo "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}";
+			}
+			?>" data-lightbox="teams"><?php
+				if($speak['photo']){
+					//已经下载到本地，从本地输出
+					echo \fay\helpers\HtmlHelper::img($speak['photo'], \fay\services\FileService::PIC_ORIGINAL);
+				}else{
+					//还在微信服务器，通过媒体ID输出
+					echo \fay\helpers\HtmlHelper::img("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}");
+				}
+				?></a>
 			<div class="img-box-title"><img src="<?php echo $this->appAssets('images/speak/t2.png')?>"></div>
 		</div>
-		<div class="desc">夏循涛贵为关羽军团第0000001位代言人</div>
+		<div class="desc"><?php echo \fay\helpers\HtmlHelper::encode($speak['name'])?>贵为关羽军团第<?php echo \fay\helpers\NumberHelper::toLength($speak['id'], 7)?>位代言人</div>
 		<div class="share-box">
             <img src="<?php echo $this->appAssets('images/speak/qr-desc.png')?>" class="qr-code-desc">
             <img src="<?php echo $this->appAssets('images/speak/qr.jpg')?>" class="qr-code">

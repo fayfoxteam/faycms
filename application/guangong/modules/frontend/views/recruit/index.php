@@ -7,6 +7,7 @@
  */
 $this->appendCss($this->appAssets('css/recruit.css'));
 ?>
+<div class="layer u-arrow-right"><img src="<?php echo $this->appAssets('images/btn01_arrow_right.png')?>"></div>
 <div class="swiper-container">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide" id="recruit-1"></div>

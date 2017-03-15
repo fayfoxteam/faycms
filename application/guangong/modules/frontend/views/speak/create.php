@@ -52,7 +52,7 @@
 	<div class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/c-t1.png')?>"></div>
 	<div class="top-title-3"><img src="<?php echo $this->appAssets('images/speak/c-t2.png')?>"></div>
 	<div class="form">
-        <form id="form" method="get">
+        <form id="form" method="post">
             <fieldset><input type="text" name="name" id="name" placeholder="填写您的名字"></fieldset>
             <fieldset>
                 <div id="avatar-container">

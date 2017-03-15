@@ -2,6 +2,7 @@
 namespace guangong\modules\frontend\controllers;
 
 use fay\core\Response;
+use fay\services\FileService;
 use fay\services\OptionService;
 use fay\services\wechat\core\AccessToken;
 use fay\services\wechat\jssdk\JsSDK;
@@ -74,5 +75,28 @@ class SpeakController extends FrontController{
 			'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage')),
 			'access_token'=>$access_token->getToken(),
 		));
+	}
+	
+	/**
+	 * 从微信服务器下载到本地
+	 */
+	public function downloadToLocal(){
+		$speak = GuangongSpeaksTable::model()->fetchRow('photo = 0');
+		
+		//获取Access Token
+		$app_config = OptionService::getGroup('oauth:weixin');
+		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
+		
+		$url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token->getToken()}&media_id={$speak['photo_server_id']}";
+		$file = FileService::service()->uploadFromUrl($url);
+		if($file['status']){
+			GuangongSpeaksTable::model()->update(array(
+				'photo'=>$file['data']['id']
+			), $speak['id']);
+			
+			echo $speak['id'];
+		}else{
+			dump($speak);
+		}
 	}
 }

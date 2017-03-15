@@ -43,7 +43,7 @@
 		.form fieldset #upload-photo-link{font-size:12px;margin-top:7px;display:block}
 		.form fieldset textarea{width:100%;height:60px;padding:5px}
 		.form fieldset label{display:block;text-align:left;margin-bottom:6px;}
-		.form fieldset .desc{color:#888889;text-align:center;margin-top:2px}
+		.form fieldset .desc{color:#888889;text-align:center;margin-top:8px}
 	</style>
 </head>
 <body>

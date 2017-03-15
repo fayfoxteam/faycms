@@ -3,6 +3,7 @@
  * @var $this \fay\core\View
  * @var $speak array
  * @var $access_token string
+ * @var $js_sdk_config string
  */
 ?>
 <!DOCTYPE html>
@@ -85,5 +86,28 @@
             <br class="clear">
 		</div>
 	</div>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+		wx.config(<?php echo $js_sdk_config?>);
+		var imgUrl = '<?php
+			if($speak['photo']){
+				//已经下载到本地，从本地输出
+				echo \fay\services\FileService::getUrl($speak['photo']);
+			}else{
+				//还在微信服务器，通过媒体ID输出
+				echo "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}";
+			}
+			?>';
+		function shareTimeline() {
+			WeixinJSBridge.invoke('shareTimeline',{
+				"img_url": imgUrl,
+				"img_width": "200",
+				"img_height": "200",
+				"title": '我为关公代言'
+			}, function(res) {
+				//_report('timeline', res.err_msg);
+			});
+		}
+    </script>
 </body>
 </html>

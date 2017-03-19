@@ -52,7 +52,9 @@ $this->appendCss($this->appAssets('css/arm.css'));
 				'hour'=>$hour
 			));
 			$this->renderPartial('_info_slides');
-			$this->renderPartial('_job_slides');
+			$this->renderPartial('_job_slides', array(
+                'next_post'=>$next_post
+            ));
 		?>
 	</div>
 </div>

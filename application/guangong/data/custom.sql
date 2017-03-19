@@ -69,6 +69,17 @@ CREATE TABLE `{{$prefix}}guangong_ranks` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='军衔表';
 
+DROP TABLE IF EXISTS `{{$prefix}}guangong_read_logs`;
+CREATE TABLE `{{$prefix}}guangong_read_logs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文献ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '阅读时间',
+  `create_date` date NOT NULL COMMENT '阅读日期',
+  PRIMARY KEY (`id`),
+  KEY `user_id-post_id` (`user_id`,`post_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文献学习记录';
+
 DROP TABLE IF EXISTS `{{$prefix}}guangong_speaks`;
 CREATE TABLE `{{$prefix}}guangong_speaks` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,

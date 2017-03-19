@@ -20,7 +20,15 @@
 				<a href="<?php echo $this->url()?>" class="task-link" data-task-id="2"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
 			</li>
 			<li class="job-3">
-				<a href="<?php echo $this->url()?>" class="task-link" data-task-id="3"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
+				<a href="<?php
+					if($next_post){
+						echo \fay\helpers\UrlHelper::createUrl('post/item', array(
+							'id'=>$next_post,
+						));
+					}else{
+						echo 'javascript:';
+					}
+				?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
 			</li>
 			<li class="job-4">
 				<a href="<?php echo $this->url()?>" class="task-link" data-task-id="4"><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>

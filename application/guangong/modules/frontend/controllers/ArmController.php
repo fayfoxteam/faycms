@@ -9,6 +9,7 @@ use guangong\models\tables\GuangongDefenceAreasTable;
 use guangong\models\tables\GuangongHoursTable;
 use guangong\models\tables\GuangongUserExtraTable;
 use guangong\services\AttendanceService;
+use guangong\services\PostService;
 
 /**
  * 网络体验
@@ -62,6 +63,7 @@ class ArmController extends FrontController{
 			'hour'=>$hour,
 			'sign_up_days'=>$sign_up_days,
 			'attendances'=>$attendances,
+			'next_post'=>PostService::service()->getNextPost(),
 		))->render();
 	}
 	

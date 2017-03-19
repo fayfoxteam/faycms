@@ -40,3 +40,13 @@ function pr($var, $encode = false, $return = false){
 function dump($var, $depth = 10){
 	DumperHelper::dump($var, $depth);
 }
+
+/**
+ * 循环调用dump后die脚本
+ */
+function dd(){
+	array_map(function($x){
+		dump($x);
+	}, func_get_args());
+	die;
+}

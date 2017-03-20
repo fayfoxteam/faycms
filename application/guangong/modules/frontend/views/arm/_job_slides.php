@@ -51,7 +51,7 @@ wx.ready(function(){
 			$.ajax({
 				'type': 'POST',
 				'url': system.url('api/task/do'),
-				'data': {'task_id': $(this).attr('data-task-id')},
+				'data': {'task_id': 2},
 				'dataType': 'json',
 				'cache': false,
 				'success': function(resp){

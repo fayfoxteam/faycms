@@ -2,7 +2,9 @@
 namespace guangong\modules\frontend\controllers;
 
 use fay\services\FileService;
+use fay\services\OptionService;
 use fay\services\user\UserService;
+use fay\services\wechat\jssdk\JsSDK;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongArmsTable;
 use guangong\models\tables\GuangongDefenceAreasTable;
@@ -55,6 +57,10 @@ class ArmController extends FrontController{
 			$sign_up_days = $attendances = 0;
 		}
 		
+		$app_config = OptionService::getGroup('oauth:weixin');
+		
+		$js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
+		
 		$this->view->assign(array(
 			'user'=>$user,
 			'user_extra'=>$user_extra,
@@ -64,6 +70,7 @@ class ArmController extends FrontController{
 			'sign_up_days'=>$sign_up_days,
 			'attendances'=>$attendances,
 			'next_post'=>PostService::service()->getNextPost(),
+			'js_sdk_config'=>$js_sdk->getConfig(array('onMenuShareTimeline')),
 		))->render();
 	}
 	

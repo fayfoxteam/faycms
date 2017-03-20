@@ -26,7 +26,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 						<a href="<?php echo $this->url()?>" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
 					</li>
 					<li class="job-2">
-						<a href="<?php echo $this->url()?>" class="task-link" data-task-id="2"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
+						<a href="javascript:" class="" data-task-id="2"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
 					</li>
 					<li class="job-3">
 						<a href="<?php echo $this->url()?>" class="task-link" data-task-id="3"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
@@ -55,10 +55,7 @@ $(function(){
 			'dataType': 'json',
 			'cache': false,
 			'success': function(resp){
-				if(resp.status){
-					//跳转
-					window.location.href = href;
-				}
+				$('body').unblock();
 			}
 		});
 	});

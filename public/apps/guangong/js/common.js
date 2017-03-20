@@ -242,6 +242,14 @@ var common = {
 			});
 		}
 	},
+	'weixinShare': function(){
+		$('.weixin-share').on('click', function(){
+			$(this).hide();
+		});
+		$('.show-weixin-share-link').on('click', function(){
+			$('.weixin-share').show();
+		});
+	},
 	'init': function(){
 		this._swiper();
 		this.formSubmit();
@@ -250,6 +258,7 @@ var common = {
 		this.animate();
 		this.fancybox();
 		this.rankDialog();
+		this.weixinShare();
 		common.swiper.on('SlideChangeStart', this.animate);
 	}
 };

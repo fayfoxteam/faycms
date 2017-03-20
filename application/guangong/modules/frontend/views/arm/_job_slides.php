@@ -14,10 +14,10 @@
 	<div class="layer jobs">
 		<ul>
 			<li class="job-1">
-				<a href="<?php echo $this->url()?>" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
+				<a href="#attendance-dialog" class="fancybox-inline task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
 			</li>
 			<li class="job-2">
-				<a href="<?php echo $this->url()?>" class="task-link" data-task-id="2"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
+				<a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
 			</li>
 			<li class="job-3">
 				<a href="<?php
@@ -31,13 +31,38 @@
 				?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
 			</li>
 			<li class="job-4">
-				<a href="<?php echo $this->url()?>" class="task-link" data-task-id="4"><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
+				<a href="<?php echo $this->url()?>" class=""><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
 			</li>
 		</ul>
 	</div>
 	<div class="layer description"><img src="<?php echo $this->appAssets('images/arm/junzhi-text.png')?>"></div>
 </div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
+wx.config(<?php echo $js_sdk_config?>);
+wx.onMenuShareTimeline({
+	title: '天下招募令', // 分享标题
+	link: '<?php echo $this->url('recruit')?>', // 分享链接
+	imgUrl: '<?php echo $this->appAssets('images/arm/guanyin.png')?>', // 分享图标
+	success: function(){
+		// 用户确认分享后执行的回调函数
+		$('body').block();
+		$.ajax({
+			'type': 'POST',
+			'url': system.url('api/task/do'),
+			'data': {'task_id': $(this).attr('data-task-id')},
+			'dataType': 'json',
+			'cache': false,
+			'success': function(resp){
+				$('body').unblock();
+			}
+		});
+	},
+	cancel: function () {
+		// 用户取消分享后执行的回调函数
+	}
+});
+
 $(function(){
 	$('.task-link').on('click', function(){
 		$('body').block();
@@ -50,10 +75,7 @@ $(function(){
 			'dataType': 'json',
 			'cache': false,
 			'success': function(resp){
-				if(resp.status){
-					//跳转
-					window.location.href = href;
-				}
+				$('body').unblock();
 			}
 		});
 	});

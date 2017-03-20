@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $this \fay\core\View
+ */
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +36,9 @@ $(function(){
 </head>
 <body>
 <?php echo $content?>
+<div class="weixin-share">
+    <img src="<?php echo $this->appAssets('images/guide.png')?>">
+</div>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
 </body>
 </html>

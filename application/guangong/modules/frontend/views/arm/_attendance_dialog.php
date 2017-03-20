@@ -14,17 +14,3 @@
 		</div>
 	</div>
 </div>
-<script>
-$(function(){
-	common.swiper.on('SlideChangeEnd', function(){
-		$activeSlide = $('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')');
-		if($activeSlide.hasClass('jobs-slide')){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function() {
-				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function () {
-					$.fancybox($('#attendance-dialog').parent().html());
-				});
-			});
-		}
-	});
-});
-</script>

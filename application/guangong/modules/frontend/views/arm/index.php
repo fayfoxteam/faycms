@@ -8,6 +8,8 @@
  * @var $user_extra array
  * @var $attendances int
  * @var $sign_up_days int
+ * @var $js_sdk_config string
+ * @var $next_post int
  */
 $this->appendCss($this->appAssets('css/arm.css'));
 ?>
@@ -53,7 +55,8 @@ $this->appendCss($this->appAssets('css/arm.css'));
 			));
 			$this->renderPartial('_info_slides');
 			$this->renderPartial('_job_slides', array(
-                'next_post'=>$next_post
+                'next_post'=>$next_post,
+				'js_sdk_config'=>$js_sdk_config,
             ));
 		?>
 	</div>

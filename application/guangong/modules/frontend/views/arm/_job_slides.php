@@ -40,30 +40,30 @@
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 wx.config(<?php echo $js_sdk_config?>);
-wx.onMenuShareTimeline({
-	title: '天下招募令', // 分享标题
-	link: '<?php echo $this->url('recruit')?>', // 分享链接
-	imgUrl: '<?php echo $this->appAssets('images/arm/guanyin.png')?>', // 分享图标
-	success: function(){
-		// 用户确认分享后执行的回调函数
-		$('body').block();
-		$.ajax({
-			'type': 'POST',
-			'url': system.url('api/task/do'),
-			'data': {'task_id': $(this).attr('data-task-id')},
-			'dataType': 'json',
-			'cache': false,
-			'success': function(resp){
-				$('body').unblock();
-			}
-		});
-	},
-	cancel: function () {
-		// 用户取消分享后执行的回调函数
-	}
-});
-
 $(function(){
+	wx.onMenuShareTimeline({
+		title: '天下招募令', // 分享标题
+		link: '<?php echo $this->url('recruit')?>', // 分享链接
+		imgUrl: '<?php echo $this->appAssets('images/arm/guanyin.png')?>', // 分享图标
+		success: function(){
+			// 用户确认分享后执行的回调函数
+			$('body').block();
+			$.ajax({
+				'type': 'POST',
+				'url': system.url('api/task/do'),
+				'data': {'task_id': $(this).attr('data-task-id')},
+				'dataType': 'json',
+				'cache': false,
+				'success': function(resp){
+					$('body').unblock();
+				}
+			});
+		},
+		cancel: function () {
+			// 用户取消分享后执行的回调函数
+		}
+	});
+	
 	$('.task-link').on('click', function(){
 		$('body').block();
 		var href = $(this).attr('href');

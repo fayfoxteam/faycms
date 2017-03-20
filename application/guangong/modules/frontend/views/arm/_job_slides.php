@@ -40,7 +40,7 @@
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 wx.config(<?php echo $js_sdk_config?>);
-$(function(){
+wx.ready(function(){
 	wx.onMenuShareTimeline({
 		title: '天下招募令', // 分享标题
 		link: '<?php echo $this->url('recruit')?>', // 分享链接
@@ -63,7 +63,8 @@ $(function(){
 			// 用户取消分享后执行的回调函数
 		}
 	});
-	
+});
+$(function(){
 	$('.task-link').on('click', function(){
 		$('body').block();
 		var href = $(this).attr('href');

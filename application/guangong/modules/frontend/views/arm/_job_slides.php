@@ -56,6 +56,9 @@ wx.ready(function(){
 				'cache': false,
 				'success': function(resp){
 					$('body').unblock();
+					if(resp.status){
+						common.toast('分享朋友圈任务完成', 'success');
+					}
 				}
 			});
 		},

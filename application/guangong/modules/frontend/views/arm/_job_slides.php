@@ -20,15 +20,7 @@
 				<a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
 			</li>
 			<li class="job-3">
-				<a href="<?php
-					if($next_post){
-						echo \fay\helpers\UrlHelper::createUrl('post/item', array(
-							'id'=>$next_post,
-						));
-					}else{
-						echo 'javascript:';
-					}
-				?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
+				<a href="#post-dialog" id="post-dialog-link" data-id="<?php echo empty($next_post) ? 0 : $next_post?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
 			</li>
 			<li class="job-4">
 				<a href="<?php echo $this->url()?>" class=""><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
@@ -81,6 +73,42 @@ $(function(){
 			'success': function(resp){
 				$('body').unblock();
 			}
+		});
+	});
+
+	system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			$('#post-dialog-link').fancybox({
+				'padding': 0,
+				'type': 'inline',
+                'width': 300,
+                'height': 500,
+				'onStart': function(o){
+					if($(o).attr('data-id') == '0'){
+						common.toast('恭喜您已经完成所有资料阅读');
+						return false;
+					}else{
+						$('body').block();
+						$.ajax({
+							'type': 'GET',
+							'url': system.url('api/post/item'),
+							'data': {'id': $(o).attr('data-id')},
+							'dataType': 'json',
+							'cache': false,
+							'success': function(resp){
+								$('body').unblock();
+								if(resp.status){
+									var $postDialog = $('#post-dialog');
+									$postDialog.find('.post-title').text(resp.data.post.title);
+									$postDialog.find('.post-content').html(resp.data.post.content);
+								}else{
+									common.toast('恭喜您已经完成所有资料阅读');
+								}
+							}
+						});
+					}
+				}
+			});
 		});
 	});
 });

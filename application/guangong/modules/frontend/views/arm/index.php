@@ -75,4 +75,5 @@ $this->appendCss($this->appAssets('css/arm.css'));
 		'attendances'=>$attendances,
 		'sign_up_days'=>$sign_up_days,
 	));
+	$this->renderPartial('_post_dialog');
 ?>

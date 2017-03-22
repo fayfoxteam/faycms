@@ -53,3 +53,8 @@ body #fancybox-close:hover:before{color:#373e4a}
 #attendance-dialog{text-align:center;background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%;padding:20px 0}
 #attendance-dialog .nickname,#attendance-dialog .sign-up-days{margin-bottom:14px}
 #attendance-dialog .attendance-count{margin-bottom:35px}
+
+#post-dialog{width:230px;height:350px;text-align:center;background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%;padding:20px 0}
+#post-dialog .dialog-content{height:290px;overflow:scroll}
+#post-dialog .post-title{margin-top:-20px;margin-bottom:10px;font-size:18px}
+#post-dialog .post-content{text-align:left}

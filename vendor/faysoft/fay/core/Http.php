@@ -89,7 +89,7 @@ class Http{
 	 */
 	public static function getBaseUrl(){
 		$document_root = $_SERVER['DOCUMENT_ROOT'];
-		$document_root = trim($document_root, '\\/');//由于服务器配置不同，有的DOCUMENT_ROOT末尾带斜杠，有的不带，这里统一去掉末尾斜杠
+		$document_root = rtrim($document_root, '\\/');//由于服务器配置不同，有的DOCUMENT_ROOT末尾带斜杠，有的不带，这里统一去掉末尾斜杠
 		$folder = dirname(str_replace($document_root, '', $_SERVER['SCRIPT_FILENAME']));
 		//所有斜杠都以正斜杠为准
 		$folder = str_replace('\\', '/', $folder);

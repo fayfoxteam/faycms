@@ -183,9 +183,9 @@ abstract class Widget{
 				\F::app()->view->renderPartial($this->config['template'], $this->view->getViewData());
 			}else{
 				//直接eval源码
-				\F::app()->view->evalCode($this->config['template'], array(
+				\F::app()->view->evalCode($this->config['template'], array_merge(array(
 					'widget'=>$this,
-				));
+				), $this->view->getViewData()));
 			}
 		}
 	}

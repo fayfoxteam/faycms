@@ -73,3 +73,21 @@
 #arm-13 .jobs ul li{width:225px;height:96px;margin-bottom:10px;background-image:url(../images/arm/junzhi-bg.png)}
 #arm-13 .jobs img{width:181px;height:59px;margin-top:18px}
 #arm-13 .description{width:90%;margin-left:-45%}
+#arm-13 .description p{text-indent:2em;color:#3E3938;font-size:12px}
+#arm-13 .description p a{color:#E50012}
+
+#yunchangjian-dialog{background-color:#eee;overflow:auto}
+#yunchangjian-dialog h4{font-size:18px;color:#231915;text-align:center;margin-bottom:10px;font-family:"宋体"}
+#yunchangjian-dialog h5{font-size:20px;color:#B50006;text-align:center;margin-bottom:25px;}
+#yunchangjian-dialog img{width:100%}
+#yunchangjian-dialog .desc{font-size:14px;color:#231915;margin-top:25px;border:1px dashed #000}
+#yunchangjian-dialog .desc label{font-weight:bold;float:left}
+#yunchangjian-dialog .desc span{margin-left:66px;display:block;line-height:1.2}
+
+#jiangjunxian-dialog{background-color:#eee;overflow:auto}
+#jiangjunxian-dialog h4{font-size:18px;color:#231915;text-align:center;margin-bottom:10px;font-family:"宋体"}
+#jiangjunxian-dialog h5{font-size:20px;color:#B50006;text-align:center;margin-bottom:25px;}
+#jiangjunxian-dialog img{width:100%}
+#jiangjunxian-dialog .desc{font-size:14px;color:#231915;margin-top:25px;border:1px dashed #000}
+#jiangjunxian-dialog .desc label{font-weight:bold;float:left}
+#jiangjunxian-dialog .desc span{margin-left:38px;display:block;line-height:1.2}

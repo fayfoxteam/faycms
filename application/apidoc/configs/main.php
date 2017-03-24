@@ -26,5 +26,5 @@ return array(
 	
 	'debug'=>preg_match('/(.*)fayfox.com$/', $_SERVER['HTTP_HOST']) ? true : false,
 	
-	'assets_url'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? 'http://static.faycms.com/' : '',
+	'assets_url'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? 'http://qiniu.cdn.faycms.com/assets/' : '',
 );

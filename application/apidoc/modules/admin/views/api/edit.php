@@ -30,6 +30,12 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						<?php echo F::form()->submitLink('提交', array(
 							'class'=>'btn',
 						))?>
+						<?php echo \fay\helpers\HtmlHelper::link('查看', array(
+							'api/'.F::form()->getData('id')
+						), array(
+							'class'=>'btn btn-grey',
+							'target'=>'_blank'
+						))?>
 					</div>
 					<div class="misc-pub-section mt6">
 						<strong>状态：</strong>

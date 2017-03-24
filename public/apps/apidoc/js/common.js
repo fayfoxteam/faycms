@@ -202,7 +202,7 @@ var common = {
 			return r + (pEnd || '');
 		},
 		'prettyPrint': function(obj) {
-			var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+			var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*|\[\]|\{\})?([,[{])?$/mg;
 			return JSON.stringify(obj, null, 4)
 				.replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
 				.replace(/</g, '&lt;').replace(/>/g, '&gt;')

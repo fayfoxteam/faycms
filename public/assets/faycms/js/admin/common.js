@@ -486,6 +486,30 @@ var common = {
 		$(document).on('click', '.remove-link', function(){
 			return confirm('确实要永久删除此记录吗？');
 		});
+		//格式化json
+		$(document).on('click', '.format-json', function(){
+			var $targetElement = $($(this).attr('href'));
+			try{
+				var jsonObj = $.parseJSON($targetElement.val());
+			}catch(e){
+				var jsonObj = false;
+			}
+			if(jsonObj){
+				if($.browser.msie && $.browser.version < 9){
+					system.getScript(system.assets('js/json2.js'), function(){
+						$targetElement.val(JSON.stringify(jsonObj, null, 4));
+					});
+				}else{
+					$targetElement.val(JSON.stringify(jsonObj, null, 4));
+				}
+				
+				if($targetElement.hasClass('autosize')){
+					autosize.update($targetElement);
+				}
+			}
+			
+			return false;
+		});
 	},
 	'pager': function(){
 		//初始化页码输入框长度

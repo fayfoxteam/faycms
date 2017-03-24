@@ -8,5 +8,10 @@
 			'class'=>'form-control h90 autosize',
 			'id'=>'sample-response',
 		))?>
+        <div class="cf mt5">
+			<?php echo \fay\helpers\HtmlHelper::link('格式化JSON', '#sample-response', array(
+				'class'=>'btn btn-grey format-json',
+			))?>
+        </div>
 	</div>
 </div>

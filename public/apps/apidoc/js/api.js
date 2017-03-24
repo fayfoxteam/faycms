@@ -13,6 +13,7 @@ var api = {
 				$('#add-input-parameter-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
+					'hideOnOverlayClick': false,
 					'type' : 'inline',
 					'titleShow':false,
 					'onClosed': function(o){
@@ -42,6 +43,7 @@ var api = {
 				$('.edit-input-parameter-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
+					'hideOnOverlayClick': false,
 					'type' : 'inline',
 					'titleShow':false,
 					'onClosed': function(o){
@@ -175,6 +177,7 @@ var api = {
 				$('#add-output-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
+					'hideOnOverlayClick': false,
 					'type' : 'inline',
 					'titleShow':false,
 					'onClosed': function(o){
@@ -204,6 +207,7 @@ var api = {
 				$('.edit-output-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
+					'hideOnOverlayClick': false,
 					'type' : 'inline',
 					'titleShow':false,
 					'onClosed': function(o){

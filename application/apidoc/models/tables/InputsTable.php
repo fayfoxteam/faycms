@@ -22,11 +22,16 @@ class InputsTable extends Table{
 	 * 类型 - 字符串
 	 */
 	const TYPE_STRING = 1;
-	
-	/**
-	 * 类型 - 数字
-	 */
-	const TYPE_NUMBER = 2;
+    
+    /**
+     * 类型 - 数字
+     */
+    const TYPE_NUMBER = 2;
+    
+    /**
+     * 类型 - 数字
+     */
+    const TYPE_FILE = 3;
 	
 	protected $_name = 'apidoc_inputs';
 	
@@ -47,7 +52,7 @@ class InputsTable extends Table{
 			array(array('since'), 'string', array('max'=>30)),
 			
 			array('type', 'range', array('range'=>array(
-				self::TYPE_STRING, self::TYPE_NUMBER
+				self::TYPE_STRING, self::TYPE_NUMBER, self::TYPE_FILE
 			))),
 			array(array('name', 'required', 'type'), 'required')
 		);
@@ -100,7 +105,8 @@ class InputsTable extends Table{
 	public static function getTypes(){
 		return array(
 			self::TYPE_NUMBER => '数字',
-			self::TYPE_STRING => '字符串',
+            self::TYPE_STRING => '字符串',
+            self::TYPE_FILE => '文件',
 		);
 	}
 }

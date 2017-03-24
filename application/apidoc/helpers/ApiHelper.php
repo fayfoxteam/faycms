@@ -86,13 +86,8 @@ class ApiHelper{
 	 * @return string
 	 */
 	public static function getInputType($type){
-		if($type == InputsTable::TYPE_NUMBER){
-			return 'Number';
-		}else if($type == InputsTable::TYPE_STRING){
-			return 'String';
-		}else{
-			return 'Other';
-		}
+	    $types = InputsTable::getTypes();
+	    return isset($types[$type]) ? $types[$type] : 'Other';
 	}
 	
 	/**

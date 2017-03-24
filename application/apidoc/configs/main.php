@@ -24,7 +24,7 @@ return array(
 		'frontend'
 	),
 	
-	'debug'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? false : true,
+	'debug'=>preg_match('/(.*)fayfox.com$/', $_SERVER['HTTP_HOST']) ? true : false,
 	
-	'assets_url'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? 'http://static.faycms.com/assets/' : '',
+	'assets_url'=>$_SERVER['HTTP_HOST'] == 'apidoc.faycms.com' ? 'http://static.faycms.com/' : '',
 );

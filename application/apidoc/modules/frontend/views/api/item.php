@@ -2,11 +2,16 @@
 use fay\helpers\HtmlHelper;
 use apidoc\helpers\ApiHelper;
 use apidoc\helpers\TrackHelper;
+use Michelf\MarkdownExtra;
+
+/**
+ * @var $api array
+ */
 ?>
 <?php if($api['api']['description']){?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php
-		echo \Michelf\MarkdownExtra::defaultTransform($api['api']['description']);
+		echo MarkdownExtra::defaultTransform($api['api']['description']);
 	?></div>
 </div>
 <?php }?>
@@ -57,7 +62,7 @@ use apidoc\helpers\TrackHelper;
 					<td><?php echo ApiHelper::getInputType($input['type'])?></td>
 					<td><?php echo ApiHelper::getRequired($input['required'])?></td>
 					<td><?php echo HtmlHelper::encode($input['sample'])?></td>
-					<td><?php echo $input['description']?></td>
+					<td><?php echo MarkdownExtra::defaultTransform($input['description'])?></td>
 				</tr>
 			<?php }?>
 			</tbody>
@@ -100,7 +105,7 @@ use apidoc\helpers\TrackHelper;
 						}
 					?></td>
 					<td><?php echo HtmlHelper::encode($output['sample'])?></td>
-					<td><?php echo $output['description']?></td>
+					<td><?php echo MarkdownExtra::defaultTransform($output['description'])?></td>
 				</tr>
 			<?php }?>
 			</tbody>

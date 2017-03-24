@@ -5,6 +5,5 @@
 	</div>
 	<div class="box-content">
 		<?php echo F::form()->inputText('router', array('class'=>'form-control'))?>
-		<p class="fc-grey">省略前缀<code>api/</code></p>
 	</div>
 </div>

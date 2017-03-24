@@ -11,7 +11,7 @@ a{text-decoration:none}
 .weixin-share{position:fixed;top:0;left:0;z-index:9999;height:100%;width:100%;background-color:rgba(0, 0, 0, 0.7);display:none}
 .weixin-share img{width:100%;margin-top:10px}
 
-body #fancybox-close{background:none;font-size:38px;text-align:center;font-weight:bold;top:29px;right:2px}
+body #fancybox-close{background:none;font-size:38px;text-align:center;font-weight:bold;top:19px;right:-14px}
 body #fancybox-close:before{content:"×";color:#585756}
 body #fancybox-close:hover:before{color:#373e4a}
 
@@ -55,6 +55,6 @@ body #fancybox-close:hover:before{color:#373e4a}
 #attendance-dialog .attendance-count{margin-bottom:35px}
 
 #post-dialog{width:230px;height:350px;text-align:center;background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%;padding:20px 0}
-#post-dialog .dialog-content{height:290px;overflow:scroll}
+#post-dialog .dialog-content{height:290px;overflow:auto}
 #post-dialog .post-title{margin-top:-20px;margin-bottom:10px;font-size:18px}
 #post-dialog .post-content{text-align:left}

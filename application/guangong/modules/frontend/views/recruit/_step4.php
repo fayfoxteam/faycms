@@ -39,7 +39,7 @@
 		<?php if(!empty($user['user']['mobile'])){?>
 			<a href="#jiangjunmiling-dialog" class="btn-1" id="jiangjunmiling-link">将军密令<br>报名可阅</a>
 		<?php }else{?>
-			<a href="<?php echo $this->url('recruit/step3#1')?>" class="btn-1">我要加入</a>
+			<a href="#8" class="btn-1 swiper-to" data-slide="8">我要加入</a>
 		<?php }?>
 	</div>
 </div>

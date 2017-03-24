@@ -1,10 +1,16 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
+
+/**
+ * @var $data array
+ */
 ?>
 <tr valign="top">
 	<td>
-		<strong><?php echo HtmlHelper::encode($data['name'])?></strong>
+		<strong><?php echo HtmlHelper::link($data['name'], array('model/'.$data['id']), array(
+		        'target'=>'_blank'
+            ))?></strong>
 		<div class="row-actions">
 			<?php 
 				echo HtmlHelper::link('编辑', array('admin/model/edit', array(

@@ -1,6 +1,12 @@
 <?php
+use fay\helpers\HtmlHelper;
+
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
+
+/**
+ * @var $this \fay\core\View
+ */
 ?>
 <?php echo F::form()->open()?>
 <div class="poststuff">
@@ -24,6 +30,12 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						<?php echo F::form()->submitLink('提交', array(
 							'class'=>'btn',
 						))?>
+						<?php echo HtmlHelper::link('查看', array(
+							'model/'.F::form()->getData('id')
+						), array(
+							'class'=>'btn btn-grey',
+							'target'=>'_blank'
+						))?>
 					</div>
 				</div>
 			</div>
@@ -33,9 +45,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						$k = array_search($box, $boxes_cp);
 						if($k !== false){
 							if(isset(F::app()->boxes[$k]['view'])){
-								$this->renderPartial(F::app()->boxes[$k]['view']);
+								$this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
 							}else{
-								$this->renderPartial('_box_'.$box);
+								$this->renderPartial('_box_'.$box, $this->getViewData());
 							}
 							unset($boxes_cp[$k]);
 						}
@@ -49,9 +61,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					$k = array_search($box, $boxes_cp);
 					if($k !== false){
 						if(isset(F::app()->boxes[$k]['view'])){
-							$this->renderPartial(F::app()->boxes[$k]['view']);
+							$this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
 						}else{
-							$this->renderPartial('_box_'.$box);
+							$this->renderPartial('_box_'.$box, $this->getViewData());
 						}
 						unset($boxes_cp[$k]);
 					}
@@ -61,9 +73,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 			//最后多出来的都放最后面
 			foreach($boxes_cp as $k=>$box){
 				if(isset(F::app()->boxes[$k]['view'])){
-					$this->renderPartial(F::app()->boxes[$k]['view']);
+					$this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
 				}else{
-					$this->renderPartial('_box_'.$box);
+					$this->renderPartial('_box_'.$box, $this->getViewData());
 				}
 			}
 		?></div>

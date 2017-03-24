@@ -8,11 +8,8 @@ use fay\helpers\HtmlHelper;
 		<header class="logo-env">
 			<div class="logo">
 				<?php
-					echo HtmlHelper::link('Faycms', array(), array(
+					echo HtmlHelper::link(\fay\services\OptionService::get('site:sitename'), array(), array(
 						'class'=>'logo-expanded',
-					));
-					echo HtmlHelper::link('F', array(), array(
-						'class'=>'logo-collapsed',
 					));
 				?>
 			</div>

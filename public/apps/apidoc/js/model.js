@@ -12,6 +12,7 @@ var model = {
 				$('#add-prop-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
+					'hideOnOverlayClick': false,
 					'type' : 'inline',
 					'titleShow':false,
 					'onClosed': function(o){
@@ -40,6 +41,7 @@ var model = {
 				$('.edit-prop-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
+					'hideOnOverlayClick': false,
 					'type' : 'inline',
 					'titleShow':false,
 					'onClosed': function(o){

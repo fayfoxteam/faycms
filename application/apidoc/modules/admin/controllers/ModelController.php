@@ -87,7 +87,6 @@ class ModelController extends AdminController{
 		
 		//启用的编辑框
 		$_setting_key = 'admin_model_boxes';
-		$enabled_boxes = $this->getEnabledBoxes($_setting_key);
 		
 		if($this->input->post() && $this->form()->check()){
 			$data = ModelsTable::model()->fillData($this->input->post(), true, 'insert');

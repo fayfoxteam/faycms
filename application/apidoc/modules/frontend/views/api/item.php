@@ -1,4 +1,5 @@
 <?php
+use apidoc\helpers\SampleHelper;
 use fay\helpers\HtmlHelper;
 use apidoc\helpers\ApiHelper;
 use apidoc\helpers\TrackHelper;
@@ -61,7 +62,7 @@ use Michelf\MarkdownExtra;
 					<td><?php echo HtmlHelper::encode($input['name'])?></td>
 					<td><?php echo ApiHelper::getInputType($input['type'])?></td>
 					<td><?php echo ApiHelper::getRequired($input['required'])?></td>
-					<td><?php echo HtmlHelper::encode($input['sample'])?></td>
+					<td><?php echo SampleHelper::render($input['sample'])?></td>
 					<td><?php echo MarkdownExtra::defaultTransform($input['description'])?></td>
 				</tr>
 			<?php }?>
@@ -104,7 +105,7 @@ use Michelf\MarkdownExtra;
 							echo ' []';
 						}
 					?></td>
-					<td><?php echo HtmlHelper::encode($output['sample'])?></td>
+					<td><?php echo SampleHelper::render($output['sample'])?></td>
 					<td><?php echo MarkdownExtra::defaultTransform($output['description'])?></td>
 				</tr>
 			<?php }?>
@@ -120,7 +121,7 @@ use Michelf\MarkdownExtra;
 	<div class="panel-body">
 	<?php if($api['api']['sample_response']){?>
 		<pre id="sample_response" class="jsonview"><?php
-			echo HtmlHelper::encode($api['api']['sample_response']);
+			echo SampleHelper::render($api['api']['sample_response']);
 		?></pre>
 	<?php }else{?>
 		<span>无</span>

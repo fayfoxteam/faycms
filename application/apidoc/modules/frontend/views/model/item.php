@@ -1,6 +1,12 @@
 <?php
+use apidoc\helpers\SampleHelper;
 use fay\helpers\HtmlHelper;
 use apidoc\helpers\TrackHelper;
+
+/**
+ * @var $model array
+ * @var $properties array
+ */
 ?>
 <div class="panel panel-headerless">
 	<div class="panel-body"><?php
@@ -39,7 +45,9 @@ use apidoc\helpers\TrackHelper;
 							echo ' []';
 						}
 					?></td>
-					<td><?php echo HtmlHelper::encode($p['sample'])?></td>
+					<td><?php
+						echo SampleHelper::render($p['sample']);
+                    ?></td>
 					<td><?php echo \Michelf\MarkdownExtra::defaultTransform($p['description'])?></td>
 				</tr>
 			<?php }?>
@@ -52,7 +60,7 @@ use apidoc\helpers\TrackHelper;
 	<div class="panel-body">
 	<?php if($model['sample']){?>
 		<pre id="sample_response" class="jsonview"><?php
-			echo HtmlHelper::encode($model['sample']);
+			echo SampleHelper::render($model['sample']);
 		?></pre>
 	<?php }else{?>
 		<span>无</span>

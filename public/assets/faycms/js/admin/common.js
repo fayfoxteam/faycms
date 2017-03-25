@@ -492,7 +492,7 @@ var common = {
 			try{
 				var jsonObj = $.parseJSON($targetElement.val());
 			}catch(e){
-				var jsonObj = false;
+				jsonObj = false;
 			}
 			if(jsonObj){
 				if($.browser.msie && $.browser.version < 9){
@@ -506,6 +506,8 @@ var common = {
 				if($targetElement.hasClass('autosize')){
 					autosize.update($targetElement);
 				}
+			}else{
+				common.alert('数据非JSON格式');
 			}
 			
 			return false;

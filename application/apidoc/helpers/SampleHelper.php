@@ -23,7 +23,7 @@ class SampleHelper{
 		return preg_replace_callback('/"{{@(\w+)}}"/', function($matches){
 			$sample = ModelService::service()->getSample($matches[1]);
 			
-			return $sample ? self::replaceModel($sample) : $matches[0];
+			return $sample ? SampleHelper::replaceModel($sample) : $matches[0];
 		}, $json);
 	}
 }

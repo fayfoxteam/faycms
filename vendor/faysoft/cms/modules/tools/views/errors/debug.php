@@ -100,10 +100,14 @@ if(method_exists($exception, 'getLevel')){
 			<th>db.host</th>
 			<td><?php echo F::config()->get('db.host')?></td>
 		</tr>
-		<tr>
-			<th>db.dbname</th>
-			<td><?php echo F::config()->get('db.dbname')?></td>
-		</tr>
+        <tr>
+            <th>db.port</th>
+            <td><?php echo F::config()->get('db.port')?></td>
+        </tr>
+        <tr>
+            <th>db.dbname</th>
+            <td><?php echo F::config()->get('db.dbname')?></td>
+        </tr>
 	</table>
 	<h3>System Data</h3>
 	<table class="data-table">

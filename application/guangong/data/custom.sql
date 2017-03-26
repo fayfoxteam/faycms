@@ -46,7 +46,7 @@ CREATE TABLE `{{$prefix}}guangong_messages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `content` text COMMENT '内容',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类型',a
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '留言时间',
   `reply` text COMMENT '管理员回复',
   `reply_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '回复时间',
@@ -102,7 +102,7 @@ CREATE TABLE `{{$prefix}}guangong_tasks` (
 DROP TABLE IF EXISTS `{{$prefix}}guangong_user_extra`;
 CREATE TABLE `{{$prefix}}guangong_user_extra` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
-  `birthday` date NOT NULL COMMENT '生日',
+  `birthday` date DEFAULT NULL COMMENT '生日',
   `state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '省',
   `city` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '市',
   `district` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '区/县',

@@ -96,7 +96,7 @@ class FeedTagService extends Service{
 				->joinLeft(array('p'=>'feeds'), 'pt.feed_id = p.id')
 				->where(array(
 					'pt.tag_id IN (?)'=>$tag_ids,
-					'p.deleted = 0',
+					'p.delete_time = 0',
 					'p.status = '.FeedsTable::STATUS_APPROVED,
 				))//这里不限制publish_time条件，因为定时发布后没逻辑来更新标签对应动态数
 				->group('pt.tag_id')

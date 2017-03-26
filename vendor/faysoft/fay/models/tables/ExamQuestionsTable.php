@@ -51,7 +51,7 @@ class ExamQuestionsTable extends Table{
 			array(array('type', 'status', 'rand'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('score'), 'float', array('length'=>5, 'decimal'=>2)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -66,7 +66,7 @@ class ExamQuestionsTable extends Table{
 			'status'=>'状态',
 			'rand'=>'随机答案顺序',
 			'create_time'=>'创建时间',
-			'deleted'=>'删除',
+			'delete_time'=>'删除时间',
 		);
 	}
 
@@ -79,7 +79,7 @@ class ExamQuestionsTable extends Table{
 			'sort'=>'intval',
 			'status'=>'intval',
 			'rand'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 		);
 	}
 }

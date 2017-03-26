@@ -33,15 +33,15 @@ class ChatController extends AdminController{
 		
 		if($this->input->get('deleted')){
 			$sql->where(array(
-				'm.deleted = 1',
+				'm.delete_time > 0',
 			));
 		}else if($this->input->get('status') !== null && $this->input->get('status') !== ''){
 			$sql->where(array(
 				'm.status = ?'=>$this->input->get('status', 'intval'),
-				'm.deleted = 0',
+				'm.delete_time = 0',
 			));
 		}else{
-			$sql->where('m.deleted = 0');
+			$sql->where('m.delete_time = 0');
 		}
 		
 		$this->view->assign(array(
@@ -70,7 +70,7 @@ class ChatController extends AdminController{
 			->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'username AS parent_username,nickname AS parent_nickname,realname AS parent_realname')
 			->where(array(
 				'm.root = '.$root['id'],
-				'm.deleted = 0',
+				'm.delete_time = 0',
 			))
 			->order('id DESC')
 			->fetchAll()

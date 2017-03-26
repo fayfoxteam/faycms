@@ -84,7 +84,7 @@ class PostCommentController extends ApiController{
 			array(array('parent'), 'exist', array(
 				'table'=>'post_comments',
 				'field'=>'id',
-				'conditions'=>array('deleted = 0')
+				'conditions'=>array('delete_time = 0')
 			)),
 		))->setFilters(array(
 			'post_id'=>'intval',
@@ -146,7 +146,7 @@ class PostCommentController extends ApiController{
 			array(array('comment_id'), 'exist', array(
 				'table'=>'post_comments',
 				'field'=>'id',
-				'conditions'=>array('deleted = 0')
+				'conditions'=>array('delete_time = 0')
 			)),
 		))->setFilters(array(
 			'comment_id'=>'intval',
@@ -182,7 +182,7 @@ class PostCommentController extends ApiController{
 			array(array('comment_id'), 'exist', array(
 				'table'=>'post_comments',
 				'field'=>'id',
-				'conditions'=>array('deleted != 0')
+				'conditions'=>array('delete_time > 0')
 			)),
 		))->setFilters(array(
 			'comment_id'=>'intval',
@@ -219,7 +219,7 @@ class PostCommentController extends ApiController{
 			array(array('comment_id'), 'exist', array(
 				'table'=>'post_comments',
 				'field'=>'id',
-				'conditions'=>array('deleted = 0')
+				'conditions'=>array('delete_time = 0')
 			)),
 		))->setFilters(array(
 			'post_id'=>'intval',

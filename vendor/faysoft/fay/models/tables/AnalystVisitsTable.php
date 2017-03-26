@@ -14,8 +14,8 @@ use fay\core\db\Table;
  * @property string $short_url Short Url
  * @property string $trackid Trackid
  * @property int $user_id User Id
- * @property int $create_time Create Time
- * @property string $create_date Create Date
+ * @property int $create_time 创建时间
+ * @property string $create_date 创建日期
  * @property int $hour Hour
  * @property int $site Site
  * @property int $views Views
@@ -60,7 +60,7 @@ class AnalystVisitsTable extends Table{
 			'trackid'=>'Trackid',
 			'user_id'=>'User Id',
 			'create_time'=>'创建时间',
-			'create_date'=>'Create Date',
+			'create_date'=>'创建日期',
 			'hour'=>'Hour',
 			'site'=>'Site',
 			'views'=>'Views',

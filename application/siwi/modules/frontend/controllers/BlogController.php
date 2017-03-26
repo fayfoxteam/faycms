@@ -45,7 +45,7 @@ class BlogController extends FrontController{
 			->where(array(
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
@@ -100,12 +100,12 @@ class BlogController extends FrontController{
 		$sql = new Sql();
 		$sql->from(array('m'=>'messages'))
 			->joinLeft(array('u'=>'users'), 'm.user_id = u.id', 'username,nickname,avatar')
-			->joinLeft(array('m2'=>'messages'), 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id,status AS parent_status,deleted AS parent_deleted')
+			->joinLeft(array('m2'=>'messages'), 'm.parent = m2.id', 'content AS parent_content,user_id AS parent_user_id,status AS parent_status,delete_time AS parent_delete_time')
 			->joinLeft(array('u2'=>'users'), 'm2.user_id = u2.id', 'nickname AS parent_nickname')
 			->where(array(
 				"m.target = {$id}",
 				'm.type = '.MessagesTable::TYPE_POST_COMMENT,
-				'm.deleted = 0',
+				'm.delete_time = 0',
 				'm.status = '.MessagesTable::STATUS_APPROVED,
 			))
 			->order('create_time DESC');

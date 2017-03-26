@@ -20,7 +20,7 @@ class ItemPropValuesTable extends Table{
 			array(array('cat_id', 'prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'title_alias'), 'string', array('max'=>255)),
-			array(array('is_terminal', 'deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('is_terminal', 'delete_time'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -32,7 +32,7 @@ class ItemPropValuesTable extends Table{
 			'title'=>'Title',
 			'title_alias'=>'Title Alias',
 			'is_terminal'=>'Is Terminal',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 			'sort'=>'Sort',
 		);
 	}
@@ -44,7 +44,7 @@ class ItemPropValuesTable extends Table{
 			'title'=>'trim',
 			'title_alias'=>'trim',
 			'is_terminal'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'sort'=>'intval',
 		);
 	}

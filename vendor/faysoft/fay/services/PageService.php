@@ -47,7 +47,7 @@ class PageService extends Service{
 		$sql->from(array('p'=>'pages'), PagesTable::model()->formatFields($fields))
 			->joinLeft(array('pc'=>'pages_categories'), 'p.id = pc.page_id')
 			->where(array(
-				'deleted = 0',
+				'delete_time = 0',
 				'status = '.PagesTable::STATUS_PUBLISHED,
 			))
 			->order('sort, id DESC')

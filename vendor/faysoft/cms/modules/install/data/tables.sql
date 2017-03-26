@@ -4,7 +4,7 @@ CREATE TABLE `{{$prefix}}actionlogs` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Type',
   `note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Note',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `refer` varchar(500) NOT NULL DEFAULT '0' COMMENT '关联ID',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'Ip Int',
   PRIMARY KEY (`id`)
@@ -68,7 +68,7 @@ CREATE TABLE `{{$prefix}}analyst_sites` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '站点名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -82,8 +82,8 @@ CREATE TABLE `{{$prefix}}analyst_visits` (
   `short_url` char(6) NOT NULL DEFAULT '' COMMENT 'Short Url',
   `trackid` varchar(30) NOT NULL DEFAULT '' COMMENT 'Trackid',
   `user_id` mediumint(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  `create_date` date NOT NULL COMMENT 'Create Date',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `create_date` date NOT NULL COMMENT '创建日期',
   `hour` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT 'Hour',
   `site` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Site',
   `views` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Views',
@@ -217,9 +217,9 @@ CREATE TABLE `{{$prefix}}exam_papers` (
   `start_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '考试开始时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '考试结束时间',
   `repeatedly` tinyint(1) NOT NULL DEFAULT '1' COMMENT '重复参考',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Modified Time',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -233,8 +233,8 @@ CREATE TABLE `{{$prefix}}exam_questions` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   `rand` tinyint(1) NOT NULL DEFAULT '0' COMMENT '随机答案顺序',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -289,7 +289,7 @@ CREATE TABLE `{{$prefix}}goods` (
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态',
   `is_new` tinyint(1) NOT NULL DEFAULT '0' COMMENT '新品',
   `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '热销',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` mediumint(8) unsigned NOT NULL DEFAULT '10000' COMMENT '排序值',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
@@ -300,7 +300,7 @@ CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值i',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -315,7 +315,7 @@ CREATE TABLE `{{$prefix}}goods_cat_props` (
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否销售属性',
   `is_input_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否可自定义属性',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT '排序值',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -354,7 +354,7 @@ CREATE TABLE `{{$prefix}}goods_files` (
   `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件Id',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`goods_id`,`file_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -385,7 +385,7 @@ CREATE TABLE `{{$prefix}}item_prop_values` (
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
   `title_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title Alias',
   `is_terminal` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Terminal',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -403,7 +403,7 @@ CREATE TABLE `{{$prefix}}item_props` (
   `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Sale Prop',
   `is_color_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Color Prop',
   `is_enum_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Enum Prop',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `multi` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Multi',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -463,8 +463,8 @@ CREATE TABLE `{{$prefix}}links` (
   `visible` tinyint(1) NOT NULL DEFAULT '1' COMMENT '可见',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `target` varchar(25) NOT NULL DEFAULT '' COMMENT '打开方式',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Modified Time',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `logo` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Logo',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
@@ -478,8 +478,8 @@ CREATE TABLE `{{$prefix}}logs` (
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Type',
   `code` varchar(255) NOT NULL DEFAULT '' COMMENT 'Code',
   `data` text NOT NULL COMMENT 'Data',
-  `create_date` date NOT NULL COMMENT 'Create Date',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
+  `create_date` date NOT NULL COMMENT '创建日期',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'Ip Int',
   `user_agent` varchar(255) NOT NULL COMMENT 'User Agent',
   PRIMARY KEY (`id`),
@@ -516,7 +516,7 @@ CREATE TABLE `{{$prefix}}messages` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
   `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',
   `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
@@ -545,8 +545,8 @@ CREATE TABLE `{{$prefix}}options` (
   `option_name` varchar(200) NOT NULL COMMENT '参数名',
   `option_value` text NOT NULL COMMENT '参数值',
   `description` varchar(500) NOT NULL DEFAULT '' COMMENT 'Description',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Last Modified Time',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is System',
   PRIMARY KEY (`id`),
   UNIQUE KEY `option_name` (`option_name`)
@@ -605,7 +605,7 @@ CREATE TABLE `{{$prefix}}pages` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
   `comments` int(10) NOT NULL DEFAULT '0' COMMENT '评论数',
   `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '阅读数',
@@ -663,14 +663,14 @@ CREATE TABLE `{{$prefix}}posts` (
   `user_id` int(9) unsigned NOT NULL DEFAULT '0' COMMENT '作者ID',
   `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '文章状态',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
   `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序',
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
   KEY `cat` (`cat_id`),
-  KEY `deleted-status-publish_time` (`deleted`,`status`,`publish_time`)
+  KEY `deleted-status-publish_time` (`delete_time`,`status`,`publish_time`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;
@@ -692,7 +692,7 @@ CREATE TABLE `{{$prefix}}post_comments` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
   `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',
   `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
@@ -735,7 +735,7 @@ CREATE TABLE `{{$prefix}}prop_values` (
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
   `default` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Default',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -749,12 +749,12 @@ CREATE TABLE `{{$prefix}}props` (
   `element` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Element',
   `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
   PRIMARY KEY (`id`),
-  KEY `refer-type-deleted` (`refer`,`type`,`deleted`)
+  KEY `refer-type-deleted` (`refer`,`type`,`delete_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
@@ -773,7 +773,7 @@ CREATE TABLE `{{$prefix}}roles` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '角色名',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `admin` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否管理员角色',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -799,7 +799,7 @@ CREATE TABLE `{{$prefix}}spider_logs` (
   `user_agent` varchar(255) NOT NULL DEFAULT '' COMMENT 'User Agent',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'Ip Int',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT 'Url',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
@@ -833,7 +833,7 @@ CREATE TABLE `{{$prefix}}templates` (
   `content` text NOT NULL COMMENT '内容',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `description` text NOT NULL COMMENT '对模版的描述',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
@@ -945,7 +945,7 @@ CREATE TABLE `{{$prefix}}users` (
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户审核状态',
   `block` tinyint(1) NOT NULL DEFAULT '0' COMMENT '屏蔽用户',
   `parent` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父节点',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为管理员',
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
@@ -956,12 +956,12 @@ CREATE TABLE `{{$prefix}}users_notifications` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收件人',
   `notification_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '消息ID',
   `read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '已读状态',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除状态',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除状态',
   `processed` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否处理',
   `ignored` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否忽略',
   `option` varchar(255) NOT NULL DEFAULT '' COMMENT '附加参数',
   PRIMARY KEY (`user_id`,`notification_id`),
-  KEY `unread` (`user_id`,`read`,`deleted`)
+  KEY `unread` (`user_id`,`read`,`delete_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users_roles`;
@@ -982,8 +982,8 @@ CREATE TABLE `{{$prefix}}vouchers` (
   `start_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '开始时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '结束时间',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Create Time',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `counts` smallint(5) NOT NULL DEFAULT '1' COMMENT '剩余次数',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
@@ -1016,7 +1016,7 @@ CREATE TABLE `{{$prefix}}feed_comments` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `root` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '根评论ID',
   `left_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '左值',
   `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
@@ -1079,7 +1079,7 @@ CREATE TABLE `{{$prefix}}feeds` (
   `publish_date` date NOT NULL COMMENT '发布日期',
   `timeline` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序值',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
-  `deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除时间',
   `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态表';
@@ -1139,7 +1139,7 @@ CREATE TABLE `{{$prefix}}payments` (
   `config` text COMMENT '配置信息JSON',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
 

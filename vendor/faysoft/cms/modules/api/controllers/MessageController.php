@@ -84,7 +84,7 @@ class MessageController extends ApiController{
 			array(array('parent'), 'exist', array(
 				'table'=>'messages',
 				'field'=>'id',
-				'conditions'=>array('deleted = 0')
+				'conditions'=>array('delete_time = 0')
 			)),
 		))->setFilters(array(
 			'to_user_id'=>'intval',
@@ -155,7 +155,7 @@ class MessageController extends ApiController{
 			array(array('message_id'), 'exist', array(
 				'table'=>'messages',
 				'field'=>'id',
-				'conditions'=>array('deleted = 0')
+				'conditions'=>array('delete_time = 0')
 			)),
 		))->setFilters(array(
 			'message_id'=>'intval',
@@ -191,7 +191,7 @@ class MessageController extends ApiController{
 			array(array('message_id'), 'exist', array(
 				'table'=>'messages',
 				'field'=>'id',
-				'conditions'=>array('deleted != 0')
+				'conditions'=>array('delete_time > 0')
 			)),
 		))->setFilters(array(
 			'message_id'=>'intval',
@@ -228,7 +228,7 @@ class MessageController extends ApiController{
 			array(array('message_id'), 'exist', array(
 				'table'=>'messages',
 				'field'=>'id',
-				'conditions'=>array('deleted = 0')
+				'conditions'=>array('delete_time = 0')
 			)),
 		))->setFilters(array(
 			'to_user_id'=>'intval',

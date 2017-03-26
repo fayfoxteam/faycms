@@ -24,7 +24,7 @@ class BingjianController extends FrontController{
 		$sql->from(array('m'=>'guangong_messages'))
 			->where(array(
 				'm.type = ' . GuangongMessagesTable::TYPE_BINGJIAN,
-				'deleted = 0',
+				'delete_time = 0',
 			))
 			->order('id DESC')
 		;

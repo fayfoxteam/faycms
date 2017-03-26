@@ -21,7 +21,7 @@ class PaymentMethodService extends Service{
 	public function get($id){
 		$payment_method = PaymentsTable::model()->find($id);
 		//支付方式不存在、未启用或已删除，都返回false
-		if(!$payment_method || !$payment_method['enabled'] || $payment_method['deleted']){
+		if(!$payment_method || !$payment_method['enabled'] || $payment_method['delete_time']){
 			return false;
 		}
 		

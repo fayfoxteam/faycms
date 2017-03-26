@@ -119,7 +119,7 @@ class PostTagService extends Service{
 				->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id')
 				->where(array(
 					'pt.tag_id IN (?)'=>$tag_ids,
-					'p.deleted = 0',
+					'p.delete_time = 0',
 					'p.status = '.PostsTable::STATUS_PUBLISHED,
 				))//这里不限制publish_time条件，因为定时发布后没逻辑来更新标签对应文章数
 				->group('pt.tag_id')

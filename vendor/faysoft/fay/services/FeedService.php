@@ -180,7 +180,7 @@ class FeedService extends Service{
 	 */
 	public function update($feed_id, $data, $extra = array(), $update_update_time = true){
 		//获取原动态
-		$old_feed = FeedsTable::model()->find($feed_id, 'user_id,deleted,status');
+		$old_feed = FeedsTable::model()->find($feed_id, 'user_id,delete_time,status');
 		if(!$old_feed){
 			return false;
 		}
@@ -195,7 +195,7 @@ class FeedService extends Service{
 		FeedsTable::model()->update($data, $feed_id, true);
 		
 		//若原动态未删除，更新用户及标签的动态数
-		if(!$old_feed['deleted']){
+		if(!$old_feed['delete_time']){
 			if($old_feed['status'] == FeedsTable::STATUS_DRAFT &&
 				isset($data['status']) && $data['status'] != FeedsTable::STATUS_DRAFT){
 				//若原动态是“草稿”状态，且新状态不是“草稿”
@@ -281,14 +281,14 @@ class FeedService extends Service{
 	 * @return bool
 	 */
 	public function delete($feed_id){
-		$feed = FeedsTable::model()->find($feed_id, 'user_id,deleted,status');
-		if(!$feed || $feed['deleted']){
+		$feed = FeedsTable::model()->find($feed_id, 'user_id,delete_time,status');
+		if(!$feed || $feed['delete_time']){
 			return false;
 		}
 		
 		//标记为已删除
 		FeedsTable::model()->update(array(
-			'deleted'=>1
+			'delete_time'=>\F::app()->current_time,
 		), $feed_id);
 		
 		//若被删除动态不是“草稿”
@@ -314,14 +314,14 @@ class FeedService extends Service{
 	 * @return bool
 	 */
 	public function undelete($feed_id){
-		$feed = FeedsTable::model()->find($feed_id, 'user_id,deleted');
-		if(!$feed || !$feed['deleted']){
+		$feed = FeedsTable::model()->find($feed_id, 'user_id,delete_time');
+		if(!$feed || !$feed['delete_time']){
 			return false;
 		}
 		
 		//标记为未删除
 		FeedsTable::model()->update(array(
-			'deleted'=>0
+			'delete_time'=>0
 		), $feed_id);
 		
 		//若被还原动态不是“草稿”
@@ -348,7 +348,7 @@ class FeedService extends Service{
 	 */
 	public function remove($feed_id){
 		//获取动态删除状态
-		$feed = FeedsTable::model()->find($feed_id, 'user_id,deleted,status');
+		$feed = FeedsTable::model()->find($feed_id, 'user_id,delete_time,status');
 		if(!$feed){
 			return false;
 		}
@@ -362,7 +362,7 @@ class FeedService extends Service{
 		FeedsTable::model()->delete($feed_id);
 		
 		//若动态未通过回收站被直接删除，且不是“草稿”
-		if(!$feed['deleted'] && $feed['status'] != FeedsTable::STATUS_DRAFT){
+		if(!$feed['delete_time'] && $feed['status'] != FeedsTable::STATUS_DRAFT){
 			//则作者动态数减一
 			UserCounterTable::model()->incr($feed['user_id'], 'feed', -1);
 			
@@ -392,8 +392,8 @@ class FeedService extends Service{
 	 */
 	public static function isFeedIdExist($feed_id){
 		if($feed_id){
-			$feed = FeedsTable::model()->find($feed_id, 'deleted,publish_time,status');
-			if($feed['deleted'] || $feed['publish_time'] > \F::app()->current_time || $feed['status'] == FeedsTable::STATUS_DRAFT){
+			$feed = FeedsTable::model()->find($feed_id, 'delete_time,publish_time,status');
+			if($feed['delete_time'] || $feed['publish_time'] > \F::app()->current_time || $feed['status'] == FeedsTable::STATUS_DRAFT){
 				return false;
 			}else{
 				return true;
@@ -438,7 +438,7 @@ class FeedService extends Service{
 		//仅搜索已发布的动态
 		if($only_published){
 			$sql->where(array(
-				'f.deleted = 0',
+				'f.delete_time = 0',
 				'f.status != '.FeedsTable::STATUS_DRAFT,
 				'f.publish_time < '.\F::app()->current_time,
 			));
@@ -514,7 +514,7 @@ class FeedService extends Service{
 		//仅搜索已发布的动态
 		if($only_published){
 			$sql->where(array(
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status != '.FeedsTable::STATUS_DRAFT,
 				'p.publish_time < '.\F::app()->current_time,
 			));

@@ -18,7 +18,7 @@ use fay\services\OptionService;
  * @property int $status
  * @property int $block
  * @property int $parent
- * @property int $deleted
+ * @property int $delete_time 删除时间
  * @property int $admin
  */
 class UsersTable extends Table{
@@ -80,7 +80,7 @@ class UsersTable extends Table{
 			array(array('username', 'nickname', 'realname'), 'string', array('max'=>50)),
 			array(array('password'), 'string', array('max'=>32)),
 			array(array('salt'), 'string', array('max'=>5)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			array(array('mobile'), 'mobile'),
 
 			array('username', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('api/user/is-username-not-exist'))),
@@ -116,7 +116,7 @@ class UsersTable extends Table{
 			'status'=>'用户审核状态',
 			'block'=>'屏蔽用户',
 			'parent'=>'父节点',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 			'admin'=>'是否为管理员',
 		);
 	}
@@ -135,7 +135,7 @@ class UsersTable extends Table{
 			'status'=>'intval',
 			'block'=>'intval',
 			'parent'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'admin'=>'intval',
 		);
 	}

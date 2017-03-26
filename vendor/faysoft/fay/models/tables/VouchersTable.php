@@ -32,7 +32,7 @@ class VouchersTable extends Table{
 			array(array('type'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('sn'), 'string', array('max'=>30)),
 			array(array('amount'), 'float', array('length'=>6, 'decimal'=>2)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			array(array('start_time', 'end_time'), 'datetime'),
 		);
 	}
@@ -47,7 +47,7 @@ class VouchersTable extends Table{
 			'start_time'=>'开始时间',
 			'end_time'=>'结束时间',
 			'type'=>'类型',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 			'create_time'=>'创建时间',
 			'counts'=>'剩余次数',
 		);
@@ -62,7 +62,7 @@ class VouchersTable extends Table{
 			'start_time'=>'trim',
 			'end_time'=>'trim',
 			'type'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'counts'=>'intval',
 		);
 	}

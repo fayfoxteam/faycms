@@ -21,7 +21,7 @@ use fay\core\db\Table;
  * @property int $status 状态
  * @property int $is_new 新品
  * @property int $is_hot 热销
- * @property int $deleted Deleted
+ * @property int $delete_time 删除时间
  * @property int $sort 排序值
  */
 class GoodsTable extends Table{
@@ -64,7 +64,7 @@ class GoodsTable extends Table{
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('post_fee'), 'float', array('length'=>6, 'decimal'=>2)),
 			array(array('price'), 'float', array('length'=>8, 'decimal'=>2)),
-			array(array('is_new', 'is_hot', 'deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('is_new', 'is_hot', 'delete_time'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 		);
 	}
@@ -86,7 +86,7 @@ class GoodsTable extends Table{
 			'status'=>'状态',
 			'is_new'=>'新品',
 			'is_hot'=>'热销',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 			'sort'=>'排序值',
 		);
 	}
@@ -106,7 +106,7 @@ class GoodsTable extends Table{
 			'status'=>'intval',
 			'is_new'=>'intval',
 			'is_hot'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'sort'=>'intval',
 		);
 	}

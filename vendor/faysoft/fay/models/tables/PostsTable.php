@@ -19,7 +19,7 @@ use fay\core\db\Table;
  * @property int $user_id 作者ID
  * @property int $is_top 是否置顶
  * @property int $status 文章状态
- * @property int $deleted Deleted
+ * @property int $delete_time 删除时间
  * @property int $thumbnail 缩略图
  * @property string $abstract 摘要
  * @property int $sort 排序
@@ -77,7 +77,7 @@ class PostsTable extends Table{
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title', 'abstract'), 'string', array('max'=>500)),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
-			array(array('is_top', 'deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('is_top', 'delete_time'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time'), 'datetime'),
 
 			array(array('status'), 'range', array('range'=>array(self::STATUS_PUBLISHED, self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_REVIEWED))),
@@ -101,7 +101,7 @@ class PostsTable extends Table{
 			'user_id'=>'作者ID',
 			'is_top'=>'是否置顶',
 			'status'=>'文章状态',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 			'thumbnail'=>'缩略图',
 			'abstract'=>'摘要',
 			'sort'=>'排序',
@@ -121,7 +121,7 @@ class PostsTable extends Table{
 			'user_id'=>'intval',
 			'is_top'=>'intval',
 			'status'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'thumbnail'=>'intval',
 			'abstract'=>'trim',
 			'sort'=>'intval',
@@ -135,7 +135,7 @@ class PostsTable extends Table{
 				break;
 			case 'update':
 				return array(
-					'id', 'create_time', 'deleted'
+					'id', 'create_time', 'delete_time'
 				);
 				break;
 			default:
@@ -150,7 +150,7 @@ class PostsTable extends Table{
 	 */
 	public static function getPublishedConditions($alias = ''){
 		return array(
-			($alias ? "{$alias}." : '') . 'deleted = 0',
+			($alias ? "{$alias}." : '') . 'delete_time = 0',
 			($alias ? "{$alias}." : '') . 'publish_time < '.\F::app()->current_time,
 			($alias ? "{$alias}." : '') . 'status = '.PostsTable::STATUS_PUBLISHED,
 		);

@@ -14,7 +14,7 @@ use fay\services\PageService;
 			))?>
 		</strong>
 		<div class="row-actions">
-		<?php if($data['deleted'] == 0){
+		<?php if($data['delete_time'] == 0){
 			echo HtmlHelper::link('编辑', array('admin/page/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
@@ -49,7 +49,7 @@ use fay\services\PageService;
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td class="wp10"><?php echo PageHelper::getStatus($data['status'], $data['deleted']);?></td>
+	<td class="wp10"><?php echo PageHelper::getStatus($data['status'], $data['delete_time']);?></td>
 	<?php }?>
 	<?php if(in_array('alias', $cols)){?>
 	<td><?php echo $data['alias']?></td>

@@ -28,7 +28,7 @@ class IndexController extends FrontController{
 			->where(array(
 				'c.left_value > '.$cat_post['left_value'],
 				'c.right_value < '.$cat_post['right_value'],
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))

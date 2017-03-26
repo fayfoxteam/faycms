@@ -17,7 +17,7 @@ class PaperController extends UserController{
 		$sql->from('exam_papers')
 			->where(array(
 				'start_time < '.$this->current_time,
-				'deleted = 0',
+				'delete_time = 0',
 				'status = '.ExamPapersTable::STATUS_ENABLED,
 			))
 			->orWhere(array(

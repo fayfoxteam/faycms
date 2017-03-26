@@ -46,7 +46,7 @@ class LogsTable extends Table{
 			'type'=>'Type',
 			'code'=>'Code',
 			'data'=>'Data',
-			'create_date'=>'Create Date',
+			'create_date'=>'创建日期',
 			'create_time'=>'创建时间',
 			'ip_int'=>'IP',
 			'user_agent'=>'User Agent',

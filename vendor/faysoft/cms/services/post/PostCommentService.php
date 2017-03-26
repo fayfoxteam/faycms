@@ -19,12 +19,12 @@ class PostCommentService extends Service{
 	 * @return string
 	 */
 	public function getCount($status = null){
-		$conditions = array('deleted = 0');
+		$conditions = array('delete_time = 0');
 		if($status !== null){
 			$conditions['status = ?'] = $status;
 		}
 		$result = PostCommentsTable::model()->fetchRow(array(
-			'deleted = 0',
+			'delete_time = 0',
 			'status = ?'=>$status ? $status : false,
 		), 'COUNT(*)');
 		return $result['COUNT(*)'];
@@ -35,7 +35,7 @@ class PostCommentService extends Service{
 	 * @return string
 	 */
 	public function getDeletedCount(){
-		$result = PostCommentsTable::model()->fetchRow(array('deleted = 1'), 'COUNT(*)');
+		$result = PostCommentsTable::model()->fetchRow(array('delete_time > 0'), 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}	
 }

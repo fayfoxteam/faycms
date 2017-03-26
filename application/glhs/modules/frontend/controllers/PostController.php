@@ -32,7 +32,7 @@ class PostController extends FrontController{
 		$sql->from(array('p'=>'posts'), 'id,title,abstract,thumbnail,publish_time')
 			->where(array(
 				'p.cat_id = '.$cat['id'],
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))

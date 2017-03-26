@@ -86,7 +86,7 @@ $cols = F::form('setting')->getData('cols', array());
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
 				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(0, 1, false), array('admin/post-comment/index', array(
-					'deleted'=>1,
+					'delete_time'=>\F::app()->current_time,
 				)));?>
 				<span class="fc-grey">(<span id="deleted-post-comment-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />

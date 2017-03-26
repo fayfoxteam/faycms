@@ -23,7 +23,7 @@ class RolePropController extends AdminController{
 		
 		$role = RolesTable::model()->fetchRow(array(
 			'id = ?'=>$role_id,
-			'deleted = 0',
+			'delete_time = 0',
 		));
 		if(!$role){
 			throw new HttpException('所选角色不存在');
@@ -145,7 +145,7 @@ class RolePropController extends AdminController{
 		$sql = new Sql();
 		$sql->from('props')
 			->where(array(
-				'deleted = 0',
+				'delete_time = 0',
 				'type = '.PropsTable::TYPE_ROLE,
 				"refer = {$role_id}",
 			))

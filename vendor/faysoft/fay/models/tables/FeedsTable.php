@@ -15,7 +15,7 @@ use fay\core\db\Table;
  * @property string $publish_date 发布日期
  * @property int $sort 排序值
  * @property int $status 状态
- * @property int $deleted 删除标记
+ * @property int $delete_time 删除时间
  * @property string $address 地址
  */
 class FeedsTable extends Table{
@@ -54,7 +54,7 @@ class FeedsTable extends Table{
 			array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('address'), 'string', array('max'=>500)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			array(array('publish_time', 'timeline'), 'datetime'),
 
 			array(array('status'), 'range', array('range'=>array(self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_APPROVED, self::STATUS_UNAPPROVED))),
@@ -72,7 +72,7 @@ class FeedsTable extends Table{
 			'publish_date'=>'发布日期',
 			'timeline'=>'时间轴',
 			'status'=>'状态',
-			'deleted'=>'删除标记',
+			'delete_time'=>'删除时间',
 			'address'=>'地址',
 		);
 	}
@@ -86,7 +86,7 @@ class FeedsTable extends Table{
 			'publish_date'=>'',
 			'timeline'=>'',
 			'status'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'address'=>'trim',
 		);
 	}
@@ -98,7 +98,7 @@ class FeedsTable extends Table{
 				break;
 			case 'update':
 				return array(
-					'id', 'create_time', 'deleted'
+					'id', 'create_time', 'delete_time'
 				);
 				break;
 			default:

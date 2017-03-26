@@ -63,7 +63,7 @@ class AnalystSiteController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		AnalystSitesTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $id);
 		Response::notify('success', '一个站点被删除。'.HtmlHelper::link('撤销', array('admin/analyst-site/undelete', array(
 			'id'=>$id,
@@ -73,7 +73,7 @@ class AnalystSiteController extends AdminController{
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
 		AnalystSitesTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), $id);
 		Response::notify('success', '一个站点被还原');
 	}
@@ -81,7 +81,7 @@ class AnalystSiteController extends AdminController{
 	private function _setListview(){
 		$sql = new Sql();
 		$sql->from(array('s'=>'analyst_sites'))
-			->where('deleted = 0');
+			->where('delete_time = 0');
 	
 		$this->view->listview = new ListView($sql, array(
 			'page_size' => 15,

@@ -14,7 +14,7 @@ use fay\core\db\Table;
  * @property string $config 配置信息JSON
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
- * @property int $deleted Deleted
+ * @property int $delete_time 删除时间
  */
 class PaymentsTable extends Table{
 	protected $_name = 'payments';
@@ -41,7 +41,7 @@ class PaymentsTable extends Table{
 			array(array('code'), 'string', array('max'=>20)),
 			array(array('name'), 'string', array('max'=>50)),
 			array(array('description'), 'string', array('max'=>500)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			
 			array(array('name', 'code', 'enabled'), 'required', array('on'=>'create')),
 			array(array('name', 'enabled'), 'required', array('on'=>'edit'))
@@ -58,7 +58,7 @@ class PaymentsTable extends Table{
 			'config'=>'配置信息JSON',
 			'create_time'=>'创建时间',
 			'update_time'=>'更新时间',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 		);
 	}
 	
@@ -70,7 +70,7 @@ class PaymentsTable extends Table{
 			'description'=>'trim',
 			'enabled'=>'intval',
 			'config'=>'trim',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 		);
 	}
 	
@@ -81,7 +81,7 @@ class PaymentsTable extends Table{
 				break;
 			case 'update':
 				return array(
-					'id', 'create_time', 'deleted'
+					'id', 'create_time', 'delete_time'
 				);
 				break;
 			default:

@@ -317,20 +317,20 @@ class PostController extends AdminController{
 		
 		//文章状态
 		if($this->input->get('deleted', 'intval') == 1){
-			$sql->where('p.deleted = 1');
-			$count_sql->where('p.deleted = 1');
+			$sql->where('p.delete_time > 0');
+			$count_sql->where('p.delete_time > 0');
 		}else if($this->input->get('status') !== null && $this->input->get('deleted', 'intval') != 1){
 			$sql->where(array(
-				'p.deleted != 1',
+				'p.delete_time > 0',
 				'p.status = ?'=>$this->input->get('status', 'intval'),
 			));
 			$count_sql->where(array(
-				'p.deleted != 1',
+				'p.delete_time > 0',
 				'p.status = ?'=>$this->input->get('status', 'intval'),
 			));
 		}else{
-			$sql->where('p.deleted = 0');
-			$count_sql->where('p.deleted = 0');
+			$sql->where('p.delete_time = 0');
+			$count_sql->where('p.delete_time = 0');
 		}
 		
 		//时间段

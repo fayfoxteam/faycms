@@ -39,7 +39,7 @@ class UserRoleService extends Service{
 		return $sql->from(array('ur'=>'users_roles'), '')
 			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields['fields']))
 			->where('ur.user_id = ?', $user_id)
-			->where('r.deleted = 0')
+			->where('r.delete_time = 0')
 			->fetchAll();
 	}
 	
@@ -60,7 +60,7 @@ class UserRoleService extends Service{
 		$roles = $sql->from(array('ur'=>'users_roles'), 'user_id')
 			->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields['fields']))
 			->where('ur.user_id IN (?)', $user_ids)
-			->where('r.deleted = 0')
+			->where('r.delete_time = 0')
 			->fetchAll();
 		$return = array_fill_keys($user_ids, array());
 		foreach($roles as $r){

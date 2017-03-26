@@ -32,7 +32,7 @@ class PaymentController extends AdminController{
 		
 		$sql = new Sql();
 		$sql->from(array('p'=>'payments'))
-			->where('deleted = 0')
+			->where('delete_time = 0')
 		;
 		
 		$listview = new ListView($sql, array(
@@ -134,7 +134,7 @@ class PaymentController extends AdminController{
 		}
 		
 		PaymentsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $payment['id']);
 		
 		Response::notify('success', array(
@@ -156,7 +156,7 @@ class PaymentController extends AdminController{
 		}
 		
 		PaymentsTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), $payment['id']);
 		
 		Response::notify('success', '一个支付方式被还原');

@@ -220,13 +220,13 @@ class GoodsController extends AdminController{
 		//props
 		$props = GoodsCatPropsTable::model()->fetchAll(array(
 			'cat_id IN ('.implode(',', $parentIds).')',
-			'deleted = 0',
+			'delete_time = 0',
 		), '!deleted', 'sort, id');
 		
 		//prop_values
 		$prop_values = GoodsCatPropValuesTable::model()->fetchAll(array(
 			'cat_id IN ('.implode(',', $parentIds).')',
-			'deleted = 0',
+			'delete_time = 0',
 		), '!deleted', 'prop_id, sort');
 		
 		//合并属性和属性值
@@ -276,7 +276,7 @@ class GoodsController extends AdminController{
 		$sql = new Sql();
 		$sql->from(array('g'=>'goods'))
 			->joinLeft(array('c'=>'categories'), 'g.cat_id = c.id', 'title AS cat_title');
-		$sql->where('g.deleted = 0');
+		$sql->where('g.delete_time = 0');
 		if($this->input->get('start_time')){
 			$sql->where(array("g.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time','strtotime')));
 		}
@@ -572,13 +572,13 @@ class GoodsController extends AdminController{
 		//props
 		$props = GoodsCatPropsTable::model()->fetchAll(array(
 			'cat_id IN ('.implode(',', $parentIds).')',
-			'deleted = 0',
+			'delete_time = 0',
 		), '!deleted', 'sort, id');
 		
 		//prop_values
 		$prop_values = GoodsCatPropValuesTable::model()->fetchAll(array(
 			'cat_id IN ('.implode(',', $parentIds).')',
-			'deleted = 0',
+			'delete_time = 0',
 		), '!deleted', 'prop_id, sort');
 		
 		//合并属性和属性值
@@ -613,7 +613,7 @@ class GoodsController extends AdminController{
 	public function delete(){
 		$goods_id = $this->input->get('id', 'intval');
 		GoodsTable::model()->update(array(
-			'deleted'=>1
+			'deleted'=>$this->current_time,
 		), $goods_id);
 		$this->actionlog(ActionlogsTable::TYPE_GOODS, '软删除一个商品', $goods_id);
 		
@@ -628,7 +628,7 @@ class GoodsController extends AdminController{
 	public function undelete(){
 		$goods_id = $this->input->get('id', 'intval');
 		GoodsTable::model()->update(array(
-			'deleted'=>0
+			'delete_time'=>0
 		), array('id = ?'=>$goods_id));
 		$this->actionlog(ActionlogsTable::TYPE_GOODS, '将商品移出回收站', $goods_id);
 		

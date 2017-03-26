@@ -31,7 +31,7 @@ class ExamQuestionController extends AdminController{
 		$sql = new Sql();
 		$sql->from(array('q'=>'exam_questions'))
 			->joinLeft(array('c'=>'categories'), 'q.cat_id = c.id', 'title AS cat_title')
-			->where('deleted = 0')
+			->where('delete_time = 0')
 			->order('id DESC');
 		
 		if($this->input->get('keywords')){
@@ -316,7 +316,7 @@ class ExamQuestionController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		ExamQuestionsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $id);
 		$this->actionlog(ActionlogsTable::TYPE_EXAM, '一个试题被删除', $id);
 		
@@ -328,7 +328,7 @@ class ExamQuestionController extends AdminController{
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
 		ExamQuestionsTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), $id);
 		$this->actionlog(ActionlogsTable::TYPE_EXAM, '一个试题被还原', $id);
 		
@@ -383,7 +383,7 @@ class ExamQuestionController extends AdminController{
 			->joinLeft(array('c'=>'categories'), 'q.cat_id = c.id', 'title AS cat_title')
 			->where(array(
 				'q.status = '.ExamQuestionsTable::STATUS_ENABLED,
-				'q.deleted = 0',
+				'q.delete_time = 0',
 			))
 			->order('q.sort, q.id DESC')
 		;
@@ -482,7 +482,7 @@ class ExamQuestionController extends AdminController{
 				}
 					
 				$affected_rows = ExamQuestionsTable::model()->update(array(
-					'deleted'=>1,
+					'delete_time'=>\F::app()->current_time,
 				), array(
 					'id IN (?)'=>$ids,
 				));

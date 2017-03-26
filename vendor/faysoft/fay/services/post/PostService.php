@@ -237,11 +237,11 @@ class PostService extends Service{
 	 */
 	public function update($post_id, $data, $extra = array(), $update_update_time = true){
 		//获取原文章
-		$old_post = PostsTable::model()->find($post_id, 'cat_id,user_id,deleted,status');
+		$old_post = PostsTable::model()->find($post_id, 'cat_id,user_id,delete_time,status');
 		if(!$old_post){
 			throw new PostException('指定文章不存在');
 		}
-		if($old_post['deleted']){
+		if($old_post['delete_time']){
 			throw new PostException('已删除文章不允许编辑');
 		}
 		
@@ -399,7 +399,7 @@ class PostService extends Service{
 	 */
 	public function remove($post_id){
 		//获取文章删除状态
-		$post = PostsTable::model()->find($post_id, 'user_id,deleted,status');
+		$post = PostsTable::model()->find($post_id, 'user_id,delete_time,status');
 		if(!$post){
 			return false;
 		}
@@ -411,7 +411,7 @@ class PostService extends Service{
 		PostsTable::model()->delete($post_id);
 		
 		//若文章未通过回收站被直接删除，且文章“已发布”
-		if(!$post['deleted'] && $post['status'] == PostsTable::STATUS_PUBLISHED){
+		if(!$post['delete_time'] && $post['status'] == PostsTable::STATUS_PUBLISHED){
 			//则作者文章数减一
 			PostUserCounterService::service()->decr($post['user_id']);
 			
@@ -454,14 +454,14 @@ class PostService extends Service{
 	 * @return bool
 	 */
 	public function delete($post_id){
-		$post = PostsTable::model()->find($post_id, 'user_id,deleted,status');
-		if(!$post || $post['deleted']){
+		$post = PostsTable::model()->find($post_id, 'user_id,delete_time,status');
+		if(!$post || $post['delete_time']){
 			return false;
 		}
 		
 		//标记为已删除
 		PostsTable::model()->update(array(
-			'deleted'=>1
+			'delete_time'=>\F::app()->current_time,
 		), $post_id);
 		
 		//若被删除文章是“已发布”状态
@@ -488,14 +488,14 @@ class PostService extends Service{
 	 * @return bool
 	 */
 	public function undelete($post_id){
-		$post = PostsTable::model()->find($post_id, 'user_id,deleted,status');
-		if(!$post || !$post['deleted']){
+		$post = PostsTable::model()->find($post_id, 'user_id,delete_time,status');
+		if(!$post || !$post['delete_time']){
 			return false;
 		}
 		
 		//标记为未删除
 		PostsTable::model()->update(array(
-			'deleted'=>0
+			'delete_time'=>0
 		), $post_id);
 		
 		//若被还原文章是“已发布”状态
@@ -1062,8 +1062,8 @@ class PostService extends Service{
 	 */
 	public static function isPostIdExist($post_id){
 		if($post_id){
-			$post = PostsTable::model()->find($post_id, 'deleted,publish_time,status');
-			if($post['deleted'] || $post['publish_time'] > \F::app()->current_time || $post['status'] != PostsTable::STATUS_PUBLISHED){
+			$post = PostsTable::model()->find($post_id, 'delete_time,publish_time,status');
+			if($post['delete_time'] || $post['publish_time'] > \F::app()->current_time || $post['status'] != PostsTable::STATUS_PUBLISHED){
 				return false;
 			}else{
 				return true;
@@ -1415,7 +1415,7 @@ class PostService extends Service{
 		//获取未删除的文章
 		$undelete_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,status,user_id');
 		if(!$undelete_posts){
 			//没有符合条件的文章
@@ -1426,7 +1426,7 @@ class PostService extends Service{
 		
 		//软删除文章
 		PostsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$undelete_post_ids,
 		));
@@ -1467,7 +1467,7 @@ class PostService extends Service{
 		//获取已删除的文章
 		$deleted_posts = PostsTable::model()->fetchAll(array(
 			'id IN (?)'=>$post_ids,
-			'deleted != 0',
+			'delete_time != 0',
 		), 'id,status,user_id');
 		if(!$deleted_posts){
 			//没有符合条件的文章
@@ -1478,7 +1478,7 @@ class PostService extends Service{
 		
 		//还原文章
 		PostsTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), array(
 			'id IN (?)'=>$deleted_post_ids,
 		));

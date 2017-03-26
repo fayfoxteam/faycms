@@ -40,7 +40,7 @@ class ServiceController extends FrontController{
 			->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id')
 			->where(array(
 				"c.alias = 'service'",
-				'p.deleted = 0',
+				'p.delete_time = 0',
 			))
 			->order('p.sort')
 			->fetchAll();

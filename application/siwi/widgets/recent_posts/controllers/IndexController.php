@@ -16,7 +16,7 @@ class IndexController extends Widget{
 			->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'realname')
 			->where(array(
 				'p.cat_id IN (?)'=>$cat_ids,
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.publish_time < '.$this->current_time,
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 			))

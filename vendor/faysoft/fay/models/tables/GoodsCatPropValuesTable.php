@@ -10,7 +10,7 @@ use fay\core\db\Table;
  * @property int $cat_id
  * @property int $prop_id
  * @property string $title
- * @property int $deleted
+ * @property int $delete_time 删除时间
  * @property int $sort
  */
 class GoodsCatPropValuesTable extends Table{
@@ -30,7 +30,7 @@ class GoodsCatPropValuesTable extends Table{
 			array(array('cat_id', 'prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -40,7 +40,7 @@ class GoodsCatPropValuesTable extends Table{
 			'cat_id'=>'分类ID',
 			'prop_id'=>'属性ID',
 			'title'=>'标题',
-			'deleted'=>'删除标记',
+			'delete_time'=>'删除时间',
 			'sort'=>'排序值i',
 		);
 	}
@@ -51,7 +51,7 @@ class GoodsCatPropValuesTable extends Table{
 			'cat_id'=>'intval',
 			'prop_id'=>'intval',
 			'title'=>'trim',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'sort'=>'intval',
 		);
 	}

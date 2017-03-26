@@ -23,7 +23,7 @@ class ChatController extends FrontController{
 			->where(array(
 				'm.type = '.MessagesTable::TYPE_USER_MESSAGE,
 				'm.root = 0',
-				'm.deleted = 0',
+				'm.delete_time = 0',
 				'm.status = '.MessagesTable::STATUS_APPROVED,
 			))
 			->order('id DESC')

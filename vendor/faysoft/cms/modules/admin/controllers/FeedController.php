@@ -269,14 +269,14 @@ class FeedController extends AdminController{
 		
 		//文章状态
 		if($this->input->get('deleted', 'intval') == 1){
-			$sql->where('f.deleted = 1');
+			$sql->where('f.delete_time > 0');
 		}else if($this->input->get('status', 'intval') !== null && $this->input->get('deleted', 'intval') != 1){
 			$sql->where(array(
-				'f.deleted != 1',
+				'f.delete_time > 0',
 				'f.status = ?'=>$this->input->get('status', 'intval'),
 			));
 		}else{
-			$sql->where('f.deleted = 0');
+			$sql->where('f.delete_time = 0');
 		}
 		if($this->input->get('start_time')){
 			$sql->where(array("f.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time', 'strtotime')));

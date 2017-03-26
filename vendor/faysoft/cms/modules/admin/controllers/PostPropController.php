@@ -150,7 +150,7 @@ class PostPropController extends AdminController{
 		$sql = new Sql();
 		$sql->from('props')
 			->where(array(
-				'deleted = 0',
+				'delete_time = 0',
 				'type = '.PropsTable::TYPE_POST_CAT,
 				'refer IN ('.implode(',', $cat_parents).')',
 			))

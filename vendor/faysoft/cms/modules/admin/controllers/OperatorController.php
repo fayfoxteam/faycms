@@ -57,7 +57,7 @@ class OperatorController extends AdminController{
 		
 		//查询所有管理员类型
 		$this->view->roles = RolesTable::model()->fetchAll(array(
-			'deleted = 0',
+			'delete_time = 0',
 			'admin = 1',
 		));
 		
@@ -140,7 +140,7 @@ class OperatorController extends AdminController{
 		}
 		$this->view->roles = RolesTable::model()->fetchAll(array(
 			'admin = 1',
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');
 		
 		//有可能默认了某些角色
@@ -189,7 +189,7 @@ class OperatorController extends AdminController{
 		
 		$this->view->roles = RolesTable::model()->fetchAll(array(
 			'admin = 1',
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');	
 		
 		$this->view->prop_set = PropService::service()->getPropertySet($user_id);

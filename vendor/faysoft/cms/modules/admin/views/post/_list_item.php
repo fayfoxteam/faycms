@@ -44,7 +44,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 	<?php }?>
 	<td>
 		<strong><?php
-			if($editable && !$data['deleted']){
+			if($editable && !$data['delete_time']){
 				echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', array('admin/post/edit', array(
 					'id'=>$data['id'],
 				)));
@@ -54,7 +54,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 		?></strong>
 		<div class="row-actions">
 		<?php if($editable){
-			if($data['deleted'] == 0){
+			if($data['delete_time'] == 0){
 				echo HtmlHelper::link('编辑', array('admin/post/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
@@ -110,7 +110,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td><?php echo PostHelper::getStatus($data['status'], $data['deleted']);?></td>
+	<td><?php echo PostHelper::getStatus($data['status'], $data['delete_time']);?></td>
 	<?php }?>
 	<?php if(in_array('user', $cols)){?>
 	<td><?php

@@ -60,7 +60,7 @@ class UController extends FrontController{
 				'p.user_id = ?'=>$this->user_id,
 				'c.left_value > '.$cat_work['left_value'],
 				'c.right_value < '.$cat_work['right_value'],
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
@@ -77,7 +77,7 @@ class UController extends FrontController{
 				'p.user_id = ?'=>$this->user_id,
 				'c.left_value > '.$cat_blog['left_value'],
 				'c.right_value < '.$cat_blog['right_value'],
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
@@ -92,7 +92,7 @@ class UController extends FrontController{
 				'm.parent = 0',
 				'm.type = '.MessagesTable::TYPE_USER_MESSAGE,
 				'm.status = '.MessagesTable::STATUS_APPROVED,
-				'm.deleted = 0',
+				'm.delete_time = 0',
 			))
 			->order('id DESC');
 		$this->view->listview = new ListView($sql, array(

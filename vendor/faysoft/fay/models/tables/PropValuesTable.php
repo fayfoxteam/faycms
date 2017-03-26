@@ -21,7 +21,7 @@ class PropValuesTable extends Table{
 			array(array('default'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
 			array(array('title'), 'string', array('max'=>255)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -32,7 +32,7 @@ class PropValuesTable extends Table{
 			'prop_id'=>'Prop Id',
 			'title'=>'Title',
 			'default'=>'Default',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 			'sort'=>'Sort',
 		);
 	}
@@ -43,7 +43,7 @@ class PropValuesTable extends Table{
 			'prop_id'=>'intval',
 			'title'=>'trim',
 			'default'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'sort'=>'intval',
 		);
 	}

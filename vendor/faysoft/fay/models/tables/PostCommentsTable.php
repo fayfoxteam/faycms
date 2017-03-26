@@ -16,7 +16,7 @@ use fay\core\db\Table;
  * @property int $update_time 更新时间
  * @property int $ip_int IP
  * @property int $sockpuppet 马甲信息
- * @property int $deleted 删除标记
+ * @property int $delete_time 删除时间
  * @property int $root 根评论ID
  * @property int $left_value 左值
  * @property int $right_value 右值
@@ -52,7 +52,7 @@ class PostCommentsTable extends Table{
 			array(array('id', 'post_id', 'user_id', 'parent', 'root'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 		);
 	}
 
@@ -68,7 +68,7 @@ class PostCommentsTable extends Table{
 			'update_time'=>'更新时间',
 			'ip_int'=>'IP',
 			'sockpuppet'=>'马甲信息',
-			'deleted'=>'删除标记',
+			'delete_time'=>'删除时间',
 			'root'=>'根评论ID',
 			'left_value'=>'左值',
 			'right_value'=>'右值',
@@ -84,7 +84,7 @@ class PostCommentsTable extends Table{
 			'parent'=>'intval',
 			'status'=>'intval',
 			'sockpuppet'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'root'=>'intval',
 		);
 	}

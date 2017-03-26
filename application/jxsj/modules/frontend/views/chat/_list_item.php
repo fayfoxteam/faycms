@@ -15,7 +15,7 @@ if(!$data['is_terminal']){
 		->where(array(
 			'm.root = '.$data['id'],
 			'm.status = '.MessagesTable::STATUS_APPROVED,
-			'm.deleted = 0',
+			'm.delete_time = 0',
 		))
 		->order('id')
 		->fetchAll();

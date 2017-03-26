@@ -45,7 +45,7 @@ class ProfileController extends AdminController{
 		
 		$this->view->roles = RolesTable::model()->fetchAll(array(
 			'admin = 1',
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');
 		
 		$this->view->prop_set = PropService::service()->getPropertySet($user_id);

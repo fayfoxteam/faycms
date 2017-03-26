@@ -39,7 +39,7 @@ class SpecialController extends FrontController{
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
 					'p.status = '.PostsTable::STATUS_PUBLISHED,
-					'p.deleted = 0',
+					'p.delete_time = 0',
 					'p.publish_time < '.$this->current_time,
 				))
 				->order('p.is_top DESC, p.sort, p.publish_time DESC')

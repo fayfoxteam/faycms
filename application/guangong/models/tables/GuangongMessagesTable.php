@@ -14,7 +14,7 @@ use fay\core\db\Table;
  * @property string $reply 管理员回复
  * @property int $reply_time 回复时间
  * @property int $ip_int IP
- * @property int $deleted 删除标记
+ * @property int $delete_time 删除标记
  */
 class GuangongMessagesTable extends Table{
 	/**
@@ -46,7 +46,7 @@ class GuangongMessagesTable extends Table{
 		return array(
 			array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
 			array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			array(array('reply_time'), 'datetime'),
 			
 			array(array('type', 'content'), 'required'),
@@ -68,7 +68,7 @@ class GuangongMessagesTable extends Table{
 			'reply'=>'管理员回复',
 			'reply_time'=>'回复时间',
 			'ip_int'=>'IP',
-			'deleted'=>'删除标记',
+			'delete_time'=>'删除标记',
 		);
 	}
 
@@ -80,7 +80,7 @@ class GuangongMessagesTable extends Table{
 			'type'=>'intval',
 			'reply'=>'',
 			'reply_time'=>'trim',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 		);
 	}
 }

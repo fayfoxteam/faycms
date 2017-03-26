@@ -30,7 +30,7 @@ class RoleController extends AdminController{
 		$sql = new Sql();
 		$sql->from(array('r'=>'roles'))
 			->where(array(
-				'deleted = 0',
+				'delete_time = 0',
 			))
 			->order('id DESC');
 		$listview = new ListView($sql);
@@ -190,7 +190,7 @@ class RoleController extends AdminController{
 	public function delete(){
 		$role_id = $this->input->get('id', 'intval');
 		RolesTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $role_id);
 		$this->actionlog(ActionlogsTable::TYPE_ROLE, '删除了一个角色', $role_id);
 
@@ -205,7 +205,7 @@ class RoleController extends AdminController{
 	public function undelete(){
 		$role_id = $this->input->get('id', 'intval');
 		RolesTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), $role_id);
 		$this->actionlog(ActionlogsTable::TYPE_ROLE, '还原了一个角色', $role_id);
 

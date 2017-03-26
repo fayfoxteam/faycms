@@ -9,7 +9,7 @@ class SystemController extends FrontController{
 		$param = $this->input->post('param');
 		$conditions = array(
 			'username = ?'=>$param,
-			'deleted = 0',
+			'delete_time = 0',
 		);
 		if($this->input->request('id')){
 			$conditions['id != ?'] = $this->input->request('id', 'intval');
@@ -26,7 +26,7 @@ class SystemController extends FrontController{
 		$param = $this->input->post('param');
 		$conditions = array(
 			'username = ?'=>$param,
-			'deleted = 0',
+			'delete_time = 0',
 		);
 		if($this->input->request('id')){
 			$conditions['id != ?'] = $this->input->request('id', 'intval');

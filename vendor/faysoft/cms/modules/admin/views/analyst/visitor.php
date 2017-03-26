@@ -156,6 +156,7 @@ $cols = F::form('setting')->getData('cols', array());
 			<tbody>
 			<?php $listview->showData(array(
 				'cols'=>$cols,
+				'iplocation'=>$iplocation,
 			));?>
 			</tbody>
 		</table>

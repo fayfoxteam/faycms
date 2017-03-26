@@ -69,7 +69,7 @@ class AnalystController extends AdminController{
 		
 		//所有站点
 		$this->view->sites = AnalystSitesTable::model()->fetchAll(array(
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');
 		
 		//引入IP地址库
@@ -127,7 +127,7 @@ class AnalystController extends AdminController{
 
 		//所有站点
 		$this->view->sites = AnalystSitesTable::model()->fetchAll(array(
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');
 		
 		//引入IP地址库
@@ -228,7 +228,7 @@ class AnalystController extends AdminController{
 		
 		//所有站点
 		$this->view->sites = AnalystSitesTable::model()->fetchAll(array(
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');
 		
 		//引入IP地址库

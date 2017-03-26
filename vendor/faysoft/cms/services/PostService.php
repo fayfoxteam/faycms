@@ -19,7 +19,7 @@ class PostService extends Service{
 	 * @return string
 	 */
 	public function getCount($status = null){
-		$conditions = array('deleted = 0');
+		$conditions = array('delete_time = 0');
 		if($status !== null){
 			$conditions['status = ?'] = $status;
 		}
@@ -32,7 +32,7 @@ class PostService extends Service{
 	 * @return string
 	 */
 	public function getDeletedCount(){
-		$result = PostsTable::model()->fetchRow('deleted = 1', 'COUNT(*)');
+		$result = PostsTable::model()->fetchRow('delete_time > 0', 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}
 }

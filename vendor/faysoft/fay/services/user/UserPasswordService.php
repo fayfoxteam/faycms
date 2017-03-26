@@ -52,7 +52,7 @@ class UserPasswordService extends Service{
 		
 		$user = UsersTable::model()->fetchRow(array(
 			'username = ?'=>$username,
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,password,salt,block,status,admin');
 		
 		//判断用户名是否存在

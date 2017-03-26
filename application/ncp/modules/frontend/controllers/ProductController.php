@@ -59,7 +59,7 @@ class ProductController extends FrontController{
 					'c.left_value >= '.$cat['left_value'],
 					'c.right_value <= '.$cat['right_value'],
 					'p.status = '.PostsTable::STATUS_PUBLISHED,
-					'p.deleted = 0',
+					'p.delete_time = 0',
 					'p.publish_time < '.$this->current_time,
 				))
 				->joinLeft(array('pia'=>'post_prop_int'), array(

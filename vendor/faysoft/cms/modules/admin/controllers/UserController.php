@@ -59,7 +59,7 @@ class UserController extends AdminController{
 		$sql->from(array('u'=>'users'))
 			->joinLeft(array('up'=>'user_profile'), 'u.id = up.user_id', '*')
 			->where(array(
-				'u.deleted = 0',
+				'u.delete_time = 0',
 				'u.parent = 0',
 				'u.admin = 0',
 				'u.id > 10000',//10000以下的ID用于特殊用途，如系统提示等
@@ -103,7 +103,7 @@ class UserController extends AdminController{
 		}
 		
 		$this->view->roles = RolesTable::model()->fetchAll(array(
-			'deleted = 0',
+			'delete_time = 0',
 			'admin = 0',
 		), 'id,title');
 		
@@ -154,7 +154,7 @@ class UserController extends AdminController{
 		
 		$this->view->roles = RolesTable::model()->fetchAll(array(
 			'admin = 0',
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');
 		
 		$this->view->render();
@@ -193,7 +193,7 @@ class UserController extends AdminController{
 		
 		$this->view->roles = RolesTable::model()->fetchAll(array(
 			'admin = 0',
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,title');
 		
 		$this->view->prop_set = UserPropService::service()->getPropertySet($user_id);

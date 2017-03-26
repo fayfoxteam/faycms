@@ -51,7 +51,7 @@ CREATE TABLE `{{$prefix}}guangong_messages` (
   `reply` text COMMENT '管理员回复',
   `reply_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '回复时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `delete_time` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='留言表';
 

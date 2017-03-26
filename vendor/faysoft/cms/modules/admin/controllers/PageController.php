@@ -137,14 +137,14 @@ class PageController extends AdminController{
 		$sql->from(array('p'=>'pages'), PagesTable::model()->formatFields('!content'));
 		
 		if($this->input->get('deleted', 'intval') == 1){
-			$sql->where('p.deleted = 1');
+			$sql->where('p.delete_time > 0');
 		}else if($this->input->get('status', 'intval') !== null && $this->input->get('delete', 'intval') != 1){
 			$sql->where(array(
 				'p.status = ?'=>$this->input->get('status', 'intval'),
-				'p.deleted <> 1',
+				'p.delete_time > 0',
 			));
 		}else{
-			$sql->where('p.deleted = 0');
+			$sql->where('p.delete_time = 0');
 		}
 		
 		if($this->input->get('keywords')){
@@ -247,7 +247,7 @@ class PageController extends AdminController{
 	
 	public function delete(){
 		$page_id = $this->input->get('id', 'intval');
-		PagesTable::model()->update(array('deleted'=>1), $page_id);
+		PagesTable::model()->update(array('deleted'=>$this->current_time), $page_id);
 		
 		Response::notify('success', array(
 			'id'=>$page_id,
@@ -259,7 +259,7 @@ class PageController extends AdminController{
 	
 	public function undelete(){
 		$page_id = $this->input->get('id', 'intval');
-		PagesTable::model()->update(array('deleted'=>0), $page_id);
+		PagesTable::model()->update(array('delete_time'=>0), $page_id);
 		$this->actionlog(ActionlogsTable::TYPE_PAGE, '将页面移出回收站', $page_id);
 		
 		Response::notify('success', array(

@@ -32,7 +32,7 @@ class CaseController extends FrontController{
 		$this->view->cases = PostsTable::model()->fetchAll(array(
 			'publish_time < '.$this->current_time,
 			'status = ?'=>PostsTable::STATUS_PUBLISHED,
-			'deleted = 0',
+			'delete_time = 0',
 		));
 		
 		$this->view->render();

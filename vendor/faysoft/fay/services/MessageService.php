@@ -89,8 +89,8 @@ class MessageService extends MultiTreeModel{
 		}
 		
 		if($parent){
-			$parent_message = MessagesTable::model()->find($parent, 'to_user_id,deleted');
-			if(!$parent_message || $parent_message['deleted']){
+			$parent_message = MessagesTable::model()->find($parent, 'to_user_id,delete_time');
+			if(!$parent_message || $parent_message['delete_time']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
 			}
 		}
@@ -126,17 +126,17 @@ class MessageService extends MultiTreeModel{
 	 * @throws Exception
 	 */
 	public function delete($message_id){
-		$message = MessagesTable::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
+		$message = MessagesTable::model()->find($message_id, 'delete_time,to_user_id,status,sockpuppet');
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
-		if($message['deleted']){
+		if($message['delete_time']){
 			throw new Exception('评论已删除', 'message-already-deleted');
 		}
 		
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
 		MessagesTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 			'update_time'=>\F::app()->current_time,
 		), $message_id);
 		
@@ -155,7 +155,7 @@ class MessageService extends MultiTreeModel{
 	public function batchDelete($message_ids){
 		$messages = MessagesTable::model()->fetchAll(array(
 			'id IN (?)'=>$message_ids,
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,to_user_id,sockpuppet,status');
 		if(!$messages){
 			//无符合条件的记录
@@ -166,7 +166,7 @@ class MessageService extends MultiTreeModel{
 		
 		//更新状态
 		$affected_rows = MessagesTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$affected_message_ids,
@@ -186,17 +186,17 @@ class MessageService extends MultiTreeModel{
 	 * @throws Exception
 	 */
 	public function undelete($message_id){
-		$message = MessagesTable::model()->find($message_id, 'deleted,to_user_id,status,sockpuppet');
+		$message = MessagesTable::model()->find($message_id, 'delete_time,to_user_id,status,sockpuppet');
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
-		if(!$message['deleted']){
+		if(!$message['delete_time']){
 			throw new Exception('指定评论ID不在回收站中', 'message-not-in-recycle-bin');
 		}
 		
 		//还原不需要动树结构，只是把deleted字段标记一下即可
 		MessagesTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 			'update_time'=>\F::app()->current_time,
 		), $message_id);
 		
@@ -215,7 +215,7 @@ class MessageService extends MultiTreeModel{
 	public function batchUnelete($message_ids){
 		$messages = MessagesTable::model()->fetchAll(array(
 			'id IN (?)'=>$message_ids,
-			'deleted > 0',
+			'delete_time > 0',
 		), 'id,to_user_id,sockpuppet,status');
 		if(!$messages){
 			//无符合条件的记录
@@ -226,7 +226,7 @@ class MessageService extends MultiTreeModel{
 		
 		//更新状态
 		$affected_rows = MessagesTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$affected_message_ids,
@@ -257,14 +257,14 @@ class MessageService extends MultiTreeModel{
 			'root = ?'=>$message['root'],
 			'left_value >= ' . $message['left_value'],
 			'right_value <= ' . $message['right_value'],
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,to_user_id,status,sockpuppet');
 		
 		if($messages){
 			//如果存在待删除节点，则执行删除
 			$message_ids = ArrayHelper::column($messages, 'id');
 			MessagesTable::model()->update(array(
-				'deleted'=>1,
+				'delete_time'=>\F::app()->current_time,
 				'update_time'=>\F::app()->current_time,
 			), array(
 				'id IN (?)'=>$message_ids,
@@ -299,7 +299,7 @@ class MessageService extends MultiTreeModel{
 		
 		$this->_remove($message);
 		
-		if(!$message['deleted']){
+		if(!$message['delete_time']){
 			//更新用户留言数
 			$this->updateMessages(array($message), 'remove');
 		}
@@ -333,7 +333,7 @@ class MessageService extends MultiTreeModel{
 		//获取所有不在回收站内的节点（已删除的显然不需要再更新评论数了）
 		$undeleted_messages = array();
 		foreach($message as $c){
-			if(!$c['deleted']){
+			if(!$c['delete_time']){
 				$undeleted_messages[] = $c;
 			}
 		}
@@ -357,7 +357,7 @@ class MessageService extends MultiTreeModel{
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
-		if($message['deleted']){
+		if($message['delete_time']){
 			throw new Exception('评论已删除', 'message-deleted');
 		}
 		if($message['status'] == MessagesTable::STATUS_APPROVED){
@@ -414,7 +414,7 @@ class MessageService extends MultiTreeModel{
 		if(!$message){
 			throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
 		}
-		if($message['deleted']){
+		if($message['delete_time']){
 			throw new Exception('评论已删除', 'message-is-deleted');
 		}
 		if($message['status'] == MessagesTable::STATUS_UNAPPROVED){
@@ -504,7 +504,7 @@ class MessageService extends MultiTreeModel{
 		$fields = FieldHelper::parse($fields, 'message');
 		if(empty($fields['message']) || in_array('*', $fields['message'])){
 			//若未指定返回字段，初始化
-			$fields['message'] = \F::table($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
+			$fields['message'] = \F::table($this->model)->getFields(array('status', 'delete_time', 'sockpuppet'));
 		}
 		
 		$message_fields = $fields['message'];
@@ -523,7 +523,7 @@ class MessageService extends MultiTreeModel{
 		
 		$message = \F::table($this->model)->fetchRow(array(
 			'id = ?'=>$message_id,
-			'deleted = 0',
+			'delete_time = 0',
 		), $message_fields);
 		
 		if(!$message){
@@ -554,7 +554,7 @@ class MessageService extends MultiTreeModel{
 			
 			$parent_message = \F::table($this->model)->fetchRow(array(
 				'id = ?'=>$message['parent'],
-				'deleted = 0',
+				'delete_time = 0',
 			), $parent_message_fields);
 			
 			if($parent_message){
@@ -726,7 +726,7 @@ class MessageService extends MultiTreeModel{
 	 */
 	public function getTree($to_user_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
 		$conditions = array(
-			'deleted = 0',
+			'delete_time = 0',
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了留言审核
@@ -763,10 +763,10 @@ class MessageService extends MultiTreeModel{
 		),
 	)){
 		$conditions = array(
-			't.deleted = 0',
+			't.delete_time = 0',
 		);
 		$join_conditions = array(
-			't2.deleted = 0',
+			't2.delete_time = 0',
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了留言审核
@@ -812,10 +812,10 @@ class MessageService extends MultiTreeModel{
 		),
 	), $order = 'ASC'){
 		$conditions = array(
-			't.deleted = 0',
+			't.delete_time = 0',
 		);
 		$join_conditions = array(
-			't2.deleted = 0',
+			't2.delete_time = 0',
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了留言审核
@@ -855,7 +855,7 @@ class MessageService extends MultiTreeModel{
 		),
 	)){
 		$conditions = array(
-			'deleted = 0',
+			'delete_time = 0',
 		);
 		if(OptionService::get('system:user_message_verify')){
 			//开启了评论审核

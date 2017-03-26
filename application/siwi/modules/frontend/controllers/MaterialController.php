@@ -46,7 +46,7 @@ class MaterialController extends FrontController{
 			->where(array(
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))
@@ -106,7 +106,7 @@ class MaterialController extends FrontController{
 			->where(array(
 				"m.target = {$id}",
 				'm.type = '.MessagesTable::TYPE_POST_COMMENT,
-				'm.deleted = 0',
+				'm.delete_time = 0',
 				'm.status = '.MessagesTable::STATUS_APPROVED,
 			))
 			->order('create_time DESC');

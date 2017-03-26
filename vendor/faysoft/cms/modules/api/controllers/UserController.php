@@ -54,7 +54,7 @@ class UserController extends ApiController{
 		
 		if(UsersTable::model()->fetchRow(array(
 			'username = ?'=>$this->form()->getData('username'),
-			'deleted = 0',
+			'delete_time = 0',
 			'id != ?'=>$this->input->request('id', 'intval', false)
 		))){
 			Response::json('', 1, '用户名存在');
@@ -104,7 +104,7 @@ class UserController extends ApiController{
 		
 		if(UsersTable::model()->fetchRow(array(
 			'nickname = ?'=>$this->form()->getData('nickname'),
-			'deleted = 0',
+			'delete_time = 0',
 			'id != ?'=>$this->input->request('id', 'intval', false)
 		))){
 			Response::json();

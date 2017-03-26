@@ -18,7 +18,7 @@ class FeedService extends Service{
 	 * @param int $status 动态状态
 	 */
 	public function getCount($status = null){
-		$conditions = array('deleted = 0');
+		$conditions = array('delete_time = 0');
 		if($status !== null){
 			$conditions['status = ?'] = $status;
 		}
@@ -30,7 +30,7 @@ class FeedService extends Service{
 	 * 获取已删除的动态数
 	 */
 	public function getDeletedCount(){
-		$result = FeedsTable::model()->fetchRow('deleted = 1', 'COUNT(*)');
+		$result = FeedsTable::model()->fetchRow('delete_time > 0', 'COUNT(*)');
 		return $result['COUNT(*)'];
 	}
 }

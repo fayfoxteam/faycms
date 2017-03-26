@@ -46,7 +46,7 @@ class VoucherController extends AdminController{
 		
 		$sql = new Sql();
 		$sql->from(array('v'=>'vouchers'))
-			->where(array('v.deleted = 0'))
+			->where(array('v.delete_time = 0'))
 			->order('id DESC')
 			->joinLeft(array('c'=>'categories'), 'c.id = v.cat_id', 'title');
 		if($this->input->get('sn')){

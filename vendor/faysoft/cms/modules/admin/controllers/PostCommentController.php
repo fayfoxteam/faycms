@@ -35,15 +35,15 @@ class PostCommentController extends AdminController{
 		;
 		if($this->input->get('deleted')){
 			$sql->where(array(
-				'pc.deleted = 1',
+				'pc.delete_time > 0',
 			));
 		}else if($this->input->get('status', 'intval') !== null && $this->input->get('deleted', 'intval') != 1){
 			$sql->where(array(
 				'pc.status = ?'=>$this->input->get('status', 'intval'),
-				'pc.deleted = 0',
+				'pc.delete_time = 0',
 			));
 		}else{
-			$sql->where('pc.deleted = 0');
+			$sql->where('pc.delete_time = 0');
 		}
 		
 		if($this->input->get('start_time')){

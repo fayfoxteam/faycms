@@ -99,7 +99,7 @@ abstract class PropModel extends Model{
 		
 		//删除原有但现在没了的属性值
 		PropValuesTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		),array(
 			'prop_id = ?'=>$prop_id,
 			'id NOT IN ('.implode(',', $old_ids).')',
@@ -134,7 +134,7 @@ abstract class PropModel extends Model{
 	
 	public function delete($id){
 		PropsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $id);
 	}
 	
@@ -146,7 +146,7 @@ abstract class PropModel extends Model{
 	public function get($id){
 		$prop = PropsTable::model()->fetchRow(array(
 			'id = ?'=>$id,
-			'deleted = 0',
+			'delete_time = 0',
 		));
 		
 		if(!$prop) return array();
@@ -158,7 +158,7 @@ abstract class PropModel extends Model{
 		))){
 			$prop['values'] = PropValuesTable::model()->fetchAll(array(
 				'prop_id = ?'=>$prop['id'],
-				'deleted = 0',
+				'delete_time = 0',
 			), '*', 'sort');
 		}
 		
@@ -177,14 +177,14 @@ abstract class PropModel extends Model{
 			$props = PropsTable::model()->fetchAll(array(
 				'refer = ?'=>$refer,
 				'type = ' . $this->type,
-				'deleted = 0',
+				'delete_time = 0',
 			), 'id,title,type,required,element,alias', 'sort, id');
 		}else if(!empty($refer)){
 			//一次获取多个属性
 			$props = PropsTable::model()->fetchAll(array(
 				'refer IN (?)'=>$refer,
 				'type = ' . $this->type,
-				'deleted = 0',
+				'delete_time = 0',
 			), 'id,title,type,required,element,alias', 'sort, id');
 		}else{
 			return array();
@@ -221,14 +221,14 @@ abstract class PropModel extends Model{
 			$props = PropsTable::model()->fetchAll(array(
 				"{$field} IN (?)"=>$fields['fields'],
 				'type = ' . $this->type,
-				'deleted = 0',
+				'delete_time = 0',
 			), 'id,title,type,required,element,alias', 'sort,id');
 		}else{
 			//如果只有一项，搜索条件直接用等于
 			$props = PropsTable::model()->fetchAll(array(
 				"{$field} = ?"=>$fields['fields'][0],
 				'type = ' . $this->type,
-				'deleted = 0',
+				'delete_time = 0',
 			), 'id,title,type,required,element,alias', 'sort,id');
 		}
 		
@@ -251,12 +251,12 @@ abstract class PropModel extends Model{
 		if(isset($prop_ids[1])){
 			$prop_values = PropValuesTable::model()->fetchAll(array(
 				'prop_id IN (?)'=>$prop_ids,
-				'deleted = 0',
+				'delete_time = 0',
 			), 'id,title,prop_id', 'prop_id,sort');
 		}else{
 			$prop_values = PropValuesTable::model()->fetchAll(array(
 				'prop_id = ?'=>$prop_ids,
-				'deleted = 0',
+				'delete_time = 0',
 			), 'id,title,prop_id', 'prop_id,sort');
 		}
 		foreach($props as &$p){
@@ -945,12 +945,12 @@ abstract class PropModel extends Model{
 	public function getPropOptionsByAlias($alias){
 		$prop = PropsTable::model()->fetchRow(array(
 			'alias = ?'=>$alias,
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id');
 		if($prop){
 			return PropValuesTable::model()->fetchAll(array(
 				'prop_id = '.$prop['id'],
-				'deleted = 0',
+				'delete_time = 0',
 			), 'id,title,default', 'sort');
 		}else{
 			return false;

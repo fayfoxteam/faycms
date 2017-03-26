@@ -19,7 +19,7 @@ class TemplateController extends AdminController{
 		$this->layout->subtitle = '模板管理';
 		$sql = new Sql();
 		$sql->from(array('t'=>'templates'))
-			->where('deleted = 0')
+			->where('delete_time = 0')
 			->order('id DESC')
 		;
 		$this->view->listview = new ListView($sql);
@@ -30,7 +30,7 @@ class TemplateController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		TemplatesTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $id);
 		$this->actionlog(ActionlogsTable::TYPE_TEMPLATE, '删除模版', $id);
 		
@@ -44,7 +44,7 @@ class TemplateController extends AdminController{
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
 		TemplatesTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), $id);
 		$this->actionlog(ActionlogsTable::TYPE_TEMPLATE, '还原模版', $id);
 		

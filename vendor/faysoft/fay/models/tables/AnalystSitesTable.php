@@ -9,7 +9,7 @@ use fay\core\db\Table;
  * @property int $id Id
  * @property string $title 站点名称
  * @property string $description 描述
- * @property int $deleted Deleted
+ * @property int $delete_time 删除时间
  */
 class AnalystSitesTable extends Table{
 	protected $_name = 'analyst_sites';
@@ -26,7 +26,7 @@ class AnalystSitesTable extends Table{
 		return array(
 			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
 			array(array('title', 'description'), 'string', array('max'=>255)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			
 			array('title', 'required'),
 		);
@@ -37,7 +37,7 @@ class AnalystSitesTable extends Table{
 			'id'=>'Id',
 			'title'=>'站点名称',
 			'description'=>'描述',
-			'deleted'=>'Deleted',
+			'delete_time'=>'删除时间',
 		);
 	}
 
@@ -45,7 +45,7 @@ class AnalystSitesTable extends Table{
 		return array(
 			'title'=>'trim',
 			'description'=>'trim',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 		);
 	}
 }

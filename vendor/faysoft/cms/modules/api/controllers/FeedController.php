@@ -138,7 +138,7 @@ class FeedController extends ApiController{
 			array(array('feed_id'), 'exist', array(
 				'table'=>'feeds',
 				'field'=>'id',
-				'conditions'=>array('deleted = 0')
+				'conditions'=>array('delete_time = 0')
 			)),
 		))->setFilters(array(
 			'feed_id'=>'intval',

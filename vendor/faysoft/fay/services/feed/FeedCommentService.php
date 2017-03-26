@@ -58,8 +58,8 @@ class FeedCommentService extends MultiTreeModel{
 		}
 		
 		if($parent){
-			$parent_comment = FeedCommentsTable::model()->find($parent, 'feed_id,deleted');
-			if(!$parent_comment || $parent_comment['deleted']){
+			$parent_comment = FeedCommentsTable::model()->find($parent, 'feed_id,delete_time');
+			if(!$parent_comment || $parent_comment['delete_time']){
 				throw new Exception('父节点不存在', 'parent-not-exist');
 			}
 			if($parent_comment['feed_id'] != $feed_id){
@@ -100,17 +100,17 @@ class FeedCommentService extends MultiTreeModel{
 	 * @throws Exception
 	 */
 	public function delete($comment_id){
-		$comment = FeedCommentsTable::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
+		$comment = FeedCommentsTable::model()->find($comment_id, 'delete_time,feed_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
-		if($comment['deleted']){
+		if($comment['delete_time']){
 			throw new Exception('评论已删除', 'comment-already-deleted');
 		}
 		
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
 		FeedCommentsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 			'update_time'=>\F::app()->current_time,
 		), $comment_id);
 		
@@ -131,7 +131,7 @@ class FeedCommentService extends MultiTreeModel{
 	public function batchDelete($comment_ids){
 		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
@@ -140,7 +140,7 @@ class FeedCommentService extends MultiTreeModel{
 		
 		//更新状态
 		$affected_rows = FeedCommentsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$comment_ids,
@@ -165,17 +165,17 @@ class FeedCommentService extends MultiTreeModel{
 	 * @throws Exception
 	 */
 	public function undelete($comment_id){
-		$comment = FeedCommentsTable::model()->find($comment_id, 'deleted,feed_id,status,sockpuppet');
+		$comment = FeedCommentsTable::model()->find($comment_id, 'delete_time,feed_id,status,sockpuppet');
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
-		if(!$comment['deleted']){
+		if(!$comment['delete_time']){
 			throw new Exception('指定评论ID不在回收站中', 'comment-not-in-recycle-bin');
 		}
 		
 		//还原不需要动树结构，只是把deleted字段标记一下即可
 		FeedCommentsTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 			'update_time'=>\F::app()->current_time,
 		), $comment_id);
 		
@@ -196,7 +196,7 @@ class FeedCommentService extends MultiTreeModel{
 	public function batchUnelete($comment_ids){
 		$comments = FeedCommentsTable::model()->fetchAll(array(
 			'id IN (?)'=>$comment_ids,
-			'deleted > 0',
+			'delete_time > 0',
 		), 'id,feed_id,sockpuppet,status');
 		if(!$comments){
 			//无符合条件的记录
@@ -205,7 +205,7 @@ class FeedCommentService extends MultiTreeModel{
 		
 		//更新状态
 		$affected_rows = FeedCommentsTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$comment_ids,
@@ -241,14 +241,14 @@ class FeedCommentService extends MultiTreeModel{
 			'root = ?'=>$comment['root'],
 			'left_value >= ' . $comment['left_value'],
 			'right_value <= ' . $comment['right_value'],
-			'deleted = 0',
+			'delete_time = 0',
 		), 'id,feed_id,status,sockpuppet');
 		
 		if($comments){
 			//如果存在待删除节点，则执行删除
 			$comment_ids = ArrayHelper::column($comments, 'id');
 			FeedCommentsTable::model()->update(array(
-				'deleted'=>1,
+				'delete_time'=>\F::app()->current_time,
 				'update_time'=>\F::app()->current_time,
 			), array(
 				'id IN (?)'=>$comment_ids,
@@ -287,7 +287,7 @@ class FeedCommentService extends MultiTreeModel{
 		
 		$this->_remove($comment);
 		
-		if(!$comment['deleted']){
+		if(!$comment['delete_time']){
 			//更新文章评论数
 			$this->updateFeedComments(array($comment), 'remove');
 		}
@@ -322,7 +322,7 @@ class FeedCommentService extends MultiTreeModel{
 		//获取所有不在回收站内的节点（已删除的显然不需要再更新评论数了）
 		$undeleted_comments = array();
 		foreach($comment as $c){
-			if(!$c['deleted']){
+			if(!$c['delete_time']){
 				$undeleted_comments[] = $c;
 			}
 		}
@@ -346,7 +346,7 @@ class FeedCommentService extends MultiTreeModel{
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
-		if($comment['deleted']){
+		if($comment['delete_time']){
 			throw new Exception('评论已删除', 'comment-deleted');
 		}
 		if($comment['status'] == FeedCommentsTable::STATUS_APPROVED){
@@ -407,7 +407,7 @@ class FeedCommentService extends MultiTreeModel{
 		if(!$comment){
 			throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
 		}
-		if($comment['deleted']){
+		if($comment['delete_time']){
 			throw new Exception('评论已删除', 'comment-is-deleted');
 		}
 		if($comment['status'] == FeedCommentsTable::STATUS_UNAPPROVED){
@@ -498,7 +498,7 @@ class FeedCommentService extends MultiTreeModel{
 		$fields = FieldHelper::parse($fields, 'comment');
 		if(empty($fields['comment']) || in_array('*', $fields['comment'])){
 			//若未指定返回字段，初始化
-			$fields['comment'] = \F::table($this->model)->getFields(array('status', 'deleted', 'sockpuppet'));
+			$fields['comment'] = \F::table($this->model)->getFields(array('status', 'delete_time', 'sockpuppet'));
 		}
 		
 		$comment_fields = $fields['comment'];
@@ -513,7 +513,7 @@ class FeedCommentService extends MultiTreeModel{
 		
 		$comment = \F::table($this->model)->fetchRow(array(
 			'id = ?'=>$comment_id,
-			'deleted = 0',
+			'delete_time = 0',
 		), $comment_fields);
 		
 		if(!$comment){
@@ -538,7 +538,7 @@ class FeedCommentService extends MultiTreeModel{
 			
 			$parent_comment = \F::table($this->model)->fetchRow(array(
 				'id = ?'=>$comment['parent'],
-				'deleted = 0',
+				'delete_time = 0',
 			), $parent_comment_fields);
 			
 			if($parent_comment){
@@ -710,7 +710,7 @@ class FeedCommentService extends MultiTreeModel{
 	 */
 	public function getTree($feed_id, $page_size = 10, $page = 1, $fields = 'id,content,parent,create_time,user.id,user.nickname,user.avatar'){
 		$conditions = array(
-			'deleted = 0',
+			'delete_time = 0',
 		);
 		if(OptionService::get('system:feed_comment_verify')){
 			//开启了评论审核
@@ -747,10 +747,10 @@ class FeedCommentService extends MultiTreeModel{
 		),
 	)){
 		$conditions = array(
-			'c.deleted = 0',
+			'c.delete_time = 0',
 		);
 		$js_conditions = array(
-			'c2.deleted = 0',
+			'c2.delete_time = 0',
 		);
 		if(OptionService::get('system:post_comment_verify')){
 			//开启了评论审核

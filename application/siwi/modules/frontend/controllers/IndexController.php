@@ -25,7 +25,7 @@ class IndexController extends FrontController{
 			->joinLeft(array('pc'=>'categories'), 'c.parent = pc.id', 'title AS parent_cat_title')
 			->order('is_top DESC, p.sort, p.publish_time DESC')
 			->where(array(
-				'p.deleted = 0',
+				'p.delete_time = 0',
 				'p.status = '.PostsTable::STATUS_PUBLISHED,
 				'p.publish_time < '.$this->current_time,
 			))

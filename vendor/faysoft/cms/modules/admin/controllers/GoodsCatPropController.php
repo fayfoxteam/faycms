@@ -87,7 +87,7 @@ class GoodsCatPropController extends AdminController{
 		$prop_id = $this->input->get('id', 'intval');
 		//仅将属性的删除字段置为1，而不改动属性值表，否则无法还原
 		GoodsCatPropsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $prop_id);
 
 		$this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '软删除一个商品属性', $prop_id);
@@ -100,7 +100,7 @@ class GoodsCatPropController extends AdminController{
 	public function undelete(){
 		$prop_id = $this->input->get('id', 'intval');
 		GoodsCatPropsTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), $prop_id);
 		
 		$this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '还原一个商品属性', $prop_id);
@@ -142,7 +142,7 @@ class GoodsCatPropController extends AdminController{
 			//删除原有属性值
 			$old_prop_value_ids = $this->input->post('old_prop_value_ids', 'intval', array('-1'));
 			GoodsCatPropValuesTable::model()->update(array(
-				'deleted'=>1,
+				'delete_time'=>\F::app()->current_time,
 			),array(
 				'prop_id = ?'=>$prop_id,
 				'id NOT IN ('.implode(',', $old_prop_value_ids).')',
@@ -184,7 +184,7 @@ class GoodsCatPropController extends AdminController{
 		$this->layout->subtitle = HtmlHelper::encode($cat['title']) . ' - 分类属性 - ' . $prop['title'];
 		$this->view->prop_values = GoodsCatPropValuesTable::model()->fetchAll(array(
 			'prop_id = ?'=>$prop['id'],
-			'deleted = 0',
+			'delete_time = 0',
 		), '*', 'sort');
 		
 		$this->form()->setData($prop);
@@ -229,7 +229,7 @@ class GoodsCatPropController extends AdminController{
 		$sql = new Sql();
 		$sql->from('goods_cat_props')
 			->where(array(
-				'deleted = 0',
+				'delete_time = 0',
 				'cat_id IN ('.implode(',', CategoryService::service()->getParentIds($cat_id)).')',
 			))
 			->order('sort, id DESC');

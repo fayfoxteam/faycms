@@ -33,7 +33,7 @@ class NotificationController extends AdminController{
 			FlashService::set('消息发送成功', 'success');
 		}
 		$this->view->notification_cats = CategoryService::service()->getNextLevel('_system_notification');
-		$this->view->roles = RolesTable::model()->fetchAll('deleted = 0');
+		$this->view->roles = RolesTable::model()->fetchAll('delete_time = 0');
 		$this->view->render();
 	}
 	
@@ -48,7 +48,7 @@ class NotificationController extends AdminController{
 			->where(array(
 				'un.user_id = '.$this->current_user,
 				'n.publish_time <= '.$this->current_time,
-				'un.deleted = 0',
+				'un.delete_time = 0',
 			))
 			->order('n.publish_time DESC')
 		;
@@ -64,7 +64,7 @@ class NotificationController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		UsersNotificationsTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), array(
 			'user_id = '.$this->current_user,
 			'notification_id = ?'=>$id,
@@ -83,7 +83,7 @@ class NotificationController extends AdminController{
 		$id = $this->input->get('id', 'intval');
 		
 		UsersNotificationsTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), array(
 			'user_id = '.$this->current_user,
 			'notification_id = ?'=>$id,
@@ -109,7 +109,7 @@ class NotificationController extends AdminController{
 			->where(array(
 				"un.user_id = {$this->current_user}",
 				'un.`read` = 0',
-				'un.deleted = 0',
+				'un.delete_time = 0',
 				"n.publish_time <= {$this->current_time}",
 			))
 			->order('n.publish_time DESC')
@@ -186,7 +186,7 @@ class NotificationController extends AdminController{
 			break;
 			case 'delete':
 				$affected_rows = UsersNotificationsTable::model()->update(array(
-					'deleted'=>1,
+					'delete_time'=>\F::app()->current_time,
 				), array(
 					"user_id = {$this->current_user}",
 					'notification_id IN (?)'=>$ids,

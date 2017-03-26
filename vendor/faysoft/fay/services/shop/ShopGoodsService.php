@@ -40,7 +40,7 @@ class ShopGoodsService extends Service{
 				->joinLeft(array('cp'=>'goods_cat_props'), 'gpv.prop_id = cp.id', GoodsCatPropsTable::model()->formatFields('!id'))
 				->where(array(
 					'gpv.goods_id = ?'=>$id,
-					'cp.deleted = 0',
+					'cp.delete_time = 0',
 				))
 				->order('cp.sort')
 				->order('gpv.prop_id')
@@ -58,7 +58,7 @@ class ShopGoodsService extends Service{
 						'title'=>$gp['title'],
 						'is_sale_prop'=>$gp['is_sale_prop'],
 						'is_input_prop'=>$gp['is_input_prop'],
-						'deleted'=>$gp['deleted'],
+						'delete_time'=>$gp['delete_time'],
 						'sort'=>$gp['sort'],
 						'multi'=>$gp['type'] == GoodsCatPropsTable::TYPE_CHECK ? true : false,
 						'values'=>array(

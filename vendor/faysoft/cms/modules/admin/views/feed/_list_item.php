@@ -23,7 +23,7 @@ use fay\services\feed\FeedTagService;
 		?></strong>
 		<div class="row-actions">
 		<?php
-			if($data['deleted'] == 0){
+			if($data['delete_time'] == 0){
 				echo HtmlHelper::link('编辑', array('admin/feed/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
@@ -61,7 +61,7 @@ use fay\services\feed\FeedTagService;
 	?></td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td><?php echo FeedHelper::getStatus($data['status'], $data['deleted']);?></td>
+	<td><?php echo FeedHelper::getStatus($data['status'], $data['delete_time']);?></td>
 	<?php }?>
 	<?php if(in_array('user', $cols)){?>
 	<td><?php

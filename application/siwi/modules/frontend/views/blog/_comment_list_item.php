@@ -25,7 +25,7 @@ use fay\models\tables\MessagesTable;
 	<div class="parent">
 		<em class="arrow-border"></em>
 		<em class="arrow"></em>
-		<?php if($data['parent_status'] == MessagesTable::STATUS_APPROVED && !$data['parent_deleted']){//父级评论通过审核且未被删除?>
+		<?php if($data['parent_status'] == MessagesTable::STATUS_APPROVED && !$data['parent_delete_time']){//父级评论通过审核且未被删除?>
 			<?php echo HtmlHelper::link($data['parent_nickname'], array('u/'.$data['parent_user_id']), array(
 				'class'=>'parent-user-link',
 			))?> 说：

@@ -14,7 +14,7 @@ use fay\core\db\Table;
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
  * @property int $status 状态
- * @property int $deleted 删除标记
+ * @property int $delete_time 删除时间
  * @property int $thumbnail 缩略图
  * @property int $comments 评论数
  * @property int $views 阅读数
@@ -56,7 +56,7 @@ class PagesTable extends Table{
 			array(array('seo_description'), 'string', array('max'=>255)),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
 			array(array('seo_title', 'seo_keywords'), 'string', array('max'=>100)),
-			array(array('deleted'), 'range', array('range'=>array(0, 1))),
+			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			
 			array(array('status'), 'range', array('range'=>array(self::STATUS_DRAFT, self::STATUS_PUBLISHED))),
 			array('alias', 'unique', array('table'=>'pages', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/page/is-alias-not-exist'))),
@@ -73,7 +73,7 @@ class PagesTable extends Table{
 			'create_time'=>'创建时间',
 			'update_time'=>'更新时间',
 			'status'=>'状态',
-			'deleted'=>'删除标记',
+			'delete_time'=>'删除时间',
 			'thumbnail'=>'缩略图',
 			'comments'=>'评论数',
 			'views'=>'阅读数',
@@ -92,7 +92,7 @@ class PagesTable extends Table{
 			'content'=>'',
 			'author'=>'intval',
 			'status'=>'intval',
-			'deleted'=>'intval',
+			'delete_time'=>'intval',
 			'thumbnail'=>'intval',
 			'comments'=>'intval',
 			'views'=>'intval',

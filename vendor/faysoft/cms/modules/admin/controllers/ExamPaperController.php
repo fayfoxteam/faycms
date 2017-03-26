@@ -29,7 +29,7 @@ class ExamPaperController extends AdminController{
 		$sql->from(array('p'=>'exam_papers'))
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
 			->where(array(
-				'deleted = 0',
+				'delete_time = 0',
 			))
 			->order('id DESC')
 		;
@@ -206,7 +206,7 @@ class ExamPaperController extends AdminController{
 	public function delete(){
 		$id = $this->input->get('id', 'intval');
 		ExamPapersTable::model()->update(array(
-			'deleted'=>1,
+			'delete_time'=>\F::app()->current_time,
 		), $id);
 		$this->actionlog(ActionlogsTable::TYPE_EXAM, '一份试卷被删除', $id);
 		
@@ -218,7 +218,7 @@ class ExamPaperController extends AdminController{
 	public function undelete(){
 		$id = $this->input->get('id', 'intval');
 		ExamPapersTable::model()->update(array(
-			'deleted'=>0,
+			'delete_time'=>0,
 		), $id);
 		$this->actionlog(ActionlogsTable::TYPE_EXAM, '一份试卷被还原', $id);
 		

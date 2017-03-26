@@ -15,7 +15,7 @@ use fay\helpers\StringHelper;
 	<td>
 		<?php echo HtmlHelper::encode($data['content'])?>
 		<div class="row-actions">
-			<?php if(!$data['deleted']){
+			<?php if(!$data['delete_time']){
 				if($data['status'] == PostCommentsTable::STATUS_PENDING){
 					echo HtmlHelper::link('批准', array('admin/post-comment/approve', array(
 						'id'=>$data['id'],
@@ -42,7 +42,7 @@ use fay\helpers\StringHelper;
 				}
 			}
 			
-			if($data['deleted']){
+			if($data['delete_time']){
 				echo HtmlHelper::link('还原', array('admin/post-comment/undelete', array(
 					'id'=>$data['id'],
 				)), array(
@@ -78,7 +78,7 @@ use fay\helpers\StringHelper;
 	</td>
 	<?php }?>
 	<?php if(in_array('status', $cols)){?>
-	<td><?php echo PostCommentHelper::getStatus($data['status'], $data['deleted']);?></td>
+	<td><?php echo PostCommentHelper::getStatus($data['status'], $data['delete_time']);?></td>
 	<?php }?>
 	<?php if(in_array('create_time', $cols)){?>
 	<td>

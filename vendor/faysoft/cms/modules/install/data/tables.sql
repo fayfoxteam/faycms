@@ -669,8 +669,7 @@ CREATE TABLE `{{$prefix}}posts` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序',
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
-  KEY `cat` (`cat_id`),
-  KEY `deleted-status-publish_time` (`delete_time`,`status`,`publish_time`)
+  KEY `cat` (`cat_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;
@@ -753,8 +752,7 @@ CREATE TABLE `{{$prefix}}props` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Show',
-  PRIMARY KEY (`id`),
-  KEY `refer-type-deleted` (`refer`,`type`,`delete_time`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;

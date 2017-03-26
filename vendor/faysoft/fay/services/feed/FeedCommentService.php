@@ -74,7 +74,7 @@ class FeedCommentService extends MultiTreeModel{
 			'user_id'=>$user_id,
 			'sockpuppet'=>$sockpuppet,
 			'create_time'=>\F::app()->current_time,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		)), $parent);
 		
@@ -111,7 +111,7 @@ class FeedCommentService extends MultiTreeModel{
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
 		FeedCommentsTable::model()->update(array(
 			'deleted'=>1,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), $comment_id);
 		
 		//更新文章评论数
@@ -141,7 +141,7 @@ class FeedCommentService extends MultiTreeModel{
 		//更新状态
 		$affected_rows = FeedCommentsTable::model()->update(array(
 			'deleted'=>1,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$comment_ids,
 		));
@@ -176,7 +176,7 @@ class FeedCommentService extends MultiTreeModel{
 		//还原不需要动树结构，只是把deleted字段标记一下即可
 		FeedCommentsTable::model()->update(array(
 			'deleted'=>0,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), $comment_id);
 		
 		//更新文章评论数
@@ -206,7 +206,7 @@ class FeedCommentService extends MultiTreeModel{
 		//更新状态
 		$affected_rows = FeedCommentsTable::model()->update(array(
 			'deleted'=>0,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$comment_ids,
 		));
@@ -249,7 +249,7 @@ class FeedCommentService extends MultiTreeModel{
 			$comment_ids = ArrayHelper::column($comments, 'id');
 			FeedCommentsTable::model()->update(array(
 				'deleted'=>1,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), array(
 				'id IN (?)'=>$comment_ids,
 			));
@@ -614,12 +614,12 @@ class FeedCommentService extends MultiTreeModel{
 		if(is_array($comment_id)){
 			return FeedCommentsTable::model()->update(array(
 				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), array('id IN (?)'=>$comment_id));
 		}else{
 			return FeedCommentsTable::model()->update(array(
 				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), $comment_id);
 		}
 	}

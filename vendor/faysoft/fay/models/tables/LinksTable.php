@@ -14,7 +14,7 @@ use fay\core\db\Table;
  * @property int $user_id 添加者
  * @property string $target 打开方式
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property int $sort 排序值
  * @property int $logo Logo
  * @property int $cat_id 分类
@@ -54,7 +54,7 @@ class LinksTable extends Table{
 			'user_id'=>'用户ID',
 			'target'=>'打开方式',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'sort'=>'排序值',
 			'logo'=>'Logo',
 			'cat_id'=>'分类',

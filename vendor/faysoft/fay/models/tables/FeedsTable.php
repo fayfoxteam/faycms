@@ -10,7 +10,7 @@ use fay\core\db\Table;
  * @property int $user_id 用户ID
  * @property string $content 内容
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property int $publish_time 发布时间
  * @property string $publish_date 发布日期
  * @property int $sort 排序值
@@ -67,7 +67,7 @@ class FeedsTable extends Table{
 			'user_id'=>'用户ID',
 			'content'=>'内容',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'publish_time'=>'发布时间',
 			'publish_date'=>'发布日期',
 			'timeline'=>'时间轴',

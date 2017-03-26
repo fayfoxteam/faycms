@@ -102,7 +102,7 @@ class MessageService extends MultiTreeModel{
 			'user_id'=>$user_id,
 			'sockpuppet'=>$sockpuppet,
 			'create_time'=>\F::app()->current_time,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		)), $parent);
 		
@@ -137,7 +137,7 @@ class MessageService extends MultiTreeModel{
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
 		MessagesTable::model()->update(array(
 			'deleted'=>1,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), $message_id);
 		
 		//更新用户留言数
@@ -167,7 +167,7 @@ class MessageService extends MultiTreeModel{
 		//更新状态
 		$affected_rows = MessagesTable::model()->update(array(
 			'deleted'=>1,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$affected_message_ids,
 		));
@@ -197,7 +197,7 @@ class MessageService extends MultiTreeModel{
 		//还原不需要动树结构，只是把deleted字段标记一下即可
 		MessagesTable::model()->update(array(
 			'deleted'=>0,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), $message_id);
 		
 		//更新用户留言数
@@ -227,7 +227,7 @@ class MessageService extends MultiTreeModel{
 		//更新状态
 		$affected_rows = MessagesTable::model()->update(array(
 			'deleted'=>0,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$affected_message_ids,
 		));
@@ -265,7 +265,7 @@ class MessageService extends MultiTreeModel{
 			$message_ids = ArrayHelper::column($messages, 'id');
 			MessagesTable::model()->update(array(
 				'deleted'=>1,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), array(
 				'id IN (?)'=>$message_ids,
 			));
@@ -630,12 +630,12 @@ class MessageService extends MultiTreeModel{
 		if(is_array($message_id)){
 			return MessagesTable::model()->update(array(
 				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), array('id IN (?)'=>$message_id));
 		}else{
 			return MessagesTable::model()->update(array(
 				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), $message_id);
 		}
 	}

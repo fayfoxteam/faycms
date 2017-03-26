@@ -10,7 +10,7 @@ CREATE TABLE `{{$prefix}}apidoc_apis` (
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `sample_response` text NOT NULL COMMENT '响应示例',
   PRIMARY KEY (`id`),
@@ -27,7 +27,7 @@ CREATE TABLE `{{$prefix}}apidoc_inputs` (
   `sample` text NOT NULL COMMENT '示例值',
   `description` text NOT NULL COMMENT '描述',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口输入参数';
@@ -44,7 +44,7 @@ CREATE TABLE `{{$prefix}}apidoc_model_props` (
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='数据模型属性';
 
@@ -57,7 +57,7 @@ CREATE TABLE `{{$prefix}}apidoc_models` (
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `user_id` int(10) unsigned DEFAULT '0' COMMENT '用户ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='数据模型';
@@ -74,7 +74,7 @@ CREATE TABLE `{{$prefix}}apidoc_outputs` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `last_modified_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口响应参数';
 

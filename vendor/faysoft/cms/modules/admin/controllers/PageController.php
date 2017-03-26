@@ -47,7 +47,7 @@ class PageController extends AdminController{
 		if($this->input->post() && $this->form()->check()){
 			$data = $this->form()->getFilteredData();
 			$data['create_time'] = $this->current_time;
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			$data['author'] = $this->current_user;
 			$page_id = PagesTable::model()->insert($data);
 			
@@ -99,7 +99,7 @@ class PageController extends AdminController{
 				'range'=>array(0, 1),
 			)),
 			array('time_field', 'range', array(
-				'range'=>array('create_time', 'last_modified_time')
+				'range'=>array('create_time', 'update_time')
 			)),
 			array(array('start_time', 'end_time'), 'datetime'),
 			array('orderby', 'range', array(
@@ -115,7 +115,7 @@ class PageController extends AdminController{
 		
 		//页面设置
 		$this->settingForm('admin_page_index', '_setting_index', array(
-			'cols'=>array('category', 'status', 'alias', 'last_modified_time', 'create_time', 'sort'),
+			'cols'=>array('category', 'status', 'alias', 'update_time', 'create_time', 'sort'),
 			'page_size'=>10,
 		));
 		
@@ -215,7 +215,7 @@ class PageController extends AdminController{
 		
 		if($this->input->post() && $this->form()->check()){
 			$data = $this->form()->getFilteredData();
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			$result = PagesTable::model()->update($data, $page_id);
 			if(in_array('category', $enabled_boxes)){
 				PagesCategoriesTable::model()->delete("page_id = {$page_id}");

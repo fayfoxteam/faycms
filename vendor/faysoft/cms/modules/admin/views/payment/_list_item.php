@@ -32,8 +32,8 @@ use fay\helpers\DateHelper;
 		</abbr>
 	</td>
 	<td class="col-date">
-		<abbr class="time" title="<?php echo DateHelper::format($data['last_modified_time'])?>">
-			<?php echo DateHelper::niceShort($data['last_modified_time'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['update_time'])?>">
+			<?php echo DateHelper::niceShort($data['update_time'])?>
 		</abbr>
 	</td>
 </tr>

@@ -183,7 +183,7 @@ CREATE TABLE `{{$prefix}}payments` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   `config` text COMMENT '配置信息JSON',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `last_modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后编辑时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';

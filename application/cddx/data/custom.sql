@@ -1,18 +1,18 @@
 -- 页面
-INSERT INTO `{{$prefix}}pages` (`id`, `title`, `alias`, `create_time`, `last_modified_time`) VALUES ('1000', '中共成都市委党校 成都行政学院 成都市社会主义学院', 'about', '{{$time}}', '{{$time}}');
+INSERT INTO `{{$prefix}}pages` (`id`, `title`, `alias`, `create_time`, `update_time`) VALUES ('1000', '中共成都市委党校 成都行政学院 成都市社会主义学院', 'about', '{{$time}}', '{{$time}}');
 
 -- 基础参数
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('site:copyright', '版权所有© 2011~2015 cddx.gov.cn Allright reserved', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('beian', '蜀ICP备12011400号', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('phone', '', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('fax', '', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('email', '', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('address', '成都市龙泉驿区大面驿都西路1492号', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('site:seo_index_title', '', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('site:seo_index_keywords', '', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('site:seo_index_description', '', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('postcode', '610110', '{{$time}}', '{{$time}}', '0');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `last_modified_time`, `is_system`) VALUES ('organizers', '中共成都市委党校 成都行政学院 成都市社会主义学院', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('site:copyright', '版权所有© 2011~2015 cddx.gov.cn Allright reserved', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('beian', '蜀ICP备12011400号', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('phone', '', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('fax', '', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('email', '', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('address', '成都市龙泉驿区大面驿都西路1492号', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('site:seo_index_title', '', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('site:seo_index_keywords', '', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('site:seo_index_description', '', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('postcode', '610110', '{{$time}}', '{{$time}}', '0');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('organizers', '中共成都市委党校 成都行政学院 成都市社会主义学院', '{{$time}}', '{{$time}}', '0');
 
 -- 基础分类
 

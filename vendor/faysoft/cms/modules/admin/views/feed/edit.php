@@ -49,7 +49,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							echo HtmlHelper::tag('time', array(), DateHelper::niceShort($feed['create_time']));
 						?></span>
 						<span class="pl11">最近更新于：<?php
-							echo HtmlHelper::tag('time', array(), DateHelper::niceShort($feed['last_modified_time']));
+							echo HtmlHelper::tag('time', array(), DateHelper::niceShort($feed['update_time']));
 						?></span>
 					</p>
 					<p class="feed-interaction">

@@ -13,7 +13,7 @@ use fay\core\db\Table;
  * @property int $parent 父ID
  * @property int $status 状态
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property int $ip_int IP
  * @property int $sockpuppet 马甲信息
  * @property int $deleted 删除标记
@@ -64,7 +64,7 @@ class MessagesTable extends Table{
 			'parent'=>'父ID',
 			'status'=>'状态',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'ip_int'=>'IP',
 			'sockpuppet'=>'马甲信息',
 			'deleted'=>'删除标记',

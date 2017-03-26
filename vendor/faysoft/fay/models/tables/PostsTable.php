@@ -13,7 +13,7 @@ use fay\core\db\Table;
  * @property string $content 正文
  * @property int $content_type 正文类型（普通文本，符文本，markdown）
  * @property int $create_time 添加时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property string $publish_date 发布日期
  * @property int $publish_time 发布时间
  * @property int $user_id 作者ID
@@ -95,7 +95,7 @@ class PostsTable extends Table{
 			'content'=>'正文',
 			'content_type'=>'正文类型（普通文本，符文本，markdown）',
 			'create_time'=>'添加时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'publish_date'=>'发布日期',
 			'publish_time'=>'发布时间',
 			'user_id'=>'作者ID',

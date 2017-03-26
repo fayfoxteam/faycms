@@ -57,10 +57,10 @@ use fay\services\PageService;
 	<?php if(in_array('views', $cols)){?>
 	<td><?php echo $data['views']?></td>
 	<?php }?>
-	<?php if(in_array('last_modified_time', $cols)){?>
+	<?php if(in_array('update_time', $cols)){?>
 	<td class="col-date">
-		<abbr class="time" title="<?php echo DateHelper::format($data['last_modified_time'])?>">
-			<?php echo DateHelper::niceShort($data['last_modified_time'])?>
+		<abbr class="time" title="<?php echo DateHelper::format($data['update_time'])?>">
+			<?php echo DateHelper::niceShort($data['update_time'])?>
 		</abbr>
 	</td>
 	<?php }?>

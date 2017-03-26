@@ -13,7 +13,7 @@ use fay\core\db\Table;
  * @property int $enabled 是否启用
  * @property string $config 配置信息JSON
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后编辑时间
+ * @property int $update_time 更新时间
  * @property int $deleted Deleted
  */
 class PaymentsTable extends Table{
@@ -57,7 +57,7 @@ class PaymentsTable extends Table{
 			'enabled'=>'是否启用',
 			'config'=>'配置信息JSON',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后编辑时间',
+			'update_time'=>'更新时间',
 			'deleted'=>'Deleted',
 		);
 	}

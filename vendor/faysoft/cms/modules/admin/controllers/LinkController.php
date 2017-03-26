@@ -24,7 +24,7 @@ class LinkController extends AdminController{
 			isset($data['visible']) || $data['visible'] = 1;
 			$data['create_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			$link_id = LinksTable::model()->insert($data);
 			
 			$this->actionlog(ActionlogsTable::TYPE_LINK, '添加友情链接', $link_id);
@@ -50,7 +50,7 @@ class LinkController extends AdminController{
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
 				$data['visible'] = $this->input->post('visible', 'intval', 1);
-				$data['last_modified_time'] = $this->current_time;
+				$data['update_time'] = $this->current_time;
 				LinksTable::model()->update($data, array('id = ?'=>$id));
 				$this->actionlog(ActionlogsTable::TYPE_LINK, '编辑友情链接', $id);
 				Response::notify('success', '一个链接被编辑', false);
@@ -81,7 +81,7 @@ class LinkController extends AdminController{
 				'range'=>array('asc', 'desc'),
 			)),
 			array('time_field', 'range', array(
-				'range'=>array('publish_time', 'create_time', 'last_modified_time')
+				'range'=>array('publish_time', 'create_time', 'update_time')
 			)),
 		))->check();
 		

@@ -62,7 +62,7 @@ class PaymentController extends AdminController{
 			$data = $this->form()->getFilteredData();
 			
 			$data['create_time'] = $this->current_time;
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			$data['config'] = json_encode($data['config']);
 			$payment_method_id = PaymentsTable::model()->insert($data);
 			
@@ -95,7 +95,7 @@ class PaymentController extends AdminController{
 			if($this->form()->check()){
 				$data = $this->form()->getFilteredData();
 				
-				$data['last_modified_time'] = $this->current_time;
+				$data['update_time'] = $this->current_time;
 				$data['config'] = json_encode($data['config']);
 				PaymentsTable::model()->update($data, $id);
 				

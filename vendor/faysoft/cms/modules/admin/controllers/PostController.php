@@ -213,7 +213,7 @@ class PostController extends AdminController{
 				'range'=>array(0, 1),
 			)),
 			array('time_field', 'range', array(
-				'range'=>array('publish_time', 'create_time', 'last_modified_time')
+				'range'=>array('publish_time', 'create_time', 'update_time')
 			)),
 			array(array('start_time', 'end_time'), 'datetime'),
 			array('orderby', 'range', array(
@@ -244,7 +244,7 @@ class PostController extends AdminController{
 		
 		//页面设置
 		$_settings = $this->settingForm('admin_post_index', '_setting_index', array(
-			'cols'=>array('main_category', 'status', 'publish_time', 'last_modified_time', 'create_time', 'sort'),
+			'cols'=>array('main_category', 'status', 'publish_time', 'update_time', 'create_time', 'sort'),
 			'display_name'=>'username',
 			'display_time'=>'short',
 			'page_size'=>10,

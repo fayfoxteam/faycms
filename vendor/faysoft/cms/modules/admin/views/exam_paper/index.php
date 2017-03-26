@@ -39,7 +39,7 @@ use fay\helpers\HtmlHelper;
 					<th>状态</th>
 					<th>分值</th>
 					<th class="wp15">创建时间</th>
-					<th class="wp15">最后修改时间</th>
+					<th class="wp15">更新时间</th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -49,7 +49,7 @@ use fay\helpers\HtmlHelper;
 					<th>状态</th>
 					<th>分值</th>
 					<th>创建时间</th>
-					<th>最后修改时间</th>
+					<th>更新时间</th>
 				</tr>
 			</tfoot>
 			<tbody>

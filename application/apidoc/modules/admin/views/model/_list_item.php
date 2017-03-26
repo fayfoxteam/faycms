@@ -29,7 +29,7 @@ use fay\helpers\DateHelper;
 	<td><abbr class="time" title="<?php echo DateHelper::format($data['create_time'])?>">
 		<?php echo DateHelper::niceShort($data['create_time'])?>
 	</abbr></td>
-	<td><abbr class="time" title="<?php echo DateHelper::format($data['last_modified_time'])?>">
-		<?php echo DateHelper::niceShort($data['last_modified_time'])?>
+	<td><abbr class="time" title="<?php echo DateHelper::format($data['update_time'])?>">
+		<?php echo DateHelper::niceShort($data['update_time'])?>
 	</abbr></td>
 </tr>

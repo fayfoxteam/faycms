@@ -26,7 +26,7 @@ class ExamPapersTable extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('create_time', 'last_modified_time'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('create_time', 'update_time'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('rand', 'status', 'repeatedly'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('title'), 'string', array('max'=>255)),
@@ -51,7 +51,7 @@ class ExamPapersTable extends Table{
 			'end_time'=>'考试结束时间',
 			'repeatedly'=>'重复参考',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后更新时间',
+			'update_time'=>'最后更新时间',
 			'deleted'=>'删除',
 		);
 	}

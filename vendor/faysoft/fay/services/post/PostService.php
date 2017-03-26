@@ -132,7 +132,7 @@ class PostService extends Service{
 		$user_id || $user_id = \F::app()->current_user;
 		
 		$post['create_time'] = \F::app()->current_time;
-		$post['last_modified_time'] = \F::app()->current_time;
+		$post['update_time'] = \F::app()->current_time;
 		$post['user_id'] = $user_id;
 		empty($post['publish_time']) && $post['publish_time'] = \F::app()->current_time;
 		$post['publish_date'] = date('Y-m-d', $post['publish_time']);
@@ -231,11 +231,11 @@ class PostService extends Service{
 	 *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
 	 *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
-	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
+	 * @param bool $update_update_time 是否更新“最后更新时间”。默认为true
 	 * @return bool
 	 * @throws PostException
 	 */
-	public function update($post_id, $data, $extra = array(), $update_last_modified_time = true){
+	public function update($post_id, $data, $extra = array(), $update_update_time = true){
 		//获取原文章
 		$old_post = PostsTable::model()->find($post_id, 'cat_id,user_id,deleted,status');
 		if(!$old_post){
@@ -245,10 +245,10 @@ class PostService extends Service{
 			throw new PostException('已删除文章不允许编辑');
 		}
 		
-		if($update_last_modified_time){
-			$data['last_modified_time'] = \F::app()->current_time;
-		}else if(isset($data['last_modified_time'])){
-			unset($data['last_modified_time']);
+		if($update_update_time){
+			$data['update_time'] = \F::app()->current_time;
+		}else if(isset($data['update_time'])){
+			unset($data['update_time']);
 		}
 		
 		//过滤掉多余的字段后更新

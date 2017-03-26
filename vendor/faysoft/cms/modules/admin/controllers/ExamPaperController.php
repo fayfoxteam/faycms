@@ -140,7 +140,7 @@ class ExamPaperController extends AdminController{
 				'end_time'=>$this->input->post('end_time', 'strtotime', 0),
 				'repeatedly'=>$this->input->post('repeatedly', 'intval', 0),
 				'score'=>array_sum($score),
-				'last_modified_time'=>$this->current_time,
+				'update_time'=>$this->current_time,
 			), $id);
 			
 			//删除被删除的题目

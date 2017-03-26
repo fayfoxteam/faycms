@@ -92,7 +92,7 @@ class FeedService extends Service{
 		//动态表
 		$feed['user_id'] = $user_id;
 		$feed['create_time'] = \F::app()->current_time;
-		$feed['last_modified_time'] = \F::app()->current_time;
+		$feed['update_time'] = \F::app()->current_time;
 		empty($feed['publish_time']) && $feed['publish_time'] = \F::app()->current_time;//发布时间默认为当前时间
 		$feed['publish_date'] = date('Y-m-d', $feed['publish_time']);
 		empty($feed['sort']) && $feed['sort'] = \F::app()->current_time;//排序值默认为当前时间
@@ -175,20 +175,20 @@ class FeedService extends Service{
 	 *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
 	 *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
 	 *   - extra feed_extra相关字段
-	 * @param bool $update_last_modified_time 是否更新“最后更新时间”。默认为true
+	 * @param bool $update_update_time 是否更新“最后更新时间”。默认为true
 	 * @return bool
 	 */
-	public function update($feed_id, $data, $extra = array(), $update_last_modified_time = true){
+	public function update($feed_id, $data, $extra = array(), $update_update_time = true){
 		//获取原动态
 		$old_feed = FeedsTable::model()->find($feed_id, 'user_id,deleted,status');
 		if(!$old_feed){
 			return false;
 		}
 		
-		if($update_last_modified_time){
-			$data['last_modified_time'] = \F::app()->current_time;
-		}else if(isset($data['last_modified_time'])){
-			unset($data['last_modified_time']);
+		if($update_update_time){
+			$data['update_time'] = \F::app()->current_time;
+		}else if(isset($data['update_time'])){
+			unset($data['update_time']);
 		}
 		
 		//过滤掉多余的数据

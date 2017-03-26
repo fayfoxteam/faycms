@@ -40,7 +40,7 @@
 					<th>描述</th>
 					<th>自从</th>
 					<th>创建时间</th>
-					<th>最后修改时间</th>
+					<th>更新时间</th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -49,7 +49,7 @@
 					<th>描述</th>
 					<th>自从</th>
 					<th>创建时间</th>
-					<th>最后修改时间</th>
+					<th>更新时间</th>
 				</tr>
 			</tfoot>
 			<tbody><?php $listview->showData();?></tbody>

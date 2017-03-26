@@ -12,7 +12,7 @@
 				<th>支付代码</th>
 				<th class="wp10">是否启用</th>
 				<th>创建时间</th>
-				<th>最后修改时间</th>
+				<th>更新时间</th>
 			</tr>
 			</thead>
 			<tfoot>
@@ -21,7 +21,7 @@
 				<th>支付代码</th>
 				<th>是否启用</th>
 				<th>创建时间</th>
-				<th>最后修改时间</th>
+				<th>更新时间</th>
 			</tr>
 			</tfoot>
 			<tbody><?php $listview->showData()?></tbody>

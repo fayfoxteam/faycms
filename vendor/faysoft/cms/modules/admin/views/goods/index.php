@@ -37,7 +37,7 @@ $cols = F::form('setting')->getData('cols', array());
 			<div class="mb5">
 				<?php echo F::form('search')->select('time_field', array(
 					'create_time'=>'创建时间',
-					'last_modified_time'=>'最后修改时间',
+					'update_time'=>'更新时间',
 					'publish_time'=>'发布时间',
 				), array(
 					'class'=>'form-control',
@@ -124,8 +124,8 @@ $cols = F::form('setting')->getData('cols', array());
 					if(in_array('publish_time', $cols)){
 						echo HtmlHelper::tag('th', array(), '发布时间');
 					}
-					if(in_array('last_modified_time', $cols)){
-						echo HtmlHelper::tag('th', array(), '最后修改时间');
+					if(in_array('update_time', $cols)){
+						echo HtmlHelper::tag('th', array(), '更新时间');
 					}
 					if(in_array('create_time', $cols)){
 						echo HtmlHelper::tag('th', array(), '创建时间');
@@ -180,8 +180,8 @@ $cols = F::form('setting')->getData('cols', array());
 					if(in_array('publish_time', $cols)){
 						echo HtmlHelper::tag('th', array(), '发布时间');
 					}
-					if(in_array('last_modified_time', $cols)){
-						echo HtmlHelper::tag('th', array(), '最后修改时间');
+					if(in_array('update_time', $cols)){
+						echo HtmlHelper::tag('th', array(), '更新时间');
 					}
 					if(in_array('create_time', $cols)){
 						echo HtmlHelper::tag('th', array(), '创建时间');

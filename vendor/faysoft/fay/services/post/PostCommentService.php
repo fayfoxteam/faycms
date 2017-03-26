@@ -102,7 +102,7 @@ class PostCommentService extends MultiTreeModel{
 			'user_id'=>$user_id,
 			'sockpuppet'=>$sockpuppet,
 			'create_time'=>\F::app()->current_time,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 			'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
 		)), $parent);
 		
@@ -137,7 +137,7 @@ class PostCommentService extends MultiTreeModel{
 		//软删除不需要动树结构，只要把deleted字段标记一下即可
 		PostCommentsTable::model()->update(array(
 			'deleted'=>1,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), $comment_id);
 		
 		//更新文章评论数
@@ -167,7 +167,7 @@ class PostCommentService extends MultiTreeModel{
 		//更新状态
 		$affected_rows = PostCommentsTable::model()->update(array(
 			'deleted'=>1,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$affected_commend_ids,
 		));
@@ -198,7 +198,7 @@ class PostCommentService extends MultiTreeModel{
 		//还原不需要动树结构，只是把deleted字段标记一下即可
 		PostCommentsTable::model()->update(array(
 			'deleted'=>0,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), $comment_id);
 		
 		//更新文章评论数
@@ -228,7 +228,7 @@ class PostCommentService extends MultiTreeModel{
 		//更新状态
 		$affected_rows = PostCommentsTable::model()->update(array(
 			'deleted'=>0,
-			'last_modified_time'=>\F::app()->current_time,
+			'update_time'=>\F::app()->current_time,
 		), array(
 			'id IN (?)'=>$affected_commend_ids,
 		));
@@ -266,7 +266,7 @@ class PostCommentService extends MultiTreeModel{
 			$comment_ids = ArrayHelper::column($comments, 'id');
 			PostCommentsTable::model()->update(array(
 				'deleted'=>1,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), array(
 				'id IN (?)'=>$comment_ids,
 			));
@@ -629,12 +629,12 @@ class PostCommentService extends MultiTreeModel{
 		if(is_array($comment_id)){
 			return PostCommentsTable::model()->update(array(
 				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), array('id IN (?)'=>$comment_id));
 		}else{
 			return PostCommentsTable::model()->update(array(
 				'status'=>$status,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), $comment_id);
 		}
 	}

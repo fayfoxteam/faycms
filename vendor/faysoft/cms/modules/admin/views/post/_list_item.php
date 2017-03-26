@@ -162,13 +162,13 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 		</abbr>
 	</td>
 	<?php }?>
-	<?php if(in_array('last_modified_time', $cols)){?>
+	<?php if(in_array('update_time', $cols)){?>
 	<td>
-		<abbr class="time" title="<?php echo DateHelper::format($data['last_modified_time'])?>">
+		<abbr class="time" title="<?php echo DateHelper::format($data['update_time'])?>">
 			<?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
-				echo DateHelper::niceShort($data['last_modified_time']);
+				echo DateHelper::niceShort($data['update_time']);
 			}else{
-				echo DateHelper::format($data['last_modified_time']);
+				echo DateHelper::format($data['update_time']);
 			}?>
 		</abbr>
 	</td>

@@ -38,7 +38,7 @@ use fay\helpers\HtmlHelper;
 					<th class="wp10">可见性</th>
 					<th>分类</th>
 					<th class="w90"><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
-					<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
+					<th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -48,7 +48,7 @@ use fay\helpers\HtmlHelper;
 					<th>可见性</th>
 					<th>分类</th>
 					<th><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
-					<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
+					<th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
 				</tr>
 			</tfoot>
 			<tbody>

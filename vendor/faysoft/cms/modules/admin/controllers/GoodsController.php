@@ -101,7 +101,7 @@ class GoodsController extends AdminController{
 			//插入goods表
 			$data = GoodsTable::model()->fillData($this->input->post());
 			$data['create_time'] = $this->current_time;
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
 			$data['cat_id'] = $cat['id'];
 			empty($data['sub_stock']) && $data['sub_stock'] = GoodsTable::SUB_STOCK_PAY;
@@ -318,7 +318,7 @@ class GoodsController extends AdminController{
 		if($this->input->post()){
 			//更新goods表
 			$data = GoodsTable::model()->fillData($this->input->post());
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			
 			if(in_array('publish_time', $enabled_boxes)){
 				if(empty($data['publish_time'])){

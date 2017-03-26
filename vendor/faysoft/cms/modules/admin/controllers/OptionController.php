@@ -21,7 +21,7 @@ class OptionController extends AdminController{
 			if($this->form()->setModel(OptionsTable::model())->check()){
 				$data = $this->form()->getFilteredData();
 				$data['create_time'] = $this->current_time;
-				$data['last_modified_time'] = $this->current_time;
+				$data['update_time'] = $this->current_time;
 				$option_id = OptionsTable::model()->insert($data);
 				
 				$this->actionlog(ActionlogsTable::TYPE_OPTION, '添加了一个系统参数', $option_id);
@@ -49,7 +49,7 @@ class OptionController extends AdminController{
 		$this->form()->setModel(OptionsTable::model());
 		if($this->input->post() && $this->form()->check()){
 			$data = $this->form()->getFilteredData();
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			OptionsTable::model()->update($data, array('id = ?'=>$option_id));
 			
 			$this->actionlog(ActionlogsTable::TYPE_OPTION, '编辑了一个系统参数', $option_id);

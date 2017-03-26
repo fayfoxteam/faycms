@@ -10,7 +10,7 @@ use fay\core\db\Table;
  * @property int $cat_id 分类ID
  * @property string $title 标题
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property int $publish_time 发布时间
  * @property int $user_id 用户ID
  * @property int $sub_stock 何时减库存
@@ -75,7 +75,7 @@ class GoodsTable extends Table{
 			'cat_id'=>'分类ID',
 			'title'=>'标题',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'publish_time'=>'发布时间',
 			'user_id'=>'用户ID',
 			'sub_stock'=>'何时减库存',
@@ -115,12 +115,12 @@ class GoodsTable extends Table{
 		switch($scene){
 			case 'update':
 				return array(
-					'id', 'create_time', 'last_modified_time'
+					'id', 'create_time', 'update_time'
 				);
 			case 'insert':
 			default:
 				return array(
-					'id', 'create_time', 'last_modified_time'
+					'id', 'create_time', 'update_time'
 				);
 		}
 	}

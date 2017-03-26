@@ -15,8 +15,8 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'views', array(
 			'label'=>'阅读数',
 		));
-		echo F::form('setting')->inputCheckbox('cols[]', 'last_modified_time', array(
-			'label'=>'最后修改时间',
+		echo F::form('setting')->inputCheckbox('cols[]', 'update_time', array(
+			'label'=>'更新时间',
 		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'create_time', array(
 			'label'=>'创建时间',

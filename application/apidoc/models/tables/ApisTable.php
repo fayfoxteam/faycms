@@ -16,7 +16,7 @@ use fay\core\db\Table;
  * @property int $cat_id 分类
  * @property int $user_id 用户
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property string $since 自从
  * @property string $sample_response 响应示例
  */
@@ -98,7 +98,7 @@ class ApisTable extends Table{
 			'cat_id'=>'分类',
 			'user_id'=>'用户',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'since'=>'自从',
 			'sample_response'=>'响应示例',
 		);
@@ -157,6 +157,6 @@ class ApisTable extends Table{
 	}
 	
 	public function getPublicFields(){
-		return $this->getFields(array('create_time', 'last_modified_time'));
+		return $this->getFields(array('create_time', 'update_time'));
 	}
 }

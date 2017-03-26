@@ -14,7 +14,7 @@ use fay\core\db\Table;
  * @property string $sample 示例值
  * @property string $description 描述
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property string $since 自从
  */
 class InputsTable extends Table{
@@ -68,7 +68,7 @@ class InputsTable extends Table{
 			'sample'=>'示例值',
 			'description'=>'描述',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'since'=>'自从',
 		);
 	}

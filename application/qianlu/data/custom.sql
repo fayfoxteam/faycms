@@ -17,11 +17,11 @@ INSERT INTO `{{$prefix}}categories` (id, parent, sort, alias, title, description
 INSERT INTO `{{$prefix}}categories` (id, parent, sort, alias, title, description) VALUES ('1005', '1', '100', 'service', '服务介绍', '');
 
 -- 新增一篇服务（否则会报错）
-INSERT INTO `{{$prefix}}posts` (id, cat_id, title, content, create_time, last_modified_time, user_id) VALUES ('1', '1005', '服务一', '', '{{$time}}', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}posts` (id, cat_id, title, content, create_time, update_time, user_id) VALUES ('1', '1005', '服务一', '', '{{$time}}', '{{$time}}', '10000');
 
 -- 新增静态页面
-INSERT INTO `{{$prefix}}pages` (id, title, alias, create_time, last_modified_time) VALUES ('1', '关于我们', 'about', '{{$time}}', '{{$time}}');
-INSERT INTO `{{$prefix}}pages` (id, title, alias, create_time, last_modified_time) VALUES ('2', '联系我们', 'contact', '{{$time}}', '{{$time}}');
+INSERT INTO `{{$prefix}}pages` (id, title, alias, create_time, update_time) VALUES ('1', '关于我们', 'about', '{{$time}}', '{{$time}}');
+INSERT INTO `{{$prefix}}pages` (id, title, alias, create_time, update_time) VALUES ('2', '联系我们', 'contact', '{{$time}}', '{{$time}}');
 
 -- 初始化几个参数
 INSERT INTO `{{$prefix}}options` VALUES ('100', 'site:copyright', 'Copyright© 2013 Siwi.Me 版权所有', '', '{{$time}}', '0', '0');

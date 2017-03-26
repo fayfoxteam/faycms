@@ -238,7 +238,7 @@ class FeedController extends AdminController{
 				'range'=>array('asc', 'desc'),
 			)),
 			array('time_field', 'range', array(
-				'range'=>array('publish_time', 'create_time', 'last_modified_time')
+				'range'=>array('publish_time', 'create_time', 'update_time')
 			)),
 		))->check();
 		
@@ -253,7 +253,7 @@ class FeedController extends AdminController{
 		
 		//页面设置
 		$_settings = $this->settingForm('admin_feed_index', '_setting_index', array(
-			'cols'=>array('user', 'status', 'publish_time', 'last_modified_time', 'create_time', 'timeline'),
+			'cols'=>array('user', 'status', 'publish_time', 'update_time', 'create_time', 'timeline'),
 			'display_name'=>'nickname',
 			'display_time'=>'short',
 			'page_size'=>10,

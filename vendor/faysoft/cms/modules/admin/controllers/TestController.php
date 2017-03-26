@@ -288,7 +288,7 @@ class TestController extends AdminController{
 		$start_time = microtime(true);
 		foreach($rand as $r){
 			PostsTable::model()->update(array(
-				'last_modified_time'=>time(),
+				'update_time'=>time(),
 			), $r);
 		}
 		

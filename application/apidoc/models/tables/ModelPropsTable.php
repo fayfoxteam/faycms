@@ -16,7 +16,7 @@ use fay\core\db\Table;
  * @property string $since 自从
  * @property int $sort 排序值
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  */
 class ModelPropsTable extends Table{
 	protected $_name = 'apidoc_model_props';
@@ -54,7 +54,7 @@ class ModelPropsTable extends Table{
 			'since'=>'自从',
 			'sort'=>'排序值',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 		);
 	}
 
@@ -73,6 +73,6 @@ class ModelPropsTable extends Table{
 	}
 	
 	public function getPublicFields(){
-		return $this->getFields(array('create_time', 'last_modified_time'));
+		return $this->getFields(array('create_time', 'update_time'));
 	}
 }

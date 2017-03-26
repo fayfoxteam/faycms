@@ -16,7 +16,7 @@ class OptionsTable extends Table{
 	
 	public function rules(){
 		return array(
-			array(array('id', 'create_time', 'last_modified_time'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'create_time', 'update_time'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('option_name'), 'string', array('max'=>255)),
 			array(array('description'), 'string', array('max'=>500)),
 			array(array('is_system'), 'range', array('range'=>array(0, 1))),
@@ -33,7 +33,7 @@ class OptionsTable extends Table{
 			'option_value'=>'参数值',
 			'description'=>'Description',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后更新时间',
+			'update_time'=>'最后更新时间',
 			'is_system'=>'Is System',
 		);
 	}

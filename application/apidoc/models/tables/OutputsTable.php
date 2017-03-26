@@ -16,7 +16,7 @@ use fay\core\db\Table;
  * @property int $sort 排序值
  * @property string $since 自从
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  */
 class OutputsTable extends Table{
 	protected $_name = 'apidoc_outputs';
@@ -54,7 +54,7 @@ class OutputsTable extends Table{
 			'sort'=>'排序值',
 			'since'=>'自从',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 		);
 	}
 

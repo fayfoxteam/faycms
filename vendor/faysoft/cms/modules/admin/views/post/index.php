@@ -47,7 +47,7 @@ $cols = F::form('setting')->getData('cols', array());
 				echo F::form('search')->select('time_field', array(
 					'publish_time'=>'发布时间',
 					'create_time'=>'创建时间',
-					'last_modified_time'=>'最后修改时间',
+					'update_time'=>'更新时间',
 				), array(
 					'class'=>'form-control',
 				)),
@@ -202,8 +202,8 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php if(in_array('last_view_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>
 						<?php }?>
-						<?php if(in_array('last_modified_time', $cols)){?>
-						<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
+						<?php if(in_array('update_time', $cols)){?>
+						<th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
 						<?php }?>
 						<?php if(in_array('create_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
@@ -262,8 +262,8 @@ $cols = F::form('setting')->getData('cols', array());
 						<?php if(in_array('last_view_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>
 						<?php }?>
-						<?php if(in_array('last_modified_time', $cols)){?>
-						<th><?php echo ListTableHelper::getSortLink('last_modified_time', '最后修改时间')?></th>
+						<?php if(in_array('update_time', $cols)){?>
+						<th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
 						<?php }?>
 						<?php if(in_array('create_time', $cols)){?>
 						<th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>

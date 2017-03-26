@@ -89,7 +89,7 @@ class OptionService extends Service{
 		if($option){
 			OptionsTable::model()->update(array(
 				'option_value'=>$value,
-				'last_modified_time'=>\F::app()->current_time,
+				'update_time'=>\F::app()->current_time,
 			), array(
 				'option_name = ?'=>$name,
 			));

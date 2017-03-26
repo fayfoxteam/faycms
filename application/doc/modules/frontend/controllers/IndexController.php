@@ -14,7 +14,7 @@ class IndexController extends FrontController{
 		$sql = new Sql();
 		$sql->from(array('p'=>'posts'), 'cat_id')
 			->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'alias,title,description')
-			->order('last_modified_time DESC')
+			->order('update_time DESC')
 			->limit(20)
 			->group('p.cat_id')
 		;

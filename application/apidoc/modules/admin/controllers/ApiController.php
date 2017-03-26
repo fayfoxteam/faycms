@@ -152,7 +152,7 @@ class ApiController extends AdminController{
 		if($this->input->post() && $this->form()->check()){
 			$data = ApisTable::model()->fillData($this->input->post(), true, 'insert');
 			$data['create_time'] = $this->current_time;
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
 			$api_id = ApisTable::model()->insert($data);
 			
@@ -161,7 +161,7 @@ class ApiController extends AdminController{
 				$input = InputsTable::model()->fillData($i, true, 'insert');
 				$input['api_id'] = $api_id;
 				$input['create_time'] = $this->current_time;
-				$input['last_modified_time'] = $this->current_time;
+				$input['update_time'] = $this->current_time;
 				InputsTable::model()->insert($input);
 			}
 			
@@ -181,7 +181,7 @@ class ApiController extends AdminController{
 				$output['sort'] = $j;
 				$output['model_id'] = $model['id'];
 				$output['create_time'] = $this->current_time;
-				$output['last_modified_time'] = $this->current_time;
+				$output['update_time'] = $this->current_time;
 				OutputsTable::model()->insert($output);
 			}
 			
@@ -237,7 +237,7 @@ class ApiController extends AdminController{
 		
 		if($this->input->post() && $this->form()->check()){
 			$data = ApisTable::model()->fillData($this->input->post(), true, 'update');
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			ApisTable::model()->update($data, $api_id);
 			
 			//输入参数处理
@@ -260,13 +260,13 @@ class ApiController extends AdminController{
 			foreach($inputs as $input_parameter_id => $input){
 				if(in_array($input_parameter_id, $old_input_parameter_ids)){
 					$input = InputsTable::model()->fillData($input, true, 'update');
-					$input['last_modified_time'] = $this->current_time;
+					$input['update_time'] = $this->current_time;
 					InputsTable::model()->update($input, $input_parameter_id);
 				}else{
 					$input = InputsTable::model()->fillData($input, true, 'insert');
 					$input['api_id'] = $api_id;
 					$input['create_time'] = $this->current_time;
-					$input['last_modified_time'] = $this->current_time;
+					$input['update_time'] = $this->current_time;
 					InputsTable::model()->insert($input);
 				}
 			}
@@ -302,7 +302,7 @@ class ApiController extends AdminController{
 					$output = OutputsTable::model()->fillData($o, true, 'update');
 					$output['model_id'] = $model['id'];
 					$output['sort'] = $i;
-					$output['last_modified_time'] = $this->current_time;
+					$output['update_time'] = $this->current_time;
 					OutputsTable::model()->update($output, $output_parameter_id);
 				}else{
 					$output = OutputsTable::model()->fillData($o, true, 'insert');
@@ -310,7 +310,7 @@ class ApiController extends AdminController{
 					$output['model_id'] = $model['id'];
 					$output['sort'] = $i;
 					$output['create_time'] = $this->current_time;
-					$output['last_modified_time'] = $this->current_time;
+					$output['update_time'] = $this->current_time;
 					OutputsTable::model()->insert($output);
 				}
 			}

@@ -91,7 +91,7 @@ class ModelController extends AdminController{
 		if($this->input->post() && $this->form()->check()){
 			$data = ModelsTable::model()->fillData($this->input->post(), true, 'insert');
 			$data['create_time'] = $this->current_time;
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			$data['user_id'] = $this->current_user;
 			$model_id = ModelsTable::model()->insert($data);
 			
@@ -108,7 +108,7 @@ class ModelController extends AdminController{
 				
 				$prop = ModelPropsTable::model()->fillData($p, true, 'insert');
 				$prop['create_time'] = $this->current_time;
-				$prop['last_modified_time'] = $this->current_time;
+				$prop['update_time'] = $this->current_time;
 				$prop['model_id'] = $model_id;
 				$prop['type'] = $type_model['id'];
 				$prop['sort'] = $i;
@@ -170,7 +170,7 @@ class ModelController extends AdminController{
 		
 		if($this->input->post() && $this->form()->check()){
 			$data = ModelsTable::model()->fillData($this->input->post(), true, 'update');
-			$data['last_modified_time'] = $this->current_time;
+			$data['update_time'] = $this->current_time;
 			ModelsTable::model()->update($data, $model_id);
 			
 			$props = $this->input->post('props');
@@ -204,7 +204,7 @@ class ModelController extends AdminController{
 					$prop = ModelPropsTable::model()->fillData($p, true, 'update');
 					$prop['sort'] = $i;
 					$prop['type'] = $type_model['id'];
-					$prop['last_modified_time'] = $this->current_time;
+					$prop['update_time'] = $this->current_time;
 					ModelPropsTable::model()->update($prop, $prop_id);
 				}else{
 					$prop = ModelPropsTable::model()->fillData($p, true, 'insert');
@@ -212,7 +212,7 @@ class ModelController extends AdminController{
 					$prop['sort'] = $i;
 					$prop['type'] = $type_model['id'];
 					$prop['create_time'] = $this->current_time;
-					$prop['last_modified_time'] = $this->current_time;
+					$prop['update_time'] = $this->current_time;
 					ModelPropsTable::model()->insert($prop);
 				}
 			}

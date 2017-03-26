@@ -12,7 +12,7 @@ use fay\core\db\Table;
  * @property string $content 正文
  * @property int $author 作者
  * @property int $create_time 创建时间
- * @property int $last_modified_time 最后修改时间
+ * @property int $update_time 更新时间
  * @property int $status 状态
  * @property int $deleted 删除标记
  * @property int $thumbnail 缩略图
@@ -48,7 +48,7 @@ class PagesTable extends Table{
 	public function rules(){
 		return array(
 			array(array('comments'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-			array(array('id', 'create_time', 'last_modified_time', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
+			array(array('id', 'create_time', 'update_time', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
 			array(array('author', 'views'), 'int', array('min'=>0, 'max'=>16777215)),
 			array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
 			array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
@@ -71,7 +71,7 @@ class PagesTable extends Table{
 			'content'=>'正文',
 			'author'=>'作者',
 			'create_time'=>'创建时间',
-			'last_modified_time'=>'最后修改时间',
+			'update_time'=>'更新时间',
 			'status'=>'状态',
 			'deleted'=>'删除标记',
 			'thumbnail'=>'缩略图',

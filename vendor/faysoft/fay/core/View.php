@@ -241,9 +241,9 @@ class View{
 	 * @param $code
 	 * @param $data
 	 */
-	public function evalCode($code, $data){
-		extract($data);
-		eval('?>'.$code.'<?php ');
+	public function evalCode($__code__, $data){
+		extract($data, EXTR_SKIP);
+		eval('?>'.$__code__.'<?php ');
 	}
 	
 	/**
@@ -253,7 +253,7 @@ class View{
 	 * @return string
 	 */
 	private function obOutput($__view_path__, $view_data = array()){
-		extract($view_data);
+		extract($view_data, EXTR_SKIP);
 		ob_start();
 		include $__view_path__;
 		$content = ob_get_contents();

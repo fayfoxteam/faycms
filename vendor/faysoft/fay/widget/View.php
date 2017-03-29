@@ -89,7 +89,7 @@ class View{
 		}
 		
 		$this->assign($view_data);
-		extract($this->getViewData());
+		extract($this->getViewData(), EXTR_SKIP);
 		ob_start();
 		include $view_file;
 		$content = ob_get_contents();

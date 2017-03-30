@@ -255,6 +255,7 @@ CREATE TABLE `{{$prefix}}files` (
   `downloads` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Downloads',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   `qiniu` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Qiniu',
+  `weixin_server_id` varchar(100) NOT NULL DEFAULT '' COMMENT '微信上传图片后得到的服务器端ID',
   PRIMARY KEY (`id`),
   KEY `raw_name` (`raw_name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};

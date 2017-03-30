@@ -3,6 +3,26 @@ namespace fay\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Files table model
+ *
+ * @property int $id Id
+ * @property string $raw_name Raw Name
+ * @property string $file_ext File Ext
+ * @property int $file_size File Size
+ * @property string $file_type File Type
+ * @property string $file_path File Path
+ * @property string $client_name Client Name
+ * @property int $is_image Is Image
+ * @property int $image_width Image Width
+ * @property int $image_height Image Height
+ * @property int $upload_time Upload Time
+ * @property int $user_id User Id
+ * @property int $downloads Downloads
+ * @property int $cat_id Cat Id
+ * @property int $qiniu Qiniu
+ * @property string $weixin_server_id 微信上传图片后得到的服务器端ID
+ */
 class FilesTable extends Table{
 	protected $_name = 'files';
 	
@@ -24,6 +44,7 @@ class FilesTable extends Table{
 			array(array('raw_name'), 'string', array('max'=>32)),
 			array(array('file_ext'), 'string', array('max'=>10)),
 			array(array('file_type'), 'string', array('max'=>30)),
+			array(array('weixin_server_id'), 'string', array('max'=>100)),
 			array(array('file_path', 'client_name'), 'string', array('max'=>255)),
 			array(array('is_image'), 'range', array('range'=>array(0, 1))),
 		);
@@ -46,6 +67,7 @@ class FilesTable extends Table{
 			'downloads'=>'Downloads',
 			'cat_id'=>'Cat Id',
 			'qiniu'=>'Qiniu',
+			'weixin_server_id'=>'微信上传图片后得到的服务器端ID',
 		);
 	}
 
@@ -65,6 +87,7 @@ class FilesTable extends Table{
 			'downloads'=>'intval',
 			'cat_id'=>'intval',
 			'qiniu'=>'intval',
+			'weixin_server_id'=>'trim',
 		);
 	}
 }

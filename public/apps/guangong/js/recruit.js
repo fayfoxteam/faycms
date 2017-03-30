@@ -11,11 +11,6 @@ var recruit = {
 			$('#recruit-2 .text').hide().removeClass('slideInDown animated');
 		}
 
-		if($swiper.find('.zhaomuling-text').length){
-			$swiper.find('.zhaomuling-text').fadeIn().addClass('slideInUp animated');
-		}else{
-			$('.zhaomuling-text').hide().removeClass('slideInUp animated');
-		}
 		if($swiper.find('.zhaomuling').length){
 			$swiper.find('.zhaomuling').fadeIn().addClass('slideInDown animated');
 		}else{

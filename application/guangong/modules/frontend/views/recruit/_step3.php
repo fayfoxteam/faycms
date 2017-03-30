@@ -36,6 +36,12 @@
 				))?></div>
 			</fieldset>
 			<fieldset>
+				<label>姓名</label>
+				<div class="field-container"><?php echo F::form()->inputText('realname', array(
+					'class'=>'form-control',
+				))?></div>
+			</fieldset>
+			<fieldset>
 				<label>出生期</label>
 				<div class="field-container"><?php echo F::form()->input('birthday', 'date', array(
 					'class'=>'form-control',
@@ -51,12 +57,22 @@
 					F::form()->select('city', array(''=>'-市-'), array(
 						'class'=>'form-control ib',
 						'id'=>'reg-city',
-					)),
-					F::form()->select('district', array(''=>'-区-'), array(
-						'class'=>'form-control ib',
-						'id'=>'reg-district',
 					));
 					?></div>
+			</fieldset>
+			<fieldset>
+				<label>报名期</label>
+				<div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('', date('Y年m月d日'), array(
+						'class'=>'form-control',
+						'disabled'=>'disabled',
+				))?></div>
+			</fieldset>
+			<fieldset>
+				<label>服役期</label>
+				<div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('', '报名第二天至第365天', array(
+					'class'=>'form-control',
+					'disabled'=>'disabled',
+				))?></div>
 			</fieldset>
 			<?php echo F::form()->close()?>
 		</div>
@@ -92,26 +108,6 @@ $(function(){
 						regCity.append('<option value="'+n.id+'">'+n.name+'</option>');
 					});
 					regCity.change();
-				}else{
-					common.toast(resp.mesage, 'error');
-				}
-			}
-		});
-	});
-	$('#reg-city').on('change', function(){
-		$.ajax({
-			'type': 'GET',
-			'url': system.url('api/region/get-next-level'),
-			'data': {'id': $(this).val()},
-			'dataType': 'json',
-			'cache': false,
-			'success': function(resp){
-				if(resp.status){
-					var regDistrict = $('#reg-district');
-					regDistrict.html('');
-					$.each(resp.data.regions, function(i, n){
-						regDistrict.append('<option value="'+n.id+'">'+n.name+'</option>');
-					});
 				}else{
 					common.toast(resp.mesage, 'error');
 				}

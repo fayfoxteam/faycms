@@ -36,10 +36,13 @@ class UserController extends \cms\modules\api\controllers\UserController{
 				'birthday'=>date('Y-m-d', strtotime($this->form()->getData('birthday'))),
 				'state'=>$this->form()->getData('state'),
 				'city'=>$this->form()->getData('city'),
-				'district'=>$this->form()->getData('district'),
-				'sign_up_time'=>$this->current_time
+				'sign_up_time'=>$this->current_time,
 			), array(
 				'user_id = ?'=>$this->current_user,
+			));
+			
+			UserService::service()->update($this->current_user, array(
+				'realname'=>$this->form()->getData('realname'),
 			));
 			
 			Response::notify('success', '注册成功');

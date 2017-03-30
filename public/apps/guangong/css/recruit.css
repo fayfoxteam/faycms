@@ -19,13 +19,13 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-1{background:url(../images/recruit/index.jpg) no-repeat center center transparent;background-size:cover}
 
 #recruit-2 .text{width:230px;left:50%;top:50%;margin-left:-115px;margin-top:-186px}
-#recruit-3 .steps{height:240px;width:300px;left:50%;top:50%;margin-left:-150px;margin-top:-120px}
+#recruit-3 .steps{height:240px;width:210px;left:50%;top:50%;margin-left:-105px;margin-top:-120px}
 #recruit-3 .steps img{width:43px}
 
 #recruit-4 .description{width:254px;margin-left:-127px}
 
-#recruit-5 .zhaomuling{left:50%;top:17px;margin-left:-65px}
-#recruit-5 .zhaomuling-text{width:65%;left:50%;bottom:20px;margin-left:-33%;max-width:280px}
+#recruit-5 .zhaomuling{left:50%;top:17px;margin-left:-81px}
+#recruit-5 .zhaomuling-text{width:65%;left:50%;bottom:20px;margin-left:-38%;max-width:280px}
 @media screen and (min-width:430px){
     #recruit-5 .zhaomuling-text{margin-left:-150px}
 }
@@ -47,7 +47,7 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-32 .to-login,#recruit-32 .military{left:50%;top:50%;margin-left:-52px;margin-top:-23px;}
 #recruit-32 .to-login a,#recruit-32 .military a{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
 #recruit-32 .register-form{width:80%;max-width:320px;left:50%;margin-left:-40%;top:50%;margin-top:-215px}
-#recruit-32 .register-form .form-control.ib{margin-right:2px;width:32%}
+#recruit-32 .register-form .form-control.ib{margin-right:2%;width:48%}
 #recruit-32 .avatar-container{text-align:center;margin-bottom:30px}
 #recruit-32 .avatar-container img{border-radius:50%;width:100px;height:100px;}
 .submit-container{bottom:60px;text-align:center;left:50%;margin-left:-52px}

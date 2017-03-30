@@ -14,7 +14,7 @@ class SignUpForm extends Model{
 	
 	public function rules(){
 		return array(
-			array(array('mobile', 'birthday', 'state', 'city', 'district'), 'required'),
+			array(array('mobile', 'birthday', 'state', 'city', 'realname'), 'required'),
 			array('mobile', 'mobile'),
 			//array('captcha', 'captcha'),
 		);
@@ -27,6 +27,7 @@ class SignUpForm extends Model{
 			'state'=>'省',
 			'city'=>'市',
 			'district'=>'县',
+			'realname'=>'姓名',
 			//'captcha'=>'验证码',
 		);
 	}
@@ -37,6 +38,7 @@ class SignUpForm extends Model{
 			'email'=>'trim',
 			'subject'=>'trim',
 			'message'=>'trim',
+			'realname'=>'trim',
 		);
 	}
 }

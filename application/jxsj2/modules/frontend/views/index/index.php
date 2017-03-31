@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <style>
 #login-panel table{padding:13px 0;}

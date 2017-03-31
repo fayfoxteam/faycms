@@ -2,7 +2,7 @@
 namespace valentine\modules\frontend\controllers;
 
 use cms\library\ApiController;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use valentine\models\tables\ValentineUserTeamsTable;
 
 /**

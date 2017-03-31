@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\models\tables\FilesTable;
 
 if($data['thumbnail']){

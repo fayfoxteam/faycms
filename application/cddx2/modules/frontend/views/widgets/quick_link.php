@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <div id="quick-link">
 	<div class="ql-title"><img src="<?php echo $this->appAssets('images/quick-link.png')?>"></div>

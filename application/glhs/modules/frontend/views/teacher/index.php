@@ -1,7 +1,7 @@
 <?php
 use fay\services\OptionService;
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\post\PostService;
 use fay\helpers\StringHelper;
 ?>

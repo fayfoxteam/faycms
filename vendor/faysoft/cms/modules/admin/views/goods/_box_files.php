@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <div class="box" id="box-files" data-name="files">
 	<div class="box-title">

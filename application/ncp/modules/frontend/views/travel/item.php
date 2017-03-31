@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\helpers\StringHelper;
 
 $this->appendCss($this->appAssets('css/travel.css'));

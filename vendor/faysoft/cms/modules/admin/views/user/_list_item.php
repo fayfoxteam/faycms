@@ -2,7 +2,7 @@
 use fay\models\tables\UsersTable;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\user\UserRoleService;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">

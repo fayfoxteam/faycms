@@ -20,10 +20,18 @@ class Layout{
 		return $this->_layout_data;
 	}
 	
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public function __set($key, $value){
 		$this->_layout_data[$key] = $value;
 	}
 	
+	/**
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function __get($key){
 		return $this->_layout_data[$key];
 	}

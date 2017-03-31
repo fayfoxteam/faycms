@@ -3,7 +3,7 @@ namespace fay\services\post;
 
 use fay\core\Service;
 use fay\core\Sql;
-use fay\services\FileService;
+use fay\services\file\FileService;
 
 class PostFileService extends Service{
 	/**

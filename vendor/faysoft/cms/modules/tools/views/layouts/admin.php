@@ -1,7 +1,7 @@
 <?php 
 use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\FlashService;
 use fay\services\user\UserService;
 use fay\services\user\UserRoleService;

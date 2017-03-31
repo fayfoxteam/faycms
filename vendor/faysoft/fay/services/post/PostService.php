@@ -19,7 +19,7 @@ use fay\helpers\RequestHelper;
 use fay\models\tables\PostFavoritesTable;
 use fay\models\tables\PostExtraTable;
 use fay\services\CategoryService;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\OptionService;
 use fay\services\user\UserService;
 

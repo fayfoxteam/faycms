@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <div class="drag-drop-area" id="drag-drop-area">
 	<div class="drag-drop-inside">

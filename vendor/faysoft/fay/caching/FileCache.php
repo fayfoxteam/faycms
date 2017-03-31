@@ -1,6 +1,6 @@
 <?php
 namespace fay\caching;
-use fay\services\FileService;
+use fay\services\file\FileService;
 
 /**
  * 文件缓存

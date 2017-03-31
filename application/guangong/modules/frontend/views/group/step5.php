@@ -30,7 +30,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 				<fieldset>
 					<div class="avatar"><?php
 						if($user['user']['avatar']){
-							echo \fay\helpers\HtmlHelper::img($user['user']['avatar']['id'], \fay\services\FileService::PIC_RESIZE, array(
+							echo \fay\helpers\HtmlHelper::img($user['user']['avatar']['id'], \fay\services\file\FileService::PIC_RESIZE, array(
 								'dw'=>113,
 								'dh'=>151,
 							));

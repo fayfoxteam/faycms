@@ -4,7 +4,7 @@ namespace guangong\modules\api\controllers;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\models\tables\UsersTable;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\user\UserService;
 use guangong\helpers\UserHelper;
 use guangong\models\forms\SignUpForm;

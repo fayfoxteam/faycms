@@ -1,7 +1,7 @@
 <?php
 namespace guangong\modules\frontend\controllers;
 
-use fay\services\FileService;
+use fay\services\file\FileService;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongRanksTable;
 

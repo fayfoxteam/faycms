@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <li>
 	<div class="avatar">

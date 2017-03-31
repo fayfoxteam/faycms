@@ -6,7 +6,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\NumberHelper;
 use fay\models\tables\OptionsTable;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\OauthService;
 use fay\services\OptionService;

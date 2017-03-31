@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 
 /**
  * @var $widget \fay\widgets\images\controllers\IndexController

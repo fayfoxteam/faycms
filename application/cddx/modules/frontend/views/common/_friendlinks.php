@@ -2,7 +2,7 @@
 use fay\services\CategoryService;
 use fay\services\LinkService;
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 
 $links_has_logo = LinkService::service()->getLinksHasLogo(null, 10);
 $link_cats = CategoryService::service()->getChildren('_system_link');

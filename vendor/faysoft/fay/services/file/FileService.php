@@ -15,7 +15,7 @@ use fay\services\CategoryService;
 use fay\services\OptionService;
 
 /**
- * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储
+ * 文件相关操作类
  */
 class FileService extends Service{
 	/**
@@ -427,14 +427,14 @@ class FileService extends Service{
 				'alias'=>'',
 			);
 		}
-		$client_name || $client_name = $url;
+		$client_name || $client_name = '';
 		
 		//用file_get_contents获取微信头像就非常非常慢
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_URL, $url);
-		$response =  curl_exec($ch);
+		$response = curl_exec($ch);
 		curl_close($ch);
 		
 		$file = @imagecreatefromstring($response);
@@ -442,11 +442,7 @@ class FileService extends Service{
 			throw new HttpException('获取远程文件失败', 500);
 		}
 		
-		$target = $cat['alias'];
-		if($target && substr($target, -1) != '/'){
-			//目标路径末尾不是斜杠的话，加上斜杠
-			$target .= '/';
-		}
+		$target = $cat['alias'] ? $cat['alias'] . '/' : '';
 		$upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
 			: './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
 		//若指定目录不存在，则创建目录

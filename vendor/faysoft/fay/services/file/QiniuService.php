@@ -1,9 +1,10 @@
 <?php
-namespace fay\services;
+namespace fay\services\file;
 
 use fay\core\Service;
 use fay\models\tables\FilesTable;
 use fay\helpers\StringHelper;
+use fay\services\OptionService;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;

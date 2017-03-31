@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <header class="g-hd" id="g-hd">
 	<div class="hd-bar-shadow"></div>

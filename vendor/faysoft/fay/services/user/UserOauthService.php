@@ -6,7 +6,7 @@ use fay\core\HttpException;
 use fay\core\Service;
 use fay\models\tables\UserConnectsTable;
 use fay\models\tables\UsersTable;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\OauthAppService;
 use fay\services\oauth\OAuthException;
 use fay\services\oauth\UserAbstract;

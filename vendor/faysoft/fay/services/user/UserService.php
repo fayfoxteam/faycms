@@ -13,7 +13,7 @@ use fay\models\tables\UsersRolesTable;
 use fay\models\tables\UserCounterTable;
 use fay\models\tables\UserLoginsTable;
 use fay\services\AnalystService;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\OptionService;
 
 /**

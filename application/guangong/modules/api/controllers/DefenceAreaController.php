@@ -3,7 +3,7 @@ namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use guangong\models\tables\GuangongDefenceAreasTable;
 use guangong\models\tables\GuangongUserExtraTable;
 

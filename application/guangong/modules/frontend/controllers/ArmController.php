@@ -1,7 +1,7 @@
 <?php
 namespace guangong\modules\frontend\controllers;
 
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\OptionService;
 use fay\services\user\UserService;
 use fay\services\wechat\jssdk\JsSDK;

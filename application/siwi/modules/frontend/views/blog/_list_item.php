@@ -1,5 +1,5 @@
 <?php
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\DateHelper;

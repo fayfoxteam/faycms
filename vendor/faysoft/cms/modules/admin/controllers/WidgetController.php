@@ -7,7 +7,7 @@ use fay\helpers\StringHelper;
 use fay\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
 

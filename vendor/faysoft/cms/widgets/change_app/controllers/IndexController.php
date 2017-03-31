@@ -2,7 +2,7 @@
 namespace cms\widgets\change_app\controllers;
 
 use fay\widget\Widget;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\core\Response;
 
 class IndexController extends Widget{

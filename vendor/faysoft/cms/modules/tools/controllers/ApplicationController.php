@@ -3,7 +3,7 @@ namespace cms\modules\tools\controllers;
 
 use cms\library\Db;
 use cms\library\ToolsController;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\CategoryService;
 use fay\helpers\StringHelper;
 use fay\models\tables\UsersTable;

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <form id="options-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
 	<div class="row">

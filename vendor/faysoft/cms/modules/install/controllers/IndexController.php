@@ -4,7 +4,7 @@ namespace cms\modules\install\controllers;
 use cms\library\InstallController;
 use fay\models\tables\UsersTable;
 use fay\services\OptionService;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;

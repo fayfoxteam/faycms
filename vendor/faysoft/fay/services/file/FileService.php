@@ -1,5 +1,5 @@
 <?php
-namespace fay\services;
+namespace fay\services\file;
 
 use fay\core\HttpException;
 use fay\core\Service;
@@ -11,6 +11,8 @@ use fay\common\Upload;
 use fay\helpers\ImageHelper;
 use fay\helpers\StringHelper;
 use fay\core\ErrorException;
+use fay\services\CategoryService;
+use fay\services\OptionService;
 
 /**
  * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储
@@ -316,7 +318,7 @@ class FileService extends Service{
 			}
 			
 			if(!$cat){
-				throw new ErrorException('fay\services\FileService::upload传入$cat不存在');
+				throw new ErrorException('fay\services\file\FileService::upload传入$cat不存在');
 			}
 		}else{
 			$cat = array(
@@ -417,7 +419,7 @@ class FileService extends Service{
 			}
 			
 			if(!$cat){
-				throw new ErrorException('fay\services\FileService::upload传入$cat不存在');
+				throw new ErrorException('fay\services\file\FileService::upload传入$cat不存在');
 			}
 		}else{
 			$cat = array(
@@ -559,7 +561,7 @@ class FileService extends Service{
 				break;
 			case 'crop':
 				if(!$params['x'] || !$params['y'] || !$params['w'] || !$params['h']){
-					throw new ErrorException('fay\services\FileService::edit方法crop处理缺少必要参数');
+					throw new ErrorException('fay\services\file\FileService::edit方法crop处理缺少必要参数');
 				}
 				
 				if($params['w'] && $params['h']){

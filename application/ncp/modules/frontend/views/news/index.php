@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use ncp\helpers\FriendlyLink;
-use fay\services\FileService;
+use fay\services\file\FileService;
 $this->appendCss($this->appAssets('css/news.css'));
 ?>
 <style type="text/css">

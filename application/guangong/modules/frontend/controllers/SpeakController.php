@@ -2,7 +2,7 @@
 namespace guangong\modules\frontend\controllers;
 
 use fay\core\Response;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\services\OptionService;
 use fay\services\wechat\core\AccessToken;
 use fay\services\wechat\jssdk\JsSDK;

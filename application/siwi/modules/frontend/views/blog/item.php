@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 use fay\helpers\DateHelper;
 
 $this->appendCss($this->appAssets('css/blog.css'));

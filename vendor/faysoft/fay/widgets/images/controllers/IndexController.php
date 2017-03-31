@@ -2,7 +2,7 @@
 namespace fay\widgets\images\controllers;
 
 use fay\widget\Widget;
-use fay\services\FileService;
+use fay\services\file\FileService;
 
 class IndexController extends Widget{
 	public function initConfig($config)

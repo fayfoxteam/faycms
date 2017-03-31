@@ -1,7 +1,7 @@
 <?php
 namespace fay\helpers;
 
-use fay\services\FileService;
+use fay\services\file\FileService;
 
 /**
  * 构造html元素

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\FileService;
+use fay\services\file\FileService;
 ?>
 <div class="box" id="<?php echo HtmlHelper::encode($widget->alias);?>">
 	<div class="box-title">

@@ -55,7 +55,7 @@ class SpeakController extends FrontController{
 	public function create(){
 		if($this->input->post() && $this->form()->setModel(GuangongSpeaksTable::model())
 			->check()){
-			$data = $this->form()->getAllData();
+			$data = $this->form()->getFilteredData();
 			$data['create_time'] = $this->current_time;
 			
 			$speak_id = GuangongSpeaksTable::model()->insert($data);

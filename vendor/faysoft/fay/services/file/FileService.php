@@ -101,7 +101,7 @@ class FileService extends Service{
 			if($file <= 0){
 				return '';
 			}
-			$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			$file = FilesTable::model()->find($file);
 		}
 		
 		if(!$file){
@@ -113,97 +113,102 @@ class FileService extends Service{
 			}
 		}
 		
-		if($file['is_image']){
-			switch($type){
-				case self::PIC_THUMBNAIL://缩略图
-					if($file['qiniu'] && OptionService::get('qiniu:enabled')){
-						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						return QiniuService::service()->getUrl($file, array(
-							'dw'=>'100',
-							'dh'=>'100',
+		if($file['weixin_server_id']){
+			//微信服务器，还未下载到本地，直接返回微信服务器图片地址
+			return WeixinFileService::getUrl($file['weixin_server_id']);
+		}
+		
+		if(!$file['is_image']){
+			//非图片，返回下载链接
+			return UrlHelper::createUrl('file/download', array('id'=>$file['id']));
+		}
+		
+		switch($type){
+			case self::PIC_THUMBNAIL://缩略图
+				if($file['qiniu'] && OptionService::get('qiniu:enabled')){
+					//若开启了七牛云存储，且文件已上传，则显示七牛路径
+					return QiniuService::service()->getUrl($file, array(
+						'dw'=>'100',
+						'dh'=>'100',
+					));
+				}else{
+					if(substr($file['file_path'], 0, 4) == './..'){
+						//私有文件，不能直接访问文件
+						return UrlHelper::createUrl('file/pic', array(
+							't'=>self::PIC_THUMBNAIL,
+							'f'=>$file['id'],
 						));
 					}else{
-						if(substr($file['file_path'], 0, 4) == './..'){
-							//私有文件，不能直接访问文件
-							return UrlHelper::createUrl('file/pic', array(
-								't'=>self::PIC_THUMBNAIL,
-								'f'=>$file['id'],
-							));
-						}else{
-							//公共文件，直接返回真实路径
-							return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
-						}
+						//公共文件，直接返回真实路径
+						return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
 					}
-				break;
-				case self::PIC_CROP://裁剪
-					$img_params = array(
-						't'=>self::PIC_CROP,
-					);
-					isset($options['x']) && $img_params['x'] = $options['x'];
-					isset($options['y']) && $img_params['y'] = $options['y'];
+				}
+			break;
+			case self::PIC_CROP://裁剪
+				$img_params = array(
+					't'=>self::PIC_CROP,
+				);
+				isset($options['x']) && $img_params['x'] = $options['x'];
+				isset($options['y']) && $img_params['y'] = $options['y'];
+				isset($options['dw']) && $img_params['dw'] = $options['dw'];
+				isset($options['dh']) && $img_params['dh'] = $options['dh'];
+				isset($options['w']) && $img_params['w'] = $options['w'];
+				isset($options['h']) && $img_params['h'] = $options['h'];
+				
+				ksort($img_params);
+				
+				return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+			break;
+			case self::PIC_RESIZE://缩放
+				if($file['qiniu'] && OptionService::get('qiniu:enabled')){
+					//若开启了七牛云存储，且文件已上传，则显示七牛路径
+					return QiniuService::service()->getUrl($file, array(
+						'dw'=>isset($options['dw']) ? $options['dw'] : false,
+						'dh'=>isset($options['dh']) ? $options['dh'] : false,
+					));
+				}else{
+					$img_params = array('t'=>self::PIC_RESIZE);
 					isset($options['dw']) && $img_params['dw'] = $options['dw'];
 					isset($options['dh']) && $img_params['dh'] = $options['dh'];
-					isset($options['w']) && $img_params['w'] = $options['w'];
-					isset($options['h']) && $img_params['h'] = $options['h'];
-					
-					ksort($img_params);
 					
 					return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+				}
+			break;
+			case self::PIC_CUT://缩放
+				if($file['qiniu'] && OptionService::get('qiniu:enabled')){
+					//若开启了七牛云存储，且文件已上传，则显示七牛路径
+					empty($options['dw']) && $options['dw'] = $file['image_width'];
+					empty($options['dh']) && $options['dh'] = $file['image_height'];
+					
+					return QiniuService::service()->getUrl($file, array(
+						'dw'=>$options['dw'],
+						'dh'=>$options['dh'],
+					));
+				}else{
+					$img_params = array('t'=>self::PIC_RESIZE);
+					isset($options['dw']) && $img_params['dw'] = $options['dw'];
+					isset($options['dh']) && $img_params['dh'] = $options['dh'];
+					
+					return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+				}
 				break;
-				case self::PIC_RESIZE://缩放
-					if($file['qiniu'] && OptionService::get('qiniu:enabled')){
-						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						return QiniuService::service()->getUrl($file, array(
-							'dw'=>isset($options['dw']) ? $options['dw'] : false,
-							'dh'=>isset($options['dh']) ? $options['dh'] : false,
+			case self::PIC_ORIGINAL://原图
+			default:
+				if($file['qiniu'] && OptionService::get('qiniu:enabled')){
+					//若开启了七牛云存储，且文件已上传，则显示七牛路径
+					return QiniuService::service()->getUrl($file);
+				}else{
+					if(substr($file['file_path'], 0, 4) == './..'){
+						//私有文件，不能直接访问文件
+						return UrlHelper::createUrl('file/pic', array(
+							'f'=>$file['id'],
 						));
 					}else{
-						$img_params = array('t'=>self::PIC_RESIZE);
-						isset($options['dw']) && $img_params['dw'] = $options['dw'];
-						isset($options['dh']) && $img_params['dh'] = $options['dh'];
-						
-						return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+						//公共文件，直接返回真实路径
+						return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
 					}
-				break;
-				case self::PIC_CUT://缩放
-					if($file['qiniu'] && OptionService::get('qiniu:enabled')){
-						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						empty($options['dw']) && $options['dw'] = $file['image_width'];
-						empty($options['dh']) && $options['dh'] = $file['image_height'];
-						
-						return QiniuService::service()->getUrl($file, array(
-							'dw'=>$options['dw'],
-							'dh'=>$options['dh'],
-						));
-					}else{
-						$img_params = array('t'=>self::PIC_RESIZE);
-						isset($options['dw']) && $img_params['dw'] = $options['dw'];
-						isset($options['dh']) && $img_params['dh'] = $options['dh'];
-						
-						return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
-					}
-					break;
-				case self::PIC_ORIGINAL://原图
-				default:
-					if($file['qiniu'] && OptionService::get('qiniu:enabled')){
-						//若开启了七牛云存储，且文件已上传，则显示七牛路径
-						return QiniuService::service()->getUrl($file);
-					}else{
-						if(substr($file['file_path'], 0, 4) == './..'){
-							//私有文件，不能直接访问文件
-							return UrlHelper::createUrl('file/pic', array(
-								'f'=>$file['id'],
-							));
-						}else{
-							//公共文件，直接返回真实路径
-							return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . $file['file_ext'];
-						}
-					}
-				break;
-			}
-			
-		}else{
-			return UrlHelper::createUrl('file/download', array('id'=>$file['id']));
+				}
+			break;
 		}
 	}
 	
@@ -236,12 +241,17 @@ class FileService extends Service{
 	 */
 	public static function getThumbnailUrl($file, $options = array()){
 		if(StringHelper::isInt($file)){
-			$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu,file_type');
+			$file = FilesTable::model()->find($file);
 		}
 		
 		if(!$file){
 			//指定文件不存在，返回null
 			return '';
+		}
+		
+		if($file['weixin_server_id']){
+			//微信服务器，还未下载到本地，直接返回微信服务器图片地址
+			return WeixinFileService::getUrl($file['weixin_server_id']);
 		}
 		
 		if(!$file['is_image']){
@@ -281,7 +291,7 @@ class FileService extends Service{
 	 */
 	public static function getThumbnailPath($file, $realpath = true){
 		if(StringHelper::isInt($file)){
-			$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			$file = FilesTable::model()->find($file);
 		}
 		
 		if(!$file){
@@ -806,7 +816,7 @@ class FileService extends Service{
 		$fields = FieldHelper::parse($fields);
 		
 		if(!is_array($file) && ($file <= 0 ||
-			!$file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu'))
+			!$file = FilesTable::model()->find($file))
 		){
 			//显然负数ID不存在，返回默认图数组
 			if(isset($options['spare'])){
@@ -894,7 +904,7 @@ class FileService extends Service{
 	 * 批量获取图片对象
 	 * @param array $files 数组所有项必须一致（均为数字，或均为文件行数组）
 	 *  - 由文件ID构成的一维数组，则会根据文件ID进行搜索
-	 *  - 由文件信息对象（其实也是数组）构成的二维数组。至少包含id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu字段
+	 *  - 由文件信息对象（其实也是数组）构成的二维数组。至少包含id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu,weixin_server_id字段
 	 * @param array $options
 	 * @param string $fields 返回字段，可指定id, url, thumbnail, is_image, width, height, description
 	 * @return array
@@ -909,7 +919,7 @@ class FileService extends Service{
 			//传入的是文件ID，通过ID获取文件信息
 			$file_rows = FilesTable::model()->fetchAll(array(
 				'id IN (?)'=>$files,
-			), 'id,raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
+			));
 			$file_map = ArrayHelper::column($file_rows, null, 'id');
 			
 			foreach($files as $f){

@@ -14,6 +14,8 @@ use fay\services\wechat\core\AccessToken;
  * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储
  */
 class WeixinFileService extends Service{
+	const GET_MEDIA_URL = 'http://file.api.weixin.qq.com/cgi-bin/media/get';
+	
 	/**
 	 * @param string $class_name
 	 * @return WeixinFileService
@@ -82,12 +84,8 @@ class WeixinFileService extends Service{
 			); 
 		}
 		
-		//获取Access Token
-		$app_config = OptionService::getGroup('oauth:weixin');
-		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
+		$url = self::getUrl($file['weixin_server_id']);
 		
-		//从微信服务器获取文件
-		$url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token->getToken()}&media_id={$file['weixin_server_id']}";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -134,5 +132,14 @@ class WeixinFileService extends Service{
 		imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
 		
 		return $file['id'];
+	}
+	
+	public static function getUrl($server_id){
+		//获取Access Token
+		$app_config = OptionService::getGroup('oauth:weixin');
+		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
+		
+		//从微信服务器获取文件
+		return self::GET_MEDIA_URL . "?access_token={$access_token->getToken()}&media_id={$server_id}";
 	}
 }

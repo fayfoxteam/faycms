@@ -4,7 +4,10 @@ namespace guangong\modules\frontend\controllers;
 
 use fay\helpers\ArrayHelper;
 use fay\models\tables\RegionsTable;
+use fay\services\OptionService;
 use fay\services\user\UserService;
+use fay\services\wechat\core\AccessToken;
+use fay\services\wechat\jssdk\JsSDK;
 use guangong\library\FrontController;
 use guangong\models\forms\SignUpForm;
 use guangong\models\tables\GuangongArmsTable;
@@ -35,6 +38,16 @@ class RecruitController extends FrontController{
 		$this->view->states = ArrayHelper::column(RegionsTable::model()->fetchAll('parent_id = 1', 'id,name'), 'name', 'id');
 		
 		$this->form()->setModel(SignUpForm::model());
+		
+		$app_config = OptionService::getGroup('oauth:weixin');
+		
+		$js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
+		
+		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
+		$this->view->assign(array(
+			'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage')),
+			'access_token'=>$access_token->getToken(),
+		));
 		
 		$this->view->render();
 	}

@@ -25,8 +25,13 @@
 	<?php }else if($user_extra){//已经微信登录过，但未填写注册信息?>
 		<div class="layer register-form">
 			<?php echo F::form()->open('api/user/sign-up')?>
+			<?php echo F::form()->inputHidden('avatar', array(
+				'id'=>'photo-server-id',
+			));?>
 			<fieldset class="avatar-container">
-				<img src="<?php echo $user['user']['avatar']['thumbnail']?>">
+				<a href="javascript:" id="upload-photo-link">
+					<img src="<?php echo $user['user']['avatar']['thumbnail']?>" id="photo-preview">
+				</a>
 			</fieldset>
 			<fieldset>
 				<label>识别号</label>
@@ -123,5 +128,28 @@ $(function(){
 			common.changeCaptcha($('.captcha'));
 		}
 	}
+
+	wx.config(<?php echo $js_sdk_config?>);
+	$(function(){
+		$('#upload-photo-link').on('click', function(){
+			wx.chooseImage({
+				'count': 1,
+				'success': function(res){
+					var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+					$('#photo-preview').attr('src', localIds[0].toString());
+
+					wx.uploadImage({
+						localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+						isShowProgressTips: 1, // 默认为1，显示进度提示
+						success: function(res){
+							var serverId = res.serverId; // 返回图片的服务器端ID
+							$('#photo-server-id').val(serverId.toString());
+							$('#photo-preview').attr('src', 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=<?php echo $access_token?>&media_id='+serverId.toString());
+						}
+					});
+				}
+			});
+		});
+	});
 });
 </script>

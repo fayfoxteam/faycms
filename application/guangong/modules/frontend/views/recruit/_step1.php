@@ -23,19 +23,23 @@
 </div>
 <script>
 $(function(){
-    var audio = new Audio("<?php echo $this->appAssets('music/zhaomuling.mp3')?>");
-    audio.addEventListener('timeupdate', function(){
+	var audio = new Audio("<?php echo $this->appAssets('music/zhaomuling.mp3')?>");
+	audio.addEventListener('timeupdate', function(){
 		$('.zhaomuling-text').css({'transform': 'translateY('+(((audio.duration - audio.currentTime) / audio.duration) * 100)+'%)'});
-    });
+	});
+	
+	$('.zhaomuling').on('click', function(){
+		audio.play();
+	});
 
-    common.swiper.on('SlideChangeStart', function(){
-        $activeSlide = $('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')');
-        if($activeSlide.hasClass('slide-zhaomuling')){
-            audio.play();
-        }else{
+	common.swiper.on('SlideChangeStart', function(){
+		$activeSlide = $('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')');
+		if($activeSlide.hasClass('slide-zhaomuling')){
 			audio.play();
-            audio.pause();
-        }
-    });
+		}else{
+			audio.play();
+			audio.pause();
+		}
+	});
 });
 </script>

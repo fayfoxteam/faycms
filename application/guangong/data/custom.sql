@@ -125,7 +125,7 @@ CREATE TABLE `{{$prefix}}guangong_user_group_users` (
   `words` varchar(255) NOT NULL DEFAULT '' COMMENT '我想对兄弟说',
   `public_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公开时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='结盟成员';
 
 DROP TABLE IF EXISTS `{{$prefix}}guangong_user_groups`;
 CREATE TABLE `{{$prefix}}guangong_user_groups` (
@@ -136,7 +136,7 @@ CREATE TABLE `{{$prefix}}guangong_user_groups` (
   `count` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '结义人数',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发起时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='结盟';
 
 DROP TABLE IF EXISTS `{{$prefix}}guangong_user_tasks`;
 CREATE TABLE `{{$prefix}}guangong_user_tasks` (
@@ -148,6 +148,16 @@ CREATE TABLE `{{$prefix}}guangong_user_tasks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `day-task` (`user_id`,`create_date`,`task_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户任务记录表';
+
+
+DROP TABLE IF EXISTS `{{$prefix}}guangong_vows`;
+CREATE TABLE `{{$prefix}}guangong_vows` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '誓词',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='预定义誓词';
 
 -- 初始化时辰表数据
 INSERT INTO `{{$prefix}}guangong_hours` (`id`, `name`, `start_hour`, `end_hour`, `description`, `zodiac`) VALUES ('1', '子时', '23', '1', '夜半，又名子夜、中夜：十二时辰的第一个时辰。', '老鼠在这时间最活跃。');

@@ -28,7 +28,8 @@ $this->appendCss($this->appAssets('css/group.css'));
 			<div class="layer left-bottom"><img src="<?php echo $this->appAssets('images/group/lb.png')?>"></div>
 			<div class="layer group-name"><h1><?php echo $group['name']?></h1></div>
 			<div class="layer user-list users<?php echo $group['count'] - 1?>">
-				<?php F::form()->open('api/group/add-user')?>
+				<?php echo F::form()->open('api/group/add-user')?>
+                <?php echo \fay\helpers\HtmlHelper::inputHidden('group_id', $group['id'])?>
 				<?php for($i = 1; $i < $group['count']; $i++){?>
 					<fieldset>
 						<div class="avatar"><img src="<?php echo $this->appAssets('images/group/avatar.png')?>"></div>
@@ -51,7 +52,9 @@ $this->appendCss($this->appAssets('css/group.css'));
 <script>
 	common.form.afterAjaxSubmit = function(resp){
 		if(resp.status){
-			alert('准备跳转')
+			window.location.href = '<?php echo $this->url('group/step3', array(
+                'group_id'=>$group['id'],
+            ))?>';
 		}else{
 			common.toast(resp.message, 'error');
 		}

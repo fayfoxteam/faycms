@@ -39,6 +39,7 @@ $this->appendCss($this->appAssets('css/group.css'));
 				<fieldset>
 					<label for="words" id="label-words">我想对兄弟说</label>
 					<textarea name="words" id="words" class="form-control" placeholder="请留下对兄弟的心愿、祝福或心里话"></textarea>
+                    <br class="cb">
 					<p class="description">限200字</p>
 				</fieldset>
 				<fieldset>

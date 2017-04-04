@@ -63,7 +63,7 @@ class GroupController extends ApiController{
 			));
 		}
 		
-		if(count($mobiles) != $group['count']){
+		if(count($mobiles) != $group['count'] - 1){
 			Response::notify('error', array(
 				'message'=>'成员数不匹配',
 				'code'=>'mobile-count-not-match',

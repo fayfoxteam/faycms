@@ -130,7 +130,7 @@ $(function(){
 			common.toast(resp.message, 'error');
 			common.changeCaptcha($('.captcha'));
 		}
-	}
+	};
 
 	wx.config(<?php echo $js_sdk_config?>);
 	$(function(){

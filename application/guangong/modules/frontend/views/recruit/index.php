@@ -4,6 +4,8 @@
  * @var $user_extra array
  * @var $states array
  * @var $arm array
+ * @var $access_token string
+ * @var $js_sdk_config array
  */
 $this->appendCss($this->appAssets('css/recruit.css'));
 ?>
@@ -22,6 +24,8 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 			'user'=>$user,
 			'user_extra'=>$user_extra,
 			'states'=>$states,
+            'js_sdk_config'=>$js_sdk_config,
+            'access_token'=>$access_token,
 		))?>
 		<?php $this->renderPartial('_step4', array(
 			'user'=>$user,

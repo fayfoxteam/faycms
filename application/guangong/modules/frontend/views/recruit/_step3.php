@@ -71,14 +71,14 @@
 				<label>报名期</label>
 				<div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('', date('Y年m月d日'), array(
 						'class'=>'form-control',
-						'disabled'=>'disabled',
+						'readonly'=>'readonly',
 				))?></div>
 			</fieldset>
 			<fieldset>
 				<label>服役期</label>
 				<div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('', '报名第二天至第365天', array(
 					'class'=>'form-control',
-					'disabled'=>'disabled',
+					'readonly'=>'readonly',
 				))?></div>
 			</fieldset>
 			<?php echo F::form()->close()?>

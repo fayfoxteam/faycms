@@ -15,7 +15,7 @@
 <div class="swiper-slide slide-zhaomuling" id="recruit-5">
 	<div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
 	<div class="layer zhaomuling"><img src="<?php echo $this->appAssets('images/recruit/zhaomuling.png')?>"></div>
-	<div class="layer zhaomuling-text"><img src="<?php echo $this->appAssets('images/recruit/zhaomuling-text.png')?>"></div>
+	<div class="layer zhaomuling-text" style="transform:translateY(100%)"><img src="<?php echo $this->appAssets('images/recruit/zhaomuling-text.png')?>"></div>
 </div>
 <div class="swiper-slide" id="recruit-6">
 	<div class="layer yi"><img src="<?php echo $this->appAssets('images/recruit/yi.png')?>"></div>
@@ -33,6 +33,7 @@ $(function(){
         if($activeSlide.hasClass('slide-zhaomuling')){
             audio.play();
         }else{
+			audio.play();
             audio.pause();
         }
     });

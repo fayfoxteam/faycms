@@ -5,6 +5,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\models\tables\UsersTable;
 use fay\services\file\FileService;
+use fay\services\file\WeixinFileService;
 use fay\services\user\UserService;
 use guangong\helpers\UserHelper;
 use guangong\models\forms\SignUpForm;
@@ -28,9 +29,13 @@ class UserController extends \cms\modules\api\controllers\UserController{
 		$this->form()->setModel(SignUpForm::model());
 		
 		if($this->input->post() && $this->form()->check()){
-			UserService::service()->update($this->current_user, array(
+			$user = array(
 				'mobile'=>$this->form()->getData('mobile'),
-			));
+			);
+			if($this->form()->getData('avatar')){
+				$user['avatar'] = WeixinFileService::add($this->form()->getData('avatar'));
+			}
+			UserService::service()->update($this->current_user, $user);
 			
 			GuangongUserExtraTable::model()->update(array(
 				'birthday'=>date('Y-m-d', strtotime($this->form()->getData('birthday'))),

@@ -62,12 +62,12 @@ class HttpHelper{
 			return null;
 		}
 		
-		$response = json_decode($response, true);
-		if(!$response){
-			throw new ErrorException('请求JSON数据格式异常');
+		$response_json = json_decode($response, true);
+		if(!$response_json){
+			throw new ErrorException('请求JSON数据格式异常', $response);
 		}
 		
-		return $response;
+		return $response_json;
 	}
 	
 	/**

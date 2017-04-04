@@ -134,9 +134,19 @@ class WeixinFileService extends Service{
 		return $file['id'];
 	}
 	
+	/**
+	 * 根据server_id获取可访问的微信服务器图片地址
+	 * @param $server_id
+	 * @return string
+	 * @throws ErrorException
+	 */
 	public static function getUrl($server_id){
 		//获取Access Token
 		$app_config = OptionService::getGroup('oauth:weixin');
+		if(!$app_config['app_id'] || !$app_config['app_secret']){
+			throw new ErrorException('尝试获取微信图片url，但微信公众号参数未设置');
+		}
+		
 		$access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
 		
 		//从微信服务器获取文件

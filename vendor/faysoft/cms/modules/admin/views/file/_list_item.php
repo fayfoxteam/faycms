@@ -22,7 +22,7 @@ $full_file_path = FileService::getUrl($data);
 			'title'=>$data['client_name'],
 		))?>
 	<?php }else{?>
-		<img src="<?php echo FileService::getThumbnailUrl($data)?>" />
+		<img src="<?php echo FileService::getThumbnailUrl($data)?>" width="60" height="60" />
 	<?php }?>
 	</td>
 	<td>
@@ -88,7 +88,7 @@ $full_file_path = FileService::getUrl($data);
 	</td>
 	<?php }?>
 	<?php if(in_array('file_type', $cols)){?>
-	<td><?php echo $data['file_type']?></td>
+	<td><?php echo $data['file_type'] ? $data['file_type'] : '未知'?></td>
 	<?php }?>
 	<?php if(in_array('file_path', $cols)){?>
 	<td><?php echo $data['file_path'], $data['raw_name'], $data['file_ext']?></td>

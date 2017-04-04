@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use fay\models\forms\SettingForm;
 use fay\models\tables\FilesTable;
 use fay\services\file\FileService;
+use fay\services\file\WeixinFileService;
 use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -390,6 +391,11 @@ class FileController extends AdminController{
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){
 			if($file = FilesTable::model()->find($file_id)){
+				if(!$file['file_path'] && $file['weixin_server_id']){
+					//微信图片，还未下载到本地
+					header('location:' . WeixinFileService::getUrl($file['weixin_server_id']));
+				}
+				
 				//可选下载文件名格式
 				if($this->input->get('name') == 'date'){
 					$filename = date('YmdHis', $file['upload_time']).$file['file_ext'];

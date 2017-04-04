@@ -178,7 +178,7 @@ class Uri{
 	private function _parseCliArgs(){
 		//第一个参数是路由信息
 		$router = explode('/', $_SERVER['argv'][1]);
-		$modules = array_merge(array('admin', 'tools'), \F::config()->get('modules'));
+		$modules = array_merge(array('admin', 'tools', 'install', 'api'), \F::config()->get('modules'));
 		if(in_array($router[0], $modules)){
 			$this->_setRouter($router[0], isset($router[1]) ? $router[1] : null, isset($router[2]) ? $router[2] : null);
 		}else{

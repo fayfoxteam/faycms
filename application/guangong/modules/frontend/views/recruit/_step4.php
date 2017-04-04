@@ -3,6 +3,7 @@
  * @var $this \fay\core\View
  * @var $user array
  * @var $arm array
+ * @var $user_extra array
  */
 ?>
 <div class="swiper-slide" id="recruit-41">
@@ -44,17 +45,18 @@
 	</div>
 </div>
 <div class="hide">
-	<div id="jiangjunmiling-dialog" class="dialog">
-		<div class="dialog-content">
-			<img src="<?php echo $this->appAssets('images/recruit/yinzhang-text.png')?>" class="yinzhang-text">
-			<img src="<?php echo $this->appAssets('images/recruit/yinzhang.png')?>" class="yinzhang">
-		</div>
-	</div>
+    <div id="jiangjunmiling-dialog" class="dialog">
+        <div class="dialog-content">
+            <img src="<?php echo $this->appAssets('images/recruit/yinzhang-text.png')?>" class="yinzhang-text">
+            <img src="<?php echo $this->appAssets('images/recruit/yinzhang.png')?>" class="yinzhang">
+        </div>
+    </div>
 </div>
 <?php $this->renderPartial('_js')?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script>
+<?php if(isset($user_extra) && $user_extra['military'] >= 110){?>
 	$('#jiangjunmiling-link').fancybox({
 		'type': 'inline',
 		'centerOnScroll': true,
@@ -62,4 +64,9 @@
 		'showCloseButton': false,
 		'width': '80%'
 	});
+<?php }else{?>
+    $('#jiangjunmiling-link').on('click', function(){
+        common.toast('您还未完成注册，请加入关羽军团后领受将军密令', 'error');
+    });
+<?php }?>
 </script>

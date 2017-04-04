@@ -25,7 +25,7 @@ class PaymentController extends \cms\modules\api\controllers\PaymentController{
 			),
 			array(
 				'subject'=>'关羽军团军费',
-				'return_url'=>UrlHelper::createUrl('recruit/step3#2'),
+				'return_url'=>UrlHelper::createUrl('payment/success'),
 			)
 		);
 		

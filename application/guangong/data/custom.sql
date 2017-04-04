@@ -116,6 +116,28 @@ CREATE TABLE `{{$prefix}}guangong_user_extra` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户扩展信息';
 
+DROP TABLE IF EXISTS `{{$prefix}}guangong_user_group_users`;
+CREATE TABLE `{{$prefix}}guangong_user_group_users` (
+  `id` mediumint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` smallint(6) NOT NULL DEFAULT '0' COMMENT '结盟ID',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '成员ID',
+  `accept` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否接受邀请',
+  `words` varchar(255) NOT NULL DEFAULT '' COMMENT '我想对兄弟说',
+  `public_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公开时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}guangong_user_groups`;
+CREATE TABLE `{{$prefix}}guangong_user_groups` (
+  `id` mediumint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '称谓',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发起者',
+  `vow` varchar(255) NOT NULL DEFAULT '' COMMENT '誓言',
+  `count` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '结义人数',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发起时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
 DROP TABLE IF EXISTS `{{$prefix}}guangong_user_tasks`;
 CREATE TABLE `{{$prefix}}guangong_user_tasks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

@@ -58,3 +58,7 @@ body #fancybox-close:hover:before{color:#373e4a}
 #post-dialog .dialog-content{height:290px;overflow:auto}
 #post-dialog .post-title{margin-top:-20px;margin-bottom:10px;font-size:18px}
 #post-dialog .post-content{text-align:left}
+
+#pay-success-dialog{text-align:center;background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%;padding:20px 0;width:200px}
+#pay-success-dialog .nickname,#pay-success-dialog .sign-up-days{margin-bottom:14px}
+#pay-success-dialog .attendance-count{margin-bottom:35px}

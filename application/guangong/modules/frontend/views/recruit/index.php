@@ -30,6 +30,7 @@ $this->appendCss($this->appAssets('css/recruit.css'));
 		<?php $this->renderPartial('_step4', array(
 			'user'=>$user,
 			'arm'=>$arm,
+			'user_extra'=>$user_extra,
 		))?>
 	</div>
 </div>

@@ -28,7 +28,7 @@ $(function(){
 		$('.zhaomuling-text').css({'transform': 'translateY('+(((audio.duration - audio.currentTime) / audio.duration) * 100)+'%)'});
 	});
 	
-	$('.zhaomuling').on('click', function(){
+	$('#recruit-5').on('click', function(){
 		audio.play();
 	});
 

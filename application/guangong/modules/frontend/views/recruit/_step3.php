@@ -125,7 +125,7 @@ $(function(){
 	common.form.afterAjaxSubmit = function(resp){
 		if(resp.status){
 			//若用户未注册（已经完成微信登录），提交注册信息后，直接跳转到微信支付
-			window.location.href = "http://71.fayfox.com/api/payment/military";
+			window.location.href = "<?php echo $this->url('api/payment/military')?>";
 		}else{
 			common.toast(resp.message, 'error');
 			common.changeCaptcha($('.captcha'));

@@ -29,10 +29,11 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 			<?php foreach($users as $user){?>
 				<fieldset>
 					<div class="avatar"><?php
-						if($user['user']['avatar']){
+						if($user['user']['avatar']['id']){
 							echo \fay\helpers\HtmlHelper::img($user['user']['avatar']['id'], \fay\services\file\FileService::PIC_RESIZE, array(
 								'dw'=>113,
 								'dh'=>151,
+                                'spare'=>'avatar',
 							));
 						}else{
 							echo \fay\helpers\HtmlHelper::img($this->appAssets('images/group/avatar.png'));

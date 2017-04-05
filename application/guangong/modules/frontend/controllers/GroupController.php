@@ -5,6 +5,7 @@ use fay\helpers\ArrayHelper;
 use fay\services\user\UserService;
 use guangong\library\FrontController;
 use guangong\models\forms\CreateGroupForm;
+use guangong\models\tables\GuangongUserExtraTable;
 use guangong\models\tables\GuangongUserGroupsTable;
 use guangong\models\tables\GuangongUserGroupUsersTable;
 
@@ -15,6 +16,7 @@ class GroupController extends FrontController{
 	public function index(){
 		$this->form()->setModel(CreateGroupForm::model());
 		
+		$this->view->user_extra = GuangongUserExtraTable::model()->find($this->current_user);
 		$this->view->render();
 	}
 	

@@ -1,6 +1,7 @@
 <?php
 namespace fay\services\file;
 
+use fay\core\ErrorException;
 use fay\core\Service;
 use fay\models\tables\FilesTable;
 use fay\helpers\StringHelper;
@@ -20,15 +21,30 @@ class QiniuService extends Service{
 	
 	/**
 	 * 根据本地文件ID，将本地文件上传至七牛云空间
-	 * @param $file
+	 * @param int $file 文件ID，若为0，则获取最老的未上传到七牛的文件
 	 * @return array
+	 * @throws ErrorException
 	 */
-	public function put($file){
-		if(StringHelper::isInt($file)){
+	public function put($file = 0){
+		if(!$file){
+			//若$file_id为0，则尝试去files表获取老的一条weixin_server_id非空的数据
+			$file = FilesTable::model()->fetchRow(array(
+				'qiniu = 0'
+			), '*', 'id');
+			if(!$file){
+				return array(
+					'status'=>0,
+					'message'=>'没有需要上传的文件',
+				);
+			}
+		}else if(StringHelper::isInt($file)){
 			$file = FilesTable::model()->find($file);
 		}
 		
 		$qiniu_config = OptionService::getGroup('qiniu');
+		if(!$qiniu_config['accessKey'] || !$qiniu_config['secretKey'] || !$qiniu_config['bucket']){
+			throw new ErrorException('尝试上传文件到七牛，但七牛参数未配置');
+		}
 		
 		// 构建鉴权对象
 		$auth = new Auth($qiniu_config['accessKey'], $qiniu_config['secretKey']);
@@ -58,6 +74,7 @@ class QiniuService extends Service{
 			return array(
 				'status'=>1,
 				'data'=>$ret,
+				'file'=>$file,
 			);
 		}
 	}

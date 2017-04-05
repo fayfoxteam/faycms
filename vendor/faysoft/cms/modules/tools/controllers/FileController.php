@@ -2,6 +2,8 @@
 namespace cms\modules\tools\controllers;
  
 use cms\library\ToolsController;
+use fay\core\Response;
+use fay\services\file\QiniuService;
 use fay\services\file\WeixinFileService;
 
 class FileController extends ToolsController{
@@ -22,6 +24,15 @@ class FileController extends ToolsController{
 	 * 此方法不支持指定id上传，会自动从老到新依次上传
 	 */
 	public function uploadToQiniu(){
-		
+		$result = QiniuService::service()->put();
+		if($result['status']){
+			Response::notify('success', array(
+				'data'=>array(
+					'file_id'=>$result['file']['id']
+				)
+			));
+		}else{
+			Response::notify('error', $result['message']);
+		}
 	}
 }

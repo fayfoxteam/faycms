@@ -18,8 +18,12 @@ class PaymentController extends FrontController{
 	 * 支付成功
 	 */
 	public function success(){
-		$user_count = UsersTable::model()->fetchRow(array(), 'COUNT(*)');
-		$this->view->user_count = $user_count['COUNT(*)'];
-		$this->view->render();
+		if($this->input->get('status') == 'success'){
+			$user_count = UsersTable::model()->fetchRow(array(), 'COUNT(*)');
+			$this->view->user_count = $user_count['COUNT(*)'];
+			$this->view->render();
+		}else{
+			$this->view->render('cancel');
+		}
 	}
 }

@@ -20,11 +20,15 @@
 					if(res.err_msg=='get_brand_wcpay_request:cancel'){
 						//取消付款
 						alert('取消付款');
-						window.location.href = '<?php echo $trade->getReturnUrl()?>';
+						window.location.href = '<?php echo $trade->getReturnUrl(array(
+							'status'=>'cancel'
+						))?>';
 					}else if(res.err_msg=='get_brand_wcpay_request:ok'){
 						//付款成功
 						alert('支付成功');
-						window.location.href = '<?php echo $trade->getReturnUrl()?>';
+						window.location.href = '<?php echo $trade->getReturnUrl(array(
+							'status'=>'success',
+						))?>';
 					}else if(res.err_msg=='get_brand_wcpay_request:fail' && res.err_code==3 && "{$payUserAgent}"=="wap"){
 						//不允许跨号支付
 						alert('不允许跨号支付');

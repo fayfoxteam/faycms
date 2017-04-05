@@ -169,9 +169,9 @@ class PaymentController extends AdminController{
 	public function getSettingPanel(){
 		$code = $this->input->get('code');
 		
-		list($payment, $type) = explode(':', $code);
+		list($channel, $type) = explode(':', $code);
 		
-		$setting_file = SYSTEM_PATH . "fay/payments/{$payment}/views/_setting_{$type}.php";
+		$setting_file = SYSTEM_PATH . "fay/services/payment/methods/{$channel}/views/_setting_{$type}.php";
 		if(file_exists($setting_file)){
 			include $setting_file;
 		}else{

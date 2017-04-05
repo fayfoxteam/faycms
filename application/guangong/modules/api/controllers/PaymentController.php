@@ -15,7 +15,7 @@ class PaymentController extends \cms\modules\api\controllers\PaymentController{
 		
 		//创建交易
 		$trade_id = TradeService::service()->create(
-			990,//测试完成后改成99
+			1,//测试完成后改成1100
 			'网络体验/军籍存档/义结金兰技术服务费',
 			array(
 				array(

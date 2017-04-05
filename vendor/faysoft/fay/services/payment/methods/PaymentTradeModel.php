@@ -74,7 +74,7 @@ class PaymentTradeModel{
 	 * 返回不满足条件的空字段一维数组，若返回空数组，代表验证成功。
 	 * @param array $fields
 	 * @param string $payment 支付方式，仅用于报错时明确错误
-	 * @return array
+	 * @return bool
 	 * @throws PaymentMethodException
 	 */
 	public function checkRequiredField($fields, $payment){
@@ -273,11 +273,21 @@ class PaymentTradeModel{
 	}
 	
 	/**
+	 * 获取同步跳转地址
+	 * @param array $params 若非空，则会在设置的链接地址后面带上参数
 	 * @return string
 	 */
-	public function getReturnUrl()
+	public function getReturnUrl($params = array())
 	{
-		return $this->return_url;
+		if(!$params){
+			return $this->return_url;
+		}
+		
+		if(strpos($this->return_url, '?') === false){
+			return $this->return_url . '?' . http_build_query($params);
+		}else{
+			return $this->return_url . '&' . http_build_query($params);
+		}
 	}
 	
 	/**

@@ -246,7 +246,7 @@ var common = {
 		$('.weixin-share').on('click', function(){
 			$(this).hide();
 		});
-		$('.show-weixin-share-link').on('click', function(){
+		$(document).on('click', '.show-weixin-share-link', function(){
 			$('.weixin-share').show();
 		});
 	},

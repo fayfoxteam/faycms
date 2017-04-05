@@ -28,13 +28,13 @@ class HourController extends ApiController{
 		//登录检查
 		$this->checkLogin();
 		
-		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'hour_id');
-		if($userExtra['hour_id']){
-			Response::notify('error', array(
-				'message'=>'您已设置过勤务，不能重复设置',
-				'code'=>'arm-already-set'
-			));
-		}
+//		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'hour_id');
+//		if($userExtra['hour_id']){
+//			Response::notify('error', array(
+//				'message'=>'您已设置过勤务，不能重复设置',
+//				'code'=>'arm-already-set'
+//			));
+//		}
 		
 		//随机一个时辰
 		$hour = GuangongHoursTable::model()->fetchRow(array(), '*', 'RAND()');

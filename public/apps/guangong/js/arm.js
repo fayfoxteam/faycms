@@ -160,10 +160,13 @@ var arm = {
 					
 					//移除class。摇一摇就失效了
 					$setArmSlide.removeClass('set-arm-slide');
-					//允许继续向后滑
-					$setArmSlide.removeClass('stop-to-next');
-					$('.u-arrow-right').show();
-					common.swiper.params.allowSwipeToNext = true;
+
+					//插入分享按钮和确定按钮
+					$setArmSlide.append(['<div class="layer operations">',
+						'<a href="javascript:" class="btn-1 confirm-to-next-link">兵种确定</a> ',
+						'<a href="javascript:" class="btn-1 show-weixin-share-link">分享给朋友</a> ',
+						'</div>'].join(''));
+					
 					common.toast(resp.message, 'success');
 				}else{
 					common.toast(resp.message, 'error');
@@ -201,10 +204,13 @@ var arm = {
 					
 					//移除class。摇一摇就失效了
 					$('.set-hour-slide').removeClass('set-hour-slide');
-					//允许继续向后滑
-					$arm8.removeClass('stop-to-next');
-					$('.u-arrow-right').show();
-					common.swiper.params.allowSwipeToNext = true;
+					
+					//插入分享按钮和确定按钮
+					$arm8.append(['<div class="layer operations">',
+						'<a href="javascript:" class="btn-1 confirm-to-next-link">勤务确定</a> ',
+						'<a href="javascript:" class="btn-1 show-weixin-share-link">分享给朋友</a> ',
+						'</div>'].join(''));
+					
 					common.toast(resp.message, 'success');
 				}else{
 					common.toast(resp.message, 'error');
@@ -229,12 +235,14 @@ var arm = {
 					var $arm4 = $('#arm-4');
 					$arm4.find('.shake').remove();
 					common.toast(resp.message, 'success');
+					//插入分享按钮和确定按钮
+					$arm4.append(['<div class="layer operations">',
+						'<a href="javascript:" class="btn-1 confirm-to-next-link">防区确定</a> ',
+						'<a href="javascript:" class="btn-1 show-weixin-share-link">分享给朋友</a> ',
+						'</div>'].join(''));
+					
 					//移除class。摇一摇就失效了
 					$('.set-defence-slide').removeClass('set-defence-slide');
-					//允许继续向后滑
-					$arm4.removeClass('stop-to-next');
-					$('.u-arrow-right').show();
-					common.swiper.params.allowSwipeToNext = true;
 				}else{
 					common.toast(resp.message, 'error');
 				}
@@ -288,6 +296,15 @@ var arm = {
 		this.shake();
 		this.initShakeMusic();
 		this.clickShake();
-		common.swiper.on('SlideChangeStart', this.animate)
+		common.swiper.on('SlideChangeStart', this.animate);
+		
+		//点击后允许继续下一页
+		$(document).on('click', '.confirm-to-next-link', function(){
+			//允许继续向后滑
+			$('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')').removeClass('stop-to-next');
+			$('.u-arrow-right').show();
+			common.swiper.params.allowSwipeToNext = true;
+			common.swiper.slideNext();
+		});
 	}
 };

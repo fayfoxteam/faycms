@@ -17,8 +17,8 @@
 	<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
 	<div class="layer subtitle">定防区</div>
 	<div class="layer defence-text"><img src="<?php echo $this->appAssets('images/arm/defence-text.png')?>"></div>
-	<?php if($user_extra){?>
-		<div class="layer map"><img src="<?php echo $this->appAssets('images/arm/map.png')?>"></div>
+    <div class="layer map"><img src="<?php echo $this->appAssets('images/arm/map.png')?>"></div>
+	<?php if($user_extra && $user_extra['military'] >= 1100){?>
 		<?php if(!$defence){?>
 			<div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
 		<?php }?>

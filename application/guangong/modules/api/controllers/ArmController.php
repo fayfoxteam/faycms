@@ -38,13 +38,13 @@ class ArmController extends ApiController{
 		//登录检查
 		$this->checkLogin();
 		
-		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'arm_id');
-		if($userExtra['arm_id']){
-			Response::notify('error', array(
-				'message'=>'您已设置过兵种，不能重复设置',
-				'code'=>'arm-already-set'
-			));
-		}
+//		$userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'arm_id');
+//		if($userExtra['arm_id']){
+//			Response::notify('error', array(
+//				'message'=>'您已设置过兵种，不能重复设置',
+//				'code'=>'arm-already-set'
+//			));
+//		}
 		
 		//随机一个兵种
 		$arm = GuangongArmsTable::model()->fetchRow('enabled = 1', '*', 'RAND()');

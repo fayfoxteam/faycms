@@ -48,7 +48,7 @@ class ProfileController extends AdminController{
 			'delete_time = 0',
 		), 'id,title');
 		
-		$this->view->prop_set = PropService::service()->getPropertySet($user_id);
+		$this->view->prop_set = UserPropService::service()->getPropertySet($user_id);
 		$this->view->render();
 	}
 }

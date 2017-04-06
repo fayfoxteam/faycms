@@ -38,7 +38,7 @@ class Uri{
 		$this->input = Input::getInstance();
 		$this->module = \F::config()->get('default_router.module');
 		
-		$this->_setRouting();
+		$this->_routing();
 		
 		self::$_instance = $this;
 	}
@@ -50,7 +50,7 @@ class Uri{
 		return self::$_instance;
 	}
 	
-	private function _setRouting(){
+	private function _routing(){
 		if (php_sapi_name() == 'cli' or defined('STDIN')){
 			//命令行下执行
 			$this->_parseCliArgs();

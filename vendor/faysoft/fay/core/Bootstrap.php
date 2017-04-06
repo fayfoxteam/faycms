@@ -67,7 +67,7 @@ class Bootstrap{
 	 */
 	private function getControllerAndAction($uri){
 		//先找当前app目录
-		if($uri->package == 'cms' && file_exists(MODULE_PATH . $uri->module  . '/controllers/' . ucfirst($uri->controller) . 'Controller.php')){
+		if($uri->package == 'cms' && file_exists(APPLICATION_PATH . "modules/{$uri->module}/controllers/" . ucfirst($uri->controller) . 'Controller.php')){
 			$class_name = '\\'.APPLICATION.'\modules\\'.$uri->module.'\controllers\\'.$uri->controller.'Controller';
 			if(method_exists($class_name, $uri->action)){
 				//直接对应的action

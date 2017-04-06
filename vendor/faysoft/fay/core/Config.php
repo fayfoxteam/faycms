@@ -57,8 +57,8 @@ class Config{
 			$config = require APPLICATION_PATH . 'configs/' . $filename . '.php';
 		}
 		
-		if(file_exists(BASEPATH . '../configs/' . $filename . '.php')){
-			$config = ArrayHelper::merge(require BASEPATH . '../configs/' . $filename . '.php', $config);
+		if(file_exists(CMS_PATH . 'configs/' . $filename . '.php')){
+			$config = ArrayHelper::merge(require CMS_PATH . 'configs/' . $filename . '.php', $config);
 		}
 		
 		return $this->_configs[$filename] = $config;

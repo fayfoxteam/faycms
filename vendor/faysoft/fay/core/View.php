@@ -118,8 +118,8 @@ class View{
 			if(isset($layout_relative_path)){
 				if(file_exists(APPLICATION_PATH.$layout_relative_path)){
 					$layout_path = APPLICATION_PATH.$layout_relative_path;
-				}else if(file_exists(BACKEND_PATH.$layout_relative_path)){
-					$layout_path = BACKEND_PATH.$layout_relative_path;
+				}else if(file_exists(CMS_PATH.$layout_relative_path)){
+					$layout_path = CMS_PATH.$layout_relative_path;
 				}else{
 					throw new Exception("Layout file \"{$layout_relative_path}\" not found");
 				}
@@ -209,12 +209,12 @@ class View{
 		if(file_exists(APPLICATION_PATH.$view_relative_path)){
 			//前台application
 			$view_path = APPLICATION_PATH.$view_relative_path;
-		}else if(file_exists(BACKEND_PATH.$view_relative_path)){
+		}else if(file_exists(CMS_PATH.$view_relative_path)){
 			//admin, tools等后台application
-			$view_path = BACKEND_PATH.$view_relative_path;
-		}else if(file_exists(BACKEND_PATH."modules/tools/views/{$controller}/{$action}.php")){
+			$view_path = CMS_PATH.$view_relative_path;
+		}else if(file_exists(CMS_PATH."modules/tools/views/{$controller}/{$action}.php")){
 			//最后搜索tools下有没有默认文件，例如报错，分页条等
-			$view_path = BACKEND_PATH."modules/tools/views/{$controller}/{$action}.php";
+			$view_path = CMS_PATH."modules/tools/views/{$controller}/{$action}.php";
 		}
 		
 		if(!isset($view_path)){

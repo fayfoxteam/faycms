@@ -1,2 +1,2 @@
 <?php 
-include BACKEND_PATH . 'modules/admin/layouts/admin.php';
+include CMS_PATH . 'modules/admin/layouts/admin.php';

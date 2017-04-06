@@ -49,7 +49,7 @@ class ApplicationController extends ToolsController{
 			$table_prefix = $this->input->post('table_prefix');
 			$charset = $this->input->post('charset');
 			//创建主配置文件
-			$config_file = file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/config/main.txt');
+			$config_file = file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/config/main.txt');
 			$config_file = str_replace(array(
 				'{{$host}}',
 				'{{$user}}',
@@ -72,23 +72,23 @@ class ApplicationController extends ToolsController{
 			FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/configs/main.php', $config_file);
 			
 			//创建前端控制器基类
-			$front_controller = file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/library/FrontController.txt');
+			$front_controller = file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/library/FrontController.txt');
 			$front_controller = str_replace('{{$name}}', $app_name, $front_controller);
 			FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/library/FrontController.php', $front_controller);
 			
 			//创建默认控制器
-			$index_controller = file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/module/IndexController.txt');
+			$index_controller = file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/IndexController.txt');
 			$index_controller = str_replace('{{$name}}', $app_name, $index_controller);
 			FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/controllers/IndexController.php', $index_controller);
 			
 			//创建默认视图
-			FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/index/index.php', file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/module/index.txt'));
+			FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/index/index.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/index.txt'));
 			
 			//创建默认layout
-			FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/layouts/frontend.php', file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/module/frontend.txt'));
+			FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/layouts/frontend.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/frontend.txt'));
 			
 			//创建默认css
-			FileService::createFile(BASEPATH.'apps/'.$app_name.'/css/style.css', file_get_contents(SYSTEM_PATH.'cms/modules/tools/views/application/_templates/static/style.css'));
+			FileService::createFile(BASEPATH.'apps/'.$app_name.'/css/style.css', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/static/style.css'));
 			
 			if($this->input->post('database')){
 				//安装数据库

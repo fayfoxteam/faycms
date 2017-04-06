@@ -3,7 +3,7 @@ namespace faypay\services\trade;
 
 use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
-use fay\models\tables\TradePaymentsTable;
+use faypay\models\tables\TradePaymentsTable;
 use faypay\services\methods\PaymentMethodService;
 use faypay\services\trade\payment_state\ClosedTradePayment;
 use faypay\services\trade\payment_state\CreateTradePayment;

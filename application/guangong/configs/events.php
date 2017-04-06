@@ -1,9 +1,9 @@
 <?php
 return array(
 	//充值军费
-	\fay\services\payment\trade\TradePaymentService::EVENT_PAID => array(
+	\faypay\services\trade\TradePaymentService::EVENT_PAID => array(
 		array(
-			'handler'=>function(\fay\services\payment\trade\TradePaymentItem $tradePaymentItem){
+			'handler'=>function(\faypay\services\trade\TradePaymentItem $tradePaymentItem){
 				$trade = $tradePaymentItem->getTrade();
 				$refers = $trade->getRefers();
 				if(count($refers) != 1){

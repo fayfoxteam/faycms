@@ -3,7 +3,7 @@ namespace faypay\services\trade;
 
 use fay\core\Service;
 use fay\helpers\RequestHelper;
-use fay\models\tables\TradePaymentsTable;
+use faypay\models\tables\TradePaymentsTable;
 
 class TradePaymentService extends Service{
 	/**

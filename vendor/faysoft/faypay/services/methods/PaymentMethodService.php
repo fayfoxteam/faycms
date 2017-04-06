@@ -2,7 +2,7 @@
 namespace faypay\services\methods;
 
 use fay\core\Service;
-use fay\models\tables\PaymentsTable;
+use faypay\models\tables\PaymentsTable;
 
 class PaymentMethodService extends Service{
 	/**
@@ -44,7 +44,7 @@ class PaymentMethodService extends Service{
 	public function buildPay(PaymentTradeModel $payment_trade, PaymentMethodConfigModel $payment_config){
 		$code = $payment_config->getCode();
 		$payment_code = explode(':', $code);
-		$class_name = 'fay\\services\\payment\\methods\\' . $payment_code[0] . '\\' . ucfirst($payment_code[0]) . 'Payment';
+		$class_name = 'faypay\\services\\methods\\' . $payment_code[0] . '\\' . ucfirst($payment_code[0]) . 'Payment';
 		$payment_obj = new $class_name;
 		$payment_obj->{$payment_code[1]}($payment_trade, $payment_config);
 	}
@@ -55,7 +55,7 @@ class PaymentMethodService extends Service{
 	 */
 	public function notify($code){
 		$payment_code = explode(':', $code);
-		$class_name = 'fay\\services\\payment\\methods\\' . $payment_code[0] . '\\' . ucfirst($payment_code[0]) . 'Payment';
+		$class_name = 'faypay\\services\\methods\\' . $payment_code[0] . '\\' . ucfirst($payment_code[0]) . 'Payment';
 		/**
 		 * @var $payment_obj PaymentMethodInterface
 		 */

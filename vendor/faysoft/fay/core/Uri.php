@@ -134,13 +134,40 @@ class Uri{
 			$request = preg_replace(array_keys($routes), array_values($routes), $request);
 		}
 		
+		//以冒号作为router和参数之间的分割，一般用于url重写出来的，正常的参数还是放在问号后面比较好
+		$parse_request = explode(':', $request, 2);
+		$request = $parse_request[0];
+		$params_uri = isset($parse_request[1]) ? $parse_request[1] : array();
+		
 		$request_arr = explode('/', $request);
-		if(count($request_arr) == 3){
-			//三级路由，取faysoft/cms
-			$this->_setRouter($request_arr[0], $request_arr[1], $request_arr[2]);
-		}else if(count($request_arr) == 4){
-			//四级路由，取faysoft/{$request_arr[0]}
-			$this->_setRouter($request_arr[1], $request_arr[2], $request_arr[3], $request_arr[0]);
+		$request_arr_count = count($request_arr);
+		switch($request_arr_count){
+			case 1:
+				//一级路由，取app，默认module，路由指定的controller和默认action
+				$this->_setRouter(\F::config()->get('default_router.module'), $request_arr[0], \F::config()->get('default_router.action'));
+				break;
+			case 2:
+				//二级路由，取app，默认module，路由指定的controller和action
+				$this->_setRouter(\F::config()->get('default_router.module'), $request_arr[0], $request_arr[1]);
+				break;
+			case 3:
+				//三级路由，取app或faysoft/cms，路由指定的module，controller和action
+				$this->_setRouter($request_arr[0], $request_arr[1], $request_arr[2]);
+				break;
+			case 4:
+				//四级路由，取faysoft/{$request_arr[0]}，路由指定的module，controller和action
+				$this->_setRouter($request_arr[1], $request_arr[2], $request_arr[3], $request_arr[0]);
+				break;
+			default:
+				
+		}
+		
+		if($params_uri){
+			parse_str($params_uri, $parse_params_uri);
+			
+			foreach($parse_params_uri as $k=>$p){
+				$this->input->setGet($k, $p, false);
+			}
 		}
 		
 	}

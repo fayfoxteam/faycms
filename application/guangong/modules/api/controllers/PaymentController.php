@@ -3,10 +3,10 @@ namespace guangong\modules\api\controllers;
 
 use fay\core\Response;
 use fay\helpers\UrlHelper;
-use fay\services\payment\trade\TradeService;
+use faypay\services\trade\TradeService;
 use guangong\models\PaymentModel;
 
-class PaymentController extends \cms\modules\api\controllers\PaymentController{
+class PaymentController extends \faypay\modules\api\controllers\PaymentController{
 	/**
 	 * 缴纳军费
 	 */

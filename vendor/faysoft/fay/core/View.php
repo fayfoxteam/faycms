@@ -206,14 +206,14 @@ class View{
 			}
 		}
 		
-		if(file_exists(APPLICATION_PATH.$view_relative_path)){
-			//前台application
+		if($uri->package == 'cms' && file_exists(APPLICATION_PATH.$view_relative_path)){
+			//前台app
 			$view_path = APPLICATION_PATH.$view_relative_path;
-		}else if(file_exists(CMS_PATH.$view_relative_path)){
-			//admin, tools等后台application
-			$view_path = CMS_PATH.$view_relative_path;
+		}else if(file_exists(FAYSOFT_PATH."{$uri->package}/{$view_relative_path}")){
+			//faysoft/*下的类库
+			$view_path = FAYSOFT_PATH."{$uri->package}/{$view_relative_path}";
 		}else if(file_exists(CMS_PATH."modules/tools/views/{$controller}/{$action}.php")){
-			//最后搜索tools下有没有默认文件，例如报错，分页条等
+			//最后搜索cms/tools下有没有默认文件，例如报错，分页条等
 			$view_path = CMS_PATH."modules/tools/views/{$controller}/{$action}.php";
 		}
 		

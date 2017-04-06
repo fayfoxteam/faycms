@@ -15,8 +15,8 @@ class View{
 	
 	private $_css = array();
 	
-	public function url($router = null, $params = array(), $url_rewrite = true){
-		return UrlHelper::createUrl($router, $params, $url_rewrite);
+	public function url($router = null, $params = array()){
+		return UrlHelper::createUrl($router, $params);
 	}
 	
 	/**

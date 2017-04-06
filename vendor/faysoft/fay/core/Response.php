@@ -176,8 +176,7 @@ class Response{
 			}else if($redirect !== false){
 				if(is_array($redirect)){
 					$redirect = UrlHelper::createUrl($redirect[0],
-						empty($redirect[1]) ? array() : $redirect[1],
-						isset($redirect[2]) && $redirect[2] === false ? false : true);
+						empty($redirect[1]) ? array() : $redirect[1]);
 				}
 				header('location:'.$redirect);
 				die;

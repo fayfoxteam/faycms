@@ -19,8 +19,8 @@ class View{
 		$this->__name = $name;
 	}
 	
-	public function url($router = false, $params = array(), $url_rewrite = true){
-		return UrlHelper::createUrl($router, $params, $url_rewrite);
+	public function url($router = false, $params = array()){
+		return UrlHelper::createUrl($router, $params);
 	}
 	
 	/**

@@ -26,6 +26,11 @@ class Uri{
 	 * 出于SEO考虑，有些router带有中横线，将其转换为大小写分割，并且首字母小写
 	 */
  	public $action;
+	
+	/**
+	 * 保持中横线分割
+	 */
+ 	public $package = 'cms';
  	
 	private static $_instance;
 	
@@ -130,40 +135,24 @@ class Uri{
 		}
 		
 		$request_arr = explode('/', $request);
-		$modules = array_merge(array('admin', 'tools', 'install', 'api'), \F::config()->get('modules'));
-		if(in_array($request_arr[0], $modules)){
-			//前3级是路由
-			$this->_setRouter($request_arr[0], isset($request_arr[1]) ? $request_arr[1] : null, isset($request_arr[2]) ? $request_arr[2] : null);
-			$params = array_slice($request_arr, 3);
-		}else{
-			//默认模块，前2级是路由
-			$this->_setRouter(null, $request_arr[0], isset($request_arr[1]) ? $request_arr[1] : null);
-			$params = array_slice($request_arr, 2);
+		if(count($request_arr) == 3){
+			//三级路由，取faysoft/cms
+			$this->_setRouter($request_arr[0], $request_arr[1], $request_arr[2]);
+		}else if(count($request_arr) == 4){
+			//四级路由，取faysoft/{$request_arr[0]}
+			$this->_setRouter($request_arr[1], $request_arr[2], $request_arr[3], $request_arr[0]);
 		}
 		
-		$params_count = count($params);
-		$params_uri = array();
-		for($i = 0; $i < $params_count; $i++){
-			if(isset($params[$i+1])){
-				$params_uri[] = $params[$i] . '=' . $params[++$i];
-			}
-		}
-		$params_uri = implode('&', $params_uri);
-		
-		parse_str($params_uri, $parse_params_uri);
-		
-		foreach($parse_params_uri as $k=>$p){
-			$this->input->setGet($k, $p, false);
-		}
 	}
 	
-	private function _setRouter($module = null, $controller = null, $action = null){
+	private function _setRouter($module = null, $controller = null, $action = null, $package = 'cms'){
 		$module || $module = \F::config()->get('default_router.module');
 		$controller || $controller = 'index';
 		$action || $action = 'index';
 		
-		$this->router = "{$module}/{$controller}/{$action}";
-			
+		$this->router = "{$package}/{$module}/{$controller}/{$action}";
+		
+		$this->package = $package;
 		$this->module = $module;
 		$this->controller = StringHelper::hyphen2case($controller);
 		$this->action = StringHelper::hyphen2case($action, false);

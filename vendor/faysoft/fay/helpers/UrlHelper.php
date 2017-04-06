@@ -2,7 +2,7 @@
 namespace fay\helpers;
 
 class UrlHelper{
-	public static function createUrl($router = null, $params = array(), $url_rewrite = true){
+	public static function createUrl($router = null, $params = array()){
 		$base_url = \F::config()->get('base_url');
 		if(!$router){
 			return $base_url;
@@ -26,21 +26,10 @@ class UrlHelper{
 				}
 			}
 			
-			if($url_rewrite){
-				//完整的url重写
-				if($params){
-					return $base_url . $router . '/' . str_replace(array('=', '&'), '/', http_build_query($params)) . $ext;
-				}else{
-					return $base_url . $router . $ext;
-				}
+			if($params){
+				return $base_url . $router . $ext . '?' . http_build_query($params);
 			}else{
-				//对params部分不做url重写
-				$query_string = http_build_query($params);
-				if($query_string){
-					return $base_url . $router . $ext . '?' . $query_string;
-				}else{
-					return $base_url . $router . $ext;
-				}
+				return $base_url . $router . $ext;
 			}
 		}
 	}

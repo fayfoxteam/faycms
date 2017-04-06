@@ -144,7 +144,7 @@ class Loader{
 									'alias'=>$widget_obj->alias,
 									'action'=>$action,
 									'_index'=>$widget_obj->_index,
-								), false).'",
+								)).'",
 								cache: false,
 								success: function(resp){
 									$("#'.$id.'").replaceWith(resp);
@@ -162,7 +162,7 @@ class Loader{
 									'action'=>$action,
 									'_alias'=>$widget_obj->alias,
 									'_index'=>$widget_obj->_index
-								) + $options, false).'",
+								) + $options).'",
 								cache: false,
 								success: function(resp){
 									$("#'.$id.'").replaceWith(resp);

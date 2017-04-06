@@ -67,7 +67,7 @@ class Bootstrap{
 	 */
 	private function getControllerAndAction($uri){
 		//先找当前app目录
-		if(file_exists(MODULE_PATH . $uri->module  . '/controllers/' . ucfirst($uri->controller) . 'Controller.php')){
+		if($uri->package == 'cms' && file_exists(MODULE_PATH . $uri->module  . '/controllers/' . ucfirst($uri->controller) . 'Controller.php')){
 			$class_name = '\\'.APPLICATION.'\modules\\'.$uri->module.'\controllers\\'.$uri->controller.'Controller';
 			if(method_exists($class_name, $uri->action)){
 				//直接对应的action
@@ -87,8 +87,8 @@ class Bootstrap{
 		}
 		
 		//无直接对应的类文件或者类文件中无此Action，查找后台
-		if(file_exists(BACKEND_PATH . 'modules/'. $uri->module . '/controllers/'. ucfirst($uri->controller) . 'Controller.php')){
-			$class_name = '\cms\modules\\'.$uri->module.'\controllers\\'.$uri->controller.'Controller';
+		if(file_exists(SYSTEM_PATH . "{$uri->package}/modules/{$uri->module}/controllers/". ucfirst($uri->controller) . 'Controller.php')){
+			$class_name = "{$uri->package}\\modules\\".$uri->module.'\controllers\\'.$uri->controller.'Controller';
 			if(method_exists($class_name, $uri->action)){
 				//直接对应的action
 				return array(

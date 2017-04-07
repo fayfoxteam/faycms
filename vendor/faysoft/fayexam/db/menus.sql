@@ -1,0 +1,10 @@
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2000', '100', 'exam', '考试系统', 'fa fa-graduation-cap', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2001', '2000', 'exam-question', '试题', '', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2002', '2001', '', '试题库', '', 'fayexam/admin/question/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2003', '2001', '', '添加试题', '', 'fayexam/admin/question/create');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2004', '2001', '', '试题分类', '', 'fayexam/admin/question/cat');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2005', '2000', 'exam-paper', '试卷', '', 'javascript:;');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2006', '2005', '', '试卷列表', '', 'fayexam/admin/paper/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2007', '2005', '', '组卷', '', 'fayexam/admin/paper/create');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2008', '2005', '', '阅卷', '', 'fayexam/admin/exam/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('2009', '2005', '', '试卷分类', '', 'fayexam/admin/paper/cat');

@@ -28,7 +28,7 @@ var paper = {
 		ajax_data.page = page;
 		$.ajax({
 			'type': 'GET',
-			'url': system.url('admin/exam-question/get-all'),
+			'url': system.url('cms/admin/exam-question/get-all'),
 			'data': ajax_data,
 			'dataType': 'json',
 			'cache': false,
@@ -75,7 +75,7 @@ var paper = {
 	'setQuestion':function(question_id){
 		$.ajax({
 			'type': 'GET',
-			'url': system.url('admin/exam-question/get'),
+			'url': system.url('cms/admin/exam-question/get'),
 			'data': {'id':question_id},
 			'dataType': 'json',
 			'cache': false,

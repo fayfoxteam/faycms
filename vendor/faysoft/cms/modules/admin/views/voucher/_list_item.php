@@ -7,7 +7,7 @@ use fay\helpers\DateHelper;
 	<td>
 		<?php echo $data['sn']?>
 		<div class="row-actions">
-			<?php echo HtmlHelper::link('永久删除', array('admin/voucher/remove', array(
+			<?php echo HtmlHelper::link('永久删除', array('cms/admin/voucher/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'fc-red remove-link',
@@ -16,17 +16,17 @@ use fay\helpers\DateHelper;
 	</td>
 	<td>
 		<?php if($data['type'] == Vouchers::TYPE_CASH){
-			echo HtmlHelper::link('现金卷', array('admin/voucher/index', array(
+			echo HtmlHelper::link('现金卷', array('cms/admin/voucher/index', array(
 				'type'=>$data['type']
 			)));
 		}else if($data['type'] == Vouchers::TYPE_DISCOUNT){
-			echo HtmlHelper::link('折扣卷', array('admin/voucher/index', array(
+			echo HtmlHelper::link('折扣卷', array('cms/admin/voucher/index', array(
 				'type'=>$data['type']
 			)));
 		}?>
 	</td>
 	<td>
-		<?php echo HtmlHelper::link($data['title'], array('admin/voucher/index', array(
+		<?php echo HtmlHelper::link($data['title'], array('cms/admin/voucher/index', array(
 			'cat_id'=>$data['cat_id'],
 		)));?>
 	</td>

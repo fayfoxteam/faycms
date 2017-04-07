@@ -16,9 +16,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 			<div class="mb30 cf user-info"><?php
 				$user = UserService::service()->get($feed['user_id'], 'nickname,id,avatar,admin,roles.title');
 				
-				$user_detail_link = $user['user']['admin'] ? array('admin/operator/item', array(
+				$user_detail_link = $user['user']['admin'] ? array('cms/admin/operator/item', array(
 					'id'=>$user['user']['id'],
-				)) : array('admin/user/item', array(
+				)) : array('cms/admin/user/item', array(
 					'id'=>$user['user']['id'],
 				));
 				//头像
@@ -166,8 +166,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script>
 $(function(){
 	common.dragsortKey = 'admin_post_box_sort';
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'post'});
-	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
+	common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'post'});
+	common.filebrowserFlashUploadUrl = system.url('cms/admin/file/upload', {'cat':'post'});
 	feed.boxes = <?php echo json_encode($enabled_boxes)?>;
 	feed.feed_id = <?php echo \F::form()->getData('id')?>;
 	feed.init();

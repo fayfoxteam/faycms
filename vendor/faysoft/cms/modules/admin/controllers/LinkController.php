@@ -28,7 +28,7 @@ class LinkController extends AdminController{
 			$link_id = LinksTable::model()->insert($data);
 			
 			$this->actionlog(ActionlogsTable::TYPE_LINK, '添加友情链接', $link_id);
-			Response::notify('success', '链接添加成功', array('admin/link/edit', array('id'=>$link_id)));
+			Response::notify('success', '链接添加成功', array('cms/admin/link/edit', array('id'=>$link_id)));
 		}
 		
 		$this->view->cats = CategoryService::service()->getTree('_system_link');
@@ -39,7 +39,7 @@ class LinkController extends AdminController{
 		$this->layout->subtitle = '编辑链接';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/link/create'),
+			'uri'=>array('cms/admin/link/create'),
 			'text'=>'添加链接',
 		);
 		
@@ -60,7 +60,7 @@ class LinkController extends AdminController{
 			$this->form()->setData($link);
 			
 			$this->layout->sublink = array(
-				'uri'=>array('admin/link/create', array(
+				'uri'=>array('cms/admin/link/create', array(
 					'cat_id'=>$link['cat_id'],
 				)),
 				'text'=>'同分类下新增链接',
@@ -97,7 +97,7 @@ class LinkController extends AdminController{
 		}
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/link/create', $sub_link_params),
+			'uri'=>array('cms/admin/link/create', $sub_link_params),
 			'text'=>'添加链接',
 		);
 		
@@ -136,7 +136,7 @@ class LinkController extends AdminController{
 		
 		$this->actionlog(ActionlogsTable::TYPE_LINK, '移除友情链接', $this->input->get('id', 'intval'));
 		
-		Response::notify('success', '一个友情链接被永久删除', array('admin/link/index', $this->input->get()));
+		Response::notify('success', '一个友情链接被永久删除', array('cms/admin/link/index', $this->input->get()));
 	}
 	
 	public function sort(){
@@ -168,7 +168,7 @@ class LinkController extends AdminController{
 		$root_node = CategoryService::service()->getByAlias('_system_link', 'id');
 		$this->view->root = $root_node['id'];
 		
-		if($this->checkPermission('admin/link/cat-create')){
+		if($this->checkPermission('cms/admin/link/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加友情链接分类',

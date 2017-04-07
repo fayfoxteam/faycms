@@ -44,7 +44,7 @@ echo F::form()->open();
 <?php $this->renderPartial('_dialog')?>
 <script src="<?php echo $this->assets('faycms/js/admin/paper.js')?>"></script>
 <script>
-common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'exam'});
+common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'exam'});
 paper.types = {
 	'<?php echo ExamQuestionsTable::TYPE_TRUE_OR_FALSE?>':'判断题',
 	'<?php echo ExamQuestionsTable::TYPE_SINGLE_ANSWER?>':'单选题',

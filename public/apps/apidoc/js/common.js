@@ -52,7 +52,7 @@ var common = {
 			$(window).resize();
 			$.ajax({
 				type: 'POST',
-				url: system.url('admin/system/setting'),
+				url: system.url('cms/admin/system/setting'),
 				data: {
 					'_key': 'admin_sidebar_class',
 					'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''

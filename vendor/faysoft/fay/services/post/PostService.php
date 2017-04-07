@@ -920,7 +920,7 @@ class PostService extends Service{
 		}
 		
 		if(UserService::service()->isAdmin($user_id) &&
-			UserService::service()->checkPermission('admin/post/edit', $user_id) &&
+			UserService::service()->checkPermission('cms/admin/post/edit', $user_id) &&
 			PostCategoryService::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有还原权限，且有当前文章的分类权限
 			
@@ -934,14 +934,14 @@ class PostService extends Service{
 				//若系统开启文章审核功能；且文章原状态不是“通过审核”，被修改为“通过审核”；且该用户无审核权限，返回false
 				if(OptionService::get('system:post_review') &&
 					$post['status'] != PostsTable::STATUS_REVIEWED && $new_status == PostsTable::STATUS_REVIEWED &&
-					!\F::app()->checkPermission('admin/post/review')
+					!\F::app()->checkPermission('cms/admin/post/review')
 				){
 					return false;
 				}
 				//若系统开启文章审核功能；文章原状态不是“已发布”，被修改为“已发布”；且该用户无发布权限，返回false
 				if(OptionService::get('system:post_review') &&
 					$post['status'] != PostsTable::STATUS_PUBLISHED && $new_status == PostsTable::STATUS_PUBLISHED &&
-					!\F::app()->checkPermission('admin/post/publish')
+					!\F::app()->checkPermission('cms/admin/post/publish')
 				){
 					return false;
 				}
@@ -978,7 +978,7 @@ class PostService extends Service{
 		}
 		
 		if(UserService::service()->isAdmin($user_id) &&
-			UserService::service()->checkPermission('admin/post/delete', $user_id) &&
+			UserService::service()->checkPermission('cms/admin/post/delete', $user_id) &&
 			PostCategoryService::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有删除权限，且有当前文章的分类权限
 			return true;
@@ -1012,7 +1012,7 @@ class PostService extends Service{
 		}
 		
 		if(UserService::service()->isAdmin($user_id) &&
-			UserService::service()->checkPermission('admin/post/undelete', $user_id) &&
+			UserService::service()->checkPermission('cms/admin/post/undelete', $user_id) &&
 			PostCategoryService::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有还原权限，且有当前文章的分类权限
 			return true;
@@ -1046,7 +1046,7 @@ class PostService extends Service{
 		}
 		
 		if(UserService::service()->isAdmin($user_id) &&
-			UserService::service()->checkPermission('admin/post/remove', $user_id) &&
+			UserService::service()->checkPermission('cms/admin/post/remove', $user_id) &&
 			PostCategoryService::service()->isAllowedCat($post['cat_id'], $user_id)){
 			//是管理员，有永久删除权限，且有当前文章的分类权限
 			return true;

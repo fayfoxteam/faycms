@@ -144,7 +144,7 @@ var common = {
 		$(document).on('click', '.header-notification-mute', function(){
 			$.ajax({
 				type: 'GET',
-				url: system.url('admin/notification/mute'),
+				url: system.url('cms/admin/notification/mute'),
 				dataType: 'json',
 				cache: false,
 				success: function(resp){
@@ -161,7 +161,7 @@ var common = {
 			var _this = $(this);
 			$.ajax({
 				type: 'GET',
-				url: system.url('admin/notification/delete', {'id':_this.attr('data-id')}),
+				url: system.url('cms/admin/notification/delete', {'id':_this.attr('data-id')}),
 				dataType: 'json',
 				cache: false,
 				success: function(data){
@@ -182,7 +182,7 @@ var common = {
 			var _this = $(this);
 			$.ajax({
 				type: 'GET',
-				url: system.url('admin/notification/set-read'),
+				url: system.url('cms/admin/notification/set-read'),
 				data: {
 					'id':_this.attr('data-id'),
 					'read': 1
@@ -206,7 +206,7 @@ var common = {
 	'headerNotification': function(){
 		$.ajax({
 			type: 'GET',
-			url: system.url('admin/notification/get'),
+			url: system.url('cms/admin/notification/get'),
 			dataType: 'json',
 			cache: false,
 			success: function(resp){
@@ -305,7 +305,7 @@ var common = {
 			$(window).resize();
 			$.ajax({
 				type: 'POST',
-				url: system.url('admin/system/setting'),
+				url: system.url('cms/admin/system/setting'),
 				data: {
 					'_key': 'admin_sidebar_class',
 					'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
@@ -398,7 +398,7 @@ var common = {
 							});
 							$.ajax({
 								type: 'POST',
-								url: system.url('admin/system/setting'),
+								url: system.url('cms/admin/system/setting'),
 								data: data,
 								dataType: 'json',
 								cache: false,

@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-5">
-		<?php echo F::form()->open(array('admin/analyst-site/create'))?>
+		<?php echo F::form()->open(array('cms/admin/analyst-site/create'))?>
 			<div class="form-field">
 				<label>名称</label>
 				<?php echo F::form()->inputText('title', array(

@@ -13,10 +13,10 @@ use fay\helpers\DateHelper;
             ))?></strong>
 		<div class="row-actions">
 			<?php 
-				echo HtmlHelper::link('编辑', array('admin/model/edit', array(
+				echo HtmlHelper::link('编辑', array('cms/admin/model/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
-				echo HtmlHelper::link('删除', array('admin/model/remove', array(
+				echo HtmlHelper::link('删除', array('cms/admin/model/remove', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-red remove-link',

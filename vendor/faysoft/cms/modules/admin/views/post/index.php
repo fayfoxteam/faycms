@@ -74,14 +74,14 @@ $cols = F::form('setting')->getData('cols', array());
 	<div class="col-12">
 		<ul class="subsubsub fl">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index')?>">全部</a>
+				<a href="<?php echo $this->url('cms/admin/post/index')?>">全部</a>
 				<span class="fc-grey">(<span id="all-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == PostsTable::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_PUBLISHED))?>">已发布</a>
+				<a href="<?php echo $this->url('cms/admin/post/index', array('status'=>PostsTable::STATUS_PUBLISHED))?>">已发布</a>
 				<span class="fc-grey">(<span id="published-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
@@ -89,14 +89,14 @@ $cols = F::form('setting')->getData('cols', array());
 			</li>
 			<?php if(F::app()->post_review){//仅开启审核时显示?>
 			<li class="publish <?php if(F::app()->input->get('status') == PostsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_PENDING))?>">待审核</a>
+				<a href="<?php echo $this->url('cms/admin/post/index', array('status'=>PostsTable::STATUS_PENDING))?>">待审核</a>
 				<span class="fc-grey">(<span id="pending-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == PostsTable::STATUS_REVIEWED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_REVIEWED))?>">通过审核</a>
+				<a href="<?php echo $this->url('cms/admin/post/index', array('status'=>PostsTable::STATUS_REVIEWED))?>">通过审核</a>
 				<span class="fc-grey">(<span id="reviewed-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
@@ -104,12 +104,12 @@ $cols = F::form('setting')->getData('cols', array());
 			</li>
 			<?php }?>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostsTable::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('status'=>PostsTable::STATUS_DRAFT))?>">草稿</a>
+				<a href="<?php echo $this->url('cms/admin/post/index', array('status'=>PostsTable::STATUS_DRAFT))?>">草稿</a>
 				<span class="fc-grey">(<span id="draft-post-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post/index', array('deleted'=>1))?>">回收站</a>
+				<a href="<?php echo $this->url('cms/admin/post/index', array('deleted'=>1))?>">回收站</a>
 				<span class="fc-grey">(<span id="deleted-post-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
@@ -117,14 +117,14 @@ $cols = F::form('setting')->getData('cols', array());
 		</ul>
 	</div>
 </div>
-<form method="post" action="<?php echo $this->url('admin/post/batch')?>" id="batch-form" class="form-inline">
+<form method="post" action="<?php echo $this->url('cms/admin/post/batch')?>" id="batch-form" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
-					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
+					'undelete'=>F::app()->checkPermission('cms/admin/post/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('cms/admin/post/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action',
@@ -132,12 +132,12 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
-						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
-					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
-					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
-					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post/delete') ? '移入回收站' : false,
+					'set-published'=>((F::app()->post_review && F::app()->checkPermission('cms/admin/post/publish')) ||
+						(!F::app()->post_review && F::app()->checkPermission('cms/admin/post/edit'))) ? '标记为已发布' : false,
+					'set-draft'=>F::app()->checkPermission('cms/admin/post/edit') ? '标记为草稿' : false,
+					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('cms/admin/post/review')) ? '标记为待审核' : false,
+					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('cms/admin/post/review')) ? '标记为通过审核' : false,
+					'delete'=>F::app()->checkPermission('cms/admin/post/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action',
@@ -285,8 +285,8 @@ $cols = F::form('setting')->getData('cols', array());
 			if(F::app()->input->get('deleted')){
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'undelete'=>F::app()->checkPermission('admin/post/undelete') ? '还原' : false,
-					'remove'=>F::app()->checkPermission('admin/post/remove') ? '永久删除' : false,
+					'undelete'=>F::app()->checkPermission('cms/admin/post/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('cms/admin/post/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action-2',
@@ -294,12 +294,12 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'set-published'=>((F::app()->post_review && F::app()->checkPermission('admin/post/publish')) ||
-						(!F::app()->post_review && F::app()->checkPermission('admin/post/edit'))) ? '标记为已发布' : false,
-					'set-draft'=>F::app()->checkPermission('admin/post/edit') ? '标记为草稿' : false,
-					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为待审核' : false,
-					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('admin/post/review')) ? '标记为通过审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post/delete') ? '移入回收站' : false,
+					'set-published'=>((F::app()->post_review && F::app()->checkPermission('cms/admin/post/publish')) ||
+						(!F::app()->post_review && F::app()->checkPermission('cms/admin/post/edit'))) ? '标记为已发布' : false,
+					'set-draft'=>F::app()->checkPermission('cms/admin/post/edit') ? '标记为草稿' : false,
+					'set-pending'=>(F::app()->post_review && F::app()->checkPermission('cms/admin/post/review')) ? '标记为待审核' : false,
+					'set-reviewed'=>(F::app()->post_review && F::app()->checkPermission('cms/admin/post/review')) ? '标记为通过审核' : false,
+					'delete'=>F::app()->checkPermission('cms/admin/post/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action-2',
@@ -318,7 +318,7 @@ $(function(){
 	//显示各状态文章数
 	$.ajax({
 		'type': 'GET',
-		'url': system.url('admin/post/get-counts'),
+		'url': system.url('cms/admin/post/get-counts'),
 		'dataType': 'json',
 		'cache': false,
 		'success': function(resp){

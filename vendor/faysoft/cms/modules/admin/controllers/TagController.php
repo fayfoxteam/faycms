@@ -65,13 +65,13 @@ class TagController extends AdminController{
 		unset($gets['tag_id']);
 		Response::notify('success', array(
 			'message'=>'一个标签被永久删除',
-		), array('admin/link/edit', $gets));
+		), array('cms/admin/link/edit', $gets));
 	}
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑标签';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/tag/index', $this->input->get()),
+			'uri'=>array('cms/admin/tag/index', $this->input->get()),
 			'text'=>'添加标签',
 		);
 		$tag_id = $this->input->get('id', 'intval');

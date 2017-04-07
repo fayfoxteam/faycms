@@ -6,7 +6,7 @@ var user = {
 			browse_button : 'upload-avatar',
 			container : 'avatar-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload', {'cat':'avatar'}),
+			url : system.url('cms/admin/file/upload', {'cat':'avatar'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -24,7 +24,7 @@ var user = {
 			var resp = $.parseJSON(response.response);
 
 			$('#avatar-id').val(resp.data.id);
-			$('#avatar-img').attr('src', system.url('admin/file/pic', {
+			$('#avatar-img').attr('src', system.url('cms/admin/file/pic', {
 				'f':resp.data.id,
 				't':4,
 				'dw':178,
@@ -57,7 +57,7 @@ var user = {
 			});
 			$.ajax({
 				'type': 'GET',
-				'url': system.url('admin/user/get-prop-panel'),
+				'url': system.url('cms/admin/user/get-prop-panel'),
 				'data': {
 					'role_ids[]':value,
 					'user_id':user.user_id ? user.user_id : 0

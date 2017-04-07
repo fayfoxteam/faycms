@@ -15,21 +15,21 @@ function showCats($cats, $dep = 0){?>
 						'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
 					))?>
 					</span>
-					<?php if(F::app()->checkPermission('admin/notification/cat-create')){
+					<?php if(F::app()->checkPermission('cms/admin/notification/cat-create')){
 						echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
 							'class'=>'create-cat-link',
 							'data-title'=>HtmlHelper::encode($c['title']),
 							'data-id'=>$c['id'],
 						));
 					}
-					if(F::app()->checkPermission('admin/notification/cat-edit')){
+					if(F::app()->checkPermission('cms/admin/notification/cat-edit')){
 						echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
 							'class'=>'edit-cat-link',
 							'data-id'=>$c['id'],
 						));
 					}
-					if(F::app()->checkPermission('admin/notification/cat-remove')){
-						echo HtmlHelper::link('删除', array('admin/category/remove', array(
+					if(F::app()->checkPermission('cms/admin/notification/cat-remove')){
+						echo HtmlHelper::link('删除', array('cms/admin/category/remove', array(
 							'id'=>$c['id'],
 						)), array(
 							'class'=>'remove-link fc-red',
@@ -64,4 +64,4 @@ function showCats($cats, $dep = 0){?>
 		</div>
 	</div>
 </div>
-<?php $this->renderPartial('admin/category/_common');?>
+<?php $this->renderPartial('cms/admin/category/_common');?>

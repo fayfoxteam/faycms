@@ -16,27 +16,27 @@ function showCats($tree, $dep = 0){?>
 					))?>
 					</span>
 					<?php
-						if(F::app()->checkPermission('admin/menu/create')){
+						if(F::app()->checkPermission('cms/admin/menu/create')){
 							echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
 								'class'=>'create-cat-link',
 								'data-title'=>HtmlHelper::encode($node['title']),
 								'data-id'=>$node['id'],
 							));
 						}
-						if(F::app()->checkPermission('admin/menu/edit')){
+						if(F::app()->checkPermission('cms/admin/menu/edit')){
 							echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
 								'class'=>'edit-cat-link',
 								'data-id'=>$node['id'],
 							));
 						}
-						if(F::app()->checkPermission('admin/menu/remove')){
-							echo HtmlHelper::link('删除', array('admin/menu/remove', array(
+						if(F::app()->checkPermission('cms/admin/menu/remove')){
+							echo HtmlHelper::link('删除', array('cms/admin/menu/remove', array(
 								'id'=>$node['id'],
 							)), array(
 								'class'=>'remove-link fc-red',
 								'title'=>'删除该节点，其子节点将被挂载到其父节点',
 							));
-							echo HtmlHelper::link('删除全部', array('admin/menu/remove-all', array(
+							echo HtmlHelper::link('删除全部', array('cms/admin/menu/remove-all', array(
 								'id'=>$node['id'],
 							)), array(
 								'class'=>'remove-link fc-red',
@@ -52,15 +52,15 @@ function showCats($tree, $dep = 0){?>
 					<?php
 					
 						echo $node['enabled'] ? HtmlHelper::link('<span class="tick-circle"></span>', 'javascript:;', array(
-							'class'=>F::app()->checkPermission('admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
+							'class'=>F::app()->checkPermission('cms/admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
 							'data-id'=>$node['id'],
 							'encode'=>false,
-							'title'=>F::app()->checkPermission('admin/menu/edit') ? '是否启用（点击可改变状态）' : false,
+							'title'=>F::app()->checkPermission('cms/admin/menu/edit') ? '是否启用（点击可改变状态）' : false,
 						)) : HtmlHelper::link('<span class="cross-circle"></span>', 'javascript:;', array(
-							'class'=>F::app()->checkPermission('admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
+							'class'=>F::app()->checkPermission('cms/admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
 							'data-id'=>$node['id'],
 							'encode'=>false,
-							'title'=>F::app()->checkPermission('admin/post/cat-edit') ? '是否启用（点击可改变状态）' : false,
+							'title'=>F::app()->checkPermission('cms/admin/post/cat-edit') ? '是否启用（点击可改变状态）' : false,
 						));
 						
 						if(empty($node['children'])){

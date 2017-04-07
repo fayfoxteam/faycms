@@ -12,7 +12,7 @@ use fay\models\tables\RolesTable;
 		'height'=>40,
 		'class'=>'circle',
 		'spare'=>'avatar',
-	)), array('admin/user/item', array(
+	)), array('cms/admin/user/item', array(
 		'id'=>$data['id'],
 	)), array(
 		'title'=>false,
@@ -29,11 +29,11 @@ use fay\models\tables\RolesTable;
 		</strong>
 		<div class="row-actions">
 			<?php
-				echo HtmlHelper::link('查看', array('admin/operator/item', array(
+				echo HtmlHelper::link('查看', array('cms/admin/operator/item', array(
 					'id'=>$data['id'],
 				)), array(), true);
 				if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN, $data['id']) || UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){
-					echo HtmlHelper::link('编辑', array('admin/operator/edit', array(
+					echo HtmlHelper::link('编辑', array('cms/admin/operator/edit', array(
 						'id'=>$data['id'],
 					)), array(), true);
 				}
@@ -48,7 +48,7 @@ use fay\models\tables\RolesTable;
 			if($k){
 				echo ', ';
 			}
-			echo HtmlHelper::link($role['title'], array('admin/operator/index', array(
+			echo HtmlHelper::link($role['title'], array('cms/admin/operator/index', array(
 				'role'=>$role['id']
 			)));
 		}

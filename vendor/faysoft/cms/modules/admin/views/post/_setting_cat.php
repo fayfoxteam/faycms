@@ -1,4 +1,4 @@
-<?php echo F::form('setting')->open(array('admin/system/setting'))?>
+<?php echo F::form('setting')->open(array('cms/admin/system/setting'))?>
 	<?php echo F::form('setting')->inputHidden('_key')?>
 	<div class="form-field">
 		<label class="title bold">默认显示深度</label>

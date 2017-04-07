@@ -5,7 +5,7 @@ use fay\helpers\HtmlHelper;
 ?>
 <tr>
 	<td><?php echo $data['spider']?></td>
-	<td><?php echo HtmlHelper::link($data['url'], array('admin/analyst/spiderlog', array(
+	<td><?php echo HtmlHelper::link($data['url'], array('cms/admin/analyst/spiderlog', array(
 		'url'=>$data['url'],
 	), false))?></td>
 	<td><abbr title="<?php echo $data['user_agent']?>"><?php echo StringHelper::niceShort($data['user_agent'], 50)?></abbr></td>

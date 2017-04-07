@@ -36,7 +36,7 @@ use fay\helpers\HtmlHelper;
 </div>
 <script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript">
-var uploader_url = system.url('admin/file/upload');
+var uploader_url = system.url('cms/admin/file/upload');
 var uploader = new plupload.Uploader({
 	runtimes : 'html5,flash,gears,silverlight,browserplus',
 	browse_button : 'plupload-browse-button',
@@ -99,7 +99,7 @@ $(".delete-file").on("click", function(){
 	var o = this;
 	$.ajax({
 		type: 'GET',
-		url: system.url('admin/file/remove'),
+		url: system.url('cms/admin/file/remove'),
 		data: 'id='+$(this).attr('fid'),
 		dataType: 'json',
 		success: function(data){

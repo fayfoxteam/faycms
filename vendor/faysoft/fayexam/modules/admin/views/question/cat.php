@@ -29,7 +29,7 @@ function showCats($cats, $dep = 0){?>
 						));
 					}
 					if(F::app()->checkPermission('fayexam/admin/question/cat-remove')){
-						echo HtmlHelper::link('删除', array('admin/category/remove', array(
+						echo HtmlHelper::link('删除', array('cms/admin/category/remove', array(
 							'id'=>$c['id'],
 						)), array(
 							'class'=>'remove-link fc-red',

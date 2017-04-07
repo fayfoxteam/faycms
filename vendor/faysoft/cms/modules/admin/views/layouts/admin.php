@@ -93,7 +93,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 							</ul>
 						</li>
 						<li class="last"><?php
-							echo HtmlHelper::link('查看全部', array('admin/notification/my'), array(
+							echo HtmlHelper::link('查看全部', array('cms/admin/notification/my'), array(
 								'target'=>'_blank',
 							));
 						?></li>
@@ -110,7 +110,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 					?><span>您好，<?php echo $user['user']['username']?><i class="fa fa-angle-down"></i></span></a>
 					<ul class="dropdown-menu" id="user-profile-menu">
 						<li><?php
-							echo HtmlHelper::link('我的个人信息', array('admin/profile/index'), array(
+							echo HtmlHelper::link('我的个人信息', array('cms/admin/profile/index'), array(
 								'prepend'=>array(
 									'tag'=>'i',
 									'class'=>'fa fa-user',
@@ -119,7 +119,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
 							));
 						?></li>
 						<li class="last"><?php
-							echo HtmlHelper::link('退出', array('admin/login/logout'), array(
+							echo HtmlHelper::link('退出', array('cms/admin/login/logout'), array(
 								'prepend'=>array(
 									'tag'=>'i',
 									'class'=>'fa fa-lock',

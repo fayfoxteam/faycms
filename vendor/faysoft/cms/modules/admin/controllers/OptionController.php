@@ -42,7 +42,7 @@ class OptionController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑参数';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/option/index', array('page'=>$this->input->get('page', 'intval', 1))),
+			'uri'=>array('cms/admin/option/index', array('page'=>$this->input->get('page', 'intval', 1))),
 			'text'=>'添加参数',
 		);
 		$option_id = $this->input->get('id', 'intval');
@@ -97,7 +97,7 @@ class OptionController extends AdminController{
 		
 		Response::notify('success', array(
 			'message'=>'一个参数被永久删除',
-		), array('admin/option/index', $this->input->get()));
+		), array('cms/admin/option/index', $this->input->get()));
 	}
 	
 	public function isOptionNotExist(){

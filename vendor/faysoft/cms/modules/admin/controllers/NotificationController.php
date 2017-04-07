@@ -72,7 +72,7 @@ class NotificationController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_NOTIFICATION, '删除系统信息', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条消息被移入回收站 - '.HtmlHelper::link('撤销', array('admin/notification/undelete', array(
+			'message'=>'一条消息被移入回收站 - '.HtmlHelper::link('撤销', array('cms/admin/notification/undelete', array(
 				'id'=>$id,
 			))),
 			'id'=>$this->input->get('id', 'intval'),
@@ -132,7 +132,7 @@ class NotificationController extends AdminController{
 		$root_node = CategoryService::service()->getByAlias('_system_notification', 'id');
 		$this->view->root = $root_node['id'];
 	
-		if($this->checkPermission('admin/notification/cat-create')){
+		if($this->checkPermission('cms/admin/notification/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加消息分类',

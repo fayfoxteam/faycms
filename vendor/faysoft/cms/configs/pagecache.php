@@ -3,7 +3,7 @@
  * 页面缓存
  */
 return array(
-// 	'admin/login/index'=>array(
+// 	'cms/admin/login/index'=>array(
 // 		'params'=>array(),
 // 		'ttl'=>86400,
 // 		'on_post'=>'noaction',//noaction无操作, rebuild重新创建, remove删除（不重建）

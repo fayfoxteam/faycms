@@ -44,8 +44,8 @@ class CategoriesTable extends Table{
 			
 			array('title', 'required'),
 			array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
-			array('alias', 'unique', array('on'=>'create', 'table'=>'categories', 'field'=>'alias', 'ajax'=>array('admin/category/is-alias-not-exist'))),
-			array('alias', 'unique', array('on'=>'edit', 'table'=>'categories', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/category/is-alias-not-exist'))),
+			array('alias', 'unique', array('on'=>'create', 'table'=>'categories', 'field'=>'alias', 'ajax'=>array('cms/admin/category/is-alias-not-exist'))),
+			array('alias', 'unique', array('on'=>'edit', 'table'=>'categories', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/category/is-alias-not-exist'))),
 		);
 	}
 

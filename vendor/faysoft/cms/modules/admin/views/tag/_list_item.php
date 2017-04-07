@@ -9,13 +9,13 @@ use fay\helpers\HtmlHelper;
 	<td>
 		<strong><?php echo HtmlHelper::encode($data['title'])?></strong>
 		<div class="row-actions"><?php
-			echo HtmlHelper::link('查看文章', array('admin/post/index', array(
+			echo HtmlHelper::link('查看文章', array('cms/admin/post/index', array(
 				'tag_id'=>$data['id'],
 			)));
-			echo HtmlHelper::link('编辑', array('admin/tag/edit', array(
+			echo HtmlHelper::link('编辑', array('cms/admin/tag/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo HtmlHelper::link('永久删除', array('admin/tag/remove', array(
+			echo HtmlHelper::link('永久删除', array('cms/admin/tag/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'fc-red remove-link',

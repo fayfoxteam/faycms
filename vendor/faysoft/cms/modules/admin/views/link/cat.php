@@ -16,7 +16,7 @@ function showCats($cats, $dep = 0){?>
 					))?>
 					</span>
 					<?php 
-					echo HtmlHelper::link('查看该分类', array('admin/action/index', array(
+					echo HtmlHelper::link('查看该分类', array('cms/admin/action/index', array(
 						'cat_id'=>$c['id'],
 					)));
 					echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
@@ -28,7 +28,7 @@ function showCats($cats, $dep = 0){?>
 						'class'=>'edit-cat-link',
 						'data-id'=>$c['id'],
 					));
-					echo HtmlHelper::link('删除', array('admin/category/remove', array(
+					echo HtmlHelper::link('删除', array('cms/admin/category/remove', array(
 						'id'=>$c['id'],
 					)), array(
 						'class'=>'remove-link fc-red',
@@ -47,7 +47,7 @@ function showCats($cats, $dep = 0){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php echo HtmlHelper::link('增加链接', array('admin/link/create', array(
+					<?php echo HtmlHelper::link('增加链接', array('cms/admin/link/create', array(
 						'cat_id'=>$c['id'],
 					)), array(
 						'class'=>'color-green hover-link',

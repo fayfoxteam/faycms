@@ -8,7 +8,7 @@ var link = {
 			browse_button : 'upload-logo-link',
 			container : 'upload-logo-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload', {'cat':'link'}),
+			url : system.url('cms/admin/file/upload', {'cat':'link'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

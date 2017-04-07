@@ -23,7 +23,7 @@ class ToolsController extends Controller{
 		array(
 			'label'=>'控制台',
 			'icon'=>'fa fa-dashboard',
-			'router'=>'admin/index/index',
+			'router'=>'cms/admin/index/index',
 		),
 		array(
 			'label'=>'Tools',
@@ -57,7 +57,7 @@ class ToolsController extends Controller{
 		
 		//验证session中是否有值
 		if(!UserService::service()->isAdmin()){
-			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
+			Response::redirect('cms/admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		
 		if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){

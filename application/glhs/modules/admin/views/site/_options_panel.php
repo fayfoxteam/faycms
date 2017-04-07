@@ -2,7 +2,7 @@
 use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
 ?>
-<form id="options-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
+<form id="options-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
 	<div class="row">
 		<div class="col-6">
 			<div class="form-field">

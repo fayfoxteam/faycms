@@ -41,15 +41,15 @@ $cols = F::form('setting')->getData('cols');
 		<?php echo F::form('search')->close()?>
 	</div>
 </div>
-<form method="post" action="<?php echo $this->url('admin/file/batch')?>" id="batch-form" class="form-inline">
+<form method="post" action="<?php echo $this->url('cms/admin/file/batch')?>" id="batch-form" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
 			echo HtmlHelper::select('', array(
 				''=>'批量操作',
-				'upload-to-qiniu'=>(F::app()->checkPermission('admin/qiniu/put') && in_array('qiniu', $cols)) ? '上传至七牛' : false,
-				'remove-from-qiniu'=>(F::app()->checkPermission('admin/qiniu/delete') && in_array('qiniu', $cols)) ? '从七牛移除' : false,
-				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-				'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
+				'upload-to-qiniu'=>(F::app()->checkPermission('cms/admin/qiniu/put') && in_array('qiniu', $cols)) ? '上传至七牛' : false,
+				'remove-from-qiniu'=>(F::app()->checkPermission('cms/admin/qiniu/delete') && in_array('qiniu', $cols)) ? '从七牛移除' : false,
+				'remove'=>F::app()->checkPermission('cms/admin/file/remove') ? '物理删除' : false,
+				'exchange'=>F::app()->checkPermission('cms/admin/file/exchange') ? '移动到分类' : false,
 			), '', array(
 				'class'=>'form-control',
 				'id'=>'batch-action',
@@ -148,10 +148,10 @@ $cols = F::form('setting')->getData('cols');
 		<div class="col-5"><?php
 			echo HtmlHelper::select('', array(
 				''=>'批量操作',
-				'upload-to-qiniu'=>F::app()->checkPermission('admin/qiniu/put') ? '上传至七牛' : false,
-				'remove-from-qiniu'=>F::app()->checkPermission('admin/qiniu/delete') ? '从七牛移除' : false,
-				'remove'=>F::app()->checkPermission('admin/file/remove') ? '物理删除' : false,
-				'exchange'=>F::app()->checkPermission('admin/file/exchange') ? '移动到分类' : false,
+				'upload-to-qiniu'=>F::app()->checkPermission('cms/admin/qiniu/put') ? '上传至七牛' : false,
+				'remove-from-qiniu'=>F::app()->checkPermission('cms/admin/qiniu/delete') ? '从七牛移除' : false,
+				'remove'=>F::app()->checkPermission('cms/admin/file/remove') ? '物理删除' : false,
+				'exchange'=>F::app()->checkPermission('cms/admin/file/exchange') ? '移动到分类' : false,
 			), '', array(
 				'class'=>'form-control',
 				'id'=>'batch-action-2',
@@ -176,7 +176,7 @@ var file = {
 	'remove':function(file_id){
 		$.ajax({
 			type: 'GET',
-			url: system.url('admin/file/remove'),
+			url: system.url('cms/admin/file/remove'),
 			data: {
 				'id':file_id
 			},
@@ -197,7 +197,7 @@ var file = {
 			$container.find('.loading').show();
 			$.ajax({
 				type: 'GET',
-				url: system.url('admin/qiniu/put'),
+				url: system.url('cms/admin/qiniu/put'),
 				data: {
 					'id':file_id
 				},
@@ -222,7 +222,7 @@ var file = {
 			$container.find('.loading').show();
 			$.ajax({
 				type: 'GET',
-				url: system.url('admin/qiniu/delete'),
+				url: system.url('cms/admin/qiniu/delete'),
 				data: {
 					'id':file_id
 				},

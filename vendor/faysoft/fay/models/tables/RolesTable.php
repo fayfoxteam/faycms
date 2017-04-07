@@ -25,7 +25,7 @@ class RolesTable extends Table{
 			array(array('title', 'description'), 'string', array('max'=>255)),
 			array(array('delete_time', 'admin'), 'range', array('range'=>array(0, 1))),
 			
-			array(array('title'), 'unique', array('table'=>'roles', 'except'=>'id', 'ajax'=>array('admin/role/is-title-not-exist'))),
+			array(array('title'), 'unique', array('table'=>'roles', 'except'=>'id', 'ajax'=>array('cms/admin/role/is-title-not-exist'))),
 			array(array('title'), 'required'),
 		);
 	}

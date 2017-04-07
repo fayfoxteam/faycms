@@ -5,7 +5,7 @@
 ?>
 <div class="row">
 	<div class="col-5">
-		<?php echo F::form()->open(array('admin/tag/create'))?>
+		<?php echo F::form()->open(array('cms/admin/tag/create'))?>
 			<?php $this->renderPartial('_edit_panel');?>
 			<div class="form-field">
 				<a href="javascript:;" class="btn" id="form-submit">添加新标签</a>

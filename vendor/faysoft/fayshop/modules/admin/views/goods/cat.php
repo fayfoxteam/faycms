@@ -29,19 +29,19 @@ function showCats($cats, $dep = 0){?>
 								'data-id'=>$c['id'],
 							));
 						}
-						if(F::app()->checkPermission('admin/post/cat-create')){
+						if(F::app()->checkPermission('cms/admin/post/cat-create')){
 							echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
 								'class'=>'edit-cat-link',
 								'data-id'=>$c['id'],
 							));
 						}
 						if(F::app()->checkPermission('fayshop/admin/goods/cat-remove')){
-							echo HtmlHelper::link('删除', array('admin/category/remove', array(
+							echo HtmlHelper::link('删除', array('cms/admin/category/remove', array(
 								'id'=>$c['id'],
 							)), array(
 								'class'=>'remove-link fc-red',
 							));
-							echo HtmlHelper::link('删除全部', array('admin/category/remove-all', array(
+							echo HtmlHelper::link('删除全部', array('cms/admin/category/remove-all', array(
 								'id'=>$c['id'],
 							)), array(
 								'class'=>'remove-link fc-red',

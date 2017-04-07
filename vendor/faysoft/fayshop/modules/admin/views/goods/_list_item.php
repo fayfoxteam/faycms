@@ -20,7 +20,7 @@ $editable = F::app()->checkPermission('fayshop/admin/goods/edit');
 			'width'=>60,
 			'height'=>60,
 			'spare'=>'thumbnail',
-		)), array('admin/file/pic', array(
+		)), array('cms/admin/file/pic', array(
 			'f'=>$data['thumbnail'],
 		)), array(
 			'class'=>'fancybox-image',
@@ -32,7 +32,7 @@ $editable = F::app()->checkPermission('fayshop/admin/goods/edit');
 	<td>
 		<strong><?php
 			if($editable){
-				echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', array('admin/post/edit', array(
+				echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', array('cms/admin/post/edit', array(
 					'id'=>$data['id'],
 				)));
 			}else{

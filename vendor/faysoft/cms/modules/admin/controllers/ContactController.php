@@ -82,7 +82,7 @@ class ContactController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被标记为已读', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条留言被标记为已读 - '.HtmlHelper::link('撤销', array('admin/contact/set-unread', array(
+			'message'=>'一条留言被标记为已读 - '.HtmlHelper::link('撤销', array('cms/admin/contact/set-unread', array(
 				'id'=>$id,
 			))),
 		));
@@ -97,7 +97,7 @@ class ContactController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被标记为未读', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一条留言被标记为未读 - '.HtmlHelper::link('撤销', array('admin/contact/set-read', array(
+			'message'=>'一条留言被标记为未读 - '.HtmlHelper::link('撤销', array('cms/admin/contact/set-read', array(
 				'id'=>$id,
 			))),
 		));

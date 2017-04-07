@@ -21,7 +21,7 @@ class PostPropController extends AdminController{
 	
 	public function index(){
 		$this->layout->sublink = array(
-			'uri'=>array('admin/post/cat'),
+			'uri'=>array('cms/admin/post/cat'),
 			'text'=>'返回文章分类',
 		);
 		
@@ -95,7 +95,7 @@ class PostPropController extends AdminController{
 		$this->view->prop = $prop;
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/post-prop/index', array('cat_id'=>$prop['refer'])),
+			'uri'=>array('cms/admin/post-prop/index', array('cat_id'=>$prop['refer'])),
 			'text'=>'添加文章分类属性',
 		);
 		$cat = CategoriesTable::model()->find($prop['refer'], 'title');
@@ -114,7 +114,7 @@ class PostPropController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_POST_CAT, '删除了一个文章分类属性', $id);
 		
 		//不能直接回到上一页，因为可能处在编辑状态
-		Response::notify('success', '一个文章分类属性被删除', array('admin/post-prop/index', array(
+		Response::notify('success', '一个文章分类属性被删除', array('cms/admin/post-prop/index', array(
 			'cat_id'=>$prop['refer'],
 		)));
 	}

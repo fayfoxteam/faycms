@@ -595,7 +595,7 @@ class FeedCommentService extends MultiTreeModel{
 		}
 		
 		if(UserService::service()->isAdmin($user_id) &&
-			UserService::service()->checkPermission('admin/feed-comment/' . $action, $user_id)){
+			UserService::service()->checkPermission('cms/admin/feed-comment/' . $action, $user_id)){
 			//是管理员，判断权限
 			return true;
 		}

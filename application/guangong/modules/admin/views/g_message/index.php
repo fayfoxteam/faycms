@@ -93,7 +93,7 @@
 				});
 				$.ajax({
 					'type': 'POST',
-					'url': system.url('admin/g-message/reply'),
+					'url': system.url('cms/admin/g-message/reply'),
 					'data': $('#contact-reply-form').serialize(),
 					'dataType': 'json',
 					'cache': false,

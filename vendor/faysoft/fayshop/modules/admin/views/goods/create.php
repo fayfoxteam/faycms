@@ -86,8 +86,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/goods.js')?>"></script>
 <script>
 common.dragsortKey = 'admin_goods_box_sort';
-common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'goods'});
-common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'goods'});
+common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'goods'});
+common.filebrowserFlashUploadUrl = system.url('cms/admin/file/upload', {'cat':'goods'});
 goods.boxes = <?php echo json_encode($enabled_boxes)?>;
 $(function(){
 	goods.init();

@@ -28,25 +28,25 @@ class KeywordController extends AdminController{
 			if($this->form()->setModel(KeywordsTable::model())->check()){
 				$data = KeywordsTable::model()->fillData($this->input->post());
 				KeywordsTable::model()->insert($data);
-				Response::notify('success', '关键词添加成功', array('admin/keyword/index'));
+				Response::notify('success', '关键词添加成功', array('cms/admin/keyword/index'));
 			}else{
 				Response::goback();
 			}
 		}else{
-			Response::notify('error', '不完整的请求', array('admin/keyword/index'));
+			Response::notify('error', '不完整的请求', array('cms/admin/keyword/index'));
 		}
 	}
 	
 	public function remove(){
 		KeywordsTable::model()->delete($this->input->get('id', 'intval'));
 		
-		Response::notify('success', '一个关键词被永久删除', array('admin/keyword/index', $this->input->get()));
+		Response::notify('success', '一个关键词被永久删除', array('cms/admin/keyword/index', $this->input->get()));
 	}
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑关键词';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/keyword/index', $this->input->get()),
+			'uri'=>array('cms/admin/keyword/index', $this->input->get()),
 			'text'=>'添加关键词',
 		);
 		$keyword_id = $this->input->get('id', 'intval');

@@ -45,7 +45,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 	<td>
 		<strong><?php
 			if($editable && !$data['delete_time']){
-				echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', array('admin/post/edit', array(
+				echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', array('cms/admin/post/edit', array(
 					'id'=>$data['id'],
 				)));
 			}else{
@@ -55,21 +55,21 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 		<div class="row-actions">
 		<?php if($editable){
 			if($data['delete_time'] == 0){
-				echo HtmlHelper::link('编辑', array('admin/post/edit', array(
+				echo HtmlHelper::link('编辑', array('cms/admin/post/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
-				echo HtmlHelper::link('移入回收站', array('admin/post/delete', array(
+				echo HtmlHelper::link('移入回收站', array('cms/admin/post/delete', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-red',
 				), true);
 			}else{
-				echo HtmlHelper::link('还原', array('admin/post/undelete', array(
+				echo HtmlHelper::link('还原', array('cms/admin/post/undelete', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'undelete-post',
 				), true);
-				echo HtmlHelper::link('永久删除', array('admin/post/remove', array(
+				echo HtmlHelper::link('永久删除', array('cms/admin/post/remove', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'delete-post fc-red remove-link',
@@ -79,7 +79,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 		</div>
 	</td>
 	<?php if(in_array('main_category', $cols)){?>
-	<td><?php echo HtmlHelper::link($data['cat_title'], array('admin/post/index', array(
+	<td><?php echo HtmlHelper::link($data['cat_title'], array('cms/admin/post/index', array(
 		'cat_id'=>$data['cat_id'],
 	)));?></td>
 	<?php }?>
@@ -90,7 +90,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 			if($key){
 				echo ', ';
 			}
-			echo HtmlHelper::link($cat['title'], array('admin/post/index', array(
+			echo HtmlHelper::link($cat['title'], array('cms/admin/post/index', array(
 				'cat_id'=>$cat['id'],
 			)));
 		}
@@ -103,7 +103,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 			if($key){
 				echo ', ';
 			}
-			echo HtmlHelper::link($tag['tag']['title'], array('admin/post/index', array(
+			echo HtmlHelper::link($tag['tag']['title'], array('cms/admin/post/index', array(
 				'tag_id'=>$tag['tag']['id'],
 			)));
 		}
@@ -115,7 +115,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 	<?php if(in_array('user', $cols)){?>
 	<td><?php
 		echo HtmlHelper::link($data[F::form('setting')->getData('display_name', 'username')], array(
-			'admin/post/index', array(
+			'cms/admin/post/index', array(
 				'keywords_field'=>'p.user_id',
 				'keywords'=>$data['user_id'],
 			),

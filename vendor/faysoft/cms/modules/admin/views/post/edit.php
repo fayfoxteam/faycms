@@ -45,12 +45,12 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 							if(F::app()->post_review){
 								//开启审核，显示待审核选项
 								$options[PostsTable::STATUS_PENDING] = '待审核';
-								if(F::app()->checkPermission('admin/post/review')){
+								if(F::app()->checkPermission('cms/admin/post/review')){
 									//若有审核权限，显示“通过审核”选项
 									$options[PostsTable::STATUS_REVIEWED] = '通过审核';
 								}
 							}
-							if(!F::app()->post_review || F::app()->checkPermission('admin/post/publish')){
+							if(!F::app()->post_review || F::app()->checkPermission('cms/admin/post/publish')){
 								//未开启审核，或者有发布权限，显示“已发布”选项
 								$options[PostsTable::STATUS_PUBLISHED] = '已发布';
 							}
@@ -122,8 +122,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script>
 $(function(){
 	common.dragsortKey = 'admin_post_box_sort';
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'post'});
-	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'post'});
+	common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'post'});
+	common.filebrowserFlashUploadUrl = system.url('cms/admin/file/upload', {'cat':'post'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
 	post.post_id = <?php echo $post['id']?>;
 	<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN) && OptionService::get('system:post_role_cats')){?>

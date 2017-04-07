@@ -24,7 +24,7 @@ class ActionController extends AdminController{
 
 		$this->view->cats = CategoryService::service()->getTree('_system_action');
 		$this->form()->setModel(ActionsTable::model())
-			->setRule(array('parent_router', 'ajax', array('url'=>array('admin/action/is-router-exist'))))
+			->setRule(array('parent_router', 'ajax', array('url'=>array('cms/admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'))
 		;
 		$this->view->render();
@@ -63,14 +63,14 @@ class ActionController extends AdminController{
 		$gets = $this->input->get();
 		unset($gets['id']);
 		$this->layout->sublink = array(
-			'uri'=>array('admin/action/index', $gets),
+			'uri'=>array('cms/admin/action/index', $gets),
 			'text'=>'添加权限',
 		);
 		$action_id = intval($this->input->get('id', 'intval'));
 		$this->view->cats = CategoryService::service()->getNextLevel('_system_action');
 		
 		$this->form()->setModel(ActionsTable::model())
-			->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router', 'ajax'=>array('admin/action/is-router-exist'))))
+			->setRule(array(array('parent_router',), 'exist', array('table'=>'actions', 'field'=>'router', 'ajax'=>array('cms/admin/action/is-router-exist'))))
 			->setLabels(array('parent_router'=>'父级路由'));
 		
 		if($this->input->post()){
@@ -110,7 +110,7 @@ class ActionController extends AdminController{
 		ActionsTable::model()->delete(array('id = ?'=>$this->input->get('id', 'intval')));
 		$this->actionlog(ActionlogsTable::TYPE_ACTION, '删除权限', $this->input->get('id', 'intval'));
 		
-		Response::notify('success', '一个权限被删除', $this->view->url('admin/action/index', $this->input->get()));
+		Response::notify('success', '一个权限被删除', $this->view->url('cms/admin/action/index', $this->input->get()));
 	}
 	
 	public function search(){

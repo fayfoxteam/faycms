@@ -36,7 +36,7 @@ var feed = {
 		if(system.inArray('tags', feed.boxes)){
 			system.getScript(system.assets('faycms/js/fayfox.textext.js'), function(){
 				$('#tags').ftextext({
-					'url':system.url('admin/tag/search'),
+					'url':system.url('cms/admin/tag/search'),
 					'width':'100%'
 				});
 			});

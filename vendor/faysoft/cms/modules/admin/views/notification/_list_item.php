@@ -21,21 +21,21 @@ use fay\helpers\DateHelper;
 		<div class="row-actions">
 			<?php
 			if($data['read']){
-				echo HtmlHelper::link('标记为未读', array('admin/notification/set-read', array(
+				echo HtmlHelper::link('标记为未读', array('cms/admin/notification/set-read', array(
 					'read'=>0,
 					'id'=>$data['notification_id'],
 				)), array(
 					'class'=>'set-read-link fc-orange',
 				));
 			}else{
-				echo HtmlHelper::link('标记为已读', array('admin/notification/set-read', array(
+				echo HtmlHelper::link('标记为已读', array('cms/admin/notification/set-read', array(
 					'read'=>1,
 					'id'=>$data['notification_id'],
 				)), array(
 					'class'=>'set-read-link fc-green',
 				));
 			}
-			echo HtmlHelper::link('删除', array('admin/notification/delete', array('id'=>$data['notification_id'])), array(
+			echo HtmlHelper::link('删除', array('cms/admin/notification/delete', array('id'=>$data['notification_id'])), array(
 				'class'=>'delete-notification fc-red',
 			));?>
 		</div>

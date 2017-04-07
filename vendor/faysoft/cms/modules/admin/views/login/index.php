@@ -130,13 +130,13 @@ DD_belatedPNG.fix('fieldset,.ring');
 					</div>
 					<div class="user-profile">
 						您好，<?php echo $user['user']['username']?>
-						<?php echo HtmlHelper::link('更换账号登录', array('admin/login/logout'), array(
+						<?php echo HtmlHelper::link('更换账号登录', array('cms/admin/login/logout'), array(
 							'class'=>'logout-link',
 						));?>
 					</div>
 				</fieldset>
 				<fieldset>
-					<a href="<?php echo $this->url('admin/index/index')?>" id="login-form-submit">进&nbsp;入&nbsp;后&nbsp;台</a>
+					<a href="<?php echo $this->url('cms/admin/index/index')?>" id="login-form-submit">进&nbsp;入&nbsp;后&nbsp;台</a>
 				</fieldset>
 			</div>
 		</div>

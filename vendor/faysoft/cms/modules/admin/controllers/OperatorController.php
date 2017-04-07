@@ -45,7 +45,7 @@ class OperatorController extends AdminController{
 		$this->layout->subtitle = '所有管理员';
 			
 		$this->layout->sublink = array(
-			'uri'=>array('admin/operator/create'),
+			'uri'=>array('cms/admin/operator/create'),
 			'text'=>'添加管理员',
 		);
 		
@@ -132,9 +132,9 @@ class OperatorController extends AdminController{
 			
 			$this->actionlog(ActionlogsTable::TYPE_USERS, '添加了一个管理员', $user_id);
 			
-			Response::notify('success', '管理员添加成功， '.HtmlHelper::link('继续添加', array('admin/operator/create', array(
+			Response::notify('success', '管理员添加成功， '.HtmlHelper::link('继续添加', array('cms/admin/operator/create', array(
 				'roles'=>$this->input->post('roles', 'intval', array()),
-			))), array('admin/operator/edit', array(
+			))), array('cms/admin/operator/edit', array(
 				'id'=>$user_id,
 			)));
 		}
@@ -208,9 +208,9 @@ class OperatorController extends AdminController{
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
-		if($this->checkPermission('admin/operator/edit')){
+		if($this->checkPermission('cms/admin/operator/edit')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/operator/edit', array('id'=>$id)),
+				'uri'=>array('cms/admin/operator/edit', array('id'=>$id)),
 				'text'=>'编辑管理员',
 			);
 		}

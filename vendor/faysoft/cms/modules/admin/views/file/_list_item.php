@@ -39,13 +39,13 @@ $full_file_path = FileService::getUrl($data);
 					'target'=>'_blank',
 				));
 			}
-			echo HtmlHelper::link('物理删除', array('admin/file/remove', array(
+			echo HtmlHelper::link('物理删除', array('cms/admin/file/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'delete-file fc-red',
 				'data-id'=>$data['id'],
 			));
-			echo HtmlHelper::link('下载', array('admin/file/download', array(
+			echo HtmlHelper::link('下载', array('cms/admin/file/download', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'download-file',
@@ -62,7 +62,7 @@ $full_file_path = FileService::getUrl($data);
 					'target'=>'_blank',
 					'class'=>'show-qiniu-file',
 				));
-				echo HtmlHelper::link('删除', array('admin/qiniu/delete', array(
+				echo HtmlHelper::link('删除', array('cms/admin/qiniu/delete', array(
 					'id'=>$data['id'],
 				)), array(
 					'data-id'=>$data['id'],
@@ -74,7 +74,7 @@ $full_file_path = FileService::getUrl($data);
 		<div class="qiniu-status qiniu-not-upload <?php if($data['qiniu']){echo 'hide';}?>">
 			<span class="fc-orange">未上传</span>
 			<div class="row-actions"><?php
-				echo HtmlHelper::link('上传', array('admin/qiniu/put', array(
+				echo HtmlHelper::link('上传', array('cms/admin/qiniu/put', array(
 					'id'=>$data['id'],
 				)), array(
 					'data-id'=>$data['id'],

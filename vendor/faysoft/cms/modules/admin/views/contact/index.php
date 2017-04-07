@@ -93,7 +93,7 @@ var contact = {
 			});
 			$.ajax({
 				'type': 'POST',
-				'url': system.url('admin/contact/reply'),
+				'url': system.url('cms/admin/contact/reply'),
 				'data': $('#contact-reply-form').serialize(),
 				'dataType': 'json',
 				'cache': false,

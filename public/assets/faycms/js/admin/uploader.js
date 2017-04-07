@@ -44,7 +44,7 @@ var uploader = {
 				'browse_button': settings.browse_button,
 				'container': settings.container,
 				'max_file_size': settings.max_file_size,
-				'url': system.url('admin/file/img-upload', {'cat':settings.cat ? settings.cat : 'other'})
+				'url': system.url('cms/admin/file/img-upload', {'cat':settings.cat ? settings.cat : 'other'})
 			});
 			
 			uploader.init();
@@ -68,7 +68,7 @@ var uploader = {
 				$('#'+settings.preview_container).html([
 					'<input type="hidden" name="', settings.input_name, '" value="', resp.data.id, '" />',
 					'<a href="', resp.data.url, '" class="fancybox-image block">',
-						'<img src="', system.url('admin/file/pic', picParams), '" />',
+						'<img src="', system.url('cms/admin/file/pic', picParams), '" />',
 					'</a>',
 					'<a href="javascript:;" class="remove-image-link">', settings.remove_link_text, '</a>'
 				].join(''));
@@ -142,12 +142,12 @@ var uploader = {
 		system.getScript(system.assets('js/plupload.full.js'), function(){
 			var url, filters;
 			if(settings.image_only){
-				url = system.url('admin/file/img-upload', {'cat': settings.cat});
+				url = system.url('cms/admin/file/img-upload', {'cat': settings.cat});
 				filters = [
 					{title: 'Image files', extensions: 'jpg,gif,png,jpeg'}
 				];
 			}else{
-				url = system.url('admin/file/upload', {'cat': settings.cat});
+				url = system.url('cms/admin/file/upload', {'cat': settings.cat});
 				filters = [];
 			}
 			

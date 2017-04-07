@@ -13,15 +13,15 @@ $widget_instance = F::widget()->get($widget['widget_name'], true);
 			'title'=>'小工具实例别名',
 		), $widget['alias'])?></strong>
 		<span class="operations"><?php
-			echo HtmlHelper::link('编辑', array('admin/widget/edit', array(
+			echo HtmlHelper::link('编辑', array('cms/admin/widget/edit', array(
 				'id'=>$widget['id'],
 			)), array(), true);
-			echo HtmlHelper::link('删除', array('admin/widget/remove-instance', array(
+			echo HtmlHelper::link('删除', array('cms/admin/widget/remove-instance', array(
 				'id'=>$widget['id'],
 			)), array(
 				'class'=>'fc-red remove-link',
 			), true);
-			echo HtmlHelper::link('复制', array('admin/widget/copy', array(
+			echo HtmlHelper::link('复制', array('cms/admin/widget/copy', array(
 				'id'=>$widget['id'],
 			)), array(), true);
 		?></span>
@@ -37,15 +37,15 @@ $widget_instance = F::widget()->get($widget['widget_name'], true);
 			'class'=>'fc-grey',
 		), ' （'.$widget_instance->title.'）')?>
 		<span class="operations"><?php
-			echo HtmlHelper::link('编辑', array('admin/widget/edit', array(
+			echo HtmlHelper::link('编辑', array('cms/admin/widget/edit', array(
 				'id'=>$widget['id'],
 			)), array(), true);
-			echo HtmlHelper::link('删除', array('admin/widget/remove-instance', array(
+			echo HtmlHelper::link('删除', array('cms/admin/widget/remove-instance', array(
 				'id'=>$widget['id'],
 			)), array(
 				'class'=>'fc-red remove-link',
 			), true);
-			echo HtmlHelper::link('复制', array('admin/widget/copy', array(
+			echo HtmlHelper::link('复制', array('cms/admin/widget/copy', array(
 				'id'=>$widget['id'],
 			)), array(), true);
 		?></span>

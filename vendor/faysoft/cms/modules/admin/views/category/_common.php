@@ -14,7 +14,7 @@ F::form('edit')->setModel(CategoriesTable::model());
 	<div id="edit-cat-dialog" class="dialog">
 		<div class="dialog-content w600">
 			<h4>编辑分类<em>（当前分类：<span id="edit-cat-title" class="fc-orange"></span>）</em></h4>
-			<?php echo F::form('edit')->open(array('admin/category/edit'))?>
+			<?php echo F::form('edit')->open(array('cms/admin/category/edit'))?>
 				<?php echo HtmlHelper::inputHidden('id')?>
 				<table class="form-table">
 					<tr>
@@ -118,7 +118,7 @@ F::form('edit')->setModel(CategoriesTable::model());
 	<div id="create-cat-dialog" class="dialog">
 		<div class="dialog-content w600">
 			<h4>添加子分类<em>（父分类：<span id="create-cat-parent" class="fc-orange"></span>）</em></h4>
-			<?php echo F::form('create')->open(array('admin/category/create'))?>
+			<?php echo F::form('create')->open(array('cms/admin/category/create'))?>
 				<?php echo HtmlHelper::inputHidden('parent')?>
 				<table class="form-table">
 					<tr>

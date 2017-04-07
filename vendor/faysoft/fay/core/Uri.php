@@ -99,7 +99,7 @@ class Uri{
 		if($request == ''){
 			//无路由信息，访问默认路由
 			$default_router = \F::config()->get('default_router');
-			$this->_setRouter($default_router['module'], $default_router['controller'], $default_router['action']);
+			$this->_setRouter($default_router['module'], $default_router['controller'], $default_router['action'], APPLICATION);
 			return;
 		}
 		
@@ -143,16 +143,16 @@ class Uri{
 		$request_arr_count = count($request_arr);
 		switch($request_arr_count){
 			case 1:
-				//一级路由，取app，默认module，路由指定的controller和默认action
-				$this->_setRouter(\F::config()->get('default_router.module'), $request_arr[0], \F::config()->get('default_router.action'));
+				//一级路由，取app，默认module，路由指定的controller和默认action，package为APPLICATION
+				$this->_setRouter(\F::config()->get('default_router.module'), $request_arr[0], \F::config()->get('default_router.action'), APPLICATION);
 				break;
 			case 2:
-				//二级路由，取app，默认module，路由指定的controller和action
-				$this->_setRouter(\F::config()->get('default_router.module'), $request_arr[0], $request_arr[1]);
+				//二级路由，取app，默认module，路由指定的controller和action，package为APPLICATION
+				$this->_setRouter(\F::config()->get('default_router.module'), $request_arr[0], $request_arr[1], APPLICATION);
 				break;
 			case 3:
-				//三级路由，取app或faysoft/cms，路由指定的module，controller和action
-				$this->_setRouter($request_arr[0], $request_arr[1], $request_arr[2]);
+				//三级路由，取app，路由指定的module，controller和action，package为APPLICATION
+				$this->_setRouter($request_arr[0], $request_arr[1], $request_arr[2], APPLICATION);
 				break;
 			case 4:
 				//四级路由，取faysoft/{$request_arr[0]}，路由指定的module，controller和action

@@ -39,7 +39,7 @@ class AnalystSiteController extends AdminController{
 	
 	public function edit(){
 		$this->layout->sublink = array(
-			'uri'=>array('admin/analyst-site/index', $this->input->get()),
+			'uri'=>array('cms/admin/analyst-site/index', $this->input->get()),
 			'text'=>'添加站点',
 		);
 		$id = $this->input->get('id', 'intval');
@@ -65,7 +65,7 @@ class AnalystSiteController extends AdminController{
 		AnalystSitesTable::model()->update(array(
 			'delete_time'=>\F::app()->current_time,
 		), $id);
-		Response::notify('success', '一个站点被删除。'.HtmlHelper::link('撤销', array('admin/analyst-site/undelete', array(
+		Response::notify('success', '一个站点被删除。'.HtmlHelper::link('撤销', array('cms/admin/analyst-site/undelete', array(
 			'id'=>$id,
 		))));
 	}

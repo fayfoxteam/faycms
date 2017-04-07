@@ -9,7 +9,7 @@ F::form('edit')->setModel(MenusTable::model());
 	<div id="edit-cat-dialog" class="dialog">
 		<div class="dialog-content w550">
 			<h4>编辑菜单<em>（当前菜单：<span id="edit-cat-title" class="fc-orange"></span>）</em></h4>
-			<?php echo F::form('edit')->open(array('admin/menu/edit'), 'post', array(
+			<?php echo F::form('edit')->open(array('cms/admin/menu/edit'), 'post', array(
 				'class'=>'form-inline',
 			))?>
 				<?php echo HtmlHelper::inputHidden('id')?>
@@ -121,7 +121,7 @@ F::form('edit')->setModel(MenusTable::model());
 	<div id="create-cat-dialog" class="dialog">
 		<div class="dialog-content w550">
 			<h4>添加子项<em>（父节点：<span id="create-cat-parent" class="fc-orange"></span>）</em></h4>
-			<?php echo F::form('create')->open(array('admin/menu/create'), 'post', array(
+			<?php echo F::form('create')->open(array('cms/admin/menu/create'), 'post', array(
 				'class'=>'form-inline',
 			))?>
 				<?php echo HtmlHelper::inputHidden('parent')?>

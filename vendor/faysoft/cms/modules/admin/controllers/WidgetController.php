@@ -21,7 +21,7 @@ class WidgetController extends AdminController{
 		$this->layout->subtitle = '所有小工具';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/widgetarea/index'),
+			'uri'=>array('cms/admin/widgetarea/index'),
 			'text'=>'小工具域',
 		);
 		
@@ -57,7 +57,7 @@ class WidgetController extends AdminController{
 		header('X-XSS-Protection: 0');
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/widgetarea/index'),
+			'uri'=>array('cms/admin/widgetarea/index'),
 			'text'=>'小工具域',
 		);
 		
@@ -77,7 +77,7 @@ class WidgetController extends AdminController{
 			array('f_widget_alias', 'string', array('max'=>255,'format'=>'alias')),
 			array('f_widget_alias', 'required'),
 			array('f_widget_description', 'string', array('max'=>255)),
-			array('f_widget_alias', 'unique', array('table'=>'widgets', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/widget/is-alias-not-exist'))),
+			array('f_widget_alias', 'unique', array('table'=>'widgets', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/widget/is-alias-not-exist'))),
 			
 		))->setLabels(array(
 			'f_widget_alias'=>'别名',
@@ -166,7 +166,7 @@ class WidgetController extends AdminController{
 			));
 			$this->actionlog(ActionlogsTable::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
 			
-			Response::notify('success', '小工具实例创建成功', array('admin/widget/edit', array(
+			Response::notify('success', '小工具实例创建成功', array('cms/admin/widget/edit', array(
 				'id'=>$widget_instance_id,
 			)));
 		}else{
@@ -237,6 +237,6 @@ class WidgetController extends AdminController{
 		
 		Response::notify('success', array(
 			'message'=>'一个小工具实例被复制',
-		), array('admin/widgetarea/index'));
+		), array('cms/admin/widgetarea/index'));
 	}
 }

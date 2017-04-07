@@ -5,7 +5,7 @@
 ?>
 <div class="row">
 	<div class="col-5">
-		<?php echo F::form()->open(array('admin/keyword/edit', F::app()->input->get()))?>
+		<?php echo F::form()->open(array('cms/admin/keyword/edit', F::app()->input->get()))?>
 			<div class="form-field">
 				<label>关键词<em class="required">*</em></label>
 				<?php echo F::form()->inputText('keyword', array(

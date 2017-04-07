@@ -42,7 +42,7 @@ $(function(){
 		browse_button : 'widget-image-upload',
 		container: 'widget-image-upload-container',
 		max_file_size : '2mb',
-		url : system.url('admin/file/upload', {'cat':'widget'}),
+		url : system.url('cms/admin/file/upload', {'cat':'widget'}),
 		flash_swf_url : system.url()+'flash/plupload.flash.swf',
 		silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 		filters : [

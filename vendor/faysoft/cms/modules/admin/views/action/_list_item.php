@@ -9,8 +9,8 @@ use fay\helpers\HtmlHelper;
 				HtmlHelper::encode($data['title']);
 		?></strong>
 		<div class="row-actions">
-			<a href="<?php echo $this->url('admin/action/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
-			<a href="<?php echo $this->url('admin/action/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>
+			<a href="<?php echo $this->url('cms/admin/action/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
+			<a href="<?php echo $this->url('cms/admin/action/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>
 		</div>
 	</td>
 	<td><?php echo $data['router']?></td>

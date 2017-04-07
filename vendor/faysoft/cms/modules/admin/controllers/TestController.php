@@ -110,7 +110,7 @@ class TestController extends AdminController{
 // 		));
 // 		echo "\r\n\r\n\r\n";
 		
-		echo HtmlHelper::link('链接', array('admin/user/index'), array(
+		echo HtmlHelper::link('链接', array('cms/admin/user/index'), array(
 			'prepend'=>'-->'
 		));
 		echo "\r\n<br>\r\n<br>\r\n";

@@ -443,7 +443,7 @@ class FileController extends AdminController{
 		$this->view->cats = CategoryService::service()->getTree('_system_file');
 		$root_node = CategoryService::service()->getByAlias('_system_file', 'id');
 		$this->view->root = $root_node['id'];
-		if($this->checkPermission('admin/link/cat-create')){
+		if($this->checkPermission('cms/admin/link/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加文件分类',

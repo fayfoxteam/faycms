@@ -47,22 +47,22 @@ $cols = F::form('setting')->getData('cols', array());
 		<?php echo F::form('search')->close()?>
 		<ul class="subsubsub">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/page/index')?>">全部</a>
+				<a href="<?php echo $this->url('cms/admin/page/index')?>">全部</a>
 				<span class="fc-grey">(<?php echo PageService::service()->getCount()?>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status') == PagesTable::STATUS_PUBLISHED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/page/index', array('status'=>PagesTable::STATUS_PUBLISHED))?>">已发布</a>
+				<a href="<?php echo $this->url('cms/admin/page/index', array('status'=>PagesTable::STATUS_PUBLISHED))?>">已发布</a>
 				<span class="fc-grey">(<?php echo PageService::service()->getCount(PagesTable::STATUS_PUBLISHED)?>)</span>
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PagesTable::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/page/index', array('status'=>PagesTable::STATUS_DRAFT))?>">草稿</a>
+				<a href="<?php echo $this->url('cms/admin/page/index', array('status'=>PagesTable::STATUS_DRAFT))?>">草稿</a>
 				<span class="fc-grey">(<?php echo PageService::service()->getCount(PagesTable::STATUS_DRAFT)?>)</span>
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/page/index', array('deleted'=>1))?>">回收站</a>
+				<a href="<?php echo $this->url('cms/admin/page/index', array('deleted'=>1))?>">回收站</a>
 				<span class="fc-grey">(<?php echo PageService::service()->getDeletedCount()?>)</span>
 			</li>
 		</ul>

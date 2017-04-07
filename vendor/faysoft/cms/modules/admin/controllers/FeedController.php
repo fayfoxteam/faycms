@@ -48,9 +48,9 @@ class FeedController extends AdminController{
 	 */
 	public function create(){
 		$this->layout->subtitle = '发布动态';
-		if($this->checkPermission('admin/feed/index')){
+		if($this->checkPermission('cms/admin/feed/index')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/feed/index'),
+				'uri'=>array('cms/admin/feed/index'),
 				'text'=>'所有动态',
 			);
 		}
@@ -96,7 +96,7 @@ class FeedController extends AdminController{
 			$feed_id = FeedService::service()->create($data, $extra, $this->current_user);
 			
 			$this->actionlog(ActionlogsTable::TYPE_FEED, '添加动态', $feed_id);
-			Response::notify('success', '动态发布成功', array('admin/feed/edit', array(
+			Response::notify('success', '动态发布成功', array('cms/admin/feed/edit', array(
 				'id'=>$feed_id,
 			)));
 		}
@@ -116,9 +116,9 @@ class FeedController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑动态';
-		if($this->checkPermission('admin/feed/create')){
+		if($this->checkPermission('cms/admin/feed/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/feed/create'),
+				'uri'=>array('cms/admin/feed/create'),
 				'text'=>'发布动态',
 			);
 		}
@@ -244,9 +244,9 @@ class FeedController extends AdminController{
 		
 		$this->layout->subtitle = '所有动态';
 		
-		if($this->checkPermission('admin/feed/create')){
+		if($this->checkPermission('cms/admin/feed/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/feed/create'),
+				'uri'=>array('cms/admin/feed/create'),
 				'text'=>'发布动态',
 			);
 		}
@@ -333,7 +333,7 @@ class FeedController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_FEED, '将动态移入回收站', $feed_id);
 		
 		Response::notify('success', array(
-			'message'=>'一篇动态被移入回收站 - '.HtmlHelper::link('撤销', array('admin/feed/undelete', array(
+			'message'=>'一篇动态被移入回收站 - '.HtmlHelper::link('撤销', array('cms/admin/feed/undelete', array(
 				'id'=>$feed_id,
 			))),
 			'id'=>$feed_id,

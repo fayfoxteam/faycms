@@ -12,7 +12,7 @@ var cat = {
 						});
 						$.ajax({
 							type: 'GET',
-							url: system.url('admin/category/get'),
+							url: system.url('cms/admin/category/get'),
 							data: {'id':$(o).attr('data-id')},
 							dataType: 'json',
 							cache: false,
@@ -23,7 +23,7 @@ var cat = {
 									$("#edit-cat-dialog input[name='id']").val(resp.data.cat.id);
 									$("#edit-cat-dialog input[name='title']").val(resp.data.cat.title);
 									$("#edit-cat-dialog input[name='alias']").val(resp.data.cat.alias);
-									$("#edit-cat-dialog input[name='alias']").attr('data-ajax', system.url('admin/category/is-alias-not-exist', {id:resp.data.cat.id}));
+									$("#edit-cat-dialog input[name='alias']").attr('data-ajax', system.url('cms/admin/category/is-alias-not-exist', {id:resp.data.cat.id}));
 									
 									if(resp.data.cat.is_nav == 1){
 										$("#edit-cat-dialog input[name='is_nav']").attr('checked', 'checked');
@@ -105,7 +105,7 @@ var cat = {
 			$(this).find('span').hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
 			$.ajax({
 				type: 'GET',
-				url: system.url('admin/category/set-is-nav'),
+				url: system.url('cms/admin/category/set-is-nav'),
 				data: {
 					'id':$(this).attr('data-id'),
 					'is_nav':$(this).find('span').hasClass('tick-circle') ? 0 : 1
@@ -133,7 +133,7 @@ var cat = {
 			browse_button : 'upload-cat-pic-for-create',
 			container : 'upload-cat-pic-for-create-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload', {'cat':'cat'}),
+			url : system.url('cms/admin/file/upload', {'cat':'cat'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -177,7 +177,7 @@ var cat = {
 			browse_button : 'upload-cat-pic-for-edit',
 			container : 'upload-cat-pic-for-edit-container',
 			max_file_size : '2mb',
-			url : system.url('admin/file/upload', {'cat':'cat'}),
+			url : system.url('cms/admin/file/upload', {'cat':'cat'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -239,7 +239,7 @@ var cat = {
 		});
 
 		$('.edit-sort').feditsort({
-			'url':system.url('admin/category/sort')
+			'url':system.url('cms/admin/category/sort')
 		});
 	},
 	'init':function(){

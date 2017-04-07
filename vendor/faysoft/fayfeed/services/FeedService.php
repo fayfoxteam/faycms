@@ -564,7 +564,7 @@ class FeedService extends Service{
 		}
 		
 		if(UserService::service()->isAdmin($user_id)){
-			if(UserService::service()->checkPermission('admin/feed/delete', $user_id)){
+			if(UserService::service()->checkPermission('cms/admin/feed/delete', $user_id)){
 				return true;
 			}
 		}

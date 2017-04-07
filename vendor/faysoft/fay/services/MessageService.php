@@ -612,7 +612,7 @@ class MessageService extends MultiTreeModel{
 		}
 		
 		if(UserService::service()->isAdmin($user_id) &&
-			UserService::service()->checkPermission('admin/feed-message/' . $action, $user_id)){
+			UserService::service()->checkPermission('cms/admin/feed-message/' . $action, $user_id)){
 			//是管理员，判断权限
 			return true;
 		}

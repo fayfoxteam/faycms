@@ -99,7 +99,7 @@ use fay\helpers\HtmlHelper;
 <?php echo F::form('widget')->close()?>
 <script>
 $(function(){
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'widget'});
+	common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'widget'});
 
 	$('[name="f_widget_cache"]').on('change', function(){
 		if($('[name="f_widget_cache"]:checked').val() == '1'){

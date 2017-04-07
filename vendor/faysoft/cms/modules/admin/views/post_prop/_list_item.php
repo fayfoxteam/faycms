@@ -15,10 +15,10 @@ use cms\helpers\PropHelper;
 		<?php }?>
 		<?php if($data['refer'] == F::form()->getData('refer')){?>
 		<div class="row-actions">
-			<?php echo HtmlHelper::link('编辑', array('admin/post-prop/edit', array(
+			<?php echo HtmlHelper::link('编辑', array('cms/admin/post-prop/edit', array(
 				'id'=>$data['id'],
 			) + F::input()->get()))?>
-			<?php echo HtmlHelper::link('删除', array('admin/post-prop/delete', array(
+			<?php echo HtmlHelper::link('删除', array('cms/admin/post-prop/delete', array(
 				'id'=>$data['id'],
 			) + F::input()->get()), array(
 				'class'=>'remove-link fc-red',

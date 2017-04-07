@@ -154,7 +154,7 @@ class PostController extends AdminController{
 			$post_id = PostService::service()->create($data, $extra, $this->current_user);
 			
 			$this->actionlog(ActionlogsTable::TYPE_POST, '添加文章', $post_id);
-			Response::notify('success', '文章发布成功', array('admin/post/edit', array(
+			Response::notify('success', '文章发布成功', array('cms/admin/post/edit', array(
 				'id'=>$post_id,
 			)));
 		}
@@ -188,9 +188,9 @@ class PostController extends AdminController{
 			$this->layout->subtitle = '撰写文章 - 所属分类：'.$cat['title'];
 		}
 		
-		if($this->checkPermission('admin/post/index')){
+		if($this->checkPermission('cms/admin/post/index')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/post/index'),
+				'uri'=>array('cms/admin/post/index'),
 				'text'=>'所有文章',
 			);
 		}
@@ -233,9 +233,9 @@ class PostController extends AdminController{
 		$cat_id = $this->input->get('cat_id', 'intval', 0);
 		
 		//权限检查
-		if($this->checkPermission('admin/post/create')){
+		if($this->checkPermission('cms/admin/post/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/post/create', array(
+				'uri'=>array('cms/admin/post/create', array(
 					'cat_id'=>$cat_id
 				)),
 				'text'=>'撰写文章',
@@ -544,9 +544,9 @@ class PostController extends AdminController{
 		
 		$cat = CategoryService::service()->get($post['cat_id'], 'title');
 		$this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
-		if($this->checkPermission('admin/post/create')){
+		if($this->checkPermission('cms/admin/post/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/post/create', array(
+				'uri'=>array('cms/admin/post/create', array(
 					'cat_id'=>$post['cat_id'],
 				)),
 				'text'=>'在此分类下发布文章',
@@ -578,7 +578,7 @@ class PostController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_POST, '将文章移入回收站', $post_id);
 		
 		Response::notify('success', array(
-			'message'=>'一篇文章被移入回收站 - '.HtmlHelper::link('撤销', array('admin/post/undelete', array(
+			'message'=>'一篇文章被移入回收站 - '.HtmlHelper::link('撤销', array('cms/admin/post/undelete', array(
 				'id'=>$post_id,
 			))),
 			'id'=>$post_id,
@@ -675,7 +675,7 @@ class PostController extends AdminController{
 		$root_node = CategoryService::service()->getByAlias('_system_post', 'id');
 		$this->view->root = $root_node['id'];
 		
-		if($this->checkPermission('admin/post/cat-create')){
+		if($this->checkPermission('cms/admin/post/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加文章分类',

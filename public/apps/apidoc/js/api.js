@@ -238,7 +238,7 @@ var api = {
 	'autocomplete': function(){
 		system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
 			$("#add-output-model-name").autocomplete({
-				"url" : system.url('admin/model/search'),
+				"url" : system.url('cms/admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
@@ -247,7 +247,7 @@ var api = {
 				'zindex': '1150'
 			});
 			$("#edit-output-model-name").autocomplete({
-				"url" : system.url('admin/model/search'),
+				"url" : system.url('cms/admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);

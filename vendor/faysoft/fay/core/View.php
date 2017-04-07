@@ -213,7 +213,7 @@ class View{
 			}
 		}
 		
-		if($package == 'cms' && file_exists(APPLICATION_PATH.$view_relative_path)){
+		if($package == APPLICATION && file_exists(APPLICATION_PATH.$view_relative_path)){
 			//前台app
 			$view_path = APPLICATION_PATH.$view_relative_path;
 		}else if(file_exists(FAYSOFT_PATH."{$package}/{$view_relative_path}")){

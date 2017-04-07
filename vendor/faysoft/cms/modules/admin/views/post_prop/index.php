@@ -5,7 +5,7 @@
 ?>
 <div class="row">
 	<div class="col-5">
-		<?php echo F::form()->open(array('admin/post-prop/create'))?>
+		<?php echo F::form()->open(array('cms/admin/post-prop/create'))?>
 			<?php $this->renderPartial('_edit_panel')?>
 			<div class="form-field">
 				<?php echo F::form()->submitLink('提交', array(

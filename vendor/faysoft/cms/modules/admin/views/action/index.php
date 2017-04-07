@@ -6,7 +6,7 @@
 ?>
 <div class="row">
 	<div class="col-5">
-		<?php echo F::form()->open(array('admin/action/create'))?>
+		<?php echo F::form()->open(array('cms/admin/action/create'))?>
 			<?php $this->renderPartial('_edit_panel', array(
 				'cats'=>$cats,
 			));?>

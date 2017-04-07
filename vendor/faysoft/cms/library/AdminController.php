@@ -30,7 +30,7 @@ class AdminController extends Controller{
 		array(
 			'label'=>'控制台',
 			'icon'=>'fa fa-dashboard',
-			'router'=>'admin/index/index',
+			'router'=>'cms/admin/index/index',
 		),
 		array(
 			'label'=>'Tools',
@@ -50,7 +50,7 @@ class AdminController extends Controller{
 		
 		//验证session中是否有值
 		if(!UserService::service()->isAdmin()){
-			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
+			Response::redirect('cms/admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		$this->layout->current_directory = '';
 		$this->layout->subtitle = '';

@@ -36,7 +36,7 @@ class RolePropController extends AdminController{
 		$this->layout->subtitle = '角色属性 - '.HtmlHelper::encode($role['title']);
 		$this->layout->sublink = array(
 			'text'=>'返回角色列表',
-			'uri'=>array('admin/role/index'),
+			'uri'=>array('cms/admin/role/index'),
 		);
 		
 		$this->_setListview($role_id);
@@ -97,7 +97,7 @@ class RolePropController extends AdminController{
 		$this->view->prop = $prop;
 
 		$this->layout->sublink = array(
-			'uri'=>array('admin/role-prop/index', array('role_id'=>$prop['refer'])),
+			'uri'=>array('cms/admin/role-prop/index', array('role_id'=>$prop['refer'])),
 			'text'=>'添加角色属性',
 		);
 		
@@ -116,7 +116,7 @@ class RolePropController extends AdminController{
 
 		Response::notify('success', array(
 			'message'=>'删除了一个角色属性',
-		), array('admin/role-prop/index', array(
+		), array('cms/admin/role-prop/index', array(
 			'role_id'=>$prop['refer'],
 		)));
 	}

@@ -9,7 +9,7 @@ use fay\helpers\DateHelper;
 ?>
 <li class="contact-item" id="contact-<?php echo $data['id']?>">
 	<div class="ci-options"><?php
-		if(F::app()->checkPermission('admin/g-message/reply')){
+		if(F::app()->checkPermission('cms/admin/g-message/reply')){
 			echo HtmlHelper::link('<i class="fa fa-reply-all"></i>', '#contact-reply-dialog', array(
 				'data-id'=>$data['id'],
 				'class'=>'btn btn-grey reply-link',
@@ -17,7 +17,7 @@ use fay\helpers\DateHelper;
 				'title'=>'回复',
 			));
 		}
-		echo HtmlHelper::link('<i class="fa fa-trash"></i>', array('admin/g-message/remove', array(
+		echo HtmlHelper::link('<i class="fa fa-trash"></i>', array('cms/admin/g-message/remove', array(
 			'id'=>$data['id'],
 		)), array(
 			'data-id'=>$data['id'],

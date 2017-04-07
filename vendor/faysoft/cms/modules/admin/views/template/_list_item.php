@@ -6,8 +6,8 @@ use fay\services\TemplateService;
 	<td>
 		<strong><?php echo HtmlHelper::encode($data['alias'])?></strong>
 		<div class="row-actions">
-			<?php echo HtmlHelper::link('编辑', array('admin/template/edit', array('id'=>$data['id'])))?>
-			<?php echo HtmlHelper::link('删除', array('admin/template/delete', array('id'=>$data['id'])), array(
+			<?php echo HtmlHelper::link('编辑', array('cms/admin/template/edit', array('id'=>$data['id'])))?>
+			<?php echo HtmlHelper::link('删除', array('cms/admin/template/delete', array('id'=>$data['id'])), array(
 				'class'=>'fc-red remove-link',
 			))?>
 		</div>

@@ -9,14 +9,14 @@ use fay\helpers\HtmlHelper;
 		<div class="row-actions">
 		<?php 
 			//非管理员用户没有权限
-			echo HtmlHelper::link('编辑', array('admin/role/edit', array(
+			echo HtmlHelper::link('编辑', array('cms/admin/role/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo HtmlHelper::link('附加属性', array('admin/role-prop/index', array(
+			echo HtmlHelper::link('附加属性', array('cms/admin/role-prop/index', array(
 				'role_id'=>$data['id'],
 			)), array(), true);
 			//普通用户不能删除
-			echo HtmlHelper::link('删除', array('admin/role/delete', array(
+			echo HtmlHelper::link('删除', array('cms/admin/role/delete', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'fc-red remove-link',

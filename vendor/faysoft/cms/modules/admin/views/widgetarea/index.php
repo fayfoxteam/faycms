@@ -65,7 +65,7 @@ var widgetarea = {
 					});
 					$.ajax({
 						'type': 'POST',
-						'url': system.url('admin/widgetarea/set-widgets'),
+						'url': system.url('cms/admin/widgetarea/set-widgets'),
 						'data': widgetareas,
 						'dataType': 'json',
 						'cache': false,

@@ -47,7 +47,7 @@ use fay\helpers\HtmlHelper;
 $(function(){
 	system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
 		$("#parent-router").autocomplete({
-			"url" : system.url('admin/action/search'),
+			"url" : system.url('cms/admin/action/search'),
 			'startSuggestLength':7,
 			'onSelect':function(obj){
 				common.validformParams.forms.default.obj.check(obj);

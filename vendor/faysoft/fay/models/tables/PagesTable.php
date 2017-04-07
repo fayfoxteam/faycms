@@ -59,7 +59,7 @@ class PagesTable extends Table{
 			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			
 			array(array('status'), 'range', array('range'=>array(self::STATUS_DRAFT, self::STATUS_PUBLISHED))),
-			array('alias', 'unique', array('table'=>'pages', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/page/is-alias-not-exist'))),
+			array('alias', 'unique', array('table'=>'pages', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/page/is-alias-not-exist'))),
 		);
 	}
 

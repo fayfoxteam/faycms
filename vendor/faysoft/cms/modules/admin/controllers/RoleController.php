@@ -23,7 +23,7 @@ class RoleController extends AdminController{
 		$this->layout->subtitle = '角色';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/role/create'),
+			'uri'=>array('cms/admin/role/create'),
 			'text'=>'添加角色',
 		);
 		
@@ -65,7 +65,7 @@ class RoleController extends AdminController{
 			}
 			
 			$this->actionlog(ActionlogsTable::TYPE_ROLE, '添加了一个角色', $role_id);
-			Response::notify('success', '角色添加成功', array('admin/role/edit', array(
+			Response::notify('success', '角色添加成功', array('cms/admin/role/edit', array(
 				'id'=>$role_id,
 			)));
 		}
@@ -78,7 +78,7 @@ class RoleController extends AdminController{
 		//若未开启文章审核，过滤掉文章审核权限
 		$post_review = OptionService::get('system:post_review');
 		foreach($actions as $a){
-			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
+			if(($a['router'] == 'cms/admin/post/review' || $a['router'] == 'cms/admin/post/publish')
 				&& !$post_review){
 				continue;
 			}
@@ -94,7 +94,7 @@ class RoleController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑角色';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/role/create'),
+			'uri'=>array('cms/admin/role/create'),
 			'text'=>'添加角色',
 		);
 		$role_id = $this->input->get('id', 'intval');
@@ -169,7 +169,7 @@ class RoleController extends AdminController{
 		//若未开启文章审核，过滤掉文章审核权限
 		$post_review = OptionService::get('system:post_review');
 		foreach($actions as $a){
-			if(($a['router'] == 'admin/post/review' || $a['router'] == 'admin/post/publish')
+			if(($a['router'] == 'cms/admin/post/review' || $a['router'] == 'cms/admin/post/publish')
 				&& !$post_review){
 				continue;
 			}
@@ -195,7 +195,7 @@ class RoleController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_ROLE, '删除了一个角色', $role_id);
 
 		Response::notify('success', array(
-			'message'=>'一个角色被删除 - '.HtmlHelper::link('撤销', array('admin/role/undelete', array(
+			'message'=>'一个角色被删除 - '.HtmlHelper::link('撤销', array('cms/admin/role/undelete', array(
 				'id'=>$role_id,
 			))),
 			'id'=>$role_id,

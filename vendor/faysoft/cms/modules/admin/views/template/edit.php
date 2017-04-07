@@ -89,6 +89,6 @@ echo F::form()->open();
 <?php echo F::form()->close()?>
 <script>
 $(function(){
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload');
+	common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload');
 });
 </script>

@@ -74,7 +74,7 @@ class PropsTable extends Table{
 			array(array('delete_time', 'is_show', 'required'), 'range', array('range'=>array(0, 1))),
 
 			array('title', 'required'),
-			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/prop/is-alias-not-exist'))),
+			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/prop/is-alias-not-exist'))),
 		);
 	}
 

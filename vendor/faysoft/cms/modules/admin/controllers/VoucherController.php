@@ -40,7 +40,7 @@ class VoucherController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '所有优惠卷';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/voucher/create'),
+			'uri'=>array('cms/admin/voucher/create'),
 			'text'=>'添加优惠卷',
 		);
 		

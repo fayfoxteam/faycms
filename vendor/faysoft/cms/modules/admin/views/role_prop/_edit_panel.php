@@ -133,7 +133,7 @@ $(function(){
 	});
 
 	$('.edit-sort').feditsort({
-		'url':system.url('admin/role-prop/sort')
+		'url':system.url('cms/admin/role-prop/sort')
 	});
 });
 </script>

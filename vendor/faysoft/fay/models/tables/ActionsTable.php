@@ -32,7 +32,7 @@ class ActionsTable extends Table{
 			array(array('is_public'), 'range', array('range'=>array(0, 1))),
 			
 			array(array('title', 'router'), 'required'),
-			array('router', 'unique', array('table'=>'actions', 'except'=>'id', 'ajax'=>array('admin/action/is-router-not-exist'))),
+			array('router', 'unique', array('table'=>'actions', 'except'=>'id', 'ajax'=>array('cms/admin/action/is-router-not-exist'))),
 		);
 	}
 

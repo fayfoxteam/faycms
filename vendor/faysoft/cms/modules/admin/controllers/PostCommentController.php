@@ -157,7 +157,7 @@ class PostCommentController extends AdminController{
 				'data'=>array(
 					'id'=>$id,
 				),
-				'message'=>'一条留言被移入回收站 - '.HtmlHelper::link('撤销', array('admin/post-comment/undelete', array(
+				'message'=>'一条留言被移入回收站 - '.HtmlHelper::link('撤销', array('cms/admin/post-comment/undelete', array(
 					'id'=>$id,
 				)))
 			));
@@ -187,7 +187,7 @@ class PostCommentController extends AdminController{
 				'data'=>array(
 					'id'=>$id,
 				),
-				'message'=>'一条留言被移出回收站 - '.HtmlHelper::link('撤销', array('admin/post-comment/delete', array(
+				'message'=>'一条留言被移出回收站 - '.HtmlHelper::link('撤销', array('cms/admin/post-comment/delete', array(
 					'id'=>$id,
 				))),
 			));

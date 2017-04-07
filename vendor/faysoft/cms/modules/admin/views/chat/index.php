@@ -33,7 +33,7 @@ $settings = F::form('setting')->getAllData();
 			<div class="cd-reply-list">
 				<ul class="cd-timeline"></ul>
 			</div>
-			<div class="reply-container <?php if(!F::app()->checkPermission('admin/chat/reply'))echo 'hide'?>">
+			<div class="reply-container <?php if(!F::app()->checkPermission('cms/admin/chat/reply'))echo 'hide'?>">
 				<form id="reply-form">
 					<input type="hidden" name="parent" />
 					<input type="hidden" name="to_user_id" />
@@ -58,11 +58,11 @@ chat.status = {
 };
 chat.display_name = '<?php echo $settings['display_name']?>';
 chat.permissions = <?php echo json_encode(array(
-	'approve'=>UserService::service()->checkPermission('admin/chat/approve'),
-	'unapprove'=>UserService::service()->checkPermission('admin/chat/unapprove'),
-	'delete'=>UserService::service()->checkPermission('admin/chat/delete'),
-	'remove'=>UserService::service()->checkPermission('admin/chat/remove'),
-	'reply'=>UserService::service()->checkPermission('admin/chat/reply'),
+	'approve'=>UserService::service()->checkPermission('cms/admin/chat/approve'),
+	'unapprove'=>UserService::service()->checkPermission('cms/admin/chat/unapprove'),
+	'delete'=>UserService::service()->checkPermission('cms/admin/chat/delete'),
+	'remove'=>UserService::service()->checkPermission('cms/admin/chat/remove'),
+	'reply'=>UserService::service()->checkPermission('cms/admin/chat/reply'),
 ))?>;
 chat.init();
 </script>

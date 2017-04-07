@@ -19,7 +19,7 @@ class MenuController extends AdminController{
 		$this->layout->subtitle = '导航栏';
 		$this->view->menus = MenuService::service()->getTree('_user_menu', false, false);
 		$this->view->root = MenuService::service()->get('_user_menu');
-		if($this->checkPermission('admin/menu/create')){
+		if($this->checkPermission('cms/admin/menu/create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加菜单集',

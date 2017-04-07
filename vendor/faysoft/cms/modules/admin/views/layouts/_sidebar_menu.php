@@ -12,10 +12,10 @@ use fay\services\SettingService;
 		<header class="logo-env">
 			<div class="logo">
 				<?php
-					echo HtmlHelper::link('Faycms', array('admin/index/index'), array(
+					echo HtmlHelper::link('Faycms', array('cms/admin/index/index'), array(
 						'class'=>'logo-expanded',
 					));
-					echo HtmlHelper::link('F', array('admin/index/index'), array(
+					echo HtmlHelper::link('F', array('cms/admin/index/index'), array(
 						'class'=>'logo-collapsed',
 					));
 				?>

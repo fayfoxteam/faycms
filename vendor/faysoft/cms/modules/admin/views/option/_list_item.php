@@ -5,9 +5,9 @@ use fay\helpers\HtmlHelper;
 	<td>
 		<strong><?php echo $data['option_name']?></strong>
 		<div class="row-actions">
-			<a href="<?php echo $this->url('admin/option/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
+			<a href="<?php echo $this->url('cms/admin/option/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
 			<?php if($data['is_system'] == 0){?>
-			<a href="<?php echo $this->url('admin/option/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>
+			<a href="<?php echo $this->url('cms/admin/option/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>
 			<?php }?>
 		</div>
 	</td>

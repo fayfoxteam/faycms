@@ -24,7 +24,7 @@ function showCats($cats, $dep = 0){?>
 						'class'=>'edit-cat-link',
 						'data-id'=>$c['id'],
 					))?>
-					<?php echo HtmlHelper::link('删除', array('admin/category/remove', array(
+					<?php echo HtmlHelper::link('删除', array('cms/admin/category/remove', array(
 						'id'=>$c['id'],
 					)), array(
 						'class'=>'remove-link fc-red',
@@ -58,4 +58,4 @@ function showCats($cats, $dep = 0){?>
 	<div class="clear"></div>
 </div>
 
-<?php $this->renderPartial('admin/category/_common');?>
+<?php $this->renderPartial('cms/admin/category/_common');?>

@@ -91,8 +91,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script>
 $(function(){
 	common.dragsortKey = 'admin_feed_box_sort';
-	common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'feed'});
-	common.filebrowserFlashUploadUrl = system.url('admin/file/upload', {'cat':'feed'});
+	common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'feed'});
+	common.filebrowserFlashUploadUrl = system.url('cms/admin/file/upload', {'cat':'feed'});
 	feed.boxes = <?php echo json_encode($enabled_boxes)?>;
 	feed.init();
 });

@@ -14,7 +14,7 @@ class AdminMenu{
 			\F::app()->removeMenuTeam('site', 0);
 			\F::app()->addMenuItem(array(
 				'label'=>'站点参数',
-				'router'=>'admin/ysite/options',
+				'router'=>'cms/admin/ysite/options',
 			), 'site', 0);
 		}
 	}

@@ -7,7 +7,7 @@ use fay\services\PageService;
 <tr valign="top" id="page-<?php echo $data['id']?>">
 	<td>
 		<strong>
-			<?php echo HtmlHelper::link($data['title'], array('admin/page/edit', array(
+			<?php echo HtmlHelper::link($data['title'], array('cms/admin/page/edit', array(
 				'id'=>$data['id'],
 			)), array(
 				'target'=>'_blank',
@@ -15,19 +15,19 @@ use fay\services\PageService;
 		</strong>
 		<div class="row-actions">
 		<?php if($data['delete_time'] == 0){
-			echo HtmlHelper::link('编辑', array('admin/page/edit', array(
+			echo HtmlHelper::link('编辑', array('cms/admin/page/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo HtmlHelper::link('移入回收站', array('admin/page/delete', array(
+			echo HtmlHelper::link('移入回收站', array('cms/admin/page/delete', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'delete-page fc-red',
 			), true);
 		}else{
-			echo HtmlHelper::link('还原', array('admin/page/undelete', array(
+			echo HtmlHelper::link('还原', array('cms/admin/page/undelete', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo HtmlHelper::link('永久删除', array('admin/page/remove', array(
+			echo HtmlHelper::link('永久删除', array('cms/admin/page/remove', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'delete-page fc-red remove-link',
@@ -42,7 +42,7 @@ use fay\services\PageService;
 			if($key){
 				echo ', ';
 			}
-			echo HtmlHelper::link($cat['title'], array('admin/page/index', array(
+			echo HtmlHelper::link($cat['title'], array('cms/admin/page/index', array(
 				'cat_id'=>$cat['id'],
 			)));
 		}

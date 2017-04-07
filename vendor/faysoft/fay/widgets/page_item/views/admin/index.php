@@ -80,7 +80,7 @@ $(function(){
 	
 	system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
 		$('#page-title').autocomplete({
-			'url' : system.url('admin/page/search'),
+			'url' : system.url('cms/admin/page/search'),
 			'startSuggestLength':0,
 			'onSelect':function(obj, data){
 				$('#page-id').val(data.id);

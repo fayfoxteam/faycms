@@ -5,7 +5,7 @@ return array(
 	 */
 	'/^admin$/'=>'404',
 	'/^admin\/$/'=>'404',
-	'/^dowish$/'=>'admin/login/index',
+	'/^dowish$/'=>'cms/admin/login/index',
 	
 	'/^cat-(\d+)$/'=>'post/index/cat_id/$1',
 	'/^post-(\d+)$/'=>'post/item/id/$1',

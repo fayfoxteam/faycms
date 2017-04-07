@@ -144,7 +144,7 @@ $(function(){
 	
 	system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
 		$('#fixed-title').autocomplete({
-			'url' : system.url('admin/post/search'),
+			'url' : system.url('cms/admin/post/search'),
 			'startSuggestLength':0,
 			'onSelect':function(obj, data){
 				$('#fixed-id').val(data.id);

@@ -11,7 +11,7 @@ use fay\models\tables\MessagesTable;
 		'height'=>40,
 		'class'=>'circle ci-avatar',
 		'spare'=>'avatar',
-	)), array('admin/user/item', array(
+	)), array('cms/admin/user/item', array(
 		'id'=>$data['user_id'],
 	)), array(
 		'title'=>false,
@@ -47,7 +47,7 @@ use fay\models\tables\MessagesTable;
 				<span>回复</span>(<em><?php echo MessageService::service()->getReplyCount($data['id'])?></em>)&nbsp;
 			</a>
 			<span class="ci-options"><?php
-			if(F::app()->checkPermission('admin/chat/approve')){
+			if(F::app()->checkPermission('cms/admin/chat/approve')){
 				echo HtmlHelper::link('<span>批准</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-green approve-link'.($data['status'] == MessagesTable::STATUS_APPROVED ? ' hide' : ''),
@@ -55,7 +55,7 @@ use fay\models\tables\MessagesTable;
 					'title'=>false,
 				));
 			}
-			if(F::app()->checkPermission('admin/chat/unapprove')){
+			if(F::app()->checkPermission('cms/admin/chat/unapprove')){
 				echo HtmlHelper::link('<span>驳回</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-orange unapprove-link'.($data['status'] == MessagesTable::STATUS_UNAPPROVED ? ' hide' : ''),
@@ -63,7 +63,7 @@ use fay\models\tables\MessagesTable;
 					'title'=>false,
 				));
 			}
-			if(F::app()->checkPermission('admin/chat/delete')){
+			if(F::app()->checkPermission('cms/admin/chat/delete')){
 				echo HtmlHelper::link('<span>回收站</span>&nbsp;|&nbsp;', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-red delete-link',
@@ -71,7 +71,7 @@ use fay\models\tables\MessagesTable;
 					'title'=>false,
 				));
 			}
-			if(F::app()->checkPermission('admin/chat/remove-all')){
+			if(F::app()->checkPermission('cms/admin/chat/remove-all')){
 				echo HtmlHelper::link('<span>删除会话</span>', 'javascript:;', array(
 					'data-id'=>$data['id'],
 					'class'=>'fc-red remove-all-link',

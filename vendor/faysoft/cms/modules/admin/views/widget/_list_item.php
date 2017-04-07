@@ -9,10 +9,10 @@ $widget = F::widget()->get($data['widget_name'], true);
 			echo $data['description'] ? HtmlHelper::encode($data['description']) : '&nbsp';
 		?></strong>
 		<div class="row-actions"><?php
-			echo HtmlHelper::link('编辑', array('admin/widget/edit', array(
+			echo HtmlHelper::link('编辑', array('cms/admin/widget/edit', array(
 				'id'=>$data['id'],
 			)), array(), true);
-			echo HtmlHelper::link('删除', array('admin/widget/remove-instance', array(
+			echo HtmlHelper::link('删除', array('cms/admin/widget/remove-instance', array(
 				'id'=>$data['id'],
 			)), array(
 				'class'=>'fc-red remove-link',

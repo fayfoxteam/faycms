@@ -17,24 +17,24 @@ use fay\helpers\StringHelper;
 		<div class="row-actions">
 			<?php if(!$data['delete_time']){
 				if($data['status'] == PostCommentsTable::STATUS_PENDING){
-					echo HtmlHelper::link('批准', array('admin/post-comment/approve', array(
+					echo HtmlHelper::link('批准', array('cms/admin/post-comment/approve', array(
 						'id'=>$data['id'],
 					)), array(
 						'class'=>'fc-green',
 					));
-					echo HtmlHelper::link('驳回', array('admin/post-comment/disapprove', array(
+					echo HtmlHelper::link('驳回', array('cms/admin/post-comment/disapprove', array(
 						'id'=>$data['id'],
 					)), array(
 						'class'=>'fc-orange',
 					));
 				}else if($data['status'] == PostCommentsTable::STATUS_APPROVED){
-					echo HtmlHelper::link('驳回', array('admin/post-comment/disapprove', array(
+					echo HtmlHelper::link('驳回', array('cms/admin/post-comment/disapprove', array(
 							'id'=>$data['id'],
 					)), array(
 							'class'=>'fc-orange',
 					));
 				}else if($data['status'] == PostCommentsTable::STATUS_UNAPPROVED){
-					echo HtmlHelper::link('批准', array('admin/post-comment/approve', array(
+					echo HtmlHelper::link('批准', array('cms/admin/post-comment/approve', array(
 						'id'=>$data['id'],
 					)), array(
 						'class'=>'fc-green',
@@ -43,18 +43,18 @@ use fay\helpers\StringHelper;
 			}
 			
 			if($data['delete_time']){
-				echo HtmlHelper::link('还原', array('admin/post-comment/undelete', array(
+				echo HtmlHelper::link('还原', array('cms/admin/post-comment/undelete', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-green',
 				));
-				echo HtmlHelper::link('永久删除', array('admin/post-comment/remove', array(
+				echo HtmlHelper::link('永久删除', array('cms/admin/post-comment/remove', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'remove-link fc-red',
 				));
 			}else{
-				echo HtmlHelper::link('回收站', array('admin/post-comment/delete', array(
+				echo HtmlHelper::link('回收站', array('cms/admin/post-comment/delete', array(
 					'id'=>$data['id'],
 				)), array(
 					'class'=>'fc-red',
@@ -69,7 +69,7 @@ use fay\helpers\StringHelper;
 	<?php }?>
 	<?php if(in_array('post', $cols)){?>
 	<td>
-		<?php echo HtmlHelper::link(StringHelper::niceShort($data['post_title'], 40), array('admin/post/edit', array(
+		<?php echo HtmlHelper::link(StringHelper::niceShort($data['post_title'], 40), array('cms/admin/post/edit', array(
 			'id'=>$data['post_id'],
 		)), array(
 			'target'=>'_blank',

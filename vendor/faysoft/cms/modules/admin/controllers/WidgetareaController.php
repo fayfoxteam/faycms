@@ -15,7 +15,7 @@ class WidgetareaController extends AdminController{
 		$this->layout->subtitle = '小工具域';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/widget/index'),
+			'uri'=>array('cms/admin/widget/index'),
 			'text'=>'创建小工具',
 		);
 		

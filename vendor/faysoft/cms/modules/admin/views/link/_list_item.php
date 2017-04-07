@@ -12,9 +12,9 @@ use fay\helpers\DateHelper;
 			<a class="row-title" title="<?php echo $data['description']?>" href="<?php echo $data['url']?>" target="_blank"><?php echo $data['title']?></a>
 		</strong>
 		<div class="row-actions">
-			<a href="<?php echo $this->url('admin/link/edit', array('id'=>$data['id']))?>">编辑</a>
+			<a href="<?php echo $this->url('cms/admin/link/edit', array('id'=>$data['id']))?>">编辑</a>
 			<a href="<?php echo $data['url']?>" target="_blank">访问</a>
-			<a href="<?php echo $this->url('admin/link/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>
+			<a href="<?php echo $this->url('cms/admin/link/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>
 		</div>
 	</td>
 	<td><?php echo HtmlHelper::encode($data['url'])?></td>
@@ -25,7 +25,7 @@ use fay\helpers\DateHelper;
 			echo '不可见';
 		}?>
 	</td>
-	<td><?php echo HtmlHelper::link($data['cat_title'], array('admin/link/index', array(
+	<td><?php echo HtmlHelper::link($data['cat_title'], array('cms/admin/link/index', array(
 		'cat_id'=>$data['cat_id'],
 	)))?></td>
 	<td><?php echo HtmlHelper::inputText("sort[{$data['id']}]", $data['sort'], array(

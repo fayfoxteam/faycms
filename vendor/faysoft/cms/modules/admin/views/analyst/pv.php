@@ -36,7 +36,7 @@ use cms\helpers\ListTableHelper;
 		<?php echo F::form('search')->close()?>
 		<ul class="subsubsub fl">
 			<li class="<?php if($flag === 'today')echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/analyst/pv', array(
+				<a href="<?php echo $this->url('cms/admin/analyst/pv', array(
 					'start_time'=>date('Y-m-d 00:00:00', $today),
 					'end_time'=>'',
 					'site'=>F::app()->input->get('site'),
@@ -46,7 +46,7 @@ use cms\helpers\ListTableHelper;
 				|
 			</li>
 			<li class="<?php if($flag === 'yesterday')echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/analyst/pv', array(
+				<a href="<?php echo $this->url('cms/admin/analyst/pv', array(
 					'start_time'=>date('Y-m-d 00:00:00', $yesterday),
 					'end_time'=>date('Y-m-d 00:00:00', $today),
 					'site'=>F::app()->input->get('site'),
@@ -56,7 +56,7 @@ use cms\helpers\ListTableHelper;
 				|
 			</li>
 			<li class="<?php if($flag === 'week')echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/analyst/pv', array(
+				<a href="<?php echo $this->url('cms/admin/analyst/pv', array(
 					'start_time'=>date('Y-m-d 00:00:00', $week),
 					'end_time'=>'',
 					'site'=>F::app()->input->get('site'),
@@ -66,7 +66,7 @@ use cms\helpers\ListTableHelper;
 				|
 			</li>
 			<li class="<?php if($flag === 'month')echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/analyst/pv', array(
+				<a href="<?php echo $this->url('cms/admin/analyst/pv', array(
 					'start_time'=>date('Y-m-d 00:00:00', $month),
 					'end_time'=>'',
 					'site'=>F::app()->input->get('site'),

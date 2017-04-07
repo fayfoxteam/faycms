@@ -13,10 +13,10 @@ use cms\helpers\PropHelper;
 			echo "<em> - {$data['alias']}</em>";
 		}?>
 		<div class="row-actions">
-			<?php echo HtmlHelper::link('编辑', array('admin/role-prop/edit', array(
+			<?php echo HtmlHelper::link('编辑', array('cms/admin/role-prop/edit', array(
 				'id'=>$data['id'],
 			) + F::input()->get()))?>
-			<?php echo HtmlHelper::link('删除', array('admin/role-prop/delete', array(
+			<?php echo HtmlHelper::link('删除', array('cms/admin/role-prop/delete', array(
 				'id'=>$data['id'],
 			) + F::input()->get()), array(
 				'class'=>'remove-link fc-red',

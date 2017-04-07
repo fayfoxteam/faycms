@@ -51,14 +51,14 @@ $cols = F::form('setting')->getData('cols', array());
 	<div class="col-12">
 		<ul class="subsubsub">
 			<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/post-comment/index')?>">全部</a>
+				<a href="<?php echo $this->url('cms/admin/post-comment/index')?>">全部</a>
 				<span class="fc-grey">(<span id="all-post-comments-count">
 					<img src="<?php echo $this->assets('images/throbber.gif')?>" />
 				</span>)</span>
 				|
 			</li>
 			<li class="publish <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_PENDING, 0, false), array('admin/post-comment/index', array(
+				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_PENDING, 0, false), array('cms/admin/post-comment/index', array(
 					'status'=>PostCommentsTable::STATUS_PENDING,
 				)));?>
 				<span class="fc-grey">(<span id="pending-post-comment-count">
@@ -67,7 +67,7 @@ $cols = F::form('setting')->getData('cols', array());
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_APPROVED, 0, false), array('admin/post-comment/index', array(
+				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_APPROVED, 0, false), array('cms/admin/post-comment/index', array(
 					'status'=>PostCommentsTable::STATUS_APPROVED,
 				)));?>
 				<span class="fc-grey">(<span id="approved-post-comment-count">
@@ -76,7 +76,7 @@ $cols = F::form('setting')->getData('cols', array());
 				|
 			</li>
 			<li class="draft <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_UNAPPROVED, 0, false), array('admin/post-comment/index', array(
+				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_UNAPPROVED, 0, false), array('cms/admin/post-comment/index', array(
 					'status'=>PostCommentsTable::STATUS_UNAPPROVED,
 				)));?>
 				<span class="fc-grey">(<span id="unapproved-post-comment-count">
@@ -85,7 +85,7 @@ $cols = F::form('setting')->getData('cols', array());
 				|
 			</li>
 			<li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
-				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(0, 1, false), array('admin/post-comment/index', array(
+				<?php echo HtmlHelper::link(PostCommentHelper::getStatus(0, 1, false), array('cms/admin/post-comment/index', array(
 					'delete_time'=>\F::app()->current_time,
 				)));?>
 				<span class="fc-grey">(<span id="deleted-post-comment-count">
@@ -95,14 +95,14 @@ $cols = F::form('setting')->getData('cols', array());
 		</ul>
 	</div>
 </div>
-<form method="post" action="<?php echo $this->url('admin/post-comment/batch')?>" id="batch-form" class="form-inline">
+<form method="post" action="<?php echo $this->url('cms/admin/post-comment/batch')?>" id="batch-form" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
 			if(F::app()->input->get('deleted')){
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'undelete'=>F::app()->checkPermission('admin/post-comment/undelete') ? '还原' : false,
-					'remove'=>F::app()->checkPermission('admin/post-comment/remove') ? '永久删除' : false,
+					'undelete'=>F::app()->checkPermission('cms/admin/post-comment/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('cms/admin/post-comment/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action',
@@ -110,10 +110,10 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'set-approved'=>F::app()->checkPermission('admin/post-comment/approve') ? '通过审核' : false,
-					'set-disapproved'=>F::app()->checkPermission('admin/post-comment/disapprove') ? '驳回' : false,
-					'set-pending'=>F::app()->checkPermission('admin/post-comment/pending') ? '标记为待审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post-comment/delete') ? '移入回收站' : false,
+					'set-approved'=>F::app()->checkPermission('cms/admin/post-comment/approve') ? '通过审核' : false,
+					'set-disapproved'=>F::app()->checkPermission('cms/admin/post-comment/disapprove') ? '驳回' : false,
+					'set-pending'=>F::app()->checkPermission('cms/admin/post-comment/pending') ? '标记为待审核' : false,
+					'delete'=>F::app()->checkPermission('cms/admin/post-comment/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action',
@@ -186,8 +186,8 @@ $cols = F::form('setting')->getData('cols', array());
 			if(F::app()->input->get('deleted')){
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'undelete'=>F::app()->checkPermission('admin/post-comment/undelete') ? '还原' : false,
-					'remove'=>F::app()->checkPermission('admin/post-comment/remove') ? '永久删除' : false,
+					'undelete'=>F::app()->checkPermission('cms/admin/post-comment/undelete') ? '还原' : false,
+					'remove'=>F::app()->checkPermission('cms/admin/post-comment/remove') ? '永久删除' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action-2',
@@ -195,10 +195,10 @@ $cols = F::form('setting')->getData('cols', array());
 			}else{
 				echo HtmlHelper::select('', array(
 					''=>'批量操作',
-					'set-approved'=>F::app()->checkPermission('admin/post-comment/approve') ? '通过审核' : false,
-					'set-disapproved'=>F::app()->checkPermission('admin/post-comment/disapprove') ? '驳回' : false,
-					'set-pending'=>F::app()->checkPermission('admin/post-comment/pending') ? '标记为待审核' : false,
-					'delete'=>F::app()->checkPermission('admin/post-comment/delete') ? '移入回收站' : false,
+					'set-approved'=>F::app()->checkPermission('cms/admin/post-comment/approve') ? '通过审核' : false,
+					'set-disapproved'=>F::app()->checkPermission('cms/admin/post-comment/disapprove') ? '驳回' : false,
+					'set-pending'=>F::app()->checkPermission('cms/admin/post-comment/pending') ? '标记为待审核' : false,
+					'delete'=>F::app()->checkPermission('cms/admin/post-comment/delete') ? '移入回收站' : false,
 				), '', array(
 					'class'=>'form-control',
 					'id'=>'batch-action-2',
@@ -216,7 +216,7 @@ $(function(){
 	//显示各状态文章数
 	$.ajax({
 		'type': 'GET',
-		'url': system.url('admin/post-comment/get-counts'),
+		'url': system.url('cms/admin/post-comment/get-counts'),
 		'dataType': 'json',
 		'cache': false,
 		'success': function(resp){

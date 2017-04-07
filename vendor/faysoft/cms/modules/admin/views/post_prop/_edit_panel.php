@@ -118,7 +118,7 @@ $(function(){
 	});
 
 	$('.edit-sort').feditsort({
-		'url':system.url('admin/post-prop/sort')
+		'url':system.url('cms/admin/post-prop/sort')
 	});
 });
 </script>

@@ -59,7 +59,7 @@ $cols = F::form('setting')->getData('cols', array());
 	<div class="col-5">
 		<ul class="subsubsub fl">
 			<li class="<?php if(F::app()->input->get('status') == null)echo 'sel';?>">
-				<a href="<?php echo $this->url('admin/api/index')?>">全部</a>
+				<a href="<?php echo $this->url('cms/admin/api/index')?>">全部</a>
 				<span class="fc-grey">(<span id="api-count-0"><?php
 					echo array_sum($status_counts);
 				?></span>)</span>
@@ -68,7 +68,7 @@ $cols = F::form('setting')->getData('cols', array());
 			<?php foreach($status as $k => $s){?>
 				<li <?php if(F::app()->input->get('status') == $k)echo 'class="sel"';?>>
 					|
-					<a href="<?php echo $this->url('admin/api/index', array('status'=>$k))?>"><?php echo $s?></a>
+					<a href="<?php echo $this->url('cms/admin/api/index', array('status'=>$k))?>"><?php echo $s?></a>
 					<span class="fc-grey">(<span id="api-count-<?php echo $k?>"><?php
 						echo isset($status_counts[$k]) ? $status_counts[$k] : 0;
 					?></span>)</span>

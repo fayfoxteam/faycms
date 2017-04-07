@@ -24,7 +24,7 @@ var post = {
 				$('#box-props').block();
 				$.ajax({
 					'type': 'GET',
-					'url': system.url('admin/post/get-prop-box', {
+					'url': system.url('cms/admin/post/get-prop-box', {
 						'cat_id':$(this).val(),
 						'post_id':post.post_id ? post.post_id : 0
 					}),
@@ -94,7 +94,7 @@ var post = {
 		if(system.inArray('tags', post.boxes)){
 			system.getScript(system.assets('faycms/js/fayfox.textext.js'), function(){
 				$('#tags').ftextext({
-					'url':system.url('admin/tag/search'),
+					'url':system.url('cms/admin/tag/search'),
 					'width':'100%'
 				});
 			});

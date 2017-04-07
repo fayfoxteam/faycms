@@ -62,7 +62,7 @@ class PageController extends AdminController{
 			}
 			
 			$this->actionlog(ActionlogsTable::TYPE_PAGE, '添加页面', $page_id);
-			Response::notify('success', '页面发布成功', array('admin/page/edit', array(
+			Response::notify('success', '页面发布成功', array('cms/admin/page/edit', array(
 				'id'=>$page_id,
 			)));
 		}
@@ -129,7 +129,7 @@ class PageController extends AdminController{
 		}
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/page/create', $sub_link_params),
+			'uri'=>array('cms/admin/page/create', $sub_link_params),
 			'text'=>'添加页面',
 		);
 		
@@ -192,7 +192,7 @@ class PageController extends AdminController{
 	public function edit(){
 		$this->layout->subtitle = '编辑页面';
 		$this->layout->sublink = array(
-			'uri'=>array('admin/page/create'),
+			'uri'=>array('cms/admin/page/create'),
 			'text'=>'添加页面',
 		);
 		
@@ -251,7 +251,7 @@ class PageController extends AdminController{
 		
 		Response::notify('success', array(
 			'id'=>$page_id,
-			'message'=>'一个页面被移入回收站 - '.HtmlHelper::link('撤销', array('admin/page/undelete', array(
+			'message'=>'一个页面被移入回收站 - '.HtmlHelper::link('撤销', array('cms/admin/page/undelete', array(
 				'id'=>$page_id,
 			))),
 		));
@@ -304,7 +304,7 @@ class PageController extends AdminController{
 		$root_node = CategoryService::service()->getByAlias('_system_page', 'id');
 		$this->view->root = $root_node['id'];
 	
-		if($this->checkPermission('admin/page/cat-create')){
+		if($this->checkPermission('cms/admin/page/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加页面根分类',

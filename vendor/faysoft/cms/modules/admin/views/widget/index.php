@@ -41,7 +41,7 @@ use fay\helpers\HtmlHelper;
 	<div id="create-instance-dialog" class="dialog">
 		<div class="dialog-content">
 			<h4>创建小工具实例</h4>
-			<form id="create-instance-form" action="<?php echo $this->url('admin/widget/create-instance')?>" method="post" class="validform">
+			<form id="create-instance-form" action="<?php echo $this->url('cms/admin/widget/create-instance')?>" method="post" class="validform">
 				<input type="hidden" name="widget_name" id="widget-name" />
 				<div class="form-field">
 					<label class="title bold">描述</label>
@@ -62,7 +62,7 @@ use fay\helpers\HtmlHelper;
 						'data-rule'=>'string',
 						'data-label'=>'别名',
 						'data-params'=>'{max:255,format:\'alias\'}',
-						'data-ajax'=>$this->url('admin/widget/is-alias-not-exist'),
+						'data-ajax'=>$this->url('cms/admin/widget/is-alias-not-exist'),
 						'class'=>'form-control w400',
 					))?>
 					<p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个。</p>

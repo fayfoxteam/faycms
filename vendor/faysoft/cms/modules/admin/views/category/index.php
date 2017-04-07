@@ -25,14 +25,14 @@ function showCats($cats, $dep = 0){?>
 						'class'=>'edit-cat-link',
 						'data-id'=>$c['id'],
 					));
-					echo HtmlHelper::link('删除', array('admin/category/remove', array(
+					echo HtmlHelper::link('删除', array('cms/admin/category/remove', array(
 						'id'=>$c['id'],
 					)), array(
 						'class'=>'remove-link fc-red',
 						'title'=>'删除该节点，其子节点将被挂载到其父节点',
 					));
-					if(F::app()->checkPermission('admin/category/remove')){
-						echo HtmlHelper::link('删除全部', array('admin/category/removeAll', array(
+					if(F::app()->checkPermission('cms/admin/category/remove')){
+						echo HtmlHelper::link('删除全部', array('cms/admin/category/removeAll', array(
 							'id'=>$c['id'],
 						)), array(
 							'class'=>'remove-link fc-red',

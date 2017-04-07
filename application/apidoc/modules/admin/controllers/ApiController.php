@@ -51,9 +51,9 @@ class ApiController extends AdminController{
 		
 		$cat_id = $this->input->get('cat_id', 'intval', 0);
 		
-		if($this->checkPermission('admin/api/create')){
+		if($this->checkPermission('cms/admin/api/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/api/create', array(
+				'uri'=>array('cms/admin/api/create', array(
 					'cat_id'=>$cat_id
 				)),
 				'text'=>'新增API',
@@ -137,9 +137,9 @@ class ApiController extends AdminController{
 	
 	public function create(){
 		$this->layout->subtitle = '新增API';
-		if($this->checkPermission('admin/api/index')){
+		if($this->checkPermission('cms/admin/api/index')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/api/index'),
+				'uri'=>array('cms/admin/api/index'),
 				'text'=>'API列表',
 			);
 		}
@@ -185,7 +185,7 @@ class ApiController extends AdminController{
 				OutputsTable::model()->insert($output);
 			}
 			
-			Response::notify('success', 'API添加成功', array('admin/api/edit', array(
+			Response::notify('success', 'API添加成功', array('cms/admin/api/edit', array(
 				'id'=>$api_id,
 			)));
 		}
@@ -211,7 +211,7 @@ class ApiController extends AdminController{
 		$this->form('output')->setModel(OutputsTable::model())
 			->setRule(array('model_name', 'required'))
 			->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-			->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+			->setRule(array('model_name', 'ajax', array('url'=>array('cms/admin/model/is-name-exist'))))
 			->setLabels(array(
 				'model_name'=>'模型名称',
 			));
@@ -221,9 +221,9 @@ class ApiController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑API';
-		if($this->checkPermission('admin/api/create')){
+		if($this->checkPermission('cms/admin/api/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/api/create'),
+				'uri'=>array('cms/admin/api/create'),
 				'text'=>'添加API',
 			);
 		}
@@ -315,7 +315,7 @@ class ApiController extends AdminController{
 				}
 			}
 			
-			Response::notify('success', 'API编辑成功', array('admin/api/edit', array(
+			Response::notify('success', 'API编辑成功', array('cms/admin/api/edit', array(
 				'id'=>$api_id,
 			)));
 		}
@@ -347,7 +347,7 @@ class ApiController extends AdminController{
 		$this->form('output')->setModel(OutputsTable::model())
 			->setRule(array('model_name', 'required'))
 			->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-			->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+			->setRule(array('model_name', 'ajax', array('url'=>array('cms/admin/model/is-name-exist'))))
 			->setLabels(array(
 				'model_name'=>'模型名称',
 			));
@@ -379,7 +379,7 @@ class ApiController extends AdminController{
 		$root_node = CategoryService::service()->getByAlias('_system_api', 'id');
 		$this->view->root = $root_node['id'];
 		
-		if($this->checkPermission('admin/api/cat-create')){
+		if($this->checkPermission('cms/admin/api/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加分类',

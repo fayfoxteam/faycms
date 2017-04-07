@@ -5,7 +5,7 @@
 ?>
 <div class="row">
 	<div class="col-6">
-		<?php echo F::form()->open(array('admin/tag/edit', F::app()->input->get()))?>
+		<?php echo F::form()->open(array('cms/admin/tag/edit', F::app()->input->get()))?>
 			<?php $this->renderPartial('_edit_panel');?>
 			<div class="form-field">
 				<a href="javascript:;" class="btn" id="form-submit">编辑标签</a>

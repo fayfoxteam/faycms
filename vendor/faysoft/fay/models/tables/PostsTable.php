@@ -82,7 +82,7 @@ class PostsTable extends Table{
 
 			array(array('status'), 'range', array('range'=>array(self::STATUS_PUBLISHED, self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_REVIEWED))),
 			array(array('content_type'), 'range', array('range'=>array(self::CONTENT_TYPE_MARKDOWN, self::CONTENT_TYPE_TEXTAREA, self::CONTENT_TYPE_VISUAL_EDITOR))),
-			array('alias', 'unique', array('table'=>'posts', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/post/is-alias-not-exist'))),
+			array('alias', 'unique', array('table'=>'posts', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/post/is-alias-not-exist'))),
 		);
 	}
 

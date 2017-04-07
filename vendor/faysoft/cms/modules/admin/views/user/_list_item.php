@@ -12,7 +12,7 @@ use fay\services\user\UserRoleService;
 		'height'=>40,
 		'class'=>'circle',
 		'spare'=>'avatar',
-	)), array('admin/user/item', array(
+	)), array('cms/admin/user/item', array(
 		'id'=>$data['id'],
 	)), array(
 		'title'=>false,
@@ -29,10 +29,10 @@ use fay\services\user\UserRoleService;
 		</strong>
 		<div class="row-actions">
 			<?php
-				echo HtmlHelper::link('查看', array('admin/user/item', array(
+				echo HtmlHelper::link('查看', array('cms/admin/user/item', array(
 					'id'=>$data['id'],
 				)), array(), true);
-				echo HtmlHelper::link('编辑', array('admin/user/edit', array(
+				echo HtmlHelper::link('编辑', array('cms/admin/user/edit', array(
 					'id'=>$data['id'],
 				)), array(), true);
 			?>
@@ -46,7 +46,7 @@ use fay\services\user\UserRoleService;
 			if($k){
 				echo ', ';
 			}
-			echo HtmlHelper::link($role['title'], array('admin/user/index', array(
+			echo HtmlHelper::link($role['title'], array('cms/admin/user/index', array(
 				'role'=>$role['id']
 			)));
 		}

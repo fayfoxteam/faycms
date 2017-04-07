@@ -8,7 +8,7 @@ var chat = {
 	'getChat':function(id){
 		$.ajax({
 			'type': 'GET',
-			'url': system.url('admin/message/item', {
+			'url': system.url('cms/admin/message/item', {
 				'id':id
 			}),
 			'dataType': 'json',
@@ -142,7 +142,7 @@ var chat = {
 				$('#chat-'+$(this).attr('data-id')).block();
 				$.ajax({
 					'type': 'GET',
-					'url': system.url('admin/message/remove-all', {
+					'url': system.url('cms/admin/message/remove-all', {
 						'id':$(this).attr('data-id')
 					}),
 					'dataType': 'json',
@@ -163,7 +163,7 @@ var chat = {
 			$('#chat-'+$(this).attr('data-id')).block();
 			$.ajax({
 				'type': 'GET',
-				'url': system.url('admin/message/approve', {
+				'url': system.url('cms/admin/message/approve', {
 					'id':$(this).attr('data-id')
 				}),
 				'dataType': 'json',
@@ -184,7 +184,7 @@ var chat = {
 			$('#chat-'+$(this).attr('data-id')).block();
 			$.ajax({
 				'type': 'GET',
-				'url': system.url('admin/message/unapprove', {
+				'url': system.url('cms/admin/message/unapprove', {
 					'id':$(this).attr('data-id')
 				}),
 				'dataType': 'json',
@@ -205,7 +205,7 @@ var chat = {
 			$('#chat-'+$(this).attr('data-id')).block();
 			$.ajax({
 				'type': 'GET',
-				'url': system.url('admin/message/delete', {
+				'url': system.url('cms/admin/message/delete', {
 					'id':$(this).attr('data-id')
 				}),
 				'dataType': 'json',
@@ -230,7 +230,7 @@ var chat = {
 			});
 			$.ajax({
 				'type': 'GET',
-				'url': system.url('admin/message/approve', {
+				'url': system.url('cms/admin/message/approve', {
 					'id':$(this).attr('data-id')
 				}),
 				'dataType': 'json',
@@ -253,7 +253,7 @@ var chat = {
 			});
 			$.ajax({
 				'type': 'GET',
-				'url': system.url('admin/message/unapprove', {
+				'url': system.url('cms/admin/message/unapprove', {
 					'id':$(this).attr('data-id')
 				}),
 				'dataType': 'json',
@@ -277,7 +277,7 @@ var chat = {
 				});
 				$.ajax({
 					'type': 'GET',
-					'url': system.url('admin/message/delete', {
+					'url': system.url('cms/admin/message/delete', {
 						'id':$(this).attr('data-id')
 					}),
 					'dataType': 'json',
@@ -304,7 +304,7 @@ var chat = {
 			});
 			$.ajax({
 				'type': 'POST',
-				'url': system.url('admin/message/create'),
+				'url': system.url('cms/admin/message/create'),
 				'data':$('#reply-form').serialize(),
 				'dataType': 'json',
 				'cache': false,

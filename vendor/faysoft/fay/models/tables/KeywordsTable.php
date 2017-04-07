@@ -22,7 +22,7 @@ class KeywordsTable extends Table{
 			
 			array(array('link', 'keyword'), 'required'),
 			array('link', 'url'),
-			array('keyword', 'unique', array('table'=>'keywords', 'field'=>'keyword', 'except'=>'id', 'ajax'=>array('admin/keyword/is-keyword-not-exist'))),
+			array('keyword', 'unique', array('table'=>'keywords', 'field'=>'keyword', 'except'=>'id', 'ajax'=>array('cms/admin/keyword/is-keyword-not-exist'))),
 		);
 	}
 

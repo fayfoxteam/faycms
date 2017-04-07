@@ -96,7 +96,7 @@ echo F::form()->open();
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/question.js')?>"></script>
 <script>
-common.filebrowserImageUploadUrl = system.url('admin/file/img-upload', {'cat':'exam'});
+common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'exam'});
 question.type = {
 	'true_or_false':<?php echo ExamQuestionsTable::TYPE_TRUE_OR_FALSE?>,
 	'single_answer':<?php echo ExamQuestionsTable::TYPE_SINGLE_ANSWER?>,

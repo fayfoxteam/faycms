@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 ?>
-<form id="batch-form" method="post" action="<?php echo $this->url('admin/notification/batch')?>" class="form-inline">
+<form id="batch-form" method="post" action="<?php echo $this->url('cms/admin/notification/batch')?>" class="form-inline">
 	<div class="row">
 		<div class="col-5"><?php
 			echo HtmlHelper::select('', array(

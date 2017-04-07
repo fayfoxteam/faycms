@@ -45,7 +45,7 @@ class UserController extends AdminController{
 		$this->layout->subtitle = '所有用户';
 			
 		$this->layout->sublink = array(
-			'uri'=>array('admin/user/create'),
+			'uri'=>array('cms/admin/user/create'),
 			'text'=>'添加用户',
 		);
 		
@@ -145,9 +145,9 @@ class UserController extends AdminController{
 			
 			$this->actionlog(ActionlogsTable::TYPE_USERS, '添加了一个新用户', $user_id);
 			
-			Response::notify('success', '用户添加成功，'.HtmlHelper::link('继续添加', array('admin/user/create', array(
+			Response::notify('success', '用户添加成功，'.HtmlHelper::link('继续添加', array('cms/admin/user/create', array(
 				'roles'=>$this->input->post('roles', 'intval', array()),
-			))), array('admin/user/edit', array(
+			))), array('cms/admin/user/edit', array(
 				'id'=>$user_id,
 			)));
 		}
@@ -212,9 +212,9 @@ class UserController extends AdminController{
 		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
-		if($this->checkPermission('admin/user/edit')){
+		if($this->checkPermission('cms/admin/user/edit')){
 			$this->layout->sublink = array(
-				'uri'=>array('admin/user/edit', array('id'=>$id)),
+				'uri'=>array('cms/admin/user/edit', array('id'=>$id)),
 				'text'=>'编辑用户',
 			);
 		}

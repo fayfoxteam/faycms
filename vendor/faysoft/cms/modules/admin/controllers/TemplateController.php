@@ -35,7 +35,7 @@ class TemplateController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_TEMPLATE, '删除模版', $id);
 		
 		Response::notify('success', array(
-			'message'=>'一个模板被删除 - '.HtmlHelper::link('撤销', array('admin/template/undelete', array(
+			'message'=>'一个模板被删除 - '.HtmlHelper::link('撤销', array('cms/admin/template/undelete', array(
 				'id'=>$id,
 			))),
 		));
@@ -57,7 +57,7 @@ class TemplateController extends AdminController{
 		$this->layout->subtitle = '编辑模板';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/template/create'),
+			'uri'=>array('cms/admin/template/create'),
 			'text'=>'添加模版',
 		);
 		
@@ -84,7 +84,7 @@ class TemplateController extends AdminController{
 		$this->layout->subtitle = '添加模板';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/template/index'),
+			'uri'=>array('cms/admin/template/index'),
 			'text'=>'模版列表',
 		);
 		
@@ -98,7 +98,7 @@ class TemplateController extends AdminController{
 			$id = TemplatesTable::model()->insert($data);
 			
 			$this->actionlog(ActionlogsTable::TYPE_TEMPLATE, '添加了一个模版', $id);
-			Response::notify('success', '模版添加成功', array('admin/template/edit', array(
+			Response::notify('success', '模版添加成功', array('cms/admin/template/edit', array(
 				'id'=>$id,
 			)));
 		}

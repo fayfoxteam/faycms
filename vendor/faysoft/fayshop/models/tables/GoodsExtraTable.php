@@ -1,5 +1,5 @@
 <?php
-namespace fay\models\tables;
+namespace fayshop\models\tables;
 
 use fay\core\db\Table;
 

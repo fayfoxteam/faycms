@@ -2,8 +2,8 @@
 namespace fay\services\shop;
 
 use fay\core\Service;
-use fay\models\tables\GoodsCatPropsTable;
-use fay\models\tables\GoodsPropValuesTable;
+use fayshop\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\GoodsPropValuesTable;
 use fay\helpers\ArrayHelper;
 
 class ShopSkuService extends Service{

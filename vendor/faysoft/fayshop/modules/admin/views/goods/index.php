@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\GoodsTable;
+use fayshop\models\tables\GoodsTable;
 
 $cols = F::form('setting')->getData('cols', array());
 ?>

@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\GoodsCatPropsTable;
 use fay\helpers\HtmlHelper;
 ?>
 <div class="box" id="box-props" data-name="props">

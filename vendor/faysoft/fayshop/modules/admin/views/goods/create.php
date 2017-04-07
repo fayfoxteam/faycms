@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\GoodsTable;
+use fayshop\models\tables\GoodsTable;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset

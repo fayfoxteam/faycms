@@ -2,11 +2,11 @@
 namespace fay\services\shop;
 
 use fay\core\Service;
-use fay\models\tables\GoodsTable as TableGoods;
-use fay\models\tables\GoodsFilesTable;
+use fayshop\models\tables\GoodsTable;
+use fayshop\models\tables\GoodsFilesTable;
 use fay\core\Sql;
-use fay\models\tables\GoodsSkusTable;
-use fay\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\GoodsSkusTable;
+use fayshop\models\tables\GoodsCatPropsTable;
 
 class ShopGoodsService extends Service{
 	/**
@@ -19,7 +19,7 @@ class ShopGoodsService extends Service{
 	
 	public function get($id, $fields = 'files,props,sku'){
 		$fields = explode(',', $fields);
-		$goods = TableGoodsTable::model()->find($id);
+		$goods = GoodsTable::model()->find($id);
 		
 		if(!$goods){
 			return array();

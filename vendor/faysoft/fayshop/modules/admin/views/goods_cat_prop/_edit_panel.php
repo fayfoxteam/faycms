@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\GoodsCatPropsTable;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <?php echo F::form()->inputHidden('cat_id')?>

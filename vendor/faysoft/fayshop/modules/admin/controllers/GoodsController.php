@@ -1,15 +1,15 @@
 <?php
-namespace cms\modules\admin\controllers;
+namespace fayshop\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\GoodsTable;
-use fay\models\tables\GoodsFilesTable;
-use fay\models\tables\GoodsCatPropValuesTable;
-use fay\models\tables\GoodsPropValuesTable;
-use fay\models\tables\GoodsSkusTable;
+use fayshop\models\tables\GoodsTable;
+use fayshop\models\tables\GoodsFilesTable;
+use fayshop\models\tables\GoodsCatPropValuesTable;
+use fayshop\models\tables\GoodsPropValuesTable;
+use fayshop\models\tables\GoodsSkusTable;
 use fay\models\tables\ActionlogsTable;
 use fay\models\tables\CategoriesTable;
-use fay\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\GoodsCatPropsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\CategoryService;

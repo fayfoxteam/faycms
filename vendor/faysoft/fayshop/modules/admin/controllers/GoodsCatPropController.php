@@ -1,13 +1,13 @@
 <?php
-namespace cms\modules\admin\controllers;
+namespace fayshop\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\tables\CategoriesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\GoodsCatPropsTable;
-use fay\models\tables\GoodsCatPropValuesTable;
+use fayshop\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\GoodsCatPropValuesTable;
 use fay\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\services\CategoryService;

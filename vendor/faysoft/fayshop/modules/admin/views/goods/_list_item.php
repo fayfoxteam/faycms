@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\services\file\FileService;
-use fay\models\tables\GoodsTable;
+use fayshop\models\tables\GoodsTable;
 use fay\helpers\DateHelper;
 
 $editable = F::app()->checkPermission('admin/goods/edit');

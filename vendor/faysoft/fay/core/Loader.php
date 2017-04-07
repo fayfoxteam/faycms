@@ -13,7 +13,8 @@ class Loader{
 	 * @return bool
 	 */
 	public static function autoload($class_name){
-		if(strpos($class_name, 'fay') === 0 || strpos($class_name, 'cms') === 0 || strpos($class_name, 'faypay') === 0){
+		$first_namespace = substr($class_name, 0, strpos($class_name, '\\'));
+		if($first_namespace && file_exists(FAYSOFT_PATH . $first_namespace)){
 			$file_path = str_replace('\\', '/', FAYSOFT_PATH.$class_name.'.php');
 			if(file_exists($file_path)){
 				require $file_path;

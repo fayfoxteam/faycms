@@ -49,6 +49,7 @@ class ResetController extends AdminController{
 	 */
 	public function categoryPostCount(){
 		$this->layout->subtitle = '重置分类文章数';
+		$this->layout->current_directory = 'post-count';
 		
 		if(Http::isPost()){
 			PostCategoryService::service()->resetPostCount();
@@ -63,6 +64,7 @@ class ResetController extends AdminController{
 	 */
 	public function tagPostCount(){
 		$this->layout->subtitle = '重置标签文章数';
+		$this->layout->current_directory = 'post-count';
 		
 		if(Http::isPost()){
 			PostTagService::service()->resetPostCount();
@@ -77,6 +79,7 @@ class ResetController extends AdminController{
 	 */
 	public function userPostCount(){
 		$this->layout->subtitle = '重置用户文章数';
+		$this->layout->current_directory = 'post-count';
 		
 		if(Http::isPost()){
 			PostUserCounterService::service()->resetPostCount();

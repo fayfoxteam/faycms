@@ -52,7 +52,7 @@ class GoodsCatPropsTable extends Table{
 			array(array('title'), 'string', array('max'=>255)),
 			array(array('is_sale_prop', 'is_input_prop', 'delete_time'), 'range', array('range'=>array(0, 1))),
 			
-			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('admin/goods-cat-prop/is-alias-not-exist'))),
+			array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('fayshop/admin/goods-cat-prop/is-alias-not-exist'))),
 		);
 	}
 

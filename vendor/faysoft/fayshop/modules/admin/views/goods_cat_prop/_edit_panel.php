@@ -137,7 +137,7 @@ $(function(){
 	});
 
 	$('.edit-sort').feditsort({
-		'url':system.url("admin/goods-cat-prop/sort")
+		'url':system.url("fayshop/admin/goods-cat-prop/sort")
 	});
 });
 </script>

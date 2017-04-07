@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-5">
-		<?php echo F::form()->open(array('admin/goods-cat-prop/create'))?>
+		<?php echo F::form()->open(array('fayshop/admin/goods-cat-prop/create'))?>
 			<?php $this->renderPartial('_edit_panel')?>
 		<?php echo F::form()->close()?>
 	</div>

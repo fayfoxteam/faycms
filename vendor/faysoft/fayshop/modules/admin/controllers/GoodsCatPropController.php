@@ -24,7 +24,7 @@ class GoodsCatPropController extends AdminController{
 	
 	public function index(){
 		$this->layout->sublink = array(
-			'uri'=>array('admin/goods/cat'),
+			'uri'=>array('fayshop/admin/goods/cat'),
 			'text'=>'返回商品分类',
 		);
 		
@@ -92,7 +92,7 @@ class GoodsCatPropController extends AdminController{
 
 		$this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '软删除一个商品属性', $prop_id);
 
-		Response::notify('success', '一个商品属性被移入回收站 - '.HtmlHelper::link('撤销', array('admin/goods-cat-prop/undelete', array(
+		Response::notify('success', '一个商品属性被移入回收站 - '.HtmlHelper::link('撤销', array('fayshop/admin/goods-cat-prop/undelete', array(
 			'id'=>$prop_id,
 		))));
 	}
@@ -176,7 +176,7 @@ class GoodsCatPropController extends AdminController{
 		$this->view->prop = $prop;
 		$cat = CategoriesTable::model()->find($prop['cat_id'], 'id,title');
 		$this->layout->sublink = array(
-			'uri'=>array('admin/goods-cat-prop/index', array(
+			'uri'=>array('fayshop/admin/goods-cat-prop/index', array(
 				'cat_id'=>$cat['id'],
 			)),
 			'text'=>'返回属性列表',

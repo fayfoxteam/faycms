@@ -4,7 +4,7 @@ use fay\services\file\FileService;
 use fayshop\models\tables\GoodsTable;
 use fay\helpers\DateHelper;
 
-$editable = F::app()->checkPermission('admin/goods/edit');
+$editable = F::app()->checkPermission('fayshop/admin/goods/edit');
 ?>
 <tr valign="top" id="file-<?php echo $data['id']?>">
 	<td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(
@@ -40,11 +40,11 @@ $editable = F::app()->checkPermission('admin/goods/edit');
 			}
 		?></strong>
 		<div class="row-actions">
-			<?php echo HtmlHelper::link('编辑', array('admin/goods/edit', array('id'=>$data['id'])))?>
+			<?php echo HtmlHelper::link('编辑', array('fayshop/admin/goods/edit', array('id'=>$data['id'])))?>
 			<?php echo HtmlHelper::link('查看', array('goods/item', array('id'=>$data['id'])), array(
 				'target'=>'_blank',
 			))?>
-			<?php echo HtmlHelper::link('删除', array('admin/goods/delete', array('id'=>$data['id'])), array(
+			<?php echo HtmlHelper::link('删除', array('fayshop/admin/goods/delete', array('id'=>$data['id'])), array(
 				'class'=>'fc-red remove-link',
 			))?>
 		</div>
@@ -53,7 +53,7 @@ $editable = F::app()->checkPermission('admin/goods/edit');
 	<td><?php echo $data['sn']?></td>
 	<?php }?>
 	<?php if(in_array('category', $cols)){?>
-	<td><?php echo HtmlHelper::link($data['cat_title'], array('admin/goods/index', array(
+	<td><?php echo HtmlHelper::link($data['cat_title'], array('fayshop/admin/goods/index', array(
 		'cat_id'=>$data['cat_id'],
 	)))?></td>
 	<?php }?>

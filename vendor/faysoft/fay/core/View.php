@@ -161,13 +161,14 @@ class View{
 		RuntimeHelper::append(__FILE__, __LINE__, '开始渲染视图: ' . $view);
 		$uri = Uri::getInstance();
 		$module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
+		$package = $uri->package;
 		//加载视图文件
 		if($view === null){
 			$action = StringHelper::case2underscore($uri->action);
 			$controller = StringHelper::case2underscore($uri->controller);
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}else{
-			$view_arr = explode('/', $view, 3);
+			$view_arr = explode('/', $view, 4);
 			
 			switch(count($view_arr)){
 				case 1:
@@ -179,10 +180,16 @@ class View{
 					$action = $view_arr[1];
 				break;
 				case 3:
-				default:
 					$module = $view_arr[0];
 					$controller = $view_arr[1];
 					$action = $view_arr[2];
+				break;
+				case 4:
+				default:
+					$package = $view_arr[0];
+					$module = $view_arr[1];
+					$controller = $view_arr[2];
+					$action = $view_arr[3];
 				break;
 			}
 			
@@ -206,12 +213,12 @@ class View{
 			}
 		}
 		
-		if($uri->package == 'cms' && file_exists(APPLICATION_PATH.$view_relative_path)){
+		if($package == 'cms' && file_exists(APPLICATION_PATH.$view_relative_path)){
 			//前台app
 			$view_path = APPLICATION_PATH.$view_relative_path;
-		}else if(file_exists(FAYSOFT_PATH."{$uri->package}/{$view_relative_path}")){
+		}else if(file_exists(FAYSOFT_PATH."{$package}/{$view_relative_path}")){
 			//faysoft/*下的类库
-			$view_path = FAYSOFT_PATH."{$uri->package}/{$view_relative_path}";
+			$view_path = FAYSOFT_PATH."{$package}/{$view_relative_path}";
 		}else if(file_exists(CMS_PATH."modules/tools/views/{$controller}/{$action}.php")){
 			//最后搜索cms/tools下有没有默认文件，例如报错，分页条等
 			$view_path = CMS_PATH."modules/tools/views/{$controller}/{$action}.php";

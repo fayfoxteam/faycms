@@ -15,10 +15,10 @@ use fay\helpers\HtmlHelper;
 		<div class="row-actions">
 			<?php if($data['cat_id'] == F::form()->getData('cat_id')){?>
 			<div class="row-actions">
-				<?php echo HtmlHelper::link('编辑', array('admin/goods-cat-prop/edit', array(
+				<?php echo HtmlHelper::link('编辑', array('fayshop/admin/goods-cat-prop/edit', array(
 					'id'=>$data['id'],
 				) + F::input()->get()))?>
-				<?php echo HtmlHelper::link('删除', array('admin/goods-cat-prop/delete', array(
+				<?php echo HtmlHelper::link('删除', array('fayshop/admin/goods-cat-prop/delete', array(
 					'id'=>$data['id'],
 				) + F::input()->get()), array(
 					'class'=>'remove-link fc-red',

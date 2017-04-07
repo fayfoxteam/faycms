@@ -206,7 +206,7 @@ $(function(){
 		$(this).hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
 		$.ajax({
 			type: "GET",
-			url: system.url("admin/goods/set-is-new"),
+			url: system.url("fayshop/admin/goods/set-is-new"),
 			data: {
 				"id":$(this).attr("data-id"),
 				"is_new":$(this).hasClass("tick-circle") ? 0 : 1
@@ -232,7 +232,7 @@ $(function(){
 		$(this).hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
 		$.ajax({
 			type: "GET",
-			url: system.url("admin/goods/set-is-hot"),
+			url: system.url("fayshop/admin/goods/set-is-hot"),
 			data: {
 				"id":$(this).attr("data-id"),
 				"is_hot":$(this).hasClass("tick-circle") ? 0 : 1
@@ -254,7 +254,7 @@ $(function(){
 	});
 
 	$(".edit-sort").feditsort({
-		'url':system.url("admin/goods/set-sort")
+		'url':system.url("fayshop/admin/goods/set-sort")
 	});
 });
 </script>

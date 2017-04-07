@@ -68,7 +68,7 @@ class GoodsController extends AdminController{
 		$root_node = CategoryService::service()->getByAlias('_system_goods', 'id');
 		$this->view->root = $root_node['id'];
 		
-		if($this->checkPermission('admin/goods/cat-create')){
+		if($this->checkPermission('fayshop/admin/goods/cat-create')){
 			$this->layout->sublink = array(
 				'uri'=>'#create-cat-dialog',
 				'text'=>'添加商品分类',
@@ -92,7 +92,7 @@ class GoodsController extends AdminController{
 		
 		$this->layout->subtitle = '添加商品 - 所属分类：'.$cat['title'];
 		$this->layout->sublink = array(
-			'uri'=>array('admin/goods/cat'),
+			'uri'=>array('fayshop/admin/goods/cat'),
 			'text'=>'商品分类',
 		);
 		
@@ -259,7 +259,7 @@ class GoodsController extends AdminController{
 		$this->layout->subtitle = '商品';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('admin/goods/cat'),
+			'uri'=>array('fayshop/admin/goods/cat'),
 			'text'=>'添加商品',
 		);
 		
@@ -275,7 +275,9 @@ class GoodsController extends AdminController{
 		
 		$sql = new Sql();
 		$sql->from(array('g'=>'goods'))
-			->joinLeft(array('c'=>'categories'), 'g.cat_id = c.id', 'title AS cat_title');
+			->joinLeft(array('c'=>'categories'), 'g.cat_id = c.id', 'title AS cat_title')
+			->joinLeft(array('gc'=>'goods_counter'), 'g.id = gc.goods_id', '*')
+		;
 		$sql->where('g.delete_time = 0');
 		if($this->input->get('start_time')){
 			$sql->where(array("g.{$this->input->get('time_field')} > ?"=>$this->input->get('start_time','strtotime')));
@@ -618,7 +620,7 @@ class GoodsController extends AdminController{
 		$this->actionlog(ActionlogsTable::TYPE_GOODS, '软删除一个商品', $goods_id);
 		
 		Response::notify('success', array(
-			'message'=>'一个商品被移入回收站 - '.HtmlHelper::link('撤销', array('admin/goods/undelete', array(
+			'message'=>'一个商品被移入回收站 - '.HtmlHelper::link('撤销', array('fayshop/admin/goods/undelete', array(
 				'id'=>$goods_id,
 			))),
 			'id'=>$goods_id

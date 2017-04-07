@@ -7,7 +7,7 @@ function showCats($cats, $dep = 0){?>
 		<li class="leaf-container <?php if(!$k)echo 'first';?>">
 			<div class="leaf">
 				<span class="fr options">
-					<?php if(F::app()->checkPermission('admin/goods/cat-sort')){?>
+					<?php if(F::app()->checkPermission('fayshop/admin/goods/cat-sort')){?>
 					<span class="w135 block fl">
 					排序：<?php echo HtmlHelper::inputText('sort[]', $c['sort'], array(
 						'data-id'=>$c['id'],
@@ -16,13 +16,13 @@ function showCats($cats, $dep = 0){?>
 					</span>
 					<?php }?>
 					<?php
-						echo HtmlHelper::link('查看该分类', array('admin/goods/index', array(
+						echo HtmlHelper::link('查看该分类', array('fayshop/admin/goods/index', array(
 							'cat_id'=>$c['id'],
 						)), array(), true);
-						echo HtmlHelper::link('分类属性', array('admin/goods-cat-prop/index', array(
+						echo HtmlHelper::link('分类属性', array('fayshop/admin/goods-cat-prop/index', array(
 							'cat_id'=>$c['id'],
 						)), array(), true);
-						if(F::app()->checkPermission('admin/goods/cat-create')){
+						if(F::app()->checkPermission('fayshop/admin/goods/cat-create')){
 							echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
 								'class'=>'create-cat-link',
 								'data-title'=>HtmlHelper::encode($c['title']),
@@ -35,7 +35,7 @@ function showCats($cats, $dep = 0){?>
 								'data-id'=>$c['id'],
 							));
 						}
-						if(F::app()->checkPermission('admin/goods/cat-remove')){
+						if(F::app()->checkPermission('fayshop/admin/goods/cat-remove')){
 							echo HtmlHelper::link('删除', array('admin/category/remove', array(
 								'id'=>$c['id'],
 							)), array(
@@ -61,7 +61,7 @@ function showCats($cats, $dep = 0){?>
 					<?php if($c['alias']){?>
 						<em class="fc-grey">[ <?php echo $c['alias']?> ]</em>
 					<?php }?>
-					<?php echo HtmlHelper::link('发布商品', array('admin/goods/create', array(
+					<?php echo HtmlHelper::link('发布商品', array('fayshop/admin/goods/create', array(
 							'cat_id'=>$c['id'],
 						)), array(
 							'class'=>'fc-green hover-link',
@@ -83,7 +83,7 @@ function showCats($cats, $dep = 0){?>
 		</div>
 	</div>
 </div>
-<?php $this->renderPartial('category/_common', array(
+<?php $this->renderPartial('cms/admin/category/_common', array(
 	'root'=>$root,
 	'cats'=>$cats,
 ));?>

@@ -1,5 +1,5 @@
 <?php
-namespace faypay\services\methods;
+namespace faypay\models;
 
 /**
  * 支付方式配置信息
@@ -81,7 +81,7 @@ class PaymentMethodConfigModel{
 	
 	/**
 	 * @param string $code
-	 * @return PaymentMethodConfigModel
+	 * @return $this
 	 */
 	public function setCode($code)
 	{
@@ -99,7 +99,7 @@ class PaymentMethodConfigModel{
 	
 	/**
 	 * @param string $sign_type
-	 * @return PaymentMethodConfigModel
+	 * @return $this
 	 */
 	public function setSignType($sign_type)
 	{
@@ -117,7 +117,7 @@ class PaymentMethodConfigModel{
 	
 	/**
 	 * @param string $app_id
-	 * @return PaymentMethodConfigModel
+	 * @return $this
 	 */
 	public function setAppId($app_id)
 	{
@@ -135,7 +135,7 @@ class PaymentMethodConfigModel{
 	
 	/**
 	 * @param string $mch_id
-	 * @return PaymentMethodConfigModel
+	 * @return $this
 	 */
 	public function setMchId($mch_id)
 	{
@@ -153,7 +153,7 @@ class PaymentMethodConfigModel{
 	
 	/**
 	 * @param string $key
-	 * @return PaymentMethodConfigModel
+	 * @return $this
 	 */
 	public function setKey($key)
 	{
@@ -171,7 +171,7 @@ class PaymentMethodConfigModel{
 	
 	/**
 	 * @param string $app_secret
-	 * @return PaymentMethodConfigModel
+	 * @return $this
 	 */
 	public function setAppSecret($app_secret)
 	{

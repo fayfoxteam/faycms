@@ -2,8 +2,8 @@
 namespace faypay\services\methods\weixin;
 
 use fay\helpers\UrlHelper;
-use faypay\services\methods\PaymentMethodConfigModel;
-use faypay\services\methods\PaymentTradeModel;
+use faypay\models\PaymentMethodConfigModel;
+use faypay\models\PaymentTradeModel;
 use faypay\services\methods\PaymentMethodException;
 use faypay\services\methods\PaymentMethodInterface;
 use faypay\services\trade\TradePaymentService;
@@ -13,7 +13,7 @@ class WeixinPayment implements PaymentMethodInterface{
 	/**
 	 * jsapi支付方式
 	 * @param PaymentTradeModel $trade
-	 * @param PaymentMethodConfigModel $config
+	 * @param PaymentMethodConfigModel$config
 	 * @throws PaymentMethodException
 	 * @throws \WxPayException
 	 */
@@ -42,7 +42,7 @@ class WeixinPayment implements PaymentMethodInterface{
 		}else{
 			$openId = $tools->GetOpenid(UrlHelper::createUrl('api/payment/pay-for-trade-payment', array(
 				'id'=>$trade->getTradePaymentId()
-			), false));
+			)));
 		}
 
 		//②、统一下单

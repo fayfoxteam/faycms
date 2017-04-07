@@ -1,5 +1,5 @@
 <?php
-namespace faypay\services\methods;
+namespace faypay\models;
 
 /**
  * 包含必要的交易信息
@@ -102,7 +102,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $out_trade_no
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setOutTradeNo($out_trade_no)
 	{
@@ -120,7 +120,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param int $total_fee
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setTotalFee($total_fee)
 	{
@@ -138,7 +138,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $subject
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setSubject($subject)
 	{
@@ -156,7 +156,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $body
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setBody($body)
 	{
@@ -174,7 +174,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $show_url
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setShowUrl($show_url)
 	{
@@ -192,7 +192,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $it_b_pay
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setItBPay($it_b_pay)
 	{
@@ -210,7 +210,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $attach
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setAttach($attach)
 	{
@@ -228,7 +228,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $time_start
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setTimeStart($time_start)
 	{
@@ -246,7 +246,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $time_expire
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setTimeExpire($time_expire)
 	{
@@ -264,7 +264,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $notify_url
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setNotifyUrl($notify_url)
 	{
@@ -292,7 +292,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param string $return_url
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setReturnUrl($return_url)
 	{
@@ -310,7 +310,7 @@ class PaymentTradeModel{
 	
 	/**
 	 * @param int $trade_payment_id
-	 * @return PaymentTradeModel
+	 * @return $this
 	 */
 	public function setTradePaymentId($trade_payment_id)
 	{

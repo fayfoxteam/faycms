@@ -2,6 +2,8 @@
 namespace faypay\services\methods;
 
 use fay\core\Service;
+use faypay\models\PaymentMethodConfigModel;
+use faypay\models\PaymentTradeModel;
 use faypay\models\tables\PaymentsTable;
 
 class PaymentMethodService extends Service{

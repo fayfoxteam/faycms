@@ -1,5 +1,5 @@
 <?php
-namespace fay\services\feed;
+namespace fayfeed\services;
 
 use fay\core\ErrorException;
 use fay\core\Loader;
@@ -9,7 +9,6 @@ use fay\models\tables\FeedCommentsTable;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
-use fay\services\FeedService;
 use fay\models\tables\FeedMetaTable;
 use fay\services\OptionService;
 use fay\services\user\UserService;

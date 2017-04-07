@@ -1,5 +1,5 @@
 <?php
-namespace fay\services\feed;
+namespace fayfeed\services;
 
 use fay\core\Service;
 use fay\core\Exception;

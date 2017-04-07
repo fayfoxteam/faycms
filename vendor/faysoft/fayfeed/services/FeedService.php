@@ -1,13 +1,11 @@
 <?php
-namespace fay\services;
+namespace fayfeed\services;
 
 use fay\core\ErrorException;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldHelper;
 use fay\models\tables\FeedsTable;
-use fay\services\feed\FeedMetaService;
-use fay\services\feed\FeedTagService;
 use fay\models\tables\FeedsFilesTable;
 use fay\models\tables\UserCounterTable;
 use fay\models\tables\FeedMetaTable;
@@ -16,7 +14,6 @@ use fay\models\tables\FeedExtraTable;
 use fay\models\tables\FeedsTagsTable;
 use fay\models\tables\FeedLikesTable;
 use fay\models\tables\FeedFavoritesTable;
-use fay\services\feed\FeedFileService;
 use fay\services\user\UserService;
 
 /**

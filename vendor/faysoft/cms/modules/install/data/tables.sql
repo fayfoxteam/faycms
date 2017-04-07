@@ -147,97 +147,6 @@ CREATE TABLE `{{$prefix}}contacts` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}exam_answers`;
-CREATE TABLE `{{$prefix}}exam_answers` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `question_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Question Id',
-  `answer` text NOT NULL COMMENT 'Answer',
-  `is_right_answer` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否正确答案',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
-  PRIMARY KEY (`id`),
-  KEY `question` (`question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}exam_exam_question_answer_text`;
-CREATE TABLE `{{$prefix}}exam_exam_question_answer_text` (
-  `exam_question_id` int(11) NOT NULL COMMENT 'Exam Question Id',
-  `user_answer` text COMMENT 'User Answer',
-  PRIMARY KEY (`exam_question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}exam_exam_question_answers_int`;
-CREATE TABLE `{{$prefix}}exam_exam_question_answers_int` (
-  `exam_question_id` int(10) unsigned NOT NULL COMMENT 'Exam Question Id',
-  `user_answer_id` mediumint(8) unsigned NOT NULL COMMENT 'User Answer Id',
-  PRIMARY KEY (`exam_question_id`,`user_answer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}exam_exams`;
-CREATE TABLE `{{$prefix}}exam_exams` (
-  `id` mediumint(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User Id',
-  `paper_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Paper Id',
-  `start_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Start Time',
-  `end_time` int(10) unsigned NOT NULL COMMENT 'End Time',
-  `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Score',
-  `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Total Score',
-  `rand` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Rand',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}exam_exams_questions`;
-CREATE TABLE `{{$prefix}}exam_exams_questions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `exam_id` mediumint(8) unsigned NOT NULL COMMENT 'Exam Id',
-  `question_id` mediumint(8) unsigned NOT NULL COMMENT 'Question Id',
-  `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Total Score',
-  `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Score',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}exam_paper_questions`;
-CREATE TABLE `{{$prefix}}exam_paper_questions` (
-  `paper_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '试卷编号',
-  `question_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '试题编号',
-  `score` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '分值',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
-  PRIMARY KEY (`paper_id`,`question_id`),
-  KEY `question` (`question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}exam_papers`;
-CREATE TABLE `{{$prefix}}exam_papers` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '试卷名称',
-  `description` text NOT NULL COMMENT '试卷描述',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
-  `rand` tinyint(1) NOT NULL DEFAULT '100' COMMENT '随机题序',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
-  `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '试卷总分',
-  `start_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '考试开始时间',
-  `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '考试结束时间',
-  `repeatedly` tinyint(1) NOT NULL DEFAULT '1' COMMENT '重复参考',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}exam_questions`;
-CREATE TABLE `{{$prefix}}exam_questions` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `question` text NOT NULL COMMENT '试题',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
-  `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '分值',
-  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '类型',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
-  `rand` tinyint(1) NOT NULL DEFAULT '0' COMMENT '随机答案顺序',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
 DROP TABLE IF EXISTS `{{$prefix}}files`;
 CREATE TABLE `{{$prefix}}files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -272,111 +181,6 @@ CREATE TABLE `{{$prefix}}follows` (
   PRIMARY KEY (`fans_id`,`user_id`),
   KEY `fans` (`user_id`,`fans_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='关注关系';
-
-DROP TABLE IF EXISTS `{{$prefix}}goods`;
-CREATE TABLE `{{$prefix}}goods` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `sub_stock` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '何时减库存',
-  `post_fee` decimal(6,2) NOT NULL DEFAULT '0.00' COMMENT '运费',
-  `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
-  `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
-  `price` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '价格',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态',
-  `is_new` tinyint(1) NOT NULL DEFAULT '0' COMMENT '新品',
-  `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '热销',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `sort` mediumint(8) unsigned NOT NULL DEFAULT '10000' COMMENT '排序值',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}goods_cat_prop_values`;
-CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值i',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}goods_cat_props`;
-CREATE TABLE `{{$prefix}}goods_cat_props` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '编辑框类型',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
-  `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-  `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否销售属性',
-  `is_input_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否可自定义属性',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT '排序值',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}goods_counter`;
-CREATE TABLE `{{$prefix}}goods_counter` (
-  `goods_id` int(11) unsigned NOT NULL COMMENT '商品ID',
-  `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '浏览量',
-  `real_views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实浏览量',
-  `sales` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '总销量',
-  `real_sales` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实总销量',
-  `reviews` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '评价数',
-  `real_reviews` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实评价数',
-  `favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数',
-  `real_favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实收藏数',
-  PRIMARY KEY (`goods_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}goods_extra`;
-CREATE TABLE `{{$prefix}}goods_extra` (
-  `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
-  `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
-  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
-  `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Description',
-  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
-  `weight` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:kg',
-  `size` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '单位:立方米',
-  `sn` varchar(50) NOT NULL DEFAULT '' COMMENT '货号',
-  `rich_text` text COMMENT '富文本描述',
-  PRIMARY KEY (`goods_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}goods_files`;
-CREATE TABLE `{{$prefix}}goods_files` (
-  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品Id',
-  `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件Id',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`goods_id`,`file_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}goods_prop_values`;
-CREATE TABLE `{{$prefix}}goods_prop_values` (
-  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品Id',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性Id',
-  `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值Id',
-  `prop_value_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '属性别名',
-  PRIMARY KEY (`goods_id`,`prop_id`,`prop_value_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
-CREATE TABLE `{{$prefix}}goods_skus` (
-  `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
-  `sku_key` varchar(100) NOT NULL DEFAULT '' COMMENT 'SKU Key',
-  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
-  `quantity` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
-  `tsces` varchar(50) NOT NULL DEFAULT '' COMMENT '商家编码',
-  PRIMARY KEY (`goods_id`,`sku_key`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}item_prop_values`;
 CREATE TABLE `{{$prefix}}item_prop_values` (
@@ -552,49 +356,6 @@ CREATE TABLE `{{$prefix}}options` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `option_name` (`option_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
-
-DROP TABLE IF EXISTS `{{$prefix}}orders`;
-CREATE TABLE `{{$prefix}}orders` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
-  `buyer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '买家ID',
-  `buyer_note` varchar(255) NOT NULL DEFAULT '' COMMENT '买家留言',
-  `seller_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '卖家ID',
-  `seller_note` varchar(255) NOT NULL DEFAULT '' COMMENT '卖家留言',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '订单状态',
-  `goods_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品总价',
-  `shipping_fee` decimal(6,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '邮费',
-  `adjust_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '卖家手工调整金额（差值）',
-  `total_fee` decimal(8,2) NOT NULL DEFAULT '0.00' COMMENT '订单总价',
-  `paid_fee` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实付金额',
-  `seller_rate` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否评价',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-  `receiver_state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在省',
-  `receiver_city` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在市',
-  `receiver_district` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '收货人所在区',
-  `receiver_address` varchar(255) NOT NULL DEFAULT '' COMMENT '收货人详细地址',
-  `receiver_name` varchar(50) NOT NULL DEFAULT '' COMMENT '收货人姓名',
-  `receiver_mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '收货人的手机号码',
-  `receiver_phone` varchar(30) NOT NULL DEFAULT '' COMMENT '收货人的电话号码',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单创建时间',
-  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
-  `consign_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '卖家发货时间',
-  `comfirm_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '确认收货时间',
-  `close_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '交易关闭原因',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单表';
-
-DROP TABLE IF EXISTS `{{$prefix}}order_goods`;
-CREATE TABLE `{{$prefix}}order_goods` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `order_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '订单ID',
-  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '商品标题',
-  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品价格',
-  `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '购买数量',
-  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
-  `sku_properties_name` varchar(500) NOT NULL DEFAULT '' COMMENT 'SKU的值',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单商品表';
 
 DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (
@@ -806,7 +567,6 @@ DROP TABLE IF EXISTS `{{$prefix}}tag_counter`;
 CREATE TABLE `{{$prefix}}tag_counter` (
   `tag_id` int(10) unsigned NOT NULL COMMENT '标签ID',
   `posts` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章数',
-  `feeds` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '动态数',
   PRIMARY KEY (`tag_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='标签计数器';
 
@@ -861,7 +621,6 @@ DROP TABLE IF EXISTS `{{$prefix}}user_counter`;
 CREATE TABLE `{{$prefix}}user_counter` (
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `posts` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '文章数',
-  `feeds` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '动态数',
   `follows` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关注数',
   `fans` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '粉丝数',
   `messages` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '留言数',
@@ -1067,38 +826,6 @@ CREATE TABLE `{{$prefix}}feed_meta` (
   PRIMARY KEY (`feed_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态扩展信息表';
 
-DROP TABLE IF EXISTS `{{$prefix}}feeds`;
-CREATE TABLE `{{$prefix}}feeds` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `content` text COMMENT '内容',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `publish_date` date NOT NULL COMMENT '发布日期',
-  `timeline` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序值',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
-  `delete_time` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态表';
-
-DROP TABLE IF EXISTS `{{$prefix}}feeds_files`;
-CREATE TABLE `{{$prefix}}feeds_files` (
-  `feed_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '动态ID',
-  `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件ID',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
-  PRIMARY KEY (`feed_id`,`file_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态图片';
-
-DROP TABLE IF EXISTS `{{$prefix}}feeds_tags`;
-CREATE TABLE `{{$prefix}}feeds_tags` (
-  `feed_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
-  `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
-  PRIMARY KEY (`feed_id`,`tag_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态标签关联关系';
-
 DROP TABLE IF EXISTS `{{$prefix}}oauth_apps`;
 CREATE TABLE `{{$prefix}}oauth_apps` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -1127,66 +854,3 @@ CREATE TABLE `{{$prefix}}user_connects` (
   UNIQUE KEY `open_id` (`open_id`) USING BTREE,
   UNIQUE KEY `user_id-oauth_app_id` (`user_id`,`oauth_app_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';
-
-DROP TABLE IF EXISTS `{{$prefix}}payments`;
-CREATE TABLE `{{$prefix}}payments` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `code` varchar(20) NOT NULL DEFAULT '' COMMENT '支付编码',
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '支付名称',
-  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '支付描述',
-  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
-  `config` text COMMENT '配置信息JSON',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
-
-DROP TABLE IF EXISTS `{{$prefix}}trades`;
-CREATE TABLE `{{$prefix}}trades` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `subject` varchar(255) NOT NULL DEFAULT '' COMMENT '支付说明',
-  `body` varchar(255) NOT NULL DEFAULT '' COMMENT '支付描述',
-  `total_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '付款金额（单位：分）',
-  `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '已付金额（单位：分）',
-  `trade_payment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付记录ID（付成功的那条）',
-  `refund_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '退款金额（单位：分）',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `expire_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '过期时间',
-  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
-  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
-  `show_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品展示网址',
-  `return_url` varchar(255) NOT NULL DEFAULT '' COMMENT '页面跳转同步通知地址',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易记录';
-
-DROP TABLE IF EXISTS `{{$prefix}}trade_refers`;
-CREATE TABLE `{{$prefix}}trade_refers` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '交易类型',
-  `refer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
-  PRIMARY KEY (`id`),
-  KEY `trade_id` (`trade_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易引用关系表';
-
-DROP TABLE IF EXISTS `{{$prefix}}trade_payments`;
-CREATE TABLE `{{$prefix}}trade_payments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `trade_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易ID',
-  `total_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '支付金额（单位：分）',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `create_ip` int(11) NOT NULL DEFAULT '0' COMMENT '创建IP',
-  `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
-  `notify_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '回调时间',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付状态',
-  `payment_method_id` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式ID',
-  `trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '第三方交易号',
-  `payer_account` varchar(50) NOT NULL DEFAULT '' COMMENT '付款人帐号',
-  `paid_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '实付金额（单位：分）',
-  `refund_fee` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '退款金额（单位：分）',
-  PRIMARY KEY (`id`),
-  KEY `trade_id` (`trade_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='交易支付记录表';

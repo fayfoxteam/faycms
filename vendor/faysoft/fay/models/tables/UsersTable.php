@@ -83,9 +83,9 @@ class UsersTable extends Table{
 			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
 			array(array('mobile'), 'mobile'),
 
-			array('username', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('api/user/is-username-not-exist'))),
+			array('username', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('cms/api/user/is-username-not-exist'))),
 			array('username', 'required', array('on'=>'create')),
-			array('username', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-username-not-exist'))),
+			array('username', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('cms/api/user/is-username-not-exist'))),
 			array(array('email'), 'email'),
 			array(array('block', 'admin'), 'range', array('range'=>array(0, 1))),
 		);
@@ -95,8 +95,8 @@ class UsersTable extends Table{
 		}
 		
 		if(OptionService::get('system:user_nickname_unique')){
-			$rules[] = array('nickname', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'nickname', 'ajax'=>array('api/user/is-nickname-not-exist')));
-			$rules[] = array('nickname', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('api/user/is-nickname-not-exist')));
+			$rules[] = array('nickname', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'nickname', 'ajax'=>array('cms/api/user/is-nickname-not-exist')));
+			$rules[] = array('nickname', 'unique', array('on'=>'edit', 'table'=>'users', 'field'=>'username', 'except'=>'id', 'ajax'=>array('cms/api/user/is-nickname-not-exist')));
 		}
 		
 		return $rules;

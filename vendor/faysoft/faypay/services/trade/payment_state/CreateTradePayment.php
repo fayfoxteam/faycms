@@ -19,8 +19,8 @@ class CreateTradePayment implements PaymentStateInterface{
 	/**
 	 * 发起支付
 	 * @param TradePaymentItem $trade_payment
+	 * @return bool|void
 	 * @throws TradeException
-	 * @return bool
 	 */
 	public function pay(TradePaymentItem $trade_payment){
 		//实例化用于支付的支付方式配置模型
@@ -37,7 +37,7 @@ class CreateTradePayment implements PaymentStateInterface{
 		$payment_trade = new PaymentTradeModel();
 		$payment_trade->setOutTradeNo($trade_payment->getOutTradeNo())
 			->setTotalFee($trade_payment->total_fee)
-			->setNotifyUrl(UrlHelper::createUrl('api/payment/notify/code/'.$payment_method['code']))
+			->setNotifyUrl(UrlHelper::createUrl('faypay/api/payment/notify:code='.$payment_method['code']))
 			->setBody($trade->body)
 			->setTradePaymentId($trade_payment->id)
 			->setReturnUrl($trade->return_url)

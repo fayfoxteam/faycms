@@ -8,7 +8,7 @@ $rules = array(
 	array('refer', 'string', array('min'=>2, 'max'=>5)),
 	array('cat_id', 'int', array('min'=>2, 'max'=>4)),
 	array('cat_id', 'range', array('range'=>array('2', '3'))),
-	array('username', 'ajax', array('url'=>array('api/user/is-username-not-exist'))),
+	array('username', 'ajax', array('url'=>array('cms/api/user/is-username-not-exist'))),
 );
 
 $js_rules = F::form()->getJsRules($rules);
@@ -19,7 +19,7 @@ $labels = array(
 <div class="row">
 	<div class="col-6">
 		<h3>Form 1</h3>
-		<form id="test-form" class="form-1-3" action="<?php echo $this->url('api/input/get')?>">
+		<form id="test-form" class="form-1-3" action="<?php echo $this->url('cms/api/input/get')?>">
 			<h3>输入框(username)</h3>
 			<input type="text" name="username" />
 			<h3>单选框(role)</h3>
@@ -79,7 +79,7 @@ $labels = array(
 		<h3>Form 2</h3>
 		<form id="test-form2">
 			<h3>输入框(username2)</h3>
-			<input type="text" name="username" data-required="1" data-rule="string" data-params="{min:2,max:5}" data-ajax="<?php echo $this->url('api/user/is-username-exist')?>" />
+			<input type="text" name="username" data-required="1" data-rule="string" data-params="{min:2,max:5}" data-ajax="<?php echo $this->url('cms/api/user/is-username-exist')?>" />
 			<h3>单选框(role2)</h3>
 			<label><input type="radio" name="role2" value="1" />1</label>
 			<label><input type="radio" name="role2" value="2" />2</label>

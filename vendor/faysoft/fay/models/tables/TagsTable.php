@@ -44,7 +44,7 @@ class TagsTable extends Table{
 			array(array('title'), 'string', array('max'=>50)),
 			array(array('seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
 			
-			array(array('title'), 'unique', array('table'=>'tags', 'except'=>'id', 'ajax'=>array('api/tag/is-tag-not-exist'))),
+			array(array('title'), 'unique', array('table'=>'tags', 'except'=>'id', 'ajax'=>array('cms/api/tag/is-tag-not-exist'))),
 			array(array('title'), 'required'),
 			array(array('status'), 'range', array('range'=>array(0, 1))),
 		);

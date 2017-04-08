@@ -146,7 +146,7 @@ class OperatorController extends AdminController{
 		//有可能默认了某些角色
 		$role_ids = $this->input->get('roles', 'intval');
 		if($role_ids){
-			$this->view->prop_set = PropService::service()->getByRefer($role_ids);
+			$this->view->prop_set = UserPropService::service()->getByRefer($role_ids);
 		}else{
 			$this->view->prop_set = array();
 		}
@@ -192,7 +192,7 @@ class OperatorController extends AdminController{
 			'delete_time = 0',
 		), 'id,title');	
 		
-		$this->view->prop_set = PropService::service()->getPropertySet($user_id);
+		$this->view->prop_set = UserPropService::service()->getPropertySet($user_id);
 		$this->view->render();
 	}
 	

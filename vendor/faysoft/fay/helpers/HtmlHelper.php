@@ -308,7 +308,7 @@ class HtmlHelper{
 		isset($html_options['dh']) && $img_params['h'] = $html_options['dh'];
 		
 		unset($html_options['dw'], $html_options['dh']);
-		return self::img(UrlHelper::createUrl('api/file/captcha', $img_params), '', $html_options);
+		return self::img(UrlHelper::createUrl('cms/api/file/captcha', $img_params), '', $html_options);
 	}
 	
 	/**

@@ -1,6 +1,8 @@
 <?php
 namespace faypay\models;
 
+use faypay\services\methods\PaymentMethodException;
+
 /**
  * 包含必要的交易信息
  */

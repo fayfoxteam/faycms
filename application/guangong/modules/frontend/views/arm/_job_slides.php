@@ -14,7 +14,7 @@
 	<div class="layer jobs">
 		<ul>
 			<li class="job-1">
-				<a href="#attendance-dialog" class="fancybox-inline task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
+				<a href="javascript:" id="attendance-dialog-link" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
 			</li>
 			<li class="job-2">
 				<a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
@@ -144,9 +144,26 @@ $('#jiangjunxian-dialog').css({
 });
 
 $(function(){
+	var audio = new Audio("<?php echo $this->appAssets('music/gusheng2.mp3')?>");
+	audio.addEventListener('timeupdate', function(){
+		if(audio.currentTime == audio.duration){
+			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function() {
+				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function () {
+                    $.fancybox($('#attendance-dialog').parent().html(), {
+						'padding': 0,
+						'centerOnScroll': true,
+						'width': '90%'
+					});
+				});
+			});
+        }
+	});
+	$('#attendance-dialog-link').on('click', function(){
+		audio.play();
+    });
+	
 	$('.task-link').on('click', function(){
 		$('body').block();
-		var href = $(this).attr('href');
 		//记录任务
 		$.ajax({
 			'type': 'POST',

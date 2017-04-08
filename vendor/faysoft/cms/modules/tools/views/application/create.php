@@ -12,7 +12,7 @@ use fay\helpers\HtmlHelper;
 						'data-rule'=>'string',
 						'data-params'=>'{format:\'alnum\'}',
 						'data-label'=>'项目名称',
-						'data-ajax'=>$this->url('tools/application/is-app-not-exist'),
+						'data-ajax'=>$this->url('cms/tools/application/is-app-not-exist'),
 						'class'=>'form-control mw400',
 					))?>
 					<p class="fc-grey">仅允许英文和数字</p>

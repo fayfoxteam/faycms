@@ -25,18 +25,18 @@ use fay\helpers\HtmlHelper;
 		?>
 			<li class="">
 				<span class="fr">
-					<?php echo HtmlHelper::link('show', array('tools/database/get-model', array(
+					<?php echo HtmlHelper::link('show', array('cms/tools/database/get-model', array(
 						't'=>$t_name,
 					)), array(
 						'class'=>'get-model',
 						'data-name'=>$t_name,
 					))?>
 					|
-					<?php echo HtmlHelper::link('download', array('tools/database/download-model', array(
+					<?php echo HtmlHelper::link('download', array('cms/tools/database/download-model', array(
 						't'=>$t_name,
 					)))?>
 					|
-					<?php echo HtmlHelper::link('dd', array('tools/database/dd', array(
+					<?php echo HtmlHelper::link('dd', array('cms/tools/database/dd', array(
 						't'=>$t_name,
 					)))?>
 				</span>

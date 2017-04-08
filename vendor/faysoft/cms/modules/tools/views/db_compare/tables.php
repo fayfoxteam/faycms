@@ -14,7 +14,7 @@ use fay\helpers\HtmlHelper;
 				<td class="<?php echo in_array($t, $right_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
 					<span class="fr row-actions pt0"><?php
 						if(in_array($t, $right_tables)){
-							echo HtmlHelper::link('<i class="fa fa-exchange"></i>', array('tools/db-compare/table', array(
+							echo HtmlHelper::link('<i class="fa fa-exchange"></i>', array('cms/tools/db-compare/table', array(
 								'name'=>$t,
 							)), array(
 								'title'=>'Table Compare',
@@ -58,7 +58,7 @@ use fay\helpers\HtmlHelper;
 					<td class="<?php echo in_array($t, $left_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
 						<span class="fr row-actions pt0"><?php
 							if(in_array($t, $left_tables)){
-								echo HtmlHelper::link('<i class="fa fa-exchange"></i>', array('tools/db-compare/table', array(
+								echo HtmlHelper::link('<i class="fa fa-exchange"></i>', array('cms/tools/db-compare/table', array(
 									'name'=>$t,
 								)), array(
 									'title'=>'Table Compare',
@@ -182,7 +182,7 @@ $(function(){
 		});
 		$.ajax({
 			'type': 'GET',
-			'url': system.url('tools/db-compare/transfer'),
+			'url': system.url('cms/tools/db-compare/transfer'),
 			'data': $('#transfer-form').serialize(),
 			'dataType': 'json',
 			'cache': false,
@@ -226,7 +226,7 @@ $(function(){
 					
 					$.ajax({
 						'type': 'GET',
-						'url': system.url('tools/db-compare/get-fields'),
+						'url': system.url('cms/tools/db-compare/get-fields'),
 						'data': {
 							'name':$(o).attr('data-name')
 						},
@@ -301,7 +301,7 @@ $(function(){
 					});
 					$.ajax({
 						'type': 'GET',
-						'url': system.url('tools/db-compare/ddl'),
+						'url': system.url('cms/tools/db-compare/ddl'),
 						'data': {
 							'name':$(o).attr('data-name'),
 							'db':$(o).attr('data-db')

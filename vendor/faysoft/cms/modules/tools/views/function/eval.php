@@ -61,7 +61,7 @@ $('#form').submit(function(){
 	$('#eval-result-box').block();
 	$.ajax({
 		'type': 'POST',
-		'url': system.url('tools/function/do-eval'),
+		'url': system.url('cms/tools/function/do-eval'),
 		'data': $('#form').serialize(),
 		'cache': false,
 		'global': false,

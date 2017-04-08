@@ -66,28 +66,34 @@ class Bootstrap{
 	 * @throws HttpException
 	 */
 	private function getControllerAndAction($uri){
-		//先找当前app目录
-		if($uri->package == APPLICATION && file_exists(APPLICATION_PATH . "modules/{$uri->module}/controllers/" . ucfirst($uri->controller) . 'Controller.php')){
-			$class_name = '\\'.APPLICATION.'\modules\\'.$uri->module.'\controllers\\'.$uri->controller.'Controller';
-			if(method_exists($class_name, $uri->action)){
-				//直接对应的action
-				return array(
-					'controller'=>$class_name,
-					'action'=>$uri->action,
-				);
-			}else if(method_exists($class_name, $uri->action.'Action')){
-				//特殊关键词可能需要添加Action后缀
-				return array(
-					'controller'=>$class_name,
-					'action'=>$uri->action.'Action',
-				);
+		//包名指定的是app
+		if($uri->package == APPLICATION){
+			//在app目录下查找
+			if(file_exists(APPLICATION_PATH . "modules/{$uri->module}/controllers/" . ucfirst($uri->controller) . 'Controller.php')){
+				$class_name = '\\'.APPLICATION.'\modules\\'.$uri->module.'\controllers\\'.$uri->controller.'Controller';
+				if(method_exists($class_name, $uri->action)){
+					//直接对应的action
+					return array(
+						'controller'=>$class_name,
+						'action'=>$uri->action,
+					);
+				}else if(method_exists($class_name, $uri->action.'Action')){
+					//特殊关键词可能需要添加Action后缀
+					return array(
+						'controller'=>$class_name,
+						'action'=>$uri->action.'Action',
+					);
+				}else{
+					throw new HttpException("Action \"{$uri->action}\" Not Found IN Controller \"{$class_name}\"");
+				}
 			}else{
-				throw new HttpException("Action \"{$uri->action}\" Not Found IN Controller \"{$class_name}\"");
+				//若app目录下不存在，尝试去cms下超找
+				//@todo
 			}
 		}
 		
-		//无直接对应的类文件或者类文件中无此Action，查找后台
-		if(file_exists(SYSTEM_PATH . "{$uri->package}/modules/{$uri->module}/controllers/". ucfirst($uri->controller) . 'Controller.php')){
+		//包名指定的是faysoft下的项目
+		if(file_exists(FAYSOFT_PATH . "{$uri->package}/modules/{$uri->module}/controllers/". ucfirst($uri->controller) . 'Controller.php')){
 			$class_name = "{$uri->package}\\modules\\".$uri->module.'\controllers\\'.$uri->controller.'Controller';
 			if(method_exists($class_name, $uri->action)){
 				//直接对应的action

@@ -245,22 +245,22 @@ class View{
 	
 	/**
 	 * eval执行一段代码，放在这个函数里是为了让eval的view层代码可以使用$this
-	 * @param $code
-	 * @param $data
+	 * @param string $__code__
+	 * @param array $__data__
 	 */
-	public function evalCode($__code__, $data){
-		extract($data, EXTR_SKIP);
+	public function evalCode($__code__, $__data__){
+		extract($__data__, EXTR_SKIP);
 		eval('?>'.$__code__.'<?php ');
 	}
 	
 	/**
 	 * 独立一个渲染函数，防止变量污染
 	 * @param string $__view_path__ 视图文件路径
-	 * @param array $view_data 传递变量
+	 * @param array $__view_data__ 传递变量
 	 * @return string
 	 */
-	private function obOutput($__view_path__, $view_data = array()){
-		extract($view_data, EXTR_SKIP);
+	private function obOutput($__view_path__, $__view_data__ = array()){
+		extract($__view_data__, EXTR_SKIP);
 		ob_start();
 		include $__view_path__;
 		$content = ob_get_contents();

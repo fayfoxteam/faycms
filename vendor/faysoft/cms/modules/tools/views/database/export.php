@@ -5,6 +5,7 @@ use fay\helpers\HtmlHelper;
 	<div class="col-9">
 		<div class="col-2-2-body-content">
 			<form id="form">
+                <?php echo F::form()->inputHidden('t')?>
 				<div class="form-field pb0">
 					<label for="seo-title" class="title pb0">Fields</label>
 					<?php foreach($fields as $f){
@@ -47,7 +48,7 @@ use fay\helpers\HtmlHelper;
 			}
 		?>
 			<li class="<?php if(F::input()->get('t') == $t_name)echo 'bold'?>">
-				<?php echo HtmlHelper::link($t_name, array('tools/database/export', array(
+				<?php echo HtmlHelper::link($t_name, array('cms/tools/database/export', array(
 					't'=>$t_name,
 				)))?>
 			</li>

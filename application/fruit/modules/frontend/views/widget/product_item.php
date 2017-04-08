@@ -11,7 +11,7 @@ use fay\helpers\DateHelper;
 			发布于：<?php echo DateHelper::niceShort($post['post']['publish_time'])?>
 		</span>
 		<span>
-			阅读数：<?php echo $post['post']['views']?>
+			阅读数：<?php echo $post['meta']['views']?>
 		</span>
 	</div>
 	<div class="post-content">

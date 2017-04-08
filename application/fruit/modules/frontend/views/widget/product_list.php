@@ -6,7 +6,7 @@ use fay\services\file\FileService;
 <?php foreach($posts as $post){?>
 	<li>
 		<div class="inner">
-			<figure><?php echo HtmlHelper::img($post['post']['thumbnail'], FileService::PIC_RESIZE, array(
+			<figure><?php echo HtmlHelper::img($post['post']['thumbnail']['id'], FileService::PIC_RESIZE, array(
 				'dw'=>362,
 				'dh'=>240,
 			))?></figure>

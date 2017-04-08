@@ -2,7 +2,7 @@
 use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 
-$cats = CategoryService::service()->getTree('__root__');
+$cats = CategoryService::service()->getTree('_system_post');
 ?>
 <nav class="g-nav">
 	<div class="w1000">

@@ -19,6 +19,6 @@ class IndexController extends Widget{
 	}
 	
 	public function index(){
-		$this->renderTemplate();
+		$this->renderTemplate($this->getData());
 	}
 }

@@ -17,7 +17,7 @@ class MemcacheController extends ToolsController{
 		$this->layout->subtitle = 'Memcache';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('tools/memcache/flush'),
+			'uri'=>array('cms/tools/memcache/flush'),
 			'text'=>'清空缓存',
 		);
 		

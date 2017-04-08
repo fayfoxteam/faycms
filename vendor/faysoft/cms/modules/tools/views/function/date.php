@@ -70,7 +70,7 @@ $(function(){
 		'strtotime': function(){
 			$.ajax({
 				type: 'POST',
-				url: system.url('tools/function/strtotime'),
+				url: system.url('cms/tools/function/strtotime'),
 				data: {
 					'dates': $('[name="dates"]').val()
 				},
@@ -91,7 +91,7 @@ $(function(){
 		'datetime': function(){
 			$.ajax({
 				type: 'POST',
-				url: system.url('tools/function/datetime'),
+				url: system.url('cms/tools/function/datetime'),
 				data: {
 					'timestamps': $('[name="timestamps"]').val()
 				},

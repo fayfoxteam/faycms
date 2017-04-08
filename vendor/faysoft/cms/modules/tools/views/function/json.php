@@ -72,7 +72,7 @@ $(function(){
 				}
 				$.ajax({
 					type: 'POST',
-					url: system.url('tools/function/json-encode'),
+					url: system.url('cms/tools/function/json-encode'),
 					data: {
 						'code': code
 					},
@@ -92,7 +92,7 @@ $(function(){
 			}).on('click', '#php-json-decode-link', function(){
 				$.ajax({
 					type: 'POST',
-					url: system.url('tools/function/json-decode'),
+					url: system.url('cms/tools/function/json-decode'),
 					data: {
 						'code': toolsJson.formatterEditor.getValue()
 					},

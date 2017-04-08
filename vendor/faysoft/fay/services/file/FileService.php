@@ -157,7 +157,9 @@ class FileService extends Service{
 				
 				ksort($img_params);
 				
-				return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+				return UrlHelper::createUrl('file/pic', array(
+					'f'=>$file['id']
+				) + $img_params);
 			break;
 			case self::PIC_RESIZE://缩放
 				if($file['qiniu'] && OptionService::get('qiniu:enabled')){
@@ -171,7 +173,9 @@ class FileService extends Service{
 					isset($options['dw']) && $img_params['dw'] = $options['dw'];
 					isset($options['dh']) && $img_params['dh'] = $options['dh'];
 					
-					return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+					return UrlHelper::createUrl('file/pic', array(
+							'f'=>$file['id']
+						) + $img_params);
 				}
 			break;
 			case self::PIC_CUT://缩放
@@ -189,7 +193,9 @@ class FileService extends Service{
 					isset($options['dw']) && $img_params['dw'] = $options['dw'];
 					isset($options['dh']) && $img_params['dh'] = $options['dh'];
 					
-					return UrlHelper::createUrl('file/pic/f/'.$file['id'], $img_params, false);
+					return UrlHelper::createUrl('file/pic', array(
+						'f'=>$file['id']
+					) + $img_params);
 				}
 				break;
 			case self::PIC_ORIGINAL://原图

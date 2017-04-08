@@ -65,12 +65,12 @@ use fay\helpers\HtmlHelper;
 			<?php if($t_name == $current_table){
 				echo $t_name;
 			}else{
-				echo HtmlHelper::link($t_name, array('tools/database/dd', array(
+				echo HtmlHelper::link($t_name, array('cms/tools/database/dd', array(
 					't'=>$t_name,
 				)));
 			}?>
 			<span class="fr">
-				<?php echo HtmlHelper::link('model', array('tools/database/model', array(
+				<?php echo HtmlHelper::link('model', array('cms/tools/database/model', array(
 					't'=>$t_name,
 				)))?>
 			</span>

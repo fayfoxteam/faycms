@@ -37,9 +37,9 @@ class DbCompareController extends ToolsController{
 		
 		$this->db = Db::getInstance();
 		
-		if(Uri::getInstance()->router != 'tools/db-compare/index'){
+		if(Uri::getInstance()->router != 'cms/tools/db-compare/index'){
 			if(!$this->db_config = \F::session()->get('dbcompare')){
-				Response::notify('error', 'Please set the database info!', array('tools/db-compare/index'));
+				Response::notify('error', 'Please set the database info!', array('cms/tools/db-compare/index'));
 			}
 			
 			$this->view->db_config = $this->db_config;
@@ -141,7 +141,7 @@ class DbCompareController extends ToolsController{
 		}
 		
 		if(\F::session()->get('dbcompare')){
-			Response::redirect('tools/db-compare/tables');
+			Response::redirect('cms/tools/db-compare/tables');
 		}
 		
 		$this->view->render();
@@ -152,7 +152,7 @@ class DbCompareController extends ToolsController{
 	 */
 	public function clear(){
 		\F::session()->remove('dbcompare');
-		Response::redirect('tools/db-compare/index');
+		Response::redirect('cms/tools/db-compare/index');
 	}
 	
 	/**
@@ -162,7 +162,7 @@ class DbCompareController extends ToolsController{
 		$this->layout->subtitle = 'Table List Compare';
 		
 		$this->layout->sublink = array(
-			'uri'=>array('tools/db-compare/clear'),
+			'uri'=>array('cms/tools/db-compare/clear'),
 			'text'=>'Clear DB Config',
 		);
 		
@@ -214,7 +214,7 @@ class DbCompareController extends ToolsController{
 	 */
 	public function table(){
 		$this->layout->sublink = array(
-			'uri'=>array('tools/db-compare/tables'),
+			'uri'=>array('cms/tools/db-compare/tables'),
 			'text'=>'Table List',
 		);
 		

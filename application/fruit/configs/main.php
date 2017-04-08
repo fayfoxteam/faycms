@@ -9,8 +9,8 @@ return array(
 	 */
 	'db'=>array(
 		'host'=>'localhost',					//数据库服务器
-		'user'=>$_SERVER['HTTP_HOST'] == 'fruit.faycms.com' ? 'faycms' : 'root',//用户名
-		'password'=>$_SERVER['HTTP_HOST'] == 'fruit.faycms.com' ? 'jDoBjHwVq6q2hQVN' : '',//密码
+		'user'=>'faycms',//用户名
+		'password'=>'jDoBjHwVq6q2hQVN',//密码
 		'port'=>3306,							//端口
 		'dbname'=>'faycms_fruit',				//数据库名
 		'charset'=>$_SERVER['HTTP_HOST'] == 'fruit.faycms.com' ? 'utf8' : 'utf8mb4',//数据库编码方式

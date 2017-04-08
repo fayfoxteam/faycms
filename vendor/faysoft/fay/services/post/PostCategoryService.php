@@ -431,7 +431,7 @@ class PostCategoryService extends Service{
 		$category_map = CategoryService::service()->mget($cat_ids, $fields);
 		
 		foreach($posts as $k => $p){
-			$p['category'] = $category_map[$p['post']['cat_id']];
+			$p['category'] = isset($category_map[$p['post']['cat_id']]) ? $category_map[$p['post']['cat_id']] : array();
 			
 			$posts[$k] = $p;
 		}

@@ -10,8 +10,8 @@
 return array(
 	'.js'=>array('api/analyst'),
 	''=>array(
-		'file/download*', 'file/pic*', 'file/vcode*', 'file/qrcode*', 'api/analyst/visit',
-		'redirect*', '/', 'admin*', 'install*', 'tools*', 'a', 'widget/*',
-		'assets/*', 'apps/*'
+		'file/download*', 'file/pic*', 'ile/vcode*', 'file/qrcode*', 'cms/api/analyst/visit',
+		'redirect*', '/', 'cms/admin*', 'cms/install*', 'cms/tools*', 'a', 'widget/*',
+		'assets/*', 'apps/*', 'install',
 	),
 );

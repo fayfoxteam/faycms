@@ -82,7 +82,7 @@ class ApisTable extends Table{
 			array('http_method', 'range', array('range'=>array(
 				self::HTTP_METHOD_GET, self::HTTP_METHOD_POST, self::HTTP_METHOD_BOTH
 			))),
-			array('router', 'unique', array('table'=>$this->_name, 'except'=>'id', 'ajax'=>array('cms/admin/api/is-router-not-exist'))),
+			array('router', 'unique', array('table'=>$this->_name, 'except'=>'id', 'ajax'=>array('admin/api/is-router-not-exist'))),
 		);
 	}
 

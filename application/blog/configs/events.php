@@ -18,14 +18,14 @@ return array(
 						'children'=>array(
 							array(
 								'title'=>'账单',
-								'link'=>'cms/admin/bill/index',
+								'link'=>'admin/bill/index',
 								'target'=>'',
 								'alias'=>'',
 								'css_class'=>'',
 							),
 							array(
 								'title'=>'分类',
-								'link'=>'cms/admin/bill/cat',
+								'link'=>'admin/bill/cat',
 								'target'=>'',
 								'alias'=>'',
 								'css_class'=>'',

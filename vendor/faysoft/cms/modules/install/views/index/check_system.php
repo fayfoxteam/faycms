@@ -101,7 +101,7 @@
 <p class="fc-red">您有一项或多项服务器环境配置不符合要求，请搭建好环境后重试</p>
 <p><a href="" class="btn-1">重新检查</a></p>
 <?php }else{?>
-<p><a href="<?php echo $this->url('install/index/database', array(
+<p><a href="<?php echo $this->url('cms/install/index/database', array(
 	'_token'=>F::app()->getToken(),
 ))?>" class="btn-1">开始安装</a></p>
 <?php }?>

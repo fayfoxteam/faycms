@@ -22,13 +22,12 @@ return array(
 	
 	'/^tools$/'=>'cms/tools/index/index',//工具
 	
-	'/^api\/analyst$/'=>'cms/api/analyst/js',//访问统计
-	
-	//图片显示
 	'/^file\/pic(.*)$/'=>'cms/api/file/pic$1',
 	'/^file\/vcode(.*)$/'=>'cms/api/file/vcode$1',
 	'/^file\/qrcode(.*)$/'=>'cms/api/file/qrcode$1',
 	'/^file\/download(.*)$/'=>'cms/api/file/download$1',
 	
 	'/^redirect(.*)$/'=>'cms/api/redirect/index$1',//页面跳转
+	
+	'/^install$/'=>'cms/install/index/index',//安装
 );

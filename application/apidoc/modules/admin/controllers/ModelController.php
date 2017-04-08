@@ -45,9 +45,9 @@ class ModelController extends AdminController{
 	public function index(){
 		$this->layout->subtitle = '数据模型';
 		
-		if($this->checkPermission('cms/admin/model/create')){
+		if($this->checkPermission('admin/model/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('cms/admin/model/create'),
+				'uri'=>array('admin/model/create'),
 				'text'=>'新增数据模型',
 			);
 		}
@@ -76,9 +76,9 @@ class ModelController extends AdminController{
 	
 	public function create(){
 		$this->layout->subtitle = '新增数据模型';
-		if($this->checkPermission('cms/admin/model/index')){
+		if($this->checkPermission('admin/model/index')){
 			$this->layout->sublink = array(
-				'uri'=>array('cms/admin/model/index'),
+				'uri'=>array('admin/model/index'),
 				'text'=>'数据模型列表',
 			);
 		}
@@ -115,7 +115,7 @@ class ModelController extends AdminController{
 				ModelPropsTable::model()->insert($prop);
 			}
 			
-			Response::notify('success', '数据模型添加成功', array('cms/admin/model/edit', array(
+			Response::notify('success', '数据模型添加成功', array('admin/model/edit', array(
 				'id'=>$model_id,
 			)));
 		}
@@ -143,7 +143,7 @@ class ModelController extends AdminController{
 		$this->form('prop')->setModel(ModelPropsTable::model())
 			->setRule(array('type_name', 'required'))
 			->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-			->setRule(array('type_name', 'ajax', array('url'=>array('cms/admin/model/is-name-exist'))))
+			->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
 			->setLabels(array(
 				'model'=>'类型',
 			));
@@ -153,9 +153,9 @@ class ModelController extends AdminController{
 	
 	public function edit(){
 		$this->layout->subtitle = '编辑数据模型';
-		if($this->checkPermission('cms/admin/model/create')){
+		if($this->checkPermission('admin/model/create')){
 			$this->layout->sublink = array(
-				'uri'=>array('cms/admin/model/create'),
+				'uri'=>array('admin/model/create'),
 				'text'=>'新增数据模型',
 			);
 		}
@@ -217,7 +217,7 @@ class ModelController extends AdminController{
 				}
 			}
 			
-			Response::notify('success', '数据模型编辑成功', array('cms/admin/model/edit', array(
+			Response::notify('success', '数据模型编辑成功', array('admin/model/edit', array(
 				'id'=>$model_id,
 			)));
 		}
@@ -248,7 +248,7 @@ class ModelController extends AdminController{
 		$this->form('prop')->setModel(ModelPropsTable::model())
 			->setRule(array('type_name', 'required'))
 			->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-			->setRule(array('type_name', 'ajax', array('url'=>array('cms/admin/model/is-name-exist'))))
+			->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
 			->setLabels(array(
 				'type_name'=>'类型',
 			));

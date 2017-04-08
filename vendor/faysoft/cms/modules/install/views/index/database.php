@@ -6,7 +6,7 @@ var install = {
 		$("#install-panel").append('<li>创建数据表<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/create-tables', {'_token':'<?php echo F::app()->getToken()?>'}),
+			url: system.url('cms/install/db/create-tables', {'_token':'<?php echo F::app()->getToken()?>'}),
 			dataType: "json",
 			cache: false,
 			success: function(resp){
@@ -23,7 +23,7 @@ var install = {
 		$("#install-panel").append('<li>导入城市数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/set-cities', {
+			url: system.url('cms/install/db/set-cities', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -42,7 +42,7 @@ var install = {
 		$("#install-panel").append('<li>导入地区数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/set-regions', {
+			url: system.url('cms/install/db/set-regions', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -61,7 +61,7 @@ var install = {
 		$("#install-panel").append('<li>导入基础分类数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/set-cats', {
+			url: system.url('cms/install/db/set-cats', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -80,7 +80,7 @@ var install = {
 		$("#install-panel").append('<li>导入权限数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/set-actions', {
+			url: system.url('cms/install/db/set-actions', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -99,7 +99,7 @@ var install = {
 		$("#install-panel").append('<li>导入后台菜单<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/set-menus', {
+			url: system.url('cms/install/db/set-menus', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -118,7 +118,7 @@ var install = {
 		$("#install-panel").append('<li>导入系统数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/set-system', {
+			url: system.url('cms/install/db/set-system', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -137,7 +137,7 @@ var install = {
 		$("#install-panel").append('<li>导入用户数据<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/set-custom', {
+			url: system.url('cms/install/db/set-custom', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -156,7 +156,7 @@ var install = {
 		$("#install-panel").append('<li>索引表<span class="throbber"><img src="'+system.assets('images/throbber.gif')+'" /></span></li>');
 		$.ajax({
 			type: "GET",
-			url: system.url('install/db/index-cats', {
+			url: system.url('cms/install/db/index-cats', {
 				'_token':token
 			}),
 			dataType: "json",
@@ -164,7 +164,7 @@ var install = {
 			success: function(resp){
 				if(resp.status){
 					$("#install-panel li:last .throbber").replaceWith('<span class="fc-green">[完成]</span>')
-					window.location.href = system.url('install/index/settings', {
+					window.location.href = system.url('cms/install/index/settings', {
 						'_token':resp.data._token
 					});
 				}else{

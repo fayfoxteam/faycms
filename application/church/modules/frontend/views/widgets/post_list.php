@@ -47,9 +47,12 @@ use fay\services\file\FileService;
 				<time class="post-meta-item post-meta-time"><?php
 					echo $p['post']['format_publish_time'];
 				?></time>
-				<?php echo HtmlHelper::link($p['category']['title'], array('cat/'.$p['category']['id']), array(
-					'class'=>array('post-meta-item', 'post-meta-category'),
-				))?>
+				<?php
+					if($p['category']){
+						echo HtmlHelper::link($p['category']['title'], array('cat/'.$p['category']['id']), array(
+							'class'=>array('post-meta-item', 'post-meta-category'),
+						));
+					}?>
 				<span class="post-meta-item post-meta-views">
 					<span>阅读数</span>
 					<a href="<?php echo $p['post']['link']?>"><?php

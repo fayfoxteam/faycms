@@ -77,7 +77,7 @@ use fay\helpers\StringHelper;
 	<?php F::widget()->load('index-sidebar-1')?>
 	<?php F::widget()->load('index-sidebar-2')?>
 </div>
-<script src="<?php echo $this->url()?>js/jquery.kxbdmarquee.js"></script>
+<script src="<?php echo $this->assets('js/jquery.kxbdmarquee.js')?>"></script>
 <script>
 $(function(){
 	$("#widget-index-notice .kxbdMarquee").kxbdMarquee({

@@ -14,5 +14,5 @@ use fay\services\OptionService;
 		<p>[<?php echo OptionService::get('site:beian')?>] 技术支持：<a href="http://www.fayfox.com">Fayfox</a></p>
 	</div>
 </footer>
-<script type="text/javascript" src="<?php echo $this->url()?>js/custom/analyst.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>_fa.init();</script>

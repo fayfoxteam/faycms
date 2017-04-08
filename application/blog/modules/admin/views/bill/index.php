@@ -46,7 +46,7 @@ use blog\models\tables\Bills;
 		<?php $listview->showPager();?>
 	</div>
 	<div class="col-left">
-		<form id="form" action="<?php echo $this->url('cms/admin/bill/create')?>" method="post" class="validform">
+		<form id="form" action="<?php echo $this->url('admin/bill/create')?>" method="post" class="validform">
 			<div class="form-field">
 				<label class="title">成员</label>
 				<?php echo F::form()->select('user_id', HtmlHelper::getSelectOptions($users, 'id', 'realname'))?>

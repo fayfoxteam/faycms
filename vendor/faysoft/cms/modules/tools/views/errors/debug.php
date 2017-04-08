@@ -84,10 +84,18 @@ if(method_exists($exception, 'getLevel')){
 <div class="system-data">
 	<h3>Config</h3>
 	<table class="data-table">
-		<tr>
-			<th>base_url</th>
-			<td><?php echo F::config()->get('base_url')?></td>
-		</tr>
+        <tr>
+            <th>base_url</th>
+            <td><?php echo F::config()->get('base_url')?></td>
+        </tr>
+        <tr>
+            <th>assets_url</th>
+            <td><?php echo F::config()->get('assets_url')?></td>
+        </tr>
+        <tr>
+            <th>app_assets_url</th>
+            <td><?php echo F::config()->get('app_assets_url')?></td>
+        </tr>
 		<tr>
 			<th>url_suffix</th>
 			<td><?php echo F::config()->get('url_suffix')?></td>

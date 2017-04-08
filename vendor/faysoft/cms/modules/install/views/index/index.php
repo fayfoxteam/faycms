@@ -11,4 +11,4 @@
 	<li>设置超级管理员账号</li>
 	<li>完成</li>
 </ol>
-<p><a href="<?php echo $this->url('install/index/check-system')?>" class="btn-1">系统环境检测</a></p>
+<p><a href="<?php echo $this->url('cms/install/index/check-system')?>" class="btn-1">系统环境检测</a></p>

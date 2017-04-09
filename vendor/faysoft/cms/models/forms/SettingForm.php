@@ -1,5 +1,5 @@
 <?php
-namespace fay\models\forms;
+namespace cms\models\forms;
 
 use fay\core\Model;
 

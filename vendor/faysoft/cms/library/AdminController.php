@@ -4,7 +4,7 @@ namespace cms\library;
 use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\RequestHelper;
-use fay\models\forms\SettingForm;
+use cms\models\forms\SettingForm;
 use cms\models\tables\ActionlogsTable;
 use fay\services\SettingService;
 use fay\core\Response;

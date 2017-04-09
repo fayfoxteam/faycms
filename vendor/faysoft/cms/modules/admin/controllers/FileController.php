@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\forms\SettingForm;
+use cms\models\forms\SettingForm;
 use cms\models\tables\FilesTable;
 use fay\services\file\FileService;
 use fay\services\file\WeixinFileService;

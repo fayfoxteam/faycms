@@ -5,7 +5,7 @@ use fay\core\ErrorHandler;
 use fay\helpers\DumperHelper;
 
 define('DS', DIRECTORY_SEPARATOR);
-define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'application'.DS.APPLICATION).DS);
+define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'apps'.DS.APPLICATION).DS);
 define('VENDOR_PATH', realpath(BASEPATH.'..'.DS.'vendor') . DS);
 define('SYSTEM_PATH', realpath(VENDOR_PATH.'faysoft') . DS);
 define('FAYSOFT_PATH', realpath(VENDOR_PATH.'faysoft') . DS);

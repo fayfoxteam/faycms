@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use cms\models\tables\FeedsTable;
+use fayfeed\models\tables\FeedsTable;
 
 class FeedHelper{
     /**

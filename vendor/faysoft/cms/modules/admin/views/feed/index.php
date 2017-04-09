@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use cms\models\tables\FeedsTable;
+use fayfeed\models\tables\FeedsTable;
 use cms\helpers\ListTableHelper;
 
 $cols = F::form('setting')->getData('cols', array());

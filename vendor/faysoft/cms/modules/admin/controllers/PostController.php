@@ -12,7 +12,6 @@ use cms\models\tables\ActionlogsTable;
 use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\Post;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
@@ -827,15 +826,15 @@ class PostController extends AdminController{
      */
     public function getCounts(){
         $data = array(
-            'all'=>\cms\services\PostService::service()->getCount(),
-            'published'=>\cms\services\PostService::service()->getCount(PostsTable::STATUS_PUBLISHED),
-            'draft'=>\cms\services\PostService::service()->getCount(PostsTable::STATUS_DRAFT),
-            'deleted'=>\cms\services\PostService::service()->getDeletedCount(),
+            'all'=>PostService::service()->getCount(),
+            'published'=>PostService::service()->getCount(PostsTable::STATUS_PUBLISHED),
+            'draft'=>PostService::service()->getCount(PostsTable::STATUS_DRAFT),
+            'deleted'=>PostService::service()->getDeletedCount(),
         );
         
         if($this->post_review){
-            $data['pending'] = \cms\services\PostService::service()->getCount(PostsTable::STATUS_PENDING);
-            $data['reviewed'] = \cms\services\PostService::service()->getCount(PostsTable::STATUS_REVIEWED);
+            $data['pending'] = PostService::service()->getCount(PostsTable::STATUS_PENDING);
+            $data['reviewed'] = PostService::service()->getCount(PostsTable::STATUS_REVIEWED);
         }
         
         Response::json($data);

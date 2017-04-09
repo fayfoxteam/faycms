@@ -6,8 +6,8 @@ use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\services\user\UserService;
 use fay\services\FeedService;
-use cms\models\tables\FeedFavoritesTable;
-use cms\models\tables\FeedMetaTable;
+use fayfeed\models\tables\FeedFavoritesTable;
+use fayfeed\models\tables\FeedMetaTable;
 use fay\helpers\RequestHelper;
 
 class FeedFavoriteService extends Service{

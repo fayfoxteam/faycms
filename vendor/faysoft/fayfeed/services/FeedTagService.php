@@ -4,10 +4,10 @@ namespace fayfeed\services;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use cms\models\tables\FeedsTable;
+use fayfeed\models\tables\FeedsTable;
 use cms\models\tables\TagCounterTable;
 use cms\models\tables\TagsTable;
-use cms\models\tables\FeedsTagsTable;
+use fayfeed\models\tables\FeedsTagsTable;
 use fay\services\TagService;
 use fay\services\tag\TagCounterService;
 

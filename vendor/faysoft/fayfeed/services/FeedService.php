@@ -5,15 +5,15 @@ use fay\core\ErrorException;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldHelper;
-use cms\models\tables\FeedsTable;
-use cms\models\tables\FeedsFilesTable;
+use fayfeed\models\tables\FeedsTable;
+use fayfeed\models\tables\FeedsFilesTable;
 use cms\models\tables\UserCounterTable;
-use cms\models\tables\FeedMetaTable;
+use fayfeed\models\tables\FeedMetaTable;
 use fay\helpers\RequestHelper;
-use cms\models\tables\FeedExtraTable;
-use cms\models\tables\FeedsTagsTable;
-use cms\models\tables\FeedLikesTable;
-use cms\models\tables\FeedFavoritesTable;
+use fayfeed\models\tables\FeedExtraTable;
+use fayfeed\models\tables\FeedsTagsTable;
+use fayfeed\models\tables\FeedLikesTable;
+use fayfeed\models\tables\FeedFavoritesTable;
 use fay\services\user\UserService;
 
 /**
@@ -570,5 +570,26 @@ class FeedService extends Service{
         }
         
         return false;
+    }
+    
+    /**
+     * 根据动态状态获取动态数
+     * @param int $status 动态状态
+     */
+    public function getCount($status = null){
+        $conditions = array('delete_time = 0');
+        if($status !== null){
+            $conditions['status = ?'] = $status;
+        }
+        $result = FeedsTable::model()->fetchRow($conditions, 'COUNT(*)');
+        return $result['COUNT(*)'];
+    }
+    
+    /**
+     * 获取已删除的动态数
+     */
+    public function getDeletedCount(){
+        $result = FeedsTable::model()->fetchRow('delete_time > 0', 'COUNT(*)');
+        return $result['COUNT(*)'];
     }
 }

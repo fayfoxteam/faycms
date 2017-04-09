@@ -2,15 +2,15 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\models\tables\FeedsTable;
-use cms\models\tables\FeedsFilesTable;
+use fayfeed\models\tables\FeedsTable;
+use fayfeed\models\tables\FeedsFilesTable;
 use fay\services\SettingService;
-use fay\services\FeedService;
+use fayfeed\services\FeedService;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
-use cms\models\tables\FeedExtraTable;
+use fayfeed\models\tables\FeedExtraTable;
 use fay\core\Sql;
-use cms\models\tables\FeedMetaTable;
+use fayfeed\models\tables\FeedMetaTable;
 use fay\common\ListView;
 use fay\helpers\HtmlHelper;
 
@@ -310,12 +310,12 @@ class FeedController extends AdminController{
      */
     public function getCounts(){
         $data = array(
-            'all'=>\cms\services\FeedService::service()->getCount(),
-            'approved'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_APPROVED),
-            'unapproved'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_UNAPPROVED),
-            'pending'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_PENDING),
-            'draft'=>\cms\services\FeedService::service()->getCount(FeedsTable::STATUS_DRAFT),
-            'deleted'=>\cms\services\FeedService::service()->getDeletedCount(),
+            'all'=>FeedService::service()->getCount(),
+            'approved'=>FeedService::service()->getCount(FeedsTable::STATUS_APPROVED),
+            'unapproved'=>FeedService::service()->getCount(FeedsTable::STATUS_UNAPPROVED),
+            'pending'=>FeedService::service()->getCount(FeedsTable::STATUS_PENDING),
+            'draft'=>FeedService::service()->getCount(FeedsTable::STATUS_DRAFT),
+            'deleted'=>FeedService::service()->getDeletedCount(),
         );
         
         Response::json($data);

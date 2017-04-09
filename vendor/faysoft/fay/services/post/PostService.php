@@ -548,7 +548,7 @@ class PostService extends Service{
      *    则只会在此分类及其子分类下搜索该篇文章<br>
      *    该功能主要用于多栏目不同界面的时候，文章不要显示到其它栏目去
      * @param bool $only_published 若为true，则只在已发布的文章里搜索。默认为true
-     * @return array
+     * @return array|bool
      */
     public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
         //解析$fields
@@ -1523,5 +1523,28 @@ class PostService extends Service{
                 'spare'=>'post',
             ));
         }
+    }
+    
+    /**
+     * 根据文章状态获取文章数
+     * @param int $status 文章状态
+     * @return string
+     */
+    public function getCount($status = null){
+        $conditions = array('delete_time = 0');
+        if($status !== null){
+            $conditions['status = ?'] = $status;
+        }
+        $result = PostsTable::model()->fetchRow($conditions, 'COUNT(*)');
+        return $result['COUNT(*)'];
+    }
+    
+    /**
+     * 获取已删除的文章数
+     * @return string
+     */
+    public function getDeletedCount(){
+        $result = PostsTable::model()->fetchRow('delete_time > 0', 'COUNT(*)');
+        return $result['COUNT(*)'];
     }
 }

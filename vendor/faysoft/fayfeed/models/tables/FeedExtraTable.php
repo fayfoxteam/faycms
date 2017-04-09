@@ -1,5 +1,5 @@
 <?php
-namespace cms\models\tables;
+namespace fayfeed\models\tables;
 
 use fay\core\db\Table;
 

@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\TagsTable;
+use cms\models\tables\TagsTable;
 
 class TagController extends FrontController{
     public function search(){

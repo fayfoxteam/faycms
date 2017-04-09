@@ -4,8 +4,8 @@ namespace fay\services\post;
 use fay\core\Loader;
 use fay\models\PropModel;
 use fay\services\CategoryService;
-use fay\models\tables\PostsTable;
-use fay\models\tables\PropsTable;
+use cms\models\tables\PostsTable;
+use cms\models\tables\PropsTable;
 
 class PostPropService extends PropModel{
     /**
@@ -21,9 +21,9 @@ class PostPropService extends PropModel{
      * @var array
      */
     protected $models = array(
-        'varchar'=>'fay\models\tables\PostPropVarcharTable',
-        'int'=>'fay\models\tables\PostPropIntTable',
-        'text'=>'fay\models\tables\PostPropTextTable',
+        'varchar'=>'cms\models\tables\PostPropVarcharTable',
+        'int'=>'cms\models\tables\PostPropIntTable',
+        'text'=>'cms\models\tables\PostPropTextTable',
     );
     
     /**

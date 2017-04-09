@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\OauthAppsTable;
+use cms\models\tables\OauthAppsTable;
 
 /**
  * 用于获取第三方app配置信息

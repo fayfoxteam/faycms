@@ -1,6 +1,6 @@
 <?php
-use fay\models\tables\ExamAnswersTable;
-use fay\models\tables\ExamExamQuestionAnswerTextTable;
+use cms\models\tables\ExamAnswersTable;
+use cms\models\tables\ExamExamQuestionAnswerTextTable;
 use fay\helpers\HtmlHelper;
 
 $answer = ExamAnswersTable::model()->fetchRow('question_id = '.$exam_question['question_id']);

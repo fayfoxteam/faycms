@@ -3,10 +3,10 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\services\MenuService;
-use fay\models\tables\MenusTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\MenusTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\services\user\UserRoleService;
 
 class MenuController extends AdminController{

@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\PropsTable;
+use cms\models\tables\PropsTable;
 
 class PropHelper{
     /**

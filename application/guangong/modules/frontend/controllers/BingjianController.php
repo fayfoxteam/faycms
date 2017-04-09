@@ -3,7 +3,7 @@ namespace guangong\modules\frontend\controllers;
 
 use fay\common\ListView;
 use fay\core\Sql;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongMessagesTable;
 

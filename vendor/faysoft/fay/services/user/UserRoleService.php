@@ -4,8 +4,8 @@ namespace fay\services\user;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldHelper;
-use fay\models\tables\RolesTable;
-use fay\models\tables\UsersRolesTable;
+use cms\models\tables\RolesTable;
+use cms\models\tables\UsersRolesTable;
 use fay\helpers\ArrayHelper;
 
 class UserRoleService extends Service{

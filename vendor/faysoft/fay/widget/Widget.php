@@ -4,7 +4,7 @@ namespace fay\widget;
 use fay\core\Db;
 use fay\core\Input;
 use fay\helpers\RequestHelper;
-use fay\models\tables\WidgetsTable;
+use cms\models\tables\WidgetsTable;
 
 abstract class Widget{
     /**

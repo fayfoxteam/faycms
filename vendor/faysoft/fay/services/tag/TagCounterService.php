@@ -3,7 +3,7 @@ namespace fay\services\tag;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\TagCounterTable;
+use cms\models\tables\TagCounterTable;
 
 class TagCounterService extends Service{
     /**

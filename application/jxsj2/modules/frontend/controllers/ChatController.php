@@ -2,11 +2,11 @@
 namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
-use fay\models\tables\MessagesTable;
+use cms\models\tables\MessagesTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\services\MessageService;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\core\Response;
 use fay\services\user\UserService;
 use fay\helpers\StringHelper;

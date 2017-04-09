@@ -2,10 +2,10 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\UsersTable;
-use fay\models\tables\UsersNotificationsTable;
-use fay\models\tables\ActionlogsTable;
-use fay\models\tables\RolesTable;
+use cms\models\tables\UsersTable;
+use cms\models\tables\UsersNotificationsTable;
+use cms\models\tables\ActionlogsTable;
+use cms\models\tables\RolesTable;
 use fay\services\CategoryService;
 use fay\common\ListView;
 use fay\core\Response;
@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
 use fay\services\NotificationService;
 use fay\core\Sql;
 use fay\services\FlashService;
-use fay\models\tables\UserProfileTable;
+use cms\models\tables\UserProfileTable;
 
 class NotificationController extends AdminController{
     public function __construct(){

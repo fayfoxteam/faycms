@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\AnalystSitesTable;
+use cms\models\tables\AnalystSitesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\common\ListView;

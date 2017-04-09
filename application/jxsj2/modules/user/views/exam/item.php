@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\ExamQuestionsTable;
+use cms\models\tables\ExamQuestionsTable;
 ?>
 <div class="box fl wp100">
     <div class="box-title">

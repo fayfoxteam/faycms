@@ -3,7 +3,7 @@ namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
 use fay\services\FlashService;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\services\CategoryService;
 
 class AdminController extends Widget{

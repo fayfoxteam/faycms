@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;

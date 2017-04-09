@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\models\tables\RegionsTable;
+use cms\models\tables\RegionsTable;
 
 /**
  * 地区选择

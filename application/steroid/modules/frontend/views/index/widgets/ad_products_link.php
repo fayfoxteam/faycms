@@ -6,8 +6,8 @@
                     <div class="title-group">
                         <h2 class="title">Full Prices of Steroid Oils</h2>
                         <div class="description">
-                            <?php $post = \fay\models\tables\PostsTable::model()->fetchRow(
-                                \fay\models\tables\PostsTable::getPublishedConditions(),
+                            <?php $post = \cms\models\tables\PostsTable::model()->fetchRow(
+                                \cms\models\tables\PostsTable::getPublishedConditions(),
                                 'publish_time',
                                 'publish_time DESC'
                             )?>

@@ -3,7 +3,7 @@ namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\core\HttpException;
 use fay\services\CategoryService;
 use fay\common\ListView;

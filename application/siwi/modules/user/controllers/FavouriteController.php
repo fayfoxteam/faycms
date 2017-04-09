@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\FavouritesTable;
+use cms\models\tables\FavouritesTable;
 
 class FavouriteController extends UserController{
     public function __construct(){

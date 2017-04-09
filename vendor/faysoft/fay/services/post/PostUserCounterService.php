@@ -3,9 +3,9 @@ namespace fay\services\post;
 
 use fay\core\Service;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\services\user\UserCounterService;
-use fay\models\tables\UserCounterTable;
+use cms\models\tables\UserCounterTable;
 
 class PostUserCounterService extends Service{
     /**

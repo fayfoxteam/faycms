@@ -5,7 +5,7 @@ use fay\widget\Widget;
 use fay\services\post\PostService;
 use fay\core\HttpException;
 use fay\core\db\Expr;
-use fay\models\tables\PostMetaTable;
+use cms\models\tables\PostMetaTable;
 
 class IndexController extends Widget{
     private $fields = array(

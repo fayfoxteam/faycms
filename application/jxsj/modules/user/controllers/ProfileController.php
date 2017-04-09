@@ -2,7 +2,7 @@
 namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\helpers\StringHelper;
 use fay\services\FlashService;
 

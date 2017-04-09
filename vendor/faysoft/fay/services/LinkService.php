@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\LinksTable;
+use cms\models\tables\LinksTable;
 use fay\helpers\StringHelper;
 
 class LinkService extends Service{

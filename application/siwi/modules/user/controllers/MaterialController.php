@@ -2,10 +2,10 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\PostsTable;
-use fay\models\tables\PostsFilesTable;
+use cms\models\tables\PostsTable;
+use cms\models\tables\PostsFilesTable;
 use fay\services\post\Tag;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;

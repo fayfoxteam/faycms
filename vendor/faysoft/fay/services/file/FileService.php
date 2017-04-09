@@ -6,7 +6,7 @@ use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\UrlHelper;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\common\Upload;
 use fay\helpers\ImageHelper;
 use fay\helpers\StringHelper;

@@ -5,15 +5,15 @@ use fay\core\ErrorException;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldHelper;
-use fay\models\tables\FeedsTable;
-use fay\models\tables\FeedsFilesTable;
-use fay\models\tables\UserCounterTable;
-use fay\models\tables\FeedMetaTable;
+use cms\models\tables\FeedsTable;
+use cms\models\tables\FeedsFilesTable;
+use cms\models\tables\UserCounterTable;
+use cms\models\tables\FeedMetaTable;
 use fay\helpers\RequestHelper;
-use fay\models\tables\FeedExtraTable;
-use fay\models\tables\FeedsTagsTable;
-use fay\models\tables\FeedLikesTable;
-use fay\models\tables\FeedFavoritesTable;
+use cms\models\tables\FeedExtraTable;
+use cms\models\tables\FeedsTagsTable;
+use cms\models\tables\FeedLikesTable;
+use cms\models\tables\FeedFavoritesTable;
 use fay\services\user\UserService;
 
 /**

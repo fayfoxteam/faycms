@@ -4,7 +4,7 @@ namespace jxsj2\modules\frontend\controllers;
 use jxsj2\library\FrontController;
 use fay\services\post\PostService;
 use fay\core\HttpException;
-use fay\models\tables\PostMetaTable;
+use cms\models\tables\PostMetaTable;
 
 class PostController extends FrontController{
     public function item(){

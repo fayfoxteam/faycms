@@ -4,7 +4,7 @@ namespace fay\widgets\menu\controllers;
 use fay\helpers\HtmlHelper;
 use fay\widget\Widget;
 use fay\services\MenuService;
-use fay\models\tables\MenusTable;
+use cms\models\tables\MenusTable;
 
 class IndexController extends Widget{
     public function initConfig($config){

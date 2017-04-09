@@ -1,7 +1,7 @@
 <?php
 namespace fay\widgets\image\controllers;
 
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\widget\Widget;
 use fay\services\file\FileService;
 

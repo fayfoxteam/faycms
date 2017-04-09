@@ -2,10 +2,10 @@
 namespace pharmrich\modules\frontend\controllers;
 
 use pharmrich\library\FrontController;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use pharmrich\models\forms\LeaveMessage;
 use fay\core\Response;
-use fay\models\tables\ContactsTable;
+use cms\models\tables\ContactsTable;
 use fay\helpers\RequestHelper;
 
 class ContactController extends FrontController{

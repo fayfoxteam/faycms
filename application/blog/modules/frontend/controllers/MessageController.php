@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\models\tables\MessagesTable;
+use cms\models\tables\MessagesTable;
 use fay\core\Validator;
 
 class MessageController extends FrontController{

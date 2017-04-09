@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\WidgetsTable;
+use cms\models\tables\WidgetsTable;
 use fay\core\Response;
 
 class WidgetareaController extends AdminController{

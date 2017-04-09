@@ -2,7 +2,7 @@
 namespace cms\services;
 
 use fay\core\Service;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 
 class PageService extends Service{
     /**

@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\tables\ContactsTable;
+use cms\models\tables\ContactsTable;
 use fay\services\FlashService;
 
 class ContactController extends FrontController{

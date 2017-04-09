@@ -6,7 +6,7 @@ use fay\core\Uri;
 use fay\services\file\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\services\user\UserService;
 use fay\services\user\UserRoleService;
 

@@ -3,10 +3,10 @@ namespace siwi\modules\user\controllers;
 
 use fay\core\Response;
 use siwi\library\UserController;
-use fay\models\tables\PostsTable;
-use fay\models\tables\PostsFilesTable;
+use cms\models\tables\PostsTable;
+use cms\models\tables\PostsFilesTable;
 use fay\services\post\PostService;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\services\post\Tag;
 use fay\services\CategoryService;
 use fay\core\Sql;

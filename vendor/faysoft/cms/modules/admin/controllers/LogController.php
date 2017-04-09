@@ -6,7 +6,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Loader;
 use fay\core\Response;
-use fay\models\tables\LogsTable;
+use cms\models\tables\LogsTable;
 
 class LogController extends AdminController{
     public function __construct(){

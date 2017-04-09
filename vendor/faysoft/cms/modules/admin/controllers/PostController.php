@@ -5,10 +5,10 @@ use cms\library\AdminController;
 use fay\helpers\RequestHelper;
 use fay\services\CategoryService;
 use fay\services\post\PostPropService;
-use fay\models\tables\PostsTable;
-use fay\models\tables\PostsCategoriesTable;
-use fay\models\tables\PostsFilesTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\PostsTable;
+use cms\models\tables\PostsCategoriesTable;
+use cms\models\tables\PostsFilesTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -18,9 +18,9 @@ use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 use fay\services\OptionService;
 use fay\services\FlashService;
-use fay\models\tables\PostMetaTable;
+use cms\models\tables\PostMetaTable;
 use fay\services\post\PostService;
-use fay\models\tables\PostExtraTable;
+use cms\models\tables\PostExtraTable;
 
 class PostController extends AdminController{
     /**

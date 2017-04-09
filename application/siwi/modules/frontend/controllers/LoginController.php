@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\services\EmailService;
 use fay\helpers\StringHelper;
 use fay\core\Response;

@@ -2,11 +2,11 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\UsersTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\UsersTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\user\UserPropService;
 use fay\services\user\UserService;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\services\user\UserRoleService;
 use fay\core\Response;
 

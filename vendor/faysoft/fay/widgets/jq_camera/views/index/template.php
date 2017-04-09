@@ -1,6 +1,6 @@
 <?php
 use fay\services\file\FileService;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\services\file\QiniuService;
 use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;

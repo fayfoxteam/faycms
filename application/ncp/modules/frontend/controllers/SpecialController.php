@@ -3,7 +3,7 @@ namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
 use fay\core\HttpException;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\core\Sql;
 use fay\services\CategoryService;
 use fay\common\ListView;

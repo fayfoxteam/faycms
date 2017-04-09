@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\ExamQuestionsTable;
+use cms\models\tables\ExamQuestionsTable;
 use fay\helpers\HtmlHelper;
 ?>
 <div class="box fl wp100">

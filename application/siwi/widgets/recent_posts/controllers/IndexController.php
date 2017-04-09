@@ -4,7 +4,7 @@ namespace siwi\widgets\recent_posts\controllers;
 use fay\widget\Widget;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 
 class IndexController extends Widget{
     

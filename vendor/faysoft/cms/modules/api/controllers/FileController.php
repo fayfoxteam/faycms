@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\services\CaptchaService;
 use fay\services\file\FileService;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\helpers\ImageHelper;
 use fay\core\Validator;
 use fay\core\HttpException;

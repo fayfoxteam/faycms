@@ -3,13 +3,13 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\core\Exception;
-use fay\models\tables\FollowsTable;
+use cms\models\tables\FollowsTable;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\FieldHelper;
-use fay\models\tables\UserCounterTable;
+use cms\models\tables\UserCounterTable;
 use fay\services\user\UserService;
 
 /**

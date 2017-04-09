@@ -5,8 +5,8 @@ use cms\library\ApiController;
 use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\DateHelper;
-use fay\models\tables\AnalystMacsTable;
-use fay\models\tables\AnalystVisitsTable;
+use cms\models\tables\AnalystMacsTable;
+use cms\models\tables\AnalystVisitsTable;
 use fay\services\AnalystService;
 
 /**

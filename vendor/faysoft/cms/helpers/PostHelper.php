@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 
 class PostHelper{
     /**

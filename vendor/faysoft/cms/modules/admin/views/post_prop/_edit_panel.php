@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\PropsTable;
+use cms\models\tables\PropsTable;
 use fay\helpers\HtmlHelper;
 ?>
 <?php echo F::form()->inputHidden('refer')?>

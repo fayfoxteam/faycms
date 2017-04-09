@@ -2,15 +2,15 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\FeedsTable;
-use fay\models\tables\FeedsFilesTable;
+use cms\models\tables\FeedsTable;
+use cms\models\tables\FeedsFilesTable;
 use fay\services\SettingService;
 use fay\services\FeedService;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
-use fay\models\tables\FeedExtraTable;
+use cms\models\tables\FeedExtraTable;
 use fay\core\Sql;
-use fay\models\tables\FeedMetaTable;
+use cms\models\tables\FeedMetaTable;
 use fay\common\ListView;
 use fay\helpers\HtmlHelper;
 

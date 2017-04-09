@@ -4,10 +4,10 @@ namespace fayfeed\services;
 use fay\core\Service;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
-use fay\models\tables\FeedLikesTable;
+use cms\models\tables\FeedLikesTable;
 use fay\services\user\UserService;
 use fay\services\FeedService;
-use fay\models\tables\FeedMetaTable;
+use cms\models\tables\FeedMetaTable;
 
 class FeedLikeService extends Service{
     /**

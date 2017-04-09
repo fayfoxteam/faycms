@@ -2,9 +2,9 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\UsersTable;
-use fay\models\tables\NotificationsTable;
-use fay\models\tables\UsersNotificationsTable;
+use cms\models\tables\UsersTable;
+use cms\models\tables\NotificationsTable;
+use cms\models\tables\UsersNotificationsTable;
 
 class NotificationService extends Service{
     /**

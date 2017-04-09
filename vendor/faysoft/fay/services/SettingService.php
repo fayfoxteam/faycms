@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\UserSettingsTable;
+use cms\models\tables\UserSettingsTable;
 
 class SettingService extends Service{
     /**

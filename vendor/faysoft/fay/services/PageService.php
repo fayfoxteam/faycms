@@ -3,9 +3,9 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\core\Sql;
-use fay\models\tables\PagesCategoriesTable;
-use fay\models\tables\PagesTable;
-use fay\models\tables\CategoriesTable;
+use cms\models\tables\PagesCategoriesTable;
+use cms\models\tables\PagesTable;
+use cms\models\tables\CategoriesTable;
 use fay\helpers\StringHelper;
 
 class PageService extends Service{

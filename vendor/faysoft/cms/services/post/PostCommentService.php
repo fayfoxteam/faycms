@@ -2,7 +2,7 @@
 namespace cms\services\post;
 
 use fay\core\Service;
-use fay\models\tables\PostCommentsTable;
+use cms\models\tables\PostCommentsTable;
 
 class PostCommentService extends Service{
     /**

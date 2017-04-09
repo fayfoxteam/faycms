@@ -3,8 +3,8 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\services\CategoryService;
-use fay\models\tables\ActionsTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;

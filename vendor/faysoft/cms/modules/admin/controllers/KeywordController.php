@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\KeywordsTable;
+use cms\models\tables\KeywordsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;

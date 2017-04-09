@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\TemplatesTable;
+use cms\models\tables\TemplatesTable;
 
 class TemplateService extends Service{
     /**

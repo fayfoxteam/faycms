@@ -2,7 +2,7 @@
 namespace blog\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;

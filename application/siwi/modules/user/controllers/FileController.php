@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\services\file\FileService;
 use fay\core\HttpException;
 use fay\services\CategoryService;

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\services\user\UserRoleService;
 ?>
 <div class="box">

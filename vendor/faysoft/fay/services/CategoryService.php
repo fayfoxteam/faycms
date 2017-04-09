@@ -3,7 +3,7 @@ namespace fay\services;
 
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
-use fay\models\tables\CategoriesTable;
+use cms\models\tables\CategoriesTable;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 use fay\models\TreeModel;
@@ -12,7 +12,7 @@ class CategoryService extends TreeModel{
     /**
      * @see Tree::$model
      */
-    protected $model = 'fay\models\tables\CategoriesTable';
+    protected $model = 'cms\models\tables\CategoriesTable';
     
     /**
      * @param string $class_name

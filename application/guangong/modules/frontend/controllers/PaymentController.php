@@ -1,7 +1,7 @@
 <?php
 namespace guangong\modules\frontend\controllers;
 
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use guangong\library\FrontController;
 
 /**

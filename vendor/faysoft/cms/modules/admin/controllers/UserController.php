@@ -3,17 +3,17 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\core\Sql;
-use fay\models\tables\UsersTable;
-use fay\models\tables\RolesTable;
+use cms\models\tables\UsersTable;
+use cms\models\tables\RolesTable;
 use fay\common\ListView;
 use fay\services\user\UserPropService;
 use fay\services\user\UserService;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 use fay\core\Loader;
-use fay\models\tables\UserProfileTable;
+use cms\models\tables\UserProfileTable;
 use fay\services\user\UserRoleService;
 
 class UserController extends AdminController{

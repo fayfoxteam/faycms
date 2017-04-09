@@ -2,8 +2,8 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\MessagesTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\MessagesTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\post\PostService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;

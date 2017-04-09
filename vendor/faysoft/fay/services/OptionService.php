@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\OptionsTable;
+use cms\models\tables\OptionsTable;
 use fay\helpers\ArrayHelper;
 
 class OptionService extends Service{

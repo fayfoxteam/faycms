@@ -2,7 +2,7 @@
 namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 
 class FileController extends FrontController{
     public function download(){

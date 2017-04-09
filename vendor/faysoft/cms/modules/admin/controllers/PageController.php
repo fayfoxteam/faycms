@@ -3,9 +3,9 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\services\CategoryService;
-use fay\models\tables\PagesTable;
-use fay\models\tables\PagesCategoriesTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\PagesTable;
+use cms\models\tables\PagesCategoriesTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;

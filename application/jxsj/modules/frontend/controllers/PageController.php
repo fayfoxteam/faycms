@@ -3,7 +3,7 @@ namespace jxsj\modules\frontend\controllers;
 
 use jxsj\library\FrontController;
 use fay\services\PageService;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use fay\core\HttpException;
 
 class PageController extends FrontController{

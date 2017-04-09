@@ -3,7 +3,7 @@ namespace fruit\modules\frontend\controllers;
 
 use fay\services\post\PostCategoryService;
 use fruit\library\FrontController;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 
 class IndexController extends FrontController{
     public function __construct(){

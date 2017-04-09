@@ -3,7 +3,7 @@ namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\common\ListView;
 
 class IndexController extends FrontController{

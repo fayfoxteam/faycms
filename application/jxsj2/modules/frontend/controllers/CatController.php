@@ -4,7 +4,7 @@ namespace jxsj2\modules\frontend\controllers;
 use jxsj2\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\core\HttpException;
 

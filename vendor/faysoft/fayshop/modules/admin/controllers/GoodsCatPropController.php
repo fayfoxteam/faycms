@@ -2,13 +2,13 @@
 namespace fayshop\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\CategoriesTable;
+use cms\models\tables\CategoriesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use fayshop\models\tables\GoodsCatPropsTable;
 use fayshop\models\tables\GoodsCatPropValuesTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\services\CategoryService;
 use fay\core\HttpException;

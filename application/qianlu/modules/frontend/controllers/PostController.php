@@ -3,10 +3,10 @@ namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
 use fay\services\CategoryService;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\helpers\StringHelper;
 use fay\core\Sql;
-use fay\models\tables\CategoriesTable;
+use cms\models\tables\CategoriesTable;
 use fay\common\ListView;
 use fay\core\HttpException;
 

@@ -3,7 +3,7 @@ use fay\helpers\HtmlHelper;
 use fay\services\file\FileService;
 use fay\helpers\DateHelper;
 use fay\core\Sql;
-use fay\models\tables\MessagesTable;
+use cms\models\tables\MessagesTable;
 
 $children = array();
 if(!$data['is_terminal']){

@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 
 class SystemController extends FrontController{
     public function isUsernameNotExist(){

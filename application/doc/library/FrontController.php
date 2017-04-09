@@ -3,7 +3,7 @@ namespace doc\library;
 
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
-use fay\models\tables\SpiderLogsTable;
+use cms\models\tables\SpiderLogsTable;
 use fay\services\OptionService;
 
 class FrontController extends Controller{

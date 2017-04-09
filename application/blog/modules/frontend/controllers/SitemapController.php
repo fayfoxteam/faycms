@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\services\CategoryService;
 
 class SitemapController extends FrontController{

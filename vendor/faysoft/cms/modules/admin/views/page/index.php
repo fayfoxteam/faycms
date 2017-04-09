@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use cms\services\PageService;
 use cms\helpers\ListTableHelper;
 

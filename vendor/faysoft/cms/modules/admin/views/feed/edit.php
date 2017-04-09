@@ -1,7 +1,7 @@
 <?php
 use cms\helpers\FeedHelper;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\FeedsTable;
+use cms\models\tables\FeedsTable;
 use fay\services\user\UserService;
 use fay\services\file\FileService;
 use fay\helpers\DateHelper;

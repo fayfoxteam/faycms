@@ -2,7 +2,7 @@
 namespace blog\widgets\rand_posts\controllers;
 
 use fay\widget\Widget;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\core\Sql;
 
 class IndexController extends Widget{

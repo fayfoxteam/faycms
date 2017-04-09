@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\services\file\FileService;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\services\OptionService;
 
 /**

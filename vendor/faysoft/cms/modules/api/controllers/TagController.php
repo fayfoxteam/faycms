@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use fay\services\TagService;
-use fay\models\tables\TagCounterTable;
+use cms\models\tables\TagCounterTable;
 
 /**
  * 标签

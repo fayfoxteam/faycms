@@ -8,7 +8,7 @@ use fay\core\HttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use faypay\models\tables\PaymentsTable;
 
 class MethodController extends AdminController{

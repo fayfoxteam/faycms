@@ -2,7 +2,7 @@
 namespace fayexam\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 use fay\core\Response;

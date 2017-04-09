@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\services\user\UserRoleService;
 
 /**

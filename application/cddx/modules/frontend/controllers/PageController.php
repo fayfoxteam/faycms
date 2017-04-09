@@ -2,7 +2,7 @@
 namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use fay\core\HttpException;
 use fay\services\CategoryService;
 

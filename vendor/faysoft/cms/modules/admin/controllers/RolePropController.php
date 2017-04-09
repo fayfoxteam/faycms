@@ -2,10 +2,10 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\PropsTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\PropsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\user\UserPropService;
 use fay\core\Sql;
 use fay\common\ListView;

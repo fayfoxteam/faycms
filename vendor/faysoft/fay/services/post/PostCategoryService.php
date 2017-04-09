@@ -6,13 +6,13 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\StringHelper;
-use fay\models\tables\CategoriesTable;
-use fay\models\tables\PostsTable;
-use fay\models\tables\PostsCategoriesTable;
+use cms\models\tables\CategoriesTable;
+use cms\models\tables\PostsTable;
+use cms\models\tables\PostsCategoriesTable;
 use fay\services\OptionService;
 use fay\services\user\UserRoleService;
-use fay\models\tables\RolesTable;
-use fay\models\tables\RolesCatsTable;
+use cms\models\tables\RolesTable;
+use cms\models\tables\RolesCatsTable;
 use fay\services\CategoryService;
 
 class PostCategoryService extends Service{

@@ -3,7 +3,7 @@ namespace siwi\library;
 
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
-use fay\models\tables\SpiderLogsTable;
+use cms\models\tables\SpiderLogsTable;
 
 class FrontController extends Controller{
     public $layout_template = 'frontend';

@@ -4,7 +4,7 @@ namespace blog\modules\frontend\controllers;
 use blog\library\FrontController;
 use fay\services\OptionService;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\services\CategoryService;
 use fay\core\HttpException;

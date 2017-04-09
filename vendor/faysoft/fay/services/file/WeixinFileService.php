@@ -5,7 +5,7 @@ use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Service;
 use fay\helpers\ImageHelper;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\services\CategoryService;
 use fay\services\OptionService;
 use fay\services\wechat\core\AccessToken;

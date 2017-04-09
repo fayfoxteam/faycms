@@ -4,13 +4,13 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\RolesTable;
-use fay\models\tables\RolesActionsTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\RolesTable;
+use cms\models\tables\RolesActionsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
-use fay\models\tables\RolesCatsTable;
+use cms\models\tables\RolesCatsTable;
 use fay\services\OptionService;
 
 class RoleController extends AdminController{

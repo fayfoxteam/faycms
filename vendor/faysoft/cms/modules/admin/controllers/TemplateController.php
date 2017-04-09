@@ -4,8 +4,8 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\TemplatesTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\TemplatesTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 

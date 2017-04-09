@@ -8,7 +8,7 @@ use fay\helpers\FieldHelper;
 use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\PostCommentsTable;
+use cms\models\tables\PostCommentsTable;
 use fay\services\user\UserService;
 
 /**

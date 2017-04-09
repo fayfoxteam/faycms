@@ -3,9 +3,9 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\helpers\StringHelper;
-use fay\models\tables\CategoriesTable;
+use cms\models\tables\CategoriesTable;
 use fay\services\CategoryService;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\helpers\PinyinHelper;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;

@@ -5,7 +5,7 @@ use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
 use fayexam\models\tables\ExamQuestionsTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\helpers\HtmlHelper;
 use fay\services\CategoryService;
 use fayexam\models\tables\ExamAnswersTable;

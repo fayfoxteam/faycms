@@ -4,7 +4,7 @@ namespace fay\widget;
 use fay\core\Exception;
 use fay\core\HttpException;
 use fay\helpers\RuntimeHelper;
-use fay\models\tables\WidgetsTable;
+use cms\models\tables\WidgetsTable;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
 

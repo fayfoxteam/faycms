@@ -5,7 +5,7 @@ use shinecolor\library\FrontController;
 use fay\services\OptionService;
 use fay\services\post\PostService;
 use fay\services\CategoryService;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 
 class IndexController extends FrontController{
     public function __construct(){

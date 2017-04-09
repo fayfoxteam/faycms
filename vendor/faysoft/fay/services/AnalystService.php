@@ -4,9 +4,9 @@ namespace fay\services;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
-use fay\models\tables\AnalystMacsTable;
-use fay\models\tables\AnalystVisitsTable;
-use fay\models\tables\AnalystCachesTable;
+use cms\models\tables\AnalystMacsTable;
+use cms\models\tables\AnalystVisitsTable;
+use cms\models\tables\AnalystCachesTable;
 
 class AnalystService extends Service{
     /**

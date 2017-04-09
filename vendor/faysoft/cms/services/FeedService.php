@@ -2,7 +2,7 @@
 namespace cms\services;
 
 use fay\core\Service;
-use fay\models\tables\FeedsTable;
+use cms\models\tables\FeedsTable;
 
 class FeedService extends Service{
     /**

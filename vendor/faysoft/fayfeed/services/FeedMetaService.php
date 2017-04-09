@@ -2,7 +2,7 @@
 namespace fayfeed\services;
 
 use fay\core\Service;
-use fay\models\tables\FeedMetaTable;
+use cms\models\tables\FeedMetaTable;
 
 class FeedMetaService extends Service{
     /**

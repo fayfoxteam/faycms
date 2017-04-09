@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\PropsTable;
+use cms\models\tables\PropsTable;
 use fay\helpers\ArrayHelper;
 use fay\services\file\FileService;
 ?>

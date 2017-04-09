@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\core\HttpException;

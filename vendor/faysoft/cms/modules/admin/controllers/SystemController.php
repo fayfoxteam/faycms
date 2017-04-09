@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\forms\SettingForm;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\services\SettingService;
 use fay\core\Response;
 

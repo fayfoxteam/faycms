@@ -6,8 +6,8 @@ use fay\common\ListView;
 use fay\core\Loader;
 use fay\core\Response;
 use fay\core\Sql;
-use fay\models\tables\ActionlogsTable;
-use fay\models\tables\ContactsTable;
+use cms\models\tables\ActionlogsTable;
+use cms\models\tables\ContactsTable;
 use guangong\models\tables\GuangongMessagesTable;
 
 class GMessageController extends AdminController{

@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\VouchersTable;
+use cms\models\tables\VouchersTable;
 use fay\helpers\StringHelper;
 use fay\services\CategoryService;
 use fay\core\Sql;

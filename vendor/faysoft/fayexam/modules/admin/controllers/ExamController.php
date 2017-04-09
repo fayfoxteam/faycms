@@ -5,11 +5,11 @@ use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
 use fayexam\models\tables\ExamExamsTable;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fayexam\models\tables\ExamPapersTable;
 use fayexam\models\tables\ExamExamsQuestionsTable;
 use fay\core\Response;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\ExamService;
 
 class ExamController extends AdminController{

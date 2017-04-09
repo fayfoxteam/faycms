@@ -58,7 +58,7 @@ class DatabaseController extends ToolsController{
         if(substr($t_name, 0, strpos($t_name, '_')) == APPLICATION){
             $class_name = APPLICATION.'\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
         }else{
-            $class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
+            $class_name = 'cms\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
         }
         
         $this->layout->subtitle = 'Data Dictionary - ' . $t_name . ($table_comment ? " ($table_comment)" : '');
@@ -120,7 +120,7 @@ class DatabaseController extends ToolsController{
         if(substr($table_name, 0, strpos($table_name, '_')) == APPLICATION){
             $namespace = APPLICATION.'\models\tables';
         }else{
-            $namespace = 'fay\models\tables';
+            $namespace = 'cms\models\tables';
         }
         
         //获取表注释
@@ -167,7 +167,7 @@ class DatabaseController extends ToolsController{
             
             //加载model，从model中获取label作为备注
             $t_name = preg_replace("/^{$prefix}(.*)/", '$1', $table_name, 1);
-            $class_name = 'fay\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
+            $class_name = 'cms\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
             if(file_exists(SYSTEM_PATH . $class_name . '.php')){
                 $labels = \F::model($class_name)->labels();
             }else{

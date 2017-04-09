@@ -2,13 +2,13 @@
 namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
-use fay\services\ExamService;
+use fayexam\services\ExamService;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\ExamPapersTable;
+use fayexam\models\tables\ExamPapersTable;
 use fay\helpers\StringHelper;
-use fay\models\tables\ExamExamsTable;
+use fayexam\models\tables\ExamExamsTable;
 use fay\core\HttpException;
 
 class PaperController extends UserController{

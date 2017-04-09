@@ -1,6 +1,6 @@
 <?php
-use fay\models\tables\ExamAnswersTable;
-use fay\models\tables\ExamExamQuestionAnswersIntTable;
+use fayexam\models\tables\ExamAnswersTable;
+use fayexam\models\tables\ExamExamQuestionAnswersIntTable;
 
 $answers = ExamAnswersTable::model()->fetchAll('question_id = '.$exam_question['question_id'], '*', 'sort');
 $user_answer = ExamExamQuestionAnswersIntTable::model()->fetchRow('exam_question_id = '.$exam_question['id']);

@@ -3,7 +3,7 @@ use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
 use fay\services\file\FileService;
 use fay\services\MessageService;
-use fay\models\tables\MessagesTable;
+use cms\models\tables\MessagesTable;
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
     <?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(

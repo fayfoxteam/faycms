@@ -3,7 +3,7 @@ namespace steroid\modules\frontend\controllers;
 
 use steroid\library\FrontController;
 use fay\core\HttpException;
-use fay\models\tables\TagsTable;
+use cms\models\tables\TagsTable;
 
 class TagController extends FrontController{
     public $layout_template = 'post';

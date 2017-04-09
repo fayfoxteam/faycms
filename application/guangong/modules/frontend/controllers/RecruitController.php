@@ -3,7 +3,7 @@
 namespace guangong\modules\frontend\controllers;
 
 use fay\helpers\ArrayHelper;
-use fay\models\tables\RegionsTable;
+use cms\models\tables\RegionsTable;
 use fay\services\OptionService;
 use fay\services\user\UserService;
 use fay\services\wechat\core\AccessToken;

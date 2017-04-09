@@ -5,11 +5,11 @@ use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\MultiTreeModel;
-use fay\models\tables\MessagesTable;
+use cms\models\tables\MessagesTable;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
-use fay\models\tables\UserCounterTable;
+use cms\models\tables\UserCounterTable;
 use fay\services\user\UserService;
 
 /**
@@ -49,7 +49,7 @@ class MessageService extends MultiTreeModel{
     /**
      * @see MultiTreeModel::$model
      */
-    protected $model = 'fay\models\tables\MessagesTable';
+    protected $model = 'cms\models\tables\MessagesTable';
     
     /**
      * @see MultiTreeModel::$foreign_key

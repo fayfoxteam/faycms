@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\services\file\FileService;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 
 if($data['thumbnail']){
     $img = HtmlHelper::img($data['thumbnail'], FileService::PIC_RESIZE, array(

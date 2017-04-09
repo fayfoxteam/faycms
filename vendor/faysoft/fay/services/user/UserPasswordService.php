@@ -3,7 +3,7 @@ namespace fay\services\user;
     
     use fay\core\Service;
     use fay\helpers\StringHelper;
-    use fay\models\tables\UsersTable;
+    use cms\models\tables\UsersTable;
 
 class UserPasswordService extends Service{
     /**

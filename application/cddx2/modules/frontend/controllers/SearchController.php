@@ -4,7 +4,7 @@ namespace cddx2\modules\frontend\controllers;
 use cddx2\library\FrontController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 
 class SearchController extends FrontController{
     public function index(){

@@ -3,7 +3,7 @@ use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use fay\services\file\FileService;
 use fay\services\user\UserRoleService;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
     <?php if(in_array('avatar', $cols)){?>

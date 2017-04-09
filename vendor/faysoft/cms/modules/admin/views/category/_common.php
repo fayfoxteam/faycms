@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\CategoriesTable;
+use cms\models\tables\CategoriesTable;
 
 /**
  * @var $root int

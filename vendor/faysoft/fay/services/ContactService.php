@@ -3,7 +3,7 @@ namespace fay\services;
 
 use fay\core\Service;
 use fay\helpers\RequestHelper;
-use fay\models\tables\ContactsTable;
+use cms\models\tables\ContactsTable;
 
 class ContactService extends Service{
     /**

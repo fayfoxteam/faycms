@@ -2,8 +2,8 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\LinksTable;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\LinksTable;
+use cms\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;

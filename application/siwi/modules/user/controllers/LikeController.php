@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\LikesTable;
+use cms\models\tables\LikesTable;
 use fay\services\post\PostService;
 
 class LikeController extends UserController{

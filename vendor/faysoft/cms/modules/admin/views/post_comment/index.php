@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\PostCommentsTable;
+use cms\models\tables\PostCommentsTable;
 use cms\helpers\PostCommentHelper;
 
 $settings = F::form('setting')->getAllData();

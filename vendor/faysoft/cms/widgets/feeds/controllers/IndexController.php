@@ -2,7 +2,7 @@
 namespace cms\widgets\feeds\controllers;
 
 use fay\widget\Widget;
-use fay\models\tables\LogsTable;
+use cms\models\tables\LogsTable;
 
 class IndexController extends Widget{
     public function index(){

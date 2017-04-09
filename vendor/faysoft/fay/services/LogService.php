@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Service;
-use fay\models\tables\LogsTable;
+use cms\models\tables\LogsTable;
 use fay\helpers\RequestHelper;
 
 class LogService extends Service{

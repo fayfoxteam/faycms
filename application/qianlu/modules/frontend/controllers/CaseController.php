@@ -2,7 +2,7 @@
 namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\helpers\StringHelper;
 use fay\core\HttpException;
 

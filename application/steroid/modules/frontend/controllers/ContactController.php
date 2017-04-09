@@ -4,7 +4,7 @@ namespace steroid\modules\frontend\controllers;
 use steroid\library\FrontController;
 use steroid\models\forms\LeaveMessage;
 use fay\core\Response;
-use fay\models\tables\ContactsTable;
+use cms\models\tables\ContactsTable;
 use fay\helpers\RequestHelper;
 
 class ContactController extends FrontController{

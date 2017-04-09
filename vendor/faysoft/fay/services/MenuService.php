@@ -2,7 +2,7 @@
 namespace fay\services;
 
 use fay\core\Loader;
-use fay\models\tables\MenusTable;
+use cms\models\tables\MenusTable;
 use fay\helpers\StringHelper;
 use fay\models\TreeModel;
 
@@ -10,7 +10,7 @@ class MenuService extends TreeModel{
     /**
      * @see Tree::$model
      */
-    protected $model = 'fay\models\tables\MenusTable';
+    protected $model = 'cms\models\tables\MenusTable';
     
     /**
      * @param string $class_name

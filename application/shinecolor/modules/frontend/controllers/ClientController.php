@@ -2,7 +2,7 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\models\tables\LinksTable;
+use cms\models\tables\LinksTable;
 
 class ClientController extends FrontController{
     public function __construct(){

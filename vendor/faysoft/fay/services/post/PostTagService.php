@@ -6,10 +6,10 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\StringHelper;
-use fay\models\tables\PostsTable;
-use fay\models\tables\TagCounterTable;
-use fay\models\tables\TagsTable;
-use fay\models\tables\PostsTagsTable;
+use cms\models\tables\PostsTable;
+use cms\models\tables\TagCounterTable;
+use cms\models\tables\TagsTable;
+use cms\models\tables\PostsTagsTable;
 use fay\services\TagService;
 use fay\services\tag\TagCounterService;
 

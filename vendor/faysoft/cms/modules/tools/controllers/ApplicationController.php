@@ -6,13 +6,13 @@ use cms\library\ToolsController;
 use fay\services\file\FileService;
 use fay\services\CategoryService;
 use fay\helpers\StringHelper;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\services\MenuService;
-use fay\models\tables\CategoriesTable;
-use fay\models\tables\MenusTable;
+use cms\models\tables\CategoriesTable;
+use cms\models\tables\MenusTable;
 use fay\services\FlashService;
 use fay\helpers\RequestHelper;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\core\Response;
 
 class ApplicationController extends ToolsController{

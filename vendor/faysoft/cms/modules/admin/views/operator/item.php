@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use fay\helpers\ArrayHelper;

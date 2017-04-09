@@ -3,7 +3,7 @@ namespace guangong\services;
 
 use fay\core\ErrorException;
 use fay\core\Service;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\services\CategoryService;
 use fay\services\user\UserService;
 use guangong\models\tables\GuangongReadLogsTable;

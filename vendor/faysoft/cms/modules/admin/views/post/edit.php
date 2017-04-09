@@ -1,9 +1,9 @@
 <?php
 use fay\services\OptionService;
 use cms\helpers\PostHelper;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\services\user\UserRoleService;
 use fay\services\post\Category;
 

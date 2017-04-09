@@ -3,7 +3,7 @@ namespace fruit\modules\frontend\controllers;
 
 use fruit\library\FrontController;
 use fay\services\EmailService;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use fay\core\Response;
 use fay\services\FlashService;
 

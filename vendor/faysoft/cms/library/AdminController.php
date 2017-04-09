@@ -5,13 +5,13 @@ use fay\core\Controller;
 use fay\core\Uri;
 use fay\helpers\RequestHelper;
 use fay\models\forms\SettingForm;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\SettingService;
 use fay\core\Response;
 use fay\services\MenuService;
 use fay\core\HttpException;
 use fay\services\FlashService;
-use fay\models\tables\RolesTable;
+use cms\models\tables\RolesTable;
 use fay\helpers\ArrayHelper;
 use fay\services\user\UserService;
 

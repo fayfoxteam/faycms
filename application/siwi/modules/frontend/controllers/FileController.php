@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 
 class FileController extends FrontController{
     public function download(){

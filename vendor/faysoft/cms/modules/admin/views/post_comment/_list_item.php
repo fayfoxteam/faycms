@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\models\tables\PostCommentsTable;
+use cms\models\tables\PostCommentsTable;
 use cms\helpers\PostCommentHelper;
 use fay\helpers\StringHelper;
 ?>

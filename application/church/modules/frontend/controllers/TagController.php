@@ -3,7 +3,7 @@ namespace church\modules\frontend\controllers;
 
 use church\library\FrontController;
 use fay\core\HttpException;
-use fay\models\tables\TagsTable;
+use cms\models\tables\TagsTable;
 
 class TagController extends FrontController{
     public function item(){

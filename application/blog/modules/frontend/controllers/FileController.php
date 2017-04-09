@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 
 class FileController extends FrontController{
     public function download(){

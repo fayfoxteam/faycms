@@ -3,7 +3,7 @@ namespace fay\widgets\menu\controllers;
 
 use fay\widget\Widget;
 use fay\services\MenuService;
-use fay\models\tables\MenusTable;
+use cms\models\tables\MenusTable;
 use fay\services\FlashService;
 
 class AdminController extends Widget{

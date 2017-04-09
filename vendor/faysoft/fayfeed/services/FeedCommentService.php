@@ -5,11 +5,11 @@ use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\helpers\FieldHelper;
 use fay\models\MultiTreeModel;
-use fay\models\tables\FeedCommentsTable;
+use cms\models\tables\FeedCommentsTable;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
-use fay\models\tables\FeedMetaTable;
+use cms\models\tables\FeedMetaTable;
 use fay\services\OptionService;
 use fay\services\user\UserService;
 
@@ -17,7 +17,7 @@ class FeedCommentService extends MultiTreeModel{
     /**
      * @see MultiTreeModel::$model
      */
-    protected $model = 'fay\models\tables\FeedCommentsTable';
+    protected $model = 'cms\models\tables\FeedCommentsTable';
     
     /**
      * @see MultiTreeModel::$foreign_key

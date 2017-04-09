@@ -8,7 +8,7 @@ use fay\core\Validator;
 use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 
 class PostController extends FrontController{
     public function cat(){

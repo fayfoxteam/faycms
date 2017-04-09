@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use fay\core\Validator;
 use fay\core\HttpException;
 

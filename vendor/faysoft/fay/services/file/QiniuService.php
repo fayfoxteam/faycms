@@ -3,7 +3,7 @@ namespace fay\services\file;
 
 use fay\core\ErrorException;
 use fay\core\Service;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\helpers\StringHelper;
 use fay\services\OptionService;
 use Qiniu\Auth;

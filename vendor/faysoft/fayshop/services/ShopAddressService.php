@@ -2,7 +2,7 @@
 namespace fay\services\shop;
 
 use fay\core\Service;
-use fay\models\tables\UserAddressesTable;
+use cms\models\tables\UserAddressesTable;
 
 class ShopAddressService extends Service{
     /**

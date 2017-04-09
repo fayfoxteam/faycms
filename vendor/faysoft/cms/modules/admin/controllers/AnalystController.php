@@ -4,11 +4,11 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\models\tables\AnalystSitesTable;
+use cms\models\tables\AnalystSitesTable;
 use fay\helpers\DateHelper;
 use fay\helpers\RequestHelper;
 use fay\core\Loader;
-use fay\models\tables\AnalystVisitsTable;
+use cms\models\tables\AnalystVisitsTable;
 
 class AnalystController extends AdminController{
     public function __construct(){

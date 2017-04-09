@@ -3,7 +3,7 @@ namespace glhs\library;
 
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
-use fay\models\tables\SpiderLogsTable;
+use cms\models\tables\SpiderLogsTable;
 use fay\services\CategoryService;
 
 class FrontController extends Controller{

@@ -2,7 +2,7 @@
 namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use fay\core\HttpException;
 
 class PageController extends FrontController{

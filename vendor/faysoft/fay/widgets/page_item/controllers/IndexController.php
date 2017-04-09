@@ -4,7 +4,7 @@ namespace fay\widgets\page_item\controllers;
 use fay\widget\Widget;
 use fay\services\PageService;
 use fay\core\HttpException;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 
 class IndexController extends Widget{
     public function initConfig($config){

@@ -1,5 +1,5 @@
 <?php
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\helpers\HtmlHelper;
 
 $editor = F::form()->getData('content_type');

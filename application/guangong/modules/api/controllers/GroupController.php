@@ -6,7 +6,7 @@ use fay\common\ListView;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\services\user\UserService;
 use guangong\models\forms\CreateGroupForm;
 use guangong\models\tables\GuangongUserGroupsTable;

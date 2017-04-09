@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 ?>

@@ -2,7 +2,7 @@
 use fay\helpers\HtmlHelper;
 use fay\services\file\FileService;
 use fay\helpers\DateHelper;
-use fay\models\tables\MessagesTable;
+use cms\models\tables\MessagesTable;
 ?>
 <li>    
     <div class="avatar">

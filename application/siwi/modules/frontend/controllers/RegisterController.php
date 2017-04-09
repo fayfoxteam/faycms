@@ -3,7 +3,7 @@ namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
 use fay\helpers\StringHelper;
-use fay\models\tables\UsersTable;
+use cms\models\tables\UsersTable;
 use fay\helpers\RequestHelper;
 use fay\core\HttpException;
 use fay\core\Validator;

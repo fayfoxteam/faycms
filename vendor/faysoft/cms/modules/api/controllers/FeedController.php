@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\services\FeedService;
-use fay\models\tables\FeedsTable;
+use cms\models\tables\FeedsTable;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;

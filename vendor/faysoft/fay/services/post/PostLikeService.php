@@ -5,10 +5,10 @@ use fay\common\ListView;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\models\tables\PostLikesTable;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostLikesTable;
+use cms\models\tables\PostsTable;
 use fay\services\user\UserService;
-use fay\models\tables\PostMetaTable;
+use cms\models\tables\PostMetaTable;
 
 class PostLikeService extends Service{
     /**

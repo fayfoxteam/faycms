@@ -2,7 +2,7 @@
 namespace fay\services\user;
 
 use fay\models\PropModel;
-use fay\models\tables\PropsTable;
+use cms\models\tables\PropsTable;
 use fay\core\Loader;
 
 class UserPropService extends PropModel{
@@ -19,9 +19,9 @@ class UserPropService extends PropModel{
      * @var array
      */
     protected $models = array(
-        'varchar'=>'fay\models\tables\UserPropVarcharTable',
-        'int'=>'fay\models\tables\UserPropIntTable',
-        'text'=>'fay\models\tables\UserPropTextTable',
+        'varchar'=>'cms\models\tables\UserPropVarcharTable',
+        'int'=>'cms\models\tables\UserPropIntTable',
+        'text'=>'cms\models\tables\UserPropTextTable',
     );
     
     /**

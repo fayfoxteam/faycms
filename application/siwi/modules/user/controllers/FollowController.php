@@ -2,8 +2,8 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\FollowersTable;
-use fay\models\tables\UsersTable;
+use cms\models\tables\FollowersTable;
+use cms\models\tables\UsersTable;
 use fay\core\Response;
 
 class FollowController extends UserController{

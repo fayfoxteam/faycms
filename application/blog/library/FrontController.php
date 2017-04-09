@@ -4,7 +4,7 @@ namespace blog\library;
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use fay\helpers\UrlHelper;
-use fay\models\tables\SpiderLogsTable;
+use cms\models\tables\SpiderLogsTable;
 use fay\services\oauth\qq\QQClient;
 
 class FrontController extends Controller{

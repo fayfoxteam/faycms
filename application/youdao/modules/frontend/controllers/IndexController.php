@@ -2,10 +2,10 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 
 class IndexController extends FrontController{
     public function __construct(){

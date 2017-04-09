@@ -2,7 +2,7 @@
 namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
-use fay\models\tables\MessagesTable;
+use cms\models\tables\MessagesTable;
 use fay\services\MessageService;
 use fay\helpers\DateHelper;
 use fay\services\post\PostService;

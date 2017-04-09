@@ -2,8 +2,8 @@
 namespace jxsj\modules\user\controllers;
 
 use jxsj\library\UserController;
-use fay\models\tables\ExamExamsTable;
-use fay\models\tables\ExamPapersTable;
+use fayexam\models\tables\ExamExamsTable;
+use fayexam\models\tables\ExamPapersTable;
 use fay\core\Sql;
 use fay\common\ListView;
 

@@ -3,7 +3,7 @@ namespace fay\services\user;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\UserProfileTable;
+use cms\models\tables\UserProfileTable;
 
 class UserProfileService extends Service{
     /**

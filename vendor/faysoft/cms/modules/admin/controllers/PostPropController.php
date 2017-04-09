@@ -2,11 +2,11 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\models\tables\CategoriesTable;
+use cms\models\tables\CategoriesTable;
 use fay\helpers\HtmlHelper;
-use fay\models\tables\PropsTable;
+use cms\models\tables\PropsTable;
 use fay\services\post\PostPropService;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;

@@ -4,7 +4,7 @@ namespace ncp\modules\frontend\controllers;
 use ncp\library\FrontController;
 use fay\services\CategoryService;
 use fay\core\Sql;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use fay\services\post\PostService;
 use fay\core\HttpException;

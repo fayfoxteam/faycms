@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\models\forms\SettingForm;
-use fay\models\tables\FilesTable;
+use cms\models\tables\FilesTable;
 use fay\services\file\FileService;
 use fay\services\file\WeixinFileService;
 use fay\services\SettingService;
@@ -14,7 +14,7 @@ use fay\services\file\QiniuService;
 use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
-use fay\models\tables\ActionlogsTable;
+use cms\models\tables\ActionlogsTable;
 use fay\services\OptionService;
 use fay\services\CategoryService;
 use fay\helpers\StringHelper;

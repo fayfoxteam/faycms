@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\PostCommentsTable;
+use cms\models\tables\PostCommentsTable;
 
 class PostCommentHelper{
     /**

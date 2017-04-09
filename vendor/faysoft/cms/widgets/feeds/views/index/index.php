@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\DateHelper;
-use fay\models\tables\LogsTable;
+use cms\models\tables\LogsTable;
 ?>
 <style>
 .feeds li{background-color:#fafafa;margin-bottom:7px;line-height:28px;height:28px;}

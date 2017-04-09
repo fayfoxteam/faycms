@@ -3,7 +3,7 @@ namespace fay\services\user;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
-use fay\models\tables\UserCounterTable;
+use cms\models\tables\UserCounterTable;
 
 class UserCounterService extends Service{
     /**

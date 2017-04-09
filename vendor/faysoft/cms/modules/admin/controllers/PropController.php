@@ -3,7 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\core\Response;
-use fay\models\tables\PropsTable;
+use cms\models\tables\PropsTable;
 
 /**
  * 通用分类属性

@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\services\post\PostCommentService;
 use fay\core\Response;
-use fay\models\tables\PostsTable;
+use cms\models\tables\PostsTable;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 use fay\services\post\PostService;

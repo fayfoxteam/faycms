@@ -1,7 +1,7 @@
 <?php 
 namespace cms\helpers;
 
-use fay\models\tables\PagesTable;
+use cms\models\tables\PagesTable;
 
 class PageHelper{
     /**

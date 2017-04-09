@@ -1,0 +1,3 @@
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('4000', '100', 'feed', '动态', 'fa fa-rss', 'javascript:');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('4001', '4000', '', '所有动态', '', 'fayfeed/admin/feed/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('4002', '4000', '', '发布动态', '', 'fayfeed/admin/feed/create');

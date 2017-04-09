@@ -1,5 +1,5 @@
 <?php 
-namespace cms\helpers;
+namespace fayfeed\helpers;
 
 use fayfeed\models\tables\FeedsTable;
 

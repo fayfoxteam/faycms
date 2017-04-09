@@ -1,5 +1,5 @@
 <?php
-use cms\helpers\FeedHelper;
+use fayfeed\helpers\FeedHelper;
 use fay\helpers\HtmlHelper;
 use fayfeed\models\tables\FeedsTable;
 use cms\services\user\UserService;
@@ -90,7 +90,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                     <div class="misc-pub-section mt6">
                         <strong>当前状态：</strong>
                         <span id="crt-status"><?php echo FeedHelper::getStatus(F::form()->getData('status'), 0, false)?></span>
-                        <a href="javascript:;" id="edit-status-link" class="ml5">编辑</a>
+                        <a href="javascript:" id="edit-status-link" class="ml5">编辑</a>
                         <?php echo F::form()->inputHidden('status')?>
                         <div class="hide" id="edit-status-container"><?php
                             echo HtmlHelper::select('', array(

@@ -1,3 +1,6 @@
+ALTER TABLE `{{$prefix}}user_counter`
+ADD COLUMN `feeds`  smallint UNSIGNED NOT NULL DEFAULT 0 COMMENT '发布动态数' AFTER `real_messages`;
+
 DROP TABLE IF EXISTS `{{$prefix}}feeds`;
 CREATE TABLE `{{$prefix}}feeds` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',

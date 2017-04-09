@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use cms\helpers\FeedHelper;
-use cms\services\feed\FeedTagService;
+use fayfeed\helpers\FeedHelper;
+use fayfeed\services\FeedTagService;
 
 /**
  * @var $data array
@@ -17,28 +17,28 @@ use cms\services\feed\FeedTagService;
     <?php }?>
     <td>
         <strong><?php
-            echo HtmlHelper::link($data['content'], array('cms/admin/feed/edit', array(
+            echo HtmlHelper::link($data['content'], array('fayfeed/admin/feed/edit', array(
                 'id'=>$data['id'],
             )));
         ?></strong>
         <div class="row-actions">
         <?php
             if($data['delete_time'] == 0){
-                echo HtmlHelper::link('编辑', array('cms/admin/feed/edit', array(
+                echo HtmlHelper::link('编辑', array('fayfeed/admin/feed/edit', array(
                     'id'=>$data['id'],
                 )), array(), true);
-                echo HtmlHelper::link('移入回收站', array('cms/admin/feed/delete', array(
+                echo HtmlHelper::link('移入回收站', array('fayfeed/admin/feed/delete', array(
                     'id'=>$data['id'],
                 )), array(
                     'class'=>'fc-red',
                 ), true);
             }else{
-                echo HtmlHelper::link('还原', array('cms/admin/feed/undelete', array(
+                echo HtmlHelper::link('还原', array('fayfeed/admin/feed/undelete', array(
                     'id'=>$data['id'],
                 )), array(
                     'class'=>'undelete-feed',
                 ), true);
-                echo HtmlHelper::link('永久删除', array('cms/admin/feed/remove', array(
+                echo HtmlHelper::link('永久删除', array('fayfeed/admin/feed/remove', array(
                     'id'=>$data['id'],
                 )), array(
                     'class'=>'delete-feed fc-red remove-link',
@@ -54,7 +54,7 @@ use cms\services\feed\FeedTagService;
             if($key){
                 echo ', ';
             }
-            echo HtmlHelper::link($tag['title'], array('cms/admin/feed/index', array(
+            echo HtmlHelper::link($tag['title'], array('fayfeed/admin/feed/index', array(
                 'tag_id'=>$tag['id'],
             )));
         }
@@ -66,7 +66,7 @@ use cms\services\feed\FeedTagService;
     <?php if(in_array('user', $cols)){?>
     <td><?php
         echo HtmlHelper::link($data[F::form('setting')->getData('display_name', 'nickname')], array(
-            'cms/admin/feed/index', array(
+            'fayfeed/admin/feed/index', array(
                 'keywords_field'=>'p.user_id',
                 'keywords'=>$data['user_id'],
             ),

@@ -54,40 +54,40 @@ $cols = F::form('setting')->getData('cols', array());
     <div class="col-12">
         <ul class="subsubsub fl">
             <li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
-                <a href="<?php echo $this->url('cms/admin/feed/index')?>">全部</a>
+                <a href="<?php echo $this->url('fayfeed/admin/feed/index')?>">全部</a>
                 <span class="fc-grey">(<span id="all-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
             <li class="pending <?php if(F::app()->input->get('status') == FeedsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-                <a href="<?php echo $this->url('cms/admin/feed/index', array('status'=>FeedsTable::STATUS_PENDING))?>">待审核</a>
+                <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_PENDING))?>">待审核</a>
                 <span class="fc-grey">(<span id="pending-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
             <li class="approved <?php if(F::app()->input->get('status') == FeedsTable::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-                <a href="<?php echo $this->url('cms/admin/feed/index', array('status'=>FeedsTable::STATUS_APPROVED))?>">通过审核</a>
+                <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_APPROVED))?>">通过审核</a>
                 <span class="fc-grey">(<span id="approved-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
             <li class="unapproved <?php if(F::app()->input->get('status') == FeedsTable::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-                <a href="<?php echo $this->url('cms/admin/feed/index', array('status'=>FeedsTable::STATUS_UNAPPROVED))?>">未通过审核</a>
+                <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_UNAPPROVED))?>">未通过审核</a>
                 <span class="fc-grey">(<span id="unapproved-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
             <li class="draft <?php if(F::app()->input->get('status', 'intval') === FeedsTable::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
-                <a href="<?php echo $this->url('cms/admin/feed/index', array('status'=>FeedsTable::STATUS_DRAFT))?>">草稿</a>
+                <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_DRAFT))?>">草稿</a>
                 <span class="fc-grey">(<span id="draft-feed-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
                 |
             </li>
             <li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
-                <a href="<?php echo $this->url('cms/admin/feed/index', array('deleted'=>1))?>">回收站</a>
+                <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('deleted'=>1))?>">回收站</a>
                 <span class="fc-grey">(<span id="deleted-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
@@ -95,14 +95,14 @@ $cols = F::form('setting')->getData('cols', array());
         </ul>
     </div>
 </div>
-<form method="post" action="<?php echo $this->url('cms/admin/feed/batch')?>" id="batch-form" class="form-inline">
+<form method="post" action="<?php echo $this->url('fayfeed/admin/feed/batch')?>" id="batch-form" class="form-inline">
     <div class="row">
         <div class="col-5"><?php
             if(F::app()->input->get('deleted')){
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
-                    'undelete'=>F::app()->checkPermission('cms/admin/feed/undelete') ? '还原' : false,
-                    'remove'=>F::app()->checkPermission('cms/admin/feed/remove') ? '永久删除' : false,
+                    'undelete'=>F::app()->checkPermission('fayfeed/admin/feed/undelete') ? '还原' : false,
+                    'remove'=>F::app()->checkPermission('fayfeed/admin/feed/remove') ? '永久删除' : false,
                 ), '', array(
                     'class'=>'form-control',
                     'id'=>'batch-action',
@@ -110,11 +110,11 @@ $cols = F::form('setting')->getData('cols', array());
             }else{
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
-                    'set-draft'=>F::app()->checkPermission('cms/admin/feed/edit') ? '标记为草稿' : false,
-                    'set-pending'=>F::app()->checkPermission('cms/admin/feed/approve') ? '标记为待审核' : false,
-                    'set-approved'=>F::app()->checkPermission('cms/admin/feed/approve') ? '通过审核' : false,
-                    'set-unapproved'=>F::app()->checkPermission('cms/admin/feed/approve') ? '未通过审核' : false,
-                    'delete'=>F::app()->checkPermission('cms/admin/feed/delete') ? '移入回收站' : false,
+                    'set-draft'=>F::app()->checkPermission('fayfeed/admin/feed/edit') ? '标记为草稿' : false,
+                    'set-pending'=>F::app()->checkPermission('fayfeed/admin/feed/approve') ? '标记为待审核' : false,
+                    'set-approved'=>F::app()->checkPermission('fayfeed/admin/feed/approve') ? '通过审核' : false,
+                    'set-unapproved'=>F::app()->checkPermission('fayfeed/admin/feed/approve') ? '未通过审核' : false,
+                    'delete'=>F::app()->checkPermission('fayfeed/admin/feed/delete') ? '移入回收站' : false,
                 ), '', array(
                     'class'=>'form-control',
                     'id'=>'batch-action',
@@ -226,8 +226,8 @@ $cols = F::form('setting')->getData('cols', array());
             if(F::app()->input->get('deleted')){
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
-                    'undelete'=>F::app()->checkPermission('cms/admin/feed/undelete') ? '还原' : false,
-                    'remove'=>F::app()->checkPermission('cms/admin/feed/remove') ? '永久删除' : false,
+                    'undelete'=>F::app()->checkPermission('fayfeed/admin/feed/undelete') ? '还原' : false,
+                    'remove'=>F::app()->checkPermission('fayfeed/admin/feed/remove') ? '永久删除' : false,
                 ), '', array(
                     'class'=>'form-control',
                     'id'=>'batch-action-2',
@@ -235,11 +235,11 @@ $cols = F::form('setting')->getData('cols', array());
             }else{
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
-                    'set-draft'=>F::app()->checkPermission('cms/admin/feed/edit') ? '标记为草稿' : false,
-                    'set-pending'=>F::app()->checkPermission('cms/admin/feed/approve') ? '标记为待审核' : false,
-                    'set-approved'=>F::app()->checkPermission('cms/admin/feed/approve') ? '通过审核' : false,
-                    'set-unapproved'=>F::app()->checkPermission('cms/admin/feed/approve') ? '未通过审核' : false,
-                    'delete'=>F::app()->checkPermission('cms/admin/feed/delete') ? '移入回收站' : false,
+                    'set-draft'=>F::app()->checkPermission('fayfeed/admin/feed/edit') ? '标记为草稿' : false,
+                    'set-pending'=>F::app()->checkPermission('fayfeed/admin/feed/approve') ? '标记为待审核' : false,
+                    'set-approved'=>F::app()->checkPermission('fayfeed/admin/feed/approve') ? '通过审核' : false,
+                    'set-unapproved'=>F::app()->checkPermission('fayfeed/admin/feed/approve') ? '未通过审核' : false,
+                    'delete'=>F::app()->checkPermission('fayfeed/admin/feed/delete') ? '移入回收站' : false,
                 ), '', array(
                     'class'=>'form-control',
                     'id'=>'batch-action-2',
@@ -257,7 +257,7 @@ $(function(){
     //显示各状态动态数
     $.ajax({
         'type': 'GET',
-        'url': system.url('cms/admin/feed/get-counts'),
+        'url': system.url('fayfeed/admin/feed/get-counts'),
         'dataType': 'json',
         'cache': false,
         'success': function(resp){

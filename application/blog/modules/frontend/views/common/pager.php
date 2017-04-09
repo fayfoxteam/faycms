@@ -18,55 +18,55 @@ $current_page = $current_page>$total_pages?$total_pages:$current_page;
 
 // previous
 if($current_page==1) {
-	$out.= '<li><a class="prev disabled" href="javascript:;">«</a></li>';
+    $out.= '<li><a class="prev disabled" href="javascript:;">«</a></li>';
 }
 elseif($current_page==2) {
-	$out.= "<li><a href='{$reload}'>{$prevlabel}</a></li>\n";
+    $out.= "<li><a href='{$reload}'>{$prevlabel}</a></li>\n";
 }else {
-	$out.= "<li><a href=\"" . $reload . "?page=" . ($current_page-1) . "\">" . $prevlabel . "</a></li>\n";
+    $out.= "<li><a href=\"" . $reload . "?page=" . ($current_page-1) . "\">" . $prevlabel . "</a></li>\n";
 }
 
 // first
 if($current_page>($adjacents+1)) {
-	$out.= "<li><a href=\"" . $reload . "\">1</a></li>\n";
+    $out.= "<li><a href=\"" . $reload . "\">1</a></li>\n";
 }
 
 // interval
 if($current_page>($adjacents+2)) {
-	$out.= "<li>...</li>\n";
+    $out.= "<li>...</li>\n";
 }
 
 // pages
 $pmin = ($current_page>$adjacents) ? ($current_page-$adjacents) : 1;
 $pmax = ($current_page<($total_pages-$adjacents)) ? ($current_page+$adjacents) : $total_pages;
 for($i=$pmin; $i<=$pmax; $i++) {
-	if($i==$current_page) {
-		$out.= "<li><a class='action' href=''> ". $i . "</a></li>\n";
-	}
-	elseif($i==1) {
-		$out.= "<li><a href=\"" . $reload . "\">" . $i . "</a></li>\n";
-	}
-	else {
-		$out.= "<li><a href=\"" . $reload . "?page=" . $i . "\">" . $i . "</a></li>\n";
-	}
+    if($i==$current_page) {
+        $out.= "<li><a class='action' href=''> ". $i . "</a></li>\n";
+    }
+    elseif($i==1) {
+        $out.= "<li><a href=\"" . $reload . "\">" . $i . "</a></li>\n";
+    }
+    else {
+        $out.= "<li><a href=\"" . $reload . "?page=" . $i . "\">" . $i . "</a></li>\n";
+    }
 }
 
 // interval
 if($current_page<($total_pages-$adjacents-1)) {
-	$out.= "<li>...</li>\n";
+    $out.= "<li>...</li>\n";
 }
 
 // last
 if($current_page<($total_pages-$adjacents)) {
-	$out.= "<li><a href=\"" . $reload . "?page=" . $total_pages . "\">" . $total_pages . "</a></li>\n";
+    $out.= "<li><a href=\"" . $reload . "?page=" . $total_pages . "\">" . $total_pages . "</a></li>\n";
 }
 
 // next
 if($current_page<$total_pages) {
-	$out.= "<li><a href=\"" . $reload . "?page=" . ($current_page+1) . "\">»</a></li>\n";
+    $out.= "<li><a href=\"" . $reload . "?page=" . ($current_page+1) . "\">»</a></li>\n";
 }
 else {
-	$out.= '<li><a class="next disabled" href="javascript:;">»</a></li>';
+    $out.= '<li><a class="next disabled" href="javascript:;">»</a></li>';
 }
 
 $out.="</ul></form>";

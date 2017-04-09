@@ -22,28 +22,28 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <body>
 <form method="post" action="">
 <div id="IndexBox">
-	<div id="IndexBoxTitle">学生登录</div>
+    <div id="IndexBoxTitle">学生登录</div>
     <div id="IndexBoxContent">
-    	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-    	    <tr>
-    	        <td height="35" align="right">用户名：</td>
-    	        <td><input type="text" name="username" id="Users_LoginName" style="width:140px; height:20px;" /></td>
-	        </tr>
-    	    <tr>
-    	        <td height="35" align="right">密码：</td>
-    	        <td><input type="password" name="password" id="Users_LoginPass" style="width:140px; height:20px;" /></td>
-	        </tr>
-    	    <tr>
-    	        <td height="40" colspan="2" align="center"><input type="image" src="<?php echo $this->appAssets('images/Signin.jpg')?>" style="height:22px; width:81px; border:none;" />
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td height="35" align="right">用户名：</td>
+                <td><input type="text" name="username" id="Users_LoginName" style="width:140px; height:20px;" /></td>
+            </tr>
+            <tr>
+                <td height="35" align="right">密码：</td>
+                <td><input type="password" name="password" id="Users_LoginPass" style="width:140px; height:20px;" /></td>
+            </tr>
+            <tr>
+                <td height="40" colspan="2" align="center"><input type="image" src="<?php echo $this->appAssets('images/Signin.jpg')?>" style="height:22px; width:81px; border:none;" />
  
                     &nbsp;&nbsp;<a href=""><img src="<?php echo $this->appAssets('images/reset.jpg')?>" width="81" height="22" /></a>
 
                     </td>
-	        </tr>
-    	    <tr>
-    	        <td height="40" colspan="2" align="center"><?php echo OptionService::get('site:copyright')?></td>
-    	        </tr>
-	    </table>
+            </tr>
+            <tr>
+                <td height="40" colspan="2" align="center"><?php echo OptionService::get('site:copyright')?></td>
+                </tr>
+        </table>
     </div>
 </div>
 </form>

@@ -17,24 +17,24 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <title><?php if(!empty($subtitle))echo $subtitle . ' | '?><?php echo OptionService::get(site.sitename)?></title>
 </head>
 <body class="dialog">
 <header class="subtitle">
-	<a href="javascript:;" class="close-link"><img src="<?php echo $this->assets('static/sx54/images/close-cross.png')?>" /></a>
-	<h1><?php if(isset($subtitle)) echo $subtitle?></h1>
+    <a href="javascript:;" class="close-link"><img src="<?php echo $this->assets('static/sx54/images/close-cross.png')?>" /></a>
+    <h1><?php if(isset($subtitle)) echo $subtitle?></h1>
 </header>
 <div class="main">
-	<?php echo $content;?>
+    <?php echo $content;?>
 </div>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
 common.init();
 //关闭按钮
 $(".close-link").click(function(){
-	parent.$.fancybox.close();
+    parent.$.fancybox.close();
 });
 </script>
 </body>

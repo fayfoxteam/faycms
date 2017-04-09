@@ -5,13 +5,13 @@ use siwi\library\FrontController;
 use fay\models\tables\TagsTable;
 
 class TagController extends FrontController{
-	public function search(){
-		$tags = TagsTable::model()->fetchAll(array(
-			'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
-		), 'id,title', 'sort, count DESC', 20);
-		echo json_encode(array(
-			'status'=>1,
-			'data'=>$tags,
-		));
-	}
+    public function search(){
+        $tags = TagsTable::model()->fetchAll(array(
+            'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
+        ), 'id,title', 'sort, count DESC', 20);
+        echo json_encode(array(
+            'status'=>1,
+            'data'=>$tags,
+        ));
+    }
 }

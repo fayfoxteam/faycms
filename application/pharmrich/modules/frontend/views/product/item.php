@@ -1,6 +1,6 @@
 <div class="centered-wrapper cf mt30">
-	<section class="g-mn">
-		<?php F::widget()->load('product-item')?>
-	</section>
-	<aside class="g-sd"><?php F::widget()->area('product-item-sidebar')?></aside>
+    <section class="g-mn">
+        <?php F::widget()->load('product-item')?>
+    </section>
+    <aside class="g-sd"><?php F::widget()->area('product-item-sidebar')?></aside>
 </div>

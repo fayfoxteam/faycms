@@ -4,10 +4,10 @@
  * 若不设置则默认使用外面的配置参数
  */
 return array(
-	/*
-	 * 当前application包含的模块
-	 */
-	'modules'=>array(
-		'frontend'
-	),
+    /*
+     * 当前application包含的模块
+     */
+    'modules'=>array(
+        'frontend'
+    ),
 );

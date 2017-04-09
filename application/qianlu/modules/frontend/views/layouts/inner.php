@@ -18,92 +18,92 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <meta content="<?php echo isset($keywords)? $keywords : ''?>" name="keywords" />
 <meta content="<?php echo isset($description)? $description : ''?>" name="description" />
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <!--[if IE 6]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/DD_belatedPNG_0.0.8a-min.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/DD_belatedPNG_0.0.8a-min.js')?>"></script>
 <![endif]-->
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <div class="wrapper" id="inner-page">
-	<?php include '_header.php'?>
-	<div id="content">
-		<aside id="sidebar">
-			<div id="sidebar-bg-left">
-				<div id="sidebar-bg-right">
-					<div id="sidebar-content" class="fixed-content">
-						<ul>
-						<?php foreach($submenu as $s){?>
-							<li>
-								<?php echo HtmlHelper::link($s['title'], $s['link'], array(
-									'class'=>isset($s['class']) ? $s['class'] : false,
-								))?>
-							</li>
-						<?php }?>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</aside>
-		<div id="main-content">
-			<h3 id="sub-title"><?php echo $subtitle?></h3>
-			<div id="breadcrumbs">
-				您现在的位置：
-				<?php foreach($breadcrumbs as $k=>$b){
-					if($k)echo '&gt;&nbsp;';
-					if(!empty($b['link'])){
-						echo "<a href='{$b['link']}'>{$b['title']}</a>";
-					}else{
-						echo $b['title'];
-					}
-				}?>
-			</div>
-			<?php if(!empty($banner)){?>
-				<div id="sub-banner"><img src="<?php echo $this->appAssets('images/'.$banner)?>" height="145" /></div>
-			<?php }?>
-			<?php echo $content;?>
-		</div>
-		<div class="clear"></div>
-	</div>
-	<?php include '_footer.php'?>
+    <?php include '_header.php'?>
+    <div id="content">
+        <aside id="sidebar">
+            <div id="sidebar-bg-left">
+                <div id="sidebar-bg-right">
+                    <div id="sidebar-content" class="fixed-content">
+                        <ul>
+                        <?php foreach($submenu as $s){?>
+                            <li>
+                                <?php echo HtmlHelper::link($s['title'], $s['link'], array(
+                                    'class'=>isset($s['class']) ? $s['class'] : false,
+                                ))?>
+                            </li>
+                        <?php }?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <div id="main-content">
+            <h3 id="sub-title"><?php echo $subtitle?></h3>
+            <div id="breadcrumbs">
+                您现在的位置：
+                <?php foreach($breadcrumbs as $k=>$b){
+                    if($k)echo '&gt;&nbsp;';
+                    if(!empty($b['link'])){
+                        echo "<a href='{$b['link']}'>{$b['title']}</a>";
+                    }else{
+                        echo $b['title'];
+                    }
+                }?>
+            </div>
+            <?php if(!empty($banner)){?>
+                <div id="sub-banner"><img src="<?php echo $this->appAssets('images/'.$banner)?>" height="145" /></div>
+            <?php }?>
+            <?php echo $content;?>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <?php include '_footer.php'?>
 </div>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.masonry.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.fixcontent.js')?>"></script>
 <script>
 $(".titlediv").each(function(i){
-	if($(this).find("input").val() != ""){
-		$(this).find(".title-prompt-text").hide();
-	}
+    if($(this).find("input").val() != ""){
+        $(this).find(".title-prompt-text").hide();
+    }
 });
 
 $(".titlediv input").focus(function(){
-	$(this).parent().find(".title-prompt-text").hide();
+    $(this).parent().find(".title-prompt-text").hide();
 }).blur(function(){
-	if($(this).val()==""){
-		$(this).parent().find(".title-prompt-text").show();
-	}
+    if($(this).val()==""){
+        $(this).parent().find(".title-prompt-text").show();
+    }
 });
 
 $("#content").imagesLoaded(function(){
-	if($("#content").height() < 400){
-		$("#content").height(400);
-		$("#main-content").height(400);
-	}
-	$("#sidebar").height($("#content").height() - 12);
+    if($("#content").height() < 400){
+        $("#content").height(400);
+        $("#main-content").height(400);
+    }
+    $("#sidebar").height($("#content").height() - 12);
 });
 
 $(".fixed-content").fixcontent();
 
 if($.browser.msie && $.browser.version == 6){
-	DD_belatedPNG.fix(".fixpng");
+    DD_belatedPNG.fix(".fixpng");
 }
 
 $("a[href^='#']").click(function(){
-	if($(this).attr("href").length > 1){
-		$("html,body").animate({scrollTop: $($(this).attr("href")).offset().top - 10}, 500);
-		return false;
-	}
+    if($(this).attr("href").length > 1){
+        $("html,body").animate({scrollTop: $($(this).attr("href")).offset().top - 10}, 500);
+        return false;
+    }
 });
 </script>
 </body>

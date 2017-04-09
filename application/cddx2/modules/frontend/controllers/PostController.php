@@ -6,20 +6,20 @@ use fay\core\HttpException;
 use fay\services\CategoryService;
 
 class PostController extends FrontController{
-	public function index(){
-		$cat_id = $this->input->get('cat_id', 'intval');
-		
-		//获取分类
-		if(!$cat_id || !$cat = CategoryService::service()->get($cat_id)){
-			throw new HttpException('您请求的页面不存在');
-		}
-		
-		$this->view->cat = $cat;
-		
-		$this->view->render();
-	}
-	
-	public function item(){
-		$this->view->render();
-	}
+    public function index(){
+        $cat_id = $this->input->get('cat_id', 'intval');
+        
+        //获取分类
+        if(!$cat_id || !$cat = CategoryService::service()->get($cat_id)){
+            throw new HttpException('您请求的页面不存在');
+        }
+        
+        $this->view->cat = $cat;
+        
+        $this->view->render();
+    }
+    
+    public function item(){
+        $this->view->render();
+    }
 }

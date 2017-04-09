@@ -14,20 +14,20 @@ use fay\helpers\HtmlHelper;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <?php if(\F::config()->get('debug')){?>
-	<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+    <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
 <?php }else{?>
-	<link type="text/css" rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.4.0/css/font-awesome.min.css" />
+    <link type="text/css" rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.4.0/css/font-awesome.min.css" />
 <?php }?>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.camera.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" />
 <?php echo $this->getCss()?>
 <?php if(\F::config()->get('debug')){?>
-	<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <?php }else{?>
-	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
 <?php }?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
@@ -35,14 +35,14 @@ use fay\helpers\HtmlHelper;
 system.base_url = '<?php echo $this->url()?>';
 system.user_id = '<?php echo \F::app()->current_user?>';
 $(function(){
-	common.init();
+    common.init();
 });
 </script>
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <?php $this->renderPartial('layouts/_header', array(
-	'current_header_menu'=>$current_header_menu,
+    'current_header_menu'=>$current_header_menu,
 ));?>
 <?php echo $content?>
 <?php $this->renderPartial('layouts/_footer');?>

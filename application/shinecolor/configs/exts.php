@@ -8,5 +8,5 @@
  *     * => .*
  */
 return array(
-	'/'=>array('service', 'news', 'product'),
+    '/'=>array('service', 'news', 'product'),
 );

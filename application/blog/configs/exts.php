@@ -5,5 +5,5 @@
  *     * => .*
  */
 return array(
-	'/'=>array('work', 'post'),
+    '/'=>array('work', 'post'),
 );

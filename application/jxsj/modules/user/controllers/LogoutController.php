@@ -6,9 +6,9 @@ use fay\core\Response;
 use fay\services\user\UserService;
 
 class LogoutController extends UserController{
-	public function index(){
-		UserService::service()->logout();
-		
-		Response::redirect(null);
-	}
+    public function index(){
+        UserService::service()->logout();
+        
+        Response::redirect(null);
+    }
 }

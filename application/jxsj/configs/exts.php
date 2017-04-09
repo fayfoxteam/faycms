@@ -5,5 +5,5 @@
  *     * => .*
  */
 return array(
-	'/'=>array('cat/*'),
+    '/'=>array('cat/*'),
 );

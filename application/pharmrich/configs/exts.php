@@ -5,5 +5,5 @@
  *     * => .*
  */
 return array(
-	'/'=>array('product', 'cook-recipes'),
+    '/'=>array('product', 'cook-recipes'),
 );

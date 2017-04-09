@@ -1,33 +1,33 @@
 <div class="swiper-slide" id="arm-12">
-	<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
-	<div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
-	<div class="layer title"><img src="<?php echo $this->appAssets('images/arm/t5.png')?>"></div>
-	<div class="layer description">
-		<p class="center">有价值有深度的关公文化网络体验之旅</p>
-		<p class="center">为实战体验做战争准备</p>
-	</div>
+    <div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
+    <div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
+    <div class="layer title"><img src="<?php echo $this->appAssets('images/arm/t5.png')?>"></div>
+    <div class="layer description">
+        <p class="center">有价值有深度的关公文化网络体验之旅</p>
+        <p class="center">为实战体验做战争准备</p>
+    </div>
 </div>
 <div class="swiper-slide jobs-slide" id="arm-13">
-	<div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
-	<div class="layer subtitle">履军职</div>
-	<div class="layer job-title"><img src="<?php echo $this->appAssets('images/arm/junzhi-title.png')?>"></div>
-	<div class="layer jobs">
-		<ul>
-			<li class="job-1">
-				<a href="javascript:" id="attendance-dialog-link" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
-			</li>
-			<li class="job-2">
-				<a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
-			</li>
-			<li class="job-3">
-				<a href="#post-dialog" id="post-dialog-link" data-id="<?php echo empty($next_post) ? 0 : $next_post?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
-			</li>
-			<li class="job-4">
-				<a href="<?php echo $this->url()?>" class=""><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
-			</li>
-		</ul>
-	</div>
-	<div class="layer description">
+    <div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
+    <div class="layer subtitle">履军职</div>
+    <div class="layer job-title"><img src="<?php echo $this->appAssets('images/arm/junzhi-title.png')?>"></div>
+    <div class="layer jobs">
+        <ul>
+            <li class="job-1">
+                <a href="javascript:" id="attendance-dialog-link" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
+            </li>
+            <li class="job-2">
+                <a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
+            </li>
+            <li class="job-3">
+                <a href="#post-dialog" id="post-dialog-link" data-id="<?php echo empty($next_post) ? 0 : $next_post?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
+            </li>
+            <li class="job-4">
+                <a href="<?php echo $this->url()?>" class=""><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
+            </li>
+        </ul>
+    </div>
+    <div class="layer description">
         <p>按要求先行完成军职者，不论出身，部分贵贱，封<a href="#jiangjunxian-dialog" class="fancybox-inline">“将军衔”</a>，授<a href="#yunchangjian-dialog" class="fancybox-inline">“云长剑”</a>（关羽军团最高荣誉）。</p>
         <p>千兵有头，万兵有将。百名将军军衔等着授封，记住，只有百名！</p>
     </div>
@@ -107,110 +107,110 @@
 <script>
 wx.config(<?php echo $js_sdk_config?>);
 wx.ready(function(){
-	wx.onMenuShareTimeline({
-		title: '天下招募令', // 分享标题
-		link: '<?php echo $this->url('recruit')?>', // 分享链接
-		imgUrl: '<?php echo $this->appAssets('images/arm/guanyin.png')?>', // 分享图标
-		success: function(){
-			// 用户确认分享后执行的回调函数
-			$('body').block();
-			$.ajax({
-				'type': 'POST',
-				'url': system.url('api/task/do'),
-				'data': {'task_id': 2},
-				'dataType': 'json',
-				'cache': false,
-				'success': function(resp){
-					$('body').unblock();
-					if(resp.status){
-						common.toast('分享朋友圈任务完成', 'success');
-					}
-				}
-			});
-		},
-		cancel: function () {
-			// 用户取消分享后执行的回调函数
-		}
-	});
+    wx.onMenuShareTimeline({
+        title: '天下招募令', // 分享标题
+        link: '<?php echo $this->url('recruit')?>', // 分享链接
+        imgUrl: '<?php echo $this->appAssets('images/arm/guanyin.png')?>', // 分享图标
+        success: function(){
+            // 用户确认分享后执行的回调函数
+            $('body').block();
+            $.ajax({
+                'type': 'POST',
+                'url': system.url('api/task/do'),
+                'data': {'task_id': 2},
+                'dataType': 'json',
+                'cache': false,
+                'success': function(resp){
+                    $('body').unblock();
+                    if(resp.status){
+                        common.toast('分享朋友圈任务完成', 'success');
+                    }
+                }
+            });
+        },
+        cancel: function () {
+            // 用户取消分享后执行的回调函数
+        }
+    });
 });
 
 $('#post-dialog').css({'width': document.documentElement.clientWidth * 0.7});
 $('#yunchangjian-dialog').css({
-	'width': document.documentElement.clientWidth * 0.75,
-	'height': document.documentElement.clientHeight * 0.8
+    'width': document.documentElement.clientWidth * 0.75,
+    'height': document.documentElement.clientHeight * 0.8
 });
 $('#jiangjunxian-dialog').css({
-	'width': document.documentElement.clientWidth * 0.75
+    'width': document.documentElement.clientWidth * 0.75
 });
 
 $(function(){
-	var audio = new Audio("<?php echo $this->appAssets('music/gusheng2.mp3')?>");
-	audio.addEventListener('timeupdate', function(){
-		if(audio.currentTime == audio.duration){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function() {
-				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function () {
+    var audio = new Audio("<?php echo $this->appAssets('music/gusheng2.mp3')?>");
+    audio.addEventListener('timeupdate', function(){
+        if(audio.currentTime == audio.duration){
+            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function() {
+                system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function () {
                     $.fancybox($('#attendance-dialog').parent().html(), {
-						'padding': 0,
-						'centerOnScroll': true,
-						'width': '90%'
-					});
-				});
-			});
+                        'padding': 0,
+                        'centerOnScroll': true,
+                        'width': '90%'
+                    });
+                });
+            });
         }
-	});
-	$('#attendance-dialog-link').on('click', function(){
-		audio.play();
     });
-	
-	$('.task-link').on('click', function(){
-		$('body').block();
-		//记录任务
-		$.ajax({
-			'type': 'POST',
-			'url': system.url('api/task/do'),
-			'data': {'task_id': $(this).attr('data-task-id')},
-			'dataType': 'json',
-			'cache': false,
-			'success': function(resp){
-				$('body').unblock();
-			}
-		});
-	});
+    $('#attendance-dialog-link').on('click', function(){
+        audio.play();
+    });
+    
+    $('.task-link').on('click', function(){
+        $('body').block();
+        //记录任务
+        $.ajax({
+            'type': 'POST',
+            'url': system.url('api/task/do'),
+            'data': {'task_id': $(this).attr('data-task-id')},
+            'dataType': 'json',
+            'cache': false,
+            'success': function(resp){
+                $('body').unblock();
+            }
+        });
+    });
 
-	system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-			$('#post-dialog-link').fancybox({
-				'padding': 0,
-				'type': 'inline',
+    system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
+        system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+            $('#post-dialog-link').fancybox({
+                'padding': 0,
+                'type': 'inline',
                 'width': 300,
                 'height': 500,
-				'onStart': function(o){
-					if($(o).attr('data-id') == '0'){
-						common.toast('恭喜您已经完成所有资料阅读');
-						return false;
-					}else{
-						$('body').block();
-						$.ajax({
-							'type': 'GET',
-							'url': system.url('api/post/item'),
-							'data': {'id': $(o).attr('data-id')},
-							'dataType': 'json',
-							'cache': false,
-							'success': function(resp){
-								$('body').unblock();
-								if(resp.status){
-									var $postDialog = $('#post-dialog');
-									$postDialog.find('.post-title').text(resp.data.post.title);
-									$postDialog.find('.post-content').html(resp.data.post.content);
-								}else{
-									common.toast('恭喜您已经完成所有资料阅读');
-								}
-							}
-						});
-					}
-				}
-			});
-		});
-	});
+                'onStart': function(o){
+                    if($(o).attr('data-id') == '0'){
+                        common.toast('恭喜您已经完成所有资料阅读');
+                        return false;
+                    }else{
+                        $('body').block();
+                        $.ajax({
+                            'type': 'GET',
+                            'url': system.url('api/post/item'),
+                            'data': {'id': $(o).attr('data-id')},
+                            'dataType': 'json',
+                            'cache': false,
+                            'success': function(resp){
+                                $('body').unblock();
+                                if(resp.status){
+                                    var $postDialog = $('#post-dialog');
+                                    $postDialog.find('.post-title').text(resp.data.post.title);
+                                    $postDialog.find('.post-content').html(resp.data.post.content);
+                                }else{
+                                    common.toast('恭喜您已经完成所有资料阅读');
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
 });
 </script>

@@ -5,6 +5,6 @@
  *     * => .*
  */
 return array(
-	'/'=>array('product', 'travel', 'news', 'food', 'special'),
-	''=>array('special/\?*'),
+    '/'=>array('product', 'travel', 'news', 'food', 'special'),
+    ''=>array('special/\?*'),
 );

@@ -4,12 +4,12 @@ namespace blog\widgets\profile\controllers;
 use fay\widget\Widget;
 
 class AdminController extends Widget{
-	
-	public $title = '个人资料';
-	public $author = 'fayfox';
-	public $author_link = 'http://www.fayfox.com';
-	public $description = '个人资料';
-	public $screenshot = 'screenshot.jpg';
-	
-	public function index(){}
+    
+    public $title = '个人资料';
+    public $author = 'fayfox';
+    public $author_link = 'http://www.fayfox.com';
+    public $description = '个人资料';
+    public $screenshot = 'screenshot.jpg';
+    
+    public function index(){}
 }

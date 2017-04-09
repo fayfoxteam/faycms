@@ -23,29 +23,29 @@ system.current_user = '<?php echo \F::app()->current_user?>';
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get(site.sitename)?></title>
 </head>
 <body>
 <?php 
-	include '_header.php';
-	include '_sitenav.php';
-	if(Uri::getInstance()->router != 'default/index/index'){
-		include '_sub_banner.php';
-	}
-	if($breadcrumbs){
-		include '_breadcrumbs.php';
-	}
-	echo $content;
-	include '_footer.php';
-	echo FlashService::get();
+    include '_header.php';
+    include '_sitenav.php';
+    if(Uri::getInstance()->router != 'default/index/index'){
+        include '_sub_banner.php';
+    }
+    if($breadcrumbs){
+        include '_breadcrumbs.php';
+    }
+    echo $content;
+    include '_footer.php';
+    echo FlashService::get();
 ?>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
 $(function(){
-	common.init();
+    common.init();
 })
 </script>
 </body>

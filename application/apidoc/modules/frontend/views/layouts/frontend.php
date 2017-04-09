@@ -20,7 +20,7 @@ use fay\services\OptionService;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <script>
 system.base_url = '<?php echo $this->url()?>';
@@ -31,24 +31,24 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 </head>
 <body id="faycms">
 <div class="wrapper">
-	<?php include '_sidebar_menu.php'?>
-	<div class="container main-content">
-		<div class="page-title">
-			<div class="title-env">
-				<h1 class="title"><?php
-					echo isset($title) ? $title : '无标题';
-					if($subtitle){
-						echo ' <span>(', $subtitle, ')</span>';
-					}
-				?></h1>
-			</div>
-		</div>
-		<?php echo $content?>
-	</div>
+    <?php include '_sidebar_menu.php'?>
+    <div class="container main-content">
+        <div class="page-title">
+            <div class="title-env">
+                <h1 class="title"><?php
+                    echo isset($title) ? $title : '无标题';
+                    if($subtitle){
+                        echo ' <span>(', $subtitle, ')</span>';
+                    }
+                ?></h1>
+            </div>
+        </div>
+        <?php echo $content?>
+    </div>
 </div>
 <script>
 $(function(){
-	common.init();
+    common.init();
 });
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>

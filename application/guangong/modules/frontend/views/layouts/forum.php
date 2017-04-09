@@ -6,10 +6,10 @@
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <title><?php if(!empty($title)){
-	echo $title;
+    echo $title;
 }?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	
+    
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/animate/animate.min.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('js/swiper/css/swiper.min.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >

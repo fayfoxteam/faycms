@@ -17,12 +17,12 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 <link type="image/x-icon" href="<?php echo $this->assets('favicon.ico" rel="shortcut icon')?>" />
 <!--[if IE 6]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/DD_belatedPNG_0.0.8a-min.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/DD_belatedPNG_0.0.8a-min.js')?>"></script>
 <![endif]-->
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo HtmlHelper::encode($description);?>" name="description" />
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <title><?php if(!empty($title))echo $title . '_'?><?php echo OptionService::get('site:sitename')?></title>
 <style>
@@ -31,21 +31,21 @@ body{background-position:center 112px;}
 </head>
 <body>
 <div class="wrapper">
-	<?php include '_header.php'?>
-	<?php include '_navigation.php'?>
-	<div class="w1000 clearfix bg-white mt10">
-		<?php include '_left.php'?>
-		<div class="ml240">
-			<?php echo $content?>
-		</div>
-	</div>
-	<?php include '_footer.php'?>
-	<?php echo FlashService::get();?>
+    <?php include '_header.php'?>
+    <?php include '_navigation.php'?>
+    <div class="w1000 clearfix bg-white mt10">
+        <?php include '_left.php'?>
+        <div class="ml240">
+            <?php echo $content?>
+        </div>
+    </div>
+    <?php include '_footer.php'?>
+    <?php echo FlashService::get();?>
 </div>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
 $(function(){
-	common.init();
+    common.init();
 })
 </script>
 </body>

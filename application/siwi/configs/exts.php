@@ -5,6 +5,6 @@
  *     * => .*
  */
 return array(
-	'/'=>array('work', 'blog', 'material'),
-	''=>array('user/*'),
+    '/'=>array('work', 'blog', 'material'),
+    ''=>array('user/*'),
 );

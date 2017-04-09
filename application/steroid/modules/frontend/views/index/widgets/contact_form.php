@@ -6,5 +6,5 @@
  */
 ?>
 <div class="col-md-4">
-	<?php $widget->view->render('template', $this->getViewData())?>
+    <?php $widget->view->render('template', $this->getViewData())?>
 </div>

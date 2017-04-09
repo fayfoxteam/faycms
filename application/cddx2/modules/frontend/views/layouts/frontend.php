@@ -10,10 +10,10 @@ use fay\helpers\HtmlHelper;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <title><?php if(!empty($title)){
-	echo $title, '_';
+    echo $title, '_';
 }
 echo OptionService::get('site:sitename')?></title>
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />
@@ -30,7 +30,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <body>
 <?php $this->renderPartial('layouts/_header')?>
 <div class="w1000 g-con">
-	<?php echo $content?>
+    <?php echo $content?>
 </div>
 <?php $this->renderPartial('layouts/_footer')?>
 </body>

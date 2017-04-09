@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('static/siwi/css/style.css')?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('static/siwi/css/user.css')?>" />
@@ -29,38 +29,38 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <body>
 <?php include MODULE_PATH.'frontend/layouts/_header.php';?>
 <div class="g-con">
-	<div class="g-mn">
-		<div class="shot-menu clearfix">
-			<ul>
-				<li>
-					<?php echo HtmlHelper::link('发布作品', array('user/work/create'), array(
-						'class'=>(isset($current_directory) && $current_directory == 'work') ? 'crt' : '',
-					))?>
-				</li>
-				<li>
-					<?php echo HtmlHelper::link('发布博文', array('user/post/create'), array(
-						'class'=>(isset($current_directory) && $current_directory == 'blog') ? 'crt' : '',
-					))?>
-				</li>
-				<li>
-					<?php echo HtmlHelper::link('上传素材', array('user/material/create'), array(
-						'class'=>(isset($current_directory) && $current_directory == 'material') ? 'crt' : '',
-					))?>
-				</li>
-				<li>
-					<?php echo HtmlHelper::link('收集网站', array('user/site/create'), array(
-						'class'=>(isset($current_directory) && $current_directory == 'site') ? 'crt' : '',
-					))?>
-				</li>
-				<li>
-					<a href="javascript:;">上传灵感</a>
-				</li>
-			</ul>
-		</div>
-		<div class="g_mnc">
-			<?php echo $content;?>
-		</div>
-	</div>
+    <div class="g-mn">
+        <div class="shot-menu clearfix">
+            <ul>
+                <li>
+                    <?php echo HtmlHelper::link('发布作品', array('user/work/create'), array(
+                        'class'=>(isset($current_directory) && $current_directory == 'work') ? 'crt' : '',
+                    ))?>
+                </li>
+                <li>
+                    <?php echo HtmlHelper::link('发布博文', array('user/post/create'), array(
+                        'class'=>(isset($current_directory) && $current_directory == 'blog') ? 'crt' : '',
+                    ))?>
+                </li>
+                <li>
+                    <?php echo HtmlHelper::link('上传素材', array('user/material/create'), array(
+                        'class'=>(isset($current_directory) && $current_directory == 'material') ? 'crt' : '',
+                    ))?>
+                </li>
+                <li>
+                    <?php echo HtmlHelper::link('收集网站', array('user/site/create'), array(
+                        'class'=>(isset($current_directory) && $current_directory == 'site') ? 'crt' : '',
+                    ))?>
+                </li>
+                <li>
+                    <a href="javascript:;">上传灵感</a>
+                </li>
+            </ul>
+        </div>
+        <div class="g_mnc">
+            <?php echo $content;?>
+        </div>
+    </div>
 </div>
 <?php include MODULE_PATH.'frontend/layouts/_footer.php';?>
 </body>

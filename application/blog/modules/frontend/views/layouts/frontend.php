@@ -3,26 +3,26 @@ use fay\helpers\HtmlHelper;
 use fay\services\OptionService;
 
 $menu = array(
-	array(
-		'name'=>'home',
-		'link'=>$this->url(),
-		'label'=>'首页',
-	),
-	array(
-		'name'=>'blog',
-		'link'=>$this->url('post'),
-		'label'=>'博文',
-	),
-	array(
-		'name'=>'work',
-		'link'=>$this->url('work'),
-		'label'=>'我的作品',
-	),
-	array(
-		'name'=>'about',
-		'link'=>$this->url('about'),
-		'label'=>'关于我',
-	),
+    array(
+        'name'=>'home',
+        'link'=>$this->url(),
+        'label'=>'首页',
+    ),
+    array(
+        'name'=>'blog',
+        'link'=>$this->url('post'),
+        'label'=>'博文',
+    ),
+    array(
+        'name'=>'work',
+        'link'=>$this->url('work'),
+        'label'=>'我的作品',
+    ),
+    array(
+        'name'=>'about',
+        'link'=>$this->url('about'),
+        'label'=>'关于我',
+    ),
 );
 ?>
 <!DOCTYPE html>
@@ -45,126 +45,126 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
 <div class="wrapper">
-	<div class="menu">
-		<div class="menu-in">
-			<div class="logo">
-				<a href="<?php echo $this->assets('" title="Fayfox')?>"></a>
-			</div>
-			<ul class="menu-links">
-			<?php foreach($menu as $m){?>
-				<?php if(isset($current_directory) && $current_directory == $m['name']){?>
-					<li class="menu-link-sel">
-						<a href="<?php echo $m['link']?>"><?php echo $m['label']?></a>
-					</li>
-				<?php }else{?>
-				<li>
-					<a href="<?php echo $m['link']?>"><?php echo $m['label']?></a>
-				</li>
-				<?php }?>
-			<?php }?>
-			</ul>
-			<div class="oauth">
-				<a href="<?php echo $qq_oauth_url?>"><img src="<?php echo $this->appAssets('images/Connect_logo_3.png')?>"></a>
-			</div>
-		</div>
-	</div>
-	<div class="content-shade"></div>
-	<div class="content">
-		<?php echo $content?>
-	</div>
-	<div class="footer">
-		<div class="footer-in">
-			<div style="padding-left:70px;"><a href="http://www.chidiaoni.com">吃掉你</a></div>
-			<div class="copyright">Copyright © 2012-2013 <a href="<?php echo $this->url()?>">fayfox.com</a></div>
-			<div class="beian">浙ICP备12036784号-1</div>
-		</div>
-	</div>
-	<?php if(!empty($qr_data)){?>
-	<div id="qrcode">
-		<h5>手机访问</h5>
-		<img src="<?php echo $this->url('file/qrcode', array(
-			'data'=>base64_encode($qr_data),
-		))?>" />
-	</div>
-	<?php }?>
+    <div class="menu">
+        <div class="menu-in">
+            <div class="logo">
+                <a href="<?php echo $this->assets('" title="Fayfox')?>"></a>
+            </div>
+            <ul class="menu-links">
+            <?php foreach($menu as $m){?>
+                <?php if(isset($current_directory) && $current_directory == $m['name']){?>
+                    <li class="menu-link-sel">
+                        <a href="<?php echo $m['link']?>"><?php echo $m['label']?></a>
+                    </li>
+                <?php }else{?>
+                <li>
+                    <a href="<?php echo $m['link']?>"><?php echo $m['label']?></a>
+                </li>
+                <?php }?>
+            <?php }?>
+            </ul>
+            <div class="oauth">
+                <a href="<?php echo $qq_oauth_url?>"><img src="<?php echo $this->appAssets('images/Connect_logo_3.png')?>"></a>
+            </div>
+        </div>
+    </div>
+    <div class="content-shade"></div>
+    <div class="content">
+        <?php echo $content?>
+    </div>
+    <div class="footer">
+        <div class="footer-in">
+            <div style="padding-left:70px;"><a href="http://www.chidiaoni.com">吃掉你</a></div>
+            <div class="copyright">Copyright © 2012-2013 <a href="<?php echo $this->url()?>">fayfox.com</a></div>
+            <div class="beian">浙ICP备12036784号-1</div>
+        </div>
+    </div>
+    <?php if(!empty($qr_data)){?>
+    <div id="qrcode">
+        <h5>手机访问</h5>
+        <img src="<?php echo $this->url('file/qrcode', array(
+            'data'=>base64_encode($qr_data),
+        ))?>" />
+    </div>
+    <?php }?>
 </div>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.animate-shadow-min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script type="text/javascript">
 $(function(){
-	$(".menu-links").menu();
-	
-	$(".post-list .post-list-item").live("mouseover", function(){
-		$(this).stop().animate({
-			"box-shadow" : "5px 5px 10px rgba(0, 0, 0, 0.25)",
-			"borderBottomRightRadius" : "30"
-		});
-	});
-	$(".post-list .post-list-item").live("mouseout", function(){
-		$(this).stop().animate({
-			"box-shadow": "2px 2px 10px #E7E5E6",
-			"borderBottomRightRadius" : "0"
-		});
-	});
+    $(".menu-links").menu();
+    
+    $(".post-list .post-list-item").live("mouseover", function(){
+        $(this).stop().animate({
+            "box-shadow" : "5px 5px 10px rgba(0, 0, 0, 0.25)",
+            "borderBottomRightRadius" : "30"
+        });
+    });
+    $(".post-list .post-list-item").live("mouseout", function(){
+        $(this).stop().animate({
+            "box-shadow": "2px 2px 10px #E7E5E6",
+            "borderBottomRightRadius" : "0"
+        });
+    });
 
-	//下拉后顶部固定
-	$(".fixed-content").each(function(){
-		var o = this;
-		var timeout = null;
-		var offset_top = $(o).offset().top;
-		$(o).css({
-			"width": $(o).width()
-		});
-		$(window).scroll(function(){
-			clearTimeout(timeout);
-			if($("body").get(0).getBoundingClientRect().top <= -(offset_top + 10)){
-				if(!$(o).next(".fix-content-succedaneum").length){
-					$(o).after('<div class="fix-content-succedaneum" style="width:'+$(o).width()+'px;height:'+$(o).height()+'px;"></div>');
-				}
-				if($.browser.msie && $.browser.version < 8){
-					timeout = setTimeout(function(){
-						$(o).css({
-							"position": "absolute",
-							"z-index": 1000,
-							"left": $(o).offset().left
-						})
-						.animate({
-							"top": - $("body").get(0).getBoundingClientRect().top
-						})
-						.addClass("col-fixed");
-					}, 200);
-				}else{
-					$(o).css({
-						"position": "fixed",
-						"top": 0,
-						"z-index": 1000,
-						"left": $(o).offset().left
-					})
-					.addClass("col-fixed");
-				}
-			}else{
-				$(o).css({
-					"position": "relative",
-					"top": 0,
-					"left": 0
-				})
-				.removeClass("col-fixed");
-				$(o).next(".fix-content-succedaneum").remove();
-			}
-		});
-	});
-	$(".work-file-item a").fancybox({
-		'transitionIn' : 'elastic',
-		'transitionOut' : 'elastic',
-		'type' : 'image',
-		'padding' : 0
-	});
+    //下拉后顶部固定
+    $(".fixed-content").each(function(){
+        var o = this;
+        var timeout = null;
+        var offset_top = $(o).offset().top;
+        $(o).css({
+            "width": $(o).width()
+        });
+        $(window).scroll(function(){
+            clearTimeout(timeout);
+            if($("body").get(0).getBoundingClientRect().top <= -(offset_top + 10)){
+                if(!$(o).next(".fix-content-succedaneum").length){
+                    $(o).after('<div class="fix-content-succedaneum" style="width:'+$(o).width()+'px;height:'+$(o).height()+'px;"></div>');
+                }
+                if($.browser.msie && $.browser.version < 8){
+                    timeout = setTimeout(function(){
+                        $(o).css({
+                            "position": "absolute",
+                            "z-index": 1000,
+                            "left": $(o).offset().left
+                        })
+                        .animate({
+                            "top": - $("body").get(0).getBoundingClientRect().top
+                        })
+                        .addClass("col-fixed");
+                    }, 200);
+                }else{
+                    $(o).css({
+                        "position": "fixed",
+                        "top": 0,
+                        "z-index": 1000,
+                        "left": $(o).offset().left
+                    })
+                    .addClass("col-fixed");
+                }
+            }else{
+                $(o).css({
+                    "position": "relative",
+                    "top": 0,
+                    "left": 0
+                })
+                .removeClass("col-fixed");
+                $(o).next(".fix-content-succedaneum").remove();
+            }
+        });
+    });
+    $(".work-file-item a").fancybox({
+        'transitionIn' : 'elastic',
+        'transitionOut' : 'elastic',
+        'type' : 'image',
+        'padding' : 0
+    });
 });
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>

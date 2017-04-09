@@ -20,35 +20,35 @@ use fay\helpers\HtmlHelper;
 system.base_url = '<?php echo $this->url()?>';
 </script>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 </head>
 <body>
 <div class="wrapper">
-	<?php $this->renderPartial('layouts/_sidebar_menu')?>
-	<div class="main-content">
-		<div class="cf main-title">
-			<h1 class="fl"><?php echo isset($page_title) ? $page_title : ''?></h1>
-			<?php if(isset($breadcrumb)){?>
-			<ol class="fr breadcrumb">
-				<li>
-					<a href="<?php echo $this->assets('"><i class="icon-home')?>"></i>主页</a>
-				</li>
-				<?php foreach($breadcrumb as $b){?>
-				<li><?php echo HtmlHelper::link($b['text'], $b['href'])?></li>
-				<?php }?>
-			</ol>
-			<?php }?>
-		</div>
-		<div class="main-content-inner"><?php echo $content?></div>
-		<?php $this->renderPartial('layouts/_footer')?>
-	</div>
+    <?php $this->renderPartial('layouts/_sidebar_menu')?>
+    <div class="main-content">
+        <div class="cf main-title">
+            <h1 class="fl"><?php echo isset($page_title) ? $page_title : ''?></h1>
+            <?php if(isset($breadcrumb)){?>
+            <ol class="fr breadcrumb">
+                <li>
+                    <a href="<?php echo $this->assets('"><i class="icon-home')?>"></i>主页</a>
+                </li>
+                <?php foreach($breadcrumb as $b){?>
+                <li><?php echo HtmlHelper::link($b['text'], $b['href'])?></li>
+                <?php }?>
+            </ol>
+            <?php }?>
+        </div>
+        <div class="main-content-inner"><?php echo $content?></div>
+        <?php $this->renderPartial('layouts/_footer')?>
+    </div>
 </div>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('js/prefixfree.min.js')?>"></script>
 <script>
 $(function(){
-	common.init();
+    common.init();
 });
 </script>
 </body>

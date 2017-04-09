@@ -15,7 +15,7 @@ use fay\services\FlashService;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" />
 <?php echo $this->getCss()?>
@@ -29,10 +29,10 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 </head>
 <body>
 <div class="wrapper">
-	<?php include '_header.php';?>
-	<?php echo $content?>
-	<?php include '_footer.php';?>
-	<?php echo FlashService::get();?>
+    <?php include '_header.php';?>
+    <?php echo $content?>
+    <?php include '_footer.php';?>
+    <?php echo FlashService::get();?>
 </div>
 </body>
 </html>

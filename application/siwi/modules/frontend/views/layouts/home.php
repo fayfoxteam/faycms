@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('static/siwi/css/style.css')?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('static/siwi/css/home.css')?>" />
@@ -29,9 +29,9 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <body>
 <?php include '_home_header.php';?>
 <div class="g-con">
-	<div class="g-mn">
-		<?php echo $content;?>
-	</div>
+    <div class="g-mn">
+        <?php echo $content;?>
+    </div>
 </div>
 <?php include '_footer.php';?>
 </body>

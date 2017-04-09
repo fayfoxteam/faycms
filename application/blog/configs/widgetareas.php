@@ -15,12 +15,12 @@
  * );
  */
 return array(
-	array(
-		'alias'=>'header',
-		'description'=>'网页顶部',
-	),
-	array(
-		'alias'=>'sidebar',
-		'description'=>'网页侧边栏',
-	),
+    array(
+        'alias'=>'header',
+        'description'=>'网页顶部',
+    ),
+    array(
+        'alias'=>'sidebar',
+        'description'=>'网页侧边栏',
+    ),
 );

@@ -15,8 +15,8 @@
  * );
  */
 return array(
-	array(
-		'alias'=>'index-cases',
-		'description'=>'首页简介',
-	)
+    array(
+        'alias'=>'index-cases',
+        'description'=>'首页简介',
+    )
 );

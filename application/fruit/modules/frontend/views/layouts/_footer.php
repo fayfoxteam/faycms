@@ -2,32 +2,32 @@
 use fay\services\OptionService;
 ?>
 <footer class="g-bottom">
-	<div class="footer-row">
-		<div class="g-mn clearfix">
-			<div class="flogo">
-				<a href="<?php echo $this->url()?>"><img src="<?php echo $this->appAssets('images/flogo.png')?>" /></a>
-			</div>
-			<div class="flocation">
-				<h3>我们的位置</h3>
-				<div id="location-map"></div>
-			</div>
-			<div class="fcontact">
-				<h3>联系我们</h3>
-				<div class="fcontacts">
-					<table>
-						<?php F::widget()->load('contacts')?>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="copyright-row">
-		<div class="g-mn">
-			<p class="fl"><?php echo OptionService::get('site:copyright')?></p>
-			<p class="fr"><?php echo OptionService::get('site:beian')?></p>
-			<br class="clear" />
-		</div>
-	</div>
+    <div class="footer-row">
+        <div class="g-mn clearfix">
+            <div class="flogo">
+                <a href="<?php echo $this->url()?>"><img src="<?php echo $this->appAssets('images/flogo.png')?>" /></a>
+            </div>
+            <div class="flocation">
+                <h3>我们的位置</h3>
+                <div id="location-map"></div>
+            </div>
+            <div class="fcontact">
+                <h3>联系我们</h3>
+                <div class="fcontacts">
+                    <table>
+                        <?php F::widget()->load('contacts')?>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-row">
+        <div class="g-mn">
+            <p class="fl"><?php echo OptionService::get('site:copyright')?></p>
+            <p class="fr"><?php echo OptionService::get('site:beian')?></p>
+            <br class="clear" />
+        </div>
+    </div>
 </footer>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=10b033765ad00c668fcdd20902dab530"></script>
@@ -47,7 +47,7 @@ var infoWindow1 = new BMap.InfoWindow("<?php echo OptionService::get('site:siten
 marker1.addEventListener("click", function(){this.openInfoWindow(infoWindow1);});
 
 $('#select-nav').on('change', function(){
-	window.location.href = $(this).val();
+    window.location.href = $(this).val();
 });
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>

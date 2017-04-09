@@ -1,4 +1,4 @@
 <?php
 return array(
-	'/^([\w-\.]*)$/'=>'guide/index/cat/$1',
+    '/^([\w-\.]*)$/'=>'guide/index/cat/$1',
 );

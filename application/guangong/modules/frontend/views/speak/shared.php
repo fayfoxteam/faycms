@@ -11,11 +11,11 @@
 <head>
 <meta charset="utf-8">
 <?php if(!empty($canonical)){?>
-	<link rel="canonical" href="<?php echo $canonical?>" />
+    <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <title><?php if(!empty($title)){
-		echo $title;
-	}?></title>
+        echo $title;
+    }?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <?php echo $this->getCss()?>
@@ -48,10 +48,10 @@
 </style>
 </head>
 <body>
-	<div class="wrapper">
-		<h1 class="top-title">关公点兵—关公文化体验旅游主题产品</h1>
-		<h2 class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/t1.png')?>"></h2>
-		<div class="img-box">
+    <div class="wrapper">
+        <h1 class="top-title">关公点兵—关公文化体验旅游主题产品</h1>
+        <h2 class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/t1.png')?>"></h2>
+        <div class="img-box">
             <div class="img-container">
                 <a href="<?php
                 if($speak['photo']){
@@ -71,20 +71,20 @@
                     }
                     ?></a>
             </div>
-			<div class="img-box-title"><img src="<?php echo $this->appAssets('images/speak/t2.png')?>"></div>
-		</div>
-		<div class="desc"><?php echo \fay\helpers\HtmlHelper::encode($speak['name'])?>贵为关羽军团第<?php echo \fay\helpers\NumberHelper::toLength($speak['id'], 7)?>位代言人</div>
-		<div class="share-box">
+            <div class="img-box-title"><img src="<?php echo $this->appAssets('images/speak/t2.png')?>"></div>
+        </div>
+        <div class="desc"><?php echo \fay\helpers\HtmlHelper::encode($speak['name'])?>贵为关羽军团第<?php echo \fay\helpers\NumberHelper::toLength($speak['id'], 7)?>位代言人</div>
+        <div class="share-box">
             <img src="<?php echo $this->appAssets('images/speak/qr-desc.png')?>" class="qr-code-desc">
             <img src="<?php echo $this->appAssets('images/speak/qr.jpg')?>" class="qr-code">
-			<div class="t3">若每天一点正能量，<br>青春路上有阳光。</div>
-			<div class="btns">
-<!--				<a href="javascript:" class="btn btn-red">分享</a>-->
-				<a href="<?php echo $this->url('speak/create')?>" class="btn btn-blue">我也要代言</a>
-			</div>
-			<img src="<?php echo $this->appAssets('images/speak/yin.png')?>" class="yin">
+            <div class="t3">若每天一点正能量，<br>青春路上有阳光。</div>
+            <div class="btns">
+<!--                <a href="javascript:" class="btn btn-red">分享</a>-->
+                <a href="<?php echo $this->url('speak/create')?>" class="btn btn-blue">我也要代言</a>
+            </div>
+            <img src="<?php echo $this->appAssets('images/speak/yin.png')?>" class="yin">
             <br class="clear">
-		</div>
-	</div>
+        </div>
+    </div>
 </body>
 </html>

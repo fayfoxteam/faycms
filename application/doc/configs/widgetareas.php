@@ -15,8 +15,8 @@
  * );
  */
 return array(
-	array(
-		'alias'=>'test',
-		'description'=>'测试',
-	),
+    array(
+        'alias'=>'test',
+        'description'=>'测试',
+    ),
 );

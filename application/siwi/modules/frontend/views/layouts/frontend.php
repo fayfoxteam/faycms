@@ -14,7 +14,7 @@ use fay\core\Uri;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <!--[if lt IE 9]>
-	<script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
 <![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/frontend.css')?>" />
@@ -30,12 +30,12 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <body>
 <?php include '_header.php';?>
 <?php if(Uri::getInstance()->router == 'frontend/index/index'){
-	F::widget()->load('index-slides-camera');
+    F::widget()->load('index-slides-camera');
 }?>
 <div class="g-con">
-	<div class="g-mn">
-		<?php echo $content;?>
-	</div>
+    <div class="g-mn">
+        <?php echo $content;?>
+    </div>
 </div>
 <?php include '_footer.php';?>
 </body>

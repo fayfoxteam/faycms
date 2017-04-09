@@ -10,7 +10,7 @@ use fay\helpers\HtmlHelper;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <title><?php if(!empty($title)){
-	echo $title, '_';
+    echo $title, '_';
 }
 echo OptionService::get(site.sitename)?></title>
 <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />

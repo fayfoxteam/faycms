@@ -15,16 +15,16 @@
  * );
  */
 return array(
-	array(
-		'alias'=>'index-sidebar',
-		'description'=>'首页侧边栏',
-	),
-	array(
-		'alias'=>'footer',
-		'description'=>'页脚',
-	),
-	array(
-		'alias'=>'post-item',
-		'description'=>'文章详情页',
-	)
+    array(
+        'alias'=>'index-sidebar',
+        'description'=>'首页侧边栏',
+    ),
+    array(
+        'alias'=>'footer',
+        'description'=>'页脚',
+    ),
+    array(
+        'alias'=>'post-item',
+        'description'=>'文章详情页',
+    )
 );

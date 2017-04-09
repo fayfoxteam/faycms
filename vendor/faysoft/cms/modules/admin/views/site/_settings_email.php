@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\OptionService;
+use cms\services\OptionService;
 ?>
 <form id="email-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">
@@ -19,7 +19,7 @@ use fay\services\OptionService;
                         'data-label'=>'是否启用',
                     ));
                 ?>
-                <p class="description">若不启用，则调用<code>fay\services\EmailService::send()</code>时直接返回true，不会真的发出邮件。</p>
+                <p class="description">若不启用，则调用<code>cms\services\EmailService::send()</code>时直接返回true，不会真的发出邮件。</p>
             </div>
             <div class="form-field">
                 <label class="title">主机名<em class="required">*</em></label>

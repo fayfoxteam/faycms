@@ -1,6 +1,6 @@
 <?php
 use cms\models\tables\MessagesTable;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 $settings = F::form('setting')->getAllData();
 ?>

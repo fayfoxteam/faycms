@@ -1,5 +1,5 @@
 <?php
-use fay\services\OptionService;
+use cms\services\OptionService;
 ?>
 <?php $this->renderPartial('common/_friendlinks')?>
 <footer class="g-ft">

@@ -1,5 +1,5 @@
 <?php
-namespace fay\services\shop;
+namespace cms\services\shop;
 
 use fay\core\Service;
 

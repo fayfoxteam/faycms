@@ -2,7 +2,7 @@
 namespace guangong\modules\frontend\controllers;
 
 use fay\helpers\ArrayHelper;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 use guangong\library\FrontController;
 use guangong\models\forms\CreateGroupForm;
 use guangong\models\tables\GuangongUserExtraTable;

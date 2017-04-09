@@ -2,10 +2,10 @@
 namespace fruit\modules\frontend\controllers;
 
 use fruit\library\FrontController;
-use fay\services\EmailService;
+use cms\services\EmailService;
 use cms\models\tables\PagesTable;
 use fay\core\Response;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class ContactController extends FrontController{
     public function index(){

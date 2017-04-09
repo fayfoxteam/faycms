@@ -3,7 +3,7 @@ namespace steroid\modules\frontend\controllers;
 
 use steroid\library\FrontController;
 use fay\core\HttpException;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class PostController extends FrontController{
     public $layout_template = 'post';

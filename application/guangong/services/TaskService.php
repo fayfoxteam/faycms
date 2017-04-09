@@ -4,7 +4,7 @@ namespace guangong\services;
 use fay\core\ErrorException;
 use fay\core\Exception;
 use fay\core\Service;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 use guangong\models\tables\GuangongTasksTable;
 use guangong\models\tables\GuangongUserTasksTable;
 

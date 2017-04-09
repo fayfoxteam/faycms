@@ -2,9 +2,9 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\services\OptionService;
-use fay\services\post\PostService;
-use fay\services\CategoryService;
+use cms\services\OptionService;
+use cms\services\post\PostService;
+use cms\services\CategoryService;
 use cms\models\tables\PostsTable;
 
 class IndexController extends FrontController{
@@ -22,7 +22,7 @@ class IndexController extends FrontController{
         $this->layout->keywords = OptionService::get('site:seo_index_keywords');
         $this->layout->description = OptionService::get('site:seo_index_description');
         
-        $this->view->news = \fay\services\post\CategoryService::service()->getPosts('news', 7, 'id,title,publish_time', true);
+        $this->view->news = \cms\services\post\CategoryService::service()->getPosts('news', 7, 'id,title,publish_time', true);
         
         $cat_product = CategoryService::service()->getByAlias('product');
         $this->view->products = PostsTable::model()->fetchAll(array(

@@ -2,7 +2,7 @@
 namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\PostsTable;
 use fay\helpers\StringHelper;
 use fay\core\Sql;

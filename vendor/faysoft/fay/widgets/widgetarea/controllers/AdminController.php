@@ -3,7 +3,7 @@ namespace fay\widgets\widgetarea\controllers;
 
 use fay\helpers\ArrayHelper;
 use fay\widget\Widget;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class AdminController extends Widget{
     public function initConfig($config){

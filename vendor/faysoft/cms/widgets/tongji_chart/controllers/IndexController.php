@@ -2,7 +2,7 @@
 namespace cms\widgets\tongji_chart\controllers;
 
 use fay\widget\Widget;
-use fay\services\AnalystService;
+use cms\services\AnalystService;
 use fay\core\Response;
 
 class IndexController extends Widget{

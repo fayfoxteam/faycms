@@ -3,7 +3,7 @@ namespace guangong\services;
 
 use fay\core\ErrorException;
 use fay\core\Service;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 use guangong\models\tables\GuangongAttendancesTable;
 use guangong\models\tables\GuangongRanksTable;
 use guangong\models\tables\GuangongUserExtraTable;

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\OptionService;
+use cms\services\OptionService;
 ?>
 <form id="form" action="" method="post" class="validform">
     <div class="form-field">

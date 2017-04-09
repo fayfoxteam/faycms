@@ -6,7 +6,7 @@ use cms\models\tables\RolesTable;
 use fay\helpers\HtmlHelper;
 use cms\models\tables\PropsTable;
 use cms\models\tables\ActionlogsTable;
-use fay\services\user\UserPropService;
+use cms\services\user\UserPropService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;

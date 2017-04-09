@@ -2,9 +2,9 @@
 namespace fay\widgets\menu\controllers;
 
 use fay\widget\Widget;
-use fay\services\MenuService;
+use cms\services\MenuService;
 use cms\models\tables\MenusTable;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class AdminController extends Widget{
     public function initConfig($config){

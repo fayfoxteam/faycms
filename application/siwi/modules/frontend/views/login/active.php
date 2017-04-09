@@ -1,4 +1,4 @@
-<?php use fay\services\FlashService;
+<?php use cms\services\FlashService;
 $this->appendCss($this->appAssets('css/col2.css'))?>
 <?php echo FlashService::get();?>
 <div class="col2 pb30">

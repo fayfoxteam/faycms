@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 ?>
 <div class="box" id="login-panel">
     <form id="login-form" action="<?php echo $this->url('login')?>" method="post">

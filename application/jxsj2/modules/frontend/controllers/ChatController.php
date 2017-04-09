@@ -5,10 +5,10 @@ use jxsj2\library\FrontController;
 use cms\models\tables\MessagesTable;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\MessageService;
+use cms\services\MessageService;
 use cms\models\tables\UsersTable;
 use fay\core\Response;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 use fay\helpers\StringHelper;
 
 class ChatController extends FrontController{

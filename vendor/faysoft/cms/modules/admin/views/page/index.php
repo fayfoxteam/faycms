@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use cms\models\tables\PagesTable;
-use fay\services\PageService;
+use cms\services\PageService;
 use cms\helpers\ListTableHelper;
 
 $cols = F::form('setting')->getData('cols', array());

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use pharmrich\helpers\PostHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use fay\helpers\StringHelper;
 
 /**

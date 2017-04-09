@@ -1,6 +1,6 @@
 <?php
-use fay\services\OptionService;
-use fay\services\FlashService;
+use cms\services\OptionService;
+use cms\services\FlashService;
 use fay\core\Uri;
 ?>
 <!DOCTYPE html>

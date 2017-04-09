@@ -4,12 +4,12 @@ namespace siwi\modules\frontend\controllers;
 use siwi\library\FrontController;
 use cms\models\tables\UsersTable;
 use fay\core\Sql;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\PostsTable;
 use cms\models\tables\MessagesTable;
 use fay\common\ListView;
 use cms\models\tables\FollowersTable;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 class UController extends FrontController{
     /**

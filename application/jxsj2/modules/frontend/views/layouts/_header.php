@@ -1,5 +1,5 @@
 <?php
-use fay\services\OptionService;
+use cms\services\OptionService;
 ?>
 <header class="g-hd">
     <div class="w1000">

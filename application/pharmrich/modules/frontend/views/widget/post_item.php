@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 ?>
 <div class="page-title">
     <h1><?php echo HtmlHelper::encode($post['post']['title'])?></h1>

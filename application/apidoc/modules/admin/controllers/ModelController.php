@@ -7,7 +7,7 @@ use fay\common\ListView;
 use apidoc\models\tables\OutputsTable;
 use apidoc\models\tables\ModelsTable;
 use fay\core\Response;
-use fay\services\SettingService;
+use cms\services\SettingService;
 use fay\helpers\StringHelper;
 use apidoc\models\tables\ModelPropsTable;
 use fay\core\ErrorException;

@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\file\QiniuService;
+use cms\services\file\QiniuService;
 use fay\core\Response;
 
 class QiniuController extends AdminController{

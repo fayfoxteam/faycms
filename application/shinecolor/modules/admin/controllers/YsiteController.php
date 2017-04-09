@@ -2,8 +2,8 @@
 namespace shinecolor\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\OptionService;
-use fay\services\FlashService;
+use cms\services\OptionService;
+use cms\services\FlashService;
 
 class YsiteController extends AdminController{
     public function __construct(){

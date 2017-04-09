@@ -2,7 +2,7 @@
 namespace fay\widgets\contact\controllers;
 
 use fay\core\Response;
-use fay\services\ContactService;
+use cms\services\ContactService;
 use fay\widget\Widget;
 
 class IndexController extends Widget{

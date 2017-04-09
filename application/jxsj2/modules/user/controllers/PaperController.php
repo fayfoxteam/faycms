@@ -2,7 +2,7 @@
 namespace jxsj2\modules\user\controllers;
 
 use jxsj2\library\UserController;
-use fay\services\ExamService;
+use cms\services\ExamService;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\common\ListView;

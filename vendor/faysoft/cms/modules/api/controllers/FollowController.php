@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\FollowService;
+use cms\services\FollowService;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 

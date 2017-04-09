@@ -2,7 +2,7 @@
 namespace guangong\modules\frontend\controllers;
 
 use guangong\library\FrontController;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class IndexController extends FrontController{
     public function __construct(){

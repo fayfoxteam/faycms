@@ -7,7 +7,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
-use fay\services\FlashService;
+use cms\services\FlashService;
 use cms\models\tables\ActionlogsTable;
 
 class OptionController extends AdminController{

@@ -2,7 +2,7 @@
 namespace jxsj\modules\frontend\controllers;
 
 use jxsj\library\FrontController;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\core\HttpException;
 use cms\models\tables\PostMetaTable;
 

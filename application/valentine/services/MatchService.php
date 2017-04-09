@@ -3,7 +3,7 @@ namespace valentine\services;
 
 use fay\core\ErrorException;
 use fay\core\Service;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 class MatchService extends Service{
     /**

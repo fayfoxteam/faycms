@@ -1,8 +1,8 @@
 <?php
-use fay\services\MenuService;
+use cms\services\MenuService;
 use fay\helpers\HtmlHelper;
-use fay\services\CategoryService;
-use fay\services\PageService;
+use cms\services\CategoryService;
+use cms\services\PageService;
 
 $menu = MenuService::service()->getTree('_jxsj_top');
 ?>

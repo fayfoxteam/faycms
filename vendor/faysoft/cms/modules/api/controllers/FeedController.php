@@ -2,7 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\FeedService;
+use cms\services\FeedService;
 use fayfeed\models\tables\FeedsTable;
 use fay\core\Response;
 use fay\helpers\FieldHelper;

@@ -3,8 +3,8 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\user\UserService;
-use fay\services\user\UserPasswordService;
+use cms\services\user\UserService;
+use cms\services\user\UserPasswordService;
 
 /**
  * 登录

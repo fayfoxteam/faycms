@@ -4,19 +4,19 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\forms\SettingForm;
 use cms\models\tables\FilesTable;
-use fay\services\file\FileService;
-use fay\services\file\WeixinFileService;
-use fay\services\SettingService;
+use cms\services\file\FileService;
+use cms\services\file\WeixinFileService;
+use cms\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\ImageHelper;
-use fay\services\file\QiniuService;
+use cms\services\file\QiniuService;
 use fay\core\HttpException;
 use fay\core\Validator;
 use fay\core\Response;
 use cms\models\tables\ActionlogsTable;
-use fay\services\OptionService;
-use fay\services\CategoryService;
+use cms\services\OptionService;
+use cms\services\CategoryService;
 use fay\helpers\StringHelper;
 
 class FileController extends AdminController{

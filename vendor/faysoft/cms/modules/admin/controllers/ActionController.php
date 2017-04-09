@@ -2,13 +2,13 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\ActionsTable;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class ActionController extends AdminController{
     public function __construct(){

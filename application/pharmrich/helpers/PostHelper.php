@@ -2,7 +2,7 @@
 namespace pharmrich\helpers;
 
 
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 class PostHelper{
     /**
      * 获取根据文章分类ID，获取文章类型（商品/食谱/新闻）

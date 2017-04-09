@@ -3,7 +3,7 @@ namespace pharmrich\modules\frontend\controllers;
 
 use pharmrich\library\FrontController;
 use fay\core\HttpException;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class ProductController extends FrontController{
     public function __construct(){

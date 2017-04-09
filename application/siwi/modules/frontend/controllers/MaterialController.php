@@ -2,11 +2,11 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use cms\models\tables\MessagesTable;
 use fay\core\HttpException;
 use siwi\helpers\FriendlyLink;

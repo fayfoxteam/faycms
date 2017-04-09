@@ -1,5 +1,5 @@
 <?php 
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
 ?>

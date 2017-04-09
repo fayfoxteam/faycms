@@ -1,7 +1,7 @@
 <?php
 namespace fruit\modules\frontend\controllers;
 
-use fay\services\post\PostCategoryService;
+use cms\services\post\PostCategoryService;
 use fruit\library\FrontController;
 use cms\models\tables\PagesTable;
 

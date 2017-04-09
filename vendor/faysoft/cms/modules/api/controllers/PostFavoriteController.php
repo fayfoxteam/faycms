@@ -2,9 +2,9 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
-use fay\services\post\PostFavoriteService;
+use cms\services\post\PostFavoriteService;
 use fay\core\Response;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\helpers\FieldHelper;
 
 /**

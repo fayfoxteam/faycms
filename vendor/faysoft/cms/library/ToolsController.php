@@ -3,12 +3,12 @@ namespace cms\library;
 
 use fay\core\Controller;
 use fay\core\Uri;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
 use cms\models\tables\RolesTable;
-use fay\services\user\UserService;
-use fay\services\user\UserRoleService;
+use cms\services\user\UserService;
+use cms\services\user\UserRoleService;
 
 class ToolsController extends Controller{
     public $layout_template = 'admin';

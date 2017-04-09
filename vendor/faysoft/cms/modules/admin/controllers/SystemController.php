@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\forms\SettingForm;
 use cms\models\tables\UsersTable;
-use fay\services\SettingService;
+use cms\services\SettingService;
 use fay\core\Response;
 
 class SystemController extends AdminController{

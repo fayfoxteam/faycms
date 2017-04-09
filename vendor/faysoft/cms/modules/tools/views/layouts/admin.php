@@ -1,10 +1,10 @@
 <?php 
 use fay\helpers\HtmlHelper;
-use fay\services\OptionService;
-use fay\services\file\FileService;
-use fay\services\FlashService;
-use fay\services\user\UserService;
-use fay\services\user\UserRoleService;
+use cms\services\OptionService;
+use cms\services\file\FileService;
+use cms\services\FlashService;
+use cms\services\user\UserService;
+use cms\services\user\UserRoleService;
 ?>
 <!DOCTYPE html>
 <html>

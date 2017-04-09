@@ -2,11 +2,11 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\HttpException;
 
 class IndexController extends FrontController{

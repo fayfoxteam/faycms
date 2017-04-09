@@ -3,14 +3,14 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use cms\models\tables\PostsTable;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use cms\models\tables\FilesTable;
 use cms\models\tables\PostsFilesTable;
 use fay\models\Tag;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class WorkController extends UserController{
     private $rules = array(

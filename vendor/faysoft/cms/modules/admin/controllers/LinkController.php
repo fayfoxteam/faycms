@@ -7,7 +7,7 @@ use cms\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class LinkController extends AdminController{
     public function __construct(){

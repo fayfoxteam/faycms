@@ -3,12 +3,12 @@ namespace fay\widgets\tag_post_list\controllers;
 
 use fay\helpers\ArrayHelper;
 use cms\models\tables\TagsTable;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
 use cms\models\tables\PostsTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\helpers\DateHelper;
 use fay\core\HttpException;
 

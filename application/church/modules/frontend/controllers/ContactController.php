@@ -2,7 +2,7 @@
 namespace church\modules\frontend\controllers;
 
 use church\library\FrontController;
-use fay\services\PageService;
+use cms\services\PageService;
 
 class ContactController extends FrontController{
     public function __construct(){

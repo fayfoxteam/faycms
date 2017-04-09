@@ -4,7 +4,7 @@ namespace jxsj\modules\user\controllers;
 use jxsj\library\UserController;
 use cms\models\tables\UsersTable;
 use fay\helpers\StringHelper;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class ProfileController extends UserController{
     public function index(){

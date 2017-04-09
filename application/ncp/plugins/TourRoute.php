@@ -2,7 +2,7 @@
 namespace ncp\plugins;
 
 use ncp\models\tables\TourRoute as Table_TourRoute;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class TourRoute{
     public function addBox($params){

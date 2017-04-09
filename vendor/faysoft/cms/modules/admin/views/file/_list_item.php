@@ -1,9 +1,9 @@
 <?php
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\services\file\QiniuService;
-use fay\services\CategoryService;
+use cms\services\file\QiniuService;
+use cms\services\CategoryService;
 
 $full_file_path = FileService::getUrl($data);
 ?>

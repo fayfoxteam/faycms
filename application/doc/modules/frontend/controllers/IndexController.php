@@ -3,8 +3,8 @@ namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
 use fay\core\Sql;
-use fay\services\post\PostService;
-use fay\services\OptionService;
+use cms\services\post\PostService;
+use cms\services\OptionService;
 
 class IndexController extends FrontController{
     public function index(){
@@ -21,7 +21,7 @@ class IndexController extends FrontController{
         $this->view->last_modified_cats = $sql->fetchAll();
         
         $this->view->assign(array(
-            'posts'=>\fay\services\post\CategoryService::service()->getPosts('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+            'posts'=>\cms\services\post\CategoryService::service()->getPosts('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
         ))->render();
     }
     

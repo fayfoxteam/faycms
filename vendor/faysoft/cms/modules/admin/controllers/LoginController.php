@@ -2,12 +2,12 @@
 namespace cms\modules\admin\controllers;
 
 use fay\core\Controller;
-use fay\services\LogService;
+use cms\services\LogService;
 use fay\core\Response;
 use cms\models\tables\LogsTable;
 use fay\core\Loader;
-use fay\services\user\UserService;
-use fay\services\user\UserPasswordService;
+use cms\services\user\UserService;
+use cms\services\user\UserPasswordService;
 
 class LoginController extends Controller{
     public function __construct(){

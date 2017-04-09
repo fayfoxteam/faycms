@@ -2,7 +2,7 @@
 namespace siwi\widgets\recent_posts\controllers;
 
 use fay\widget\Widget;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 

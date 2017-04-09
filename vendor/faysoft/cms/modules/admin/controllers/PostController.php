@@ -3,22 +3,22 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use fay\helpers\RequestHelper;
-use fay\services\CategoryService;
-use fay\services\post\PostPropService;
+use cms\services\CategoryService;
+use cms\services\post\PostPropService;
 use cms\models\tables\PostsTable;
 use cms\models\tables\PostsCategoriesTable;
 use cms\models\tables\PostsFilesTable;
 use cms\models\tables\ActionlogsTable;
-use fay\services\SettingService;
+use cms\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
-use fay\services\OptionService;
-use fay\services\FlashService;
+use cms\services\OptionService;
+use cms\services\FlashService;
 use cms\models\tables\PostMetaTable;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use cms\models\tables\PostExtraTable;
 
 class PostController extends AdminController{

@@ -2,8 +2,8 @@
 namespace fay\widgets\friendlinks\controllers;
 
 use fay\widget\Widget;
-use fay\services\CategoryService;
-use fay\services\FlashService;
+use cms\services\CategoryService;
+use cms\services\FlashService;
 
 class AdminController extends Widget{
     public function initConfig($config){

@@ -1,7 +1,7 @@
 <?php 
 use fay\helpers\HtmlHelper;
-use fay\services\MenuService;
-use fay\services\OptionService;
+use cms\services\MenuService;
+use cms\services\OptionService;
 use fay\core\Uri;
 ?>
 <header class="g-top">

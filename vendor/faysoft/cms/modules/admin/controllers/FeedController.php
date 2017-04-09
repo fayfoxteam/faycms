@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fayfeed\models\tables\FeedsTable;
 use fayfeed\models\tables\FeedsFilesTable;
-use fay\services\SettingService;
+use cms\services\SettingService;
 use fayfeed\services\FeedService;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Response;

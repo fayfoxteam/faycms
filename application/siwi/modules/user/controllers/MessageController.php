@@ -3,7 +3,7 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use cms\models\tables\MessagesTable;
-use fay\services\MessageService;
+use cms\services\MessageService;
 use fay\helpers\DateHelper;
 use fay\core\Validator;
 

@@ -2,8 +2,8 @@
 use cms\helpers\FeedHelper;
 use fay\helpers\HtmlHelper;
 use fayfeed\models\tables\FeedsTable;
-use fay\services\user\UserService;
-use fay\services\file\FileService;
+use cms\services\user\UserService;
+use cms\services\file\FileService;
 use fay\helpers\DateHelper;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');

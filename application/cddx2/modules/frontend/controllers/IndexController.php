@@ -2,8 +2,8 @@
 namespace cddx2\modules\frontend\controllers;
 
 use cddx2\library\FrontController;
-use fay\services\OptionService;
-use fay\services\MenuService;
+use cms\services\OptionService;
+use cms\services\MenuService;
 
 class IndexController extends FrontController{
     public function __construct(){

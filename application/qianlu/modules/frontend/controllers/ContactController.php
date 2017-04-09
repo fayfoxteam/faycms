@@ -3,7 +3,7 @@ namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class ContactController extends FrontController{
     public $layout_template = 'inner';

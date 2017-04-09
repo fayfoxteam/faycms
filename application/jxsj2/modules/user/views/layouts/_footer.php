@@ -1,6 +1,6 @@
 <?php
-use fay\services\OptionService;
-use fay\services\AnalystService;
+use cms\services\OptionService;
+use cms\services\AnalystService;
 ?>
 <footer class="g-ft">
     <div class="w1000">

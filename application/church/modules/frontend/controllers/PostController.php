@@ -3,7 +3,7 @@ namespace church\modules\frontend\controllers;
 
 use church\library\FrontController;
 use fay\core\HttpException;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class PostController extends FrontController{
     public function index(){

@@ -2,7 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 /**
  * Users table model

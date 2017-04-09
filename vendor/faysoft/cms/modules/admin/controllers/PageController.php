@@ -2,14 +2,14 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\PagesTable;
 use cms\models\tables\PagesCategoriesTable;
 use cms\models\tables\ActionlogsTable;
-use fay\services\SettingService;
+use cms\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\PageService;
+use cms\services\PageService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;

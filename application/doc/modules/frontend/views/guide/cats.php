@@ -1,5 +1,5 @@
 <?php
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\helpers\HtmlHelper;
 
 foreach($posts as $p){

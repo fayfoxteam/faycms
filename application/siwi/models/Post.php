@@ -2,7 +2,7 @@
 namespace siwi\models;
 
 use fay\core\Model;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class Post extends Model{
     public $cats = array();

@@ -3,7 +3,7 @@ namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
 use apidoc\models\tables\ApisTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\HttpException;
 use apidoc\helpers\TrackHelper;
 use apidoc\models\tables\ModelsTable;

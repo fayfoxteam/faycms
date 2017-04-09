@@ -4,7 +4,7 @@ namespace apidoc\library;
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use apidoc\models\tables\ApisTable;
 use fay\helpers\HtmlHelper;
 

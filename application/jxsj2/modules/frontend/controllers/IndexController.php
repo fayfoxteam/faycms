@@ -2,8 +2,8 @@
 namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
-use fay\services\OptionService;
-use fay\services\PageService;
+use cms\services\OptionService;
+use cms\services\PageService;
 
 class IndexController extends FrontController{
     public function __construct(){

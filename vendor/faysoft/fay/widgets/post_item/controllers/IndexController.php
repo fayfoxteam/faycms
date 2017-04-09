@@ -2,7 +2,7 @@
 namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\core\HttpException;
 use fay\core\db\Expr;
 use cms\models\tables\PostMetaTable;

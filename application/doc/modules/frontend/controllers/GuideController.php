@@ -2,9 +2,9 @@
 namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\HttpException;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class GuideController extends FrontController{
     public function index(){
@@ -34,14 +34,14 @@ class GuideController extends FrontController{
             //叶子节点
             $this->view->assign(array(
                 'cat'=>$cat,
-                'posts'=>\fay\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+                'posts'=>\cms\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
             ))->render('posts');
         }else{
             //非叶子
             $this->view->assign(array(
                 'cat'=>$cat,
                 'cats'=>CategoryService::service()->getNextLevelByParentId($cat['id']),
-                'posts'=>\fay\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+                'posts'=>\cms\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
             ))->render('cats');
         }
     }

@@ -6,13 +6,13 @@ use cms\models\tables\UsersTable;
 use cms\models\tables\UsersNotificationsTable;
 use cms\models\tables\ActionlogsTable;
 use cms\models\tables\RolesTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
-use fay\services\NotificationService;
+use cms\services\NotificationService;
 use fay\core\Sql;
-use fay\services\FlashService;
+use cms\services\FlashService;
 use cms\models\tables\UserProfileTable;
 
 class NotificationController extends AdminController{

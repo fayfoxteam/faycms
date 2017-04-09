@@ -2,7 +2,7 @@
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
 use cms\helpers\FeedHelper;
-use fay\services\feed\FeedTagService;
+use cms\services\feed\FeedTagService;
 
 /**
  * @var $data array

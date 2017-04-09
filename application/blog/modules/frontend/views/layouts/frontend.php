@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 $menu = array(
     array(

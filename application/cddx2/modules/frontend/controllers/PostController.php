@@ -3,7 +3,7 @@ namespace cddx2\modules\frontend\controllers;
 
 use cddx2\library\FrontController;
 use fay\core\HttpException;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class PostController extends FrontController{
     public function index(){

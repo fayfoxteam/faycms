@@ -4,7 +4,7 @@ namespace cddx\modules\frontend\controllers;
 use cddx\library\FrontController;
 use cms\models\tables\PagesTable;
 use fay\core\HttpException;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class PageController extends FrontController{
     public function __construct(){

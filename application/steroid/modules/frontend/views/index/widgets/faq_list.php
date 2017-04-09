@@ -4,7 +4,7 @@
  */
 
 //获取分类描述
-$cat = \fay\services\CategoryService::service()->get($widget->config['cat_id'], 'description');
+$cat = \cms\services\CategoryService::service()->get($widget->config['cat_id'], 'description');
 
 $bg_img = F::widget()->getData('faq-bg');
 ?>
@@ -27,7 +27,7 @@ $bg_img = F::widget()->getData('faq-bg');
                         <article>
                             <strong>Q<?php echo $k+1?> - <?php echo \fay\helpers\HtmlHelper::encode($p['post']['title'])?></strong>
                             <?php
-                                $post = \fay\services\post\PostService::service()->get($p['post']['id'], 'content');
+                                $post = \cms\services\post\PostService::service()->get($p['post']['id'], 'content');
                                 echo $post['post']['content'];
                             ?>
                         </article>

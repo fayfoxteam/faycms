@@ -3,7 +3,7 @@ namespace fay\widgets\menu\controllers;
 
 use fay\helpers\HtmlHelper;
 use fay\widget\Widget;
-use fay\services\MenuService;
+use cms\services\MenuService;
 use cms\models\tables\MenusTable;
 
 class IndexController extends Widget{

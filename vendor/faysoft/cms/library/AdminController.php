@@ -6,14 +6,14 @@ use fay\core\Uri;
 use fay\helpers\RequestHelper;
 use cms\models\forms\SettingForm;
 use cms\models\tables\ActionlogsTable;
-use fay\services\SettingService;
+use cms\services\SettingService;
 use fay\core\Response;
-use fay\services\MenuService;
+use cms\services\MenuService;
 use fay\core\HttpException;
-use fay\services\FlashService;
+use cms\services\FlashService;
 use cms\models\tables\RolesTable;
 use fay\helpers\ArrayHelper;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 class AdminController extends Controller{
     public $layout_template = 'admin';

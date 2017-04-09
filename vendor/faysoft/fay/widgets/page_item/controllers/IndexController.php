@@ -2,7 +2,7 @@
 namespace fay\widgets\page_item\controllers;
 
 use fay\widget\Widget;
-use fay\services\PageService;
+use cms\services\PageService;
 use fay\core\HttpException;
 use cms\models\tables\PagesTable;
 

@@ -1,6 +1,6 @@
 <?php
-use fay\services\OptionService;
-use fay\services\FlashService;
+use cms\services\OptionService;
+use cms\services\FlashService;
 ?>
 <footer class="g-ft">
     <div class="w1190">

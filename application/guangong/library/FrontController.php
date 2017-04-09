@@ -6,11 +6,11 @@ use fay\core\Http;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
 use cms\models\tables\UserConnectsTable;
-use fay\services\OauthAppService;
-use fay\services\oauth\OAuthException;
-use fay\services\oauth\OauthService;
-use fay\services\OptionService;
-use fay\services\user\UserService;
+use cms\services\OauthAppService;
+use cms\services\oauth\OAuthException;
+use cms\services\oauth\OauthService;
+use cms\services\OptionService;
+use cms\services\user\UserService;
 
 class FrontController extends Controller{
     public $layout_template = 'frontend';

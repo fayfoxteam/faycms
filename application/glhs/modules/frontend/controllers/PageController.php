@@ -4,7 +4,7 @@ namespace glhs\modules\frontend\controllers;
 use glhs\library\FrontController;
 use fay\core\Validator;
 use fay\core\HttpException;
-use fay\services\PageService;
+use cms\services\PageService;
 
 class PageController extends FrontController{
     public function __construct(){

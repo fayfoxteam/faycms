@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\services\file\FileService;
-use fay\services\MessageService;
+use cms\services\file\FileService;
+use cms\services\MessageService;
 use cms\models\tables\MessagesTable;
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">

@@ -1,6 +1,6 @@
 <?php
 use cms\models\tables\RolesTable;
-use fay\services\user\UserRoleService;
+use cms\services\user\UserRoleService;
 
 /**
  * @var $widgetareas array

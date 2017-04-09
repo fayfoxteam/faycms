@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 

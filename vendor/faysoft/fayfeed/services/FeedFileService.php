@@ -4,7 +4,7 @@ namespace fayfeed\services;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fayfeed\models\tables\FeedsFilesTable;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 
 class FeedFileService extends Service{
     /**

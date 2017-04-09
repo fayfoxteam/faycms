@@ -4,12 +4,12 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\helpers\StringHelper;
 use cms\models\tables\CategoriesTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\ActionlogsTable;
 use fay\helpers\PinyinHelper;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class CategoryController extends AdminController{
     public function __construct(){

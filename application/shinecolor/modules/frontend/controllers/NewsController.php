@@ -2,11 +2,11 @@
 namespace shinecolor\modules\frontend\controllers;
 
 use shinecolor\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 

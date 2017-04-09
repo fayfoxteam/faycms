@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 ?>
 <ul class="clearfix">
 <?php foreach($posts as $post){?>

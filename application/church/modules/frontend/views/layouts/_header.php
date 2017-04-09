@@ -1,5 +1,5 @@
 <?php
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
 ?>
 <header class="page-header">

@@ -7,7 +7,7 @@ use fay\helpers\StringHelper;
 use fay\helpers\DateHelper;
 use cms\models\tables\AnalystMacsTable;
 use cms\models\tables\AnalystVisitsTable;
-use fay\services\AnalystService;
+use cms\services\AnalystService;
 
 /**
  * 访问统计

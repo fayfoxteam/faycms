@@ -1,5 +1,5 @@
 <?php
-use fay\services\OptionService;
+use cms\services\OptionService;
 ?>
 <header id="masthead">
     <hgroup>

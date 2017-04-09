@@ -4,7 +4,7 @@ namespace doc\library;
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class FrontController extends Controller{
     public $layout_template = 'frontend';

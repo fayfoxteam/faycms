@@ -4,11 +4,11 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Http;
 use fay\core\Response;
-use fay\services\CategoryService;
-use fay\services\MenuService;
-use fay\services\post\PostCategoryService;
-use fay\services\post\PostTagService;
-use fay\services\post\PostUserCounterService;
+use cms\services\CategoryService;
+use cms\services\MenuService;
+use cms\services\post\PostCategoryService;
+use cms\services\post\PostTagService;
+use cms\services\post\PostUserCounterService;
 
 class ResetController extends AdminController{
     public function __construct(){

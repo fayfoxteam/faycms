@@ -3,7 +3,7 @@ namespace blog\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\UsersTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use fay\common\ListView;
 use blog\models\tables\Bills;

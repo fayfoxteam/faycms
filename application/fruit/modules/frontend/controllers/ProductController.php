@@ -2,7 +2,7 @@
 namespace fruit\modules\frontend\controllers;
 
 use fruit\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class ProductController extends FrontController{
     public function __construct(){

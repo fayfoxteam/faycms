@@ -1,7 +1,7 @@
 <?php
 namespace guangong\modules\frontend\controllers;
 
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongReadLogsTable;
 use guangong\services\TaskService;

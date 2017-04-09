@@ -3,10 +3,10 @@ namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
 use fay\models\PropModel;
-use fay\services\CategoryService;
-use fay\services\post\PostService;
+use cms\services\CategoryService;
+use cms\services\post\PostService;
 use ncp\models\Recommend;
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\helpers\ArrayHelper;
 
 class IndexController extends FrontController{

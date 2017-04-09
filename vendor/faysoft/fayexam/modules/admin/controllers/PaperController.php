@@ -4,7 +4,7 @@ namespace fayexam\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
 use fay\helpers\HtmlHelper;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Response;
 use fayexam\models\tables\ExamPapersTable;
 use fayexam\models\tables\ExamPaperQuestionsTable;

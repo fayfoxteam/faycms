@@ -3,14 +3,14 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use cms\models\tables\UsersTable;
-use fay\services\OptionService;
-use fay\services\file\FileService;
+use cms\services\OptionService;
+use cms\services\file\FileService;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
 use fay\helpers\RequestHelper;
 use cms\models\tables\RolesTable;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 class IndexController extends InstallController{
     public function __construct(){

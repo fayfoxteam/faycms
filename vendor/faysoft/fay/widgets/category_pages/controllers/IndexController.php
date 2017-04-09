@@ -2,7 +2,7 @@
 namespace fay\widgets\category_pages\controllers;
 
 use fay\widget\Widget;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 
 class IndexController extends Widget{

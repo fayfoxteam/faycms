@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\OptionService;
+use cms\services\OptionService;
 ?>
 <form id="options-form" class="site-settings-form" action="<?php echo $this->url('admin/site/set-options')?>">
     <div class="row">

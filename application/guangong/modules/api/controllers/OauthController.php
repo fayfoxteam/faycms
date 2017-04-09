@@ -3,11 +3,11 @@ namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\oauth\OAuthException;
-use fay\services\oauth\OauthService;
-use fay\services\OptionService;
-use fay\services\user\UserOauthService;
-use fay\services\user\UserService;
+use cms\services\oauth\OAuthException;
+use cms\services\oauth\OauthService;
+use cms\services\OptionService;
+use cms\services\user\UserOauthService;
+use cms\services\user\UserService;
 
 class OauthController extends ApiController{
     public function weixin(){

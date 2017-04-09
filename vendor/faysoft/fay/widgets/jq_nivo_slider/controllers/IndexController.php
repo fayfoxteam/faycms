@@ -2,7 +2,7 @@
 namespace fay\widgets\jq_nivo_slider\controllers;
 
 use fay\widget\Widget;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 
 class IndexController extends Widget{
     public function initConfig($config){

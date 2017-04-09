@@ -12,13 +12,13 @@ use cms\models\tables\CategoriesTable;
 use fayshop\models\tables\GoodsCatPropsTable;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\helpers\DateHelper;
-use fay\services\shop\ShopGoodsService;
+use cms\services\shop\ShopGoodsService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
-use fay\services\FlashService;
-use fay\services\SettingService;
+use cms\services\FlashService;
+use cms\services\SettingService;
 use fay\core\HttpException;
 
 class GoodsController extends AdminController{

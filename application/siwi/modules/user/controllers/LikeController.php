@@ -3,7 +3,7 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use cms\models\tables\LikesTable;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 
 class LikeController extends UserController{
     public function __construct(){

@@ -3,7 +3,7 @@ namespace apidoc\services;
 
 use apidoc\models\tables\ApisTable;
 use fay\core\Service;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use apidoc\models\tables\InputsTable;
 use fay\core\Sql;
 

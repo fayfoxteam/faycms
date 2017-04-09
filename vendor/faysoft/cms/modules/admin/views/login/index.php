@@ -1,8 +1,8 @@
 <?php
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
-use fay\services\user\UserService;
+use cms\services\file\FileService;
+use cms\services\user\UserService;
 ?>
 <!DOCTYPE html>
 <html>

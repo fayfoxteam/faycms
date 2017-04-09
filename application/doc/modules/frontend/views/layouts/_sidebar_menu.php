@@ -1,5 +1,5 @@
 <?php
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use doc\helpers\MenuHelper;
 
 $cats = CategoryService::service()->getTree('fayfox');

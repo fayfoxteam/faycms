@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 ?>
 <div class="box" id="box-main-category" data-name="main_category">
     <div class="box-title">

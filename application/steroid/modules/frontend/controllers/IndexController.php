@@ -2,7 +2,7 @@
 namespace steroid\modules\frontend\controllers;
 
 use steroid\library\FrontController;
-use fay\services\OptionService;
+use cms\services\OptionService;
 use steroid\models\forms\LeaveMessage;
 
 class IndexController extends FrontController{

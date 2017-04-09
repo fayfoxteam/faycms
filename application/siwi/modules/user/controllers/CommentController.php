@@ -3,9 +3,9 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use cms\models\tables\MessagesTable;
-use fay\services\MessageService;
+use cms\services\MessageService;
 use fay\helpers\DateHelper;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\core\Validator;
 
 class CommentController extends UserController{

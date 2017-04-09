@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
-use fay\services\user\UserRoleService;
+use cms\services\file\FileService;
+use cms\services\user\UserRoleService;
 use cms\models\tables\RolesTable;
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">

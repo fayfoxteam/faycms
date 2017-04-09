@@ -2,9 +2,9 @@
 namespace fay\widgets\post_item\controllers;
 
 use fay\widget\Widget;
-use fay\services\FlashService;
+use cms\services\FlashService;
 use cms\models\tables\PostsTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class AdminController extends Widget{
     public function initConfig($config){

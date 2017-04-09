@@ -3,8 +3,8 @@ namespace cms\modules\tools\controllers;
  
 use cms\library\ToolsController;
 use fay\core\Response;
-use fay\services\file\QiniuService;
-use fay\services\file\WeixinFileService;
+use cms\services\file\QiniuService;
+use cms\services\file\WeixinFileService;
 
 class FileController extends ToolsController{
     /*

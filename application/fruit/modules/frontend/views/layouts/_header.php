@@ -1,5 +1,5 @@
 <?php
-use fay\services\MenuService;
+use cms\services\MenuService;
 use fay\helpers\HtmlHelper;
 ?>
 <?php $menu = MenuService::service()->getTree('_fruit_top');?>

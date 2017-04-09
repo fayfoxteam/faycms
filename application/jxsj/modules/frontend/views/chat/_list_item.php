@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use fay\helpers\DateHelper;
 use fay\core\Sql;
 use cms\models\tables\MessagesTable;

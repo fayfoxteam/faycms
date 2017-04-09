@@ -10,8 +10,8 @@ use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use fayfeed\models\tables\FeedMetaTable;
-use fay\services\OptionService;
-use fay\services\user\UserService;
+use cms\services\OptionService;
+use cms\services\user\UserService;
 
 class FeedCommentService extends MultiTreeModel{
     /**
@@ -473,9 +473,9 @@ class FeedCommentService extends MultiTreeModel{
      * @param int $comment_id 评论ID
      * @param string|array $fields 返回字段
      *  - comment.*系列可指定feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-     *  - user.*系列可指定作者信息，格式参照\fay\services\user\UserService::get()
+     *  - user.*系列可指定作者信息，格式参照\cms\services\user\UserService::get()
      *  - parent.comment.*系列可指定父评论feed_comments表返回字段，若有一项为'comment.*'，则返回所有字段
-     *  - parent.user.*系列可指定父评论作者信息，格式参照\fay\services\user\UserService::get()
+     *  - parent.user.*系列可指定父评论作者信息，格式参照\cms\services\user\UserService::get()
      * @return array
      */
     public function get($comment_id, $fields = array(

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 ?>
 <li class="disc">
     <a href="<?php echo $this->url('news/'.$data['id']);?>">

@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
-use fay\services\OptionService;
+use cms\services\file\FileService;
+use cms\services\OptionService;
 
 /**
  * @var $roles array

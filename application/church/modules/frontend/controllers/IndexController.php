@@ -2,7 +2,7 @@
 namespace church\modules\frontend\controllers;
 
 use church\library\FrontController;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class IndexController extends FrontController{
     public function __construct(){

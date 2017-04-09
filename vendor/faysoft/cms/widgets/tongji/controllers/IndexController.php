@@ -2,7 +2,7 @@
 namespace cms\widgets\tongji\controllers;
 
 use fay\widget\Widget;
-use fay\services\AnalystService;
+use cms\services\AnalystService;
 
 class IndexController extends Widget{
     public function index(){

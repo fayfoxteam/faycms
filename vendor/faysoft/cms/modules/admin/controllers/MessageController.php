@@ -4,10 +4,10 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\MessagesTable;
 use cms\models\tables\ActionlogsTable;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
-use fay\services\MessageService;
+use cms\services\MessageService;
 
 class MessageController extends AdminController{
     public function approve(){

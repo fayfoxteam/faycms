@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use cms\models\tables\RolesTable;
-use fay\services\user\UserRoleService;
+use cms\services\user\UserRoleService;
 
 /**
  * @var $widget \fay\widgets\tag_post_list\controllers\AdminController

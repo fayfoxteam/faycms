@@ -2,7 +2,7 @@
 namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class CatController extends FrontController{
     public function get(){

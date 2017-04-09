@@ -2,7 +2,7 @@
 namespace pharmrich\modules\frontend\controllers;
 
 use pharmrich\library\FrontController;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class IndexController extends FrontController{
     public function __construct(){

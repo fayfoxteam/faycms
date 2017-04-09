@@ -2,10 +2,10 @@
 namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
-use fay\services\PageService;
-use fay\services\CategoryService;
-use fay\services\post\PostCategoryService;
-use fay\services\post\PostService;
+use cms\services\PageService;
+use cms\services\CategoryService;
+use cms\services\post\PostCategoryService;
+use cms\services\post\PostService;
 
 class IndexController extends FrontController{
     public function __construct(){

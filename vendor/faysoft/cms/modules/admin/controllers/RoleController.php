@@ -9,9 +9,9 @@ use cms\models\tables\RolesActionsTable;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\RolesCatsTable;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class RoleController extends AdminController{
     public function __construct(){

@@ -4,8 +4,8 @@ namespace guangong\services;
 use fay\core\ErrorException;
 use fay\core\Service;
 use cms\models\tables\PostsTable;
-use fay\services\CategoryService;
-use fay\services\user\UserService;
+use cms\services\CategoryService;
+use cms\services\user\UserService;
 use guangong\models\tables\GuangongReadLogsTable;
 
 class PostService extends Service{

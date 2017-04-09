@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 ?>
 <div id="index-slide">
     <?php \F::widget()->load('index-slides-camera')?>

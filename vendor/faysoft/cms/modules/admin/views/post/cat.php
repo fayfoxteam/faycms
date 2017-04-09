@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\post\PostCategoryService;
+use cms\services\post\PostCategoryService;
 
 function showCats($cats, $dep = 0, $open_dep = 2){?>
     <ul class="tree">

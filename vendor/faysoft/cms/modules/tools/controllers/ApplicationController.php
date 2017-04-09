@@ -3,14 +3,14 @@ namespace cms\modules\tools\controllers;
 
 use cms\library\Db;
 use cms\library\ToolsController;
-use fay\services\file\FileService;
-use fay\services\CategoryService;
+use cms\services\file\FileService;
+use cms\services\CategoryService;
 use fay\helpers\StringHelper;
 use cms\models\tables\UsersTable;
-use fay\services\MenuService;
+use cms\services\MenuService;
 use cms\models\tables\CategoriesTable;
 use cms\models\tables\MenusTable;
-use fay\services\FlashService;
+use cms\services\FlashService;
 use fay\helpers\RequestHelper;
 use cms\models\tables\RolesTable;
 use fay\core\Response;

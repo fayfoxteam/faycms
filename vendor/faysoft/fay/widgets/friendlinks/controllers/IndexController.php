@@ -2,7 +2,7 @@
 namespace fay\widgets\friendlinks\controllers;
 
 use fay\widget\Widget;
-use fay\services\LinkService;
+use cms\services\LinkService;
 
 class IndexController extends Widget{
     /**

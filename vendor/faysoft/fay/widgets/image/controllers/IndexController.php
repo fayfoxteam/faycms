@@ -3,7 +3,7 @@ namespace fay\widgets\image\controllers;
 
 use cms\models\tables\FilesTable;
 use fay\widget\Widget;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 
 class IndexController extends Widget{
     public function initConfig($config){

@@ -1,8 +1,8 @@
 <?php
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
-use fay\services\post\PostService;
+use cms\services\file\FileService;
+use cms\services\post\PostService;
 use fay\helpers\StringHelper;
 ?>
 <div class="page-title">

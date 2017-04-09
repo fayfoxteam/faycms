@@ -1,7 +1,7 @@
 <?php
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
-use fay\services\FlashService;
+use cms\services\FlashService;
 ?>
 <!DOCTYPE html>
 <html>

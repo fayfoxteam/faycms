@@ -25,7 +25,7 @@ return array(
         ),
     ),
     //关公点兵用户注册
-    \fay\services\user\UserService::EVENT_CREATED => array(
+    \cms\services\user\UserService::EVENT_CREATED => array(
         array(
             'handler'=>function($user_id){
                 \guangong\models\tables\GuangongUserExtraTable::model()->insert(array(

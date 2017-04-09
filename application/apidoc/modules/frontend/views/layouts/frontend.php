@@ -1,5 +1,5 @@
 <?php 
-use fay\services\OptionService;
+use cms\services\OptionService;
 ?>
 <!DOCTYPE html>
 <html>

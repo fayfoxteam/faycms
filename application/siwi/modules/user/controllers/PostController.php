@@ -5,13 +5,13 @@ use fay\core\Response;
 use siwi\library\UserController;
 use cms\models\tables\PostsTable;
 use cms\models\tables\PostsFilesTable;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use cms\models\tables\FilesTable;
-use fay\services\post\Tag;
-use fay\services\CategoryService;
+use cms\services\post\Tag;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class PostController extends UserController{
     private $rules = array(

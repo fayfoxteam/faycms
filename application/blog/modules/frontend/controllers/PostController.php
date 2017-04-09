@@ -3,7 +3,7 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use fay\core\HttpException;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\helpers\StringHelper;
 
 class PostController extends FrontController{

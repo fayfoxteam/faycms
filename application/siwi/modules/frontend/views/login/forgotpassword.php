@@ -1,6 +1,6 @@
 <?php
 
-use fay\services\FlashService;
+use cms\services\FlashService;
 $this->appendCss($this->appAssets('css/col2.css'));
 echo FlashService::get();
 ?>

@@ -1,8 +1,8 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use cms\models\tables\UsersTable;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 /**
  * @var $roles array

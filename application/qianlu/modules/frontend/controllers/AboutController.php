@@ -3,7 +3,7 @@ namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\core\HttpException;
 
 class AboutController extends FrontController{

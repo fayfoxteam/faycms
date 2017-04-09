@@ -6,7 +6,7 @@ use cms\models\tables\UsersTable;
 use fay\core\Response;
 use fay\helpers\FieldHelper;
 use fay\core\HttpException;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 /**
  * 用户

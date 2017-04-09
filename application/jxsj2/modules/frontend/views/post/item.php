@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 ?>
 <div id="banner">
     <?php \F::widget()->load('index-slides')?>

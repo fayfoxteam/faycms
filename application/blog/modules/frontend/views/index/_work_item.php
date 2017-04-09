@@ -1,8 +1,8 @@
 <?php
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 
 preg_match_all('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $data['content'], $matches);
 $post_cats = PostService::service()->getCats($data['id']);

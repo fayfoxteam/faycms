@@ -2,7 +2,7 @@
 namespace fay\validators;
 
 use fay\core\Validator;
-use fay\services\CaptchaService;
+use cms\services\CaptchaService;
 
 /**
  * 验证码

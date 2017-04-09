@@ -3,7 +3,7 @@ namespace ncp\models;
 
 use fay\core\Model;
 use fay\core\Sql;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\PostsTable;
 
 class Recommend extends Model{

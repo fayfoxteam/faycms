@@ -10,7 +10,7 @@ use fayshop\models\tables\GoodsCatPropsTable;
 use fayshop\models\tables\GoodsCatPropValuesTable;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\HttpException;
 
 /**

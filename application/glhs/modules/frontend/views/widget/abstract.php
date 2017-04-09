@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
-use fay\services\CategoryService;
+use cms\services\file\FileService;
+use cms\services\CategoryService;
 use fay\helpers\StringHelper;
 
 $cat = CategoryService::service()->get($widget->config['top']);

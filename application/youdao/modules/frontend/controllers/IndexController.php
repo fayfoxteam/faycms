@@ -3,7 +3,7 @@ namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 

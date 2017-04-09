@@ -2,10 +2,10 @@
 namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 
 class ServiceController extends FrontController{
     public $layout_template = 'inner';

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 ?>
 <section class="box" id="<?php echo $alias?>">
     <div class="box-title">

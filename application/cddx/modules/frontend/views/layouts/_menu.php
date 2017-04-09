@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 $cats = CategoryService::service()->getTree('_system_post');
 ?>

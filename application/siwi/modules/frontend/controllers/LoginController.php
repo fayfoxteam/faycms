@@ -3,13 +3,13 @@ namespace siwi\modules\frontend\controllers;
 
 use siwi\library\FrontController;
 use cms\models\tables\UsersTable;
-use fay\services\EmailService;
+use cms\services\EmailService;
 use fay\helpers\StringHelper;
 use fay\core\Response;
 use fay\core\Validator;
 use fay\core\HttpException;
-use fay\services\FlashService;
-use fay\services\user\UserService;
+use cms\services\FlashService;
+use cms\services\user\UserService;
 
 class LoginController extends FrontController{
     public function index(){

@@ -5,11 +5,11 @@ use ncp\library\FrontController;
 use fay\core\HttpException;
 use cms\models\tables\PostsTable;
 use fay\core\Sql;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\common\ListView;
 use ncp\models\Recommend;
-use fay\services\OptionService;
-use fay\services\post\PostService;
+use cms\services\OptionService;
+use cms\services\post\PostService;
 use fay\core\db\Expr;
 
 class SpecialController extends FrontController{

@@ -6,10 +6,10 @@ use cms\models\tables\PostsTable;
 use cms\models\tables\FilesTable;
 use cms\models\tables\PostsFilesTable;
 use fay\models\Tag;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use fay\core\HttpException;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class SiteController extends UserController{
     private $rules = array(

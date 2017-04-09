@@ -2,7 +2,7 @@
 namespace fay\widgets\baidu_map\controllers;
 
 use fay\widget\Widget;
-use fay\services\FlashService;
+use cms\services\FlashService;
 
 class AdminController extends Widget{
     public function index(){

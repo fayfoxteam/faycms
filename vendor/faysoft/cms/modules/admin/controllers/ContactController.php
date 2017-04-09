@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\SettingService;
+use cms\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
 use cms\models\tables\ContactsTable;

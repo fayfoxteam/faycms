@@ -12,7 +12,7 @@
 $this->appendCss($this->assets('css/font-awesome.min.css'));
 ?>
 <div class="vote-title">
-    <h1><?php echo \fay\services\OptionService::get('site:sitename'), ' - ',
+    <h1><?php echo \cms\services\OptionService::get('site:sitename'), ' - ',
         \valentine\helpers\TeamHelper::getTypeTitle($type)?></h1>
 </div>
 <div class="vote-info">
@@ -27,7 +27,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
         </li>
         <li class="left-border">
             <label>访问次数</label>
-            <span><?php echo \fay\services\OptionService::get('visits', 0)?></span>
+            <span><?php echo \cms\services\OptionService::get('visits', 0)?></span>
         </li>
     </ul>
 </div>

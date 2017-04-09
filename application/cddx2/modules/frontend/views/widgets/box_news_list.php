@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\helpers\StringHelper;
 
 $cat = CategoryService::service()->get($config['top'], 'title,alias');

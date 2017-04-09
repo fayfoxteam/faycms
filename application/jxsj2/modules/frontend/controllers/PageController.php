@@ -2,7 +2,7 @@
 namespace jxsj2\modules\frontend\controllers;
 
 use jxsj2\library\FrontController;
-use fay\services\PageService;
+use cms\services\PageService;
 use cms\models\tables\PagesTable;
 use fay\core\HttpException;
 

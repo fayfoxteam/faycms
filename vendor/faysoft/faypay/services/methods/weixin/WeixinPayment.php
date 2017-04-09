@@ -7,7 +7,7 @@ use faypay\models\PaymentTradeModel;
 use faypay\services\methods\PaymentMethodException;
 use faypay\services\methods\PaymentMethodInterface;
 use faypay\services\trade\TradePaymentService;
-use fay\services\user\UserOauthService;
+use cms\services\user\UserOauthService;
 
 class WeixinPayment implements PaymentMethodInterface{
     /**

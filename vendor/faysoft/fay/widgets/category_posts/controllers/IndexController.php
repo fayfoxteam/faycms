@@ -2,9 +2,9 @@
 namespace fay\widgets\category_posts\controllers;
 
 use fay\widget\Widget;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\helpers\DateHelper;
-use fay\services\post\PostCategoryService;
+use cms\services\post\PostCategoryService;
 
 class IndexController extends Widget{
     /**

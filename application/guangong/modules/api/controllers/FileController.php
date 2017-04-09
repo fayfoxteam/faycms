@@ -2,7 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use fay\core\Response;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 
 class FileController extends \cms\modules\api\controllers\FileController{
     /**

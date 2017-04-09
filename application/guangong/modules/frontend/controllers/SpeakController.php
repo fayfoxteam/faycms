@@ -2,10 +2,10 @@
 namespace guangong\modules\frontend\controllers;
 
 use fay\core\Response;
-use fay\services\file\FileService;
-use fay\services\OptionService;
-use fay\services\wechat\core\AccessToken;
-use fay\services\wechat\jssdk\JsSDK;
+use cms\services\file\FileService;
+use cms\services\OptionService;
+use cms\services\wechat\core\AccessToken;
+use cms\services\wechat\jssdk\JsSDK;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongSpeaksTable;
 

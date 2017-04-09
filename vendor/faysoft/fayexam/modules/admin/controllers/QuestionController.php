@@ -7,11 +7,11 @@ use fay\common\ListView;
 use fayexam\models\tables\ExamQuestionsTable;
 use cms\models\tables\ActionlogsTable;
 use fay\helpers\HtmlHelper;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fayexam\models\tables\ExamAnswersTable;
 use fay\core\Response;
 use fayexam\models\tables\ExamExamsQuestionsTable;
-use fay\services\FlashService;
+use cms\services\FlashService;
 use fay\helpers\StringHelper;
 
 class QuestionController extends AdminController{

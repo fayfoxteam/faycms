@@ -3,7 +3,7 @@ namespace jxsj\modules\frontend\controllers;
 
 use jxsj\library\FrontController;
 use fay\core\Response;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 class LoginController extends FrontController{
     public function index(){

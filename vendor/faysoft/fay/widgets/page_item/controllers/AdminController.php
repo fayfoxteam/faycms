@@ -2,7 +2,7 @@
 namespace fay\widgets\page_item\controllers;
 
 use fay\widget\Widget;
-use fay\services\FlashService;
+use cms\services\FlashService;
 use cms\models\tables\PagesTable;
 
 class AdminController extends Widget{

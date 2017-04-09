@@ -2,7 +2,7 @@
 namespace fay\widgets\categories\controllers;
 
 use fay\widget\Widget;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class IndexController extends Widget{
     public function initConfig($config){

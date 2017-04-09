@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\services\SettingService;
+use cms\services\SettingService;
 
 class IndexController extends AdminController{
     //首页的boxes，本质上是widget

@@ -1,7 +1,7 @@
 <?php
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use cms\models\tables\FilesTable;
-use fay\services\file\QiniuService;
+use cms\services\file\QiniuService;
 use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
 

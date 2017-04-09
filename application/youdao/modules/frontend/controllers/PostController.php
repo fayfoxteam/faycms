@@ -2,7 +2,7 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use cms\models\tables\PostsTable;
 use fay\helpers\StringHelper;
 use fay\core\Sql;

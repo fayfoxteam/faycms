@@ -3,10 +3,10 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\services\feed\FeedLikeService;
-use fay\services\FeedService;
+use cms\services\feed\FeedLikeService;
+use cms\services\FeedService;
 use fay\helpers\FieldHelper;
-use fay\services\user\UserService;
+use cms\services\user\UserService;
 
 /**
  * 动态点赞

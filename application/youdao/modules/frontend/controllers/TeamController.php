@@ -2,10 +2,10 @@
 namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
-use fay\services\OptionService;
+use cms\services\OptionService;
 use fay\core\HttpException;
 
 class TeamController extends FrontController{

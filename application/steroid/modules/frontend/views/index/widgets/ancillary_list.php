@@ -4,7 +4,7 @@
  */
 
 //获取分类描述
-$cat = \fay\services\CategoryService::service()->get($widget->config['cat_id'], 'description');
+$cat = \cms\services\CategoryService::service()->get($widget->config['cat_id'], 'description');
 ?>
 <section class="section" id="section-ancillary">
     <div class="container">

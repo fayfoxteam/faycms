@@ -4,7 +4,7 @@ namespace glhs\library;
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class FrontController extends Controller{
     public $layout_template = 'frontend';

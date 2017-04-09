@@ -3,9 +3,9 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use cms\models\tables\FilesTable;
-use fay\services\file\FileService;
+use cms\services\file\FileService;
 use fay\core\HttpException;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 
 class FileController extends UserController{
     public function __construct(){

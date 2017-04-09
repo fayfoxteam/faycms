@@ -2,9 +2,9 @@
 namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Db;
-use fay\services\MenuService;
+use cms\services\MenuService;
 use fay\helpers\RequestHelper;
 use fay\core\Response;
 

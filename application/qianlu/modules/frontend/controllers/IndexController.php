@@ -3,7 +3,7 @@ namespace qianlu\modules\frontend\controllers;
 
 use qianlu\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\services\CategoryService;
+use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 

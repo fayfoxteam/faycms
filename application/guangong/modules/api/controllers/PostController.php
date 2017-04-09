@@ -2,7 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use fay\core\Response;
-use fay\services\post\PostService;
+use cms\services\post\PostService;
 use guangong\models\tables\GuangongReadLogsTable;
 use guangong\services\TaskService;
 

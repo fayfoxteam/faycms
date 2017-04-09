@@ -10,7 +10,7 @@ use fayexam\models\tables\ExamPapersTable;
 use fayexam\models\tables\ExamExamsQuestionsTable;
 use fay\core\Response;
 use cms\models\tables\ActionlogsTable;
-use fay\services\ExamService;
+use cms\services\ExamService;
 
 class ExamController extends AdminController{
     public function __construct(){

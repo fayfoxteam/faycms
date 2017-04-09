@@ -8,7 +8,7 @@ use cms\models\tables\PostCommentsTable;
 use fay\core\Response;
 use cms\models\tables\ActionlogsTable;
 use fay\helpers\HtmlHelper;
-use fay\services\post\PostCommentService;
+use cms\services\post\PostCommentService;
 use fay\core\Exception;
 
 class PostCommentController extends AdminController{

@@ -4,10 +4,10 @@ namespace guangong\modules\frontend\controllers;
 
 use fay\helpers\ArrayHelper;
 use cms\models\tables\RegionsTable;
-use fay\services\OptionService;
-use fay\services\user\UserService;
-use fay\services\wechat\core\AccessToken;
-use fay\services\wechat\jssdk\JsSDK;
+use cms\services\OptionService;
+use cms\services\user\UserService;
+use cms\services\wechat\core\AccessToken;
+use cms\services\wechat\jssdk\JsSDK;
 use guangong\library\FrontController;
 use guangong\models\forms\SignUpForm;
 use guangong\models\tables\GuangongArmsTable;

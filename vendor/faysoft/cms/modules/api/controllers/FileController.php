@@ -2,14 +2,14 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\services\CaptchaService;
-use fay\services\file\FileService;
+use cms\services\CaptchaService;
+use cms\services\file\FileService;
 use cms\models\tables\FilesTable;
 use fay\helpers\ImageHelper;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
-use fay\services\OptionService;
+use cms\services\OptionService;
 use PHPQRCode\QRcode;
 
 /**

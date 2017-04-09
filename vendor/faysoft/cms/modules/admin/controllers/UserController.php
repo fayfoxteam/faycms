@@ -6,15 +6,15 @@ use fay\core\Sql;
 use cms\models\tables\UsersTable;
 use cms\models\tables\RolesTable;
 use fay\common\ListView;
-use fay\services\user\UserPropService;
-use fay\services\user\UserService;
+use cms\services\user\UserPropService;
+use cms\services\user\UserService;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\core\HttpException;
 use fay\core\Loader;
 use cms\models\tables\UserProfileTable;
-use fay\services\user\UserRoleService;
+use cms\services\user\UserRoleService;
 
 class UserController extends AdminController{
     public function __construct(){

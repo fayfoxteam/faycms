@@ -1,7 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
 
-$widget = F::widget()->get($data['widget_name'], true);
+/**
+ * @var $data array
+ */
+$widget = F::widget()->get($data['widget_name'], 'Admin');
 ?>
 <tr valign="top">
     <td>

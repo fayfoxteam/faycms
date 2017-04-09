@@ -1,7 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 
-$widget_instance = F::widget()->get($widget['widget_name'], true);
+$widget_instance = F::widget()->get($widget['widget_name'], 'Admin');
 ?>
 <div class="widget-item <?php if(!$widget['enabled'])echo 'bl-yellow'?>" data-widget-id="<?php echo $widget['id']?>">
     <a class="widget-item-selector"></a>

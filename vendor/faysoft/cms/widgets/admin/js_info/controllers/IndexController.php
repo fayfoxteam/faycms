@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\js_info\controllers;
+namespace cms\widgets\admin\js_info\controllers;
 
 use fay\widget\Widget;
 

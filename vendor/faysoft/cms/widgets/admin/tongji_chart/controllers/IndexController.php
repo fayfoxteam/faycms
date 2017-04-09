@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\tongji_chart\controllers;
+namespace cms\widgets\admin\tongji_chart\controllers;
 
 use fay\widget\Widget;
 use cms\services\AnalystService;

@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\feeds\controllers;
+namespace cms\widgets\admin\feeds\controllers;
 
 use fay\widget\Widget;
 use cms\models\tables\LogsTable;

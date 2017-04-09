@@ -7,8 +7,7 @@
                 foreach($_settings['dashboard-left'] as $box){
                     foreach($boxes_cp as $k =>$v){
                         if($box == $v){
-                            $ajax = in_array($box, F::app()->ajax_boxes) ? true : false;
-                            F::widget()->render($box, array(), $ajax);
+                            F::widget()->render($box, array(), in_array($box, F::app()->ajax_boxes));
                             unset($boxes_cp[$k]);
                             break;
                         }
@@ -25,8 +24,7 @@
                 foreach($_settings['dashboard-right'] as $box){
                     foreach($boxes_cp as $k =>$v){
                         if($box == $v){
-                            $ajax = in_array($box, F::app()->ajax_boxes) ? true : false;
-                            F::widget()->render($box, array(), $ajax);
+                            F::widget()->render($box, array(), in_array($box, F::app()->ajax_boxes));
                             unset($boxes_cp[$k]);
                             break;
                         }
@@ -35,8 +33,7 @@
             }
             
             foreach($boxes_cp as $box){
-                $ajax = in_array($box, F::app()->ajax_boxes) ? true : false;
-                F::widget()->render($box, array(), $ajax);
+                F::widget()->render($box, array(), in_array($box, F::app()->ajax_boxes));
             }
             ?>
         </div>

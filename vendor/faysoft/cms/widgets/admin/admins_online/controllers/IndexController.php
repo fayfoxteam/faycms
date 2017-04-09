@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\admins_online\controllers;
+namespace cms\widgets\admin\admins_online\controllers;
 
 use fay\widget\Widget;
 use fay\core\Sql;

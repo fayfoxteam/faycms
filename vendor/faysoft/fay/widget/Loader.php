@@ -25,16 +25,11 @@ class Loader{
     /**
      * 实例化一个widget，并返回实例
      * @param $name
-     * @param bool $admin
+     * @param string $controller 不到Controller后缀的控制器名称，
      * @return Widget
      */
-    public function get($name, $admin = false){
-        if($admin){
-            $controller = 'AdminController';
-        }else{
-            $controller = 'IndexController';
-        }
-        
+    public function get($name, $controller = 'Index'){
+        $controller = ucfirst($controller) . 'Controller';
         if(strpos($name, '/') === false){
             //用户自定义的widget name不带斜杠
             $class_name = APPLICATION.'\widgets\\'.$name.'\controllers\\'.$controller;
@@ -48,7 +43,7 @@ class Loader{
             //系统自带的widget name为cms/*或者fay/*
             $name_explode = explode('/', $name);
             $pre = array_shift($name_explode);//pre取值为cms或fay
-            $class_name = $pre.'\widgets\\'.implode('/', $name_explode).'\controllers\\'.$controller;
+            $class_name = $pre.'\widgets\\'.implode('\\', $name_explode).'\\controllers\\'.$controller;
             $path = SYSTEM_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/';
             if(file_exists("{$path}controllers/{$controller}.php")){
                 return new $class_name($name, $path);

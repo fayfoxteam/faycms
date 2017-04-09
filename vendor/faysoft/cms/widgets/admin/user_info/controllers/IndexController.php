@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\user_info\controllers;
+namespace cms\widgets\admin\user_info\controllers;
 
 use fay\widget\Widget;
 use fay\core\Loader;

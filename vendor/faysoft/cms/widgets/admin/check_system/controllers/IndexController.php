@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\check_system\controllers;
+namespace cms\widgets\admin\check_system\controllers;
 
 use fay\widget\Widget;
 

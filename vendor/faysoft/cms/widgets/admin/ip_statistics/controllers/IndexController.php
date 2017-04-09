@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\ip_statistics\controllers;
+namespace cms\widgets\admin\ip_statistics\controllers;
 
 use fay\widget\Widget;
 use fay\core\Sql;

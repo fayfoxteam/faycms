@@ -30,13 +30,13 @@ class WidgetController extends AdminController{
         //获取当前application下的widgets
         $app_widgets = FileService::getFileList(APPLICATION_PATH . 'widgets');
         foreach($app_widgets as $w){
-            $widget_instances[] = \F::widget()->get($w['name'], true);
+            $widget_instances[] = \F::widget()->get($w['name'], 'Admin');
         }
         
         //获取系统公用widgets
         $common_widgets = FileService::getFileList(SYSTEM_PATH . 'fay' . DS . 'widgets');
         foreach($common_widgets as $w){
-            $widget_instances[] = \F::widget()->get('fay/'.$w['name'], true);
+            $widget_instances[] = \F::widget()->get('fay/'.$w['name'], 'Admin');
         }
         
         $this->view->widgets = $widget_instances;
@@ -67,7 +67,7 @@ class WidgetController extends AdminController{
         if(!$widget){
             throw new HttpException('指定的小工具ID不存在');
         }
-        $widget_obj = \F::widget()->get($widget['widget_name'], true);
+        $widget_obj = \F::widget()->get($widget['widget_name'], 'Admin');
         
         if(file_exists($widget_obj->path . 'README.md')){
             $this->layout->_help_content = '<div class="text">' . \Michelf\Markdown::defaultTransform(file_get_contents($widget_obj->path . 'README.md')) . '</div>';
@@ -84,7 +84,7 @@ class WidgetController extends AdminController{
             'f_widget_description'=>'描述',
         ));
         
-        $widget_admin = \F::widget()->get($widget['widget_name'], true);
+        $widget_admin = \F::widget()->get($widget['widget_name'], 'Admin');
         $this->form('widget')->setRules($widget_admin->rules())
             ->setLabels($widget_admin->labels())
             ->setFilters($widget_admin->filters());

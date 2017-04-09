@@ -7,16 +7,16 @@ use cms\services\SettingService;
 class IndexController extends AdminController{
     //首页的boxes，本质上是widget
     public $boxes = array(
-        array('name'=>'cms/change_app', 'title'=>'平台切换'),
-        array('name'=>'cms/tongji_chart', 'title'=>'访问统计（图表）'),
-        array('name'=>'cms/tongji', 'title'=>'访问统计（概况）'),
-        array('name'=>'cms/ip_statistics', 'title'=>'IP统计'),
-        array('name'=>'cms/user_info', 'title'=>'用户信息'),
-        array('name'=>'cms/check_system', 'title'=>'系统检测'),
-        array('name'=>'cms/admins_online', 'title'=>'在线管理员'),
-        array('name'=>'cms/feeds', 'title'=>'Feeds'),
+        array('name'=>'cms/admin/change_app', 'title'=>'平台切换'),
+        array('name'=>'cms/admin/tongji_chart', 'title'=>'访问统计（图表）'),
+        array('name'=>'cms/admin/tongji', 'title'=>'访问统计（概况）'),
+        array('name'=>'cms/admin/ip_statistics', 'title'=>'IP统计'),
+        array('name'=>'cms/admin/user_info', 'title'=>'用户信息'),
+        array('name'=>'cms/admin/check_system', 'title'=>'系统检测'),
+        array('name'=>'cms/admin/admins_online', 'title'=>'在线管理员'),
+        array('name'=>'cms/admin/feeds', 'title'=>'Feeds'),
     );
-    public $ajax_boxes = array('cms/ip_statistics', 'cms/check_system');
+    public $ajax_boxes = array('cms/admin/ip_statistics', 'cms/admin/check_system');
     
     //不写构造函数的话，index方法会被认为是构造函数
     public function __construct(){

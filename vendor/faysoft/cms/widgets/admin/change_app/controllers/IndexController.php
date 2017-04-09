@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\change_app\controllers;
+namespace cms\widgets\admin\change_app\controllers;
 
 use fay\widget\Widget;
 use cms\services\file\FileService;

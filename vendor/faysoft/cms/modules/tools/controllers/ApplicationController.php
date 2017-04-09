@@ -159,43 +159,43 @@ class ApplicationController extends ToolsController{
 	}
 	
 	private function createTables($prefix, $charset){
-		$sql = file_get_contents(__DIR__.'/../../install/data/tables.sql');
+		$sql = file_get_contents(__DIR__ . '/../../install/data/tables.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}', '{{$charset}}'), array($prefix, $this->current_time, $charset), $sql);
 		$this->db->execute($sql);
 	}
 	
 	private function setCities($prefix){
-		$sql = file_get_contents(__DIR__.'/../../install/data/cities.sql');
+		$sql = file_get_contents(__DIR__ . '/../../install/data/cities.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 	}
 	
 	private function setRegions($prefix){
-		$sql = file_get_contents(__DIR__.'/../../install/data/regions.sql');
+		$sql = file_get_contents(__DIR__ . '/../../install/data/regions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 	}
 	
 	private function setCats($prefix){
-		$sql = file_get_contents(__DIR__.'/../../install/data/cats.sql');
+		$sql = file_get_contents(__DIR__ . '/../../install/data/cats.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 	}
 	
 	private function setMenus($prefix){
-		$sql = file_get_contents(__DIR__.'/../../install/data/menus.sql');
+		$sql = file_get_contents(__DIR__ . '/../../install/data/menus.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 	}
 	
 	private function setActions($prefix){
-		$sql = file_get_contents(__DIR__.'/../../install/data/actions.sql');
+		$sql = file_get_contents(__DIR__ . '/../../install/data/actions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 	}
 	
 	private function setSystem($prefix){
-		$sql = file_get_contents(__DIR__.'/../../install/data/system.sql');
+		$sql = file_get_contents(__DIR__ . '/../../install/data/system.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 	}

@@ -4,7 +4,7 @@
  * 本框架暂不支持多台memcache协同运作
  */
 return array(
-	array(
-		'host'=>'127.0.0.1',
-	),
+    array(
+        'host'=>'127.0.0.1',
+    ),
 );

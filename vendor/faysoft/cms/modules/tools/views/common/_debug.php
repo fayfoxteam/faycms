@@ -9,9 +9,9 @@ use fay\helpers\HtmlHelper;
 use fay\core\Db;
 
 if(Db::hasInstance()){
-	$db = Db::getInstance();;
+    $db = Db::getInstance();;
 }else{
-	$db = null;
+    $db = null;
 }
 ?>
 <style>
@@ -48,54 +48,54 @@ if(Db::hasInstance()){
 #debug-container .p5{padding:5px}
 </style>
 <div id="debug-container">
-	<div class="tabbable">
-		<ul class="nav-tabs">
-			<li class="active"><a href="#debug-tab-1">Sql Log</a></li>
-			<li><a href="#debug-tab-2">Backtrace</a></li>
-			<li><a href="#debug-tab-3">Runtimes</a></li>
-		</ul>
-		<div class="tab-content">
-			<div id="debug-tab-1" class="tab-pane p5">
-				<div class="p5">
-					数据库操作:<?php echo $db ? $db->getCount() : 0?>次
-					|
-					内存使用:<?php echo round(memory_get_usage()/1024, 2)?>KB
-					|
-					执行时间:<?php echo StringHelper::money((microtime(true) - START) * 1000)?>ms
-				</div>
-				<table class="debug-table">
-				<?php 
-					$total_db_time = 0;
-					$sqls = $db ? $db->getSqlLogs() : array();
-					foreach($sqls as $k=>$s){
-						$total_db_time += $s[2]?>
-					<tr>
-						<td><?php echo $k+1?></td>
-						<td><?php echo SqlHelper::nice(HtmlHelper::encode($s[0]), $s[1])?></td>
-						<td class="time"><?php echo StringHelper::money($s[2] * 1000)?>ms</td>
-					</tr>
-				<?php }?>
-					<tr>
-						<td colspan="2" align="center">数据库耗时</td>
-						<td><?php echo StringHelper::money($total_db_time * 1000)?>ms</td>
-					</tr>
-				</table>
-			</div>
-			<div id="debug-tab-2" class="tab-pane p5 hide" style="display:none;">
-				<?php BacktraceHelper::render()?>
-			</div>
-			<div id="debug-tab-3" class="tab-pane p5 hide" style="display:none;">
-				<?php \fay\helpers\RuntimeHelper::render();?>
-			</div>
-		</div>
-	</div>
+    <div class="tabbable">
+        <ul class="nav-tabs">
+            <li class="active"><a href="#debug-tab-1">Sql Log</a></li>
+            <li><a href="#debug-tab-2">Backtrace</a></li>
+            <li><a href="#debug-tab-3">Runtimes</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="debug-tab-1" class="tab-pane p5">
+                <div class="p5">
+                    数据库操作:<?php echo $db ? $db->getCount() : 0?>次
+                    |
+                    内存使用:<?php echo round(memory_get_usage()/1024, 2)?>KB
+                    |
+                    执行时间:<?php echo StringHelper::money((microtime(true) - START) * 1000)?>ms
+                </div>
+                <table class="debug-table">
+                <?php 
+                    $total_db_time = 0;
+                    $sqls = $db ? $db->getSqlLogs() : array();
+                    foreach($sqls as $k=>$s){
+                        $total_db_time += $s[2]?>
+                    <tr>
+                        <td><?php echo $k+1?></td>
+                        <td><?php echo SqlHelper::nice(HtmlHelper::encode($s[0]), $s[1])?></td>
+                        <td class="time"><?php echo StringHelper::money($s[2] * 1000)?>ms</td>
+                    </tr>
+                <?php }?>
+                    <tr>
+                        <td colspan="2" align="center">数据库耗时</td>
+                        <td><?php echo StringHelper::money($total_db_time * 1000)?>ms</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="debug-tab-2" class="tab-pane p5 hide" style="display:none;">
+                <?php BacktraceHelper::render()?>
+            </div>
+            <div id="debug-tab-3" class="tab-pane p5 hide" style="display:none;">
+                <?php \fay\helpers\RuntimeHelper::render();?>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
 $(function(){
-	$('#debug-container').on('click', '.nav-tabs li', function(){
-		$(this).addClass('active').siblings().removeClass('active');
-		$($(this).find('a').attr('href')).show().siblings().hide();
-		return false;
-	});
+    $('#debug-container').on('click', '.nav-tabs li', function(){
+        $(this).addClass('active').siblings().removeClass('active');
+        $($(this).find('a').attr('href')).show().siblings().hide();
+        return false;
+    });
 });
 </script>

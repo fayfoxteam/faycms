@@ -13,47 +13,47 @@ use faypay\services\trade\TradePaymentItem;
  * 实际应用中一般不会有用户傻到一直付款，但还是存在这种可能性。
  */
 class PaidAfterClosedTradePayment implements PaymentStateInterface{
-	/**
-	 * 发起支付
-	 * @param TradePaymentItem $trade_payment
-	 * @throws TradeException
-	 * @return bool
-	 */
-	public function pay(TradePaymentItem $trade_payment){
-		throw new TradeException('已异常支付交易记录不能发起支付');
-	}
-	
-	/**
-	 * 接收支付记录回调
-	 * @param TradePaymentItem $trade_payment
-	 * @param string $trade_no 第三方交易号
-	 * @param string $payer_account 第三方付款帐号
-	 * @param int $paid_fee 第三方回调时传过来的实付金额（单位：分）
-	 * @param int $pay_time 支付时间时间戳
-	 * @throws TradeException
-	 * @return bool
-	 */
-	public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee, $pay_time = 0){
-		throw new TradeException('已支付交易记录不能支付');
-	}
-	
-	/**
-	 * 交易支付记录执行退款
-	 * @param TradePaymentItem $trade_payment
-	 * @throws TradeException
-	 * @return bool
-	 */
-	public function refund(TradePaymentItem $trade_payment){
-		//@todo 执行退款
-	}
-	
-	/**
-	 * 交易支付记录关闭
-	 * @param TradePaymentItem $trade_payment
-	 * @throws TradeException
-	 * @return bool
-	 */
-	public function close(TradePaymentItem $trade_payment){
-		//@todo 退款后可以关闭
-	}
+    /**
+     * 发起支付
+     * @param TradePaymentItem $trade_payment
+     * @throws TradeException
+     * @return bool
+     */
+    public function pay(TradePaymentItem $trade_payment){
+        throw new TradeException('已异常支付交易记录不能发起支付');
+    }
+    
+    /**
+     * 接收支付记录回调
+     * @param TradePaymentItem $trade_payment
+     * @param string $trade_no 第三方交易号
+     * @param string $payer_account 第三方付款帐号
+     * @param int $paid_fee 第三方回调时传过来的实付金额（单位：分）
+     * @param int $pay_time 支付时间时间戳
+     * @throws TradeException
+     * @return bool
+     */
+    public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee, $pay_time = 0){
+        throw new TradeException('已支付交易记录不能支付');
+    }
+    
+    /**
+     * 交易支付记录执行退款
+     * @param TradePaymentItem $trade_payment
+     * @throws TradeException
+     * @return bool
+     */
+    public function refund(TradePaymentItem $trade_payment){
+        //@todo 执行退款
+    }
+    
+    /**
+     * 交易支付记录关闭
+     * @param TradePaymentItem $trade_payment
+     * @throws TradeException
+     * @return bool
+     */
+    public function close(TradePaymentItem $trade_payment){
+        //@todo 退款后可以关闭
+    }
 }

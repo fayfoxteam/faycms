@@ -8,10 +8,10 @@
  *     * => .*
  */
 return array(
-	'.js'=>array('api/analyst'),
-	''=>array(
-		'file/download*', 'file/pic*', 'ile/vcode*', 'file/qrcode*', 'cms/api/analyst/visit',
-		'redirect*', '/', 'cms/admin*', 'cms/install*', 'cms/tools*', 'a', 'widget/*',
-		'assets/*', 'apps/*', 'install',
-	),
+    '.js'=>array('api/analyst'),
+    ''=>array(
+        'file/download*', 'file/pic*', 'ile/vcode*', 'file/qrcode*', 'cms/api/analyst/visit',
+        'redirect*', '/', 'cms/admin*', 'cms/install*', 'cms/tools*', 'a', 'widget/*',
+        'assets/*', 'apps/*', 'install',
+    ),
 );

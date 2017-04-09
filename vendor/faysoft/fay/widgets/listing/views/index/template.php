@@ -8,6 +8,6 @@ use fay\helpers\HtmlHelper;
 
 echo HtmlHelper::encode($widget->config['title']);
 foreach($widget->config['data'] as $d){
-	echo HtmlHelper::tag('p', array(), HtmlHelper::encode($d));
+    echo HtmlHelper::tag('p', array(), HtmlHelper::encode($d));
 }
 ?>

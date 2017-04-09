@@ -7,7 +7,7 @@ use cms\library\ApiController;
  * ping测试
  */
 class TestController extends ApiController{
-	public function pingAction(){
-		die('pong');
-	}
+    public function pingAction(){
+        die('pong');
+    }
 }

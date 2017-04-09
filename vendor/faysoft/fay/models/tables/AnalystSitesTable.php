@@ -12,40 +12,40 @@ use fay\core\db\Table;
  * @property int $delete_time 删除时间
  */
 class AnalystSitesTable extends Table{
-	protected $_name = 'analyst_sites';
-	
-	/**
-	 * @param string $class_name
-	 * @return AnalystSitesTable
-	 */
-	public static function model($class_name = __CLASS__){
-		return parent::model($class_name);
-	}
-	
-	public function rules(){
-		return array(
-			array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
-			array(array('title', 'description'), 'string', array('max'=>255)),
-			array(array('delete_time'), 'range', array('range'=>array(0, 1))),
-			
-			array('title', 'required'),
-		);
-	}
+    protected $_name = 'analyst_sites';
+    
+    /**
+     * @param string $class_name
+     * @return AnalystSitesTable
+     */
+    public static function model($class_name = __CLASS__){
+        return parent::model($class_name);
+    }
+    
+    public function rules(){
+        return array(
+            array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
+            array(array('title', 'description'), 'string', array('max'=>255)),
+            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
+            
+            array('title', 'required'),
+        );
+    }
 
-	public function labels(){
-		return array(
-			'id'=>'Id',
-			'title'=>'站点名称',
-			'description'=>'描述',
-			'delete_time'=>'删除时间',
-		);
-	}
+    public function labels(){
+        return array(
+            'id'=>'Id',
+            'title'=>'站点名称',
+            'description'=>'描述',
+            'delete_time'=>'删除时间',
+        );
+    }
 
-	public function filters(){
-		return array(
-			'title'=>'trim',
-			'description'=>'trim',
-			'delete_time'=>'intval',
-		);
-	}
+    public function filters(){
+        return array(
+            'title'=>'trim',
+            'description'=>'trim',
+            'delete_time'=>'intval',
+        );
+    }
 }

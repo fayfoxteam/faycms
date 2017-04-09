@@ -12,8 +12,8 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 <title>安装程序</title>
 </head>
 <body>
-	<div class="main-content">
-		<?php echo $content;?>
-	</div>
+    <div class="main-content">
+        <?php echo $content;?>
+    </div>
 </body>
 </html>

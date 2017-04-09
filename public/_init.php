@@ -30,7 +30,7 @@ $error_handler->register();
  * @return string
  */
 function pr($var, $encode = false, $return = false){
-	return DumperHelper::pr($var, $encode, $return);
+    return DumperHelper::pr($var, $encode, $return);
 }
 
 /**
@@ -38,15 +38,15 @@ function pr($var, $encode = false, $return = false){
  * @param int $depth
  */
 function dump($var, $depth = 10){
-	DumperHelper::dump($var, $depth);
+    DumperHelper::dump($var, $depth);
 }
 
 /**
  * 循环调用dump后die脚本
  */
 function dd(){
-	array_map(function($x){
-		dump($x);
-	}, func_get_args());
-	die;
+    array_map(function($x){
+        dump($x);
+    }, func_get_args());
+    die;
 }

@@ -9,7 +9,7 @@ use fay\helpers\HtmlHelper;
     </div>
     <div class="box-content">
         <form action="<?php echo $this->url('cms/admin/widget/render', array(
-            'name'=>'cms/change_app',
+            'name'=>'cms/admin/change_app',
             'action'=>'change',
         ), false)?>" method="post" id="change-app-form" class="form-inline">
             <?php

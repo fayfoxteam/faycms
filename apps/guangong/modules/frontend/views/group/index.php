@@ -4,6 +4,7 @@
  */
 $this->appendCss($this->appAssets('css/group.css'));
 ?>
+<div class="layer u-arrow-right"><img src="<?php echo $this->appAssets('images/btn01_arrow_right.png')?>"></div>
 <div class="swiper-container groups">
     <div class="swiper-wrapper">
         <div class="swiper-slide" id="group-1">

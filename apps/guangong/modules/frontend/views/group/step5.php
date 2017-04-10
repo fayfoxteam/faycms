@@ -7,6 +7,7 @@
 $this->appendCss($this->appAssets('css/group.css'));
 $this->appendCss($this->assets('css/font-awesome.min.css'));
 ?>
+<div class="layer u-arrow-right"><img src="<?php echo $this->appAssets('images/btn01_arrow_right.png')?>"></div>
 <div class="swiper-container groups">
     <div class="swiper-wrapper">
         <div class="swiper-slide" id="group-51">
@@ -29,7 +30,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
             <?php foreach($users as $user){?>
                 <fieldset>
                     <div class="avatar"><?php
-                        if($user['user']['avatar']['id']){
+                        if(isset($user['user']['avatar']['id'])){
                             echo \fay\helpers\HtmlHelper::img($user['user']['avatar']['id'], \cms\services\file\FileService::PIC_RESIZE, array(
                                 'dw'=>113,
                                 'dh'=>151,

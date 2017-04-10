@@ -6,13 +6,22 @@
 $this->appendCss($this->appAssets('css/group.css'));
 $this->appendCss($this->assets('css/font-awesome.min.css'));
 ?>
+<div class="layer u-arrow-right"><img src="<?php echo $this->appAssets('images/btn01_arrow_right.png')?>"></div>
 <div class="swiper-container groups">
     <div class="swiper-wrapper">
+        <div class="swiper-slide" id="group-41">
+            <div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
+            <div class="layer" id="step">
+                <span class="number">第四式</span>
+                <span class="title">兰谱</span>
+            </div>
+            <div class="layer guangong"><img src="<?php echo $this->appAssets('images/group/guangong.png')?>"></div>
+        </div>
         <div class="swiper-slide" id="group-42">
             <div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
             <div class="layer subtitle">
-                <span class="title">盟誓</span>
-                <span>第三式</span>
+                <span class="title">兰谱</span>
+                <span>第四式</span>
             </div>
             <div class="layer left-bottom"><img src="<?php echo $this->appAssets('images/group/lb.png')?>"></div>
             <div class="layer" id="group-list">
@@ -29,14 +38,6 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
                     </li>
                 <?php }?></ul>
             </div>
-        </div>
-        <div class="swiper-slide" id="group-41">
-            <div class="layer brand"><img src="<?php echo $this->appAssets('images/group/brand.png')?>"></div>
-            <div class="layer" id="step">
-                <span class="number">第四式</span>
-                <span class="title">兰谱</span>
-            </div>
-            <div class="layer guangong"><img src="<?php echo $this->appAssets('images/group/guangong.png')?>"></div>
         </div>
     </div>
 </div>

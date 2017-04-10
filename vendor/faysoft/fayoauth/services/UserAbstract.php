@@ -1,5 +1,5 @@
 <?php
-namespace cms\services\oauth;
+namespace fayoauth\services;
 
 /**
  * 用于统一第三方登陆获取用户信息方式

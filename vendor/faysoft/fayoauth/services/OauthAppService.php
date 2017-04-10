@@ -1,5 +1,5 @@
 <?php
-namespace cms\services;
+namespace fayoauth\services;
 
 use fay\core\Service;
 use cms\models\tables\OauthAppsTable;

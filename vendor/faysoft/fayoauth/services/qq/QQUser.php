@@ -1,8 +1,8 @@
 <?php
-namespace cms\services\oauth\weixin;
+namespace fayoauth\services\weixin;
 
 use cms\models\tables\UserConnectsTable;
-use cms\services\oauth\UserAbstract;
+use fayoauth\services\UserAbstract;
 
 class QQUser extends UserAbstract{
     

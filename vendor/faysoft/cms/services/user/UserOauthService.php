@@ -7,9 +7,9 @@ use fay\core\Service;
 use cms\models\tables\UserConnectsTable;
 use cms\models\tables\UsersTable;
 use cms\services\file\FileService;
-use cms\services\OauthAppService;
-use cms\services\oauth\OAuthException;
-use cms\services\oauth\UserAbstract;
+use fayoauth\services\OauthAppService;
+use fayoauth\services\OAuthException;
+use fayoauth\services\UserAbstract;
 
 class UserOauthService extends Service{
     /**

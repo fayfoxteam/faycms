@@ -6,9 +6,9 @@ use fay\core\Http;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
 use cms\models\tables\UserConnectsTable;
-use cms\services\OauthAppService;
-use cms\services\oauth\OAuthException;
-use cms\services\oauth\OauthService;
+use fayoauth\services\OauthAppService;
+use fayoauth\services\OAuthException;
+use fayoauth\services\OauthService;
 use cms\services\OptionService;
 use cms\services\user\UserService;
 

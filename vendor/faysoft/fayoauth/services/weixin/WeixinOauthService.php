@@ -1,9 +1,9 @@
 <?php
-namespace cms\services\oauth\weixin;
+namespace fayoauth\services\weixin;
 
 use fay\core\Response;
-use cms\services\oauth\OAuthException;
-use cms\services\oauth\OauthService;
+use fayoauth\services\OAuthException;
+use fayoauth\services\OauthService;
 
 class WeixinOauthService extends OauthService{
     /**

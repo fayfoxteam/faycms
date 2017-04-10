@@ -1,5 +1,5 @@
 <?php
-namespace cms\services\oauth;
+namespace fayoauth\services;
 
 use fay\core\ErrorException;
 

@@ -1,10 +1,10 @@
 <?php
-namespace cms\services\oauth\qq;
+namespace fayoauth\services\qq;
 
 use fay\helpers\HttpHelper;
-use cms\services\oauth\AccessTokenAbstract;
-use cms\services\oauth\OAuthException;
-use cms\services\oauth\weixin\QQUser;
+use fayoauth\services\AccessTokenAbstract;
+use fayoauth\services\OAuthException;
+use fayoauth\services\weixin\QQUser;
 
 class QQAccessToken extends AccessTokenAbstract{
     /**
@@ -28,7 +28,7 @@ class QQAccessToken extends AccessTokenAbstract{
     }
     
     /**
-     * @see \cms\services\oauth\AccessTokenAbstract::getUser()
+     * @see \fayoauth\services\AccessTokenAbstract::getUser()
      * @param string $lang 语言，默认为中文
      * @return QQUser
      * @throws OAuthException
@@ -53,7 +53,7 @@ class QQAccessToken extends AccessTokenAbstract{
     }
     
     /**
-     * @see \cms\services\oauth\AccessTokenAbstract::refresh()
+     * @see \fayoauth\services\AccessTokenAbstract::refresh()
      * @return $this
      * @throws OAuthException
      */

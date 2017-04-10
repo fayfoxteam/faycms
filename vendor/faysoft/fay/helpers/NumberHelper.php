@@ -19,7 +19,7 @@ class NumberHelper{
         if($value_length > $length){
             return substr($value, $value_length - $length);
         }else if($value_length < $length){
-            return str_repeat('0', $length - $value_length) . $value;
+            return str_pad($value, $length, '0', STR_PAD_LEFT);
         }else{
             return (string)$value;
         }

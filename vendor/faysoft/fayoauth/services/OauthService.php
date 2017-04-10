@@ -1,9 +1,9 @@
 <?php
-namespace cms\services\oauth;
+namespace fayoauth\services;
 
 abstract class OauthService{
     private static $map = array(
-        'weixin'=>'cms\services\oauth\weixin\WeixinOauthService',
+        'weixin'=>'fayoauth\services\weixin\WeixinOauthService',
     );
     
     /**

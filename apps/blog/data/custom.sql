@@ -18,8 +18,8 @@ INSERT INTO `{{$prefix}}categories` (id, parent, title, alias, is_system) VALUES
 INSERT INTO `{{$prefix}}categories` (id, parent, title, alias, is_system) VALUES ('1001', '1', '作品', '_work', '1');
 
 -- 两个widget
-INSERT INTO `{{$prefix}}widgets` (`alias`, `options`, `widget_name`, `description`) VALUES ('categories', '{\"hierarchical\":0,\"top\":1000,\"title\":\"\\u5206\\u7c7b\",\"uri\":\"cat\\/{$id}\",\"template\":\"frontend\\/widget\\/categories\"}', 'fay/categories', '文章分类列表');
-INSERT INTO `{{$prefix}}widgets` (`alias`, `options`, `widget_name`, `description`) VALUES ('recent_posts', '{\"subclassification\":1,\"top\":1,\"title\":\"\\u8fd1\\u671f\\u6587\\u7ae0\",\"number\":5,\"uri\":\"post\\/{$id}\",\"template\":\"frontend\\/widget\\/recent_posts\",\"date_format\":\"\",\"thumbnail\":0,\"order\":\"publish_time\"}', 'fay/category_posts', '最新发布');
+INSERT INTO `{{$prefix}}widgets` (`alias`, `options`, `widget_name`, `description`) VALUES ('categories', '{\"hierarchical\":0,\"top\":1000,\"title\":\"\\u5206\\u7c7b\",\"uri\":\"cat\\/{$id}\",\"template\":\"frontend\\/widget\\/categories\"}', 'cms/categories', '文章分类列表');
+INSERT INTO `{{$prefix}}widgets` (`alias`, `options`, `widget_name`, `description`) VALUES ('recent_posts', '{\"subclassification\":1,\"top\":1,\"title\":\"\\u8fd1\\u671f\\u6587\\u7ae0\",\"number\":5,\"uri\":\"post\\/{$id}\",\"template\":\"frontend\\/widget\\/recent_posts\",\"date_format\":\"\",\"thumbnail\":0,\"order\":\"publish_time\"}', 'cms/category_posts', '最新发布');
 
 -- 记账分类
 INSERT INTO `{{$prefix}}categories` (id, parent, alias, title, is_system) VALUES ('2000', '0', '_system_bill', '记账', '1');

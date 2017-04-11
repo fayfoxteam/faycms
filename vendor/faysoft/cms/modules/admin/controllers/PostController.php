@@ -73,7 +73,7 @@ class PostController extends AdminController{
     public function create(){
         $cat_id = $this->input->get('cat_id', 'intval');
         $cat_id || $cat_id = CategoryService::service()->getIdByAlias('_system_post');
-        $cat = CategoryService::service()->get($cat_id, 'title,left_value,right_value');
+        $cat = CategoryService::service()->get($cat_id, 'title', '_system_post');
         
         if(!$cat){
             throw new HttpException('所选分类不存在');
@@ -407,11 +407,11 @@ class PostController extends AdminController{
             throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
         }
         
-        $cat = CategoryService::service()->get($post['cat_id'], 'title,left_value,right_value');
+        $cat = CategoryService::service()->get($post['cat_id'], 'title');
         
         //若分类已被删除，将文章归为根分类
         if(!$cat){
-            $cat = CategoryService::service()->getByAlias('_system_post', 'id,title,left_value,right_value');
+            $cat = CategoryService::service()->getByAlias('_system_post', 'id,title');
             PostsTable::model()->update(array(
                 'cat_id'=>$cat['id'],
             ), $post_id);

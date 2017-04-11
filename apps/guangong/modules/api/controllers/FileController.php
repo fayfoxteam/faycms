@@ -13,26 +13,22 @@ class FileController extends \cms\modules\api\controllers\FileController{
         $this->form()->setRules(array(
             array(array('url'), 'required'),
             array(array('url'), 'url'),
-            array(array('p'), 'range', array('range'=>array('0', '1')))
         ))->setFilters(array(
             'url'=>'trim',
             'cat'=>'trim',
-            'p'=>'intval',
             'client_name'=>'trim',
         ))->setLabels(array(
             'url'=>'链接地址',
             'cat'=>'分类',
-            'p'=>'私密空间',
             'client_name'=>'文件名',
         ))->check();
         
         set_time_limit(0);
         $url = $this->form()->getData('url');
         $cat = $this->form()->getData('cat');
-        $private = !!$this->form()->getData('p');
         $client_name = $this->form()->getData('client_name');
         
-        $data = FileService::service()->uploadFromUrl($url, $cat, $client_name, $private);
+        $data = FileService::service()->uploadFromUrl($url, $cat, true, $client_name);
         Response::json($data);
     }
     

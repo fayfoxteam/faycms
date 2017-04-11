@@ -109,7 +109,7 @@ class StringHelper{
      */
     public static function niceShort($str, $length, $encode = false){
         if(mb_strlen($str, 'UTF-8') > $length){
-            $str = mb_substr($str, 0, $length, 'UTF-8').'...';
+            $str = mb_substr($str, 0, $length - 3, 'UTF-8').'...';
         }
         if($encode){
             $str = HtmlHelper::encode($str);

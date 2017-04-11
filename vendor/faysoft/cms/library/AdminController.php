@@ -66,25 +66,6 @@ class AdminController extends Controller{
     }
     
     /**
-     * 表单验证出错后的报错渲染
-     * @param array $check
-     * @param bool $return
-     * @return string
-     */
-    public function showDataCheckError($check, $return = false){
-        $html = '';
-        foreach($check as $c){
-            $html .= "<p>{$c['message']}</p>";
-        }
-        if($return){
-            return $html;
-        }else{
-            FlashService::set($html);
-            return '';
-        }
-    }
-    
-    /**
      * 表单验证，若发生错误，返回第一个报错信息
      * 调用该函数前需先设置表单验证规则
      * @param \fay\core\Form $form

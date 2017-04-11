@@ -1,7 +1,6 @@
 <?php
 namespace cms\services\file;
 
-use fay\core\HttpException;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
@@ -428,86 +427,16 @@ class FileService extends Service{
         }
     }
     
-    public function uploadFromUrl($url, $cat = 0, $client_name = null, $private = false){
-        if($cat){
-            if(!is_array($cat)){
-                $cat = CategoryService::service()->get($cat, 'id,alias', '_system_file');
-            }
-            
-            if(!$cat){
-                throw new ErrorException('cms\services\file\FileService::upload传入$cat不存在');
-            }
-        }else{
-            $cat = array(
-                'id'=>0,
-                'alias'=>'',
-            );
-        }
-        $client_name || $client_name = '';
-        
-        //用file_get_contents获取微信头像就非常非常慢
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        
-        $file = @imagecreatefromstring($response);
-        if(!$file){
-            throw new HttpException('获取远程文件失败', 500);
-        }
-        
-        $target = $cat['alias'] ? $cat['alias'] . '/' : '';
-        $upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
-            : './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
-        //若指定目录不存在，则创建目录
-        self::createFolder($upload_path);
-        $filename = self::getFileName($upload_path, '.jpg');
-        if(defined('NO_REWRITE')){
-            $destination = './public/'.$upload_path . $filename;
-        }else{
-            $destination = $upload_path . $filename;
-        }
-        
-        //存储原图
-        imagejpeg($file, $destination);
-        
-        $data = array(
-            'raw_name'=>substr($filename, 0, -4),
-            'file_ext'=>'.jpg',
-            'file_type'=>'image/jpeg',
-            'file_size'=>filesize($destination),
-            'file_path'=>$upload_path,
-            'client_name'=>$client_name,
-            'is_image'=>1,
-            'image_width'=>imagesx($file),
-            'image_height'=>imagesy($file),
-            'upload_time'=>\F::app()->current_time,
-            'user_id'=>\F::app()->current_user,
-            'cat_id'=>$cat['id'],
-        );
-        $data['id'] = FilesTable::model()->insert($data);
-        $img = ImageHelper::resize($file, 100, 100);
-        imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
-        
-        $data['error'] = 0;
-        if($private){
-            //私有文件通过file/pic访问
-            $data['url'] = UrlHelper::createUrl('file/pic', array('f'=>$data['id']));
-            $data['thumbnail'] = UrlHelper::createUrl('file/pic', array('t'=>self::PIC_THUMBNAIL, 'f'=>$data['id']));
-        }else{
-            //公共文件直接给出真实路径
-            $data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
-            $data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100.jpg';
-            //真实存放路径（是图片的话与url路径相同）
-            $data['src'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
-        }
-        
-        return array(
-            'status'=>1,
-            'data'=>$data,
-        );
+    /**
+     * @param string $url
+     * @param int $cat
+     * @param bool $only_image
+     * @param string $client_name
+     * @return array
+     */
+    public function uploadFromUrl($url, $cat = 0, $only_image = true, $client_name = ''){
+        $remoteService = new RemoteFileService($url);
+        return $remoteService->save($cat, $only_image, $client_name);
     }
     
     /**

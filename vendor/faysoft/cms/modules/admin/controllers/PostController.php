@@ -114,7 +114,7 @@ class PostController extends AdminController{
             );
             
             //Markdown语法特殊处理
-            if($data['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
+            if(isset($data['content_type']) && $data['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
                 $extra['extra']['markdown'] = $data['content'];
                 $data['content'] = $this->input->post('markdown-container-html-code');
             }

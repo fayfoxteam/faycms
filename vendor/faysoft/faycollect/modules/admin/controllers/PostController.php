@@ -67,8 +67,8 @@ class PostController extends AdminController{
             $publish_time = strtotime($publish_time);
         }
         if(!$publish_time){
-            //若无法转换为时间戳，设置0
-            $publish_time = 0;
+            //若无法转换为时间戳，设置当前时间
+            $publish_time = $this->current_time;
         }
         
         //将缩略图存到本地
@@ -132,5 +132,20 @@ class PostController extends AdminController{
     private function error($message){
         echo $message;
         die;
+    }
+    
+    /**
+     * 可用分类列表
+     */
+    public function cats(){
+        $format = $this->input->request('format', 'intval', 'html');
+        
+        $cats = CategoryService::service()->getTree('_system_post');
+        if($format == 'html'){
+            //以html select标签的形式输出可用分类
+            $this->view->renderPartial('cats', array(
+                'cats'=>$cats,
+            ));
+        }
     }
 }

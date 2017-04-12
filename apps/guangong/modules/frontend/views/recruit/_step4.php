@@ -56,7 +56,7 @@
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script>
-<?php if(isset($user_extra) && $user_extra['military'] >= 110){?>
+<?php if(isset($user_extra['military']) && $user_extra['military'] >= 1100){?>
     $('#jiangjunmiling-link').fancybox({
         'type': 'inline',
         'centerOnScroll': true,

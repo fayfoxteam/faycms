@@ -20,7 +20,6 @@ class UsersNotificationsTable extends Table{
             array(array('user_id', 'notification_id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('read', 'processed', 'ignored'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('option'), 'string', array('max'=>255)),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
         );
     }
 
@@ -41,7 +40,6 @@ class UsersNotificationsTable extends Table{
             'user_id'=>'intval',
             'notification_id'=>'intval',
             'read'=>'intval',
-            'delete_time'=>'intval',
             'processed'=>'intval',
             'ignored'=>'intval',
             'option'=>'trim',

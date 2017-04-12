@@ -26,7 +26,6 @@ class AnalystSitesTable extends Table{
         return array(
             array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('title', 'description'), 'string', array('max'=>255)),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
             
             array('title', 'required'),
         );
@@ -45,7 +44,6 @@ class AnalystSitesTable extends Table{
         return array(
             'title'=>'trim',
             'description'=>'trim',
-            'delete_time'=>'intval',
         );
     }
 }

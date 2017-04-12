@@ -36,7 +36,6 @@ class TemplatesTable extends Table{
             array(array('type'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title'), 'string', array('max'=>500)),
             array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
             
             array(array('alias'), 'unique', array('table'=>'templates', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/template/is-alias-not-exist'))),
         );
@@ -61,7 +60,6 @@ class TemplatesTable extends Table{
             'title'=>'trim',
             'content'=>'',
             'enable'=>'intval',
-            'delete_time'=>'intval',
             'description'=>'',
             'type'=>'intval',
             'alias'=>'trim',

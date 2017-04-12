@@ -1,6 +1,7 @@
 <?php
 namespace fayoauth\services;
 
+use fay\core\ErrorException;
 use fay\core\Service;
 use fayoauth\models\tables\OauthAppsTable;
 
@@ -27,5 +28,40 @@ class OauthAppService extends Service{
         ), 'id');
         
         return $oauth_app ? $oauth_app['id'] : '0';
+    }
+    
+    /**
+     * @param string $app_id
+     * @param string $app_secret
+     * @param array $extra
+     * @return int|null
+     * @throws ErrorException
+     */
+    public function create($app_id, $app_secret, $extra){
+        if(!empty($extra['alias']) && OauthAppsTable::model()->fetchRow(array(
+            'alias = ?'=>$extra['alias']
+        ))){
+            throw new ErrorException('指定别名已存在');
+        }
+        
+        if(!$app_id){
+            throw new ErrorException('AppID不能为空');
+        }
+        if(!$app_secret){
+            throw new ErrorException('AppSecret不能为空');
+        }
+        
+        return OauthAppsTable::model()->insert(array(
+            'app_id'=>$app_id,
+            'app_secret'=>$app_secret,
+            'create_time'=>\F::app()->current_time,
+            'update_time'=>\F::app()->current_time,
+        ) + $extra, true);
+    }
+    
+    public function update($id, $app){
+        $app['update_time'] = \F::app()->current_time;
+        
+        return OauthAppsTable::model()->update($app, $id);
     }
 }

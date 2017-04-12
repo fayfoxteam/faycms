@@ -32,7 +32,6 @@ class VouchersTable extends Table{
             array(array('type'), 'int', array('min'=>0, 'max'=>255)),
             array(array('sn'), 'string', array('max'=>30)),
             array(array('amount'), 'float', array('length'=>6, 'decimal'=>2)),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
             array(array('start_time', 'end_time'), 'datetime'),
         );
     }
@@ -62,7 +61,6 @@ class VouchersTable extends Table{
             'start_time'=>'trim',
             'end_time'=>'trim',
             'type'=>'intval',
-            'delete_time'=>'intval',
             'counts'=>'intval',
         );
     }

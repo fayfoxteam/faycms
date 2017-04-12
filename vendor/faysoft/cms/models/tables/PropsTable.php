@@ -71,7 +71,7 @@ class PropsTable extends Table{
             array(array('type', 'element', 'sort'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title'), 'string', array('max'=>255)),
             array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
-            array(array('delete_time', 'is_show', 'required'), 'range', array('range'=>array(0, 1))),
+            array(array('is_show', 'required'), 'range', array('range'=>array(0, 1))),
 
             array('title', 'required'),
             array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/prop/is-alias-not-exist'))),
@@ -102,7 +102,6 @@ class PropsTable extends Table{
             'element'=>'intval',
             'required'=>'intval',
             'alias'=>'trim',
-            'delete_time'=>'intval',
             'sort'=>'intval',
             'is_show'=>'intval',
         );

@@ -80,7 +80,6 @@ class UsersTable extends Table{
             array(array('username', 'nickname', 'realname'), 'string', array('max'=>50)),
             array(array('password'), 'string', array('max'=>32)),
             array(array('salt'), 'string', array('max'=>5)),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
             array(array('mobile'), 'mobile'),
 
             array('username', 'unique', array('on'=>'create', 'table'=>'users', 'field'=>'username', 'ajax'=>array('cms/api/user/is-username-not-exist'))),
@@ -135,7 +134,6 @@ class UsersTable extends Table{
             'status'=>'intval',
             'block'=>'intval',
             'parent'=>'intval',
-            'delete_time'=>'intval',
             'admin'=>'intval',
         );
     }

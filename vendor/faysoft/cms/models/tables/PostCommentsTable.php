@@ -52,7 +52,6 @@ class PostCommentsTable extends Table{
             array(array('id', 'post_id', 'user_id', 'parent', 'root'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
         );
     }
 
@@ -84,7 +83,6 @@ class PostCommentsTable extends Table{
             'parent'=>'intval',
             'status'=>'intval',
             'sockpuppet'=>'intval',
-            'delete_time'=>'intval',
             'root'=>'intval',
         );
     }

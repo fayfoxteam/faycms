@@ -48,15 +48,15 @@ use fay\helpers\HtmlHelper;
 </div>
 <script>
 $(function(){
-    $(".table-list").delegate('.get-model', 'click', function(){
+    $(".table-list").on('click', '.get-model', function(){
         $(".t-name").removeClass("bold");
         $(".table-list li").removeClass("disc");
         $(this).parent().parent().addClass("disc");
         $(this).parent().siblings(".t-name").addClass("bold");
         $.ajax({
-            type: "GET",
-            url: system.url("tools/database/get-model"),
-            data: {"t":$(this).attr('data-name')},
+            type: 'GET',
+            url: system.url('cms/tools/database/get-model'),
+            data: {'t': $(this).attr('data-name')},
             cache: false,
             success: function(resp){
                 $("#code").val(resp);
@@ -64,9 +64,7 @@ $(function(){
             }
         });
         return false;
-    });
-
-    $(".table-list").delegate('.t-name', 'click', function(){
+    }).on('click', '.t-name', function(){
         $(this).parent().find(".get-model").click();
         return false;
     });

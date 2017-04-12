@@ -77,7 +77,7 @@ class PostsTable extends Table{
             array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title', 'abstract'), 'string', array('max'=>500)),
             array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
-            array(array('is_top', 'delete_time'), 'range', array('range'=>array(0, 1))),
+            array(array('is_top'), 'range', array('range'=>array(0, 1))),
             array(array('publish_time'), 'datetime'),
 
             array(array('status'), 'range', array('range'=>array(self::STATUS_PUBLISHED, self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_REVIEWED))),
@@ -121,7 +121,6 @@ class PostsTable extends Table{
             'user_id'=>'intval',
             'is_top'=>'intval',
             'status'=>'intval',
-            'delete_time'=>'intval',
             'thumbnail'=>'intval',
             'abstract'=>'trim',
             'sort'=>'intval',

@@ -1,12 +1,16 @@
 DROP TABLE IF EXISTS `{{$prefix}}oauth_apps`;
 CREATE TABLE `{{$prefix}}oauth_apps` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
   `description` varchar(100) NOT NULL DEFAULT '' COMMENT '描述',
   `code` varchar(20) NOT NULL DEFAULT '' COMMENT '登录方式编码',
   `app_id` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方应用ID',
   `app_secret` varchar(50) NOT NULL DEFAULT '' COMMENT 'App Secret',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_id` (`app_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录方式';

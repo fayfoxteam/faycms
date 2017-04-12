@@ -178,7 +178,7 @@ foreach($fields as $f){
     public function filters(){
         return array(
 <?php foreach($fields as $f){
-        if(in_array($f['Field'], array('create_time', 'ip_int', 'update_time', 'left_value', 'right_value'))){
+        if(in_array($f['Field'], array('create_time', 'update_time', 'delete_time', 'ip_int', 'left_value', 'right_value'))){
             //这些字段肯定不会让用户来输入
             continue;
         }

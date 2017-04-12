@@ -56,7 +56,6 @@ class PagesTable extends Table{
             array(array('seo_description'), 'string', array('max'=>255)),
             array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
             array(array('seo_title', 'seo_keywords'), 'string', array('max'=>100)),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
             
             array(array('status'), 'range', array('range'=>array(self::STATUS_DRAFT, self::STATUS_PUBLISHED))),
             array('alias', 'unique', array('table'=>'pages', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('cms/admin/page/is-alias-not-exist'))),
@@ -92,7 +91,6 @@ class PagesTable extends Table{
             'content'=>'',
             'author'=>'intval',
             'status'=>'intval',
-            'delete_time'=>'intval',
             'thumbnail'=>'intval',
             'comments'=>'intval',
             'views'=>'intval',

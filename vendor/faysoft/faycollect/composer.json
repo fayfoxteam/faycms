@@ -1,0 +1,21 @@
+{
+    "name": "faysoft/faycollect",
+    "type": "project",
+    "description": "Faycms采集模块",
+    "keywords": ["faysoft", "faycms", "faycollect"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fayfox",
+            "email": "admin@fayfox.com",
+            "homepage": "http://www.fayfox.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "faysoft/cms": "*"
+    },
+    "autoload": {
+        "psr-4": {"faycollect\\": ""}
+    }
+}

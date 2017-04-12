@@ -45,7 +45,7 @@ class PostService extends Service{
             'title' => $post['title'],
             'content' => $post['content'],
             'cat_id' => $post['cat_id'],
-            'thumbnail' => $local_thumbnail,
+            'thumbnail' => empty($local_thumbnail['id']) ? 0 : $local_thumbnail['id'],
             'status' => $post['status'],
             'publish_time' => $post['publish_time'],
         ), array(
@@ -106,7 +106,7 @@ class PostService extends Service{
     /**
      * 将缩略图下载到本地（若未设置缩略图或缩略图链接格式异常或下载失败，返回0）
      * @param string $thumbnail
-     * @return int 本地文件id
+     * @return array 本地文件信息
      */
     private function downloadThumbnail($thumbnail){
         $url_validator = new UrlValidator();
@@ -115,20 +115,20 @@ class PostService extends Service{
             try{
                 $remote_file = new RemoteFileService($thumbnail);
                 $local_thumbnail = $remote_file->save();
-                return $local_thumbnail['id'];
+                return $local_thumbnail;
             }catch(\Exception $e){
                 //如果无法下载，啥也不做
             }
         }
         
-        return 0;
+        return array();
     }
     
     /**
      * 下载正文中包含的图片，并替换图片路径为本地路径
      * @param string $content
      * @param string $thumbnail
-     * @param int $local_thumbnail
+     * @param array $local_thumbnail 本地缩略图信息数组（包含id, src等信息）
      * @return string
      */
     private function downloadRemoteImages($content, $thumbnail, $local_thumbnail){

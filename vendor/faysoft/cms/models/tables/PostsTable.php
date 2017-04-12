@@ -28,7 +28,7 @@ class PostsTable extends Table{
     /**
      * 文章状态-草稿
      */
-    const STATUS_DRAFT = 0;
+    const STATUS_DRAFT = -1;
     
     /**
      * 文章状态-已发布

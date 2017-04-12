@@ -5,7 +5,7 @@ use fay\core\Controller;
 use fay\core\Http;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
-use cms\models\tables\UserConnectsTable;
+use fayoauth\models\tables\OauthUserConnectsTable;
 use fayoauth\services\OauthAppService;
 use fayoauth\services\OAuthException;
 use fayoauth\services\OauthService;
@@ -77,7 +77,7 @@ class FrontController extends Controller{
         );
         
         $open_id = $oauth->getOpenId();
-        $user_connect = UserConnectsTable::model()->fetchRow(array(
+        $user_connect = OauthUserConnectsTable::model()->fetchRow(array(
             'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($config['app_id']),
             'open_id = ?'=>$open_id,
         ));

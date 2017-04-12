@@ -1,5 +1,5 @@
 <?php
-namespace cms\models\tables;
+namespace fayoauth\models\tables;
 
 use fay\core\db\Table;
 
@@ -16,12 +16,12 @@ use fay\core\db\Table;
  * @property int $expires_in access_token过期时间戳
  * @property string $refresh_token Refresh Token
  */
-class UserConnectsTable extends Table{
-    protected $_name = 'user_connects';
+class OauthUserConnectsTable extends Table{
+    protected $_name = 'oauth_user_connects';
     
     /**
      * @param string $class_name
-     * @return UserConnectsTable
+     * @return OauthUserConnectsTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);

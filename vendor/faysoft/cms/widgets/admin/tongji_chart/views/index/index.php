@@ -128,9 +128,9 @@ var tongji_chart = {
             $("#box-tongji-chart").block();
             $.ajax({
                 type: "GET",
-                url: system.url("admin/widget/render"),
+                url: system.url("cms/admin/widget/render"),
                 data: {
-                    'name':'cms/tongji_chart',
+                    'name':'cms/admin/tongji_chart',
                     'action':'get-data',
                     't':$(this).val()
                 },

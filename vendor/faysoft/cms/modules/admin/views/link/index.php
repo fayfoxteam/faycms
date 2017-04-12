@@ -63,6 +63,6 @@ use fay\helpers\HtmlHelper;
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(".edit-sort").feditsort({
-    'url':system.url("admin/link/sort")
+    'url':system.url("cms/admin/link/sort")
 });
 </script>

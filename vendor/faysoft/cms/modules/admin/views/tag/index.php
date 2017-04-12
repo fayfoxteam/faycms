@@ -22,7 +22,7 @@
 <script>
 $(function(){
     $(".tag-sort").feditsort({
-        'url':system.url("admin/tag/sort")
+        'url':system.url("cms/admin/tag/sort")
     });
 });
 </script>

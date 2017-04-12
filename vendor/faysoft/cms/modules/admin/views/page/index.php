@@ -134,7 +134,7 @@ $cols = F::form('setting')->getData('cols', array());
 <script>
 $(function(){
     $(".page-sort").feditsort({
-        'url':system.url("admin/page/sort")
+        'url':system.url("cms/admin/page/sort")
     });
 });
 </script>

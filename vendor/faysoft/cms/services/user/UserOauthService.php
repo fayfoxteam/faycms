@@ -4,7 +4,7 @@ namespace cms\services\user;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Service;
-use cms\models\tables\UserConnectsTable;
+use fayoauth\models\tables\OauthUserConnectsTable;
 use cms\models\tables\UsersTable;
 use cms\services\file\FileService;
 use fayoauth\services\OauthAppService;
@@ -29,7 +29,7 @@ class UserOauthService extends Service{
      * @return int
      */
     public function isLocalUser($app_id, $open_id){
-        $user = UserConnectsTable::model()->fetchRow(array(
+        $user = OauthUserConnectsTable::model()->fetchRow(array(
             'open_id = ?'=>$open_id,
             'oauth_app_id = ?'=>OauthAppService::service()->getIdByAppId($app_id),
         ), 'user_id');
@@ -59,7 +59,7 @@ class UserOauthService extends Service{
              * 若存在Union Id，判断Union Id是否存在
              *  - 若存在，不创建新用户
              */
-            $user_connect = UserConnectsTable::model()->fetchRow(array(
+            $user_connect = OauthUserConnectsTable::model()->fetchRow(array(
                 'unionid = ?'=>$user->getUnionId(),
             ));
             if($user_connect){
@@ -76,7 +76,7 @@ class UserOauthService extends Service{
             ));
         }
         
-        UserConnectsTable::model()->insert(array(
+        OauthUserConnectsTable::model()->insert(array(
             'user_id'=>$user_id,
             'open_id'=>$user->getOpenId(),
             'unionid'=>$user->getUnionId(),
@@ -128,7 +128,7 @@ class UserOauthService extends Service{
             return '';
         }
         
-        $connect = UserConnectsTable::model()->fetchRow(array(
+        $connect = OauthUserConnectsTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
             'oauth_app_id = ?'=>$oauth_app_id,
         ), 'open_id');

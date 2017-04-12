@@ -46,7 +46,7 @@ $(function(){
         $(this).parent().append('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
         $.ajax({
             type: "GET",
-            url: system.url("admin/gather/get-url"),
+            url: system.url("cms/admin/gather/get-url"),
             data: {
                 'url':$("#gather-url").val()
             },

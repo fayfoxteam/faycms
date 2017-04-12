@@ -336,7 +336,7 @@ $(function(){
     });
     
     $(".post-sort").feditsort({
-        'url':system.url("admin/post/sort")
+        'url':system.url("cms/admin/post/sort")
     });
 });
 </script>

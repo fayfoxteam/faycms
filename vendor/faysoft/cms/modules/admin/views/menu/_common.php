@@ -211,7 +211,7 @@ F::form('edit')->setModel(MenusTable::model());
                             <?php echo F::form('create')->submitLink('添加新菜单', array(
                                 'class'=>'btn',
                             ))?>
-                            <a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
+                            <a href="javascript:" class="btn btn-grey fancybox-close">取消</a>
                         </td>
                     </tr>
                 </table>
@@ -225,55 +225,56 @@ var menu = {
     'events':function(){
         $('.tree-container').on('click', '.leaf-title.parent', function(){
             $li = $(this).parent().parent();
-            if($li.hasClass("close")){
+            if($li.hasClass('close')){
                 $li.children('ul').slideDown(function(){
-                    $li.removeClass("close");
+                    $li.removeClass('close');
                 });
             }else{
                 $li.children('ul').slideUp(function(){
-                    $li.addClass("close");
+                    $li.addClass('close');
                 });
             }
         });
 
-        $(".edit-sort").feditsort({
-            'url':system.url("admin/menu/sort")
+        $('.edit-sort').feditsort({
+            'url':system.url('cms/admin/menu/sort')
         });
     },
     'editCat':function(){
         system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
             system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                $(".edit-cat-link").fancybox({
+                $('.edit-cat-link').fancybox({
                     'padding':0,
                     'titleShow':false,
                     'centerOnScroll':false,
                     'onComplete':function(o){
-                        $("#edit-cat-form").find(".submit-loading").remove();
-                        $("#edit-cat-dialog").block({
+                        $('#edit-cat-form').find('.submit-loading').remove();
+                        $('#edit-cat-dialog').block({
                             'zindex':1200
                         });
                         $.ajax({
-                            type: "GET",
-                            url: system.url("admin/menu/get"),
-                            data: {"id":$(o).attr('data-id')},
-                            dataType: "json",
+                            type: 'GET',
+                            url: system.url('cms/admin/menu/get'),
+                            data: {'id': $(o).attr('data-id')},
+                            dataType: 'json',
                             cache: false,
                             success: function(resp){
-                                $("#edit-cat-dialog").unblock();
+                            	var $editCatDialog = $('#edit-cat-dialog');
+								$editCatDialog.unblock();
                                 if(resp.status){
-                                    $("#edit-cat-title").text(resp.data.menu.title);
-                                    $("#edit-cat-dialog input[name='id']").val(resp.data.menu.id);
-                                    $("#edit-cat-dialog input[name='title']").val(resp.data.menu.title);
-                                    $("#edit-cat-dialog input[name='sub_title']").val(resp.data.menu.sub_title);
-                                    $("#edit-cat-dialog input[name='css_class']").val(resp.data.menu.css_class);
-                                    $("#edit-cat-dialog input[name='enabled'][value='"+resp.data.menu.enabled+"']").attr('checked', 'checked');
-                                    $("#edit-cat-dialog input[name='alias']").val(resp.data.menu.alias);
-                                    $("#edit-cat-dialog input[name='sort']").val(resp.data.menu.sort);
-                                    $("#edit-cat-dialog input[name='link']").val(resp.data.menu.link);
-                                    $("#edit-cat-dialog select[name='target']").val(resp.data.menu.target);
-                                    $("#edit-cat-dialog select[name='parent']").val(resp.data.menu.parent);
+                                    $('#edit-cat-title').text(resp.data.menu.title);
+                                    $editCatDialog.find("input[name='id']").val(resp.data.menu.id);
+                                    $editCatDialog.find("input[name='title']").val(resp.data.menu.title);
+                                    $editCatDialog.find("input[name='sub_title']").val(resp.data.menu.sub_title);
+                                    $editCatDialog.find("input[name='css_class']").val(resp.data.menu.css_class);
+                                    $editCatDialog.find("input[name='enabled'][value='"+resp.data.menu.enabled+"']").attr('checked', 'checked');
+                                    $editCatDialog.find("input[name='alias']").val(resp.data.menu.alias);
+                                    $editCatDialog.find("input[name='sort']").val(resp.data.menu.sort);
+                                    $editCatDialog.find("input[name='link']").val(resp.data.menu.link);
+                                    $editCatDialog.find("select[name='target']").val(resp.data.menu.target);
+                                    $editCatDialog.find("select[name='parent']").val(resp.data.menu.parent);
                                     //父节点不能被挂载到其子节点上
-                                    $("#edit-cat-dialog select[name='parent'] option").attr('disabled', false).each(function(){
+                                    $editCatDialog.find("select[name='parent'] option").attr('disabled', false).each(function(){
                                         if(system.inArray($(this).attr("value"), resp.data.menu.children) || $(this).attr("value") == resp.data.menu.id){
                                             $(this).attr('disabled', 'disabled');
                                         }
@@ -297,13 +298,13 @@ var menu = {
     'createCat':function(){
         system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
             system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                $(".create-cat-link").fancybox({
+                $('.create-cat-link').fancybox({
                     'padding':0,
                     'titleShow':false,
                     'centerOnScroll':false,
                     'onStart':function(o){
-                        $("#create-cat-parent").text($(o).attr("data-title"));
-                        $("#create-cat-dialog  input[name='parent']").val($(o).attr("data-id"));
+                        $('#create-cat-parent').text($(o).attr('data-title'));
+                        $("#create-cat-dialog  input[name='parent']").val($(o).attr('data-id'));
                     },
                     'onClosed':function(o){
                         $($(o).attr('href')).find('input,select,textarea').each(function(){
@@ -319,21 +320,21 @@ var menu = {
             var o = this;
             $(this).find('span').hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
             $.ajax({
-                type: "GET",
-                url: system.url("admin/menu/set-enabled"),
+                type: 'GET',
+                url: system.url('cms/admin/menu/set-enabled'),
                 data: {
-                    "id":$(this).attr("data-id"),
-                    "enabled":$(this).find('span').hasClass("tick-circle") ? 0 : 1
+                    'id': $(this).attr('data-id'),
+                    'enabled': $(this).find('span').hasClass('tick-circle') ? 0 : 1
                 },
-                dataType: "json",
+                dataType: 'json',
                 cache: false,
                 success: function(resp){
                     if(resp.status){
-                        $(o).find('span').removeClass("tick-circle")
-                            .removeClass("cross-circle")
-                            .addClass(resp.data.enabled == 1 ? "tick-circle" : "cross-circle")
+                        $(o).find('span').removeClass('tick-circle')
+                            .removeClass('cross-circle')
+                            .addClass(resp.data.enabled == 1 ? 'tick-circle' : 'cross-circle')
                             .show()
-                            .next("img").remove();
+                            .next('img').remove();
                     }else{
                         common.alert(resp.message);
                     }

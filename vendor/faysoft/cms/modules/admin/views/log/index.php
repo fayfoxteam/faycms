@@ -135,7 +135,7 @@ $(function(){
                     });
                     $.ajax({
                         type: "GET",
-                        url: system.url("admin/log/get"),
+                        url: system.url("cms/admin/log/get"),
                         data: {"id":$(o).attr('data-id')},
                         dataType: "json",
                         cache: false,

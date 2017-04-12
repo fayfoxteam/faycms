@@ -127,9 +127,20 @@ class PostService extends Service{
      *   - props 以属性ID为键，属性值为值构成的关联数组
      * @param int $user_id 作者ID
      * @return int 文章ID
+     * @throws PostException
      */
     public function create($post, $extra = array(), $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
+        //确定作者
+        if($user_id === null){
+            $user_id = \F::app()->current_user;
+        }else if(!UserService::isUserIdExist($user_id)){
+            throw new PostException("指定用户ID[{$user_id}]不存在", 'user-id-is-not-exist');
+        }
+        
+        //验证分类
+        if(!empty($post['cat_id']) && !CategoryService::service()->isIdExist($post['cat_id'], '_system_post')){
+            throw new PostException("指定分类ID[{$post['cat_id']}]不存在");
+        }
         
         $post['create_time'] = \F::app()->current_time;
         $post['update_time'] = \F::app()->current_time;

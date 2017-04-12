@@ -2,9 +2,9 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
-use cms\services\feed\FeedFavoriteService;
+use fayfeed\services\FeedFavoriteService;
 use fay\core\Response;
-use cms\services\FeedService;
+use fayfeed\services\FeedService;
 use fay\helpers\FieldHelper;
 
 /**

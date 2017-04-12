@@ -6,7 +6,6 @@ use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fayfeed\models\tables\FeedLikesTable;
 use cms\services\user\UserService;
-use cms\services\FeedService;
 use fayfeed\models\tables\FeedMetaTable;
 
 class FeedLikeService extends Service{
@@ -40,7 +39,7 @@ class FeedLikeService extends Service{
         if($user_id === null){
             $user_id = \F::app()->current_user;
         }else if(!UserService::isUserIdExist($user_id)){
-            throw new Exception('指定用户ID不存在', 'the-given-user-id-is-not-exist');
+            throw new Exception("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
         }
         
         if(!FeedService::isFeedIdExist($feed_id)){

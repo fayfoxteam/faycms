@@ -55,7 +55,7 @@ class FollowService extends Service{
         }
         
         if(!UserService::isUserIdExist($user_id)){
-            throw new Exception('关注的用户ID不存在', 'the-given-fans-id-is-not-exist');
+            throw new Exception("关注的用户ID[{$user_id}]不存在", 'the-given-fans-id-is-not-exist');
         }
         
         if(self::isFollow($user_id, $fan_id)){

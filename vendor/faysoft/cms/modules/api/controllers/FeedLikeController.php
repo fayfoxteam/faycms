@@ -3,8 +3,8 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use cms\services\feed\FeedLikeService;
-use cms\services\FeedService;
+use fayfeed\services\FeedLikeService;
+use fayfeed\services\FeedService;
 use fay\helpers\FieldHelper;
 use cms\services\user\UserService;
 

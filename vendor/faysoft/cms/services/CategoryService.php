@@ -463,4 +463,13 @@ class CategoryService extends TreeModel{
     public function decr($cat_ids, $value = 1){
         return $this->incr($cat_ids, -$value);
     }
+    
+    /**
+     * @param int $cat_id
+     * @param int|string|array $root 若指定root，则只搜索root下的分类
+     * @return bool
+     */
+    public function isIdExist($cat_id, $root){
+        return !!$this->getById($cat_id, 'id', $root);
+    }
 }

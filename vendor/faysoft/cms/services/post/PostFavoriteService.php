@@ -43,7 +43,7 @@ class PostFavoriteService extends Service{
         if($user_id === null){
             $user_id = \F::app()->current_user;
         }else if(!UserService::isUserIdExist($user_id)){
-            throw new Exception('指定用户ID不存在', 'the-given-user-id-is-not-exist');
+            throw new Exception("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
         }
         
         if(!PostService::isPostIdExist($post_id)){

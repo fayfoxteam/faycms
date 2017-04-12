@@ -104,7 +104,7 @@ $(function(){
     $('#reg-state').on('change', function(){
         $.ajax({
             'type': 'GET',
-            'url': system.url('api/region/get-next-level'),
+            'url': system.url('cms/api/region/get-next-level'),
             'data': {'id': $(this).val()},
             'dataType': 'json',
             'cache': false,

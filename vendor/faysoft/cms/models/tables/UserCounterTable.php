@@ -8,7 +8,6 @@ use fay\core\db\Table;
  * 
  * @property int $user_id 用户ID
  * @property int $posts 文章数
- * @property int $feeds 动态数
  * @property int $follows 关注数
  * @property int $fans 粉丝数
  * @property int $messages 留言数
@@ -30,7 +29,7 @@ class UserCounterTable extends Table{
         return array(
             array(array('user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('follows', 'fans', 'messages', 'real_messages'), 'int', array('min'=>0, 'max'=>16777215)),
-            array(array('posts', 'feeds'), 'int', array('min'=>0, 'max'=>65535)),
+            array(array('posts'), 'int', array('min'=>0, 'max'=>65535)),
         );
     }
 
@@ -38,7 +37,6 @@ class UserCounterTable extends Table{
         return array(
             'user_id'=>'用户ID',
             'posts'=>'文章数',
-            'feeds'=>'动态数',
             'follows'=>'关注数',
             'fans'=>'粉丝数',
             'messages'=>'留言数',

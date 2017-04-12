@@ -10,7 +10,7 @@ class UserCounterService extends Service{
      * 可返回字段
      */
     public static $default_fields = array(
-        'posts', 'feeds', 'follows', 'fans', 'messages'
+        'posts', 'follows', 'fans', 'messages'
     );
     
     /**

@@ -42,5 +42,4 @@ INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_syste
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('206', '用户头像', 'avatar', '12', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('207', '考试系统', 'exam', '12', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('208', '友情链接', 'link', '12', '1');
-INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('209', '动态', 'feed', '12', '1');
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('299', '其他', 'other', '12', '1');

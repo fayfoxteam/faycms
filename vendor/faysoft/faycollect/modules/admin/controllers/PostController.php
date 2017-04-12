@@ -47,6 +47,7 @@ class PostController extends AdminController{
             'status'=>'intval',
             'auto_thumbnail'=>'intval',
             'remote'=>'intval',
+            'tags'=>'trim'
         ))->check(true)){//这里特殊，先过滤后验证
             $post_id = \faycollect\services\PostService::service()->create(
                 array(
@@ -56,6 +57,7 @@ class PostController extends AdminController{
                     'cat_id'=>$this->form()->getData('cat_id'),
                     'status'=>$this->form()->getData('status', PostsTable::STATUS_PUBLISHED),
                     'thumbnail'=>$this->form()->getData('thumbnail'),
+                    'tags'=>$this->form()->getData('tags', ''),
                 ),
                 !!$this->form()->getData('auto_thumbnail', 1),
                 !!$this->form()->getData('remote', 1)

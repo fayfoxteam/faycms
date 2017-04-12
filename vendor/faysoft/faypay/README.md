@@ -29,7 +29,7 @@ $trade_id = TradeService::service()->create(
 直接通过api调用发起支付。该接口根据支付方式不同，可能返回json数据，也可能直接跳转到第三方支付页面。
 
 ```php
-{$base_url}api/payment/pay?trade_id={$交易ID}&payment_id={$支付方式ID}
+{$base_url}faypay/api/payment/pay?trade_id={$交易ID}&payment_id={$支付方式ID}
 ```
 
 > 根据支付方式不同，有的支付方式是通过ajax等方式请求接口，有的支付方式是将页面跳转到接口。

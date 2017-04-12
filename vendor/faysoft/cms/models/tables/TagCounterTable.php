@@ -8,7 +8,6 @@ use fay\core\db\Table;
  * 
  * @property int $tag_id 标签ID
  * @property int $posts 文章数
- * @property int $feeds 动态数
  */
 class TagCounterTable extends Table{
     protected $_name = 'tag_counter';
@@ -24,7 +23,7 @@ class TagCounterTable extends Table{
     
     public function rules(){
         return array(
-            array(array('tag_id', 'posts', 'feeds'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('tag_id', 'posts'), 'int', array('min'=>0, 'max'=>4294967295)),
         );
     }
 
@@ -32,7 +31,6 @@ class TagCounterTable extends Table{
         return array(
             'tag_id'=>'标签ID',
             'posts'=>'文章数',
-            'feeds'=>'动态数',
         );
     }
 

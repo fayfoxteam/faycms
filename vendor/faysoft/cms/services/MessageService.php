@@ -480,7 +480,7 @@ class MessageService extends MultiTreeModel{
      *  - to_user.*系列可指定被留言用户信息，格式参照\cms\services\user\UserService::get()
      *  - parent.message.*系列可指定父留言messages表返回字段，若有一项为'message.*'，则返回所有字段
      *  - parent.user.*系列可指定父留言作者信息，格式参照\cms\services\user\UserService::get()
-     * @return array
+     * @return array|false
      */
     public function get($message_id, $fields = array(
         'message'=>array(
@@ -612,7 +612,7 @@ class MessageService extends MultiTreeModel{
         }
         
         if(UserService::service()->isAdmin($user_id) &&
-            UserService::service()->checkPermission('cms/admin/feed-message/' . $action, $user_id)){
+            UserService::service()->checkPermission('cms/admin/message/' . $action, $user_id)){
             //是管理员，判断权限
             return true;
         }

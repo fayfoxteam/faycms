@@ -24,7 +24,6 @@ use fay\helpers\HtmlHelper;
         </div>
     </td>
     <td><?php echo $data['posts']?></td>
-    <td><?php echo $data['feeds']?></td>
     <td><?php echo HtmlHelper::inputText("sort[{$data['id']}]", $data['sort'], array(
         'size'=>3,
         'maxlength'=>3,

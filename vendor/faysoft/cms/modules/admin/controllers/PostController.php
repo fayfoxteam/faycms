@@ -2,7 +2,6 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\helpers\RequestHelper;
 use cms\services\CategoryService;
 use cms\services\post\PostPropService;
 use cms\models\tables\PostsTable;
@@ -107,11 +106,7 @@ class PostController extends AdminController{
                 }
             }
             
-            $extra = array(
-                'extra'=>array(
-                    'ip_int'=>RequestHelper::ip2int($this->ip),
-                )
-            );
+            $extra = array();
             
             //Markdown语法特殊处理
             if(isset($data['content_type']) && $data['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){

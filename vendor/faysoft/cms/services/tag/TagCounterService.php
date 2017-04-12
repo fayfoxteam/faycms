@@ -10,7 +10,7 @@ class TagCounterService extends Service{
      * 可返回字段
      */
     public static $public_fields = array(
-        'posts', 'feeds'
+        'posts'
     );
     
     /**

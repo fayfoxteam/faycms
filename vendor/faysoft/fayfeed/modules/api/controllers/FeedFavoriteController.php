@@ -1,5 +1,5 @@
 <?php
-namespace cms\modules\api\controllers;
+namespace fayfeed\modules\api\controllers;
 
 use cms\library\UserController;
 use fayfeed\services\FeedFavoriteService;

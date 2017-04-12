@@ -3,7 +3,6 @@ namespace faycollect\services;
 
 use cms\services\file\RemoteFileService;
 use fay\core\Service;
-use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
 use fay\validators\UrlValidator;
 
@@ -33,14 +32,16 @@ class PostService extends Service{
         //若未指定缩略图，且设置了获取正文第一张图片为缩略图，尝试提取图片
         $thumbnail = $this->formatThumbnail($post['thumbnail'], $auto_thumbnail, $post['content']);
         $local_thumbnail = $this->downloadThumbnail($thumbnail);
-    
+        
         //将发布时间格式化为时间戳
         $post['publish_time'] = $this->formatPublishTime($post['publish_time']);
         
         if($download_remote_image){
             $post['content'] = $this->downloadRemoteImages($post['content'], $thumbnail, $local_thumbnail);
         }
-    
+        
+        $tags = $this->formatTags($post['tags']);
+        
         return \cms\services\post\PostService::service()->create(array(
             'title' => $post['title'],
             'content' => $post['content'],
@@ -49,8 +50,20 @@ class PostService extends Service{
             'status' => $post['status'],
             'publish_time' => $post['publish_time'],
         ), array(
-            'ip_int' => RequestHelper::ip2int(\F::app()->ip),
+            'tags'=>$tags,
         ));
+    }
+    
+    /**
+     * 将标签格式化为逗号分割
+     * 替换空格，中文逗号，竖线为英文逗号
+     * @param string $tags
+     * @return string
+     */
+    private function formatTags($tags){
+        return str_replace(array(
+            '，', ' ', '|'
+        ), ',', $tags);
     }
     
     /**

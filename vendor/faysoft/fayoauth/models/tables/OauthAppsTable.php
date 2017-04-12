@@ -1,5 +1,5 @@
 <?php
-namespace cms\models\tables;
+namespace fayoauth\models\tables;
 
 use fay\core\db\Table;
 

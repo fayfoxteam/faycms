@@ -37,6 +37,6 @@ class OauthController extends ApiController{
         
         UserService::service()->login($user_id);
         
-        Response::redirect('recruit/step3');
+        Response::redirect('recruit/#8');
     }
 }

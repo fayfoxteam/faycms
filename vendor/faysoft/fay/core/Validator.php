@@ -81,8 +81,9 @@ class Validator{
     
     /**
      * 初始化
+     * @param array $params
      */
-    public function init($params){
+    public function init(array $params){
         foreach($params as $k=>$p){
             $this->$k = $p;
         }
@@ -143,7 +144,7 @@ class Validator{
      * 获取一个验证器实例
      * @param string $name 验证器名称
      * @param array $params 传入参数
-     * @return Validator
+     * @return Validator|false
      */
     public function createValidator($name, $params = array()){
         if(isset(self::$map[$name])){
@@ -221,6 +222,8 @@ class Validator{
      * @param string $field 出错字段
      * @param string $rule 规则
      * @param string $message 错误描述
+     * @param string $code
+     * @param array $params
      */
     private function _addError($field, $rule, $message, $code = '', $params = array()){
         $params['attribute'] = isset($this->labels[$field]) ? $this->labels[$field] : $field;

@@ -3,7 +3,11 @@ use cms\services\file\FileService;
 use fay\helpers\HtmlHelper;
 use fay\core\Uri;
 
+/**
+ * @var $exception Exception
+ */
 $_backtrace = $exception->getTrace();
+$_backtrace_string = explode("\n", $exception->getTraceAsString());
 
 //抛出异常的位置
 array_unshift($_backtrace, array(
@@ -63,17 +67,23 @@ if(method_exists($exception, 'getLevel')){
         <div class="<?php if($code_count == 1)echo 'act'?> <?php if($code){echo 'with-code';}else{echo 'no-code';}?>">
             <div class="element-wrap">
                 <p class="function"><span class="index"><?php echo $k+1?>.</span><?php
-                    if(isset($b['class'])){
-                        echo "{$b['class']}{$b['type']}{$b['function']}()";
+                    if(!$k){
+                        $info = array(
+                            $exception->getFile() . ' (' . $exception->getLine() . ')',
+                            'throw',
+                        );
                     }else{
-                        echo "{$b['function']}()";
+                        $info = explode(': ', $_backtrace_string[$k - 1]);
+                    }
+                    if(isset($info[1])){
+                        echo $info[1];
                     }
                     if($code){
                         echo '<i class="icon-file"></i>';
                     }
                 ?></p>
                 <p class="file"><?php if(isset($b['file'])){
-                    echo $b['file'], ':(', $b['line'], ')';
+                    echo ltrim($info[0], '# 0123456789');
                 }?></p>
             </div>
             <?php echo $code?>

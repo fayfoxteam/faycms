@@ -12,4 +12,8 @@ class TestController extends ApiController{
     public function login(){
         UserService::service()->login($this->input->get('user_id', 'intval', 10001));
     }
+    
+    public function logout(){
+        UserService::service()->logout();
+    }
 }

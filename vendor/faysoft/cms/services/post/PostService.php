@@ -227,6 +227,11 @@ class PostService extends Service{
             PostUserCounterService::service()->incr($user_id);
         }
         
+        //记录历史
+        if(OptionService::get('system:save_post_history')){
+            PostHistoryService::service()->create($post);
+        }
+        
         //触发事件
         \F::event()->trigger(self::EVENT_CREATED, $post_id);
         

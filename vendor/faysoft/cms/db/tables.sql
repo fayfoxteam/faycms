@@ -416,13 +416,13 @@ CREATE TABLE `{{$prefix}}posts` (
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `title` varchar(500) NOT NULL DEFAULT '' COMMENT '标题',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
-  `content` text NOT NULL COMMENT '正文',
+  `content` text COMMENT '正文',
   `content_type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '正文类型（普通文本，符文本，markdown）',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `publish_date` date NOT NULL COMMENT '发布日期',
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
-  `user_id` int(9) unsigned NOT NULL DEFAULT '0' COMMENT '作者ID',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '作者ID',
   `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否置顶',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '文章状态',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
@@ -761,3 +761,18 @@ CREATE TABLE `{{$prefix}}widgets` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}post_histories`;
+CREATE TABLE `{{$prefix}}post_histories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `title` varchar(500) NOT NULL DEFAULT '' COMMENT '标题',
+  `content` text COMMENT '正文',
+  `content_type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '正文类型（普通文本，符文本，markdown）',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
+  `thumbnail` int(11) NOT NULL DEFAULT '0' COMMENT '缩略图',
+  `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章历史版本存档';

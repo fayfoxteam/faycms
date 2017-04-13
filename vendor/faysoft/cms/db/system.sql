@@ -13,6 +13,7 @@ INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `description`, 
 INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `description`, `create_time`, `update_time`, `is_system`) VALUES ('system:post_comment_verify', '1', '是否仅显示通过审核的文章评论', '{{$time}}', '{{$time}}', '1');
 INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `description`, `create_time`, `update_time`, `is_system`) VALUES ('system:user_nickname_required', '1', '用户昵称必填', '{{$time}}', '{{$time}}', '1');
 INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `description`, `create_time`, `update_time`, `is_system`) VALUES ('system:user_nickname_unique', '1', '用户昵称唯一', '{{$time}}', '{{$time}}', '1');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `description`, `create_time`, `update_time`, `is_system`) VALUES ('system:save_post_history', '0', '是否记录文章历史', '{{$time}}', '{{$time}}', '1');
 ALTER TABLE {{$prefix}}options AUTO_INCREMENT = 1000;
 
 -- 访问统计本地站点

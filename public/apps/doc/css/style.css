@@ -31,6 +31,7 @@ code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f
 .panel .panel-body p{margin-bottom:10px;}
 .panel.panel-headerless .panel-body{padding-top:0;}
 .panel .panel-body h3{color:#2c2e2f;margin-bottom:10px;font-weight:normal;font-size:16px;}
+.panel .panel-body h4{color:#2c2e2f;margin-bottom:8px;font-weight:normal;font-size:14px;}
 .panel .panel-body ul,.panel .panel-body ol{padding-left:20px;margin-bottom:10px;}
 .panel .panel-body ol{padding-left:30px;margin-bottom:10px;}
 .panel .panel-body strong{color:#2c2e2f;font-weight:normal;font-size:15px;}

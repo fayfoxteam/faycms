@@ -3,6 +3,7 @@ namespace fayoauth\services;
 
 use fay\core\ErrorException;
 use fay\core\Service;
+use fay\helpers\NumberHelper;
 use fayoauth\models\tables\OauthAppsTable;
 
 /**
@@ -31,6 +32,7 @@ class OauthAppService extends Service{
     }
     
     /**
+     * 新增app
      * @param string $app_id
      * @param string $app_secret
      * @param array $extra
@@ -59,9 +61,50 @@ class OauthAppService extends Service{
         ) + $extra, true);
     }
     
+    /**
+     * 更新app信息
+     * @param int $id
+     * @param array $app
+     * @return int
+     */
     public function update($id, $app){
         $app['update_time'] = \F::app()->current_time;
         
-        return OauthAppsTable::model()->update($app, $id);
+        return OauthAppsTable::model()->update($app, $id, true);
+    }
+    
+    /**
+     * 获取APP
+     *  - 若$app值是数字，则根据id获取
+     *  - 若$app值是字符串，则根据alias获取
+     * @param int|string $app
+     * @return array|bool
+     */
+    public function get($app){
+        if(NumberHelper::isInt($app)){
+            return $this->getById($app);
+        }else{
+            return $this->getByAlias($app);
+        }
+    }
+    
+    /**
+     * 根据ID获取
+     * @param int $id
+     * @return array|bool
+     */
+    public function getById($id){
+        return OauthAppsTable::model()->find($id);
+    }
+    
+    /**
+     * 根据别名获取
+     * @param string $alias
+     * @return array|bool
+     */
+    public function getByAlias($alias){
+        return OauthAppsTable::model()->fetchRow(array(
+            'alias = ?'=>$alias
+        ));
     }
 }

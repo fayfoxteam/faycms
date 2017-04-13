@@ -110,8 +110,8 @@ class Table extends Model{
      * 更新当前表记录
      * @param array $data
      * @param mixed $where 条件。若传入一个数字，视为根据主键进行删除（仅适用于单主键的情况）
-     * @param bool $fill
-     * @param string $except
+     * @param bool $fill 若为true，则会与$except字段配合进行字段过滤，排除不存在的字段和except中指定的字段
+     * @param string $except 当$fill为true时，指定不更新某些字段
      * @return int|null
      * @throws \fay\core\Exception
      */

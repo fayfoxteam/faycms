@@ -71,7 +71,7 @@ use fay\helpers\HtmlHelper;
 <div class="col-side">
     <?php F::widget()->render('profile')?>
     <?php F::widget()->render('contact')?>
-    <?php F::widget()->render('fay/category_posts', array(
+    <?php F::widget()->render('cms/category_posts', array(
         'title'=>'相关文章',
         'top'=>$post['post']['cat_id'],
         'subclassification'=>true,

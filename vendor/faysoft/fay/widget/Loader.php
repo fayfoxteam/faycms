@@ -44,7 +44,7 @@ class Loader{
             $name_explode = explode('/', $name);
             $pre = array_shift($name_explode);//pre取值为cms或fay
             $class_name = $pre.'\widgets\\'.implode('\\', $name_explode).'\\controllers\\'.$controller;
-            $path = SYSTEM_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/';
+            $path = FAYSOFT_PATH . $pre . '/widgets/' . implode('/', $name_explode) . '/';
             if(file_exists("{$path}controllers/{$controller}.php")){
                 return new $class_name($name, $path);
             }else{

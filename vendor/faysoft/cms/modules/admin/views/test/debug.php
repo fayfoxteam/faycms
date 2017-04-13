@@ -57,8 +57,8 @@ $_backtrace = debug_backtrace(false);
             <td><?php echo BASEPATH?></td>
         </tr>
         <tr>
-            <th>SYSTEM_PATH</th>
-            <td><?php echo SYSTEM_PATH?></td>
+            <th>FAYSOFT_PATH</th>
+            <td><?php echo FAYSOFT_PATH?></td>
         </tr>
         <tr>
             <th>PHP_VERSION</th>

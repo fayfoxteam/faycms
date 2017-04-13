@@ -168,7 +168,7 @@ class DatabaseController extends ToolsController{
             //加载model，从model中获取label作为备注
             $t_name = preg_replace("/^{$prefix}(.*)/", '$1', $table_name, 1);
             $class_name = 'cms\models\tables\\'.StringHelper::underscore2case($t_name).'Table';
-            if(file_exists(SYSTEM_PATH . $class_name . '.php')){
+            if(file_exists(FAYSOFT_PATH . $class_name . '.php')){
                 $labels = \F::model($class_name)->labels();
             }else{
                 $labels = array();

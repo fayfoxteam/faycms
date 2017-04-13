@@ -34,7 +34,7 @@ class WidgetController extends AdminController{
         }
         
         //获取系统公用widgets
-        $common_widgets = FileService::getFileList(SYSTEM_PATH . 'cms' . DS . 'widgets');
+        $common_widgets = FileService::getFileList(FAYSOFT_PATH . 'cms' . DS . 'widgets');
         foreach($common_widgets as $w){
             if($w['name'] == 'admin'){
                 //目前来说就一个admin是个后台用的widget，感觉没什么必要再给其他widget分层级了，现在这样特殊判断一下好了

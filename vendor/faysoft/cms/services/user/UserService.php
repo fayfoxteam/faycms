@@ -3,6 +3,7 @@ namespace cms\services\user;
 
 use fay\core\Service;
 use fay\helpers\FieldHelper;
+use fay\helpers\NumberHelper;
 use fay\helpers\RequestHelper;
 use fay\core\db\Expr;
 use cms\models\tables\ActionsTable;
@@ -81,15 +82,17 @@ class UserService extends Service{
     }
     
     /**
-     * 用户登录（直接登陆指定用户ID，不做任何验证）
+     * 用户登录
+     * 直接登陆指定用户ID，除验证block状态外不做任何验证
      * @param int $user_id 用户ID
      * @return array
+     * @throws UserException
      */
     public function login($user_id){
         //获取用户信息
         $user = $this->get($user_id, array(
             'user'=>array(
-                'fields'=>array('id', 'username', 'nickname', 'avatar', 'admin')
+                'fields'=>array('id', 'username', 'nickname', 'avatar', 'admin', 'block')
             ),
             'profile'=>array(
                 'fields'=>array('last_login_time', 'last_login_ip')
@@ -100,7 +103,11 @@ class UserService extends Service{
         ));
         
         if(!$user){
-            return false;
+            throw new UserException('指定用户不存在');
+        }
+        
+        if($user['user']['block']){
+            throw new UserException('用户被锁定，无法登录', 'block:blocked');
         }
         
         //设置Session
@@ -589,16 +596,72 @@ class UserService extends Service{
      * 判断指定用户是否是管理员
      * @param int $user_id
      * @return bool
+     * @throws UserException
      */
     public function isAdmin($user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
+        if($user_id === null){
+            $user_id = \F::app()->current_user;
+        }
         
         if($user_id){
             $user = UsersTable::model()->find($user_id, 'admin');
+            if(!$user){
+                throw new UserException('指定用户不存在');
+            }
             return !empty($user['admin']);
         }else{
             //未登录，返回false
             return false;
         }
+    }
+    
+    /**
+     * 判断用户状态，若存在异常状态，返回状态信息，若一切正常，返回空描述
+     * @param int|array $user
+     * @return array
+     * @throws UserException
+     */
+    public function checkStatus($user){
+        if(NumberHelper::isInt($user)){
+            $user = UsersTable::model()->find($user, 'block,status');
+        }
+        
+        if(!$user){
+            throw new UserException('指定用户不存在');
+        }
+        
+        if($user['block']){
+            return array(
+                'message'=>'用户已锁定',
+                'error_code'=>'block:blocked',
+            );
+        }
+    
+        if($user['status'] == UsersTable::STATUS_UNCOMPLETED){
+            return array(
+                'message'=>'账号信息不完整',
+                'error_code'=>'status:uncompleted',
+            );
+        }else if($user['status'] == UsersTable::STATUS_PENDING){
+            return array(
+                'message'=>'账号正在审核中',
+                'error_code'=>'status:pending',
+            );
+        }else if($user['status'] == UsersTable::STATUS_VERIFY_FAILED){
+            return array(
+                'message'=>'账号未通过审核',
+                'error_code'=>'status:verify-failed',
+            );
+        }else if($user['status'] == UsersTable::STATUS_NOT_VERIFIED){
+            return array(
+                'message'=>'请先验证邮箱',
+                'error_code'=>'status:not-verified',
+            );
+        }
+        
+        return array(
+            'message'=>'',
+            'error_code'=>'',
+        );
     }
 }

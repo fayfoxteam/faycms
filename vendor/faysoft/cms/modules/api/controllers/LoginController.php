@@ -23,7 +23,14 @@ class LoginController extends ApiController{
             );
             
             if($result['user_id']){
-                $user = UserService::service()->login($result['user_id']);
+                try{
+                    $user = UserService::service()->login($result['user_id']);
+                }catch(\Exception $e){
+                    Response::notify('error', array(
+                        'message'=>$e->getMessage(),
+                        'code'=>method_exists($e, 'getDescription') ? $e->getDescription() : '',
+                    ));
+                }
             }else{
                 Response::notify('error', array(
                     'message'=>isset($result['message']) ? $result['message'] : '登录失败',
@@ -31,7 +38,7 @@ class LoginController extends ApiController{
                 ));
             }
             
-            if($user){
+            if(!empty($user)){
                 Response::notify('success', array(
                     'message'=>'登录成功',
                     'data'=>array(
@@ -47,7 +54,7 @@ class LoginController extends ApiController{
             }else{
                 Response::notify('error', array(
                     'message'=>'登录失败',
-                    'code'=>'no-post-data',
+                    'code'=>'',
                 ));
             }
         }else{

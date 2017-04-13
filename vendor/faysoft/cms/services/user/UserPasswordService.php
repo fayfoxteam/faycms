@@ -72,40 +72,6 @@ class UserPasswordService extends Service{
             );
         }
         
-        if($user['block']){
-            return array(
-                'user_id'=>0,
-                'message'=>'用户已锁定',
-                'error_code'=>'block:blocked',
-            );
-        }
-        
-        if($user['status'] == UsersTable::STATUS_UNCOMPLETED){
-            return array(
-                'user_id'=>0,
-                'message'=>'账号信息不完整',
-                'error_code'=>'status:uncompleted',
-            );
-        }else if($user['status'] == UsersTable::STATUS_PENDING){
-            return array(
-                'user_id'=>0,
-                'message'=>'账号正在审核中',
-                'error_code'=>'status:pending',
-            );
-        }else if($user['status'] == UsersTable::STATUS_VERIFY_FAILED){
-            return array(
-                'user_id'=>0,
-                'message'=>'账号未通过审核',
-                'error_code'=>'status:verify-failed',
-            );
-        }else if($user['status'] == UsersTable::STATUS_NOT_VERIFIED){
-            return array(
-                'user_id'=>0,
-                'message'=>'请先验证邮箱',
-                'error_code'=>'status:not-verified',
-            );
-        }
-        
         if($admin && $user['admin'] != $admin){
             return array(
                 'user_id'=>0,

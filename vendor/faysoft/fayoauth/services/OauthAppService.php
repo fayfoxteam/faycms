@@ -1,7 +1,6 @@
 <?php
 namespace fayoauth\services;
 
-use fay\core\ErrorException;
 use fay\core\Service;
 use fay\helpers\NumberHelper;
 use fayoauth\models\tables\OauthAppsTable;
@@ -32,25 +31,63 @@ class OauthAppService extends Service{
     }
     
     /**
-     * 新增app
+     * 获取应用
+     *  - 若$app值是数字，则根据id获取
+     *  - 若$app值是字符串，则根据alias获取
+     * @param int|string $app
+     * @param string|array $fields 字段
+     * @return array|bool
+     */
+    public function get($app, $fields = '*'){
+        if(NumberHelper::isInt($app)){
+            return $this->getById($app, $fields);
+        }else{
+            return $this->getByAlias($app, $fields);
+        }
+    }
+    
+    /**
+     * 根据ID获取
+     * @param int $id
+     * @param string|array $fields 字段
+     * @return array|bool
+     */
+    public function getById($id, $fields = '*'){
+        return OauthAppsTable::model()->find($id, $fields);
+    }
+    
+    /**
+     * 根据别名获取
+     * @param string $alias
+     * @param string|array $fields 字段
+     * @return array|bool
+     */
+    public function getByAlias($alias, $fields = '*'){
+        return OauthAppsTable::model()->fetchRow(array(
+            'alias = ?'=>$alias
+        ), $fields);
+    }
+    
+    /**
+     * 新增应用
      * @param string $app_id
      * @param string $app_secret
      * @param array $extra
      * @return int|null
-     * @throws ErrorException
+     * @throws OAuthException
      */
     public function create($app_id, $app_secret, $extra){
         if(!empty($extra['alias']) && OauthAppsTable::model()->fetchRow(array(
             'alias = ?'=>$extra['alias']
         ))){
-            throw new ErrorException('指定别名已存在');
+            throw new OAuthException('指定别名已存在');
         }
         
         if(!$app_id){
-            throw new ErrorException('AppID不能为空');
+            throw new OAuthException('AppID不能为空');
         }
         if(!$app_secret){
-            throw new ErrorException('AppSecret不能为空');
+            throw new OAuthException('AppSecret不能为空');
         }
         
         return OauthAppsTable::model()->insert(array(
@@ -62,7 +99,7 @@ class OauthAppService extends Service{
     }
     
     /**
-     * 更新app信息
+     * 更新应用信息
      * @param int $id
      * @param array $app
      * @return int
@@ -74,37 +111,41 @@ class OauthAppService extends Service{
     }
     
     /**
-     * 获取APP
-     *  - 若$app值是数字，则根据id获取
-     *  - 若$app值是字符串，则根据alias获取
-     * @param int|string $app
-     * @return array|bool
+     * 删除应用
+     * @param int|string $app 支持id或alias
+     * @return int|null
+     * @throws OAuthException
      */
-    public function get($app){
-        if(NumberHelper::isInt($app)){
-            return $this->getById($app);
-        }else{
-            return $this->getByAlias($app);
+    public function delete($app){
+        $row = $this->get($app, 'id,delete_time');
+        if(!$row){
+            throw new OAuthException('指定应用不存在');
         }
+        if($row['delete_time'] != 0){
+            throw new OAuthException('指定应用已删除');
+        }
+        
+        return OauthAppsTable::model()->update(array(
+            'delete_time'=>\F::app()->current_time,
+        ), $row['id']);
     }
     
     /**
-     * 根据ID获取
-     * @param int $id
-     * @return array|bool
+     * @param int|string $app 支持id或alias
+     * @return int|null
+     * @throws OAuthException
      */
-    public function getById($id){
-        return OauthAppsTable::model()->find($id);
-    }
-    
-    /**
-     * 根据别名获取
-     * @param string $alias
-     * @return array|bool
-     */
-    public function getByAlias($alias){
-        return OauthAppsTable::model()->fetchRow(array(
-            'alias = ?'=>$alias
-        ));
+    public function undelete($app){
+        $row = $this->get($app, 'id,delete_time');
+        if(!$row){
+            throw new OAuthException('指定应用不存在');
+        }
+        if($row['delete_time'] == 0){
+            throw new OAuthException('指定应用未删除');
+        }
+        
+        return OauthAppsTable::model()->update(array(
+            'delete_time'=>0,
+        ), $row['id']);
     }
 }

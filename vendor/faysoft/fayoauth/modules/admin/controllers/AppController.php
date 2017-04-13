@@ -28,6 +28,9 @@ class AppController extends AdminController{
         $this->view->render();
     }
     
+    /**
+     * 创建
+     */
     public function create(){
         if($this->input->post() && 
             $this->form()->setModel(OauthAppsTable::model())
@@ -43,6 +46,10 @@ class AppController extends AdminController{
         }
     }
     
+    /**
+     * 编辑
+     * @throws HttpException
+     */
     public function edit(){
         $this->layout->subtitle = '编辑APP';
         $id = $this->input->get('id', 'intval');
@@ -65,10 +72,20 @@ class AppController extends AdminController{
         $this->view->render();
     }
     
+    /**
+     * 删除
+     */
     public function delete(){
-        OauthAppsTable::model()->update(array(
-            'delete_time'=>$this->current_time,
-        ), $this->input->get('id', 'intval'));
+        OauthAppService::service()->delete($this->input->get('id'));
+    
+        Response::notify('success', '一个app被删除', $this->view->url('fayoauth/admin/app/index', $this->input->get()));
+    }
+    
+    /**
+     * 还原
+     */
+    public function undelete(){
+        OauthAppService::service()->delete($this->input->get('id'));
     
         Response::notify('success', '一个app被删除', $this->view->url('fayoauth/admin/app/index', $this->input->get()));
     }

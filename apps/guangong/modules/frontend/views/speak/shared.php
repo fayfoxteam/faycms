@@ -95,6 +95,9 @@
 
 <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
 <script>
+    $('.weixin-share').on('click', function(){
+        $(this).hide();
+    });
     $(document).on('click', '.show-weixin-share-link', function(){
         $('.weixin-share').show();
     });

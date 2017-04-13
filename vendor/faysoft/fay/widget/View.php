@@ -84,7 +84,7 @@ class View{
                 $view_file = APPLICATION_PATH.'widgets'.DS.implode(DS, $name_explode).DS.'views'.DS.$view.'.php';
             }else{
                 //系统小工具
-                $view_file = SYSTEM_PATH.$pre.DS.'widgets'.DS.implode(DS, $name_explode).DS.'views'.DS.$view.'.php';
+                $view_file = FAYSOFT_PATH.$pre.DS.'widgets'.DS.implode(DS, $name_explode).DS.'views'.DS.$view.'.php';
             }
         }
         

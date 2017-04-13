@@ -68,9 +68,11 @@ class Bootstrap{
     private function getControllerAndAction($uri){
         //包名指定的是app
         if($uri->package == APPLICATION){
+            $found_controllers = array();
             //在app目录下查找
             if(file_exists(APPLICATION_PATH . "modules/{$uri->module}/controllers/" . ucfirst($uri->controller) . 'Controller.php')){
                 $class_name = '\\'.APPLICATION.'\modules\\'.$uri->module.'\controllers\\'.$uri->controller.'Controller';
+                $found_controllers[] = $class_name;
                 if(method_exists($class_name, $uri->action)){
                     //直接对应的action
                     return array(
@@ -83,12 +85,33 @@ class Bootstrap{
                         'controller'=>$class_name,
                         'action'=>$uri->action.'Action',
                     );
-                }else{
-                    throw new HttpException("Action \"{$uri->action}\" Not Found IN Controller \"{$class_name}\"");
                 }
-            }else{
-                //若app目录下不存在，尝试去cms下超找
-                //@todo
+            }
+            
+            //若设置了addressing_path，在对应目录下查找
+            $addressing_path = \F::config()->get('addressing_path');
+            foreach($addressing_path as $address){
+                if(file_exists(FAYSOFT_PATH . "{$address}/modules/{$uri->module}/controllers/" . ucfirst($uri->controller) . 'Controller.php')){
+                    $class_name = "\\{$address}\\modules\\{$uri->module}\\controllers\\{$uri->controller}Controller";
+                    $found_controllers[] = $class_name;
+                    if(method_exists($class_name, $uri->action)){
+                        //直接对应的action
+                        return array(
+                            'controller'=>$class_name,
+                            'action'=>$uri->action,
+                        );
+                    }else if(method_exists($class_name, $uri->action.'Action')){
+                        //特殊关键词可能需要添加Action后缀
+                        return array(
+                            'controller'=>$class_name,
+                            'action'=>$uri->action.'Action',
+                        );
+                    }
+                }
+            }
+            
+            if($found_controllers){
+                throw new HttpException("Found the following controllers, but no Action {$uri->action} found among them.", 404, implode('<br>', $found_controllers));
             }
         }
         

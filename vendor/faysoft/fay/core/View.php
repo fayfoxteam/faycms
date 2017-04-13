@@ -161,7 +161,7 @@ class View{
         RuntimeHelper::append(__FILE__, __LINE__, '开始渲染视图: ' . $view);
         $uri = Uri::getInstance();
         $module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
-        $package = $uri->package;
+        $package = null;
         //加载视图文件
         if($view === null){
             $action = StringHelper::case2underscore($uri->action);
@@ -213,15 +213,27 @@ class View{
             }
         }
         
-        if($package == APPLICATION && file_exists(APPLICATION_PATH.$view_relative_path)){
-            //前台app
-            $view_path = APPLICATION_PATH.$view_relative_path;
-        }else if(file_exists(FAYSOFT_PATH."{$package}/{$view_relative_path}")){
-            //faysoft/*下的类库
-            $view_path = FAYSOFT_PATH."{$package}/{$view_relative_path}";
-        }else if(file_exists(CMS_PATH."modules/tools/views/{$controller}/{$action}.php")){
-            //最后搜索cms/tools下有没有默认文件，例如报错，分页条等
-            $view_path = CMS_PATH."modules/tools/views/{$controller}/{$action}.php";
+        if($package && $package != APPLICATION){//明确指定包名且包名不是当前app，直接在vendor/faysoft目录查找
+            if(file_exists(FAYSOFT_PATH."{$package}/{$view_relative_path}")){
+                //faysoft/*下的类库
+                $view_path = FAYSOFT_PATH."{$package}/{$view_relative_path}";
+            }else if(file_exists(CMS_PATH."modules/tools/views/{$controller}/{$action}.php")){
+                //最后搜索cms/tools下有没有默认文件，例如报错，分页条等
+                $view_path = CMS_PATH."modules/tools/views/{$controller}/{$action}.php";
+            }
+        }else{//未明确指定包名或包名为当前app
+            if(file_exists(APPLICATION_PATH.$view_relative_path)){//先查找app目录
+                //前台app
+                $view_path = APPLICATION_PATH.$view_relative_path;
+            }else if($addressing_path = \F::config()->get('addressing_path')){//若app目录不存在对应视图文件，根据addressing_path依次查找vendor/faysoft/目录
+                foreach($addressing_path as $address){
+                    if(file_exists(FAYSOFT_PATH."{$address}/{$view_relative_path}")){
+                        //faysoft/*下的类库
+                        $view_path = FAYSOFT_PATH."{$address}/{$view_relative_path}";
+                        break;
+                    }
+                }
+            }
         }
         
         if(!isset($view_path)){

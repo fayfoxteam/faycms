@@ -36,4 +36,8 @@ return array(
     //'enable_tools'=>false,
     
     //'assets_url'=>preg_match('/^(\d+).fayfox.com$/', isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']) ? '' : 'http://qiniu.cdn.faycms.com/assets/',
+    
+    'addressing_path'=>array(
+        'cms', 'fayfeed'
+    )
 );

@@ -28,13 +28,13 @@ return array(
      * 数据库参数
      */
     'db'=>array(
-        'host'=>'localhost',                    //数据库服务器
-        'user'=>'root',                            //用户名
-        'password'=>'',                            //密码
-        'port'=>3306,                            //端口
-        'dbname'=>'faycms',                //数据库名
-        'charset'=>'utf8',                        //数据库编码方式（本产品不支持gb2312编码，但是可以选择utf8或者utf8mb4）
-        'table_prefix'=>'faycms_',                //数据库表前缀
+        'host'=>'localhost',//数据库服务器
+        'user'=>'root',//用户名
+        'password'=>'',//密码
+        'port'=>3306,//端口
+        'dbname'=>'faycms',//数据库名
+        'charset'=>'utf8',//数据库编码方式（本产品不支持gb2312编码，但是可以选择utf8或者utf8mb4）
+        'table_prefix'=>'faycms_',//数据库表前缀
     ),
     
     'session'=>array(
@@ -87,8 +87,8 @@ return array(
      * 时间相关设置
      */
     'date'=>array(
-        'format'=>'Y-m-d H:i:s',                //日期格式
-        'default_timezone'=>'PRC',                //默认时区
+        'format'=>'Y-m-d H:i:s',//日期格式
+        'default_timezone'=>'PRC',//默认时区
     ),
     
     /*
@@ -101,10 +101,10 @@ return array(
     /*
      * 上传文件
      */
-    'upload'=>array(                            //文件上传类的相关配置
-        'upload_path'=>'./uploads/',            //文件上传路径
-        'allowed_types'=>'*',                    //允许上传的文件类型，详见mimes.php，若为星号，则允许所有类型
-        'max_size'=>20971520,                    //这个最大值不能大于php.ini中设置的最大值
+    'upload'=>array(//文件上传类的相关配置
+        'upload_path'=>'./uploads/',//文件上传路径
+        'allowed_types'=>'*',//允许上传的文件类型，详见mimes.php，若为星号，则允许所有类型
+        'max_size'=>20971520,//这个最大值不能大于php.ini中设置的最大值
     ),
 
     /*
@@ -120,6 +120,14 @@ return array(
         'module'=>'frontend',
         'controller'=>'index',
         'action'=>'index',
+    ),
+    
+    /**
+     * 寻址路径。当路由层级为3级或更低时，默认为app路由，当app路由不存在时，会根据寻址路径依次查找vendor/faysoft目录
+     * 建议开发类库时还是用完整四级路由，因为文件读写性能还是比较低的
+     */
+    'addressing_path'=>array(
+        'cms'
     ),
     
     /*

@@ -29,4 +29,15 @@ class HttpException extends \Exception{
             return 'Error';
         }
     }
+    
+    /**
+     * @return string
+     */
+    public function getDescription(){
+        return $this->description ? $this->description : '';
+    }
+    
+    public function __toString(){
+        return parent::__toString() . ($this->description ? PHP_EOL . $this->description : '');
+    }
 }

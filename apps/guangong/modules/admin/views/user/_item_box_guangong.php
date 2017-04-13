@@ -4,7 +4,7 @@
  */
 
 $sql = new \fay\core\Sql();
-$user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday', 'sign_up_time', 'rank_id'))
+$user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday', 'sign_up_time', 'rank_id', 'military'))
     ->joinLeft(array('r1'=>'regions'), 'ue.state = r1.id', array('name AS state_name'))
     ->joinLeft(array('r2'=>'regions'), 'ue.city = r2.id', array('name AS city_name'))
     ->joinLeft(array('r3'=>'regions'), 'ue.district = r3.id', array('name AS district_name'))
@@ -66,6 +66,11 @@ $user_extra = $sql->from(array('ue'=>'guangong_user_extra'), array('birthday', '
         <div class="form-group">
             <label class="col-2 title">军团代号</label>
             <div class="col-10 pt7"><?php echo \guangong\helpers\UserHelper::getCode($user['user']['id'])?></div>
+        </div>
+        <div class="form-group-separator"></div>
+        <div class="form-group">
+            <label class="col-2 title">缴纳军费</label>
+            <div class="col-10 pt7"><?php echo $user_extra['military'] / 100?>元</div>
         </div>
     </div>
 </div>

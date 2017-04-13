@@ -248,7 +248,7 @@ class PostCategoryService extends Service{
      * @param int $post_id 文章ID
      * @param int|null $old_status 文章原状态
      * @param int|null $new_status 文章新状态
-     * @throws PostException
+     * @throws PostErrorException
      */
     public function setSecondaryCats($primary_cat_id, $secondary_cat_ids, $post_id, $old_status, $new_status){
         if($secondary_cat_ids){
@@ -270,7 +270,7 @@ class PostCategoryService extends Service{
             'id IN (?)'=>$secondary_cat_ids,
         ), 'id')) != count($secondary_cat_ids)){
             //实际存在的分类记录数与输入记录数不相等，意味着有指定分类ID不存在
-            throw new PostException('指定附加分类不存在');
+            throw new PostErrorException('指定附加分类不存在');
         }
         
         $old_cat_ids = array();
@@ -415,7 +415,7 @@ class PostCategoryService extends Service{
      *   若包含$posts.post.id字段，则以此字段作为文章ID
      *   若不包含$posts.post.id，则以$posts的键作为文章ID
      * @param null|string $fields 字段（categories表字段）
-     * @throws PostException
+     * @throws PostErrorException
      */
     public function assemblePrimaryCat(&$posts, $fields = null){
         //获取所有分类ID
@@ -424,7 +424,7 @@ class PostCategoryService extends Service{
             if(isset($p['post']['cat_id'])){
                 $cat_ids[] = $p['post']['cat_id'];
             }else{
-                throw new PostException(__CLASS__.'::'.__FUNCTION__.'()方法$posts参数中，必须包含cat_id项');
+                throw new PostErrorException(__CLASS__.'::'.__FUNCTION__.'()方法$posts参数中，必须包含cat_id项');
             }
         }
         
@@ -443,7 +443,7 @@ class PostCategoryService extends Service{
      *   若包含$posts.post.id字段，则以此字段作为文章ID
      *   若不包含$posts.post.id，则以$posts的键作为文章ID
      * @param null|string $fields 字段（categories表字段）
-     * @throws PostException
+     * @throws PostErrorException
      */
     public function assembleSecondaryCats(&$posts, $fields = null){
         //获取所有文章ID

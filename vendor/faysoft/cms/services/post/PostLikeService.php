@@ -35,17 +35,18 @@ class PostLikeService extends Service{
      * @param string $trackid
      * @param int $user_id 用户ID，默认为当前登录用户
      * @param bool|int $sockpuppet 马甲信息
+     * @throws PostErrorException
      * @throws PostException
      */
     public static function add($post_id, $trackid = '', $user_id = null, $sockpuppet = 0){
         if($user_id === null){
             $user_id = \F::app()->current_user;
         }else if(!UserService::isUserIdExist($user_id)){
-            throw new PostException("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
+            throw new PostErrorException("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
         }
         
         if(!PostService::isPostIdExist($post_id)){
-            throw new PostException('指定的文章ID不存在', 'the-given-post-id-is-not-exist');
+            throw new PostErrorException('指定的文章ID不存在', 'the-given-post-id-is-not-exist');
         }
         
         if(self::isLiked($post_id, $user_id)){
@@ -78,12 +79,12 @@ class PostLikeService extends Service{
      * @param int $post_id 文章ID
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws PostException
+     * @throws PostErrorException
      */
     public static function remove($post_id, $user_id = null){
         $user_id || $user_id = \F::app()->current_user;
         if(!$user_id){
-            throw new PostException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
+            throw new PostErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
         $like = PostLikesTable::model()->find(array($post_id, $user_id), 'sockpuppet');
@@ -117,12 +118,12 @@ class PostLikeService extends Service{
      * @param int $post_id 文章ID
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws PostException
+     * @throws PostErrorException
      */
     public static function isLiked($post_id, $user_id = null){
         $user_id || $user_id = \F::app()->current_user;
         if(!$user_id){
-            throw new PostException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
+            throw new PostErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
         if(PostLikesTable::model()->find(array($post_id, $user_id), 'create_time')){
@@ -137,12 +138,12 @@ class PostLikeService extends Service{
      * @param array $post_ids 由文章ID组成的一维数组
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return array
-     * @throws PostException
+     * @throws PostErrorException
      */
     public static function mIsLiked($post_ids, $user_id = null){
         $user_id || $user_id = \F::app()->current_user;
         if(!$user_id){
-            throw new PostException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
+            throw new PostErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
         if(!is_array($post_ids)){
@@ -205,12 +206,12 @@ class PostLikeService extends Service{
      * @param int $page_size
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return array
-     * @throws PostException
+     * @throws PostErrorException
      */
     public function getUserLikes($fields, $page = 1, $page_size = 20, $user_id = null){
         $user_id || $user_id = \F::app()->current_user;
         if(!$user_id){
-            throw new PostException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
+            throw new PostErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
         $sql = new Sql();

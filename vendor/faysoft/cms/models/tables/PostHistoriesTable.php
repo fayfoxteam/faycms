@@ -7,6 +7,7 @@ use fay\core\db\Table;
  * 文章历史版本存档
  * 
  * @property int $id Id
+ * @property int $post_id 文章ID
  * @property string $title 标题
  * @property string $content 正文
  * @property int $content_type 正文类型（普通文本，符文本，markdown）
@@ -31,7 +32,7 @@ class PostHistoriesTable extends Table{
     public function rules(){
         return array(
             array(array('thumbnail', 'ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-            array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('id', 'post_id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('content_type'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('title', 'abstract'), 'string', array('max'=>500)),
@@ -41,6 +42,7 @@ class PostHistoriesTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
+            'post_id'=>'文章ID',
             'title'=>'标题',
             'content'=>'正文',
             'content_type'=>'正文类型（普通文本，符文本，markdown）',
@@ -56,6 +58,7 @@ class PostHistoriesTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
+            'post_id'=>'intval',
             'title'=>'trim',
             'content'=>'',
             'content_type'=>'intval',

@@ -238,6 +238,8 @@ class Table extends Model{
     /**
      * 获取表所有字段
      * @param array|string $except 返回字段不包含except中指定的字段
+     *  - 若为数组，则数组项为不返回字段
+     *  - 若为字符串，则视为getNotWritableFields()函数的$scene值
      * @return array:
      */
     public function getFields($except = array()){

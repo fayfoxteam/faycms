@@ -765,6 +765,7 @@ CREATE TABLE `{{$prefix}}widgets` (
 DROP TABLE IF EXISTS `{{$prefix}}post_histories`;
 CREATE TABLE `{{$prefix}}post_histories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
   `title` varchar(500) NOT NULL DEFAULT '' COMMENT '标题',
   `content` text COMMENT '正文',
   `content_type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '正文类型（普通文本，符文本，markdown）',

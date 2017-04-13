@@ -45,46 +45,59 @@
     .share-box .yin{width:22%;bottom:-20px;right:118px;position:absolute;}
     .share-box .qr-code{height:83px;float:right;margin-right:4px}
     .share-box .qr-code-desc{height:81px;float:right}
+
+    .weixin-share{position:fixed;top:0;left:0;z-index:9999;height:100%;width:100%;background-color:rgba(0, 0, 0, 0.7);display:none}
+    .weixin-share img{width:100%;margin-top:10px}
 </style>
 </head>
 <body>
-    <div class="wrapper">
-        <h1 class="top-title">关公点兵—关公文化体验旅游主题产品</h1>
-        <h2 class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/t1.png')?>"></h2>
-        <div class="img-box">
-            <div class="img-container">
-                <a href="<?php
+<div class="wrapper">
+    <h1 class="top-title">关公点兵—关公文化体验旅游主题产品</h1>
+    <h2 class="top-title-img"><img src="<?php echo $this->appAssets('images/speak/t1.png')?>"></h2>
+    <div class="img-box">
+        <div class="img-container">
+            <a href="<?php
+            if($speak['photo']){
+                //已经下载到本地，从本地输出
+                echo \cms\services\file\FileService::getUrl($speak['photo']);
+            }else{
+                //还在微信服务器，通过媒体ID输出
+                echo "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}";
+            }
+            ?>" data-lightbox="teams"><?php
                 if($speak['photo']){
                     //已经下载到本地，从本地输出
-                    echo \cms\services\file\FileService::getUrl($speak['photo']);
+                    echo \fay\helpers\HtmlHelper::img($speak['photo'], \cms\services\file\FileService::PIC_ORIGINAL);
                 }else{
                     //还在微信服务器，通过媒体ID输出
-                    echo "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}";
+                    echo \fay\helpers\HtmlHelper::img("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}");
                 }
-                ?>" data-lightbox="teams"><?php
-                    if($speak['photo']){
-                        //已经下载到本地，从本地输出
-                        echo \fay\helpers\HtmlHelper::img($speak['photo'], \cms\services\file\FileService::PIC_ORIGINAL);
-                    }else{
-                        //还在微信服务器，通过媒体ID输出
-                        echo \fay\helpers\HtmlHelper::img("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$speak['photo_server_id']}");
-                    }
-                    ?></a>
-            </div>
-            <div class="img-box-title"><img src="<?php echo $this->appAssets('images/speak/t2.png')?>"></div>
+                ?></a>
         </div>
-        <div class="desc"><?php echo \fay\helpers\HtmlHelper::encode($speak['name'])?>贵为关羽军团第<?php echo \fay\helpers\NumberHelper::toLength($speak['id'], 7)?>位代言人</div>
-        <div class="share-box">
-            <img src="<?php echo $this->appAssets('images/speak/qr-desc.png')?>" class="qr-code-desc">
-            <img src="<?php echo $this->appAssets('images/speak/qr.jpg')?>" class="qr-code">
-            <div class="t3">若每天一点正能量，<br>青春路上有阳光。</div>
-            <div class="btns">
-<!--                <a href="javascript:" class="btn btn-red">分享</a>-->
-                <a href="<?php echo $this->url('speak/create')?>" class="btn btn-blue">我也要代言</a>
-            </div>
-            <img src="<?php echo $this->appAssets('images/speak/yin.png')?>" class="yin">
-            <br class="clear">
-        </div>
+        <div class="img-box-title"><img src="<?php echo $this->appAssets('images/speak/t2.png')?>"></div>
     </div>
+    <div class="desc"><?php echo \fay\helpers\HtmlHelper::encode($speak['name'])?>贵为关羽军团第<?php echo \fay\helpers\NumberHelper::toLength($speak['id'], 7)?>位代言人</div>
+    <div class="share-box">
+        <img src="<?php echo $this->appAssets('images/speak/qr-desc.png')?>" class="qr-code-desc">
+        <img src="<?php echo $this->appAssets('images/speak/qr.jpg')?>" class="qr-code">
+        <div class="t3">若每天一点正能量，<br>青春路上有阳光。</div>
+        <div class="btns">
+            <a href="javascript:" class="btn btn-red show-weixin-share-link">分享</a>
+            <a href="<?php echo $this->url('speak/create')?>" class="btn btn-blue">我也要代言</a>
+        </div>
+        <img src="<?php echo $this->appAssets('images/speak/yin.png')?>" class="yin">
+        <br class="clear">
+    </div>
+</div>
+<div class="weixin-share">
+    <img src="<?php echo $this->appAssets('images/guide.png')?>">
+</div>
+
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script>
+    $(document).on('click', '.show-weixin-share-link', function(){
+        $('.weixin-share').show();
+    });
+</script>
 </body>
 </html>

@@ -217,9 +217,6 @@ class View{
             if(file_exists(FAYSOFT_PATH."{$package}/{$view_relative_path}")){
                 //faysoft/*下的类库
                 $view_path = FAYSOFT_PATH."{$package}/{$view_relative_path}";
-            }else if(file_exists(CMS_PATH."modules/tools/views/{$controller}/{$action}.php")){
-                //最后搜索cms/tools下有没有默认文件，例如报错，分页条等
-                $view_path = CMS_PATH."modules/tools/views/{$controller}/{$action}.php";
             }
         }else{//未明确指定包名或包名为当前app
             if(file_exists(APPLICATION_PATH.$view_relative_path)){//先查找app目录
@@ -235,8 +232,12 @@ class View{
                 }
             }
         }
+        if(empty($view_path) && file_exists(CMS_PATH."modules/tools/views/{$controller}/{$action}.php")){
+            //最后搜索cms/tools下有没有默认文件，例如报错，分页条等
+            $view_path = CMS_PATH."modules/tools/views/{$controller}/{$action}.php";
+        }
         
-        if(!isset($view_path)){
+        if(empty($view_path)){
             throw new ErrorException('视图文件不存在', 'Relative Path: '.$view_relative_path);
         }else{
             $content = $this->obOutput($view_path, $view_data);

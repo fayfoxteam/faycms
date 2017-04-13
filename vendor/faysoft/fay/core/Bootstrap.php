@@ -111,7 +111,7 @@ class Bootstrap{
             }
             
             if($found_controllers){
-                throw new HttpException("Found the following controllers, but no Action {$uri->action} found among them.", 404, implode('<br>', $found_controllers));
+                throw new HttpException("Found the following controllers, but no Action {$uri->action} found among them.", 404, implode("\n", $found_controllers));
             }
         }
         

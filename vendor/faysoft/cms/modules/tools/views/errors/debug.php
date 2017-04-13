@@ -41,7 +41,7 @@ if(method_exists($exception, 'getLevel')){
     <?php if(method_exists($exception, 'getDescription')){
         $description = $exception->getDescription();
         if($description){
-            echo '<p>', $description, '</p>';
+            echo '<p>', nl2br($description), '</p>';
         }
     }?>
     <i class="icon"></i>

@@ -7,6 +7,9 @@
 ?>
 <div class="row">
     <div class="col-12"><?php
+        $this->renderPartial('_item_box_guangong', array(
+            'user'=>$user,
+        ));
         $this->renderPartial('_item_box_baseinfo', array(
             'user'=>$user,
         ));

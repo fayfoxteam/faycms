@@ -3,13 +3,11 @@ use fay\helpers\HtmlHelper;
 ?>
 <div class="row">
     <div class="col-8">
-        <div class="col-2-2-body-content">
-            <?php echo HtmlHelper::textarea('code', '', array(
-                'style'=>'font-family:Consolas,Monaco,monospace',
-                'id'=>'code',
-                'class'=>'form-control autosize',
-            ))?>
-        </div>
+        <?php echo HtmlHelper::textarea('code', '', array(
+            'style'=>'font-family:Consolas,Monaco,monospace',
+            'id'=>'code',
+            'class'=>'form-control autosize',
+        ))?>
         <div class="clear"></div>
     </div>
     <div class="col-4">

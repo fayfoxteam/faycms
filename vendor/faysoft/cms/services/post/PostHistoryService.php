@@ -132,4 +132,37 @@ class PostHistoryService extends Service{
     public function get($id, $fields = '*'){
         return PostHistoriesTable::model()->find($id, $fields);
     }
+    
+    /**
+     * 根据文章ID，获取对应历史存档数量
+     * @param int $post_id
+     * @return int
+     */
+    public function getCount($post_id){
+        $count = PostHistoriesTable::model()->fetchRow(array(
+            'post_id = ?'=>$post_id,
+        ), 'COUNT(*)');
+        return $count['COUNT(*)'];
+    }
+    
+    /**
+     * 根据历史版本id永久删除一个版本
+     * 本来就是历史，没什么必要再做假删了
+     * @param int $id
+     * @return int
+     */
+    public function remove($id){
+        return PostHistoriesTable::model()->delete($id);
+    }
+    
+    /**
+     * 根据文章ID，删除文章对应的所有历史版本记录
+     * @param int $post_id
+     * @return int
+     */
+    public function removeAll($post_id){
+        return PostHistoriesTable::model()->delete(array(
+            'post_id = ?'=>$post_id
+        ));
+    }
 }

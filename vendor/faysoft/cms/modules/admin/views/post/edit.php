@@ -5,7 +5,7 @@ use cms\models\tables\PostsTable;
 use fay\helpers\HtmlHelper;
 use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
-use cms\services\post\Category;
+use cms\services\post\PostCategoryService;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -38,7 +38,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                     <div class="misc-pub-section mt6">
                         <strong>当前状态：</strong>
                         <span id="crt-status"><?php echo PostHelper::getStatus(F::form()->getData('status'), 0, false)?></span>
-                        <a href="javascript:;" id="edit-status-link" class="ml5">编辑</a>
+                        <a href="javascript:" id="edit-status-link" class="ml5">编辑</a>
                         <?php echo F::form()->inputHidden('status')?>
                         <div class="hide" id="edit-status-container"><?php
                             $options = array(PostsTable::STATUS_DRAFT=>'草稿');
@@ -127,7 +127,7 @@ $(function(){
     post.boxes = <?php echo json_encode($enabled_boxes)?>;
     post.post_id = <?php echo $post['id']?>;
     <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN) && OptionService::get('system:post_role_cats')){?>
-        post.roleCats = <?php echo json_encode(CategoryService::service()->getAllowedCatIds())?>;
+        post.roleCats = <?php echo json_encode(PostCategoryService::service()->getAllowedCatIds())?>;
     <?php }?>
     post.init();
 });

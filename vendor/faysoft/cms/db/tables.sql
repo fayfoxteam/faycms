@@ -776,4 +776,5 @@ CREATE TABLE `{{$prefix}}post_histories` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   PRIMARY KEY (`id`)
+  KEY `post_id` (`post_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章历史版本存档';

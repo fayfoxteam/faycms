@@ -90,7 +90,7 @@ class F{
     
     /**
      * 返回所有表单实例
-     * @return Form
+     * @return array
      */
     public static function forms(){
         return Form::getForms();

@@ -50,10 +50,6 @@ class FileService extends Service{
         return parent::service($class_name);
     }
     
-    public function getIconById($id){
-        
-    }
-    
     /**
      * 根据文件的mimetype类型，获取对应的小图标
      * @param string $mimetype 例如：image/png

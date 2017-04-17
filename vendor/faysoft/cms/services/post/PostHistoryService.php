@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\PostExtraTable;
 use cms\models\tables\PostHistoriesTable;
 use cms\models\tables\PostsTable;
 use cms\services\user\UserService;
@@ -21,40 +22,49 @@ class PostHistoryService extends Service{
     
     /**
      * 创建历史
-     * @param array $post
+     * @param int $post_id 文章ID
      * @param null|int $user_id
      * @return int
      * @throws PostErrorException
      */
-    public function create($post, $user_id = null){
+    public function create($post_id, $user_id = null){
         if($user_id === null){
             $user_id = \F::app()->current_user;
         }else if(!UserService::isUserIdExist($user_id)){
             throw new PostErrorException("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
         }
         
-        if($checkResult = $this->checkFields($post)){
-            throw new PostErrorException("历史记录缺少字段[{$checkResult}]");
+        $post = PostsTable::model()->find($post_id, 'id,title,content,content_type,cat_id,thumbnail,abstract');
+        if(!$post){
+            throw new PostErrorException("指定文章ID[{$post_id}]不存在", 'the-given-post-id-is-not-exist');
         }
         
-        if($post['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
+        $data = array(
+            'post_id'=>$post['id'],
+            'title'=>$post['title'],
+            'content'=>$post['content'],
+            'content_type'=>$post['content_type'],
+            'cat_id'=>$post['cat_id'],
+            'thumbnail'=>$post['thumbnail'],
+            'abstract'=>$post['abstract'],
+        );
+        
+        if($data['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
+            $extra = PostExtraTable::model()->find($data['post_id']);
             //若是markdown语法保存的文章，content字段存储markdown原文
-            if(!isset($post['markdown'])){
-                throw new PostErrorException('MarkDown语法编辑的文章，生成历史记录时必须包含MarkDown字段');
-            }
-            $post['content'] = $post['markdown'];
+            $data['content'] = $extra['markdown'];
         }
-        
-        if($this->equalLastRecord($post)){
+    
+        if($this->equalLastRecord($data)){
             //若给定文章内容与之前最后一条历史记录完全相同，则不记录
             return '0';
         }
+    
+        $data['user_id'] = $user_id;
+        $data['create_time'] = \F::app()->current_time;
+        $data['ip_int'] = RequestHelper::ip2int(\F::app()->ip);
         
-        $post['user_id'] = $user_id;
-        $post['create_time'] = \F::app()->current_time;
-        $post['ip_int'] = RequestHelper::ip2int(\F::app()->ip);
-        
-        return PostHistoriesTable::model()->insert($post, true);
+        return PostHistoriesTable::model()->insert($data, true);
     }
     
     /**
@@ -164,5 +174,30 @@ class PostHistoryService extends Service{
         return PostHistoriesTable::model()->delete(array(
             'post_id = ?'=>$post_id
         ));
+    }
+    
+    /**
+     * 将文章恢复至历史版本
+     * @param int $history_id 历史版本ID
+     */
+    public function revert($history_id){
+        $history = PostHistoriesTable::model()->find($history_id);
+        if($history['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
+            PostExtraTable::model()->update(array(
+                'markdown'=>$history['content'],
+            ), $history['post_id']);
+        }
+        
+        PostsTable::model()->update(array(
+            'title'=>$history['title'],
+            'content'=>\Michelf\Markdown::defaultTransform($history['content']),
+            'content_type'=>$history['content_type'],
+            'cat_id'=>$history['cat_id'],
+            'thumbnail'=>$history['thumbnail'],
+            'abstract'=>$history['abstract'],
+        ), $history['post_id']);
+        
+        //再生成一份历史
+        $this->create($history['post_id']);
     }
 }

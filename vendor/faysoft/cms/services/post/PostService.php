@@ -227,13 +227,13 @@ class PostService extends Service{
             PostUserCounterService::service()->incr($user_id);
         }
         
-        //记录历史
-        if(OptionService::get('system:save_post_history')){
-            PostHistoryService::service()->create($post + $post_extra);
-        }
-        
         //触发事件
         \F::event()->trigger(self::EVENT_CREATED, $post_id);
+    
+        //记录历史
+        if(OptionService::get('system:save_post_history')){
+            PostHistoryService::service()->create($post_id);
+        }
         
         return $post_id;
     }
@@ -373,22 +373,16 @@ class PostService extends Service{
             $this->updatePropertySet($post_id, $extra['props']);
         }
         
-        //记录历史
-        if(OptionService::get('system:save_post_history')){
-            if(!empty($extra['extra'])){
-                //排除不可编辑的字段
-                $history = $data + $extra['extra'];
-            }else{
-                $history = $data;
-            }
-            PostHistoryService::service()->create(array('post_id'=>$post_id) + $history);
-        }
-        
         //触发事件
         \F::event()->trigger(self::EVENT_UPDATED, array(
             'post_id'=>$post_id,
             'old_status'=>$old_post['status'],
         ));
+    
+        //记录历史
+        if(OptionService::get('system:save_post_history')){
+            PostHistoryService::service()->create($post_id);
+        }
         
         return true;
     }

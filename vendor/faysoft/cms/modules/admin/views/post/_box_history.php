@@ -34,7 +34,7 @@ if(\F::form()->getData('id')){
 </div>
 <div class="hide">
     <div id="history-dialog" class="dialog">
-        <div class="dialog-content w800">
+        <div class="dialog-content w1000">
             <h4>历史版本</h4>
             <div class="row">
                 <div class="col-3">
@@ -69,7 +69,8 @@ if(\F::form()->getData('id')){
                             <time class="time" title="">2017-04-14 17:08</time>
                         </div>
                         <div class="post-body">
-                            <div class="post-abstract"><?php echo F::form()->getData('abstract')?></div>
+                            <div class="post-thumbnail"><?php echo HtmlHelper::img(F::form()->getData('thumbnail'))?></div>
+                            <div class="post-abstract"><?php echo HtmlHelper::encode(F::form()->getData('abstract'))?></div>
                             <div class="post-content"><?php echo F::form()->getData('content')?></div>
                         </div>
                     </div>

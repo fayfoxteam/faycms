@@ -43,7 +43,7 @@ $(function(){
                 'centerOnScroll': true,
                 'width': '90%',
                 'onClosed': function(){
-                    common.swiper.slideNext();
+                    //common.swiper.slideNext();
                 }
             });
         }

@@ -179,25 +179,32 @@ class PostHistoryService extends Service{
     /**
      * 将文章恢复至历史版本
      * @param int $history_id 历史版本ID
+     * @return bool
+     * @throws PostErrorException
      */
     public function revert($history_id){
         $history = PostHistoriesTable::model()->find($history_id);
-        if($history['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
-            PostExtraTable::model()->update(array(
-                'markdown'=>$history['content'],
-            ), $history['post_id']);
+        if(!$history){
+            throw new PostErrorException("指定文章ID[{$history_id}]不存在", 'the-given-history-id-is-not-exist');
         }
         
-        PostsTable::model()->update(array(
+        $extra = array();
+        $content = $history['content'];
+        if($history['content_type'] == PostsTable::CONTENT_TYPE_MARKDOWN){
+            //如果是markdown语法的历史，content转为html
+            $extra['extra'] = array(
+                'markdown'=>$history['content']
+            );
+            $content = \Michelf\Markdown::defaultTransform($history['content']);
+        }
+        
+        return PostService::service()->update($history['post_id'], array(
             'title'=>$history['title'],
-            'content'=>\Michelf\Markdown::defaultTransform($history['content']),
+            'content'=>$content,
             'content_type'=>$history['content_type'],
             'cat_id'=>$history['cat_id'],
             'thumbnail'=>$history['thumbnail'],
             'abstract'=>$history['abstract'],
-        ), $history['post_id']);
-        
-        //再生成一份历史
-        $this->create($history['post_id']);
+        ), $extra);
     }
 }

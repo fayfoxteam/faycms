@@ -126,4 +126,18 @@ class Controller{
             throw new Exception('Token校验失败');
         }
     }
+    
+    /**
+     * 检查http method，若不符合，直接返回错误提示
+     * @param string $method
+     */
+    protected function checkMethod($method){
+        $method = strtoupper($method);
+        if(Http::getMethod() != $method){
+            Response::notify('error', array(
+                'message'=>"请以{$method}方式发起请求",
+                'code'=>'http-method-error',
+            ));
+        }
+    }
 }

@@ -2,6 +2,7 @@
 namespace cms\library;
 
 use fay\core\Controller;
+use fay\core\Http;
 use fay\core\Uri;
 use fay\helpers\RequestHelper;
 use cms\models\forms\SettingForm;
@@ -74,7 +75,7 @@ class AdminController extends Controller{
     public function onFormError($form){
         $errors = $form->getErrors();
         
-        if($form->getScene() == 'final'){
+        if($form->getScene() == 'final' || Http::isAjax()){
             //final类型的场景，直接抛异常中断直行（一般是列表页参数错误）
             throw new HttpException($errors[0]['message'], 404);
         }else{

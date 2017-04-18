@@ -70,22 +70,19 @@ var system = {
             //7天内
             return Math.ceil((dv - (now_timestamp - today_timestamp)) / 86400)+'天前';
         }else if(date.getFullYear() == now.getFullYear()){
-            var month = date.getMonth() + 1;
-            return month+'月'+date.getDate()+'日';
+            return (date.getMonth() + 1)+'月'+date.getDate()+'日';
         }else{
-            var month = date.getMonth() + 1;
-            return date.getFullYear().toString().substring(2)+'年'+month+'月'+date.getDate()+'日';
+            return date.getFullYear().toString().substring(2)+'年'+(date.getMonth() + 1)+'月'+date.getDate()+'日';
         }
     },
     'encode' : function(str){
-        var s = "";
         if (str == undefined || str.length == 0) return "";
-        s = str.replace(/&/g, "&amp;");
+        var s = str.replace(/&/g, "&amp;");
         s = s.replace(/</g, "&lt;");
         s = s.replace(/>/g, "&gt;");
         s = s.replace(/ /g,"&nbsp;");
-        s = s.replace(/\'/g, "&#39;");
-        s = s.replace(/\"/g, "&quot;");
+        s = s.replace(/'/g, "&#39;");
+        s = s.replace(/"/g, "&quot;");
         s = s.replace(/\n/g, "<br>");
         return s;
     },
@@ -94,7 +91,7 @@ var system = {
         if (isNaN(f_x)){
             return false;
         }
-        var f_x = Math.round(x*100)/100;
+        f_x = Math.round(x*100)/100;
         var s_x = f_x.toString();
         var pos_decimal = s_x.indexOf('.');
         if (pos_decimal < 0){
@@ -129,39 +126,6 @@ var system = {
         }
         return false;
     },
-    'arrayUnique':function(arr){
-        var key = '',
-        tmp_arr2 = {},
-        val = '';
-
-        var __array_search = function(needle, haystack){
-            var fkey = '';
-            for(fkey in haystack){
-                if(haystack.hasOwnProperty(fkey)){
-                    if((haystack[fkey] + '') === (needle + '')){
-                        return fkey;
-                    }
-                }
-            }
-            return false;
-        };
-
-        for(key in inputArr){
-            if(inputArr.hasOwnProperty(key)){
-                val = inputArr[key];
-                if (false === __array_search(val, tmp_arr2)){
-                    tmp_arr2[key] = val;
-                }
-            }
-        }
-
-        return tmp_arr2;
-    },
-    'log':function(input){
-        if(!($.browser.msie && $.browser.version < 9)){
-            console.log(input);
-        }
-    },
     /**
     * 带缓存引入js文件，并防止重复引入
     * 连续执行时，会将回调函数放入队列，待js文件加载完成后，一起执行
@@ -169,7 +133,6 @@ var system = {
     'getScript':function(url, callback){//引入js文件，有缓存
         if(typeof(system.loadingScripts[url]) == 'undefined' && !$("script[src='"+url+"']").length){
             //首次加载
-            //system.log('首次加载'+url);
             system.loadingScripts[url] = [callback];
             $.ajax({
                 type: "GET",
@@ -178,8 +141,6 @@ var system = {
                 cache: true,
                 success: function(){
                     //首次加载完成
-                    //system.log('加载'+url+'完成，执行如下函数队列');
-                    //system.log(system.loadingScripts[url]);
                     $.each(system.loadingScripts[url], function(i, func){
                         if(typeof(func) == 'function'){
                             func();
@@ -191,12 +152,9 @@ var system = {
         }else{
             if(system.loadingScripts[url] && system.loadingScripts[url].length){
                 //非首次加载，但文件加载未完成，回调函数放入队列
-                //system.log('非首次'+url+'加载，但文件加载未完成，回调函数放入队列');
                 system.loadingScripts[url].push(callback);
             }else{
                 //非首次加载，且文件已被成功加载，直接执行回调
-                //system.log('非首次加载'+url+'，且文件已被成功加载，直接执行回调');
-                //system.log(callback);
                 if(typeof(callback) == 'function'){
                     callback();
                 }
@@ -209,7 +167,6 @@ var system = {
     'getCss':function(url, callback){
         if(typeof(system.loadingCss[url]) == 'undefined' && !$("link[href='"+url+"']").length){
             //首次加载
-            //system.log('首次加载'+url);
             system.loadingCss[url] = [callback];
             $("<link>").attr({
                 "rel":"stylesheet",
@@ -217,8 +174,6 @@ var system = {
                 "href":url
             })
             .load(function(){
-                //system.log('加载'+url+'完成，执行如下函数队列');
-                //system.log(system.loadingCss[url]);
                 $.each(system.loadingCss[url], function(i, func){
                     if(typeof(func) == 'function'){
                         func();
@@ -230,12 +185,9 @@ var system = {
         }else{
             if(system.loadingCss[url] && system.loadingCss[url].length){
                 //非首次加载，但文件加载未完成，回调函数放入队列
-                //system.log('非首次'+url+'加载，但文件加载未完成，回调函数放入队列');
                 system.loadingCss[url].push(callback);
             }else{
                 //非首次加载，且文件已被成功加载，直接执行回调
-                //system.log('非首次加载'+url+'，且文件已被成功加载，直接执行回调');
-                //system.log(callback);
                 if(typeof(callback) == 'function'){
                     callback();
                 }

@@ -79,9 +79,10 @@ var common = {
 		type = type || 'success';
 		system.getScript(system.assets('faycms/js/fayfox.toast.js'), function(){
 			if(type == 'success'){
-				//成功的提醒5秒后自动消失，不出现关闭按钮，点击则直接消失
+				//成功的提醒2秒后自动消失，不出现关闭按钮，点击则直接消失
 				$.toast(message, type, {
 					'closeButton': false,
+                    'timeOut': 2000,
 					'positionClass': 'toast-bottom-middle',
 					'click': function(message){
 						message.fadeOut();
@@ -91,7 +92,7 @@ var common = {
 				//单页报错，在底部中间出现，红色背景，不显示关闭按钮，点击消失，延迟5秒消失
 				$.toast(message, type, {
 					'closeButton': false,
-					'timeOut': 5000,
+					'timeOut': 2000,
 					'positionClass': 'toast-bottom-middle',
 					'click': function(message){
 						message.fadeOut();

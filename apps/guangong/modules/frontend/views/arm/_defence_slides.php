@@ -23,7 +23,7 @@
             <div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
         <?php }?>
     <?php }else{?>
-        <div class="layer go-to-sign">您尚未加入关羽军团<br>请前往<a href="<?php echo $this->url('recruit')?>">天下招募令</a>参加招募</div>
+        <div class="layer go-to-sign">您尚未加入关羽军团<br>请前往<a href="<?php echo $this->url('recruit#9')?>">天下招募令</a>参加招募</div>
     <?php }?>
     <div class="layer description">
         <p>体验说明：</p>

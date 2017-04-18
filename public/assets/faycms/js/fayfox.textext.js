@@ -28,26 +28,12 @@ jQuery.fn.extend({
             'cache':{},//ajax缓存
             'width':settings.width,
             'lazyAjax':null,//用户连续键盘输入时，不发送ajax
-            'encode' : function(str){
-                var s = '';
-                if (str == undefined || str.length == 0) return '';
-                s = str.replace(/&/g, '&amp;');
-                s = s.replace(/</g, '&lt;');
-                s = s.replace(/>/g, '&gt;');
-                s = s.replace(/ /g,'&nbsp;');
-                s = s.replace(/\'/g, '&#39;');
-                s = s.replace(/\"/g, '&quot;');
-                s = s.replace(/\n/g, '<br>');
-                return s;
-            },
             'arrayUnique':function(inputArr){
-                var key = '',
-                tmp_arr2 = {},
+                var tmp_arr2 = {},
                 val = '';
 
                 var __array_search = function(needle, haystack){
-                    var fkey = '';
-                    for(fkey in haystack){$('#f_autocomplete')
+                    for(var fkey in haystack){
                         if(haystack.hasOwnProperty(fkey)){
                             if((haystack[fkey] + '') === (needle + '')){
                                 return fkey;
@@ -57,7 +43,7 @@ jQuery.fn.extend({
                     return false;
                 };
 
-                for(key in inputArr){
+                for(var key in inputArr){
                     if(inputArr.hasOwnProperty(key)){
                         val = inputArr[key];
                         if (false === __array_search(val, tmp_arr2)){
@@ -126,9 +112,9 @@ jQuery.fn.extend({
                     var choices = app.obj.val().split(',');
                     $.each(data, function(i, n){
                         if(app.lastText){
-                            var text = app.encode(n.title).replace(eval('/'+app.lastText.replace(/\//g, '\\/')+'/g'), '<span class="highlight">'+app.lastText+'</span>');
+                            var text = system.encode(n.title).replace(eval('/'+app.lastText.replace(/\//g, '\\/')+'/g'), '<span class="highlight">'+app.lastText+'</span>');
                         }else{
-                            var text = app.encode(n.title);
+                            var text = system.encode(n.title);
                         }
                         if($.inArray(n.title, choices) == -1){
                             app.container.find('.ftextext-results').append('<li>'+text+'</li>');
@@ -184,9 +170,9 @@ jQuery.fn.extend({
                     if($.inArray(n, choices) == -1){
                         app.container.find('.ftextext-choices li.ftextext-input').before([
                              '<li class="ftextext-choice">',
-                                 '<span>', app.encode(n), '</span>',
+                                 '<span>', system.encode(n), '</span>',
                                  '<a href="javascript:;" class="ftextext-remove"></a>',
-                             '</li>',
+                             '</li>'
                          ].join(''));
                     }
                 });
@@ -245,7 +231,7 @@ jQuery.fn.extend({
                     app.scrollTo(active);
                 }
             },
-            'goUp':function(current){
+            'goUp':function(){
                 var current = app.drop.find('li.active');
                 var active = {};
                 if(current.length > 0){
@@ -320,7 +306,6 @@ jQuery.fn.extend({
                         }
                         app.setChoice();
                         app.drop.hide();
-                        return;
                     }else if(event.keyCode != 38 && event.keyCode != 40){//上下键另外处理
                         app.getChoices(app.input.val());
                         var width = 14 * parseInt(app.input.val().length);

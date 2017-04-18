@@ -75,7 +75,7 @@ class PostHistoryController extends AdminController{
     }
     
     /**
-     * 展示一个历史（相当于文章预览）
+     * 展示一个历史版本（相当于文章预览）
      * @parameter int $history_id
      */
     public function item(){
@@ -100,5 +100,25 @@ class PostHistoryController extends AdminController{
         $this->view->renderPartial('item', array(
             'history'=>$history,
         ));
+    }
+    
+    /**
+     * 删除一个历史版本
+     * @parameter int $history_id
+     */
+    public function remove(){
+        //表单验证
+        $this->form()->setRules(array(
+            array(array('history_id'), 'required'),
+            array(array('history_id'), 'int', array('min'=>1)),
+        ))->setFilters(array(
+            'history_id'=>'intval',
+        ))->setLabels(array(
+            'history_id'=>'历史版本ID',
+        ))->check();
+        
+        PostHistoryService::service()->remove($this->form()->getData('history_id'));
+        
+        Response::notify('success', '文章历史版本删除成功');
     }
 }

@@ -3,7 +3,7 @@ use cms\services\OptionService;
 use cms\models\tables\PostsTable;
 use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
-use cms\services\post\Category;
+use cms\services\post\PostCategoryService;
 
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -112,8 +112,9 @@ $(function(){
     common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'post'});
     common.filebrowserFlashUploadUrl = system.url('cms/admin/file/upload', {'cat':'post'});
     post.boxes = <?php echo json_encode($enabled_boxes)?>;
+    post.postId = <?php echo $post['id']?>;
     <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN) && OptionService::get('system:post_role_cats')){?>
-        post.roleCats = <?php echo json_encode(CategoryService::service()->getAllowedCatIds())?>;
+        post.roleCats = <?php echo json_encode(PostCategoryService::service()->getAllowedCatIds())?>;
     <?php }?>
     post.init();
 });

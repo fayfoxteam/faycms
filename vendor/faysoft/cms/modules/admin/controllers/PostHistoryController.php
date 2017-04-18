@@ -2,8 +2,10 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use cms\services\CategoryService;
 use cms\services\post\PostHistoryService;
 use cms\services\user\UserService;
+use fay\core\HttpException;
 use fay\core\Response;
 use fay\helpers\ArrayHelper;
 
@@ -47,7 +49,9 @@ class PostHistoryController extends AdminController{
             unset($history['user_id']);
         }
         
-        Response::json($histories);
+        Response::json(array(
+            'histories'=>$histories
+        ));
     }
     
     /**
@@ -62,11 +66,39 @@ class PostHistoryController extends AdminController{
         ))->setFilters(array(
             'history_id'=>'intval',
         ))->setLabels(array(
-            'history_id'=>'文章ID',
+            'history_id'=>'历史版本ID',
         ))->check();
     
         PostHistoryService::service()->revert($this->form()->getData('history_id'));
         
         Response::notify('success', '恢复成功');
+    }
+    
+    /**
+     * 展示一个历史（相当于文章预览）
+     * @parameter int $history_id
+     */
+    public function item(){
+        //表单验证
+        $this->form()->setRules(array(
+            array(array('history_id'), 'required'),
+            array(array('history_id'), 'int', array('min'=>1)),
+        ))->setFilters(array(
+            'history_id'=>'intval',
+        ))->setLabels(array(
+            'history_id'=>'历史版本ID',
+        ))->check();
+        
+        $history = PostHistoryService::service()->get($this->form()->getData('history_id'));
+        if(!$history){
+            throw new HttpException("指定历史版本ID[{$this->form()->getData('history_id')}]不存在");
+        }
+        
+        $history['user'] = UserService::service()->get($history['user_id'], 'id,nickname,username,realname,avatar');
+        $history['category'] = CategoryService::service()->get($history['cat_id'], 'title');
+        
+        $this->view->renderPartial('item', array(
+            'history'=>$history,
+        ));
     }
 }

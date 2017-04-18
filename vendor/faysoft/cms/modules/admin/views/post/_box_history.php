@@ -38,42 +38,10 @@ if(\F::form()->getData('id')){
             <h4>历史版本</h4>
             <div class="row">
                 <div class="col-3">
-                    <ul class="history-list">
-                        <li class="crt">
-                            <div class="time"><abbr>2017-04-14 17:08</abbr></div>
-                            <div class="user"><span>Fayfox中文测试</span></div>
-                        </li>
-                        <li>
-                            <div class="time"><abbr>2017-04-13 17:08</abbr></div>
-                            <div class="user"><span>Fayfox</span></div>
-                        </li>
-                        <li>
-                            <div class="time"><abbr>2017-04-13 17:08</abbr></div>
-                            <div class="user"><span>Fayfox中文测试</span></div>
-                        </li>
-                    </ul>
+                    <ul class="history-list"></ul>
                 </div>
                 <div class="col-9">
-                    <div class="post-preview">
-                        <h2 class="post-title"><?php echo F::form()->getData('title')?></h2>
-                        <div class="post-type">
-                            <span>主分类</span>
-                        </div>
-                        <div class="post-info">
-                            <div class="history-options">
-                                <a href="javascript:" title="恢复到此版本" class="btn btn-grey post-history-revert-link" data-id=""><i class="fa fa-undo"></i></a>
-                                <a href="javascript:" title="删除此版本" class="btn btn-grey post-history-remove-link" data-id=""><i class="fa fa-trash"></i></a>
-                            </div>
-                            <img src="http://71.fayfox.com/uploads/blog/avatar/2017/04/Joqf4-100x100.jpg" class="avatar">
-                            <span class="user">Fayfox中文测试</span>
-                            <time class="time" title="">2017-04-14 17:08</time>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-thumbnail"><?php echo HtmlHelper::img(F::form()->getData('thumbnail'))?></div>
-                            <div class="post-abstract"><?php echo HtmlHelper::encode(F::form()->getData('abstract'))?></div>
-                            <div class="post-content"><?php echo F::form()->getData('content')?></div>
-                        </div>
-                    </div>
+                    <iframe id="history-preview" class="wp100 h500" src=""></iframe>
                 </div>
             </div>
         </div>

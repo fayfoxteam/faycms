@@ -125,7 +125,7 @@ $(function(){
     common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'post'});
     common.filebrowserFlashUploadUrl = system.url('cms/admin/file/upload', {'cat':'post'});
     post.boxes = <?php echo json_encode($enabled_boxes)?>;
-    post.post_id = <?php echo $post['id']?>;
+    post.postId = <?php echo $post['id']?>;
     <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN) && OptionService::get('system:post_role_cats')){?>
         post.roleCats = <?php echo json_encode(PostCategoryService::service()->getAllowedCatIds())?>;
     <?php }?>

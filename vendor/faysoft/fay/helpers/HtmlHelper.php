@@ -279,9 +279,10 @@ class HtmlHelper{
                     return '';
                 }
             }
-            $uri = UrlHelper::createUrl(empty($uri[0]) ? null : $uri[0],
-                empty($uri[1]) ? array() : $uri[1],
-                isset($uri[2]) && $uri[2] === false ? false : true);
+            $uri = UrlHelper::createUrl(
+                empty($uri[0]) ? null : $uri[0],
+                empty($uri[1]) ? array() : $uri[1]
+            );
         }else if($uri === null){
             $uri = UrlHelper::createUrl();
         }
@@ -368,7 +369,7 @@ class HtmlHelper{
                 $value = implode(' ', $value);
             }
             if($value === null){
-                $html .= ' ' . $name;
+                $html .= " {$name}";
             }else{
                 $html .= ' ' . $name . '="' . $value . '"';
             }

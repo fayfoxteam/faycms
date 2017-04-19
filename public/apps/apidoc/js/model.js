@@ -7,8 +7,8 @@ var model = {
 	 * 添加属性
 	 */
 	'addProp': function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$('#add-prop-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
@@ -36,8 +36,8 @@ var model = {
 	 * 编辑属性
 	 */
 	'editProp': function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$('.edit-prop-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
@@ -119,11 +119,11 @@ var model = {
 				'beforeCheck': function(form){
 					if(form.attr('id').indexOf('add') == 0){
 						$('#add-prop-dialog').block({
-							'zindex':1200
+							'zindex': 120000
 						});
 					}else{
 						$('#edit-prop-dialog').block({
-							'zindex':1200
+							'zindex': 120000
 						});
 					}
 				},

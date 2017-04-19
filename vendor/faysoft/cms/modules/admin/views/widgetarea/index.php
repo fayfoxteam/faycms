@@ -47,7 +47,7 @@ $show_alias = F::form('setting')->getData('show_alias', 0);
 <script>
 var widgetarea = {
     'dragsort':function(){
-        system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
+        system.getScript(system.assets('js/jquery.dragsort-0.5.2.js'), function(){
             $('.widget-list').dragsort({
                 'itemSelector': '.widget-item',
                 'dragSelector': '.widget-item',//若不指定，且第一个框中没可拖动元素，则其他框也不可拖动，这算是插件的bug吧

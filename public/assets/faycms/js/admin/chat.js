@@ -117,8 +117,8 @@ var chat = {
      * 绑定回复事件
      */
     'reply':function(){
-        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
                 $('.ci-reply-link').fancybox({
                     'padding':0,
                     'titleShow':false,
@@ -127,7 +127,7 @@ var chat = {
                     },
                     'onComplete':function(o){
                         $('#chat-dialog').block({
-                            'zindex':1200
+                            'zindex': 120000
                         });
                         chat.getChat($(o).attr('data-id'));
                     }
@@ -226,7 +226,7 @@ var chat = {
         
         $(document).on('click', '.cd-item .approve-link', function(){
             $('#reply-'+$(this).attr('data-id')).block({
-                'zindex':1200
+                'zindex': 120000
             });
             $.ajax({
                 'type': 'GET',
@@ -249,7 +249,7 @@ var chat = {
             });
         }).on('click', '.cd-item .unapprove-link', function(){
             $('#reply-'+$(this).attr('data-id')).block({
-                'zindex':1200
+                'zindex': 120000
             });
             $.ajax({
                 'type': 'GET',
@@ -273,7 +273,7 @@ var chat = {
         }).on('click', '.cd-item .delete-link', function(){
             if(confirm('确定要将该条留言放入回收站吗？')){
                 $('#reply-'+$(this).attr('data-id')).block({
-                    'zindex':1200
+                    'zindex': 120000
                 });
                 $.ajax({
                     'type': 'GET',
@@ -300,7 +300,7 @@ var chat = {
             $('#chat-dialog [name="content"]').attr('placeholder', '回复 '+$(this).attr('data-username')).focus();
         }).on('submit', '#reply-form', function(){
             $('#chat-dialog').block({
-                'zindex':1200
+                'zindex': 120000
             });
             $.ajax({
                 'type': 'POST',

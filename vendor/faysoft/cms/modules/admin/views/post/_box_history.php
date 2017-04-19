@@ -28,7 +28,7 @@ if(\F::form()->getData('id')){
             ?></p>
         </div>
         <div class="misc-pub-section mt6 pl0">
-            <p>共<span><?php echo $history_count?></span>个<a href="#history-dialog" class="ml5 show-post-history-link">历史版本</a></p>
+            <p>共<span><?php echo $history_count?></span>个<a href="javascript:" data-src="#history-dialog" class="ml5 show-post-history-link">历史版本</a></p>
         </div>
     </div>
 </div>

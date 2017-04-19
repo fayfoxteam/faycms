@@ -11,7 +11,7 @@ $full_file_path = FileService::getUrl($data);
     <td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(
         'class'=>'batch-ids',
     ));?></td>
-    <td class="align-center">
+    <td class="center">
     <?php if($data['is_image']){?>
         <?php echo HtmlHelper::link(HtmlHelper::img($data['id'], FileService::PIC_THUMBNAIL, array(
             'width'=>60,

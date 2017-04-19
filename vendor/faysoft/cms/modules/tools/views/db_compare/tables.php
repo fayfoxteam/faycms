@@ -178,7 +178,7 @@ $(function(){
     }).on('click', '#start-transfer', function(){
         //数据迁移
         $('#data-transfer-dialog').block({
-            'zindex':1200
+            'zindex': 120000
         });
         $.ajax({
             'type': 'GET',
@@ -199,8 +199,8 @@ $(function(){
     });
 
     //数据传输
-    system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-        system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
             $(".data-transfer").fancybox({
                 'padding':0,
                 'titleShow':false,
@@ -221,7 +221,7 @@ $(function(){
                 },
                 'onComplete':function(o){
                     $('#data-transfer-dialog').block({
-                        'zindex':1200
+                        'zindex': 120000
                     });
                     
                     $.ajax({
@@ -286,8 +286,8 @@ $(function(){
     });
     
     //dll弹窗
-    system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-        system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
             $(".show-ddl").fancybox({
                 'padding':0,
                 'titleShow':false,
@@ -297,7 +297,7 @@ $(function(){
                 },
                 'onComplete':function(o){
                     $('#ddl-dialog').block({
-                        'zindex':1200
+                        'zindex': 120000
                     });
                     $.ajax({
                         'type': 'GET',

@@ -102,16 +102,11 @@ var post = {
      */
     'history': function(){
         //弹窗
-        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                $('.show-post-history-link').fancybox({
-                    'padding': 0,
-                    'titleShow': false,
-                    'centerOnScroll': true,
-                    'onStart': function(o){
-                        post.showHistoryList(0);
-                    }
-                });
+        common.loadFancybox(function(){
+            $('.show-post-history-link').fancybox({
+                'onComplete': function(){
+                    post.showHistoryList(0);
+                }
             });
         });
         

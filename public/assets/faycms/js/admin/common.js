@@ -86,58 +86,28 @@ var common = {
     },
     'settingValidform':null,
     'fancybox': function(){
-        //弹窗
-        if($('.fancybox-image').length){
-            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-                system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                    $('.fancybox-image').fancybox({
-                        'transitionIn': 'elastic',
-                        'transitionOut': 'elastic',
-                        'type': 'image',
-                        'padding': 0,
-                        'centerOnScroll': true
-                    });
-                });
-            });
-        }
-        if($('.fancybox-inline').length){
-            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-                system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                    $('.fancybox-inline').fancybox({
-                        'padding': 0,
-                        'centerOnScroll': true,
-                        'onClosed': function(o){
-                            $($(o).attr('href')).find('input,select,textarea').each(function(){
-                                $(this).poshytip('hide');
-                            });
-                        },
-                        'type': 'inline'
-                    });
-                });
-            });
-        }
-        if($('.fancybox-iframe').length){
-            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-                system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                    $('.fancybox-iframe').fancybox({
-                        'centerOnScroll': true,
-                        'type': 'iframe',
-                        'width': 750,
-                        'autoDimensions': true
-                    });
-                });
-            });
-        }
+        //关闭按钮统一绑定一下
         if($('.fancybox-close').length){
-            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-                system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                    $(document).on('click', '.fancybox-close', function(){
-                        $.fancybox.close();
-                    });
+            common.loadFancybox(function(){
+                $(document).on('click', '.fancybox-close', function(){
+                    $.fancybox.close();
                 });
             });
         }
         
+        if($('[data-fancybox]').length){
+            //fancybox3.0不需要自己做绑定操作，只要引入文件就好了
+            common.loadFancybox();
+        }
+
+        //全局绑定清除tips事件，一般是表单验证的时候弹出来的
+        $(document).on('beforeClose.fb', function(e, instance, slide){
+            if(slide.type == 'inline'){
+                $(slide.src).find('input,select,textarea').each(function(){
+                    $(this).poshytip('hide');
+                });
+            }
+        });
     },
     'notification': function(){
         //将所有系统消息置为已读状态
@@ -210,16 +180,17 @@ var common = {
             dataType: 'json',
             cache: false,
             success: function(resp){
-                $('#faycms-messages .faycms-message-item').remove();
+                var $faycmsMessages = $('#faycms-messages');
+                $faycmsMessages.find('.faycms-message-item').remove();
                 if(resp.data.length){
-                    $('#faycms-message .badge').text(resp.data.length).show();
+                    $faycmsMessages.find('.badge').text(resp.data.length).show();
                     var has_new_message = false;
                     $.each(resp.data, function(i, data){
                         if(new Date().getTime() - data.publish_time * 1000 < 50000){
                             //50秒内有新信息，自动弹出
                             has_new_message = true;
                         }
-                        $('#faycms-messages').append([
+                        $faycmsMessages.append([
                             '<li class="faycms-message-item"><span class="faycms-message-container">',
                                 '<span class="block">',
                                     '<span class="fc-grey small">', system.shortDate(data.publish_time),'</span>',
@@ -232,7 +203,7 @@ var common = {
                     });
                     
                     system.getScript(system.assets('js/jquery.slimscroll.min.js'), function(){
-                        $('#faycms-messages').slimScroll({
+                        $faycmsMessages.slimScroll({
                             'height': '300px',
                             'color': '#a1b2bd',
                             'opacity': .3
@@ -242,20 +213,20 @@ var common = {
                         $('#faycms-message').addClass('open');
                     }
                 }else{
-                    $('#faycms-messages').prepend([
+                    $faycmsMessages.prepend([
                         '<li class="faycms-message-item"><span class="faycms-message-container">',
                             '<span class="ellipsis" title="">暂无未读信息</span>',
                         '</span></li>'
                     ].join(''));
-                    $('#faycms-message .badge').text(0).hide();
+                    $('#faycms-message').find('.badge').text(0).hide();
                 }
             }
         });
     },
     'menu': function(){
         $('#main-menu').on('click', '.has-sub > a', function(){
-            //非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
-            if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
+            //非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）
+            if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768){
                 var slideElapse = 300,//滑动效果持续
                 $li = $(this).parent(),//父级li
                 $ul = $(this).next('ul'),//子菜单的ul
@@ -314,7 +285,7 @@ var common = {
         });
         
         //左侧菜单固定
-        if($('.sidebar-menu').hasClass('fixed') && !($.browser.msie && $.browser.version < 9)){
+        if($('.sidebar-menu').hasClass('fixed')){
             //插件不支持IE8
             system.getCss(system.assets('css/perfect-scrollbar.css'), function(){
                 system.getScript(system.assets('js/perfect-scrollbar.js'), function(){
@@ -340,34 +311,16 @@ var common = {
         }
     },
     'screenMeta': function(){
-        if($('.screen-meta-links a').length){
-            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-                system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                    $('.screen-meta-links > a').fancybox({
-                        'padding': 0,
-                        'centerOnScroll': true,
-                        'titleShow': false,
-                        'onClosed': function(o){
-                            $($(o).attr('href')).find('input,select,textarea').each(function(){
-                                $(this).poshytip('hide');
-                            });
-                        }
-                    });
-                });
-            });
-            
-            
-            $('.faycms-setting-link').on('mouseover', function(){
-                $(this).addClass('fa-spin');
-            }).on('mouseleave', function(){
-                $(this).removeClass('fa-spin');
-            });
-        }
+        $('.faycms-setting-link').on('mouseover', function(){
+            $(this).addClass('fa-spin');
+        }).on('mouseleave', function(){
+            $(this).removeClass('fa-spin');
+        });
     },
     'dragsort': function(){
         //box的拖拽
         if($('.dragsort').length){
-            system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
+            system.getScript(system.assets('js/jquery.dragsort-0.5.2.js'), function(){
                 $('.dragsort').dragsort({
                     'itemSelector': 'div.box',
                     'dragSelector': 'h4',
@@ -495,13 +448,7 @@ var common = {
                 jsonObj = false;
             }
             if(jsonObj){
-                if($.browser.msie && $.browser.version < 9){
-                    system.getScript(system.assets('js/json2.js'), function(){
-                        $targetElement.val(JSON.stringify(jsonObj, null, 4));
-                    });
-                }else{
-                    $targetElement.val(JSON.stringify(jsonObj, null, 4));
-                }
+                $targetElement.val(JSON.stringify(jsonObj, null, 4));
                 
                 if($targetElement.hasClass('autosize')){
                     autosize.update($targetElement);
@@ -589,7 +536,7 @@ var common = {
                     'dayOfWeekStart': 1,
                     'yearStart': 2010,
                     'yearEnd': 2037,
-                    'allowBlank':($.browser.msie && $.browser.version < 9) ? false : true,
+                    'allowBlank':true,
                     'onShow': function(ct, e){
                         //原插件的定位稍微偏高了一点，且没地方可以配置，只好这样了
                         setTimeout((function(o){
@@ -699,7 +646,7 @@ var common = {
                             'watch', 'preview', 'search', 'help'
                         ]
                     },
-                    'imageUpload': common.filebrowserImageUploadUrl ? true : false,
+                    'imageUpload': !!common.filebrowserImageUploadUrl,
                     'imageFormats': ['jpg', 'jpeg', 'gif', 'png', 'webp'],
                     'imageUploadURL': common.filebrowserImageUploadUrl,
                     'saveHTMLToTextarea': true
@@ -836,7 +783,7 @@ var common = {
         var $dragsortList = $('.dragsort-list');
         if($dragsortList.length){
             //可拖拽的列表，例如文章附件
-            system.getScript(system.assets('js/jquery.dragsort-0.5.1.js'), function(){
+            system.getScript(system.assets('js/jquery.dragsort-0.5.2.js'), function(){
                 $dragsortList.dragsort({
                     'itemSelector': 'div.dragsort-item',
                     'dragSelector': '.dragsort-item-selector',
@@ -944,6 +891,19 @@ var common = {
     },
     'alert': function(message){
         this.notify(message, 'alert');
+    },
+    /**
+     * 引入fancybox，用到的地方比较多，为了防止版本更新时改N个地方，在这里封装一下
+     * @param func 回调函数
+     */
+    'loadFancybox': function(func){
+        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function() {
+            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function () {
+                if(typeof(func) == 'function'){
+                    func();
+                }
+            });
+        });
     },
     'init': function(){
         this.fancybox();

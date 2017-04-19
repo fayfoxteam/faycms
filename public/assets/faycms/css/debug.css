@@ -42,7 +42,7 @@ h3{font-size:16px;font-weight:bold;color:#4288ce;margin:0 0 5px;padding:15px 10p
 .header i.icon:before{content:"\f188";}
 .header h1{word-wrap:break-word;margin:5px 0;padding-right:63px;font-size:32px;color:#fff;font-weight:normal;font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;}
 .header p{color:#fff;font-family:Arial,sans-serif;font-size:20px;margin:15px 0 0 0;}
-.header p code{display:block;background-color:#333;padding:3px 5px;border:1px solid #555;margin:0 2px;border-radius:3px;font-family:'Source Code Pro', Monaco, Consolas, "Lucida Console", monospace;font-size:18px;white-space:pre-wrap;line-height:23px;}
+.header p code{display:block;background-color:#333;padding:3px 5px;border:1px solid #555;margin:0 2px;border-radius:3px;font-family:'Source Code Pro', Monaco, Consolas, "Lucida Console", monospace;font-size:18px;line-height:23px;}
 
 .backtrace{border-left:5px solid #4288ce;background-color:#bdbdbd;}
 .backtrace #backtrace-container{padding:5px;}

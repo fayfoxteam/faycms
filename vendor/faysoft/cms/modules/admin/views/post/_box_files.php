@@ -20,16 +20,18 @@ use cms\services\file\FileService;
             <?php foreach($files as $f){?>
                 <div class="dragsort-item">
                     <?php echo HtmlHelper::inputHidden('files[]', $f['file_id'])?>
-                    <a class="dragsort-rm" href="javascript:;"></a>
+                    <a class="dragsort-rm" href="javascript:"></a>
                     <a class="dragsort-item-selector"></a>
                     <div class="dragsort-item-container">
                         <span class="file-thumb">
                             <?php if($f['is_image']){
                                 $full_file_path = FileService::getUrl($f['file_id']);
                                 echo HtmlHelper::link(HtmlHelper::img($f['file_id'], FileService::PIC_THUMBNAIL), $full_file_path, array(
-                                    'class'=>'file-thumb-link fancybox-image',
+                                    'class'=>'file-thumb-link',
                                     'encode'=>false,
                                     'title'=>false,
+                                    'data-fancybox'=>'images',
+                                    'data-caption'=>$f['description'],
                                 ));
                             }else{
                                 $full_file_path = FileService::getUrl($f['file_id']);

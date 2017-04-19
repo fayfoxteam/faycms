@@ -18,17 +18,10 @@ jQuery.fn.extend({
                 var border_left = $(this).css('border-left-width');
                 var border_top = $(this).css('border-top-width');
                 
-                var html = [
-                    '<div>',
-                        '<div class="fn-block"></div>',
-                        '<img src="', system.assets('images/ajax-loading.gif'), '" class="fn-block-loading-img" />',
-                    '</div>'
-                ].join('');
-                
                 var html = $('<div class="fblock">').css({
                     'width':parseInt(width) + parseInt(padding_left) + parseInt(padding_right),
                     'height':parseInt(height) + parseInt(padding_top) + parseInt(padding_bottom),
-                    'position':$(this).context.tagName == 'BODY' ? 'fixed' : 'absolute',
+                    'position':$(this)[0].tagName == 'BODY' ? 'fixed' : 'absolute',
                     'left':parseInt(offset.left) + parseInt(border_left),
                     'top':parseInt(offset.top) + parseInt(border_top),
                     'z-index':typeof(options.zindex) == 'undefined' ? 500 : options.zindex

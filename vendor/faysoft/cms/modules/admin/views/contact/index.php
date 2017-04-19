@@ -57,8 +57,8 @@ var contact = {
         $('#contact-reply-dialog .user-message-container').html('');
     },
     'reply': function(){
-        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
                 $('.contact-item .reply-link').fancybox({
                     'padding': 0,
                     'titleShow': false,
@@ -89,7 +89,7 @@ var contact = {
     'submitReply': function(){
         $(document).on('submit', '#contact-reply-form', function(){
             $('#contact-reply-dialog').block({
-                'zindex':1200
+                'zindex': 120000
             });
             $.ajax({
                 'type': 'POST',

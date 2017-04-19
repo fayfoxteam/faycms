@@ -7,7 +7,7 @@ use fay\helpers\HtmlHelper;
         <h4>采集器</h4>
     </div>
     <div class="box-content">
-        <a href="#gather-dialog" class="btn fancybox-inline">采集页面</a>
+        <a href="javascript:" data-src="#gather-dialog" data-fancybox class="btn">采集页面</a>
         <p class="fc-grey mt5">利用jquery选择器，进行单页面采集</p>
     </div>
 </div>
@@ -42,7 +42,7 @@ use fay\helpers\HtmlHelper;
 </div>
 <script>
 $(function(){
-    $(document).delegate("#gather-form-submit-ajax", "click", function(){
+    $(document).on('click', '#gather-form-submit-ajax', function(){
         $(this).parent().append('<img src="'+system.assets('images/throbber.gif')+'" class="submit-loading" />');
         $.ajax({
             type: "GET",

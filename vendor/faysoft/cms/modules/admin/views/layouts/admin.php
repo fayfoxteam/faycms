@@ -25,7 +25,7 @@ use cms\services\user\UserService;
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/style-responsive.css')?>" />
 <?php echo $this->getCss()?>
 
-<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-3.2.1.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <!--[if lt IE 9]>
     <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
@@ -46,7 +46,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
     <div class="container main-content">
         <nav class="user-info-navbar">
             <ul class="user-info-menu fl">
-                <li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
+                <li><a href="javascript:" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
                 <?php
                     $user_roles = UserRoleService::service()->getIds();
                     foreach(F::app()->_top_nav as $nav){
@@ -183,9 +183,12 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
                     }
                     //页面设置
                     if(isset($_setting_panel)){
-                        echo HtmlHelper::link('', '#faycms-setting-content', array(
+                        echo HtmlHelper::link('', 'javascript:', array(
                             'class'=>'fa fa-cog fa-2x faycms-setting-link',
                             'title'=>'设置',
+                            'data-fancybox'=>null,
+                            'data-src'=>'#faycms-setting-content',
+                            'data-caption'=>'',
                         ));
                         echo HtmlHelper::tag('div', array(
                             'id'=>'faycms-setting-content',

@@ -84,8 +84,8 @@ use cms\services\user\UserRoleService;
 var jq_camera = {
     'uploadObj':null,
     'preview':function(){
-        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
                 $('.photo-thumb-link').fancybox({
                     'transitionIn' : 'elastic',
                     'transitionOut' : 'elastic',

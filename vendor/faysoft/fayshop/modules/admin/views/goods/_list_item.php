@@ -15,7 +15,7 @@ $editable = F::app()->checkPermission('fayshop/admin/goods/edit');
     <td><?php echo $data['id']?></td>
     <?php }?>
     <?php if(in_array('thumbnail', $cols)){?>
-    <td class="align-center">
+    <td class="center">
         <?php echo HtmlHelper::link(HtmlHelper::img($data['thumbnail'], FileService::PIC_THUMBNAIL, array(
             'width'=>60,
             'height'=>60,

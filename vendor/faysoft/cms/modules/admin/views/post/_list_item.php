@@ -22,16 +22,23 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
     <td><?php echo $data['id']?></td>
     <?php }?>
     <?php if(in_array('thumbnail', $cols)){?>
-    <td class="align-center"><?php
+    <td class="center"><?php
         if($data['thumbnail']){
             echo HtmlHelper::link(HtmlHelper::img($data['thumbnail'], FileService::PIC_THUMBNAIL, array(
                 'width'=>60,
                 'height'=>60,
                 'spare'=>'default',
             )), FileService::getUrl($data['thumbnail']), array(
-                'class'=>'file-image fancybox-image',
                 'encode'=>false,
                 'title'=>HtmlHelper::encode($data['title']),
+                'data-fancybox'=>'images',
+                'data-caption'=>HtmlHelper::encode($data['title']) .
+                    HtmlHelper::encode(HtmlHelper::link('<i class="fa fa-edit ml5"></i>编辑', array('cms/admin/post/edit', array(
+                        'id'=>$data['id'],
+                    )), array(
+                        'encode'=>false,
+                        'title'=>false,
+                    ), true)),
             ));
         }else{
             echo HtmlHelper::img($data['thumbnail'], FileService::PIC_THUMBNAIL, array(

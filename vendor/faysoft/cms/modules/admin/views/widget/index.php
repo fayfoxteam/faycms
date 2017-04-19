@@ -77,8 +77,8 @@ use fay\helpers\HtmlHelper;
 </div>
 <script>
 $(function(){
-    system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-        system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
             $(".create-instance-link").fancybox({
                 'padding':0,
                 'centerOnScroll':true,

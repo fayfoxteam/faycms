@@ -2,6 +2,15 @@
 use fay\helpers\HtmlHelper;
 use cms\services\post\PostCategoryService;
 
+/**
+ * @var $root array
+ */
+
+/**
+ * @param array $cats
+ * @param int $dep
+ * @param int $open_dep
+ */
 function showCats($cats, $dep = 0, $open_dep = 2){?>
     <ul class="tree">
     <?php foreach($cats as $k=>$c){?>
@@ -35,16 +44,20 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
                             'cat_id'=>$c['id'],
                         )), array(), true);
                         if(F::app()->checkPermission('cms/admin/post/cat-create')){
-                            echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
+                            echo HtmlHelper::link('添加子节点', 'javascript:', array(
                                 'class'=>'create-cat-link',
                                 'data-title'=>HtmlHelper::encode($c['title']),
                                 'data-id'=>$c['id'],
+                                'data-src'=>'#create-cat-dialog',
+                                'data-caption'=>'',
                             ));
                         }
                         if(F::app()->checkPermission('cms/admin/post/cat-edit')){
-                            echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
+                            echo HtmlHelper::link('编辑', 'javascript:', array(
                                 'class'=>'edit-cat-link',
                                 'data-id'=>$c['id'],
+                                'data-src'=>'#edit-cat-dialog',
+                                'data-caption'=>'',
                             ));
                         }
                         if(F::app()->checkPermission('cms/admin/post/cat-remove')){

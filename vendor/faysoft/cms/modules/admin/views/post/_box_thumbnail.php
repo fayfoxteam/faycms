@@ -19,8 +19,10 @@ use cms\services\file\FileService;
                     'dw'=>257,
                 )), FileService::getUrl($thumbnail), array(
                     'encode'=>false,
-                    'class'=>'fancybox-image block',
+                    'class'=>'block',
                     'title'=>'点击查看原图',
+                    'data-fancybox'=>'image',
+                    'data-caption'=>'文章缩略图',
                 ));
                 echo HtmlHelper::link('移除缩略图', 'javascript:;', array(
                     'class'=>'remove-image-link'

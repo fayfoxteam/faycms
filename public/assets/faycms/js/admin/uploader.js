@@ -67,21 +67,11 @@ var uploader = {
                 picParams['f'] = resp.data.id;
                 $('#'+settings.preview_container).html([
                     '<input type="hidden" name="', settings.input_name, '" value="', resp.data.id, '" />',
-                    '<a href="', resp.data.url, '" class="fancybox-image block">',
+                    '<a href="', resp.data.url, '" data-fancybox="image" data-caption="文章缩略图">',
                         '<img src="', system.url('cms/admin/file/pic', picParams), '" />',
                     '</a>',
                     '<a href="javascript:;" class="remove-image-link">', settings.remove_link_text, '</a>'
                 ].join(''));
-                system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-                    system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                        $('#'+settings.preview_container + ' .fancybox-image').fancybox({
-                            'transitionIn': 'elastic',
-                            'transitionOut': 'elastic',
-                            'type': 'image',
-                            'padding': 0
-                        });
-                    });
-                });
             });
             
             uploader.bind('Error', function(up, error) {
@@ -101,6 +91,9 @@ var uploader = {
         $('#'+settings.preview_container).on('click', '.remove-image-link', function(){
             $('#'+settings.preview_container).html('<input type="hidden" name="'+settings.input_name+'" value="0" />');
         });
+
+        //引入fancybox，不需要调用
+        common.loadFancybox();
     },
     /**
      * 上传多个文件，可用于附件，画廊等需求
@@ -225,20 +218,10 @@ var uploader = {
                     if(resp.data.is_image){
                         //是图片，用fancybox弹窗
                         $file.find('.file-thumb').html([
-                            '<a href="', resp.data.url, '" class="file-thumb-link">',
+                            '<a href="', resp.data.url, '" class="file-thumb-link" data-fancybox="images" data-caption="', resp.data.client_name, '">',
                                 '<img src="', resp.data.thumbnail, '" />',
                             '</a>'
                         ].join(''));
-                        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-                            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                                $('.file-thumb-link').fancybox({
-                                    'transitionIn':'elastic',
-                                    'transitionOut': 'elastic',
-                                    'type': 'image',
-                                    'padding': 0
-                                });
-                            });
-                        });
                     }else{
                         //非图片，直接新窗口打开
                         $file.find('.file-thumb').html([
@@ -271,5 +254,8 @@ var uploader = {
                 }
             });
         });
+        
+        //引入fancybox，不需要调用
+        common.loadFancybox();
     }
 };

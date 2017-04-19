@@ -1,95 +1,78 @@
 var cat = {
     'editCat':function(){
-        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                $('.edit-cat-link').fancybox({
-                    'padding':0,
-                    'titleShow':false,
-                    'onComplete':function(o){
-                        $('#edit-cat-form').find('.submit-loading').remove();
-                        $('#edit-cat-dialog').block({
-                            'zindex':1200
-                        });
-                        $.ajax({
-                            type: 'GET',
-                            url: system.url('cms/admin/category/get'),
-                            data: {'id':$(o).attr('data-id')},
-                            dataType: 'json',
-                            cache: false,
-                            success: function(resp){
-                                $('#edit-cat-dialog').unblock();
-                                if(resp.status){
-                                    $('#edit-cat-title').text(resp.data.cat.title);
-                                    $("#edit-cat-dialog input[name='id']").val(resp.data.cat.id);
-                                    $("#edit-cat-dialog input[name='title']").val(resp.data.cat.title);
-                                    $("#edit-cat-dialog input[name='alias']").val(resp.data.cat.alias);
-                                    $("#edit-cat-dialog input[name='alias']").attr('data-ajax', system.url('cms/admin/category/is-alias-not-exist', {id:resp.data.cat.id}));
-                                    
-                                    if(resp.data.cat.is_nav == 1){
-                                        $("#edit-cat-dialog input[name='is_nav']").attr('checked', 'checked');
-                                    }else{
-                                        $("#edit-cat-dialog input[name='is_nav']").attr('checked', false);
-                                    }
-                                    if(resp.data.cat.file_id != 0){
-                                        $('#cat-pic-for-edit-container').html([
-                                            '<a href="', system.url('file/pic', {
-                                                't':1,
-                                                'f':resp.data.cat.file_id
-                                            }), '" class="fancybox-image" target="_blank">',
-                                                '<img src="', system.url('file/pic', {
-                                                    't':2,
-                                                    'f':resp.data.cat.file_id
-                                                }), '" width="100" />',
-                                            '</a>',
-                                            '<a href="javascript:;" class="remove-pic">移除插图</a>'
-                                        ].join(''));
-                                    }else{
-                                        $("#cat-pic-for-edit-container").html('');
-                                    }
-                                    $("#edit-cat-dialog textarea[name='description']").val(resp.data.cat.description);
-                                    autosize.update($("#edit-cat-dialog textarea[name='description']"));
-                                    $("#edit-cat-dialog input[name='sort']").val(resp.data.cat.sort);
-                                    $("#edit-cat-dialog input[name='seo_title']").val(resp.data.cat.seo_title);
-                                    $("#edit-cat-dialog input[name='seo_keywords']").val(resp.data.cat.seo_keywords);
-                                    $("#edit-cat-dialog textarea[name='seo_description']").val(resp.data.cat.seo_description);
-                                    $("#edit-cat-dialog select[name='parent']").val(resp.data.cat.parent);
-                                    //父节点不能被挂载到其子节点上
-                                    $("#edit-cat-dialog select[name='parent'] option").attr('disabled', false).each(function(){
-                                        if(system.inArray($(this).attr("value"), resp.data.children) || $(this).attr("value") == resp.data.cat.id){
-                                            $(this).attr('disabled', 'disabled');
-                                        }
-                                    });
+        common.loadFancybox(function(){
+            $('.edit-cat-link').fancybox({
+                'onComplete': function(instance, slide){
+                    $('#edit-cat-form').find('.submit-loading').remove();
+                    var $editCatDialog = $('#edit-cat-dialog');
+                    $editCatDialog.block({
+                        'zindex': 120000
+                    });
+                    $.ajax({
+                        type: 'GET',
+                        url: system.url('cms/admin/category/get'),
+                        data: {'id': slide.opts.$orig.attr('data-id')},
+                        dataType: 'json',
+                        cache: false,
+                        success: function(resp){
+                            $editCatDialog.unblock();
+                            if(resp.status){
+                                $('#edit-cat-title').text(resp.data.cat.title);
+                                $editCatDialog.find("input[name='id']").val(resp.data.cat.id);
+                                $editCatDialog.find("input[name='title']").val(resp.data.cat.title);
+                                $editCatDialog.find("input[name='alias']").val(resp.data.cat.alias);
+                                $editCatDialog.find("input[name='alias']").attr('data-ajax', system.url('cms/admin/category/is-alias-not-exist', {id:resp.data.cat.id}));
+                                
+                                if(resp.data.cat.is_nav == 1){
+                                    $editCatDialog.find("input[name='is_nav']").attr('checked', 'checked');
                                 }else{
-                                    common.alert(resp.message);
+                                    $editCatDialog.find("input[name='is_nav']").attr('checked', false);
                                 }
+                                if(resp.data.cat.file_id != 0){
+                                    $('#cat-pic-for-edit-container').html([
+                                        '<a href="', system.url('file/pic', {
+                                            't':1,
+                                            'f':resp.data.cat.file_id
+                                        }), '" data-fancybox="images" target="_blank">',
+                                            '<img src="', system.url('file/pic', {
+                                                't':2,
+                                                'f':resp.data.cat.file_id
+                                            }), '" width="100" />',
+                                        '</a>',
+                                        '<a href="javascript:;" class="remove-pic">移除插图</a>'
+                                    ].join(''));
+                                }else{
+                                    $("#cat-pic-for-edit-container").html('');
+                                }
+                                $editCatDialog.find("textarea[name='description']").val(resp.data.cat.description);
+                                autosize.update($editCatDialog.find("textarea[name='description']"));
+                                $editCatDialog.find("input[name='sort']").val(resp.data.cat.sort);
+                                $editCatDialog.find("input[name='seo_title']").val(resp.data.cat.seo_title);
+                                $editCatDialog.find("input[name='seo_keywords']").val(resp.data.cat.seo_keywords);
+                                $editCatDialog.find("textarea[name='seo_description']").val(resp.data.cat.seo_description);
+                                $editCatDialog.find("select[name='parent']").val(resp.data.cat.parent);
+                                //父节点不能被挂载到其子节点上
+                                $editCatDialog.find("select[name='parent'] option").attr('disabled', false).each(function(){
+                                    if(system.inArray($(this).attr("value"), resp.data.children) || $(this).attr("value") == resp.data.cat.id){
+                                        $(this).attr('disabled', 'disabled');
+                                    }
+                                });
+                            }else{
+                                common.alert(resp.message);
                             }
-                        });
-                    },
-                    'onClosed':function(o){
-                        $($(o).attr('href')).find('input,select,textarea').each(function(){
-                            $(this).poshytip('hide');
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             });
         });
     },
     'createCat':function(){
-        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-                $('.create-cat-link').fancybox({
-                    'padding':0,
-                    'titleShow':false,
-                    'onStart':function(o){
-                        $('#create-cat-parent').text($(o).attr('data-title'));
-                        $("#create-cat-dialog  input[name='parent']").val($(o).attr('data-id'));
-                    },
-                    'onClosed':function(o){
-                        $($(o).attr('href')).find('input,select,textarea').each(function(){
-                            $(this).poshytip('hide');
-                        });
-                    }
-                });
+        common.loadFancybox(function(){
+            $('.create-cat-link').fancybox({
+                'beforeLoad': function(instance, slide){
+                    $('#create-cat-parent').text(slide.opts.$orig.attr('data-title'));
+                    $("#create-cat-dialog").find("input[name='parent']").val(slide.opts.$orig.attr('data-id'));
+                }
             });
         });
     },
@@ -129,15 +112,15 @@ var cat = {
     'picForCreate':function(){
         //设置分类图片
         var uploader = new plupload.Uploader({
-            runtimes : 'html5,html4,flash,gears,silverlight',
-            browse_button : 'upload-cat-pic-for-create',
-            container : 'upload-cat-pic-for-create-container',
-            max_file_size : '2mb',
-            url : system.url('cms/admin/file/upload', {'cat':'cat'}),
-            flash_swf_url : system.url()+'flash/plupload.flash.swf',
-            silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
-            filters : [
-                {title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
+            runtimes: 'html5,html4,flash,gears,silverlight',
+            browse_button: 'upload-cat-pic-for-create',
+            container: 'upload-cat-pic-for-create-container',
+            max_file_size: '2mb',
+            url: system.url('cms/admin/file/upload', {'cat':'cat'}),
+            flash_swf_url: system.url()+'flash/plupload.flash.swf',
+            silverlight_xap_url: system.url()+'js/plupload.silverlight.xap',
+            filters: [
+                {title: 'Image files', extensions: 'jpg,gif,png,jpeg'}
             ]
         });
 
@@ -151,7 +134,7 @@ var cat = {
             var resp = $.parseJSON(response.response);
             $('#cat-pic-for-create').val(resp.data.id);
             $('#cat-pic-for-create-container').html([
-                '<a href="', resp.data.url, '" class="fancybox-image" target="_blank">',
+                '<a href="', resp.data.url, '" data-fancybox="images" target="_blank">',
                     '<img src="', resp.data.thumbnail, '" width="100" />',
                 '</a>',
                 '<a href="javascript:;" class="remove-pic">移除插图</a>'
@@ -173,15 +156,15 @@ var cat = {
     'picForEdit':function(){
         //设置分类图片
         var uploader = new plupload.Uploader({
-            runtimes : 'html5,html4,flash,gears,silverlight',
-            browse_button : 'upload-cat-pic-for-edit',
-            container : 'upload-cat-pic-for-edit-container',
-            max_file_size : '2mb',
-            url : system.url('cms/admin/file/upload', {'cat':'cat'}),
-            flash_swf_url : system.url()+'flash/plupload.flash.swf',
-            silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
-            filters : [
-                {title : 'Image files', extensions : 'jpg,gif,png,jpeg'}
+            runtimes: 'html5,html4,flash,gears,silverlight',
+            browse_button: 'upload-cat-pic-for-edit',
+            container: 'upload-cat-pic-for-edit-container',
+            max_file_size: '2mb',
+            url: system.url('cms/admin/file/upload', {'cat':'cat'}),
+            flash_swf_url: system.url()+'flash/plupload.flash.swf',
+            silverlight_xap_url: system.url()+'js/plupload.silverlight.xap',
+            filters: [
+                {title: 'Image files', extensions: 'jpg,gif,png,jpeg'}
             ]
         });
 

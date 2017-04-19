@@ -123,15 +123,15 @@ use cms\models\tables\LogsTable;
 </div>
 <script>
 $(function(){
-    system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-        system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
             $(".quick-view").fancybox({
                 'padding':0,
                 'titleShow':false,
                 'centerOnScroll':true,
                 'onComplete':function(o){
                     $("#log-detail-dialog").block({
-                        'zindex':1200
+                        'zindex': 120000
                     });
                     $.ajax({
                         type: "GET",

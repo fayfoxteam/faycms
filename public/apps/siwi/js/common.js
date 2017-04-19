@@ -52,8 +52,8 @@ var common = {
 	'fancybox':function(){
 		//弹窗
 		if($(".fancybox-image").length){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'));
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$(".fancybox-image").fancybox({
 					'transitionIn' : 'elastic',
 					'transitionOut' : 'elastic',
@@ -64,8 +64,8 @@ var common = {
 			});
 		}
 		if($(".fancybox-inline").length){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'));
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$(".fancybox-inline").fancybox({
 					'padding':0,
 					'centerOnScroll':true,
@@ -79,8 +79,8 @@ var common = {
 			});
 		}
 		if($(".fancybox-iframe").length){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'));
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$(".fancybox-iframe").fancybox({
 					'centerOnScroll':true,
 					'type' : 'iframe',
@@ -90,8 +90,8 @@ var common = {
 			});
 		}
 		if($(".fancybox-close").length){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'));
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$(document).delegate(".fancybox-close", "click", function(){
 					$.fancybox.close();
 				});
@@ -122,8 +122,8 @@ var common = {
 	},
 	//绑定登陆框事件
 	'loginDialog':function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'));
+		system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 			$(".login-link").fancybox({
 				'transitionIn' : 'elastic',
 				'transitionOut' : 'elastic',
@@ -140,8 +140,8 @@ var common = {
 	},
 	//绑定注册框事件
 	'registerDialog':function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'));
-		system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'));
+		system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 			$(".register-link").fancybox({
 				'transitionIn' : 'elastic',
 				'transitionOut' : 'elastic',

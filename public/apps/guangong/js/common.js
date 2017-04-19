@@ -197,8 +197,8 @@ var common = {
 	 */
 	'fancybox': function(){
 		if($('.fancybox-inline').length){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+				system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 					$('.fancybox-inline').fancybox({
 						'padding': 0,
 						'centerOnScroll': true,
@@ -211,8 +211,8 @@ var common = {
 	},
 	'rankDialog': function(){
 		if($('.rank-dialog-link').length){
-			system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-				system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+			system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+				system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 					$('.rank-dialog-link').fancybox({
 						'padding': 0,
 						'centerOnScroll': true,

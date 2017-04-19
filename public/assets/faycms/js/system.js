@@ -173,7 +173,7 @@ var system = {
                 "type":"text/css",
                 "href":url
             })
-            .load(function(){
+            .on('load', function(){
                 $.each(system.loadingCss[url], function(i, func){
                     if(typeof(func) == 'function'){
                         func();

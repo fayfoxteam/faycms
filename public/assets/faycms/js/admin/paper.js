@@ -61,7 +61,7 @@ var paper = {
     //遍历选中的试题
     'selectQuestions':function(){
         $('#question-dialog').block({
-            'zindex':1200
+            'zindex': 120000
         });
         
         var questions = [];
@@ -113,15 +113,15 @@ var paper = {
         $('#total-score').text(system.changeTwoDecimal(total_score));
     },
     'events':function(){
-        system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-            system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
                 $('#select-question-link').fancybox({
                     'padding':0,
                     'titleShow':false,
                     'centerOnScroll':true,
                     'onComplete':function(o){
                         $('#question-dialog').block({
-                            'zindex':1200
+                            'zindex': 120000
                         });
                         paper.getQuestions($(o).attr('data-id'));
                     }
@@ -132,7 +132,7 @@ var paper = {
         //搜索试题
         $(document).on('click', '#search-form-ajax-submit', function(){
             $('#question-dialog').block({
-                'zindex':1200
+                'zindex': 120000
             });
             paper.getQuestions();
         });
@@ -142,14 +142,14 @@ var paper = {
             var page = $(this).attr('data-page');
             if(page){
                 $('#question-dialog').block({
-                    'zindex':1200
+                    'zindex': 120000
                 });
                 paper.getQuestions($(this).attr('data-page'));
             }
         }).on('keydown', '.pager-input', function(event){
             if(event.keyCode == 13 || event.keyCode == 108){
                 $('#question-dialog').block({
-                    'zindex':1200
+                    'zindex': 120000
                 });
                 paper.getQuestions($('#questions-list-pager .pager-input').val());
                 return false;

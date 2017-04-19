@@ -8,8 +8,8 @@ var api = {
 	 * 添加请求参数
 	 */
 	'addInputParameter': function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$('#add-input-parameter-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
@@ -38,8 +38,8 @@ var api = {
 	 * 编辑请求参数
 	 */
 	'editInputParameter': function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$('.edit-input-parameter-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
@@ -172,8 +172,8 @@ var api = {
 	 * 添加属性
 	 */
 	'addOutput': function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$('#add-output-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
@@ -202,8 +202,8 @@ var api = {
 	 * 编辑属性
 	 */
 	'editOutput': function(){
-		system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-			system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
+		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
+			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
 				$('.edit-output-link').fancybox({
 					'padding': 0,
 					'centerOnScroll': true,
@@ -286,11 +286,11 @@ var api = {
 				'beforeCheck': function(form){
 					if(form.attr('id').indexOf('add') == 0){
 						$('#add-output-dialog').block({
-							'zindex':1200
+							'zindex': 120000
 						});
 					}else{
 						$('#edit-output-dialog').block({
-							'zindex':1200
+							'zindex': 120000
 						});
 					}
 				},

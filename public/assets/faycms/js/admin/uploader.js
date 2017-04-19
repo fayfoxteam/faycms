@@ -1,37 +1,37 @@
 /**
- * 将一些上传场景抽象出来。例如：缩略图，附件。
+ * 将一些后台上传场景抽离出来。例如：单图上传，组图上传。
  * 这不是一个独立的插件，它依赖于system.js和common.js
  */
 var uploader = {
     /**
-     * 上传缩略图
+     * 上传单张图片
      * 可选参数：
-     * options.cat: 上传文件所属分类。默认为other
-     * options.browse_button: 上传按钮id。默认为upload-thumbnail
-     * options.container: 上传控件外层div id。默认为thumbnail-container
      * options.max_file_size: 文件大小限制。默认为2
-     * options.preview_container: 预览图外层div id。默认为thumbnail-preview-container
-     * options.input_name: 用于记录缩略图图片id的输入框名称（会随着其他内容一起提交给服务端）。默认为thumbnail
+     * options.cat: 上传文件所属分类。默认为other
+     * options.preview_image_params: 预览图参数。默认裁剪为宽度为257，高度等比缩放的图片
+     * options.field: 图片字段名（相当于是唯一标识符）。默认为thumbnail
+     * options.remove_text: 移除图片文案。默认为：移除缩略图
+     * options.scene: 场景，当一个页面中包含多个表单，可能会出现同一个字段多次出现造成id重复的情况。默认为空
      */
     'image': function(options){
         options = options || {};
         var settings = {
-            'cat': 'other',
-            'browse_button': 'upload-thumbnail',
-            'container': 'thumbnail-container',
             'max_file_size': common.max_upload_file_size,
-            'preview_container': '#thumbnail-preview-container',
-            'input_name': 'thumbnail',
-            'remove_link_text': '移除缩略图',
+            'cat': 'other',
             'preview_image_params': {
                 't': 4,
                 'dw': 257
-            }
+            },
+            'field': 'thumbnail',
+            'remove_text': '移除缩略图',
+            'scene': ''
         };
         $.each(options, function(i, n){
             settings[i] = n;
         });
-        
+
+        var clean_field = settings.field.replace(/[\[\]:]/g, '');
+        var $container = $('#upload-' + clean_field + '-preview-container' + settings.scene);
         system.getScript(system.assets('js/plupload.full.js'), function(){
             //设置缩略图
             var uploader = new plupload.Uploader({
@@ -41,15 +41,15 @@ var uploader = {
                 'filters': [
                     {title: 'Image files', extensions: 'jpg,gif,png,jpeg'}
                 ],
-                'browse_button': settings.browse_button,
-                'container': settings.container,
+                'browse_button': 'select-' + clean_field + settings.scene,
+                'container': 'select-' + clean_field + '-container' + settings.scene,
                 'max_file_size': settings.max_file_size,
-                'url': system.url('cms/admin/file/img-upload', {'cat':settings.cat ? settings.cat : 'other'})
+                'url': system.url('cms/admin/file/img-upload', {'cat': settings.cat ? settings.cat : 'other'})
             });
             
             uploader.init();
-            uploader.bind('FilesAdded', function(up, files) {
-                $(settings.preview_container).html([
+            uploader.bind('FilesAdded', function() {
+                $container.html([
                     '<img src="'+system.assets('images/loading.gif')+'" />',
                     '<p>上传进度：<span class="progress">0</span>%</p>'
                 ].join(''));
@@ -57,19 +57,19 @@ var uploader = {
             });
             
             uploader.bind('UploadProgress', function(up, file) {
-                $(settings.preview_container).find('.progress').text(file.percent);
+                $container.find('.progress').text(file.percent);
             });
             
             uploader.bind('FileUploaded', function(up, file, response) {
                 var resp = $.parseJSON(response.response);
                 var picParams = settings.preview_image_params;
                 picParams['f'] = resp.data.id;
-                $(settings.preview_container).html([
-                    '<input type="hidden" name="', settings.input_name, '" value="', resp.data.id, '" />',
+                $container.html([
+                    '<input type="hidden" name="', settings.field, '" value="', resp.data.id, '" />',
                     '<a href="', resp.data.url, '" data-fancybox data-type="image" class="block">',
                         '<img src="', system.url('cms/admin/file/pic', picParams), '" />',
                     '</a>',
-                    '<a href="javascript:;" class="remove-image-link">', settings.remove_link_text, '</a>'
+                    '<a href="javascript:;" class="remove-', clean_field, '-link', settings.scene, '">', settings.remove_text, '</a>'
                 ].join(''));
             });
             
@@ -87,8 +87,8 @@ var uploader = {
         });
         
         //移除缩略图事件
-        $(settings.preview_container).on('click', '.remove-image-link', function(){
-            $(settings.preview_container).html('<input type="hidden" name="'+settings.input_name+'" value="0" />');
+        $container.on('click', '.remove-' + clean_field + '-link' + settings.scene, function(){
+            $container.html('<input type="hidden" name="' + settings.field + '" value="0" />');
         });
 
         //引入fancybox，不需要调用

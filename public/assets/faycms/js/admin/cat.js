@@ -29,7 +29,8 @@ var cat = {
                                     $editCatDialog.find("input[name='is_nav']").attr('checked', false);
                                 }
                                 if(resp.data.cat.file_id != 0){
-                                    $('#cat-pic-for-edit-container').html([
+                                    $editCatDialog.find('.upload-preview-container').html([
+                                        '<input type="hidden" name="file_id" value="', resp.data.cat.file_id, '">',
                                         '<a href="', system.url('file/pic', {
                                             't':1,
                                             'f':resp.data.cat.file_id
@@ -42,7 +43,7 @@ var cat = {
                                         '<a href="javascript:;" class="remove-pic">移除插图</a>'
                                     ].join(''));
                                 }else{
-                                    $("#cat-pic-for-edit-container").html('');
+                                    $editCatDialog.find('.upload-preview-container').html('');
                                 }
                                 $editCatDialog.find("textarea[name='description']").val(resp.data.cat.description);
                                 autosize.update($editCatDialog.find("textarea[name='description']"));
@@ -109,36 +110,6 @@ var cat = {
             });
         });
     },
-    'picForCreate':function(){
-        system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
-            uploader.image({
-                'cat': 'link',
-                'browse_button': 'upload-cat-pic-for-create',
-                'container': 'upload-cat-pic-for-create-container',
-                'input_name': 'file_id',
-                'preview_container': '#cat-pic-for-create-container',
-                'remove_link_text': '移除插图',
-                'preview_image_params': {
-                    't': 2
-                }
-            });
-        });
-    },
-    'picForEdit':function(){
-        system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
-            uploader.image({
-                'cat': 'link',
-                'browse_button': 'upload-cat-pic-for-edit',
-                'container': 'upload-cat-pic-for-edit-container',
-                'input_name': 'file_id',
-                'preview_container': '#cat-pic-for-edit-container',
-                'remove_link_text': '移除插图',
-                'preview_image_params': {
-                    't': 2
-                }
-            });
-        });
-    },
     'events':function(){
         $(document).on('click', '.remove-pic', function(){
             $(this).parent().html('');
@@ -172,8 +143,6 @@ var cat = {
         this.createCat();
         this.toggleSEOInfo();
         this.isNav();
-        this.picForCreate();
-        this.picForEdit();
         this.events();
     }
 };

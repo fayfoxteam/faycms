@@ -1,7 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
 use cms\services\OptionService;
-use cms\services\file\FileService;
 ?>
 <form id="options-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">
@@ -41,6 +40,7 @@ use cms\services\file\FileService;
                 <?php echo HtmlHelper::inputText('site:email', OptionService::get('site:email'), array(
                     'class'=>'form-control',
                     'data-rule'=>'email',
+                    'data-label'=>'电子邮箱'
                 ))?>
             </div>
             <div class="form-field">
@@ -71,23 +71,12 @@ use cms\services\file\FileService;
             </div>
             <div class="form-field">
                 <label class="title">Logo</label>
-                <div id="logo-container" class="mb10">
-                    <a href="javascript:" id="upload-logo" class="btn">上传Logo</a>
-                </div>
-                <div id="logo-preview-container"><?php
-                    echo F::form()->inputHidden('site:logo', array(), 0);
-                    $logo = OptionService::get('site:logo');
-                    if(!empty($logo)){
-                        echo HtmlHelper::link(HtmlHelper::img($logo, FileService::PIC_ORIGINAL, array()), 'javascript:;', array(
-                            'encode'=>false,
-                            'class'=>'block',
-                            'title'=>false,
-                        ));
-                        echo HtmlHelper::link('移除Logo', 'javascript:;', array(
-                            'class'=>'remove-image-link'
-                        ));
-                    }
-                    ?></div>
+                <?php $this->renderPartial('file/_upload_image', array(
+                    'field'=>'site:logo',
+                    'preview_image_width'=>0,
+                    'label'=>'Logo',
+                    'field_value'=>OptionService::get('site:logo'),
+                ))?>
             </div>
         </div>
     </div>

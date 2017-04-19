@@ -3,16 +3,6 @@ var post = {
     'boxes': [],
     'roleCats': null,
     /**
-     * 设置缩略图
-     */
-    'thumbnail': function(){
-        system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
-            uploader.image({
-                'cat': 'post'
-            });
-        });
-    },
-    /**
      * 附件
      */
     'files': function(){
@@ -170,9 +160,6 @@ var post = {
         });
     },
     'init': function(){
-        if(system.inArray('thumbnail', post.boxes)){
-            this.thumbnail();
-        }
         if(system.inArray('files', post.boxes)){
             this.files();
         }

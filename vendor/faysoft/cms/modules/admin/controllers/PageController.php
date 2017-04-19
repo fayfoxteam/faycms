@@ -216,7 +216,7 @@ class PageController extends AdminController{
         if($this->input->post() && $this->form()->check()){
             $data = $this->form()->getFilteredData();
             $data['update_time'] = $this->current_time;
-            $result = PagesTable::model()->update($data, $page_id);
+            PagesTable::model()->update($data, $page_id);
             if(in_array('category', $enabled_boxes)){
                 PagesCategoriesTable::model()->delete("page_id = {$page_id}");
                 

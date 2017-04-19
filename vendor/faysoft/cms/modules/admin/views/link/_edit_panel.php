@@ -62,17 +62,11 @@ use fay\helpers\HtmlHelper;
 <?php }?>
 <div class="form-field">
     <label class="title bold">Logo</label>
-    <div id="upload-logo-preview">
-        <?php echo F::form()->inputHidden('logo', array(
-            'data-rule'=>'int',
-        ), 0);
-        if(F::form()->getData('logo')){
-            echo HtmlHelper::img(F::form()->getData('logo'));
-        }
-        ?>
-    </div>
-    <div id="upload-logo-container">
-        <a href="javascript:" id="upload-logo-link" class="btn btn-grey">上传Logo</a>
-    </div>
+    <?php $this->renderPartial('file/_upload_image', array(
+        'field'=>'logo',
+        'cat'=>'link',
+        'label'=>'Logo',
+        'preview_image_width'=>'thumbnail',
+    ))?>
     <p class="description">是否需要Logo视主题而定</p>
 </div>

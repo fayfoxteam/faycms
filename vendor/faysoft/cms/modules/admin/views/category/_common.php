@@ -66,18 +66,12 @@ F::form('edit')->setModel(CategoriesTable::model());
                     </tr>
                     <tr>
                         <th valign="top" class="adaption">插图</th>
-                        <td><div id="upload-cat-pic-for-edit-container">
-                            <?php
-                            echo HtmlHelper::inputHidden('file_id', '', array(
-                                'id'=>'cat-pic-for-edit',
-                            ));
-                            echo HtmlHelper::link('上传插图', 'javascript:', array(
-                                'class'=>'upload-cat-pic btn btn-sm mb5',
-                                'id'=>'upload-cat-pic-for-edit',
-                            ))?>
-                            <span class="fc-grey">（该选项实际效果视主题而定）</span>
-                            <div id="cat-pic-for-edit-container"></div>
-                        </div></td>
+                        <td><?php $this->renderPartial('file/_upload_image', array(
+                            'cat'=>'cat',
+                            'field'=>'file_id',
+                            'preview_image_width'=>'thumbnail',
+                            'label'=>'插图',
+                        ))?></td>
                     </tr>
                     <tr>
                         <th class="adaption"><a href="javascript:" class="toggle-seo-info" style="font-weight:normal;text-decoration:underline;">SEO信息</a></th>
@@ -162,18 +156,12 @@ F::form('edit')->setModel(CategoriesTable::model());
                     </tr>
                     <tr>
                         <th valign="top" class="adaption">插图</th>
-                        <td><div id="upload-cat-pic-for-create-container">
-                            <?php
-                            echo HtmlHelper::inputHidden('file_id', '', array(
-                                'id'=>'cat-pic-for-create',
-                            ));
-                            echo HtmlHelper::link('上传插图', 'javascript:', array(
-                                'class'=>'upload-cat-pic btn btn-sm mb5',
-                                'id'=>'upload-cat-pic-for-create',
-                            ))?>
-                            <span class="fc-grey">（该选项实际效果视主题而定）</span>
-                            <div id="cat-pic-for-create-container"></div>
-                        </div></td>
+                        <td><?php $this->renderPartial('file/_upload_image', array(
+                            'cat'=>'cat',
+                            'field'=>'file_id',
+                            'preview_image_width'=>'thumbnail',
+                            'label'=>'插图',
+                        ))?></td>
                     </tr>
                     <tr>
                         <th class="adaption"><a href="javascript:" class="toggle-seo-info" style="font-weight:normal;text-decoration:underline;">SEO信息</a></th>

@@ -2,7 +2,10 @@
 use fay\helpers\HtmlHelper;
 use cms\models\tables\PropsTable;
 use fay\helpers\ArrayHelper;
-use cms\services\file\FileService;
+
+/**
+ * @var $this \fay\core\View
+ */
 ?>
 <?php if(!empty($prop_set)){?>
 <?php foreach($prop_set as $prop){?>
@@ -107,44 +110,11 @@ use cms\services\file\FileService;
                 ));
                 break;
             case PropsTable::ELEMENT_IMAGE:
-                echo HtmlHelper::link('上传图片', 'javascript:;', array(
-                    'id'=>"upload-prop-{$prop['id']}",
-                    'class'=>'btn',
-                    'wrapper'=>array(
-                        'tag'=>'div',
-                        'id'=>"prop-{$prop['id']}-container",
-                        'class'=>'mb10',
-                    )
+                $this->renderPartial('file/_upload_image', array(
+                    'label'=>'图片',
+                    'field'=>"props[{$prop['id']}]",
+                    'field_value'=>empty($prop['value']) ? 0 : $prop['value'],
                 ));
-                echo "<div id=\"prop-{$prop['id']}-preview-container\">";
-                echo F::form()->inputHidden("props[{$prop['id']}]");
-                if(!empty($prop['value'])){
-                    echo HtmlHelper::link(HtmlHelper::img($prop['value'], FileService::PIC_RESIZE, array(
-                        'dw'=>257,
-                    )), FileService::getUrl($prop['value']), array(
-                        'encode'=>false,
-                        'class'=>'block',
-                        'title'=>'点击查看原图',
-                        'data-fancybox'=>null,
-                        'data-caption'=>'',
-                    ));
-                    echo HtmlHelper::link('移除图片', 'javascript:;', array(
-                        'class'=>'remove-image-link'
-                    ));
-                }
-                echo '</div>';
-                echo "<script>
-                    system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
-                        uploader.image({
-                            'cat': 'post',
-                            'browse_button': 'upload-prop-{$prop['id']}',
-                            'container': 'prop-{$prop['id']}-container',
-                            'preview_container': '#prop-{$prop['id']}-preview-container',
-                            'input_name': 'props[{$prop['id']}]',
-                            'remove_link_text': '移除图片'
-                        });
-                    });
-                </script>";
                 break;
         }
         ?>

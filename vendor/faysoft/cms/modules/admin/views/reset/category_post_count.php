@@ -6,7 +6,7 @@
                     <p>当分类文章数出现异常时候，可用此方法重置分类文章数</p>
                     <p class="fc-grey">（执行时间可能较长，请耐心等待）</p>
                 </div>
-                <a id="reset-category-post-count-do" href="javascript:;" class="btn btn-sm">重置</a>
+                <a id="reset-category-post-count-do" href="javascript:" class="btn btn-sm">重置</a>
             </div>
         </div>
     </div>

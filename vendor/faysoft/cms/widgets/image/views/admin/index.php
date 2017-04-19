@@ -12,7 +12,7 @@ use fay\helpers\HtmlHelper;
 </div>
 <input type="hidden" value="<?php echo intval($widget->config['file_id'])?>" name="file_id" id="file_id" />
 <div class="margin-top-20" id="widget-image-upload-container">
-    <a href="javascript:;" class="btn btn-grey" id="widget-image-upload">上传</a>
+    <a href="javascript:" class="btn btn-grey" id="widget-image-upload">上传</a>
 </div>
 <div class="fc-grey">提示：点击侧边栏“提交”后，修改才会生效</div>
 <div class="box">

@@ -63,14 +63,14 @@ use fayshop\models\tables\GoodsCatPropsTable;
         'class'=>'form-control w200 ib',
         'id'=>'prop-title',
     ))?>
-    <a href="javascript:;" class="btn btn-grey btn-sm" id="add-prop-value-link">添加</a>
+    <a href="javascript:" class="btn btn-grey btn-sm" id="add-prop-value-link">添加</a>
     <span class="fc-grey">（添加后可拖拽排序）</span>
     <div class="dragsort-list" id="prop-list">
     <?php if(!empty($prop_values)){?>
         <?php foreach($prop_values as $pv){?>
             <div class="dragsort-item">
                 <?php echo HtmlHelper::inputHidden('old_prop_value_ids[]', $pv['id'])?>
-                <a class="dragsort-rm" href="javascript:;"></a>
+                <a class="dragsort-rm" href="javascript:"></a>
                 <a class="dragsort-item-selector"></a>
                 <div class="dragsort-item-container">
                     <?php echo F::form()->inputText("prop_values[{$pv['id']}]", array(
@@ -106,7 +106,7 @@ $(function(){
             return false;
         }
         $('#prop-list').append(['<div class="dragsort-item hide">',
-            '<a class="dragsort-rm" href="javascript:;"></a>',
+            '<a class="dragsort-rm" href="javascript:"></a>',
             '<a class="dragsort-item-selector"></a>',
             '<div class="dragsort-item-container">',
                 '<input type="text" name="prop_values[]" value="'+system.encode($("#prop-title").val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" class="form-control" />',

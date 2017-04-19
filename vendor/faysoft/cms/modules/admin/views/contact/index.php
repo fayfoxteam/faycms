@@ -41,8 +41,8 @@
                 <form id="contact-reply-form">
                     <input type="hidden" name="id" />
                     <textarea name="reply" class="form-control p5 wp100 h90 autosize" placeholder="管理员回复"></textarea>
-                    <a href="javascript:;" class="btn btn-grey fr fancybox-close mt5">取消</a>
-                    <a href="javascript:;" id="contact-reply-form-submit" class="btn fr mt5 mr10">回复</a>
+                    <a href="javascript:" class="btn btn-grey fr fancybox-close mt5">取消</a>
+                    <a href="javascript:" id="contact-reply-form-submit" class="btn fr mt5 mr10">回复</a>
                 </form>
                 <br class="clear" />
             </div>

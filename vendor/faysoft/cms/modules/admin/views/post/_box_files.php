@@ -31,7 +31,7 @@ use cms\services\file\FileService;
                                     'encode'=>false,
                                     'title'=>false,
                                     'data-fancybox'=>'images',
-                                    'data-caption'=>$f['description'],
+                                    'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($f['description'])),//2次转码，防止js注入
                                 ));
                             }else{
                                 $full_file_path = FileService::getUrl($f['file_id']);

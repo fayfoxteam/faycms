@@ -16,7 +16,7 @@ use cms\models\tables\VouchersTable;
                 ))?>
                 |
                 <?php echo F::form()->select('cat_id', array(''=>'--分类--')+HtmlHelper::getSelectOptions($cats, 'id', 'title'))?>
-                <a href="javascript:;" class="btn btn-sm" id="form-submit">查询</a>
+                <a href="javascript:" class="btn btn-sm" id="form-submit">查询</a>
             </div>
             <table class="list-table">
                 <thead>

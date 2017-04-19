@@ -123,8 +123,10 @@ use cms\services\file\FileService;
                         'dw'=>257,
                     )), FileService::getUrl($prop['value']), array(
                         'encode'=>false,
-                        'class'=>'fancybox-image block',
-                        'title'=>false,
+                        'class'=>'block',
+                        'title'=>'点击查看原图',
+                        'data-fancybox'=>null,
+                        'data-caption'=>'',
                     ));
                     echo HtmlHelper::link('移除图片', 'javascript:;', array(
                         'class'=>'remove-image-link'
@@ -137,7 +139,7 @@ use cms\services\file\FileService;
                             'cat': 'post',
                             'browse_button': 'upload-prop-{$prop['id']}',
                             'container': 'prop-{$prop['id']}-container',
-                            'preview_container': 'prop-{$prop['id']}-preview-container',
+                            'preview_container': '#prop-{$prop['id']}-preview-container',
                             'input_name': 'props[{$prop['id']}]',
                             'remove_link_text': '移除图片'
                         });

@@ -20,7 +20,7 @@ use cms\services\file\FileService;
             <?php foreach($files as $p){?>
                 <div class="dragsort-item">
                     <?php echo HtmlHelper::inputHidden('files[]', $p['file_id'])?>
-                    <a class="dragsort-rm" href="javascript:;"></a>
+                    <a class="dragsort-rm" href="javascript:"></a>
                     <a class="dragsort-item-selector"></a>
                     <div class="dragsort-item-container">
                         <span class="file-thumb"><?php 

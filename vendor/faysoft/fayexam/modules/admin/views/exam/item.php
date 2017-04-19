@@ -79,8 +79,8 @@ $(function(){
             var score = $('#question-'+id).find('.score').text();
             $(this).after(['<span class="set-score-panel">',
                 '<input type="text" class="w50" value="', score, '" />',
-                '<a href="javascript:;" class="btn btn-sm set-score-submit">提交</a>',
-                '<a href="javascript:;" class="btn btn-grey btn-sm set-score-cancel">取消</a>',
+                '<a href="javascript:" class="btn btn-sm set-score-submit">提交</a>',
+                '<a href="javascript:" class="btn btn-grey btn-sm set-score-cancel">取消</a>',
             '</span>'].join(''));
         }
     }).on('click', '.set-score-submit', function(){

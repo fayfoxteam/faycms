@@ -9,7 +9,7 @@
                         'id'=>'key',
                     ), "<?php\r\n");?>
                     <pre id="php-code"></pre>
-                    <a href="javascript:;" id="form-submit" class="btn mt5">Run</a>
+                    <a href="javascript:" id="form-submit" class="btn mt5">Run</a>
                 </div>
             </div>
         </form>

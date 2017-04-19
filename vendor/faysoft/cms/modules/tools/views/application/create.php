@@ -110,7 +110,7 @@ use fay\helpers\HtmlHelper;
                     </div>
                 </div>
                 <div class="form-field">
-                    <a href="javascript:;" class="btn" id="form-submit">Submit</a>
+                    <a href="javascript:" class="btn" id="form-submit">Submit</a>
                 </div>
             </div>
         </form>

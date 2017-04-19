@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $prop_set array
+ */
+?>
 <div class="box" id="box-props" data-name="props">
     <div class="box-title">
         <a class="tools remove" title="隐藏"></a>

@@ -64,14 +64,14 @@ use fay\helpers\HtmlHelper;
         'id'=>'prop-title',
         'class'=>'form-control w200 ib',
     ))?>
-    <a href="javascript:;" class="btn btn-sm btn-grey" id="add-prop-value-link">添加</a>
+    <a href="javascript:" class="btn btn-sm btn-grey" id="add-prop-value-link">添加</a>
     <span class="fc-grey">（添加后可拖拽排序）</span>
     <div class="dragsort-list" id="prop-list">
     <?php if(isset($prop['values']) && is_array($prop['values'])){?>
         <?php foreach($prop['values'] as $pv){?>
             <div class="dragsort-item">
                 <?php echo HtmlHelper::inputHidden('ids[]', $pv['id'])?>
-                <a class="dragsort-rm" href="javascript:;"></a>
+                <a class="dragsort-rm" href="javascript:"></a>
                 <a class="dragsort-item-selector"></a>
                 <div class="dragsort-item-container">
                     <?php echo F::form()->inputText("prop_values[]", array(
@@ -97,7 +97,7 @@ $(function(){
         }
         $('#prop-list').append(['<div class="dragsort-item hide">',
             '<input type="hidden" name="ids[]" value="" />',
-            '<a class="dragsort-rm" href="javascript:;"></a>',
+            '<a class="dragsort-rm" href="javascript:"></a>',
             '<a class="dragsort-item-selector"></a>',
             '<div class="dragsort-item-container">',
                 '<input type="text" name="prop_values[]" value="'+system.encode($("#prop-title").val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" class="form-control" />',

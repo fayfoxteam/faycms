@@ -161,7 +161,7 @@ DD_belatedPNG.fix('fieldset,.ring');
                         ))?>
                     </fieldset>
                     <fieldset>
-                        <a href="javascript:;" id="login-form-submit">登&nbsp;&nbsp;录</a>
+                        <a href="javascript:" id="login-form-submit">登&nbsp;&nbsp;录</a>
                     </fieldset>
                 </form>
             </div>

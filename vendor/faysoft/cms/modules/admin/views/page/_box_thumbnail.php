@@ -9,7 +9,7 @@ use cms\services\file\FileService;
     </div>
     <div class="box-content">
         <div id="thumbnail-container" class="mb10">
-            <a href="javascript:;" id="upload-thumbnail" class="btn">设置缩略图</a>
+            <a href="javascript:" id="upload-thumbnail" class="btn">设置缩略图</a>
         </div>
         <div id="thumbnail-preview-container"><?php 
             echo F::form()->inputHidden('thumbnail', array(), 0);
@@ -18,8 +18,9 @@ use cms\services\file\FileService;
                     'dw'=>257,
                 )), FileService::getUrl($page['thumbnail']), array(
                     'encode'=>false,
-                    'class'=>'fancybox-image block',
+                    'class'=>'block',
                     'title'=>false,
+                    'data-fancybox'=>null,
                 ));
                 echo HtmlHelper::link('移除缩略图', 'javascript:;', array(
                     'class'=>'remove-image-link'

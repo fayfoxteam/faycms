@@ -14,7 +14,7 @@
                 ))?>
             </div>
             <div class="form-field">
-                <a href="javascript:;" class="btn" id="form-submit">添加站点</a>
+                <a href="javascript:" class="btn" id="form-submit">添加站点</a>
             </div>
         <?php echo F::form()->close()?>
     </div>

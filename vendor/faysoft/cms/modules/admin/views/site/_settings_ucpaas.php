@@ -53,7 +53,7 @@ use cms\services\OptionService;
     <div class="row">
         <div class="col-12">
             <div class="form-field">
-                <a href="javascript:;" id="ucpaas-form-submit" class="btn">提交保存</a>
+                <a href="javascript:" id="ucpaas-form-submit" class="btn">提交保存</a>
             </div>
         </div>
     </div>

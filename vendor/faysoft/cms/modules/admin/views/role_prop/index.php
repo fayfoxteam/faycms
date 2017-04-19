@@ -3,7 +3,7 @@
         <form id="form" action="<?php echo $this->url('cms/admin/role-prop/create')?>" method="post" class="validform">
             <?php $this->renderPartial('_edit_panel')?>
             <div class="form-field">
-                <a href="javascript:;" class="btn" id="form-submit">添加</a>
+                <a href="javascript:" class="btn" id="form-submit">添加</a>
             </div>
         </form>
     </div>

@@ -72,7 +72,7 @@ use cms\services\file\FileService;
             <div class="form-field">
                 <label class="title">Logo</label>
                 <div id="logo-container" class="mb10">
-                    <a href="javascript:;" id="upload-logo" class="btn">上传Logo</a>
+                    <a href="javascript:" id="upload-logo" class="btn">上传Logo</a>
                 </div>
                 <div id="logo-preview-container"><?php
                     echo F::form()->inputHidden('site:logo', array(), 0);
@@ -94,7 +94,7 @@ use cms\services\file\FileService;
     <div class="row">
         <div class="col-12">
             <div class="form-field">
-                <a href="javascript:;" id="options-form-submit" class="btn">提交保存</a>
+                <a href="javascript:" id="options-form-submit" class="btn">提交保存</a>
             </div>
         </div>
     </div>

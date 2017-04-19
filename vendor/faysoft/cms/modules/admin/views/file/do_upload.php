@@ -89,7 +89,7 @@ uploader.bind('FileUploaded', function(up, file, response) {
     html += '            <td><input type="text" class="form-control" name="media['+resp.data.id+'][url]" value="'+resp.data.url+'" readonly="readonly" /></td>';
     html += '        </tr>';
     html += '    </table>';
-    html += '    <a href="javascript:;" class="delete-file" fid="'+resp.data.id+'">永久删除</a>';
+    html += '    <a href="javascript:" class="delete-file" fid="'+resp.data.id+'">永久删除</a>';
     html += '    <div class="clear"></div>';
     html += '</div>';
     $(".media-list").append(html);

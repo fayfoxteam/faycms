@@ -26,7 +26,7 @@ use cms\models\tables\LogsTable;
                 ), array(
                     'class'=>'form-control',
                 ))?>
-                <a href="javascript:;" class="btn btn-sm" id="search-form-submit">查询</a>
+                <a href="javascript:" class="btn btn-sm" id="search-form-submit">查询</a>
             </div>
         <?php echo F::form('search')->close()?>
     </div>

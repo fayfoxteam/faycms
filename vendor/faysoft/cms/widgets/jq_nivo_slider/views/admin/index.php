@@ -19,7 +19,7 @@ use cms\services\file\FileService;
         echo 'bl-red';
     }?>">
         <?php echo HtmlHelper::inputHidden('files[]', $f['file_id'])?>
-        <a class="dragsort-rm" href="javascript:;"></a>
+        <a class="dragsort-rm" href="javascript:"></a>
         <a class="dragsort-item-selector"></a>
         <div class="dragsort-item-container">
             <span class="file-thumb">

@@ -31,7 +31,7 @@ use cms\helpers\ListTableHelper;
                 <?php echo F::form('search')->inputText('end_time', array(
                     'class'=>'datetimepicker form-control',
                 ));?>
-                <a href="javascript:;" class="btn btn-sm" id="search-form-submit">查询</a>
+                <a href="javascript:" class="btn btn-sm" id="search-form-submit">查询</a>
             </div>
         <?php echo F::form('search')->close()?>
         <ul class="subsubsub fl">

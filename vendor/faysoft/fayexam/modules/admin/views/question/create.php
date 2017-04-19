@@ -14,7 +14,7 @@ echo F::form()->open();
                 </div>
                 <div class="box-content" id="answer-container">
                     <div id="selector-panel" <?php if(isset($question['type']) && $question['type'] != ExamQuestionsTable::TYPE_SINGLE_ANSWER)echo 'class="hide"';?>>
-                        <a href="javascript:;" id="create-answer-link" class="btn">添加答案</a>
+                        <a href="javascript:" id="create-answer-link" class="btn">添加答案</a>
                         <label>
                             <?php echo F::form()->inputCheckbox('rand', 1)?>
                             随机排序
@@ -22,7 +22,7 @@ echo F::form()->open();
                         ( 钩选此项，试题将随机排序 )
                         <div class="dragsort-list answer-list">
                             <div class="dragsort-item">
-                                <a class="dragsort-rm" href="javascript:;"></a>
+                                <a class="dragsort-rm" href="javascript:"></a>
                                 <a class="dragsort-item-selector"></a>
                                 <div class="dragsort-item-container mr10">
                                 <?php
@@ -63,7 +63,7 @@ echo F::form()->open();
                 </div>
                 <div class="box-content">
                     <div>
-                        <a href="javascript:;" class="btn" id="form-submit">发布</a>
+                        <a href="javascript:" class="btn" id="form-submit">发布</a>
                     </div>
                     <div class="misc-pub-section mt6">
                         <strong>状态</strong>

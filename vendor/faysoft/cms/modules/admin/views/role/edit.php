@@ -47,7 +47,7 @@ $col_left_count = floor($action_cat_count / 2);
                     <?php echo F::form()->submitLink('更新角色', array(
                         'class'=>'btn',
                     ))?>
-                    <a href="javascript:;" id="form-reset" class="btn btn-grey">重置</a>
+                    <a href="javascript:" id="form-reset" class="btn btn-grey">重置</a>
                 </div>
             </div>
         </div>

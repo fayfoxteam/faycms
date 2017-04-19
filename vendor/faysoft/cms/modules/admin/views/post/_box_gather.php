@@ -33,8 +33,8 @@ use fay\helpers\HtmlHelper;
                     <p class="description">例子：$("<span class="fc-red">.post-content</span>").html()，如红色部分的选择器。</p>
                 </div>
                 <div class="form-field">
-                    <a href="javascript:;" class="btn" id="gather-form-submit-ajax">采集</a>
-                    <a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
+                    <a href="javascript:" class="btn" id="gather-form-submit-ajax">采集</a>
+                    <a href="javascript:" class="btn btn-grey fancybox-close">取消</a>
                 </div>
             </div>
         </div>

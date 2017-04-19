@@ -38,7 +38,7 @@ use fayexam\models\tables\ExamQuestionsTable;
                     <?php echo F::form('search')->inputText('end_time', array(
                         'class'=>'form-control datetimepicker',
                     ));?>
-                    <a href="javascript:;" class="btn btn-sm" id="search-form-ajax-submit">查询</a>
+                    <a href="javascript:" class="btn btn-sm" id="search-form-ajax-submit">查询</a>
                 </div>
             <?php echo F::form('search')->close()?>
             <table class="inbox-table">
@@ -54,8 +54,8 @@ use fayexam\models\tables\ExamQuestionsTable;
                 <tbody></tbody>
             </table>
             <div id="questions-list-pager" class="pager"></div>
-            <a href="javascript:;" id="select-questions" class="btn mt5">添加选中试题</a>
-            <a href="javascript:;" class="btn btn-grey mt5 fancybox-close">完成选题</a>
+            <a href="javascript:" id="select-questions" class="btn mt5">添加选中试题</a>
+            <a href="javascript:" class="btn btn-grey mt5 fancybox-close">完成选题</a>
             <div class="clear"></div>
         </div>
     </div>

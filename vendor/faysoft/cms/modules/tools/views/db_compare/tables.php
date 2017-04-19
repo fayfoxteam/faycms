@@ -145,7 +145,7 @@ use fay\helpers\HtmlHelper;
                     <label><input type="radio" name="truncate" value="0" />NO</label>
                 </div>
                 <div class="mb5">
-                    <a href="javascript:;" id="start-transfer" class="btn">Start Transfer</a>
+                    <a href="javascript:" id="start-transfer" class="btn">Start Transfer</a>
                     <span class="fc-red">This process may be longer, please do not close the browser or jump page.</span>
                 </div>
             </form>

@@ -8,7 +8,7 @@
         <?php echo F::form()->open(array('cms/admin/tag/create'))?>
             <?php $this->renderPartial('_edit_panel');?>
             <div class="form-field">
-                <a href="javascript:;" class="btn" id="form-submit">添加新标签</a>
+                <a href="javascript:" class="btn" id="form-submit">添加新标签</a>
             </div>
         <?php echo F::form()->close()?>
     </div>

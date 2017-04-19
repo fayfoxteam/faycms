@@ -72,7 +72,7 @@ use fay\helpers\HtmlHelper;
         ?>
     </div>
     <div id="upload-logo-container">
-        <a href="javascript:;" id="upload-logo-link" class="btn btn-grey">上传Logo</a>
+        <a href="javascript:" id="upload-logo-link" class="btn btn-grey">上传Logo</a>
     </div>
     <p class="description">是否需要Logo视主题而定</p>
 </div>

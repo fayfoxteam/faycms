@@ -122,7 +122,7 @@ var widgetOptions = {
                                 $addAttrValue.val(),
                             '</textarea>',
                         '</span>',
-                        '<a class="btn btn-grey mt5 btn-sm fl widget-remove-attr-link" href="javascript:;" title="删除">删除</a></div>',
+                        '<a class="btn btn-grey mt5 btn-sm fl widget-remove-attr-link" href="javascript:" title="删除">删除</a></div>',
                 '</div>'].join(''));
                 $addAttrKey.val('');
                 $addAttrValue.val('');

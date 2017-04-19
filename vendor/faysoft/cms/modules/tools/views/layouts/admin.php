@@ -39,7 +39,7 @@ system.user_id = '<?php echo \F::app()->current_user?>';
     <div class="container main-content">
         <nav class="user-info-navbar">
             <ul class="user-info-menu fl">
-                <li><a href="javascript:;" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
+                <li><a href="javascript:" class="toggle-sidebar"><i class="fa fa-bars"></i></a></li>
                 <?php
                     $user_roles = UserRoleService::service()->getIds();
                     foreach(F::app()->_top_nav as $nav){

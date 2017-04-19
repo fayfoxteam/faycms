@@ -6,7 +6,7 @@
                     <p>当分类表左右值索引出现异常时候，可用此方法重置左右值索引</p>
                     <p class="fc-grey">（执行时间可能较长，请耐心等待）</p>
                 </div>
-                <a id="reset-category-do" href="javascript:;" class="btn btn-sm">重置</a>
+                <a id="reset-category-do" href="javascript:" class="btn btn-sm">重置</a>
             </div>
         </div>
     </div>

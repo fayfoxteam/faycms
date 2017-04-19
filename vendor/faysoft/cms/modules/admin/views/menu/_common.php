@@ -109,7 +109,7 @@ F::form('edit')->setModel(MenusTable::model());
                             <?php echo F::form('edit')->submitLink('编辑菜单', array(
                                 'class'=>'btn',
                             ))?>
-                            <a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
+                            <a href="javascript:" class="btn btn-grey fancybox-close">取消</a>
                         </td>
                     </tr>
                 </table>

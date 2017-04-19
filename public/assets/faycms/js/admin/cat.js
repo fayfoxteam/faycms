@@ -33,11 +33,11 @@ var cat = {
                                         '<a href="', system.url('file/pic', {
                                             't':1,
                                             'f':resp.data.cat.file_id
-                                        }), '" data-fancybox="images" target="_blank">',
+                                        }), '" data-fancybox="image" data-type="image" class="block">',
                                             '<img src="', system.url('file/pic', {
                                                 't':2,
                                                 'f':resp.data.cat.file_id
-                                            }), '" width="100" />',
+                                            }), '" />',
                                         '</a>',
                                         '<a href="javascript:;" class="remove-pic">移除插图</a>'
                                     ].join(''));
@@ -110,91 +110,33 @@ var cat = {
         });
     },
     'picForCreate':function(){
-        //设置分类图片
-        var uploader = new plupload.Uploader({
-            runtimes: 'html5,html4,flash,gears,silverlight',
-            browse_button: 'upload-cat-pic-for-create',
-            container: 'upload-cat-pic-for-create-container',
-            max_file_size: '2mb',
-            url: system.url('cms/admin/file/upload', {'cat':'cat'}),
-            flash_swf_url: system.url()+'flash/plupload.flash.swf',
-            silverlight_xap_url: system.url()+'js/plupload.silverlight.xap',
-            filters: [
-                {title: 'Image files', extensions: 'jpg,gif,png,jpeg'}
-            ]
-        });
-
-        uploader.init();
-        uploader.bind('FilesAdded', function(up, files) {
-            $('#cat-pic-for-create-container').html('<img src="'+system.assets('images/loading.gif')+'" height="100" />');
-            uploader.start();
-        });
-        
-        uploader.bind('FileUploaded', function(up, file, response) {
-            var resp = $.parseJSON(response.response);
-            $('#cat-pic-for-create').val(resp.data.id);
-            $('#cat-pic-for-create-container').html([
-                '<a href="', resp.data.url, '" data-fancybox="images" target="_blank">',
-                    '<img src="', resp.data.thumbnail, '" width="100" />',
-                '</a>',
-                '<a href="javascript:;" class="remove-pic">移除插图</a>'
-            ].join(''));
-        });
-
-        uploader.bind('Error', function(up, error) {
-            if(error.code == -600){
-                common.alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
-                return false;
-            }else if(error.code == -601){
-                common.alert('非法的文件类型');
-                return false;
-            }else{
-                common.alert(error.message);
-            }
+        system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+            uploader.image({
+                'cat': 'link',
+                'browse_button': 'upload-cat-pic-for-create',
+                'container': 'upload-cat-pic-for-create-container',
+                'input_name': 'file_id',
+                'preview_container': '#cat-pic-for-create-container',
+                'remove_link_text': '移除插图',
+                'preview_image_params': {
+                    't': 2
+                }
+            });
         });
     },
     'picForEdit':function(){
-        //设置分类图片
-        var uploader = new plupload.Uploader({
-            runtimes: 'html5,html4,flash,gears,silverlight',
-            browse_button: 'upload-cat-pic-for-edit',
-            container: 'upload-cat-pic-for-edit-container',
-            max_file_size: '2mb',
-            url: system.url('cms/admin/file/upload', {'cat':'cat'}),
-            flash_swf_url: system.url()+'flash/plupload.flash.swf',
-            silverlight_xap_url: system.url()+'js/plupload.silverlight.xap',
-            filters: [
-                {title: 'Image files', extensions: 'jpg,gif,png,jpeg'}
-            ]
-        });
-
-        uploader.init();
-        uploader.bind('FilesAdded', function(up, files) {
-            $('#cat-pic-for-edit-container').html('<img src="'+system.assets('images/loading.gif')+'" height="100" />');
-            uploader.start();
-        });
-        
-        uploader.bind('FileUploaded', function(up, file, response) {
-            var resp = $.parseJSON(response.response);
-            $('#cat-pic-for-edit').val(resp.data.id);
-            $('#cat-pic-for-edit-container').html([
-                '<a href="', resp.data.url, '" class="fancybox-image" target="_blank">',
-                    '<img src="', resp.data.thumbnail, '" width="100" />',
-                '</a>',
-                '<a href="javascript:;" class="remove-pic">移除插图</a>'
-            ].join(''));
-        });
-
-        uploader.bind('Error', function(up, error) {
-            if(error.code == -600){
-                common.alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
-                return false;
-            }else if(error.code == -601){
-                common.alert('非法的文件类型');
-                return false;
-            }else{
-                common.alert(error.message);
-            }
+        system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
+            uploader.image({
+                'cat': 'link',
+                'browse_button': 'upload-cat-pic-for-edit',
+                'container': 'upload-cat-pic-for-edit-container',
+                'input_name': 'file_id',
+                'preview_container': '#cat-pic-for-edit-container',
+                'remove_link_text': '移除插图',
+                'preview_image_params': {
+                    't': 2
+                }
+            });
         });
     },
     'events':function(){

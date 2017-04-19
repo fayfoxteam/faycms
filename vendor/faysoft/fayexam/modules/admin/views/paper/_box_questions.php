@@ -18,7 +18,7 @@ use fayexam\models\tables\ExamQuestionsTable;
                 <?php foreach($questions as $q){?>
                     <div class="dragsort-item">
                         <?php echo HtmlHelper::inputHidden('questions[]', $q['question_id'])?>
-                        <a class="dragsort-rm" href="javascript:;"></a>
+                        <a class="dragsort-rm" href="javascript:"></a>
                         <a class="dragsort-item-selector"></a>
                         <div class="dragsort-item-container mr10">
                             <p><?php echo $q['question']?></p>

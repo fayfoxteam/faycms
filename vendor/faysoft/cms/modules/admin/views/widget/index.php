@@ -68,8 +68,8 @@ use fay\helpers\HtmlHelper;
                     <p class="description">别名用于调用该widget实例，必须唯一，若为空，则系统会自动生成一个。</p>
                 </div>
                 <div class="form-field">
-                    <a href="javascript:;" class="btn" id="create-instance-form-submit">创建</a>
-                    <a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
+                    <a href="javascript:" class="btn" id="create-instance-form-submit">创建</a>
+                    <a href="javascript:" class="btn btn-grey fancybox-close">取消</a>
                 </div>
             </form>
         </div>

@@ -5,6 +5,11 @@ use fay\helpers\DateHelper;
 use cms\services\file\QiniuService;
 use cms\services\CategoryService;
 
+/**
+ * @var $data array
+ * @var $display_name string
+ */
+
 $full_file_path = FileService::getUrl($data);
 ?>
 <tr valign="top" id="file-<?php echo $data['id']?>" data-qiniu="<?php echo $data['qiniu']?>">
@@ -17,9 +22,16 @@ $full_file_path = FileService::getUrl($data);
             'width'=>60,
             'height'=>60,
         )), $full_file_path, array(
-            'class'=>'file-image fancybox-image',
             'encode'=>false,
             'title'=>$data['client_name'],
+            'data-fancybox'=>'images',
+            'data-caption'=>$data['client_name'] .
+                HtmlHelper::encode(HtmlHelper::link('<i class="fa fa-download ml5"></i>下载', array('cms/admin/file/download', array(
+                    'id'=>$data['id'],
+                )), array(
+                    'encode'=>false,
+                    'title'=>false,
+                ), true)),
         ))?>
     <?php }else{?>
         <img src="<?php echo FileService::getThumbnailUrl($data)?>" width="60" height="60" />
@@ -28,7 +40,9 @@ $full_file_path = FileService::getUrl($data);
     <td>
         <strong>
             <?php echo HtmlHelper::link($data['client_name'], $full_file_path, array(
-                'class'=>'row-title fancybox-image',
+                'class'=>'row-title',
+                'data-fancybox'=>null,
+                'data-type'=>'image',
             ))?>
         </strong>
         <div class="row-actions">

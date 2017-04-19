@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
         路由：
         <?php echo F::form()->inputText('router')?>
         */?>
-        <a href="javascript:;" class="btn btn-sm" id="search-form-submit">搜索</a>
+        <a href="javascript:" class="btn btn-sm" id="search-form-submit">搜索</a>
     </div>
 <?php echo F::form('search')->close()?>
 <table class="list-table">

@@ -25,7 +25,7 @@ $settings = F::form('setting')->getAllData();
                     <span class="cd-to"></span>
                     <div>
                         <span class="cd-time"></span>
-                        <a href="javascript:;" class="reply-link reply-root" data-id="0" data-username="">回复楼主</a>
+                        <a href="javascript:" class="reply-link reply-root" data-id="0" data-username="">回复楼主</a>
                     </div>
                 </div>
                 <div class="cd-content"></div>
@@ -38,8 +38,8 @@ $settings = F::form('setting')->getAllData();
                     <input type="hidden" name="parent" />
                     <input type="hidden" name="to_user_id" />
                     <textarea name="content" class="p5"></textarea>
-                    <a href="javascript:;" id="reply-form-submit" class="btn fr mt5 mr10">回复</a>
-                    <a href="javascript:;" class="btn btn-grey fr fancybox-close mt5 mr10">取消</a>
+                    <a href="javascript:" id="reply-form-submit" class="btn fr mt5 mr10">回复</a>
+                    <a href="javascript:" class="btn btn-grey fr fancybox-close mt5 mr10">取消</a>
                 </form>
                 <br class="clear" />
             </div>

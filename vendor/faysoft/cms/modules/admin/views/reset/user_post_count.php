@@ -6,7 +6,7 @@
                     <p>当用户文章数出现异常时候，可用此方法重置用户文章数</p>
                     <p class="fc-grey">（执行时间可能较长，请耐心等待）</p>
                 </div>
-                <a id="reset-user-post-count-do" href="javascript:;" class="btn btn-sm">重置</a>
+                <a id="reset-user-post-count-do" href="javascript:" class="btn btn-sm">重置</a>
             </div>
         </div>
     </div>

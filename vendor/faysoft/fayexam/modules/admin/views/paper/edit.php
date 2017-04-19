@@ -21,7 +21,7 @@ echo F::form()->open();
                 </div>
                 <div class="box-content">
                     <div>
-                        <a href="javascript:;" class="btn" id="form-submit">提交</a>
+                        <a href="javascript:" class="btn" id="form-submit">提交</a>
                     </div>
                     <div class="misc-pub-section mt6">
                         <strong>是否启用？</strong>

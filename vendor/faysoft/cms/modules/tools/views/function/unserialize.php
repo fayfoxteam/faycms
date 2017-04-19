@@ -7,7 +7,7 @@
                     <?php echo F::form()->textarea('key', array(
                         'class'=>'form-control h200 autosize',
                     ));?>
-                    <a href="javascript:;" id="form-submit" class="btn mt5">提交</a>
+                    <a href="javascript:" id="form-submit" class="btn mt5">提交</a>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
         <form id="form" action="" method="post" class="validform">
             <?php $this->renderPartial('_edit_panel')?>
             <div class="form-field">
-                <a href="javascript:;" class="btn" id="form-submit">编辑</a>
+                <a href="javascript:" class="btn" id="form-submit">编辑</a>
             </div>
         </form>
     </div>

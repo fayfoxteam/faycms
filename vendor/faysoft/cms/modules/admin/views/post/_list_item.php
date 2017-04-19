@@ -32,7 +32,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
                 'encode'=>false,
                 'title'=>HtmlHelper::encode($data['title']),
                 'data-fancybox'=>'images',
-                'data-caption'=>HtmlHelper::encode($data['title']) .
+                'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($data['title'])) .
                     HtmlHelper::encode(HtmlHelper::link('<i class="fa fa-edit ml5"></i>编辑', array('cms/admin/post/edit', array(
                         'id'=>$data['id'],
                     )), array(

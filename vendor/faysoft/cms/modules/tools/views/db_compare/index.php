@@ -114,7 +114,7 @@ use fay\helpers\HtmlHelper;
     </div>
 </form>
 <div class="form-field">
-    <a href="javascript:;" class="btn" id="form-submit">Submit</a>
+    <a href="javascript:" class="btn" id="form-submit">Submit</a>
 </div>
 <script>
 $(function(){

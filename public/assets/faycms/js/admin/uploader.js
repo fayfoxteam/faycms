@@ -20,7 +20,7 @@ var uploader = {
             'browse_button': 'upload-thumbnail',
             'container': 'thumbnail-container',
             'max_file_size': common.max_upload_file_size,
-            'preview_container': 'thumbnail-preview-container',
+            'preview_container': '#thumbnail-preview-container',
             'input_name': 'thumbnail',
             'remove_link_text': '移除缩略图',
             'preview_image_params': {
@@ -49,7 +49,7 @@ var uploader = {
             
             uploader.init();
             uploader.bind('FilesAdded', function(up, files) {
-                $('#'+settings.preview_container).html([
+                $(settings.preview_container).html([
                     '<img src="'+system.assets('images/loading.gif')+'" />',
                     '<p>上传进度：<span class="progress">0</span>%</p>'
                 ].join(''));
@@ -57,17 +57,16 @@ var uploader = {
             });
             
             uploader.bind('UploadProgress', function(up, file) {
-                console.log(file.percent);
-                $('#'+settings.preview_container).find('.progress').text(file.percent);
+                $(settings.preview_container).find('.progress').text(file.percent);
             });
             
             uploader.bind('FileUploaded', function(up, file, response) {
                 var resp = $.parseJSON(response.response);
                 var picParams = settings.preview_image_params;
                 picParams['f'] = resp.data.id;
-                $('#'+settings.preview_container).html([
+                $(settings.preview_container).html([
                     '<input type="hidden" name="', settings.input_name, '" value="', resp.data.id, '" />',
-                    '<a href="', resp.data.url, '" data-fancybox="image" data-caption="文章缩略图">',
+                    '<a href="', resp.data.url, '" data-fancybox data-type="image" class="block">',
                         '<img src="', system.url('cms/admin/file/pic', picParams), '" />',
                     '</a>',
                     '<a href="javascript:;" class="remove-image-link">', settings.remove_link_text, '</a>'
@@ -88,8 +87,8 @@ var uploader = {
         });
         
         //移除缩略图事件
-        $('#'+settings.preview_container).on('click', '.remove-image-link', function(){
-            $('#'+settings.preview_container).html('<input type="hidden" name="'+settings.input_name+'" value="0" />');
+        $(settings.preview_container).on('click', '.remove-image-link', function(){
+            $(settings.preview_container).html('<input type="hidden" name="'+settings.input_name+'" value="0" />');
         });
 
         //引入fancybox，不需要调用

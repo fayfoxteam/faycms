@@ -46,6 +46,6 @@ use fay\helpers\HtmlHelper;
         个
     </div>
     <div class="form-field">
-        <a href="javascript:;" class="btn" id="form-submit">生成</a>
+        <a href="javascript:" class="btn" id="form-submit">生成</a>
     </div>
 </form>

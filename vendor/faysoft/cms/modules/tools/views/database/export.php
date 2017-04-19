@@ -25,7 +25,7 @@ use fay\helpers\HtmlHelper;
                 ?>
             </div>
             <div class="form-field">
-                <a href="javascript:;" id="form-submit" class="btn">提交</a>
+                <a href="javascript:" id="form-submit" class="btn">提交</a>
             </div>
         </form>
         <?php echo HtmlHelper::textarea('code', $insert, array(

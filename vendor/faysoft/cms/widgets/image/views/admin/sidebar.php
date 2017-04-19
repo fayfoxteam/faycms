@@ -38,7 +38,7 @@ use fay\helpers\HtmlHelper;
                     <?php echo F::form('widget')->inputText('height', array(
                         'class'=>'form-control w50 ib',
                     ))?>
-                    <a href="javascript:;" title="原始尺寸" id="refresh-size"><i class="fa fa-refresh"></i></a>
+                    <a href="javascript:" title="原始尺寸" id="refresh-size"><i class="fa fa-refresh"></i></a>
                 </td>
             </tr>
         </table>

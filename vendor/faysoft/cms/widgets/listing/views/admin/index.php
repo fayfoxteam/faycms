@@ -26,7 +26,7 @@ use fay\helpers\HtmlHelper;
         <div class="dragsort-list" id="widget-listing-values">
         <?php foreach($widget->config['data'] as $v){?>
             <div class="dragsort-item">
-                <a class="dragsort-rm" href="javascript:;"></a>
+                <a class="dragsort-rm" href="javascript:"></a>
                 <a class="dragsort-item-selector"></a>
                 <div class="dragsort-item-container">
                     <?php echo HtmlHelper::textarea("data[]", $v, array(
@@ -64,7 +64,7 @@ use fay\helpers\HtmlHelper;
 $(function(){
     $(document).on('click', '#widget-add-value-link', function(){
         $('#widget-listing-values').append(['<div class="dragsort-item">',
-            '<a class="dragsort-rm" href="javascript:;"></a>',
+            '<a class="dragsort-rm" href="javascript:"></a>',
             '<a class="dragsort-item-selector"></a>',
             '<div class="dragsort-item-container">',
                 '<textarea name="data[]" class="form-control h60 autosize"></textarea>',

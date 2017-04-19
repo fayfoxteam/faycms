@@ -22,7 +22,7 @@ use fay\helpers\RequestHelper;
                     <?php echo F::form()->textarea('ip_ints', array(
                         'class'=>'form-control h200 autosize',
                     ));?>
-                    <a href="javascript:;" id="form-submit" class="btn mt5">提交</a>
+                    <a href="javascript:" id="form-submit" class="btn mt5">提交</a>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@ use fay\helpers\RequestHelper;
                     <?php echo F::form()->textarea('ips', array(
                         'class'=>'form-control h200 autosize',
                     ));?>
-                    <a href="javascript:;" id="form-submit" class="btn mt5">提交</a>
+                    <a href="javascript:" id="form-submit" class="btn mt5">提交</a>
                     <span class="fc-grey">It will alway return int on 32-bit platforms</span>
                 </div>
             </div>

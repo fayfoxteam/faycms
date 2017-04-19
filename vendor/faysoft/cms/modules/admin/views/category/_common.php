@@ -71,7 +71,7 @@ F::form('edit')->setModel(CategoriesTable::model());
                             echo HtmlHelper::inputHidden('file_id', '', array(
                                 'id'=>'cat-pic-for-edit',
                             ));
-                            echo HtmlHelper::link('上传插图', 'javascript:;', array(
+                            echo HtmlHelper::link('上传插图', 'javascript:', array(
                                 'class'=>'upload-cat-pic btn btn-sm mb5',
                                 'id'=>'upload-cat-pic-for-edit',
                             ))?>
@@ -80,7 +80,7 @@ F::form('edit')->setModel(CategoriesTable::model());
                         </div></td>
                     </tr>
                     <tr>
-                        <th class="adaption"><a href="javascript:;" class="toggle-seo-info" style="font-weight:normal;text-decoration:underline;">SEO信息</a></th>
+                        <th class="adaption"><a href="javascript:" class="toggle-seo-info" style="font-weight:normal;text-decoration:underline;">SEO信息</a></th>
                         <td></td>
                     </tr>
                     <tr class="hide toggle">
@@ -105,8 +105,8 @@ F::form('edit')->setModel(CategoriesTable::model());
                     <tr>
                         <th class="adaption"></th>
                         <td>
-                            <a href="javascript:;" class="btn" id="edit-form-submit">编辑分类</a>
-                            <a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
+                            <a href="javascript:" class="btn" id="edit-form-submit">编辑分类</a>
+                            <a href="javascript:" class="btn btn-grey fancybox-close">取消</a>
                         </td>
                     </tr>
                 </table>
@@ -167,8 +167,8 @@ F::form('edit')->setModel(CategoriesTable::model());
                             echo HtmlHelper::inputHidden('file_id', '', array(
                                 'id'=>'cat-pic-for-create',
                             ));
-                            echo HtmlHelper::link('上传插图', 'javascript:;', array(
-                                'class'=>'upload-cat-pic',
+                            echo HtmlHelper::link('上传插图', 'javascript:', array(
+                                'class'=>'upload-cat-pic btn btn-sm mb5',
                                 'id'=>'upload-cat-pic-for-create',
                             ))?>
                             <span class="fc-grey">（该选项实际效果视主题而定）</span>
@@ -176,7 +176,7 @@ F::form('edit')->setModel(CategoriesTable::model());
                         </div></td>
                     </tr>
                     <tr>
-                        <th class="adaption"><a href="javascript:;" class="toggle-seo-info" style="font-weight:normal;text-decoration:underline;">SEO信息</a></th>
+                        <th class="adaption"><a href="javascript:" class="toggle-seo-info" style="font-weight:normal;text-decoration:underline;">SEO信息</a></th>
                         <td></td>
                     </tr>
                     <tr class="hide toggle">
@@ -201,8 +201,8 @@ F::form('edit')->setModel(CategoriesTable::model());
                     <tr>
                         <th class="adaption"></th>
                         <td>
-                            <a href="javascript:;" class="btn" id="create-form-submit">添加新分类</a>
-                            <a href="javascript:;" class="btn btn-grey fancybox-close">取消</a>
+                            <a href="javascript:" class="btn" id="create-form-submit">添加新分类</a>
+                            <a href="javascript:" class="btn btn-grey fancybox-close">取消</a>
                         </td>
                     </tr>
                 </table>

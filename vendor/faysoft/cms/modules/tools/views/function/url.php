@@ -10,7 +10,7 @@ use fay\helpers\HtmlHelper;
                     <?php echo F::form()->textarea('url', array(
                         'class'=>'form-control h200 autosize',
                     ));?>
-                    <a href="javascript:;" id="form-submit" class="btn mt5">提交</a>
+                    <a href="javascript:" id="form-submit" class="btn mt5">提交</a>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@ use fay\helpers\HtmlHelper;
                     <?php echo F::form()->textarea('encode_url', array(
                         'class'=>'form-control h200 autosize',
                     ));?>
-                    <a href="javascript:;" id="form-submit" class="btn mt5">提交</a>
+                    <a href="javascript:" id="form-submit" class="btn mt5">提交</a>
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ use fay\helpers\DateHelper;
                     <?php echo F::form()->textarea('timestamps', array(
                         'class'=>'form-control h200 autosize',
                     ));?>
-                    <a href="javascript:;" id="datetime-link" class="btn mt5">date('Y-m-d H:i:s')</a>
+                    <a href="javascript:" id="datetime-link" class="btn mt5">date('Y-m-d H:i:s')</a>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@ use fay\helpers\DateHelper;
                     <?php echo F::form()->textarea('dates', array(
                         'class'=>'form-control h200 autosize',
                     ));?>
-                    <a href="javascript:;" id="strtotime-link" class="btn mt5">strtotime</a>
+                    <a href="javascript:" id="strtotime-link" class="btn mt5">strtotime</a>
                 </div>
             </div>
         </div>

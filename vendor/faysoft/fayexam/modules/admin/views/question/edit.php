@@ -15,7 +15,7 @@ echo F::form()->open();
                 </div>
                 <div class="box-content" id="answer-container">
                     <div id="selector-panel" <?php if(isset($question['type']) && $question['type'] != ExamQuestionsTable::TYPE_SINGLE_ANSWER && $question['type'] != ExamQuestionsTable::TYPE_MULTIPLE_ANSWERS)echo 'class="hide"';?>>
-                        <a href="javascript:;" id="create-answer-link" class="btn">添加答案</a>
+                        <a href="javascript:" id="create-answer-link" class="btn">添加答案</a>
                         <label>
                             <?php echo F::form()->inputCheckbox('rand', 1)?>
                             随机排序
@@ -75,7 +75,7 @@ echo F::form()->open();
                 </div>
                 <div class="box-content">
                     <div>
-                        <a href="javascript:;" class="btn" id="form-submit">编辑</a>
+                        <a href="javascript:" class="btn" id="form-submit">编辑</a>
                     </div>
                     <div class="misc-pub-section mt6">
                         <strong>状态</strong>

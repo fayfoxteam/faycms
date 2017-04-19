@@ -60,8 +60,8 @@ class Db{
         $db_config = \F::config()->get('db');
         $this->_host = isset($config['host']) ? $config['host'] : $db_config['host'];
         $this->_user = isset($config['user']) ? $config['user'] : $db_config['user'];
-         $this->_pwd = isset($config['password']) ? $config['password'] : $db_config['password'];
-         $this->_port = !empty($config['port']) ? $config['port'] : (!empty($db_config['port']) ? $db_config['port'] : 3306);
+        $this->_pwd = isset($config['password']) ? $config['password'] : $db_config['password'];
+        $this->_port = !empty($config['port']) ? $config['port'] : (!empty($db_config['port']) ? $db_config['port'] : 3306);
         $this->_dbname = isset($config['dbname']) ? $config['dbname'] : $db_config['dbname'];
         $this->_charset = isset($config['charset']) ? $config['charset'] : $db_config['charset'];
         $this->_table_prefix = isset($config['table_prefix']) ? $config['table_prefix'] : $db_config['table_prefix'];

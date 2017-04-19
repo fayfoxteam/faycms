@@ -367,7 +367,11 @@ class HtmlHelper{
             if(is_array($value)){
                 $value = implode(' ', $value);
             }
-            $html .= ' ' . $name . '="' . $value . '"';
+            if($value === null){
+                $html .= ' ' . $name;
+            }else{
+                $html .= ' ' . $name . '="' . $value . '"';
+            }
         }
         
         if($text === false){

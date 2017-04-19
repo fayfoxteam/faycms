@@ -35,6 +35,17 @@ use cms\services\OptionService;
         }
     ?>
 </div>
+<?php if($roles){?>
+    <div class="form-field">
+        <label class="title bold">角色</label>
+        <div class="mw400"><?php foreach($roles as $r){
+            echo '<span class="ib w200">', F::form()->inputCheckbox('roles[]', $r['id'], array(
+                'label'=>$r['title'],
+                'class'=>'user-roles',
+            )), '</span>';
+        }?></div>
+    </div>
+<?php }?>
 <div class="form-field">
     <label class="title bold">手机号码</label>
     <?php echo F::form()->inputText('mobile', array(
@@ -47,17 +58,6 @@ use cms\services\OptionService;
         'class'=>'form-control mw400',
     ))?>
 </div>
-<?php if($roles){?>
-<div class="form-field">
-    <label class="title bold">角色</label>
-    <?php foreach($roles as $r){
-        echo F::form()->inputCheckbox('roles[]', $r['id'], array(
-            'label'=>$r['title'],
-            'class'=>'user-roles',
-        ));
-    }?>
-</div>
-<?php }?>
 <div class="form-field">
     <label class="title bold">昵称<?php if(OptionService::get('system:user_nickname_required')){?>
         <em class="required">*</em>
@@ -105,31 +105,31 @@ use cms\services\OptionService;
                 'id'=>'avatar-img',
             )), $user['user']['avatar']['url'], array(
                 'encode'=>false,
-                'class'=>'fancybox-image',
                 'title'=>false,
+                'data-fancybox'=>null,
             ));
             echo HtmlHelper::link(HtmlHelper::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
                 'id'=>'avatar-img-circle',
             )), $user['user']['avatar']['url'], array(
                 'encode'=>false,
-                'class'=>'fancybox-image',
                 'title'=>false,
+                'data-fancybox'=>null,
             ));
         }else{
             echo HtmlHelper::inputHidden('avatar', '0', array('id'=>'avatar-id'));
             echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
                 'id'=>'avatar-img',
             )), $this->assets('images/avatar.png'), array(
-                'class'=>'fancybox-image',
                 'encode'=>false,
                 'title'=>false,
+                'data-fancybox'=>null,
             ));
             echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
                 'id'=>'avatar-img-circle',
             )), $this->assets('images/avatar.png'), array(
-                'class'=>'fancybox-image',
                 'encode'=>false,
                 'title'=>false,
+                'data-fancybox'=>null,
             ));
         }
         echo HtmlHelper::link('上传头像', 'javascript:;', array(
@@ -138,3 +138,4 @@ use cms\services\OptionService;
         ));
     ?></div>
 </div>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>

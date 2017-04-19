@@ -56,31 +56,31 @@ echo F::form()->open();
                         'id'=>'avatar-img',
                     )), $user['user']['avatar']['url'], array(
                         'encode'=>false,
-                        'class'=>'fancybox-image',
                         'title'=>false,
+                        'data-fancybox'=>null,
                     ));
                     echo HtmlHelper::link(HtmlHelper::img($user['user']['avatar']['thumbnail'], FileService::PIC_THUMBNAIL, array(
                         'id'=>'avatar-img-circle',
                     )), $user['user']['avatar']['url'], array(
                         'encode'=>false,
-                        'class'=>'fancybox-image',
                         'title'=>false,
+                        'data-fancybox'=>null,
                     ));
                 }else{
                     echo HtmlHelper::inputHidden('avatar', '0', array('id'=>'avatar-id'));
                     echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
                         'id'=>'avatar-img',
                     )), $this->assets('images/avatar.png'), array(
-                        'class'=>'fancybox-image',
                         'encode'=>false,
                         'title'=>false,
+                        'data-fancybox'=>null,
                     ));
                     echo HtmlHelper::link(HtmlHelper::img($this->assets('images/avatar.png'), 0, array(
                         'id'=>'avatar-img-circle',
                     )), $this->assets('images/avatar.png'), array(
-                        'class'=>'fancybox-image',
                         'encode'=>false,
                         'title'=>false,
+                        'data-fancybox'=>null,
                     ));
                 }
                 echo HtmlHelper::link('上传头像', 'javascript:;', array(
@@ -102,8 +102,6 @@ echo F::form()->open();
     ))?>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->assets('js/browserplus-min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>
 <script>
 user.user_id = <?php echo \F::form()->getData('id')?>;

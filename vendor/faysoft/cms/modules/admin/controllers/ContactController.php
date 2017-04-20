@@ -200,7 +200,7 @@ class ContactController extends AdminController{
         }
         
         //格式化数据
-        $contact['publish_time'] = date('Y-m-d H:i:s', $contact['publish_time']);
+        $contact['publish_time'] = $contact['publish_time'] ? date('Y-m-d H:i:s', $contact['publish_time']) : '';
         $contact['create_time'] = DateHelper::format($contact['create_time']);
         $contact['ip_int'] = long2ip($contact['ip_int']);
         $contact['show_ip_int'] = long2ip($contact['show_ip_int']);

@@ -18,11 +18,13 @@ use fay\helpers\DateHelper;
             'title'=>'编辑',
         ), true);
         if(F::app()->checkPermission('cms/admin/contact/reply')){
-            echo HtmlHelper::link('<i class="fa fa-reply-all"></i>', '#contact-reply-dialog', array(
+            echo HtmlHelper::link('<i class="fa fa-reply-all"></i>', 'javascript:', array(
                 'data-id'=>$data['id'],
                 'class'=>'btn btn-grey reply-link',
                 'encode'=>false,
                 'title'=>'回复',
+                'data-src'=>'#contact-reply-dialog',
+                'data-caption'=>'',
             ));
         }
         echo HtmlHelper::link('<i class="fa fa-trash"></i>', array('cms/admin/contact/remove', array(

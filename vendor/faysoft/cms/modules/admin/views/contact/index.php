@@ -52,37 +52,31 @@
 <script>
 var contact = {
     'reset': function(){
-        $('#contact-reply-dialog [name="id"]').val('');
-        $('#contact-reply-dialog [name="reply"]').val('');
-        $('#contact-reply-dialog .user-message-container').html('');
+        var $contactReplyDialog = $('#contact-reply-dialog');
+        $contactReplyDialog.find('[name="id"]').val('');
+        $contactReplyDialog.find('[name="reply"]').val('');
+        $contactReplyDialog.find('.user-message-container').html('');
     },
     'reply': function(){
-        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-                $('.contact-item .reply-link').fancybox({
-                    'padding': 0,
-                    'titleShow': false,
-                    'centerOnScroll': true,
-                    'onStart': function(o){
-                        var id = $(o).attr('data-id');
-                        if(id != $('#contact-reply-dialog [name="id"]').val()){
-                            contact.reset();
-                            $contact = $('#contact-'+id);
-                            $('#contact-reply-dialog [name="id"]').val(id);
-                            if($contact.find('.ci-reply-container').length){
-                                var reply = $contact.find('.ci-reply-container').html().replace(/<br>/g, '');
-                            }else{
-                                var reply = '';
-                            }
-                            $('#contact-reply-dialog [name="reply"]').val(reply);
-                            $('#contact-reply-dialog .user-message-container').html($contact.find('.ci-content').html());
+        common.loadFancybox(function(){
+            var $contactReplyDialog = $('#contact-reply-dialog');
+            $('.contact-item .reply-link').fancybox({
+                'onComplete': function(instance, slide){
+                    var id = slide.opts.$orig.attr('data-id');
+                    if(id != $contactReplyDialog.find('[name="id"]').val()){
+                        contact.reset();
+                        $contact = $('#contact-' + id);
+                        $contactReplyDialog.find('[name="id"]').val(id);
+                        if($contact.find('.ci-reply-container').length){
+                            var reply = $contact.find('.ci-reply-container').html().replace(/<br>/g, '');
+                        }else{
+                            var reply = '';
                         }
-                    },
-                    'onComplete': function(o){
-                        autosize.update($('#contact-reply-dialog [name="reply"]'));
-                        $.fancybox.center(true);
+                        $contactReplyDialog.find('[name="reply"]').val(reply);
+                        $contactReplyDialog.find('.user-message-container').html($contact.find('.ci-content').html());
                     }
-                });
+                    autosize.update($contactReplyDialog.find('[name="reply"]'));
+                }
             });
         });
     },

@@ -40,7 +40,7 @@
 $(function(){
     var contact = {
         'validform': function(rules, labels){
-            system.getScript(system.assets('faycms/js/fayfox.validform.js'), function(){
+            system.getScript(system.assets('faycms/js/fayfox.validform.min.js'), function(){
                 $('#widget-<?php echo $widget->alias?>-form').validform({
                     'showAllErrors': false,
                     'onError': function(obj, msg){

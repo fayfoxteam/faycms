@@ -53,7 +53,7 @@ class StringValidator extends Validator{
      * 内置一些格式正则
      */
     private $formats = array(
-        'alias'=>'/^[a-zA-Z][a-zA-Z_0-9-]{0,49}$/',//字母开头，不包含数字，字母，下划线和中横线以外的特殊字符
+        'alias'=>'/^[a-zA-Z_][a-zA-Z_0-9-]{0,49}$/',//字母开头，不包含数字，字母，下划线和中横线以外的特殊字符
         'numeric'=>'/^\d+$/',//纯数字
         'alnum'=>'/^[a-zA-Z0-9]+$/',//数字+字母
         'alias_space'=>'/^[a-zA-Z_0-9- ]+$/',//数字，字母，下划线，中横线和空格

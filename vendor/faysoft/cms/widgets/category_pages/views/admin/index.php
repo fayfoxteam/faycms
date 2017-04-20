@@ -43,26 +43,26 @@ use cms\services\user\UserRoleService;
             <div class="form-field">
                 <label class="title bold">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
                 <?php
-                    echo HtmlHelper::inputRadio('uri', 'page/{$id}', !isset($config['uri']) || $config['uri'] == 'page/{$id}', array(
+                    echo HtmlHelper::inputRadio('uri', 'page/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'page/{$id}', array(
                         'label'=>'page/{$id}',
                     ));
-                    echo HtmlHelper::inputRadio('uri', 'page/{$alias}', isset($config['uri']) && $config['uri'] == 'page/{$alias}', array(
+                    echo HtmlHelper::inputRadio('uri', 'page/{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'page/{$alias}', array(
                         'label'=>'page/{$alias}',
                     ));
-                    echo HtmlHelper::inputRadio('uri', 'page-{$id}', isset($config['uri']) && $config['uri'] == 'page-{$id}', array(
+                    echo HtmlHelper::inputRadio('uri', 'page-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'page-{$id}', array(
                         'label'=>'page-{$id}',
                     ));
-                    echo HtmlHelper::inputRadio('uri', 'page-{$alias}', isset($config['uri']) && $config['uri'] == 'page-{$alias}', array(
+                    echo HtmlHelper::inputRadio('uri', 'page-{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'page-{$alias}', array(
                         'label'=>'page-{$alias}',
                     ));
-                    echo HtmlHelper::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+                    echo HtmlHelper::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
                         'page/{$id}', 'page-{$id}',
                     )), array(
                         'label'=>'其它',
                     ));
-                    echo HtmlHelper::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+                    echo HtmlHelper::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
                         'page/{$id}', 'page/{$alias}', 'page-{$id}', 'page-{$alias}',
-                    )) ? $config['uri'] : '', array(
+                    )) ? $widget->config['uri'] : '', array(
                         'class'=>'form-control mw150 ib',
                     ));
                 ?>

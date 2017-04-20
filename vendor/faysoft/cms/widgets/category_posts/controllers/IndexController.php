@@ -237,6 +237,10 @@ class IndexController extends Widget{
                 $p['post']['format_publish_time'] = '';
             }
             
+            $uri = $this->config['uri'];
+            if(preg_match('/{\$date:(\w+)}/', $this->config['uri'], $match)){
+                $uri = preg_replace('/{\$date:(\w+)}/', date($match[1], $p['post']['publish_time']), $uri);
+            }
             //附加文章链接
             $p['post']['link'] = $this->view->url(str_replace(
                 array(
@@ -245,7 +249,7 @@ class IndexController extends Widget{
                 array(
                     $p['post']['id'], $p['post']['cat_id']
                 ),
-                $this->config['uri']
+                $uri
             ));
         }
         

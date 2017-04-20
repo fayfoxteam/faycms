@@ -103,7 +103,13 @@ use cms\services\user\UserRoleService;
                     ));
                 ?>
                 <p class="fc-grey">
-                    <code>{$id}</code>代表“文章ID”，<code>{$cat_id}</code>代表“文章主分类ID”。
+                    <code>{$id}</code>代表“文章ID”<br>
+                    <code>{$cat_id}</code>代表“分类ID”<br>
+                    <code>{$date:xx}</code>代表“发布时间”，其中xx可以是一下参数的组合（实际上是php自带date函数参数）：<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>Y</code>代表“发布四位年份”，例如：<?php echo date('Y')?><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>y</code>代表“发布两位年份”，例如：<?php echo date('y')?><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>m</code>代表“有前导0的月份”，例如：03<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>n</code>代表“没有签到0的月份”，例如：3<br>
                     不要包含base_url部分
                 </p>
             </div>

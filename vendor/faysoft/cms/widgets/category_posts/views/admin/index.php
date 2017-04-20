@@ -121,27 +121,31 @@ use cms\services\user\UserRoleService;
             <div class="form-field">
                 <label class="title bold">链接格式<span class="fc-red">（若非开发人员，请不要修改此配置）</span></label>
                 <?php
-                    echo HtmlHelper::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
+                    echo HtmlHelper::inputRadio('uri', 'post/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'post/{$id}', array(
                         'label'=>'post/{$id}',
                     ));
-                    echo HtmlHelper::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
+                    echo HtmlHelper::inputRadio('uri', 'post-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'post-{$id}', array(
                         'label'=>'post-{$id}',
                     ));
-                    echo HtmlHelper::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
+                    echo HtmlHelper::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
                         'post/{$id}', 'post-{$id}',
                     )), array(
                         'label'=>'其它',
                     ));
-                    echo HtmlHelper::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
+                    echo HtmlHelper::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
                         'post/{$id}', 'post-{$id}',
-                    )) ? $config['uri'] : '', array(
+                    )) ? $widget->config['uri'] : '', array(
                         'class'=>'form-control mw150 ib',
                     ));
                 ?>
                 <p class="fc-grey">
                     <code>{$id}</code>代表“文章ID”<br>
                     <code>{$cat_id}</code>代表“分类ID”<br>
-                    <code>{$cat_alias}</code>代表“分类别名”<br>
+                    <code>{$date:xx}</code>代表“发布时间”，其中xx可以是一下参数的组合（实际上是php自带date函数参数）：<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>Y</code>代表“发布四位年份”，例如：<?php echo date('Y')?><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>y</code>代表“发布两位年份”，例如：<?php echo date('y')?><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>m</code>代表“有前导0的月份”，例如：03<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<code>n</code>代表“没有签到0的月份”，例如：3<br>
                     不要包含base_url部分
                 </p>
             </div>

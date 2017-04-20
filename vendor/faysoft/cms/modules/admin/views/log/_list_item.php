@@ -12,9 +12,11 @@ use fay\helpers\DateHelper;
 <tr valign="top" id="link-<?php echo $data['id']?>">
     <td><strong><?php echo $data['code']?></strong>
         <div class="row-actions">
-            <?php echo HtmlHelper::link('快速查看', '#log-detail-dialog', array(
+            <?php echo HtmlHelper::link('快速查看', 'javascript:', array(
                 'class'=>'quick-view',
                 'data-id'=>$data['id'],
+                'data-src'=>'log-detail-dialog',
+                'data-caption'=>'',
             ))?>
         </div>
     </td>

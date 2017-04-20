@@ -123,46 +123,41 @@ use cms\models\tables\LogsTable;
 </div>
 <script>
 $(function(){
-    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-            $(".quick-view").fancybox({
-                'padding':0,
-                'titleShow':false,
-                'centerOnScroll':true,
-                'onComplete':function(o){
-                    $("#log-detail-dialog").block({
-                        'zindex': 120000
-                    });
-                    $.ajax({
-                        type: "GET",
-                        url: system.url("cms/admin/log/get"),
-                        data: {"id":$(o).attr('data-id')},
-                        dataType: "json",
-                        cache: false,
-                        success: function(resp){
-                            $("#log-detail-dialog").unblock();
-                            if(resp.status){
-                                $("#ld-code").val(resp.data.code);
-                                $("#ld-data").val(resp.data.data);
-                                $("#ld-user_agent").val(resp.data.user_agent);
-                                autosize.update($("#ld-data"));
-                                autosize.update($("#ld-user_agent"));
-                                $("#ld-create_time").val(system.date(resp.data.create_time));
-                                if(resp.data.user_id == 0){
-                                    $("#ld-username").val('系统');
-                                }else{
-                                    $("#ld-username").val(resp.data.username);
-                                }
+    common.loadFancybox(function(){
+        $('.quick-view').fancybox({
+            'onComplete':function(instance, slide){
+                $('#log-detail-dialog').block({
+                    'zindex': 120000
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: system.url('cms/admin/log/get'),
+                    data: {'id': slide.opts.$orig.attr('data-id')},
+                    dataType: 'json',
+                    cache: false,
+                    success: function(resp){
+                        $('#log-detail-dialog').unblock();
+                        if(resp.status){
+                            $('#ld-code').val(resp.data.code);
+                            $('#ld-data').val(resp.data.data);
+                            $('#ld-user_agent').val(resp.data.user_agent);
+                            autosize.update($('#ld-data'));
+                            autosize.update($('#ld-user_agent'));
+                            $('#ld-create_time').val(system.date(resp.data.create_time));
+                            if(resp.data.user_id == 0){
+                                $('#ld-username').val('系统');
                             }else{
-                                common.alert(resp.message);
+                                $('#ld-username').val(resp.data.username);
                             }
+                        }else{
+                            common.alert(resp.message);
                         }
-                    });
-                },
-                'onClosed':function(){
-                    $("#log-detail-dialog").unblock();
-                }
-            });
+                    }
+                });
+            },
+            'onClosed':function(){
+                $('#log-detail-dialog').unblock();
+            }
         });
     });
 });

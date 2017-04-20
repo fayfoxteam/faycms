@@ -229,7 +229,7 @@ class DbCompareController extends ToolsController{
         $this->view->left_fields = $left_fields;
         $this->view->left_fields_simple = $left_fields_simple;
         $left_ddl = $this->left_db->fetchRow("SHOW CREATE TABLE {$this->db_config['left']['prefix']}{$name}");
-        $this->view->left_ddl = $left_ddl['Create Table'];
+        $this->view->left_ddl = preg_replace('/ AUTO_INCREMENT=\d+/', '', $left_ddl['Create Table']);
         
         $right_fields = $this->right_db->fetchAll("SHOW FULL FIELDS FROM {$this->db_config['right']['prefix']}{$name}");
         $right_fields_simple = array();
@@ -239,7 +239,7 @@ class DbCompareController extends ToolsController{
         $this->view->right_fields = $right_fields;
         $this->view->right_fields_simple = $right_fields_simple;
         $right_ddl = $this->right_db->fetchRow("SHOW CREATE TABLE {$this->db_config['right']['prefix']}{$name}");
-        $this->view->right_ddl = $right_ddl['Create Table'];
+        $this->view->right_ddl = preg_replace('/ AUTO_INCREMENT=\d+/', '', $right_ddl['Create Table']);
         
         $this->view->all_fields = $this->merge($left_fields_simple, $right_fields_simple);
         

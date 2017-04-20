@@ -1,5 +1,17 @@
-<?php use fay\core\Loader;
-$this->appendCss($this->assets('faycms/css/diff.css'))?>
+<?php
+/**
+ * @var $db_config array
+ * @var $all_fields array
+ * @var $left_fields_simple array
+ * @var $right_fields_simple array
+ * @var $left_fields array
+ * @var $right_fields array
+ * @var $left_ddl string
+ * @var $right_ddl string
+ */
+
+$this->appendCss($this->assets('faycms/css/diff.css'))
+?>
 <div class="row">
     <div class="col-6">
         <h3 class="mb5"><?php echo $db_config['left']['host'], '/', $db_config['left']['dbname']?></h3>

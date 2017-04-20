@@ -46,6 +46,10 @@ use fay\helpers\HtmlHelper;
                     ));
                     echo HtmlHelper::link('删除', 'javascript:;', array(
                         'class'=>'btn btn-grey mt5 btn-sm fl widget-remove-attr-link',
+                        'wrapper'=>array(
+                            'tag'=>'span',
+                            'class'=>'ib col-5 fl',
+                        ),
                     ));
                 ?></div>
             </div>
@@ -80,6 +84,10 @@ use fay\helpers\HtmlHelper;
             echo HtmlHelper::link('添加', 'javascript:;', array(
                 'class'=>'btn mt5 btn-sm fl',
                 'id'=>'widget-add-attr-link',
+                'wrapper'=>array(
+                    'tag'=>'span',
+                    'class'=>'ib col-5 fr',
+                ),
             ));
         ?></div>
     </div>
@@ -122,7 +130,10 @@ var widgetOptions = {
                                 $addAttrValue.val(),
                             '</textarea>',
                         '</span>',
-                        '<a class="btn btn-grey mt5 btn-sm fl widget-remove-attr-link" href="javascript:" title="删除">删除</a></div>',
+                        '<span class="ib col-5 fl">',
+                            '<a class="btn btn-grey mt5 btn-sm fl widget-remove-attr-link" href="javascript:" title="删除">删除</a></div>',
+                        '</span>',
+                    '</div>',
                 '</div>'].join(''));
                 $addAttrKey.val('');
                 $addAttrValue.val('');

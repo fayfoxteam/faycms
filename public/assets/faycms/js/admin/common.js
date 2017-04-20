@@ -24,7 +24,7 @@ var common = {
                         'zindex': 1300
                     });
                 },
-                'onError': function(obj, msg, rule){
+                'onError': function(obj, msg){
                     $('body').unblock();
                     var last = $.validform.getElementsByName(obj).last();
                     last.poshytip('destroy');
@@ -63,7 +63,7 @@ var common = {
                         common.alert(resp.message);
                     }
                 },
-                'onError': function(obj, msg, rule){
+                'onError': function(obj, msg){
                     var last = $.validform.getElementsByName(obj).last();
                     last.poshytip('destroy');
                     //报错
@@ -102,7 +102,7 @@ var common = {
 
         //全局绑定清除tips事件，一般是表单验证的时候弹出来的
         $(document).on('beforeClose.fb', function(e, instance, slide){
-            if(slide.type == 'inline'){
+            if(slide.type == 'inline' && typeof $.Poshytip == 'function'){
                 $(slide.src).find('input,select,textarea').each(function(){
                     $(this).poshytip('hide');
                 });
@@ -117,7 +117,7 @@ var common = {
                 url: system.url('cms/admin/notification/mute'),
                 dataType: 'json',
                 cache: false,
-                success: function(resp){
+                success: function(){
                     common.headerNotification();
                 }
             });
@@ -224,9 +224,10 @@ var common = {
         });
     },
     'menu': function(){
+        var $sidebarMenu = $('#sidebar-menu');
         $('#main-menu').on('click', '.has-sub > a', function(){
             //非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）
-            if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768){
+            if($(this).parent().parent().parent().hasClass('has-sub') || !$sidebarMenu.hasClass('collapsed') || $(window).width() < 768){
                 var slideElapse = 300,//滑动效果持续
                 $li = $(this).parent(),//父级li
                 $ul = $(this).next('ul'),//子菜单的ul
@@ -272,30 +273,30 @@ var common = {
         
         //打开缩起左侧菜单
         $('.toggle-sidebar').on('click', function(){
-            $('#sidebar-menu').toggleClass('collapsed');
+            $sidebarMenu.toggleClass('collapsed');
             $(window).resize();
             $.ajax({
                 type: 'POST',
                 url: system.url('cms/admin/system/setting'),
                 data: {
                     '_key': 'admin_sidebar_class',
-                    'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
+                    'class':$sidebarMenu.hasClass('collapsed') ? 'collapsed' : ''
                 }
             });
         });
         
         //左侧菜单固定
-        if($('.sidebar-menu').hasClass('fixed')){
+        if($sidebarMenu.hasClass('fixed')){
             //插件不支持IE8
             system.getCss(system.assets('css/perfect-scrollbar.css'), function(){
                 system.getScript(system.assets('js/perfect-scrollbar.js'), function(){
-                    if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
+                    if(parseInt($(window).width()) > 768 && !$sidebarMenu.hasClass('collapsed')){
                         $('.sidebar-menu-inner').perfectScrollbar({
                             'wheelPropagation': true
                         });
                     }
                     $(window).resize(function(){
-                        if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
+                        if(parseInt($(window).width()) > 768 && !$sidebarMenu.hasClass('collapsed')){
                             $('.sidebar-menu-inner').perfectScrollbar({
                                 'wheelPropagation': true
                             });
@@ -307,7 +308,7 @@ var common = {
             });
         }else{
             //ie8的情况下移除fixed
-            $('.sidebar-menu').removeClass('fixed');
+            $sidebarMenu.removeClass('fixed');
         }
     },
     'screenMeta': function(){
@@ -319,9 +320,10 @@ var common = {
     },
     'dragsort': function(){
         //box的拖拽
-        if($('.dragsort').length){
+        var $dragsort = $('.dragsort');
+        if($dragsort.length){
             system.getScript(system.assets('js/jquery.dragsort-0.5.2.js'), function(){
-                $('.dragsort').dragsort({
+                $dragsort.dragsort({
                     'itemSelector': 'div.box',
                     'dragSelector': 'h4',
                     'dragBetween': true,
@@ -329,7 +331,7 @@ var common = {
                     'dragSelectorExclude': 'input,textarea,select,table,span,p',
                     'dragEnd': function(){
                         //拖拽后poshytip需要重新定位
-                        $('.dragsort').find('input,select,textarea').each(function(){
+                        $dragsort.find('input,select,textarea').each(function(){
                             if($(this).data('poshytip')){
                                 $(this).poshytip('refresh');
                             }
@@ -340,7 +342,7 @@ var common = {
                             var data = {
                                 '_key':common.dragsortKey
                             };
-                            $('.dragsort').each(function(){
+                            $dragsort.each(function(){
                                 var sort = [];
                                 $(this).find('.box').each(function(){
                                     if($(this).attr('data-name')){
@@ -406,10 +408,11 @@ var common = {
             $box.slideUp('normal', function(){
                 $(this).remove();
             });
-            var $settingItem = $("#setting-form input[name='boxes[]'][value='"+$box.attr('data-name')+"']");
+            var $settingForm = $('#setting-form');
+            var $settingItem = $settingForm.find("input[name='boxes[]'][value='"+$box.attr('data-name')+"']");
             if($settingItem.length){
                 $settingItem.attr('checked', false);
-                $('#setting-form').submit();
+                $settingForm.submit();
             }
         });
         //表单提交
@@ -685,7 +688,7 @@ var common = {
                         common.codeEditor.getSession().setUseWrapMode(true);
                     }
                     //当文本被编辑时，实时更新隐藏的文本域
-                    common.codeEditor.getSession().on('change', function(e) {
+                    common.codeEditor.getSession().on('change', function() {
                         $codeEditor.val(common.codeEditor.getValue());
                     });
                     //初始化编辑器内容
@@ -755,22 +758,24 @@ var common = {
             $('body').on('change', '.batch-ids-all', function(){
                 $('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
             }).on('click', '#batch-form-submit', function(){
-                if($('#batch-action').val() == ''){
+                var batchActionValue = $('#batch-action').val();
+                if(batchActionValue == ''){
                     common.alert('请选择操作');
                 }else{
                     $('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
-                    $batchForm.append('<input type="hidden" name="batch_action" value="'+$('#batch-action').val()+'">')
+                    $batchForm.append('<input type="hidden" name="batch_action" value="'+batchActionValue+'">')
                         .append('<input type="hidden" name="_submit" value="batch-form-submit">');
                     $('body').block();
                     $batchForm.submit();
                 }
                 return false;
             }).on('click', '#batch-form-submit-2', function(){
-                if($('#batch-action-2').val() == ''){
+                var batchAction2Value = $('#batch-action-2').val();
+                if(batchAction2Value == ''){
                     common.alert('请选择操作');
                 }else{
                     $('#batch-form [name="batch_action"],#batch-form [name="_submit"]').remove();
-                    $batchForm.append('<input type="hidden" name="batch_action" value="'+$('#batch-action-2').val()+'">')
+                    $batchForm.append('<input type="hidden" name="batch_action" value="'+batchAction2Value+'">')
                         .append('<input type="hidden" name="_submit" value="batch-form-submit-2">');
                     $('body').block();
                     $batchForm.submit();
@@ -788,7 +793,7 @@ var common = {
                     'itemSelector': 'div.dragsort-item',
                     'dragSelector': '.dragsort-item-selector',
                     'placeHolderTemplate': '<div class="dragsort-item holder"></div>',
-                    'dragEnd': function(a, b, c){
+                    'dragEnd': function(){
                         //拖拽后poshytip需要重新定位
                         $dragsortList.find('input,select,textarea').each(function(){
                             if($(this).data('poshytip')){

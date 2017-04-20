@@ -1,5 +1,13 @@
 <?php
 use fay\helpers\HtmlHelper;
+
+/**
+ * @var $db_config array
+ * @var $all_tables array
+ * @var $left_tables array
+ * @var $right_tables array
+ * @var $diff_tables array
+ */
 ?>
 <div class="row">
     <div class="col-6">
@@ -199,142 +207,134 @@ $(function(){
     });
 
     //数据传输
-    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-            $(".data-transfer").fancybox({
-                'padding':0,
-                'titleShow':false,
-                'centerOnScroll':false,
-                'hideOnOverlayClick':false,
-                'onStart':function(o){
-                    if($(o).attr('data-db') == 'left'){
-                        $('#transfer-form [name="from"]').val('left');
-                        $('.db-table-from').text(db_config.left.host + '/' + db_config.left.dbname);
-                        $('.db-table-to').text(db_config.right.host + '/' + db_config.right.dbname);
-                    }else{
-                        $('#transfer-form [name="from"]').val('right');
-                        $('.db-table-from').text(db_config.right.host + '/' + db_config.right.dbname);
-                        $('.db-table-to').text(db_config.left.host + '/' + db_config.left.dbname);
-                    }
-                    $('#db-table-name').text($(o).attr('data-name'));
-                    $('#transfer-form [name="name"]').val($(o).attr('data-name'));
-                },
-                'onComplete':function(o){
-                    $('#data-transfer-dialog').block({
-                        'zindex': 120000
-                    });
-                    
-                    $.ajax({
-                        'type': 'GET',
-                        'url': system.url('cms/tools/db-compare/get-fields'),
-                        'data': {
-                            'name':$(o).attr('data-name')
-                        },
-                        'dataType': 'json',
-                        'cache': false,
-                        'success': function(resp){
-                            $('#data-transfer-dialog').unblock();
-                            if(resp.status){
-                                if($(o).attr('data-db') == 'left'){
-                                    //点了左侧的传输
-                                    if(resp.data.left.length){
-                                        $('#db-table-from-separate-fields-container').show();
-                                        $('#db-table-from-separate-fields').html(resp.data.left.join(', '));
-                                    }else{
-                                        $('#db-table-from-separate-fields-container').hide();
-                                    }
-                                    if(resp.data.right.length){
-                                        $('#db-table-to-separate-fields-container').show();
-                                        $('#db-table-to-separate-fields').html(resp.data.right.join(', '));
-                                    }else{
-                                        $('#db-table-to-separate-fields-container').hide();
-                                    }
-                                }else{
-                                    //点了右侧的传输
-                                    if(resp.data.right.length){
-                                        $('#db-table-from-separate-fields-container').show();
-                                        $('#db-table-from-separate-fields').html(resp.data.right.join(', '));
-                                    }else{
-                                        $('#db-table-from-separate-fields-container').hide();
-                                    }
-                                    if(resp.data.left.length){
-                                        $('#db-table-to-separate-fields-container').show();
-                                        $('#db-table-to-separate-fields').html(resp.data.left.join(', '));
-                                    }else{
-                                        $('#db-table-to-separate-fields-container').hide();
-                                    }
-                                }
-
-                                $('#db-table-common-fields').html('');
-                                $.each(resp.data.common, function(i, data){
-                                    $('#db-table-common-fields').append(['<p><label>',
-                                        '<input type="checkbox" name="fields[]" value="', data,'" checked="checked" />',
-                                        data,
-                                    '</label></p>'].join(''));
-                                });
-                                
-                                $.fancybox.center();
-                            }
-                        }
-                    });
-                },
-                'onClosed':function(o){
-                    $('#data-transfer-dialog').unblock();
+    common.loadFancybox(function(){
+        $(".data-transfer").fancybox({
+            'caption': function(){return ''},
+            'onComplete':function(instance, slide){
+                var $transferForm = $('#transfer-form');
+                if(slide.opts.$orig.attr('data-db') == 'left'){
+                    $transferForm.find('[name="from"]').val('left');
+                    $('.db-table-from').text(db_config.left.host + '/' + db_config.left.dbname);
+                    $('.db-table-to').text(db_config.right.host + '/' + db_config.right.dbname);
+                }else{
+                    $transferForm.find('[name="from"]').val('right');
+                    $('.db-table-from').text(db_config.right.host + '/' + db_config.right.dbname);
+                    $('.db-table-to').text(db_config.left.host + '/' + db_config.left.dbname);
                 }
-            });
+                $('#db-table-name').text(slide.opts.$orig.attr('data-name'));
+                $transferForm.find('[name="name"]').val(slide.opts.$orig.attr('data-name'));
+                
+                $('#data-transfer-dialog').block({
+                    'zindex': 120000
+                });
+                
+                $.ajax({
+                    'type': 'GET',
+                    'url': system.url('cms/tools/db-compare/get-fields'),
+                    'data': {
+                        'name':slide.opts.$orig.attr('data-name')
+                    },
+                    'dataType': 'json',
+                    'cache': false,
+                    'success': function(resp){
+                        $('#data-transfer-dialog').unblock();
+                        if(resp.status){
+                            var $dbTableFromSeparateFieldsContainer = $('#db-table-from-separate-fields-container');
+                            var $dbTableToSeparateFieldsContainer = $('#db-table-to-separate-fields-container');
+                            var $dbTableFromSeparateFields = $('#db-table-from-separate-fields');
+                            var $dbTableToSeparateFields = $('#db-table-to-separate-fields');
+                            if(slide.opts.$orig.attr('data-db') == 'left'){
+                                //点了左侧的传输
+                                if(resp.data.left.length){
+                                    $dbTableFromSeparateFieldsContainer.show();
+                                    $dbTableFromSeparateFields.html(resp.data.left.join(', '));
+                                }else{
+                                    $dbTableFromSeparateFieldsContainer.hide();
+                                }
+                                if(resp.data.right.length){
+                                    $dbTableToSeparateFieldsContainer.show();
+                                    $dbTableToSeparateFields.html(resp.data.right.join(', '));
+                                }else{
+                                    $dbTableToSeparateFieldsContainer.hide();
+                                }
+                            }else{
+                                //点了右侧的传输
+                                if(resp.data.right.length){
+                                    $dbTableFromSeparateFieldsContainer.show();
+                                    $dbTableFromSeparateFields.html(resp.data.right.join(', '));
+                                }else{
+                                    $dbTableFromSeparateFieldsContainer.hide();
+                                }
+                                if(resp.data.left.length){
+                                    $dbTableToSeparateFieldsContainer.show();
+                                    $dbTableToSeparateFields.html(resp.data.left.join(', '));
+                                }else{
+                                    $dbTableToSeparateFieldsContainer.hide();
+                                }
+                            }
+
+                            $('#db-table-common-fields').html('');
+                            $.each(resp.data.common, function(i, data){
+                                $('#db-table-common-fields').append(['<p><label>',
+                                    '<input type="checkbox" name="fields[]" value="', data,'" checked="checked" />',
+                                    data,
+                                '</label></p>'].join(''));
+                            });
+                        }
+                    }
+                });
+            },
+            'onClosed':function(){
+                $('#data-transfer-dialog').unblock();
+            }
         });
     });
     
     //dll弹窗
-    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-            $(".show-ddl").fancybox({
-                'padding':0,
-                'titleShow':false,
-                'centerOnScroll':false,
-                'onStart':function(o){
-                    $('#ddl-dialog h4').text($(o).attr('data-name'));
-                },
-                'onComplete':function(o){
-                    $('#ddl-dialog').block({
-                        'zindex': 120000
-                    });
-                    $.ajax({
-                        'type': 'GET',
-                        'url': system.url('cms/tools/db-compare/ddl'),
-                        'data': {
-                            'name':$(o).attr('data-name'),
-                            'db':$(o).attr('data-db')
-                        },
-                        'dataType': 'json',
-                        'cache': false,
-                        'success': function(resp){
-                            $('#ddl-dialog').unblock();
-                            if(resp.status){
-                                var $tbody = $('#ddl-dialog .list-table tbody');
-                                $tbody.html('');
-                                $.each(resp.data.fields, function(i, data){
-                                    $tbody.append(['<tr>',
-                                        '<td>', data.Field, '</td>',
-                                        '<td>', data.Type, '</td>',
-                                        '<td>', data.Null, '</td>',
-                                        '<td>', data.Key, '</td>',
-                                        '<td>', data.Default === null ? 'NULL' : (data.Default === '' ? 'Empty String' : data.Default), '</td>',
-                                        '<td>', data.Comment, '</td>',
-                                    '</tr>'].join(''));
-                                });
-                                $('#ddl-code').val(resp.data.ddl);
-                                autosize.update($('#ddl-code'));
-                                $tbody.find('tr:even').addClass('alternate');
-                                $.fancybox.center();
-                            }
+    common.loadFancybox(function(){
+        var $dllDialog = $('#ddl-dialog');
+        $(".show-ddl").fancybox({
+            'caption': function(){return ''},
+            'onComplete': function(instance, slide){
+                $dllDialog.find('h4').text(slide.opts.$orig.attr('data-name'));
+                $dllDialog.block({
+                    'zindex': 120000
+                });
+                $.ajax({
+                    'type': 'GET',
+                    'url': system.url('cms/tools/db-compare/ddl'),
+                    'data': {
+                        'name': slide.opts.$orig.attr('data-name'),
+                        'db': slide.opts.$orig.attr('data-db')
+                    },
+                    'dataType': 'json',
+                    'cache': false,
+                    'success': function(resp){
+                        $dllDialog.unblock();
+                        if(resp.status){
+                            var $tbody = $dllDialog.find('.list-table tbody');
+                            $tbody.html('');
+                            $.each(resp.data.fields, function(i, data){
+                                $tbody.append(['<tr>',
+                                    '<td>', data.Field, '</td>',
+                                    '<td>', data.Type, '</td>',
+                                    '<td>', data.Null, '</td>',
+                                    '<td>', data.Key, '</td>',
+                                    '<td>', data.Default === null ? 'NULL' : (data.Default === '' ? 'Empty String' : data.Default), '</td>',
+                                    '<td>', data.Comment, '</td>',
+                                '</tr>'].join(''));
+                            });
+                            var $dllCode = $('#ddl-code');
+                            $dllCode.val(resp.data.ddl);
+                            autosize.update($dllCode);
+                            $tbody.find('tr:even').addClass('alternate');
                         }
-                    });
-                },
-                'onClosed':function(o){
-                    $('#ddl-dialog').unblock();
-                }
-            });
+                    }
+                });
+            },
+            'onClosed':function(){
+                $dllDialog.unblock();
+            }
         });
     });
 });

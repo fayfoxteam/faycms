@@ -1,5 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
+
+/**
+ * @var $widgets array
+ * @var $widgetareas array
+ */
 ?>
 <div class="row">
     <div class="col-12">
@@ -77,21 +82,11 @@ use fay\helpers\HtmlHelper;
 </div>
 <script>
 $(function(){
-    system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-        system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-            $(".create-instance-link").fancybox({
-                'padding':0,
-                'centerOnScroll':true,
-                'onStart':function(o){
-                    $("#widget-name").val($(o).attr('data-name'));
-                },
-                'type' : 'inline',
-                'onClosed':function(o){
-                    $($(o).attr('href')).find('input').each(function(){
-                        $(this).poshytip('hide');
-                    });
-                }
-            });
+    common.loadFancybox(function(){
+        $('.create-instance-link').fancybox({
+            'beforeLoad': function(instance, slide){
+                $("#widget-name").val(slide.opts.$orig.attr('data-name'));
+            }
         });
     });
 });

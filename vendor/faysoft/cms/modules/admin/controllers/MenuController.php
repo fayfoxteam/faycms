@@ -21,12 +21,14 @@ class MenuController extends AdminController{
         $this->view->root = MenuService::service()->get('_user_menu');
         if($this->checkPermission('cms/admin/menu/create')){
             $this->layout->sublink = array(
-                'uri'=>'#create-cat-dialog',
+                'uri'=>'javascript:',
                 'text'=>'添加菜单集',
                 'html_options'=>array(
-                    'class'=>'create-cat-link',
+                    'class'=>'create-menu-link',
                     'data-title'=>'菜单集',
                     'data-id'=>MenusTable::ITEM_USER_MENU,
+                    'data-src'=>'#create-menu-dialog',
+                    'data-caption'=>'',
                 ),
             );
         }
@@ -162,12 +164,14 @@ class MenuController extends AdminController{
         $this->view->root = MenuService::service()->get('_admin_menu');
         if(UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){
             $this->layout->sublink = array(
-                'uri'=>'#create-cat-dialog',
+                'uri'=>'javascript:',
                 'text'=>'添加菜单集',
                 'html_options'=>array(
-                    'class'=>'create-cat-link',
+                    'class'=>'create-menu-link',
                     'data-title'=>'后台菜单集',
                     'data-id'=>MenusTable::ITEM_ADMIN_MENU,
+                    'data-src'=>'#create-menu-dialog',
+                    'data-caption'=>'',
                 ),
             );
         }

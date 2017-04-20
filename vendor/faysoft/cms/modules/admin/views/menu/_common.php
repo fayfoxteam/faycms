@@ -4,11 +4,15 @@ use cms\models\tables\MenusTable;
 
 F::form('create')->setModel(MenusTable::model());
 F::form('edit')->setModel(MenusTable::model());
+
+/**
+ * @var $root array
+ */
 ?>
 <div class="hide">
-    <div id="edit-cat-dialog" class="dialog">
+    <div id="edit-menu-dialog" class="dialog">
         <div class="dialog-content w550">
-            <h4>编辑菜单<em>（当前菜单：<span id="edit-cat-title" class="fc-orange"></span>）</em></h4>
+            <h4>编辑菜单<em>（当前菜单：<span id="edit-menu-title" class="fc-orange"></span>）</em></h4>
             <?php echo F::form('edit')->open(array('cms/admin/menu/edit'), 'post', array(
                 'class'=>'form-inline',
             ))?>
@@ -118,9 +122,9 @@ F::form('edit')->setModel(MenusTable::model());
     </div>
 </div>
 <div class="hide">
-    <div id="create-cat-dialog" class="dialog">
+    <div id="create-menu-dialog" class="dialog">
         <div class="dialog-content w550">
-            <h4>添加子项<em>（父节点：<span id="create-cat-parent" class="fc-orange"></span>）</em></h4>
+            <h4>添加子项<em>（父节点：<span id="create-menu-parent" class="fc-orange"></span>）</em></h4>
             <?php echo F::form('create')->open(array('cms/admin/menu/create'), 'post', array(
                 'class'=>'form-inline',
             ))?>
@@ -240,78 +244,58 @@ var menu = {
             'url':system.url('cms/admin/menu/sort')
         });
     },
-    'editCat':function(){
-        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-                $('.edit-cat-link').fancybox({
-                    'padding':0,
-                    'titleShow':false,
-                    'centerOnScroll':false,
-                    'onComplete':function(o){
-                        $('#edit-cat-form').find('.submit-loading').remove();
-                        $('#edit-cat-dialog').block({
-                            'zindex': 120000
-                        });
-                        $.ajax({
-                            type: 'GET',
-                            url: system.url('cms/admin/menu/get'),
-                            data: {'id': $(o).attr('data-id')},
-                            dataType: 'json',
-                            cache: false,
-                            success: function(resp){
-                            	var $editCatDialog = $('#edit-cat-dialog');
-								$editCatDialog.unblock();
-                                if(resp.status){
-                                    $('#edit-cat-title').text(resp.data.menu.title);
-                                    $editCatDialog.find("input[name='id']").val(resp.data.menu.id);
-                                    $editCatDialog.find("input[name='title']").val(resp.data.menu.title);
-                                    $editCatDialog.find("input[name='sub_title']").val(resp.data.menu.sub_title);
-                                    $editCatDialog.find("input[name='css_class']").val(resp.data.menu.css_class);
-                                    $editCatDialog.find("input[name='enabled'][value='"+resp.data.menu.enabled+"']").attr('checked', 'checked');
-                                    $editCatDialog.find("input[name='alias']").val(resp.data.menu.alias);
-                                    $editCatDialog.find("input[name='sort']").val(resp.data.menu.sort);
-                                    $editCatDialog.find("input[name='link']").val(resp.data.menu.link);
-                                    $editCatDialog.find("select[name='target']").val(resp.data.menu.target);
-                                    $editCatDialog.find("select[name='parent']").val(resp.data.menu.parent);
-                                    //父节点不能被挂载到其子节点上
-                                    $editCatDialog.find("select[name='parent'] option").attr('disabled', false).each(function(){
-                                        if(system.inArray($(this).attr("value"), resp.data.menu.children) || $(this).attr("value") == resp.data.menu.id){
-                                            $(this).attr('disabled', 'disabled');
-                                        }
-                                    });
-                                    
-                                }else{
-                                    common.alert(resp.message);
-                                }
+    'editMenu':function(){
+        common.loadFancybox(function(){
+            $('.edit-menu-link').fancybox({
+                'onComplete': function(instance, slide){
+                    $('#edit-menu-form').find('.submit-loading').remove();
+                    $('#edit-menu-dialog').block({
+                        'zindex': 120000
+                    });
+                    $.ajax({
+                        type: 'GET',
+                        url: system.url('cms/admin/menu/get'),
+                        data: {'id': slide.opts.$orig.attr('data-id')},
+                        dataType: 'json',
+                        cache: false,
+                        success: function(resp){
+                            var $editMenuDialog = $('#edit-menu-dialog');
+                            $editMenuDialog.unblock();
+                            if(resp.status){
+                                $('#edit-menu-title').text(resp.data.menu.title);
+                                $editMenuDialog.find("input[name='id']").val(resp.data.menu.id);
+                                $editMenuDialog.find("input[name='title']").val(resp.data.menu.title);
+                                $editMenuDialog.find("input[name='sub_title']").val(resp.data.menu.sub_title);
+                                $editMenuDialog.find("input[name='css_class']").val(resp.data.menu.css_class);
+                                $editMenuDialog.find("input[name='enabled'][value='"+resp.data.menu.enabled+"']").attr('checked', 'checked');
+                                $editMenuDialog.find("input[name='alias']").val(resp.data.menu.alias);
+                                $editMenuDialog.find("input[name='sort']").val(resp.data.menu.sort);
+                                $editMenuDialog.find("input[name='link']").val(resp.data.menu.link);
+                                $editMenuDialog.find("select[name='target']").val(resp.data.menu.target);
+                                $editMenuDialog.find("select[name='parent']").val(resp.data.menu.parent);
+                                //父节点不能被挂载到其子节点上
+                                $editMenuDialog.find("select[name='parent'] option").attr('disabled', false).each(function(){
+                                    if(system.inArray($(this).attr("value"), resp.data.menu.children) || $(this).attr("value") == resp.data.menu.id){
+                                        $(this).attr('disabled', 'disabled');
+                                    }
+                                });
+                                
+                            }else{
+                                common.alert(resp.message);
                             }
-                        });
-                    },
-                    'onClosed':function(o){
-                        $($(o).attr('href')).find('input,select,textarea').each(function(){
-                            $(this).poshytip('hide');
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             });
         });
     },
-    'createCat':function(){
-        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-                $('.create-cat-link').fancybox({
-                    'padding':0,
-                    'titleShow':false,
-                    'centerOnScroll':false,
-                    'onStart':function(o){
-                        $('#create-cat-parent').text($(o).attr('data-title'));
-                        $("#create-cat-dialog  input[name='parent']").val($(o).attr('data-id'));
-                    },
-                    'onClosed':function(o){
-                        $($(o).attr('href')).find('input,select,textarea').each(function(){
-                            $(this).poshytip('hide');
-                        });
-                    }
-                });
+    'createMenu':function(){
+        common.loadFancybox(function(){
+            $('.create-menu-link').fancybox({
+                'onComplete': function(instance, slide){
+                    $('#create-menu-parent').text(slide.opts.$orig.attr('data-title'));
+                    $('#create-menu-dialog').find('input[name="parent"]').val(slide.opts.$orig.attr('data-id'));
+                }
             });
         });
     },
@@ -345,8 +329,8 @@ var menu = {
     },
     'init':function(){
         this.events();
-        this.editCat();
-        this.createCat();
+        this.editMenu();
+        this.createMenu();
         this.enabled();
     }
 };

@@ -17,16 +17,20 @@ function showCats($tree, $dep = 0){?>
                     </span>
                     <?php
                         if(F::app()->checkPermission('cms/admin/menu/create')){
-                            echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
-                                'class'=>'create-cat-link',
+                            echo HtmlHelper::link('添加子节点', 'javascript:', array(
+                                'class'=>'create-menu-link',
                                 'data-title'=>HtmlHelper::encode($node['title']),
                                 'data-id'=>$node['id'],
+                                'data-src'=>'#create-menu-dialog',
+                                'data-caption'=>'',
                             ));
                         }
                         if(F::app()->checkPermission('cms/admin/menu/edit')){
-                            echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
-                                'class'=>'edit-cat-link',
+                            echo HtmlHelper::link('编辑', 'javascript:', array(
+                                'class'=>'edit-menu-link',
                                 'data-id'=>$node['id'],
+                                'data-src'=>'#edit-menu-dialog',
+                                'data-caption'=>'',
                             ));
                         }
                         if(F::app()->checkPermission('cms/admin/menu/remove')){
@@ -60,7 +64,7 @@ function showCats($tree, $dep = 0){?>
                             'class'=>F::app()->checkPermission('cms/admin/menu/edit') ? 'enabled-link mr5' : 'mr5',
                             'data-id'=>$node['id'],
                             'encode'=>false,
-                            'title'=>F::app()->checkPermission('cms/admin/post/cat-edit') ? '是否启用（点击可改变状态）' : false,
+                            'title'=>F::app()->checkPermission('cms/admin/menu/edit') ? '是否启用（点击可改变状态）' : false,
                         ));
                         
                         if(empty($node['children'])){

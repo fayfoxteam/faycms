@@ -80,7 +80,6 @@ var cat = {
     'toggleSEOInfo':function(){
         $('.toggle-seo-info').click(function(){
             $(this).parent().parent().nextAll('.toggle').toggle();
-            $.fancybox.center();
         });
     },
     'isNav':function(){

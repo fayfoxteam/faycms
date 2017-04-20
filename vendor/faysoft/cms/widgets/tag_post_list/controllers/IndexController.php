@@ -64,7 +64,6 @@ class IndexController extends Widget{
         empty($config['tag_id_key']) && $config['tag_id_key'] = 'tag_id';
         empty($config['page_size']) && $config['page_size'] = 10;
         empty($config['page_key']) && $config['page_key'] = 'page';
-        empty($config['uri']) && $config['uri'] = 'post/{$id}';
         empty($config['date_format']) && $config['date_format'] = 'pretty';
         isset($config['fields']) || $config['fields'] = array('category');
         empty($config['pager']) && $config['pager'] = 'system';

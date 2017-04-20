@@ -2,7 +2,7 @@
 namespace {{$name}}\modules\frontend\controllers;
 
 use {{$name}}\library\FrontController;
-use fay\services\OptionService;
+use cms\services\OptionService;
 
 class IndexController extends FrontController{
 	public function __construct(){

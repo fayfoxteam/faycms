@@ -4,7 +4,7 @@ namespace {{$name}}\library;
 use fay\core\Controller;
 use fay\core\Http;
 use fay\helpers\RequestHelper;
-use fay\models\tables\SpiderLogsTable;
+use cms\models\tables\SpiderLogsTable;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';

@@ -15,7 +15,7 @@ use fay\helpers\HtmlHelper;
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
 <title><?php if(!empty($title)){
-	echo $title, '_';
+    echo $title, '_';
 }
 echo OptionService::get('site:sitename')?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">

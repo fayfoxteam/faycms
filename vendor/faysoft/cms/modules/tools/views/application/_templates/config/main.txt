@@ -4,23 +4,23 @@
  * 若不设置则默认使用外面的配置参数
  */
 return array(
-	/*
-	 * 数据库参数
-	 */
-	'db'=>array(
-		'host'=>'{{$host}}',					//数据库服务器
-		'user'=>'{{$user}}',							//用户名
-		'password'=>'{{$password}}',							//密码
-		'port'=>{{$port}},							//端口
-		'dbname'=>'{{$dbname}}',					//数据库名
-		'charset'=>'{{$charset}}',						//数据库编码方式
-		'table_prefix'=>'{{$table_prefix}}',				//数据库表前缀
-	),
-	
-	/*
-	 * 当前application包含的模块
-	 */
-	'modules'=>array(
-		'frontend'
-	),
+    /*
+     * 数据库参数
+     */
+    'db'=>array(
+        'host'=>'{{$host}}',//数据库服务器
+        'user'=>'{{$user}}',//用户名
+        'password'=>'{{$password}}',//密码
+        'port'=>{{$port}},//端口
+        'dbname'=>'{{$dbname}}',//数据库名
+        'charset'=>'{{$charset}}',//数据库编码方式
+        'table_prefix'=>'{{$table_prefix}}',//数据库表前缀
+    ),
+    
+    /*
+     * 当前application包含的模块
+     */
+    'modules'=>array(
+        'frontend'
+    ),
 );

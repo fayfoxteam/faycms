@@ -12,8 +12,10 @@ use fay\helpers\HtmlHelper;
     </div>
     <div class="widget-content">
         <ul>
-        <?php foreach($links as $l){?>
-            <li><?php echo HtmlHelper::link($l['title'], $l['url']);?></li>
+        <?php foreach($links as $link){?>
+            <li><?php echo HtmlHelper::link($link['title'], $link['url'], array(
+                'target'=>empty($link['target']) ? false : $link['target'],
+            ));?></li>
         <?php }?>
         </ul>
     </div>

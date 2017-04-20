@@ -139,7 +139,9 @@ use cms\services\user\UserRoleService;
                     ));
                 ?>
                 <p class="fc-grey">
-                    <code>{$id}</code>代表“文章ID”。
+                    <code>{$id}</code>代表“文章ID”<br>
+                    <code>{$cat_id}</code>代表“分类ID”<br>
+                    <code>{$cat_alias}</code>代表“分类别名”<br>
                     不要包含base_url部分
                 </p>
             </div>

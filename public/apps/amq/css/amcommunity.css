@@ -1,0 +1,1006 @@
+@charset "utf-8";
+/****全局******************************************************/
+html{font-size:20px}
+@media only screen and (min-width:320px) and (max-width: 565px){html{font-size:16px!important}}
+@media only screen and (min-width:566px) and (max-width: 768px){html{font-size:18px!important}}
+body,div,section,article,header,nav,footer,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p,span,img,form,fieldset,legend,input,button,
+
+textarea,blockquote,th,td,menu,figure,dir,sup{
+						margin: 0;
+						padding: 0;
+						border: 0;
+						outline:0;
+					}
+body{
+	font-family:"微软雅黑","Helvetica Neue",Tohoma;
+	font-size:100%;
+
+}
+
+a{
+	text-decoration: none !important;
+	color:#666;
+}
+button,a,input{
+	outline: none !important; 
+}
+.clearfix:after {
+  	content: " ";
+  	display: block;
+  	clear: both;
+  	height: 0;
+}
+.clearfix {
+  	zoom: 1;/*兼容IE6*/
+}
+ul,li{
+	list-style-type: none;
+}
+.hide{
+	display: none;
+}
+.PR{
+	position: relative;
+}
+.OH{
+	overflow: hidden;
+}
+.VH{
+	visibility: hidden;
+}
+*{
+	box-sizing: border-box;
+}
+
+
+
+/*首页*********************************************************/
+.amc-header{
+	width: 100%;
+	height: 80px;
+	box-shadow:0px 0px 5px 0px #ccc;
+}
+.amc-headermain{
+	max-width: 1200px;
+	height: 100%;
+	margin:0 auto;
+	padding:15px 0;
+}
+.amc-logo{
+	float: left;
+}
+.amc-nav{
+	float: right;
+	height: 100%;
+}
+.amc-nav li{
+	float: left;
+	height: 100%;
+	line-height: 50px;
+}
+.amc-nav li a{
+	padding:0 18px;
+	display: block;
+	font-size: 0.8rem;
+	color: #444;
+}
+.amc-nav li a.act{
+	color: #ff7200;
+}
+.amc-nav li a:hover{
+	color: #ff7200;
+}
+
+
+.amc-center{
+	max-width: 1200px;
+	margin:20px auto;
+	padding:0;
+}
+.amc-main{
+	float: left;
+	width: 800px;
+}
+
+.amc-circle{
+	width: 70px;
+	left:90%;
+	bottom:5px;
+	margin-left: 0;
+
+}
+.amc-circle2{
+	width: auto;
+	bottom:0;
+	left:90%;
+	margin-left: -10%;
+}
+.amc-circle3{
+	width: 70px;
+	left:80%;
+	bottom:5px;
+	margin-left: -1.8%;
+}
+.carousel-indicators li{
+	width: 15px;
+	height: 15px;
+	margin:0 2px;
+}
+.carousel-indicators .active{
+	width: 15px;
+	height: 15px;
+	background: #ff7200;
+	border-color:#ff7200;
+	margin:0 2px;
+}
+#carousel-example-generic .carousel-inner > .item > a > img{
+	width: 800px;
+	height: 300px;
+}
+.amc-banner-text{
+	font-size: 1.2rem;
+	text-align: left;
+	left:10px;
+	bottom:5px;
+	padding-bottom:0;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+.newslist-title{
+	font-size: 0.9rem;
+	font-weight: bold;
+	line-height: 45px;
+}
+.orange-underline{
+	display: inline-block;
+	height: 100%;
+	padding:0 5px 0 2px;
+	border-bottom: 2px solid #ff7200;
+}
+.newslist-contain li a{
+	display: block;
+	padding:20px;
+	height: 200px;
+	border-top: 1px solid #eee;
+	transition: 0.2s;
+}
+.newslist-contain li a:hover{
+	background: #f5f5f5;
+}
+.newslist-contain li a:hover .newslist-text-title{
+	color: #ff7200;
+}
+.newslist-contain li a>img{
+	float: left;
+	width: 260px;
+	height: 160px;
+}
+.newslist-text{
+	float: left;
+	width: 500px;
+	height: 100%;
+	padding-left:20px;
+}
+.newslist-text-title{
+	font-size: 1rem;
+	font-weight: bold;
+	color: #444;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	transition: 0.2s;
+}
+.newslist-text-article{
+	font-size: 0.7rem;
+	color: #999;
+	text-indent:1.4rem;
+	margin:25px 0;
+	height: 63px;
+	overflow: hidden;
+}
+.newslist-text-tip{
+	font-size: 0.7rem;
+	color: #bbb;
+}
+.newslist-text-from{
+	float: left;
+}
+.newslist-text-time{
+	float: left;
+	margin-left: 40px;
+}
+.loadmore{
+	font-size: 0.7rem;
+	color: #666;
+	border:1px solid #ddd;
+	border-radius: 0.1rem;
+	padding:8px 0;
+	text-align: center;
+	cursor: pointer;
+	transition: 0.2s;
+	margin-top: 5px;
+}
+.loadmore:hover{
+	border-color: #ff7200;
+	color: #ff7200;
+}
+
+.amc-aside{
+	float: left;
+	width: 380px;
+	margin-left:20px;
+}
+.amc-search{
+	width: 100%;
+	border:1px solid #eee;
+	height: 2.25rem;
+	line-height: 2.25rem;
+	background: #f5f4f4;
+	padding:0 51px 0 15px;
+	color: #aaa;
+	font-size: 0.7rem;
+}
+.amc-searchfor{
+	position: absolute;
+	right:15px;
+	top:0.5rem;
+}
+
+.amc-hot{
+	padding:5px 20px 10px 20px;
+	border:1px solid #eee;
+	margin-top: 20px;
+	background: #fff;
+}
+.amc-hot-list li a{
+	display: block;
+	padding:10px 0;
+	border-top: 1px solid #eee;
+	transition: 0.2s;
+}
+.amc-hot-list li a:hover .amc-hot-title{
+	color: #ff7200;
+}
+.amc-hot-list li a > img{
+	float: left;
+	width: 140px;
+	height: 87px;
+}
+.amc-hot-text{
+	float: right;
+	width: 198px;
+	padding:0 0 0 10px;
+}
+.amc-hot-title{
+	font-size: 0.8rem;
+	height: 45px;
+	margin-top: 20px;
+	overflow: hidden;
+}
+.amc-ad{
+	width: 100%;
+	margin-top: 20px;
+}
+.morelink{
+	color: #bbb;
+	font-size: 0.7rem;
+	float: right;
+	font-weight: normal;
+}
+.morelink:hover{
+	color: #ff7200;
+}
+.amc-ym-list li{
+	padding:10px 0;
+	height: 50px;
+	line-height: 30px;
+	border-top: 1px solid #eee;
+	font-size: 0.7rem;
+	color: #444;
+}
+.amc-ym-list li:hover>.amc-ym{
+	color: #ff7200;
+}
+.amc-ym-list li:hover>.lookit{
+	background: #ff7200;
+	color: #fff;
+	border-color: #ff7200;
+}
+.amc-ym{
+	float: left;
+	width: 45%;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	transition: 0.2s;
+}
+.amc-price{
+	float: left;
+	width: 34%;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+.lookit{
+	width: 20%;
+	display: block;
+	float: right;
+	width: 70px;
+	height: 30px;
+	line-height: 28px;
+	text-align: center;
+	background: #eee;
+	border: 1px solid #e5e5e5;
+	border-radius: 3px;
+	transition: 0.2s;
+
+}
+.amc-forum li a{
+	display: block;
+	padding:10px 0;
+	height: 40px;
+	border-top: 1px solid #eee;
+	font-size: 0.7rem;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+.amc-forum li a:hover{
+	color: #ff7200;
+}
+.forum-news{
+	float: left;
+	max-width: 72%;
+	transition: 0.2s;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+.forum-time{
+	float: right;
+	color: #999;
+	transition: 0.2s;
+}
+.amc-forum li a:hover .forum-news{
+	color: #ff7200;
+}
+.amc-forum li a:hover .forum-time{
+	color: #ff7200;
+}
+
+.amc-bside{ 
+	margin-right:-670px;
+	position: fixed;
+	right:50%;
+	bottom:80px;
+	
+
+}
+.amc-bside li{
+	border:1px solid #e5e5e5;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+	transition: 0.1s;
+}
+.amc-wx{
+	background:#fff url(../images/wx.png) no-repeat center;
+	position: relative;
+}
+.amc-wx:hover{
+	background:#ff7200 url(../images/wx2.png) no-repeat center;
+}
+.amc-wx:hover>.amc-ewm{
+	display: block;
+}
+.amc-ewm{
+	position: absolute;
+	left:-160px;
+	top:-55px;
+	display: none;
+}
+.retop{
+	background:#fff url(../images/retop.png) no-repeat center;
+	margin-top: -1px;
+}
+.retop:hover{
+	background:#ff7200 url(../images/retop2.png) no-repeat center;
+}
+
+
+
+.amc-footer{
+	padding:35px 0;
+	background: #444;
+	height: 5rem;
+	font-size: 0.7rem;
+	text-align: center;
+	color: #bbb;
+	margin-top: 40px;
+
+	height: 4rem;	
+	padding:1rem 0;
+	color: #e8e8e8;
+	margin:0;
+	width: 100%;
+	position: fixed;
+	left:0;
+	bottom:0;
+	z-index: 99990;
+}
+.amc-hot.fix{
+	position: fixed;
+	top:0;
+	margin-top: 5px;
+	width: 340px;
+	padding:0 10px 0 10px;
+}
+.amc-hot.fix .amc-hot-list li a > img{
+	width: 120px;
+	height: 74px;
+}
+#carousel-example-generic2.fix{
+	position: fixed;
+	width: 340px;
+}
+#carousel-example-generic2.fix .amc-circle2{
+	left: 85%;
+}
+
+
+
+
+
+/*首页移动端样式***************************/
+.m-amc-center{
+	padding:0;
+	background: #f8f8f8;
+	margin-bottom: 4.625rem;
+}
+.m-amc-newslist{
+	width: 100%;
+	padding:0 10px;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	background: #fff;
+}
+.m-amc-newslist>li{
+	height: 7rem;
+	border-top: 1px solid #eee;
+}
+.m-amc-newslist>li.m-loadmore{
+	height: 2.2rem;
+	border:1px solid #eee;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	line-height: 2.2rem;
+	text-align: center;
+}
+.m-amc-newslist>li.m-loadmore>a{
+	padding:0;
+	color: #666;
+	font-size: 0.9rem;
+}
+.m-amc-newslist>li:nth-of-type(1){
+	border:0;
+}
+.m-amc-newslist>li a{
+	width: 100%;
+	height: 100%;
+	display: block;
+	padding:10px 0;
+}
+.newspic{
+	display: block;
+	height: 100%;
+	float: left;
+	margin-right: 10px;
+}
+.m-newslist-title{
+	font-size: 1rem;
+	color: #444;
+	height: 70px;
+	margin-bottom: 5px;
+	overflow: hidden;
+}
+.m-amc-recommend{
+	height: 4rem;
+	margin:10px 0;
+	position: relative;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+
+}
+.m-amc-recommendpic{
+	width: 4.5rem;
+	height: 1.2rem;
+	line-height: 1rem;
+	padding-left: 0.7rem;
+	color: #fff;
+	font-size: 0.625rem;
+	background: url(../images/tuijian.png) no-repeat;
+	background-size: 100%;
+}
+.m-amc-recommendmain{
+	margin-top: 3px;
+}
+.m-amc-look>a{
+	padding:0.2rem 1.2rem;
+	background: #eee;
+	color: #666;
+	border:1px solid #e5e5e5;
+}
+
+.m-amc-recommendmain>.col-xs-4{
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+.m-amc-recommendmain>.m-amc-look{
+	text-align: right;
+	overflow: visible;
+}
+
+
+.m-amc-nav{
+	float: right;
+	margin-right:10px;
+}
+.m-amc-nav>img{
+	width: 1.7rem;
+	margin:7px 0 0 1.2rem;
+}
+.m-search-div{
+	width: 0;
+	height: 100%;
+	position: fixed;
+	top:3.75rem;
+	right:0;
+	z-index: 99999;
+	background: #fff;
+	border-top: 1px solid #ddd;
+	overflow: hidden;
+}
+.m-search-divmain{
+	padding:10px;
+}
+.m-searchfor{
+	border:1px solid #eee;
+	border-radius: 4px;
+	width: 100%;
+	color: #666;
+	padding:5px 40px 5px 30px;
+	background: #f8f8f8 url(../images/search3.png) no-repeat 5px center;
+}
+.amc-search-close{
+	float: right;
+	width: 1.5rem;
+	margin:-1.83rem 5px 0 0;
+	position: relative;
+	z-index: 99999
+}
+h5.resouci{
+	font-size: 1rem;
+	padding:1.25rem 0 0.6rem 0;
+	border-bottom: 1px solid #eee;
+}
+.m-amc-hotword{
+	display: inline-block;
+	font-size: 0.9rem;
+	padding:0.25rem 1rem;
+	background: #eee;
+	margin-top: 10px;
+	color: #666;
+	font-weight: normal;
+}
+.m-amc-ad{
+	margin: 10px 0;
+}
+.m-nav-div{
+	width: 0;
+	height: 100%;
+	position: fixed;
+	top:3.75rem;
+	right:0;
+	z-index: 99999;
+	background:#000;
+	background: rgba(0,0,0,0.5);
+	filter: alpha(opacity=50);
+	overflow: hidden;
+}
+.m-nav-div ul{
+	background: #fff;
+}
+.m-nav-div ul li a{
+	display: block;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	padding:0 10px;
+	border-top: 1px solid #eee;
+	font-size: 1rem;
+}
+.m-nav-div ul li a.act{
+	color: #ff7200;
+}
+
+
+
+
+
+
+/*域名资讯***************************************************************************/
+.amc-secondnav-title{	
+	display: inline-block;
+	height: 100%;
+	padding: 0 5px 0 2px;
+	font-weight: normal;
+	margin-right: 25px;	
+}
+.amc-secondnav-title:hover{
+	color:#ff7200;
+}
+.amc-secondnav-title.act{
+	color:#ff7200;
+	border-bottom: 2px solid #ff7200;
+	font-weight: bold;
+}
+
+.m-amc-gallery{
+    	overflow: hidden;
+    	height: 2.5rem;
+    	width: 100%;
+}
+.m-amc-holder{
+    	width: 100%;
+    	height: 2.5rem;
+    	background: #fff;
+    	overflow: hidden;
+    	border-top: 1px solid #eee;
+    	position: relative;
+}
+.m-amc-gallery div.list{
+    	margin: 0;
+    	padding: 0;
+    	list-style: none;
+    	width: 9999px;
+    	height: 2.5rem;
+    	overflow: hidden;
+}
+.m-amc-gallery div.item{
+    	float: left;
+	height: 2.5rem;
+    	line-height: 2.5rem;
+}
+.m-amc-gallery div.item a{
+	display: block;
+	margin:0 0.5rem; 	
+    	font-size: 1rem;
+    	color: #444;
+    	position: relative;
+}
+.m-amc-gallery div a.active{
+	color: #ff7200;
+}
+
+
+
+
+/*搜索结果*************************************************************************/
+/* .amc-search-result{
+	margin-top: -15px;
+} */
+.amc-search-result li:nth-of-type(1) a{
+	border-top: 0;
+}
+.hotsearch{
+	max-width: 100%;
+}
+.search-circle{
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	line-height: 22px;
+	margin-right:8px;
+	text-align: center;
+	border-radius: 50%;
+	background: #ccc;
+	color: #fff;
+}
+.bg-red{
+	background:#ff0000;
+}
+.bg-orange{
+	background:#ffc000;
+}
+.bg-green{
+	background:#8ae316;
+}
+
+
+
+
+
+/*新闻详情页**********************************************************************/
+.amc-detail{
+	margin-top: 15px;
+}
+.amc-detail>h2{
+	font-size: 30px;
+	font-weight: bold;
+}
+.come-and-time{
+	color: #bbb;
+	font-size: 14px;
+	padding:30px 0 10px 0;
+}
+.amc-news-time{
+	margin-left: 25px;
+}
+.amc-article{
+	padding:25px 0;
+	border-top: 1px dashed #eee;
+	border-bottom: 1px solid #eee;
+}
+.amc-article>p{
+	color: #666;
+	font-size: 14px;
+	text-indent:28px;
+	line-height: 1.85;
+}
+.article-img{
+	width: 100%;
+	margin:20px 0;
+}
+.amc-share{
+	text-align: right;
+	font-size: 14px;
+	color: #bbb;
+	height: 26px;
+	line-height: 26px;
+	margin:20px 0;
+}
+.amc-share-to{
+	display: inline-block;
+	width: 32px;
+	height: 26px;
+	float: right;
+	margin:0 3px;
+}
+.amc-share-to:nth-of-type(1){
+	background: url(../images/share3.png) no-repeat center;
+}
+.amc-share-to:nth-of-type(2){
+	background: url(../images/share2.png) no-repeat center;
+}
+.amc-share-to:nth-of-type(3){
+	background: url(../images/share1.png) no-repeat center;
+}
+.amc-share-to:nth-of-type(1):hover{
+	background: url(../images/sharex3.png) no-repeat center;
+}
+.amc-share-to:nth-of-type(2):hover{
+	background: url(../images/sharex2.png) no-repeat center;
+}
+.amc-share-to:nth-of-type(3):hover{
+	background: url(../images/sharex1.png) no-repeat center;
+}
+
+.m-amc-hotnews{
+	background: #fff;
+	border-top: 1px solid #eee;
+}
+.m-amc-hotnews .newslist-title{
+	margin:0 10px;
+}
+
+
+
+
+
+/*投稿页面*************************************************************************/
+.amc-tougao{
+	width: 980px;
+	margin:0 auto;
+}
+.tougao{
+	width: 100%;
+	padding: 40px 0 30px 0;
+	color: #666;
+}
+.tougao-title{
+	text-align: center;
+	font-size: 24px;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 15px;
+	margin-bottom: 30px;
+	font-weight: normal;
+}
+.tougao p{
+	line-height: 30px;
+	font-size: 16px;
+	text-indent: 15px;
+}
+.amc-rule{
+	margin-top: 30px;
+}
+.tougao-wx{
+	width: 100%;
+	padding-bottom: 40px;
+	color: #666;
+}
+.tougao-wx>p{
+	line-height: 30px;
+	font-size: 16px;
+	text-indent: 15px;
+	margin-bottom: 7px;
+}
+.xbtp {
+    	width: 130px;
+    	margin-left: 15px;
+    	margin-right: 25px;
+    	display: inline-block;
+}
+.xbtp>img {
+    	width: 100%;
+}
+.xbwxh {
+    	text-align: center;
+    	font-size: 14px;
+    	margin-top: 7px;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (min-width:320px) and (max-width: 767px){
+	.amc-main{
+		width: 100%;
+	}
+	.amc-header{
+		height: 3.75rem;
+		box-shadow: none;
+	}
+	.amc-headermain{
+		padding:12px 0 10px 0;
+	}
+	#carousel-example-generic .carousel-inner > .item > a > img{
+		width: 100%;
+		height: auto;
+	}
+	.amc-logo{
+		width: 12rem;
+		margin-left:10px;
+	}
+	.amc-center{
+		margin:0;
+		margin-top: 2px;
+	}
+	.newslist-text-time{
+		float: right;
+		margin:0;
+		margin-right:20px;
+	}
+	.amc-circle{
+		width: 70px;
+		left:80%;
+		bottom:5px;
+		margin-left: -1.8%;
+	}
+	.amc-hot{
+		margin: 10px 0 0 0;
+		padding:0 10px;
+		background: #fff;
+	}
+	.orange-underline{
+		font-size: 1rem;
+	}
+	.morelink{
+		font-size: 0.8rem;
+	}
+	.amc-forum li a{
+		font-size: 0.9rem;
+	}
+	.amc-ad{
+		width: 100%;
+		margin-top: 0;
+	}
+	/* .amc-footer{	
+		height: 4rem;	
+		padding:1rem 0;
+		margin:0;
+		color: #fff;
+		width: 100%;
+		position: fixed;
+		left:0;
+		bottom:0;
+	} */
+
+	.amc-detail{
+		padding:15px 10px 0 10px;
+		border-bottom: 1px solid #eee;
+	}
+	.amc-detail>h2{
+		font-size: 1.2rem;
+	}
+	.come-and-time{
+		font-size: 0.8rem;
+		padding:10px 0 10px 0;
+	}
+	.amc-article{
+		padding:10px 0;
+	}
+	.amc-article>p{
+		font-size: 0.875rem;
+		text-indent:1rem;
+	}
+	.article-img{
+		margin:10px 0;
+	}
+	.amc-share{
+		text-align: right;
+		font-size: 0.875rem;
+		color: #bbb;
+		height: 26px;
+		line-height: 26px;
+		margin:10px 0;
+	}
+	.amc-share-to{
+		display: inline-block;
+		width: 32px;
+		height: 26px;
+		float: right;
+		margin:0 3px;
+	}
+	.amc-tougao{
+		width: 100%;
+		margin-bottom: 80px;
+		padding:0 10px;
+	}
+	.xbtp{
+		margin-bottom: 10px;
+	}
+
+
+}
+
+
+@media only screen and (min-width:768px) and (max-width: 1199px){
+	.amc-headermain{
+		width: 1000px;
+	}
+	.amc-main{
+		width: 570px;
+	}
+	.newslist-text{
+		width: 270px;
+	}
+	.amc-center{
+		width: 1000px;
+		padding:0 15px;
+	}
+	.newslist-text-title{
+		font-size: 1rem;
+	}
+	.amc-circle{
+		margin-left: -5%;
+	}
+
+}
+
+
+@media only screen and (min-width:768px) and (max-width: 1345px){
+	.amc-bside{ 
+		margin-right:0px;
+		position: fixed;
+		right:20px;
+		bottom:80px;
+	}
+}

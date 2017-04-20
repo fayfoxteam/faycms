@@ -38,9 +38,9 @@ class ApplicationController extends ToolsController{
     public function create(){
         $this->layout->subtitle = '创建项目';
         
-        FlashService::set('此工具用于快速创建一个application项目', 'info');
-        if(!is_writable(BASEPATH.'..'.DS.'application')){
-            FlashService::set('application目录不可写！用此功能创建项目，请确保系统对application目录拥有写权限。');
+        FlashService::set('此工具用于快速创建一个项目', 'info');
+        if(!is_writable(BASEPATH.'..'.DS.'apps/')){
+            FlashService::set('app目录不可写！用此功能创建项目，请确保系统对此目录拥有写权限。');
         }
         
         if($this->input->post()){
@@ -68,23 +68,23 @@ class ApplicationController extends ToolsController{
                 $table_prefix,
                 $app_name,
             ), $config_file);
-            FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/configs/main.php', $config_file);
+            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/configs/main.php', $config_file);
             
             //创建前端控制器基类
             $front_controller = file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/library/FrontController.txt');
             $front_controller = str_replace('{{$name}}', $app_name, $front_controller);
-            FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/library/FrontController.php', $front_controller);
+            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/library/FrontController.php', $front_controller);
             
             //创建默认控制器
             $index_controller = file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/IndexController.txt');
             $index_controller = str_replace('{{$name}}', $app_name, $index_controller);
-            FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/controllers/IndexController.php', $index_controller);
+            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/controllers/IndexController.php', $index_controller);
             
             //创建默认视图
-            FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/index/index.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/index.txt'));
+            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/views/index/index.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/index.txt'));
             
             //创建默认layout
-            FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/modules/frontend/views/layouts/frontend.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/frontend.txt'));
+            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/views/layouts/frontend.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/frontend.txt'));
             
             //创建默认css
             FileService::createFile(BASEPATH.'apps/'.$app_name.'/css/style.css', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/static/style.css'));
@@ -138,7 +138,7 @@ class ApplicationController extends ToolsController{
                     'option_value'=>$this->input->post('sitename'),
                 ));
                 
-                FileService::createFile(BASEPATH.'..'.DS.'application/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed");
+                FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed");
             }
         }
         

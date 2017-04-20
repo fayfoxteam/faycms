@@ -11,9 +11,9 @@ use cms\services\file\FileService;
     <ul>
     <?php foreach($files as $f){
         if(empty($f['link'])){
-            $f['link'] = 'javascript:;';
+            $f['link'] = 'javascript:';
         }
-        echo HtmlHelper::link(HtmlHelper::img($f['file_id'], FileService::PIC_ORIGINAL, array(
+        echo HtmlHelper::link(HtmlHelper::img($f['src'], 0, array(
             'width'=>false,
             'height'=>false,
             'alt'=>HtmlHelper::encode($f['title']),

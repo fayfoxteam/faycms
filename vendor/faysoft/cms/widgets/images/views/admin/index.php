@@ -35,6 +35,8 @@ use cms\services\user\UserRoleService;
                     'class'=>'photo-thumb-link',
                     'encode'=>false,
                     'title'=>HtmlHelper::encode($f['title']),
+                    'data-fancybox'=>'images',
+                    'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($f['title'])),
                 ));
             ?>
             </span>
@@ -83,18 +85,6 @@ use cms\services\user\UserRoleService;
 <script type="text/javascript">
 var jq_camera = {
     'uploadObj':null,
-    'preview':function(){
-        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-                $('.photo-thumb-link').fancybox({
-                    'transitionIn' : 'elastic',
-                    'transitionOut' : 'elastic',
-                    'type' : 'image',
-                    'padding' : 0
-                });
-            });
-        });
-    },
     'files':function(){
         system.getScript(system.assets('faycms/js/admin/uploader.js'), function(){
             uploader.files({
@@ -108,7 +98,6 @@ var jq_camera = {
         });
     },
     'init':function(){
-        this.preview();
         this.files();
     }
 };

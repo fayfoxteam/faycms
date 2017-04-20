@@ -13,7 +13,7 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
     <div class="nivo-slider">
     <?php foreach($files as $f){
         if(empty($f['link'])){
-            $f['link'] = 'javascript:;';
+            $f['link'] = 'javascript:';
         }
         echo HtmlHelper::link(HtmlHelper::img($f['file_id'], ($widget->config['width'] || $widget->config['height']) ? FileService::PIC_RESIZE : FileService::PIC_ORIGINAL, array(
             'alt'=>HtmlHelper::encode($f['title']),

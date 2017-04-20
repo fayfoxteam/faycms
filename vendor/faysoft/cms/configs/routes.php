@@ -13,12 +13,12 @@ return array(
     
     //根据widget别名获取widget数据（不渲染，以ajax方式返回）
     '/^widget\/data$/'=>'cms/api/widget/data',//别名跟在问号后面参数中
-    '/^widget\/data\/(.+)$/'=>'cms/api/widget/data/alias/$1',//别名包含在url重写中
+    '/^widget\/data\/(.+)$/'=>'cms/api/widget/data:alias=$1',//别名包含在url重写中
     
     
     //根据widget名称加载
     '/^widget\/render$/'=>'cms/api/widget/render',//widget名称在问号后面参数中（名称很可能包含斜杠，故一般不会在url重写中）
-    '/^widget\/(\w+)$/'=>'cms/api/widget/render/name/$1',//widget名称包含在url重写中
+    '/^widget\/(\w+)$/'=>'cms/api/widget/render:name=$1',//widget名称包含在url重写中
     
     '/^tools$/'=>'cms/tools/index/index',//工具
     

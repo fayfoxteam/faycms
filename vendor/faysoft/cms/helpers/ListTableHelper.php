@@ -9,6 +9,7 @@ class ListTableHelper{
      * 仅适用于跟list-table th中的排序
      * @param string $field
      * @param string $label
+     * @return string
      */
     public static function getSortLink($field, $label){
         $text = "<span class='fl'>{$label}</span><span class='sorting-indicator'></span>";

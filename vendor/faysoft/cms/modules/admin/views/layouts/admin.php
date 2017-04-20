@@ -151,9 +151,12 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
                 <div class="screen-meta-links"><?php
                     //帮助面板
                     if(isset($_help_panel)){
-                        echo HtmlHelper::link('', '#faycms-help-content', array(
+                        echo HtmlHelper::link('', 'javascript:', array(
                             'class'=>'fa fa-question-circle fa-2x faycms-help-link',
                             'title'=>'帮助',
+                            'data-fancybox'=>null,
+                            'data-src'=>'#faycms-help-content',
+                            'data-caption'=>'',
                         ));
                         echo HtmlHelper::tag('div', array(
                             'id'=>'faycms-help-content',
@@ -167,9 +170,12 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
                     }
                     //帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的场景
                     if(isset($_help_content)){
-                        echo HtmlHelper::link('', '#faycms-help-content', array(
+                        echo HtmlHelper::link('', 'javascript:', array(
                             'class'=>'fa fa-question-circle fa-2x faycms-help-link',
                             'title'=>'帮助',
+                            'data-fancybox'=>null,
+                            'data-src'=>'#faycms-help-content',
+                            'data-caption'=>'',
                         ));
                         echo HtmlHelper::tag('div', array(
                             'id'=>'faycms-help-content',

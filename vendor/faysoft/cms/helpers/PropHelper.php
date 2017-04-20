@@ -6,9 +6,7 @@ use cms\models\tables\PropsTable;
 class PropHelper{
     /**
      * 获取文章状态
-     * @param int $status 文章状态码
-     * @param int $delete 是否删除
-     * @param bool $coloring 是否着色（带上html标签）
+     * @param int $element
      */
     public static function getElement($element){
         switch($element){

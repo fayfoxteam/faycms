@@ -140,57 +140,6 @@ system.user_id = '<?php echo \F::app()->current_user?>';
                         echo HtmlHelper::link($sublink['text'], $sublink['uri'], $html_options);
                     }?></h1>
             </div>
-            <div class="operate-env">
-                <div class="screen-meta-links"><?php
-                    //帮助面板
-                    if(isset($_help_panel)){
-                        echo HtmlHelper::link('', '#faycms-help-content', array(
-                            'class'=>'fa fa-question-circle fa-2x faycms-help-link',
-                            'title'=>'帮助',
-                        ));
-                        echo HtmlHelper::tag('div', array(
-                            'id'=>'faycms-help-content',
-                            'class'=>'dialog-content',
-                            'wrapper'=>array(
-                                'tag'=>'div',
-                                'class'=>'dialog hide',
-                            ),
-                            'prepend'=>'<h4>设置</h4>',
-                        ), $this->renderPartial($_help_panel, array(), -1, true));
-                    }
-                    //帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的常见
-                    if(isset($_help_content)){
-                        echo HtmlHelper::link('', '#faycms-help-content', array(
-                            'class'=>'fa fa-question-circle fa-2x faycms-help-link',
-                            'title'=>'帮助',
-                        ));
-                        echo HtmlHelper::tag('div', array(
-                            'id'=>'faycms-help-content',
-                            'class'=>'dialog-content',
-                            'wrapper'=>array(
-                                'tag'=>'div',
-                                'class'=>'dialog hide',
-                            ),
-                            'prepend'=>'<h4>帮助</h4>',
-                        ), $_help_content);
-                    }
-                    //页面设置
-                    if(isset($_setting_panel)){
-                        echo HtmlHelper::link('', '#faycms-setting-content', array(
-                            'class'=>'fa fa-cog fa-2x faycms-setting-link',
-                            'title'=>'设置',
-                        ));
-                        echo HtmlHelper::tag('div', array(
-                            'id'=>'faycms-setting-content',
-                            'class'=>'dialog-content',
-                            'wrapper'=>array(
-                                'tag'=>'div',
-                                'class'=>'dialog hide',
-                            ),
-                            'prepend'=>'<h4>设置</h4>',
-                        ), $this->renderPartial($_setting_panel, array(), -1, true));
-                    }?></div>
-            </div>
         </div>
         <?php echo FlashService::get();?>
         <?php echo $content?>

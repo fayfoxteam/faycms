@@ -9,9 +9,8 @@ class MenuHelper{
     /**
      * 渲染一个导航栏
      * @param array $menus 菜单集
-     * @param array $actions 用户权限
      * @param string $current_directory 当前页
-     * @param number $dep 深度
+     * @param int|number $dep 深度
      * @return mixed
      */
     public static function render($menus, $current_directory, $dep = 0){

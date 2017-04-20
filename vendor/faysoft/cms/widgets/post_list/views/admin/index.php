@@ -83,37 +83,6 @@ use cms\services\user\UserRoleService;
                     其他格式视为PHP date函数的第一个参数</p>
             </div>
             <div class="form-field">
-                <label class="title bold">链接格式</label>
-                <?php
-                    echo HtmlHelper::inputRadio('uri', 'post/{$id}', !isset($config['uri']) || $config['uri'] == 'post/{$id}', array(
-                        'label'=>'post/{$id}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', 'post-{$id}', isset($config['uri']) && $config['uri'] == 'post-{$id}', array(
-                        'label'=>'post-{$id}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', '', isset($config['uri']) && !in_array($config['uri'], array(
-                        'post/{$id}', 'post-{$id}',
-                    )), array(
-                        'label'=>'其它',
-                    ));
-                    echo HtmlHelper::inputText('other_uri', isset($config['uri']) && !in_array($config['uri'], array(
-                        'post/{$id}', 'post-{$id}',
-                    )) ? $config['uri'] : '', array(
-                        'class'=>'form-control mw150 ib',
-                    ));
-                ?>
-                <p class="fc-grey">
-                    <code>{$id}</code>代表“文章ID”<br>
-                    <code>{$cat_id}</code>代表“分类ID”<br>
-                    <code>{$date:xx}</code>代表“发布时间”，其中xx可以是一下参数的组合（实际上是php自带date函数参数）：<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<code>Y</code>代表“发布四位年份”，例如：<?php echo date('Y')?><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<code>y</code>代表“发布两位年份”，例如：<?php echo date('y')?><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<code>m</code>代表“有前导0的月份”，例如：03<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<code>n</code>代表“没有签到0的月份”，例如：3<br>
-                    不要包含base_url部分
-                </p>
-            </div>
-            <div class="form-field">
                 <label class="title bold">文章缩略图尺寸</label>
                 <?php
                 echo F::form('widget')->inputText('post_thumbnail_width', array(

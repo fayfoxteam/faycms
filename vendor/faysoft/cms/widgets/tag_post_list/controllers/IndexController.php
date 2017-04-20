@@ -1,6 +1,7 @@
 <?php
 namespace cms\widgets\tag_post_list\controllers;
 
+use cms\helpers\PostHelper;
 use fay\helpers\ArrayHelper;
 use cms\models\tables\TagsTable;
 use cms\services\post\PostService;
@@ -263,15 +264,7 @@ class IndexController extends Widget{
             }
             
             //附加文章链接
-            $p['post']['link'] = $this->view->url(str_replace(
-                array(
-                    '{$id}', '{$cat_id}'
-                ),
-                array(
-                    $p['post']['id'], $p['post']['cat_id']
-                ),
-                $this->config['uri']
-            ));
+            $p['post']['link'] = PostHelper::getLink($p['post']);
         }
         
         return $posts;

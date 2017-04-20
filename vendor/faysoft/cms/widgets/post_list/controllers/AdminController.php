@@ -33,7 +33,6 @@ class AdminController extends Widget{
      */
     public function onPost(){
         $data = $this->form->getFilteredData();
-        $data['uri'] || $data['uri'] = empty($data['other_uri']) ? 'post/{$id}' : $data['other_uri'];
         
         //若模版与默认模版一致，不保存
         if($this->isDefaultTemplate($data['template'])){
@@ -75,8 +74,6 @@ class AdminController extends Widget{
             'page_key'=>'trim',
             'cat_key'=>'trim',
             'order'=>'trim',
-            'uri'=>'trim',
-            'other_uri'=>'trim',
             'date_format'=>'trim',
             'template'=>'trim',
             'fields'=>'trim',

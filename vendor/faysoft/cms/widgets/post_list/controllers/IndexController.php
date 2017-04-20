@@ -1,6 +1,7 @@
 <?php
 namespace cms\widgets\post_list\controllers;
 
+use cms\helpers\PostHelper;
 use fay\helpers\ArrayHelper;
 use cms\services\post\PostService;
 use fay\widget\Widget;
@@ -60,7 +61,6 @@ class IndexController extends Widget{
     public function initConfig($config){
         empty($config['page_size']) && $config['page_size'] = 10;
         empty($config['page_key']) && $config['page_key'] = 'page';
-        empty($config['uri']) && $config['uri'] = 'post/{$id}';
         empty($config['date_format']) && $config['date_format'] = 'pretty';
         isset($config['fields']) || $config['fields'] = array('category');
         empty($config['pager']) && $config['pager'] = 'system';
@@ -261,20 +261,8 @@ class IndexController extends Widget{
                 $p['post']['format_publish_time'] = '';
             }
     
-            $uri = $this->config['uri'];
-            if(preg_match('/{\$date:(\w+)}/', $this->config['uri'], $match)){
-                $uri = preg_replace('/{\$date:(\w+)}/', date($match[1], $p['post']['publish_time']), $uri);
-            }
             //附加文章链接
-            $p['post']['link'] = $this->view->url(str_replace(
-                array(
-                    '{$id}', '{$cat_id}'
-                ),
-                array(
-                    $p['post']['id'], $p['post']['cat_id']
-                ),
-                $this->config['uri']
-            ));
+            $p['post']['link'] = PostHelper::getLink($p['post']);
         }
         
         return $posts;

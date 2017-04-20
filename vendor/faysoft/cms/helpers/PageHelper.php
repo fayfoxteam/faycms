@@ -9,6 +9,7 @@ class PageHelper{
      * @param int $status 页面状态码
      * @param int $delete 是否删除
      * @param bool $coloring 是否着色（带上html标签）
+     * @return string
      */
     public static function getStatus($status, $delete, $coloring = true){
         if($delete == 1){

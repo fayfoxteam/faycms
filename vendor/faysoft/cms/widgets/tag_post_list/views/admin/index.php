@@ -86,31 +86,6 @@ use cms\services\user\UserRoleService;
                     其他格式视为PHP date函数的第一个参数</p>
             </div>
             <div class="form-field">
-                <label class="title bold">链接格式</label>
-                <?php
-                    echo HtmlHelper::inputRadio('uri', 'post/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'post/{$id}', array(
-                        'label'=>'post/{$id}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', 'post-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'post-{$id}', array(
-                        'label'=>'post-{$id}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
-                            'post/{$id}', 'post-{$id}',
-                        )), array(
-                        'label'=>'其它',
-                    ));
-                    echo HtmlHelper::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
-                        'post/{$id}', 'post-{$id}',
-                    )) ? $widget->config['uri'] : '', array(
-                        'class'=>'form-control mw150 ib',
-                    ));
-                ?>
-                <p class="fc-grey">
-                    <code>{$id}</code>代表“文章ID”，<code>{$cat_id}</code>代表“文章主分类ID”。
-                    不要包含base_url部分
-                </p>
-            </div>
-            <div class="form-field">
                 <label class="title bold">文章缩略图尺寸</label>
                 <?php
                 echo F::form('widget')->inputText('post_thumbnail_width', array(

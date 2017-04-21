@@ -7,28 +7,17 @@ var model = {
 	 * 添加属性
 	 */
 	'addProp': function(){
-		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-				$('#add-prop-link').fancybox({
-					'padding': 0,
-					'centerOnScroll': true,
-					'hideOnOverlayClick': false,
-					'type' : 'inline',
-					'titleShow':false,
-					'onClosed': function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'onStart':function(o){
-						//初始化编辑框
-						$('#add-prop-form').find('[name="name"]').val('');
-						$('#add-prop-form').find('[name="required"][value="0"]').attr('checked', 'checked');
-						$('#add-prop-form').find('[name="description"]').val('');
-						$('#add-prop-form').find('[name="sample"]').val('');
-						$('#add-prop-form').find('[name="since"]').val('');
-					}
-				});
+		common.loadFancybox(function(){
+			$('#add-prop-link').fancybox({
+				'onComplete':function(){
+					//初始化编辑框
+					var $addPropForm = $('#add-prop-form');
+					$addPropForm.find('[name="name"]').val('');
+					$addPropForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+					$addPropForm.find('[name="description"]').val('');
+					$addPropForm.find('[name="sample"]').val('');
+					$addPropForm.find('[name="since"]').val('');
+				}
 			});
 		});
 	},
@@ -36,32 +25,21 @@ var model = {
 	 * 编辑属性
 	 */
 	'editProp': function(){
-		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-				$('.edit-prop-link').fancybox({
-					'padding': 0,
-					'centerOnScroll': true,
-					'hideOnOverlayClick': false,
-					'type' : 'inline',
-					'titleShow':false,
-					'onClosed': function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'onStart':function(o){
-						var $container = $(o).parent().parent().parent().parent();
-						//初始化编辑框
-						$('#editing-prop-name').text($container.find('.input-name').val());
-						$('#edit-prop-form').find('[name="selector"]').val($container.attr('id'));
-						$('#edit-prop-form').find('[name="name"]').val($container.find('.input-name').val());
-						$('#edit-prop-form').find('[name="type_name"]').val($container.find('.input-type-name').val());
-						$('#edit-prop-form').find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
-						$('#edit-prop-form').find('[name="description"]').val($container.find('.input-description').val());
-						$('#edit-prop-form').find('[name="sample"]').val($container.find('.input-sample').val());
-						$('#edit-prop-form').find('[name="since"]').val($container.find('.input-since').val());
-					}
-				});
+        common.loadFancybox(function(){
+			$('.edit-prop-link').fancybox({
+				'onComplete':function(instance, slide){
+					var $container = slide.opts.$orig.parent().parent().parent().parent();
+					var $editPropForm = $('#edit-prop-form');
+					//初始化编辑框
+					$('#editing-prop-name').text($container.find('.input-name').val());
+					$editPropForm.find('[name="selector"]').val($container.attr('id'));
+					$editPropForm.find('[name="name"]').val($container.find('.input-name').val());
+					$editPropForm.find('[name="type_name"]').val($container.find('.input-type-name').val());
+					$editPropForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
+					$editPropForm.find('[name="description"]').val($container.find('.input-description').val());
+					$editPropForm.find('[name="sample"]').val($container.find('.input-sample').val());
+					$editPropForm.find('[name="since"]').val($container.find('.input-since').val());
+				}
 			});
 		});
 	},
@@ -71,22 +49,22 @@ var model = {
 	'autocomplete': function(){
 		system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
 			$("#add-prop-type-name").autocomplete({
-				"url" : system.url('cms/admin/model/search'),
+				"url" : system.url('admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
 					model.propForm.check(obj);
 				},
-				'zindex': '1150'
+				'zindex': '111150'
 			});
 			$("#edit-prop-type-name").autocomplete({
-				"url" : system.url('cms/admin/model/search'),
+				"url" : system.url('admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
 					model.propForm.check(obj);
 				},
-				'zindex': '1150'
+				'zindex': '111150'
 			});
 		});
 	},

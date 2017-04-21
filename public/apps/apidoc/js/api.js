@@ -8,29 +8,17 @@ var api = {
 	 * 添加请求参数
 	 */
 	'addInputParameter': function(){
-		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-				$('#add-input-parameter-link').fancybox({
-					'padding': 0,
-					'centerOnScroll': true,
-					'hideOnOverlayClick': false,
-					'type' : 'inline',
-					'titleShow':false,
-					'onClosed': function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'onStart':function(o){
-						//初始化编辑框
-						var $addInputParameterForm = $('#add-input-parameter-form');
-						$addInputParameterForm.find('[name="name"]').val('');
-						$addInputParameterForm.find('[name="required"][value="0"]').attr('checked', 'checked');
-						$addInputParameterForm.find('[name="description"]').val('');
-						$addInputParameterForm.find('[name="sample"]').val('');
-						$addInputParameterForm.find('[name="since"]').val('');
-					}
-				});
+		common.loadFancybox(function(){
+			$('#add-input-parameter-link').fancybox({
+				'onComplete':function(){
+					//初始化编辑框
+					var $addInputParameterForm = $('#add-input-parameter-form');
+					$addInputParameterForm.find('[name="name"]').val('');
+					$addInputParameterForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+					$addInputParameterForm.find('[name="description"]').val('');
+					$addInputParameterForm.find('[name="sample"]').val('');
+					$addInputParameterForm.find('[name="since"]').val('');
+				}
 			});
 		});
 	},
@@ -38,33 +26,21 @@ var api = {
 	 * 编辑请求参数
 	 */
 	'editInputParameter': function(){
-		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-				$('.edit-input-parameter-link').fancybox({
-					'padding': 0,
-					'centerOnScroll': true,
-					'hideOnOverlayClick': false,
-					'type' : 'inline',
-					'titleShow':false,
-					'onClosed': function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'onStart':function(o){
-						var $container = $(o).parent().parent();
-						//初始化编辑框
-						$('#editing-input-parameter-name').text($container.find('.input-name').val());
-						var $editInputParameterForm = $('#edit-input-parameter-form');
-						$editInputParameterForm.find('[name="selector"]').val($container.parent().attr('id'));
-						$editInputParameterForm.find('[name="name"]').val($container.find('.input-name').val());
-						$editInputParameterForm.find('[name="type"]').val($container.find('.input-type').val());
-						$editInputParameterForm.find('[name="required"][value="'+$container.find('.input-required').val()+'"]').attr('checked', 'checked');
-						$editInputParameterForm.find('[name="description"]').val($container.find('.input-description').val());
-						$editInputParameterForm.find('[name="sample"]').val($container.find('.input-sample').val());
-						$editInputParameterForm.find('[name="since"]').val($container.find('.input-since').val());
-					}
-				});
+		common.loadFancybox(function(){
+			$('.edit-input-parameter-link').fancybox({
+				'onComplete':function(instance, slide){
+					var $container = slide.opts.$orig.parent().parent();
+					//初始化编辑框
+					$('#editing-input-parameter-name').text($container.find('.input-name').val());
+					var $editInputParameterForm = $('#edit-input-parameter-form');
+					$editInputParameterForm.find('[name="selector"]').val($container.parent().attr('id'));
+					$editInputParameterForm.find('[name="name"]').val($container.find('.input-name').val());
+					$editInputParameterForm.find('[name="type"]').val($container.find('.input-type').val());
+					$editInputParameterForm.find('[name="required"][value="'+$container.find('.input-required').val()+'"]').attr('checked', 'checked');
+					$editInputParameterForm.find('[name="description"]').val($container.find('.input-description').val());
+					$editInputParameterForm.find('[name="sample"]').val($container.find('.input-sample').val());
+					$editInputParameterForm.find('[name="since"]').val($container.find('.input-since').val());
+				}
 			});
 		});
 	},
@@ -172,29 +148,17 @@ var api = {
 	 * 添加属性
 	 */
 	'addOutput': function(){
-		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-				$('#add-output-link').fancybox({
-					'padding': 0,
-					'centerOnScroll': true,
-					'hideOnOverlayClick': false,
-					'type' : 'inline',
-					'titleShow':false,
-					'onClosed': function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'onStart':function(o){
-						//初始化编辑框
-						var $addOutputForm = $('#add-output-form');
-						$addOutputForm.find('[name="name"]').val('');
-						$addOutputForm.find('[name="required"][value="0"]').attr('checked', 'checked');
-						$addOutputForm.find('[name="description"]').val('');
-						$addOutputForm.find('[name="sample"]').val('');
-						$addOutputForm.find('[name="since"]').val('');
-					}
-				});
+		common.loadFancybox(function(){
+			$('#add-output-link').fancybox({
+				'onComplete': function(){
+					//初始化编辑框
+					var $addOutputForm = $('#add-output-form');
+					$addOutputForm.find('[name="name"]').val('');
+					$addOutputForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+					$addOutputForm.find('[name="description"]').val('');
+					$addOutputForm.find('[name="sample"]').val('');
+					$addOutputForm.find('[name="since"]').val('');
+				}
 			});
 		});
 	},
@@ -202,33 +166,21 @@ var api = {
 	 * 编辑属性
 	 */
 	'editOutput': function(){
-		system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-			system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-				$('.edit-output-link').fancybox({
-					'padding': 0,
-					'centerOnScroll': true,
-					'hideOnOverlayClick': false,
-					'type' : 'inline',
-					'titleShow':false,
-					'onClosed': function(o){
-						$($(o).attr('href')).find('input,select,textarea').each(function(){
-							$(this).poshytip('hide');
-						});
-					},
-					'onStart':function(o){
-						var $container = $(o).parent().parent().parent().parent();
-						//初始化编辑框
-						$('#editing-output-name').text($container.find('.input-name').val());
-						var $editOutputForm = $('#edit-output-form');
-						$editOutputForm.find('[name="selector"]').val($container.attr('id'));
-						$editOutputForm.find('[name="name"]').val($container.find('.input-name').val());
-						$editOutputForm.find('[name="model_name"]').val($container.find('.input-model-name').val());
-						$editOutputForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
-						$editOutputForm.find('[name="description"]').val($container.find('.input-description').val());
-						$editOutputForm.find('[name="sample"]').val($container.find('.input-sample').val());
-						$editOutputForm.find('[name="since"]').val($container.find('.input-since').val());
-					}
-				});
+		common.loadFancybox(function(){
+			$('.edit-output-link').fancybox({
+				'onComplete':function(instance, slide){
+					var $container = slide.opts.$orig.parent().parent().parent().parent();
+					//初始化编辑框
+					$('#editing-output-name').text($container.find('.input-name').val());
+					var $editOutputForm = $('#edit-output-form');
+					$editOutputForm.find('[name="selector"]').val($container.attr('id'));
+					$editOutputForm.find('[name="name"]').val($container.find('.input-name').val());
+					$editOutputForm.find('[name="model_name"]').val($container.find('.input-model-name').val());
+					$editOutputForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
+					$editOutputForm.find('[name="description"]').val($container.find('.input-description').val());
+					$editOutputForm.find('[name="sample"]').val($container.find('.input-sample').val());
+					$editOutputForm.find('[name="since"]').val($container.find('.input-since').val());
+				}
 			});
 		});
 	},
@@ -238,22 +190,22 @@ var api = {
 	'autocomplete': function(){
 		system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
 			$("#add-output-model-name").autocomplete({
-				"url" : system.url('cms/admin/model/search'),
+				"url" : system.url('admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
 					api.outputForm.check(obj);
 				},
-				'zindex': '1150'
+				'zindex': '111150'
 			});
 			$("#edit-output-model-name").autocomplete({
-				"url" : system.url('cms/admin/model/search'),
+				"url" : system.url('admin/model/search'),
 				'startSuggestLength': 0,
 				'onSelect': function(obj, data){
 					obj.val(data.name);
 					api.outputForm.check(obj);
 				},
-				'zindex': '1150'
+				'zindex': '111150'
 			});
 		});
 	},

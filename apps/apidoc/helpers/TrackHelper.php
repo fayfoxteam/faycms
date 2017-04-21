@@ -11,10 +11,10 @@ class TrackHelper{
         $old_trackid = \F::input()->get('trackid', 'trim');
         
         $router = Uri::getInstance()->router;
-        if($router == 'frontend/api/item'){
+        if($router == 'apidoc/frontend/api/item'){
             //API详情页
             return 'a' . \F::input()->get('api_id', 'intval', 0);
-        }else if($router == 'frontend/model/item'){
+        }else if($router == 'apidoc/frontend/model/item'){
             //模型页
             if($old_trackid){
                 return $old_trackid . '.m' . \F::input()->get('model_id', 'intval', 0);

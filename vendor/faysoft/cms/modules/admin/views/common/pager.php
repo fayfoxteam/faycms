@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\core\Uri;
+
+/**
+ * @var $listview \fay\common\ListView
+ */
 ?>
 <div class="pager">
 <?php

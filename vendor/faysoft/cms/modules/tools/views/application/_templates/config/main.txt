@@ -16,11 +16,4 @@ return array(
         'charset'=>'{{$charset}}',//数据库编码方式
         'table_prefix'=>'{{$table_prefix}}',//数据库表前缀
     ),
-    
-    /*
-     * 当前application包含的模块
-     */
-    'modules'=>array(
-        'frontend'
-    ),
 );

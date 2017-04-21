@@ -19,4 +19,12 @@ return array(
         'alias'=>'index-sidebar',
         'description'=>'首页侧边栏',
     ),
+    array(
+        'alias'=>'item-sidebar',
+        'description'=>'文章详情页侧边栏',
+    ),
+    array(
+        'alias'=>'list-sidebar',
+        'description'=>'栏目页侧边栏',
+    ),
 );

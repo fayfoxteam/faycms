@@ -17,10 +17,5 @@ return array(
         'table_prefix'=>'faycms_',//数据库表前缀
     ),
     
-    /*
-     * 当前application包含的模块
-     */
-    'modules'=>array(
-        'frontend'
-    ),
+    'debug'=>false,
 );

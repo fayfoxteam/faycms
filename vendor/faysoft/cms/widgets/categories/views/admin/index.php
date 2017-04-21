@@ -46,6 +46,15 @@ use cms\services\user\UserRoleService;
                 若希望固定显示指定分类的子分类，将此字段留空即可。
             </p>
         </div>
+        <div class="form-field">
+            <label class="title bold">无子分类展示平级分类</label>
+            <?php echo F::form('widget')->inputText('show_sibling_when_terminal', array(
+                'class'=>'form-control mw150',
+            ))?>
+            <p class="fc-grey">
+                当前节点没有子节点，展示当前节点及平级节点（根节点除外）。
+            </p>
+        </div>
         <div class="advance <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
             <div class="form-field">
                 <label class="title bold">链接格式</label>

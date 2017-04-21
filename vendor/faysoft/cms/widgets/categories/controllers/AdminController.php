@@ -57,6 +57,7 @@ class AdminController extends Widget{
             'uri'=>'链接格式',
             'template'=>'渲染模版',
             'cat_key'=>'分类字段',
+            'show_sibling_when_terminal'=>'无子分类展示平级分类',
         );
     }
     
@@ -68,6 +69,7 @@ class AdminController extends Widget{
             'uri'=>'trim',
             'template'=>'trim',
             'cat_key'=>'trim',
+            'show_sibling_when_terminal'=>'intval',
         );
     }
 }

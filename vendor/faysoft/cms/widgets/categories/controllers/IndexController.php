@@ -25,6 +25,8 @@ class IndexController extends Widget{
         
         //设置模版
         empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+    
+        $config['show_sibling_when_terminal'] = !empty($config['show_sibling_when_terminal']);
         
         return $this->config = $config;
     }

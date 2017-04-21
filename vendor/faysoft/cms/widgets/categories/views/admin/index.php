@@ -16,7 +16,7 @@ use cms\services\user\UserRoleService;
             <p class="fc-grey">若为空，则显示顶级分类的标题</p>
         </div>
         <div class="form-field">
-            <label class="title bold">顶级分类</label>
+            <label class="title bold">默认顶级分类</label>
             <?php echo F::form('widget')->select('top', HtmlHelper::getSelectOptions($cats), array(
                 'class'=>'form-control mw400',
             ))?>
@@ -34,6 +34,17 @@ use cms\services\user\UserRoleService;
         <div class="form-field">
             <a href="javascript:" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
             <span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
+        </div>
+        <div class="form-field">
+            <label class="title bold">分类字段</label>
+            <?php echo F::form('widget')->inputText('cat_key', array(
+                'class'=>'form-control mw150',
+            ))?>
+            <p class="fc-grey">
+                分类字段名（分类ID或者别名）<br>
+                若连接中包含分类字段，则以此分类作文顶级分类。<br>
+                若希望固定显示指定分类的子分类，将此字段留空即可。
+            </p>
         </div>
         <div class="advance <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
             <div class="form-field">

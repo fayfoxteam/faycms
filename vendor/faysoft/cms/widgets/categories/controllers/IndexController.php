@@ -30,10 +30,16 @@ class IndexController extends Widget{
     }
     
     public function getData(){
-        if(!empty($this->config['hierarchical'])){
-            $cats = CategoryService::service()->getTree($this->config['top']);
+        //确定顶级分类
+        if(!empty($this->config['cat_key']) && $this->input->get($this->config['cat_key'])){
+            $top_cat = $this->input->get($this->config['cat_key'], 'intval');
         }else{
-            $cats = CategoryService::service()->getChildren($this->config['top']);
+            $top_cat = $this->config['top'];
+        }
+        if(!empty($this->config['hierarchical'])){
+            $cats = CategoryService::service()->getTree($top_cat);
+        }else{
+            $cats = CategoryService::service()->getChildren($top_cat);
         }
         
         //格式化分类链接

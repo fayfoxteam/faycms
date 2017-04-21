@@ -56,6 +56,7 @@ class AdminController extends Widget{
             'title'=>'标题',
             'uri'=>'链接格式',
             'template'=>'渲染模版',
+            'cat_key'=>'分类字段',
         );
     }
     
@@ -66,6 +67,7 @@ class AdminController extends Widget{
             'title'=>'',
             'uri'=>'trim',
             'template'=>'trim',
+            'cat_key'=>'trim',
         );
     }
 }

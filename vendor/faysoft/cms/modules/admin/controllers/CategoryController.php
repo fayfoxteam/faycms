@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\helpers\StringHelper;
+use fay\helpers\NumberHelper;
 use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
 use cms\models\tables\ActionlogsTable;
@@ -83,16 +83,18 @@ class CategoryController extends AdminController{
             }
         }
         
-        //转为纯小写，空格替换为中横线
-        $spelling = str_replace(' ', '-', strtolower($spelling));
+        //转为纯小写，非数字字母的字符转为横线（连续多个特殊字符转化为一根横线）
+        $spelling = preg_replace('/[^\w]+/', '-', strtolower($spelling));
+        
+        //若第一个字符是数字，加c前缀
+        if(NumberHelper::isInt(substr($spelling, 0, 1))){
+            $spelling = 'c'.$spelling;
+        }
         
         $alias = $dep ? $spelling.'-'.$dep : $spelling;
         $cat = CategoriesTable::model()->fetchRow(array('alias = ?'=>$alias), 'id');
         if($cat){
             return $this->getCatAlias('', $spelling, $dep + 1);
-        }else if(StringHelper::isInt($spelling)){
-            //若是数字，加c前缀，因为别名规则不允许纯数字
-            return 'c-' . $alias;
         }else{
             return $alias;
         }

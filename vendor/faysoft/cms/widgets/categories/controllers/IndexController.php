@@ -38,10 +38,20 @@ class IndexController extends Widget{
         }else{
             $top_cat = $this->config['top'];
         }
-        if(!empty($this->config['hierarchical'])){
-            $cats = CategoryService::service()->getTree($top_cat);
-        }else{
-            $cats = CategoryService::service()->getChildren($top_cat);
+    
+        if($this->config['show_sibling_when_terminal']){//若开启了无子分类展示平级分类功能，搜索顶级分类判断其是否有子分类
+            $top_cat_info = CategoryService::service()->get($top_cat, 'parent,left_value,right_value');
+            if($top_cat_info['right_value'] - $top_cat_info['left_value'] == 1){
+                $cats = CategoryService::service()->getSiblingByArray($top_cat_info);
+            }
+        }
+        
+        if(empty($cats)){//未开启无子分类展示平级分类功能，或当前分类有子分类，正常获取子分类
+            if(!empty($this->config['hierarchical'])){
+                $cats = CategoryService::service()->getTree($top_cat);
+            }else{
+                $cats = CategoryService::service()->getChildren($top_cat);
+            }
         }
         
         //格式化分类链接

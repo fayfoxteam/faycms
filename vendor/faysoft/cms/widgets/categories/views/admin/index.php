@@ -48,9 +48,12 @@ use cms\services\user\UserRoleService;
         </div>
         <div class="form-field">
             <label class="title bold">无子分类展示平级分类</label>
-            <?php echo F::form('widget')->inputText('show_sibling_when_terminal', array(
-                'class'=>'form-control mw150',
+            <?php echo F::form('widget')->inputRadio('show_sibling_when_terminal', 1, array(
+                'label'=>'是',
             ))?>
+            <?php echo F::form('widget')->inputRadio('show_sibling_when_terminal', 0, array(
+                'label'=>'否',
+            ), true)?>
             <p class="fc-grey">
                 当前节点没有子节点，展示当前节点及平级节点（根节点除外）。
             </p>

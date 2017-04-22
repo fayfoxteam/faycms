@@ -22,10 +22,10 @@ use cms\services\user\UserRoleService;
             <p class="fc-grey">当没有传入ID字段时，默认显示此文章</p>
         </div>
         <div class="form-field">
-            <a href="javascript:" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
+            <a href="javascript:" class="toggle" data-src="#widget-advance-setting"><i class="fa fa-caret-down mr5"></i>高级设置</a>
             <span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
         </div>
-        <div class="advance <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
+        <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
             <div class="form-field">
                 <label class="title bold">ID字段</label>
                 <?php echo F::form('widget')->inputText('id_key', array(

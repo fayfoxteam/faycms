@@ -907,10 +907,34 @@ var common = {
             });
         });
     },
+    /**
+     * 切换可见状态
+     */
     'toggle': function(){
+        //初始化
+        $('.toggle').each(function(){
+            var attrSrc = $(this).attr('data-src');
+            if(attrSrc){
+                var $target = $(attrSrc);
+                if($target.is(':visible')){
+                    $(this).addClass('opened').removeClass('closed');
+                }else{
+                    $(this).addClass('closed').removeClass('opened');
+                }
+            }
+        });
+        
+        //绑定点击事件
         $(document).on('click', '.toggle', function(){
-            if($(this).attr('data-src')){
-                $($(this).attr('data-src')).toggle();
+            var attrSrc = $(this).attr('data-src');
+            if(attrSrc){
+                var $target = $(attrSrc);
+                $target.toggle();
+                if($target.is(':visible')){
+                    $(this).addClass('opened').removeClass('closed');
+                }else{
+                    $(this).addClass('closed').removeClass('opened');
+                }
             }
         });
     },

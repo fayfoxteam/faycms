@@ -45,7 +45,7 @@ use cms\services\user\UserRoleService;
             ?>
         </div>
         <div class="form-field">
-            <a href="javascript:" class="toggle" data-src="#widget-advance-setting"><i class="fa fa-arrow-down"></i>高级设置</a>
+            <a href="javascript:" class="toggle" data-src="#widget-advance-setting"><i class="fa fa-caret-down mr5"></i>高级设置</a>
             <span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
         </div>
         <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">

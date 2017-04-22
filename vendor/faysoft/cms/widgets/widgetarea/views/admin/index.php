@@ -17,7 +17,7 @@ use cms\services\user\UserRoleService;
                 'class'=>'form-control mw400',
             ))?>
         </div>
-        <div class="advance <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
+        <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
             <div class="form-field">
                 <label class="title bold">渲染模版</label>
                 <?php echo F::form('widget')->textarea('template', array(

@@ -119,9 +119,7 @@ select option[disabled]{text-decoration:line-through}
 .box-title{border-bottom:1px solid #EEEEEE;text-shadow:0 1px 0 #fff;padding:3px 12px}
 .box-title h4,.box-title h3{font-size:15px;height:32px;line-height:32px}
 .box-title .tools{cursor:pointer;float:right;height:32px;width:19px;line-height:32px;color:#B7B7B7;text-align:center}
-.box-title:hover .toggle:before{content:"\f0d7";font-family:FontAwesome}
 .box-title:hover .remove:before{content:"×"}
-.box.closed .box-title.hover .handlediv:before{content:"\f0d9"}
 .box-content{padding:8px 12px}
 .box-content .misc-pub-section{padding:6px 11px 8px;border-top:1px solid #DFDFDF}
 .box.closed .box-content{display:none}
@@ -416,6 +414,8 @@ select option[disabled]{text-decoration:line-through}
 .widget-list .widget-item-container{margin:0 22px 0 31px}
 .widget-list .widget-item-container .operations{visibility:hidden}
 .widget-list .widget-item:hover .widget-item-container .operations{visibility:visible}
+.toggle i{transition:all 0.1s linear 0s}
+.toggle.closed i.fa-caret-down{transform:rotate(-90deg)}
 
 /* 如文章编辑页面文件列表 */
 .file-list .file-thumb{float:left;overflow:hidden;text-align:center;width:105px}

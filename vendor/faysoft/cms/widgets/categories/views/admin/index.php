@@ -32,33 +32,33 @@ use cms\services\user\UserRoleService;
             ), true)?>
         </div>
         <div class="form-field">
-            <a href="javascript:" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
+            <a href="javascript:" class="toggle" data-src="#widget-advance-setting"><i class="fa fa-caret-down mr5"></i>高级设置</a>
             <span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
         </div>
-        <div class="form-field">
-            <label class="title bold">分类字段</label>
-            <?php echo F::form('widget')->inputText('cat_key', array(
-                'class'=>'form-control mw150',
-            ))?>
-            <p class="fc-grey">
-                分类字段名（分类ID或者别名）<br>
-                若连接中包含分类字段，则以此分类作文顶级分类。<br>
-                若希望固定显示指定分类的子分类，将此字段留空即可。
-            </p>
-        </div>
-        <div class="form-field">
-            <label class="title bold">无子分类展示平级分类</label>
-            <?php echo F::form('widget')->inputRadio('show_sibling_when_terminal', 1, array(
-                'label'=>'是',
-            ))?>
-            <?php echo F::form('widget')->inputRadio('show_sibling_when_terminal', 0, array(
-                'label'=>'否',
-            ), true)?>
-            <p class="fc-grey">
-                当前节点没有子节点，展示当前节点及平级节点（根节点除外）。
-            </p>
-        </div>
-        <div class="advance <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
+        <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
+            <div class="form-field">
+                <label class="title bold">分类字段</label>
+                <?php echo F::form('widget')->inputText('cat_key', array(
+                    'class'=>'form-control mw150',
+                ))?>
+                <p class="fc-grey">
+                    分类字段名（分类ID或者别名）<br>
+                    若连接中包含分类字段，则以此分类作文顶级分类。<br>
+                    若希望固定显示指定分类的子分类，将此字段留空即可。
+                </p>
+            </div>
+            <div class="form-field">
+                <label class="title bold">无子分类展示平级分类</label>
+                <?php echo F::form('widget')->inputRadio('show_sibling_when_terminal', 1, array(
+                    'label'=>'是',
+                ))?>
+                <?php echo F::form('widget')->inputRadio('show_sibling_when_terminal', 0, array(
+                    'label'=>'否',
+                ), true)?>
+                <p class="fc-grey">
+                    当前节点没有子节点，展示当前节点及平级节点（根节点除外）。
+                </p>
+            </div>
             <div class="form-field">
                 <label class="title bold">链接格式</label>
                 <?php

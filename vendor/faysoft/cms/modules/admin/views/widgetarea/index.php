@@ -6,7 +6,6 @@ $show_alias = F::form('setting')->getData('show_alias', 0);
     <?php foreach($widgetareas as $wa){?>
         <div class="box" data-alias="<?php echo $wa['alias']?>">
             <div class="box-title">
-                <a class="tools toggle" title="点击以切换"></a>
                 <h4><?php
                     echo $wa['description'];
                     if($show_alias){

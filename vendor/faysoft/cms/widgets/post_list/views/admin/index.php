@@ -2,6 +2,10 @@
 use fay\helpers\HtmlHelper;
 use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
+
+/**
+ * @var $this \fay\widget\View
+ */
 ?>
 <div class="box">
     <div class="box-title">
@@ -41,10 +45,10 @@ use cms\services\user\UserRoleService;
             ?>
         </div>
         <div class="form-field">
-            <a href="javascript:" class="toggle-advance" style="text-decoration:underline;">高级设置</a>
+            <a href="javascript:" class="toggle" data-src="#widget-advance-setting"><i class="fa fa-arrow-down"></i>高级设置</a>
             <span class="fc-red">（若非开发人员，请不要修改以下配置）</span>
         </div>
-        <div class="advance <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
+        <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
             <div class="form-field">
                 <label class="title bold">页码字段</label>
                 <?php echo F::form('widget')->inputText('page_key', array(
@@ -146,7 +150,7 @@ use cms\services\user\UserRoleService;
                             array(
                                 ''=>'--默认模版--',
                             ) + array_combine($views, $views) + array(
-                                'other'=>'自定义',
+                                'custom'=>'自定义',
                             ),
                             array(),
                             array(
@@ -200,11 +204,10 @@ use cms\services\user\UserRoleService;
         </div>
     </div>
 </div>
+<script src="<?php echo $this->assets('faycms/js/admin/widget.js')?>"></script>
 <script>
 $(function(){
-    $('.toggle-advance').on('click', function(){
-        $(".advance").toggle();
-    });
+    widget.init();
     
     $('input[name="pager"]').on('click', function(){
         if($(this).val() == 'custom'){

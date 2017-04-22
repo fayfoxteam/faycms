@@ -16,7 +16,6 @@ echo F::form()->open();
         <div class="postbox-container-1">
             <div class="box" id="box-operation">
                 <div class="box-title">
-                    <a class="tools toggle" title="点击以切换"></a>
                     <h4>操作</h4>
                 </div>
                 <div class="box-content">

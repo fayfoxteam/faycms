@@ -400,9 +400,6 @@ var common = {
             $(this).removeClass('hover');
         });
         //打开关闭box
-        $(document).on('click', '.box-title .toggle', function(){
-            $(this).parent().parent().toggleClass('closed');
-        });
         $(document).on('click', '.box-title .remove', function(){
             var $box = $(this).parent().parent();
             $box.slideUp('normal', function(){
@@ -910,6 +907,13 @@ var common = {
             });
         });
     },
+    'toggle': function(){
+        $(document).on('click', '.toggle', function(){
+            if($(this).attr('data-src')){
+                $($(this).attr('data-src')).toggle();
+            }
+        });
+    },
     'init': function(){
         this.fancybox();
         this.menu();
@@ -932,5 +936,6 @@ var common = {
         this.notification();
         this.prettyPrint();
         this.pager();
+        this.toggle();
     }
 };

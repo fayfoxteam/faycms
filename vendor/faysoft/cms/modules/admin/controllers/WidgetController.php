@@ -177,7 +177,10 @@ class WidgetController extends AdminController{
             throw new HttpException('不完整的请求');
         }
     }
-    
+
+    /**
+     * 已创建widget列表
+     */
     public function instances(){
         $this->layout->subtitle = '小工具实例';
         
@@ -196,7 +199,10 @@ class WidgetController extends AdminController{
         
         $this->view->render();
     }
-    
+
+    /**
+     * 删除widget实例
+     */
     public function removeInstance(){
         $id = $this->input->get('id', 'intval');
         WidgetsTable::model()->delete($id);
@@ -206,7 +212,10 @@ class WidgetController extends AdminController{
             'message'=>'一个小工具实例被删除',
         ));
     }
-    
+
+    /**
+     * 判断widget别名是否存在
+     */
     public function isAliasNotExist(){
         if(WidgetsTable::model()->fetchRow(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
@@ -217,7 +226,11 @@ class WidgetController extends AdminController{
             Response::json();
         }
     }
-    
+
+    /**
+     * 复制widget
+     * @throws HttpException
+     */
     public function copy(){
         $id = $this->input->get('id', 'intval');
         $widget = WidgetsTable::model()->find($id);
@@ -242,5 +255,37 @@ class WidgetController extends AdminController{
         Response::notify('success', array(
             'message'=>'一个小工具实例被复制',
         ), array('cms/admin/widgetarea/index'));
+    }
+
+    /**
+     * 获取view文件内容
+     * 只允许指定当前app内views下的文件，或widget默认模版
+     * @parameter int $widget_id
+     * @parameter string $view
+     */
+    public function getViewFile(){
+        $view = $this->form()->getData('view');
+        if($view == ''){
+            //返回默认模版
+            $widget = WidgetsTable::model()->find($this->input->get('id', 'intval'));
+            if(!$widget){
+                throw new HttpException('指定小工具ID不存在');
+            }
+            
+            $widgetInstance = \F::widget()->get($widget['widget_name']);
+            if(!$widgetInstance){
+                throw new HttpException('widget不存在或已被删除');
+            }
+            
+            Response::json($widgetInstance->getDefaultTemplate());
+        }else{
+            //返回app/modules/{module}/views/widget下的对应文件
+            $view_arr = explode('/', $view);
+            if(count($view_arr) != 3 || !file_exists(APPLICATION_PATH . "modules/{$view_arr[0]}/views/{$view_arr[1]}/{$view_arr[2]}.php")){
+                Response::json('', 0, '指定view格式不支持预览');
+            }
+            
+            Response::json(file_get_contents(APPLICATION_PATH . "modules/{$view_arr[0]}/views/{$view_arr[1]}/{$view_arr[2]}.php"));
+        }
     }
 }

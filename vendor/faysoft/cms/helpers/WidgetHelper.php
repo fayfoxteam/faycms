@@ -21,7 +21,7 @@ class WidgetHelper{
             $module_views = LocalFileHelper::getFileList($module['path'] . DS . 'views' . DS . 'widget');
             foreach($module_views as $mv){
                 if(!$mv['is_dir'] && substr($mv['name'], -4) == '.php'){
-                    $views['frontend/widget/' . substr($mv['name'], 0, -4)] = $mv['path'];
+                    $views[] = 'frontend/widget/' . substr($mv['name'], 0, -4);
                 }
             }
         }

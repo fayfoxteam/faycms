@@ -23,7 +23,6 @@ echo F::form()->open();
         <div class="postbox-container-1 dragsort">
             <div class="box" id="box-operation">
                 <div class="box-title">
-                    <a class="tools toggle" title="点击以切换"></a>
                     <h4>操作</h4>
                 </div>
                 <div class="box-content">
@@ -41,7 +40,6 @@ echo F::form()->open();
             </div>
             <div class="box" id="box-alias">
                 <div class="box-title">
-                    <a class="tools toggle" title="点击以切换"></a>
                     <h4>别名</h4>
                 </div>
                 <div class="box-content">
@@ -54,7 +52,6 @@ echo F::form()->open();
             </div>
             <div class="box" id="box-type">
                 <div class="box-title">
-                    <a class="tools toggle" title="点击以切换"></a>
                     <h4>类型</h4>
                 </div>
                 <div class="box-content">
@@ -74,7 +71,6 @@ echo F::form()->open();
         <div class="postbox-container-2 dragsort">
             <div class="box">
                 <div class="box-title">
-                    <a class="tools toggle" title="点击以切换"></a>
                     <h4>模版说明</h4>
                 </div>
                 <div class="box-content">

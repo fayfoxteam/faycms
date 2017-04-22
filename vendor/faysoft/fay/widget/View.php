@@ -104,6 +104,7 @@ class View{
     }
     
     /**
+     * @see \fay\core\View::assets()
      * @param $uri
      * @return string
      */
@@ -112,6 +113,7 @@ class View{
     }
     
     /**
+     * @see \fay\core\View::appAssets()
      * @param $uri
      * @return string
      */

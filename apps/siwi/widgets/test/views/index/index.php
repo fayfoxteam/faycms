@@ -1,6 +1,5 @@
 <div class="box" data-name="<?php echo $this->name?>">
     <div class="box-title">
-        <a class="tools toggle" title="点击以切换"></a>
         <h4>JS Analyst</h4>
     </div>
     <div class="box-content">

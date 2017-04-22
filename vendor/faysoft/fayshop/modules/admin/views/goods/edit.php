@@ -18,7 +18,6 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
         <div class="postbox-container-1 dragsort" id="side">
             <div class="box">
                 <div class="box-title" id="box-operation">
-                    <a class="tools toggle" title="点击以切换"></a>
                     <h4>操作</h4>
                 </div>
                 <div class="box-content">

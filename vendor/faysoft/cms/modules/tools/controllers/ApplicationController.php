@@ -3,8 +3,8 @@ namespace cms\modules\tools\controllers;
 
 use cms\library\Db;
 use cms\library\ToolsController;
-use cms\services\file\FileService;
 use cms\services\CategoryService;
+use fay\helpers\LocalFileHelper;
 use fay\helpers\StringHelper;
 use cms\models\tables\UsersTable;
 use cms\services\MenuService;
@@ -68,26 +68,26 @@ class ApplicationController extends ToolsController{
                 $table_prefix,
                 $app_name,
             ), $config_file);
-            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/configs/main.php', $config_file);
+            LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/configs/main.php', $config_file);
             
             //创建前端控制器基类
             $front_controller = file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/library/FrontController.txt');
             $front_controller = str_replace('{{$name}}', $app_name, $front_controller);
-            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/library/FrontController.php', $front_controller);
+            LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/library/FrontController.php', $front_controller);
             
             //创建默认控制器
             $index_controller = file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/IndexController.txt');
             $index_controller = str_replace('{{$name}}', $app_name, $index_controller);
-            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/controllers/IndexController.php', $index_controller);
+            LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/controllers/IndexController.php', $index_controller);
             
             //创建默认视图
-            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/views/index/index.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/index.txt'));
+            LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/views/index/index.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/index.txt'));
             
             //创建默认layout
-            FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/views/layouts/frontend.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/frontend.txt'));
+            LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/modules/frontend/views/layouts/frontend.php', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/module/frontend.txt'));
             
             //创建默认css
-            FileService::createFile(BASEPATH.'apps/'.$app_name.'/css/style.css', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/static/style.css'));
+            LocalFileHelper::createFile(BASEPATH.'apps/'.$app_name.'/css/style.css', file_get_contents(CMS_PATH.'modules/tools/views/application/_templates/static/style.css'));
             
             if($this->input->post('database')){
                 //安装数据库
@@ -138,7 +138,7 @@ class ApplicationController extends ToolsController{
                     'option_value'=>$this->input->post('sitename'),
                 ));
                 
-                FileService::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed");
+                LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed");
             }
         }
         
@@ -148,7 +148,7 @@ class ApplicationController extends ToolsController{
     public function isAppNotExist(){
         $value = $this->input->post('value');
         
-        $apps = FileService::getFileList(APPLICATION_PATH.'..');
+        $apps = LocalFileHelper::getFileList(APPLICATION_PATH.'..');
         foreach($apps as $app){
             if($value == $app['name']){
                 Response::json('', 0, '项目名已存在');

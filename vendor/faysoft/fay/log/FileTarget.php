@@ -2,7 +2,7 @@
 namespace fay\log;
 
 use fay\core\ErrorException;
-use cms\services\file\FileService;
+use fay\helpers\LocalFileHelper;
 
 class FileTarget extends Target{
     /**
@@ -22,7 +22,7 @@ class FileTarget extends Target{
     
     /**
      * 将日志写入文件
-     * @param string $messages
+     * @param array $messages
      * @throws ErrorException
      */
     public function export($messages){
@@ -34,7 +34,7 @@ class FileTarget extends Target{
         
         $logPath = dirname($this->logFile);
         if (!is_dir($logPath)) {
-            FileService::createFolder($logPath, $this->dirMode);
+            LocalFileHelper::createFolder($logPath, $this->dirMode);
         }
         
         $text = implode("\n", array_map(array($this, 'formatMessage'), $messages)) . "\n";

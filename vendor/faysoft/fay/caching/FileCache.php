@@ -1,6 +1,6 @@
 <?php
 namespace fay\caching;
-use cms\services\file\FileService;
+use fay\helpers\LocalFileHelper;
 
 /**
  * 文件缓存
@@ -75,7 +75,7 @@ class FileCache extends Cache{
     protected function setValue($key, $value, $duration){
         $file = $this->getCacheFile($key);
         
-        FileService::createFolder(dirname($file), $this->dir_mode);
+        LocalFileHelper::createFolder(dirname($file), $this->dir_mode);
         
         if(@file_put_contents($file, $value, LOCK_EX)){
             if($this->file_mode){

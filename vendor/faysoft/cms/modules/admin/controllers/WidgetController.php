@@ -3,11 +3,11 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\WidgetsTable;
+use fay\helpers\LocalFileHelper;
 use fay\helpers\StringHelper;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Sql;
 use fay\common\ListView;
-use cms\services\file\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
 
@@ -28,13 +28,13 @@ class WidgetController extends AdminController{
         $widget_instances = array();
         
         //获取当前application下的widgets
-        $app_widgets = FileService::getFileList(APPLICATION_PATH . 'widgets');
+        $app_widgets = LocalFileHelper::getFileList(APPLICATION_PATH . 'widgets');
         foreach($app_widgets as $w){
             $widget_instances[] = \F::widget()->get($w['name'], 'Admin');
         }
         
         //获取系统公用widgets
-        $common_widgets = FileService::getFileList(FAYSOFT_PATH . 'cms' . DS . 'widgets');
+        $common_widgets = LocalFileHelper::getFileList(FAYSOFT_PATH . 'cms' . DS . 'widgets');
         foreach($common_widgets as $w){
             if($w['name'] == 'admin'){
                 //目前来说就一个admin是个后台用的widget，感觉没什么必要再给其他widget分层级了，现在这样特殊判断一下好了

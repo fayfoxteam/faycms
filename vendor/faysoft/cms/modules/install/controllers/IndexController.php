@@ -4,10 +4,10 @@ namespace cms\modules\install\controllers;
 use cms\library\InstallController;
 use cms\models\tables\UsersTable;
 use cms\services\OptionService;
-use cms\services\file\FileService;
 use fay\core\Response;
 use fay\core\Db;
 use fay\core\Exception;
+use fay\helpers\LocalFileHelper;
 use fay\helpers\RequestHelper;
 use cms\models\tables\RolesTable;
 use cms\services\user\UserService;
@@ -40,7 +40,7 @@ class IndexController extends InstallController{
                 $uploads = true;
             }else{
                 //尝试创建
-                FileService::createFolder(BASEPATH.'../uploads');
+                LocalFileHelper::createFolder(BASEPATH.'../uploads');
                 if(is_writable(BASEPATH.'../uploads')){
                     $uploads = true;
                 }else{
@@ -52,7 +52,7 @@ class IndexController extends InstallController{
                 $public_uploads = true;
             }else{
                 //尝试创建
-                FileService::createFolder(BASEPATH.'uploads');
+                LocalFileHelper::createFolder(BASEPATH.'uploads');
                 if(is_writable(BASEPATH.'uploads')){
                     $public_uploads = true;
                 }else{
@@ -64,7 +64,7 @@ class IndexController extends InstallController{
                 $runtimes = true;
             }else{
                 //尝试创建
-                FileService::createFolder(APPLICATION_PATH . 'runtimes');
+                LocalFileHelper::createFolder(APPLICATION_PATH . 'runtimes');
                 if(is_writable(APPLICATION_PATH . 'runtimes')){
                     $runtimes = true;
                 }else{
@@ -122,7 +122,7 @@ class IndexController extends InstallController{
         }else if($is_installed == 'database-completed'){
             //数据库已初始化，跳转至设置超级管理员界面
             if($this->input->post()){
-                $user_id = UserService::service()->create(array(
+                UserService::service()->create(array(
                     'username'=>$this->input->post('username', 'trim'),
                     'password'=>$this->input->post('password'),
                     'nickname'=>'系统管理员',//@todo 这里先默认一个，以后再完善下安装程序的界面

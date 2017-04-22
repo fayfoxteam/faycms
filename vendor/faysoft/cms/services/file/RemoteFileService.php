@@ -3,6 +3,7 @@ namespace cms\services\file;
 
 use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
+use fay\helpers\LocalFileHelper;
 use fay\helpers\ImageHelper;
 use fay\helpers\UrlHelper;
 
@@ -95,7 +96,7 @@ class RemoteFileService{
         $upload_path = './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
         //若指定目录不存在，则创建目录
         $ext_name = $this->getExtName();
-        FileService::createFolder($upload_path);
+        LocalFileHelper::createFolder($upload_path);
         $filename = FileService::getFileName($upload_path, $ext_name);
         if(defined('NO_REWRITE')){
             $destination = './public/'.$upload_path . $filename;

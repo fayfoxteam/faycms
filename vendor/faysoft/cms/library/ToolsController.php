@@ -3,12 +3,12 @@ namespace cms\library;
 
 use fay\core\Controller;
 use fay\core\Uri;
-use cms\services\file\FileService;
 use fay\core\Response;
 use fay\core\HttpException;
 use cms\models\tables\RolesTable;
 use cms\services\user\UserService;
 use cms\services\user\UserRoleService;
+use fay\helpers\LocalFileHelper;
 
 class ToolsController extends Controller{
     public $layout_template = 'admin';
@@ -66,7 +66,7 @@ class ToolsController extends Controller{
     }
     
     public function getApps(){
-        $app_dirs = FileService::getFileList(APPLICATION_PATH.'..');
+        $app_dirs = LocalFileHelper::getFileList(APPLICATION_PATH.'..');
         $apps = array();
         foreach($app_dirs as $app){
             $apps[] = $app['name'];

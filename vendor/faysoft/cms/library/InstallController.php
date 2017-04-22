@@ -4,7 +4,11 @@ namespace cms\library;
 use fay\core\Controller;
 
 class InstallController extends Controller{
-    
+    /**
+     * @var Db
+     */
+    protected $db;
+
     public function __construct(){
         parent::__construct();
         

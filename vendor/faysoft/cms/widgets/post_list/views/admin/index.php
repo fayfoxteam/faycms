@@ -138,6 +138,25 @@ use cms\services\user\UserRoleService;
             </div>
             <div class="form-field">
                 <label class="title bold">渲染模版</label>
+                <?php
+                    $views = \cms\helpers\WidgetHelper::getViews();
+                    if($views){
+                        echo HtmlHelper::select(
+                            '',
+                            array(
+                                ''=>'--默认模版--',
+                            ) + array_combine($views, $views) + array(
+                                'other'=>'自定义',
+                            ),
+                            array(),
+                            array(
+                                'class'=>'form-control w240 ib mb5 select-template',
+                            )
+                        ), HtmlHelper::tag('span', array(
+                            'class'=>'fc-grey'
+                        ), '（选择自定义可在线编辑模版或指定其它路径的view文件）');
+                    }
+                ?>
                 <?php echo F::form('widget')->textarea('template', array(
                     'class'=>'form-control h90 autosize',
                     'id'=>'code-editor',
@@ -145,7 +164,7 @@ use cms\services\user\UserRoleService;
                 <p class="fc-grey mt5">
                     若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
                     即类似<code>frontend/widget/template</code><br />
-                    则会调用当前application下符合该相对路径的view文件。<br />
+                    则会调用当前app下符合该相对路径的view文件。<br />
                     否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
                 </p>
             </div>
@@ -173,7 +192,7 @@ use cms\services\user\UserRoleService;
                     <p class="fc-grey mt5">
                         若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
                         即类似<code>frontend/widget/pager</code><br />
-                        则会调用当前application下符合该相对路径的view文件。<br />
+                        则会调用当前app下符合该相对路径的view文件。<br />
                         否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
                     </p>
                 </div>

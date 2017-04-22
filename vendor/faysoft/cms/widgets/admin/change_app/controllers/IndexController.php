@@ -1,13 +1,13 @@
 <?php
 namespace cms\widgets\admin\change_app\controllers;
 
+use fay\helpers\LocalFileHelper;
 use fay\widget\Widget;
-use cms\services\file\FileService;
 use fay\core\Response;
 
 class IndexController extends Widget{
     public function index(){
-        $apps = FileService::getFileList(APPLICATION_PATH.'..');
+        $apps = LocalFileHelper::getFileList(APPLICATION_PATH.'..');
         $options = array();
         foreach($apps as $app){
             if($app['is_dir']){

@@ -3,6 +3,7 @@ namespace valentine\modules\frontend\controllers;
 
 use cms\library\ApiController;
 use cms\services\file\FileService;
+use fay\helpers\LocalFileHelper;
 use valentine\models\tables\ValentineUserTeamsTable;
 
 /**
@@ -18,7 +19,7 @@ class TestController extends ApiController{
         set_time_limit(0);
             
         $teams = ValentineUserTeamsTable::model()->fetchAll();
-        FileService::createFolder(APPLICATION_PATH . 'runtimes/files');
+        LocalFileHelper::createFolder(APPLICATION_PATH . 'runtimes/files');
         
         foreach($teams as $team){
             $file_path = FileService::getPath($team['photo']);

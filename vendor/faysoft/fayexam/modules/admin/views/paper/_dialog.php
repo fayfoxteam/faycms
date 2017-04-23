@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fayexam\models\tables\ExamQuestionsTable;
+
+/**
+ * @var $question_cats array
+ */
 ?>
 <div class="hide">
     <div id="question-dialog" class="dialog">

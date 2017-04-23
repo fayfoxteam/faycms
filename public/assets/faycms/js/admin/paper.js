@@ -13,7 +13,7 @@ var paper = {
             var return_data = {};
             $.each(data, function(i, n){
                 return_data[n.name] = n.value;
-            })
+            });
             return return_data;
         }(ajax_data));
         //已选择试题
@@ -28,7 +28,7 @@ var paper = {
         ajax_data.page = page;
         $.ajax({
             'type': 'GET',
-            'url': system.url('cms/admin/exam-question/get-all'),
+            'url': system.url('fayexam/admin/question/get-all'),
             'data': ajax_data,
             'dataType': 'json',
             'cache': false,
@@ -75,7 +75,7 @@ var paper = {
     'setQuestion':function(question_id){
         $.ajax({
             'type': 'GET',
-            'url': system.url('cms/admin/exam-question/get'),
+            'url': system.url('fayexam/admin/question/get'),
             'data': {'id':question_id},
             'dataType': 'json',
             'cache': false,
@@ -113,19 +113,14 @@ var paper = {
         $('#total-score').text(system.changeTwoDecimal(total_score));
     },
     'events':function(){
-        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-                $('#select-question-link').fancybox({
-                    'padding':0,
-                    'titleShow':false,
-                    'centerOnScroll':true,
-                    'onComplete':function(o){
-                        $('#question-dialog').block({
-                            'zindex': 120000
-                        });
-                        paper.getQuestions($(o).attr('data-id'));
-                    }
-                });
+        common.loadFancybox(function(){
+            $('#select-question-link').fancybox({
+                'onComplete':function(instance, slide){
+                    $('#question-dialog').block({
+                        'zindex': 120000
+                    });
+                    paper.getQuestions(slide.opts.$orig.attr('data-id'));
+                }
             });
         });
         

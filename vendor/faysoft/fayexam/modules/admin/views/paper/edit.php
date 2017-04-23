@@ -40,7 +40,9 @@ echo F::form()->open();
     </div>
 </div>
 <?php echo F::form()->close()?>
-<?php $this->renderPartial('_dialog')?>
+<?php $this->renderPartial('_dialog', array(
+    'question_cats'=>$question_cats,
+))?>
 <script src="<?php echo $this->assets('faycms/js/admin/paper.js')?>"></script>
 <script>
 common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'exam'});

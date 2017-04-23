@@ -8,7 +8,7 @@ use cms\services\FlashService;
 class AdminController extends Widget{
     public function initConfig($config){
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -21,11 +21,6 @@ class AdminController extends Widget{
     
     public function onPost(){
         $data = $this->form->getFilteredData();
-        
-        //若模版与默认模版一致，不保存
-        if($this->isDefaultTemplate($data['template'])){
-            $data['template'] = '';
-        }
         
         $this->saveConfig($data);
         FlashService::set('编辑成功', 'success');
@@ -47,6 +42,7 @@ class AdminController extends Widget{
         return array(
             'alias'=>'trim',
             'template'=>'trim',
+            'template_code'=>'trim',
         );
     }
 }

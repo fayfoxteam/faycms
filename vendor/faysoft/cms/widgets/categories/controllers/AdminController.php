@@ -8,7 +8,7 @@ use cms\services\FlashService;
 class AdminController extends Widget{
     public function initConfig($config){
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -33,11 +33,6 @@ class AdminController extends Widget{
         $data = $this->form->getFilteredData();
         $data['uri'] || $data['uri'] = $this->input->post('other_uri');
         
-        //若模版与默认模版一致，不保存
-        if($this->isDefaultTemplate($data['template'])){
-            $data['template'] = '';
-        }
-        
         $this->saveConfig($data);
         FlashService::set('编辑成功', 'success');
     }
@@ -55,7 +50,6 @@ class AdminController extends Widget{
             'top'=>'顶级分类',
             'title'=>'标题',
             'uri'=>'链接格式',
-            'template'=>'渲染模版',
             'cat_key'=>'分类字段',
             'show_sibling_when_terminal'=>'无子分类展示平级分类',
         );
@@ -68,6 +62,7 @@ class AdminController extends Widget{
             'title'=>'',
             'uri'=>'trim',
             'template'=>'trim',
+            'template_code'=>'trim',
             'cat_key'=>'trim',
             'show_sibling_when_terminal'=>'intval',
         );

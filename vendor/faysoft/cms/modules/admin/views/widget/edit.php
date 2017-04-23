@@ -97,16 +97,12 @@ use fay\helpers\HtmlHelper;
     </div>
 </div>
 <?php echo F::form('widget')->close()?>
+<script src="<?php echo $this->assets('faycms/js/admin/widget.js')?>"></script>
 <script>
 $(function(){
+    widget.id = '<?php echo $widget['id']?>';
+    widget.init();
+    
     common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'widget'});
-
-    $('[name="f_widget_cache"]').on('change', function(){
-        if($('[name="f_widget_cache"]:checked').val() == '1'){
-            $('#cache-expire-container').show();
-        }else{
-            $('#cache-expire-container').hide();
-        }
-    });
 });
 </script>

@@ -1,6 +1,7 @@
 <?php
 namespace fay\widget;
 
+use cms\helpers\WidgetHelper;
 use fay\core\Db;
 use fay\core\Input;
 use fay\helpers\RequestHelper;
@@ -106,6 +107,8 @@ abstract class Widget{
      * @param $data
      */
     public function saveConfig($data){
+        $this->formatTemplateBeforeSave($data);
+        
         WidgetsTable::model()->update(array(
             'options'=>json_encode($data),
         ), "alias = '{$this->alias}'");
@@ -191,18 +194,6 @@ abstract class Widget{
     }
     
     /**
-     * 获取显示模版。若不存在，返回空字符串
-     * @return string
-     */
-    protected function getTemplate(){
-        if(empty($this->config['template'])){
-            return $this->getDefaultTemplate();
-        }else{
-            return $this->config['template'];
-        }
-    }
-    
-    /**
      * 获取默认模版
      * @return string
      */
@@ -211,6 +202,51 @@ abstract class Widget{
             return file_get_contents($this->path . 'views/index/template.php');
         }else{
             return '';
+        }
+    }
+
+    /**
+     * 对数据库中保存的template解析为template和template_code两个字段，用于后台编辑模版
+     * @param $config
+     */
+    protected function parseTemplateForEdit(&$config){
+        if(empty($config['template'])){
+            //未定义模版，或选择了自定义模版
+            $config['template_code'] = $this->getDefaultTemplate();
+        }else if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
+            //指定项目中的view文件作为模版
+            $view_file_content = WidgetHelper::getViewByRouter($config['template']);
+            if($view_file_content === false){
+                //指定了一个不存在的view文件
+                $config['template_code'] = $config['template'];
+                $config['template'] = 'custom';
+            }else{
+                $config['template_code'] = $view_file_content;
+            }
+        }else{
+            //无法识别template格式，视为自定义代码
+            $config['template_code'] = $config['template'];
+            $config['template'] = 'custom';
+        }
+    }
+
+    /**
+     * 保存后台设置前，先判断并确认最终的template。
+     * 该函数在执行保存前会自动调用，不需要在每个widget/admin里手工调用
+     * @param $data
+     */
+    private function formatTemplateBeforeSave(&$data){
+        if(isset($data['template'])){
+            if($data['template'] == 'custom'){
+                //若是自定义模版，将template值置为编辑器值
+                $data['template'] = $data['template_code'];
+            }
+            unset($data['template_code']);
+    
+            //若模版与默认模版一致，不保存
+            if($this->isDefaultTemplate($data['template'])){
+                $data['template'] = '';
+            }
         }
     }
     

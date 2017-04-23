@@ -97,7 +97,7 @@ use cms\services\user\UserRoleService;
                 ?>
                 <p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
             </div>
-            <div class="form-field thumbnail-size-container <?php if(empty($widget->config['fields']) || !in_array('files', $config['fields']))echo 'hide';?>">
+            <div class="form-field thumbnail-size-container <?php if(!in_array('files', F::form('widget')->getData('fields', array())))echo 'hide';?>">
                 <label class="title bold">附件缩略图尺寸</label>
                 <?php
                 echo F::form('widget')->inputText('file_thumbnail_width', array(
@@ -112,19 +112,7 @@ use cms\services\user\UserRoleService;
                 ?>
                 <p class="fc-grey">若留空，则默认为100x100。</p>
             </div>
-            <div class="form-field">
-                <label class="title bold">渲染模版</label>
-                <?php echo F::form('widget')->textarea('template', array(
-                    'class'=>'form-control h90 autosize',
-                    'id'=>'code-editor',
-                ))?>
-                <p class="fc-grey mt5">
-                    若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
-                    即类似<code>frontend/widget/template</code><br />
-                    则会调用当前app下符合该相对路径的view文件。<br />
-                    否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
-                </p>
-            </div>
+            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

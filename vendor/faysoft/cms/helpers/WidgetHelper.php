@@ -28,4 +28,20 @@ class WidgetHelper{
         
         return $views;
     }
+
+    /**
+     * 根据路由标识符获取view文件内容
+     * @param string $router
+     * @return string|false
+     */
+    public static function getViewByRouter($router){
+        $router_arr = explode('/', $router, 4);
+        if(count($router_arr) == 3 && file_exists(APPLICATION_PATH . "modules/{$router_arr[0]}/views/{$router_arr[1]}/{$router_arr[2]}.php")){
+            return file_get_contents(APPLICATION_PATH . "modules/{$router_arr[0]}/views/{$router_arr[1]}/{$router_arr[2]}.php");
+        }else if(count($router_arr) == 4 && $router_arr[0] == APPLICATION && file_exists(APPLICATION_PATH . "modules/{$router_arr[1]}/views/{$router_arr[2]}/{$router_arr[3]}.php")){
+            return file_get_contents(APPLICATION_PATH . "modules/{$router_arr[1]}/views/{$router_arr[2]}/{$router_arr[3]}.php");
+        }else{
+            return false;
+        }
+    }
 }

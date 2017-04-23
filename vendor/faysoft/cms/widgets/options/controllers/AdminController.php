@@ -10,7 +10,7 @@ class AdminController extends Widget{
         empty($config['data']) && $config['data'] = array();
         
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -55,6 +55,7 @@ class AdminController extends Widget{
         return array(
             'title'=>'trim',
             'template'=>'trim',
+            'template_code'=>'trim',
         );
     }
 }

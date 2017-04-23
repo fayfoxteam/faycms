@@ -30,7 +30,7 @@ class AdminController extends Widget{
         );
         
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -53,11 +53,6 @@ class AdminController extends Widget{
             }
         }else{
             $data['elements'] = array();
-        }
-        
-        //若模版与默认模版一致，不保存
-        if($this->isDefaultTemplate($data['template'])){
-            $data['template'] = '';
         }
         
         $this->saveConfig($data);
@@ -96,6 +91,7 @@ class AdminController extends Widget{
             'submit_btn_class'=>'trim',
             'submit_success'=>'trim',
             'template'=>'trim',
+            'template_code'=>'trim',
         );
     }
 }

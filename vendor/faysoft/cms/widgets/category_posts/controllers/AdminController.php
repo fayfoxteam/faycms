@@ -8,7 +8,7 @@ use cms\services\FlashService;
 class AdminController extends Widget{
     public function initConfig($config){
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -32,10 +32,6 @@ class AdminController extends Widget{
     public function onPost(){
         $data = $this->form->getFilteredData();
         
-        //若模版与默认模版一致，不保存
-        if($this->isDefaultTemplate($data['template'])){
-            $data['template'] = '';
-        }
         if(empty($data['fields'])){
             $data['fields'] = array();
         }
@@ -70,6 +66,7 @@ class AdminController extends Widget{
             'show_empty'=>'intval',
             'number'=>'intval',
             'template'=>'trim',
+            'template_code'=>'trim',
             'date_format'=>'trim',
             'thumbnail'=>'intval',
             'last_view_time'=>'intval',

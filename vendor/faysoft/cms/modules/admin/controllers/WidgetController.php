@@ -1,6 +1,7 @@
 <?php
 namespace cms\modules\admin\controllers;
 
+use cms\helpers\WidgetHelper;
 use cms\library\AdminController;
 use cms\models\tables\WidgetsTable;
 use fay\helpers\LocalFileHelper;
@@ -279,13 +280,13 @@ class WidgetController extends AdminController{
             
             Response::json($widgetInstance->getDefaultTemplate());
         }else{
-            //返回app/modules/{module}/views/widget下的对应文件
-            $view_arr = explode('/', $view);
-            if(count($view_arr) != 3 || !file_exists(APPLICATION_PATH . "modules/{$view_arr[0]}/views/{$view_arr[1]}/{$view_arr[2]}.php")){
-                Response::json('', 0, '指定view格式不支持预览');
+            //返回view文件内容
+            $view_file_content = WidgetHelper::getViewByRouter($view);
+            if($view_file_content === false){
+                Response::json('', 0, "找不到view文件[{$view}]");
+            }else{
+                Response::json($view_file_content);
             }
-            
-            Response::json(file_get_contents(APPLICATION_PATH . "modules/{$view_arr[0]}/views/{$view_arr[1]}/{$view_arr[2]}.php"));
         }
     }
 }

@@ -11,7 +11,7 @@ class AdminController extends Widget{
         empty($config['title']) && $config['title'] = '';
         
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -26,11 +26,6 @@ class AdminController extends Widget{
     public function onPost(){
         $data = $this->form->getFilteredData();
         $data['uri'] || $data['uri'] = $this->input->post('other_uri');
-        
-        //若模版与默认模版一致，不保存
-        if($this->isDefaultTemplate($data['template'])){
-            $data['template'] = '';
-        }
         
         $this->saveConfig($data);
         FlashService::set('编辑成功', 'success');
@@ -47,7 +42,6 @@ class AdminController extends Widget{
             'title'=>'标题',
             'number'=>'数量',
             'uri'=>'链接格式',
-            'template'=>'渲染模版',
             'order'=>'排序方式',
         );
     }
@@ -58,6 +52,7 @@ class AdminController extends Widget{
             'number'=>'intval',
             'uri'=>'trim',
             'template'=>'trim',
+            'template_code'=>'trim',
             'order'=>'trim',
         );
     }

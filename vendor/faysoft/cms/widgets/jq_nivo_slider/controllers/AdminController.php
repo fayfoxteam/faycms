@@ -16,7 +16,7 @@ class AdminController extends Widget{
         isset($config['height']) || $config['height'] = 0;
         
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -42,12 +42,7 @@ class AdminController extends Widget{
                 'end_time'=>$end_times[$p] ? $end_times[$p] : 0,
             );
         }
-        
-        //若模版与默认模版一致，不保存
-        if($this->isDefaultTemplate($data['template'])){
-            $data['template'] = '';
-        }
-        
+
         $this->saveConfig($data);
         FlashService::set('编辑成功', 'success');
     }
@@ -83,6 +78,7 @@ class AdminController extends Widget{
             'width'=>'intval',
             'height'=>'intval',
             'template'=>'trim',
+            'template_code'=>'trim',
         );
     }
 }

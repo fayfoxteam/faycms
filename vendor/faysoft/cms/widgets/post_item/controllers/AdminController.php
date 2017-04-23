@@ -21,7 +21,7 @@ class AdminController extends Widget{
         }
         
         //设置模版
-        empty($config['template']) && $config['template'] = $this->getDefaultTemplate();
+        $this->parseTemplateForEdit($config);
         
         return $this->config = $config;
     }
@@ -45,11 +45,6 @@ class AdminController extends Widget{
      */
     public function onPost(){
         $data = $this->form->getFilteredData();
-        
-        //若模版与默认模版一致，不保存
-        if($this->isDefaultTemplate($data['template'])){
-            $data['template'] = '';
-        }
         
         //若输入框被清空，则把ID也清空
         if(\F::input()->post('fixed_title') == ''){
@@ -90,6 +85,7 @@ class AdminController extends Widget{
             'id_key'=>'trim',
             'default_post_id'=>'intval',
             'template'=>'trim',
+            'template_code'=>'trim',
             'fields'=>'trim',
             'under_cat_id'=>'intval',
             'inc_views'=>'intval',

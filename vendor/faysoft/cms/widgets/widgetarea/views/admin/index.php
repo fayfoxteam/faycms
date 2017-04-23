@@ -18,19 +18,7 @@ use cms\services\user\UserRoleService;
             ))?>
         </div>
         <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
-            <div class="form-field">
-                <label class="title bold">渲染模版</label>
-                <?php echo F::form('widget')->textarea('template', array(
-                    'class'=>'form-control h90 autosize',
-                    'id'=>'code-editor',
-                ))?>
-                <p class="fc-grey mt5">
-                    若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
-                    即类似<code>frontend/widget/template</code><br />
-                    则会调用当前app下符合该相对路径的view文件。<br />
-                    否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
-                </p>
-            </div>
+            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

@@ -4,10 +4,14 @@
 ;(function($){
     $.extend({
         'selectPost': function(params){
-            var defaults = {
+            var settings = {
                 'type': 'multiple',//multiple: 多选；single: 单选
-                
+                'pageSize': '10'//单页显示文章数
             };
+
+            $.each(params, function(i, n){
+                settings[i] = n;
+            });
         }
     });
 })(jQuery);

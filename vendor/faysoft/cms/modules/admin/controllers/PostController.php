@@ -252,11 +252,6 @@ class PostController extends AdminController{
             'page_size'=>10,
         ));
         
-        //列表页会根据enabled_boxes决定是否显示某些列
-        $this->view->enabled_boxes = $this->getEnabledBoxes('admin_post_boxes');
-        //查找文章分类
-        $this->view->cats = CategoryService::service()->getTree('_system_post');
-        
         $sql = new Sql();
         $count_sql = new Sql();//逻辑太复杂，靠通用逻辑从完整sql中替换出来的话，效率太低
         $sql->from(array('p'=>'posts'), PostsTable::model()->formatFields('!content'))
@@ -386,6 +381,12 @@ class PostController extends AdminController{
             'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
             'count_sql'=>$count_sql,
         ));
+
+        //列表页会根据enabled_boxes决定是否显示某些列
+        $this->view->enabled_boxes = $this->getEnabledBoxes('admin_post_boxes');
+        //查找文章分类
+        $this->view->cats = CategoryService::service()->getTree('_system_post');
+        
         $this->view->render();
     }
     
@@ -842,5 +843,12 @@ class PostController extends AdminController{
         }
         
         Response::json($data);
+    }
+
+    /**
+     * 以json的方式返回文章分页列表，比index逻辑简单一些
+     */
+    public function listAction(){
+        
     }
 }

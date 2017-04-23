@@ -194,7 +194,14 @@ class PostController extends AdminController{
         
         $this->view->render();
     }
-    
+
+    /**
+     * 文章列表
+     * @parameter int $status 文章状态筛选
+     * @parameter int $deleted 若为1，列出回收站内文章；若为0，列出非回收站内文章；默认为0
+     * @parameter field $time_field 根据指定字段进行时间段筛选，
+     * @parameter 
+     */
     public function index(){
         //搜索条件验证，异常数据直接返回404
         $this->form('search')->setScene('final')->setRules(array(
@@ -316,11 +323,11 @@ class PostController extends AdminController{
             $count_sql->where('p.delete_time > 0');
         }else if($this->input->get('status') !== null && $this->input->get('deleted', 'intval') != 1){
             $sql->where(array(
-                'p.delete_time > 0',
+                'p.delete_time = 0',
                 'p.status = ?'=>$this->input->get('status', 'intval'),
             ));
             $count_sql->where(array(
-                'p.delete_time > 0',
+                'p.delete_time = 0',
                 'p.status = ?'=>$this->input->get('status', 'intval'),
             ));
         }else{
@@ -377,6 +384,7 @@ class PostController extends AdminController{
         $this->view->listview = new ListView($sql, array(
             'page_size'=>$this->form('setting')->getData('page_size', 20),
             'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
+            'count_sql'=>$count_sql,
         ));
         $this->view->render();
     }

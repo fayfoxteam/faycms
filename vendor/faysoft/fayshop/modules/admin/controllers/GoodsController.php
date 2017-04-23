@@ -615,7 +615,7 @@ class GoodsController extends AdminController{
     public function delete(){
         $goods_id = $this->input->get('id', 'intval');
         GoodsTable::model()->update(array(
-            'deleted'=>$this->current_time,
+            'delete_time'=>$this->current_time,
         ), $goods_id);
         $this->actionlog(ActionlogsTable::TYPE_GOODS, '软删除一个商品', $goods_id);
         

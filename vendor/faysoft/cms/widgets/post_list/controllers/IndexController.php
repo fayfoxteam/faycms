@@ -240,8 +240,8 @@ class IndexController extends Widget{
         $listview = new ListView($sql, array(
             'page_size'=>$this->config['page_size'],
             'page_key'=>$this->config['page_key'],
+            'empty_text'=>$this->config['empty_text'],
         ));
-        $listview->empty_text = $this->config['empty_text'];
         
         return $listview;
     }

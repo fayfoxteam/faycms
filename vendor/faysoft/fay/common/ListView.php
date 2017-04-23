@@ -2,6 +2,7 @@
 namespace fay\common;
 
 use fay\core\Db;
+use fay\core\ErrorException;
 use fay\core\Sql;
 use fay\core\Exception;
 use fay\helpers\UrlHelper;
@@ -9,11 +10,7 @@ use fay\helpers\UrlHelper;
 class ListView{
     public $current_page = null;
     public $page_size = 10;
-    public $item_view = '_list_item';
-    public $sql;
-    public $count_sql;
     public $page_key = 'page';//当前页参数
-    public $empty_text = '无相关记录！';
     public $offset;
     public $start_record;
     public $end_record;
@@ -21,8 +18,32 @@ class ListView{
     public $total_pages;
     public $reload = null;//加载地址，对于重写过的url，需要设置此项
     public $adjacents = 2;//前后显示页数
-    public $params = array();
-    public $pager_view = 'common/pager';
+
+    /**
+     * @var
+     */
+    private $count_sql;
+    
+    /**
+     * @var string 分页条view
+     */
+    private $pager_view = 'common/pager';
+
+    /**
+     * @var string 单行记录渲染view
+     */
+    private $item_view = '_list_item';
+    
+    /**
+     * @var string 无记录时展示文本
+     */
+    private $empty_text = '无相关记录！';
+    
+    /**
+     * @var Sql
+     */
+    private $sql;
+    
     /**
      * @var Db
      */
@@ -33,9 +54,9 @@ class ListView{
      * @param Sql $sql
      * @param array $config
      */
-    public function __construct($sql = null, $config = array()){
+    public function __construct($sql, $config = array()){
         foreach($config as $k => $c){
-            if($c && isset($this->{$k})){
+            if($c && property_exists($this, $k)){
                 $this->{$k} = $c;
             }
         }
@@ -73,8 +94,7 @@ class ListView{
             $this->init();
         }
         
-        $sql = $this->sql." LIMIT {$this->offset}, {$this->page_size}";
-        $results = $this->db->fetchAll($sql, $this->params);
+        $results = $this->sql->limit($this->page_size, $this->offset)->fetchAll();
         if($results){
             $i = 0;
             foreach ($results as $data){
@@ -93,8 +113,7 @@ class ListView{
             $this->init();
         }
         
-        $sql = $this->sql." LIMIT {$this->offset}, {$this->page_size}";
-        return $this->db->fetchAll($sql, $this->params);
+        return $this->sql->limit($this->page_size, $this->offset)->fetchAll();
     }
     
     public function showPager($view_data = array()){
@@ -155,24 +174,23 @@ class ListView{
     }
     
     private function count(){
-        if(isset($this->count_sql)){
-            $sql = $this->count_sql;
+        if(!$this->count_sql){
+            return $this->sql->count();
+        }else if($this->count_sql instanceof Sql){
+            return $this->count_sql->count();
+        }else if(is_string($this->count_sql)){
+            $result = $this->db->fetchRow($this->count_sql);
+            return intval(array_shift($result));
         }else{
-            $sql = preg_replace('/^SELECT[\s\S]*FROM/i', 'select COUNT(*) FROM', $this->sql);
-            $sql = preg_replace('/ORDER BY[\s\S]*/i', '', $sql);
-            $sql = preg_replace('/GROUP BY[\s\S]*/i', '', $sql);
+            throw new ErrorException('无法识别的count_sql');
         }
-        $result = $this->db->fetchRow($sql, $this->params);
-        return intval(array_shift($result));
     }
     
     public function setSql($sql){
         if(!$sql instanceof Sql){
             throw new Exception('ListView::setSql方法传入的参数必须是Sql类实例');
         }
-        $this->sql = $sql->getSql();
-        $this->count_sql = $sql->getCountSql();
-        $this->params = $sql->getParams();
+        $this->sql = $sql;
     }
     
 }

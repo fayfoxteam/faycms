@@ -5,7 +5,7 @@ jQuery.fn.extend({
     feditsort: function(options){
         var defaults = {
             'timeout':200
-        }
+        };
         $.each(options, function(i, n){
             defaults[i] = n;
         });

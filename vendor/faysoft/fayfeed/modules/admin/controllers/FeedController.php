@@ -272,7 +272,7 @@ class FeedController extends AdminController{
             $sql->where('f.delete_time > 0');
         }else if($this->input->get('status', 'intval') !== null && $this->input->get('deleted', 'intval') != 1){
             $sql->where(array(
-                'f.delete_time > 0',
+                'f.delete_time = 0',
                 'f.status = ?'=>$this->input->get('status', 'intval'),
             ));
         }else{

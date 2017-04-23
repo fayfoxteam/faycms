@@ -138,10 +138,10 @@ class PageController extends AdminController{
         
         if($this->input->get('deleted', 'intval') == 1){
             $sql->where('p.delete_time > 0');
-        }else if($this->input->get('status', 'intval') !== null && $this->input->get('delete', 'intval') != 1){
+        }else if($this->input->get('status', 'intval') !== null && $this->input->get('deleted', 'intval') != 1){
             $sql->where(array(
                 'p.status = ?'=>$this->input->get('status', 'intval'),
-                'p.delete_time > 0',
+                'p.delete_time = 0',
             ));
         }else{
             $sql->where('p.delete_time = 0');
@@ -247,7 +247,7 @@ class PageController extends AdminController{
     
     public function delete(){
         $page_id = $this->input->get('id', 'intval');
-        PagesTable::model()->update(array('deleted'=>$this->current_time), $page_id);
+        PagesTable::model()->update(array('delete_time'=>$this->current_time), $page_id);
         
         Response::notify('success', array(
             'id'=>$page_id,
@@ -279,7 +279,7 @@ class PageController extends AdminController{
     
     public function sort(){
         $page_id = $this->input->get('id', 'intval');
-        $result = PagesTable::model()->update(array(
+        PagesTable::model()->update(array(
             'sort'=>$this->input->get('sort', 'intval'),
         ), $page_id);
         $this->actionlog(ActionlogsTable::TYPE_PAGE, '改变了页面排序', $page_id);

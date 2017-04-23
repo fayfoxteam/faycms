@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\posts\controllers;
 
-use cms\helpers\PostHelper;
+use cms\helpers\LinkHelper;
 use fay\widget\Widget;
 use fay\helpers\DateHelper;
 
@@ -145,7 +145,7 @@ class IndexController extends Widget{
             }
             
             //附加文章链接
-            $p['post']['link'] = PostHelper::getLink($p['post']);
+            $p['post']['link'] = LinkHelper::getPostLink($p['post']);
         }
         
         return $posts;

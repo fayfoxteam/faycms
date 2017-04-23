@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\category_posts\controllers;
 
-use cms\helpers\PostHelper;
+use cms\helpers\LinkHelper;
 use fay\widget\Widget;
 use cms\services\CategoryService;
 use fay\helpers\DateHelper;
@@ -235,7 +235,7 @@ class IndexController extends Widget{
                 $p['post']['format_publish_time'] = '';
             }
     
-            $p['post']['link'] = PostHelper::getLink($p['post']);
+            $p['post']['link'] = LinkHelper::getPostLink($p['post']);
         }
         
         return $posts;

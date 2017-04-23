@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\tag_post_list\controllers;
 
-use cms\helpers\PostHelper;
+use cms\helpers\LinkHelper;
 use fay\helpers\ArrayHelper;
 use cms\models\tables\TagsTable;
 use cms\services\post\PostService;
@@ -263,7 +263,7 @@ class IndexController extends Widget{
             }
             
             //附加文章链接
-            $p['post']['link'] = PostHelper::getLink($p['post']);
+            $p['post']['link'] = LinkHelper::getPostLink($p['post']);
         }
         
         return $posts;

@@ -43,7 +43,7 @@ echo F::form()->open();
 <?php $this->renderPartial('_dialog', array(
     'question_cats'=>$question_cats,
 ))?>
-<script src="<?php echo $this->assets('faycms/js/exam/paper.js')?>"></script>
+<script src="<?php echo $this->assets('fayexam/js/paper.js')?>"></script>
 <script>
 common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'exam'});
 paper.types = {

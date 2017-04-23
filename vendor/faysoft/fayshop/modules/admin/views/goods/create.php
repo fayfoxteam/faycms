@@ -82,7 +82,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
     </div>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayshop/goods.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('fayshop/js/fayshop/goods.js')?>"></script>
 <script>
 common.dragsortKey = 'admin_goods_box_sort';
 common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'goods'});

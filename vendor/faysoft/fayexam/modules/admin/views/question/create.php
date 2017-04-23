@@ -82,7 +82,7 @@ echo F::form()->open();
     </div>
 </div>
 <?php echo F::form()->close()?>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/question.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('fayexam/js/question.js')?>"></script>
 <script>
 common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'exam'});
 question.type = {

@@ -1,6 +1,7 @@
 <?php
 namespace guangong\modules\api\controllers;
 
+use cms\services\OptionService;
 use fay\core\Response;
 use fay\helpers\UrlHelper;
 use faypay\services\trade\TradeService;
@@ -15,7 +16,7 @@ class PaymentController extends \faypay\modules\api\controllers\PaymentControlle
         
         //创建交易
         $trade_id = TradeService::service()->create(
-            1,//测试完成后改成1100
+            OptionService::get('guangong:junfei', 1100),
             '网络体验/军籍存档/义结金兰技术服务费',
             array(
                 array(

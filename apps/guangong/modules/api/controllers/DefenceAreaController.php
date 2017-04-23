@@ -2,6 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
+use cms\services\OptionService;
 use fay\core\Response;
 use cms\services\file\FileService;
 use guangong\models\tables\GuangongDefenceAreasTable;
@@ -40,7 +41,7 @@ class DefenceAreaController extends ApiController{
         
         $userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id,military');
         
-        if($userExtra['military'] < 1100){
+        if($userExtra['military'] < OptionService::get('guangong:junfei', 1100)){
             Response::notify('error', array(
                 'message'=>'您还未完成注册，请加入关羽军团后继续体验。',
                 'code'=>'recruit-first'

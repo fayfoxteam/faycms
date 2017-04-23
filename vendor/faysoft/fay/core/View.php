@@ -226,6 +226,7 @@ class View{
                 $addressing_path = \F::config()->get('addressing_path');//根据addressing_path依次查找vendor/faysoft/目录
                 $addressing_path || $addressing_path = array();
                 if($uri->package != APPLICATION){
+                    //若当前package是faysoft/*下的项目，先搜索当前package
                     array_unshift($addressing_path, $uri->package);
                 }
                 foreach($addressing_path as $address){

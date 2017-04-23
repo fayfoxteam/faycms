@@ -25,12 +25,12 @@ class Uri{
     /**
      * 出于SEO考虑，有些router带有中横线，将其转换为大小写分割，并且首字母小写
      */
-     public $action;
+    public $action;
     
     /**
      * 保持中横线分割
      */
-     public $package = 'cms';
+    public $package = 'cms';
      
     private static $_instance;
     

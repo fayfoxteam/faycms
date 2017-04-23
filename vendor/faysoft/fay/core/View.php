@@ -222,7 +222,12 @@ class View{
             if(file_exists(APPLICATION_PATH.$view_relative_path)){//先查找app目录
                 //前台app
                 $view_path = APPLICATION_PATH.$view_relative_path;
-            }else if($addressing_path = \F::config()->get('addressing_path')){//若app目录不存在对应视图文件，根据addressing_path依次查找vendor/faysoft/目录
+            }else{
+                $addressing_path = \F::config()->get('addressing_path');//根据addressing_path依次查找vendor/faysoft/目录
+                $addressing_path || $addressing_path = array();
+                if($uri->package != APPLICATION){
+                    array_unshift($addressing_path, $uri->package);
+                }
                 foreach($addressing_path as $address){
                     if(file_exists(FAYSOFT_PATH."{$address}/{$view_relative_path}")){
                         //faysoft/*下的类库

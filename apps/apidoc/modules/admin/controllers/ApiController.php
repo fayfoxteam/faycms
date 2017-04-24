@@ -123,8 +123,8 @@ class ApiController extends AdminController{
         ));
         
         //各状态记录数
-        $sql->reset();
-        $status_counts = $sql->from(array('a'=>'apidoc_apis'), array('status', 'COUNT(*) AS count'))
+        $status_sql = new Sql();
+        $status_counts = $status_sql->from(array('a'=>'apidoc_apis'), array('status', 'COUNT(*) AS count'))
             ->group('a.status')
             ->fetchAll();
         $this->view->status_counts = ArrayHelper::column($status_counts, 'count', 'status');

@@ -19,6 +19,7 @@ use cms\services\FlashService;
 use cms\models\tables\PostMetaTable;
 use cms\services\post\PostService;
 use cms\models\tables\PostExtraTable;
+use fay\helpers\NumberHelper;
 
 class PostController extends AdminController{
     /**
@@ -847,8 +848,96 @@ class PostController extends AdminController{
 
     /**
      * 以json的方式返回文章分页列表，比index逻辑简单一些
+     * @parameter string $keywords
+     * 
      */
     public function listAction(){
+        //搜索条件验证，异常数据直接返回404
+        $this->form('search')->setScene('final')->setRules(array(
+            array('time_field', 'range', array(
+                'range'=>array('publish_time', 'create_time', 'update_time')
+            )),
+            array(array('start_time', 'end_time'), 'datetime'),
+            array('orderby', 'range', array(
+                'range'=>PostsTable::model()->getFields(),
+            )),
+            array('subclassification', 'range', array(
+                'range'=>array('0', '1')
+            )),
+            array('order', 'range', array(
+                'range'=>array('asc', 'desc'),
+            )),
+            array('cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
+            array('page_size', 'int', array('min'=>1)),
+        ))->setFilters(array(
+            'time_field'=>'trim',
+            'start_time'=>'strtotime',
+            'end_time'=>'strtotime',
+            'orderby'=>'trim',
+            'order'=>'trim',
+            'cat_id'=>'intval',
+            'subclassification'=>'intval',
+            'keywords'=>'trim',
+        ))->check();
         
+        $sql = new Sql();
+        $sql->from(array('p'=>'posts'), 'id,title,cat_id')
+            ->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
+        ;
+
+        //分类搜索
+        $cat_id = $this->form()->getData('cat_id');
+
+        if($cat_id){
+            if(!!$this->form()->getData('subclassification')){
+                //包含子分类
+                $limit_cat_children = CategoryService::service()->getChildIds($cat_id);
+                $limit_cat_children[] = $cat_id;//加上父节点
+                $sql->where(array('cat_id IN (?)'=>$limit_cat_children));
+            }else{
+                //不包含子分类
+                $sql->where(array('cat_id = ?'=>$cat_id));
+            }
+        }
+
+        //时间段
+        if($this->form()->getData('start_time')){
+            $sql->where(array("p.{$this->form()->getData('time_field')} > ?"=>$this->form()->getData('start_time')));
+        }
+        if($this->form()->getData('end_time')){
+            $sql->where(array("p.{$this->form()->getData('time_field')} < ?"=>$this->form()->getData('end_time')));
+        }
+
+        //只返回可见文章
+        $sql->where(PostsTable::getPublishedConditions('p'));
+        
+        $keywords = $this->form()->getData('keywords');
+        if(NumberHelper::isInt($keywords)){
+            //如果关键词是数字，搜索id
+            $sql->orWhere(array(
+                'p.id = ?'=>$keywords,
+                'p.title LIKE ?'=>"%{$keywords}%",
+            ));
+        }else{
+            $sql->where('p.title LIKE ?', "%{$keywords}%");
+        }
+
+        //排序
+        $orderBy = $this->form()->getData('orderby');
+        if($orderBy){
+            $order = $this->form()->getData('orderby', 'asc');
+            $sql->order("P.{$orderBy} {$order}");
+        }else{
+            $sql->order('p.id DESC');
+        }
+
+        $listview = new ListView($sql, array(
+            'page_size'=>$this->form()->getData('page_size', 10),
+        ));
+
+        Response::json(array(
+            'data'=>$listview->getData(),
+            'pager'=>$listview->getPager(),
+        ));
     }
 }

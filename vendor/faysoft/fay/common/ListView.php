@@ -20,7 +20,7 @@ class ListView{
     public $adjacents = 2;//前后显示页数
 
     /**
-     * @var
+     * @var Sql|string
      */
     private $count_sql;
     

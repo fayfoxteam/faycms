@@ -62,10 +62,6 @@ use cms\services\user\UserRoleService;
 </div>
 <script>
 $(function(){
-    $('.toggle-advance').on('click', function(){
-        $('.advance').toggle();
-    });
-    
     system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
         $('#page-title').autocomplete({
             'url' : system.url('cms/admin/page/search'),

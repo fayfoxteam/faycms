@@ -174,10 +174,6 @@ use cms\services\user\UserRoleService;
 </div>
 <script>
 $(function(){
-    $('.toggle-advance').on('click', function(){
-        $(".advance").toggle();
-    });
-    
     $('input[name="pager"]').on('click', function(){
         if($(this).val() == 'custom'){
             $('#pager-template-container').show();

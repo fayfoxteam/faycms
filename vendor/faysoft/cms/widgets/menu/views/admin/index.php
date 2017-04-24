@@ -23,10 +23,3 @@ use cms\services\user\UserRoleService;
         </div>
     </div>
 </div>
-<script>
-$(function(){
-    $('.toggle-advance').on('click', function(){
-        $(".advance").toggle();
-    });
-});
-</script>

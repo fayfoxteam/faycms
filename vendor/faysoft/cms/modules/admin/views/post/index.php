@@ -55,14 +55,17 @@ $cols = F::form('setting')->getData('cols', array());
                 F::form('search')->inputText('start_time', array(
                     'data-rule'=>'datetime',
                     'data-label'=>'开始时间',
+                    'placeholder'=>'开始时间',
                     'class'=>'form-control datetimepicker',
                 )),
                 ' - ',
                 F::form('search')->inputText('end_time', array(
                     'data-rule'=>'datetime',
                     'data-label'=>'结束时间',
+                    'placeholder'=>'结束时间',
                     'class'=>'form-control datetimepicker',
                 )),
+                '&nbsp;',
                 F::form('search')->submitLink('查询', array(
                     'class'=>'btn btn-sm',
                 ))?>

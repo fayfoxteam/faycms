@@ -118,10 +118,6 @@ use cms\services\user\UserRoleService;
 </div>
 <script>
 $(function(){
-    $('.toggle-advance').on('click', function(){
-        $('.advance').toggle();
-    });
-    
     $('input[name="fields[]"][value="files"]').on('click', function(){
         if($(this).is(':checked')){
             $('.thumbnail-size-container').show();

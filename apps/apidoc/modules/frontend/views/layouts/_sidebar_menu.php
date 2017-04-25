@@ -15,7 +15,7 @@ use fay\helpers\HtmlHelper;
             </div>
             
             <div class="mobile-menu-toggle">
-                <a href="javascript:;" class="toggle-mobile-menu">
+                <a href="javascript:" class="toggle-mobile-menu">
                     <i class="fa fa-bars"></i>
                 </a>
             </div>

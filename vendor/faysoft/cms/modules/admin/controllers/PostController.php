@@ -362,9 +362,6 @@ class PostController extends AdminController{
             }else if(in_array($this->input->get('keywords_field'), array('id', 'user_id'))){
                 $sql->where(array("p.{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
                 $count_sql->where(array("p.{$this->input->get('keywords_field')} = ?"=>$this->input->get('keywords', 'intval')));
-            }else{
-                $sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
-                $count_sql->where(array('p.title LIKE ?'=>'%'.$this->input->get('keywords', 'trim').'%'));
             }
         }
         
@@ -848,12 +845,23 @@ class PostController extends AdminController{
 
     /**
      * 以json的方式返回文章分页列表，比index逻辑简单一些
+     * @parameter string $keywords_field 当$keywords有值时，确定搜索字段
      * @parameter string $keywords
-     * 
+     * @parameter string $time_field 当$start_time或$end_time有值时，指定搜索字段
+     * @parameter string $start_time
+     * @parameter string $end_time
+     * @parameter string $orderby
+     * @parameter string $order
+     * @parameter string $subclassification
+     * @parameter string $cat_id
+     * @parameter string $page_size
      */
     public function listAction(){
         //搜索条件验证，异常数据直接返回404
         $this->form('search')->setScene('final')->setRules(array(
+            array('keywords_field', 'range', array(
+                'range'=>PostsTable::model()->getFields(),
+            )),
             array('time_field', 'range', array(
                 'range'=>array('publish_time', 'create_time', 'update_time')
             )),
@@ -877,6 +885,7 @@ class PostController extends AdminController{
             'order'=>'trim',
             'cat_id'=>'intval',
             'subclassification'=>'intval',
+            'keywords_field'=>'trim',
             'keywords'=>'trim',
         ))->check();
         
@@ -912,14 +921,13 @@ class PostController extends AdminController{
         $sql->where(PostsTable::getPublishedConditions('p'));
         
         $keywords = $this->form()->getData('keywords');
-        if(NumberHelper::isInt($keywords)){
-            //如果关键词是数字，搜索id
-            $sql->orWhere(array(
-                'p.id = ?'=>$keywords,
-                'p.title LIKE ?'=>"%{$keywords}%",
-            ));
-        }else{
-            $sql->where('p.title LIKE ?', "%{$keywords}%");
+        if($keywords){
+            $keywords_field = $this->form()->getData('keywords_field', 'title');
+            if(in_array($keywords_field, array('title'))){
+                $sql->where("p.{$keywords_field} LIKE ?", "%{$keywords_field}%");
+            }else if(in_array($keywords_field, array('id', 'user_id'))){
+                $sql->where("p.{$keywords_field} = ?", $keywords_field);
+            }
         }
 
         //排序

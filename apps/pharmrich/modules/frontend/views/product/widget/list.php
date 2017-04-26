@@ -11,6 +11,7 @@ use cms\services\file\FileService;
                 'dw'=>300,
                 'dh'=>245,
                 'alt'=>HtmlHelper::encode($p['post']['title']),
+                'spare'=>'default',
             ))?>
         </a>
         <div class="products-carousel-details">

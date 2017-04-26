@@ -1,7 +1,12 @@
+<?php
+/**
+ * @var $listview \fay\common\ListView
+ */
+?>
 <table class="list-table options">
     <thead>
         <tr>
-            <th>键</th>
+            <th class="wp25">键</th>
             <th>值</th>
             <th width="82">系统</th>
         </tr>
@@ -13,10 +18,6 @@
             <th>系统</th>
         </tr>
     </tfoot>
-    <tbody>
-<?php
-    $listview->showData();
-?>
-    </tbody>
+    <tbody><?php $listview->showData(); ?></tbody>
 </table>
 <?php $listview->showPager();?>

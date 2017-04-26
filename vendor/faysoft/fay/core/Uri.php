@@ -131,7 +131,21 @@ class Uri{
         //进行URL重写匹配
         $routes = \F::config()->get('*', 'routes');
         if(!empty($routes)){
-            $request = preg_replace(array_keys($routes), array_values($routes), $request);
+            foreach($routes as $pattern =>$handler){
+                if($handler instanceof \Closure){
+                    preg_match($pattern, $request, $matches);
+                    $params = array();
+                    foreach($matches as $key => $match){
+                        if(!$key){
+                            continue;
+                        }
+                        $params[] = $match;
+                    }
+                    $request = call_user_func_array($handler, $params);
+                }else{
+                    $request = preg_replace($pattern, $handler, $request);
+                }
+            }
         }
         
         //以冒号作为router和参数之间的分割，一般用于url重写出来的，正常的参数还是放在问号后面比较好

@@ -48,7 +48,6 @@ class PostController extends AdminController{
         array('name'=>'files', 'title'=>'附件'),
         array('name'=>'props', 'title'=>'附加属性'),
         array('name'=>'gather', 'title'=>'采集器'),
-        array('name'=>'history', 'title'=>'历史版本'),
     );
     
     /**
@@ -68,6 +67,11 @@ class PostController extends AdminController{
         $this->layout->current_directory = 'post';
         $this->post_review = !!(OptionService::get('system:post_review'));
         $this->role_cats = !!(OptionService::get('system:post_role_cats'));
+
+        if(OptionService::get('system:save_post_history')){
+            //只有当开启历史记录时，才显示历史记录box
+            $this->boxes[] = array('name'=>'history', 'title'=>'历史版本');
+        }
     }
     
     public function create(){

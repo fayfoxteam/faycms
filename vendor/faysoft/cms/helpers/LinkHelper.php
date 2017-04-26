@@ -2,6 +2,7 @@
 namespace cms\helpers;
 
 use cms\models\tables\PostsTable;
+use cms\services\CategoryService;
 use cms\services\OptionService;
 use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
@@ -13,7 +14,7 @@ use fay\helpers\UrlHelper;
 class LinkHelper{
     /**
      * 获取文章链接
-     * 支持变量有{$id}, {$cat_id}, {$date:xx}
+     * 支持变量有{$id}, {$cat_id}, {$date:xx}, {$cat_alias}
      * @param array|int $post
      * @return string
      * @throws ErrorException
@@ -43,6 +44,12 @@ class LinkHelper{
                     $post = PostsTable::model()->find($post['id'], 'id,cat_id,publish_time');
                 }
                 $uri = str_replace('{$cat_id}', $post['cat_id'], $uri);
+            }else if($param == 'cat_alias'){
+                if(!isset($post['cat_id'])){
+                    $post = PostsTable::model()->find($post['id'], 'id,cat_id,publish_time');
+                }
+                $cat_alias = CategoryService::service()->getAliasById($post['cat_id']);
+                $uri = str_replace('{$cat_alias}', $cat_alias, $uri);
             }else if(preg_match('/date:[Yymn]+/', $param)){
                 if(!isset($post['publish_time'])){
                     //传入的$post包含的信息不足，搜索数据库

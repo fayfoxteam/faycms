@@ -14,6 +14,20 @@ class CategoryService extends TreeModel{
      * @see Tree::$model
      */
     protected $model = 'cms\models\tables\CategoriesTable';
+
+    /**
+     * id与别名对应关系
+     * 相当于是缓存
+     * @var array
+     */
+    private $id_alias_map = array();
+
+    /**
+     * 别名与id对应关系
+     * 相当于是缓存
+     * @var array
+     */
+    private $alias_id_map = array();
     
     /**
      * @param string $class_name
@@ -424,15 +438,38 @@ class CategoryService extends TreeModel{
      * 根据别名返回ID。
      * 若指定别名不存在，返回false
      * @param string $alias
-     * @return int|mixed
+     * @return int|false
      */
     public function getIdByAlias($alias){
-        $cat = $this->get($alias, 'id');
-        if($cat){
-            return $cat['id'];
-        }else{
-            return false;
+        if(!isset($this->alias_id_map[$alias])){
+            $cat = $this->get($alias, 'id');
+            if($cat){
+                $this->alias_id_map[$alias] = $cat['id'];
+            }else{
+                $this->alias_id_map[$alias] = false;
+            }
         }
+        
+        return $this->alias_id_map[$alias];
+    }
+
+    /**
+     * 根据ID返回别名。
+     * 若指定ID不存在，返回false
+     * @param int $id
+     * @return string|false
+     */
+    public function getAliasById($id){
+        if(!isset($this->id_alias_map[$id])){
+            $cat = $this->get($id, 'alias');
+            if($cat){
+                $this->id_alias_map[$id] = $cat['alias'];
+            }else{
+                $this->id_alias_map[$id] = false;
+            }
+        }
+        
+        return $this->id_alias_map[$id];
     }
     
     /**

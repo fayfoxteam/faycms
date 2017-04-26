@@ -4,15 +4,6 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="title-group">
-                        <h2 class="title">Full Raw Steroid Powder list</h2>
-                        <div class="description">
-                            <?php $post = \cms\models\tables\PostsTable::model()->fetchRow(
-                                \cms\models\tables\PostsTable::getPublishedConditions(),
-                                'publish_time',
-                                'publish_time DESC'
-                            )?>
-                            <p>Last update <?php echo date('F j, Y', $post['publish_time'])?></p>
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-5">

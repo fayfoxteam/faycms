@@ -32,8 +32,8 @@
                                 <h3 class="title"><a href="<?php echo $p['post']['link']?>"><?php
                                     echo \fay\helpers\HtmlHelper::encode($p['post']['title'])
                                 ?></a></h3>
-                                <p class="price"><?php echo $props['price']['value']?></p>
-                                <p class="props"><?php echo $props['description']['value']?></p>
+                                <p class="price"><?php echo empty($props['price']['value']) ? '&nbsp;' : $props['price']['value']?></p>
+                                <p class="props"><?php echo empty($props['description']['value']) ? '&nbsp;' : $props['description']['value']?></p>
                                 <a href="#section-contact" class="mt15 btn btn-red">ENQUIRY NOW</a>
                             </div>
                         </li>

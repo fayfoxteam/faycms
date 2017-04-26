@@ -10,23 +10,21 @@ use fay\helpers\HtmlHelper;
     <?php
     $views = \cms\helpers\WidgetHelper::getViews();
     $template = F::form('widget')->getData('template');
-    if($views){
-        echo HtmlHelper::select(
-            'template',
-            array(
-                ''=>'--默认模版--',
-            ) + array_combine($views, $views) + array(
-                'custom'=>'自定义模版',
-            ),
-            empty($template) ? '' : (in_array($template, $views) ? $template : 'custom'),
-            array(
-                'class'=>'form-control w240 ib mb5',
-                'id'=>'select-template',
-            )
-        ), HtmlHelper::tag('span', array(
-            'class'=>'fc-grey'
-        ), '（选择<span class="fc-orange">自定义模版</span>可在线编辑模版或指定其它路径的view文件）');
-    }
+    echo HtmlHelper::select(
+        'template',
+        array(
+            ''=>'--默认模版--',
+        ) + array_combine($views, $views) + array(
+            'custom'=>'自定义模版',
+        ),
+        empty($template) ? '' : (in_array($template, $views) ? $template : 'custom'),
+        array(
+            'class'=>'form-control w240 ib mb5',
+            'id'=>'select-template',
+        )
+    ), HtmlHelper::tag('span', array(
+        'class'=>'fc-grey'
+    ), '（选择<span class="fc-orange">自定义模版</span>可在线编辑模版或指定其它路径的view文件）');
     ?>
     <?php echo F::form('widget')->textarea('template_code', array(
         'class'=>'form-control h90 autosize',

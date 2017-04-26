@@ -130,6 +130,7 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 .product-list li img{display:block;width:100%}
 .product-list li .meta{border:1px solid rgba(0,0,0,0.2);background-color:#fff;border-radius:3px;padding:23px 28px;overflow:hidden}
 .product-list li .meta .title,.product-list li .meta .price{font-weight:bold;color:#222;margin-bottom:5px}
+.product-list li .meta .title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .product-list li .meta .title a{color:#222;font-size:19px}
 .product-list li .meta .title a:hover{color:#e1472f}
 .product-list li .meta .price{color:#0dc5b9}

@@ -93,7 +93,7 @@ code{background-color:#f7f7f7;font-size:.85em;padding:.2em .5em}
 .sidebar-menu .main-menu li.has-sub > a:before{position:relative;display:inline-block;font-family:'FontAwesome';content:'\f107';float:right;color:#6d747a;margin-left:10px;transform:rotate(-90deg);transition:all 150ms ease-in-out}
 .sidebar-menu .main-menu li.has-sub.expanded > a:before{transform:rotate(0deg)}
 .sidebar-menu .main-menu > li > a > i.fa{width:1.25em;display:inline-block;text-align:center}
-.sidebar-menu .main-menu a span.router{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;width:100%}
+.sidebar-menu .main-menu a span.router{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;width:100%}
 
 /* 打开菜单挨个划入的效果 */
 @media screen and (min-width:768px){

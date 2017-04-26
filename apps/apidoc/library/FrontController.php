@@ -63,7 +63,7 @@ class FrontController extends Controller{
                     $menu['children'][] = array(
                         'id'=>$a['id'],
                         'alias'=>'',
-                        'title'=>"<span class='router' title='{$a['router']}'>{$a['router']}</span><br>" . HtmlHelper::encode($a['title']),
+                        'title'=>"<span class='router' title='{$a['router']}'>{$a['router']}</span>" . HtmlHelper::encode($a['title']),
                         'css_class'=>'',
                         'link'=>'api/' . $a['id'],
                         'target'=>'',

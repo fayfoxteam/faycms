@@ -33,7 +33,8 @@
                                     echo \fay\helpers\HtmlHelper::encode($p['post']['title'])
                                 ?></a></h3>
                                 <p class="price"><?php echo $props['price']['value']?></p>
-                                <p class="props">Melting point: 33-35°C.</p>
+                                <p class="props"><?php echo $props['description']['value']?></p>
+                                <a href="#section-contact" class="mt15 btn btn-red">ENQUIRY NOW</a>
                             </div>
                         </li>
                     <?php }?>

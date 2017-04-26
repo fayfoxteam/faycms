@@ -16,6 +16,7 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 .btn-transparent:hover{background-color:rgba(255,255,255,0.1)}
 .btn-blue{background-color:#5f81c4;padding:20px 40px;color:#fff}
 .btn-blue:hover{background-color:#688ed8}
+.btn-red{background-color:#e40613;color:#fff;padding:10px 20px;font-size:18px;border-radius:4px;font-weight:bold}
 
 .separator-container{padding:16px 0;margin-bottom:35px}
 .separator{height:3px;background-color:#ddd;width:240px;margin:10px auto;border-radius:2px}
@@ -204,3 +205,5 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 
 .page-copyright{padding:80px 0 120px;background-color:#e5ecf1}
 .page-copyright p{text-align:right;color:#555;font-size:1.1em;line-height:1.5em}
+
+.mt15{margin-top:15px}

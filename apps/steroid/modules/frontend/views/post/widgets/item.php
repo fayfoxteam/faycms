@@ -6,7 +6,7 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 
 \F::app()->layout->assign(array(
     'title'=>$post['post']['title'],
-    'subtitle'=>$props['subtitle']['value'],
+    'subtitle'=>isset($props['subtitle']['value']) ? $props['subtitle']['value'] : '',
 ));
 ?>
 <main class="container">

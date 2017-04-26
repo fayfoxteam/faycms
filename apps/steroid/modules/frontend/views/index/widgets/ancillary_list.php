@@ -28,7 +28,7 @@ $cat = \cms\services\CategoryService::service()->get($widget->config['cat_id'], 
                     <div class="col-md-8 col-sm-8">
                         <div class="ancillary-info">
                             <h3 class="title"><?php echo \fay\helpers\HtmlHelper::encode($p['post']['title'])?></h3>
-                            <h6 class="description"><?php echo $props['subtitle']['value']?></h6>
+                            <h6 class="description"><?php echo isset($props['subtitle']['value']) ? $props['subtitle']['value'] : ''?></h6>
                             <p class="text"><?php echo \fay\helpers\HtmlHelper::encode($p['post']['abstract'])?></p>
                         </div>
                     </div>

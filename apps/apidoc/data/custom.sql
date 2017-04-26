@@ -78,6 +78,23 @@ CREATE TABLE `{{$prefix}}apidoc_outputs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口响应参数';
 
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_apis_errorcodes`;
+CREATE TABLE `{{$prefix}}apidoc_apis_errorcodes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `api_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Api ID',
+  `errorcode_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '错误码ID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='api错误码';
+
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_errorcodes`;
+CREATE TABLE `{{$prefix}}apidoc_errorcodes` (
+  `id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(100) NOT NULL DEFAULT '' COMMENT '错误码',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '错误描述',
+  `solution` varchar(500) NOT NULL DEFAULT '' COMMENT '解决方案',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='错误码';
+
 
 -- API分类
 INSERT INTO `{{$prefix}}categories` (`id`, `title`, `alias`, `parent`, `is_system`) VALUES ('1000', 'API分类', '_system_api', '0', '1');

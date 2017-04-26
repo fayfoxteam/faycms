@@ -10,7 +10,7 @@ $type_map = InputsTable::getTypes();
         <h4>请求参数</h4>
     </div>
     <div class="box-content">
-        <div>
+        <div class="mb10">
             <?php echo HtmlHelper::link('添加请求参数', '#add-input-parameter-dialog', array(
                 'class'=>'btn ',
                 'id'=>'add-input-parameter-link',

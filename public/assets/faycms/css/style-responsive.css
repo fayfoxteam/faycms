@@ -398,8 +398,8 @@ select option[disabled]{text-decoration:line-through}
 .dragsort-list .dragsort-item .dragsort-item-selector:before{content:"\f0dc";font-family:FontAwesome}
 .dragsort-list .dragsort-item .dragsort-meta{margin-left:31px}
 .dragsort-list .dragsort-item.holder{background-color:#fff;border:2px dashed #DFDFDF !important}
-.dragsort-list .dragsort-item .dragsort-rm{float:right;color:grey;margin-top:-3px;z-index:100;line-height:1em;font-size:20px}
-.dragsort-list .dragsort-item .dragsort-rm:before{content:"×"}
+.dragsort-list .dragsort-item .dragsort-rm{float:right;color:grey;margin-top:-7px;z-index:100;line-height:1em;font-size:20px}
+.dragsort-list .dragsort-item .dragsort-rm:before{content:"\f00d";font-family:FontAwesome;font-size:14px}
 .dragsort-list .dragsort-item-container{margin:0 30px}
 
 /* 小工具域 */

@@ -1,13 +1,14 @@
 /**
  * 弹出文章列表，选择一篇或多篇文章
- * 此插件依赖于faycms/admin/common.js, faycms/system.js
+ * 此插件依赖于faycms/admin/common.js, faycms/system.js, fancybox
  */
 ;(function($){
     $.fn.selectPost = function(params){
         params = params || {};
         var settings = {
             'pageSize': '10',//单页显示文章数
-            'onSelect': function(){}//选取文章事件
+            'onSelect': function(element){},//选取文章事件，参数为被点击元素
+            'onDataLoaded': function(){}//每次数据被加载都会回调此函数
         };
         settings = $.extend(settings, params);
         
@@ -27,7 +28,6 @@
         };
 
         selectPost.prototype = {
-            'settings': settings,
             /**
              * 初始化html
              */
@@ -104,7 +104,7 @@
                     'type': 'GET',
                     'url': system.url('cms/admin/post/list', {
                         'page': page,
-                        'page_size': selectPost.prototype.settings.pageSize
+                        'page_size': settings.pageSize
                     }),
                     'data': $('#select-post-search-form').serialize(),
                     'dataType': 'json',
@@ -112,7 +112,7 @@
                     'success': function(resp){
                         $selectPostDialog.unblock();
                         if(resp.status){
-                            var $tbody = $selectPostDialog.find('.inbox-table tbody');
+                            var $tbody = $selectPostDialog.find('table tbody');
                             //清空原数据
                             $tbody.html('');
 
@@ -130,11 +130,13 @@
                             
                             //绑定事件
                             $tbody.find('.select-single-post').on('click', function(){
-                                selectPost.prototype.settings.onSelect($(this));
+                                settings.onSelect($(this));
                             });
                             
                             //分页条
                             common.showPager('select-post-list-pager', resp.data.pager);
+                            
+                            settings.onDataLoaded();
                         }else{
                             common.alert(resp.message);
                         }

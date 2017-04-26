@@ -23,7 +23,7 @@ use cms\services\file\FileService;
                     <a class="dragsort-rm" href="javascript:"></a>
                     <a class="dragsort-item-selector"></a>
                     <div class="dragsort-item-container">
-                        <span class="file-thumb"><?php 
+                        <span class="fl"><?php 
                             $full_file_path = FileService::getUrl($p['file_id']);
                             echo HtmlHelper::link(HtmlHelper::img($p['file_id'], FileService::PIC_THUMBNAIL), $full_file_path, array(
                                 'class'=>'file-thumb-link fancybox-image',
@@ -31,7 +31,7 @@ use cms\services\file\FileService;
                                 'title'=>false,
                             ));
                         ?></span>
-                        <div class="file-desc-container">
+                        <div class="ml120">
                             <?php echo HtmlHelper::textarea("description[{$p['file_id']}]", $p['description'], array(
                                 'class'=>'form-control file-desc autosize',
                                 'placeholder'=>'照片描述',

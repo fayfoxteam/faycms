@@ -22,10 +22,9 @@ use cms\services\file\FileService;
         <a class="dragsort-rm" href="javascript:"></a>
         <a class="dragsort-item-selector"></a>
         <div class="dragsort-item-container">
-            <span class="file-thumb">
+            <span class="fl">
             <?php
                 echo HtmlHelper::link(HtmlHelper::img($d['file_id'], 2), FileService::getUrl($d['file_id']), array(
-                    'class'=>'photo-thumb-link',
                     'encode'=>false,
                     'title'=>HtmlHelper::encode($d['title']),
                     'data-fancybox'=>'images',
@@ -33,7 +32,7 @@ use cms\services\file\FileService;
                 ));
             ?>
             </span>
-            <div class="file-desc-container">
+            <div class="ml120">
                 <?php echo HtmlHelper::inputText("titles[{$d['file_id']}]", $d['title'], array(
                     'class'=>'photo-title mb5 form-control',
                     'placeholder'=>'标题',

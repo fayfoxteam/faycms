@@ -418,10 +418,6 @@ select option[disabled]{text-decoration:line-through}
 .toggle.closed i.fa-caret-down{transform:rotate(-90deg)}
 
 /* 如文章编辑页面文件列表 */
-.file-list .file-thumb{float:left;overflow:hidden;text-align:center;width:105px}
-.file-list .file-thumb img{height:100px}
-.file-list .file-desc{width:95%}
-.file-list .file-desc-container{margin-left:120px;margin-right:16px}
 .progress-bar{height:5px;position:absolute;bottom:-1px;width:100%;left:0}
 .progress-bar-percent{background-color:#2187E7;height:2px;margin:2px 0;position:absolute}
 
@@ -669,6 +665,7 @@ pre li.L1,pre li.L3,pre li.L5,pre li.L7,pre li.L9 {background:none}
 .mb10{margin-bottom:10px !important}
 .mb30{margin-bottom:30px !important}
 .ml5{margin-left:5px !important}
+.ml120{margin-left:120px !important}
 .pt0{padding-top:0 !important}
 .pt7{padding-top:7px !important}
 .pl0{padding-left:0 !important}

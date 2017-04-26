@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-7">
                     <div class="title-group">
-                        <h2 class="title">Full Prices of Steroid Oils</h2>
+                        <h2 class="title">Full Raw Steroid Powder list</h2>
                         <div class="description">
                             <?php $post = \cms\models\tables\PostsTable::model()->fetchRow(
                                 \cms\models\tables\PostsTable::getPublishedConditions(),

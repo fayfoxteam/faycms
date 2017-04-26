@@ -26,9 +26,7 @@ var uploader = {
             'remove_text': '移除缩略图',
             'scene': ''
         };
-        $.each(options, function(i, n){
-            settings[i] = n;
-        });
+        settings = $.extend(settings, options);
 
         var clean_field = settings.field.replace(/[\[\]:]/g, '');
         var $container = $('#upload-' + clean_field + '-preview-container' + settings.scene);

@@ -71,7 +71,7 @@ class PostController extends AdminController{
      * 可用分类列表
      */
     public function cats(){
-        $format = $this->input->request('format', 'intval', 'html');
+        $format = $this->input->request('format', 'trim', 'html');
         
         $cats = CategoryService::service()->getTree('_system_post');
         if($format == 'html'){

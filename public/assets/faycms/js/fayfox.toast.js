@@ -13,9 +13,7 @@
                 'timeOut': 5000,//为0则不自动消失
                 'click': ''
             };
-            for(var key in params){
-                settings[key] = params[key];
-            }
+            settings = $.extend(settings, params);
             
             //如果div不存在，则插入div
             if(!$('.toast-container.' + settings.positionClass).length){

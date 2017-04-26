@@ -9,9 +9,8 @@ jQuery.fn.extend({
         var settings = {
             'maxHeight':200
         };
-        $.each(options, function(i, n){
-            settings[i] = n;
-        });
+        settings = $.extend(settings, options);
+        
         var width = $(this).width();
         var padding_left = $(this).css('padding-left');
         var padding_right = $(this).css('padding-right');

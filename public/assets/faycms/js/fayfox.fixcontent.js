@@ -2,7 +2,7 @@
  * 下拉后固定到顶部
  */
 jQuery.fn.extend({
-    fixcontent: function(options){
+    fixcontent: function(){
         $(this).each(function(){
             var o = this;
             var timeout = null;

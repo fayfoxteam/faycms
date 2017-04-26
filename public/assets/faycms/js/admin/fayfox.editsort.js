@@ -6,9 +6,7 @@ jQuery.fn.extend({
         var defaults = {
             'timeout':200
         };
-        $.each(options, function(i, n){
-            defaults[i] = n;
-        });
+        defaults = $.extend(defaults, options);
         var o = this;
         $(o).keydown(function(event){
             if((event.keyCode >= 48 && event.keyCode <= 57) || //大键盘0-9

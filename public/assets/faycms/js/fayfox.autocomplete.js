@@ -7,9 +7,8 @@ jQuery.fn.extend({
             'zindex': null,
             'onSelect': function(obj, data){}//选中某项后执行
         };
-        $.each(options, function(i, n){
-            settings[i] = n;
-        });
+        settings = $.extend(settings, options);
+        
         var offset = $(this).offset();
         var width = $(this).width();
         var height = $(this).height();

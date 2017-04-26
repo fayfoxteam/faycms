@@ -197,9 +197,7 @@ jQuery.fn.extend({
             'afterSetChoice':function(o){}
         };
         if(typeof(options) == 'object'){//初始化
-            $.each(options, function(i, n){
-                settings[i] = n;
-            });
+            settings = $.extend(settings, options);
             
             this.each(function(){
                 var width = parseInt($(this).width());

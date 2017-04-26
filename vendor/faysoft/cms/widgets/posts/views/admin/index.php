@@ -85,7 +85,11 @@ use cms\services\user\UserRoleService;
 <script>
 $(function(){
     system.getScript(system.url('assets/faycms/js/admin/jquery.selectPost.js'), function(){
-        $('.select-post-link').selectPost()
+        $('.select-post-link').selectPost({
+            'onSelect': function(o){
+                console.log(o.attr('data-id'));
+            }
+        });
     });
     $('input[name="fields[]"][value="files"]').on('click', function(){
         if($(this).is(':checked')){

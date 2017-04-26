@@ -19,7 +19,6 @@ use cms\services\FlashService;
 use cms\models\tables\PostMetaTable;
 use cms\services\post\PostService;
 use cms\models\tables\PostExtraTable;
-use fay\helpers\NumberHelper;
 
 class PostController extends AdminController{
     /**
@@ -924,9 +923,9 @@ class PostController extends AdminController{
         if($keywords){
             $keywords_field = $this->form()->getData('keywords_field', 'title');
             if(in_array($keywords_field, array('title'))){
-                $sql->where("p.{$keywords_field} LIKE ?", "%{$keywords_field}%");
+                $sql->where("p.{$keywords_field} LIKE ?", "%{$keywords}%");
             }else if(in_array($keywords_field, array('id', 'user_id'))){
-                $sql->where("p.{$keywords_field} = ?", $keywords_field);
+                $sql->where("p.{$keywords_field} = ?", $keywords);
             }
         }
 
@@ -944,8 +943,32 @@ class PostController extends AdminController{
         ));
 
         Response::json(array(
-            'data'=>$listview->getData(),
+            'posts'=>$listview->getData(),
             'pager'=>$listview->getPager(),
         ));
+    }
+
+    /**
+     * 获取可用的文章分类
+     */
+    public function getCats(){
+        $format = $this->input->request('format', 'trim', 'html');
+
+        if($format == 'html'){
+            //以html select标签的形式输出可用分类
+            echo $this->form()->select('cat_id', HtmlHelper::getSelectOptions(
+                CategoryService::service()->getTree('_system_post')
+            ), array(
+                'class'=>'form-control'
+            ));
+        }else if($format == 'tree'){
+            Response::json(array(
+                'cats'=>CategoryService::service()->getTree('_system_post'),
+            ));
+        }else if($format == 'list'){
+            Response::json(array(
+                'cats'=>CategoryService::service()->getChildren('_system_post'),
+            ));
+        }
     }
 }

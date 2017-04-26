@@ -2,7 +2,7 @@
 use fay\helpers\HtmlHelper;
 use cms\services\file\FileService;
 ?>
-<section class="box" id="<?php echo $alias?>">
+<section class="box" id="<?php echo $widget->alias?>">
     <div class="box-title">
         <h2><?php echo $page['title']?></h2>
         <?php echo HtmlHelper::link('More', array($page['alias']), array(

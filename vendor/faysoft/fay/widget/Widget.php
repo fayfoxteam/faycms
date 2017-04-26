@@ -213,7 +213,7 @@ abstract class Widget{
         if(empty($config['template'])){
             //未定义模版，或选择了自定义模版
             $config['template_code'] = $this->getDefaultTemplate();
-        }else if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template'])){
+        }else if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $config['template']) && substr($config['template'], 0, 16) == 'frontend/widget/'){
             //指定项目中的view文件作为模版
             $view_file_content = WidgetHelper::getViewByRouter($config['template']);
             if($view_file_content === false){

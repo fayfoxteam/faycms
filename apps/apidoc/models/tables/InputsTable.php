@@ -27,11 +27,21 @@ class InputsTable extends Table{
      * 类型 - 数字
      */
     const TYPE_NUMBER = 2;
-    
+
     /**
      * 类型 - 数字
      */
     const TYPE_FILE = 3;
+
+    /**
+     * 类型 - 逗号分割的数字集合
+     */
+    const TYPE_NUMBER_SET = 3;
+
+    /**
+     * 类型 - 逗号分割的字符串集合
+     */
+    const TYPE_STRING_SET = 4;
     
     protected $_name = 'apidoc_inputs';
     
@@ -52,7 +62,7 @@ class InputsTable extends Table{
             array(array('since'), 'string', array('max'=>30)),
             
             array('type', 'range', array('range'=>array(
-                self::TYPE_STRING, self::TYPE_NUMBER, self::TYPE_FILE
+                self::TYPE_STRING, self::TYPE_NUMBER, self::TYPE_FILE, self::TYPE_NUMBER_SET
             ))),
             array(array('name', 'required', 'type'), 'required')
         );
@@ -107,6 +117,8 @@ class InputsTable extends Table{
             self::TYPE_NUMBER => '数字',
             self::TYPE_STRING => '字符串',
             self::TYPE_FILE => '文件',
+            self::TYPE_NUMBER_SET => '数字集合',
+            self::TYPE_STRING_SET => '字符串集合',
         );
     }
 }

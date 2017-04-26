@@ -122,3 +122,4 @@ INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) V
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('12', 'sTimestamp', '\"1460905386\"', '字符串时间戳');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('13', 'Price', '\"112.38\"', '价格。字符串类型数字，带2位小数');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('14', 'Url', '\"http://www.faycms.com\"', '网址');
+INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('15', 'Map', '{\"1\":\"已关注\",\"2\":\"未关注\"}', '键值JSON');

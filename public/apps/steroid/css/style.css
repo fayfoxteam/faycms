@@ -162,6 +162,7 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 #section-ancillary .ancillary-list article{margin-bottom:35px}
 #section-ancillary .ancillary-list .image-container img{width:100%}
 #section-ancillary .ancillary-list .ancillary-info{border:1px solid rgba(0,0,0,0.2);border-radius:3px;padding:23px 28px}
+#section-ancillary .ancillary-list .ancillary-info h3 a{color:#222}
 #section-ancillary .ancillary-list .title{font-size:1.71em;margin-bottom:15px}
 #section-ancillary .ancillary-list .description{color:#0dc5b9;margin-bottom:15px}
 #section-ancillary .ancillary-list .description a{color:#e40613;border-bottom:1px solid rgba(228,6,19,0.7)}

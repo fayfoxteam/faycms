@@ -15,11 +15,9 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
         if(empty($f['link'])){
             $f['link'] = 'javascript:';
         }
-        echo HtmlHelper::link(HtmlHelper::img($f['file_id'], ($widget->config['width'] || $widget->config['height']) ? FileService::PIC_RESIZE : FileService::PIC_ORIGINAL, array(
+        echo HtmlHelper::link(HtmlHelper::img($f['src'], 0, array(
             'alt'=>HtmlHelper::encode($f['title']),
             'title'=>HtmlHelper::encode($f['title']),
-            'dw'=>$widget->config['width'] ? $widget->config['width'] : false,
-            'dh'=>$widget->config['height'] ?  $widget->config['height'] : false,
         )), $f['link'], array(
             'encode'=>false,
             'title'=>HtmlHelper::encode($f['title']),

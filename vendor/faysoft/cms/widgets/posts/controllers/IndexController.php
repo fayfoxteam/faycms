@@ -43,14 +43,9 @@ class IndexController extends Widget{
     );
     
     public function initConfig($config){
-        empty($config['page_size']) && $config['page_size'] = 10;
-        empty($config['page_key']) && $config['page_key'] = 'page';
         empty($config['date_format']) && $config['date_format'] = 'pretty';
         isset($config['fields']) || $config['fields'] = array('category');
-        empty($config['pager']) && $config['pager'] = 'system';
-        empty($config['pager_template']) && $config['pager_template'] = '';
-        empty($config['empty_text']) && $config['empty_text'] = '无相关记录！';
-        isset($config['subclassification']) || $config['subclassification'] = true;
+        empty($config['posts']) && $config['posts'] = array();
         
         return $this->config = $config;
     }

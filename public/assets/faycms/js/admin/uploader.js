@@ -163,10 +163,10 @@ var uploader = {
                             '<a class="dragsort-item-selector"></a>',
                             '<a class="dragsort-rm" href="javascript:;"></a>',
                             '<div class="dragsort-item-container">',
-                                '<span class="file-thumb">',
+                                '<span class="fl">',
                                     '<img src="', system.assets('images/loading.gif'), '" />',
                                 '</span>',
-                                '<div class="file-desc-container">',
+                                '<div class="ml120">',
                                     (function(){
                                         var html = [];
                                         if(system.inArray('description', settings.file_info)){
@@ -214,14 +214,14 @@ var uploader = {
                     
                     if(resp.data.is_image){
                         //是图片，用fancybox弹窗
-                        $file.find('.file-thumb').html([
-                            '<a href="', resp.data.url, '" class="file-thumb-link" data-fancybox="images" data-caption="', resp.data.client_name, '">',
+                        $file.find('.fl').html([
+                            '<a href="', resp.data.url, '" data-fancybox="images" data-caption="', resp.data.client_name, '">',
                                 '<img src="', resp.data.thumbnail, '" />',
                             '</a>'
                         ].join(''));
                     }else{
                         //非图片，直接新窗口打开
-                        $file.find('.file-thumb').html([
+                        $file.find('.fl').html([
                             '<a href="', resp.data.url, '" target="_blank">',
                                 '<img src="', resp.data.thumbnail, '" />',
                             '</a>'

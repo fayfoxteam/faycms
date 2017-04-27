@@ -129,7 +129,7 @@ var widgetOptions = {
     'removeAttr':function(){
         $('#widget-attr-list').on('click', '.widget-remove-attr-link', function(){
             if(confirm("您确定要删除此属性吗？")){
-                $(this).parent().parent().remove();
+                $(this).parent().parent().parent().remove();
             }
         });
     },

@@ -119,7 +119,7 @@
                             //插入新数据
                             $.each(resp.data.posts, function(i, data){
                                 $tbody.append([
-                                    '<tr>',
+                                    '<tr id="select-post-', data.id, '">',
                                         '<td>', data.id, '</td>',
                                         '<td>', system.encode(data.title), '</td>',
                                         '<td>', system.encode(data.cat_title), '</td>',

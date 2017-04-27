@@ -1,30 +1,22 @@
 <?php
 namespace cms\widgets\posts\controllers;
 
+use cms\services\post\PostService;
 use fay\widget\Widget;
-use cms\services\CategoryService;
 use cms\services\FlashService;
 
 class AdminController extends Widget{
     public function initConfig($config){
         //设置模版
         $this->parseTemplateForEdit($config);
+
+        //确保posts为数组
+        empty($config['posts']) && $config['posts'] = array();
         
         return $this->config = $config;
     }
     
     public function index(){
-        $root_node = CategoryService::service()->getByAlias('_system_post', 'id');
-        $this->view->assign(array(
-            'cats'=>array(
-                array(
-                    'id'=>$root_node['id'],
-                    'title'=>'顶级',
-                    'children'=>CategoryService::service()->getTreeByParentId($root_node['id']),
-                ),
-            )
-        ));
-        
         $this->view->render();
     }
     
@@ -44,17 +36,12 @@ class AdminController extends Widget{
     
     public function rules(){
         return array(
-            array('page_size', 'int', array('min'=>1)),
             array(array('file_thumbnail_width', 'file_thumbnail_height', 'post_thumbnail_width', 'post_thumbnail_height'), 'int', array('min'=>0)),
-            array('pager', 'range', array('range'=>array('system', 'custom'))),
-            array('cat_id', 'exist', array('table'=>'categories', 'field'=>'id')),
         );
     }
     
     public function labels(){
         return array(
-            'page_size'=>'分页大小',
-            'page_key'=>'页码字段',
             'post_thumbnail_width'=>'文章缩略图宽度',
             'post_thumbnail_height'=>'文章缩略图高度',
             'file_thumbnail_width'=>'附件缩略图宽度',
@@ -64,21 +51,15 @@ class AdminController extends Widget{
     
     public function filters(){
         return array(
-            'page_size'=>'intval',
-            'page_key'=>'trim',
             'date_format'=>'trim',
             'template'=>'trim',
             'template_code'=>'trim',
             'fields'=>'trim',
-            'pager'=>'trim',
-            'pager_template'=>'trim',
-            'empty_text'=>'trim',
-            'cat_id'=>'intval',
-            'subclassification'=>'intval',
             'post_thumbnail_width'=>'intval',
             'post_thumbnail_height'=>'intval',
             'file_thumbnail_width'=>'intval',
             'file_thumbnail_height'=>'intval',
+            'posts'=>'intval',
         );
     }
 }

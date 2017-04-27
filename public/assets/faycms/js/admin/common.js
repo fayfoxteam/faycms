@@ -786,6 +786,12 @@ var common = {
         if($dragsortList.length){
             //可拖拽的列表，例如文章附件
             system.getScript(system.assets('js/jquery.dragsort-0.5.2.js'), function(){
+                $dragsortList.each(function(){
+                    if(!$(this).find('.dragsort-item').length){
+                        //如果本来是空的，要先插一个元素进去，否则后加入的元素无法拖拽，应该是dragsort的bug
+                        $(this).append('<div class="dragsort-item hide remove-after-init"></div>');
+                    }
+                });
                 $dragsortList.dragsort({
                     'itemSelector': 'div.dragsort-item',
                     'dragSelector': '.dragsort-item-selector',
@@ -799,6 +805,8 @@ var common = {
                         });
                     }
                 });
+                //删掉之前加入的隐藏元素
+                $dragsortList.find('.remove-after-init').remove();
             });
             //删除
             $dragsortList.on('click', '.dragsort-rm', function(){

@@ -26,10 +26,7 @@ class IndexController extends Widget{
                 continue;
             }
             
-            $files[$k]['src'] = FileService::getUrl($f['file_id'], (empty($this->config['width']) && empty($this->config['height'])) ? FileService::PIC_ORIGINAL : FileService::PIC_RESIZE, array(
-                'dw'=>empty($this->config['width']) ? false : $this->config['width'],
-                'dh'=>empty($this->config['height']) ?  false : $this->config['height'],
-            ));
+            $files[$k]['src'] = FileService::getUrl($f['file_id']);
         }
         
         $config = $this->config;

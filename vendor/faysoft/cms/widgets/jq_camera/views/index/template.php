@@ -15,14 +15,8 @@ $element_id = $widget->config['element_id'] ? $widget->config['element_id'] : $w
 <div class="jq-camera-container" id="<?php echo $element_id?>">
     <div class="camera_wrap camera_azure_skin jq-camera">
     <?php foreach($files as $f){
-        $file = FilesTable::model()->find($f['file_id']);
-        if($file['qiniu']){
-            $data_src = QiniuService::service()->getUrl($file);
-        }else{
-            $data_src = FileService::getUrl($file);
-        }
         echo HtmlHelper::tag('div', array(
-            'data-src'=>$data_src,
+            'data-src'=>$f['src'],
             'data-link'=>empty($f['link']) ? false : $f['link'],
         ), '');
     }?>

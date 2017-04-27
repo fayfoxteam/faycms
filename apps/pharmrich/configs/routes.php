@@ -17,6 +17,14 @@ return array(
     '/^order$/'=>'page/item:alias=order',
     
     '/^([a-zA-Z_][\w_-]+)\/(\d+)$/'=>function($cat, $id){
-        return "news/item:id={$id}&cat={$cat}";
+        if(\cms\services\CategoryService::service()->isChild($cat, 'news')){
+            return "news/item:id={$id}";
+        }else if(\cms\services\CategoryService::service()->isChild($cat, 'cook-recipes')){
+            return "cook-recipe/item:id={$id}";
+        }else if(\cms\services\CategoryService::service()->isChild($cat, 'products')){
+            return "product/item:id={$id}";
+        }else{
+            return '404';
+        }
     }
 );

@@ -134,14 +134,16 @@ class Uri{
             foreach($routes as $pattern =>$handler){
                 if($handler instanceof \Closure){
                     preg_match($pattern, $request, $matches);
-                    $params = array();
-                    foreach($matches as $key => $match){
-                        if(!$key){
-                            continue;
+                    if($matches){
+                        $params = array();
+                        foreach($matches as $key => $match){
+                            if(!$key){
+                                continue;
+                            }
+                            $params[] = $match;
                         }
-                        $params[] = $match;
+                        $request = call_user_func_array($handler, $params);
                     }
-                    $request = call_user_func_array($handler, $params);
                 }else{
                     $request = preg_replace($pattern, $handler, $request);
                 }

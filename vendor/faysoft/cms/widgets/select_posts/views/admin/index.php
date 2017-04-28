@@ -1,6 +1,7 @@
 <?php
 use cms\models\tables\PostsTable;
 use cms\models\tables\RolesTable;
+use cms\services\file\FileService;
 use cms\services\user\UserRoleService;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
@@ -15,34 +16,55 @@ use fay\helpers\HtmlHelper;
     </div>
     <div class="box-content">
         <div class="form-field">
+            <label class="title bold">标题</label>
+            <?php echo F::form('widget')->inputText('title', array(
+                'class'=>'form-control mw400',
+            ))?>
+            <p class="fc-grey">有些主题可能用到，可留空</p>
+        </div>
+        <div class="form-field">
             <label class="title bold">文章列表</label>
             <a href="javascript:" class="btn select-post-link">选择文章</a>
             <div class="dragsort-list" id="widget-posts-post-list">
             <?php foreach($widget->config['posts'] as $p){?>
-                <div class="dragsort-item cf <?php if((!empty($p['start_time']) && \F::app()->current_time < $p['start_time'])){
-                    echo 'bl-yellow';
-                }else if(!empty($p['end_time']) && \F::app()->current_time > $p['end_time']){
-                    echo 'bl-red';
-                }else if($posts[$p['post_id']]['post']['status'] != PostsTable::STATUS_PUBLISHED){
+                <?php
+                    //若文章已被永久删除，无法显示，直接跳过
+                    if(!isset($posts[$p['post_id']])){
+                        continue;
+                    }
+                ?>
+                <div class="dragsort-item cf <?php if($posts[$p['post_id']]['status'] != PostsTable::STATUS_PUBLISHED || $posts[$p['post_id']]['delete_time']){
+                    //未发布或已删除
                     echo 'bl-blue';
-                }?>" id="posts-list-post-<?php echo $posts[$p['post_id']]['post']['id']?>" data-id="<?php echo $posts[$p['post_id']]['post']['id']?>">
+                }else if(!empty($p['end_time']) && \F::app()->current_time > $p['end_time']){
+                    //已结束
+                    echo 'bl-red';
+                }else if(!empty($p['start_time']) && \F::app()->current_time < $p['start_time']){
+                    //未开始
+                    echo 'bl-yellow';
+                }?>" id="posts-list-post-<?php echo $p['post_id']?>" data-id="<?php echo $p['post_id']?>">
+                    <?php echo HtmlHelper::inputHidden('posts[]', $p['post_id'])?>
                     <a class="dragsort-rm" href="javascript:"></a>
                     <a class="dragsort-item-selector"></a>
                     <div class="dragsort-item-container">
                         <span class="fl post-thumbnail">
-                            <a title="<?php echo HtmlHelper::encode($posts[$p['post_id']]['post']['title'])?>" href="<?php echo $posts[$p['post_id']]['post']['thumbnail']['url']?>" data-fancybox="images">
-                                <img src="<?php echo $posts[$p['post_id']]['post']['thumbnail']['thumbnail']?>" width="100" height="100" />
+                            <a title="<?php echo HtmlHelper::encode($posts[$p['post_id']]['title'])?>" href="<?php echo $posts[$p['post_id']]['thumbnail'] ? FileService::getUrl($posts[$p['post_id']]['thumbnail']) : 'javascript:'?>" <?php if($posts[$p['post_id']]['thumbnail']) echo 'data-fancybox="images"'?>>
+                                <?php echo HtmlHelper::img($posts[$p['post_id']]['thumbnail'], FileService::PIC_THUMBNAIL, array(
+                                    'width'=>100,
+                                    'height'=>100,
+                                    'spare'=>'default',
+                                ))?>
                             </a>
                         </span>
                         <div class="ml120">
-                            <h3 class="post-title"><?php echo HtmlHelper::encode($posts[$p['post_id']]['post']['title'])?></h3>
+                            <h3 class="post-title"><?php echo HtmlHelper::encode($posts[$p['post_id']]['title'])?></h3>
                             <div class="mt6 mb10 fc-grey">
-                                <span class="mr10"><i class="fa fa-calendar mr5"></i><span class="post-time"><?php echo DateHelper::format($posts[$p['post_id']]['post']['publish_time'])?></span></span>
-                                <span class="mr10"><i class="fa fa-align-right mr5"></i><span class="post-cat"><?php echo HtmlHelper::encode($posts[$p['post_id']]['category']['title'])?></span></span>
-                                <span class="mr10"><i class="fa fa-user mr5"></i><span class="post-author"><?php echo HtmlHelper::encode($posts[$p['post_id']]['user']['user']['nickname'])?></span></span>
+                                <span class="mr10"><i class="fa fa-calendar mr5"></i><span class="post-time"><?php echo DateHelper::format($posts[$p['post_id']]['publish_time'])?></span></span>
+                                <span class="mr10"><i class="fa fa-align-right mr5"></i><span class="post-cat"><?php echo HtmlHelper::encode($posts[$p['post_id']]['cat_title'])?></span></span>
+                                <span class="mr10"><i class="fa fa-user mr5"></i><span class="post-author"><?php echo HtmlHelper::encode($posts[$p['post_id']]['nickname'])?></span></span>
                             </div>
-                            <input name="start_time[<?php echo $posts[$p['post_id']]['post']['id']?>" type="text" value="<?php echo $p['start_time'] ? date('Y-m-d H:i:s', $p['start_time']) : ''?>" class="datetimepicker form-control wp49 fl" placeholder="生效时间" autocomplete="off">
-                            <input name="end_time[<?php echo $posts[$p['post_id']]['post']['id']?>" type="text" value="<?php echo $p['end_time'] ? date('Y-m-d H:i:s', $p['end_time']) : ''?>" class="datetimepicker form-control wp49 fr" placeholder="过期时间" autocomplete="off">
+                            <input name="start_time[<?php echo $p['post_id']?>]" type="text" value="<?php echo $p['start_time'] ? date('Y-m-d H:i:s', $p['start_time']) : ''?>" class="datetimepicker form-control wp49 fl" placeholder="生效时间" autocomplete="off">
+                            <input name="end_time[<?php echo $p['post_id']?>]" type="text" value="<?php echo $p['end_time'] ? date('Y-m-d H:i:s', $p['end_time']) : ''?>" class="datetimepicker form-control wp49 fr" placeholder="过期时间" autocomplete="off">
                         </div>
                     </div>
                 </div>

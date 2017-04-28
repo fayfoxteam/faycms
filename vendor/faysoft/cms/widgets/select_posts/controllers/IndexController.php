@@ -70,7 +70,7 @@ class IndexController extends Widget{
         }
         
         //通过文章ID，获取文章信息结构
-        $posts = PostService::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
+        $posts = PostService::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields, true);
         
         //格式化返回数据结构
         return $this->formatPosts($posts);

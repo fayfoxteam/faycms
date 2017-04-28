@@ -13,7 +13,7 @@ use cms\services\file\FileService;
 </div>
 <div class="dragsort-list file-list">
 <?php foreach($widget->config['files'] as $f){?>
-    <div class="dragsort-item <?php if((!empty($f['start_time']) && \F::app()->current_time < $f['start_time'])){
+    <div class="dragsort-item <?php if(!empty($f['start_time']) && \F::app()->current_time < $f['start_time']){
         echo 'bl-yellow';
     }else if(!empty($f['end_time']) && \F::app()->current_time > $f['end_time']){
         echo 'bl-red';

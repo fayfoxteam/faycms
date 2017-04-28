@@ -2,6 +2,7 @@
 namespace cms\widgets\select_posts\controllers;
 
 use cms\services\post\PostService;
+use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\widget\Widget;
 use cms\services\FlashService;
@@ -18,12 +19,17 @@ class AdminController extends Widget{
     }
     
     public function index(){
-        $this->view->posts = PostService::service()->mget(
-            ArrayHelper::column($this->config['posts'], 'post_id'),
-            'id,status,title,publish_time,thumbnail,user.nickname,category.title',
-            false,
-            true
-        );
+        //需要获取status和delete_time字段，不走PostService
+        if($this->config['posts']){
+            $sql = new Sql();
+            $this->view->posts = ArrayHelper::column($sql->from(array('p' => 'posts'), 'id,title,publish_time,thumbnail,status,delete_time')
+                ->joinLeft(array('c' => 'categories'), 'p.cat_id = c.id', 'title AS cat_title')
+                ->joinLeft(array('u' => 'users'), 'p.user_id = u.id', 'nickname')
+                ->where('p.id IN (?)', ArrayHelper::column($this->config['posts'], 'post_id'))
+                ->fetchAll(), null, 'id');
+        }else{
+            $this->view->posts = array();
+        }
         
         $this->view->render();
     }
@@ -65,6 +71,7 @@ class AdminController extends Widget{
     
     public function labels(){
         return array(
+            'title'=>'标题',
             'post_thumbnail_width'=>'文章缩略图宽度',
             'post_thumbnail_height'=>'文章缩略图高度',
             'file_thumbnail_width'=>'附件缩略图宽度',
@@ -77,6 +84,7 @@ class AdminController extends Widget{
     
     public function filters(){
         return array(
+            'title'=>'trim',
             'date_format'=>'trim',
             'template'=>'trim',
             'template_code'=>'trim',

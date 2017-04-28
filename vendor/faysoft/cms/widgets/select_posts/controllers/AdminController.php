@@ -1,7 +1,6 @@
 <?php
-namespace cms\widgets\posts\controllers;
+namespace cms\widgets\select_posts\controllers;
 
-use cms\services\post\PostService;
 use fay\widget\Widget;
 use cms\services\FlashService;
 

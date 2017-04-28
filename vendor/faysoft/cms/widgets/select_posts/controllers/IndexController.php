@@ -1,5 +1,5 @@
 <?php
-namespace cms\widgets\posts\controllers;
+namespace cms\widgets\select_posts\controllers;
 
 use cms\helpers\LinkHelper;
 use fay\widget\Widget;

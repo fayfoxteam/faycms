@@ -1,8 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
 use cms\services\file\FileService;
-use cms\models\tables\RolesTable;
-use cms\services\user\UserRoleService;
 ?>
 <div class="mb30"><?php echo F::form('widget')->inputText('title', array(
     'id'=>'title',

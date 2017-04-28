@@ -1,6 +1,9 @@
 <?php
+use cms\models\tables\PostsTable;
 use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $posts array
@@ -14,7 +17,37 @@ use cms\services\user\UserRoleService;
         <div class="form-field">
             <label class="title bold">文章列表</label>
             <a href="javascript:" class="btn select-post-link">选择文章</a>
-            <div class="dragsort-list" id="widget-posts-post-list"></div>
+            <div class="dragsort-list" id="widget-posts-post-list">
+            <?php foreach($widget->config['posts'] as $p){?>
+                <div class="dragsort-item cf <?php if((!empty($p['start_time']) && \F::app()->current_time < $p['start_time'])){
+                    echo 'bl-yellow';
+                }else if(!empty($p['end_time']) && \F::app()->current_time > $p['end_time']){
+                    echo 'bl-red';
+                }else if($posts[$p['post_id']]['post']['status'] != PostsTable::STATUS_PUBLISHED){
+                    echo 'bl-blue';
+                }?>" id="posts-list-post-<?php echo $posts[$p['post_id']]['post']['id']?>" data-id="<?php echo $posts[$p['post_id']]['post']['id']?>">
+                    <a class="dragsort-rm" href="javascript:"></a>
+                    <a class="dragsort-item-selector"></a>
+                    <div class="dragsort-item-container">
+                        <span class="fl post-thumbnail">
+                            <a title="<?php echo HtmlHelper::encode($posts[$p['post_id']]['post']['title'])?>" href="<?php echo $posts[$p['post_id']]['post']['thumbnail']['url']?>" data-fancybox="images">
+                                <img src="<?php echo $posts[$p['post_id']]['post']['thumbnail']['thumbnail']?>" width="100" height="100" />
+                            </a>
+                        </span>
+                        <div class="ml120">
+                            <h3 class="post-title"><?php echo HtmlHelper::encode($posts[$p['post_id']]['post']['title'])?></h3>
+                            <div class="mt6 mb10 fc-grey">
+                                <span class="mr10"><i class="fa fa-calendar mr5"></i><span class="post-time"><?php echo DateHelper::format($posts[$p['post_id']]['post']['publish_time'])?></span></span>
+                                <span class="mr10"><i class="fa fa-align-right mr5"></i><span class="post-cat"><?php echo HtmlHelper::encode($posts[$p['post_id']]['category']['title'])?></span></span>
+                                <span class="mr10"><i class="fa fa-user mr5"></i><span class="post-author"><?php echo HtmlHelper::encode($posts[$p['post_id']]['user']['user']['nickname'])?></span></span>
+                            </div>
+                            <input name="start_time[<?php echo $posts[$p['post_id']]['post']['id']?>" type="text" value="<?php echo $p['start_time'] ? date('Y-m-d H:i:s', $p['start_time']) : ''?>" class="datetimepicker form-control wp49 fl" placeholder="生效时间" autocomplete="off">
+                            <input name="end_time[<?php echo $posts[$p['post_id']]['post']['id']?>" type="text" value="<?php echo $p['end_time'] ? date('Y-m-d H:i:s', $p['end_time']) : ''?>" class="datetimepicker form-control wp49 fr" placeholder="过期时间" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            <?php }?>
+            </div>
         </div>
         <div class="form-field">
             <a href="javascript:" class="toggle" data-src="#widget-advance-setting"><i class="fa fa-caret-down mr5"></i>高级设置</a>
@@ -91,10 +124,6 @@ use cms\services\user\UserRoleService;
 $(function(){
     var widgetPosts = {
         /**
-         * 初始化时已选取的文章ID数组
-         */
-        'selectedPosts': <?php echo json_encode(F::form('widget')->getData('posts'))?>,
-        /**
          * 选取一篇文章
          */
         'addPost': function(postId){
@@ -117,11 +146,13 @@ $(function(){
                         '</span>',
                         '<div class="ml120">',
                             '<h3 class="post-title">加载中...</h3>',
-                            '<div class="mt5 fc-grey">',
+                            '<div class="mt6 mb10 fc-grey">',
                                 '<span class="mr10"><i class="fa fa-calendar mr5"></i><span class="post-time"></span></span>',
-                                '<span class="mr10"><i class="fa fa-list mr5"></i><span class="post-cat"></span></span>',
+                                '<span class="mr10"><i class="fa fa-align-right mr5"></i><span class="post-cat"></span></span>',
+                                '<span class="mr10"><i class="fa fa-user mr5"></i><span class="post-author"></span></span>',
                             '</div>',
-                            '<div class="mt5 fc-grey post-abstract"></div>',
+                            '<input name="start_time[', postId, ']" type="text" value="" class="datetimepicker form-control wp49 fl" placeholder="生效时间" autocomplete="off">',
+                            '<input name="end_time[', postId, ']" type="text" value="" class="datetimepicker form-control wp49 fr" placeholder="过期时间" autocomplete="off">',
                         '</div>',
                     '</div>',
                 '</div>'
@@ -133,7 +164,7 @@ $(function(){
                 'url': system.url('cms/api/post/get'),
                 'data': {
                     'id': postId,
-                    'fields': 'id,title,abstract,publish_time,thumbnail,user.nickname,category.title'
+                    'fields': 'id,title,publish_time,thumbnail,user.nickname,category.title'
                 },
                 'dataType': 'json',
                 'cache': false,
@@ -150,7 +181,7 @@ $(function(){
                         $item.find('.post-title').text(post.title);
                         $item.find('.post-time').text(system.date(post.publish_time));
                         $item.find('.post-cat').text(resp.data.category.title);
-                        $item.find('.post-abstract').text(system.encode(post.abstract));
+                        $item.find('.post-author').text(resp.data.user.user.nickname);
                     }else{
                         common.alert(resp.message);
                     }
@@ -189,9 +220,6 @@ $(function(){
         },
         'init': function(){
             this.selectPost();
-            for(var i = 0; i < this.selectedPosts.length; i++){
-                this.addPost(this.selectedPosts[i]);
-            }
         }
     };
     

@@ -2,6 +2,8 @@
 namespace cms\widgets\select_posts\controllers;
 
 use cms\helpers\LinkHelper;
+use cms\services\post\PostService;
+use fay\helpers\ArrayHelper;
 use fay\widget\Widget;
 use fay\helpers\DateHelper;
 
@@ -51,16 +53,31 @@ class IndexController extends Widget{
     }
     
     public function getData(){
+        if(!$this->config['posts']){
+            return array();
+        }
+
+        $fields = $this->getFields();
+
+        $posts = $this->config['posts'];
+
+        //排除已过期或未开始文章
+        foreach($posts as $k => $p){
+            if((!empty($p['start_time']) && \F::app()->current_time < $p['start_time']) ||
+                (!empty($p['end_time']) && \F::app()->current_time > $p['end_time'])){
+                unset($posts[$k]);
+            }
+        }
         
+        //通过文章ID，获取文章信息结构
+        $posts = PostService::service()->mget(ArrayHelper::column($posts, 'post_id'), $fields);
+        
+        //格式化返回数据结构
+        return $this->formatPosts($posts);
     }
     
     public function index(){
         $posts = $this->getData();
-    
-        //若无文章可显示，则不显示该widget
-        if(empty($posts) && !$this->config['show_empty']){
-            return;
-        }
     
         $this->renderTemplate(array(
             'posts'=>$posts,

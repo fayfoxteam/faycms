@@ -1,6 +1,8 @@
 <?php
 namespace cms\widgets\select_posts\controllers;
 
+use cms\services\post\PostService;
+use fay\helpers\ArrayHelper;
 use fay\widget\Widget;
 use cms\services\FlashService;
 
@@ -16,6 +18,13 @@ class AdminController extends Widget{
     }
     
     public function index(){
+        $this->view->posts = PostService::service()->mget(
+            ArrayHelper::column($this->config['posts'], 'post_id'),
+            'id,status,title,publish_time,thumbnail,user.nickname,category.title',
+            false,
+            true
+        );
+        
         $this->view->render();
     }
     
@@ -28,6 +37,19 @@ class AdminController extends Widget{
         if(empty($data['fields'])){
             $data['fields'] = array();
         }
+
+        $posts = $this->input->post('posts', 'intval', array());
+        $start_times = $this->input->post('start_time', 'trim|strtotime');
+        $end_times = $this->input->post('end_time', 'trim|strtotime');
+
+        foreach($posts as $p){
+            $data['posts'][] = array(
+                'post_id'=>$p,
+                'start_time'=>$start_times[$p] ? $start_times[$p] : 0,
+                'end_time'=>$end_times[$p] ? $end_times[$p] : 0,
+            );
+        }
+        
         $this->saveConfig($data);
         
         FlashService::set('编辑成功', 'success');
@@ -36,6 +58,8 @@ class AdminController extends Widget{
     public function rules(){
         return array(
             array(array('file_thumbnail_width', 'file_thumbnail_height', 'post_thumbnail_width', 'post_thumbnail_height'), 'int', array('min'=>0)),
+            array(array('start_time', 'end_time'), 'datetime'),
+            array(array('posts'), 'intval', array('min'=>1)),
         );
     }
     
@@ -45,6 +69,9 @@ class AdminController extends Widget{
             'post_thumbnail_height'=>'文章缩略图高度',
             'file_thumbnail_width'=>'附件缩略图宽度',
             'file_thumbnail_height'=>'附件缩略图高度',
+            'start_time'=>'生效时间',
+            'end_time'=>'过期时间',
+            'posts'=>'文章ID',
         );
     }
     
@@ -58,7 +85,6 @@ class AdminController extends Widget{
             'post_thumbnail_height'=>'intval',
             'file_thumbnail_width'=>'intval',
             'file_thumbnail_height'=>'intval',
-            'posts'=>'intval',
         );
     }
 }

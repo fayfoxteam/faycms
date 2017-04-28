@@ -57,7 +57,7 @@ class PostService extends Service{
      */
     public static $public_fields = array(
         'post'=>array(
-            'id', 'cat_id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+            'id', 'cat_id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'status',
         ),
         'category'=>array(
             'id', 'title', 'alias',

@@ -11,6 +11,7 @@ use fay\core\db\Table;
  * @property int $login_time 登录时间
  * @property int $ip_int IP
  * @property int $mac 唯一标识
+ * @property string $session 登录时session
  */
 class UserLoginsTable extends Table{
     protected $_name = 'user_logins';
@@ -27,6 +28,7 @@ class UserLoginsTable extends Table{
         return array(
             array(array('ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
             array(array('id', 'user_id', 'mac'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('session'), 'string', array('max'=>32)),
             array(array('login_time'), 'datetime'),
         );
     }
@@ -38,6 +40,7 @@ class UserLoginsTable extends Table{
             'login_time'=>'登录时间',
             'ip_int'=>'IP',
             'mac'=>'唯一标识',
+            'session'=>'登录时session',
         );
     }
 
@@ -47,6 +50,7 @@ class UserLoginsTable extends Table{
             'user_id'=>'intval',
             'login_time'=>'trim',
             'mac'=>'intval',
+            'session'=>'trim',
         );
     }
 }

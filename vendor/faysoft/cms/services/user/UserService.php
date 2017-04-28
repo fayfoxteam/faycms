@@ -130,6 +130,7 @@ class UserService extends Service{
             'login_time'=>\F::app()->current_time,
             'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
             'mac'=>AnalystService::service()->getMacId(),
+            'session'=>session_id(),
         ));
         
         \F::event()->trigger(self::EVENT_LOGIN, array(

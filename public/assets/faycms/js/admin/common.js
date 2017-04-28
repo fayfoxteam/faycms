@@ -517,11 +517,7 @@ var common = {
         //完整的时间选择，精确到秒
         if($('.timepicker').length){
             system.getScript(system.assets('js/My97DatePicker/WdatePicker.js'), function(){
-                $(document).on('focus', '.timepicker', function(){
-                    WdatePicker({
-                        'dateFmt': 'yyyy-MM-dd HH:mm:ss'
-                    });
-                });
+                $('.timepicker').attr('onClick', 'WdatePicker({\'dateFmt\': \'yyyy-MM-dd HH:mm:ss\'})');
             });
         }
         

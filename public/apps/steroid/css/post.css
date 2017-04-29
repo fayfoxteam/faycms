@@ -13,6 +13,7 @@
 .post-meta a.tag:after{content:","}
 .post-meta a.tag:last-child:after{content:""}
 .post-content{padding:40px 0}
+.post-content p{line-height:1.5;font-size:16px}
 
 .separator-container{padding:16px 0;margin-bottom:35px}
 .separator{height:3px;background-color:#ddd;width:240px;margin:10px auto;border-radius:2px}

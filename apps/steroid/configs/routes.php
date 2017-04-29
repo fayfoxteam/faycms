@@ -6,4 +6,6 @@ return array(
     '/^cat\/([\d-]+)$/'=>'post/index:cat=$1',
     //标签
     '/^tag\/(.*)$/'=>'tag/item:tag_title=$1',
+    '/^page\/(\d+)$/'=>'page/item:page_id=$1',
+    '/^page\/(\w+)$/'=>'page/item:page_alias=$1',
 );

@@ -1,6 +1,7 @@
 <?php
 namespace cms\services;
 
+use cms\services\file\FileService;
 use fay\core\Service;
 use fay\core\Sql;
 use cms\models\tables\PagesCategoriesTable;
@@ -75,9 +76,13 @@ class PageService extends Service{
      * @return array|bool
      */
     public function getByAlias($alias){
-        return PagesTable::model()->fetchRow(array(
+        $page = PagesTable::model()->fetchRow(array(
             'alias = ?'=>$alias,
         ));
+        
+        $page['thumbnail'] = FileService::get($page['thumbnail']);
+        
+        return $page;
     }
     
     /**
@@ -86,7 +91,11 @@ class PageService extends Service{
      * @return array|bool
      */
     public function getById($id){
-        return PagesTable::model()->find($id);
+        $page = PagesTable::model()->find($id);
+
+        $page['thumbnail'] = FileService::get($page['thumbnail']);
+
+        return $page;
     }
     
     /**

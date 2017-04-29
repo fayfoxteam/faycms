@@ -1,0 +1,1 @@
+<?php F::widget()->load('page-item');

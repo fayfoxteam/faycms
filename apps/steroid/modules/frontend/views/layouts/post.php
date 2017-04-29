@@ -29,7 +29,7 @@ use fay\helpers\HtmlHelper;
 </head>
 <body>
 <div class="wrapper">
-    <header class="blog-header">
+    <header class="blog-header" <?php if(!empty($header_bg)){echo 'style="background-image:url('.$header_bg.')"';}?>>
         <a href="<?php echo F::app()->view->url()?>" class="return-to-site">
             <i class="fa fa-angle-left"></i>
             Return to site

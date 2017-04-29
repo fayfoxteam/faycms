@@ -51,6 +51,9 @@ use fay\helpers\HtmlHelper;
         </div>
     </div>
 </div>
+<div id="right-fix-toolbar">
+    <?php F::widget()->load('right-fix-toolbar')?>
+</div>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>
 <script>
     $(function(){

@@ -7,6 +7,7 @@ $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias');
 \F::app()->layout->assign(array(
     'title'=>$post['post']['title'],
     'subtitle'=>isset($props['subtitle']['value']) ? $props['subtitle']['value'] : '',
+    'header_bg'=>isset($post['post']['thumbnail']['url']) ? $post['post']['thumbnail']['url'] : '',
 ));
 ?>
 <main class="container">

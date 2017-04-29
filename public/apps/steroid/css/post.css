@@ -5,6 +5,7 @@
 .blog-header .post-title h1,.blog-header .post-title h2{text-shadow:0 1px 12px rgba(0,0,0,0.35);color:#fff}
 .blog-header .post-title h1{line-height:1.25;margin-bottom:10px;font-size:45px}
 .blog-header .post-title h2{font-size:24px}
+.blog-header:before{content:"";display:block;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,10,10,0.4)}
 
 .post-meta{color:#999;border-bottom:1px solid #ddd;padding:12px 0}
 .post-meta a.tag{color:#999}

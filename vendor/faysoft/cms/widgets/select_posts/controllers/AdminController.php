@@ -1,7 +1,6 @@
 <?php
 namespace cms\widgets\select_posts\controllers;
 
-use cms\services\post\PostService;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\widget\Widget;

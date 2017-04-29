@@ -70,8 +70,8 @@ a.section-anchor{top:-56px;position:absolute;left:0}
 .mobile-nav .mobile-bar-container a i:nth-child(1){top:0}
 .mobile-nav .mobile-bar-container a i:nth-child(2){top:6px}
 .mobile-nav .mobile-bar-container a i:nth-child(3){top:12px}
-.mobile-nav .navigator{position:fixed;width:100%;background-color:#fff;overflow:auto;top:0;z-index:1002;transform:translateY(-100%);-webkit-transform:translateY(-100%);transition:all .4s cubic-bezier(.42,0,.58,1);-webkit-transition:all .4s cubic-bezier(.42,0,.58,1);max-height:100%}
-.mobile-nav .navigator ul{overflow:auto;padding-top:44px}
+.mobile-nav .navigator{position:fixed;width:100%;background-color:#fff;overflow:auto;top:0;z-index:1002;padding-top:44px;transform:translateY(-100%);-webkit-transform:translateY(-100%);transition:all .4s cubic-bezier(.42,0,.58,1);-webkit-transition:all .4s cubic-bezier(.42,0,.58,1);max-height:100%}
+.mobile-nav .navigator ul{overflow:auto}
 .mobile-nav .navigator ul li{display:block;z-index:1015;padding:0 24px}
 .mobile-nav .navigator ul li a{display:block;color:#666;padding:15px 30px;font-size:16px;font-weight:300;border-bottom:1px solid #eee}
 .mobile-nav .navigator ul li.inquiry-link{padding:10px 24px}

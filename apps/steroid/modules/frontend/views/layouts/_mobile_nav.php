@@ -14,12 +14,9 @@ use fay\helpers\HtmlHelper;
     </div>
     <div class="mobile-nav-mask"></div>
     <nav class="navigator">
+        <?php F::widget()->load('nav-left');?>
+        <?php F::widget()->load('nav-right');?>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="">Home</a></li>
-            <li><a href="">Home</a></li>
-            <li><a href="">Home</a></li>
-            <li><a href="#section-blog">Blog</a></li>
             <li class="inquiry-link"><a href="#section-contact">INQUIRY NOW</a></li>
         </ul>
     </nav>

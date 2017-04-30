@@ -749,7 +749,7 @@ var common = {
         var $batchForm = $('#batch-form');
         if($batchForm.length){
             $('body').on('change', '.batch-ids-all', function(){
-                $('.batch-ids[disabled!="disabled"],.batch-ids-all').attr('checked', !!$(this).attr('checked'));
+                $('.batch-ids[disabled!="disabled"],.batch-ids-all').prop('checked', !!$(this).prop('checked'));
             }).on('click', '#batch-form-submit', function(){
                 var batchActionValue = $('#batch-action').val();
                 if(batchActionValue == ''){

@@ -66,7 +66,7 @@ use fay\helpers\HtmlHelper;
         'field'=>'logo',
         'cat'=>'link',
         'label'=>'Logo',
-        'preview_image_width'=>'thumbnail',
+        'preview_image_width'=>0,
     ))?>
     <p class="description">是否需要Logo视主题而定</p>
 </div>

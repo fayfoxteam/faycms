@@ -24,6 +24,7 @@ $full_file_path = FileService::getUrl($data);
         )), $full_file_path, array(
             'encode'=>false,
             'title'=>$data['client_name'],
+            'class'=>'mask ib',
             'data-fancybox'=>'images',
             'data-caption'=>$data['client_name'] .
                 HtmlHelper::encode(HtmlHelper::link('<i class="fa fa-download ml5"></i>下载', array('cms/admin/file/download', array(

@@ -8,7 +8,7 @@ var uploader = {
      * 可选参数：
      * options.max_file_size: 文件大小限制。默认为2
      * options.cat: 上传文件所属分类。默认为other
-     * options.preview_image_params: 预览图参数。默认裁剪为宽度为257，高度等比缩放的图片
+     * options.preview_image_params: 预览图参数。默认裁剪为宽度为254，高度等比缩放的图片
      * options.field: 图片字段名（相当于是唯一标识符）。默认为thumbnail
      * options.remove_text: 移除图片文案。默认为：移除缩略图
      * options.scene: 场景，当一个页面中包含多个表单，可能会出现同一个字段多次出现造成id重复的情况。默认为空
@@ -20,7 +20,7 @@ var uploader = {
             'cat': 'other',
             'preview_image_params': {
                 't': 4,
-                'dw': 257
+                'dw': 254
             },
             'field': 'thumbnail',
             'remove_text': '移除缩略图',
@@ -64,9 +64,10 @@ var uploader = {
                 picParams['f'] = resp.data.id;
                 $container.html([
                     '<input type="hidden" name="', settings.field, '" value="', resp.data.id, '" />',
-                    '<a href="', resp.data.url, '" data-fancybox data-type="image" class="block">',
+                    '<a href="', resp.data.url, '" data-fancybox data-type="image" class="mask ib">',
                         '<img src="', system.url('cms/admin/file/pic', picParams), '" />',
                     '</a>',
+                    '<br>',
                     '<a href="javascript:;" class="remove-', clean_field, '-link', settings.scene, '">', settings.remove_text, '</a>'
                 ].join(''));
             });
@@ -215,7 +216,7 @@ var uploader = {
                     if(resp.data.is_image){
                         //是图片，用fancybox弹窗
                         $file.find('.fl').html([
-                            '<a href="', resp.data.url, '" data-fancybox="images" data-caption="', resp.data.client_name, '">',
+                            '<a href="', resp.data.url, '" data-fancybox="images" data-caption="', resp.data.client_name, '" class="mask ib">',
                                 '<img src="', resp.data.thumbnail, '" />',
                             '</a>'
                         ].join(''));

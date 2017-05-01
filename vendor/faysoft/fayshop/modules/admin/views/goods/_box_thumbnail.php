@@ -17,7 +17,7 @@ use cms\services\file\FileService;
             $thumbnail = F::form()->getData('thumbnail', 0);
             if(!empty($thumbnail)){
                 echo HtmlHelper::link(HtmlHelper::img($thumbnail, FileService::PIC_RESIZE, array(
-                    'dw'=>257,
+                    'dw'=>254,
                 )), FileService::getUrl($thumbnail), array(
                     'encode'=>false,
                     'class'=>'fancybox-image',

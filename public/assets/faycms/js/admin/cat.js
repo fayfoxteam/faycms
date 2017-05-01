@@ -31,15 +31,16 @@ var cat = {
                                 if(resp.data.cat.file_id != 0){
                                     $editCatDialog.find('.upload-preview-container').html([
                                         '<input type="hidden" name="file_id" value="', resp.data.cat.file_id, '">',
-                                        '<a href="', system.url('file/pic', {
+                                        '<a href="javascript:" data-fancybox="image" data-type="image" data-src="', system.url('file/pic', {
                                             't':1,
                                             'f':resp.data.cat.file_id
-                                        }), '" data-fancybox="image" data-type="image" class="block">',
+                                        }), '" class="mask ib">',
                                             '<img src="', system.url('file/pic', {
                                                 't':2,
                                                 'f':resp.data.cat.file_id
                                             }), '" />',
                                         '</a>',
+                                        '<br>',
                                         '<a href="javascript:;" class="remove-pic">移除插图</a>'
                                     ].join(''));
                                 }else{

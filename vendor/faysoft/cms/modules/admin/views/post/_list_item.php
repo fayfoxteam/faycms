@@ -30,7 +30,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
                 'spare'=>'default',
             )), FileService::getUrl($data['thumbnail']), array(
                 'encode'=>false,
-                'class'=>'mask',
+                'class'=>'mask ib',
                 'title'=>HtmlHelper::encode($data['title']),
                 'data-fancybox'=>'images',
                 'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($data['title'])) .

@@ -11,7 +11,7 @@ empty($field) && $field = 'thumbnail';//图片字段名称
 empty($label) && $label = '缩略图';//图片字段的描述
 empty($field_value) && $field_value = F::form()->getData($field, 0);//图片ID
 empty($cat) && $cat = 'other';//图片分类
-isset($preview_image_width) || $preview_image_width = 257;//预览图默认缩放为257宽（用于右侧sidebar）。若为0，则显示原图，若为thumbnail，则显示缩略图
+isset($preview_image_width) || $preview_image_width = 254;//预览图默认缩放为254宽（用于右侧sidebar）。若为0，则显示原图，若为thumbnail，则显示缩略图
 
 //可以单独制定，一般由$label拼接出来就够用了
 empty($select_text) && $select_text = "上传{$label}";
@@ -34,12 +34,12 @@ $clean_field = str_replace(array('[', ']', ':'), '', $field);//字段名称可�
             'dw'=>$preview_image_width,
         )), FileService::getUrl($field_value), array(
             'encode'=>false,
-            'class'=>'block',
+            'class'=>'mask ib',
             'title'=>'点击查看原图',
             'data-fancybox'=>null,
             'data-caption'=>'',
         ));
-        echo HtmlHelper::link($remove_text, 'javascript:', array(
+        echo '<br>', HtmlHelper::link($remove_text, 'javascript:', array(
             'class'=>"remove-{$clean_field}-link{$scene}"
         ));
     }

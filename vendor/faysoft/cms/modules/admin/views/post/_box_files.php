@@ -29,6 +29,7 @@ use cms\services\file\FileService;
                                 echo HtmlHelper::link(HtmlHelper::img($f['file_id'], FileService::PIC_THUMBNAIL), $full_file_path, array(
                                     'encode'=>false,
                                     'title'=>false,
+                                    'class'=>'mask ib',
                                     'data-fancybox'=>'images',
                                     'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($f['description'])),//2次转码，防止js注入
                                 ));

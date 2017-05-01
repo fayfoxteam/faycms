@@ -12,7 +12,7 @@ use cms\services\file\FileService;
         echo \F::form()->inputHidden('thumbnail');
         if(\F::form()->getData('thumbnail')){
             echo HtmlHelper::link(HtmlHelper::img(\F::form()->getData('thumbnail'), FileService::PIC_RESIZE, array(
-                'dw'=>257,
+                'dw'=>254,
                 'dh'=>217,
             )), FileService::getUrl(\F::form()->getData('thumbnail')), array(
                 'encode'=>false,

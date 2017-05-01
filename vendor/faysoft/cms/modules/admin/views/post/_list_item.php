@@ -30,6 +30,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
                 'spare'=>'default',
             )), FileService::getUrl($data['thumbnail']), array(
                 'encode'=>false,
+                'class'=>'mask',
                 'title'=>HtmlHelper::encode($data['title']),
                 'data-fancybox'=>'images',
                 'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($data['title'])) .
@@ -45,6 +46,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
                 'width'=>60,
                 'height'=>60,
                 'spare'=>'default',
+                'class'=>'block',
             ));
         }
     ?></td>

@@ -14,7 +14,7 @@ var api = {
 					//初始化编辑框
 					var $addInputParameterForm = $('#add-input-parameter-form');
 					$addInputParameterForm.find('[name="name"]').val('');
-					$addInputParameterForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+					$addInputParameterForm.find('[name="required"][value="0"]').prop('checked', 'checked');
 					$addInputParameterForm.find('[name="description"]').val('');
 					$addInputParameterForm.find('[name="sample"]').val('');
 					$addInputParameterForm.find('[name="since"]').val('');
@@ -36,7 +36,7 @@ var api = {
 					$editInputParameterForm.find('[name="selector"]').val($container.parent().attr('id'));
 					$editInputParameterForm.find('[name="name"]').val($container.find('.input-name').val());
 					$editInputParameterForm.find('[name="type"]').val($container.find('.input-type').val());
-					$editInputParameterForm.find('[name="required"][value="'+$container.find('.input-required').val()+'"]').attr('checked', 'checked');
+					$editInputParameterForm.find('[name="required"][value="'+$container.find('.input-required').val()+'"]').prop('checked', 'checked');
 					$editInputParameterForm.find('[name="description"]').val($container.find('.input-description').val());
 					$editInputParameterForm.find('[name="sample"]').val($container.find('.input-sample').val());
 					$editInputParameterForm.find('[name="since"]').val($container.find('.input-since').val());
@@ -154,7 +154,7 @@ var api = {
 					//初始化编辑框
 					var $addOutputForm = $('#add-output-form');
 					$addOutputForm.find('[name="name"]').val('');
-					$addOutputForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+					$addOutputForm.find('[name="required"][value="0"]').prop('checked', 'checked');
 					$addOutputForm.find('[name="description"]').val('');
 					$addOutputForm.find('[name="sample"]').val('');
 					$addOutputForm.find('[name="since"]').val('');
@@ -176,7 +176,7 @@ var api = {
 					$editOutputForm.find('[name="selector"]').val($container.attr('id'));
 					$editOutputForm.find('[name="name"]').val($container.find('.input-name').val());
 					$editOutputForm.find('[name="model_name"]').val($container.find('.input-model-name').val());
-					$editOutputForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
+					$editOutputForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').prop('checked', 'checked');
 					$editOutputForm.find('[name="description"]').val($container.find('.input-description').val());
 					$editOutputForm.find('[name="sample"]').val($container.find('.input-sample').val());
 					$editOutputForm.find('[name="since"]').val($container.find('.input-since').val());

@@ -975,4 +975,52 @@ class PostController extends AdminController{
             ));
         }
     }
+
+    /**
+     * 后台预览一篇文章（非前端主题式样预览）
+     */
+    public function preview(){
+        //表单验证
+        $this->form()->setRules(array(
+            array(array('id'), 'required'),
+            array(array('id'), 'int', array('min'=>1)),
+        ))->setFilters(array(
+            'id'=>'intval',
+        ))->setLabels(array(
+            'id'=>'文章ID',
+        ))->check();
+        
+        $post = PostService::service()->get(
+            $this->form()->getData('id'),
+            array(
+                'post'=>array(
+                    'fields'=>array('*'),
+                    'extra'=>array(
+                        'thumbnail'=>'0x200'
+                    )
+                ),
+                'category'=>array(
+                    'fields'=>array('title')
+                ),
+                'files'=>array(
+                    'fields'=>array('id', 'url', 'thumbnail', 'description', 'is_image'),
+                    'extra'=>array(
+                        'thumbnail'=>'200x130'
+                    )
+                ),
+                'user'=>array(
+                    'fields'=>array('nickname', 'avatar')
+                )
+            ),
+            null,
+            false
+        );
+        if(!$post){
+            throw new HttpException("指定文章ID[{$this->form()->getData('id')}]不存在");
+        }
+        
+        $this->view->renderPartial(null, array(
+            'post'=>$post
+        ));
+    }
 }

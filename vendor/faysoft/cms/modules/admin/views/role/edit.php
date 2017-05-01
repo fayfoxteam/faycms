@@ -116,10 +116,10 @@ var role = {
                 });
             }
         }).on('click', '.select-all-children', function(){
-            $(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', 'checked');
+            $(this).parent().parent().parent().find('input[name="role_cats[]"]').prop('checked', 'checked');
             return false;
         }).on('click', '.unselect-all-children', function(){
-            $(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', false);
+            $(this).parent().parent().parent().find('input[name="role_cats[]"]').prop('checked', false);
             return false;
         });
     },

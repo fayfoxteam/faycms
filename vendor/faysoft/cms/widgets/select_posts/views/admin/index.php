@@ -48,16 +48,27 @@ use fay\helpers\HtmlHelper;
                     <a class="dragsort-item-selector"></a>
                     <div class="dragsort-item-container">
                         <span class="fl post-thumbnail">
-                            <a title="<?php echo HtmlHelper::encode($posts[$p['post_id']]['title'])?>" href="<?php echo $posts[$p['post_id']]['thumbnail'] ? FileService::getUrl($posts[$p['post_id']]['thumbnail']) : 'javascript:'?>" <?php if($posts[$p['post_id']]['thumbnail']) echo 'data-fancybox="images"'?>>
-                                <?php echo HtmlHelper::img($posts[$p['post_id']]['thumbnail'], FileService::PIC_THUMBNAIL, array(
-                                    'width'=>100,
-                                    'height'=>100,
-                                    'spare'=>'default',
-                                ))?>
-                            </a>
+                            <?php echo HtmlHelper::link(HtmlHelper::img($posts[$p['post_id']]['thumbnail'], FileService::PIC_THUMBNAIL, array(
+                                'width'=>100,
+                                'height'=>100,
+                                'spare'=>'default',
+                            )), 'javascript:', array(
+                                'encode'=>false,
+                                'title'=>HtmlHelper::encode($posts[$p['post_id']]['title']),
+                                'data-src'=>$posts[$p['post_id']]['thumbnail'] ? FileService::getUrl($posts[$p['post_id']]['thumbnail']) : false,
+                                'data-fancybox'=>$posts[$p['post_id']]['thumbnail'] ? 'images' : false,
+                                'class'=>$posts[$p['post_id']]['thumbnail'] ? 'mask' : false,
+                            ))?>
                         </span>
                         <div class="ml120">
-                            <h3 class="post-title"><?php echo HtmlHelper::encode($posts[$p['post_id']]['title'])?></h3>
+                            <h3 class="ellipsis post-title"><?php echo HtmlHelper::link(
+                                $posts[$p['post_id']]['title'],
+                                'javascript:',
+                                array(
+                                    'class'=>'post-preview-link',
+                                    'data-id'=>$p['post_id'],
+                                )
+                            )?></h3>
                             <div class="mt6 mb10 fc-grey">
                                 <span class="mr10"><i class="fa fa-calendar mr5"></i><span class="post-time"><?php echo DateHelper::format($posts[$p['post_id']]['publish_time'])?></span></span>
                                 <span class="mr10"><i class="fa fa-align-right mr5"></i><span class="post-cat"><?php echo HtmlHelper::encode($posts[$p['post_id']]['cat_title'])?></span></span>
@@ -162,12 +173,14 @@ $(function(){
                     '<a class="dragsort-item-selector"></a>',
                     '<div class="dragsort-item-container">',
                         '<span class="fl post-thumbnail">',
-                            '<a title="" href="" data-fancybox="images">',
+                            '<a title="" href="javascript:">',
                                 '<img src="', system.assets('images/loading.gif'), '" width="100" height="100" />',
                             '</a>',
                         '</span>',
                         '<div class="ml120">',
-                            '<h3 class="post-title">加载中...</h3>',
+                            '<h3 class="ellipsis post-title">',
+                                '<a href="javascript:" class="post-preview-link" data-id="', postId, '">加载中...</a>',
+                            '</h3>',
                             '<div class="mt6 mb10 fc-grey">',
                                 '<span class="mr10"><i class="fa fa-calendar mr5"></i><span class="post-time"></span></span>',
                                 '<span class="mr10"><i class="fa fa-align-right mr5"></i><span class="post-cat"></span></span>',
@@ -194,13 +207,17 @@ $(function(){
                     if(resp.status){
                         var $item = $('#posts-list-post-'+postId);
                         var post = resp.data.post;
-                        $item.find('.post-thumbnail a').attr({
-                            'href': post.thumbnail.url,
-                            'title': system.encode(post.title),
-                            'data-caption': system.encode(post.title)
-                        });
                         $item.find('.post-thumbnail a img').attr('src', post.thumbnail.thumbnail);
-                        $item.find('.post-title').text(post.title);
+                        if(post.thumbnail.id != '0'){
+                            $item.find('.post-thumbnail a').attr({
+                                'class': 'mask',
+                                'href': post.thumbnail.url,
+                                'title': system.encode(post.title),
+                                'data-fancybox': 'images',
+                                'data-caption': system.encode(post.title)
+                            });
+                        }
+                        $item.find('.post-title a').attr('data-title', system.encode(post.title)).text(post.title);
                         $item.find('.post-time').text(system.date(post.publish_time));
                         $item.find('.post-cat').text(resp.data.category.title);
                         $item.find('.post-author').text(resp.data.user.user.nickname);

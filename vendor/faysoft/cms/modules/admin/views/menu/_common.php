@@ -267,7 +267,7 @@ var menu = {
                                 $editMenuDialog.find("input[name='title']").val(resp.data.menu.title);
                                 $editMenuDialog.find("input[name='sub_title']").val(resp.data.menu.sub_title);
                                 $editMenuDialog.find("input[name='css_class']").val(resp.data.menu.css_class);
-                                $editMenuDialog.find("input[name='enabled'][value='"+resp.data.menu.enabled+"']").attr('checked', 'checked');
+                                $editMenuDialog.find("input[name='enabled'][value='"+resp.data.menu.enabled+"']").prop('checked', 'checked');
                                 $editMenuDialog.find("input[name='alias']").val(resp.data.menu.alias);
                                 $editMenuDialog.find("input[name='sort']").val(resp.data.menu.sort);
                                 $editMenuDialog.find("input[name='link']").val(resp.data.menu.link);

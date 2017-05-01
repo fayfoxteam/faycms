@@ -116,13 +116,13 @@ var role = {
                 });
             }
         }).on('click', '.leaf-title.parent label', function(){
-            $(this).find('input[type="checkbox"]').attr('checked', !$(this).find('input[type="checkbox"]').attr('checked'));
+            $(this).find('input[type="checkbox"]').prop('checked', !$(this).find('input[type="checkbox"]').prop('checked'));
             return false;
         }).on('click', '.select-all-children', function(){
-            $(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', 'checked');
+            $(this).parent().parent().parent().find('input[name="role_cats[]"]').prop('checked', 'checked');
             return false;
         }).on('click', '.unselect-all-children', function(){
-            $(this).parent().parent().parent().find('input[name="role_cats[]"]').attr('checked', false);
+            $(this).parent().parent().parent().find('input[name="role_cats[]"]').prop('checked', false);
             return false;
         });
     },

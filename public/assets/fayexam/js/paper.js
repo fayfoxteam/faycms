@@ -37,7 +37,7 @@ var paper = {
                 if(resp.status){
                     paper.renderQuestions(resp.data.questions);
                     common.showPager('questions-list-pager', resp.data.pager);
-                    $('#question-dialog .select-all').attr('checked', false);
+                    $('#question-dialog .select-all').prop('checked', false);
                 }else{
                     common.alert(resp.message);
                 }
@@ -165,7 +165,7 @@ var paper = {
         
         //全选
         $('#question-dialog').on('change', '.select-all', function(){
-            $('#question-dialog').find('[type="checkbox"]').attr('checked', !!$(this).attr('checked'));
+            $('#question-dialog').find('[type="checkbox"]').prop('checked', !!$(this).prop('checked'));
         });
     },
     'init':function(){

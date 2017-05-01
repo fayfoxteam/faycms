@@ -13,7 +13,7 @@ var model = {
 					//初始化编辑框
 					var $addPropForm = $('#add-prop-form');
 					$addPropForm.find('[name="name"]').val('');
-					$addPropForm.find('[name="required"][value="0"]').attr('checked', 'checked');
+					$addPropForm.find('[name="required"][value="0"]').prop('checked', 'checked');
 					$addPropForm.find('[name="description"]').val('');
 					$addPropForm.find('[name="sample"]').val('');
 					$addPropForm.find('[name="since"]').val('');
@@ -35,7 +35,7 @@ var model = {
 					$editPropForm.find('[name="selector"]').val($container.attr('id'));
 					$editPropForm.find('[name="name"]').val($container.find('.input-name').val());
 					$editPropForm.find('[name="type_name"]').val($container.find('.input-type-name').val());
-					$editPropForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').attr('checked', 'checked');
+					$editPropForm.find('[name="is_array"][value="'+$container.find('.input-is-array').val()+'"]').prop('checked', 'checked');
 					$editPropForm.find('[name="description"]').val($container.find('.input-description').val());
 					$editPropForm.find('[name="sample"]').val($container.find('.input-sample').val());
 					$editPropForm.find('[name="since"]').val($container.find('.input-since').val());

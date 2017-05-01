@@ -24,9 +24,9 @@ var cat = {
                                 $editCatDialog.find("input[name='alias']").attr('data-ajax', system.url('cms/admin/category/is-alias-not-exist', {id:resp.data.cat.id}));
                                 
                                 if(resp.data.cat.is_nav == 1){
-                                    $editCatDialog.find("input[name='is_nav']").attr('checked', 'checked');
+                                    $editCatDialog.find("input[name='is_nav']").prop('checked', 'checked');
                                 }else{
-                                    $editCatDialog.find("input[name='is_nav']").attr('checked', false);
+                                    $editCatDialog.find("input[name='is_nav']").prop('checked', false);
                                 }
                                 if(resp.data.cat.file_id != 0){
                                     $editCatDialog.find('.upload-preview-container').html([

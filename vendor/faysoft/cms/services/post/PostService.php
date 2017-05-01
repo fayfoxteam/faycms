@@ -57,7 +57,7 @@ class PostService extends Service{
      */
     public static $public_fields = array(
         'post'=>array(
-            'id', 'cat_id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
+            'id', 'cat_id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract', 'delete_time', 'status',
         ),
         'category'=>array(
             'id', 'title', 'alias',
@@ -576,9 +576,7 @@ class PostService extends Service{
         $fields = FieldHelper::parse($fields, 'post', self::$public_fields);
         if(empty($fields['post'])){
             //若未指定返回字段，返回所有允许的字段
-            $fields['post'] = array(
-                'fields'=>self::$public_fields['post']
-            );
+            $fields['post'] = self::$default_fields['post'];
         }
         
         $post_fields = $fields['post']['fields'];
@@ -1121,9 +1119,7 @@ class PostService extends Service{
         $fields = FieldHelper::parse($fields, 'post', self::$public_fields);
         if(empty($fields['post'])){
             //若未指定返回字段，返回所有允许的字段
-            $fields['post'] = array(
-                'fields'=>self::$public_fields['post']
-            );
+            $fields['post'] = self::$default_fields['post'];
         }
         
         $post_fields = $fields['post']['fields'];

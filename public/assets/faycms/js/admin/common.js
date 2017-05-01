@@ -408,7 +408,7 @@ var common = {
             var $settingForm = $('#setting-form');
             var $settingItem = $settingForm.find("input[name='boxes[]'][value='"+$box.attr('data-name')+"']");
             if($settingItem.length){
-                $settingItem.attr('checked', false);
+                $settingItem.prop('checked', false);
                 $settingForm.submit();
             }
         });
@@ -942,6 +942,36 @@ var common = {
             }
         });
     },
+    /**
+     * 文章后台预览
+     */
+    'postPreview': function(){
+        if($('.post-preview-link').length){
+            system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function() {
+                system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function () {
+                    $(document).on('click', '.post-preview-link', function(){
+                        $.fancybox.open({
+                            'src': system.url('cms/admin/post/preview', {
+                                'id': $(this).attr('data-id')
+                            }),
+                            'type': 'iframe',
+                            'opts': {
+                                'iframe': {
+                                    'css': {
+                                        'width': '900px',
+                                        'height': '700px',
+                                        'max-width': '90%',
+                                        'max-height': '80%'
+                                    },
+                                    'scrolling': 'yes'
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+        }
+    },
     'init': function(){
         this.fancybox();
         this.menu();
@@ -965,5 +995,6 @@ var common = {
         this.prettyPrint();
         this.pager();
         this.toggle();
+        this.postPreview();
     }
 };

@@ -15,8 +15,8 @@
     <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
     <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/post-preview.css')?>" />
     <?php echo $this->getCss()?>
-    
-    <script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+
+    <script type="text/javascript" src="<?php echo $this->assets('js/jquery-3.2.1.min.js')?>"></script>
     <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
     <!--[if lt IE 9]>
     <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
@@ -26,7 +26,7 @@
         system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
         system.user_id = <?php echo \F::app()->current_user?>;
     </script>
-    <title><?php echo $history['title']?> | <?php echo \cms\services\OptionService::get('site:sitename')?>后台</title>
+    <title><?php echo \fay\helpers\HtmlHelper::encode($history['title'])?> | <?php echo \cms\services\OptionService::get('site:sitename')?>后台</title>
 </head>
 <body>
 <div class="post-preview">

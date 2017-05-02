@@ -210,7 +210,7 @@ $(function(){
                         $item.find('.post-thumbnail a img').attr('src', post.thumbnail.thumbnail);
                         if(post.thumbnail.id != '0'){
                             $item.find('.post-thumbnail a').attr({
-                                'class': 'mask',
+                                'class': 'mask ib',
                                 'href': post.thumbnail.url,
                                 'title': system.encode(post.title),
                                 'data-fancybox': 'images',

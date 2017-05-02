@@ -6,6 +6,13 @@ body{margin:10px;font-size:12px;font-family:"Microsoft Yahei","微软雅黑",Tah
 ul,ul li{list-style:none;}
 img{border:0;}
 
+/* 定制chrome滚动条 */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-thumb{border-radius:10px;background:rgba(99,99,99,0.5)}
+::-webkit-scrollbar-thumb:window-inactive{background:rgba(99,99,99,0.4)}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(99,99,99,0.6)}
+::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(99,99,99,1)}
+
 .fc-red{color:red !important;}
 .fc-green{color:green !important;}
 .fc-orange{color:orange !important;}

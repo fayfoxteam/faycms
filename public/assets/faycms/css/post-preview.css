@@ -1,9 +1,9 @@
 /* 定制chrome滚动条 */
 ::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-thumb{border-radius:10px;background:rgba(0,0,0,0.2)}
-::-webkit-scrollbar-thumb:window-inactive{background:rgba(0,0,0,0.1)}
-::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,0.3)}
-::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0,0,0,0.7)}
+::-webkit-scrollbar-thumb{border-radius:10px;background:rgba(99,99,99,0.5)}
+::-webkit-scrollbar-thumb:window-inactive{background:rgba(99,99,99,0.4)}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(99,99,99,0.6)}
+::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(99,99,99,1)}
 
 /* 按钮 */
 .btn{display:inline-block;text-align:center;vertical-align:middle;border:1px solid transparent;white-space:nowrap;padding:6px 12px;line-height:1.42857143;color:#fff;background-color:#2196ff;user-select:none}

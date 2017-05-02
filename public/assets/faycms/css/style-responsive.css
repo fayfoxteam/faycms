@@ -24,10 +24,10 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 
 /* 定制chrome滚动条 */
 ::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-thumb{border-radius:10px;background:rgba(0,0,0,0.2)}
-::-webkit-scrollbar-thumb:window-inactive{background:rgba(0,0,0,0.1)}
-::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,0.3)}
-::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0,0,0,0.7)}
+::-webkit-scrollbar-thumb{border-radius:10px;background:rgba(99,99,99,0.5)}
+::-webkit-scrollbar-thumb:window-inactive{background:rgba(99,99,99,0.4)}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(99,99,99,0.6)}
+::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(99,99,99,1)}
 
 /* 布局类 */
 .container{padding:30px 30px 0}

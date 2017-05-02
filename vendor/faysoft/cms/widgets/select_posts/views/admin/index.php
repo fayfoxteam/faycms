@@ -57,7 +57,7 @@ use fay\helpers\HtmlHelper;
                                 'title'=>HtmlHelper::encode($posts[$p['post_id']]['title']),
                                 'data-src'=>$posts[$p['post_id']]['thumbnail'] ? FileService::getUrl($posts[$p['post_id']]['thumbnail']) : false,
                                 'data-fancybox'=>$posts[$p['post_id']]['thumbnail'] ? 'images' : false,
-                                'class'=>$posts[$p['post_id']]['thumbnail'] ? 'mask' : false,
+                                'class'=>$posts[$p['post_id']]['thumbnail'] ? 'mask ib' : false,
                             ))?>
                         </span>
                         <div class="ml120">

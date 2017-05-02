@@ -1,3 +1,10 @@
+/* 定制chrome滚动条 */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-thumb{border-radius:10px;background:rgba(0,0,0,0.2)}
+::-webkit-scrollbar-thumb:window-inactive{background:rgba(0,0,0,0.1)}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,0.3)}
+::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0,0,0,0.7)}
+
 /* 按钮 */
 .btn{display:inline-block;text-align:center;vertical-align:middle;border:1px solid transparent;white-space:nowrap;padding:6px 12px;line-height:1.42857143;color:#fff;background-color:#2196ff;user-select:none}
 .btn:hover{color:#fff;background-color:#1e87ef}
@@ -14,6 +21,7 @@
 .bg-green{background-color:#9DD30B !important}
 .bg-green:hover{background-color:#8DBD0A !important}
 
+.post-preview{padding:0 20px}
 .p30{padding:30px}
 
 /* 预览界面 */

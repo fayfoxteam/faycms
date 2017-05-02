@@ -22,6 +22,13 @@ label{display:inline-block}
 table{border-spacing:0}
 input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font-weight:inherit}
 
+/* 定制chrome滚动条 */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-thumb{border-radius:10px;background:rgba(0,0,0,0.2)}
+::-webkit-scrollbar-thumb:window-inactive{background:rgba(0,0,0,0.1)}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,0.3)}
+::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0,0,0,0.7)}
+
 /* 布局类 */
 .container{padding:30px 30px 0}
 .row{margin:0 -15px}

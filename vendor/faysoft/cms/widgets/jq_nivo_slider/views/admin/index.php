@@ -29,7 +29,7 @@ use cms\services\file\FileService;
                     'title'=>HtmlHelper::encode($f['title']),
                     'data-fancybox'=>'images',
                     'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($f['title'])),
-                    'class'=>'mask',
+                    'class'=>'mask ib',
                 ));
             ?>
             </span>

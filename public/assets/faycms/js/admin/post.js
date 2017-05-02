@@ -124,7 +124,7 @@ var post = {
         }
         
         if(!pageSize){
-            pageSize = 2;
+            pageSize = 10;
         }
 
         var $historyDialog = $('#history-dialog');
@@ -144,10 +144,10 @@ var post = {
             'cache': false,
             'success': function(resp){
                 if(resp.status == 1){
+                    //删除加载中描述
+                    $historyDialog.find('.loading').remove();
+                    
                     if(resp.data.histories.length){
-                        //删除加载中描述
-                        $historyDialog.find('.loading').remove();
-                        
                         $.each(resp.data.histories, function(i, data){
                             $historyDialog.find('.history-list').append([
                                 '<li data-id="', data.id, '">',

@@ -517,7 +517,7 @@ select option[disabled]{text-decoration:line-through}
 
 /* 文章历史 */
 #history-dialog .col-9{border-left:1px solid #dfdfdf}
-#history-dialog .history-list{margin-right:-15px}
+#history-dialog .history-list{margin-right:-15px;max-height:500px;overflow:scroll}
 #history-dialog .history-list li{padding:10px 10px;border-bottom:1px solid #dfdfdf;cursor:pointer}
 #history-dialog .history-list li.crt{background-color:#f6f6f6}
 #history-dialog .history-list li[data-id]:hover{background-color:rgba(255, 255, 204, 0.35)}

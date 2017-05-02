@@ -63,8 +63,8 @@ var common = {
 		//左侧菜单固定
 		if($('.sidebar-menu').hasClass('fixed') && !($.browser.msie && $.browser.version < 9)){
 			//插件不支持IE8
-			system.getCss(system.assets('css/perfect-scrollbar.css'), function(){
-				system.getScript(system.assets('js/perfect-scrollbar.js'), function(){
+            system.getCss(system.assets('js/perfect-scrollbar/css/perfect-scrollbar.min.css'), function(){
+                system.getScript(system.assets('js/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js'), function(){
 					if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
 						$('.sidebar-menu-inner').perfectScrollbar({
 							'wheelPropagation': true

@@ -286,30 +286,24 @@ var common = {
         });
         
         //左侧菜单固定
-        if($sidebarMenu.hasClass('fixed')){
-            //插件不支持IE8
-            system.getCss(system.assets('css/perfect-scrollbar.css'), function(){
-                system.getScript(system.assets('js/perfect-scrollbar.js'), function(){
+        system.getCss(system.assets('js/perfect-scrollbar/css/perfect-scrollbar.min.css'), function(){
+            system.getScript(system.assets('js/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js'), function(){
+                if(parseInt($(window).width()) > 768 && !$sidebarMenu.hasClass('collapsed')){
+                    $('.sidebar-menu-inner').perfectScrollbar({
+                        'wheelPropagation': true
+                    });
+                }
+                $(window).resize(function(){
                     if(parseInt($(window).width()) > 768 && !$sidebarMenu.hasClass('collapsed')){
                         $('.sidebar-menu-inner').perfectScrollbar({
                             'wheelPropagation': true
                         });
+                    }else{
+                        $('.sidebar-menu-inner').perfectScrollbar('destroy');
                     }
-                    $(window).resize(function(){
-                        if(parseInt($(window).width()) > 768 && !$sidebarMenu.hasClass('collapsed')){
-                            $('.sidebar-menu-inner').perfectScrollbar({
-                                'wheelPropagation': true
-                            });
-                        }else{
-                            $('.sidebar-menu-inner').perfectScrollbar('destroy');
-                        }
-                    });
                 });
             });
-        }else{
-            //ie8的情况下移除fixed
-            $sidebarMenu.removeClass('fixed');
-        }
+        });
     },
     'screenMeta': function(){
         $('.faycms-setting-link').on('mouseover', function(){

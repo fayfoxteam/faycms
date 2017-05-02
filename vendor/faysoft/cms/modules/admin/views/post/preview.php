@@ -71,8 +71,12 @@ use fay\helpers\HtmlHelper;
                 );
             }
         ?></div>
-        <div class="post-abstract"><?php echo nl2br(HtmlHelper::encode($post['post']['abstract']))?></div>
-        <div class="post-content"><?php echo $post['post']['content']?></div>
+        <?php if($post['post']['abstract']){?>
+            <div class="post-abstract"><?php echo nl2br(HtmlHelper::encode($post['post']['abstract']))?></div>
+        <?php }?>
+        <?php if($post['post']['content']){?>
+            <div class="post-content"><?php echo $post['post']['content']?></div>
+        <?php }?>
         <?php if($post['files']){?>
             <div class="post-files">
                 <h3><i class="fa fa-link"></i>附件</h3>

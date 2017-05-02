@@ -22,7 +22,7 @@ if($editor == PostsTable::CONTENT_TYPE_TEXTAREA){
 }else{
     echo F::form()->textarea('content', array(
         'id'=>'visual-editor',
-        'class'=>'h350',
+        'class'=>'h500',
     ));
 }
 echo HtmlHelper::inputHidden('content_type', $editor);

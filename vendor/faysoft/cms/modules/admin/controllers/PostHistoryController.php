@@ -91,7 +91,7 @@ class PostHistoryController extends AdminController{
         
         $history = PostHistoryService::service()->get($this->form()->getData('history_id'));
         if(!$history){
-            throw new HttpException("指定历史版本ID[{$this->form()->getData('history_id')}]不存在");
+            die('无可显示历史');
         }
         
         $history['user'] = UserService::service()->get($history['user_id'], 'id,nickname,username,realname,avatar');

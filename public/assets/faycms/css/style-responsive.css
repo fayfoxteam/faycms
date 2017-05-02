@@ -513,7 +513,7 @@ select option[disabled]{text-decoration:line-through}
 #history-dialog .history-list{margin-right:-15px}
 #history-dialog .history-list li{padding:10px 10px;border-bottom:1px solid #dfdfdf;cursor:pointer}
 #history-dialog .history-list li.crt{background-color:#f6f6f6}
-#history-dialog .history-list li:hover{background-color:rgba(255, 255, 204, 0.35)}
+#history-dialog .history-list li[data-id]:hover{background-color:rgba(255, 255, 204, 0.35)}
 #history-dialog .history-list .user{color:#979898;font-size:0.8em}
 #history-dialog .history-list .time{color:#717272}
 

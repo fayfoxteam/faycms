@@ -13,19 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+    <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" />
     <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/post-preview.css')?>" />
     <?php echo $this->getCss()?>
 
-    <script type="text/javascript" src="<?php echo $this->assets('js/jquery-3.2.1.min.js')?>"></script>
-    <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
     <!--[if lt IE 9]>
     <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
     <![endif]-->
-    <script>
-        system.base_url = '<?php echo $this->url()?>';
-        system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
-        system.user_id = <?php echo \F::app()->current_user?>;
-    </script>
     <title><?php echo \fay\helpers\HtmlHelper::encode($history['title'])?> | <?php echo \cms\services\OptionService::get('site:sitename')?>后台</title>
 </head>
 <body>
@@ -36,8 +30,8 @@
     </div>
     <div class="post-info">
         <div class="history-options">
-            <a href="javascript:" title="恢复到此版本" class="btn btn-grey post-history-revert-link" data-id=""><i class="fa fa-undo"></i></a>
-            <a href="javascript:" title="删除此版本" class="btn btn-grey post-history-remove-link" data-id=""><i class="fa fa-trash"></i></a>
+            <a href="javascript:" title="恢复到此版本" class="btn btn-grey post-history-revert-link" onclick="parent.post.revertHistory(<?php echo $history['id']?>)"><i class="fa fa-undo"></i></a>
+            <a href="javascript:" title="删除此版本" class="btn btn-grey post-history-remove-link" onclick="parent.post.removeHistory(<?php echo $history['id']?>)"><i class="fa fa-trash"></i></a>
         </div>
         <?php echo \fay\helpers\HtmlHelper::img($history['user']['user']['avatar']['thumbnail'], 1, array(
             'class'=>'avatar',

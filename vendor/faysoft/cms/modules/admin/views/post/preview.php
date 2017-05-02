@@ -32,7 +32,7 @@ use fay\helpers\HtmlHelper;
     <title><?php echo HtmlHelper::encode($post['post']['title'])?> | <?php echo \cms\services\OptionService::get('site:sitename')?>后台</title>
 </head>
 <body>
-<div class="post-preview">
+<div class="post-preview p30">
     <h2 class="post-title"><?php echo HtmlHelper::encode($post['post']['title'])?></h2>
     <div class="post-type">
         <span><?php echo HtmlHelper::encode($post['category']['title'])?></span>

@@ -4,7 +4,7 @@ use fay\helpers\HtmlHelper;
 <article class="<?php echo $alias?>">
     <div class="inner">
         <figure>
-            <?php echo HtmlHelper::img($page['thumbnail'])?>
+            <?php echo HtmlHelper::img($page['thumbnail']['src'])?>
         </figure>
         <h3><?php echo $page['title']?></h3>
         <div class="item-introtext">

@@ -1,11 +1,11 @@
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('101', '列表', 'cms/admin/link/index', '101', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('102', '添加', 'cms/admin/link/create', '101', '0', '0');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('103', '编辑', 'cms/admin/link/edit', '101', '0', '1');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('104', '永久删除', 'cms/admin/link/remove', '101', '0', '1');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('103', '编辑', 'cms/admin/link/edit', '101', '0', '101');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('104', '永久删除', 'cms/admin/link/remove', '101', '0', '101');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('105', '分类列表', 'cms/admin/link/cat', '101', '0', '0');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('106', '添加分类', 'cms/admin/link/cat-create', '101', '0', '5');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('107', '编辑分类', 'cms/admin/link/cat-edit', '101', '0', '5');
-INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('108', '删除分类', 'cms/admin/link/cat-remove', '101', '0', '5');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('106', '添加分类', 'cms/admin/link/cat-create', '101', '0', '105');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('107', '编辑分类', 'cms/admin/link/cat-edit', '101', '0', '105');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('108', '删除分类', 'cms/admin/link/cat-remove', '101', '0', '105');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('201', '文件管理', 'cms/admin/file/index', '102', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('202', '上传文件', 'cms/admin/file/do-upload', '102', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('203', '文件分类', 'cms/admin/file/cat', '102', '0', '0');

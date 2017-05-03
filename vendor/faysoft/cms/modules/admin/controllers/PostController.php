@@ -981,14 +981,15 @@ class PostController extends AdminController{
      */
     public function preview(){
         //表单验证
-        $this->form()->setRules(array(
-            array(array('id'), 'required'),
-            array(array('id'), 'int', array('min'=>1)),
-        ))->setFilters(array(
-            'id'=>'intval',
-        ))->setLabels(array(
-            'id'=>'文章ID',
-        ))->check();
+        $this->form()->setScene('final')
+            ->setRules(array(
+                array(array('id'), 'required'),
+                array(array('id'), 'int', array('min'=>1)),
+            ))->setFilters(array(
+                'id'=>'intval',
+            ))->setLabels(array(
+                'id'=>'文章ID',
+            ))->check();
         
         $post = PostService::service()->get(
             $this->form()->getData('id'),

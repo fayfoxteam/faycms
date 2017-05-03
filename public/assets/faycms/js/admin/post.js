@@ -223,6 +223,15 @@ var post = {
             });
         }
     },
+    /**
+     * 回退至指定版本
+     * @param id
+     */
+    'revertHistory': function(id){
+        if(confirm('确定要文章回退至指定历史记录吗？')){
+            window.location.href = system.url('cms/admin/post-history/revert', {'history_id': id});
+        }
+    },
     'init': function(){
         if(system.inArray('files', post.boxes)){
             this.files();

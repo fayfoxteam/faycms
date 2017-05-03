@@ -19,22 +19,23 @@ class PostHistoryController extends AdminController{
         $this->checkMethod('GET');
     
         //表单验证
-        $this->form()->setRules(array(
-            array(array('post_id'), 'required'),
-            array(array('post_id', 'page_size'), 'int', array('min'=>1)),
-            array(array('last_id'), 'int', array('min'=>0)),
-            array('fields', 'fields'),
-        ))->setFilters(array(
-            'post_id'=>'intval',
-            'fields'=>'trim',
-            'page_size'=>'intval',
-            'last_id'=>'intval',
-        ))->setLabels(array(
-            'post_id'=>'文章ID',
-            'fields'=>'字段',
-            'page_size'=>'分页大小',
-            'last_id'=>'起始ID',
-        ))->check();
+        $this->form()->setScene('final')
+            ->setRules(array(
+                array(array('post_id'), 'required'),
+                array(array('post_id', 'page_size'), 'int', array('min'=>1)),
+                array(array('last_id'), 'int', array('min'=>0)),
+                array('fields', 'fields'),
+            ))->setFilters(array(
+                'post_id'=>'intval',
+                'fields'=>'trim',
+                'page_size'=>'intval',
+                'last_id'=>'intval',
+            ))->setLabels(array(
+                'post_id'=>'文章ID',
+                'fields'=>'字段',
+                'page_size'=>'分页大小',
+                'last_id'=>'起始ID',
+            ))->check();
         
         $histories = PostHistoryService::service()->getPostHistory(
             $this->form()->getData('post_id'),
@@ -60,14 +61,15 @@ class PostHistoryController extends AdminController{
      */
     public function revert(){
         //表单验证
-        $this->form()->setRules(array(
-            array(array('history_id'), 'required'),
-            array(array('history_id'), 'int', array('min'=>1)),
-        ))->setFilters(array(
-            'history_id'=>'intval',
-        ))->setLabels(array(
-            'history_id'=>'历史版本ID',
-        ))->check();
+        $this->form()->setScene('final')
+            ->setRules(array(
+                array(array('history_id'), 'required'),
+                array(array('history_id'), 'int', array('min'=>1)),
+            ))->setFilters(array(
+                'history_id'=>'intval',
+            ))->setLabels(array(
+                'history_id'=>'历史版本ID',
+            ))->check();
     
         PostHistoryService::service()->revert($this->form()->getData('history_id'));
         
@@ -80,14 +82,15 @@ class PostHistoryController extends AdminController{
      */
     public function item(){
         //表单验证
-        $this->form()->setRules(array(
-            array(array('history_id'), 'required'),
-            array(array('history_id'), 'int', array('min'=>1)),
-        ))->setFilters(array(
-            'history_id'=>'intval',
-        ))->setLabels(array(
-            'history_id'=>'历史版本ID',
-        ))->check();
+        $this->form()->setScene('final')
+            ->setRules(array(
+                array(array('history_id'), 'required'),
+                array(array('history_id'), 'int', array('min'=>1)),
+            ))->setFilters(array(
+                'history_id'=>'intval',
+            ))->setLabels(array(
+                'history_id'=>'历史版本ID',
+            ))->check();
         
         $history = PostHistoryService::service()->get($this->form()->getData('history_id'));
         if(!$history){
@@ -108,14 +111,15 @@ class PostHistoryController extends AdminController{
      */
     public function remove(){
         //表单验证
-        $this->form()->setRules(array(
-            array(array('history_id'), 'required'),
-            array(array('history_id'), 'int', array('min'=>1)),
-        ))->setFilters(array(
-            'history_id'=>'intval',
-        ))->setLabels(array(
-            'history_id'=>'历史版本ID',
-        ))->check();
+        $this->form()->setScene('final')
+            ->setRules(array(
+                array(array('history_id'), 'required'),
+                array(array('history_id'), 'int', array('min'=>1)),
+            ))->setFilters(array(
+                'history_id'=>'intval',
+            ))->setLabels(array(
+                'history_id'=>'历史版本ID',
+            ))->check();
         
         PostHistoryService::service()->remove($this->form()->getData('history_id'));
         

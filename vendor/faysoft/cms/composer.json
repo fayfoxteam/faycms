@@ -16,7 +16,8 @@
         "faysoft/fay": "*",
         "phpspec/php-diff": "*",
         "aferrandini/phpqrcode": "*",
-        "phpmailer/phpmailer": "*"
+        "phpmailer/phpmailer": "*",
+        "icap/html-diff": "^1.1"
     },
     "autoload": {
         "psr-4": {"cms\\": ""}

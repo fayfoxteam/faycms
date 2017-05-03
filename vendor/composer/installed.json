@@ -17,7 +17,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2013-07-08 09:39:08",
+        "time": "2013-07-08T09:39:08+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -60,7 +60,7 @@
             "reference": "0464787bfa7cd13576c5a1e318709768798bec6a",
             "shasum": ""
         },
-        "time": "2016-04-07 12:29:16",
+        "time": "2016-04-07T12:29:16+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -104,7 +104,7 @@
             "ext-gd": "*",
             "php": ">=5.3.0"
         },
-        "time": "2015-09-11 15:23:20",
+        "time": "2015-09-11T15:23:20+00:00",
         "type": "captcha",
         "installation-source": "dist",
         "autoload": {
@@ -160,7 +160,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2017-01-09 09:33:47",
+        "time": "2017-01-09T09:33:47+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -219,7 +219,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~2.3"
         },
-        "time": "2016-11-18 02:57:31",
+        "time": "2016-11-18T02:57:31+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -268,7 +268,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-10-29 18:58:20",
+        "time": "2016-10-29T18:58:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -326,7 +326,7 @@
             "php": ">=5.3.3",
             "qiniu/php-sdk": "*"
         },
-        "time": "2017-01-14 06:02:47",
+        "time": "2017-01-14T06:02:47+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -377,7 +377,7 @@
             "phpmailer/phpmailer": "*",
             "phpspec/php-diff": "*"
         },
-        "time": "2017-01-14 06:04:17",
+        "time": "2017-01-14T06:04:17+00:00",
         "type": "project",
         "installation-source": "dist",
         "autoload": {
@@ -401,6 +401,52 @@
             "cms",
             "faycms",
             "faysoft"
+        ]
+    },
+    {
+        "name": "icap/html-diff",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/iCAPLyon1/HtmlDiff.git",
+            "reference": "f58ddb196292ae585a2efb7692653d015ecc436f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/iCAPLyon1/HtmlDiff/f58ddb196292ae585a2efb7692653d015ecc436f.zip",
+            "reference": "f58ddb196292ae585a2efb7692653d015ecc436f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-02-17T16:35:09+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Icap\\HtmlDiff\\": "src/Icap/HtmlDiff"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Panagiotis Tsavdaris",
+                "email": "ptsavdar@gmail.com"
+            },
+            {
+                "name": "ICAP development team",
+                "homepage": "https://github.com/iCAPLyon1"
+            }
+        ],
+        "description": "A PHP5 library that diffs (compares) HTML files.",
+        "keywords": [
+            "daisy diff",
+            "html diff"
         ]
     }
 ]

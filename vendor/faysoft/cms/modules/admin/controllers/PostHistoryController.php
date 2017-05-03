@@ -99,9 +99,13 @@ class PostHistoryController extends AdminController{
         
         $history['user'] = UserService::service()->get($history['user_id'], 'id,nickname,username,realname,avatar');
         $history['category'] = CategoryService::service()->get($history['cat_id'], 'title');
-        
+
+        //上一篇记录，用于文本比较
+        $preview_history = PostHistoryService::service()->getPreviewHistory($history['id']);
+
         $this->view->renderPartial('item', array(
             'history'=>$history,
+            'preview_history'=>$preview_history,
         ));
     }
     

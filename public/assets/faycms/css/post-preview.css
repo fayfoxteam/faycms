@@ -15,14 +15,14 @@
 
 .bg-red,.bg-yellow,.bg-green{color:#fff !important;transition:all 0.5s linear 0s}
 .bg-red{background-color:#E1472F !important}
-.bg-red:hover{background-color:#D44029 !important}
 .bg-yellow{background-color:#FFB141 !important}
-.bg-yellow:hover{background-color:#FD9602 !important}
 .bg-green{background-color:#9DD30B !important}
-.bg-green:hover{background-color:#8DBD0A !important}
 
 .post-preview{padding:0 20px}
 .p30{padding:30px}
+
+del{color:#fff;background-color:#E1472F}
+ins{color:#fff;background-color:#9DD30B;text-decoration:none}
 
 /* 预览界面 */
 .post-title{font-size:1.5em;font-weight:bold;margin-bottom:14px;line-height:1.3}

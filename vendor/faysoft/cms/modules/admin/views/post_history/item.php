@@ -4,6 +4,7 @@ use fay\helpers\HtmlHelper;
 /**
  * @var $this \fay\core\View
  * @var $history array
+ * @var $preview_history array
  */
 ?>
 <!DOCTYPE html>
@@ -25,9 +26,19 @@ use fay\helpers\HtmlHelper;
 </head>
 <body>
 <div class="post-preview">
-    <h2 class="post-title"><?php echo $history['title'] ? HtmlHelper::encode($history['title']) : '--无标题--'?></h2>
+    <h2 class="post-title"><?php
+        if($preview_history){
+            $title_diff = new Icap\HtmlDiff\HtmlDiff($preview_history['title'], $history['title'], true);
+            echo $title_diff->outputDiff()->toString();
+        }else{
+            echo $history['title'] ? HtmlHelper::encode($history['title']) : '--无标题--';
+        }
+        ?></h2>
     <div class="post-type">
-        <span><?php echo HtmlHelper::encode($history['category']['title'])?></span>
+        <span class="<?php
+        if(!empty($preview_history['cat_id']) && $preview_history['cat_id'] != $history['cat_id']){
+            echo 'bg-green';
+        }?>"><?php echo HtmlHelper::encode($history['category']['title'])?></span>
     </div>
     <div class="post-info">
         <div class="history-options">
@@ -41,11 +52,23 @@ use fay\helpers\HtmlHelper;
         <time class="time" title=""><?php echo \fay\helpers\DateHelper::format($history['create_time'])?></time>
     </div>
     <div class="post-body">
-        <div class="post-thumbnail"><?php echo HtmlHelper::img($history['thumbnail'])?></div>
-        <?php if($history['abstract']){?>
+        <div class="post-thumbnail"><?php echo HtmlHelper::img($history['thumbnail'], 0, array(
+            'class'=>(!empty($preview_history['thumbnail']) && $preview_history['thumbnail'] != $history['thumbnail']) ? 'bg-green' : false,
+        ))?></div>
+        <?php if(!empty($preview_history['abstract'])){?>
+            <div class="post-abstract"><?php
+                $abstract_diff = new Icap\HtmlDiff\HtmlDiff($preview_history['abstract'], $history['abstract'], true);
+                echo $abstract_diff->outputDiff()->toString();
+            ?></div>
+        <?php }else if($history['abstract']){?>
             <div class="post-abstract"><?php echo HtmlHelper::encode($history['abstract'])?></div>
         <?php }?>
-        <?php if($history['content']){?>
+        <?php if(!empty($preview_history['abstract'])){?>
+            <div class="post-content"><?php
+                $content_diff = new Icap\HtmlDiff\HtmlDiff($preview_history['content'], $history['content'], true);
+                echo $content_diff->outputDiff()->toString();
+            ?></div>
+        <?php }else if($history['abstract']){?>
             <div class="post-content"><?php echo $history['content']?></div>
         <?php }?>
     </div>

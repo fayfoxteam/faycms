@@ -24,6 +24,10 @@ class ComposerStaticInit0a668f5c4ff565e1a477f1366a537f83
         array (
             'Qiniu\\' => 6,
         ),
+        'I' => 
+        array (
+            'Icap\\HtmlDiff\\' => 14,
+        ),
         'G' => 
         array (
             'Gregwar\\Captcha\\' => 16,
@@ -42,6 +46,10 @@ class ComposerStaticInit0a668f5c4ff565e1a477f1366a537f83
         'Qiniu\\' => 
         array (
             0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
+        ),
+        'Icap\\HtmlDiff\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/icap/html-diff/src/Icap/HtmlDiff',
         ),
         'Gregwar\\Captcha\\' => 
         array (

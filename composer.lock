@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d568b6979c0b263f0b3f8dd3d5377ae7",
-    "content-hash": "c01e7ffd97e2e13c5677881de661926c",
+    "content-hash": "1f85e4426f4e321d0ed1669a98e41664",
     "packages": [
         {
             "name": "aferrandini/phpqrcode",
@@ -49,7 +48,7 @@
                 "php",
                 "qrcode"
             ],
-            "time": "2013-07-08 09:39:08"
+            "time": "2013-07-08T09:39:08+00:00"
         },
         {
             "name": "faysoft/cms",
@@ -95,7 +94,7 @@
                 "faycms",
                 "faysoft"
             ],
-            "time": "2017-01-14 06:04:17"
+            "time": "2017-01-14T06:04:17+00:00"
         },
         {
             "name": "faysoft/fay",
@@ -145,7 +144,7 @@
                 "faycms",
                 "faysoft"
             ],
-            "time": "2017-01-14 06:02:47"
+            "time": "2017-01-14T06:02:47+00:00"
         },
         {
             "name": "gregwar/captcha",
@@ -193,7 +192,51 @@
                 "captcha",
                 "spam"
             ],
-            "time": "2015-09-11 15:23:20"
+            "time": "2015-09-11T15:23:20+00:00"
+        },
+        {
+            "name": "icap/html-diff",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iCAPLyon1/HtmlDiff.git",
+                "reference": "f58ddb196292ae585a2efb7692653d015ecc436f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/iCAPLyon1/HtmlDiff/f58ddb196292ae585a2efb7692653d015ecc436f.zip",
+                "reference": "f58ddb196292ae585a2efb7692653d015ecc436f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Icap\\HtmlDiff\\": "src/Icap/HtmlDiff"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Panagiotis Tsavdaris",
+                    "email": "ptsavdar@gmail.com"
+                },
+                {
+                    "name": "ICAP development team",
+                    "homepage": "https://github.com/iCAPLyon1"
+                }
+            ],
+            "description": "A PHP5 library that diffs (compares) HTML files.",
+            "keywords": [
+                "daisy diff",
+                "html diff"
+            ],
+            "time": "2016-02-17T16:35:09+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -244,7 +287,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2016-10-29 18:58:20"
+            "time": "2016-10-29T18:58:20+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -304,7 +347,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-01-09 09:33:47"
+            "time": "2017-01-09T09:33:47+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -342,7 +385,7 @@
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2016-04-07 12:29:16"
+            "time": "2016-04-07T12:29:16+00:00"
         },
         {
             "name": "qiniu/php-sdk",
@@ -393,7 +436,7 @@
                 "sdk",
                 "storage"
             ],
-            "time": "2016-11-18 02:57:31"
+            "time": "2016-11-18T02:57:31+00:00"
         }
     ],
     "packages-dev": [],

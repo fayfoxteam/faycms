@@ -173,7 +173,6 @@ class ImageHelper{
      * 
      * @param resource $src_img
      * @param string $img_file 文件路径
-     * @return resource
      */
     public static function fillByImage($src_img, $img_file){
         $mat_img = self::getImage($img_file);

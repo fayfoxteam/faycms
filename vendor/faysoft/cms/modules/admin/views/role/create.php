@@ -80,24 +80,23 @@ $col_left_count = floor($action_cat_count / 2);
 var role = {
     'events':function(){
         $(".select-all").change(function(){
-            console.log($(this).attr("checked"));
-            if($(this).attr("checked")){
-                $(this).parent().parent().next(".box-content").find("input[type='checkbox']").attr("checked", "checked");
+            if($(this).prop("checked")){
+                $(this).parent().parent().next(".box-content").find("input[type='checkbox']").prop("checked", "checked");
             }else{
-                $(this).parent().parent().next(".box-content").find("input[type='checkbox']").attr("checked", false).attr("disabled", false);
+                $(this).parent().parent().next(".box-content").find("input[type='checkbox']").prop("checked", false).attr("disabled", false);
                 $(this).parent().parent().next(".box-content").find("input[type='hidden']").remove();
             }
         });
         //父节点必选
         $("input[name='actions[]']").change(function(){
-            var $parent = $("input[type='checkbox'][name='actions[]'][value='"+$(this).attr("parent")+"']");
-            if($(this).attr("checked")){
-                $parent.attr("checked", "checked").attr("disabled", "disabled").change();
+            var $parent = $("input[type='checkbox'][name='actions[]'][value='"+$(this).attr("data-parent")+"']");
+            if($(this).prop("checked")){
+                $parent.prop("checked", "checked").attr("disabled", "disabled").change();
                 if(!$parent.next("input[type='hidden']").length){
-                    $parent.after('<input type="hidden" name="actions[]" value="'+$(this).attr("parent")+'" />');
+                    $parent.after('<input type="hidden" name="actions[]" value="'+$(this).attr("data-parent")+'" />');
                 }
             }else{
-                if($("input[name='actions[]'][parent='"+$(this).attr("parent")+"']:checked").length == 0){
+                if($("input[name='actions[]'][parent='"+$(this).attr("data-parent")+"']:checked").length == 0){
                     $parent.removeAttr("disabled");
                     $parent.next("input[type='hidden']").remove();
                 }
@@ -130,7 +129,7 @@ var role = {
         //初始化父级必选项
         $("input[type='checkbox'][name='actions[]'][parent!=0]:checked").each(function(){
             var $parent = $("input[type='checkbox'][name='actions[]'][value='"+$(this).attr("parent")+"']");
-            $parent.attr("checked", "checked").attr("disabled", "disabled");
+            $parent.prop("checked", "checked").attr("disabled", "disabled");
             if(!$parent.next("input[type='hidden']").length){
                 $parent.after('<input type="hidden" name="actions[]" value="'+$(this).attr("parent")+'" />');
             }

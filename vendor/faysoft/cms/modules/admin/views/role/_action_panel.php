@@ -20,7 +20,7 @@
                     <span class="w200 ib" title="<?php echo $a['router']?>">
                         <?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
                             'label'=>$a['title'],
-                            'parent'=>$a['parent'],
+                            'data-parent'=>$a['parent'],
                         ))?>
                     </span>
                 <?php }?>
@@ -46,7 +46,7 @@
                     <span class="w200 ib" title="<?php echo $a['router']?>">
                         <?php echo F::form()->inputCheckbox('actions[]', $a['id'], array(
                             'label'=>$a['title'],
-                            'parent'=>$a['parent'],
+                            'data-parent'=>$a['parent'],
                         ))?>
                     </span>
                 <?php }?>

@@ -130,7 +130,7 @@ class IndexController extends Widget{
     private function getTopCategory(){
         //限制分类
         if(!empty($this->config['cat_key']) && $this->input->get($this->config['cat_key'])){
-            return $this->input->get($this->config['cat_key'], 'intval');
+            return $this->input->get($this->config['cat_key'], 'trim');
         }else{
             return isset($this->config['cat_id']) ? $this->config['cat_id'] : 0;
         }

@@ -31,7 +31,7 @@ class IndexController extends Widget{
     public function getData(){
         //确定顶级分类
         if(!empty($this->config['cat_key']) && $this->input->get($this->config['cat_key'])){
-            $top_cat = $this->input->get($this->config['cat_key'], 'intval');
+            $top_cat = $this->input->get($this->config['cat_key'], 'trim');
         }else{
             $top_cat = $this->config['top'];
         }

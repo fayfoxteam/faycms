@@ -123,8 +123,11 @@ class RemoteFileService{
         );
         $data['id'] = FilesTable::model()->insert($data);
         if(!empty($file)){
-            $img = ImageHelper::resize($file, 100, 100);
-            imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
+            ImageHelper::output(
+                ImageHelper::resize($file, 100, 100),
+                $data['file_type'],
+                (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']
+            );
         }
         
         //公共文件直接给出真实路径

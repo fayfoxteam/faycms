@@ -448,5 +448,162 @@
             "daisy diff",
             "html diff"
         ]
+    },
+    {
+        "name": "sunra/php-simple-html-dom-parser",
+        "version": "v1.5.2",
+        "version_normalized": "1.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sunra/php-simple-html-dom-parser.git",
+            "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/sunra/php-simple-html-dom-parser/75b9b1cb64502d8f8c04dc11b5906b969af247c6.zip",
+            "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": ">=5.3.2"
+        },
+        "time": "2016-11-22T22:57:47+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Sunra\\PhpSimple\\HtmlDomParser": "Src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Sunra",
+                "email": "sunra@yandex.ru",
+                "homepage": "https://github.com/sunra"
+            },
+            {
+                "name": "S.C. Chen",
+                "homepage": "http://sourceforge.net/projects/simplehtmldom/"
+            }
+        ],
+        "description": "Composer adaptation of: A HTML DOM parser written in PHP5+ let you manipulate HTML in a very easy way! Require PHP 5+. Supports invalid HTML. Find tags on an HTML page with selectors just like jQuery. Extract contents from HTML in a single line.",
+        "homepage": "https://github.com/sunra/php-simple-html-dom-parser",
+        "keywords": [
+            "dom",
+            "html",
+            "parser"
+        ]
+    },
+    {
+        "name": "ezyang/htmlpurifier",
+        "version": "v4.9.2",
+        "version_normalized": "4.9.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ezyang/htmlpurifier.git",
+            "reference": "6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/ezyang/htmlpurifier/6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4.zip",
+            "reference": "6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "simpletest/simpletest": "^1.1"
+        },
+        "time": "2017-03-13T06:30:53+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTMLPurifier": "library/"
+            },
+            "files": [
+                "library/HTMLPurifier.composer.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Edward Z. Yang",
+                "email": "admin@htmlpurifier.org",
+                "homepage": "http://ezyang.com"
+            }
+        ],
+        "description": "Standards compliant HTML filter written in PHP",
+        "homepage": "http://htmlpurifier.org/",
+        "keywords": [
+            "html"
+        ]
+    },
+    {
+        "name": "caxy/php-htmldiff",
+        "version": "v0.1.4",
+        "version_normalized": "0.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/caxy/php-htmldiff.git",
+            "reference": "9b115a83d49c636d6bae8ffce15b0e1962cb2ed7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/caxy/php-htmldiff/9b115a83d49c636d6bae8ffce15b0e1962cb2ed7.zip",
+            "reference": "9b115a83d49c636d6bae8ffce15b0e1962cb2ed7",
+            "shasum": ""
+        },
+        "require": {
+            "ezyang/htmlpurifier": "^4.7",
+            "php": ">=5.3.3",
+            "sunra/php-simple-html-dom-parser": "^1.5"
+        },
+        "require-dev": {
+            "doctrine/cache": "~1.0",
+            "phpunit/phpunit": "~5.0"
+        },
+        "suggest": {
+            "doctrine/cache": "Used for caching the calculated diffs using a Doctrine Cache Provider"
+        },
+        "time": "2017-05-02T21:16:54+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Caxy\\HtmlDiff": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Josh Schroeder",
+                "email": "jschroeder@caxy.com",
+                "homepage": "http://www.caxy.com"
+            }
+        ],
+        "description": "A library for comparing two HTML files/snippets and highlighting the differences using simple HTML.",
+        "homepage": "https://github.com/caxy/php-htmldiff",
+        "keywords": [
+            "diff",
+            "html"
+        ]
     }
 ]

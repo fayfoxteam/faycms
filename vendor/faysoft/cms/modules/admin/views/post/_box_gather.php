@@ -22,15 +22,15 @@ use fay\helpers\HtmlHelper;
                         'class'=>'form-control',
                         'id'=>'gather-url',
                     ))?>
-                    <p class="description">例子：http://www.fayfox.com/about.html —— 不要忘了 http://</p>
+                    <p class="description">例如：http://www.fayfox.com/about.html —— 不要忘了 http://</p>
                 </div>
                 <div class="form-field">
-                    <label class="title bold">选择器</label>
+                    <label class="title bold">JQuery选择器</label>
                     <?php echo HtmlHelper::inputText('gather_rule', '', array(
                         'class'=>'form-control',
                         'id'=>'gather-rule',
                     ))?>
-                    <p class="description">例子：$("<span class="fc-red">.post-content</span>").html()，如红色部分的选择器。</p>
+                    <p class="description">例如：$("<code>.post-content</code>").html()，如红色部分的选择器。</p>
                 </div>
                 <div class="form-field">
                     <a href="javascript:" class="btn" id="gather-form-submit-ajax">采集</a>
@@ -51,11 +51,7 @@ $(function(){
                 'url':$("#gather-url").val()
             },
             success: function(resp){
-                if($.browser.msie && $.browser.version < 9){
-                    common.editorObj.html($($("#gather-rule").val(), resp).html());
-                }else{
-                    common.editorObj.setData($($("#gather-rule").val(), resp).html());
-                }
+                common.visualEditor.setData($($("#gather-rule").val(), resp).html());
                 $("#gather-form-submit-ajax").parent().find("img").remove();
                 $.fancybox.close();
             }

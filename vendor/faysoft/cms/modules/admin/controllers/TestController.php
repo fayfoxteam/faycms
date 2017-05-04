@@ -356,39 +356,113 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
     }
     
     public function diff(){
-        $html1 = "<p><i>Lorem ipsum</i> dolor <span style='font-style:italic;color:green;'>sit</span> amet, <strong>consectetur</strong> adipiscing elit. <strong>Mauris malesuada metus justo</strong>.</p>
-                                    <p>Donec ullamcorper est <img src='images/git-logo.png' height='50'/> in elit <b>vestibulum</b> cursus <a href='http://github.com/iCAPLyon1/HtmlDiff'>here</a>. Note how the link has no tooltip</p>
-                                    <p>Table example</p>                                   
-                                    <table cellpadding='0' cellspacing='0'>
-                                    <tr><td>Cell 1.1 interdum</td><td>Cell 1.2 egestas</td></tr>
-                                    <tr><td>Cell 2.1 magna</td><td>Cell 2.2 ipsum</td></tr>
-                                    <tr><td>Cell 3.1 faucibus</td><td>Cell 3.2 auctor</td></tr>
-                                    </table>
-                                    Here is a number 2 32";
-        $html2 = "<p>Lorem ipsum dolor sit amet, <strong>text to</strong> consectetur adipiscing <span style='color:red;'>elit</span> mauris <strong>malesuada <u>metus</u> justo</strong>.</p>
-                                <p>Donec quisque ipsum eros ullamcorper <i>est</i> in elit vestibulum habitasse platea cursus <a title='Added tooltip' href='http://github.com/iCAPLyon1/HtmlDiff'>here</a>. Note how the link has a tooltip now and the HTML diff algorithm has preserved formatting.</p>
-                                <p>Table example</p>
-                                <table cellpadding='0' cellspacing='0'>
-                                    <tr><td>Cell 1.1 pellentesque</td><td>Cell 1.2 condimentum</td></tr>
-                                    <tr><td>Cell 2.1 volutpat</td><td>Cell 2.2 fermentum</td></tr>
-                                    <tr><td>Cell 3.1 euismod</td><td>Cell 3.2 lorem</td></tr>
-                                </table>
-                                Here is a number 2 <sup>32</sup>";
+        $oldHtml = '<div class="left">
+<div class="article article_16" id="artibody">
+<p>　　中国经济网北京4月11日综合报道 据闪电新闻客户端消息，4月11日，山东省第十二届人民代表大会常务委员会第28次会议在济南举行。会议经过表决，决定接受姜异康同志因工作变动辞去山东省人大常委会主任职务的请求。</p>
 
-        $htmlDiff = new HtmlDiff($html1, $html2, true);
-        $out = $htmlDiff->outputDiff();
-        $modifications = $out->getModifications();
-        echo "<h2>Old html</h2>";
-        echo $html1;
-        echo "<h2>New html</h2>";
-        echo $html2;
-        echo "<h2>Compared html</h2>";
-        echo $out->toString();
-        echo "<h3>Modifications results:</h3>";
-        echo "<p>";
-        echo "<span class='diff-html-added'>++ ".$modifications['added']."</span><br/>";
-        echo "<span class='diff-html-removed'>-- ".$modifications['removed']."</span><br/>";
-        echo "<span class='diff-html-changed'>~~ ".$modifications['changed']."</span>";
-        echo "</p>";
+<p>　　会议表决通过了《山东省人民代表大会常务委员会关于召开山东省第十二届人民代表大会第七次会议的决定》，决定省十二届人大七次会议于4月下旬在济南召开。</p>
+
+<p>　　<strong>姜异康简历</strong>&nbsp;</p>
+
+<div class="img_wrapper"><img alt="123" src="http://71.fayfox.com/uploads/blog/2017/04/RcvDA.jpg" /></div>
+
+<p align="justify">　　姜异康，男，汉族，1953年1月生，山东招远人，中南工业大学行政管理专业毕业，大学文化，工学硕士，1970年12月加入中国共产党，1969年12月参加工作。</p>
+
+<p align="justify">　　1969年12月入伍，战士、副班长。1974年2月起先后在山东电影机械厂、济南市委宣传部、研究室、办公室工作，历任市委办公室科长、副县级秘书。</p>
+
+<p align="justify">　　1985年12月任中央办公厅秘书局文电处、收发处干部、副处长；</p>
+
+<p align="justify">　　1988年4月任中央办公厅秘书局副局长；</p>
+
+
+<p align="justify">　　1990年10月任中央直属机关事务管理局常务副局长；</p>
+
+<p align="justify">　　1993年5月任中央直属机关事务管理局局长；</p>
+
+<p align="justify">　　1995年7月任中央办公厅副主任兼中央直属机关事务管理局局长；</p>
+
+<p align="justify">　　1997年4月任中央办公厅副主任兼中央直属机关事务管理局局长，中央精神文明建设指导委员会委员、办公室副主任；</p>
+
+<p align="justify">　　2000年10月任中央办公厅副主任，中央精神文明建设指导委员会委员、办公室副主任；</p>
+
+<p align="justify">　　2002年10月任中共重庆市委副书记，中央精神文明建设指导委员会委员、办公室副主任；</p>
+
+<p align="justify">　　2002年12月任中共重庆市委副书记；</p>
+
+<p align="justify">　　2006年6月任国家行政学院党委书记、副院长；</p>
+
+<p align="justify">　　2008年3月-2009.02任中共山东省委书记，省委党校校长；（2008年6月，国务院免去姜异康的国家行政学院副院长职务。）</p>
+
+<p align="justify">　　2009.02，山东省委书记（至2017.03）、省人大常委会主任（至2017.04）、省委党校校长。</p>
+
+<p align="justify">　　2010年7月，在29日下午召开的中国共产党山东省军区七届一次全会上，姜异康当选为省军区党委第一书记。</p>
+
+<p align="justify">　　中共十六大、十七大、十八大代表；中共十六届中央候补委员、十七届、十八届中央委员；第十届全国人大代表（重庆）、第十一届全国人大代表（山东）；第九届全国政协委员。</p>
+
+<p class="article-editor">责任编辑：张迪</p>
+</div>
+
+<div id="navStopHere" style="position:relative;">&nbsp;</div>
+
+<div class="article-info clearfix">
+<div class="article-keywords" data-sudaclick="art_keywords"><span>文章关键词：</span> <a href="http://tags.news.sina.com.cn/姜异康" target="_blank">姜异康</a> <a href="http://tags.news.sina.com.cn/人大常委会主任" target="_blank">人大常委会主任</a> <a href="http://tags.news.sina.com.cn/人事" target="_blank">人事</a></div>
+</div>
+</div>
+';
+        $newHtml = '<div class="left">
+<div class="article article_16" id="artibody">
+<p>　　中国经济网北京4月11日综合报道 据闪电新闻客户端消息，4月11日，山东省第十二届人民代表大会常务委员会第28次会议在济南举行。会议经过表决，决定接受姜异康同志因工作变动辞去山东省人大常委会主任职务的请求。</p>
+
+<p>　　会议表决通过了《山东省人民代表大会常务委员会关于召开山东省第十二届人民代表大会第七次会议的决定》，决定省十二届人大七次会议于4月下旬在济南召开。</p>
+
+<p>　　<strong>姜异康简历</strong>&nbsp;</p>
+
+<div class="img_wrapper"><img src="http://71.fayfox.com/uploads/blog/2017/04/RcvDA.jpg" alt="123" /></div>
+
+<p align="justify">　　姜异康，男，汉族，1953年1月生，山东招远人，中南工业大学行政管理专业毕业，大学文化，工学硕士，1970年12月加入中国共产党，1969年12月参加工作。</p>
+
+<p align="justify">　　1969年12月入伍，战士、副班长。1974年2月起先后在山东电影机械厂、济南市委宣传部、研究室、办公室工作，历任市委办公室科长、副县级秘书。</p>
+
+<p align="justify">　　1985年12月任中央办公厅秘书局文电处、收发处干部、副处长；</p>
+
+<p align="justify">　　1988年4月任中央办公厅秘书局副局长；</p>
+
+<p align="justify">　　1990年10月任中央直属机关事务管理局常务副局长；</p>
+
+<p align="justify">　　1993年5月任中央直属机关事务管理局局长；</p>
+
+<p align="justify">　　1995年7月任中央办公厅副主任兼中央直属机关事务管理局局长；</p>
+
+<p align="justify">　　1997年4月任中央办公厅副主任兼中央直属机关事务管理局局长，中央精神文明建设指导委员会委员、办公室副主任；</p>
+
+<p align="justify">　　2000年10月任中央办公厅副主任，中央精神文明建设指导委员会委员、办公室副主任；</p>
+
+<p align="justify">　　2002年10月任中共重庆市委副书记，中央精神文明建设指导委员会委员、办公室副主任；</p>
+
+<p align="justify">　　2002年12月任中共重庆市委副书记；</p>
+
+<p align="justify">　　2006年6月任国家行政学院党委书记、副院长；</p>
+
+<p align="justify">　　2008年3月-2009.02任中共山东省委书记，省委党校校长；（2008年6月，国务院免去姜异康的国家行政学院副院长职务。）</p>
+
+<p align="justify">　　2009.02，山东省委书记（至2017.03）、省人大常委会主任（至2017.04）、省委党校校长。</p>
+
+<p align="justify">　　2010年7月，在29日下午召开的中国共产党山东省军区七届一次全会上，姜异康当选为省军区党委第一书记。</p>
+
+<p align="justify">　　中共十六大、十七大、十八大代表；中共十六届中央候补委员、十七届、十八届中央委员；第十届全国人大代表（重庆）、第十一届全国人大代表（山东）；第九届全国政协委员。</p>
+
+<p class="article-editor">责任编辑：张迪</p>
+</div>
+
+<div id="navStopHere" style="position:relative;">&nbsp;</div>
+
+<div class="article-info clearfix">
+<div class="article-keywords" data-sudaclick="art_keywords"><span>文章关键词：</span> <a href="http://tags.news.sina.com.cn/姜异康" target="_blank">姜异康</a> <a href="http://tags.news.sina.com.cn/人大常委会主任" target="_blank">人大常委会主任</a> <a href="http://tags.news.sina.com.cn/人事" target="_blank">人事</a></div>
+</div>
+</div>
+';
+        $htmlDiff = new \Caxy\HtmlDiff\HtmlDiff($oldHtml, $newHtml);
+        $content = $htmlDiff->build();
+        echo $content;
     }
 }

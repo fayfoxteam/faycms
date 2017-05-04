@@ -9,6 +9,7 @@ class ComposerStaticInit0a668f5c4ff565e1a477f1366a537f83
     public static $files = array (
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         'd2970b43cf3128a047375b5d351c2a43' => __DIR__ . '/..' . '/faysoft/fay/F.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -58,6 +59,13 @@ class ComposerStaticInit0a668f5c4ff565e1a477f1366a537f83
     );
 
     public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'Sunra\\PhpSimple\\HtmlDomParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src',
+            ),
+        ),
         'P' => 
         array (
             'PHPQRCode' => 
@@ -72,11 +80,25 @@ class ComposerStaticInit0a668f5c4ff565e1a477f1366a537f83
                 0 => __DIR__ . '/..' . '/michelf/php-markdown',
             ),
         ),
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
+        ),
         'D' => 
         array (
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
+            ),
+        ),
+        'C' => 
+        array (
+            'Caxy\\HtmlDiff' => 
+            array (
+                0 => __DIR__ . '/..' . '/caxy/php-htmldiff/lib',
             ),
         ),
     );

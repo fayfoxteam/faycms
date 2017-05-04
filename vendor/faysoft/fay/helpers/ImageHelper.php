@@ -1,6 +1,7 @@
 <?php
 namespace fay\helpers;
 
+use cms\services\OptionService;
 use fay\core\ErrorException;
 
 class ImageHelper{
@@ -25,13 +26,10 @@ class ImageHelper{
                 $im = \imagecreatefrompng($filename);
                 break;
             default:
-                $im = 'unknow';
+                throw new ErrorException('未知图片类型:' . $img_mime);
                 break;
         }
         
-        if($im == 'unknow') {
-            throw new ErrorException('未知图片类型:' . $img_mime);
-        }
         return $im;
     }
     
@@ -104,6 +102,11 @@ class ImageHelper{
      */
     public static function crop($src_img, $x, $y, $width, $height){
         $dst_img = imagecreatetruecolor($width, $height);
+
+        //填充透明背景
+        $alpha = imagecolorallocatealpha($dst_img, 0, 0, 0, 127);
+        imagefill($dst_img, 0, 0, $alpha);
+        
         imagecopyresampled($dst_img, $src_img, 0, 0, $x, $y, $width, $height, $width, $height);
         return $dst_img;
     }
@@ -157,6 +160,11 @@ class ImageHelper{
         $height_ratio = $src_img_height / $height;
 
         $dst_img = imagecreatetruecolor($width, $height);
+
+        //填充透明背景
+        $alpha = imagecolorallocatealpha($dst_img, 0, 0, 0, 127);
+        imagefill($dst_img, 0, 0, $alpha);
+        
         if($width_ratio < $height_ratio){
             //取比例小的作为缩放比
             //图太长
@@ -165,6 +173,7 @@ class ImageHelper{
             //图太宽
             imagecopyresampled($dst_img, $src_img, 0, 0, ($src_img_width - $width * $height_ratio)/2, ceil(($src_img_height - $height * $height_ratio)/2), $width, $height, $width * $height_ratio, $height * $height_ratio);
         }
+        imagesavealpha($dst_img, true);
         return $dst_img;
     }
     
@@ -340,5 +349,62 @@ class ImageHelper{
         }
         
         return $return;
+    }
+
+    /**
+     * 指定Mime Type类型输出
+     * @param resource $img
+     * @param string $mime_type
+     * @param string $filename
+     */
+    public static function output($img, $mime_type = 'image/jpeg', $filename = ''){
+        switch ($mime_type) {
+            case 'image/gif':
+                if($filename){
+                    imagegif($img, $filename);
+                }else{
+                    header('Content-type: image/gif');
+                    imagegif($img);
+                }
+                break;
+            case 'image/png':
+                if($filename){
+                    imagepng($img, $filename);
+                }else{
+                    header('Content-type: image/png');
+                    imagepng($img);
+                }
+                break;
+            case 'image/jpeg':
+            case 'image/jpg':
+            default:
+                //默认输出jpg
+                if($filename){
+                    imagejpeg($img, $filename);
+                }else{
+                    header('Content-type: image/jpeg');
+                    imagejpeg($img, null, \F::input()->get('q', 'intval', OptionService::get('system:image_quality', 75)));
+                }
+                break;
+        }
+    }
+
+    /**
+     * 获取指定文件的meta信息
+     * @param $filename
+     * @return array
+     */
+    public static function getMetadataFromFile($filename){
+        $info = getimagesize($filename);
+        $metadata = array(
+            'width' => $info[0],
+            'height' => $info[1],
+            'mime' => $info['mime'],
+            'exif' => null // set later, if necessary
+        );
+        if (function_exists('exif_read_data') && $metadata['mime'] == 'image/jpeg') {
+            $metadata['exif'] = @exif_read_data($filename);
+        }
+        return $metadata;
     }
 }

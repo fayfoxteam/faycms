@@ -235,6 +235,7 @@ class HtmlHelper{
                     if($type == FileService::PIC_RESIZE && (isset($html_options['dw']) || isset($html_options['dh']))){
                         $html = '<img src="'.UrlHelper::createUrl('api/file/pic', array(
                             'f'=>0,
+                            't'=>FileService::PIC_RESIZE,
                             's'=>$html_options['spare'],
                             'dw'=>isset($html_options['dw']) ? $html_options['dw'] : 0,
                             'dh'=>isset($html_options['dh']) ? $html_options['dh'] : 0,

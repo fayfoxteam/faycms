@@ -28,8 +28,8 @@ use fay\helpers\HtmlHelper;
 <div class="post-preview">
     <h2 class="post-title"><?php
         if($preview_history){
-            $title_diff = new Icap\HtmlDiff\HtmlDiff($preview_history['title'], $history['title'], true);
-            echo $title_diff->outputDiff()->toString();
+            $title_diff = new \Caxy\HtmlDiff\HtmlDiff($preview_history['title'], $history['title']);
+            echo $title_diff->build();
         }else{
             echo $history['title'] ? HtmlHelper::encode($history['title']) : '--无标题--';
         }
@@ -57,16 +57,16 @@ use fay\helpers\HtmlHelper;
         ))?></div>
         <?php if(!empty($preview_history['abstract'])){?>
             <div class="post-abstract"><?php
-                $abstract_diff = new Icap\HtmlDiff\HtmlDiff($preview_history['abstract'], $history['abstract'], true);
-                echo $abstract_diff->outputDiff()->toString();
+                $abstract_diff = new \Caxy\HtmlDiff\HtmlDiff($preview_history['abstract'], $history['abstract']);
+                echo $abstract_diff->build();
             ?></div>
         <?php }else if($history['abstract']){?>
             <div class="post-abstract"><?php echo HtmlHelper::encode($history['abstract'])?></div>
         <?php }?>
         <?php if(!empty($preview_history['abstract'])){?>
             <div class="post-content"><?php
-                $content_diff = new Icap\HtmlDiff\HtmlDiff($preview_history['content'], $history['content'], true);
-                echo $content_diff->outputDiff()->toString();
+                $abstract_diff = new \Caxy\HtmlDiff\HtmlDiff($preview_history['content'], $history['content']);
+                echo $abstract_diff->build();
             ?></div>
         <?php }else if($history['abstract']){?>
             <div class="post-content"><?php echo $history['content']?></div>

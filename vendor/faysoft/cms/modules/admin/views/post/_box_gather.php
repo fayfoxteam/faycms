@@ -51,11 +51,7 @@ $(function(){
                 'url':$("#gather-url").val()
             },
             success: function(resp){
-                if($.browser.msie && $.browser.version < 9){
-                    common.editorObj.html($($("#gather-rule").val(), resp).html());
-                }else{
-                    common.editorObj.setData($($("#gather-rule").val(), resp).html());
-                }
+                common.visualEditor.setData($($("#gather-rule").val(), resp).html());
                 $("#gather-form-submit-ajax").parent().find("img").remove();
                 $.fancybox.close();
             }

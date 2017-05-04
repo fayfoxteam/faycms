@@ -63,12 +63,12 @@ use fay\helpers\HtmlHelper;
         <?php }else if($history['abstract']){?>
             <div class="post-abstract"><?php echo HtmlHelper::encode($history['abstract'])?></div>
         <?php }?>
-        <?php if(!empty($preview_history['abstract'])){?>
+        <?php if(!empty($preview_history['content'])){?>
             <div class="post-content"><?php
                 $content_diff = new Icap\HtmlDiff\HtmlDiff($preview_history['content'], $history['content'], true);
                 echo $content_diff->outputDiff()->toString();
             ?></div>
-        <?php }else if($history['abstract']){?>
+        <?php }else if($history['content']){?>
             <div class="post-content"><?php echo $history['content']?></div>
         <?php }?>
     </div>

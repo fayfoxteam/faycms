@@ -23,6 +23,9 @@
 
 del{color:#fff;background-color:#E1472F}
 ins{color:#fff;background-color:#9DD30B;text-decoration:none}
+del img,ins img{padding:3px;border-radius:5px}
+del img{border:3px solid #E1472F;filter:grayscale(100%)}
+ins img{border:3px solid #9DD30B}
 
 /* 预览界面 */
 .post-title{font-size:1.5em;font-weight:bold;margin-bottom:14px;line-height:1.3}

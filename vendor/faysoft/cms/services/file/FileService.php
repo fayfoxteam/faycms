@@ -374,8 +374,12 @@ class FileService extends Service{
                 );
                 $data['id'] = FilesTable::model()->insert($data);
                 $src_img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-                $img = ImageHelper::resize($src_img, 100, 100);
-                imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
+                ImageHelper::output(
+                    ImageHelper::resize($src_img, 100, 100),
+                    $data['file_type'],
+                    (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']
+                );
+                
                 $data['error'] = 0;
                 if($private){
                     //私有文件通过file/pic访问
@@ -471,11 +475,11 @@ class FileService extends Service{
                 $img = ImageHelper::resize($img, $params['dw'], $params['dh']);
                 
                 //处理过的图片统一以jpg方式保存
-                imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
+                ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
                 
                 //重新生成缩略图
                 $img = ImageHelper::resize($img, 100, 100);
-                imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+                ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100'.$file['file_ext']);
                 
                 $new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
                 
@@ -519,11 +523,11 @@ class FileService extends Service{
                     }
                     
                     //处理过的图片统一以jpg方式保存
-                    imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg', isset($params['q']) ? $params['q'] : 75);
+                    ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
                     
                     //重新生成缩略图
                     $img = ImageHelper::resize($img, 100, 100);
-                    imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+                    ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100'.$file['file_ext']);
                     
                     $new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
                     

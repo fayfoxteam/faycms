@@ -9,7 +9,6 @@ use fay\helpers\ImageHelper;
 use fay\core\Validator;
 use fay\core\HttpException;
 use fay\helpers\StringHelper;
-use cms\services\OptionService;
 use PHPQRCode\QRcode;
 
 /**
@@ -188,10 +187,8 @@ class FileController extends ApiController{
             if($dw != $w || $dh != $h){
                 $img = ImageHelper::resize($img, $dw, $dh);
             }
-            
-            //处理过的图片统一以jpg方式显示
-            header('Content-type: image/jpeg');
-            imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
+
+            ImageHelper::output($img, $file['file_type']);
         }else{
             //图片不存在，显示一张默认图片吧
             $spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
@@ -219,13 +216,14 @@ class FileController extends ApiController{
                 $dh = $file['image_height'];
             }
             
+            //获取图片资源
             $img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
             
+            //缩放
             $img = ImageHelper::resize($img, $dw, $dh);
             
-            //处理过的图片统一以jpg方式显示
-            header('Content-type: image/jpeg');
-            imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
+            //输出
+            ImageHelper::output($img, $file['file_type']);
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
             $spare || $spare = $this->config->get('default', 'noimage');
@@ -245,14 +243,15 @@ class FileController extends ApiController{
         if($file !== false){
             $dw || $dw = $file['image_width'];
             $dh || $dh = $file['image_height'];
-            
+
+            //获取图片资源
             $img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-            
+
+            //缩放
             $img = ImageHelper::resize($img, $dw, $dh);
-            
-            //处理过的图片统一以jpg方式显示
-            header('Content-type: image/jpeg');
-            imagejpeg($img, null, $this->input->get('q', 'intval', OptionService::get('system:image_quality', 75)));
+
+            //输出
+            ImageHelper::output($img, $file['file_type']);
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
             $spare || $spare = $this->config->get('default', 'noimage');

@@ -11,7 +11,7 @@ use cms\services\file\FileService;
     </div>
     <div class="box-content"><?php
         if($page['thumbnail']){
-            echo HtmlHelper::link(HtmlHelper::img($page['thumbnail'], FileService::PIC_RESIZE, array(
+            echo HtmlHelper::link(HtmlHelper::img($page['thumbnail']['id'], FileService::PIC_RESIZE, array(
                 'dw'=>156,
                 'dh'=>110,
                 'alt'=>HtmlHelper::encode($page['title']),

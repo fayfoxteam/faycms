@@ -13,10 +13,10 @@ class ProductController extends FrontController{
     }
     
     public function index(){
-        $cat_id = $this->input->get('cat_id', 'intval');
+        $cat_alias = $this->input->get('cat_alias', 'trim');
         
-        if($cat_id){
-            $cat = CategoryService::service()->get($cat_id);
+        if($cat_alias){
+            $cat = CategoryService::service()->get($cat_alias);
             if(!$cat){
                 throw new HttpException('您请求的页面不存在');
             }

@@ -355,7 +355,7 @@ class ImageHelper{
      * 指定Mime Type类型输出
      * @param resource $img
      * @param string $mime_type
-     * @throws ErrorException
+     * @param string $filename
      */
     public static function output($img, $mime_type = 'image/jpeg', $filename = ''){
         switch ($mime_type) {
@@ -387,5 +387,24 @@ class ImageHelper{
                 }
                 break;
         }
+    }
+
+    /**
+     * 获取指定文件的meta信息
+     * @param $filename
+     * @return array
+     */
+    public static function getMetadataFromFile($filename){
+        $info = getimagesize($filename);
+        $metadata = array(
+            'width' => $info[0],
+            'height' => $info[1],
+            'mime' => $info['mime'],
+            'exif' => null // set later, if necessary
+        );
+        if (function_exists('exif_read_data') && $metadata['mime'] == 'image/jpeg') {
+            $metadata['exif'] = @exif_read_data($filename);
+        }
+        return $metadata;
     }
 }

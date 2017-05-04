@@ -232,7 +232,16 @@ class HtmlHelper{
                 //若有设置spares，返回对应的默认图片
                 //若未设置，返回空字符串
                 if(isset($html_options['spare']) && $spare = \F::config()->get($html_options['spare'], 'noimage')){
-                    $html = '<img src="'.UrlHelper::createUrl($spare).'"';
+                    if($type == FileService::PIC_RESIZE && (isset($html_options['dw']) || isset($html_options['dh']))){
+                        $html = '<img src="'.UrlHelper::createUrl('api/file/pic', array(
+                            'f'=>0,
+                            's'=>$html_options['spare'],
+                            'dw'=>isset($html_options['dw']) ? $html_options['dw'] : 0,
+                            'dh'=>isset($html_options['dh']) ? $html_options['dh'] : 0,
+                        )).'"';
+                    }else{
+                        $html = '<img src="'.UrlHelper::createUrl($spare).'"';
+                    }
 
                     if(isset($html_options['dw'])){
                         $html .= ' width="'.$html_options['dw'].'"';

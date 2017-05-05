@@ -30,12 +30,8 @@ class LoginController extends Controller{
             
             if($result['user_id']){
                 $user = UserService::service()->login($result['user_id']);
-            }else{
-                Response::notify('error', array(
-                    'message'=>isset($result['message']) ? $result['message'] : '登录失败',
-                    'code'=>isset($result['error_code']) ? $result['error_code'] : '',
-                ));
             }
+            
             if(!empty($user)){
                 LogService::set('admin:action:login.success', array(
                     'fmac'=>isset($_COOKIE['fmac']) ? $_COOKIE['fmac'] : '',

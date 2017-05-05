@@ -136,7 +136,7 @@ class FileService extends Service{
                         ));
                     }else{
                         //公共文件，直接返回真实路径
-                        return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+                        return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100' . $file['file_ext'];
                     }
                 }
             break;
@@ -279,7 +279,7 @@ class FileService extends Service{
                         'dh'=>'100',
                     ));
                 }else{
-                    return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100.jpg';
+                    return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100' . $file['file_ext'];
                 }
             }
         }
@@ -308,10 +308,10 @@ class FileService extends Service{
         
         if($realpath){
             //返回完整路径
-            return realpath($file['file_path'] . $file['raw_name'] . '-100x100.jpg');
+            return realpath($file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext']);
         }else{
             //返回相对路径
-            return $file['file_path'] . $file['raw_name'] . '-100x100.jpg';
+            return $file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext'];
         }
     }
     
@@ -388,7 +388,7 @@ class FileService extends Service{
                 }else{
                     //公共文件直接给出真实路径
                     $data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
-                    $data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100.jpg';
+                    $data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100' . $data['file_ext'];
                     //真实存放路径（是图片的话与url路径相同）
                     $data['src'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
                 }

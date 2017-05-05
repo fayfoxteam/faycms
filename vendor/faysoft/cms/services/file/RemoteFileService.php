@@ -132,7 +132,7 @@ class RemoteFileService{
         
         //公共文件直接给出真实路径
         $data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
-        $data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100.jpg';
+        $data['thumbnail'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . '-100x100' . $data['file_ext'];
         //真实存放路径（是图片的话与url路径相同）
         $data['src'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];
         

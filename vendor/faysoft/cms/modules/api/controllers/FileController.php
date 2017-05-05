@@ -147,7 +147,7 @@ class FileController extends ApiController{
     private function _thumbnail($file){
         if($file !== false){
             header('Content-type: '.$file['file_type']);
-            readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+            readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100' . $file['file_ext']);
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'thumbnail'), 'noimage');
             $spare || $spare = $this->config->get('thumbnail', 'noimage');

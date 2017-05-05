@@ -269,7 +269,7 @@ class FileController extends AdminController{
             
             FilesTable::model()->delete($file_id);
             @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
-            @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
+            @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext']);
             Response::notify('success', '删除成功');
         }else{
             Response::notify('error', '参数不完整');
@@ -356,7 +356,7 @@ class FileController extends AdminController{
                             
                         FilesTable::model()->delete($id);
                         @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
-                        @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
+                        @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext']);
                         $affected_rows++;
                     }
                 }
@@ -573,7 +573,7 @@ class FileController extends AdminController{
     private function _thumbnail($file){
         if($file !== false){
             header('Content-type: '.$file['file_type']);
-            readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
+            readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100' . $file['file_ext']);
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'thumbnail'), 'noimage');
             $spare || $spare = $this->config->get('thumbnail', 'noimage');

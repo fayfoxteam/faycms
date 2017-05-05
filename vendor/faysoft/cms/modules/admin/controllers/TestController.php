@@ -2,6 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use cms\services\file\ImageService;
 use fay\core\Validator;
 use fay\helpers\HtmlHelper;
 use fay\core\Loader;
@@ -464,5 +465,24 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
         $htmlDiff = new \Caxy\HtmlDiff\HtmlDiff($oldHtml, $newHtml);
         $content = $htmlDiff->build();
         echo $content;
+    }
+    
+    public function img(){
+        $image = new ImageService(10000);
+        $image
+            //->resize(100, 200)
+            //->flipHorizontal()
+            //->rotate(30)
+            //->crop(100, 100, 200, 1500)
+            //->cutHorizontal(2000)
+            //->cutVertical(200)
+            //->addBorder(array('r'=>100, 'g'=>100, 'b'=>100), 10)
+            //->fillByImage(10371)
+            //->scalesc(2)
+            ->textLeft(20, 10, 0, array('r'=>255, 'g'=>0, 'b'=>0), BASEPATH . 'assets/fonts/msyh.ttc', '我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进')
+            ->textCenter(20, 100, array('r'=>255, 'g'=>0, 'b'=>0), BASEPATH . 'assets/fonts/msyh.ttc', '我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进')
+            ->textRight(20, 10, 200, array('r'=>255, 'g'=>0, 'b'=>0), BASEPATH . 'assets/fonts/msyh.ttc', '我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进')
+            ->output('image/png')
+        ;
     }
 }

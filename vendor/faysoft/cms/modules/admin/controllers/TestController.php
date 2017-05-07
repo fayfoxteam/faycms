@@ -3,13 +3,12 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\services\file\ImageService;
+use cms\services\file\ImageTextService;
 use fay\core\Validator;
 use fay\helpers\HtmlHelper;
-use fay\core\Loader;
 use cms\models\tables\PostsTable;
 use fay\log\Logger;
 use fay\core\Db;
-use Icap\HtmlDiff\HtmlDiff;
 
 class TestController extends AdminController{
     public function valid(){
@@ -479,10 +478,276 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
             //->addBorder(array('r'=>100, 'g'=>100, 'b'=>100), 10)
             //->fillByImage(10371)
             //->scalesc(2)
-            ->textLeft(20, 10, 0, array('r'=>255, 'g'=>0, 'b'=>0), BASEPATH . 'assets/fonts/msyh.ttc', '我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进')
-            ->textCenter(20, 100, array('r'=>255, 'g'=>0, 'b'=>0), BASEPATH . 'assets/fonts/msyh.ttc', '我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进')
-            ->textRight(20, 10, 200, array('r'=>255, 'g'=>0, 'b'=>0), BASEPATH . 'assets/fonts/msyh.ttc', '我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进')
             ->output('image/png')
+        ;
+    }
+    
+    public function imgText(){
+        $image = new ImageTextService(10055);
+        $image
+            ->resize(50, 40)
+            ->write(
+                //'我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进',
+                '我爱北京天安门',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('center', 'top')
+            )
+            ->write(
+                '天安门前国旗升',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('left', 'center'),
+                array(),
+                1.5,
+                0,
+                2
+            )
+            ->write(
+                '伟大领袖毛主席',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('right', 'center'),
+                array(),
+                1.5,
+                0,
+                2
+            )
+            ->write(
+                '带领我们向前进',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('center', 'bottom')
+            )
+            
+            ->write(
+                //'我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进',
+                '我爱北京天安门',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>255, 'b'=>0),
+                array('center', 'top'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+            ->write(
+                '天安门前国旗升',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>255, 'b'=>0),
+                array('left', 'center'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+            ->write(
+                '伟大领袖毛主席',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>255, 'b'=>0),
+                array('right', 'center'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+            ->write(
+                '带领我们向前进',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>255, 'b'=>0),
+                array('center', 'bottom'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+            
+            ->write(
+                '爱我中华',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>0, 'b'=>0),
+                array('center', 'center'),
+                array(),
+                1.5,
+                0,
+                40
+            )
+
+            ->write(
+            //'我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进',
+                '我爱北京天安门',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>0, 'b'=>255),
+                array('left', 'top'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+            ->write(
+                '天安门前国旗升',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>0, 'b'=>255),
+                array('right', 'top'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+            ->write(
+                '伟大领袖毛主席',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>0, 'b'=>255),
+                array('right', 'bottom'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+            ->write(
+                '带领我们向前进',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>0, 'g'=>0, 'b'=>255),
+                array('left', 'bottom'),
+                array(),
+                1.5,
+                0,
+                65
+            )
+
+            ->write(
+            //'我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进',
+                '我爱北京天安门',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>100, 'g'=>100, 'b'=>100),
+                array('left', 'top'),
+                array(
+                    'top'=>50,
+                    'right'=>100,
+                    'bottom'=>50,
+                    'left'=>100
+                )
+            )
+            ->write(
+                '天安门前国旗升',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>100, 'g'=>100, 'b'=>100),
+                array('right', 'top'),
+                array(
+                    'top'=>50,
+                    'right'=>100,
+                    'bottom'=>50,
+                    'left'=>100
+                )
+            )
+            ->write(
+                '伟大领袖毛主席',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>100, 'g'=>100, 'b'=>100),
+                array('right', 'bottom'),
+                array(
+                    'top'=>50,
+                    'right'=>100,
+                    'bottom'=>50,
+                    'left'=>100
+                )
+            )
+            ->write(
+                '带领我们向前进',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>100, 'g'=>100, 'b'=>100),
+                array('left', 'bottom'),
+                array(
+                    'top'=>50,
+                    'right'=>100,
+                    'bottom'=>50,
+                    'left'=>100
+                )
+            )
+
+            ->write(
+            //'我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进',
+                '我爱北京天安门',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>200, 'g'=>200, 'b'=>200),
+                array('left', 'top'),
+                array(
+                    'top'=>110,
+                    'right'=>130,
+                    'bottom'=>110,
+                    'left'=>130
+                ),
+                1,
+                2,
+                65
+            )
+            ->write(
+                '天安门前国旗升',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>200, 'g'=>200, 'b'=>200),
+                array('right', 'top'),
+                array(
+                    'top'=>110,
+                    'right'=>130,
+                    'bottom'=>110,
+                    'left'=>130
+                ),
+                1,
+                2,
+                65
+            )
+            ->write(
+                '伟大领袖毛主席',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>200, 'g'=>200, 'b'=>200),
+                array('right', 'bottom'),
+                array(
+                    'top'=>110,
+                    'right'=>130,
+                    'bottom'=>110,
+                    'left'=>130
+                ),
+                1,
+                2,
+                65
+            )
+            ->write(
+                '带领我们向前进',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>200, 'g'=>200, 'b'=>200),
+                array('left', 'bottom'),
+                array(
+                    'top'=>110,
+                    'right'=>130,
+                    'bottom'=>110,
+                    'left'=>130
+                ),
+                1,
+                2,
+                65
+            )
+            ->output()
         ;
     }
 }

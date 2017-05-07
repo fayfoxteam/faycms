@@ -6,8 +6,6 @@ use cms\services\OptionService;
 use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
 
-//https://github.com/elboletaire/Watimage/blob/master/src/Image.php
-
 class ImageService{
     /**
      * @var resource

@@ -378,8 +378,77 @@ class ImageService{
     public function getImage(){
         return $this->image;
     }
-    
+
+    /**
+     * 格式化颜色参数，支持：
+     *  - 数组，3-4项索引数组，或指定rgb键值的关联数组
+     *  - 6位RGB色字符串，例如：#FF0000
+     *  - 逗号分割3-4项字符串，例如：255, 0, 0, 0.5
+     * @param mixed $color
+     * @return array
+     * @throws FileErrorException
+     */
+    protected function formatColor($color){
+        if(is_array($color)){
+            $allowed_keys = array(
+                array('red', 'green', 'blue', 'alpha'),
+                array('r', 'g', 'b', 'a'),
+                array(0, 1, 2, 3),
+            );
+
+            foreach($allowed_keys as $keys){
+                if(!isset($color[$keys[0]], $color[$keys[1]], $color[$keys[2]])){
+                    continue;
+                }
+
+                $color = array(
+                    'r'=>$color[$keys[0]],
+                    'g'=>$color[$keys[1]],
+                    'b'=>$color[$keys[2]],
+                    'a'=>isset($color[$keys[3]]) ? $color[$keys[3]] : 0,
+                );
+
+                return $color;
+            }
+
+            throw new FileErrorException('无法识别的颜色参数: ' . json_encode($color));
+        }
+        
+        if(!is_string($color)){
+            throw new FileErrorException('无法识别的颜色参数: ' . json_encode($color));
+        }
+
+        if(substr($color, 0, 1) === '#' && strlen($color) === 7){
+            return array(
+                'r'=>hexdec(substr($color, 1, 2)),
+                'g'=>hexdec(substr($color, 3, 2)),
+                'b'=>hexdec(substr($color, 5, 2)),
+            );
+        }
+        
+        if(strpos($color, ',') != false){
+            $exploded_color = explode(',', str_replace(' ', '', $color));
+            if(in_array(count($exploded_color), array(3, 4))){
+                return array(
+                    'r'=>$exploded_color[0],
+                    'g'=>$exploded_color[1],
+                    'b'=>$exploded_color[2],
+                    'a'=>isset($exploded_color[3]) ? $exploded_color[3] : 0,
+                );
+            }
+        }
+
+        throw new FileErrorException('无法识别的颜色参数: ' . json_encode($color));
+    }
+
+    /**
+     * 返回一个色值
+     * @param mixed $color
+     * @return int
+     */
     protected function color($color){
+        $color = $this->formatColor($color);
+        
         if(!empty($color['a'])){
             return imagecolorallocatealpha($this->image, $color['r'], $color['g'], $color['b'], $color['a']);
         }

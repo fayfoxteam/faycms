@@ -11,7 +11,7 @@ class ImageTextService extends ImageService{
      * @param string $text 文本
      * @param string $font_file 字体文件路径
      * @param int $size 字体大小
-     * @param array $color 颜色
+     * @param array|string $color 颜色
      * @param array $margin 定位
      * @param array $text_align 文本对齐方式
      *  - 第一个值是水平位置，取值（left, center, right）
